@@ -1,0 +1,12 @@
+<div class="sign-up">
+  <p>Fist name</p>
+  <input type="text" class="first-name" [(ngModel)]="userOwnRegister.firstName">
+  <p>Last name</p>
+  <input type="text" class="last-name" [(ngModel)]="userOwnRegister.lastName">
+  <p>Email</p>
+  <input type="email" class="email" [(ngModel)]="userOwnRegister.email">
+  <p>Password</p>
+  <input type="password" class="password" [(ngModel)]="userOwnRegister.password">
+  <p></p>
+  <button class="submit" (click)="register(userOwnRegister)">Submit</button>
+</div>
