@@ -13,6 +13,7 @@ import { NavBarComponent } from './component/user/nav-bar/nav-bar.component';
 import { AuthComponent } from './component/user/auth/auth.component';
 import { SignInComponent } from './component/user/auth/sign-in/sign-in.component';
 import {FormsModule} from "@angular/forms";
+import { SubmitEmailComponent } from './component/user/auth/submit-email/submit-email.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import {FormsModule} from "@angular/forms";
     SignUpComponent,
     NavBarComponent,
     AuthComponent,
-    SignInComponent
+    SignInComponent,
+    SubmitEmailComponent
   ],
   imports: [
     BrowserModule,

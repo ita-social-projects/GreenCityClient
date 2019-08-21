@@ -1,12 +1,86 @@
 <div class="sign-up">
-  <p>Fist name</p>
-  <input type="text" class="first-name" [(ngModel)]="userOwnRegister.firstName">
-  <p>Last name</p>
-  <input type="text" class="last-name" [(ngModel)]="userOwnRegister.lastName">
-  <p>Email</p>
-  <input type="email" class="email" [(ngModel)]="userOwnRegister.email">
-  <p>Password</p>
-  <input type="password" class="password" [(ngModel)]="userOwnRegister.password">
-  <p></p>
-  <button class="submit" (click)="register(userOwnRegister)">Submit</button>
+
+  <form #registerForm="ngForm" (ngSubmit)="register(userOwnRegister)">
+    <label for="first-name">Fist name</label>
+    <div class="validation-error"
+         *ngIf="firstNameControl.invalid && (firstNameControl.dirty||firstNameControl.touched)">
+      <div *ngIf="firstNameControl.errors.required">
+        First name is required.
+      </div>
+      <div *ngIf="firstNameControl.errors.minlength">
+        First name must be at least 1 characters long.
+      </div>
+    </div>
+    <div class="validation-error" *ngIf="firstNameErrorMessageBackEnd!=null">
+      {{firstNameErrorMessageBackEnd}}
+    </div>
+    <input id="first-name" type="text" class="form-control first-name" name="fistName"
+           [(ngModel)]="userOwnRegister.firstName"
+           #firstNameControl="ngModel" required
+           minlength="1" maxlength="20">
+
+
+    <label for="last-name">Last name</label>
+    <div class="validation-error" *ngIf="lastNameControl.invalid && (lastNameControl.dirty||lastNameControl.touched)">
+      <div *ngIf="lastNameControl.errors.required">
+        Last name is required.
+      </div>
+      <div *ngIf="lastNameControl.errors.minlength">
+        Last name must be at least 1 characters long.
+      </div>
+    </div>
+    <div class="validation-error" *ngIf="lastNameErrorMessageBackEnd!=null">
+      {{lastNameErrorMessageBackEnd}}
+    </div>
+    <input id="last-name" type="text" class="form-control last-name" name="lastName"
+           [(ngModel)]="userOwnRegister.lastName"
+           #lastNameControl="ngModel"
+           required
+           minlength="1" maxlength="20">
+
+
+    <label for="email">Email</label>
+    <div class="validation-error" *ngIf="emailControl.invalid && (emailControl.dirty||emailControl.touched)">
+      <div *ngIf="emailControl.errors.required">
+        Email is required.
+      </div>
+      <div *ngIf="emailControl.errors.minlength">
+        Email must be at least 1 characters long.
+      </div>
+      <div *ngIf="emailControl.errors.email">
+        This is not email.
+      </div>
+    </div>
+    <div class="validation-error" *ngIf="emailErrorMessageBackEnd!=null">
+      {{emailErrorMessageBackEnd}}
+    </div>
+    <input id="email" type="email" class="form-control email" name="email" [(ngModel)]="userOwnRegister.email"
+           #emailControl="ngModel" required
+           minlength="1" email="true">
+
+
+    <label for="password">Password</label>
+    <div class="validation-error" *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
+      <div *ngIf="passwordControl.errors.required">
+        Password name is required.
+      </div>
+      <div *ngIf="passwordControl.errors.minlength">
+        Password must be at least 8 characters long.
+      </div>
+    </div>
+    <div class="validation-error" *ngIf="passwordErrorMessageBackEnd!=null">
+      {{passwordErrorMessageBackEnd}}
+    </div>
+    <input id="password" type="password" class="form-control password" name="form-control password"
+           [(ngModel)]="userOwnRegister.password"
+           #passwordControl="ngModel"
+           required minlength="8">
+
+    <p></p>
+    <button class="btn btn-primary submit" [disabled]="!registerForm.valid" type="submit">
+      <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      Submit
+    </button>
+  </form>
+
 </div>
