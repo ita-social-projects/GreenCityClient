@@ -10,7 +10,7 @@ export var router = [
       {
         path: 'auth', component: AuthComponent, children: [
           {path: '', component: SignInComponent},
-          {path: 'sing-up', component: SignUpComponent},
+          {path: 'sign-up', component: SignUpComponent},
           {path: 'submit-email', component: SubmitEmailComponent}
         ]
       }

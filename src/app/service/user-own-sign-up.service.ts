@@ -1,17 +1,17 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {UserOwnRegister} from "../model/user-own-register";
-import {userOwnSecurityLink} from "../links";
+import {UserOwnSignUp} from "../model/user-own-sign-up";
+import {userOwnSignUpLink} from "../links";
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserOwnRegisterService {
+export class UserOwnSignUpService {
 
   constructor(private http: HttpClient) {
   }
 
-  public register(userOwnRegister: UserOwnRegister) {
+  public signUp(userOwnRegister: UserOwnSignUp) {
     if (userOwnRegister.firstName == undefined) {
       console.log("First name is empty");
       return;
@@ -36,6 +36,6 @@ export class UserOwnRegisterService {
       password: userOwnRegister.password
 
     };
-    return this.http.post(userOwnSecurityLink, body);
+    return this.http.post(userOwnSignUpLink, body);
   }
 }

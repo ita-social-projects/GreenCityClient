@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {UserOwnRegister} from "../../../../model/user-own-register";
-import {UserOwnRegisterService} from "../../../../service/user-own-register-service.service";
+import {UserOwnSignUp} from "../../../../model/user-own-sign-up";
+import {UserOwnSignUpService} from "../../../../service/user-own-sign-up.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Router} from "@angular/router";
 
@@ -11,7 +11,7 @@ import {Router} from "@angular/router";
 })
 export class SignUpComponent implements OnInit {
 
-  private userOwnRegister: UserOwnRegister;
+  private userOwnSignUp: UserOwnSignUp;
   private firstNameErrorMessageBackEnd: string;
   private lastNameErrorMessageBackEnd: string;
   private emailErrorMessageBackEnd: string;
@@ -20,18 +20,18 @@ export class SignUpComponent implements OnInit {
   private loadingAnim: boolean = false;
 
 
-  constructor(private userOwnSecurityService: UserOwnRegisterService, private rout: Router) {
+  constructor(private userOwnSecurityService: UserOwnSignUpService, private rout: Router) {
   }
 
   ngOnInit() {
-    this.userOwnRegister = new UserOwnRegister();
+    this.userOwnSignUp = new UserOwnSignUp();
     this.setNullAllMessage();
   }
 
-  private register(userOwnRegister: UserOwnRegister) {
+  private register(userOwnRegister: UserOwnSignUp) {
     this.setNullAllMessage();
     this.loadingAnim = true;
-    this.userOwnSecurityService.register(userOwnRegister).subscribe(
+    this.userOwnSecurityService.signUp(userOwnRegister).subscribe(
       () => {
         this.loadingAnim = false;
         this.rout.navigate(["auth/submit-email"])

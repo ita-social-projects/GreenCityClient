@@ -1,4 +1,4 @@
-export class UserOwnRegister {
+export class UserOwnSignUp {
   private _firstName: string;
   private _lastName: string;
   private _email: string;
