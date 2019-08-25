@@ -1,6 +1,6 @@
 <div class="sign-up">
 
-  <form #registerForm="ngForm" (ngSubmit)="register(userOwnRegister)">
+  <form #registerForm="ngForm" (ngSubmit)="register(userOwnSignUp)">
     <label for="first-name">Fist name</label>
     <div class="validation-error"
          *ngIf="firstNameControl.invalid && (firstNameControl.dirty||firstNameControl.touched)">
@@ -15,7 +15,7 @@
       {{firstNameErrorMessageBackEnd}}
     </div>
     <input id="first-name" type="text" class="form-control first-name" name="fistName"
-           [(ngModel)]="userOwnRegister.firstName"
+           [(ngModel)]="userOwnSignUp.firstName"
            #firstNameControl="ngModel" required
            minlength="1" maxlength="20">
 
@@ -33,7 +33,7 @@
       {{lastNameErrorMessageBackEnd}}
     </div>
     <input id="last-name" type="text" class="form-control last-name" name="lastName"
-           [(ngModel)]="userOwnRegister.lastName"
+           [(ngModel)]="userOwnSignUp.lastName"
            #lastNameControl="ngModel"
            required
            minlength="1" maxlength="20">
@@ -54,7 +54,7 @@
     <div class="validation-error" *ngIf="emailErrorMessageBackEnd!=null">
       {{emailErrorMessageBackEnd}}
     </div>
-    <input id="email" type="email" class="form-control email" name="email" [(ngModel)]="userOwnRegister.email"
+    <input id="email" type="email" class="form-control email" name="email" [(ngModel)]="userOwnSignUp.email"
            #emailControl="ngModel" required
            minlength="1" email="true">
 
@@ -72,7 +72,7 @@
       {{passwordErrorMessageBackEnd}}
     </div>
     <input id="password" type="password" class="form-control password" name="form-control password"
-           [(ngModel)]="userOwnRegister.password"
+           [(ngModel)]="userOwnSignUp.password"
            #passwordControl="ngModel"
            required minlength="8">
 

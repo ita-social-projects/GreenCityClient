@@ -16,12 +16,20 @@ export class SignInComponent implements OnInit {
   private userOwnSignIn: UserOwnSignIn;
   private loadingAnim: boolean;
 
+  private emailErrorMessageBackEnd: string;
+  private passwordErrorMessageBackEnd: string;
+
+  private backEndError: string;
+
   constructor(private service: UserOwnSignInService, private rout: Router) {
   }
 
   ngOnInit() {
     this.userOwnSignIn = new UserOwnSignIn();
     this.loadingAnim = false;
+    this.emailErrorMessageBackEnd = null;
+    this.passwordErrorMessageBackEnd = null;
+    this.backEndError = null;
   }
 
   private signIn(userOwnSignIn: UserOwnSignIn) {
@@ -37,8 +45,20 @@ export class SignInComponent implements OnInit {
 
 
       },
-      (error: HttpErrorResponse) => {
-        console.log(error.message)
+      (errors: HttpErrorResponse) => {
+
+        console.log(errors);
+        try {
+          errors.error.forEach(error => {
+            if (error.name == 'email') {
+              this.emailErrorMessageBackEnd = error.message;
+            } else if (error.name == 'password') {
+              this.passwordErrorMessageBackEnd = error.message;
+            }
+          });
+        } catch (e) {
+          this.backEndError = errors.error.message;
+        }
         this.loadingAnim = false;
       }
     );

@@ -13,10 +13,11 @@
 .submit {
   float: left;
 }
-.register{
+
+.register {
   float: right;
 }
 
-.validation-error {
+.error, .validation-error {
   color: red;
 }
