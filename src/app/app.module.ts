@@ -7,6 +7,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import {PaginationModule} from 'ngx-bootstrap';
 import {MatSelectModule, MatTableModule} from '@angular/material';
 import {ModerateRegisteredUsersComponent} from './component/moderate-registered-users/moderate-registered-users.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
 
@@ -21,7 +22,8 @@ import {ModerateRegisteredUsersComponent} from './component/moderate-registered-
     MatTableModule,
     NgxPaginationModule,
     PaginationModule.forRoot(),
-    MatSelectModule
+    MatSelectModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
