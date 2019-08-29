@@ -24,7 +24,6 @@ export class UserService extends BaseService {
   }
 
   updateUserRole(id: number, role: string) {
-    console.log(role);
     return this.http.patch<any>(`${this.apiUrl}/update/role?id=${id}&role=${role}`, {});
   }
 }

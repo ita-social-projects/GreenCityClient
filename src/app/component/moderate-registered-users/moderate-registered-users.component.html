@@ -30,13 +30,13 @@
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef></th>
           <td *matCellDef="let element">
-            <mat-form-field>
+            <div class="selectRole">
               <mat-select [(value)]="element.role" (selectionChange)="changeRole(element.id, $event.value)">
                 <mat-option *ngFor="let role of roles" [value]="role">
                   {{role.toString().toLocaleLowerCase()}}
                 </mat-option>
               </mat-select>
-            </mat-form-field>
+            </div>
           </td>
         </ng-container>
 

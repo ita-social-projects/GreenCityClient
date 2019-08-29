@@ -52,7 +52,6 @@ export class ModerateRegisteredUsersComponent implements OnInit {
       this.page = res.currentPage;
       this.totalItems = res.totalElements;
       this.roles = res.roles;
-      console.log(this.roles);
     });
   }
 
