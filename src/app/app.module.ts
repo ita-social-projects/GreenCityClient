@@ -34,7 +34,7 @@ import {AgmCoreModule} from '@agm/core';
     RouterModule.forRoot(router),
     HttpClientModule,
     FormsModule,
-    AgmCoreModule.forRoot({apiKey: 'AIzaSyDanBliCzAuCZrsq67FeKEs3vqAilUD_is'}),
+    AgmCoreModule.forRoot({apiKey: ''}),
   ],
   providers: [],
   bootstrap: [AppComponent]
