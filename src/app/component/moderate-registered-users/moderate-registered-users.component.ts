@@ -6,6 +6,11 @@ import {MatPaginator} from '@angular/material';
 import {UserForListDtoModel} from '../../model/UserForListDto.model';
 import {UserService} from '../../service/user.service';
 
+export interface Role {
+  value: string;
+  viewValue: string;
+}
+
 @Component({
   selector: 'app-moderate-registered-users',
   templateUrl: './moderate-registered-users.component.html',
@@ -18,7 +23,9 @@ export class ModerateRegisteredUsersComponent implements OnInit {
   page = 1;
   totalItems: number;
 
-  displayedColumns: string[] = ['email', 'firstName', 'lastName', 'dateOfRegistration', 'block', 'deactivate'];
+  roles: Role[];
+
+  displayedColumns: string[] = ['email', 'firstName', 'lastName', 'dateOfRegistration', 'status', 'block', 'deactivate'];
 
   constructor(
     private userService: UserService
@@ -44,11 +51,19 @@ export class ModerateRegisteredUsersComponent implements OnInit {
       this.users = res.page;
       this.page = res.currentPage;
       this.totalItems = res.totalElements;
+      this.roles = res.roles;
+      console.log(this.roles);
     });
   }
 
   changePage(event: any) {
     this.page = event.page;
     this.getUsersByPage();
+  }
+
+  changeRole(id: number, role: string) {
+    this.userService.updateUserRole(id, role).subscribe((data) => {
+      this.ngOnInit();
+    });
   }
 }

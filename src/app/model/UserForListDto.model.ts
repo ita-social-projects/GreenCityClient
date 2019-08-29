@@ -5,4 +5,5 @@ export class UserForListDtoModel {
   email: string;
   dateOfRegistration: Date;
   userStatus: string;
+  role: string;
 }
