@@ -14,7 +14,8 @@ import {router} from './router';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import {AgmCoreModule} from '@agm/core';
-
+import {MapComponent} from './component/user/map/map.component';
+import {Ng2SearchPipeModule} from 'ng2-search-filter';
 
 
 @NgModule({
@@ -27,14 +28,16 @@ import {AgmCoreModule} from '@agm/core';
     NavBarComponent,
     AuthComponent,
     SignInComponent,
-    SubmitEmailComponent
+    SubmitEmailComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(router),
     HttpClientModule,
     FormsModule,
-    AgmCoreModule.forRoot({apiKey: ''}),
+    AgmCoreModule.forRoot({apiKey: 'AIzaSyDanBliCzAuCZrsq67FeKEs3vqAilUD_is'}),
+    Ng2SearchPipeModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
