@@ -13,7 +13,8 @@ import {RouterModule} from "@angular/router";
 import {router} from "./router";
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
-
+import {AuthServiceConfig, SocialLoginModule} from "angularx-social-login";
+import {provideConfig} from "./config/GoogleAuthConfig";
 
 
 @NgModule({
@@ -32,9 +33,15 @@ import {FormsModule} from "@angular/forms";
     BrowserModule,
     RouterModule.forRoot(router),
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    SocialLoginModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -10,14 +10,7 @@
   width: 400px;
 }
 
-.submit {
-  float: left;
-}
-
-.register {
-  float: right;
-}
-
 .error, .validation-error {
   color: red;
 }
+

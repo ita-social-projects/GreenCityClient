@@ -4,6 +4,7 @@ import {UserOwnSignIn} from "../../../../model/user-own-sign-in";
 import {HttpErrorResponse} from "@angular/common/http";
 import {UserSuccessSignIn} from "../../../../model/user-success-sign-in";
 import {Router} from "@angular/router";
+import {AuthService, GoogleLoginProvider} from "angularx-social-login";
 
 
 @Component({
@@ -21,7 +22,7 @@ export class SignInComponent implements OnInit {
 
   private backEndError: string;
 
-  constructor(private service: UserOwnSignInService, private rout: Router) {
+  constructor(private service: UserOwnSignInService, private rout: Router, private authService: AuthService) {
   }
 
   ngOnInit() {
@@ -62,6 +63,12 @@ export class SignInComponent implements OnInit {
         this.loadingAnim = false;
       }
     );
+  }
+
+  private signInWithGoogle() {
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((data) => {
+      console.log(data)
+    })
   }
 
 }
