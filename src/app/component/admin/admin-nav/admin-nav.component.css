@@ -1,0 +1,14 @@
+ng-flash-message {
+  text-align: center;
+  width: 75%;
+}
+
+.flash-message {
+  display: flex;
+  justify-content: center;
+  height: 50px;
+}
+
+a {
+  cursor: pointer;
+}

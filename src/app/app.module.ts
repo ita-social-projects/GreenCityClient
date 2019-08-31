@@ -16,7 +16,8 @@ import {FormsModule} from '@angular/forms';
 import {AgmCoreModule} from '@agm/core';
 import {MapComponent} from './component/user/map/map.component';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
-
+import {AdminModule} from './component/admin/admin.module';
+import { NgFlashMessagesModule } from 'ng-flash-messages';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,8 @@ import {Ng2SearchPipeModule} from 'ng2-search-filter';
     FormsModule,
     AgmCoreModule.forRoot({apiKey: 'AIzaSyDanBliCzAuCZrsq67FeKEs3vqAilUD_is'}),
     Ng2SearchPipeModule,
+    AdminModule,
+    NgFlashMessagesModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

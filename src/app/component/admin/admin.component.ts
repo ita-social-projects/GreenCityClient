@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {UserService} from '../../service/user/user.service';
+import {HttpClient} from '@angular/common/http';
+import {AdminService} from '../../service/admin/admin.service';
+import {UserRole} from '../../model/user/user-role.model';
 
 @Component({
   selector: 'app-admin',
@@ -7,9 +11,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminComponent implements OnInit {
 
-  constructor() { }
+  userChoice: string;
+  userRole: UserRole;
+
+  constructor(private http: HttpClient, private uService: UserService, private adminService: AdminService) {
+  }
 
   ngOnInit() {
+    this.uService.getUserRole().subscribe(data => {
+      if (data) {
+        this.userRole = data;
+      }
+    });
+
+    this.adminService.userChoice.subscribe(choice => this.userChoice = choice);
   }
 
 }
