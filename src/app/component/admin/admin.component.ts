@@ -12,7 +12,7 @@ import {UserRole} from '../../model/user/user-role.model';
 export class AdminComponent implements OnInit {
 
   userChoice: string;
-  userRole: UserRole;
+  userRole: string;
 
   constructor(private http: HttpClient, private uService: UserService, private adminService: AdminService) {
   }
@@ -23,8 +23,6 @@ export class AdminComponent implements OnInit {
         this.userRole = data;
       }
     });
-
     this.adminService.userChoice.subscribe(choice => this.userChoice = choice);
   }
-
 }

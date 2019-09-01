@@ -6,7 +6,6 @@ import {mailLink} from '../../links';
 
 const httpOptions = {
   headers: new HttpHeaders({
-    'Content-Type': 'application/json',
     Authorization: 'Bearer ' + localStorage.getItem('accessToken')
   })
 };
@@ -19,8 +18,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  getUserRole(): Observable<UserRole> {
-    console.log(mailLink + 'user/role');
-    return  this.http.get<UserRole>(mailLink + 'user/role', httpOptions);
+  getUserRole(): Observable<string> {
+    return this.http.get<string>(mailLink + 'user/role', httpOptions);
   }
 }
