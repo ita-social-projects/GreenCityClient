@@ -3,7 +3,6 @@ import {UserOwnSignInService} from "../../../../service/user-own-sign-in.service
 import {UserOwnSignIn} from "../../../../model/user-own-sign-in";
 import {HttpErrorResponse} from "@angular/common/http";
 import {UserSuccessSignIn} from "../../../../model/user-success-sign-in";
-import {Router} from "@angular/router";
 
 
 @Component({
@@ -21,7 +20,7 @@ export class SignInComponent implements OnInit {
 
   private backEndError: string;
 
-  constructor(private service: UserOwnSignInService, private rout: Router) {
+  constructor(private service: UserOwnSignInService) {
   }
 
   ngOnInit() {
@@ -37,12 +36,10 @@ export class SignInComponent implements OnInit {
     this.service.signIn(userOwnSignIn).subscribe(
       (data: UserSuccessSignIn) => {
         this.loadingAnim = false;
-        window.localStorage.setItem("email", data.email);
+        window.localStorage.setItem("firstName", data.firstName);
         window.localStorage.setItem("accessToken", data.accessToken);
         window.localStorage.setItem("refreshToken", data.refreshToken);
-        console.log(data);
-        this.rout.navigate(["/"]);
-
+        window.location.href = "/";
 
       },
       (errors: HttpErrorResponse) => {

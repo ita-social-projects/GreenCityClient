@@ -11,9 +11,9 @@ import {SignInComponent} from "./component/user/auth/sign-in/sign-in.component";
 import {SubmitEmailComponent} from "./component/user/auth/submit-email/submit-email.component";
 import {RouterModule} from "@angular/router";
 import {router} from "./router";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
-
+import {InterceptorService} from "./service/interceptor.service";
 
 
 @NgModule({
@@ -34,7 +34,13 @@ import {FormsModule} from "@angular/forms";
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
