@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from '../../service/user/user.service';
 import {HttpClient} from '@angular/common/http';
 import {AdminService} from '../../service/admin/admin.service';
-import {UserRole} from '../../model/user/user-role.model';
 
 @Component({
   selector: 'app-admin',

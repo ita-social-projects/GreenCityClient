@@ -6,7 +6,9 @@ ng-flash-message {
 .flash-message {
   display: flex;
   justify-content: center;
-  height: 50px;
+  height: 60px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 a {

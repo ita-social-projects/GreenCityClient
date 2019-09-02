@@ -5,6 +5,8 @@ import { PlacesComponent } from './places/places.component';
 import { UsersComponent } from './users/users.component';
 import {NgFlashMessagesModule} from 'ng-flash-messages';
 import {ErrorComponent} from '../general/error/error.component';
+import {BrowserModule} from '@angular/platform-browser';
+import {TableModule} from 'angular-bootstrap-md';
 
 @NgModule({
   declarations: [AdminNavComponent, PlacesComponent, UsersComponent, ErrorComponent],
@@ -12,7 +14,9 @@ import {ErrorComponent} from '../general/error/error.component';
     AdminNavComponent,
     UsersComponent,
     PlacesComponent,
-    ErrorComponent
+    ErrorComponent,
+    BrowserModule,
+    TableModule
   ],
   imports: [
     CommonModule,
