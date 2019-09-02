@@ -36,7 +36,6 @@ export class PlacesComponent implements OnInit {
       .subscribe(
         places => {
           this.places = places as AdminPlace[];
-          console.log(this.places);
           this.pageAmount = Math.round(this.places.length / this.elementAmount);
           if (this.places.length > this.elementAmount) {
             this.pageElements = (this.places.slice(0, this.elementAmount));
