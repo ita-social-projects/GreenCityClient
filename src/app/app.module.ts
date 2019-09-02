@@ -36,7 +36,7 @@ import {Ng2SearchPipeModule} from 'ng2-search-filter';
     RouterModule.forRoot(router),
     HttpClientModule,
     FormsModule,
-    AgmCoreModule.forRoot({apiKey: 'AIzaSyDanBliCzAuCZrsq67FeKEs3vqAilUD_is'}),
+    AgmCoreModule.forRoot({apiKey: ''}),
     Ng2SearchPipeModule,
   ],
   providers: [],
