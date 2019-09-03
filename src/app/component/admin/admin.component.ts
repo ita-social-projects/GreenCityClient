@@ -18,6 +18,7 @@ export class AdminComponent implements OnInit {
 
   ngOnInit() {
     this.userRole = this.uService.getUserRole();
+    console.log(this.userRole);
     this.adminService.userChoice.subscribe(choice => this.userChoice = choice);
   }
 }
