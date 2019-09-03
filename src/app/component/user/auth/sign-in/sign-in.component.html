@@ -1,0 +1,64 @@
+<div class="sign-in">
+
+  <form #registerForm="ngForm" (ngSubmit)="signIn(userOwnSignIn)">
+
+
+    <label for="email">Email</label>
+    <div class="validation-error" *ngIf="emailControl.invalid && (emailControl.dirty||emailControl.touched)">
+      <div *ngIf="emailControl.errors.required">
+        Email is required.
+      </div>
+      <div *ngIf="emailControl.errors.minlength">
+        Email must be at least 1 characters long.
+      </div>
+      <div *ngIf="emailControl.errors.email">
+        This is not email.
+      </div>
+    </div>
+    <div class="validation-error" *ngIf="emailErrorMessageBackEnd!=null">
+      {{emailErrorMessageBackEnd}}
+    </div>
+    <input id="email" type="email" class="form-control email" name="email" [(ngModel)]="userOwnSignIn.email"
+           #emailControl="ngModel" required
+           minlength="1" email="true">
+
+
+    <label for="password">Password</label>
+    <div class="validation-error" *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
+      <div *ngIf="passwordControl.errors.required">
+        Password name is required.
+      </div>
+      <div *ngIf="passwordControl.errors.minlength">
+        Password must be at least 8 characters long.
+      </div>
+    </div>
+    <div class="validation-error" *ngIf="passwordErrorMessageBackEnd!=null">
+      {{passwordErrorMessageBackEnd}}
+    </div>
+    <input id="password" type="password" class="form-control password" name="form-control password"
+           [(ngModel)]="userOwnSignIn.password"
+           #passwordControl="ngModel"
+           required minlength="8">
+
+
+    <p></p>
+
+    <div class="error" *ngIf="backEndError!=null">
+      {{backEndError}}
+    </div>
+
+    <p></p>
+
+
+    <button class="btn btn-primary submit" [disabled]="!registerForm.valid" type="submit">
+      <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      Submit
+    </button>
+    <button class="btn btn-primary register" type="submit" routerLink="sign-up">
+      Sign-up
+    </button>
+
+
+  </form>
+
+</div>
