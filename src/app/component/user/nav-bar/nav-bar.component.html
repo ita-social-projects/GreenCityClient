@@ -1,14 +1,32 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+
   <div class="navbar-collapse collapse">
+
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="http://localhost:4200/">Left</a>
+        <a class="nav-link" href="/">GreenCity</a>
       </li>
     </ul>
+
   </div>
 
   <div class="navbar-collapse collapse">
+
     <ul class="navbar-nav ml-auto">
+      <li class="nav-item dropdown">
+
+        <div *ngIf="firstName!=null">
+          <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
+             aria-haspopup="true" aria-expanded="false">{{firstName}}</a>
+
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" (click)="signOut()">Sign-out</a>
+          </div>
+
+        </div>
+
+        <a *ngIf="firstName==null" class="nav-link" routerLink="auth">Sing in</a>
+
       <li class="nav-item">
         <button (click)="openModal('custom-_modal-1')" type="button" class="btn btn-dark"
                 *ngIf="userRole === 'ROLE_ADMIN' || userRole === 'ROLE_MODERATOR' || userRole === 'ROLE_USER'">
@@ -19,7 +37,9 @@
         <a class="nav-link" routerLink="auth">Sing in</a>
       </li>
     </ul>
+
   </div>
+
 </nav>
 <app-modal id="custom-_modal-1">
   <h3 style="text-align: center; margin-bottom: 2%">Add new cafe</h3>
@@ -81,3 +101,4 @@
     </button>
   </form>
 </app-modal>
+

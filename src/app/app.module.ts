@@ -21,7 +21,11 @@ import {SelectorComponent} from "./component/user/nav-bar/add-cafe/selector/sele
 import {MapModalComponent} from "./component/user/nav-bar/add-cafe/map/map-modal.component";
 import {NgSelectModule} from "@ng-select/ng-select";
 import {ModalModule} from "./component/user/nav-bar/add-cafe/_modal/modal.module";
-
+import {RouterModule} from "@angular/router";
+import {router} from "./router";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {FormsModule} from "@angular/forms";
+import {InterceptorService} from "./service/interceptor.service";
 
 @NgModule({
   declarations: [
@@ -53,7 +57,13 @@ import {ModalModule} from "./component/user/nav-bar/add-cafe/_modal/modal.module
     NgSelectModule,
     ModalModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
