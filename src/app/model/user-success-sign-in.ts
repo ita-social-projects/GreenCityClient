@@ -1,5 +1,5 @@
 export class UserSuccessSignIn {
-  private _email: string;
+  private _firstName: string;
   private _accessToken: string;
   private _refreshToken: string;
 
@@ -8,12 +8,12 @@ export class UserSuccessSignIn {
   }
 
 
-  get email(): string {
-    return this._email;
+  get firstName(): string {
+    return this._firstName;
   }
 
-  set email(value: string) {
-    this._email = value;
+  set firstName(value: string) {
+    this._firstName = value;
   }
 
   get accessToken(): string {

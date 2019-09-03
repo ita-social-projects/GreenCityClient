@@ -11,11 +11,12 @@ import {SignInComponent} from './component/user/auth/sign-in/sign-in.component';
 import {SubmitEmailComponent} from './component/user/auth/submit-email/submit-email.component';
 import {RouterModule} from '@angular/router';
 import {router} from './router';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import {AgmCoreModule} from '@agm/core';
 import {MapComponent} from './component/user/map/map.component';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
+import {InterceptorService} from './service/interceptor.service';
 import {AdminModule} from './component/admin/admin.module';
 import { NgFlashMessagesModule } from 'ng-flash-messages';
 
@@ -37,12 +38,18 @@ import { NgFlashMessagesModule } from 'ng-flash-messages';
     RouterModule.forRoot(router),
     HttpClientModule,
     FormsModule,
-    AgmCoreModule.forRoot({apiKey: 'AIzaSyDanBliCzAuCZrsq67FeKEs3vqAilUD_is'}),
+    AgmCoreModule.forRoot({apiKey: ' '}),
     Ng2SearchPipeModule,
     AdminModule,
     NgFlashMessagesModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

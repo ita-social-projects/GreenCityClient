@@ -81,4 +81,5 @@ export class MapComponent implements OnInit {
   Show() {
     this.button = !this.button;
   }
-}
+
+ }
