@@ -1,0 +1,52 @@
+
+#weekDays-selector input[type=checkbox] {
+  display: none!important;
+}
+
+#weekDays-selector input[type=checkbox] + label {
+  display: inline-block;
+  border-radius: 6px;
+  background: #dddddd;
+  height: 40px;
+  width: 90px;
+  margin-right: 3px;
+  line-height: 40px;
+  text-align: center;
+  cursor: pointer;
+}
+
+#weekDays-selector input[type=checkbox]:checked + label {
+  background: #2eb82e;
+  color: #ffffff;
+}
+
+/*#weekDays-selector {*/
+/*  margin-right: 10%;*/
+/*}*/
+
+.label-for-time {
+  margin-left: 35px;
+  margin-right: 10px;
+}
+
+*{
+  box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.error, .validation-error {
+  color: red;
+}

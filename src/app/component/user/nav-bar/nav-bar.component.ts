@@ -1,13 +1,5 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {PlaceAddDto} from "../../../model/placeAddDto.model";
-import {CategoryDto} from "../../../model/category.model";
-import {LocationDto} from "../../../model/locationDto.model";
-import {OpeningHours} from "../../../model/openingHours.model";
-import {WeekDays} from "../../../model/weekDays.model";
+import {Component, OnInit} from '@angular/core';
 import {ModalService} from "../_modal/modal.service";
-import {PlaceService} from "../../../service/place.service";
-import {CategoryService} from "../../../service/category.service";
-import {PlaceWithUserModel} from "../../../model/placeWithUser.model";
 import {UserService} from "../../../service/user/user.service";
 
 @Component({
