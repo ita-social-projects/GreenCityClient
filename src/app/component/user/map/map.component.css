@@ -1,0 +1,17 @@
+agm-map{
+  height: 660px;
+  width: 1200px;
+}
+.main{
+  display: flex;
+
+}
+.main.sub-1{
+  flex-grow: 1;
+}
+.main.sub-2{
+  flex-grow: 12;
+}
+.sub-1{
+  width: 300px;
+}
