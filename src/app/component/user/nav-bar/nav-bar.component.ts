@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-nav-bar',
@@ -7,9 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavBarComponent implements OnInit {
 
-  constructor() { }
+  private firstName: string = null;
+
+  constructor() {
+  }
 
   ngOnInit() {
+    this.firstName = window.localStorage.getItem("firstName");
+  }
+
+  private signOut() {
+    localStorage.clear();
+    window.location.href = "/";
   }
 
 }
