@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="column">
-      <h4 style="margin-left: 14%">Select schedule: </h4>
+      <h4 style="margin-left: 18%; margin-bottom: 3%">Select schedule: </h4>
       <div id="weekDays-selector" *ngFor="let day of weekDays; let i = index; trackBy: trackByIdx">
         <input type="checkbox" id="weekday-{{i}}" name="weekday-{{i}}" class="weekday" (click)="switch(i)"
                [(ngModel)]="isChecked[i]"/>
