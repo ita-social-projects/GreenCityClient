@@ -1,7 +1,14 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest
+} from "@angular/common/http";
 import {Observable, throwError} from "rxjs";
-import {updateAccessTokenLink} from "../links";
+import {frontAuthLink, updateAccessTokenLink} from "../links";
 import {catchError} from "rxjs/operators";
 import {AccessToken} from "../model/access-token";
 
@@ -32,7 +39,10 @@ export class InterceptorService implements HttpInterceptor {
             (data: AccessToken) => {
               localStorage.setItem("accessToken", data.accessToken)
             },
-            error1 => {
+            (error1: HttpErrorResponse) => {
+              if (error1.status == 403) {
+                window.location.href = frontAuthLink;
+              }
               console.log(error1);
             }
           )
