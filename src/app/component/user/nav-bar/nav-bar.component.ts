@@ -1,4 +1,3 @@
-import {Component, OnInit} from '@angular/core';
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {PlaceAddDto} from "../../../model/placeAddDto.model";
 import {CategoryDto} from "../../../model/category.model";
@@ -20,8 +19,6 @@ export class NavBarComponent implements OnInit {
 
   private firstName: string = null;
 
-  constructor() {
-  }
   place: PlaceAddDto = new PlaceAddDto();
 
   category: CategoryDto = new CategoryDto();

@@ -33,16 +33,15 @@
           Add cafe
         </button>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="auth">Sing in</a>
-      </li>
     </ul>
 
   </div>
 
 </nav>
+<!-- Modal Window-->
 <app-modal id="custom-_modal-1">
   <h3 style="text-align: center; margin-bottom: 2%">Add new cafe</h3>
+
   <form #saveForm="ngForm" (ngSubmit)="onSubmit()">
     <div class="row">
       <div class="column">
@@ -70,7 +69,8 @@
       <div class="column">
         <h4 style="margin-left: 14%">Select schedule: </h4>
         <div id="weekDays-selector" *ngFor="let day of weekDays; let i = index; trackBy: trackByIdx">
-          <input type="checkbox" id="weekday-{{i}}" name="weekday-{{i}}" class="weekday" (click)="switch(i)" [(ngModel)]="isChecked[i]"/>
+          <input type="checkbox" id="weekday-{{i}}" name="weekday-{{i}}" class="weekday" (click)="switch(i)"
+                 [(ngModel)]="isChecked[i]"/>
           <label for="weekday-{{i}}">{{day}}</label>
           <div class="validation-error" *ngIf="timeControl.invalid && (timeControl.dirty||timeControl.touched)">
             <div *ngIf="timeControl.errors.required">
@@ -78,7 +78,8 @@
             </div>
           </div>
           <label for="time-start" class="label-for-time">from: </label>
-          <input type="time" id="time-start" placeholder="HH:mm" [(ngModel)]="openingHoursList[i].openTime" name="openTime-{{i}}"
+          <input type="time" id="time-start" placeholder="HH:mm" [(ngModel)]="openingHoursList[i].openTime"
+                 name="openTime-{{i}}"
                  [disabled]="!isChecked[i]"
                  [required]="isChecked[i]" #timeControl="ngModel">
           <div class="validation-error" *ngIf="timeControl.invalid && (timeControl.dirty||timeControl.touched)">
@@ -87,17 +88,18 @@
             </div>
           </div>
           <label for="time-end" class="label-for-time">to: </label>
-          <input id="time-end" type="time" placeholder="HH:mm" [(ngModel)]="openingHoursList[i].closeTime" name="closeTime-{{i}}"
+          <input id="time-end" type="time" placeholder="HH:mm" [(ngModel)]="openingHoursList[i].closeTime"
+                 name="closeTime-{{i}}"
                  [disabled]="!isChecked[i]"
                  [required]="isChecked[i]" #timeControl="ngModel">
         </div>
       </div>
 
     </div>
-<!--  <button (click)="closeModal('custom-_modal-1');"-->
+    <!--  <button (click)="closeModal('custom-_modal-1');"-->
     <button (click)="closeModal('custom-_modal-1');" [disabled]="!saveForm.valid"
 
-          class="btn btn-primary submit" type="submit">Submit
+            class="btn btn-primary submit" type="submit">Submit
     </button>
   </form>
 </app-modal>
