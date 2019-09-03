@@ -1,0 +1,38 @@
+<!--<nav class="navbar navbar-default">-->
+<!--  <div class="container-fluid">-->
+<!--    <div class="navbar-header">-->
+<!--      <button (click)="openModal('custom-_modal-1')" type="button" class="btn btn-success" style="margin-top: 6px">-->
+<!--       Add cafe-->
+<!--      </button>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</nav>-->
+
+<!--<app-modal id="custom-_modal-1">-->
+<!--  <h3 style="text-align: center; margin-bottom: 2%">Add new cafe</h3>-->
+<!--  &lt;!&ndash;  <form>&ndash;&gt;-->
+<!--  <div class="row">-->
+<!--    <div class="column">-->
+<!--      <div style="margin-left: 7%; margin-right: 9%">-->
+<!--        <input type="text" required class="form-control" placeholder="Name" [(ngModel)]="place.name" name="name"><br>-->
+<!--        <app-selector-->
+<!--          (addCategory)="showCat($event)"></app-selector>-->
+<!--        <app-mappp (addLocation)="showLoc($event)"></app-mappp>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div id="weekDays-selector" class="column" style="margin-top: 2%; padding-left: 10%"-->
+<!--         *ngFor="let day of weekDays; let i = index; trackBy: trackByIdx">-->
+<!--      <h4>Select schedule: </h4>-->
+<!--      <input type="checkbox" id="weekday-{{i}}" class="weekday" (change)="switch(i)" [(ngModel)]="isChecked[i]"/>-->
+<!--      <label for="weekday-{{i}}">{{day}}</label>-->
+<!--      <label for="time-start" class="label-for-time">from: </label>-->
+<!--      <input type="time" id="time-start" placeholder="HH:mm" [(ngModel)]="openingHoursList[i].openTime" [disabled]="!isChecked[i]">-->
+<!--      <label for="time-end" class="label-for-time">to: </label>-->
+<!--      <input id="time-end" type="time" placeholder="HH:mm" [(ngModel)]="openingHoursList[i].closeTime" [disabled]="!isChecked[i]">-->
+<!--    </div>-->
+
+<!--  </div>-->
+<!--  <button (click)="closeModal('custom-_modal-1');" class="btn btn-success" type="submit">Submit</button>-->
+<!--  &lt;!&ndash;  </form>&ndash;&gt;-->
+<!--</app-modal>-->
+

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {LatLngBounds} from '@agm/core';
-import {BoundsMap} from '@agm/core/services/fit-bounds';
+// import {BoundsMap} from '@agm/core/services/fit-bounds';
 import {Place} from '../../../model/place/place';
 import {PlaceServiceService} from '../../../service/place/place.service';
 import {MapBounds} from '../../../model/map/map-bounds';

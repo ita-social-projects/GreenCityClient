@@ -1,8 +1,3 @@
-.sign-btn{
-  display: block;
-  float: right;
-}
-
 #weekDays-selector input[type=checkbox] {
   display: none!important;
 }
@@ -12,7 +7,7 @@
   border-radius: 6px;
   background: #dddddd;
   height: 40px;
-  width: 90px;
+  width: 85px;
   margin-right: 3px;
   line-height: 40px;
   text-align: center;
@@ -50,9 +45,3 @@
   display: table;
   clear: both;
 }
-
-.error, .validation-error {
-  color: red;
-}
-
-

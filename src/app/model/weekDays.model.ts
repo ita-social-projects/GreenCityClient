@@ -1,3 +1,4 @@
 export enum WeekDays {
-  MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
+  MONDAY="Monday", TUESDAY="Tuesday", WEDNESDAY="Wednesday", THURSDAY="Thursday", FRIDAY="Friday",
+  SATURDAY="Saturday", SUNDAY="Sunday"
 }

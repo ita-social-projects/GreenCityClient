@@ -1,0 +1,5 @@
+@import "../../../../../../../node_modules/@ng-select/ng-select/themes/default.theme.css";
+
+.error, .validation-error {
+  color: red;
+}
