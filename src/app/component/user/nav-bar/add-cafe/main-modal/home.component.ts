@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ModalService} from '../_modal/modal.service';
+import {ModalService} from '../../../_modal/modal.service';
 import {PlaceAddDto} from "../../../../../model/placeAddDto.model";
 import {CategoryDto} from "../../../../../model/category.model";
 import {LocationDto} from "../../../../../model/locationDto.model";

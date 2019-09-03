@@ -16,7 +16,7 @@ import {HomeComponent} from "./component/user/nav-bar/add-cafe/main-modal/home.c
 import {SelectorComponent} from "./component/user/nav-bar/add-cafe/selector/selector.component";
 import {MapModalComponent} from "./component/user/nav-bar/add-cafe/map/map-modal.component";
 import {NgSelectModule} from "@ng-select/ng-select";
-import {ModalModule} from "./component/user/nav-bar/add-cafe/_modal/modal.module";
+import {ModalModule} from "./component/user/_modal/modal.module";
 import {RouterModule} from "@angular/router";
 import {router} from "./router";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";

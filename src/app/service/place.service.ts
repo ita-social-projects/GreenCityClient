@@ -5,13 +5,6 @@ import {PlaceAddDto} from '../model/placeAddDto.model';
 import {Observable} from "rxjs";
 import {PlaceWithUserModel} from "../model/placeWithUser.model";
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-    Authorization: 'Bearer ' + localStorage.getItem('accessToken')
-  })
-};
-
 @Injectable({providedIn: 'root'})
 export class PlaceService extends BaseService {
 
@@ -21,7 +14,7 @@ export class PlaceService extends BaseService {
   }
 
   save(place: PlaceAddDto): Observable<PlaceWithUserModel> {
-    return this.http.post<PlaceWithUserModel>(`${this.apiUrl}/propose`, place, httpOptions);
+    return this.http.post<PlaceWithUserModel>(`${this.apiUrl}/propose`, place);
   }
 
 }

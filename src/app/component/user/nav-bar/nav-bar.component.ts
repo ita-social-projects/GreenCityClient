@@ -4,7 +4,7 @@ import {CategoryDto} from "../../../model/category.model";
 import {LocationDto} from "../../../model/locationDto.model";
 import {OpeningHours} from "../../../model/openingHours.model";
 import {WeekDays} from "../../../model/weekDays.model";
-import {ModalService} from "./add-cafe/_modal/modal.service";
+import {ModalService} from "../_modal/modal.service";
 import {PlaceService} from "../../../service/place.service";
 import {CategoryService} from "../../../service/category.service";
 import {PlaceWithUserModel} from "../../../model/placeWithUser.model";
@@ -93,11 +93,7 @@ export class NavBarComponent implements OnInit {
       this.place.openingHoursList = this.openingHoursList;
     });
 
-    this.uService.getUserRole().subscribe(data => {
-      if (data) {
-        this.userRole = data;
-      }
-    });
+    this.userRole = this.uService.getUserRole();
   }
 
   openModal(id: string) {
