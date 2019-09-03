@@ -12,9 +12,8 @@ import {UserComponent} from "./component/user/user.component";
 import {AuthComponent} from "./component/user/auth/auth.component";
 import {SignInComponent} from "./component/user/auth/sign-in/sign-in.component";
 import {SubmitEmailComponent} from "./component/user/auth/submit-email/submit-email.component";
-import {HomeComponent} from "./component/user/nav-bar/add-cafe/main-modal/home.component";
-import {SelectorComponent} from "./component/user/nav-bar/add-cafe/selector/selector.component";
-import {MapModalComponent} from "./component/user/nav-bar/add-cafe/map/map-modal.component";
+import {SelectorComponent} from "./component/user/propose-cafe/selector/selector.component";
+import {MapModalComponent} from "./component/user/propose-cafe/map/map-modal.component";
 import {NgSelectModule} from "@ng-select/ng-select";
 import {ModalModule} from "./component/user/_modal/modal.module";
 import {RouterModule} from "@angular/router";
@@ -22,6 +21,7 @@ import {router} from "./router";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
 import {InterceptorService} from "./service/interceptor.service";
+import {ProposeCafeComponent} from "./component/user/propose-cafe/propose-cafe.component";
 
 @NgModule({
   declarations: [
@@ -35,8 +35,8 @@ import {InterceptorService} from "./service/interceptor.service";
     SignInComponent,
     SubmitEmailComponent,
     MapComponent,
-    HomeComponent,
     SelectorComponent,
+    ProposeCafeComponent,
     MapModalComponent
   ],
   imports: [
@@ -46,7 +46,7 @@ import {InterceptorService} from "./service/interceptor.service";
     FormsModule,
     AgmCoreModule.forRoot({
       // apiKey: 'AIzaSyB58CWxV1yNQWqRawKetDaeCWPH3V18CHo',
-      // apiKey: 'AIzaSyDnL6GdV-FWidi8Uh2uDjIu2uRGQtgZOYc',
+      apiKey: 'AIzaSyDnL6GdV-FWidi8Uh2uDjIu2uRGQtgZOYc',
       libraries: ['places']
     }),
     Ng2SearchPipeModule,

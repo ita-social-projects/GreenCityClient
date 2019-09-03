@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Observable} from 'rxjs';
-import {CategoryDto} from "../../../../../model/category.model";
-import {CategoryService} from "../../../../../service/category.service";
+import {CategoryDto} from "../../../../model/category.model";
+import {CategoryService} from "../../../../service/category.service";
 
 
 @Component({

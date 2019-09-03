@@ -13,8 +13,10 @@ export class PlaceService extends BaseService {
     this.apiUrl += '/place';
   }
 
-  save(place: PlaceAddDto): Observable<PlaceWithUserModel> {
-    return this.http.post<PlaceWithUserModel>(`${this.apiUrl}/propose`, place);
+  save(place: PlaceAddDto) {
+    console.log(place);
+    this.http.post(`${this.apiUrl}/propose`, place)
+      .subscribe(res => console.log('Done'));
   }
 
 }

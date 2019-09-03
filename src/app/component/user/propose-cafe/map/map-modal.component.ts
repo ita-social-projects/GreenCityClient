@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild, ElementRef, NgZone, Output, EventEmitter} from '@angular/core';
-import {LocationDto} from "../../../../../model/locationDto.model";
+import {LocationDto} from "../../../../model/locationDto.model";
 import {MapsAPILoader, MouseEvent} from "@agm/core";
 
 declare const google: any;
@@ -31,10 +31,8 @@ export class MapModalComponent implements OnInit {
   public searchElementRef: ElementRef;
 
   ev() {
-    this.location.address = this.address;
-    this.location.lat = this.latitude;
-    this.location.lng = this.longitude;
     this.addLocation.emit(this.location);
+
   }
 
   ngOnInit() {
@@ -58,8 +56,8 @@ export class MapModalComponent implements OnInit {
           }
 
           //  set latitude, longitude and zoom
-          this.latitude = place.geometry.location.lat();
-          this.longitude = place.geometry.location.lng();
+          this.location.lat = place.geometry.location.lat();
+          this.location.lng = place.geometry.location.lng();
           this.zoom = 12;
         });
       });
@@ -83,6 +81,10 @@ export class MapModalComponent implements OnInit {
     this.location.lat = $event.coords.lat;
     this.location.lng = $event.coords.lng;
     this.getAddress(this.location.lat, this.location.lng);
+    this.location.address = this.address;
+    this.location.lat = this.latitude;
+    this.location.lng = this.longitude;
+    this.addLocation.emit(this.location);
   }
 
   getAddress(latitude, longitude) {

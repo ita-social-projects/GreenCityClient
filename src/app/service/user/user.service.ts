@@ -1,7 +1,5 @@
-import {Injectable, OnInit} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {mailLink} from '../../links';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
 const token = localStorage.getItem('accessToken');
 let jwtData = null;
