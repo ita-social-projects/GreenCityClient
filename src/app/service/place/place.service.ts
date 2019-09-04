@@ -19,7 +19,7 @@ export class PlaceService {
   private baseUrl = 'http://localhost:8080/place/';
   private errorMsg: string;
 
-  constructor(private http: HttpClient, private ngFlashMessageService: NgFlashMessageService) {
+  constructor(private http: HttpClient) {
   }
 
   static getWeekDayShortForm(day: string): any {
@@ -53,29 +53,6 @@ export class PlaceService {
   }
 
   updatePlaceStatus(placeStatus: PlaceStatus) {
-    return this.http.patch<PlaceStatus>(`${this.baseUrl}status/`, placeStatus, httpOptions).subscribe(
-      () => {
-        this.ngFlashMessageService.showFlashMessage({
-          messages: [placeStatus.status === 'APPROVED' ? 'Approved' : 'Declined'],
-          dismissible: true,
-          timeout: 3000,
-          type: 'success'
-        });
-        console.log(placeStatus.status === 'APPROVED' ? 'Approved' : 'Declined');
-      },
-      error => {
-        this.errorMsg = 'Error. Item was not ';
-        this.errorMsg += placeStatus.status === 'APPROVED' ? 'approved' : 'declined';
-        this.errorMsg += '.Please try again';
-
-        this.ngFlashMessageService.showFlashMessage({
-          messages: [this.errorMsg],
-          dismissible: true,
-          timeout: 3000,
-          type: 'danger'
-        });
-        console.log(error.error.message);
-      }
-    );
+    return this.http.patch<PlaceStatus>(`${this.baseUrl}status/`, placeStatus, httpOptions);
   }
 }

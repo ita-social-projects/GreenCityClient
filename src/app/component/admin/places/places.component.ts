@@ -23,9 +23,9 @@ export class PlacesComponent implements OnInit {
   pageCurrent = 1;
   pageAmount = 1;
   currentLastElement = 0;
+  private errorMsg: string;
 
-
-  constructor(private placeService: PlaceService, private titleService: Title) {
+  constructor(private placeService: PlaceService, private titleService: Title, private ngFlashMessageService: NgFlashMessageService) {
     this.elementAmount = Math.floor(this.getScreenHeight() / 100);
     this.onGetPlace();
   }
@@ -132,8 +132,30 @@ export class PlacesComponent implements OnInit {
         id: placeId,
         status: placeStatus
       }
+    ).subscribe(
+      () => {
+        this.ngFlashMessageService.showFlashMessage({
+          messages: [placeStatus === 'APPROVED' ? 'Approved' : 'Declined'],
+          dismissible: true,
+          timeout: 3000,
+          type: 'success'
+        });
+        console.log(placeStatus === 'APPROVED' ? 'Approved' : 'Declined');
+        this.onGetPlace();
+      },
+      error => {
+        this.errorMsg = 'Error. Item was not ';
+        this.errorMsg += placeStatus === 'APPROVED' ? 'approved' : 'declined';
+        this.errorMsg += '.Please try again';
+
+        this.ngFlashMessageService.showFlashMessage({
+          messages: [this.errorMsg],
+          dismissible: true,
+          timeout: 3000,
+          type: 'danger'
+        });
+      }
     );
-    this.onGetPlace();
   }
 }
 
