@@ -62,9 +62,11 @@ export class ProposeCafeComponent implements OnInit {
     this.place.openingHoursList = this.place.openingHoursList.filter(value => {
       return value.openTime !== undefined && value.closeTime !== undefined;
     });
-    this.placeService.save(this.place);
-    console.log(this.place);
+     this.placeService.save(this.place);
+     alert("Successful");
   }
+
+
 
   trackByIdx(i: number, day: any): any {
     return i;
@@ -80,7 +82,6 @@ export class ProposeCafeComponent implements OnInit {
     this.location.lat = event.lat;
     this.location.address = event.address;
     this.place.location = this.location;
-    console.log(this.location);
   }
 
   closeModal(id: string) {
