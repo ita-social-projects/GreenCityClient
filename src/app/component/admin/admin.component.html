@@ -1,3 +1,9 @@
-<app-admin-nav></app-admin-nav>
-<router-outlet></router-outlet>
+<ng-container *ngIf="userRole == 'ROLE_ADMIN' || userRole == 'ROLE_MODERATOR';else forbidden">
+  <app-admin-nav></app-admin-nav>
+  <router-outlet></router-outlet>
+</ng-container>
+
+<ng-template #forbidden>
+ <app-error errorCode="403" errorMessage="Forbidden"></app-error>
+</ng-template>
 

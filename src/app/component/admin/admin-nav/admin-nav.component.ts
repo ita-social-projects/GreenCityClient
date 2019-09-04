@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {AdminService} from '../../../service/admin/admin.service';
 
 @Component({
   selector: 'app-admin-nav',
@@ -7,13 +6,9 @@ import {AdminService} from '../../../service/admin/admin.service';
   styleUrls: ['./admin-nav.component.css']
 })
 export class AdminNavComponent implements OnInit {
-  constructor(private adminService: AdminService) {
+  constructor() {
   }
 
   ngOnInit() {
-  }
-
-  setUserChoice(choice: string) {
-    this.adminService.changeUserChoice(choice);
   }
 }

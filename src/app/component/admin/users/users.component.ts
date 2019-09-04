@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 import {UserForListDtoModel} from '../../../model/user/user-for-list-dto.model';
 import {UserService} from '../../../service/user/user.service';
+import {Title} from '@angular/platform-browser';
 
 export interface Role {
   value: string;
@@ -25,12 +26,12 @@ export class UsersComponent implements OnInit {
   displayedColumns: string[] = ['email', 'firstName', 'lastName', 'dateOfRegistration', 'status', 'block', 'deactivate'];
 
   constructor(
-    private userService: UserService
-  ) {
+    private userService: UserService, private titleService: Title) {
   }
 
   ngOnInit() {
     this.getUsersByPage();
+    this.titleService.setTitle('Admin - Users');
   }
 
   getCurrentPaginationSettings(): string {

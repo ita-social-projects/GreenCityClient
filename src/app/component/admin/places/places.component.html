@@ -70,6 +70,8 @@
 
 <!--<div class="container" (window:resize)="onResize($event)">-->
 
+
+
 <div class="container" (window:resize)="onResize($event)">
   <table class="table">
     <thead>
@@ -98,23 +100,23 @@
     </thead>
     <tbody>
     <tr *ngFor="let place of pageElements">
-        <td>{{place.id}}</td>
-        <td>{{place.category.name}}</td>
-        <td>{{place.name}}</td>
-        <td *ngIf="place.location else noLocation">{{place.location.address}}</td>
-        <ng-template #noLocation>
-          <td>{{noData}}</td>
-        </ng-template>
-        <td (click)="onOpenHoursShow()">{{convertHoursToShort(place.openingHoursList)}}</td>
-        <td>{{place.author.email}}</td>
-        <td>{{place.modifiedDate}}</td>
-        <td>{{place.status}}</td>
-        <td class="place-action" *ngIf="defaultStatus === 'proposed'">
-          <button (click)="setPlaceStatus(place.id, 'APPROVED')" type="button" class="btn btn-outline-success">Approve
-          </button>
-          <button (click)="setPlaceStatus(place.id, 'DECLINED')" type="button" class="btn btn-outline-danger">Decline
-          </button>
-        </td>
+      <td>{{place.id}}</td>
+      <td>{{place.category.name}}</td>
+      <td>{{place.name}}</td>
+      <td *ngIf="place.location else noLocation">{{place.location.address}}</td>
+      <ng-template #noLocation>
+        <td>{{noData}}</td>
+      </ng-template>
+      <td (click)="onOpenHoursShow()">{{convertHoursToShort(place.openingHoursList)}}</td>
+      <td>{{place.author.email}}</td>
+      <td>{{place.modifiedDate}}</td>
+      <td>{{place.status}}</td>
+      <td class="place-action" *ngIf="defaultStatus === 'proposed'">
+        <button (click)="updateStatus(place.id, 'APPROVED')" type="button" class="btn btn-outline-success">Approve
+        </button>
+        <button (click)="updateStatus(place.id, 'DECLINED')" type="button" class="btn btn-outline-danger">Decline
+        </button>
+      </td>
     </tr>
     </tbody>
   </table>

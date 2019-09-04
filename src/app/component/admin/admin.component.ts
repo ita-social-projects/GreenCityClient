@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from '../../service/user/user.service';
 import {HttpClient} from '@angular/common/http';
-import {AdminService} from '../../service/admin/admin.service';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-admin',
@@ -10,15 +10,13 @@ import {AdminService} from '../../service/admin/admin.service';
 })
 export class AdminComponent implements OnInit {
 
-  userChoice: string;
   userRole: string;
 
-  constructor(private http: HttpClient, private uService: UserService, private adminService: AdminService) {
+  constructor(private http: HttpClient, private uService: UserService, private titleService: Title) {
   }
 
   ngOnInit() {
     this.userRole = this.uService.getUserRole();
-    console.log(this.userRole);
-    this.adminService.userChoice.subscribe(choice => this.userChoice = choice);
+    this.titleService.setTitle('Admin');
   }
 }

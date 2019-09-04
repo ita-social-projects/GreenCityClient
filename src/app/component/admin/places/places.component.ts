@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {EventManager} from '@angular/platform-browser';
+import {EventManager, Title} from '@angular/platform-browser';
 import {AdminPlace} from '../../../model/place/admin-place.model';
-import {AdminPlaceService} from '../../../service/admin/admin-place.service';
 import {OpenHours} from '../../../model/openHours/open-hours.model';
 import {NgFlashMessageService} from 'ng-flash-messages';
+import {PlaceService} from '../../../service/place/place.service';
 
 @Component({
   selector: 'app-places',
@@ -13,40 +13,50 @@ import {NgFlashMessageService} from 'ng-flash-messages';
 
 export class PlacesComponent implements OnInit {
 
+  viewHeight: number;
+
   defaultStatus = 'proposed';
   noData = '...';
   places: AdminPlace[];
   pageElements: AdminPlace[];
-  elementAmount = 6;
+  elementAmount = 9;
   pageCurrent = 1;
   pageAmount = 1;
-  errorMsg: string;
+  currentLastElement = 0;
 
-  constructor(private adminPlaceService: AdminPlaceService, private eventManager: EventManager, private ngFlashMessageService: NgFlashMessageService) {
-    // this.onGetPlace();
-  }
 
-  ngOnInit() {
+  constructor(private placeService: PlaceService, private titleService: Title) {
+    this.elementAmount = Math.floor(this.getScreenHeight() / 100);
     this.onGetPlace();
   }
 
+  ngOnInit() {
+    this.titleService.setTitle('Admin - Places');
+  }
+
+  getScreenHeight() {
+    return window.innerHeight;
+  }
+
   onGetPlace() {
-    this.adminPlaceService.getPlacesByStatus(this.defaultStatus)
+    this.placeService.getPlacesByStatus(this.defaultStatus)
       .subscribe(
         places => {
           this.places = places as AdminPlace[];
-          this.pageAmount = Math.round(this.places.length / this.elementAmount);
-          this.pageElements = this.places;
+          console.log('whole places' + this.places.length);
+          this.pageAmount = Math.ceil(this.places.length / this.elementAmount);
           if (this.places.length > this.elementAmount) {
             this.pageElements = (this.places.slice(0, this.elementAmount));
+            this.currentLastElement = Math.round(this.elementAmount);
+            console.log('first elements ' + this.currentLastElement);
+          } else {
+            this.pageElements = this.places;
           }
         });
-    console.log(this.places);
   }
 
   onStatusClick() {
     document.getElementById('statusMenu').classList.toggle('show');
-    console.log('status click');
   }
 
   changeStatus(status: string) {
@@ -64,14 +74,22 @@ export class PlacesComponent implements OnInit {
   onNextClick() {
     if (this.pageCurrent < this.pageAmount) {
       this.pageCurrent++;
-      this.pageElements = (this.places.slice(this.pageElements.length - 1, this.pageElements.length + this.elementAmount));
+      let fromElement = this.currentLastElement;
+      let toElement = this.currentLastElement + this.elementAmount;
+      this.pageElements = (this.places.slice(fromElement, toElement));
+      this.currentLastElement = this.currentLastElement + this.pageElements.length;
+      console.log('next elements ' + this.currentLastElement);
     }
   }
 
   onPrevClick() {
     if (this.pageCurrent > 1) {
       this.pageCurrent--;
-      this.pageElements = (this.places.slice());
+      let toElement = this.currentLastElement - this.pageElements.length;
+      let fromElement = toElement - this.elementAmount;
+      this.currentLastElement = toElement;
+      this.pageElements = (this.places.slice(fromElement, toElement));
+      console.log('next elements ' + this.currentLastElement);
     }
   }
 
@@ -82,15 +100,15 @@ export class PlacesComponent implements OnInit {
     let lastDay = '';
     openHours.forEach(hours => {
       if (prevHours === '') {
-        firstDay = `${AdminPlaceService.getWeekDayShortForm(hours.weekDay)}`;
+        firstDay = `${PlaceService.getWeekDayShortForm(hours.weekDay)}`;
         prevHours = `${hours.openTime}-${hours.closeTime}`;
       } else {
         if (prevHours === `${hours.openTime}-${hours.closeTime}`) {
-          lastDay = ` - ${AdminPlaceService.getWeekDayShortForm(hours.weekDay)}`;
+          lastDay = ` - ${PlaceService.getWeekDayShortForm(hours.weekDay)}`;
         } else {
           result += firstDay + lastDay + ' ' + prevHours + '\n';
           prevHours = `${hours.openTime}-${hours.closeTime}`;
-          firstDay = `${AdminPlaceService.getWeekDayShortForm(hours.weekDay)}`;
+          firstDay = `${PlaceService.getWeekDayShortForm(hours.weekDay)}`;
           lastDay = '';
         }
       }
@@ -98,51 +116,21 @@ export class PlacesComponent implements OnInit {
     return result + firstDay + lastDay + ' ' + prevHours + '\n';
   }
 
-  convertHoursToNormal(openHours: OpenHours[]): any {
-    let result = '';
-    openHours.forEach(hours => {
-      result += `${AdminPlaceService.getWeekDayShortForm(hours.weekDay)} ${hours.openTime}-${hours.closeTime}\n`;
-    });
-    return result;
-  }
-
   onResize(event) {
     this.elementAmount = Math.round(event.target.innerHeight / 100);
     this.pageAmount = Math.round(this.places.length / this.elementAmount);
     if (this.places.length > this.elementAmount) {
       this.pageElements = (this.places.slice(0, this.elementAmount));
+      this.pageCurrent = 1;
     }
     console.log(this.elementAmount);
   }
 
-  setPlaceStatus(placeId: number, placeStatus: string) {
-    this.adminPlaceService.addPlaceStatus(
+  updateStatus(placeId: number, placeStatus: string) {
+    this.placeService.updatePlaceStatus(
       {
         id: placeId,
         status: placeStatus
-      }
-    ).subscribe(
-      () => {
-        this.ngFlashMessageService.showFlashMessage({
-          messages: [placeStatus === 'APPROVED' ? 'Approved' : 'Declined'],
-          dismissible: true,
-          timeout: 3000,
-          type: 'success'
-        });
-        console.log(placeStatus === 'APPROVED' ? 'Approved' : 'Declined');
-      },
-      error => {
-        this.errorMsg = 'Error. Item was not ';
-        this.errorMsg += placeStatus === 'APPROVED' ? 'approved' : 'declined';
-        this.errorMsg += '.Please try again';
-
-        this.ngFlashMessageService.showFlashMessage({
-          messages: [this.errorMsg],
-          dismissible: true,
-          timeout: 3000,
-          type: 'danger'
-        });
-        console.log(error.error.message);
       }
     );
     this.onGetPlace();

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {LatLngBounds} from '@agm/core';
 import {BoundsMap} from '@agm/core/services/fit-bounds';
 import {Place} from '../../../model/place/place';
-import {PlaceServiceService} from '../../../service/place/place.service';
+import {PlaceService} from '../../../service/place/place.service';
 import {MapBounds} from '../../../model/map/map-bounds';
 
 @Component({
@@ -20,7 +20,7 @@ export class MapComponent implements OnInit {
   zoom = 13;
   place: Place[] = [];
 
-  constructor(private placeService: PlaceServiceService) {
+  constructor(private placeService: PlaceService) {
   }
 
   zoomChange(event) {

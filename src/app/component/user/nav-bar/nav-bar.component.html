@@ -20,6 +20,9 @@
              aria-haspopup="true" aria-expanded="false">{{firstName}}</a>
 
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item"
+               *ngIf="userRole == 'ROLE_ADMIN' || userRole == 'ROLE_MODERATOR'"
+               href="/admin">Admin</a>
             <a class="dropdown-item" (click)="signOut()">Sign-out</a>
           </div>
 

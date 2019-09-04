@@ -58,6 +58,10 @@
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
+.place-action {
+  display: flex;
+}
+
 .place-action button {
   margin: 5px;
 }
@@ -68,4 +72,8 @@ a {
 
 .nav-link {
   color: black;
+}
+
+td, th {
+  text-align: center;
 }
