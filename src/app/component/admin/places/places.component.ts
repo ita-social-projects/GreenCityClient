@@ -30,17 +30,18 @@ export class PlacesComponent implements OnInit {
     this.onGetPlace();
   }
 
-
   onGetPlace() {
     this.adminPlaceService.getPlacesByStatus(this.defaultStatus)
       .subscribe(
         places => {
           this.places = places as AdminPlace[];
           this.pageAmount = Math.round(this.places.length / this.elementAmount);
+          this.pageElements = this.places;
           if (this.places.length > this.elementAmount) {
             this.pageElements = (this.places.slice(0, this.elementAmount));
           }
         });
+    console.log(this.places);
   }
 
   onStatusClick() {

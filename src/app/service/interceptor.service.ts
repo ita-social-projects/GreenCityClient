@@ -40,7 +40,7 @@ export class InterceptorService implements HttpInterceptor {
               localStorage.setItem("accessToken", data.accessToken)
             },
             (error1: HttpErrorResponse) => {
-              if (error1.status == 403) {
+              if (error1.status == 401) {
                 window.location.href = frontAuthLink;
               }
               console.log(error1);

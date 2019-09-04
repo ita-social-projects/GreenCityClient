@@ -1,16 +1,3 @@
-<div *ngIf="userRole === 'ROLE_ADMIN' || userRole === 'ROLE_MODERATOR'; else errorPage">
-  <app-admin-nav></app-admin-nav>
-  <ng-container *ngIf="userChoice === 'users';else places">
-    <app-users></app-users>
-  </ng-container>
+<app-admin-nav></app-admin-nav>
+<router-outlet></router-outlet>
 
-  <ng-template #places>
-    <!--    <ng-container *ngIf="userChoice === 'places'">-->
-    <app-places></app-places>
-    <!--    </ng-container>-->
-  </ng-template>
-</div>
-
-<ng-template #errorPage>
-  <app-error></app-error>
-</ng-template>
