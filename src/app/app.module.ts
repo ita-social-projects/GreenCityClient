@@ -40,8 +40,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     MapComponent,
     SelectorComponent,
     ProposeCafeComponent,
-    MapModalComponent,
-
+    MapModalComponent
   ],
   imports: [
     BrowserModule,
@@ -57,17 +56,16 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     AdminModule,
     NgFlashMessagesModule.forRoot(),
     NgSelectModule,
-    ModalModule,
+    ModalModule
   ],
   providers: [
-
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,
       multi: true
     }
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }
