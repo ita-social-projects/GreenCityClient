@@ -19,7 +19,7 @@ export class UsersComponent implements OnInit {
 
   users: UserForListDtoModel[];
   pageSize = 5;
-  page = 1;
+  page = 0;
   totalItems: number;
 
   roles: Role[];
@@ -35,14 +35,13 @@ export class UsersComponent implements OnInit {
   }
 
   getCurrentPaginationSettings(): string {
-    return '?page=' + (this.page - 1) + '&size=' + this.pageSize;
+    return '?page=' + (this.page) + '&size=' + this.pageSize;
   }
 
   updateUserStatus(id: number, userStatus: string, email: string) {
     this.userService.updateUserStatus(id, userStatus).subscribe((data) => {
       this.successfulAction(email + ' is ' + data.userStatus);
-      console.log(this.page + '  sadasd')
-      this.changePage(this.page);
+      this.getUsersByPage();
     });
   }
 
@@ -56,8 +55,7 @@ export class UsersComponent implements OnInit {
   }
 
   changePage(event: any) {
-    this.page = event.page;
-    console.log(this.page);
+    this.page = event.page - 1;
     this.getUsersByPage();
   }
 
