@@ -14,7 +14,9 @@ export class JwtService {
       const jwtData = token.split('.')[1];
       const decodedJwtJsonData = window.atob(jwtData);
       const decodedJwtData = JSON.parse(decodedJwtJsonData);
-      let dateInSecond = (new Date("2015/04/29 11:24:00").getTime() / 1000);
+      let dateInSecond = (new Date().getTime() / 1000);
+      console.log("data now " + dateInSecond);
+      console.log("data exp " + decodedJwtData.exp);
       return dateInSecond < decodedJwtData.exp;
     } else {
       return false;

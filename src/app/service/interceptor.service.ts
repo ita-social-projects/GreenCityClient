@@ -30,6 +30,7 @@ export class InterceptorService implements HttpInterceptor {
         if (this.jwtService.isTokenValid(accessToken)) {
           console.log("access token is valid");
           req = this.addAccessTokenToHeader(req, accessToken);
+          return next.handle(req);
         } else {
           console.log("access token is invalid");
           let refreshToken = this.jwtService.getRefreshToken();
@@ -37,6 +38,7 @@ export class InterceptorService implements HttpInterceptor {
             console.log("refresh token != null");
             if (this.jwtService.isTokenValid(refreshToken)) {
               console.log("refresh token is valid");
+
               this.http.post(updateAccessTokenLink, refreshToken).subscribe(
                 (data: AccessToken) => {
                   this.jwtService.saveAccessToken(data.accessToken);
@@ -52,7 +54,13 @@ export class InterceptorService implements HttpInterceptor {
                   }
                   console.log(error);
                 }
-              )
+              );
+              console.log("return");
+              ///////////////////////////////////////////
+            } else {
+              localStorage.clear();
+              console.log("front: bad refresh token");
+              window.location.href = frontAuthLink;
             }
           }
         }
@@ -63,7 +71,6 @@ export class InterceptorService implements HttpInterceptor {
       return next.handle(req);
     }
   }
-
 
   private addAccessTokenToHeader(req: HttpRequest<any>, accessToken) {
     req = req.clone({
