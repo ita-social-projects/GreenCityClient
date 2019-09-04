@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Place} from '../../model/place/place';
 import {MapBounds} from '../../model/map/map-bounds';
+import {PlaceInfo} from '../../model/place/place-info';
 import {PlaceStatus} from '../../model/place/place-status.model';
 
 const httpOptions = {
@@ -41,8 +42,12 @@ export class PlaceService {
     }
   }
 
-  gerListPlaceByMapsBoundsDto(mapBounds: MapBounds): Observable<Place[]> {
+  getListPlaceByMapsBoundsDto(mapBounds: MapBounds): Observable<Place[]> {
     return this.http.post<Place[]>(`${this.baseUrl}getListPlaceLocationByMapsBounds/`, mapBounds);
+  }
+
+  getPlaceInfo(id: number): Observable<PlaceInfo>{
+  return this.http.get<PlaceInfo>(`${this.baseUrl}Info/${id}`)
   }
 
   getPlacesByStatus(status: string) {

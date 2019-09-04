@@ -32,6 +32,7 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
     this.getUsersByPage();
+    this.titleService.setTitle('Admin - Users');
   }
 
   getCurrentPaginationSettings(): string {

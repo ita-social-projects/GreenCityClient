@@ -24,6 +24,7 @@ import {ProposeCafeComponent} from './component/user/propose-cafe/propose-cafe.c
 import {InterceptorService} from './service/interceptor.service';
 import {AdminModule} from './component/admin/admin.module';
 import { NgFlashMessagesModule } from 'ng-flash-messages';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -39,31 +40,34 @@ import { NgFlashMessagesModule } from 'ng-flash-messages';
     MapComponent,
     SelectorComponent,
     ProposeCafeComponent,
-    MapModalComponent
+    MapModalComponent,
+
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(router),
     HttpClientModule,
     FormsModule,
     AgmCoreModule.forRoot({
-      apiKey: '',
+      apiKey: 'AIzaSyADLuRI5IThBl9qbebtDdtXokmAQIhfjXw',
       libraries: ['places']
     }),
     Ng2SearchPipeModule,
     AdminModule,
     NgFlashMessagesModule.forRoot(),
     NgSelectModule,
-    ModalModule
+    ModalModule,
   ],
   providers: [
+
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,
       multi: true
     }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {
 }
