@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {UserRoleModel} from '../../model/user/user-role.model';
 import {UserStatusModel} from '../../model/user/user-status.model';
@@ -16,7 +16,7 @@ let decodedJwtData = null;
 export class UserService {
   dto: UserStatusModel;
   roleDto: UserRoleModel;
-  apiUrl = 'https://greencitysoftserve.herokuapp.com/';
+  apiUrl = 'https://greencitysoftserve.herokuapp.com/user';
 
   constructor(private http: HttpClient) {
     if (token != null) {
