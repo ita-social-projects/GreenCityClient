@@ -17,7 +17,7 @@ import {AgmCoreModule} from '@agm/core';
 import {MapComponent} from './component/user/map/map.component';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {InterceptorService} from './service/interceptor.service';
-
+import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 
 @NgModule({
   declarations: [
@@ -37,7 +37,7 @@ import {InterceptorService} from './service/interceptor.service';
     RouterModule.forRoot(router),
     HttpClientModule,
     FormsModule,
-    AgmCoreModule.forRoot({apiKey: ' '}),
+    AgmCoreModule.forRoot({apiKey: 'AIzaSyDnL6GdV-FWidi8Uh2uDjIu2uRGQtgZOYc'}),
     Ng2SearchPipeModule,
   ],
   providers: [

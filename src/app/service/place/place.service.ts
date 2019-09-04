@@ -8,7 +8,7 @@ import {MapBounds} from '../../model/map/map-bounds';
   providedIn: 'root'
 })
 export class PlaceServiceService {
-  private baseUrl = 'http://localhost:8080/place/';
+  private baseUrl = 'https://greencitysoftserve.herokuapp.com/place/';
 
   constructor(private http: HttpClient) {
   }

@@ -23,11 +23,6 @@ export class MapComponent implements OnInit {
   constructor(private placeService: PlaceServiceService) {
   }
 
-  zoomChange(event) {
-    console.log('zoom is change ');
-    console.log(event);
-  }
-
   ngOnInit() {
     this.mapBounds = new MapBounds();
     this.setCurrentLocation();
@@ -50,12 +45,6 @@ export class MapComponent implements OnInit {
     this.mapBounds.southWestLat = latLngBounds.getSouthWest().lat();
     this.mapBounds.southWestLng = latLngBounds.getSouthWest().lng();
     if (this.button === true) {
-      console.log('here');
-      console.log('size 1');
-      console.log(latLngBounds.getNorthEast().lat());
-      console.log(latLngBounds.getNorthEast().lng());
-      console.log(latLngBounds.getSouthWest().lat());
-      console.log(latLngBounds.getSouthWest().lng());
     } else {
       this.placeService.gerListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => this.place = res);
       console.log(this.place);
@@ -73,7 +62,6 @@ export class MapComponent implements OnInit {
   showAll() {
     this.button = !this.button;
     console.log(this.button);
-    console.log('theeeeeee');
     this.placeService.gerListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => this.place = res);
     this.searchText = null;
   }
@@ -81,5 +69,4 @@ export class MapComponent implements OnInit {
   Show() {
     this.button = !this.button;
   }
-
- }
+}
