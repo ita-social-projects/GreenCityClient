@@ -56,8 +56,8 @@ export class MapModalComponent implements OnInit {
           }
 
           //  set latitude, longitude and zoom
-          this.location.lat = place.geometry.location.lat();
-          this.location.lng = place.geometry.location.lng();
+          this.location.lat = this.latitude = place.geometry.location.lat();
+          this.location.lng = this.longitude= place.geometry.location.lng();
           this.zoom = 12;
         });
       });
