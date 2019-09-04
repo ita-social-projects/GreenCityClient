@@ -3,9 +3,9 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Place} from '../../model/place/place';
 import {MapBounds} from '../../model/map/map-bounds';
+import {PlaceInfo} from '../../model/place/place-info';
 import {PlaceStatus} from '../../model/place/place-status.model';
 import {PlacePageableDto} from "../../model/place/place-pageable-dto.model";
-
 const httpOptions = {
   headers: new HttpHeaders({
     Authorization: 'Bearer ' + localStorage.getItem('accessToken')
@@ -17,7 +17,6 @@ const httpOptions = {
 })
 export class PlaceService {
   private baseUrl = 'https://greencitysoftserve.herokuapp.com/place/';
-  private errorMsg: string;
 
   constructor(private http: HttpClient) {
   }
@@ -43,12 +42,16 @@ export class PlaceService {
     }
   }
 
-  gerListPlaceByMapsBoundsDto(mapBounds: MapBounds): Observable<Place[]> {
+  getListPlaceByMapsBoundsDto(mapBounds: MapBounds): Observable<Place[]> {
     return this.http.post<Place[]>(`${this.baseUrl}getListPlaceLocationByMapsBounds/`, mapBounds);
   }
 
-  getPlacesByStatus(status: string, paginationSettings: string): Observable<PlacePageableDto>{
+  getPlacesByStatus(status: string, paginationSettings: string): Observable<PlacePageableDto> {
     return this.http.get<PlacePageableDto>(`${this.baseUrl}${status}` + paginationSettings, httpOptions);
+  }
+
+  getPlaceInfo(id: number): Observable<PlaceInfo>{
+  return this.http.get<PlaceInfo>(`${this.baseUrl}Info/${id}`)
   }
 
   updatePlaceStatus(placeStatus: PlaceStatus) {

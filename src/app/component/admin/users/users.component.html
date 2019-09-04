@@ -43,10 +43,10 @@
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let element">
             <button *ngIf="element.userStatus != 'BLOCKED' && element.userStatus != 'DEACTIVATED'" mat-raised-button
-                    class="btn-warning"
+                    class="btn btn-outline-warning"
                     (click)="updateUserStatus(element.id, 'BLOCKED', element.email)">Block
             </button>
-            <button *ngIf="element.userStatus == 'BLOCKED'" mat-raised-button class="btn-warning"
+            <button *ngIf="element.userStatus == 'BLOCKED'" mat-raised-button class="btn btn-outline-warning"
                     (click)="updateUserStatus(element.id, 'ACTIVATED', element.email)">Unblock
             </button>
           </td>
@@ -55,10 +55,10 @@
         <ng-container matColumnDef="deactivate">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let element">
-            <button *ngIf="element.userStatus != 'DEACTIVATED'" mat-raised-button class="btn-danger"
+            <button *ngIf="element.userStatus != 'DEACTIVATED'" mat-raised-button class="btn btn-outline-danger"
                     (click)="updateUserStatus(element.id, 'DEACTIVATED', element.email)">Deactivate
             </button>
-            <button *ngIf="element.userStatus == 'DEACTIVATED'" mat-raised-button class="btn-danger"
+            <button *ngIf="element.userStatus == 'DEACTIVATED'" mat-raised-button class="btn btn-outline-danger"
                     (click)="updateUserStatus(element.id, 'ACTIVATED', element.email)">Activate
             </button>
           </td>

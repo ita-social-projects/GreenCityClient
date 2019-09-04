@@ -5,13 +5,6 @@ import {UserRoleModel} from '../../model/user/user-role.model';
 import {UserStatusModel} from '../../model/user/user-status.model';
 import {UserPageableDtoModel} from '../../model/user/user-pageable-dto.model';
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-type': 'application/json',
-    Authorization: 'Bearer ' + localStorage.getItem('accessToken')
-  })
-};
-
 const token = localStorage.getItem('accessToken');
 let jwtData = null;
 let decodedJwtJsonData = null;
@@ -42,8 +35,7 @@ export class UserService {
   }
 
   getAllUsers(paginationSettings: string): Observable<UserPageableDtoModel> {
-    console.log(httpOptions);
-    return this.http.get<UserPageableDtoModel>(`${this.apiUrl}` + paginationSettings, httpOptions);
+    return this.http.get<UserPageableDtoModel>(`${this.apiUrl}` + paginationSettings);
   }
 
   updateUserStatus(id: number, userStatus: string) {

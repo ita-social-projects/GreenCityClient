@@ -24,6 +24,7 @@ import {ProposeCafeComponent} from './component/user/propose-cafe/propose-cafe.c
 import {InterceptorService} from './service/interceptor.service';
 import {AdminModule} from './component/admin/admin.module';
 import { NgFlashMessagesModule } from 'ng-flash-messages';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -43,11 +44,12 @@ import { NgFlashMessagesModule } from 'ng-flash-messages';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(router),
     HttpClientModule,
     FormsModule,
     AgmCoreModule.forRoot({
-      apiKey: '',
+      apiKey: 'AIzaSyADLuRI5IThBl9qbebtDdtXokmAQIhfjXw',
       libraries: ['places']
     }),
     Ng2SearchPipeModule,
