@@ -43,7 +43,7 @@ export class PlaceService {
   }
 
   getListPlaceByMapsBoundsDto(mapBounds: MapBounds): Observable<Place[]> {
-    return this.http.post<Place[]>(`${this.baseUrl}getListPlaceLocationByMapsBounds/`, mapBounds);
+    return this.http.post<Place[]>(`${this.baseUrl}place/getListPlaceLocationByMapsBounds/`, mapBounds);
   }
 
   getPlaceInfo(id: number): Observable<PlaceInfo>{
