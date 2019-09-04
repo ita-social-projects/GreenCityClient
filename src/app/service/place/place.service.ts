@@ -16,7 +16,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class PlaceService {
-  private baseUrl = 'https://greencitysoftserve.herokuapp.com/';
+  private baseUrl = 'https://greencitysoftserve.herokuapp.com/place/';
 
   constructor(private http: HttpClient) {
   }
@@ -43,7 +43,7 @@ export class PlaceService {
   }
 
   getListPlaceByMapsBoundsDto(mapBounds: MapBounds): Observable<Place[]> {
-    return this.http.post<Place[]>(`${this.baseUrl}place/getListPlaceLocationByMapsBounds/`, mapBounds);
+    return this.http.post<Place[]>(`${this.baseUrl}getListPlaceLocationByMapsBounds/`, mapBounds);
   }
 
   getPlaceInfo(id: number): Observable<PlaceInfo>{
