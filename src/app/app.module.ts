@@ -17,11 +17,13 @@ import {SignInComponent} from "./component/user/auth/sign-in/sign-in.component";
 import {SubmitEmailComponent} from "./component/user/auth/submit-email/submit-email.component";
 import {SelectorComponent} from "./component/user/propose-cafe/selector/selector.component";
 import {MapModalComponent} from "./component/user/propose-cafe/map/map-modal.component";
-import {NgSelectModule} from "@ng-select/ng-select";
+import {NgSelectModule} from '@ng-select/ng-select';
 import {ModalModule} from "./component/user/_modal/modal.module";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {InterceptorService} from "./service/interceptor.service";
 import {ProposeCafeComponent} from "./component/user/propose-cafe/propose-cafe.component";
+import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 
 @NgModule({
@@ -38,30 +40,32 @@ import {ProposeCafeComponent} from "./component/user/propose-cafe/propose-cafe.c
     MapComponent,
     SelectorComponent,
     ProposeCafeComponent,
-    MapModalComponent
+    MapModalComponent,
+
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(router),
     HttpClientModule,
     FormsModule,
     AgmCoreModule.forRoot({
-      apiKey: '',
+      apiKey: 'AIzaSyADLuRI5IThBl9qbebtDdtXokmAQIhfjXw',
       libraries: ['places']
     }),
-    AgmCoreModule.forRoot({ apiKey:'AIzaSyADLuRI5IThBl9qbebtDdtXokmAQIhfjXw'}),
     Ng2SearchPipeModule,
     NgSelectModule,
-    ModalModule
+    ModalModule,
   ],
   providers: [
+
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,
       multi: true
     }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {
 }
