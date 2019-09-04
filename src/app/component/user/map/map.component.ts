@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {LatLngBounds} from '@agm/core';
 import {Place} from '../../../model/place/place';
-import {PlaceServiceService} from '../../../service/place/place.service';
 import {MapBounds} from '../../../model/map/map-bounds';
-import {PlaceInfo} from "../../../model/place/place-info";
+import {PlaceService} from '../../../service/place/place.service';
+import {PlaceInfo} from '../../../model/place/place-info';
 
 @Component({
   selector: 'app-map',
@@ -20,11 +20,8 @@ export class MapComponent implements OnInit {
   zoom = 13;
   place: Place[] = [];
 
-
-  constructor(private placeService: PlaceServiceService) {
-
+  constructor(private placeService: PlaceService) {
   }
-
 
   ngOnInit() {
 

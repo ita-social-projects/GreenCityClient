@@ -1,0 +1,53 @@
+<div class="container" (window:resize)="onResize($event)">
+  <table class="table">
+    <thead>
+    <tr>
+      <th class="rowName" scope="col">Id</th>
+      <th class="rowName" scope="col">Category</th>
+      <th class="rowName" scope="col">Name</th>
+      <th class="rowName" scope="col">Location</th>
+      <th class="rowName" scope="col">Working times</th>
+      <th class="rowName" scope="col">Added by</th>
+      <th class="rowName" scope="col">Added on</th>
+      <th class="dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
+          {{defaultStatus}}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" (click)="changeStatus('approved')">Approved</a>
+          <a class="dropdown-item" (click)="changeStatus('proposed')">Proposed</a>
+          <a class="dropdown-item" (click)="changeStatus('declined')">Declined</a>
+        </div>
+      </th>
+      <th class="rowName" scope="col" *ngIf="defaultStatus === 'proposed'">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let place of pageElements">
+      <td class="rowValue">{{place.id}}</td>
+      <td class="rowValue">{{place.category.name}}</td>
+      <td class="rowValue">{{place.name}}</td>
+      <td *ngIf="place.location else noLocation">{{place.location.address}}</td>
+      <ng-template #noLocation>
+        <td class="rowValue">{{noData}}</td>
+      </ng-template>
+      <td class="rowValue" (click)="onOpenHoursShow()">{{convertHoursToShort(place.openingHoursList)}}</td>
+      <td class="rowValue">{{place.author.email}}</td>
+      <td class="rowValue">{{place.modifiedDate}}</td>
+      <td class="rowValue">{{place.status}}</td>
+      <td class="place-action" *ngIf="defaultStatus === 'proposed'">
+        <button (click)="updateStatus(place.id, 'APPROVED')" type="button" class="btn btn-outline-success">Approve
+        </button>
+        <button (click)="updateStatus(place.id, 'DECLINED')" type="button" class="btn btn-outline-danger">Decline
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <div id="footer" class="container">
+    <button id="prev_btn" class="btn btn-info" (click)="onPrevClick()">< Prev</button>
+    <span style="font-weight: bolder">{{pageCurrent}} / {{pageAmount}}</span>
+    <button id="next_btn" class="btn btn-info" (click)="onNextClick()">Next ></button>
+  </div>
+</div>

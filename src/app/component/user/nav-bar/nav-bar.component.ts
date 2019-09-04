@@ -10,7 +10,6 @@ import {UserService} from "../../../service/user/user.service";
 export class NavBarComponent implements OnInit {
 
   private firstName: string = null;
-
   private userRole: string;
 
   constructor(private uService: UserService, private modalService: ModalService) {
