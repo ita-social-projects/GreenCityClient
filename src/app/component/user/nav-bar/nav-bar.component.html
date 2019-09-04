@@ -15,6 +15,13 @@
     <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown">
 
+      <li class="nav-item">
+        <button (click)="openModal('custom-_modal-1')" type="button" class="btn btn-dark"
+                *ngIf="userRole === 'ROLE_ADMIN' || userRole === 'ROLE_MODERATOR' || userRole === 'ROLE_USER'">
+          Add cafe
+        </button>
+      </li>
+
         <div *ngIf="firstName!=null">
           <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
              aria-haspopup="true" aria-expanded="false">{{firstName}}</a>
@@ -28,12 +35,16 @@
 
         </div>
 
-        <a *ngIf="firstName==null" class="nav-link" routerLink="auth">Sing in</a>
+      <a *ngIf="firstName==null" class="nav-link" routerLink="auth">Sing in</a>
 
-      </li>
     </ul>
 
   </div>
 
 </nav>
+
+<!-- Modal Window-->
+<app-modal id="custom-_modal-1">
+ <app-propose-cafe></app-propose-cafe>
+</app-modal>
 

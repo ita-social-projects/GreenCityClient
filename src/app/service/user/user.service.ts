@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {mailLink} from '../../links';
 import {UserRoleModel} from '../../model/user/user-role.model';
 import {UserStatusModel} from '../../model/user/user-status.model';
 import {UserPageableDtoModel} from '../../model/user/user-pageable-dto.model';
