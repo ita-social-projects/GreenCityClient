@@ -26,7 +26,7 @@ export class PlacesComponent implements OnInit {
   private errorMsg: string;
 
   constructor(private placeService: PlaceService, private titleService: Title, private ngFlashMessageService: NgFlashMessageService) {
-    this.elementAmount = Math.floor(this.getScreenHeight() / 100);
+    this.elementAmount = Math.floor((this.getScreenHeight() - 300) / 100);
     this.onGetPlace();
   }
 
