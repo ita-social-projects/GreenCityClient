@@ -40,8 +40,9 @@ export class UsersComponent implements OnInit {
 
   updateUserStatus(id: number, userStatus: string, email: string) {
     this.userService.updateUserStatus(id, userStatus).subscribe((data) => {
-      this.successfulAction(email + ' is ' + data.userStatus)
-      this.ngOnInit();
+      this.successfulAction(email + ' is ' + data.userStatus);
+      console.log(this.page + '  sadasd')
+      this.changePage(this.page);
     });
   }
 
@@ -56,6 +57,7 @@ export class UsersComponent implements OnInit {
 
   changePage(event: any) {
     this.page = event.page;
+    console.log(this.page);
     this.getUsersByPage();
   }
 
