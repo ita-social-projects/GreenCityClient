@@ -46,7 +46,7 @@ import {ProposeCafeComponent} from "./component/user/propose-cafe/propose-cafe.c
     HttpClientModule,
     FormsModule,
     AgmCoreModule.forRoot({
-      apiKey: '',
+      apiKey: 'AIzaSyDnL6GdV-FWidi8Uh2uDjIu2uRGQtgZOYc',
       libraries: ['places']
     }),
     Ng2SearchPipeModule,

@@ -63,6 +63,7 @@ export class ProposeCafeComponent implements OnInit {
       return value.openTime !== undefined && value.closeTime !== undefined;
     });
      this.placeService.save(this.place);
+     console.log(this.place);
      alert("Successful");
   }
 

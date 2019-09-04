@@ -13,11 +13,11 @@ export class CategoryService extends BaseService {
   }
 
   save(category: CategoryDto) {
-    return this.http.post(`${this.apiUrl}/save`, category);
+    return this.http.post(`${this.apiUrl}`, category);
   }
 
   findAllCategory(): any {
-    return this.http.get<CategoryDto[]>(`http://localhost:8080/category/categories`);
+    return this.http.get<CategoryDto[]>(`http://localhost:8080/category`);
     // return this.http.get<CategoryDto[]>(`${this.apiUrl}/categories`);
   }
 
