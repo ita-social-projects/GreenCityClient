@@ -49,6 +49,7 @@ export class MapComponent implements OnInit {
     this.mapBounds.northEastLng = latLngBounds.getNorthEast().lng();
     this.mapBounds.southWestLat = latLngBounds.getSouthWest().lat();
     this.mapBounds.southWestLng = latLngBounds.getSouthWest().lng();
+    console.log(this.mapBounds );
     if (this.button === true) {
       console.log('here');
       console.log('size 1');

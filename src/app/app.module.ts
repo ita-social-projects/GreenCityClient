@@ -37,7 +37,7 @@ import {InterceptorService} from './service/interceptor.service';
     RouterModule.forRoot(router),
     HttpClientModule,
     FormsModule,
-    AgmCoreModule.forRoot({apiKey: ' '}),
+    AgmCoreModule.forRoot({ apiKey:'AIzaSyADLuRI5IThBl9qbebtDdtXokmAQIhfjXw'}),
     Ng2SearchPipeModule,
   ],
   providers: [
