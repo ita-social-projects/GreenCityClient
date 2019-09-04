@@ -4,7 +4,6 @@ import {Observable} from 'rxjs';
 import {Place} from '../../model/place/place';
 import {MapBounds} from '../../model/map/map-bounds';
 import {PlaceStatus} from '../../model/place/place-status.model';
-import {NgFlashMessageService} from 'ng-flash-messages';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -17,7 +16,6 @@ const httpOptions = {
 })
 export class PlaceService {
   private baseUrl = 'https://greencitysoftserve.herokuapp.com/place/';
-  private errorMsg: string;
 
   constructor(private http: HttpClient) {
   }
