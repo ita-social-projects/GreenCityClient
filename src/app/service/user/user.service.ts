@@ -16,7 +16,7 @@ let decodedJwtData = null;
 export class UserService {
   dto: UserStatusModel;
   roleDto: UserRoleModel;
-  apiUrl = 'http://localhost:8080/user';
+  apiUrl = 'https://greencitysoftserve.herokuapp.com/';
 
   constructor(private http: HttpClient) {
     if (token != null) {

@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 export abstract class BaseService {
-  protected apiUrl = 'http://localhost:8080/';
+  protected apiUrl = 'https://greencitysoftserve.herokuapp.com/';
   constructor(protected http: HttpClient) {}
 
   protected log(message) {
