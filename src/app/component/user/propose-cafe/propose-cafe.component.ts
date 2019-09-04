@@ -67,8 +67,6 @@ export class ProposeCafeComponent implements OnInit {
      alert("Successful");
   }
 
-
-
   trackByIdx(i: number, day: any): any {
     return i;
   }
