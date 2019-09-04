@@ -10,7 +10,7 @@
       Address must be maximum 100 characters long.
     </div>
   </div>
-  <input type="text" id="address" name="address" class="form-control" [(ngModel)]="address" (change)="ev()"
+  <input type="text" id="address" name="address" class="form-control" [(ngModel)]="location.address" (change)="ev()"
          (keydown.enter)="$event.preventDefault()" minlength="3" maxlength="100"
          autocorrect="off" autocapitalize="off" spellcheck="off"  #search #addressControl="ngModel" required placeholder="Enter address">
   <br>
