@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {Place} from '../../model/place/place';
 import {MapBounds} from '../../model/map/map-bounds';
 import {PlaceStatus} from '../../model/place/place-status.model';
-import {NgFlashMessageService} from 'ng-flash-messages';
+import {PlacePageableDto} from "../../model/place/place-pageable-dto.model";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -47,9 +47,8 @@ export class PlaceService {
     return this.http.post<Place[]>(`${this.baseUrl}getListPlaceLocationByMapsBounds/`, mapBounds);
   }
 
-  getPlacesByStatus(status: string) {
-
-    return this.http.get(`${this.baseUrl}${status}`, httpOptions);
+  getPlacesByStatus(status: string, paginationSettings: string): Observable<PlacePageableDto>{
+    return this.http.get<PlacePageableDto>(`${this.baseUrl}${status}` + paginationSettings, httpOptions);
   }
 
   updatePlaceStatus(placeStatus: PlaceStatus) {
