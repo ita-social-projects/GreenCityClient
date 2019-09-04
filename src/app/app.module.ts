@@ -22,6 +22,7 @@ import {ModalModule} from "./component/user/_modal/modal.module";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {InterceptorService} from "./service/interceptor.service";
 import {ProposeCafeComponent} from "./component/user/propose-cafe/propose-cafe.component";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 
 @NgModule({
@@ -42,11 +43,12 @@ import {ProposeCafeComponent} from "./component/user/propose-cafe/propose-cafe.c
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(router),
     HttpClientModule,
     FormsModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDnL6GdV-FWidi8Uh2uDjIu2uRGQtgZOYc',
+      apiKey: 'AIzaSyADLuRI5IThBl9qbebtDdtXokmAQIhfjXw',
       libraries: ['places']
     }),
     Ng2SearchPipeModule,
