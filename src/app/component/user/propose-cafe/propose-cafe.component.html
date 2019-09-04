@@ -1,0 +1,51 @@
+<h2 style="text-align: center; margin-bottom: 2%;">New cafe</h2>
+
+<form #saveForm="ngForm" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <div class="column">
+      <div style="margin-left: 7%; margin-right: 9%">
+        <div class="validation-error" *ngIf="nameControl.invalid && (nameControl.dirty||nameControl.touched)">
+          <div *ngIf="nameControl.errors.required">
+            Name is required.
+          </div>
+          <div *ngIf="nameControl.errors.minlength">
+            Name must be at least 3 characters long.
+          </div>
+          <div *ngIf="nameControl.errors.maxlength">
+            Name must be maximum 30 characters long.
+          </div>
+        </div>
+        <input type="text" id="name" class="form-control" [(ngModel)]="place.name" #nameControl="ngModel"
+               placeholder="Name" required
+               minlength="3" maxlength="30" name="name">
+        <br>
+        <app-selector
+          (addCategory)="showCat($event)"></app-selector>
+        <app-mappp (addLocation)="showLoc($event)"></app-mappp>
+      </div>
+    </div>
+    <div class="column" style="padding-left: 9%">
+      <h4 style="margin-left: 22%; margin-bottom: 3%">Select schedule: </h4>
+      <div id="weekDays-selector" *ngFor="let day of weekDays; let i = index; trackBy: trackByIdx">
+        <input type="checkbox" id="weekday-{{i}}" name="weekday-{{i}}" class="weekday" (click)="switch(i)"
+               [(ngModel)]="isChecked[i]"/>
+        <label for="weekday-{{i}}">{{day}}</label>
+        <label for="time-start" class="label-for-time">from: </label>
+        <input type="time" id="time-start" placeholder="HH:mm" [(ngModel)]="openingHoursList[i].openTime"
+               name="openTime-{{i}}"
+               [disabled]="!isChecked[i]"
+               [required]="isChecked[i]" #timeControl="ngModel">
+        <label for="time-end" class="label-for-time">to: </label>
+        <input id="time-end" type="time" placeholder="HH:mm" [(ngModel)]="openingHoursList[i].closeTime"
+               name="closeTime-{{i}}"
+               [disabled]="!isChecked[i]"
+               [required]="isChecked[i]" #timeControl="ngModel">
+      </div>
+    </div>
+
+  </div>
+  <div style="display:flex; justify-content:flex-end; align-items:center;">
+  <button (click)="closeModal('custom-_modal-1');" [disabled]="!saveForm.valid"
+          class="btn btn-primary submit" type="submit">Submit</button>
+  </div>
+</form>

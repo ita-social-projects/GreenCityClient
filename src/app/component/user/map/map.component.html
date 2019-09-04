@@ -28,15 +28,19 @@
         [longitude]="lng"
         [zoom]="zoom"
         (boundsChange)="boundsChange($event)">
-        <!--  [disableDefaultUI]="false"-->
-        <!--  [zoomControl]="false"-->
-        <!--  (mapClick)="mapClicked($event)"-->
-        <agm-marker
-          *ngFor="let p of place; let i = index"
-          [latitude]="p.location.lat"
-          [longitude]="p.location.lng">
-          <agm-info-window >
-            <strong>{{p.name}}</strong>
+        <agm-marker (markerClick)="showDetail(p.id)"
+                    *ngFor="let p of place; let i = index"
+                    [latitude]="p.location.lat"
+                    [longitude]="p.location.lng">
+          <agm-info-window *ngIf="placeInfo">
+            <h5>{{placeInfo.name}}</h5>
+            <h6> <li *ngFor="let obj of placeInfo.specificationValues">{{obj.specification.name}}</li></h6>
+            <p>Rate: {{placeInfo.rate}}</p>
+            <p>Comments: {{placeInfo.comments.length}}</p>
+            <p>{{placeInfo.location.address}}</p>
+            <li *ngFor="let openingHoursList of placeInfo.openingHoursList">{{openingHoursList.weekDay}}
+              :{{openingHoursList.openTime}}-{{openingHoursList.closeTime}}</li>
+            <p></p>
           </agm-info-window>
         </agm-marker>
       </agm-map>
