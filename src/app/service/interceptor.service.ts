@@ -31,21 +31,25 @@ export class InterceptorService implements HttpInterceptor {
           }
         });
       }
-      return next.handle(req).pipe(catchError(error => {
-        let refreshToken = localStorage.getItem("refreshToken");
+      return next.handle(req).pipe(catchError((error: HttpErrorResponse) => {
+        if (error.status == 403) {
 
-        if (refreshToken != null) {
-          this.http.post(updateAccessTokenLink, refreshToken).subscribe(
-            (data: AccessToken) => {
-              localStorage.setItem("accessToken", data.accessToken)
-            },
-            (error1: HttpErrorResponse) => {
-              if (error1.status == 403) {
-                window.location.href = frontAuthLink;
+          let refreshToken = localStorage.getItem("refreshToken");
+
+          if (refreshToken != null) {
+            this.http.post(updateAccessTokenLink, refreshToken).subscribe(
+              (data: AccessToken) => {
+                localStorage.setItem("accessToken", data.accessToken)
+              },
+              (error1: HttpErrorResponse) => {
+                if (error1.status == 401) {
+                  window.location.href = frontAuthLink;
+                  localStorage.clear();
+                }
+                console.log(error1);
               }
-              console.log(error1);
-            }
-          )
+            )
+          }
         }
         return throwError(error);
       }));

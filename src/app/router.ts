@@ -4,6 +4,7 @@ import {AuthComponent} from './component/user/auth/auth.component';
 import {SignInComponent} from './component/user/auth/sign-in/sign-in.component';
 import {SubmitEmailComponent} from './component/user/auth/submit-email/submit-email.component';
 import {MapComponent} from './component/user/map/map.component';
+import {ProposeCafeComponent} from "./component/user/propose-cafe/propose-cafe.component";
 
 export var router = [
   {
