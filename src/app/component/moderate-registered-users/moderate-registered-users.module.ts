@@ -7,6 +7,7 @@ import { MatSortModule } from '@angular/material/sort';
 import {CommonModule} from '@angular/common';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {AppComponent} from '../../app.component';
+import {NgFlashMessagesModule} from 'ng-flash-messages';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import {AppComponent} from '../../app.component';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    HttpClientModule
+    HttpClientModule,
+    NgFlashMessagesModule.forRoot()
   ],
   exports: [
     MatTableModule,

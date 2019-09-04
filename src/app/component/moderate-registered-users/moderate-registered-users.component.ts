@@ -1,10 +1,8 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import {Component, OnInit} from '@angular/core';
 import '@angular/material/prebuilt-themes/deeppurple-amber.css';
-import {MatPaginator} from '@angular/material';
 import {UserForListDtoModel} from '../../model/UserForListDto.model';
 import {UserService} from '../../service/user.service';
+import {NgFlashMessageService} from 'ng-flash-messages';
 
 export interface Role {
   value: string;
@@ -28,7 +26,8 @@ export class ModerateRegisteredUsersComponent implements OnInit {
   displayedColumns: string[] = ['email', 'firstName', 'lastName', 'dateOfRegistration', 'status', 'block', 'deactivate'];
 
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private ngFlashMessageService: NgFlashMessageService
   ) {
   }
 
@@ -40,8 +39,9 @@ export class ModerateRegisteredUsersComponent implements OnInit {
     return '?page=' + (this.page - 1) + '&size=' + this.pageSize;
   }
 
-  updateUserStatus(id: number, userStatus: string) {
+  updateUserStatus(id: number, userStatus: string, email: string) {
     this.userService.updateUserStatus(id, userStatus).subscribe((data) => {
+      this.successfulAction(email + ' is ' + data.userStatus)
       this.ngOnInit();
     });
   }
@@ -60,9 +60,18 @@ export class ModerateRegisteredUsersComponent implements OnInit {
     this.getUsersByPage();
   }
 
-  changeRole(id: number, role: string) {
+  changeRole(id: number, role: string, email: string) {
     this.userService.updateUserRole(id, role).subscribe((data) => {
-      this.ngOnInit();
+      this.successfulAction('Role for ' + email + ' is updated to ' + role.substr(5));
+    });
+  }
+
+  successfulAction(message: string) {
+    this.ngFlashMessageService.showFlashMessage({
+      messages: [message],
+      dismissible: true,
+      timeout: 3000,
+      type: 'success'
     });
   }
 }

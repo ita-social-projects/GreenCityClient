@@ -8,6 +8,7 @@ import {PaginationModule} from 'ngx-bootstrap';
 import {MatSelectModule, MatTableModule} from '@angular/material';
 import {ModerateRegisteredUsersComponent} from './component/moderate-registered-users/moderate-registered-users.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {NgFlashMessagesModule} from 'ng-flash-messages';
 
 
 
@@ -23,7 +24,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     NgxPaginationModule,
     PaginationModule.forRoot(),
     MatSelectModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgFlashMessagesModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

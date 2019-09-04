@@ -16,3 +16,11 @@ body {
 .selectRole {
   width: 100px;
 }
+
+#message {
+  width: auto;
+  height: 40px;
+  position: center;
+  text-align: center;
+}
+
