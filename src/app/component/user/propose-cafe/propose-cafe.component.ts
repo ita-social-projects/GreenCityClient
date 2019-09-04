@@ -1,14 +1,14 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {OpeningHours} from "../../../model/openingHours.model";
-import {PlaceAddDto} from "../../../model/placeAddDto.model";
-import {CategoryDto} from "../../../model/category.model";
-import {LocationDto} from "../../../model/locationDto.model";
-import {WeekDays} from "../../../model/weekDays.model";
-import {PlaceWithUserModel} from "../../../model/placeWithUser.model";
-import {ModalService} from "../_modal/modal.service";
-import {PlaceService} from "../../../service/place.service";
-import {CategoryService} from "../../../service/category.service";
-import {UserService} from "../../../service/user/user.service";
+import {OpeningHours} from '../../../model/openingHours.model';
+import {PlaceAddDto} from '../../../model/placeAddDto.model';
+import {CategoryDto} from '../../../model/category.model';
+import {LocationDto} from '../../../model/locationDto.model';
+import {WeekDays} from '../../../model/weekDays.model';
+import {PlaceWithUserModel} from '../../../model/placeWithUser.model';
+import {ModalService} from '../_modal/modal.service';
+import {PlaceService} from '../../../service/place.service';
+import {CategoryService} from '../../../service/category.service';
+import {UserService} from '../../../service/user/user.service';
 
 @Component({
   selector: 'app-propose-cafe',
@@ -62,9 +62,9 @@ export class ProposeCafeComponent implements OnInit {
     this.place.openingHoursList = this.place.openingHoursList.filter(value => {
       return value.openTime !== undefined && value.closeTime !== undefined;
     });
-     this.placeService.save(this.place);
-     console.log(this.place);
-     alert("Successful");
+    this.placeService.save(this.place);
+    console.log(this.place);
+    alert('Successful');
   }
 
   trackByIdx(i: number, day: any): any {

@@ -15,7 +15,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class PlaceServiceService {
+export class PlaceService {
   private baseUrl = 'https://greencitysoftserve.herokuapp.com/place/';
 
   constructor(private http: HttpClient) {
@@ -46,8 +46,8 @@ export class PlaceServiceService {
     return this.http.post<Place[]>(`${this.baseUrl}getListPlaceLocationByMapsBounds/`, mapBounds);
   }
 
-  getPlaceInfo(id: number): Observable<PlaceInfo>{
-  return this.http.get<PlaceInfo>(`${this.baseUrl}Info/${id}`)
+  getPlaceInfo(id: number): Observable<PlaceInfo> {
+    return this.http.get<PlaceInfo>(`${this.baseUrl}Info/${id}`);
   }
 
   getPlacesByStatus(status: string) {

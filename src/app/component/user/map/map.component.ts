@@ -70,17 +70,18 @@ export class MapComponent implements OnInit {
     this.button = !this.button;
   }
 
-  showDetail(p:number) {
+  showDetail(p: number) {
     this.placeService.getPlaceInfo(p).subscribe((res) => {
         this.placeInfo = res;
       }
-
     );
-    this.place = this.place.filter(r =>{return  r.id === p});
-    if(this.place.length===1 && this.button!=true){
-      this.button= !this.button;
+    this.place = this.place.filter(r => {
+      return r.id === p;
+    });
+    if (this.place.length === 1 && this.button !== true) {
+      this.button = !this.button;
     }
   }
 
-}
+
 }
