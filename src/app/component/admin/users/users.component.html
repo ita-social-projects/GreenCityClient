@@ -30,7 +30,7 @@
           <th mat-header-cell *matHeaderCellDef></th>
           <td *matCellDef="let element">
             <div class="selectRole">
-              <mat-select [(value)]="element.role" (selectionChange)="changeRole(element.id, $event.value)">
+              <mat-select [(value)]="element.role" (selectionChange)="changeRole(element.id, $event.value, element.email)">
                 <mat-option *ngFor="let role of roles" [value]="role">
                   {{role.toString().toLocaleLowerCase()}}
                 </mat-option>
@@ -44,10 +44,10 @@
           <td mat-cell *matCellDef="let element">
             <button *ngIf="element.userStatus != 'BLOCKED' && element.userStatus != 'DEACTIVATED'" mat-raised-button
                     class="btn-warning"
-                    (click)="updateUserStatus(element.id, 'BLOCKED')">Block
+                    (click)="updateUserStatus(element.id, 'BLOCKED', element.email)">Block
             </button>
             <button *ngIf="element.userStatus == 'BLOCKED'" mat-raised-button class="btn-warning"
-                    (click)="updateUserStatus(element.id, 'ACTIVATED')">Unblock
+                    (click)="updateUserStatus(element.id, 'ACTIVATED', element.email)">Unblock
             </button>
           </td>
         </ng-container>
@@ -56,10 +56,10 @@
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let element">
             <button *ngIf="element.userStatus != 'DEACTIVATED'" mat-raised-button class="btn-danger"
-                    (click)="updateUserStatus(element.id, 'DEACTIVATED')">Deactivate
+                    (click)="updateUserStatus(element.id, 'DEACTIVATED', element.email)">Deactivate
             </button>
             <button *ngIf="element.userStatus == 'DEACTIVATED'" mat-raised-button class="btn-danger"
-                    (click)="updateUserStatus(element.id, 'ACTIVATED')">Activate
+                    (click)="updateUserStatus(element.id, 'ACTIVATED', element.email)">Activate
             </button>
           </td>
         </ng-container>
@@ -84,7 +84,7 @@
           <pagination [itemsPerPage]="pageSize" [totalItems]="totalItems"
                       (pageChanged)="changePage($event)" [maxSize]="6" [rotate]="true"
                       [boundaryLinks]="true" class="flex-wrap"></pagination>
-        </div>pagination
+        </div>
         Items per page:
         <mat-select [(value)]="pageSize" (valueChange)="changePage(page)" style="width: 50px;margin-left: 15px">
           <mat-option [value]="2">2</mat-option>

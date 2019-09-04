@@ -3,6 +3,7 @@ import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 import {UserForListDtoModel} from '../../../model/user/user-for-list-dto.model';
 import {UserService} from '../../../service/user/user.service';
 import {Title} from '@angular/platform-browser';
+import {NgFlashMessageService} from 'ng-flash-messages';
 
 export interface Role {
   value: string;
@@ -26,20 +27,20 @@ export class UsersComponent implements OnInit {
   displayedColumns: string[] = ['email', 'firstName', 'lastName', 'dateOfRegistration', 'status', 'block', 'deactivate'];
 
   constructor(
-    private userService: UserService, private titleService: Title) {
+    private userService: UserService, private titleService: Title, private ngFlashMessageService: NgFlashMessageService) {
   }
 
   ngOnInit() {
     this.getUsersByPage();
-    this.titleService.setTitle('Admin - Users');
   }
 
   getCurrentPaginationSettings(): string {
     return '?page=' + (this.page - 1) + '&size=' + this.pageSize;
   }
 
-  updateUserStatus(id: number, userStatus: string) {
+  updateUserStatus(id: number, userStatus: string, email: string) {
     this.userService.updateUserStatus(id, userStatus).subscribe((data) => {
+      this.successfulAction(email + ' is ' + data.userStatus)
       this.ngOnInit();
     });
   }
@@ -58,9 +59,18 @@ export class UsersComponent implements OnInit {
     this.getUsersByPage();
   }
 
-  changeRole(id: number, role: string) {
+  changeRole(id: number, role: string, email: string) {
     this.userService.updateUserRole(id, role).subscribe((data) => {
-      this.ngOnInit();
+      this.successfulAction('Role for ' + email + ' is updated to ' + role.substr(5));
+    });
+  }
+
+  successfulAction(message: string) {
+    this.ngFlashMessageService.showFlashMessage({
+      messages: [message],
+      dismissible: true,
+      timeout: 3000,
+      type: 'success'
     });
   }
 }
