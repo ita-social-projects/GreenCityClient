@@ -16,8 +16,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class PlaceService {
-  //private baseUrl = 'https://greencitysoftserve.herokuapp.com/place/';
-  protected baseUrl = 'http://localhost:8080/place/';
+  private baseUrl = 'https://greencitysoftserve.herokuapp.com/place/';
 
   constructor(private http: HttpClient) {
   }

@@ -10,7 +10,7 @@ import {log} from 'util';
   providedIn: 'root'
 })
 export class FavoritePlaceService {
-  private baseUrl = 'http://localhost:8080/favorite_place/';
+  private baseUrl = 'https://greencitysoftserve.herokuapp.com/place/';
   private fp: FavoritePlace;
 
   constructor(private http: HttpClient) {
