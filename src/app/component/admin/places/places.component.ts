@@ -13,46 +13,35 @@ import {PlaceService} from '../../../service/place/place.service';
 
 export class PlacesComponent implements OnInit {
 
-  viewHeight: number;
-
-  defaultStatus = 'proposed';
-  noData = '...';
   places: AdminPlace[];
-  pageElements: AdminPlace[];
-  elementAmount = 9;
-  pageCurrent = 1;
-  pageAmount = 1;
-  currentLastElement = 0;
+  pageSize = 5;
+  page = 1;
+  totalItems: number;
   private errorMsg: string;
 
-  constructor(private placeService: PlaceService, private titleService: Title, private ngFlashMessageService: NgFlashMessageService) {
-    this.elementAmount = Math.floor((this.getScreenHeight() - 300) / 100);
-    this.onGetPlace();
+  displayedColumns: string[] = ['ID', 'Category', 'Name', 'Location', 'Working hours', 'Added By', 'Added On', 'Status', 'Action'];
+
+  defaultStatus = 'proposed';
+
+  constructor(
+    private placeService: PlaceService, private titleService: Title, private ngFlashMessageService: NgFlashMessageService) {
   }
 
   ngOnInit() {
     this.titleService.setTitle('Admin - Places');
+    this.onGetPlaces();
   }
 
-  getScreenHeight() {
-    return window.innerHeight;
+  getCurrentPaginationSettings(): string {
+    return '?page=' + (this.page - 1) + '&size=' + this.pageSize;
   }
 
-  onGetPlace() {
-    this.placeService.getPlacesByStatus(this.defaultStatus)
-      .subscribe(
-        places => {
-          this.places = places as AdminPlace[];
-          console.log('whole places' + this.places.length);
-          this.pageAmount = Math.ceil(this.places.length / this.elementAmount);
-          if (this.places.length > this.elementAmount) {
-            this.pageElements = (this.places.slice(0, this.elementAmount));
-            this.currentLastElement = Math.round(this.elementAmount);
-            console.log('first elements ' + this.currentLastElement);
-          } else {
-            this.pageElements = this.places;
-          }
-        });
+  onGetPlaces() {
+    this.placeService.getPlacesByStatus(this.defaultStatus, this.getCurrentPaginationSettings()).subscribe(res => {
+      this.places = res.page;
+      this.page = res.currentPage;
+      this.totalItems = res.totalElements;
+    });
   }
 
   onStatusClick() {
@@ -61,36 +50,13 @@ export class PlacesComponent implements OnInit {
 
   changeStatus(status: string) {
     this.defaultStatus = status;
-    this.pageElements = null;
     this.places = null;
-    this.onGetPlace();
+    this.onGetPlaces();
     console.log(this.defaultStatus);
   }
 
   onOpenHoursShow() {
     document.getElementById('openHoursMenu').classList.toggle('show');
-  }
-
-  onNextClick() {
-    if (this.pageCurrent < this.pageAmount) {
-      this.pageCurrent++;
-      let fromElement = this.currentLastElement;
-      let toElement = this.currentLastElement + this.elementAmount;
-      this.pageElements = (this.places.slice(fromElement, toElement));
-      this.currentLastElement = this.currentLastElement + this.pageElements.length;
-      console.log('next elements ' + this.currentLastElement);
-    }
-  }
-
-  onPrevClick() {
-    if (this.pageCurrent > 1) {
-      this.pageCurrent--;
-      let toElement = this.currentLastElement - this.pageElements.length;
-      let fromElement = toElement - this.elementAmount;
-      this.currentLastElement = toElement;
-      this.pageElements = (this.places.slice(fromElement, toElement));
-      console.log('next elements ' + this.currentLastElement);
-    }
   }
 
   convertHoursToShort(openHours: OpenHours[]): any {
@@ -116,14 +82,9 @@ export class PlacesComponent implements OnInit {
     return result + firstDay + lastDay + ' ' + prevHours + '\n';
   }
 
-  onResize(event) {
-    this.elementAmount = Math.round(event.target.innerHeight / 100);
-    this.pageAmount = Math.round(this.places.length / this.elementAmount);
-    if (this.places.length > this.elementAmount) {
-      this.pageElements = (this.places.slice(0, this.elementAmount));
-      this.pageCurrent = 1;
-    }
-    console.log(this.elementAmount);
+  changePage(event: any) {
+    this.page = event.page;
+    this.onGetPlaces();
   }
 
   updateStatus(placeId: number, placeStatus: string) {
@@ -141,7 +102,7 @@ export class PlacesComponent implements OnInit {
           type: 'success'
         });
         console.log(placeStatus === 'APPROVED' ? 'Approved' : 'Declined');
-        this.onGetPlace();
+        this.onGetPlaces();
       },
       error => {
         this.errorMsg = 'Error. Item was not ';

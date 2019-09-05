@@ -1,78 +1,23 @@
-/* Dropdown Button */
-.dropdownStatus {
-  text-align: center;
-  vertical-align:middle;
-  position: center;
-  border: none;
-  cursor: pointer;
-  padding: 12px 16px;
-}
-
-/* Dropdown button on hover & focus */
-.dropdownStatus:hover,
-.dropdownStatus:focus {
-  background-color: #dad6db;
-}
-
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-/* Links inside the dropdown */
-.dropdown-content a {
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #ddd}
-
-.rowName {
-  text-align: center;
-  vertical-align:middle;
-  padding: 12px 16px;
-}
-
-.rowValue {
-  text-align: center;
-  vertical-align:middle;
-  height: 86px;
-}
-#footer {
-  display: flex;
-  justify-content: space-between;
-  position: fixed;
-  bottom: 40px;
-}
-
-.table {
+table {
   width: 100%;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5);
 }
 
-.place-action {
-  display: flex;
-}
-
-.place-action button {
-  margin: 1px;
-}
-
-a {
-  cursor: pointer;
+body {
+  font-family: Roboto, Arial, sans-serif;
+  margin: 0;
 }
 
 .nav-link {
-  color: black;
+  color: gray;
 }
 
-td, th {
+.btn {
+  margin: 3px;
+}
+
+#message {
+  width: auto;
+  height: auto;
+  position: center;
   text-align: center;
 }

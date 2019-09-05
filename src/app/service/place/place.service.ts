@@ -5,12 +5,7 @@ import {Place} from '../../model/place/place';
 import {MapBounds} from '../../model/map/map-bounds';
 import {PlaceInfo} from '../../model/place/place-info';
 import {PlaceStatus} from '../../model/place/place-status.model';
-
-const httpOptions = {
-  headers: new HttpHeaders({
-    Authorization: 'Bearer ' + localStorage.getItem('accessToken')
-  })
-};
+import {PlacePageableDto} from '../../model/place/place-pageable-dto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -46,16 +41,15 @@ export class PlaceService {
     return this.http.post<Place[]>(`${this.baseUrl}getListPlaceLocationByMapsBounds/`, mapBounds);
   }
 
+  getPlacesByStatus(status: string, paginationSettings: string): Observable<PlacePageableDto> {
+    return this.http.get<PlacePageableDto>(`${this.baseUrl}${status}` + paginationSettings);
+  }
+
   getPlaceInfo(id: number): Observable<PlaceInfo>{
   return this.http.get<PlaceInfo>(`${this.baseUrl}Info/${id}`)
   }
 
-  getPlacesByStatus(status: string) {
-
-    return this.http.get(`${this.baseUrl}${status}`, httpOptions);
-  }
-
   updatePlaceStatus(placeStatus: PlaceStatus) {
-    return this.http.patch<PlaceStatus>(`${this.baseUrl}status/`, placeStatus, httpOptions);
+    return this.http.patch<PlaceStatus>(`${this.baseUrl}status/`, placeStatus);
   }
 }
