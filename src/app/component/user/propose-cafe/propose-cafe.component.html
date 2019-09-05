@@ -19,9 +19,63 @@
                placeholder="Name" required
                minlength="3" maxlength="30" name="name">
         <br>
-        <app-selector
-          (addCategory)="showCat($event)"></app-selector>
-        <app-mappp (addLocation)="showLoc($event)"></app-mappp>
+
+        <div class="validation-error" *ngIf="categoryControl.invalid && (categoryControl.dirty||categoryControl.touched)">
+          <div *ngIf="categoryControl.errors.required">
+            Category is required.
+          </div>
+          <div *ngIf="categoryControl.errors.minlength">
+            Category must be at least 3 characters long.
+          </div>
+          <div *ngIf="categoryControl.errors.maxlength">
+            Category must be maximum 30 characters long.
+          </div>
+        </div>
+        <ng-select
+          [items]="categories"
+          bindLabel="name"
+          bindValue="name"
+          id="category"
+          [addTag]=addTypeCategory
+          maxlength="30"
+          [multiple]="false"
+          placeholder="Select category or add new"
+          [(ngModel)]="selectedType"
+          #categoryControl="ngModel"
+          required>
+        </ng-select>
+        <br>
+<!--        <app-mappp ngModelGroup="map" (addLocation)="showLoc($event)"></app-mappp>-->
+
+        <!-- Map -->
+        <div style="margin-bottom: 20px">
+          <div class="validation-error" *ngIf="addressControl.invalid && (addressControl.dirty||addressControl.touched)">
+            <div *ngIf="addressControl.errors.required">
+              Address is required.
+            </div>
+            <div *ngIf="addressControl.errors.minlength">
+              Address must be at least 3 characters long.
+            </div>
+            <div *ngIf="addressControl.errors.maxlength">
+              Address must be maximum 100 characters long.
+            </div>
+          </div>
+          <input type="text" id="address" name="address" class="form-control" [(ngModel)]="location.address"
+                 (keydown.enter)="$event.preventDefault()" minlength="3" maxlength="100"
+                 autocorrect="off" autocapitalize="off" spellcheck="off"  #search #addressControl="ngModel" required placeholder="Enter address">
+          <br>
+
+          <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" >
+            <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
+                        (dragEnd)="markerDragEnd($event)"></agm-marker>
+          </agm-map>
+
+          <div>
+            <div>Address: {{address}}</div>
+            <div>Latitude: {{latitude}}</div>
+            <div>Longitude: {{longitude}}</div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="column" style="padding-left: 9%">

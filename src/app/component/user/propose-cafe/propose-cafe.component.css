@@ -1,3 +1,4 @@
+@import "~@ng-select/ng-select/themes/default.theme.css";
 
 #weekDays-selector input[type=checkbox] {
   display: none!important;
@@ -50,3 +51,10 @@
 .error, .validation-error {
   color: red;
 }
+
+agm-map {
+  height: 350px;
+  width: 585px;
+}
+
+
