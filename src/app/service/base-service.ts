@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 
 export abstract class BaseService {
   protected apiUrl = 'https://greencitysoftserve.herokuapp.com/';
+
   constructor(protected http: HttpClient) {}
 
   protected log(message) {

@@ -1,5 +1,6 @@
 //back-end
 export const mainLink = "https://greencitysoftserve.herokuapp.com/";
+
 export const userOwnSecurityLink = mainLink + "ownSecurity/";
 export const userOwnSignUpLink = userOwnSecurityLink + "signUp/";
 export const userOwnSignInLink = userOwnSecurityLink + "signIn/";

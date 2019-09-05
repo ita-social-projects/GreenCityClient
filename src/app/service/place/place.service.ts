@@ -41,14 +41,17 @@ export class PlaceService {
     return this.http.post<Place[]>(`${this.baseUrl}getListPlaceLocationByMapsBounds/`, mapBounds);
   }
 
+  getPlaceInfo(id: number): Observable<PlaceInfo> {
+    return this.http.get<PlaceInfo>(`${this.baseUrl}Info/${id}`);
+  }
+
+  getFavoritePlaceInfo(id: number): Observable<PlaceInfo> {
+    return this.http.get<PlaceInfo>(`${this.baseUrl}info/favorite/${id}`);
+  }
+
   getPlacesByStatus(status: string, paginationSettings: string): Observable<PlacePageableDto> {
     return this.http.get<PlacePageableDto>(`${this.baseUrl}${status}` + paginationSettings);
   }
-
-  getPlaceInfo(id: number): Observable<PlaceInfo>{
-  return this.http.get<PlaceInfo>(`${this.baseUrl}Info/${id}`)
-  }
-
   updatePlaceStatus(placeStatus: PlaceStatus) {
     return this.http.patch<PlaceStatus>(`${this.baseUrl}status/`, placeStatus);
   }
