@@ -9,7 +9,7 @@ import {
 } from "@angular/common/http";
 import {Observable, throwError} from "rxjs";
 import {frontAuthLink, updateAccessTokenLink} from "../links";
-import {catchError} from "rxjs/operators";
+import {catchError, delay, map, switchMap} from "rxjs/operators";
 import {AccessToken} from "../model/access-token";
 import {JwtService} from "./jwt.service";
 
@@ -39,24 +39,15 @@ export class InterceptorService implements HttpInterceptor {
             if (this.jwtService.isTokenValid(refreshToken)) {
               console.log("refresh token is valid");
 
-              this.http.post(updateAccessTokenLink, refreshToken).subscribe(
-                (data: AccessToken) => {
+              return this.getNewAccessToken(refreshToken).pipe(
+                switchMap((data: AccessToken) => {
+                  console.log(data);
                   this.jwtService.saveAccessToken(data.accessToken);
-                  this.addAccessTokenToHeader(req, data.accessToken);
-                  console.log("access token is updated");
+                  req = this.addAccessTokenToHeader(req, data.accessToken);
+                  console.log(req);
                   return next.handle(req);
-                },
-                (error: HttpErrorResponse) => {
-                  if (error.status == 401) {
-                    localStorage.clear();
-                    console.log("back-end: bad refresh token");
-                    window.location.href = frontAuthLink;
-                  }
-                  console.log(error);
-                }
+                })
               );
-              console.log("return");
-              ///////////////////////////////////////////
             } else {
               localStorage.clear();
               console.log("front: bad refresh token");
@@ -72,7 +63,11 @@ export class InterceptorService implements HttpInterceptor {
     }
   }
 
-  private addAccessTokenToHeader(req: HttpRequest<any>, accessToken) {
+  private getNewAccessToken(refreshToken): Observable<any> {
+    return this.http.post(updateAccessTokenLink, refreshToken);
+  }
+
+  private addAccessTokenToHeader(req: HttpRequest<any>, accessToken: string) {
     req = req.clone({
         setHeaders: {
           Authorization: `Bearer ${accessToken}`

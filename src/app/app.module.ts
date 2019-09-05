@@ -23,7 +23,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ProposeCafeComponent} from './component/user/propose-cafe/propose-cafe.component';
 import {InterceptorService} from './service/interceptor.service';
 import {AdminModule} from './component/admin/admin.module';
-import { NgFlashMessagesModule } from 'ng-flash-messages';
+import {NgFlashMessagesModule} from 'ng-flash-messages';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
