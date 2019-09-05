@@ -46,8 +46,8 @@ export class PlaceService {
     return this.http.post<Place[]>(`${this.baseUrl}getListPlaceLocationByMapsBounds/`, mapBounds);
   }
 
-  getPlaceInfo(id: number): Observable<PlaceInfo> {
-    return this.http.get<PlaceInfo>(`${this.baseUrl}Info/${id}`);
+  getPlaceInfo(id: number): Observable<PlaceInfo>{
+  return this.http.get<PlaceInfo>(`${this.baseUrl}Info/${id}`)
   }
 
   getPlacesByStatus(status: string) {

@@ -1,9 +1,8 @@
 import {Component, OnInit, ViewChild, ElementRef, NgZone, Output, EventEmitter} from '@angular/core';
-import {LocationDto} from '../../../../model/locationDto.model';
-import {MapsAPILoader, MouseEvent} from '@agm/core';
+import {LocationDto} from "../../../../model/locationDto.model";
+import {MapsAPILoader, MouseEvent} from "@agm/core";
 
 declare const google: any;
-
 @Component({
   selector: 'app-mappp',
   templateUrl: './map-modal.component.html',
@@ -58,7 +57,7 @@ export class MapModalComponent implements OnInit {
 
           //  set latitude, longitude and zoom
           this.location.lat = this.latitude = place.geometry.location.lat();
-          this.location.lng = this.longitude = place.geometry.location.lng();
+          this.location.lng = this.longitude= place.geometry.location.lng();
           this.zoom = 12;
         });
       });
