@@ -25,6 +25,9 @@ import {InterceptorService} from './service/interceptor.service';
 import {AdminModule} from './component/admin/admin.module';
 import {NgFlashMessagesModule} from 'ng-flash-messages';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {FvPlaceModule} from './component/user/favorite-place/fvplace.module';
+import {FavoritePlaceModalComponent, FvPlaceTableComponent} from './component/user/favorite-place/fvplace-table';
+import {MatTableModule} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -40,7 +43,10 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     MapComponent,
     SelectorComponent,
     ProposeCafeComponent,
-    MapModalComponent
+    MapModalComponent,
+    FvPlaceTableComponent,
+    FavoritePlaceModalComponent
+
   ],
   imports: [
     BrowserModule,
@@ -56,7 +62,9 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     AdminModule,
     NgFlashMessagesModule.forRoot(),
     NgSelectModule,
-    ModalModule
+    ModalModule,
+    MatTableModule,
+    //FvPlaceModule
   ],
   providers: [
     {

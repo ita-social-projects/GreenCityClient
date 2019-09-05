@@ -15,7 +15,9 @@
     <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown">
 
+
       <li class="nav-item">
+      <app-dialog-favorite-place></app-dialog-favorite-place>
         <button (click)="openModal('custom-_modal-1')" type="button" class="btn btn-dark"
                 *ngIf="userRole === 'ROLE_ADMIN' || userRole === 'ROLE_MODERATOR' || userRole === 'ROLE_USER'">
           Add cafe

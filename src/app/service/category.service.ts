@@ -16,7 +16,9 @@ export class CategoryService extends BaseService {
   }
 
   findAllCategory(): any {
-    return this.http.get<CategoryDto[]>(`https://greencitysoftserve.herokuapp.com/category`);
+    // return this.http.get<CategoryDto[]>(`https://greencitysoftserve.herokuapp.com/category`);
+    return this.http.get<CategoryDto[]>(`http://localhost:8080/`);
+
     // return this.http.get<CategoryDto[]>(`${this.apiUrl}/categories`);
   }
 

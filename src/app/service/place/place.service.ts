@@ -16,7 +16,8 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class PlaceService {
-  private baseUrl = 'https://greencitysoftserve.herokuapp.com/place/';
+  //private baseUrl = 'https://greencitysoftserve.herokuapp.com/place/';
+  protected baseUrl = 'http://localhost:8080/place/';
 
   constructor(private http: HttpClient) {
   }
@@ -47,7 +48,10 @@ export class PlaceService {
   }
 
   getPlaceInfo(id: number): Observable<PlaceInfo>{
-  return this.http.get<PlaceInfo>(`${this.baseUrl}Info/${id}`)
+  return this.http.get<PlaceInfo>(`${this.baseUrl}Info/${id}`);
+  }
+  getFavoritePlaceInfo(id: number): Observable<PlaceInfo> {
+    return this.http.get<PlaceInfo>(`${this.baseUrl}info/favorite/${id}`);
   }
 
   getPlacesByStatus(status: string) {
