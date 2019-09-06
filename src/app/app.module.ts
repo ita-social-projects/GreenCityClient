@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {RouterModule} from '@angular/router';
 import {router} from './router';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AgmCoreModule} from '@agm/core';
 import {MapComponent} from './component/user/map/map.component';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
@@ -47,7 +47,8 @@ import {ProposeCafeComponent} from "./component/user/propose-cafe/propose-cafe.c
     }),
     Ng2SearchPipeModule,
     NgSelectModule,
-    ModalModule
+    ModalModule,
+    ReactiveFormsModule
   ],
   providers: [
     {

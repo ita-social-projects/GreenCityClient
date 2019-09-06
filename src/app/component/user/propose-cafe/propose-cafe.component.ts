@@ -9,7 +9,7 @@ import {ModalService} from "../_modal/modal.service";
 import {PlaceService} from "../../../service/place.service";
 import {CategoryService} from "../../../service/category.service";
 import {UserService} from "../../../service/user/user.service";
-import {NgForm, NgModel, NgModelGroup} from "@angular/forms";
+import {FormArray, FormBuilder, FormGroup, NgForm, NgModel, NgModelGroup} from "@angular/forms";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {MapsAPILoader, MouseEvent} from "@agm/core";
 
@@ -36,12 +36,13 @@ export class ProposeCafeComponent implements OnInit {
   address: string;
   private geoCoder;
   submitButtonEnabled: boolean;
+  public myForm: FormGroup;
+
 
   @Output() newPlaceEvent = new EventEmitter<PlaceWithUserModel>();
   @ViewChild('saveForm',  {static: true}) private saveForm: NgForm;
-  // @ViewChild('selectedType',  {static: false}) ngSelectComponent: NgModel;
   @ViewChild(NgSelectComponent, {static: true}) ngSelectComponent: NgSelectComponent;
-
+  @ViewChild('weekDays-selector', {static: true}) week: any;
   @ViewChild('search', {static: true})
   public searchElementRef: ElementRef;
 
@@ -50,7 +51,7 @@ export class ProposeCafeComponent implements OnInit {
   isChecked: boolean[] = [false, false, false, false, false, false, false];
 
   constructor(private modalService: ModalService, private placeService: PlaceService, private categoryService: CategoryService,
-              private uService: UserService,  private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
+              private uService: UserService,  private mapsAPILoader: MapsAPILoader, private ngZone: NgZone, private _fb: FormBuilder) {
     this.placeService = placeService;
     this.submitButtonEnabled = true;
   }
@@ -95,6 +96,12 @@ export class ProposeCafeComponent implements OnInit {
     });
   }
 
+  //
+  // add() {
+  //   // this.openingHours = new OpeningHours();
+  //   this.openingHoursList.push({this.openingHours});
+  // }
+
   switch(i: number) {
     this.isChecked[i] = !this.isChecked[i];
   }
@@ -104,10 +111,20 @@ export class ProposeCafeComponent implements OnInit {
     this.place.openingHoursList = this.place.openingHoursList.filter(value => {
       return value.openTime !== undefined && value.closeTime !== undefined;
     });
-     this.placeService.save(this.place);
+     this.placeService.save(this.place)
      console.log(this.place);
+     //TODO
      alert("Successful");
   }
+
+  // successfulAction(message: string) {
+  //   this.ngFlashMessageService.showFlashMessage({
+  //     messages: [message],
+  //     dismissible: true,
+  //     timeout: 3000,
+  //     type: 'success'
+  //   });
+  // }
 
   trackByIdx(i: number, day: any): any {
     return i;
