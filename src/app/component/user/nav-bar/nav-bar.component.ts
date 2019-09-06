@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ModalService} from "../_modal/modal.service";
+import {UserService} from "../../../service/user/user.service";
 
 @Component({
   selector: 'app-nav-bar',
@@ -7,9 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavBarComponent implements OnInit {
 
-  constructor() { }
+  private firstName: string = null;
+  private userRole: string;
+
+  constructor(private uService: UserService, private modalService: ModalService) {
+  }
 
   ngOnInit() {
+    this.firstName = window.localStorage.getItem("firstName");
+    this.userRole = this.uService.getUserRole();
+  }
+
+  private signOut() {
+    localStorage.clear();
+    window.location.href = "/";
+  }
+
+  openModal(id: string) {
+    this.modalService.open(id);
   }
 
 }

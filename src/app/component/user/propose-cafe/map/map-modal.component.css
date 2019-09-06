@@ -1,0 +1,8 @@
+agm-map {
+  height: 350px;
+  width: 585px;
+}
+
+.error, .validation-error {
+  color: red;
+}

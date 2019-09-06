@@ -1,0 +1,26 @@
+table {
+  width: 100%;
+}
+
+body {
+  font-family: Roboto, Arial, sans-serif;
+  margin: 0;
+}
+
+.nav-link {
+  color: gray;
+}
+
+.btn {
+  margin: 3px;
+}
+.actions{
+  display: flex;
+}
+
+#message {
+  width: auto;
+  height: auto;
+  position: center;
+  text-align: center;
+}
