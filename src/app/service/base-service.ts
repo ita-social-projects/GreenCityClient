@@ -1,11 +1,9 @@
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-
-import { environment } from '../../environments/environment';
+import {HttpClient} from '@angular/common/http';
+import {Observable, of} from 'rxjs';
 
 export abstract class BaseService {
-  protected apiUrl = 'https://greencitysoftserve.herokuapp.com/';
-  constructor(protected http: HttpClient) {}
+  constructor(protected http: HttpClient) {
+  }
 
   protected log(message) {
     console.log(message);

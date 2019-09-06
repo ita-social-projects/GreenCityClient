@@ -5,6 +5,5 @@ import {HttpClient} from '@angular/common/http';
   providedIn: 'root'
 })
 export class BaseService {
-  protected apiUrl = 'https://greencitysoftserve.herokuapp.com/';
   constructor(protected http: HttpClient) {}
 }

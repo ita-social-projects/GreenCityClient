@@ -58,7 +58,7 @@
       <ng-container matColumnDef="Action">
         <th mat-header-cell *matHeaderCellDef> Action</th>
         <td mat-cell *matCellDef="let element">
-          <div *ngIf="defaultStatus === 'proposed'">
+          <div class="actions" *ngIf="defaultStatus === 'proposed'">
             <button (click)="updateStatus(element.id, 'APPROVED')" type="button" class="btn btn-outline-success">
               Approve
             </button>

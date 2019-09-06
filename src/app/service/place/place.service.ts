@@ -6,12 +6,12 @@ import {MapBounds} from '../../model/map/map-bounds';
 import {PlaceInfo} from '../../model/place/place-info';
 import {PlaceStatus} from '../../model/place/place-status.model';
 import {PlacePageableDto} from '../../model/place/place-pageable-dto.model';
+import {placeLink} from "../../links";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlaceService {
-  private baseUrl = 'https://greencitysoftserve.herokuapp.com/place/';
 
   constructor(private http: HttpClient) {
   }
@@ -38,18 +38,18 @@ export class PlaceService {
   }
 
   getListPlaceByMapsBoundsDto(mapBounds: MapBounds): Observable<Place[]> {
-    return this.http.post<Place[]>(`${this.baseUrl}getListPlaceLocationByMapsBounds/`, mapBounds);
+    return this.http.post<Place[]>(`${placeLink}getListPlaceLocationByMapsBounds/`, mapBounds);
   }
 
   getPlacesByStatus(status: string, paginationSettings: string): Observable<PlacePageableDto> {
-    return this.http.get<PlacePageableDto>(`${this.baseUrl}${status}` + paginationSettings);
+    return this.http.get<PlacePageableDto>(`${placeLink}${status}` + paginationSettings);
   }
 
-  getPlaceInfo(id: number): Observable<PlaceInfo>{
-  return this.http.get<PlaceInfo>(`${this.baseUrl}Info/${id}`)
+  getPlaceInfo(id: number): Observable<PlaceInfo> {
+    return this.http.get<PlaceInfo>(`${placeLink}Info/${id}`)
   }
 
   updatePlaceStatus(placeStatus: PlaceStatus) {
-    return this.http.patch<PlaceStatus>(`${this.baseUrl}status/`, placeStatus);
+    return this.http.patch<PlaceStatus>(`${placeLink}status/`, placeStatus);
   }
 }
