@@ -7,6 +7,11 @@ body {
   margin: 0;
 }
 
+th,td {
+  padding-left: 10px;
+  padding-right: 5px;
+}
+
 .nav-link {
   color: gray;
 }
@@ -20,4 +25,17 @@ body {
   height: auto;
   position: center;
   text-align: center;
+}
+
+.action {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.action button {
+  width: 85px;
+}
+
+.table-responsive {
+  padding: 13px;
 }
