@@ -6,12 +6,13 @@ import {MapBounds} from '../../model/map/map-bounds';
 import {PlaceInfo} from '../../model/place/place-info';
 import {PlaceStatus} from '../../model/place/place-status.model';
 import {PlacePageableDto} from '../../model/place/place-pageable-dto.model';
+import {mainLink} from '../../links';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlaceService {
-  private baseUrl = 'https://greencitysoftserve.herokuapp.com/place/';
+  private baseUrl = `${mainLink}place/`;
 
   constructor(private http: HttpClient) {
   }

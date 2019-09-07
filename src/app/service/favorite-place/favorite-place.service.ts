@@ -5,12 +5,13 @@ import {Place} from '../../model/place/place';
 import {MapBounds} from '../../model/map/map-bounds';
 import {FavoritePlace} from '../../model/favorite-place/favorite-place';
 import {log} from 'util';
+import {mainLink} from '../../links';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FavoritePlaceService {
-  private baseUrl = 'https://greencitysoftserve.herokuapp.com/place/';
+  private baseUrl = `${mainLink}place`;
   private fp: FavoritePlace;
 
   constructor(private http: HttpClient) {
