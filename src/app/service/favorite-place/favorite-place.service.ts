@@ -11,7 +11,7 @@ import {mainLink} from '../../links';
   providedIn: 'root'
 })
 export class FavoritePlaceService {
-  private baseUrl = `${mainLink}place`;
+  private baseUrl = `${mainLink}place/`;
   private fp: FavoritePlace;
 
   constructor(private http: HttpClient) {
