@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {PlaceAddDto} from '../model/placeAddDto.model';
 import {Observable} from "rxjs";
-import {PlaceWithUserModel} from "../model/placeWithUser.model";
+
 
 @Injectable({providedIn: 'root'})
 export class PlaceService extends BaseService {
@@ -14,9 +14,8 @@ export class PlaceService extends BaseService {
   }
 
   save(place: PlaceAddDto) {
-    console.log(place);
-    this.http.post(`${this.apiUrl}/propose`, place)
-      .subscribe(res => console.log('Done'));
+    console.log("save service");
+    this.http.post(`${this.apiUrl}/propose`, place);
   }
 
 }

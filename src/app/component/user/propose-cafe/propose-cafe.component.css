@@ -57,4 +57,10 @@ agm-map {
   width: 585px;
 }
 
+#message {
+  width: auto;
+  height: auto;
+  position: center;
+  text-align: center;
+}
 

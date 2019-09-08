@@ -40,8 +40,9 @@
           maxlength="30"
           [multiple]="false"
           placeholder="Select category or add new"
-          [(ngModel)]="selectedType"
-          #categoryControl="ngModel"
+          [(ngModel)]="category.name"
+                  [ngModelOptions]="{standalone: true}"
+        #categoryControl="ngModel"
           required>
         </ng-select>
         <br>
@@ -93,13 +94,13 @@
                name="closeTime-{{i}}"
                [disabled]="!isChecked[i]"
                [required]="isChecked[i]">
+        <button (click)="add(saveForm)" type="button"> + </button>
       </div>
     </div>
 
   </div>
   <div style="display:flex; justify-content:flex-end; align-items:center;">
-  <button (click)="closeModal('custom-_modal-1');" [disabled]="!saveForm.valid"
-          class="btn btn-primary submit" type="submit" style="margin-right: 1%">Submit</button>
+  <button  [disabled]="!saveForm.valid" class="btn btn-primary submit" type="submit" style="margin-right: 1%">Submit</button>
     <button (click)="closeModal('custom-_modal-1');" class="btn btn-primary" type="button">Close</button>
   </div>
 </form>

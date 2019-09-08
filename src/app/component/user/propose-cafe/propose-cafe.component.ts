@@ -9,9 +9,10 @@ import {ModalService} from "../_modal/modal.service";
 import {PlaceService} from "../../../service/place.service";
 import {CategoryService} from "../../../service/category.service";
 import {UserService} from "../../../service/user/user.service";
-import {FormArray, FormBuilder, FormGroup, NgForm, NgModel, NgModelGroup} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, NgForm, NgModel, NgModelGroup} from "@angular/forms";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {MapsAPILoader, MouseEvent} from "@agm/core";
+import {NgFlashMessageService, NgFlashMessagesModule} from "ng-flash-messages";
 
 @Component({
   selector: 'app-propose-cafe',
@@ -27,7 +28,6 @@ export class ProposeCafeComponent implements OnInit {
   openingHours: OpeningHours;
   categories: any;
   category: CategoryDto = new CategoryDto();
-  selectedType: string;
   string: null;
   title = 'AGM project';
   latitude: number;
@@ -36,13 +36,11 @@ export class ProposeCafeComponent implements OnInit {
   address: string;
   private geoCoder;
   submitButtonEnabled: boolean;
-  public myForm: FormGroup;
-
 
   @Output() newPlaceEvent = new EventEmitter<PlaceWithUserModel>();
   @ViewChild('saveForm',  {static: true}) private saveForm: NgForm;
+  @ViewChild('weekDays-selector',  {static: true}) private weekdaySelect: NgModel;
   @ViewChild(NgSelectComponent, {static: true}) ngSelectComponent: NgSelectComponent;
-  @ViewChild('weekDays-selector', {static: true}) week: any;
   @ViewChild('search', {static: true})
   public searchElementRef: ElementRef;
 
@@ -51,8 +49,9 @@ export class ProposeCafeComponent implements OnInit {
   isChecked: boolean[] = [false, false, false, false, false, false, false];
 
   constructor(private modalService: ModalService, private placeService: PlaceService, private categoryService: CategoryService,
-              private uService: UserService,  private mapsAPILoader: MapsAPILoader, private ngZone: NgZone, private _fb: FormBuilder) {
-    this.placeService = placeService;
+              private uService: UserService,  private mapsAPILoader: MapsAPILoader, private ngZone: NgZone, private _fb: FormBuilder,
+              private ngFlashMessageService: NgFlashMessageService) {
+    // this.placeService = placeService;
     this.submitButtonEnabled = true;
   }
 
@@ -96,14 +95,12 @@ export class ProposeCafeComponent implements OnInit {
     });
   }
 
-  //
-  // add() {
-  //   // this.openingHours = new OpeningHours();
-  //   this.openingHoursList.push({this.openingHours});
-  // }
-
   switch(i: number) {
     this.isChecked[i] = !this.isChecked[i];
+  }
+
+  add(f: NgForm) {
+    f.addControl(this.weekdaySelect);
   }
 
   onSubmit() {
@@ -111,20 +108,25 @@ export class ProposeCafeComponent implements OnInit {
     this.place.openingHoursList = this.place.openingHoursList.filter(value => {
       return value.openTime !== undefined && value.closeTime !== undefined;
     });
-     this.placeService.save(this.place)
+    this.place.category = this.category;
+    this.place.location = this.location;
+    this.placeService.save(this.place);
      console.log(this.place);
-     //TODO
-     alert("Successful");
+     alert("Cafe " + this.place.name + " was added for approving.");
+    this.closeModal('custom-_modal-1');
+    this.saveForm.onReset();
+    this.ngSelectComponent.handleClearClick();
   }
 
-  // successfulAction(message: string) {
-  //   this.ngFlashMessageService.showFlashMessage({
-  //     messages: [message],
-  //     dismissible: true,
-  //     timeout: 3000,
-  //     type: 'success'
-  //   });
-  // }
+  successfulAction(message: string) {
+    console.log("jkjhk");
+    this.ngFlashMessageService.showFlashMessage({
+      messages: [message],
+      dismissible: true,
+      timeout: 3000,
+      type: 'success'
+    });
+  }
 
   trackByIdx(i: number, day: any): any {
     return i;
@@ -132,8 +134,6 @@ export class ProposeCafeComponent implements OnInit {
 
   closeModal(id: string) {
     this.modalService.close(id);
-    this.saveForm.onReset();
-    this.ngSelectComponent.handleClearClick();
   }
 
   // Get Current Location Coordinates

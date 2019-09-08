@@ -20,6 +20,8 @@ import {ModalModule} from "./component/user/_modal/modal.module";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {InterceptorService} from "./service/interceptor.service";
 import {ProposeCafeComponent} from "./component/user/propose-cafe/propose-cafe.component";
+import {NgFlashMessagesModule} from "ng-flash-messages";
+
 
 
 @NgModule({
@@ -42,13 +44,14 @@ import {ProposeCafeComponent} from "./component/user/propose-cafe/propose-cafe.c
     HttpClientModule,
     FormsModule,
     AgmCoreModule.forRoot({
-      // apiKey: 'AIzaSyDnL6GdV-FWidi8Uh2uDjIu2uRGQtgZOYc',
+      apiKey: 'AIzaSyDnL6GdV-FWidi8Uh2uDjIu2uRGQtgZOYc',
       libraries: ['places']
     }),
     Ng2SearchPipeModule,
     NgSelectModule,
     ModalModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgFlashMessagesModule.forRoot()
   ],
   providers: [
     {
@@ -60,4 +63,5 @@ import {ProposeCafeComponent} from "./component/user/propose-cafe/propose-cafe.c
   bootstrap: [AppComponent]
 })
 export class AppModule {
+
 }
