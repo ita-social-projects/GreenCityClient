@@ -6,13 +6,12 @@ import {LocationDto} from "../../../model/locationDto.model";
 import {WeekDays} from "../../../model/weekDays.model";
 import {PlaceWithUserModel} from "../../../model/placeWithUser.model";
 import {ModalService} from "../_modal/modal.service";
-import {PlaceService} from "../../../service/place.service";
 import {CategoryService} from "../../../service/category.service";
 import {UserService} from "../../../service/user/user.service";
-import {FormArray, FormBuilder, FormControl, FormGroup, NgForm, NgModel, NgModelGroup} from "@angular/forms";
+import {NgForm} from "@angular/forms";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {MapsAPILoader, MouseEvent} from "@agm/core";
-import {NgFlashMessageService, NgFlashMessagesModule} from "ng-flash-messages";
+import {PlaceServiceService} from "../../../service/place/place.service";
 
 @Component({
   selector: 'app-propose-cafe',
@@ -20,55 +19,47 @@ import {NgFlashMessageService, NgFlashMessagesModule} from "ng-flash-messages";
   styleUrls: ['./propose-cafe.component.css']
 })
 export class ProposeCafeComponent implements OnInit {
-  place: PlaceAddDto = new PlaceAddDto();
-  location: LocationDto = new LocationDto();
+  name: any;
+  placeName: any;
+  place: PlaceAddDto;
+  location: LocationDto;
   openingHoursList: OpeningHours[] = [];
   weekDays: WeekDays[] = [WeekDays.MONDAY, WeekDays.TUESDAY, WeekDays.WEDNESDAY, WeekDays.THURSDAY, WeekDays.FRIDAY,
     WeekDays.SATURDAY, WeekDays.SUNDAY];
   openingHours: OpeningHours = new OpeningHours();
   categories: any;
-  category: CategoryDto = new CategoryDto();
+  category: CategoryDto;
   string: null;
-  title = 'AGM project';
   latitude: number;
   longitude: number;
   zoom: number;
   address: string;
   private geoCoder;
   submitButtonEnabled: boolean;
-  private element: any;
-  selectedType: string;
 
   @Output() newPlaceEvent = new EventEmitter<PlaceWithUserModel>();
-  @ViewChild('saveForm',  {static: true}) private saveForm: NgForm;
-  @ViewChild('weekDays-selector',  {static: true}) private weekdaySelect: NgModel;
+  @ViewChild('saveForm', {static: true}) private saveForm: NgForm;
+  @ViewChild('day', {static: true}) private day: any;
   @ViewChild(NgSelectComponent, {static: true}) ngSelectComponent: NgSelectComponent;
   @ViewChild('search', {static: true})
   public searchElementRef: ElementRef;
 
   addTypeCategory = (term) => ({name: term});
 
-  isChecked: boolean[] = [false, false, false, false, false, false, false];
-
-  constructor(private modalService: ModalService, private placeService: PlaceService, private categoryService: CategoryService,
-              private uService: UserService,  private mapsAPILoader: MapsAPILoader, private ngZone: NgZone, private _fb: FormBuilder,
-              private ngFlashMessageService: NgFlashMessageService) {
+  constructor(private modalService: ModalService, private placeService: PlaceServiceService, private categoryService: CategoryService,
+              private uService: UserService, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
+    this.category = new CategoryDto();
+    this.location = new LocationDto();
+    this.place = new PlaceAddDto();
+    this.place.category = this.category;
     this.submitButtonEnabled = true;
   }
 
   ngOnInit() {
+    console.log(this.place.openingHoursList);
     this.categoryService.findAllCategory().subscribe(data => {
       this.categories = data;
     });
-
-    // this.weekDays.forEach(obj => {
-    //   this.openingHours = new OpeningHours();
-    //   console.log(this.openingHours);
-    //   this.openingHours.weekDay = obj;
-    //   console.log(this.openingHours.weekDay);
-    //   this.openingHoursList.push(this.openingHours);
-    //   this.place.openingHoursList = this.openingHoursList;
-    // });
 
     // load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
@@ -90,8 +81,8 @@ export class ProposeCafeComponent implements OnInit {
           }
 
           //  set latitude, longitude and zoom
-          this.location.lat = this.latitude = place.geometry.location.lat();
-          this.location.lng = this.longitude= place.geometry.location.lng();
+          this.latitude = place.geometry.location.lat();
+          this.longitude = place.geometry.location.lng();
           this.zoom = 12;
         });
       });
@@ -100,10 +91,9 @@ export class ProposeCafeComponent implements OnInit {
 
   add(openingHours: OpeningHours) {
     let openingHours1 = new OpeningHours();
-    openingHours1.closeTime=openingHours.closeTime;
-    openingHours1.openTime=openingHours.openTime;
-    openingHours1.weekDay=openingHours.weekDay;
-
+    openingHours1.closeTime = openingHours.closeTime;
+    openingHours1.openTime = openingHours.openTime;
+    openingHours1.weekDay = openingHours.weekDay;
     this.openingHoursList.push(openingHours1);
     this.place.openingHoursList = this.openingHoursList;
   }
@@ -112,45 +102,25 @@ export class ProposeCafeComponent implements OnInit {
     this.openingHoursList = this.openingHoursList.filter(item => item !== openingHours);
   }
 
-  switch(i: number) {
-    this.isChecked[i] = !this.isChecked[i];
-  }
-
   onSubmit() {
     this.submitButtonEnabled = false;
-    // this.place.openingHoursList = this.place.openingHoursList.filter(value => {
-    //   return value.openTime !== undefined && value.closeTime !== undefined;
-    // });
     this.place.openingHoursList = this.openingHoursList;
-    console.log(this.category);
-    this.place.category = this.category;
+    this.place.category.name = this.name;
+    this.location.address = this.address;
+    this.location.lat = this.latitude;
+    this.location.lng = this.longitude;
     this.place.location = this.location;
-    this.placeService.save(this.place).subscribe( () => {
-      this.ngFlashMessageService.showFlashMessage({
-        messages: ["Cafe " + this.place.name + " was added for approving."],
-        dismissible: true,
-        timeout: 3000,
-        type: 'success'
-      });
-    });
-     console.log(this.place);
-     // alert("Cafe " + this.place.name + " was added for approving.");
+    this.place.name = this.placeName;
+    console.log(this.place);
+    this.placeService.save(this.place);
     this.closeModal('custom-_modal-1');
-    this.saveForm.onReset();
-    this.ngSelectComponent.handleClearClick();
-  }
-
-  successfulAction(message: string) {
-    this.ngFlashMessageService.showFlashMessage({
-      messages: [message],
-      dismissible: true,
-      timeout: 3000,
-      type: 'success'
-    });
   }
 
   closeModal(id: string) {
     this.modalService.close(id);
+    this.saveForm.onReset();
+   // this.place.openingHoursList = undefined;
+    this.ngSelectComponent.handleClearClick();
   }
 
   // Get Current Location Coordinates
@@ -167,18 +137,13 @@ export class ProposeCafeComponent implements OnInit {
 
   markerDragEnd($event: MouseEvent) {
     console.log($event);
-    this.location.lat = $event.coords.lat;
-    this.location.lng = $event.coords.lng;
-    this.getAddress(this.location.lat, this.location.lng);
-    this.location.address = this.address;
-    this.location.lat = this.latitude;
-    this.location.lng = this.longitude;
+    this.latitude = $event.coords.lat;
+    this.longitude = $event.coords.lng;
+    this.getAddress(this.latitude, this.longitude);
   }
 
   getAddress(latitude, longitude) {
     this.geoCoder.geocode({location: {lat: latitude, lng: longitude}}, (results, status) => {
-      console.log(results);
-      console.log(status);
       if (status === 'OK') {
         if (results[0]) {
           this.zoom = 12;

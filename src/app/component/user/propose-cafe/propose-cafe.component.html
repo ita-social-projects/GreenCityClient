@@ -15,7 +15,7 @@
             Name must be maximum 30 characters long.
           </div>
         </div>
-        <input type="text" id="name" class="form-control" [(ngModel)]="place.name" #nameControl="ngModel"
+        <input type="text" id="name" class="form-control" [(ngModel)]="placeName" #nameControl="ngModel"
                placeholder="Name" required
                minlength="3" maxlength="30" name="name">
         <br>
@@ -41,7 +41,8 @@
           maxlength="30"
           [multiple]="false"
           placeholder="Select category or add new"
-          [(ngModel)]="category.name"
+          [(ngModel)]="name"
+          name="name"
           #categoryControl="ngModel"
           required>
         </ng-select>
@@ -61,7 +62,7 @@
               Address must be maximum 100 characters long.
             </div>
           </div>
-          <input type="text" id="address" name="address" class="form-control" [(ngModel)]="location.address"
+          <input type="text" id="address" name="address" class="form-control" [(ngModel)]="address"
                  (keydown.enter)="$event.preventDefault()" minlength="3" maxlength="100"
                  autocorrect="off" autocapitalize="off" spellcheck="off" #search #addressControl="ngModel" required
                  placeholder="Enter address">
@@ -99,7 +100,6 @@
       <button class="btn btn-primary" type="button" [disabled]="!time.valid || !day.valid"
               style="margin-top: 8px" (click)="add(openingHours)">Add day</button>
 
-      <h6 style="display: none;">Your choice: </h6><br>
       <div class="choice" *ngFor="let list of openingHoursList">
         {{list.weekDay}} from: {{list.openTime}} to: {{list.closeTime}}
         <button class="delete-choice" type="button" (click)="delete(list)">-</button>
