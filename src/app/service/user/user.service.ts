@@ -4,8 +4,11 @@ import {Observable} from 'rxjs';
 import {UserRoleModel} from '../../model/user/user-role.model';
 import {UserStatusModel} from '../../model/user/user-status.model';
 import {UserPageableDtoModel} from '../../model/user/user-pageable-dto.model';
-import {RolesModel} from '../../model/user/roles.model';
+<<<<<<<<< Temporary merge branch 1
 import {mainLink} from '../../links';
+=========
+import {RolesModel} from '../../model/user/roles.model';
+>>>>>>>>> Temporary merge branch 2
 
 const token = localStorage.getItem('accessToken');
 let jwtData = null;
