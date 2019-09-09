@@ -25,6 +25,8 @@ import {InterceptorService} from './service/interceptor.service';
 import {AdminModule} from './component/admin/admin.module';
 import {NgFlashMessagesModule} from 'ng-flash-messages';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {FavoritePlaceModalComponent, FvPlaceTableComponent} from './component/user/favorite-place/fvplace-table';
+import {MatTableModule} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,10 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     MapComponent,
     SelectorComponent,
     ProposeCafeComponent,
-    MapModalComponent
+    MapModalComponent,
+    FvPlaceTableComponent,
+    FavoritePlaceModalComponent
+
   ],
   imports: [
     BrowserModule,
@@ -49,14 +54,15 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     HttpClientModule,
     FormsModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyADLuRI5IThBl9qbebtDdtXokmAQIhfjXw',
+      apiKey: '',
       libraries: ['places']
     }),
     Ng2SearchPipeModule,
     AdminModule,
     NgFlashMessagesModule.forRoot(),
     NgSelectModule,
-    ModalModule
+    ModalModule,
+    MatTableModule,
   ],
   providers: [
     {
