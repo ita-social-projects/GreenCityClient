@@ -14,7 +14,7 @@ import {PlaceService} from '../../../service/place/place.service';
 export class PlacesComponent implements OnInit {
 
   places: AdminPlace[];
-  pageSize = 5;
+  pageSize = 2;
   page = 1;
   totalItems: number;
   private errorMsg: string;
