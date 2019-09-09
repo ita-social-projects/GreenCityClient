@@ -4,5 +4,4 @@ export class UserPageableDtoModel {
   page: UserForListDtoModel[];
   totalElements: number;
   currentPage: number;
-  roles: [];
 }
