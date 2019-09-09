@@ -64,3 +64,32 @@ agm-map {
   text-align: center;
 }
 
+.delete-choice {
+  background-color: darkred;
+  border: none;
+  color: white;
+  padding: 2px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  margin: 3px 3px;
+  border-radius: 50%;
+}
+
+.add-button {
+  background-color: green;
+  border: none;
+  color: white;
+  padding: 5px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 26px;
+  margin: 3px 3px;
+  border-radius: 50%;
+}
+
+
+
+

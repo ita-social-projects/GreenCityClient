@@ -15,7 +15,7 @@ export class PlaceService extends BaseService {
 
   save(place: PlaceAddDto) {
     console.log("save service");
-    this.http.post(`${this.apiUrl}/propose`, place);
+    return this.http.post(`${this.apiUrl}/propose`, place);
   }
 
 }

@@ -25,7 +25,7 @@ export class ProposeCafeComponent implements OnInit {
   openingHoursList: OpeningHours[] = [];
   weekDays: WeekDays[] = [WeekDays.MONDAY, WeekDays.TUESDAY, WeekDays.WEDNESDAY, WeekDays.THURSDAY, WeekDays.FRIDAY,
     WeekDays.SATURDAY, WeekDays.SUNDAY];
-  openingHours: OpeningHours;
+  openingHours: OpeningHours = new OpeningHours();
   categories: any;
   category: CategoryDto = new CategoryDto();
   string: null;
@@ -36,6 +36,8 @@ export class ProposeCafeComponent implements OnInit {
   address: string;
   private geoCoder;
   submitButtonEnabled: boolean;
+  private element: any;
+  selectedType: string;
 
   @Output() newPlaceEvent = new EventEmitter<PlaceWithUserModel>();
   @ViewChild('saveForm',  {static: true}) private saveForm: NgForm;
@@ -51,7 +53,6 @@ export class ProposeCafeComponent implements OnInit {
   constructor(private modalService: ModalService, private placeService: PlaceService, private categoryService: CategoryService,
               private uService: UserService,  private mapsAPILoader: MapsAPILoader, private ngZone: NgZone, private _fb: FormBuilder,
               private ngFlashMessageService: NgFlashMessageService) {
-    // this.placeService = placeService;
     this.submitButtonEnabled = true;
   }
 
@@ -59,14 +60,16 @@ export class ProposeCafeComponent implements OnInit {
     this.categoryService.findAllCategory().subscribe(data => {
       this.categories = data;
     });
-    this.weekDays.forEach(obj => {
-      this.openingHours = new OpeningHours();
-      console.log(this.openingHours);
-      this.openingHours.weekDay = obj;
-      console.log(this.openingHours.weekDay);
-      this.openingHoursList.push(this.openingHours);
-      this.place.openingHoursList = this.openingHoursList;
-    });
+
+    // this.weekDays.forEach(obj => {
+    //   this.openingHours = new OpeningHours();
+    //   console.log(this.openingHours);
+    //   this.openingHours.weekDay = obj;
+    //   console.log(this.openingHours.weekDay);
+    //   this.openingHoursList.push(this.openingHours);
+    //   this.place.openingHoursList = this.openingHoursList;
+    // });
+
     // load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
       this.setCurrentLocation();
@@ -95,41 +98,55 @@ export class ProposeCafeComponent implements OnInit {
     });
   }
 
+  add(openingHours: OpeningHours) {
+    let openingHours1 = new OpeningHours();
+    openingHours1.closeTime=openingHours.closeTime;
+    openingHours1.openTime=openingHours.openTime;
+    openingHours1.weekDay=openingHours.weekDay;
+
+    this.openingHoursList.push(openingHours1);
+    this.place.openingHoursList = this.openingHoursList;
+  }
+
+  delete(openingHours: OpeningHours) {
+    this.openingHoursList = this.openingHoursList.filter(item => item !== openingHours);
+  }
+
   switch(i: number) {
     this.isChecked[i] = !this.isChecked[i];
   }
 
-  add(f: NgForm) {
-    f.addControl(this.weekdaySelect);
-  }
-
   onSubmit() {
     this.submitButtonEnabled = false;
-    this.place.openingHoursList = this.place.openingHoursList.filter(value => {
-      return value.openTime !== undefined && value.closeTime !== undefined;
-    });
+    // this.place.openingHoursList = this.place.openingHoursList.filter(value => {
+    //   return value.openTime !== undefined && value.closeTime !== undefined;
+    // });
+    this.place.openingHoursList = this.openingHoursList;
+    console.log(this.category);
     this.place.category = this.category;
     this.place.location = this.location;
-    this.placeService.save(this.place);
+    this.placeService.save(this.place).subscribe( () => {
+      this.ngFlashMessageService.showFlashMessage({
+        messages: ["Cafe " + this.place.name + " was added for approving."],
+        dismissible: true,
+        timeout: 3000,
+        type: 'success'
+      });
+    });
      console.log(this.place);
-     alert("Cafe " + this.place.name + " was added for approving.");
+     // alert("Cafe " + this.place.name + " was added for approving.");
     this.closeModal('custom-_modal-1');
     this.saveForm.onReset();
     this.ngSelectComponent.handleClearClick();
   }
 
   successfulAction(message: string) {
-    console.log("jkjhk");
     this.ngFlashMessageService.showFlashMessage({
       messages: [message],
       dismissible: true,
       timeout: 3000,
       type: 'success'
     });
-  }
-
-  trackByIdx(i: number, day: any): any {
-    return i;
   }
 
   closeModal(id: string) {

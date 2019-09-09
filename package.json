@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "~8.2.0",
     "@angular/router": "~8.2.0",
     "@ng-select/ng-select": "^3.0.7",
+    "bootstrap": "^4.3.1",
     "ng-flash-messages": "^0.3.0",
     "ng2-search-filter": "^0.5.1",
     "rxjs": "~6.4.0",
