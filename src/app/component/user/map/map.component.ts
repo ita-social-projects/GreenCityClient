@@ -11,6 +11,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {FavoritePlaceService} from '../../../service/favorite-place/favorite-place.service';
 import {FavoritePlace} from '../../../model/favorite-place/favorite-place';
 import {FavoritePlaceSave} from '../../../model/favorite-place/favorite-place-save';
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -26,6 +27,7 @@ export class MapComponent implements OnInit {
   zoom = 13;
   place: Place[] = [];
   map: any;
+
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,
               private placeService: PlaceService, private favoritePlaceService: FavoritePlaceService) {
     iconRegistry.addSvgIcon(
@@ -41,11 +43,13 @@ export class MapComponent implements OnInit {
     this.mapBounds = new MapBounds();
     this.setCurrentLocation();
   }
+
   mapReady(event: any) {
     this.map = event;
     this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('AllFavoritePlaces'));
 
   }
+
   private setCurrentLocation() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -89,13 +93,16 @@ export class MapComponent implements OnInit {
       this.button = !this.button;
     }
   }
+
   savePlaceAsFavorite(placeId: number, name: string) {
     console.log('savePlaceAsFavorite placeId=' + placeId);
     this.favoritePlaceService.saveFavoritePlace(new FavoritePlaceSave(placeId, name)).subscribe();
   }
 
   getList() {
-    this.placeService.getListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => this.place = res);
-    this.searchText = null;
+    if (this.button !== true) {
+      this.placeService.getListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => this.place = res);
+      this.searchText = null;
+    }
   }
 }
