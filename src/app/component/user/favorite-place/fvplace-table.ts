@@ -2,8 +2,7 @@ import {Component, OnInit, Inject} from '@angular/core';
 import {FavoritePlace} from '../../../model/favorite-place/favorite-place';
 import {FavoritePlaceService} from '../../../service/favorite-place/favorite-place.service';
 import {ModalService} from '../_modal/modal.service';
-import {PlaceInfo} from '../../../model/place/place-info';
-import {PlaceService} from '../../../service/place.service';
+import {PlaceService} from "../../../service/place/place.service";
 
 export interface PeriodicElement {
   name: string;
