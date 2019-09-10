@@ -11,7 +11,7 @@ import {UserService} from "../../../service/user/user.service";
 import {NgForm} from "@angular/forms";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {MapsAPILoader, MouseEvent} from "@agm/core";
-import {PlaceServiceService} from "../../../service/place/place.service";
+import {PlaceService} from "../../../service/place/place.service";
 
 @Component({
   selector: 'app-propose-cafe',
@@ -46,7 +46,7 @@ export class ProposeCafeComponent implements OnInit {
 
   addTypeCategory = (term) => ({name: term});
 
-  constructor(private modalService: ModalService, private placeService: PlaceServiceService, private categoryService: CategoryService,
+  constructor(private modalService: ModalService, private placeService: PlaceService, private categoryService: CategoryService,
               private uService: UserService, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
     this.category = new CategoryDto();
     this.location = new LocationDto();

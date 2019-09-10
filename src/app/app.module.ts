@@ -15,8 +15,6 @@ import {UserComponent} from './component/user/user.component';
 import {AuthComponent} from './component/user/auth/auth.component';
 import {SignInComponent} from './component/user/auth/sign-in/sign-in.component';
 import {SubmitEmailComponent} from './component/user/auth/submit-email/submit-email.component';
-import {SelectorComponent} from './component/user/propose-cafe/selector/selector.component';
-import {MapModalComponent} from './component/user/propose-cafe/map/map-modal.component';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {ModalModule} from './component/user/_modal/modal.module';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
@@ -52,7 +50,7 @@ import {MatTableModule} from '@angular/material';
     HttpClientModule,
     FormsModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDnL6GdV-FWidi8Uh2uDjIu2uRGQtgZOYc',
+      apiKey: '',
       libraries: ['places']
     }),
     Ng2SearchPipeModule,
