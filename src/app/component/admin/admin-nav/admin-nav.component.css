@@ -2,19 +2,6 @@ nav {
   margin-bottom: 10px;
 }
 
-ng-flash-message {
-  text-align: center;
-  width: 75%;
-}
-
-.flash-message {
-  position: fixed;
-  z-index:1000;
-  width: 20%;
-  top: 80%;
-  left: 79%;
-}
-
 a {
   cursor: pointer;
 }
