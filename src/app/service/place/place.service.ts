@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Place} from '../../model/place/place';
 import {MapBounds} from '../../model/map/map-bounds';
@@ -53,6 +53,7 @@ export class PlaceService {
   getPlacesByStatus(status: string, paginationSettings: string): Observable<PlacePageableDto> {
     return this.http.get<PlacePageableDto>(`${this.baseUrl}${status}` + paginationSettings);
   }
+
   updatePlaceStatus(placeStatus: PlaceStatus) {
     return this.http.patch<PlaceStatus>(`${this.baseUrl}status/`, placeStatus);
   }
