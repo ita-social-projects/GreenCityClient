@@ -25,8 +25,14 @@ import {InterceptorService} from './service/interceptor.service';
 import {AdminModule} from './component/admin/admin.module';
 import {NgFlashMessagesModule} from 'ng-flash-messages';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {FavoritePlaceModalComponent, FvPlaceTableComponent} from './component/user/favorite-place/fvplace-table';
-import {MatTableModule} from '@angular/material';
+import {
+  FavoritePlaceEditModalComponent,
+  FavoritePlaceModalComponent,
+  FvPlaceTableComponent
+} from './component/user/favorite-place/fvplace-table';
+import { MatTableModule} from '@angular/material';
+import { MatIconModule } from '@angular/material/icon';
+import {MDBBootstrapModule} from 'angular-bootstrap-md';
 
 @NgModule({
   declarations: [
@@ -44,7 +50,8 @@ import {MatTableModule} from '@angular/material';
     ProposeCafeComponent,
     MapModalComponent,
     FvPlaceTableComponent,
-    FavoritePlaceModalComponent
+    FavoritePlaceModalComponent,
+    FavoritePlaceEditModalComponent,
 
   ],
   imports: [
@@ -63,6 +70,9 @@ import {MatTableModule} from '@angular/material';
     NgSelectModule,
     ModalModule,
     MatTableModule,
+    MatIconModule,
+    MDBBootstrapModule,
+    MDBBootstrapModule,
   ],
   providers: [
     {

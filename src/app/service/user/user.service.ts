@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {UserRoleModel} from '../../model/user/user-role.model';
 import {UserStatusModel} from '../../model/user/user-status.model';
 import {UserPageableDtoModel} from '../../model/user/user-pageable-dto.model';
+import {userLink} from '../../links';
 
 const token = localStorage.getItem('accessToken');
 let jwtData = null;
@@ -17,7 +18,6 @@ export class UserService {
   dto: UserStatusModel;
   roleDto: UserRoleModel;
   // apiUrl = 'https://greencitysoftserve.herokuapp.com/user';
-  protected apiUrl = 'http://localhost:8080/';
 
   constructor(private http: HttpClient) {
     if (token != null) {
@@ -36,20 +36,20 @@ export class UserService {
   }
 
   getAllUsers(paginationSettings: string): Observable<UserPageableDtoModel> {
-    return this.http.get<UserPageableDtoModel>(`${this.apiUrl}` + paginationSettings);
+    return this.http.get<UserPageableDtoModel>(userLink + paginationSettings);
   }
 
   updateUserStatus(id: number, userStatus: string) {
     this.dto = new UserStatusModel();
     this.dto.id = id;
     this.dto.userStatus = userStatus;
-    return this.http.patch<any>(`${this.apiUrl}/update/status`, this.dto);
+    return this.http.patch<any>(`${userLink}/update/status`, this.dto);
   }
 
   updateUserRole(id: number, role: string) {
     this.roleDto = new UserRoleModel();
     this.roleDto.id = id;
     this.roleDto.role = role;
-    return this.http.patch<any>(`${this.apiUrl}/update/role`, this.roleDto);
+    return this.http.patch<any>(`${userLink}/update/role`, this.roleDto);
   }
 }

@@ -24,17 +24,26 @@
     </div>
     <div class="sub-2">
       <agm-map
+        (mapReady)="mapReady($event)"
         [latitude]="lat"
         [longitude]="lng"
         [zoom]="zoom"
         (boundsChange)="boundsChange($event)">
+        <app-dialog-favorite-place></app-dialog-favorite-place>
         <agm-marker (markerClick)="showDetail(p.id)"
                     *ngFor="let p of place; let i = index"
                     [latitude]="p.location.lat"
                     [longitude]="p.location.lng">
           <agm-info-window *ngIf="placeInfo">
-            <h5>{{placeInfo.name}}</h5>
-            <h6> <li *ngFor="let obj of placeInfo.specificationValues">{{obj.specification.name}}</li></h6>
+
+            <h5>{{placeInfo.name}}
+              <button mat-icon-button style="float: right;  background-color: white; border-width: inherit" (click)="savePlaceAsFavorite(p.id, p.name)">
+                <mat-icon svgIcon="star-white"></mat-icon>
+              </button>
+            </h5>
+            <h6>
+              <li *ngFor="let obj of placeInfo.specificationValues">{{obj.specification.name}}</li>
+            </h6>
             <p>Rate: {{placeInfo.rate}}</p>
             <p>Comments: {{placeInfo.comments.length}}</p>
             <p>{{placeInfo.location.address}}</p>
