@@ -2,9 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 import { environment } from '../../environments/environment';
+import {mainLink} from '../links';
 
 export abstract class BaseService {
-  protected apiUrl = 'http://localhost:8080';
+  protected apiUrl = `${mainLink}`;
+
   constructor(protected http: HttpClient) {}
 
   protected log(message) {

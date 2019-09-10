@@ -1,0 +1,45 @@
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+table {
+  width: 100%;
+}
+
+table {
+  width: 100%;
+}
+
+body {
+  font-family: Roboto, Arial, sans-serif;
+  margin: 0;
+}
+
+th,td {
+  padding-left: 10px;
+  padding-right: 5px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.nav-link {
+  color: gray;
+}
+
+.btn {
+  margin: 3px;
+}
+
+#message {
+  width: auto;
+  height: auto;
+  position: center;
+  text-align: center;
+}
+
+.action {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.table-responsive {
+  padding: 13px;
+}

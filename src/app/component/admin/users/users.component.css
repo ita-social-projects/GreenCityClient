@@ -1,0 +1,25 @@
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+table {
+  width: 100%;
+}
+
+body {
+  font-family: Roboto, Arial, sans-serif;
+  margin: 0;
+}
+
+.basic-container {
+  padding: 30px;
+}
+
+.selectRole {
+  width: 100px;
+}
+
+#message {
+  width: auto;
+  height: auto;
+  position: center;
+  text-align: center;
+}
