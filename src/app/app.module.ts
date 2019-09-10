@@ -57,7 +57,7 @@ import {MDBBootstrapModule} from 'angular-bootstrap-md';
     HttpClientModule,
     FormsModule,
     AgmCoreModule.forRoot({
-      apiKey: '  ',
+      apiKey: '',
       libraries: ['places']
     }),
     Ng2SearchPipeModule,
