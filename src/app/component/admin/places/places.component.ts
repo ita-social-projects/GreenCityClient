@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {EventManager, Title} from '@angular/platform-browser';
+import {Title} from '@angular/platform-browser';
 import {AdminPlace} from '../../../model/place/admin-place.model';
 import {OpenHours} from '../../../model/openHours/open-hours.model';
 import {NgFlashMessageService} from 'ng-flash-messages';
@@ -14,12 +14,12 @@ import {PlaceService} from '../../../service/place/place.service';
 export class PlacesComponent implements OnInit {
 
   places: AdminPlace[];
-  pageSize = 5;
+  pageSize = 2;
   page = 1;
   totalItems: number;
   private errorMsg: string;
 
-  displayedColumns: string[] = ['ID', 'Category', 'Name', 'Location', 'Working hours', 'Added By', 'Added On', 'Status', 'Action'];
+  displayedColumns: string[] = ['Category', 'Name', 'Location', 'Working hours', 'Added By', 'Added On', 'Status', 'Action'];
 
   defaultStatus = 'proposed';
 
@@ -44,19 +44,12 @@ export class PlacesComponent implements OnInit {
     });
   }
 
-  onStatusClick() {
-    document.getElementById('statusMenu').classList.toggle('show');
-  }
 
   changeStatus(status: string) {
     this.defaultStatus = status;
     this.places = null;
     this.onGetPlaces();
     console.log(this.defaultStatus);
-  }
-
-  onOpenHoursShow() {
-    document.getElementById('openHoursMenu').classList.toggle('show');
   }
 
   convertHoursToShort(openHours: OpenHours[]): any {

@@ -8,14 +8,18 @@ import {PlaceStatus} from '../../model/place/place-status.model';
 import {PlacePageableDto} from '../../model/place/place-pageable-dto.model';
 import {placeLink} from '../../links';
 
+import {mainLink} from '../../links';
+import {NgFlashMessageService} from 'ng-flash-messages';
+import {PlaceAddDto} from '../../model/placeAddDto.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlaceService {
-  //private baseUrl = 'https://greencitysoftserve.herokuapp.com/place/';
- // private baseUrl = 'http://localhost:8080/place/';
-  constructor(private http: HttpClient) {
+
+  private baseUrl = `${mainLink}place/`;
+
+  constructor(private http: HttpClient, private ngFlashMessageService: NgFlashMessageService) {
   }
 
   static getWeekDayShortForm(day: string): any {
@@ -41,6 +45,19 @@ export class PlaceService {
 
   getListPlaceByMapsBoundsDto(mapBounds: MapBounds): Observable<Place[]> {
     return this.http.post<Place[]>(`${placeLink}getListPlaceLocationByMapsBounds/`, mapBounds);
+  }
+
+  save(place: PlaceAddDto) {
+    this.http.post(`${this.baseUrl}propose/`, place).subscribe(
+      () => {
+        this.ngFlashMessageService.showFlashMessage({
+          messages: ["Cafe " + place.name + " was added for approving."],
+          dismissible: true,
+          timeout: 3000,
+          type: 'success'
+        });
+      }
+    );
   }
 
   getPlaceInfo(id: number): Observable<PlaceInfo> {

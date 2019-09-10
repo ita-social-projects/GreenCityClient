@@ -2,12 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import {mainLink} from '../links';
 
-import { environment } from '../../environments/environment';
-
 export abstract class BaseService {
-  //protected apiUrl = 'https://greencitysoftserve.herokuapp.com/';
-  protected apiUrl = mainLink;
 
+  protected apiUrl = `${mainLink}`;
 
   constructor(protected http: HttpClient) {}
 

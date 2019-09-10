@@ -6,8 +6,8 @@ import {mainLink} from '../links';
   providedIn: 'root'
 })
 export class BaseService {
-   //protected apiUrl = 'https://greencitysoftserve.herokuapp.com/';
-  protected apiUrl = mainLink;
+
+   protected apiUrl = `${mainLink}`;
 
   constructor(protected http: HttpClient) {}
 }

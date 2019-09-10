@@ -2,9 +2,7 @@ import {Component, OnInit, Inject, Input, OnChanges} from '@angular/core';
 import {FavoritePlace} from '../../../model/favorite-place/favorite-place';
 import {FavoritePlaceService} from '../../../service/favorite-place/favorite-place.service';
 import {ModalService} from '../_modal/modal.service';
-import {PlaceInfo} from '../../../model/place/place-info';
-import {PlaceService} from '../../../service/place.service';
-import {MatSortModule} from '@angular/material/sort';
+import {PlaceService} from '../../../service/place/place.service';
 
 export interface PeriodicElement {
   name: string;
@@ -87,23 +85,5 @@ export class FavoritePlaceEditModalComponent  {
   closeModal(id: string) {
     this.modalService.close(id);
   }
-  // update(id: number, name: string) {// update in table
-  //   console.log('fp update' + id);
-  //   this.favoritePlaceService.updateFavoritePlace(new FavoritePlace(id, name + '1')).subscribe(() => this.showAll()); /// delete 1
-  // }
-}
 
-// //////////////////
-// export class EditFavoriteNameComponent {
-//   constructor(private name: String, modalService: ModalService) {
-//
-//   }
-//
-// }
-//
-//
-//
-//   openModal(id: string) {
-//     this.modalService.open(id);
-//   }
-// }
+}

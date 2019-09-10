@@ -8,13 +8,12 @@ import {log} from 'util';
 import {favoritePlaceLink} from '../../links';
 import {placeLink} from '../../links';
 import {FavoritePlaceSave} from '../../model/favorite-place/favorite-place-save';
+import {mainLink} from '../../links';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FavoritePlaceService {
-  //private baseUrl = 'https://greencitysoftserve.herokuapp.com/place/';
- // private baseUrl = 'http://localhost:8080/favorite_place/';
 
   private fp: FavoritePlace;
 

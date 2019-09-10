@@ -3,34 +3,36 @@
     <div class="card-body">
       <h4 class="card-title">Users</h4>
       <table mat-table
-             [dataSource]="users | paginate: {itemsPerPage: pageSize, currentPage: page + 1, totalItems: totalItems}"
+             [dataSource]="dataSource" matSort (matSortChange)="sortData($event)"
              class="mat-elevation-z8">
         <!-- Position Column -->
         <ng-container matColumnDef="email">
-          <th mat-header-cell *matHeaderCellDef> Email</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Email</th>
           <td mat-cell *matCellDef="let element"> {{element.email}} </td>
         </ng-container>
 
         <ng-container matColumnDef="firstName">
-          <th mat-header-cell *matHeaderCellDef>First Name</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>First Name</th>
           <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
         </ng-container>
         <!-- Name Column -->
         <ng-container matColumnDef="lastName">
-          <th mat-header-cell *matHeaderCellDef> Last Name</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name</th>
           <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
         </ng-container>
 
         <ng-container matColumnDef="dateOfRegistration">
-          <th mat-header-cell *matHeaderCellDef> Date of registration</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Date of registration</th>
           <td mat-cell *matCellDef="let element"> {{element.dateOfRegistration}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="status">
+        <ng-container matColumnDef="role">
           <th mat-header-cell *matHeaderCellDef></th>
           <td *matCellDef="let element">
             <div class="selectRole">
-              <mat-select [(value)]="element.role" (selectionChange)="changeRole(element.id, $event.value, element.email)">
+              <mat-select [(value)]="element.role"
+                          (selectionChange)="changeRole(element.id, $event.value, element.email)"
+                          [disabled]="element.email === userEmail">
                 <mat-option *ngFor="let role of roles" [value]="role">
                   {{role.toString().toLocaleLowerCase()}}
                 </mat-option>
@@ -44,10 +46,12 @@
           <td mat-cell *matCellDef="let element">
             <button *ngIf="element.userStatus != 'BLOCKED' && element.userStatus != 'DEACTIVATED'" mat-raised-button
                     class="btn btn-outline-warning"
-                    (click)="updateUserStatus(element.id, 'BLOCKED', element.email)">Block
+                    (click)="updateUserStatus(element.id, 'BLOCKED', element.email)"
+                    [disabled]="element.email === userEmail">Block
             </button>
             <button *ngIf="element.userStatus == 'BLOCKED'" mat-raised-button class="btn btn-outline-warning"
-                    (click)="updateUserStatus(element.id, 'ACTIVATED', element.email)">Unblock
+                    (click)="updateUserStatus(element.id, 'ACTIVATED', element.email)"
+                    [disabled]="element.email === userEmail">Unblock
             </button>
           </td>
         </ng-container>
@@ -56,10 +60,12 @@
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let element">
             <button *ngIf="element.userStatus != 'DEACTIVATED'" mat-raised-button class="btn btn-outline-danger"
-                    (click)="updateUserStatus(element.id, 'DEACTIVATED', element.email)">Deactivate
+                    (click)="updateUserStatus(element.id, 'DEACTIVATED', element.email)"
+                    [disabled]="element.email === userEmail">Deactivate
             </button>
             <button *ngIf="element.userStatus == 'DEACTIVATED'" mat-raised-button class="btn btn-outline-danger"
-                    (click)="updateUserStatus(element.id, 'ACTIVATED', element.email)">Activate
+                    (click)="updateUserStatus(element.id, 'ACTIVATED', element.email)"
+                    [disabled]="element.email === userEmail">Activate
             </button>
           </td>
         </ng-container>

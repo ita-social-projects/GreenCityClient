@@ -5,3 +5,7 @@
 .hide {
   display: none;
 }
+
+a {
+  cursor: pointer;
+}
