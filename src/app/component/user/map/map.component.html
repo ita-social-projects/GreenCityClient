@@ -4,7 +4,7 @@
       <div>
         <div>
           <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off"
-                 placeholder="&#61442;  Start searching for a place">
+                 placeholder="&#61442;Searching for a place">
         </div>
         <table class="table table-striped">
           <thead>
@@ -28,7 +28,9 @@
         [latitude]="lat"
         [longitude]="lng"
         [zoom]="zoom"
-        (boundsChange)="boundsChange($event)">
+        (idle)="getList()"
+        (boundsChange)="boundsChange($event)"
+      >
         <app-dialog-favorite-place></app-dialog-favorite-place>
         <agm-marker (markerClick)="showDetail(p.id)"
                     *ngFor="let p of place; let i = index"
@@ -56,6 +58,5 @@
     </div>
 
   </div>
-  <button (click)="Show()"></button>
 </div>
 
