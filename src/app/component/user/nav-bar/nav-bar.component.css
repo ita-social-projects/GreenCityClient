@@ -3,3 +3,12 @@
   float: right;
 }
 
+.flash-message {
+  position: fixed;
+  text-align: center;
+  z-index:1000;
+  width: 20%;
+  top: 80%;
+  left: 79%;
+}
+

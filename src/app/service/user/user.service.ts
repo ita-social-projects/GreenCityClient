@@ -61,6 +61,6 @@ export class UserService {
   }
 
   getRoles(): Observable<RolesModel> {
-    return this.http.get<RolesModel>(`${this.apiUrl}/roles`);
+    return this.http.get<RolesModel>(`${this.apiUrl}roles`);
   }
 }

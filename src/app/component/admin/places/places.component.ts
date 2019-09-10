@@ -4,6 +4,7 @@ import {AdminPlace} from '../../../model/place/admin-place.model';
 import {OpenHours} from '../../../model/openHours/open-hours.model';
 import {NgFlashMessageService} from 'ng-flash-messages';
 import {PlaceService} from '../../../service/place/place.service';
+import {FlashMessage} from 'ng-flash-messages/models/flash-message';
 
 @Component({
   selector: 'app-places',
@@ -14,12 +15,13 @@ import {PlaceService} from '../../../service/place/place.service';
 export class PlacesComponent implements OnInit {
 
   places: AdminPlace[];
-  pageSize = 2;
+  pageSize = 5;
   page = 1;
   totalItems: number;
   private errorMsg: string;
+  statuses: string[];
 
-  displayedColumns: string[] = ['Category', 'Name', 'Location', 'Working hours', 'Added By', 'Added On', 'Status', 'Action'];
+  displayedColumns: string[] = ['Category', 'Name', 'Location', 'Working hours', 'Added By', 'Added On', 'Status'];
 
   defaultStatus = 'proposed';
 
@@ -30,6 +32,7 @@ export class PlacesComponent implements OnInit {
   ngOnInit() {
     this.titleService.setTitle('Admin - Places');
     this.onGetPlaces();
+    this.getStatuses();
   }
 
   getCurrentPaginationSettings(): string {
@@ -89,18 +92,15 @@ export class PlacesComponent implements OnInit {
     ).subscribe(
       () => {
         this.ngFlashMessageService.showFlashMessage({
-          messages: [placeStatus === 'APPROVED' ? 'Approved' : 'Declined'],
+          messages: [placeStatus],
           dismissible: true,
           timeout: 3000,
-          type: 'success'
+          type: 'success',
         });
-        console.log(placeStatus === 'APPROVED' ? 'Approved' : 'Declined');
         this.onGetPlaces();
       },
       error => {
-        this.errorMsg = 'Error. Item was not ';
-        this.errorMsg += placeStatus === 'APPROVED' ? 'approved' : 'declined';
-        this.errorMsg += '.Please try again';
+        this.errorMsg = 'Error. Item was not ' + placeStatus + '.Please try again';
 
         this.ngFlashMessageService.showFlashMessage({
           messages: [this.errorMsg],
@@ -110,6 +110,10 @@ export class PlacesComponent implements OnInit {
         });
       }
     );
+  }
+
+  getStatuses() {
+    this.statuses = ['APPROVED', 'PROPOSED', 'DECLINED'];
   }
 }
 
