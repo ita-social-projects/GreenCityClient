@@ -119,7 +119,7 @@ export class ProposeCafeComponent implements OnInit {
   closeModal(id: string) {
     this.modalService.close(id);
     this.saveForm.onReset();
-   // this.place.openingHoursList = undefined;
+   // this.place.openingHoursList = new OpeningHours()[];
     this.ngSelectComponent.handleClearClick();
   }
 
