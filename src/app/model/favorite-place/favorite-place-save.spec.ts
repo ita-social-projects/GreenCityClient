@@ -1,20 +1,20 @@
-import { FavoritePlace } from './favorite-place';
+import {FavoritePlaceSave} from './favorite-place-save';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 
 describe('UserComponent', () => {
-  let component: FavoritePlace;
-  let fixture: ComponentFixture<FavoritePlace>;
+  let component: FavoritePlaceSave;
+  let fixture: ComponentFixture<FavoritePlaceSave>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FavoritePlace ]
+      declarations: [ FavoritePlaceSave ]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FavoritePlace);
+    fixture = TestBed.createComponent(FavoritePlaceSave);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

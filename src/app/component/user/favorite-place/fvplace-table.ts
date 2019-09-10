@@ -1,8 +1,8 @@
-import {Component, OnInit, Inject} from '@angular/core';
+import {Component, OnInit, Inject, Input, OnChanges} from '@angular/core';
 import {FavoritePlace} from '../../../model/favorite-place/favorite-place';
 import {FavoritePlaceService} from '../../../service/favorite-place/favorite-place.service';
 import {ModalService} from '../_modal/modal.service';
-import {PlaceService} from "../../../service/place/place.service";
+import {PlaceService} from '../../../service/place/place.service';
 
 export interface PeriodicElement {
   name: string;
@@ -17,9 +17,6 @@ export interface PeriodicElement {
 })
 export class FavoritePlaceModalComponent  {
   constructor(private modalService: ModalService) {}
-
-
-
   openModal(id: string) {
     this.modalService.open(id);
   }
@@ -34,11 +31,13 @@ export class FavoritePlaceModalComponent  {
   templateUrl: 'fvplace-table.html',
 })
 export class FvPlaceTableComponent  implements OnInit {
-  displayedColumns: string[] = ['Id', 'Name', 'Actions'];
-  //placeInfo : PlaceInfo;
+  displayedColumns: string[] = [ 'Name', 'Actions'];
+  // placeInfo : PlaceInfo;
   favoritePlaces: FavoritePlace[];
+  id: number;
+  name: string;
 
-  constructor( private favoritePlaceService: FavoritePlaceService,private placeService: PlaceService, private modalService: ModalService
+  constructor( private favoritePlaceService: FavoritePlaceService, private placeService: PlaceService, private modalService: ModalService
   ) {
   }
   ngOnInit() {
@@ -53,31 +52,38 @@ export class FvPlaceTableComponent  implements OnInit {
     console.log('fp show all');
     this.favoritePlaceService.findAllByUserEmail().subscribe((res) => this.favoritePlaces = res);
   }
-  update(id: bigint, name: string) {// update in table
-    console.log('fp update' + id);
-    this.favoritePlaceService.updateFavoritePlace(new FavoritePlace(id, name + '1')).subscribe(() => this.showAll()); /// delete 1
-  }
-  delete(id: bigint) {// delete from table
+
+  delete(id: number) {// delete from table
     console.log('fp delete');
     this.favoritePlaceService.deleteFavoritePlace(id).subscribe(() => this.showAll());
   }
   closeModal(id: string) {
     this.modalService.close(id);
   }
+  openModal(id: string, idfp: number, name: string) {
+    this.id = idfp;
+    this.name = name;
+    this.modalService.open(id);
+  }
 
 }
+@Component({
+  selector: 'app-fvplace-edit-name',
+  templateUrl: 'edit-name.html',
+})
+export class FavoritePlaceEditModalComponent  {
+  @Input() id: number;
+  @Input() name: string;
+  constructor(private favoritePlaceService: FavoritePlaceService, private modalService: ModalService) {
+  }
 
-// //////////////////
-// export class EditFavoriteNameComponent {
-//   constructor(private name: String, modalService: ModalService) {
-//
-//   }
-//
-// }
-//
-//
-//
-//   openModal(id: string) {
-//     this.modalService.open(id);
-//   }
-// }
+  update() {// update in table
+    console.log('fp update id=' + this.id + ' name=' + this.name);
+    this.favoritePlaceService.updateFavoritePlace(new FavoritePlace(this.id, this.name)).subscribe(); /// delete 1
+    this.closeModal('fp-modal-edit');
+  }
+  closeModal(id: string) {
+    this.modalService.close(id);
+  }
+
+}

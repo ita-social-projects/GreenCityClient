@@ -25,6 +25,8 @@
     "@ng-bootstrap/ng-bootstrap": "^5.1.1",
     "@ng-select/ng-select": "^3.0.7",
     "angular-bootstrap-md": "latest",
+    "big-integer": "^1.6.44",
+    "bignumber.js": "^9.0.0",
     "bootstrap": "^4.3.1",
     "material-ui-bottom-sheet": "^0.5.1",
     "nativescript-material-bottomsheet": "^2.3.23",
