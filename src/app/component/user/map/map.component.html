@@ -27,6 +27,7 @@
         [latitude]="lat"
         [longitude]="lng"
         [zoom]="zoom"
+        (idle)="getList()"
         (boundsChange)="boundsChange($event)"
       >
         <agm-marker (markerClick)="showDetail(p.id)"

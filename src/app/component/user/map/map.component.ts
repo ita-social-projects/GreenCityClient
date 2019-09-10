@@ -28,7 +28,6 @@ export class MapComponent implements OnInit {
     this.mapBounds = new MapBounds();
     this.setCurrentLocation();
   }
-
   private setCurrentLocation() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -45,12 +44,6 @@ export class MapComponent implements OnInit {
     this.mapBounds.northEastLng = latLngBounds.getNorthEast().lng();
     this.mapBounds.southWestLat = latLngBounds.getSouthWest().lat();
     this.mapBounds.southWestLng = latLngBounds.getSouthWest().lng();
-    if (this.button === true) {
-    } else {
-      this.placeService.getListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => this.place = res);
-      console.log(this.place);
-    }
-
   }
 
   setMarker(place: any) {
@@ -63,10 +56,7 @@ export class MapComponent implements OnInit {
     this.button = !this.button;
     this.placeService.getListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => this.place = res);
     this.searchText = null;
-  }
-
-  Show() {
-    this.button = !this.button;
+    console.log(this.place);
   }
 
   showDetail(p: number) {
@@ -81,6 +71,8 @@ export class MapComponent implements OnInit {
       this.button = !this.button;
     }
   }
-
-
+  getList() {
+    this.placeService.getListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => this.place = res);
+    this.searchText = null;
+  }
 }
