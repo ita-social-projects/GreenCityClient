@@ -1,8 +1,8 @@
 export class FavoritePlace {
-  constructor(id: bigint, name: string) {
-    this.id = id;
+  constructor(id: number, name: string) {
+    this.id = Number(id);
     this.name = name;
   }
-  id: bigint;
+  id: number;
   name: string;
 }

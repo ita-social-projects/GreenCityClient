@@ -6,6 +6,7 @@ import {mainLink} from '../links';
   providedIn: 'root'
 })
 export class BaseService {
+
    protected apiUrl = `${mainLink}`;
 
   constructor(protected http: HttpClient) {}

@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {UserRoleModel} from '../../model/user/user-role.model';
 import {UserStatusModel} from '../../model/user/user-status.model';
 import {UserPageableDtoModel} from '../../model/user/user-pageable-dto.model';
+import {userLink} from '../../links';
 import {mainLink} from '../../links';
 import {RolesModel} from '../../model/user/roles.model';
 
@@ -41,13 +42,14 @@ export class UserService {
   }
 
   getAllUsers(paginationSettings: string): Observable<UserPageableDtoModel> {
-    return this.http.get<UserPageableDtoModel>(`${this.apiUrl}` + paginationSettings);
+    return this.http.get<UserPageableDtoModel>(userLink + paginationSettings);
   }
 
   updateUserStatus(id: number, userStatus: string) {
     this.dto = new UserStatusModel();
     this.dto.id = id;
     this.dto.userStatus = userStatus;
+
     return this.http.patch<any>(`${this.apiUrl}update/status`, this.dto);
   }
 

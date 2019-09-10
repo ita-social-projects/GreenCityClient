@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {RouterModule} from '@angular/router';
 import {router} from './router';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AgmCoreModule} from '@agm/core';
 import {MapComponent} from './component/user/map/map.component';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
@@ -15,8 +15,6 @@ import {UserComponent} from './component/user/user.component';
 import {AuthComponent} from './component/user/auth/auth.component';
 import {SignInComponent} from './component/user/auth/sign-in/sign-in.component';
 import {SubmitEmailComponent} from './component/user/auth/submit-email/submit-email.component';
-import {SelectorComponent} from './component/user/propose-cafe/selector/selector.component';
-import {MapModalComponent} from './component/user/propose-cafe/map/map-modal.component';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {ModalModule} from './component/user/_modal/modal.module';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
@@ -25,8 +23,14 @@ import {InterceptorService} from './service/interceptor.service';
 import {AdminModule} from './component/admin/admin.module';
 import {NgFlashMessagesModule} from 'ng-flash-messages';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {FavoritePlaceModalComponent, FvPlaceTableComponent} from './component/user/favorite-place/fvplace-table';
-import {MatTableModule} from '@angular/material';
+import {
+  FavoritePlaceEditModalComponent,
+  FavoritePlaceModalComponent,
+  FvPlaceTableComponent
+} from './component/user/favorite-place/fvplace-table';
+import { MatTableModule} from '@angular/material';
+import { MatIconModule } from '@angular/material/icon';
+import {MDBBootstrapModule} from 'angular-bootstrap-md';
 
 @NgModule({
   declarations: [
@@ -40,11 +44,10 @@ import {MatTableModule} from '@angular/material';
     SignInComponent,
     SubmitEmailComponent,
     MapComponent,
-    SelectorComponent,
     ProposeCafeComponent,
-    MapModalComponent,
     FvPlaceTableComponent,
-    FavoritePlaceModalComponent
+    FavoritePlaceModalComponent,
+    FavoritePlaceEditModalComponent,
 
   ],
   imports: [
@@ -61,8 +64,12 @@ import {MatTableModule} from '@angular/material';
     AdminModule,
     NgFlashMessagesModule.forRoot(),
     NgSelectModule,
-    ModalModule,
     MatTableModule,
+    MatIconModule,
+    MDBBootstrapModule,
+    ModalModule,
+    ReactiveFormsModule,
+    NgFlashMessagesModule.forRoot()
   ],
   providers: [
     {
@@ -74,4 +81,5 @@ import {MatTableModule} from '@angular/material';
   bootstrap: [AppComponent]
 })
 export class AppModule {
+
 }

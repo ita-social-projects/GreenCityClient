@@ -15,37 +15,105 @@
             Name must be maximum 30 characters long.
           </div>
         </div>
-        <input type="text" id="name" class="form-control" [(ngModel)]="place.name" #nameControl="ngModel"
+        <input type="text" id="name" class="form-control" [(ngModel)]="placeName" #nameControl="ngModel"
                placeholder="Name" required
                minlength="3" maxlength="30" name="name">
         <br>
-        <app-selector
-          (addCategory)="showCat($event)"></app-selector>
-        <app-mappp (addLocation)="showLoc($event)"></app-mappp>
+
+        <div class="validation-error"
+             *ngIf="categoryControl.invalid && (categoryControl.dirty||categoryControl.touched)">
+          <div *ngIf="categoryControl.errors.required">
+            Category is required.
+          </div>
+          <div *ngIf="categoryControl.errors.minlength">
+            Category must be at least 3 characters long.
+          </div>
+          <div *ngIf="categoryControl.errors.maxlength">
+            Category must be maximum 30 characters long.
+          </div>
+        </div>
+        <ng-select
+          [items]="categories"
+          bindLabel="name"
+          bindValue="name"
+          id="category"
+          [addTag]=addTypeCategory
+          maxlength="30"
+          [multiple]="false"
+          placeholder="Select category or add new"
+          [(ngModel)]="name"
+          name="name"
+          #categoryControl="ngModel"
+          required>
+        </ng-select>
+        <br>
+
+        <!-- Map -->
+        <div style="margin-bottom: 20px">
+          <div class="validation-error"
+               *ngIf="addressControl.invalid && (addressControl.dirty||addressControl.touched)">
+            <div *ngIf="addressControl.errors.required">
+              Address is required.
+            </div>
+            <div *ngIf="addressControl.errors.minlength">
+              Address must be at least 3 characters long.
+            </div>
+            <div *ngIf="addressControl.errors.maxlength">
+              Address must be maximum 120 characters long.
+            </div>
+          </div>
+          <input type="text" id="address" name="address" class="form-control" [(ngModel)]="address"
+                 (keydown.enter)="$event.preventDefault()" minlength="3" maxlength="100"
+                 autocorrect="off" autocapitalize="off" spellcheck="off" #search #addressControl="ngModel" required
+                 placeholder="Enter address">
+          <br>
+
+          <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+            <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
+                        (dragEnd)="markerDragEnd($event)"></agm-marker>
+          </agm-map>
+
+          <div>
+            <div>Address: {{address}}</div>
+            <div>Latitude: {{latitude}}</div>
+            <div>Longitude: {{longitude}}</div>
+          </div>
+        </div>
       </div>
     </div>
+
     <div class="column" style="padding-left: 9%">
-      <h4 style="margin-left: 22%; margin-bottom: 3%">Select schedule: </h4>
-      <div id="weekDays-selector" *ngFor="let day of weekDays; let i = index; trackBy: trackByIdx">
-        <input type="checkbox" id="weekday-{{i}}" name="weekday-{{i}}" class="weekday" (click)="switch(i)"
-               [(ngModel)]="isChecked[i]"/>
-        <label for="weekday-{{i}}">{{day}}</label>
-        <label for="time-start" class="label-for-time">from: </label>
-        <input type="time" id="time-start" placeholder="HH:mm" [(ngModel)]="openingHoursList[i].openTime"
-               name="openTime-{{i}}"
-               [disabled]="!isChecked[i]"
-               [required]="isChecked[i]" #timeControl="ngModel">
-        <label for="time-end" class="label-for-time">to: </label>
-        <input id="time-end" type="time" placeholder="HH:mm" [(ngModel)]="openingHoursList[i].closeTime"
-               name="closeTime-{{i}}"
-               [disabled]="!isChecked[i]"
-               [required]="isChecked[i]" #timeControl="ngModel">
+      <div id="weekDays">
+        <div class="weekDay">
+          <h4 style="margin-left: 22%; margin-bottom: 3%">Select schedule: </h4>
+          <select class="form-control" style="width: 190px; display: inline;" required [(ngModel)]="openingHours.weekDay" #day="ngModel" name="weekday">
+            <option *ngFor="let day of weekDays">{{day}}</option>
+          </select>
+          <label for="time-start" class="label-for-time">from: </label>
+          <input type="time" class="form-control" style="width: 100px; display: inline;" #time="ngModel" [(ngModel)]="openingHours.openTime"
+                 id="time-start" name="openTime" placeholder="HH:mm" required>
+          <label for="time-end" class="label-for-time">to: </label>
+          <input type="time" class="form-control" style="width: 100px; display: inline;" #time="ngModel" [(ngModel)]="openingHours.closeTime"
+                 name="closeTime" id="time-end" placeholder="HH:mm" required>
+        </div>
+      </div>
+      <button class="btn btn-primary" type="button" [disabled]="!time.valid || !day.valid"
+              style="margin-top: 8px" (click)="add(openingHours)">Add day</button>
+
+      <div class="choice" *ngFor="let list of openingHoursList">
+        {{list.weekDay}} from: {{list.openTime}} to: {{list.closeTime}}
+        <button class="delete-choice" type="button" (click)="delete(list)">-</button>
       </div>
     </div>
 
   </div>
+
   <div style="display:flex; justify-content:flex-end; align-items:center;">
-  <button (click)="closeModal('custom-_modal-1');" [disabled]="!saveForm.valid"
-          class="btn btn-primary submit" type="submit">Submit</button>
+    <button [disabled]="!saveForm.valid" class="btn btn-primary submit" type="submit" style="margin-right: 1%">Submit
+    </button>
+    <button (click)="closeModal('custom-_modal-1');" class="btn btn-primary" type="button">Close</button>
   </div>
 </form>
+
+
+
