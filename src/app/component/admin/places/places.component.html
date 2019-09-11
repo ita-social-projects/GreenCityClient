@@ -51,7 +51,7 @@
           <td *matCellDef="let element">
             <div class="updateStatus">
               <mat-select [(value)]="element.status"
-                          (selectionChange)="updateStatus(element.id, $event.value)">
+                          (selectionChange)="updateStatus(element.id, $event.value, element.name)">
                 <mat-option *ngFor="let status of statuses" [value]="status">{{status}}</mat-option>
               </mat-select>
             </div>

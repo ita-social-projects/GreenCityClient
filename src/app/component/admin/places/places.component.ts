@@ -83,7 +83,7 @@ export class PlacesComponent implements OnInit {
     this.onGetPlaces();
   }
 
-  updateStatus(placeId: number, placeStatus: string) {
+  updateStatus(placeId: number, placeStatus: string, placeName: string) {
     this.placeService.updatePlaceStatus(
       {
         id: placeId,
@@ -92,7 +92,7 @@ export class PlacesComponent implements OnInit {
     ).subscribe(
       () => {
         this.ngFlashMessageService.showFlashMessage({
-          messages: [placeStatus],
+          messages: ['\"' + placeName + '\"' + ' was ' + placeStatus],
           dismissible: true,
           timeout: 3000,
           type: 'success',
@@ -100,7 +100,7 @@ export class PlacesComponent implements OnInit {
         this.onGetPlaces();
       },
       error => {
-        this.errorMsg = 'Error. Item was not ' + placeStatus + '.Please try again';
+        this.errorMsg = 'Error.' + '\"' + placeName + '\"' + ' was not ' + placeStatus + '.Please try again';
 
         this.ngFlashMessageService.showFlashMessage({
           messages: [this.errorMsg],
