@@ -19,7 +19,7 @@ let decodedJwtData = null;
 export class UserService {
   dto: UserStatusModel;
   roleDto: UserRoleModel;
-  apiUrl = `${mainLink}user/`;
+  apiUrl = `${mainLink}user`;
 
   constructor(private http: HttpClient) {
     if (token != null) {
@@ -42,25 +42,24 @@ export class UserService {
   }
 
   getAllUsers(paginationSettings: string): Observable<UserPageableDtoModel> {
-    return this.http.get<UserPageableDtoModel>(userLink + paginationSettings);
+    return this.http.get<UserPageableDtoModel>(`${this.apiUrl}` + paginationSettings);
   }
 
   updateUserStatus(id: number, userStatus: string) {
     this.dto = new UserStatusModel();
     this.dto.id = id;
     this.dto.userStatus = userStatus;
-
-    return this.http.patch<any>(`${this.apiUrl}update/status`, this.dto);
+    return this.http.patch<any>(`${this.apiUrl}/status`, this.dto);
   }
 
   updateUserRole(id: number, role: string) {
     this.roleDto = new UserRoleModel();
     this.roleDto.id = id;
     this.roleDto.role = role;
-    return this.http.patch<any>(`${this.apiUrl}update/role`, this.roleDto);
+    return this.http.patch<any>(`${this.apiUrl}/role`, this.roleDto);
   }
 
   getRoles(): Observable<RolesModel> {
-    return this.http.get<RolesModel>(`${this.apiUrl}roles`);
+    return this.http.get<RolesModel>(`${this.apiUrl}/roles`);
   }
 }
