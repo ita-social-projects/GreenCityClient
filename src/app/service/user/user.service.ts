@@ -19,7 +19,7 @@ let decodedJwtData = null;
 export class UserService {
   dto: UserStatusModel;
   roleDto: UserRoleModel;
-  apiUrl = `${mainLink}user/`;
+  apiUrl = `${mainLink}user`;
 
   constructor(private http: HttpClient) {
     if (token != null) {
