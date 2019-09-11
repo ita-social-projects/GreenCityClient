@@ -42,7 +42,7 @@ export class UserService {
   }
 
   getAllUsers(paginationSettings: string): Observable<UserPageableDtoModel> {
-    return this.http.get<UserPageableDtoModel>(`${this.apiUrl}` + paginationSettings)
+    return this.http.get<UserPageableDtoModel>(`${this.apiUrl}` + paginationSettings);
   }
 
   updateUserStatus(id: number, userStatus: string) {

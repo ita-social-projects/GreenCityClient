@@ -32,7 +32,7 @@
             <div class="selectRole">
               <mat-select [(value)]="element.role"
                           (selectionChange)="changeRole(element.id, $event.value, element.email)"
-                          [disabled]="(element.email === userEmail)">
+                          [disabled]="element.email === userEmail">
                 <mat-option *ngFor="let role of roles" [value]="role">
                   {{role.toString().toLocaleLowerCase()}}
                 </mat-option>
