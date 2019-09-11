@@ -48,19 +48,12 @@
               <a class="dropdown-item" (click)="changeStatus('declined')">Declined</a>
             </div>
           </th>
-          <td mat-cell *matCellDef="let element"> {{element.status}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="Action">
-          <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let element">
-            <div class="action" *ngIf="defaultStatus === 'proposed'">
-              <button (click)="updateStatus(element.id, 'APPROVED')" type="button" class="btn btn-outline-success">
-                Approve
-              </button>
-              <button (click)="updateStatus(element.id, 'DECLINED')" type="button" class="btn btn-outline-danger">
-                Decline
-              </button>
+          <td *matCellDef="let element">
+            <div class="updateStatus">
+              <mat-select [(value)]="element.status"
+                          (selectionChange)="updateStatus(element.id, $event.value, element.name)">
+                <mat-option *ngFor="let status of statuses" [value]="status">{{status}}</mat-option>
+              </mat-select>
             </div>
           </td>
         </ng-container>

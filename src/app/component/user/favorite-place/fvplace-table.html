@@ -1,41 +1,49 @@
+<div class="card mx-auto" style="width: 80% ">
+  <div class="card-body">
+    <app-modal id='fp-modal-edit' >
+      <app-fvplace-edit-name [name]="name" [id]="id"></app-fvplace-edit-name>
+    </app-modal>
+    <h4 class="card-title">Favorite places</h4>
+    <table mat-table [dataSource]="favoritePlaces" class="mat-elevation-z8">
 
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
 
-  <table mat-table [dataSource]="favoritePlaces"  class="mat-elevation-z8">
+      <!-- Position Column -->
+      <ng-container matColumnDef="Id">
+        <th mat-header-cell *matHeaderCellDef> Id</th>
+        <td mat-cell *matCellDef="let element"> {{ element.id}} </td>
+      </ng-container>
 
-    <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
+      <!-- Name Column -->
+      <ng-container matColumnDef="Name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name</th>
+        <td mat-cell *matCellDef="let element"> {{element.name}}</td>
+      </ng-container>
 
-    <!-- Position Column -->
-    <ng-container matColumnDef="Id">
-      <th mat-header-cell *matHeaderCellDef> id </th>
-      <td mat-cell *matCellDef="let element"> {{ element.id}} </td>
-    </ng-container>
+      <!-- Name Column -->
+      <ng-container matColumnDef="Actions">
+        <th mat-header-cell *matHeaderCellDef> Actions</th>
+        <td mat-cell *matCellDef="let element">
+          <button (click)="findOnMap(element.id)" class="btn btn-outline-success">Go to map</button>&nbsp;&nbsp;&nbsp;
+          <button (click)="openModal('fp-modal-edit',element.id,element.name)" class="btn btn-outline-info">Edit</button>&nbsp;&nbsp;&nbsp;
+          <button (click)="delete(element.id)" class="btn btn-outline-danger">Delete</button>
+        </td>
+      </ng-container>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="Name">
-      <th mat-header-cell *matHeaderCellDef> name </th>
-      <td mat-cell *matCellDef="let element"> {{element.name}}</td>
-    </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="Actions">
-      <th mat-header-cell *matHeaderCellDef> Actions </th>
-      <td mat-cell *matCellDef="let element">
-        <button (click)="findOnMap(element.id)" >Go to map</button>&nbsp;&nbsp;&nbsp;
-        <button (click)="update(element.id,element.name)" >Edit</button>&nbsp;&nbsp;&nbsp;
-        <button (click)="delete(element.id)" >Delete</button></td>
-    </ng-container>
+    </table>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: ['Id', 'Name','Actions'];"></tr>
-  </table>
+    <div style="display:flex; justify-content:flex-end; align-items:center;">
+      <button class="btn btn-primary submit" type="submit" (click)="showAll('fp-modal-1')">Refresh</button>
 
+      <button class="btn btn-danger submit" type="submit" (click)="closeModal('fp-modal-1')">Close</button>
+    </div>
 
-<div style="display:flex; justify-content:flex-end; align-items:center;">
-  <button (click)="closeModal('fp-modal-1');"
-          class="btn btn-primary submit" type="submit">Submit</button>
+  </div>
 </div>
-
 <!-- Copyright 2019 Google Inc. All Rights Reserved.
     Use of this source code is governed by an MIT-style license that
     can be found in the LICENSE file at http://angular.io/license -->

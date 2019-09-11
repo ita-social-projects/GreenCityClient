@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {UserRoleModel} from '../../model/user/user-role.model';
 import {UserStatusModel} from '../../model/user/user-status.model';
 import {UserPageableDtoModel} from '../../model/user/user-pageable-dto.model';
+import {userLink} from '../../links';
 import {mainLink} from '../../links';
 import {RolesModel} from '../../model/user/roles.model';
 
@@ -18,7 +19,7 @@ let decodedJwtData = null;
 export class UserService {
   dto: UserStatusModel;
   roleDto: UserRoleModel;
-  apiUrl = `${mainLink}user`;
+  apiUrl = `${mainLink}user/`;
 
   constructor(private http: HttpClient) {
     if (token != null) {
