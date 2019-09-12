@@ -4,13 +4,13 @@ import {Place} from '../../../model/place/place';
 import {MapBounds} from '../../../model/map/map-bounds';
 import {PlaceService} from '../../../service/place/place.service';
 import {PlaceInfo} from '../../../model/place/place-info';
-import {ModalService} from '../_modal/modal.service';
 import {MatIconRegistry} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
-import {MatIconModule} from '@angular/material/icon';
 import {FavoritePlaceService} from '../../../service/favorite-place/favorite-place.service';
-import {FavoritePlace} from '../../../model/favorite-place/favorite-place';
 import {FavoritePlaceSave} from '../../../model/favorite-place/favorite-place-save';
+import {ModalService} from '../_modal/modal.service';
+import {ifTrue} from 'codelyzer/util/function';
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -26,8 +26,10 @@ export class MapComponent implements OnInit {
   zoom = 13;
   place: Place[] = [];
   map: any;
+  color = 'star-yellow';
+
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,
-              private placeService: PlaceService, private favoritePlaceService: FavoritePlaceService) {
+              private placeService: PlaceService, private favoritePlaceService: FavoritePlaceService, private modalService: ModalService) {
     iconRegistry.addSvgIcon(
       'star-white',
       sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/favorite-place/star-white.svg'));
@@ -36,16 +38,23 @@ export class MapComponent implements OnInit {
       sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/favorite-place/star-yellow.svg'));
   }
 
+
+  openModal(id: string) {
+    this.modalService.open(id);
+  }
+
   ngOnInit() {
 
     this.mapBounds = new MapBounds();
     this.setCurrentLocation();
   }
+
   mapReady(event: any) {
     this.map = event;
     this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('AllFavoritePlaces'));
 
   }
+
   private setCurrentLocation() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -93,20 +102,33 @@ export class MapComponent implements OnInit {
     this.button = !this.button;
   }
 
-  showDetail(p:number) {
+  showDetail(p: number) {
     this.placeService.getPlaceInfo(p).subscribe((res) => {
         this.placeInfo = res;
       }
-
     );
-    this.place = this.place.filter(r =>{return  r.id === p});
-    if(this.place.length===1 && this.button!=true){
-      this.button= !this.button;
+    this.place = this.place.filter(r => {
+      return r.id === p;
+    });
+    if (this.place.length === 1 && this.button != true) {
+      this.button = !this.button;
     }
   }
-  savePlaceAsFavorite(placeId: number, name: string) {
-    console.log('savePlaceAsFavorite placeId=' + placeId);
-    this.favoritePlaceService.saveFavoritePlace(new FavoritePlaceSave(placeId, name)).subscribe();
+
+  savePlaceAsFavorite(place: Place) {
+    console.log('savePlaceAsFavorite placeId=' + place.id);
+    if (!place.isFavorite) {
+      this.favoritePlaceService.saveFavoritePlace(new FavoritePlaceSave(place.id, place.name)).subscribe();
+      place.isFavorite = true;
+    } else {
+      this.favoritePlaceService.deleteFavoritePlace(place.id);
+      place.isFavorite = false;
+    }
+  }
+
+  getIcon(isFavorite: boolean) {
+    console.log('isFavorite=' + isFavorite);
+    return isFavorite ? 'star-yellow' : 'star-white';
   }
 
 }

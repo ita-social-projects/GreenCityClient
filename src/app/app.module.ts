@@ -28,9 +28,10 @@ import {
   FavoritePlaceModalComponent,
   FvPlaceTableComponent
 } from './component/user/favorite-place/fvplace-table';
-import { MatTableModule} from '@angular/material';
+import {MatDialogModule, MatFormFieldModule, MatInputModule, MatTableModule} from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
+import {TestD, TestDialog} from './component/user/favorite-place/test';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,8 @@ import {MDBBootstrapModule} from 'angular-bootstrap-md';
     FvPlaceTableComponent,
     FavoritePlaceModalComponent,
     FavoritePlaceEditModalComponent,
+    TestD,
+    TestDialog
 
   ],
   imports: [
@@ -57,7 +60,7 @@ import {MDBBootstrapModule} from 'angular-bootstrap-md';
     HttpClientModule,
     FormsModule,
     AgmCoreModule.forRoot({
-      apiKey: '',
+      apiKey: 'AIzaSyBCtiDJDctvioz4ucWNjy-j3BmxjKsUYGM',
       libraries: ['places']
     }),
     Ng2SearchPipeModule,
@@ -69,8 +72,14 @@ import {MDBBootstrapModule} from 'angular-bootstrap-md';
     MDBBootstrapModule,
     ModalModule,
     ReactiveFormsModule,
-    NgFlashMessagesModule.forRoot()
+    NgFlashMessagesModule.forRoot(),
+    MatFormFieldModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
+  entryComponents: [ TestDialog],
+
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

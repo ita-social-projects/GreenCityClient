@@ -51,7 +51,7 @@ export class PlaceService {
     this.http.post(`${this.baseUrl}propose/`, place).subscribe(
       () => {
         this.ngFlashMessageService.showFlashMessage({
-          messages: ["Cafe " + place.name + " was added for approving."],
+          messages: ['Cafe ' + place.name + ' was added for approving.'],
           dismissible: true,
           timeout: 3000,
           type: 'success'
@@ -71,6 +71,7 @@ export class PlaceService {
   getPlacesByStatus(status: string, paginationSettings: string): Observable<PlacePageableDto> {
     return this.http.get<PlacePageableDto>(`${placeLink}${status}` + paginationSettings);
   }
+
   updatePlaceStatus(placeStatus: PlaceStatus) {
     return this.http.patch<PlaceStatus>(`${placeLink}status/`, placeStatus);
   }
