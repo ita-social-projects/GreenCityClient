@@ -4,7 +4,7 @@
       <div>
         <div>
           <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off"
-                 placeholder="&#61442;  Start searching for a place">
+                 placeholder="&#61442;Searching for a place">
         </div>
         <table class="table table-striped">
           <thead>
@@ -29,8 +29,13 @@
         [longitude]="lng"
         [zoom]="zoom"
         (boundsChange)="boundsChange($event)">
+        (idle)="getList()"
+        (boundsChange)="boundsChange($event)"
+      >
         <app-fvplace-table></app-fvplace-table>
-        <button mat-button id="AllFavoritePlaces"   mdbBtn type="button" gradient="aqua" rounded="true" mdbWavesEffect (click)="openModal('fp-modal-1')" >Favorites</button>
+      <button mat-button id="AllFavoritePlaces"   mdbBtn type="button" gradient="aqua" rounded="true" mdbWavesEffect (click)="openModal('fp-modal-1')" >Favorites</button>
+
+      <app-dialog-favorite-place></app-dialog-favorite-place>
         <agm-marker (markerClick)="showDetail(p.id)"
                     *ngFor="let p of place; let i = index"
                     [latitude]="p.location.lat"
@@ -57,6 +62,5 @@
     </div>
 
   </div>
-  <button (click)="Show()"></button>
 </div>
 

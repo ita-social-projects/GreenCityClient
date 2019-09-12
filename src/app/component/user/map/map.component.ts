@@ -71,19 +71,6 @@ export class MapComponent implements OnInit {
     this.mapBounds.northEastLng = latLngBounds.getNorthEast().lng();
     this.mapBounds.southWestLat = latLngBounds.getSouthWest().lat();
     this.mapBounds.southWestLng = latLngBounds.getSouthWest().lng();
-    console.log(this.mapBounds);
-    if (this.button === true) {
-      console.log('here');
-      console.log('size 1');
-      console.log(latLngBounds.getNorthEast().lat());
-      console.log(latLngBounds.getNorthEast().lng());
-      console.log(latLngBounds.getSouthWest().lat());
-      console.log(latLngBounds.getSouthWest().lng());
-    } else {
-      this.placeService.getListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => this.place = res);
-      console.log(this.place);
-    }
-
   }
 
   setMarker(place: any) {
@@ -96,12 +83,12 @@ export class MapComponent implements OnInit {
     this.button = !this.button;
     this.placeService.getListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => this.place = res);
     this.searchText = null;
+    console.log(this.place);
   }
 
   Show() {
     this.button = !this.button;
   }
-
   showDetail(p: number) {
     this.placeService.getPlaceInfo(p).subscribe((res) => {
         this.placeInfo = res;
@@ -110,7 +97,7 @@ export class MapComponent implements OnInit {
     this.place = this.place.filter(r => {
       return r.id === p;
     });
-    if (this.place.length === 1 && this.button != true) {
+    if (this.place.length === 1 && this.button !== true) {
       this.button = !this.button;
     }
   }
@@ -131,4 +118,10 @@ export class MapComponent implements OnInit {
     return isFavorite ? 'star-yellow' : 'star-white';
   }
 
+  getList() {
+    if (this.button !== true) {
+      this.placeService.getListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => this.place = res);
+      this.searchText = null;
+    }
+  }
 }
