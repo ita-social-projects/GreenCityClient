@@ -1,19 +1,25 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Place} from '../../model/place/place';
 import {MapBounds} from '../../model/map/map-bounds';
 import {PlaceInfo} from '../../model/place/place-info';
 import {PlaceStatus} from '../../model/place/place-status.model';
 import {PlacePageableDto} from '../../model/place/place-pageable-dto.model';
-import {placeLink} from "../../links";
+import {placeLink} from '../../links';
+
+import {mainLink} from '../../links';
+import {NgFlashMessageService} from 'ng-flash-messages';
+import {PlaceAddDto} from '../../model/placeAddDto.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlaceService {
 
-  constructor(private http: HttpClient) {
+  private baseUrl = `${mainLink}place/`;
+
+  constructor(private http: HttpClient, private ngFlashMessageService: NgFlashMessageService) {
   }
 
   static getWeekDayShortForm(day: string): any {
@@ -41,12 +47,29 @@ export class PlaceService {
     return this.http.post<Place[]>(`${placeLink}getListPlaceLocationByMapsBounds/`, mapBounds);
   }
 
-  getPlacesByStatus(status: string, paginationSettings: string): Observable<PlacePageableDto> {
-    return this.http.get<PlacePageableDto>(`${placeLink}${status}` + paginationSettings);
+  save(place: PlaceAddDto) {
+    this.http.post(`${this.baseUrl}propose/`, place).subscribe(
+      () => {
+        this.ngFlashMessageService.showFlashMessage({
+          messages: ["Cafe " + place.name + " was added for approving."],
+          dismissible: true,
+          timeout: 3000,
+          type: 'success'
+        });
+      }
+    );
   }
 
   getPlaceInfo(id: number): Observable<PlaceInfo> {
-    return this.http.get<PlaceInfo>(`${placeLink}Info/${id}`)
+    return this.http.get<PlaceInfo>(`${placeLink}Info/${id}`);
+  }
+
+  getFavoritePlaceInfo(id: number): Observable<PlaceInfo> {
+    return this.http.get<PlaceInfo>(`${placeLink}info/favorite/${id}`);
+  }
+
+  getPlacesByStatus(status: string, paginationSettings: string): Observable<PlacePageableDto> {
+    return this.http.get<PlacePageableDto>(`${placeLink}${status}` + paginationSettings);
   }
 
   updatePlaceStatus(placeStatus: PlaceStatus) {
