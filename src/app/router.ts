@@ -8,7 +8,7 @@ import {AdminComponent} from './component/admin/admin.component';
 import {PlacesComponent} from './component/admin/places/places.component';
 import {UsersComponent} from './component/admin/users/users.component';
 
-export var router = [
+export const router = [
   {
     path: '', component: UserComponent, children: [
       {

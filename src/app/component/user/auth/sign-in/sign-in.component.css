@@ -4,10 +4,11 @@
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
+  width: 30%;
 }
 
 .sign-in input {
-  width: 400px;
+  width: 100%;
 }
 
 .error, .validation-error {

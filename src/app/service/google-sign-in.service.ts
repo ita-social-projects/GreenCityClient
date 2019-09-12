@@ -1,8 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {UserOwnSignUp} from '../model/user-own-sign-up';
-import {googleSecurityLink, userOwnSignInLink, userOwnSignUpLink} from '../links';
-import {UserOwnSignIn} from '../model/user-own-sign-in';
+import {googleSecurityLink} from '../links';
 import {Observable} from 'rxjs';
 import {UserSuccessSignIn} from '../model/user-success-sign-in';
 
