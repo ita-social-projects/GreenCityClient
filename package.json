@@ -23,17 +23,18 @@
     "@angular/platform-browser-dynamic": "~8.2.0",
     "@angular/router": "~8.2.0",
     "@ng-select/ng-select": "^3.0.7",
+    "angular-bootstrap-md": "latest",
+    "angularx-social-login": "^1.2.7",
+    "bootstrap": "4.1.1",
     "material-ui-bottom-sheet": "^0.5.1",
     "nativescript-material-bottomsheet": "^2.3.23",
-    "bootstrap": "4.1.1",
-    "ngx-bootstrap": "^5.1.1",
-    "ngx-pagination": "^4.1.0",
     "ng-flash-messages": "^0.3.0",
     "ng2-search-filter": "^0.5.1",
+    "ngx-bootstrap": "^5.1.1",
+    "ngx-pagination": "^4.1.0",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
-    "zone.js": "~0.9.1",
-    "angular-bootstrap-md": "latest"
+    "zone.js": "~0.9.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.802.1",
