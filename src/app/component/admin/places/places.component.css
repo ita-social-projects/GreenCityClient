@@ -1,3 +1,9 @@
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+table {
+  width: 100%;
+}
+
 table {
   width: 100%;
 }
@@ -5,6 +11,13 @@ table {
 body {
   font-family: Roboto, Arial, sans-serif;
   margin: 0;
+}
+
+th,td {
+  padding-left: 10px;
+  padding-right: 5px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
 .nav-link {
@@ -23,4 +36,13 @@ body {
   height: auto;
   position: center;
   text-align: center;
+}
+
+.action {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.table-responsive {
+  padding: 13px;
 }

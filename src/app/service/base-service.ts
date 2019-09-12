@@ -1,9 +1,12 @@
-import {HttpClient} from '@angular/common/http';
-import {Observable, of} from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import {mainLink} from '../links';
 
 export abstract class BaseService {
-  constructor(protected http: HttpClient) {
-  }
+
+  protected apiUrl = `${mainLink}`;
+
+  constructor(protected http: HttpClient) {}
 
   protected log(message) {
     console.log(message);

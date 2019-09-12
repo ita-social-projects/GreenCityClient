@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {EventManager, Title} from '@angular/platform-browser';
+import {Title} from '@angular/platform-browser';
 import {AdminPlace} from '../../../model/place/admin-place.model';
 import {OpenHours} from '../../../model/openHours/open-hours.model';
 import {NgFlashMessageService} from 'ng-flash-messages';
 import {PlaceService} from '../../../service/place/place.service';
+import {FlashMessage} from 'ng-flash-messages/models/flash-message';
 
 @Component({
   selector: 'app-places',
@@ -18,8 +19,9 @@ export class PlacesComponent implements OnInit {
   page = 1;
   totalItems: number;
   private errorMsg: string;
+  statuses: string[];
 
-  displayedColumns: string[] = ['ID', 'Category', 'Name', 'Location', 'Working hours', 'Added By', 'Added On', 'Status', 'Action'];
+  displayedColumns: string[] = ['Category', 'Name', 'Location', 'Working hours', 'Added By', 'Added On', 'Status'];
 
   defaultStatus = 'proposed';
 
@@ -30,6 +32,7 @@ export class PlacesComponent implements OnInit {
   ngOnInit() {
     this.titleService.setTitle('Admin - Places');
     this.onGetPlaces();
+    this.getStatuses();
   }
 
   getCurrentPaginationSettings(): string {
@@ -44,19 +47,12 @@ export class PlacesComponent implements OnInit {
     });
   }
 
-  onStatusClick() {
-    document.getElementById('statusMenu').classList.toggle('show');
-  }
 
   changeStatus(status: string) {
     this.defaultStatus = status;
     this.places = null;
     this.onGetPlaces();
     console.log(this.defaultStatus);
-  }
-
-  onOpenHoursShow() {
-    document.getElementById('openHoursMenu').classList.toggle('show');
   }
 
   convertHoursToShort(openHours: OpenHours[]): any {
@@ -87,7 +83,7 @@ export class PlacesComponent implements OnInit {
     this.onGetPlaces();
   }
 
-  updateStatus(placeId: number, placeStatus: string) {
+  updateStatus(placeId: number, placeStatus: string, placeName: string) {
     this.placeService.updatePlaceStatus(
       {
         id: placeId,
@@ -96,18 +92,15 @@ export class PlacesComponent implements OnInit {
     ).subscribe(
       () => {
         this.ngFlashMessageService.showFlashMessage({
-          messages: [placeStatus === 'APPROVED' ? 'Approved' : 'Declined'],
+          messages: ['\"' + placeName + '\"' + ' was ' + placeStatus],
           dismissible: true,
           timeout: 3000,
-          type: 'success'
+          type: 'success',
         });
-        console.log(placeStatus === 'APPROVED' ? 'Approved' : 'Declined');
         this.onGetPlaces();
       },
       error => {
-        this.errorMsg = 'Error. Item was not ';
-        this.errorMsg += placeStatus === 'APPROVED' ? 'approved' : 'declined';
-        this.errorMsg += '.Please try again';
+        this.errorMsg = 'Error.' + '\"' + placeName + '\"' + ' was not ' + placeStatus + '.Please try again';
 
         this.ngFlashMessageService.showFlashMessage({
           messages: [this.errorMsg],
@@ -117,6 +110,10 @@ export class PlacesComponent implements OnInit {
         });
       }
     );
+  }
+
+  getStatuses() {
+    this.statuses = ['APPROVED', 'PROPOSED', 'DECLINED'];
   }
 }
 
