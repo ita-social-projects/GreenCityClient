@@ -24,6 +24,7 @@
     "@angular/router": "~8.2.0",
     "@ng-bootstrap/ng-bootstrap": "^5.1.1",
     "@ng-select/ng-select": "^3.0.7",
+    "agm-direction": "^0.7.8",
     "angular-bootstrap-md": "latest",
     "big-integer": "^1.6.44",
     "bignumber.js": "^9.0.0",

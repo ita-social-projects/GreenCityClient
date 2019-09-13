@@ -14,7 +14,8 @@
           </thead>
           <tbody>
           <tr *ngFor="let p of place | filter:searchText" (click)="setMarker(p)">
-            <td>{{p.name}}</td>
+            <td>{{p.name}}
+            </td>
           </tr>
           </tbody>
 
@@ -22,16 +23,24 @@
         <button *ngIf="button;" (click)="showAll()">Show all</button>
       </div>
     </div>
-    <div class="sub-2">
-      <agm-map
-        (mapReady)="mapReady($event)"
-        [latitude]="lat"
-        [longitude]="lng"
-        [zoom]="zoom"
-        (idle)="getList()"
-        (boundsChange)="boundsChange($event)"
+    <div class="sub-2" #map>
+      <agm-map [style.width.px]="map.offsetWidth"
+               [style.height.px]="map.offsetHeight"
+               (mapReady)="mapReady($event)"
+               [latitude]="lat"
+               [longitude]="lng"
+               [zoom]="zoom"
+               (idle)="getList()"
+               (boundsChange)="boundsChange($event)"
       >
+
+        <agm-direction *ngIf="origin" [origin]="origin" [destination]="destination"
+                       [travelMode]="'WALKING'"
+                       [provideRouteAlternatives]="true"
+                       [visible]="true">
+        </agm-direction>
         <app-dialog-favorite-place></app-dialog-favorite-place>
+        <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true" [iconUrl]="'http://maps.google.com/mapfiles/kml/paddle/blu-blank.png'" ></agm-marker>
         <agm-marker (markerClick)="showDetail(p.id)"
                     *ngFor="let p of place; let i = index"
                     [latitude]="p.location.lat"
@@ -39,7 +48,8 @@
           <agm-info-window *ngIf="placeInfo">
 
             <h5>{{placeInfo.name}}
-              <button mat-icon-button style="float: right;  background-color: white; border-width: inherit" (click)="savePlaceAsFavorite(p.id, p.name)">
+              <button mat-icon-button style="float: right;  background-color: white; border-width: inherit"
+                      (click)="savePlaceAsFavorite(p.id, p.name)">
                 <mat-icon svgIcon="star-white"></mat-icon>
               </button>
             </h5>
@@ -51,7 +61,7 @@
             <p>{{placeInfo.location.address}}</p>
             <li *ngFor="let openingHoursList of placeInfo.openingHoursList">{{openingHoursList.weekDay}}
               :{{openingHoursList.openTime}}-{{openingHoursList.closeTime}}</li>
-            <p></p>
+            <p><button *ngIf="button" (click)="getDirection(p)">Navigate to place </button></p>
           </agm-info-window>
         </agm-marker>
       </agm-map>

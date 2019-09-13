@@ -31,6 +31,7 @@ import {
 import { MatTableModule} from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
+import {AgmDirectionModule} from 'agm-direction';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import {MDBBootstrapModule} from 'angular-bootstrap-md';
       apiKey: '',
       libraries: ['places']
     }),
+    AgmDirectionModule,
     Ng2SearchPipeModule,
     AdminModule,
     NgFlashMessagesModule.forRoot(),
