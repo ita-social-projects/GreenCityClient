@@ -33,6 +33,9 @@ import { MatIconModule } from '@angular/material/icon';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
 import { FilterComponent } from './component/filter/filter.component';
 import {Ng5SliderModule} from 'ng5-slider';
+import {provideConfig} from './config/GoogleAuthConfig';
+import {AuthServiceConfig, SocialLoginModule} from 'angularx-social-login';
+import {AgmDirectionModule} from 'agm-direction';
 
 @NgModule({
   declarations: [
@@ -58,10 +61,13 @@ import {Ng5SliderModule} from 'ng5-slider';
     RouterModule.forRoot(router),
     HttpClientModule,
     FormsModule,
+    SocialLoginModule,
+    FormsModule,
     AgmCoreModule.forRoot({
       apiKey: '',
       libraries: ['places']
     }),
+    AgmDirectionModule,
     Ng2SearchPipeModule,
     AdminModule,
     NgFlashMessagesModule.forRoot(),
@@ -81,6 +87,10 @@ import {Ng5SliderModule} from 'ng5-slider';
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,
       multi: true
+    },
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig
     }
   ],
   bootstrap: [AppComponent]

@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {UserOwnSignUp} from "../../../../model/user-own-sign-up";
-import {UserOwnSignUpService} from "../../../../service/user-own-sign-up.service";
-import {HttpErrorResponse} from "@angular/common/http";
-import {Router} from "@angular/router";
+import {UserOwnSignUp} from '../../../../model/user-own-sign-up';
+import {UserOwnSignUpService} from '../../../../service/user-own-sign-up.service';
+import {HttpErrorResponse} from '@angular/common/http';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -17,7 +17,7 @@ export class SignUpComponent implements OnInit {
   private emailErrorMessageBackEnd: string;
   private passwordErrorMessageBackEnd: string;
 
-  private loadingAnim: boolean = false;
+  private loadingAnim = false;
 
 
   constructor(private userOwnSecurityService: UserOwnSignUpService, private rout: Router) {
@@ -34,17 +34,17 @@ export class SignUpComponent implements OnInit {
     this.userOwnSecurityService.signUp(userOwnRegister).subscribe(
       () => {
         this.loadingAnim = false;
-        this.rout.navigate(["auth/submit-email"])
+        this.rout.navigate(['auth/submit-email']);
       },
       (errors: HttpErrorResponse) => {
         errors.error.forEach(error => {
-          if (error.name == 'firstName') {
+          if (error.name === 'firstName') {
             this.firstNameErrorMessageBackEnd = error.message;
-          } else if (error.name == 'lastName') {
+          } else if (error.name === 'lastName') {
             this.lastNameErrorMessageBackEnd = error.message;
-          } else if (error.name == 'email') {
+          } else if (error.name === 'email') {
             this.emailErrorMessageBackEnd = error.message;
-          } else if (error.name == 'password') {
+          } else if (error.name === 'password') {
             this.passwordErrorMessageBackEnd = error.message;
           }
         });

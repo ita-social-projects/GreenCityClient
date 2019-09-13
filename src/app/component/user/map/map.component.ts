@@ -15,6 +15,7 @@ import {FavoritePlaceSave} from '../../../model/favorite-place/favorite-place-sa
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit {
+
   placeInfo: PlaceInfo;
   button = false;
   mapBounds: MapBounds;
@@ -25,19 +26,44 @@ export class MapComponent implements OnInit {
   place: Place[] = [];
   map: any;
   isFilter = false;
+  origin: any;
+  destination: any;
+  geoLocation: any;
+  directionButton: boolean;
 
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,
-              private placeService: PlaceService, private favoritePlaceService: FavoritePlaceService) {
-    iconRegistry.addSvgIcon(
-      'star-white',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/favorite-place/star-white.svg'));
-    iconRegistry.addSvgIcon(
-      'star-yellow',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/favorite-place/star-yellow.svg'));
+              private placeService: PlaceService
+    ,
+              private favoritePlaceService: FavoritePlaceService
+  ) {
+    iconRegistry
+      .addSvgIcon(
+        'star-white'
+        ,
+        sanitizer
+          .bypassSecurityTrustResourceUrl(
+            'assets/img/icon/favorite-place/star-white.svg'
+          ));
+    iconRegistry
+      .addSvgIcon(
+        'star-yellow'
+        ,
+        sanitizer
+          .bypassSecurityTrustResourceUrl(
+            'assets/img/icon/favorite-place/star-yellow.svg'
+          ));
+
+  }
+
+  getDirection(p: Place) {
+    this.setCurrentLocation();
+    this.origin = {lat: this.lat, lng: this.lng};
+    console.log('log');
+    console.log(this.place[0]);
+    this.destination = {lat: p.location.lat, lng: p.location.lng};
   }
 
   ngOnInit() {
-
     this.mapBounds = new MapBounds();
     this.setCurrentLocation();
   }
@@ -48,14 +74,17 @@ export class MapComponent implements OnInit {
 
   }
 
-  private setCurrentLocation() {
+
+  setCurrentLocation(): Position {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
         this.zoom = 13;
+        return position;
       });
     }
+    return null;
   }
 
 
@@ -73,6 +102,7 @@ export class MapComponent implements OnInit {
   }
 
   showAll() {
+    this.origin = null;
     this.button = !this.button;
     this.placeService.getListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => this.place = res);
     this.searchText = null;
@@ -80,6 +110,7 @@ export class MapComponent implements OnInit {
   }
 
   showDetail(p: number) {
+    this.directionButton = true;
     this.placeService.getPlaceInfo(p).subscribe((res) => {
         this.placeInfo = res;
       }

@@ -9,7 +9,7 @@ import {PlacesComponent} from './component/admin/places/places.component';
 import {UsersComponent} from './component/admin/users/users.component';
 import {FilterComponent} from './component/filter/filter.component';
 
-export let router = [
+export const router = [
   {
     path: '', component: UserComponent, children: [
       {
@@ -33,6 +33,5 @@ export let router = [
         ]
       }
     ]
-
   }
 ];
