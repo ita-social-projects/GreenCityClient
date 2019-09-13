@@ -5,6 +5,7 @@ import {UserService} from '../../../service/user/user.service';
 import {Title} from '@angular/platform-browser';
 import {NgFlashMessageService} from 'ng-flash-messages';
 import {MatSort, MatTableDataSource} from '@angular/material';
+import {HttpErrorResponse} from '@angular/common/http';
 
 export interface Role {
   value: string;
@@ -49,6 +50,8 @@ export class UsersComponent implements OnInit {
     this.userService.updateUserStatus(id, userStatus).subscribe((data) => {
       this.successfulAction(email + ' is ' + data.userStatus);
       this.getUsersByPage(this.sortParam);
+    }, (error: HttpErrorResponse) => {
+      this.errorMessage(error.error.message);
     });
   }
 
@@ -69,6 +72,9 @@ export class UsersComponent implements OnInit {
   changeRole(id: number, role: string, email: string) {
     this.userService.updateUserRole(id, role).subscribe((data) => {
       this.successfulAction('Role for ' + email + ' is updated to ' + role.substr(5));
+    }, (error: HttpErrorResponse) => {
+      this.errorMessage(error.error.message);
+      this.getUsersByPage(this.sortParam);
     });
   }
 
@@ -78,6 +84,15 @@ export class UsersComponent implements OnInit {
       dismissible: true,
       timeout: 3000,
       type: 'success'
+    });
+  }
+
+  errorMessage(message: string) {
+    this.ngFlashMessageService.showFlashMessage({
+      messages: [message],
+      dismissible: true,
+      timeout: 3000,
+      type: 'danger'
     });
   }
 

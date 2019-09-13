@@ -31,6 +31,8 @@ import {
 import { MatTableModule} from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
+import {provideConfig} from './config/GoogleAuthConfig';
+import {AuthServiceConfig, SocialLoginModule} from 'angularx-social-login';
 import {AgmDirectionModule} from 'agm-direction';
 
 @NgModule({
@@ -57,6 +59,8 @@ import {AgmDirectionModule} from 'agm-direction';
     RouterModule.forRoot(router),
     HttpClientModule,
     FormsModule,
+    SocialLoginModule,
+    FormsModule,
     AgmCoreModule.forRoot({
       apiKey: '',
       libraries: ['places']
@@ -78,6 +82,10 @@ import {AgmDirectionModule} from 'agm-direction';
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,
       multi: true
+    },
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig
     }
   ],
   bootstrap: [AppComponent]
