@@ -2,24 +2,27 @@
   <div class="main">
     <div class="sub-1">
       <div>
-        <div>
+        <div class="btn-group" id="control_panel">
+          <button class="btn btn-success btn-sm" id="filter_btn" (click)="toggleFilter()">Filter By</button>
           <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off"
-                 placeholder="&#61442;Searching for a place">
+                 placeholder="Searching for a place">
         </div>
-        <table class="table table-striped">
-          <thead>
-          <tr>
-            <th>Places</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let p of place | filter:searchText" (click)="setMarker(p)">
-            <td>{{p.name}}</td>
-          </tr>
-          </tbody>
-
-        </table>
-        <button *ngIf="button;" (click)="showAll()">Show all</button>
+        <app-filter *ngIf="isFilter"></app-filter>
+        <div *ngIf="!isFilter">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>Places</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let p of place | filter:searchText" (click)="setMarker(p)">
+              <td>{{p.name}}</td>
+            </tr>
+            </tbody>
+          </table>
+          <button *ngIf="button;" (click)="showAll()">Show all</button>
+        </div>
       </div>
     </div>
     <div class="sub-2">
@@ -39,7 +42,8 @@
           <agm-info-window *ngIf="placeInfo">
 
             <h5>{{placeInfo.name}}
-              <button mat-icon-button style="float: right;  background-color: white; border-width: inherit" (click)="savePlaceAsFavorite(p.id, p.name)">
+              <button mat-icon-button style="float: right;  background-color: white; border-width: inherit"
+                      (click)="savePlaceAsFavorite(p.id, p.name)">
                 <mat-icon svgIcon="star-white"></mat-icon>
               </button>
             </h5>

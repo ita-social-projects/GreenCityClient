@@ -13,5 +13,14 @@ agm-map{
   flex-grow: 12;
 }
 .sub-1{
-  width: 300px;
+  width: 400px;
+}
+
+#control_panel {
+  width: 100%;
+}
+
+#filter_btn {
+  display: block;
+  width: 30%;
 }

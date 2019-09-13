@@ -28,9 +28,11 @@ import {
   FavoritePlaceModalComponent,
   FvPlaceTableComponent
 } from './component/user/favorite-place/fvplace-table';
-import { MatTableModule} from '@angular/material';
+import {MatSliderModule, MatTableModule, MatTreeModule} from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
+import { FilterComponent } from './component/filter/filter.component';
+import {Ng5SliderModule} from 'ng5-slider';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,7 @@ import {MDBBootstrapModule} from 'angular-bootstrap-md';
     FvPlaceTableComponent,
     FavoritePlaceModalComponent,
     FavoritePlaceEditModalComponent,
-
+    FilterComponent
   ],
   imports: [
     BrowserModule,
@@ -69,7 +71,10 @@ import {MDBBootstrapModule} from 'angular-bootstrap-md';
     MDBBootstrapModule,
     ModalModule,
     ReactiveFormsModule,
-    NgFlashMessagesModule.forRoot()
+    NgFlashMessagesModule.forRoot(),
+    MatSliderModule,
+    MatTreeModule,
+    Ng5SliderModule
   ],
   providers: [
     {

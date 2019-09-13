@@ -4,12 +4,9 @@ import {Place} from '../../../model/place/place';
 import {MapBounds} from '../../../model/map/map-bounds';
 import {PlaceService} from '../../../service/place/place.service';
 import {PlaceInfo} from '../../../model/place/place-info';
-import {ModalService} from '../_modal/modal.service';
 import {MatIconRegistry} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
-import {MatIconModule} from '@angular/material/icon';
 import {FavoritePlaceService} from '../../../service/favorite-place/favorite-place.service';
-import {FavoritePlace} from '../../../model/favorite-place/favorite-place';
 import {FavoritePlaceSave} from '../../../model/favorite-place/favorite-place-save';
 
 @Component({
@@ -27,6 +24,7 @@ export class MapComponent implements OnInit {
   zoom = 13;
   place: Place[] = [];
   map: any;
+  isFilter = false;
 
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,
               private placeService: PlaceService, private favoritePlaceService: FavoritePlaceService) {
@@ -104,5 +102,9 @@ export class MapComponent implements OnInit {
       this.placeService.getListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => this.place = res);
       this.searchText = null;
     }
+  }
+
+  toggleFilter() {
+    this.isFilter = !this.isFilter;
   }
 }

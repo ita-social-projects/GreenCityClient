@@ -32,6 +32,7 @@
     "nativescript-material-bottomsheet": "^2.3.23",
     "ng-flash-messages": "^0.3.0",
     "ng2-search-filter": "^0.5.1",
+    "ng5-slider": "^1.2.4",
     "ngx-bootstrap": "^5.1.1",
     "ngx-pagination": "^4.1.0",
     "rxjs": "~6.4.0",
