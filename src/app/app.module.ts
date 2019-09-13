@@ -64,7 +64,7 @@ import {AgmDirectionModule} from 'agm-direction';
     SocialLoginModule,
     FormsModule,
     AgmCoreModule.forRoot({
-      apiKey: '',
+      apiKey: 'AIzaSyDnL6GdV-FWidi8Uh2uDjIu2uRGQtgZOYc',
       libraries: ['places']
     }),
     AgmDirectionModule,
