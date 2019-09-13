@@ -53,6 +53,14 @@ export class PlaceService {
           timeout: 3000,
           type: 'success'
         });
+        console.log(place);
+      }, error => {
+        this.ngFlashMessageService.showFlashMessage({
+          messages: ['Please try again'],
+          dismissible: true,
+          timeout: 3000,
+          type: 'danger'
+        });
       }
     );
   }

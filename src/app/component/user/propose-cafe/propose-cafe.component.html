@@ -101,7 +101,7 @@
               style="margin-top: 8px" (click)="add(openingHours)">Add day</button>
 
       <div class="choice" *ngFor="let list of openingHoursList">
-        {{list.weekDay}} from: {{list.openTime}} to: {{list.closeTime}}
+        <b>{{list.weekDay}}</b> from: <b>{{list.openTime}}</b> to: <b>{{list.closeTime}}</b>
         <button class="delete-choice" type="button" (click)="delete(list)">-</button>
       </div>
     </div>

@@ -12,6 +12,9 @@ import {NgForm} from "@angular/forms";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {MapsAPILoader, MouseEvent} from "@agm/core";
 import {PlaceService} from "../../../service/place/place.service";
+import {OpenHours} from "../../../model/openHours/open-hours.model";
+import {distinct} from "rxjs/operators";
+import {forEachComment} from "tslint";
 
 @Component({
   selector: 'app-propose-cafe',
@@ -39,7 +42,6 @@ export class ProposeCafeComponent implements OnInit {
 
   @Output() newPlaceEvent = new EventEmitter<PlaceWithUserModel>();
   @ViewChild('saveForm', {static: true}) private saveForm: NgForm;
-  @ViewChild('day', {static: true}) private day: any;
   @ViewChild(NgSelectComponent, {static: true}) ngSelectComponent: NgSelectComponent;
   @ViewChild('search', {static: true})
   public searchElementRef: ElementRef;
@@ -72,7 +74,6 @@ export class ProposeCafeComponent implements OnInit {
       autocomplete.addListener('place_changed', () => {
         this.ngZone.run(() => {
           // get the place result
-          // @ts-ignore
           const place: google.maps.places.PlaceResult = autocomplete.getPlace();
 
           // verify result
@@ -90,11 +91,73 @@ export class ProposeCafeComponent implements OnInit {
   }
 
   add(openingHours: OpeningHours) {
+    let flag = false;
     let openingHours1 = new OpeningHours();
     openingHours1.closeTime = openingHours.closeTime;
     openingHours1.openTime = openingHours.openTime;
     openingHours1.weekDay = openingHours.weekDay;
-    this.openingHoursList.push(openingHours1);
+    if (openingHours1.openTime < openingHours1.closeTime) {
+      if (this.openingHoursList.length === 0) {
+        this.openingHoursList.push(openingHours1);
+      } else if (this.openingHoursList.length === 1) {
+        for (let i = 0; i < this.openingHoursList.length; i++){
+          if (this.openingHoursList[i].weekDay === openingHours1.weekDay && this.openingHoursList[i].closeTime < openingHours1.openTime){
+            this.openingHoursList.push(openingHours1);
+            console.log("size 2");
+          } else if (this.openingHoursList[i].weekDay !== openingHours1.weekDay) {
+            this.openingHoursList.push(openingHours1);
+            console.log("new day");
+          }
+        }
+      } else if (this.openingHoursList.length > 1) {
+        for (let i = 0; i < this.openingHoursList.length; i++) {
+          for (let j = i + 1; j < this.openingHoursList.length; j++) {
+            if(this.openingHoursList[i].weekDay == this.openingHoursList[j].weekDay) {
+              console.log(i + "i");
+              console.log(j + "j");
+              if (openingHours1.openTime > this.openingHoursList[j].closeTime) {
+                this.openingHoursList.push(openingHours1);
+                console.log("size bigger");
+              }  else {
+                console.log("invalid");
+              }
+            }
+          }
+        }
+      }
+    } else {
+      alert("Close time have to be late than open time. Try again please.")
+    }
+
+        // if (this.openingHoursList.filter(d => d.weekDay === openingHours1.weekDay)) {
+    //     for (let i = 0; i < this.openingHoursList.length; i++) {
+    //       for (let j = i + 1; j < this.openingHoursList.length; j++) {
+    //         if (this.openingHoursList[j].weekDay === openingHours1.weekDay) {
+    //           console.log(this.openingHoursList);
+    //         } else if (this.openingHoursList[j].weekDay.includes(openingHours1.weekDay) && this.openingHoursList[j].closeTime
+    //           < openingHours1.openTime) {
+    //           flag = false;
+    //         } else {
+    //           flag = true;
+    //         }
+    //         if (i === this.openingHoursList.length - 1 && flag === true) {
+    //           console.log("invalid value.")
+    //           break;
+    //         } else if (flag === false) {
+    //           this.openingHoursList.push(openingHours1);
+    //         }
+    //       }
+    //     }
+    //   }
+    // } else alert("invalid value.");
+
+    this.openingHoursList = this.openingHoursList.filter((thing, index, self) =>
+      index === self.findIndex((t) => (
+        t.weekDay === thing.weekDay && t.openTime === thing.openTime && t.closeTime === thing.closeTime
+      ))
+    );
+
+    console.log(this.openingHoursList);
     this.place.openingHoursList = this.openingHoursList;
   }
 
@@ -104,7 +167,7 @@ export class ProposeCafeComponent implements OnInit {
 
   onSubmit() {
     this.submitButtonEnabled = false;
-    this.place.openingHoursList = this.openingHoursList;
+    // this.place.openingHoursList = this.openingHoursList;
     this.place.category.name = this.name;
     this.location.address = this.address;
     this.location.lat = this.latitude;
@@ -119,7 +182,7 @@ export class ProposeCafeComponent implements OnInit {
   closeModal(id: string) {
     this.modalService.close(id);
     this.saveForm.onReset();
-   // this.place.openingHoursList = new OpeningHours()[];
+    console.log(this.openingHoursList);
     this.ngSelectComponent.handleClearClick();
   }
 
