@@ -5,9 +5,7 @@ export class OpeningHours {
 closeTime: string;
 weekDay: WeekDays;
 
-
-
-  constructor() {
+constructor() {
   }
   //
   //
