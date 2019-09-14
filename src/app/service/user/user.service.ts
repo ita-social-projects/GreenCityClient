@@ -4,10 +4,9 @@ import {Observable} from 'rxjs';
 import {UserRoleModel} from '../../model/user/user-role.model';
 import {UserStatusModel} from '../../model/user/user-status.model';
 import {UserPageableDtoModel} from '../../model/user/user-pageable-dto.model';
-import {userLink} from '../../links';
 import {mainLink} from '../../links';
 import {RolesModel} from '../../model/user/roles.model';
-
+import {UserForListDtoModel} from '../../model/user/user-for-list-dto.model';
 const token = localStorage.getItem('accessToken');
 let jwtData = null;
 let decodedJwtJsonData = null;
@@ -61,5 +60,13 @@ export class UserService {
 
   getRoles(): Observable<RolesModel> {
     return this.http.get<RolesModel>(`${this.apiUrl}/roles`);
+  }
+
+  getByFilter(reg: string, paginationSettings: string) {
+    if (reg === undefined) {
+      return this.http.get<UserPageableDtoModel>(`${this.apiUrl}/regex` + paginationSettings + `&reg=%25%25`);
+    } else {
+      return this.http.get<UserPageableDtoModel>(`${this.apiUrl}/regex` + paginationSettings + `&reg=%25` + reg + `%25`);
+    }
   }
 }
