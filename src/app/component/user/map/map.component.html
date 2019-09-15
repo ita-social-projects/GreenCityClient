@@ -43,6 +43,7 @@
                     [longitude]="userMarkerLocation.lng"
                     [markerDraggable]="true"
                     (dragEnd)="setLocationToOrigin($event)"
+                    [iconUrl]="icon"
         ></agm-marker>
         <agm-marker (markerClick)="showDetail(p.id)"
                     *ngFor="let p of place; let i = index"
