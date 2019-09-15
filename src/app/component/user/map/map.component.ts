@@ -39,6 +39,7 @@ export class MapComponent implements OnInit {
   travelMode = 'WALKING';
   travelModeButton = 'DRIVING';
   distance;
+  icon = 'assets/img/icon/blue-dot.png';
 
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,
               private placeService: PlaceService,
