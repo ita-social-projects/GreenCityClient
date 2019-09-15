@@ -26,6 +26,7 @@ export class UsersComponent implements OnInit {
   dataSource = new MatTableDataSource<UserForListDtoModel>();
   roles: Role[];
   searchReg: string;
+  flag = true;
 
   sortParam = '&sort=email';
   userEmail = this.userService.getUserEmail();
@@ -127,8 +128,14 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  onKeydown(event) {
-    if (event.key === 'Enter') {
+  onKeydown() {
+    if ((this.searchReg === undefined) || (this.searchReg === '')) {
+      if (this.flag) {
+        this.flag = false;
+        this.filterByRegex(this.sortParam);
+      }
+    } else {
+      this.flag = true;
       this.filterByRegex(this.sortParam);
     }
   }
