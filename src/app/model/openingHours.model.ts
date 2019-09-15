@@ -1,35 +1,13 @@
 import {WeekDays} from './weekDays.model';
+import {BreakTimes} from "./breakTimes.model";
 
 export class OpeningHours {
  openTime: string;
 closeTime: string;
 weekDay: WeekDays;
+breakTime: BreakTimes;
 
 constructor() {
   }
-  //
-  //
-  // get openTime(): string {
-  //   return this.openTime;
-  // }
-  //
-  // set openTime(value: string) {
-  //   this.openTime = value;
-  // }
-  //
-  // get closeTime(): string {
-  //   return this._closeTime;
-  // }
-  //
-  // set closeTime(value: string) {
-  //   this._closeTime = value;
-  // }
-  //
-  // get weekDay(): WeekDays {
-  //   return this._weekDay;
-  // }
-  //
-  // set weekDay(value: WeekDays) {
-  //   this._weekDay = value;
-  // }
+
 }

@@ -24,7 +24,7 @@ import {AdminModule} from './component/admin/admin.module';
 import {NgFlashMessagesModule} from 'ng-flash-messages';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FavoritePlaceModalComponent, FvPlaceTableComponent} from './component/user/favorite-place/fvplace-table';
-import {MatTableModule} from '@angular/material';
+import {MatCheckboxModule, MatDialogModule, MatTableModule} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -59,8 +59,10 @@ import {MatTableModule} from '@angular/material';
     NgSelectModule,
     MatTableModule,
     ModalModule,
+    MatDialogModule,
     ReactiveFormsModule,
-    NgFlashMessagesModule.forRoot()
+    NgFlashMessagesModule.forRoot(),
+    MatCheckboxModule
   ],
   providers: [
     {

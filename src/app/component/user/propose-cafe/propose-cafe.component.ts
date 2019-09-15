@@ -12,6 +12,8 @@ import {NgForm} from "@angular/forms";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {MapsAPILoader, MouseEvent} from "@agm/core";
 import {PlaceService} from "../../../service/place/place.service";
+import {BreakTimes} from "../../../model/breakTimes.model";
+import {MatDialog} from "@angular/material";
 
 @Component({
   selector: 'app-propose-cafe',
@@ -27,6 +29,7 @@ export class ProposeCafeComponent implements OnInit {
   weekDays: WeekDays[] = [WeekDays.MONDAY, WeekDays.TUESDAY, WeekDays.WEDNESDAY, WeekDays.THURSDAY, WeekDays.FRIDAY,
     WeekDays.SATURDAY, WeekDays.SUNDAY];
   openingHours: OpeningHours = new OpeningHours();
+  breakTimes: BreakTimes = new BreakTimes();
   categories: any;
   category: CategoryDto;
   string: null;
@@ -36,6 +39,7 @@ export class ProposeCafeComponent implements OnInit {
   address: string;
   private geoCoder;
   submitButtonEnabled: boolean;
+  isBreakTime = false;
 
   @Output() newPlaceEvent = new EventEmitter<PlaceWithUserModel>();
   @ViewChild('saveForm', {static: true}) private saveForm: NgForm;
@@ -87,12 +91,47 @@ export class ProposeCafeComponent implements OnInit {
     });
   }
 
-  add(openingHours: OpeningHours) {
+  add(openingHours: OpeningHours, breakTimes: BreakTimes) {
+    console.log(openingHours);
+    if (openingHours.closeTime < openingHours.openTime || breakTimes.endTime < breakTimes.startTime) {
+      alert('Second time have to be late than first. Please, try again.');
+      return;
+    }
+
     let openingHours1 = new OpeningHours();
     openingHours1.closeTime = openingHours.closeTime;
     openingHours1.openTime = openingHours.openTime;
     openingHours1.weekDay = openingHours.weekDay;
+    if (breakTimes.endTime && breakTimes.startTime !== undefined) {
+      if (breakTimes.startTime > openingHours1.openTime && breakTimes.endTime < openingHours1.closeTime) {
+        console.log(openingHours1.breakTime);
+        console.log(breakTimes);
+        openingHours1.breakTime = breakTimes;
+        console.log(openingHours1.breakTime);
+      } else {
+        alert('Invalid break time.');
+        return;
+      }
+    }
+    let weekDaysNew: WeekDays[] = [];
+    this.weekDays.forEach(val => {
+      if (val !== openingHours1.weekDay) {
+        weekDaysNew.push(val);
+        console.log(this.weekDays);
+      }
+    });
+    this.weekDays = weekDaysNew;
+    console.log(openingHours1);
     this.openingHoursList.push(openingHours1);
+    this.openingHours = new OpeningHours();
+    this.breakTimes = new BreakTimes();
+    console.log(this.openingHoursList);
+    this.isBreakTime = false;
+  }
+
+  switch() {
+    console.log('switch');
+    this.isBreakTime = !this.isBreakTime;
   }
 
   delete(openingHours: OpeningHours) {
