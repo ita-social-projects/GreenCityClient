@@ -9,6 +9,11 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {FavoritePlaceService} from '../../../service/favorite-place/favorite-place.service';
 import {FavoritePlaceSave} from '../../../model/favorite-place/favorite-place-save';
 
+interface Location {
+  lat: number;
+  lng: number;
+}
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -24,17 +29,20 @@ export class MapComponent implements OnInit {
   lng = 24.031706;
   zoom = 13;
   place: Place[] = [];
+  userMarkerLocation: Location;
   map: any;
   origin: any;
   destination: any;
-  geoLocation: any;
   directionButton: boolean;
+  navigationMode = false;
+  navigationButton = 'Navigate to place';
+  travelMode = 'WALKING';
+  travelModeButton = 'DRIVING';
+  distance;
 
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,
-              private placeService: PlaceService
-    ,
-              private favoritePlaceService: FavoritePlaceService
-  ) {
+              private placeService: PlaceService,
+              private favoritePlaceService: FavoritePlaceService) {
     iconRegistry
       .addSvgIcon(
         'star-white'
@@ -55,16 +63,22 @@ export class MapComponent implements OnInit {
   }
 
   getDirection(p: Place) {
-    this.setCurrentLocation();
-    this.origin = {lat: this.lat, lng: this.lng};
-    console.log('log');
-    console.log(this.place[0]);
-    this.destination = {lat: p.location.lat, lng: p.location.lng};
+    if (this.navigationMode === false) {
+      this.navigationButton = 'Close navigation';
+      this.navigationMode = true;
+      this.destination = {lat: p.location.lat, lng: p.location.lng};
+      this.origin = {lat: this.userMarkerLocation.lat, lng: this.userMarkerLocation.lng};
+    } else {
+      this.navigationMode = false;
+      this.navigationButton = 'Navigate to place';
+    }
   }
+
 
   ngOnInit() {
     this.mapBounds = new MapBounds();
     this.setCurrentLocation();
+    this.userMarkerLocation = {lat: this.lat, lng: this.lng};
   }
 
   mapReady(event: any) {
@@ -73,19 +87,18 @@ export class MapComponent implements OnInit {
 
   }
 
-
   setCurrentLocation(): Position {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
         this.zoom = 13;
+        this.userMarkerLocation = {lat: this.lat, lng: this.lng};
         return position;
       });
     }
     return null;
   }
-
 
   boundsChange(latLngBounds: LatLngBounds) {
     this.mapBounds.northEastLat = latLngBounds.getNorthEast().lat();
@@ -105,7 +118,6 @@ export class MapComponent implements OnInit {
     this.button = !this.button;
     this.placeService.getListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => this.place = res);
     this.searchText = null;
-    console.log(this.place);
   }
 
   showDetail(p: number) {
@@ -134,7 +146,17 @@ export class MapComponent implements OnInit {
     }
   }
 
-  getUserLocation() {
+  setLocationToOrigin(location) {
+    this.userMarkerLocation.lat = location.coords.lat;
+    this.userMarkerLocation.lng = location.coords.lng;
+    if (this.place.length === 1) {
+      this.destination = {lat: this.place[0].location.lat, lng: this.place[0].location.lng};
+      this.origin = {lat: this.userMarkerLocation.lat, lng: this.userMarkerLocation.lng};
+    }
+  }
 
+  changeTravelMode() {
+    this.travelMode = (this.travelMode === 'WALKING') ? 'DRIVING' : 'WALKING';
+    this.travelModeButton = (this.travelModeButton === 'DRIVING') ? 'WALKING' : 'DRIVING';
   }
 }

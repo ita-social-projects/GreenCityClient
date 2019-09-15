@@ -28,8 +28,8 @@ import {
   FavoritePlaceModalComponent,
   FvPlaceTableComponent
 } from './component/user/favorite-place/fvplace-table';
-import { MatTableModule} from '@angular/material';
-import { MatIconModule } from '@angular/material/icon';
+import {MatTableModule} from '@angular/material';
+import {MatIconModule} from '@angular/material/icon';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
 import {provideConfig} from './config/GoogleAuthConfig';
 import {AuthServiceConfig, SocialLoginModule} from 'angularx-social-login';
@@ -63,7 +63,7 @@ import {AgmDirectionModule} from 'agm-direction';
     FormsModule,
     AgmCoreModule.forRoot({
       apiKey: '',
-      libraries: ['places']
+      libraries: ['places', 'geometry']
     }),
     AgmDirectionModule,
     Ng2SearchPipeModule,
