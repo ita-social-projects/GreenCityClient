@@ -11,7 +11,7 @@ import {placeLink} from '../../links';
 import {mainLink} from '../../links';
 import {NgFlashMessageService} from 'ng-flash-messages';
 import {PlaceAddDto} from '../../model/placeAddDto.model';
-import {FilterPlaceDtoModel} from '../../model/filter-place-dto.model';
+import {FilterPlaceDtoModel} from '../../model/filtering/filter-place-dto.model';
 
 @Injectable({
   providedIn: 'root'

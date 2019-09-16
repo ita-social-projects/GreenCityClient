@@ -2,8 +2,9 @@ import {Component} from '@angular/core';
 import {Options} from 'ng5-slider';
 import {PlaceService} from '../../service/place/place.service';
 import {MapComponent} from '../user/map/map.component';
-import {FilterPlaceDtoModel} from '../../model/filter-place-dto.model';
-import {FilterDiscountDtoModel} from '../../model/filter-discount-dto.model';
+import {FilterPlaceDtoModel} from '../../model/filtering/filter-place-dto.model';
+import {FilterDiscountDtoModel} from '../../model/filtering/filter-discount-dto.model';
+import {PlaceStatus} from '../../model/placeStatus.model';
 
 @Component({
   selector: 'app-filter',
@@ -25,13 +26,9 @@ export class FilterComponent {
   }
 
   applyFilters() {
-    console.log(this.mapComponent.category);
-    console.log(this.mapComponent.specification);
     const discount = new FilterDiscountDtoModel(
       this.mapComponent.category, this.mapComponent.specification, this.discountMin, this.discountMax);
-    this.filter = new FilterPlaceDtoModel(this.mapComponent.mapBounds, discount);
-    console.log(this.filter);
+    this.filter = new FilterPlaceDtoModel(PlaceStatus.APPROVED, this.mapComponent.mapBounds, discount);
     this.placeService.getFilteredPlaces(this.filter).subscribe((res) => this.mapComponent.place = res);
-    this.mapComponent.isFilter = false;
   }
 }

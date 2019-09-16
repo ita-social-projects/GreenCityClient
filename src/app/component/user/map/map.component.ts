@@ -149,9 +149,11 @@ export class MapComponent implements OnInit {
   }
 
   getList() {
-    if (this.button !== true) {
-      this.placeService.getListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => this.place = res);
-      this.searchText = null;
+    if (!this.isFilter) {
+      if (this.button !== true) {
+        this.placeService.getListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => this.place = res);
+        this.searchText = null;
+      }
     }
   }
 
