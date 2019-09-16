@@ -14,8 +14,8 @@
           </thead>
           <tbody>
           <tr *ngFor="let p of place | filter:searchText" (click)="setMarker(p)">
-            <td>{{p.name}}
-            </td>
+            <td>{{p.name}}</td>
+            <td>{{p.location.distanceFromUser}} km.</td>
           </tr>
           </tbody>
 
@@ -57,11 +57,14 @@
               <li *ngFor="let obj of placeInfo.specificationValues">{{obj.specification.name}}</li>
             </h6>
             <p>Rate: {{placeInfo.rate}}</p>
+            <p>Distance: {{placeInfo.location.distanceFromUser}} km.</p>
             <p>Comments: {{placeInfo.comments.length}}</p>
             <p>{{placeInfo.location.address}}</p>
             <li *ngFor="let openingHoursList of placeInfo.openingHoursList">{{openingHoursList.weekDay}}
               :{{openingHoursList.openTime}}-{{openingHoursList.closeTime}}</li>
-            <p><button *ngIf="button" (click)="getDirection(p)">Navigate to place </button></p>
+            <p>
+              <button *ngIf="button" (click)="getDirection(p)">Navigate to place</button>
+            </p>
           </agm-info-window>
         </agm-marker>
       </agm-map>

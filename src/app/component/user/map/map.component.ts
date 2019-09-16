@@ -31,8 +31,7 @@ export class MapComponent implements OnInit {
   directionButton: boolean;
 
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,
-              private placeService: PlaceService
-    ,
+              private placeService: PlaceService,
               private favoritePlaceService: FavoritePlaceService
   ) {
     iconRegistry
@@ -103,7 +102,10 @@ export class MapComponent implements OnInit {
   showAll() {
     this.origin = null;
     this.button = !this.button;
-    this.placeService.getListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => this.place = res);
+    this.placeService.getListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => {
+      this.place = res;
+      this.getDistanceToPlaces();
+    });
     this.searchText = null;
     console.log(this.place);
   }
@@ -112,6 +114,11 @@ export class MapComponent implements OnInit {
     this.directionButton = true;
     this.placeService.getPlaceInfo(p).subscribe((res) => {
         this.placeInfo = res;
+        this.place.forEach(place => {
+          if (place.id === p) {
+            this.placeInfo.location.distanceFromUser = place.location.distanceFromUser;
+          }
+        });
       }
     );
     this.place = this.place.filter(r => {
@@ -129,12 +136,22 @@ export class MapComponent implements OnInit {
 
   getList() {
     if (this.button !== true) {
-      this.placeService.getListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => this.place = res);
+      this.placeService.getListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => {
+        this.place = res;
+        this.getDistanceToPlaces();
+      });
       this.searchText = null;
     }
   }
 
-  getUserLocation() {
-
+  private getDistanceToPlaces() {
+    this.place.forEach(place => {
+      console.log(place);
+      const placeLocation = new google.maps.LatLng(place.location.lat, place.location.lng);
+      const userLocation = new google.maps.LatLng(this.lat, this.lng);
+      const distance = Math.round(google.maps.geometry.spherical.computeDistanceBetween(placeLocation, userLocation) / 1000);
+      console.log(distance);
+      place.location.distanceFromUser = distance;
+    });
   }
 }
