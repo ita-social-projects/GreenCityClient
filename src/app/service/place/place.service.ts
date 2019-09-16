@@ -11,7 +11,7 @@ import {placeLink} from '../../links';
 import {mainLink} from '../../links';
 import {NgFlashMessageService} from 'ng-flash-messages';
 import {PlaceAddDto} from '../../model/placeAddDto.model';
-import {FilterDtoModel} from '../../model/filter-dto.model';
+import {FilterPlaceDtoModel} from '../../model/filter-place-dto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -48,7 +48,7 @@ export class PlaceService {
     return this.http.post<Place[]>(`${placeLink}getListPlaceLocationByMapsBounds/`, mapBounds);
   }
 
-  getFilteredPlaces(filter: FilterDtoModel): Observable<Place[]> {
+  getFilteredPlaces(filter: FilterPlaceDtoModel): Observable<Place[]> {
     return this.http.post<Place[]>(`${placeLink}filter/`, filter);
   }
 

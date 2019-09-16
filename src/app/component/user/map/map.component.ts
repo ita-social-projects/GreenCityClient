@@ -8,6 +8,8 @@ import {MatIconRegistry} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
 import {FavoritePlaceService} from '../../../service/favorite-place/favorite-place.service';
 import {FavoritePlaceSave} from '../../../model/favorite-place/favorite-place-save';
+import {CategoryDto} from '../../../model/category.model';
+import {Specification} from '../../../model/specification/specification';
 
 @Component({
   selector: 'app-map',
@@ -16,6 +18,8 @@ import {FavoritePlaceSave} from '../../../model/favorite-place/favorite-place-sa
 })
 export class MapComponent implements OnInit {
 
+  category: CategoryDto;
+  specification: Specification;
   placeInfo: PlaceInfo;
   button = false;
   mapBounds: MapBounds;
@@ -32,10 +36,8 @@ export class MapComponent implements OnInit {
   directionButton: boolean;
 
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,
-              private placeService: PlaceService
-    ,
-              private favoritePlaceService: FavoritePlaceService
-  ) {
+              private placeService: PlaceService,
+              private favoritePlaceService: FavoritePlaceService) {
     iconRegistry
       .addSvgIcon(
         'star-white'
@@ -53,6 +55,9 @@ export class MapComponent implements OnInit {
             'assets/img/icon/favorite-place/star-yellow.svg'
           ));
 
+    this.category = new CategoryDto();
+    this.category.name = 'Food';
+    this.specification = new Specification('Own Cup');
   }
 
   getDirection(p: Place) {
