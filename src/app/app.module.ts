@@ -29,9 +29,9 @@ import {
   FvPlaceTableComponent
 } from './component/user/favorite-place/fvplace-table';
 import {MatSliderModule, MatTableModule, MatTreeModule} from '@angular/material';
-import { MatIconModule } from '@angular/material/icon';
+import {MatIconModule} from '@angular/material/icon';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
-import { FilterComponent } from './component/filter/filter.component';
+import {FilterComponent} from './component/filter/filter.component';
 import {Ng5SliderModule} from 'ng5-slider';
 import {provideConfig} from './config/GoogleAuthConfig';
 import {AuthServiceConfig, SocialLoginModule} from 'angularx-social-login';
@@ -64,8 +64,9 @@ import {AgmDirectionModule} from 'agm-direction';
     SocialLoginModule,
     FormsModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDnL6GdV-FWidi8Uh2uDjIu2uRGQtgZOYc',
-      libraries: ['places']
+
+      apiKey: '',
+      libraries: ['places', 'geometry']
     }),
     AgmDirectionModule,
     Ng2SearchPipeModule,
