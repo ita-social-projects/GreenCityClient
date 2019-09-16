@@ -30,10 +30,14 @@ import {
 } from './component/user/favorite-place/fvplace-table';
 import {MatTableModule} from '@angular/material';
 import {MatIconModule} from '@angular/material/icon';
+import {MatSliderModule, MatTableModule, MatTreeModule} from '@angular/material';
+import {MatIconModule} from '@angular/material/icon';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
 import {provideConfig} from './config/GoogleAuthConfig';
 import {AuthServiceConfig, SocialLoginModule} from 'angularx-social-login';
 import {AgmDirectionModule} from 'agm-direction';
+import {FilterComponent} from './component/filter/filter.component';
+import {Ng5SliderModule} from 'ng5-slider';
 
 @NgModule({
   declarations: [
@@ -51,7 +55,7 @@ import {AgmDirectionModule} from 'agm-direction';
     FvPlaceTableComponent,
     FavoritePlaceModalComponent,
     FavoritePlaceEditModalComponent,
-
+    FilterComponent
   ],
   imports: [
     BrowserModule,
@@ -75,7 +79,10 @@ import {AgmDirectionModule} from 'agm-direction';
     MDBBootstrapModule,
     ModalModule,
     ReactiveFormsModule,
-    NgFlashMessagesModule.forRoot()
+    NgFlashMessagesModule.forRoot(),
+    MatSliderModule,
+    MatTreeModule,
+    Ng5SliderModule
   ],
   providers: [
     {

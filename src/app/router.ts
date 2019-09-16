@@ -7,6 +7,7 @@ import {MapComponent} from './component/user/map/map.component';
 import {AdminComponent} from './component/admin/admin.component';
 import {PlacesComponent} from './component/admin/places/places.component';
 import {UsersComponent} from './component/admin/users/users.component';
+import {FilterComponent} from './component/filter/filter.component';
 
 export const router = [
   {
@@ -20,6 +21,9 @@ export const router = [
       },
       {
         path: '', component: MapComponent
+      },
+      {
+        path: '', component: FilterComponent
       },
       {
         path: 'admin', component: AdminComponent, children: [
