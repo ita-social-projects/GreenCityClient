@@ -14,6 +14,10 @@ import {MapsAPILoader, MouseEvent} from "@agm/core";
 import {PlaceService} from "../../../service/place/place.service";
 import {BreakTimes} from "../../../model/breakTimes.model";
 import {MatDialog} from "@angular/material";
+import {SpecificationService} from "../../../service/specification.service";
+import {DiscountDto} from "../../../model/discount/DiscountDto";
+import {SpecificationNameDto} from "../../../model/specification/SpecificationNameDto";
+import {Specification} from "../../../model/specification/specification";
 
 @Component({
   selector: 'app-propose-cafe',
@@ -22,15 +26,23 @@ import {MatDialog} from "@angular/material";
 })
 export class ProposeCafeComponent implements OnInit {
   name: any;
+  nameOfSpecification: any;
+  value: any;
+  // discounts: number[] = new Array(100);
+  discountsNumber = 101;
   placeName: any;
   place: PlaceAddDto;
   location: LocationDto;
+  discounts: DiscountDto[] = [];
+  specification: SpecificationNameDto;
   openingHoursList: OpeningHours[] = [];
   weekDays: WeekDays[] = [WeekDays.MONDAY, WeekDays.TUESDAY, WeekDays.WEDNESDAY, WeekDays.THURSDAY, WeekDays.FRIDAY,
     WeekDays.SATURDAY, WeekDays.SUNDAY];
   openingHours: OpeningHours = new OpeningHours();
   breakTimes: BreakTimes = new BreakTimes();
+  discount: DiscountDto;
   categories: any;
+  specifications: any;
   category: CategoryDto;
   string: null;
   latitude: number;
@@ -47,11 +59,13 @@ export class ProposeCafeComponent implements OnInit {
   @ViewChild('search', {static: true})
   public searchElementRef: ElementRef;
 
-  addTypeCategory = (term) => ({name: term});
+  // addTypeCategory = (term) => ({name: term});.
 
   constructor(private modalService: ModalService, private placeService: PlaceService, private categoryService: CategoryService,
-              private uService: UserService, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
+              private specificationService: SpecificationService, private uService: UserService, private mapsAPILoader: MapsAPILoader,
+              private ngZone: NgZone) {
     this.category = new CategoryDto();
+    this.discount = new DiscountDto();
     this.location = new LocationDto();
     this.place = new PlaceAddDto();
     this.place.category = this.category;
@@ -63,6 +77,12 @@ export class ProposeCafeComponent implements OnInit {
     this.categoryService.findAllCategory().subscribe(data => {
       this.categories = data;
     });
+
+    this.specificationService.findAllSpecification().subscribe(data => {
+      this.specifications = data;
+    });
+
+    this.discountsNumber = Array.apply(null, {length: this.discountsNumber}).map(Number.call, Number);
 
     // load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
@@ -91,6 +111,39 @@ export class ProposeCafeComponent implements OnInit {
     });
   }
 
+  addDiscountAndSpecification(nameOfSpecification: string, value: number) {
+    let discount1 = new DiscountDto();
+    discount1.value = value;
+    let specification = new SpecificationNameDto();
+    specification.name = nameOfSpecification;
+    discount1.specification = specification;
+    console.log(discount1);
+
+    if (this.discounts.length == 0) {
+      this.discounts.push(discount1);
+      console.log(this.discounts);
+      discount1 = new DiscountDto();
+    } else if (this.discounts.length >= 1) {
+      for (let i = 0; i < this.discounts.length; i++) {
+        if (discount1.specification.name == this.discounts[i].specification.name) {
+          alert("Already exists.")
+        } else {
+          let specificationsNew: SpecificationNameDto[] = [];
+          this.specifications.forEach(val => {
+            if (val !== discount1.specification.name) {
+              specificationsNew.push(val);
+              console.log(this.specifications);
+            }
+          });
+          this.specifications = specificationsNew;
+          this.discounts.push(discount1);
+          console.log(this.discounts);
+          discount1 = new DiscountDto();
+        }
+      }
+    }
+  }
+
   add(openingHours: OpeningHours, breakTimes: BreakTimes) {
     console.log(openingHours);
     if (openingHours.closeTime < openingHours.openTime || breakTimes.endTime < breakTimes.startTime) {
@@ -117,10 +170,10 @@ export class ProposeCafeComponent implements OnInit {
     this.weekDays.forEach(val => {
       if (val !== openingHours1.weekDay) {
         weekDaysNew.push(val);
-        console.log(this.weekDays);
       }
     });
     this.weekDays = weekDaysNew;
+
     console.log(openingHours1);
     this.openingHoursList.push(openingHours1);
     this.openingHours = new OpeningHours();
@@ -128,20 +181,33 @@ export class ProposeCafeComponent implements OnInit {
     console.log(this.openingHoursList);
     this.isBreakTime = false;
   }
+  //
+  //  onChangeDay(event): void {  // event will give you full breif of action
+  //   const newVal = event.target.value.valueOf();
+  //   console.log(newVal);
+  // }
 
   switch() {
     console.log('switch');
     this.isBreakTime = !this.isBreakTime;
   }
 
-  delete(openingHours: OpeningHours) {
+  deleteDay(openingHours: OpeningHours) {
     this.openingHoursList = this.openingHoursList.filter(item => item !== openingHours);
+  }
+
+  delete(discount: DiscountDto) {
+    this.discounts = this.discounts.filter(item => item !== discount);
   }
 
   onSubmit() {
     this.submitButtonEnabled = false;
     this.place.openingHoursList = this.openingHoursList;
+    this.place.discounts = this.discounts;
     this.place.category.name = this.name;
+    this.place.discounts = this.discounts;
+    // this.discount.value = this.value;
+    // this.discount.specification.name = this.nameOfSpecification;
     this.location.address = this.address;
     this.location.lat = this.latitude;
     this.location.lng = this.longitude;
