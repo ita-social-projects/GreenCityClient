@@ -33,6 +33,5 @@ export const router = [
         ]
       }
     ]
-
   }
 ];

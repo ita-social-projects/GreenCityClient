@@ -8,6 +8,8 @@ import {MatIconRegistry} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
 import {FavoritePlaceService} from '../../../service/favorite-place/favorite-place.service';
 import {FavoritePlaceSave} from '../../../model/favorite-place/favorite-place-save';
+import {CategoryDto} from '../../../model/category.model';
+import {Specification} from '../../../model/specification/specification';
 
 interface Location {
   lat: number;
@@ -21,6 +23,8 @@ interface Location {
 })
 export class MapComponent implements OnInit {
 
+  category: CategoryDto;
+  specification: Specification;
   placeInfo: PlaceInfo;
   button = false;
   mapBounds: MapBounds;
@@ -62,6 +66,9 @@ export class MapComponent implements OnInit {
             'assets/img/icon/favorite-place/star-yellow.svg'
           ));
 
+    this.category = new CategoryDto();
+    this.category.name = 'Food';
+    this.specification = new Specification('Own Cup');
   }
 
   getDirection(p: Place) {
@@ -89,7 +96,6 @@ export class MapComponent implements OnInit {
 
   }
 
-
   setCurrentLocation(): Position {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -102,7 +108,6 @@ export class MapComponent implements OnInit {
     }
     return null;
   }
-
 
   boundsChange(latLngBounds: LatLngBounds) {
     this.mapBounds.northEastLat = latLngBounds.getNorthEast().lat();
@@ -155,6 +160,11 @@ export class MapComponent implements OnInit {
     }
   }
 
+
+  toggleFilter() {
+    this.isFilter = !this.isFilter;
+  }
+
   setLocationToOrigin(location) {
     this.userMarkerLocation.lat = location.coords.lat;
     this.userMarkerLocation.lng = location.coords.lng;
@@ -162,10 +172,6 @@ export class MapComponent implements OnInit {
       this.destination = {lat: this.place[0].location.lat, lng: this.place[0].location.lng};
       this.origin = {lat: this.userMarkerLocation.lat, lng: this.userMarkerLocation.lng};
     }
-  }
-
-  toggleFilter() {
-    this.isFilter = !this.isFilter;
   }
 
   changeTravelMode() {

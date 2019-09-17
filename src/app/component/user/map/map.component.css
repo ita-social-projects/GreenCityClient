@@ -20,7 +20,7 @@ agm-map{
 
 #filter_btn {
   display: block;
-  width: 30%;
+  min-width: 70px;
 }
 .sub-2{
   width: 90vw; height: 95vh;
