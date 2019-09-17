@@ -14,7 +14,6 @@ import {MatPaginatorModule, MatSelectModule} from '@angular/material';
 import { MatSortModule } from '@angular/material/sort';
 import { PaginationModule } from 'ngx-bootstrap';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [AdminNavComponent, PlacesComponent, UsersComponent, ErrorComponent],
@@ -35,6 +34,8 @@ import {FormsModule} from '@angular/forms';
     MatSortModule,
     MatSelectModule,
     PaginationModule.forRoot(),
+    BrowserAnimationsModule,
+    RouterModule
     BrowserAnimationsModule,
     FormsModule
   ]

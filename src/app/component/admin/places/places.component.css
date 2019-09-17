@@ -24,9 +24,12 @@ th,td {
   color: gray;
 }
 
-/*.btn {*/
-/*  margin: 3px;*/
-/*}*/
+.btn {
+  margin: 3px;
+}
+.actions{
+  display: flex;
+}
 
 #message {
   width: auto;

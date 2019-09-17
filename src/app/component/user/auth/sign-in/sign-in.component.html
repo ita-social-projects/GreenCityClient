@@ -52,13 +52,20 @@
 
     <button class="btn btn-primary submit" [disabled]="!registerForm.valid" type="submit">
       <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-      Submit
+      Sign-in
     </button>
-    <button class="btn btn-primary register" type="submit" routerLink="sign-up">
-      Sign-up
-    </button>
-
 
   </form>
+  
+  <p></p>
+  <button class="btn btn-primary register" routerLink="sign-up">
+    Sign-up
+  </button>
+
+  <p></p>
+
+  <div>
+    <input type="submit" class="btn btn-primary google" (click)="signInWithGoogle()" value="Sign-in with Google">
+  </div>
 
 </div>

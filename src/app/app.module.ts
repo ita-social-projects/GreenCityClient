@@ -28,9 +28,14 @@ import {
   FavoritePlaceModalComponent,
   FvPlaceTableComponent
 } from './component/user/favorite-place/fvplace-table';
-import { MatTableModule} from '@angular/material';
-import { MatIconModule } from '@angular/material/icon';
+import {MatSliderModule, MatTableModule, MatTreeModule} from '@angular/material';
+import {MatIconModule} from '@angular/material/icon';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
+import {FilterComponent} from './component/filter/filter.component';
+import {Ng5SliderModule} from 'ng5-slider';
+import {provideConfig} from './config/GoogleAuthConfig';
+import {AuthServiceConfig, SocialLoginModule} from 'angularx-social-login';
+import {AgmDirectionModule} from 'agm-direction';
 
 @NgModule({
   declarations: [
@@ -48,7 +53,7 @@ import {MDBBootstrapModule} from 'angular-bootstrap-md';
     FvPlaceTableComponent,
     FavoritePlaceModalComponent,
     FavoritePlaceEditModalComponent,
-
+    FilterComponent
   ],
   imports: [
     BrowserModule,
@@ -56,10 +61,14 @@ import {MDBBootstrapModule} from 'angular-bootstrap-md';
     RouterModule.forRoot(router),
     HttpClientModule,
     FormsModule,
+    SocialLoginModule,
+    FormsModule,
     AgmCoreModule.forRoot({
+
       apiKey: '',
-      libraries: ['places']
+      libraries: ['places', 'geometry']
     }),
+    AgmDirectionModule,
     Ng2SearchPipeModule,
     AdminModule,
     NgFlashMessagesModule.forRoot(),
@@ -69,13 +78,20 @@ import {MDBBootstrapModule} from 'angular-bootstrap-md';
     MDBBootstrapModule,
     ModalModule,
     ReactiveFormsModule,
-    NgFlashMessagesModule.forRoot()
+    NgFlashMessagesModule.forRoot(),
+    MatSliderModule,
+    MatTreeModule,
+    Ng5SliderModule
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,
       multi: true
+    },
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig
     }
   ],
   bootstrap: [AppComponent]

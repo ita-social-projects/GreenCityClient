@@ -1,4 +1,9 @@
 export class Specification {
-id: number;
-name:string;
+
+  constructor(name: string) {
+    this.name = name;
+  }
+
+  id: number;
+  name: string;
 }
