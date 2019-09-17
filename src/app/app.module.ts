@@ -28,8 +28,6 @@ import {
   FavoritePlaceModalComponent,
   FvPlaceTableComponent
 } from './component/user/favorite-place/fvplace-table';
-import {MatTableModule} from '@angular/material';
-import {MatIconModule} from '@angular/material/icon';
 import {MatSliderModule, MatTableModule, MatTreeModule} from '@angular/material';
 import {MatIconModule} from '@angular/material/icon';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
