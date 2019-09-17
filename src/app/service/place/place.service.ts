@@ -6,9 +6,7 @@ import {MapBounds} from '../../model/map/map-bounds';
 import {PlaceInfo} from '../../model/place/place-info';
 import {PlaceStatus} from '../../model/place/place-status.model';
 import {PlacePageableDto} from '../../model/place/place-pageable-dto.model';
-import {placeLink} from '../../links';
-
-import {mainLink} from '../../links';
+import {mainLink, placeLink} from '../../links';
 import {NgFlashMessageService} from 'ng-flash-messages';
 import {PlaceAddDto} from '../../model/placeAddDto.model';
 
@@ -51,7 +49,7 @@ export class PlaceService {
     this.http.post(`${this.baseUrl}propose/`, place).subscribe(
       () => {
         this.ngFlashMessageService.showFlashMessage({
-          messages: ["Cafe " + place.name + " was added for approving."],
+          messages: ['Cafe ' + place.name + ' was added for approving.'],
           dismissible: true,
           timeout: 3000,
           type: 'success'
@@ -74,5 +72,13 @@ export class PlaceService {
 
   updatePlaceStatus(placeStatus: PlaceStatus) {
     return this.http.patch<PlaceStatus>(`${placeLink}status/`, placeStatus);
+  }
+
+  filterByRegex(status: string, reg: string, paginationSettings: string): Observable<PlacePageableDto> {
+    if (reg === undefined) {
+      return this.http.get<PlacePageableDto>(`${this.baseUrl}filter` + paginationSettings + `&status=` + status + `&reg=%25%25`);
+    } else {
+      return this.http.get<PlacePageableDto>(`${this.baseUrl}filter` + paginationSettings + `&status=` + status + `&reg=%25` + reg + `%25`);
+    }
   }
 }

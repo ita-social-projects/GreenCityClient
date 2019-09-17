@@ -24,9 +24,9 @@ th,td {
   color: gray;
 }
 
-.btn {
-  margin: 3px;
-}
+/*.btn {*/
+/*  margin: 3px;*/
+/*}*/
 
 #message {
   width: auto;
@@ -41,5 +41,5 @@ th,td {
 }
 
 .table-responsive {
-  padding: 13px;
+  padding: 1%;
 }

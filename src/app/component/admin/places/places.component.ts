@@ -4,7 +4,8 @@ import {AdminPlace} from '../../../model/place/admin-place.model';
 import {OpenHours} from '../../../model/openHours/open-hours.model';
 import {NgFlashMessageService} from 'ng-flash-messages';
 import {PlaceService} from '../../../service/place/place.service';
-import {FlashMessage} from 'ng-flash-messages/models/flash-message';
+import {MatTableDataSource} from '@angular/material';
+import {UserForListDtoModel} from '../../../model/user/user-for-list-dto.model';
 
 @Component({
   selector: 'app-places',
@@ -20,6 +21,9 @@ export class PlacesComponent implements OnInit {
   totalItems: number;
   private errorMsg: string;
   statuses: string[];
+  searchReg: string;
+  dataSource = new MatTableDataSource<AdminPlace>();
+  flag = true;
 
   displayedColumns: string[] = ['Category', 'Name', 'Location', 'Working hours', 'Added By', 'Added On', 'Status'];
 
@@ -31,7 +35,7 @@ export class PlacesComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle('Admin - Places');
-    this.onGetPlaces();
+    this.filterByRegex();
     this.getStatuses();
   }
 
@@ -47,11 +51,10 @@ export class PlacesComponent implements OnInit {
     });
   }
 
-
   changeStatus(status: string) {
     this.defaultStatus = status;
     this.places = null;
-    this.onGetPlaces();
+    this.filterByRegex();
     console.log(this.defaultStatus);
   }
 
@@ -80,7 +83,7 @@ export class PlacesComponent implements OnInit {
 
   changePage(event: any) {
     this.page = event.page;
-    this.onGetPlaces();
+    this.filterByRegex();
   }
 
   updateStatus(placeId: number, placeStatus: string, placeName: string) {
@@ -97,7 +100,7 @@ export class PlacesComponent implements OnInit {
           timeout: 3000,
           type: 'success',
         });
-        this.onGetPlaces();
+        this.filterByRegex();
       },
       error => {
         this.errorMsg = 'Error.' + '\"' + placeName + '\"' + ' was not ' + placeStatus + '.Please try again';
@@ -114,6 +117,28 @@ export class PlacesComponent implements OnInit {
 
   getStatuses() {
     this.statuses = ['APPROVED', 'PROPOSED', 'DECLINED'];
+  }
+
+  filterByRegex() {
+    this.defaultStatus = this.defaultStatus.toUpperCase();
+    this.placeService.filterByRegex(this.defaultStatus, this.searchReg, this.getCurrentPaginationSettings()).subscribe(res => {
+      this.places = res.page;
+      this.page = res.currentPage;
+      this.totalItems = res.totalElements;
+      this.dataSource.data = this.places;
+    });
+  }
+
+  onKeydown() {
+    if ((this.searchReg === undefined) || (this.searchReg === '')) {
+      if (this.flag) {
+        this.flag = false;
+        this.filterByRegex();
+      }
+    } else {
+      this.flag = true;
+      this.filterByRegex();
+    }
   }
 }
 
