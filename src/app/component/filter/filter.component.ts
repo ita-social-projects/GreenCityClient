@@ -29,7 +29,7 @@ export class FilterComponent {
     console.log(this.mapComponent.specification);
     const discount = new FilterDiscountDtoModel(
       this.mapComponent.category, this.mapComponent.specification, this.discountMin, this.discountMax);
-    this.filter = new FilterPlaceDtoModel(this.mapComponent.mapBounds, discount);
+    this.filter = new FilterPlaceDtoModel(this.mapComponent.mapBounds, discount, null, null);
     console.log(this.filter);
     this.placeService.getFilteredPlaces(this.filter).subscribe((res) => this.mapComponent.place = res);
     this.mapComponent.isFilter = false;

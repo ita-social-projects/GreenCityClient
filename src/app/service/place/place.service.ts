@@ -11,6 +11,7 @@ import {NgFlashMessageService} from 'ng-flash-messages';
 import {PlaceAddDto} from '../../model/placeAddDto.model';
 import {FilterPlaceDtoModel} from '../../model/filter-place-dto.model';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -79,11 +80,12 @@ export class PlaceService {
     return this.http.patch<PlaceStatus>(`${placeLink}status/`, placeStatus);
   }
 
-  filterByRegex(status: string, reg: string, paginationSettings: string): Observable<PlacePageableDto> {
-    if (reg === undefined) {
-      return this.http.get<PlacePageableDto>(`${this.baseUrl}filter` + paginationSettings + `&status=` + status + `&reg=%25%25`);
+  filterByRegex(paginationSettings: string, filterDto: FilterPlaceDtoModel): Observable<PlacePageableDto> {
+    if (filterDto.searchReg === undefined) {
+      filterDto.searchReg = '%%';
+      return this.http.post<PlacePageableDto>(`${this.baseUrl}filter/regex` + paginationSettings, filterDto);
     } else {
-      return this.http.get<PlacePageableDto>(`${this.baseUrl}filter` + paginationSettings + `&status=` + status + `&reg=%25` + reg + `%25`);
+      return this.http.post<PlacePageableDto>(`${this.baseUrl}filter/regex` + paginationSettings, filterDto);
     }
   }
 }

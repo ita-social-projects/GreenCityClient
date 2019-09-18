@@ -30,7 +30,7 @@ export class UsersComponent implements OnInit {
 
   sortParam = '&sort=email';
   userEmail = this.userService.getUserEmail();
-  displayedColumns: string[] = ['email', 'first_name', 'last_name', 'date_of_registration', 'role', 'block', 'deactivate'];
+  displayedColumns: string[] = ['email', 'firstName', 'lastName', 'dateOfRegistration', 'role', 'block', 'deactivate'];
 
   constructor(
     private userService: UserService, private titleService: Title, private ngFlashMessageService: NgFlashMessageService) {

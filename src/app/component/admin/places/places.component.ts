@@ -5,7 +5,8 @@ import {OpenHours} from '../../../model/openHours/open-hours.model';
 import {NgFlashMessageService} from 'ng-flash-messages';
 import {PlaceService} from '../../../service/place/place.service';
 import {MatTableDataSource} from '@angular/material';
-import {UserForListDtoModel} from '../../../model/user/user-for-list-dto.model';
+import {FilterPlaceDtoModel} from '../../../model/filter-place-dto.model';
+import {PlaceStatus} from '../../../model/placeStatus.model';
 
 @Component({
   selector: 'app-places',
@@ -24,6 +25,8 @@ export class PlacesComponent implements OnInit {
   searchReg: string;
   dataSource = new MatTableDataSource<AdminPlace>();
   flag = true;
+  filterDto: FilterPlaceDtoModel;
+  status: PlaceStatus;
 
   displayedColumns: string[] = ['Category', 'Name', 'Location', 'Working hours', 'Added By', 'Added On', 'Status'];
 
@@ -121,7 +124,9 @@ export class PlacesComponent implements OnInit {
 
   filterByRegex() {
     this.defaultStatus = this.defaultStatus.toUpperCase();
-    this.placeService.filterByRegex(this.defaultStatus, this.searchReg, this.getCurrentPaginationSettings()).subscribe(res => {
+    this.status = PlaceStatus[this.defaultStatus];
+    this.filterDto = new FilterPlaceDtoModel(null, null, this.searchReg, this.status);
+    this.placeService.filterByRegex(this.getCurrentPaginationSettings(), this.filterDto).subscribe(res => {
       this.places = res.page;
       this.page = res.currentPage;
       this.totalItems = res.totalElements;
@@ -130,12 +135,16 @@ export class PlacesComponent implements OnInit {
   }
 
   onKeydown() {
+    console.log(this.flag);
     if ((this.searchReg === undefined) || (this.searchReg === '')) {
+      console.log('Inside first if');
       if (this.flag) {
         this.flag = false;
         this.filterByRegex();
       }
     } else {
+      console.log('Inside else');
+
       this.flag = true;
       this.filterByRegex();
     }
