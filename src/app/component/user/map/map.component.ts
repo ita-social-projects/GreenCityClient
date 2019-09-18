@@ -46,7 +46,6 @@ export class MapComponent implements OnInit {
   travelModeButton = 'DRIVING';
   distance;
   icon = 'assets/img/icon/blue-dot.png';
-  mapRadius;
   circleRadius;
 
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,
@@ -117,7 +116,6 @@ export class MapComponent implements OnInit {
     this.mapBounds.northEastLng = latLngBounds.getNorthEast().lng();
     this.mapBounds.southWestLat = latLngBounds.getSouthWest().lat();
     this.mapBounds.southWestLng = latLngBounds.getSouthWest().lng();
-    this.getMapRadius(this.mapBounds);
   }
 
   setMarker(place: any) {
@@ -167,6 +165,9 @@ export class MapComponent implements OnInit {
 
   toggleFilter() {
     this.isFilter = !this.isFilter;
+    if (this.circleRadius) {
+      this.circleRadius = null;
+    }
   }
 
   setLocationToOrigin(location) {
@@ -183,38 +184,8 @@ export class MapComponent implements OnInit {
     this.travelModeButton = (this.travelModeButton === 'DRIVING') ? 'WALKING' : 'DRIVING';
   }
 
-  /*private getDistanceToPlace(place: Place) {
-    console.log(place);
-    const placeLocation = new google.maps.LatLng(place.location.lat, place.location.lng);
-    const userLocation = new google.maps.LatLng(this.lat, this.lng);
-    const distance = (google.maps.geometry.spherical.computeDistanceBetween(placeLocation, userLocation) / 1000).toFixed(1);
-    console.log(distance);
-    return distance;
-  }*/
 
-  getMapRadius(mapBounds: MapBounds) {
-    const latDiff = Math.abs(mapBounds.southWestLat - mapBounds.northEastLat);
-    const lngDiff = Math.abs(mapBounds.southWestLng - mapBounds.northEastLng);
-
-    if (latDiff > lngDiff) {
-      this.mapRadius = (google.maps.geometry.spherical.computeDistanceBetween(
-        new google.maps.LatLng(mapBounds.northEastLat, mapBounds.northEastLng),
-        new google.maps.LatLng(mapBounds.southWestLat, mapBounds.northEastLng)
-      ) / 1000 / 2).toFixed(1);
-    } else {
-      this.mapRadius = (google.maps.geometry.spherical.computeDistanceBetween(
-        new google.maps.LatLng(mapBounds.northEastLat, mapBounds.northEastLng),
-        new google.maps.LatLng(mapBounds.northEastLat, mapBounds.southWestLng)
-      ) / 1000 / 2).toFixed(1);
-    }
-  }
-
-  changeZoom(distance) {
-    console.log(Number(distance));
-    const circle = new google.maps.Circle();
-    circle.setCenter(new google.maps.LatLng(this.userMarkerLocation.lat, this.userMarkerLocation.lng));
-    circle.setRadius(Number(distance) * 1000);
-    console.log(circle.getBounds());
-    this.circleRadius = circle.getBounds();
+  setRadiusCircle(event: any) {
+    this.circleRadius = Number(event) * 1000;
   }
 }

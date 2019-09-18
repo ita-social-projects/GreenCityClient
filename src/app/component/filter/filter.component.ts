@@ -1,9 +1,10 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {Options} from 'ng5-slider';
 import {PlaceService} from '../../service/place/place.service';
 import {MapComponent} from '../user/map/map.component';
 import {FilterDiscountDtoModel} from '../../model/filter-discount-dto.model';
 import {FilterPlaceDtoModel} from '../../model/filter-place-dto.model';
+import {FilterDistanceDto} from '../../model/filter-distance-dto.model';
 
 @Component({
   selector: 'app-filter',
@@ -11,8 +12,8 @@ import {FilterPlaceDtoModel} from '../../model/filter-place-dto.model';
   styleUrls: ['./filter.component.css']
 })
 export class FilterComponent {
-  @Output() apply = new EventEmitter();
-  @Input() mapRadius;
+  distance;
+  @Output() filterDistanceChange = new EventEmitter();
 
   filter: FilterPlaceDtoModel;
   discountMin = 0;
@@ -24,9 +25,6 @@ export class FilterComponent {
     noSwitching: true
   };
 
-;
-
-
   constructor(private placeService: PlaceService, private mapComponent: MapComponent) {
   }
 
@@ -35,30 +33,20 @@ export class FilterComponent {
     console.log(this.mapComponent.specification);
     const discount = new FilterDiscountDtoModel(
       this.mapComponent.category, this.mapComponent.specification, this.discountMin, this.discountMax);
-    this.filter = new FilterPlaceDtoModel(this.mapComponent.mapBounds, discount);
+
+    const filterDistanceDto = new FilterDistanceDto(
+      this.mapComponent.userMarkerLocation.lat,
+      this.mapComponent.userMarkerLocation.lng,
+      this.distance
+    );
+    this.filter = new FilterPlaceDtoModel(this.mapComponent.mapBounds, discount, filterDistanceDto);
     console.log(this.filter);
-    this.placeService.getFilteredPlaces(this.filter).subscribe((res) => this.mapComponent.place = res);
-    this.mapComponent.isFilter = false;
-    this.apply.emit(this.mapRadius);
-  }
+    this.placeService.getFilteredPlaces(this.filter).subscribe((res) => {
+      this.mapComponent.place = res;
+      if (this.distance) {
+        this.filterDistanceChange.emit(this.distance);
+      }
 
-  /*calculateMinAndMaxDistance(place: Place[]) {
-    let min = place[0] != null ? place[0].location.distanceFromUser : 0;
-    let max = place[0] != null ? place[0].location.distanceFromUser : 0;
-    place.forEach(p => {
-      if (p.location.distanceFromUser < min) {
-        min = p.location.distanceFromUser;
-      }
-      if (p.location.distanceFromUser > max) {
-        max = p.location.distanceFromUser;
-      }
     });
-
-    this.distanceOptions = {
-      floor: min,
-      ceil: max,
-      step: 1,
-      noSwitching: true
-    };
-  }*/
+  }
 }
