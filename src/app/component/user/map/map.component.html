@@ -7,7 +7,7 @@
           <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off"
                  placeholder="Searching for a place">
         </div>
-        <app-filter *ngIf="isFilter"></app-filter>
+        <app-filter (apply)="changeZoom($event)" [mapRadius]="mapRadius" *ngIf="isFilter"></app-filter>
         <div *ngIf="!isFilter">
           <table class="table table-striped">
             <thead>
@@ -27,14 +27,16 @@
       </div>
     </div>
     <div class="sub-2" #map>
-      <agm-map [style.width.px]="map.offsetWidth"
+      <agm-map id="map"
+               [style.width.px]="map.offsetWidth"
                [style.height.px]="map.offsetHeight"
                (mapReady)="mapReady($event)"
                [latitude]="lat"
                [longitude]="lng"
                [zoom]="zoom"
                (idle)="getList()"
-               (boundsChange)="boundsChange($event)">
+               (boundsChange)="boundsChange($event)"
+               [fitBounds]="circleRadius">
         <agm-direction *ngIf="navigationMode" [origin]="origin" [destination]="destination"
                        [travelMode]="travelMode"
                        [provideRouteAlternatives]="true"
@@ -69,9 +71,9 @@
               :{{openingHoursList.openTime}}-{{openingHoursList.closeTime}}</li>
             <p>
               <button *ngIf="button" (click)="getDirection(p)">{{navigationButton}} </button>
-              <button *ngIf="navigationMode"(click)="changeTravelMode()">{{travelModeButton}}</button>
+              <button *ngIf="navigationMode" (click)="changeTravelMode()">{{travelModeButton}}</button>
 
-             </p>
+            </p>
             <p *ngIf="distance">{{distance}}</p>
           </agm-info-window>
         </agm-marker>

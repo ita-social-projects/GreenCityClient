@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Options} from 'ng5-slider';
 import {PlaceService} from '../../service/place/place.service';
 import {MapComponent} from '../user/map/map.component';
@@ -11,6 +11,9 @@ import {FilterPlaceDtoModel} from '../../model/filter-place-dto.model';
   styleUrls: ['./filter.component.css']
 })
 export class FilterComponent {
+  @Output() apply = new EventEmitter();
+  @Input() mapRadius;
+
   filter: FilterPlaceDtoModel;
   discountMin = 0;
   discountMax = 100;
@@ -20,10 +23,11 @@ export class FilterComponent {
     step: 1,
     noSwitching: true
   };
-  distanceOptions: Options;
+
+;
+
 
   constructor(private placeService: PlaceService, private mapComponent: MapComponent) {
-    /*this.calculateMinAndMaxDistance(mapComponent.place);*/
   }
 
   applyFilters() {
@@ -35,6 +39,7 @@ export class FilterComponent {
     console.log(this.filter);
     this.placeService.getFilteredPlaces(this.filter).subscribe((res) => this.mapComponent.place = res);
     this.mapComponent.isFilter = false;
+    this.apply.emit(this.mapRadius);
   }
 
   /*calculateMinAndMaxDistance(place: Place[]) {

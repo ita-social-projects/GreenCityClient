@@ -64,7 +64,7 @@ import {Ng5SliderModule} from 'ng5-slider';
     SocialLoginModule,
     FormsModule,
     AgmCoreModule.forRoot({
-      apiKey: '',
+      apiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI',
       libraries: ['places', 'geometry']
     }),
     AgmDirectionModule,

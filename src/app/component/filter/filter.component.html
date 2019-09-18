@@ -3,7 +3,9 @@
   <ng5-slider [(value)]="discountMin" [(highValue)]="discountMax" [options]="options"></ng5-slider>
   <p></p>
   <h6>Distance:</h6>
-  <ng5-slider [(value)]="discountMin" [(highValue)]="discountMax" [options]="distanceOptions"></ng5-slider>
+  <input type="text" class="form-control" placeholder="Distance in km" aria-label="Distance"
+         aria-describedby="basic-addon1"
+         [(ngModel)]="mapRadius">
   <p></p>
   <button class="btn btn-success btn-sm" id="apply_filter_btn" (click)="applyFilters()">Apply</button>
 </div>

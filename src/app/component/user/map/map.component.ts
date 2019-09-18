@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {LatLngBounds} from '@agm/core';
 import {Place} from '../../../model/place/place';
 import {MapBounds} from '../../../model/map/map-bounds';
@@ -10,6 +10,7 @@ import {FavoritePlaceService} from '../../../service/favorite-place/favorite-pla
 import {FavoritePlaceSave} from '../../../model/favorite-place/favorite-place-save';
 import {CategoryDto} from '../../../model/category.model';
 import {Specification} from '../../../model/specification/specification';
+
 
 interface Location {
   lat: number;
@@ -45,6 +46,8 @@ export class MapComponent implements OnInit {
   travelModeButton = 'DRIVING';
   distance;
   icon = 'assets/img/icon/blue-dot.png';
+  mapRadius;
+  circleRadius;
 
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,
               private placeService: PlaceService,
@@ -114,6 +117,7 @@ export class MapComponent implements OnInit {
     this.mapBounds.northEastLng = latLngBounds.getNorthEast().lng();
     this.mapBounds.southWestLat = latLngBounds.getSouthWest().lat();
     this.mapBounds.southWestLng = latLngBounds.getSouthWest().lng();
+    this.getMapRadius(this.mapBounds);
   }
 
   setMarker(place: any) {
@@ -179,12 +183,38 @@ export class MapComponent implements OnInit {
     this.travelModeButton = (this.travelModeButton === 'DRIVING') ? 'WALKING' : 'DRIVING';
   }
 
-  private getDistanceToPlace(place: Place) {
+  /*private getDistanceToPlace(place: Place) {
     console.log(place);
     const placeLocation = new google.maps.LatLng(place.location.lat, place.location.lng);
     const userLocation = new google.maps.LatLng(this.lat, this.lng);
     const distance = (google.maps.geometry.spherical.computeDistanceBetween(placeLocation, userLocation) / 1000).toFixed(1);
     console.log(distance);
     return distance;
+  }*/
+
+  getMapRadius(mapBounds: MapBounds) {
+    const latDiff = Math.abs(mapBounds.southWestLat - mapBounds.northEastLat);
+    const lngDiff = Math.abs(mapBounds.southWestLng - mapBounds.northEastLng);
+
+    if (latDiff > lngDiff) {
+      this.mapRadius = (google.maps.geometry.spherical.computeDistanceBetween(
+        new google.maps.LatLng(mapBounds.northEastLat, mapBounds.northEastLng),
+        new google.maps.LatLng(mapBounds.southWestLat, mapBounds.northEastLng)
+      ) / 1000 / 2).toFixed(1);
+    } else {
+      this.mapRadius = (google.maps.geometry.spherical.computeDistanceBetween(
+        new google.maps.LatLng(mapBounds.northEastLat, mapBounds.northEastLng),
+        new google.maps.LatLng(mapBounds.northEastLat, mapBounds.southWestLng)
+      ) / 1000 / 2).toFixed(1);
+    }
+  }
+
+  changeZoom(distance) {
+    console.log(Number(distance));
+    const circle = new google.maps.Circle();
+    circle.setCenter(new google.maps.LatLng(this.userMarkerLocation.lat, this.userMarkerLocation.lng));
+    circle.setRadius(Number(distance) * 1000);
+    console.log(circle.getBounds());
+    this.circleRadius = circle.getBounds();
   }
 }
