@@ -23,15 +23,11 @@ import {InterceptorService} from './service/interceptor.service';
 import {AdminModule} from './component/admin/admin.module';
 import {NgFlashMessagesModule} from 'ng-flash-messages';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {
-  FavoritePlaceEditModalComponent,
-  FavoritePlaceModalComponent,
-  FvPlaceTableComponent
-} from './component/user/favorite-place/fvplace-table';
-import {MatDialogModule, MatFormFieldModule, MatInputModule, MatTableModule} from '@angular/material';
-import { MatIconModule } from '@angular/material/icon';
+
+import {MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatTableModule} from '@angular/material';
+import {MatIconModule} from '@angular/material/icon';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
-import {TestD, TestDialog} from './component/user/favorite-place/test';
+import {EditFavoriteNameComponent, FavoritePlaceComponent} from './component/user/favorite-place/favorite-place.component';
 
 @NgModule({
   declarations: [
@@ -46,11 +42,8 @@ import {TestD, TestDialog} from './component/user/favorite-place/test';
     SubmitEmailComponent,
     MapComponent,
     ProposeCafeComponent,
-    FvPlaceTableComponent,
-    FavoritePlaceModalComponent,
-    FavoritePlaceEditModalComponent,
-    TestD,
-    TestDialog
+    FavoritePlaceComponent,
+    EditFavoriteNameComponent,
 
   ],
   imports: [
@@ -76,9 +69,10 @@ import {TestD, TestDialog} from './component/user/favorite-place/test';
     MatFormFieldModule,
     MatDialogModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatButtonModule
   ],
-  entryComponents: [ TestDialog],
+  entryComponents: [FavoritePlaceComponent, EditFavoriteNameComponent],
 
   providers: [
     {

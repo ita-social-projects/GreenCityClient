@@ -14,7 +14,8 @@
           </thead>
           <tbody>
           <tr *ngFor="let p of place | filter:searchText" (click)="setMarker(p)">
-            <td>{{p.name}}</td>
+            <td> {{p.name}} </td>
+
           </tr>
           </tbody>
 
@@ -24,27 +25,27 @@
     </div>
     <div class="sub-2">
       <agm-map
-        (mapReady)="mapReady($event)"
         [latitude]="lat"
         [longitude]="lng"
         [zoom]="zoom"
-        (boundsChange)="boundsChange($event)">
-        (idle)="getList()"
-        (boundsChange)="boundsChange($event)"
-      >
-        <app-fvplace-table></app-fvplace-table>
-      <button mat-button id="AllFavoritePlaces"   mdbBtn type="button" gradient="aqua" rounded="true" mdbWavesEffect (click)="openModal('fp-modal-1')" >Favorites</button>
+         (idle)="getList()"
 
-      <app-dialog-favorite-place></app-dialog-favorite-place>
-        <agm-marker (markerClick)="showDetail(p.id)"
-                    *ngFor="let p of place; let i = index"
+        (boundsChange)="boundsChange($event)">
+        <agm-marker (markerClick)="showDetail(p.id,p)"
+                    *ngFor="let p of place; let i = index;"
                     [latitude]="p.location.lat"
-                    [longitude]="p.location.lng">
+                    [longitude]="p.location.lng"
+                       [iconUrl]="getMarkerIcon(p.favorite)"
+
+        >
           <agm-info-window *ngIf="placeInfo">
 
             <h5>{{placeInfo.name}}
-              <button id="star-button" mat-icon-button style="float: right;  background-color: white; border-width: inherit" (click)="savePlaceAsFavorite(p); ">
-                <mat-icon svg svgIcon = {{getIcon(p.isFavorite)}}></mat-icon>
+              <button id="star-button" mat-icon-button
+                      *ngIf="userRole === 'ROLE_ADMIN' || userRole === 'ROLE_MODERATOR' || userRole === 'ROLE_USER'"
+                      style="float: right;  background-color: white; border-width: inherit"
+                      (click)="savePlaceAsFavorite(p); ">
+                <mat-icon svg svgIcon="{{p.color}}"></mat-icon>
               </button>
             </h5>
             <h6>
