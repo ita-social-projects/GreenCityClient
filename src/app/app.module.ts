@@ -23,11 +23,13 @@ import {InterceptorService} from './service/interceptor.service';
 import {AdminModule} from './component/admin/admin.module';
 import {NgFlashMessagesModule} from 'ng-flash-messages';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-
 import {MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatTableModule} from '@angular/material';
 import {MatIconModule} from '@angular/material/icon';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
 import {EditFavoriteNameComponent, FavoritePlaceComponent} from './component/user/favorite-place/favorite-place.component';
+import {provideConfig} from './config/GoogleAuthConfig';
+import {AuthServiceConfig, SocialLoginModule} from 'angularx-social-login';
+import {AgmDirectionModule} from 'agm-direction';
 
 @NgModule({
   declarations: [
@@ -52,10 +54,13 @@ import {EditFavoriteNameComponent, FavoritePlaceComponent} from './component/use
     RouterModule.forRoot(router),
     HttpClientModule,
     FormsModule,
+    SocialLoginModule,
+    FormsModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyBCtiDJDctvioz4ucWNjy-j3BmxjKsUYGM',
-      libraries: ['places']
+      apiKey: '',
+      libraries: ['places', 'geometry']
     }),
+    AgmDirectionModule,
     Ng2SearchPipeModule,
     AdminModule,
     NgFlashMessagesModule.forRoot(),
@@ -79,6 +84,10 @@ import {EditFavoriteNameComponent, FavoritePlaceComponent} from './component/use
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,
       multi: true
+    },
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig
     }
   ],
   bootstrap: [AppComponent]

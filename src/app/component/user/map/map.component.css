@@ -1,12 +1,10 @@
 agm-map{
-  height: 660px;
-  width: 1200px;
 }
 .main{
   display: flex;
 
 }
-.main.sub-1{
+.main.sub-1{width: 90vw; height: 95vh;
   flex-grow: 1;
 }
 .main.sub-2{
@@ -14,4 +12,7 @@ agm-map{
 }
 .sub-1{
   width: 300px;
+}
+.sub-2{
+  width: 90vw; height: 95vh;
 }

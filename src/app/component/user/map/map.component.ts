@@ -12,12 +12,18 @@ import {UserService} from '../../../service/user/user.service';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
 
+interface Location {
+  lat: number;
+  lng: number;
+}
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit {
+
   placeInfo: PlaceInfo;
   button = false;
   mapBounds: MapBounds;
@@ -26,49 +32,83 @@ export class MapComponent implements OnInit {
   lng = 24.031706;
   zoom = 13;
   place: Place[] = [];
+  userMarkerLocation: Location;
   map: any;
+  private userRole: string;
+
+  origin: any;
+  destination: any;
+  directionButton: boolean;
+  navigationMode = false;
+  navigationButton = 'Navigate to place';
+  travelMode = 'WALKING';
+  travelModeButton = 'DRIVING';
+  distance;
+  icon = 'assets/img/icon/blue-dot.png';
   color = 'star-yellow';
   markerYellow = 'assets/img/icon/favorite-place/Icon-43.png';
-  private userRole: string;
   private querySubscription: Subscription;
   idFavoritePlace: number;
   favoritePlaces: FavoritePlaceSave[];
 
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private uService: UserService, private route: ActivatedRoute,
               private placeService: PlaceService, private favoritePlaceService: FavoritePlaceService) {
-    iconRegistry.addSvgIcon(
-      'star-white',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/favorite-place/star-white.svg'));
-    iconRegistry.addSvgIcon(
-      'star-yellow',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/favorite-place/star-yellow.svg'));
-
+    iconRegistry
+      .addSvgIcon(
+        'star-white'
+        ,
+        sanitizer
+          .bypassSecurityTrustResourceUrl(
+            'assets/img/icon/favorite-place/star-white.svg'
+          ));
+    iconRegistry
+      .addSvgIcon(
+        'star-yellow'
+        ,
+        sanitizer
+          .bypassSecurityTrustResourceUrl(
+            'assets/img/icon/favorite-place/star-yellow.svg'
+          ));
     this.querySubscription = route.queryParams.subscribe(
       (queryParam: any) => {
         this.idFavoritePlace = queryParam.fp_id;
-      }
-    );
-
+      });
   }
+
+  getDirection(p: Place) {
+    if (this.navigationMode === false) {
+      this.navigationButton = 'Close navigation';
+      this.navigationMode = true;
+      this.destination = {lat: p.location.lat, lng: p.location.lng};
+      this.origin = {lat: this.userMarkerLocation.lat, lng: this.userMarkerLocation.lng};
+    } else {
+      this.navigationMode = false;
+      this.navigationButton = 'Navigate to place';
+    }
+  }
+
 
   ngOnInit() {
     this.userRole = this.uService.getUserRole();
     this.mapBounds = new MapBounds();
     this.setCurrentLocation();
+    this.userMarkerLocation = {lat: this.lat, lng: this.lng};
     if (this.userRole === 'ROLE_ADMIN' || this.userRole === 'ROLE_MODERATOR' || this.userRole === 'ROLE_USER') {
       this.getFavoritePlaces();
     }
   }
 
-  private setCurrentLocation() {
+  setCurrentLocation(): Position {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
         this.zoom = 13;
+        this.userMarkerLocation = {lat: this.lat, lng: this.lng};
+        return position;
       });
     }
-
+    return null;
   }
 
   boundsChange(latLngBounds: LatLngBounds) {
@@ -80,7 +120,6 @@ export class MapComponent implements OnInit {
 
   setMarker(place: any) {
     console.log('set marker');
-    console.log(this.place);
     this.button = true;
     this.place = null;
     this.place = [place];
@@ -89,6 +128,7 @@ export class MapComponent implements OnInit {
 
   showAll() {
     console.log('show all to map');
+    this.origin = null;
     this.button = !this.button;
     this.placeService.getListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => {
       this.place = res;
@@ -97,21 +137,26 @@ export class MapComponent implements OnInit {
       }
     });
     this.searchText = null;
-    console.log(this.place);
   }
 
-  Show() {
-    this.button = !this.button;
-  }
-
-  showDetail(p: number, pl: Place) {
-    console.log('in showDetail()');
-    this.placeService.getPlaceInfo(p).subscribe((res) => {
+  showDetail(pl: Place) {
+    this.directionButton = true;
+    this.placeService.getPlaceInfo(pl.id).subscribe((res) => {
         this.placeInfo = res;
+        if (this.userRole === 'ROLE_ADMIN' || this.userRole === 'ROLE_MODERATOR' || this.userRole === 'ROLE_USER') {
+
+          if (this.userRole === null) {
+            this.favoritePlaces.forEach(fp => {
+              if (fp.placeId === this.placeInfo.id) {
+                this.placeInfo.name = fp.name;
+              }
+            });
+          }
+        }
       }
     );
     this.place = this.place.filter(r => {
-      return r.id === p;
+      return r.id === pl.id;
     });
     if (this.place.length === 1 && this.button !== true) {
       this.button = !this.button;
@@ -143,7 +188,6 @@ export class MapComponent implements OnInit {
   }
 
   getIcon(favorite: boolean) {
-    console.log('isFavorite=' + favorite);
     return favorite ? 'star-yellow' : 'star-white';
   }
 
@@ -206,5 +250,19 @@ export class MapComponent implements OnInit {
       });
     });
 
+  }
+
+  setLocationToOrigin(location) {
+    this.userMarkerLocation.lat = location.coords.lat;
+    this.userMarkerLocation.lng = location.coords.lng;
+    if (this.place.length === 1) {
+      this.destination = {lat: this.place[0].location.lat, lng: this.place[0].location.lng};
+      this.origin = {lat: this.userMarkerLocation.lat, lng: this.userMarkerLocation.lng};
+    }
+  }
+
+  changeTravelMode() {
+    this.travelMode = (this.travelMode === 'WALKING') ? 'DRIVING' : 'WALKING';
+    this.travelModeButton = (this.travelModeButton === 'DRIVING') ? 'WALKING' : 'DRIVING';
   }
 }
