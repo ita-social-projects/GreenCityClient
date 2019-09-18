@@ -13,3 +13,65 @@
 .ng5-slider {
   margin-top: 50px;
 }
+
+.main {
+  display: block;
+  position: relative;
+  padding-left: 45px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/* Hide the default checkbox */
+input[type=checkbox] {
+  visibility: hidden;
+}
+
+/* Creating a custom checkbox
+based on demand */
+.geekmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  border-width: 0 4px 4px 0;
+  border-color: #38d3ff;
+  background-color: #fef9ff;
+}
+
+/* Specify the background color to be
+shown when checkbox is checked */
+.main input:checked ~ .geekmark {
+  background-color: green;
+}
+
+/* Checkmark to be shown in checkbox */
+/* It is not be shown when not checked */
+.geekmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Display checkmark when checked */
+.main input:checked ~ .geekmark:after {
+  display: block;
+}
+
+/* Styling the checkmark using webkit */
+/* Rotated the rectangle by 45 degree and
+showing only two border to make it look
+like a tickmark */
+.main .geekmark:after {
+  left: 8px;
+  bottom: 5px;
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 4px 4px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}

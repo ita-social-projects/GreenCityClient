@@ -1,6 +1,14 @@
 <div class="container" id="filtering_layout">
   <h6>Discount Rate</h6>
-  <ng5-slider [(value)]="filterService.discountMin"
-              [(highValue)]="filterService.discountMax" [options]="options"></ng5-slider>
+  <ng5-slider [(value)]="discountMin"
+              [(highValue)]="discountMax"
+              [options]="options">
+  </ng5-slider>
+
+  <label class="main">Is now open
+    <input type="checkbox">
+    <span class="geekmark"></span>
+  </label>
+
   <button class="btn btn-success btn-sm" id="apply_filter_btn" (click)="applyFilters()">Apply</button>
 </div>

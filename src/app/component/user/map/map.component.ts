@@ -8,8 +8,7 @@ import {MatIconRegistry} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
 import {FavoritePlaceService} from '../../../service/favorite-place/favorite-place.service';
 import {FavoritePlaceSave} from '../../../model/favorite-place/favorite-place-save';
-import {CategoryDto} from '../../../model/category.model';
-import {Specification} from '../../../model/specification/specification';
+import {FilterPlaceService} from '../../../service/filtering/filter-place.service';
 
 interface Location {
   lat: number;
@@ -23,16 +22,12 @@ interface Location {
 })
 export class MapComponent implements OnInit {
 
-  category: CategoryDto;
-  specification: Specification;
   placeInfo: PlaceInfo;
   button = false;
-  mapBounds: MapBounds;
   searchText;
   lat = 49.841795;
   lng = 24.031706;
   zoom = 13;
-  place: Place[] = [];
   userMarkerLocation: Location;
   map: any;
   isFilter = false;
@@ -48,6 +43,7 @@ export class MapComponent implements OnInit {
 
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,
               private placeService: PlaceService,
+              private filterService: FilterPlaceService,
               private favoritePlaceService: FavoritePlaceService) {
     iconRegistry
       .addSvgIcon(
@@ -66,9 +62,8 @@ export class MapComponent implements OnInit {
             'assets/img/icon/favorite-place/star-yellow.svg'
           ));
 
-    this.category = new CategoryDto();
-    this.category.name = 'Food';
-    this.specification = new Specification('Own Cup');
+    this.filterService.setCategoryName('Food');
+    this.filterService.setSpecName('Own cup');
   }
 
   getDirection(p: Place) {
@@ -83,9 +78,8 @@ export class MapComponent implements OnInit {
     }
   }
 
-
   ngOnInit() {
-    this.mapBounds = new MapBounds();
+    this.filterService.mapBounds = new MapBounds();
     this.setCurrentLocation();
     this.userMarkerLocation = {lat: this.lat, lng: this.lng};
   }
@@ -110,23 +104,26 @@ export class MapComponent implements OnInit {
   }
 
   boundsChange(latLngBounds: LatLngBounds) {
-    this.mapBounds.northEastLat = latLngBounds.getNorthEast().lat();
-    this.mapBounds.northEastLng = latLngBounds.getNorthEast().lng();
-    this.mapBounds.southWestLat = latLngBounds.getSouthWest().lat();
-    this.mapBounds.southWestLng = latLngBounds.getSouthWest().lng();
+    this.filterService.setMapBounds(latLngBounds);
   }
 
   setMarker(place: any) {
     this.button = true;
-    this.place = null;
-    this.place = [place];
+    this.placeService.places = null;
+    this.placeService.places = [place];
   }
 
-  showAll() {
+  showAllPlaces() {
     this.origin = null;
     this.button = !this.button;
-    this.placeService.getListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => this.place = res);
+    this.placeService.getFilteredPlaces();
+    console.log(this.placeService.places);
     this.searchText = null;
+  }
+
+  clearFilters() {
+    this.filterService.clearDiscountRate();
+    this.placeService.getFilteredPlaces();
   }
 
   showDetail(p: number) {
@@ -135,10 +132,10 @@ export class MapComponent implements OnInit {
         this.placeInfo = res;
       }
     );
-    this.place = this.place.filter(r => {
+    this.placeService.places = this.placeService.places.filter(r => {
       return r.id === p;
     });
-    if (this.place.length === 1 && this.button !== true) {
+    if (this.placeService.places.length === 1 && this.button !== true) {
       this.button = !this.button;
     }
   }
@@ -149,14 +146,12 @@ export class MapComponent implements OnInit {
   }
 
   getList() {
-    if (!this.isFilter) {
-      if (this.button !== true) {
-        this.placeService.getListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => this.place = res);
-        this.searchText = null;
-      }
+    if (this.button !== true) {
+      this.placeService.getFilteredPlaces();
+      console.log(this.placeService.places);
+      this.searchText = null;
     }
   }
-
 
   toggleFilter() {
     this.isFilter = !this.isFilter;
@@ -165,8 +160,8 @@ export class MapComponent implements OnInit {
   setLocationToOrigin(location) {
     this.userMarkerLocation.lat = location.coords.lat;
     this.userMarkerLocation.lng = location.coords.lng;
-    if (this.place.length === 1) {
-      this.destination = {lat: this.place[0].location.lat, lng: this.place[0].location.lng};
+    if (this.placeService.places.length === 1) {
+      this.destination = {lat: this.placeService.places[0].location.lat, lng: this.placeService.places[0].location.lng};
       this.origin = {lat: this.userMarkerLocation.lat, lng: this.userMarkerLocation.lng};
     }
   }
