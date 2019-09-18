@@ -23,14 +23,10 @@ import {InterceptorService} from './service/interceptor.service';
 import {AdminModule} from './component/admin/admin.module';
 import {NgFlashMessagesModule} from 'ng-flash-messages';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {
-  FavoritePlaceEditModalComponent,
-  FavoritePlaceModalComponent,
-  FvPlaceTableComponent
-} from './component/user/favorite-place/fvplace-table';
-import {MatTableModule} from '@angular/material';
+import {MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatTableModule} from '@angular/material';
 import {MatIconModule} from '@angular/material/icon';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
+import {EditFavoriteNameComponent, FavoritePlaceComponent} from './component/user/favorite-place/favorite-place.component';
 import {provideConfig} from './config/GoogleAuthConfig';
 import {AuthServiceConfig, SocialLoginModule} from 'angularx-social-login';
 import {AgmDirectionModule} from 'agm-direction';
@@ -48,9 +44,8 @@ import {AgmDirectionModule} from 'agm-direction';
     SubmitEmailComponent,
     MapComponent,
     ProposeCafeComponent,
-    FvPlaceTableComponent,
-    FavoritePlaceModalComponent,
-    FavoritePlaceEditModalComponent,
+    FavoritePlaceComponent,
+    EditFavoriteNameComponent,
 
   ],
   imports: [
@@ -62,7 +57,7 @@ import {AgmDirectionModule} from 'agm-direction';
     SocialLoginModule,
     FormsModule,
     AgmCoreModule.forRoot({
-      apiKey:'',
+      apiKey: '',
       libraries: ['places', 'geometry']
     }),
     AgmDirectionModule,
@@ -75,8 +70,15 @@ import {AgmDirectionModule} from 'agm-direction';
     MDBBootstrapModule,
     ModalModule,
     ReactiveFormsModule,
-    NgFlashMessagesModule.forRoot()
+    NgFlashMessagesModule.forRoot(),
+    MatFormFieldModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule
   ],
+  entryComponents: [FavoritePlaceComponent, EditFavoriteNameComponent],
+
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

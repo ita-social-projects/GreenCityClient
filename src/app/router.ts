@@ -10,7 +10,7 @@ import {UsersComponent} from './component/admin/users/users.component';
 
 export const router = [
   {
-    path: '', component: UserComponent, children: [
+    path: '', name: 'MainPage', component: UserComponent, children: [
       {
         path: 'auth', component: AuthComponent, children: [
           {path: '', component: SignInComponent},
@@ -28,7 +28,7 @@ export const router = [
           {path: 'users', component: UsersComponent}
         ]
       }
-    ]
+    ],
 
   }
 ];
