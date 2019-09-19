@@ -54,7 +54,7 @@ export class PlaceService {
     this.http.post(`${this.baseUrl}propose/`, place).subscribe(
       () => {
         this.ngFlashMessageService.showFlashMessage({
-          messages: [`Cafe ${place.name} was added for approving.`],
+          messages: ['Cafe ' + place.name + ' was added for approving.'],
           dismissible: true,
           timeout: 3000,
           type: 'success'

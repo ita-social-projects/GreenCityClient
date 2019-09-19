@@ -8,9 +8,9 @@ import {AdminComponent} from './component/admin/admin.component';
 import {PlacesComponent} from './component/admin/places/places.component';
 import {UsersComponent} from './component/admin/users/users.component';
 
-export var router = [
+export const router = [
   {
-    path: '', component: UserComponent, children: [
+    path: '', name: 'MainPage', component: UserComponent, children: [
       {
         path: 'auth', component: AuthComponent, children: [
           {path: '', component: SignInComponent},
@@ -28,7 +28,7 @@ export var router = [
           {path: 'users', component: UsersComponent}
         ]
       }
-    ]
+    ],
 
   }
 ];

@@ -36,6 +36,9 @@ th, td {
 .btn {
   margin: 3px;
 }
+.actions{
+  display: flex;
+}
 
 #message {
   width: auto;
