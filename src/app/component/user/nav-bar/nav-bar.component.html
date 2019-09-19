@@ -4,7 +4,7 @@
 
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="/">GreenCity</a>
+        <a class="nav-link" routerLink="/">GreenCity</a>
       </li>
     </ul>
 
@@ -30,7 +30,7 @@
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
           <a class="dropdown-item"
              *ngIf="userRole == 'ROLE_ADMIN' || userRole == 'ROLE_MODERATOR'"
-             href="/admin">Admin</a>
+             routerLink="/admin">Admin</a>
           <a class="dropdown-item" (click)="signOut()">Sign-out</a>
         </div>
 
