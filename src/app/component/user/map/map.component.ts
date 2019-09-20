@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LatLngBounds} from '@agm/core';
 import {Place} from '../../../model/place/place';
 import {MapBounds} from '../../../model/map/map-bounds';
@@ -12,11 +12,7 @@ import {FilterPlaceService} from '../../../service/filtering/filter-place.servic
 import {UserService} from '../../../service/user/user.service';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
-
-interface Location {
-  lat: number;
-  lng: number;
-}
+import {Location} from '../../../model/location.model';
 
 @Component({
   selector: 'app-map',
@@ -34,6 +30,7 @@ export class MapComponent implements OnInit {
   userMarkerLocation: Location;
   map: any;
   isFilter = false;
+  userRole: string;
   origin: any;
   destination: any;
   directionButton: boolean;
@@ -48,7 +45,6 @@ export class MapComponent implements OnInit {
   querySubscription: Subscription;
   idFavoritePlace: number;
   favoritePlaces: FavoritePlaceSave[];
-  circleRadius;
 
   constructor(private iconRegistry: MatIconRegistry,
               private sanitizer: DomSanitizer,
@@ -81,28 +77,30 @@ export class MapComponent implements OnInit {
       });
   }
 
+  ngOnInit() {
+    this.filterService.mapBounds = new MapBounds();
+    this.userRole = this.uService.getUserRole();
+    this.setCurrentLocation();
+    this.userMarkerLocation = {lat: this.lat, lng: this.lng};
+    this.filterService.setUserMarkerLocation(this.userMarkerLocation);
+    if (this.userRole === 'ROLE_ADMIN' || this.userRole === 'ROLE_MODERATOR' || this.userRole === 'ROLE_USER') {
+      this.getFavoritePlaces();
+    }
+  }
+
   getDirection(p: Place) {
     if (this.navigationMode === false) {
       this.navigationButton = 'Close navigation';
       this.navigationMode = true;
       this.destination = {lat: p.location.lat, lng: p.location.lng};
       this.origin = {lat: this.userMarkerLocation.lat, lng: this.userMarkerLocation.lng};
+      this.filterService.setUserMarkerLocation(this.userMarkerLocation);
     } else {
       this.navigationMode = false;
       this.navigationButton = 'Navigate to place';
     }
   }
 
-
-  ngOnInit() {
-    this.filterService.mapBounds = new MapBounds();
-    this.userRole = this.uService.getUserRole();
-    this.setCurrentLocation();
-    this.userMarkerLocation = {lat: this.lat, lng: this.lng};
-    if (this.userRole === 'ROLE_ADMIN' || this.userRole === 'ROLE_MODERATOR' || this.userRole === 'ROLE_USER') {
-      this.getFavoritePlaces();
-    }
-  }
 
   setCurrentLocation(): Position {
     if ('geolocation' in navigator) {
@@ -111,6 +109,7 @@ export class MapComponent implements OnInit {
         this.lng = position.coords.longitude;
         this.zoom = 13;
         this.userMarkerLocation = {lat: this.lat, lng: this.lng};
+        this.filterService.setUserMarkerLocation(this.userMarkerLocation);
         return position;
       });
     }
@@ -122,6 +121,7 @@ export class MapComponent implements OnInit {
   }
 
   setMarker(place: any) {
+    console.log('set marker');
     this.button = true;
     this.placeService.places = null;
     this.placeService.places = [place];
@@ -130,9 +130,8 @@ export class MapComponent implements OnInit {
   showAllPlaces() {
     this.origin = null;
     this.button = !this.button;
-    this.placeService.getListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => {
-      this.place = res;
-    });
+    this.placeService.getFilteredPlaces();
+    console.log(this.placeService.places);
     this.searchText = null;
   }
 
@@ -191,9 +190,15 @@ export class MapComponent implements OnInit {
   }
 
   getList() {
-    if (this.button !== true) {
-      this.placeService.getListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => this.place = res);
-      this.searchText = null;
+    if (this.idFavoritePlace) {
+      this.setFavoritePlaceOnMap();
+    } else {
+      console.log('in getList()');
+      if (this.button !== true) {
+        this.placeService.getFilteredPlaces();
+        this.idFavoritePlace = null;
+        this.searchText = null;
+      }
     }
   }
 
@@ -205,9 +210,6 @@ export class MapComponent implements OnInit {
 
   toggleFilter() {
     this.isFilter = !this.isFilter;
-    if (this.circleRadius) {
-      this.circleRadius = null;
-    }
   }
 
   getMarkerIcon(favorite: boolean) {
@@ -254,19 +256,15 @@ export class MapComponent implements OnInit {
   setLocationToOrigin(location) {
     this.userMarkerLocation.lat = location.coords.lat;
     this.userMarkerLocation.lng = location.coords.lng;
-    if (this.place.length === 1) {
-      this.destination = {lat: this.place[0].location.lat, lng: this.place[0].location.lng};
+    if (this.placeService.places.length === 1) {
+      this.destination = {lat: this.placeService.places[0].location.lat, lng: this.placeService.places[0].location.lng};
       this.origin = {lat: this.userMarkerLocation.lat, lng: this.userMarkerLocation.lng};
     }
+    this.filterService.setUserMarkerLocation(this.userMarkerLocation);
   }
 
   changeTravelMode() {
     this.travelMode = (this.travelMode === 'WALKING') ? 'DRIVING' : 'WALKING';
     this.travelModeButton = (this.travelModeButton === 'DRIVING') ? 'WALKING' : 'DRIVING';
-  }
-
-
-  setRadiusCircle(event: any) {
-    this.circleRadius = Number(event) * 1000;
   }
 }

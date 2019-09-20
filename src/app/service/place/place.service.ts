@@ -12,7 +12,6 @@ import {mainLink} from '../../links';
 import {NgFlashMessageService} from 'ng-flash-messages';
 import {PlaceAddDto} from '../../model/placeAddDto.model';
 import {FilterPlaceService} from '../filtering/filter-place.service';
-import {MapComponent} from '../../component/user/map/map.component';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +48,7 @@ export class PlaceService {
 
   getFilteredPlaces() {
     const filterDto = this.filterService.getFilters();
+    console.log(filterDto);
     this.http.post<Place[]>(`${placeLink}filter/`, filterDto).subscribe((res) => this.places = res);
   }
 

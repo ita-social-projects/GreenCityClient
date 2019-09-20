@@ -19,6 +19,7 @@ export class FilterComponent {
     step: 1,
     noSwitching: true
   };
+  distance: number;
 
   constructor(private placeService: PlaceService,
               private mapComponent: MapComponent,
@@ -31,6 +32,7 @@ export class FilterComponent {
 
   applyFilters() {
     this.filterService.setDiscountBounds(this.discountMin, this.discountMax);
+    this.filterService.setDistance(this.distance);
     this.placeService.getFilteredPlaces();
     this.mapComponent.toggleFilter();
   }

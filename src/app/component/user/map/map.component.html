@@ -7,7 +7,7 @@
           <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off"
                  placeholder="Searching for a place">
         </div>
-        <app-filter (filterDistanceChange)="setRadiusCircle($event)" *ngIf="isFilter" filterDistanceChange></app-filter>
+        <app-filter *ngIf="isFilter"></app-filter>
         <div *ngIf="!isFilter">
           <table class="table table-striped">
             <thead>
@@ -24,46 +24,45 @@
             </tbody>
           </table>
           <button class="btn btn-success btn-sm" *ngIf="button;" (click)="showAllPlaces()">Show all</button>
-          <button class="btn btn-success btn-sm" *ngIf="!filterService.isCleared;" (click)="clearFilters()">Clear Filters</button>
+          <button class="btn btn-success btn-sm" *ngIf="!filterService.isCleared;" (click)="clearFilters()">Clear
+            Filters
+          </button>
         </div>
       </div>
     </div>
     <div class="sub-2" #map>
-      <agm-map id="map"
-               [style.width.px]="map.offsetWidth"
+      <agm-map [style.width.px]="map.offsetWidth"
                [style.height.px]="map.offsetHeight"
                [latitude]="lat"
                [longitude]="lng"
                [zoom]="zoom"
                (idle)="getList()"
                (boundsChange)="boundsChange($event)">
+
         <agm-direction *ngIf="navigationMode" [origin]="origin" [destination]="destination"
                        [travelMode]="travelMode"
                        [provideRouteAlternatives]="true"
                        [visible]="true">
         </agm-direction>
-        <app-dialog-favorite-place></app-dialog-favorite-place>
-
-        <agm-circle *ngIf="circleRadius"
-                    [latitude]="userMarkerLocation.lat"
-                    [longitude]="userMarkerLocation.lng"
-                    [radius]="circleRadius"
-                    [fillColor]="'rgba(63, 127, 191, .5)'" >
-
-        </agm-circle>
-
         <agm-marker *ngIf="userMarkerLocation"
                     [latitude]="userMarkerLocation.lat"
                     [longitude]="userMarkerLocation.lng"
                     [markerDraggable]="true"
                     (dragEnd)="setLocationToOrigin($event)"
-                    [iconUrl]="icon"
-        ></agm-marker>
-        <agm-marker (markerClick)="showDetail(p.id)"
-                    *ngFor="let p of place; let i = index"
+                    [iconUrl]="icon">
+
+        </agm-marker>
+        <agm-circle *ngIf="filterService.distance"
+                    [latitude]="userMarkerLocation.lat"
+                    [longitude]="userMarkerLocation.lng"
+                    [radius]="filterService.distance*1000"
+                    [fillColor]="'rgba(63, 127, 191, .5)'">
+        </agm-circle>
+        <agm-marker (markerClick)="showDetail(p)"
+                    *ngFor="let p of placeService.places; let i = index"
                     [latitude]="p.location.lat"
                     [longitude]="p.location.lng"
-                       [iconUrl]="getMarkerIcon(p.favorite)"
+                    [iconUrl]="getMarkerIcon(p.favorite)"
 
         >
           <agm-info-window *ngIf="placeInfo">
@@ -85,9 +84,8 @@
               :{{openingHoursList.openTime}}-{{openingHoursList.closeTime}}</li>
             <p>
               <button *ngIf="button" (click)="getDirection(p)">{{navigationButton}} </button>
-              <button *ngIf="navigationMode"(click)="changeTravelMode()">{{travelModeButton}}</button>
-
-             </p>
+              <button *ngIf="navigationMode" (click)="changeTravelMode()">{{travelModeButton}}</button>
+            </p>
             <p *ngIf="distance">{{distance}}</p>
           </agm-info-window>
         </agm-marker>
@@ -96,4 +94,3 @@
 
   </div>
 </div>
-

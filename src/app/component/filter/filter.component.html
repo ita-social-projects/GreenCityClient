@@ -11,7 +11,7 @@
   </label>
   <p></p>
   <h6>Distance:</h6>
-  <input type="number" class="form-control" placeholder="Distance in km" aria-label="Distance"
+  <input type="number" min="0.1" pattern="^[0-9]{1,5}$" class="form-control" placeholder="Distance in km" aria-label="Distance"
          aria-describedby="basic-addon1"
          [(ngModel)]="distance">
   <p></p>
