@@ -1,6 +1,14 @@
 <div class="container" id="filtering_layout">
-  <h6>Discount Rate:</h6>
-  <ng5-slider [(value)]="discountMin" [(highValue)]="discountMax" [options]="options"></ng5-slider>
+  <h6>Discount Rate</h6>
+  <ng5-slider [(value)]="discountMin"
+              [(highValue)]="discountMax"
+              [options]="options">
+  </ng5-slider>
+
+  <label class="is_open_label" style="width: 100%; margin-top: 20px; margin-bottom: 20px">
+    <h6>Is now open</h6>
+    <input id="is_open_checkbox" type="checkbox" (click)="setIsNowOpen()">
+  </label>
   <p></p>
   <h6>Distance:</h6>
   <input type="number" class="form-control" placeholder="Distance in km" aria-label="Distance"

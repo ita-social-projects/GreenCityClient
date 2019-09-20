@@ -11,16 +11,19 @@ import {placeLink} from '../../links';
 import {mainLink} from '../../links';
 import {NgFlashMessageService} from 'ng-flash-messages';
 import {PlaceAddDto} from '../../model/placeAddDto.model';
-import {FilterPlaceDtoModel} from '../../model/filter-place-dto.model';
+import {FilterPlaceService} from '../filtering/filter-place.service';
+import {MapComponent} from '../../component/user/map/map.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlaceService {
-
+  places: Place[];
   private baseUrl = `${mainLink}place/`;
 
-  constructor(private http: HttpClient, private ngFlashMessageService: NgFlashMessageService) {
+  constructor(private http: HttpClient,
+              private ngFlashMessageService: NgFlashMessageService,
+              private filterService: FilterPlaceService) {
   }
 
   static getWeekDayShortForm(day: string): any {
@@ -44,12 +47,9 @@ export class PlaceService {
     }
   }
 
-  getListPlaceByMapsBoundsDto(mapBounds: MapBounds): Observable<Place[]> {
-    return this.http.post<Place[]>(`${placeLink}getListPlaceLocationByMapsBounds/`, mapBounds);
-  }
-
-  getFilteredPlaces(filter: FilterPlaceDtoModel): Observable<Place[]> {
-    return this.http.post<Place[]>(`${placeLink}filter/`, filter);
+  getFilteredPlaces() {
+    const filterDto = this.filterService.getFilters();
+    this.http.post<Place[]>(`${placeLink}filter/`, filterDto).subscribe((res) => this.places = res);
   }
 
   save(place: PlaceAddDto) {

@@ -31,6 +31,8 @@
           <a class="dropdown-item"
              *ngIf="userRole == 'ROLE_ADMIN' || userRole == 'ROLE_MODERATOR'"
              href="/admin">Admin</a>
+          <a class="dropdown-item"
+             (click)="openDialog()">Favorite places</a>
           <a class="dropdown-item" (click)="signOut()">Sign-out</a>
         </div>
 

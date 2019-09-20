@@ -1,10 +1,8 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component} from '@angular/core';
 import {Options} from 'ng5-slider';
 import {PlaceService} from '../../service/place/place.service';
+import {FilterPlaceService} from '../../service/filtering/filter-place.service';
 import {MapComponent} from '../user/map/map.component';
-import {FilterDiscountDtoModel} from '../../model/filter-discount-dto.model';
-import {FilterPlaceDtoModel} from '../../model/filter-place-dto.model';
-import {FilterDistanceDto} from '../../model/filter-distance-dto.model';
 
 @Component({
   selector: 'app-filter',
@@ -12,12 +10,9 @@ import {FilterDistanceDto} from '../../model/filter-distance-dto.model';
   styleUrls: ['./filter.component.css']
 })
 export class FilterComponent {
-  distance;
-  @Output() filterDistanceChange = new EventEmitter();
-
-  filter: FilterPlaceDtoModel;
-  discountMin = 0;
-  discountMax = 100;
+  discountMin = this.filterService.discountMin;
+  discountMax = this.filterService.discountMax;
+  isOpen = false;
   options: Options = {
     floor: 0,
     ceil: 100,
@@ -25,28 +20,18 @@ export class FilterComponent {
     noSwitching: true
   };
 
-  constructor(private placeService: PlaceService, private mapComponent: MapComponent) {
+  constructor(private placeService: PlaceService,
+              private mapComponent: MapComponent,
+              private filterService: FilterPlaceService) {
+  }
+
+  setIsNowOpen() {
+    this.filterService.isNowOpen = !this.isOpen;
   }
 
   applyFilters() {
-    console.log(this.mapComponent.category);
-    console.log(this.mapComponent.specification);
-    const discount = new FilterDiscountDtoModel(
-      this.mapComponent.category, this.mapComponent.specification, this.discountMin, this.discountMax);
-
-    const filterDistanceDto = new FilterDistanceDto(
-      this.mapComponent.userMarkerLocation.lat,
-      this.mapComponent.userMarkerLocation.lng,
-      this.distance
-    );
-    this.filter = new FilterPlaceDtoModel(this.mapComponent.mapBounds, discount, filterDistanceDto);
-    console.log(this.filter);
-    this.placeService.getFilteredPlaces(this.filter).subscribe((res) => {
-      this.mapComponent.place = res;
-      if (this.distance) {
-        this.filterDistanceChange.emit(this.distance);
-      }
-
-    });
+    this.filterService.setDiscountBounds(this.discountMin, this.discountMax);
+    this.placeService.getFilteredPlaces();
+    this.mapComponent.toggleFilter();
   }
 }

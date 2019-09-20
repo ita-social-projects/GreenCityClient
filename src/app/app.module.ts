@@ -23,6 +23,13 @@ import {InterceptorService} from './service/interceptor.service';
 import {AdminModule} from './component/admin/admin.module';
 import {NgFlashMessagesModule} from 'ng-flash-messages';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatSliderModule, MatTreeModule} from '@angular/material';
+import {FilterComponent} from './component/filter/filter.component';
+import {Ng5SliderModule} from 'ng5-slider';
+import {MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatTableModule} from '@angular/material';
+import {MatIconModule} from '@angular/material/icon';
+import {MDBBootstrapModule} from 'angular-bootstrap-md';
+import {EditFavoriteNameComponent, FavoritePlaceComponent} from './component/user/favorite-place/favorite-place.component';
 import {
   FavoritePlaceEditModalComponent,
   FavoritePlaceModalComponent,
@@ -50,10 +57,9 @@ import {Ng5SliderModule} from 'ng5-slider';
     SubmitEmailComponent,
     MapComponent,
     ProposeCafeComponent,
-    FvPlaceTableComponent,
-    FavoritePlaceModalComponent,
-    FavoritePlaceEditModalComponent,
-    FilterComponent
+    FilterComponent,
+    FavoritePlaceComponent,
+    EditFavoriteNameComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,8 +86,15 @@ import {Ng5SliderModule} from 'ng5-slider';
     NgFlashMessagesModule.forRoot(),
     MatSliderModule,
     MatTreeModule,
-    Ng5SliderModule
+    Ng5SliderModule,
+    MatFormFieldModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule
   ],
+  entryComponents: [FavoritePlaceComponent, EditFavoriteNameComponent],
+
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

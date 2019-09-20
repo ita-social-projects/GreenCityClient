@@ -8,9 +8,10 @@ import {MatIconRegistry} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
 import {FavoritePlaceService} from '../../../service/favorite-place/favorite-place.service';
 import {FavoritePlaceSave} from '../../../model/favorite-place/favorite-place-save';
-import {CategoryDto} from '../../../model/category.model';
-import {Specification} from '../../../model/specification/specification';
-
+import {FilterPlaceService} from '../../../service/filtering/filter-place.service';
+import {UserService} from '../../../service/user/user.service';
+import {ActivatedRoute} from '@angular/router';
+import {Subscription} from 'rxjs';
 
 interface Location {
   lat: number;
@@ -24,16 +25,12 @@ interface Location {
 })
 export class MapComponent implements OnInit {
 
-  category: CategoryDto;
-  specification: Specification;
   placeInfo: PlaceInfo;
   button = false;
-  mapBounds: MapBounds;
   searchText;
   lat = 49.841795;
   lng = 24.031706;
   zoom = 13;
-  place: Place[] = [];
   userMarkerLocation: Location;
   map: any;
   isFilter = false;
@@ -46,10 +43,19 @@ export class MapComponent implements OnInit {
   travelModeButton = 'DRIVING';
   distance;
   icon = 'assets/img/icon/blue-dot.png';
+  color = 'star-yellow';
+  markerYellow = 'assets/img/icon/favorite-place/Icon-43.png';
+  querySubscription: Subscription;
+  idFavoritePlace: number;
+  favoritePlaces: FavoritePlaceSave[];
   circleRadius;
 
-  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,
+  constructor(private iconRegistry: MatIconRegistry,
+              private sanitizer: DomSanitizer,
+              private uService: UserService,
+              private route: ActivatedRoute,
               private placeService: PlaceService,
+              private filterService: FilterPlaceService,
               private favoritePlaceService: FavoritePlaceService) {
     iconRegistry
       .addSvgIcon(
@@ -67,10 +73,12 @@ export class MapComponent implements OnInit {
           .bypassSecurityTrustResourceUrl(
             'assets/img/icon/favorite-place/star-yellow.svg'
           ));
-
-    this.category = new CategoryDto();
-    this.category.name = 'Food';
-    this.specification = new Specification('Own Cup');
+    this.filterService.setCategoryName('Food');
+    this.filterService.setSpecName('Own cup');
+    this.querySubscription = route.queryParams.subscribe(
+      (queryParam: any) => {
+        this.idFavoritePlace = queryParam.fp_id;
+      });
   }
 
   getDirection(p: Place) {
@@ -87,15 +95,13 @@ export class MapComponent implements OnInit {
 
 
   ngOnInit() {
-    this.mapBounds = new MapBounds();
+    this.filterService.mapBounds = new MapBounds();
+    this.userRole = this.uService.getUserRole();
     this.setCurrentLocation();
     this.userMarkerLocation = {lat: this.lat, lng: this.lng};
-  }
-
-  mapReady(event: any) {
-    this.map = event;
-    this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('AllFavoritePlaces'));
-
+    if (this.userRole === 'ROLE_ADMIN' || this.userRole === 'ROLE_MODERATOR' || this.userRole === 'ROLE_USER') {
+      this.getFavoritePlaces();
+    }
   }
 
   setCurrentLocation(): Position {
@@ -112,62 +118,137 @@ export class MapComponent implements OnInit {
   }
 
   boundsChange(latLngBounds: LatLngBounds) {
-    this.mapBounds.northEastLat = latLngBounds.getNorthEast().lat();
-    this.mapBounds.northEastLng = latLngBounds.getNorthEast().lng();
-    this.mapBounds.southWestLat = latLngBounds.getSouthWest().lat();
-    this.mapBounds.southWestLng = latLngBounds.getSouthWest().lng();
+    this.filterService.setMapBounds(latLngBounds);
   }
 
   setMarker(place: any) {
     this.button = true;
-    this.place = null;
-    this.place = [place];
+    this.placeService.places = null;
+    this.placeService.places = [place];
   }
 
-  showAll() {
+  showAllPlaces() {
     this.origin = null;
     this.button = !this.button;
     this.placeService.getListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => {
       this.place = res;
     });
     this.searchText = null;
-    console.log(this.place);
   }
 
-  showDetail(p: number) {
+  clearFilters() {
+    this.filterService.clearDiscountRate();
+    this.placeService.getFilteredPlaces();
+  }
+
+  showDetail(pl: Place) {
     this.directionButton = true;
-    this.placeService.getPlaceInfo(p).subscribe((res) => {
+    this.placeService.getPlaceInfo(pl.id).subscribe((res) => {
         this.placeInfo = res;
+        if (this.userRole === 'ROLE_ADMIN' || this.userRole === 'ROLE_MODERATOR' || this.userRole === 'ROLE_USER') {
+          if (this.userRole === null) {
+            this.favoritePlaces.forEach(fp => {
+              if (fp.placeId === this.placeInfo.id) {
+                this.placeInfo.name = fp.name;
+              }
+            });
+          }
+        }
       }
     );
-    this.place = this.place.filter(r => {
-      return r.id === p;
+    this.placeService.places = this.placeService.places.filter(r => {
+      return r.id === pl.id;
     });
-    if (this.place.length === 1 && this.button !== true) {
+    if (this.placeService.places.length === 1 && this.button !== true) {
       this.button = !this.button;
+    }
+    pl.color = this.getIcon(pl.favorite);
+  }
+
+  savePlaceAsFavorite(place: Place) {
+    console.log('savePlaceAsFavorite() method in map.component placeId=' + place.id);
+    if (!place.favorite) {
+      this.favoritePlaceService.saveFavoritePlace(new FavoritePlaceSave(place.id, place.name)).subscribe(res => {
+          this.getFavoritePlaces();
+        }
+      )
+      ;
+      place.favorite = true;
+      place.color = this.getIcon(place.favorite);
+
+    } else {
+      this.favoritePlaceService.deleteFavoritePlace(place.id * (-1)).subscribe(res => {
+        this.getFavoritePlaces();
+      })
+      ;
+      place.favorite = false;
+      place.color = this.getIcon(place.favorite);
     }
   }
 
-  savePlaceAsFavorite(placeId: number, name: string) {
-    console.log('savePlaceAsFavorite placeId=' + placeId);
-    this.favoritePlaceService.saveFavoritePlace(new FavoritePlaceSave(placeId, name)).subscribe();
+  getIcon(favorite: boolean) {
+    return favorite ? 'star-yellow' : 'star-white';
   }
 
   getList() {
     if (this.button !== true) {
-      this.placeService.getListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => {
-        this.place = res;
-      });
+      this.placeService.getListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => this.place = res);
       this.searchText = null;
     }
   }
 
+  checkIfUserLoggedIn() {
+    if (this.userRole === 'ROLE_ADMIN' || this.userRole === 'ROLE_MODERATOR' || this.userRole === 'ROLE_USER') {
+      this.changePlaceToFavoritePlace();
+    }
+  }
 
   toggleFilter() {
     this.isFilter = !this.isFilter;
     if (this.circleRadius) {
       this.circleRadius = null;
     }
+  }
+
+  getMarkerIcon(favorite: boolean) {
+    if (favorite) {
+      return this.markerYellow;
+    } else {
+      return null;
+    }
+  }
+
+  setFavoritePlaceOnMap() {
+    if (this.idFavoritePlace) {
+      this.favoritePlaceService.getFavoritePlaceWithLocation(this.idFavoritePlace).subscribe((res) => {
+          res.favorite = true;
+          this.placeService.places = [res];
+          this.setMarker(this.placeService.places[0]);
+        }
+      );
+      this.idFavoritePlace = null;
+
+    }
+  }
+
+  getFavoritePlaces() {
+    console.log('getFavoritePlaces');
+    this.favoritePlaceService.findAllByUserEmailWithPlaceId().subscribe((res) => {
+        this.favoritePlaces = res;
+      }
+    );
+  }
+
+  changePlaceToFavoritePlace() {
+    this.placeService.places.forEach((place) => {
+      place.favorite = false;
+      this.favoritePlaces.forEach((favoritePlace) => {
+        if (place.id === favoritePlace.placeId) {
+          place.name = favoritePlace.name;
+          place.favorite = true;
+        }
+      });
+    });
   }
 
   setLocationToOrigin(location) {

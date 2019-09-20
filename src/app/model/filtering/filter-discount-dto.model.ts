@@ -1,5 +1,5 @@
-import {CategoryDto} from './category.model';
-import {Specification} from './specification/specification';
+import {CategoryDto} from '../category.model';
+import {Specification} from '../specification/specification';
 
 export class FilterDiscountDtoModel {
 
