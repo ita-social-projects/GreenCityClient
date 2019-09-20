@@ -38,7 +38,7 @@ export class PlacesComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle('Admin - Places');
-    this.filterByRegex();
+    this.filterByRegex(this.searchReg);
     this.getStatuses();
   }
 
@@ -57,8 +57,7 @@ export class PlacesComponent implements OnInit {
   changeStatus(status: string) {
     this.defaultStatus = status;
     this.places = null;
-    this.filterByRegex();
-    console.log(this.defaultStatus);
+    this.filterByRegex(this.searchReg);
   }
 
   convertHoursToShort(openHours: OpenHours[]): any {
@@ -86,7 +85,7 @@ export class PlacesComponent implements OnInit {
 
   changePage(event: any) {
     this.page = event.page;
-    this.filterByRegex();
+    this.filterByRegex(this.searchReg);
   }
 
   updateStatus(placeId: number, placeStatus: string, placeName: string) {
@@ -103,7 +102,7 @@ export class PlacesComponent implements OnInit {
           timeout: 3000,
           type: 'success',
         });
-        this.filterByRegex();
+        this.filterByRegex(this.searchReg);
       },
       error => {
         this.errorMsg = 'Error.' + '\"' + placeName + '\"' + ' was not ' + placeStatus + '.Please try again';
@@ -122,10 +121,17 @@ export class PlacesComponent implements OnInit {
     this.statuses = ['APPROVED', 'PROPOSED', 'DECLINED'];
   }
 
-  filterByRegex() {
+  filterByRegex(searchReg: string) {
+    if ((searchReg === undefined) || (searchReg === '')) {
+        this.flag = false;
+        searchReg = '%%';
+    } else {
+      this.flag = true;
+      searchReg = `%${this.searchReg}%`;
+    }
     this.defaultStatus = this.defaultStatus.toUpperCase();
     this.status = PlaceStatus[this.defaultStatus];
-    this.filterDto = new FilterPlaceDtoModel(null, null, this.searchReg, this.status);
+    this.filterDto = new FilterPlaceDtoModel(null, null, searchReg, this.status);
     this.placeService.filterByRegex(this.getCurrentPaginationSettings(), this.filterDto).subscribe(res => {
       this.places = res.page;
       this.page = res.currentPage;
@@ -135,19 +141,7 @@ export class PlacesComponent implements OnInit {
   }
 
   onKeydown() {
-    console.log(this.flag);
-    if ((this.searchReg === undefined) || (this.searchReg === '')) {
-      console.log('Inside first if');
-      if (this.flag) {
-        this.flag = false;
-        this.filterByRegex();
-      }
-    } else {
-      console.log('Inside else');
-
-      this.flag = true;
-      this.filterByRegex();
-    }
+    this.filterByRegex(this.searchReg);
   }
 }
 
