@@ -45,7 +45,6 @@ export class FavoritePlaceService {
     return this.http.delete<any>(`${favoritePlaceLink}${id}/`);
   }
 
-
   getFavoritePlaceWithLocation(id: number): Observable<Place> {
     console.log('getFavoritePlaceWithLocation id=' + id);
     // this.pl = this.http.get<Place>(favoritePlaceLink + 'favorite/' + id).subscribe();
