@@ -5,9 +5,9 @@
               [options]="options">
   </ng5-slider>
 
-  <label class="main">Is now open
-    <input type="checkbox">
-    <span class="geekmark"></span>
+  <label class="is_open_label" style="width: 100%; margin-top: 20px; margin-bottom: 20px">
+    <h6>Is now open</h6>
+    <input id="is_open_checkbox" type="checkbox" (click)="setIsNowOpen()">
   </label>
 
   <button class="btn btn-success btn-sm" id="apply_filter_btn" (click)="applyFilters()">Apply</button>

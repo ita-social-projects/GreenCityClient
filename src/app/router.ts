@@ -11,7 +11,7 @@ import {FilterComponent} from './component/filter/filter.component';
 
 export const router = [
   {
-    path: '', component: UserComponent, children: [
+    path: '', name: 'MainPage', component: UserComponent, children: [
       {
         path: 'auth', component: AuthComponent, children: [
           {path: '', component: SignInComponent},

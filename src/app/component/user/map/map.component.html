@@ -17,6 +17,7 @@
             </thead>
             <tbody>
             <tr *ngFor="let p of placeService.places | filter:searchText" (click)="setMarker(p)">
+              {{checkIfUserLoggedIn()}}
               <td>{{p.name}}
               </td>
             </tr>
@@ -30,7 +31,6 @@
     <div class="sub-2" #map>
       <agm-map [style.width.px]="map.offsetWidth"
                [style.height.px]="map.offsetHeight"
-               (mapReady)="mapReady($event)"
                [latitude]="lat"
                [longitude]="lng"
                [zoom]="zoom"
@@ -41,7 +41,6 @@
                        [provideRouteAlternatives]="true"
                        [visible]="true">
         </agm-direction>
-        <app-dialog-favorite-place></app-dialog-favorite-place>
         <agm-marker *ngIf="userMarkerLocation"
                     [latitude]="userMarkerLocation.lat"
                     [longitude]="userMarkerLocation.lng"
@@ -49,15 +48,20 @@
                     (dragEnd)="setLocationToOrigin($event)"
                     [iconUrl]="icon"
         ></agm-marker>
-        <agm-marker (markerClick)="showDetail(p.id)"
+        <agm-marker (markerClick)="showDetail(p)"
                     *ngFor="let p of placeService.places; let i = index"
                     [latitude]="p.location.lat"
-                    [longitude]="p.location.lng">
+                    [longitude]="p.location.lng"
+                       [iconUrl]="getMarkerIcon(p.favorite)"
+
+        >
           <agm-info-window *ngIf="placeInfo">
             <h5>{{placeInfo.name}}
-              <button mat-icon-button style="float: right;  background-color: white; border-width: inherit"
-                      (click)="savePlaceAsFavorite(p.id, p.name)">
-                <mat-icon svgIcon="star-white"></mat-icon>
+              <button id="star-button" mat-icon-button
+                      *ngIf="userRole === 'ROLE_ADMIN' || userRole === 'ROLE_MODERATOR' || userRole === 'ROLE_USER'"
+                      style="float: right;  background-color: white; border-width: inherit"
+                      (click)="savePlaceAsFavorite(p); ">
+                <mat-icon svg svgIcon="{{p.color}}"></mat-icon>
               </button>
             </h5>
             <h6>
@@ -70,8 +74,7 @@
               :{{openingHoursList.openTime}}-{{openingHoursList.closeTime}}</li>
             <p>
               <button *ngIf="button" (click)="getDirection(p)">{{navigationButton}} </button>
-              <button *ngIf="navigationMode"(click)="changeTravelMode()">{{travelModeButton}}</button>
-
+              <button *ngIf="navigationMode" (click)="changeTravelMode()">{{travelModeButton}}</button>
              </p>
             <p *ngIf="distance">{{distance}}</p>
           </agm-info-window>

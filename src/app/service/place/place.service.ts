@@ -12,6 +12,7 @@ import {mainLink} from '../../links';
 import {NgFlashMessageService} from 'ng-flash-messages';
 import {PlaceAddDto} from '../../model/placeAddDto.model';
 import {FilterPlaceService} from '../filtering/filter-place.service';
+import {MapComponent} from '../../component/user/map/map.component';
 
 @Injectable({
   providedIn: 'root'
@@ -55,7 +56,7 @@ export class PlaceService {
     this.http.post(`${this.baseUrl}propose/`, place).subscribe(
       () => {
         this.ngFlashMessageService.showFlashMessage({
-          messages: ["Cafe " + place.name + " was added for approving."],
+          messages: ['Cafe ' + place.name + ' was added for approving.'],
           dismissible: true,
           timeout: 3000,
           type: 'success'
