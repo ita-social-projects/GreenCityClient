@@ -23,6 +23,9 @@ import {InterceptorService} from './service/interceptor.service';
 import {AdminModule} from './component/admin/admin.module';
 import {NgFlashMessagesModule} from 'ng-flash-messages';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatSliderModule, MatTreeModule} from '@angular/material';
+import {FilterComponent} from './component/filter/filter.component';
+import {Ng5SliderModule} from 'ng5-slider';
 import {MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatTableModule} from '@angular/material';
 import {MatIconModule} from '@angular/material/icon';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
@@ -44,9 +47,9 @@ import {AgmDirectionModule} from 'agm-direction';
     SubmitEmailComponent,
     MapComponent,
     ProposeCafeComponent,
+    FilterComponent,
     FavoritePlaceComponent,
     EditFavoriteNameComponent,
-
   ],
   imports: [
     BrowserModule,
@@ -57,7 +60,7 @@ import {AgmDirectionModule} from 'agm-direction';
     SocialLoginModule,
     FormsModule,
     AgmCoreModule.forRoot({
-      apiKey: '',
+      apiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI',
       libraries: ['places', 'geometry']
     }),
     AgmDirectionModule,
@@ -71,6 +74,9 @@ import {AgmDirectionModule} from 'agm-direction';
     ModalModule,
     ReactiveFormsModule,
     NgFlashMessagesModule.forRoot(),
+    MatSliderModule,
+    MatTreeModule,
+    Ng5SliderModule,
     MatFormFieldModule,
     MatDialogModule,
     MatFormFieldModule,

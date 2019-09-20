@@ -8,6 +8,7 @@ import {MatIconRegistry} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
 import {FavoritePlaceService} from '../../../service/favorite-place/favorite-place.service';
 import {FavoritePlaceSave} from '../../../model/favorite-place/favorite-place-save';
+import {FilterPlaceService} from '../../../service/filtering/filter-place.service';
 import {UserService} from '../../../service/user/user.service';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
@@ -26,16 +27,14 @@ export class MapComponent implements OnInit {
 
   placeInfo: PlaceInfo;
   button = false;
-  mapBounds: MapBounds;
   searchText;
   lat = 49.841795;
   lng = 24.031706;
   zoom = 13;
-  place: Place[] = [];
   userMarkerLocation: Location;
   map: any;
-  private userRole: string;
-
+  isFilter = false;
+  userRole: string;
   origin: any;
   destination: any;
   directionButton: boolean;
@@ -47,12 +46,17 @@ export class MapComponent implements OnInit {
   icon = 'assets/img/icon/blue-dot.png';
   color = 'star-yellow';
   markerYellow = 'assets/img/icon/favorite-place/Icon-43.png';
-  private querySubscription: Subscription;
+  querySubscription: Subscription;
   idFavoritePlace: number;
   favoritePlaces: FavoritePlaceSave[];
 
-  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private uService: UserService, private route: ActivatedRoute,
-              private placeService: PlaceService, private favoritePlaceService: FavoritePlaceService) {
+  constructor(private iconRegistry: MatIconRegistry,
+              private sanitizer: DomSanitizer,
+              private uService: UserService,
+              private route: ActivatedRoute,
+              private placeService: PlaceService,
+              private filterService: FilterPlaceService,
+              private favoritePlaceService: FavoritePlaceService) {
     iconRegistry
       .addSvgIcon(
         'star-white'
@@ -69,6 +73,8 @@ export class MapComponent implements OnInit {
           .bypassSecurityTrustResourceUrl(
             'assets/img/icon/favorite-place/star-yellow.svg'
           ));
+    this.filterService.setCategoryName('Food');
+    this.filterService.setSpecName('Own cup');
     this.querySubscription = route.queryParams.subscribe(
       (queryParam: any) => {
         this.idFavoritePlace = queryParam.fp_id;
@@ -87,10 +93,9 @@ export class MapComponent implements OnInit {
     }
   }
 
-
   ngOnInit() {
+    this.filterService.mapBounds = new MapBounds();
     this.userRole = this.uService.getUserRole();
-    this.mapBounds = new MapBounds();
     this.setCurrentLocation();
     this.userMarkerLocation = {lat: this.lat, lng: this.lng};
     if (this.userRole === 'ROLE_ADMIN' || this.userRole === 'ROLE_MODERATOR' || this.userRole === 'ROLE_USER') {
@@ -112,31 +117,27 @@ export class MapComponent implements OnInit {
   }
 
   boundsChange(latLngBounds: LatLngBounds) {
-    this.mapBounds.northEastLat = latLngBounds.getNorthEast().lat();
-    this.mapBounds.northEastLng = latLngBounds.getNorthEast().lng();
-    this.mapBounds.southWestLat = latLngBounds.getSouthWest().lat();
-    this.mapBounds.southWestLng = latLngBounds.getSouthWest().lng();
+    this.filterService.setMapBounds(latLngBounds);
   }
 
   setMarker(place: any) {
     console.log('set marker');
     this.button = true;
-    this.place = null;
-    this.place = [place];
-
+    this.placeService.places = null;
+    this.placeService.places = [place];
   }
 
-  showAll() {
-    console.log('show all to map');
+  showAllPlaces() {
     this.origin = null;
     this.button = !this.button;
-    this.placeService.getListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => {
-      this.place = res;
-      if (this.userRole === 'ROLE_ADMIN' || this.userRole === 'ROLE_MODERATOR' || this.userRole === 'ROLE_USER') {
-        this.changePlaceToFavoritePlace();
-      }
-    });
+    this.placeService.getFilteredPlaces();
+    console.log(this.placeService.places);
     this.searchText = null;
+  }
+
+  clearFilters() {
+    this.filterService.clearDiscountRate();
+    this.placeService.getFilteredPlaces();
   }
 
   showDetail(pl: Place) {
@@ -144,7 +145,6 @@ export class MapComponent implements OnInit {
     this.placeService.getPlaceInfo(pl.id).subscribe((res) => {
         this.placeInfo = res;
         if (this.userRole === 'ROLE_ADMIN' || this.userRole === 'ROLE_MODERATOR' || this.userRole === 'ROLE_USER') {
-
           if (this.userRole === null) {
             this.favoritePlaces.forEach(fp => {
               if (fp.placeId === this.placeInfo.id) {
@@ -155,10 +155,10 @@ export class MapComponent implements OnInit {
         }
       }
     );
-    this.place = this.place.filter(r => {
+    this.placeService.places = this.placeService.places.filter(r => {
       return r.id === pl.id;
     });
-    if (this.place.length === 1 && this.button !== true) {
+    if (this.placeService.places.length === 1 && this.button !== true) {
       this.button = !this.button;
     }
     pl.color = this.getIcon(pl.favorite);
@@ -182,9 +182,7 @@ export class MapComponent implements OnInit {
       ;
       place.favorite = false;
       place.color = this.getIcon(place.favorite);
-
     }
-
   }
 
   getIcon(favorite: boolean) {
@@ -197,16 +195,21 @@ export class MapComponent implements OnInit {
     } else {
       console.log('in getList()');
       if (this.button !== true) {
-        this.placeService.getListPlaceByMapsBoundsDto(this.mapBounds).subscribe((res) => {
-          this.place = res;
-          this.idFavoritePlace = null;
-          if (this.userRole === 'ROLE_ADMIN' || this.userRole === 'ROLE_MODERATOR' || this.userRole === 'ROLE_USER') {
-            this.changePlaceToFavoritePlace();
-          }
-        });
+        this.placeService.getFilteredPlaces();
+        this.idFavoritePlace = null;
         this.searchText = null;
       }
     }
+  }
+
+  checkIfUserLoggedIn() {
+    if (this.userRole === 'ROLE_ADMIN' || this.userRole === 'ROLE_MODERATOR' || this.userRole === 'ROLE_USER') {
+      this.changePlaceToFavoritePlace();
+    }
+  }
+
+  toggleFilter() {
+    this.isFilter = !this.isFilter;
   }
 
   getMarkerIcon(favorite: boolean) {
@@ -221,8 +224,8 @@ export class MapComponent implements OnInit {
     if (this.idFavoritePlace) {
       this.favoritePlaceService.getFavoritePlaceWithLocation(this.idFavoritePlace).subscribe((res) => {
           res.favorite = true;
-          this.place = [res];
-          this.setMarker(this.place[0]);
+          this.placeService.places = [res];
+          this.setMarker(this.placeService.places[0]);
         }
       );
       this.idFavoritePlace = null;
@@ -239,8 +242,7 @@ export class MapComponent implements OnInit {
   }
 
   changePlaceToFavoritePlace() {
-    console.log('in changePlaceToFavoritePlace()');
-    this.place.forEach((place) => {
+    this.placeService.places.forEach((place) => {
       place.favorite = false;
       this.favoritePlaces.forEach((favoritePlace) => {
         if (place.id === favoritePlace.placeId) {
@@ -249,14 +251,13 @@ export class MapComponent implements OnInit {
         }
       });
     });
-
   }
 
   setLocationToOrigin(location) {
     this.userMarkerLocation.lat = location.coords.lat;
     this.userMarkerLocation.lng = location.coords.lng;
-    if (this.place.length === 1) {
-      this.destination = {lat: this.place[0].location.lat, lng: this.place[0].location.lng};
+    if (this.placeService.places.length === 1) {
+      this.destination = {lat: this.placeService.places[0].location.lat, lng: this.placeService.places[0].location.lng};
       this.origin = {lat: this.userMarkerLocation.lat, lng: this.userMarkerLocation.lng};
     }
   }
