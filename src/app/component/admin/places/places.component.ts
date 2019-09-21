@@ -123,15 +123,15 @@ export class PlacesComponent implements OnInit {
 
   filterByRegex(searchReg: string) {
     if ((searchReg === undefined) || (searchReg === '')) {
-        this.flag = false;
-        searchReg = '%%';
+      this.flag = false;
+      searchReg = '%%';
     } else {
       this.flag = true;
       searchReg = `%${this.searchReg}%`;
     }
     this.defaultStatus = this.defaultStatus.toUpperCase();
     this.status = PlaceStatus[this.defaultStatus];
-    this.filterDto = new FilterPlaceDtoModel(this.status, null, null, searchReg);
+    this.filterDto = new FilterPlaceDtoModel(this.status, null, null, null, searchReg);
     this.placeService.filterByRegex(this.getCurrentPaginationSettings(), this.filterDto).subscribe(res => {
       this.places = res.page;
       this.page = res.currentPage;
