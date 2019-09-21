@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Place} from '../../model/place/place';
-import {MapBounds} from '../../model/map/map-bounds';
 import {PlaceInfo} from '../../model/place/place-info';
 import {PlaceStatus} from '../../model/place/place-status.model';
 import {PlacePageableDto} from '../../model/place/place-pageable-dto.model';
@@ -10,9 +9,7 @@ import {mainLink, placeLink} from '../../links';
 import {NgFlashMessageService} from 'ng-flash-messages';
 import {PlaceAddDto} from '../../model/placeAddDto.model';
 import {FilterPlaceService} from '../filtering/filter-place.service';
-import {MapComponent} from '../../component/user/map/map.component';
 import {FilterPlaceDtoModel} from '../../model/filtering/filter-place-dto.model';
-
 
 @Injectable({
   providedIn: 'root'

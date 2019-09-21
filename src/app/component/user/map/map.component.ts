@@ -12,11 +12,7 @@ import {FilterPlaceService} from '../../../service/filtering/filter-place.servic
 import {UserService} from '../../../service/user/user.service';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
-
-interface Location {
-  lat: number;
-  lng: number;
-}
+import {Location} from '../../../model/location.model';
 
 @Component({
   selector: 'app-map',
@@ -81,27 +77,30 @@ export class MapComponent implements OnInit {
       });
   }
 
+  ngOnInit() {
+    this.filterService.mapBounds = new MapBounds();
+    this.userRole = this.uService.getUserRole();
+    this.setCurrentLocation();
+    this.userMarkerLocation = {lat: this.lat, lng: this.lng};
+    this.filterService.setUserMarkerLocation(this.userMarkerLocation);
+    if (this.userRole === 'ROLE_ADMIN' || this.userRole === 'ROLE_MODERATOR' || this.userRole === 'ROLE_USER') {
+      this.getFavoritePlaces();
+    }
+  }
+
   getDirection(p: Place) {
     if (this.navigationMode === false) {
       this.navigationButton = 'Close navigation';
       this.navigationMode = true;
       this.destination = {lat: p.location.lat, lng: p.location.lng};
       this.origin = {lat: this.userMarkerLocation.lat, lng: this.userMarkerLocation.lng};
+      this.filterService.setUserMarkerLocation(this.userMarkerLocation);
     } else {
       this.navigationMode = false;
       this.navigationButton = 'Navigate to place';
     }
   }
 
-  ngOnInit() {
-    this.filterService.mapBounds = new MapBounds();
-    this.userRole = this.uService.getUserRole();
-    this.setCurrentLocation();
-    this.userMarkerLocation = {lat: this.lat, lng: this.lng};
-    if (this.userRole === 'ROLE_ADMIN' || this.userRole === 'ROLE_MODERATOR' || this.userRole === 'ROLE_USER') {
-      this.getFavoritePlaces();
-    }
-  }
 
   setCurrentLocation(): Position {
     if ('geolocation' in navigator) {
@@ -110,6 +109,7 @@ export class MapComponent implements OnInit {
         this.lng = position.coords.longitude;
         this.zoom = 13;
         this.userMarkerLocation = {lat: this.lat, lng: this.lng};
+        this.filterService.setUserMarkerLocation(this.userMarkerLocation);
         return position;
       });
     }
@@ -136,7 +136,7 @@ export class MapComponent implements OnInit {
   }
 
   clearFilters() {
-    this.filterService.clearDiscountRate();
+    this.filterService.clearFilter();
     this.placeService.getFilteredPlaces();
   }
 
@@ -260,6 +260,7 @@ export class MapComponent implements OnInit {
       this.destination = {lat: this.placeService.places[0].location.lat, lng: this.placeService.places[0].location.lng};
       this.origin = {lat: this.userMarkerLocation.lat, lng: this.userMarkerLocation.lng};
     }
+    this.filterService.setUserMarkerLocation(this.userMarkerLocation);
   }
 
   changeTravelMode() {
