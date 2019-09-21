@@ -9,6 +9,7 @@ import {PlacePageableDto} from '../../model/place/place-pageable-dto.model';
 import {mainLink} from '../../links';
 import {NgFlashMessageService} from "ng-flash-messages";
 import {PlaceAddDto} from "../../model/placeAddDto.model";
+import {PlaceUpdatedDto} from "../../model/place/placeUpdatedDto.model";
 
 @Injectable({
   providedIn: 'root'
@@ -78,5 +79,13 @@ export class PlaceService {
   }
   updatePlaceStatus(placeStatus: PlaceStatus) {
     return this.http.patch<PlaceStatus>(`${this.baseUrl}status/`, placeStatus);
+  }
+
+  getPlaceByID(id: number): Observable<PlaceUpdatedDto> {
+    return this.http.get<PlaceUpdatedDto>(`http://localhost:8080/place/id/${id}`);
+  }
+
+  updatePlace(updatedPlace: PlaceUpdatedDto) {
+    return this.http.put<PlaceUpdatedDto>(`http://localhost:8080/place/update`, updatedPlace);
   }
 }

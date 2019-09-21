@@ -4,6 +4,10 @@ import {AdminPlace} from '../../../model/place/admin-place.model';
 import {OpenHours} from '../../../model/openHours/open-hours.model';
 import {NgFlashMessageService} from 'ng-flash-messages';
 import {PlaceService} from '../../../service/place/place.service';
+import {ProposeCafeComponent} from "../../user/propose-cafe/propose-cafe.component";
+import {MatDialog} from "@angular/material";
+import {PlaceUpdatedDto} from "../../../model/place/placeUpdatedDto.model";
+import {UpdateCafeComponent} from "../update-cafe/update-cafe.component";
 
 @Component({
   selector: 'app-places',
@@ -13,6 +17,8 @@ import {PlaceService} from '../../../service/place/place.service';
 
 export class PlacesComponent implements OnInit {
 
+  placeId: number;
+  place: PlaceUpdatedDto;
   places: AdminPlace[];
   pageSize = 2;
   page = 1;
@@ -24,7 +30,7 @@ export class PlacesComponent implements OnInit {
   defaultStatus = 'proposed';
 
   constructor(
-    private placeService: PlaceService, private titleService: Title, private ngFlashMessageService: NgFlashMessageService) {
+    private placeService: PlaceService, private titleService: Title, private ngFlashMessageService: NgFlashMessageService, public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -111,6 +117,18 @@ export class PlacesComponent implements OnInit {
       }
     );
   }
+
+  openDialog(placeId: number): void {
+    const dialogRef = this.dialog.open(UpdateCafeComponent, {
+      width: '1400px',
+      data: placeId
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
 }
 
 

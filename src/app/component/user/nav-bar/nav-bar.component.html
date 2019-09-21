@@ -18,7 +18,7 @@
 
       <li class="nav-item">
       <app-dialog-favorite-place></app-dialog-favorite-place>
-        <button (click)="openModal('custom-_modal-1')" type="button" class="btn btn-dark"
+        <button (click)="openDialog()" mat-button type="button" class="btn default" style="color: white;"
                 *ngIf="userRole === 'ROLE_ADMIN' || userRole === 'ROLE_MODERATOR' || userRole === 'ROLE_USER'">
           Add cafe
         </button>
@@ -44,10 +44,4 @@
   </div>
 
 </nav>
-<!--<ng-flash-message></ng-flash-message>-->
-
-<!-- Modal Window-->
-<app-modal id="custom-_modal-1">
- <app-propose-cafe></app-propose-cafe>
-</app-modal>
 

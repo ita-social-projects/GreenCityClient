@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ModalService} from "../_modal/modal.service";
 import {UserService} from "../../../service/user/user.service";
+import {MatDialog} from "@angular/material";
+import {ProposeCafeComponent} from "../propose-cafe/propose-cafe.component";
 
 @Component({
   selector: 'app-nav-bar',
@@ -12,7 +14,7 @@ export class NavBarComponent implements OnInit {
   private firstName: string = null;
   private userRole: string;
 
-  constructor(private uService: UserService, private modalService: ModalService) {
+  constructor(private uService: UserService, public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -20,13 +22,19 @@ export class NavBarComponent implements OnInit {
     this.userRole = this.uService.getUserRole();
   }
 
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ProposeCafeComponent, {
+      width: '1400px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
   private signOut() {
     localStorage.clear();
     window.location.href = "/";
-  }
-
-  openModal(id: string) {
-    this.modalService.open(id);
   }
 
 }

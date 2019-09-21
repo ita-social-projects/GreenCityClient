@@ -1,7 +1,9 @@
-<script src="../../../model/pageable-dto.model.ts"></script><h2 style="text-align: center; margin-bottom: 2%;">New
+<script src="../../../model/pageable-dto.model.ts"></script>
+<h2 mat-dialog-title style="text-align: center; margin-bottom: 2%;">New
   cafe</h2>
 
-<form #saveForm="ngForm" (ngSubmit)="onSubmit()">
+<mat-dialog-content>
+  <form #saveForm="ngForm" (ngSubmit)="onSubmit()">
   <div class="row">
     <div class="column">
       <div style="margin-left: 7%; margin-right: 9%">
@@ -89,7 +91,7 @@
           <select class="form-control" style="width: 190px; display: inline;" required
                   [(ngModel)]="openingHours.weekDay" #day="ngModel" name="weekday">
             <option disabled>Select day</option>
-            <option *ngFor="let day of weekDays" [value]="day.valueOf()">{{day}}</option>
+            <option *ngFor="let day of weekDays">{{day}}</option>
           </select>
           <label for="time-start" class="label-for-time">from: </label>
           <input type="time" name="openTime" class="form-control" style="width: 100px; display: inline;" #time="ngModel"
@@ -127,6 +129,13 @@
       </div>
       <div>
         <h4 style="margin-left: 28%; margin-bottom: 5%">Select discount: </h4>
+
+<!--        <select class="form-control" style="width: 190px; display: inline;" required-->
+<!--        [(ngModel)]="nameOfSpecification" #spec="ngModel" name="weekday">-->
+<!--        <option disabled>Select day</option>-->
+<!--        <option *ngFor="let spec of specifications">{{spec.}}</option>-->
+<!--        </select>-->
+
         <ng-select style="width: 250px; margin-top: 4%"
                    [items]="specifications"
                    bindLabel="name"
@@ -167,12 +176,15 @@
 
   </div>
 
+<!--    <mat-dialog-actions>-->
   <div style="display:flex; justify-content:flex-end; align-items:center;">
-    <button [disabled]="!saveForm.valid" class="btn btn-primary submit" type="submit" style="margin-right: 1%">Submit
+    <button [mat-dialog-close]="true" [disabled]="!saveForm.valid" class="btn btn-primary submit" type="submit" style="margin-right: 1%">Submit
     </button>
-    <button (click)="closeModal('custom-_modal-1');" class="btn btn-primary" type="button">Close</button>
+    <button mat-dialog-close class="btn btn-primary" type="button">Close</button>
   </div>
+
 </form>
+</mat-dialog-content>
 
 
 

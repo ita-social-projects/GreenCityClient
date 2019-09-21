@@ -1,37 +1,39 @@
 import {Component, ElementRef, EventEmitter, Inject, NgZone, OnInit, Output, ViewChild} from '@angular/core';
-import {OpeningHours} from "../../../model/openingHours.model";
 import {PlaceAddDto} from "../../../model/placeAddDto.model";
-import {CategoryDto} from "../../../model/category.model";
 import {LocationDto} from "../../../model/locationDto.model";
-import {WeekDays} from "../../../model/weekDays.model";
-import {PlaceWithUserModel} from "../../../model/placeWithUser.model";
-import {ModalService} from "../_modal/modal.service";
-import {CategoryService} from "../../../service/category.service";
-import {UserService} from "../../../service/user/user.service";
-import {NgForm} from "@angular/forms";
-import {NgSelectComponent} from "@ng-select/ng-select";
-import {MapsAPILoader, MouseEvent} from "@agm/core";
-import {PlaceService} from "../../../service/place/place.service";
-import {BreakTimes} from "../../../model/breakTimes.model";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material";
-import {SpecificationService} from "../../../service/specification.service";
 import {DiscountDto} from "../../../model/discount/DiscountDto";
 import {SpecificationNameDto} from "../../../model/specification/SpecificationNameDto";
-import {Specification} from "../../../model/specification/specification";
+import {OpeningHours} from "../../../model/openingHours.model";
+import {WeekDays} from "../../../model/weekDays.model";
+import {BreakTimes} from "../../../model/breakTimes.model";
+import {CategoryDto} from "../../../model/category.model";
+import {PlaceWithUserModel} from "../../../model/placeWithUser.model";
+import {NgForm} from "@angular/forms";
+import {NgSelectComponent} from "@ng-select/ng-select";
+import {ModalService} from "../../user/_modal/modal.service";
+import {PlaceService} from "../../../service/place/place.service";
+import {CategoryService} from "../../../service/category.service";
+import {SpecificationService} from "../../../service/specification.service";
+import {UserService} from "../../../service/user/user.service";
+import {MapsAPILoader, MouseEvent} from "@agm/core";
+import {PlaceUpdatedDto} from "../../../model/place/placeUpdatedDto.model";
+import {MAT_DIALOG_DATA} from "@angular/material";
 
 @Component({
-  selector: 'app-propose-cafe',
-  templateUrl: './propose-cafe.component.html',
-  styleUrls: ['./propose-cafe.component.css']
+  selector: 'app-update-cafe',
+  templateUrl: './update-cafe.component.html',
+  styleUrls: ['./update-cafe.component.css']
 })
-export class ProposeCafeComponent implements OnInit {
+export class UpdateCafeComponent implements OnInit {
+
+  categoryName: any;
   name: any;
   nameOfSpecification: any;
   value: any;
   // discounts: number[] = new Array(100);
   discountsNumber = 101;
   placeName: any;
-  place: PlaceAddDto;
+  place: PlaceUpdatedDto;
   location: LocationDto;
   discounts: DiscountDto[] = [];
   specification: SpecificationNameDto;
@@ -63,23 +65,36 @@ export class ProposeCafeComponent implements OnInit {
 
   constructor(private modalService: ModalService, private placeService: PlaceService, private categoryService: CategoryService,
               private specificationService: SpecificationService, private uService: UserService, private mapsAPILoader: MapsAPILoader,
-              private ngZone: NgZone) {
-    this.category = new CategoryDto();
-    this.discount = new DiscountDto();
-    this.location = new LocationDto();
-    this.place = new PlaceAddDto();
-    this.place.category = this.category;
+              private ngZone: NgZone, @Inject(MAT_DIALOG_DATA) public data: any) {
     this.submitButtonEnabled = true;
   }
 
+  getPlace() {
+    this.placeService.getPlaceByID(this.data).subscribe(data => {
+      this.place = data;
+      console.log(data);
+    });
+  }
+
   ngOnInit() {
-    console.log(this.place.openingHoursList);
+    this.placeService.getPlaceByID(this.data).subscribe(data => {
+      this.place = data;
+      this.openingHoursList=data.openingHoursList;
+      this.discounts = data.discounts;
+      this.placeName = data.name;
+      this.name = this.place.category.name;
+
+      this.openingHoursList.forEach(day=>{this.removeDay(day);});
+      this.weekDays=this.weekDaysNew;
+    });
+
     this.categoryService.findAllCategory().subscribe(data => {
       this.categories = data;
     });
 
     this.specificationService.findAllSpecification().subscribe(data => {
       this.specifications = data;
+      this.nameOfSpecification = data.map(res => res.name);
     });
 
     this.discountsNumber = Array.apply(null, {length: this.discountsNumber}).map(Number.call, Number);
@@ -111,6 +126,11 @@ export class ProposeCafeComponent implements OnInit {
     });
   }
 
+  private extractData(res: Response) {
+    let body = res.json();
+    return body || {};
+  }
+
   addDiscountAndSpecification(nameOfSpecification: string, value: number) {
     let discount1 = new DiscountDto();
     discount1.value = value;
@@ -119,30 +139,30 @@ export class ProposeCafeComponent implements OnInit {
     discount1.specification = specification;
     console.log(discount1);
 
-    if (this.discounts.length == 0) {
-      this.discounts.push(discount1);
-      console.log(this.discounts);
-      discount1 = new DiscountDto();
-    } else if (this.discounts.length >= 1) {
-      for (let i = 0; i < this.discounts.length; i++) {
-        if (discount1.specification.name == this.discounts[i].specification.name) {
-          alert("Already exists.")
-        }
-        // else {
-        //   let specificationsNew: SpecificationNameDto[] = [];
-        //   this.specifications.forEach(val => {
-        //     if (val !== discount1.specification.name) {
-        //       specificationsNew.push(val);
-        //       console.log(this.specifications);
-        //     }
-        //   });
-        //   this.specifications = specificationsNew;
-        //   this.discounts.push(discount1);
-        //   console.log(this.discounts);
-        //   discount1 = new DiscountDto();
+    // if (this.discounts.length == 0) {
+    //   this.discounts.push(discount1);
+    //   console.log(this.discounts);
+    //   discount1 = new DiscountDto();
+    // } else if (this.discounts.length >= 1) {
+    //   for (let i = 0; i < this.discounts.length; i++) {
+    //     if (discount1.specification.name == this.discounts[i].specification.name) {
+    //       alert("Already exists.")
+    //     }
+    //     else {
+          let specificationsNew: SpecificationNameDto[] = [];
+          this.specifications.forEach(val => {
+            if (val !== discount1.specification.name) {
+              specificationsNew.push(val);
+              console.log(this.specifications);
+            }
+          });
+          this.specifications = specificationsNew;
+          this.discounts.push(discount1);
+          console.log(this.discounts);
+          discount1 = new DiscountDto();
         // }
-      }
-    }
+    //   }
+    // }
   }
 
   add(openingHours: OpeningHours, breakTimes: BreakTimes) {
@@ -182,7 +202,15 @@ export class ProposeCafeComponent implements OnInit {
     console.log(this.openingHoursList);
     this.isBreakTime = false;
   }
+  weekDaysNew: WeekDays[] = [];
+  removeDay(openingHours1){
+    this.weekDays.forEach(val => {
+      if (val !== openingHours1.weekDay) {
+        this.weekDaysNew.push(val);
+      }
+    });
 
+  }
   switch() {
     console.log('switch');
     this.isBreakTime = !this.isBreakTime;
@@ -193,8 +221,13 @@ export class ProposeCafeComponent implements OnInit {
     this.weekDays.push(openingHours.weekDay);
   }
 
+  deleteDayOfExist(openingHours: OpeningHours) {
+    this.openingHoursList = this.openingHoursList.filter(item => item !== openingHours);
+    this.weekDays.push(openingHours.weekDay);
+  }
+
   delete(discount: DiscountDto) {
-    this.discounts = this.discounts.filter(item => item !== discount);
+    this.place.discounts = this.place.discounts.filter(item => item !== discount);
   }
 
   onSubmit() {
@@ -209,7 +242,7 @@ export class ProposeCafeComponent implements OnInit {
     this.place.location = this.location;
     this.place.name = this.placeName;
     console.log(this.place);
-    this.placeService.save(this.place);
+    this.placeService.updatePlace(this.place);
   }
 
   // Get Current Location Coordinates
@@ -245,4 +278,5 @@ export class ProposeCafeComponent implements OnInit {
       }
     });
   }
+
 }

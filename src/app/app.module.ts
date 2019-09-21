@@ -24,7 +24,7 @@ import {AdminModule} from './component/admin/admin.module';
 import {NgFlashMessagesModule} from 'ng-flash-messages';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FavoritePlaceModalComponent, FvPlaceTableComponent} from './component/user/favorite-place/fvplace-table';
-import {MatCheckboxModule, MatDialogModule, MatTableModule} from '@angular/material';
+import {MAT_DIALOG_DEFAULT_OPTIONS, MatCheckboxModule, MatDialogModule, MatTableModule} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -50,7 +50,7 @@ import {MatCheckboxModule, MatDialogModule, MatTableModule} from '@angular/mater
     HttpClientModule,
     FormsModule,
     AgmCoreModule.forRoot({
-      apiKey: '',
+      apiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI',
       libraries: ['places']
     }),
     Ng2SearchPipeModule,
@@ -61,15 +61,19 @@ import {MatCheckboxModule, MatDialogModule, MatTableModule} from '@angular/mater
     ModalModule,
     MatDialogModule,
     ReactiveFormsModule,
-    NgFlashMessagesModule.forRoot(),
     MatCheckboxModule
   ],
+  entryComponents: [ProposeCafeComponent],
+
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,
       multi: true
-    }
+    },
+
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
+
   ],
   bootstrap: [AppComponent]
 })
