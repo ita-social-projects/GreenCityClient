@@ -4,10 +4,9 @@ import {Observable} from 'rxjs';
 import {UserRoleModel} from '../../model/user/user-role.model';
 import {UserStatusModel} from '../../model/user/user-status.model';
 import {UserPageableDtoModel} from '../../model/user/user-pageable-dto.model';
-import {userLink} from '../../links';
 import {mainLink} from '../../links';
 import {RolesModel} from '../../model/user/roles.model';
-
+import {UserFilterDtoModel} from '../../model/user/userFilterDto.model';
 const token = localStorage.getItem('accessToken');
 let jwtData = null;
 let decodedJwtJsonData = null;
@@ -19,6 +18,7 @@ let decodedJwtData = null;
 export class UserService {
   dto: UserStatusModel;
   roleDto: UserRoleModel;
+  filterDto: UserFilterDtoModel;
   apiUrl = `${mainLink}user`;
 
   constructor(private http: HttpClient) {
@@ -61,5 +61,17 @@ export class UserService {
 
   getRoles(): Observable<RolesModel> {
     return this.http.get<RolesModel>(`${this.apiUrl}/roles`);
+  }
+
+  getByFilter(reg: string, paginationSettings: string) {
+    this.filterDto = new UserFilterDtoModel(reg);
+    this.filterDto.searchReg = reg;
+    if (reg === undefined) {
+      this.filterDto.searchReg = '%%';
+      return this.http.post<UserPageableDtoModel>(`${this.apiUrl}/filter` + paginationSettings, this.filterDto);
+    } else {
+      this.filterDto.searchReg = `%${this.filterDto.searchReg}%`;
+      return this.http.post<UserPageableDtoModel>(`${this.apiUrl}/filter` + paginationSettings, this.filterDto);
+    }
   }
 }

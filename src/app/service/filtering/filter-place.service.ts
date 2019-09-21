@@ -44,7 +44,7 @@ export class FilterPlaceService {
 
   getFilters() {
     const discount = new FilterDiscountDtoModel(this.category, this.specification, this.discountMin, this.discountMax);
-    return new FilterPlaceDtoModel(PlaceStatus.APPROVED, this.mapBounds, discount);
+    return new FilterPlaceDtoModel(PlaceStatus.APPROVED, this.mapBounds, discount, null);
   }
 
   clearDiscountRate() {
