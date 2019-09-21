@@ -5,8 +5,8 @@ import {OpenHours} from '../../../model/openHours/open-hours.model';
 import {NgFlashMessageService} from 'ng-flash-messages';
 import {PlaceService} from '../../../service/place/place.service';
 import {MatTableDataSource} from '@angular/material';
-import {FilterPlaceDtoModel} from '../../../model/filter-place-dto.model';
 import {PlaceStatus} from '../../../model/placeStatus.model';
+import {FilterPlaceDtoModel} from '../../../model/filtering/filter-place-dto.model';
 
 @Component({
   selector: 'app-places',
@@ -131,7 +131,7 @@ export class PlacesComponent implements OnInit {
     }
     this.defaultStatus = this.defaultStatus.toUpperCase();
     this.status = PlaceStatus[this.defaultStatus];
-    this.filterDto = new FilterPlaceDtoModel(null, null, searchReg, this.status);
+    this.filterDto = new FilterPlaceDtoModel(this.status, null, null, searchReg);
     this.placeService.filterByRegex(this.getCurrentPaginationSettings(), this.filterDto).subscribe(res => {
       this.places = res.page;
       this.page = res.currentPage;

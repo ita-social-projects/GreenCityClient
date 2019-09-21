@@ -11,6 +11,7 @@ import {NgFlashMessageService} from 'ng-flash-messages';
 import {PlaceAddDto} from '../../model/placeAddDto.model';
 import {FilterPlaceService} from '../filtering/filter-place.service';
 import {MapComponent} from '../../component/user/map/map.component';
+import {FilterPlaceDtoModel} from '../../model/filtering/filter-place-dto.model';
 
 
 @Injectable({
