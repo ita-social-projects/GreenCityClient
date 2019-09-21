@@ -2,16 +2,14 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Place} from '../../model/place/place';
-import {MapBounds} from '../../model/map/map-bounds';
 import {PlaceInfo} from '../../model/place/place-info';
 import {PlaceStatus} from '../../model/place/place-status.model';
 import {PlacePageableDto} from '../../model/place/place-pageable-dto.model';
-import {placeLink} from '../../links';
-
-import {mainLink} from '../../links';
+import {mainLink, placeLink} from '../../links';
 import {NgFlashMessageService} from 'ng-flash-messages';
 import {PlaceAddDto} from '../../model/placeAddDto.model';
 import {FilterPlaceService} from '../filtering/filter-place.service';
+import {FilterPlaceDtoModel} from '../../model/filtering/filter-place-dto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -48,7 +46,6 @@ export class PlaceService {
 
   getFilteredPlaces() {
     const filterDto = this.filterService.getFilters();
-    console.log(filterDto);
     this.http.post<Place[]>(`${placeLink}filter/`, filterDto).subscribe((res) => this.places = res);
   }
 
@@ -79,5 +76,14 @@ export class PlaceService {
 
   updatePlaceStatus(placeStatus: PlaceStatus) {
     return this.http.patch<PlaceStatus>(`${placeLink}status/`, placeStatus);
+  }
+
+  filterByRegex(paginationSettings: string, filterDto: FilterPlaceDtoModel): Observable<PlacePageableDto> {
+    if (filterDto.searchReg === undefined) {
+      filterDto.searchReg = '%%';
+      return this.http.post<PlacePageableDto>(`${this.baseUrl}filter/predicate` + paginationSettings, filterDto);
+    } else {
+      return this.http.post<PlacePageableDto>(`${this.baseUrl}filter/predicate` + paginationSettings, filterDto);
+    }
   }
 }

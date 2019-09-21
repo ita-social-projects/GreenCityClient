@@ -1,4 +1,4 @@
-import {Injectable, Input} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {MapBounds} from '../../model/map/map-bounds';
 import {CategoryDto} from '../../model/category.model';
 import {Specification} from '../../model/specification/specification';
@@ -49,7 +49,7 @@ export class FilterPlaceService {
   getFilters() {
     const discount = new FilterDiscountDtoModel(this.category, this.specification, this.discountMin, this.discountMax);
     const distance = new FilterDistanceDto(this.userMarkerLocation.lat, this.userMarkerLocation.lng, this.distance);
-    return new FilterPlaceDtoModel(PlaceStatus.APPROVED, this.mapBounds, discount, distance);
+    return new FilterPlaceDtoModel(PlaceStatus.APPROVED, this.mapBounds, discount, distance, null);
   }
 
   clearFilter() {
