@@ -52,7 +52,7 @@ export class FilterPlaceService {
     return new FilterPlaceDtoModel(PlaceStatus.APPROVED, this.mapBounds, discount, distance);
   }
 
-  clearDiscountRate() {
+  clearFilter() {
     this.discountMin = 0;
     this.discountMax = 100;
     this.isCleared = true;
@@ -60,7 +60,9 @@ export class FilterPlaceService {
   }
 
   setDistance(distance: number) {
-    this.distance = distance;
+    if (distance > 0) {
+      this.distance = distance;
+    }
   }
 
   setUserMarkerLocation(userMarkerLocation: Location) {

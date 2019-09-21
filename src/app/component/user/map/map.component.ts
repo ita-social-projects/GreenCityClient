@@ -136,7 +136,7 @@ export class MapComponent implements OnInit {
   }
 
   clearFilters() {
-    this.filterService.clearDiscountRate();
+    this.filterService.clearFilter();
     this.placeService.getFilteredPlaces();
   }
 
