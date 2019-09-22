@@ -1,15 +1,14 @@
 import {Injectable} from '@angular/core';
 import {
   HttpClient,
-  HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest
 } from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
+import {Observable} from 'rxjs';
 import {frontAuthLink, updateAccessTokenLink} from '../links';
-import {catchError, delay, map, switchMap} from 'rxjs/operators';
+import {switchMap} from 'rxjs/operators';
 import {AccessToken} from '../model/access-token';
 import {JwtService} from './jwt.service';
 

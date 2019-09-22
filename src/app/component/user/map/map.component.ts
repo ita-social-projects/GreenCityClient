@@ -261,6 +261,7 @@ export class MapComponent implements OnInit {
       this.origin = {lat: this.userMarkerLocation.lat, lng: this.userMarkerLocation.lng};
     }
     this.filterService.setUserMarkerLocation(this.userMarkerLocation);
+    this.placeService.getFilteredPlaces();
   }
 
   changeTravelMode() {
