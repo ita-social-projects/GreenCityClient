@@ -4,14 +4,13 @@ import {Observable} from 'rxjs';
 import {Place} from '../../model/place/place';
 import {MapBounds} from '../../model/map/map-bounds';
 import {PlaceInfo} from '../../model/place/place-info';
-import {PlaceStatus} from '../../model/place/place-status.model';
+import {UpdatePlaceStatus} from '../../model/place/update-place-status.model';
 import {PlacePageableDto} from '../../model/place/place-pageable-dto.model';
 import {mainLink, placeLink} from '../../links';
 import {NgFlashMessageService} from 'ng-flash-messages';
 import {PlaceAddDto} from '../../model/placeAddDto.model';
-import {StatusesModel} from '../../model/place/statuses.model';
 import {AdminPlace} from '../../model/place/admin-place.model';
-import {BulkUpdateStatus} from '../../model/place/bulk-update-status.model';
+import {BulkUpdatePlaceStatus} from '../../model/place/bulk-update-place-status.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +18,8 @@ import {BulkUpdateStatus} from '../../model/place/bulk-update-status.model';
 export class PlaceService {
 
   private baseUrl = `${mainLink}place/`;
-  private placeStatus: PlaceStatus;
+  private placeStatus: UpdatePlaceStatus;
+  private bulkUpdateStatus: BulkUpdatePlaceStatus;
   private ids: string;
 
   constructor(private http: HttpClient, private ngFlashMessageService: NgFlashMessageService) {
@@ -75,39 +75,41 @@ export class PlaceService {
     return this.http.get<PlacePageableDto>(`${placeLink}${status}` + paginationSettings);
   }
 
-  updatePlaceStatus(id: number, status: string): Observable<PlaceStatus> {
-    this.placeStatus = new PlaceStatus();
+  updatePlaceStatus(id: number, status: string): Observable<UpdatePlaceStatus> {
+    this.placeStatus = new UpdatePlaceStatus();
     this.placeStatus.id = id;
     this.placeStatus.status = status;
 
-    return this.http.patch<PlaceStatus>(`${placeLink}status/`, this.placeStatus);
+    return this.http.patch<UpdatePlaceStatus>(`${placeLink}status/`, this.placeStatus);
   }
 
-  bulkUpdatePlaceStatuses(places: AdminPlace[], status: string): Observable<BulkUpdateStatus> {
+  bulkUpdatePlaceStatuses(places: AdminPlace[], status: string): Observable<UpdatePlaceStatus[]> {
+    this.bulkUpdateStatus = new BulkUpdatePlaceStatus();
+    this.bulkUpdateStatus.ids = [];
+    this.bulkUpdateStatus.status = status;
+
+    places.forEach((item) => {
+      this.bulkUpdateStatus.ids.push(item.id);
+    });
+
+    return this.http.patch<UpdatePlaceStatus[]>(`${placeLink}statuses`, this.bulkUpdateStatus);
+  }
+
+  delete(id: number): Observable<UpdatePlaceStatus> {
+    return this.http.delete<UpdatePlaceStatus>(`${placeLink}` + id);
+  }
+
+  bulkDelete(places: AdminPlace[]): Observable<BulkUpdatePlaceStatus[]> {
     this.ids = '';
 
     places.forEach((item) => {
       this.ids += item.id + ',';
     });
 
-    return this.http.patch<BulkUpdateStatus>(`${placeLink}statuses?ids=${this.ids}&status=${status}`, null);
+    return this.http.delete<BulkUpdatePlaceStatus[]>(`${placeLink}?ids=${this.ids}`);
   }
 
-  delete(id: number): Observable<PlaceStatus> {
-    return this.http.delete<PlaceStatus>(`${placeLink}` + id);
-  }
-
-  bulkDelete(places: AdminPlace[]): Observable<BulkUpdateStatus> {
-    this.ids = '';
-
-    places.forEach((item) => {
-      this.ids += item.id + ',';
-    });
-
-    return this.http.delete<BulkUpdateStatus>(`${placeLink}?ids=${this.ids}`);
-  }
-
-  getStatuses(): Observable<StatusesModel> {
-    return this.http.get<StatusesModel>(`${placeLink}statuses/`);
+  getStatuses(): Observable<string[]> {
+    return this.http.get<string[]>(`${placeLink}statuses/`);
   }
 }

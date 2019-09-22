@@ -65,7 +65,7 @@
               <mat-select [(value)]="element.status"
                           (selectionChange)="updateStatus(element.id, $event.value, element.name)">
                 <mat-option *ngFor="let status of changeStatuses"
-                            [value]="status">{{status.toString().toLocaleLowerCase()}}</mat-option>
+                            [value]="status">{{status.toLocaleLowerCase()}}</mat-option>
 
               </mat-select>
             </div>

@@ -6,11 +6,6 @@ import {NgFlashMessageService} from 'ng-flash-messages';
 import {PlaceService} from '../../../service/place/place.service';
 import {ConfirmationDialogService} from '../confirm-modal/confirmation-dialog-service.service';
 
-export interface Status {
-  value: string;
-  viewValue: string;
-}
-
 @Component({
   selector: 'app-places',
   templateUrl: './places.component.html',
@@ -22,8 +17,8 @@ export class PlacesComponent implements OnInit {
   pageSize = 5;
   page = 1;
   totalItems: number;
-  allStatuses: Status[] = [];
-  changeStatuses: Status[];
+  allStatuses: string[] = [];
+  changeStatuses: string[];
   selectedPlaces: AdminPlace[];
   isButtonsShows: boolean;
   isCheckAll: boolean;
@@ -102,11 +97,11 @@ export class PlacesComponent implements OnInit {
   updateStatus(placeId: number, placeStatus: string, placeName: string) {
     this.placeService.updatePlaceStatus(placeId, placeStatus).subscribe(
       () => {
-        this.showMessage(`"${placeName}" was ${placeStatus}`, 'success');
+        this.showMessage(`"<b>${placeName}</b>" was <b>${placeStatus}</b>`, 'success');
         this.onGetPlaces();
       },
       error => {
-        this.showMessage(`ERROR! "${placeName}" was not ${placeStatus}.Please try again`, 'danger');
+        this.showMessage(`ERROR! "<b>${placeName}</b>" was not <b>${placeStatus}</b>. Please try again`, 'danger');
       }
     );
   }
@@ -117,8 +112,11 @@ export class PlacesComponent implements OnInit {
     } else {
       this.placeService.bulkUpdatePlaceStatuses(checkedPlaces, status).subscribe(
         (data) => {
-          this.showMessage(`${data.updatedPlaces} places were ${status}`, 'success');
+          this.showMessage(`<b>${data.length}</b> places were <b>${status}</b>`, 'success');
           this.onGetPlaces();
+        },
+        error => {
+          this.showMessage(`ERROR! <b>${checkedPlaces.length}</b> places were not <b>${status}</b>. Please try again`, 'danger');
         }
       );
     }
@@ -126,16 +124,16 @@ export class PlacesComponent implements OnInit {
 
   setStatuses() {
     this.placeService.getStatuses().subscribe(res => {
-      this.allStatuses = res.statuses;
+      this.allStatuses = res;
     });
   }
 
   setChangeStatuses() {
     this.changeStatuses = [...this.allStatuses.filter((status) => {
-      if (status.toString() === 'DELETED' && this.defaultStatus !== 'deleted') {
+      if (status === 'DELETED' && this.defaultStatus !== 'deleted') {
         return false; // skip
       }
-      if ((status.toString() === 'PROPOSED' ||  status.toString() === 'DECLINED') && this.defaultStatus === 'deleted') {
+      if ((status === 'PROPOSED' ||  status === 'DECLINED') && this.defaultStatus === 'deleted') {
         return false; // skip
       }
       return true;
@@ -145,8 +143,11 @@ export class PlacesComponent implements OnInit {
   delete(id: number, placeName: string) {
     this.placeService.delete(id).subscribe(
       () => {
-        this.showMessage(`Place "${placeName}" was DELETED!`, 'success');
+        this.showMessage(`Place "${placeName}" was <b>DELETED</b>!`, 'success');
         this.onGetPlaces();
+      },
+      error => {
+        this.showMessage(`ERROR! Place "<b>${placeName}</b>" was not <b>DELETED</b>!. Please try again`, 'danger');
       }
     );
   }
@@ -154,8 +155,11 @@ export class PlacesComponent implements OnInit {
   bulkDelete(checkedPlaces: AdminPlace[]) {
     this.placeService.bulkDelete(checkedPlaces).subscribe(
       (data) => {
-        this.showMessage(`${data.updatedPlaces} places were DELETED!`, 'success');
+        this.showMessage(`<b>${data.length}</b> places were <b>DELETED</b>!`, 'success');
         this.onGetPlaces();
+      },
+      error => {
+        this.showMessage(`ERROR! <b>${checkedPlaces.length}</b> places were not <b>DELETED</b>!. Please try again`, 'danger');
       }
     );
   }
@@ -210,7 +214,7 @@ export class PlacesComponent implements OnInit {
       if (column === 'Checkbox' && this.places.length === 0) {
         return false; // skip
       }
-      if (column === 'Delete' && this.defaultStatus === 'deleted') {
+      if (column === 'Delete' && (this.defaultStatus === 'deleted' || this.defaultStatus === 'proposed')) {
         return false; // skip
       }
       return true;
@@ -220,7 +224,7 @@ export class PlacesComponent implements OnInit {
   setDisplayedButtons() {
     switch (this.defaultStatus) {
       case 'proposed' :
-        this.displayedButtons = ['Approve', 'Decline', 'Delete'];
+        this.displayedButtons = ['Approve', 'Decline'];
         break;
       case 'approved' :
         this.displayedButtons = ['Decline', 'Propose', 'Delete'];
