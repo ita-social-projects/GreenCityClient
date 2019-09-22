@@ -1,9 +1,16 @@
 <div class="card mx-auto" style="width: 95% ">
   <div class="card-body">
     <h4 class="card-title">Places</h4>
+    <div class="input-group mb-3" style="width: 25%">
+      <input type="text" class="form-control" placeholder="search" aria-label="Recipient's username"
+             aria-describedby="basic-addon2" [(ngModel)]="searchReg" (keyup.enter)="onKeydown()">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" (click)="onKeydown()">Button</button>
+      </div>
+    </div>
     <div class="table-responsive">
       <table mat-table
-             [dataSource]="places | paginate: {itemsPerPage: pageSize, currentPage: page + 1, totalItems: totalItems}"
+             [dataSource]="dataSource"
              class="mat-elevation-z8 table-hover">
 
         <ng-container matColumnDef="Checkbox">
@@ -66,7 +73,6 @@
                           (selectionChange)="updateStatus(element.id, $event.value, element.name)">
                 <mat-option *ngFor="let status of changeStatuses"
                             [value]="status">{{status.toLocaleLowerCase()}}</mat-option>
-
               </mat-select>
             </div>
           </td>
@@ -96,7 +102,7 @@
                         [ngClass]="{'hide': places!=null && places.length != 0}"></mat-footer-row>
       </table>
 
-      <div id="buttons" *ngIf="isButtonsShows">
+      <div id="buttonsAction" *ngIf="isButtonsShows">
         <button type="button" class="btn btn-outline-primary"
                 *ngIf="this.displayedButtons.indexOf('Propose') !== -1"
                 (click)="bulkUpdateStatuses(selectedPlaces, 'PROPOSED')">Propose

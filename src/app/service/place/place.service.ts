@@ -1,14 +1,15 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Place} from '../../model/place/place';
-import {MapBounds} from '../../model/map/map-bounds';
 import {PlaceInfo} from '../../model/place/place-info';
 import {UpdatePlaceStatus} from '../../model/place/update-place-status.model';
 import {PlacePageableDto} from '../../model/place/place-pageable-dto.model';
 import {mainLink, placeLink} from '../../links';
 import {NgFlashMessageService} from 'ng-flash-messages';
 import {PlaceAddDto} from '../../model/placeAddDto.model';
+import {FilterPlaceService} from '../filtering/filter-place.service';
+import {FilterPlaceDtoModel} from '../../model/filtering/filter-place-dto.model';
 import {AdminPlace} from '../../model/place/admin-place.model';
 import {BulkUpdatePlaceStatus} from '../../model/place/bulk-update-place-status.model';
 
@@ -16,13 +17,15 @@ import {BulkUpdatePlaceStatus} from '../../model/place/bulk-update-place-status.
   providedIn: 'root'
 })
 export class PlaceService {
-
+  places: Place[];
   private baseUrl = `${mainLink}place/`;
   private placeStatus: UpdatePlaceStatus;
   private bulkUpdateStatus: BulkUpdatePlaceStatus;
-  private ids: string;
+  private ids: any;
 
-  constructor(private http: HttpClient, private ngFlashMessageService: NgFlashMessageService) {
+  constructor(private http: HttpClient,
+              private ngFlashMessageService: NgFlashMessageService,
+              private filterService: FilterPlaceService) {
   }
 
   static getWeekDayShortForm(day: string): any {
@@ -46,8 +49,9 @@ export class PlaceService {
     }
   }
 
-  getListPlaceByMapsBoundsDto(mapBounds: MapBounds): Observable<Place[]> {
-    return this.http.post<Place[]>(`${placeLink}getListPlaceLocationByMapsBounds/`, mapBounds);
+  getFilteredPlaces() {
+    const filterDto = this.filterService.getFilters();
+    this.http.post<Place[]>(`${placeLink}filter/`, filterDto).subscribe((res) => this.places = res);
   }
 
   save(place: PlaceAddDto) {
@@ -95,21 +99,30 @@ export class PlaceService {
     return this.http.patch<UpdatePlaceStatus[]>(`${placeLink}statuses`, this.bulkUpdateStatus);
   }
 
-  delete(id: number): Observable<UpdatePlaceStatus> {
-    return this.http.delete<UpdatePlaceStatus>(`${placeLink}` + id);
+  delete(id: number): Observable<number> {
+    return this.http.delete<number>(`${placeLink}` + id);
   }
 
-  bulkDelete(places: AdminPlace[]): Observable<BulkUpdatePlaceStatus[]> {
+  bulkDelete(places: AdminPlace[]): Observable<number> {
     this.ids = '';
 
     places.forEach((item) => {
       this.ids += item.id + ',';
     });
 
-    return this.http.delete<BulkUpdatePlaceStatus[]>(`${placeLink}?ids=${this.ids}`);
+    return this.http.delete<number>(`${placeLink}?ids=${this.ids}`);
   }
 
   getStatuses(): Observable<string[]> {
     return this.http.get<string[]>(`${placeLink}statuses/`);
+  }
+
+  filterByRegex(paginationSettings: string, filterDto: FilterPlaceDtoModel): Observable<PlacePageableDto> {
+    if (filterDto.searchReg === undefined) {
+      filterDto.searchReg = '%%';
+      return this.http.post<PlacePageableDto>(`${this.baseUrl}filter/predicate` + paginationSettings, filterDto);
+    } else {
+      return this.http.post<PlacePageableDto>(`${this.baseUrl}filter/predicate` + paginationSettings, filterDto);
+    }
   }
 }

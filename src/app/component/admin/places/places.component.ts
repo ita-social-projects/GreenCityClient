@@ -4,6 +4,9 @@ import {AdminPlace} from '../../../model/place/admin-place.model';
 import {OpenHours} from '../../../model/openHours/open-hours.model';
 import {NgFlashMessageService} from 'ng-flash-messages';
 import {PlaceService} from '../../../service/place/place.service';
+import {MatTableDataSource} from '@angular/material';
+import {PlaceStatus} from '../../../model/placeStatus.model';
+import {FilterPlaceDtoModel} from '../../../model/filtering/filter-place-dto.model';
 import {ConfirmationDialogService} from '../confirm-modal/confirmation-dialog-service.service';
 
 @Component({
@@ -23,6 +26,11 @@ export class PlacesComponent implements OnInit {
   isButtonsShows: boolean;
   isCheckAll: boolean;
   isPlacesListEmpty: boolean;
+  searchReg: string;
+  dataSource = new MatTableDataSource<AdminPlace>();
+  flag = true;
+  filterDto: FilterPlaceDtoModel;
+  status: PlaceStatus;
 
   allColumns = ['Checkbox', 'Category', 'Name', 'Location', 'Working hours', 'Added By', 'Added On', 'Status', 'Delete'];
   displayedColumns: string[];
@@ -37,32 +45,18 @@ export class PlacesComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle('Admin - Places');
-    this.onGetPlaces();
-    this.setStatuses();
+    this.filterByRegex(this.searchReg);
+    this.setAllStatuses();
   }
 
   getCurrentPaginationSettings(): string {
     return '?page=' + (this.page - 1) + '&size=' + this.pageSize;
   }
 
-  onGetPlaces() {
-    this.placeService.getPlacesByStatus(this.defaultStatus, this.getCurrentPaginationSettings()).subscribe(res => {
-      this.places = res.page;
-      this.page = res.currentPage;
-      this.totalItems = res.totalElements;
-      this.isCheckAll = false;
-      this.isButtonsShows = false;
-      this.isPlacesListEmpty = this.places.length === 0;
-      this.setChangeStatuses();
-      this.setDisplayedColumns();
-      this.setDisplayedButtons();
-    });
-  }
-
   changeStatus(status: string) {
     if (this.defaultStatus !== status) {
       this.defaultStatus = status;
-      this.onGetPlaces();
+      this.filterByRegex(this.searchReg);
     }
   }
 
@@ -91,14 +85,14 @@ export class PlacesComponent implements OnInit {
 
   changePage(event: any) {
     this.page = event.page;
-    this.onGetPlaces();
+    this.filterByRegex(this.searchReg);
   }
 
   updateStatus(placeId: number, placeStatus: string, placeName: string) {
     this.placeService.updatePlaceStatus(placeId, placeStatus).subscribe(
       () => {
         this.showMessage(`"<b>${placeName}</b>" was <b>${placeStatus}</b>`, 'success');
-        this.onGetPlaces();
+        this.filterByRegex(this.searchReg);
       },
       error => {
         this.showMessage(`ERROR! "<b>${placeName}</b>" was not <b>${placeStatus}</b>. Please try again`, 'danger');
@@ -113,7 +107,7 @@ export class PlacesComponent implements OnInit {
       this.placeService.bulkUpdatePlaceStatuses(checkedPlaces, status).subscribe(
         (data) => {
           this.showMessage(`<b>${data.length}</b> places were <b>${status}</b>`, 'success');
-          this.onGetPlaces();
+          this.filterByRegex(this.searchReg);
         },
         error => {
           this.showMessage(`ERROR! <b>${checkedPlaces.length}</b> places were not <b>${status}</b>. Please try again`, 'danger');
@@ -122,7 +116,7 @@ export class PlacesComponent implements OnInit {
     }
   }
 
-  setStatuses() {
+  setAllStatuses() {
     this.placeService.getStatuses().subscribe(res => {
       this.allStatuses = res;
     });
@@ -133,7 +127,7 @@ export class PlacesComponent implements OnInit {
       if (status === 'DELETED' && this.defaultStatus !== 'deleted') {
         return false; // skip
       }
-      if ((status === 'PROPOSED' ||  status === 'DECLINED') && this.defaultStatus === 'deleted') {
+      if ((status === 'PROPOSED' || status === 'DECLINED') && this.defaultStatus === 'deleted') {
         return false; // skip
       }
       return true;
@@ -143,8 +137,8 @@ export class PlacesComponent implements OnInit {
   delete(id: number, placeName: string) {
     this.placeService.delete(id).subscribe(
       () => {
-        this.showMessage(`Place "${placeName}" was <b>DELETED</b>!`, 'success');
-        this.onGetPlaces();
+        this.showMessage(`Place "<b>${placeName}</b>" was <b>DELETED</b>!`, 'success');
+        this.filterByRegex(this.searchReg);
       },
       error => {
         this.showMessage(`ERROR! Place "<b>${placeName}</b>" was not <b>DELETED</b>!. Please try again`, 'danger');
@@ -154,9 +148,9 @@ export class PlacesComponent implements OnInit {
 
   bulkDelete(checkedPlaces: AdminPlace[]) {
     this.placeService.bulkDelete(checkedPlaces).subscribe(
-      (data) => {
-        this.showMessage(`<b>${data.length}</b> places were <b>DELETED</b>!`, 'success');
-        this.onGetPlaces();
+      (count) => {
+        this.showMessage(`<b>${count}</b> places were <b>DELETED</b>!`, 'success');
+        this.filterByRegex(this.searchReg);
       },
       error => {
         this.showMessage(`ERROR! <b>${checkedPlaces.length}</b> places were not <b>DELETED</b>!. Please try again`, 'danger');
@@ -236,6 +230,34 @@ export class PlacesComponent implements OnInit {
         this.displayedButtons = ['Approve'];
         break;
     }
+  }
+
+  filterByRegex(searchReg: string) {
+    if ((searchReg === undefined) || (searchReg === '')) {
+      this.flag = false;
+      searchReg = '%%';
+    } else {
+      this.flag = true;
+      searchReg = `%${this.searchReg}%`;
+    }
+    this.status = PlaceStatus[this.defaultStatus.toUpperCase()];
+    this.filterDto = new FilterPlaceDtoModel(this.status, null, null, null, searchReg);
+    this.placeService.filterByRegex(this.getCurrentPaginationSettings(), this.filterDto).subscribe(res => {
+      this.places = res.page;
+      this.page = res.currentPage;
+      this.totalItems = res.totalElements;
+      this.dataSource.data = this.places;
+      this.isCheckAll = false;
+      this.isButtonsShows = false;
+      this.isPlacesListEmpty = this.places.length === 0;
+      this.setChangeStatuses();
+      this.setDisplayedColumns();
+      this.setDisplayedButtons();
+    });
+  }
+
+  onKeydown() {
+    this.filterByRegex(this.searchReg);
   }
 }
 

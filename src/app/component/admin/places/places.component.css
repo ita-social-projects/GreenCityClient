@@ -33,9 +33,6 @@ th, td {
   color: gray;
 }
 
-.btn {
-  margin: 3px;
-}
 .actions{
   display: flex;
 }
@@ -53,7 +50,7 @@ th, td {
 }
 
 .table-responsive {
-  padding: 13px;
+  padding: 1%;
 }
 
 .checkBox {
@@ -73,9 +70,13 @@ th, td {
   color: green;
 }
 
-#buttons {
+#buttonsAction {
   display: flex;
   justify-content: flex-end;
   padding-top: 20px;
   padding-right: 10px;
+}
+
+#buttonsAction button {
+  margin: 3px;
 }

@@ -41,14 +41,17 @@ import {ConfirmationDialogService} from './confirm-modal/confirmation-dialog-ser
     PaginationModule.forRoot(),
     BrowserAnimationsModule,
     RouterModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    RouterModule,
     MatIconModule,
     IconsModule,
     MatCheckboxModule,
     FormsModule,
     NgbModule
   ],
-  providers: [ ConfirmationDialogService ],
-  entryComponents: [ ConfirmModalComponent ]
+  providers: [ConfirmationDialogService],
+  entryComponents: [ConfirmModalComponent]
 })
 export class AdminModule {
 }
