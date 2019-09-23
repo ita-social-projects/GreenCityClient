@@ -12,7 +12,7 @@ import {MapComponent} from '../user/map/map.component';
 export class FilterComponent {
   discountMin = this.filterService.discountMin;
   discountMax = this.filterService.discountMax;
-  isOpen = false;
+  isOpen = this.filterService.isNowOpen;
   options: Options = {
     floor: 0,
     ceil: 100,

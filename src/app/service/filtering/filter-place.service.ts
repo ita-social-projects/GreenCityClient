@@ -53,7 +53,7 @@ export class FilterPlaceService {
 
   getFilters() {
     const discount = new FilterDiscountDtoModel(this.category, this.specification, this.discountMin, this.discountMax);
-    const currentTime = this.datePipe.transform(new Date(), 'dd/MM/yyyy HH:mm:ss');
+    const currentTime = this.isNowOpen ? this.datePipe.transform(new Date(), 'dd/MM/yyyy HH:mm:ss') : null;
     return new FilterPlaceDtoModel(PlaceStatus.APPROVED, this.mapBounds, discount, currentTime);
   }
 
