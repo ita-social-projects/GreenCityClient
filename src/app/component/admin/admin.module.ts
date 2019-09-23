@@ -8,17 +8,20 @@ import {UsersComponent} from './users/users.component';
 import {NgFlashMessagesModule} from 'ng-flash-messages';
 import {ErrorComponent} from '../general/error/error.component';
 import {BrowserModule} from '@angular/platform-browser';
-import {TableModule} from 'angular-bootstrap-md';
+import {IconsModule, TableModule} from 'angular-bootstrap-md';
 import {NgxPaginationModule} from 'ngx-pagination';
-import {MatPaginatorModule, MatSelectModule} from '@angular/material';
-import { MatSortModule } from '@angular/material/sort';
-import { PaginationModule } from 'ngx-bootstrap';
+import {MatCheckboxModule, MatIconModule, MatPaginatorModule, MatSelectModule} from '@angular/material';
+import {MatSortModule} from '@angular/material/sort';
+import {PaginationModule} from 'ngx-bootstrap';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterModule} from '@angular/router';
 import {FormsModule} from '@angular/forms';
+import {ConfirmModalComponent} from './confirm-modal/confirm-modal.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {ConfirmationDialogService} from './confirm-modal/confirmation-dialog-service.service';
 
 @NgModule({
-  declarations: [AdminNavComponent, PlacesComponent, UsersComponent, ErrorComponent],
+  declarations: [AdminNavComponent, PlacesComponent, UsersComponent, ErrorComponent, ConfirmModalComponent],
   exports: [
     AdminNavComponent,
     UsersComponent,
@@ -39,7 +42,16 @@ import {FormsModule} from '@angular/forms';
     BrowserAnimationsModule,
     RouterModule,
     BrowserAnimationsModule,
-    FormsModule
-  ]
+    FormsModule,
+    RouterModule,
+    MatIconModule,
+    IconsModule,
+    MatCheckboxModule,
+    FormsModule,
+    NgbModule
+  ],
+  providers: [ConfirmationDialogService],
+  entryComponents: [ConfirmModalComponent]
 })
-export class AdminModule { }
+export class AdminModule {
+}
