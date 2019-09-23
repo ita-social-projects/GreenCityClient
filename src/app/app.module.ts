@@ -33,6 +33,7 @@ import {EditFavoriteNameComponent, FavoritePlaceComponent} from './component/use
 import {provideConfig} from './config/GoogleAuthConfig';
 import {AuthServiceConfig, SocialLoginModule} from 'angularx-social-login';
 import {AgmDirectionModule} from 'agm-direction';
+import {DatePipe} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -94,7 +95,8 @@ import {AgmDirectionModule} from 'agm-direction';
     {
       provide: AuthServiceConfig,
       useFactory: provideConfig
-    }
+    },
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

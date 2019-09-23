@@ -6,6 +6,7 @@ import {LatLngBounds} from '@agm/core';
 import {FilterDiscountDtoModel} from '../../model/filtering/filter-discount-dto.model';
 import {FilterPlaceDtoModel} from '../../model/filtering/filter-place-dto.model';
 import {PlaceStatus} from '../../model/placeStatus.model';
+import {DatePipe} from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +17,12 @@ export class FilterPlaceService {
   category: CategoryDto;
   specification: Specification;
   isNowOpen: boolean;
+
   discountMin = 0;
   discountMax = 100;
+
+  constructor(private datePipe: DatePipe) {
+  }
 
   setCategoryName(name: string) {
     this.category = new CategoryDto();
@@ -42,14 +47,20 @@ export class FilterPlaceService {
     this.isCleared = false;
   }
 
+  setIsNowOpen(isOpen: boolean) {
+    this.isNowOpen = isOpen;
+  }
+
   getFilters() {
     const discount = new FilterDiscountDtoModel(this.category, this.specification, this.discountMin, this.discountMax);
-    return new FilterPlaceDtoModel(PlaceStatus.APPROVED, this.mapBounds, discount);
+    const currentTime = this.datePipe.transform(new Date(), 'dd/MM/yyyy HH:mm:ss');
+    return new FilterPlaceDtoModel(PlaceStatus.APPROVED, this.mapBounds, discount, currentTime);
   }
 
   clearDiscountRate() {
     this.discountMin = 0;
     this.discountMax = 100;
     this.isCleared = true;
+    this.isNowOpen = false;
   }
 }

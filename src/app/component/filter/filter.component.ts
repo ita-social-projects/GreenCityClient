@@ -25,12 +25,9 @@ export class FilterComponent {
               private filterService: FilterPlaceService) {
   }
 
-  setIsNowOpen() {
-    this.filterService.isNowOpen = !this.isOpen;
-  }
-
   applyFilters() {
     this.filterService.setDiscountBounds(this.discountMin, this.discountMax);
+    this.filterService.setIsNowOpen(this.isOpen);
     this.placeService.getFilteredPlaces();
     this.mapComponent.toggleFilter();
   }
