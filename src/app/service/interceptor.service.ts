@@ -22,7 +22,7 @@ export class InterceptorService implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (req.url !== updateAccessTokenLink) {
+    if (!req.url.includes(updateAccessTokenLink)) {
       const accessToken = this.jwtService.getAccessToken();
       if (accessToken != null) {
         if (this.jwtService.isTokenValid(accessToken)) {
@@ -53,8 +53,9 @@ export class InterceptorService implements HttpInterceptor {
     }
   }
 
-  private getNewAccessToken(refreshToken): Observable<any> {
-    return this.http.post(updateAccessTokenLink, refreshToken);
+  private getNewAccessToken(refreshToken: string): Observable<any> {
+    console.log('update access Token');
+    return this.http.get(`${updateAccessTokenLink}?refreshToken=${refreshToken}`);
   }
 
   private addAccessTokenToHeader(req: HttpRequest<any>, accessToken: string) {
