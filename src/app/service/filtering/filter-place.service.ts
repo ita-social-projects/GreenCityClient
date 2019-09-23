@@ -7,6 +7,8 @@ import {FilterDiscountDtoModel} from '../../model/filtering/filter-discount-dto.
 import {FilterPlaceDtoModel} from '../../model/filtering/filter-place-dto.model';
 import {PlaceStatus} from '../../model/placeStatus.model';
 import {DatePipe} from '@angular/common';
+import {FilterDistanceDto} from '../../model/filtering/filter-distance-dto.model';
+import {Location} from '../../model/location.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +22,8 @@ export class FilterPlaceService {
 
   discountMin = 0;
   discountMax = 100;
+  distance: number;
+  userMarkerLocation: Location = new Location();
 
   constructor(private datePipe: DatePipe) {
   }
@@ -54,13 +58,23 @@ export class FilterPlaceService {
   getFilters() {
     const discount = new FilterDiscountDtoModel(this.category, this.specification, this.discountMin, this.discountMax);
     const currentTime = this.isNowOpen ? this.datePipe.transform(new Date(), 'dd/MM/yyyy HH:mm:ss') : null;
-    return new FilterPlaceDtoModel(PlaceStatus.APPROVED, this.mapBounds, discount, currentTime);
+    const distance = new FilterDistanceDto(this.userMarkerLocation.lat, this.userMarkerLocation.lng, this.distance);
+    return new FilterPlaceDtoModel(PlaceStatus.APPROVED, this.mapBounds, discount, distance, null, currentTime);
   }
 
-  clearDiscountRate() {
+  clearFilter() {
     this.discountMin = 0;
     this.discountMax = 100;
     this.isCleared = true;
     this.isNowOpen = false;
+    this.distance = null;
+  }
+
+  setDistance(distance: number) {
+    distance > 0 ? this.distance = distance : this.distance = null;
+  }
+
+  setUserMarkerLocation(userMarkerLocation: Location) {
+    this.userMarkerLocation = userMarkerLocation;
   }
 }

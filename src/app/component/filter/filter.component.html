@@ -9,6 +9,14 @@
     <h6>Is now open</h6>
     <input id="is_open_checkbox" type="checkbox" [(ngModel)]="isOpen">
   </label>
+  <p></p>
 
+  <h6>Distance:</h6>
+  <h6 class="validation" *ngIf="isDistanceValidationError">Wrong value of distance!</h6>
+  <input type="number" min="0.1" pattern="^[0-9]{1,5}$" class="form-control" placeholder="Distance in km"
+         aria-label="Distance"
+         aria-describedby="basic-addon1"
+         [(ngModel)]="distance">
+  <p></p>
   <button class="btn btn-success btn-sm" id="apply_filter_btn" (click)="applyFilters()">Apply</button>
 </div>

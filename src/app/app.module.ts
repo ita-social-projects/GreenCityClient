@@ -23,17 +23,24 @@ import {InterceptorService} from './service/interceptor.service';
 import {AdminModule} from './component/admin/admin.module';
 import {NgFlashMessagesModule} from 'ng-flash-messages';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatSliderModule, MatTreeModule} from '@angular/material';
 import {FilterComponent} from './component/filter/filter.component';
-import {Ng5SliderModule} from 'ng5-slider';
-import {MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatTableModule} from '@angular/material';
-import {MatIconModule} from '@angular/material/icon';
-import {MDBBootstrapModule} from 'angular-bootstrap-md';
 import {EditFavoriteNameComponent, FavoritePlaceComponent} from './component/user/favorite-place/favorite-place.component';
-import {provideConfig} from './config/GoogleAuthConfig';
 import {AuthServiceConfig, SocialLoginModule} from 'angularx-social-login';
 import {AgmDirectionModule} from 'agm-direction';
 import {DatePipe} from '@angular/common';
+import {
+  MatButtonModule,
+  MatDialogModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatSliderModule,
+  MatTableModule,
+  MatTreeModule
+} from '@angular/material';
+import {MDBBootstrapModule} from 'angular-bootstrap-md';
+import {Ng5SliderModule} from 'ng5-slider';
+import {provideConfig} from './config/GoogleAuthConfig';
 
 @NgModule({
   declarations: [

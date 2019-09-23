@@ -19,6 +19,8 @@ export class FilterComponent {
     step: 1,
     noSwitching: true
   };
+  distance: number;
+  isDistanceValidationError = false;
 
   constructor(private placeService: PlaceService,
               private mapComponent: MapComponent,
@@ -26,8 +28,16 @@ export class FilterComponent {
   }
 
   applyFilters() {
+    this.isDistanceValidationError = false;
+    if (this.distance != null) {
+      if (this.distance <= 0) {
+        this.isDistanceValidationError = true;
+        return;
+      }
+    }
     this.filterService.setDiscountBounds(this.discountMin, this.discountMax);
     this.filterService.setIsNowOpen(this.isOpen);
+    this.filterService.setDistance(this.distance);
     this.placeService.getFilteredPlaces();
     this.mapComponent.toggleFilter();
   }

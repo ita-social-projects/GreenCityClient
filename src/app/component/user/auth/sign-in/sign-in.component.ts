@@ -49,8 +49,6 @@ export class SignInComponent implements OnInit {
 
       },
       (errors: HttpErrorResponse) => {
-
-        console.log(errors);
         try {
           errors.error.forEach(error => {
             if (error.name === 'email') {
