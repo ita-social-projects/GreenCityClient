@@ -17,7 +17,8 @@ import {SpecificationService} from "../../../service/specification.service";
 import {UserService} from "../../../service/user/user.service";
 import {MapsAPILoader, MouseEvent} from "@agm/core";
 import {PlaceUpdatedDto} from "../../../model/place/placeUpdatedDto.model";
-import {MAT_DIALOG_DATA} from "@angular/material";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
+import {PlacesComponent} from "../places/places.component";
 
 @Component({
   selector: 'app-update-cafe',
@@ -30,9 +31,9 @@ export class UpdateCafeComponent implements OnInit {
   name: any;
   nameOfSpecification: any;
   value: any;
-  // discounts: number[] = new Array(100);
   discountsNumber = 101;
   placeName: any;
+  address: any;
   place: PlaceUpdatedDto;
   location: LocationDto;
   discounts: DiscountDto[] = [];
@@ -50,7 +51,6 @@ export class UpdateCafeComponent implements OnInit {
   latitude: number;
   longitude: number;
   zoom: number;
-  address: string;
   private geoCoder;
   submitButtonEnabled: boolean;
   isBreakTime = false;
@@ -61,28 +61,21 @@ export class UpdateCafeComponent implements OnInit {
   @ViewChild('search', {static: true})
   public searchElementRef: ElementRef;
 
-  // addTypeCategory = (term) => ({name: term});.
-
   constructor(private modalService: ModalService, private placeService: PlaceService, private categoryService: CategoryService,
               private specificationService: SpecificationService, private uService: UserService, private mapsAPILoader: MapsAPILoader,
-              private ngZone: NgZone, @Inject(MAT_DIALOG_DATA) public data: any) {
+              private ngZone: NgZone, @Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<UpdateCafeComponent>) {
     this.submitButtonEnabled = true;
-  }
-
-  getPlace() {
-    this.placeService.getPlaceByID(this.data).subscribe(data => {
-      this.place = data;
-      console.log(data);
-    });
   }
 
   ngOnInit() {
     this.placeService.getPlaceByID(this.data).subscribe(data => {
       this.place = data;
+      console.log(data);
       this.openingHoursList=data.openingHoursList;
       this.discounts = data.discounts;
       this.placeName = data.name;
       this.name = this.place.category.name;
+      this.address = this.place.location.address;
 
       this.openingHoursList.forEach(day=>{this.removeDay(day);});
       this.weekDays=this.weekDaysNew;
@@ -101,7 +94,7 @@ export class UpdateCafeComponent implements OnInit {
 
     // load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
-      this.setCurrentLocation();
+      // this.setCurrentLocation();
       this.geoCoder = new google.maps.Geocoder();
 
       const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
@@ -126,43 +119,32 @@ export class UpdateCafeComponent implements OnInit {
     });
   }
 
-  private extractData(res: Response) {
-    let body = res.json();
-    return body || {};
-  }
-
   addDiscountAndSpecification(nameOfSpecification: string, value: number) {
     let discount1 = new DiscountDto();
     discount1.value = value;
     let specification = new SpecificationNameDto();
     specification.name = nameOfSpecification;
     discount1.specification = specification;
-    console.log(discount1);
-
-    // if (this.discounts.length == 0) {
-    //   this.discounts.push(discount1);
-    //   console.log(this.discounts);
-    //   discount1 = new DiscountDto();
-    // } else if (this.discounts.length >= 1) {
-    //   for (let i = 0; i < this.discounts.length; i++) {
-    //     if (discount1.specification.name == this.discounts[i].specification.name) {
-    //       alert("Already exists.")
-    //     }
-    //     else {
-          let specificationsNew: SpecificationNameDto[] = [];
-          this.specifications.forEach(val => {
-            if (val !== discount1.specification.name) {
-              specificationsNew.push(val);
-              console.log(this.specifications);
-            }
-          });
-          this.specifications = specificationsNew;
+    if (this.discounts.length == 0) {
+      this.discounts.push(discount1);
+      console.log(this.discounts);
+      discount1 = new DiscountDto();
+    } else if (this.discounts.length === 1) {
+      for (let i = 0; i < this.discounts.length; i++) {
+        if (discount1.specification.name !== this.discounts[i].specification.name) {
           this.discounts.push(discount1);
-          console.log(this.discounts);
-          discount1 = new DiscountDto();
-        // }
-    //   }
-    // }
+        }
+      }
+    }else {
+      for (let i = 0; i < this.discounts.length; i++) {
+        for (let j = i + 1; j < this.discounts.length; i++) {
+          if (discount1.specification.name == this.discounts[i].specification.name ||
+            discount1.specification.name == this.discounts[j].specification.name) {
+            alert("Already exists.");
+          }
+        }
+      }
+    }
   }
 
   add(openingHours: OpeningHours, breakTimes: BreakTimes) {
@@ -209,8 +191,8 @@ export class UpdateCafeComponent implements OnInit {
         this.weekDaysNew.push(val);
       }
     });
-
   }
+
   switch() {
     console.log('switch');
     this.isBreakTime = !this.isBreakTime;
@@ -221,40 +203,27 @@ export class UpdateCafeComponent implements OnInit {
     this.weekDays.push(openingHours.weekDay);
   }
 
-  deleteDayOfExist(openingHours: OpeningHours) {
-    this.openingHoursList = this.openingHoursList.filter(item => item !== openingHours);
-    this.weekDays.push(openingHours.weekDay);
-  }
-
   delete(discount: DiscountDto) {
     this.place.discounts = this.place.discounts.filter(item => item !== discount);
   }
 
   onSubmit() {
-    this.submitButtonEnabled = false;
-    this.place.openingHoursList = this.openingHoursList;
-    this.place.discounts = this.discounts;
-    this.place.category.name = this.name;
-    this.place.discounts = this.discounts;
-    this.location.address = this.address;
-    this.location.lat = this.latitude;
-    this.location.lng = this.longitude;
-    this.place.location = this.location;
-    this.place.name = this.placeName;
-    console.log(this.place);
-    this.placeService.updatePlace(this.place);
-  }
-
-  // Get Current Location Coordinates
-  private setCurrentLocation() {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
-        this.zoom = 8;
-        this.getAddress(this.latitude, this.longitude);
-      });
-    }
+    this.placeService.getPlaceByID(this.data).subscribe(data => {
+      this.place = data;
+      console.log(data);
+      this.submitButtonEnabled = false;
+      this.place.openingHoursList = this.openingHoursList;
+      this.place.discounts = this.discounts;
+      this.place.category.name = this.name;
+      this.place.discounts = this.discounts;
+      this.place.location.address = this.address;
+      // this.place.location.lat = this.latitude;
+      // this.place.location.lng = this.longitude;
+      this.place.name = this.placeName;
+      console.log(this.place);
+      this.placeService.updatePlace(this.place);
+      this.dialogRef.close();
+    });
   }
 
   markerDragEnd($event: MouseEvent) {

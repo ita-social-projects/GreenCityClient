@@ -46,7 +46,9 @@ export class PlaceService {
   }
 
   save(place: PlaceAddDto) {
-    this.http.post(`${this.baseUrl}propose/`, place).subscribe(
+    // this.http.post(`${this.baseUrl}propose/`, place).subscribe(
+    this.http.post(`http://localhost:8080/place/propose/`, place).subscribe(
+
       () => {
         this.ngFlashMessageService.showFlashMessage({
           messages: ["Cafe " + place.name + " was added for approving."],
@@ -82,10 +84,52 @@ export class PlaceService {
   }
 
   getPlaceByID(id: number): Observable<PlaceUpdatedDto> {
-    return this.http.get<PlaceUpdatedDto>(`http://localhost:8080/place/id/${id}`);
+    return this.http.get<PlaceUpdatedDto>(`http://localhost:8080/place/about/${id}`);
   }
 
   updatePlace(updatedPlace: PlaceUpdatedDto) {
-    return this.http.put<PlaceUpdatedDto>(`http://localhost:8080/place/update`, updatedPlace);
+    return this.http.put<PlaceUpdatedDto>(`http://localhost:8080/place/update`, updatedPlace).subscribe(
+    data => console.log("Done"));
+
+    //   () => {
+    //     this.ngFlashMessageService.showFlashMessage({
+    //       messages: ["Cafe " + updatedPlace.name + " was was updated."],
+    //       dismissible: true,
+    //       timeout: 3000,
+    //       type: 'success'
+    //     });
+    //     console.log(updatedPlace);
+    //   }, error => {
+    //     this.ngFlashMessageService.showFlashMessage({
+    //       messages: ['Please try again'],
+    //       dismissible: true,
+    //       timeout: 3000,
+    //       type: 'danger'
+    //     });
+    //   }
+    // );
   }
+
+  // getPlaceInfo(id: number): Observable<PlaceInfo> {
+  //   return this.http.get<PlaceInfo>(`http://localhost:8080/place/Info/${id}`);
+  // }
+  //
+  // getFavoritePlaceInfo(id: number): Observable<PlaceInfo> {
+  //   return this.http.get<PlaceInfo>(`http://localhost:8080/place/info/favorite/${id}`);
+  // }
+  //
+  // getPlacesByStatus(status: string, paginationSettings: string): Observable<PlacePageableDto> {
+  //   return this.http.get<PlacePageableDto>(`http://localhost:8080/place/${status}` + paginationSettings);
+  // }
+  // updatePlaceStatus(placeStatus: PlaceStatus) {
+  //   return this.http.patch<PlaceStatus>(`http://localhost:8080/place/status/`, placeStatus);
+  // }
+  //
+  // getPlaceByID(id: number): Observable<PlaceUpdatedDto> {
+  //   return this.http.get<PlaceUpdatedDto>(`http://localhost:8080/place/about/${id}`);
+  // }
+  //
+  // updatePlace(updatedPlace: PlaceUpdatedDto) {
+  //   return this.http.put<PlaceUpdatedDto>(`http://localhost:8080/place/update`, updatedPlace);
+  // }
 }

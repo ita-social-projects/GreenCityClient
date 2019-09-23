@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {AdminPlace} from '../../../model/place/admin-place.model';
 import {OpenHours} from '../../../model/openHours/open-hours.model';
@@ -28,6 +28,7 @@ export class PlacesComponent implements OnInit {
   displayedColumns: string[] = ['Category', 'Name', 'Location', 'Working hours', 'Added By', 'Added On', 'Status', 'Action'];
 
   defaultStatus = 'proposed';
+  @Output() event = new EventEmitter<any>();
 
   constructor(
     private placeService: PlaceService, private titleService: Title, private ngFlashMessageService: NgFlashMessageService, public dialog: MatDialog) {
@@ -124,9 +125,11 @@ export class PlacesComponent implements OnInit {
       data: placeId
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
+    dialogRef.afterClosed().subscribe(result => result === this.onGetPlaces());
+  }
+
+  sendFunction() {
+    this.event.emit(this.onGetPlaces());
   }
 
 }

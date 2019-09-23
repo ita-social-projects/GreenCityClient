@@ -28,7 +28,6 @@ export class ProposeCafeComponent implements OnInit {
   name: any;
   nameOfSpecification: any;
   value: any;
-  // discounts: number[] = new Array(100);
   discountsNumber = 101;
   placeName: any;
   place: PlaceAddDto;
@@ -57,13 +56,15 @@ export class ProposeCafeComponent implements OnInit {
   @ViewChild('saveForm', {static: true}) private saveForm: NgForm;
   @ViewChild(NgSelectComponent, {static: true}) ngSelectComponent: NgSelectComponent;
   @ViewChild('search', {static: true})
+  @ViewChild('choice', {static: true}) private choice: any;
+
   public searchElementRef: ElementRef;
 
   // addTypeCategory = (term) => ({name: term});.
 
   constructor(private modalService: ModalService, private placeService: PlaceService, private categoryService: CategoryService,
               private specificationService: SpecificationService, private uService: UserService, private mapsAPILoader: MapsAPILoader,
-              private ngZone: NgZone) {
+              private ngZone: NgZone, private dialogRef: MatDialogRef<ProposeCafeComponent>) {
     this.category = new CategoryDto();
     this.discount = new DiscountDto();
     this.location = new LocationDto();
@@ -117,30 +118,27 @@ export class ProposeCafeComponent implements OnInit {
     let specification = new SpecificationNameDto();
     specification.name = nameOfSpecification;
     discount1.specification = specification;
-    console.log(discount1);
-
+    // this.discounts.push(discount1);
     if (this.discounts.length == 0) {
       this.discounts.push(discount1);
       console.log(this.discounts);
       discount1 = new DiscountDto();
-    } else if (this.discounts.length >= 1) {
+    } else if (this.discounts.length === 1) {
       for (let i = 0; i < this.discounts.length; i++) {
-        if (discount1.specification.name == this.discounts[i].specification.name) {
-          alert("Already exists.")
+        if (discount1.specification.name !== this.discounts[i].specification.name) {
+          this.discounts.push(discount1);
+        } else {
+          alert("Already exists.");
         }
-        // else {
-        //   let specificationsNew: SpecificationNameDto[] = [];
-        //   this.specifications.forEach(val => {
-        //     if (val !== discount1.specification.name) {
-        //       specificationsNew.push(val);
-        //       console.log(this.specifications);
-        //     }
-        //   });
-        //   this.specifications = specificationsNew;
-        //   this.discounts.push(discount1);
-        //   console.log(this.discounts);
-        //   discount1 = new DiscountDto();
-        // }
+      }
+    }else {
+      for (let i = 0; i < this.discounts.length; i++) {
+        for (let j = i + 1; j < this.discounts.length; i++) {
+          if (discount1.specification.name == this.discounts[i].specification.name ||
+            discount1.specification.name == this.discounts[j].specification.name) {
+            alert("Already exists.");
+          }
+        }
       }
     }
   }
@@ -198,6 +196,7 @@ export class ProposeCafeComponent implements OnInit {
   }
 
   onSubmit() {
+
     this.submitButtonEnabled = false;
     this.place.openingHoursList = this.openingHoursList;
     this.place.discounts = this.discounts;
@@ -210,6 +209,7 @@ export class ProposeCafeComponent implements OnInit {
     this.place.name = this.placeName;
     console.log(this.place);
     this.placeService.save(this.place);
+    this.dialogRef.close();
   }
 
   // Get Current Location Coordinates
