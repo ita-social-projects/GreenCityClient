@@ -12,7 +12,7 @@ import {MapComponent} from '../user/map/map.component';
 export class FilterComponent {
   discountMin = this.filterService.discountMin;
   discountMax = this.filterService.discountMax;
-  isOpen = false;
+  isOpen = this.filterService.isNowOpen;
   options: Options = {
     floor: 0,
     ceil: 100,
@@ -27,10 +27,6 @@ export class FilterComponent {
               private filterService: FilterPlaceService) {
   }
 
-  setIsNowOpen() {
-    this.filterService.isNowOpen = !this.isOpen;
-  }
-
   applyFilters() {
     this.isDistanceValidationError = false;
     if (this.distance != null) {
@@ -40,6 +36,7 @@ export class FilterComponent {
       }
     }
     this.filterService.setDiscountBounds(this.discountMin, this.discountMax);
+    this.filterService.setIsNowOpen(this.isOpen);
     this.filterService.setDistance(this.distance);
     this.placeService.getFilteredPlaces();
     this.mapComponent.toggleFilter();

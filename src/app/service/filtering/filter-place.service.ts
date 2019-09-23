@@ -6,6 +6,7 @@ import {LatLngBounds} from '@agm/core';
 import {FilterDiscountDtoModel} from '../../model/filtering/filter-discount-dto.model';
 import {FilterPlaceDtoModel} from '../../model/filtering/filter-place-dto.model';
 import {PlaceStatus} from '../../model/placeStatus.model';
+import {DatePipe} from '@angular/common';
 import {FilterDistanceDto} from '../../model/filtering/filter-distance-dto.model';
 import {Location} from '../../model/location.model';
 
@@ -18,10 +19,14 @@ export class FilterPlaceService {
   category: CategoryDto;
   specification: Specification;
   isNowOpen: boolean;
+
   discountMin = 0;
   discountMax = 100;
   distance: number;
   userMarkerLocation: Location = new Location();
+
+  constructor(private datePipe: DatePipe) {
+  }
 
   setCategoryName(name: string) {
     this.category = new CategoryDto();
@@ -46,16 +51,22 @@ export class FilterPlaceService {
     this.isCleared = false;
   }
 
+  setIsNowOpen(isOpen: boolean) {
+    this.isNowOpen = isOpen;
+  }
+
   getFilters() {
     const discount = new FilterDiscountDtoModel(this.category, this.specification, this.discountMin, this.discountMax);
+    const currentTime = this.isNowOpen ? this.datePipe.transform(new Date(), 'dd/MM/yyyy HH:mm:ss') : null;
     const distance = new FilterDistanceDto(this.userMarkerLocation.lat, this.userMarkerLocation.lng, this.distance);
-    return new FilterPlaceDtoModel(PlaceStatus.APPROVED, this.mapBounds, discount, distance, null);
+    return new FilterPlaceDtoModel(PlaceStatus.APPROVED, this.mapBounds, discount, distance, null, currentTime);
   }
 
   clearFilter() {
     this.discountMin = 0;
     this.discountMax = 100;
     this.isCleared = true;
+    this.isNowOpen = false;
     this.distance = null;
   }
 

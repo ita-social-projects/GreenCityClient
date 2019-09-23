@@ -241,7 +241,7 @@ export class PlacesComponent implements OnInit {
       searchReg = `%${this.searchReg}%`;
     }
     this.status = PlaceStatus[this.defaultStatus.toUpperCase()];
-    this.filterDto = new FilterPlaceDtoModel(this.status, null, null, null, searchReg);
+    this.filterDto = new FilterPlaceDtoModel(this.status, null, null, null, searchReg, null);
     this.placeService.filterByRegex(this.getCurrentPaginationSettings(), this.filterDto).subscribe(res => {
       this.places = res.page;
       this.page = res.currentPage;

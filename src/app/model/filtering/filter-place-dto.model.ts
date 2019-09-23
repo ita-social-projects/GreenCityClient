@@ -9,16 +9,19 @@ export class FilterPlaceDtoModel {
   discountDto: FilterDiscountDtoModel;
   distanceFromUserDto: FilterDistanceDto;
   searchReg: string;
+  time: string;
 
   constructor(status: PlaceStatus,
               mapBoundsDto: MapBounds,
               discountDto: FilterDiscountDtoModel,
               distanceFromUserDto: FilterDistanceDto,
-              searchReg: string) {
+              searchReg: string,
+              time: string) {
     this.status = status;
     this.mapBoundsDto = mapBoundsDto;
     this.discountDto = discountDto;
     this.distanceFromUserDto = distanceFromUserDto;
     this.searchReg = searchReg;
+    this.time = time;
   }
 }

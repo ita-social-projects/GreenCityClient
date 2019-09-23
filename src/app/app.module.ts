@@ -27,6 +27,7 @@ import {FilterComponent} from './component/filter/filter.component';
 import {EditFavoriteNameComponent, FavoritePlaceComponent} from './component/user/favorite-place/favorite-place.component';
 import {AuthServiceConfig, SocialLoginModule} from 'angularx-social-login';
 import {AgmDirectionModule} from 'agm-direction';
+import {DatePipe} from '@angular/common';
 import {
   MatButtonModule,
   MatDialogModule,
@@ -101,7 +102,8 @@ import {provideConfig} from './config/GoogleAuthConfig';
     {
       provide: AuthServiceConfig,
       useFactory: provideConfig
-    }
+    },
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })
