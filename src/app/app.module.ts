@@ -24,13 +24,18 @@ import {AdminModule} from './component/admin/admin.module';
 import {NgFlashMessagesModule} from 'ng-flash-messages';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FilterComponent} from './component/filter/filter.component';
-import {EditFavoriteNameComponent, FavoritePlaceComponent} from './component/user/favorite-place/favorite-place.component';
+import {
+  EditFavoriteNameComponent,
+  FavoritePlaceComponent
+} from './component/user/favorite-place/favorite-place.component';
 import {AuthServiceConfig, SocialLoginModule} from 'angularx-social-login';
 import {AgmDirectionModule} from 'agm-direction';
 import {DatePipe} from '@angular/common';
 import {
+  MAT_DIALOG_DEFAULT_OPTIONS,
   MatButtonModule,
-  MatDialogModule,
+  MatCheckboxModule,
+  MatDialogModule, MatDialogRef,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
@@ -45,7 +50,6 @@ import {provideConfig} from './config/GoogleAuthConfig';
 @NgModule({
   declarations: [
     AppComponent,
-    AdminComponent,
     UserComponent,
     GeneralComponent,
     SignUpComponent,
@@ -80,6 +84,7 @@ import {provideConfig} from './config/GoogleAuthConfig';
     MatIconModule,
     MDBBootstrapModule,
     ModalModule,
+    MatDialogModule,
     ReactiveFormsModule,
     NgFlashMessagesModule.forRoot(),
     MatSliderModule,
@@ -89,15 +94,21 @@ import {provideConfig} from './config/GoogleAuthConfig';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatCheckboxModule
   ],
-  entryComponents: [FavoritePlaceComponent, EditFavoriteNameComponent],
+  entryComponents: [ProposeCafeComponent, FavoritePlaceComponent, EditFavoriteNameComponent],
 
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,
       multi: true
+    },
+    { provide: MatDialogRef, useValue: {} },
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: {hasBackdrop: false}
     },
     {
       provide: AuthServiceConfig,

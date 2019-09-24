@@ -78,6 +78,15 @@
           </td>
         </ng-container>
 
+        <ng-container matColumnDef="Edit">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element" id="edit">
+            <a (click)="openDialog(element.id)">
+              <mdb-icon far icon="edit"></mdb-icon>
+            </a>
+          </td>
+        </ng-container>
+
         <ng-container matColumnDef="Delete">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let element" id="delete">

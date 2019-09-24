@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {AdminPlace} from '../../../model/place/admin-place.model';
 import {OpenHours} from '../../../model/openHours/open-hours.model';
@@ -8,6 +8,10 @@ import {MatTableDataSource} from '@angular/material';
 import {PlaceStatus} from '../../../model/placeStatus.model';
 import {FilterPlaceDtoModel} from '../../../model/filtering/filter-place-dto.model';
 import {ConfirmationDialogService} from '../confirm-modal/confirmation-dialog-service.service';
+import {ProposeCafeComponent} from "../../user/propose-cafe/propose-cafe.component";
+import {MatDialog} from "@angular/material";
+import {PlaceUpdatedDto} from "../../../model/place/placeUpdatedDto.model";
+import {UpdateCafeComponent} from "../update-cafe/update-cafe.component";
 
 @Component({
   selector: 'app-places',
@@ -16,6 +20,9 @@ import {ConfirmationDialogService} from '../confirm-modal/confirmation-dialog-se
 })
 
 export class PlacesComponent implements OnInit {
+
+  placeId: number;
+  place: PlaceUpdatedDto;
   places: AdminPlace[];
   pageSize = 5;
   page = 1;
@@ -32,15 +39,16 @@ export class PlacesComponent implements OnInit {
   filterDto: FilterPlaceDtoModel;
   status: PlaceStatus;
 
-  allColumns = ['Checkbox', 'Category', 'Name', 'Location', 'Working hours', 'Added By', 'Added On', 'Status', 'Delete'];
+  allColumns = ['Checkbox', 'Category', 'Name', 'Location', 'Working hours', 'Added By', 'Added On', 'Status', 'Edit', 'Delete'];
   displayedColumns: string[];
   displayedButtons: string[];
 
   defaultStatus = 'proposed';
+  @Output() event = new EventEmitter<any>();
 
   constructor(
     private placeService: PlaceService, private titleService: Title, private ngFlashMessageService: NgFlashMessageService,
-    private confirmationDialogService: ConfirmationDialogService) {
+    private confirmationDialogService: ConfirmationDialogService, public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -256,9 +264,27 @@ export class PlacesComponent implements OnInit {
     });
   }
 
+  onGetPlaces() {
+    this.placeService.getPlacesByStatus(this.defaultStatus, this.getCurrentPaginationSettings()).subscribe(res => {
+      this.places = res.page;
+      this.page = res.currentPage;
+      this.totalItems = res.totalElements;
+    });
+  }
+
   onKeydown() {
     this.filterByRegex(this.searchReg);
   }
+
+  openDialog(placeId: number): void {
+    const dialogRef = this.dialog.open(UpdateCafeComponent, {
+      width: '800px',
+      data: placeId
+    });
+
+    dialogRef.afterClosed().subscribe(result => result === this.onGetPlaces());
+  }
+
 }
 
 
