@@ -53,15 +53,6 @@ agm-map {
   height: 75vh;
 }
 
-/*.sub-2{*/
-/*  width: 29vw; height: 50vh;*/
-/*}*/
-
-/*.sub-1{*/
-/*  width: 35vw;*/
-/*  flex-grow: 1;*/
-/*}*/
-
 .delete-choice {
   background-color: darkred;
   border: none;

@@ -1,11 +1,9 @@
 <script src="../../../model/pageable-dto.model.ts"></script>
 <h2 mat-dialog-title style="text-align: center; margin-bottom: 2%;">Edit
   cafe</h2>
-
+<hr>
 <mat-dialog-content>
   <form #updateForm="ngForm" (ngSubmit)="onSubmit()">
-    <div class="row">
-      <div class="column">
         <div style="margin-left: 7%; margin-right: 9%">
           <div class="validation-error" *ngIf="nameControl.invalid && (nameControl.dirty||nameControl.touched)">
             <div *ngIf="nameControl.errors.required">
@@ -70,10 +68,13 @@
                    placeholder="Enter address">
             <br>
 
-            <agm-map [latitude]="place.location.lat" [longitude]="place.location.lng" [zoom]="zoom">
+            <div class="sub-2" #map>
+            <agm-map [latitude]="place.location.lat" [longitude]="place.location.lng" [zoom]="zoom" [style.width.px]="map.offsetWidth"
+                     [style.height.px]="map.offsetHeight">
               <agm-marker [latitude]="place.location.lat" [longitude]="place.location.lng" [markerDraggable]="true"
                           (dragEnd)="markerDragEnd($event)"></agm-marker>
             </agm-map>
+            </div>
 
             <div>
               <div>Address: {{address}}</div>
@@ -82,12 +83,11 @@
             </div>
           </div>
         </div>
-      </div>
+    <hr>
 
-      <div class="column" style="padding-left: 7%">
         <form #discountForm="ngForm">
-          <div>
-            <h4 style="margin-left: 28%; margin-bottom: 5%">Select discount: </h4>
+          <div class="specification" style="text-align: -webkit-center;">
+            <h4 style="margin-bottom: 3%">Select discount: </h4>
             <ng-select style="width: 250px; margin-top: 4%"
                        [items]="specifications"
                        bindLabel="name"
@@ -125,9 +125,11 @@
         </form>
 
         <form #openHoursForm="ngForm">
+          <hr>
+          <div style="text-align: -webkit-center;">
           <div id="weekDays">
             <div class="weekDay">
-              <h4 style="margin-left: 28%; margin-bottom: 3%">Select schedule: </h4>
+              <h4 style="margin-bottom: 3%">Select schedule: </h4>
               <select class="form-control" style="width: 190px; display: inline;" required
                       [(ngModel)]="openingHours.weekDay" #day="ngModel" name="weekday">
                 <option disabled>Select day</option>
@@ -141,10 +143,10 @@
               <input name="closeTime" type="time" class="form-control" style="width: 100px; display: inline;" #time
                      id="time-end" placeholder="HH:mm" [(ngModel)]="openingHours.closeTime" required>
             </div>
-            <div style="margin-top: 1.5%">
+            <div style="margin-top: 1.5%; text-align: left; margin-left: 14%">
               <mat-checkbox (change)="switch()">is break time needed</mat-checkbox>
             </div>
-            <div *ngIf="isBreakTime">
+            <div *ngIf="isBreakTime" style="text-align: left; margin-left: 9%;">
               <label for="break-start" class="label-for-time">from: </label>
               <input type="time" class="form-control" style="width: 100px; display: inline;"
                      [(ngModel)]="breakTimes.startTime" [required]="isBreakTime"
@@ -167,11 +169,8 @@
             <button class="delete-choice" type="button" (click)="deleteDay(list)">-</button>
           </div>
 
+          </div>
         </form>
-      </div>
-
-
-    </div>
 
     <div style="display:flex; justify-content:flex-end; align-items:center;">
       <button [disabled]="!updateForm.valid || !(openingHoursList.length > 0) || !(discounts.length > 0)" class="btn btn-primary submit" type="submit" style="margin-right: 1%">

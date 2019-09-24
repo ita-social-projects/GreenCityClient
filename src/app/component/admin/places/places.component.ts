@@ -121,7 +121,7 @@ export class PlacesComponent implements OnInit {
 
   openDialog(placeId: number): void {
     const dialogRef = this.dialog.open(UpdateCafeComponent, {
-      width: '1400px',
+      width: '800px',
       data: placeId
     });
 

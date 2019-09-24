@@ -24,7 +24,7 @@ export class NavBarComponent implements OnInit {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(ProposeCafeComponent, {
-      width: '1400px'
+      width: '800px'
     });
 
     dialogRef.afterClosed().subscribe(result => {

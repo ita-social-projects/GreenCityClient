@@ -202,10 +202,10 @@ export class ProposeCafeComponent implements OnInit {
     this.place.discounts = this.discounts;
     this.place.category.name = this.name;
     this.place.discounts = this.discounts;
-    this.location.address = this.address;
-    this.location.lat = this.latitude;
-    this.location.lng = this.longitude;
-    this.place.location = this.location;
+    this.place.location.address = this.address;
+    this.place.location.lat = this.latitude;
+    this.place.location.lng = this.longitude;
+    // this.place.location = this.location;
     this.place.name = this.placeName;
     console.log(this.place);
     this.placeService.save(this.place);
