@@ -24,13 +24,18 @@ import {AdminModule} from './component/admin/admin.module';
 import {NgFlashMessagesModule} from 'ng-flash-messages';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FilterComponent} from './component/filter/filter.component';
-import {EditFavoriteNameComponent, FavoritePlaceComponent} from './component/user/favorite-place/favorite-place.component';
+import {
+  EditFavoriteNameComponent,
+  FavoritePlaceComponent
+} from './component/user/favorite-place/favorite-place.component';
 import {AuthServiceConfig, SocialLoginModule} from 'angularx-social-login';
 import {AgmDirectionModule} from 'agm-direction';
 import {DatePipe} from '@angular/common';
 import {
+  MAT_DIALOG_DEFAULT_OPTIONS,
   MatButtonModule,
-  MatDialogModule,
+  MatCheckboxModule,
+  MatDialogModule, MatDialogRef,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
@@ -41,13 +46,10 @@ import {
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
 import {Ng5SliderModule} from 'ng5-slider';
 import {provideConfig} from './config/GoogleAuthConfig';
-import {FavoritePlaceModalComponent, FvPlaceTableComponent} from './component/user/favorite-place/fvplace-table';
-import {MAT_DIALOG_DEFAULT_OPTIONS, MatCheckboxModule, MatDialogModule, MatTableModule} from '@angular/material';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AdminComponent,
     UserComponent,
     GeneralComponent,
     SignUpComponent,
@@ -92,7 +94,7 @@ import {MAT_DIALOG_DEFAULT_OPTIONS, MatCheckboxModule, MatDialogModule, MatTable
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
     MatCheckboxModule
   ],
   entryComponents: [ProposeCafeComponent, FavoritePlaceComponent, EditFavoriteNameComponent],
@@ -103,9 +105,10 @@ import {MAT_DIALOG_DEFAULT_OPTIONS, MatCheckboxModule, MatDialogModule, MatTable
       useClass: InterceptorService,
       multi: true
     },
-
-    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
-
+    { provide: MatDialogRef, useValue: {} },
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: {hasBackdrop: false}
     },
     {
       provide: AuthServiceConfig,

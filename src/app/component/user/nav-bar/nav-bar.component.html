@@ -17,11 +17,9 @@
 
 
       <li class="nav-item">
-      <app-dialog-favorite-place></app-dialog-favorite-place>
-        <button (click)="openDialog()" mat-button type="button" class="btn default" style="color: white;"
-                *ngIf="userRole === 'ROLE_USER'">
-          Add cafe
-        </button>
+      <a class="nav-link"
+         *ngIf="userRole === 'ROLE_USER'"
+         (click)="openDialogProposeCafeComponent()">Add cafe</a>
       </li>
 
       <div *ngIf="firstName!=null">

@@ -13,35 +13,29 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
   MatCheckboxModule,
-  MatDialogModule,
+  MatDialogModule, MatDialogRef,
+  MatIconModule,
   MatPaginatorModule,
   MatSelectModule
 } from '@angular/material';
-import { MatSortModule } from '@angular/material/sort';
-import { PaginationModule } from 'ngx-bootstrap';
-import {MatCheckboxModule, MatIconModule, MatPaginatorModule, MatSelectModule} from '@angular/material';
 import {MatSortModule} from '@angular/material/sort';
 import {PaginationModule} from 'ngx-bootstrap';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { UpdateCafeComponent } from './update-cafe/update-cafe.component';
+import {UpdateCafeComponent} from './update-cafe/update-cafe.component';
 import {NgSelectModule} from "@ng-select/ng-select";
 import {AgmCoreModule} from "@agm/core";
 import {FormsModule} from "@angular/forms";
-import {ProposeCafeComponent} from "../user/propose-cafe/propose-cafe.component";
-import {HTTP_INTERCEPTORS} from "@angular/common/http";
-import {InterceptorService} from "../../service/interceptor.service";
-import {AppComponent} from "../../app.component";
-import {AdminComponent} from "./admin.component";
 import {RouterModule} from '@angular/router';
-import {FormsModule} from '@angular/forms';
 import {ConfirmModalComponent} from './confirm-modal/confirm-modal.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ConfirmationDialogService} from './confirm-modal/confirmation-dialog-service.service';
+import {AdminComponent} from "./admin.component";
 
 @NgModule({
-  declarations: [AdminNavComponent, PlacesComponent, UsersComponent, ErrorComponent, ConfirmModalComponent, UpdateCafeComponent],
+  declarations: [AdminNavComponent, AdminComponent,  PlacesComponent, UsersComponent, ErrorComponent, ConfirmModalComponent, UpdateCafeComponent],
   exports: [
     AdminNavComponent,
+    AdminComponent,
     UsersComponent,
     PlacesComponent,
     ErrorComponent,
@@ -76,14 +70,10 @@ import {ConfirmationDialogService} from './confirm-modal/confirmation-dialog-ser
       libraries: ['places']
     }),
   ],
-  providers: [ConfirmationDialogService],
-  entryComponents: [ConfirmModalComponent]
-  ],
   providers: [
-    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
-  ],
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}, { provide: MatDialogRef, useValue: {} }, ConfirmationDialogService],
+  entryComponents: [ConfirmModalComponent, UpdateCafeComponent],
   bootstrap: [AdminComponent],
-  entryComponents: [UpdateCafeComponent]
 })
 export class AdminModule {
 }

@@ -48,7 +48,7 @@ export class PlacesComponent implements OnInit {
 
   constructor(
     private placeService: PlaceService, private titleService: Title, private ngFlashMessageService: NgFlashMessageService,
-    private confirmationDialogService: ConfirmationDialogService) {
+    private confirmationDialogService: ConfirmationDialogService, public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -264,6 +264,14 @@ export class PlacesComponent implements OnInit {
     });
   }
 
+  onGetPlaces() {
+    this.placeService.getPlacesByStatus(this.defaultStatus, this.getCurrentPaginationSettings()).subscribe(res => {
+      this.places = res.page;
+      this.page = res.currentPage;
+      this.totalItems = res.totalElements;
+    });
+  }
+
   onKeydown() {
     this.filterByRegex(this.searchReg);
   }
@@ -275,10 +283,6 @@ export class PlacesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => result === this.onGetPlaces());
-  }
-
-  sendFunction() {
-    this.event.emit(this.onGetPlaces());
   }
 
 }

@@ -48,9 +48,9 @@ export class UpdateCafeComponent implements OnInit {
   specifications: any;
   category: CategoryDto;
   string: null;
-  latitude: number;
-  longitude: number;
-  zoom: number;
+  latitude = 49.841795;
+  longitude =24.031706;
+  zoom = 13;
   private geoCoder;
   submitButtonEnabled: boolean;
   isBreakTime = false;
@@ -70,15 +70,20 @@ export class UpdateCafeComponent implements OnInit {
   ngOnInit() {
     this.placeService.getPlaceByID(this.data).subscribe(data => {
       this.place = data;
+      this.address = this.place.location.address;
+      this.latitude = data.location.lat;
+      console.log(this.latitude);
+      this.longitude = data.location.lng;
+      this.zoom = 15;
       console.log(data);
-      this.openingHoursList=data.openingHoursList;
+      this.openingHoursList = data.openingHoursList;
       this.discounts = data.discounts;
       this.placeName = data.name;
       this.name = this.place.category.name;
-      this.address = this.place.location.address;
-
-      this.openingHoursList.forEach(day=>{this.removeDay(day);});
-      this.weekDays=this.weekDaysNew;
+      this.openingHoursList.forEach(day => {
+        this.removeDay(day);
+      });
+      this.weekDays = this.weekDaysNew;
     });
 
     this.categoryService.findAllCategory().subscribe(data => {
@@ -94,7 +99,6 @@ export class UpdateCafeComponent implements OnInit {
 
     // load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
-      // this.setCurrentLocation();
       this.geoCoder = new google.maps.Geocoder();
 
       const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
@@ -111,9 +115,9 @@ export class UpdateCafeComponent implements OnInit {
           }
 
           //  set latitude, longitude and zoom
-          this.latitude = place.geometry.location.lat();
-          this.longitude = place.geometry.location.lng();
-          this.zoom = 12;
+          // this.latitude = place.geometry.location.lat();
+          // this.longitude = place.geometry.location.lng();
+
         });
       });
     });
@@ -135,7 +139,7 @@ export class UpdateCafeComponent implements OnInit {
           this.discounts.push(discount1);
         }
       }
-    }else {
+    } else {
       for (let i = 0; i < this.discounts.length; i++) {
         for (let j = i + 1; j < this.discounts.length; i++) {
           if (discount1.specification.name == this.discounts[i].specification.name ||
@@ -184,8 +188,10 @@ export class UpdateCafeComponent implements OnInit {
     console.log(this.openingHoursList);
     this.isBreakTime = false;
   }
+
   weekDaysNew: WeekDays[] = [];
-  removeDay(openingHours1){
+
+  removeDay(openingHours1) {
     this.weekDays.forEach(val => {
       if (val !== openingHours1.weekDay) {
         this.weekDaysNew.push(val);
@@ -204,7 +210,7 @@ export class UpdateCafeComponent implements OnInit {
   }
 
   delete(discount: DiscountDto) {
-    this.place.discounts = this.place.discounts.filter(item => item !== discount);
+    this.discounts = this.discounts.filter(item => item !== discount);
   }
 
   onSubmit() {
@@ -217,13 +223,13 @@ export class UpdateCafeComponent implements OnInit {
       this.place.category.name = this.name;
       this.place.discounts = this.discounts;
       this.place.location.address = this.address;
-      // this.place.location.lat = this.latitude;
-      // this.place.location.lng = this.longitude;
+      this.place.location.lat = this.latitude;
+      this.place.location.lng = this.longitude;
       this.place.name = this.placeName;
       console.log(this.place);
       this.placeService.updatePlace(this.place);
-      this.dialogRef.close();
     });
+    this.dialogRef.close();
   }
 
   markerDragEnd($event: MouseEvent) {

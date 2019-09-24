@@ -69,9 +69,9 @@
             <br>
 
             <div class="sub-2" #map>
-            <agm-map [latitude]="place.location.lat" [longitude]="place.location.lng" [zoom]="zoom" [style.width.px]="map.offsetWidth"
+            <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" [style.width.px]="map.offsetWidth"
                      [style.height.px]="map.offsetHeight">
-              <agm-marker [latitude]="place.location.lat" [longitude]="place.location.lng" [markerDraggable]="true"
+              <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
                           (dragEnd)="markerDragEnd($event)"></agm-marker>
             </agm-map>
             </div>
@@ -117,7 +117,7 @@
                     style="margin-top: 2%" (click)="addDiscountAndSpecification(nameOfSpecification, value)">Add discount
             </button>
 
-            <div class="choice" *ngFor="let list of place.discounts">
+            <div class="choice" *ngFor="let list of discounts">
               <b>{{list.specification.name}}</b> discount: <b>{{list.value}}%</b>
               <button class="delete-choice" type="button" (click)="delete(list)">-</button>
             </div>

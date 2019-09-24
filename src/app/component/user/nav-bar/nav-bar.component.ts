@@ -3,9 +3,6 @@ import {ModalService} from '../_modal/modal.service';
 import {UserService} from '../../../service/user/user.service';
 import {MatDialog} from '@angular/material';
 import {FavoritePlaceComponent} from '../favorite-place/favorite-place.component';
-import {ModalService} from "../_modal/modal.service";
-import {UserService} from "../../../service/user/user.service";
-import {MatDialog} from "@angular/material";
 import {ProposeCafeComponent} from "../propose-cafe/propose-cafe.component";
 
 @Component({
@@ -24,12 +21,6 @@ export class NavBarComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(FavoritePlaceComponent, {
        width: '700px',
-      //   data: {name: this.name, animal: this.animal},
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      //  this.animal = result;
     });
   }
 
@@ -38,7 +29,7 @@ export class NavBarComponent implements OnInit {
     this.userRole = this.uService.getUserRole();
   }
 
-  openDialog(): void {
+  openDialogProposeCafeComponent(): void {
     const dialogRef = this.dialog.open(ProposeCafeComponent, {
       width: '800px'
     });

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Place} from '../../model/place/place';
 import {PlaceInfo} from '../../model/place/place-info';
@@ -12,9 +12,6 @@ import {FilterPlaceService} from '../filtering/filter-place.service';
 import {FilterPlaceDtoModel} from '../../model/filtering/filter-place-dto.model';
 import {AdminPlace} from '../../model/place/admin-place.model';
 import {BulkUpdatePlaceStatus} from '../../model/place/bulk-update-place-status.model';
-import {mainLink} from '../../links';
-import {NgFlashMessageService} from "ng-flash-messages";
-import {PlaceAddDto} from "../../model/placeAddDto.model";
 import {PlaceUpdatedDto} from "../../model/place/placeUpdatedDto.model";
 
 @Injectable({
@@ -59,9 +56,7 @@ export class PlaceService {
   }
 
   save(place: PlaceAddDto) {
-    // this.http.post(`${this.baseUrl}propose/`, place).subscribe(
-    this.http.post(`http://localhost:8080/place/propose/`, place).subscribe(
-
+    this.http.post(`${placeLink}propose/`, place).subscribe(
       () => {
         this.ngFlashMessageService.showFlashMessage({
           messages: ["Cafe " + place.name + " was added for approving."],
@@ -141,11 +136,28 @@ export class PlaceService {
   }
 
   getPlaceByID(id: number): Observable<PlaceUpdatedDto> {
-    return this.http.get<PlaceUpdatedDto>(`http://localhost:8080/place/about/${id}`);
+    return this.http.get<PlaceUpdatedDto>(`${placeLink}about/${id}`);
   }
 
   updatePlace(updatedPlace: PlaceUpdatedDto) {
-    return this.http.put<PlaceUpdatedDto>(`http://localhost:8080/place/update`, updatedPlace).subscribe(
-      data => console.log("Done"));
+    return this.http.put<PlaceUpdatedDto>(`${placeLink}update`, updatedPlace).subscribe(
+      () => {
+        this.ngFlashMessageService.showFlashMessage({
+          messages: ['Cafe ' + updatedPlace.name + ' was updated.'],
+          dismissible: true,
+          timeout: 3000,
+          type: 'success'
+        });
+        console.log(updatedPlace);
+      }, error => {
+        this.ngFlashMessageService.showFlashMessage({
+          messages: ['Cafe ' + updatedPlace.name + ' was not updated.'],
+          dismissible: true,
+          timeout: 3000,
+          type: 'danger'
+        });
+      }
+    );
   }
 }
+

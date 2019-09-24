@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Inject, NgZone, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, NgZone, OnInit, Output, ViewChild} from '@angular/core';
 import {OpeningHours} from "../../../model/openingHours.model";
 import {PlaceAddDto} from "../../../model/placeAddDto.model";
 import {CategoryDto} from "../../../model/category.model";
@@ -13,11 +13,10 @@ import {NgSelectComponent} from "@ng-select/ng-select";
 import {MapsAPILoader, MouseEvent} from "@agm/core";
 import {PlaceService} from "../../../service/place/place.service";
 import {BreakTimes} from "../../../model/breakTimes.model";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material";
+import {MatDialogRef} from "@angular/material";
 import {SpecificationService} from "../../../service/specification.service";
 import {DiscountDto} from "../../../model/discount/DiscountDto";
 import {SpecificationNameDto} from "../../../model/specification/SpecificationNameDto";
-import {Specification} from "../../../model/specification/specification";
 
 @Component({
   selector: 'app-propose-cafe',
@@ -55,9 +54,8 @@ export class ProposeCafeComponent implements OnInit {
   @Output() newPlaceEvent = new EventEmitter<PlaceWithUserModel>();
   @ViewChild('saveForm', {static: true}) private saveForm: NgForm;
   @ViewChild(NgSelectComponent, {static: true}) ngSelectComponent: NgSelectComponent;
-  @ViewChild('search', {static: true})
   @ViewChild('choice', {static: true}) private choice: any;
-
+  @ViewChild('search', {static: true})
   public searchElementRef: ElementRef;
 
   // addTypeCategory = (term) => ({name: term});.
@@ -106,7 +104,7 @@ export class ProposeCafeComponent implements OnInit {
           //  set latitude, longitude and zoom
           this.latitude = place.geometry.location.lat();
           this.longitude = place.geometry.location.lng();
-          this.zoom = 12;
+          this.zoom = 15;
         });
       });
     });
@@ -118,7 +116,6 @@ export class ProposeCafeComponent implements OnInit {
     let specification = new SpecificationNameDto();
     specification.name = nameOfSpecification;
     discount1.specification = specification;
-    // this.discounts.push(discount1);
     if (this.discounts.length == 0) {
       this.discounts.push(discount1);
       console.log(this.discounts);
@@ -127,8 +124,6 @@ export class ProposeCafeComponent implements OnInit {
       for (let i = 0; i < this.discounts.length; i++) {
         if (discount1.specification.name !== this.discounts[i].specification.name) {
           this.discounts.push(discount1);
-        } else {
-          alert("Already exists.");
         }
       }
     }else {
@@ -196,16 +191,15 @@ export class ProposeCafeComponent implements OnInit {
   }
 
   onSubmit() {
-
     this.submitButtonEnabled = false;
     this.place.openingHoursList = this.openingHoursList;
     this.place.discounts = this.discounts;
     this.place.category.name = this.name;
     this.place.discounts = this.discounts;
-    this.place.location.address = this.address;
-    this.place.location.lat = this.latitude;
-    this.place.location.lng = this.longitude;
-    // this.place.location = this.location;
+    this.location.address = this.address;
+    this.location.lat = this.latitude;
+    this.location.lng = this.longitude;
+    this.place.location = this.location;
     this.place.name = this.placeName;
     console.log(this.place);
     this.placeService.save(this.place);
