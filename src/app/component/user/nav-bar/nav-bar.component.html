@@ -4,7 +4,7 @@
 
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="/">GreenCity</a>
+        <a class="nav-link" routerLink="/">GreenCity</a>
       </li>
     </ul>
 
@@ -24,18 +24,20 @@
         </button>
       </li>
 
-        <div *ngIf="firstName!=null">
-          <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
-             aria-haspopup="true" aria-expanded="false">{{firstName}}</a>
+      <div *ngIf="firstName!=null">
+        <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">{{firstName}}</a>
 
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item"
-               *ngIf="userRole == 'ROLE_ADMIN' || userRole == 'ROLE_MODERATOR'"
-               href="/admin">Admin</a>
-            <a class="dropdown-item" (click)="signOut()">Sign-out</a>
-          </div>
-
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item"
+             *ngIf="userRole == 'ROLE_ADMIN' || userRole == 'ROLE_MODERATOR'"
+             routerLink="/admin">Admin</a>
+          <a class="dropdown-item"
+             (click)="openDialog()">Favorite places</a>
+          <a class="dropdown-item" (click)="signOut()">Sign-out</a>
         </div>
+
+      </div>
 
       <a *ngIf="firstName==null" class="nav-link" routerLink="/auth/">Sing in</a>
 
@@ -44,4 +46,9 @@
   </div>
 
 </nav>
+
+<!-- Modal Window-->
+<app-modal id="custom-_modal-1">
+  <app-propose-cafe></app-propose-cafe>
+</app-modal>
 

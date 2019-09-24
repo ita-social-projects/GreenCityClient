@@ -12,4 +12,5 @@ export class AdminPlace {
   openingHoursList: Array<OpenHours>;
   modifiedDate: string;
   status: string;
+  isSelected: boolean;
 }

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {UserOwnSignUp} from "../model/user-own-sign-up";
-import {userOwnSignUpLink} from "../links";
+import {HttpClient} from '@angular/common/http';
+import {UserOwnSignUp} from '../model/user-own-sign-up';
+import {userOwnSignUpLink} from '../links';
 
 @Injectable({
   providedIn: 'root'
@@ -12,20 +12,20 @@ export class UserOwnSignUpService {
   }
 
   public signUp(userOwnRegister: UserOwnSignUp) {
-    if (userOwnRegister.firstName == undefined) {
-      console.log("First name is empty");
+    if (userOwnRegister.firstName === undefined) {
+      console.log('First name is empty');
       return;
     }
-    if (userOwnRegister.lastName == undefined) {
-      console.log("First name is empty");
+    if (userOwnRegister.lastName === undefined) {
+      console.log('First name is empty');
       return;
     }
-    if (userOwnRegister.email == undefined) {
-      console.log("First name is empty");
+    if (userOwnRegister.email === undefined) {
+      console.log('First name is empty');
       return;
     }
-    if (userOwnRegister.password == undefined) {
-      console.log("First name is empty");
+    if (userOwnRegister.password === undefined) {
+      console.log('First name is empty');
       return;
     }
 

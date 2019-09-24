@@ -5,6 +5,7 @@ import {UserService} from '../../../service/user/user.service';
 import {Title} from '@angular/platform-browser';
 import {NgFlashMessageService} from 'ng-flash-messages';
 import {MatSort, MatTableDataSource} from '@angular/material';
+import {HttpErrorResponse} from '@angular/common/http';
 
 export interface Role {
   value: string;
@@ -24,6 +25,8 @@ export class UsersComponent implements OnInit {
   totalItems: number;
   dataSource = new MatTableDataSource<UserForListDtoModel>();
   roles: Role[];
+  searchReg: string;
+  flag = true;
 
   sortParam = '&sort=email';
   userEmail = this.userService.getUserEmail();
@@ -37,7 +40,7 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
     this.getRoles();
-    this.getUsersByPage(this.sortParam);
+    this.filterByRegex(this.sortParam);
     this.titleService.setTitle('Admin - Users');
   }
 
@@ -48,7 +51,9 @@ export class UsersComponent implements OnInit {
   updateUserStatus(id: number, userStatus: string, email: string) {
     this.userService.updateUserStatus(id, userStatus).subscribe((data) => {
       this.successfulAction(email + ' is ' + data.userStatus);
-      this.getUsersByPage(this.sortParam);
+      this.filterByRegex(this.sortParam);
+    }, (error: HttpErrorResponse) => {
+      this.errorMessage(error.error.message);
     });
   }
 
@@ -63,12 +68,15 @@ export class UsersComponent implements OnInit {
 
   changePage(event: any) {
     this.page = event.page - 1;
-    this.getUsersByPage(this.sortParam);
+    this.filterByRegex(this.sortParam);
   }
 
   changeRole(id: number, role: string, email: string) {
     this.userService.updateUserRole(id, role).subscribe((data) => {
       this.successfulAction('Role for ' + email + ' is updated to ' + role.substr(5));
+    }, (error: HttpErrorResponse) => {
+      this.errorMessage(error.error.message);
+      this.filterByRegex(this.sortParam);
     });
   }
 
@@ -78,6 +86,15 @@ export class UsersComponent implements OnInit {
       dismissible: true,
       timeout: 3000,
       type: 'success'
+    });
+  }
+
+  errorMessage(message: string) {
+    this.ngFlashMessageService.showFlashMessage({
+      messages: [message],
+      dismissible: true,
+      timeout: 3000,
+      type: 'danger'
     });
   }
 
@@ -95,10 +112,31 @@ export class UsersComponent implements OnInit {
     } else {
       this.sortParam = '&sort=email,ASC';
     }
-    this.getUsersByPage(this.sortParam);
+    this.filterByRegex(this.sortParam);
   }
 
   sortData(e) {
     this.sortByFirstName(e.direction, e.active);
+  }
+
+  filterByRegex(sort: string) {
+    this.userService.getByFilter(this.searchReg, this.getCurrentPaginationSettings(sort)).subscribe(res => {
+      this.users = res.page;
+      this.page = res.currentPage;
+      this.totalItems = res.totalElements;
+      this.dataSource.data = this.users;
+    });
+  }
+
+  onKeydown() {
+    if ((this.searchReg === undefined) || (this.searchReg === '')) {
+      if (this.flag) {
+        this.flag = false;
+        this.filterByRegex(this.sortParam);
+      }
+    } else {
+      this.flag = true;
+      this.filterByRegex(this.sortParam);
+    }
   }
 }

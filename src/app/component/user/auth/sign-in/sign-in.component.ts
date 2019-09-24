@@ -1,8 +1,12 @@
-import {Component, OnInit} from "@angular/core";
-import {UserOwnSignInService} from "../../../../service/user-own-sign-in.service";
-import {UserOwnSignIn} from "../../../../model/user-own-sign-in";
-import {HttpErrorResponse} from "@angular/common/http";
-import {UserSuccessSignIn} from "../../../../model/user-success-sign-in";
+import {Component, OnInit} from '@angular/core';
+import {UserOwnSignInService} from '../../../../service/user-own-sign-in.service';
+import {UserOwnSignIn} from '../../../../model/user-own-sign-in';
+import {HttpErrorResponse} from '@angular/common/http';
+import {UserSuccessSignIn} from '../../../../model/user-success-sign-in';
+
+import {Router} from '@angular/router';
+import {AuthService, GoogleLoginProvider} from 'angularx-social-login';
+import {GoogleSignInService} from '../../../../service/google-sign-in.service';
 
 
 @Component({
@@ -20,7 +24,11 @@ export class SignInComponent implements OnInit {
 
   private backEndError: string;
 
-  constructor(private service: UserOwnSignInService) {
+  constructor(private service: UserOwnSignInService,
+              private rout: Router,
+              private authService: AuthService,
+              private googleService: GoogleSignInService
+  ) {
   }
 
   ngOnInit() {
@@ -36,20 +44,16 @@ export class SignInComponent implements OnInit {
     this.service.signIn(userOwnSignIn).subscribe(
       (data: UserSuccessSignIn) => {
         this.loadingAnim = false;
-        window.localStorage.setItem("firstName", data.firstName);
-        window.localStorage.setItem("accessToken", data.accessToken);
-        window.localStorage.setItem("refreshToken", data.refreshToken);
-        window.location.href = "/";
+        this.service.saveUserToLocalStorage(data);
+        window.location.href = '/';
 
       },
       (errors: HttpErrorResponse) => {
-
-        console.log(errors);
         try {
           errors.error.forEach(error => {
-            if (error.name == 'email') {
+            if (error.name === 'email') {
               this.emailErrorMessageBackEnd = error.message;
-            } else if (error.name == 'password') {
+            } else if (error.name === 'password') {
               this.passwordErrorMessageBackEnd = error.message;
             }
           });
@@ -59,6 +63,16 @@ export class SignInComponent implements OnInit {
         this.loadingAnim = false;
       }
     );
+  }
+
+  private signInWithGoogle() {
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((data) => {
+      this.googleService.signIn(data.idToken).subscribe((data1: UserSuccessSignIn) => {
+          this.service.saveUserToLocalStorage(data1);
+          window.location.href = '/';
+        }
+      );
+    });
   }
 
 }

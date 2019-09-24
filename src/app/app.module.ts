@@ -23,6 +23,24 @@ import {InterceptorService} from './service/interceptor.service';
 import {AdminModule} from './component/admin/admin.module';
 import {NgFlashMessagesModule} from 'ng-flash-messages';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {FilterComponent} from './component/filter/filter.component';
+import {EditFavoriteNameComponent, FavoritePlaceComponent} from './component/user/favorite-place/favorite-place.component';
+import {AuthServiceConfig, SocialLoginModule} from 'angularx-social-login';
+import {AgmDirectionModule} from 'agm-direction';
+import {DatePipe} from '@angular/common';
+import {
+  MatButtonModule,
+  MatDialogModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatSliderModule,
+  MatTableModule,
+  MatTreeModule
+} from '@angular/material';
+import {MDBBootstrapModule} from 'angular-bootstrap-md';
+import {Ng5SliderModule} from 'ng5-slider';
+import {provideConfig} from './config/GoogleAuthConfig';
 import {FavoritePlaceModalComponent, FvPlaceTableComponent} from './component/user/favorite-place/fvplace-table';
 import {MAT_DIALOG_DEFAULT_OPTIONS, MatCheckboxModule, MatDialogModule, MatTableModule} from '@angular/material';
 
@@ -39,9 +57,9 @@ import {MAT_DIALOG_DEFAULT_OPTIONS, MatCheckboxModule, MatDialogModule, MatTable
     SubmitEmailComponent,
     MapComponent,
     ProposeCafeComponent,
-    FvPlaceTableComponent,
-    FavoritePlaceModalComponent
-
+    FilterComponent,
+    FavoritePlaceComponent,
+    EditFavoriteNameComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,21 +67,35 @@ import {MAT_DIALOG_DEFAULT_OPTIONS, MatCheckboxModule, MatDialogModule, MatTable
     RouterModule.forRoot(router),
     HttpClientModule,
     FormsModule,
+    SocialLoginModule,
+    FormsModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI',
-      libraries: ['places']
+      libraries: ['places', 'geometry']
     }),
+    AgmDirectionModule,
     Ng2SearchPipeModule,
     AdminModule,
     NgFlashMessagesModule.forRoot(),
     NgSelectModule,
     MatTableModule,
+    MatIconModule,
+    MDBBootstrapModule,
     ModalModule,
     MatDialogModule,
     ReactiveFormsModule,
+    NgFlashMessagesModule.forRoot(),
+    MatSliderModule,
+    MatTreeModule,
+    Ng5SliderModule,
+    MatFormFieldModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule
     MatCheckboxModule
   ],
-  entryComponents: [ProposeCafeComponent],
+  entryComponents: [ProposeCafeComponent, FavoritePlaceComponent, EditFavoriteNameComponent],
 
   providers: [
     {
@@ -74,6 +106,12 @@ import {MAT_DIALOG_DEFAULT_OPTIONS, MatCheckboxModule, MatDialogModule, MatTable
 
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
 
+    },
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig
+    },
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

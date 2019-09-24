@@ -1,14 +1,5 @@
-ng-flash-message {
-  text-align: center;
-  width: 75%;
-}
-
-.flash-message {
-  display: flex;
-  justify-content: center;
-  height: 60px;
-  margin-top: 5px;
-  margin-bottom: 5px;
+nav {
+  margin-bottom: 10px;
 }
 
 a {

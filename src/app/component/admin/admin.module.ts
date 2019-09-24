@@ -8,7 +8,7 @@ import {UsersComponent} from './users/users.component';
 import {NgFlashMessagesModule} from 'ng-flash-messages';
 import {ErrorComponent} from '../general/error/error.component';
 import {BrowserModule} from '@angular/platform-browser';
-import {TableModule} from 'angular-bootstrap-md';
+import {IconsModule, TableModule} from 'angular-bootstrap-md';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
@@ -19,6 +19,9 @@ import {
 } from '@angular/material';
 import { MatSortModule } from '@angular/material/sort';
 import { PaginationModule } from 'ngx-bootstrap';
+import {MatCheckboxModule, MatIconModule, MatPaginatorModule, MatSelectModule} from '@angular/material';
+import {MatSortModule} from '@angular/material/sort';
+import {PaginationModule} from 'ngx-bootstrap';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { UpdateCafeComponent } from './update-cafe/update-cafe.component';
 import {NgSelectModule} from "@ng-select/ng-select";
@@ -29,9 +32,14 @@ import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {InterceptorService} from "../../service/interceptor.service";
 import {AppComponent} from "../../app.component";
 import {AdminComponent} from "./admin.component";
+import {RouterModule} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {ConfirmModalComponent} from './confirm-modal/confirm-modal.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {ConfirmationDialogService} from './confirm-modal/confirmation-dialog-service.service';
 
 @NgModule({
-  declarations: [AdminNavComponent, PlacesComponent, UsersComponent, ErrorComponent, UpdateCafeComponent],
+  declarations: [AdminNavComponent, PlacesComponent, UsersComponent, ErrorComponent, ConfirmModalComponent, UpdateCafeComponent],
   exports: [
     AdminNavComponent,
     UsersComponent,
@@ -50,6 +58,15 @@ import {AdminComponent} from "./admin.component";
     MatSelectModule,
     PaginationModule.forRoot(),
     BrowserAnimationsModule,
+    RouterModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    RouterModule,
+    MatIconModule,
+    IconsModule,
+    MatCheckboxModule,
+    FormsModule,
+    NgbModule,
     MatDialogModule,
     NgSelectModule,
     MatCheckboxModule,
@@ -59,10 +76,14 @@ import {AdminComponent} from "./admin.component";
       libraries: ['places']
     }),
   ],
+  providers: [ConfirmationDialogService],
+  entryComponents: [ConfirmModalComponent]
+  ],
   providers: [
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
   ],
   bootstrap: [AdminComponent],
   entryComponents: [UpdateCafeComponent]
 })
-export class AdminModule { }
+export class AdminModule {
+}

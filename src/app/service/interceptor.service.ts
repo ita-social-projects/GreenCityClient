@@ -1,17 +1,16 @@
-import {Injectable} from "@angular/core";
+import {Injectable} from '@angular/core';
 import {
   HttpClient,
-  HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest
-} from "@angular/common/http";
-import {Observable, throwError} from "rxjs";
-import {frontAuthLink, updateAccessTokenLink} from "../links";
-import {catchError, delay, map, switchMap} from "rxjs/operators";
-import {AccessToken} from "../model/access-token";
-import {JwtService} from "./jwt.service";
+} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {frontAuthLink, updateAccessTokenLink} from '../links';
+import {switchMap} from 'rxjs/operators';
+import {AccessToken} from '../model/access-token';
+import {JwtService} from './jwt.service';
 
 
 @Injectable({
@@ -23,34 +22,25 @@ export class InterceptorService implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (req.url != updateAccessTokenLink) {
-      let accessToken = this.jwtService.getAccessToken();
+    if (!req.url.includes(updateAccessTokenLink)) {
+      const accessToken = this.jwtService.getAccessToken();
       if (accessToken != null) {
-        console.log("access token != null");
         if (this.jwtService.isTokenValid(accessToken)) {
-          console.log("access token is valid");
           req = this.addAccessTokenToHeader(req, accessToken);
           return next.handle(req);
         } else {
-          console.log("access token is invalid");
-          let refreshToken = this.jwtService.getRefreshToken();
+          const refreshToken = this.jwtService.getRefreshToken();
           if (refreshToken != null) {
-            console.log("refresh token != null");
             if (this.jwtService.isTokenValid(refreshToken)) {
-              console.log("refresh token is valid");
-
               return this.getNewAccessToken(refreshToken).pipe(
                 switchMap((data: AccessToken) => {
-                  console.log(data);
                   this.jwtService.saveAccessToken(data.accessToken);
                   req = this.addAccessTokenToHeader(req, data.accessToken);
-                  console.log(req);
                   return next.handle(req);
                 })
               );
             } else {
               localStorage.clear();
-              console.log("front: bad refresh token");
               window.location.href = frontAuthLink;
             }
           }
@@ -63,8 +53,9 @@ export class InterceptorService implements HttpInterceptor {
     }
   }
 
-  private getNewAccessToken(refreshToken): Observable<any> {
-    return this.http.post(updateAccessTokenLink, refreshToken);
+  private getNewAccessToken(refreshToken: string): Observable<any> {
+    console.log('update access Token');
+    return this.http.get(`${updateAccessTokenLink}?refreshToken=${refreshToken}`);
   }
 
   private addAccessTokenToHeader(req: HttpRequest<any>, accessToken: string) {
