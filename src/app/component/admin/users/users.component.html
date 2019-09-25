@@ -17,7 +17,7 @@
                class="mat-elevation-z8">
           <!-- Position Column -->
           <ng-container matColumnDef="email">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header [matMenuTriggerFor]="menu" >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header [matMenuTriggerFor]="menu">
               Email
             </th>
             <td mat-cell id="emailColumn" *matCellDef="let element"
@@ -38,8 +38,8 @@
           </ng-container>
           <!-- Name Column -->
           <ng-container matColumnDef="lastName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header [matMenuTriggerFor]="menu" >
-             Last Name
+            <th mat-header-cell *matHeaderCellDef mat-sort-header [matMenuTriggerFor]="menu">
+              Last Name
             </th>
             <td mat-cell *matCellDef="let element" id="lastNameColumn"
                 [class.blueColumn]="adminService.staticSortColumn==='lastName'">
@@ -48,17 +48,16 @@
           </ng-container>
 
           <ng-container matColumnDef="dateOfRegistration">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header [matMenuTriggerFor]="menu" >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header [matMenuTriggerFor]="menu">
               Date of registration
-
             </th>
             <td mat-cell *matCellDef="let element" id="dateOfRegistrationColumn"
                 [class.blueColumn]="adminService.staticSortColumn==='dateOfRegistration'">
-              > {{element.dateOfRegistration}} </td>
+              {{element.dateOfRegistration|date: "yyyy-dd-MM HH:mm"}} </td>
           </ng-container>
 
           <ng-container matColumnDef="role">
-            <th mat-header-cell *matHeaderCellDef ></th>
+            <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let element">
               <div class="selectRole">
                 <mat-select [(value)]="element.role"
@@ -73,7 +72,7 @@
           </ng-container>
 
           <ng-container matColumnDef="block">
-            <th mat-header-cell *matHeaderCellDef >Actions</th>
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
             <td mat-cell *matCellDef="let element">
               <button *ngIf="element.userStatus != 'BLOCKED' && element.userStatus != 'DEACTIVATED'" mat-raised-button
                       class="btn btn-outline-warning"
@@ -88,7 +87,7 @@
           </ng-container>
 
           <ng-container matColumnDef="deactivate">
-            <th mat-header-cell *matHeaderCellDef ></th>
+            <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let element">
               <button *ngIf="element.userStatus != 'DEACTIVATED'" mat-raised-button class="btn btn-outline-danger"
                       (click)="updateUserStatus(element.id, 'DEACTIVATED', element.email)"
