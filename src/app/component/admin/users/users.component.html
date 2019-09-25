@@ -12,8 +12,8 @@
       <div class="table-responsive" style="padding: 1%">
         <table mat-table
                [dataSource]="dataSource" matSort (matSortChange)="selectColumnToSort($event)"
-               matSortActive="{{adminService.staticSortColumn}}"
-               matSortDirection="{{adminService.staticSortDirection}}"
+               matSortActive="{{sortColumn}}"
+               matSortDirection="{{sortDirection}}"
                class="mat-elevation-z8">
           <!-- Position Column -->
           <ng-container matColumnDef="email">
@@ -21,7 +21,7 @@
               Email
             </th>
             <td mat-cell id="emailColumn" *matCellDef="let element"
-                [class.blueColumn]="adminService.staticSortColumn==='email'">
+                [class.blueColumn]="sortColumn==='name'">
               {{element.email}}
             </td>
 
@@ -32,7 +32,7 @@
               First Name
             </th>
             <td mat-cell id="firstNameColumn" *matCellDef="let element"
-                [class.blueColumn]="adminService.staticSortColumn==='firstName'">
+                [class.blueColumn]="sortColumn==='firstName'">
               {{element.firstName}}
             </td>
           </ng-container>
@@ -42,7 +42,7 @@
               Last Name
             </th>
             <td mat-cell *matCellDef="let element" id="lastNameColumn"
-                [class.blueColumn]="adminService.staticSortColumn==='lastName'">
+                [class.blueColumn]="sortColumn==='lastName'">
               {{element.lastName}}
             </td>
           </ng-container>
@@ -52,7 +52,7 @@
               Date of registration
             </th>
             <td mat-cell *matCellDef="let element" id="dateOfRegistrationColumn"
-                [class.blueColumn]="adminService.staticSortColumn==='dateOfRegistration'">
+                [class.blueColumn]="sortColumn==='dateOfRegistration'">
               {{element.dateOfRegistration|date: "yyyy-dd-MM HH:mm"}} </td>
           </ng-container>
 
