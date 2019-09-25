@@ -8,7 +8,6 @@ import {MatTableDataSource} from '@angular/material';
 import {PlaceStatus} from '../../../model/placeStatus.model';
 import {FilterPlaceDtoModel} from '../../../model/filtering/filter-place-dto.model';
 import {ConfirmationDialogService} from '../confirm-modal/confirmation-dialog-service.service';
-import {ProposeCafeComponent} from "../../user/propose-cafe/propose-cafe.component";
 import {MatDialog} from "@angular/material";
 import {PlaceUpdatedDto} from "../../../model/place/placeUpdatedDto.model";
 import {UpdateCafeComponent} from "../update-cafe/update-cafe.component";
@@ -38,13 +37,11 @@ export class PlacesComponent implements OnInit {
   flag = true;
   filterDto: FilterPlaceDtoModel;
   status: PlaceStatus;
-
-  allColumns = ['Checkbox', 'Category', 'Name', 'Location', 'Working hours', 'Added By', 'Added On', 'Status', 'Edit', 'Delete'];
+  sortParam = '&sort=modifiedDate';
+  allColumns = ['Checkbox', 'Category', 'Name', 'Location', 'Working hours', 'Added By', 'modifiedDate', 'Status', 'Edit', 'Delete'];
   displayedColumns: string[];
   displayedButtons: string[];
-
   defaultStatus = 'proposed';
-  @Output() event = new EventEmitter<any>();
 
   constructor(
     private placeService: PlaceService, private titleService: Title, private ngFlashMessageService: NgFlashMessageService,
@@ -264,14 +261,6 @@ export class PlacesComponent implements OnInit {
     });
   }
 
-  onGetPlaces() {
-    this.placeService.getPlacesByStatus(this.defaultStatus, this.getCurrentPaginationSettings()).subscribe(res => {
-      this.places = res.page;
-      this.page = res.currentPage;
-      this.totalItems = res.totalElements;
-    });
-  }
-
   onKeydown() {
     this.filterByRegex(this.searchReg);
   }
@@ -282,9 +271,10 @@ export class PlacesComponent implements OnInit {
       data: placeId
     });
 
-    dialogRef.afterClosed().subscribe(result => result === this.onGetPlaces());
+    dialogRef.afterClosed().subscribe(result => {
+      setInterval(() => this.filterByRegex(this.searchReg), 1000);
+    });
   }
-
 }
 
 

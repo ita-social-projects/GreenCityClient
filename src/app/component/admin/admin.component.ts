@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {UserService} from '../../service/user/user.service';
 import {HttpClient} from '@angular/common/http';
 import {Title} from '@angular/platform-browser';
+import {PlacesComponent} from "./places/places.component";
 
 @Component({
   selector: 'app-admin',
@@ -9,7 +10,6 @@ import {Title} from '@angular/platform-browser';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
-
   userRole: string;
 
   constructor(private http: HttpClient, private uService: UserService, private titleService: Title) {
