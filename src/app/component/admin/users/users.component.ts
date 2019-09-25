@@ -6,6 +6,8 @@ import {Title} from '@angular/platform-browser';
 import {NgFlashMessageService} from 'ng-flash-messages';
 import {MatSort, MatTableDataSource} from '@angular/material';
 import {HttpErrorResponse} from '@angular/common/http';
+import {AdminService} from '../../../service/admin/admin.service';
+
 
 export interface Role {
   value: string;
@@ -27,20 +29,26 @@ export class UsersComponent implements OnInit {
   roles: Role[];
   searchReg: string;
   flag = true;
+  selectedColumnToSort: string;
+  selectedDirectionToSort: string;
 
-  sortParam = '&sort=email';
+  sortParam = '&sort=' + this.adminService.staticSortColumn + ',' + this.adminService.staticSortDirection;
   userEmail = this.userService.getUserEmail();
   displayedColumns: string[] = ['email', 'firstName', 'lastName', 'dateOfRegistration', 'role', 'block', 'deactivate'];
 
   constructor(
-    private userService: UserService, private titleService: Title, private ngFlashMessageService: NgFlashMessageService) {
+    private userService: UserService, private titleService: Title, private ngFlashMessageService: NgFlashMessageService,
+    private adminService: AdminService) {
   }
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   ngOnInit() {
     this.getRoles();
-    this.filterByRegex(this.sortParam);
+    console.log('1=' + this.adminService.staticSortColumn + ' 2=' + this.adminService.staticSortDirection);
+    console.log('1=' + AdminService.sortColumn + ' 2=' + AdminService.sortDirection);
+
+    this.sortData(this.adminService.staticSortColumn, this.adminService.staticSortDirection);
     this.titleService.setTitle('Admin - Users');
   }
 
@@ -76,7 +84,7 @@ export class UsersComponent implements OnInit {
       this.successfulAction('Role for ' + email + ' is updated to ' + role.substr(5));
     }, (error: HttpErrorResponse) => {
       this.errorMessage(error.error.message);
-      this.filterByRegex(this.sortParam);
+      this.sortData(this.adminService.staticSortColumn, this.adminService.staticSortDirection);
     });
   }
 
@@ -104,27 +112,34 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  sortByFirstName(direction: string, active: string) {
-    if (direction === 'asc') {
-      this.sortParam = '&sort=' + active + ',ASC';
-    } else if (direction === 'desc') {
-      this.sortParam = '&sort=' + active + ',DESC';
-    } else {
-      this.sortParam = '&sort=email,ASC';
-    }
+
+  selectColumnToSort(e) {
+    this.selectedColumnToSort = e.active;
+  }
+
+  sortData(columnToSort: string, direction: string) {
+    this.sortParam = '&sort=' + columnToSort + ',' + direction;
+    this.selectedColumnToSort = columnToSort;
+    this.selectedDirectionToSort = direction;
     this.filterByRegex(this.sortParam);
   }
 
-  sortData(e) {
-    this.sortByFirstName(e.direction, e.active);
-  }
 
   filterByRegex(sort: string) {
+    console.log('in filterByRegex');
+    console.log('sort=' + sort);
+    console.log('sortc&d=' + AdminService.sortColumn + ' ' + AdminService.sortDirection);
     this.userService.getByFilter(this.searchReg, this.getCurrentPaginationSettings(sort)).subscribe(res => {
       this.users = res.page;
       this.page = res.currentPage;
       this.totalItems = res.totalElements;
       this.dataSource.data = this.users;
+      AdminService.staticSortColumn = this.selectedColumnToSort;
+      AdminService.staticSortDirection = this.selectedDirectionToSort;
+      AdminService.sortDirection = this.selectedDirectionToSort;
+      AdminService.sortColumn = this.selectedColumnToSort;
+      console.log('sortc&d=' + AdminService.sortColumn + ' ' + AdminService.sortDirection);
+
     });
   }
 
@@ -132,11 +147,13 @@ export class UsersComponent implements OnInit {
     if ((this.searchReg === undefined) || (this.searchReg === '')) {
       if (this.flag) {
         this.flag = false;
-        this.filterByRegex(this.sortParam);
+        this.sortData(this.selectedColumnToSort, this.selectedDirectionToSort);
       }
     } else {
       this.flag = true;
-      this.filterByRegex(this.sortParam);
+      this.sortData(this.selectedColumnToSort, this.selectedDirectionToSort);
     }
   }
 }
+
+

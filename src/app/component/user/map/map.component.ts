@@ -191,7 +191,7 @@ export class MapComponent implements OnInit {
 
   getList() {
     if (this.idFavoritePlace) {
-      console.log('in getList() -idFavoritePlace');
+      console.log('in getList(), setFP');
       this.setFavoritePlaceOnMap();
     } else {
       console.log('in getList()');

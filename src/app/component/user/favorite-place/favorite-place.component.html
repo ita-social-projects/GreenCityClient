@@ -5,7 +5,7 @@
       <mat-icon svgIcon="star-yellow"></mat-icon>
       Favorite places
     </h4>
-    <table mat-table [dataSource]="favoritePlaces" class="mat-elevation-z8" style="width: 100%">
+    <table mat-table [dataSource]="favoritePlaces" class="mat-elevation-z8" style="width: 100%;  overflow: auto;">
 
       <!-- Position Column -->
       <ng-container matColumnDef="Id">
@@ -35,7 +35,6 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
     </table>
-
     <div style="display:flex; justify-content:flex-end; align-items:center;">
       <button class="btn btn-danger submit" cdkfocusinitial="true" type="submit" (click)="onNoClick()">Close</button>
     </div>

@@ -52,8 +52,6 @@ export class PlaceService {
 
   getFilteredPlaces() {
     const filterDto = this.filterService.getFilters();
-    console.log("filterDto");
-    console.log(filterDto);
     this.http.post<Place[]>(`${placeLink}filter/`, filterDto).subscribe((res) => this.places = res);
   }
 
