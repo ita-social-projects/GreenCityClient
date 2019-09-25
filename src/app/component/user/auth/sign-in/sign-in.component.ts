@@ -7,6 +7,9 @@ import {UserSuccessSignIn} from '../../../../model/user-success-sign-in';
 import {Router} from '@angular/router';
 import {AuthService, GoogleLoginProvider} from 'angularx-social-login';
 import {GoogleSignInService} from '../../../../service/google-sign-in.service';
+import {MatDialog, MatDialogRef} from "@angular/material";
+import {RestoreComponent} from "../../restore/restore.component";
+import {EditFavoriteNameComponent} from "../../favorite-place/favorite-place.component";
 
 
 @Component({
@@ -27,7 +30,8 @@ export class SignInComponent implements OnInit {
   constructor(private service: UserOwnSignInService,
               private rout: Router,
               private authService: AuthService,
-              private googleService: GoogleSignInService
+              private googleService: GoogleSignInService,
+              public dialog: MatDialog,
   ) {
   }
 
@@ -73,6 +77,13 @@ export class SignInComponent implements OnInit {
         }
       );
     });
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(RestoreComponent, {
+        width: '550px',
+        height: '350px',
+      });
   }
 
 }

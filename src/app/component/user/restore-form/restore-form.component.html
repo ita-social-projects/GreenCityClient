@@ -1,0 +1,50 @@
+<div class="sign-up">
+
+  <form #registerForm="ngForm" (ngSubmit)="sendPasswords()">
+    <label for="password">Password</label>
+    <div class="validation-error" *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
+      <div *ngIf="passwordControl.errors.required">
+        Password name is required.
+      </div>
+      <div *ngIf="passwordControl.errors.minlength">
+        Password must be at least 8 characters long.
+      </div>
+    </div>
+    <div class="validation-error" *ngIf="passwordErrorMessageBackEnd!=null">
+      {{passwordErrorMessageBackEnd}}
+    </div>
+    <input id="password" type="password" class="form-control password" name="form-control password"
+           [(ngModel)]="restoreDto.password"
+           #passwordControl="ngModel"
+           required minlength="8">
+
+    <p></p>
+
+    <label for="password">Confirm password</label>
+    <div class="validation-error" *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
+      <div *ngIf="passwordControl.errors.required">
+        Password name is required.
+      </div>
+      <div *ngIf="passwordControl.errors.minlength">
+        Password must be at least 8 characters long.
+      </div>
+    </div>
+    <div class="validation-error" *ngIf="passwordErrorMessageBackEnd!=null">
+      {{passwordErrorMessageBackEnd}}
+    </div>
+    <input id="passwordConfirm" type="password" class="form-control password" name="form-control password"
+           [(ngModel)]="restoreDto.confirmPassword"
+           #passwordControl="ngModel"
+           required minlength="8">
+
+
+    <p></p>
+
+    <p></p>
+
+    <button class="btn btn-primary submit" [disabled]="!registerForm.valid" type="submit">
+      <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      Submit
+    </button>
+  </form>
+</div>
