@@ -142,7 +142,6 @@ export class ProposeCafeComponent implements OnInit {
       alert('Second time have to be late than first. Please, try again.');
       return;
     }
-
     let openingHours1 = new OpeningHours();
     openingHours1.closeTime = openingHours.closeTime;
     openingHours1.openTime = openingHours.openTime;
