@@ -7,7 +7,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AgmCoreModule} from '@agm/core';
 import {MapComponent} from './component/user/map/map.component';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
-import {AdminComponent} from './component/admin/admin.component';
 import {SignUpComponent} from './component/user/auth/sign-up/sign-up.component';
 import {NavBarComponent} from './component/user/nav-bar/nav-bar.component';
 import {GeneralComponent} from './component/general/general.component';
@@ -46,6 +45,8 @@ import {
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
 import {Ng5SliderModule} from 'ng5-slider';
 import {provideConfig} from './config/GoogleAuthConfig';
+import { RestoreComponent } from './component/user/restore/restore.component';
+import { RestoreFormComponent } from './component/user/restore-form/restore-form.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,8 @@ import {provideConfig} from './config/GoogleAuthConfig';
     FilterComponent,
     FavoritePlaceComponent,
     EditFavoriteNameComponent,
+    RestoreComponent,
+    RestoreFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -97,7 +100,7 @@ import {provideConfig} from './config/GoogleAuthConfig';
     MatButtonModule,
     MatCheckboxModule
   ],
-  entryComponents: [ProposeCafeComponent, FavoritePlaceComponent, EditFavoriteNameComponent],
+  entryComponents: [ProposeCafeComponent, FavoritePlaceComponent, EditFavoriteNameComponent, RestoreComponent],
 
   providers: [
     {
