@@ -19,6 +19,7 @@ import {MapsAPILoader, MouseEvent} from "@agm/core";
 import {PlaceUpdatedDto} from "../../../model/place/placeUpdatedDto.model";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 import {PlacesComponent} from "../places/places.component";
+import {timer} from "rxjs";
 
 @Component({
   selector: 'app-update-cafe',
@@ -49,7 +50,7 @@ export class UpdateCafeComponent implements OnInit {
   category: CategoryDto;
   string: null;
   latitude = 49.841795;
-  longitude =24.031706;
+  longitude = 24.031706;
   zoom = 13;
   private geoCoder;
   submitButtonEnabled: boolean;
@@ -80,10 +81,15 @@ export class UpdateCafeComponent implements OnInit {
       this.discounts = data.discounts;
       this.placeName = data.name;
       this.name = this.place.category.name;
-      this.openingHoursList.forEach(day => {
-        this.removeDay(day);
-      });
-      this.weekDays = this.weekDaysNew;
+
+      if (data.openingHoursList.length === 0) {
+        this.weekDays;
+      } else {
+        data.openingHoursList.forEach(day => {
+          this.removeDay(day);
+        });
+        this.weekDays = this.weekDaysNew;
+      }
     });
 
     this.categoryService.findAllCategory().subscribe(data => {
@@ -115,8 +121,9 @@ export class UpdateCafeComponent implements OnInit {
           }
 
           //  set latitude, longitude and zoom
-          // this.latitude = place.geometry.location.lat();
-          // this.longitude = place.geometry.location.lng();
+          this.latitude = place.geometry.location.lat();
+          this.longitude = place.geometry.location.lng();
+          this.zoom = 15;
         });
       });
     });

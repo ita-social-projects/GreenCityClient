@@ -129,9 +129,9 @@ export class PlaceService {
   filterByRegex(paginationSettings: string, filterDto: FilterPlaceDtoModel): Observable<PlacePageableDto> {
     if (filterDto.searchReg === undefined) {
       filterDto.searchReg = '%%';
-      return this.http.post<PlacePageableDto>(`${this.baseUrl}filter/predicate` + paginationSettings, filterDto);
+      return this.http.post<PlacePageableDto>(`${this.baseUrl}filter/predicate` + paginationSettings + `&sort=modifiedDate,desc`, filterDto);
     } else {
-      return this.http.post<PlacePageableDto>(`${this.baseUrl}filter/predicate` + paginationSettings, filterDto);
+      return this.http.post<PlacePageableDto>(`${this.baseUrl}filter/predicate` + paginationSettings + `&sort=modifiedDate,desc`, filterDto);
     }
   }
 
