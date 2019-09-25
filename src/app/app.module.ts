@@ -65,7 +65,7 @@ import {AdminService} from './service/admin/admin.service';
     FilterComponent,
     FavoritePlaceComponent,
     EditFavoriteNameComponent,
-    DeleteFavoriteComponent
+    DeleteFavoriteComponent,
     RestoreComponent,
     RestoreFormComponent,
   ],
@@ -103,8 +103,7 @@ import {AdminService} from './service/admin/admin.service';
     MatButtonModule,
     MatCheckboxModule
   ],
-  entryComponents: [ProposeCafeComponent, FavoritePlaceComponent, EditFavoriteNameComponent, DeleteFavoriteComponent],
-  entryComponents: [ProposeCafeComponent, FavoritePlaceComponent, EditFavoriteNameComponent, RestoreComponent],
+  entryComponents: [ProposeCafeComponent, FavoritePlaceComponent, EditFavoriteNameComponent, RestoreComponent, DeleteFavoriteComponent],
 
   providers: [
     {
