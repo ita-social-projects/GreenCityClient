@@ -1,0 +1,21 @@
+.sign-up {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  width: 30%;
+}
+
+.sign-up input {
+  width: 100%;
+}
+
+.submit {
+  display: table;
+  margin: auto;
+}
+
+.validation-error {
+  color: red;
+}
