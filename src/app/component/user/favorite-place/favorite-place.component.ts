@@ -66,7 +66,6 @@ export class FavoritePlaceComponent implements OnInit {
 
   openDialogDelete(idElement: number, nameElement: string): void {
     const dialogRef = this.dialog.open(DeleteFavoriteComponent, {
-        width: '250px',
         data: {placeId: idElement, name: nameElement}
 
       })

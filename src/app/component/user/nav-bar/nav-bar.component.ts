@@ -36,7 +36,6 @@ export class NavBarComponent implements OnInit {
 
   openDialogProposeCafeComponent(): void {
     const dialogRef = this.dialog.open(ProposeCafeComponent, {
-      width: '800px'
     });
 
     dialogRef.afterClosed().subscribe(result => {
