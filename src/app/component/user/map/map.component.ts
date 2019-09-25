@@ -169,6 +169,7 @@ export class MapComponent implements OnInit {
     if (!place.favorite) {
       this.favoritePlaceService.saveFavoritePlace(new FavoritePlace(place.id, place.name)).subscribe(res => {
           this.getFavoritePlaces();
+          this.changePlaceToFavoritePlace();
         }
       );
       place.favorite = true;
@@ -177,6 +178,7 @@ export class MapComponent implements OnInit {
     } else {
       this.favoritePlaceService.deleteFavoritePlace(place.id).subscribe(res => {
         this.getFavoritePlaces();
+        this.changePlaceToFavoritePlace();
       })
       ;
       place.favorite = false;
