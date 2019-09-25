@@ -1,0 +1,7 @@
+<div align="center"><div>
+  <p style="color:red; font-size: 130%; font-style: italic">Delete favorite place <b>{{data.name}}</b>?</p>
+  <button id="closeButton" mat-button [mat-dialog-close]="true" (click)="delete()" class="bg-success"
+        >Submit</button>
+  <button [mat-dialog-close] mat-button class="bg-danger" cdkfocusinitial="true"  type="submit" >Cancel</button>
+</div>
+</div>
