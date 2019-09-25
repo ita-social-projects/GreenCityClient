@@ -24,6 +24,7 @@ import {NgFlashMessagesModule} from 'ng-flash-messages';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FilterComponent} from './component/filter/filter.component';
 import {
+  DeleteFavoriteComponent,
   EditFavoriteNameComponent,
   FavoritePlaceComponent
 } from './component/user/favorite-place/favorite-place.component';
@@ -61,7 +62,8 @@ import {AdminService} from './service/admin/admin.service';
     ProposeCafeComponent,
     FilterComponent,
     FavoritePlaceComponent,
-    EditFavoriteNameComponent
+    EditFavoriteNameComponent,
+    DeleteFavoriteComponent
   ],
   imports: [
     BrowserModule,
@@ -97,7 +99,7 @@ import {AdminService} from './service/admin/admin.service';
     MatButtonModule,
     MatCheckboxModule
   ],
-  entryComponents: [ProposeCafeComponent, FavoritePlaceComponent, EditFavoriteNameComponent],
+  entryComponents: [ProposeCafeComponent, FavoritePlaceComponent, EditFavoriteNameComponent, DeleteFavoriteComponent],
 
   providers: [
     {
@@ -105,7 +107,7 @@ import {AdminService} from './service/admin/admin.service';
       useClass: InterceptorService,
       multi: true
     },
-    { provide: MatDialogRef, useValue: {} },
+    {provide: MatDialogRef, useValue: {}},
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: {hasBackdrop: false}

@@ -45,7 +45,7 @@ export class FavoritePlaceComponent implements OnInit {
     this.favoritePlaceService.findAllByUserEmail().subscribe((res) => this.favoritePlaces = res);
   }
 
-  delete(id: number) {// delete from table
+  delete(id: number) {
     console.log('fp delete');
     this.favoritePlaceService.deleteFavoritePlace(id).subscribe(() => this.showAll());
   }
@@ -53,6 +53,20 @@ export class FavoritePlaceComponent implements OnInit {
   openDialog(idElement: number, nameElement: string): void {
     const dialogRef = this.dialog.open(EditFavoriteNameComponent, {
         width: '550px',
+        data: {placeId: idElement, name: nameElement}
+
+      })
+    ;
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.showAll();
+    });
+  }
+
+  openDialogDelete(idElement: number, nameElement: string): void {
+    const dialogRef = this.dialog.open(DeleteFavoriteComponent, {
+        width: '250px',
         data: {placeId: idElement, name: nameElement}
 
       })
@@ -86,4 +100,18 @@ export class EditFavoriteNameComponent {
     document.getElementById('closeButton').click();
   }
 
+}
+
+@Component({
+  selector: 'app-delete-favorite-place',
+  templateUrl: 'delete-favorite-place.html'
+})
+export class DeleteFavoriteComponent {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData, private favoritePlaceService: FavoritePlaceService) {
+  }
+
+  delete() {
+    console.log('fp delete');
+    this.favoritePlaceService.deleteFavoritePlace(this.data.placeId).subscribe();
+  }
 }
