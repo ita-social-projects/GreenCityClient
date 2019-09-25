@@ -4,15 +4,17 @@ import {Place} from '../../../model/place/place';
 import {MapBounds} from '../../../model/map/map-bounds';
 import {PlaceService} from '../../../service/place/place.service';
 import {PlaceInfo} from '../../../model/place/place-info';
-import {MatIconRegistry} from '@angular/material';
+import {MatDialog, MatIconRegistry} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
 import {FavoritePlaceService} from '../../../service/favorite-place/favorite-place.service';
-import {FavoritePlaceSave} from '../../../model/favorite-place/favorite-place-save';
-import {FilterPlaceService} from '../../../service/filtering/filter-place.service';
 import {UserService} from '../../../service/user/user.service';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
+import {FavoritePlaceComponent} from '../favorite-place/favorite-place.component';
+import {FavoritePlace} from '../../../model/favorite-place/favorite-place';
+import {FilterPlaceService} from '../../../service/filtering/filter-place.service';
 import {Location} from '../../../model/location.model';
+
 
 @Component({
   selector: 'app-map',
@@ -44,7 +46,7 @@ export class MapComponent implements OnInit {
   markerYellow = 'assets/img/icon/favorite-place/Icon-43.png';
   querySubscription: Subscription;
   idFavoritePlace: number;
-  favoritePlaces: FavoritePlaceSave[];
+  favoritePlaces: FavoritePlace[];
 
   constructor(private iconRegistry: MatIconRegistry,
               private sanitizer: DomSanitizer,
@@ -101,7 +103,6 @@ export class MapComponent implements OnInit {
     }
   }
 
-
   setCurrentLocation(): Position {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -145,13 +146,12 @@ export class MapComponent implements OnInit {
     this.placeService.getPlaceInfo(pl.id).subscribe((res) => {
         this.placeInfo = res;
         if (this.userRole === 'ROLE_ADMIN' || this.userRole === 'ROLE_MODERATOR' || this.userRole === 'ROLE_USER') {
-          if (this.userRole === null) {
-            this.favoritePlaces.forEach(fp => {
-              if (fp.placeId === this.placeInfo.id) {
-                this.placeInfo.name = fp.name;
-              }
-            });
-          }
+          this.favoritePlaces.forEach(fp => {
+            if (fp.placeId === this.placeInfo.id) {
+              this.placeInfo.name = fp.name;
+            }
+          });
+
         }
       }
     );
@@ -164,19 +164,18 @@ export class MapComponent implements OnInit {
     pl.color = this.getIcon(pl.favorite);
   }
 
-  savePlaceAsFavorite(place: Place) {
+  saveOrDeletePlaceAsFavorite(place: Place) {
     console.log('savePlaceAsFavorite() method in map.component placeId=' + place.id);
     if (!place.favorite) {
-      this.favoritePlaceService.saveFavoritePlace(new FavoritePlaceSave(place.id, place.name)).subscribe(res => {
+      this.favoritePlaceService.saveFavoritePlace(new FavoritePlace(place.id, place.name)).subscribe(res => {
           this.getFavoritePlaces();
         }
-      )
-      ;
+      );
       place.favorite = true;
       place.color = this.getIcon(place.favorite);
 
     } else {
-      this.favoritePlaceService.deleteFavoritePlace(place.id * (-1)).subscribe(res => {
+      this.favoritePlaceService.deleteFavoritePlace(place.id).subscribe(res => {
         this.getFavoritePlaces();
       })
       ;
@@ -191,11 +190,13 @@ export class MapComponent implements OnInit {
 
   getList() {
     if (this.idFavoritePlace) {
+      console.log('in getList(), setFP');
       this.setFavoritePlaceOnMap();
     } else {
       console.log('in getList()');
       if (this.button !== true) {
         this.placeService.getFilteredPlaces();
+        console.log(this.placeService.places);
         this.idFavoritePlace = null;
         this.searchText = null;
       }
@@ -235,8 +236,9 @@ export class MapComponent implements OnInit {
 
   getFavoritePlaces() {
     console.log('getFavoritePlaces');
-    this.favoritePlaceService.findAllByUserEmailWithPlaceId().subscribe((res) => {
+    this.favoritePlaceService.findAllByUserEmail().subscribe((res) => {
         this.favoritePlaces = res;
+        console.log(this.favoritePlaces);
       }
     );
   }
@@ -250,6 +252,9 @@ export class MapComponent implements OnInit {
           place.favorite = true;
         }
       });
+    });
+    this.placeService.places.sort((a, b) => {
+      return a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1;
     });
   }
 

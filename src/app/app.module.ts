@@ -24,6 +24,7 @@ import {NgFlashMessagesModule} from 'ng-flash-messages';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FilterComponent} from './component/filter/filter.component';
 import {
+  DeleteFavoriteComponent,
   EditFavoriteNameComponent,
   FavoritePlaceComponent
 } from './component/user/favorite-place/favorite-place.component';
@@ -47,6 +48,7 @@ import {Ng5SliderModule} from 'ng5-slider';
 import {provideConfig} from './config/GoogleAuthConfig';
 import { RestoreComponent } from './component/user/restore/restore.component';
 import { RestoreFormComponent } from './component/user/restore-form/restore-form.component';
+import {AdminService} from './service/admin/admin.service';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,7 @@ import { RestoreFormComponent } from './component/user/restore-form/restore-form
     FilterComponent,
     FavoritePlaceComponent,
     EditFavoriteNameComponent,
+    DeleteFavoriteComponent
     RestoreComponent,
     RestoreFormComponent,
   ],
@@ -100,6 +103,7 @@ import { RestoreFormComponent } from './component/user/restore-form/restore-form
     MatButtonModule,
     MatCheckboxModule
   ],
+  entryComponents: [ProposeCafeComponent, FavoritePlaceComponent, EditFavoriteNameComponent, DeleteFavoriteComponent],
   entryComponents: [ProposeCafeComponent, FavoritePlaceComponent, EditFavoriteNameComponent, RestoreComponent],
 
   providers: [
@@ -108,7 +112,7 @@ import { RestoreFormComponent } from './component/user/restore-form/restore-form
       useClass: InterceptorService,
       multi: true
     },
-    { provide: MatDialogRef, useValue: {} },
+    {provide: MatDialogRef, useValue: {}},
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: {hasBackdrop: false}

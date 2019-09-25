@@ -12,7 +12,7 @@ import {FilterPlaceService} from '../filtering/filter-place.service';
 import {FilterPlaceDtoModel} from '../../model/filtering/filter-place-dto.model';
 import {AdminPlace} from '../../model/place/admin-place.model';
 import {BulkUpdatePlaceStatus} from '../../model/place/bulk-update-place-status.model';
-import {PlaceUpdatedDto} from "../../model/place/placeUpdatedDto.model";
+import {PlaceUpdatedDto} from '../../model/place/placeUpdatedDto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -59,7 +59,7 @@ export class PlaceService {
     this.http.post(`${placeLink}propose/`, place).subscribe(
       () => {
         this.ngFlashMessageService.showFlashMessage({
-          messages: ["Cafe " + place.name + " was added for approving."],
+          messages: ['Cafe ' + place.name + ' was added for approving.'],
           dismissible: true,
           timeout: 3000,
           type: 'success'
@@ -129,9 +129,9 @@ export class PlaceService {
   filterByRegex(paginationSettings: string, filterDto: FilterPlaceDtoModel): Observable<PlacePageableDto> {
     if (filterDto.searchReg === undefined) {
       filterDto.searchReg = '%%';
-      return this.http.post<PlacePageableDto>(`${this.baseUrl}filter/predicate` + paginationSettings, filterDto);
+      return this.http.post<PlacePageableDto>(`${this.baseUrl}filter/predicate` + paginationSettings + `&sort=modifiedDate,desc`, filterDto);
     } else {
-      return this.http.post<PlacePageableDto>(`${this.baseUrl}filter/predicate` + paginationSettings, filterDto);
+      return this.http.post<PlacePageableDto>(`${this.baseUrl}filter/predicate` + paginationSettings + `&sort=modifiedDate,desc`, filterDto);
     }
   }
 

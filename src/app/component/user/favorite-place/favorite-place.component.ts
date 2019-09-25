@@ -1,13 +1,15 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatButton, MatDialog, MatDialogRef, MatIconRegistry} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatIconRegistry} from '@angular/material';
 import {FavoritePlaceService} from '../../../service/favorite-place/favorite-place.service';
 import {PlaceService} from '../../../service/place/place.service';
 import {FavoritePlace} from '../../../model/favorite-place/favorite-place';
 import {frontMailLink} from '../../../links';
 import {DomSanitizer} from '@angular/platform-browser';
+import {Router} from '@angular/router';
+import {router} from '../../../router';
 
 export interface DialogData {
-  id: number;
+  placeId: number;
   name: string;
   test: string;
 }
@@ -22,9 +24,12 @@ export class FavoritePlaceComponent implements OnInit {
   favoritePlaces: FavoritePlace[];
   frontMailLink: string;
   color = 'star-yellow';
+  route: Router;
 
   constructor(iconRegistry: MatIconRegistry, public dialog: MatDialog, public dialogRef: MatDialogRef<FavoritePlaceComponent>,
-              private favoritePlaceService: FavoritePlaceService, private placeService: PlaceService, sanitizer: DomSanitizer) {
+              private favoritePlaceService: FavoritePlaceService, private placeService: PlaceService, sanitizer: DomSanitizer,
+              route: Router) {
+    this.route = route;
     iconRegistry.addSvgIcon(
       'star-yellow',
       sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/favorite-place/star-yellow2.svg'));
@@ -40,7 +45,7 @@ export class FavoritePlaceComponent implements OnInit {
     this.favoritePlaceService.findAllByUserEmail().subscribe((res) => this.favoritePlaces = res);
   }
 
-  delete(id: number) {// delete from table
+  delete(id: number) {
     console.log('fp delete');
     this.favoritePlaceService.deleteFavoritePlace(id).subscribe(() => this.showAll());
   }
@@ -48,14 +53,26 @@ export class FavoritePlaceComponent implements OnInit {
   openDialog(idElement: number, nameElement: string): void {
     const dialogRef = this.dialog.open(EditFavoriteNameComponent, {
         width: '550px',
-        data: {id: idElement, name: nameElement}
+        data: {placeId: idElement, name: nameElement}
 
       })
     ;
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      // this.animal = result;
+      console.log('The edit dialog was closed');
+      this.showAll();
+    });
+  }
+
+  openDialogDelete(idElement: number, nameElement: string): void {
+    const dialogRef = this.dialog.open(DeleteFavoriteComponent, {
+        data: {placeId: idElement, name: nameElement}
+
+      })
+    ;
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The delete dialog was closed');
       this.showAll();
     });
   }
@@ -74,12 +91,26 @@ export class EditFavoriteNameComponent {
   }
 
   update(name: string) {
-    console.log('fp update id=' + this.data.id + ' name=' + name);
-    this.favoritePlaceService.updateFavoritePlace(new FavoritePlace(this.data.id, name)).subscribe();
+    console.log('fp update placeId=' + this.data.placeId + ' name=' + name);
+    this.favoritePlaceService.updateFavoritePlace(new FavoritePlace(this.data.placeId, name)).subscribe();
   }
 
   clickSubmit() {
     document.getElementById('closeButton').click();
   }
 
+}
+
+@Component({
+  selector: 'app-delete-favorite-place',
+  templateUrl: 'delete-favorite-place.html'
+})
+export class DeleteFavoriteComponent {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData, private favoritePlaceService: FavoritePlaceService) {
+  }
+
+  delete() {
+    console.log('fp delete');
+    this.favoritePlaceService.deleteFavoritePlace(this.data.placeId).subscribe();
+  }
 }
