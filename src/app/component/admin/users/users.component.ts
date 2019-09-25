@@ -29,8 +29,8 @@ export class UsersComponent implements OnInit {
   roles: Role[];
   searchReg: string;
   flag = true;
-  selectedColumnToSort: string;
-  selectedDirectionToSort: string;
+  selectedColumnToSort: 'email';
+  selectedDirectionToSort: 'asc';
   sortColumn = 'email';
   sortDirection = 'asc';
 
@@ -47,6 +47,7 @@ export class UsersComponent implements OnInit {
   ngOnInit() {
     this.getFromLocalStorage();
     this.getRoles();
+    this.sortParam = '&sort=' + this.sortColumn + ',' + this.sortDirection;
     console.log('1=' + this.sortColumn + ' 2=' + this.sortDirection);
     console.log('1=' + this.sortColumn + ' 2=' + this.sortDirection);
 
@@ -55,7 +56,7 @@ export class UsersComponent implements OnInit {
   }
 
   getCurrentPaginationSettings(sort: string): string {
-    return '?page=' + (this.page) + '&size=' + this.pageSize + sort;
+    return '?page=' + (this.page) + '&size=' + this.pageSize + '&sort=' + this.sortColumn + ',' + this.sortDirection;
   }
 
   updateUserStatus(id: number, userStatus: string, email: string) {
@@ -136,10 +137,6 @@ export class UsersComponent implements OnInit {
       this.page = res.currentPage;
       this.totalItems = res.totalElements;
       this.dataSource.data = this.users;
-      // AdminService.staticSortColumn = this.selectedColumnToSort;
-      // AdminService.staticSortDirection = this.selectedDirectionToSort;
-      // AdminService.sortDirection = this.selectedDirectionToSort;
-      // AdminService.sortColumn = this.selectedColumnToSort;
       console.log('sortc&d=' + AdminService.sortColumn + ' ' + AdminService.sortDirection);
       this.saveToLocalStorage();
     });
@@ -149,11 +146,11 @@ export class UsersComponent implements OnInit {
     if ((this.searchReg === undefined) || (this.searchReg === '')) {
       if (this.flag) {
         this.flag = false;
-        this.sortData(this.selectedColumnToSort, this.selectedDirectionToSort);
+        this.sortData(this.sortColumn, this.sortDirection);
       }
     } else {
       this.flag = true;
-      this.sortData(this.selectedColumnToSort, this.selectedDirectionToSort);
+      this.sortData(this.sortColumn, this.sortDirection);
     }
   }
 
@@ -162,6 +159,8 @@ export class UsersComponent implements OnInit {
     window.localStorage.setItem('sortDirection', this.sortDirection);
     window.localStorage.setItem('page', String(this.page));
     window.localStorage.setItem('totalItems', String(this.totalItems));
+    window.localStorage.setItem('pageSize', String(this.pageSize));
+    ;
   }
 
   getFromLocalStorage() {
@@ -170,6 +169,7 @@ export class UsersComponent implements OnInit {
       this.sortDirection = window.localStorage.getItem('sortDirection');
       this.page = Number(window.localStorage.getItem('page'));
       this.totalItems = Number(window.localStorage.getItem('totalItems'));
+      this.pageSize = Number(window.localStorage.getItem('pageSize'));
     }
   }
 }
