@@ -1,7 +1,9 @@
 <div align="center"><div>
   <p style="color:green; font-size: 130%; font-style: italic"><b>Edit name for your favorite place</b></p>
 </div>
-  <div><input #nameInput matInput [value]="data.name" (keyup.enter)="clickSubmit()"/>`
-    <button id="closeButton" mat-button [mat-dialog-close]="true" (click)="update(nameInput.value)" class="bg-success">Submit</button>
+  <div><input type="text" #nameInput matInput [value]="data.name" (keyup.enter)="clickSubmit()" required minlength="3"
+              size="30" />`
+    <button id="closeButton" mat-button [mat-dialog-close]="true" (click)="update(nameInput.value)" class="bg-success"
+            [disabled]="nameInput.value.length<3">Submit</button>
   </div>
 </div>
