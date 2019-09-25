@@ -40,6 +40,7 @@ import {
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
 import {Ng5SliderModule} from 'ng5-slider';
 import {provideConfig} from './config/GoogleAuthConfig';
+import {AdminService} from './service/admin/admin.service';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,7 @@ import {provideConfig} from './config/GoogleAuthConfig';
     ProposeCafeComponent,
     FilterComponent,
     FavoritePlaceComponent,
-    EditFavoriteNameComponent,
+    EditFavoriteNameComponent
   ],
   imports: [
     BrowserModule,

@@ -10,12 +10,14 @@ import {ErrorComponent} from '../general/error/error.component';
 import {BrowserModule} from '@angular/platform-browser';
 import {TableModule} from 'angular-bootstrap-md';
 import {NgxPaginationModule} from 'ngx-pagination';
-import {MatPaginatorModule, MatSelectModule} from '@angular/material';
-import { MatSortModule } from '@angular/material/sort';
-import { PaginationModule } from 'ngx-bootstrap';
+import {MatMenuModule, MatPaginatorModule, MatSelectModule} from '@angular/material';
+import {MatSortModule} from '@angular/material/sort';
+import {PaginationModule} from 'ngx-bootstrap';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterModule} from '@angular/router';
 import {FormsModule} from '@angular/forms';
+import {EditFavoriteNameComponent, FavoritePlaceComponent} from '../user/favorite-place/favorite-place.component';
+import {AdminService} from '../../service/admin/admin.service';
 
 @NgModule({
   declarations: [AdminNavComponent, PlacesComponent, UsersComponent, ErrorComponent],
@@ -25,8 +27,9 @@ import {FormsModule} from '@angular/forms';
     PlacesComponent,
     ErrorComponent,
     BrowserModule,
-    TableModule
-  ],
+    TableModule,
+    ],
+  providers: [ AdminService ],
   imports: [
     CommonModule,
     NgFlashMessagesModule,
@@ -39,7 +42,9 @@ import {FormsModule} from '@angular/forms';
     BrowserAnimationsModule,
     RouterModule,
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
+    MatMenuModule,
   ]
 })
-export class AdminModule { }
+export class AdminModule {
+}

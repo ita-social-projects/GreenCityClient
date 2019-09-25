@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatButton, MatDialog, MatDialogRef, MatIconRegistry} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatIconRegistry} from '@angular/material';
 import {FavoritePlaceService} from '../../../service/favorite-place/favorite-place.service';
 import {PlaceService} from '../../../service/place/place.service';
 import {FavoritePlace} from '../../../model/favorite-place/favorite-place';
