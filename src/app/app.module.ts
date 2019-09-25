@@ -7,7 +7,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AgmCoreModule} from '@agm/core';
 import {MapComponent} from './component/user/map/map.component';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
-import {AdminComponent} from './component/admin/admin.component';
 import {SignUpComponent} from './component/user/auth/sign-up/sign-up.component';
 import {NavBarComponent} from './component/user/nav-bar/nav-bar.component';
 import {GeneralComponent} from './component/general/general.component';
@@ -24,12 +23,18 @@ import {AdminModule} from './component/admin/admin.module';
 import {NgFlashMessagesModule} from 'ng-flash-messages';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FilterComponent} from './component/filter/filter.component';
-import {EditFavoriteNameComponent, FavoritePlaceComponent} from './component/user/favorite-place/favorite-place.component';
+import {
+  EditFavoriteNameComponent,
+  FavoritePlaceComponent
+} from './component/user/favorite-place/favorite-place.component';
 import {AuthServiceConfig, SocialLoginModule} from 'angularx-social-login';
 import {AgmDirectionModule} from 'agm-direction';
+import {DatePipe} from '@angular/common';
 import {
+  MAT_DIALOG_DEFAULT_OPTIONS,
   MatButtonModule,
-  MatDialogModule,
+  MatCheckboxModule,
+  MatDialogModule, MatDialogRef,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
@@ -45,7 +50,6 @@ import {AdminService} from './service/admin/admin.service';
 @NgModule({
   declarations: [
     AppComponent,
-    AdminComponent,
     UserComponent,
     GeneralComponent,
     SignUpComponent,
@@ -80,6 +84,7 @@ import {AdminService} from './service/admin/admin.service';
     MatIconModule,
     MDBBootstrapModule,
     ModalModule,
+    MatDialogModule,
     ReactiveFormsModule,
     NgFlashMessagesModule.forRoot(),
     MatSliderModule,
@@ -89,9 +94,10 @@ import {AdminService} from './service/admin/admin.service';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatCheckboxModule
   ],
-  entryComponents: [FavoritePlaceComponent, EditFavoriteNameComponent],
+  entryComponents: [ProposeCafeComponent, FavoritePlaceComponent, EditFavoriteNameComponent],
 
   providers: [
     {
@@ -99,10 +105,16 @@ import {AdminService} from './service/admin/admin.service';
       useClass: InterceptorService,
       multi: true
     },
+    { provide: MatDialogRef, useValue: {} },
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: {hasBackdrop: false}
+    },
     {
       provide: AuthServiceConfig,
       useFactory: provideConfig
-    }
+    },
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

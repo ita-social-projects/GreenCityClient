@@ -13,7 +13,7 @@ export class GoogleSignInService {
   }
 
   public signIn(token: string): Observable<UserSuccessSignIn> {
-    return this.http.post<UserSuccessSignIn>(googleSecurityLink, token);
+    return this.http.get<UserSuccessSignIn>(`${googleSecurityLink}?idToken=${token}`);
   }
 }
 

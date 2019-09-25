@@ -4,8 +4,7 @@
 
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-
-        <a class="nav-link"  href="/">GreenCity</a>
+        <a class="nav-link" href="/">GreenCity</a>
       </li>
     </ul>
 
@@ -18,10 +17,9 @@
 
 
       <li class="nav-item">
-        <button (click)="openModal('custom-_modal-1')" type="button" class="btn btn-dark"
-                *ngIf="userRole === 'ROLE_ADMIN' || userRole === 'ROLE_MODERATOR' || userRole === 'ROLE_USER'">
-          Add cafe
-        </button>
+      <a class="nav-link"
+         *ngIf="userRole === 'ROLE_USER'"
+         (click)="openDialogProposeCafeComponent()">Add cafe</a>
       </li>
 
       <div *ngIf="firstName!=null">

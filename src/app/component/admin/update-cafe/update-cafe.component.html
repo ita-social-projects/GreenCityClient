@@ -1,9 +1,9 @@
 <script src="../../../model/pageable-dto.model.ts"></script>
-<h2 mat-dialog-title style="text-align: center; margin-bottom: 2%;">New
+<h2 mat-dialog-title style="text-align: center; margin-bottom: 2%;">Edit
   cafe</h2>
 <hr>
 <mat-dialog-content>
-  <form #saveForm="ngForm" (ngSubmit)="onSubmit()">
+  <form #updateForm="ngForm" (ngSubmit)="onSubmit()">
         <div style="margin-left: 7%; margin-right: 9%">
           <div class="validation-error" *ngIf="nameControl.invalid && (nameControl.dirty||nameControl.touched)">
             <div *ngIf="nameControl.errors.required">
@@ -18,7 +18,7 @@
           </div>
           <input type="text" id="name" class="form-control" [(ngModel)]="placeName" #nameControl="ngModel"
                  placeholder="Name" required
-                 minlength="3" maxlength="30" name="name">
+                 minlength="3" maxlength="30" name="placeName">
           <br>
 
           <div class="validation-error"
@@ -69,11 +69,11 @@
             <br>
 
             <div class="sub-2" #map>
-              <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" [style.width.px]="map.offsetWidth"
-                       [style.height.px]="map.offsetHeight">
-                <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
-                            (dragEnd)="markerDragEnd($event)"></agm-marker>
-              </agm-map>
+            <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" [style.width.px]="map.offsetWidth"
+                     [style.height.px]="map.offsetHeight">
+              <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
+                          (dragEnd)="markerDragEnd($event)"></agm-marker>
+            </agm-map>
             </div>
 
             <div>
@@ -86,44 +86,42 @@
     <hr>
 
         <form #discountForm="ngForm">
-        <div class="specification" style="text-align: -webkit-center;">
-          <h4 style="margin-bottom: 3%">Select discount: </h4>
-          <ng-select style="width: 250px; margin-top: 4%"
-                     [items]="specifications"
-                     bindLabel="name"
-                     bindValue="name"
-                     id="specification"
-                     maxlength="30"
-                     [multiple]="false"
-                     placeholder="Select specification"
-                     [(ngModel)]="nameOfSpecification"
-                     name="name"
-                     #specification="ngModel" required
-          >
-          </ng-select>
+          <div class="specification" style="text-align: -webkit-center;">
+            <h4 style="margin-bottom: 3%">Select discount: </h4>
+            <ng-select style="width: 250px; margin-top: 4%"
+                       [items]="specifications"
+                       bindLabel="name"
+                       bindValue="name"
+                       id="specification"
+                       maxlength="30"
+                       [multiple]="false"
+                       placeholder="Select specification"
+                       [(ngModel)]="nameOfSpecification"
+                       name="name"
+                       #specification="ngModel" required>
+            </ng-select>
 
-          <ng-select style="width: 120px; margin-top: 2%"
-                     [items]="discountsNumber"
-                     bindLabel="value"
-                     bindValue="value"
-                     id="discount"
-                     [multiple]="false"
-                     placeholder="Discount"
-                     [(ngModel)]="value"
-                     name="value"
-                     #discount="ngModel" required
-          >
-          </ng-select>
+            <ng-select style="width: 120px; margin-top: 2%"
+                       [items]="discountsNumber"
+                       bindLabel="value"
+                       bindValue="value"
+                       id="discount"
+                       [multiple]="false"
+                       placeholder="Discount"
+                       [(ngModel)]="value"
+                       name="value"
+                       #discount="ngModel" required>
+            </ng-select>
 
-          <button class="btn btn-primary" type="button" [disabled]="discountForm.invalid"
-                  style="margin-top: 2%" (click)="addDiscountAndSpecification(nameOfSpecification, value)">Add discount
-          </button>
+            <button class="btn btn-primary" type="button" [disabled]="discountForm.invalid"
+                    style="margin-top: 2%" (click)="addDiscountAndSpecification(nameOfSpecification, value)">Add discount
+            </button>
 
-          <div class="choice" *ngFor="let list of discounts">
-            <b>{{list.specification.name}}</b> discount: <b>{{list.value}}%</b>
-            <button class="delete-choice" type="button" (click)="delete(list)">-</button>
+            <div class="choice" *ngFor="let list of discounts">
+              <b>{{list.specification.name}}</b> discount: <b>{{list.value}}%</b>
+              <button class="delete-choice" type="button" (click)="delete(list)">-</button>
+            </div>
           </div>
-        </div>
         </form>
 
         <form #openHoursForm="ngForm">
@@ -145,7 +143,6 @@
               <input name="closeTime" type="time" class="form-control" style="width: 100px; display: inline;" #time
                      id="time-end" placeholder="HH:mm" [(ngModel)]="openingHours.closeTime" required>
             </div>
-            <div>
             <div style="margin-top: 1.5%; text-align: left; margin-left: 14%">
               <mat-checkbox (change)="switch()">is break time needed</mat-checkbox>
             </div>
@@ -160,9 +157,8 @@
                      name="endTime" id="break-end" placeholder="HH:mm">
             </div>
           </div>
-          </div>
           <button class="btn btn-primary" type="button" [disabled]="openHoursForm.invalid"
-                  style="margin-top: 8px;" (click)="add(openingHours, breakTimes)">Add day
+                  style="margin-top: 8px" (click)="add(openingHours, breakTimes)">Add day
           </button>
 
           <div class="choice" *ngFor="let list of openingHoursList">
@@ -172,17 +168,16 @@
               end: <b>{{list.breakTime.endTime}}</b></div>
             <button class="delete-choice" type="button" (click)="deleteDay(list)">-</button>
           </div>
+
           </div>
         </form>
 
     <div style="display:flex; justify-content:flex-end; align-items:center;">
-      <button [disabled]="saveForm.invalid || !(openingHoursList.length > 0) || !(discounts.length > 0)" class="btn btn-primary submit"
-              type="submit" style="margin-right: 1%">Submit
+      <button [disabled]="!updateForm.valid || !(openingHoursList.length > 0) || !(discounts.length > 0)" class="btn btn-primary submit" type="submit" style="margin-right: 1%">
+        Submit
       </button>
       <button mat-dialog-close class="btn btn-primary" type="button">Close</button>
     </div>
 
   </form>
 </mat-dialog-content>
-
-

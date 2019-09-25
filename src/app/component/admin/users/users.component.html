@@ -17,8 +17,8 @@
                class="mat-elevation-z8">
           <!-- Position Column -->
           <ng-container matColumnDef="email">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header [matMenuTriggerFor]="menu" bgcolor="#1e90ff">
-              <span style="color: white">Email</span>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header [matMenuTriggerFor]="menu" >
+              Email
             </th>
             <td mat-cell id="emailColumn" *matCellDef="let element"
                 [class.blueColumn]="adminService.staticSortColumn==='email'">
@@ -28,8 +28,8 @@
           </ng-container>
 
           <ng-container matColumnDef="firstName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header [matMenuTriggerFor]="menu" bgcolor="#1e90ff">
-              <span style="color: white">First Name</span>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header [matMenuTriggerFor]="menu">
+              First Name
             </th>
             <td mat-cell id="firstNameColumn" *matCellDef="let element"
                 [class.blueColumn]="adminService.staticSortColumn==='firstName'">
@@ -38,8 +38,8 @@
           </ng-container>
           <!-- Name Column -->
           <ng-container matColumnDef="lastName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header [matMenuTriggerFor]="menu" bgcolor="#1e90ff">
-              <span style="color: white">Last Name</span>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header [matMenuTriggerFor]="menu" >
+             Last Name
             </th>
             <td mat-cell *matCellDef="let element" id="lastNameColumn"
                 [class.blueColumn]="adminService.staticSortColumn==='lastName'">
@@ -48,8 +48,8 @@
           </ng-container>
 
           <ng-container matColumnDef="dateOfRegistration">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header [matMenuTriggerFor]="menu" bgcolor="#1e90ff">
-              <span style="color: white">Date of registration</span>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header [matMenuTriggerFor]="menu" >
+              Date of registration
 
             </th>
             <td mat-cell *matCellDef="let element" id="dateOfRegistrationColumn"
@@ -58,7 +58,7 @@
           </ng-container>
 
           <ng-container matColumnDef="role">
-            <th mat-header-cell *matHeaderCellDef bgcolor="#1e90ff"></th>
+            <th mat-header-cell *matHeaderCellDef ></th>
             <td mat-cell *matCellDef="let element">
               <div class="selectRole">
                 <mat-select [(value)]="element.role"
@@ -73,7 +73,7 @@
           </ng-container>
 
           <ng-container matColumnDef="block">
-            <th mat-header-cell *matHeaderCellDef bgcolor="#1e90ff"><span style="color: white">Actions</span></th>
+            <th mat-header-cell *matHeaderCellDef >Actions</th>
             <td mat-cell *matCellDef="let element">
               <button *ngIf="element.userStatus != 'BLOCKED' && element.userStatus != 'DEACTIVATED'" mat-raised-button
                       class="btn btn-outline-warning"
@@ -88,7 +88,7 @@
           </ng-container>
 
           <ng-container matColumnDef="deactivate">
-            <th mat-header-cell *matHeaderCellDef bgcolor="#1e90ff"></th>
+            <th mat-header-cell *matHeaderCellDef ></th>
             <td mat-cell *matCellDef="let element">
               <button *ngIf="element.userStatus != 'DEACTIVATED'" mat-raised-button class="btn btn-outline-danger"
                       (click)="updateUserStatus(element.id, 'DEACTIVATED', element.email)"

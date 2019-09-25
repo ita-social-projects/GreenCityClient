@@ -18,8 +18,11 @@ export class CategoryService extends BaseService {
     return this.http.post(`${mainLink}category`, category);
   }
 
+  // findAllCategory(): any {
+  //    return this.http.get<CategoryDto[]>(`${mainLink}category`);
+
   findAllCategory(): any {
-     return this.http.get<CategoryDto[]>(`${mainLink}category`);
+    return this.http.get<CategoryDto[]>(`http:///localhost:8080/category`);
 
     // return this.http.get<CategoryDto[]>(`${this.apiUrl}/categories`);
   }
