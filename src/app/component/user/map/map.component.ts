@@ -146,13 +146,12 @@ export class MapComponent implements OnInit {
     this.placeService.getPlaceInfo(pl.id).subscribe((res) => {
         this.placeInfo = res;
         if (this.userRole === 'ROLE_ADMIN' || this.userRole === 'ROLE_MODERATOR' || this.userRole === 'ROLE_USER') {
-          if (this.userRole === null) {
-            this.favoritePlaces.forEach(fp => {
-              if (fp.placeId === this.placeInfo.id) {
-                this.placeInfo.name = fp.name;
-              }
-            });
-          }
+          this.favoritePlaces.forEach(fp => {
+            if (fp.placeId === this.placeInfo.id) {
+              this.placeInfo.name = fp.name;
+            }
+          });
+
         }
       }
     );
@@ -255,7 +254,7 @@ export class MapComponent implements OnInit {
       });
     });
     this.placeService.places.sort((a, b) => {
-      return a.name.toLowerCase() < b.name.toLowerCase() ? -1 :   1;
+      return a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1;
     });
   }
 

@@ -59,7 +59,7 @@ export class FavoritePlaceComponent implements OnInit {
     ;
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      console.log('The edit dialog was closed');
       this.showAll();
     });
   }
@@ -72,7 +72,7 @@ export class FavoritePlaceComponent implements OnInit {
     ;
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      console.log('The delete dialog was closed');
       this.showAll();
     });
   }
