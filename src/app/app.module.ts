@@ -7,7 +7,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AgmCoreModule} from '@agm/core';
 import {MapComponent} from './component/user/map/map.component';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
-import {AdminComponent} from './component/admin/admin.component';
 import {SignUpComponent} from './component/user/auth/sign-up/sign-up.component';
 import {NavBarComponent} from './component/user/nav-bar/nav-bar.component';
 import {GeneralComponent} from './component/general/general.component';
@@ -46,6 +45,7 @@ import {
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
 import {Ng5SliderModule} from 'ng5-slider';
 import {provideConfig} from './config/GoogleAuthConfig';
+import {AdminService} from './service/admin/admin.service';
 
 @NgModule({
   declarations: [
@@ -61,7 +61,7 @@ import {provideConfig} from './config/GoogleAuthConfig';
     ProposeCafeComponent,
     FilterComponent,
     FavoritePlaceComponent,
-    EditFavoriteNameComponent,
+    EditFavoriteNameComponent
   ],
   imports: [
     BrowserModule,

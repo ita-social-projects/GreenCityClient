@@ -12,7 +12,7 @@ import {FilterPlaceService} from '../filtering/filter-place.service';
 import {FilterPlaceDtoModel} from '../../model/filtering/filter-place-dto.model';
 import {AdminPlace} from '../../model/place/admin-place.model';
 import {BulkUpdatePlaceStatus} from '../../model/place/bulk-update-place-status.model';
-import {PlaceUpdatedDto} from "../../model/place/placeUpdatedDto.model";
+import {PlaceUpdatedDto} from '../../model/place/placeUpdatedDto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -59,7 +59,7 @@ export class PlaceService {
     this.http.post(`${placeLink}propose/`, place).subscribe(
       () => {
         this.ngFlashMessageService.showFlashMessage({
-          messages: ["Cafe " + place.name + " was added for approving."],
+          messages: ['Cafe ' + place.name + ' was added for approving.'],
           dismissible: true,
           timeout: 3000,
           type: 'success'

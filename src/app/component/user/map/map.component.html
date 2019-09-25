@@ -65,12 +65,13 @@
                     [iconUrl]="getMarkerIcon(p.favorite)"
 
         >
+
           <agm-info-window *ngIf="placeInfo">
             <h5>{{placeInfo.name}}
               <button id="star-button" mat-icon-button
                       *ngIf="userRole === 'ROLE_ADMIN' || userRole === 'ROLE_MODERATOR' || userRole === 'ROLE_USER'"
                       style="float: right;  background-color: white; border-width: inherit"
-                      (click)="savePlaceAsFavorite(p); ">
+                      (click)="saveOrDeletePlaceAsFavorite(p); ">
                 <mat-icon svg svgIcon="{{p.color}}"></mat-icon>
               </button>
             </h5>

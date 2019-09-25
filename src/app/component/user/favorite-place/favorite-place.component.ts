@@ -1,13 +1,15 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatButton, MatDialog, MatDialogRef, MatIconRegistry} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatIconRegistry} from '@angular/material';
 import {FavoritePlaceService} from '../../../service/favorite-place/favorite-place.service';
 import {PlaceService} from '../../../service/place/place.service';
 import {FavoritePlace} from '../../../model/favorite-place/favorite-place';
 import {frontMailLink} from '../../../links';
 import {DomSanitizer} from '@angular/platform-browser';
+import {Router} from '@angular/router';
+import {router} from '../../../router';
 
 export interface DialogData {
-  id: number;
+  placeId: number;
   name: string;
   test: string;
 }
@@ -22,9 +24,12 @@ export class FavoritePlaceComponent implements OnInit {
   favoritePlaces: FavoritePlace[];
   frontMailLink: string;
   color = 'star-yellow';
+  route: Router;
 
   constructor(iconRegistry: MatIconRegistry, public dialog: MatDialog, public dialogRef: MatDialogRef<FavoritePlaceComponent>,
-              private favoritePlaceService: FavoritePlaceService, private placeService: PlaceService, sanitizer: DomSanitizer) {
+              private favoritePlaceService: FavoritePlaceService, private placeService: PlaceService, sanitizer: DomSanitizer,
+              route: Router) {
+    this.route = route;
     iconRegistry.addSvgIcon(
       'star-yellow',
       sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/favorite-place/star-yellow2.svg'));
@@ -48,14 +53,13 @@ export class FavoritePlaceComponent implements OnInit {
   openDialog(idElement: number, nameElement: string): void {
     const dialogRef = this.dialog.open(EditFavoriteNameComponent, {
         width: '550px',
-        data: {id: idElement, name: nameElement}
+        data: {placeId: idElement, name: nameElement}
 
       })
     ;
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      // this.animal = result;
       this.showAll();
     });
   }
@@ -74,8 +78,8 @@ export class EditFavoriteNameComponent {
   }
 
   update(name: string) {
-    console.log('fp update id=' + this.data.id + ' name=' + name);
-    this.favoritePlaceService.updateFavoritePlace(new FavoritePlace(this.data.id, name)).subscribe();
+    console.log('fp update placeId=' + this.data.placeId + ' name=' + name);
+    this.favoritePlaceService.updateFavoritePlace(new FavoritePlace(this.data.placeId, name)).subscribe();
   }
 
   clickSubmit() {

@@ -3,6 +3,7 @@ import {ModalService} from '../_modal/modal.service';
 import {UserService} from '../../../service/user/user.service';
 import {MatDialog} from '@angular/material';
 import {FavoritePlaceComponent} from '../favorite-place/favorite-place.component';
+import {router} from '../../../router';
 import {ProposeCafeComponent} from "../propose-cafe/propose-cafe.component";
 
 @Component({
@@ -16,11 +17,15 @@ export class NavBarComponent implements OnInit {
   private userRole: string;
 
   constructor(private uService: UserService, private modalService: ModalService, public dialog: MatDialog) {
+
   }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(FavoritePlaceComponent, {
-       width: '700px',
+       width: '700px'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
     });
   }
 
