@@ -2,7 +2,7 @@
   position: fixed;
   text-align: center;
   z-index:1000;
-  width: 20%;
-  top: 70%;
-  left: 77%;
+  left: 20%;
+  right: 20%;
+  top: 0;
 }

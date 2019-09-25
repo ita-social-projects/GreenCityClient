@@ -8,18 +8,34 @@ import {UsersComponent} from './users/users.component';
 import {NgFlashMessagesModule} from 'ng-flash-messages';
 import {ErrorComponent} from '../general/error/error.component';
 import {BrowserModule} from '@angular/platform-browser';
-import {TableModule} from 'angular-bootstrap-md';
+import {IconsModule, TableModule} from 'angular-bootstrap-md';
 import {NgxPaginationModule} from 'ngx-pagination';
-import {MatPaginatorModule, MatSelectModule} from '@angular/material';
-import { MatSortModule } from '@angular/material/sort';
-import { PaginationModule } from 'ngx-bootstrap';
+import {
+  MAT_DIALOG_DEFAULT_OPTIONS,
+  MatCheckboxModule,
+  MatDialogModule, MatDialogRef,
+  MatIconModule,
+  MatPaginatorModule,
+  MatSelectModule
+} from '@angular/material';
+import {MatSortModule} from '@angular/material/sort';
+import {PaginationModule} from 'ngx-bootstrap';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {UpdateCafeComponent} from './update-cafe/update-cafe.component';
+import {NgSelectModule} from "@ng-select/ng-select";
+import {AgmCoreModule} from "@agm/core";
+import {FormsModule} from "@angular/forms";
 import {RouterModule} from '@angular/router';
+import {ConfirmModalComponent} from './confirm-modal/confirm-modal.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {ConfirmationDialogService} from './confirm-modal/confirmation-dialog-service.service';
+import {AdminComponent} from "./admin.component";
 
 @NgModule({
-  declarations: [AdminNavComponent, PlacesComponent, UsersComponent, ErrorComponent],
+  declarations: [AdminNavComponent, AdminComponent,  PlacesComponent, UsersComponent, ErrorComponent, ConfirmModalComponent, UpdateCafeComponent],
   exports: [
     AdminNavComponent,
+    AdminComponent,
     UsersComponent,
     PlacesComponent,
     ErrorComponent,
@@ -36,7 +52,28 @@ import {RouterModule} from '@angular/router';
     MatSelectModule,
     PaginationModule.forRoot(),
     BrowserAnimationsModule,
-    RouterModule
-  ]
+    RouterModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    RouterModule,
+    MatIconModule,
+    IconsModule,
+    MatCheckboxModule,
+    FormsModule,
+    NgbModule,
+    MatDialogModule,
+    NgSelectModule,
+    MatCheckboxModule,
+    FormsModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI',
+      libraries: ['places']
+    }),
+  ],
+  providers: [
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}, { provide: MatDialogRef, useValue: {} }, ConfirmationDialogService],
+  entryComponents: [ConfirmModalComponent, UpdateCafeComponent],
+  bootstrap: [AdminComponent],
 })
-export class AdminModule { }
+export class AdminModule {
+}

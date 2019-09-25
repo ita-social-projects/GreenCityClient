@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {UserOwnSignUp} from '../model/user-own-sign-up';
-import {userOwnSignInLink, userOwnSignUpLink} from '../links';
+import {userOwnSignInLink} from '../links';
 import {UserOwnSignIn} from '../model/user-own-sign-in';
 import {UserSuccessSignIn} from '../model/user-success-sign-in';
 

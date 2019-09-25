@@ -7,7 +7,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AgmCoreModule} from '@agm/core';
 import {MapComponent} from './component/user/map/map.component';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
-import {AdminComponent} from './component/admin/admin.component';
 import {SignUpComponent} from './component/user/auth/sign-up/sign-up.component';
 import {NavBarComponent} from './component/user/nav-bar/nav-bar.component';
 import {GeneralComponent} from './component/general/general.component';
@@ -23,18 +22,33 @@ import {InterceptorService} from './service/interceptor.service';
 import {AdminModule} from './component/admin/admin.module';
 import {NgFlashMessagesModule} from 'ng-flash-messages';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatTableModule} from '@angular/material';
-import {MatIconModule} from '@angular/material/icon';
-import {MDBBootstrapModule} from 'angular-bootstrap-md';
-import {EditFavoriteNameComponent, FavoritePlaceComponent} from './component/user/favorite-place/favorite-place.component';
-import {provideConfig} from './config/GoogleAuthConfig';
+import {FilterComponent} from './component/filter/filter.component';
+import {
+  EditFavoriteNameComponent,
+  FavoritePlaceComponent
+} from './component/user/favorite-place/favorite-place.component';
 import {AuthServiceConfig, SocialLoginModule} from 'angularx-social-login';
 import {AgmDirectionModule} from 'agm-direction';
+import {DatePipe} from '@angular/common';
+import {
+  MAT_DIALOG_DEFAULT_OPTIONS,
+  MatButtonModule,
+  MatCheckboxModule,
+  MatDialogModule, MatDialogRef,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatSliderModule,
+  MatTableModule,
+  MatTreeModule
+} from '@angular/material';
+import {MDBBootstrapModule} from 'angular-bootstrap-md';
+import {Ng5SliderModule} from 'ng5-slider';
+import {provideConfig} from './config/GoogleAuthConfig';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AdminComponent,
     UserComponent,
     GeneralComponent,
     SignUpComponent,
@@ -44,9 +58,9 @@ import {AgmDirectionModule} from 'agm-direction';
     SubmitEmailComponent,
     MapComponent,
     ProposeCafeComponent,
+    FilterComponent,
     FavoritePlaceComponent,
     EditFavoriteNameComponent,
-
   ],
   imports: [
     BrowserModule,
@@ -57,7 +71,7 @@ import {AgmDirectionModule} from 'agm-direction';
     SocialLoginModule,
     FormsModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyBCtiDJDctvioz4ucWNjy-j3BmxjKsUYGM',
+      apiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI',
       libraries: ['places', 'geometry']
     }),
     AgmDirectionModule,
@@ -69,15 +83,20 @@ import {AgmDirectionModule} from 'agm-direction';
     MatIconModule,
     MDBBootstrapModule,
     ModalModule,
+    MatDialogModule,
     ReactiveFormsModule,
     NgFlashMessagesModule.forRoot(),
+    MatSliderModule,
+    MatTreeModule,
+    Ng5SliderModule,
     MatFormFieldModule,
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatCheckboxModule
   ],
-  entryComponents: [FavoritePlaceComponent, EditFavoriteNameComponent],
+  entryComponents: [ProposeCafeComponent, FavoritePlaceComponent, EditFavoriteNameComponent],
 
   providers: [
     {
@@ -85,10 +104,16 @@ import {AgmDirectionModule} from 'agm-direction';
       useClass: InterceptorService,
       multi: true
     },
+    { provide: MatDialogRef, useValue: {} },
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: {hasBackdrop: false}
+    },
     {
       provide: AuthServiceConfig,
       useFactory: provideConfig
-    }
+    },
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })
