@@ -4,13 +4,15 @@ import {Place} from '../../../model/place/place';
 import {MapBounds} from '../../../model/map/map-bounds';
 import {PlaceService} from '../../../service/place/place.service';
 import {PlaceInfo} from '../../../model/place/place-info';
-import {MatIconRegistry} from '@angular/material';
+import {MatDialog, MatIconRegistry} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
 import {FavoritePlaceService} from '../../../service/favorite-place/favorite-place.service';
-import {FavoritePlaceSave} from '../../../model/favorite-place/favorite-place-save';
 import {UserService} from '../../../service/user/user.service';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
+import {FavoritePlaceComponent} from '../favorite-place/favorite-place.component';
+import {ModalService} from '../_modal/modal.service';
+import {FavoritePlace} from '../../../model/favorite-place/favorite-place';
 
 interface Location {
   lat: number;
@@ -49,7 +51,7 @@ export class MapComponent implements OnInit {
   markerYellow = 'assets/img/icon/favorite-place/Icon-43.png';
   private querySubscription: Subscription;
   idFavoritePlace: number;
-  favoritePlaces: FavoritePlaceSave[];
+  favoritePlaces: FavoritePlace[];
 
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private uService: UserService, private route: ActivatedRoute,
               private placeService: PlaceService, private favoritePlaceService: FavoritePlaceService) {
@@ -96,7 +98,9 @@ export class MapComponent implements OnInit {
     if (this.userRole === 'ROLE_ADMIN' || this.userRole === 'ROLE_MODERATOR' || this.userRole === 'ROLE_USER') {
       this.getFavoritePlaces();
     }
+
   }
+
 
   setCurrentLocation(): Position {
     if ('geolocation' in navigator) {
@@ -144,8 +148,7 @@ export class MapComponent implements OnInit {
     this.placeService.getPlaceInfo(pl.id).subscribe((res) => {
         this.placeInfo = res;
         if (this.userRole === 'ROLE_ADMIN' || this.userRole === 'ROLE_MODERATOR' || this.userRole === 'ROLE_USER') {
-
-          if (this.userRole === null) {
+          if (this.userRole !== null) {
             this.favoritePlaces.forEach(fp => {
               if (fp.placeId === this.placeInfo.id) {
                 this.placeInfo.name = fp.name;
@@ -164,19 +167,18 @@ export class MapComponent implements OnInit {
     pl.color = this.getIcon(pl.favorite);
   }
 
-  savePlaceAsFavorite(place: Place) {
+  saveOrDeletePlaceAsFavorite(place: Place) {
     console.log('savePlaceAsFavorite() method in map.component placeId=' + place.id);
     if (!place.favorite) {
-      this.favoritePlaceService.saveFavoritePlace(new FavoritePlaceSave(place.id, place.name)).subscribe(res => {
+      this.favoritePlaceService.saveFavoritePlace(new FavoritePlace(place.id, place.name)).subscribe(res => {
           this.getFavoritePlaces();
         }
-      )
-      ;
+      );
       place.favorite = true;
       place.color = this.getIcon(place.favorite);
 
     } else {
-      this.favoritePlaceService.deleteFavoritePlace(place.id * (-1)).subscribe(res => {
+      this.favoritePlaceService.deleteFavoritePlace(place.id).subscribe(res => {
         this.getFavoritePlaces();
       })
       ;
@@ -232,7 +234,7 @@ export class MapComponent implements OnInit {
 
   getFavoritePlaces() {
     console.log('getFavoritePlaces');
-    this.favoritePlaceService.findAllByUserEmailWithPlaceId().subscribe((res) => {
+    this.favoritePlaceService.findAllByUserEmail().subscribe((res) => {
         this.favoritePlaces = res;
       }
     );

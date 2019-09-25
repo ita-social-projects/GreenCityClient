@@ -7,7 +7,7 @@ import {frontMailLink} from '../../../links';
 import {DomSanitizer} from '@angular/platform-browser';
 
 export interface DialogData {
-  id: number;
+  placeId: number;
   name: string;
   test: string;
 }
@@ -48,7 +48,7 @@ export class FavoritePlaceComponent implements OnInit {
   openDialog(idElement: number, nameElement: string): void {
     const dialogRef = this.dialog.open(EditFavoriteNameComponent, {
         width: '550px',
-        data: {id: idElement, name: nameElement}
+        data: {placeId: idElement, name: nameElement}
 
       })
     ;
@@ -74,8 +74,8 @@ export class EditFavoriteNameComponent {
   }
 
   update(name: string) {
-    console.log('fp update id=' + this.data.id + ' name=' + name);
-    this.favoritePlaceService.updateFavoritePlace(new FavoritePlace(this.data.id, name)).subscribe();
+    console.log('fp update placeId=' + this.data.placeId + ' name=' + name);
+    this.favoritePlaceService.updateFavoritePlace(new FavoritePlace(this.data.placeId, name)).subscribe();
   }
 
   clickSubmit() {

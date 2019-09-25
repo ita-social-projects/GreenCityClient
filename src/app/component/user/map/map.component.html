@@ -30,6 +30,7 @@
                [zoom]="zoom"
                (idle)="getList()"
                (boundsChange)="boundsChange($event)">
+
         <agm-direction *ngIf="navigationMode" [origin]="origin" [destination]="destination"
                        [travelMode]="travelMode"
                        [provideRouteAlternatives]="true"
@@ -46,15 +47,16 @@
                     *ngFor="let p of place; let i = index"
                     [latitude]="p.location.lat"
                     [longitude]="p.location.lng"
-                       [iconUrl]="getMarkerIcon(p.favorite)"
+                    [iconUrl]="getMarkerIcon(p.favorite)"
 
         >
+
           <agm-info-window *ngIf="placeInfo">
             <h5>{{placeInfo.name}}
               <button id="star-button" mat-icon-button
                       *ngIf="userRole === 'ROLE_ADMIN' || userRole === 'ROLE_MODERATOR' || userRole === 'ROLE_USER'"
                       style="float: right;  background-color: white; border-width: inherit"
-                      (click)="savePlaceAsFavorite(p); ">
+                      (click)="saveOrDeletePlaceAsFavorite(p); ">
                 <mat-icon svg svgIcon="{{p.color}}"></mat-icon>
               </button>
             </h5>
@@ -68,9 +70,9 @@
               :{{openingHoursList.openTime}}-{{openingHoursList.closeTime}}</li>
             <p>
               <button *ngIf="button" (click)="getDirection(p)">{{navigationButton}} </button>
-              <button *ngIf="navigationMode"(click)="changeTravelMode()">{{travelModeButton}}</button>
+              <button *ngIf="navigationMode" (click)="changeTravelMode()">{{travelModeButton}}</button>
 
-             </p>
+            </p>
             <p *ngIf="distance">{{distance}}</p>
           </agm-info-window>
         </agm-marker>
