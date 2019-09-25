@@ -7,7 +7,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AgmCoreModule} from '@agm/core';
 import {MapComponent} from './component/user/map/map.component';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
-import {AdminComponent} from './component/admin/admin.component';
 import {SignUpComponent} from './component/user/auth/sign-up/sign-up.component';
 import {NavBarComponent} from './component/user/nav-bar/nav-bar.component';
 import {GeneralComponent} from './component/general/general.component';
