@@ -13,11 +13,7 @@ import {Subscription} from 'rxjs';
 import {FavoritePlaceComponent} from '../favorite-place/favorite-place.component';
 import {FavoritePlace} from '../../../model/favorite-place/favorite-place';
 import {FilterPlaceService} from '../../../service/filtering/filter-place.service';
-
-interface Location {
-  lat: number;
-  lng: number;
-}
+import {Location} from '../../../model/location.model';
 
 
 @Component({
@@ -195,11 +191,13 @@ export class MapComponent implements OnInit {
 
   getList() {
     if (this.idFavoritePlace) {
+      console.log('in getList() -idFavoritePlace');
       this.setFavoritePlaceOnMap();
     } else {
       console.log('in getList()');
       if (this.button !== true) {
         this.placeService.getFilteredPlaces();
+        console.log(this.placeService.places);
         this.idFavoritePlace = null;
         this.searchText = null;
       }
@@ -241,6 +239,7 @@ export class MapComponent implements OnInit {
     console.log('getFavoritePlaces');
     this.favoritePlaceService.findAllByUserEmail().subscribe((res) => {
         this.favoritePlaces = res;
+        console.log(this.favoritePlaces);
       }
     );
   }
@@ -254,6 +253,9 @@ export class MapComponent implements OnInit {
           place.favorite = true;
         }
       });
+    });
+    this.placeService.places.sort((a, b) => {
+      return a.name.toLowerCase() < b.name.toLowerCase() ? -1 :   1;
     });
   }
 

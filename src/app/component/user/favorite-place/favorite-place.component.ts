@@ -5,6 +5,8 @@ import {PlaceService} from '../../../service/place/place.service';
 import {FavoritePlace} from '../../../model/favorite-place/favorite-place';
 import {frontMailLink} from '../../../links';
 import {DomSanitizer} from '@angular/platform-browser';
+import {Router} from '@angular/router';
+import {router} from '../../../router';
 
 export interface DialogData {
   placeId: number;
@@ -22,9 +24,12 @@ export class FavoritePlaceComponent implements OnInit {
   favoritePlaces: FavoritePlace[];
   frontMailLink: string;
   color = 'star-yellow';
+  route: Router;
 
   constructor(iconRegistry: MatIconRegistry, public dialog: MatDialog, public dialogRef: MatDialogRef<FavoritePlaceComponent>,
-              private favoritePlaceService: FavoritePlaceService, private placeService: PlaceService, sanitizer: DomSanitizer) {
+              private favoritePlaceService: FavoritePlaceService, private placeService: PlaceService, sanitizer: DomSanitizer,
+              route: Router) {
+    this.route = route;
     iconRegistry.addSvgIcon(
       'star-yellow',
       sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/favorite-place/star-yellow2.svg'));
@@ -55,7 +60,6 @@ export class FavoritePlaceComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      // this.animal = result;
       this.showAll();
     });
   }

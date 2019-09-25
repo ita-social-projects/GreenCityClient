@@ -40,8 +40,8 @@ export class FavoritePlaceService {
     return this.http.delete<any>(`${favoritePlaceLink}${placeId}/`);
   }
 
-  getFavoritePlaceWithLocation(id: number): Observable<Place> {
-    console.log('getFavoritePlaceWithLocation id=' + id);
-    return this.http.get<any>(favoritePlaceLink + 'favorite/' + id);
+  getFavoritePlaceWithLocation(placeId: number): Observable<Place> {
+    console.log('getFavoritePlaceWithLocation placeId=' + placeId);
+    return this.http.get<any>(favoritePlaceLink + 'favorite/' + placeId);
   }
 }
