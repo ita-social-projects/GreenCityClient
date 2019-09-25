@@ -8,9 +8,9 @@ import {MatTableDataSource} from '@angular/material';
 import {PlaceStatus} from '../../../model/placeStatus.model';
 import {FilterPlaceDtoModel} from '../../../model/filtering/filter-place-dto.model';
 import {ConfirmationDialogService} from '../confirm-modal/confirmation-dialog-service.service';
-import {MatDialog} from "@angular/material";
-import {PlaceUpdatedDto} from "../../../model/place/placeUpdatedDto.model";
-import {UpdateCafeComponent} from "../update-cafe/update-cafe.component";
+import {MatDialog} from '@angular/material';
+import {PlaceUpdatedDto} from '../../../model/place/placeUpdatedDto.model';
+import {UpdateCafeComponent} from '../update-cafe/update-cafe.component';
 
 @Component({
   selector: 'app-places',

@@ -1,5 +1,5 @@
 // back-end
-// export const mainLink = 'http://localhost:8080/';
+//export const mainLink = 'http://localhost:8080/';
 export const mainLink = 'https://greencitysoftserve.herokuapp.com/';
 
 export const userOwnSecurityLink = mainLink + 'ownSecurity/';
