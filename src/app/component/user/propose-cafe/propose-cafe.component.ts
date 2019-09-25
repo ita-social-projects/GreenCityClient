@@ -58,8 +58,6 @@ export class ProposeCafeComponent implements OnInit {
   @ViewChild('search', {static: true})
   public searchElementRef: ElementRef;
 
-  // addTypeCategory = (term) => ({name: term});.
-
   constructor(private modalService: ModalService, private placeService: PlaceService, private categoryService: CategoryService,
               private specificationService: SpecificationService, private uService: UserService, private mapsAPILoader: MapsAPILoader,
               private ngZone: NgZone, private dialogRef: MatDialogRef<ProposeCafeComponent>) {
@@ -140,11 +138,10 @@ export class ProposeCafeComponent implements OnInit {
 
   add(openingHours: OpeningHours, breakTimes: BreakTimes) {
     console.log(openingHours);
-    if (openingHours.closeTime < openingHours.openTime || breakTimes.endTime < breakTimes.startTime) {
+    if (openingHours.closeTime <= openingHours.openTime || breakTimes.endTime <= breakTimes.startTime) {
       alert('Second time have to be late than first. Please, try again.');
       return;
     }
-
     let openingHours1 = new OpeningHours();
     openingHours1.closeTime = openingHours.closeTime;
     openingHours1.openTime = openingHours.openTime;

@@ -1,8 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {ProposeCafeComponent} from "../../user/propose-cafe/propose-cafe.component";
 import {UserService} from "../../../service/user/user.service";
 import {MatDialog} from "@angular/material";
 import {UpdateCafeComponent} from "../update-cafe/update-cafe.component";
+import {PlaceService} from "../../../service/place/place.service";
+import {PlacesComponent} from "../places/places.component";
 
 @Component({
   selector: 'app-admin-nav',
@@ -10,6 +12,7 @@ import {UpdateCafeComponent} from "../update-cafe/update-cafe.component";
   styleUrls: ['./admin-nav.component.css']
 })
 export class AdminNavComponent implements OnInit {
+
   constructor(public dialog: MatDialog) {
   }
 
@@ -19,10 +22,10 @@ export class AdminNavComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(ProposeCafeComponent, {
       width: '800px'
-  });
+    });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      console.log("after close save");
     });
   }
 }
