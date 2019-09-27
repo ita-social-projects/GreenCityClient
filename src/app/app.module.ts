@@ -35,7 +35,8 @@ import {
   MAT_DIALOG_DEFAULT_OPTIONS,
   MatButtonModule,
   MatCheckboxModule,
-  MatDialogModule, MatDialogRef,
+  MatDialogModule,
+  MatDialogRef,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
@@ -46,9 +47,8 @@ import {
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
 import {Ng5SliderModule} from 'ng5-slider';
 import {provideConfig} from './config/GoogleAuthConfig';
-import { RestoreComponent } from './component/user/restore/restore.component';
-import { RestoreFormComponent } from './component/user/restore-form/restore-form.component';
-import {AdminService} from './service/admin/admin.service';
+import {RestoreComponent} from './component/user/restore/restore.component';
+import {RestoreFormComponent} from './component/user/restore-form/restore-form.component';
 
 @NgModule({
   declarations: [
