@@ -77,7 +77,7 @@ export class PlaceService {
   }
 
   getPlaceInfo(id: number): Observable<PlaceInfo> {
-    return this.http.get<PlaceInfo>(`${placeLink}Info/${id}`);
+    return this.http.get<PlaceInfo>(`${placeLink}info/${id}`);
   }
 
   getFavoritePlaceInfo(id: number): Observable<PlaceInfo> {
