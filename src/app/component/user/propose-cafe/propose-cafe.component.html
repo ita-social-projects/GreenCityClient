@@ -1,0 +1,188 @@
+<script src="../../../model/pageable-dto.model.ts"></script>
+<h2 mat-dialog-title style="text-align: center; margin-bottom: 2%;">New
+  cafe</h2>
+<hr>
+<mat-dialog-content>
+  <form #saveForm="ngForm" (ngSubmit)="onSubmit()">
+        <div style="margin-left: 7%; margin-right: 9%">
+          <div class="validation-error" *ngIf="nameControl.invalid && (nameControl.dirty||nameControl.touched)">
+            <div *ngIf="nameControl.errors.required">
+              Name is required.
+            </div>
+            <div *ngIf="nameControl.errors.minlength">
+              Name must be at least 3 characters long.
+            </div>
+            <div *ngIf="nameControl.errors.maxlength">
+              Name must be maximum 30 characters long.
+            </div>
+          </div>
+          <input type="text" id="name" class="form-control" [(ngModel)]="placeName" #nameControl="ngModel"
+                 placeholder="Name" required
+                 minlength="3" maxlength="30" name="name">
+          <br>
+
+          <div class="validation-error"
+               *ngIf="categoryControl.invalid && (categoryControl.dirty||categoryControl.touched)">
+            <div *ngIf="categoryControl.errors.required">
+              Category is required.
+            </div>
+            <div *ngIf="categoryControl.errors.minlength">
+              Category must be at least 3 characters long.
+            </div>
+            <div *ngIf="categoryControl.errors.maxlength">
+              Category must be maximum 30 characters long.
+            </div>
+          </div>
+          <ng-select
+            [items]="categories"
+            bindLabel="name"
+            bindValue="name"
+            id="category"
+            maxlength="30"
+            [multiple]="false"
+            placeholder="Select category"
+            [(ngModel)]="name"
+            name="name"
+            #categoryControl="ngModel"
+            required>
+          </ng-select>
+          <br>
+
+          <!-- Map -->
+          <div style="margin-bottom: 20px">
+            <div class="validation-error"
+                 *ngIf="addressControl.invalid && (addressControl.dirty||addressControl.touched)">
+              <div *ngIf="addressControl.errors.required">
+                Address is required.
+              </div>
+              <div *ngIf="addressControl.errors.minlength">
+                Address must be at least 3 characters long.
+              </div>
+              <div *ngIf="addressControl.errors.maxlength">
+                Address must be maximum 120 characters long.
+              </div>
+            </div>
+            <input type="text" id="address" name="address" class="form-control" [(ngModel)]="address"
+                   (keydown.enter)="$event.preventDefault()" minlength="3" maxlength="100"
+                   autocorrect="off" autocapitalize="off" spellcheck="off" #search #addressControl="ngModel" required
+                   placeholder="Enter address">
+            <br>
+
+            <div class="sub-2" #map>
+              <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" [style.width.px]="map.offsetWidth"
+                       [style.height.px]="map.offsetHeight">
+                <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
+                            (dragEnd)="markerDragEnd($event)"></agm-marker>
+              </agm-map>
+            </div>
+
+            <div>
+              <div>Address: {{address}}</div>
+              <div>Latitude: {{latitude}}</div>
+              <div>Longitude: {{longitude}}</div>
+            </div>
+          </div>
+        </div>
+    <hr>
+
+        <form #discountForm="ngForm">
+        <div class="specification" style="text-align: -webkit-center;">
+          <h4 style="margin-bottom: 3%">Select discount: </h4>
+          <ng-select style="width: 250px; margin-top: 4%"
+                     [items]="specifications"
+                     bindLabel="name"
+                     bindValue="name"
+                     id="specification"
+                     maxlength="30"
+                     [multiple]="false"
+                     placeholder="Select specification"
+                     [(ngModel)]="nameOfSpecification"
+                     name="name"
+                     #specification="ngModel" required
+          >
+          </ng-select>
+
+          <ng-select style="width: 120px; margin-top: 2%"
+                     [items]="discountsNumber"
+                     bindLabel="value"
+                     bindValue="value"
+                     id="discount"
+                     [multiple]="false"
+                     placeholder="Discount"
+                     [(ngModel)]="value"
+                     name="value"
+                     #discount="ngModel" required
+          >
+          </ng-select>
+
+          <button class="btn btn-primary" type="button" [disabled]="discountForm.invalid"
+                  style="margin-top: 2%" (click)="addDiscountAndSpecification(nameOfSpecification, value)">Add discount
+          </button>
+
+          <div class="choice" *ngFor="let list of discounts">
+            <b>{{list.specification.name}}</b> discount: <b>{{list.value}}%</b>
+            <button class="delete-choice" type="button" (click)="delete(list)">-</button>
+          </div>
+        </div>
+        </form>
+
+        <form #openHoursForm="ngForm">
+          <hr>
+          <div style="text-align: -webkit-center;">
+          <div id="weekDays">
+            <div class="weekDay">
+              <h4 style="margin-bottom: 3%">Select schedule: </h4>
+              <select class="form-control" style="width: 190px; display: inline;" required
+                      [(ngModel)]="openingHours.weekDay" #day="ngModel" name="weekday">
+                <option disabled>Select day</option>
+                <option *ngFor="let day of weekDays">{{day}}</option>
+              </select>
+              <label for="time-start" class="label-for-time">from: </label>
+              <input type="time" name="openTime" class="form-control" style="width: 100px; display: inline;"
+                     #time="ngModel"
+                     [(ngModel)]="openingHours.openTime" id="time-start" placeholder="HH:mm" required>
+              <label for="time-end" class="label-for-time">to: </label>
+              <input name="closeTime" type="time" class="form-control" style="width: 100px; display: inline;" #time
+                     id="time-end" placeholder="HH:mm" [(ngModel)]="openingHours.closeTime" required>
+            </div>
+            <div>
+            <div style="margin-top: 1.5%; text-align: left; margin-left: 14%">
+              <mat-checkbox (change)="switch()">is break time needed</mat-checkbox>
+            </div>
+            <div *ngIf="isBreakTime" style="text-align: left; margin-left: 9%;">
+              <label for="break-start" class="label-for-time">from: </label>
+              <input type="time" class="form-control" style="width: 100px; display: inline;"
+                     [(ngModel)]="breakTimes.startTime" [required]="isBreakTime"
+                     id="break-start" name="startTime" placeholder="HH:mm" #timeBreak="ngModel">
+              <label for="break-end" class="label-for-time">to: </label>
+              <input type="time" class="form-control" style="width: 100px; display: inline;" #timeBreak="ngModel"
+                     [(ngModel)]="breakTimes.endTime" [required]="isBreakTime"
+                     name="endTime" id="break-end" placeholder="HH:mm">
+            </div>
+          </div>
+          </div>
+          <button class="btn btn-primary" type="button" [disabled]="openHoursForm.invalid"
+                  style="margin-top: 8px;" (click)="add(openingHours, breakTimes)">Add day
+          </button>
+
+          <div class="choice" *ngFor="let list of openingHoursList">
+            <b>{{list.weekDay}}</b> from: <b>{{list.openTime}}</b> to: <b>{{list.closeTime}}</b>
+            <div *ngIf="list.breakTime" style="padding-left: 5%; display: inline-block;"><b>break</b> start:
+              <b>{{list.breakTime.startTime}}</b>
+              end: <b>{{list.breakTime.endTime}}</b></div>
+            <button class="delete-choice" type="button" (click)="deleteDay(list)">-</button>
+          </div>
+          </div>
+        </form>
+
+    <div style="display:flex; justify-content:flex-end; align-items:center;">
+      <button [disabled]="saveForm.invalid || !(openingHoursList.length > 0) || !(discounts.length > 0)" class="btn btn-primary submit"
+              type="submit" style="margin-right: 1%">Submit
+      </button>
+      <button mat-dialog-close class="btn btn-primary" type="button">Close</button>
+    </div>
+
+  </form>
+</mat-dialog-content>
+
+
