@@ -1,0 +1,8 @@
+.flash-message {
+  position: fixed;
+  text-align: center;
+  z-index:1000;
+  left: 20%;
+  right: 20%;
+  top: 0;
+}

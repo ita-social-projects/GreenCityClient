@@ -1,0 +1,141 @@
+<div class="card mx-auto" style="width: 95% ">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">Users</h4>
+      <div class="input-group mb-3" style="width: 25%">
+        <input type="text" class="form-control" placeholder="search" aria-label="Recipient's username"
+               aria-describedby="basic-addon2" [(ngModel)]="searchReg" (keyup.enter)="onKeydown()">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button" (click)="onKeydown()">Search</button>
+        </div>
+      </div>
+      <div class="table-responsive" style="padding: 1%">
+        <table mat-table
+               [dataSource]="dataSource" matSort (matSortChange)="selectColumnToSort($event)"
+               matSortActive="{{sortColumn}}"
+               matSortDirection="{{sortDirection}}"
+               class="mat-elevation-z8">
+          <!-- Position Column -->
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header [matMenuTriggerFor]="menu">
+              Email
+            </th>
+            <td mat-cell id="emailColumn" *matCellDef="let element"
+                [class.blueColumn]="sortColumn==='name'">
+              {{element.email}}
+            </td>
+
+          </ng-container>
+
+          <ng-container matColumnDef="firstName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header [matMenuTriggerFor]="menu">
+              First Name
+            </th>
+            <td mat-cell id="firstNameColumn" *matCellDef="let element"
+                [class.blueColumn]="sortColumn==='firstName'">
+              {{element.firstName}}
+            </td>
+          </ng-container>
+          <!-- Name Column -->
+          <ng-container matColumnDef="lastName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header [matMenuTriggerFor]="menu">
+              Last Name
+            </th>
+            <td mat-cell *matCellDef="let element" id="lastNameColumn"
+                [class.blueColumn]="sortColumn==='lastName'">
+              {{element.lastName}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="dateOfRegistration">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header [matMenuTriggerFor]="menu">
+              Date of registration
+            </th>
+            <td mat-cell *matCellDef="let element" id="dateOfRegistrationColumn"
+                [class.blueColumn]="sortColumn==='dateOfRegistration'">
+              {{element.dateOfRegistration}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="role">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element">
+              <div class="selectRole">
+                <mat-select [(value)]="element.role"
+                            (selectionChange)="changeRole(element.id, $event.value, element.email)"
+                            [disabled]="element.email === userEmail">
+                  <mat-option *ngFor="let role of roles" [value]="role">
+                    {{role.toString().toLocaleLowerCase()}}
+                  </mat-option>
+                </mat-select>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="block">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let element">
+              <button *ngIf="element.userStatus != 'BLOCKED' && element.userStatus != 'DEACTIVATED'" mat-raised-button
+                      class="btn btn-outline-warning"
+                      (click)="updateUserStatus(element.id, 'BLOCKED', element.email)"
+                      [disabled]="element.email === userEmail">Block
+              </button>
+              <button *ngIf="element.userStatus == 'BLOCKED'" mat-raised-button class="btn btn-outline-warning"
+                      (click)="updateUserStatus(element.id, 'ACTIVATED', element.email)"
+                      [disabled]="element.email === userEmail">Unblock
+              </button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="deactivate">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element">
+              <button *ngIf="element.userStatus != 'DEACTIVATED'" mat-raised-button class="btn btn-outline-danger"
+                      (click)="updateUserStatus(element.id, 'DEACTIVATED', element.email)"
+                      [disabled]="element.email === userEmail">Deactivate
+              </button>
+              <button *ngIf="element.userStatus == 'DEACTIVATED'" mat-raised-button class="btn btn-outline-danger"
+                      (click)="updateUserStatus(element.id, 'ACTIVATED', element.email)"
+                      [disabled]="element.email === userEmail">Activate
+              </button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="loading">
+            <mat-footer-cell *matFooterCellDef colspan="3"> Loading data...</mat-footer-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="noData">
+            <mat-footer-cell *matFooterCellDef colspan="3"> No data</mat-footer-cell>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide': users!=null}"></mat-footer-row>
+          <mat-footer-row *matFooterRowDef="['noData']"
+                          [ngClass]="{'hide': users!=null && users.length != 0}"></mat-footer-row>
+        </table>
+      </div>
+      <br>
+      <div class="container">
+        <div id="pagination">
+          <pagination [itemsPerPage]="pageSize" [totalItems]="totalItems"
+                      (pageChanged)="changePage($event)" [maxSize]="6" [rotate]="true"
+                      [boundaryLinks]="true" class="flex-wrap"></pagination>
+        </div>
+        Items per page:
+        <mat-select [(value)]="pageSize" (valueChange)="changePage(page)" style="width: 50px;margin-left: 15px">
+          <mat-option [value]="2">2</mat-option>
+          <mat-option [value]="5">5</mat-option>
+          <mat-option [value]="10">10</mat-option>
+          <mat-option [value]="15">15</mat-option>
+          <mat-option [value]="20">20</mat-option>
+        </mat-select>
+      </div>
+    </div>
+  </div>
+</div>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="sortData(selectedColumnToSort,'asc')">Sort Ascending</button>
+  <button mat-menu-item (click)="sortData(selectedColumnToSort,'desc')">Sort Descending</button>
+  <button mat-menu-item (click)="sortData('email','asc')">Cancel Sorting</button>
+</mat-menu>
