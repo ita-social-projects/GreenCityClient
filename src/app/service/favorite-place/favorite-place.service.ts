@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {FavoritePlace} from '../../model/favorite-place/favorite-place';
 import {favoritePlaceLink} from '../../links';
 import {placeLink} from '../../links';
@@ -11,6 +11,8 @@ import {Place} from '../../model/place/place';
 })
 export class FavoritePlaceService {
   favoritePlaces: FavoritePlace[];
+  subject = new Subject();
+
   constructor(private http: HttpClient) {
   }
 
@@ -18,11 +20,6 @@ export class FavoritePlaceService {
     console.log('findAllByUserEmail');
     return this.http.get<FavoritePlace[]>(favoritePlaceLink);
   }
-
-  // findAllByUserEmailWithPlaceId(): Observable<FavoritePlace[]> {
-  //   console.log('findAllByUserEmailWithPlaceId');
-  //   return this.http.get<any>(favoritePlaceLink + 'with_place_id');
-  // }
 
   saveFavoritePlace(favoritePlaceSave: FavoritePlace) {
     console.log('service favorite-place savePlaceAsFavorite placeId=' + favoritePlaceSave.placeId +
@@ -44,6 +41,7 @@ export class FavoritePlaceService {
     console.log('getFavoritePlaceWithLocation placeId=' + placeId);
     return this.http.get<any>(favoritePlaceLink + 'favorite/' + placeId);
   }
+
   getFavoritePlaces() {
     console.log('getFavoritePlaces');
     this.findAllByUserEmail().subscribe((res) => {

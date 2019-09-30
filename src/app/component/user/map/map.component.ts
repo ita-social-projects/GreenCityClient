@@ -4,13 +4,12 @@ import {Place} from '../../../model/place/place';
 import {MapBounds} from '../../../model/map/map-bounds';
 import {PlaceService} from '../../../service/place/place.service';
 import {PlaceInfo} from '../../../model/place/place-info';
-import {MatDialog, MatIconRegistry} from '@angular/material';
+import {MatIconRegistry} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
 import {FavoritePlaceService} from '../../../service/favorite-place/favorite-place.service';
 import {UserService} from '../../../service/user/user.service';
 import {ActivatedRoute} from '@angular/router';
-import {Subscription} from 'rxjs';
-import {FavoritePlaceComponent} from '../favorite-place/favorite-place.component';
+
 import {FavoritePlace} from '../../../model/favorite-place/favorite-place';
 import {FilterPlaceService} from '../../../service/filtering/filter-place.service';
 import {Location} from '../../../model/location.model';
@@ -44,8 +43,6 @@ export class MapComponent implements OnInit {
   icon = 'assets/img/icon/blue-dot.png';
   color = 'star-yellow';
   markerYellow = 'assets/img/icon/favorite-place/Icon-43.png';
-  querySubscription: Subscription;
-  idFavoritePlace: number;
 
   constructor(private iconRegistry: MatIconRegistry,
               private sanitizer: DomSanitizer,
@@ -72,10 +69,6 @@ export class MapComponent implements OnInit {
           ));
     this.filterService.setCategoryName('Food');
     this.filterService.setSpecName('Own cup');
-    this.querySubscription = route.queryParams.subscribe(
-      (queryParam: any) => {
-        this.idFavoritePlace = queryParam.fp_id;
-      });
   }
 
   ngOnInit() {
@@ -87,6 +80,7 @@ export class MapComponent implements OnInit {
     if (this.userRole === 'ROLE_ADMIN' || this.userRole === 'ROLE_MODERATOR' || this.userRole === 'ROLE_USER') {
       this.favoritePlaceService.getFavoritePlaces();
     }
+    this.subscribeToFavoritePlaceId();
   }
 
   getDirection(p: Place) {
@@ -150,7 +144,6 @@ export class MapComponent implements OnInit {
               this.placeInfo.name = fp.name;
             }
           });
-
         }
       }
     );
@@ -178,8 +171,7 @@ export class MapComponent implements OnInit {
       this.favoritePlaceService.deleteFavoritePlace(place.id).subscribe(res => {
         this.favoritePlaceService.getFavoritePlaces();
         this.changePlaceToFavoritePlace();
-      })
-      ;
+      });
       place.favorite = false;
       place.color = this.getIcon(place.favorite);
     }
@@ -190,17 +182,11 @@ export class MapComponent implements OnInit {
   }
 
   getList() {
-    if (this.idFavoritePlace) {
-      console.log('in getList(), setFP');
-      this.setFavoritePlaceOnMap();
-    } else {
-      console.log('in getList()');
-      if (this.button !== true) {
-        this.placeService.getFilteredPlaces();
-        console.log(this.placeService.places);
-        this.idFavoritePlace = null;
-        this.searchText = null;
-      }
+    console.log('in getList()');
+    if (this.button !== true) {
+      this.placeService.getFilteredPlaces();
+      console.log(this.placeService.places);
+      this.searchText = null;
     }
   }
 
@@ -222,20 +208,27 @@ export class MapComponent implements OnInit {
     }
   }
 
-  setFavoritePlaceOnMap() {
-    if (this.idFavoritePlace) {
-      this.favoritePlaceService.getFavoritePlaceWithLocation(this.idFavoritePlace).subscribe((res) => {
-          res.favorite = true;
-          this.placeService.places = [res];
-          this.setMarker(this.placeService.places[0]);
-        }
-      );
-      this.idFavoritePlace = null;
+  setFavoritePlaceOnMap(id: number) {
+    this.favoritePlaceService.getFavoritePlaceWithLocation(id).subscribe((res) => {
+        res.favorite = true;
+        this.placeService.places = [res];
+        this.setMarker(this.placeService.places[0]);
+        this.lat = this.placeService.places[0].location.lat;
+        this.lng = this.placeService.places[0].location.lng;
+      }
+    );
 
-    }
   }
 
-
+  subscribeToFavoritePlaceId() {
+    this.favoritePlaceService.subject.subscribe(value => {
+      if (typeof value === 'number') {
+        this.setFavoritePlaceOnMap(value);
+      } else {
+        console.log('Not number in favoritePlaceService.subject');
+      }
+    });
+  }
 
   changePlaceToFavoritePlace() {
     this.placeService.places.forEach((place) => {
