@@ -46,7 +46,6 @@ export class MapComponent implements OnInit {
   markerYellow = 'assets/img/icon/favorite-place/Icon-43.png';
   querySubscription: Subscription;
   idFavoritePlace: number;
-  favoritePlaces: FavoritePlace[];
 
   constructor(private iconRegistry: MatIconRegistry,
               private sanitizer: DomSanitizer,
@@ -86,7 +85,7 @@ export class MapComponent implements OnInit {
     this.userMarkerLocation = {lat: this.lat, lng: this.lng};
     this.filterService.setUserMarkerLocation(this.userMarkerLocation);
     if (this.userRole === 'ROLE_ADMIN' || this.userRole === 'ROLE_MODERATOR' || this.userRole === 'ROLE_USER') {
-      this.getFavoritePlaces();
+      this.favoritePlaceService.getFavoritePlaces();
     }
   }
 
@@ -146,7 +145,7 @@ export class MapComponent implements OnInit {
     this.placeService.getPlaceInfo(pl.id).subscribe((res) => {
         this.placeInfo = res;
         if (this.userRole === 'ROLE_ADMIN' || this.userRole === 'ROLE_MODERATOR' || this.userRole === 'ROLE_USER') {
-          this.favoritePlaces.forEach(fp => {
+          this.favoritePlaceService.favoritePlaces.forEach(fp => {
             if (fp.placeId === this.placeInfo.id) {
               this.placeInfo.name = fp.name;
             }
@@ -168,7 +167,7 @@ export class MapComponent implements OnInit {
     console.log('savePlaceAsFavorite() method in map.component placeId=' + place.id);
     if (!place.favorite) {
       this.favoritePlaceService.saveFavoritePlace(new FavoritePlace(place.id, place.name)).subscribe(res => {
-          this.getFavoritePlaces();
+          this.favoritePlaceService.getFavoritePlaces();
           this.changePlaceToFavoritePlace();
         }
       );
@@ -177,7 +176,7 @@ export class MapComponent implements OnInit {
 
     } else {
       this.favoritePlaceService.deleteFavoritePlace(place.id).subscribe(res => {
-        this.getFavoritePlaces();
+        this.favoritePlaceService.getFavoritePlaces();
         this.changePlaceToFavoritePlace();
       })
       ;
@@ -236,19 +235,12 @@ export class MapComponent implements OnInit {
     }
   }
 
-  getFavoritePlaces() {
-    console.log('getFavoritePlaces');
-    this.favoritePlaceService.findAllByUserEmail().subscribe((res) => {
-        this.favoritePlaces = res;
-        console.log(this.favoritePlaces);
-      }
-    );
-  }
+
 
   changePlaceToFavoritePlace() {
     this.placeService.places.forEach((place) => {
       place.favorite = false;
-      this.favoritePlaces.forEach((favoritePlace) => {
+      this.favoritePlaceService.favoritePlaces.forEach((favoritePlace) => {
         if (place.id === favoritePlace.placeId) {
           place.name = favoritePlace.name;
           place.favorite = true;

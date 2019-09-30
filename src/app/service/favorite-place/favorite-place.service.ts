@@ -10,7 +10,7 @@ import {Place} from '../../model/place/place';
   providedIn: 'root'
 })
 export class FavoritePlaceService {
-
+  favoritePlaces: FavoritePlace[];
   constructor(private http: HttpClient) {
   }
 
@@ -43,5 +43,13 @@ export class FavoritePlaceService {
   getFavoritePlaceWithLocation(placeId: number): Observable<Place> {
     console.log('getFavoritePlaceWithLocation placeId=' + placeId);
     return this.http.get<any>(favoritePlaceLink + 'favorite/' + placeId);
+  }
+  getFavoritePlaces() {
+    console.log('getFavoritePlaces');
+    this.findAllByUserEmail().subscribe((res) => {
+        this.favoritePlaces = res;
+        console.log(this.favoritePlaces);
+      }
+    );
   }
 }
