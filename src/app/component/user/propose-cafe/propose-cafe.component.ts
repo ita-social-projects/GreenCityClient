@@ -17,6 +17,10 @@ import {MatDialogRef} from "@angular/material";
 import {SpecificationService} from "../../../service/specification.service";
 import {DiscountDto} from "../../../model/discount/DiscountDto";
 import {SpecificationNameDto} from "../../../model/specification/SpecificationNameDto";
+import {AngularFireStorage, AngularFireUploadTask} from "@angular/fire/storage";
+import {AngularFirestore} from "@angular/fire/firestore";
+import {Observable} from "rxjs";
+import {finalize, tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-propose-cafe',
@@ -31,7 +35,7 @@ export class ProposeCafeComponent implements OnInit {
   placeName: any;
   place: PlaceAddDto;
   location: LocationDto;
-  discounts: DiscountDto[] = [];
+  discountValues: DiscountDto[] = [];
   specification: SpecificationNameDto;
   openingHoursList: OpeningHours[] = [];
   weekDays: WeekDays[] = [WeekDays.MONDAY, WeekDays.TUESDAY, WeekDays.WEDNESDAY, WeekDays.THURSDAY, WeekDays.FRIDAY,
@@ -51,6 +55,21 @@ export class ProposeCafeComponent implements OnInit {
   submitButtonEnabled: boolean;
   isBreakTime = false;
 
+  task: AngularFireUploadTask;
+
+  // Progress monitoring
+  percentage: Observable<number>;
+
+  snapshot: Observable<any>;
+
+  // Download URL
+  downloadURL: Observable<string>;
+
+  imageUrl: any;
+
+  // State for dropzone CSS toggling
+  isHovering: boolean;
+
   @Output() newPlaceEvent = new EventEmitter<PlaceWithUserModel>();
   @ViewChild('saveForm', {static: true}) private saveForm: NgForm;
   @ViewChild(NgSelectComponent, {static: true}) ngSelectComponent: NgSelectComponent;
@@ -60,7 +79,8 @@ export class ProposeCafeComponent implements OnInit {
 
   constructor(private modalService: ModalService, private placeService: PlaceService, private categoryService: CategoryService,
               private specificationService: SpecificationService, private uService: UserService, private mapsAPILoader: MapsAPILoader,
-              private ngZone: NgZone, private dialogRef: MatDialogRef<ProposeCafeComponent>) {
+              private ngZone: NgZone, private dialogRef: MatDialogRef<ProposeCafeComponent>, private storage: AngularFireStorage,
+              private db: AngularFirestore) {
     this.category = new CategoryDto();
     this.discount = new DiscountDto();
     this.location = new LocationDto();
@@ -114,21 +134,21 @@ export class ProposeCafeComponent implements OnInit {
     let specification = new SpecificationNameDto();
     specification.name = nameOfSpecification;
     discount1.specification = specification;
-    if (this.discounts.length == 0) {
-      this.discounts.push(discount1);
-      console.log(this.discounts);
+    if (this.discountValues.length == 0) {
+      this.discountValues.push(discount1);
+      console.log(this.discountValues);
       discount1 = new DiscountDto();
-    } else if (this.discounts.length === 1) {
-      for (let i = 0; i < this.discounts.length; i++) {
-        if (discount1.specification.name !== this.discounts[i].specification.name) {
-          this.discounts.push(discount1);
+    } else if (this.discountValues.length === 1) {
+      for (let i = 0; i < this.discountValues.length; i++) {
+        if (discount1.specification.name !== this.discountValues[i].specification.name) {
+          this.discountValues.push(discount1);
         }
       }
     }else {
-      for (let i = 0; i < this.discounts.length; i++) {
-        for (let j = i + 1; j < this.discounts.length; i++) {
-          if (discount1.specification.name == this.discounts[i].specification.name ||
-            discount1.specification.name == this.discounts[j].specification.name) {
+      for (let i = 0; i < this.discountValues.length; i++) {
+        for (let j = i + 1; j < this.discountValues.length; i++) {
+          if (discount1.specification.name == this.discountValues[i].specification.name ||
+            discount1.specification.name == this.discountValues[j].specification.name) {
             alert("Already exists.");
           }
         }
@@ -184,15 +204,15 @@ export class ProposeCafeComponent implements OnInit {
   }
 
   delete(discount: DiscountDto) {
-    this.discounts = this.discounts.filter(item => item !== discount);
+    this.discountValues = this.discountValues.filter(item => item !== discount);
   }
 
   onSubmit() {
     this.submitButtonEnabled = false;
     this.place.openingHoursList = this.openingHoursList;
-    this.place.discounts = this.discounts;
+    this.place.discountValues = this.discountValues;
     this.place.category.name = this.name;
-    this.place.discounts = this.discounts;
+    this.place.discountValues = this.discountValues;
     this.location.address = this.address;
     this.location.lat = this.latitude;
     this.location.lng = this.longitude;
@@ -236,4 +256,54 @@ export class ProposeCafeComponent implements OnInit {
       }
     });
   }
+
+
+  //file upload feature
+
+  toggleHover(event: boolean) {
+    this.isHovering = event;
+  }
+
+  startUpload(event: FileList) {
+    // The File object
+    const file = event.item(0);
+
+    // Client-side validation example
+    if (file.type.split('/')[0] !== 'image') {
+      console.error('unsupported file type :( ');
+      return;
+    }
+
+    // The storage path
+    const path = `disc/${new Date().getTime()}_${file.name}`;
+
+    // Totally optional metadata
+    const customMetadata = {app: 'My AngularFire-powered PWA!'};
+
+    // The main task
+    this.task = this.storage.upload(path, file, {customMetadata});
+
+    // Progress monitoring
+    this.percentage = this.task.percentageChanges();
+    this.snapshot = this.task.snapshotChanges();
+
+    this.snapshot = this.task.snapshotChanges().pipe(
+      tap(snap => {
+        if (snap.bytesTransferred === snap.totalBytes) {
+          // Update firestore on completion
+          this.db.collection('photos').add({path, size: snap.totalBytes});
+        }
+      })
+    );
+    this.task.snapshotChanges().pipe(
+      finalize(() => this.downloadURL = this.storage.ref(path).getDownloadURL())
+    )
+      .subscribe();
+  }
+
+  // Determines if the upload task is active
+  isActive(snapshot) {
+    return snapshot.state === 'running' && snapshot.bytesTransferred < snapshot.totalBytes;
+  }
+
 }

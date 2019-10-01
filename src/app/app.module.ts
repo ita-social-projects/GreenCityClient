@@ -49,6 +49,10 @@ import {provideConfig} from './config/GoogleAuthConfig';
 import { RestoreComponent } from './component/user/restore/restore.component';
 import { RestoreFormComponent } from './component/user/restore-form/restore-form.component';
 import {AdminService} from './service/admin/admin.service';
+import {AngularFireStorageModule} from "@angular/fire/storage";
+import {AngularFireModule} from "@angular/fire";
+import {AngularFirestoreModule} from "@angular/fire/firestore";
+import {environment} from "../environments/environment";
 
 @NgModule({
   declarations: [
@@ -81,6 +85,9 @@ import {AdminService} from './service/admin/admin.service';
       apiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI',
       libraries: ['places', 'geometry']
     }),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule,
+    AngularFireStorageModule,
     AgmDirectionModule,
     Ng2SearchPipeModule,
     AdminModule,
