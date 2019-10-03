@@ -46,9 +46,9 @@ import {
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
 import {Ng5SliderModule} from 'ng5-slider';
 import {provideConfig} from './config/GoogleAuthConfig';
-import { RestoreComponent } from './component/user/restore/restore.component';
-import { RestoreFormComponent } from './component/user/restore-form/restore-form.component';
-import {AdminService} from './service/admin/admin.service';
+import {RestoreComponent} from './component/user/restore/restore.component';
+import {RestoreFormComponent} from './component/user/restore-form/restore-form.component';
+import {UserSettingComponent} from './component/user/user-setting/user-setting.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +68,7 @@ import {AdminService} from './service/admin/admin.service';
     DeleteFavoriteComponent,
     RestoreComponent,
     RestoreFormComponent,
+    UserSettingComponent,
   ],
   imports: [
     BrowserModule,
@@ -103,7 +104,14 @@ import {AdminService} from './service/admin/admin.service';
     MatButtonModule,
     MatCheckboxModule
   ],
-  entryComponents: [ProposeCafeComponent, FavoritePlaceComponent, EditFavoriteNameComponent, RestoreComponent, DeleteFavoriteComponent],
+  entryComponents: [
+    ProposeCafeComponent,
+    FavoritePlaceComponent,
+    EditFavoriteNameComponent,
+    RestoreComponent,
+    DeleteFavoriteComponent,
+    UserSettingComponent
+  ],
 
   providers: [
     {
