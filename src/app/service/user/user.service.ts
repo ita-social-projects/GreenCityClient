@@ -4,9 +4,11 @@ import {Observable} from 'rxjs';
 import {UserRoleModel} from '../../model/user/user-role.model';
 import {UserStatusModel} from '../../model/user/user-status.model';
 import {UserPageableDtoModel} from '../../model/user/user-pageable-dto.model';
-import {mainLink} from '../../links';
+import {mainLink, userInitialsLink} from '../../links';
 import {RolesModel} from '../../model/user/roles.model';
 import {UserFilterDtoModel} from '../../model/user/userFilterDto.model';
+import {UserInitialsModel} from '../../model/user/user-initials.model';
+
 const token = localStorage.getItem('accessToken');
 let jwtData = null;
 let decodedJwtJsonData = null;
@@ -73,5 +75,17 @@ export class UserService {
       this.filterDto.searchReg = `%${this.filterDto.searchReg}%`;
       return this.http.post<UserPageableDtoModel>(`${this.apiUrl}/filter` + paginationSettings, this.filterDto);
     }
+  }
+
+  getUserInitials() {
+    return this.http.get<UserInitialsModel>(userInitialsLink);
+  }
+
+  updateUserInitials(userInitialsModel: UserInitialsModel) {
+    const body = {
+      firstName: userInitialsModel.firstName,
+      lastName: userInitialsModel.lastName
+    };
+    return this.http.put(userInitialsLink, body);
   }
 }
