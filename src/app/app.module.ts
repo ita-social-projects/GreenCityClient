@@ -33,7 +33,7 @@ import {AgmDirectionModule} from 'agm-direction';
 import {DatePipe} from '@angular/common';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
-  MatButtonModule,
+  MatButtonModule, MatCardModule,
   MatCheckboxModule,
   MatDialogModule,
   MatDialogRef,
@@ -53,6 +53,8 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
+import { UploadPhotoComponent } from './component/user/upload-photo/upload-photo.component';
+import {FileUploadModule} from 'ng2-file-upload';
 
 @NgModule({
   declarations: [
@@ -72,6 +74,7 @@ import {environment} from '../environments/environment';
     DeleteFavoriteComponent,
     RestoreComponent,
     RestoreFormComponent,
+    UploadPhotoComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,6 +83,7 @@ import {environment} from '../environments/environment';
     HttpClientModule,
     SocialLoginModule,
     FormsModule,
+    FileUploadModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI',
       libraries: ['places', 'geometry']
@@ -105,6 +109,7 @@ import {environment} from '../environments/environment';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AngularFireStorageModule,
+    MatCardModule,
   ],
   entryComponents: [ProposeCafeComponent, FavoritePlaceComponent, EditFavoriteNameComponent, RestoreComponent, DeleteFavoriteComponent],
 
