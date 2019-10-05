@@ -1,20 +1,20 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {FileUploader} from 'ng2-file-upload';
 import {HttpClient} from '@angular/common/http';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
 import {Observable} from 'rxjs';
 import {finalize} from 'rxjs/operators';
-import {Photo} from "../../../model/photo/Photo";
+import {Photo} from '../../../model/photo/Photo';
 
 @Component({
-  selector: 'app-file-upload',
+  selector: 'app-photo-upload',
   templateUrl: './photo-upload.component.html',
   styleUrls: ['./photo-upload.component.scss']
 })
 export class PhotoUploadComponent implements OnInit {
-  @Output() photos = new EventEmitter();
+  @Output() listOfPhotos = new EventEmitter();
   task: AngularFireUploadTask;
   uploadForm: FormGroup;
 
@@ -66,7 +66,7 @@ export class PhotoUploadComponent implements OnInit {
     }
     console.log(this.photoLinks);
     this.uploader.clearQueue();
-    this.photos.emit(this.photoLinks);
+    this.listOfPhotos.emit(this.photoLinks);
     this.done === true;
   }
 
