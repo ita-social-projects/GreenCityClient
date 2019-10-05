@@ -60,6 +60,15 @@ import {FileUploadModule} from 'ng2-file-upload';
 import {AddCommentComponent} from './component/user/add-comment/add-comment.component';
 import {RatingModule} from 'ngx-bootstrap';
 import {FileUploadComponent} from './component/user/file-upload/file-upload.component';
+import { RestoreComponent } from './component/user/restore/restore.component';
+import { RestoreFormComponent } from './component/user/restore-form/restore-form.component';
+import {AdminService} from './service/admin/admin.service';
+import {AngularFireStorageModule} from "@angular/fire/storage";
+import {AngularFireModule} from "@angular/fire";
+import {AngularFirestoreModule} from "@angular/fire/firestore";
+import {environment} from "../environments/environment";
+import {FileUploadModule} from "ng2-file-upload";
+import { PhotoUploadComponent } from './component/user/photo-upload/photo-upload.component';
 
 
 @NgModule({
@@ -80,6 +89,7 @@ import {FileUploadComponent} from './component/user/file-upload/file-upload.comp
     DeleteFavoriteComponent,
     RestoreComponent,
     RestoreFormComponent,
+    PhotoUploadComponent,
     UploadPhotoComponent,
     AddCommentComponent,
     FileUploadComponent,
