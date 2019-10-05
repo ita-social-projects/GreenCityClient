@@ -19,9 +19,7 @@ import {DiscountDto} from "../../../model/discount/DiscountDto";
 import {SpecificationNameDto} from "../../../model/specification/SpecificationNameDto";
 import {AngularFireStorage, AngularFireUploadTask} from "@angular/fire/storage";
 import {AngularFirestore} from "@angular/fire/firestore";
-import {Observable} from "rxjs";
-import {finalize, tap} from "rxjs/operators";
-import {FileUploader} from "ng2-file-upload";
+
 
 @Component({
   selector: 'app-propose-cafe',
