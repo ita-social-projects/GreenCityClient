@@ -1,0 +1,16 @@
+<div>
+  <rating label="Please rate us" [(ngModel)]="comment.rate"
+          [max]="5"
+          [readonly]="false"
+          [disabled]="false"
+          [required]="true"
+          [titles]="['one', 'two', 'three', 'four', 'five']">
+  </rating>
+</div>
+<div>
+  <input type="text">
+</div>
+<div>
+  <app-photo-upload  (listOfPhotos)="getListOfPhotos($event)"></app-photo-upload>
+</div>
+
