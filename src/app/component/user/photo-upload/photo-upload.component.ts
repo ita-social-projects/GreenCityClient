@@ -6,17 +6,14 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
 import {Observable} from 'rxjs';
 import {finalize} from 'rxjs/operators';
-
-export class Photo {
-  name: string;
-}
+import {Photo} from "../../../model/photo/Photo";
 
 @Component({
   selector: 'app-file-upload',
-  templateUrl: './file-upload.component.html',
-  styleUrls: ['./file-upload.component.scss']
+  templateUrl: './photo-upload.component.html',
+  styleUrls: ['./photo-upload.component.scss']
 })
-export class FileUploadComponent implements OnInit {
+export class PhotoUploadComponent implements OnInit {
   @Output() photos = new EventEmitter();
   task: AngularFireUploadTask;
   uploadForm: FormGroup;

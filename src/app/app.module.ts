@@ -54,7 +54,7 @@ import {AngularFireModule} from "@angular/fire";
 import {AngularFirestoreModule} from "@angular/fire/firestore";
 import {environment} from "../environments/environment";
 import {FileUploadModule} from "ng2-file-upload";
-import { FileUploadComponent } from './component/user/file-upload/file-upload.component';
+import { PhotoUploadComponent } from './component/user/photo-upload/photo-upload.component';
 
 
 @NgModule({
@@ -75,7 +75,7 @@ import { FileUploadComponent } from './component/user/file-upload/file-upload.co
     DeleteFavoriteComponent,
     RestoreComponent,
     RestoreFormComponent,
-    FileUploadComponent,
+    PhotoUploadComponent,
   ],
   imports: [
     BrowserModule,
