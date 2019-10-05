@@ -33,13 +33,15 @@ import {AgmDirectionModule} from 'agm-direction';
 import {DatePipe} from '@angular/common';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
-  MatButtonModule, MatCardModule,
+  MatButtonModule,
+  MatCardModule,
   MatCheckboxModule,
   MatDialogModule,
   MatDialogRef,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule, MatSelectModule,
+  MatInputModule,
+  MatSelectModule,
   MatSliderModule,
   MatTableModule,
   MatTreeModule
@@ -53,19 +55,11 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
-import { UploadPhotoComponent } from './component/user/upload-photo/upload-photo.component';
+import {UploadPhotoComponent} from './component/user/upload-photo/upload-photo.component';
 import {FileUploadModule} from 'ng2-file-upload';
-import { AddCommentComponent } from './component/user/add-comment/add-comment.component';
+import {AddCommentComponent} from './component/user/add-comment/add-comment.component';
 import {RatingModule} from 'ngx-bootstrap';
-import { RestoreComponent } from './component/user/restore/restore.component';
-import { RestoreFormComponent } from './component/user/restore-form/restore-form.component';
-import {AdminService} from './service/admin/admin.service';
-import {AngularFireStorageModule} from "@angular/fire/storage";
-import {AngularFireModule} from "@angular/fire";
-import {AngularFirestoreModule} from "@angular/fire/firestore";
-import {environment} from "../environments/environment";
-import {FileUploadModule} from "ng2-file-upload";
-import { FileUploadComponent } from './component/user/file-upload/file-upload.component';
+import {FileUploadComponent} from './component/user/file-upload/file-upload.component';
 
 
 @NgModule({
@@ -102,9 +96,6 @@ import { FileUploadComponent } from './component/user/file-upload/file-upload.co
       apiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI',
       libraries: ['places', 'geometry']
     }),
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFirestoreModule,
-    AngularFireStorageModule,
     AgmDirectionModule,
     Ng2SearchPipeModule,
     AdminModule,
@@ -128,9 +119,7 @@ import { FileUploadComponent } from './component/user/file-upload/file-upload.co
     AngularFireStorageModule,
     MatCardModule,
     RatingModule,
-    MatCheckboxModule,
     FileUploadModule,
-    MatCardModule,
     MatSelectModule
   ],
   entryComponents: [ProposeCafeComponent, FavoritePlaceComponent, EditFavoriteNameComponent, RestoreComponent, DeleteFavoriteComponent],
