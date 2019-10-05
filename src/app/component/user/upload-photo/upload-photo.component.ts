@@ -13,7 +13,7 @@ import {Photo} from '../../../model/photo/photo';
   styleUrls: ['./upload-photo.component.css']
 })
 export class UploadPhotoComponent implements OnInit {
-  @Output() photos = new EventEmitter();
+  @Output() listOfPhotos = new EventEmitter();
   task: AngularFireUploadTask;
   uploadForm: FormGroup;
   // Progress monitoring
@@ -79,7 +79,7 @@ export class UploadPhotoComponent implements OnInit {
     }
     console.log(this.photoLinks);
     this.uploader.clearQueue();
-    this.photos.emit(this.photoLinks);
+    this.listOfPhotos.emit(this.photoLinks);
   }
 
   // uploadFile(data: FormData): Observable {

@@ -55,6 +55,8 @@ import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
 import { UploadPhotoComponent } from './component/user/upload-photo/upload-photo.component';
 import {FileUploadModule} from 'ng2-file-upload';
+import { AddCommentComponent } from './component/user/add-comment/add-comment.component';
+import {RatingModule} from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -75,6 +77,7 @@ import {FileUploadModule} from 'ng2-file-upload';
     RestoreComponent,
     RestoreFormComponent,
     UploadPhotoComponent,
+    AddCommentComponent,
   ],
   imports: [
     BrowserModule,
@@ -110,6 +113,7 @@ import {FileUploadModule} from 'ng2-file-upload';
     AngularFirestoreModule,
     AngularFireStorageModule,
     MatCardModule,
+    RatingModule,
   ],
   entryComponents: [ProposeCafeComponent, FavoritePlaceComponent, EditFavoriteNameComponent, RestoreComponent, DeleteFavoriteComponent],
 
