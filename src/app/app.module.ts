@@ -39,7 +39,7 @@ import {
   MatDialogRef,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule,
+  MatInputModule, MatSelectModule,
   MatSliderModule,
   MatTableModule,
   MatTreeModule
@@ -57,6 +57,16 @@ import { UploadPhotoComponent } from './component/user/upload-photo/upload-photo
 import {FileUploadModule} from 'ng2-file-upload';
 import { AddCommentComponent } from './component/user/add-comment/add-comment.component';
 import {RatingModule} from 'ngx-bootstrap';
+import { RestoreComponent } from './component/user/restore/restore.component';
+import { RestoreFormComponent } from './component/user/restore-form/restore-form.component';
+import {AdminService} from './service/admin/admin.service';
+import {AngularFireStorageModule} from "@angular/fire/storage";
+import {AngularFireModule} from "@angular/fire";
+import {AngularFirestoreModule} from "@angular/fire/firestore";
+import {environment} from "../environments/environment";
+import {FileUploadModule} from "ng2-file-upload";
+import { FileUploadComponent } from './component/user/file-upload/file-upload.component';
+
 
 @NgModule({
   declarations: [
@@ -78,6 +88,7 @@ import {RatingModule} from 'ngx-bootstrap';
     RestoreFormComponent,
     UploadPhotoComponent,
     AddCommentComponent,
+    FileUploadComponent,
   ],
   imports: [
     BrowserModule,
@@ -91,6 +102,9 @@ import {RatingModule} from 'ngx-bootstrap';
       apiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI',
       libraries: ['places', 'geometry']
     }),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule,
+    AngularFireStorageModule,
     AgmDirectionModule,
     Ng2SearchPipeModule,
     AdminModule,
@@ -114,6 +128,10 @@ import {RatingModule} from 'ngx-bootstrap';
     AngularFireStorageModule,
     MatCardModule,
     RatingModule,
+    MatCheckboxModule,
+    FileUploadModule,
+    MatCardModule,
+    MatSelectModule
   ],
   entryComponents: [ProposeCafeComponent, FavoritePlaceComponent, EditFavoriteNameComponent, RestoreComponent, DeleteFavoriteComponent],
 
