@@ -131,7 +131,9 @@
 
             <div class="choice" *ngFor="let list of discountValues">
               <b>{{list.specification.name}}</b> discount: <b>{{list.value}}%</b>
-              <button class="delete-choice" type="button" (click)="delete(list)">-</button>
+              <a id="trashIcon2" (click)="delete(list)" style="padding-left: 2%; color: red;">
+                <mdb-icon far icon="trash-alt"></mdb-icon>
+              </a>
             </div>
           </div>
         </form>
@@ -181,8 +183,9 @@
             <div *ngIf="list.breakTime" style="padding-left: 5%; display: inline-block;"><b>break</b> start:
               <b>{{list.breakTime.startTime}}</b>
               end: <b>{{list.breakTime.endTime}}</b></div>
-            <button class="delete-choice" type="button" (click)="deleteDay(list)">-</button>
-          </div>
+            <a id="trashIcon" (click)="deleteDay(list)" style="padding-left: 2%; color: red;">
+              <mdb-icon far icon="trash-alt"></mdb-icon>
+            </a>          </div>
 
           </div>
 

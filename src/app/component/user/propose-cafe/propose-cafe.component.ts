@@ -8,7 +8,7 @@ import {PlaceWithUserModel} from "../../../model/placeWithUser.model";
 import {ModalService} from "../_modal/modal.service";
 import {CategoryService} from "../../../service/category.service";
 import {UserService} from "../../../service/user/user.service";
-import {NgForm} from "@angular/forms";
+import {FormBuilder, FormGroup, NgForm, Validators} from "@angular/forms";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {MapsAPILoader, MouseEvent} from "@agm/core";
 import {PlaceService} from "../../../service/place/place.service";
@@ -21,11 +21,12 @@ import {AngularFireStorage, AngularFireUploadTask} from "@angular/fire/storage";
 import {AngularFirestore} from "@angular/fire/firestore";
 import {Observable} from "rxjs";
 import {finalize, tap} from "rxjs/operators";
+import {FileUploader} from "ng2-file-upload";
 
 @Component({
   selector: 'app-propose-cafe',
   templateUrl: './propose-cafe.component.html',
-  styleUrls: ['./propose-cafe.component.css']
+  styleUrls: ['./propose-cafe.component.scss']
 })
 export class ProposeCafeComponent implements OnInit {
   name: any;
@@ -55,21 +56,6 @@ export class ProposeCafeComponent implements OnInit {
   submitButtonEnabled: boolean;
   isBreakTime = false;
 
-  task: AngularFireUploadTask;
-
-  // Progress monitoring
-  percentage: Observable<number>;
-
-  snapshot: Observable<any>;
-
-  // Download URL
-  downloadURL: Observable<string>;
-
-  imageUrl: any;
-
-  // State for dropzone CSS toggling
-  isHovering: boolean;
-
   @Output() newPlaceEvent = new EventEmitter<PlaceWithUserModel>();
   @ViewChild('saveForm', {static: true}) private saveForm: NgForm;
   @ViewChild(NgSelectComponent, {static: true}) ngSelectComponent: NgSelectComponent;
@@ -80,7 +66,7 @@ export class ProposeCafeComponent implements OnInit {
   constructor(private modalService: ModalService, private placeService: PlaceService, private categoryService: CategoryService,
               private specificationService: SpecificationService, private uService: UserService, private mapsAPILoader: MapsAPILoader,
               private ngZone: NgZone, private dialogRef: MatDialogRef<ProposeCafeComponent>, private storage: AngularFireStorage,
-              private db: AngularFirestore) {
+              private db: AngularFirestore, private fb: FormBuilder) {
     this.category = new CategoryDto();
     this.discount = new DiscountDto();
     this.location = new LocationDto();
@@ -256,54 +242,4 @@ export class ProposeCafeComponent implements OnInit {
       }
     });
   }
-
-
-  //file upload feature
-
-  toggleHover(event: boolean) {
-    this.isHovering = event;
-  }
-
-  startUpload(event: FileList) {
-    // The File object
-    const file = event.item(0);
-
-    // Client-side validation example
-    if (file.type.split('/')[0] !== 'image') {
-      console.error('unsupported file type :( ');
-      return;
-    }
-
-    // The storage path
-    const path = `disc/${new Date().getTime()}_${file.name}`;
-
-    // Totally optional metadata
-    const customMetadata = {app: 'My AngularFire-powered PWA!'};
-
-    // The main task
-    this.task = this.storage.upload(path, file, {customMetadata});
-
-    // Progress monitoring
-    this.percentage = this.task.percentageChanges();
-    this.snapshot = this.task.snapshotChanges();
-
-    this.snapshot = this.task.snapshotChanges().pipe(
-      tap(snap => {
-        if (snap.bytesTransferred === snap.totalBytes) {
-          // Update firestore on completion
-          this.db.collection('photos').add({path, size: snap.totalBytes});
-        }
-      })
-    );
-    this.task.snapshotChanges().pipe(
-      finalize(() => this.downloadURL = this.storage.ref(path).getDownloadURL())
-    )
-      .subscribe();
-  }
-
-  // Determines if the upload task is active
-  isActive(snapshot) {
-    return snapshot.state === 'running' && snapshot.bytesTransferred < snapshot.totalBytes;
-  }
-
 }

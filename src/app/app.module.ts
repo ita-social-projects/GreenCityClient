@@ -33,12 +33,12 @@ import {AgmDirectionModule} from 'agm-direction';
 import {DatePipe} from '@angular/common';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
-  MatButtonModule,
+  MatButtonModule, MatCardModule,
   MatCheckboxModule,
   MatDialogModule, MatDialogRef,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule,
+  MatInputModule, MatSelectModule,
   MatSliderModule,
   MatTableModule,
   MatTreeModule
@@ -53,6 +53,9 @@ import {AngularFireStorageModule} from "@angular/fire/storage";
 import {AngularFireModule} from "@angular/fire";
 import {AngularFirestoreModule} from "@angular/fire/firestore";
 import {environment} from "../environments/environment";
+import {FileUploadModule} from "ng2-file-upload";
+import { FileUploadComponent } from './component/user/file-upload/file-upload.component';
+
 
 @NgModule({
   declarations: [
@@ -72,6 +75,7 @@ import {environment} from "../environments/environment";
     DeleteFavoriteComponent,
     RestoreComponent,
     RestoreFormComponent,
+    FileUploadComponent,
   ],
   imports: [
     BrowserModule,
@@ -108,7 +112,10 @@ import {environment} from "../environments/environment";
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    FileUploadModule,
+    MatCardModule,
+    MatSelectModule
   ],
   entryComponents: [ProposeCafeComponent, FavoritePlaceComponent, EditFavoriteNameComponent, RestoreComponent, DeleteFavoriteComponent],
 

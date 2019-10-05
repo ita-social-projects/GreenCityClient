@@ -1,5 +1,5 @@
 <script src="../../../model/pageable-dto.model.ts"></script>
-<h2 mat-dialog-title style="text-align: left; font-weight: 400; margin-left: 7%;">New
+<h2 mat-dialog-title style="text-align: center; font-weight: 400;">New
   cafe</h2>
 <hr>
 <mat-dialog-content>
@@ -131,7 +131,9 @@
 
           <div class="choice" *ngFor="let list of discountValues" style="margin-top: 3%">
             <b>{{list.specification.name}}</b> discount: <b>{{list.value}}</b>
-            <button class="delete-choice" type="button" (click)="delete(list)">-</button>
+            <a id="trashIcon2" (click)="delete(list)" style="padding-left: 2%; color: red;">
+              <mdb-icon far icon="trash-alt"></mdb-icon>
+            </a>
           </div>
         </div>
       </form>
@@ -183,7 +185,9 @@
           <div *ngIf="list.breakTime" style="padding-left: 5%; display: inline-block;"><b>break</b> start:
             <b>{{list.breakTime.startTime}}</b>
             end: <b>{{list.breakTime.endTime}}</b></div>
-          <button class="delete-choice" type="button" (click)="deleteDay(list)">-</button>
+          <a id="trashIcon" (click)="deleteDay(list)" style="padding-left: 2%; color: red;">
+            <mdb-icon far icon="trash-alt"></mdb-icon>
+          </a>
         </div>
       </div>
     </form>
@@ -191,8 +195,7 @@
     <div style="margin-left: 7%; margin-right: 9%; margin-top: 5%">
       <h4 style="text-align: left; font-weight: 400;">Upload Photos: </h4>
       <hr>
-
-
+      <app-file-upload></app-file-upload>
     </div>
 
 
