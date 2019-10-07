@@ -1,7 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {AdminPlace} from '../../../model/place/admin-place.model';
-import {OpenHours} from '../../../model/openHours/open-hours.model';
 import {NgFlashMessageService} from 'ng-flash-messages';
 import {PlaceService} from '../../../service/place/place.service';
 import {MatTableDataSource} from '@angular/material';
@@ -11,6 +10,7 @@ import {ConfirmationDialogService} from '../confirm-modal/confirmation-dialog-se
 import {MatDialog} from '@angular/material';
 import {PlaceUpdatedDto} from '../../../model/place/placeUpdatedDto.model';
 import {UpdateCafeComponent} from '../update-cafe/update-cafe.component';
+import {WeekDaysUtils} from "../../../model/weekDaysUtils.model";
 
 @Component({
   selector: 'app-places',
@@ -20,7 +20,6 @@ import {UpdateCafeComponent} from '../update-cafe/update-cafe.component';
 
 export class PlacesComponent implements OnInit {
 
-  placeId: number;
   place: PlaceUpdatedDto;
   places: AdminPlace[];
   pageSize = 5;
@@ -43,9 +42,12 @@ export class PlacesComponent implements OnInit {
   displayedButtons: string[];
   defaultStatus = 'proposed';
 
-  constructor(
-    private placeService: PlaceService, private titleService: Title, private ngFlashMessageService: NgFlashMessageService,
-    private confirmationDialogService: ConfirmationDialogService, public dialog: MatDialog) {
+  constructor(public dialog: MatDialog,
+              private titleService: Title,
+              private placeService: PlaceService,
+              public weekDaysUtils: WeekDaysUtils,
+              private ngFlashMessageService: NgFlashMessageService,
+              private confirmationDialogService: ConfirmationDialogService) {
   }
 
   ngOnInit() {
@@ -63,29 +65,6 @@ export class PlacesComponent implements OnInit {
       this.defaultStatus = status;
       this.filterByRegex(this.searchReg);
     }
-  }
-
-  convertHoursToShort(openHours: OpenHours[]): any {
-    let result = '';
-    let prevHours = '';
-    let firstDay = '';
-    let lastDay = '';
-    openHours.forEach(hours => {
-      if (prevHours === '') {
-        firstDay = `${PlaceService.getWeekDayShortForm(hours.weekDay)}`;
-        prevHours = `${hours.openTime}-${hours.closeTime}`;
-      } else {
-        if (prevHours === `${hours.openTime}-${hours.closeTime}`) {
-          lastDay = ` - ${PlaceService.getWeekDayShortForm(hours.weekDay)}`;
-        } else {
-          result += firstDay + lastDay + ' ' + prevHours + '\n';
-          prevHours = `${hours.openTime}-${hours.closeTime}`;
-          firstDay = `${PlaceService.getWeekDayShortForm(hours.weekDay)}`;
-          lastDay = '';
-        }
-      }
-    });
-    return result + firstDay + lastDay + ' ' + prevHours + '\n';
   }
 
   changePage(event: any) {
