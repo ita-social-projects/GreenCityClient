@@ -1,6 +1,6 @@
-import {WeekDays} from "./weekDays.model";
-import {OpeningHours} from "./openingHours.model";
-import {OpenHours} from "./openHours/open-hours.model";
+import {WeekDays} from "../model/weekDays.model";
+import {OpeningHours} from "../model/openingHours.model";
+import {OpenHours} from "../model/openHours/open-hours.model";
 import {Injectable} from "@angular/core";
 
 @Injectable({

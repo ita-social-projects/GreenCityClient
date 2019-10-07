@@ -13,7 +13,7 @@ import {ActivatedRoute} from '@angular/router';
 import {FavoritePlace} from '../../../model/favorite-place/favorite-place';
 import {FilterPlaceService} from '../../../service/filtering/filter-place.service';
 import {Location} from '../../../model/location.model';
-import {WeekDaysUtils} from "../../../model/weekDaysUtils.model";
+import {WeekDaysUtils} from "../../../service/weekDaysUtils.service";
 
 
 @Component({

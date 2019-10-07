@@ -10,7 +10,7 @@ import {ConfirmationDialogService} from '../confirm-modal/confirmation-dialog-se
 import {MatDialog} from '@angular/material';
 import {PlaceUpdatedDto} from '../../../model/place/placeUpdatedDto.model';
 import {UpdateCafeComponent} from '../update-cafe/update-cafe.component';
-import {WeekDaysUtils} from "../../../model/weekDaysUtils.model";
+import {WeekDaysUtils} from "../../../service/weekDaysUtils.service";
 
 @Component({
   selector: 'app-places',
