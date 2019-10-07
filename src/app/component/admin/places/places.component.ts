@@ -251,7 +251,7 @@ export class PlacesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      setInterval(() => this.filterByRegex(this.searchReg), 1000);
+      setTimeout(() => this.filterByRegex(this.searchReg), 1000);
     });
   }
 }

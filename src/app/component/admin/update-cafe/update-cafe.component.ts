@@ -37,7 +37,7 @@ export class UpdateCafeComponent implements OnInit {
   address: any;
   place: PlaceUpdatedDto;
   location: LocationDto;
-  discounts: DiscountDto[] = [];
+  discountValues: DiscountDto[] = [];
   specification: SpecificationNameDto;
   openingHoursList: OpeningHours[] = [];
   weekDays: WeekDays[] = [WeekDays.MONDAY, WeekDays.TUESDAY, WeekDays.WEDNESDAY, WeekDays.THURSDAY, WeekDays.FRIDAY,
@@ -78,7 +78,7 @@ export class UpdateCafeComponent implements OnInit {
       this.zoom = 15;
       console.log(data);
       this.openingHoursList = data.openingHoursList;
-      this.discounts = data.discounts;
+      this.discountValues = data.discountValues;
       this.placeName = data.name;
       this.name = this.place.category.name;
 
@@ -135,21 +135,21 @@ export class UpdateCafeComponent implements OnInit {
     let specification = new SpecificationNameDto();
     specification.name = nameOfSpecification;
     discount1.specification = specification;
-    if (this.discounts.length == 0) {
-      this.discounts.push(discount1);
-      console.log(this.discounts);
+    if (this.discountValues.length == 0) {
+      this.discountValues.push(discount1);
+      console.log(this.discountValues);
       discount1 = new DiscountDto();
-    } else if (this.discounts.length === 1) {
-      for (let i = 0; i < this.discounts.length; i++) {
-        if (discount1.specification.name !== this.discounts[i].specification.name) {
-          this.discounts.push(discount1);
+    } else if (this.discountValues.length === 1) {
+      for (let i = 0; i < this.discountValues.length; i++) {
+        if (discount1.specification.name !== this.discountValues[i].specification.name) {
+          this.discountValues.push(discount1);
         }
       }
     } else {
-      for (let i = 0; i < this.discounts.length; i++) {
-        for (let j = i + 1; j < this.discounts.length; i++) {
-          if (discount1.specification.name == this.discounts[i].specification.name ||
-            discount1.specification.name == this.discounts[j].specification.name) {
+      for (let i = 0; i < this.discountValues.length; i++) {
+        for (let j = i + 1; j < this.discountValues.length; i++) {
+          if (discount1.specification.name == this.discountValues[i].specification.name ||
+            discount1.specification.name == this.discountValues[j].specification.name) {
             alert("Already exists.");
           }
         }
@@ -216,7 +216,7 @@ export class UpdateCafeComponent implements OnInit {
   }
 
   delete(discount: DiscountDto) {
-    this.discounts = this.discounts.filter(item => item !== discount);
+    this.discountValues = this.discountValues.filter(item => item !== discount);
   }
 
   onSubmit() {
@@ -225,9 +225,9 @@ export class UpdateCafeComponent implements OnInit {
       console.log(data);
       this.submitButtonEnabled = false;
       this.place.openingHoursList = this.openingHoursList;
-      this.place.discounts = this.discounts;
+      this.place.discountValues = this.discountValues;
       this.place.category.name = this.name;
-      this.place.discounts = this.discounts;
+      this.place.discountValues = this.discountValues;
       this.place.location.address = this.address;
       this.place.location.lat = this.latitude;
       this.place.location.lng = this.longitude;

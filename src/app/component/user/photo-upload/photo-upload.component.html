@@ -1,0 +1,44 @@
+<mat-card>
+  <form [formGroup]="uploadForm" (ngSubmit)="uploadSubmit()">
+    <mat-card-content>
+      <br>
+      <label class="btn btn-primary" >
+        <mdb-icon fas icon="folder-open" size="lg" aria-hidden="true"></mdb-icon>
+        Add photo <input type="file" hidden formControlName="document" id="file" ng2FileSelect [uploader]="uploader" multiple>
+      </label>
+      <br/>
+      <br>
+      <ng-template #element>
+        <div style="text-align: center; margin: 5% 0; color: dimgrey;">No file attached.</div>
+      </ng-template>
+
+      <table *ngIf="showTable; else element">
+        <thead>
+        <tr>
+          <th width="90%">
+            File Name
+          </th>
+          <th width="10%">
+            Remove
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of uploader.queue">
+          <th width="90%">
+            <mdb-icon fas icon="file-image" size="2x" class="cyan-text pr-3" aria-hidden="true"></mdb-icon> {{ item.file.name}}({{item.file.size / 1000000}} MB)
+          </th>
+          <th class="text-center" width="10%">
+            <a id="trashIcon" (click)="item.remove()" style="padding-left: 2%; color: red;">
+              <mdb-icon far icon="trash-alt"></mdb-icon>
+            </a>
+          </th>
+        </tr>
+        </tbody>
+      </table>
+      <br>
+      <button class="btn-2" type="submit">Upload</button>
+    </mat-card-content>
+  </form>
+</mat-card>
+<br>
