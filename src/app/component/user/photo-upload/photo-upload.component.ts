@@ -35,6 +35,10 @@ export class PhotoUploadComponent implements OnInit {
 
   imgPath: string;
 
+  loadingUpload = false;
+
+  uploadButton = true;
+
   public uploader: FileUploader = new FileUploader({
     isHTML5: true
   });
@@ -61,7 +65,7 @@ export class PhotoUploadComponent implements OnInit {
       alert('Maximum count of uploading photos is ' + this.countOfPhotos);
       return;
     }
-
+    this.loadingUpload = true;
     for (let j = 0; j < this.uploader.queue.length; j++) {
       const fileItem = this.uploader.queue[j]._file;
       console.log(fileItem.name);
@@ -81,7 +85,8 @@ export class PhotoUploadComponent implements OnInit {
     }
     console.log(this.photoLinks);
     this.listOfPhotos.emit(this.photoLinks);
-    this.done === true;
+    this.loadingUpload = false;
+    this.uploadButton = false;
   }
 
   ngOnInit() {
