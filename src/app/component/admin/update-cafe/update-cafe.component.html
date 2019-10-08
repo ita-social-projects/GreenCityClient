@@ -1,11 +1,11 @@
 <script src="../../../model/pageable-dto.model.ts"></script>
-<h2 mat-dialog-title style="text-align: center; margin-bottom: 2%;">Edit
+<h2  mat-dialog-title style="text-align: center; font-weight: 400;">Edit
   cafe</h2>
 <hr>
 <mat-dialog-content>
   <form #updateForm="ngForm" (ngSubmit)="onSubmit()">
-        <div style="margin-left: 7%; margin-right: 9%">
-          <div class="validation-error" *ngIf="nameControl.invalid && (nameControl.dirty||nameControl.touched)">
+    <div style="margin-left: 7%; margin-right: 9%">
+      <div class="validation-error" *ngIf="nameControl.invalid && (nameControl.dirty||nameControl.touched)">
             <div *ngIf="nameControl.errors.required">
               Name is required.
             </div>
@@ -58,8 +58,8 @@
         </div>
     <hr>
 
-    <div style="margin-left: 7%; margin-right: 9%">
-    <h4 style="text-align: center;">Select specification: </h4>
+    <div style="margin-left: 7%; margin-right: 9%; margin-top: 5%">
+      <h4 style="text-align: left; font-weight: 400;">Select specification: </h4>
     <div class="validation-error"
          *ngIf="categoryControl.invalid && (categoryControl.dirty||categoryControl.touched)">
       <div *ngIf="categoryControl.errors.required">
@@ -113,7 +113,7 @@
                        #specification="ngModel" required>
             </ng-select>
 
-            <ng-select style="width: 120px; margin-top: 2%"
+            <ng-select  style="width: 120px; margin-top: 4%"
                        [items]="discountsNumber"
                        bindLabel="value"
                        bindValue="value"
@@ -126,10 +126,10 @@
             </ng-select>
 
             <button class="btn btn-primary" type="button" [disabled]="discountForm.invalid"
-                    style="margin-top: 2%" (click)="addDiscountAndSpecification(nameOfSpecification, value)">Add discount
+                    style="margin-top: 4%" (click)="addDiscountAndSpecification(nameOfSpecification, value)">Add discount
             </button>
 
-            <div class="choice" *ngFor="let list of discountValues">
+            <div class="choice" *ngFor="let list of discountValues" style="margin-top: 3%">
               <b>{{list.specification.name}}</b> discount: <b>{{list.value}}%</b>
               <a id="trashIcon2" (click)="delete(list)" style="padding-left: 2%; color: red;">
                 <mdb-icon far icon="trash-alt"></mdb-icon>
@@ -140,11 +140,11 @@
 
       <form #openHoursForm="ngForm">
           <hr>
-          <div>
+        <div style="margin-left: 7%; margin-right: 9%; margin-top: 4%">
           <div id="weekDays">
             <div class="weekDay">
-              <h4  style="margin-bottom: 3%; text-align: center;">Select schedule: </h4>
-              <select class="form-control" style="width: 190px; display: inline;" required
+              <h4  style="text-align: left; font-weight: 400;">Select schedule: </h4>
+              <select class="form-control"  style="width: 190px; display: inline;" required
                       [(ngModel)]="openingHours.weekDay" #day="ngModel" name="weekday">
                 <option disabled>Select day</option>
                 <option *ngFor="let day of weekDays">{{day}}</option>

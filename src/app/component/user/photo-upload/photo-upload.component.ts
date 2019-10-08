@@ -46,39 +46,43 @@ export class PhotoUploadComponent implements OnInit {
   uploadSubmit() {
     for (let i = 0; i < this.uploader.queue.length; i++) {
       const fileItem = this.uploader.queue[i]._file;
+      if( i > this.countOfPhotos){
+        alert('Maximum count of uploading photos is ' + this.countOfPhotos);
+        return;
+      }
+
       if (fileItem.size > 10000000) {
         alert('Each File should be less than 10 MB of size.');
         return;
       }
     }
 
-    // if (this.uploader.queue.length > this.countOfPhotos) {
-    //   console.log(this.countOfPhotos);
-    //   alert('Maximum count of uploading photos is ' + this.countOfPhotos);
-    //   return;
-    // }
-
     for (let j = 0; j < this.uploader.queue.length; j++) {
-      const fileItem = this.uploader.queue[j]._file;
-      console.log(fileItem.name);
-      const path = `${new Date().getTime()}_${fileItem.name}`;
-      this.task = this.storage.upload(path, fileItem);
-      this.photoLinks.push({name: 'https://firebasestorage.googleapis.com/v0/b/greencity-9bdb7.appspot.com/o/' + path + '?alt=media'});
-      console.log(path);
-      console.log(this.photoLinks);
-      this.percentage = this.task.percentageChanges();
-      this.snapshot = this.task.snapshotChanges();
+      if (this.uploader.queue.length > this.countOfPhotos) {
+        console.log("dddddddddd");
+        alert('Maximum count of uploading photos is ' + this.countOfPhotos);
+        return;
+      } else {
+        const fileItem = this.uploader.queue[j]._file;
+        console.log(fileItem.name);
+        const path = `${new Date().getTime()}_${fileItem.name}`;
+        this.task = this.storage.upload(path, fileItem);
+        this.photoLinks.push({name: 'https://firebasestorage.googleapis.com/v0/b/greencity-9bdb7.appspot.com/o/' + path + '?alt=media'});
+        console.log(path);
+        console.log(this.photoLinks);
+        this.percentage = this.task.percentageChanges();
+        this.snapshot = this.task.snapshotChanges();
 
-      this.task.snapshotChanges().pipe(finalize(() => this.downloadURL = this.storage.ref(path).getDownloadURL()
-      )).subscribe(value => {
-        console.log(this.downloadURL);
-        console.log(value);
-      });
+        this.task.snapshotChanges().pipe(finalize(() => this.downloadURL = this.storage.ref(path).getDownloadURL()
+        )).subscribe(value => {
+          console.log(this.downloadURL);
+          console.log(value);
+        });
+      }
+      console.log(this.photoLinks);
+      this.listOfPhotos.emit(this.photoLinks);
+      this.done === true;
     }
-    console.log(this.photoLinks);
-    this.uploader.clearQueue();
-    this.listOfPhotos.emit(this.photoLinks);
-    this.done === true;
   }
 
   ngOnInit() {
