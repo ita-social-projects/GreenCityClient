@@ -1,5 +1,7 @@
 <script src="../../../model/pageable-dto.model.ts"></script>
+<h2 mat-dialog-title style="text-align: center; font-weight: 400;">Add your comment to place </h2>
 <div>
+  <p>Please rare us</p>
   <rating label="Please rate us" [(ngModel)]="comment.rate"
           [max]="5"
           [readonly]="false"
@@ -9,9 +11,15 @@
   </rating>
 </div>
 <div>
-  <input type="text">
+  <textarea [(ngModel)]="comment.text" #commentText placeholder="Please write a comment"></textarea>
 </div>
 <div>
-  <app-photo-upload  (listOfPhotos)="getListOfPhotos($event)"></app-photo-upload>
+  <app-photo-upload  (listOfPhotos)="getListOfPhotos($event)" [countOfPhotos]="countOfPhotos"></app-photo-upload>
 </div>
-
+<div style="display:flex; justify-content:flex-end; align-items:center;">
+<!--  <button [disabled]="saveForm.invalid || !(openingHoursList.length > 0) || !(discountValues.length > 0)"-->
+<!--          class="btn btn-primary submit"-->
+<!--          type="submit" style="margin-right: 1%">Submit-->
+<!--  </button>-->
+  <button mat-dialog-close class="btn btn-primary" type="button">Close</button>
+</div>

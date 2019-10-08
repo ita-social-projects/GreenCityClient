@@ -44,9 +44,6 @@ export class PhotoUploadComponent implements OnInit {
   }
 
   uploadSubmit() {
-    if (this.uploader.queue.length > 5) {
-      console.log('max');
-    }
     for (let i = 0; i < this.uploader.queue.length; i++) {
       const fileItem = this.uploader.queue[i]._file;
       if (fileItem.size > 10000000) {
@@ -54,19 +51,13 @@ export class PhotoUploadComponent implements OnInit {
         return;
       }
     }
-
-    if (this.uploader.queue.length > this.countOfPhotos) {
-      console.log(this.uploader.queue.length);
-      console.log(this.countOfPhotos);
-      alert('Maximum count of uploading photos is ' + this.countOfPhotos);
-      return;
-    }
-
     for (let j = 0; j < this.uploader.queue.length; j++) {
       const fileItem = this.uploader.queue[j]._file;
-      console.log(fileItem.name);
       const path = `${new Date().getTime()}_${fileItem.name}`;
       this.task = this.storage.upload(path, fileItem);
+      this.task.snapshotChanges().subscribe(value => {
+        console.log(value.);
+      });
       this.photoLinks.push({name: 'https://firebasestorage.googleapis.com/v0/b/greencity-9bdb7.appspot.com/o/' + path + '?alt=media'});
       console.log(path);
       console.log(this.photoLinks);
@@ -76,12 +67,10 @@ export class PhotoUploadComponent implements OnInit {
       this.task.snapshotChanges().pipe(finalize(() => this.downloadURL = this.storage.ref(path).getDownloadURL()
       )).subscribe(value => {
         console.log(this.downloadURL);
-        console.log(value);
       });
     }
     console.log(this.photoLinks);
     this.listOfPhotos.emit(this.photoLinks);
-    this.done === true;
   }
 
   ngOnInit() {

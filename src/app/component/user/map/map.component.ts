@@ -13,7 +13,6 @@ import {ActivatedRoute} from '@angular/router';
 import {FavoritePlace} from '../../../model/favorite-place/favorite-place';
 import {FilterPlaceService} from '../../../service/filtering/filter-place.service';
 import {Location} from '../../../model/location.model';
-import {ProposeCafeComponent} from '../propose-cafe/propose-cafe.component';
 import {AddCommentComponent} from '../add-comment/add-comment.component';
 
 
@@ -265,7 +264,11 @@ export class MapComponent implements OnInit {
   }
 
   openDialogAddComment(id: number) {
-    const dialogRef = this.dialog.open(AddCommentComponent, {});
+    const dialogRef = this.dialog.open(AddCommentComponent, {
+      width: '800px',
+      data: 3
+      })
+    ;
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);

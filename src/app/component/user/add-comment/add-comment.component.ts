@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {Comment} from '../../../model/comment/comment';
 import {Photo} from '../../../model/photo/photo';
+import {MAT_DIALOG_DATA} from '@angular/material';
 
 @Component({
   selector: 'app-add-comment',
@@ -9,8 +10,10 @@ import {Photo} from '../../../model/photo/photo';
 })
 export class AddCommentComponent implements OnInit {
   comment: Comment = new Comment();
+  countOfPhotos: number;
 
-  constructor() {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
+    this.countOfPhotos = data;
   }
 
   ngOnInit() {
