@@ -5,7 +5,6 @@ import {HttpClient} from '@angular/common/http';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
 import {Observable} from 'rxjs';
-import {finalize} from 'rxjs/operators';
 import {Photo} from '../../../model/photo/Photo';
 
 @Component({
@@ -15,6 +14,7 @@ import {Photo} from '../../../model/photo/Photo';
 })
 export class PhotoUploadComponent implements OnInit {
   @Output() listOfPhotos = new EventEmitter();
+  @Output() loadingStatus = new EventEmitter();
   @Input() countOfPhotos = 0;
   task: AngularFireUploadTask;
   uploadForm: FormGroup;
@@ -36,6 +36,7 @@ export class PhotoUploadComponent implements OnInit {
   imgPath: string;
 
   loadingUpload = false;
+  doneUpload = false;
 
   uploadButton = true;
 
@@ -50,33 +51,44 @@ export class PhotoUploadComponent implements OnInit {
   uploadSubmit() {
     for (let i = 0; i < this.uploader.queue.length; i++) {
       const fileItem = this.uploader.queue[i]._file;
+      if (fileItem.type !== 'image/png' && fileItem.type !== 'image/jpeg') {
+        this.loadingUpload = false;
+        alert('Each File should be png or jpeg.');
+        return;
+      }
       if (fileItem.size > 10000000) {
+        this.loadingUpload = false;
         alert('Each File should be less than 10 MB of size.');
         return;
       }
     }
+    this.loadingStatus.emit();
     this.loadingUpload = true;
     for (let j = 0; j < this.uploader.queue.length; j++) {
       const fileItem = this.uploader.queue[j]._file;
       const path = `${new Date().getTime()}_${fileItem.name}`;
       this.task = this.storage.upload(path, fileItem);
-      this.task.snapshotChanges().subscribe(value => {
-        console.log(value.);
-      });
+      if (j === this.uploader.queue.length - 1) {
+        this.task.snapshotChanges().subscribe(value => {
+          if (value.bytesTransferred === value.totalBytes) {
+            this.loadingUpload = false;
+            this.doneUpload = true;
+            this.loadingStatus.emit();
+          }
+        });
+      }
       this.photoLinks.push({name: 'https://firebasestorage.googleapis.com/v0/b/greencity-9bdb7.appspot.com/o/' + path + '?alt=media'});
-      console.log(path);
-      console.log(this.photoLinks);
-      this.percentage = this.task.percentageChanges();
-      this.snapshot = this.task.snapshotChanges();
-
-      this.task.snapshotChanges().pipe(finalize(() => this.downloadURL = this.storage.ref(path).getDownloadURL()
-      )).subscribe(value => {
-        console.log(this.downloadURL);
-      });
+      // console.log(path);
+      // console.log(this.photoLinks);
+      // this.percentage = this.task.percentageChanges();
+      // this.snapshot = this.task.snapshotChanges();
+      // this.task.snapshotChanges().pipe(finalize(() => this.downloadURL = this.storage.ref(path).getDownloadURL()
+      // )).subscribe(value => {
+      //   console.log(this.downloadURL);
+      // });
     }
     console.log(this.photoLinks);
     this.listOfPhotos.emit(this.photoLinks);
-    this.loadingUpload = false;
     this.uploadButton = false;
   }
 
