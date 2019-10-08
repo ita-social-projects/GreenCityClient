@@ -119,7 +119,7 @@ import {PhotoUploadComponent} from './component/user/photo-upload/photo-upload.c
     RatingModule,
     MatSelectModule
   ],
-  entryComponents: [ProposeCafeComponent, FavoritePlaceComponent, EditFavoriteNameComponent, RestoreComponent, DeleteFavoriteComponent],
+  entryComponents: [ProposeCafeComponent, FavoritePlaceComponent, EditFavoriteNameComponent, RestoreComponent, DeleteFavoriteComponent, AddCommentComponent],
 
   providers: [
     {

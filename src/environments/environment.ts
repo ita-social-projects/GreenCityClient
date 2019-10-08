@@ -6,14 +6,14 @@ export const environment = {
   production: false,
   apiKeys: 'AIzaSyDanBliCzAuCZrsq67FeKEs3vqAilUD_is',
   firebaseConfig: {
-    apiKey: 'AIzaSyDSVxahTHqdffRX2upKIMXCCjEBUYoHX8E',
-    authDomain: 'greencity-9bdb7.firebaseapp.com',
-    databaseURL: 'https://greencity-9bdb7.firebaseio.com',
-    projectId: 'greencity-9bdb7',
-    storageBucket: 'greencity-9bdb7.appspot.com',
-    messagingSenderId: '3763960182',
-    appId: '1:3763960182:web:44462764adbc05beb72257',
-    measurementId: 'G-CCHRKQ4R0S'
+    apiKey: 'AIzaSyDRQaA6rqRqTZg-EpKYz0Ql08t7xrfLluU',
+    authDomain: 'greencity-8a45e.firebaseapp.com',
+    databaseURL: 'https://greencity-8a45e.firebaseio.com',
+    projectId: 'greencity-8a45e',
+    storageBucket: 'greencity-8a45e.appspot.com',
+    messagingSenderId: '622741103846',
+    appId: '1:622741103846:web:47eb41e5a900d7ce724727',
+    measurementId: 'G-KE96B6ZPY5'
   }
 };
 /*
