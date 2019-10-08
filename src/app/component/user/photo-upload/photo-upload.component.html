@@ -2,13 +2,14 @@
   <form [formGroup]="uploadForm" (ngSubmit)="uploadSubmit()">
     <mat-card-content>
       <br>
-      <label class="btn btn-primary">
+      <label class="btn btn-primary" *ngIf="uploadButton">
         <mdb-icon fas icon="folder-open" size="lg" aria-hidden="true"></mdb-icon>
         Add photo <input type="file" hidden formControlName="document" id="file" ng2FileSelect [uploader]="uploader"
                          multiple>
       </label>
       <br/>
       <br>
+
       <ng-template #element>
         <div style="text-align: center; margin: 5% 0; color: dimgrey;">No file attached.</div>
       </ng-template>
@@ -19,7 +20,7 @@
           <th width="90%">
             File Name
           </th>
-          <th width="10%">
+          <th width="10%" *ngIf="uploadButton">
             Remove
           </th>
         </tr>
@@ -30,7 +31,7 @@
             <mdb-icon fas icon="file-image" size="2x" class="cyan-text pr-3" aria-hidden="true"></mdb-icon>
             {{ item.file.name}}({{item.file.size / 1000000}} MB)
           </th>
-          <th class="text-center" width="10%">
+          <th class="text-center" width="10%" *ngIf="uploadButton">
             <a id="trashIcon" (click)="item.remove()" style="padding-left: 2%; color: red;">
               <mdb-icon far icon="trash-alt"></mdb-icon>
             </a>
@@ -39,7 +40,9 @@
         </tbody>
       </table>
       <br>
-      <button *ngIf="uploader.queue.length<=countOfPhotos && uploader.queue.length>0" class="btn-2" type="submit">Upload</button>
+      <button *ngIf="uploader.queue.length<=countOfPhotos && uploader.queue.length>0 && uploadButton" class="btn-2" type="submit">Upload
+        <span *ngIf="loadingUpload" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      </button>
       <p *ngIf="uploader.queue.length>countOfPhotos" >You  can  upload max {{countOfPhotos}} photos </p>
     </mat-card-content>
   </form>

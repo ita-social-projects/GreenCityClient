@@ -35,6 +35,10 @@ export class PhotoUploadComponent implements OnInit {
 
   imgPath: string;
 
+  loadingUpload = false;
+
+  uploadButton = true;
+
   public uploader: FileUploader = new FileUploader({
     isHTML5: true
   });
@@ -51,6 +55,7 @@ export class PhotoUploadComponent implements OnInit {
         return;
       }
     }
+    this.loadingUpload = true;
     for (let j = 0; j < this.uploader.queue.length; j++) {
       const fileItem = this.uploader.queue[j]._file;
       const path = `${new Date().getTime()}_${fileItem.name}`;
@@ -71,6 +76,8 @@ export class PhotoUploadComponent implements OnInit {
     }
     console.log(this.photoLinks);
     this.listOfPhotos.emit(this.photoLinks);
+    this.loadingUpload = false;
+    this.uploadButton = false;
   }
 
   ngOnInit() {
