@@ -5,8 +5,6 @@ import {PlaceService} from '../../../service/place/place.service';
 import {FavoritePlace} from '../../../model/favorite-place/favorite-place';
 import {frontMailLink} from '../../../links';
 import {DomSanitizer} from '@angular/platform-browser';
-import {Router} from '@angular/router';
-import {router} from '../../../router';
 
 export interface DialogData {
   placeId: number;
@@ -24,12 +22,9 @@ export class FavoritePlaceComponent implements OnInit {
   favoritePlaces: FavoritePlace[];
   frontMailLink: string;
   color = 'star-yellow';
-  route: Router;
 
   constructor(iconRegistry: MatIconRegistry, public dialog: MatDialog, public dialogRef: MatDialogRef<FavoritePlaceComponent>,
-              private favoritePlaceService: FavoritePlaceService, private placeService: PlaceService, sanitizer: DomSanitizer,
-              route: Router) {
-    this.route = route;
+              private favoritePlaceService: FavoritePlaceService, private placeService: PlaceService, sanitizer: DomSanitizer) {
     iconRegistry.addSvgIcon(
       'star-yellow',
       sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/favorite-place/star-yellow2.svg'));
@@ -52,33 +47,36 @@ export class FavoritePlaceComponent implements OnInit {
 
   openDialog(idElement: number, nameElement: string): void {
     const dialogRef = this.dialog.open(EditFavoriteNameComponent, {
-        width: '550px',
-        data: {placeId: idElement, name: nameElement}
-
-      })
-    ;
+      width: '550px',
+      data: {placeId: idElement, name: nameElement}
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The edit dialog was closed');
       this.showAll();
+      this.favoritePlaceService.getFavoritePlaces();
     });
   }
 
   openDialogDelete(idElement: number, nameElement: string): void {
     const dialogRef = this.dialog.open(DeleteFavoriteComponent, {
-        data: {placeId: idElement, name: nameElement}
-
-      })
-    ;
+      data: {placeId: idElement, name: nameElement}
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The delete dialog was closed');
       this.showAll();
+      this.favoritePlaceService.getFavoritePlaces();
     });
   }
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  sendIdToServiceAndClose(idElement: number) {
+    this.favoritePlaceService.subject.next(idElement);
+    this.dialog.closeAll();
   }
 }
 
@@ -98,7 +96,6 @@ export class EditFavoriteNameComponent {
   clickSubmit() {
     document.getElementById('closeButton').click();
   }
-
 }
 
 @Component({

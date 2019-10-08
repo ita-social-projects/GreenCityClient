@@ -34,11 +34,14 @@ import {DatePipe} from '@angular/common';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
   MatButtonModule,
+  MatCardModule,
   MatCheckboxModule,
-  MatDialogModule, MatDialogRef,
+  MatDialogModule,
+  MatDialogRef,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
+  MatSelectModule,
   MatSliderModule,
   MatTableModule,
   MatTreeModule
@@ -48,6 +51,14 @@ import {Ng5SliderModule} from 'ng5-slider';
 import {provideConfig} from './config/GoogleAuthConfig';
 import {RestoreComponent} from './component/user/restore/restore.component';
 import {RestoreFormComponent} from './component/user/restore-form/restore-form.component';
+import {AngularFirestoreModule} from '@angular/fire/firestore';
+import {AngularFireStorageModule} from '@angular/fire/storage';
+import {AngularFireModule} from '@angular/fire';
+import {environment} from '../environments/environment';
+import {FileUploadModule} from 'ng2-file-upload';
+import {AddCommentComponent} from './component/user/add-comment/add-comment.component';
+import {RatingModule} from 'ngx-bootstrap';
+import {PhotoUploadComponent} from './component/user/photo-upload/photo-upload.component';
 import {UserSettingComponent} from './component/user/user-setting/user-setting.component';
 
 @NgModule({
@@ -68,6 +79,8 @@ import {UserSettingComponent} from './component/user/user-setting/user-setting.c
     DeleteFavoriteComponent,
     RestoreComponent,
     RestoreFormComponent,
+    PhotoUploadComponent,
+    AddCommentComponent,
     UserSettingComponent,
   ],
   imports: [
@@ -75,9 +88,9 @@ import {UserSettingComponent} from './component/user/user-setting/user-setting.c
     BrowserAnimationsModule,
     RouterModule.forRoot(router),
     HttpClientModule,
-    FormsModule,
     SocialLoginModule,
     FormsModule,
+    FileUploadModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI',
       libraries: ['places', 'geometry']
@@ -91,18 +104,21 @@ import {UserSettingComponent} from './component/user/user-setting/user-setting.c
     MatIconModule,
     MDBBootstrapModule,
     ModalModule,
-    MatDialogModule,
     ReactiveFormsModule,
-    NgFlashMessagesModule.forRoot(),
     MatSliderModule,
     MatTreeModule,
     Ng5SliderModule,
     MatFormFieldModule,
     MatDialogModule,
-    MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule,
+    AngularFireStorageModule,
+    MatCardModule,
+    RatingModule,
+    MatSelectModule
   ],
   entryComponents: [
     ProposeCafeComponent,

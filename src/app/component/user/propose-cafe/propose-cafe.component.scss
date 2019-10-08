@@ -1,4 +1,6 @@
+
 @import "~@ng-select/ng-select/themes/default.theme.css";
+
 
 #weekDays-selector input[type=checkbox] {
   display: none!important;
@@ -73,6 +75,65 @@ agm-map {
 ::ng-deep .mat-checkbox:not(.mat-checkbox-disabled).mat-accent .mat-checkbox-ripple .mat-ripple-element {
   background-color: green !important;
 }
+
+[type="file"] {
+  height: 0;
+  overflow: hidden;
+  width: 0;
+}
+
+[type="file"] + label {
+  background: skyblue;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: 'Poppins', sans-serif;
+  font-size: inherit;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  outline: none;
+  padding: 0.8rem 50px;
+  position: relative;
+  transition: all 0.3s;
+  vertical-align: middle;
+
+  &:hover {
+    background-color: darken(skyblue, 10%);
+  }
+
+  &.btn-2 {
+    background-color: skyblue;
+    border-radius: 50px;
+    overflow: hidden;
+
+    &::before {
+      color: #fff;
+      //content: "+";
+      //i.icon.cloud.upload:before { content: "\f382"; }
+      content: "\f382";
+      font-family: "Font Awesome 5 Pro", serif;
+      font-weight: 600;
+      font-size: 100%;
+      height: 100%;
+      right: 130%;
+      line-height: 3.3;
+      position: absolute;
+      top: 0px;
+      transition: all 0.3s;
+    }
+
+    &:hover {
+      background-color: darken(skyblue, 30%);
+
+      &::before {
+        right: 75%;
+      }
+    }
+  }
+}
+
 
 
 

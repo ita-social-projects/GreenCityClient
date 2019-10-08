@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
 import {
-  HttpClient,
+  HttpClient, HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest
 } from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {frontAuthLink, updateAccessTokenLink} from '../links';
-import {switchMap} from 'rxjs/operators';
+import {catchError, switchMap} from 'rxjs/operators';
 import {AccessToken} from '../model/access-token';
 import {JwtService} from './jwt.service';
 
@@ -27,7 +27,15 @@ export class InterceptorService implements HttpInterceptor {
       if (accessToken != null) {
         if (this.jwtService.isTokenValid(accessToken)) {
           req = this.addAccessTokenToHeader(req, accessToken);
-          return next.handle(req);
+          return next.handle(req).pipe(
+            catchError((err: HttpErrorResponse) => {
+                if (err.status === 401) {
+                  this.clearLocalStorageAndRedirectToAuthPage();
+                }
+                return throwError(err);
+              }
+            )
+          );
         } else {
           const refreshToken = this.jwtService.getRefreshToken();
           if (refreshToken != null) {
@@ -40,8 +48,7 @@ export class InterceptorService implements HttpInterceptor {
                 })
               );
             } else {
-              localStorage.clear();
-              window.location.href = frontAuthLink;
+              this.clearLocalStorageAndRedirectToAuthPage();
             }
           }
         }
@@ -51,6 +58,11 @@ export class InterceptorService implements HttpInterceptor {
     } else {
       return next.handle(req);
     }
+  }
+
+  private clearLocalStorageAndRedirectToAuthPage() {
+    localStorage.clear();
+    window.location.href = frontAuthLink;
   }
 
   private getNewAccessToken(refreshToken: string): Observable<any> {
