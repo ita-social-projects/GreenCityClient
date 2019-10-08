@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {FileUploader} from 'ng2-file-upload';
 import {HttpClient} from '@angular/common/http';
@@ -7,6 +7,7 @@ import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
 import {Observable} from 'rxjs';
 import {finalize} from 'rxjs/operators';
 import {Photo} from '../../../model/photo/Photo';
+import {MAT_DIALOG_DATA} from "@angular/material";
 
 @Component({
   selector: 'app-photo-upload',
@@ -15,6 +16,7 @@ import {Photo} from '../../../model/photo/Photo';
 })
 export class PhotoUploadComponent implements OnInit {
   @Output() listOfPhotos = new EventEmitter();
+  @Input() countOfPhotos: number;
   task: AngularFireUploadTask;
   uploadForm: FormGroup;
 
@@ -32,6 +34,8 @@ export class PhotoUploadComponent implements OnInit {
 
   done: boolean;
 
+  imgPath: string;
+
   public uploader: FileUploader = new FileUploader({
     isHTML5: true
   });
@@ -47,13 +51,21 @@ export class PhotoUploadComponent implements OnInit {
         return;
       }
     }
+
+    // if (this.uploader.queue.length > this.countOfPhotos) {
+    //   console.log(this.countOfPhotos);
+    //   alert('Maximum count of uploading photos is ' + this.countOfPhotos);
+    //   return;
+    // }
+
     for (let j = 0; j < this.uploader.queue.length; j++) {
       const fileItem = this.uploader.queue[j]._file;
       console.log(fileItem.name);
-      const path = `disc/${new Date().getTime()}_${fileItem.name}`;
+      const path = `${new Date().getTime()}_${fileItem.name}`;
       this.task = this.storage.upload(path, fileItem);
-      this.photoLinks.push({name: path});
+      this.photoLinks.push({name: 'https://firebasestorage.googleapis.com/v0/b/greencity-9bdb7.appspot.com/o/' + path + '?alt=media'});
       console.log(path);
+      console.log(this.photoLinks);
       this.percentage = this.task.percentageChanges();
       this.snapshot = this.task.snapshotChanges();
 
@@ -62,7 +74,6 @@ export class PhotoUploadComponent implements OnInit {
         console.log(this.downloadURL);
         console.log(value);
       });
-
     }
     console.log(this.photoLinks);
     this.uploader.clearQueue();
@@ -71,13 +82,11 @@ export class PhotoUploadComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.countOfPhotos);
     this.uploadForm = this.fb.group({
       document: [null, null]
     });
     this.uploadForm.valueChanges.subscribe(dt => this.fieldChanges());
-    // if(this.uploader.queue.length > 5){
-    //   !this.uploadForm.valid;
-    // }
   }
 
   fieldChanges() {

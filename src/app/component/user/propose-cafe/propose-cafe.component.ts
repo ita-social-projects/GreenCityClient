@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, NgZone, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Inject, NgZone, OnInit, Output, ViewChild} from '@angular/core';
 import {OpeningHours} from "../../../model/openingHours.model";
 import {PlaceAddDto} from "../../../model/placeAddDto.model";
 import {CategoryDto} from "../../../model/category.model";
@@ -13,7 +13,7 @@ import {NgSelectComponent} from "@ng-select/ng-select";
 import {MapsAPILoader, MouseEvent} from "@agm/core";
 import {PlaceService} from "../../../service/place/place.service";
 import {BreakTimes} from "../../../model/breakTimes.model";
-import {MatDialogRef} from "@angular/material";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 import {SpecificationService} from "../../../service/specification.service";
 import {DiscountDto} from "../../../model/discount/DiscountDto";
 import {SpecificationNameDto} from "../../../model/specification/SpecificationNameDto";
@@ -53,6 +53,7 @@ export class ProposeCafeComponent implements OnInit {
   private geoCoder;
   submitButtonEnabled: boolean;
   isBreakTime = false;
+  countOfPhotos: number;
 
   @Output() newPlaceEvent = new EventEmitter<PlaceWithUserModel>();
   @ViewChild('saveForm', {static: true}) private saveForm: NgForm;
@@ -64,13 +65,14 @@ export class ProposeCafeComponent implements OnInit {
   constructor(private modalService: ModalService, private placeService: PlaceService, private categoryService: CategoryService,
               private specificationService: SpecificationService, private uService: UserService, private mapsAPILoader: MapsAPILoader,
               private ngZone: NgZone, private dialogRef: MatDialogRef<ProposeCafeComponent>, private storage: AngularFireStorage,
-              private db: AngularFirestore, private fb: FormBuilder) {
+              private db: AngularFirestore, private fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data: any) {
     this.category = new CategoryDto();
     this.discount = new DiscountDto();
     this.location = new LocationDto();
     this.place = new PlaceAddDto();
     this.place.category = this.category;
     this.submitButtonEnabled = true;
+    this.countOfPhotos = this.data;
   }
 
   ngOnInit() {
@@ -127,7 +129,7 @@ export class ProposeCafeComponent implements OnInit {
           this.discountValues.push(discount1);
         }
       }
-    }else {
+    } else {
       for (let i = 0; i < this.discountValues.length; i++) {
         for (let j = i + 1; j < this.discountValues.length; i++) {
           if (discount1.specification.name == this.discountValues[i].specification.name ||

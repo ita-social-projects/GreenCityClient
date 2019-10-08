@@ -17,7 +17,7 @@ import {
   MatIconModule,
   MatPaginatorModule,
   MatSelectModule,
-  MatMenuModule
+  MatMenuModule, MAT_DIALOG_DATA
 } from '@angular/material';
 import {MatSortModule} from '@angular/material/sort';
 import {PaginationModule} from 'ngx-bootstrap';
@@ -74,6 +74,10 @@ import {AdminComponent} from './admin.component';
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
     {
       provide: MatDialogRef,
+      useValue: {}
+    },
+    {
+      provide: MAT_DIALOG_DATA,
       useValue: {}
     },
     ConfirmationDialogService,
