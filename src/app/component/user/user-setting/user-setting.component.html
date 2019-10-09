@@ -1,0 +1,82 @@
+<h2 mat-dialog-title style="text-align: center; margin-bottom: 2%;">User Settings</h2>
+<hr>
+<mat-dialog-content>
+  <!--<div class="text-secondary">Email:</div> <div>User email</div>
+  <p>First name:</p> first name
+  <p>Last name:</p> last name-->
+
+  <div>
+
+
+    <form #formElement="ngForm" (ngSubmit)="formElement.valid ? somethingEdited() : null">
+      <table>
+        <tr>
+          <td class="text-secondary">Email:</td>
+          <td>{{email}}</td>
+        </tr>
+        <tr>
+          <td class="text-secondary">First name:</td>
+          <td *ngIf="!isFirstNameEditing">{{userInitialsModel.firstName}}</td>
+          <td *ngIf="isFirstNameEditing">
+            <div class="validation-error"
+                 *ngIf="firstNameControl.invalid && (firstNameControl.dirty||firstNameControl.touched)">
+              <div *ngIf="firstNameControl.errors.required">
+                First name is required.
+              </div>
+              <div *ngIf="firstNameControl.errors.minlength">
+                First name must be at least 1 characters long.
+              </div>
+            </div>
+            <!-- <div class="validation-error" *ngIf="firstNameErrorMessageBackEnd!=null">
+               {{firstNameErrorMessageBackEnd}}
+             </div>-->
+            <input class="form-control" type="text" [(ngModel)]="userInitialsModel.firstName" name="fistName"
+                   #firstNameControl="ngModel" required minlength="1" maxlength="20">
+          </td>
+          <td>
+            <a (click)="firstNameEditing()">
+              <mdb-icon far icon="edit"></mdb-icon>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td class="text-secondary">Last name:</td>
+          <td *ngIf="!isLastNameEditing">{{userInitialsModel.lastName}}</td>
+          <td *ngIf="isLastNameEditing">
+            <div class="validation-error"
+                 *ngIf="lastNameControl.invalid && (lastNameControl.dirty||lastNameControl.touched)">
+              <div *ngIf="lastNameControl.errors.required">
+                Last name is required.
+              </div>
+              <div *ngIf="lastNameControl.errors.minlength">
+                Last name must be at least 1 characters long.
+              </div>
+            </div>
+            <!--<div class="validation-error" *ngIf="lastNameErrorMessageBackEnd!=null">
+              {{lastNameErrorMessageBackEnd}}
+            </div>-->
+            <input class="form-control" type="text" [(ngModel)]="userInitialsModel.lastName" name="lastName"
+                   #lastNameControl="ngModel"
+                   required
+                   minlength="1" maxlength="20">
+          </td>
+          <td>
+            <a (click)="lastNameEditing()">
+              <mdb-icon far icon="edit"></mdb-icon>
+            </a>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+
+
+</mat-dialog-content>
+
+<div style="display:flex; justify-content:flex-end; align-items:center;">
+  <button class="btn btn-primary submit" type="submit" style="margin-right: 1%" [disabled]="!isSomethingEdited"
+          (click)="updateUserInitials()">Submit
+  </button>
+  <button mat-dialog-close class="btn btn-primary" type="button">Close</button>
+</div>
+
