@@ -25,3 +25,21 @@ agm-map{
 .sub-2{
   width: 90vw; height: 95vh;
 }
+
+.open-hours-day {
+  alignment: center;
+  width: 40px
+}
+
+.open-hours-time {
+  alignment: center;
+  width: 90px
+}
+
+.open-hours-break {
+  alignment: center;
+  width: 120px
+}
+.open-hours-bold {
+  font-weight:bold
+}
