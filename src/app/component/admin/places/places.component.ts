@@ -213,7 +213,7 @@ export class PlacesComponent implements OnInit {
       if (column === 'Checkbox' && this.places.length === 0) {
         return false; // skip
       }
-      if (column === 'Delete' && (this.defaultStatus === 'deleted' || this.defaultStatus === 'proposed')) {
+      if (column === 'Delete' && this.defaultStatus === 'deleted') {
         return false; // skip
       }
       return true;

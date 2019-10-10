@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {UserRoleModel} from '../../model/user/user-role.model';
 import {UserStatusModel} from '../../model/user/user-status.model';
 import {UserPageableDtoModel} from '../../model/user/user-pageable-dto.model';
-import {mainLink, userInitialsLink} from '../../links';
+import {mainLink, placeLink, userInitialsLink, userLink} from '../../links';
 import {RolesModel} from '../../model/user/roles.model';
 import {UserFilterDtoModel} from '../../model/user/userFilterDto.model';
 import {UserInitialsModel} from '../../model/user/user-initials.model';
@@ -44,7 +44,7 @@ export class UserService {
   }
 
   getAllUsers(paginationSettings: string): Observable<UserPageableDtoModel> {
-    return this.http.get<UserPageableDtoModel>(`${this.apiUrl}` + paginationSettings);
+    return this.http.get<UserPageableDtoModel>(`${this.apiUrl}/all` + paginationSettings);
   }
 
   updateUserStatus(id: number, userStatus: string) {
@@ -78,14 +78,19 @@ export class UserService {
   }
 
   getUserInitials() {
-    return this.http.get<UserInitialsModel>(userInitialsLink);
+    return this.http.get<UserInitialsModel>(`${userLink}`);
   }
 
   updateUserInitials(userInitialsModel: UserInitialsModel) {
     const body = {
       firstName: userInitialsModel.firstName,
-      lastName: userInitialsModel.lastName
+      lastName: userInitialsModel.lastName,
+      emailNotification: userInitialsModel.emailNotification
     };
-    return this.http.put(userInitialsLink, body);
+    return this.http.put(`${userLink}`, body);
+  }
+
+  getEmailNotificationsStatuses(): Observable<string[]> {
+    return this.http.get<string[]>(`${userLink}/emailNotifications`);
   }
 }

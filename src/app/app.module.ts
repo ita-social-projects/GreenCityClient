@@ -38,7 +38,7 @@ import {
   MatDialogModule, MatDialogRef,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule,
+  MatInputModule, MatRadioModule,
   MatSliderModule,
   MatTableModule,
   MatTreeModule
@@ -102,7 +102,8 @@ import {UserSettingComponent} from './component/user/user-setting/user-setting.c
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatRadioModule
   ],
   entryComponents: [
     ProposeCafeComponent,

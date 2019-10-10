@@ -17,10 +17,12 @@ export class UserSettingComponent implements OnInit {
   private isFirstNameEditing = false;
   private isLastNameEditing = false;
   private isSomethingEdited = false;
+  private emailNotifications: string[] = [];
 
   constructor(private userService: UserService, private jwtService: JwtService, private dialogRef: MatDialogRef<UserSettingComponent>) {
     this.email = jwtService.getEmailFromAccessToken();
     this.getUserInitials();
+    this.setEmailNotifications();
   }
 
   ngOnInit() {
@@ -56,9 +58,18 @@ export class UserSettingComponent implements OnInit {
       this.isFirstNameEditing = true;
     }
   }
+
   private lastNameEditing() {
     if (!this.isFirstNameEditing) {
       this.isLastNameEditing = true;
     }
+  }
+
+  private setEmailNotifications() {
+    this.userService.getEmailNotificationsStatuses().subscribe(res => {
+      this.emailNotifications = [...res.filter((eNotification) => {
+        return eNotification !== 'DISABLED';
+      }).map((column) => column)];
+    });
   }
 }
