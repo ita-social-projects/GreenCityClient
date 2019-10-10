@@ -4,10 +4,10 @@ import {Observable} from 'rxjs';
 import {UserRoleModel} from '../../model/user/user-role.model';
 import {UserStatusModel} from '../../model/user/user-status.model';
 import {UserPageableDtoModel} from '../../model/user/user-pageable-dto.model';
-import {mainLink, placeLink, userInitialsLink, userLink} from '../../links';
+import {mainLink, placeLink, userLink} from '../../links';
 import {RolesModel} from '../../model/user/roles.model';
 import {UserFilterDtoModel} from '../../model/user/userFilterDto.model';
-import {UserInitialsModel} from '../../model/user/user-initials.model';
+import {UserUpdateModel} from '../../model/user/user-update.model';
 
 const token = localStorage.getItem('accessToken');
 let jwtData = null;
@@ -77,15 +77,15 @@ export class UserService {
     }
   }
 
-  getUserInitials() {
-    return this.http.get<UserInitialsModel>(`${userLink}`);
+  getUser() {
+    return this.http.get<UserUpdateModel>(`${userLink}`);
   }
 
-  updateUserInitials(userInitialsModel: UserInitialsModel) {
+  updateUser(userUpdateModel: UserUpdateModel) {
     const body = {
-      firstName: userInitialsModel.firstName,
-      lastName: userInitialsModel.lastName,
-      emailNotification: userInitialsModel.emailNotification
+      firstName: userUpdateModel.firstName,
+      lastName: userUpdateModel.lastName,
+      emailNotification: userUpdateModel.emailNotification
     };
     return this.http.put(`${userLink}`, body);
   }
