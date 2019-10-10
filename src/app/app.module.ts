@@ -41,6 +41,7 @@ import {
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
+  MatRadioModule,
   MatSelectModule,
   MatSliderModule,
   MatTableModule,
@@ -60,7 +61,6 @@ import {AddCommentComponent} from './component/user/add-comment/add-comment.comp
 import {RatingModule} from 'ngx-bootstrap';
 import {PhotoUploadComponent} from './component/user/photo-upload/photo-upload.component';
 import {UserSettingComponent} from './component/user/user-setting/user-setting.component';
-  MatInputModule, MatRadioModule,
 
 @NgModule({
   declarations: [

@@ -1,16 +1,15 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {AdminPlace} from '../../../model/place/admin-place.model';
 import {NgFlashMessageService} from 'ng-flash-messages';
 import {PlaceService} from '../../../service/place/place.service';
-import {MatTableDataSource} from '@angular/material';
+import {MatDialog, MatTableDataSource} from '@angular/material';
 import {PlaceStatus} from '../../../model/placeStatus.model';
 import {FilterPlaceDtoModel} from '../../../model/filtering/filter-place-dto.model';
 import {ConfirmationDialogService} from '../confirm-modal/confirmation-dialog-service.service';
-import {MatDialog} from '@angular/material';
 import {PlaceUpdatedDto} from '../../../model/place/placeUpdatedDto.model';
 import {UpdateCafeComponent} from '../update-cafe/update-cafe.component';
-import {WeekDaysUtils} from "../../../service/weekDaysUtils.service";
+import {WeekDaysUtils} from '../../../service/weekDaysUtils.service';
 
 @Component({
   selector: 'app-places',
@@ -107,6 +106,10 @@ export class PlacesComponent implements OnInit {
   }
 
   setChangeStatuses() {
+    if (this.allStatuses.length === 0) {
+      this.setAllStatuses();
+    }
+
     this.changeStatuses = [...this.allStatuses.filter((status) => {
       if (status === 'DELETED' && this.defaultStatus !== 'deleted') {
         return false; // skip
