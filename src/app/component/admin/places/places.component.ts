@@ -102,14 +102,11 @@ export class PlacesComponent implements OnInit {
   setAllStatuses() {
     this.placeService.getStatuses().subscribe(res => {
       this.allStatuses = res;
+      this.setChangeStatuses();
     });
   }
 
   setChangeStatuses() {
-    if (this.allStatuses.length === 0) {
-      this.setAllStatuses();
-    }
-
     this.changeStatuses = [...this.allStatuses.filter((status) => {
       if (status === 'DELETED' && this.defaultStatus !== 'deleted') {
         return false; // skip
