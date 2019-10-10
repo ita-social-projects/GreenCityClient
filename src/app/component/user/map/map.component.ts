@@ -4,16 +4,16 @@ import {Place} from '../../../model/place/place';
 import {MapBounds} from '../../../model/map/map-bounds';
 import {PlaceService} from '../../../service/place/place.service';
 import {PlaceInfo} from '../../../model/place/place-info';
-import {MatDialog, MatIconRegistry} from '@angular/material';
+import {MatIconRegistry} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
 import {FavoritePlaceService} from '../../../service/favorite-place/favorite-place.service';
 import {UserService} from '../../../service/user/user.service';
 import {ActivatedRoute} from '@angular/router';
-import {Subscription} from 'rxjs';
-import {FavoritePlaceComponent} from '../favorite-place/favorite-place.component';
+
 import {FavoritePlace} from '../../../model/favorite-place/favorite-place';
 import {FilterPlaceService} from '../../../service/filtering/filter-place.service';
 import {Location} from '../../../model/location.model';
+import {WeekDaysUtils} from "../../../service/weekDaysUtils.service";
 
 
 @Component({
@@ -44,13 +44,12 @@ export class MapComponent implements OnInit {
   icon = 'assets/img/icon/blue-dot.png';
   color = 'star-yellow';
   markerYellow = 'assets/img/icon/favorite-place/Icon-43.png';
-  querySubscription: Subscription;
-  idFavoritePlace: number;
-  favoritePlaces: FavoritePlace[];
+  clockIcon = 'assets/img/icon/clock-green.png';
 
   constructor(private iconRegistry: MatIconRegistry,
               private sanitizer: DomSanitizer,
               private uService: UserService,
+              private weekDaysUtils: WeekDaysUtils,
               private route: ActivatedRoute,
               private placeService: PlaceService,
               private filterService: FilterPlaceService,
@@ -73,10 +72,6 @@ export class MapComponent implements OnInit {
           ));
     this.filterService.setCategoryName('Food');
     this.filterService.setSpecName('Own cup');
-    this.querySubscription = route.queryParams.subscribe(
-      (queryParam: any) => {
-        this.idFavoritePlace = queryParam.fp_id;
-      });
   }
 
   ngOnInit() {
@@ -86,8 +81,9 @@ export class MapComponent implements OnInit {
     this.userMarkerLocation = {lat: this.lat, lng: this.lng};
     this.filterService.setUserMarkerLocation(this.userMarkerLocation);
     if (this.userRole === 'ROLE_ADMIN' || this.userRole === 'ROLE_MODERATOR' || this.userRole === 'ROLE_USER') {
-      this.getFavoritePlaces();
+      this.favoritePlaceService.getFavoritePlaces();
     }
+    this.subscribeToFavoritePlaceId();
   }
 
   getDirection(p: Place) {
@@ -146,12 +142,11 @@ export class MapComponent implements OnInit {
     this.placeService.getPlaceInfo(pl.id).subscribe((res) => {
         this.placeInfo = res;
         if (this.userRole === 'ROLE_ADMIN' || this.userRole === 'ROLE_MODERATOR' || this.userRole === 'ROLE_USER') {
-          this.favoritePlaces.forEach(fp => {
+          this.favoritePlaceService.favoritePlaces.forEach(fp => {
             if (fp.placeId === this.placeInfo.id) {
               this.placeInfo.name = fp.name;
             }
           });
-
         }
       }
     );
@@ -168,7 +163,7 @@ export class MapComponent implements OnInit {
     console.log('savePlaceAsFavorite() method in map.component placeId=' + place.id);
     if (!place.favorite) {
       this.favoritePlaceService.saveFavoritePlace(new FavoritePlace(place.id, place.name)).subscribe(res => {
-          this.getFavoritePlaces();
+          this.favoritePlaceService.getFavoritePlaces();
           this.changePlaceToFavoritePlace();
         }
       );
@@ -177,10 +172,9 @@ export class MapComponent implements OnInit {
 
     } else {
       this.favoritePlaceService.deleteFavoritePlace(place.id).subscribe(res => {
-        this.getFavoritePlaces();
+        this.favoritePlaceService.getFavoritePlaces();
         this.changePlaceToFavoritePlace();
-      })
-      ;
+      });
       place.favorite = false;
       place.color = this.getIcon(place.favorite);
     }
@@ -191,17 +185,10 @@ export class MapComponent implements OnInit {
   }
 
   getList() {
-    if (this.idFavoritePlace) {
-      console.log('in getList(), setFP');
-      this.setFavoritePlaceOnMap();
-    } else {
-      console.log('in getList()');
-      if (this.button !== true) {
-        this.placeService.getFilteredPlaces();
-        console.log(this.placeService.places);
-        this.idFavoritePlace = null;
-        this.searchText = null;
-      }
+    if (this.button !== true) {
+      this.placeService.getFilteredPlaces();
+      console.log(this.placeService.places);
+      this.searchText = null;
     }
   }
 
@@ -223,32 +210,32 @@ export class MapComponent implements OnInit {
     }
   }
 
-  setFavoritePlaceOnMap() {
-    if (this.idFavoritePlace) {
-      this.favoritePlaceService.getFavoritePlaceWithLocation(this.idFavoritePlace).subscribe((res) => {
-          res.favorite = true;
-          this.placeService.places = [res];
-          this.setMarker(this.placeService.places[0]);
-        }
-      );
-      this.idFavoritePlace = null;
-
-    }
-  }
-
-  getFavoritePlaces() {
-    console.log('getFavoritePlaces');
-    this.favoritePlaceService.findAllByUserEmail().subscribe((res) => {
-        this.favoritePlaces = res;
-        console.log(this.favoritePlaces);
+  setFavoritePlaceOnMap(id: number) {
+    this.favoritePlaceService.getFavoritePlaceWithLocation(id).subscribe((res) => {
+        res.favorite = true;
+        this.placeService.places = [res];
+        this.setMarker(this.placeService.places[0]);
+        this.lat = this.placeService.places[0].location.lat;
+        this.lng = this.placeService.places[0].location.lng;
       }
     );
+
+  }
+
+  subscribeToFavoritePlaceId() {
+    this.favoritePlaceService.subject.subscribe(value => {
+      if (typeof value === 'number') {
+        this.setFavoritePlaceOnMap(value);
+      } else {
+        console.log('Not number in favoritePlaceService.subject');
+      }
+    });
   }
 
   changePlaceToFavoritePlace() {
     this.placeService.places.forEach((place) => {
       place.favorite = false;
-      this.favoritePlaces.forEach((favoritePlace) => {
+      this.favoritePlaceService.favoritePlaces.forEach((favoritePlace) => {
         if (place.id === favoritePlace.placeId) {
           place.name = favoritePlace.name;
           place.favorite = true;

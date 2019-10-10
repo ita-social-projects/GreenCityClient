@@ -4,6 +4,7 @@ import {UserService} from '../../../service/user/user.service';
 import {MatDialog} from '@angular/material';
 import {FavoritePlaceComponent} from '../favorite-place/favorite-place.component';
 import {ProposeCafeComponent} from '../propose-cafe/propose-cafe.component';
+import {FavoritePlaceService} from '../../../service/favorite-place/favorite-place.service';
 import {UserSettingComponent} from '../user-setting/user-setting.component';
 
 @Component({
@@ -16,7 +17,8 @@ export class NavBarComponent implements OnInit {
   private firstName: string = null;
   private userRole: string;
 
-  constructor(private uService: UserService, private modalService: ModalService, public dialog: MatDialog) {
+  constructor(private uService: UserService, private modalService: ModalService, public dialog: MatDialog,
+              private favoritePlaceService: FavoritePlaceService) {
 
   }
 
@@ -26,6 +28,8 @@ export class NavBarComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
+      this.favoritePlaceService.getFavoritePlaces();
+
     });
   }
 

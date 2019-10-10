@@ -74,6 +74,19 @@ export class SignInComponent implements OnInit {
       this.googleService.signIn(data.idToken).subscribe((data1: UserSuccessSignIn) => {
           this.service.saveUserToLocalStorage(data1);
           window.location.href = '/';
+        },
+        (errors: HttpErrorResponse) => {
+          try {
+            errors.error.forEach(error => {
+              if (error.name === 'email') {
+                this.emailErrorMessageBackEnd = error.message;
+              } else if (error.name === 'password') {
+                this.passwordErrorMessageBackEnd = error.message;
+              }
+            });
+          } catch (e) {
+            this.backEndError = errors.error.message;
+          }
         }
       );
     });

@@ -9,5 +9,5 @@ export class PlaceUpdatedDto {
   category: CategoryDto;
   location: LocationDto;
   openingHoursList: OpeningHours[];
-  discounts: DiscountDto[];
+  discountValues: DiscountDto[];
 }

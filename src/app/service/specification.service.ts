@@ -14,12 +14,8 @@ export class SpecificationService extends BaseService {
     this.apiUrl += '/specification';
   }
 
-  // findAllSpecification(): any {
-  //   return this.http.get<SpecificationNameDto[]>(`${mainLink}specification`)
-  // }
-
   findAllSpecification(): Observable<SpecificationNameDto[]> {
-    return this.http.get<SpecificationNameDto[]>(`http://localhost:8080/specification`);
+    return this.http.get<SpecificationNameDto[]>(`${mainLink}specification`);
   }
 }
 

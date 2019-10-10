@@ -30,7 +30,7 @@
             <!-- <div class="validation-error" *ngIf="firstNameErrorMessageBackEnd!=null">
                {{firstNameErrorMessageBackEnd}}
              </div>-->
-            <input type="text" [(ngModel)]="userInitialsModel.firstName" name="fistName"
+            <input class="form-control" type="text" [(ngModel)]="userInitialsModel.firstName" name="fistName"
                    #firstNameControl="ngModel" required minlength="1" maxlength="20">
           </td>
           <td>
@@ -55,7 +55,7 @@
             <!--<div class="validation-error" *ngIf="lastNameErrorMessageBackEnd!=null">
               {{lastNameErrorMessageBackEnd}}
             </div>-->
-            <input type="text" [(ngModel)]="userInitialsModel.lastName" name="lastName"
+            <input class="form-control" type="text" [(ngModel)]="userInitialsModel.lastName" name="lastName"
                    #lastNameControl="ngModel"
                    required
                    minlength="1" maxlength="20">
