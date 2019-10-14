@@ -4,7 +4,7 @@ import {Place} from '../../../model/place/place';
 import {MapBounds} from '../../../model/map/map-bounds';
 import {PlaceService} from '../../../service/place/place.service';
 import {PlaceInfo} from '../../../model/place/place-info';
-import {MatIconRegistry} from '@angular/material';
+import {MatDialog, MatIconRegistry} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
 import {FavoritePlaceService} from '../../../service/favorite-place/favorite-place.service';
 import {UserService} from '../../../service/user/user.service';
@@ -14,7 +14,7 @@ import {FavoritePlace} from '../../../model/favorite-place/favorite-place';
 import {FilterPlaceService} from '../../../service/filtering/filter-place.service';
 import {Location} from '../../../model/location.model';
 import {AddCommentComponent} from '../add-comment/add-comment.component';
-import {WeekDaysUtils} from "../../../service/weekDaysUtils.service";
+import {WeekDaysUtils} from '../../../service/weekDaysUtils.service';
 
 
 @Component({

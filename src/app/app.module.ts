@@ -123,19 +123,15 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     RatingModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatRadioModule
+    MatRadioModule,
     MatSelectModule,
     NgbModule
   ],
-  entryComponents: [ProposeCafeComponent, FavoritePlaceComponent, EditFavoriteNameComponent, RestoreComponent, DeleteFavoriteComponent, AddCommentComponent],
   entryComponents: [
-    ProposeCafeComponent,
-    FavoritePlaceComponent,
-    EditFavoriteNameComponent,
-    RestoreComponent,
+    ProposeCafeComponent, FavoritePlaceComponent,
+    EditFavoriteNameComponent, RestoreComponent,
     DeleteFavoriteComponent,
-    UserSettingComponent
-  ],
+    UserSettingComponent, AddCommentComponent],
 
   providers: [
     {
