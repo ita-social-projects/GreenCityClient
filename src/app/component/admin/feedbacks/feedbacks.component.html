@@ -20,18 +20,17 @@
             </th>
             <td mat-cell id="textColumn" *matCellDef="let element">
               <div *ngIf="element.text.length <= 115">{{element.text}}</div>
-              <div id="f{{element.id}}" [hidden]="!(element.text.length > 115)">{{element.text.substr(0, 115)}} ...
-                <div style="display: inline" (click)="changeVisability('f' + element.id, 'f' + element.id + 'b')"> more
+              <div id="f{{element.id}}" [hidden]="!(element.text.length > 115)">{{element.text.substr(0, 115)}}...
+                <div style="display: inline" (click)="changeVisability('f' + element.id, 'f' + element.id + 'b')">
+                  <a style="color: #53a6ff">more</a>
                 </div>
               </div>
               <div id="f{{element.id}}b" [hidden]="true">{{element.text}}
-                <div style="display: inline" (click)="changeVisability('f' + element.id, 'f' + element.id + 'b')"> less
+                <div style="display: inline" (click)="changeVisability('f' + element.id, 'f' + element.id + 'b')">
+                  <a style="color: #53a6ff">less</a>
                 </div>
               </div>
-              <!--              <div #f{{element.id}}b>{{element.text}}-->
-              <!--                <div (click)="truncFlag = false"></div></div>-->
             </td>
-
           </ng-container>
 
 
