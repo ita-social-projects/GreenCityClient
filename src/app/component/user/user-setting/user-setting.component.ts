@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from '../../../service/user/user.service';
-import {UserInitialsModel} from '../../../model/user/user-initials.model';
+import {UserUpdateModel} from '../../../model/user/user-update.model';
 import {JwtService} from '../../../service/jwt.service';
 import {MatDialogRef} from '@angular/material';
 
@@ -12,30 +12,32 @@ import {MatDialogRef} from '@angular/material';
 export class UserSettingComponent implements OnInit {
 
   private email = '';
-  private userInitialsModel = new UserInitialsModel();
-  // private newUserInitialsModel = new UserInitialsModel();
+  private userUpdateModel = new UserUpdateModel();
+  // private newUserUpdateModel = new UserUpdateModel();
   private isFirstNameEditing = false;
   private isLastNameEditing = false;
   private isSomethingEdited = false;
+  private emailNotifications: string[] = [];
 
   constructor(private userService: UserService, private jwtService: JwtService, private dialogRef: MatDialogRef<UserSettingComponent>) {
     this.email = jwtService.getEmailFromAccessToken();
-    this.getUserInitials();
+    this.getUser();
+    this.setEmailNotifications();
   }
 
   ngOnInit() {
   }
 
-  private getUserInitials() {
-    this.userService.getUserInitials().subscribe((userInitialsModel: UserInitialsModel) => {
-      this.userInitialsModel = userInitialsModel;
+  private getUser() {
+    this.userService.getUser().subscribe((userUpdateModel: UserUpdateModel) => {
+      this.userUpdateModel = userUpdateModel;
     });
   }
 
-  private updateUserInitials() {
-    this.userService.updateUserInitials(this.userInitialsModel).subscribe(
+  private updateUser() {
+    this.userService.updateUser(this.userUpdateModel).subscribe(
       () => {
-        this.jwtService.setFirstName(this.userInitialsModel.firstName);
+        this.jwtService.setFirstName(this.userUpdateModel.firstName);
         this.dialogRef.close();
         window.location.href = '/';
       },
@@ -56,9 +58,18 @@ export class UserSettingComponent implements OnInit {
       this.isFirstNameEditing = true;
     }
   }
+
   private lastNameEditing() {
     if (!this.isFirstNameEditing) {
       this.isLastNameEditing = true;
     }
+  }
+
+  private setEmailNotifications() {
+    this.userService.getEmailNotificationsStatuses().subscribe(res => {
+      this.emailNotifications = [...res.filter((eNotification) => {
+        return eNotification !== 'DISABLED';
+      }).map((column) => column)];
+    });
   }
 }

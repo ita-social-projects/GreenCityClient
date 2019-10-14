@@ -41,6 +41,7 @@ import {
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
+  MatRadioModule,
   MatSelectModule,
   MatSliderModule,
   MatTableModule,
@@ -118,7 +119,9 @@ import {UserSettingComponent} from './component/user/user-setting/user-setting.c
     AngularFireStorageModule,
     MatCardModule,
     RatingModule,
-    MatSelectModule
+    MatSelectModule,
+    MatCheckboxModule,
+    MatRadioModule
   ],
   entryComponents: [
     ProposeCafeComponent,

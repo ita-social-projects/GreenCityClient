@@ -16,7 +16,7 @@
         </tr>
         <tr>
           <td class="text-secondary">First name:</td>
-          <td *ngIf="!isFirstNameEditing">{{userInitialsModel.firstName}}</td>
+          <td *ngIf="!isFirstNameEditing">{{userUpdateModel.firstName}}</td>
           <td *ngIf="isFirstNameEditing">
             <div class="validation-error"
                  *ngIf="firstNameControl.invalid && (firstNameControl.dirty||firstNameControl.touched)">
@@ -30,7 +30,7 @@
             <!-- <div class="validation-error" *ngIf="firstNameErrorMessageBackEnd!=null">
                {{firstNameErrorMessageBackEnd}}
              </div>-->
-            <input class="form-control" type="text" [(ngModel)]="userInitialsModel.firstName" name="fistName"
+            <input class="form-control" type="text" [(ngModel)]="userUpdateModel.firstName" name="fistName"
                    #firstNameControl="ngModel" required minlength="1" maxlength="20">
           </td>
           <td>
@@ -41,7 +41,7 @@
         </tr>
         <tr>
           <td class="text-secondary">Last name:</td>
-          <td *ngIf="!isLastNameEditing">{{userInitialsModel.lastName}}</td>
+          <td *ngIf="!isLastNameEditing">{{userUpdateModel.lastName}}</td>
           <td *ngIf="isLastNameEditing">
             <div class="validation-error"
                  *ngIf="lastNameControl.invalid && (lastNameControl.dirty||lastNameControl.touched)">
@@ -55,7 +55,7 @@
             <!--<div class="validation-error" *ngIf="lastNameErrorMessageBackEnd!=null">
               {{lastNameErrorMessageBackEnd}}
             </div>-->
-            <input class="form-control" type="text" [(ngModel)]="userInitialsModel.lastName" name="lastName"
+            <input class="form-control" type="text" [(ngModel)]="userUpdateModel.lastName" name="lastName"
                    #lastNameControl="ngModel"
                    required
                    minlength="1" maxlength="20">
@@ -66,6 +66,42 @@
             </a>
           </td>
         </tr>
+        <tr class="emailNotification">
+          <td class="text-secondary">Email notifications</td>
+          <mat-radio-group
+            aria-labelledby="example-radio-group-label"
+            class="example-radio-group">
+            <mat-radio-button
+              class="example-radio-button"
+              value="Yes"
+              [checked]="userUpdateModel.emailNotification !== 'DISABLED'"
+              (change)="userUpdateModel.emailNotification = 'DAILY'; somethingEdited()"
+              color="primary">Yes
+            </mat-radio-button>
+            <mat-radio-button
+              class="example-radio-button"
+              value="No"
+              [checked]="userUpdateModel.emailNotification === 'DISABLED'"
+              (change)="userUpdateModel.emailNotification = 'DISABLED'; somethingEdited()"
+              color="primary">No
+            </mat-radio-button>
+          </mat-radio-group>
+        </tr>
+        <tr *ngIf="userUpdateModel.emailNotification !== 'DISABLED'">
+          <td class="text-secondary" id="frequency">Frequency</td>
+          <mat-radio-group
+            aria-labelledby="example-radio-group-label"
+            class="example-radio-grooup"
+            [(ngModel)]="userUpdateModel.emailNotification"
+            [ngModelOptions]="{standalone: true}">
+            <mat-radio-button class="example-radio-button" *ngFor="let notification of emailNotifications"
+                              [value]="notification"
+                              (change)="somethingEdited()"
+                              color="primary">
+              {{notification | titlecase}}
+            </mat-radio-button>
+          </mat-radio-group>
+        </tr>
       </table>
     </form>
   </div>
@@ -75,7 +111,7 @@
 
 <div style="display:flex; justify-content:flex-end; align-items:center;">
   <button class="btn btn-primary submit" type="submit" style="margin-right: 1%" [disabled]="!isSomethingEdited"
-          (click)="updateUserInitials()">Submit
+          (click)="updateUser()">Submit
   </button>
   <button mat-dialog-close class="btn btn-primary" type="button">Close</button>
 </div>
