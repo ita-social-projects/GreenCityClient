@@ -13,11 +13,12 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
   MatCheckboxModule,
-  MatDialogModule, MatDialogRef,
+  MatDialogModule,
+  MatDialogRef,
   MatIconModule,
+  MatMenuModule,
   MatPaginatorModule,
-  MatSelectModule,
-  MatMenuModule
+  MatSelectModule
 } from '@angular/material';
 import {MatSortModule} from '@angular/material/sort';
 import {PaginationModule} from 'ngx-bootstrap';
@@ -27,15 +28,18 @@ import {NgSelectModule} from '@ng-select/ng-select';
 import {AgmCoreModule} from '@agm/core';
 import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
-import {EditFavoriteNameComponent, FavoritePlaceComponent} from '../user/favorite-place/favorite-place.component';
 import {AdminService} from '../../service/admin/admin.service';
 import {ConfirmModalComponent} from './confirm-modal/confirm-modal.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ConfirmationDialogService} from './confirm-modal/confirmation-dialog-service.service';
 import {AdminComponent} from './admin.component';
+import {FeedbacksComponent} from './feedbacks/feedbacks.component';
+import {AngularTextTruncateModule} from 'angular-text-truncate';
+import { DialogPhotoComponent } from './feedbacks/dialog-photo/dialog-photo.component';
 
 @NgModule({
-  declarations: [AdminNavComponent, AdminComponent, PlacesComponent, UsersComponent, ErrorComponent, ConfirmModalComponent, UpdateCafeComponent],
+  declarations: [AdminNavComponent, AdminComponent, PlacesComponent, UsersComponent, ErrorComponent, ConfirmModalComponent,
+    UpdateCafeComponent, FeedbacksComponent, DialogPhotoComponent],
   exports: [
     AdminNavComponent,
     AdminComponent,
@@ -68,7 +72,7 @@ import {AdminComponent} from './admin.component';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI',
       libraries: ['places']
-    }),
+    })
   ],
   providers: [
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
@@ -79,7 +83,7 @@ import {AdminComponent} from './admin.component';
     ConfirmationDialogService,
     AdminService
   ],
-  entryComponents: [ConfirmModalComponent, UpdateCafeComponent],
+  entryComponents: [ConfirmModalComponent, UpdateCafeComponent, DialogPhotoComponent],
   bootstrap: [AdminComponent],
 })
 export class AdminModule {
