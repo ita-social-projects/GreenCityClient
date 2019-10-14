@@ -61,6 +61,8 @@ import {AddCommentComponent} from './component/user/add-comment/add-comment.comp
 import {RatingModule} from 'ngx-bootstrap';
 import {PhotoUploadComponent} from './component/user/photo-upload/photo-upload.component';
 import {UserSettingComponent} from './component/user/user-setting/user-setting.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
 
 @NgModule({
   declarations: [
@@ -121,16 +123,15 @@ import {UserSettingComponent} from './component/user/user-setting/user-setting.c
     RatingModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatRadioModule
+    MatRadioModule,
+    MatSelectModule,
+    NgbModule
   ],
   entryComponents: [
-    ProposeCafeComponent,
-    FavoritePlaceComponent,
-    EditFavoriteNameComponent,
-    RestoreComponent,
+    ProposeCafeComponent, FavoritePlaceComponent,
+    EditFavoriteNameComponent, RestoreComponent,
     DeleteFavoriteComponent,
-    UserSettingComponent
-  ],
+    UserSettingComponent, AddCommentComponent],
 
   providers: [
     {

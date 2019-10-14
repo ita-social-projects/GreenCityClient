@@ -4,7 +4,7 @@ import {Place} from '../../../model/place/place';
 import {MapBounds} from '../../../model/map/map-bounds';
 import {PlaceService} from '../../../service/place/place.service';
 import {PlaceInfo} from '../../../model/place/place-info';
-import {MatIconRegistry} from '@angular/material';
+import {MatDialog, MatIconRegistry} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
 import {FavoritePlaceService} from '../../../service/favorite-place/favorite-place.service';
 import {UserService} from '../../../service/user/user.service';
@@ -13,7 +13,8 @@ import {ActivatedRoute} from '@angular/router';
 import {FavoritePlace} from '../../../model/favorite-place/favorite-place';
 import {FilterPlaceService} from '../../../service/filtering/filter-place.service';
 import {Location} from '../../../model/location.model';
-import {WeekDaysUtils} from "../../../service/weekDaysUtils.service";
+import {AddCommentComponent} from '../add-comment/add-comment.component';
+import {WeekDaysUtils} from '../../../service/weekDaysUtils.service';
 
 
 @Component({
@@ -53,7 +54,8 @@ export class MapComponent implements OnInit {
               private route: ActivatedRoute,
               private placeService: PlaceService,
               private filterService: FilterPlaceService,
-              private favoritePlaceService: FavoritePlaceService) {
+              private favoritePlaceService: FavoritePlaceService,
+              public dialog: MatDialog) {
     iconRegistry
       .addSvgIcon(
         'star-white'
@@ -261,5 +263,17 @@ export class MapComponent implements OnInit {
   changeTravelMode() {
     this.travelMode = (this.travelMode === 'WALKING') ? 'DRIVING' : 'WALKING';
     this.travelModeButton = (this.travelModeButton === 'DRIVING') ? 'WALKING' : 'DRIVING';
+  }
+
+  openDialogAddComment(id: number) {
+    const dialogRef = this.dialog.open(AddCommentComponent, {
+      width: '800px',
+      data: 3
+      })
+    ;
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 }

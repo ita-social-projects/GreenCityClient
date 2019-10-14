@@ -79,8 +79,18 @@
               <h6>
                 <li *ngFor="let obj of placeInfo.specificationValues">{{obj.specification.name}}</li>
               </h6>
+              <rating  [(ngModel)]="placeInfo.rate"
+                       [max]="5"
+                       [readonly]="true"
+                       [disabled]="false"
+                       [required]="true"
+                       [titles]="['one', 'two', 'three', 'four', 'five']">
+              </rating>
               <p>Rate: {{placeInfo.rate}}</p>
               <p>Comments: {{placeInfo.comments.length}}</p>
+              <button
+                *ngIf="userRole === 'ROLE_ADMIN' || userRole === 'ROLE_MODERATOR' || userRole === 'ROLE_USER'"
+                (click)="openDialogAddComment(placeInfo.id)">Add comment</button>
               <p>{{placeInfo.location.address}}</p>
               <p>
               <div class="nav-link dropdown-toggle" role="button"

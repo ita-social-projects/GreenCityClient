@@ -1,24 +1,24 @@
-import {Component, ElementRef, EventEmitter, NgZone, OnInit, Output, ViewChild} from '@angular/core';
-import {OpeningHours} from "../../../model/openingHours.model";
-import {PlaceAddDto} from "../../../model/placeAddDto.model";
-import {CategoryDto} from "../../../model/category.model";
-import {LocationDto} from "../../../model/locationDto.model";
-import {WeekDays} from "../../../model/weekDays.model";
-import {PlaceWithUserModel} from "../../../model/placeWithUser.model";
-import {ModalService} from "../_modal/modal.service";
-import {CategoryService} from "../../../service/category.service";
-import {UserService} from "../../../service/user/user.service";
-import {FormBuilder, FormGroup, NgForm, Validators} from "@angular/forms";
-import {NgSelectComponent} from "@ng-select/ng-select";
-import {MapsAPILoader, MouseEvent} from "@agm/core";
-import {PlaceService} from "../../../service/place/place.service";
-import {BreakTimes} from "../../../model/breakTimes.model";
-import {MatDialogRef} from "@angular/material";
-import {SpecificationService} from "../../../service/specification.service";
-import {DiscountDto} from "../../../model/discount/DiscountDto";
-import {SpecificationNameDto} from "../../../model/specification/SpecificationNameDto";
-import {AngularFireStorage, AngularFireUploadTask} from "@angular/fire/storage";
-import {AngularFirestore} from "@angular/fire/firestore";
+import {Component, ElementRef, EventEmitter, Inject, NgZone, OnInit, Output, ViewChild} from '@angular/core';
+import {OpeningHours} from '../../../model/openingHours.model';
+import {PlaceAddDto} from '../../../model/placeAddDto.model';
+import {CategoryDto} from '../../../model/category.model';
+import {LocationDto} from '../../../model/locationDto.model';
+import {WeekDays} from '../../../model/weekDays.model';
+import {PlaceWithUserModel} from '../../../model/placeWithUser.model';
+import {ModalService} from '../_modal/modal.service';
+import {CategoryService} from '../../../service/category.service';
+import {UserService} from '../../../service/user/user.service';
+import {FormBuilder, NgForm} from '@angular/forms';
+import {NgSelectComponent} from '@ng-select/ng-select';
+import {MapsAPILoader, MouseEvent} from '@agm/core';
+import {PlaceService} from '../../../service/place/place.service';
+import {BreakTimes} from '../../../model/breakTimes.model';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {SpecificationService} from '../../../service/specification.service';
+import {DiscountDto} from '../../../model/discount/DiscountDto';
+import {SpecificationNameDto} from '../../../model/specification/SpecificationNameDto';
+import {AngularFireStorage} from '@angular/fire/storage';
+import {AngularFirestore} from '@angular/fire/firestore';
 
 
 @Component({
@@ -27,6 +27,7 @@ import {AngularFirestore} from "@angular/fire/firestore";
   styleUrls: ['./propose-cafe.component.scss']
 })
 export class ProposeCafeComponent implements OnInit {
+  photoLoadingStatus = false;
   name: any;
   nameOfSpecification: any;
   value: any;
@@ -50,27 +51,28 @@ export class ProposeCafeComponent implements OnInit {
   longitude: number;
   zoom: number;
   address: string;
-  private geoCoder;
   submitButtonEnabled: boolean;
   isBreakTime = false;
-
+  countOfPhotos: number;
   @Output() newPlaceEvent = new EventEmitter<PlaceWithUserModel>();
-  @ViewChild('saveForm', {static: true}) private saveForm: NgForm;
   @ViewChild(NgSelectComponent, {static: true}) ngSelectComponent: NgSelectComponent;
-  @ViewChild('choice', {static: true}) private choice: any;
   @ViewChild('search', {static: true})
   public searchElementRef: ElementRef;
+  private geoCoder;
+  @ViewChild('saveForm', {static: true}) private saveForm: NgForm;
+  @ViewChild('choice', {static: true}) private choice: any;
 
   constructor(private modalService: ModalService, private placeService: PlaceService, private categoryService: CategoryService,
               private specificationService: SpecificationService, private uService: UserService, private mapsAPILoader: MapsAPILoader,
               private ngZone: NgZone, private dialogRef: MatDialogRef<ProposeCafeComponent>, private storage: AngularFireStorage,
-              private db: AngularFirestore, private fb: FormBuilder) {
+              private db: AngularFirestore, private fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data: any) {
     this.category = new CategoryDto();
     this.discount = new DiscountDto();
     this.location = new LocationDto();
     this.place = new PlaceAddDto();
     this.place.category = this.category;
     this.submitButtonEnabled = true;
+    this.countOfPhotos = this.data;
   }
 
   ngOnInit() {
@@ -127,12 +129,12 @@ export class ProposeCafeComponent implements OnInit {
           this.discountValues.push(discount1);
         }
       }
-    }else {
+    } else {
       for (let i = 0; i < this.discountValues.length; i++) {
         for (let j = i + 1; j < this.discountValues.length; i++) {
           if (discount1.specification.name == this.discountValues[i].specification.name ||
             discount1.specification.name == this.discountValues[j].specification.name) {
-            alert("Already exists.");
+            alert('Already exists.');
           }
         }
       }
@@ -206,18 +208,6 @@ export class ProposeCafeComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  // Get Current Location Coordinates
-  private setCurrentLocation() {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
-        this.zoom = 8;
-        this.getAddress(this.latitude, this.longitude);
-      });
-    }
-  }
-
   markerDragEnd($event: MouseEvent) {
     console.log($event);
     this.latitude = $event.coords.lat;
@@ -238,5 +228,25 @@ export class ProposeCafeComponent implements OnInit {
         window.alert('Geocoder failed due to: ' + status);
       }
     });
+  }
+
+  setListOfPhotos() {
+    //todo save method of list
+  }
+
+  changeStatus() {
+    this.photoLoadingStatus = !this.photoLoadingStatus;
+  }
+
+  // Get Current Location Coordinates
+  private setCurrentLocation() {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.latitude = position.coords.latitude;
+        this.longitude = position.coords.longitude;
+        this.zoom = 8;
+        this.getAddress(this.latitude, this.longitude);
+      });
+    }
   }
 }

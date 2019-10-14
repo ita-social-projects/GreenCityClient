@@ -195,12 +195,12 @@
     <div style="margin-left: 7%; margin-right: 9%; margin-top: 5%">
       <h4 style="text-align: left; font-weight: 400;">Upload Photos: </h4>
       <hr>
-      <app-photo-upload></app-photo-upload>
+      <app-photo-upload [countOfPhotos]="countOfPhotos" (listOfPhotos)="setListOfPhotos()"(loadingStatus)="changeStatus()"></app-photo-upload>
     </div>
 
 
     <div style="display:flex; justify-content:flex-end; align-items:center;">
-      <button [disabled]="saveForm.invalid || !(openingHoursList.length > 0) || !(discountValues.length > 0)"
+      <button [disabled]="saveForm.invalid || !(openingHoursList.length > 0) || !(discountValues.length > 0) || photoLoadingStatus"
               class="btn btn-primary submit"
               type="submit" style="margin-right: 1%">Submit
       </button>
