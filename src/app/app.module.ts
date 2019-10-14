@@ -59,6 +59,7 @@ import {FileUploadModule} from 'ng2-file-upload';
 import {AddCommentComponent} from './component/user/add-comment/add-comment.component';
 import {RatingModule} from 'ngx-bootstrap';
 import {PhotoUploadComponent} from './component/user/photo-upload/photo-upload.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -117,7 +118,8 @@ import {PhotoUploadComponent} from './component/user/photo-upload/photo-upload.c
     AngularFireStorageModule,
     MatCardModule,
     RatingModule,
-    MatSelectModule
+    MatSelectModule,
+    NgbModule
   ],
   entryComponents: [ProposeCafeComponent, FavoritePlaceComponent, EditFavoriteNameComponent, RestoreComponent, DeleteFavoriteComponent, AddCommentComponent],
 

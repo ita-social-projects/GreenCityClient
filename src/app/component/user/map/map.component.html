@@ -87,9 +87,9 @@
             </rating>
             <p>Rate: {{placeInfo.rate}}</p>
             <p>Comments: {{placeInfo.comments.length}}</p>
-            <a class="nav-link"
+            <button
                *ngIf="userRole === 'ROLE_ADMIN' || userRole === 'ROLE_MODERATOR' || userRole === 'ROLE_USER'"
-               (click)="openDialogAddComment(placeInfo.id)">Add comment</a>
+               (click)="openDialogAddComment(placeInfo.id)">Add comment</button>
             <p>{{placeInfo.location.address}}</p>
             <li *ngFor="let openingHoursList of placeInfo.openingHoursList">{{openingHoursList.weekDay}}
               :{{openingHoursList.openTime}}-{{openingHoursList.closeTime}}</li>

@@ -1,25 +1,40 @@
-<script src="../../../model/pageable-dto.model.ts"></script>
 <h2 mat-dialog-title style="text-align: center; font-weight: 400;">Add your comment to place </h2>
-<div>
+<div class="ratingg">
+
   <p>Please rare us</p>
-  <rating label="Please rate us" [(ngModel)]="comment.rate"
-          [max]="5"
-          [readonly]="false"
-          [disabled]="false"
-          [required]="true"
-          [titles]="['one', 'two', 'three', 'four', 'five']">
-  </rating>
+  <ngb-rating [(ngModel)]="estimate.rate"
+              [max]="5"
+              [readonly]="false"
+              [disabled]="false"
+              [required]="true"
+  >
+  </ngb-rating>
 </div>
 <div>
-  <textarea [(ngModel)]="comment.text" #commentText placeholder="Please write a comment"></textarea>
+  <div class="validation-error" *ngIf="commentControl.invalid && (commentControl.dirty||commentControl.touched)">
+    <div *ngIf="commentControl.errors.required">
+      Comment is required.
+    </div>
+    <div *ngIf="commentControl.errors.minlength">
+      Comment must be at least 5 characters long.
+    </div>
+    <div *ngIf="commentControl.errors.maxlength">
+      Comment must be maximum {{commentControl.errors.maxlength}} characters long.
+    </div>
+  </div>
+<div class="input-group">
+  <textarea rows="4" class="form-control" [(ngModel)]="comment.text" placeholder="Please write a comment"
+            required minlength="5" maxlength="300" #commentControl="ngModel"
+  ></textarea>
 </div>
 <div>
-  <app-photo-upload  (listOfPhotos)="getListOfPhotos($event)" [countOfPhotos]="countOfPhotos"></app-photo-upload>
+  <app-photo-upload (loadingStatus)="changeLoadingStatus()" (listOfPhotos)="getListOfPhotos($event)"
+                    [countOfPhotos]="countOfPhotos"></app-photo-upload>
 </div>
 <div style="display:flex; justify-content:flex-end; align-items:center;">
-<!--  <button [disabled]="saveForm.invalid || !(openingHoursList.length > 0) || !(discountValues.length > 0)"-->
-<!--          class="btn btn-primary submit"-->
-<!--          type="submit" style="margin-right: 1%">Submit-->
-<!--  </button>-->
+  <button [disabled]="photoLoadingStatus||commentControl.invalid"
+          class="btn btn-primary submit"
+          type="submit" style="margin-right: 1%" (click)="onSubmit()">Submit
+  </button>
   <button mat-dialog-close class="btn btn-primary" type="button">Close</button>
 </div>
