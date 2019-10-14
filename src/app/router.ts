@@ -9,6 +9,7 @@ import {PlacesComponent} from './component/admin/places/places.component';
 import {UsersComponent} from './component/admin/users/users.component';
 import {FilterComponent} from './component/filter/filter.component';
 import {RestoreFormComponent} from './component/user/restore-form/restore-form.component';
+import {FeedbacksComponent} from './component/admin/feedbacks/feedbacks.component';
 
 export const router = [
   {
@@ -31,7 +32,8 @@ export const router = [
         path: 'admin', component: AdminComponent, children: [
           {path: '', redirectTo: 'places', pathMatch: 'prefix'},
           {path: 'places', component: PlacesComponent},
-          {path: 'users', component: UsersComponent}
+          {path: 'users', component: UsersComponent},
+          {path: 'feedbacks', component: FeedbacksComponent}
         ]
       }
     ]
