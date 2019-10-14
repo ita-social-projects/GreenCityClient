@@ -5,6 +5,8 @@ import {HttpClient} from '@angular/common/http';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
 import {Observable} from 'rxjs';
+import {finalize} from 'rxjs/operators';
+import {Photo} from '../../../model/photo/photo';
 import {Photo} from '../../../model/photo/Photo';
 
 @Component({
