@@ -2,7 +2,6 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {UserService} from '../../service/user/user.service';
 import {HttpClient} from '@angular/common/http';
 import {Title} from '@angular/platform-browser';
-import {PlacesComponent} from "./places/places.component";
 
 @Component({
   selector: 'app-admin',

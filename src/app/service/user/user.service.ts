@@ -66,6 +66,9 @@ export class UserService {
   }
 
   getByFilter(reg: string, paginationSettings: string) {
+    if (reg === '%' || reg === '_') {
+      reg = '\\' + reg;
+    }
     this.filterDto = new UserFilterDtoModel(reg);
     this.filterDto.searchReg = reg;
     if (reg === undefined) {
