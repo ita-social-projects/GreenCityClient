@@ -1,9 +1,16 @@
-<div mat-dialog-content style="text-align: center; position: relative; height: 100%">
-  <div style="text-align: center">
-    <img src="{{data}}">
+<div class="row">
+  <div class="col-1"></div>
+  <div class="col-10">
+    <div mat-dialog-content style="text-align: center; position: relative; height: 100%">
+      <div style="text-align: center; padding: 5px;">
+        <img src="{{data}}">
+      </div>
+      <br>
+      <div style="bottom: 0; width: 100%; text-align: right">
+        <button mat-dialog-close class="btn btn-primary" type="button">Close</button>
+      </div>
+    </div>
   </div>
-  <div style="display:flex; justify-content:flex-end; position: absolute; bottom: 0; width: 88%">
-    <button mat-dialog-close class="btn btn-primary" type="button">Close</button>
-  </div>
+  <div class="col-1"></div>
 </div>
 
