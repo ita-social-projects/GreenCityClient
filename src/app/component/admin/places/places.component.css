@@ -16,7 +16,9 @@ body {
 th, td {
   padding: 10px 5px 10px 10px;
 }
-
+.blueColumn {
+  background: rgba(00, 162, 224, 0.08);
+}
 .selected-row {
   background-color: rgba(0,0,0,.075);
 }
