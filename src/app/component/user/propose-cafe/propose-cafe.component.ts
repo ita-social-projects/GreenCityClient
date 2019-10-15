@@ -19,6 +19,7 @@ import {DiscountDto} from '../../../model/discount/DiscountDto';
 import {SpecificationNameDto} from '../../../model/specification/SpecificationNameDto';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {AngularFirestore} from '@angular/fire/firestore';
+import {Photo} from "../../../model/photo/photo";
 
 
 @Component({
@@ -54,6 +55,8 @@ export class ProposeCafeComponent implements OnInit {
   submitButtonEnabled: boolean;
   isBreakTime = false;
   countOfPhotos: number;
+  photos: Photo[] = [];
+  photo: Photo;
   @Output() newPlaceEvent = new EventEmitter<PlaceWithUserModel>();
   @ViewChild(NgSelectComponent, {static: true}) ngSelectComponent: NgSelectComponent;
   @ViewChild('search', {static: true})
@@ -70,6 +73,7 @@ export class ProposeCafeComponent implements OnInit {
     this.discount = new DiscountDto();
     this.location = new LocationDto();
     this.place = new PlaceAddDto();
+    this.photo = new Photo();
     this.place.category = this.category;
     this.submitButtonEnabled = true;
     this.countOfPhotos = this.data;
@@ -134,7 +138,8 @@ export class ProposeCafeComponent implements OnInit {
         for (let j = i + 1; j < this.discountValues.length; i++) {
           if (discount1.specification.name == this.discountValues[i].specification.name ||
             discount1.specification.name == this.discountValues[j].specification.name) {
-            alert('Already exists.');
+            alert("Already exists.");
+            return;
           }
         }
       }
@@ -179,7 +184,6 @@ export class ProposeCafeComponent implements OnInit {
   }
 
   switch() {
-    console.log('switch');
     this.isBreakTime = !this.isBreakTime;
   }
 
@@ -209,7 +213,6 @@ export class ProposeCafeComponent implements OnInit {
   }
 
   markerDragEnd($event: MouseEvent) {
-    console.log($event);
     this.latitude = $event.coords.lat;
     this.longitude = $event.coords.lng;
     this.getAddress(this.latitude, this.longitude);
@@ -221,6 +224,7 @@ export class ProposeCafeComponent implements OnInit {
         if (results[0]) {
           this.zoom = 12;
           this.address = results[0].formatted_address;
+          console.log(this.address);
         } else {
           window.alert('No results found');
         }
@@ -230,8 +234,8 @@ export class ProposeCafeComponent implements OnInit {
     });
   }
 
-  setListOfPhotos() {
-    //todo save method of list
+  setListOfPhotos(photos: Photo[]) {
+    this.place.photos = photos;
   }
 
   changeStatus() {

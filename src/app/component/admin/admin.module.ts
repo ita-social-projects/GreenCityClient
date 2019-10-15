@@ -43,7 +43,7 @@ import {AdminComponent} from './admin.component';
     PlacesComponent,
     ErrorComponent,
     BrowserModule,
-    TableModule,
+    TableModule
   ],
   imports: [
     CommonModule,
@@ -68,7 +68,7 @@ import {AdminComponent} from './admin.component';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI',
       libraries: ['places']
-    }),
+    })
   ],
   providers: [
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
