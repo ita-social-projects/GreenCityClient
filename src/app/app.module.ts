@@ -41,6 +41,7 @@ import {
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
+  MatRadioModule,
   MatSelectModule,
   MatSliderModule,
   MatTableModule,
@@ -59,6 +60,8 @@ import {FileUploadModule} from 'ng2-file-upload';
 import {AddCommentComponent} from './component/user/add-comment/add-comment.component';
 import {RatingModule} from 'ngx-bootstrap';
 import {PhotoUploadComponent} from './component/user/photo-upload/photo-upload.component';
+import {UserSettingComponent} from './component/user/user-setting/user-setting.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -81,6 +84,7 @@ import {PhotoUploadComponent} from './component/user/photo-upload/photo-upload.c
     RestoreFormComponent,
     PhotoUploadComponent,
     AddCommentComponent,
+    UserSettingComponent,
   ],
   imports: [
     BrowserModule,
@@ -117,9 +121,17 @@ import {PhotoUploadComponent} from './component/user/photo-upload/photo-upload.c
     AngularFireStorageModule,
     MatCardModule,
     RatingModule,
-    MatSelectModule
+    MatSelectModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatSelectModule,
+    NgbModule
   ],
-  entryComponents: [ProposeCafeComponent, FavoritePlaceComponent, EditFavoriteNameComponent, RestoreComponent, DeleteFavoriteComponent, AddCommentComponent],
+  entryComponents: [
+    ProposeCafeComponent, FavoritePlaceComponent,
+    EditFavoriteNameComponent, RestoreComponent,
+    DeleteFavoriteComponent,
+    UserSettingComponent, AddCommentComponent],
 
   providers: [
     {
