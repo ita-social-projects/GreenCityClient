@@ -202,7 +202,7 @@ export class PlacesComponent implements OnInit {
   setDisplayedButtons() {
     switch (this.defaultStatus) {
       case 'proposed' :
-        this.displayedButtons = ['Approve', 'Decline'];
+        this.displayedButtons = ['Approve', 'Decline', 'Delete'];
         break;
       case 'approved' :
         this.displayedButtons = ['Decline', 'Propose', 'Delete'];
