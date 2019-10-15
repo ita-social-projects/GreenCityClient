@@ -123,25 +123,18 @@ export class ProposeCafeComponent implements OnInit {
     let specification = new SpecificationNameDto();
     specification.name = nameOfSpecification;
     discount1.specification = specification;
-    if (this.discountValues.length == 0) {
+    if (this.discountValues.length === 0) {
       this.discountValues.push(discount1);
-      console.log(this.discountValues);
-      discount1 = new DiscountDto();
-    } else if (this.discountValues.length === 1) {
+    } else {
+      let exist = false;
       for (let i = 0; i < this.discountValues.length; i++) {
-        if (discount1.specification.name !== this.discountValues[i].specification.name) {
-          this.discountValues.push(discount1);
+        if (discount1.specification.name === this.discountValues[i].specification.name) {
+          alert("Already exists.");
+          exist = true;
         }
       }
-    } else {
-      for (let i = 0; i < this.discountValues.length; i++) {
-        for (let j = i + 1; j < this.discountValues.length; i++) {
-          if (discount1.specification.name == this.discountValues[i].specification.name ||
-            discount1.specification.name == this.discountValues[j].specification.name) {
-            alert("Already exists.");
-            return;
-          }
-        }
+      if (exist === false) {
+        this.discountValues.push(discount1);
       }
     }
   }
