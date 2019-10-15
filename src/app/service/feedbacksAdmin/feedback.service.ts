@@ -32,6 +32,6 @@ export class FeedbackService {
   }
 
   delete(id: number) {
-    return this.http.delete(`${this.apiUrl}comments/delete?id=` + id);
+    return this.http.delete(`${this.apiUrl}comments?id=` + id);
   }
 }
