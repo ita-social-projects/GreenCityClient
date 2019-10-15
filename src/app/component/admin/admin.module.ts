@@ -18,7 +18,8 @@ import {
   MatIconModule,
   MatMenuModule,
   MatPaginatorModule,
-  MatSelectModule
+  MatSelectModule,
+  MatMenuModule, MAT_DIALOG_DATA
 } from '@angular/material';
 import {MatSortModule} from '@angular/material/sort';
 import {PaginationModule} from 'ngx-bootstrap';
@@ -28,6 +29,7 @@ import {NgSelectModule} from '@ng-select/ng-select';
 import {AgmCoreModule} from '@agm/core';
 import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
+import {EditFavoriteNameComponent, FavoritePlaceComponent} from '../user/favorite-place/favorite-place.component';
 import {AdminService} from '../../service/admin/admin.service';
 import {ConfirmModalComponent} from './confirm-modal/confirm-modal.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -78,6 +80,10 @@ import { DialogPhotoComponent } from './feedbacks/dialog-photo/dialog-photo.comp
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
     {
       provide: MatDialogRef,
+      useValue: {}
+    },
+    {
+      provide: MAT_DIALOG_DATA,
       useValue: {}
     },
     ConfirmationDialogService,

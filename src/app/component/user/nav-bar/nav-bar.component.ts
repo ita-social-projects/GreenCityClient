@@ -5,6 +5,7 @@ import {MatDialog} from '@angular/material';
 import {FavoritePlaceComponent} from '../favorite-place/favorite-place.component';
 import {ProposeCafeComponent} from '../propose-cafe/propose-cafe.component';
 import {FavoritePlaceService} from '../../../service/favorite-place/favorite-place.service';
+import {UserSettingComponent} from '../user-setting/user-setting.component';
 
 @Component({
   selector: 'app-nav-bar',
@@ -32,22 +33,30 @@ export class NavBarComponent implements OnInit {
     });
   }
 
+  openSettingDialog(): void {
+    const dialogRef = this.dialog.open(UserSettingComponent, {
+      width: '700px'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
   ngOnInit() {
     this.firstName = window.localStorage.getItem('firstName');
     this.userRole = this.uService.getUserRole();
   }
 
   openDialogProposeCafeComponent(): void {
-    const dialogRef = this.dialog.open(ProposeCafeComponent, {});
+    const dialogRef = this.dialog.open(ProposeCafeComponent, {
+      width: '800px',
+      data: 5
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
   }
-
-  // private signOut() {
-  //   localStorage.clear();
-  // }
   private signOut() {
     localStorage.clear();
     window.location.href = '/';
