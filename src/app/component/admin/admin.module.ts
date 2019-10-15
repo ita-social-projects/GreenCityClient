@@ -16,10 +16,10 @@ import {
   MatDialogModule,
   MatDialogRef,
   MatIconModule,
-  MatMenuModule,
   MatPaginatorModule,
   MatSelectModule,
-  MatMenuModule, MAT_DIALOG_DATA
+  MatMenuModule,
+  MAT_DIALOG_DATA
 } from '@angular/material';
 import {MatSortModule} from '@angular/material/sort';
 import {PaginationModule} from 'ngx-bootstrap';
@@ -36,7 +36,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ConfirmationDialogService} from './confirm-modal/confirmation-dialog-service.service';
 import {AdminComponent} from './admin.component';
 import {FeedbacksComponent} from './feedbacks/feedbacks.component';
-import {AngularTextTruncateModule} from 'angular-text-truncate';
+// import {AngularTextTruncateModule} from 'angular-text-truncate';
 import { DialogPhotoComponent } from './feedbacks/dialog-photo/dialog-photo.component';
 
 @NgModule({
