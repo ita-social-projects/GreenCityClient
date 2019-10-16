@@ -18,7 +18,8 @@ import {
   MatDialogRef,
   MatIconModule,
   MatPaginatorModule,
-  MatSelectModule
+  MatSelectModule,
+  MatMenuModule
 } from '@angular/material';
 import {MatSortModule} from '@angular/material/sort';
 import {PaginationModule} from 'ngx-bootstrap';
