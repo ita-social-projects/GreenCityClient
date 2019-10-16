@@ -11,6 +11,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {IconsModule, TableModule} from 'angular-bootstrap-md';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {
+  MAT_DIALOG_DATA,
   MAT_DIALOG_DEFAULT_OPTIONS,
   MatCheckboxModule,
   MatDialogModule,
@@ -18,8 +19,7 @@ import {
   MatIconModule,
   MatPaginatorModule,
   MatSelectModule,
-  MatMenuModule,
-  MAT_DIALOG_DATA
+  MatMenuModule
 } from '@angular/material';
 import {MatSortModule} from '@angular/material/sort';
 import {PaginationModule} from 'ngx-bootstrap';
@@ -35,7 +35,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ConfirmationDialogService} from './confirm-modal/confirmation-dialog-service.service';
 import {AdminComponent} from './admin.component';
 import {FeedbacksComponent} from './feedbacks/feedbacks.component';
-import { DialogPhotoComponent } from './feedbacks/dialog-photo/dialog-photo.component';
+import {DialogPhotoComponent} from './feedbacks/dialog-photo/dialog-photo.component';
 
 @NgModule({
   declarations: [AdminNavComponent, AdminComponent, PlacesComponent, UsersComponent, ErrorComponent, ConfirmModalComponent,
@@ -47,7 +47,7 @@ import { DialogPhotoComponent } from './feedbacks/dialog-photo/dialog-photo.comp
     PlacesComponent,
     ErrorComponent,
     BrowserModule,
-    TableModule,
+    TableModule
   ],
   imports: [
     CommonModule,
