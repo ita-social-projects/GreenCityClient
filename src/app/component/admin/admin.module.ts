@@ -29,14 +29,12 @@ import {NgSelectModule} from '@ng-select/ng-select';
 import {AgmCoreModule} from '@agm/core';
 import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
-import {EditFavoriteNameComponent, FavoritePlaceComponent} from '../user/favorite-place/favorite-place.component';
 import {AdminService} from '../../service/admin/admin.service';
 import {ConfirmModalComponent} from './confirm-modal/confirm-modal.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ConfirmationDialogService} from './confirm-modal/confirmation-dialog-service.service';
 import {AdminComponent} from './admin.component';
 import {FeedbacksComponent} from './feedbacks/feedbacks.component';
-// import {AngularTextTruncateModule} from 'angular-text-truncate';
 import { DialogPhotoComponent } from './feedbacks/dialog-photo/dialog-photo.component';
 
 @NgModule({
