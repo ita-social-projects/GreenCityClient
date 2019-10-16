@@ -19,7 +19,7 @@ export class FeedbackService {
   }
 
   getCurrentPaginationSettings(): string {
-    return '?page=' + this.page + '&size=' + this.pageSize;
+    return '?page=' + this.page + '&size=' + this.pageSize  + '&sort=createdDate,desc';
   }
 
   getCommentsByPage(): Observable<CommentPageableDtoModel> {

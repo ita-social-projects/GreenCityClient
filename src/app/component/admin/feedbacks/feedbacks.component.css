@@ -1,7 +1,6 @@
 table {
    width: 100%;
-   table-layout: fixed;
- }
+}
 
 [role="tooltip"]{
   visibility: hidden;
@@ -12,7 +11,11 @@ table {
 }
 
 .place {
-  width: 10%;
+  width: 12%;
+}
+
+.text {
+  width: 100%;
 }
 
 .attachments {
@@ -62,4 +65,8 @@ h6:hover .photo{
 }
 .fulltext:target .more {
   display: none;
+}
+
+mat-cell, .mat-cell {
+  padding: 3px 3px 3px 3px;
 }

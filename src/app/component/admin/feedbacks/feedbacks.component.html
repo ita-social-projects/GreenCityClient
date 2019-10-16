@@ -2,9 +2,8 @@
   <div class="card">
     <div class="card-body">
       <h4 class="card-title">Feedbacks</h4>
-      <div class="table-responsive" style="padding: 1%" align="center" id="example">
+      <div class="table-responsive" style="padding: 1%">
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-          <!-- Position Column -->
           <ng-container matColumnDef="place">
             <th mat-header-cell *matHeaderCellDef class="place">
               Place
@@ -15,10 +14,10 @@
           </ng-container>
 
           <ng-container matColumnDef="text">
-            <th mat-header-cell *matHeaderCellDef>
+            <th mat-header-cell *matHeaderCellDef class="text">
               Comment
             </th>
-            <td mat-cell id="textColumn" *matCellDef="let element">
+            <td mat-cell id="textColumn" *matCellDef="let element" class="text">
               <div *ngIf="element.text.length <= 115">{{element.text}}</div>
               <div id="f{{element.id}}" [hidden]="!(element.text.length > 115)">{{element.text.substr(0, 115)}}...
                 <div style="display: inline" (click)="changeVisability('f' + element.id, 'f' + element.id + 'b')">
@@ -39,6 +38,7 @@
               Attachments
             </th>
             <td mat-cell id="photosColumn" style="text-align: center" *matCellDef="let element" class="attachments">
+              <p *ngIf="element.photos.length == 0" style="font-size: 13px">No attachments</p>
               <h6 *ngFor="let link of element.photos">
                 <a id="photoIcon" class="image-comment">
                   <mdb-icon far icon="image" (click)="openDialog(link.name)"></mdb-icon>
