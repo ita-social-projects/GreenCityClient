@@ -11,6 +11,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {IconsModule, TableModule} from 'angular-bootstrap-md';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {
+  MAT_DIALOG_DATA,
   MAT_DIALOG_DEFAULT_OPTIONS,
   MatCheckboxModule,
   MatDialogModule,
@@ -18,8 +19,7 @@ import {
   MatIconModule,
   MatMenuModule,
   MatPaginatorModule,
-  MatSelectModule,
-  MAT_DIALOG_DATA
+  MatSelectModule
 } from '@angular/material';
 import {MatSortModule} from '@angular/material/sort';
 import {PaginationModule} from 'ngx-bootstrap';
@@ -29,14 +29,13 @@ import {NgSelectModule} from '@ng-select/ng-select';
 import {AgmCoreModule} from '@agm/core';
 import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
-import {EditFavoriteNameComponent, FavoritePlaceComponent} from '../user/favorite-place/favorite-place.component';
 import {AdminService} from '../../service/admin/admin.service';
 import {ConfirmModalComponent} from './confirm-modal/confirm-modal.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ConfirmationDialogService} from './confirm-modal/confirmation-dialog-service.service';
 import {AdminComponent} from './admin.component';
 import {FeedbacksComponent} from './feedbacks/feedbacks.component';
-import { DialogPhotoComponent } from './feedbacks/dialog-photo/dialog-photo.component';
+import {DialogPhotoComponent} from './feedbacks/dialog-photo/dialog-photo.component';
 
 @NgModule({
   declarations: [AdminNavComponent, AdminComponent, PlacesComponent, UsersComponent, ErrorComponent, ConfirmModalComponent,
@@ -48,7 +47,7 @@ import { DialogPhotoComponent } from './feedbacks/dialog-photo/dialog-photo.comp
     PlacesComponent,
     ErrorComponent,
     BrowserModule,
-    TableModule,
+    TableModule
   ],
   imports: [
     CommonModule,

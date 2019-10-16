@@ -18,8 +18,6 @@ import {UserService} from "../../../service/user/user.service";
 import {MapsAPILoader, MouseEvent} from "@agm/core";
 import {PlaceUpdatedDto} from "../../../model/place/placeUpdatedDto.model";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
-import {PlacesComponent} from "../places/places.component";
-import {timer} from "rxjs";
 
 @Component({
   selector: 'app-update-cafe',
@@ -27,8 +25,6 @@ import {timer} from "rxjs";
   styleUrls: ['./update-cafe.component.css']
 })
 export class UpdateCafeComponent implements OnInit {
-
-  categoryName: any;
   name: any;
   nameOfSpecification: any;
   value: any;
@@ -44,7 +40,6 @@ export class UpdateCafeComponent implements OnInit {
     WeekDays.SATURDAY, WeekDays.SUNDAY];
   openingHours: OpeningHours = new OpeningHours();
   breakTimes: BreakTimes = new BreakTimes();
-  discount: DiscountDto;
   categories: any;
   specifications: any;
   category: CategoryDto;
@@ -55,7 +50,6 @@ export class UpdateCafeComponent implements OnInit {
   private geoCoder;
   submitButtonEnabled: boolean;
   isBreakTime = false;
-
   @Output() newPlaceEvent = new EventEmitter<PlaceWithUserModel>();
   @ViewChild('saveForm', {static: true}) private saveForm: NgForm;
   @ViewChild(NgSelectComponent, {static: true}) ngSelectComponent: NgSelectComponent;
@@ -135,24 +129,18 @@ export class UpdateCafeComponent implements OnInit {
     let specification = new SpecificationNameDto();
     specification.name = nameOfSpecification;
     discount1.specification = specification;
-    if (this.discountValues.length == 0) {
+    if (this.discountValues.length === 0) {
       this.discountValues.push(discount1);
-      console.log(this.discountValues);
-      discount1 = new DiscountDto();
-    } else if (this.discountValues.length === 1) {
+    } else {
+      let exist = false;
       for (let i = 0; i < this.discountValues.length; i++) {
-        if (discount1.specification.name !== this.discountValues[i].specification.name) {
-          this.discountValues.push(discount1);
+        if (discount1.specification.name === this.discountValues[i].specification.name) {
+          alert("Already exists.");
+          exist = true;
         }
       }
-    } else {
-      for (let i = 0; i < this.discountValues.length; i++) {
-        for (let j = i + 1; j < this.discountValues.length; i++) {
-          if (discount1.specification.name == this.discountValues[i].specification.name ||
-            discount1.specification.name == this.discountValues[j].specification.name) {
-            alert("Already exists.");
-          }
-        }
+      if (exist === false) {
+        this.discountValues.push(discount1);
       }
     }
   }
@@ -259,5 +247,4 @@ export class UpdateCafeComponent implements OnInit {
       }
     });
   }
-
 }
