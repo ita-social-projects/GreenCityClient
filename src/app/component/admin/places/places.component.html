@@ -36,22 +36,22 @@
         </ng-container>
 
         <ng-container matColumnDef="Location">
-          <th mat-header-cell *matHeaderCellDef>Location</th>
+          <th mat-header-cell *matHeaderCellDef>Address</th>
           <td mat-cell *matCellDef="let element"> {{element.location.address}} </td>
         </ng-container>
 
         <ng-container matColumnDef="Working hours">
-          <th mat-header-cell *matHeaderCellDef>Working Hours</th>
+          <th mat-header-cell *matHeaderCellDef>Working times</th>
           <td mat-cell *matCellDef="let element"> {{weekDaysUtils.convertHoursToShort(element.openingHoursList)}} </td>
         </ng-container>
 
         <ng-container matColumnDef="Added By">
-          <th mat-header-cell *matHeaderCellDef>Added By</th>
+          <th mat-header-cell *matHeaderCellDef>Added by</th>
           <td mat-cell *matCellDef="let element"> {{element.author.email}} </td>
         </ng-container>
 
         <ng-container matColumnDef="modifiedDate">
-          <th mat-header-cell *matHeaderCellDef>Added On</th>
+          <th mat-header-cell *matHeaderCellDef>Added on</th>
           <td mat-cell *matCellDef="let element"> {{element.modifiedDate}} </td>
         </ng-container>
 
