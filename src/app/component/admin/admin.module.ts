@@ -61,7 +61,6 @@ import {MatMenuModule} from '@angular/material/menu';
     PaginationModule.forRoot(),
     BrowserAnimationsModule,
     RouterModule,
-    BrowserAnimationsModule,
     FormsModule,
     MatMenuModule,
     MatIconModule,

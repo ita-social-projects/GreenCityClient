@@ -79,13 +79,11 @@ export class PhotoUploadComponent implements OnInit {
       }
       this.photoLinks.push({name: 'https://firebasestorage.googleapis.com/v0/b/greencity-9bdb7.appspot.com/o/' + path + '?alt=media'});
     }
-    console.log(this.photoLinks);
     this.listOfPhotos.emit(this.photoLinks);
     this.uploadButton = false;
   }
 
   ngOnInit() {
-    console.log(this.countOfPhotos);
     this.uploadForm = this.fb.group({
       document: [null, null]
     });

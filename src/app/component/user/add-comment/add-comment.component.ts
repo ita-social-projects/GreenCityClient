@@ -16,11 +16,13 @@ export class AddCommentComponent implements OnInit {
   estimate: Estimate = new Estimate();
   countOfPhotos: number;
   photoLoadingStatus = false;
+  placeId: number;
 
   constructor(private commentService: CommentService,
               private dialogRef: MatDialogRef<AddCommentComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.countOfPhotos = data;
+    this.placeId = data.id;
+    this.countOfPhotos = data.listOfPhoto;
   }
 
   ngOnInit() {
@@ -36,7 +38,7 @@ export class AddCommentComponent implements OnInit {
 
   onSubmit() {
     this.comment.estimate = this.estimate;
-    this.commentService.saveCommentByPlaceId(1, this.comment);
+    this.commentService.saveCommentByPlaceId(this.placeId, this.comment);
     this.dialogRef.close();
   }
 }
