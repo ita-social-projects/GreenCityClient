@@ -17,7 +17,6 @@ import {
   MatDialogModule,
   MatDialogRef,
   MatIconModule,
-  MatMenuModule,
   MatPaginatorModule,
   MatSelectModule
 } from '@angular/material';
@@ -36,6 +35,7 @@ import {ConfirmationDialogService} from './confirm-modal/confirmation-dialog-ser
 import {AdminComponent} from './admin.component';
 import {FeedbacksComponent} from './feedbacks/feedbacks.component';
 import {DialogPhotoComponent} from './feedbacks/dialog-photo/dialog-photo.component';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
   declarations: [AdminNavComponent, AdminComponent, PlacesComponent, UsersComponent, ErrorComponent, ConfirmModalComponent,
