@@ -36,7 +36,6 @@ import {AdminComponent} from './admin.component';
 import {FeedbacksComponent} from './feedbacks/feedbacks.component';
 import {DialogPhotoComponent} from './feedbacks/dialog-photo/dialog-photo.component';
 import {MatMenuModule} from '@angular/material/menu';
-import {DialogPhotoComponent} from './feedbacks/dialog-photo/dialog-photo.component';
 
 @NgModule({
   declarations: [AdminNavComponent, AdminComponent, PlacesComponent, UsersComponent, ErrorComponent, ConfirmModalComponent,
