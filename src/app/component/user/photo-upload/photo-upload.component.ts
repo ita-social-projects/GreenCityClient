@@ -78,14 +78,6 @@ export class PhotoUploadComponent implements OnInit {
         });
       }
       this.photoLinks.push({name: 'https://firebasestorage.googleapis.com/v0/b/greencity-9bdb7.appspot.com/o/' + path + '?alt=media'});
-      // console.log(path);
-      // console.log(this.photoLinks);
-      // this.percentage = this.task.percentageChanges();
-      // this.snapshot = this.task.snapshotChanges();
-      // this.task.snapshotChanges().pipe(finalize(() => this.downloadURL = this.storage.ref(path).getDownloadURL()
-      // )).subscribe(value => {
-      //   console.log(this.downloadURL);
-      // });
     }
     console.log(this.photoLinks);
     this.listOfPhotos.emit(this.photoLinks);
