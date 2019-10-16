@@ -142,7 +142,8 @@ export class MapComponent implements OnInit {
   showDetail(pl: Place) {
     this.directionButton = true;
     this.placeService.getPlaceInfo(pl.id).subscribe((res) => {
-        this.placeInfo = res;
+      console.log(res);
+      this.placeInfo = res;
         if (this.userRole === 'ROLE_ADMIN' || this.userRole === 'ROLE_MODERATOR' || this.userRole === 'ROLE_USER') {
           this.favoritePlaceService.favoritePlaces.forEach(fp => {
             if (fp.placeId === this.placeInfo.id) {
@@ -267,8 +268,11 @@ export class MapComponent implements OnInit {
 
   openDialogAddComment(id: number) {
     const dialogRef = this.dialog.open(AddCommentComponent, {
-      width: '800px',
-      data: 3
+        width: '800px',
+        data: {
+          listOfPhoto: 3,
+          id: id
+        }
       })
     ;
 

@@ -87,13 +87,11 @@ export class PhotoUploadComponent implements OnInit {
       //   console.log(this.downloadURL);
       // });
     }
-    console.log(this.photoLinks);
     this.listOfPhotos.emit(this.photoLinks);
     this.uploadButton = false;
   }
 
   ngOnInit() {
-    console.log(this.countOfPhotos);
     this.uploadForm = this.fb.group({
       document: [null, null]
     });
