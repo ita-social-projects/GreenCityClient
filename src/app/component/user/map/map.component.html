@@ -76,9 +76,9 @@
                   <mat-icon svg svgIcon="{{p.color}}"></mat-icon>
                 </button>
               </h5>
-              <h6>
-                <li *ngFor="let obj of placeInfo.specificationValues">{{obj.specification.name}}</li>
-              </h6>
+              <p style="font-weight: bold">
+                <li *ngFor="let obj of placeInfo.discountValues">{{obj.specification.name}} discount {{obj.value}}%</li>
+              <p>
               <rating  [(ngModel)]="placeInfo.rate"
                        [max]="5"
                        [readonly]="true"
