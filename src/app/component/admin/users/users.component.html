@@ -11,25 +11,25 @@
       </div>
       <div class="table-responsive" style="padding: 1%">
         <table mat-table
-               [dataSource]="dataSource" matSort (matSortChange)="selectColumnToSort($event)"
-               matSortActive="{{sortColumn}}"
-               matSortDirection="{{sortDirection}}"
+               [dataSource]="dataSource"
                class="mat-elevation-z8">
           <!-- Position Column -->
           <ng-container matColumnDef="email">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header [matMenuTriggerFor]="menu">
-              Email
+            <th mat-header-cell *matHeaderCellDef style="cursor: pointer" (click)="selectColumnToSort('email')"
+                [matMenuTriggerFor]="menu">
+              Email<mat-icon svgIcon="{{sortArrow}}" [hidden]="sortColumn!=='email' || sortDirection==='asc'"></mat-icon>
             </th>
             <td mat-cell id="emailColumn" *matCellDef="let element"
-                [class.blueColumn]="sortColumn==='name'">
+                [class.blueColumn]="sortColumn==='email' && sortDirection==='desc'">
               {{element.email}}
             </td>
 
           </ng-container>
 
           <ng-container matColumnDef="firstName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header [matMenuTriggerFor]="menu">
-              First Name
+            <th mat-header-cell *matHeaderCellDef style="cursor: pointer"
+                (click)="selectColumnToSort('firstName')" [matMenuTriggerFor]="menu">
+              First Name<mat-icon svgIcon="{{sortArrow}}" [hidden]="sortColumn!=='firstName'"></mat-icon>
             </th>
             <td mat-cell id="firstNameColumn" *matCellDef="let element"
                 [class.blueColumn]="sortColumn==='firstName'">
@@ -38,8 +38,9 @@
           </ng-container>
           <!-- Name Column -->
           <ng-container matColumnDef="lastName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header [matMenuTriggerFor]="menu">
-              Last Name
+            <th mat-header-cell *matHeaderCellDef style="cursor: pointer"
+                (click)="selectColumnToSort('lastName')" [matMenuTriggerFor]="menu">
+              Last Name<mat-icon svgIcon="{{sortArrow}}" [hidden]="sortColumn!=='lastName'"></mat-icon>
             </th>
             <td mat-cell *matCellDef="let element" id="lastNameColumn"
                 [class.blueColumn]="sortColumn==='lastName'">
@@ -48,8 +49,9 @@
           </ng-container>
 
           <ng-container matColumnDef="dateOfRegistration">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header [matMenuTriggerFor]="menu">
-              Date of registration
+            <th mat-header-cell *matHeaderCellDef style="cursor: pointer"
+                (click)="selectColumnToSort('dateOfRegistration')" [matMenuTriggerFor]="menu">
+              Date of registration<mat-icon svgIcon="{{sortArrow}}" [hidden]="sortColumn!=='dateOfRegistration'"></mat-icon>
             </th>
             <td mat-cell *matCellDef="let element" id="dateOfRegistrationColumn"
                 [class.blueColumn]="sortColumn==='dateOfRegistration'">
@@ -118,8 +120,8 @@
       <br>
       <div class="container">
         <div id="pagination">
-          <pagination [itemsPerPage]="pageSize" [totalItems]="totalItems"
-                      (pageChanged)="changePage($event)" [maxSize]="6" [rotate]="true"
+          <pagination #paginationElement [itemsPerPage]="pageSize" [totalItems]="totalItems"
+                      (pageChanged)="changePage($event)" [maxSize]="maxSizePagination" [rotate]="true"
                       [boundaryLinks]="true" class="flex-wrap"></pagination>
         </div>
         Items per page:

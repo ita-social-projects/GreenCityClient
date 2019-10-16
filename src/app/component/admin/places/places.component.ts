@@ -1,15 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {Title} from '@angular/platform-browser';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {DomSanitizer, Title} from '@angular/platform-browser';
 import {AdminPlace} from '../../../model/place/admin-place.model';
 import {NgFlashMessageService} from 'ng-flash-messages';
 import {PlaceService} from '../../../service/place/place.service';
-import {MatDialog, MatTableDataSource} from '@angular/material';
+import {MatDialog, MatIconRegistry, MatTableDataSource} from '@angular/material';
 import {PlaceStatus} from '../../../model/placeStatus.model';
 import {FilterPlaceDtoModel} from '../../../model/filtering/filter-place-dto.model';
 import {ConfirmationDialogService} from '../confirm-modal/confirmation-dialog-service.service';
 import {PlaceUpdatedDto} from '../../../model/place/placeUpdatedDto.model';
 import {UpdateCafeComponent} from '../update-cafe/update-cafe.component';
 import {WeekDaysUtils} from '../../../service/weekDaysUtils.service';
+import {PaginationComponent} from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-places',
@@ -40,23 +41,38 @@ export class PlacesComponent implements OnInit {
   displayedColumns: string[];
   displayedButtons: string[];
   defaultStatus = 'proposed';
+  sortColumn = 'name';
+  sortDirection = 'asc';
+  selectedColumnToSort = 'name';
+  sortArrow: string;
+  @ViewChild('paginationElement', {static: false})
+  paginationComponent: PaginationComponent;
 
   constructor(public dialog: MatDialog,
               private titleService: Title,
               private placeService: PlaceService,
               public weekDaysUtils: WeekDaysUtils,
               private ngFlashMessageService: NgFlashMessageService,
-              private confirmationDialogService: ConfirmationDialogService) {
+              private confirmationDialogService: ConfirmationDialogService,
+              iconRegistry: MatIconRegistry,
+              sanitizer: DomSanitizer) {
+    iconRegistry.addSvgIcon(
+      'arrow-up',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/arrows/arrow-up-bold.svg'));
+    iconRegistry.addSvgIcon(
+      'arrow-down',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/arrows/arrow-down-bold.svg'));
   }
 
   ngOnInit() {
+    this.getFromLocalStorage();
     this.titleService.setTitle('Admin - Places');
     this.filterByRegex(this.searchReg);
     this.setAllStatuses();
   }
 
   getCurrentPaginationSettings(): string {
-    return '?page=' + (this.page - 1) + '&size=' + this.pageSize;
+    return '?page=' + (this.page - 1) + '&size=' + this.pageSize + '&sort=' + this.sortColumn + ',' + this.sortDirection;
   }
 
   changeStatus(status: string) {
@@ -224,11 +240,13 @@ export class PlacesComponent implements OnInit {
       this.flag = true;
       searchReg = `%${this.searchReg}%`;
     }
+    console.log('sc=' + this.sortColumn + ' sd=' + this.sortDirection + 'st' + this.status);
+    console.log('current pagination=' + this.getCurrentPaginationSettings());
     this.status = PlaceStatus[this.defaultStatus.toUpperCase()];
     this.filterDto = new FilterPlaceDtoModel(this.status, null, null, null, searchReg, null);
     this.placeService.filterByRegex(this.getCurrentPaginationSettings(), this.filterDto).subscribe(res => {
       this.places = res.page;
-      this.page = res.currentPage;
+      this.page = res.currentPage + 1;
       this.totalItems = res.totalElements;
       this.dataSource.data = this.places;
       this.isCheckAll = false;
@@ -237,6 +255,9 @@ export class PlacesComponent implements OnInit {
       this.setChangeStatuses();
       this.setDisplayedColumns();
       this.setDisplayedButtons();
+      this.saveToLocalStorage();
+      this.setPaginationPageButtonsToCurrent();
+      this.sortArrow = this.sortDirection === 'asc' ? 'arrow-up' : 'arrow-down';
     });
   }
 
@@ -254,6 +275,45 @@ export class PlacesComponent implements OnInit {
       setTimeout(() => this.filterByRegex(this.searchReg), 1000);
     });
   }
+
+  sortData(columnToSort: string, direction: string) {
+    if (columnToSort === 'name' && direction === 'asc') {
+      this.selectedColumnToSort = '';
+    } else {
+      this.selectedColumnToSort = columnToSort;
+    }
+    // this.page++;
+    this.sortColumn = columnToSort;
+    this.sortDirection = direction;
+    this.filterByRegex(this.searchReg);
+  }
+
+  selectColumnToSort(s: string) {
+    this.selectedColumnToSort = s;
+  }
+
+  saveToLocalStorage() {
+    window.localStorage.setItem('placesSortColumn', this.sortColumn);
+    window.localStorage.setItem('placesSortDirection', this.sortDirection);
+    window.localStorage.setItem('placesPage', String(this.page));
+    window.localStorage.setItem('placesTotalItems', String(this.totalItems));
+    window.localStorage.setItem('placesPageSize', String(this.pageSize));
+    window.localStorage.setItem('placesStatus', String(this.status));
+    window.localStorage.setItem('placesDefaultStatus', this.defaultStatus);
+  }
+
+  getFromLocalStorage() {
+    if (window.localStorage.getItem('placesSortColumn') !== null) {
+      this.sortColumn = window.localStorage.getItem('placesSortColumn');
+      this.sortDirection = window.localStorage.getItem('placesSortDirection');
+      this.page = Number(window.localStorage.getItem('placesPage'));
+      this.totalItems = Number(window.localStorage.getItem('placesTotalItems'));
+      this.pageSize = Number(window.localStorage.getItem('placesPageSize'));
+      this.status = PlaceStatus[window.localStorage.getItem('placesStatus')];
+      this.defaultStatus = window.localStorage.getItem('placesDefaultStatus');
+    }
+  }
+  setPaginationPageButtonsToCurrent() {
+    this.paginationComponent.selectPage(this.page);
+  }
 }
-
-
