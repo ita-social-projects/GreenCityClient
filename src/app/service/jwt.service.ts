@@ -5,6 +5,7 @@ import {Injectable} from '@angular/core';
   providedIn: 'root'
 })
 export class JwtService {
+
   constructor() {
 
   }
@@ -19,8 +20,6 @@ export class JwtService {
     } else {
       return false;
     }
-
-
   }
 
   public getAccessToken(): string {
@@ -40,6 +39,23 @@ export class JwtService {
   public saveRefreshToken(refreshToken: string) {
     if (refreshToken != null) {
       localStorage.setItem('refreshToken', refreshToken);
+    }
+  }
+
+  public getEmailFromAccessToken(): string {
+    const accessToken = this.getAccessToken();
+    if (accessToken == null) {
+      return null;
+    }
+    const jwtData = accessToken.split('.')[1];
+    const decodedJwtJsonData = window.atob(jwtData);
+    const decodedJwtData = JSON.parse(decodedJwtJsonData);
+    return decodedJwtData.sub;
+  }
+
+  public setFirstName(firstName: string) {
+    if (firstName != null) {
+      localStorage.setItem('firstName', firstName);
     }
   }
 }

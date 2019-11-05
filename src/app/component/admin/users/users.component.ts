@@ -2,11 +2,12 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 import {UserForListDtoModel} from '../../../model/user/user-for-list-dto.model';
 import {UserService} from '../../../service/user/user.service';
-import {Title} from '@angular/platform-browser';
+import {DomSanitizer, Title} from '@angular/platform-browser';
 import {NgFlashMessageService} from 'ng-flash-messages';
-import {MatSort, MatTableDataSource} from '@angular/material';
+import {MatIconRegistry, MatSort, MatTableDataSource} from '@angular/material';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AdminService} from '../../../service/admin/admin.service';
+import {PaginationComponent} from 'ngx-bootstrap';
 
 
 export interface Role {
@@ -29,28 +30,33 @@ export class UsersComponent implements OnInit {
   roles: Role[];
   searchReg: string;
   flag = true;
-  selectedColumnToSort: 'email';
-  selectedDirectionToSort: 'asc';
+  selectedColumnToSort: string;
   sortColumn = 'email';
   sortDirection = 'asc';
-
   sortParam = '&sort=' + this.sortColumn + ',' + this.sortDirection;
   userEmail = this.userService.getUserEmail();
   displayedColumns: string[] = ['email', 'firstName', 'lastName', 'dateOfRegistration', 'role', 'block', 'deactivate'];
+  maxSizePagination = 6;
+  sortArrow: string;
+  @ViewChild('paginationElement', {static: false}) paginationComponent: PaginationComponent;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(
-    private userService: UserService, private titleService: Title, private ngFlashMessageService: NgFlashMessageService) {
+    private userService: UserService, private titleService: Title, private ngFlashMessageService: NgFlashMessageService,
+    iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+    iconRegistry.addSvgIcon(
+      'arrow-up',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/arrows/arrow-up-bold.svg'));
+    iconRegistry.addSvgIcon(
+      'arrow-down',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/arrows/arrow-down-bold.svg'));
   }
 
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   ngOnInit() {
     this.getFromLocalStorage();
     this.getRoles();
     this.sortParam = '&sort=' + this.sortColumn + ',' + this.sortDirection;
-    console.log('1=' + this.sortColumn + ' 2=' + this.sortDirection);
-    console.log('1=' + this.sortColumn + ' 2=' + this.sortDirection);
-
     this.sortData(this.sortColumn, this.sortDirection);
     this.titleService.setTitle('Admin - Users');
   }
@@ -116,29 +122,30 @@ export class UsersComponent implements OnInit {
   }
 
 
-  selectColumnToSort(e) {
-    this.selectedColumnToSort = e.active;
+  selectColumnToSort(s: string) {
+    this.selectedColumnToSort = s;
   }
 
   sortData(columnToSort: string, direction: string) {
+    if (columnToSort === 'email' && direction === 'asc') {
+      this.selectedColumnToSort = '';
+    }
     this.sortParam = '&sort=' + columnToSort + ',' + direction;
     this.sortColumn = columnToSort;
     this.sortDirection = direction;
+    this.sortArrow = this.sortDirection === 'asc' ? 'arrow-up' : 'arrow-down';
     this.filterByRegex(this.sortParam);
   }
 
-
   filterByRegex(sort: string) {
     console.log('in filterByRegex');
-    console.log('sort=' + sort);
-    console.log('sortc&d=' + AdminService.sortColumn + ' ' + AdminService.sortDirection);
     this.userService.getByFilter(this.searchReg, this.getCurrentPaginationSettings(sort)).subscribe(res => {
       this.users = res.page;
       this.page = res.currentPage;
       this.totalItems = res.totalElements;
       this.dataSource.data = this.users;
-      console.log('sortc&d=' + AdminService.sortColumn + ' ' + AdminService.sortDirection);
       this.saveToLocalStorage();
+      this.setPaginationPageButtonsToCurrent();
     });
   }
 
@@ -155,22 +162,28 @@ export class UsersComponent implements OnInit {
   }
 
   saveToLocalStorage() {
-    window.localStorage.setItem('sortColumn', this.sortColumn);
-    window.localStorage.setItem('sortDirection', this.sortDirection);
-    window.localStorage.setItem('page', String(this.page));
-    window.localStorage.setItem('totalItems', String(this.totalItems));
-    window.localStorage.setItem('pageSize', String(this.pageSize));
-    ;
+    window.localStorage.setItem('usersSortColumn', this.sortColumn);
+    window.localStorage.setItem('usersSortDirection', this.sortDirection);
+    window.localStorage.setItem('usersPage', String(this.page));
+    window.localStorage.setItem('usersTotalItems', String(this.totalItems));
+    window.localStorage.setItem('usersPageSize', String(this.pageSize));
   }
 
+
   getFromLocalStorage() {
-    if (window.localStorage.getItem('sortColumn') !== null) {
-      this.sortColumn = window.localStorage.getItem('sortColumn');
-      this.sortDirection = window.localStorage.getItem('sortDirection');
-      this.page = Number(window.localStorage.getItem('page'));
-      this.totalItems = Number(window.localStorage.getItem('totalItems'));
-      this.pageSize = Number(window.localStorage.getItem('pageSize'));
+    if (window.localStorage.getItem('usersSortColumn') !== null) {
+      this.sortColumn = window.localStorage.getItem('usersSortColumn');
+      this.sortDirection = window.localStorage.getItem('usersSortDirection');
+      this.page = Number(window.localStorage.getItem('usersPage'));
+      this.totalItems = Number(window.localStorage.getItem('usersTotalItems'));
+      this.pageSize = Number(window.localStorage.getItem('usersPageSize'));
+      if (this.sortColumn !== 'email') {
+        this.selectedColumnToSort = this.sortColumn;
+      }
     }
+  }
+  setPaginationPageButtonsToCurrent() {
+    this.paginationComponent.selectPage(this.page + 1);
   }
 }
 

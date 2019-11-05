@@ -4,9 +4,11 @@ import {Observable} from 'rxjs';
 import {UserRoleModel} from '../../model/user/user-role.model';
 import {UserStatusModel} from '../../model/user/user-status.model';
 import {UserPageableDtoModel} from '../../model/user/user-pageable-dto.model';
-import {mainLink} from '../../links';
+import {mainLink, placeLink, userLink} from '../../links';
 import {RolesModel} from '../../model/user/roles.model';
 import {UserFilterDtoModel} from '../../model/user/userFilterDto.model';
+import {UserUpdateModel} from '../../model/user/user-update.model';
+
 const token = localStorage.getItem('accessToken');
 let jwtData = null;
 let decodedJwtJsonData = null;
@@ -42,7 +44,7 @@ export class UserService {
   }
 
   getAllUsers(paginationSettings: string): Observable<UserPageableDtoModel> {
-    return this.http.get<UserPageableDtoModel>(`${this.apiUrl}` + paginationSettings);
+    return this.http.get<UserPageableDtoModel>(`${this.apiUrl}/all` + paginationSettings);
   }
 
   updateUserStatus(id: number, userStatus: string) {
@@ -64,6 +66,9 @@ export class UserService {
   }
 
   getByFilter(reg: string, paginationSettings: string) {
+    if (reg === '%' || reg === '_') {
+      reg = '\\' + reg;
+    }
     this.filterDto = new UserFilterDtoModel(reg);
     this.filterDto.searchReg = reg;
     if (reg === undefined) {
@@ -73,5 +78,22 @@ export class UserService {
       this.filterDto.searchReg = `%${this.filterDto.searchReg}%`;
       return this.http.post<UserPageableDtoModel>(`${this.apiUrl}/filter` + paginationSettings, this.filterDto);
     }
+  }
+
+  getUser() {
+    return this.http.get<UserUpdateModel>(`${userLink}`);
+  }
+
+  updateUser(userUpdateModel: UserUpdateModel) {
+    const body = {
+      firstName: userUpdateModel.firstName,
+      lastName: userUpdateModel.lastName,
+      emailNotification: userUpdateModel.emailNotification
+    };
+    return this.http.put(`${userLink}`, body);
+  }
+
+  getEmailNotificationsStatuses(): Observable<string[]> {
+    return this.http.get<string[]>(`${userLink}/emailNotifications`);
   }
 }

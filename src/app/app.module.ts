@@ -34,11 +34,15 @@ import {DatePipe} from '@angular/common';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
   MatButtonModule,
+  MatCardModule,
   MatCheckboxModule,
-  MatDialogModule, MatDialogRef,
+  MatDialogModule,
+  MatDialogRef,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
+  MatRadioModule,
+  MatSelectModule,
   MatSliderModule,
   MatTableModule,
   MatTreeModule
@@ -46,9 +50,19 @@ import {
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
 import {Ng5SliderModule} from 'ng5-slider';
 import {provideConfig} from './config/GoogleAuthConfig';
-import { RestoreComponent } from './component/user/restore/restore.component';
-import { RestoreFormComponent } from './component/user/restore-form/restore-form.component';
-import {AdminService} from './service/admin/admin.service';
+import {RestoreComponent} from './component/user/restore/restore.component';
+import {RestoreFormComponent} from './component/user/restore-form/restore-form.component';
+import {AngularFirestoreModule} from '@angular/fire/firestore';
+import {AngularFireStorageModule} from '@angular/fire/storage';
+import {AngularFireModule} from '@angular/fire';
+import {environment} from '../environments/environment';
+import {FileUploadModule} from 'ng2-file-upload';
+import {AddCommentComponent} from './component/user/add-comment/add-comment.component';
+import {RatingModule} from 'ngx-bootstrap';
+import {PhotoUploadComponent} from './component/user/photo-upload/photo-upload.component';
+import {UserSettingComponent} from './component/user/user-setting/user-setting.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
 
 @NgModule({
   declarations: [
@@ -68,15 +82,18 @@ import {AdminService} from './service/admin/admin.service';
     DeleteFavoriteComponent,
     RestoreComponent,
     RestoreFormComponent,
+    PhotoUploadComponent,
+    AddCommentComponent,
+    UserSettingComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(router),
     HttpClientModule,
-    FormsModule,
     SocialLoginModule,
     FormsModule,
+    FileUploadModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI',
       libraries: ['places', 'geometry']
@@ -90,20 +107,31 @@ import {AdminService} from './service/admin/admin.service';
     MatIconModule,
     MDBBootstrapModule,
     ModalModule,
-    MatDialogModule,
     ReactiveFormsModule,
-    NgFlashMessagesModule.forRoot(),
     MatSliderModule,
     MatTreeModule,
     Ng5SliderModule,
     MatFormFieldModule,
     MatDialogModule,
-    MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule,
+    AngularFireStorageModule,
+    MatCardModule,
+    RatingModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatSelectModule,
+    NgbModule
   ],
-  entryComponents: [ProposeCafeComponent, FavoritePlaceComponent, EditFavoriteNameComponent, RestoreComponent, DeleteFavoriteComponent],
+  entryComponents: [
+    ProposeCafeComponent, FavoritePlaceComponent,
+    EditFavoriteNameComponent, RestoreComponent,
+    DeleteFavoriteComponent,
+    UserSettingComponent, AddCommentComponent],
 
   providers: [
     {

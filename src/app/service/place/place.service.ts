@@ -19,6 +19,7 @@ import {PlaceUpdatedDto} from '../../model/place/placeUpdatedDto.model';
 })
 export class PlaceService {
   places: Place[];
+  showHours = false;
   private baseUrl = `${mainLink}place/`;
   private placeStatus: UpdatePlaceStatus;
   private bulkUpdateStatus: BulkUpdatePlaceStatus;
@@ -27,27 +28,6 @@ export class PlaceService {
   constructor(private http: HttpClient,
               private ngFlashMessageService: NgFlashMessageService,
               private filterService: FilterPlaceService) {
-  }
-
-  static getWeekDayShortForm(day: string): any {
-    switch (day) {
-      case 'MONDAY':
-        return 'Mon';
-      case 'TUESDAY':
-        return 'Tue';
-      case 'WEDNESDAY':
-        return 'Wed';
-      case 'THURSDAY':
-        return 'Thu';
-      case 'FRIDAY':
-        return 'Fri';
-      case 'SATURDAY':
-        return 'Sat';
-      case 'SUNDAY':
-        return 'Sun';
-      default :
-        return day;
-    }
   }
 
   getFilteredPlaces() {
