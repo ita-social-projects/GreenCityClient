@@ -16,7 +16,7 @@ import {SignInComponent} from './component/user/auth/sign-in/sign-in.component';
 import {SubmitEmailComponent} from './component/user/auth/submit-email/submit-email.component';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {ModalModule} from './component/user/_modal/modal.module';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {ProposeCafeComponent} from './component/user/propose-cafe/propose-cafe.component';
 import {InterceptorService} from './service/interceptor.service';
 import {AdminModule} from './component/admin/admin.module';
@@ -62,6 +62,8 @@ import {RatingModule} from 'ngx-bootstrap';
 import {PhotoUploadComponent} from './component/user/photo-upload/photo-upload.component';
 import {UserSettingComponent} from './component/user/user-setting/user-setting.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 
 @NgModule({
@@ -125,7 +127,14 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     MatCheckboxModule,
     MatRadioModule,
     MatSelectModule,
-    NgbModule
+    NgbModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   entryComponents: [
     ProposeCafeComponent, FavoritePlaceComponent,
@@ -154,4 +163,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 })
 export class AppModule {
 
+}
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
 }
