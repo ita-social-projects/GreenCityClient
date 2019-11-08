@@ -1,0 +1,10 @@
+{
+  "nav-bar": {
+    "add-cafe": "Add a cafe",
+    "admin": "Administrator",
+    "favorite-places": "Favorite places",
+    "user-settings": "User settings",
+    "sign-out": "Sign out",
+    "sign-in": "Sign in"
+  }
+}

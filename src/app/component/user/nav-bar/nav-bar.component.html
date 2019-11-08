@@ -19,7 +19,7 @@
       <li class="nav-item">
       <a class="nav-link"
          *ngIf="userRole === 'ROLE_USER'"
-         (click)="openDialogProposeCafeComponent()">Add cafe</a>
+         (click)="openDialogProposeCafeComponent()">{{'nav-bar.add-cafe' | translate}}</a>
       </li>
 
       <div *ngIf="firstName!=null">
@@ -29,17 +29,17 @@
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
           <a class="dropdown-item"
              *ngIf="userRole == 'ROLE_ADMIN' || userRole == 'ROLE_MODERATOR'"
-             href="/admin">Admin</a>
+             href="/admin">{{'nav-bar.admin' | translate}}</a>
           <a class="dropdown-item"
-             (click)="openDialog()">Favorite places</a>
+             (click)="openDialog()">{{'nav-bar.favorite-places' | translate}}</a>
           <a class="dropdown-item"
-             (click)="openSettingDialog()">User Settings</a>
-          <a class="dropdown-item" (click)="signOut()">Sign-out</a>
+             (click)="openSettingDialog()">{{'nav-bar.user-settings' | translate}}</a>
+          <a class="dropdown-item" (click)="signOut()">{{'nav-bar.sign-out' | translate}}</a>
         </div>
 
       </div>
 
-      <a *ngIf="firstName==null" class="nav-link" routerLink="/auth/">Sing in</a>
+      <a *ngIf="firstName==null" class="nav-link" routerLink="/auth/">{{'nav-bar.sign-in' | translate}}</a>
 
     </ul>
 
