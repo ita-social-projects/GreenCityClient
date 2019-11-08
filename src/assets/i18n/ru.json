@@ -9,6 +9,11 @@
     "delete": "Удалить",
     "cancel": "Отмена"
   },
+  "feedbacks": {
+    "dialog-photo": {
+      "close": "Закрыть"
+    }
+  },
   "nav-bar": {
     "add-cafe": "Добавить кафе",
     "admin": "Администратор",

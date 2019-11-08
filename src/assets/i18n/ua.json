@@ -9,6 +9,11 @@
     "delete": "Видалити",
     "cancel": "Скасувати"
   },
+  "feedbacks": {
+    "dialog-photo": {
+      "close": "Закрити"
+    }
+  },
   "nav-bar": {
     "add-cafe": "Додати кафе",
     "admin": "Адміністратор",
