@@ -5,6 +5,10 @@
     "feedbacks": "Feedbacks",
     "create-new-cafe": "Create new cafe"
   },
+  "confirm-modal": {
+    "delete": "Delete",
+    "cancel": "Cancel"
+  },
   "nav-bar": {
     "add-cafe": "Add a cafe",
     "admin": "Administrator",

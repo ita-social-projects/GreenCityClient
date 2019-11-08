@@ -5,6 +5,10 @@
     "feedbacks": "Відгуки",
     "create-new-cafe": "Створити кафе"
   },
+  "confirm-modal": {
+    "delete": "Видалити",
+    "cancel": "Скасувати"
+  },
   "nav-bar": {
     "add-cafe": "Додати кафе",
     "admin": "Адміністратор",
