@@ -1,4 +1,10 @@
 {
+  "admin-nav": {
+    "places": "Місця",
+    "users": "Користувачі",
+    "feedbacks": "Відгуки",
+    "create-new-cafe": "Створити кафе"
+  },
   "nav-bar": {
     "add-cafe": "Додати кафе",
     "admin": "Адміністратор",

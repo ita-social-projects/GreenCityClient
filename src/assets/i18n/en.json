@@ -1,4 +1,10 @@
 {
+  "admin-nav": {
+    "places": "Places",
+    "users": "Users",
+    "feedbacks": "Feedbacks",
+    "create-new-cafe": "Create new cafe"
+  },
   "nav-bar": {
     "add-cafe": "Add a cafe",
     "admin": "Administrator",

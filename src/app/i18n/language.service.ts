@@ -1,28 +1,32 @@
 import {Injectable} from '@angular/core';
-import {Language} from './Language';
 import {TranslateService} from '@ngx-translate/core';
+import {Language} from './Language';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LanguageService {
+  private langMap = new Map();
+  private defaultLanguage = Language.EN;
 
   constructor(private translate: TranslateService) {
+    this.langMap.set(Language.EN, ['en']);
+    this.langMap.set(Language.UA, ['ua', 'uk']);
+    this.langMap.set(Language.RU, ['ru']);
   }
 
-  public setDefaultLanguage(): void {
-    let len = null;
+  public setDefaultLanguage() {
+    this.translate.setDefaultLang(this.getLanguageByString(navigator.language));
+  }
 
-    Object.values(Language).forEach(o => {
-      if (o.toString() === navigator.language) {
-        len = o;
+  private getLanguageByString(languageString: string) {
+    for (const key of this.langMap.keys()) {
+      if (this.langMap.get(key).indexOf(languageString) !== -1) {
+        console.log(key);
+        return key;
       }
-    });
-
-    if (len !== null) {
-      this.translate.setDefaultLang(len);
-    } else {
-      this.translate.setDefaultLang(Language.EN);
     }
+
+    return this.defaultLanguage;
   }
 }

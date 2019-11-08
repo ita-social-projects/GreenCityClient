@@ -1,10 +1,16 @@
 {
+  "admin-nav": {
+    "places": "Места",
+    "users": "Пользователи",
+    "feedbacks": "Отзывы",
+    "create-new-cafe": "Создать новое кафе"
+  },
   "nav-bar": {
     "add-cafe": "Добавить кафе",
     "admin": "Администратор",
     "favorite-places": "Любимые места",
     "user-settings": "Настройка профиля",
-    "sign-out": "выйти",
+    "sign-out": "Выйти",
     "sign-in": "Войти"
   }
 }
