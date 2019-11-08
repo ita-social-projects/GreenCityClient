@@ -12,7 +12,17 @@
   "feedbacks": {
     "dialog-photo": {
       "close": "Close"
-    }
+    },
+    "feedbacks": "Feedbacks",
+    "place": "Place",
+    "comment": "Comment",
+    "more": "more",
+    "less": "less",
+    "attachments": "Attachments",
+    "no-attachment": "No attachments",
+    "loading-data": "Loading data...",
+    "no-data": "No data",
+    "items-per-page": "Items per page:"
   },
   "nav-bar": {
     "add-cafe": "Add a cafe",

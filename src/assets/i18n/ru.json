@@ -12,7 +12,17 @@
   "feedbacks": {
     "dialog-photo": {
       "close": "Закрыть"
-    }
+    },
+    "feedbacks": "Отзывы",
+    "place": "Место",
+    "comment": "Комментарий",
+    "more": "больше",
+    "less": "меньше",
+    "attachments": "Вложения",
+    "no-attachment": "Нет вложений",
+    "loading-data": "Загрузка данных...",
+    "no-data": "Нет данных",
+    "items-per-page": "Записей на страницу:"
   },
   "nav-bar": {
     "add-cafe": "Добавить кафе",

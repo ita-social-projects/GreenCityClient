@@ -12,7 +12,17 @@
   "feedbacks": {
     "dialog-photo": {
       "close": "Закрити"
-    }
+    },
+    "feedbacks": "Відгуки",
+    "place": "Місце",
+    "comment": "Коментар",
+    "more": "більше",
+    "less": "менше",
+    "attachments": "Вкладення",
+    "no-attachment": "Немає вкладень",
+    "loading-data": "Завантаження даних...",
+    "no-data": "Немає даних",
+    "items-per-page": "Записів на сторінку:"
   },
   "nav-bar": {
     "add-cafe": "Додати кафе",
