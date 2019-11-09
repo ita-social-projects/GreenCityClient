@@ -83,6 +83,25 @@
     "submit": "Submit",
     "close": "Close"
   },
+  "users": {
+    "users": "Users",
+    "search": "Search",
+    "email": "Email",
+    "first-name": "First name",
+    "last-name": "Last name",
+    "date-of-registration": "Date of registration",
+    "actions": "Actions",
+    "block": "Block",
+    "unblock": "Unblock",
+    "deactivate": "Deactivate",
+    "activate": "Activate",
+    "loading-data": "Loading data...",
+    "no-data": "No data",
+    "items-per-page": "Items per page:",
+    "sort-ascending": "Sort Ascending",
+    "sort-descending": "Sort Descending",
+    "cancel-sorting": "Cancel Sorting"
+  },
   "nav-bar": {
     "add-cafe": "Add a cafe",
     "admin": "Administrator",

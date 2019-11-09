@@ -21,11 +21,7 @@
     "attachments": "Вложения",
     "no-attachment": "Нет вложений",
     "loading-data": "Загрузка данных...",
-    "no-data": "Нет данных",
-    "items-per-page": "Записей на страницу:",
-    "sort-ascending": "Сортировать по возрастанию",
-    "sort-descending": "Сортировать по убыванию",
-    "cancel-sorting": "Отменить сортировку"
+    "no-data": "Нет данных"
   },
   "update-cafe": {
     "name": "Название",
@@ -81,7 +77,29 @@
     "approve": "Одобрить",
     "decline": "Отклонить",
     "delete": "Удалить",
-    "items-per-page": "Записей на страницу:"
+    "items-per-page": "Записей на страницу:",
+    "sort-ascending": "Сортировать по возрастанию",
+    "sort-descending": "Сортировать по убыванию",
+    "cancel-sorting": "Отменить сортировку"
+  },
+  "users": {
+    "users": "Пользователи",
+    "search": "Поиск",
+    "email": "Почта",
+    "first-name": "Имя",
+    "last-name": "Фамилия",
+    "date-of-registration": "Дата регистрации",
+    "actions": "Действия",
+    "block": "Заблокировать",
+    "unblock": "Разблокировать",
+    "deactivate": "Деактивировать",
+    "activate": "Активировать",
+    "loading-data": "Загрузка данных...",
+    "no-data": "Нет данных",
+    "items-per-page": "Записей на страницу:",
+    "sort-ascending": "Сортировать по возрастанию",
+    "sort-descending": "Сортировать по убыванию",
+    "cancel-sorting": "Отменить сортировку"
   },
   "nav-bar": {
     "add-cafe": "Добавить кафе",
