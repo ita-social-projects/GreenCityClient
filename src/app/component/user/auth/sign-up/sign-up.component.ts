@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {UserOwnSignUp} from '../../../../model/user-own-sign-up';
-import {UserOwnSignUpService} from '../../../../service/user-own-sign-up.service';
-import {HttpErrorResponse} from '@angular/common/http';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { UserOwnSignUp } from '../../../../model/user-own-sign-up';
+import { UserOwnSignUpService } from '../../../../service/user-own-sign-up.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -10,18 +10,17 @@ import {Router} from '@angular/router';
   styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent implements OnInit {
+  userOwnSignUp: UserOwnSignUp;
+  firstNameErrorMessageBackEnd: string;
+  lastNameErrorMessageBackEnd: string;
+  emailErrorMessageBackEnd: string;
+  passwordErrorMessageBackEnd: string;
+  loadingAnim = false;
 
-  private userOwnSignUp: UserOwnSignUp;
-  private firstNameErrorMessageBackEnd: string;
-  private lastNameErrorMessageBackEnd: string;
-  private emailErrorMessageBackEnd: string;
-  private passwordErrorMessageBackEnd: string;
-
-  private loadingAnim = false;
-
-
-  constructor(private userOwnSecurityService: UserOwnSignUpService, private rout: Router) {
-  }
+  constructor(
+    private userOwnSecurityService: UserOwnSignUpService,
+    private rout: Router
+  ) {}
 
   ngOnInit() {
     this.userOwnSignUp = new UserOwnSignUp();
