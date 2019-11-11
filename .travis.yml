@@ -1,0 +1,24 @@
+language: node_js
+node_js:
+  - 'stable'
+
+dist: trusty
+sudo: false
+
+cache:
+  directories:
+    - node_modules
+
+install:
+  - npm install
+
+script:
+  - ng build --prod --base-href=/GreenCityClient/ --aot=false --build-optimizer=false
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $TRAVIS_GH_TOKEN
+  local_dir: dist/GreenCityClient
+  on:
+    branch: live
