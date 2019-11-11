@@ -124,5 +124,18 @@
   "error": {
     "oops": "Упс!",
     "go-to-homepage": "Перейти на домашню сторінку"
+  },
+  "user": {
+    "add-comment": {
+      "add-your-comment-to-place": "Додайте коментар до місця",
+      "please-rare-us": "Оцініть нас",
+      "comment-is-required": "Введіть коментар",
+      "comment-must-be-at-least-5-characters-long": "Коментар повинен містити принаймі 5 символів",
+      "comment-must-be-maximum": "Коментар повинен містити максимум",
+      "characters long": "символів",
+      "please-write-a-comment": "Будь ласка напишіть коментар",
+      "submit": "Підтвердити",
+      "close": "Закрити"
+    }
   }
 }

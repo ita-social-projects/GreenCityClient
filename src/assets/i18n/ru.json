@@ -123,5 +123,18 @@
   "error": {
     "oops": "Упс!",
     "go-to-homepage": "Перейти на домашнюю страницу"
+  },
+  "user": {
+    "add-comment": {
+      "Add-your-comment-to-place": "Добавьте комментарий к месту",
+      "Please-rare-us": "Оцените нас",
+      "comment-is-required": "Введите комментарий",
+      "comment-must-be-at-least-5-characters-long": "Комментарий должен содержать не менее 5 символов",
+      "comment-must-be-maximum": "Комментарий должен содержать максимум",
+      "characters long": "символов",
+      "please-write-a-comment": "Будь ласка напишіть коментар",
+      "submit": "Подтвердить",
+      "close": "Закрыть"
+    }
   }
 }
