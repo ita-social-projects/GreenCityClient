@@ -120,5 +120,9 @@
     "distance": "Distance:",
     "distance-in-km": "Distance in km",
     "apply": "Apply"
+  },
+  "error": {
+    "oops": "Oops!",
+    "go-to-homepage": "Go To Homepage"
   }
 }
