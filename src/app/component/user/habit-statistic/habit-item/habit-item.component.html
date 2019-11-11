@@ -1,4 +1,4 @@
 <a href="#">
-  <img title="{{habitItem.numb}}" [src]=habitItem.currentIcon.name (mouseout)="setNoneActive()"
-       (mouseover)="setActive()" alt="habit">
+  <img title="{{habitItem.numb}}" [src]=habitItem.icon.name (mouseout)="setNoneActive()"
+       [ngClass]="{'active-element': habitItem.isActive, 'non-active-element': !habitItem.isActive}" (mouseover)="setActive()" alt="habit">
 </a>

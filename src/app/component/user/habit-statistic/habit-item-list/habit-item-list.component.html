@@ -1,7 +1,7 @@
 <ul class="list-inline">
   <li *ngFor="let item of habitItems" class="list-inline-item">
-    <app-habit (click)="send(item)" [habitItem]="item" (activeChange)="setAllActive($event)"
-               (nonActiveChange)="setNoneActive()"></app-habit>
+    <app-habit-item (click)="update(item)" [habitItem]="item" (activeChange)="setAllActive($event)"
+                    (nonActiveChange)="drawCurrentNumberItems()"></app-habit-item>
   </li>
 </ul>
 

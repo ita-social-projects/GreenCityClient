@@ -62,10 +62,11 @@ import {RatingModule} from 'ngx-bootstrap';
 import {PhotoUploadComponent} from './component/user/photo-upload/photo-upload.component';
 import {UserSettingComponent} from './component/user/user-setting/user-setting.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { HabitStatisticComponent } from './component/user/habit-statistic/habit-statistic.component';
+import { TrackedHabitStatisticComponent } from './component/user/habit-statistic/tracked-habit-statistic.component';
 import { HabitItemComponent } from './component/user/habit-statistic/habit-item/habit-item.component';
 import { HabitItemListComponent } from './component/user/habit-statistic/habit-item-list/habit-item-list.component';
 import { DayEstimationComponent } from './component/user/habit-statistic/day-estimation/day-estimation.component';
+import { HabitStatisticComponent } from './component/user/habit-statistic/habit-statistic/habit-statistic.component';
 
 
 @NgModule({
@@ -89,10 +90,11 @@ import { DayEstimationComponent } from './component/user/habit-statistic/day-est
     PhotoUploadComponent,
     AddCommentComponent,
     UserSettingComponent,
-    HabitStatisticComponent,
+    TrackedHabitStatisticComponent,
     HabitItemComponent,
     HabitItemListComponent,
     DayEstimationComponent,
+    HabitStatisticComponent,
   ],
   imports: [
     BrowserModule,

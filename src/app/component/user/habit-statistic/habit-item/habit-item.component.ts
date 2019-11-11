@@ -1,9 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Photo} from '../../../../model/photo/photo';
 import {HabitItem} from './HabitItem';
 
 @Component({
-  selector: 'app-habit',
+  selector: 'app-habit-item',
   templateUrl: './habit-item.component.html',
   styleUrls: ['./habit-item.component.css']
 })
@@ -22,10 +21,12 @@ export class HabitItemComponent implements OnInit {
   }
 
   setActive() {
+    console.log(this.habitItem);
     this.activeChange.emit(this.habitItem.numb);
   }
 
   setNoneActive() {
+    console.log(this.habitItem);
     this.nonActiveChange.emit();
   }
 }

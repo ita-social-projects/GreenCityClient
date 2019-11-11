@@ -1,0 +1,12 @@
+.active-element {
+  opacity: 1;
+}
+
+.non-active-element {
+  opacity: 0.2;
+}
+
+img {
+  width: 25px;
+  height: 33px
+}
