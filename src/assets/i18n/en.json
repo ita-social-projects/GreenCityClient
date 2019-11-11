@@ -109,5 +109,16 @@
     "user-settings": "User settings",
     "sign-out": "Sign out",
     "sign-in": "Sign in"
+  },
+  "admin": {
+    "errorMessage": "Forbidden"
+  },
+  "filter": {
+    "discount-rate": "Discount Rate",
+    "is-now-open": "Is now open",
+    "wrong-value-of-distance": "Wrong value of distance!",
+    "distance": "Distance:",
+    "distance-in-km": "Distance in km",
+    "apply": "Apply"
   }
 }

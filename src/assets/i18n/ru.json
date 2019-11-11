@@ -108,5 +108,16 @@
     "user-settings": "Настройка профиля",
     "sign-out": "Выйти",
     "sign-in": "Войти"
+  },
+  "admin": {
+    "errorMessage": "Запрещено"
+  },
+  "filter": {
+    "discount-rate": "Скидка",
+    "is-now-open": "Открыто сейчас",
+    "wrong-value-of-distance": "Неправильное значение расстояния!",
+    "distance": "Расстояние:",
+    "distance-in-km": "Расстояние в км",
+    "apply": "Подтвердить"
   }
 }

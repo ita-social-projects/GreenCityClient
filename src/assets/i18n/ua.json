@@ -109,5 +109,16 @@
     "user-settings": "Налаштування профілю",
     "sign-out": "Вийти",
     "sign-in": "Увійти"
+  },
+  "admin": {
+    "errorMessage": "Заборонено"
+  },
+  "filter": {
+    "discount-rate": "Знижка",
+    "is-now-open": "Відчинено зараз",
+    "wrong-value-of-distance": "Хибне значення відстані!",
+    "distance": "Відстань:",
+    "distance-in-km": "Відстань в км",
+    "apply": "Підтвердити"
   }
 }
