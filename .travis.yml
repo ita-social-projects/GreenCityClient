@@ -21,4 +21,4 @@ deploy:
   github_token: $TRAVIS_GH_TOKEN
   local_dir: dist/GreenCityClient
   on:
-    branch: live
+    branch: dev
