@@ -1,7 +1,7 @@
-<div class="container-fluid">
+<div>
   <h5>{{habitMessage}}</h5>
-  <app-habit-item-list [itemIcon]="itemIcon" [habitName]="habitName"></app-habit-item-list>
-  <h5>Як ти оціниш сьогоднішній день</h5>
-  <app-day-estimation [habitName]="habitName"></app-day-estimation>
+  <app-habit-item-list [itemIcon]="itemIcon" [habitStatisticDto]="habitStatisticDto"></app-habit-item-list>
+  <h6 class="estimation-message">Як ти оціниш сьогоднішній день</h6>
+  <app-day-estimation [habitStatisticDto]="habitStatisticDto"></app-day-estimation>
   <span style="font-size: 10pt">{{advice}}</span>
 </div>

@@ -12,17 +12,19 @@ import {Photo} from '../../../../model/photo/photo';
 export class HabitItemListComponent implements OnInit {
   habitItems: HabitItem[] = [];
   @Input()
-  habitName: string;
-  @Input()
   itemIcon: Photo;
+  @Input()
+  habitStatisticDto: HabitStatisticDto;
   currentNumber = 0;
+  isExpanded: boolean;
 
   constructor(private service: HabitStatisticService) {
   }
 
   ngOnInit(): void {
-    this.service.getHabitItemStatistic(this.habitName).subscribe(o => {
+    this.service.getHabitItemStatistic(this.habitStatisticDto.habitId).subscribe(o => {
       this.currentNumber = o.countHabit;
+      this.isExpanded = o.countHabit > 8;
       this.initHabitItems();
       this.drawCurrentNumberItems();
     });
@@ -47,14 +49,55 @@ export class HabitItemListComponent implements OnInit {
   update(habitItem: HabitItem) {
     const newCount = (habitItem.numb === this.currentNumber) ? 0 : habitItem.numb;
 
-    this.service.updateHabitItemCount(new HabitStatisticDto(this.habitName, newCount)).subscribe(data => {
+    this.service.updateHabitStatistic(new HabitStatisticDto(this.habitStatisticDto.habitId,
+      this.habitStatisticDto.habitName, newCount,
+      this.habitStatisticDto.dayEstimation, this.habitStatisticDto.date)).subscribe(data => {
       this.currentNumber = data.countHabit;
+      this.drawCurrentNumberItems();
     });
   }
 
   initHabitItems() {
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < (this.isExpanded ? 16 : 8); i++) {
       this.habitItems.push(new HabitItem(i + 1, this.itemIcon, false));
     }
+  }
+
+  collapse() {
+    this.isExpanded = false;
+
+    if (this.currentNumber > 8) {
+      this.currentNumber = 8;
+    }
+
+    this.habitItems.splice(8, 18);
+  }
+
+  expand() {
+    this.isExpanded = true;
+    for (let i = 8; i < 16; i++) {
+      this.habitItems.push(new HabitItem(i + 1, this.itemIcon, false));
+    }
+    this.drawCurrentNumberItems();
+  }
+
+  getCollapsed(): HabitItem[] {
+    const collapsed: HabitItem[] = [];
+
+    for (let i = 0; i < 8; i++) {
+      collapsed.push(this.habitItems[i]);
+    }
+
+    return collapsed;
+  }
+
+  getExpanded(): HabitItem[] {
+    const collapsed: HabitItem[] = [];
+
+    for (let i = 8; i < this.habitItems.length; i++) {
+      collapsed.push(this.habitItems[i]);
+    }
+
+    return collapsed;
   }
 }

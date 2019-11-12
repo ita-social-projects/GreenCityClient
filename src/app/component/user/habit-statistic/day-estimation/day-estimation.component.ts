@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HabitStatisticService} from '../../../../service/habit-statistic/habit-statistic.service';
 import {DayEstimation} from '../../../../model/habit/DayEstimation';
-import {DayEstimationDto} from '../../../../model/habit/DayEstimationDto';
+import {HabitStatisticDto} from '../../../../model/habit/HabitStatisticDto';
 
 @Component({
   selector: 'app-day-estimation',
@@ -10,7 +10,7 @@ import {DayEstimationDto} from '../../../../model/habit/DayEstimationDto';
 })
 export class DayEstimationComponent implements OnInit {
   @Input()
-  habitName: string;
+  habitStatisticDto: HabitStatisticDto;
   @Input()
   dayNumber: number;
 
@@ -21,6 +21,7 @@ export class DayEstimationComponent implements OnInit {
   }
 
   update(estimation: string) {
-    this.service.updateDayEstimation(new DayEstimationDto(this.habitName, DayEstimation[estimation], this.dayNumber));
+    this.service.updateHabitStatistic(new HabitStatisticDto(this.habitStatisticDto.habitId, this.habitStatisticDto.habitName,
+      this.habitStatisticDto.countHabit, DayEstimation[estimation], this.habitStatisticDto.date));
   }
 }

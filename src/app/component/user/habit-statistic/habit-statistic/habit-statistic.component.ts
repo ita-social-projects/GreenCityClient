@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Photo} from '../../../../model/photo/photo';
+import {HabitStatisticDto} from '../../../../model/habit/HabitStatisticDto';
 
 @Component({
   selector: 'app-habit-statistic',
@@ -15,7 +16,7 @@ export class HabitStatisticComponent implements OnInit {
   @Input()
   itemIcon: Photo;
   @Input()
-  habitName: string;
+  habitStatisticDto: HabitStatisticDto;
 
   ngOnInit() {
   }

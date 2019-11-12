@@ -1,0 +1,27 @@
+/*@media only screen and (max-width: 768px) {*/
+/*  button {*/
+/*    font-size: 3vw !important;*/
+/*  }*/
+/*}*/
+
+.estimation-button {
+  width: 124px;
+  height: 49px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 0;
+  color: white;
+  outline: none;
+}
+
+.super-button {
+  background-image: linear-gradient(to bottom, #a7dc2f, #6eb715);
+}
+
+.normal-button {
+  background-image: linear-gradient(to bottom, #0ba466, #056b36);
+}
+
+.bad-button {
+  background-image: linear-gradient(to bottom, #ffe200, #fbc728 99%);
+}

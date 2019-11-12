@@ -1,0 +1,20 @@
+.flex {
+  display: flex;
+}
+
+span {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  color: #13aa57;
+  cursor: pointer;
+}
+
+.nopadding {
+  padding: 0 !important;
+  margin: 0 !important;
+}

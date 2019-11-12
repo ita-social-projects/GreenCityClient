@@ -1,8 +1,11 @@
-<app-habit-statistic [habitName]="'MyHabit'" [advice]="'ла ла ла ...'"
-                     [habitMessage]="'Скільки пакетиків ти не взяв сьогодні?'"
-                     [itemIcon]="activePackageIcon">
-</app-habit-statistic>
-<app-habit-statistic [habitName]="'MyHabit2'" [advice]="'ла ла ла ...'"
-                     [habitMessage]="'Скільки склянок ти не використав сьогодні?'"
-                     [itemIcon]="activeCoffeeIcon">
-</app-habit-statistic>
+<div class="tracked-habit-statistic">
+  <app-habit-statistic [habitStatisticDto]="packageStatisticDto" [advice]="'Покладіть до кожної сумки чи рюкзака одну еко-сумку, так вона завжди' +
+       ' буде з вами, якщо ви неочікувано зайдете в магазин'"
+                       [habitMessage]="'Скільки пакетів ти не взяв сьогодні?'"
+                       [itemIcon]="activePackageIcon">
+  </app-habit-statistic>
+  <app-habit-statistic [habitStatisticDto]="coffeeStatisticDto" [advice]="''"
+                       [habitMessage]="'Скільки склянок ти не використав сьогодні?'"
+                       [itemIcon]="activeCoffeeIcon">
+  </app-habit-statistic>
+</div>

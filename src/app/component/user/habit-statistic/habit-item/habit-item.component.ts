@@ -21,12 +21,10 @@ export class HabitItemComponent implements OnInit {
   }
 
   setActive() {
-    console.log(this.habitItem);
     this.activeChange.emit(this.habitItem.numb);
   }
 
   setNoneActive() {
-    console.log(this.habitItem);
     this.nonActiveChange.emit();
   }
 }

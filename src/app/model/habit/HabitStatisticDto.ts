@@ -1,10 +1,17 @@
+import {DayEstimation} from './DayEstimation';
+
 export class HabitStatisticDto {
+  habitId: number;
   habitName: string;
   countHabit: number;
+  dayEstimation: DayEstimation;
   date: Date;
 
-  constructor(habitName: string, habitItemCount: number) {
+  constructor(habitId: number, habitName: string, countHabit: number, dayEstimation: DayEstimation, date: Date) {
+    this.habitId = habitId;
     this.habitName = habitName;
-    this.countHabit = habitItemCount;
+    this.countHabit = countHabit;
+    this.dayEstimation = dayEstimation;
+    this.date = date;
   }
 }
