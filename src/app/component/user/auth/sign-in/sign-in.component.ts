@@ -1,16 +1,15 @@
-import {Component, OnInit} from '@angular/core';
-import {UserOwnSignInService} from '../../../../service/user-own-sign-in.service';
-import {UserOwnSignIn} from '../../../../model/user-own-sign-in';
-import {HttpErrorResponse} from '@angular/common/http';
-import {UserSuccessSignIn} from '../../../../model/user-success-sign-in';
+import { Component, OnInit } from '@angular/core';
+import { UserOwnSignInService } from '../../../../service/user-own-sign-in.service';
+import { UserOwnSignIn } from '../../../../model/user-own-sign-in';
+import { HttpErrorResponse } from '@angular/common/http';
+import { UserSuccessSignIn } from '../../../../model/user-success-sign-in';
 
-import {Router} from '@angular/router';
-import {AuthService, GoogleLoginProvider} from 'angularx-social-login';
-import {GoogleSignInService} from '../../../../service/google-sign-in.service';
-import {MatDialog, MatDialogRef} from "@angular/material";
-import {RestoreComponent} from "../../restore/restore.component";
-import {EditFavoriteNameComponent} from "../../favorite-place/favorite-place.component";
-
+import { Router } from '@angular/router';
+import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
+import { GoogleSignInService } from '../../../../service/google-sign-in.service';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { RestoreComponent } from '../../restore/restore.component';
+import { EditFavoriteNameComponent } from '../../favorite-place/favorite-place.component';
 
 @Component({
   selector: 'app-sign-in',
@@ -18,22 +17,21 @@ import {EditFavoriteNameComponent} from "../../favorite-place/favorite-place.com
   styleUrls: ['./sign-in.component.css']
 })
 export class SignInComponent implements OnInit {
+  userOwnSignIn: UserOwnSignIn;
+  loadingAnim: boolean;
 
-  private userOwnSignIn: UserOwnSignIn;
-  private loadingAnim: boolean;
+  emailErrorMessageBackEnd: string;
+  passwordErrorMessageBackEnd: string;
 
-  private emailErrorMessageBackEnd: string;
-  private passwordErrorMessageBackEnd: string;
+  backEndError: string;
 
-  private backEndError: string;
-
-  constructor(private service: UserOwnSignInService,
-              private rout: Router,
-              private authService: AuthService,
-              private googleService: GoogleSignInService,
-              public dialog: MatDialog,
-  ) {
-  }
+  constructor(
+    private service: UserOwnSignInService,
+    private rout: Router,
+    private authService: AuthService,
+    private googleService: GoogleSignInService,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     this.userOwnSignIn = new UserOwnSignIn();
@@ -50,7 +48,6 @@ export class SignInComponent implements OnInit {
         this.loadingAnim = false;
         this.service.saveUserToLocalStorage(data);
         window.location.href = '/';
-
       },
       (errors: HttpErrorResponse) => {
         try {
@@ -70,8 +67,9 @@ export class SignInComponent implements OnInit {
   }
 
   private signInWithGoogle() {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((data) => {
-      this.googleService.signIn(data.idToken).subscribe((data1: UserSuccessSignIn) => {
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(data => {
+      this.googleService.signIn(data.idToken).subscribe(
+        (data1: UserSuccessSignIn) => {
           this.service.saveUserToLocalStorage(data1);
           window.location.href = '/';
         },
@@ -94,9 +92,8 @@ export class SignInComponent implements OnInit {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(RestoreComponent, {
-        width: '550px',
-        height: '350px',
-      });
+      width: '550px',
+      height: '350px'
+    });
   }
-
 }
