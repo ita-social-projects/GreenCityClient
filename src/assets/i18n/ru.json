@@ -149,6 +149,22 @@
         "sign-up": "Зарегистрироваться",
         "sign-in-with-google": "Войти через Google",
         "forgot-password": "Забыли пароль?"
+      },
+      "sign-up": {
+        "first-name": "Имя",
+        "first-name-is-required": "Введите имя",
+        "first-name-must-be-at-least-1-characters-long": "Имя должно содержать по крайней мере 1 символ",
+        "last-name": "Фамилия",
+        "last-name-is-required": "Введите фамилию",
+        "last-name-must-be-at-least-1-characters-long": "Фамилия должна содержать по крайней мере один символ",
+        "email": "Почта",
+        "email-is-required": "Введите почту",
+        "email-must-be-at-least-1-characters-long": "Почта должна содержать по крайней мере один символ",
+        "this-is-not-email": "Это не почта",
+        "password": "Пароль",
+        "password-is-required": "Введите пароль",
+        "password-must-be-at-least-8-characters-long": "Пароль должен содержать по крайней мере 8 символов",
+        "submit": "Подтвердить"
       }
     }
   }
