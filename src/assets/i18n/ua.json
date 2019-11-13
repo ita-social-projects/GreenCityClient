@@ -136,6 +136,21 @@
       "please-write-a-comment": "Будь ласка напишіть коментар",
       "submit": "Підтвердити",
       "close": "Закрити"
+    },
+    "auth": {
+      "sign-in": {
+        "email": "Пошта",
+        "email-is-required": "Введіть пошту",
+        "email-must-be-at-least-1-characters-long": "Пошта повинна містити принаймі 1 символ",
+        "this-is-not-email": "Це не пошта",
+        "password": "Пароль",
+        "password-is-required": "Введіть пароль",
+        "password-must-be-at-least-8-characters-long": "Пароль повинен містити принаймі 8 символів",
+        "sign-in": "Увійти",
+        "sign-up": "Зареєструватись",
+        "sign-in-with-google": "Увійти через Google",
+        "forgot-password": "Забули пароль?"
+      }
     }
   }
 }

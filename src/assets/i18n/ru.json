@@ -135,6 +135,21 @@
       "please-write-a-comment": "Будь ласка напишіть коментар",
       "submit": "Подтвердить",
       "close": "Закрыть"
+    },
+    "auth": {
+      "sign-in": {
+        "email": "Почта",
+        "email-is-required": "Введите почту",
+        "email-must-be-at-least-1-characters-long": "Почта должна содержать по крайней мере 1 символ",
+        "this-is-not-email": "Это не почта",
+        "password": "Пароль",
+        "password-is-required": "Введите пароль",
+        "password-must-be-at-least-8-characters-long": "Пароль должен содержать по крайней мере 8 символов",
+        "sign-in": "Войти",
+        "sign-up": "Зарегистрироваться",
+        "sign-in-with-google": "Войти через Google",
+        "forgot-password": "Забыли пароль?"
+      }
     }
   }
 }

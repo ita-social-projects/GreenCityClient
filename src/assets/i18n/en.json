@@ -136,6 +136,21 @@
       "please-write-a-comment": "Please write a comment",
       "submit": "Submit",
       "close": "Close"
+    },
+    "auth": {
+      "sign-in": {
+        "email": "Email",
+        "email-is-required": "Email is required",
+        "email-must-be-at-least-1-characters-long": "Email must be at least 1 characters long",
+        "this-is-not-email": "This is not email",
+        "password": "Password",
+        "password-is-required": "Password is required",
+        "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long",
+        "sign-in": "Sign-in",
+        "sign-up": "Sign-up",
+        "sign-in-with-google": "Sign-in with Google",
+        "forgot-password": "Forgot password?"
+      }
     }
   }
 }
