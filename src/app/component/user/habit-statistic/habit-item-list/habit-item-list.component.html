@@ -2,8 +2,8 @@
   <div class="row align-items-center">
     <div class="col-9 d-flex justify-content-around nopadding">
       <app-habit-item *ngFor="let item of getCollapsed()" (click)="update(item)" [habitItem]="item"
-                      (activeChange)="setAllActive($event)"
-                      (nonActiveChange)="drawCurrentNumberItems()">
+                      (mouseout)="drawCurrentNumberItems()"
+                      (mouseover)="setAllActive(item.numb)">
       </app-habit-item>
     </div>
     <div *ngIf="!isExpanded" class="col-3 text-center">
@@ -14,8 +14,8 @@
   <div *ngIf="isExpanded" class="row align-items-center">
     <div class="col-9 d-flex justify-content-around nopadding">
       <app-habit-item *ngFor="let item of getExpanded()" (click)="update(item)" [habitItem]="item"
-                      (activeChange)="setAllActive($event)"
-                      (nonActiveChange)="drawCurrentNumberItems()">
+                      (mouseout)="drawCurrentNumberItems()"
+                      (mouseover)="setAllActive(item.numb)">
       </app-habit-item>
     </div>
     <div *ngIf="isExpanded" class="col-3 text-center nopadding">

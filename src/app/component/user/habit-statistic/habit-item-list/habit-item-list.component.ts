@@ -78,7 +78,6 @@ export class HabitItemListComponent implements OnInit {
     for (let i = 8; i < 16; i++) {
       this.habitItems.push(new HabitItem(i + 1, this.itemIcon, false));
     }
-    this.drawCurrentNumberItems();
   }
 
   getCollapsed(): HabitItem[] {

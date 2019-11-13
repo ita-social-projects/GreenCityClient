@@ -11,8 +11,6 @@ import {HabitStatisticDto} from '../../../../model/habit/HabitStatisticDto';
 export class DayEstimationComponent implements OnInit {
   @Input()
   habitStatisticDto: HabitStatisticDto;
-  @Input()
-  dayNumber: number;
 
   constructor(private service: HabitStatisticService) {
   }
