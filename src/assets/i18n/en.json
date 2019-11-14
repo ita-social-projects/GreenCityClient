@@ -201,6 +201,17 @@
       "discount": "discount",
       "driving": "driving",
       "walking": "walking"
+    },
+    "photo-upload": {
+      "add-photo": "Add photo",
+      "no-file-attached": "No file attached.",
+      "file-name": "File Name",
+      "remove": "Remove",
+      "loading": "Loading...",
+      "upload": "Upload",
+      "you-can-upload-max": "You  can  upload max",
+      "photos": "photos",
+      "your-photos-successfully-upload": "Your photos successfully upload"
     }
   }
 }
