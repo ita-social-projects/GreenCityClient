@@ -85,7 +85,7 @@
   "users": {
     "users": "Пользователи",
     "search": "Поиск",
-    "email": "Почта",
+    "email": "Электронная почта",
     "first-name": "Имя",
     "last-name": "Фамилия",
     "date-of-registration": "Дата регистрации",
@@ -138,7 +138,7 @@
     },
     "auth": {
       "sign-in": {
-        "email": "Почта",
+        "email": "Электронная почта",
         "email-is-required": "Введите почту",
         "email-must-be-at-least-1-characters-long": "Почта должна содержать по крайней мере 1 символ",
         "this-is-not-email": "Это не почта",
@@ -157,7 +157,7 @@
         "last-name": "Фамилия",
         "last-name-is-required": "Введите фамилию",
         "last-name-must-be-at-least-1-characters-long": "Фамилия должна содержать по крайней мере один символ",
-        "email": "Почта",
+        "email": "Электронная почта",
         "email-is-required": "Введите почту",
         "email-must-be-at-least-1-characters-long": "Почта должна содержать по крайней мере один символ",
         "this-is-not-email": "Это не почта",
@@ -248,6 +248,10 @@
       "submit": "Подтвердить",
       "close": "Закрыть",
       "second-time-have-to-be-late-than-first-please-try-again": "Время начала должен быть ранее времени завершения. Пожалуйста выберите другое время"
+    },
+    "restore": {
+      "email": "Электронная почта",
+      "submit": "Подтвердить"
     }
   }
 }

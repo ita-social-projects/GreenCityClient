@@ -249,6 +249,10 @@
       "submit": "Submit",
       "close": "Close",
       "second-time-have-to-be-late-than-first-please-try-again": "Second time have to be late than first. Please, try again"
+    },
+    "restore": {
+      "email": "Email",
+      "submit": "Submit"
     }
   }
 }
