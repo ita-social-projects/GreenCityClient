@@ -166,6 +166,27 @@
         "password-is-required": "Введіть пароль",
         "password-must-be-at-least-8-characters-long": "Пароль повинен містити принаймі 8 символів",
         "submit": "Підтвердити"
+      },
+      "submit-email": "Ви успішно зареєструвались на сайті. Будь ласка, підтвердіть вашу електронну адресу в електронній скринці."
+    },
+    "favorite-place": {
+      "delete-favorite-place": {
+        "delete-favorite-place": "Видалити улюблене місце?",
+        "submit": "Підтвердити",
+        "cancel": "Відмінити"
+      },
+      "edit-name": {
+        "edit-name-for-your-favorite-place": "Змінити назву улюбленого місця",
+        "submit": "Підтвердити",
+        "cancel": "Відмінити"
+      },
+      "favorite-place": {
+        "favorite-places": "Улюблені місця",
+        "name": "Назва",
+        "actions": "Дії",
+        "edit": "Редагувати",
+        "delete": "Видалити",
+        "close": "Закрити"
       }
     }
   }

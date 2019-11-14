@@ -165,6 +165,27 @@
         "password-is-required": "Введите пароль",
         "password-must-be-at-least-8-characters-long": "Пароль должен содержать по крайней мере 8 символов",
         "submit": "Подтвердить"
+      },
+      "submit-email": "Вы успешно зарегистрированы на этом сайте. Пожалуйста, подтвердите ваш адрес электронной почты в почтовом ящике"
+    },
+    "favorite-place": {
+      "delete-favorite-place": {
+        "delete-favorite-place": "Удалить любимое место?",
+        "submit": "Подтвердить",
+        "cancel": "Отменить"
+      },
+      "edit-name": {
+        "edit-name-for-your-favorite-place": "Изменить название любимого места",
+        "submit": "Подтвердить",
+        "cancel": "Отменить"
+      },
+      "favorite-place": {
+        "favorite-places": "Любимые места",
+        "name": "Название",
+        "actions": "Действия",
+        "edit": "Редактировать",
+        "delete": "Удалить",
+        "close": "Закрыть"
       }
     }
   }
