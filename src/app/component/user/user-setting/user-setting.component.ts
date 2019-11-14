@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {UserService} from '../../../service/user/user.service';
-import {UserUpdateModel} from '../../../model/user/user-update.model';
-import {JwtService} from '../../../service/jwt.service';
-import {MatDialogRef} from '@angular/material';
+import { Component, OnInit } from '@angular/core';
+import { UserService } from '../../../service/user/user.service';
+import { UserUpdateModel } from '../../../model/user/user-update.model';
+import { JwtService } from '../../../service/jwt.service';
+import { MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-user-setting',
@@ -10,23 +10,25 @@ import {MatDialogRef} from '@angular/material';
   styleUrls: ['./user-setting.component.css']
 })
 export class UserSettingComponent implements OnInit {
-
-  private email = '';
-  private userUpdateModel = new UserUpdateModel();
+  email = '';
+  userUpdateModel = new UserUpdateModel();
   // private newUserUpdateModel = new UserUpdateModel();
-  private isFirstNameEditing = false;
-  private isLastNameEditing = false;
+  isFirstNameEditing = false;
+  isLastNameEditing = false;
   private isSomethingEdited = false;
-  private emailNotifications: string[] = [];
+  emailNotifications: string[] = [];
 
-  constructor(private userService: UserService, private jwtService: JwtService, private dialogRef: MatDialogRef<UserSettingComponent>) {
+  constructor(
+    private userService: UserService,
+    private jwtService: JwtService,
+    private dialogRef: MatDialogRef<UserSettingComponent>
+  ) {
     this.email = jwtService.getEmailFromAccessToken();
     this.getUser();
     this.setEmailNotifications();
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   private getUser() {
     this.userService.getUser().subscribe((userUpdateModel: UserUpdateModel) => {
@@ -41,9 +43,8 @@ export class UserSettingComponent implements OnInit {
         this.dialogRef.close();
         window.location.href = '/';
       },
-      error => {
-
-      });
+      error => {}
+    );
   }
 
   private somethingEdited() {
@@ -67,9 +68,13 @@ export class UserSettingComponent implements OnInit {
 
   private setEmailNotifications() {
     this.userService.getEmailNotificationsStatuses().subscribe(res => {
-      this.emailNotifications = [...res.filter((eNotification) => {
-        return eNotification !== 'DISABLED';
-      }).map((column) => column)];
+      this.emailNotifications = [
+        ...res
+          .filter(eNotification => {
+            return eNotification !== 'DISABLED';
+          })
+          .map(column => column)
+      ];
     });
   }
 }

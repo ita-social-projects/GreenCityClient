@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {ModalService} from '../_modal/modal.service';
-import {UserService} from '../../../service/user/user.service';
-import {MatDialog} from '@angular/material';
-import {FavoritePlaceComponent} from '../favorite-place/favorite-place.component';
-import {ProposeCafeComponent} from '../propose-cafe/propose-cafe.component';
-import {FavoritePlaceService} from '../../../service/favorite-place/favorite-place.service';
-import {UserSettingComponent} from '../user-setting/user-setting.component';
+import { Component, OnInit } from '@angular/core';
+import { ModalService } from '../_modal/modal.service';
+import { UserService } from '../../../service/user/user.service';
+import { MatDialog } from '@angular/material';
+import { FavoritePlaceComponent } from '../favorite-place/favorite-place.component';
+import { ProposeCafeComponent } from '../propose-cafe/propose-cafe.component';
+import { FavoritePlaceService } from '../../../service/favorite-place/favorite-place.service';
+import { UserSettingComponent } from '../user-setting/user-setting.component';
 
 @Component({
   selector: 'app-nav-bar',
@@ -13,14 +13,15 @@ import {UserSettingComponent} from '../user-setting/user-setting.component';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
+  firstName: string = null;
+  userRole: string;
 
-  private firstName: string = null;
-  private userRole: string;
-
-  constructor(private uService: UserService, private modalService: ModalService, public dialog: MatDialog,
-              private favoritePlaceService: FavoritePlaceService) {
-
-  }
+  constructor(
+    private uService: UserService,
+    private modalService: ModalService,
+    public dialog: MatDialog,
+    private favoritePlaceService: FavoritePlaceService
+  ) {}
 
   openDialog(): void {
     const dialogRef = this.dialog.open(FavoritePlaceComponent, {
@@ -29,7 +30,6 @@ export class NavBarComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       this.favoritePlaceService.getFavoritePlaces();
-
     });
   }
 
@@ -61,5 +61,4 @@ export class NavBarComponent implements OnInit {
     localStorage.clear();
     window.location.href = '/';
   }
-
 }
