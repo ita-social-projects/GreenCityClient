@@ -65,19 +65,9 @@ export class UserService {
     return this.http.get<RolesModel>(`${this.apiUrl}/roles`);
   }
 
-  getByFilter(reg: string, paginationSettings: string) {
-    if (reg === '%' || reg === '_') {
-      reg = '\\' + reg;
-    }
+  getByFilter(reg: string, paginationSettings: string) {    
     this.filterDto = new UserFilterDtoModel(reg);
-    this.filterDto.searchReg = reg;
-    if (reg === undefined) {
-      this.filterDto.searchReg = '%%';
-      return this.http.post<UserPageableDtoModel>(`${this.apiUrl}/filter` + paginationSettings, this.filterDto);
-    } else {
-      this.filterDto.searchReg = `%${this.filterDto.searchReg}%`;
-      return this.http.post<UserPageableDtoModel>(`${this.apiUrl}/filter` + paginationSettings, this.filterDto);
-    }
+    return this.http.post<UserPageableDtoModel>(`${this.apiUrl}/filter` + paginationSettings, this.filterDto);
   }
 
   getUser() {
