@@ -1,13 +1,13 @@
 <div class="sign-up">
 
   <form #registerForm="ngForm" (ngSubmit)="sendPasswords()">
-    <label for="password">Password</label>
+    <label for="password">{{'user.restore-form.password' | translate}}</label>
     <div class="validation-error" *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
       <div *ngIf="passwordControl.errors.required">
-        Password name is required.
+        {{'user.restore-form.password-is-required' | translate}}
       </div>
       <div *ngIf="passwordControl.errors.minlength">
-        Password must be at least 8 characters long.
+        {{'user.restore-form.password-must-be-at-least-8-characters-long' | translate}}
       </div>
     </div>
     <div class="validation-error" *ngIf="passwordErrorMessageBackEnd!=null">
@@ -20,13 +20,13 @@
 
     <p></p>
 
-    <label for="password">Confirm password</label>
+    <label for="password">{{'user.restore-form.confirm-password' | translate}}</label>
     <div class="validation-error" *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
       <div *ngIf="passwordControl.errors.required">
-        Password name is required.
+        {{'user.restore-form.password-name-is-required' | translate}}
       </div>
       <div *ngIf="passwordControl.errors.minlength">
-        Password must be at least 8 characters long.
+        {{'user.restore-form.password-must-be-at-least-8-characters-long' | translate}}
       </div>
     </div>
     <div class="validation-error" *ngIf="passwordErrorMessageBackEnd!=null">
@@ -44,7 +44,7 @@
 
     <button class="btn btn-primary submit" [disabled]="!registerForm.valid" type="submit">
       <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-      Submit
+      {{'user.restore-form.submit' | translate}}
     </button>
   </form>
 </div>

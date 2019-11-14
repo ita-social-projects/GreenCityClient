@@ -253,6 +253,14 @@
     "restore": {
       "email": "Email",
       "submit": "Submit"
+    },
+    "restore-form": {
+      "password": "Password",
+      "password-is-required": "Password is required.",
+      "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long.",
+      "confirm-password": "Confirm password",
+      "password-name-is-required": "Password name is required.",
+      "submit": "Submit"
     }
   }
 }
