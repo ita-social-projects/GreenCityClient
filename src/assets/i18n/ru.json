@@ -189,6 +189,8 @@
       }
     },
     "map": {
+      "filter-by": "Фильтр",
+      "searching-for-a-place": "Поиск места",
       "places": "Places",
       "show-all": "Show all",
       "clear-filters": "Clear Filters",

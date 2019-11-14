@@ -190,6 +190,8 @@
       }
     },
     "map": {
+      "filter-by": "Filter By",
+      "searching-for-a-place": "Searching for a place",
       "places": "Places",
       "show-all": "Show all",
       "clear-filters": "Clear Filters",

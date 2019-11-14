@@ -190,6 +190,8 @@
       }
     },
     "map": {
+      "filter-by": "Фільтр",
+      "searching-for-a-place": "Пошук місця",
       "places": "Місця",
       "show-all": "Показати усе",
       "clear-filters": "Очистити фільтри",

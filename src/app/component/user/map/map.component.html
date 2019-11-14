@@ -3,9 +3,9 @@
     <div class="sub-1">
       <div>
         <div class="btn-group" id="control_panel">
-          <button class="btn btn-success btn-sm" id="filter_btn" (click)="toggleFilter()">Filter By</button>
+          <button class="btn btn-success btn-sm" id="filter_btn" (click)="toggleFilter()">{{'user.map.filter-by' | translate}}</button>
           <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off"
-                 placeholder="Searching for a place">
+                 placeholder="{{'user.map.searching-for-a-place' | translate}}">
         </div>
         <app-filter *ngIf="isFilter"></app-filter>
         <div *ngIf="!isFilter">
