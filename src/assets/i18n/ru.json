@@ -187,6 +187,19 @@
         "delete": "Удалить",
         "close": "Закрыть"
       }
+    },
+    "map": {
+      "places": "Places",
+      "show-all": "Show all",
+      "clear-filters": "Clear Filters",
+      "rate": "Rate:",
+      "comments": "Comments:",
+      "add-comment": "Add comment",
+      "navigate-to-place": "Проложить маршрут к месту",
+      "close-navigation": "Закрыть навигацию",
+      "discount": "скидка",
+      "driving": "вождения",
+      "walking": "ходьба"
     }
   }
 }

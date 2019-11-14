@@ -188,6 +188,19 @@
         "delete": "Delete",
         "close": "Close"
       }
+    },
+    "map": {
+      "places": "Places",
+      "show-all": "Show all",
+      "clear-filters": "Clear Filters",
+      "rate": "Rate:",
+      "comments": "Comments:",
+      "add-comment": "Add comment",
+      "navigate-to-place": "Navigate to place",
+      "close-navigation": "Close navigation",
+      "discount": "discount",
+      "driving": "driving",
+      "walking": "walking"
     }
   }
 }

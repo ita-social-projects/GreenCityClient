@@ -188,6 +188,19 @@
         "delete": "Видалити",
         "close": "Закрити"
       }
+    },
+    "map": {
+      "places": "Місця",
+      "show-all": "Показати усе",
+      "clear-filters": "Очистити фільтри",
+      "rate": "Рейтинг:",
+      "comments": "Коментарі:",
+      "add-comment": "Додати коментар",
+      "navigate-to-place": "Прокласти маршрут до місця",
+      "close-navigation": "Закрити навігацію",
+      "discount": "знижка",
+      "driving": "водіння",
+      "walking": "ходьба"
     }
   }
 }

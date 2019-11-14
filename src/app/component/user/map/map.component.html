@@ -12,7 +12,7 @@
           <table class="table table-striped">
             <thead>
             <tr>
-              <th>Places</th>
+              <th>{{'user.map.places' | translate}}</th>
             </tr>
             </thead>
             <tbody>
@@ -23,9 +23,10 @@
             </tr>
             </tbody>
           </table>
-          <button class="btn btn-success btn-sm" *ngIf="button;" (click)="showAllPlaces()">Show all</button>
-          <button class="btn btn-success btn-sm" *ngIf="!filterService.isCleared;" (click)="clearFilters()">Clear
-            Filters
+          <button class="btn btn-success btn-sm" *ngIf="button;"
+                  (click)="showAllPlaces()">{{'user.map.show-all' | translate}}</button>
+          <button class="btn btn-success btn-sm" *ngIf="!filterService.isCleared;" (click)="clearFilters()">
+            {{'user.map.clear-filters' | translate}}
           </button>
         </div>
       </div>
@@ -62,9 +63,7 @@
                     *ngFor="let p of placeService.places; let i = index"
                     [latitude]="p.location.lat"
                     [longitude]="p.location.lng"
-                    [iconUrl]="getMarkerIcon(p.favorite)"
-
-        >
+                    [iconUrl]="getMarkerIcon(p.favorite)">
 
           <agm-info-window *ngIf="placeInfo">
             <div class="container">
@@ -77,20 +76,23 @@
                 </button>
               </h5>
               <p style="font-weight: bold">
-                <li *ngFor="let obj of placeInfo.discountValues">{{obj.specification.name}} discount {{obj.value}}%</li>
+              <li
+                *ngFor="let obj of placeInfo.discountValues">{{obj.specification.name}} {{'user.map.discount' | translate}}
+                {{obj.value}}%
+              </li>
               <p>
-              <rating  [(ngModel)]="placeInfo.rate"
-                       [max]="5"
-                       [readonly]="true"
-                       [disabled]="false"
-                       [required]="true"
-                       [titles]="['one', 'two', 'three', 'four', 'five']">
-              </rating>
-              <p>Rate: {{placeInfo.rate}}</p>
-              <p>Comments: {{placeInfo.comments.length}}</p>
+                <rating [(ngModel)]="placeInfo.rate"
+                        [max]="5"
+                        [readonly]="true"
+                        [disabled]="false"
+                        [required]="true"
+                        [titles]="['one', 'two', 'three', 'four', 'five']">
+                </rating>
+              <p>{{'user.map.rate' | translate}} {{placeInfo.rate}}</p>
+              <p>{{'user.map.comments' | translate}} {{placeInfo.comments.length}}</p>
               <button
                 *ngIf="userRole === 'ROLE_ADMIN' || userRole === 'ROLE_MODERATOR' || userRole === 'ROLE_USER'"
-                (click)="openDialogAddComment(placeInfo.id)">Add comment</button>
+                (click)="openDialogAddComment(placeInfo.id)">{{'user.map.add-comment' | translate}}</button>
               <p>{{placeInfo.location.address}}</p>
               <p>
               <div class="nav-link dropdown-toggle" role="button"
