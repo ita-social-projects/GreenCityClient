@@ -23,7 +23,7 @@
     <label for="password">{{'user.restore-form.confirm-password' | translate}}</label>
     <div class="validation-error" *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
       <div *ngIf="passwordControl.errors.required">
-        {{'user.restore-form.password-name-is-required' | translate}}
+        {{'user.restore-form.password-is-required' | translate}}
       </div>
       <div *ngIf="passwordControl.errors.minlength">
         {{'user.restore-form.password-must-be-at-least-8-characters-long' | translate}}

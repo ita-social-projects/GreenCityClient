@@ -259,8 +259,23 @@
       "password-is-required": "Password is required.",
       "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long.",
       "confirm-password": "Confirm password",
-      "password-name-is-required": "Password name is required.",
       "submit": "Submit"
+    },
+    "user-setting": {
+      "user-settings": "user-settings",
+      "email": "Email:",
+      "first-name": "First name:",
+      "first-name-is-required": "First name is required.",
+      "first-name-must-be-at-least-1-characters-long": "First name must be at least 1 characters long.",
+      "last-name:": "Last name:",
+      "last-name-is-required": "Last name is required.",
+      "last-name-must-be-at-least-1-characters-long": "Last name must be at least 1 characters long.",
+      "email-notifications": "Email notifications",
+      "yes": "Yes",
+      "no": "No",
+      "frequency": "Frequency",
+      "submit": "Submit",
+      "close": "Close"
     }
   }
 }

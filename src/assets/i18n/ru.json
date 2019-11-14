@@ -252,6 +252,29 @@
     "restore": {
       "email": "Электронная почта",
       "submit": "Подтвердить"
+    },
+    "restore-form": {
+      "password": "Password",
+      "password-is-required": "Password is required.",
+      "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long.",
+      "confirm-password": "Confirm password",
+      "submit": "Submit"
+    },
+    "user-setting": {
+      "user-settings": "Настройки профиля",
+      "email": "Электронная почта:",
+      "first-name": "Имя:",
+      "first-name-is-required": "Введите имя.",
+      "first-name-must-be-at-least-1-characters-long": "Имя должно содержать по крайней мере 1 символ.",
+      "last-name": "Фамилия:",
+      "last-name-is-required": "Введите фамилию.",
+      "last-name-must-be-at-least-1-characters-long": "Фамилия должна содержать по крайней мере 1 символ.",
+      "email-notifications": "Оповещения",
+      "yes": "Да",
+      "no": "Нет",
+      "frequency": "Частота",
+      "submit": "Подтвердить",
+      "close": "Закрыть"
     }
   }
 }

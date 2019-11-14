@@ -253,6 +253,29 @@
     "restore": {
       "email": "Електронна пошта",
       "submit": "Підтвердити"
+    },
+    "restore-form": {
+      "password": "Пароль",
+      "password-is-required": "Введите пароль.",
+      "password-must-be-at-least-8-characters-long": "Пароль должен содержать по крайней мере 8 символов.",
+      "confirm-password": "Подтвердить пароль",
+      "submit": "Подтвердить"
+    },
+    "user-setting": {
+      "user-settings": "Налаштування профілю",
+      "email": "Електронна пошта:",
+      "first-name": "Ім'я:",
+      "first-name-is-required": "Введіть ім'я.",
+      "first-name-must-be-at-least-1-characters-long": "Ім'я повинно містити принаймі 1 символ.",
+      "last-name": "Прізвище:",
+      "last-name-is-required": "Введіть прізвище.",
+      "last-name-must-be-at-least-1-characters-long": "Прізвище повинно містити принаймі 1 символ.",
+      "email-notifications": "Сповіщення",
+      "yes": "Так",
+      "no": "Ні",
+      "frequency": "Частота",
+      "submit": "Підтвердити",
+      "close": "Закрити"
     }
   }
 }
