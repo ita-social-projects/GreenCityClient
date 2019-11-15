@@ -63,6 +63,7 @@ import { PhotoUploadComponent } from './component/user/photo-upload/photo-upload
 import { UserSettingComponent } from './component/user/user-setting/user-setting.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserHabitPageComponent } from './component/user/habit/user-habit-page/user-habit-page.component';
+import { LowerNavBarComponent } from './component/user/lower-nav-bar/lower-nav-bar.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,8 @@ import { UserHabitPageComponent } from './component/user/habit/user-habit-page/u
     PhotoUploadComponent,
     AddCommentComponent,
     UserSettingComponent,
-    UserHabitPageComponent
+    UserHabitPageComponent,
+    LowerNavBarComponent
   ],
   imports: [
     BrowserModule,
