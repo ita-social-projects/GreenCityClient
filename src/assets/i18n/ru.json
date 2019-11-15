@@ -99,7 +99,9 @@
     "items-per-page": "Записей на страницу:",
     "sort-ascending": "Сортировать по возрастанию",
     "sort-descending": "Сортировать по убыванию",
-    "cancel-sorting": "Отменить сортировку"
+    "cancel-sorting": "Отменить сортировку",
+    "role-for": "Роль для",
+    "is-updated-to": "обновлена до"
   },
   "nav-bar": {
     "add-cafe": "Добавить кафе",
@@ -127,8 +129,8 @@
   },
   "user": {
     "add-comment": {
-      "Add-your-comment-to-place": "Добавьте комментарий к месту",
-      "Please-rare-us": "Оцените нас",
+      "add-your-comment-to-place": "Добавьте комментарий к месту",
+      "please-rare-us": "Оцените нас",
       "comment-is-required": "Введите комментарий",
       "comment-must-be-at-least-5-characters-long": "Комментарий должен содержать не менее 5 символов",
       "comment-must-be-maximum": "Комментарий должен содержать максимум",
@@ -377,5 +379,6 @@
     "previous": "Предыдущий",
     "next": "Следующий",
     "last": "Последний"
+
   }
 }

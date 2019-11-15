@@ -162,12 +162,21 @@
       <div id="pagination">
         <pagination #paginationElement [itemsPerPage]="pageSize" [totalItems]="totalItems"
                     (pageChanged)="changePage($event)" [maxSize]="6" [rotate]="true"
+<<<<<<< HEAD
                     [boundaryLinks]="true" class="flex-wrap"
                     firstText="{{'pagination.first' | translate}}"
                     previousText="{{'pagination.previous' | translate}}"
                     nextText="{{'pagination.next' | translate}}"
                     lastText="{{'pagination.last' | translate}}">
         </pagination>
+=======
+                    [boundaryLinks]="true"
+                    [firstText]="'pagination.first-text' | translate"
+                    [previousText]="'pagination.previous' | translate"
+                    [nextText]="'pagination.next' | translate"
+                    [lastText]="'pagination.last' | translate"
+                    class="flex-wrap"></pagination>
+>>>>>>> Localization for pagination
       </div>
       {{'places.items-per-page' | translate}}
       <mat-select [(value)]="pageSize" (valueChange)="changePage(page)" style="width: 50px;margin-left: 15px">
