@@ -1,4 +1,8 @@
-.sign-btn{
+.navbar {
+  height: 40px !important;
+}
+
+.sign-btn {
   display: block;
   float: right;
 }

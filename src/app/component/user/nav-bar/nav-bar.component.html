@@ -17,9 +17,9 @@
 
 
       <li class="nav-item">
-      <a class="nav-link"
-         *ngIf="userRole === 'ROLE_USER'"
-         (click)="openDialogProposeCafeComponent()">{{'nav-bar.add-cafe' | translate}}</a>
+        <a class="nav-link"
+           *ngIf="userRole === 'ROLE_USER'"
+           (click)="openDialogProposeCafeComponent()">{{'nav-bar.add-cafe' | translate}}</a>
       </li>
 
       <div *ngIf="firstName!=null">
@@ -39,7 +39,7 @@
 
       </div>
 
-      <a *ngIf="firstName==null" class="nav-link" routerLink="/auth/">{{'nav-bar.sign-in' | translate}}</a>
+      <a *ngIf="firstName==null" class="nav-link" routerLink="/auth/">{{'user.nav-bar.sign-in' | translate}}</a>
 
     </ul>
 
