@@ -1,7 +1,7 @@
-<h2 mat-dialog-title style="text-align: center; font-weight: 400;">Add your comment to place </h2>
+<h2 mat-dialog-title style="text-align: center; font-weight: 400;">{{'user.add-comment.add-your-comment-to-place' | translate}} </h2>
 <div class="ratingg">
 
-  <p>Please rare us</p>
+  <p>{{'user.add-comment.please-rare-us' | translate}}</p>
   <ngb-rating [(ngModel)]="estimate.rate"
               [max]="5"
               [readonly]="false"
@@ -13,17 +13,17 @@
 <div>
   <div class="validation-error" *ngIf="commentControl.invalid && (commentControl.dirty||commentControl.touched)">
     <div *ngIf="commentControl.errors.required">
-      Comment is required.
+      {{'user.add-comment.comment-is-required' | translate}}
     </div>
     <div *ngIf="commentControl.errors.minlength">
-      Comment must be at least 5 characters long.
+      {{'user.add-comment.comment-must-be-at-least-5-characters-long' | translate}}
     </div>
     <div *ngIf="commentControl.errors.maxlength">
-      Comment must be maximum {{commentControl.errors.maxlength}} characters long.
+      {{'user.add-comment.comment-must-be-maximum' | translate}} {{commentControl.errors.maxlength}} {{'user.add-comment.characters-long' | translate}}
     </div>
   </div>
 <div class="input-group">
-  <textarea rows="4" class="form-control" [(ngModel)]="comment.text" placeholder="Please write a comment"
+  <textarea rows="4" class="form-control" [(ngModel)]="comment.text" placeholder="{{'user.add-comment.please-write-a-comment' | translate}}"
             required minlength="5" maxlength="300" #commentControl="ngModel"
   ></textarea>
 </div>
@@ -34,7 +34,7 @@
 <div style="display:flex; justify-content:flex-end; align-items:center;">
   <button [disabled]="photoLoadingStatus||commentControl.invalid"
           class="btn btn-primary submit"
-          type="submit" style="margin-right: 1%" (click)="onSubmit()">Submit
+          type="submit" style="margin-right: 1%" (click)="onSubmit()">{{'user.add-comment.submit' | translate}}
   </button>
-  <button mat-dialog-close class="btn btn-primary" type="button">Close</button>
+  <button mat-dialog-close class="btn btn-primary" type="button">{{'user.add-comment.close' | translate}}</button>
 </div>
