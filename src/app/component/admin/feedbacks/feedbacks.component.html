@@ -77,7 +77,12 @@
         <div id="pagination">
           <pagination [itemsPerPage]="pageSize" [totalItems]="totalItems"
                       (pageChanged)="changePage($event)" [maxSize]="6" [rotate]="true"
-                      [boundaryLinks]="true" class="flex-wrap"></pagination>
+                      [boundaryLinks]="true"
+                      [firstText]="'pagination.first-text' | translate"
+                      [previousText]="'pagination.previous' | translate"
+                      [nextText]="'pagination.next' | translate"
+                      [lastText]="'pagination.last' | translate"
+                      class="flex-wrap"></pagination>
         </div>
         {{'feedbacks.items-per-page' | translate}}
         <mat-select [(value)]="pageSize" (valueChange)="changePage(page)" style="width: 50px;margin-left: 15px">

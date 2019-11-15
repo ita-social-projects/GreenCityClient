@@ -100,7 +100,9 @@
     "items-per-page": "Items per page:",
     "sort-ascending": "Sort Ascending",
     "sort-descending": "Sort Descending",
-    "cancel-sorting": "Cancel Sorting"
+    "cancel-sorting": "Cancel Sorting",
+    "role-for": "Role for",
+    "is-updated-to": "is updated to"
   },
   "nav-bar": {
     "add-cafe": "Add a cafe",
@@ -127,8 +129,8 @@
   },
   "user": {
     "add-comment": {
-      "Add-your-comment-to-place": "Add your comment to place",
-      "Please-rare-us": "Please rare us",
+      "add-your-comment-to-place": "Add your comment to place",
+      "please-rare-us": "Please rare us",
       "comment-is-required": "Comment is required.",
       "comment-must-be-at-least-5-characters-long": "Comment must be at least 5 characters long.",
       "comment-must-be-maximum": "Comment must be maximum",
@@ -279,5 +281,11 @@
       "submit": "Submit",
       "close": "Close"
     }
+  },
+  "pagination": {
+    "first-text": "First",
+    "previous": "Previous",
+    "next": "Next",
+    "last": "Last"
   }
 }

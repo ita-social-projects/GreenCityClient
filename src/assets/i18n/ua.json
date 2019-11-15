@@ -100,7 +100,9 @@
     "items-per-page": "Записів на сторінку:",
     "sort-ascending": "Сортувати за зростанням",
     "sort-descending": "Сортувати за спаданням",
-    "cancel-sorting": "Скасувати сортування"
+    "cancel-sorting": "Скасувати сортування",
+    "role-for": "Роль для",
+    "is-updated-to": "оновлена до"
   },
   "nav-bar": {
     "add-cafe": "Додати кафе",
@@ -133,7 +135,7 @@
       "comment-must-be-at-least-5-characters-long": "Коментар повинен містити принаймі 5 символів",
       "comment-must-be-maximum": "Коментар повинен містити максимум",
       "characters long": "символів",
-      "please-write-a-comment": "Будь ласка напишіть коментар",
+      "please-write-a-comment": "Будь ласка введіть коментар",
       "submit": "Підтвердити",
       "close": "Закрити"
     },
@@ -279,5 +281,11 @@
       "submit": "Підтвердити",
       "close": "Закрити"
     }
+  },
+  "pagination": {
+    "first-text": "Перша",
+    "previous": "Попередня",
+    "next": "Наступна",
+    "last": "Остання"
   }
 }
