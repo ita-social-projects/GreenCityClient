@@ -1,11 +1,10 @@
 <div class="tracked-habit-statistic">
-  <app-habit-statistic [habitStatisticDto]="packageStatisticDto" [advice]="'Покладіть до кожної сумки чи рюкзака одну еко-сумку, так вона завжди' +
-       ' буде з вами, якщо ви неочікувано зайдете в магазин'"
-                       [habitMessage]="'Скільки пакетів ти не взяв сьогодні?'"
+  <app-habit-statistic [habitStatisticDto]="packageStatisticDto" [adviceObservable]="packageAdvice"
+                       [habitMessageObservable]="packageMessage"
                        [itemIcon]="activePackageIcon">
   </app-habit-statistic>
-  <app-habit-statistic [habitStatisticDto]="coffeeStatisticDto" [advice]="''"
-                       [habitMessage]="'Скільки склянок ти не використав сьогодні?'"
+  <app-habit-statistic [habitStatisticDto]="cupStatisticDto" [adviceObservable]="cupAdvice"
+                       [habitMessageObservable]="cupMessage"
                        [itemIcon]="activeCoffeeIcon">
   </app-habit-statistic>
 </div>

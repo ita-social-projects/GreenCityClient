@@ -271,12 +271,34 @@
       "last-name": "Фамилия:",
       "last-name-is-required": "Введите фамилию.",
       "last-name-must-be-at-least-1-characters-long": "Фамилия должна содержать по крайней мере 1 символ.",
-      "email-notifications": "Оповещения",
+      "email-notifications": "Оповещения:",
       "yes": "Да",
       "no": "Нет",
       "frequency": "Частота",
       "submit": "Подтвердить",
       "close": "Закрыть"
+    },
+    "habit-statistic": {
+      "day-estimation": {
+        "super": "супер",
+        "normal": "нормально",
+        "bad": "плохо"
+      },
+      "habit-item-list": {
+        "more": "больше",
+        "less": "менше"
+      },
+      "habit-statistic": {
+        "how-do-you-estimate-today": "Как ты оценишь сегодняшний день"
+      }
     }
+  },
+  "advice": {
+    "package-advice": "Положите в кажду сумку или рюкзак одну эко-сумку, так она всегда будет с вами, если вы неожиданно зайдете в магазин",
+    "cup-advice": ""
+  },
+  "habit-message": {
+    "package": "Сколько пакетов ты не взял сегодня?",
+    "cup": "Сколько стаканов ты не использовал сегодня?"
   }
 }

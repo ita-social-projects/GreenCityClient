@@ -272,12 +272,34 @@
       "last-name": "Прізвище:",
       "last-name-is-required": "Введіть прізвище.",
       "last-name-must-be-at-least-1-characters-long": "Прізвище повинно містити принаймі 1 символ.",
-      "email-notifications": "Сповіщення",
+      "email-notifications": "Сповіщення:",
       "yes": "Так",
       "no": "Ні",
       "frequency": "Частота",
       "submit": "Підтвердити",
       "close": "Закрити"
+    },
+    "habit-statistic": {
+      "day-estimation": {
+        "super": "супер",
+        "normal": "нормально",
+        "bad": "погано"
+      },
+      "habit-item-list": {
+        "more": "більше",
+        "less": "менше"
+      },
+      "habit-statistic": {
+        "how-do-you-estimate-today": "Як ти оціниш сьогоднішній день"
+      }
     }
+  },
+  "advice": {
+    "package-advice": "Покладіть до кожної сумки чи рюкзака одну еко-сумку, так вона завжди буде з вами, якщо ви неочікувано зайдете в магазин",
+    "cup-advice": ""
+  },
+  "habit-message": {
+    "package": "Скільки пакетів ти не взяв сьогодні?",
+    "cup": "Скільки склянок ти не використав сьогодні?"
   }
 }
