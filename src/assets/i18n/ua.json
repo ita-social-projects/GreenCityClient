@@ -22,7 +22,10 @@
     "no-attachment": "Немає вкладень",
     "loading-data": "Завантаження даних...",
     "no-data": "Немає даних",
-    "items-per-page": "Записів на сторінку:"
+    "items-per-page": "Записів на сторінку:",
+    "delete": "Видалити",
+    "Do-you-really-want-to-delete-comment-of": "Ви дійсно хочете видалити коментар",
+    "places": "місця"
   },
   "places": {
     "places": "Місця",
