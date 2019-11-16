@@ -21,7 +21,10 @@
     "attachments": "Вложения",
     "no-attachment": "Нет вложений",
     "loading-data": "Загрузка данных...",
-    "no-data": "Нет данных"
+    "no-data": "Нет данных",
+    "delete": "Удалить",
+    "Do-you-really-want-to-delete-comment-of": "Вы действительно хотите удалить комментарий",
+    "places": "места"
   },
   "update-cafe": {
     "name": "Название",

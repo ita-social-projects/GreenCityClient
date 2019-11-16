@@ -22,7 +22,10 @@
     "no-attachment": "Немає вкладень",
     "loading-data": "Завантаження даних...",
     "no-data": "Немає даних",
-    "items-per-page": "Записів на сторінку:"
+    "items-per-page": "Записів на сторінку:",
+    "delete": "Видалити",
+    "Do-you-really-want-to-delete-comment-of": "Ви дійсно хочете видалити коментар",
+    "places": "місця"
   },
   "places": {
     "places": "Місця",
@@ -141,7 +144,7 @@
     },
     "auth": {
       "sign-in": {
-        "email": "Елкетронна пошта",
+        "email": "Електронна пошта",
         "email-is-required": "Введіть пошту",
         "email-must-be-at-least-1-characters-long": "Пошта повинна містити принаймі 1 символ",
         "this-is-not-email": "Це не пошта",

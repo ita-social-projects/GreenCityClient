@@ -11,6 +11,7 @@ import {PlaceUpdatedDto} from '../../../model/place/placeUpdatedDto.model';
 import {UpdateCafeComponent} from '../update-cafe/update-cafe.component';
 import {WeekDaysUtils} from '../../../service/weekDaysUtils.service';
 import {PaginationComponent} from 'ngx-bootstrap';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-places',
@@ -47,6 +48,9 @@ export class PlacesComponent implements OnInit {
   sortArrow: string;
   @ViewChild('paginationElement', {static: false})
   paginationComponent: PaginationComponent;
+  deleteTranslation: string;
+  deleteMessageTranslation: string;
+  placesTranslation: string;
 
   constructor(public dialog: MatDialog,
               private titleService: Title,
@@ -54,6 +58,7 @@ export class PlacesComponent implements OnInit {
               public weekDaysUtils: WeekDaysUtils,
               private ngFlashMessageService: NgFlashMessageService,
               private confirmationDialogService: ConfirmationDialogService,
+              private translation: TranslateService,
               iconRegistry: MatIconRegistry,
               sanitizer: DomSanitizer) {
     iconRegistry.addSvgIcon(
@@ -69,6 +74,11 @@ export class PlacesComponent implements OnInit {
     this.titleService.setTitle('Admin - Places');
     this.filterByRegex(this.searchReg);
     this.setAllStatuses();
+
+    this.translation.get('feedbacks.delete').subscribe(translation => this.deleteTranslation = translation);
+    this.translation.get('feedbacks.Do-you-really-want-to-delete-comment-of').
+    subscribe(translation => this.deleteMessageTranslation = translation);
+    this.translation.get('feedbacks.places').subscribe(translation => this.placesTranslation = translation);
   }
 
   getCurrentPaginationSettings(): string {
@@ -173,7 +183,7 @@ export class PlacesComponent implements OnInit {
   }
 
   confirmDelete(id: number, placeName: string) {
-    this.confirmationDialogService.confirm('Delete', `Do you really want to delete "${placeName}" ?`)
+    this.confirmationDialogService.confirm(this.deleteTranslation, this.deleteMessageTranslation + ' ' + placeName + ' ?')
       .then((confirmed) => {
         if (confirmed) {
           this.delete(id, placeName);
@@ -185,7 +195,8 @@ export class PlacesComponent implements OnInit {
     if (this.selectedPlaces.length === 1) {
       this.confirmDelete(this.selectedPlaces[0].id, this.selectedPlaces[0].name);
     } else {
-      this.confirmationDialogService.confirm('Delete', `Do you really want to delete ${this.selectedPlaces.length} places?`)
+      this.confirmationDialogService.confirm(this.deleteTranslation, this.deleteMessageTranslation +
+      ' ' + this.selectedPlaces.length + this.placesTranslation + ' ?')
         .then((confirmed) => {
           if (confirmed) {
             this.bulkDelete(this.selectedPlaces);
