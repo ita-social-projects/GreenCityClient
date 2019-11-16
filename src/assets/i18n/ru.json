@@ -22,6 +22,7 @@
     "no-attachment": "Нет вложений",
     "loading-data": "Загрузка данных...",
     "no-data": "Нет данных",
+    "items-per-page": "Записей на страницу:",
     "delete": "Удалить",
     "Do-you-really-want-to-delete-comment-of": "Вы действительно хотите удалить комментарий",
     "places": "места"
