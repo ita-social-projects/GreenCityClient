@@ -1,4 +1,4 @@
-import {Photo} from '../../../../model/photo/photo';
+import {Photo} from '../../../../../../model/photo/photo';
 
 export class HabitItem {
   numb: number;

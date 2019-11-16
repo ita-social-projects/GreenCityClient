@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HabitItem} from '../habit-item/HabitItem';
-import {HabitStatisticService} from '../../../../service/habit-statistic/habit-statistic.service';
-import {HabitStatisticDto} from '../../../../model/habit/HabitStatisticDto';
-import {Photo} from '../../../../model/photo/photo';
+import {HabitStatisticService} from '../../../../../../service/habit-statistic/habit-statistic.service';
+import {HabitStatisticDto} from '../../../../../../model/habit/HabitStatisticDto';
+import {Photo} from '../../../../../../model/photo/Photo';
 
 @Component({
   selector: 'app-habit-item-list',
@@ -14,7 +14,7 @@ export class HabitItemListComponent implements OnInit {
   @Input()
   itemIcon: Photo;
   @Input()
-  habitStatisticDto: HabitStatisticDto;
+  habitStatistic: HabitStatisticDto;
   currentNumber = 0;
   isExpanded: boolean;
 
@@ -22,12 +22,10 @@ export class HabitItemListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.service.getHabitItemStatistic(this.habitStatisticDto.habitId).subscribe(o => {
-      this.currentNumber = o.countHabit;
-      this.isExpanded = o.countHabit > 8;
-      this.initHabitItems();
-      this.drawCurrentNumberItems();
-    });
+    this.currentNumber = this.habitStatistic.countHabit;
+    this.isExpanded = this.habitStatistic.countHabit > 8;
+    this.initHabitItems();
+    this.drawCurrentNumberItems();
   }
 
   setAllActive(elCount: number) {
@@ -49,9 +47,11 @@ export class HabitItemListComponent implements OnInit {
   update(habitItem: HabitItem) {
     const newCount = (habitItem.numb === this.currentNumber) ? 0 : habitItem.numb;
 
-    this.service.updateHabitStatistic(new HabitStatisticDto(this.habitStatisticDto.habitId,
-      this.habitStatisticDto.habitName, newCount,
-      this.habitStatisticDto.dayEstimation, this.habitStatisticDto.date)).subscribe(data => {
+    this.service.updateHabitStatistic(new HabitStatisticDto(
+      this.habitStatistic.id,
+      this.habitStatistic.habitId,
+      newCount,
+      this.habitStatistic.dayEstimation, this.habitStatistic.date)).subscribe(data => {
       this.currentNumber = data.countHabit;
       this.drawCurrentNumberItems();
     });

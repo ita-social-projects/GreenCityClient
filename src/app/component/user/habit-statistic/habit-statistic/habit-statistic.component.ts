@@ -2,6 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Photo} from '../../../../model/photo/photo';
 import {HabitStatisticDto} from '../../../../model/habit/HabitStatisticDto';
 import {Observable} from 'rxjs';
+import {HabitDto} from '../../../../model/habit/HabitDto';
+import {HabitStatisticService} from '../../../../service/habit-statistic/habit-statistic.service';
 
 @Component({
   selector: 'app-habit-statistic',
@@ -10,19 +12,20 @@ import {Observable} from 'rxjs';
 })
 export class HabitStatisticComponent implements OnInit {
   @Input()
-  habitMessageObservable: Observable<string>;
-  habitMessage: string;
-  @Input()
-  adviceObservable: Observable<string>;
-  @Input()
-  itemIcon: Photo;
-  @Input()
-  habitStatisticDto: HabitStatisticDto;
-  advice: string;
+  habit: HabitDto;
 
-  ngOnInit() {
-    this.adviceObservable.subscribe(advice => this.advice = advice);
-    this.habitMessageObservable.subscribe(habitMessage => this.habitMessage = habitMessage);
+  habitStatistic: HabitStatisticDto[];
+  currentStatistic: HabitStatisticDto;
+
+  constructor(private service: HabitStatisticService) {
   }
 
+  ngOnInit() {
+    this.service.getHabitStatistic(this.habit).subscribe(habitStatistic => {
+      this.habitStatistic = habitStatistic;
+
+      // stub
+      this.currentStatistic = habitStatistic[0];
+    });
+  }
 }

@@ -105,6 +105,7 @@
   "nav-bar": {
     "add-cafe": "Add a cafe",
     "admin": "Administrator",
+    "my-habits": "My habits",
     "favorite-places": "Favorite places",
     "user-settings": "User settings",
     "sign-out": "Sign out",
@@ -292,11 +293,19 @@
       "habit-statistic": {
         "how-do-you-estimate-today": "How do you estimate today"
       }
+    },
+    "lower-nav-bar": {
+      "home": "Home",
+      "about-us": "About",
+      "eco-events": "Eko events",
+      "tips": "Tips",
+      "map": "Map",
+      "my-habits": "My habits"
     }
   },
   "advice": {
-    "package-advice": "Put one eco-bag in each bag or backpack, so it will always be with you if you unexpectedly go to the store",
-    "cup-advice": ""
+    "package": "Put one eco-bag in each bag or backpack, so it will always be with you if you unexpectedly go to the store",
+    "cup": ""
   },
   "habit-message": {
     "package": "How many packages haven't you taken today?",
