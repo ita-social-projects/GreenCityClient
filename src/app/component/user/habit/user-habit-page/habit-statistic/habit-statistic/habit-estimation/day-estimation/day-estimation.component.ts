@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {HabitStatisticService} from '../../../../../../service/habit-statistic/habit-statistic.service';
-import {DayEstimation} from '../../../../../../model/habit/DayEstimation';
-import {HabitStatisticDto} from '../../../../../../model/habit/HabitStatisticDto';
+import {DayEstimation} from '../../../../../../../../model/habit/DayEstimation';
+import {HabitStatisticDto} from '../../../../../../../../model/habit/HabitStatisticDto';
+import {HabitStatisticService} from '../../../../../../../../service/habit-statistic/habit-statistic.service';
 
 @Component({
   selector: 'app-day-estimation',

@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Photo} from '../../../../../model/photo/Photo';
-import {HabitDto} from '../../../../../model/habit/HabitDto';
-import {HabitStatisticDto} from '../../../../../model/habit/HabitStatisticDto';
-import {HabitStatisticService} from '../../../../../service/habit-statistic/habit-statistic.service';
+import {HabitDto} from '../../../../../../../model/habit/HabitDto';
+import {HabitStatisticDto} from '../../../../../../../model/habit/HabitStatisticDto';
+import {HabitStatisticService} from '../../../../../../../service/habit-statistic/habit-statistic.service';
+import {Photo} from '../../../../../../../model/photo/Photo';
 
 @Component({
   selector: 'app-habit-estimation',

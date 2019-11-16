@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {HabitStatisticService} from '../../../service/habit-statistic/habit-statistic.service';
-import {HabitDto} from '../../../model/habit/HabitDto';
+import {HabitStatisticService} from '../../../../../service/habit-statistic/habit-statistic.service';
+import {HabitDto} from '../../../../../model/habit/HabitDto';
 
 @Component({
   selector: 'app-tracked-habit-statistic',

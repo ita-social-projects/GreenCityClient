@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HabitItem} from '../habit-item/HabitItem';
-import {HabitStatisticService} from '../../../../../../service/habit-statistic/habit-statistic.service';
-import {HabitStatisticDto} from '../../../../../../model/habit/HabitStatisticDto';
-import {Photo} from '../../../../../../model/photo/Photo';
+import {Photo} from '../../../../../../../../model/photo/Photo';
+import {HabitStatisticDto} from '../../../../../../../../model/habit/HabitStatisticDto';
+import {HabitStatisticService} from '../../../../../../../../service/habit-statistic/habit-statistic.service';
 
 @Component({
   selector: 'app-habit-item-list',

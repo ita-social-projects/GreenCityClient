@@ -62,16 +62,16 @@ import {RatingModule} from 'ngx-bootstrap';
 import {PhotoUploadComponent} from './component/user/photo-upload/photo-upload.component';
 import {UserSettingComponent} from './component/user/user-setting/user-setting.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {TrackedHabitStatisticComponent} from './component/user/habit-statistic/tracked-habit-statistic.component';
-import {HabitItemComponent} from './component/user/habit-statistic/habit-statistic/habit-estimation/habit-item/habit-item.component';
-import {HabitStatisticComponent} from './component/user/habit-statistic/habit-statistic/habit-statistic.component';
+import {TrackedHabitStatisticComponent} from './component/user/habit/user-habit-page/habit-statistic/tracked-habit-statistic.component';
+import {HabitItemComponent} from './component/user/habit/user-habit-page/habit-statistic/habit-statistic/habit-estimation/habit-item/habit-item.component';
+import {HabitStatisticComponent} from './component/user/habit/user-habit-page/habit-statistic/habit-statistic/habit-statistic.component';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {UserHabitPageComponent} from './component/user/habit/user-habit-page/user-habit-page.component';
 import {LowerNavBarComponent} from './component/user/lower-nav-bar/lower-nav-bar.component';
-import {HabitItemListComponent} from './component/user/habit-statistic/habit-statistic/habit-estimation/habit-item-list/habit-item-list.component';
-import {HabitEstimationComponent} from './component/user/habit-statistic/habit-statistic/habit-estimation/habit-estimation.component';
-import {DayEstimationComponent} from './component/user/habit-statistic/habit-statistic/habit-estimation/day-estimation/day-estimation.component';
+import {HabitItemListComponent} from './component/user/habit/user-habit-page/habit-statistic/habit-statistic/habit-estimation/habit-item-list/habit-item-list.component';
+import {HabitEstimationComponent} from './component/user/habit/user-habit-page/habit-statistic/habit-statistic/habit-estimation/habit-estimation.component';
+import {DayEstimationComponent} from './component/user/habit/user-habit-page/habit-statistic/habit-statistic/habit-estimation/day-estimation/day-estimation.component';
 
 @NgModule({
   declarations: [

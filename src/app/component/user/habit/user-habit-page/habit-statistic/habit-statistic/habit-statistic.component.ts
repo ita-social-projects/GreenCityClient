@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Photo} from '../../../../model/photo/photo';
-import {HabitStatisticDto} from '../../../../model/habit/HabitStatisticDto';
+import {Photo} from '../../../../../../model/photo/Photo';
+import {HabitStatisticDto} from '../../../../../../model/habit/HabitStatisticDto';
 import {Observable} from 'rxjs';
-import {HabitDto} from '../../../../model/habit/HabitDto';
-import {HabitStatisticService} from '../../../../service/habit-statistic/habit-statistic.service';
+import {HabitDto} from '../../../../../../model/habit/HabitDto';
+import {HabitStatisticService} from '../../../../../../service/habit-statistic/habit-statistic.service';
 
 @Component({
   selector: 'app-habit-statistic',
