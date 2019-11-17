@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit} from '@angular/core';
 import {Photo} from '../../../../../../model/photo/Photo';
 import {HabitStatisticDto} from '../../../../../../model/habit/HabitStatisticDto';
 import {Observable} from 'rxjs';
@@ -27,5 +27,9 @@ export class HabitStatisticComponent implements OnInit {
       // stub
       this.currentStatistic = habitStatistic[0];
     });
+  }
+
+  changeCurrentStatistic(statistic: HabitStatisticDto) {
+    this.currentStatistic = statistic;
   }
 }

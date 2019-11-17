@@ -24,3 +24,7 @@
   border: 2px solid cornflowerblue;
   border-radius: 4px;
 }
+
+.non-active-button{
+  opacity: 0.5;
+}

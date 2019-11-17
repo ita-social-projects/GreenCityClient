@@ -9,11 +9,8 @@ import {HabitDto} from '../../model/habit/HabitDto';
   providedIn: 'root'
 })
 export class HabitStatisticService {
-  tracked: HabitDto[] = [new HabitDto(1, 'package', new Date(2019, 11, 15)),
+  trackedHabits: HabitDto[] = [new HabitDto(1, 'package', new Date(2019, 11, 15)),
     new HabitDto(2, 'cup', new Date(2019, 11, 14))];
-
-  trackedHabits: HabitStatisticDto[] = [new HabitStatisticDto(1, 1, 12, DayEstimation.SUPER, new Date()),
-    new HabitStatisticDto(2, 2, 3, DayEstimation.BAD, new Date())];
 
   habitStatistic: HabitStatisticDto[] = [
     new HabitStatisticDto(1, 1, 12, DayEstimation.SUPER, new Date(2019, 11, 15)),
@@ -26,15 +23,15 @@ export class HabitStatisticService {
   constructor(private http: HttpClient) {
   }
 
-  getHabits(): Observable<HabitDto[]> {
-    return of(this.tracked);
+  getTrackedHabits(): Observable<HabitDto[]> {
+    return of(this.trackedHabits);
   }
 
   getHabitStatistic(habit: HabitDto): Observable<HabitStatisticDto[]> {
     return of(this.habitStatistic.filter(stat => stat.habitId === habit.id));
   }
 
-  updHabitStatistic(habitStatistic: HabitStatisticDto): Observable<HabitStatisticDto> {
+  updatedHabitStatistic(habitStatistic: HabitStatisticDto): Observable<HabitStatisticDto> {
     const statToUpdate: HabitStatisticDto = this.habitStatistic.filter(stat => stat.id === habitStatistic.id)[0];
 
     statToUpdate.countHabit = habitStatistic.countHabit;
@@ -42,23 +39,5 @@ export class HabitStatisticService {
 
     return of(new HabitStatisticDto(statToUpdate.id, statToUpdate.habitId, statToUpdate.countHabit,
       statToUpdate.dayEstimation, statToUpdate.date));
-  }
-
-  getTrackedHabits(): Observable<HabitStatisticDto[]> {
-    // return this.http.get<HabitItemStatisticDto[]>('url_for_getting_tracked_habits');
-    return of(this.trackedHabits);
-  }
-
-  updateHabitStatistic(habitStatisticDto: HabitStatisticDto): Observable<HabitStatisticDto> {
-    // return this.http.post<DayEstimationDto>('url_for_updating_day_estimation', habitStatisticDto);
-    if (habitStatisticDto.habitId === this.trackedHabits[0].habitId) {
-      this.trackedHabits[0].dayEstimation = habitStatisticDto.dayEstimation;
-      this.trackedHabits[0].countHabit = habitStatisticDto.countHabit;
-      return of(this.trackedHabits[0]);
-    } else {
-      this.trackedHabits[1].dayEstimation = habitStatisticDto.dayEstimation;
-      this.trackedHabits[1].countHabit = habitStatisticDto.countHabit;
-      return of(this.trackedHabits[1]);
-    }
   }
 }

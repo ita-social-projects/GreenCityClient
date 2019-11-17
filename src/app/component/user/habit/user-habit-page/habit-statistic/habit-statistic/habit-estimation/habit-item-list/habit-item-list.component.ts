@@ -1,18 +1,19 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {HabitItem} from '../habit-item/HabitItem';
 import {Photo} from '../../../../../../../../model/photo/Photo';
 import {HabitStatisticDto} from '../../../../../../../../model/habit/HabitStatisticDto';
 import {HabitStatisticService} from '../../../../../../../../service/habit-statistic/habit-statistic.service';
+import {HabitDto} from '../../../../../../../../model/habit/HabitDto';
 
 @Component({
   selector: 'app-habit-item-list',
   templateUrl: './habit-item-list.component.html',
   styleUrls: ['./habit-item-list.component.css']
 })
-export class HabitItemListComponent implements OnInit {
+export class HabitItemListComponent implements OnInit, OnChanges {
   habitItems: HabitItem[] = [];
   @Input()
-  itemIcon: Photo;
+  habit: HabitDto;
   @Input()
   habitStatistic: HabitStatisticDto;
   currentNumber = 0;
@@ -47,7 +48,7 @@ export class HabitItemListComponent implements OnInit {
   update(habitItem: HabitItem) {
     const newCount = (habitItem.numb === this.currentNumber) ? 0 : habitItem.numb;
 
-    this.service.updateHabitStatistic(new HabitStatisticDto(
+    this.service.updatedHabitStatistic(new HabitStatisticDto(
       this.habitStatistic.id,
       this.habitStatistic.habitId,
       newCount,
@@ -59,7 +60,7 @@ export class HabitItemListComponent implements OnInit {
 
   initHabitItems() {
     for (let i = 0; i < (this.isExpanded ? 16 : 8); i++) {
-      this.habitItems.push(new HabitItem(i + 1, this.itemIcon, false));
+      this.habitItems.push(new HabitItem(i + 1, this.getIcon(), false));
     }
   }
 
@@ -76,7 +77,7 @@ export class HabitItemListComponent implements OnInit {
   expand() {
     this.isExpanded = true;
     for (let i = 8; i < 16; i++) {
-      this.habitItems.push(new HabitItem(i + 1, this.itemIcon, false));
+      this.habitItems.push(new HabitItem(i + 1, this.getIcon(), false));
     }
   }
 
@@ -98,5 +99,15 @@ export class HabitItemListComponent implements OnInit {
     }
 
     return collapsed;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.currentNumber = this.habitStatistic.countHabit;
+    this.isExpanded = this.habitStatistic.countHabit > 8;
+    this.drawCurrentNumberItems();
+  }
+
+  getIcon(): Photo {
+    return {name: `assets/img/icon/${this.habit.name}.png`};
   }
 }
