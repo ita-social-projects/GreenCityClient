@@ -22,10 +22,7 @@
     "no-attachment": "Немає вкладень",
     "loading-data": "Завантаження даних...",
     "no-data": "Немає даних",
-    "items-per-page": "Записів на сторінку:",
-    "delete": "Видалити",
-    "Do-you-really-want-to-delete-comment-of": "Ви дійсно хочете видалити коментар",
-    "places": "місця"
+    "items-per-page": "Записів на сторінку:"
   },
   "places": {
     "places": "Місця",
@@ -103,13 +100,12 @@
     "items-per-page": "Записів на сторінку:",
     "sort-ascending": "Сортувати за зростанням",
     "sort-descending": "Сортувати за спаданням",
-    "cancel-sorting": "Скасувати сортування",
-    "role-for": "Роль для",
-    "is-updated-to": "оновлена до"
+    "cancel-sorting": "Скасувати сортування"
   },
   "nav-bar": {
     "add-cafe": "Додати кафе",
     "admin": "Адміністратор",
+    "my-habits": "Мої звички",
     "favorite-places": "Улюблені місця",
     "user-settings": "Налаштування профілю",
     "sign-out": "Вийти",
@@ -138,13 +134,13 @@
       "comment-must-be-at-least-5-characters-long": "Коментар повинен містити принаймі 5 символів",
       "comment-must-be-maximum": "Коментар повинен містити максимум",
       "characters long": "символів",
-      "please-write-a-comment": "Будь ласка введіть коментар",
+      "please-write-a-comment": "Будь ласка напишіть коментар",
       "submit": "Підтвердити",
       "close": "Закрити"
     },
     "auth": {
       "sign-in": {
-        "email": "Електронна пошта",
+        "email": "Елкетронна пошта",
         "email-is-required": "Введіть пошту",
         "email-must-be-at-least-1-characters-long": "Пошта повинна містити принаймі 1 символ",
         "this-is-not-email": "Це не пошта",
@@ -277,13 +273,43 @@
       "last-name": "Прізвище:",
       "last-name-is-required": "Введіть прізвище.",
       "last-name-must-be-at-least-1-characters-long": "Прізвище повинно містити принаймі 1 символ.",
-      "email-notifications": "Сповіщення",
+      "email-notifications": "Сповіщення:",
       "yes": "Так",
       "no": "Ні",
       "frequency": "Частота",
       "submit": "Підтвердити",
       "close": "Закрити"
+    },
+    "habit-statistic": {
+      "day-estimation": {
+        "super": "супер",
+        "normal": "нормально",
+        "bad": "погано"
+      },
+      "habit-item-list": {
+        "more": "більше",
+        "less": "менше"
+      },
+      "habit-statistic": {
+        "how-do-you-estimate-today": "Як ти оціниш сьогоднішній день"
+      }
+    },
+    "lower-nav-bar": {
+      "home": "Головна",
+      "about-us": "Про нас",
+      "eco-events": "Еко заходи",
+      "tips": "Корисні поради",
+      "map": "Карта",
+      "my-habits": "Мої звички"
     }
+  },
+  "advice": {
+    "package": "Покладіть до кожної сумки чи рюкзака одну еко-сумку, так вона завжди буде з вами, якщо ви неочікувано зайдете в магазин",
+    "cup": ""
+  },
+  "habit-message": {
+    "package": "Скільки пакетів ти не взяв сьогодні?",
+    "cup": "Скільки склянок ти не використав сьогодні?"
   },
   "pagination": {
     "first-text": "Перша",

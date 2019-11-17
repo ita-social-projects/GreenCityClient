@@ -21,11 +21,7 @@
     "attachments": "Вложения",
     "no-attachment": "Нет вложений",
     "loading-data": "Загрузка данных...",
-    "no-data": "Нет данных",
-    "items-per-page": "Записей на страницу:",
-    "delete": "Удалить",
-    "Do-you-really-want-to-delete-comment-of": "Вы действительно хотите удалить комментарий",
-    "places": "места"
+    "no-data": "Нет данных"
   },
   "update-cafe": {
     "name": "Название",
@@ -103,13 +99,12 @@
     "items-per-page": "Записей на страницу:",
     "sort-ascending": "Сортировать по возрастанию",
     "sort-descending": "Сортировать по убыванию",
-    "cancel-sorting": "Отменить сортировку",
-    "role-for": "Роль для",
-    "is-updated-to": "обновлена до"
+    "cancel-sorting": "Отменить сортировку"
   },
   "nav-bar": {
     "add-cafe": "Добавить кафе",
     "admin": "Администратор",
+    "my-habits": "Мои привычки",
     "favorite-places": "Любимые места",
     "user-settings": "Настройка профиля",
     "sign-out": "Выйти",
@@ -132,8 +127,8 @@
   },
   "user": {
     "add-comment": {
-      "add-your-comment-to-place": "Добавьте комментарий к месту",
-      "please-rare-us": "Оцените нас",
+      "Add-your-comment-to-place": "Добавьте комментарий к месту",
+      "Please-rare-us": "Оцените нас",
       "comment-is-required": "Введите комментарий",
       "comment-must-be-at-least-5-characters-long": "Комментарий должен содержать не менее 5 символов",
       "comment-must-be-maximum": "Комментарий должен содержать максимум",
@@ -277,13 +272,43 @@
       "last-name": "Фамилия:",
       "last-name-is-required": "Введите фамилию.",
       "last-name-must-be-at-least-1-characters-long": "Фамилия должна содержать по крайней мере 1 символ.",
-      "email-notifications": "Оповещения",
+      "email-notifications": "Оповещения:",
       "yes": "Да",
       "no": "Нет",
       "frequency": "Частота",
       "submit": "Подтвердить",
       "close": "Закрыть"
+    },
+    "habit-statistic": {
+      "day-estimation": {
+        "super": "супер",
+        "normal": "нормально",
+        "bad": "плохо"
+      },
+      "habit-item-list": {
+        "more": "больше",
+        "less": "менше"
+      },
+      "habit-statistic": {
+        "how-do-you-estimate-today": "Как ты оценишь сегодняшний день"
+      }
+    },
+    "lower-nav-bar": {
+      "home": "Главная",
+      "about-us": "О нас",
+      "eco-events": "Эко мероприятия",
+      "tips": "Полезные советы",
+      "map": "Карта",
+      "my-habits": "Мои привычки"
     }
+  },
+  "advice": {
+    "package": "Положите в кажду сумку или рюкзак одну эко-сумку, так она всегда будет с вами, если вы неожиданно зайдете в магазин",
+    "cup": ""
+  },
+  "habit-message": {
+    "package": "Сколько пакетов ты не взял сегодня?",
+    "cup": "Сколько стаканов ты не использовал сегодня?"
   },
   "pagination": {
     "first-text": "Первая",

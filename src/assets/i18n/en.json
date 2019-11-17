@@ -22,10 +22,7 @@
     "no-attachment": "No attachments",
     "loading-data": "Loading data...",
     "no-data": "No data",
-    "items-per-page": "Items per page:",
-    "delete": "Delete",
-    "Do-you-really-want-to-delete-comment-of": "Do you really want to delete comment of ",
-    "places": "places"
+    "items-per-page": "Items per page:"
   },
   "places": {
     "places": "Places",
@@ -103,13 +100,12 @@
     "items-per-page": "Items per page:",
     "sort-ascending": "Sort Ascending",
     "sort-descending": "Sort Descending",
-    "cancel-sorting": "Cancel Sorting",
-    "role-for": "Role for",
-    "is-updated-to": "is updated to"
+    "cancel-sorting": "Cancel Sorting"
   },
   "nav-bar": {
     "add-cafe": "Add a cafe",
     "admin": "Administrator",
+    "my-habits": "My habits",
     "favorite-places": "Favorite places",
     "user-settings": "User settings",
     "sign-out": "Sign out",
@@ -132,8 +128,8 @@
   },
   "user": {
     "add-comment": {
-      "add-your-comment-to-place": "Add your comment to place",
-      "please-rare-us": "Please rare us",
+      "Add-your-comment-to-place": "Add your comment to place",
+      "Please-rare-us": "Please rare us",
       "comment-is-required": "Comment is required.",
       "comment-must-be-at-least-5-characters-long": "Comment must be at least 5 characters long.",
       "comment-must-be-maximum": "Comment must be maximum",
@@ -274,16 +270,46 @@
       "first-name": "First name:",
       "first-name-is-required": "First name is required.",
       "first-name-must-be-at-least-1-characters-long": "First name must be at least 1 characters long.",
-      "last-name:": "Last name:",
+      "last-name": "Last name:",
       "last-name-is-required": "Last name is required.",
       "last-name-must-be-at-least-1-characters-long": "Last name must be at least 1 characters long.",
-      "email-notifications": "Email notifications",
+      "email-notifications": "Email notifications:",
       "yes": "Yes",
       "no": "No",
       "frequency": "Frequency",
       "submit": "Submit",
       "close": "Close"
+    },
+    "habit-statistic": {
+      "day-estimation": {
+        "super": "super",
+        "normal": "normal",
+        "bad": "bad"
+      },
+      "habit-item-list": {
+        "more": "more",
+        "less": "less"
+      },
+      "habit-statistic": {
+        "how-do-you-estimate-today": "How do you estimate today"
+      }
+    },
+    "lower-nav-bar": {
+      "home": "Home",
+      "about-us": "About",
+      "eco-events": "Eco events",
+      "tips": "Tips",
+      "map": "Map",
+      "my-habits": "My habits"
     }
+  },
+  "advice": {
+    "package": "Put one eco-bag in each bag or backpack, so it will always be with you if you unexpectedly go to the store",
+    "cup": ""
+  },
+  "habit-message": {
+    "package": "How many packages haven't you taken today?",
+    "cup": "How many glasses you haven't used today?"
   },
   "pagination": {
     "first-text": "First",

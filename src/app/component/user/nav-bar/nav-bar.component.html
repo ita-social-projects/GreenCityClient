@@ -1,54 +1,62 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-
   <div class="navbar-collapse collapse">
-
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
         <a class="nav-link" href="/">GreenCity</a>
       </li>
     </ul>
-
   </div>
 
   <div class="navbar-collapse collapse">
-
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item dropdown">
-
+      <li class="nav-item dropdown"></li>
 
       <li class="nav-item">
-      <a class="nav-link"
-         *ngIf="userRole === 'ROLE_USER'"
-         (click)="openDialogProposeCafeComponent()">{{'nav-bar.add-cafe' | translate}}</a>
+        <a
+          class="nav-link"
+          *ngIf="userRole === 'ROLE_USER'"
+          (click)="openDialogProposeCafeComponent()"
+        >{{'nav-bar.add-cafe' | translate}}</a
+        >
       </li>
 
-      <div *ngIf="firstName!=null">
-        <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
-           aria-haspopup="true" aria-expanded="false">{{firstName}}</a>
+      <div *ngIf="firstName != null">
+        <a
+          class="nav-link dropdown-toggle"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >{{ firstName }}</a
+        >
 
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item"
-             *ngIf="userRole == 'ROLE_ADMIN' || userRole == 'ROLE_MODERATOR'"
-             href="/admin">{{'nav-bar.admin' | translate}}</a>
-          <a class="dropdown-item"
-             (click)="openDialog()">{{'nav-bar.favorite-places' | translate}}</a>
-          <a class="dropdown-item"
-             (click)="openSettingDialog()">{{'nav-bar.user-settings' | translate}}</a>
+        <div
+          class="dropdown-menu dropdown-menu-right"
+          aria-labelledby="navbarDropdown"
+        >
+          <a
+            class="dropdown-item"
+            *ngIf="userRole == 'ROLE_ADMIN' || userRole == 'ROLE_MODERATOR'"
+            href="/admin"
+          >{{'nav-bar.admin' | translate}}</a
+          >
+          <a class="dropdown-item" href="/habits">{{'nav-bar.my-habits' | translate}}</a>
+          <a class="dropdown-item" (click)="openDialog()">{{'nav-bar.favorite-places' | translate}}</a>
+          <a class="dropdown-item" (click)="openSettingDialog()"
+          >{{'nav-bar.user-settings' | translate}}</a
+          >
           <a class="dropdown-item" (click)="signOut()">{{'nav-bar.sign-out' | translate}}</a>
         </div>
-
       </div>
 
-      <a *ngIf="firstName==null" class="nav-link" routerLink="/auth/">{{'nav-bar.sign-in' | translate}}</a>
-
+      <a *ngIf="firstName == null" class="nav-link" routerLink="/auth/"
+      >{{'nav-bar.sign-in' | translate}}</a
+      >
     </ul>
-
   </div>
-
 </nav>
 
 <!-- Modal Window-->
 <app-modal id="custom-_modal-1">
   <app-propose-cafe></app-propose-cafe>
 </app-modal>
-

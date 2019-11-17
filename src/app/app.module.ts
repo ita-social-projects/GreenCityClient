@@ -64,7 +64,8 @@ import {UserSettingComponent} from './component/user/user-setting/user-setting.c
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-
+import {UserHabitPageComponent} from './component/user/habit/user-habit-page/user-habit-page.component';
+import {LowerNavBarComponent} from './component/user/lower-nav-bar/lower-nav-bar.component';
 
 @NgModule({
   declarations: [
@@ -87,6 +88,8 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
     PhotoUploadComponent,
     AddCommentComponent,
     UserSettingComponent,
+    UserHabitPageComponent,
+    LowerNavBarComponent,
   ],
   imports: [
     BrowserModule,
@@ -137,10 +140,14 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
     })
   ],
   entryComponents: [
-    ProposeCafeComponent, FavoritePlaceComponent,
-    EditFavoriteNameComponent, RestoreComponent,
+    ProposeCafeComponent,
+    FavoritePlaceComponent,
+    EditFavoriteNameComponent,
+    RestoreComponent,
     DeleteFavoriteComponent,
-    UserSettingComponent, AddCommentComponent],
+    UserSettingComponent,
+    AddCommentComponent
+  ],
 
   providers: [
     {
@@ -161,6 +168,7 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule {
 
 }
