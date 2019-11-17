@@ -67,6 +67,8 @@ import { HabitItemComponent } from './component/user/habit-statistic/habit-item/
 import { HabitItemListComponent } from './component/user/habit-statistic/habit-item-list/habit-item-list.component';
 import { DayEstimationComponent } from './component/user/habit-statistic/day-estimation/day-estimation.component';
 import { HabitStatisticComponent } from './component/user/habit-statistic/habit-statistic/habit-statistic.component';
+import { UserLogComponent } from './component/user/habit-statistic/user-log/user-log.component';
+import { ButtonComponent } from './component/user/habit-statistic/button/button.component';
 
 
 @NgModule({
@@ -95,6 +97,8 @@ import { HabitStatisticComponent } from './component/user/habit-statistic/habit-
     HabitItemListComponent,
     DayEstimationComponent,
     HabitStatisticComponent,
+    UserLogComponent,
+    ButtonComponent,
   ],
   imports: [
     BrowserModule,
