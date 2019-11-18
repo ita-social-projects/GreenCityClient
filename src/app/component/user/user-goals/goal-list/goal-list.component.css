@@ -1,0 +1,33 @@
+.main-goal-list-container {
+  display: flex;
+  width: 276px;
+  margin-top: 10px;
+}
+
+.goal-list-message {
+  font-size: 15px;
+  line-height: 1.47;
+  text-align: center;
+  color: #839c94;
+}
+
+.full-goal-list-text {
+  margin-left: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #13aa57;
+  cursor: pointer;
+}
+
+.full-goal-list-arrow {
+  font-size: 22px;
+  color: #13aa57;
+  cursor: pointer;
+}
+
+.full-goal-list-text:hover {
+  color: #39b54a;
+  text-decoration: underline;
+  cursor: pointer;
+}
