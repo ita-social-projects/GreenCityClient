@@ -1,0 +1,169 @@
+/* 
+span {
+    color: #839c94;
+    size: 16px;
+    line-height: 24px;
+    letter-spacing: 1.5px;
+    margin: 30px,754px,4px, 0;
+}
+
+h1 {
+    font-family: OpenSans-Bold;
+    size: 46px;
+    line-height: 54px;
+    color: #000000;
+    margin: 4px 243px 0 0;
+    width: 605px;
+}
+
+p {
+ margin: 20px 754px 0 0;
+    font-family: OpenSans-Regular;
+    size: 16px;
+    line-height: 23px;
+    color: #000000;
+    width: 591px; 
+}
+
+.p2 {
+    margin: 36px 34px 36px 0;
+    width: 100px;
+    height: 100px;
+    font-family: OpenSans;
+    font-size: 21px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000000;
+    display: flex;
+    align-content: flex-end;
+    align-items: center;
+}
+
+img {
+    width: auto;
+    height: 100px;
+    margin: 36px 34px 36px 34px;
+    position: relative;
+}
+
+.images {
+    width: 100px;
+    height: 100px;
+    padding: 0px 34px 0px 34px;
+    position: relative;
+}
+
+h2 {
+	position : absolute;
+	top	: 20px;
+	left : 15;
+	width : 100%;
+}
+h2 span {
+	color : #13aa57;
+	letter-spacing : -1px;
+    padding	: 35px;
+    /* width: 55px;
+    height: 56px;
+    font-family: PTSans;
+    font-size: 48px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #13aa57;
+} 
+*/
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700&display=swap&subset=cyrillic');
+
+.open-sans {
+    font-family: 'Open Sans', sans-serif;    
+    /* font-family: Roboto, Helvetica, sans-serif; */
+}
+
+span {
+    color: #839c94;
+    size: 16px;
+    line-height: 24px;
+    letter-spacing: 1.5px;
+    margin: 30px 754px 4px 0;    
+}
+
+h2 {
+    width: 605px;
+    height: 108px;
+    font-size: 46px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.17;
+    letter-spacing: normal;
+    color: #000000;
+    margin: 0 0 0 0;
+}
+
+p {
+    width: 591px;
+    height: 46px;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.44;
+    letter-spacing: normal;
+    color: #000000;
+    margin: 20px 0px 20px 0;
+}
+
+.statistic {
+    align-items: center;
+    flex-shrink: 0;   
+    font-size: 21px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000000;
+    display: flex;   
+} 
+img {
+    width: auto;
+    height: 100px;
+    margin: 0px 15px 6px 15px;
+    position: relative;
+}
+
+.images {
+    width: auto;
+    height: 100px;
+    margin: 0px 0px 0px 0px;
+    position: relative; 
+}
+ h4 {
+	position : absolute;
+	top	: 0;
+	left : 10px;
+	width : auto;
+}
+h4 span {	
+    width: 55px;
+    height: 56px;
+    font-family:  PTSans;
+    font-size: 48px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #13aa57;
+    margin: 37px 0 0 20px;
+    position: absolute;
+}

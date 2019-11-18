@@ -140,7 +140,7 @@
     },
     "auth": {
       "sign-in": {
-        "email": "Елкетронна пошта",
+        "email": "Електронна пошта",
         "email-is-required": "Введіть пошту",
         "email-must-be-at-least-1-characters-long": "Пошта повинна містити принаймі 1 символ",
         "this-is-not-email": "Це не пошта",

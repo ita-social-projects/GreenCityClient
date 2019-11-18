@@ -1,17 +1,16 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-user-log',
-  templateUrl: './user-log.component.html',
-  styleUrls: ['./user-log.component.css'],
+  selector: 'app-user-log-component',
+  templateUrl: './user-log-component.component.html',
+  styleUrls: ['./user-log-component.component.css']
 })
-export class UserLogComponent implements OnInit {
+export class UserLogComponentComponent implements OnInit {
 
   constructor() { }
 
   ngOnInit() {
   }
-
   nowDate() {
     let date: Date = new Date();
     return date.getDate() + ' ' +   date.toLocaleString('default', { month: 'long' });

@@ -1,0 +1,9 @@
+button {
+    width: 292px;
+    height: 48px;
+    margin: 40px 15px 0 0px;
+    border-radius: 4px;
+    box-shadow: 0 13px 20px 0 rgba(118, 196, 125, 0.41);
+    background-color: #13aa57;
+    color: aliceblue;
+}

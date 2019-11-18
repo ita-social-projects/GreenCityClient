@@ -75,6 +75,8 @@ import {LowerNavBarComponent} from './component/user/lower-nav-bar/lower-nav-bar
 import {HabitItemListComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-item-list/habit-item-list.component';
 import {HabitEstimationComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-estimation.component';
 import {DayEstimationComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/day-estimation/day-estimation.component';
+import { UserLogComponentComponent } from './component/user/habit/day-statistics/user-log-component/user-log-component.component';
+import { ButtonComponentComponent } from './component/user/habit/day-statistics/button-component/button-component.component';
 
 @NgModule({
   declarations: [
@@ -107,7 +109,9 @@ import {DayEstimationComponent} from './component/user/habit/habit-trackers/habi
     UserHabitPageComponent,
     LowerNavBarComponent,
     HabitChartComponent,
-    HabitEstimationComponent
+    HabitEstimationComponent,
+    UserLogComponentComponent,
+    ButtonComponentComponent
   ],
   imports: [
     BrowserModule,
