@@ -1,6 +1,7 @@
 .user-sidebar {
-  display: flex;
-  flex-direction: column;
+  display: block;
+  /*float:right;*/
+  /*flex-direction: column;*/
   justify-content: center;
   max-width: 402px;
   border-radius: 4px;
@@ -21,6 +22,6 @@ hr {
 }
 
 .img-placeholder {
-  max-width: 402px;
+  max-width: 390px;
 }
 

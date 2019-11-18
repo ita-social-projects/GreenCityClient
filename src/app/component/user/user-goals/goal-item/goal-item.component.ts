@@ -20,4 +20,12 @@ export class GoalItemComponent implements OnInit {
   ngOnInit() {
   }
 
+  isActiveStatus(goal: Goal) {
+    if (goal.status === 'ACTIVE') {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
 }

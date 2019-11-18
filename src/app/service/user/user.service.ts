@@ -24,13 +24,6 @@ export class UserService {
   filterDto: UserFilterDtoModel;
   apiUrl = `${mainLink}user`;
 
-  goalsData: Goal[] = [{id: 1, text: 'test', status: true},
-    {id: 2, text: 'Придбати бамбукову щітку', status: true},
-    {id: 3, text: 'Завести компостер', status: true},
-    {id: 4, text: 'Почати сортувати сміття', status: false},
-    {id: 5, text: 'Почати сортувати сміттяПочати сортувати сміття', status: true},
-    {id: 6, text: 'Завести', status: false}];
-
   constructor(private http: HttpClient) {
     if (token != null) {
       jwtData = token.split('.')[1];
@@ -96,13 +89,12 @@ export class UserService {
   }
 
   getUserGoals(): Observable<Goal[]> {
-    // return this.http.get<GoalDto[]>('url');
-    return of(this.goalsData);
+    return this.http.get<Goal[]>(`${this.apiUrl}/12/goals`);
   }
 
   updateGoal(goal: Goal): Observable<Goal> {
-    // return this.http.post<GoalDto>('http://localhost:8080/'  '/user/get', goal);
-    goal.status = !goal.status;
-    return of(goal);
+    return this.http.patch<Goal>(`${this.apiUrl}/12/goals/4`, null);
+    // goal.status = !goal.status;
+    // return of(goal);
   }
 }

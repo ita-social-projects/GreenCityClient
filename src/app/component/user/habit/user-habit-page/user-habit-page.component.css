@@ -1,9 +1,13 @@
 .user-habit-page {
   display: block;
-  /*background-color: lightgrey;*/
   margin: 0 auto;
+}
+
+.container-fluid{
+  padding: 0 140px;
 }
 
 .margin-top {
   margin-top: 17px;
 }
+

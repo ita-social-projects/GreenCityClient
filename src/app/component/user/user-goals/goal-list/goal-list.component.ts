@@ -9,15 +9,16 @@ import {UserService} from '../../../../service/user/user.service';
 })
 export class GoalListComponent implements OnInit {
   goals: Goal[];
-  isColapse = true;
+  isCollapse = true;
 
   constructor(private userService: UserService) {
     this.goals = [];
   }
 
   ngOnInit() {
-    this.userService.getUserGoals().subscribe(response => {
-      this.goals = response;
+    this.userService.getUserGoals().subscribe(data => {
+      this.goals = data;
+      console.log(this.goals);
       this.goals.sort((a, b) => {
         if (a.status === b.status) {
           return a.text < b.text ? 1 : -1;
@@ -29,11 +30,11 @@ export class GoalListComponent implements OnInit {
   }
 
   getShortList() {
-    const goalsColapse: Goal[] = [];
-    for (let i = 0; i < (this.isColapse ? 3 : this.goals.length); i++) {
-      goalsColapse.push(this.goals[i]);
+    const goalsCollapse: Goal[] = [];
+    for (let i = 0; i < (this.isCollapse ? 3 : this.goals.length); i++) {
+      goalsCollapse.push(this.goals[i]);
     }
-    return goalsColapse;
+    return goalsCollapse;
   }
 
   update(goal: Goal) {

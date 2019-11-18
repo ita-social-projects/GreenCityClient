@@ -1,10 +1,10 @@
 <div class="goal-item-container">
 
   <label class="goal-container">
-    <input type="checkbox" [checked]="!this.goal.status" (change)="onUpdate()">
+    <input type="checkbox" [checked]="isActiveStatus(this.goal)" (change)="onUpdate()">
     <span class="check-mark"></span>
     <span class="goal-text" title="{{this.goal.text}}"
-          [class.goal-text-done]="!this.goal.status"> {{this.goal.text}} </span>
+          [class.goal-text-done]="isActiveStatus(this.goal)"> {{this.goal.text}} </span>
   </label>
 
 </div>
