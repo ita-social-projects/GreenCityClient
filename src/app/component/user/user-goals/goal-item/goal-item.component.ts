@@ -11,11 +11,11 @@ export class GoalItemComponent implements OnInit {
   @Input() goal: Goal;
   @Output() update = new EventEmitter();
 
-  constructor(private userService: UserService) {
+  constructor(public userService: UserService) {
   }
 
   onUpdate() {
-    this.userService.updateGoal(this.goal.id);
+    this.userService.updateGoalStatus(this.goal);
   }
 
   ngOnInit() {

@@ -1,5 +1,5 @@
 <div class="main-goal-list-container">
-  <div class="goal-list-container" *ngIf="$goals.length">
+  <div class="goal-list-container" *ngIf="this.amount > 0">
     <span *ngFor="let goal of $goals | async">
       <span>
         <app-goal-item [goal]="goal"></app-goal-item>
@@ -22,7 +22,7 @@
     </div>
   </div>
 
-  <div class="goal-list-message" *ngIf="!goals.length">
+  <div class="goal-list-message" *ngIf="this.amount <= 0">
     <span>
       Тут ти можеш ставити цілі і їх виконувати!
     </span>

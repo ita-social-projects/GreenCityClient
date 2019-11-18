@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Goal } from '../../../../model/goal/Goal';
-import { UserService } from '../../../../service/user/user.service';
+import {Component, OnInit} from '@angular/core';
+import {Goal} from '../../../../model/goal/Goal';
+import {UserService} from '../../../../service/user/user.service';
 
 @Component({
   selector: 'app-goal-list',
@@ -10,10 +10,10 @@ import { UserService } from '../../../../service/user/user.service';
 export class GoalListComponent implements OnInit {
   $goals: any;
   isCollapse = true;
+  amount = 0;
 
   constructor(private userService: UserService) {
     userService.loadAllGoals();
-    //this.goals = [];
   }
 
   ngOnInit() {
@@ -27,13 +27,17 @@ export class GoalListComponent implements OnInit {
     //     }
     //   });
     // });
+
     this.$goals = this.userService.goals;
+    this.$goals.subscribe(goals => {
+      this.amount = goals.length;
+    });
   }
 
-  getShortList() {
+  getShortList(goals: Goal[]) {
     const goalsCollapse: Goal[] = [];
-    for (let i = 0; i < (this.isCollapse ? 3 : this.$goals.length); i++) {
-      goalsCollapse.push(this.$goals[i]);
+    for (let i = 0; i < (this.isCollapse ? 3 : this.amount); i++) {
+      goalsCollapse.push(goals[i]);
     }
     return goalsCollapse;
   }

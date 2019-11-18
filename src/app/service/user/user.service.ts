@@ -35,6 +35,7 @@ export class UserService {
       decodedJwtJsonData = window.atob(jwtData);
       decodedJwtData = JSON.parse(decodedJwtJsonData);
     }
+    this.loadAllGoals();
   }
 
   getUserRole(): string {
@@ -117,17 +118,17 @@ export class UserService {
         this.dataStore.goals = data;
         this.goalsSubject.next(Object.assign({}, this.dataStore).goals);
       },
-      error => console.log('Could not load todos. ' + error)
+      error => console.log('Could not load goals. ' + error)
     );
   }
 
   updateGoalStatus(goal: Goal) {
-    this.http.put<Goal[]>(`${this.apiUrl}/12/goals/${goal.id}`, goal).subscribe(
+    this.http.patch<Goal[]>(`${this.apiUrl}/12/goals/${goal.id}`, goal).subscribe(
       data => {
         this.dataStore.goals = data;
         this.goalsSubject.next(Object.assign({}, this.dataStore).goals);
       },
-      error => console.log('Could not update todo.' + error)
+      error => console.log('Could not update goal.' + error)
     );
   }
 }
