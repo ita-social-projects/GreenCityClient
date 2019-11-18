@@ -1,9 +1,15 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {HabitItem} from '../habit-item/HabitItem';
-import {Photo} from '../../../../../../../model/photo/Photo';
-import {HabitStatisticDto} from '../../../../../../../model/habit/HabitStatisticDto';
-import {HabitStatisticService} from '../../../../../../../service/habit-statistic/habit-statistic.service';
-import {HabitDto} from '../../../../../../../model/habit/HabitDto';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges
+} from '@angular/core';
+import { HabitItem } from '../habit-item/HabitItem';
+import { Photo } from '../../../../../../../model/photo/photo';
+import { HabitStatisticDto } from '../../../../../../../model/habit/HabitStatisticDto';
+import { HabitStatisticService } from '../../../../../../../service/habit-statistic/habit-statistic.service';
+import { HabitDto } from '../../../../../../../model/habit/HabitDto';
 
 @Component({
   selector: 'app-habit-item-list',
@@ -19,8 +25,7 @@ export class HabitItemListComponent implements OnInit, OnChanges {
   currentNumber = 0;
   isExpanded: boolean;
 
-  constructor(private service: HabitStatisticService) {
-  }
+  constructor(private service: HabitStatisticService) {}
 
   ngOnInit(): void {
     this.currentNumber = this.habitStatistic.countHabit;
@@ -46,16 +51,22 @@ export class HabitItemListComponent implements OnInit, OnChanges {
   }
 
   update(habitItem: HabitItem) {
-    const newCount = (habitItem.numb === this.currentNumber) ? 0 : habitItem.numb;
+    const newCount = habitItem.numb === this.currentNumber ? 0 : habitItem.numb;
 
-    this.service.updatedHabitStatistic(new HabitStatisticDto(
-      this.habitStatistic.id,
-      this.habitStatistic.habitId,
-      newCount,
-      this.habitStatistic.dayEstimation, this.habitStatistic.date)).subscribe(data => {
-      this.currentNumber = data.countHabit;
-      this.drawCurrentNumberItems();
-    });
+    this.service
+      .updatedHabitStatistic(
+        new HabitStatisticDto(
+          this.habitStatistic.id,
+          this.habitStatistic.habitId,
+          newCount,
+          this.habitStatistic.dayEstimation,
+          this.habitStatistic.date
+        )
+      )
+      .subscribe(data => {
+        this.currentNumber = data.countHabit;
+        this.drawCurrentNumberItems();
+      });
   }
 
   initHabitItems() {
@@ -108,6 +119,6 @@ export class HabitItemListComponent implements OnInit, OnChanges {
   }
 
   getIcon(): Photo {
-    return {name: `assets/img/icon/${this.habit.name}.png`};
+    return { name: `assets/img/icon/${this.habit.name}.png` };
   }
 }
