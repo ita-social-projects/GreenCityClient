@@ -77,6 +77,7 @@ import {HabitEstimationComponent} from './component/user/habit/habit-trackers/ha
 import {DayEstimationComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/day-estimation/day-estimation.component';
 import { UserLogComponentComponent } from './component/user/habit/day-statistics/user-log-component/user-log-component.component';
 import { ButtonComponentComponent } from './component/user/habit/day-statistics/button-component/button-component.component';
+import { AdviceComponent } from './component/user/habit/habit-trackers/habit-tracker/advice/advice.component';
 
 @NgModule({
   declarations: [
@@ -111,7 +112,8 @@ import { ButtonComponentComponent } from './component/user/habit/day-statistics/
     HabitChartComponent,
     HabitEstimationComponent,
     UserLogComponentComponent,
-    ButtonComponentComponent
+    ButtonComponentComponent,
+    AdviceComponent
   ],
   imports: [
     BrowserModule,

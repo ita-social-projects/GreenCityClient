@@ -12,6 +12,8 @@ export const placeLink = mainLink + 'place/';
 export const favoritePlaceLink = mainLink + 'favorite_place/';
 export const googleSecurityLink = mainLink + 'googleSecurity/';
 export const userInitialsLink = userLink + '/initials/';
+export const adviceLink = mainLink + 'advices/';
+export const adviceRandomLink = adviceLink + 'random/';
 
 // front-end
 export const frontMailLink = 'http://localhost:4200/';
