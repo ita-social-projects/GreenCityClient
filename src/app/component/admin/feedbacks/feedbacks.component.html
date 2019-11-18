@@ -1,12 +1,12 @@
 <div class="card mx-auto" style="width: 95% ">
   <div class="card">
     <div class="card-body">
-      <h4 class="card-title">Feedbacks</h4>
+      <h4 class="card-title">{{'feedbacks.feedbacks' | translate}}</h4>
       <div class="table-responsive" style="padding: 1%">
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
           <ng-container matColumnDef="place">
             <th mat-header-cell *matHeaderCellDef class="place">
-              Place
+              {{'feedbacks.place' | translate}}
             </th>
             <td mat-cell id="placeColumn" *matCellDef="let element" class="place">
               {{element.place.name}}
@@ -15,18 +15,18 @@
 
           <ng-container matColumnDef="text">
             <th mat-header-cell *matHeaderCellDef class="text">
-              Comment
+              {{'feedbacks.comment' | translate}}
             </th>
             <td mat-cell id="textColumn" *matCellDef="let element" class="text">
               <div *ngIf="element.text.length <= 115">{{element.text}}</div>
               <div id="f{{element.id}}" [hidden]="!(element.text.length > 115)">{{element.text.substr(0, 115)}}...
                 <div style="display: inline" (click)="changeVisability('f' + element.id, 'f' + element.id + 'b')">
-                  <a style="color: #53a6ff">more</a>
+                  <a style="color: #53a6ff">{{'feedbacks.more' | translate}}</a>
                 </div>
               </div>
               <div id="f{{element.id}}b" [hidden]="true">{{element.text}}
                 <div style="display: inline" (click)="changeVisability('f' + element.id, 'f' + element.id + 'b')">
-                  <a style="color: #53a6ff">less</a>
+                  <a style="color: #53a6ff">{{'feedbacks.less' | translate}}</a>
                 </div>
               </div>
             </td>
@@ -35,10 +35,10 @@
 
           <ng-container matColumnDef="attachments">
             <th mat-header-cell *matHeaderCellDef class="attachments" style="text-align: center">
-              Attachments
+              {{'feedbacks.attachments' | translate}}
             </th>
             <td mat-cell id="photosColumn" style="text-align: center" *matCellDef="let element" class="attachments">
-              <p *ngIf="element.photos.length == 0" style="font-size: 13px">No attachments</p>
+              <p *ngIf="element.photos.length == 0" style="font-size: 13px">{{'feedbacks.no-attachment' | translate}}</p>
               <h6 *ngFor="let link of element.photos">
                 <a id="photoIcon" class="image-comment">
                   <mdb-icon far icon="image" (click)="openDialog(link.name)"></mdb-icon>
@@ -58,11 +58,11 @@
           <!-- Name Column -->
 
           <ng-container matColumnDef="loading">
-            <mat-footer-cell *matFooterCellDef colspan="3"> Loading data...</mat-footer-cell>
+            <mat-footer-cell *matFooterCellDef colspan="3"> {{'feedbacks.loading-data' | translate}}</mat-footer-cell>
           </ng-container>
 
           <ng-container matColumnDef="noData">
-            <mat-footer-cell *matFooterCellDef colspan="3"> No data</mat-footer-cell>
+            <mat-footer-cell *matFooterCellDef colspan="3"> {{'feedbacks.no-data' | translate}}</mat-footer-cell>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -79,7 +79,7 @@
                       (pageChanged)="changePage($event)" [maxSize]="6" [rotate]="true"
                       [boundaryLinks]="true" class="flex-wrap"></pagination>
         </div>
-        Items per page:
+        {{'feedbacks.items-per-page' | translate}}
         <mat-select [(value)]="pageSize" (valueChange)="changePage(page)" style="width: 50px;margin-left: 15px">
           <mat-option [value]="2">2</mat-option>
           <mat-option [value]="5">5</mat-option>

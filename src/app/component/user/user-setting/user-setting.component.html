@@ -1,4 +1,4 @@
-<h2 mat-dialog-title style="text-align: center; margin-bottom: 2%;">User Settings</h2>
+<h2 mat-dialog-title style="text-align: center; margin-bottom: 2%;">{{'user.user-setting.user-settings' | translate}}</h2>
 <hr>
 <mat-dialog-content>
   <!--<div class="text-secondary">Email:</div> <div>User email</div>
@@ -11,20 +11,20 @@
     <form #formElement="ngForm" (ngSubmit)="formElement.valid ? somethingEdited() : null">
       <table>
         <tr>
-          <td class="text-secondary">Email:</td>
+          <td class="text-secondary">{{'user.user-setting.email' | translate}}</td>
           <td>{{email}}</td>
         </tr>
         <tr>
-          <td class="text-secondary">First name:</td>
+          <td class="text-secondary">{{'user.user-setting.first-name' | translate}}</td>
           <td *ngIf="!isFirstNameEditing">{{userUpdateModel.firstName}}</td>
           <td *ngIf="isFirstNameEditing">
             <div class="validation-error"
                  *ngIf="firstNameControl.invalid && (firstNameControl.dirty||firstNameControl.touched)">
               <div *ngIf="firstNameControl.errors.required">
-                First name is required.
+                {{'user.user-setting.first-name-is-required' | translate}}
               </div>
               <div *ngIf="firstNameControl.errors.minlength">
-                First name must be at least 1 characters long.
+                {{'user.user-setting.first-name-must-be-at-least-1-characters-long' | translate}}
               </div>
             </div>
             <!-- <div class="validation-error" *ngIf="firstNameErrorMessageBackEnd!=null">
@@ -40,16 +40,16 @@
           </td>
         </tr>
         <tr>
-          <td class="text-secondary">Last name:</td>
+          <td class="text-secondary">{{'user.user-setting.last-name' | translate}}</td>
           <td *ngIf="!isLastNameEditing">{{userUpdateModel.lastName}}</td>
           <td *ngIf="isLastNameEditing">
             <div class="validation-error"
                  *ngIf="lastNameControl.invalid && (lastNameControl.dirty||lastNameControl.touched)">
               <div *ngIf="lastNameControl.errors.required">
-                Last name is required.
+                {{'user.user-setting.last-name-is-required' | translate}}
               </div>
               <div *ngIf="lastNameControl.errors.minlength">
-                Last name must be at least 1 characters long.
+                {{'user.user-setting.last-name-must-be-at-least-1-characters-long' | translate}}
               </div>
             </div>
             <!--<div class="validation-error" *ngIf="lastNameErrorMessageBackEnd!=null">
@@ -67,7 +67,7 @@
           </td>
         </tr>
         <tr class="emailNotification">
-          <td class="text-secondary">Email notifications</td>
+          <td class="text-secondary">{{'user.user-setting.email-notifications' | translate}}</td>
           <mat-radio-group
             aria-labelledby="example-radio-group-label"
             class="example-radio-group">
@@ -76,19 +76,19 @@
               value="Yes"
               [checked]="userUpdateModel.emailNotification !== 'DISABLED'"
               (change)="userUpdateModel.emailNotification = 'DAILY'; somethingEdited()"
-              color="primary">Yes
+              color="primary">{{'user.user-setting.yes' | translate}}
             </mat-radio-button>
             <mat-radio-button
               class="example-radio-button"
               value="No"
               [checked]="userUpdateModel.emailNotification === 'DISABLED'"
               (change)="userUpdateModel.emailNotification = 'DISABLED'; somethingEdited()"
-              color="primary">No
+              color="primary">{{'user.user-setting.no' | translate}}
             </mat-radio-button>
           </mat-radio-group>
         </tr>
         <tr *ngIf="userUpdateModel.emailNotification !== 'DISABLED'">
-          <td class="text-secondary" id="frequency">Frequency</td>
+          <td class="text-secondary" id="frequency">{{'user.user-setting.frequency' | translate}}</td>
           <mat-radio-group
             aria-labelledby="example-radio-group-label"
             class="example-radio-grooup"
@@ -111,8 +111,8 @@
 
 <div style="display:flex; justify-content:flex-end; align-items:center;">
   <button class="btn btn-primary submit" type="submit" style="margin-right: 1%" [disabled]="!isSomethingEdited"
-          (click)="updateUser()">Submit
+          (click)="updateUser()">{{'user.user-setting.submit' | translate}}
   </button>
-  <button mat-dialog-close class="btn btn-primary" type="button">Close</button>
+  <button mat-dialog-close class="btn btn-primary" type="button">{{'user.user-setting.close' | translate}}</button>
 </div>
 
