@@ -18,12 +18,11 @@ export class GoalListComponent implements OnInit {
   ngOnInit() {
     this.userService.getUserGoals().subscribe(data => {
       this.goals = data;
-      console.log(this.goals);
       this.goals.sort((a, b) => {
         if (a.status === b.status) {
           return a.text < b.text ? 1 : -1;
         } else {
-          return a.status ? -1 : 1;
+          return a.status ? 1 : -1;
         }
       });
     });
@@ -36,17 +35,5 @@ export class GoalListComponent implements OnInit {
     }
     return goalsCollapse;
   }
-
-  update(goal: Goal) {
-    this.userService.updateGoal(goal);
-    this.goals.sort((a, b) => {
-      if (a.status === b.status) {
-        return a.text < b.text ? 1 : -1;
-      } else {
-        return a.status ? -1 : 1;
-      }
-    });
-  }
-
 
 }

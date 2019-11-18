@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Goal} from '../../../../model/goal/Goal';
+import {UserService} from '../../../../service/user/user.service';
 
 @Component({
   selector: 'app-goal-item',
@@ -10,11 +11,11 @@ export class GoalItemComponent implements OnInit {
   @Input() goal: Goal;
   @Output() update = new EventEmitter();
 
-  constructor() {
+  constructor(private userService: UserService) {
   }
 
   onUpdate() {
-    this.update.emit(this.goal);
+    this.userService.updateGoal(this.goal.id);
   }
 
   ngOnInit() {

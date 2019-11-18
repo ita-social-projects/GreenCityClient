@@ -92,8 +92,10 @@ export class UserService {
     return this.http.get<Goal[]>(`${this.apiUrl}/12/goals`);
   }
 
-  updateGoal(goal: Goal): Observable<Goal> {
-    return this.http.patch<Goal>(`${this.apiUrl}/12/goals/4`, null);
+  updateGoal(id: number) {
+    console.log(id);
+    return this.http.patch<Goal>(`${this.apiUrl}/12/goals/${id}`, null)
+      .subscribe();
     // goal.status = !goal.status;
     // return of(goal);
   }
