@@ -64,6 +64,7 @@ import { UserSettingComponent } from './component/user/user-setting/user-setting
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserHabitPageComponent } from './component/user/habit/user-habit-page/user-habit-page.component';
 import { LowerNavBarComponent } from './component/user/lower-nav-bar/lower-nav-bar.component';
+import { AdviceComponent } from './advice/advice.component';
 
 @NgModule({
   declarations: [
@@ -87,7 +88,8 @@ import { LowerNavBarComponent } from './component/user/lower-nav-bar/lower-nav-b
     AddCommentComponent,
     UserSettingComponent,
     UserHabitPageComponent,
-    LowerNavBarComponent
+    LowerNavBarComponent,
+    AdviceComponent
   ],
   imports: [
     BrowserModule,
