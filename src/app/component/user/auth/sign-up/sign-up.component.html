@@ -1,14 +1,14 @@
 <div class="sign-up">
 
   <form #registerForm="ngForm" (ngSubmit)="register(userOwnSignUp)">
-    <label for="first-name">Fist name</label>
+    <label for="first-name">{{'user.auth.sign-up.first-name' | translate}}</label>
     <div class="validation-error"
          *ngIf="firstNameControl.invalid && (firstNameControl.dirty||firstNameControl.touched)">
       <div *ngIf="firstNameControl.errors.required">
-        First name is required.
+        {{'user.auth.sign-up.first-name-is-required' | translate}}
       </div>
       <div *ngIf="firstNameControl.errors.minlength">
-        First name must be at least 1 characters long.
+        {{'user.auth.sign-up.first-name-must-be-at-least-1-characters-long' | translate}}
       </div>
     </div>
     <div class="validation-error" *ngIf="firstNameErrorMessageBackEnd!=null">
@@ -20,13 +20,13 @@
            minlength="1" maxlength="20">
 
 
-    <label for="last-name">Last name</label>
+    <label for="last-name">{{'user.auth.sign-up.last-name' | translate}}</label>
     <div class="validation-error" *ngIf="lastNameControl.invalid && (lastNameControl.dirty||lastNameControl.touched)">
       <div *ngIf="lastNameControl.errors.required">
-        Last name is required.
+        {{'user.auth.sign-up.last-name-is-required' | translate}}
       </div>
       <div *ngIf="lastNameControl.errors.minlength">
-        Last name must be at least 1 characters long.
+        {{'user.auth.sign-up.last-name-must-be-at-least-1-characters-long' | translate}}
       </div>
     </div>
     <div class="validation-error" *ngIf="lastNameErrorMessageBackEnd!=null">
@@ -39,16 +39,16 @@
            minlength="1" maxlength="20">
 
 
-    <label for="email">Email</label>
+    <label for="email">{{'user.auth.sign-up.email' | translate}}</label>
     <div class="validation-error" *ngIf="emailControl.invalid && (emailControl.dirty||emailControl.touched)">
       <div *ngIf="emailControl.errors.required">
-        Email is required.
+        {{'user.auth.sign-up.email-is-required' | translate}}
       </div>
       <div *ngIf="emailControl.errors.minlength">
-        Email must be at least 1 characters long.
+        {{'user.auth.sign-up.email-must-be-at-least-1-characters-long' | translate}}
       </div>
       <div *ngIf="emailControl.errors.email">
-        This is not email.
+        {{'user.auth.sign-up.this-is-not-email' | translate}}
       </div>
     </div>
     <div class="validation-error" *ngIf="emailErrorMessageBackEnd!=null">
@@ -59,13 +59,13 @@
            minlength="1" email="true">
 
 
-    <label for="password">Password</label>
+    <label for="password">{{'user.auth.sign-up.password' | translate}}</label>
     <div class="validation-error" *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
       <div *ngIf="passwordControl.errors.required">
-        Password name is required.
+        {{'user.auth.sign-up.password-is-required' | translate}}
       </div>
       <div *ngIf="passwordControl.errors.minlength">
-        Password must be at least 8 characters long.
+        {{'user.auth.sign-up.password-must-be-at-least-8-characters-long' | translate}}
       </div>
     </div>
     <div class="validation-error" *ngIf="passwordErrorMessageBackEnd!=null">
@@ -79,7 +79,7 @@
     <p></p>
     <button class="btn btn-primary submit" [disabled]="!registerForm.valid" type="submit">
       <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-      Submit
+      {{'user.auth.sign-up.submit' | translate}}
     </button>
   </form>
 

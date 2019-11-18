@@ -1,0 +1,9 @@
+<div class="tracked-habit-statistic">
+  <div>
+    <h5>{{'habit-message.' + habit.name | translate}}</h5>
+    <app-habit-item-list [habit]="habit" [habitStatistic]="habitStatistic"></app-habit-item-list>
+    <h6 class="estimation-message">{{'user.habit-statistic.habit-statistic.how-do-you-estimate-today' | translate}}</h6>
+    <app-day-estimation [habitStatisticDto]="habitStatistic"></app-day-estimation>
+    <span style="font-size: 10pt">{{'advice.' + habit.name | translate}}</span>
+  </div>
+</div>

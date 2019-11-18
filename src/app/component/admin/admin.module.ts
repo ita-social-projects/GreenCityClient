@@ -36,6 +36,7 @@ import {ConfirmationDialogService} from './confirm-modal/confirmation-dialog-ser
 import {AdminComponent} from './admin.component';
 import {FeedbacksComponent} from './feedbacks/feedbacks.component';
 import {DialogPhotoComponent} from './feedbacks/dialog-photo/dialog-photo.component';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   declarations: [AdminNavComponent, AdminComponent, PlacesComponent, UsersComponent, ErrorComponent, ConfirmModalComponent,
@@ -71,7 +72,8 @@ import {DialogPhotoComponent} from './feedbacks/dialog-photo/dialog-photo.compon
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI',
       libraries: ['places']
-    })
+    }),
+    TranslateModule
   ],
   providers: [
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},

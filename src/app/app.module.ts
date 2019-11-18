@@ -16,7 +16,7 @@ import {SignInComponent} from './component/user/auth/sign-in/sign-in.component';
 import {SubmitEmailComponent} from './component/user/auth/submit-email/submit-email.component';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {ModalModule} from './component/user/_modal/modal.module';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {ProposeCafeComponent} from './component/user/propose-cafe/propose-cafe.component';
 import {InterceptorService} from './service/interceptor.service';
 import {AdminModule} from './component/admin/admin.module';
@@ -62,14 +62,18 @@ import {RatingModule} from 'ngx-bootstrap';
 import {PhotoUploadComponent} from './component/user/photo-upload/photo-upload.component';
 import {UserSettingComponent} from './component/user/user-setting/user-setting.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { TrackedHabitStatisticComponent } from './component/user/habit-statistic/tracked-habit-statistic.component';
-import { HabitItemComponent } from './component/user/habit-statistic/habit-item/habit-item.component';
-import { HabitItemListComponent } from './component/user/habit-statistic/habit-item-list/habit-item-list.component';
-import { DayEstimationComponent } from './component/user/habit-statistic/day-estimation/day-estimation.component';
-import { HabitStatisticComponent } from './component/user/habit-statistic/habit-statistic/habit-statistic.component';
 import { UserLogComponent } from './component/user/habit-statistic/user-log/user-log.component';
 import { ButtonComponent } from './component/user/habit-statistic/button/button.component';
-
+import {TrackedHabitStatisticComponent} from './component/user/habit/user-habit-page/habit-statistic/tracked-habit-statistic.component';
+import {HabitItemComponent} from './component/user/habit/user-habit-page/habit-statistic/habit-statistic/habit-estimation/habit-item/habit-item.component';
+import {HabitStatisticComponent} from './component/user/habit/user-habit-page/habit-statistic/habit-statistic/habit-statistic.component';
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {UserHabitPageComponent} from './component/user/habit/user-habit-page/user-habit-page.component';
+import {LowerNavBarComponent} from './component/user/lower-nav-bar/lower-nav-bar.component';
+import {HabitItemListComponent} from './component/user/habit/user-habit-page/habit-statistic/habit-statistic/habit-estimation/habit-item-list/habit-item-list.component';
+import {HabitEstimationComponent} from './component/user/habit/user-habit-page/habit-statistic/habit-statistic/habit-estimation/habit-estimation.component';
+import {DayEstimationComponent} from './component/user/habit/user-habit-page/habit-statistic/habit-statistic/habit-estimation/day-estimation/day-estimation.component';
 
 @NgModule({
   declarations: [
@@ -99,6 +103,9 @@ import { ButtonComponent } from './component/user/habit-statistic/button/button.
     HabitStatisticComponent,
     UserLogComponent,
     ButtonComponent,
+    UserHabitPageComponent,
+    LowerNavBarComponent,
+    HabitEstimationComponent
   ],
   imports: [
     BrowserModule,
@@ -139,13 +146,24 @@ import { ButtonComponent } from './component/user/habit-statistic/button/button.
     MatCheckboxModule,
     MatRadioModule,
     MatSelectModule,
-    NgbModule
+    NgbModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   entryComponents: [
-    ProposeCafeComponent, FavoritePlaceComponent,
-    EditFavoriteNameComponent, RestoreComponent,
+    ProposeCafeComponent,
+    FavoritePlaceComponent,
+    EditFavoriteNameComponent,
+    RestoreComponent,
     DeleteFavoriteComponent,
-    UserSettingComponent, AddCommentComponent],
+    UserSettingComponent,
+    AddCommentComponent
+  ],
 
   providers: [
     {
@@ -166,6 +184,11 @@ import { ButtonComponent } from './component/user/habit-statistic/button/button.
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule {
 
+}
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
 }
