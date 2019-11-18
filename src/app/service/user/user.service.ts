@@ -113,7 +113,7 @@ export class UserService {
   }
 
   loadAllGoals() {
-    this.http.get<Goal[]>(`${this.apiUrl}/12/goals`).subscribe(
+    this.http.get<Goal[]>(`${this.apiUrl}/13/goals`).subscribe(
       data => {
         this.dataStore.goals = data;
         this.goalsSubject.next(Object.assign({}, this.dataStore).goals);
@@ -123,9 +123,12 @@ export class UserService {
   }
 
   updateGoalStatus(goal: Goal) {
-    this.http.patch<Goal[]>(`${this.apiUrl}/12/goals/${goal.id}`, goal).subscribe(
+    this.http.patch<Goal>(`${this.apiUrl}/13/goals/${goal.id}`, goal).subscribe(
       data => {
-        this.dataStore.goals = data;
+        this.dataStore.goals = [
+          ...this.dataStore.goals.filter(el => el.id !== goal.id),
+          data
+        ];
         this.goalsSubject.next(Object.assign({}, this.dataStore).goals);
       },
       error => console.log('Could not update goal.' + error)

@@ -1,6 +1,10 @@
 <div class="main-goal-list-container">
-  <div class="goal-list-container" *ngIf="this.amount > 0">
-    <span *ngFor="let goal of $goals | async">
+  <div class="goal-list-container">
+    <span
+      *ngFor="
+        let goal of $goals | async | uncheckedFirst | showFirstN: 3:isCollapse
+      "
+    >
       <span>
         <app-goal-item [goal]="goal"></app-goal-item>
       </span>

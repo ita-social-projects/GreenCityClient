@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {Goal} from '../../../../model/goal/Goal';
-import {UserService} from '../../../../service/user/user.service';
+import { Component, OnInit } from '@angular/core';
+import { Goal } from '../../../../model/goal/Goal';
+import { UserService } from '../../../../service/user/user.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-goal-list',
