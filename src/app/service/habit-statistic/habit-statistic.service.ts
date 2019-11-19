@@ -6,6 +6,7 @@ import {DayEstimation} from '../../model/habit/DayEstimation';
 import {HabitDto} from '../../model/habit/HabitDto';
 
 import { habitStatistic } from 'src/app/links';
+import { error } from 'util';
 
 @Injectable({
   providedIn: 'root'
@@ -46,17 +47,14 @@ export class HabitStatisticService {
   getUserLog(): Observable<any> {
     return this.http.get<
     {'creationDate',
-      'amountUnTakenItemsPerMonth': {
+      allItemsPerMonth: {
         'cap',
         'bag'
-      }, 'differenceUnTakenItemsWithPreviousMonth': {
+      }, differenceUnTakenItemsWithPreviousMonth: {
         'cap',
         'bag'
       }
-
     }
   >(`${habitStatistic}`);
   }
-
-
 }

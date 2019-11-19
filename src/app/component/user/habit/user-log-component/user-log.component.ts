@@ -1,6 +1,8 @@
 import { Component, OnInit} from '@angular/core';
 import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-statistic.service';
 import { daLocale } from 'ngx-bootstrap';
+import { from } from 'rxjs';
+import { error } from 'util';
 
 @Component({
   selector: 'app-user-log',
@@ -11,6 +13,8 @@ export class UserLogComponent implements OnInit {
 
   constructor(private habitStatisticService: HabitStatisticService) { }
 
+  hasStatistic = true;
+
   $userLog: any;
   $creationDate: Date;
   $amountUnTakenItemsPerMonthBag: number;
@@ -20,12 +24,18 @@ export class UserLogComponent implements OnInit {
 
   ngOnInit() {
       this.$userLog = this.habitStatisticService.getUserLog().subscribe(data => {
-      this.$creationDate = data.creationDate,
-      this.$amountUnTakenItemsPerMonthBag = data.amountUnTakenItemsPerMonth.bag,
-      this.$amountUnTakenItemsPerMonthCap = data.amountUnTakenItemsPerMonth.cap,
-      this.$differenceUnTakenItemsWithPreviousMonthBag =  data.differenceUnTakenItemsWithPreviousMonth.bag,
-      this.$differenceUnTakenItemsWithPreviousMonthCap = data.differenceUnTakenItemsWithPreviousMonth.cap;
-     });
+        if (typeof data === 'undefined') {
+          this.hasStatistic = false;
+        } else {
+          this.hasStatistic = true;
+          this.$creationDate = data.creationDate;
+          this.$amountUnTakenItemsPerMonthCap = data.allItemsPerMonth.cap;
+          this.$amountUnTakenItemsPerMonthBag = data.allItemsPerMonth .bag;
+          this.$differenceUnTakenItemsWithPreviousMonthCap = data.differenceUnTakenItemsWithPreviousMonth.cap;
+          this.$differenceUnTakenItemsWithPreviousMonthBag =  data.differenceUnTakenItemsWithPreviousMonth.bag;
+        }
+     }
+     );
   }
 
   nowDate() {
@@ -47,7 +57,7 @@ export class UserLogComponent implements OnInit {
     const dateFromDateBase = new Date(this.$creationDate);
     const DifferenceInTime = dateNow.getTime() - dateFromDateBase.getTime();
     const DifferenceInDays = DifferenceInTime / (1000 * 3600 * 24);
-    return Math.floor(DifferenceInDays);
+    return Math.floor(DifferenceInDays) > 1 ? Math.floor(DifferenceInDays) : 1;
   }
 
 }
