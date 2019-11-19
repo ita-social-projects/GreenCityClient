@@ -15,13 +15,13 @@
     </span>
 
     <div class="full-goal-list-container" (click)="isCollapse = !isCollapse">
-      <span *ngIf="isCollapse" class="full-goal-list-text">
+      <span *ngIf="isCollapse && this.amount<0" class="full-goal-list-text">
         {{'user.user-goals.goal-list.expand'|translate}}
         <span class="full-goal-list-arrow">
            &#x27F6;
         </span>
       </span>
-      <span *ngIf="!isCollapse" class="full-goal-list-text">
+      <span *ngIf="!isCollapse && this.amount<0" class="full-goal-list-text">
        {{'user.user-goals.goal-list.collapse'|translate}}
         <span class="full-goal-list-arrow">
           &#8592;
