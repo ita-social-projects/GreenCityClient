@@ -301,6 +301,18 @@
       "tips": "Tips",
       "map": "Map",
       "my-habits": "My habits"
+    },
+    "user-goals": {
+      "goal-container": {
+        "my-goals": "My goals"
+      },
+      "add-goal-button": {
+        "add-button": "Add new goal"
+      },
+      "goal-list": {
+        "expand": "Show more",
+        "collapse": "Show less"
+      }
     }
   },
   "advice": {

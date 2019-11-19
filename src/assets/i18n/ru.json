@@ -300,6 +300,18 @@
       "tips": "Полезные советы",
       "map": "Карта",
       "my-habits": "Мои привычки"
+    },
+    "user-goals": {
+      "goal-container": {
+        "my-goals": "Мои цели",
+      },
+      "add-goal-button": {
+        "add-button": "Добавить новую цель"
+      },
+      "goal-list": {
+        "expand": "Посмотреть все цели",
+        "collapse": "Свернуть цели"
+      }
     }
   },
   "advice": {
