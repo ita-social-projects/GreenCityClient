@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of, BehaviorSubject } from 'rxjs';
-import { UserRoleModel } from '../../model/user/user-role.model';
-import { UserStatusModel } from '../../model/user/user-status.model';
-import { UserPageableDtoModel } from '../../model/user/user-pageable-dto.model';
-import { mainLink, placeLink, userLink } from '../../links';
-import { RolesModel } from '../../model/user/roles.model';
-import { UserFilterDtoModel } from '../../model/user/userFilterDto.model';
-import { UserUpdateModel } from '../../model/user/user-update.model';
-import { Goal } from '../../model/goal/Goal';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {UserRoleModel} from '../../model/user/user-role.model';
+import {UserStatusModel} from '../../model/user/user-status.model';
+import {UserPageableDtoModel} from '../../model/user/user-pageable-dto.model';
+import {mainLink, userLink} from '../../links';
+import {RolesModel} from '../../model/user/roles.model';
+import {UserFilterDtoModel} from '../../model/user/userFilterDto.model';
+import {UserUpdateModel} from '../../model/user/user-update.model';
+import {Goal} from '../../model/goal/Goal';
 
 const token = localStorage.getItem('accessToken');
 let jwtData = null;
@@ -99,21 +99,8 @@ export class UserService {
     return this.http.get<string[]>(`${userLink}/emailNotifications`);
   }
 
-  getUserGoals(): Observable<Goal[]> {
-    return this.http.get<Goal[]>(`${this.apiUrl}/12/goals`);
-  }
-
-  updateGoal(id: number) {
-    console.log(id);
-    return this.http
-      .patch<Goal>(`${this.apiUrl}/12/goals/${id}`, null)
-      .subscribe();
-    // goal.status = !goal.status;
-    // return of(goal);
-  }
-
   loadAllGoals() {
-    this.http.get<Goal[]>(`${this.apiUrl}/13/goals`).subscribe(
+    this.http.get<Goal[]>(`${this.apiUrl}/12/goals`).subscribe(
       data => {
         this.dataStore.goals = data;
         this.goalsSubject.next(Object.assign({}, this.dataStore).goals);
@@ -123,7 +110,7 @@ export class UserService {
   }
 
   updateGoalStatus(goal: Goal) {
-    this.http.patch<Goal>(`${this.apiUrl}/13/goals/${goal.id}`, goal).subscribe(
+    this.http.patch<Goal>(`${this.apiUrl}/12/goals/${goal.id}`, goal).subscribe(
       data => {
         this.dataStore.goals = [
           ...this.dataStore.goals.filter(el => el.id !== goal.id),

@@ -1,7 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { Observable, from, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Goal } from 'src/app/model/goal/Goal';
+import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
   name: 'uncheckedFirst'
