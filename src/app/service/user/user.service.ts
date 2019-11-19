@@ -23,9 +23,10 @@ export class UserService {
   roleDto: UserRoleModel;
   filterDto: UserFilterDtoModel;
   apiUrl = `${mainLink}user`;
+  userId = window.localStorage.getItem('id');
 
   private goalsSubject = new BehaviorSubject<Goal[]>([]);
-  private dataStore: { goals: Goal[] } = { goals: [] };
+  private dataStore: { goals: Goal[] } = {goals: []};
 
   readonly goals = this.goalsSubject.asObservable();
 
@@ -100,7 +101,7 @@ export class UserService {
   }
 
   loadAllGoals() {
-    this.http.get<Goal[]>(`${this.apiUrl}/12/goals`).subscribe(
+    this.http.get<Goal[]>(`${this.apiUrl}/${this.userId}/goals`).subscribe(
       data => {
         this.dataStore.goals = data;
         this.goalsSubject.next(Object.assign({}, this.dataStore).goals);
@@ -110,7 +111,7 @@ export class UserService {
   }
 
   updateGoalStatus(goal: Goal) {
-    this.http.patch<Goal>(`${this.apiUrl}/12/goals/${goal.id}`, goal).subscribe(
+    this.http.patch<Goal>(`${this.apiUrl}/${this.userId}/goals/${goal.id}`, goal).subscribe(
       data => {
         this.dataStore.goals = [
           ...this.dataStore.goals.filter(el => el.id !== goal.id),
