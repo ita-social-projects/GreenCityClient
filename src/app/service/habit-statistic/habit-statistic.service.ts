@@ -4,7 +4,6 @@ import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {DayEstimation} from '../../model/habit/DayEstimation';
 import {HabitDto} from '../../model/habit/HabitDto';
-import {HabitStatisticLogDto} from '../../model/habit/HabitStatisticLogDto';
 
 import { habitStatistic } from 'src/app/links';
 
@@ -45,8 +44,6 @@ export class HabitStatisticService {
   }
 
   getUserLog(): Observable<any> {
-  //  console.log("HERE I AM");
-   // console.log(this.http.get(`${habitStatistic}`));
     return this.http.get<
     {'creationDate',
       'amountUnTakenItemsPerMonth': {
