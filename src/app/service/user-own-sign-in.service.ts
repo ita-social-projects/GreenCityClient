@@ -24,6 +24,7 @@ export class UserOwnSignInService {
     window.localStorage.setItem('firstName', data.firstName);
     window.localStorage.setItem('accessToken', data.accessToken);
     window.localStorage.setItem('refreshToken', data.refreshToken);
+    window.localStorage.setItem('id', data.id);
   }
 }
 

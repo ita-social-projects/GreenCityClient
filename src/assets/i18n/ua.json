@@ -301,6 +301,18 @@
       "tips": "Корисні поради",
       "map": "Карта",
       "my-habits": "Мої звички"
+    },
+    "user-goals": {
+      "goal-container": {
+        "my-goals": "Мої цілі"
+      },
+      "add-goal-button": {
+        "add-button": "Додати нову ціль"
+      },
+      "goal-list": {
+        "expand": "Переглянути всі цілі",
+        "collapse": "Згорнути цілі"
+      }
     }
   },
   "advice": {
