@@ -2,7 +2,11 @@
   <div class="goal-list-container">
     <span
       *ngFor="
-        let goal of $goals | async | uncheckedFirst | showFirstN: 3:isCollapse
+        let goal of $goals
+          | async
+          | alphabetical
+          | uncheckedFirst
+          | showFirstN: 3:isCollapse
       "
     >
       <span>
