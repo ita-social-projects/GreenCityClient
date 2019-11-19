@@ -1,7 +1,13 @@
 export class AdviceDto {
-  name: string;
+  id: number;
+  advice: string;
+  habitDictionaryId: number;
+  habitDictionaryName: string;
 
-  constructor(name: string) {
-    this.name = name;
+  constructor(id: number, name: string, habitDictionaryId: number, habitDictionaryName: string) {
+    this.id = id;
+    this.advice = name;
+    this.habitDictionaryId = habitDictionaryId;
+    this.habitDictionaryName = habitDictionaryName;
   }
 }
