@@ -15,7 +15,7 @@ export class AdviceComponent implements OnInit {
   constructor(private service: AdviceService) { }
 
   ngOnInit() {
-    this.service.getAdvice(this.habitId).subscribe(data => this.advice = data.name);
+    this.service.getAdvice(this.habitId).subscribe(data => this.advice = data.advice);
   }
 
 }
