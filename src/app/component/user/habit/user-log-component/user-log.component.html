@@ -2,21 +2,23 @@
   <div class="col-xl-12">
     <div style="display: block!important; margin-top: 17px">
     <div class="open-sans">
-      <span class="open-sans">{{nowDate()}} - День 15 з 21</span>
+      <span class="open-sans">{{nowDate()}} - День  {{countDayInCycle()}} з 21 </span>
       <h2 class="open-sans">Календар корисних звичок</h2>
-      <div *ngIf="countHabit() > 0">
-        <p class="open-sans">Сьогодні {{countDay()}} день місяця і це <a *ngIf="countForMonth() > 0">більше</a>
-          <a *ngIf="countForMonth() < 0">менше</a> на {{checkCountForMonth()}} пакета та 2 склянки ніж в минулому</p>
-
+      <div *ngIf="countDayInCycle() > 0">
+        <p class="open-sans">Сьогодні {{countDay()}} день місяця і це <a *ngIf="$differenceUnTakenItemsWithPreviousMonthBag > 0">більше</a>
+          <a *ngIf="$differenceUnTakenItemsWithPreviousMonthBag < 0">менше</a> на {{$differenceUnTakenItemsWithPreviousMonthBag}} пакета 
+          та <a *ngIf="$differenceUnTakenItemsWithPreviousMonthCap > 0">більше на</a>
+          <a *ngIf="$differenceUnTakenItemsWithPreviousMonthCap < 0">менше на</a>          
+          {{$differenceUnTakenItemsWithPreviousMonthCap}} склянки ніж в минулому</p>
         <div class="statistic">В цьому місяці ти взяв
-          <div class="images"><img src="assets/img/icon/package_statistic.png"><h4><span class="item-count">7</span></h4></div>
+          <div class="images"><img src="assets/img/icon/package_statistic.png"><h4><span class="item-count">{{$amountUnTakenItemsPerMonthBag}}</span></h4></div>
           пакета та
-          <div class="images"><img src="/assets/img/icon/coffee_statistic.png"><h4><span class="item-count">23</span></h4></div>
+          <div class="images"><img src="/assets/img/icon/coffee_statistic.png"><h4><span class="item-count">{{$amountUnTakenItemsPerMonthCap}}</span></h4></div>
           склянок.
         </div>
         <app-button></app-button>
       </div>
-      <p *ngIf="countHabit() == 0" class="open-sans">В цьому місяці ти не зберіг це жодного пакета чи склянки, та ти
+      <p *ngIf="countDayInCycle() == 0" class="open-sans">В цьому місяці ти не зберіг це жодного пакета чи склянки, та ти
         маєш шанс
         зробити цей світ кращим! Почни саме зараз! Познач кількість пакетів та
         склянок, які ти не взяв сьогодні! Фбо почни формувати звичку на свій

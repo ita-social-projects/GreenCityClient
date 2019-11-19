@@ -4,6 +4,9 @@ import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {DayEstimation} from '../../model/habit/DayEstimation';
 import {HabitDto} from '../../model/habit/HabitDto';
+import {HabitStatisticLogDto} from '../../model/habit/HabitStatisticLogDto';
+
+import { habitStatistic } from 'src/app/links';
 
 @Injectable({
   providedIn: 'root'
@@ -40,4 +43,23 @@ export class HabitStatisticService {
     return of(new HabitStatisticDto(statToUpdate.id, statToUpdate.habitId, statToUpdate.countHabit,
       statToUpdate.dayEstimation, statToUpdate.date));
   }
+
+  getUserLog(): Observable<any> {
+  //  console.log("HERE I AM");
+   // console.log(this.http.get(`${habitStatistic}`));
+    return this.http.get<
+    {'creationDate',
+      'amountUnTakenItemsPerMonth': {
+        'cap',
+        'bag'
+      }, 'differenceUnTakenItemsWithPreviousMonth': {
+        'cap',
+        'bag'
+      }
+
+    }
+  >(`${habitStatistic}`);
+  }
+
+
 }
