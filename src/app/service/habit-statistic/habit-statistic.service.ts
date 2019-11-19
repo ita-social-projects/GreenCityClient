@@ -5,6 +5,8 @@ import {Observable, of} from 'rxjs';
 import {DayEstimation} from '../../model/habit/DayEstimation';
 import {HabitDto} from '../../model/habit/HabitDto';
 
+import { habitStatistic } from 'src/app/links';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -40,4 +42,21 @@ export class HabitStatisticService {
     return of(new HabitStatisticDto(statToUpdate.id, statToUpdate.habitId, statToUpdate.countHabit,
       statToUpdate.dayEstimation, statToUpdate.date));
   }
+
+  getUserLog(): Observable<any> {
+    return this.http.get<
+    {'creationDate',
+      'amountUnTakenItemsPerMonth': {
+        'cap',
+        'bag'
+      }, 'differenceUnTakenItemsWithPreviousMonth': {
+        'cap',
+        'bag'
+      }
+
+    }
+  >(`${habitStatistic}`);
+  }
+
+
 }

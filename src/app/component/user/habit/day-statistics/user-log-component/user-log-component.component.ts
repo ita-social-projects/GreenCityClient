@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {HabitStatisticService} from '../../../../../service/habit-statistic/habit-statistic.service';
 
 @Component({
   selector: 'app-user-log-component',
@@ -7,10 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserLogComponentComponent implements OnInit {
 
-  constructor() { }
+  constructor(private habitStatisticService: HabitStatisticService) { }
 
   ngOnInit() {
   }
+
   nowDate() {
     let date: Date = new Date();
     return date.getDate() + ' ' +   date.toLocaleString('default', { month: 'long' });
@@ -22,6 +24,7 @@ export class UserLogComponentComponent implements OnInit {
   }
 
   countHabit() {
+    this.habitStatisticService.getUserLog();
     return 1;
   }
 
@@ -30,7 +33,6 @@ export class UserLogComponentComponent implements OnInit {
   }
 
   checkCountForMonth() {
-    return Math.abs(this.countForMonth());
   }
 
 }
