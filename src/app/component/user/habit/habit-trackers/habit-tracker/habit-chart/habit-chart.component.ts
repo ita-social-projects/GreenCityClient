@@ -1,12 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  ElementRef,
-  AfterContentInit,
-  AfterViewChecked,
-  ViewChild
-} from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import { Chart } from "chart.js";
 import "chartjs-plugin-labels";
 import { delay } from "rxjs/operators";
