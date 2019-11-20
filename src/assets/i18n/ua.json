@@ -1,0 +1,327 @@
+{
+  "admin-nav": {
+    "places": "Місця",
+    "users": "Користувачі",
+    "feedbacks": "Відгуки",
+    "create-new-cafe": "Створити кафе"
+  },
+  "confirm-modal": {
+    "delete": "Видалити",
+    "cancel": "Скасувати"
+  },
+  "feedbacks": {
+    "dialog-photo": {
+      "close": "Закрити"
+    },
+    "feedbacks": "Відгуки",
+    "place": "Місце",
+    "comment": "Коментар",
+    "more": "більше",
+    "less": "менше",
+    "attachments": "Вкладення",
+    "no-attachment": "Немає вкладень",
+    "loading-data": "Завантаження даних...",
+    "no-data": "Немає даних",
+    "items-per-page": "Записів на сторінку:"
+  },
+  "places": {
+    "places": "Місця",
+    "search": "Пошук",
+    "category": "Категорія",
+    "name": "Назва",
+    "address": "Адреса",
+    "working-times": "Робочий час",
+    "added-by": "Ким додано",
+    "added-on": "Додано",
+    "status": "Статус",
+    "proposed": "Запропоновано",
+    "declined": "Відхилено",
+    "approved": "Підтверджено",
+    "deleted": "Видалено",
+    "loading-data": "Завантаження даних...",
+    "no-data": "Немає даних",
+    "propose": "Запропонувати",
+    "approve": "Схвалити",
+    "decline": "Відхилити",
+    "delete": "Видалити",
+    "items-per-page": "Записів на сторінку:",
+    "sort-ascending": "Сортувати за зростанням",
+    "sort-descending": "Сортувати за спаданням",
+    "cancel-sorting": "Скасувати сортування"
+  },
+  "update-cafe": {
+    "name": "Назва",
+    "enter-address": "Введіть адресу",
+    "select-category": "Вибрати категорію",
+    "discount": "Знижка",
+    "edit-cafe": "Редагувати кафе",
+    "name-is-required": "Потрібно ввести назву.",
+    "name-must-be-at-least-3-characters-long": "Назва повинна містити принаймі 3 символи.",
+    "name-must-be-maximum-30-characters-long": "Назва повинна містити не більше 30 символів.",
+    "address-is-required": "Потрібно ввести адресу.",
+    "address-must-be-at-least-3-characters-long": "Адреса повинна містити не менше 3 символів.",
+    "address-must-be-maximum-120-characters-long": "Адреса повинна містити не більше 120 символів.",
+    "address": "Адреса:",
+    "latitude": "Широта:",
+    "longitude": "Довгота:",
+    "select-specification": "Виберіть специфікацію:",
+    "category-is-required": "Потрібно ввести категорію.",
+    "category-must-be-at-least-3-characters-long": "Категорія повинна містити не менше 3 символів.",
+    "category-must-be-maximum-30-characters-long": "Категорія повинна містити не більше 30 символів",
+    "specification-is-required": "Потрібно ввести специфікацію.",
+    "specification-must-be-at-least-3-characters-long": "Специфікація повинна містити не менше 3 символів.",
+    "specification-must-be-maximum-30-characters-long": "Специфікація повинна містити не більше 30 символів.",
+    "add-discount": "Додати знижку",
+    "select-schedule": "Виберіть розклад:",
+    "select-day": "Виберіть день:",
+    "is-break-time-needed": "потрібна перерва",
+    "add-day": "Додати день",
+    "from": "з:",
+    "to": "до:",
+    "start": "початок:",
+    "end": "кінець:",
+    "submit": "Підтвердити",
+    "close": "Закрити"
+  },
+  "users": {
+    "users": "Користувачі",
+    "search": "Пошук",
+    "email": "Електронна пошта",
+    "first-name": "Ім'я",
+    "last-name": "Прізвище",
+    "date-of-registration": "Дата реєстрації",
+    "actions": "Дії",
+    "block": "Заблокувати",
+    "unblock": "Розблокувати",
+    "deactivate": "Деактивувати",
+    "activate": "Активувати",
+    "loading-data": "Завантаження даних...",
+    "no-data": "Немає даних",
+    "items-per-page": "Записів на сторінку:",
+    "sort-ascending": "Сортувати за зростанням",
+    "sort-descending": "Сортувати за спаданням",
+    "cancel-sorting": "Скасувати сортування"
+  },
+  "nav-bar": {
+    "add-cafe": "Додати кафе",
+    "admin": "Адміністратор",
+    "my-habits": "Мої звички",
+    "favorite-places": "Улюблені місця",
+    "user-settings": "Налаштування профілю",
+    "sign-out": "Вийти",
+    "sign-in": "Увійти"
+  },
+  "admin": {
+    "errorMessage": "Заборонено"
+  },
+  "filter": {
+    "discount-rate": "Знижка",
+    "is-now-open": "Відчинено зараз",
+    "wrong-value-of-distance": "Хибне значення відстані!",
+    "distance": "Відстань:",
+    "distance-in-km": "Відстань в км",
+    "apply": "Підтвердити"
+  },
+  "error": {
+    "oops": "Упс!",
+    "go-to-homepage": "Перейти на домашню сторінку"
+  },
+  "user": {
+    "add-comment": {
+      "add-your-comment-to-place": "Додайте коментар до місця",
+      "please-rare-us": "Оцініть нас",
+      "comment-is-required": "Введіть коментар",
+      "comment-must-be-at-least-5-characters-long": "Коментар повинен містити принаймі 5 символів",
+      "comment-must-be-maximum": "Коментар повинен містити максимум",
+      "characters long": "символів",
+      "please-write-a-comment": "Будь ласка напишіть коментар",
+      "submit": "Підтвердити",
+      "close": "Закрити"
+    },
+    "auth": {
+      "sign-in": {
+        "email": "Електронна пошта",
+        "email-is-required": "Введіть пошту",
+        "email-must-be-at-least-1-characters-long": "Пошта повинна містити принаймі 1 символ",
+        "this-is-not-email": "Це не пошта",
+        "password": "Пароль",
+        "password-is-required": "Введіть пароль",
+        "password-must-be-at-least-8-characters-long": "Пароль повинен містити принаймі 8 символів",
+        "sign-in": "Увійти",
+        "sign-up": "Зареєструватись",
+        "sign-in-with-google": "Увійти через Google",
+        "forgot-password": "Забули пароль?"
+      },
+      "sign-up": {
+        "first-name": "Ім'я",
+        "first-name-is-required": "Введіть ім'я",
+        "first-name-must-be-at-least-1-characters-long": "Ім'я повинно містити принаймі 1 символ",
+        "last-name": "Прізвище",
+        "last-name-is-required": "Введіть прізвище",
+        "last-name-must-be-at-least-1-characters-long": "Прізвище повинно містити принаймі один символ",
+        "email": "Електронна пошта",
+        "email-is-required": "Введіть пошту",
+        "email-must-be-at-least-1-characters-long": "Пошта повинна містити принаймі один символ",
+        "this-is-not-email": "Це не пошта",
+        "password": "Пароль",
+        "password-is-required": "Введіть пароль",
+        "password-must-be-at-least-8-characters-long": "Пароль повинен містити принаймі 8 символів",
+        "submit": "Підтвердити"
+      },
+      "submit-email": "Ви успішно зареєструвались на сайті. Будь ласка, підтвердіть вашу електронну адресу в електронній скринці."
+    },
+    "favorite-place": {
+      "delete-favorite-place": {
+        "delete-favorite-place": "Видалити улюблене місце?",
+        "submit": "Підтвердити",
+        "cancel": "Відмінити"
+      },
+      "edit-name": {
+        "edit-name-for-your-favorite-place": "Змінити назву улюбленого місця",
+        "submit": "Підтвердити",
+        "cancel": "Відмінити"
+      },
+      "favorite-place": {
+        "favorite-places": "Улюблені місця",
+        "name": "Назва",
+        "actions": "Дії",
+        "edit": "Редагувати",
+        "delete": "Видалити",
+        "close": "Закрити"
+      }
+    },
+    "map": {
+      "filter-by": "Фільтр",
+      "searching-for-a-place": "Пошук місця",
+      "places": "Місця",
+      "show-all": "Показати усе",
+      "clear-filters": "Очистити фільтри",
+      "rate": "Рейтинг:",
+      "comments": "Коментарі:",
+      "add-comment": "Додати коментар",
+      "navigate-to-place": "Прокласти маршрут до місця",
+      "close-navigation": "Закрити навігацію",
+      "discount": "знижка",
+      "driving": "водіння",
+      "walking": "ходьба"
+    },
+    "photo-upload": {
+      "add-photo": "Додати фото",
+      "no-file-attached": "Файл не прикріплений.",
+      "file-name": "Назва файлу",
+      "remove": "Видалити",
+      "loading": "Завантаження...",
+      "upload": "Завантажити",
+      "you-can-upload-max": "Ви можете завантажити максимально",
+      "photos": "фото",
+      "your-photos-successfully-upload": "Ваше фото успішно завантажено"
+    },
+    "propose-cafe": {
+      "new-cafe": "Нове кафе",
+      "name-is-required": "Введіть назву.",
+      "name-must-be-at-least-3-characters-long": "Назва повинна містити принаймі 3 символи.",
+      "name-must-be-maximum-30-characters-long": "Назва повинна містити не більше 30 символів.",
+      "address-is-required": "Введіть адресу.",
+      "address-must-be-at-least-3-characters-long": "Адреса повинна містити принаймі 3 символи.",
+      "address-must-be-maximum-120-characters-long": "Адреса повинна містити не більше 120 символів.",
+      "enter-name": "Введіть назву",
+      "enter-address": "Введіть адресу",
+      "address": "Адреса:",
+      "latitude": "Широта:",
+      "longitude": "Довгота:",
+      "select-specification": "Виберіть специфікацію:",
+      "category-is-required": "Введіть категорію.",
+      "category-must-be-at-least-3-characters-long": "Категорія повинна містити принаймі 3 символи.",
+      "category-must-be-maximum-30-characters-long": "Категорія повинна містити не більше 30 символів.",
+      "select-category": "Виберіть категорію",
+      "specification-is-required": "Введіть специфікацію",
+      "specification-must-be-at-least-3-characters-long": "Специфікація повинна містити не менше 3 символів.",
+      "specification-must-be-maximum-30-characters-long.": "Специфікація повинна містити не більше 30 символів.",
+      "discount": "Знижка",
+      "add-discount": "Додати знижку",
+      "select-schedule": "Вибрати розклад:",
+      "select-day": "Вибрати день",
+      "is-break-time-needed": "потрібна перерва",
+      "from": "з:",
+      "to": "до:",
+      "add-day": "Додати день",
+      "break": "перерва",
+      "start": "початок:",
+      "end": "кінець:",
+      "upload-photos": "Завантажити фото",
+      "submit": "Підтвердити",
+      "close": "Закрити",
+      "second-time-have-to-be-late-than-first-please-try-again": "Час початку повинен бути раніше часу завершення. Будь ласка виберіть інший час"
+    },
+    "restore": {
+      "email": "Електронна пошта",
+      "submit": "Підтвердити"
+    },
+    "restore-form": {
+      "password": "Пароль",
+      "password-is-required": "Введите пароль.",
+      "password-must-be-at-least-8-characters-long": "Пароль должен содержать по крайней мере 8 символов.",
+      "confirm-password": "Подтвердить пароль",
+      "submit": "Подтвердить"
+    },
+    "user-setting": {
+      "user-settings": "Налаштування профілю",
+      "email": "Електронна пошта:",
+      "first-name": "Ім'я:",
+      "first-name-is-required": "Введіть ім'я.",
+      "first-name-must-be-at-least-1-characters-long": "Ім'я повинно містити принаймі 1 символ.",
+      "last-name": "Прізвище:",
+      "last-name-is-required": "Введіть прізвище.",
+      "last-name-must-be-at-least-1-characters-long": "Прізвище повинно містити принаймі 1 символ.",
+      "email-notifications": "Сповіщення:",
+      "yes": "Так",
+      "no": "Ні",
+      "frequency": "Частота",
+      "submit": "Підтвердити",
+      "close": "Закрити"
+    },
+    "habit-statistic": {
+      "day-estimation": {
+        "super": "супер",
+        "normal": "нормально",
+        "bad": "погано"
+      },
+      "habit-item-list": {
+        "more": "більше",
+        "less": "менше"
+      },
+      "habit-statistic": {
+        "how-do-you-estimate-today": "Як ти оціниш сьогоднішній день"
+      }
+    },
+    "lower-nav-bar": {
+      "home": "Головна",
+      "about-us": "Про нас",
+      "eco-events": "Еко заходи",
+      "tips": "Корисні поради",
+      "map": "Карта",
+      "my-habits": "Мої звички"
+    },
+    "user-goals": {
+      "goal-container": {
+        "my-goals": "Мої цілі"
+      },
+      "add-goal-button": {
+        "add-button": "Додати нову ціль"
+      },
+      "goal-list": {
+        "expand": "Переглянути всі цілі",
+        "collapse": "Згорнути цілі",
+        "list-placeholder":"Тут ти можеш ставити цілі і їх виконувати!"
+      }
+    }
+  },
+  "advice": {
+    "package": "Покладіть до кожної сумки чи рюкзака одну еко-сумку, так вона завжди буде з вами, якщо ви неочікувано зайдете в магазин",
+    "cup": ""
+  },
+  "habit-message": {
+    "bag": "Скільки пакетів ти не взяв сьогодні?",
+    "cap": "Скільки склянок ти не використав сьогодні?"
+  }
+}

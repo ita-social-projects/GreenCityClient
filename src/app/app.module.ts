@@ -16,7 +16,11 @@ import { SignInComponent } from './component/user/auth/sign-in/sign-in.component
 import { SubmitEmailComponent } from './component/user/auth/submit-email/submit-email.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ModalModule } from './component/user/_modal/modal.module';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  HttpClient,
+  HttpClientModule
+} from '@angular/common/http';
 import { ProposeCafeComponent } from './component/user/propose-cafe/propose-cafe.component';
 import { InterceptorService } from './service/interceptor.service';
 import { AdminModule } from './component/admin/admin.module';
@@ -47,6 +51,7 @@ import {
   MatTableModule,
   MatTreeModule
 } from '@angular/material';
+import { HabitChartComponent } from './component/user/habit/habit-trackers/habit-tracker/habit-chart/habit-chart.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { Ng5SliderModule } from 'ng5-slider';
 import { provideConfig } from './config/GoogleAuthConfig';
@@ -62,8 +67,29 @@ import { RatingModule } from 'ngx-bootstrap';
 import { PhotoUploadComponent } from './component/user/photo-upload/photo-upload.component';
 import { UserSettingComponent } from './component/user/user-setting/user-setting.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UserLogComponent } from './component/user/habit/user-log-component/user-log.component';
+import { ButtonComponent } from './component/user/habit/button-component/button.component';
+import { HabitTrackersComponent } from './component/user/habit/habit-trackers/habit-trackers.component';
+import { HabitItemComponent } from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-item/habit-item.component';
+import { HabitTrackerComponent } from './component/user/habit/habit-trackers/habit-tracker/habit-tracker.component';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { UserHabitPageComponent } from './component/user/habit/user-habit-page/user-habit-page.component';
 import { LowerNavBarComponent } from './component/user/lower-nav-bar/lower-nav-bar.component';
+import { HabitItemListComponent } from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-item-list/habit-item-list.component';
+import { HabitEstimationComponent } from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-estimation.component';
+import { DayEstimationComponent } from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/day-estimation/day-estimation.component';
+import { UserLogComponentComponent } from './component/user/habit/day-statistics/user-log-component/user-log-component.component';
+import { ButtonComponentComponent } from './component/user/habit/day-statistics/button-component/button-component.component';
+import { AdviceComponent } from './component/user/habit/habit-trackers/habit-tracker/advice/advice.component';
+import { GoalItemComponent } from './component/user/user-goals/goal-item/goal-item.component';
+import { GoalListComponent } from './component/user/user-goals/goal-list/goal-list.component';
+import { AddGoalButtonComponent } from './component/user/user-goals/add-goal-button/add-goal-button.component';
+import { GoalContainerComponent } from './component/user/user-goals/goal-container/goal-container.component';
+import { UserSidebarComponent } from './component/user/user-sidebar/user-sidebar.component';
+import { ShowFirstNPipe } from './pipe/show-first-n-pipe/show-first-n.pipe';
+import { UncheckedFirstPipe } from './pipe/unchecked-first-pipe/unchecked-first.pipe';
+import { AlphabeticalPipePipe } from './pipe/alphabetical-pipe/alphabetical-pipe.pipe';
 
 @NgModule({
   declarations: [
@@ -86,8 +112,29 @@ import { LowerNavBarComponent } from './component/user/lower-nav-bar/lower-nav-b
     PhotoUploadComponent,
     AddCommentComponent,
     UserSettingComponent,
+    HabitTrackersComponent,
+    HabitItemComponent,
+    HabitItemListComponent,
+    DayEstimationComponent,
+    HabitTrackerComponent,
+    UserLogComponent,
+    ButtonComponent,
     UserHabitPageComponent,
-    LowerNavBarComponent
+    LowerNavBarComponent,
+    GoalItemComponent,
+    GoalListComponent,
+    AddGoalButtonComponent,
+    GoalContainerComponent,
+    UserSidebarComponent,
+    LowerNavBarComponent,
+    HabitChartComponent,
+    HabitEstimationComponent,
+    UserLogComponentComponent,
+    ButtonComponentComponent,
+    AdviceComponent,
+    ShowFirstNPipe,
+    UncheckedFirstPipe,
+    AlphabeticalPipePipe
   ],
   imports: [
     BrowserModule,
@@ -128,7 +175,14 @@ import { LowerNavBarComponent } from './component/user/lower-nav-bar/lower-nav-b
     MatCheckboxModule,
     MatRadioModule,
     MatSelectModule,
-    NgbModule
+    NgbModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   entryComponents: [
     ProposeCafeComponent,
@@ -160,3 +214,7 @@ import { LowerNavBarComponent } from './component/user/lower-nav-bar/lower-nav-b
   bootstrap: [AppComponent]
 })
 export class AppModule {}
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}

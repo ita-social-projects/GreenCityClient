@@ -3,16 +3,16 @@
   <form #registerForm="ngForm" (ngSubmit)="signIn(userOwnSignIn)">
 
 
-    <label for="email">Email</label>
+    <label for="email">{{'user.auth.sign-in.email' | translate}}</label>
     <div class="validation-error" *ngIf="emailControl.invalid && (emailControl.dirty||emailControl.touched)">
       <div *ngIf="emailControl.errors.required">
-        Email is required.
+        {{'user.auth.sign-in.email-is-required' | translate}}
       </div>
       <div *ngIf="emailControl.errors.minlength">
-        Email must be at least 1 characters long.
+        {{'user.auth.sign-in.email-must-be-at-least-1-characters-long' | translate}}
       </div>
       <div *ngIf="emailControl.errors.email">
-        This is not email.
+        {{'user.auth.sign-in.this-is-not-email' | translate}}
       </div>
     </div>
     <div class="validation-error" *ngIf="emailErrorMessageBackEnd!=null">
@@ -23,13 +23,13 @@
            minlength="1" email="true">
 
 
-    <label for="password">Password</label>
+    <label for="password">{{'user.auth.sign-in.password' | translate}}</label>
     <div class="validation-error" *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
       <div *ngIf="passwordControl.errors.required">
-        Password name is required.
+        {{'user.auth.sign-in.password-is-required' | translate}}
       </div>
       <div *ngIf="passwordControl.errors.minlength">
-        Password must be at least 8 characters long.
+        {{'user.auth.sign-in.password-must-be-at-least-8-characters-long' | translate}}
       </div>
     </div>
     <div class="validation-error" *ngIf="passwordErrorMessageBackEnd!=null">
@@ -52,20 +52,21 @@
 
     <button class="btn btn-primary submit" [disabled]="!registerForm.valid" type="submit">
       <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-      Sign-in
+      {{'user.auth.sign-in.sign-in' | translate}}
     </button>
 
   </form>
 
   <p></p>
   <button class="btn btn-primary register" routerLink="sign-up">
-    Sign-up
+    {{'user.auth.sign-in.sign-up' | translate}}
   </button>
 
   <p></p>
 
   <div>
-    <input type="submit" class="btn btn-primary google" (click)="signInWithGoogle()" value="Sign-in with Google">
+    <input type="submit" class="btn btn-primary google" (click)="signInWithGoogle()"
+           value="{{'user.auth.sign-in.sign-in-with-google' | translate}}">
   </div>
-  <a (click)="openDialog()">Forgot password?</a>
+  <a (click)="openDialog()">{{'user.auth.sign-in.forgot-password' | translate}}</a>
 </div>

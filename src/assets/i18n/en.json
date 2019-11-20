@@ -1,0 +1,327 @@
+{
+  "admin-nav": {
+    "places": "Places",
+    "users": "Users",
+    "feedbacks": "Feedbacks",
+    "create-new-cafe": "Create new cafe"
+  },
+  "confirm-modal": {
+    "delete": "Delete",
+    "cancel": "Cancel"
+  },
+  "feedbacks": {
+    "dialog-photo": {
+      "close": "Close"
+    },
+    "feedbacks": "Feedbacks",
+    "place": "Place",
+    "comment": "Comment",
+    "more": "more",
+    "less": "less",
+    "attachments": "Attachments",
+    "no-attachment": "No attachments",
+    "loading-data": "Loading data...",
+    "no-data": "No data",
+    "items-per-page": "Items per page:"
+  },
+  "places": {
+    "places": "Places",
+    "search": "Search",
+    "category": "Category",
+    "name": "Name",
+    "address": "address",
+    "working-times": "Working times",
+    "added-by": "Added by",
+    "added-on": "Added on",
+    "status": "Status",
+    "proposed": "Proposed",
+    "declined": "Declined",
+    "approved": "Approved",
+    "deleted": "Deleted",
+    "loading-data": "Loading data...",
+    "no-data": "No data",
+    "propose": "Propose",
+    "approve": "Approve",
+    "decline": "Decline",
+    "delete": "Delete",
+    "items-per-page": "Items per page:",
+    "sort-ascending": "Sort Ascending",
+    "sort-descending": "Sort Descending",
+    "cancel-sorting": "Cancel Sorting"
+  },
+  "update-cafe": {
+    "name": "Name",
+    "enter-address": "Enter address",
+    "select-category": "Select category",
+    "edit-cafe": "Edit cafe",
+    "discount": "Discount",
+    "name-is-required": "Name is required",
+    "name-must-be-at-least-3-characters-long": "Name must be at least 3 characters long.",
+    "name-must-be-maximum-30-characters-long": "Name must be maximum 30 characters long.",
+    "address-is-required": "Address is required.",
+    "address-must-be-at-least-3-characters-long": "Address must be at least 3 characters long.",
+    "address-must-be-maximum-120-characters-long": "Address must be maximum 120 characters long.",
+    "address": "Address:",
+    "latitude": "Latitude:",
+    "longitude": "Longitude:",
+    "select-specification": "Select specification",
+    "category-is-required": "Category is required.",
+    "category-must-be-at-least-3-characters-long": "Category must be at least 3 characters long.",
+    "category-must-be-maximum-30-characters-long": "Category must be maximum 30 characters long.",
+    "specification-is-required": "Specification is required.",
+    "specification-must-be-at-least-3-characters-long": "Specification must be at least 3 characters long.",
+    "specification-must-be-maximum-30-characters-long": "Specification must be maximum 30 characters long.",
+    "add-discount": "Add discount",
+    "select-schedule": "Select schedule:",
+    "select-day": "Select day:",
+    "is-break-time-needed": "is break time needed",
+    "add-day": "Add day",
+    "from": "from:",
+    "to": "to:",
+    "start": "start:",
+    "end": "end:",
+    "submit": "Submit",
+    "close": "Close"
+  },
+  "users": {
+    "users": "Users",
+    "search": "Search",
+    "email": "Email",
+    "first-name": "First name",
+    "last-name": "Last name",
+    "date-of-registration": "Date of registration",
+    "actions": "Actions",
+    "block": "Block",
+    "unblock": "Unblock",
+    "deactivate": "Deactivate",
+    "activate": "Activate",
+    "loading-data": "Loading data...",
+    "no-data": "No data",
+    "items-per-page": "Items per page:",
+    "sort-ascending": "Sort Ascending",
+    "sort-descending": "Sort Descending",
+    "cancel-sorting": "Cancel Sorting"
+  },
+  "nav-bar": {
+    "add-cafe": "Add a cafe",
+    "admin": "Administrator",
+    "my-habits": "My habits",
+    "favorite-places": "Favorite places",
+    "user-settings": "User settings",
+    "sign-out": "Sign out",
+    "sign-in": "Sign in"
+  },
+  "admin": {
+    "errorMessage": "Forbidden"
+  },
+  "filter": {
+    "discount-rate": "Discount Rate",
+    "is-now-open": "Is now open",
+    "wrong-value-of-distance": "Wrong value of distance!",
+    "distance": "Distance:",
+    "distance-in-km": "Distance in km",
+    "apply": "Apply"
+  },
+  "error": {
+    "oops": "Oops!",
+    "go-to-homepage": "Go To Homepage"
+  },
+  "user": {
+    "add-comment": {
+      "Add-your-comment-to-place": "Add your comment to place",
+      "Please-rare-us": "Please rare us",
+      "comment-is-required": "Comment is required.",
+      "comment-must-be-at-least-5-characters-long": "Comment must be at least 5 characters long.",
+      "comment-must-be-maximum": "Comment must be maximum",
+      "characters-long": "characters long.",
+      "please-write-a-comment": "Please write a comment",
+      "submit": "Submit",
+      "close": "Close"
+    },
+    "auth": {
+      "sign-in": {
+        "email": "Email",
+        "email-is-required": "Email is required",
+        "email-must-be-at-least-1-characters-long": "Email must be at least 1 characters long",
+        "this-is-not-email": "This is not email",
+        "password": "Password",
+        "password-is-required": "Password is required",
+        "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long",
+        "sign-in": "Sign-in",
+        "sign-up": "Sign-up",
+        "sign-in-with-google": "Sign-in with Google",
+        "forgot-password": "Forgot password?"
+      },
+      "sign-up": {
+        "first-name": "First name",
+        "first-name-is-required": "First name is required",
+        "first-name-must-be-at-least-1-characters-long": "First name must be at least 1 characters long",
+        "last-name": "Last name",
+        "last-name-is-required": "Last name is required",
+        "last-name-must-be-at-least-1-characters-long": "Last name must be at least 1 characters long",
+        "email": "Email",
+        "email-is-required": "Email is required",
+        "email-must-be-at-least-1-characters-long": "Email must be at least 1 characters long",
+        "this-is-not-email": "This is not email",
+        "password": "Password",
+        "password-is-required": "Password is required",
+        "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long",
+        "submit": "Submit"
+      },
+      "submit-email": "Вы успешно зарегистрированы на этом сайте. Пожалуйста, подтвердите ваш адрес электронной почты в почтовом ящике"
+    },
+    "favorite-place": {
+      "delete-favorite-place": {
+        "delete-favorite-place": "Delete favorite place?",
+        "submit": "Submit",
+        "cancel": "Cancel"
+      },
+      "edit-name": {
+        "edit-name-for-your-favorite-place": "Edit name for your favorite place",
+        "submit": "Submit",
+        "cancel": "Cancel"
+      },
+      "favorite-place": {
+        "favorite-places": "Favorite places",
+        "name": "Name",
+        "actions": "Actions",
+        "edit": "Edit",
+        "delete": "Delete",
+        "close": "Close"
+      }
+    },
+    "map": {
+      "filter-by": "Filter By",
+      "searching-for-a-place": "Searching for a place",
+      "places": "Places",
+      "show-all": "Show all",
+      "clear-filters": "Clear Filters",
+      "rate": "Rate:",
+      "comments": "Comments:",
+      "add-comment": "Add comment",
+      "navigate-to-place": "Navigate to place",
+      "close-navigation": "Close navigation",
+      "discount": "discount",
+      "driving": "driving",
+      "walking": "walking"
+    },
+    "photo-upload": {
+      "add-photo": "Add photo",
+      "no-file-attached": "No file attached.",
+      "file-name": "File Name",
+      "remove": "Remove",
+      "loading": "Loading...",
+      "upload": "Upload",
+      "you-can-upload-max": "You  can  upload max",
+      "photos": "photos",
+      "your-photos-successfully-upload": "Your photos successfully upload"
+    },
+    "propose-cafe": {
+      "new-cafe": "New cafe",
+      "name-is-required": "Name is required.",
+      "name-must-be-at-least-3-characters-long": "Name must be at least 3 characters long.",
+      "name-must-be-maximum-30-characters-long": "Name must be maximum 30 characters long.",
+      "address-is-required": "Address is required.",
+      "address-must-be-at-least-3-characters-long": "Address must be at least 3 characters long.",
+      "address-must-be-maximum-120-characters-long": "Address must be maximum 120 characters long.",
+      "enter-name": "Enter name",
+      "enter-address": "Enter address",
+      "address": "Address:",
+      "latitude": "Latitude:",
+      "longitude": "Longitude:",
+      "select-specification": "Select specification:",
+      "category-is-required": "Category is required.",
+      "category-must-be-at-least-3-characters-long": "Category must be at least 3 characters long.",
+      "category-must-be-maximum-30-characters-long": "Category must be maximum 30 characters long.",
+      "select-category": "Select category",
+      "specification-is-required": "Specification is required.",
+      "specification-must-be-at-least-3-characters-long": "Specification must be at least 3 characters long.",
+      "specification-must-be-maximum-30-characters-long.": "Specification must be maximum 30 characters long.",
+      "discount": "Discount",
+      "add-discount": "Add discount",
+      "select-schedule": "Select schedule:",
+      "select-day": "Select day",
+      "from": "from:",
+      "to": "to:",
+      "is-break-time-needed": "is break time needed",
+      "add-day": "Add day",
+      "break": "break",
+      "start": "start:",
+      "end": "end:",
+      "upload-photos": "Upload Photos:",
+      "submit": "Submit",
+      "close": "Close",
+      "second-time-have-to-be-late-than-first-please-try-again": "Second time have to be late than first. Please, try again"
+    },
+    "restore": {
+      "email": "Email",
+      "submit": "Submit"
+    },
+    "restore-form": {
+      "password": "Password",
+      "password-is-required": "Password is required.",
+      "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long.",
+      "confirm-password": "Confirm password",
+      "submit": "Submit"
+    },
+    "user-setting": {
+      "user-settings": "user-settings",
+      "email": "Email:",
+      "first-name": "First name:",
+      "first-name-is-required": "First name is required.",
+      "first-name-must-be-at-least-1-characters-long": "First name must be at least 1 characters long.",
+      "last-name": "Last name:",
+      "last-name-is-required": "Last name is required.",
+      "last-name-must-be-at-least-1-characters-long": "Last name must be at least 1 characters long.",
+      "email-notifications": "Email notifications:",
+      "yes": "Yes",
+      "no": "No",
+      "frequency": "Frequency",
+      "submit": "Submit",
+      "close": "Close"
+    },
+    "habit-statistic": {
+      "day-estimation": {
+        "super": "super",
+        "normal": "normal",
+        "bad": "bad"
+      },
+      "habit-item-list": {
+        "more": "more",
+        "less": "less"
+      },
+      "habit-statistic": {
+        "how-do-you-estimate-today": "How do you estimate today"
+      }
+    },
+    "lower-nav-bar": {
+      "home": "Home",
+      "about-us": "About",
+      "eco-events": "Eko events",
+      "tips": "Tips",
+      "map": "Map",
+      "my-habits": "My habits"
+    },
+    "user-goals": {
+      "goal-container": {
+        "my-goals": "My goals"
+      },
+      "add-goal-button": {
+        "add-button": "Add new goal"
+      },
+      "goal-list": {
+        "expand": "Show more",
+        "collapse": "Show less",
+        "list-placeholder":"Here you can set goals and fulfill them!"
+      }
+    }
+  },
+  "advice": {
+    "package": "Put one eco-bag in each bag or backpack, so it will always be with you if you unexpectedly go to the store",
+    "cup": ""
+  },
+  "habit-message": {
+    "bag": "How many packages haven't you taken today?",
+    "cap": "How many glasses you haven't used today?"
+  }
+}
