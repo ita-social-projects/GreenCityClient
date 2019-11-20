@@ -28,8 +28,8 @@ export class HabitItemListComponent implements OnInit, OnChanges {
   constructor(private service: HabitStatisticService) {}
 
   ngOnInit(): void {
-    this.currentNumber = this.habitStatistic.countHabit;
-    this.isExpanded = this.habitStatistic.countHabit > 8;
+    this.currentNumber = this.habitStatistic.amountOfItems;
+    this.isExpanded = this.habitStatistic.amountOfItems > 8;
     this.initHabitItems();
     this.drawCurrentNumberItems();
   }
@@ -51,22 +51,19 @@ export class HabitItemListComponent implements OnInit, OnChanges {
   }
 
   update(habitItem: HabitItem) {
-    const newCount = habitItem.numb === this.currentNumber ? 0 : habitItem.numb;
+    const newCount = (habitItem.numb === this.currentNumber) ? 0 : habitItem.numb;
+    this.service.updatedHabitStatistic(new HabitStatisticDto(
+      this.habitStatistic.id,
+      this.habitStatistic.habitId,
+      newCount,
+      this.habitStatistic.habitRate, this.habitStatistic.createdOn)).subscribe(data => {
+      this.currentNumber = data.amountOfItems;
+      this.habitStatistic.amountOfItems = data.amountOfItems;
+      this.drawCurrentNumberItems();
+    });
 
-    this.service
-      .updatedHabitStatistic(
-        new HabitStatisticDto(
-          this.habitStatistic.id,
-          this.habitStatistic.habitId,
-          newCount,
-          this.habitStatistic.dayEstimation,
-          this.habitStatistic.date
-        )
-      )
-      .subscribe(data => {
-        this.currentNumber = data.countHabit;
-        this.drawCurrentNumberItems();
-      });
+    this.currentNumber = newCount;
+    this.drawCurrentNumberItems();
   }
 
   initHabitItems() {
@@ -76,10 +73,21 @@ export class HabitItemListComponent implements OnInit, OnChanges {
   }
 
   collapse() {
-    this.isExpanded = false;
-
     if (this.currentNumber > 8) {
+      this.service.updatedHabitStatistic(new HabitStatisticDto(
+        this.habitStatistic.id,
+        this.habitStatistic.habitId,
+        8,
+        this.habitStatistic.habitRate, this.habitStatistic.createdOn)).subscribe(data => {
+        this.currentNumber = data.amountOfItems;
+        this.drawCurrentNumberItems();
+        this.isExpanded = false;
+      });
       this.currentNumber = 8;
+      this.drawCurrentNumberItems();
+      this.isExpanded = false;
+    } else {
+      this.isExpanded = false;
     }
 
     this.habitItems.splice(8, 18);
@@ -113,12 +121,12 @@ export class HabitItemListComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.currentNumber = this.habitStatistic.countHabit;
-    this.isExpanded = this.habitStatistic.countHabit > 8;
+    this.currentNumber = this.habitStatistic.amountOfItems;
+    this.isExpanded = this.habitStatistic.amountOfItems > 8;
     this.drawCurrentNumberItems();
   }
 
   getIcon(): Photo {
-    return { name: `assets/img/icon/${this.habit.name}.png` };
+    return {name: `assets/img/icon/${this.habit.habitName}.png`};
   }
 }

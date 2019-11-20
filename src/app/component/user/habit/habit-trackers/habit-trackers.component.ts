@@ -16,6 +16,7 @@ export class HabitTrackersComponent implements OnInit {
   ngOnInit() {
     this.service.getTrackedHabits().subscribe(trackedHabits => {
       this.trackedHabits = trackedHabits;
+      console.log(trackedHabits);
     });
   }
 }

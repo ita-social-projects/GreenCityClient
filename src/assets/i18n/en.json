@@ -320,7 +320,7 @@
     "cup": ""
   },
   "habit-message": {
-    "package": "How many packages haven't you taken today?",
-    "cup": "How many glasses you haven't used today?"
+    "bag": "How many packages haven't you taken today?",
+    "cap": "How many glasses you haven't used today?"
   }
 }

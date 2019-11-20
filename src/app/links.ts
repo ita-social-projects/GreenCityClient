@@ -14,6 +14,7 @@ export const googleSecurityLink = mainLink + 'googleSecurity/';
 export const userInitialsLink = userLink + '/initials/';
 export const adviceLink = mainLink + 'advices/';
 export const adviceRandomLink = adviceLink + 'random/';
+export const habitStatisticLink = mainLink + 'habit/statistic/';
 
 // front-end
 export const frontMailLink = 'http://localhost:4200/';

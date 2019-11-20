@@ -1,6 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, OnInit, Input, ElementRef, AfterContentInit, AfterViewChecked, ViewChild} from '@angular/core';
 import { Chart } from 'chart.js';
 import 'chartjs-plugin-labels';
+import {delay} from 'rxjs/operators';
+import {DayEstimation} from '../../../../../../model/habit/DayEstimation';
 
 @Component({
   selector: 'app-habit-chart',
@@ -10,15 +12,16 @@ import 'chartjs-plugin-labels';
 export class HabitChartComponent implements OnInit {
   @Input() caption: string;
   @Input() values: any[];
+  @Input() chartId;
 
   readonly shape = 'assets/img/habit-circle-bg-shape.png';
 
   // SETTINGS
   showTooltipOnHover = false;
 
-  readonly COLOR_GREEN = '#a7dc2f'; // 3
-  readonly COLOR_LIGHT_GREY = '#056b36'; // 2
-  readonly COLOR_DARK_GREY = '#ffe200'; // 1
+  readonly COLOR_NORMAL = '#a7dc2f'; // 3
+  readonly COLOR_GOOD = '#056b36'; // 2
+  readonly COLOR_BAD = '#ffe200'; // 1
   readonly COLOR_WHITE = '#fff'; // 0
   readonly COLOR_LIGHT_BLUE = 'rgba(197, 230, 255, 0.4)';
 
@@ -40,9 +43,15 @@ export class HabitChartComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    this.fillSegments();
+    const canvas = document.getElementById('chartIdWTF');
+    canvas.id = this.chartId;
+    this.drawChart();
+  }
 
-    this.outerHabitChart = new Chart('outerHabitChart', {
+  private drawChart() {
+    this.fillSegments();
+    delay(5000);
+    this.outerHabitChart = new Chart(this.chartId, {
       type: 'doughnut',
       data: {
         datasets: this.habitChartDataset,
@@ -73,7 +82,7 @@ export class HabitChartComponent implements OnInit {
         plugins: {
           labels: {
             render(args) {
-              return args.label > 0 ? args.label : '';
+              return args.label >= 0 ? args.label : '';
             },
             fontSize: 16,
             fontColor: this.COLOR_WHITE
@@ -87,15 +96,15 @@ export class HabitChartComponent implements OnInit {
     this.values.forEach(el => {
       this.habitChartDataset[0].data = [...this.habitChartDataset[0].data, 1];
       let color;
-      switch (el.estimation) {
-        case 1:
-          color = this.COLOR_DARK_GREY;
+      switch (el.habitRate) {
+        case DayEstimation.NORMAL.toString():
+          color = this.COLOR_NORMAL;
           break;
-        case 2:
-          color = this.COLOR_LIGHT_GREY;
+        case DayEstimation.GOOD.toString():
+          color = this.COLOR_GOOD;
           break;
-        case 3:
-          color = this.COLOR_GREEN;
+        case DayEstimation.BAD.toString():
+          color = this.COLOR_BAD;
           break;
         default:
           color = this.COLOR_LIGHT_BLUE;
@@ -107,7 +116,7 @@ export class HabitChartComponent implements OnInit {
         color
       ];
 
-      this.outerLabels = [...this.outerLabels, el.value];
+      this.outerLabels = [...this.outerLabels, el.amountOfItems];
     });
   }
 }

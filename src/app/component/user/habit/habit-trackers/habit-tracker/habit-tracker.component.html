@@ -1,10 +1,11 @@
 <div class="container">
   <div class="row">
     <div class="col-6">
-      <app-habit-chart caption="qwerty" [values]="habitValues"></app-habit-chart>
+      <app-habit-chart *ngIf="habitStatistic" caption="{{habit.habitName}}" [values]="habitStatistic" [chartId]="chartId"></app-habit-chart>
     </div>
     <div class="col-6">
-      <app-habit-estimation [habit]="habit" [habitStatistic]="currentStatistic"></app-habit-estimation>
+      <app-habit-estimation *ngIf="habit && habitStatistic" [habit]="habit"
+                            [habitStatistic]="currentStatistic"></app-habit-estimation>
     </div>
   </div>
 </div>

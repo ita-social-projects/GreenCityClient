@@ -1,11 +1,11 @@
 export class HabitDto {
   id: number;
-  name: string;
-  creationDate: Date;
+  habitName: string;
+  createDate: Date;
 
   constructor(id: number, name: string, creationDate: Date) {
     this.id = id;
-    this.name = name;
-    this.creationDate = creationDate;
+    this.habitName = name;
+    this.createDate = creationDate;
   }
 }

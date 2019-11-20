@@ -7,7 +7,7 @@
       </app-habit-item>
     </div>
     <div *ngIf="!isExpanded" class="col-3 text-center">
-      <span *ngIf="!isExpanded" class="align-self-center" (click)="expand()">
+      <span class="align-self-center" (click)="expand()">
         {{'user.habit-statistic.habit-item-list.more' | translate}}&#8594;</span>
     </div>
   </div>
