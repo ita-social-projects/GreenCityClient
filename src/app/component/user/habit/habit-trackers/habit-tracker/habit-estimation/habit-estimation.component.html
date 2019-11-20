@@ -6,7 +6,7 @@
       <h6
         class="estimation-message">{{'user.habit-statistic.habit-statistic.how-do-you-estimate-today' | translate}}</h6>
       <app-day-estimation [habitStatisticDto]="habitStatistic" [habit]="habit"></app-day-estimation>
-      <div class="habit-advice-margin"><app-advice [habitId]="1"></app-advice></div>
+      <div class="habit-advice-margin"><app-advice [habitId]="habit.id"></app-advice></div>
     </div>
   </div>
 </div>
