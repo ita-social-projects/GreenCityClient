@@ -311,7 +311,8 @@
       },
       "goal-list": {
         "expand": "Show more",
-        "collapse": "Show less"
+        "collapse": "Show less",
+        "list-placeholder":"Here you can set goals and fulfill them!"
       }
     }
   },
