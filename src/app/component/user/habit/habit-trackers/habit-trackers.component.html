@@ -1,5 +1,6 @@
-<div class="row tracker-margin-top">
-  <app-habit-tracker *ngFor="let habit of trackedHabits; let i = index"
-                     [habit]="habit" [chartId]="'chartId' + i">
+<div *ngIf="$trackedHabits | async as trackedHabits" class="row tracker-margin-top">
+  <app-habit-tracker *ngFor="let habit of trackedHabits let i = index"
+                     [habit]="habit" [chartId]="'chartId' + i"
+                     [habitStatistic]="habit.habitStatistics">
   </app-habit-tracker>
 </div>

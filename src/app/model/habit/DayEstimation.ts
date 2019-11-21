@@ -1,5 +1,6 @@
 export enum DayEstimation {
   GOOD = 'GOOD',
   NORMAL = 'NORMAL',
-  BAD = 'BAD'
+  BAD = 'BAD',
+  DEFAULT = 'DEFAULT'
 }

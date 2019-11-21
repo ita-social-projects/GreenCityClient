@@ -1,11 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {HabitDto} from '../../../../../../model/habit/HabitDto';
-import {HabitStatisticDto} from '../../../../../../model/habit/HabitStatisticDto';
+import {HabitStatisticsDto} from '../../../../../../model/habit/HabitStatisticsDto';
 import {HabitStatisticService} from '../../../../../../service/habit-statistic/habit-statistic.service';
 
 @Component({
@@ -16,7 +11,7 @@ import {HabitStatisticService} from '../../../../../../service/habit-statistic/h
 })
 export class HabitEstimationComponent implements OnInit {
   @Input()
-  habitStatistic: HabitStatisticDto;
+  habitStatistic: HabitStatisticsDto;
   @Input()
   habit: HabitDto;
 

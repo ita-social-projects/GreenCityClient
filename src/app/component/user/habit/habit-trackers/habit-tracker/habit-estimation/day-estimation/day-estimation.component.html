@@ -1,18 +1,18 @@
 <div class="d-flex justify-content-between">
   <button type="button" class="estimation-button super-button"
-          [ngClass]="{'active-button': estimation == 'GOOD', 'non-active-button': habitStatisticDto.id === null}"
+          [ngClass]="{'active-button': habitStatisticDto.habitRate == 'GOOD', 'non-active-button': habit.id === null}"
           (click)="update('GOOD')">
     {{'user.habit-statistic.day-estimation.super' | translate}}
   </button>
 
   <button type="button" class="estimation-button normal-button"
-          [ngClass]="{'active-button': estimation == 'NORMAL', 'non-active-button': habitStatisticDto.id === null}"
+          [ngClass]="{'active-button': habitStatisticDto.habitRate == 'NORMAL', 'non-active-button': habit.id === null}"
           (click)="update('NORMAL')">
     {{'user.habit-statistic.day-estimation.normal' | translate}}
   </button>
 
   <button type="button" class="estimation-button bad-button"
-          [ngClass]="{'active-button': estimation == 'BAD', 'non-active-button': habitStatisticDto.id === null}"
+          [ngClass]="{'active-button': habitStatisticDto.habitRate == 'BAD', 'non-active-button': habit.id === null}"
           (click)="update('BAD')">
     {{'user.habit-statistic.day-estimation.bad' | translate}}
   </button>

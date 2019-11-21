@@ -1,12 +1,11 @@
 import {Injectable} from '@angular/core';
-import {HabitStatisticDto} from '../../model/habit/HabitStatisticDto';
 import {HttpClient} from '@angular/common/http';
-import {Observable, of} from 'rxjs';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 import {HabitDto} from '../../model/habit/HabitDto';
 import {habitStatisticLink, userLink} from '../../links';
 
-import { habitStatistic } from 'src/app/links';
-import { error } from 'util';
+import {habitStatistic} from 'src/app/links';
+import {HabitStatisticsDto} from '../../model/habit/HabitStatisticsDto';
 
 @Injectable({
   providedIn: 'root'
@@ -14,26 +13,38 @@ import { error } from 'util';
 export class HabitStatisticService {
   getUserHabitsLink = `${userLink}/${window.localStorage.getItem('id')}/habits`;
   getHabitStatisticLink = `${habitStatisticLink}`;
-  updateHabitStatistic = `${habitStatisticLink}`;
+  updateHabitStatisticLink = `${habitStatisticLink}`;
+  createHabitStatisticLink = `${habitStatisticLink}`;
+
+  private $habitStatistics = new BehaviorSubject<HabitDto[]>([]);
+  private dataStore: { habitStatistics: HabitDto[] } = {habitStatistics: []};
+  readonly habitStatistics = this.$habitStatistics.asObservable();
 
   constructor(private http: HttpClient) {
   }
 
-  getTrackedHabits(): Observable<HabitDto[]> {
-    return this.http.get<HabitDto[]>(this.getUserHabitsLink);
+  loadHabitStatistics() {
+    this.http.get<HabitDto[]>(this.getUserHabitsLink).subscribe(data => {
+      this.dataStore.habitStatistics = data;
+      this.$habitStatistics.next(Object.assign({}, this.dataStore).habitStatistics);
+    }, error => console.log('Can not load habit statistic.'));
   }
 
-  getHabitStatistic(habit: HabitDto): Observable<HabitStatisticDto[]> {
-    return this.http.get<HabitStatisticDto[]>(this.getHabitStatisticLink + habit.id);
+  updateHabitStatistic(habitStatisticDto: HabitStatisticsDto) {
+    this.http.patch<HabitStatisticsDto>(`${this.updateHabitStatisticLink}${habitStatisticDto.id}`, habitStatisticDto).subscribe(data => {
+      this.loadHabitStatistics();
+    });
   }
 
-  updatedHabitStatistic(habitStatistic: HabitStatisticDto): Observable<HabitStatisticDto> {
-    return this.http.patch<HabitStatisticDto>(this.updateHabitStatistic + habitStatistic.id, habitStatistic);
+  createHabitStatistic(habitStatistics: HabitStatisticsDto) {
+    this.http.post<HabitStatisticsDto>(this.createHabitStatisticLink, habitStatistics).subscribe(data => {
+      this.loadHabitStatistics();
+    });
   }
 
   getUserLog(): Observable<any> {
-    return this.http.get<
-    {'creationDate',
+    return this.http.get<{
+      'creationDate',
       allItemsPerMonth: {
         'cap',
         'bag'
@@ -41,7 +52,6 @@ export class HabitStatisticService {
         'cap',
         'bag'
       }
-    }
-  >(`${habitStatistic}`);
+    }>(`${habitStatistic}`);
   }
 }

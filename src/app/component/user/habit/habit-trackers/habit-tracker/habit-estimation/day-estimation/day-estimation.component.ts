@@ -1,6 +1,6 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {DayEstimation} from '../../../../../../../model/habit/DayEstimation';
-import {HabitStatisticDto} from '../../../../../../../model/habit/HabitStatisticDto';
+import {HabitStatisticsDto} from '../../../../../../../model/habit/HabitStatisticsDto';
 import {HabitStatisticService} from '../../../../../../../service/habit-statistic/habit-statistic.service';
 import {HabitDto} from '../../../../../../../model/habit/HabitDto';
 
@@ -9,35 +9,42 @@ import {HabitDto} from '../../../../../../../model/habit/HabitDto';
   templateUrl: './day-estimation.component.html',
   styleUrls: ['./day-estimation.component.css']
 })
-export class DayEstimationComponent implements OnInit, OnChanges {
+export class DayEstimationComponent implements OnInit {
   @Input()
-  habitStatisticDto: HabitStatisticDto;
+  habitStatisticDto: HabitStatisticsDto;
   @Input()
   habit: HabitDto;
-  estimation: DayEstimation;
 
   constructor(private service: HabitStatisticService) {
   }
 
   ngOnInit() {
-    this.service.getHabitStatistic(this.habit).subscribe(response => {
-      this.estimation = response.filter(stat => stat.id === this.habitStatisticDto.id)[0].habitRate;
-      this.habitStatisticDto.habitRate = response.filter(stat => stat.id === this.habitStatisticDto.id)[0].habitRate;
-    });
-    this.estimation = this.habitStatisticDto.habitRate;
+    console.log('habit');
+    console.log(this.habitStatisticDto);
+    console.log(this.habit);
   }
 
   update(estimation: string) {
-    this.service.updatedHabitStatistic(new HabitStatisticDto(this.habitStatisticDto.id, this.habitStatisticDto.habitId,
-      this.habitStatisticDto.amountOfItems, DayEstimation[estimation], this.habitStatisticDto.createdOn)).subscribe(response => {
-      this.estimation = DayEstimation[response.habitRate];
-      this.habitStatisticDto.habitRate = response.habitRate;
-      console.log(this.estimation);
-    });
-    this.estimation = DayEstimation[estimation];
+    console.log('habit update');
+    console.log(this.habitStatisticDto);
+    console.log(this.habit);
+
+    const stat: HabitStatisticsDto =
+      new HabitStatisticsDto(this.habitStatisticDto.id,
+        DayEstimation[estimation],
+        this.habitStatisticDto.createdOn,
+        this.habitStatisticDto.amountOfItems,
+        this.habit.id);
+
+    if (this.habitStatisticDto.id === null) {
+      console.log('hello');
+      this.create(stat);
+    } else {
+      this.service.updateHabitStatistic(stat);
+    }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-
+  create(habitStatistic: HabitStatisticsDto) {
+    this.service.createHabitStatistic(habitStatistic);
   }
 }

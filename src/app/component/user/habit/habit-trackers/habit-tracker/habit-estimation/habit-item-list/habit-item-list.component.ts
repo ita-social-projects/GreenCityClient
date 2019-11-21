@@ -5,11 +5,11 @@ import {
   OnInit,
   SimpleChanges
 } from '@angular/core';
-import { HabitItem } from '../habit-item/HabitItem';
-import { Photo } from '../../../../../../../model/photo/photo';
-import { HabitStatisticDto } from '../../../../../../../model/habit/HabitStatisticDto';
-import { HabitStatisticService } from '../../../../../../../service/habit-statistic/habit-statistic.service';
-import { HabitDto } from '../../../../../../../model/habit/HabitDto';
+import {HabitItem} from '../habit-item/HabitItem';
+import {Photo} from '../../../../../../../model/photo/photo';
+import {HabitStatisticsDto} from '../../../../../../../model/habit/HabitStatisticsDto';
+import {HabitStatisticService} from '../../../../../../../service/habit-statistic/habit-statistic.service';
+import {HabitDto} from '../../../../../../../model/habit/HabitDto';
 
 @Component({
   selector: 'app-habit-item-list',
@@ -21,11 +21,12 @@ export class HabitItemListComponent implements OnInit, OnChanges {
   @Input()
   habit: HabitDto;
   @Input()
-  habitStatistic: HabitStatisticDto;
+  habitStatistic: HabitStatisticsDto;
   currentNumber = 0;
   isExpanded: boolean;
 
-  constructor(private service: HabitStatisticService) {}
+  constructor(private service: HabitStatisticService) {
+  }
 
   ngOnInit(): void {
     this.currentNumber = this.habitStatistic.amountOfItems;
@@ -51,19 +52,24 @@ export class HabitItemListComponent implements OnInit, OnChanges {
   }
 
   update(habitItem: HabitItem) {
-    const newCount = (habitItem.numb === this.currentNumber) ? 0 : habitItem.numb;
-    this.service.updatedHabitStatistic(new HabitStatisticDto(
-      this.habitStatistic.id,
-      this.habitStatistic.habitId,
-      newCount,
-      this.habitStatistic.habitRate, this.habitStatistic.createdOn)).subscribe(data => {
-      this.currentNumber = data.amountOfItems;
-      this.habitStatistic.amountOfItems = data.amountOfItems;
-      this.drawCurrentNumberItems();
-    });
+    const stat: HabitStatisticsDto =
+      new HabitStatisticsDto(this.habitStatistic.id,
+        this.habitStatistic.habitRate,
+        this.habitStatistic.createdOn,
+        habitItem.numb === this.habitStatistic.amountOfItems ? 0 : habitItem.numb,
+        this.habit.id);
 
-    this.currentNumber = newCount;
-    this.drawCurrentNumberItems();
+    console.log('update :');
+    console.log(this.habitStatistic);
+    if (this.habitStatistic.id === null) {
+      this.create(stat);
+    } else {
+      this.service.updateHabitStatistic(stat);
+    }
+  }
+
+  create(habitStatistic: HabitStatisticsDto) {
+    this.service.createHabitStatistic(habitStatistic);
   }
 
   initHabitItems() {
@@ -74,15 +80,6 @@ export class HabitItemListComponent implements OnInit, OnChanges {
 
   collapse() {
     if (this.currentNumber > 8) {
-      this.service.updatedHabitStatistic(new HabitStatisticDto(
-        this.habitStatistic.id,
-        this.habitStatistic.habitId,
-        8,
-        this.habitStatistic.habitRate, this.habitStatistic.createdOn)).subscribe(data => {
-        this.currentNumber = data.amountOfItems;
-        this.drawCurrentNumberItems();
-        this.isExpanded = false;
-      });
       this.currentNumber = 8;
       this.drawCurrentNumberItems();
       this.isExpanded = false;
