@@ -1,6 +1,6 @@
 // back-end
+// export const mainLink = "http://localhost:8080/";
 export const mainLink = 'http://localhost:8080/';
-// export const mainLink = 'https://greencitysoftserve.herokuapp.com/';
 
 export const userOwnSecurityLink = mainLink + 'ownSecurity/';
 export const userOwnSignUpLink = userOwnSecurityLink + 'signUp/';
@@ -20,5 +20,6 @@ export const habitStatistic = habitLink + 'statistic';
 
 // front-end
 export const frontMailLink = 'http://localhost:4200/';
-// export const frontMailLink = 'http://greencityclient.herokuapp.com';
+// export const frontMailLink =
+//   'https://softserve-social-projects.github.io/GreenCityClient/';
 export const frontAuthLink = frontMailLink + 'auth/';
