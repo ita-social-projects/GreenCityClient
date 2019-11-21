@@ -13,7 +13,7 @@ export class UserLogComponent implements OnInit {
 
   constructor(private habitStatisticService: HabitStatisticService) { }
 
-  hasStatistic = true;
+  hasStatistic = false;
 
   $userLog: any;
   $creationDate: Date;
@@ -23,19 +23,20 @@ export class UserLogComponent implements OnInit {
   $differenceUnTakenItemsWithPreviousMonthCap: number;
 
   ngOnInit() {
-      this.$userLog = this.habitStatisticService.getUserLog().subscribe(data => {
-        if (typeof data === 'undefined') {
-          this.hasStatistic = false;
-        } else {
-          this.hasStatistic = true;
-          this.$creationDate = data.creationDate;
-          this.$amountUnTakenItemsPerMonthCap = data.allItemsPerMonth.cap;
-          this.$amountUnTakenItemsPerMonthBag = data.allItemsPerMonth .bag;
-          this.$differenceUnTakenItemsWithPreviousMonthCap = data.differenceUnTakenItemsWithPreviousMonth.cap;
-          this.$differenceUnTakenItemsWithPreviousMonthBag =  data.differenceUnTakenItemsWithPreviousMonth.bag;
+    this.$userLog = this.habitStatisticService.getUserLog().subscribe(data => {
+      if (typeof data !== undefined) {
+        this.hasStatistic = true;
+        this.$creationDate = data.creationDate;
+        this.$amountUnTakenItemsPerMonthCap = data.allItemsPerMonth.cap;
+        this.$amountUnTakenItemsPerMonthBag = data.allItemsPerMonth .bag;
+        this.$differenceUnTakenItemsWithPreviousMonthCap = data.differenceUnTakenItemsWithPreviousMonth.cap;
+        this.$differenceUnTakenItemsWithPreviousMonthBag =  data.differenceUnTakenItemsWithPreviousMonth.bag;
+      }
+    }, error => {
+        this.hasStatistic = false;
+        console.log('Error!', error);
         }
-     }
-     );
+    );
   }
 
   nowDate() {
