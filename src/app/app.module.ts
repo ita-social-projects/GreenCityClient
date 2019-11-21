@@ -51,6 +51,7 @@ import {
   MatTableModule,
   MatTreeModule
 } from '@angular/material';
+
 import {HabitChartComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-chart/habit-chart.component';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
 import {Ng5SliderModule} from 'ng5-slider';
@@ -79,8 +80,6 @@ import {LowerNavBarComponent} from './component/user/lower-nav-bar/lower-nav-bar
 import {HabitItemListComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-item-list/habit-item-list.component';
 import {HabitEstimationComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-estimation.component';
 import {DayEstimationComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/day-estimation/day-estimation.component';
-import {UserLogComponentComponent} from './component/user/habit/day-statistics/user-log-component/user-log-component.component';
-import {ButtonComponentComponent} from './component/user/habit/day-statistics/button-component/button-component.component';
 import {AdviceComponent} from './component/user/habit/habit-trackers/habit-tracker/advice/advice.component';
 import {GoalItemComponent} from './component/user/user-goals/goal-item/goal-item.component';
 import {GoalListComponent} from './component/user/user-goals/goal-list/goal-list.component';
@@ -129,8 +128,6 @@ import {AlphabeticalPipePipe} from './pipe/alphabetical-pipe/alphabetical-pipe.p
     LowerNavBarComponent,
     HabitChartComponent,
     HabitEstimationComponent,
-    UserLogComponentComponent,
-    ButtonComponentComponent,
     AdviceComponent,
     ShowFirstNPipe,
     UncheckedFirstPipe,
