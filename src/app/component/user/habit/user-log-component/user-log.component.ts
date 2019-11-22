@@ -24,6 +24,10 @@ export class UserLogComponent implements OnInit {
 
   ngOnInit() {
     this.$userLog = this.habitStatisticService.getUserLog().subscribe(data => {
+      console.log("djdjjd");
+
+      console.log(data);
+
       if (typeof data !== undefined) {
         this.hasStatistic = true;
         this.$creationDate = data.creationDate;

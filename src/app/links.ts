@@ -15,8 +15,7 @@ export const userInitialsLink = userLink + '/initials/';
 export const adviceLink = mainLink + 'advices/';
 export const adviceRandomLink = adviceLink + 'random/';
 export const habitStatisticLink = mainLink + 'habit/statistic/';
-export const habitLink = mainLink + 'habit/';
-export const habitStatistic = habitLink + 'statistic';
+export const habitLink = '/habits/statistic';
 
 // front-end
 export const frontMailLink = 'http://localhost:4200/';
