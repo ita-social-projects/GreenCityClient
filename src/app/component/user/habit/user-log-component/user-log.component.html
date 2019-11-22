@@ -2,29 +2,37 @@
   <div class="col-xl-12">
     <div style="display: block!important; margin-top: 17px">
       <ng-template [ngIf]="!hasStatistic" [ngIfElse]="none">
-          <span class="open-sans">{{nowDate()}} </span>
-          <h2 class="open-sans">{{'user.habit.user-log.calendar-habit' | translate}}</h2>
+        <span class="open-sans">{{nowDate()}} </span>
+        <h2 class="open-sans">{{'user.habit.user-log.calendar-habit' | translate}}</h2>
         <p>{{'user.habit.user-log.not-have-habit' | translate}}</p>
       </ng-template>
       <ng-template #none>
-          <div class="open-sans">
-            <span class="open-sans">{{nowDate()}} - {{'user.habit.user-log.day' | translate}}  {{countDayInCycle()}} з 21 </span>
-            <h2 class="open-sans">{{'user.habit.user-log.calendar-habit' | translate}}</h2>
-            <p class="open-sans">{{'user.habit.user-log.today' | translate}} {{countDay()}} {{'user.habit.user-log.day-of-the-month' | translate}}
-                <a *ngIf="$differenceUnTakenItemsWithPreviousMonthBag > 0">{{'user.habit.user-log.more-on' | translate}}</a>
-              <a *ngIf="$differenceUnTakenItemsWithPreviousMonthBag < 0">{{'user.habit.user-log.less-on' | translate}}</a> {{$differenceUnTakenItemsWithPreviousMonthBag}}
-              {{'user.habit.user-log.package' | translate}} 
-              {{'user.habit.user-log.and' | translate}} <a *ngIf="$differenceUnTakenItemsWithPreviousMonthCap > 0">{{'user.habit.user-log.more-on' | translate}}</a>
-              <a *ngIf="$differenceUnTakenItemsWithPreviousMonthCap < 0">{{'user.habit.user-log.less-on' | translate}}</a>          
-              {{$differenceUnTakenItemsWithPreviousMonthCap}} {{'user.habit.user-log.glasses-than-past' | translate}}</p>
-            <div class="statistic">{{'user.habit.user-log.this-month' | translate}}
-              <div class="images"><img src="assets/img/icon/package_statistic.png"><h4><span class="item-count">{{$amountUnTakenItemsPerMonthBag}}</span></h4></div>
-              {{'user.habit.user-log.package' | translate}} {{'user.habit.user-log.and' | translate}}
-              <div class="images"><img src="/assets/img/icon/coffee_statistic.png"><h4><span class="item-count">{{$amountUnTakenItemsPerMonthCap}}</span></h4></div>
-              {{'user.habit.user-log.glass' | translate}}                
+        <div class="open-sans">
+          <span class="open-sans">{{nowDate()}} - {{'user.habit.user-log.day' | translate}} {{countDayInCycle()}} з 21
+          </span>
+          <h2 class="open-sans">{{'user.habit.user-log.calendar-habit' | translate}}</h2>
+          <p class="open-sans">{{'user.habit.user-log.today' | translate}} {{countDay()}}
+            {{'user.habit.user-log.day-of-the-month' | translate}}
+            <a *ngIf="$differenceUnTakenItemsWithPreviousMonthBag > 0">{{'user.habit.user-log.more-on' | translate}}</a>
+            <a *ngIf="$differenceUnTakenItemsWithPreviousMonthBag < 0">{{'user.habit.user-log.less-on' | translate}}</a>
+            {{$differenceUnTakenItemsWithPreviousMonthBag}}
+            {{'user.habit.user-log.package' | translate}}
+            {{'user.habit.user-log.and' | translate}} <a
+              *ngIf="$differenceUnTakenItemsWithPreviousMonthCap > 0">{{'user.habit.user-log.more-on' | translate}}</a>
+            <a *ngIf="$differenceUnTakenItemsWithPreviousMonthCap < 0">{{'user.habit.user-log.less-on' | translate}}</a>
+            {{$differenceUnTakenItemsWithPreviousMonthCap}} {{'user.habit.user-log.glasses-than-past' | translate}}</p>
+          <div class="statistic">{{'user.habit.user-log.this-month' | translate}}
+            <div class="images"><img [src]="package">
+              <h4><span class="item-count">{{$amountUnTakenItemsPerMonthBag}}</span></h4>
             </div>
-            <app-button></app-button>            
+            {{'user.habit.user-log.package' | translate}} {{'user.habit.user-log.and' | translate}}
+            <div class="images"><img [src]="coffee">
+              <h4><span class="item-count">{{$amountUnTakenItemsPerMonthCap}}</span></h4>
+            </div>
+            {{'user.habit.user-log.glass' | translate}}
+          </div>
+          <app-button></app-button>
         </div>
-    </ng-template>
+      </ng-template>
     </div>
-</div>
+  </div>
