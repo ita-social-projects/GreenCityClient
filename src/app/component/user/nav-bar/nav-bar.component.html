@@ -12,35 +12,18 @@
       <li class="nav-item dropdown"></li>
 
       <li class="nav-item">
-        <a
-          class="nav-link"
-          *ngIf="userRole === 'ROLE_USER'"
-          (click)="openDialogProposeCafeComponent()"
-          >{{ "nav-bar.add-cafe" | translate }}</a
-        >
+        <a class="nav-link" *ngIf="userRole === 'ROLE_USER'"
+          (click)="openDialogProposeCafeComponent()">{{ "nav-bar.add-cafe" | translate }}</a>
       </li>
 
       <div *ngIf="firstName != null">
-        <a
-          class="nav-link dropdown-toggle"
-          role="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-          >{{ firstName }}</a
-        >
+        <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">{{ firstName }}</a>
 
-        <div
-          class="dropdown-menu dropdown-menu-right"
-          aria-labelledby="navbarDropdown"
-        >
-          <a
-            class="dropdown-item"
-            *ngIf="userRole == 'ROLE_ADMIN' || userRole == 'ROLE_MODERATOR'"
-            href="/admin"
-            >{{ "nav-bar.admin" | translate }}</a
-          >
-          <a class="dropdown-item" href="/habits">{{
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" *ngIf="userRole == 'ROLE_ADMIN' || userRole == 'ROLE_MODERATOR'"
+            href="/admin">{{ "nav-bar.admin" | translate }}</a>
+          <a class="dropdown-item" routerLink="/habits">{{
             "nav-bar.my-habits" | translate
           }}</a>
           <a class="dropdown-item" (click)="openDialog()">{{
