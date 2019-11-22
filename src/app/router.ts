@@ -37,10 +37,6 @@ export const router = [
         component: FilterComponent
       },
       {
-        path: 'habits',
-        component: UserHabitPageComponent
-      },
-      {
         path: 'admin',
         component: AdminComponent,
         children: [
@@ -51,5 +47,9 @@ export const router = [
         ]
       }
     ]
+  },
+  {
+    path: 'habits',
+    component: UserHabitPageComponent
   }
 ];
