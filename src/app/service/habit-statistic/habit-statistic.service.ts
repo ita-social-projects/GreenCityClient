@@ -5,8 +5,9 @@ import {Observable, of} from 'rxjs';
 import {HabitDto} from '../../model/habit/HabitDto';
 import {habitStatisticLink, userLink} from '../../links';
 
-import { habitStatistic } from 'src/app/links';
+import { habitLink, mainLink } from 'src/app/links';
 import { error } from 'util';
+import { HabitStatisticLogDto } from 'src/app/model/habit/HabitStatisticLogDto';
 
 @Injectable({
   providedIn: 'root'
@@ -32,16 +33,7 @@ export class HabitStatisticService {
   }
 
   getUserLog(): Observable<any> {
-    return this.http.get<
-    {'creationDate',
-      allItemsPerMonth: {
-        'cap',
-        'bag'
-      }, differenceUnTakenItemsWithPreviousMonth: {
-        'cap',
-        'bag'
-      }
+      const userId: string = window.localStorage.getItem('id');
+      return this.http.get<HabitStatisticLogDto>(`${mainLink + 'user/' + userId + habitLink}`);
     }
-  >(`${habitStatistic}`);
   }
-}

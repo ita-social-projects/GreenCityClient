@@ -2,7 +2,7 @@
   <div class="navbar-collapse collapse">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="/">GreenCity</a>
+        <a class="nav-link" href="/GreenCityClient/">GreenCity</a>
       </li>
     </ul>
   </div>
@@ -16,7 +16,7 @@
           class="nav-link"
           *ngIf="userRole === 'ROLE_USER'"
           (click)="openDialogProposeCafeComponent()"
-        >{{'nav-bar.add-cafe' | translate}}</a
+          >{{ "nav-bar.add-cafe" | translate }}</a
         >
       </li>
 
@@ -27,7 +27,7 @@
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"
-        >{{ firstName }}</a
+          >{{ firstName }}</a
         >
 
         <div
@@ -38,20 +38,26 @@
             class="dropdown-item"
             *ngIf="userRole == 'ROLE_ADMIN' || userRole == 'ROLE_MODERATOR'"
             href="/admin"
-          >{{'nav-bar.admin' | translate}}</a
+            >{{ "nav-bar.admin" | translate }}</a
           >
-          <a class="dropdown-item" href="/habits">{{'nav-bar.my-habits' | translate}}</a>
-          <a class="dropdown-item" (click)="openDialog()">{{'nav-bar.favorite-places' | translate}}</a>
-          <a class="dropdown-item" (click)="openSettingDialog()"
-          >{{'nav-bar.user-settings' | translate}}</a
-          >
-          <a class="dropdown-item" (click)="signOut()">{{'nav-bar.sign-out' | translate}}</a>
+          <a class="dropdown-item" href="/habits">{{
+            "nav-bar.my-habits" | translate
+          }}</a>
+          <a class="dropdown-item" (click)="openDialog()">{{
+            "nav-bar.favorite-places" | translate
+          }}</a>
+          <a class="dropdown-item" (click)="openSettingDialog()">{{
+            "nav-bar.user-settings" | translate
+          }}</a>
+          <a class="dropdown-item" (click)="signOut()">{{
+            "nav-bar.sign-out" | translate
+          }}</a>
         </div>
       </div>
 
-      <a *ngIf="firstName == null" class="nav-link" routerLink="/auth/"
-      >{{'nav-bar.sign-in' | translate}}</a
-      >
+      <a *ngIf="firstName == null" class="nav-link" routerLink="/auth/">{{
+        "nav-bar.sign-in" | translate
+      }}</a>
     </ul>
   </div>
 </nav>

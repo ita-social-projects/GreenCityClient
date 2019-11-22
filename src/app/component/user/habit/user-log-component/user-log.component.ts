@@ -1,8 +1,5 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-statistic.service';
-import { daLocale } from 'ngx-bootstrap';
-import { from } from 'rxjs';
-import { error } from 'util';
 
 @Component({
   selector: 'app-user-log',
@@ -13,7 +10,10 @@ export class UserLogComponent implements OnInit {
 
   constructor(private habitStatisticService: HabitStatisticService) { }
 
-  hasStatistic = true;
+  readonly package = 'assets/img/icon/package_statistic.png';
+  readonly coffee = 'assets/img/icon/coffee_statistic.png';
+
+  hasStatistic = false;
 
   $userLog: any;
   $creationDate: Date;
@@ -23,24 +23,29 @@ export class UserLogComponent implements OnInit {
   $differenceUnTakenItemsWithPreviousMonthCap: number;
 
   ngOnInit() {
-      this.$userLog = this.habitStatisticService.getUserLog().subscribe(data => {
-        if (typeof data === 'undefined') {
-          this.hasStatistic = false;
-        } else {
-          this.hasStatistic = true;
-          this.$creationDate = data.creationDate;
-          this.$amountUnTakenItemsPerMonthCap = data.allItemsPerMonth.cap;
-          this.$amountUnTakenItemsPerMonthBag = data.allItemsPerMonth .bag;
-          this.$differenceUnTakenItemsWithPreviousMonthCap = data.differenceUnTakenItemsWithPreviousMonth.cap;
-          this.$differenceUnTakenItemsWithPreviousMonthBag =  data.differenceUnTakenItemsWithPreviousMonth.bag;
-        }
-     }
-     );
+    this.$userLog = this.habitStatisticService.getUserLog().subscribe(data => {
+      console.log("djdjjd");
+
+      console.log(data);
+
+      if (typeof data !== undefined) {
+        this.hasStatistic = true;
+        this.$creationDate = data.creationDate;
+        this.$amountUnTakenItemsPerMonthCap = data.allItemsPerMonth.cap;
+        this.$amountUnTakenItemsPerMonthBag = data.allItemsPerMonth.bag;
+        this.$differenceUnTakenItemsWithPreviousMonthCap = data.differenceUnTakenItemsWithPreviousMonth.cap;
+        this.$differenceUnTakenItemsWithPreviousMonthBag = data.differenceUnTakenItemsWithPreviousMonth.bag;
+      }
+    }, error => {
+      this.hasStatistic = false;
+      console.log('Error!', error);
+    }
+    );
   }
 
   nowDate() {
     const date: Date = new Date();
-    return date.getDate() + ' ' +   date.toLocaleString('default', { month: 'long' });
+    return date.getDate() + ' ' + date.toLocaleString('default', { month: 'long' });
   }
 
   countDay() {

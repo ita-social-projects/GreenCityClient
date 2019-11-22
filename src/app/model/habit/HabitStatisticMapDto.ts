@@ -1,9 +1,9 @@
 export class HabitStatisticMapDto {
-    habit: string;
-    count: number;
+    cap: number;
+    bag: number;
 
-    constructor(habit: string, count: number) {
-      this.habit = habit;
-      this.count = count;
+    constructor(cap: number, bag: number) {
+      this.cap = cap;
+      this.bag = bag;
     }
   }
