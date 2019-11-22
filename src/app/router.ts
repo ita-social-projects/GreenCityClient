@@ -37,6 +37,10 @@ export const router = [
         component: FilterComponent
       },
       {
+        path: 'habits',
+        component: UserHabitPageComponent
+      },
+      {
         path: 'admin',
         component: AdminComponent,
         children: [
