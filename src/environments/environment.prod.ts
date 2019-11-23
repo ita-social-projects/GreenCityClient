@@ -1,6 +1,8 @@
 export const environment = {
   production: true,
   apiKeys: 'AIzaSyDanBliCzAuCZrsq67FeKEs3vqAilUD_is',
+  backendLink: 'http://localhost:8080/',
+  frontendLink: 'http://localhost:4200/',
   firebaseConfig: {
     apiKey: 'AIzaSyDSVxahTHqdffRX2upKIMXCCjEBUYoHX8E',
     authDomain: 'greencity-9bdb7.firebaseapp.com',
