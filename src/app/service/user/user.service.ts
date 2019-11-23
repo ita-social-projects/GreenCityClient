@@ -41,7 +41,7 @@ export class UserService {
 
   getUserRole(): string {
     if (jwtData != null) {
-      return decodedJwtData.roles[0];
+      return decodedJwtData.authorities[0];
     } else {
       return null;
     }
