@@ -24,7 +24,7 @@ export class UserService {
   roleDto: UserRoleModel;
   filterDto: UserFilterDtoModel;
   apiUrl = `${mainLink}user`;
-  userId = window.localStorage.getItem('id');
+  userId = window.localStorage.getItem('userId');
 
   private goalsSubject = new BehaviorSubject<Goal[]>([]);
   private dataStore: { goals: Goal[] } = { goals: [] };
