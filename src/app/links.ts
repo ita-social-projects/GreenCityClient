@@ -1,5 +1,7 @@
+import { environment } from 'src/environments/environment';
+
 // back-end
-export const mainLink = 'https://greencity-lv448.herokuapp.com/';
+export const mainLink = environment.backendLink;
 
 export const userOwnSecurityLink = mainLink + 'ownSecurity/';
 export const userOwnSignUpLink = userOwnSecurityLink + 'signUp/';
@@ -17,5 +19,5 @@ export const habitStatisticLink = mainLink + 'habit/statistic/';
 export const habitLink = '/habits/statistic';
 
 // front-end
-export const frontMailLink = 'https://nomadness.github.io/GreenCityClient/';
+export const frontMailLink = environment.frontendLink;
 export const frontAuthLink = frontMailLink + 'auth/';

@@ -24,7 +24,7 @@ export class UserService {
   roleDto: UserRoleModel;
   filterDto: UserFilterDtoModel;
   apiUrl = `${mainLink}user`;
-  userId = window.localStorage.getItem('id');
+  userId = window.localStorage.getItem('userId');
 
   private goalsSubject = new BehaviorSubject<Goal[]>([]);
   private dataStore: { goals: Goal[] } = { goals: [] };
@@ -41,7 +41,7 @@ export class UserService {
 
   getUserRole(): string {
     if (jwtData != null) {
-      return decodedJwtData.roles[0];
+      return decodedJwtData.authorities[0];
     } else {
       return null;
     }

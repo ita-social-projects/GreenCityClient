@@ -13,7 +13,7 @@ import { HabitStatisticLogDto } from 'src/app/model/habit/HabitStatisticLogDto';
   providedIn: 'root'
 })
 export class HabitStatisticService {
-  getUserHabitsLink = `${userLink}/${window.localStorage.getItem('id')}/habits`;
+  getUserHabitsLink = `${userLink}/${window.localStorage.getItem('userId')}/habits`;
   getHabitStatisticLink = `${habitStatisticLink}`;
   updateHabitStatistic = `${habitStatisticLink}`;
 
@@ -33,7 +33,7 @@ export class HabitStatisticService {
   }
 
   getUserLog(): Observable<any> {
-      const userId: string = window.localStorage.getItem('id');
+      const userId: string = window.localStorage.getItem('userId');
       return this.http.get<HabitStatisticLogDto>(`${mainLink + 'user/' + userId + habitLink}`);
     }
   }
