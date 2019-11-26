@@ -42,7 +42,8 @@ export class HabitChartComponent implements OnInit, OnChanges {
     }
   ];
 
-  constructor() {}
+  constructor() {
+  }
 
   ngOnInit() {
     const canvas = document.getElementById('chartIdGeneral');
@@ -125,24 +126,26 @@ export class HabitChartComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.habitChartDataset = [
-      {
-        label: 'Bags',
-        data: [],
-        backgroundColor: [],
-        borderColor: this.COLOR_WHITE,
-        borderWidth: 3
-      }
-    ];
-    this.outerLabels = [];
-    this.outerHabitChart.update();
+    if (this.outerHabitChart) {
+      this.habitChartDataset = [
+        {
+          label: 'Bags',
+          data: [],
+          backgroundColor: [],
+          borderColor: this.COLOR_WHITE,
+          borderWidth: 3
+        }
+      ];
+      this.outerLabels = [];
+      this.outerHabitChart.update();
 
-    this.fillSegments();
-    this.outerHabitChart.data = {
-      datasets: this.habitChartDataset,
-      labels: this.outerLabels
-    };
+      this.fillSegments();
+      this.outerHabitChart.data = {
+        datasets: this.habitChartDataset,
+        labels: this.outerLabels
+      };
 
-    this.outerHabitChart.update();
+      this.outerHabitChart.update();
+    }
   }
 }

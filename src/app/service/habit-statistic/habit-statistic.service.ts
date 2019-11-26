@@ -12,10 +12,6 @@ import {HabitStatisticLogDto} from 'src/app/model/habit/HabitStatisticLogDto';
   providedIn: 'root'
 })
 export class HabitStatisticService {
-  getUserHabitsLink = `${userLink}/14/habits`;
-  updateHabitStatisticLink = `${habitStatisticLink}`;
-  createHabitStatisticLink = `${habitStatisticLink}`;
-
   private $habitStatistics = new BehaviorSubject<HabitDto[]>([]);
   private dataStore: { habitStatistics: HabitDto[] } = {habitStatistics: []};
   readonly habitStatistics = this.$habitStatistics.asObservable();
@@ -24,14 +20,16 @@ export class HabitStatisticService {
   }
 
   loadHabitStatistics() {
-    this.http.get<HabitDto[]>(this.getUserHabitsLink).subscribe(data => {
+    const userId: string = window.localStorage.getItem('userId');
+
+    this.http.get<HabitDto[]>(`${userLink}/${userId}/habits`).subscribe(data => {
       this.dataStore.habitStatistics = data;
       this.$habitStatistics.next(Object.assign({}, this.dataStore).habitStatistics);
     }, error => console.log('Can not load habit statistic.'));
   }
 
   updateHabitStatistic(habitStatisticDto: HabitStatisticsDto) {
-    this.http.patch<HabitStatisticsDto>(`${this.updateHabitStatisticLink}${habitStatisticDto.id}`, habitStatisticDto).subscribe(data => {
+    this.http.patch<HabitStatisticsDto>(`${habitStatisticLink}${habitStatisticDto.id}`, habitStatisticDto).subscribe(data => {
       let index: number;
 
       this.dataStore.habitStatistics.forEach((item, i) => {
@@ -47,7 +45,7 @@ export class HabitStatisticService {
   }
 
   createHabitStatistic(habitStatistics: HabitStatisticsDto) {
-    this.http.post<HabitStatisticsDto>(this.createHabitStatisticLink, habitStatistics).subscribe(data => {
+    this.http.post<HabitStatisticsDto>(`${habitStatisticLink}`, habitStatistics).subscribe(data => {
       this.dataStore.habitStatistics.forEach((habit, habitIndex) => {
         if (habit.id === habitStatistics.habitId) {
           habit.habitStatistics.forEach((stat, statIndex) => {
