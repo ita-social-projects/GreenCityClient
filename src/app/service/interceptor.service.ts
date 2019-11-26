@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   HttpClient, HttpErrorResponse,
   HttpEvent,
@@ -6,11 +6,11 @@ import {
   HttpInterceptor,
   HttpRequest
 } from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
-import {frontAuthLink, updateAccessTokenLink} from '../links';
-import {catchError, switchMap} from 'rxjs/operators';
-import {AccessToken} from '../model/access-token';
-import {JwtService} from './jwt.service';
+import { Observable, throwError } from 'rxjs';
+import { frontAuthLink, updateAccessTokenLink } from '../links';
+import { catchError, switchMap } from 'rxjs/operators';
+import { AccessToken } from '../model/access-token';
+import { JwtService } from './jwt.service';
 
 
 @Injectable({
@@ -29,11 +29,11 @@ export class InterceptorService implements HttpInterceptor {
           req = this.addAccessTokenToHeader(req, accessToken);
           return next.handle(req).pipe(
             catchError((err: HttpErrorResponse) => {
-                if (err.status === 401) {
-                  this.clearLocalStorageAndRedirectToAuthPage();
-                }
-                return throwError(err);
+              if (err.status === 401) {
+                this.clearLocalStorageAndRedirectToAuthPage();
               }
+              return throwError(err);
+            }
             )
           );
         } else {
@@ -53,10 +53,68 @@ export class InterceptorService implements HttpInterceptor {
           }
         }
       } else {
-        return next.handle(req);
+        return next.handle(req).pipe(
+          catchError((error) => {
+            if (error instanceof HttpErrorResponse) {
+              if (error.error instanceof ErrorEvent) {
+                console.error('Error Event');
+              } else {
+                switch (error.status) {
+                  case 400:
+                    console.log('Error 400');
+                    break;
+                  case 401:
+                    console.log('Error 401');
+                    break;
+                  case 403:
+                    console.log('Error 403');
+                    break;
+                  case 404:
+                    console.log('Error 404');
+                    break;
+                  default:
+                    console.log('Unknown error occured');
+                    break;
+                }
+              }
+            } else {
+              console.error('some thing else happened');
+            }
+            return throwError(error);
+          })
+        );
       }
     } else {
-      return next.handle(req);
+      return next.handle(req).pipe(
+        catchError((error) => {
+          if (error instanceof HttpErrorResponse) {
+            if (error.error instanceof ErrorEvent) {
+              console.error('Error Event');
+            } else {
+              switch (error.status) {
+                case 0:
+                  console.log('Unknown error occured');
+                  break;
+                case 400:
+                  console.log('Error 400');
+                  break;
+                case 401:
+                  console.log('Error 401');
+                  break;
+                case 403:
+                  console.log('Error 403');
+                  break;
+                default:
+                  console.log('Unknown error occured');
+                  break;
+              }
+            }
+          } else {
+            console.error('some thing else happened');
+          }
+          return throwError(error);
+        })
+      );
     }
   }
 
@@ -72,10 +130,10 @@ export class InterceptorService implements HttpInterceptor {
 
   private addAccessTokenToHeader(req: HttpRequest<any>, accessToken: string) {
     req = req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${accessToken}`
-        }
+      setHeaders: {
+        Authorization: `Bearer ${accessToken}`
       }
+    }
     );
     return req;
   }

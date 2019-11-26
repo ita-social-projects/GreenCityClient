@@ -1,14 +1,15 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {UserRoleModel} from '../../model/user/user-role.model';
-import {UserStatusModel} from '../../model/user/user-status.model';
-import {UserPageableDtoModel} from '../../model/user/user-pageable-dto.model';
-import {mainLink, userLink} from '../../links';
-import {RolesModel} from '../../model/user/roles.model';
-import {UserFilterDtoModel} from '../../model/user/userFilterDto.model';
-import {UserUpdateModel} from '../../model/user/user-update.model';
-import {Goal} from '../../model/goal/Goal';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { UserRoleModel } from '../../model/user/user-role.model';
+import { UserStatusModel } from '../../model/user/user-status.model';
+import { UserPageableDtoModel } from '../../model/user/user-pageable-dto.model';
+import { mainLink, userLink } from '../../links';
+import { RolesModel } from '../../model/user/roles.model';
+import { UserFilterDtoModel } from '../../model/user/userFilterDto.model';
+import { UserUpdateModel } from '../../model/user/user-update.model';
+import { Goal } from '../../model/goal/Goal';
 
 const token = localStorage.getItem('accessToken');
 let jwtData = null;
@@ -23,10 +24,10 @@ export class UserService {
   roleDto: UserRoleModel;
   filterDto: UserFilterDtoModel;
   apiUrl = `${mainLink}user`;
-  userId = window.localStorage.getItem('id');
+  userId = window.localStorage.getItem('userId');
 
   private goalsSubject = new BehaviorSubject<Goal[]>([]);
-  private dataStore: { goals: Goal[] } = {goals: []};
+  private dataStore: { goals: Goal[] } = { goals: [] };
 
   readonly goals = this.goalsSubject.asObservable();
 
@@ -36,12 +37,11 @@ export class UserService {
       decodedJwtJsonData = window.atob(jwtData);
       decodedJwtData = JSON.parse(decodedJwtJsonData);
     }
-    this.loadAllGoals();
   }
 
   getUserRole(): string {
     if (jwtData != null) {
-      return decodedJwtData.roles[0];
+      return decodedJwtData.authorities[0];
     } else {
       return null;
     }
@@ -106,7 +106,9 @@ export class UserService {
         this.dataStore.goals = data;
         this.goalsSubject.next(Object.assign({}, this.dataStore).goals);
       },
-      error => console.log('Could not load goals. ' + error)
+      error => {
+        throw error;
+      }
     );
   }
 
@@ -119,7 +121,9 @@ export class UserService {
         ];
         this.goalsSubject.next(Object.assign({}, this.dataStore).goals);
       },
-      error => console.log('Could not update goal.' + error)
+      error => {
+        throw error;
+      }
     );
   }
 }

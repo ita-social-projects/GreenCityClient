@@ -85,10 +85,11 @@ import {AlphabeticalPipePipe} from './pipe/alphabetical-pipe/alphabetical-pipe.p
 import {HabitTrackerComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-tracker.component';
 import {HabitEstimationComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-estimation.component';
 import {DayEstimationComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/day-estimation/day-estimation.component';
-import {HabitChartComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-chart/habit-chart.component';
 import {AdviceComponent} from './component/user/habit/habit-trackers/habit-tracker/advice/advice.component';
 import {HabitItemComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-item/habit-item.component';
 import {HabitItemListComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-item-list/habit-item-list.component';
+import {HabitChartComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-chart/habit-chart.component';
+
 
 @NgModule({
   declarations: [
@@ -211,8 +212,13 @@ import {HabitItemListComponent} from './component/user/habit/habit-trackers/habi
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}
 
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
+export function HttpLoaderFactory(httpClient: HttpClient) {
+  return new TranslateHttpLoader(
+    httpClient,
+    './assets/i18n/',
+    '.json'
+  );
 }

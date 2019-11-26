@@ -1,6 +1,7 @@
+import { environment } from 'src/environments/environment';
+
 // back-end
-// export const mainLink = "http://localhost:8080/";
-export const mainLink = 'http://localhost:8080/';
+export const mainLink = environment.backendLink;
 
 export const userOwnSecurityLink = mainLink + 'ownSecurity/';
 export const userOwnSignUpLink = userOwnSecurityLink + 'signUp/';
@@ -15,11 +16,8 @@ export const userInitialsLink = userLink + '/initials/';
 export const adviceLink = mainLink + 'advices/';
 export const adviceRandomLink = adviceLink + 'random/';
 export const habitStatisticLink = mainLink + 'habit/statistic/';
-export const habitLink = mainLink + 'habit/';
-export const habitStatistic = habitLink + 'statistic';
+export const habitLink = '/habits/statistic';
 
 // front-end
-export const frontMailLink = 'http://localhost:4200/';
-// export const frontMailLink =
-//   'https://softserve-social-projects.github.io/GreenCityClient/';
+export const frontMailLink = environment.frontendLink;
 export const frontAuthLink = frontMailLink + 'auth/';

@@ -51,5 +51,9 @@ export const router = [
         ]
       }
     ]
+  },
+  {
+    path: 'habits',
+    component: UserHabitPageComponent
   }
 ];
