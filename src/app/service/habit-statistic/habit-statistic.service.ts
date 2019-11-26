@@ -43,7 +43,7 @@ export class HabitStatisticService {
           this.$habitStatistics.next(Object.assign({}, this.dataStore).habitStatistics);
         }
       });
-    });
+    }, error => console.log('Can not update habit statistic'));
   }
 
   createHabitStatistic(habitStatistics: HabitStatisticsDto) {
@@ -60,7 +60,7 @@ export class HabitStatisticService {
           });
         }
       });
-    });
+    }, error => console.log('Can not create habit statistic'));
   }
 
   getUserLog(): Observable<any> {
