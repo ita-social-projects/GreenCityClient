@@ -1,8 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {DayEstimation} from '../../../../../../../model/habit/DayEstimation';
+import {HabitDto} from '../../../../../../../model/habit/HabitDto';
 import {HabitStatisticsDto} from '../../../../../../../model/habit/HabitStatisticsDto';
 import {HabitStatisticService} from '../../../../../../../service/habit-statistic/habit-statistic.service';
-import {HabitDto} from '../../../../../../../model/habit/HabitDto';
+import {DayEstimation} from '../../../../../../../model/habit/DayEstimation';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-day-estimation',
@@ -11,36 +13,38 @@ import {HabitDto} from '../../../../../../../model/habit/HabitDto';
 })
 export class DayEstimationComponent implements OnInit {
   @Input()
-  habitStatisticDto: HabitStatisticsDto;
-  @Input()
   habit: HabitDto;
+  @Input()
+  statistic: HabitStatisticsDto;
+  $habit: Observable<HabitDto>;
+  estimation: DayEstimation;
 
   constructor(private service: HabitStatisticService) {
   }
 
   ngOnInit() {
-    console.log('habit');
-    console.log(this.habitStatisticDto);
-    console.log(this.habit);
+    this.service.habitStatistics.pipe(map(habit => habit.find(item => item.id === this.habit.id))).subscribe(data => {
+      let stat: HabitStatisticsDto;
+      if (this.statistic.id === null) {
+        stat = data.habitStatistics.find(el => el.createdOn === this.statistic.createdOn);
+      } else {
+        stat = data.habitStatistics.find(el => el.id === this.statistic.id);
+      }
+      this.statistic = stat;
+
+      this.estimation = stat.habitRate;
+    });
   }
 
   update(estimation: string) {
-    console.log('habit update');
-    console.log(this.habitStatisticDto);
-    console.log(this.habit);
+    const newEstimation = Object.assign({}, this.statistic);
+    newEstimation.habitRate = DayEstimation[estimation];
+    newEstimation.habitId = this.habit.id;
 
-    const stat: HabitStatisticsDto =
-      new HabitStatisticsDto(this.habitStatisticDto.id,
-        DayEstimation[estimation],
-        this.habitStatisticDto.createdOn,
-        this.habitStatisticDto.amountOfItems,
-        this.habit.id);
-
-    if (this.habitStatisticDto.id === null) {
-      console.log('hello');
-      this.create(stat);
+    if (newEstimation.id === null) {
+      this.create(newEstimation);
     } else {
-      this.service.updateHabitStatistic(stat);
+      this.service.updateHabitStatistic(newEstimation);
     }
   }
 

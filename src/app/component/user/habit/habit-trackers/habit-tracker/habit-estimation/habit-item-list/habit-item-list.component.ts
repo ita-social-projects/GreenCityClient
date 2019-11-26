@@ -1,22 +1,18 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges
-} from '@angular/core';
-import {HabitItem} from '../habit-item/HabitItem';
-import {Photo} from '../../../../../../../model/photo/photo';
-import {HabitStatisticsDto} from '../../../../../../../model/habit/HabitStatisticsDto';
-import {HabitStatisticService} from '../../../../../../../service/habit-statistic/habit-statistic.service';
+import {Component, Input, OnInit} from '@angular/core';
 import {HabitDto} from '../../../../../../../model/habit/HabitDto';
+import {HabitStatisticsDto} from '../../../../../../../model/habit/HabitStatisticsDto';
+import {Observable} from 'rxjs';
+import {HabitStatisticService} from '../../../../../../../service/habit-statistic/habit-statistic.service';
+import {map} from 'rxjs/operators';
+import {Photo} from '../../../../../../../model/photo/photo';
+import {HabitItem} from '../habit-item/HabitItem';
 
 @Component({
   selector: 'app-habit-item-list',
   templateUrl: './habit-item-list.component.html',
   styleUrls: ['./habit-item-list.component.css']
 })
-export class HabitItemListComponent implements OnInit, OnChanges {
+export class HabitItemListComponent implements OnInit {
   habitItems: HabitItem[] = [];
   @Input()
   habit: HabitDto;
@@ -24,15 +20,29 @@ export class HabitItemListComponent implements OnInit, OnChanges {
   habitStatistic: HabitStatisticsDto;
   currentNumber = 0;
   isExpanded: boolean;
+  $habit: Observable<HabitDto>;
 
   constructor(private service: HabitStatisticService) {
   }
 
   ngOnInit(): void {
-    this.currentNumber = this.habitStatistic.amountOfItems;
-    this.isExpanded = this.habitStatistic.amountOfItems > 8;
     this.initHabitItems();
-    this.drawCurrentNumberItems();
+
+    this.service.habitStatistics.pipe(map(hab => hab.find(item => item.id === this.habit.id))).subscribe(data => {
+      let stat: HabitStatisticsDto;
+
+      if (this.habitStatistic.id === null) {
+        stat = data.habitStatistics.find(el => el.createdOn === this.habitStatistic.createdOn);
+      } else {
+        stat = data.habitStatistics.find(el => el.id === this.habitStatistic.id);
+      }
+      this.habitStatistic = stat;
+
+      this.currentNumber = stat.amountOfItems;
+      this.isExpanded = stat.amountOfItems > 8;
+
+      this.drawCurrentNumberItems();
+    });
   }
 
   setAllActive(elCount: number) {
@@ -59,8 +69,6 @@ export class HabitItemListComponent implements OnInit, OnChanges {
         habitItem.numb === this.habitStatistic.amountOfItems ? 0 : habitItem.numb,
         this.habit.id);
 
-    console.log('update :');
-    console.log(this.habitStatistic);
     if (this.habitStatistic.id === null) {
       this.create(stat);
     } else {
@@ -73,28 +81,20 @@ export class HabitItemListComponent implements OnInit, OnChanges {
   }
 
   initHabitItems() {
-    for (let i = 0; i < (this.isExpanded ? 16 : 8); i++) {
+    for (let i = 0; i < 16; i++) {
       this.habitItems.push(new HabitItem(i + 1, this.getIcon(), false));
     }
   }
 
   collapse() {
     if (this.currentNumber > 8) {
-      this.currentNumber = 8;
-      this.drawCurrentNumberItems();
-      this.isExpanded = false;
-    } else {
-      this.isExpanded = false;
+      this.update(this.habitItems[7]);
     }
-
-    this.habitItems.splice(8, 18);
+    this.isExpanded = false;
   }
 
   expand() {
     this.isExpanded = true;
-    for (let i = 8; i < 16; i++) {
-      this.habitItems.push(new HabitItem(i + 1, this.getIcon(), false));
-    }
   }
 
   getCollapsed(): HabitItem[] {
@@ -115,12 +115,6 @@ export class HabitItemListComponent implements OnInit, OnChanges {
     }
 
     return collapsed;
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.currentNumber = this.habitStatistic.amountOfItems;
-    this.isExpanded = this.habitStatistic.amountOfItems > 8;
-    this.drawCurrentNumberItems();
   }
 
   getIcon(): Photo {

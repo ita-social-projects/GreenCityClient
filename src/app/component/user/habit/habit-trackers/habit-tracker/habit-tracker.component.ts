@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {Observable} from 'rxjs';
 import {HabitDto} from '../../../../../model/habit/HabitDto';
-import {HabitStatisticsDto} from '../../../../../model/habit/HabitStatisticsDto';
 import {HabitStatisticService} from '../../../../../service/habit-statistic/habit-statistic.service';
 import {map} from 'rxjs/operators';
-import {Observable} from 'rxjs';
+import {HabitStatisticsDto} from '../../../../../model/habit/HabitStatisticsDto';
 
 @Component({
   selector: 'app-habit-tracker',
@@ -13,22 +13,30 @@ import {Observable} from 'rxjs';
 export class HabitTrackerComponent implements OnInit {
   @Input()
   habit: HabitDto;
-  @Input() chartId: string;
   @Input()
-  habitStatistic: HabitStatisticsDto[];
+  chartId: string;
+  $habit: Observable<HabitDto>;
   currentStatistic: HabitStatisticsDto;
+  habitStatistic: HabitStatisticsDto[];
+  chartRedrawTrigger: boolean;
 
   constructor(private service: HabitStatisticService) {
   }
 
   ngOnInit() {
     this.initCurrentStatistic();
+    this.$habit = this.service.habitStatistics.pipe(map(habit => habit.find(item => item.id === this.habit.id)));
+
+    this.$habit.subscribe(data => {
+      this.chartRedrawTrigger = !this.chartRedrawTrigger;
+      this.habitStatistic = data.habitStatistics;
+    });
   }
 
   initCurrentStatistic() {
     const today: Date = new Date();
 
-    this.currentStatistic = this.habitStatistic.filter(stat => this.compareDates(today, stat.createdOn))[0];
+    this.currentStatistic = this.habit.habitStatistics.filter(stat => this.compareDates(today, stat.createdOn))[0];
   }
 
   compareDates(a: Date, b: Date): boolean {

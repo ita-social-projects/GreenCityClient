@@ -12,7 +12,6 @@ import {HabitStatisticsDto} from '../../model/habit/HabitStatisticsDto';
 })
 export class HabitStatisticService {
   getUserHabitsLink = `${userLink}/${window.localStorage.getItem('id')}/habits`;
-  getHabitStatisticLink = `${habitStatisticLink}`;
   updateHabitStatisticLink = `${habitStatisticLink}`;
   createHabitStatisticLink = `${habitStatisticLink}`;
 
@@ -32,13 +31,34 @@ export class HabitStatisticService {
 
   updateHabitStatistic(habitStatisticDto: HabitStatisticsDto) {
     this.http.patch<HabitStatisticsDto>(`${this.updateHabitStatisticLink}${habitStatisticDto.id}`, habitStatisticDto).subscribe(data => {
-      this.loadHabitStatistics();
+      let index: number;
+
+      this.dataStore.habitStatistics.forEach((item, i) => {
+        index = item.habitStatistics.findIndex(stat => stat.id === data.id);
+        if (index !== -1) {
+          this.dataStore.habitStatistics[i].habitStatistics[index] =
+            new HabitStatisticsDto(data.id, data.habitRate, data.createdOn, data.amountOfItems, data.habitId);
+
+          this.$habitStatistics.next(Object.assign({}, this.dataStore).habitStatistics);
+        }
+      });
     });
   }
 
   createHabitStatistic(habitStatistics: HabitStatisticsDto) {
     this.http.post<HabitStatisticsDto>(this.createHabitStatisticLink, habitStatistics).subscribe(data => {
-      this.loadHabitStatistics();
+      this.dataStore.habitStatistics.forEach((habit, habitIndex) => {
+        if (habit.id === habitStatistics.habitId) {
+          habit.habitStatistics.forEach((stat, statIndex) => {
+            if (stat.createdOn === habitStatistics.createdOn) {
+              this.dataStore.habitStatistics[habitIndex].habitStatistics[statIndex] =
+                new HabitStatisticsDto(data.id, data.habitRate, data.createdOn, data.amountOfItems, data.habitId);
+              this.$habitStatistics.next(Object.assign({}, this.dataStore).habitStatistics);
+              return;
+            }
+          });
+        }
+      });
     });
   }
 

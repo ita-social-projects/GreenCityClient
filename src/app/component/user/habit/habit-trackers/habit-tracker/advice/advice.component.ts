@@ -1,4 +1,4 @@
-import {AfterContentInit, Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {AdviceService} from '../../../../../../service/advice/advice.service';
 import {HabitDto} from '../../../../../../model/habit/HabitDto';
 import {AdviceDto} from '../../../../../../model/advice/AdviceDto';

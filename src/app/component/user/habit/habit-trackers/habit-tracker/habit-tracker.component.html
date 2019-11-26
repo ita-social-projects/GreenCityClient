@@ -1,11 +1,12 @@
 <div class="container">
-  <div class="row">
+  <div *ngIf="$habit | async as habit" class="row">
     <div class="col-6">
-      <app-habit-chart caption="{{habit.habitName}}" [values]="habit.habitStatistics" [chartId]="chartId"></app-habit-chart>
+      <app-habit-chart caption="{{habit.habitName}}" [values]="habitStatistic"
+                       [chartId]="chartId" [redrawTrigger]="chartRedrawTrigger"></app-habit-chart>
     </div>
     <div class="col-6">
       <app-habit-estimation [habit]="habit"
-                            [habitStatistic]="currentStatistic" ></app-habit-estimation>
+                            [statistic]="currentStatistic"></app-habit-estimation>
     </div>
   </div>
 </div>

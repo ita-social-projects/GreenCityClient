@@ -52,7 +52,6 @@ import {
   MatTreeModule
 } from '@angular/material';
 
-import {HabitChartComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-chart/habit-chart.component';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
 import {Ng5SliderModule} from 'ng5-slider';
 import {provideConfig} from './config/GoogleAuthConfig';
@@ -71,16 +70,10 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {UserLogComponent} from './component/user/habit/user-log-component/user-log.component';
 import {ButtonComponent} from './component/user/habit/button-component/button.component';
 import {HabitTrackersComponent} from './component/user/habit/habit-trackers/habit-trackers.component';
-import {HabitItemComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-item/habit-item.component';
-import {HabitTrackerComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-tracker.component';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {UserHabitPageComponent} from './component/user/habit/user-habit-page/user-habit-page.component';
 import {LowerNavBarComponent} from './component/user/lower-nav-bar/lower-nav-bar.component';
-import {HabitItemListComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-item-list/habit-item-list.component';
-import {HabitEstimationComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-estimation.component';
-import {DayEstimationComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/day-estimation/day-estimation.component';
-import {AdviceComponent} from './component/user/habit/habit-trackers/habit-tracker/advice/advice.component';
 import {GoalItemComponent} from './component/user/user-goals/goal-item/goal-item.component';
 import {GoalListComponent} from './component/user/user-goals/goal-list/goal-list.component';
 import {AddGoalButtonComponent} from './component/user/user-goals/add-goal-button/add-goal-button.component';
@@ -89,6 +82,13 @@ import {UserSidebarComponent} from './component/user/user-sidebar/user-sidebar.c
 import {ShowFirstNPipe} from './pipe/show-first-n-pipe/show-first-n.pipe';
 import {UncheckedFirstPipe} from './pipe/unchecked-first-pipe/unchecked-first.pipe';
 import {AlphabeticalPipePipe} from './pipe/alphabetical-pipe/alphabetical-pipe.pipe';
+import {HabitTrackerComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-tracker.component';
+import {HabitEstimationComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-estimation.component';
+import {DayEstimationComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/day-estimation/day-estimation.component';
+import {HabitChartComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-chart/habit-chart.component';
+import {AdviceComponent} from './component/user/habit/habit-trackers/habit-tracker/advice/advice.component';
+import {HabitItemComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-item/habit-item.component';
+import {HabitItemListComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-item-list/habit-item-list.component';
 
 @NgModule({
   declarations: [
@@ -112,10 +112,6 @@ import {AlphabeticalPipePipe} from './pipe/alphabetical-pipe/alphabetical-pipe.p
     AddCommentComponent,
     UserSettingComponent,
     HabitTrackersComponent,
-    HabitItemComponent,
-    HabitItemListComponent,
-    DayEstimationComponent,
-    HabitTrackerComponent,
     UserLogComponent,
     ButtonComponent,
     UserHabitPageComponent,
@@ -126,12 +122,17 @@ import {AlphabeticalPipePipe} from './pipe/alphabetical-pipe/alphabetical-pipe.p
     GoalContainerComponent,
     UserSidebarComponent,
     LowerNavBarComponent,
-    HabitChartComponent,
-    HabitEstimationComponent,
-    AdviceComponent,
     ShowFirstNPipe,
     UncheckedFirstPipe,
-    AlphabeticalPipePipe
+    AlphabeticalPipePipe,
+    HabitTrackerComponent,
+    HabitEstimationComponent,
+    DayEstimationComponent,
+    HabitItemComponent,
+    HabitChartComponent,
+    AdviceComponent,
+    HabitItemComponent,
+    HabitItemListComponent
   ],
   imports: [
     BrowserModule,

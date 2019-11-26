@@ -1,18 +1,19 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Chart } from 'chart.js';
+import {Component, OnInit, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Chart} from 'chart.js';
 import 'chartjs-plugin-labels';
-import { delay } from 'rxjs/operators';
-import { DayEstimation } from '../../../../../../model/habit/DayEstimation';
+import {DayEstimation} from '../../../../../../model/habit/DayEstimation';
+import {HabitStatisticsDto} from '../../../../../../model/habit/HabitStatisticsDto';
 
 @Component({
   selector: 'app-habit-chart',
   templateUrl: './habit-chart.component.html',
   styleUrls: ['./habit-chart.component.css']
 })
-export class HabitChartComponent implements OnInit {
+export class HabitChartComponent implements OnInit, OnChanges {
   @Input() caption: string;
-  @Input() values: any[];
+  @Input() values: HabitStatisticsDto[];
   @Input() chartId;
+  @Input() redrawTrigger: boolean;
 
   readonly shape = 'assets/img/habit-circle-bg-shape.png';
 
@@ -27,7 +28,7 @@ export class HabitChartComponent implements OnInit {
 
   // !SETTINGS
 
-  outerHabitChart = [];
+  outerHabitChart: Chart;
 
   outerLabels = [];
   habitChartDataset = [
@@ -40,16 +41,17 @@ export class HabitChartComponent implements OnInit {
     }
   ];
 
-  constructor() {}
+  constructor() {
+  }
 
   ngOnInit() {
     const canvas = document.getElementById('chartIdGeneral');
     canvas.id = this.chartId;
+    this.fillSegments();
     this.drawChart();
   }
 
   private drawChart() {
-    this.fillSegments();
     this.outerHabitChart = new Chart(this.chartId, {
       type: 'doughnut',
       data: {
@@ -57,6 +59,9 @@ export class HabitChartComponent implements OnInit {
         labels: this.outerLabels
       },
       options: {
+        animation: {
+          duration: 0
+        },
         cutoutPercentage: 61,
         responsive: false,
         legend: {
@@ -117,5 +122,27 @@ export class HabitChartComponent implements OnInit {
 
       this.outerLabels = [...this.outerLabels, el.amountOfItems];
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.habitChartDataset = [
+      {
+        label: 'Bags',
+        data: [],
+        backgroundColor: [],
+        borderColor: this.COLOR_WHITE,
+        borderWidth: 3
+      }
+    ];
+    this.outerLabels = [];
+    this.outerHabitChart.update();
+
+    this.fillSegments();
+    this.outerHabitChart.data = {
+      datasets: this.habitChartDataset,
+      labels: this.outerLabels
+    };
+
+    this.outerHabitChart.update();
   }
 }

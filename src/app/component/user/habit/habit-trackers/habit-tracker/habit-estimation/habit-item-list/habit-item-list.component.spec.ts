@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HabitItemListComponent } from './habit-item-list.component';
 
-describe('HabitItemListComponent', () => {
+describe('HabitItemListDemoComponent', () => {
   let component: HabitItemListComponent;
   let fixture: ComponentFixture<HabitItemListComponent>;
 
