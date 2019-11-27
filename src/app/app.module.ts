@@ -89,6 +89,10 @@ import { UserSidebarComponent } from './component/user/user-sidebar/user-sidebar
 import { ShowFirstNPipe } from './pipe/show-first-n-pipe/show-first-n.pipe';
 import { UncheckedFirstPipe } from './pipe/unchecked-first-pipe/unchecked-first.pipe';
 import { AlphabeticalPipePipe } from './pipe/alphabetical-pipe/alphabetical-pipe.pipe';
+import { AddNewHabitModalComponent } from './component/user/habit/add-new-habit/add-new-habit-modal/add-new-habit-modal.component';
+import { AlreadyChosenComponent } from './component/user/habit/add-new-habit/already-chosen/already-chosen.component';
+import { HabitCardComponent } from './component/user/habit/add-new-habit/habit-card/habit-card.component';
+import { AvailableToChooseComponent } from './component/user/habit/add-new-habit/available-to-choose/available-to-choose.component';
 
 @NgModule({
   declarations: [
@@ -131,7 +135,11 @@ import { AlphabeticalPipePipe } from './pipe/alphabetical-pipe/alphabetical-pipe
     AdviceComponent,
     ShowFirstNPipe,
     UncheckedFirstPipe,
-    AlphabeticalPipePipe
+    AlphabeticalPipePipe,
+    AddNewHabitModalComponent,
+    AlreadyChosenComponent,
+    HabitCardComponent,
+    AvailableToChooseComponent
   ],
   imports: [
     BrowserModule,
