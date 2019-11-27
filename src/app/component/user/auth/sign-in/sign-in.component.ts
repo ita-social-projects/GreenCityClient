@@ -31,7 +31,7 @@ export class SignInComponent implements OnInit {
     private authService: AuthService,
     private googleService: GoogleSignInService,
     public dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.userOwnSignIn = new UserOwnSignIn();
@@ -47,7 +47,7 @@ export class SignInComponent implements OnInit {
       (data: UserSuccessSignIn) => {
         this.loadingAnim = false;
         this.service.saveUserToLocalStorage(data);
-        window.location.href = '/';
+        window.location.href = '/GreenCityClient/';
       },
       (errors: HttpErrorResponse) => {
         try {
@@ -71,7 +71,7 @@ export class SignInComponent implements OnInit {
       this.googleService.signIn(data.idToken).subscribe(
         (data1: UserSuccessSignIn) => {
           this.service.saveUserToLocalStorage(data1);
-          window.location.href = '/';
+          window.location.href = '/GreenCityClient/';
         },
         (errors: HttpErrorResponse) => {
           try {
