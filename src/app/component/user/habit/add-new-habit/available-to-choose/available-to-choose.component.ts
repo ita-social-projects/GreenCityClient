@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-available-to-choose',
@@ -7,9 +8,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AvailableToChooseComponent implements OnInit {
 
+  available = [
+    { id: 5, caption: 'Habit5', description: 'Lorem Lorem ipsum dolor sit amet, consectetur adipiscing elit dolor' },
+    { id: 6, caption: 'Habit6', description: 'Lorem Lorem ipsum dolor sit amet, consectetur adipiscing elit dolor' },
+    { id: 7, caption: 'Habit7', description: 'Lorem Lorem ipsum dolor sit amet, consectetur adipiscing elit dolor' },
+    { id: 8, caption: 'Habit8', description: 'Lorem Lorem ipsum dolor sit amet, consectetur adipiscing elit dolor' },
+  ];
+
   constructor() { }
 
   ngOnInit() {
   }
 
+  onDrop(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
+    }
+  }
 }

@@ -93,6 +93,7 @@ import { AddNewHabitModalComponent } from './component/user/habit/add-new-habit/
 import { AlreadyChosenComponent } from './component/user/habit/add-new-habit/already-chosen/already-chosen.component';
 import { HabitCardComponent } from './component/user/habit/add-new-habit/habit-card/habit-card.component';
 import { AvailableToChooseComponent } from './component/user/habit/add-new-habit/available-to-choose/available-to-choose.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -180,6 +181,7 @@ import { AvailableToChooseComponent } from './component/user/habit/add-new-habit
     MatCheckboxModule,
     MatRadioModule,
     MatSelectModule,
+    DragDropModule,
     NgbModule,
     TranslateModule.forRoot({
       loader: {
