@@ -1,2 +1,4 @@
-<img src="assets/img/icon/Shape.png">
-<p>{{advice}}</p>
+<div *ngIf="$advice | async as advice">
+  <img src="assets/img/icon/Shape.png">
+  <p>{{advice.advice}}</p>
+</div>

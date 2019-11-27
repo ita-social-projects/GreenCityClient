@@ -1,43 +1,54 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {DayEstimation} from '../../../../../../../model/habit/DayEstimation';
-import {HabitStatisticDto} from '../../../../../../../model/habit/HabitStatisticDto';
-import {HabitStatisticService} from '../../../../../../../service/habit-statistic/habit-statistic.service';
+import {Component, Input, OnInit} from '@angular/core';
 import {HabitDto} from '../../../../../../../model/habit/HabitDto';
+import {HabitStatisticsDto} from '../../../../../../../model/habit/HabitStatisticsDto';
+import {HabitStatisticService} from '../../../../../../../service/habit-statistic/habit-statistic.service';
+import {DayEstimation} from '../../../../../../../model/habit/DayEstimation';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-day-estimation',
   templateUrl: './day-estimation.component.html',
   styleUrls: ['./day-estimation.component.css']
 })
-export class DayEstimationComponent implements OnInit, OnChanges {
-  @Input()
-  habitStatisticDto: HabitStatisticDto;
+export class DayEstimationComponent implements OnInit {
   @Input()
   habit: HabitDto;
+  @Input()
+  statistic: HabitStatisticsDto;
+  $habit: Observable<HabitDto>;
   estimation: DayEstimation;
 
   constructor(private service: HabitStatisticService) {
   }
 
   ngOnInit() {
-    this.service.getHabitStatistic(this.habit).subscribe(response => {
-      this.estimation = response.filter(stat => stat.id === this.habitStatisticDto.id)[0].habitRate;
-      this.habitStatisticDto.habitRate = response.filter(stat => stat.id === this.habitStatisticDto.id)[0].habitRate;
+    this.service.habitStatistics.pipe(map(habit => habit.find(item => item.id === this.habit.id))).subscribe(data => {
+      let stat: HabitStatisticsDto;
+      if (this.statistic.id === null) {
+        stat = data.habitStatistics.find(el => el.createdOn === this.statistic.createdOn);
+      } else {
+        stat = data.habitStatistics.find(el => el.id === this.statistic.id);
+      }
+      this.statistic = stat;
+
+      this.estimation = stat.habitRate;
     });
-    this.estimation = this.habitStatisticDto.habitRate;
   }
 
   update(estimation: string) {
-    this.service.updatedHabitStatistic(new HabitStatisticDto(this.habitStatisticDto.id, this.habitStatisticDto.habitId,
-      this.habitStatisticDto.amountOfItems, DayEstimation[estimation], this.habitStatisticDto.createdOn)).subscribe(response => {
-      this.estimation = DayEstimation[response.habitRate];
-      this.habitStatisticDto.habitRate = response.habitRate;
-      console.log(this.estimation);
-    });
-    this.estimation = DayEstimation[estimation];
+    const newEstimation = Object.assign({}, this.statistic);
+    newEstimation.habitRate = DayEstimation[estimation];
+    newEstimation.habitId = this.habit.id;
+
+    if (newEstimation.id === null) {
+      this.create(newEstimation);
+    } else {
+      this.service.updateHabitStatistic(newEstimation);
+    }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-
+  create(habitStatistic: HabitStatisticsDto) {
+    this.service.createHabitStatistic(habitStatistic);
   }
 }
