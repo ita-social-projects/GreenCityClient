@@ -16,11 +16,7 @@ import {SignInComponent} from './component/user/auth/sign-in/sign-in.component';
 import {SubmitEmailComponent} from './component/user/auth/submit-email/submit-email.component';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {ModalModule} from './component/user/_modal/modal.module';
-import {
-  HTTP_INTERCEPTORS,
-  HttpClient,
-  HttpClientModule
-} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {ProposeCafeComponent} from './component/user/propose-cafe/propose-cafe.component';
 import {InterceptorService} from './service/interceptor.service';
 import {AdminModule} from './component/admin/admin.module';
@@ -89,6 +85,8 @@ import {AdviceComponent} from './component/user/habit/habit-trackers/habit-track
 import {HabitItemComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-item/habit-item.component';
 import {HabitItemListComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-item-list/habit-item-list.component';
 import {HabitChartComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-chart/habit-chart.component';
+import {HabitTitleComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-title/habit-title.component';
+import {HabitFactComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-fact/habit-fact.component';
 
 
 @NgModule({
@@ -133,7 +131,9 @@ import {HabitChartComponent} from './component/user/habit/habit-trackers/habit-t
     HabitChartComponent,
     AdviceComponent,
     HabitItemComponent,
-    HabitItemListComponent
+    HabitItemListComponent,
+    HabitTitleComponent,
+    HabitFactComponent
   ],
   imports: [
     BrowserModule,
