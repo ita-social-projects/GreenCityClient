@@ -21,7 +21,7 @@ export class NavBarComponent implements OnInit {
     private modalService: ModalService,
     public dialog: MatDialog,
     private favoritePlaceService: FavoritePlaceService
-  ) {}
+  ) { }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(FavoritePlaceComponent, {
@@ -59,6 +59,6 @@ export class NavBarComponent implements OnInit {
   }
   private signOut() {
     localStorage.clear();
-    window.location.href = '/';
+    window.location.href = '/GreenCityClient/';
   }
 }

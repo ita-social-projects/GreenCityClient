@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HabitTrackerComponent } from './habit-tracker.component';
 
-describe('HabitStatisticComponent', () => {
+describe('HabitTrackerDemoComponent', () => {
   let component: HabitTrackerComponent;
   let fixture: ComponentFixture<HabitTrackerComponent>;
 
