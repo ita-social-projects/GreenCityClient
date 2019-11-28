@@ -80,7 +80,6 @@ export class ProposeCafeComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.place.openingHoursList);
     this.categoryService.findAllCategory().subscribe(data => {
       this.categories = data;
     });

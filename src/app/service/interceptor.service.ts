@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
 import {
-  HttpClient, HttpErrorResponse,
-  HttpEvent,
+  HttpClient, HttpErrorResponse, HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest
 } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import { frontAuthLink, updateAccessTokenLink } from '../links';
-import { catchError, switchMap } from 'rxjs/operators';
-import { AccessToken } from '../model/access-token';
+import {catchError, filter, switchMap, take} from 'rxjs/operators';
 import { JwtService } from './jwt.service';
 
 
@@ -17,102 +15,59 @@ import { JwtService } from './jwt.service';
   providedIn: 'root'
 })
 export class InterceptorService implements HttpInterceptor {
+  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private isRefreshing = false;
 
   constructor(private http: HttpClient, private jwtService: JwtService) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (!req.url.includes(updateAccessTokenLink)) {
-      const accessToken = this.jwtService.getAccessToken();
-      if (accessToken != null) {
-        if (this.jwtService.isTokenValid(accessToken)) {
-          req = this.addAccessTokenToHeader(req, accessToken);
-          return next.handle(req).pipe(
-            catchError((err: HttpErrorResponse) => {
-              if (err.status === 401) {
-                this.clearLocalStorageAndRedirectToAuthPage();
-              }
-              return throwError(err);
-            }
-            )
-          );
+    // console.log(req.url);
+    if (this.jwtService.getAccessToken() && !req.url.includes('ownSecurity/')) {
+      req = this.addAccessTokenToHeader(req, this.jwtService.getAccessToken());
+    }
+    return next.handle(req).pipe(
+      catchError(error => {
+        console.log('catchError: ' + req.url);
+        if (error.status === 401 && error instanceof HttpErrorResponse) {
+          return this.handle401Error(req, next);
         } else {
-          const refreshToken = this.jwtService.getRefreshToken();
-          if (refreshToken != null) {
-            if (this.jwtService.isTokenValid(refreshToken)) {
-              return this.getNewAccessToken(refreshToken).pipe(
-                switchMap((data: AccessToken) => {
-                  this.jwtService.saveAccessToken(data.accessToken);
-                  req = this.addAccessTokenToHeader(req, data.accessToken);
-                  return next.handle(req);
-                })
-              );
-            } else {
-              this.clearLocalStorageAndRedirectToAuthPage();
-            }
-          }
-        }
-      } else {
-        return next.handle(req).pipe(
-          catchError((error) => {
-            if (error instanceof HttpErrorResponse) {
-              if (error.error instanceof ErrorEvent) {
-                console.error('Error Event');
-              } else {
-                switch (error.status) {
-                  case 400:
-                    console.log('Error 400');
-                    break;
-                  case 401:
-                    console.log('Error 401');
-                    break;
-                  case 403:
-                    console.log('Error 403');
-                    break;
-                  case 404:
-                    console.log('Error 404');
-                    break;
-                  default:
-                    console.log('Unknown error occured');
-                    break;
-                }
-              }
-            } else {
-              console.error('some thing else happened');
-            }
-            return throwError(error);
-          })
-        );
-      }
-    } else {
-      return next.handle(req).pipe(
-        catchError((error) => {
-          if (error instanceof HttpErrorResponse) {
-            if (error.error instanceof ErrorEvent) {
-              console.error('Error Event');
-            } else {
-              switch (error.status) {
-                case 0:
-                  console.log('Unknown error occured');
-                  break;
-                case 400:
-                  console.log('Error 400');
-                  break;
-                case 401:
-                  console.log('Error 401');
-                  break;
-                case 403:
-                  console.log('Error 403');
-                  break;
-                default:
-                  console.log('Unknown error occured');
-                  break;
-              }
-            }
-          } else {
-            console.error('some thing else happened');
-          }
           return throwError(error);
+        }
+      })
+    );
+  }
+
+  private handle401Error(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (!this.isRefreshing) {
+      this.isRefreshing = true;
+      this.refreshTokenSubject.next(null);
+      return this.getNewAccessToken(this.jwtService.getRefreshToken()).pipe(
+        switchMap((pair: any) => {
+          console.log('pair.accessToken ' + pair.accessToken);
+          console.log('pair.refreshToken ' + pair.refreshToken);
+          localStorage.setItem('accessToken', pair.accessToken);
+          localStorage.setItem('refreshToken', pair.refreshToken);
+          this.isRefreshing = false;
+          this.refreshTokenSubject.next(pair);
+          return next.handle(this.addAccessTokenToHeader(req, pair.accessToken));
+        })
+      );
+    } else {
+      return this.refreshTokenSubject.pipe(
+        filter(token => {
+          const x = token != null;
+          if (x) {
+            console.log('token.accessToken ' + token.accessToken);
+            console.log('token.refreshToken ' + token.refreshToken);
+          }
+          return x;
+        }),
+        take(1),
+        switchMap(pair => {
+          console.log('asdfasd.accessToken ' + pair.accessToken);
+          console.log('asdceawe.refreshToken ' + pair.refreshToken);
+          return next.handle(this.addAccessTokenToHeader(req, pair.accessToken));
         })
       );
     }
@@ -124,17 +79,15 @@ export class InterceptorService implements HttpInterceptor {
   }
 
   private getNewAccessToken(refreshToken: string): Observable<any> {
-    console.log('update access Token');
     return this.http.get(`${updateAccessTokenLink}?refreshToken=${refreshToken}`);
   }
 
   private addAccessTokenToHeader(req: HttpRequest<any>, accessToken: string) {
-    req = req.clone({
+    return req.clone({
       setHeaders: {
         Authorization: `Bearer ${accessToken}`
       }
     }
     );
-    return req;
   }
 }
