@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-statistic.service';
 
 @Component({
   selector: 'app-available-to-choose',
@@ -15,7 +16,7 @@ export class AvailableToChooseComponent implements OnInit {
     { id: 8, caption: 'Habit8', description: 'Lorem Lorem ipsum dolor sit amet, consectetur adipiscing elit dolor' },
   ];
 
-  constructor() { }
+  constructor(private habitStatisticService: HabitStatisticService) { }
 
   ngOnInit() {
   }
@@ -25,6 +26,9 @@ export class AvailableToChooseComponent implements OnInit {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
+      this.habitStatisticService.setNewHabitsState(
+        this.available.filter(c => c.id === (event.container.data[event.currentIndex] as any).id)[0]
+      );
     }
   }
 }
