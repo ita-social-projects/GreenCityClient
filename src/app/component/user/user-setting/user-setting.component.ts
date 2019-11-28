@@ -28,7 +28,7 @@ export class UserSettingComponent implements OnInit {
     this.setEmailNotifications();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   private getUser() {
     this.userService.getUser().subscribe((userUpdateModel: UserUpdateModel) => {
@@ -41,9 +41,9 @@ export class UserSettingComponent implements OnInit {
       () => {
         this.jwtService.setFirstName(this.userUpdateModel.firstName);
         this.dialogRef.close();
-        window.location.href = '/';
+        window.location.href = '/GreenCityClient/';
       },
-      error => {}
+      error => { }
     );
   }
 

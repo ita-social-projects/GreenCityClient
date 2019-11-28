@@ -117,10 +117,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     AddCommentComponent,
     UserSettingComponent,
     HabitTrackersComponent,
-    HabitItemComponent,
-    HabitItemListComponent,
-    DayEstimationComponent,
-    HabitTrackerComponent,
     UserLogComponent,
     ButtonComponent,
     UserHabitPageComponent,
@@ -131,16 +127,21 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     GoalContainerComponent,
     UserSidebarComponent,
     LowerNavBarComponent,
-    HabitChartComponent,
-    HabitEstimationComponent,
-    AdviceComponent,
     ShowFirstNPipe,
     UncheckedFirstPipe,
     AlphabeticalPipePipe,
     AddNewHabitModalComponent,
     AlreadyChosenComponent,
     HabitCardComponent,
-    AvailableToChooseComponent
+    AvailableToChooseComponent,
+    HabitTrackerComponent,
+    HabitEstimationComponent,
+    DayEstimationComponent,
+    HabitItemComponent,
+    HabitChartComponent,
+    AdviceComponent,
+    HabitItemComponent,
+    HabitItemListComponent
   ],
   imports: [
     BrowserModule,
@@ -220,7 +221,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(

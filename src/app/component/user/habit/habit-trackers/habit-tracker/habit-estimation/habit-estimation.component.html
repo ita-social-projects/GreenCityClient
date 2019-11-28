@@ -1,12 +1,12 @@
 <div class="col-xl-6">
   <div class="tracked-habit-statistic">
-    <div *ngIf="habit && habitStatistic">
-      <h5>{{'habit-message.' + habit.habitName | translate}}</h5>
-      <app-habit-item-list [habit]="habit" [habitStatistic]="habitStatistic"></app-habit-item-list>
-      <h6
-        class="estimation-message">{{'user.habit-statistic.habit-statistic.how-do-you-estimate-today' | translate}}</h6>
-      <app-day-estimation [habitStatisticDto]="habitStatistic" [habit]="habit"></app-day-estimation>
-      <div class="habit-advice-margin"><app-advice [habitId]="habit.id"></app-advice></div>
+    <h5>{{'habit-message.' + habit.habitName | translate}}</h5>
+    <app-habit-item-list [habit]="habit" [habitStatistic]="statistic"></app-habit-item-list>
+    <h6
+      class="estimation-message">{{'user.habit-statistic.habit-statistic.how-do-you-estimate-today' | translate}}</h6>
+    <app-day-estimation [statistic]="statistic" [habit]="habit"></app-day-estimation>
+    <div class="habit-advice-margin">
+      <app-advice [habit]="habit"></app-advice>
     </div>
   </div>
 </div>

@@ -19,22 +19,18 @@ export class UserLogComponent implements OnInit {
   $creationDate: Date;
   $amountUnTakenItemsPerMonthBag: number;
   $amountUnTakenItemsPerMonthCap: number;
-  $differenceUnTakenItemsWithPreviousMonthBag: number;
-  $differenceUnTakenItemsWithPreviousMonthCap: number;
+  $differenceUnTakenItemsWithPreviousDayBag: number;
+  $differenceUnTakenItemsWithPreviousDayCap: number;
 
   ngOnInit() {
     this.$userLog = this.habitStatisticService.getUserLog().subscribe(data => {
-      console.log("djdjjd");
-
-      console.log(data);
-
       if (typeof data !== undefined) {
         this.hasStatistic = true;
         this.$creationDate = data.creationDate;
         this.$amountUnTakenItemsPerMonthCap = data.allItemsPerMonth.cap;
         this.$amountUnTakenItemsPerMonthBag = data.allItemsPerMonth.bag;
-        this.$differenceUnTakenItemsWithPreviousMonthCap = data.differenceUnTakenItemsWithPreviousMonth.cap;
-        this.$differenceUnTakenItemsWithPreviousMonthBag = data.differenceUnTakenItemsWithPreviousMonth.bag;
+        this.$differenceUnTakenItemsWithPreviousDayCap = data.differenceUnTakenItemsWithPreviousDay.cap;
+        this.$differenceUnTakenItemsWithPreviousDayBag = data.differenceUnTakenItemsWithPreviousDay.bag;
       }
     }, error => {
       this.hasStatistic = false;

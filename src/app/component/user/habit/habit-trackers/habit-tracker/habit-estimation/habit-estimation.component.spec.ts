@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HabitEstimationComponent } from './habit-estimation.component';
 
-describe('HabitEstimationComponent', () => {
+describe('HabitEstimationDemoComponent', () => {
   let component: HabitEstimationComponent;
   let fixture: ComponentFixture<HabitEstimationComponent>;
 

@@ -7,12 +7,12 @@ import {HabitItem} from './HabitItem';
   styleUrls: ['./habit-item.component.css']
 })
 export class HabitItemComponent implements OnInit {
-  @Input()
-  habitItem: HabitItem;
+  @Input() habitItem: HabitItem;
 
   constructor() {
   }
 
   ngOnInit() {
   }
+
 }

@@ -29,7 +29,7 @@
     "search": "Search",
     "category": "Category",
     "name": "Name",
-    "address": "address",
+    "address": "Address",
     "working-times": "Working times",
     "added-by": "Added by",
     "added-on": "Added on",
@@ -342,5 +342,11 @@
   "habit-message": {
     "bag": "How many packages haven't you taken today?",
     "cap": "How many glasses you haven't used today?"
+  },
+  "pagination": {
+    "first": "First",
+    "previous":"Previous",
+    "next": "Next",
+    "last": "Last"
   }
 }

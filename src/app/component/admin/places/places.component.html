@@ -2,10 +2,12 @@
   <div class="card-body">
     <h4 class="card-title">{{'places.places' | translate}}</h4>
     <div class="input-group mb-3" style="width: 25%">
-      <input type="text" class="form-control" placeholder="{{'places.search' | translate | lowercase}}" aria-label="Recipient's username"
+      <input type="text" class="form-control" placeholder="{{'places.search' | translate | lowercase}}"
+             aria-label="Recipient's username"
              aria-describedby="basic-addon2" [(ngModel)]="searchReg" (keyup.enter)="onKeydown()">
       <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button" (click)="onKeydown()">{{'places.search' | translate}}</button>
+        <button class="btn btn-outline-secondary" type="button"
+                (click)="onKeydown()">{{'places.search' | translate}}</button>
       </div>
     </div>
     <div class="table-responsive">
@@ -30,22 +32,28 @@
               (click)="selectColumnToSort('category.name,name')">{{'places.category' | translate}}
             <mat-icon svgIcon="{{sortArrow}}" [hidden]="sortColumn!=='category.name,name'"></mat-icon>
           </th>
-          <td mat-cell *matCellDef="let element" [class.blueColumn]="sortColumn==='category.name,name'"> {{element.category.name}} </td>
+          <td mat-cell *matCellDef="let element"
+              [class.blueColumn]="sortColumn==='category.name,name'"> {{element.category.name}} </td>
         </ng-container>
 
         <ng-container matColumnDef="Name">
           <th mat-header-cell *matHeaderCellDef [matMenuTriggerFor]="menu" style="cursor: pointer"
               (click)="selectColumnToSort('name')" class="hide-arrow">
-            {{'places.name' | translate}}<mat-icon svgIcon="{{sortArrow}}" [hidden]="sortColumn!=='name' || sortDirection==='asc'"></mat-icon></th>
-          <td mat-cell *matCellDef="let element" [class.blueColumn]="sortColumn==='name' && sortDirection==='desc'"> {{element.name}} </td>
+            {{'places.name' | translate}}
+            <mat-icon svgIcon="{{sortArrow}}" [hidden]="sortColumn!=='name' || sortDirection==='asc'"></mat-icon>
+          </th>
+          <td mat-cell *matCellDef="let element"
+              [class.blueColumn]="sortColumn==='name' && sortDirection==='desc'"> {{element.name}} </td>
         </ng-container>
 
         <ng-container matColumnDef="Location">
           <th mat-header-cell *matHeaderCellDef [matMenuTriggerFor]="menu" style="cursor: pointer"
               (click)="selectColumnToSort('location.address,name')">
-            {{'places.address' | translate}}<mat-icon svgIcon="{{sortArrow}}" [hidden]="sortColumn!=='location.address,name'"></mat-icon>
-        </th>
-          <td mat-cell *matCellDef="let element" [class.blueColumn]="sortColumn==='location.address,name'"> {{element.location.address}} </td>
+            {{'places.address' | translate}}
+            <mat-icon svgIcon="{{sortArrow}}" [hidden]="sortColumn!=='location.address,name'"></mat-icon>
+          </th>
+          <td mat-cell *matCellDef="let element"
+              [class.blueColumn]="sortColumn==='location.address,name'"> {{element.location.address}} </td>
         </ng-container>
 
         <ng-container matColumnDef="Working hours">
@@ -54,19 +62,24 @@
         </ng-container>
 
         <ng-container matColumnDef="Added By">
-          <th mat-header-cell *matHeaderCellDef style="cursor: pointer" (click)="selectColumnToSort('author.email,name')"
+          <th mat-header-cell *matHeaderCellDef style="cursor: pointer"
+              (click)="selectColumnToSort('author.email,name')"
               [matMenuTriggerFor]="menu">
-            {{'places.added-by' | translate}}<mat-icon svgIcon="{{sortArrow}}" [hidden]="sortColumn!=='author.email,name'"></mat-icon>
+            {{'places.added-by' | translate}}
+            <mat-icon svgIcon="{{sortArrow}}" [hidden]="sortColumn!=='author.email,name'"></mat-icon>
           </th>
-          <td mat-cell *matCellDef="let element" [class.blueColumn]="sortColumn==='author.email,name'"> {{element.author.email}} </td>
+          <td mat-cell *matCellDef="let element"
+              [class.blueColumn]="sortColumn==='author.email,name'"> {{element.author.email}} </td>
         </ng-container>
 
         <ng-container matColumnDef="modifiedDate">
           <th mat-header-cell *matHeaderCellDef style="cursor: pointer" style="cursor: pointer"
               (click)="selectColumnToSort('modifiedDate,name')" [matMenuTriggerFor]="menu">
-            {{'places.added-on' | translate}}<mat-icon svgIcon="{{sortArrow}}" [hidden]="sortColumn!=='modifiedDate,name'"></mat-icon>
+            {{'places.added-on' | translate}}
+            <mat-icon svgIcon="{{sortArrow}}" [hidden]="sortColumn!=='modifiedDate,name'"></mat-icon>
           </th>
-          <td mat-cell *matCellDef="let element" [class.blueColumn]="sortColumn==='modifiedDate,name'"> {{element.modifiedDate}} </td>
+          <td mat-cell *matCellDef="let element"
+              [class.blueColumn]="sortColumn==='modifiedDate,name'"> {{element.modifiedDate}} </td>
         </ng-container>
 
         <ng-container matColumnDef="Status">
@@ -149,7 +162,12 @@
       <div id="pagination">
         <pagination #paginationElement [itemsPerPage]="pageSize" [totalItems]="totalItems"
                     (pageChanged)="changePage($event)" [maxSize]="6" [rotate]="true"
-                    [boundaryLinks]="true" class="flex-wrap"></pagination>
+                    [boundaryLinks]="true" class="flex-wrap"
+                    firstText="{{'pagination.first' | translate}}"
+                    previousText="{{'pagination.previous' | translate}}"
+                    nextText="{{'pagination.next' | translate}}"
+                    lastText="{{'pagination.last' | translate}}">
+        </pagination>
       </div>
       {{'places.items-per-page' | translate}}
       <mat-select [(value)]="pageSize" (valueChange)="changePage(page)" style="width: 50px;margin-left: 15px">
@@ -164,6 +182,7 @@
 </div>
 <mat-menu #menu="matMenu">
   <button mat-menu-item (click)="sortData(selectedColumnToSort,'asc')">{{'places.sort-ascending' | translate}}</button>
-  <button mat-menu-item (click)="sortData(selectedColumnToSort,'desc')">{{'places.sort-descending' | translate}}</button>
+  <button mat-menu-item
+          (click)="sortData(selectedColumnToSort,'desc')">{{'places.sort-descending' | translate}}</button>
   <button mat-menu-item (click)="sortData('name','asc')">{{'places.cancel-sorting' | translate}}</button>
 </mat-menu>

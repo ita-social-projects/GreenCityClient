@@ -1,5 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AdviceService} from '../../../../../../service/advice/advice.service';
+import {HabitDto} from '../../../../../../model/habit/HabitDto';
+import {AdviceDto} from '../../../../../../model/advice/AdviceDto';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-advice',
@@ -8,14 +11,14 @@ import {AdviceService} from '../../../../../../service/advice/advice.service';
 })
 export class AdviceComponent implements OnInit {
 
-  advice: string;
+  $advice: Observable<AdviceDto>;
   @Input()
-  habitId: number;
+  habit: HabitDto;
 
-  constructor(private service: AdviceService) { }
-
-  ngOnInit() {
-    this.service.getAdvice(this.habitId).subscribe(data => this.advice = data.advice);
+  constructor(private service: AdviceService) {
   }
 
+  ngOnInit() {
+    this.$advice = this.service.getAdvice(this.habit.id);
+  }
 }

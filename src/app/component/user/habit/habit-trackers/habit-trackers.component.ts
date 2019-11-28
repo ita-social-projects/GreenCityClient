@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HabitStatisticService} from '../../../../service/habit-statistic/habit-statistic.service';
 import {HabitDto} from '../../../../model/habit/HabitDto';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-habit-trackers',
@@ -8,15 +9,13 @@ import {HabitDto} from '../../../../model/habit/HabitDto';
   styleUrls: ['./habit-trackers.component.css']
 })
 export class HabitTrackersComponent implements OnInit {
-  trackedHabits: HabitDto[];
+  $trackedHabits: Observable<HabitDto[]>;
 
   constructor(private service: HabitStatisticService) {
   }
 
   ngOnInit() {
-    this.service.getTrackedHabits().subscribe(trackedHabits => {
-      this.trackedHabits = trackedHabits;
-      console.log(trackedHabits);
-    });
+    this.$trackedHabits = this.service.habitStatistics;
+    this.service.loadHabitStatistics();
   }
 }

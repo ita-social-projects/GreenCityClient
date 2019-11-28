@@ -1,37 +1,48 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges
-} from '@angular/core';
-import { HabitItem } from '../habit-item/HabitItem';
-import { Photo } from '../../../../../../../model/photo/photo';
-import { HabitStatisticDto } from '../../../../../../../model/habit/HabitStatisticDto';
-import { HabitStatisticService } from '../../../../../../../service/habit-statistic/habit-statistic.service';
-import { HabitDto } from '../../../../../../../model/habit/HabitDto';
+import {Component, Input, OnInit} from '@angular/core';
+import {HabitDto} from '../../../../../../../model/habit/HabitDto';
+import {HabitStatisticsDto} from '../../../../../../../model/habit/HabitStatisticsDto';
+import {Observable} from 'rxjs';
+import {HabitStatisticService} from '../../../../../../../service/habit-statistic/habit-statistic.service';
+import {map} from 'rxjs/operators';
+import {Photo} from '../../../../../../../model/photo/photo';
+import {HabitItem} from '../habit-item/HabitItem';
 
 @Component({
   selector: 'app-habit-item-list',
   templateUrl: './habit-item-list.component.html',
   styleUrls: ['./habit-item-list.component.css']
 })
-export class HabitItemListComponent implements OnInit, OnChanges {
+export class HabitItemListComponent implements OnInit {
   habitItems: HabitItem[] = [];
   @Input()
   habit: HabitDto;
   @Input()
-  habitStatistic: HabitStatisticDto;
+  habitStatistic: HabitStatisticsDto;
   currentNumber = 0;
   isExpanded: boolean;
+  $habit: Observable<HabitDto>;
 
-  constructor(private service: HabitStatisticService) {}
+  constructor(private service: HabitStatisticService) {
+  }
 
   ngOnInit(): void {
-    this.currentNumber = this.habitStatistic.amountOfItems;
-    this.isExpanded = this.habitStatistic.amountOfItems > 8;
     this.initHabitItems();
-    this.drawCurrentNumberItems();
+
+    this.service.habitStatistics.pipe(map(hab => hab.find(item => item.id === this.habit.id))).subscribe(data => {
+      let stat: HabitStatisticsDto;
+
+      if (this.habitStatistic.id === null) {
+        stat = data.habitStatistics.find(el => el.createdOn === this.habitStatistic.createdOn);
+      } else {
+        stat = data.habitStatistics.find(el => el.id === this.habitStatistic.id);
+      }
+      this.habitStatistic = stat;
+
+      this.currentNumber = stat.amountOfItems;
+      this.isExpanded = stat.amountOfItems > 8;
+
+      this.drawCurrentNumberItems();
+    });
   }
 
   setAllActive(elCount: number) {
@@ -51,53 +62,39 @@ export class HabitItemListComponent implements OnInit, OnChanges {
   }
 
   update(habitItem: HabitItem) {
-    const newCount = (habitItem.numb === this.currentNumber) ? 0 : habitItem.numb;
-    this.service.updatedHabitStatistic(new HabitStatisticDto(
-      this.habitStatistic.id,
-      this.habitStatistic.habitId,
-      newCount,
-      this.habitStatistic.habitRate, this.habitStatistic.createdOn)).subscribe(data => {
-      this.currentNumber = data.amountOfItems;
-      this.habitStatistic.amountOfItems = data.amountOfItems;
-      this.drawCurrentNumberItems();
-    });
+    const stat: HabitStatisticsDto =
+      new HabitStatisticsDto(this.habitStatistic.id,
+        this.habitStatistic.habitRate,
+        this.habitStatistic.createdOn,
+        habitItem.numb === this.habitStatistic.amountOfItems ? 0 : habitItem.numb,
+        this.habit.id);
 
-    this.currentNumber = newCount;
-    this.drawCurrentNumberItems();
+    if (this.habitStatistic.id === null) {
+      this.create(stat);
+    } else {
+      this.service.updateHabitStatistic(stat);
+    }
+  }
+
+  create(habitStatistic: HabitStatisticsDto) {
+    this.service.createHabitStatistic(habitStatistic);
   }
 
   initHabitItems() {
-    for (let i = 0; i < (this.isExpanded ? 16 : 8); i++) {
+    for (let i = 0; i < 16; i++) {
       this.habitItems.push(new HabitItem(i + 1, this.getIcon(), false));
     }
   }
 
   collapse() {
     if (this.currentNumber > 8) {
-      this.service.updatedHabitStatistic(new HabitStatisticDto(
-        this.habitStatistic.id,
-        this.habitStatistic.habitId,
-        8,
-        this.habitStatistic.habitRate, this.habitStatistic.createdOn)).subscribe(data => {
-        this.currentNumber = data.amountOfItems;
-        this.drawCurrentNumberItems();
-        this.isExpanded = false;
-      });
-      this.currentNumber = 8;
-      this.drawCurrentNumberItems();
-      this.isExpanded = false;
-    } else {
-      this.isExpanded = false;
+      this.update(this.habitItems[7]);
     }
-
-    this.habitItems.splice(8, 18);
+    this.isExpanded = false;
   }
 
   expand() {
     this.isExpanded = true;
-    for (let i = 8; i < 16; i++) {
-      this.habitItems.push(new HabitItem(i + 1, this.getIcon(), false));
-    }
   }
 
   getCollapsed(): HabitItem[] {
@@ -118,12 +115,6 @@ export class HabitItemListComponent implements OnInit, OnChanges {
     }
 
     return collapsed;
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.currentNumber = this.habitStatistic.amountOfItems;
-    this.isExpanded = this.habitStatistic.amountOfItems > 8;
-    this.drawCurrentNumberItems();
   }
 
   getIcon(): Photo {
