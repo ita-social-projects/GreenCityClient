@@ -7,16 +7,15 @@ import {Injectable} from '@angular/core';
 export class JwtService {
 
   constructor() {
-
   }
 
-  public isTokenValid(token: string): boolean {
+  public isExpired(token: string): boolean {
     if (token != null) {
       const jwtData = token.split('.')[1];
       const decodedJwtJsonData = window.atob(jwtData);
       const decodedJwtData = JSON.parse(decodedJwtJsonData);
       const dateInSecond = (new Date().getTime() / 1000);
-      return dateInSecond < decodedJwtData.exp;
+      return dateInSecond > decodedJwtData.exp;
     } else {
       return false;
     }

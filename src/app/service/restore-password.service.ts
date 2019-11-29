@@ -1,7 +1,7 @@
-import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {mainLink} from "../links";
-import {NgFlashMessageService} from "ng-flash-messages";
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {mainLink} from '../links';
+import {NgFlashMessageService} from 'ng-flash-messages';
 
 
 @Injectable({providedIn: 'root'})
@@ -20,6 +20,6 @@ export class RestorePasswordService {
         timeout: 3000,
         type: 'success'
       });
-    })
+    });
   }
 }

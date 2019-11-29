@@ -1,9 +1,8 @@
-import {Injectable} from "@angular/core";
-import {frontMailLink, mainLink} from "../links";
-import {HttpClient} from "@angular/common/http";
-import {RestoreDto} from "../model/restroreDto";
-import {NgFlashMessageService} from "ng-flash-messages";
-import { Router} from "@angular/router";
+import {Injectable} from '@angular/core';
+import {mainLink} from '../links';
+import {HttpClient} from '@angular/common/http';
+import {RestoreDto} from '../model/restroreDto';
+import {NgFlashMessageService} from 'ng-flash-messages';
 
 @Injectable({providedIn: 'root'})
 export class ChangePasswordService {

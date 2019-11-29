@@ -49,10 +49,8 @@ export class InterceptorService implements HttpInterceptor {
       this.refreshTokenSubject.next(null);
       return this.getNewAccessToken(this.jwtService.getRefreshToken()).pipe(
         switchMap((newTokenPair: any) => {
-          console.log('newTokenPair.accessToken ' + newTokenPair.accessToken);
-          console.log('newTokenPair.refreshToken ' + newTokenPair.refreshToken);
-          localStorage.setItem('accessToken', newTokenPair.accessToken);
-          localStorage.setItem('refreshToken', newTokenPair.refreshToken);
+          this.jwtService.saveAccessToken(newTokenPair.accessToken);
+          this.jwtService.saveRefreshToken(newTokenPair.refreshToken);
           this.isRefreshing = false;
           this.refreshTokenSubject.next(newTokenPair);
           return next.handle(this.addAccessTokenToHeader(req, newTokenPair.accessToken));
@@ -60,20 +58,9 @@ export class InterceptorService implements HttpInterceptor {
       );
     } else {
       return this.refreshTokenSubject.pipe(
-        filter(newTokenPair => {
-          const x = newTokenPair != null;
-          if (x) {
-            console.log('newTokenPair.accessToken ' + newTokenPair.accessToken);
-            console.log('newTokenPair.refreshToken ' + newTokenPair.refreshToken);
-          }
-          return x;
-        }),
+        filter(newTokenPair => newTokenPair != null),
         take(1),
-        switchMap(newTokenPair => {
-          console.log('asdfasd.accessToken ' + newTokenPair.accessToken);
-          console.log('asdceawe.refreshToken ' + newTokenPair.refreshToken);
-          return next.handle(this.addAccessTokenToHeader(req, newTokenPair.accessToken));
-        })
+        switchMap(newTokenPair => next.handle(this.addAccessTokenToHeader(req, newTokenPair.accessToken)))
       );
     }
   }
@@ -87,13 +74,12 @@ export class InterceptorService implements HttpInterceptor {
     return this.http.get(`${updateAccessTokenLink}?refreshToken=${refreshToken}`);
   }
 
-  private addAccessTokenToHeader(req: HttpRequest<any>, accessToken: string) {
+  addAccessTokenToHeader(req: HttpRequest<any>, accessToken: string) {
     return req.clone({
       setHeaders: {
         Authorization: `Bearer ${accessToken}`
       }
-    }
-    );
+    });
   }
 
   private handle403Error(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
