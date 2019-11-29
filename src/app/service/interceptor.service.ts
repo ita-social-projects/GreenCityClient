@@ -31,7 +31,12 @@ export class InterceptorService implements HttpInterceptor {
         console.log('catchError: ' + req.url);
         if (error.status === 401 && error instanceof HttpErrorResponse) {
           return this.handle401Error(req, next);
+        } else if (error.status === 403 && error instanceof  HttpErrorResponse) {
+          return this.handle403Error(req, next); // TODO - redirect to main page
+        } else if (error.status === 404 && error instanceof HttpErrorResponse) {
+          return this.handle404Error(req, next); // TODO - show 404 custom page
         } else {
+          console.log(`Unexpected error: ${error.message}`);
           return throwError(error);
         }
       })
@@ -43,31 +48,31 @@ export class InterceptorService implements HttpInterceptor {
       this.isRefreshing = true;
       this.refreshTokenSubject.next(null);
       return this.getNewAccessToken(this.jwtService.getRefreshToken()).pipe(
-        switchMap((pair: any) => {
-          console.log('pair.accessToken ' + pair.accessToken);
-          console.log('pair.refreshToken ' + pair.refreshToken);
-          localStorage.setItem('accessToken', pair.accessToken);
-          localStorage.setItem('refreshToken', pair.refreshToken);
+        switchMap((newTokenPair: any) => {
+          console.log('newTokenPair.accessToken ' + newTokenPair.accessToken);
+          console.log('newTokenPair.refreshToken ' + newTokenPair.refreshToken);
+          localStorage.setItem('accessToken', newTokenPair.accessToken);
+          localStorage.setItem('refreshToken', newTokenPair.refreshToken);
           this.isRefreshing = false;
-          this.refreshTokenSubject.next(pair);
-          return next.handle(this.addAccessTokenToHeader(req, pair.accessToken));
+          this.refreshTokenSubject.next(newTokenPair);
+          return next.handle(this.addAccessTokenToHeader(req, newTokenPair.accessToken));
         })
       );
     } else {
       return this.refreshTokenSubject.pipe(
-        filter(token => {
-          const x = token != null;
+        filter(newTokenPair => {
+          const x = newTokenPair != null;
           if (x) {
-            console.log('token.accessToken ' + token.accessToken);
-            console.log('token.refreshToken ' + token.refreshToken);
+            console.log('newTokenPair.accessToken ' + newTokenPair.accessToken);
+            console.log('newTokenPair.refreshToken ' + newTokenPair.refreshToken);
           }
           return x;
         }),
         take(1),
-        switchMap(pair => {
-          console.log('asdfasd.accessToken ' + pair.accessToken);
-          console.log('asdceawe.refreshToken ' + pair.refreshToken);
-          return next.handle(this.addAccessTokenToHeader(req, pair.accessToken));
+        switchMap(newTokenPair => {
+          console.log('asdfasd.accessToken ' + newTokenPair.accessToken);
+          console.log('asdceawe.refreshToken ' + newTokenPair.refreshToken);
+          return next.handle(this.addAccessTokenToHeader(req, newTokenPair.accessToken));
         })
       );
     }
@@ -89,5 +94,13 @@ export class InterceptorService implements HttpInterceptor {
       }
     }
     );
+  }
+
+  private handle403Error(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    return undefined; // TODO
+  }
+
+  private handle404Error(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    return undefined; // TODO
   }
 }
