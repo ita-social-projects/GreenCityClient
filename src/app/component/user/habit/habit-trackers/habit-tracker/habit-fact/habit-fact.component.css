@@ -1,13 +1,13 @@
-h4 {
-  width: 442px;
+p {
+  width: 765px;
   height: auto;
   font-family: 'Open Sans', sans-serif;
-  font-size: 28px;
-  font-weight: bold;
+  font-size: 18px;
+  font-weight: normal;
   font-stretch: normal;
   font-style: normal;
-  line-height: 1.14;
+  line-height: 1.44;
   letter-spacing: normal;
-  color: #000000;
+  color: #839c94;
   padding-left: 15px;
 }
