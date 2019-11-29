@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalService } from '../_modal/modal.service';
-import { UserService } from '../../../service/user/user.service';
 import { MatDialog } from '@angular/material';
 import { FavoritePlaceComponent } from '../favorite-place/favorite-place.component';
 import { ProposeCafeComponent } from '../propose-cafe/propose-cafe.component';
 import { FavoritePlaceService } from '../../../service/favorite-place/favorite-place.service';
 import { UserSettingComponent } from '../user-setting/user-setting.component';
+import {LocalStorageService} from '../../../service/localstorage/local-storage.service';
+import {JwtService} from '../../../service/jwt/jwt.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -17,10 +18,11 @@ export class NavBarComponent implements OnInit {
   userRole: string;
 
   constructor(
-    private uService: UserService,
     private modalService: ModalService,
     public dialog: MatDialog,
-    private favoritePlaceService: FavoritePlaceService
+    private favoritePlaceService: FavoritePlaceService,
+    private localStorageService: LocalStorageService,
+    private jwtService: JwtService
   ) { }
 
   openDialog(): void {
@@ -43,8 +45,8 @@ export class NavBarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.firstName = window.localStorage.getItem('firstName');
-    this.userRole = this.uService.getUserRole();
+    this.firstName = this.localStorageService.getFirsName();
+    this.userRole = this.jwtService.getUserRole();
   }
 
   openDialogProposeCafeComponent(): void {

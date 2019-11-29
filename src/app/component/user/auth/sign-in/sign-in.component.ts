@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { UserOwnSignInService } from '../../../../service/user-own-sign-in.service';
+import { UserOwnSignInService } from '../../../../service/auth/user-own-sign-in.service';
 import { UserOwnSignIn } from '../../../../model/user-own-sign-in';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserSuccessSignIn } from '../../../../model/user-success-sign-in';
 
 import { Router } from '@angular/router';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
-import { GoogleSignInService } from '../../../../service/google-sign-in.service';
+import { GoogleSignInService } from '../../../../service/auth/google-sign-in.service';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { RestoreComponent } from '../../restore/restore.component';
 import { EditFavoriteNameComponent } from '../../favorite-place/favorite-place.component';

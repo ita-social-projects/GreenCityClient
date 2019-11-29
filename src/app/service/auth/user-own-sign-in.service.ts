@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {userOwnSignInLink} from '../links';
-import {UserOwnSignIn} from '../model/user-own-sign-in';
-import {UserSuccessSignIn} from '../model/user-success-sign-in';
+import {userOwnSignInLink} from '../../links';
+import {UserOwnSignIn} from '../../model/user-own-sign-in';
+import {UserSuccessSignIn} from '../../model/user-success-sign-in';
 
 @Injectable({
   providedIn: 'root'

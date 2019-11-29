@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {mainLink} from '../links';
+import {mainLink} from '../../links';
 import {NgFlashMessageService} from 'ng-flash-messages';
 
 

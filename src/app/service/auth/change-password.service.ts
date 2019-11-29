@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {mainLink} from '../links';
+import {mainLink} from '../../links';
 import {HttpClient} from '@angular/common/http';
-import {RestoreDto} from '../model/restroreDto';
+import {RestoreDto} from '../../model/restroreDto';
 import {NgFlashMessageService} from 'ng-flash-messages';
 
 @Injectable({providedIn: 'root'})

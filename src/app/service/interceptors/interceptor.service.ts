@@ -6,11 +6,14 @@ import {
   HttpRequest
 } from '@angular/common/http';
 import {BehaviorSubject, Observable, throwError} from 'rxjs';
-import { frontAuthLink, updateAccessTokenLink } from '../links';
+import { frontAuthLink, updateAccessTokenLink } from '../../links';
 import {catchError, filter, switchMap, take} from 'rxjs/operators';
-import { JwtService } from './jwt.service';
+import {LocalStorageService} from '../localstorage/local-storage.service';
 
 
+/**
+ * @author Yurii Koval
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -18,13 +21,14 @@ export class InterceptorService implements HttpInterceptor {
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private isRefreshing = false;
 
-  constructor(private http: HttpClient, private jwtService: JwtService) {
+  constructor(private http: HttpClient,
+              private localStorageService: LocalStorageService) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // console.log(req.url);
-    if (this.jwtService.getAccessToken() && !req.url.includes('ownSecurity/')) {
-      req = this.addAccessTokenToHeader(req, this.jwtService.getAccessToken());
+    console.log(req.url);
+    if (this.localStorageService.getAccessToken() && !req.url.includes('ownSecurity/')) {
+      req = this.addAccessTokenToHeader(req, this.localStorageService.getAccessToken());
     }
     return next.handle(req).pipe(
       catchError(error => {
@@ -32,9 +36,9 @@ export class InterceptorService implements HttpInterceptor {
         if (error.status === 401 && error instanceof HttpErrorResponse) {
           return this.handle401Error(req, next);
         } else if (error.status === 403 && error instanceof  HttpErrorResponse) {
-          return this.handle403Error(req, next); // TODO - redirect to main page
+          return this.handle403Error(req, next); // TODO - redirect to main page. On hold until the routing is fixed!
         } else if (error.status === 404 && error instanceof HttpErrorResponse) {
-          return this.handle404Error(req, next); // TODO - show 404 custom page
+          return this.handle404Error(req, next); // TODO - show 404 custom page. On hold until the routing is fixed!
         } else {
           console.log(`Unexpected error: ${error.message}`);
           return throwError(error);
@@ -47,10 +51,10 @@ export class InterceptorService implements HttpInterceptor {
     if (!this.isRefreshing) {
       this.isRefreshing = true;
       this.refreshTokenSubject.next(null);
-      return this.getNewAccessToken(this.jwtService.getRefreshToken()).pipe(
+      return this.getNewAccessToken(this.localStorageService.getRefreshToken()).pipe(
         switchMap((newTokenPair: any) => {
-          this.jwtService.saveAccessToken(newTokenPair.accessToken);
-          this.jwtService.saveRefreshToken(newTokenPair.refreshToken);
+          this.localStorageService.setAccessToken(newTokenPair.accessToken);
+          this.localStorageService.setRefreshToken(newTokenPair.refreshToken);
           this.isRefreshing = false;
           this.refreshTokenSubject.next(newTokenPair);
           return next.handle(this.addAccessTokenToHeader(req, newTokenPair.accessToken));
@@ -83,10 +87,10 @@ export class InterceptorService implements HttpInterceptor {
   }
 
   private handle403Error(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return undefined; // TODO
+    return undefined; // TODO - redirect to home page. On hold until the routing is fixed!
   }
 
   private handle404Error(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return undefined; // TODO
+    return undefined; // TODO - redirect to 404 custom page. On hold until the routing is fixed!
   }
 }
