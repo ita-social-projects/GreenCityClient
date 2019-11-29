@@ -3,13 +3,14 @@ import {HttpClient} from '@angular/common/http';
 import {userOwnSignInLink} from '../../links';
 import {UserOwnSignIn} from '../../model/user-own-sign-in';
 import {UserSuccessSignIn} from '../../model/user-success-sign-in';
+import {LocalStorageService} from '../localstorage/local-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserOwnSignInService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
   }
 
   public signIn(model: UserOwnSignIn) {
@@ -21,10 +22,10 @@ export class UserOwnSignInService {
   }
 
   public saveUserToLocalStorage(data: UserSuccessSignIn) {
-    window.localStorage.setItem('firstName', data.firstName);
-    window.localStorage.setItem('accessToken', data.accessToken);
-    window.localStorage.setItem('refreshToken', data.refreshToken);
-    window.localStorage.setItem('userId', data.userId);
+    this.localStorageService.setFirstName(data.firstName);
+    this.localStorageService.setAccessToken(data.accessToken);
+    this.localStorageService.setRefreshToken(data.refreshToken);
+    this.localStorageService.setUserId(Number(data.userId));
   }
 }
 

@@ -60,7 +60,7 @@ export class NavBarComponent implements OnInit {
     });
   }
   private signOut() {
-    localStorage.clear();
-    window.location.href = '/GreenCityClient/';
+    this.localStorageService.clear();
+    window.location.href = '/GreenCityClient/'; // TODO - use angular routing instead!
   }
 }

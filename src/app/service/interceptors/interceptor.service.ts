@@ -6,10 +6,17 @@ import {
   HttpRequest
 } from '@angular/common/http';
 import {BehaviorSubject, Observable, throwError} from 'rxjs';
-import { frontAuthLink, updateAccessTokenLink } from '../../links';
+import { updateAccessTokenLink } from '../../links';
 import {catchError, filter, switchMap, take} from 'rxjs/operators';
 import {LocalStorageService} from '../localstorage/local-storage.service';
 
+/**
+ * @author Yurii Koval
+ */
+interface NewTokenPair {
+  accessToken: string;
+  refreshToken: string;
+}
 
 /**
  * @author Yurii Koval
@@ -18,7 +25,7 @@ import {LocalStorageService} from '../localstorage/local-storage.service';
   providedIn: 'root'
 })
 export class InterceptorService implements HttpInterceptor {
-  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private refreshTokenSubject: BehaviorSubject<NewTokenPair> = new BehaviorSubject<NewTokenPair>(null);
   private isRefreshing = false;
 
   constructor(private http: HttpClient,
@@ -36,9 +43,9 @@ export class InterceptorService implements HttpInterceptor {
         if (error.status === 401 && error instanceof HttpErrorResponse) {
           return this.handle401Error(req, next);
         } else if (error.status === 403 && error instanceof  HttpErrorResponse) {
-          return this.handle403Error(req, next); // TODO - redirect to main page. On hold until the routing is fixed!
+          return this.handle403Error(req, next);
         } else if (error.status === 404 && error instanceof HttpErrorResponse) {
-          return this.handle404Error(req, next); // TODO - show 404 custom page. On hold until the routing is fixed!
+          return this.handle404Error(req, next);
         } else {
           console.log(`Unexpected error: ${error.message}`);
           return throwError(error);
@@ -51,8 +58,8 @@ export class InterceptorService implements HttpInterceptor {
     if (!this.isRefreshing) {
       this.isRefreshing = true;
       this.refreshTokenSubject.next(null);
-      return this.getNewAccessToken(this.localStorageService.getRefreshToken()).pipe(
-        switchMap((newTokenPair: any) => {
+      return this.getNewTokenPair(this.localStorageService.getRefreshToken()).pipe(
+        switchMap((newTokenPair: NewTokenPair) => {
           this.localStorageService.setAccessToken(newTokenPair.accessToken);
           this.localStorageService.setRefreshToken(newTokenPair.refreshToken);
           this.isRefreshing = false;
@@ -62,20 +69,15 @@ export class InterceptorService implements HttpInterceptor {
       );
     } else {
       return this.refreshTokenSubject.pipe(
-        filter(newTokenPair => newTokenPair != null),
+        filter((newTokenPair: NewTokenPair) => newTokenPair != null),
         take(1),
-        switchMap(newTokenPair => next.handle(this.addAccessTokenToHeader(req, newTokenPair.accessToken)))
+        switchMap((newTokenPair: NewTokenPair) => next.handle(this.addAccessTokenToHeader(req, newTokenPair.accessToken)))
       );
     }
   }
 
-  private clearLocalStorageAndRedirectToAuthPage() {
-    localStorage.clear();
-    window.location.href = frontAuthLink;
-  }
-
-  private getNewAccessToken(refreshToken: string): Observable<any> {
-    return this.http.get(`${updateAccessTokenLink}?refreshToken=${refreshToken}`);
+  private getNewTokenPair(refreshToken: string): Observable<NewTokenPair> {
+    return this.http.post<NewTokenPair>(`${updateAccessTokenLink}?refreshToken=${refreshToken}`, {refreshToken});
   }
 
   addAccessTokenToHeader(req: HttpRequest<any>, accessToken: string) {

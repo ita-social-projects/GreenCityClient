@@ -38,7 +38,15 @@ export class LocalStorageService {
     localStorage.setItem(this.REFRESH_TOKEN, refreshToken);
   }
 
+  public setUserId(userId: number): void {
+    localStorage.setItem(this.USER_ID, String(userId));
+  }
+
   public setFirstName(firstName: string): void {
     localStorage.setItem(this.FIRST_NAME, firstName);
+  }
+
+  public clear(): void {
+    localStorage.clear();
   }
 }

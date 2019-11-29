@@ -9,7 +9,6 @@ import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
 import { GoogleSignInService } from '../../../../service/auth/google-sign-in.service';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { RestoreComponent } from '../../restore/restore.component';
-import { EditFavoriteNameComponent } from '../../favorite-place/favorite-place.component';
 
 @Component({
   selector: 'app-sign-in',
@@ -26,7 +25,7 @@ export class SignInComponent implements OnInit {
   backEndError: string;
 
   constructor(
-    private service: UserOwnSignInService,
+    private userOwnSignInService: UserOwnSignInService,
     private rout: Router,
     private authService: AuthService,
     private googleService: GoogleSignInService,
@@ -43,10 +42,10 @@ export class SignInComponent implements OnInit {
 
   private signIn(userOwnSignIn: UserOwnSignIn) {
     this.loadingAnim = true;
-    this.service.signIn(userOwnSignIn).subscribe(
+    this.userOwnSignInService.signIn(userOwnSignIn).subscribe(
       (data: UserSuccessSignIn) => {
         this.loadingAnim = false;
-        this.service.saveUserToLocalStorage(data);
+        this.userOwnSignInService.saveUserToLocalStorage(data);
         window.location.href = '/GreenCityClient/';
       },
       (errors: HttpErrorResponse) => {
@@ -70,7 +69,7 @@ export class SignInComponent implements OnInit {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(data => {
       this.googleService.signIn(data.idToken).subscribe(
         (data1: UserSuccessSignIn) => {
-          this.service.saveUserToLocalStorage(data1);
+          this.userOwnSignInService.saveUserToLocalStorage(data1);
           window.location.href = '/GreenCityClient/';
         },
         (errors: HttpErrorResponse) => {
