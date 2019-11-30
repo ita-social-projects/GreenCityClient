@@ -77,7 +77,7 @@ export class InterceptorService implements HttpInterceptor {
   }
 
   private getNewTokenPair(refreshToken: string): Observable<NewTokenPair> {
-    return this.http.post<NewTokenPair>(`${updateAccessTokenLink}?refreshToken=${refreshToken}`, {refreshToken});
+    return this.http.get<NewTokenPair>(`${updateAccessTokenLink}?refreshToken=${refreshToken}`);
   }
 
   addAccessTokenToHeader(req: HttpRequest<any>, accessToken: string) {
