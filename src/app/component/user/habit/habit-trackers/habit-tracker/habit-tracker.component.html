@@ -1,7 +1,11 @@
 <div *ngIf="$habit | async as habit" class="container">
-  <div class="row">
+<!--  <app-habit-tracker-date [dayNumber]="curDayNumber" [habitCreationDate]="habit.createDate"></app-habit-tracker-date>-->
+  <div class="row d-flex">
     <div class="col-6">
       <app-habit-title [habitId]=habit.id [habitTitle]="habit.habitName"></app-habit-title>
+    </div>
+    <div class="col-6 d-flex align-self-center justify-content-end">
+      <app-habit-tracker-date [dayNumber]="curDayNumber" [habitCreationDate]="habit.createDate"></app-habit-tracker-date>
     </div>
   </div>
 

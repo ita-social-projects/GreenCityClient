@@ -87,6 +87,7 @@ import {HabitItemListComponent} from './component/user/habit/habit-trackers/habi
 import {HabitChartComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-chart/habit-chart.component';
 import {HabitTitleComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-title/habit-title.component';
 import {HabitFactComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-fact/habit-fact.component';
+import { HabitTrackerDateComponent } from './component/user/habit/habit-trackers/habit-tracker/habit-tracker-date/habit-tracker-date.component';
 
 
 @NgModule({
@@ -133,7 +134,8 @@ import {HabitFactComponent} from './component/user/habit/habit-trackers/habit-tr
     HabitItemComponent,
     HabitItemListComponent,
     HabitTitleComponent,
-    HabitFactComponent
+    HabitFactComponent,
+    HabitTrackerDateComponent
   ],
   imports: [
     BrowserModule,
