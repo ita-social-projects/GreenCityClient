@@ -1,6 +1,16 @@
-<div [ngClass]="{'habit-status-active': habit.status === 1, 'hidden': habit.status != 1}"><img [src]="check"
-    alt="active-bird"></div>
-<div class="habit-card" [ngStyle]="setActiveStyles()">
+<div [ngClass]="{
+    'habit-status-active': habit.status === 1 && !hovered, 
+    'habit-status-hovered': habit.status === 1 && hovered, 
+    'hidden': habit.status !== 1
+  }" (mouseover)="this.hovered = true" (mouseout)="this.hovered = false" (click)="onDeleteClicked()">
+  <img [src]="hovered ? delete : check" alt="active-bird"></div>
+<app-confirmation-modal [habit]="{id: this.habit.id, caption: this.habit.caption}"
+  [style.visible]="this.confirmationVisible ? 'visible':'hidden'"
+  [style.display]="this.confirmationVisible ? 'block':'none'" (canceled)="onDeleteCanceled($event)">
+</app-confirmation-modal>
+<div class="habit-card" [ngStyle]="setActiveStyles()" (mouseover)="this.hovered = true"
+  (mouseout)="this.hovered = false">
+
   <div class="habit-card-icon-wrapper">
     <div class="habit-card-icon"></div>
   </div>

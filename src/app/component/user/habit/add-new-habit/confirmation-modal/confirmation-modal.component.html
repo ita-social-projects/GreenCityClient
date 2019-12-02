@@ -1,0 +1,9 @@
+<div class="confirmation-modal">
+  <p class="confirmation-modal-text">Do you really want to delete this habit
+    <strong>{{ this.habit.caption }}</strong>
+  </p>
+  <div class="button-row">
+    <button class="button button-cancel" (click)="cancelDeletion()">Cancel</button>
+    <button class="button button-save" (click)="confirmDeletion()">Yes</button>
+  </div>
+</div>

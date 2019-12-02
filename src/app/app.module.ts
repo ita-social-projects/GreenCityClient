@@ -94,6 +94,7 @@ import { AlreadyChosenComponent } from './component/user/habit/add-new-habit/alr
 import { HabitCardComponent } from './component/user/habit/add-new-habit/habit-card/habit-card.component';
 import { AvailableToChooseComponent } from './component/user/habit/add-new-habit/available-to-choose/available-to-choose.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ConfirmationModalComponent } from './component/user/habit/add-new-habit/confirmation-modal/confirmation-modal.component';
 
 @NgModule({
   declarations: [
@@ -141,7 +142,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     HabitChartComponent,
     AdviceComponent,
     HabitItemComponent,
-    HabitItemListComponent
+    HabitItemListComponent,
+    ConfirmationModalComponent
   ],
   imports: [
     BrowserModule,

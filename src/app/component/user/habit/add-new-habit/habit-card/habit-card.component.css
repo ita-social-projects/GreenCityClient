@@ -3,6 +3,7 @@
   justify-self: center !important;
   height: fit-content;
   position: relative;
+  z-index: 5;
 }
 
 :host:nth-child(1) {
@@ -23,7 +24,6 @@
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.03) ;
   height: 132px;
   padding: 20px;
-  position: relative;
   width: 341px;
 }
 
@@ -89,7 +89,19 @@
   right: -6px;
   top: -6px;
   width: 24px;
-  z-index: 10;
+  z-index: 11;
+}
+
+.habit-status-hovered {
+  background-color: #f03127;
+  border-radius: 12px;
+  height: 24px;
+  padding: 0 3px;
+  position: absolute;
+  right: -6px;
+  top: -6px;
+  width: 24px;
+  z-index: 11;
 }
 
 .hidden {

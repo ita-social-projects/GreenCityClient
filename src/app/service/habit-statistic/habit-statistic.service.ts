@@ -55,6 +55,10 @@ export class HabitStatisticService {
     // }, error => console.log('Can not assing new habit for this user'));
   }
 
+  deleteHabit(id: number) {
+    console.log('Delete habit: ' + id);
+  }
+
   updateHabitStatistic(habitStatisticDto: HabitStatisticsDto) {
     this.http.patch<HabitStatisticsDto>(`${habitStatisticLink}${habitStatisticDto.id}`, habitStatisticDto).subscribe(data => {
       let index: number;

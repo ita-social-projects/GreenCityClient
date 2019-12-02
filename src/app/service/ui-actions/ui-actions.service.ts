@@ -7,7 +7,9 @@ import { BehaviorSubject } from 'rxjs';
 export class UiActionsService {
 
   private uiStateSubject = new BehaviorSubject<IUiState>({} as IUiState);
-  private uiStateStore: IUiState = { addNewHabitModalVisible: true };
+  private uiStateStore: IUiState = {
+    addNewHabitModalVisible: true
+  };
 
   readonly uiState = this.uiStateSubject.asObservable();
 
