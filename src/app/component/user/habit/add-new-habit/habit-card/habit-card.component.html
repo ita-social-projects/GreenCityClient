@@ -1,4 +1,6 @@
-<div class="habit-card">
+<div [ngClass]="{'habit-status-active': habit.status === 1, 'hidden': habit.status != 1}"><img [src]="check"
+    alt="active-bird"></div>
+<div class="habit-card" [ngStyle]="setActiveStyles()">
   <div class="habit-card-icon-wrapper">
     <div class="habit-card-icon"></div>
   </div>

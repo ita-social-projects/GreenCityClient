@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-statistic.service';
-import { NewHabitDto } from 'src/app/model/habit/NewHabitDto';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-already-chosen',
@@ -12,15 +10,9 @@ import { BehaviorSubject } from 'rxjs';
 export class AlreadyChosenComponent implements OnInit {
 
   chosen = [
-    { id: 1, caption: 'Habit1', description: 'Lorem Lorem ipsum dolor sit amet, consectetur adipiscing elit dolor' },
-    { id: 2, caption: 'Habit2', description: 'Lorem Lorem ipsum dolor sit amet, consectetur adipiscing elit dolor' },
-    { id: 3, caption: 'Habit3', description: 'Lorem Lorem ipsum dolor sit amet, consectetur adipiscing elit dolor' },
-    { id: 4, caption: 'Habit4', description: 'Lorem Lorem ipsum dolor sit amet, consectetur adipiscing elit dolor' },
+    { id: 1, caption: 'Habit1', status: 1, description: 'Lorem Lorem ipsum dolor sit amet, consectetur adipiscing elit dolor', },
+    { id: 2, caption: 'Habit2', status: 1, description: 'Lorem Lorem ipsum dolor sit amet, consectetur adipiscing elit dolor', }
   ];
-
-  // justChosenStore = [];
-  // private $justChosenSubject = new BehaviorSubject<[]>([]);
-  // readonly justChosen = this.$justChosenSubject.asObservable();
 
   constructor(private habitStatisticService: HabitStatisticService) { }
 
