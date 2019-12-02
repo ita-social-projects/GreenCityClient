@@ -1,15 +1,15 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { UserRoleModel } from '../../model/user/user-role.model';
-import { UserStatusModel } from '../../model/user/user-status.model';
-import { UserPageableDtoModel } from '../../model/user/user-pageable-dto.model';
-import { mainLink, userLink } from '../../links';
-import { RolesModel } from '../../model/user/roles.model';
-import { UserFilterDtoModel } from '../../model/user/userFilterDto.model';
-import { UserUpdateModel } from '../../model/user/user-update.model';
-import { Goal } from '../../model/goal/Goal';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {catchError} from 'rxjs/operators';
+import {UserRoleModel} from '../../model/user/user-role.model';
+import {UserStatusModel} from '../../model/user/user-status.model';
+import {UserPageableDtoModel} from '../../model/user/user-pageable-dto.model';
+import {mainLink, userLink} from '../../links';
+import {RolesModel} from '../../model/user/roles.model';
+import {UserFilterDtoModel} from '../../model/user/userFilterDto.model';
+import {UserUpdateModel} from '../../model/user/user-update.model';
+import {Goal} from '../../model/goal/Goal';
 
 const token = localStorage.getItem('accessToken');
 let jwtData = null;
@@ -27,9 +27,11 @@ export class UserService {
   userId = window.localStorage.getItem('userId');
 
   private goalsSubject = new BehaviorSubject<Goal[]>([]);
-  private dataStore: { goals: Goal[] } = { goals: [] };
+  private availableGoalsSubject = new BehaviorSubject<Goal[]>([]);
+  private dataStore: { goals: Goal[], availableGoals: Goal[] } = {goals: [], availableGoals: []};
 
   readonly goals = this.goalsSubject.asObservable();
+  readonly availableGoals = this.availableGoalsSubject.asObservable();
 
   constructor(private http: HttpClient) {
     if (token != null) {
@@ -125,5 +127,35 @@ export class UserService {
         throw error;
       }
     );
+  }
+
+  loadAvailableGoals() {
+    this.dataStore.availableGoals = [{id: 1, text: 'goal 1', status: 'UNCHECKED', isCustom: true},
+      {id: 2, text: 'goal 2', status: 'UNCHECKED', isCustom: false}];
+    this.availableGoalsSubject.next(Object.assign({}, this.dataStore).availableGoals);
+  }
+
+  addGoals(goals: Goal[]) {
+    console.log(goals);
+  }
+
+  addCustomGoal(goal: Goal) {
+    this.dataStore.availableGoals.push(goal);
+    this.availableGoalsSubject.next(Object.assign({}, this.dataStore).availableGoals);
+  }
+
+  deleteCustomGoal(goal: Goal) {
+    this.dataStore.availableGoals = this.dataStore.availableGoals.filter(g => g.id !== goal.id);
+    this.availableGoalsSubject.next(Object.assign({}, this.dataStore).availableGoals);
+  }
+
+  changeCustomGoal(goal: Goal) {
+    this.dataStore.availableGoals.forEach((data, index) => {
+      if (data.id === goal.id) {
+        this.dataStore.availableGoals[index] = goal;
+        this.availableGoalsSubject.next(Object.assign({}, this.dataStore).availableGoals);
+        return;
+      }
+    });
   }
 }

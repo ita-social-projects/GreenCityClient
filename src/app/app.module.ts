@@ -80,7 +80,6 @@ import {AddGoalButtonComponent} from './component/user/user-goals/add-goal-butto
 import {GoalContainerComponent} from './component/user/user-goals/goal-container/goal-container.component';
 import {UserSidebarComponent} from './component/user/user-sidebar/user-sidebar.component';
 import {ShowFirstNPipe} from './pipe/show-first-n-pipe/show-first-n.pipe';
-import {UncheckedFirstPipe} from './pipe/unchecked-first-pipe/unchecked-first.pipe';
 import {AlphabeticalPipePipe} from './pipe/alphabetical-pipe/alphabetical-pipe.pipe';
 import {HabitTrackerComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-tracker.component';
 import {HabitEstimationComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-estimation.component';
@@ -89,6 +88,12 @@ import {AdviceComponent} from './component/user/habit/habit-trackers/habit-track
 import {HabitItemComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-item/habit-item.component';
 import {HabitItemListComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-item-list/habit-item-list.component';
 import {HabitChartComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-chart/habit-chart.component';
+import { AddGoalComponent } from './component/user/user-goals/add-goal/add-goal.component';
+import { AddGoalListComponent } from './component/user/user-goals/add-goal/add-goal-list/add-goal-list.component';
+import { AddGoalItemComponent } from './component/user/user-goals/add-goal/add-goal-list/add-goal-item/add-goal-item.component';
+import { AddCustomGoalComponent } from './component/user/user-goals/add-goal/add-goal-list/add-custom-goal/add-custom-goal.component';
+import {ShowFirstNLettersPipe} from './pipe/show-first-n-letters/show-first-n-letters.pipe';
+import { UncheckedFirstPipe } from './pipe/unchecked-first-pipe/unchecked-first.pipe';
 
 
 @NgModule({
@@ -124,7 +129,6 @@ import {HabitChartComponent} from './component/user/habit/habit-trackers/habit-t
     UserSidebarComponent,
     LowerNavBarComponent,
     ShowFirstNPipe,
-    UncheckedFirstPipe,
     AlphabeticalPipePipe,
     HabitTrackerComponent,
     HabitEstimationComponent,
@@ -133,7 +137,13 @@ import {HabitChartComponent} from './component/user/habit/habit-trackers/habit-t
     HabitChartComponent,
     AdviceComponent,
     HabitItemComponent,
-    HabitItemListComponent
+    HabitItemListComponent,
+    AddGoalComponent,
+    AddGoalListComponent,
+    AddGoalItemComponent,
+    AddCustomGoalComponent,
+    ShowFirstNLettersPipe,
+    UncheckedFirstPipe
   ],
   imports: [
     BrowserModule,
