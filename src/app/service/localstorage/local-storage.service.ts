@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {BehaviorSubject, Observable} from 'rxjs';
 
 /**
  * @author Yurii Koval
@@ -11,6 +12,9 @@ export class LocalStorageService {
   private readonly REFRESH_TOKEN = 'refreshToken';
   private readonly USER_ID = 'userId';
   private readonly FIRST_NAME = 'firstName';
+
+  private firstNameBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getFirsName());
+  $firstNameBehaviourSubject: Observable<string> = this.firstNameBehaviourSubject.asObservable();
 
   constructor() {}
 
@@ -48,5 +52,6 @@ export class LocalStorageService {
 
   public clear(): void {
     localStorage.clear();
+    this.firstNameBehaviourSubject.next(null);
   }
 }

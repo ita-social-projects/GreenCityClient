@@ -9,6 +9,7 @@ import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import { updateAccessTokenLink } from '../../links';
 import {catchError, filter, switchMap, take} from 'rxjs/operators';
 import {LocalStorageService} from '../localstorage/local-storage.service';
+import {Router} from '@angular/router';
 
 /**
  * @author Yurii Koval
@@ -29,11 +30,11 @@ export class InterceptorService implements HttpInterceptor {
   private isRefreshing = false;
 
   constructor(private http: HttpClient,
-              private localStorageService: LocalStorageService) {
+              private localStorageService: LocalStorageService,
+              private router: Router) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log(req.url);
     if (req.url.includes('ownSecurity/')) {
       return next.handle(req);
     }
@@ -42,7 +43,6 @@ export class InterceptorService implements HttpInterceptor {
     }
     return next.handle(req).pipe(
       catchError(error => {
-        console.log('catchError: ' + req.url);
         if (error.status === 401 && error instanceof HttpErrorResponse) {
           return this.handle401Error(req, next);
         } else if (error.status === 403 && error instanceof  HttpErrorResponse) {
@@ -65,9 +65,8 @@ export class InterceptorService implements HttpInterceptor {
         catchError(error => {
           if (error.status === 400 && error instanceof HttpErrorResponse) {
             this.localStorageService.clear();
-            if (!window.location.href.includes('/auth')) {
-              window.location.href = '/auth'; // TODO - redirect to home page. On hold until the routing is fixed!
-            }
+            this.router.navigate(['/GreenCityClient/auth']).then(() => console.log(`A user has signed out`));
+            // return next.handle(req);
           } else {
             return throwError(error);
           }
@@ -102,10 +101,12 @@ export class InterceptorService implements HttpInterceptor {
   }
 
   private handle403Error(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return undefined; // TODO - redirect to home page. On hold until the routing is fixed!
+    this.router.navigate(['/GreenCityClient']).then(() => console.log(`A user has signed out`));
+    return next.handle(req);
   }
 
   private handle404Error(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return undefined; // TODO - redirect to 404 custom page. On hold until the routing is fixed!
+    this.router.navigate(['/error.component.html']).then(() => console.log('Try to access not existing resource'));
+    return next.handle(req);
   }
 }
