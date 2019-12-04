@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 /**
  * @author Yurii Koval
@@ -13,8 +13,7 @@ export class LocalStorageService {
   private readonly USER_ID = 'userId';
   private readonly FIRST_NAME = 'firstName';
 
-  private firstNameBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getFirsName());
-  $firstNameBehaviourSubject: Observable<string> = this.firstNameBehaviourSubject.asObservable();
+  firstNameBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getFirsName());
 
   constructor() {}
 

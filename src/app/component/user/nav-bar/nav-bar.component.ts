@@ -8,7 +8,6 @@ import { UserSettingComponent } from '../user-setting/user-setting.component';
 import { Router } from '@angular/router';
 import {LocalStorageService} from '../../../service/localstorage/local-storage.service';
 import { JwtService } from '../../../service/jwt/jwt.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-nav-bar',
@@ -50,7 +49,7 @@ export class NavBarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.localStorageService.$firstNameBehaviourSubject.subscribe(firstName => this.firstName = firstName);
+    this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => this.firstName = firstName);
     this.habitId = this.localStorageService.getUserId();
     this.userRole = this.jwtService.getUserRole();
   }
