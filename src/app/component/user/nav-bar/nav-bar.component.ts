@@ -6,6 +6,7 @@ import { FavoritePlaceComponent } from '../favorite-place/favorite-place.compone
 import { ProposeCafeComponent } from '../propose-cafe/propose-cafe.component';
 import { FavoritePlaceService } from '../../../service/favorite-place/favorite-place.service';
 import { UserSettingComponent } from '../user-setting/user-setting.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav-bar',
@@ -15,12 +16,16 @@ import { UserSettingComponent } from '../user-setting/user-setting.component';
 export class NavBarComponent implements OnInit {
   firstName: string = null;
   userRole: string;
+  userId: string;
+  id: number;
 
   constructor(
     private uService: UserService,
     private modalService: ModalService,
     public dialog: MatDialog,
-    private favoritePlaceService: FavoritePlaceService
+    private favoritePlaceService: FavoritePlaceService,
+    private rout: Router,
+    private route: ActivatedRoute
   ) { }
 
   openDialog(): void {
@@ -45,6 +50,7 @@ export class NavBarComponent implements OnInit {
   ngOnInit() {
     this.firstName = window.localStorage.getItem('firstName');
     this.userRole = this.uService.getUserRole();
+    this.id = +window.localStorage.getItem('userId');
   }
 
   openDialogProposeCafeComponent(): void {
@@ -59,6 +65,6 @@ export class NavBarComponent implements OnInit {
   }
   private signOut() {
     localStorage.clear();
-    window.location.href = '/GreenCityClient/';
+    this.rout.navigate(['/GreenCityClient']);
   }
 }

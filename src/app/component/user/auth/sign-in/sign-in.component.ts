@@ -4,7 +4,7 @@ import { UserOwnSignIn } from '../../../../model/user-own-sign-in';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserSuccessSignIn } from '../../../../model/user-success-sign-in';
 
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
 import { GoogleSignInService } from '../../../../service/google-sign-in.service';
 import { MatDialog, MatDialogRef } from '@angular/material';
@@ -30,7 +30,8 @@ export class SignInComponent implements OnInit {
     private rout: Router,
     private authService: AuthService,
     private googleService: GoogleSignInService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {

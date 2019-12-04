@@ -2,7 +2,7 @@
   <div class="navbar-collapse collapse">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="/GreenCityClient/">GreenCity</a>
+        <a class="nav-link" [routerLink]="['/GreenCityClient']">GreenCity</a>
       </li>
     </ul>
   </div>
@@ -22,8 +22,8 @@
 
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" *ngIf="userRole == 'ROLE_ADMIN' || userRole == 'ROLE_MODERATOR'"
-            href="/admin">{{ "nav-bar.admin" | translate }}</a>
-          <a class="dropdown-item" routerLink="/habits">{{
+          [routerLink]="['admin']">{{ "nav-bar.admin" | translate }}</a>
+          <a class="dropdown-item" [routerLink]="[id,'habits']">{{  
             "nav-bar.my-habits" | translate
           }}</a>
           <a class="dropdown-item" (click)="openDialog()">{{
@@ -38,7 +38,7 @@
         </div>
       </div>
 
-      <a *ngIf="firstName == null" class="nav-link" routerLink="/auth/">{{
+      <a *ngIf="firstName == null" class="nav-link" routerLink="/GreenCityClient/auth/">{{
         "nav-bar.sign-in" | translate
       }}</a>
     </ul>
