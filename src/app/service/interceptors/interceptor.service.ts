@@ -34,7 +34,10 @@ export class InterceptorService implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     console.log(req.url);
-    if (this.localStorageService.getAccessToken() && !req.url.includes('ownSecurity/')) {
+    if (req.url.includes('ownSecurity/')) {
+      return next.handle(req);
+    }
+    if (this.localStorageService.getAccessToken()) {
       req = this.addAccessTokenToHeader(req, this.localStorageService.getAccessToken());
     }
     return next.handle(req).pipe(
@@ -59,6 +62,16 @@ export class InterceptorService implements HttpInterceptor {
       this.isRefreshing = true;
       this.refreshTokenSubject.next(null);
       return this.getNewTokenPair(this.localStorageService.getRefreshToken()).pipe(
+        catchError(error => {
+          if (error.status === 400 && error instanceof HttpErrorResponse) {
+            this.localStorageService.clear();
+            if (!window.location.href.includes('/auth')) {
+              window.location.href = '/auth'; // TODO - redirect to home page. On hold until the routing is fixed!
+            }
+          } else {
+            return throwError(error);
+          }
+        }),
         switchMap((newTokenPair: NewTokenPair) => {
           this.localStorageService.setAccessToken(newTokenPair.accessToken);
           this.localStorageService.setRefreshToken(newTokenPair.refreshToken);
