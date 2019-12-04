@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserOwnSignUp } from '../../../../model/user-own-sign-up';
-import { UserOwnSignUpService } from '../../../../service/user-own-sign-up.service';
+import { UserOwnSignUpService } from '../../../../service/auth/user-own-sign-up.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
