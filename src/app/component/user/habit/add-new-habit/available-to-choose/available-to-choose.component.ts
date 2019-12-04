@@ -9,7 +9,7 @@ import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-sta
 })
 export class AvailableToChooseComponent implements OnInit, OnDestroy {
 
-  $available;
+  private $available;
   available: any;
 
   constructor(private habitStatisticService: HabitStatisticService) { }
@@ -19,8 +19,6 @@ export class AvailableToChooseComponent implements OnInit, OnDestroy {
     this.$available = this.habitStatisticService.availableHabits;
     this.$available.subscribe(data => {
       this.available = data;
-      console.log("Available");
-      console.log(this.available);
     });
   }
 

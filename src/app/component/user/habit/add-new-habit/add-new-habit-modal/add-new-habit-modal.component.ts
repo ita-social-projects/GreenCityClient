@@ -11,7 +11,7 @@ export class AddNewHabitModalComponent implements OnInit {
 
   readonly closeCross = 'assets/img/close-cross.png';
 
-  $uiState = this.uiActionService.uiState;
+  private $uiState = this.uiActionService.uiState;
   visible: boolean;
 
   constructor(private uiActionService: UiActionsService, private habitStatisticService: HabitStatisticService) { }

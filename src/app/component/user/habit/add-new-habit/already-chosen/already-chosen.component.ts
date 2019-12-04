@@ -9,7 +9,7 @@ import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-sta
 })
 export class AlreadyChosenComponent implements OnInit, OnDestroy {
 
-  $chosen;
+  private $chosen;
   chosen: any;
 
   constructor(private habitStatisticService: HabitStatisticService) { }
@@ -18,8 +18,6 @@ export class AlreadyChosenComponent implements OnInit, OnDestroy {
     this.$chosen = this.habitStatisticService.habitStatistics;
     this.$chosen.subscribe(data => {
       this.chosen = data;
-      console.log("Chosen");
-      console.log(data);
     });
   }
 
