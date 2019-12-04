@@ -1,11 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {HabitDto} from '../../../../../../../model/habit/HabitDto';
-import {HabitStatisticsDto} from '../../../../../../../model/habit/HabitStatisticsDto';
-import {Observable} from 'rxjs';
-import {HabitStatisticService} from '../../../../../../../service/habit-statistic/habit-statistic.service';
-import {map} from 'rxjs/operators';
-import {Photo} from '../../../../../../../model/photo/photo';
-import {HabitItem} from '../habit-item/HabitItem';
+import { Component, Input, OnInit } from '@angular/core';
+import { HabitDto } from '../../../../../../../model/habit/HabitDto';
+import { HabitStatisticsDto } from '../../../../../../../model/habit/HabitStatisticsDto';
+import { Observable } from 'rxjs';
+import { HabitStatisticService } from '../../../../../../../service/habit-statistic/habit-statistic.service';
+import { map } from 'rxjs/operators';
+import { Photo } from '../../../../../../../model/photo/photo';
+import { HabitItem } from '../habit-item/HabitItem';
 
 @Component({
   selector: 'app-habit-item-list',
@@ -118,6 +118,6 @@ export class HabitItemListComponent implements OnInit {
   }
 
   getIcon(): Photo {
-    return {name: `assets/img/icon/${this.habit.habitName}.png`};
+    return { name: `assets/img/icon/${this.habit.name}.png` };
   }
 }

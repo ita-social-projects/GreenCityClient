@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { UiActionsService } from 'src/app/service/ui-actions/ui-actions.service';
+import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-statistic.service';
 
 @Component({
   selector: 'app-add-new-habit-modal',
@@ -8,14 +9,15 @@ import { UiActionsService } from 'src/app/service/ui-actions/ui-actions.service'
 })
 export class AddNewHabitModalComponent implements OnInit {
 
-  visible: boolean;
-
   readonly closeCross = 'assets/img/close-cross.png';
 
-  constructor(private uiActionService: UiActionsService) { }
+  $uiState = this.uiActionService.uiState;
+  visible: boolean;
+
+  constructor(private uiActionService: UiActionsService, private habitStatisticService: HabitStatisticService) { }
 
   ngOnInit() {
-    this.uiActionService.uiState.subscribe(data => {
+    this.$uiState.subscribe(data => {
       this.visible = data.addNewHabitModalVisible;
     });
     this.visible = true; // only for dev purpose, remove after
@@ -23,5 +25,9 @@ export class AddNewHabitModalComponent implements OnInit {
 
   hideAddNewHabitModal() {
     this.uiActionService.hideAddHabitModal();
+  }
+
+  saveSelectedHabits() {
+    this.habitStatisticService.createHabits();
   }
 }

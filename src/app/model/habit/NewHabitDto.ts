@@ -1,6 +1,6 @@
 export class NewHabitDto {
-  id: number;
-  constructor(id: number) {
-    this.id = id;
+  habitDictionaryId: number;
+  constructor(habitDictionaryId: number) {
+    this.habitDictionaryId = habitDictionaryId;
   }
 }

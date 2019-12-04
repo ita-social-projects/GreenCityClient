@@ -15,16 +15,16 @@ export class HabitCardComponent implements OnInit {
   hovered = false;
   confirmationVisible = false;
 
-  @Input() habit: { id, caption, status, description };
+  @Input() habit: { id, name, status, description };
 
-  constructor(private uiActionsService: UiActionsService) { }
+  constructor() { }
 
   ngOnInit() {
   }
 
   setActiveStyles() {
     const styles = {
-      'border': this.habit.status === 1 ? 'solid 2px rgba(19, 170, 87, 0.8)' : 'solid 1px rgba(131, 156, 148, 0.2)',
+      border: this.habit.status === true ? 'solid 2px rgba(19, 170, 87, 0.8)' : 'solid 1px rgba(131, 156, 148, 0.2)',
     };
     return styles;
   }

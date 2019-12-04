@@ -8,23 +8,28 @@ import { habitStatisticLink, userLink } from '../../links';
 import { HabitStatisticsDto } from '../../model/habit/HabitStatisticsDto';
 import { habitLink, mainLink } from 'src/app/links';
 import { HabitStatisticLogDto } from 'src/app/model/habit/HabitStatisticLogDto';
+import { AvailableHabitDto } from 'src/app/model/habit/AvailableHabitDto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HabitStatisticService {
   private $habitStatistics = new BehaviorSubject<HabitDto[]>([]);
-  private $newHavbits = new BehaviorSubject<HabitDto[]>([]);
+  private $availableHabits = new BehaviorSubject<AvailableHabitDto[]>([]);
+  private $newHavbits = new BehaviorSubject<NewHabitDto[]>([]);
   private dataStore:
     {
       habitStatistics: HabitDto[],
+      availableHabits: AvailableHabitDto[],
       newHabits: NewHabitDto[]
     } =
     {
       habitStatistics: [],
+      availableHabits: [],
       newHabits: []
     };
   readonly habitStatistics = this.$habitStatistics.asObservable();
+  readonly availableHabits = this.$availableHabits.asObservable();
   readonly newHabits = this.$newHavbits.asObservable();
 
   constructor(private http: HttpClient) {
@@ -39,24 +44,43 @@ export class HabitStatisticService {
     }, error => console.log('Can not load habit statistic.'));
   }
 
+  loadAvailableHabits() {
+    const userId: string = window.localStorage.getItem('userId');
+
+    this.http.get<AvailableHabitDto[]>(`${userLink}/${userId}/habit-dictionary/available`).subscribe(data => {
+      this.dataStore.availableHabits = data;
+      this.$availableHabits.next(Object.assign({}, this.dataStore).availableHabits);
+    }, error => console.log('Can not load available habits.'));
+  }
+
   setNewHabitsState(args) {
-    if (this.dataStore.newHabits.find(nh => nh.id === args.id)) {
-      this.dataStore.newHabits = this.dataStore.newHabits.filter(nh => nh.id !== args.id);
+    if (this.dataStore.newHabits.find(nh => nh.habitDictionaryId === args.id)) {
+      this.dataStore.newHabits = this.dataStore.newHabits.filter(nh => nh.habitDictionaryId !== args.id);
     } else {
-      this.dataStore.newHabits = [...this.dataStore.newHabits, args];
+      this.dataStore.newHabits = [...this.dataStore.newHabits, new NewHabitDto(args.id)];
     }
     console.log(this.dataStore.newHabits);
   }
 
-  createHabits(newHabits: NewHabitDto[]) {
-    // const userId: string = window.localStorage.getItem('userId');
-    // this.http.post<HabitStatisticsDto>(`${habitStatisticLink}`, habitStatistics).subscribe(data => {
-    //   console.log(data);
-    // }, error => console.log('Can not assing new habit for this user'));
+  createHabits() {
+    const userId: string = window.localStorage.getItem('userId');
+    console.log(this.dataStore.newHabits);
+    this.http.post<any>(`${userLink}/${userId}/habit`, this.dataStore.newHabits).subscribe(data => {
+      console.log(`${userLink}/${userId}/habit`);
+      console.log(data);
+      this.dataStore.newHabits = [];
+      this.loadAvailableHabits();
+      this.loadHabitStatistics();
+    }, error => console.log('Can not assing new habit for this user'));
   }
 
-  deleteHabit(id: number) {
-    console.log('Delete habit: ' + id);
+  deleteHabit(habitId: number) {
+    const userId: string = window.localStorage.getItem('userId');
+    this.http.delete<any>(`${userLink}/${userId}/habit/${habitId}`).subscribe(data => {
+      console.log(data);
+      this.loadAvailableHabits();
+      this.loadHabitStatistics();
+    }, error => console.log('Can not remove habit for this user'));
   }
 
   updateHabitStatistic(habitStatisticDto: HabitStatisticsDto) {

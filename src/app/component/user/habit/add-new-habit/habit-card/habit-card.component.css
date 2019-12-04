@@ -104,6 +104,11 @@
   z-index: 11;
 }
 
+.corner-image {
+  display: block;
+  margin: 4px auto 0;
+}
+
 .hidden {
   display: none;
   visibility: hidden;

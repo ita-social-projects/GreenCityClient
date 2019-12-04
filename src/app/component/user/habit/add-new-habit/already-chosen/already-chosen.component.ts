@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-statistic.service';
 
@@ -7,19 +7,24 @@ import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-sta
   templateUrl: './already-chosen.component.html',
   styleUrls: ['./already-chosen.component.css']
 })
-export class AlreadyChosenComponent implements OnInit {
+export class AlreadyChosenComponent implements OnInit, OnDestroy {
 
-  chosen = [
-    { id: 1, caption: 'Habit1', status: 1, description: 'Lorem Lorem ipsum dolor sit amet, consectetur adipiscing elit dolor', },
-    { id: 2, caption: 'Habit2', status: 1, description: 'Lorem Lorem ipsum dolor sit amet, consectetur adipiscing elit dolor', }
-  ];
+  $chosen;
+  chosen: any;
 
   constructor(private habitStatisticService: HabitStatisticService) { }
 
   ngOnInit() {
-    this.habitStatisticService.habitStatistics.subscribe(data => {
-      // this.chosen = data;
+    this.$chosen = this.habitStatisticService.habitStatistics;
+    this.$chosen.subscribe(data => {
+      this.chosen = data;
+      console.log("Chosen");
+      console.log(data);
     });
+  }
+
+  ngOnDestroy() {
+    this.$chosen.unsubscribe();
   }
 
   onDrop(event: CdkDragDrop<string[]>) {

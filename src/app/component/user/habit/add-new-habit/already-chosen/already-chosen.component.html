@@ -2,7 +2,7 @@
   <h4>Already chosen</h4>
   <div class="already-chosen-list" cdkDropList id="alreadyChosenList" [cdkDropListData]="chosen"
     [cdkDropListConnectedTo]="['availableToChooseList']" (cdkDropListDropped)="onDrop($event)">
-    <app-habit-card *ngFor="let habit of chosen" [habit]="habit" cdkDrag [cdkDragDisabled]="habit.status === 1">
+    <app-habit-card *ngFor="let habit of chosen" [habit]="habit" cdkDrag [cdkDragDisabled]="habit.status === true">
     </app-habit-card>
   </div>
 </div>

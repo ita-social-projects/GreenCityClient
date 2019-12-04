@@ -8,7 +8,7 @@ import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-sta
 })
 export class ConfirmationModalComponent implements OnInit {
 
-  @Input() habit: { id, caption };
+  @Input() habit: { id, name };
   @Output() canceled = new EventEmitter<boolean>();
 
   constructor(private habitStatisticService: HabitStatisticService) { }
