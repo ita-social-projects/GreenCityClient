@@ -20,7 +20,6 @@ export class AddNewHabitModalComponent implements OnInit {
     this.$uiState.subscribe(data => {
       this.visible = data.addNewHabitModalVisible;
     });
-    this.visible = true; // only for dev purpose, remove after
   }
 
   hideAddNewHabitModal() {

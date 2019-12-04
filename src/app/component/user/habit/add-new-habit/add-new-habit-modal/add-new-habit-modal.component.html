@@ -2,7 +2,7 @@
   <div class="add-habit-modal-bg">
     <div class="add-habit-modal-window">
       <div>
-        <h3>New habit</h3>
+        <h3>{{'user.habit.add-new-habit.modal-caption' | translate}}</h3>
         <img [src]="closeCross" alt="close-cross" (click)="hideAddNewHabitModal()">
       </div>
       <div class="splitter"></div>
@@ -10,8 +10,10 @@
       <app-available-to-choose></app-available-to-choose>
       <div class="splitter"></div>
       <div class="button-row">
-        <button class="button button-cancel" (click)="hideAddNewHabitModal()">Cancel</button>
-        <button class="button button-save" (click)="saveSelectedHabits()">Save</button>
+        <button class="button button-cancel"
+          (click)="hideAddNewHabitModal()">{{'user.habit.add-new-habit.button-cancel' | translate}}</button>
+        <button class="button button-save"
+          (click)="saveSelectedHabits()">{{'user.habit.add-new-habit.button-save' | translate}}</button>
       </div>
     </div>
   </div>

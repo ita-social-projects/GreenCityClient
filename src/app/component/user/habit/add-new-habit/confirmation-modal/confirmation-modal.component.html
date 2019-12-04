@@ -1,9 +1,11 @@
 <div class="confirmation-modal">
-  <p class="confirmation-modal-text">Are you sure you want to delete this eco habit?
+  <p class="confirmation-modal-text">{{'user.habit.add-new-habit.confirmation-modal-text' | translate}}
     <strong>{{ this.habit.name }}</strong>
   </p>
   <div class="button-row">
-    <button class="button button-cancel" (click)="cancelDeletion()">Cancel</button>
-    <button class="button button-save" (click)="confirmDeletion()">Yes</button>
+    <button class="button button-cancel"
+      (click)="cancelDeletion()">{{'user.habit.add-new-habit.confirmation-modal-cancel' | translate}}</button>
+    <button class="button button-save"
+      (click)="confirmDeletion()">{{'user.habit.add-new-habit.confirmation-modal-yes' | translate}}</button>
   </div>
 </div>
