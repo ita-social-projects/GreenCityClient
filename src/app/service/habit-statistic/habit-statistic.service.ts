@@ -59,15 +59,12 @@ export class HabitStatisticService {
     } else {
       this.dataStore.newHabits = [...this.dataStore.newHabits, new NewHabitDto(args.id)];
     }
-    console.log(this.dataStore.newHabits);
   }
 
   createHabits() {
     const userId: string = window.localStorage.getItem('userId');
-    console.log(this.dataStore.newHabits);
+
     this.http.post<any>(`${userLink}/${userId}/habit`, this.dataStore.newHabits).subscribe(data => {
-      console.log(`${userLink}/${userId}/habit`);
-      console.log(data);
       this.dataStore.newHabits = [];
       this.loadAvailableHabits();
       this.loadHabitStatistics();
@@ -76,8 +73,8 @@ export class HabitStatisticService {
 
   deleteHabit(habitId: number) {
     const userId: string = window.localStorage.getItem('userId');
+
     this.http.delete<any>(`${userLink}/${userId}/habit/${habitId}`).subscribe(data => {
-      console.log(data);
       this.loadAvailableHabits();
       this.loadHabitStatistics();
     }, error => console.log('Can not remove habit for this user'));
