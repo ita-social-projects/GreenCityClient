@@ -22,7 +22,6 @@ import {
   HttpClientModule
 } from '@angular/common/http';
 import { ProposeCafeComponent } from './component/user/propose-cafe/propose-cafe.component';
-import { InterceptorService } from './service/interceptor.service';
 import { AdminModule } from './component/admin/admin.module';
 import { NgFlashMessagesModule } from 'ng-flash-messages';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -77,9 +76,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { UserHabitPageComponent } from './component/user/habit/user-habit-page/user-habit-page.component';
 import { LowerNavBarComponent } from './component/user/lower-nav-bar/lower-nav-bar.component';
-import { HabitItemListComponent } from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-item-list/habit-item-list.component';
 import { HabitEstimationComponent } from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-estimation.component';
-import { DayEstimationComponent } from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/day-estimation/day-estimation.component';
 import { AdviceComponent } from './component/user/habit/habit-trackers/habit-tracker/advice/advice.component';
 import { GoalItemComponent } from './component/user/user-goals/goal-item/goal-item.component';
 import { GoalListComponent } from './component/user/user-goals/goal-list/goal-list.component';
@@ -95,6 +92,13 @@ import { HabitCardComponent } from './component/user/habit/add-new-habit/habit-c
 import { AvailableToChooseComponent } from './component/user/habit/add-new-habit/available-to-choose/available-to-choose.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ConfirmationModalComponent } from './component/user/habit/add-new-habit/confirmation-modal/confirmation-modal.component';
+import { InterceptorService } from './service/interceptors/interceptor.service';
+// tslint:disable-next-line:import-spacing
+import { DayEstimationComponent }
+  from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/day-estimation/day-estimation.component';
+// tslint:disable-next-line:import-spacing
+import { HabitItemListComponent }
+  from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-item-list/habit-item-list.component';
 
 @NgModule({
   declarations: [

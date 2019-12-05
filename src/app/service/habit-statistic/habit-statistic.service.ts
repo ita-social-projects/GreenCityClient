@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { HabitDto } from '../../model/habit/HabitDto';
 import { NewHabitDto } from '../../model/habit/NewHabitDto';
 import { habitStatisticLink, userLink } from '../../links';
 
-import {HabitStatisticsDto} from '../../model/habit/HabitStatisticsDto';
-import {habitLink, mainLink} from 'src/app/links';
-import {HabitStatisticLogDto} from 'src/app/model/habit/HabitStatisticLogDto';
-import {LocalStorageService} from '../localstorage/local-storage.service';
+import { LocalStorageService } from '../localstorage/local-storage.service';
 import { HabitStatisticsDto } from '../../model/habit/HabitStatisticsDto';
 import { habitLink, mainLink } from 'src/app/links';
 import { HabitStatisticLogDto } from 'src/app/model/habit/HabitStatisticLogDto';
@@ -18,9 +15,9 @@ import { AvailableHabitDto } from 'src/app/model/habit/AvailableHabitDto';
   providedIn: 'root'
 })
 export class HabitStatisticService {
+  private readonly userId: number = this.localStorageService.getUserId();
   private $habitStatistics = new BehaviorSubject<HabitDto[]>([]);
   private $availableHabits = new BehaviorSubject<AvailableHabitDto[]>([]);
-  private $newHavbits = new BehaviorSubject<NewHabitDto[]>([]);
   private dataStore:
     {
       habitStatistics: HabitDto[],
@@ -34,27 +31,22 @@ export class HabitStatisticService {
     };
   readonly habitStatistics = this.$habitStatistics.asObservable();
   readonly availableHabits = this.$availableHabits.asObservable();
-  readonly newHabits = this.$newHavbits.asObservable();
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
   }
 
   loadHabitStatistics() {
-    const userId: number = this.localStorageService.getUserId();
-
-    this.http.get<HabitDto[]>(`${userLink}/${userId}/habits`).subscribe(data => {
+    this.http.get<HabitDto[]>(`${userLink}/${this.userId}/habits`).subscribe(data => {
       this.dataStore.habitStatistics = data;
       this.$habitStatistics.next(Object.assign({}, this.dataStore).habitStatistics);
-    }, error => console.log('Can not load habit statistic.'));
+    }, () => console.log('Can not load habit statistic.'));
   }
 
   loadAvailableHabits() {
-    const userId: string = window.localStorage.getItem('userId');
-
-    this.http.get<AvailableHabitDto[]>(`${userLink}/${userId}/habit-dictionary/available`).subscribe(data => {
+    this.http.get<AvailableHabitDto[]>(`${userLink}/${this.userId}/habit-dictionary/available`).subscribe(data => {
       this.dataStore.availableHabits = data;
       this.$availableHabits.next(Object.assign({}, this.dataStore).availableHabits);
-    }, error => console.log('Can not load available habits.'));
+    }, () => console.log('Can not load available habits.'));
   }
 
   setNewHabitsState(args) {
@@ -66,22 +58,18 @@ export class HabitStatisticService {
   }
 
   createHabits() {
-    const userId: string = window.localStorage.getItem('userId');
-
-    this.http.post<any>(`${userLink}/${userId}/habit`, this.dataStore.newHabits).subscribe(data => {
+    this.http.post<any>(`${userLink}/${this.userId}/habit`, this.dataStore.newHabits).subscribe(() => {
       this.dataStore.newHabits = [];
       this.loadAvailableHabits();
       this.loadHabitStatistics();
-    }, error => console.log('Can not assing new habit for this user'));
+    }, () => console.log('Can not assign new habit for this user'));
   }
 
   deleteHabit(habitId: number) {
-    const userId: string = window.localStorage.getItem('userId');
-
-    this.http.delete<any>(`${userLink}/${userId}/habit/${habitId}`).subscribe(data => {
+    this.http.delete<any>(`${userLink}/${this.userId}/habit/${habitId}`).subscribe(() => {
       this.loadAvailableHabits();
       this.loadHabitStatistics();
-    }, error => console.log('Can not remove habit for this user'));
+    }, () => console.log('Can not remove habit for this user'));
   }
 
   updateHabitStatistic(habitStatisticDto: HabitStatisticsDto) {
@@ -97,7 +85,7 @@ export class HabitStatisticService {
           this.$habitStatistics.next(Object.assign({}, this.dataStore).habitStatistics);
         }
       });
-    }, error => console.log('Can not update habit statistic'));
+    }, () => console.log('Can not update habit statistic'));
   }
 
   createHabitStatistic(habitStatistics: HabitStatisticsDto) {
@@ -114,11 +102,10 @@ export class HabitStatisticService {
           });
         }
       });
-    }, error => console.log('Can not create habit statistic'));
+    }, () => console.log('Can not create habit statistic'));
   }
 
   getUserLog(): Observable<any> {
-    const userId: number = this.localStorageService.getUserId();
-    return this.http.get<HabitStatisticLogDto>(`${mainLink + 'user/' + userId + habitLink}`);
+    return this.http.get<HabitStatisticLogDto>(`${mainLink + 'user/' + this.userId + habitLink}`);
   }
 }
