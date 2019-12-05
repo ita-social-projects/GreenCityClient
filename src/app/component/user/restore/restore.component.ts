@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RestorePasswordService } from '../../../service/restore-password.service';
+import { RestorePasswordService } from '../../../service/auth/restore-password.service';
 
 @Component({
   selector: 'app-restore',

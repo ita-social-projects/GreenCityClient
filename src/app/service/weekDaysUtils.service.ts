@@ -1,7 +1,7 @@
-import {WeekDays} from "../model/weekDays.model";
-import {OpeningHours} from "../model/openingHours.model";
-import {OpenHours} from "../model/openHours/open-hours.model";
-import {Injectable} from "@angular/core";
+import {WeekDays} from '../model/weekDays.model';
+import {OpeningHours} from '../model/openingHours.model';
+import {OpenHours} from '../model/openHours/open-hours.model';
+import {Injectable} from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class WeekDaysUtils {
     WeekDays.WEDNESDAY, WeekDays.THURSDAY, WeekDays.FRIDAY, WeekDays.SATURDAY, WeekDays.SUNDAY];
 
   public static getCurrentDay(): string {
-    let currTime = new Date();
+    const currTime = new Date();
     return this.sortedUTCDays[currTime.getUTCDay()];
   }
 
@@ -26,16 +26,16 @@ export class WeekDaysUtils {
     let result = '';
     openHours.forEach(oh => {
       if (WeekDaysUtils.getCurrentDay() === oh.weekDay) {
-        let now = new Date();
+        const now = new Date();
         if (null != oh.breakTime) {
-          let bStart = Number.parseInt(oh.breakTime.startTime.substr(0,2));
-          let bEnd = Number.parseInt(oh.breakTime.endTime.substr(0,2));
+          const bStart = Number.parseInt(oh.breakTime.startTime.substr(0, 2), 10);
+          const bEnd = Number.parseInt(oh.breakTime.endTime.substr(0, 2), 10);
           if (now.getHours() > bStart && now.getHours() < bEnd) {
             return result = 'Break now ' + oh.breakTime.startTime + ' - ' + oh.breakTime.endTime;
           }
         }
-        let open = Number.parseInt(oh.openTime.substr(0,2));
-        let close = Number.parseInt(oh.closeTime.substr(0,2));
+        const open = Number.parseInt(oh.openTime.substr(0, 2), 10);
+        const close = Number.parseInt(oh.closeTime.substr(0, 2), 10);
         if (now.getHours() > open && now.getHours() < close) {
           return result = 'Open now ' + oh.openTime + ' - ' + oh.closeTime;
         }
@@ -52,7 +52,7 @@ export class WeekDaysUtils {
   }
 
   sortOpenHoursList(openHours: OpeningHours[]): OpeningHours[] {
-    let sortedOpenHours = [];
+    const sortedOpenHours = [];
     WeekDaysUtils.sortedDays.forEach(day => {
       openHours.forEach(oh => {
         if (day === oh.weekDay) {

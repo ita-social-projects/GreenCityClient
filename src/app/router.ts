@@ -14,7 +14,7 @@ import { UserHabitPageComponent } from './component/user/habit/user-habit-page/u
 
 export const router = [
   {
-    path: '',
+    path: 'GreenCityClient',
     name: 'MainPage',
     component: UserComponent,
     children: [
@@ -37,7 +37,7 @@ export const router = [
         component: FilterComponent
       },
       {
-        path: 'habits',
+        path: ':id/habits',
         component: UserHabitPageComponent
       },
       {
@@ -51,9 +51,5 @@ export const router = [
         ]
       }
     ]
-  },
-  {
-    path: 'habits',
-    component: UserHabitPageComponent
   }
 ];

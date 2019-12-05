@@ -5,6 +5,10 @@ import { HabitDto } from '../../model/habit/HabitDto';
 import { NewHabitDto } from '../../model/habit/NewHabitDto';
 import { habitStatisticLink, userLink } from '../../links';
 
+import {HabitStatisticsDto} from '../../model/habit/HabitStatisticsDto';
+import {habitLink, mainLink} from 'src/app/links';
+import {HabitStatisticLogDto} from 'src/app/model/habit/HabitStatisticLogDto';
+import {LocalStorageService} from '../localstorage/local-storage.service';
 import { HabitStatisticsDto } from '../../model/habit/HabitStatisticsDto';
 import { habitLink, mainLink } from 'src/app/links';
 import { HabitStatisticLogDto } from 'src/app/model/habit/HabitStatisticLogDto';
@@ -32,11 +36,11 @@ export class HabitStatisticService {
   readonly availableHabits = this.$availableHabits.asObservable();
   readonly newHabits = this.$newHavbits.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
   }
 
   loadHabitStatistics() {
-    const userId: string = window.localStorage.getItem('userId');
+    const userId: number = this.localStorageService.getUserId();
 
     this.http.get<HabitDto[]>(`${userLink}/${userId}/habits`).subscribe(data => {
       this.dataStore.habitStatistics = data;
@@ -114,7 +118,7 @@ export class HabitStatisticService {
   }
 
   getUserLog(): Observable<any> {
-    const userId: string = window.localStorage.getItem('userId');
+    const userId: number = this.localStorageService.getUserId();
     return this.http.get<HabitStatisticLogDto>(`${mainLink + 'user/' + userId + habitLink}`);
   }
 }

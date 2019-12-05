@@ -8,6 +8,7 @@ import {MatIconRegistry, MatSort, MatTableDataSource} from '@angular/material';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AdminService} from '../../../service/admin/admin.service';
 import {PaginationComponent} from 'ngx-bootstrap';
+import {JwtService} from '../../../service/jwt/jwt.service';
 
 
 export interface Role {
@@ -34,7 +35,7 @@ export class UsersComponent implements OnInit {
   sortColumn = 'email';
   sortDirection = 'asc';
   sortParam = '&sort=' + this.sortColumn + ',' + this.sortDirection;
-  userEmail = this.userService.getUserEmail();
+  userEmail: string;
   displayedColumns: string[] = ['email', 'firstName', 'lastName', 'dateOfRegistration', 'role', 'block', 'deactivate'];
   maxSizePagination = 6;
   sortArrow: string;
@@ -43,7 +44,8 @@ export class UsersComponent implements OnInit {
 
   constructor(
     private userService: UserService, private titleService: Title, private ngFlashMessageService: NgFlashMessageService,
-    iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+    iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private jwtService: JwtService) {
+    this.userEmail = jwtService.getEmailFromAccessToken();
     iconRegistry.addSvgIcon(
       'arrow-up',
       sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/arrows/arrow-up-bold.svg'));
