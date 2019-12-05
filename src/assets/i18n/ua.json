@@ -337,6 +337,7 @@
         "modal-caption": "Нова звичка",
         "already-chosen-caption": "Вже обрані",
         "available-to-chose-caption": "Звички, які можна додати",
+        "no-available-to-chose": "Ви відслідковуєте всі доступні звички",
         "button-save": "Зберегти",
         "button-cancel": "Скасувати",
         "confirmation-modal-text": "Ви впевнені, що хочете видалити цю еко-звичку?",

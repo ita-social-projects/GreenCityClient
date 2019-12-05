@@ -336,6 +336,7 @@
         "modal-caption": "Новая привычка",
         "already-chosen-caption": "Уже выбраны",
         "available-to-chose-caption": "Привычки, которые можно выбрать",
+        "no-available-to-chose": "Вы отслеживаете все доступные привычки",
         "button-save": "Сохранить",
         "button-cancel": "Отменить",
         "confirmation-modal-text": "Вы уверены, что хотите удалить эту привычку?",

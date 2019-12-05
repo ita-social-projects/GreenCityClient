@@ -337,6 +337,7 @@
         "modal-caption": "New habit",
         "already-chosen-caption": "Already chosen",
         "available-to-chose-caption": "Habits, yet available to be added",
+        "no-available-to-chose": "You are tracking all available habits",
         "button-save": "Save changes",
         "button-cancel": "Cancel",
         "confirmation-modal-text": "Are you sure you want to delete this eco habit?",
