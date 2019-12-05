@@ -4,13 +4,14 @@
       <app-habit-title [habitId]=habit.id [habitTitle]="habit.habitName"></app-habit-title>
     </div>
     <div class="col-6 d-flex align-self-center justify-content-end">
-      <app-habit-tracker-date [dayNumber]="curDayNumber" [habitCreationDate]="habit.createDate"></app-habit-tracker-date>
+      <app-habit-tracker-date [dayNumber]="curDayNumber"
+                              [habitCreationDate]="habit.createDate"></app-habit-tracker-date>
     </div>
   </div>
 
   <div class="row">
     <div class="col-6">
-      <app-habit-fact [habit]="habit"></app-habit-fact>
+      <app-habit-fact [habitDictionary]="habit.habitDictionary"></app-habit-fact>
     </div>
   </div>
 

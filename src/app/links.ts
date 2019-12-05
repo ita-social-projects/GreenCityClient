@@ -1,5 +1,4 @@
-import { environment } from 'src/environments/environment';
-import {HabitFactDto} from './model/habit-fact/HabitFactDto';
+import {environment} from 'src/environments/environment';
 
 // back-end
 export const mainLink = environment.backendLink;
@@ -14,7 +13,7 @@ export const placeLink = mainLink + 'place/';
 export const favoritePlaceLink = mainLink + 'favorite_place/';
 export const googleSecurityLink = mainLink + 'googleSecurity/';
 export const userInitialsLink = userLink + '/initials/';
-export const factLink = mainLink + 'fact/';
+export const factLink = mainLink + 'facts/';
 export const habitFactRandomLink = factLink + 'random/';
 export const adviceLink = mainLink + 'advices/';
 export const adviceRandomLink = adviceLink + 'random/';

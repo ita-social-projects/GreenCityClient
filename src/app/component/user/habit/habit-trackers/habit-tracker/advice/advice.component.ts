@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AdviceService} from '../../../../../../service/advice/advice.service';
-import {HabitDto} from '../../../../../../model/habit/HabitDto';
 import {AdviceDto} from '../../../../../../model/advice/AdviceDto';
 import {Observable} from 'rxjs';
+import {HabitDictionaryDto} from '../../../../../../model/habit/HabitDictionaryDto';
 
 @Component({
   selector: 'app-advice',
@@ -13,12 +13,12 @@ export class AdviceComponent implements OnInit {
 
   $advice: Observable<AdviceDto>;
   @Input()
-  habit: HabitDto;
+  habitDictionary: HabitDictionaryDto;
 
   constructor(private service: AdviceService) {
   }
 
   ngOnInit() {
-    this.$advice = this.service.getAdvice(this.habit.id);
+    this.$advice = this.service.getAdvice(this.habitDictionary.id);
   }
 }
