@@ -15,7 +15,7 @@ import { AvailableHabitDto } from 'src/app/model/habit/AvailableHabitDto';
   providedIn: 'root'
 })
 export class HabitStatisticService {
-  private readonly userId: number = this.localStorageService.getUserId();
+  private userId: number;
   private $habitStatistics = new BehaviorSubject<HabitDto[]>([]);
   private $availableHabits = new BehaviorSubject<AvailableHabitDto[]>([]);
   private dataStore:
@@ -33,6 +33,7 @@ export class HabitStatisticService {
   readonly availableHabits = this.$availableHabits.asObservable();
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
+    localStorageService.userIdBehaviourSubject.subscribe(userId => this.userId = userId);
   }
 
   loadHabitStatistics() {

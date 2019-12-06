@@ -5,7 +5,7 @@ import {
   HttpInterceptor,
   HttpRequest
 } from '@angular/common/http';
-import {BehaviorSubject, Observable, throwError} from 'rxjs';
+import {BehaviorSubject, Observable, of, throwError} from 'rxjs';
 import { updateAccessTokenLink } from '../../links';
 import {catchError, filter, switchMap, take} from 'rxjs/operators';
 import {LocalStorageService} from '../localstorage/local-storage.service';
@@ -42,17 +42,17 @@ export class InterceptorService implements HttpInterceptor {
       req = this.addAccessTokenToHeader(req, this.localStorageService.getAccessToken());
     }
     return next.handle(req).pipe(
-      catchError(error => {
-        if (error.status === 401 && error instanceof HttpErrorResponse) {
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401) {
           return this.handle401Error(req, next);
-        } else if (error.status === 403 && error instanceof  HttpErrorResponse) {
-          return this.handle403Error(req, next);
-        } else if (error.status === 404 && error instanceof HttpErrorResponse) {
-          return this.handle404Error(req, next);
-        } else {
-          console.log(`Unexpected error: ${error.message}`);
-          return throwError(error);
         }
+        if (error.status === 403) {
+          return this.handle403Error(req);
+        }
+        if (error.status === 404) {
+          return this.handle404Error(req);
+        }
+        return throwError(error);
       })
     );
   }
@@ -62,17 +62,7 @@ export class InterceptorService implements HttpInterceptor {
       this.isRefreshing = true;
       this.refreshTokenSubject.next(null);
       return this.getNewTokenPair(this.localStorageService.getRefreshToken()).pipe(
-        catchError(error => {
-          if (error.status === 400 && error instanceof HttpErrorResponse) {
-            this.localStorageService.clear();
-            this.router.navigate(['/GreenCityClient/auth'])
-              .then(success => console.log('redirect has succeeded ' + success))
-              .catch(fail => console.log('redirect has failed ' + fail));
-            return next.handle(req);
-          } else {
-            return throwError(error);
-          }
-        }),
+        catchError((error: HttpErrorResponse) => this.handleRefreshTokenIsNotValid(error)),
         switchMap((newTokenPair: NewTokenPair) => {
           this.localStorageService.setAccessToken(newTokenPair.accessToken);
           this.localStorageService.setRefreshToken(newTokenPair.refreshToken);
@@ -85,9 +75,19 @@ export class InterceptorService implements HttpInterceptor {
       return this.refreshTokenSubject.pipe(
         filter((newTokenPair: NewTokenPair) => newTokenPair != null),
         take(1),
-        switchMap((newTokenPair: NewTokenPair) => next.handle(this.addAccessTokenToHeader(req, newTokenPair.accessToken)))
+        switchMap((newTokenPair: NewTokenPair) => next.handle(this.addAccessTokenToHeader(req, newTokenPair.accessToken))),
+        catchError(() => of<HttpEvent<any>>())
       );
     }
+  }
+
+  private handleRefreshTokenIsNotValid(error: HttpErrorResponse): Observable<HttpEvent<any>> {
+    if (error.status === 400) {
+      this.localStorageService.clear();
+      this.router.navigate(['/GreenCityClient/auth']).then(r => r);
+      return of<HttpEvent<any>>();
+    }
+    return throwError(error);
   }
 
   private getNewTokenPair(refreshToken: string): Observable<NewTokenPair> {
@@ -102,17 +102,15 @@ export class InterceptorService implements HttpInterceptor {
     });
   }
 
-  private handle403Error(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.router.navigate(['/GreenCityClient/auth'])
-      .then(success => console.log('redirect has succeeded ' + success))
-      .catch(fail => console.log('redirect has failed ' + fail));
-    return next.handle(req);
+  private handle403Error(req: HttpRequest<any>): Observable<HttpEvent<any>> {
+    console.log(`You don't have authorities to access ${req.url}`);
+    this.router.navigate(['/GreenCityClient/auth']).then(r => r);
+    return of<HttpEvent<any>>();
   }
 
-  private handle404Error(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.router.navigate(['/error.component.html'])
-      .then(success => console.log('redirect has succeeded ' + success))
-      .catch(fail => console.log('redirect has failed ' + fail));
-    return next.handle(req);
+  private handle404Error(req: HttpRequest<any>): Observable<HttpEvent<any>> {
+    console.log(`Page does not exist ${req.url}`);
+    this.router.navigate(['/error.component.html']).then(r => r);
+    return of<HttpEvent<any>>();
   }
 }

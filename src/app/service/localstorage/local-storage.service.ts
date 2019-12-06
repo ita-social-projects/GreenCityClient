@@ -13,7 +13,8 @@ export class LocalStorageService {
   private readonly USER_ID = 'userId';
   private readonly FIRST_NAME = 'firstName';
 
-  firstNameBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getFirsName());
+  firstNameBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getFirstName());
+  userIdBehaviourSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.getUserId());
 
   constructor() {}
 
@@ -25,11 +26,11 @@ export class LocalStorageService {
     return localStorage.getItem(this.REFRESH_TOKEN);
   }
 
-  public getUserId(): number {
+  private getUserId(): number {
     return Number.parseInt(localStorage.getItem(this.USER_ID), 10);
   }
 
-  public getFirsName(): string {
+  private getFirstName(): string {
     return localStorage.getItem(this.FIRST_NAME);
   }
 
@@ -43,15 +44,17 @@ export class LocalStorageService {
 
   public setUserId(userId: number): void {
     localStorage.setItem(this.USER_ID, String(userId));
+    this.userIdBehaviourSubject.next(this.getUserId());
   }
 
   public setFirstName(firstName: string): void {
-    this.firstNameBehaviourSubject.next(firstName);
     localStorage.setItem(this.FIRST_NAME, firstName);
+    this.firstNameBehaviourSubject.next(firstName);
   }
 
   public clear(): void {
     localStorage.clear();
     this.firstNameBehaviourSubject.next(null);
+    this.userIdBehaviourSubject.next(null);
   }
 }

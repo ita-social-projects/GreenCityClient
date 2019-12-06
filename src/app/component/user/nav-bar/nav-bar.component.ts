@@ -17,7 +17,7 @@ import { JwtService } from '../../../service/jwt/jwt.service';
 export class NavBarComponent implements OnInit {
   firstName: string;
   userRole: string;
-  userId: string;
+  userId: number;
   habitId: number;
 
   constructor(
@@ -50,7 +50,7 @@ export class NavBarComponent implements OnInit {
 
   ngOnInit(): void {
     this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => this.firstName = firstName);
-    this.habitId = this.localStorageService.getUserId();
+    this.localStorageService.userIdBehaviourSubject.subscribe(userId => this.userId = userId);
     this.userRole = this.jwtService.getUserRole();
   }
 

@@ -27,7 +27,7 @@ export class UserService {
   readonly goals = this.goalsSubject.asObservable();
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
-    this.userId = localStorageService.getUserId();
+    localStorageService.userIdBehaviourSubject.subscribe(userId => this.userId = userId);
   }
 
   getAllUsers(paginationSettings: string): Observable<UserPageableDtoModel> {
