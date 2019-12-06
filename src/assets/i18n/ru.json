@@ -343,6 +343,14 @@
         "confirmation-modal-text": "Вы уверены, что хотите удалить эту привычку?",
         "confirmation-modal-yes": "Да",
         "confirmation-modal-cancel": "Отменить"
+      },
+      "habit-trackers": {
+        "habit-tracker": {
+          "habit-tracker-date": {
+            "day": "День",
+            "from": "с"
+          }
+        }
       }
     }
   },

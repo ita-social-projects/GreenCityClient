@@ -1,0 +1,16 @@
+<div class="container-fluid goal-item-container">
+  <div class="row">
+    <div class="col-1 no-padding">
+      <label class="goal-container">
+        <input type="checkbox" [checked]="goal.status === 'ACTIVE'">
+        <span class="check-mark"></span>
+
+      </label>
+    </div>
+    <div class="col-11 d-flex no-padding">
+      <span class="goal-text align-self-center no-padding" title="{{this.goal.text}}">
+        {{this.goal.text | showFirstNLetters: 20: '...'}}
+      </span>
+    </div>
+  </div>
+</div>

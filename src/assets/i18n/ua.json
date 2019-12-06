@@ -344,6 +344,14 @@
         "confirmation-modal-text": "Ви впевнені, що хочете видалити цю еко-звичку?",
         "confirmation-modal-yes": "Так",
         "confirmation-modal-cancel": "Скасувати"
+      },
+      "habit-trackers": {
+        "habit-tracker": {
+          "habit-tracker-date": {
+            "day": "День",
+            "from": "з"
+          }
+        }
       }
     }
   },
