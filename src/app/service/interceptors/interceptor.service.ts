@@ -73,7 +73,7 @@ export class InterceptorService implements HttpInterceptor {
       );
     } else {
       return this.refreshTokenSubject.pipe(
-        filter((newTokenPair: NewTokenPair) => newTokenPair != null),
+        filter((newTokenPair: NewTokenPair) => newTokenPair !== null),
         take(1),
         switchMap((newTokenPair: NewTokenPair) => next.handle(this.addAccessTokenToHeader(req, newTokenPair.accessToken))),
         catchError(() => of<HttpEvent<any>>())

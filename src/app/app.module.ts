@@ -101,6 +101,7 @@ import { HabitItemListComponent }
   from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-item-list/habit-item-list.component';
 import {HabitFactComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-fact/habit-fact.component';
 import {HabitTitleComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-title/habit-title.component';
+// tslint:disable-next-line:max-line-length
 import {HabitTrackerDateComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-tracker-date/habit-tracker-date.component';
 
 @NgModule({
