@@ -109,6 +109,26 @@
   margin: 4px auto 0;
 }
 
+.deletion-hint {
+  background-color: #fff;
+  border: solid 2px rgba(19, 170, 87, 0.8);
+  border-radius: 4px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 15px;
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: normal;
+  letter-spacing: normal;
+  line-height: 1.2;
+  right: -125px;
+  padding: 5px 0; 
+  position: absolute;
+  text-align: center;
+  top: -40px;
+  width: 250px;
+  z-index: 15;
+}
+
 .hidden {
   display: none;
   visibility: hidden;

@@ -13,6 +13,7 @@ export class HabitCardComponent implements OnInit {
 
   hovered = false;
   confirmationVisible = false;
+  hintVisible = false;
 
   @Input() habit: { id, name, status, description };
 
@@ -30,7 +31,10 @@ export class HabitCardComponent implements OnInit {
 
   onDeleteClicked() {
     if (this.habitStatisticsService.getNumberOfHabits() < 2) {
-      alert('You can`t delete your last habit');
+      this.hintVisible = true;
+      setTimeout(() => {
+        this.hintVisible = false;
+      }, 2000);
     } else {
       this.confirmationVisible = true;
     }
