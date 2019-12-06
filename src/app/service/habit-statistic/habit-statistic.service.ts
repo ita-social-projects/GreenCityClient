@@ -108,4 +108,14 @@ export class HabitStatisticService {
   getUserLog(): Observable<any> {
     return this.http.get<HabitStatisticLogDto>(`${mainLink + 'user/' + this.userId + habitLink}`);
   }
+
+  getNumberOfHabits(): number {
+    return this.dataStore.habitStatistics.length;
+  }
+
+  clearDataStore(): void {
+    this.dataStore.newHabits = [];
+    this.loadAvailableHabits();
+    this.loadHabitStatistics();
+  }
 }

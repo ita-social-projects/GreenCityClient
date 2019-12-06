@@ -7,7 +7,7 @@ import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-sta
   templateUrl: './already-chosen.component.html',
   styleUrls: ['./already-chosen.component.css']
 })
-export class AlreadyChosenComponent implements OnInit, OnDestroy {
+export class AlreadyChosenComponent implements OnInit {
 
   private $chosen;
   chosen: any;
@@ -19,10 +19,6 @@ export class AlreadyChosenComponent implements OnInit, OnDestroy {
     this.$chosen.subscribe(data => {
       this.chosen = data;
     });
-  }
-
-  ngOnDestroy() {
-    this.$chosen.unsubscribe();
   }
 
   onDrop(event: CdkDragDrop<string[]>) {

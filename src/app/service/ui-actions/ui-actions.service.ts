@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { HabitStatisticService } from '../habit-statistic/habit-statistic.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class UiActionsService {
 
   readonly uiState = this.uiStateSubject.asObservable();
 
-  constructor() { }
+  constructor(private habitStatisticService: HabitStatisticService) { }
 
   showAddHabitModal() {
     this.uiStateStore.addNewHabitModalVisible = true;
@@ -23,5 +24,6 @@ export class UiActionsService {
   hideAddHabitModal() {
     this.uiStateStore.addNewHabitModalVisible = false;
     this.uiStateSubject.next(Object.assign({} as IUiState, this.uiStateStore));
+    this.habitStatisticService.clearDataStore();
   }
 }

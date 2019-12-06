@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-statistic.service';
-import { UiActionsService } from 'src/app/service/ui-actions/ui-actions.service';
 
 @Component({
   selector: 'app-habit-card',
@@ -17,7 +16,7 @@ export class HabitCardComponent implements OnInit {
 
   @Input() habit: { id, name, status, description };
 
-  constructor() { }
+  constructor(private habitStatisticsService: HabitStatisticService) { }
 
   ngOnInit() {
   }
@@ -30,7 +29,11 @@ export class HabitCardComponent implements OnInit {
   }
 
   onDeleteClicked() {
-    this.confirmationVisible = true;
+    if (this.habitStatisticsService.getNumberOfHabits() < 2) {
+      alert('You can`t delete your last habit');
+    } else {
+      this.confirmationVisible = true;
+    }
   }
 
   onDeleteCanceled($event) {

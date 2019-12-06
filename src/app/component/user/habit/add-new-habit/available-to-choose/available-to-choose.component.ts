@@ -7,7 +7,7 @@ import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-sta
   templateUrl: './available-to-choose.component.html',
   styleUrls: ['./available-to-choose.component.css']
 })
-export class AvailableToChooseComponent implements OnInit, OnDestroy {
+export class AvailableToChooseComponent implements OnInit {
 
   private $available;
   available: any;
@@ -20,10 +20,6 @@ export class AvailableToChooseComponent implements OnInit, OnDestroy {
     this.$available.subscribe(data => {
       this.available = data;
     });
-  }
-
-  ngOnDestroy() {
-    this.$available.unsubscribe();
   }
 
   onDrop(event: CdkDragDrop<string[]>) {
