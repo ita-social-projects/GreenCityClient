@@ -22,8 +22,8 @@
 
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" *ngIf="userRole == 'ROLE_ADMIN' || userRole == 'ROLE_MODERATOR'"
-          [routerLink]="['admin']">{{ "nav-bar.admin" | translate }}</a>
-          <a class="dropdown-item" [routerLink]="[habitId,'habits']">{{
+            [routerLink]="['admin']">{{ "nav-bar.admin" | translate }}</a>
+          <a class="dropdown-item" [routerLink]="[userId,'habits']">{{
             "nav-bar.my-habits" | translate
           }}</a>
           <a class="dropdown-item" (click)="openDialog()">{{
