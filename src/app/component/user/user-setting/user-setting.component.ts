@@ -4,6 +4,7 @@ import { UserUpdateModel } from '../../../model/user/user-update.model';
 import { JwtService } from '../../../service/jwt/jwt.service';
 import { MatDialogRef } from '@angular/material';
 import {LocalStorageService} from '../../../service/localstorage/local-storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-setting',
@@ -22,7 +23,8 @@ export class UserSettingComponent implements OnInit {
     private userService: UserService,
     private jwtService: JwtService,
     private dialogRef: MatDialogRef<UserSettingComponent>,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private router: Router
   ) {
     this.email = jwtService.getEmailFromAccessToken();
     this.getUser();
@@ -42,7 +44,7 @@ export class UserSettingComponent implements OnInit {
       () => {
         this.localStorageService.setFirstName(this.userUpdateModel.firstName);
         this.dialogRef.close();
-        window.location.href = '/GreenCityClient/';
+        this.router.navigate(['/GreenCityClient']);
       },
       error => { }
     );
