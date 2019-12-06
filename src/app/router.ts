@@ -11,11 +11,12 @@ import { FilterComponent } from './component/filter/filter.component';
 import { RestoreFormComponent } from './component/user/restore-form/restore-form.component';
 import { FeedbacksComponent } from './component/admin/feedbacks/feedbacks.component';
 import { UserHabitPageComponent } from './component/user/habit/user-habit-page/user-habit-page.component';
+import {Routes} from '@angular/router';
 
-export const router = [
+export const router: Routes = [
+  {path: '', redirectTo: '/GreenCityClient', pathMatch: 'full'},
   {
     path: 'GreenCityClient',
-    name: 'MainPage',
     component: UserComponent,
     children: [
       {

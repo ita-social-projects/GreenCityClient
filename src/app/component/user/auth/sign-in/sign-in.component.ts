@@ -26,7 +26,7 @@ export class SignInComponent implements OnInit {
 
   constructor(
     private userOwnSignInService: UserOwnSignInService,
-    private rout: Router,
+    private router: Router,
     private authService: AuthService,
     private googleService: GoogleSignInService,
     public dialog: MatDialog,
@@ -47,7 +47,9 @@ export class SignInComponent implements OnInit {
       (data: UserSuccessSignIn) => {
         this.loadingAnim = false;
         this.userOwnSignInService.saveUserToLocalStorage(data);
-        window.location.href = '/GreenCityClient/';
+        this.router.navigate(['/GreenCityClient'])
+          .then(success => console.log('redirect has succeeded ' + success))
+          .catch(fail => console.log('redirect has failed ' + fail));
       },
       (errors: HttpErrorResponse) => {
         try {
@@ -71,7 +73,9 @@ export class SignInComponent implements OnInit {
       this.googleService.signIn(data.idToken).subscribe(
         (data1: UserSuccessSignIn) => {
           this.userOwnSignInService.saveUserToLocalStorage(data1);
-          window.location.href = '/GreenCityClient/';
+          this.router.navigate(['/GreenCityClient/auth'])
+            .then(success => console.log('redirect has succeeded ' + success))
+            .catch(fail => console.log('redirect has failed ' + fail));
         },
         (errors: HttpErrorResponse) => {
           try {
