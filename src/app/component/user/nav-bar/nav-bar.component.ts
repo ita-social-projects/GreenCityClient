@@ -26,7 +26,7 @@ export class NavBarComponent implements OnInit {
     private favoritePlaceService: FavoritePlaceService,
     private localStorageService: LocalStorageService,
     private jwtService: JwtService,
-    private rout: Router,
+    private router: Router,
   ) { }
 
   openDialog(): void {
@@ -66,6 +66,8 @@ export class NavBarComponent implements OnInit {
   }
   private signOut() {
     this.localStorageService.clear();
-    this.rout.navigate(['/GreenCityClient']).then(() => console.log(`A user has signed out`));
+    this.router.navigate(['/GreenCityClient'])
+      .then(success => console.log('redirect has succeeded ' + success))
+      .catch(fail => console.log('redirect has failed ' + fail));
   }
 }

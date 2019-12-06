@@ -65,8 +65,10 @@ export class InterceptorService implements HttpInterceptor {
         catchError(error => {
           if (error.status === 400 && error instanceof HttpErrorResponse) {
             this.localStorageService.clear();
-            this.router.navigate(['/GreenCityClient/auth']).then(() => console.log(`A user has signed out`));
-            // return next.handle(req);
+            this.router.navigate(['/GreenCityClient/auth'])
+              .then(success => console.log('redirect has succeeded ' + success))
+              .catch(fail => console.log('redirect has failed ' + fail));
+            return next.handle(req);
           } else {
             return throwError(error);
           }
@@ -101,12 +103,16 @@ export class InterceptorService implements HttpInterceptor {
   }
 
   private handle403Error(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.router.navigate(['/GreenCityClient']).then(() => console.log(`A user has signed out`));
+    this.router.navigate(['/GreenCityClient/auth'])
+      .then(success => console.log('redirect has succeeded ' + success))
+      .catch(fail => console.log('redirect has failed ' + fail));
     return next.handle(req);
   }
 
   private handle404Error(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.router.navigate(['/error.component.html']).then(() => console.log('Try to access not existing resource'));
+    this.router.navigate(['/error.component.html'])
+      .then(success => console.log('redirect has succeeded ' + success))
+      .catch(fail => console.log('redirect has failed ' + fail));
     return next.handle(req);
   }
 }
