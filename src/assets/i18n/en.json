@@ -297,7 +297,7 @@
     "lower-nav-bar": {
       "home": "Home",
       "about-us": "About",
-      "eco-events": "Eko events",
+      "eco-events": "Eco events",
       "tips": "Tips",
       "map": "Map",
       "my-habits": "My habits"
@@ -333,13 +333,17 @@
         "glass": "glasses",
         "not-have-habit": "You haven't saved any packages or glasses this month, but you still have a chance to make this world a better place! Get started now! Denote the number of packages and glasses you didn't take today! Or start forming a habit of your own choice!"
       },
-      "habit-trackers": {
-        "habit-tracker": {
-          "habit-tracker-date": {
-            "day": "Day",
-            "from": "from"
-          }
-        }
+      "add-new-habit": {
+        "modal-caption": "New habit",
+        "already-chosen-caption": "Already chosen",
+        "available-to-chose-caption": "Habits, yet available to be added",
+        "no-available-to-chose": "You are tracking all available habits",
+        "cant-delete-last-hint": "You can't delete your last habit",
+        "button-save": "Save changes",
+        "button-cancel": "Cancel",
+        "confirmation-modal-text": "Are you sure you want to delete this eco habit?",
+        "confirmation-modal-yes": "Yes",
+        "confirmation-modal-cancel": "Cancel"
       }
     }
   },

@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   apiKeys: 'AIzaSyDanBliCzAuCZrsq67FeKEs3vqAilUD_is',
   backendLink: 'http://localhost:8080/',
-  frontendLink: 'http://localhost:4200/',
+  frontendLink: 'http://localhost:4200/GreenCityClient',
   firebaseConfig: {
     apiKey: 'AIzaSyDSVxahTHqdffRX2upKIMXCCjEBUYoHX8E',
     authDomain: 'greencity-9bdb7.firebaseapp.com',

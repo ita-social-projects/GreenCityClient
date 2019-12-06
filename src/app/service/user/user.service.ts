@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import { UserRoleModel } from '../../model/user/user-role.model';
 import { UserStatusModel } from '../../model/user/user-status.model';
 import { UserPageableDtoModel } from '../../model/user/user-pageable-dto.model';
@@ -10,11 +9,7 @@ import { RolesModel } from '../../model/user/roles.model';
 import { UserFilterDtoModel } from '../../model/user/userFilterDto.model';
 import { UserUpdateModel } from '../../model/user/user-update.model';
 import { Goal } from '../../model/goal/Goal';
-
-const token = localStorage.getItem('accessToken');
-let jwtData = null;
-let decodedJwtJsonData = null;
-let decodedJwtData = null;
+import {LocalStorageService} from '../localstorage/local-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,31 +19,15 @@ export class UserService {
   roleDto: UserRoleModel;
   filterDto: UserFilterDtoModel;
   apiUrl = `${mainLink}user`;
-  userId = window.localStorage.getItem('userId');
+  userId: number;
 
   private goalsSubject = new BehaviorSubject<Goal[]>([]);
   private dataStore: { goals: Goal[] } = { goals: [] };
 
   readonly goals = this.goalsSubject.asObservable();
 
-  constructor(private http: HttpClient) {
-    if (token != null) {
-      jwtData = token.split('.')[1];
-      decodedJwtJsonData = window.atob(jwtData);
-      decodedJwtData = JSON.parse(decodedJwtJsonData);
-    }
-  }
-
-  getUserRole(): string {
-    if (jwtData != null) {
-      return decodedJwtData.authorities[0];
-    } else {
-      return null;
-    }
-  }
-
-  getUserEmail() {
-    return decodedJwtData.sub;
+  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
+    localStorageService.userIdBehaviourSubject.subscribe(userId => this.userId = userId);
   }
 
   getAllUsers(paginationSettings: string): Observable<UserPageableDtoModel> {

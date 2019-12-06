@@ -1,0 +1,49 @@
+.confirmation-modal {
+  background-color: #fff;
+  border: solid 2px rgba(19, 170, 87, 0.8);
+  border-radius: 4px;
+  height: 100%;
+  left: 0;
+  padding: 20px 20px 10px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+.confirmation-modal p {
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+}
+
+.button-row {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.button {
+  border-radius: 4px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 18px;
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: normal;
+  line-height: 1.78;
+  min-height: 40px;
+  min-width: 60px;
+}
+
+.button-cancel {
+  background-color: #fff;
+  border: solid 1px #13aa57;
+  color: #13aa57;
+}
+
+.button-save {
+  background-color: #13aa57;
+  border: solid 1px #13aa57;
+  box-shadow: 0 13px 20px 0 rgba(118, 196, 125, 0.41);
+  color: #fff;
+  margin-left: 10px;
+}
