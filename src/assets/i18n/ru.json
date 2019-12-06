@@ -337,6 +337,7 @@
         "already-chosen-caption": "Уже выбраны",
         "available-to-chose-caption": "Привычки, которые можно выбрать",
         "no-available-to-chose": "Вы отслеживаете все доступные привычки",
+        "cant-delete-last-hint": "Вы не можете удалить свою последнюю привычку",
         "button-save": "Сохранить",
         "button-cancel": "Отменить",
         "confirmation-modal-text": "Вы уверены, что хотите удалить эту привычку?",

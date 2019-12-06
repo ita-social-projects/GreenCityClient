@@ -8,6 +8,10 @@
   [style.visible]="this.confirmationVisible ? 'visible':'hidden'"
   [style.display]="this.confirmationVisible ? 'block':'none'" (canceled)="onDeleteCanceled($event)">
 </app-confirmation-modal>
+<div class="deletion-hint" [style.visible]="this.hintVisible ? 'visible':'hidden'"
+  [style.display]="this.hintVisible ? 'block':'none'">
+  {{ 'user.habit.add-new-habit.cant-delete-last-hint' | translate }}
+</div>
 <div class="habit-card" [ngStyle]="setActiveStyles()" (mouseover)="this.hovered = true"
   (mouseout)="this.hovered = false">
   <div class="habit-card-icon-wrapper">

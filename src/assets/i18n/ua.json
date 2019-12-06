@@ -338,6 +338,7 @@
         "already-chosen-caption": "Вже обрані",
         "available-to-chose-caption": "Звички, які можна додати",
         "no-available-to-chose": "Ви відслідковуєте всі доступні звички",
+        "cant-delete-last-hint": "Ви не можете видалити свою останню звичку",
         "button-save": "Зберегти",
         "button-cancel": "Скасувати",
         "confirmation-modal-text": "Ви впевнені, що хочете видалити цю еко-звичку?",
