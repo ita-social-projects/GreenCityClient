@@ -99,6 +99,9 @@ import { DayEstimationComponent }
 // tslint:disable-next-line:import-spacing
 import { HabitItemListComponent }
   from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-item-list/habit-item-list.component';
+import {HabitFactComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-fact/habit-fact.component';
+import {HabitTitleComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-title/habit-title.component';
+import {HabitTrackerDateComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-tracker-date/habit-tracker-date.component';
 
 @NgModule({
   declarations: [
@@ -107,6 +110,9 @@ import { HabitItemListComponent }
     GeneralComponent,
     SignUpComponent,
     NavBarComponent,
+    HabitFactComponent,
+    HabitTitleComponent,
+    HabitTrackerDateComponent,
     AuthComponent,
     SignInComponent,
     SubmitEmailComponent,
