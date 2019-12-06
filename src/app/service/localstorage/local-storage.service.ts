@@ -46,6 +46,7 @@ export class LocalStorageService {
   }
 
   public setFirstName(firstName: string): void {
+    this.firstNameBehaviourSubject.next(firstName);
     localStorage.setItem(this.FIRST_NAME, firstName);
   }
 
