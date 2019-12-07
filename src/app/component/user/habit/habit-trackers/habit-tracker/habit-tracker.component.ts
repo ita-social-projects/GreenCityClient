@@ -1,10 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {HabitDto} from '../../../../../model/habit/HabitDto';
 import {HabitStatisticService} from '../../../../../service/habit-statistic/habit-statistic.service';
-import {map} from 'rxjs/operators';
+import {filter, map} from 'rxjs/operators';
 import {HabitStatisticsDto} from '../../../../../model/habit/HabitStatisticsDto';
-import {TranslateService} from '@ngx-translate/core';
 import {LanguageService} from '../../../../../i18n/language.service';
 
 @Component({
@@ -17,7 +16,7 @@ export class HabitTrackerComponent implements OnInit {
   habit: HabitDto;
   @Input()
   chartId: string;
-  $habit: Observable<HabitDto>;
+  $habit: Observable<HabitDto> = of<HabitDto>();
   currentStatistic: HabitStatisticsDto;
   habitStatistic: HabitStatisticsDto[];
   chartRedrawTrigger: boolean;
@@ -28,13 +27,16 @@ export class HabitTrackerComponent implements OnInit {
 
   ngOnInit() {
     this.initCurrentStatistic();
-    this.$habit = this.service.habitStatistics.pipe(map(habit => habit.find(item => item.id === this.habit.id)));
+    this.$habit = this.service.habitStatistics
+      .pipe(
+        map(habit => habit.find(item => item.id === this.habit.id)),
+        filter(habit => habit !== undefined)
+      );
 
-    this.$habit.subscribe(data => {
+    this.$habit.subscribe((data: HabitDto) => {
       this.habit.createDate = new Date(this.habit.createDate);
       this.chartRedrawTrigger = !this.chartRedrawTrigger;
       this.habitStatistic = data.habitStatistics;
-
     });
 
     this.curDayNumber = this.countCurrentStatisticDayNumber();

@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { HabitDto } from '../../../../../../../model/habit/HabitDto';
 import { HabitStatisticsDto } from '../../../../../../../model/habit/HabitStatisticsDto';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { HabitStatisticService } from '../../../../../../../service/habit-statistic/habit-statistic.service';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { Photo } from '../../../../../../../model/photo/photo';
 import { HabitItem } from '../habit-item/HabitItem';
 
@@ -20,7 +20,7 @@ export class HabitItemListComponent implements OnInit {
   habitStatistic: HabitStatisticsDto;
   currentNumber = 0;
   isExpanded: boolean;
-  $habit: Observable<HabitDto>;
+  $habit: Observable<HabitDto> = of<HabitDto>();
 
   constructor(private service: HabitStatisticService) {
   }
@@ -28,20 +28,22 @@ export class HabitItemListComponent implements OnInit {
   ngOnInit(): void {
     this.initHabitItems();
 
-    this.service.habitStatistics.pipe(map(hab => hab.find(item => item.id === this.habit.id))).subscribe(data => {
-      let stat: HabitStatisticsDto;
-
-      if (this.habitStatistic.id === null) {
-        stat = data.habitStatistics.find(el => el.createdOn === this.habitStatistic.createdOn);
-      } else {
-        stat = data.habitStatistics.find(el => el.id === this.habitStatistic.id);
-      }
-      this.habitStatistic = stat;
-
-      this.currentNumber = stat.amountOfItems;
-      this.isExpanded = stat.amountOfItems > 8;
-
-      this.drawCurrentNumberItems();
+    this.service.habitStatistics
+      .pipe(
+        map(hab => hab.find(item => item.id === this.habit.id)),
+        filter(hab => hab !== undefined)
+      )
+      .subscribe((data: HabitDto) => {
+        let stat: HabitStatisticsDto;
+        if (this.habitStatistic.id === null) {
+          stat = data.habitStatistics.find(el => el.createdOn === this.habitStatistic.createdOn);
+        } else {
+          stat = data.habitStatistics.find(el => el.id === this.habitStatistic.id);
+        }
+        this.habitStatistic = stat;
+        this.currentNumber = stat.amountOfItems;
+        this.isExpanded = stat.amountOfItems > 8;
+        this.drawCurrentNumberItems();
     });
   }
 
