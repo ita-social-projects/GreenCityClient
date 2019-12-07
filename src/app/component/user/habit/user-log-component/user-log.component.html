@@ -1,12 +1,8 @@
 <div class="row">
   <div class="col-xl-12">
     <div style="display: block!important; margin-top: 17px">
-      <ng-template [ngIf]="!hasStatistic" [ngIfElse]="none">
-        <h2 class="open-sans">{{'user.habit.user-log.calendar-habit' | translate}}</h2>
-        <p>{{'user.habit.user-log.not-have-habit' | translate}}</p>
-        <app-button></app-button>
-      </ng-template>
-      <ng-template #none>
+      <div *ngIf="hasStatistic; then thenBlock else elseBlock"></div>
+      <ng-template #thenBlock>
         <div class="open-sans">
           <h2 class="open-sans">{{'user.habit.user-log.calendar-habit' | translate}}</h2>
           <p class="open-sans">{{'user.habit.user-log.today' | translate}} {{countDay()}}
@@ -29,6 +25,12 @@
             </div>
             {{'user.habit.user-log.glass' | translate}}
           </div>
+        </div>
+      </ng-template>
+      <ng-template #elseBlock>
+        <div>
+          <h2 class="open-sans">{{'user.habit.user-log.calendar-habit' | translate}}</h2>
+          <p>{{'user.habit.user-log.not-have-habit' | translate}}</p>
         </div>
       </ng-template>
     </div>
