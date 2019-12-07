@@ -1,10 +1,9 @@
-<div *ngIf="!goal.isCustom" class="container-fluid goal-item-container">
+<div *ngIf="goal.type === 'PREDEFINED' || goal.type === 'TRACKED'" class="container-fluid goal-item-container">
   <div class="row">
     <div class="col-1 no-padding">
       <label class="goal-container">
-        <input type="checkbox" [checked]="goal.status === 'CHECKED'" (change)="onUpdateStatus()">
+        <input type="checkbox" [checked]="goal.status === 'CHECKED' || goal.type == 'TRACKED'" (change)="onUpdateStatus()">
         <span class="check-mark"></span>
-
       </label>
     </div>
     <div class="col-11 d-flex no-padding">
@@ -15,7 +14,7 @@
   </div>
 </div>
 
-<div *ngIf="goal.isCustom" class="container-fluid goal-item-container">
+<div *ngIf="goal.type === 'CUSTOM'" class="container-fluid goal-item-container">
   <div class="row">
     <div class="col-1 no-padding">
       <label class="goal-container">
@@ -24,7 +23,7 @@
       </label>
     </div>
     <div *ngIf="isEditable" class="col-9 no-padding">
-      <input [(ngModel)]="text" type="text" class="form-control add-goal-input no-padding" value="{{goal.text}}">
+      <input [(ngModel)]="goal.text" type="text" class="form-control add-goal-input no-padding" value="{{goal.text}}">
     </div>
     <div *ngIf="!isEditable" class="col-9 no-padding d-flex">
       <span class="goal-text align-self-center no-padding text-center"

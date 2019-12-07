@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {catchError} from 'rxjs/operators';
 import {UserRoleModel} from '../../model/user/user-role.model';
 import {UserStatusModel} from '../../model/user/user-status.model';
 import {UserPageableDtoModel} from '../../model/user/user-pageable-dto.model';
@@ -10,6 +9,7 @@ import {RolesModel} from '../../model/user/roles.model';
 import {UserFilterDtoModel} from '../../model/user/userFilterDto.model';
 import {UserUpdateModel} from '../../model/user/user-update.model';
 import {Goal} from '../../model/goal/Goal';
+import {GoalType} from '../../component/user/user-goals/add-goal/add-goal-list/GoalType';
 
 const token = localStorage.getItem('accessToken');
 let jwtData = null;
@@ -27,11 +27,15 @@ export class UserService {
   userId = window.localStorage.getItem('userId');
 
   private goalsSubject = new BehaviorSubject<Goal[]>([]);
-  private availableGoalsSubject = new BehaviorSubject<Goal[]>([]);
-  private dataStore: { goals: Goal[], availableGoals: Goal[] } = {goals: [], availableGoals: []};
+  private availableCustomGoalsSubject = new BehaviorSubject<Goal[]>([]);
+  private availablePredefinedGoalsSubject = new BehaviorSubject<Goal[]>([]);
+
+  private dataStore: { goals: Goal[], availableCustomGoals: Goal[], availablePredefinedGoals } =
+    {goals: [], availableCustomGoals: [], availablePredefinedGoals: []};
 
   readonly goals = this.goalsSubject.asObservable();
-  readonly availableGoals = this.availableGoalsSubject.asObservable();
+  readonly availableCustomGoals = this.availableCustomGoalsSubject.asObservable();
+  readonly availablePredefinedGoals = this.availablePredefinedGoalsSubject.asObservable();
 
   constructor(private http: HttpClient) {
     if (token != null) {
@@ -106,6 +110,7 @@ export class UserService {
     this.http.get<Goal[]>(`${this.apiUrl}/${this.userId}/goals`).subscribe(
       data => {
         this.dataStore.goals = data;
+        this.dataStore.goals.forEach(goal => goal.type = GoalType.TRACKED);
         this.goalsSubject.next(Object.assign({}, this.dataStore).goals);
       },
       error => {
@@ -129,33 +134,52 @@ export class UserService {
     );
   }
 
-  loadAvailableGoals() {
-    this.dataStore.availableGoals = [{id: 1, text: 'goal 1', status: 'UNCHECKED', isCustom: true},
-      {id: 2, text: 'goal 2', status: 'UNCHECKED', isCustom: false}];
-    this.availableGoalsSubject.next(Object.assign({}, this.dataStore).availableGoals);
+  loadAvailableCustomGoals() {
+    this.dataStore.availableCustomGoals = [{id: 1, text: 'Custom Goal 1', status: null, type: null},
+      {id: 2, text: 'Custom Goal 2', status: null, type: null}];
+
+    this.dataStore.availableCustomGoals.forEach(goal => {
+      goal.type = GoalType.CUSTOM;
+      goal.status = 'UNCHECKED';
+    });
+
+    this.availableCustomGoalsSubject.next(Object.assign({}, this.dataStore).availableCustomGoals);
   }
 
-  addGoals(goals: Goal[]) {
+  loadAvailablePredefinedGoals() {
+    this.dataStore.availablePredefinedGoals = [{id: 1, text: 'Predefined Goal 1', status: null, type: null},
+      {id: 2, text: 'Predefined Goal 2', status: null, type: null}];
+
+    this.dataStore.availablePredefinedGoals.forEach(goal => {
+      goal.type = GoalType.PREDEFINED;
+      goal.status = 'UNCHECKED';
+    });
+
+    this.availablePredefinedGoalsSubject.next(Object.assign({}, this.dataStore).availablePredefinedGoals);
+  }
+
+  saveCustomGoals(goals: Goal[]) {
+    console.log('Save custom goals:');
     console.log(goals);
   }
 
-  addCustomGoal(goal: Goal) {
-    this.dataStore.availableGoals.push(goal);
-    this.availableGoalsSubject.next(Object.assign({}, this.dataStore).availableGoals);
+  deleteCustomGoals(goals: Goal[]) {
+    console.log('Delete custom goals:');
+    console.log(goals);
   }
 
-  deleteCustomGoal(goal: Goal) {
-    this.dataStore.availableGoals = this.dataStore.availableGoals.filter(g => g.id !== goal.id);
-    this.availableGoalsSubject.next(Object.assign({}, this.dataStore).availableGoals);
+  updateCustomGoals(goals: Goal[]) {
+    console.log('Update custom goals:');
+    console.log(goals);
   }
 
-  changeCustomGoal(goal: Goal) {
-    this.dataStore.availableGoals.forEach((data, index) => {
-      if (data.id === goal.id) {
-        this.dataStore.availableGoals[index] = goal;
-        this.availableGoalsSubject.next(Object.assign({}, this.dataStore).availableGoals);
-        return;
-      }
-    });
+  deleteTrackedGoals(goals: Goal[]) {
+    console.log('Delete tracked goals:');
+    console.log(goals);
+  }
+
+  addPredefinedGoals(goals: Goal[]) {
+    console.log('Add predefined goals');
+    console.log(goals);
   }
 }

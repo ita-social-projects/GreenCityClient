@@ -94,6 +94,7 @@ import { AddGoalItemComponent } from './component/user/user-goals/add-goal/add-g
 import { AddCustomGoalComponent } from './component/user/user-goals/add-goal/add-goal-list/add-custom-goal/add-custom-goal.component';
 import {ShowFirstNLettersPipe} from './pipe/show-first-n-letters/show-first-n-letters.pipe';
 import { UncheckedFirstPipe } from './pipe/unchecked-first-pipe/unchecked-first.pipe';
+import { CustomLastPipe } from './pipe/custom-last-pipe/custom-first.pipe';
 
 
 @NgModule({
@@ -143,7 +144,8 @@ import { UncheckedFirstPipe } from './pipe/unchecked-first-pipe/unchecked-first.
     AddGoalItemComponent,
     AddCustomGoalComponent,
     ShowFirstNLettersPipe,
-    UncheckedFirstPipe
+    UncheckedFirstPipe,
+    CustomLastPipe
   ],
   imports: [
     BrowserModule,
