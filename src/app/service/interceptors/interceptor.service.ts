@@ -10,6 +10,7 @@ import { updateAccessTokenLink } from '../../links';
 import {catchError, filter, switchMap, take} from 'rxjs/operators';
 import {LocalStorageService} from '../localstorage/local-storage.service';
 import {Router} from '@angular/router';
+import {BAD_REQUEST, FORBIDDEN, NOT_FOUND, UNAUTHORIZED} from '../../http-response-status';
 
 /**
  * @author Yurii Koval
@@ -43,13 +44,13 @@ export class InterceptorService implements HttpInterceptor {
     }
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error.status === 401) {
+        if (error.status === UNAUTHORIZED) {
           return this.handle401Error(req, next);
         }
-        if (error.status === 403) {
+        if (error.status === FORBIDDEN) {
           return this.handle403Error(req);
         }
-        if (error.status === 404) {
+        if (error.status === NOT_FOUND) {
           return this.handle404Error(req);
         }
         return throwError(error);
@@ -82,7 +83,7 @@ export class InterceptorService implements HttpInterceptor {
   }
 
   private handleRefreshTokenIsNotValid(error: HttpErrorResponse): Observable<HttpEvent<any>> {
-    if (error.status === 400) {
+    if (error.status === BAD_REQUEST) {
       this.localStorageService.clear();
       this.router.navigate(['/GreenCityClient/auth']).then(r => r);
       return of<HttpEvent<any>>();
