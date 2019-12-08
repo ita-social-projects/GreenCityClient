@@ -36,7 +36,7 @@ export class InterceptorService implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (req.url.includes('ownSecurity/')) {
+    if (req.url.includes('ownSecurity') || req.url.includes('googleSecurity')) {
       return next.handle(req);
     }
     if (this.localStorageService.getAccessToken()) {
