@@ -102,6 +102,10 @@ import { HabitFactComponent } from './component/user/habit/habit-trackers/habit-
 import { HabitTitleComponent } from './component/user/habit/habit-trackers/habit-tracker/habit-title/habit-title.component';
 // tslint:disable-next-line:max-line-length
 import { HabitTrackerDateComponent } from './component/user/habit/habit-trackers/habit-tracker/habit-tracker-date/habit-tracker-date.component';
+import {NewAchievementModalComponent} from './component/user/user-achievements/new-achievement-modal/new-achievement-modal.component';
+import {AchievementListComponent} from './component/user/user-achievements/achievement-list/achievement-list.component';
+import {AchievementItemComponent} from './component/user/user-achievements/achievement-item/achievement-item.component';
+import {UserAchievementsComponent} from './component/user/user-achievements/achievements-container/user-achievements.component';
 
 @NgModule({
   declarations: [
@@ -155,7 +159,7 @@ import { HabitTrackerDateComponent } from './component/user/habit/habit-trackers
     UserAchievementsComponent,
     AchievementItemComponent,
     AchievementListComponent,
-    NewAchievementModalComponent
+    NewAchievementModalComponent,
     HabitItemListComponent,
     ConfirmationModalComponent
   ],
