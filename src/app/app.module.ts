@@ -106,6 +106,12 @@ import {NewAchievementModalComponent} from './component/user/user-achievements/n
 import {AchievementListComponent} from './component/user/user-achievements/achievement-list/achievement-list.component';
 import {AchievementItemComponent} from './component/user/user-achievements/achievement-item/achievement-item.component';
 import {UserAchievementsComponent} from './component/user/user-achievements/achievements-container/user-achievements.component';
+import {AddCustomGoalComponent} from './component/user/user-goals/add-goal/add-goal-list/add-custom-goal/add-custom-goal.component';
+import {ShowFirstNLettersPipe} from './pipe/show-first-n-letters/show-first-n-letters.pipe';
+import {CustomLastPipe} from './pipe/custom-last-pipe/custom-first.pipe';
+import {AddGoalItemComponent} from './component/user/user-goals/add-goal/add-goal-list/add-goal-item/add-goal-item.component';
+import {AddGoalComponent} from './component/user/user-goals/add-goal/add-goal.component';
+import {AddGoalListComponent} from './component/user/user-goals/add-goal/add-goal-list/add-goal-list.component';
 
 @NgModule({
   declarations: [
@@ -161,7 +167,7 @@ import {UserAchievementsComponent} from './component/user/user-achievements/achi
     AddCustomGoalComponent,
     ShowFirstNLettersPipe,
     UncheckedFirstPipe,
-    CustomLastPipe
+    CustomLastPipe,
     HabitItemListComponent,
     UserAchievementsComponent,
     AchievementItemComponent,
