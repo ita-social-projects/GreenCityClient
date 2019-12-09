@@ -17,6 +17,7 @@ export const adviceLink = mainLink + 'advices/';
 export const adviceRandomLink = adviceLink + 'random/';
 export const habitStatisticLink = mainLink + 'habit/statistic/';
 export const habitLink = '/habits/statistic';
+export const achievementLink = mainLink + 'achievements';
 
 // front-end
 export const frontMailLink = environment.frontendLink;

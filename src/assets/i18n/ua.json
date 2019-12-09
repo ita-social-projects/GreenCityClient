@@ -315,9 +315,15 @@
         "list-placeholder":"Тут ти можеш ставити цілі і їх виконувати!"
       }
     },
+    "user-achievements": {
+      "achievement-container": {
+        "my-achievements": "Мої досягнення!",
+        "get-achievements": "Заробляй нагороди разом з додатком! Це весело!"
+      }
+    },
     "habit": {
       "button-component": {
-        "add-new-habit": "Додати нову звичку!"        
+        "add-new-habit": "Додати нову звичку!"
       },
       "user-log": {
         "day": "День",

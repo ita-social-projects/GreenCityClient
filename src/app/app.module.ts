@@ -89,6 +89,10 @@ import {AdviceComponent} from './component/user/habit/habit-trackers/habit-track
 import {HabitItemComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-item/habit-item.component';
 import {HabitItemListComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-item-list/habit-item-list.component';
 import {HabitChartComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-chart/habit-chart.component';
+import { UserAchievementsComponent } from './component/user/user-achievements/achievements-container/user-achievements.component';
+import { AchievementItemComponent } from './component/user/user-achievements/achievement-item/achievement-item.component';
+import { AchievementListComponent } from './component/user/user-achievements/achievement-list/achievement-list.component';
+import { NewAchievementModalComponent } from './component/user/user-achievements/new-achievement-modal/new-achievement-modal.component';
 
 
 @NgModule({
@@ -133,7 +137,11 @@ import {HabitChartComponent} from './component/user/habit/habit-trackers/habit-t
     HabitChartComponent,
     AdviceComponent,
     HabitItemComponent,
-    HabitItemListComponent
+    HabitItemListComponent,
+    UserAchievementsComponent,
+    AchievementItemComponent,
+    AchievementListComponent,
+    NewAchievementModalComponent
   ],
   imports: [
     BrowserModule,
