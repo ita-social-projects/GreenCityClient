@@ -315,6 +315,12 @@
         "list-placeholder": "Here you can set goals and fulfill them!"
       }
     },
+    "user-achievements": {
+      "achievement-container": {
+        "my-achievements": "My achievements",
+        "get-achievements": "Get achievements together with the app! It's funny!"
+      }
+    },
     "habit": {
       "button-component": {
         "add-new-habit": "Add new habit!"

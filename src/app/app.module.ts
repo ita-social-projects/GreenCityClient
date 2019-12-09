@@ -152,6 +152,11 @@ import { HabitTrackerDateComponent } from './component/user/habit/habit-trackers
     AdviceComponent,
     HabitItemComponent,
     HabitItemListComponent,
+    UserAchievementsComponent,
+    AchievementItemComponent,
+    AchievementListComponent,
+    NewAchievementModalComponent
+    HabitItemListComponent,
     ConfirmationModalComponent
   ],
   imports: [

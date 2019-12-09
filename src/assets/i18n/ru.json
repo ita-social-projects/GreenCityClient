@@ -314,6 +314,12 @@
         "list-placeholder": "Здесь ты можешь ставить цели и выполнять их!"
       }
     },
+    "user-achievements": {
+      "achievement-container": {
+        "my-achievements": "Мои достижения",
+        "get-achievements": "Получай награды вместе с приложением! Это весело!"
+      }
+    },
     "habit": {
       "button-component": {
         "add-new-habit": "Добавить новую привычку!"
