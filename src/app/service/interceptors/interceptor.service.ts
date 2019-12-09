@@ -36,7 +36,8 @@ export class InterceptorService implements HttpInterceptor {
   }
 
   /**
-   * Intercepts all HTTP requests, adds access token to authentication header, intercepts 401, 403, and 404 error responses.
+   * Intercepts all HTTP requests, adds access token to authentication header (except authentication requests),
+   * intercepts 401, 403, and 404 error responses.
    *
    * @param req - {@link HttpRequest}
    * @param next - {@link HttpHandler}
