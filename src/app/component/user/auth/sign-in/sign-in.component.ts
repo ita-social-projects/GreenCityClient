@@ -9,7 +9,7 @@ import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
 import { GoogleSignInService } from '../../../../service/auth/google-sign-in.service';
 import { MatDialog } from '@angular/material';
 import { RestoreComponent } from '../../restore/restore.component';
-import {LocalStorageService} from '../../../../service/localstorage/local-storage.service';
+import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -49,6 +49,7 @@ export class SignInComponent implements OnInit {
         this.loadingAnim = false;
         this.userOwnSignInService.saveUserToLocalStorage(data);
         this.localStorageService.setFirstName(data.firstName);
+        this.localStorageService.setFirstSignIn();
         this.router.navigate(['/GreenCityClient'])
           .then(success => console.log('redirect has succeeded ' + success))
           .catch(fail => console.log('redirect has failed ' + fail));

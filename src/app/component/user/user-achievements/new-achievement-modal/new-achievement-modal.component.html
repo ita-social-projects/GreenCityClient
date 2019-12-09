@@ -1,4 +1,5 @@
-<div class="add-achievement-modal">
+<div class="add-achievement-modal" [style.display]="visible ? 'block' : 'none'"
+  [style.visible]="visible ? 'visible' : 'hidden'">
   <div class="add-achievement-modal-bg">
     <div class="add-achievement-modal-window">
       <div class="achievement-photo">
@@ -6,11 +7,10 @@
           <img [src]="achieve" alt="">
         </div>
       </div>
-      <h3>Welcome you in GreenCity Application!</h3>
+      <h3>{{ achievement.message }}</h3>
       <!--      <div class="splitter"></div>-->
       <div class="button-row">
-        <button class="button-ok"
-                (click)="hideAddNewHabitModal()">OK
+        <button class="button-ok" (click)="hideAchievementModal()">OK
         </button>
       </div>
     </div>

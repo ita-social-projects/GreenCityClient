@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { AchievementDto } from 'src/app/model/achievement/AchievementDto';
+import { UiActionsService } from 'src/app/service/ui-actions/ui-actions.service';
 
 @Component({
   selector: 'app-new-achievement-modal',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewAchievementModalComponent implements OnInit {
 
+  @Input() achievement: AchievementDto;
+  @Input() visible: boolean;
+
   readonly achieve = 'assets/img/achieve.png';
   constructor() { }
-  ngOnInit() {
+  ngOnInit() { }
+
+  hideAchievementModal() {
+    this.visible = false;
   }
 
 }
