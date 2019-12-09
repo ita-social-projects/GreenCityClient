@@ -30,3 +30,9 @@
   top: 14px;
   left: 29px;
 }
+
+@media screen and (max-width: 768px) {
+  .chart-wrapper {
+    margin: 0 auto;
+  }  
+}
