@@ -10,7 +10,6 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { SignUpComponent } from './component/user/auth/sign-up/sign-up.component';
 import { NavBarComponent } from './component/user/nav-bar/nav-bar.component';
 import { GeneralComponent } from './component/general/general.component';
-import { UserComponent } from './component/user/user.component';
 import { AuthComponent } from './component/user/auth/auth.component';
 import { SignInComponent } from './component/user/auth/sign-in/sign-in.component';
 import { SubmitEmailComponent } from './component/user/auth/submit-email/submit-email.component';
@@ -99,15 +98,14 @@ import { DayEstimationComponent }
 // tslint:disable-next-line:import-spacing
 import { HabitItemListComponent }
   from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-item-list/habit-item-list.component';
-import {HabitFactComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-fact/habit-fact.component';
-import {HabitTitleComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-title/habit-title.component';
+import { HabitFactComponent } from './component/user/habit/habit-trackers/habit-tracker/habit-fact/habit-fact.component';
+import { HabitTitleComponent } from './component/user/habit/habit-trackers/habit-tracker/habit-title/habit-title.component';
 // tslint:disable-next-line:max-line-length
-import {HabitTrackerDateComponent} from './component/user/habit/habit-trackers/habit-tracker/habit-tracker-date/habit-tracker-date.component';
+import { HabitTrackerDateComponent } from './component/user/habit/habit-trackers/habit-tracker/habit-tracker-date/habit-tracker-date.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    UserComponent,
     GeneralComponent,
     SignUpComponent,
     NavBarComponent,

@@ -44,3 +44,13 @@ a {
   letter-spacing: normal;
   color: #000000;
 }
+
+.is-active {
+  color: #13aa57;
+}
+
+@media screen and (max-width: 1024px) {
+  li {
+    margin-left: 40px;
+  }
+}

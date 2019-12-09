@@ -1,5 +1,4 @@
 p {
-  width: 765px;
   height: auto;
   font-family: 'Open Sans', sans-serif;
   font-size: 18px;
@@ -9,5 +8,4 @@ p {
   line-height: 1.44;
   letter-spacing: normal;
   color: #839c94;
-  padding-left: 15px;
 }

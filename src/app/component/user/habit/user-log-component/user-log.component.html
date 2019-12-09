@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-xl-12">
+  <div class="col-12">
     <div style="display: block!important; margin-top: 17px">
       <div *ngIf="hasStatistic; then thenBlock else elseBlock"></div>
       <ng-template #thenBlock>
@@ -8,22 +8,27 @@
           <p class="open-sans">{{'user.habit.user-log.today' | translate}} {{countDay()}}
             {{'user.habit.user-log.day-of-the-month' | translate}}
             <a *ngIf="$differenceUnTakenItemsWithPreviousDayBag > 0">{{'user.habit.user-log.more-on' | translate}}</a>
-            <a *ngIf="$differenceUnTakenItemsWithPreviousDayBag < 0">{{'user.habit.user-log.less-on' | translate}}</a>
+            <a *ngIf="$differenceUnTakenItemsWithPreviousDayBag < 0">{{'user.habit.user-log.less-than' | translate}}</a>
             {{$differenceUnTakenItemsWithPreviousDayBag}}
             {{'user.habit.user-log.package' | translate}}
             {{'user.habit.user-log.and' | translate}} <a
               *ngIf="$differenceUnTakenItemsWithPreviousDayCap > 0">{{'user.habit.user-log.more-on' | translate}}</a>
-            <a *ngIf="$differenceUnTakenItemsWithPreviousDayCap < 0">{{'user.habit.user-log.less-on' | translate}}</a>
+            <a *ngIf="$differenceUnTakenItemsWithPreviousDayCap < 0">{{'user.habit.user-log.less-than' | translate}}</a>
             {{$differenceUnTakenItemsWithPreviousDayCap}} {{'user.habit.user-log.glasses-than-past' | translate}}</p>
-          <div class="statistic">{{'user.habit.user-log.this-month' | translate}}
-            <div class="images"><img [src]="package">
-              <h4><span class="item-count">{{$amountUnTakenItemsPerMonthBag}}</span></h4>
+          <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-lx-12">
+              <div class="statistic">
+                {{'user.habit.user-log.this-month' | translate}}
+                <div class="images"><img [src]="package">
+                  <h4><span class="item-count">{{$amountUnTakenItemsPerMonthBag}}</span></h4>
+                </div>
+                {{'user.habit.user-log.package' | translate}} {{'user.habit.user-log.and' | translate}}
+                <div class="images"><img [src]="coffee">
+                  <h4><span class="item-count">{{$amountUnTakenItemsPerMonthCap}}</span></h4>
+                </div>
+                {{'user.habit.user-log.glass' | translate}}
+              </div>
             </div>
-            {{'user.habit.user-log.package' | translate}} {{'user.habit.user-log.and' | translate}}
-            <div class="images"><img [src]="coffee">
-              <h4><span class="item-count">{{$amountUnTakenItemsPerMonthCap}}</span></h4>
-            </div>
-            {{'user.habit.user-log.glass' | translate}}
           </div>
         </div>
       </ng-template>
@@ -35,3 +40,4 @@
       </ng-template>
     </div>
   </div>
+</div>

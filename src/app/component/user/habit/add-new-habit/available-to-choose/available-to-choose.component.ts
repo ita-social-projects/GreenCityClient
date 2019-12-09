@@ -1,6 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-statistic.service';
+import { Observable } from 'rxjs';
+import { AvailableHabitDto } from 'src/app/model/habit/AvailableHabitDto';
 
 @Component({
   selector: 'app-available-to-choose',
@@ -9,8 +11,8 @@ import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-sta
 })
 export class AvailableToChooseComponent implements OnInit {
 
-  private $available;
-  available: any;
+  private $available: Observable<AvailableHabitDto[]>;
+  available: AvailableHabitDto[];
 
   constructor(private habitStatisticService: HabitStatisticService) { }
 
@@ -19,7 +21,10 @@ export class AvailableToChooseComponent implements OnInit {
     this.$available = this.habitStatisticService.availableHabits;
     this.$available.subscribe(data => {
       this.available = data;
-    });
+    },
+      () => {
+        this.available = [];
+      });
   }
 
   onDrop(event: CdkDragDrop<string[]>) {

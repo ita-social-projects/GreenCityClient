@@ -1,10 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Observable, of} from 'rxjs';
-import {HabitDto} from '../../../../../model/habit/HabitDto';
-import {HabitStatisticService} from '../../../../../service/habit-statistic/habit-statistic.service';
-import {filter, map} from 'rxjs/operators';
-import {HabitStatisticsDto} from '../../../../../model/habit/HabitStatisticsDto';
-import {LanguageService} from '../../../../../i18n/language.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { HabitDto } from '../../../../../model/habit/HabitDto';
+import { HabitStatisticService } from '../../../../../service/habit-statistic/habit-statistic.service';
+import { filter, map } from 'rxjs/operators';
+import { HabitStatisticsDto } from '../../../../../model/habit/HabitStatisticsDto';
+import { LanguageService } from '../../../../../i18n/language.service';
 
 @Component({
   selector: 'app-habit-tracker',
@@ -44,8 +44,9 @@ export class HabitTrackerComponent implements OnInit {
 
   initCurrentStatistic() {
     const today: Date = new Date();
-
-    this.currentStatistic = this.habit.habitStatistics.filter(stat => this.compareDates(today, stat.createdOn))[0];
+    if (this.habit.habitStatistics !== undefined) {
+      this.currentStatistic = this.habit.habitStatistics.filter(stat => this.compareDates(today, stat.createdOn))[0];
+    }
   }
 
   compareDates(a: Date, b: Date): boolean {
@@ -55,10 +56,14 @@ export class HabitTrackerComponent implements OnInit {
   }
 
   countCurrentStatisticDayNumber() {
-    for (let i = 0; i < this.habitStatistic.length; i++) {
-      if (this.compareDates(this.habitStatistic[i].createdOn, this.currentStatistic.createdOn)) {
-        return i + 1;
+    try {
+      for (let i = 0; i < this.habitStatistic.length; i++) {
+        if (this.compareDates(this.habitStatistic[i].createdOn, this.currentStatistic.createdOn)) {
+          return i + 1;
+        }
       }
+    } catch (e) {
+      console.log('An error occured');
     }
   }
 }
