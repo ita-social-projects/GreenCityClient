@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {UserService} from '../../../../service/user/user.service';
 
 @Component({
   selector: 'app-add-goal-button',
@@ -6,16 +7,15 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./add-goal-button.component.css']
 })
 export class AddGoalButtonComponent implements OnInit {
-  updateGoalsTrigger = false;
-
-  constructor() {
+  constructor(private service: UserService) {
   }
 
   ngOnInit() {
   }
 
-  updateGoalsInModal() {
-    this.updateGoalsTrigger = !this.updateGoalsTrigger;
+  onModalOpen() {
+    this.service.loadAvailableCustomGoals();
+    this.service.loadAvailablePredefinedGoals();
+    this.service.loadAllGoals();
   }
-
 }

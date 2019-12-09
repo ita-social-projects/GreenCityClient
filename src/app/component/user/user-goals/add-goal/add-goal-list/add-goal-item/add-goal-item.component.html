@@ -8,7 +8,7 @@
     </div>
     <div class="col-11 d-flex no-padding">
       <span class="goal-text align-self-center no-padding" title="{{this.goal.text}}">
-        {{this.goal.text | showFirstNLetters: 20: '...'}}
+        {{this.goal.text | showFirstNLetters: 40: '...'}}
       </span>
     </div>
   </div>
@@ -28,7 +28,7 @@
     <div *ngIf="!isEditable" class="col-9 no-padding d-flex">
       <span class="goal-text align-self-center no-padding text-center"
             title="{{this.goal.text}}">
-        {{this.goal.text | showFirstNLetters: 20: '...'}}
+        {{this.goal.text | showFirstNLetters: 40: '...'}}
       </span>
     </div>
     <div class="col-2 d-flex justify-content-around">

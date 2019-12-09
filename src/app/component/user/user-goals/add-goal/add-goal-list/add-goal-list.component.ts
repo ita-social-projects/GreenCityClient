@@ -12,7 +12,7 @@ export class AddGoalListComponent implements OnInit {
   @Input()
   goals: Goal[];
 
-  constructor(private service: UserService) {
+  constructor() {
   }
 
   ngOnInit() {

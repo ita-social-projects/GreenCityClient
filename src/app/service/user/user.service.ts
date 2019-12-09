@@ -10,6 +10,13 @@ import {UserFilterDtoModel} from '../../model/user/userFilterDto.model';
 import {UserUpdateModel} from '../../model/user/user-update.model';
 import {Goal} from '../../model/goal/Goal';
 import {GoalType} from '../../component/user/user-goals/add-goal/add-goal-list/GoalType';
+import {CustomGoalResponseDto} from '../../model/goal/CustomGoalResponseDto';
+import {BulkSaveCustomGoalDto} from '../../model/goal/BulkSaveCustomGoalDto';
+import {CustomGoalSaveRequestDto} from '../../model/goal/CustomGoalSaveRequestDto';
+import {HabitDictionaryDto} from '../../model/goal/HabitDictionaryDto';
+import {UserCustomGoalDto} from '../../model/goal/UserCustomGoalDto';
+import {UserGoalDto} from '../../model/goal/UserGoalDto';
+import {UserGoalResponseDto} from '../../model/goal/UserGoalResponseDto';
 
 const token = localStorage.getItem('accessToken');
 let jwtData = null;
@@ -135,51 +142,81 @@ export class UserService {
   }
 
   loadAvailableCustomGoals() {
-    this.dataStore.availableCustomGoals = [{id: 1, text: 'Custom Goal 1', status: null, type: null},
-      {id: 2, text: 'Custom Goal 2', status: null, type: null}];
+    this.http.get<Goal[]>(`${userLink}/${this.userId}/customGoals/available`).subscribe(data => {
+      data.forEach(goal => {
+        goal.type = GoalType.CUSTOM;
+        goal.status = 'UNCHECKED';
+      });
 
-    this.dataStore.availableCustomGoals.forEach(goal => {
-      goal.type = GoalType.CUSTOM;
-      goal.status = 'UNCHECKED';
+      this.dataStore.availableCustomGoals = data;
+      this.availableCustomGoalsSubject.next(Object.assign({}, this.dataStore).availableCustomGoals);
     });
-
-    this.availableCustomGoalsSubject.next(Object.assign({}, this.dataStore).availableCustomGoals);
   }
 
   loadAvailablePredefinedGoals() {
-    this.dataStore.availablePredefinedGoals = [{id: 1, text: 'Predefined Goal 1', status: null, type: null},
-      {id: 2, text: 'Predefined Goal 2', status: null, type: null}];
-
-    this.dataStore.availablePredefinedGoals.forEach(goal => {
-      goal.type = GoalType.PREDEFINED;
-      goal.status = 'UNCHECKED';
+    const goals = [];
+    this.http.get<Goal[]>(`${userLink}/${this.userId}/goals/available`).subscribe(data => {
+      data.forEach(goal => {
+        goals.push({id: goal.id, text: goal.text, status: 'UNCHECKED', type: GoalType.PREDEFINED});
+      });
+      this.dataStore.availablePredefinedGoals = goals;
+      this.availablePredefinedGoalsSubject.next(Object.assign({}, this.dataStore).availablePredefinedGoals);
     });
-
-    this.availablePredefinedGoalsSubject.next(Object.assign({}, this.dataStore).availablePredefinedGoals);
   }
 
   saveCustomGoals(goals: Goal[]) {
-    console.log('Save custom goals:');
-    console.log(goals);
+    const dto = {
+      customGoalSaveRequestDtoList: goals.map<CustomGoalSaveRequestDto>(data => {
+        return {text: data.text};
+      })
+    };
+
+    this.http.post<Goal[]>(`${userLink}/${this.userId}/customGoals`, dto).subscribe(data => {
+    });
   }
 
   deleteCustomGoals(goals: Goal[]) {
-    console.log('Delete custom goals:');
-    console.log(goals);
+    this.http.delete(`${userLink}/${this.userId}/customGoals?ids=` + goals.map(goal => goal.id)).subscribe();
   }
 
   updateCustomGoals(goals: Goal[]) {
-    console.log('Update custom goals:');
-    console.log(goals);
+    const dto = {
+      customGoals: goals.map<CustomGoalResponseDto>(data => {
+        return {id: data.id, text: data.text};
+      })
+    };
+
+    this.http.patch<Goal[]>(`${userLink}/${this.userId}/customGoals`, dto).subscribe(data => {
+      data.forEach(updatedGoal => {
+        this.dataStore.availableCustomGoals.forEach(currentGoal => {
+          if (currentGoal.id === updatedGoal.id && currentGoal.type === GoalType.CUSTOM) {
+            currentGoal.text = updatedGoal.text;
+          }
+        });
+      });
+    });
   }
 
   deleteTrackedGoals(goals: Goal[]) {
-    console.log('Delete tracked goals:');
-    console.log(goals);
+    this.http.delete(`${userLink}/${this.userId}/userGoals?ids=` + goals.map(goal => goal.id)).subscribe(d => {
+      this.dataStore.goals = this.dataStore.goals.filter(data => goals.filter(g => g.id === data.id).length === 0);
+      this.goalsSubject.next(Object.assign({}, this.dataStore).goals);
+    });
   }
 
-  addPredefinedGoals(goals: Goal[]) {
-    console.log('Add predefined goals');
-    console.log(goals);
+  addPredefinedAndCustomGoals(predefinedGoals: Goal[], customGoals: Goal[]) {
+    const dto = {
+      userGoals: predefinedGoals.map<UserGoalDto>(data => {
+        return {goal: {id: data.id}};
+      }),
+      userCustomGoal: customGoals.map<UserCustomGoalDto>(data => {
+        return {customGoal: {id: data.id}};
+      })
+    };
+
+    this.http.post<Goal[]>(`${userLink}/${this.userId}/goals`, dto).subscribe(data => {
+      this.dataStore.goals = data;
+      this.goalsSubject.next(Object.assign({}, this.dataStore).goals);
+    });
   }
 }

@@ -9,7 +9,7 @@ import {GoalType} from './add-goal-list/GoalType';
   templateUrl: './add-goal.component.html',
   styleUrls: ['./add-goal.component.css']
 })
-export class AddGoalComponent implements OnInit, OnChanges {
+export class AddGoalComponent implements OnInit {
   $trackedGoals: Observable<Goal[]>;
   $predefinedGoals: Observable<Goal[]>;
   $customGoals: Observable<Goal[]>;
@@ -33,6 +33,7 @@ export class AddGoalComponent implements OnInit, OnChanges {
     this.$customGoals = this.service.availableCustomGoals;
 
     this.$trackedGoals.subscribe(goals => {
+      goals = goals.filter(data => data.status === 'ACTIVE');
       this.goals = this.goals.filter(goal => goal.type !== GoalType.TRACKED);
       this.goals = this.goals.concat(goals);
       this.changedGoals = this.getClonedGoals();
@@ -52,18 +53,15 @@ export class AddGoalComponent implements OnInit, OnChanges {
   }
 
   addGoals() {
-    console.log(this.goals);
-    console.log(this.changedGoals);
-
     this.saveCustomGoals();
     this.deleteCustomGoals();
     this.updateCustomGoals();
-    this.addPredefinedGoals();
     this.deleteTrackedGoals();
+    this.trackCustomAndPredefinedGoals();
   }
 
   onCloseButtonClicked() {
-    this.changedGoals = Object.assign([], this.goals);
+    this.changedGoals = this.getClonedGoals();
   }
 
   getClonedGoals(): Goal[] {
@@ -75,7 +73,7 @@ export class AddGoalComponent implements OnInit, OnChanges {
   }
 
   saveCustomGoals() {
-    const goalsToSave = this.changedGoals.filter(goal => goal.type === GoalType.CUSTOM &&
+    const goalsToSave = this.changedGoals.filter(goal => goal.type === GoalType.CUSTOM && goal.status === 'CHECKED' &&
       this.goals.filter(g => g.type === GoalType.CUSTOM && goal.id === g.id).length === 0);
 
     if (goalsToSave.length !== 0) {
@@ -101,14 +99,6 @@ export class AddGoalComponent implements OnInit, OnChanges {
     }
   }
 
-  addPredefinedGoals() {
-    const goalsToAdd = this.changedGoals.filter(goal => goal.type === GoalType.PREDEFINED && goal.status === 'CHECKED');
-
-    if (goalsToAdd.length !== 0) {
-      this.service.addPredefinedGoals(goalsToAdd);
-    }
-  }
-
   deleteTrackedGoals() {
     const goalsToDelete = this.goals.filter(goal => goal.type === GoalType.TRACKED &&
       this.changedGoals.filter(g => g.type === GoalType.TRACKED && g.id === goal.id && g.status === 'CHECKED').length === 0);
@@ -118,17 +108,21 @@ export class AddGoalComponent implements OnInit, OnChanges {
     }
   }
 
+  trackCustomAndPredefinedGoals() {
+    const customGoalsToTrack = this.changedGoals.filter(goal => goal.type === GoalType.CUSTOM && goal.status === 'CHECKED' &&
+      this.goals.filter(g => g.type === GoalType.CUSTOM && goal.id === g.id).length !== 0);
+    const predefinedGoalsToTrack = this.changedGoals.filter(goal => goal.type === GoalType.PREDEFINED && goal.status === 'CHECKED');
+
+    if (customGoalsToTrack.length !== 0 || predefinedGoalsToTrack.length !== 0) {
+      this.service.addPredefinedAndCustomGoals(predefinedGoalsToTrack, customGoalsToTrack);
+    }
+  }
+
   compareGoals(a: Goal, b: Goal): boolean {
     return a.id === b.id &&
       a.type === b.type &&
       a.status === b.status &&
       a.text === b.text;
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.service.loadAvailableCustomGoals();
-    this.service.loadAllGoals();
-    this.service.loadAvailablePredefinedGoals();
   }
 
 }
