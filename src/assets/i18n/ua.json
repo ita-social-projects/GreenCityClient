@@ -312,27 +312,52 @@
       "goal-list": {
         "expand": "Переглянути всі цілі",
         "collapse": "Згорнути цілі",
-        "list-placeholder":"Тут ти можеш ставити цілі і їх виконувати!"
+        "list-placeholder": "Тут ти можеш ставити цілі і їх виконувати!"
+      }
+    },
+    "user-achievements": {
+      "achievement-container": {
+        "my-achievements": "Мої досягнення!",
+        "get-achievements": "Заробляй нагороди разом з додатком! Це весело!"
       }
     },
     "habit": {
       "button-component": {
-        "add-new-habit": "Додати нову звичку!"        
+        "add-new-habit": "Додати нову звичку!"
       },
       "user-log": {
         "day": "День",
-        "calendar-habit":"Календар корисних звичок",
-        "today":"Сьогодні",
-        "day-of-the-month":"день місяця і це",
-        "less-than":"менше на",
-        "more-on":"більше на",
-        "package":"пакетів(a)",
+        "calendar-habit": "Календар корисних звичок",
+        "today": "Сьогодні",
+        "day-of-the-month": "день місяця і це",
+        "less-than": "менше на",
+        "more-on": "більше на",
+        "package": "пакетів(a)",
         "and": "та",
         "glasses-than-past": "склянки ніж в минулому",
         "this-month": "В цьому місяці ти взяв",
         "glass": "склянок(а)",
         "not-have-habit": "В цьому місяці ти не зберіг ще жодного пакета чи склянки, та ти маєш шанс зробити цей світ кращим! Почни саме зараз! Познач кількість пакетів та склянок, які ти не взяв сьогодні! Або почни формувати звичку на свій вибір!"
-
+      },
+      "add-new-habit": {
+        "modal-caption": "Нова звичка",
+        "already-chosen-caption": "Вже обрані",
+        "available-to-chose-caption": "Звички, які можна додати",
+        "no-available-to-chose": "Ви відслідковуєте всі доступні звички",
+        "cant-delete-last-hint": "Ви не можете видалити свою останню звичку",
+        "button-save": "Зберегти",
+        "button-cancel": "Скасувати",
+        "confirmation-modal-text": "Ви впевнені, що хочете видалити цю еко-звичку?",
+        "confirmation-modal-yes": "Так",
+        "confirmation-modal-cancel": "Скасувати"
+      },
+      "habit-trackers": {
+        "habit-tracker": {
+          "habit-tracker-date": {
+            "day": "День",
+            "from": "з"
+          }
+        }
       }
     }
   },
@@ -346,7 +371,7 @@
   },
   "pagination": {
     "first": "Перший",
-    "previous":"Попередній",
+    "previous": "Попередній",
     "next": "Наступний",
     "last": "Останній"
   }

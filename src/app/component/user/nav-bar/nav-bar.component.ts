@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalService } from '../_modal/modal.service';
-import { UserService } from '../../../service/user/user.service';
 import { MatDialog } from '@angular/material';
 import { FavoritePlaceComponent } from '../favorite-place/favorite-place.component';
 import { ProposeCafeComponent } from '../propose-cafe/propose-cafe.component';
 import { FavoritePlaceService } from '../../../service/favorite-place/favorite-place.service';
 import { UserSettingComponent } from '../user-setting/user-setting.component';
+import { Router } from '@angular/router';
+import {LocalStorageService} from '../../../service/localstorage/local-storage.service';
+import { JwtService } from '../../../service/jwt/jwt.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -13,21 +15,25 @@ import { UserSettingComponent } from '../user-setting/user-setting.component';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
-  firstName: string = null;
+  firstName: string;
   userRole: string;
+  userId: number;
+  habitId: number;
 
   constructor(
-    private uService: UserService,
     private modalService: ModalService,
     public dialog: MatDialog,
-    private favoritePlaceService: FavoritePlaceService
+    private favoritePlaceService: FavoritePlaceService,
+    private localStorageService: LocalStorageService,
+    private jwtService: JwtService,
+    private router: Router,
   ) { }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(FavoritePlaceComponent, {
       width: '700px'
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(() => {
       console.log('The dialog was closed');
       this.favoritePlaceService.getFavoritePlaces();
     });
@@ -37,14 +43,15 @@ export class NavBarComponent implements OnInit {
     const dialogRef = this.dialog.open(UserSettingComponent, {
       width: '700px'
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(() => {
       console.log('The dialog was closed');
     });
   }
 
-  ngOnInit() {
-    this.firstName = window.localStorage.getItem('firstName');
-    this.userRole = this.uService.getUserRole();
+  ngOnInit(): void {
+    this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => this.firstName = firstName);
+    this.localStorageService.userIdBehaviourSubject.subscribe(userId => this.userId = userId);
+    this.userRole = this.jwtService.getUserRole();
   }
 
   openDialogProposeCafeComponent(): void {
@@ -58,7 +65,9 @@ export class NavBarComponent implements OnInit {
     });
   }
   private signOut() {
-    localStorage.clear();
-    window.location.href = '/GreenCityClient/';
+    this.localStorageService.clear();
+    this.router.navigate(['/GreenCityClient'])
+      .then(success => console.log('redirect has succeeded ' + success))
+      .catch(fail => console.log('redirect has failed ' + fail));
   }
 }

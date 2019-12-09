@@ -3,9 +3,8 @@
   margin: 0 auto;
 }
 
-.container-fluid {
-  max-width: 1550px;
-  padding: 0 140px;
+.container {
+  max-width: 1270px;
 }
 
 .margin-top {

@@ -10,7 +10,7 @@ import {Place} from '../../model/place/place';
   providedIn: 'root'
 })
 export class FavoritePlaceService {
-  favoritePlaces: FavoritePlace[];
+  favoritePlaces: FavoritePlace[] = [];
   subject = new Subject();
 
   constructor(private http: HttpClient) {

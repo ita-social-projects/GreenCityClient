@@ -3,8 +3,8 @@ import {HabitDto} from '../../../../../../../model/habit/HabitDto';
 import {HabitStatisticsDto} from '../../../../../../../model/habit/HabitStatisticsDto';
 import {HabitStatisticService} from '../../../../../../../service/habit-statistic/habit-statistic.service';
 import {DayEstimation} from '../../../../../../../model/habit/DayEstimation';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {filter, map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-day-estimation',
@@ -16,23 +16,27 @@ export class DayEstimationComponent implements OnInit {
   habit: HabitDto;
   @Input()
   statistic: HabitStatisticsDto;
-  $habit: Observable<HabitDto>;
+  $habit: Observable<HabitDto> = of<HabitDto>();
   estimation: DayEstimation;
 
   constructor(private service: HabitStatisticService) {
   }
 
   ngOnInit() {
-    this.service.habitStatistics.pipe(map(habit => habit.find(item => item.id === this.habit.id))).subscribe(data => {
-      let stat: HabitStatisticsDto;
-      if (this.statistic.id === null) {
-        stat = data.habitStatistics.find(el => el.createdOn === this.statistic.createdOn);
-      } else {
-        stat = data.habitStatistics.find(el => el.id === this.statistic.id);
-      }
-      this.statistic = stat;
-
-      this.estimation = stat.habitRate;
+    this.service.habitStatistics
+      .pipe(
+        map(habit => habit.find(item => item.id === this.habit.id)),
+        filter(habit => habit !== undefined)
+      )
+      .subscribe(data => {
+        let stat: HabitStatisticsDto;
+        if (this.statistic.id === null) {
+          stat = data.habitStatistics.find(el => el.createdOn === this.statistic.createdOn);
+        } else {
+          stat = data.habitStatistics.find(el => el.id === this.statistic.id);
+        }
+        this.statistic = stat;
+        this.estimation = stat.habitRate;
     });
   }
 

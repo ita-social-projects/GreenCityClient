@@ -297,7 +297,7 @@
     "lower-nav-bar": {
       "home": "Home",
       "about-us": "About",
-      "eco-events": "Eko events",
+      "eco-events": "Eco events",
       "tips": "Tips",
       "map": "Map",
       "my-habits": "My habits"
@@ -312,26 +312,52 @@
       "goal-list": {
         "expand": "Show more",
         "collapse": "Show less",
-        "list-placeholder":"Here you can set goals and fulfill them!"
+        "list-placeholder": "Here you can set goals and fulfill them!"
+      }
+    },
+    "user-achievements": {
+      "achievement-container": {
+        "my-achievements": "My achievements",
+        "get-achievements": "Get achievements together with the app! It's funny!"
       }
     },
     "habit": {
       "button-component": {
-        "add-new-habit": "Add new habit!"        
+        "add-new-habit": "Add new habit!"
       },
       "user-log": {
         "day": "Day",
-        "calendar-habit":"Calendar of useful habits",
-        "today":"Today",
-        "day-of-the-month":"day of the month and that",
-        "less-than":"less than",
-        "more-on":"more on",
-        "package":"packages",
+        "calendar-habit": "Calendar of useful habits",
+        "today": "Today",
+        "day-of-the-month": "day of the month and that",
+        "less-than": "less than",
+        "more-on": "more on",
+        "package": "packages",
         "and": "and",
         "glasses-than-past": "glasses than in the past",
         "this-month": "This month you took",
         "glass": "glasses",
         "not-have-habit": "You haven't saved any packages or glasses this month, but you still have a chance to make this world a better place! Get started now! Denote the number of packages and glasses you didn't take today! Or start forming a habit of your own choice!"
+      },
+      "add-new-habit": {
+        "modal-caption": "New habit",
+        "already-chosen-caption": "Already chosen",
+        "available-to-chose-caption": "Habits, yet available to be added",
+        "no-available-to-chose": "You are tracking all available habits",
+        "cant-delete-last-hint": "You can't delete your last habit",
+        "button-save": "Save changes",
+        "button-cancel": "Cancel",
+        "confirmation-modal-text": "Are you sure you want to delete this eco habit?",
+        "confirmation-modal-yes": "Yes",
+        "confirmation-modal-cancel": "Cancel"
+      },
+      "habit-trackers": {
+        "habit-tracker": {
+          "habit-tracker-date": {
+            "day": "Day",
+            "from": "from"
+          }
+        }
       }
     }
   },
@@ -345,7 +371,7 @@
   },
   "pagination": {
     "first": "First",
-    "previous":"Previous",
+    "previous": "Previous",
     "next": "Next",
     "last": "Last"
   }

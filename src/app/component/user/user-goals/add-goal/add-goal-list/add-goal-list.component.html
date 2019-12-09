@@ -1,0 +1,6 @@
+<div class="container">
+  <div *ngFor="let goal of goals | customLast">
+    <app-add-goal-item [goal]="goal" [goals]="goals"></app-add-goal-item>
+  </div>
+  <mdb-icon class="plus" far icon="plus" (click)="addCustomGoal()"></mdb-icon>
+</div>

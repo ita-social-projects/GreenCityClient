@@ -1,4 +1,3 @@
-import { UserComponent } from './component/user/user.component';
 import { SignUpComponent } from './component/user/auth/sign-up/sign-up.component';
 import { AuthComponent } from './component/user/auth/auth.component';
 import { SignInComponent } from './component/user/auth/sign-in/sign-in.component';
@@ -11,49 +10,40 @@ import { FilterComponent } from './component/filter/filter.component';
 import { RestoreFormComponent } from './component/user/restore-form/restore-form.component';
 import { FeedbacksComponent } from './component/admin/feedbacks/feedbacks.component';
 import { UserHabitPageComponent } from './component/user/habit/user-habit-page/user-habit-page.component';
+import { Routes } from '@angular/router';
 
-export const router = [
+export const router: Routes = [
+  { path: '', redirectTo: '/GreenCityClient', pathMatch: 'full' },
   {
-    path: '',
-    name: 'MainPage',
-    component: UserComponent,
+    path: 'GreenCityClient',
+    component: MapComponent
+  },
+  {
+    path: 'GreenCityClient/auth',
+    component: AuthComponent,
     children: [
-      {
-        path: 'auth',
-        component: AuthComponent,
-        children: [
-          { path: '', component: SignInComponent },
-          { path: 'sign-up', component: SignUpComponent },
-          { path: 'submit-email', component: SubmitEmailComponent },
-          { path: 'restore/:token', component: RestoreFormComponent }
-        ]
-      },
-      {
-        path: '',
-        component: MapComponent
-      },
-      {
-        path: '',
-        component: FilterComponent
-      },
-      {
-        path: 'habits',
-        component: UserHabitPageComponent
-      },
-      {
-        path: 'admin',
-        component: AdminComponent,
-        children: [
-          { path: '', redirectTo: 'places', pathMatch: 'prefix' },
-          { path: 'places', component: PlacesComponent },
-          { path: 'users', component: UsersComponent },
-          { path: 'feedbacks', component: FeedbacksComponent }
-        ]
-      }
+      { path: '', component: SignInComponent },
+      { path: 'sign-up', component: SignUpComponent },
+      { path: 'submit-email', component: SubmitEmailComponent },
+      { path: 'restore/:token', component: RestoreFormComponent }
     ]
   },
   {
-    path: 'habits',
+    path: '',
+    component: FilterComponent
+  },
+  {
+    path: 'GreenCityClient/:id/habits',
     component: UserHabitPageComponent
+  },
+  {
+    path: 'GreenCityClient/admin',
+    component: AdminComponent,
+    children: [
+      { path: '', redirectTo: 'places', pathMatch: 'prefix' },
+      { path: 'places', component: PlacesComponent },
+      { path: 'users', component: UsersComponent },
+      { path: 'feedbacks', component: FeedbacksComponent }
+    ]
   }
 ];

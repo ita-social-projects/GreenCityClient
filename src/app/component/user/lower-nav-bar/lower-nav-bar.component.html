@@ -1,24 +1,26 @@
 <nav class="lower-navbar">
   <div class="navbar-wrapper">
-    <img [src]="logo" id="green-city-logo" alt="green-city-logo" />
+    <a [routerLink]="['/GreenCityClient']">
+      <img [src]="logo" id="green-city-logo" alt="green-city-logo" />
+    </a>
     <ul>
       <li>
-        <a href="">{{ "user.lower-nav-bar.home" | translate }}</a>
+        <a [routerLink]="['GreenCityClient']">{{ "user.lower-nav-bar.home" | translate }}</a>
       </li>
       <li>
-        <a href="">{{ "user.lower-nav-bar.about-us" | translate }}</a>
+        <a>{{ "user.lower-nav-bar.eco-events" | translate }}</a>
       </li>
       <li>
-        <a href="">{{ "user.lower-nav-bar.eco-events" | translate }}</a>
+        <a>{{ "user.lower-nav-bar.tips" | translate }}</a>
       </li>
       <li>
-        <a href="">{{ "user.lower-nav-bar.tips" | translate }}</a>
+        <a [routerLink]="['GreenCityClient']">{{ "user.lower-nav-bar.map" | translate }}</a>
       </li>
       <li>
-        <a href="">{{ "user.lower-nav-bar.map" | translate }}</a>
+        <a [routerLink]="['GreenCityClient/' + userId,'habits']">{{ "user.lower-nav-bar.my-habits" | translate }}</a>
       </li>
       <li>
-        <a href="">{{ "user.lower-nav-bar.my-habits" | translate }}</a>
+        <a>{{ "user.lower-nav-bar.about-us" | translate }}</a>
       </li>
     </ul>
   </div>
