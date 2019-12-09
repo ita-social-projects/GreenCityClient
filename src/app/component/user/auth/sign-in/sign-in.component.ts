@@ -75,9 +75,7 @@ export class SignInComponent implements OnInit {
       this.googleService.signIn(data.idToken).subscribe(
         (data1: UserSuccessSignIn) => {
           this.userOwnSignInService.saveUserToLocalStorage(data1);
-          this.router.navigate(['/GreenCityClient/auth'])
-            .then(success => console.log('redirect has succeeded ' + success))
-            .catch(fail => console.log('redirect has failed ' + fail));
+          this.router.navigateByUrl('/GreenCityClient').then(r => r);
         },
         (errors: HttpErrorResponse) => {
           try {
