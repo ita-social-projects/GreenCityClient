@@ -9,12 +9,12 @@
             {{'user.habit.user-log.day-of-the-month' | translate}}
             <a *ngIf="$differenceUnTakenItemsWithPreviousDayBag > 0">{{'user.habit.user-log.more-on' | translate}}</a>
             <a *ngIf="$differenceUnTakenItemsWithPreviousDayBag < 0">{{'user.habit.user-log.less-than' | translate}}</a>
-            {{$differenceUnTakenItemsWithPreviousDayBag}}
+            {{checkCountForMonth($differenceUnTakenItemsWithPreviousDayBag)}}
             {{'user.habit.user-log.package' | translate}}
             {{'user.habit.user-log.and' | translate}} <a
               *ngIf="$differenceUnTakenItemsWithPreviousDayCap > 0">{{'user.habit.user-log.more-on' | translate}}</a>
             <a *ngIf="$differenceUnTakenItemsWithPreviousDayCap < 0">{{'user.habit.user-log.less-than' | translate}}</a>
-            {{$differenceUnTakenItemsWithPreviousDayCap}} {{'user.habit.user-log.glasses-than-past' | translate}}</p>
+            {{checkCountForMonth($differenceUnTakenItemsWithPreviousDayCap)}} {{'user.habit.user-log.glasses-than-past' | translate}}</p>
           <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-lx-12">
               <div class="statistic">
