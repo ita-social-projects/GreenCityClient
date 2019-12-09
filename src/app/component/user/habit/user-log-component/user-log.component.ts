@@ -26,17 +26,17 @@ export class UserLogComponent implements OnInit {
     this.$userLog = this.habitStatisticService.getUserLog().subscribe(data => {
       this.hasStatistic = true;
       this.$creationDate = data.creationDate;
-      if (data.allItemsPerMonth[0] !== undefined) {
-        this.$amountUnTakenItemsPerMonthCap = data.allItemsPerMonth[0].habitItemAmount;
-      }
       if (data.allItemsPerMonth[1] !== undefined) {
-        this.$amountUnTakenItemsPerMonthBag = data.allItemsPerMonth[1].habitItemAmount;
+        this.$amountUnTakenItemsPerMonthCap = data.allItemsPerMonth[1].habitItemAmount;
       }
-      if (data.differenceUnTakenItemsWithPreviousDay[0] !== undefined) {
-        this.$differenceUnTakenItemsWithPreviousDayCap = data.differenceUnTakenItemsWithPreviousDay[0].habitItemAmount;
+      if (data.allItemsPerMonth[0] !== undefined) {
+        this.$amountUnTakenItemsPerMonthBag = data.allItemsPerMonth[0].habitItemAmount;
       }
       if (data.differenceUnTakenItemsWithPreviousDay[1] !== undefined) {
-        this.$differenceUnTakenItemsWithPreviousDayBag = data.differenceUnTakenItemsWithPreviousDay[1].habitItemAmount;
+        this.$differenceUnTakenItemsWithPreviousDayCap = data.differenceUnTakenItemsWithPreviousDay[1].habitItemAmount;
+      }
+      if (data.differenceUnTakenItemsWithPreviousDay[0] !== undefined) {
+        this.$differenceUnTakenItemsWithPreviousDayBag = data.differenceUnTakenItemsWithPreviousDay[0].habitItemAmount;
       }
     }, error => {
       this.hasStatistic = false;
