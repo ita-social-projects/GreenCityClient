@@ -1,5 +1,10 @@
 .navbar {
+  background-color: rgba(131, 156, 148, 0.05);
   height: 40px !important;
+}
+
+.navbar a {
+  color: #000;
 }
 
 .sign-btn {

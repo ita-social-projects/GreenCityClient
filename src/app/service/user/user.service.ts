@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { UserRoleModel } from '../../model/user/user-role.model';
 import { UserStatusModel } from '../../model/user/user-status.model';
 import { UserPageableDtoModel } from '../../model/user/user-pageable-dto.model';
@@ -9,7 +9,8 @@ import { RolesModel } from '../../model/user/roles.model';
 import { UserFilterDtoModel } from '../../model/user/userFilterDto.model';
 import { UserUpdateModel } from '../../model/user/user-update.model';
 import { Goal } from '../../model/goal/Goal';
-import {LocalStorageService} from '../localstorage/local-storage.service';
+import { LocalStorageService } from '../localstorage/local-storage.service';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -80,14 +81,15 @@ export class UserService {
   }
 
   loadAllGoals() {
-    this.http.get<Goal[]>(`${this.apiUrl}/${this.userId}/goals`).subscribe(
+    const http$ = this.http.get<Goal[]>(`${this.apiUrl}/${this.userId}/goals`);
+    http$.pipe(
+      catchError(() => of([]))
+    ).subscribe(
       data => {
         this.dataStore.goals = data;
         this.goalsSubject.next(Object.assign({}, this.dataStore).goals);
       },
-      error => {
-        throw error;
-      }
+      error => { throw error; }
     );
   }
 
