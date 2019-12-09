@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RestoreDto } from '../../../model/restroreDto';
-import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { ChangePasswordService } from '../../../service/auth/change-password.service';
 
@@ -24,7 +23,7 @@ export class RestoreFormComponent implements OnInit, OnDestroy {
     this.restoreDto = new RestoreDto();
     this.setNullAllMessage();
     this.sub = this.route.params.subscribe(params => {
-      this.restoreDto.token = params['token'];
+      this.restoreDto.token = params.token;
     });
   }
 

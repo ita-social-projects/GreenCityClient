@@ -35,6 +35,12 @@ export class InterceptorService implements HttpInterceptor {
               private router: Router) {
   }
 
+  /**
+   * Intercepts all HTTP requests, adds access token to authentication header, intercepts 401, 403, and 404 error responses.
+   *
+   * @param req - {@link HttpRequest}
+   * @param next - {@link HttpHandler}
+   */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (req.url.includes('ownSecurity') || req.url.includes('googleSecurity')) {
       return next.handle(req);
@@ -58,6 +64,13 @@ export class InterceptorService implements HttpInterceptor {
     );
   }
 
+  /**
+   * Handles 401 response. It tries to get new access/refresh token pair with refresh token.
+   * All of the rest request are put on hold.
+   *
+   * @param req - {@link HttpRequest}
+   * @param next - {@link HttpHandler}
+   */
   private handle401Error(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!this.isRefreshing) {
       this.isRefreshing = true;
@@ -82,6 +95,11 @@ export class InterceptorService implements HttpInterceptor {
     }
   }
 
+  /**
+   * Handles a situation when refresh token is expired.
+   *
+   * @param error - {@link HttpErrorResponse}
+   */
   private handleRefreshTokenIsNotValid(error: HttpErrorResponse): Observable<HttpEvent<any>> {
     if (error.status === BAD_REQUEST) {
       this.localStorageService.clear();
@@ -91,10 +109,21 @@ export class InterceptorService implements HttpInterceptor {
     return throwError(error);
   }
 
+  /**
+   * Send refresh token in order to get new access/refresh token pair.
+   *
+   * @param refreshToken - {@link string} refresh token.
+   */
   private getNewTokenPair(refreshToken: string): Observable<NewTokenPair> {
     return this.http.get<NewTokenPair>(`${updateAccessTokenLink}?refreshToken=${refreshToken}`);
   }
 
+  /**
+   * Adds access token to authentication header.
+   *
+   * @param req - {@link HttpRequest}
+   * @param accessToken - {@link string} - access token key.
+   */
   addAccessTokenToHeader(req: HttpRequest<any>, accessToken: string) {
     return req.clone({
       setHeaders: {
@@ -103,12 +132,22 @@ export class InterceptorService implements HttpInterceptor {
     });
   }
 
+  /**
+   * Handles 403 HTTP error response, redirects to sign in page.
+   *
+   * @param req - {@link HttpRequest}
+   */
   private handle403Error(req: HttpRequest<any>): Observable<HttpEvent<any>> {
     console.log(`You don't have authorities to access ${req.url}`);
     this.router.navigate(['/GreenCityClient/auth']).then(r => r);
     return of<HttpEvent<any>>();
   }
 
+  /**
+   * Handles 404 HTTP error response, redirects to custom error page.
+   *
+   * @param req - {@link HttpRequest}
+   */
   private handle404Error(req: HttpRequest<any>): Observable<HttpEvent<any>> {
     console.log(`Page does not exist ${req.url}`);
     this.router.navigate(['/error.component.html']).then(r => r);
