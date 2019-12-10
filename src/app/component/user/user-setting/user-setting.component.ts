@@ -3,7 +3,7 @@ import { UserService } from '../../../service/user/user.service';
 import { UserUpdateModel } from '../../../model/user/user-update.model';
 import { JwtService } from '../../../service/jwt/jwt.service';
 import { MatDialogRef } from '@angular/material';
-import {LocalStorageService} from '../../../service/localstorage/local-storage.service';
+import { LocalStorageService } from '../../../service/localstorage/local-storage.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -44,7 +44,7 @@ export class UserSettingComponent implements OnInit {
       () => {
         this.localStorageService.setFirstName(this.userUpdateModel.firstName);
         this.dialogRef.close();
-        this.router.navigate(['/GreenCityClient']);
+        this.router.navigate(['/']);
       },
       error => { }
     );
