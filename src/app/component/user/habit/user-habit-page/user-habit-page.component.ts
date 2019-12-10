@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AchievementService } from 'src/app/service/achievement/achievement.service';
 import { Observable } from 'rxjs';
 import { LocalStorageService } from 'src/app/service/localstorage/local-storage.service';
+import { AchievementDto } from 'src/app/model/achievement/AchievementDto';
 
 @Component({
   selector: 'app-user-habit-page',
@@ -12,8 +13,8 @@ export class UserHabitPageComponent implements OnInit {
 
   constructor(private achievementService: AchievementService, private localStorageService: LocalStorageService) { }
 
-  $achievement: Observable<any>;
-  achievement;
+  $achievement: Observable<AchievementDto[]>;
+  achievement: AchievementDto;
   achievementVisible: boolean;
 
   ngOnInit() {
