@@ -28,8 +28,8 @@ export class SignInComponent implements OnInit {
   constructor(
     private userOwnSignInService: UserOwnSignInService,
     private router: Router,
-    private authService: AuthService,
-    private googleService: GoogleSignInService,
+    // private authService: AuthService,
+    // private googleService: GoogleSignInService,
     public dialog: MatDialog,
     private localStorageService: LocalStorageService
   ) { }
