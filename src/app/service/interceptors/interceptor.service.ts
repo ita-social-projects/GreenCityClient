@@ -102,6 +102,7 @@ export class InterceptorService implements HttpInterceptor {
    * @param error - {@link HttpErrorResponse}
    */
   private handleRefreshTokenIsNotValid(error: HttpErrorResponse): Observable<HttpEvent<any>> {
+    this.isRefreshing = false;
     if (error.status === BAD_REQUEST) {
       this.localStorageService.clear();
       this.router.navigate(['/auth']).then(r => r);

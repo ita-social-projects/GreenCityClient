@@ -19,6 +19,7 @@ export class AchievementService {
   }
 
   loadAchievements() {
+    this.dataStore.achievements = [];
     const http$ = this.http.get<AchievementDto[]>(`${achievementLink}`);
     http$.pipe(
       catchError(() => of([]))
@@ -30,7 +31,5 @@ export class AchievementService {
       },
       error => { throw error; }
     );
-    const dto: AchievementDto = new AchievementDto(1, 'Congratz', 'Qweqwe', 'Qqweqwe');
-    this.dataStore.achievements = [];
   }
 }
