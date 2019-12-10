@@ -170,9 +170,6 @@ export class UserService {
       })
     };
 
-    console.log('goals');
-    console.log(goals);
-
     this.http.patch<Goal[]>(`${userLink}/${this.userId}/customGoals`, dto).subscribe(data => {
       data.forEach(updatedGoal => {
         this.dataStore.availableCustomGoals.forEach(currentGoal => {

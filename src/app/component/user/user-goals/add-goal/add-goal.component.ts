@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {UserService} from '../../../../service/user/user.service';
 import {Goal} from '../../../../model/goal/Goal';
 import {Observable} from 'rxjs';
@@ -95,8 +95,6 @@ export class AddGoalComponent implements OnInit {
       this.goals.filter(g => g.type === GoalType.CUSTOM && g.id === goal.id && !this.compareGoals(g, goal)).length !== 0);
 
     if (goalsToUpdate.length !== 0) {
-      console.log('updateCustomGoals');
-      console.log(goalsToUpdate);
       this.service.updateCustomGoals(goalsToUpdate);
     }
   }
