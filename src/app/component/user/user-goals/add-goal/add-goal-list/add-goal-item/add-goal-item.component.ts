@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Goal} from '../../../../../../model/goal/Goal';
-import {UserService} from '../../../../../../service/user/user.service';
 import {GoalType} from '../GoalType';
 
 @Component({
@@ -15,7 +14,7 @@ export class AddGoalItemComponent implements OnInit {
   goals: Goal[];
   isEditable: boolean;
 
-  constructor(private service: UserService) {
+  constructor() {
   }
 
   ngOnInit() {

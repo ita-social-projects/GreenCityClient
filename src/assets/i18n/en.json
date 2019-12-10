@@ -303,11 +303,15 @@
       "my-habits": "My habits"
     },
     "user-goals": {
+      "add-goal": {
+        "update": "Update",
+        "manage-your-goals": "Manage your goals"
+      },
       "goal-container": {
         "my-goals": "My goals"
       },
       "add-goal-button": {
-        "add-button": "Add new goal"
+        "add-button": "Manage goals"
       },
       "goal-list": {
         "expand": "Show more",

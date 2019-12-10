@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {UserService} from '../../../../service/user/user.service';
 import {Goal} from '../../../../model/goal/Goal';
 import {Observable} from 'rxjs';
@@ -73,7 +73,7 @@ export class AddGoalComponent implements OnInit {
   }
 
   saveCustomGoals() {
-    const goalsToSave = this.changedGoals.filter(goal => goal.type === GoalType.CUSTOM && goal.status === 'CHECKED' &&
+    const goalsToSave = this.changedGoals.filter(goal => goal.type === GoalType.CUSTOM &&
       this.goals.filter(g => g.type === GoalType.CUSTOM && goal.id === g.id).length === 0);
 
     if (goalsToSave.length !== 0) {
@@ -119,10 +119,7 @@ export class AddGoalComponent implements OnInit {
   }
 
   compareGoals(a: Goal, b: Goal): boolean {
-    return a.id === b.id &&
-      a.type === b.type &&
-      a.status === b.status &&
-      a.text === b.text;
+    return a.text === b.text;
   }
 
 }

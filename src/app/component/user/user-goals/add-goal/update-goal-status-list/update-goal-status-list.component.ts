@@ -1,6 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
 import {Goal} from '../../../../../model/goal/Goal';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-update-goal-status-list',
@@ -15,8 +14,6 @@ export class UpdateGoalStatusListComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('this.goals');
-    console.log(this.goals);
   }
 
 }
