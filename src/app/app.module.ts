@@ -102,16 +102,17 @@ import { HabitFactComponent } from './component/user/habit/habit-trackers/habit-
 import { HabitTitleComponent } from './component/user/habit/habit-trackers/habit-tracker/habit-title/habit-title.component';
 // tslint:disable-next-line:max-line-length
 import { HabitTrackerDateComponent } from './component/user/habit/habit-trackers/habit-tracker/habit-tracker-date/habit-tracker-date.component';
-import {NewAchievementModalComponent} from './component/user/user-achievements/new-achievement-modal/new-achievement-modal.component';
-import {AchievementListComponent} from './component/user/user-achievements/achievement-list/achievement-list.component';
-import {AchievementItemComponent} from './component/user/user-achievements/achievement-item/achievement-item.component';
-import {UserAchievementsComponent} from './component/user/user-achievements/achievements-container/user-achievements.component';
-import {AddCustomGoalComponent} from './component/user/user-goals/add-goal/add-goal-list/add-custom-goal/add-custom-goal.component';
-import {ShowFirstNLettersPipe} from './pipe/show-first-n-letters/show-first-n-letters.pipe';
-import {CustomLastPipe} from './pipe/custom-last-pipe/custom-first.pipe';
-import {AddGoalItemComponent} from './component/user/user-goals/add-goal/add-goal-list/add-goal-item/add-goal-item.component';
-import {AddGoalComponent} from './component/user/user-goals/add-goal/add-goal.component';
-import {AddGoalListComponent} from './component/user/user-goals/add-goal/add-goal-list/add-goal-list.component';
+import { NewAchievementModalComponent } from './component/user/user-achievements/new-achievement-modal/new-achievement-modal.component';
+import { AchievementListComponent } from './component/user/user-achievements/achievement-list/achievement-list.component';
+import { AchievementItemComponent } from './component/user/user-achievements/achievement-item/achievement-item.component';
+import { UserAchievementsComponent } from './component/user/user-achievements/achievements-container/user-achievements.component';
+import { AddCustomGoalComponent } from './component/user/user-goals/add-goal/add-goal-list/add-custom-goal/add-custom-goal.component';
+import { ShowFirstNLettersPipe } from './pipe/show-first-n-letters/show-first-n-letters.pipe';
+import { CustomLastPipe } from './pipe/custom-last-pipe/custom-first.pipe';
+import { AddGoalItemComponent } from './component/user/user-goals/add-goal/add-goal-list/add-goal-item/add-goal-item.component';
+import { AddGoalComponent } from './component/user/user-goals/add-goal/add-goal.component';
+import { AddGoalListComponent } from './component/user/user-goals/add-goal/add-goal-list/add-goal-list.component';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -247,9 +248,13 @@ import {AddGoalListComponent} from './component/user/user-goals/add-goal/add-goa
       useValue: { hasBackdrop: false }
     },
     {
-      provide: AuthServiceConfig,
-      useFactory: provideConfig
+      provide: LocationStrategy,
+      useClass: HashLocationStrategy
     },
+    // {
+    //   provide: AuthServiceConfig,
+    //   useFactory: provideConfig
+    // },
     DatePipe
   ],
   bootstrap: [AppComponent]
