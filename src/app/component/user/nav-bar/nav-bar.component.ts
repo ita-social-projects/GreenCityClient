@@ -6,7 +6,7 @@ import { ProposeCafeComponent } from '../propose-cafe/propose-cafe.component';
 import { FavoritePlaceService } from '../../../service/favorite-place/favorite-place.service';
 import { UserSettingComponent } from '../user-setting/user-setting.component';
 import { Router } from '@angular/router';
-import {LocalStorageService} from '../../../service/localstorage/local-storage.service';
+import { LocalStorageService } from '../../../service/localstorage/local-storage.service';
 import { JwtService } from '../../../service/jwt/jwt.service';
 
 @Component({
@@ -66,7 +66,7 @@ export class NavBarComponent implements OnInit {
   }
   private signOut() {
     this.localStorageService.clear();
-    this.router.navigate(['/GreenCityClient'])
+    this.router.navigate(['/'])
       .then(success => console.log('redirect has succeeded ' + success))
       .catch(fail => console.log('redirect has failed ' + fail));
   }
