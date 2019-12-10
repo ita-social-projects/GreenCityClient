@@ -3,7 +3,7 @@
   justify-self: center !important;
   height: fit-content;
   position: relative;
-  z-index: 5;
+  z-index: 1200 !important;
 }
 
 :host:nth-child(1) {

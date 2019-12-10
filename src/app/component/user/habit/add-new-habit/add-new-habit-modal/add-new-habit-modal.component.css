@@ -1,22 +1,16 @@
-.add-habit-modal {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  z-index: 10;
+.modal-body {
+  padding: 0;
 }
 
-.add-habit-modal-bg {
-  background-color: rgba(0, 0, 0, 0.65);
-  padding: 122px 0 149px 0;
-  height: 100%;
-  width: inherit;
+.modal-dialog {
+  min-width: 1150px;
 }
 
 .add-habit-modal-window {
   background-color: #fff;
   border-radius: 4px;
   box-shadow: 0 2px 4px 0 rgba(255, 255, 255, 0.4);
-  max-width: 1140px;
+  width: 1140px;
   margin: 0 auto;
   min-height: 871px;
   padding: 30px 0;
