@@ -53,7 +53,7 @@ import {
 import { HabitChartComponent } from './component/user/habit/habit-trackers/habit-tracker/habit-chart/habit-chart.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { Ng5SliderModule } from 'ng5-slider';
-import { provideConfig } from './config/GoogleAuthConfig';
+// import { provideConfig } from './config/GoogleAuthConfig';
 import { RestoreComponent } from './component/user/restore/restore.component';
 import { RestoreFormComponent } from './component/user/restore-form/restore-form.component';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
