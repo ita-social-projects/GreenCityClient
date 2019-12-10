@@ -73,7 +73,7 @@ export class AddGoalComponent implements OnInit {
   }
 
   saveCustomGoals() {
-    const goalsToSave = this.changedGoals.filter(goal => goal.type === GoalType.CUSTOM && goal.status === 'CHECKED' &&
+    const goalsToSave = this.changedGoals.filter(goal => goal.type === GoalType.CUSTOM &&
       this.goals.filter(g => g.type === GoalType.CUSTOM && goal.id === g.id).length === 0);
 
     if (goalsToSave.length !== 0) {
@@ -95,6 +95,8 @@ export class AddGoalComponent implements OnInit {
       this.goals.filter(g => g.type === GoalType.CUSTOM && g.id === goal.id && !this.compareGoals(g, goal)).length !== 0);
 
     if (goalsToUpdate.length !== 0) {
+      console.log('updateCustomGoals');
+      console.log(goalsToUpdate);
       this.service.updateCustomGoals(goalsToUpdate);
     }
   }
@@ -119,10 +121,7 @@ export class AddGoalComponent implements OnInit {
   }
 
   compareGoals(a: Goal, b: Goal): boolean {
-    return a.id === b.id &&
-      a.type === b.type &&
-      a.status === b.status &&
-      a.text === b.text;
+    return a.text === b.text;
   }
 
 }

@@ -303,11 +303,15 @@
       "my-habits": "Мої звички"
     },
     "user-goals": {
+      "add-goal": {
+        "update": "Оновити",
+        "manage-your-goals": "Керувати цілями"
+      },
       "goal-container": {
         "my-goals": "Мої цілі"
       },
       "add-goal-button": {
-        "add-button": "Додати нову ціль"
+        "add-button": "Керувати цілями"
       },
       "goal-list": {
         "expand": "Переглянути всі цілі",

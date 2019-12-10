@@ -3,7 +3,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add new goals</h5>
+        <h5 class="modal-title" id="exampleModalLabel">{{'user.user-goals.add-goal.manage-your-goals' | translate}}</h5>
         <button (click)="onCloseButtonClicked()" type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -13,7 +13,7 @@
       </div>
       <div class="modal-footer d-flex justify-content-center">
         <button type="button" class="add-goal-button" data-dismiss="modal" (click)="addGoals()">
-          Add
+          {{'user.user-goals.add-goal.update' | translate}}
         </button>
       </div>
     </div>
