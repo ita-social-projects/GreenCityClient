@@ -113,6 +113,8 @@ import { AddGoalItemComponent } from './component/user/user-goals/add-goal/add-g
 import { AddGoalComponent } from './component/user/user-goals/add-goal/add-goal.component';
 import { AddGoalListComponent } from './component/user/user-goals/add-goal/add-goal-list/add-goal-list.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import {UpdateGoalStatusListComponent} from './component/user/user-goals/add-goal/update-goal-status-list/update-goal-status-list.component';
+import {UpdateGoalItemComponent} from './component/user/user-goals/add-goal/update-goal-status-list/update-goal-item/update-goal-item.component';
 
 @NgModule({
   declarations: [
@@ -165,7 +167,9 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     AddGoalComponent,
     AddGoalListComponent,
     AddGoalItemComponent,
+    UpdateGoalStatusListComponent,
     AddCustomGoalComponent,
+    UpdateGoalItemComponent,
     ShowFirstNLettersPipe,
     UncheckedFirstPipe,
     CustomLastPipe,
