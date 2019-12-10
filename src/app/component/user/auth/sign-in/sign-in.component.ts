@@ -50,7 +50,7 @@ export class SignInComponent implements OnInit {
         this.userOwnSignInService.saveUserToLocalStorage(data);
         this.localStorageService.setFirstName(data.firstName);
         this.localStorageService.setFirstSignIn();
-        this.router.navigate(['/GreenCityClient'])
+        this.router.navigate(['/'])
           .then(success => console.log('redirect has succeeded ' + success))
           .catch(fail => console.log('redirect has failed ' + fail));
       },
@@ -71,29 +71,29 @@ export class SignInComponent implements OnInit {
     );
   }
 
-  private signInWithGoogle() {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(data => {
-      this.googleService.signIn(data.idToken).subscribe(
-        (data1: UserSuccessSignIn) => {
-          this.userOwnSignInService.saveUserToLocalStorage(data1);
-          this.router.navigateByUrl('/GreenCityClient').then(r => r);
-        },
-        (errors: HttpErrorResponse) => {
-          try {
-            errors.error.forEach(error => {
-              if (error.name === 'email') {
-                this.emailErrorMessageBackEnd = error.message;
-              } else if (error.name === 'password') {
-                this.passwordErrorMessageBackEnd = error.message;
-              }
-            });
-          } catch (e) {
-            this.backEndError = errors.error.message;
-          }
-        }
-      );
-    });
-  }
+  // private signInWithGoogle() {
+  //   this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(data => {
+  //     this.googleService.signIn(data.idToken).subscribe(
+  //       (data1: UserSuccessSignIn) => {
+  //         this.userOwnSignInService.saveUserToLocalStorage(data1);
+  //         this.router.navigateByUrl('/GreenCityClient').then(r => r);
+  //       },
+  //       (errors: HttpErrorResponse) => {
+  //         try {
+  //           errors.error.forEach(error => {
+  //             if (error.name === 'email') {
+  //               this.emailErrorMessageBackEnd = error.message;
+  //             } else if (error.name === 'password') {
+  //               this.passwordErrorMessageBackEnd = error.message;
+  //             }
+  //           });
+  //         } catch (e) {
+  //           this.backEndError = errors.error.message;
+  //         }
+  //       }
+  //     );
+  //   });
+  // }
 
   openDialog(): void {
     this.dialog.open(RestoreComponent, {

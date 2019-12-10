@@ -17,7 +17,7 @@
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" *ngIf="userRole == 'ROLE_ADMIN' || userRole == 'ROLE_MODERATOR'"
             [routerLink]="['admin']">{{ "nav-bar.admin" | translate }}</a>
-          <a class="dropdown-item" [routerLink]="['GreenCityClient/' + userId,'habits']">{{
+          <a class="dropdown-item" [routerLink]="[userId,'habits']">{{
             "nav-bar.my-habits" | translate
           }}</a>
           <a class="dropdown-item" (click)="openDialog()">{{
@@ -32,7 +32,7 @@
         </div>
       </div>
 
-      <a *ngIf="firstName == null" class="nav-link" routerLink="/auth/">{{
+      <a *ngIf="firstName == null" class="nav-link" routerLink="/auth">{{
         "nav-bar.sign-in" | translate
       }}</a>
     </ul>
