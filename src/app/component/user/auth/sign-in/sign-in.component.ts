@@ -9,7 +9,7 @@ import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
 import { GoogleSignInService } from '../../../../service/auth/google-sign-in.service';
 import { MatDialog } from '@angular/material';
 import { RestoreComponent } from '../../restore/restore.component';
-import {LocalStorageService} from '../../../../service/localstorage/local-storage.service';
+import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -28,8 +28,8 @@ export class SignInComponent implements OnInit {
   constructor(
     private userOwnSignInService: UserOwnSignInService,
     private router: Router,
-    private authService: AuthService,
-    private googleService: GoogleSignInService,
+    // private authService: AuthService,
+    // private googleService: GoogleSignInService,
     public dialog: MatDialog,
     private localStorageService: LocalStorageService
   ) { }
@@ -49,7 +49,8 @@ export class SignInComponent implements OnInit {
         this.loadingAnim = false;
         this.userOwnSignInService.saveUserToLocalStorage(data);
         this.localStorageService.setFirstName(data.firstName);
-        this.router.navigate(['/GreenCityClient'])
+        this.localStorageService.setFirstSignIn();
+        this.router.navigate(['/'])
           .then(success => console.log('redirect has succeeded ' + success))
           .catch(fail => console.log('redirect has failed ' + fail));
       },
@@ -70,29 +71,29 @@ export class SignInComponent implements OnInit {
     );
   }
 
-  private signInWithGoogle() {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(data => {
-      this.googleService.signIn(data.idToken).subscribe(
-        (data1: UserSuccessSignIn) => {
-          this.userOwnSignInService.saveUserToLocalStorage(data1);
-          this.router.navigateByUrl('/GreenCityClient').then(r => r);
-        },
-        (errors: HttpErrorResponse) => {
-          try {
-            errors.error.forEach(error => {
-              if (error.name === 'email') {
-                this.emailErrorMessageBackEnd = error.message;
-              } else if (error.name === 'password') {
-                this.passwordErrorMessageBackEnd = error.message;
-              }
-            });
-          } catch (e) {
-            this.backEndError = errors.error.message;
-          }
-        }
-      );
-    });
-  }
+  // private signInWithGoogle() {
+  //   this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(data => {
+  //     this.googleService.signIn(data.idToken).subscribe(
+  //       (data1: UserSuccessSignIn) => {
+  //         this.userOwnSignInService.saveUserToLocalStorage(data1);
+  //         this.router.navigateByUrl('/GreenCityClient').then(r => r);
+  //       },
+  //       (errors: HttpErrorResponse) => {
+  //         try {
+  //           errors.error.forEach(error => {
+  //             if (error.name === 'email') {
+  //               this.emailErrorMessageBackEnd = error.message;
+  //             } else if (error.name === 'password') {
+  //               this.passwordErrorMessageBackEnd = error.message;
+  //             }
+  //           });
+  //         } catch (e) {
+  //           this.backEndError = errors.error.message;
+  //         }
+  //       }
+  //     );
+  //   });
+  // }
 
   openDialog(): void {
     this.dialog.open(RestoreComponent, {

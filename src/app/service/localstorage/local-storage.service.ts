@@ -16,7 +16,7 @@ export class LocalStorageService {
   firstNameBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getFirstName());
   userIdBehaviourSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.getUserId());
 
-  constructor() {}
+  constructor() { }
 
   public getAccessToken(): string {
     return localStorage.getItem(this.ACCESS_TOKEN);
@@ -50,6 +50,18 @@ export class LocalStorageService {
   public setFirstName(firstName: string): void {
     localStorage.setItem(this.FIRST_NAME, firstName);
     this.firstNameBehaviourSubject.next(firstName);
+  }
+
+  public setFirstSignIn(): void {
+    localStorage.setItem('firstSignIn', 'true');
+  }
+
+  public unsetFirstSignIn(): void {
+    localStorage.setItem('firstSignIn', 'false');
+  }
+
+  public getFirstSighIn(): boolean {
+    return localStorage.getItem('firstSignIn') === 'true' ? true : false;
   }
 
   public clear(): void {

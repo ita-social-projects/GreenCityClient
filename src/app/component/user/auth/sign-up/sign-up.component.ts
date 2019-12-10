@@ -20,7 +20,7 @@ export class SignUpComponent implements OnInit {
   constructor(
     private userOwnSecurityService: UserOwnSignUpService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.userOwnSignUp = new UserOwnSignUp();
@@ -33,7 +33,7 @@ export class SignUpComponent implements OnInit {
     this.userOwnSecurityService.signUp(userOwnRegister).subscribe(
       () => {
         this.loadingAnim = false;
-        this.router.navigateByUrl('/GreenCityClient/auth/submit-email').then(r => r);
+        this.router.navigateByUrl('/auth/submit-email').then(r => r);
       },
       (errors: HttpErrorResponse) => {
         errors.error.forEach(error => {

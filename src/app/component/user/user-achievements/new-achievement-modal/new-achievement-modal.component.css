@@ -54,16 +54,20 @@
   text-align: center;
 }
 
-/*.achievements-item-outside {*/
-/*  display: block;*/
-/*  position: relative;*/
-/*  text-align: center;*/
-/*  width: 68px;*/
-/*  height: 68px;*/
-/*  background: rgba(131, 156, 148, 0.2);*/
-/*  border-radius: 34px;*/
-/*  margin: 8px auto;*/
-/*}*/
+.achievements-item-outside {
+  display: block;
+  position: relative;
+  text-align: center;
+  width: 68px;
+  height: 68px;
+  background: rgba(131, 156, 148, 0.2);
+  border-radius: 34px;
+  margin: 8px auto;
+}
+
+.achievements-item-outside img {
+  margin-top: 8px;
+}
 
 .button-row {
   display: flex;

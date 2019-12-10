@@ -5,12 +5,12 @@ import {
   HttpInterceptor,
   HttpRequest
 } from '@angular/common/http';
-import {BehaviorSubject, Observable, of, throwError} from 'rxjs';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { updateAccessTokenLink } from '../../links';
-import {catchError, filter, switchMap, take} from 'rxjs/operators';
-import {LocalStorageService} from '../localstorage/local-storage.service';
-import {Router} from '@angular/router';
-import {BAD_REQUEST, FORBIDDEN, NOT_FOUND, UNAUTHORIZED} from '../../http-response-status';
+import { catchError, filter, switchMap, take } from 'rxjs/operators';
+import { LocalStorageService } from '../localstorage/local-storage.service';
+import { Router } from '@angular/router';
+import { BAD_REQUEST, FORBIDDEN, NOT_FOUND, UNAUTHORIZED } from '../../http-response-status';
 
 /**
  * @author Yurii Koval
@@ -31,8 +31,8 @@ export class InterceptorService implements HttpInterceptor {
   private isRefreshing = false;
 
   constructor(private http: HttpClient,
-              private localStorageService: LocalStorageService,
-              private router: Router) {
+    private localStorageService: LocalStorageService,
+    private router: Router) {
   }
 
   /**
@@ -104,7 +104,7 @@ export class InterceptorService implements HttpInterceptor {
   private handleRefreshTokenIsNotValid(error: HttpErrorResponse): Observable<HttpEvent<any>> {
     if (error.status === BAD_REQUEST) {
       this.localStorageService.clear();
-      this.router.navigate(['/GreenCityClient/auth']).then(r => r);
+      this.router.navigate(['/auth']).then(r => r);
       return of<HttpEvent<any>>();
     }
     return throwError(error);
@@ -140,7 +140,7 @@ export class InterceptorService implements HttpInterceptor {
    */
   private handle403Error(req: HttpRequest<any>): Observable<HttpEvent<any>> {
     console.log(`You don't have authorities to access ${req.url}`);
-    this.router.navigate(['/GreenCityClient/auth']).then(r => r);
+    this.router.navigate(['/auth']).then(r => r);
     return of<HttpEvent<any>>();
   }
 

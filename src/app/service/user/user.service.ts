@@ -1,21 +1,21 @@
 import { LocalStorageService } from '../localstorage/local-storage.service';
 import { catchError } from 'rxjs/operators';
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, Observable, of} from 'rxjs';
-import {UserRoleModel} from '../../model/user/user-role.model';
-import {UserStatusModel} from '../../model/user/user-status.model';
-import {UserPageableDtoModel} from '../../model/user/user-pageable-dto.model';
-import {mainLink, userLink} from '../../links';
-import {RolesModel} from '../../model/user/roles.model';
-import {UserFilterDtoModel} from '../../model/user/userFilterDto.model';
-import {UserUpdateModel} from '../../model/user/user-update.model';
-import {Goal} from '../../model/goal/Goal';
-import {GoalType} from '../../component/user/user-goals/add-goal/add-goal-list/GoalType';
-import {CustomGoalResponseDto} from '../../model/goal/CustomGoalResponseDto';
-import {CustomGoalSaveRequestDto} from '../../model/goal/CustomGoalSaveRequestDto';
-import {UserCustomGoalDto} from '../../model/goal/UserCustomGoalDto';
-import {UserGoalDto} from '../../model/goal/UserGoalDto';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { UserRoleModel } from '../../model/user/user-role.model';
+import { UserStatusModel } from '../../model/user/user-status.model';
+import { UserPageableDtoModel } from '../../model/user/user-pageable-dto.model';
+import { mainLink, userLink } from '../../links';
+import { RolesModel } from '../../model/user/roles.model';
+import { UserFilterDtoModel } from '../../model/user/userFilterDto.model';
+import { UserUpdateModel } from '../../model/user/user-update.model';
+import { Goal } from '../../model/goal/Goal';
+import { GoalType } from '../../component/user/user-goals/add-goal/add-goal-list/GoalType';
+import { CustomGoalResponseDto } from '../../model/goal/CustomGoalResponseDto';
+import { CustomGoalSaveRequestDto } from '../../model/goal/CustomGoalSaveRequestDto';
+import { UserCustomGoalDto } from '../../model/goal/UserCustomGoalDto';
+import { UserGoalDto } from '../../model/goal/UserGoalDto';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +32,7 @@ export class UserService {
   private availablePredefinedGoalsSubject = new BehaviorSubject<Goal[]>([]);
 
   private dataStore: { goals: Goal[], availableCustomGoals: Goal[], availablePredefinedGoals } =
-    {goals: [], availableCustomGoals: [], availablePredefinedGoals: []};
+    { goals: [], availableCustomGoals: [], availablePredefinedGoals: [] };
 
   readonly goals = this.goalsSubject.asObservable();
   readonly availableCustomGoals = this.availableCustomGoalsSubject.asObservable();
@@ -136,7 +136,7 @@ export class UserService {
     const goals = [];
     this.http.get<Goal[]>(`${userLink}/${this.userId}/goals/available`).subscribe(data => {
       data.forEach(goal => {
-        goals.push({id: goal.id, text: goal.text, status: 'UNCHECKED', type: GoalType.PREDEFINED});
+        goals.push({ id: goal.id, text: goal.text, status: 'UNCHECKED', type: GoalType.PREDEFINED });
       });
       this.dataStore.availablePredefinedGoals = goals;
       this.availablePredefinedGoalsSubject.next(Object.assign({}, this.dataStore).availablePredefinedGoals);
@@ -146,7 +146,7 @@ export class UserService {
   saveCustomGoals(goals: Goal[]) {
     const dto = {
       customGoalSaveRequestDtoList: goals.map<CustomGoalSaveRequestDto>(data => {
-        return {text: data.text};
+        return { text: data.text };
       })
     };
 
@@ -166,7 +166,7 @@ export class UserService {
   updateCustomGoals(goals: Goal[]) {
     const dto = {
       customGoals: goals.map<CustomGoalResponseDto>(data => {
-        return {id: data.id, text: data.text};
+        return { id: data.id, text: data.text };
       })
     };
 
@@ -194,10 +194,10 @@ export class UserService {
   addPredefinedAndCustomGoals(predefinedGoals: Goal[], customGoals: Goal[]) {
     const dto = {
       userGoals: predefinedGoals.map<UserGoalDto>(data => {
-        return {goal: {id: data.id}};
+        return { goal: { id: data.id } };
       }),
       userCustomGoal: customGoals.map<UserCustomGoalDto>(data => {
-        return {customGoal: {id: data.id}};
+        return { customGoal: { id: data.id } };
       })
     };
 

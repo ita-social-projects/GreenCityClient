@@ -13,13 +13,13 @@ import { UserHabitPageComponent } from './component/user/habit/user-habit-page/u
 import { Routes } from '@angular/router';
 
 export const router: Routes = [
-  { path: '', redirectTo: '/GreenCityClient', pathMatch: 'full' },
+  // { path: '', redirectTo: '/', pathMatch: 'full' },
   {
-    path: 'GreenCityClient',
+    path: '',
     component: MapComponent
   },
   {
-    path: 'GreenCityClient/auth',
+    path: 'auth',
     component: AuthComponent,
     children: [
       { path: '', component: SignInComponent },
@@ -33,11 +33,11 @@ export const router: Routes = [
     component: FilterComponent
   },
   {
-    path: 'GreenCityClient/:id/habits',
+    path: ':id/habits',
     component: UserHabitPageComponent
   },
   {
-    path: 'GreenCityClient/admin',
+    path: 'admin',
     component: AdminComponent,
     children: [
       { path: '', redirectTo: 'places', pathMatch: 'prefix' },
