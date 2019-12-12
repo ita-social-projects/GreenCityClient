@@ -1,4 +1,56 @@
+#stat-rows #stats-caption {
+  color: #000000;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 46px;
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 1.39;
+  letter-spacing: normal;
+  margin-top: 100px;
+  margin-bottom: 51px;
+  text-align: center;
+}
+
 #stat-rows {
   margin-top: 51px;
+  padding: 0 200px;
   width: 100%;
+}
+
+@media screen and (max-width: 1250px) {
+  #stat-rows {
+    padding: 0 150px;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  #stat-rows {
+    padding: 0 125px;
+  }
+}
+
+
+@media screen and (max-width: 1024px) {
+  #stat-rows {
+    padding: 0 100px;
+  }
+}
+
+@media screen and (max-width: 920px) {
+  #stat-rows {
+    padding: 0 75px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #stat-rows {
+    padding: 0 25px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  #stat-rows #stats-caption {
+    font-size: 24px;
+  }
 }
