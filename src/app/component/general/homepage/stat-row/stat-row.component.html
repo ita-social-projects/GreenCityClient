@@ -1,0 +1,18 @@
+<div class="stat-row">
+  <div class="stat-row-image">
+    <div class="image-wrapper">
+      <img [src]="stat.iconPath">
+    </div>
+  </div>
+  <div class="stat-row-content">
+    <div class="content-wrapper">
+      <h3>{{ stat.action }}<span>{{ stat.count }}</span>{{ stat.caption }}</h3>
+      <p>{{ stat.question }}</p>
+      <button class="button">Почати формувати звичку!</button>
+      <div class="location-row">
+        <img [src]="locationImage">
+        <a href="">{{ stat.locationText }}</a>
+      </div>
+    </div>
+  </div>
+</div>
