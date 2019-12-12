@@ -25,6 +25,14 @@
   max-width: 100%;
   position: absolute;
   top: 1304px;
+  z-index: -2;
+}
+
+#path-5 {
+  height: auto;
+  position: absolute;
+  top: 2020px;
+  width: 80px;
   z-index: -1;
 }
 
@@ -83,13 +91,22 @@
 }
 /* !HEADER */
 
-/* STATS */
+.section-caption {
+  color: #000000;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 46px;
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 1.39;
+  letter-spacing: normal;
+  margin-top: 100px;
+  margin-bottom: 51px;
+  text-align: center;
+}
 
 
-/* !STATS */
-
-
-
+/* FOOTER */
 #copyright {
   background-color: rgba(131, 156, 148, 0.05);
   color: #839c94;
@@ -105,6 +122,8 @@
   text-align: center;
   width: 100%;
 }
+
+/* !FOOTER */
 
 @media screen and (max-width: 1024px) {
   #header {
@@ -149,5 +168,12 @@
 
   #guy-image {
     padding-left: 24px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .section-caption {
+    font-size: 24px;
+    text-align: center;
   }
 }

@@ -9,10 +9,9 @@ export class HomepageComponent implements OnInit {
 
   readonly guyImage = 'assets/img/guy.png';
   readonly path4 = 'assets/img/path-4.png';
+  readonly path5 = 'assets/img/path-5.png';
 
   constructor() { }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() { }
 }

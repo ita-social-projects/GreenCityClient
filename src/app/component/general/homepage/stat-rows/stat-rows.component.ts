@@ -30,7 +30,5 @@ export class StatRowsComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() { }
 }
