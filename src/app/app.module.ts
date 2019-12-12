@@ -120,6 +120,7 @@ import { UpdateGoalItemComponent } from './component/user/user-goals/add-goal/up
 import { HomepageComponent } from './component/general/homepage/homepage/homepage.component';
 import { StatRowComponent } from './component/general/homepage/stat-row/stat-row.component';
 import { StatRowsComponent } from './component/general/homepage/stat-rows/stat-rows.component';
+import { SubscribeComponent } from './component/general/homepage/subscribe/subscribe.component';
 
 @NgModule({
   declarations: [
@@ -188,6 +189,7 @@ import { StatRowsComponent } from './component/general/homepage/stat-rows/stat-r
     HomepageComponent,
     StatRowComponent,
     StatRowsComponent,
+    SubscribeComponent,
   ],
   imports: [
     BrowserModule,

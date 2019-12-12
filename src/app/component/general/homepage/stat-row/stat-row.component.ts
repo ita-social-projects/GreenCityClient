@@ -15,8 +15,5 @@ export class StatRowComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-    console.log(this.index);
-  }
-
+  ngOnInit() { }
 }
