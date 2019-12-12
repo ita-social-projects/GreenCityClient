@@ -121,6 +121,7 @@ import { HomepageComponent } from './component/general/homepage/homepage/homepag
 import { StatRowComponent } from './component/general/homepage/stat-row/stat-row.component';
 import { StatRowsComponent } from './component/general/homepage/stat-rows/stat-rows.component';
 import { SubscribeComponent } from './component/general/homepage/subscribe/subscribe.component';
+import { FooterComponent } from './component/general/homepage/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -190,6 +191,7 @@ import { SubscribeComponent } from './component/general/homepage/subscribe/subsc
     StatRowComponent,
     StatRowsComponent,
     SubscribeComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

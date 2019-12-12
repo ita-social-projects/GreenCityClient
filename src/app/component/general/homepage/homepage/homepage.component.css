@@ -105,8 +105,6 @@
   text-align: center;
 }
 
-
-/* FOOTER */
 #copyright {
   background-color: rgba(131, 156, 148, 0.05);
   color: #839c94;
@@ -114,7 +112,7 @@
   font-stretch: normal;
   font-size: 14px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500;
   height: 40px;
   line-height: normal;
   letter-spacing: normal;
@@ -122,8 +120,6 @@
   text-align: center;
   width: 100%;
 }
-
-/* !FOOTER */
 
 @media screen and (max-width: 1024px) {
   #header {
