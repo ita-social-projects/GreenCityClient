@@ -167,6 +167,13 @@
   }
 }
 
+@media screen and (max-width: 660px) {
+  .section-caption {
+    font-size: 36px;
+    text-align: center;
+  }
+}
+
 @media screen and (max-width: 425px) {
   .section-caption {
     font-size: 24px;

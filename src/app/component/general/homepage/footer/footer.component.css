@@ -89,11 +89,11 @@
 
 #footer-right #footer-nav ul li a{
   color: #839c94;
-  font-family: 'Open Sans' sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 16px;
   font-stretch: normal;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 2.5;
   letter-spacing: normal;
 }
