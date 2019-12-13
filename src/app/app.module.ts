@@ -122,6 +122,7 @@ import { StatRowComponent } from './component/general/homepage/stat-row/stat-row
 import { StatRowsComponent } from './component/general/homepage/stat-rows/stat-rows.component';
 import { SubscribeComponent } from './component/general/homepage/subscribe/subscribe.component';
 import { FooterComponent } from './component/general/homepage/footer/footer.component';
+import { EcoEventsComponent } from './component/general/homepage/eco-events/eco-events.component';
 
 @NgModule({
   declarations: [
@@ -192,6 +193,7 @@ import { FooterComponent } from './component/general/homepage/footer/footer.comp
     StatRowsComponent,
     SubscribeComponent,
     FooterComponent,
+    EcoEventsComponent,
   ],
   imports: [
     BrowserModule,
