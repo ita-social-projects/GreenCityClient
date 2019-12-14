@@ -16,11 +16,12 @@ import { CustomGoalResponseDto } from '../../model/goal/CustomGoalResponseDto';
 import { CustomGoalSaveRequestDto } from '../../model/goal/CustomGoalSaveRequestDto';
 import { UserCustomGoalDto } from '../../model/goal/UserCustomGoalDto';
 import { UserGoalDto } from '../../model/goal/UserGoalDto';
+import { OnLogout } from '../OnLogout';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserService implements OnLogout {
   dto: UserStatusModel;
   roleDto: UserRoleModel;
   filterDto: UserFilterDtoModel;
@@ -129,7 +130,7 @@ export class UserService {
 
       this.dataStore.availableCustomGoals = data;
       this.availableCustomGoalsSubject.next(Object.assign({}, this.dataStore).availableCustomGoals);
-    }, error => {throw error; });
+    }, error => { throw error; });
   }
 
   loadAvailablePredefinedGoals() {
@@ -140,7 +141,7 @@ export class UserService {
       });
       this.dataStore.availablePredefinedGoals = goals;
       this.availablePredefinedGoalsSubject.next(Object.assign({}, this.dataStore).availablePredefinedGoals);
-    }, error => {throw error; });
+    }, error => { throw error; });
   }
 
   saveCustomGoals(goals: Goal[]) {
@@ -155,12 +156,12 @@ export class UserService {
         this.addPredefinedAndCustomGoals([],
           data.filter(goal => goals.filter(g => g.status === 'CHECKED' && g.text === goal.text).length !== 0));
       }
-  }, error => {throw error; });
+    }, error => { throw error; });
   }
 
   deleteCustomGoals(goals: Goal[]) {
     this.http.delete(`${userLink}/${this.userId}/customGoals?ids=` + goals.map(goal => goal.id)).
-    subscribe(() => {}, error => {throw error; });
+      subscribe(() => { }, error => { throw error; });
   }
 
   updateCustomGoals(goals: Goal[]) {
@@ -178,14 +179,14 @@ export class UserService {
           }
         });
       });
-    }, error => {throw error; });
+    }, error => { throw error; });
   }
 
   deleteTrackedGoals(goals: Goal[]) {
     this.http.delete(`${userLink}/${this.userId}/userGoals?ids=` + goals.map(goal => goal.id)).subscribe(() => {
       this.dataStore.goals = this.dataStore.goals.filter(data => goals.filter(g => g.id === data.id).length === 0);
       this.goalsSubject.next(Object.assign({}, this.dataStore).goals);
-    }, error => {throw error; });
+    }, error => { throw error; });
   }
 
   addPredefinedAndCustomGoals(predefinedGoals: Goal[], customGoals: Goal[]) {
@@ -201,6 +202,15 @@ export class UserService {
     this.http.post<Goal[]>(`${userLink}/${this.userId}/goals`, dto).subscribe(data => {
       this.dataStore.goals = data;
       this.goalsSubject.next(Object.assign({}, this.dataStore).goals);
-    }, error => {throw error; });
+    }, error => { throw error; });
+  }
+
+  onLogout(): void {
+    this.dataStore.goals = [];
+    this.dataStore.availableCustomGoals = [];
+    this.dataStore.availablePredefinedGoals = [];
+    this.goalsSubject.next(Object.assign({}, this.dataStore).goals);
+    this.availableCustomGoalsSubject.next(Object.assign({}, this.dataStore).availableCustomGoals);
+    this.availablePredefinedGoalsSubject.next(Object.assign({}, this.dataStore).availablePredefinedGoals);
   }
 }
