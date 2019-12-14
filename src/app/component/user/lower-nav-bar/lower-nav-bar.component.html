@@ -5,7 +5,8 @@
     </a>
     <ul>
       <li>
-        <a [routerLink]="['/']">{{ "user.lower-nav-bar.home" | translate }}</a>
+        <a [routerLink]="['/']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
+          true}">{{ "user.lower-nav-bar.home" | translate }}</a>
       </li>
       <li>
         <a>{{ "user.lower-nav-bar.eco-events" | translate }}</a>
@@ -14,10 +15,12 @@
         <a>{{ "user.lower-nav-bar.tips" | translate }}</a>
       </li>
       <li>
-        <a [routerLink]="['/map']">{{ "user.lower-nav-bar.map" | translate }}</a>
+        <a [routerLink]="['map']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
+          true}">{{ "user.lower-nav-bar.map" | translate }}</a>
       </li>
       <li>
-        <a [routerLink]="[userId,'habits']">{{ "user.lower-nav-bar.my-habits" | translate }}</a>
+        <a [routerLink]="[userId,'habits']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
+          true}">{{ "user.lower-nav-bar.my-habits" | translate }}</a>
       </li>
       <li>
         <a>{{ "user.lower-nav-bar.about-us" | translate }}</a>
