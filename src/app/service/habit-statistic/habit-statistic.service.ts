@@ -57,7 +57,6 @@ export class HabitStatisticService implements OnLogout {
     } else {
       this.dataStore.newHabits = [...this.dataStore.newHabits, new NewHabitDto(args.id)];
     }
-    console.log(this.dataStore);
   }
 
   createHabits() {
@@ -128,5 +127,9 @@ export class HabitStatisticService implements OnLogout {
     this.dataStore.habitStatistics = [];
     this.$habitStatistics.next(Object.assign({}, this.dataStore).habitStatistics);
     this.$availableHabits.next(Object.assign({}, this.dataStore).availableHabits);
+  }
+
+  testPrint() {
+    console.log(this.dataStore.habitStatistics);
   }
 }
