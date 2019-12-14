@@ -30,6 +30,10 @@ export const router: Routes = [
     ]
   },
   {
+    path: 'map',
+    component: MapComponent
+  },
+  {
     path: '',
     component: FilterComponent
   },

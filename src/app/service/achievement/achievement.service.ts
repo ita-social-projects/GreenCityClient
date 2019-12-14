@@ -5,12 +5,13 @@ import { BehaviorSubject, of } from 'rxjs';
 import { achievementLink } from '../../links';
 import { catchError } from 'rxjs/operators';
 import { LocalStorageService } from '../localstorage/local-storage.service';
+import { OnLogout } from '../OnLogout';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class AchievementService {
+export class AchievementService implements OnLogout {
   private $achievements = new BehaviorSubject<AchievementDto[]>([]);
   private dataStore: { achievements: AchievementDto[] } = { achievements: [] };
   readonly achievements = this.$achievements.asObservable();
@@ -31,5 +32,10 @@ export class AchievementService {
       },
       error => { throw error; }
     );
+  }
+
+  onLogout(): void {
+    this.dataStore.achievements = [];
+    this.$achievements.next(Object.assign({}, this.dataStore).achievements);
   }
 }

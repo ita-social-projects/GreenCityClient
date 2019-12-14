@@ -10,11 +10,12 @@ import { HabitStatisticsDto } from '../../model/habit/HabitStatisticsDto';
 import { habitLink, mainLink } from 'src/app/links';
 import { HabitStatisticLogDto } from 'src/app/model/habit/HabitStatisticLogDto';
 import { AvailableHabitDto } from 'src/app/model/habit/AvailableHabitDto';
+import { OnLogout } from '../OnLogout';
 
 @Injectable({
   providedIn: 'root'
 })
-export class HabitStatisticService {
+export class HabitStatisticService implements OnLogout {
   private userId: number;
   private $habitStatistics = new BehaviorSubject<HabitDto[]>([]);
   private $availableHabits = new BehaviorSubject<AvailableHabitDto[]>([]);
@@ -56,6 +57,7 @@ export class HabitStatisticService {
     } else {
       this.dataStore.newHabits = [...this.dataStore.newHabits, new NewHabitDto(args.id)];
     }
+    console.log(this.dataStore);
   }
 
   createHabits() {
@@ -118,5 +120,13 @@ export class HabitStatisticService {
     this.dataStore.newHabits = [];
     this.loadAvailableHabits();
     this.loadHabitStatistics();
+  }
+
+  onLogout(): void {
+    this.dataStore.newHabits = [];
+    this.dataStore.availableHabits = [];
+    this.dataStore.habitStatistics = [];
+    this.$habitStatistics.next(Object.assign({}, this.dataStore).habitStatistics);
+    this.$availableHabits.next(Object.assign({}, this.dataStore).availableHabits);
   }
 }
