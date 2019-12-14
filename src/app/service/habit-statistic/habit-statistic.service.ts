@@ -128,8 +128,4 @@ export class HabitStatisticService implements OnLogout {
     this.$habitStatistics.next(Object.assign({}, this.dataStore).habitStatistics);
     this.$availableHabits.next(Object.assign({}, this.dataStore).availableHabits);
   }
-
-  testPrint() {
-    console.log(this.dataStore.habitStatistics);
-  }
 }
