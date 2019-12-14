@@ -31,6 +31,7 @@ export class AlreadyChosenComponent implements OnInit {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
+      this.habitStatisticService.testPrint();
       this.habitStatisticService.setNewHabitsState(
         this.chosen.filter(c => c.id === (event.container.data[event.currentIndex] as any).id)[0]
       );
