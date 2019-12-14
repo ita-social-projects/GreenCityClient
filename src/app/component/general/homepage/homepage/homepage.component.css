@@ -20,6 +20,15 @@
   width: 292px;
 }
 
+#path-2 {
+  height: auto;
+  max-width: 100%;
+  position: absolute;
+  top: 70px;
+  right: 0;
+  z-index: -2;
+}
+
 #path-4 {
   height: auto;
   max-width: 100%;

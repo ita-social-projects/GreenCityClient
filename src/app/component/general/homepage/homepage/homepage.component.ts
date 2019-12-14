@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class HomepageComponent implements OnInit {
 
   readonly guyImage = 'assets/img/guy.png';
+  readonly path2 = 'assets/img/path-2.svg';
   readonly path4 = 'assets/img/path-4.png';
   readonly path5 = 'assets/img/path-5.png';
 
