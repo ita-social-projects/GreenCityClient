@@ -125,6 +125,14 @@ import { FooterComponent } from './component/general/homepage/footer/footer.comp
 import { EcoEventsComponent } from './component/general/homepage/eco-events/eco-events.component';
 import { TipsListComponent } from './component/general/homepage/useful-tips/tips-list/tips-list.component';
 import { TipsCardComponent } from './component/general/homepage/useful-tips/tips-card/tips-card.component';
+import { SwiperModule } from 'ngx-swiper-wrapper';
+import { SWIPER_CONFIG } from 'ngx-swiper-wrapper';
+import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
+
+const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
+  direction: 'horizontal',
+  slidesPerView: 'auto'
+};
 
 @NgModule({
   declarations: [
@@ -201,6 +209,7 @@ import { TipsCardComponent } from './component/general/homepage/useful-tips/tips
   ],
   imports: [
     BrowserModule,
+    SwiperModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(router),
     HttpClientModule,
@@ -276,6 +285,10 @@ import { TipsCardComponent } from './component/general/homepage/useful-tips/tips
     {
       provide: AuthServiceConfig,
       useFactory: provideConfig
+    },
+    {
+      provide: SWIPER_CONFIG,
+      useValue: DEFAULT_SWIPER_CONFIG
     },
     DatePipe
   ],
