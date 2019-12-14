@@ -9,8 +9,8 @@
 
 .tip-card .tip-image-wrapper {
   height: 56px;
-  margin: 0 auto;
-  width: auto;
+  margin: 0 auto 38px;
+  width: fit-content;
 }
 
 .tip-card .tip-image-wrapper img {
