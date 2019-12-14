@@ -123,6 +123,8 @@ import { StatRowsComponent } from './component/general/homepage/stat-rows/stat-r
 import { SubscribeComponent } from './component/general/homepage/subscribe/subscribe.component';
 import { FooterComponent } from './component/general/homepage/footer/footer.component';
 import { EcoEventsComponent } from './component/general/homepage/eco-events/eco-events.component';
+import { TipsListComponent } from './component/general/homepage/useful-tips/tips-list/tips-list.component';
+import { TipsCardComponent } from './component/general/homepage/useful-tips/tips-card/tips-card.component';
 
 @NgModule({
   declarations: [
@@ -194,6 +196,8 @@ import { EcoEventsComponent } from './component/general/homepage/eco-events/eco-
     SubscribeComponent,
     FooterComponent,
     EcoEventsComponent,
+    TipsListComponent,
+    TipsCardComponent,
   ],
   imports: [
     BrowserModule,
