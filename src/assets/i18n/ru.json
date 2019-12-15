@@ -145,6 +145,8 @@
     },
     "auth": {
       "sign-in": {
+        "title": "С Возвращением!",
+        "fill-form": "Пожалуйста, внеси свои данные, чтобы войти",
         "email": "Электронная почта",
         "email-is-required": "Введите почту",
         "email-must-be-at-least-1-characters-long": "Почта должна содержать по крайней мере 1 символ",
@@ -155,7 +157,9 @@
         "sign-in": "Войти",
         "sign-up": "Зарегистрироваться",
         "sign-in-with-google": "Войти через Google",
-        "forgot-password": "Забыли пароль?"
+        "forgot-password": "Забыли пароль?",
+        "havenot-account": "До сих пор нет аккаунта?",
+        "or-signin": "или заходи через"
       },
       "sign-up": {
         "first-name": "Имя",

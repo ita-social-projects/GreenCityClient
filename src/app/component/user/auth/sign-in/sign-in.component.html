@@ -1,9 +1,21 @@
+
+<div class = "wrapper-container">
+  <div class = "form-wrapper">
+<div class = "form-pic "><img src = "/assets/img/zzz.jpg"></div>
+
 <div class="sign-in">
 
   <form #registerForm="ngForm" (ngSubmit)="signIn(userOwnSignIn)">
-
+    <h1>{{'user.auth.sign-in.title' | translate}}</h1>
+    
+    <h2>{{'user.auth.sign-in.fill-form' | translate}}</h2>
+  
 
     <label for="email">{{'user.auth.sign-in.email' | translate}}</label>
+
+    <input id="email" type="email" class="email" name="email" [(ngModel)]="userOwnSignIn.email"
+           #emailControl="ngModel" required
+           minlength="1" email="true">
     <div class="validation-error" *ngIf="emailControl.invalid && (emailControl.dirty||emailControl.touched)">
       <div *ngIf="emailControl.errors.required">
         {{'user.auth.sign-in.email-is-required' | translate}}
@@ -17,13 +29,14 @@
     </div>
     <div class="validation-error" *ngIf="emailErrorMessageBackEnd!=null">
       {{emailErrorMessageBackEnd}}
-    </div>
-    <input id="email" type="email" class="form-control email" name="email" [(ngModel)]="userOwnSignIn.email"
-           #emailControl="ngModel" required
-           minlength="1" email="true">
-
-
+    </div>     
+    
     <label for="password">{{'user.auth.sign-in.password' | translate}}</label>
+ 
+    <input id="password" type="password" class="password" name="form-control password"
+           [(ngModel)]="userOwnSignIn.password"
+           #passwordControl="ngModel"
+           required minlength="8">
     <div class="validation-error" *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
       <div *ngIf="passwordControl.errors.required">
         {{'user.auth.sign-in.password-is-required' | translate}}
@@ -34,39 +47,40 @@
     </div>
     <div class="validation-error" *ngIf="passwordErrorMessageBackEnd!=null">
       {{passwordErrorMessageBackEnd}}
-    </div>
-    <input id="password" type="password" class="form-control password" name="form-control password"
-           [(ngModel)]="userOwnSignIn.password"
-           #passwordControl="ngModel"
-           required minlength="8">
+    </div>       
 
-
-    <p></p>
+ 
 
     <div class="error" *ngIf="backEndError!=null">
       {{backEndError}}
     </div>
+    <div class = "forgot-wrapper">
+      <a (click)="openDialog()" class = "forgot-password">{{'user.auth.sign-in.forgot-password' | translate}}</a>
+    </div>
+   
 
-    <p></p>
 
-
-    <button class="btn btn-primary submit" [disabled]="!registerForm.valid" type="submit">
+    <button class="submit" [disabled]="!registerForm.valid" type="submit">
       <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
       {{'user.auth.sign-in.sign-in' | translate}}
     </button>
 
   </form>
-
-  <p></p>
-  <button class="btn btn-primary register" routerLink="sign-up">
-    {{'user.auth.sign-in.sign-up' | translate}}
-  </button>
-
-  <p></p>
-
+  <div class = "wrapper-sign-up">
+  <p>{{'user.auth.sign-in.havenot-account' | translate}} <a routerLink="sign-up" class = "signup-link">{{'user.auth.sign-in.sign-up' | translate}}</a></p>
+  <span class = "or">{{'user.auth.sign-in.or-signin' | translate}}</span>
   <div>
-    <input type="submit" class="btn btn-primary google" (click)="signInWithGoogle()"
-           value="{{'user.auth.sign-in.sign-in-with-google' | translate}}">
+
+   <!--<button class="btn btn-primary register" routerLink="sign-up">
+    {{'user.auth.sign-in.sign-up' | translate}}
+  </button>  -->
+
+  
+  <div>
+    
+    <button type="submit" class="google" (click)="signInWithGoogle()"><img src = "" alt = "G">{{'user.auth.sign-in.sign-in-with-google' | translate}}<img src = "" alt = "->"></button>
   </div>
-  <a (click)="openDialog()">{{'user.auth.sign-in.forgot-password' | translate}}</a>
+  
+</div>
+</div>
 </div>
