@@ -23,22 +23,34 @@ export class UserLogComponent implements OnInit {
   $differenceUnTakenItemsWithPreviousDayCap: number;
 
   ngOnInit() {
-    this.$userLog = this.habitStatisticService.getUserLog().subscribe(data => {     
+    this.$userLog = this.habitStatisticService.getUserLog().subscribe(data => {
       this.hasStatistic = true;
       this.$creationDate = data.creationDate;
-      if (data.allItemsPerMonth[1] !== undefined) {
-        this.$amountUnTakenItemsPerMonthCap = data.allItemsPerMonth[1].habitItemAmount;
+      const cap = data.allItemsPerMonth.filter(obj => {
+        return obj.habitItemName === 'cap';
+      });
+      const bag = data.allItemsPerMonth.filter(obj => {
+        return obj.habitItemName === 'bag';
+      });
+      const diffBag = data.differenceUnTakenItemsWithPreviousDay.filter(obj => {
+        return obj.habitItemName === 'bag';
+      });
+      const diffCap = data.differenceUnTakenItemsWithPreviousDay.filter(obj => {
+        return obj.habitItemName === 'cap';
+      });
+      if (cap !== undefined) {
+        this.$amountUnTakenItemsPerMonthCap = cap[0].habitItemAmount;
       }
-      if (data.allItemsPerMonth[0] !== undefined) {
-        this.$amountUnTakenItemsPerMonthBag = data.allItemsPerMonth[0].habitItemAmount;
+      if (bag !== undefined) {
+        this.$amountUnTakenItemsPerMonthBag = bag[0].habitItemAmount;
       }
-      if (data.differenceUnTakenItemsWithPreviousDay[1] !== undefined) {
-        this.$differenceUnTakenItemsWithPreviousDayCap = data.differenceUnTakenItemsWithPreviousDay[1].habitItemAmount;
+      if (diffCap !== undefined) {
+        this.$differenceUnTakenItemsWithPreviousDayCap = diffCap[0].habitItemAmount;
       } else {
         this.$differenceUnTakenItemsWithPreviousDayCap = 0;
       }
-      if (data.differenceUnTakenItemsWithPreviousDay[0] !== undefined) {
-        this.$differenceUnTakenItemsWithPreviousDayBag = data.differenceUnTakenItemsWithPreviousDay[0].habitItemAmount;
+      if (diffBag !== undefined) {
+        this.$differenceUnTakenItemsWithPreviousDayBag = diffBag[0].habitItemAmount;
       } else {
         this.$differenceUnTakenItemsWithPreviousDayBag = 0;
       }
