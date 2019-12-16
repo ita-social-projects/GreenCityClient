@@ -1,6 +1,6 @@
 <div class = "wrapper-container">
   <div class = "form-wrapper">
-<div class = "form-pic "><img src = "/assets/img/zzz.jpg"></div>
+<div class = "form-pic "><img src = "/assets/img/formpic.jpg"></div>
 <div class="sign-in">
 
   <form #registerForm="ngForm" (ngSubmit)="register(userOwnSignUp)">
@@ -112,11 +112,11 @@
     </button>
   </form>
     <div class = "wrapper-sign-up">
-      <p>{{'user.auth.sign-up.haveyou-account' | translate}} <a routerLink="sign-in" class = "signup-link">{{'user.auth.sign-in.sign-in' | translate}}</a></p>  <!-- routerLink="sign-in"  не працюэ!!!!-->
+      <p>{{'user.auth.sign-up.haveyou-account' | translate}} <a routerLink="/auth" class = "signup-link">{{'user.auth.sign-in.sign-in' | translate}}</a></p>  <!-- routerLink="sign-in"  не працюэ!!!!-->
   <span class = "or">{{'user.auth.sign-in.or-signin' | translate}}</span>
   
   <div>    
-    <button type="submit" class="google" (click)="signInWithGoogle()"><img src = "" alt = "G">{{'user.auth.sign-in.sign-in-with-google' | translate}}<img src = "" alt = "->"></button>
+    <button type="submit" class="google" (click)="signInWithGoogle()"><img src = "/assets/img/icon/google.svg" alt = "G">{{'user.auth.sign-in.sign-in-with-google' | translate}}<img src = "" alt = "/assets/img/icon/arrows/google-arrow.svg"></button>
   </div>
   </div>
 </div>

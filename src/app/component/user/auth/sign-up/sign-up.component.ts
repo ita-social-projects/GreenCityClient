@@ -58,4 +58,10 @@ export class SignUpComponent implements OnInit {
     this.emailErrorMessageBackEnd = null;
     this.passwordErrorMessageBackEnd = null;
   }
+
+  
+
+
 }
+
+
