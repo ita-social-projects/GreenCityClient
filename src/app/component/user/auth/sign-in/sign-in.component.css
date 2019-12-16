@@ -7,21 +7,20 @@
   width: 30%;*/
 
   /*width: auto;*/
-  width: 60%;
-  height: auto;
+    width: 50%;
+    height: auto;
 }
 
 .sign-in input {
-  width: 100%;
-  min-width: 300px;
-  height: 40px;
+    width: 100%;
+    height: 40px;
     border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     -o-border-radius: 5px;
-  	border: solid 1px #839c94;
-  	background-color: rgba(131, 156, 148, 0.07);
-  	padding: 0 10px;
+    border: solid 1px #839c94;
+    background-color: rgba(131, 156, 148, 0.07);
+    padding: 0 10px;
 }
 
 label[for="email"], label[for="password"] {
@@ -32,16 +31,14 @@ label[for="email"], label[for="password"] {
 }
 
 .error, .validation-error {
-  color: #f03127;
-  font-size: 14px;
+  	color: #f03127;
+  	font-size: 14px;
 }
 
-
-/*custom styles (contactformdecember branch)*/
 .wrapper-container {
 	display: block;
 	margin: 0 auto !important;
-	max-width: 1440px;
+	max-width: 1400px;
 	width: 90%;
 }
 
@@ -50,8 +47,7 @@ label[for="email"], label[for="password"] {
 	display: block;*/
 	margin: 5% 0;
 	display: flex;
-	justify-content: center;
-	
+	justify-content: center;	
 }
 
 .form-pic {
@@ -59,7 +55,7 @@ label[for="email"], label[for="password"] {
  	height: 775px;
  	background-size: contain;
  	background-image: url('/assets/img/zzz.jpg');*/
- 	width: 40%;
+ 	width: 50%;
  	height: auto;
 }
 
@@ -68,19 +64,12 @@ label[for="email"], label[for="password"] {
 	height: auto;
 }
 
-.contact-form-wrapper {
-
-}
-
-.cross {	
-	text-align: right;
-}
-
 form > h1 {
 	font: 48px 'OpenSans-Bold', sans-serif;
 	letter-spacing: 0.18px;
 	font-weight: 600;
 }
+
 form > h2 {
 	font: 18px 'OpenSans-Regular', sans-serif;
 	line-height: 22px;
@@ -149,12 +138,103 @@ a.forgot-password {
 }
 
 /*MediaQueries*/
+@media screen and (max-width: 1440px) {
+		.form-pic {
+ 		width: 40%;
+ 		height: auto;
+	}
 
-@media screen and (max-width: 1152px) {
 	.sign-in {
-  width: 60%;
+  		width: 60%;
 	}
 }
+
+@media screen and (max-width: 1152px) {
+	.form-pic {
+ 		width: 50%;
+ 		height: auto;
+	}
+
+	.sign-in {
+  		width: 50%;
+	}
+	form > h1 {
+		font: 40px 'OpenSans-Bold', sans-serif;
+		letter-spacing: 0.18px;
+		font-weight: 600;
+	}
+
+	form > h2 {
+		margin-top: 2%;
+		line-height: 22px;
+		letter-spacing: 0.18px;
+		font-weight: 500;
+	}
+
+	a.forgot-password {
+		color: #13aa57;
+		font-weight: 500;
+		margin-top: 25px;	
+	}
+
+	.sign-in input {
+    	height: 35px;    
+	}
+
+	label[for="email"], label[for="password"] {
+		margin-top: 20px;
+	}
+
+	.submit {
+		width: 100%;
+		height: 35px;
+		margin-top: 20px;
+	}
+
+	.wrapper-sign-up {
+		margin: 0px 10% 0 10%;
+	}
+
+	.or {
+		margin-top: 10px;
+	}
+
+	.google {
+		margin-top: 10px;
+		height: 35px;
+	}
+
+}
+
+@media screen and (max-width: 960px) {
+	form > h1 {
+		font: 30px 'OpenSans-Bold', sans-serif;	
+		letter-spacing: 0.18px;
+		font-weight: 600;
+	}
+}
+
+@media screen and (max-width: 640px) {
+	.form-wrapper {	
+		margin: 10% 0;	
+	}
+
+	.form-pic {
+ 		display: none;
+	}
+
+	.sign-in {
+    	width: 100%;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	.form-wrapper {	
+		margin: 5% 0 15% 0;	
+	}
+}
+
+
 
 
 

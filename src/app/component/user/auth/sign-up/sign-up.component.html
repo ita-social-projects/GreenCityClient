@@ -1,7 +1,20 @@
-<div class="sign-up">
+<div class = "wrapper-container">
+  <div class = "form-wrapper">
+<div class = "form-pic "><img src = "/assets/img/zzz.jpg"></div>
+<div class="sign-in">
 
   <form #registerForm="ngForm" (ngSubmit)="register(userOwnSignUp)">
+    <h1>{{'user.auth.sign-up.title-up' | translate}}</h1>
+    
+    <h2>{{'user.auth.sign-up.fill-form-up' | translate}}</h2>
+
     <label for="first-name">{{'user.auth.sign-up.first-name' | translate}}</label>
+
+    <input id="first-name" type="text" class="form-control first-name" name="fistName"
+           [(ngModel)]="userOwnSignUp.firstName"
+           #firstNameControl="ngModel" required
+           minlength="1" maxlength="20">
+
     <div class="validation-error"
          *ngIf="firstNameControl.invalid && (firstNameControl.dirty||firstNameControl.touched)">
       <div *ngIf="firstNameControl.errors.required">
@@ -13,14 +26,10 @@
     </div>
     <div class="validation-error" *ngIf="firstNameErrorMessageBackEnd!=null">
       {{firstNameErrorMessageBackEnd}}
-    </div>
-    <input id="first-name" type="text" class="form-control first-name" name="fistName"
-           [(ngModel)]="userOwnSignUp.firstName"
-           #firstNameControl="ngModel" required
-           minlength="1" maxlength="20">
+    </div>       
 
 
-    <label for="last-name">{{'user.auth.sign-up.last-name' | translate}}</label>
+  <!--  <label for="last-name">{{'user.auth.sign-up.last-name' | translate}}</label>
     <div class="validation-error" *ngIf="lastNameControl.invalid && (lastNameControl.dirty||lastNameControl.touched)">
       <div *ngIf="lastNameControl.errors.required">
         {{'user.auth.sign-up.last-name-is-required' | translate}}
@@ -36,10 +45,14 @@
            [(ngModel)]="userOwnSignUp.lastName"
            #lastNameControl="ngModel"
            required
-           minlength="1" maxlength="20">
+           minlength="1" maxlength="20">    -->
 
 
     <label for="email">{{'user.auth.sign-up.email' | translate}}</label>
+
+    <input id="email" type="email" class="form-control email" name="email" [(ngModel)]="userOwnSignUp.email"
+           #emailControl="ngModel" required
+           minlength="1" email="true">
     <div class="validation-error" *ngIf="emailControl.invalid && (emailControl.dirty||emailControl.touched)">
       <div *ngIf="emailControl.errors.required">
         {{'user.auth.sign-up.email-is-required' | translate}}
@@ -54,12 +67,13 @@
     <div class="validation-error" *ngIf="emailErrorMessageBackEnd!=null">
       {{emailErrorMessageBackEnd}}
     </div>
-    <input id="email" type="email" class="form-control email" name="email" [(ngModel)]="userOwnSignUp.email"
-           #emailControl="ngModel" required
-           minlength="1" email="true">
-
 
     <label for="password">{{'user.auth.sign-up.password' | translate}}</label>
+
+    <input id="password" type="password" class="form-control password" name="form-control password"
+           [(ngModel)]="userOwnSignUp.password"
+           #passwordControl="ngModel"
+           required minlength="8">
     <div class="validation-error" *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
       <div *ngIf="passwordControl.errors.required">
         {{'user.auth.sign-up.password-is-required' | translate}}
@@ -70,17 +84,42 @@
     </div>
     <div class="validation-error" *ngIf="passwordErrorMessageBackEnd!=null">
       {{passwordErrorMessageBackEnd}}
-    </div>
+    </div>       
+
+           <!-- Password require -->
+    <label for="password">{{'user.auth.sign-up.password-confirm' | translate}}</label>
+
     <input id="password" type="password" class="form-control password" name="form-control password"
            [(ngModel)]="userOwnSignUp.password"
            #passwordControl="ngModel"
            required minlength="8">
-
-    <p></p>
+    <div class="validation-error" *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
+      <div *ngIf="passwordControl.errors.required">
+        {{'user.auth.sign-up.password-is-required' | translate}}
+      </div>
+      <div *ngIf="passwordControl.errors.minlength">
+        {{'user.auth.sign-up.password-must-be-at-least-8-characters-long' | translate}}
+      </div>
+    </div>
+    <div class="validation-error" *ngIf="passwordErrorMessageBackEnd!=null">
+      {{passwordErrorMessageBackEnd}}
+    </div>       
+      <!--end password-require -->     
+   
     <button class="btn btn-primary submit" [disabled]="!registerForm.valid" type="submit">
       <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-      {{'user.auth.sign-up.submit' | translate}}
+      {{'user.auth.sign-up.submit' | translate}}  <!--Звідки цей Сабміт?  Так і має бути?  Чи 153 стр ua.json? -->
     </button>
   </form>
+    <div class = "wrapper-sign-up">
+      <p>{{'user.auth.sign-up.haveyou-account' | translate}} <a routerLink="sign-in" class = "signup-link">{{'user.auth.sign-in.sign-in' | translate}}</a></p>  <!-- routerLink="sign-in"  не працюэ!!!!-->
+  <span class = "or">{{'user.auth.sign-in.or-signin' | translate}}</span>
+  
+  <div>    
+    <button type="submit" class="google" (click)="signInWithGoogle()"><img src = "" alt = "G">{{'user.auth.sign-in.sign-in-with-google' | translate}}<img src = "" alt = "->"></button>
+  </div>
+  </div>
+</div>
 
+</div>
 </div>

@@ -157,7 +157,9 @@
         "or-signin": "або заходь через"
       },
       "sign-up": {
-        "first-name": "Ім'я",
+        "title-up": "Вітаємо!",
+        "fill-form-up": "Будь ласка, внеси свої дані, щоб зареєструватися",
+        "first-name": "Ім'я користувача",
         "first-name-is-required": "Введіть ім'я",
         "first-name-must-be-at-least-1-characters-long": "Ім'я повинно містити принаймі 1 символ",
         "last-name": "Прізвище",
@@ -170,7 +172,9 @@
         "password": "Пароль",
         "password-is-required": "Введіть пароль",
         "password-must-be-at-least-8-characters-long": "Пароль повинен містити принаймі 8 символів",
-        "submit": "Підтвердити"
+        "password-confirm": "Підтвердіть пароль",
+        "submit": "Підтвердити",
+        "haveyou-account": "В тебе вже є аккаунт?"
       },
       "submit-email": "Ви успішно зареєструвались на сайті. Будь ласка, підтвердіть вашу електронну адресу в електронній скринці."
     },

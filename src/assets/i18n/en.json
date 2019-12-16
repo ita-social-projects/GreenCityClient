@@ -157,7 +157,9 @@
         "or-signin": "or sign in with"
       },
       "sign-up": {
-        "first-name": "First name",
+        "title-up": "Hello!",
+        "fill-form-up": "Please enter your details to sign up",
+        "first-name": "User name",
         "first-name-is-required": "First name is required",
         "first-name-must-be-at-least-1-characters-long": "First name must be at least 1 characters long",
         "last-name": "Last name",
@@ -170,7 +172,9 @@
         "password": "Password",
         "password-is-required": "Password is required",
         "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long",
-        "submit": "Submit"
+        "password-confirm": "Password confirm",
+        "submit": "Sign Up!",
+        "haveyou-account": "Have you an account already?"
       },
       "submit-email": "Вы успешно зарегистрированы на этом сайте. Пожалуйста, подтвердите ваш адрес электронной почты в почтовом ящике"
     },
