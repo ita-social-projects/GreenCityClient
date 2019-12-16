@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./footer.component.css']
 })
 export class FooterComponent implements OnInit {
-  readonly path6 = 'assets/img/path-6.png';
+  readonly path6 = 'assets/img/path-6_2.png';
   readonly logo = 'assets/img/logo.png';
   readonly iconTw = 'assets/img/icon/icon-tw.png';
   readonly iconFb = 'assets/img/icon/icon-fb.png';

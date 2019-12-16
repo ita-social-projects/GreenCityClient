@@ -1,4 +1,5 @@
 .stat-row {
+  padding: 0 100px;
   margin-bottom: 80px;
 }
 
@@ -107,6 +108,12 @@
   line-height: normal;
   max-width: 242px;
   text-decoration: underline;
+}
+
+@media screen and (max-width: 1440px) {
+  .stat-row {
+    padding: 0;
+  }
 }
 
 @media screen and (max-width: 768px) {

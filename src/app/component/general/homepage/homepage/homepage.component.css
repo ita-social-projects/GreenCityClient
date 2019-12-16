@@ -1,6 +1,6 @@
 .homepage {
   margin: 0 auto;
-  max-width: 1440px;
+  max-width: 1920px;
   padding-top: 47px;
 }
 
@@ -40,7 +40,7 @@
 #path-5 {
   height: auto;
   position: absolute;
-  top: 2020px;
+  top: 2090px;
   width: 80px;
   z-index: -1;
 }
@@ -57,7 +57,7 @@
 }
 
 #header-left div {
-  margin-left: 95px;
+  margin-left: 295px;
   margin-top: 53px;
   max-width: 605px;
 }
@@ -128,6 +128,12 @@
   padding-top: 11px;
   text-align: center;
   width: 100%;
+}
+
+@media screen and (max-width: 1440px) {
+  #header-left div {
+    margin-left: 95px;
+  }
 }
 
 @media screen and (max-width: 1024px) {
