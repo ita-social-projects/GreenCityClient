@@ -1,12 +1,4 @@
 .sign-in {
-  /*display: block;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
-  width: 30%;*/
-
-  /*width: auto;*/
     width: 50%;
     height: auto;
 }
@@ -43,19 +35,13 @@ label[for="email"], label[for="password"], label[for="first-name"] {
 }
 
 .form-wrapper { 
-  /*margin: 5% auto;
-  display: block;*/
   margin: 5% 0;
   display: flex;
   justify-content: center;  
 }
 
 .form-pic {
-  /*width: 485px;
-  height: 775px;
-  background-size: contain;
-  background-image: url('/assets/img/zzz.jpg');*/
-  width: 50%;
+  width: 485px;
   height: auto;
 }
 
@@ -137,13 +123,12 @@ a.forgot-password {
     background: #ffffff !important;
 }
 
-/*MediaQueries*/
-@media screen and (max-width: 1440px) {
-    .form-pic {
-    width: 40%;
-    height: auto;
+.google-arrow {
+    margin-top: 1%;
   }
 
+/*MediaQueries*/
+@media screen and (max-width: 1440px) {
   .sign-in {
       width: 60%;
   }
@@ -181,7 +166,7 @@ a.forgot-password {
       height: 35px;    
   }
 
-  label[for="email"], label[for="password"] {
+  label[for="email"], label[for="password"], label[for="first-name"] {
     margin-top: 20px;
   }
 
@@ -202,6 +187,10 @@ a.forgot-password {
   .google {
     margin-top: 10px;
     height: 35px;
+  }
+
+  .google-arrow {
+    margin-top: 8px;
   }
 
 }
