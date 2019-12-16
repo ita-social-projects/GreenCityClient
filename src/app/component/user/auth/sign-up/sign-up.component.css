@@ -1,21 +1,246 @@
-.sign-up {
-  display: block;
+.sign-in {
+  /*display: block;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
-  width: 30%;
+  width: 30%;*/
+
+  /*width: auto;*/
+    width: 50%;
+    height: auto;
 }
 
-.sign-up input {
+.sign-in input {
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    border: solid 1px #839c94;
+    background-color: rgba(131, 156, 148, 0.07);
+    padding: 0 10px;
+}
+
+label[for="email"], label[for="password"], label[for="first-name"] {
+  font: 16px 'OpenSans', sans-serif;
+  letter-spacing: 0.34px;
+  color: #839c94;
+  margin-top: 30px;
+}
+
+.error, .validation-error {
+    color: #f03127;
+    font-size: 14px;
+}
+
+.wrapper-container {
+  display: block;
+  margin: 0 auto !important;
+  max-width: 1400px;
+  width: 90%;
+}
+
+.form-wrapper { 
+  /*margin: 5% auto;
+  display: block;*/
+  margin: 5% 0;
+  display: flex;
+  justify-content: center;  
+}
+
+.form-pic {
+  /*width: 485px;
+  height: 775px;
+  background-size: contain;
+  background-image: url('/assets/img/zzz.jpg');*/
+  width: 50%;
+  height: auto;
+}
+
+.form-pic > img {
   width: 100%;
+  height: auto;
+}
+
+form > h1 {
+  font: 48px 'OpenSans-Bold', sans-serif;
+  letter-spacing: 0.18px;
+  font-weight: 600;
+}
+
+form > h2 {
+  font: 18px 'OpenSans-Regular', sans-serif;
+  line-height: 22px;
+  letter-spacing: 0.18px;
+  font-weight: 500;
+  margin-top: 30px;
+}
+
+form {
+  margin: 10%;
 }
 
 .submit {
-  display: table;
-  margin: auto;
+  width: 100%;
+  height: 48px;
+  background: #13aa57;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -o-border-radius: 4px;
+  margin-top: 30px;
 }
 
-.validation-error {
-  color: red;
+.forgot-wrapper {
+  display: flex;
+  justify-content: flex-end;
 }
+
+a.forgot-password {
+  color: #13aa57;
+  font-weight: 500;
+  margin-top: 45px; 
+}
+
+.wrapper-sign-up {
+  margin: 20px 10% 0 10%;
+  text-align: center;
+}
+
+.signup-link {
+  color: #13aa57;
+  font-weight: 500;
+}
+
+.or {
+  color: #839c94;
+  margin-top: 25px;
+}
+
+.google {
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -o-border-radius: 4px;
+  background: #ffffff;
+  margin-top: 20px;
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0 3px 8px 2px rgba(0, 0, 0, 0.12);
+    border: 1px solid #ffffff !important;
+    background: #ffffff !important;
+}
+
+/*MediaQueries*/
+@media screen and (max-width: 1440px) {
+    .form-pic {
+    width: 40%;
+    height: auto;
+  }
+
+  .sign-in {
+      width: 60%;
+  }
+}
+
+@media screen and (max-width: 1152px) {
+  .form-pic {
+    width: 50%;
+    height: auto;
+  }
+
+  .sign-in {
+      width: 50%;
+  }
+  form > h1 {
+    font: 40px 'OpenSans-Bold', sans-serif;
+    letter-spacing: 0.18px;
+    font-weight: 600;
+  }
+
+  form > h2 {
+    margin-top: 2%;
+    line-height: 22px;
+    letter-spacing: 0.18px;
+    font-weight: 500;
+  }
+
+  a.forgot-password {
+    color: #13aa57;
+    font-weight: 500;
+    margin-top: 25px; 
+  }
+
+  .sign-in input {
+      height: 35px;    
+  }
+
+  label[for="email"], label[for="password"] {
+    margin-top: 20px;
+  }
+
+  .submit {
+    width: 100%;
+    height: 35px;
+    margin-top: 20px;
+  }
+
+  .wrapper-sign-up {
+    margin: 0px 10% 0 10%;
+  }
+
+  .or {
+    margin-top: 10px;
+  }
+
+  .google {
+    margin-top: 10px;
+    height: 35px;
+  }
+
+}
+
+@media screen and (max-width: 960px) {
+  form > h1 {
+    font: 30px 'OpenSans-Bold', sans-serif; 
+    letter-spacing: 0.18px;
+    font-weight: 600;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .form-wrapper { 
+    margin: 10% 0;  
+  }
+
+  .form-pic {
+    display: none;
+  }
+
+  .sign-in {
+      width: 100%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .form-wrapper { 
+    margin: 5% 0 15% 0; 
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
