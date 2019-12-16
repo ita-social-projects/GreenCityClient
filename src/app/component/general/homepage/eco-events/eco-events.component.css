@@ -14,6 +14,12 @@
   letter-spacing: normal;
 }
 
+.centered {
+  display: block;
+  margin-top: 30px;
+  text-align: center;
+}
+
 .read-more img {
   margin-left: 19px;
 }
