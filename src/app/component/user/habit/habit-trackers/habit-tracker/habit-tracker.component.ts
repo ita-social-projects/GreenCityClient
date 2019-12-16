@@ -16,6 +16,8 @@ export class HabitTrackerComponent implements OnInit {
   habit: HabitDto;
   @Input()
   chartId: string;
+  @Input()
+  usersHabitId: number;
   $habit: Observable<HabitDto> = of<HabitDto>();
   currentStatistic: HabitStatisticsDto;
   habitStatistic: HabitStatisticsDto[];
