@@ -38,20 +38,30 @@ export class UserLogComponent implements OnInit {
       const diffCap = data.differenceUnTakenItemsWithPreviousDay.filter(obj => {
         return obj.habitItemName === 'cap';
       });
-      if (cap !== undefined) {
+      console.log('start1');
+      console.log(cap);
+      console.log(bag);
+      console.log(diffBag);
+      console.log(diffCap);
+      console.log('end1');
+
+      if (cap.length !== 0) {
         this.$amountUnTakenItemsPerMonthCap = cap[0].habitItemAmount;
       }
-      if (bag !== undefined) {
+      if (bag.length !== 0) {
         this.$amountUnTakenItemsPerMonthBag = bag[0].habitItemAmount;
       }
-      if (diffCap !== undefined) {
+      if (diffCap.length !== 0) {
         this.$differenceUnTakenItemsWithPreviousDayCap = diffCap[0].habitItemAmount;
       } else {
+        console.log('start');
         this.$differenceUnTakenItemsWithPreviousDayCap = 0;
       }
-      if (diffBag !== undefined) {
+      if (diffBag.length !== 0) {
         this.$differenceUnTakenItemsWithPreviousDayBag = diffBag[0].habitItemAmount;
       } else {
+              console.log('end');
+
         this.$differenceUnTakenItemsWithPreviousDayBag = 0;
       }
     }, error => {
