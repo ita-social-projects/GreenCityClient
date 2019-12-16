@@ -202,12 +202,12 @@
     "map": {
       "filter-by": "Фильтр",
       "searching-for-a-place": "Поиск места",
-      "places": "Places",
-      "show-all": "Show all",
-      "clear-filters": "Clear Filters",
-      "rate": "Rate:",
-      "comments": "Comments:",
-      "add-comment": "Add comment",
+      "places": "Места",
+      "show-all": "Показать все",
+      "clear-filters": "Сбросить фильтры",
+      "rate": "Показатель:",
+      "comments": "Комментарии:",
+      "add-comment": "Добавить комментарий",
       "navigate-to-place": "Проложить маршрут к месту",
       "close-navigation": "Закрыть навигацию",
       "discount": "скидка",
@@ -267,11 +267,11 @@
       "submit": "Подтвердить"
     },
     "restore-form": {
-      "password": "Password",
-      "password-is-required": "Password is required.",
-      "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long.",
-      "confirm-password": "Confirm password",
-      "submit": "Submit"
+      "password": "Пароль",
+      "password-is-required": "Необходим пароль.",
+      "password-must-be-at-least-8-characters-long": "Пароль должен содержать не менее 8 символов.",
+      "confirm-password": "Подтвердите пароль",
+      "submit": "Подтвердить"
     },
     "user-setting": {
       "user-settings": "Настройки профиля",
