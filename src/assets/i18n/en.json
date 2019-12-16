@@ -168,7 +168,7 @@
         "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long",
         "submit": "Submit"
       },
-      "submit-email": "Вы успешно зарегистрированы на этом сайте. Пожалуйста, подтвердите ваш адрес электронной почты в почтовом ящике"
+      "submit-email": "You have successfully registered on the site. Please confirm your email address in the email box"
     },
     "favorite-place": {
       "delete-favorite-place": {
