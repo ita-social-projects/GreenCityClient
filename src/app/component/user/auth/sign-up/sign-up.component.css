@@ -79,6 +79,7 @@ form {
   -moz-border-radius: 4px;
   -o-border-radius: 4px;
   margin-top: 30px;
+  cursor: pointer;
 }
 
 .forgot-wrapper {
