@@ -1,0 +1,43 @@
+<div class="homepage">
+  <img id="path-2" [src]="path2">
+  <img id="path-4" [src]="path4">
+  <img id="path-5" [src]="path5">
+  <header class="" id="header">
+    <div id="header-left">
+      <div>
+        <h1>Новий спосіб виховати в собі корисні звички</h1>
+        <p>В Україні кожна людина щорічно використовує більш 500
+          одноразових пакетів і біля 70 бумажних стаканчиків.
+          Достатньо брати з собою еко-сумку і своє горнятко і це
+          допоможе зберегти життя 3-х дельфінів, однієї черепашки
+          і зберегти чистими води океанів для наступного покоління.
+        </p>
+        <button class="button">Почати формувати звичку!</button>
+      </div>
+    </div>
+    <div id="header-right">
+      <img [src]="guyImage" id="guy-image">
+    </div>
+  </header>
+  <section class="" id="stats">
+    <h2 class="section-caption">Нас 513 і сьогодні ми</h2>
+    <app-stat-rows></app-stat-rows>
+  </section>
+  <section class="" id="events">
+    <h2 class="section-caption">Еко-заходи у Львові</h2>
+    <app-eco-events></app-eco-events>
+  </section>
+  <section class="" id="tips">
+    <h2 class="section-caption">Корисні поради</h2>
+    <app-tips-list></app-tips-list>
+  </section>
+  <section class="" id="subscription">
+    <app-subscribe></app-subscribe>
+  </section>
+  <footer>
+    <app-footer></app-footer>
+  </footer>
+  <div id="copyright">
+    &copy; Copyright 2019. Green City.
+  </div>
+</div>

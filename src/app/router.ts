@@ -11,12 +11,13 @@ import { RestoreFormComponent } from './component/user/restore-form/restore-form
 import { FeedbacksComponent } from './component/admin/feedbacks/feedbacks.component';
 import { UserHabitPageComponent } from './component/user/habit/user-habit-page/user-habit-page.component';
 import { Routes } from '@angular/router';
+import { HomepageComponent } from './component/general/homepage/homepage/homepage.component';
 
 export const router: Routes = [
   // { path: '', redirectTo: '/', pathMatch: 'full' },
   {
     path: '',
-    component: MapComponent
+    component: HomepageComponent
   },
   {
     path: 'auth',
@@ -27,6 +28,10 @@ export const router: Routes = [
       { path: 'submit-email', component: SubmitEmailComponent },
       { path: 'restore/:token', component: RestoreFormComponent }
     ]
+  },
+  {
+    path: 'map',
+    component: MapComponent
   },
   {
     path: '',

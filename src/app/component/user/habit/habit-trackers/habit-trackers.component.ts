@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {HabitStatisticService} from '../../../../service/habit-statistic/habit-statistic.service';
-import {HabitDto} from '../../../../model/habit/HabitDto';
-import {Observable} from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { HabitStatisticService } from '../../../../service/habit-statistic/habit-statistic.service';
+import { HabitDto } from '../../../../model/habit/HabitDto';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-habit-trackers',
@@ -10,12 +10,19 @@ import {Observable} from 'rxjs';
 })
 export class HabitTrackersComponent implements OnInit {
   $trackedHabits: Observable<HabitDto[]>;
+  trackedHabits: HabitDto[];
 
   constructor(private service: HabitStatisticService) {
   }
 
   ngOnInit() {
-    this.$trackedHabits = this.service.habitStatistics;
     this.service.loadHabitStatistics();
+    this.$trackedHabits = this.service.habitStatistics;
+    this.$trackedHabits.subscribe(
+      data => {
+        data = data.filter(i => i.status !== undefined);
+        this.trackedHabits = data;
+      }
+    );
   }
 }

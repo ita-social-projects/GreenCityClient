@@ -8,12 +8,7 @@ import { UiActionsService } from 'src/app/service/ui-actions/ui-actions.service'
   styleUrls: ['./button.component.css'],
 })
 export class ButtonComponent implements OnInit {
-  constructor(private uiActionsService: UiActionsService) { }
+  constructor() { }
 
-  ngOnInit() {
-  }
-
-  showAddNewHabitModal() {
-    this.uiActionsService.showAddHabitModal();
-  }
+  ngOnInit() { }
 }

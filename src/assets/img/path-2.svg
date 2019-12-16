@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="867px" height="806px" viewBox="0 0 867 806" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61 (89581) - https://sketch.com -->
+    <title>Path@2x</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M857.820878,220.088796 C781.029906,275.847954 769.129848,381.284786 717.122187,459.069178 C699.017826,486.13545 675.62455,510.358811 663.419362,540.385228 C635.398285,609.113336 673.963288,687.073578 725.58106,741.660402 C750.194855,767.700882 778.944853,791.557888 813.729638,802.53387 C840.47934,810.974678 869.161531,811.326378 897.318221,811.546191 L1390.61122,815.942445 C1445.68713,816.426033 1506.88258,814.682186 1546.48164,777.841575 C1573.77379,752.475188 1584.86017,715.429418 1594.26834,680.06888 C1605.82936,636.619234 1616.30548,589.432771 1598.31978,548.049364 C1577.77438,500.701706 1525.81758,473.869901 1493.54164,433.014044 C1441.16104,366.821109 1442.36461,266.703745 1375.65987,213.860769 C1344.51969,189.197783 1303.42889,179.526023 1263.38909,174.690143 C1187.9034,165.560589 1116.40134,182.793905 1042.27178,180.39062 C978.90651,178.339034 910.387943,181.914655 857.820878,220.088796 Z" id="path-1"></path>
+        <filter x="-13.8%" y="-23.3%" width="127.6%" height="141.0%" filterUnits="objectBoundingBox" id="filter-2">
+            <feMorphology radius="15" operator="dilate" in="SourceAlpha" result="shadowSpreadOuter1"></feMorphology>
+            <feOffset dx="0" dy="-18" in="shadowSpreadOuter1" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="26" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.956862745   0 0 0 0 0.960784314   0 0 0 0 0.968627451  0 0 0 1 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Eco-City" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Main-Page" transform="translate(-573.000000, -73.000000)">
+            <g id="Path">
+                <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+            </g>
+        </g>
+    </g>
+</svg>

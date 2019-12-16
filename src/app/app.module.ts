@@ -113,8 +113,26 @@ import { AddGoalItemComponent } from './component/user/user-goals/add-goal/add-g
 import { AddGoalComponent } from './component/user/user-goals/add-goal/add-goal.component';
 import { AddGoalListComponent } from './component/user/user-goals/add-goal/add-goal-list/add-goal-list.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-import {UpdateGoalStatusListComponent} from './component/user/user-goals/add-goal/update-goal-status-list/update-goal-status-list.component';
-import {UpdateGoalItemComponent} from './component/user/user-goals/add-goal/update-goal-status-list/update-goal-item/update-goal-item.component';
+// tslint:disable-next-line:max-line-length
+import { UpdateGoalStatusListComponent } from './component/user/user-goals/add-goal/update-goal-status-list/update-goal-status-list.component';
+// tslint:disable-next-line:max-line-length
+import { UpdateGoalItemComponent } from './component/user/user-goals/add-goal/update-goal-status-list/update-goal-item/update-goal-item.component';
+import { HomepageComponent } from './component/general/homepage/homepage/homepage.component';
+import { StatRowComponent } from './component/general/homepage/stat-row/stat-row.component';
+import { StatRowsComponent } from './component/general/homepage/stat-rows/stat-rows.component';
+import { SubscribeComponent } from './component/general/homepage/subscribe/subscribe.component';
+import { FooterComponent } from './component/general/homepage/footer/footer.component';
+import { EcoEventsComponent } from './component/general/homepage/eco-events/eco-events.component';
+import { TipsListComponent } from './component/general/homepage/useful-tips/tips-list/tips-list.component';
+import { TipsCardComponent } from './component/general/homepage/useful-tips/tips-card/tips-card.component';
+import { SwiperModule } from 'ngx-swiper-wrapper';
+import { SWIPER_CONFIG } from 'ngx-swiper-wrapper';
+import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
+
+const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
+  direction: 'horizontal',
+  slidesPerView: 'auto'
+};
 
 @NgModule({
   declarations: [
@@ -179,10 +197,19 @@ import {UpdateGoalItemComponent} from './component/user/user-goals/add-goal/upda
     AchievementListComponent,
     NewAchievementModalComponent,
     HabitItemListComponent,
-    ConfirmationModalComponent
+    ConfirmationModalComponent,
+    HomepageComponent,
+    StatRowComponent,
+    StatRowsComponent,
+    SubscribeComponent,
+    FooterComponent,
+    EcoEventsComponent,
+    TipsListComponent,
+    TipsCardComponent,
   ],
   imports: [
     BrowserModule,
+    SwiperModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(router),
     HttpClientModule,
@@ -258,6 +285,10 @@ import {UpdateGoalItemComponent} from './component/user/user-goals/add-goal/upda
     {
       provide: AuthServiceConfig,
       useFactory: provideConfig
+    },
+    {
+      provide: SWIPER_CONFIG,
+      useValue: DEFAULT_SWIPER_CONFIG
     },
     DatePipe
   ],
