@@ -310,10 +310,10 @@
     "lower-nav-bar": {
       "home": "Головна",
       "about-us": "Про нас",
-      "eco-events": "Еко заходи",
-      "tips": "Корисні поради",
+      "eco-events": "Еко-новини",
+      "tips": "Eко-поради",
       "map": "Карта",
-      "my-habits": "Мої звички"
+      "my-habits": "Мій кабінет"
     },
     "user-goals": {
       "add-goal": {

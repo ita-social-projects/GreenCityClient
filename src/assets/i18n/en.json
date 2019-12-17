@@ -310,10 +310,10 @@
     "lower-nav-bar": {
       "home": "Home",
       "about-us": "About",
-      "eco-events": "Eco events",
-      "tips": "Tips",
+      "eco-events": "Eco-news",
+      "tips": "Eco-advices",
       "map": "Map",
-      "my-habits": "My habits"
+      "my-habits": "My cabinet"
     },
     "user-goals": {
       "add-goal": {
