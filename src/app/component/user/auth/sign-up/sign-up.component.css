@@ -37,8 +37,9 @@ label[for="email"], label[for="password"], label[for="first-name"] {
 .wrapper-container {
   display: block;
   margin: 0 auto !important;
-  max-width: 1400px;
+  
   width: 65%;
+  max-width: 800px;
   height: 80%;
   z-index: 2;
   background: #ffffff;
@@ -46,7 +47,8 @@ label[for="email"], label[for="password"], label[for="first-name"] {
 
 .form-wrapper {   
   display: flex;
-  justify-content: space-between;  
+  justify-content: space-between; 
+  max-width: 800px; 
 }
 
 .form-pic {
