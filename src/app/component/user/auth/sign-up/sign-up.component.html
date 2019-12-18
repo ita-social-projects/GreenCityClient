@@ -1,9 +1,10 @@
+<div class = "grey-bg">
 <div class = "wrapper-container">
   <div class = "form-wrapper">
 <div class = "form-pic "><img src = "/assets/img/formpic.jpg"></div>
 <div class="sign-in">
 
-  <form #registerForm="ngForm" (ngSubmit)="register(userOwnSignUp)">
+  <form #registerForm="ngForm" (ngSubmit)="register(userOwnSignUp)" name = "inputform">
     <h1>{{'user.auth.sign-up.title-up' | translate}}</h1>
     
     <h2>{{'user.auth.sign-up.fill-form-up' | translate}}</h2>
@@ -50,11 +51,14 @@
 
     <label for="email">{{'user.auth.sign-up.email' | translate}}</label>
 
-    <input id="email" type="email" class="form-control email" name="email" [(ngModel)]="userOwnSignUp.email"
+   <!-- <input id="email" type="email" class="form-control email" name="email" [(ngModel)]="userOwnSignUp.email"
            #emailControl="ngModel" required
-           minlength="1" email="true">
+           minlength="1" email="true">  -->
+<input id="email" type="email" class="email" name="email" [(ngModel)]="userOwnSignUp.email"
+          #emailControl="ngModel" required minlength="1" email="true" [ngClass]="{'grey': emailErrorMessageBackEnd === null, 'red': emailErrorMessageBackEnd !== null && email.errors}">
+
     <div class="validation-error" *ngIf="emailControl.invalid && (emailControl.dirty||emailControl.touched)">
-      <div *ngIf="emailControl.errors.required">
+      <div *ngIf="emailControl.errors.required" [ngClass]="{'grey': emailErrorMessageBackEnd === null, 'red': emailErrorMessageBackEnd !== null}">
         {{'user.auth.sign-up.email-is-required' | translate}}
       </div>
       <div *ngIf="emailControl.errors.minlength">
@@ -69,11 +73,12 @@
     </div>
 
     <label for="password">{{'user.auth.sign-up.password' | translate}}</label>
-
+    <div class = "confirm-wrapper">
     <input id="password" type="password" class="form-control password" name="form-control password"
            [(ngModel)]="userOwnSignUp.password"
            #passwordControl="ngModel"
-           required minlength="8">
+           required minlength="8"      ><img class = "img" src = "" alt = "+" (click)="clickImg()">
+         </div>
     <div class="validation-error" *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
       <div *ngIf="passwordControl.errors.required">
         {{'user.auth.sign-up.password-is-required' | translate}}
@@ -89,26 +94,20 @@
            <!-- Password require -->
     <label for="password">{{'user.auth.sign-up.password-confirm' | translate}}</label>
 
-    <input id="password" type="password" class="form-control password" name="form-control password"
-           [(ngModel)]="userOwnSignUp.password"
-           #passwordControl="ngModel"
-           required minlength="8">
-    <div class="validation-error" *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
-      <div *ngIf="passwordControl.errors.required">
-        {{'user.auth.sign-up.password-is-required' | translate}}
-      </div>
-      <div *ngIf="passwordControl.errors.minlength">
-        {{'user.auth.sign-up.password-must-be-at-least-8-characters-long' | translate}}
-      </div>
-    </div>
-    <div class="validation-error" *ngIf="passwordErrorMessageBackEnd!=null">
+    <input id="password-confirm" type="password" class="form-control password" name="form-control password-confirm">
+    <!--<div class="validation-error" *ngIf="">  -->
+    <!--  <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">  -->
+                      <!--  <div *ngIf="f.confirmPassword.errors.required">Confirm Password is required</div>
+                        <div *ngIf="f.confirmPassword.errors.mustMatch">Passwords must match</div>  -->
+
+    <div class="validation-error" *ngIf="passwordConfirmErrorMessageBackEnd!=null">
       {{passwordErrorMessageBackEnd}}
-    </div>       
+    </div>      
       <!--end password-require -->     
    
     <button class="btn btn-primary submit" [disabled]="!registerForm.valid" type="submit">
       <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-      {{'user.auth.sign-up.submit' | translate}}  <!--Звідки цей Сабміт?  Так і має бути?  Чи 153 стр ua.json? -->
+      {{'user.auth.sign-up.submit' | translate}}  
     </button>
   </form>
     <div class = "wrapper-sign-up">
@@ -121,5 +120,6 @@
   </div>
 </div>
 
+</div>
 </div>
 </div>
