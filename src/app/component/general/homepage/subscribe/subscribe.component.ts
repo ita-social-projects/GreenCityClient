@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SubscribeComponent implements OnInit {
 
-  readonly qrCode = 'assets/img/qr-code.png';
+  readonly qrCode = 'assets/img/qr-code2.png';
 
   constructor() { }
 
