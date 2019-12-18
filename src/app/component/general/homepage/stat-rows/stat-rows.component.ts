@@ -13,7 +13,7 @@ export class StatRowsComponent implements OnInit {
     {
       action: 'Не взяли',
       caption: 'пакетів',
-      count: 45,
+      count: 85,
       question: 'А скільки пакетів ти не взяв сьогодні?',
       iconPath: 'assets/img/habit-pic-bag.png',
       locationText: 'тут можна купити еко-сумочки і торбинки'
@@ -21,7 +21,7 @@ export class StatRowsComponent implements OnInit {
     {
       action: 'Не викинули',
       caption: 'склянок',
-      count: 12,
+      count: 78,
       question: 'А скільки склянок не викинув сьогодні ти?',
       iconPath: 'assets/img/habit-pic-cup.png',
       locationText: 'заклади, які роблять знижку на напій в своє горнятко'
