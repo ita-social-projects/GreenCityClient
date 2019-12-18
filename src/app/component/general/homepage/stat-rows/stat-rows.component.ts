@@ -14,7 +14,7 @@ export class StatRowsComponent implements OnInit {
       action: 'Не взяли',
       caption: 'пакетів',
       count: 45,
-      question: 'А скільки пакетів ти не взяв сьогодні ти?',
+      question: 'А скільки пакетів ти не взяв сьогодні?',
       iconPath: 'assets/img/habit-pic-bag.png',
       locationText: 'тут можна купити еко-сумочки і торбинки'
     },

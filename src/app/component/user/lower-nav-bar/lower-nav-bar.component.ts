@@ -16,4 +16,8 @@ export class LowerNavBarComponent implements OnInit {
 
   ngOnInit() { this.localStorageService.userIdBehaviourSubject.subscribe(userId => this.userId = userId); }
 
+  scrollTo(elementId) {
+    const element = document.getElementById(elementId);
+    element.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  }
 }
