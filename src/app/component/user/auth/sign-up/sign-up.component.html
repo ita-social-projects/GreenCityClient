@@ -29,26 +29,6 @@
       {{firstNameErrorMessageBackEnd}}
     </div>       
 
-
-  <!--  <label for="last-name">{{'user.auth.sign-up.last-name' | translate}}</label>
-    <div class="validation-error" *ngIf="lastNameControl.invalid && (lastNameControl.dirty||lastNameControl.touched)">
-      <div *ngIf="lastNameControl.errors.required">
-        {{'user.auth.sign-up.last-name-is-required' | translate}}
-      </div>
-      <div *ngIf="lastNameControl.errors.minlength">
-        {{'user.auth.sign-up.last-name-must-be-at-least-1-characters-long' | translate}}
-      </div>
-    </div>
-    <div class="validation-error" *ngIf="lastNameErrorMessageBackEnd!=null">
-      {{lastNameErrorMessageBackEnd}}
-    </div>
-    <input id="last-name" type="text" class="form-control last-name" name="lastName"
-           [(ngModel)]="userOwnSignUp.lastName"
-           #lastNameControl="ngModel"
-           required
-           minlength="1" maxlength="20">    -->
-
-
     <label for="email">{{'user.auth.sign-up.email' | translate}}</label>
 
    <!-- <input id="email" type="email" class="form-control email" name="email" [(ngModel)]="userOwnSignUp.email"
@@ -73,11 +53,11 @@
     </div>
 
     <label for="password">{{'user.auth.sign-up.password' | translate}}</label>
-    <div class = "confirm-wrapper">
+    <div class = "password-wrapper">
     <input id="password" type="password" class="form-control password" name="form-control password"
            [(ngModel)]="userOwnSignUp.password"
            #passwordControl="ngModel"
-           required minlength="8"      ><img class = "img" src = "" alt = "+" (click)="clickImg()">
+           required minlength="8"> <img class = "img" src = "" alt = "" (click)="clickImg()">
          </div>
     <div class="validation-error" *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
       <div *ngIf="passwordControl.errors.required">
@@ -95,6 +75,7 @@
     <label for="password">{{'user.auth.sign-up.password-confirm' | translate}}</label>
 
     <input id="password-confirm" type="password" class="form-control password" name="form-control password-confirm">
+    <img class = "img-confirm" src = "" alt = "" (click)="clickImgConfirm()">
     <!--<div class="validation-error" *ngIf="">  -->
     <!--  <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">  -->
                       <!--  <div *ngIf="f.confirmPassword.errors.required">Confirm Password is required</div>

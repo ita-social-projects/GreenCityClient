@@ -101,4 +101,24 @@ export class SignInComponent implements OnInit {
       height: '350px'
     });
   }
+
+
+    clickImgSignIn(elememtIdInput, image) {
+
+    const showEye = "url('/assets/img/icon/eye.png')";
+    const hideEye = "url('/assets/img/icon/eye-show.png')";
+
+  const passwordField = document.getElementById('password');
+  const imgEye = document.querySelector('.img');
+   if (passwordField.type === "password") {
+      imgEye.style.backgroundImage = hideEye;
+     passwordField.setAttribute('type', 'text');
+      console.log("Button is blue");
+   } else {
+    imgEye.style.backgroundImage = showEye;
+    passwordField.setAttribute('type', 'password');
+    console.log("Button is red");
+  }
+}
+
 }

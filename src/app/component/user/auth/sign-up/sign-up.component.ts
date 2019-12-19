@@ -76,19 +76,42 @@ export class SignUpComponent implements OnInit {
 //}
 
   clickImg(elememtIdInput, image) {
-   
+
+    const showEye = "url('/assets/img/icon/eye.png')";
+    const hideEye = "url('/assets/img/icon/eye-show.png')";
+
   const passwordField = document.getElementById('password');
   const imgEye = document.querySelector('.img');
    if (passwordField.type === "password") {
-      imgEye.style.backgroundColor = "blue";
+      imgEye.style.backgroundImage = hideEye;
      passwordField.setAttribute('type', 'text');
       console.log("Button is blue");
    } else {
-    imgEye.style.backgroundColor = "red";
+    imgEye.style.backgroundImage = showEye;
     passwordField.setAttribute('type', 'password');
     console.log("Button is red");
   }
 }
+
+clickImgConfirm() {
+
+  const showEyeConfirm = "url('/assets/img/icon/eye.png')";
+  const hideEyeConfirm = "url('/assets/img/icon/eye-show.png')";
+  const confirmField = document.getElementById('password-confirm');
+  const imgEyeConfirm = document.querySelector('.img-confirm');
+     if (confirmField.type === "password") {
+      imgEyeConfirm.style.backgroundImage = hideEyeConfirm;
+     confirmField.setAttribute('type', 'text');
+      console.log("Button is blue");
+    } else {
+    imgEyeConfirm.style.backgroundImage = showEyeConfirm;
+    confirmField.setAttribute('type', 'password');
+    console.log("Button is red");
+  }
+
+}
+
+
 
 
 

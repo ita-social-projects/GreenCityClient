@@ -87,7 +87,14 @@ form {
   border: 1px solid #839c94;
 }
 
-.img {float: right;margin-left: -25px;margin-top: -25px;
+.img {
+  cursor: pointer;
+  width: 24px;
+  height: 20px;
+  float: right;
+  margin-right: 10px;
+  margin-top: -25px;
+  background-image: url('/assets/img/icon/eye.png');
 }
 
 .password-wrapper {
