@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { LocalStorageService } from 'src/app/service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-homepage',
@@ -12,7 +14,15 @@ export class HomepageComponent implements OnInit {
   readonly path4 = 'assets/img/path-4_3.png';
   readonly path5 = 'assets/img/path-5.png';
 
-  constructor() { }
+  constructor(private router: Router, private localStorageService: LocalStorageService) { }
 
-  ngOnInit() { }
+  userId: number;
+
+  ngOnInit() {
+    this.localStorageService.userIdBehaviourSubject.subscribe(userId => this.userId = userId);
+  }
+
+  startHabit() {
+    this.router.navigate([this.userId, 'habits']);
+  }
 }
