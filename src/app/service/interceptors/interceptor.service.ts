@@ -31,8 +31,8 @@ export class InterceptorService implements HttpInterceptor {
   private isRefreshing = false;
 
   constructor(private http: HttpClient,
-    private localStorageService: LocalStorageService,
-    private router: Router) {
+              private localStorageService: LocalStorageService,
+              private router: Router) {
   }
 
   /**
