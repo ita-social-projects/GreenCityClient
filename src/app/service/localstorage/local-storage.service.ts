@@ -61,7 +61,7 @@ export class LocalStorageService {
   }
 
   public getFirstSighIn(): boolean {
-    return localStorage.getItem('firstSignIn') === 'true' ? true : false;
+    return localStorage.getItem('firstSignIn') === 'true';
   }
 
   public clear(): void {
