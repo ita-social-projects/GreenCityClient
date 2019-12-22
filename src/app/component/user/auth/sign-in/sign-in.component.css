@@ -6,13 +6,13 @@
 }
 
 .sign-in {
-    width: 50%;
-    height: auto;
+  width: 50%;
+  height: auto;
 }
 
 .sign-in input {
   width: 100%;
-  height: 30px;
+  height: 25px;
   border-radius: 5px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -22,14 +22,17 @@
   padding: 0 10px;
 }
 
-label[for="email"], label[for="password"], label[for="first-name"] {
+label[for="email"],
+label[for="password"],
+label[for="first-name"] {
   font: 16px 'OpenSans', sans-serif;
   letter-spacing: 0.34px;
   color: #839c94;
   margin-top: 10px;
 }
 
-.error, .validation-error {
+.error,
+.validation-error {
   color: #f03127;
   font-size: 14px;
 }
@@ -44,10 +47,10 @@ label[for="email"], label[for="password"], label[for="first-name"] {
   background: #ffffff;
 }
 
-.form-wrapper {   
+.form-wrapper {
   display: flex;
   justify-content: space-between;
-   max-width: 800px;  
+  max-width: 800px;
 }
 
 .form-pic {
@@ -55,19 +58,19 @@ label[for="email"], label[for="password"], label[for="first-name"] {
   height: auto;
 }
 
-.form-pic > img {
+.form-pic>img {
   width: 100%;
   height: auto;
 }
 
-form > h1 {
+form>h1 {
   font: 30px 'OpenSans-Bold', sans-serif;
   letter-spacing: 0.18px;
   font-weight: 600;
   margin: 10% 0;
 }
 
-form > h2 {
+form>h2 {
   font: 18px 'OpenSans-Regular', sans-serif;
   line-height: 22px;
   letter-spacing: 0.18px;
@@ -93,7 +96,7 @@ form {
   height: 20px;
   float: right;
   margin-right: 10px;
-  margin-top: -25px;
+  margin-top: -22px;
   background-image: url('/assets/img/icon/eye.png');
 }
 
@@ -123,7 +126,7 @@ form {
 a.forgot-password {
   color: #13aa57;
   font-weight: 500;
-  margin-top: 15px; 
+  margin-top: 15px;
 }
 
 .wrapper-sign-up {
@@ -153,18 +156,18 @@ a.forgot-password {
   display: flex;
   justify-content: space-between;
   box-shadow: 0 3px 8px 2px rgba(0, 0, 0, 0.12);
-    border: 1px solid #ffffff !important;
-    background: #ffffff !important;
+  border: 1px solid #ffffff !important;
+  background: #ffffff !important;
 }
 
 .google-arrow {
-    margin-top: 10px;
-  }
+  margin-top: 10px;
+}
 
 /*MediaQueries*/
 @media screen and (max-width: 1440px) {
   .sign-in {
-      width: 60%;
+    width: 60%;
   }
 }
 
@@ -175,15 +178,14 @@ a.forgot-password {
   }
 
   .sign-in {
-      width: 50%;
-  }
-  form > h1 {
-    font: 40px 'OpenSans-Bold', sans-serif;
-    letter-spacing: 0.18px;
-    font-weight: 600;
+    width: 50%;
   }
 
-  form > h2 {
+  form {
+    margin: 15% 15% 5% 15%;
+  }
+
+  form>h2 {
     margin-top: 2%;
     line-height: 22px;
     letter-spacing: 0.18px;
@@ -193,14 +195,12 @@ a.forgot-password {
   a.forgot-password {
     color: #13aa57;
     font-weight: 500;
-    margin-top: 25px; 
+    margin-top: 25px;
   }
 
-  .sign-in input {
-      height: 35px;    
-  }
-
-  label[for="email"], label[for="password"], label[for="first-name"] {
+  label[for="email"],
+  label[for="password"],
+  label[for="first-name"] {
     margin-top: 20px;
   }
 
@@ -226,20 +226,51 @@ a.forgot-password {
   .google-arrow {
     margin-top: 8px;
   }
-
 }
 
-@media screen and (max-width: 960px) {
-  form > h1 {
-    font: 30px 'OpenSans-Bold', sans-serif; 
-    letter-spacing: 0.18px;
-    font-weight: 600;
+@media screen and (max-width: 1024px) {
+  .wrapper-container {
+    display: block;
+    margin: 0 auto !important;
+
+    width: 85%;
+    max-width: 800px;
+    height: 100%;
+    z-index: 2;
+    background: #ffffff;
+  }
+
+  .form-pic {
+    width: 46%;
+  }
+
+  form {
+    margin: 2% 5% 5% 5%;
   }
 }
 
-@media screen and (max-width: 640px) {
-  .form-wrapper { 
-    margin: 10% 0;  
+@media screen and (max-width: 900px) {
+  .form-pic {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 854px) {
+  .form-pic {
+    width: 54%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .wrapper-container {
+    width: 65%;
+    height: auto;
+  }
+
+  .form-wrapper {
+    display: block;
+    max-width: 800px;
+    width: 100%;
   }
 
   .form-pic {
@@ -247,23 +278,28 @@ a.forgot-password {
   }
 
   .sign-in {
-      width: 100%;
+    width: 100%;
+    height: auto;
+    padding: 0 0 5% 0;
+  }
+
+  .wrapper-sign-up {
+    margin: -10px 10% 10% 10%;
+  }
+
+  form {
+    margin: 10%;
+  }
+
+  form>h1 {
+    font: 26px 'OpenSans-Bold', sans-serif;
+    padding-top: 5%;
   }
 }
 
 @media screen and (max-width: 480px) {
-  .form-wrapper { 
-    margin: 5% 0 15% 0; 
+  .wrapper-container {
+    width: 95%;
+    height: auto;
   }
 }
-
-
-
-
-
-
-
-
-
-
-

@@ -5,7 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 
-import {ErrorStateMatcher} from '@angular/material/core';
+import { ErrorStateMatcher } from '@angular/material/core';
 
 @Component({
   selector: 'app-sign-up',
@@ -20,16 +20,17 @@ export class SignUpComponent implements OnInit {
   passwordErrorMessageBackEnd: string;
   passwordConfirmErrorMessageBackEnd: string;
   loadingAnim = false;
+  tmp = true;
 
   constructor(
     private userOwnSecurityService: UserOwnSignUpService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.userOwnSignUp = new UserOwnSignUp();
     this.setNullAllMessage();
-  } 
+  }
 
 
   private register(userOwnRegister: UserOwnSignUp) {
@@ -50,10 +51,9 @@ export class SignUpComponent implements OnInit {
             this.emailErrorMessageBackEnd = error.message;
           } else if (error.name === 'password') {
             this.passwordErrorMessageBackEnd = error.message;
+          } else if (error.name === 'passwordConfirm') { //  for attribut name = "password-confirm"
+            this.passwordConfirmErrorMessageBackEnd = error.message;
           }
-              else if (error.name === 'passwordConfirm') {   //  for attribut name = "password-confirm"
-                this.passwordConfirmErrorMessageBackEnd = error.message;
-              }
         });
         this.loadingAnim = false;
       }
@@ -65,60 +65,52 @@ export class SignUpComponent implements OnInit {
     this.lastNameErrorMessageBackEnd = null;
     this.emailErrorMessageBackEnd = null;
     this.passwordErrorMessageBackEnd = null;
-         this.passwordConfirmErrorMessageBackEnd = null;
+    this.passwordConfirmErrorMessageBackEnd = null;
   }
-
-  //checkPasswords(group: FormGroup) { // here we have the 'passwords' group
-  //let pass = group.get('password').value;
-  //let confirmPass = group.get('confirmPass').value;
-
-  //return pass === confirmPass ? null : { notSame: true }     
-//}
 
   clickImg(elememtIdInput, image) {
 
     const showEye = "url('/assets/img/icon/eye.png')";
     const hideEye = "url('/assets/img/icon/eye-show.png')";
 
-  const passwordField = document.getElementById('password');
-  const imgEye = document.querySelector('.img');
-   if (passwordField.type === "password") {
+    const passwordField = document.getElementById('password');
+    const imgEye = document.querySelector('.img');
+    if (passwordField.type === "password") {
       imgEye.style.backgroundImage = hideEye;
-     passwordField.setAttribute('type', 'text');
-      console.log("Button is blue");
-   } else {
-    imgEye.style.backgroundImage = showEye;
-    passwordField.setAttribute('type', 'password');
-    console.log("Button is red");
-  }
-}
-
-clickImgConfirm() {
-
-  const showEyeConfirm = "url('/assets/img/icon/eye.png')";
-  const hideEyeConfirm = "url('/assets/img/icon/eye-show.png')";
-  const confirmField = document.getElementById('password-confirm');
-  const imgEyeConfirm = document.querySelector('.img-confirm');
-     if (confirmField.type === "password") {
-      imgEyeConfirm.style.backgroundImage = hideEyeConfirm;
-     confirmField.setAttribute('type', 'text');
-      console.log("Button is blue");
+      passwordField.setAttribute('type', 'text');
     } else {
-    imgEyeConfirm.style.backgroundImage = showEyeConfirm;
-    confirmField.setAttribute('type', 'password');
-    console.log("Button is red");
+      imgEye.style.backgroundImage = showEye;
+      passwordField.setAttribute('type', 'password');
+    }
   }
 
+  clickImgConfirm() {
+    const showEyeConfirm = "url('/assets/img/icon/eye.png')";
+    const hideEyeConfirm = "url('/assets/img/icon/eye-show.png')";
+    const confirmField = document.getElementById('password-confirm');
+    const imgEyeConfirm = document.querySelector('.img-confirm');
+    if (confirmField.type === "password") {
+      imgEyeConfirm.style.backgroundImage = hideEyeConfirm;
+      confirmField.setAttribute('type', 'text');
+    } else {
+      imgEyeConfirm.style.backgroundImage = showEyeConfirm;
+      confirmField.setAttribute('type', 'password');
+    }
+
+  }
+
+  matchPassword() {
+    let password = document.querySelector('#password').value;
+    let confirmPassword = document.querySelector('#password-confirm').value;
+    if (password !== confirmPassword) {
+      console.log('false');
+      document.querySelector('.seterror').style.display = "block";
+      document.querySelector('#password-confirm').style.border = "1px solid #F03127";
+    } else {
+      console.log('true');
+      document.querySelector('.seterror').style.display = "none";
+      document.querySelector('#password-confirm').style.border = "1px solid #839c94";
+      return null
+    }
+  }
 }
-
-
-
-
-
-}
-
-
-
-
-
-
