@@ -8,7 +8,6 @@ import { UserSettingComponent } from '../user-setting/user-setting.component';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '../../../service/localstorage/local-storage.service';
 import { JwtService } from '../../../service/jwt/jwt.service';
-import { OnLogout } from 'src/app/service/OnLogout';
 import { UserService } from 'src/app/service/user/user.service';
 import { AchievementService } from 'src/app/service/achievement/achievement.service';
 import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-statistic.service';
@@ -22,7 +21,6 @@ export class NavBarComponent implements OnInit {
   firstName: string;
   userRole: string;
   userId: number;
-  habitId: number;
 
   constructor(
     private modalService: ModalService,
@@ -76,8 +74,6 @@ export class NavBarComponent implements OnInit {
     this.userService.onLogout();
     this.habitStatisticService.onLogout();
     this.achievementService.onLogout();
-    this.router.navigate(['/'])
-      .then(success => console.log('redirect has succeeded ' + success))
-      .catch(fail => console.log('redirect has failed ' + fail));
+    this.router.navigateByUrl('/welcome').then(r => r);
   }
 }
