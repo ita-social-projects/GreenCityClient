@@ -69,13 +69,11 @@ export class SignUpComponent implements OnInit {
   }
 
   clickImg(elememtIdInput, image) {
-
     const showEye = 'url(\'/assets/img/icon/eye.png\')';
     const hideEye = 'url(\'/assets/img/icon/eye-show.png\')';
-
     const passwordField = document.getElementById('password');
-    const imgEye = document.querySelector('.img');
-    if (passwordField.type === 'password') {
+    const imgEye = document.getElementById('img');
+    if (passwordField['type'] === 'password') {
       imgEye.style.backgroundImage = hideEye;
       passwordField.setAttribute('type', 'text');
     } else {
@@ -88,29 +86,28 @@ export class SignUpComponent implements OnInit {
     const showEyeConfirm = 'url(\'/assets/img/icon/eye.png\')';
     const hideEyeConfirm = 'url(\'/assets/img/icon/eye-show.png\')';
     const confirmField = document.getElementById('password-confirm');
-    const imgEyeConfirm = document.querySelector('.img-confirm');
-    if (confirmField.type === 'password') {
+    const imgEyeConfirm = document.getElementById('img-confirm');
+    if (confirmField['type'] === 'password') {
       imgEyeConfirm.style.backgroundImage = hideEyeConfirm;
       confirmField.setAttribute('type', 'text');
     } else {
       imgEyeConfirm.style.backgroundImage = showEyeConfirm;
       confirmField.setAttribute('type', 'password');
     }
-
   }
 
   matchPassword() {
-    let password = document.querySelector('#password').value;
-    let confirmPassword = document.querySelector('#password-confirm').value;
+    const password = document.getElementById('password')['value'];
+    const confirmPassword = document.getElementById('password-confirm')['value'];
     if (password !== confirmPassword) {
       console.log('false');
-      document.querySelector('.seterror').style.display = 'block';
-      document.querySelector('#password-confirm').style.border = '1px solid #F03127';
+      document.getElementById('seterror').style.display = 'block';
+      document.getElementById('password-confirm').style.border = '1px solid #F03127';
     } else {
       console.log('true');
-      document.querySelector('.seterror').style.display = 'none';
-      document.querySelector('#password-confirm').style.border = '1px solid #839c94';
-      return null
+      document.getElementById('seterror').style.display = 'none';
+      document.getElementById('password-confirm').style.border = '1px solid #839c94';
+      //return null
     }
   }
 }

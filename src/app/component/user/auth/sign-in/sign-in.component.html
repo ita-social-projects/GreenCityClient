@@ -24,7 +24,7 @@
           </div>
           <label for="password">{{'user.auth.sign-in.password' | translate}}</label>
           <div class="password-wrapper">
-            <input id="password" type="password" class="form-control password" name="form-control password-signin" [(ngModel)]="userOwnSignIn.password" #passwordControl="ngModel" required minlength="8"> <img class="img" src="" alt="" (click)="clickImgSignIn()">
+            <input id="password" type="password" class="form-control password" name="form-control password-signin" [(ngModel)]="userOwnSignIn.password" #passwordControl="ngModel" required minlength="8"> <img class="img" id = "img" src="" alt="" (click)="clickImgSignIn()">
             <div class="clearfix"></div>
           </div>
           <div class="validation-error" *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
