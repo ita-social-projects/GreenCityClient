@@ -178,6 +178,7 @@
         "password-is-required": "Введите пароль",
         "password-must-be-at-least-8-characters-long": "Пароль должен содержать по крайней мере 8 символов",
         "password-confirm": "Підтвердить пароль",
+        "password-match": "Пароли не совпадают",
         "submit": "Зарегистрироваться!",
         "haveyou-account": "Уже есть аккаунт?"
       },

@@ -177,6 +177,7 @@
         "password": "Password",
         "password-is-required": "Password is required",
         "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long",
+        "password-match": "Passwords do not match",
         "password-confirm": "Password confirm",
         "submit": "Sign Up!",
         "haveyou-account": "Have you an account already?"

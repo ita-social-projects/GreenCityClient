@@ -1,106 +1,81 @@
-<div class = "grey-bg">
-<div class = "wrapper-container">
-  <div class = "form-wrapper">
-<div class = "form-pic "><img src = "/assets/img/formpic.jpg"></div>
-<div class="sign-in">
+<div class="grey-bg">
+    <div class="wrapper-container">
+        <div class="form-wrapper">
+            <div class="form-pic "><img src="/assets/img/formpic.jpg"></div>
+            <div class="sign-in">
+                <form #registerForm="ngForm" (ngSubmit)="register(userOwnSignUp)" name="inputform">
+                    <h1>{{'user.auth.sign-up.title-up' | translate}}</h1>
+                    <h2>{{'user.auth.sign-up.fill-form-up' | translate}}</h2>
+                    <label for="first-name">{{'user.auth.sign-up.first-name' | translate}}</label>
+                    <input id="first-name" type="text" class="form-control first-name" name="fistName" [(ngModel)]="userOwnSignUp.firstName" #firstNameControl="ngModel" required minlength="1" maxlength="20">
+                    <div class="validation-error" *ngIf="firstNameControl.invalid && (firstNameControl.dirty||firstNameControl.touched)">
+                        <div *ngIf="firstNameControl.errors.required">
+                            {{'user.auth.sign-up.first-name-is-required' | translate}}
+                        </div>
+                        <div *ngIf="firstNameControl.errors.minlength">
+                            {{'user.auth.sign-up.first-name-must-be-at-least-1-characters-long' | translate}}
+                        </div>
+                    </div>
+                    <div class="validation-error" *ngIf="firstNameErrorMessageBackEnd!=null">
+                        {{firstNameErrorMessageBackEnd}}
+                    </div>
+                    <label for="email">{{'user.auth.sign-up.email' | translate}}</label>
+                    <input id="email" type="email" class="email" name="email" [(ngModel)]="userOwnSignUp.email" #emailControl="ngModel" required minlength="1" email="true" [ngClass]="{'grey': emailErrorMessageBackEnd === null, 'red': emailErrorMessageBackEnd !== null && email.errors}" (blur)='inputStylesError()'>
+                    <div class="validation-error" *ngIf="emailControl.invalid && (emailControl.dirty||emailControl.touched)">
+                        <div *ngIf="emailControl.errors.required">
+                            {{'user.auth.sign-up.email-is-required' | translate}}
+                        </div>
+                        <div *ngIf="emailControl.errors.minlength">
+                            {{'user.auth.sign-up.email-must-be-at-least-1-characters-long' | translate}}
+                        </div>
+                        <div *ngIf="emailControl.errors.email">
+                            {{'user.auth.sign-up.this-is-not-email' | translate}}
+                        </div>
+                    </div>
+                    <div class="validation-error" *ngIf="emailErrorMessageBackEnd!=null">
+                        {{emailErrorMessageBackEnd}}
+                    </div>
+                    <label for="password">{{'user.auth.sign-up.password' | translate}}</label>
+                    <div class="password-wrapper">
+                        <input id="password" type="password" class="form-control password" name="form-control password" [(ngModel)]="userOwnSignUp.password" #passwordControl="ngModel" required minlength="8"> <img class="img" src="" alt="" (click)="clickImg()">
+                    </div>
+                    <div class="validation-error" *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
+                        <div *ngIf="passwordControl.errors.required">
+                            {{'user.auth.sign-up.password-is-required' | translate}}
+                        </div>
+                        <div *ngIf="passwordControl.errors.minlength">
+                            {{'user.auth.sign-up.password-must-be-at-least-8-characters-long' | translate}}
+                        </div>
+                    </div>
+                    <div class="validation-error" *ngIf="passwordErrorMessageBackEnd!=null">
+                        {{passwordErrorMessageBackEnd}}
+                    </div>                    
+                    <label for="password">{{'user.auth.sign-up.password-confirm' | translate}}</label>
+                    <input id="password-confirm" type="password" [(ngModel)]="name"  #passwordControlConfirm="ngModel" required class="form-control password" name="form-control password-confirm" (input)="matchPassword()" >
+                    <img class="img-confirm" src="" alt="" (click)="clickImgConfirm()">
 
-  <form #registerForm="ngForm" (ngSubmit)="register(userOwnSignUp)" name = "inputform">
-    <h1>{{'user.auth.sign-up.title-up' | translate}}</h1>
-    
-    <h2>{{'user.auth.sign-up.fill-form-up' | translate}}</h2>
-
-    <label for="first-name">{{'user.auth.sign-up.first-name' | translate}}</label>
-
-    <input id="first-name" type="text" class="form-control first-name" name="fistName"
-           [(ngModel)]="userOwnSignUp.firstName"
-           #firstNameControl="ngModel" required
-           minlength="1" maxlength="20">
-
-    <div class="validation-error"
-         *ngIf="firstNameControl.invalid && (firstNameControl.dirty||firstNameControl.touched)">
-      <div *ngIf="firstNameControl.errors.required">
-        {{'user.auth.sign-up.first-name-is-required' | translate}}
-      </div>
-      <div *ngIf="firstNameControl.errors.minlength">
-        {{'user.auth.sign-up.first-name-must-be-at-least-1-characters-long' | translate}}
-      </div>
+                    <div class="validation-error" *ngIf="passwordControlConfirm.invalid && (passwordControlConfirm.dirty||passwordControlConfirm.touched)">
+                        <div *ngIf="passwordControlConfirm.errors.required">
+                            {{'user.auth.sign-up.password-is-required' | translate}}
+                        </div>                        
+                    </div>
+                    <div class="validation-error" *ngIf="">
+                        {{passwordErrorMessageBackEnd}}
+                    </div>
+                    <div class="seterror">{{'user.auth.sign-up.password-match' | translate}}</div>
+                    <button class="btn btn-primary submit" [disabled]="!registerForm.valid" type="submit">
+                        <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        {{'user.auth.sign-up.submit' | translate}}
+                    </button>
+                </form>
+                <div class="wrapper-sign-up">
+                    <p>{{'user.auth.sign-up.haveyou-account' | translate}} <a routerLink="/auth" class="signup-link">{{'user.auth.sign-in.sign-in' | translate}}</a></p> 
+                    <span class="or">{{'user.auth.sign-in.or-signin' | translate}}</span>
+                    <div>
+                        <button type="submit" class="google" (click)="signInWithGoogle()"><img src="/assets/img/icon/google.svg" alt="G">{{'user.auth.sign-in.sign-in-with-google' | translate}}<img src="/assets/img/icon/arrows/google-arrow.svg" alt="" class="google-arrow"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="validation-error" *ngIf="firstNameErrorMessageBackEnd!=null">
-      {{firstNameErrorMessageBackEnd}}
-    </div>       
-
-    <label for="email">{{'user.auth.sign-up.email' | translate}}</label>
-
-   <!-- <input id="email" type="email" class="form-control email" name="email" [(ngModel)]="userOwnSignUp.email"
-           #emailControl="ngModel" required
-           minlength="1" email="true">  -->
-<input id="email" type="email" class="email" name="email" [(ngModel)]="userOwnSignUp.email"
-          #emailControl="ngModel" required minlength="1" email="true" [ngClass]="{'grey': emailErrorMessageBackEnd === null, 'red': emailErrorMessageBackEnd !== null && email.errors}">
-
-    <div class="validation-error" *ngIf="emailControl.invalid && (emailControl.dirty||emailControl.touched)">
-      <div *ngIf="emailControl.errors.required" [ngClass]="{'grey': emailErrorMessageBackEnd === null, 'red': emailErrorMessageBackEnd !== null}">
-        {{'user.auth.sign-up.email-is-required' | translate}}
-      </div>
-      <div *ngIf="emailControl.errors.minlength">
-        {{'user.auth.sign-up.email-must-be-at-least-1-characters-long' | translate}}
-      </div>
-      <div *ngIf="emailControl.errors.email">
-        {{'user.auth.sign-up.this-is-not-email' | translate}}
-      </div>
-    </div>
-    <div class="validation-error" *ngIf="emailErrorMessageBackEnd!=null">
-      {{emailErrorMessageBackEnd}}
-    </div>
-
-    <label for="password">{{'user.auth.sign-up.password' | translate}}</label>
-    <div class = "password-wrapper">
-    <input id="password" type="password" class="form-control password" name="form-control password"
-           [(ngModel)]="userOwnSignUp.password"
-           #passwordControl="ngModel"
-           required minlength="8"> <img class = "img" src = "" alt = "" (click)="clickImg()">
-         </div>
-    <div class="validation-error" *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
-      <div *ngIf="passwordControl.errors.required">
-        {{'user.auth.sign-up.password-is-required' | translate}}
-      </div>
-      <div *ngIf="passwordControl.errors.minlength">
-        {{'user.auth.sign-up.password-must-be-at-least-8-characters-long' | translate}}
-      </div>
-    </div>
-    <div class="validation-error" *ngIf="passwordErrorMessageBackEnd!=null">
-      {{passwordErrorMessageBackEnd}}
-    </div>       
-
-           <!-- Password require -->
-    <label for="password">{{'user.auth.sign-up.password-confirm' | translate}}</label>
-
-    <input id="password-confirm" type="password" class="form-control password" name="form-control password-confirm">
-    <img class = "img-confirm" src = "" alt = "" (click)="clickImgConfirm()">
-    <!--<div class="validation-error" *ngIf="">  -->
-    <!--  <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">  -->
-                      <!--  <div *ngIf="f.confirmPassword.errors.required">Confirm Password is required</div>
-                        <div *ngIf="f.confirmPassword.errors.mustMatch">Passwords must match</div>  -->
-
-    <div class="validation-error" *ngIf="passwordConfirmErrorMessageBackEnd!=null">
-      {{passwordErrorMessageBackEnd}}
-    </div>      
-      <!--end password-require -->     
-   
-    <button class="btn btn-primary submit" [disabled]="!registerForm.valid" type="submit">
-      <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-      {{'user.auth.sign-up.submit' | translate}}  
-    </button>
-  </form>
-    <div class = "wrapper-sign-up">
-      <p>{{'user.auth.sign-up.haveyou-account' | translate}} <a routerLink="/auth" class = "signup-link">{{'user.auth.sign-in.sign-in' | translate}}</a></p>  <!-- routerLink="sign-in"  не працюэ!!!!-->
-  <span class = "or">{{'user.auth.sign-in.or-signin' | translate}}</span>
-  
-  <div>    
-    <button type="submit" class="google" (click)="signInWithGoogle()"><img src = "/assets/img/icon/google.svg" alt = "G">{{'user.auth.sign-in.sign-in-with-google' | translate}}<img src = "/assets/img/icon/arrows/google-arrow.svg"  alt = "" class = "google-arrow"></button>
-  </div>
-  </div>
-</div>
-
-</div>
-</div>
 </div>

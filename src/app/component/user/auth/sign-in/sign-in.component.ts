@@ -32,7 +32,7 @@ export class SignInComponent implements OnInit {
     private googleService: GoogleSignInService,
     public dialog: MatDialog,
     private localStorageService: LocalStorageService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.userOwnSignIn = new UserOwnSignIn();
@@ -103,22 +103,22 @@ export class SignInComponent implements OnInit {
   }
 
 
-    clickImgSignIn(elememtIdInput, image) {
+  clickImgSignIn(elememtIdInput, image) {
 
     const showEye = "url('/assets/img/icon/eye.png')";
     const hideEye = "url('/assets/img/icon/eye-show.png')";
 
-  const passwordField = document.getElementById('password');
-  const imgEye = document.querySelector('.img');
-   if (passwordField.type === "password") {
+    const passwordField = document.getElementById('password');
+    const imgEye = document.querySelector('.img');
+    if (passwordField.type === "password") {
       imgEye.style.backgroundImage = hideEye;
-     passwordField.setAttribute('type', 'text');
+      passwordField.setAttribute('type', 'text');
       console.log("Button is blue");
-   } else {
-    imgEye.style.backgroundImage = showEye;
-    passwordField.setAttribute('type', 'password');
-    console.log("Button is red");
+    } else {
+      imgEye.style.backgroundImage = showEye;
+      passwordField.setAttribute('type', 'password');
+      console.log("Button is red");
+    }
   }
-}
 
 }
