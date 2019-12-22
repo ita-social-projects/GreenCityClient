@@ -107,8 +107,8 @@ export class SignInComponent implements OnInit {
     const showEye = 'url(\'/assets/img/icon/eye.png\')';
     const hideEye = 'url(\'/assets/img/icon/eye-show.png\')';
     const passwordField = document.getElementById('password');
-    const imgEye = document.querySelector('.img');
-    if (passwordField.type === 'password') {
+    const imgEye = document.getElementById('.img');
+    if (passwordField['type'] === 'password') {
       imgEye.style.backgroundImage = hideEye;
       passwordField.setAttribute('type', 'text');
     } else {

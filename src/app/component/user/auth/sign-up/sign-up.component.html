@@ -37,7 +37,7 @@
                     </div>
                     <label for="password">{{'user.auth.sign-up.password' | translate}}</label>
                     <div class="password-wrapper">
-                        <input id="password" type="password" class="form-control password" name="form-control password" [(ngModel)]="userOwnSignUp.password" #passwordControl="ngModel" required minlength="8"> <img class="img" src="" alt="" (click)="clickImg()">
+                        <input id="password" type="password" class="form-control password" name="form-control password" [(ngModel)]="userOwnSignUp.password" #passwordControl="ngModel" required minlength="8"> <img class="img" id = "img" src="" alt="" (click)="clickImg()">
                     </div>
                     <div class="validation-error" *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
                         <div *ngIf="passwordControl.errors.required">
@@ -52,7 +52,7 @@
                     </div>                    
                     <label for="password">{{'user.auth.sign-up.password-confirm' | translate}}</label>
                     <input id="password-confirm" type="password" [(ngModel)]="name"  #passwordControlConfirm="ngModel" required class="form-control password" name="form-control password-confirm" (input)="matchPassword()" >
-                    <img class="img-confirm" src="" alt="" (click)="clickImgConfirm()">
+                    <img id = "img-confirm" class="img-confirm" src="" alt="" (click)="clickImgConfirm()">
 
                     <div class="validation-error" *ngIf="passwordControlConfirm.invalid && (passwordControlConfirm.dirty||passwordControlConfirm.touched)">
                         <div *ngIf="passwordControlConfirm.errors.required">
@@ -62,7 +62,7 @@
                     <div class="validation-error" *ngIf="">
                         {{passwordErrorMessageBackEnd}}
                     </div>
-                    <div class="seterror">{{'user.auth.sign-up.password-match' | translate}}</div>
+                    <div id = "seterror" class="seterror">{{'user.auth.sign-up.password-match' | translate}}</div>
                     <button class="btn btn-primary submit" [disabled]="!registerForm.valid" type="submit">
                         <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                         {{'user.auth.sign-up.submit' | translate}}
