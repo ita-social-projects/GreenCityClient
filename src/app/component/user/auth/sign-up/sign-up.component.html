@@ -7,8 +7,8 @@
                     <h1>{{'user.auth.sign-up.title-up' | translate}}</h1>
                     <h2>{{'user.auth.sign-up.fill-form-up' | translate}}</h2>
                     <label for="first-name">{{'user.auth.sign-up.first-name' | translate}}</label>
-                    <input id="first-name" type="text" class="form-control first-name" name="fistName" [(ngModel)]="userOwnSignUp.firstName" #firstNameControl="ngModel" required minlength="1" maxlength="20">
-                    <div class="validation-error" *ngIf="firstNameControl.invalid && (firstNameControl.dirty||firstNameControl.touched)">
+                    <input id="first-name" type="text" class="first-name" [class]="firstNameControl.errors&&firstNameControl.touched? 'red':'grey'" name="fistName" [(ngModel)]="userOwnSignUp.firstName" #firstNameControl="ngModel" required minlength="1" maxlength="20" (focus) = "inputTextGreen()" (blur) = "inputTextBlack()" (input) = "fieldError()">
+                    <div class="validation-error"  *ngIf="firstNameControl.invalid && (firstNameControl.dirty||firstNameControl.touched)">
                         <div *ngIf="firstNameControl.errors.required">
                             {{'user.auth.sign-up.first-name-is-required' | translate}}
                         </div>
@@ -16,12 +16,12 @@
                             {{'user.auth.sign-up.first-name-must-be-at-least-1-characters-long' | translate}}
                         </div>
                     </div>
-                    <div class="validation-error" *ngIf="firstNameErrorMessageBackEnd!=null">
+                    <div class="validation-error" id = "validation-error" *ngIf="firstNameErrorMessageBackEnd!=null" >
                         {{firstNameErrorMessageBackEnd}}
                     </div>
                     <label for="email">{{'user.auth.sign-up.email' | translate}}</label>
-                    <input id="email" type="email" class="email" name="email" [(ngModel)]="userOwnSignUp.email" #emailControl="ngModel" required minlength="1" email="true" [ngClass]="{'grey': emailErrorMessageBackEnd === null, 'red': emailErrorMessageBackEnd !== null && email.errors}" (blur)='inputStylesError()'>
-                    <div class="validation-error" *ngIf="emailControl.invalid && (emailControl.dirty||emailControl.touched)">
+                    <input id="email" #emailControl="ngModel" [class]="emailControl.errors&&emailControl.touched? 'red':'grey'" type="email" class="email" name="email" [(ngModel)]="userOwnSignUp.email" #emailControl="ngModel" required minlength="1" email="true" (focus) = "inputEmailGreen()" (blur) = "inputEmailBlack()">
+                    <div class="validation-error" id = "validation-error" *ngIf="emailControl.invalid && (emailControl.dirty||emailControl.touched)">
                         <div *ngIf="emailControl.errors.required">
                             {{'user.auth.sign-up.email-is-required' | translate}}
                         </div>
@@ -37,7 +37,7 @@
                     </div>
                     <label for="password">{{'user.auth.sign-up.password' | translate}}</label>
                     <div class="password-wrapper">
-                        <input id="password" type="password" class="form-control password" name="form-control password" [(ngModel)]="userOwnSignUp.password" #passwordControl="ngModel" required minlength="8"> <img class="img" id = "img" src="" alt="" (click)="clickImg()">
+                        <input id="password" #passwordControl="ngModel" [ngClass]="passwordControl.errors&&passwordControl.touched? 'red':'grey'" type="password" class=" password" name="form-control password" [(ngModel)]="userOwnSignUp.password" #passwordControl="ngModel" required minlength="8" (focus) = "inputPassGreen()" (blur) = "inputPassBlack()"> <img class="img" id = "img" src="" alt="" (click)="clickImg()">
                     </div>
                     <div class="validation-error" *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
                         <div *ngIf="passwordControl.errors.required">
@@ -51,8 +51,8 @@
                         {{passwordErrorMessageBackEnd}}
                     </div>                    
                     <label for="password">{{'user.auth.sign-up.password-confirm' | translate}}</label>
-                    <input id="password-confirm" type="password" [(ngModel)]="name"  #passwordControlConfirm="ngModel" required class="form-control password" name="form-control password-confirm" (input)="matchPassword()" >
-                    <img id = "img-confirm" class="img-confirm" src="" alt="" (click)="clickImgConfirm()">
+                    <input  id="password-confirm"  type="password" [(ngModel)]="name"  #passwordControlConfirm="ngModel" required [class]="passwordControlConfirm.errors&&passwordControlConfirm.touched? 'red':'grey'"  name="form-control password-confirm" (input)="matchPassword()" (focus) = "inputPassConfirmGreen()" (blur) = "inputPassConfirmBlack()">
+                    <img id = "img-confirm"  class="img-confirm" src="" alt="" (click)="clickImgConfirm()">
 
                     <div class="validation-error" *ngIf="passwordControlConfirm.invalid && (passwordControlConfirm.dirty||passwordControlConfirm.touched)">
                         <div *ngIf="passwordControlConfirm.errors.required">

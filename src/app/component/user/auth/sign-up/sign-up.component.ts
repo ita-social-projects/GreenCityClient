@@ -100,14 +100,68 @@ export class SignUpComponent implements OnInit {
     const password = document.getElementById('password')['value'];
     const confirmPassword = document.getElementById('password-confirm')['value'];
     if (password !== confirmPassword) {
-      console.log('false');
       document.getElementById('seterror').style.display = 'block';
       document.getElementById('password-confirm').style.border = '1px solid #F03127';
     } else {
-      console.log('true');
       document.getElementById('seterror').style.display = 'none';
       document.getElementById('password-confirm').style.border = '1px solid #839c94';
-      //return null
     }
+  }
+
+  inputTextGreen() {
+    document.getElementById('first-name').style.color = '#13AA57';
+  }
+
+  inputTextBlack() {
+    document.getElementById('first-name').style.color = '#000';
+
+  }
+
+  inputEmailGreen() {
+    document.getElementById('email').style.color = '#13AA57';
+  }
+
+  inputEmailBlack() {
+    document.getElementById('email').style.color = '#000';
+  }
+
+  inputPassGreen() {
+    document.getElementById('password').style.color = '#13AA57';
+  }
+
+  inputPassBlack() {
+    document.getElementById('password').style.color = '#000';
+  }
+
+  inputPassConfirmGreen() {
+    document.getElementById('password-confirm').style.color = '#13AA57';
+  }
+
+  inputPassConfirmBlack() {
+    document.getElementById('password-confirm').style.color = '#000';
+  }
+
+  signInWithGoogle() {
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(data => {
+      this.googleService.signIn(data.idToken).subscribe(
+        (data1: UserSuccessSignIn) => {
+          this.userOwnSignInService.saveUserToLocalStorage(data1);
+          this.router.navigate(['/']);
+        },
+        (errors: HttpErrorResponse) => {
+          try {
+            errors.error.forEach(error => {
+              if (error.name === 'email') {
+                this.emailErrorMessageBackEnd = error.message;
+              } else if (error.name === 'password') {
+                this.passwordErrorMessageBackEnd = error.message;
+              }
+            });
+          } catch (e) {
+            this.backEndError = errors.error.message;
+          }
+        }
+      );
+    });
   }
 }
