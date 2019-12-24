@@ -4,8 +4,15 @@ import { UserOwnSignUpService } from '../../../../service/auth/user-own-sign-up.
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
+import { UserSuccessSignIn } from '../../../../model/user-success-sign-in';
 
-import { ErrorStateMatcher } from '@angular/material/core';
+
+import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
+import { GoogleSignInService } from '../../../../service/auth/google-sign-in.service';
+import { MatDialog } from '@angular/material';
+import { RestoreComponent } from '../../restore/restore.component';
+import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
+
 
 @Component({
   selector: 'app-sign-up',
@@ -22,21 +29,29 @@ export class SignUpComponent implements OnInit {
   loadingAnim = false;
   tmp = true;
 
+  backEndError: string;
+
   constructor(
     private userOwnSecurityService: UserOwnSignUpService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService,
+    private googleService: GoogleSignInService,
+    public dialog: MatDialog,
+    private localStorageService: LocalStorageService
   ) {}
 
   ngOnInit() {
     this.userOwnSignUp = new UserOwnSignUp();
     this.setNullAllMessage();
+    
   }
 
 
   private register(userOwnRegister: UserOwnSignUp) {
     this.setNullAllMessage();
     this.loadingAnim = true;
-    this.userOwnSecurityService.signUp(userOwnRegister).subscribe(
+             //this.userOwnSecurityService.saveUserToLocalStorage(data1); //??????
+    this.userOwnSecurityService.signUp(userOwnRegister).subscribe(      
       () => {
         this.loadingAnim = false;
         this.router.navigateByUrl('/auth/submit-email').then(r => r);
@@ -145,7 +160,7 @@ export class SignUpComponent implements OnInit {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(data => {
       this.googleService.signIn(data.idToken).subscribe(
         (data1: UserSuccessSignIn) => {
-          this.userOwnSignInService.saveUserToLocalStorage(data1);
+          this.userOwnSecurityService.saveUserToLocalStorage(data1);
           this.router.navigate(['/']);
         },
         (errors: HttpErrorResponse) => {
