@@ -3,6 +3,7 @@ import {AdviceService} from '../../../../../../service/advice/advice.service';
 import {AdviceDto} from '../../../../../../model/advice/AdviceDto';
 import {Observable} from 'rxjs';
 import {HabitDictionaryDto} from '../../../../../../model/habit/HabitDictionaryDto';
+import {LanguageService} from '../../../../../../i18n/language.service';
 
 @Component({
   selector: 'app-advice',
@@ -15,10 +16,10 @@ export class AdviceComponent implements OnInit {
   @Input()
   habitDictionary: HabitDictionaryDto;
 
-  constructor(private service: AdviceService) {
+  constructor(private service: AdviceService, private languageService: LanguageService) {
   }
 
   ngOnInit() {
-    this.$advice = this.service.getAdvice(this.habitDictionary.id);
+    this.$advice = this.service.getAdvice(this.habitDictionary.id, this.languageService.getCurrentLanguage());
   }
 }
