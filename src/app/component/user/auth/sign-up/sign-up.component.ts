@@ -42,15 +42,13 @@ export class SignUpComponent implements OnInit {
 
   ngOnInit() {
     this.userOwnSignUp = new UserOwnSignUp();
-    this.setNullAllMessage();
-    
+    this.setNullAllMessage();    
   }
 
 
   private register(userOwnRegister: UserOwnSignUp) {
     this.setNullAllMessage();
     this.loadingAnim = true;
-             //this.userOwnSecurityService.saveUserToLocalStorage(data1); //??????
     this.userOwnSecurityService.signUp(userOwnRegister).subscribe(      
       () => {
         this.loadingAnim = false;
@@ -66,7 +64,7 @@ export class SignUpComponent implements OnInit {
             this.emailErrorMessageBackEnd = error.message;
           } else if (error.name === 'password') {
             this.passwordErrorMessageBackEnd = error.message;
-          } else if (error.name === 'passwordConfirm') { //  for attribut name = 'password-confirm'
+          } else if (error.name === 'passwordConfirm') {
             this.passwordConfirmErrorMessageBackEnd = error.message;
           }
         });
