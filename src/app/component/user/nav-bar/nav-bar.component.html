@@ -1,42 +1,20 @@
 <nav class="navbar navbar-expand-md navbar-dark">
 
-  <div class="navbar-collapse collapse">
+  <p *ngIf="!isLoggedIn; else elseBlock"><span class="p-content">{{'nav-bar.hi!-it\'s-an-eco-habit-tracker.' | translate}}</span>
+    <a href=""> {{'nav-bar.sign-up' | translate}}</a> <span class="p-content-two"> {{'nav-bar.to-create-your-own' | translate}} </span>
+    {{'nav-bar.or' | translate}} <a routerLink="auth">{{'nav-bar.sign-in' | translate}}</a>
+    <span class="p-content-three"> {{'nav-bar.if-you\'re-already-with-us' | translate}}</span></p>
+  <ng-template #elseBlock>
+    <p>{{'nav-bar.hi' | translate}} {{firstName}} {{'nav-bar.welcome-back' | translate}}</p>
+  </ng-template>
+    <p class="select">
+      <select>
+      <option value="1">Ua</option>
+      <option value="2">En</option>
+      <option value="2">Ru</option>
+      </select>
+    </p>
 
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item dropdown"></li>
-
-      <!-- <li class="nav-item">
-        <a class="nav-link" *ngIf="userRole === 'ROLE_USER'"
-          (click)="openDialogProposeCafeComponent()">{{ "nav-bar.add-cafe" | translate }}</a>
-      </li> -->
-
-      <div *ngIf="firstName != null">
-        <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true"
-          aria-expanded="false">{{ firstName }}</a>
-
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" *ngIf="userRole == 'ROLE_ADMIN' || userRole == 'ROLE_MODERATOR'"
-            [routerLink]="['admin']">{{ "nav-bar.admin" | translate }}</a>
-          <a class="dropdown-item" [routerLink]="[userId,'habits']">{{
-            "nav-bar.my-habits" | translate
-          }}</a>
-          <a class="dropdown-item" (click)="openDialog()">{{
-            "nav-bar.favorite-places" | translate
-          }}</a>
-          <a class="dropdown-item" (click)="openSettingDialog()">{{
-            "nav-bar.user-settings" | translate
-          }}</a>
-          <a class="dropdown-item" (click)="signOut()">{{
-            "nav-bar.sign-out" | translate
-          }}</a>
-        </div>
-      </div>
-
-      <a *ngIf="firstName == null" class="nav-link" routerLink="/auth">{{
-        "nav-bar.sign-in" | translate
-      }}</a>
-    </ul>
-  </div>
 </nav>
 
 <!-- Modal Window-->

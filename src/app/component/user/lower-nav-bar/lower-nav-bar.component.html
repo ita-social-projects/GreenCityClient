@@ -1,9 +1,13 @@
-<nav class="lower-navbar">
+<nav role='navigation' class="lower-navbar">
   <div class="navbar-wrapper">
     <a [routerLink]="['/']">
       <img [src]="logo" id="green-city-logo" alt="green-city-logo" />
     </a>
-    <ul>
+    <input type="checkbox" />
+    <span></span>
+    <span></span>
+    <span></span>
+    <ul class="menu">
       <li>
         <a [routerLink]="['/']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
           true}">{{ "user.lower-nav-bar.home" | translate }}</a>

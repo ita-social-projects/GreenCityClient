@@ -3,11 +3,118 @@
   height: 40px !important;
 }
 
-.navbar a {
-  color: #000;
+p{
+  width: 100%;
+  height: 40px;
+  text-align: right;
+  color: #000000;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left:5%;
 }
 
-.sign-btn {
-  display: block;
-  float: right;
+.navbar a {
+  color: #13aa57;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.registerbtn {
+  background-color: #13aa57;
+  color: white;
+  padding: 16px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+select {
+  outline: 0;
+  box-shadow: none;
+  border: 0 !important;
+  background: transparent;
+}
+
+.select {
+  position: relative;
+  width: 3.3em;
+  height: 40px;
+  background: transparent;
+  overflow: hidden;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 5%;
+}
+
+select {
+  flex: 1;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.select::after {
+  content: '\25BC';
+  color:#13aa57;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: none;
+}
+
+@media screen and (max-width: 768px) {
+
+  .p-content{
+    display: none;
+  }
+
+  .select {
+    width: 3.4em;
+  }
+
+}
+
+@media screen and (max-width: 426px) {
+
+  p{
+    width: 50%;
+    height: 40px;
+    text-align: left;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  .select {
+    width: 2.7em;
+    height: 40px;
+    background: transparent;
+    overflow: hidden;
+    text-align: right;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  .p-content{
+    display: none;
+  }
+
+  .p-content-two{
+    display: none;
+  }
+
+  .p-content-three{
+    display: none;
+  }
+
 }

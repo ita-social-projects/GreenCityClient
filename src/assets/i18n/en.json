@@ -103,6 +103,13 @@
     "cancel-sorting": "Cancel Sorting"
   },
   "nav-bar": {
+    "welcome-back": ", welcome-back!",
+    "hi": "Hi,",
+    "hi!-it's-an-eco-habit-tracker.": "Hi! It's an eco-habit tracker.",
+    "sign-up": "Sign up",
+    "to-create-your-own": "to create your own",
+    "or":"or,",
+    "if-you're-already-with-us": "if you're already with us.",
     "add-cafe": "Add a cafe",
     "admin": "Administrator",
     "my-habits": "My habits",

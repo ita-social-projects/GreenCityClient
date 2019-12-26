@@ -103,6 +103,13 @@
     "cancel-sorting": "Скасувати сортування"
   },
   "nav-bar": {
+    "welcome-back": ", з поверненням!",
+    "hi": "Привіт,",
+    "hi!-it's-an-eco-habit-tracker.": "Привіт! Це трекер еко-звичок.",
+    "sign-up": "Зареєструйся",
+    "to-create-your-own": "щоб створити власний",
+    "or": "або,",
+    "if-you're-already-with-us": "якщо ти вже з нами.",
     "add-cafe": "Додати кафе",
     "admin": "Адміністратор",
     "my-habits": "Мої звички",

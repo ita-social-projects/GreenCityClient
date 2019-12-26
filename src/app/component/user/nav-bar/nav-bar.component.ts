@@ -8,10 +8,10 @@ import { UserSettingComponent } from '../user-setting/user-setting.component';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '../../../service/localstorage/local-storage.service';
 import { JwtService } from '../../../service/jwt/jwt.service';
-import { OnLogout } from 'src/app/service/OnLogout';
 import { UserService } from 'src/app/service/user/user.service';
 import { AchievementService } from 'src/app/service/achievement/achievement.service';
 import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-statistic.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-nav-bar',
@@ -22,7 +22,7 @@ export class NavBarComponent implements OnInit {
   firstName: string;
   userRole: string;
   userId: number;
-  habitId: number;
+  isLoggedIn = false;
 
   constructor(
     private modalService: ModalService,
@@ -35,6 +35,19 @@ export class NavBarComponent implements OnInit {
     private achievementService: AchievementService,
     private habitStatisticService: HabitStatisticService
   ) { }
+
+  ngOnInit(): void {
+    this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => this.firstName = firstName);
+    this.localStorageService.userIdBehaviourSubject
+      .pipe(
+        filter(userId => userId !== null && !isNaN(userId))
+      )
+      .subscribe(userId => {
+        this.userId = userId;
+        this.isLoggedIn = true;
+      });
+    this.userRole = this.jwtService.getUserRole();
+  }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(FavoritePlaceComponent, {
@@ -55,12 +68,6 @@ export class NavBarComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => this.firstName = firstName);
-    this.localStorageService.userIdBehaviourSubject.subscribe(userId => this.userId = userId);
-    this.userRole = this.jwtService.getUserRole();
-  }
-
   openDialogProposeCafeComponent(): void {
     const dialogRef = this.dialog.open(ProposeCafeComponent, {
       width: '800px',
@@ -77,7 +84,10 @@ export class NavBarComponent implements OnInit {
     this.habitStatisticService.onLogout();
     this.achievementService.onLogout();
     this.router.navigate(['/'])
-      .then(success => console.log('redirect has succeeded ' + success))
+      .then(success => {
+        this.isLoggedIn = false;
+        console.log('redirect has succeeded ' + success);
+      })
       .catch(fail => console.log('redirect has failed ' + fail));
   }
 }
