@@ -1,0 +1,16 @@
+<div class="user-habit-page">
+  <app-add-new-habit-modal></app-add-new-habit-modal>
+  <app-new-achievement-modal [achievement]="achievement" [visible]="achievementVisible"></app-new-achievement-modal>
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <app-user-log></app-user-log>
+        <app-button></app-button>
+        <app-habit-trackers></app-habit-trackers>
+      </div>
+      <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <app-user-sidebar></app-user-sidebar>
+      </div>
+    </div>
+  </div>
+</div>

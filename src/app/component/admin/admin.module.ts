@@ -11,9 +11,11 @@ import {BrowserModule} from '@angular/platform-browser';
 import {IconsModule, TableModule} from 'angular-bootstrap-md';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {
+  MAT_DIALOG_DATA,
   MAT_DIALOG_DEFAULT_OPTIONS,
   MatCheckboxModule,
-  MatDialogModule, MatDialogRef,
+  MatDialogModule,
+  MatDialogRef,
   MatIconModule,
   MatPaginatorModule,
   MatSelectModule,
@@ -27,15 +29,18 @@ import {NgSelectModule} from '@ng-select/ng-select';
 import {AgmCoreModule} from '@agm/core';
 import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
-import {EditFavoriteNameComponent, FavoritePlaceComponent} from '../user/favorite-place/favorite-place.component';
 import {AdminService} from '../../service/admin/admin.service';
 import {ConfirmModalComponent} from './confirm-modal/confirm-modal.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ConfirmationDialogService} from './confirm-modal/confirmation-dialog-service.service';
 import {AdminComponent} from './admin.component';
+import {FeedbacksComponent} from './feedbacks/feedbacks.component';
+import {DialogPhotoComponent} from './feedbacks/dialog-photo/dialog-photo.component';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
-  declarations: [AdminNavComponent, AdminComponent, PlacesComponent, UsersComponent, ErrorComponent, ConfirmModalComponent, UpdateCafeComponent],
+  declarations: [AdminNavComponent, AdminComponent, PlacesComponent, UsersComponent, ErrorComponent, ConfirmModalComponent,
+    UpdateCafeComponent, FeedbacksComponent, DialogPhotoComponent],
   exports: [
     AdminNavComponent,
     AdminComponent,
@@ -43,7 +48,7 @@ import {AdminComponent} from './admin.component';
     PlacesComponent,
     ErrorComponent,
     BrowserModule,
-    TableModule,
+    TableModule
   ],
   imports: [
     CommonModule,
@@ -56,7 +61,6 @@ import {AdminComponent} from './admin.component';
     PaginationModule.forRoot(),
     BrowserAnimationsModule,
     RouterModule,
-    BrowserAnimationsModule,
     FormsModule,
     MatMenuModule,
     MatIconModule,
@@ -69,6 +73,7 @@ import {AdminComponent} from './admin.component';
       apiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI',
       libraries: ['places']
     }),
+    TranslateModule
   ],
   providers: [
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
@@ -76,10 +81,14 @@ import {AdminComponent} from './admin.component';
       provide: MatDialogRef,
       useValue: {}
     },
+    {
+      provide: MAT_DIALOG_DATA,
+      useValue: {}
+    },
     ConfirmationDialogService,
     AdminService
   ],
-  entryComponents: [ConfirmModalComponent, UpdateCafeComponent],
+  entryComponents: [ConfirmModalComponent, UpdateCafeComponent, DialogPhotoComponent],
   bootstrap: [AdminComponent],
 })
 export class AdminModule {

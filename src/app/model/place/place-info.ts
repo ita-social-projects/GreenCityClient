@@ -1,7 +1,7 @@
 import {Location} from '../location/location';
 import {OpeningHours} from '../openingHours.model';
-import {SpecificationValue} from '../specificationValue/specification-value';
 import {CommentDto} from '../comment/commentDto';
+import {DiscountDto} from "../discount/DiscountDto";
 
 
 export class PlaceInfo {
@@ -9,7 +9,7 @@ export class PlaceInfo {
   name: string;
   location: Location;
   openingHoursList: OpeningHours[];
-  specificationValues: SpecificationValue[];
+  discountValues: DiscountDto[];
   comments: CommentDto[];
   rate: number;
 

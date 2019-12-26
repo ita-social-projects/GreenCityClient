@@ -1,0 +1,381 @@
+{
+  "admin-nav": {
+    "places": "Места",
+    "users": "Пользователи",
+    "feedbacks": "Отзывы",
+    "create-new-cafe": "Создать новое кафе"
+  },
+  "confirm-modal": {
+    "delete": "Удалить",
+    "cancel": "Отмена"
+  },
+  "feedbacks": {
+    "dialog-photo": {
+      "close": "Закрыть"
+    },
+    "feedbacks": "Отзывы",
+    "place": "Место",
+    "comment": "Комментарий",
+    "more": "больше",
+    "less": "меньше",
+    "attachments": "Вложения",
+    "no-attachment": "Нет вложений",
+    "loading-data": "Загрузка данных...",
+    "no-data": "Нет данных"
+  },
+  "update-cafe": {
+    "name": "Название",
+    "enter-address": "Введите адрес",
+    "select-category": "Выбрать категорию",
+    "discount": "Скидка",
+    "edit-cafe": "Редактировать кафе",
+    "name-is-required": "Нужно ввести название",
+    "name-must-be-at-least-3-characters-long": "Название должно содержать по крайней мере 3 символы.",
+    "name-must-be-maximum-30-characters-long": "Название должно содержать не более 30 символов.",
+    "address-is-required": "Нужно ввести адрес.",
+    "address-must-be-at-least-3-characters-long": "Адрес должен содержать не менее 3 символов.",
+    "address-must-be-maximum-120-characters-long": "Адрес должен содержать не более 120 символов.",
+    "address": "Адрес:",
+    "latitude": "Широта:",
+    "longitude": "Долгота:",
+    "select-specification": "Выберите спецификацию:",
+    "category-is-required": "Нужно выбрать категорию.",
+    "category-must-be-at-least-3-characters-long": "Категория должна содержать не менее 3 символов.",
+    "category-must-be-maximum-30-characters-long": "Категория должна содержать не более 30 символов",
+    "specification-is-required": "Нужно ввести спецификацию.",
+    "specification-must-be-at-least-3-characters-long": "Спецификация должна содержать не менее 3 символов.",
+    "specification-must-be-maximum-30-characters-long": "Спецификация должна содержать не более 30 символов.",
+    "add-discount": "Добавить скидку",
+    "select-schedule": "Выберите расписание:",
+    "select-day": "Выберите день:",
+    "is-break-time-needed": "нужен перерыв",
+    "add-day": "Добавить день",
+    "from": "от:",
+    "to": "до:",
+    "start": "начало:",
+    "end": "конец:",
+    "submit": "Подтвердить",
+    "close": "Закрыть"
+  },
+  "places": {
+    "places": "Места",
+    "search": "Поиск",
+    "category": "Категория",
+    "name": "Название",
+    "address": "Адрес",
+    "working-times": "Рабочее время",
+    "added-by": "Кем добавлено",
+    "added-on": "Добавлено",
+    "status": "Статус",
+    "proposed": "Предложено",
+    "declined": "Отклонено",
+    "approved": "Подтверждено",
+    "deleted": "Удалено",
+    "loading-data": "Загрузка данных...",
+    "no-data": "Нет данных",
+    "propose": "Предложить",
+    "approve": "Одобрить",
+    "decline": "Отклонить",
+    "delete": "Удалить",
+    "items-per-page": "Записей на страницу:",
+    "sort-ascending": "Сортировать по возрастанию",
+    "sort-descending": "Сортировать по убыванию",
+    "cancel-sorting": "Отменить сортировку"
+  },
+  "users": {
+    "users": "Пользователи",
+    "search": "Поиск",
+    "email": "Электронная почта",
+    "first-name": "Имя",
+    "last-name": "Фамилия",
+    "date-of-registration": "Дата регистрации",
+    "actions": "Действия",
+    "block": "Заблокировать",
+    "unblock": "Разблокировать",
+    "deactivate": "Деактивировать",
+    "activate": "Активировать",
+    "loading-data": "Загрузка данных...",
+    "no-data": "Нет данных",
+    "items-per-page": "Записей на страницу:",
+    "sort-ascending": "Сортировать по возрастанию",
+    "sort-descending": "Сортировать по убыванию",
+    "cancel-sorting": "Отменить сортировку"
+  },
+  "nav-bar": {
+    "add-cafe": "Добавить кафе",
+    "admin": "Администратор",
+    "my-habits": "Мои привычки",
+    "favorite-places": "Любимые места",
+    "user-settings": "Настройка профиля",
+    "sign-out": "Выйти",
+    "sign-in": "Войти"
+  },
+  "admin": {
+    "errorMessage": "Запрещено"
+  },
+  "filter": {
+    "discount-rate": "Скидка",
+    "is-now-open": "Открыто сейчас",
+    "wrong-value-of-distance": "Неправильное значение расстояния!",
+    "distance": "Расстояние:",
+    "distance-in-km": "Расстояние в км",
+    "apply": "Подтвердить"
+  },
+  "error": {
+    "oops": "Упс!",
+    "go-to-homepage": "Перейти на домашнюю страницу"
+  },
+  "user": {
+    "add-comment": {
+      "Add-your-comment-to-place": "Добавьте комментарий к месту",
+      "Please-rare-us": "Оцените нас",
+      "comment-is-required": "Введите комментарий",
+      "comment-must-be-at-least-5-characters-long": "Комментарий должен содержать не менее 5 символов",
+      "comment-must-be-maximum": "Комментарий должен содержать максимум",
+      "characters long": "символов",
+      "please-write-a-comment": "Будь ласка напишіть коментар",
+      "submit": "Подтвердить",
+      "close": "Закрыть"
+    },
+    "auth": {
+      "sign-in": {
+        "email": "Электронная почта",
+        "email-is-required": "Введите почту",
+        "email-must-be-at-least-1-characters-long": "Почта должна содержать по крайней мере 1 символ",
+        "this-is-not-email": "Это не почта",
+        "password": "Пароль",
+        "password-is-required": "Введите пароль",
+        "password-must-be-at-least-8-characters-long": "Пароль должен содержать по крайней мере 8 символов",
+        "sign-in": "Войти",
+        "sign-up": "Зарегистрироваться",
+        "sign-in-with-google": "Войти через Google",
+        "forgot-password": "Забыли пароль?"
+      },
+      "sign-up": {
+        "first-name": "Имя",
+        "first-name-is-required": "Введите имя",
+        "first-name-must-be-at-least-1-characters-long": "Имя должно содержать по крайней мере 1 символ",
+        "last-name": "Фамилия",
+        "last-name-is-required": "Введите фамилию",
+        "last-name-must-be-at-least-1-characters-long": "Фамилия должна содержать по крайней мере один символ",
+        "email": "Электронная почта",
+        "email-is-required": "Введите почту",
+        "email-must-be-at-least-1-characters-long": "Почта должна содержать по крайней мере один символ",
+        "this-is-not-email": "Это не почта",
+        "password": "Пароль",
+        "password-is-required": "Введите пароль",
+        "password-must-be-at-least-8-characters-long": "Пароль должен содержать по крайней мере 8 символов",
+        "submit": "Подтвердить"
+      },
+      "submit-email": "Вы успешно зарегистрированы на этом сайте. Пожалуйста, подтвердите ваш адрес электронной почты в почтовом ящике"
+    },
+    "favorite-place": {
+      "delete-favorite-place": {
+        "delete-favorite-place": "Удалить любимое место?",
+        "submit": "Подтвердить",
+        "cancel": "Отменить"
+      },
+      "edit-name": {
+        "edit-name-for-your-favorite-place": "Изменить название любимого места",
+        "submit": "Подтвердить",
+        "cancel": "Отменить"
+      },
+      "favorite-place": {
+        "favorite-places": "Любимые места",
+        "name": "Название",
+        "actions": "Действия",
+        "edit": "Редактировать",
+        "delete": "Удалить",
+        "close": "Закрыть"
+      }
+    },
+    "map": {
+      "filter-by": "Фильтр",
+      "searching-for-a-place": "Поиск места",
+      "places": "Места",
+      "show-all": "Показать все",
+      "clear-filters": "Сбросить фильтры",
+      "rate": "Показатель:",
+      "comments": "Комментарии:",
+      "add-comment": "Добавить комментарий",
+      "navigate-to-place": "Проложить маршрут к месту",
+      "close-navigation": "Закрыть навигацию",
+      "discount": "скидка",
+      "driving": "вождения",
+      "walking": "ходьба"
+    },
+    "photo-upload": {
+      "add-photo": "Добавить фото",
+      "no-file-attached": "Файл не прикреплен.",
+      "file-name": "Название файла",
+      "remove": "Удалить",
+      "loading": "Загрузка...",
+      "upload": "Загрузить",
+      "you-can-upload-max": "Вы можете загрузить максимально",
+      "photos": "фото",
+      "your-photos-successfully-upload": "Ваше фото успешно загружено"
+    },
+    "propose-cafe": {
+      "new-cafe": "Новое кафе",
+      "name-is-required": "Нужно ввести название",
+      "name-must-be-at-least-3-characters-long": "Название должно содержать по крайней мере 3 символы.",
+      "name-must-be-maximum-30-characters-long": "Название должно содержать не более 30 символов.",
+      "address-is-required": "Нужно ввести адрес.",
+      "address-must-be-at-least-3-characters-long": "Адрес должен содержать не менее 3 символов.",
+      "address-must-be-maximum-120-characters-long": "Адрес должен содержать не более 120 символов.",
+      "enter-name": "Введите название",
+      "enter-address": "Введите адрес",
+      "address": "Адрес:",
+      "latitude": "Широта:",
+      "longitude": "Долгота:",
+      "select-specification": "Выберите спецификацию:",
+      "category-is-required": "Нужно выбрать категорию.",
+      "category-must-be-at-least-3-characters-long": "Категория должна содержать не менее 3 символов.",
+      "category-must-be-maximum-30-characters-long": "Категория должна содержать не более 30 символов",
+      "select-category": "Выберите категорию",
+      "specification-is-required": "Нужно ввести спецификацию.",
+      "specification-must-be-at-least-3-characters-long": "Спецификация должна содержать не менее 3 символов.",
+      "specification-must-be-maximum-30-characters-long": "Спецификация должна содержать не более 30 символов.",
+      "discount": "Скидка",
+      "add-discount": "Добавить скидку",
+      "select-schedule": "Выберите расписание:",
+      "select-day": "Выберите день:",
+      "is-break-time-needed": "нужен перерыв",
+      "from": "от:",
+      "to": "до:",
+      "add-day": "Добавить день",
+      "break": "перерыв",
+      "start": "начало:",
+      "end": "конец:",
+      "upload-photos": "Загрузить фото",
+      "submit": "Подтвердить",
+      "close": "Закрыть",
+      "second-time-have-to-be-late-than-first-please-try-again": "Время начала должен быть ранее времени завершения. Пожалуйста выберите другое время"
+    },
+    "restore": {
+      "email": "Электронная почта",
+      "submit": "Подтвердить"
+    },
+    "restore-form": {
+      "password": "Пароль",
+      "password-is-required": "Необходим пароль.",
+      "password-must-be-at-least-8-characters-long": "Пароль должен содержать не менее 8 символов.",
+      "confirm-password": "Подтвердите пароль",
+      "submit": "Подтвердить"
+    },
+    "user-setting": {
+      "user-settings": "Настройки профиля",
+      "email": "Электронная почта:",
+      "first-name": "Имя:",
+      "first-name-is-required": "Введите имя.",
+      "first-name-must-be-at-least-1-characters-long": "Имя должно содержать по крайней мере 1 символ.",
+      "last-name": "Фамилия:",
+      "last-name-is-required": "Введите фамилию.",
+      "last-name-must-be-at-least-1-characters-long": "Фамилия должна содержать по крайней мере 1 символ.",
+      "email-notifications": "Оповещения:",
+      "yes": "Да",
+      "no": "Нет",
+      "frequency": "Частота",
+      "submit": "Подтвердить",
+      "close": "Закрыть"
+    },
+    "habit-statistic": {
+      "day-estimation": {
+        "super": "супер",
+        "normal": "нормально",
+        "bad": "плохо"
+      },
+      "habit-item-list": {
+        "more": "больше",
+        "less": "менше"
+      },
+      "habit-statistic": {
+        "how-do-you-estimate-today": "Как ты оценишь сегодняшний день"
+      }
+    },
+    "lower-nav-bar": {
+      "home": "Главная",
+      "about-us": "О нас",
+      "eco-events": "Эко-новости",
+      "tips": "Эко-советы",
+      "map": "Карта",
+      "my-habits": "Мой кабинет"
+    },
+    "user-goals": {
+      "add-goal": {
+        "update": "Обновить",
+        "manage-your-goals": "Управлять целями"
+      },
+      "goal-container": {
+        "my-goals": "Мои цели"
+      },
+      "add-goal-button": {
+        "add-button": "Управлять целями"
+      },
+      "goal-list": {
+        "expand": "Посмотреть все цели",
+        "collapse": "Свернуть цели",
+        "list-placeholder": "Здесь ты можешь ставить цели и выполнять их!"
+      }
+    },
+    "user-achievements": {
+      "achievement-container": {
+        "my-achievements": "Мои достижения",
+        "get-achievements": "Получай награды вместе с приложением! Это весело!"
+      }
+    },
+    "habit": {
+      "button-component": {
+        "add-new-habit": "Добавить новую привычку!"
+      },
+      "user-log": {
+        "day": "День",
+        "calendar-habit": "Календарь полезных привычек",
+        "today": "Сегодня",
+        "day-of-the-month": "день месяца и это",
+        "less-than": "меньше на",
+        "more-on": "больше на",
+        "package": "пакеты(ов)",
+        "and": "и",
+        "glasses-than-past": "стакана чем в прошлом",
+        "this-month": "В этом месяце ты взял",
+        "glass": "стаканов(а)",
+        "not-have-habit": "В этом месяце ты не сохранил еще ни одного пакета или стакана, но у тебя еще есть шанс сделать этот мир лучше! Начни прямо сейчас! Отметь количество пакетов и стаканов, которые ты не взял сегодня! Или начни формировать привычку на свой выбор!"
+      },
+      "add-new-habit": {
+        "modal-caption": "Новая привычка",
+        "already-chosen-caption": "Уже выбраны",
+        "available-to-chose-caption": "Привычки, которые можно выбрать",
+        "no-available-to-chose": "Вы отслеживаете все доступные привычки",
+        "cant-delete-last-hint": "Вы не можете удалить свою последнюю привычку",
+        "button-save": "Сохранить",
+        "button-cancel": "Отменить",
+        "confirmation-modal-text": "Вы уверены, что хотите удалить эту привычку?",
+        "confirmation-modal-yes": "Да",
+        "confirmation-modal-cancel": "Отменить"
+      },
+      "habit-trackers": {
+        "habit-tracker": {
+          "habit-tracker-date": {
+            "day": "День",
+            "from": "с"
+          }
+        }
+      }
+    }
+  },
+  "advice": {
+    "package": "Положите в кажду сумку или рюкзак одну эко-сумку, так она всегда будет с вами, если вы неожиданно зайдете в магазин",
+    "cup": ""
+  },
+  "habit-message": {
+    "bag": "Сколько пакетов ты не взял сегодня?",
+    "cap": "Сколько стаканов ты не использовал сегодня?"
+  },
+  "pagination": {
+    "first": "Первый",
+    "previous": "Предыдущий",
+    "next": "Следующий",
+    "last": "Последний"
+  }
+}

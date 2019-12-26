@@ -1,0 +1,12 @@
+<div class="container-fluid">
+  <mdb-icon *ngIf="!isAddButtonClicked" (click)="isAddButtonClicked = !isAddButtonClicked"
+            class="plus" far icon="plus"></mdb-icon>
+  <div *ngIf="isAddButtonClicked" class="row">
+    <div class="col-11 no-padding">
+      <input type="text" class="form-control">
+    </div>
+    <div class="col-1 align-self-center">
+      <mdb-icon class="plus" far icon="minus"></mdb-icon>
+    </div>
+  </div>
+</div>

@@ -1,8 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {UserService} from '../../service/user/user.service';
 import {HttpClient} from '@angular/common/http';
 import {Title} from '@angular/platform-browser';
-import {PlacesComponent} from "./places/places.component";
+import {JwtService} from '../../service/jwt/jwt.service';
 
 @Component({
   selector: 'app-admin',
@@ -12,11 +11,13 @@ import {PlacesComponent} from "./places/places.component";
 export class AdminComponent implements OnInit {
   userRole: string;
 
-  constructor(private http: HttpClient, private uService: UserService, private titleService: Title) {
+  constructor(private http: HttpClient,
+              private titleService: Title,
+              private jwtService: JwtService) {
   }
 
   ngOnInit() {
-    this.userRole = this.uService.getUserRole();
+    this.userRole = this.jwtService.getUserRole();
     this.titleService.setTitle('Admin');
   }
 }

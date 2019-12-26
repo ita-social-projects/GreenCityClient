@@ -1,0 +1,39 @@
+<div class="stat-row">
+  <div *ngIf="index % 2 === 1; then imageLeft else imageRight"></div>
+  <ng-template #imageLeft>
+    <div class="stat-row-image">
+      <div class="image-wrapper" [style.margin-left]="index % 2 === 1 ? 0 : 'auto'">
+        <img [src]="stat.iconPath">
+      </div>
+    </div>
+    <div class="stat-row-content">
+      <div class="content-wrapper" [style.margin-right]="index % 2 === 1 ? 0 : 'auto'">
+        <h3>{{ stat.action }}<span>{{ stat.count }}</span>{{ stat.caption }}</h3>
+        <p>{{ stat.question }}</p>
+        <button class="button">Почати формувати звичку!</button>
+        <div class="location-row">
+          <img [src]="locationImage">
+          <a [routerLink]="['map']">{{ stat.locationText }}</a>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #imageRight>
+    <div class="stat-row-content">
+      <div class="content-wrapper" [style.margin-left]="index % 2 === 0 ? 0 : 'auto'">
+        <h3>{{ stat.action }}<span>{{ stat.count }}</span>{{ stat.caption }}</h3>
+        <p>{{ stat.question }}</p>
+        <button class="button">Почати формувати звичку!</button>
+        <div class="location-row">
+          <img [src]="locationImage">
+          <a [routerLink]="['map']">{{ stat.locationText }}</a>
+        </div>
+      </div>
+    </div>
+    <div class="stat-row-image">
+      <div class="image-wrapper" [style.margin-right]="index % 2 === 0 ? 0 : 'auto'">
+        <img [src]="stat.iconPath">
+      </div>
+    </div>
+  </ng-template>
+</div>

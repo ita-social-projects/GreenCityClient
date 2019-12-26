@@ -1,0 +1,30 @@
+<nav class="lower-navbar">
+  <div class="navbar-wrapper">
+    <a [routerLink]="['/']">
+      <img [src]="logo" id="green-city-logo" alt="green-city-logo" />
+    </a>
+    <ul>
+      <li>
+        <a [routerLink]="['/welcome']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
+          true}">{{ "user.lower-nav-bar.home" | translate }}</a>
+      </li>
+      <li>
+        <a (click)="scrollTo('events')">{{ "user.lower-nav-bar.eco-events" | translate }}</a>
+      </li>
+      <li>
+        <a (click)="scrollTo('tips')">{{ "user.lower-nav-bar.tips" | translate }}</a>
+      </li>
+      <li>
+        <a [routerLink]="['map']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
+          true}">{{ "user.lower-nav-bar.map" | translate }}</a>
+      </li>
+      <li>
+        <a [routerLink]="[getUserId(),'habits']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
+          true}">{{ "user.lower-nav-bar.my-habits" | translate }}</a>
+      </li>
+      <li>
+        <a>{{ "user.lower-nav-bar.about-us" | translate }}</a>
+      </li>
+    </ul>
+  </div>
+</nav>

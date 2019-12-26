@@ -1,0 +1,8 @@
+<div class="already-chosen-habits">
+  <h4>{{'user.habit.add-new-habit.already-chosen-caption' | translate}}</h4>
+  <div class="already-chosen-list" cdkDropList id="alreadyChosenList" [cdkDropListData]="chosen"
+    [cdkDropListConnectedTo]="['availableToChooseList']" (cdkDropListDropped)="onDrop($event)">
+    <app-habit-card *ngFor="let habit of chosen" [habit]="habit" cdkDrag [cdkDragDisabled]="habit.status === true">
+    </app-habit-card>
+  </div>
+</div>

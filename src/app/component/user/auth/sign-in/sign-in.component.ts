@@ -1,16 +1,15 @@
-import {Component, OnInit} from '@angular/core';
-import {UserOwnSignInService} from '../../../../service/user-own-sign-in.service';
-import {UserOwnSignIn} from '../../../../model/user-own-sign-in';
-import {HttpErrorResponse} from '@angular/common/http';
-import {UserSuccessSignIn} from '../../../../model/user-success-sign-in';
+import { Component, OnInit } from '@angular/core';
+import { UserOwnSignInService } from '../../../../service/auth/user-own-sign-in.service';
+import { UserOwnSignIn } from '../../../../model/user-own-sign-in';
+import { HttpErrorResponse } from '@angular/common/http';
+import { UserSuccessSignIn } from '../../../../model/user-success-sign-in';
 
-import {Router} from '@angular/router';
-import {AuthService, GoogleLoginProvider} from 'angularx-social-login';
-import {GoogleSignInService} from '../../../../service/google-sign-in.service';
-import {MatDialog, MatDialogRef} from "@angular/material";
-import {RestoreComponent} from "../../restore/restore.component";
-import {EditFavoriteNameComponent} from "../../favorite-place/favorite-place.component";
-
+import { Router } from '@angular/router';
+import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
+import { GoogleSignInService } from '../../../../service/auth/google-sign-in.service';
+import { MatDialog } from '@angular/material';
+import { RestoreComponent } from '../../restore/restore.component';
+import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -18,22 +17,22 @@ import {EditFavoriteNameComponent} from "../../favorite-place/favorite-place.com
   styleUrls: ['./sign-in.component.css']
 })
 export class SignInComponent implements OnInit {
+  userOwnSignIn: UserOwnSignIn;
+  loadingAnim: boolean;
 
-  private userOwnSignIn: UserOwnSignIn;
-  private loadingAnim: boolean;
+  emailErrorMessageBackEnd: string;
+  passwordErrorMessageBackEnd: string;
 
-  private emailErrorMessageBackEnd: string;
-  private passwordErrorMessageBackEnd: string;
+  backEndError: string;
 
-  private backEndError: string;
-
-  constructor(private service: UserOwnSignInService,
-              private rout: Router,
-              private authService: AuthService,
-              private googleService: GoogleSignInService,
-              public dialog: MatDialog,
-  ) {
-  }
+  constructor(
+    private userOwnSignInService: UserOwnSignInService,
+    private router: Router,
+    private authService: AuthService,
+    private googleService: GoogleSignInService,
+    public dialog: MatDialog,
+    private localStorageService: LocalStorageService
+  ) { }
 
   ngOnInit() {
     this.userOwnSignIn = new UserOwnSignIn();
@@ -45,12 +44,15 @@ export class SignInComponent implements OnInit {
 
   private signIn(userOwnSignIn: UserOwnSignIn) {
     this.loadingAnim = true;
-    this.service.signIn(userOwnSignIn).subscribe(
+    this.userOwnSignInService.signIn(userOwnSignIn).subscribe(
       (data: UserSuccessSignIn) => {
         this.loadingAnim = false;
-        this.service.saveUserToLocalStorage(data);
-        window.location.href = '/';
-
+        this.userOwnSignInService.saveUserToLocalStorage(data);
+        this.localStorageService.setFirstName(data.firstName);
+        this.localStorageService.setFirstSignIn();
+        this.router.navigate(['/'])
+          .then(success => console.log('redirect has succeeded ' + success))
+          .catch(fail => console.log('redirect has failed ' + fail));
       },
       (errors: HttpErrorResponse) => {
         try {
@@ -69,21 +71,34 @@ export class SignInComponent implements OnInit {
     );
   }
 
-  private signInWithGoogle() {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((data) => {
-      this.googleService.signIn(data.idToken).subscribe((data1: UserSuccessSignIn) => {
-          this.service.saveUserToLocalStorage(data1);
-          window.location.href = '/';
+  signInWithGoogle() {
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(data => {
+      this.googleService.signIn(data.idToken).subscribe(
+        (data1: UserSuccessSignIn) => {
+          this.userOwnSignInService.saveUserToLocalStorage(data1);
+          this.router.navigate(['/']);
+        },
+        (errors: HttpErrorResponse) => {
+          try {
+            errors.error.forEach(error => {
+              if (error.name === 'email') {
+                this.emailErrorMessageBackEnd = error.message;
+              } else if (error.name === 'password') {
+                this.passwordErrorMessageBackEnd = error.message;
+              }
+            });
+          } catch (e) {
+            this.backEndError = errors.error.message;
+          }
         }
       );
     });
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(RestoreComponent, {
-        width: '550px',
-        height: '350px',
-      });
+    this.dialog.open(RestoreComponent, {
+      width: '550px',
+      height: '350px'
+    });
   }
-
 }

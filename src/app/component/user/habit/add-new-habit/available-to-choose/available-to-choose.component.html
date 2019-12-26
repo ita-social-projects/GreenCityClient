@@ -1,0 +1,8 @@
+<div class="available-to-choose">
+  <h4>{{'user.habit.add-new-habit.available-to-chose-caption' | translate}}</h4>
+  <div class="available-to-choose-list" cdkDropList id="availableToChooseList" [cdkDropListData]="available"
+    [cdkDropListConnectedTo]="['alreadyChosenList']" (cdkDropListDropped)="onDrop($event)">
+    <h5 *ngIf="available.length < 1">{{'user.habit.add-new-habit.no-available-to-chose' | translate}}</h5>
+    <app-habit-card *ngFor="let habit of available" [habit]="habit" cdkDrag></app-habit-card>
+  </div>
+</div>

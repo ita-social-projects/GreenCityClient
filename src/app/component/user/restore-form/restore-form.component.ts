@@ -1,8 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {RestoreDto} from "../../../model/restroreDto";
-import {HttpErrorResponse} from "@angular/common/http";
-import {ActivatedRoute} from '@angular/router';
-import {ChangePasswordService} from "../../../service/change-password.service";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { RestoreDto } from '../../../model/restroreDto';
+import { ActivatedRoute } from '@angular/router';
+import { ChangePasswordService } from '../../../service/auth/change-password.service';
 
 @Component({
   selector: 'app-restore-form',
@@ -10,19 +9,21 @@ import {ChangePasswordService} from "../../../service/change-password.service";
   styleUrls: ['./restore-form.component.css']
 })
 export class RestoreFormComponent implements OnInit, OnDestroy {
-  private passwordErrorMessageBackEnd: string;
-  private restoreDto: RestoreDto;
-  private loadingAnim = false;
+  passwordErrorMessageBackEnd: string;
+  restoreDto: RestoreDto;
+  loadingAnim = false;
   private sub: any;
 
-  constructor(private route: ActivatedRoute, private changePasswordService: ChangePasswordService) {
-  }
+  constructor(
+    private route: ActivatedRoute,
+    private changePasswordService: ChangePasswordService
+  ) {}
 
   ngOnInit() {
     this.restoreDto = new RestoreDto();
     this.setNullAllMessage();
     this.sub = this.route.params.subscribe(params => {
-      this.restoreDto.token = params['token'];
+      this.restoreDto.token = params.token;
     });
   }
 
@@ -37,5 +38,4 @@ export class RestoreFormComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
-
 }

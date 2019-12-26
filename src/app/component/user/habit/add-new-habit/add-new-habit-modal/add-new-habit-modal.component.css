@@ -1,0 +1,82 @@
+.modal-body {
+  padding: 0;
+}
+
+.modal-dialog {
+  min-width: 1150px;
+}
+
+.add-habit-modal-window {
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px 0 rgba(255, 255, 255, 0.4);
+  width: 1140px;
+  margin: 0 auto;
+  min-height: 871px;
+  padding: 30px 0;
+}
+
+.add-habit-modal-window > div {
+  padding: 0 30px 30px;
+}
+
+.add-habit-modal-window h3 {
+  color: #2b292d;
+  cursor: default;
+  display: inline-block;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 48px;
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: bold;
+  letter-spacing: 0.18px;
+  line-height: 1;
+}
+
+.add-habit-modal-window img {
+  float: right;
+  height: 22.2px;
+  width: 22.2px;
+}
+
+.splitter {
+  background-color: #839c94;
+  height: 1px;
+  opacity: 0.2;
+  padding: 0 !important;
+  width: inherit;
+}
+
+.button-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 26px;
+  padding: 0 30px !important;
+}
+
+.button {
+  border-radius: 4px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 18px;
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: normal;
+  line-height: 1.78;
+  min-height: 48px;
+  min-width: 163px;
+}
+
+.button-cancel {
+  background-color: #fff;
+  border: solid 1px #13aa57;
+  color: #13aa57;
+}
+
+.button-save {
+  background-color: #13aa57;
+  border: solid 1px #13aa57;
+  box-shadow: 0 13px 20px 0 rgba(118, 196, 125, 0.41);
+  color: #fff;
+  margin-left: 20px;
+}

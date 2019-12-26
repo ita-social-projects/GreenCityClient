@@ -1,16 +1,14 @@
-import {BaseService} from './base-service';
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {CategoryDto} from '../model/category.model';
-import {categoryLink} from '../links';
 import {mainLink} from '../links';
 
 @Injectable({providedIn: 'root'})
-export class CategoryService extends BaseService {
+export class CategoryService {
+  private readonly apiUrl: string;
 
-  constructor(protected http: HttpClient) {
-    super(http);
-    this.apiUrl += '/category';
+  constructor(private http: HttpClient) {
+    this.apiUrl = `${mainLink}` + '/category';
   }
 
   save(category: CategoryDto) {
@@ -18,13 +16,8 @@ export class CategoryService extends BaseService {
     return this.http.post(`${mainLink}category`, category);
   }
 
-  // findAllCategory(): any {
-  //    return this.http.get<CategoryDto[]>(`${mainLink}category`);
-
   findAllCategory(): any {
-    return this.http.get<CategoryDto[]>(`http:///localhost:8080/category`);
-
-    // return this.http.get<CategoryDto[]>(`${this.apiUrl}/categories`);
+    return this.http.get<CategoryDto[]>(`${mainLink}category`);
   }
 
 }
