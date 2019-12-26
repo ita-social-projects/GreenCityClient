@@ -41,7 +41,7 @@ export class HabitItemListComponent implements OnInit {
             const b = new Date(this.habitStatistic.createdOn);
             return a.getFullYear() === b.getFullYear()
               && a.getMonth() === b.getMonth()
-              && a.getDay() === a.getDay();
+              && a.getDate() === b.getDate();
           });
         } else {
           stat = data.habitStatistics.find(el => el.id === this.habitStatistic.id);
