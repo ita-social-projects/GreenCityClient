@@ -112,7 +112,7 @@ select {
 @media screen and (max-width: 768px) {
 
   p{
-    width: 50%;
+    width: 70%;
     height: 40px;
     text-align: left;
     margin-top: auto;
@@ -133,11 +133,12 @@ select {
     display: none;
   }
 
-  .select {
-    width: 3.4em;
+  .avatar{
+    top: -8px;
+    margin-left: -50%;
   }
 
-  .avatar{
+  .notifications{
     top: -8px;
   }
 
