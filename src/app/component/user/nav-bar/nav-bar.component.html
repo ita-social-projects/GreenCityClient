@@ -5,7 +5,9 @@
     {{'nav-bar.or' | translate}} <a routerLink="auth">{{'nav-bar.sign-in' | translate}}</a>
     <span class="p-content-three"> {{'nav-bar.if-you\'re-already-with-us' | translate}}</span></p>
   <ng-template #elseBlock>
-    <p>{{'nav-bar.hi' | translate}} {{firstName}} {{'nav-bar.welcome-back' | translate}}</p>
+    <p>{{'nav-bar.hi' | translate}} {{firstName}} {{'nav-bar.welcome-back' | translate}}
+       <img class="notifications" [src]="notifications">
+        <img (click)="signOut() " class="avatar" [src]="avatar" alt="sign-out"></p>
   </ng-template>
     <p class="select">
       <select>

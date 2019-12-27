@@ -19,6 +19,8 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
+  readonly notifications = 'assets/img/icon-notifications.png';
+  readonly avatar = 'assets/place-holder/avatar.jpg';
   firstName: string;
   userRole: string;
   userId: number;

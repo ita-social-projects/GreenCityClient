@@ -160,3 +160,12 @@ li a:hover{
   }
 
 }
+
+@media screen and (max-width: 426px) {
+
+  .menu li {
+    display: block;
+    margin-left: 43%;
+  }
+
+}
