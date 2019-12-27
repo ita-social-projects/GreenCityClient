@@ -97,9 +97,19 @@ select {
     width: 3.4em;
   }
 
+    .avatar{
+    position: relative;
+    left: 25px;
+  }
+
+  .notifications{
+    position: relative;
+    left: 10px;
+  }
+  
 }
 
-@media screen and (max-width: 426px) {
+@media screen and (min-width: 425px) {
 
   p{
     width: 50%;
@@ -131,4 +141,16 @@ select {
     display: none;
   }
 
+    .avatar{
+    position: relative;
+    left: 250px;
+    top: -20px;
+  }
+
+  .notifications{
+    position: relative;
+    left: 235px;
+    top: -20px;
+  }
+  
 }
