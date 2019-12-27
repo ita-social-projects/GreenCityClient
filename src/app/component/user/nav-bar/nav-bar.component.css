@@ -111,6 +111,24 @@ select {
 
 @media screen and (max-width: 768px) {
 
+  p{
+    width: 50%;
+    height: 40px;
+    text-align: left;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  .select {
+    width: 2.7em;
+    height: 40px;
+    background: transparent;
+    overflow: hidden;
+    text-align: right;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
   .p-content{
     display: none;
   }
@@ -120,18 +138,12 @@ select {
   }
 
   .avatar{
-    position: relative;
-    left: 25px;
-  }
-
-  .notifications{
-    position: relative;
-    left: 10px;
+    top: -8px;
   }
 
 }
 
-@media screen and (max-width: 426px) {
+@media screen and (max-width: 440px) {
 
   p{
     width: 50%;
@@ -171,8 +183,8 @@ select {
 
   .notifications{
     position: relative;
-    left: 235px;
     top: -20px;
+    left: 230px;
   }
 
 }
