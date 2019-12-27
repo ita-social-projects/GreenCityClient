@@ -87,6 +87,28 @@ select {
   left: 25px;
 }
 
+.dropdown {
+  position: relative;
+  display: block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f0f2f3;
+  width: 60px;
+  margin: 0 auto;
+  left: 20px;
+  top: 25px;
+  z-index: 1;
+  text-align: center;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+  cursor:pointer;
+}
+
 @media screen and (max-width: 768px) {
 
   .p-content{
@@ -95,6 +117,16 @@ select {
 
   .select {
     width: 3.4em;
+  }
+
+  .avatar{
+    position: relative;
+    left: 25px;
+  }
+
+  .notifications{
+    position: relative;
+    left: 10px;
   }
 
 }
@@ -129,6 +161,18 @@ select {
 
   .p-content-three{
     display: none;
+  }
+
+  .avatar{
+    position: relative;
+    top: -8px;
+    left: 40px;
+  }
+
+  .notifications{
+    position: relative;
+    left: 235px;
+    top: -20px;
   }
 
 }

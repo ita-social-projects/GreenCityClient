@@ -6,8 +6,13 @@
     <span class="p-content-three"> {{'nav-bar.if-you\'re-already-with-us' | translate}}</span></p>
   <ng-template #elseBlock>
     <p>{{'nav-bar.hi' | translate}} {{firstName}} {{'nav-bar.welcome-back' | translate}}
-       <img class="notifications" [src]="notifications">
-        <img (click)="signOut() " class="avatar" [src]="avatar" alt="sign-out"></p>
+      <img class="notifications" [src]="notifications">
+    <div class="dropdown">
+      <span><img class="avatar" [src]="avatar" alt="sign-out"></span>
+      <div class="dropdown-content">
+        <a (click)="signOut() ">{{'nav-bar.sign-out' | translate}}</a>
+      </div>
+  </div>
   </ng-template>
     <p class="select">
       <select>
