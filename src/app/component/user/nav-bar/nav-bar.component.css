@@ -109,7 +109,7 @@ select {
   
 }
 
-@media screen and (min-width: 425px) {
+@media screen and (max-width: 426px) {
 
   p{
     width: 50%;
