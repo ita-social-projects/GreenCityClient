@@ -9,10 +9,12 @@
           true}">{{ "user.lower-nav-bar.home" | translate }}</a>
       </li>
       <li>
-        <a (click)="scrollTo('events')">{{ "user.lower-nav-bar.eco-events" | translate }}</a>
+        <a [routerLink]="['/welcome']" pageScroll href="#events"
+          [pageScrollDuration]="500">{{ "user.lower-nav-bar.eco-events" | translate }}</a>
       </li>
       <li>
-        <a (click)="scrollTo('tips')">{{ "user.lower-nav-bar.tips" | translate }}</a>
+        <a [routerLink]="['/welcome']" pageScroll href="#tips"
+          [pageScrollDuration]="500">{{ "user.lower-nav-bar.tips" | translate }}</a>
       </li>
       <li>
         <a [routerLink]="['map']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:

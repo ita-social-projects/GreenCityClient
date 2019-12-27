@@ -36,7 +36,13 @@ export class HabitItemListComponent implements OnInit {
       .subscribe((data: HabitDto) => {
         let stat: HabitStatisticsDto;
         if (this.habitStatistic.id === null) {
-          stat = data.habitStatistics.find(el => el.createdOn === this.habitStatistic.createdOn);
+          stat = data.habitStatistics.find(el => {
+            const a = new Date(el.createdOn);
+            const b = new Date(this.habitStatistic.createdOn);
+            return a.getFullYear() === b.getFullYear()
+              && a.getMonth() === b.getMonth()
+              && a.getDate() === b.getDate();
+          });
         } else {
           stat = data.habitStatistics.find(el => el.id === this.habitStatistic.id);
         }
