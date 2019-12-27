@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from '../../../../service/user/user.service';
+import {LanguageService} from '../../../../i18n/language.service';
 
 @Component({
   selector: 'app-add-goal-button',
@@ -7,7 +8,7 @@ import {UserService} from '../../../../service/user/user.service';
   styleUrls: ['./add-goal-button.component.css']
 })
 export class AddGoalButtonComponent implements OnInit {
-  constructor(private service: UserService) {
+  constructor(private service: UserService, private languageService: LanguageService) {
   }
 
   ngOnInit() {
@@ -15,7 +16,7 @@ export class AddGoalButtonComponent implements OnInit {
 
   onModalOpen() {
     this.service.loadAvailableCustomGoals();
-    this.service.loadAvailablePredefinedGoals();
-    this.service.loadAllGoals();
+    this.service.loadAvailablePredefinedGoals(this.languageService.getCurrentLanguage());
+    this.service.loadAllGoals(this.languageService.getCurrentLanguage());
   }
 }
