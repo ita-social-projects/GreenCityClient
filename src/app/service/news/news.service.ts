@@ -15,8 +15,8 @@ export class NewsService {
   constructor(private http: HttpClient) { }
 
   loadLatestNews() {
-    const http$ = this.http.get<NewsDto[]>(latestNewsLink);
-    http$.pipe(
+    const $http = this.http.get<NewsDto[]>(latestNewsLink);
+    $http.pipe(
       catchError(() => of([]))
     ).subscribe(
       data => {

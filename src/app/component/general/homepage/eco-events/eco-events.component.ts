@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NewsService } from 'src/app/service/news/news.service';
 import { NewsDto } from 'src/app/service/news/NewsDto';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { LanguageService } from 'src/app/i18n/language.service';
 import { catchError } from 'rxjs/operators';
 
