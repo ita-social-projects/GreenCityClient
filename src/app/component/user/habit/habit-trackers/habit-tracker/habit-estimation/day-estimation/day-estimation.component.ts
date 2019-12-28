@@ -31,7 +31,13 @@ export class DayEstimationComponent implements OnInit {
       .subscribe(data => {
         let stat: HabitStatisticsDto;
         if (this.statistic.id === null) {
-          stat = data.habitStatistics.find(el => el.createdOn === this.statistic.createdOn);
+          stat = data.habitStatistics.find(el => {
+            const a = new Date(el.createdOn);
+            const b = new Date(this.statistic.createdOn);
+            return a.getFullYear() === b.getFullYear()
+              && a.getMonth() === b.getMonth()
+              && a.getDate() === b.getDate();
+          });
         } else {
           stat = data.habitStatistics.find(el => el.id === this.statistic.id);
         }
