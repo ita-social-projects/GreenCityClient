@@ -1,6 +1,6 @@
 export class NewsDto {
   id: number;
-  caption: string;
+  title: string;
   text: string;
-  date: string;
+  creationDate: string;
 }
