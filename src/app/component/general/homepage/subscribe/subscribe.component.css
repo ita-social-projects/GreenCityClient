@@ -72,7 +72,8 @@
   width: 364px;
 }
 
-#form-wrapper #validation-error {
+#form-wrapper #validation-error,
+#form-wrapper #subscription-error {
   bottom: 47px;
   color: red;
   margin: 0;

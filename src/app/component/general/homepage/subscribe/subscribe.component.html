@@ -10,8 +10,11 @@
         placeholder="Введіть ваш email">
       <p id="validation-error"
         [ngClass]="{'hidden': !emailTouched || emailValid, 'visible': emailTouched && !emailValid}">
-        Некоректна
-        електронна пошта
+        Некоректна електронна пошта
+      </p>
+      <p id="subscription-error"
+        [ngClass]="{'hidden': subscriptionError.length < 1, 'visible': !emailTouched || subscriptionError.length > 0}">
+        Помилка! Можливо ви вже підписані
       </p>
       <button [ngClass]="{'active': emailValid, 'disabled': !emailValid}" (click)="subscribe()">Підписатися!</button>
     </div>
