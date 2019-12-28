@@ -21,6 +21,8 @@ export const habitStatisticLink = mainLink + 'habit/statistic/';
 export const habitLink = '/habits/statistic';
 export const achievementLink = mainLink + 'achievements';
 export const subscriptionLink = mainLink + 'newsSubscriber';
+export const latestNewsLink = mainLink + 'econews/newest';
+
 
 // front-end
 export const frontMailLink = environment.frontendLink;
