@@ -7,7 +7,6 @@ import { PlaceInfo } from '../../../model/place/place-info';
 import { MatDialog, MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FavoritePlaceService } from '../../../service/favorite-place/favorite-place.service';
-import { UserService } from '../../../service/user/user.service';
 import { ActivatedRoute } from '@angular/router';
 
 import { FavoritePlace } from '../../../model/favorite-place/favorite-place';
@@ -15,6 +14,7 @@ import { FilterPlaceService } from '../../../service/filtering/filter-place.serv
 import { Location } from '../../../model/location.model';
 import { AddCommentComponent } from '../add-comment/add-comment.component';
 import { WeekDaysUtils } from '../../../service/weekDaysUtils.service';
+import {JwtService} from '../../../service/jwt/jwt.service';
 
 @Component({
   selector: 'app-map',
@@ -48,13 +48,13 @@ export class MapComponent implements OnInit {
   constructor(
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
-    private uService: UserService,
     public weekDaysUtils: WeekDaysUtils,
     private route: ActivatedRoute,
     public placeService: PlaceService,
     public filterService: FilterPlaceService,
     private favoritePlaceService: FavoritePlaceService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private jwtService: JwtService
   ) {
     iconRegistry.addSvgIcon(
       'star-white',
@@ -74,7 +74,7 @@ export class MapComponent implements OnInit {
 
   ngOnInit() {
     this.filterService.mapBounds = new MapBounds();
-    this.userRole = this.uService.getUserRole();
+    this.userRole = this.jwtService.getUserRole();
     this.setCurrentLocation();
     this.userMarkerLocation = { lat: this.lat, lng: this.lng };
     this.filterService.setUserMarkerLocation(this.userMarkerLocation);
@@ -290,7 +290,7 @@ export class MapComponent implements OnInit {
       width: '800px',
       data: {
         listOfPhoto: 3,
-        id: id
+        id
       }
     });
 

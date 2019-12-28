@@ -192,12 +192,12 @@
     "map": {
       "filter-by": "Фильтр",
       "searching-for-a-place": "Поиск места",
-      "places": "Places",
-      "show-all": "Show all",
-      "clear-filters": "Clear Filters",
-      "rate": "Rate:",
-      "comments": "Comments:",
-      "add-comment": "Add comment",
+      "places": "Места",
+      "show-all": "Показать все",
+      "clear-filters": "Сбросить фильтры",
+      "rate": "Показатель:",
+      "comments": "Комментарии:",
+      "add-comment": "Добавить комментарий",
       "navigate-to-place": "Проложить маршрут к месту",
       "close-navigation": "Закрыть навигацию",
       "discount": "скидка",
@@ -257,11 +257,11 @@
       "submit": "Подтвердить"
     },
     "restore-form": {
-      "password": "Password",
-      "password-is-required": "Password is required.",
-      "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long.",
-      "confirm-password": "Confirm password",
-      "submit": "Submit"
+      "password": "Пароль",
+      "password-is-required": "Необходим пароль.",
+      "password-must-be-at-least-8-characters-long": "Пароль должен содержать не менее 8 символов.",
+      "confirm-password": "Подтвердите пароль",
+      "submit": "Подтвердить"
     },
     "user-setting": {
       "user-settings": "Настройки профиля",
@@ -296,10 +296,72 @@
     "lower-nav-bar": {
       "home": "Главная",
       "about-us": "О нас",
-      "eco-events": "Эко мероприятия",
-      "tips": "Полезные советы",
+      "eco-events": "Эко-новости",
+      "tips": "Эко-советы",
       "map": "Карта",
-      "my-habits": "Мои привычки"
+      "my-habits": "Мой кабинет"
+    },
+    "user-goals": {
+      "add-goal": {
+        "update": "Обновить",
+        "manage-your-goals": "Управлять целями"
+      },
+      "goal-container": {
+        "my-goals": "Мои цели"
+      },
+      "add-goal-button": {
+        "add-button": "Управлять целями"
+      },
+      "goal-list": {
+        "expand": "Посмотреть все цели",
+        "collapse": "Свернуть цели",
+        "list-placeholder": "Здесь ты можешь ставить цели и выполнять их!"
+      }
+    },
+    "user-achievements": {
+      "achievement-container": {
+        "my-achievements": "Мои достижения",
+        "get-achievements": "Получай награды вместе с приложением! Это весело!"
+      }
+    },
+    "habit": {
+      "button-component": {
+        "add-new-habit": "Добавить новую привычку!"
+      },
+      "user-log": {
+        "day": "День",
+        "calendar-habit": "Календарь полезных привычек",
+        "today": "Сегодня",
+        "day-of-the-month": "день месяца и это",
+        "less-than": "меньше на",
+        "more-on": "больше на",
+        "package": "пакеты(ов)",
+        "and": "и",
+        "glasses-than-past": "стакана чем в прошлом",
+        "this-month": "В этом месяце ты взял",
+        "glass": "стаканов(а)",
+        "not-have-habit": "В этом месяце ты не сохранил еще ни одного пакета или стакана, но у тебя еще есть шанс сделать этот мир лучше! Начни прямо сейчас! Отметь количество пакетов и стаканов, которые ты не взял сегодня! Или начни формировать привычку на свой выбор!"
+      },
+      "add-new-habit": {
+        "modal-caption": "Новая привычка",
+        "already-chosen-caption": "Уже выбраны",
+        "available-to-chose-caption": "Привычки, которые можно выбрать",
+        "no-available-to-chose": "Вы отслеживаете все доступные привычки",
+        "cant-delete-last-hint": "Вы не можете удалить свою последнюю привычку",
+        "button-save": "Сохранить",
+        "button-cancel": "Отменить",
+        "confirmation-modal-text": "Вы уверены, что хотите удалить эту привычку?",
+        "confirmation-modal-yes": "Да",
+        "confirmation-modal-cancel": "Отменить"
+      },
+      "habit-trackers": {
+        "habit-tracker": {
+          "habit-tracker-date": {
+            "day": "День",
+            "from": "с"
+          }
+        }
+      }
     }
   },
   "advice": {
@@ -307,13 +369,13 @@
     "cup": ""
   },
   "habit-message": {
-    "package": "Сколько пакетов ты не взял сегодня?",
-    "cup": "Сколько стаканов ты не использовал сегодня?"
+    "bag": "Сколько пакетов ты не взял сегодня?",
+    "cap": "Сколько стаканов ты не использовал сегодня?"
   },
   "pagination": {
-    "first-text": "Первая",
-    "previous": "Предыдущая",
-    "next": "Следующая",
-    "last": "Последняя"
+    "first": "Первый",
+    "previous": "Предыдущий",
+    "next": "Следующий",
+    "last": "Последний"
   }
 }

@@ -1,0 +1,14 @@
+.active-element {
+  opacity: 1;
+}
+
+.non-active-element {
+  opacity: 0.2;
+}
+
+img {
+  width: auto;
+  height: 40px;
+  background-size: cover;
+  cursor: pointer;
+}

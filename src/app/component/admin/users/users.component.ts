@@ -8,7 +8,7 @@ import {MatIconRegistry, MatSort, MatTableDataSource} from '@angular/material';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AdminService} from '../../../service/admin/admin.service';
 import {PaginationComponent} from 'ngx-bootstrap';
-import {TranslateService} from '@ngx-translate/core';
+import {JwtService} from '../../../service/jwt/jwt.service';
 
 
 export interface Role {
@@ -35,18 +35,17 @@ export class UsersComponent implements OnInit {
   sortColumn = 'email';
   sortDirection = 'asc';
   sortParam = '&sort=' + this.sortColumn + ',' + this.sortDirection;
-  userEmail = this.userService.getUserEmail();
+  userEmail: string;
   displayedColumns: string[] = ['email', 'firstName', 'lastName', 'dateOfRegistration', 'role', 'block', 'deactivate'];
   maxSizePagination = 6;
   sortArrow: string;
-  roleForTranslation: string;
-  isUpdatedToTranslation: string;
   @ViewChild('paginationElement', {static: false}) paginationComponent: PaginationComponent;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(
     private userService: UserService, private titleService: Title, private ngFlashMessageService: NgFlashMessageService,
-    private translation: TranslateService, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+    iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private jwtService: JwtService) {
+    this.userEmail = jwtService.getEmailFromAccessToken();
     iconRegistry.addSvgIcon(
       'arrow-up',
       sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/arrows/arrow-up-bold.svg'));
@@ -62,13 +61,6 @@ export class UsersComponent implements OnInit {
     this.sortParam = '&sort=' + this.sortColumn + ',' + this.sortDirection;
     this.sortData(this.sortColumn, this.sortDirection);
     this.titleService.setTitle('Admin - Users');
-
-    this.translation.get('users.role-for').subscribe(translation => {
-      this.roleForTranslation = translation;
-    });
-    this.translation.get('users.is-updated-to').subscribe(translation => {
-      this.isUpdatedToTranslation = translation;
-    });
   }
 
   getCurrentPaginationSettings(sort: string): string {
@@ -100,7 +92,7 @@ export class UsersComponent implements OnInit {
 
   changeRole(id: number, role: string, email: string) {
     this.userService.updateUserRole(id, role).subscribe((data) => {
-      this.successfulAction(' ' + this.roleForTranslation + ' ' + email + ' ' + this.isUpdatedToTranslation + ' ' + role.substr(5));
+      this.successfulAction('Role for ' + email + ' is updated to ' + role.substr(5));
     }, (error: HttpErrorResponse) => {
       this.errorMessage(error.error.message);
       this.sortData(this.sortColumn, this.sortDirection);
@@ -192,7 +184,6 @@ export class UsersComponent implements OnInit {
       }
     }
   }
-
   setPaginationPageButtonsToCurrent() {
     this.paginationComponent.selectPage(this.page + 1);
   }

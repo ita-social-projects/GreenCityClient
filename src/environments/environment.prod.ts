@@ -1,6 +1,8 @@
 export const environment = {
   production: true,
   apiKeys: 'AIzaSyDanBliCzAuCZrsq67FeKEs3vqAilUD_is',
+  backendLink: 'https://greencity-lv448.herokuapp.com/',
+  frontendLink: 'https://ita-social-projects.github.io/GreenCityClient/',
   firebaseConfig: {
     apiKey: 'AIzaSyDSVxahTHqdffRX2upKIMXCCjEBUYoHX8E',
     authDomain: 'greencity-9bdb7.firebaseapp.com',

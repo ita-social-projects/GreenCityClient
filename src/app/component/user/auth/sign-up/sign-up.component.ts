@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserOwnSignUp } from '../../../../model/user-own-sign-up';
-import { UserOwnSignUpService } from '../../../../service/user-own-sign-up.service';
+import { UserOwnSignUpService } from '../../../../service/auth/user-own-sign-up.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -19,8 +19,8 @@ export class SignUpComponent implements OnInit {
 
   constructor(
     private userOwnSecurityService: UserOwnSignUpService,
-    private rout: Router
-  ) {}
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.userOwnSignUp = new UserOwnSignUp();
@@ -33,7 +33,7 @@ export class SignUpComponent implements OnInit {
     this.userOwnSecurityService.signUp(userOwnRegister).subscribe(
       () => {
         this.loadingAnim = false;
-        this.rout.navigate(['auth/submit-email']);
+        this.router.navigateByUrl('/auth/submit-email').then(r => r);
       },
       (errors: HttpErrorResponse) => {
         errors.error.forEach(error => {
