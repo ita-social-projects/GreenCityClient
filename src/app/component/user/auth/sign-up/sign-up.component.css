@@ -23,9 +23,23 @@
   padding: 0 10px;
 }
 
+.field-wrapper-left {
+ width: 50%;
+ float: left; 
+ padding: 1% 1% 0 0;
+}
+
+.field-wrapper-right {
+  width: 50%;
+  float: right; 
+  padding: 1% 0 0 1%;
+ }
+
 label[for="email"],
 label[for="password"],
-label[for="first-name"] {
+label[for="first-name"],
+label[for="last-name"],
+label[for="user-name"] {
   font: 16px 'OpenSans', sans-serif;
   letter-spacing: 0.34px;
   color: #839c94;
@@ -46,6 +60,10 @@ label[for="first-name"] {
   height: 80%;
   z-index: 2;
   background: #ffffff;
+}
+
+.clearboth {
+  clear: both;
 }
 
 .form-wrapper {

@@ -8,6 +8,9 @@ import {Observable, of} from 'rxjs';
   providedIn: 'root'
 })
 export class UserOwnSignUpService {
+  saveUserToLocalStorage(data1: import("../../model/user-success-sign-in").UserSuccessSignIn) {
+    throw new Error("Method not implemented.");
+  }
 
   constructor(private http: HttpClient) {
   }
