@@ -6,7 +6,14 @@
     <div id="form-wrapper">
       <h2>Отримувати цікаві новини</h2>
       <p>Підпишіться на розсилку та завжди будьте в курсі новин та оновлень</p>
-      <input type="text" placeholder="Введіть ваш email">
-      <button>Підписатися!</button>
+      <input #subscriptionEmail type="email" [(ngModel)]="email" (input)="validateEmail()"
+        placeholder="Введіть ваш email">
+      <p id="validation-error"
+        [ngClass]="{'hidden': !emailTouched || emailValid, 'visible': emailTouched && !emailValid}">
+        Некоректна
+        електронна пошта
+      </p>
+      <button [ngClass]="{'active': emailValid, 'disabled': !emailValid}" (click)="subscribe()">Підписатися!</button>
     </div>
   </div>
+</div>
