@@ -11,6 +11,8 @@ export class SubscribeComponent implements OnInit {
   private readonly emailRegex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   readonly qrCode = 'assets/img/qr-code2.png';
 
+  subscriptionError: string;
+
   emailTouched: boolean;
   emailValid: boolean;
 
@@ -20,10 +22,21 @@ export class SubscribeComponent implements OnInit {
 
   ngOnInit() {
     this.emailTouched = false;
+    this.subscriptionService.subscriptionError.subscribe(
+      data => {
+        if (data !== undefined || data.length > 0) {
+          this.subscriptionError = data;
+        } else {
+          this.subscriptionError = '';
+        }
+      },
+      () => this.subscriptionError = ''
+    );
   }
 
   validateEmail() {
     this.emailTouched = true;
+    this.subscriptionError = '';
     if (this.emailRegex.test(this.email) && this.email.length > 0) {
       this.emailValid = true;
     } else {
@@ -34,6 +47,8 @@ export class SubscribeComponent implements OnInit {
   subscribe() {
     if (this.emailValid) {
       this.subscriptionService.subscribeToNewsletter(this.email);
+      this.emailTouched = false;
+      this.email = '';
     }
   }
 }
