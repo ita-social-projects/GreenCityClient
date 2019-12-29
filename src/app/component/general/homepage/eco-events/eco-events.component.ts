@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NewsService } from 'src/app/service/news/news.service';
 import { NewsDto } from 'src/app/service/news/NewsDto';
 import { of } from 'rxjs';
@@ -10,10 +10,10 @@ import { catchError } from 'rxjs/operators';
   templateUrl: './eco-events.component.html',
   styleUrls: ['./eco-events.component.css']
 })
-export class EcoEventsComponent implements OnInit {
+export class EcoEventsComponent implements OnInit, OnDestroy {
   readonly eventImg = 'assets/img/main-event-placeholder.png';
   readonly arrow = 'assets/img/icon/arrow.png';
-  latestNews: NewsDto[];
+  latestNews: NewsDto[] = [];
 
   constructor(private newsService: NewsService, private languageService: LanguageService) { }
 
@@ -22,15 +22,19 @@ export class EcoEventsComponent implements OnInit {
     this.newsService.latestNewsSubject.pipe(
       catchError(() => of([]))
     ).subscribe(
-      data => {
-        data.forEach(el => el.creationDate = this.convertDate(el.creationDate));
-        this.latestNews = data;
+      (newsItems: NewsDto[]) => {
+        newsItems.forEach(el => el.creationDate = this.convertDate(el.creationDate));
+        this.latestNews = newsItems;
       },
       error => { throw error; }
     );
   }
 
-  convertDate(date: string): string {
+  ngOnDestroy() {
+    this.newsService.latestNewsSubject.unsubscribe();
+  }
+
+  private convertDate(date: string): string {
     const localizedMonth = this.languageService.getLocalizedMonth(new Date(date).getMonth());
     const formattedDate = new Date(date).getDay()
       + ' '
