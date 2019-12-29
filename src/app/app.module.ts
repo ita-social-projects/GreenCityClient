@@ -306,6 +306,3 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     '.json'
   );
 }
-=========
-export class AppModule {}
->>>>>>>>> Temporary merge branch 2
