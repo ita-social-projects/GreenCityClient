@@ -36,10 +36,9 @@ export class EcoEventsComponent implements OnInit, OnDestroy {
 
   private convertDate(date: string): string {
     const localizedMonth = this.languageService.getLocalizedMonth(new Date(date).getMonth());
-    const formattedDate = new Date(date).getDay()
+    return new Date(date).getDate()
       + ' '
       + localizedMonth.charAt(0).toUpperCase()
       + localizedMonth.slice(1, localizedMonth.length);
-    return formattedDate;
   }
 }
