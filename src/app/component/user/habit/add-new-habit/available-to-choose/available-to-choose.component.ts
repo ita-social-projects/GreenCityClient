@@ -3,6 +3,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-statistic.service';
 import { Observable } from 'rxjs';
 import { AvailableHabitDto } from 'src/app/model/habit/AvailableHabitDto';
+import {LanguageService} from '../../../../../i18n/language.service';
 
 @Component({
   selector: 'app-available-to-choose',
@@ -14,10 +15,10 @@ export class AvailableToChooseComponent implements OnInit {
   private $available: Observable<AvailableHabitDto[]>;
   available: AvailableHabitDto[];
 
-  constructor(private habitStatisticService: HabitStatisticService) { }
+  constructor(private habitStatisticService: HabitStatisticService, private languageService: LanguageService) { }
 
   ngOnInit() {
-    this.habitStatisticService.loadAvailableHabits();
+    this.habitStatisticService.loadAvailableHabits(this.languageService.getCurrentLanguage());
     this.$available = this.habitStatisticService.availableHabits;
     this.$available.subscribe(data => {
       this.available = data;
