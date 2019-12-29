@@ -20,6 +20,7 @@ export const adviceRandomLink = adviceLink + 'random/';
 export const habitStatisticLink = mainLink + 'habit/statistic/';
 export const habitLink = '/habits/statistic';
 export const achievementLink = mainLink + 'achievements';
+export const latestNewsLink = mainLink + 'econews/newest';
 export const subscriptionLink = mainLink + 'newsSubscriber';
 
 // front-end
