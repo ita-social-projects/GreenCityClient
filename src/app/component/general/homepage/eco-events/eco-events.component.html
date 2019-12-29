@@ -5,21 +5,21 @@
         <img [src]="eventImg">
       </div>
       <div id="main-event-content">
-        <p class="event-date">14 Листопада</p>
-        <h3>Лекція про сортування сміття</h3>
+        <p class="event-date">{{ latestNews[0]?.creationDate }}</p>
+        <h3>{{ latestNews[0]?.title }}</h3>
         <a class="read-more">Читати далі <img [src]="arrow"></a>
       </div>
     </div>
     <div id="other-events">
       <div class="other-event">
-        <p class="event-date">22 Листопада</p>
-        <h3>Майстер-клас по приготу-ванню вегетаріанської лазаньї від шефа</h3>
+        <p class="event-date">{{ latestNews[1]?.creationDate }}</p>
+        <h3>{{ latestNews[1]?.title }}</h3>
         <a class="read-more">Читати далі <img [src]="arrow"></a>
       </div>
       <div class="splitter"></div>
       <div class="other-event">
-        <p class="event-date">24 Грудня</p>
-        <h3>Розважальний захід для малих еко-активістів</h3>
+        <p class="event-date">{{ latestNews[2]?.creationDate }}</p>
+        <h3>{{ latestNews[2]?.title }}</h3>
         <a class="read-more">Читати далі <img [src]="arrow"></a>
       </div>
     </div>

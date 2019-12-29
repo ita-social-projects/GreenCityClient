@@ -76,7 +76,11 @@
   line-height: 1.25;
   letter-spacing: normal;
   margin-bottom: 20px;
+  height: 80px;
   max-width: 435px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
 }
 
 #eco-events #eco-events-wrapper .splitter {
@@ -85,7 +89,6 @@
   margin: 18px 0;
   width: 100%;
 }
-
 
 #eco-events #eco-events-wrapper #other-events {
   background-color: #fff;
@@ -114,6 +117,7 @@
   font-weight: 600;
   font-stretch: normal;
   font-style: normal;
+  height: 90px;
   line-height: 1.5;
   letter-spacing: normal;
   margin-bottom: 20px;
@@ -142,6 +146,13 @@
 @media screen and (max-width: 768px) {
   #eco-events {
     padding: 0 24px;
+  }
+
+  .other-event h3 {
+    font-size: 16px !important;
+    line-height: 1.19 !important;
+    height: 72px;
+    margin-bottom: 10px !important;
   }
 }
 
@@ -187,6 +198,7 @@
   .other-event h3 {
     font-size: 16px !important;
     line-height: 1.19 !important;
+    height: 38px;
     margin-bottom: 10px !important;
   }
 
