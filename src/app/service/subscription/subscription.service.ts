@@ -9,18 +9,17 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class SubscriptionService {
 
-  private subscriptionErrorSubject = new BehaviorSubject<string>('');
-  readonly subscriptionError = this.subscriptionErrorSubject.asObservable();
+  readonly subscriptionErrorSubject = new BehaviorSubject<string>('');
 
   constructor(private http: HttpClient) { }
 
   subscribeToNewsletter(email: string) {
     const subscriptionDto = new SubscriptionDto(email);
     this.http.post<SubscriptionDto>(subscriptionLink, subscriptionDto)
-      .subscribe(() => console.log('Subscription successfull: ' + subscriptionDto.email),
+      .subscribe(
+        () => console.log('Subscription successfull: ' + subscriptionDto.email),
         error => {
           this.subscriptionErrorSubject.next(error.error.message);
-          throw error;
         });
   }
 }
