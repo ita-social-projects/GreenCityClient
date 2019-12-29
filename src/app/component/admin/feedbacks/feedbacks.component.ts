@@ -5,6 +5,7 @@ import {MatDialog, MatTableDataSource} from '@angular/material';
 import {ConfirmationDialogService} from '../confirm-modal/confirmation-dialog-service.service';
 import {NgFlashMessageService} from 'ng-flash-messages';
 import {DialogPhotoComponent} from './dialog-photo/dialog-photo.component';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-feedbacks',
@@ -20,13 +21,19 @@ export class FeedbacksComponent implements OnInit {
   comments: CommentAdminDto[];
   dataSource = new MatTableDataSource<CommentAdminDto>();
   truncFlag = false;
+  deleteTranslation: string;
+  deleteMessageTranslation: string;
 
   constructor(private commentService: FeedbackService, private confirmationDialogService: ConfirmationDialogService,
-              private ngFlashMessageService: NgFlashMessageService, public dialog: MatDialog) {
+              private ngFlashMessageService: NgFlashMessageService, private translation: TranslateService, public dialog: MatDialog) {
   }
 
   ngOnInit() {
     this.getCommentsByPage();
+
+    this.translation.get('feedbacks.delete').subscribe(translation => this.deleteTranslation = translation);
+    this.translation.get('feedbacks.Do-you-really-want-to-delete-comment-of').
+    subscribe(translation => this.deleteMessageTranslation = translation);
   }
 
   changePage(event: any) {
@@ -46,8 +53,7 @@ export class FeedbacksComponent implements OnInit {
   }
 
   confirmDelete(id: number, commentName: string) {
-    this.confirmationDialogService.confirm('Delete', `Do you really want to delete
-    comment of "${commentName}" ?`)
+    this.confirmationDialogService.confirm(this.deleteTranslation, this.deleteMessageTranslation + ' ' + commentName + ' ?')
       .then((confirmed) => {
         if (confirmed) {
           this.delete(id);

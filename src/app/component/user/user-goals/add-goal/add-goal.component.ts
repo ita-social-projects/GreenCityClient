@@ -3,6 +3,7 @@ import {UserService} from '../../../../service/user/user.service';
 import {Goal} from '../../../../model/goal/Goal';
 import {Observable} from 'rxjs';
 import {GoalType} from './add-goal-list/GoalType';
+import {LanguageService} from '../../../../i18n/language.service';
 
 @Component({
   selector: 'app-add-goal',
@@ -20,13 +21,13 @@ export class AddGoalComponent implements OnInit {
   @Input()
   updateGoalsTrigger: boolean;
 
-  constructor(private service: UserService) {
+  constructor(private service: UserService, private languageService: LanguageService) {
   }
 
   ngOnInit(): void {
     this.service.loadAvailableCustomGoals();
-    this.service.loadAllGoals();
-    this.service.loadAvailablePredefinedGoals();
+    this.service.loadAllGoals(this.languageService.getCurrentLanguage());
+    this.service.loadAvailablePredefinedGoals(this.languageService.getCurrentLanguage());
 
     this.$trackedGoals = this.service.goals;
     this.$predefinedGoals = this.service.availablePredefinedGoals;
@@ -77,7 +78,7 @@ export class AddGoalComponent implements OnInit {
       this.goals.filter(g => g.type === GoalType.CUSTOM && goal.id === g.id).length === 0);
 
     if (goalsToSave.length !== 0) {
-      this.service.saveCustomGoals(goalsToSave);
+      this.service.saveCustomGoals(goalsToSave, this.languageService.getCurrentLanguage());
     }
   }
 
@@ -114,7 +115,7 @@ export class AddGoalComponent implements OnInit {
     const predefinedGoalsToTrack = this.changedGoals.filter(goal => goal.type === GoalType.PREDEFINED && goal.status === 'CHECKED');
 
     if (customGoalsToTrack.length !== 0 || predefinedGoalsToTrack.length !== 0) {
-      this.service.addPredefinedAndCustomGoals(predefinedGoalsToTrack, customGoalsToTrack);
+      this.service.addPredefinedAndCustomGoals(predefinedGoalsToTrack, customGoalsToTrack, this.languageService.getCurrentLanguage());
     }
   }
 
