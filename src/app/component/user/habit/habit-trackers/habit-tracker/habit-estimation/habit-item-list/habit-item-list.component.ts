@@ -1,9 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { HabitDto } from '../../../../../../../model/habit/HabitDto';
 import { HabitStatisticsDto } from '../../../../../../../model/habit/HabitStatisticsDto';
-import { Observable, of } from 'rxjs';
 import { HabitStatisticService } from '../../../../../../../service/habit-statistic/habit-statistic.service';
-import { filter, map } from 'rxjs/operators';
+import {filter, map, tap} from 'rxjs/operators';
 import { Photo } from '../../../../../../../model/photo/photo';
 import { HabitItem } from '../habit-item/HabitItem';
 
@@ -15,37 +14,26 @@ import { HabitItem } from '../habit-item/HabitItem';
 export class HabitItemListComponent implements OnInit {
   habitItems: HabitItem[] = [];
   @Input()
-  habit: HabitDto;
+  habitDto: HabitDto;
   @Input()
   habitStatistic: HabitStatisticsDto;
   currentNumber = 0;
   isExpanded: boolean;
-  $habit: Observable<HabitDto> = of<HabitDto>();
 
-  constructor(private service: HabitStatisticService) {
+  constructor(private habitStatisticService: HabitStatisticService) {
   }
 
   ngOnInit(): void {
     this.initHabitItems();
 
-    this.service.habitStatistics
+    this.habitStatisticService.habitStatistics
       .pipe(
-        map(hab => hab.find(item => item.id === this.habit.id)),
-        filter(hab => hab !== undefined)
+        map(hab => hab.find(item => item.id === this.habitDto.id)),
+        filter(hab => hab !== undefined),
+        tap(hab => hab.habitStatistics.forEach(hs => hs.createdOn = new Date(hs.createdOn)))
       )
       .subscribe((data: HabitDto) => {
-        let stat: HabitStatisticsDto;
-        if (this.habitStatistic.id === null) {
-          stat = data.habitStatistics.find(el => {
-            const a = new Date(el.createdOn);
-            const b = new Date(this.habitStatistic.createdOn);
-            return a.getFullYear() === b.getFullYear()
-              && a.getMonth() === b.getMonth()
-              && a.getDate() === b.getDate();
-          });
-        } else {
-          stat = data.habitStatistics.find(el => el.id === this.habitStatistic.id);
-        }
+        const stat = this.habitStatisticService.getHabitStatisticsDto(this.habitStatistic, data);
         this.habitStatistic = stat;
         this.currentNumber = stat.amountOfItems;
         this.isExpanded = stat.amountOfItems > 8;
@@ -75,17 +63,17 @@ export class HabitItemListComponent implements OnInit {
         this.habitStatistic.habitRate,
         this.habitStatistic.createdOn,
         habitItem.numb === this.habitStatistic.amountOfItems ? 0 : habitItem.numb,
-        this.habit.id);
+        this.habitDto.id);
 
     if (this.habitStatistic.id === null) {
       this.create(stat);
     } else {
-      this.service.updateHabitStatistic(stat);
+      this.habitStatisticService.updateHabitStatistic(stat);
     }
   }
 
   create(habitStatistic: HabitStatisticsDto) {
-    this.service.createHabitStatistic(habitStatistic);
+    this.habitStatisticService.createHabitStatistic(habitStatistic);
   }
 
   initHabitItems() {
@@ -126,6 +114,6 @@ export class HabitItemListComponent implements OnInit {
   }
 
   getIcon(): Photo {
-    return { name: `assets/img/icon/${this.habit.habitDictionary.habitItem}.png` };
+    return { name: `assets/img/icon/${this.habitDto.habitDictionary.habitItem}.png` };
   }
 }
