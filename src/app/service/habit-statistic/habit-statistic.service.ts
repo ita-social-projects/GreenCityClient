@@ -91,11 +91,13 @@ export class HabitStatisticService implements OnLogout {
   }
 
   createHabitStatistic(habitStatistics: HabitStatisticsDto) {
-    this.http.post<HabitStatisticsDto>(`${habitStatisticLink}`, habitStatistics).subscribe(data => {
+    const toSend: any = habitStatistics;
+    toSend.createdOn = new Date().toISOString();
+    this.http.post<HabitStatisticsDto>(`${habitStatisticLink}`, toSend).subscribe(data => {
       this.dataStore.habitStatistics.forEach((habit, habitIndex) => {
         if (habit.id === habitStatistics.habitId) {
           habit.habitStatistics.forEach((stat, statIndex) => {
-            if (stat.createdOn === habitStatistics.createdOn) {
+            if (new Date(stat.createdOn).toLocaleDateString() === new Date(habitStatistics.createdOn).toLocaleDateString()) {
               this.dataStore.habitStatistics[habitIndex].habitStatistics[statIndex] =
                 new HabitStatisticsDto(data.id, data.habitRate, data.createdOn, data.amountOfItems, data.habitId);
               this.$habitStatistics.next(Object.assign({}, this.dataStore).habitStatistics);
@@ -119,6 +121,22 @@ export class HabitStatisticService implements OnLogout {
     this.dataStore.newHabits = [];
     this.loadAvailableHabits();
     this.loadHabitStatistics();
+  }
+
+  getHabitStatisticsDto(hsDto: HabitStatisticsDto, habitDto: HabitDto): HabitStatisticsDto {
+    let stat: HabitStatisticsDto;
+    if (hsDto.id === null) {
+      stat = habitDto.habitStatistics.find(el => {
+        const a = new Date(el.createdOn);
+        const b = new Date(hsDto.createdOn);
+        return a.getFullYear() === b.getFullYear()
+          && a.getMonth() === b.getMonth()
+          && a.getDate() === b.getDate();
+      });
+    } else {
+      stat = habitDto.habitStatistics.find(el => el.id === hsDto.id);
+    }
+    return stat;
   }
 
   onLogout(): void {
