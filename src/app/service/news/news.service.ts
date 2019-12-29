@@ -20,6 +20,7 @@ export class NewsService {
       catchError(() => of([]))
     ).subscribe(
       data => {
+        console.log(data);
         this.dataStore.latestNews = data;
         this.latestNewsSubject.next(Object.assign({}, this.dataStore).latestNews);
       },
