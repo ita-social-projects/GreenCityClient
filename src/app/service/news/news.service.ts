@@ -9,8 +9,9 @@ import { latestNewsLink } from 'src/app/links';
   providedIn: 'root'
 })
 export class NewsService {
-  readonly latestNewsSubject = new BehaviorSubject<NewsDto[]>([]);
   private dataStore: { latestNews: NewsDto[] } = { latestNews: [] };
+  private latestNewsSubject = new BehaviorSubject<NewsDto[]>([]);
+  readonly latestNews = this.latestNewsSubject.asObservable();
 
   constructor(private http: HttpClient) { }
 
