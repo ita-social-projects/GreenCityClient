@@ -139,7 +139,6 @@ export class ProposeCafeComponent implements OnInit {
   }
 
   add(openingHours: OpeningHours, breakTimes: BreakTimes) {
-    console.log(openingHours);
     if (openingHours.closeTime <= openingHours.openTime || breakTimes.endTime <= breakTimes.startTime) {
       alert('Second time have to be late than first. Please, try again.');
       return;
@@ -150,10 +149,7 @@ export class ProposeCafeComponent implements OnInit {
     openingHours1.weekDay = openingHours.weekDay;
     if (breakTimes.endTime && breakTimes.startTime !== undefined) {
       if (breakTimes.startTime > openingHours1.openTime && breakTimes.endTime < openingHours1.closeTime) {
-        console.log(openingHours1.breakTime);
-        console.log(breakTimes);
         openingHours1.breakTime = breakTimes;
-        console.log(openingHours1.breakTime);
       } else {
         alert('Invalid break time.');
         return;
@@ -166,12 +162,9 @@ export class ProposeCafeComponent implements OnInit {
       }
     });
     this.weekDays = weekDaysNew;
-
-    console.log(openingHours1);
     this.openingHoursList.push(openingHours1);
     this.openingHours = new OpeningHours();
     this.breakTimes = new BreakTimes();
-    console.log(this.openingHoursList);
     this.isBreakTime = false;
   }
 
@@ -199,7 +192,6 @@ export class ProposeCafeComponent implements OnInit {
     this.location.lng = this.longitude;
     this.place.location = this.location;
     this.place.name = this.placeName;
-    console.log(this.place);
     this.placeService.save(this.place);
     this.dialogRef.close();
   }
@@ -216,7 +208,6 @@ export class ProposeCafeComponent implements OnInit {
         if (results[0]) {
           this.zoom = 12;
           this.address = results[0].formatted_address;
-          console.log(this.address);
         } else {
           window.alert('No results found');
         }

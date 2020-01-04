@@ -9,7 +9,7 @@ import { of } from 'rxjs';
   styleUrls: ['./subscribe.component.css']
 })
 export class SubscribeComponent implements OnInit {
-  readonly qrCode = 'assets/img/qr-code2.png';
+  readonly qrCode = 'assets/img/qr-code.png';
   private readonly emailRegex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
   subscriptionError: string;
@@ -21,11 +21,11 @@ export class SubscribeComponent implements OnInit {
 
   ngOnInit() {
     this.emailTouched = false;
-    this.subscriptionService.subscriptionErrorSubject.pipe(
+    this.subscriptionService.subscriptionError.pipe(
       catchError(() => of(''))
     ).subscribe(
       (subscriptionError: string) => {
-        if (subscriptionError !== undefined || subscriptionError.length > 0) {
+        if (subscriptionError !== undefined && subscriptionError.length > 0) {
           this.subscriptionError = subscriptionError;
         } else {
           this.subscriptionError = '';
@@ -37,11 +37,7 @@ export class SubscribeComponent implements OnInit {
   validateEmail() {
     this.emailTouched = true;
     this.subscriptionError = '';
-    if (this.email.length > 0 && this.emailRegex.test(this.email)) {
-      this.emailValid = true;
-    } else {
-      this.emailValid = false;
-    }
+    this.emailValid = this.email.length > 0 && this.emailRegex.test(this.email);
   }
 
   subscribe() {

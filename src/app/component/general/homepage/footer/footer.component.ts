@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { LocalStorageService } from 'src/app/service/localstorage/local-storage.service';
+
 
 @Component({
   selector: 'app-footer',
@@ -14,7 +16,17 @@ export class FooterComponent implements OnInit {
   readonly googlePlay = 'assets/img/icon/g-play.png';
   readonly appStore = 'assets/img/icon/app-store.png';
 
-  constructor() { }
+  constructor(private localStorageService: LocalStorageService) { }
+  private userId: number;
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.localStorageService.userIdBehaviourSubject.subscribe(userId => this.userId = userId);
+  }
+
+  getUserId(): number | string {
+    if (this.userId !== null && !isNaN(this.userId)) {
+      return this.userId;
+    }
+    return 'not_signed_in';
+  }
 }

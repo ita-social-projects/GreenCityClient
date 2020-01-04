@@ -8,8 +8,8 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class SubscriptionService {
-
-  readonly subscriptionErrorSubject = new BehaviorSubject<string>('');
+  private subscriptionErrorSubject = new BehaviorSubject<string>('');
+  readonly subscriptionError = this.subscriptionErrorSubject.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -17,7 +17,7 @@ export class SubscriptionService {
     const subscriptionDto = new SubscriptionDto(email);
     this.http.post<SubscriptionDto>(subscriptionLink, subscriptionDto)
       .subscribe(
-        () => console.log('Subscription successfull: ' + subscriptionDto.email),
+        () => console.log('Subscription successful: ' + subscriptionDto.email),
         error => {
           this.subscriptionErrorSubject.next(error.error.message);
         });

@@ -10,7 +10,7 @@ import { catchError } from 'rxjs/operators';
   templateUrl: './eco-events.component.html',
   styleUrls: ['./eco-events.component.css']
 })
-export class EcoEventsComponent implements OnInit, OnDestroy {
+export class EcoEventsComponent implements OnInit {
   readonly eventImg = 'assets/img/main-event-placeholder.png';
   readonly arrow = 'assets/img/icon/arrow.png';
   latestNews: NewsDto[] = [];
@@ -19,7 +19,7 @@ export class EcoEventsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.newsService.loadLatestNews();
-    this.newsService.latestNewsSubject.pipe(
+    this.newsService.latestNews.pipe(
       catchError(() => of([]))
     ).subscribe(
       (newsItems: NewsDto[]) => {
@@ -30,15 +30,14 @@ export class EcoEventsComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy() {
-    this.newsService.latestNewsSubject.unsubscribe();
-  }
-
   private convertDate(date: string): string {
-    const localizedMonth = this.languageService.getLocalizedMonth(new Date(date).getMonth());
-    return new Date(date).getDate()
+    const dateObj = new Date(date);
+    const localizedMonth = this.languageService.getLocalizedMonth(dateObj.getMonth());
+    return dateObj.getDate()
       + ' '
       + localizedMonth.charAt(0).toUpperCase()
-      + localizedMonth.slice(1, localizedMonth.length);
+      + localizedMonth.slice(1, localizedMonth.length)
+      + ' '
+      + dateObj.getFullYear();
   }
 }
