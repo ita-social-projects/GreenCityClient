@@ -1,34 +1,34 @@
 <div id="footer">
-  <img id="path-6" [src]="path6">
+  <img id="path-6" [src]="path6" alt="bg-texture-6">
   <div id="footer-wrapper">
     <div id="footer-left">
       <div>
-        <img [src]="logo">
+        <img [src]="logo" pageScroll href="#top-user-bar" [pageScrollDuration]="500" alt="app-logo">
       </div>
       <div>
-        <button class="button">Почати формувати звичку!</button>
+        <button class="button" [routerLink]="['habits']">Почати формувати звичку!</button>
       </div>
       <div id="download-app-icons">
-        <img class="download-app-icon" [src]="appStore">
-        <img class="download-app-icon" [src]="googlePlay">
+        <img class="download-app-icon" [src]="appStore" alt="app-store-icon">
+        <img class="download-app-icon" [src]="googlePlay" alt="google-play-icon">
       </div>
     </div>
     <div id="footer-right">
       <nav id="footer-nav">
         <h5>GreenCity</h5>
         <ul>
-          <li><a>Головна</a></li>
-          <li><a>Еко-заходи</a></li>
-          <li><a>Корисні поради</a></li>
-          <li><a>Мапа</a></li>
-          <li><a>Мій кабінет</a></li>
+          <li><a pageScroll href="#top-user-bar" [pageScrollDuration]="500">Головна</a></li>
+          <li><a pageScroll href="#events" [pageScrollDuration]="500">Еко-заходи</a></li>
+          <li><a pageScroll href="#tips" [pageScrollDuration]="500">Корисні поради</a></li>
+          <li><a [routerLink]="['/map']" pageScroll href="#top-user-bar" [pageScrollDuration]="1">Мапа</a></li>
+          <li><a [routerLink]="['habits']">Мій кабінет</a></li>
           <li><a>Про нас</a></li>
         </ul>
       </nav>
       <div id="social-icons">
-        <img [src]="iconTw" alt="" class="social-icon">
-        <img [src]="iconFb" alt="" class="social-icon">
-        <img [src]="iconLi" alt="" class="social-icon">
+        <img [src]="iconTw" alt="twitter-icon" class="social-icon">
+        <img [src]="iconFb" alt="facebook-icon" class="social-icon">
+        <img [src]="iconLi" alt="linked-in-icon" class="social-icon">
       </div>
     </div>
   </div>
