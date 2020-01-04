@@ -9,7 +9,7 @@ import { of } from 'rxjs';
   styleUrls: ['./subscribe.component.css']
 })
 export class SubscribeComponent implements OnInit {
-  readonly qrCode = 'assets/img/qr-code2.png';
+  readonly qrCode = 'assets/img/qr-code.png';
   private readonly emailRegex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
   subscriptionError: string;
