@@ -1,22 +1,24 @@
 <div id="subscribe">
   <div id="subscribe-wrapper">
     <div id="qr-code-wrapper">
-      <img [src]="qrCode">
+      <img [src]="qrCode" alt="qr-code">
     </div>
     <div id="form-wrapper">
-      <h2>Отримувати цікаві новини</h2>
-      <p>Підпишіться на розсилку та завжди будьте в курсі новин та оновлень</p>
+      <h2>{{ "homepage.subscription.caption" | translate }}</h2>
+      <p>{{ "homepage.subscription.content" | translate }}</p>
       <input #subscriptionEmail type="email" [(ngModel)]="email" (input)="validateEmail()"
         placeholder="Введіть ваш email">
       <p id="validation-error"
         [ngClass]="{'hidden': !emailTouched || emailValid, 'visible': emailTouched && !emailValid}">
-        Некоректна електронна пошта
+        {{ "homepage.subscription.validation-error" | translate }}
       </p>
       <p id="subscription-error"
         [ngClass]="{'hidden': subscriptionError.length < 1, 'visible': !emailTouched || subscriptionError.length > 0}">
-        Помилка! Можливо ви вже підписані
+        {{ "homepage.subscription.subscription-error" | translate }}
       </p>
-      <button [ngClass]="{'active': emailValid, 'disabled': !emailValid}" (click)="subscribe()">Підписатися!</button>
+      <button [ngClass]="{'active': emailValid, 'disabled': !emailValid}" (click)="subscribe()">
+        {{ "homepage.subscription.button-subscribe" | translate }}
+      </button>
     </div>
   </div>
 </div>

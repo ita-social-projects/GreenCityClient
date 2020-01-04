@@ -1,4 +1,41 @@
 {
+  "homepage":{
+    "general": {
+      "button-start-habit": "Start forming a habit!"
+    },
+    "header": {
+      "caption": "A new way to cultivate useful habits",
+      "content": "In Ukraine, every person uses more than 500 disposable bags and about 70 paper cups every year. It is enough to bring an eco-bag and your cup with you and this will help to save the lives of 3 dolphins, one turtle and to keep the oceans clean for the next generation."
+    },
+    "stats": {
+      "caption-before": "There are",
+      "caption-after": "of us and today we",
+      "bag-stat-before": "Did not take",
+      "bag-stat-after": "bags",
+      "bag-question": "And how many packages you did not take today?",
+      "bag-link": "you can buy eco-bags here",
+      "cup-stat-before": "Did not throw away",
+      "cup-stat-after": "cups",
+      "cup-question": "And how many cups you did not throw away today?",
+      "cup-link": "places that make a discount on a drink in your cup"
+    },
+    "eco-news": {
+      "caption": "Eco-news",
+      "read-more": "Read more",
+      "read-all": "Read all news"
+    },
+    "eco-advices": {
+      "caption": "Eco-advices"
+    },
+    "subscription": {
+      "caption": "Receive interesting news",
+      "content": "Subscribe for our newsletter and always be up to date with news and updates",
+      "placeholder": "Enter your email",
+      "validation-error": "Invalid email",
+      "subscription-error": "Error, maybe you are already subscribed",
+      "button-subscribe": "Subscribe!"
+    }
+  },
   "admin-nav": {
     "places": "Places",
     "users": "Users",
