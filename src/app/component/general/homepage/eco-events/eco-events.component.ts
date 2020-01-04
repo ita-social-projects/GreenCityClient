@@ -10,7 +10,7 @@ import { catchError } from 'rxjs/operators';
   templateUrl: './eco-events.component.html',
   styleUrls: ['./eco-events.component.css']
 })
-export class EcoEventsComponent implements OnInit, OnDestroy {
+export class EcoEventsComponent implements OnInit {
   readonly eventImg = 'assets/img/main-event-placeholder.png';
   readonly arrow = 'assets/img/icon/arrow.png';
   latestNews: NewsDto[] = [];
@@ -19,7 +19,7 @@ export class EcoEventsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.newsService.loadLatestNews();
-    this.newsService.latestNewsSubject.pipe(
+    this.newsService.latestNews.pipe(
       catchError(() => of([]))
     ).subscribe(
       (newsItems: NewsDto[]) => {
@@ -28,10 +28,6 @@ export class EcoEventsComponent implements OnInit, OnDestroy {
       },
       error => { throw error; }
     );
-  }
-
-  ngOnDestroy() {
-    this.newsService.latestNewsSubject.unsubscribe();
   }
 
   private convertDate(date: string): string {
