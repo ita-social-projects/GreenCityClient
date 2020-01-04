@@ -14,7 +14,6 @@ export class CommentService {
   }
 
   saveCommentByPlaceId(id: number, comment: Comment) {
-    console.log(comment);
     this.http.post(`${placeLink}${id}/comments`, comment).subscribe(() => {
         this.ngFlashMessageService.showFlashMessage({
           messages: ['Your comment was added'],

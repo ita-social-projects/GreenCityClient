@@ -39,7 +39,6 @@ export class NavBarComponent implements OnInit {
       width: '700px'
     });
     dialogRef.afterClosed().subscribe(() => {
-      console.log('The dialog was closed');
       this.favoritePlaceService.getFavoritePlaces();
     });
   }

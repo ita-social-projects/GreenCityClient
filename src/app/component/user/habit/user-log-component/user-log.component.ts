@@ -52,7 +52,6 @@ export class UserLogComponent implements OnInit {
         if (diffCap.length !== 0) {
           this.$differenceUnTakenItemsWithPreviousDayCap = diffCap[0].habitItemAmount;
         } else {
-          console.log('start');
           this.$differenceUnTakenItemsWithPreviousDayCap = 0;
         }
         if (diffBag.length !== 0) {
@@ -60,8 +59,6 @@ export class UserLogComponent implements OnInit {
         } else {
           this.$differenceUnTakenItemsWithPreviousDayBag = 0;
         }
-
-        console.log(data);
       }, error => {
         this.hasStatistic = false;
         console.log('Error!', error);

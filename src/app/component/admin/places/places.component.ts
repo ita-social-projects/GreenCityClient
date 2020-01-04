@@ -251,8 +251,6 @@ export class PlacesComponent implements OnInit {
       this.flag = true;
       searchReg = `%${this.searchReg}%`;
     }
-    console.log('sc=' + this.sortColumn + ' sd=' + this.sortDirection + 'st' + this.status);
-    console.log('current pagination=' + this.getCurrentPaginationSettings());
     this.status = PlaceStatus[this.defaultStatus.toUpperCase()];
     this.filterDto = new FilterPlaceDtoModel(this.status, null, null, null, searchReg, null);
     this.placeService.filterByRegex(this.getCurrentPaginationSettings(), this.filterDto).subscribe(res => {

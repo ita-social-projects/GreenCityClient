@@ -67,10 +67,8 @@ export class UpdateCafeComponent implements OnInit {
       this.place = data;
       this.address = this.place.location.address;
       this.latitude = data.location.lat;
-      console.log(this.latitude);
       this.longitude = data.location.lng;
       this.zoom = 15;
-      console.log(data);
       this.openingHoursList = data.openingHoursList;
       this.discountValues = data.discountValues;
       this.placeName = data.name;
@@ -146,7 +144,6 @@ export class UpdateCafeComponent implements OnInit {
   }
 
   add(openingHours: OpeningHours, breakTimes: BreakTimes) {
-    console.log(openingHours);
     if (openingHours.closeTime < openingHours.openTime || breakTimes.endTime < breakTimes.startTime) {
       alert('Second time have to be late than first. Please, try again.');
       return;
@@ -158,28 +155,22 @@ export class UpdateCafeComponent implements OnInit {
     openingHours1.weekDay = openingHours.weekDay;
     if (breakTimes.endTime && breakTimes.startTime !== undefined) {
       if (breakTimes.startTime > openingHours1.openTime && breakTimes.endTime < openingHours1.closeTime) {
-        console.log(openingHours1.breakTime);
-        console.log(breakTimes);
         openingHours1.breakTime = breakTimes;
-        console.log(openingHours1.breakTime);
       } else {
         alert('Invalid break time.');
         return;
       }
     }
-    let weekDaysNew: WeekDays[] = [];
+    const weekDaysNew: WeekDays[] = [];
     this.weekDays.forEach(val => {
       if (val !== openingHours1.weekDay) {
         weekDaysNew.push(val);
       }
     });
     this.weekDays = weekDaysNew;
-
-    console.log(openingHours1);
     this.openingHoursList.push(openingHours1);
     this.openingHours = new OpeningHours();
     this.breakTimes = new BreakTimes();
-    console.log(this.openingHoursList);
     this.isBreakTime = false;
   }
 
@@ -194,7 +185,6 @@ export class UpdateCafeComponent implements OnInit {
   }
 
   switch() {
-    console.log('switch');
     this.isBreakTime = !this.isBreakTime;
   }
 
@@ -210,7 +200,6 @@ export class UpdateCafeComponent implements OnInit {
   onSubmit() {
     this.placeService.getPlaceByID(this.data).subscribe(data => {
       this.place = data;
-      console.log(data);
       this.submitButtonEnabled = false;
       this.place.openingHoursList = this.openingHoursList;
       this.place.discountValues = this.discountValues;
@@ -220,14 +209,12 @@ export class UpdateCafeComponent implements OnInit {
       this.place.location.lat = this.latitude;
       this.place.location.lng = this.longitude;
       this.place.name = this.placeName;
-      console.log(this.place);
       this.placeService.updatePlace(this.place);
     });
     this.dialogRef.close();
   }
 
   markerDragEnd($event: MouseEvent) {
-    console.log($event);
     this.latitude = $event.coords.lat;
     this.longitude = $event.coords.lng;
     this.getAddress(this.latitude, this.longitude);
