@@ -140,7 +140,6 @@ export class UsersComponent implements OnInit {
   }
 
   filterByRegex(sort: string) {
-    console.log('in filterByRegex');
     this.userService.getByFilter(this.searchReg, this.getCurrentPaginationSettings(sort)).subscribe(res => {
       this.users = res.page;
       this.page = res.currentPage;

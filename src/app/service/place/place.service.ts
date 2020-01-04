@@ -44,7 +44,6 @@ export class PlaceService {
           timeout: 3000,
           type: 'success'
         });
-        console.log(place);
       }, error => {
         this.ngFlashMessageService.showFlashMessage({
           messages: ['Please try again'],
@@ -128,7 +127,6 @@ export class PlaceService {
           timeout: 3000,
           type: 'success'
         });
-        console.log(updatedPlace);
       }, error => {
         this.ngFlashMessageService.showFlashMessage({
           messages: ['Cafe ' + updatedPlace.name + ' was not updated.'],

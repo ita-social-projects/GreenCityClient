@@ -17,7 +17,7 @@ export class SubscriptionService {
     const subscriptionDto = new SubscriptionDto(email);
     this.http.post<SubscriptionDto>(subscriptionLink, subscriptionDto)
       .subscribe(
-        () => console.log('Subscription successfull: ' + subscriptionDto.email),
+        () => console.log('Subscription successful: ' + subscriptionDto.email),
         error => {
           this.subscriptionErrorSubject.next(error.error.message);
         });
