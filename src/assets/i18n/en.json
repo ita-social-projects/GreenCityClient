@@ -1,5 +1,15 @@
 {
-  "homepage":{
+  "top-bar": {
+    "text-before": "Hi there! It's an eco-habit tracker. ",
+    "sign-up": "Sign-up ",
+    "text-within": "to create your own ",
+    "or": "or ",
+    "sign-in": "sign-in",
+    "text-after": ", if you are already with us.",
+    "hello": "Hello, ",
+    "welcome-back": " Welcome back!"
+  },
+  "homepage": {
     "general": {
       "button-start-habit": "Start forming a habit!"
     },
