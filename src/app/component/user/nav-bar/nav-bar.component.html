@@ -1,28 +1,9 @@
 <nav class="top-bar" id="top-user-bar">
-
-
+  <!-- will be removed in future releases -->
   <!-- <li class="nav-item">
         <a class="nav-link" *ngIf="userRole === 'ROLE_USER'"
           (click)="openDialogProposeCafeComponent()">{{ "nav-bar.add-cafe" | translate }}</a>
       </li> -->
-
-  <!-- <div *ngIf="firstName != null">
-          <a class="dropdown-item" *ngIf="userRole == 'ROLE_ADMIN' || userRole == 'ROLE_MODERATOR'"
-            [routerLink]="['admin']">{{ "nav-bar.admin" | translate }}</a>
-          <a class="dropdown-item" [routerLink]="[userId,'habits']">{{
-            "nav-bar.my-habits" | translate
-          }}</a>
-          <a class="dropdown-item" (click)="openDialog()">{{
-            "nav-bar.favorite-places" | translate
-          }}</a>
-          <a class="dropdown-item" (click)="openSettingDialog()">{{
-            "nav-bar.user-settings" | translate
-          }}</a>
-          <a class="dropdown-item" (click)="signOut()">{{
-            "nav-bar.sign-out" | translate
-          }}</a>
-  </div> -->
-
   <div class="top-bar-wrapper">
     <div *ngIf="!isLoggedIn; then userLoggedIn else userNotLoggedIn"></div>
     <ng-template #userLoggedIn>
