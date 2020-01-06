@@ -1,16 +1,16 @@
-<nav class="navbar navbar-expand-md navbar-dark" id="top-user-bar">
+<nav class="top-bar" id="top-user-bar">
 
-  <div class="navbar-collapse collapse">
+  <!-- <div class="navbar-collapse collapse"> -->
 
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item dropdown"></li>
+  <!-- <ul class="navbar-nav ml-auto">
+      <li class="nav-item dropdown"></li> -->
 
-      <!-- <li class="nav-item">
+  <!-- <li class="nav-item">
         <a class="nav-link" *ngIf="userRole === 'ROLE_USER'"
           (click)="openDialogProposeCafeComponent()">{{ "nav-bar.add-cafe" | translate }}</a>
       </li> -->
 
-      <div *ngIf="firstName != null">
+  <!-- <div *ngIf="firstName != null">
         <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true"
           aria-expanded="false">{{ firstName }}</a>
 
@@ -36,6 +36,27 @@
         "nav-bar.sign-in" | translate
       }}</a>
     </ul>
+  </div> -->
+
+  <div class="top-bar-wrapper">
+    <div *ngIf="true; then userLoggedIn else userNotLoggedIn"></div>
+    <ng-template #userLoggedIn>
+      <div id="top-bar-text">
+        <span id="text-before">{{ "top-bar.text-before" | translate }}</span>
+        <span><a routerLink="/auth/sign-up">{{ "top-bar.sign-up" | translate }}</a></span>
+        <span id="text-within">{{ "top-bar.text-within" | translate }}</span>
+        <span>{{ "top-bar.or" | translate }} <a routerLink="/auth">{{ "top-bar.sign-in" | translate }}</a></span>
+        <span id="text-after">{{ "top-bar.text-after" | translate }}</span>
+      </div>
+    </ng-template>
+    <ng-template #userNotLoggedIn>
+
+    </ng-template>
+    <select id="language-switcher">
+      <option class="language-option">Укр</option>
+      <option class="language-option">Рус</option>
+      <option class="language-option">Eng</option>
+    </select>
   </div>
 </nav>
 
