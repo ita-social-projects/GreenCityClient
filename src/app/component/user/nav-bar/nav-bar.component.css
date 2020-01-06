@@ -1,6 +1,11 @@
 .navbar {
-  background-color: rgba(131, 156, 148, 0.05);
+  background-color: rgba(239, 237, 241);
   height: 40px !important;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 2001;
 }
 
 .navbar a {
