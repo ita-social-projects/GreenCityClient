@@ -11,6 +11,7 @@ import { JwtService } from '../../../service/jwt/jwt.service';
 import { UserService } from 'src/app/service/user/user.service';
 import { AchievementService } from 'src/app/service/achievement/achievement.service';
 import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-statistic.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-nav-bar',
@@ -18,9 +19,14 @@ import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-sta
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
+  readonly notificationIcon = 'assets/img/notification-icon.png';
+  readonly userAvatar = 'assets/img/user-avatar.png';
+  readonly arrow = 'assets/img/arrow.png';
+  dropdownVisible: boolean;
   firstName: string;
   userRole: string;
   userId: number;
+  isLoggedIn: boolean;
 
   constructor(
     private modalService: ModalService,
@@ -34,7 +40,26 @@ export class NavBarComponent implements OnInit {
     private habitStatisticService: HabitStatisticService
   ) { }
 
+  ngOnInit(): void {
+    this.dropdownVisible = false;
+    this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => this.firstName = firstName);
+    this.localStorageService.userIdBehaviourSubject
+      .pipe(
+        filter(userId => userId !== null && !isNaN(userId))
+      )
+      .subscribe(userId => {
+        this.userId = userId;
+        this.isLoggedIn = true;
+      });
+    this.userRole = this.jwtService.getUserRole();
+  }
+
+  toggleDropdown(): void {
+    this.dropdownVisible = !this.dropdownVisible;
+  }
+
   openDialog(): void {
+    this.dropdownVisible = false;
     const dialogRef = this.dialog.open(FavoritePlaceComponent, {
       width: '700px'
     });
@@ -44,6 +69,7 @@ export class NavBarComponent implements OnInit {
   }
 
   openSettingDialog(): void {
+    this.dropdownVisible = false;
     const dialogRef = this.dialog.open(UserSettingComponent, {
       width: '700px'
     });
@@ -52,13 +78,8 @@ export class NavBarComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => this.firstName = firstName);
-    this.localStorageService.userIdBehaviourSubject.subscribe(userId => this.userId = userId);
-    this.userRole = this.jwtService.getUserRole();
-  }
-
   openDialogProposeCafeComponent(): void {
+    this.dropdownVisible = false;
     const dialogRef = this.dialog.open(ProposeCafeComponent, {
       width: '800px',
       data: 5
@@ -68,7 +89,10 @@ export class NavBarComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
+
   private signOut() {
+    this.dropdownVisible = false;
+    this.isLoggedIn = false;
     this.localStorageService.clear();
     this.userService.onLogout();
     this.habitStatisticService.onLogout();
