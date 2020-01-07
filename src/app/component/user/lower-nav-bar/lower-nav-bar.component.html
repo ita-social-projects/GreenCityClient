@@ -3,7 +3,9 @@
     <a [routerLink]="['/']">
       <img [src]="logo" id="green-city-logo" alt="green-city-logo" />
     </a>
-    <ul>
+    <input class="menu-btn" type="checkbox" id="menu-btn" />
+    <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
+    <ul class="menu">
       <li>
         <a [routerLink]="['/welcome']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
           true}">{{ "user.lower-nav-bar.home" | translate }}</a>
@@ -18,11 +20,11 @@
       </li>
       <li>
         <a [routerLink]="['/map']" pageScroll href="#top-user-bar" routerLinkActive="active-link"
-           [routerLinkActiveOptions]="{exact: true}">{{ "user.lower-nav-bar.map" | translate }}</a>
+          [routerLinkActiveOptions]="{exact: true}">{{ "user.lower-nav-bar.map" | translate }}</a>
       </li>
       <li>
         <a [routerLink]="[getUserId(),'habits']" routerLinkActive="active-link"
-           [routerLinkActiveOptions]="{exact: true}">{{ "user.lower-nav-bar.my-habits" | translate }}</a>
+          [routerLinkActiveOptions]="{exact: true}">{{ "user.lower-nav-bar.my-habits" | translate }}</a>
       </li>
       <li>
         <a>{{ "user.lower-nav-bar.about-us" | translate }}</a>

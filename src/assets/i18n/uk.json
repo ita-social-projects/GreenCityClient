@@ -1,5 +1,15 @@
 {
-  "homepage":{
+  "top-bar": {
+    "text-before": "Привіт! Це трекер еко-звичок. ",
+    "sign-up": "Зареєструйся ",
+    "text-within": "щоб створити власний ",
+    "or": "або ",
+    "sign-in": "заходь",
+    "text-after": ", якщо ти вже з нами.",
+    "hello": "Привіт, ",
+    "welcome-back": "! З поверненням!"
+  },
+  "homepage": {
     "general": {
       "button-start-habit": "Почати формувати звичку!"
     },
