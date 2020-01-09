@@ -5,8 +5,7 @@
 export const environment = {
   production: false,
   apiKeys: 'AIzaSyDanBliCzAuCZrsq67FeKEs3vqAilUD_is',
-  //backendLink: 'http://localhost:8080/',
-  backendLink:'https://greencity-lv448.herokuapp.com/',
+  backendLink: 'http://localhost:8080/',
   frontendLink: 'http://localhost:4200/GreenCityClient',
   firebaseConfig: {
     apiKey: 'AIzaSyDSVxahTHqdffRX2upKIMXCCjEBUYoHX8E',
