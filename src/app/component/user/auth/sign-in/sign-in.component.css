@@ -10,6 +10,11 @@
   height: auto;
 }
 
+.outher-wrapper {
+  width: 100%;
+  height: 100vw;
+}
+
 .sign-in input {
   display: block;
   width: 100%;
@@ -43,7 +48,7 @@ label[for="first-name"] {
   margin: 0 auto !important;
   max-width: 800px;
   width: 65%;
-  height: 80%;
+  
   z-index: 2;
   background: #ffffff;
 }

@@ -1,8 +1,13 @@
 .grey-bg {
   width: 100%;
   height: auto;
-  background: #292D35;
+  background: #292d35;
   padding: 10px 0;
+}
+
+.outher-wrapper {
+  width: 100%;
+  height: 100vw;
 }
 
 .sign-in {
@@ -57,7 +62,7 @@ label[for="user-name"] {
   margin: 0 auto !important;
   width: 65%;
   max-width: 800px;
-  height: 80%;
+ 
   z-index: 2;
   background: #ffffff;
 }
