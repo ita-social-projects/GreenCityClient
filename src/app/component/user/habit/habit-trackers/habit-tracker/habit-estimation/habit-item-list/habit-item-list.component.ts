@@ -114,6 +114,6 @@ export class HabitItemListComponent implements OnInit {
   }
 
   getIcon(): Photo {
-    return { name: `assets/img/icon/${this.habit.habitDictionary.image}.png` };
+    return { name: `assets/img/icon/${this.habitDto.habitDictionary.image}.png` };
   }
 }

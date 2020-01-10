@@ -27,7 +27,7 @@
         <ul id="dropdown" *ngIf="dropdownVisible">
           <li>
             <a *ngIf="userRole == 'ROLE_ADMIN' || userRole == 'ROLE_MODERATOR'"
-              [routerLink]="['admin']">{{ "nav-bar.admin" | translate }}</a>
+               [routerLink]="['admin']">{{ "nav-bar.admin" | translate }}</a>
           </li>
           <li>
             <a (click)="openDialog()">
@@ -49,10 +49,10 @@
     </ng-template>
     <div id="switcher-wrapper">
       <img id="arrow" [src]="arrow" alt="v">
-      <select id="language-switcher">
-        <option class="language-option">Укр</option>
-        <option class="language-option">Рус</option>
-        <option class="language-option">Eng</option>
+      <select [(ngModel)]="language" (change)="changeCurrentLanguage()" id="language-switcher">
+        <option class="language-option" [ngValue]="'uk'">Укр</option>
+        <option class="language-option" [ngValue]="'ru'">Рус</option>
+        <option class="language-option" [ngValue]="'en'">Eng</option>
       </select>
     </div>
   </div>
