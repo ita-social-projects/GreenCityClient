@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {Language} from './Language';
+import {LocalStorageService} from '../service/localstorage/local-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +10,8 @@ export class LanguageService {
   private langMap = new Map();
   private defaultLanguage = Language.EN;
   private monthMap = new Map<Language, string[]>();
-  private currentLanguage: Language;
 
-  constructor(private translate: TranslateService) {
+  constructor(private translate: TranslateService, private localStorageService: LocalStorageService) {
     this.langMap.set(Language.EN, ['en']);
     this.langMap.set(Language.UK, ['ua', 'uk']);
     this.langMap.set(Language.RU, ['ru']);
@@ -25,13 +25,15 @@ export class LanguageService {
   }
 
   public setDefaultLanguage() {
-    const language = this.getLanguageByString(navigator.language);
-    this.translate.setDefaultLang(language);
-    this.currentLanguage = language;
+    if (this.localStorageService.getCurrentLanguage()) {
+      this.translate.setDefaultLang(this.localStorageService.getCurrentLanguage());
+    } else {
+      this.translate.setDefaultLang(this.getLanguageByString(navigator.language));
+    }
   }
 
   public getCurrentLanguage() {
-    return this.currentLanguage;
+    return this.localStorageService.getCurrentLanguage() as Language;
   }
 
   private getLanguageByString(languageString: string) {
@@ -46,5 +48,10 @@ export class LanguageService {
 
   public getLocalizedMonth(month: number) {
     return this.monthMap.get(this.getLanguageByString(navigator.language))[month];
+  }
+
+  public changeCurrentLanguage(language: Language) {
+    this.localStorageService.setCurrentLanguage(language);
+    location.reload();
   }
 }
