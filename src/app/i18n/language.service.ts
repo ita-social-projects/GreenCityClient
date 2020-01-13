@@ -25,15 +25,16 @@ export class LanguageService {
   }
 
   public setDefaultLanguage() {
-    if (this.localStorageService.getCurrentLanguage()) {
+    if (this.localStorageService.getCurrentLanguage() !== null) {
       this.translate.setDefaultLang(this.localStorageService.getCurrentLanguage());
     } else {
       this.translate.setDefaultLang(this.getLanguageByString(navigator.language));
+      this.localStorageService.setCurrentLanguage(this.getLanguageByString(navigator.language));
     }
   }
 
   public getCurrentLanguage() {
-    return this.localStorageService.getCurrentLanguage() as Language;
+    return this.localStorageService.getCurrentLanguage();
   }
 
   private getLanguageByString(languageString: string) {
@@ -47,7 +48,7 @@ export class LanguageService {
   }
 
   public getLocalizedMonth(month: number) {
-    return this.monthMap.get(this.getLanguageByString(navigator.language))[month];
+    return this.monthMap.get(this.getCurrentLanguage())[month];
   }
 
   public changeCurrentLanguage(language: Language) {
