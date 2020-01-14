@@ -1,8 +1,8 @@
 .grey-bg {
   width: 100%;
-  height: 100vw;
-  background: #292d35;
-  padding: 10px 0;
+  height: auto;
+  background: #292D35;
+  padding: 10px 0 10% 0;
 }
 
 .outher-wrapper {

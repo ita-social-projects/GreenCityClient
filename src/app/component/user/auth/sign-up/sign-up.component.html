@@ -24,7 +24,7 @@
               </div>
               <div class="field-wrapper-right">
                  <label for="last-name">{{'user.auth.sign-up.last-name' | translate}}</label>
-                 <input id="last-name" type="text" class="last-name" [class]="lastNameControl.errors&&lastNameControl.touched? 'red':'grey'" name="lastName" [(ngModel)]="userOwnSignUp.lastName" #lastNameControl="ngModel" required minlength="1" maxlength="20" (focus)="inputLastGreen()" (blur)="inputLastBlack()">
+                 <input id="last-name" type="text" class="last-name" name="lastName" [(ngModel)]="userOwnSignUp.lastName" #lastNameControl="ngModel" minlength="1" (focus)="inputLastGreen()" (blur)="inputLastBlack()">
                  <div class="validation-error" *ngIf="lastNameControl.invalid && (lastNameControl.dirty||lastNameControl.touched)">
                     <div *ngIf="lastNameControl.errors.required">
                        {{'user.auth.sign-up.last-name-is-required' | translate}}
@@ -38,23 +38,7 @@
                  </div>
               </div>
               <div class="clearboth"></div>
-              <div class="field-wrapper-left">
-                 <label for="user-name">{{'user.auth.sign-up.user-name' | translate}}</label>
-                 <input id="user-name" type="text" class="user-name" [class]="userNameControl.errors&&userNameControl.touched? 'red':'grey'" name="userName" [(ngModel)]="userOwnSignUp.userName" #userNameControl="ngModel" required minlength="1" maxlength="20" (focus)="inputNickGreen()" (blur)="inputNickBlack()">
-                 <div class="validation-error" *ngIf="userNameControl.invalid && (userNameControl.dirty||userNameControl.touched)">
-                    <div *ngIf="userNameControl.errors.required">
-                       {{'user.auth.sign-up.user-name-is-required' | translate}}
-                    </div>
-                    <div *ngIf="userNameControl.errors.minlength">
-                       {{'user.auth.sign-up.user-name-must-be-at-least-1-characters-long' | translate}}
-                    </div>
-                 </div>
-                 <div class="validation-error" id="validation-error-nick" *ngIf="userNameErrorMessageBackEnd!=null">
-                    {{userNameErrorMessageBackEnd}}
-                 </div>
-              </div>
-              <div class="field-wrapper-right">
-                 <label for="email">{{'user.auth.sign-up.email' | translate}}</label>
+               <label for="email">{{'user.auth.sign-up.email' | translate}}</label>
                  <input id="email" #emailControl="ngModel" [class]="emailControl.errors&&emailControl.touched? 'red':'grey'" type="email" class="email" name="email" [(ngModel)]="userOwnSignUp.email" #emailControl="ngModel" required minlength="1" email="true" (focus)="inputEmailGreen()" (blur)="inputEmailBlack()">
                  <div class="validation-error" id="validation-error" *ngIf="emailControl.invalid && (emailControl.dirty||emailControl.touched)">
                     <div *ngIf="emailControl.errors.required">
@@ -69,8 +53,7 @@
                  </div>
                  <div class="validation-error" *ngIf="emailErrorMessageBackEnd!=null">
                     {{emailErrorMessageBackEnd}}
-                 </div>
-              </div>
+                 </div>              
               <div class="clearboth"></div>
               <label for="password">{{'user.auth.sign-up.password' | translate}}</label>
               <div class="password-wrapper">
