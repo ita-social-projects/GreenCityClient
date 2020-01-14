@@ -6,7 +6,7 @@ import {BehaviorSubject, Observable, of} from 'rxjs';
 import {UserRoleModel} from '../../model/user/user-role.model';
 import {UserStatusModel} from '../../model/user/user-status.model';
 import {UserPageableDtoModel} from '../../model/user/user-pageable-dto.model';
-import {mainLink, userLink} from '../../links';
+import {habitStatisticLink, mainLink, userLink} from '../../links';
 import {RolesModel} from '../../model/user/roles.model';
 import {UserFilterDtoModel} from '../../model/user/userFilterDto.model';
 import {UserUpdateModel} from '../../model/user/user-update.model';
@@ -17,6 +17,7 @@ import {CustomGoalSaveRequestDto} from '../../model/goal/CustomGoalSaveRequestDt
 import {UserCustomGoalDto} from '../../model/goal/UserCustomGoalDto';
 import {UserGoalDto} from '../../model/goal/UserGoalDto';
 import {OnLogout} from '../OnLogout';
+import {HabitItemsAmountStatisticDto} from "../../model/goal/HabitItemsAmountStatisticDto";
 
 @Injectable({
   providedIn: 'root'
@@ -230,5 +231,34 @@ export class UserService implements OnLogout {
     this.goalsSubject.next(Object.assign({}, this.dataStore).goals);
     this.availableCustomGoalsSubject.next(Object.assign({}, this.dataStore).availableCustomGoals);
     this.availablePredefinedGoalsSubject.next(Object.assign({}, this.dataStore).availablePredefinedGoals);
+  }
+
+  /**
+   * Returns amount of users with activated status.
+   * Can be used for representing total amount of users in the system.
+   *
+   * @returns Observable<number> that can be used for subscription to obtain amount of users.
+   */
+  countActivatedUsers(): Observable<number> {
+    return this.http.get(`${userLink}/activatedUsersAmount`) as Observable<number>;
+  }
+
+  /**
+   * Returns statistic for all not taken habit items in the system for today.
+   * Data is returned as an array of key-value-pairs mapped to HabitItemsAmountStatisticDto,
+   * where key is the name of habit item and value is not taken amount of these items.
+   * Language of habit items is defined by the `language` parameter.
+   * By default English language is set on the backend and should be used for technical purposes.
+   * When habit items have to be represented to users this parameter should be set according to user's localization.
+   *
+   * @param language - Optional parameter for name of habit item localization language(e.x. "en" or "uk").
+   * @returns Observable<Array<HabitItemsAmountStatisticDto>> that can be used for those key-value pairs acquisition.
+   */
+  getTodayStatisticsForAllHabitItems(language?: string): Observable<Array<HabitItemsAmountStatisticDto>> {
+    let endpointLink = `${habitStatisticLink}todayStatisticsForAllHabitItems`;
+    if (language != undefined) {
+      endpointLink += `?language=${language}`;
+    }
+    return this.http.get(endpointLink) as Observable<Array<HabitItemsAmountStatisticDto>>;
   }
 }
