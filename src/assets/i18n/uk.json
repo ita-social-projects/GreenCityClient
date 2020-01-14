@@ -69,7 +69,10 @@
     "no-attachment": "Немає вкладень",
     "loading-data": "Завантаження даних...",
     "no-data": "Немає даних",
-    "items-per-page": "Записів на сторінку:"
+    "items-per-page": "Записів на сторінку:",
+    "delete": "Видалити",
+    "Do-you-really-want-to-delete-comment-of": "Ви дійсно хочете видалити коментар",
+    "places": "місця"
   },
   "places": {
     "places": "Місця",
@@ -147,7 +150,9 @@
     "items-per-page": "Записів на сторінку:",
     "sort-ascending": "Сортувати за зростанням",
     "sort-descending": "Сортувати за спаданням",
-    "cancel-sorting": "Скасувати сортування"
+    "cancel-sorting": "Скасувати сортування",
+    "role-for": "Роль для",
+    "is-updated-to": "оновлена до"
   },
   "nav-bar": {
     "add-cafe": "Додати кафе",
@@ -181,12 +186,14 @@
       "comment-must-be-at-least-5-characters-long": "Коментар повинен містити принаймі 5 символів",
       "comment-must-be-maximum": "Коментар повинен містити максимум",
       "characters long": "символів",
-      "please-write-a-comment": "Будь ласка напишіть коментар",
+      "please-write-a-comment": "Будь ласка введіть коментар",
       "submit": "Підтвердити",
       "close": "Закрити"
     },
     "auth": {
       "sign-in": {
+        "title": "З поверненням!",
+        "fill-form": "Будь ласка, внеси свої дані, щоб увійти",
         "email": "Електронна пошта",
         "email-is-required": "Введіть пошту",
         "email-must-be-at-least-1-characters-long": "Пошта повинна містити принаймі 1 символ",
@@ -197,15 +204,21 @@
         "sign-in": "Увійти",
         "sign-up": "Зареєструватись",
         "sign-in-with-google": "Увійти через Google",
-        "forgot-password": "Забули пароль?"
+        "forgot-password": "Забули пароль?",
+        "havenot-account": "Досі немає аккаунту?",
+        "or-signin": "або заходь через"
       },
       "sign-up": {
-        "first-name": "Ім'я",
+        "title-up": "Вітаємо!",
+        "fill-form-up": "Будь ласка, внеси свої дані, щоб зареєструватися",
+        "first-name": "Ім'я користувача",
         "first-name-is-required": "Введіть ім'я",
         "first-name-must-be-at-least-1-characters-long": "Ім'я повинно містити принаймі 1 символ",
         "last-name": "Прізвище",
         "last-name-is-required": "Введіть прізвище",
         "last-name-must-be-at-least-1-characters-long": "Прізвище повинно містити принаймі один символ",
+        "user-name": "Нікнейм",
+        "user-name-is-required": "Введіть нікнейм",
         "email": "Електронна пошта",
         "email-is-required": "Введіть пошту",
         "email-must-be-at-least-1-characters-long": "Пошта повинна містити принаймі один символ",
@@ -213,7 +226,10 @@
         "password": "Пароль",
         "password-is-required": "Введіть пароль",
         "password-must-be-at-least-8-characters-long": "Пароль повинен містити принаймі 8 символів",
-        "submit": "Підтвердити"
+        "password-match": "Пароль не співпадає",
+        "password-confirm": "Підтвердіть пароль",
+        "submit": "Підтвердити",
+        "haveyou-account": "В тебе вже є аккаунт?"
       },
       "submit-email": "Ви успішно зареєструвались на сайті. Будь ласка, підтвердіть вашу електронну адресу в електронній скринці."
     },
@@ -425,5 +441,6 @@
     "previous": "Попередній",
     "next": "Наступний",
     "last": "Останній"
+
   }
 }
