@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {UserService} from "../../../../service/user/user.service";
 
 @Component({
   selector: 'app-stat-rows',
@@ -7,28 +8,41 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StatRowsComponent implements OnInit {
 
-  // TODO Create entity for habitStatItem
+  homePageHabitStats: Array<any>;
 
-  readonly homePageHabitStats = [
-    {
-      action: 'Не взяли',
-      caption: 'пакетів',
-      count: 85,
-      question: 'А скільки пакетів ти не взяв сьогодні?',
-      iconPath: 'assets/img/habit-pic-bag.png',
-      locationText: 'тут можна купити еко-сумочки і торбинки'
-    },
-    {
-      action: 'Не викинули',
-      caption: 'склянок',
-      count: 78,
-      question: 'А скільки склянок не викинув сьогодні ти?',
-      iconPath: 'assets/img/habit-pic-cup.png',
-      locationText: 'заклади, які роблять знижку на напій в своє горнятко'
-    }
-  ];
+  constructor(private userService: UserService) {
+  }
 
-  constructor() { }
-
-  ngOnInit() { }
+  ngOnInit() {
+    // TODO: homePageHabitStats should be populated entirely by server-side returned data
+    // instead of manual declaration of habit statistics.
+    this.userService.getTodayStatisticsForAllHabitItems().subscribe(habitDtoArray => {
+      function getStatisticForHabitItemName(habitItemName: string) {
+        let habitItemDto = habitDtoArray.find(it => it.habitItem === habitItemName);
+        if (habitItemDto === undefined) {
+          return 0;
+        } else {
+          return habitItemDto.notTakenItems;
+        }
+      }
+      this.homePageHabitStats = [
+        {
+          action: 'Не взяли',
+          caption: 'пакетів',
+          count: getStatisticForHabitItemName('bags'),
+          question: 'А скільки пакетів ти не взяв сьогодні ти?',
+          iconPath: 'assets/img/habit-pic-bag.png',
+          locationText: 'тут можна купити еко-сумочки і торбинки'
+        },
+        {
+          action: 'Не викинули',
+          caption: 'склянок',
+          count: getStatisticForHabitItemName('caps'),
+          question: 'А скільки склянок не викинув сьогодні ти?',
+          iconPath: 'assets/img/habit-pic-cup.png',
+          locationText: 'заклади, які роблять знижку на напій в своє горнятко'
+        }
+      ];
+    });
+  }
 }
