@@ -14,7 +14,9 @@ import { UserOwnSignInService } from 'src/app/service/auth/user-own-sign-in.serv
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.css']
+  styleUrls: ['./sign-up.component.css', './sign-up-fields.component.css', '../sign-in/sign-in.component.css']
+
+  //styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent implements OnInit {
   userOwnSignUp: UserOwnSignUp;

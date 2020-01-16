@@ -14,7 +14,7 @@ import { LocalStorageService } from '../../../../service/localstorage/local-stor
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.css']
+  styleUrls: ['./sign-in.component.css', './sign-in-fields.component.css']
 })
 export class SignInComponent implements OnInit {
   userOwnSignIn: UserOwnSignIn;
