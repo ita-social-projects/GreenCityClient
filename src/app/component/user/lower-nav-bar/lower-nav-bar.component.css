@@ -9,6 +9,7 @@ img {
   height: auto;
   margin-left: 20px;
   width: 102px;
+  float: left;
 }
 
 .lower-navbar {
@@ -16,8 +17,7 @@ img {
   box-shadow: 0 -18px 52px 30px #f4f5f7;
   height: 82px;
   position: fixed;
-  left: 0;
-  right: 0;
+  margin: 0 auto;
   top: 41px;
   width: 100%;
   z-index: 2000;
@@ -128,6 +128,18 @@ img {
   top: 0;
 }
 
+@media (min-width: 1600px) {
+  .lower-navbar .navbar-wrapper {
+    width: 50% !important;
+    }
+  }
+
+@media (min-width: 1440px) {
+  .lower-navbar .navbar-wrapper {
+    width: 60% !important;
+  }
+}  
+
 @media (min-width: 1024px) {
   .lower-navbar .navbar-wrapper {
     width: 86% !important;
@@ -151,14 +163,6 @@ img {
   }
 }
 
-@media (min-width: 1440px) {
-  .lower-navbar .navbar-wrapper {
-    width: 60% !important;
-  }
-}
 
-@media (min-width: 1600px) {
-  .lower-navbar .navbar-wrapper {
-    width: 50% !important;
-  }
-}
+
+
