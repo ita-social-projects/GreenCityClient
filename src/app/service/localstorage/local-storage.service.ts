@@ -75,7 +75,9 @@ export class LocalStorageService {
   }
 
   public clear(): void {
+    const currentLanguage: Language = this.getCurrentLanguage();
     localStorage.clear();
+    this.setCurrentLanguage(currentLanguage);
     this.firstNameBehaviourSubject.next(null);
     this.userIdBehaviourSubject.next(null);
   }
