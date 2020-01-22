@@ -15,10 +15,17 @@ import { UserOwnSignInService } from 'src/app/service/auth/user-own-sign-in.serv
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.css', './sign-up-fields.component.css', '../sign-in/sign-in.component.css']
-
-  //styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent implements OnInit {
+  constructor(
+    private userOwnSignInService: UserOwnSignInService,
+    private userOwnSecurityService: UserOwnSignUpService,
+    private router: Router,
+    private authService: AuthService,
+    private googleService: GoogleSignInService,
+    public dialog: MatDialog,
+    private localStorageService: LocalStorageService
+  ) {}
   userOwnSignUp: UserOwnSignUp;
   firstNameErrorMessageBackEnd: string;
   lastNameErrorMessageBackEnd: string;
@@ -31,19 +38,10 @@ export class SignUpComponent implements OnInit {
 
   backEndError: string;
 
-  constructor(
-    private userOwnSignInService: UserOwnSignInService,
-    private userOwnSecurityService: UserOwnSignUpService,
-    private router: Router,
-    private authService: AuthService,
-    private googleService: GoogleSignInService,
-    public dialog: MatDialog,
-    private localStorageService: LocalStorageService
-  ) {}
 
   ngOnInit() {
     this.userOwnSignUp = new UserOwnSignUp();
-    this.setNullAllMessage();
+    this.setNullAllMessage();  
   }
 
 
@@ -123,54 +121,6 @@ export class SignUpComponent implements OnInit {
       document.getElementById('seterror').style.display = 'none';
       document.getElementById('password-confirm').style.border = '1px solid #839c94';
     }
-  }
-
-  inputTextGreen() {
-    document.getElementById('first-name').style.color = '#13AA57';
-  }
-
-  inputTextBlack() {
-    document.getElementById('first-name').style.color = '#000';
-  }
-
-  inputLastGreen() {
-    document.getElementById('last-name').style.color = '#13AA57';
-  }
-
-  inputLastBlack() {
-    document.getElementById('last-name').style.color = '#000';
-  }
-
-  inputNickGreen() {
-    document.getElementById('user-name').style.color = '#13AA57';
-  }
-
-  inputNickBlack() {
-    document.getElementById('user-name').style.color = '#000';
-  }
-
-  inputEmailGreen() {
-    document.getElementById('email').style.color = '#13AA57';
-  }
-
-  inputEmailBlack() {
-    document.getElementById('email').style.color = '#000';
-  }
-
-  inputPassGreen() {
-    document.getElementById('password').style.color = '#13AA57';
-  }
-
-  inputPassBlack() {
-    document.getElementById('password').style.color = '#000';
-  }
-
-  inputPassConfirmGreen() {
-    document.getElementById('password-confirm').style.color = '#13AA57';
-  }
-
-  inputPassConfirmBlack() {
-    document.getElementById('password-confirm').style.color = '#000';
   }
 
   signInWithGoogle() {

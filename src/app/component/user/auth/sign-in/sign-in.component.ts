@@ -116,20 +116,4 @@ export class SignInComponent implements OnInit {
       passwordField.setAttribute('type', 'password');
     }
   }
-
-  inputEmailGreen() {
-    document.getElementById('email').style.color = '#13AA57';
-  }
-
-  inputEmailBlack() {
-    document.getElementById('email').style.color = '#000';
-  }
-
-  inputPassGreen() {
-    document.getElementById('password').style.color = '#13AA57';
-  }
-
-  inputPassBlack() {
-    document.getElementById('password').style.color = '#000';
-  }
 }

@@ -1,5 +1,5 @@
 .sign-in {
-  width: 50%;
+  width: 80%;
   height: auto;
 }
 
@@ -46,67 +46,7 @@ form>h2 {
   background-image: url('/assets/img/icon/eye.png');
 }
 
-@media screen and (max-width: 1152px) {
-  .form-pic {
-    width: 50%;
-    height: auto;
-  }
 
-  .sign-in {
-    width: 50%;
-  }
-
-  .form-pic {
-    width: 340px;
-    height: auto;
-  }
-
-  form {
-    margin: 15% 15% 5% 15%;
-  }
-
-  form>h2 {
-    margin-top: 2%;
-    line-height: 22px;
-    letter-spacing: 0.18px;
-    font-weight: 500;
-  }
-
-  a.forgot-password {
-    color: #13aa57;
-    font-weight: 500;
-    margin-top: 25px;
-  }
-
-  label[for="email"],
-  label[for="password"],
-  label[for="first-name"] {
-    margin-top: 20px;
-  }
-
-  .submit {
-    width: 100%;
-    height: 35px;
-    margin-top: 20px;
-  }
-
-  .wrapper-sign-up {
-    margin: 0px 10% 0 10%;
-  }
-
-  .or {
-    margin-top: 10px;
-  }
-
-  .google {
-    margin-top: 10px;
-    height: 35px;
-  }
-
-  .google-arrow {
-    margin-top: 8px;
-  }
-}
 
 /*MediaQueries*/
 @media screen and (max-width: 1440px) {
