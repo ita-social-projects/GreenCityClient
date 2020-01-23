@@ -14,7 +14,7 @@ import { LocalStorageService } from '../../../../service/localstorage/local-stor
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.css']
+  styleUrls: ['./sign-in.component.css', './sign-in-fields.component.css']
 })
 export class SignInComponent implements OnInit {
   userOwnSignIn: UserOwnSignIn;
@@ -32,7 +32,7 @@ export class SignInComponent implements OnInit {
     private googleService: GoogleSignInService,
     public dialog: MatDialog,
     private localStorageService: LocalStorageService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.userOwnSignIn = new UserOwnSignIn();
@@ -100,5 +100,20 @@ export class SignInComponent implements OnInit {
       width: '550px',
       height: '350px'
     });
+  }
+
+
+  clickImgSignIn(elememtIdInput, image) {
+    const showEye = 'url(\'/assets/img/icon/eye.png\')';
+    const hideEye = 'url(\'/assets/img/icon/eye-show.png\')';
+    const passwordField = document.getElementById('password');
+    const imgEye = document.getElementById('img');
+    if (passwordField['type'] === 'password') {
+      imgEye.style.backgroundImage = hideEye;
+      passwordField.setAttribute('type', 'text');
+    } else {
+      imgEye.style.backgroundImage = showEye;
+      passwordField.setAttribute('type', 'password');
+    }
   }
 }

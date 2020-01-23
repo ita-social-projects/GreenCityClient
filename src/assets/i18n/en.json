@@ -187,6 +187,8 @@
     },
     "auth": {
       "sign-in": {
+        "title": "Welcome back!",
+        "fill-form": "Please enter your details to log in",
         "email": "Email",
         "email-is-required": "Email is required",
         "email-must-be-at-least-1-characters-long": "Email must be at least 1 characters long",
@@ -197,9 +199,13 @@
         "sign-in": "Sign-in",
         "sign-up": "Sign-up",
         "sign-in-with-google": "Sign-in with Google",
-        "forgot-password": "Forgot password?"
+        "forgot-password": "Forgot password?",
+        "havenot-account": "Have not an account yet?",
+        "or-signin": "or sign in with"
       },
       "sign-up": {
+        "title-up": "Hello!",
+        "fill-form-up": "Please enter your details to sign up",
         "first-name": "First name",
         "first-name-is-required": "First name is required",
         "first-name-must-be-at-least-1-characters-long": "First name must be at least 1 characters long",
@@ -213,7 +219,10 @@
         "password": "Password",
         "password-is-required": "Password is required",
         "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long",
-        "submit": "Submit"
+        "password-match": "Passwords do not match",
+        "password-confirm": "Password confirm",
+        "submit": "Sign Up!",
+        "haveyou-account": "Have you an account already?"
       },
       "submit-email": "You have successfully registered on the site. Please confirm your email address in the email box"
     },

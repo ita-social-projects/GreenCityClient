@@ -129,6 +129,7 @@ import { SwiperModule } from 'ngx-swiper-wrapper';
 import { SWIPER_CONFIG } from 'ngx-swiper-wrapper';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
+import { InputcolorDirective } from './directives/inputcolor.directive';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
@@ -207,6 +208,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     EcoEventsComponent,
     TipsListComponent,
     TipsCardComponent,
+    InputcolorDirective,
   ],
   imports: [
     BrowserModule,

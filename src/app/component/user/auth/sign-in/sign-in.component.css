@@ -1,17 +1,118 @@
-.sign-in {
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
-  width: 30%;
+.grey-bg {
+  width: 100%;
+  height: auto;
+  background: #292D35;
+  padding: 10px 0 10% 0;
+}
+
+.outher-wrapper {
+  width: 100%;
+  height: 100%;
 }
 
 .sign-in input {
+  display: block;
   width: 100%;
+  height: 25px;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -o-border-radius: 5px;
+  border: 1px solid #839c94;
+  background-color: rgba(131, 156, 148, 0.07);
+  padding: 0 10px;
 }
 
-.error, .validation-error {
-  color: red;
+.form-pic>img {
+  width: 100%;
+  height: auto;
 }
 
+.error,
+.validation-error {
+  color: #f03127;
+  font-size: 14px;
+}
+
+.form-wrapper {
+  display: flex;
+  justify-content: space-between;
+  max-width: 800px;
+}
+
+form {
+  margin: 2% 5% 5% 5%;
+}
+
+.red {
+  border: 1px solid #f03127 !important;
+  background: #FEF2F1;
+}
+
+.grey {
+  border: 1px solid #839c94;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.submit {
+  width: 100%;
+  height: 35px;
+  background: #13aa57;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -o-border-radius: 4px;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.forgot-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+a.forgot-password {
+  color: #13aa57;
+  font-weight: 500;
+  margin-top: 15px;
+}
+
+.wrapper-sign-up {
+  margin: -10px 15% 0 15%;
+  text-align: center;
+}
+
+.signup-link {
+  color: #13aa57;
+  font-weight: 500;
+}
+
+.or {
+  color: #839c94;
+  margin-top: -5px;
+}
+
+.google {
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -o-border-radius: 4px;
+  background: #ffffff;
+  margin-top: 5px;
+  width: 100%;
+  height: 35px;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0 3px 8px 2px rgba(0, 0, 0, 0.12);
+  border: 1px solid #ffffff !important;
+  background: #ffffff !important;
+}
+
+.google-arrow {
+  margin-top: 10px;
+}
