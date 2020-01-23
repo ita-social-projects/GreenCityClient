@@ -212,8 +212,6 @@
         "last-name": "Last name",
         "last-name-is-required": "Last name is required",
         "last-name-must-be-at-least-1-characters-long": "Last name must be at least 1 characters long",
-        "user-name": "Username",
-        "user-name-is-required": "Username is required",
         "email": "Email",
         "email-is-required": "Email is required",
         "email-must-be-at-least-1-characters-long": "Email must be at least 1 characters long",

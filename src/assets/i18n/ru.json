@@ -217,8 +217,6 @@
         "last-name": "Фамилия",
         "last-name-is-required": "Введите фамилию",
         "last-name-must-be-at-least-1-characters-long": "Фамилия должна содержать по крайней мере один символ",
-        "user-name": "Никнейм",
-        "user-name-is-required": "Введите никнейм",
         "email": "Электронная почта",
         "email-is-required": "Введите почту",
         "email-must-be-at-least-1-characters-long": "Почта должна содержать по крайней мере один символ",

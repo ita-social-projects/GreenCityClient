@@ -29,7 +29,6 @@ export class SignUpComponent implements OnInit {
   userOwnSignUp: UserOwnSignUp;
   firstNameErrorMessageBackEnd: string;
   lastNameErrorMessageBackEnd: string;
-  userNameErrorMessageBackEnd: string;
   emailErrorMessageBackEnd: string;
   passwordErrorMessageBackEnd: string;
   passwordConfirmErrorMessageBackEnd: string;
@@ -55,18 +54,19 @@ export class SignUpComponent implements OnInit {
       },
       (errors: HttpErrorResponse) => {
         errors.error.forEach(error => {
-          if (error.name === 'firstName') {
-            this.firstNameErrorMessageBackEnd = error.message;
-          } else if (error.name === 'lastName') {
-            this.lastNameErrorMessageBackEnd = error.message;
-          } else if (error.name === 'userName') {
-            this.userNameErrorMessageBackEnd = error.message;
-          } else if (error.name === 'email') {
-            this.emailErrorMessageBackEnd = error.message;
-          } else if (error.name === 'password') {
-            this.passwordErrorMessageBackEnd = error.message;
-          } else if (error.name === 'passwordConfirm') {
-            this.passwordConfirmErrorMessageBackEnd = error.message;
+            switch (errors.error) {
+              case (error.name === 'firstName') :
+                this.firstNameErrorMessageBackEnd = error.message;
+                break;
+              case (error.name === 'lastName') :
+                this.lastNameErrorMessageBackEnd = error.message;
+                break;
+              case (error.name === 'password') :
+                this.passwordErrorMessageBackEnd = error.message;
+                break;
+              case (error.name === 'passwordConfirm') :
+                this.passwordConfirmErrorMessageBackEnd = error.message;
+                break;
           }
         });
         this.loadingAnim = false;
@@ -77,7 +77,6 @@ export class SignUpComponent implements OnInit {
   private setNullAllMessage() {
     this.firstNameErrorMessageBackEnd = null;
     this.lastNameErrorMessageBackEnd = null;
-    this.userNameErrorMessageBackEnd = null;
     this.emailErrorMessageBackEnd = null;
     this.passwordErrorMessageBackEnd = null;
     this.passwordConfirmErrorMessageBackEnd = null;

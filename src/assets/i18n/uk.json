@@ -217,8 +217,6 @@
         "last-name": "Прізвище",
         "last-name-is-required": "Введіть прізвище",
         "last-name-must-be-at-least-1-characters-long": "Прізвище повинно містити принаймі один символ",
-        "user-name": "Нікнейм",
-        "user-name-is-required": "Введіть нікнейм",
         "email": "Електронна пошта",
         "email-is-required": "Введіть пошту",
         "email-must-be-at-least-1-characters-long": "Пошта повинна містити принаймі один символ",
