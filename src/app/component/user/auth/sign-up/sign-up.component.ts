@@ -84,7 +84,7 @@ export class SignUpComponent implements OnInit {
     this.passwordConfirmErrorMessageBackEnd = null;
   }
 
-  clickImg(elememtIdInput, image) {
+  clickImg() {
     const showEye = 'url(\'/assets/img/icon/eye.png\')';
     const hideEye = 'url(\'/assets/img/icon/eye-show.png\')';
     const passwordField = document.getElementById('password');

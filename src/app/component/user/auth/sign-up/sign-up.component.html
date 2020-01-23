@@ -71,7 +71,7 @@
                   {{passwordErrorMessageBackEnd}}
                </div>
                <label for="password">{{'user.auth.sign-up.password-confirm' | translate}}</label>
-               <input id="password-confirm" type="password" [(ngModel)]="name" #passwordControlConfirm="ngModel" required [class]="passwordControlConfirm.errors&&passwordControlConfirm.touched? 'red':'grey'" name="form-control password-confirm" (input)="matchPassword()" appInputcolor [typeColor] = "'#13AA57'" [defaultColor] = "'#000'">
+               <input id="password-confirm" type="password" [(ngModel)]="userOwnSignUp.passwordconfirm" #passwordControlConfirm="ngModel" required [class]="passwordControlConfirm.errors&&passwordControlConfirm.touched? 'red':'grey'" name="form-control password-confirm" (input)="matchPassword()" appInputcolor [typeColor] = "'#13AA57'" [defaultColor] = "'#000'">
                <img id="img-confirm" class="img-confirm" src="" alt="" (click)="clickImgConfirm()">
                <div class="validation-error" *ngIf="passwordControlConfirm.invalid && (passwordControlConfirm.dirty||passwordControlConfirm.touched)">
                   <div *ngIf="passwordControlConfirm.errors.required">
