@@ -32,14 +32,14 @@ export class SignUpComponent implements OnInit {
   passwordErrorMessageBackEnd: string;
   passwordConfirmErrorMessageBackEnd: string;
   loadingAnim = false;
-  tmp = true;
+  tmp: string;
 
   backEndError: string;
 
 
   ngOnInit() {
     this.userOwnSignUp = new UserOwnSignUp();
-    this.setNullAllMessage();  
+    this.setNullAllMessage();
   }
 
 
