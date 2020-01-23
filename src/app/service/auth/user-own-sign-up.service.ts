@@ -13,6 +13,7 @@ export class UserOwnSignUpService {
   }
 
   public signUp(userOwnRegister: UserOwnSignUp): Observable<any> {
+
     if (userOwnRegister.firstName === undefined) {
       console.log('First name is empty');
       return of<any>();

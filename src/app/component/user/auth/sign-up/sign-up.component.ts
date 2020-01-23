@@ -23,9 +23,8 @@ export class SignUpComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private googleService: GoogleSignInService,
-    public dialog: MatDialog,
-    private localStorageService: LocalStorageService
-  ) {}
+    public dialog: MatDialog
+) {}
   userOwnSignUp: UserOwnSignUp;
   firstNameErrorMessageBackEnd: string;
   lastNameErrorMessageBackEnd: string;
@@ -54,17 +53,20 @@ export class SignUpComponent implements OnInit {
       },
       (errors: HttpErrorResponse) => {
         errors.error.forEach(error => {
-            switch (errors.error) {
-              case (error.name === 'firstName') :
+            switch (error.name) {
+              case 'firstName' :
                 this.firstNameErrorMessageBackEnd = error.message;
                 break;
-              case (error.name === 'lastName') :
+              case 'lastName' :
                 this.lastNameErrorMessageBackEnd = error.message;
                 break;
-              case (error.name === 'password') :
+              case 'email' :
+                this.emailErrorMessageBackEnd = error.message;
+                break;
+              case 'password' :
                 this.passwordErrorMessageBackEnd = error.message;
                 break;
-              case (error.name === 'passwordConfirm') :
+              case 'passwordConfirm' :
                 this.passwordConfirmErrorMessageBackEnd = error.message;
                 break;
           }
