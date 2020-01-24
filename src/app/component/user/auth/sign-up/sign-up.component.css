@@ -72,7 +72,7 @@ form>h2 {
   float: right;
   margin-right: 10px;
   margin-top: -22px;
-  background-image: url('/assets/img/icon/eye.png');
+  background-image: url('src/assets/img/icon/eye.png');
 }
 
 @media screen and (max-width: 1152px) {
