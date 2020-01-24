@@ -34,6 +34,10 @@ export class SignInComponent implements OnInit {
     private localStorageService: LocalStorageService
   ) {}
 
+    readonly formPic = '/assets/img/formpic.jpg';
+    readonly picGoogle = '/assets/img/icon/google.svg';
+    readonly picArrow = '/assets/img/icon/arrows/google-arrow.svg';
+
   ngOnInit() {
     this.userOwnSignIn = new UserOwnSignIn();
     this.loadingAnim = false;

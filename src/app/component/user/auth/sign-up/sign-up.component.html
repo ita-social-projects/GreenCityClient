@@ -2,7 +2,7 @@
    <div class = "outher-wrapper">
       <div class="wrapper-container">
          <div class="form-wrapper">
-            <div class="form-pic "><img src="/assets/img/formpic.jpg"></div>
+            <div class="form-pic "><img [src]="formPic"></div>
             <div class="sign-in">
                <form #registerForm="ngForm" (ngSubmit)="register(userOwnSignUp)" name="inputform" class="class-form">
                <h1>{{'user.auth.sign-up.title-up' | translate}}</h1>
@@ -57,7 +57,7 @@
                <div class="clearboth"></div>
                <label for="password">{{'user.auth.sign-up.password' | translate}}</label>
                <div class="password-wrapper">
-                  <input id="password" #passwordControl="ngModel" [ngClass]="passwordControl.errors&&passwordControl.touched? 'red':'grey'" type="password" class=" password" name="form-control password" [(ngModel)]="userOwnSignUp.password" #passwordControl="ngModel" required minlength="8" appInputcolor [typeColor] = "'#13AA57'" [defaultColor] = "'#000'"> <img class="img" id="img" src="" alt="" (click)="clickImg()">
+                  <input id="password" #passwordControl="ngModel" [ngClass]="passwordControl.errors&&passwordControl.touched? 'red':'grey'" type="password" class=" password" name="form-control password" [(ngModel)]="userOwnSignUp.password" #passwordControl="ngModel" required minlength="8" appInputcolor [typeColor] = "'#13AA57'" [defaultColor] = "'#000'"> <img class="img" id="img" alt="" (click)="clickImg()">
                </div>
                <div class="validation-error" *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
                   <div *ngIf="passwordControl.errors.required">
@@ -72,7 +72,7 @@
                </div>
                <label for="password">{{'user.auth.sign-up.password-confirm' | translate}}</label>
                <input id="password-confirm" type="password" [(ngModel)]="tmp" #passwordControlConfirm="ngModel" required [class]="passwordControlConfirm.errors&&passwordControlConfirm.touched? 'red':'grey'" name="form-control password-confirm" (input)="matchPassword()" appInputcolor [typeColor] = "'#13AA57'" [defaultColor] = "'#000'">
-               <img id="img-confirm" class="img-confirm" src="" alt="" (click)="clickImgConfirm()">
+               <img id="img-confirm" class="img-confirm" alt="" (click)="clickImgConfirm()">
                <div class="validation-error" *ngIf="passwordControlConfirm.invalid && (passwordControlConfirm.dirty||passwordControlConfirm.touched)">
                   <div *ngIf="passwordControlConfirm.errors.required">
                      {{'user.auth.sign-up.password-is-required' | translate}}
@@ -90,7 +90,7 @@
                   <p>{{'user.auth.sign-up.haveyou-account' | translate}} <a routerLink="/auth" class="signup-link">{{'user.auth.sign-in.sign-in' | translate}}</a></p>
                   <span class="or">{{'user.auth.sign-in.or-signin' | translate}}</span>
                   <div>
-                     <button type="submit" class="google" (click)="signInWithGoogle()"><img src="/assets/img/icon/google.svg" alt="G">{{'user.auth.sign-in.sign-in-with-google' | translate}}<img src="/assets/img/icon/arrows/google-arrow.svg" alt="" class="google-arrow"></button>
+                     <button type="submit" class="google" (click)="signInWithGoogle()"><img [src]="picGoogle" alt="G">{{'user.auth.sign-in.sign-in-with-google' | translate}}<img [src]="picArrow" alt="" class="google-arrow"></button>
                   </div>
                </div>
             </div>

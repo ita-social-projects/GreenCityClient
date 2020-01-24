@@ -36,6 +36,10 @@ export class SignUpComponent implements OnInit {
 
   backEndError: string;
 
+  readonly formPic = '/assets/img/formpic.jpg';
+  readonly picGoogle = '/assets/img/icon/google.svg';
+  readonly picArrow = '/assets/img/icon/arrows/google-arrow.svg';
+
 
   ngOnInit() {
     this.userOwnSignUp = new UserOwnSignUp();
