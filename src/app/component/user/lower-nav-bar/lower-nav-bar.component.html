@@ -1,6 +1,6 @@
 <nav class="lower-navbar">
   <div class="navbar-wrapper">
-    <a [routerLink]="['/']">
+    <a routerLink="/welcome" pageScroll href="#header">
       <img [src]="logo" id="green-city-logo" alt="green-city-logo" />
     </a>
     <input class="menu-btn" type="checkbox" id="menu-btn" />
@@ -8,7 +8,7 @@
     <ul class="menu">
       <li>
         <a [routerLink]="['/welcome']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
-          true}">{{ "user.lower-nav-bar.home" | translate }}</a>
+          true}" pageScroll href="#header">{{ "user.lower-nav-bar.home" | translate }}</a>
       </li>
       <li>
         <a [routerLink]="['/welcome']" pageScroll href="#events"

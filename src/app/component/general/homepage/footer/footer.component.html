@@ -3,7 +3,9 @@
   <div id="footer-wrapper">
     <div id="footer-left">
       <div>
-        <img [src]="logo" pageScroll href="#top-user-bar" [pageScrollDuration]="500" alt="app-logo">
+        <a routerLink="/welcome" pageScroll href="#header">
+          <img [src]="logo" id="green-city-logo" alt="green-city-logo" />
+        </a>
       </div>
       <div>
         <button class="button" [routerLink]="['habits']">
