@@ -36,9 +36,9 @@ export class SignUpComponent implements OnInit {
 
   backEndError: string;
 
-  readonly formPic = '/assets/img/formpic.jpg';
-  readonly picGoogle = '/assets/img/icon/google.svg';
-  readonly picArrow = '/assets/img/icon/arrows/google-arrow.svg';
+  readonly formPic = 'assets/img/formpic.jpg';
+  readonly picGoogle = 'assets/img/icon/google.svg';
+  readonly picArrow = 'assets/img/icon/arrows/google-arrow.svg';
 
 
   ngOnInit() {
@@ -89,8 +89,8 @@ export class SignUpComponent implements OnInit {
   }
 
   clickImg() {
-    const showEye = 'url(\'/assets/img/icon/eye.png\')';
-    const hideEye = 'url(\'/assets/img/icon/eye-show.png\')';
+    const showEye = 'url(\'assets/img/icon/eye.png\')';
+    const hideEye = 'url(\'assets/img/icon/eye-show.png\')';
     const passwordField = document.getElementById('password');
     const imgEye = document.getElementById('img');
     if (passwordField['type'] === 'password') {
@@ -103,8 +103,8 @@ export class SignUpComponent implements OnInit {
   }
 
   clickImgConfirm() {
-    const showEyeConfirm = 'url(\'/assets/img/icon/eye.png\')';
-    const hideEyeConfirm = 'url(\'/assets/img/icon/eye-show.png\')';
+    const showEyeConfirm = 'url(\'assets/img/icon/eye.png\')';
+    const hideEyeConfirm = 'url(\'assets/img/icon/eye-show.png\')';
     const confirmField = document.getElementById('password-confirm');
     const imgEyeConfirm = document.getElementById('img-confirm');
     if (confirmField['type'] === 'password') {
