@@ -34,9 +34,9 @@ export class SignInComponent implements OnInit {
     private localStorageService: LocalStorageService
   ) {}
 
-    readonly formPic = '/assets/img/formpic.jpg';
-    readonly picGoogle = '/assets/img/icon/google.svg';
-    readonly picArrow = '/assets/img/icon/arrows/google-arrow.svg';
+    readonly formPic = 'assets/img/formpic.jpg';
+    readonly picGoogle = 'assets/img/icon/google.svg';
+    readonly picArrow = 'assets/img/icon/arrows/google-arrow.svg';
 
   ngOnInit() {
     this.userOwnSignIn = new UserOwnSignIn();
@@ -108,8 +108,8 @@ export class SignInComponent implements OnInit {
 
 
   clickImgSignIn(elememtIdInput, image) {
-    const showEye = 'url(\'/assets/img/icon/eye.png\')';
-    const hideEye = 'url(\'/assets/img/icon/eye-show.png\')';
+    const showEye = 'url(\'assets/img/icon/eye.png\')';
+    const hideEye = 'url(\'assets/img/icon/eye-show.png\')';
     const passwordField = document.getElementById('password');
     const imgEye = document.getElementById('img');
     if (passwordField['type'] === 'password') {
