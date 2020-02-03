@@ -71,6 +71,18 @@ form {
   cursor: pointer;
 }
 
+.img {
+  display: block;
+  z-index: 2;
+  cursor: pointer;
+  width: 24px;
+  height: 20px;
+  float: right;
+  margin-right: 10px;
+  margin-top: -22px;
+  background-image: url('src/assets/img/icon/eye.png');
+}
+
 .forgot-wrapper {
   display: flex;
   justify-content: flex-end;

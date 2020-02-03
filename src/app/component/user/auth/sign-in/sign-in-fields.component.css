@@ -36,18 +36,6 @@ form>h2 {
   margin-top: 5px;
 }
 
-.img {
-  cursor: pointer;
-  width: 24px;
-  height: 20px;
-  float: right;
-  margin-right: 10px;
-  margin-top: -22px;
-  background-image: url('/assets/img/icon/eye.png');
-}
-
-
-
 /*MediaQueries*/
 @media screen and (max-width: 1440px) {
   .sign-in {
