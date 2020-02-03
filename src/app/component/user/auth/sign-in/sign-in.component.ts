@@ -99,15 +99,7 @@ export class SignInComponent implements OnInit {
     });
   }
 
-  openDialog(): void {
-    this.dialog.open(RestoreComponent, {
-      width: '550px',
-      height: '350px'
-    });
-  }
-
-
-  clickImgSignIn(elememtIdInput, image) {
+  clickImgSignIn() {
     const showEye = 'url(\'assets/img/icon/eye.png\')';
     const hideEye = 'url(\'assets/img/icon/eye-show.png\')';
     const passwordField = document.getElementById('password');
