@@ -1,22 +1,23 @@
-import { LocalStorageService } from '../localstorage/local-storage.service';
-import { catchError } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { UserRoleModel } from '../../model/user/user-role.model';
-import { UserStatusModel } from '../../model/user/user-status.model';
-import { UserPageableDtoModel } from '../../model/user/user-pageable-dto.model';
-import { mainLink, userLink } from '../../links';
-import { RolesModel } from '../../model/user/roles.model';
-import { UserFilterDtoModel } from '../../model/user/userFilterDto.model';
-import { UserUpdateModel } from '../../model/user/user-update.model';
-import { Goal } from '../../model/goal/Goal';
-import { GoalType } from '../../component/user/user-goals/add-goal/add-goal-list/GoalType';
-import { CustomGoalResponseDto } from '../../model/goal/CustomGoalResponseDto';
-import { CustomGoalSaveRequestDto } from '../../model/goal/CustomGoalSaveRequestDto';
-import { UserCustomGoalDto } from '../../model/goal/UserCustomGoalDto';
-import { UserGoalDto } from '../../model/goal/UserGoalDto';
-import { OnLogout } from '../OnLogout';
+import {LocalStorageService} from '../localstorage/local-storage.service';
+import {catchError} from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {BehaviorSubject, Observable, of} from 'rxjs';
+import {UserRoleModel} from '../../model/user/user-role.model';
+import {UserStatusModel} from '../../model/user/user-status.model';
+import {UserPageableDtoModel} from '../../model/user/user-pageable-dto.model';
+import {habitStatisticLink, mainLink, userLink} from '../../links';
+import {RolesModel} from '../../model/user/roles.model';
+import {UserFilterDtoModel} from '../../model/user/userFilterDto.model';
+import {UserUpdateModel} from '../../model/user/user-update.model';
+import {Goal} from '../../model/goal/Goal';
+import {GoalType} from '../../component/user/user-goals/add-goal/add-goal-list/GoalType';
+import {CustomGoalResponseDto} from '../../model/goal/CustomGoalResponseDto';
+import {CustomGoalSaveRequestDto} from '../../model/goal/CustomGoalSaveRequestDto';
+import {UserCustomGoalDto} from '../../model/goal/UserCustomGoalDto';
+import {UserGoalDto} from '../../model/goal/UserGoalDto';
+import {OnLogout} from '../OnLogout';
+import {HabitItemsAmountStatisticDto} from "../../model/goal/HabitItemsAmountStatisticDto";
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +34,7 @@ export class UserService implements OnLogout {
   private availablePredefinedGoalsSubject = new BehaviorSubject<Goal[]>([]);
 
   private dataStore: { goals: Goal[], availableCustomGoals: Goal[], availablePredefinedGoals } =
-    { goals: [], availableCustomGoals: [], availablePredefinedGoals: [] };
+    {goals: [], availableCustomGoals: [], availablePredefinedGoals: []};
 
   readonly goals = this.goalsSubject.asObservable();
   readonly availableCustomGoals = this.availableCustomGoalsSubject.asObservable();
@@ -92,8 +93,8 @@ export class UserService implements OnLogout {
     return this.http.get<string[]>(`${userLink}/emailNotifications`);
   }
 
-  loadAllGoals() {
-    const http$ = this.http.get<Goal[]>(`${this.apiUrl}/${this.userId}/goals`);
+  loadAllGoals(language: string) {
+    const http$ = this.http.get<Goal[]>(`${this.apiUrl}/${this.userId}/goals?language=${language}`);
     http$.pipe(
       catchError(() => of([]))
     ).subscribe(
@@ -102,12 +103,14 @@ export class UserService implements OnLogout {
         this.dataStore.goals.forEach(goal => goal.type = GoalType.TRACKED);
         this.goalsSubject.next(Object.assign({}, this.dataStore).goals);
       },
-      error => { throw error; }
+      error => {
+        throw error;
+      }
     );
   }
 
-  updateGoalStatus(goal: Goal) {
-    this.http.patch<Goal>(`${this.apiUrl}/${this.userId}/goals/${goal.id}`, goal).subscribe(
+  updateGoalStatus(goal: Goal, language: string) {
+    this.http.patch<Goal>(`${this.apiUrl}/${this.userId}/goals/${goal.id}?language=${language}`, goal).subscribe(
       data => {
         this.dataStore.goals = [
           ...this.dataStore.goals.filter(el => el.id !== goal.id),
@@ -130,44 +133,54 @@ export class UserService implements OnLogout {
 
       this.dataStore.availableCustomGoals = data;
       this.availableCustomGoalsSubject.next(Object.assign({}, this.dataStore).availableCustomGoals);
-    }, error => { throw error; });
+    }, error => {
+      throw error;
+    });
   }
 
-  loadAvailablePredefinedGoals() {
+  loadAvailablePredefinedGoals(language: string) {
     const goals = [];
-    this.http.get<Goal[]>(`${userLink}/${this.userId}/goals/available`).subscribe(data => {
-      data.forEach(goal => {
-        goals.push({ id: goal.id, text: goal.text, status: 'UNCHECKED', type: GoalType.PREDEFINED });
+    this.http.get<Goal[]>(`${userLink}/${this.userId}/goals/available?language=${language}`)
+      .pipe(catchError(err => of([])))
+      .subscribe(data => {
+        data.forEach(goal => {
+          goals.push({id: goal.id, text: goal.text, status: 'UNCHECKED', type: GoalType.PREDEFINED});
+        });
+        this.dataStore.availablePredefinedGoals = goals;
+        this.availablePredefinedGoalsSubject.next(Object.assign({}, this.dataStore).availablePredefinedGoals);
+      }, error => {
+        throw error;
       });
-      this.dataStore.availablePredefinedGoals = goals;
-      this.availablePredefinedGoalsSubject.next(Object.assign({}, this.dataStore).availablePredefinedGoals);
-    }, error => { throw error; });
   }
 
-  saveCustomGoals(goals: Goal[]) {
+  saveCustomGoals(goals: Goal[], language: string) {
     const dto = {
       customGoalSaveRequestDtoList: goals.map<CustomGoalSaveRequestDto>(data => {
-        return { text: data.text };
+        return {text: data.text};
       })
     };
 
-    this.http.post<Goal[]>(`${userLink}/${this.userId}/customGoals`, dto).subscribe(data => {
+    this.http.post<Goal[]>(`${userLink}/${this.userId}/customGoals?language=${language}`, dto).subscribe(data => {
       if (goals.filter(goal => goals.filter(g => g.status === 'CHECKED' && g.text === goal.text).length !== 0).length !== 0) {
         this.addPredefinedAndCustomGoals([],
-          data.filter(goal => goals.filter(g => g.status === 'CHECKED' && g.text === goal.text).length !== 0));
+          data.filter(goal => goals.filter(g => g.status === 'CHECKED' && g.text === goal.text).length !== 0), language);
       }
-    }, error => { throw error; });
+    }, error => {
+      throw error;
+    });
   }
 
   deleteCustomGoals(goals: Goal[]) {
-    this.http.delete(`${userLink}/${this.userId}/customGoals?ids=` + goals.map(goal => goal.id)).
-      subscribe(() => { }, error => { throw error; });
+    this.http.delete(`${userLink}/${this.userId}/customGoals?ids=` + goals.map(goal => goal.id)).subscribe(() => {
+    }, error => {
+      throw error;
+    });
   }
 
   updateCustomGoals(goals: Goal[]) {
     const dto = {
       customGoals: goals.map<CustomGoalResponseDto>(data => {
-        return { id: data.id, text: data.text };
+        return {id: data.id, text: data.text};
       })
     };
 
@@ -179,30 +192,36 @@ export class UserService implements OnLogout {
           }
         });
       });
-    }, error => { throw error; });
+    }, error => {
+      throw error;
+    });
   }
 
   deleteTrackedGoals(goals: Goal[]) {
     this.http.delete(`${userLink}/${this.userId}/userGoals?ids=` + goals.map(goal => goal.id)).subscribe(() => {
       this.dataStore.goals = this.dataStore.goals.filter(data => goals.filter(g => g.id === data.id).length === 0);
       this.goalsSubject.next(Object.assign({}, this.dataStore).goals);
-    }, error => { throw error; });
+    }, error => {
+      throw error;
+    });
   }
 
-  addPredefinedAndCustomGoals(predefinedGoals: Goal[], customGoals: Goal[]) {
+  addPredefinedAndCustomGoals(predefinedGoals: Goal[], customGoals: Goal[], language: string) {
     const dto = {
       userGoals: predefinedGoals.map<UserGoalDto>(data => {
-        return { goal: { id: data.id } };
+        return {goal: {id: data.id}};
       }),
       userCustomGoal: customGoals.map<UserCustomGoalDto>(data => {
-        return { customGoal: { id: data.id } };
+        return {customGoal: {id: data.id}};
       })
     };
 
-    this.http.post<Goal[]>(`${userLink}/${this.userId}/goals`, dto).subscribe(data => {
+    this.http.post<Goal[]>(`${userLink}/${this.userId}/goals?language=${language}`, dto).subscribe(data => {
       this.dataStore.goals = data;
       this.goalsSubject.next(Object.assign({}, this.dataStore).goals);
-    }, error => { throw error; });
+    }, error => {
+      throw error;
+    });
   }
 
   onLogout(): void {
@@ -212,5 +231,34 @@ export class UserService implements OnLogout {
     this.goalsSubject.next(Object.assign({}, this.dataStore).goals);
     this.availableCustomGoalsSubject.next(Object.assign({}, this.dataStore).availableCustomGoals);
     this.availablePredefinedGoalsSubject.next(Object.assign({}, this.dataStore).availablePredefinedGoals);
+  }
+
+  /**
+   * Returns amount of users with activated status.
+   * Can be used for representing total amount of users in the system.
+   *
+   * @returns Observable<number> that can be used for subscription to obtain amount of users.
+   */
+  countActivatedUsers(): Observable<number> {
+    return this.http.get(`${userLink}/activatedUsersAmount`) as Observable<number>;
+  }
+
+  /**
+   * Returns statistic for all not taken habit items in the system for today.
+   * Data is returned as an array of key-value-pairs mapped to HabitItemsAmountStatisticDto,
+   * where key is the name of habit item and value is not taken amount of these items.
+   * Language of habit items is defined by the `language` parameter.
+   * By default English language is set on the backend and should be used for technical purposes.
+   * When habit items have to be represented to users this parameter should be set according to user's localization.
+   *
+   * @param language - Optional parameter for name of habit item localization language(e.x. "en" or "uk").
+   * @returns Observable<Array<HabitItemsAmountStatisticDto>> that can be used for those key-value pairs acquisition.
+   */
+  getTodayStatisticsForAllHabitItems(language?: string): Observable<Array<HabitItemsAmountStatisticDto>> {
+    let endpointLink = `${habitStatisticLink}todayStatisticsForAllHabitItems`;
+    if (language != undefined) {
+      endpointLink += `?language=${language}`;
+    }
+    return this.http.get(endpointLink) as Observable<Array<HabitItemsAmountStatisticDto>>;
   }
 }

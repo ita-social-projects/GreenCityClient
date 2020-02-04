@@ -123,7 +123,6 @@ export class MapComponent implements OnInit {
   }
 
   setMarker(place: any) {
-    console.log('set marker');
     this.button = true;
     this.placeService.places = null;
     this.placeService.places = [place];
@@ -133,7 +132,6 @@ export class MapComponent implements OnInit {
     this.origin = null;
     this.button = !this.button;
     this.placeService.getFilteredPlaces();
-    console.log(this.placeService.places);
     this.searchText = null;
   }
 
@@ -145,7 +143,6 @@ export class MapComponent implements OnInit {
   showDetail(pl: Place) {
     this.directionButton = true;
     this.placeService.getPlaceInfo(pl.id).subscribe(res => {
-      console.log(res);
       this.placeInfo = res;
       if (
         this.userRole === 'ROLE_ADMIN' ||
@@ -169,9 +166,6 @@ export class MapComponent implements OnInit {
   }
 
   saveOrDeletePlaceAsFavorite(place: Place) {
-    console.log(
-      'savePlaceAsFavorite() method in map.component placeId=' + place.id
-    );
     if (!place.favorite) {
       this.favoritePlaceService
         .saveFavoritePlace(new FavoritePlace(place.id, place.name))
@@ -198,7 +192,6 @@ export class MapComponent implements OnInit {
   getList() {
     if (this.button !== true) {
       this.placeService.getFilteredPlaces();
-      console.log(this.placeService.places);
       this.searchText = null;
     }
   }

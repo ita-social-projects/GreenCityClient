@@ -7,6 +7,7 @@ export class HabitDto {
               public name: string,
               public status: boolean,
               public description: string,
+              public image: string,
               public createDate: Date,
               public habitStatistics: HabitStatisticsDto[],
               public habitDictionary: HabitDictionaryDto) {

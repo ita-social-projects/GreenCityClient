@@ -36,12 +36,10 @@ export class FavoritePlaceComponent implements OnInit {
   }
 
   showAll() {
-    console.log('fp show all');
     this.favoritePlaceService.findAllByUserEmail().subscribe((res) => this.favoritePlaces = res);
   }
 
   delete(id: number) {
-    console.log('fp delete');
     this.favoritePlaceService.deleteFavoritePlace(id).subscribe(() => this.showAll());
   }
 
@@ -52,7 +50,6 @@ export class FavoritePlaceComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The edit dialog was closed');
       this.showAll();
       this.favoritePlaceService.getFavoritePlaces();
     });
@@ -64,7 +61,6 @@ export class FavoritePlaceComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The delete dialog was closed');
       this.showAll();
       this.favoritePlaceService.getFavoritePlaces();
     });
@@ -89,7 +85,6 @@ export class EditFavoriteNameComponent {
   }
 
   update(name: string) {
-    console.log('fp update placeId=' + this.data.placeId + ' name=' + name);
     this.favoritePlaceService.updateFavoritePlace(new FavoritePlace(this.data.placeId, name)).subscribe();
   }
 
@@ -107,7 +102,6 @@ export class DeleteFavoriteComponent {
   }
 
   delete() {
-    console.log('fp delete');
     this.favoritePlaceService.deleteFavoritePlace(this.data.placeId).subscribe();
   }
 }

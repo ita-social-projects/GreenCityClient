@@ -28,6 +28,7 @@
 
 #form-wrapper {
   margin-left: 76px;
+  position: relative;
 }
 
 #form-wrapper h2 {
@@ -71,6 +72,15 @@
   width: 364px;
 }
 
+#form-wrapper #validation-error,
+#form-wrapper #subscription-error {
+  bottom: 47px;
+  color: red;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+}
+
 #form-wrapper button {
   background-color: #13aa57;
   border: none;
@@ -87,6 +97,24 @@
   height: 48px;
   margin-left: 24px;
   width: 267px;
+}
+
+.visible {
+  display: block;
+  visibility: visible;
+}
+
+.hidden {
+  display: none;
+  visibility: hidden;
+}
+
+.active {
+  background-color: #13aa57 !important;
+}
+
+.disabled {
+  background-color: #839c94 !important;
 }
 
 @media screen and (max-width: 1024px) {  
@@ -124,10 +152,20 @@
   }
 }
 
+@media screen and (max-width: 680px) {
+  #form-wrapper #validation-error {
+    bottom: 125px;
+  }
+}
+
 @media screen and (max-width: 425px) {
   #subscribe {
     padding-bottom: 40px;
     padding-top: 20px;
+  }
+
+  #form-wrapper #validation-error {
+    bottom: 127px;
   }
 
   #form-wrapper h2 {

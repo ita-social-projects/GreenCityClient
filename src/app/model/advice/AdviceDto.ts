@@ -1,12 +1,12 @@
 export class AdviceDto {
   id: number;
-  advice: string;
+  content: string;
   habitDictionaryId: number;
   habitDictionaryName: string;
 
   constructor(id: number, name: string, habitDictionaryId: number, habitDictionaryName: string) {
     this.id = id;
-    this.advice = name;
+    this.content = name;
     this.habitDictionaryId = habitDictionaryId;
     this.habitDictionaryName = habitDictionaryName;
   }

@@ -1,12 +1,12 @@
 export class HabitFactDto {
   id: number;
-  fact: string;
+  content: string;
   habitDictionaryId: number;
   habitDictionaryName: string;
 
   constructor(id: number, name: string, habitDictionaryId: number, habitDictionaryName: string) {
     this.id = id;
-    this.fact = name;
+    this.content = name;
     this.habitDictionaryId = habitDictionaryId;
     this.habitDictionaryName = habitDictionaryName;
   }

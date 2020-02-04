@@ -1,37 +1,34 @@
 <div class="homepage">
-  <img id="path-2" [src]="path2">
-  <img id="path-4" [src]="path4">
-  <img id="path-5" [src]="path5">
-  <header class="" id="header">
+  <img id="path-2" [src]="path2" alt="bg-texture-2">
+  <img id="path-4" [src]="path4" alt="bg-texture-4">
+  <img id="path-5" [src]="path5" alt="bg-texture-5">
+  <header id="header">
     <div id="header-left">
       <div>
-        <h1>Новий спосіб виховати в собі корисні звички</h1>
-        <p>В Україні кожна людина щорічно використовує більше 500
-          одноразових пакетів і біля 70 паперових стаканчиків.
-          Достатньо брати з собою еко-сумку і своє горнятко і це
-          допоможе зберегти життя 3-х дельфінів, однієї черепашки
-          і зберегти чистими води океанів для наступного покоління.
-        </p>
-        <button class="button" (click)="startHabit()">Почати формувати звичку!</button>
+        <h1>{{ "homepage.header.caption" | translate }}</h1>
+        <p>{{ "homepage.header.content" | translate }}</p>
+        <button class="button" (click)="startHabit()">{{ "homepage.general.button-start-habit" | translate }}</button>
       </div>
     </div>
     <div id="header-right">
-      <img [src]="guyImage" id="guy-image">
+      <img [src]="guyImage" id="guy-image" alt="guy-texture">
     </div>
   </header>
-  <section class="" id="stats">
-    <h2 class="section-caption">Нас 45 і сьогодні ми</h2>
+  <section id="stats">
+    <h2 class="section-caption">
+      {{ "homepage.stats.caption-before" | translate }} {{usersAmount}}
+      {{ "homepage.stats.caption-after" | translate }}</h2>
     <app-stat-rows></app-stat-rows>
   </section>
-  <section class="" id="events">
-    <h2 class="section-caption">Еко-новини</h2>
+  <section id="events">
+    <h2 class="section-caption">{{ "homepage.eco-news.caption" | translate }}</h2>
     <app-eco-events></app-eco-events>
   </section>
-  <section class="" id="tips">
-    <h2 class="section-caption">Еко-поради</h2>
+  <section id="tips">
+    <h2 class="section-caption">{{ "homepage.eco-advices.caption" | translate }}</h2>
     <app-tips-list></app-tips-list>
   </section>
-  <section class="" id="subscription">
+  <section id="subscription">
     <app-subscribe></app-subscribe>
   </section>
   <footer>

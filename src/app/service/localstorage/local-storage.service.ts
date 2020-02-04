@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject} from 'rxjs';
+import {Language} from '../../i18n/Language';
 
 /**
  * @author Yurii Koval
@@ -16,7 +17,8 @@ export class LocalStorageService {
   firstNameBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getFirstName());
   userIdBehaviourSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.getUserId());
 
-  constructor() { }
+  constructor() {
+  }
 
   public getAccessToken(): string {
     return localStorage.getItem(this.ACCESS_TOKEN);
@@ -64,8 +66,18 @@ export class LocalStorageService {
     return localStorage.getItem('firstSignIn') === 'true';
   }
 
+  public setCurrentLanguage(language: Language) {
+    localStorage.setItem('language', language);
+  }
+
+  public getCurrentLanguage(): Language {
+    return localStorage.getItem('language') as Language;
+  }
+
   public clear(): void {
+    const currentLanguage: Language = this.getCurrentLanguage();
     localStorage.clear();
+    this.setCurrentLanguage(currentLanguage);
     this.firstNameBehaviourSubject.next(null);
     this.userIdBehaviourSubject.next(null);
   }

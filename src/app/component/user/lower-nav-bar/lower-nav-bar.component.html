@@ -1,26 +1,30 @@
 <nav class="lower-navbar">
   <div class="navbar-wrapper">
-    <a [routerLink]="['/']">
+    <a routerLink="/welcome" pageScroll href="#header">
       <img [src]="logo" id="green-city-logo" alt="green-city-logo" />
     </a>
-    <ul>
+    <input class="menu-btn" type="checkbox" id="menu-btn" />
+    <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
+    <ul class="menu">
       <li>
         <a [routerLink]="['/welcome']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
-          true}">{{ "user.lower-nav-bar.home" | translate }}</a>
+          true}" pageScroll href="#header">{{ "user.lower-nav-bar.home" | translate }}</a>
       </li>
       <li>
-        <a (click)="scrollTo('events')">{{ "user.lower-nav-bar.eco-events" | translate }}</a>
+        <a [routerLink]="['/welcome']" pageScroll href="#events"
+          [pageScrollDuration]="500">{{ "user.lower-nav-bar.eco-events" | translate }}</a>
       </li>
       <li>
-        <a (click)="scrollTo('tips')">{{ "user.lower-nav-bar.tips" | translate }}</a>
+        <a [routerLink]="['/welcome']" pageScroll href="#tips"
+          [pageScrollDuration]="500">{{ "user.lower-nav-bar.tips" | translate }}</a>
       </li>
       <li>
-        <a [routerLink]="['map']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
-          true}">{{ "user.lower-nav-bar.map" | translate }}</a>
+        <a [routerLink]="['/map']" pageScroll href="#top-user-bar" routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{exact: true}">{{ "user.lower-nav-bar.map" | translate }}</a>
       </li>
       <li>
-        <a [routerLink]="[getUserId(),'habits']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
-          true}">{{ "user.lower-nav-bar.my-habits" | translate }}</a>
+        <a [routerLink]="[getUserId(),'habits']" routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{exact: true}">{{ "user.lower-nav-bar.my-habits" | translate }}</a>
       </li>
       <li>
         <a>{{ "user.lower-nav-bar.about-us" | translate }}</a>

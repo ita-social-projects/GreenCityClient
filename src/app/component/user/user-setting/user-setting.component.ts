@@ -51,7 +51,6 @@ export class UserSettingComponent implements OnInit {
   }
 
   private somethingEdited() {
-    console.log('something edited');
     this.isLastNameEditing = false;
     this.isFirstNameEditing = false;
     this.isSomethingEdited = true;

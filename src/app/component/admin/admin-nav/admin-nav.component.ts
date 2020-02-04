@@ -25,7 +25,7 @@ export class AdminNavComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log("after close save");
+      console.log('after close save');
     });
   }
 }

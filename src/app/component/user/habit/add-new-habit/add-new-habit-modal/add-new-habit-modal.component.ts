@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-statistic.service';
+import {LanguageService} from '../../../../../i18n/language.service';
 
 @Component({
   selector: 'app-add-new-habit-modal',
@@ -12,11 +13,11 @@ export class AddNewHabitModalComponent implements OnInit {
 
   visible: boolean;
 
-  constructor(private habitStatisticService: HabitStatisticService) { }
+  constructor(private habitStatisticService: HabitStatisticService, private languageService: LanguageService) { }
 
   ngOnInit() { }
 
   saveSelectedHabits() {
-    this.habitStatisticService.createHabits();
+    this.habitStatisticService.createHabits(this.languageService.getCurrentLanguage());
   }
 }

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-statistic.service';
+import {Component, OnInit} from '@angular/core';
+import {HabitStatisticService} from 'src/app/service/habit-statistic/habit-statistic.service';
 
 @Component({
   selector: 'app-user-log',
@@ -8,7 +8,8 @@ import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-sta
 })
 export class UserLogComponent implements OnInit {
 
-  constructor(private habitStatisticService: HabitStatisticService) { }
+  constructor(private habitStatisticService: HabitStatisticService) {
+  }
 
   readonly package = 'assets/img/icon/package_statistic.png';
   readonly coffee = 'assets/img/icon/coffee_statistic.png';
@@ -23,52 +24,18 @@ export class UserLogComponent implements OnInit {
   $differenceUnTakenItemsWithPreviousDayCap: number;
 
   ngOnInit() {
-    this.$userLog = this.habitStatisticService.getUserLog().subscribe(data => {
-      this.hasStatistic = true;
-      this.$creationDate = data.creationDate;
-      const cap = data.allItemsPerMonth.filter(obj => {
-        return obj.habitItemName === 'cap';
-      });
-      const bag = data.allItemsPerMonth.filter(obj => {
-        return obj.habitItemName === 'bag';
-      });
-      const diffBag = data.differenceUnTakenItemsWithPreviousDay.filter(obj => {
-        return obj.habitItemName === 'bag';
-      });
-      const diffCap = data.differenceUnTakenItemsWithPreviousDay.filter(obj => {
-        return obj.habitItemName === 'cap';
-      });
-      if (cap.length !== 0) {
-        this.$amountUnTakenItemsPerMonthCap = cap[0].habitItemAmount;
-      } else {
-        this.$amountUnTakenItemsPerMonthCap = 0;
-      }
-      if (bag.length !== 0) {
-        this.$amountUnTakenItemsPerMonthBag = bag[0].habitItemAmount;
-      } else {
-        this.$amountUnTakenItemsPerMonthBag = 0;
-      }
-      if (diffCap.length !== 0) {
-        this.$differenceUnTakenItemsWithPreviousDayCap = diffCap[0].habitItemAmount;
-      } else {
-        console.log('start');
-        this.$differenceUnTakenItemsWithPreviousDayCap = 0;
-      }
-      if (diffBag.length !== 0) {
-        this.$differenceUnTakenItemsWithPreviousDayBag = diffBag[0].habitItemAmount;
-      } else {
-        this.$differenceUnTakenItemsWithPreviousDayBag = 0;
-      }
+    this.retrieveUserLog();
+    this.habitStatisticService.habitStatistics.subscribe(_data => {
+      this.retrieveUserLog();
     }, error => {
       this.hasStatistic = false;
       console.log('Error!', error);
-    }
-    );
+    });
   }
 
   nowDate() {
     const date: Date = new Date();
-    return date.getDate() + ' ' + date.toLocaleString('default', { month: 'long' });
+    return date.getDate() + ' ' + date.toLocaleString('default', {month: 'long'});
   }
 
   countDay() {
@@ -88,4 +55,50 @@ export class UserLogComponent implements OnInit {
     return Math.floor(DifferenceInDays) > 1 ? Math.floor(DifferenceInDays) : 1;
   }
 
+  private retrieveUserLog() {
+    this.$userLog = this.habitStatisticService.getUserLog().subscribe(data => {
+        this.hasStatistic = true;
+        this.$creationDate = data.creationDate;
+        this.initializeNotTakenItemsStatistics(data);
+      }, error => {
+        this.hasStatistic = false;
+        console.log('Error!', error);
+      }
+    );
+  }
+
+  private initializeNotTakenItemsStatistics(data: any) {
+    const cap = data.allItemsPerMonth.filter(obj => {
+      return obj.habitItemName === 'cap';
+    });
+    const bag = data.allItemsPerMonth.filter(obj => {
+      return obj.habitItemName === 'bag';
+    });
+    const diffBag = data.differenceUnTakenItemsWithPreviousDay.filter(obj => {
+      return obj.habitItemName === 'bag';
+    });
+    const diffCap = data.differenceUnTakenItemsWithPreviousDay.filter(obj => {
+      return obj.habitItemName === 'cap';
+    });
+    if (cap.length !== 0) {
+      this.$amountUnTakenItemsPerMonthCap = cap[0].habitItemAmount;
+    } else {
+      this.$amountUnTakenItemsPerMonthCap = 0;
+    }
+    if (bag.length !== 0) {
+      this.$amountUnTakenItemsPerMonthBag = bag[0].habitItemAmount;
+    } else {
+      this.$amountUnTakenItemsPerMonthBag = 0;
+    }
+    if (diffCap.length !== 0) {
+      this.$differenceUnTakenItemsWithPreviousDayCap = diffCap[0].habitItemAmount;
+    } else {
+      this.$differenceUnTakenItemsWithPreviousDayCap = 0;
+    }
+    if (diffBag.length !== 0) {
+      this.$differenceUnTakenItemsWithPreviousDayBag = diffBag[0].habitItemAmount;
+    } else {
+      this.$differenceUnTakenItemsWithPreviousDayBag = 0;
+    }
+  }
 }
