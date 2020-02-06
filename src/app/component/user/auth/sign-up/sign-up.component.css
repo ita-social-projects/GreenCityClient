@@ -73,7 +73,15 @@ form>h2 {
   margin-right: 10px;
   margin-top: -22px;
   background-image: url('src/assets/img/icon/eye.png');
+  border: none;
 }
+
+   a img, img, input>img {
+    border: none;
+    border-image-outset: none;
+   }
+
+   border-image-outset: none;
 
 @media screen and (max-width: 1152px) {
   .wrapper-sign-up {

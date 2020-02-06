@@ -115,6 +115,12 @@ form>h2 {
   }
 }
 
+@media screen and (max-width: 600px) {
+  .pass {
+    width: 80%;
+  }
+}
+
 @media screen and (max-width: 480px) {
   .wrapper-container {
     width: 95%;
