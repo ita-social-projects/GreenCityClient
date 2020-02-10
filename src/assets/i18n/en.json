@@ -175,8 +175,8 @@
   },
   "user": {
     "add-comment": {
-      "Add-your-comment-to-place": "Add your comment to place",
-      "Please-rare-us": "Please rare us",
+      "add-your-comment-to-place": "Add your comment to place",
+      "please-rare-us": "Please rare us",
       "comment-is-required": "Comment is required.",
       "comment-must-be-at-least-5-characters-long": "Comment must be at least 5 characters long.",
       "comment-must-be-maximum": "Comment must be maximum",
