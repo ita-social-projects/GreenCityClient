@@ -19,7 +19,7 @@ export class AuthPageGuardService implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot)
     : Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (!this.isLoggedIn) {
-      return this.router.navigateByUrl('/auth').then(r => r);
+      return this.router.navigateByUrl('/auth/sign-up').then(r => r);
     }
     return of<boolean>(true);
   }
