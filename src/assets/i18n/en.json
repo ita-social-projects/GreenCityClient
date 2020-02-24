@@ -370,7 +370,7 @@
         "add-button": "Manage goals"
       },
       "goal-list": {
-        "expand": "Show more",
+        "expand": "View all goals",
         "collapse": "Show less",
         "list-placeholder": "Here you can set goals and fulfill them!"
       }
@@ -387,7 +387,7 @@
       },
       "user-log": {
         "day": "Day",
-        "calendar-habit": "Calendar of useful habits",
+        "calendar-habit": "Calendar of eco habits",
         "today": "Today",
         "day-of-the-month": "day of the month and that",
         "less-than": "less than",

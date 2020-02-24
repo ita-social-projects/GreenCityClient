@@ -9,7 +9,7 @@
                <h2>{{'user.auth.sign-up.fill-form-up' | translate}}</h2>
                <div class="field-wrapper-left">
                   <label for="first-name">{{'user.auth.sign-up.first-name' | translate}}</label>
-                  <input id="first-name" type="text" class="first-name" [class]="firstNameControl.errors&&firstNameControl.touched? 'red':'grey'" name="fistName" [(ngModel)]="userOwnSignUp.firstName" #firstNameControl="ngModel" required minlength="1" maxlength="20" appInputcolor [typeColor] = "'#13AA57'" [defaultColor] = "'#000'">
+                  <input id="first-name" type="text" class="first-name sign-in-input width-inp" [ngClass]="firstNameControl.errors&&firstNameControl.touched? 'red':'grey'" name="fistName" [(ngModel)]="userOwnSignUp.firstName" #firstNameControl="ngModel" required minlength="1" maxlength="20" appInputcolor [typeColor] = "'#13AA57'" [defaultColor] = "'#000'">
                   <div class="validation-error" *ngIf="firstNameControl.invalid && (firstNameControl.dirty||firstNameControl.touched)">
                      <div *ngIf="firstNameControl.errors.required">
                         {{'user.auth.sign-up.first-name-is-required' | translate}}
@@ -24,7 +24,7 @@
                </div>
                <div class="field-wrapper-right">
                   <label for="last-name">{{'user.auth.sign-up.last-name' | translate}}</label>
-                  <input id="last-name" type="text" class="last-name" [class]="lastNameControl.errors&&lastNameControl.touched? 'red':'grey'" name="lastName" [(ngModel)]="userOwnSignUp.lastName" #lastNameControl="ngModel" minlength="1"  appInputcolor [typeColor] = "'#13AA57'" [defaultColor] = "'#000'">
+                  <input id="last-name" type="text" class="last-name sign-in-input width-inp" [ngClass]="lastNameControl.errors&&lastNameControl.touched? 'red':'grey'" name="lastName" [(ngModel)]="userOwnSignUp.lastName" #lastNameControl="ngModel" minlength="1"  appInputcolor [typeColor] = "'#13AA57'" [defaultColor] = "'#000'">
                   <div class="validation-error" *ngIf="lastNameControl.invalid && (lastNameControl.dirty||lastNameControl.touched)">
                      <div *ngIf="lastNameControl.errors.required">
                         {{'user.auth.sign-up.last-name-is-required' | translate}}
@@ -39,7 +39,7 @@
                </div>
                <div class="clearboth"></div>
                   <label for="email">{{'user.auth.sign-up.email' | translate}}</label>
-                  <input id="email" #emailControl="ngModel" [class]="emailControl.errors&&emailControl.touched? 'red':'grey'" type="email" class="email" name="email" [(ngModel)]="userOwnSignUp.email" #emailControl="ngModel" required minlength="1" email="true" appInputcolor [typeColor] = "'#13AA57'" [defaultColor] = "'#000'">
+                  <input id="email" #emailControl="ngModel" [ngClass]="emailControl.errors&&emailControl.touched? 'red':'grey'" type="email" class="email sign-in-input width-inp" name="email" [(ngModel)]="userOwnSignUp.email" #emailControl="ngModel" required minlength="1" email="true" appInputcolor [typeColor] = "'#13AA57'" [defaultColor] = "'#000'">
                   <div class="validation-error" id="validation-error" *ngIf="emailControl.invalid && (emailControl.dirty||emailControl.touched)">
                      <div *ngIf="emailControl.errors.required">
                         {{'user.auth.sign-up.email-is-required' | translate}}
@@ -57,7 +57,7 @@
                <div class="clearboth"></div>
                <label for="password">{{'user.auth.sign-up.password' | translate}}</label>
                <div class="password-wrapper">
-                  <input id="password" #passwordControl="ngModel" [ngClass]="passwordControl.errors&&passwordControl.touched? 'red':'grey'" type="password" class=" password" name="form-control password" [(ngModel)]="userOwnSignUp.password" #passwordControl="ngModel" required minlength="8" appInputcolor [typeColor] = "'#13AA57'" [defaultColor] = "'#000'"> <img class="img" id="img" alt="" src = "" (click)="clickImg()">
+                  <input id="password" #passwordControl="ngModel" [ngClass]="passwordControl.errors&&passwordControl.touched? 'red':'grey'" type="password" class=" password sign-in-input pass" name="form-control password" [(ngModel)]="userOwnSignUp.password" #passwordControl="ngModel" required minlength="8" appInputcolor [typeColor] = "'#13AA57'" [defaultColor] = "'#000'"> <div class="img" id="img" (click)="clickImg()"></div>
                </div>
                <div class="validation-error" *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
                   <div *ngIf="passwordControl.errors.required">
@@ -71,8 +71,8 @@
                   {{passwordErrorMessageBackEnd}}
                </div>
                <label for="password">{{'user.auth.sign-up.password-confirm' | translate}}</label>
-               <input id="password-confirm" type="password" [(ngModel)]="tmp" #passwordControlConfirm="ngModel" required [class]="passwordControlConfirm.errors&&passwordControlConfirm.touched? 'red':'grey'" name="form-control password-confirm" (input)="matchPassword()" appInputcolor [typeColor] = "'#13AA57'" [defaultColor] = "'#000'">
-               <img id="img-confirm" class="img-confirm" alt="" src = "" (click)="clickImgConfirm()">
+               <input id="password-confirm" type="password" class = "sign-in-input pass" [(ngModel)]="tmp" #passwordControlConfirm="ngModel" required [ngClass]="passwordControlConfirm.errors&&passwordControlConfirm.touched? 'red':'grey'" name="form-control password-confirm" (input)="matchPassword()" appInputcolor [typeColor] = "'#13AA57'" [defaultColor] = "'#000'">
+               <div id="img-confirm" class="img-confirm" (click)="clickImgConfirm()"></div>
                <div class="validation-error" *ngIf="passwordControlConfirm.invalid && (passwordControlConfirm.dirty||passwordControlConfirm.touched)">
                   <div *ngIf="passwordControlConfirm.errors.required">
                      {{'user.auth.sign-up.password-is-required' | translate}}
