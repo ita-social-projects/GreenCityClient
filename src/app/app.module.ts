@@ -130,6 +130,11 @@ import { SWIPER_CONFIG } from 'ngx-swiper-wrapper';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { InputcolorDirective } from './directives/inputcolor.directive';
+import { EcoNewsComponent } from './component/general/eco-news/eco-news.component';
+import { CreateNewsComponent } from './component/general/eco-news/create-news/create-news.component';
+import { NewsListComponent } from './component/general/eco-news/news-list/news-list.component';
+import { NewsListListViewComponent } from './component/general/eco-news/news-list/news-list-list-view/news-list-list-view.component';
+import { NewsListGalleryViewComponent } from './component/general/eco-news/news-list/news-list-gallery-view/news-list-gallery-view.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
@@ -209,6 +214,11 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     TipsListComponent,
     TipsCardComponent,
     InputcolorDirective,
+    EcoNewsComponent,
+    CreateNewsComponent,
+    NewsListComponent,
+    NewsListListViewComponent,
+    NewsListGalleryViewComponent,
   ],
   imports: [
     BrowserModule,

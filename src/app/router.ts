@@ -15,9 +15,11 @@ import { HomepageComponent } from './component/general/homepage/homepage/homepag
 import { AuthPageGuardService } from './service/route-guards/auth-page-guard.service';
 import { HomePageGuardService } from './service/route-guards/home-page-guard.service';
 import { AppComponent } from './app.component';
+import { EcoNewsComponent } from './component/general/eco-news/eco-news.component'
 
 export const router: Routes = [
-  { path: '',
+  {
+    path: '',
     component: AppComponent,
     canActivate: [HomePageGuardService]
   },
@@ -57,5 +59,9 @@ export const router: Routes = [
       { path: 'users', component: UsersComponent },
       { path: 'feedbacks', component: FeedbacksComponent }
     ]
+  },
+  {
+    path: 'news',
+    component: EcoNewsComponent
   }
 ];
