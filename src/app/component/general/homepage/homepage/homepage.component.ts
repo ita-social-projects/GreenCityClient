@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/service/localstorage/local-storage.service';
-import {UserService} from "../../../../service/user/user.service";
+import { UserService } from "../../../../service/user/user.service";
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-homepage',
@@ -19,7 +20,8 @@ export class HomepageComponent implements OnInit {
   constructor(
     private router: Router,
     private localStorageService: LocalStorageService,
-    private userService: UserService
+    private userService: UserService,
+    private titleService: Title
   ) { }
 
   userId: number;
@@ -29,6 +31,7 @@ export class HomepageComponent implements OnInit {
     this.userService.countActivatedUsers().subscribe(num => {
       this.usersAmount = num;
     });
+    this.titleService.setTitle("GreenCity");
   }
 
   startHabit() {
