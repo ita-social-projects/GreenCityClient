@@ -135,6 +135,7 @@ import { CreateNewsComponent } from './component/general/eco-news/create-news/cr
 import { NewsListComponent } from './component/general/eco-news/news-list/news-list.component';
 import { NewsListListViewComponent } from './component/general/eco-news/news-list/news-list-list-view/news-list-list-view.component';
 import { NewsListGalleryViewComponent } from './component/general/eco-news/news-list/news-list-gallery-view/news-list-gallery-view.component';
+import { ChangeViewButtonComponent } from './component/general/eco-news/news-list/change-view-button/change-view-button.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
@@ -219,6 +220,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     NewsListComponent,
     NewsListListViewComponent,
     NewsListGalleryViewComponent,
+    ChangeViewButtonComponent,
   ],
   imports: [
     BrowserModule,
