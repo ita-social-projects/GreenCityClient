@@ -1,0 +1,19 @@
+#create-button{
+    max-width: 185px;
+    padding: 12px 40px;
+    border: 1px solid #13AA57;
+    box-sizing: border-box;
+    border-radius: 3px;
+}
+
+#create-button-text{
+    color: #13AA57;
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 1rem;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
