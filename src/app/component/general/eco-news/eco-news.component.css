@@ -12,7 +12,10 @@
 .app-create-news {
     top: -10px;
 }
-  
+
+.list-news {
+    margin-left: 150px;;
+}
   
 #main-header{
     font-family: 'Montserrat', sans-serif;

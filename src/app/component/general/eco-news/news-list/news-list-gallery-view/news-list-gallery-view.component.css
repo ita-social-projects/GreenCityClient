@@ -1,4 +1,5 @@
-p {
+p,
+div {
   margin: 0;
   padding: 0;
 }
@@ -8,12 +9,22 @@ p {
   width: 359px;
 }
 .list-image-content {
+  margin-bottom: 16px;
   max-width: 327px;
   max-height: 294.12px;
 }
 
-.filter-tag {
-  margin: 8px 0 0 0;
+.ul-eco-buttons {
+  opacity: 0.8;
+  font-family: OpenSans, sans-serif;
+  font-size: 14px;
+  line-height: 16px;
+  color: #666666;
+  display: inline-block;
+  padding: 8px 16px;
+  border: 1px solid #666666;
+  border-radius: 25px;
+  margin-right: 16px;
 }
 
 .title-list {

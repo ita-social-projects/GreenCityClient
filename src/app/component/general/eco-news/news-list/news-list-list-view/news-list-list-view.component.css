@@ -1,0 +1,68 @@
+p,
+div {
+  margin: 0;
+  padding: 0;
+}
+
+#list-gallery-content {
+  display: flex;
+  padding: 16px;
+  max-height: 238px;
+}
+.list-image-content {
+  margin-bottom: 16px;
+  max-width: 359px;
+  max-height: 302.94px;
+}
+
+.added-data {
+  margin-left: 16px;
+}
+
+.ul-eco-buttons {
+  opacity: 0.8;
+  font-family: OpenSans, sans-serif;
+  font-size: 14px;
+  line-height: 16px;
+  color: #666666;
+  display: inline-block;
+  padding: 8px 16px;
+  border: 1px solid #666666;
+  border-radius: 25px;
+  margin: 0 16px 0 0;
+}
+
+.title-list {
+  max-height: 32px;
+  margin: 8px 0 0 0;
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 21px;
+  line-height: 28px;
+  color: #313131;
+}
+.list-text {
+  height: 96px;
+  margin: 8px 0 0 0;
+  font-family: 'Open Sans', sans-serif;
+}
+.user-data-added-news {
+  margin: 8px 0 0 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.user-data-text-date-share {
+  margin-right: 16px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  color: #666666;
+  mix-blend-mode: normal;
+  opacity: 0.6;
+}
+.icon {
+  align-items: center;
+  margin-right: 4px;
+}
