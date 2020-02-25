@@ -1,14 +1,50 @@
-.list-image {
-  margin: 16px;
-  width: 327px;
-  height: 294.12px;
+p {
+  margin: 0;
+  padding: 0;
 }
 
-.title-list-text {
-  font-family: Montserrat;
+#list-gallery-content {
+  padding: 16px;
+  width: 359px;
+}
+.list-image-content {
+  max-width: 327px;
+  max-height: 294.12px;
+}
+
+.filter-tag {
+  margin: 8px 0 0 0;
+}
+
+.title-list {
+  margin: 8px 0 0 0;
+  font-family: 'Montserrat', sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 21px;
   line-height: 28px;
   color: #313131;
+}
+.list-text {
+  margin: 8px 0 0 0;
+  font-family: 'Open Sans', sans-serif;
+}
+.user-data-added-news {
+  margin: 8px 0 0 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.user-data-text-date-share {
+  margin-right: 16px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  color: #666666;
+  mix-blend-mode: normal;
+  opacity: 0.6;
+}
+.icon {
+  align-items: center;
+  margin-right: 4px;
 }
