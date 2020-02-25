@@ -7,11 +7,11 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./eco-news.component.css']
 })
 export class EcoNewsComponent implements OnInit {
-
-  constructor(private titleService: Title) { }
+  constructor(private titleService: Title) {}
 
   ngOnInit() {
-    this.titleService.setTitle("Eco News");
+    this.titleService.setTitle('Eco News');
   }
 
+  changeView() {}
 }
