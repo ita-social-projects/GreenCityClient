@@ -3,12 +3,13 @@
 }
 
 .wrapper span {
-font-family: Montserrat, sans-serif;
-font-style: normal;
-font-weight: 500;
-font-size: 24px;
-line-height: 24px;
-color: #313131;
+    margin-top: 2px;
+    font-family: Montserrat, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 24px;
+    color: #313131;
 }
 
 .ul-eco-buttons {
@@ -16,7 +17,7 @@ color: #313131;
 }
 
 .ul-eco-buttons li {
-    font-family: OpenSans;
+    font-family: OpenSans, sans-serif;
     font-size: 14px;
     line-height: 16px;
     color: #666666;
