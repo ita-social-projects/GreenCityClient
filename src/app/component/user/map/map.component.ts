@@ -14,7 +14,8 @@ import { FilterPlaceService } from '../../../service/filtering/filter-place.serv
 import { Location } from '../../../model/location.model';
 import { AddCommentComponent } from '../add-comment/add-comment.component';
 import { WeekDaysUtils } from '../../../service/weekDaysUtils.service';
-import {JwtService} from '../../../service/jwt/jwt.service';
+import { JwtService } from '../../../service/jwt/jwt.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-map',
@@ -54,7 +55,8 @@ export class MapComponent implements OnInit {
     public filterService: FilterPlaceService,
     private favoritePlaceService: FavoritePlaceService,
     public dialog: MatDialog,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private titleService: Title
   ) {
     iconRegistry.addSvgIcon(
       'star-white',
@@ -86,6 +88,7 @@ export class MapComponent implements OnInit {
       this.favoritePlaceService.getFavoritePlaces();
     }
     this.subscribeToFavoritePlaceId();
+    this.titleService.setTitle("Map");
   }
 
   getDirection(p: Place) {

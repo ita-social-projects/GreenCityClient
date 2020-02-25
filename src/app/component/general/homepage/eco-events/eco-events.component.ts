@@ -4,6 +4,7 @@ import { NewsDto } from 'src/app/service/news/NewsDto';
 import { of } from 'rxjs';
 import { LanguageService } from 'src/app/i18n/language.service';
 import { catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-eco-events',
@@ -15,10 +16,7 @@ export class EcoEventsComponent implements OnInit {
   readonly arrow = 'assets/img/icon/arrow.png';
   latestNews: NewsDto[] = [];
 
-  constructor(
-    private newsService: NewsService,
-    private languageService: LanguageService
-  ) {}
+  constructor(private router: Router, private newsService: NewsService, private languageService: LanguageService) { }
 
   ngOnInit() {
     this.newsService.loadLatestNews();
@@ -48,5 +46,9 @@ export class EcoEventsComponent implements OnInit {
       ' ' +
       dateObj.getFullYear()
     );
+  }
+
+  openNews() {
+    this.router.navigate(['news']);
   }
 }

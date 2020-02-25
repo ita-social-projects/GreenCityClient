@@ -1,0 +1,35 @@
+.wrapper {
+    display: flex;
+}
+
+.wrapper span {
+    margin-top: 2px;
+    font-family: Montserrat, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 24px;
+    color: #313131;
+}
+
+.ul-eco-buttons {
+    list-style: none;
+}
+
+.ul-eco-buttons li {
+    font-family: OpenSans, sans-serif;
+    font-size: 14px;
+    line-height: 16px;
+    color: #666666;
+    display: inline-block;
+    padding: 8px 16px;
+    border: 1px solid #666666;
+    border-radius: 25px;
+    margin-right: 8px;
+}
+
+.ul-eco-buttons a:hover li {
+    color:#056B33; 
+    border: 1px solid #056B33;;
+}
+
