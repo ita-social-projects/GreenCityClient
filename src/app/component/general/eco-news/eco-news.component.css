@@ -1,5 +1,16 @@
 .container{
-    margin: 150px;
+    padding-top: 8px;
+    margin-top: 3px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.container + hr {
+    margin: 5px 119px;
+}
+
+.app-create-news {
+    top: -10px;
 }
   
   

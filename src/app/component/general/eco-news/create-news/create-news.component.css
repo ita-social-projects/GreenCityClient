@@ -1,9 +1,22 @@
+a {
+    text-decoration: none;
+}
+
+
 #create-button{
     max-width: 185px;
-    padding: 12px 40px;
+    padding: 8px 40px;
     border: 1px solid #13AA57;
     box-sizing: border-box;
     border-radius: 3px;
+}
+
+#create-button:hover {
+    border: 1px solid #056B33;
+}
+
+#create-button:hover span {
+    color: #056B33;
 }
 
 #create-button-text{
