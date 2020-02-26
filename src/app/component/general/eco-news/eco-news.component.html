@@ -13,7 +13,7 @@
   </div>
 </div>
 <div class="container">
-  <app-news-list></app-news-list>
+  <app-news-list (quantity)="setQuantity($event)" (current)="setCurrent($event)" [num]="number"></app-news-list>
 </div>
 
 <footer #footerElement>

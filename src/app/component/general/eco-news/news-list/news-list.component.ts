@@ -6,13 +6,28 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
   styleUrls: ['./news-list.component.css']
 })
 export class NewsListComponent implements OnInit {
+  @Input() num: number;
+  @Output() quantity = new EventEmitter<number>();
+  @Output() current = new EventEmitter<number>();
 
-  n = 50;
-  elements = [1, 2, 3, 4, 5];
-  currEl = this.elements.length;
+  n = 15;
+  elements = [];
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  ngOnChanges() {
+    this.add();
+    this.quantity.emit(this.n);
+    this.current.emit(this.elements.length);
+  }
+
+  add() {
+    for (let i = 0; i < 5; i++) {
+      this.elements.push(1);
+
+    }
   }
 }

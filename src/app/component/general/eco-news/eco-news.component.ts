@@ -9,7 +9,9 @@ import { Title } from '@angular/platform-browser';
 export class EcoNewsComponent implements OnInit {
 
   @ViewChild("footerElement", { static: true }) footer: ElementRef;
-
+  quantity;
+  current;
+  number = 1;
   options = {
     rootMargin: '0px',
     threshold: 0
@@ -18,7 +20,9 @@ export class EcoNewsComponent implements OnInit {
   observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.intersectionRatio > 0) {
-        alert("Hello");
+        if (this.current < this.quantity) {
+          this.number++;
+        }
       }
     });
   }, this.options);
@@ -33,5 +37,16 @@ export class EcoNewsComponent implements OnInit {
   ngOnInit() {
     this.titleService.setTitle('Eco News');
   }
+
+  setQuantity(event) {
+    this.quantity = event;
+    console.log(this.quantity);
+  }
+
+  setCurrent(event) {
+    this.current = event;
+    console.log(this.current);
+  }
+
   changeView() { }
 }
