@@ -1,10 +1,11 @@
+
 <div class="wrapper">
     <span>Filter by</span>
     <ul class="ul-eco-buttons">
-        <a href="#"><li>News</li></a>
-        <a href="#"><li>Events</li></a>
-        <a href="#"><li>Courses</li></a>
-        <a href="#"><li>Initiatives</li></a>
-        <a href="#"><li>Ads</li></a>
+        <a href="#/news"><li (click)="newsClick()" [ngClass]="{'ul-eco-buttons-li':!styleGrid.news, 'clicked-filter-button':styleGrid.news}">News<div (click)="newsClickClose($event)" [ngClass]="{'closeNone':!styleGrid.news, 'close':styleGrid.news}"></div></li></a>
+        <a href="#/news"><li (click)="eventsClick()" [ngClass]="{'ul-eco-buttons-li':!styleGrid.events, 'clicked-filter-button':styleGrid.events}">Events<div (click)="eventsClickClose($event)" [ngClass]="{'closeNone':!styleGrid.events, 'close':styleGrid.events}"></div></li></a>
+        <a href="#/news"><li (click)="coursesClick()" [ngClass]="{'ul-eco-buttons-li':!styleGrid.courses, 'clicked-filter-button':styleGrid.courses}">Courses<div (click)="coursesClickClose($event)" [ngClass]="{'closeNone':!styleGrid.courses, 'close':styleGrid.courses}"></div></li></a>
+        <a href="#/news"><li (click)="initiativesClick()" [ngClass]="{'ul-eco-buttons-li':!styleGrid.initiatives, 'clicked-filter-button':styleGrid.initiatives}">Initiatives<div (click)="initiativesClickClose($event)" [ngClass]="{'closeNone':!styleGrid.initiatives, 'close':styleGrid.initiatives}"></div></li></a>
+        <a href="#/news"><li (click)="adsClick()" [ngClass]="{'ul-eco-buttons-li':!styleGrid.ads, 'clicked-filter-button':styleGrid.ads}">Ads<div (click)="adsClickClose($event)" [ngClass]="{'closeNone':!styleGrid.ads, 'close':styleGrid.ads}"></div></li></a>
     </ul>
 </div>
