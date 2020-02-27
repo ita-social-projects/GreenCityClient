@@ -1,6 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { EcoNewsService } from 'src/app/service/eco-news/eco-news.service';
-
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-news-list',
@@ -8,30 +6,13 @@ import { EcoNewsService } from 'src/app/service/eco-news/eco-news.service';
   styleUrls: ['./news-list.component.css']
 })
 export class NewsListComponent implements OnInit {
-  @Input() num: number;
-  @Output() quantity = new EventEmitter<number>();
-  @Output() current = new EventEmitter<number>();
-  public allEcoNews=[];
-  n = 15;
-  elements = [];
+  view: boolean;
+  constructor() {}
 
-  constructor(private _ecoNewsService:EcoNewsService) { }
+  ngOnInit() {}
 
-  ngOnInit() {
-    this._ecoNewsService.getAllEcoNews()
-    .subscribe(data=>this.allEcoNews=data);
-  }
-
-  ngOnChanges() {
-    this.add();
-    this.quantity.emit(this.n);
-    this.current.emit(this.elements.length);
-  }
-
-  add() {
-    for (let i = 0; i < 5; i++) {
-      this.elements.push(1);
-
-    }
+  chageView(event: boolean) {
+    this.view = event;
+    console.log(this.view);
   }
 }
