@@ -1,6 +1,6 @@
 <div class="wrapper">
-  <a
-    ><div class="gallery-view">
+  <a (click)="changeGalleryView()"
+    ><div class="gallery-view" active>
       <div class="top-squares">
         <div class="one-square"></div>
         <div class="one-square"></div>
@@ -12,7 +12,7 @@
       </div>
     </div>
   </a>
-  <a>
+  <a (click)="changeListView()">
     <div class="list-view">
       <div class="one-line"></div>
       <div class="one-line"></div>

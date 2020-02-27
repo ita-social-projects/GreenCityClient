@@ -12,6 +12,4 @@ export class EcoNewsComponent implements OnInit {
   ngOnInit() {
     this.titleService.setTitle('Eco News');
   }
-
-  changeView() {}
 }
