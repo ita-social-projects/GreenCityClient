@@ -1,11 +1,28 @@
+<a (click) = "close()" class = "close-icon">&#10005;</a>
+<div class = "clearfix"></div>
 <div>
+ <!--<form #restoreForm="ngForm" (ngSubmit)="restore(userOwnSignUp)" name="inputform" class="class-form">-->
+ <form  name="inputform">		
   <label>{{'user.restore.email' | translate}} </label>
-  <input class="form-control email" name="email" [(ngModel)]="email"
-         minlength="1" email="true">
-  <div style=" margin-top: 40px;text-align:center">
-    <button [matDialogClose]="true" style="width: 200px" class="btn btn-primary submit" type="submit" (click)="sentEmail()">
+  <input id="email" name="email" #emailControl="ngModel" [ngClass]="emailControl.errors&&emailControl.touched? 'red':'grey'" type="email" class="email sign-in-input" [(ngModel)]="email" minlength="1" email="true" appInputcolor [typeColor] = "'#13AA57'" [defaultColor] = "'#000'" required>
+               <div class="validation-error" id="validation-error" *ngIf="emailControl.invalid && (emailControl.dirty||emailControl.touched)">
+                    <div *ngIf="emailControl.errors.required">
+                        {{'user.auth.sign-up.email-is-required' | translate}}
+                     </div>  
+                     <div *ngIf="emailControl.errors.minlength">
+                        {{'user.auth.sign-up.email-must-be-at-least-1-characters-long' | translate}}
+                     </div>
+                     <div *ngIf="emailControl.errors.email">
+                        {{'user.auth.sign-up.this-is-not-email' | translate}}
+                     </div>
+                  </div>  
+                  <div class="validation-error" *ngIf="emailErrorMessageBackEnd!=null">
+                     {{emailErrorMessageBackEnd}}
+                  </div>  
+    
+    <button [matDialogClose]="true"  class="submit" type="submit" (click)="sentEmail()">
       {{'user.restore.submit' | translate}}
-    </button>
-  </div>
+    </button> 
+</form>
 </div>
 

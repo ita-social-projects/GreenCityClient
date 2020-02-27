@@ -14,6 +14,10 @@ import {HabitStatisticService} from 'src/app/service/habit-statistic/habit-stati
 import {filter} from 'rxjs/operators';
 import {LanguageService} from '../../../i18n/language.service';
 import {Language} from '../../../i18n/Language';
+import { WindowsignupComponent } from 'src/app/component/user/modal-auth/windowsignup/windowsignup.component';
+import { WindowsigninComponent } from 'src/app/component/user/modal-auth/windowsignin/windowsignin.component';
+
+
 
 @Component({
   selector: 'app-nav-bar',
@@ -83,6 +87,15 @@ export class NavBarComponent implements OnInit {
     });
   }
 
+
+  public openModalSignUp(){
+      this.dialog.open(WindowsignupComponent);
+    }
+
+  public openModalSignIn(){
+      this.dialog.open(WindowsigninComponent);
+    }
+
   openDialogProposeCafeComponent(): void {
     this.dropdownVisible = false;
     const dialogRef = this.dialog.open(ProposeCafeComponent, {
@@ -95,7 +108,7 @@ export class NavBarComponent implements OnInit {
     });
   }
 
-  private signOut() {
+  public signOut() {
     this.dropdownVisible = false;
     this.isLoggedIn = false;
     this.localStorageService.clear();
@@ -103,6 +116,7 @@ export class NavBarComponent implements OnInit {
     this.habitStatisticService.onLogout();
     this.achievementService.onLogout();
     this.router.navigateByUrl('/welcome').then(r => r);
+    console.log('signout works');
   }
 
   public changeCurrentLanguage() {

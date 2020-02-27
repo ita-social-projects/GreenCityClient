@@ -23,7 +23,7 @@
           [routerLinkActiveOptions]="{exact: true}">{{ "user.lower-nav-bar.map" | translate }}</a>
       </li>
       <li>
-        <a [routerLink]="[getUserId(),'habits']" routerLinkActive="active-link"
+        <a [routerLink]="[getUserId(),'habits']" routerLinkActive="active-link" (click) = "openModalSignIn()"
           [routerLinkActiveOptions]="{exact: true}">{{ "user.lower-nav-bar.my-habits" | translate }}</a>
       </li>
       <li>

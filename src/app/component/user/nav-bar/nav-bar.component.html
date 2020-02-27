@@ -9,9 +9,11 @@
     <ng-template #userLoggedIn>
       <div class="top-bar-text">
         <span id="text-before">{{ "top-bar.text-before" | translate }}</span>
-        <span><a routerLink="/auth/sign-up">{{ "top-bar.sign-up" | translate }}</a></span>
+      <!--  <span><a routerLink="/auth/sign-up">{{ "top-bar.sign-up" | translate }}</a></span>  -->
+       <span><a (click) = "openModalSignUp()">{{ "top-bar.sign-up" | translate }}</a></span>
         <span id="text-within">{{ "top-bar.text-within" | translate }}</span>
-        <span>{{ "top-bar.or" | translate }}<a routerLink="/auth">{{ "top-bar.sign-in" | translate }}</a></span>
+        <!--<span><a routerLink="/auth">{{ "top-bar.sign-in" | translate }}</a></span>  -->
+        <span>{{ "top-bar.or" | translate }}<a (click) = "openModalSignIn()">{{ "top-bar.sign-in" | translate }}</a></span>
         <span id="text-after">{{ "top-bar.text-after" | translate }}</span>
       </div>
     </ng-template>
@@ -46,9 +48,10 @@
           </li>
         </ul>
       </div>
+
     </ng-template>
     <div id="switcher-wrapper">
-      <img id="arrow" [src]="arrow" alt="v">
+    <img id="arrow" [src]="arrow" alt="v">
       <select [(ngModel)]="language" (change)="changeCurrentLanguage()" id="language-switcher">
         <option class="language-option" [ngValue]="'uk'">Укр</option>
         <option class="language-option" [ngValue]="'ru'">Рус</option>

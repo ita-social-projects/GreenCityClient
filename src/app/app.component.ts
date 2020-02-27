@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {LanguageService} from './i18n/language.service';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-root',
@@ -9,8 +10,8 @@ import {LanguageService} from './i18n/language.service';
 export class AppComponent implements OnInit {
   title = 'GreenCityClient';
 
-  constructor(private languageService: LanguageService) {
-  }
+  constructor(private languageService: LanguageService) { }
+
 
   ngOnInit(): void {
     this.languageService.setDefaultLanguage();
