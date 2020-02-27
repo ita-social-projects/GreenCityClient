@@ -1,11 +1,13 @@
 <div class="wrapper">
   <div></div>
-  <!-- це блок для компонента 'remaining' -->
   <app-change-view-button (view)="chageView($event)"></app-change-view-button>
 </div>
+
 <div>
-  <app-news-list-gallery-view *ngIf="view"></app-news-list-gallery-view>
-</div>
-<div>
-  <app-news-list-list-view *ngIf="!view"></app-news-list-list-view>
+  <ul id="list">
+    <li *ngFor="let e of elements">
+      <app-news-list-gallery-view *ngIf="view"></app-news-list-gallery-view>
+      <app-news-list-list-view *ngIf="!view"></app-news-list-list-view>
+    </li>
+  </ul>
 </div>
