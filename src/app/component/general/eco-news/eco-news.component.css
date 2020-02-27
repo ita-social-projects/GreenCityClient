@@ -1,20 +1,20 @@
 .container{
+    margin: 3px auto;
+}
+
+.flex-container{
     padding-top: 8px;
-    margin-top: 3px;
     display: flex;
     justify-content: space-between;
 }
 
-.container + hr {
-    margin: 5px 119px;
-}
 
 .app-create-news {
     top: -10px;
 }
 
 .list-news {
-    margin-left: 150px;;
+    margin-left: 150px;
 }
   
 #main-header{
