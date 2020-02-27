@@ -1,9 +1,9 @@
 .wrapper {
-    margin: 12.5px 0;
-    display: flex;
-    justify-content: space-between;
+  margin: 12.5px 0;
+  display: flex;
+  justify-content: space-between;
 }
 
-#list{
-    list-style: none;
+#list {
+  list-style: none;
 }
