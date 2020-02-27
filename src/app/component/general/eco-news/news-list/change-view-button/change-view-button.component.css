@@ -35,6 +35,10 @@
     background: #13AA57;
 }
 
+.list-view-active .one-line, .gallery-view-active .one-square{
+    background: #13AA57;
+}
+
 .one-line {
     width: 16px;
     height: 4px;
