@@ -1,5 +1,6 @@
 <div class="wrapper">
-    <div></div> <!-- це блок для компонента 'remaining' -->
+    <div></div>
+    <!-- це блок для компонента 'remaining' -->
     <app-change-view-button></app-change-view-button>
 </div>
 
@@ -9,4 +10,11 @@
             <app-news-list-list-view></app-news-list-list-view>
         </li>
     </ul>
+</div>
+<div>
+    <h2>Employee list</h2>
+    <ul *ngFor="let item of allEcoNews">
+        <li>{{item.name}}</li>
+    </ul>
+
 </div>

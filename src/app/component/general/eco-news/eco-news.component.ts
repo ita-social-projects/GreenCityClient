@@ -35,8 +35,7 @@ export class EcoNewsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.titleService.setTitle('Eco News');
-  }
+    this.titleService.setTitle('Eco News');}
 
   setQuantity(event) {
     this.quantity = event;
