@@ -4,7 +4,7 @@
   justify-content: space-between;
 }
 
-#list {
+.list {
   list-style: none;
   padding-left: 0;
 }
