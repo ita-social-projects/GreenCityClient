@@ -1,6 +1,6 @@
 <div class="wrapper">
-  <a (click)="changeGalleryView()"
-    ><div class="gallery-view" active>
+  <a (click)="changeGalleryView()">
+    <div class="gallery-view" [ngClass]="{'gallery-view-active':gallery}">
       <div class="top-squares">
         <div class="one-square"></div>
         <div class="one-square"></div>
@@ -13,7 +13,7 @@
     </div>
   </a>
   <a (click)="changeListView()">
-    <div class="list-view">
+    <div class="list-view" [ngClass]="{'list-view-active':!gallery}">
       <div class="one-line"></div>
       <div class="one-line"></div>
       <div class="one-line"></div>
