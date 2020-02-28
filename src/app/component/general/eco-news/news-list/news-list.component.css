@@ -7,3 +7,7 @@
 #list {
   list-style: none;
 }
+.gallery-view {
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
