@@ -5,9 +5,27 @@
 
 <div>
   <ul id="list">
-    <li *ngFor="let e of elements">
-      <app-news-list-gallery-view *ngIf="view"></app-news-list-gallery-view>
-      <app-news-list-list-view *ngIf="!view"></app-news-list-list-view>
+    <li *ngFor="let data of allEcoNews">
+      <app-news-list-gallery-view
+        *ngIf="view"
+        [id]="data.id"
+        [imagePath]="data.imagePath"
+        [tag]="data.tag"
+        [title]="data.title"
+        [name]="data.name"
+        [text]="data.text"
+        [creationDate]="data.creationDate"
+      ></app-news-list-gallery-view>
+      <app-news-list-list-view
+        *ngIf="!view"
+        [id]="data.id"
+        [imagePath]="data.imagePath"
+        [tag]="data.tag"
+        [title]="data.title"
+        [name]="data.name"
+        [text]="data.text"
+        [creationDate]="data.creationDate"
+      ></app-news-list-list-view>
     </li>
   </ul>
 </div>
