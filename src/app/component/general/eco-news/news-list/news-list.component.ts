@@ -8,7 +8,7 @@ import { EcoNewsService } from 'src/app/service/eco-news/eco-news.service';
 })
 export class NewsListComponent implements OnInit {
   view: boolean;
-
+@Input() gridOutput:Array<string>;
   @Input() num: number;
   @Output() quantity = new EventEmitter<number>();
   @Output() current = new EventEmitter<number>();

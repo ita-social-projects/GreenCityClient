@@ -7,7 +7,7 @@
   <ul class="list" [ngClass]="{ 'gallery-view-active': view }">
     <li
       [ngClass]="{ 'gallery-view-li-active': view }"
-      *ngFor="let data of allEcoNews"
+      *ngFor="let data of allEcoNews | filterEcoNews:'news' "
     >
       <app-news-list-gallery-view
         *ngIf="view"
