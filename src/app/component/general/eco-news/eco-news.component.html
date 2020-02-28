@@ -1,7 +1,13 @@
 <div>
+<<<<<<< HEAD
     <div class="container">
         <h1 id="main-header">Eco News</h1>
     </div>
+=======
+  <div class="container">
+    <h1 class="main-header">Eco News</h1>
+  </div>
+>>>>>>> 45f0384fb8a2b1f443f9def91db00615af1e9424
 </div>
 <div>
     <div class="container flex-container">
@@ -13,6 +19,7 @@
     </div>
 </div>
 <div class="container">
+<<<<<<< HEAD
     <app-news-list (quantity)="setQuantity($event)" (current)="setCurrent($event)" [num]="number"></app-news-list>
 </div>
 
@@ -22,3 +29,18 @@
         &copy; Copyright 2019. Green City.
     </div>
 </footer>
+=======
+  <app-news-list
+    (quantity)="setQuantity($event)"
+    (current)="setCurrent($event)"
+    [num]="number"
+  ></app-news-list>
+</div>
+
+<footer #footerElement>
+  <app-footer></app-footer>
+  <div class="copyright">
+    &copy; Copyright 2019. Green City.
+  </div>
+</footer>
+>>>>>>> 45f0384fb8a2b1f443f9def91db00615af1e9424
