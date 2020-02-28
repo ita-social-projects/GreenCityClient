@@ -37,6 +37,5 @@ export class NewsListComponent implements OnInit {
   }
   chageView(event: boolean) {
     this.view = event;
-    console.log(this.view);
   }
 }

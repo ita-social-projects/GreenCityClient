@@ -25,11 +25,9 @@ export class NewsListGalleryViewComponent implements OnInit {
   changeLength(title: string, text: string) {
     if (title.length > 170) {
       this.changedTitleLength = title.slice(0, 170);
-      console.log(this.changedTitleLength.length);
     }
     if (text.length > 200) {
       this.changedTextLength = text.slice(0, 200);
-      console.log(this.changedTextLength.length);
     }
   }
 }

@@ -23,11 +23,9 @@ export class NewsListListViewComponent implements OnInit {
   changeLength(title: string, text: string) {
     if (title.length > 70) {
       this.changedTitleLength = title.slice(0, 70);
-      console.log(this.changedTitleLength.length);
     }
     if (text.length > 200) {
       this.changedTextLength = text.slice(0, 200);
-      console.log(this.changedTextLength.length);
     }
   }
 }
