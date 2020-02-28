@@ -1,5 +1,3 @@
-
-
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -63,11 +61,6 @@ export class FilterNewsComponent implements OnInit {
     this.styleGrid.ads = false;
     event.stopPropagation();
   }
-    // element.classList.remove('ul-eco-buttons-li');
-    // element.className  = "clicked-filter-button";
-
-    // //element.selector = "close-animation";
-    // let x = true;
 
   constructor() { }
 
