@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-filter-news',
@@ -8,6 +8,25 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class FilterNewsComponent implements OnInit {
+
+  @Output() gridOutput = new EventEmitter<Array<string>>();
+
+  private emitter():void {
+    this.gridOutput.emit(this.emitTrueFilterValues());
+  }
+
+  private emitTrueFilterValues() :Array<string> {
+      let trueFilterValuesArray = [];
+
+      for(let i in this.styleGrid){
+        let counter = 0;
+        if (this.styleGrid[i]){
+          trueFilterValuesArray[counter] = i;
+          counter++;
+        }
+      }
+    return trueFilterValuesArray;
+  }
 
   styleGrid = {
     news: false,
@@ -19,53 +38,63 @@ export class FilterNewsComponent implements OnInit {
 
   newsClick() {
     this.styleGrid.news = true;
+    this.emitter();
   }
 
   newsClickClose(event){
     this.styleGrid.news = false;
     event.stopPropagation();
+    this.emitter();
   }
 
   eventsClick() {
     this.styleGrid.events = true;
+    this.emitter();
   }
 
   eventsClickClose(event){
     this.styleGrid.events = false;
     event.stopPropagation();
+    this.emitter();
   }
 
   coursesClick() {
     this.styleGrid.courses = true;
+    this.emitter();
   }
 
   coursesClickClose(event){
     this.styleGrid.courses = false;
     event.stopPropagation();
+    this.emitter();
   }
 
   initiativesClick() {
     this.styleGrid.initiatives = true;
+    this.emitter();
   }
 
   initiativesClickClose(event){
     this.styleGrid.initiatives = false;
     event.stopPropagation();
+    this.emitter();
   }
 
   adsClick() {
     this.styleGrid.ads = true;
+    this.emitter();
   }
 
   adsClickClose(event){
     this.styleGrid.ads = false;
     event.stopPropagation();
+    this.emitter();
   }
 
   constructor() { }
 
   ngOnInit() {
-    
+    this.emitter();
   }
 
 }
