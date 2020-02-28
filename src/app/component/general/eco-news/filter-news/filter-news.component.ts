@@ -29,7 +29,7 @@ export class FilterNewsComponent implements OnInit {
   }
 
   styleGrid = {
-    news: true,
+    news: false,
     events: false,
     courses: false,
     initiatives: false,
