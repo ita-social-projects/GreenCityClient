@@ -19,12 +19,11 @@ export class FilterNewsComponent implements OnInit {
       let trueFilterValuesArray = [];
 
       for(let i in this.styleGrid){
-        let counter = 0;
-        if (this.styleGrid[i]){
-          trueFilterValuesArray[counter] = i;
-          counter++;
+        if (this.styleGrid[i] === true){
+          trueFilterValuesArray.push(i);
         }
       }
+    alert(trueFilterValuesArray)
     return trueFilterValuesArray;
   }
 
