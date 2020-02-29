@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
 @Component({
@@ -35,15 +35,14 @@ export class EcoNewsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.titleService.setTitle('Eco News');}
+    this.titleService.setTitle('Eco News');
+  }
 
   setQuantity(event) {
     this.quantity = event;
-    console.log(this.quantity);
   }
 
   setCurrent(event) {
     this.current = event;
-    console.log(this.current);
   }
 }
