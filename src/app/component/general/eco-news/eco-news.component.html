@@ -5,7 +5,7 @@
 </div>
 <div>
     <div class="container flex-container">
-        <app-filter-news></app-filter-news>
+        <app-filter-news (gridOutput)="getFilterData($event)"></app-filter-news>
         <app-create-news></app-create-news>
     </div>
     <div class="container">
@@ -18,7 +18,7 @@
 
 <footer #footerElement>
     <app-footer></app-footer>
-    <div id="copyright">
+    <div class="copyright">
         &copy; Copyright 2019. Green City.
     </div>
 </footer>

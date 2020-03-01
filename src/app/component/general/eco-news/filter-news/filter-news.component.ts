@@ -4,7 +4,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   selector: 'app-filter-news',
   templateUrl: './filter-news.component.html',
   styleUrls: ['./filter-news.component.css']
-  
+
 })
 
 export class FilterNewsComponent implements OnInit {
@@ -19,11 +19,13 @@ export class FilterNewsComponent implements OnInit {
       let trueFilterValuesArray = [];
 
       for(let i in this.styleGrid){
-        if (this.styleGrid[i] === true){
-          trueFilterValuesArray.push(i);
+        let counter = 0;
+        if (this.styleGrid[i]){
+          trueFilterValuesArray[counter] = i;
+          counter++;
         }
       }
-    alert(trueFilterValuesArray)
+      console.log(trueFilterValuesArray);
     return trueFilterValuesArray;
   }
 
