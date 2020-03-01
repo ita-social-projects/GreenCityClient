@@ -25,6 +25,7 @@ export class FilterNewsComponent implements OnInit {
           counter++;
         }
       }
+      console.log(trueFilterValuesArray);
     return trueFilterValuesArray;
   }
 

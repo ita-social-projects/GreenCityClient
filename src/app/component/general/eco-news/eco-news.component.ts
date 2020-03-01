@@ -7,6 +7,7 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./eco-news.component.css']
 })
 export class EcoNewsComponent implements OnInit {
+public getFilterArray:Array<string>=[];
 
   @ViewChild("footerElement", { static: true }) footer: ElementRef;
   quantity;
@@ -45,5 +46,9 @@ export class EcoNewsComponent implements OnInit {
   setCurrent(event) {
     this.current = event;
     console.log(this.current);
+  }
+  
+  getFilterData(value:Array<string>):void{
+this.getFilterArray=value;
   }
 }
