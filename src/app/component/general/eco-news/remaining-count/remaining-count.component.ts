@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-remaining-count',
@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./remaining-count.component.css']
 })
 export class RemainingCountComponent implements OnInit {
-
+@Input() remainsCount: number;
   constructor() { }
 
   ngOnInit() {
