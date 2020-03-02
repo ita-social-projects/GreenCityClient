@@ -10,11 +10,13 @@ export class NewsListComponent implements OnInit {
   view: boolean;
   iterator = 12;
   toggler = false;
+  
   @Input() gridOutput: Array<string>;
   @Input() num: number;
   @Output() quantity = new EventEmitter<number>();
   @Output() current = new EventEmitter<number>();
   public allEcoNews = [];
+  private temp=-1;
   elements = [];
 
   constructor(private _ecoNewsService: EcoNewsService) { }
@@ -32,7 +34,8 @@ export class NewsListComponent implements OnInit {
   }
 
   ngOnChanges() {
-    if (this.toggler) {
+    if (this.toggler && this.temp<this.num) {
+      this.temp = this.num;
       this.addElements();
     }
     this.current.emit(this.elements.length);
