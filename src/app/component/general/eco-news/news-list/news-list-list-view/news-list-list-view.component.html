@@ -13,12 +13,12 @@
     </div>
     <div class="title-list">
       <p>
-        {{ changedTitleLength }}
+        {{ title | slice: 0:70 }}
       </p>
     </div>
     <div class="list-text">
       <p>
-        {{ changedTextLength }}
+        {{ text | slice: 0:200 }}
       </p>
     </div>
     <div class="user-data-added-news">

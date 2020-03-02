@@ -14,4 +14,8 @@
 }
 .gallery-view-li-active {
   margin-right: 32px;
+  margin-bottom: 40px;
+}
+.list-view-li-active {
+  margin-bottom: 40px;
 }
