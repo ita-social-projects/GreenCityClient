@@ -7,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class RemainingCountComponent implements OnInit {
 
-  private remaining = 0;
+  @Input() private remainingCount = 0;
 
   constructor() { }
 
