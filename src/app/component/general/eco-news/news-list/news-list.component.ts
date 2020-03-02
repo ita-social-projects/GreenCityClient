@@ -18,6 +18,7 @@ export class NewsListComponent implements OnInit {
   public allEcoNews = [];
   private temp=-1;
   elements = [];
+  remaining = 0;
 
   constructor(private _ecoNewsService: EcoNewsService) { }
 
@@ -29,6 +30,7 @@ export class NewsListComponent implements OnInit {
         console.log(this.allEcoNews.length)
         this.quantity.emit(this.allEcoNews.length);
         this.elements = this.allEcoNews.splice(0, 12);
+        this.remaining =this.allEcoNews.length-this.elements.length;
         this.toggler = true;
       });
   }
@@ -39,6 +41,7 @@ export class NewsListComponent implements OnInit {
       this.addElements();
     }
     this.current.emit(this.elements.length);
+    this.remaining =this.allEcoNews.length-this.elements.length;
   }
 
   addElements() {
