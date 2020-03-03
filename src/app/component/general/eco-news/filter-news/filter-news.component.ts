@@ -23,7 +23,6 @@ export class FilterNewsComponent implements OnInit {
           trueFilterValuesArray.push(i);
         }
       }
-    alert(trueFilterValuesArray)
     return trueFilterValuesArray;
   }
 

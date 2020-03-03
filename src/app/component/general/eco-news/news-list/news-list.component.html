@@ -1,6 +1,6 @@
 <div class="wrapper">
-  <div></div>
-  <app-change-view-button (view)="chageView($event)"></app-change-view-button>
+    <app-remaining-count [remainingCount]="remaining"></app-remaining-count>
+    <app-change-view-button (view)="chageView($event)"></app-change-view-button>
 </div>
 
 <div>
@@ -10,7 +10,7 @@
         'gallery-view-li-active': view,
         'list-view-li-active': !view
       }"
-      *ngFor="let data of elements"
+      *ngFor="let data of elements|filterEcoNews:gridOutput"
     >
       <app-news-list-gallery-view
         *ngIf="view"

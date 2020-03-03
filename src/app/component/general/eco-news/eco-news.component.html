@@ -5,7 +5,7 @@
 </div>
 <div>
   <div class="container flex-container">
-    <app-filter-news></app-filter-news>
+    <app-filter-news (gridOutput)="getFilterData($event)"></app-filter-news>
     <app-create-news></app-create-news>
   </div>
   <div class="container">
@@ -13,7 +13,7 @@
   </div>
 </div>
 <div class="container">
-  <app-news-list
+  <app-news-list [gridOutput]="getFilterArray"
     (quantity)="setQuantity($event)"
     (current)="setCurrent($event)"
     [num]="number"
