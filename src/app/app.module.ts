@@ -49,6 +49,7 @@ import {
   MatTableModule,
   MatTreeModule
 } from '@angular/material';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { HabitChartComponent } from './component/user/habit/habit-trackers/habit-tracker/habit-chart/habit-chart.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
@@ -226,7 +227,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     ChangeViewButtonComponent,
     FilterNewsComponent,
     RemainingCountComponent,
-    FilterEcoNewsPipe,   
+    FilterEcoNewsPipe,
   ],
   imports: [
     BrowserModule,
@@ -271,6 +272,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     MatSelectModule,
     DragDropModule,
     NgbModule,
+    InfiniteScrollModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

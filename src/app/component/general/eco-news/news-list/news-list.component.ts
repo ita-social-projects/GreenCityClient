@@ -10,13 +10,13 @@ export class NewsListComponent implements OnInit, OnDestroy {
   view: boolean;
   iterator = 12;
   toggler = false;
-  
+
   @Input() gridOutput: Array<string>;
   @Input() num: number;
   @Output() quantity = new EventEmitter<number>();
   @Output() current = new EventEmitter<number>();
   public allEcoNews = [];
-  private temp=-1;
+  private temp = -1;
   elements = [];
   remaining = 0;
 
@@ -34,7 +34,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
         this.toggler = true;
       });
   }
-  
+
 
   ngOnChanges() {
     if (this.toggler && this.temp<this.num) {

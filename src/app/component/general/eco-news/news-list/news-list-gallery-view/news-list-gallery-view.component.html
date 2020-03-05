@@ -1,10 +1,6 @@
 <div id="list-gallery-content">
   <div class="list-image">
-    <img
-      class="list-image-content"
-      src="../../../../../../assets/img/tamplate-image-list.png"
-      alt="user added image"
-    />
+    <img class="list-image-content" src="../../../../../../assets/img/tamplate-image-list.png" alt="user added image" />
   </div>
   <div class="filter-tag">
     <p class="ul-eco-buttons">{{ tag }}</p>
@@ -21,25 +17,11 @@
   </div>
   <div class="user-data-added-news">
     <p class="user-data-text-date-share">
-      <img
-        class="icon"
-        src="../../../../../../assets/img/icon/econews/profile-icon.svg"
-        alt="user icon"
-      />{{ name }}
+      <img class="icon" [src]="profileIcon" alt="user icon" />{{ name }}
     </p>
     <p class="user-data-text-date-share">
-      <img
-        class="icon"
-        src="../../../../../../assets/img/icon/econews/calendar-icon.svg"
-        alt="calendar icon"
-      />{{ creationDate }}
+      <img class="icon" [src]="calendarIcon" alt="calendar icon" />{{ creationDate }}
     </p>
-    <a class="user-data-text-date-share"
-      ><img
-        class="icon"
-        src="../../../../../../assets/img/icon/econews/share-icon.svg"
-        alt="Share button"
-      />Share</a
-    >
+    <a class="user-data-text-date-share"><img class="icon" [src]="shareIcon" alt="Share button" />Share</a>
   </div>
 </div>
