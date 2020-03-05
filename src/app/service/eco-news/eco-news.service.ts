@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {EcoNewsModel} from'../../model/eco-news/eco-news-model';
+import {EcoNewsModel} from '../../model/eco-news/eco-news-model';
 import { Observable } from 'rxjs/Observable';
+import { mockedBackApi } from '../../links';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EcoNewsService {
-private _url:string='../../../assets/all-json/eco-news.json';
+private url = mockedBackApi;
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-  getAllEcoNews():Observable<EcoNewsModel[]>{
-    return this.http.get<EcoNewsModel[]>(this._url);
+  public getAllEcoNews(): Observable <Array<EcoNewsModel>> {
+    return this.http.get<EcoNewsModel[]>(`${this.url}/eco-news`);
   }
 }
