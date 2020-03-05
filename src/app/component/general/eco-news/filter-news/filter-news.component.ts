@@ -8,15 +8,11 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 export class FilterNewsComponent implements OnInit {
 
-  private filters = ['news', 'events', 'courses', 'initiatives', 'ads'];
-
-  styleGrid = {
-    news: true,
-    events: false,
-    courses: false,
-    initiatives: false,
-    ads: false
-  };
+  private filters = [{name: 'news', isActive: true},
+                     {name: 'events', isActive: false},
+                     {name: 'courses', isActive: false},
+                     {name: 'initiatives', isActive: false},
+                     {name: 'ads', isActive: false}];
 
   @Output() gridOutput = new EventEmitter<Array<string>>();
 
@@ -33,22 +29,23 @@ export class FilterNewsComponent implements OnInit {
   private emitTrueFilterValues(): Array<string> {
       const trueFilterValuesArray = [];
 
-      for (const i in this.styleGrid) {
-        if (this.styleGrid[i] === true) {
-          trueFilterValuesArray.push(i);
+      for (const item of this.filters) {
+        if (item.isActive) {
+          trueFilterValuesArray.push(item.name);
         }
       }
+
       return trueFilterValuesArray;
   }
 
-  private selectFilter(currentFilter: string): void {
-    this.styleGrid[currentFilter] = true;
-    this.emitter();
-  }
+  private toggleFilter(currentFilter: string, event?: Event): void {
+    for (const item of this.filters) {
+      if (item.name === currentFilter) {
+        item.isActive = !item.isActive;
+      }
+    }
 
-  private deselectFilter(unselectFilter: string, event): void {
-    this.styleGrid[unselectFilter] = false;
-    event.stopPropagation();
     this.emitter();
+    event.stopPropagation();
   }
 }
