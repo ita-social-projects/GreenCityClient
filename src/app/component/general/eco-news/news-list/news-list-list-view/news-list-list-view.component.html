@@ -4,26 +4,27 @@
   </div>
   <div class="added-data">
     <div class="filter-tag">
-      <p class="ul-eco-buttons">{{ tag }}</p>
+      <p class="ul-eco-buttons">{{ ecoNewsModel.tag }}</p>
     </div>
     <div class="title-list">
       <p>
-        {{ title | slice: 0:70 }}
+        {{ ecoNewsModel.title | slice: 0:70 }}
       </p>
     </div>
     <div class="list-text">
       <p>
-        {{ text | slice: 0:200 }}
+        {{ ecoNewsModel.text | slice: 0:200 }}
       </p>
     </div>
     <div class="user-data-added-news">
       <p class="user-data-text-date-share">
-        <img class="icon" [src]="profileIcon" alt="user icon" />{{ name }}
+        <img class="icon" [src]="profileIcons.userIcon" alt="user icon" />{{ ecoNewsModel.name }}
       </p>
       <p class="user-data-text-date-share">
-        <img class="icon" [src]="calendarIcon" alt="calendar icon" />{{ creationDate }}
+        <img class="icon" [src]="profileIcons.calendarIcon" alt="calendar icon" />{{ ecoNewsModel.creationDate }}
       </p>
-      <a class="user-data-text-date-share"><img class="icon" [src]="shareIcon" alt="Share button" />Share</a>
+      <a class="user-data-text-date-share"><img class="icon" [src]="profileIcons.shareIcon"
+          alt="Share button" />Share</a>
     </div>
   </div>
 </div>
