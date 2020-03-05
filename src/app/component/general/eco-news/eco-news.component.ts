@@ -7,47 +7,15 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./eco-news.component.css']
 })
 export class EcoNewsComponent implements OnInit {
-public getFilterArray:Array<string>=[];
+  public getFilterArray: Array<string> = [];
 
-  @ViewChild("footerElement", { static: true }) footer: ElementRef;
-  quantity;
-  current;
-  number = 1;
-  options = {
-    rootMargin: '0px',
-    threshold: 0
-  };
-
-  observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.intersectionRatio > 0) {
-        if (this.current < this.quantity) {
-          this.number++;
-        }
-      }
-    });
-  }, this.options);
-
-  constructor(private titleService: Title) {
-  }
-
-  ngAfterViewInit() {
-    this.observer.observe(this.footer.nativeElement)
-  }
+  constructor(private titleService: Title) { }
 
   ngOnInit() {
     this.titleService.setTitle('Eco News');
   }
 
-  setQuantity(event) {
-    this.quantity = event;
-  }
-
-  setCurrent(event) {
-    this.current = event;
-  }
-  
-  getFilterData(value:Array<string>):void{
-this.getFilterArray=value;
+  private getFilterData(value: Array<string>): void {
+    this.getFilterArray = value;
   }
 }

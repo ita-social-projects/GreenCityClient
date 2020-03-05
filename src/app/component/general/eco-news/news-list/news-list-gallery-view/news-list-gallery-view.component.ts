@@ -14,7 +14,12 @@ export class NewsListGalleryViewComponent implements OnInit {
   @Input() tag: string;
   @Input() creationDate: number;
 
-  constructor() {}
+  constructor() { }
 
-  ngOnInit() {}
+  readonly profileIcon = 'assets/img/icon/econews/profile-icon.png';
+  readonly calendarIcon = 'assets/img/icon/econews/calendar-icon.png';
+  readonly shareIcon = 'assets/img/icon/econews/share-icon.png';
+
+
+  ngOnInit() { }
 }
