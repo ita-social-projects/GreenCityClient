@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
 @Component({
@@ -7,19 +7,19 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./eco-news.component.css']
 })
 export class EcoNewsComponent implements OnInit {
-public getFilterArray:Array<string>=[];
+  public getFilterArray: Array<string> = [];
 
-  @ViewChild("footerElement", { static: true }) footer: ElementRef;
-  quantity;
-  current;
+  @ViewChild('footerElement', { static: true }) footer: ElementRef;
+  quantity: number;
+  current: number;
   number = 1;
   options = {
     rootMargin: '0px',
     threshold: 0
   };
 
-  observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
+  observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
       if (entry.intersectionRatio > 0) {
         if (this.current < this.quantity) {
           this.number++;
@@ -28,27 +28,25 @@ public getFilterArray:Array<string>=[];
     });
   }, this.options);
 
-  constructor(private titleService: Title) {
-  }
+  constructor(private titleService: Title) { }
 
   ngAfterViewInit() {
-    this.observer.observe(this.footer.nativeElement)
+    this.observer.observe(this.footer.nativeElement);
   }
 
   ngOnInit() {
-    this.titleService.setTitle('Eco News');}
+    this.titleService.setTitle('Eco News');
+  }
 
   setQuantity(event) {
     this.quantity = event;
-    console.log(this.quantity);
   }
 
   setCurrent(event) {
     this.current = event;
-    console.log(this.current);
   }
 
-  getFilterData(value:Array<string>):void{
-this.getFilterArray=value;
+  getFilterData(value: Array<string>): void {
+    this.getFilterArray = value;
   }
 }
