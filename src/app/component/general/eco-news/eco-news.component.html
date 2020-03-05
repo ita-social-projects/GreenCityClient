@@ -1,6 +1,6 @@
 <div>
   <div class="container">
-    <h1 id="main-header">Eco News</h1>
+    <h1 class="main-header">Eco News</h1>
   </div>
 </div>
 <div>
@@ -13,7 +13,8 @@
   </div>
 </div>
 <div class="container">
-  <app-news-list [gridOutput]="getFilterArray"
+  <app-news-list
+    [gridOutput]="getFilterArray"
     (quantity)="setQuantity($event)"
     (current)="setCurrent($event)"
     [num]="number"
