@@ -4,15 +4,15 @@
 
     <a href="#/news" *ngFor="let filter of filters; index as i">
 
-      <li (click)="selectFilter(filter)"
+      <li (click)="toggleFilter(filters[i].name)"
           [ngClass]="{
-            'ul-eco-buttons-li': !styleGrid[filter],
-            'clicked-filter-button': styleGrid[filter]
-          }">{{ filter }}
+            'ul-eco-buttons-li': !filters[i].isActive,
+            'clicked-filter-button': filters[i].isActive
+          }">{{ filters[i].name }}
 
-        <div (click)="deselectFilter(filter, $event)"
-             [ngClass]="{ closeNone: !styleGrid[filter],
-                          close: styleGrid[filter] }">
+        <div (click)="toggleFilter(filters[i].name, $event)"
+             [ngClass]="{ closeNone: !filters[i].isActive,
+                          close: filters[i].isActive }">
         </div>
       </li>
 
