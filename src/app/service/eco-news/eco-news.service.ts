@@ -13,6 +13,7 @@ private url = mockedBackApi;
   constructor(private http: HttpClient) { }
 
   public getAllEcoNews(): Observable <Array<EcoNewsModel>> {
+
     return this.http.get<EcoNewsModel[]>(`${this.url}/eco-news`);
   }
 }
