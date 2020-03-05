@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { EcoNewsModel } from 'src/app/model/eco-news/eco-news-model';
+import { ecoNewsIcons } from 'src/assets/img/icon/econews/profile-icons';
 
 @Component({
   selector: 'app-news-list-list-view',
@@ -6,14 +8,11 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./news-list-list-view.component.css']
 })
 export class NewsListListViewComponent implements OnInit {
-  @Input() id: string;
-  @Input() imagePath: string;
-  @Input() title: string;
-  @Input() text: string;
-  @Input() name: string;
-  @Input() tag: string;
-  @Input() creationDate: number;
-  constructor() {}
+  @Input() ecoNewsModel: EcoNewsModel;
+  profileIcons = ecoNewsIcons;
 
-  ngOnInit() {}
+  constructor() { }
+
+
+  ngOnInit() { }
 }
