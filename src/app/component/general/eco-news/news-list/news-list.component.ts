@@ -7,55 +7,46 @@ import { EcoNewsService } from 'src/app/service/eco-news/eco-news.service';
   styleUrls: ['./news-list.component.css']
 })
 export class NewsListComponent implements OnInit {
-  view: boolean;
-  iterator = 12;
-  toggler = false;
-  
-  @Input() gridOutput: Array<string>;
-  @Input() num: number;
-  @Output() quantity = new EventEmitter<number>();
-  @Output() current = new EventEmitter<number>();
-  public allEcoNews = [];
-  private temp=-1;
-  elements = [];
-  remaining = 0;
+  private view: boolean;
+  private iterator = 12;
+  private toggler = false;
 
-  constructor(private _ecoNewsService: EcoNewsService) { }
+  @Input() gridOutput: Array<string>;
+  private allEcoNews = [];
+  private elements = [];
+  public remaining = 0;
+
+  constructor(private ecoNewsService: EcoNewsService) { }
 
   ngOnInit() {
-    this._ecoNewsService
+    this.ecoNewsService
       .getAllEcoNews()
       .subscribe(data => {
-        this.allEcoNews = data;
-        console.log(this.allEcoNews.length)
-        this.quantity.emit(this.allEcoNews.length);
+        this.allEcoNews = [...data];
         this.elements = this.allEcoNews.splice(0, 12);
-        this.remaining =this.allEcoNews.length-this.elements.length;
+        this.remaining = data.length - this.elements.length;
         this.toggler = true;
       });
   }
 
-  ngOnChanges() {
-    if (this.toggler && this.temp<this.num) {
-      this.temp = this.num;
-      this.addElements();
+  private onScroll(): void {
+    if (this.toggler) {
+      this.addElemsToCurrentList();
     }
-    this.current.emit(this.elements.length);
-    this.remaining =this.allEcoNews.length-this.elements.length;
+    this.remaining = this.allEcoNews.length - this.elements.length;
   }
 
-  addElements() {
-    let j;
-    let k;
+  private addElemsToCurrentList(): void {
+    let tempIterator: number;
+    let loadingLength: number;
     if (this.allEcoNews.length - this.elements.length > 11) {
-      k = 11;
+      loadingLength = 11;
+    } else {
+      loadingLength = this.allEcoNews.length - this.elements.length;
     }
-    else {
-      k = this.allEcoNews.length - this.elements.length;
-    }
-    for (let i = 0; i < k; i++) {
-      j = this.iterator;
-      this.elements[j] = this.allEcoNews[j];
+    for (let i = 0; i < loadingLength; i++) {
+      tempIterator = this.iterator;
+      this.elements[tempIterator] = this.allEcoNews[tempIterator];
       this.iterator++;
     }
   }
