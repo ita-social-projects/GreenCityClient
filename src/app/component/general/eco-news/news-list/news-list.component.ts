@@ -8,19 +8,16 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./news-list.component.css']
 })
 export class NewsListComponent implements OnInit, OnDestroy {
-  view: boolean;
-  iterator = 12;
-  toggler = false;
+  private view: boolean;
+  private iterator = 12;
+  private toggler = false;
 
   @Input() gridOutput: Array<string>;
-  @Input() num: number;
-  @Output() quantity = new EventEmitter<number>();
-  @Output() current = new EventEmitter<number>();
+
   private ecoNewsSubscription: Subscription;
-  public allEcoNews = [];
-  private temp = -1;
-  elements = [];
-  remaining = 0;
+  private allEcoNews = [];
+  private elements = [];
+  public remaining = 0;
 
   constructor(private ecoNewsService: EcoNewsService) { }
 
@@ -29,39 +26,34 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
   private fetchAllEcoNews(): void {
     this.ecoNewsSubscription = this.ecoNewsService
-    .getAllEcoNews()
-    .subscribe(data => {
-      this.allEcoNews = data;
-      console.log(this.allEcoNews.length)
-      this.quantity.emit(this.allEcoNews.length);
-      this.elements = this.allEcoNews.splice(0, 12);
-      this.remaining = this.allEcoNews.length - this.elements.length;
-      this.toggler = true;
-    });
+      .getAllEcoNews()
+      .subscribe(data => {
+        this.allEcoNews = [...data];
+        this.elements = this.allEcoNews.splice(0, 12);
+        this.remaining = data.length - this.elements.length;
+        this.toggler = true;
+      });
   }
 
-
-  ngOnChanges() {
-    if (this.toggler && this.temp < this.num) {
-      this.temp = this.num;
-      this.addElements();
+  private onScroll(): void {
+    if (this.toggler) {
+      this.addElemsToCurrentList();
     }
-    this.current.emit(this.elements.length);
+
     this.remaining = this.allEcoNews.length - this.elements.length;
   }
 
-  addElements() {
-    let j;
-    let k;
+  private addElemsToCurrentList(): void {
+    let tempIterator: number;
+    let loadingLength: number;
     if (this.allEcoNews.length - this.elements.length > 11) {
-      k = 11;
+      loadingLength = 11;
     } else {
-      k = this.allEcoNews.length - this.elements.length;
+      loadingLength = this.allEcoNews.length - this.elements.length;
     }
-    for (let i = 0; i < k; i++) {
-      j = this.iterator;
-      this.elements[j] = this.allEcoNews[j];
-      this.iterator++;
+    for (let i = 0; i < loadingLength; i++) {
+      tempIterator = this.iterator;
+      this.elements[tempIterator] = this.allEcoNews[tempIterator];
     }
   }
   chageView(event: boolean) {
