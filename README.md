@@ -28,5 +28,5 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Running json-server
 1.npm i -g json-server  (https://www.npmjs.com/package/json-server);
-2. in first thred  use command : json-server + src\assets\all-json\eco-news.json;
+2. in first thred  use command : json-server src\assets\all-json\eco-news.json;
 3.in second thred use command: ng serve;
