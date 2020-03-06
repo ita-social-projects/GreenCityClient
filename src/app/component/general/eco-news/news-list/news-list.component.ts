@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { EcoNewsService } from 'src/app/service/eco-news/eco-news.service';
 import { Subscription } from 'rxjs';
 
