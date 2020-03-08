@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, OnDestroy } from '@angular/core';
 import { EcoNewsService } from 'src/app/service/eco-news/eco-news.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { EcoNewsService } from 'src/app/service/eco-news/eco-news.service';
   templateUrl: './news-list.component.html',
   styleUrls: ['./news-list.component.css']
 })
-export class NewsListComponent implements OnInit {
+export class NewsListComponent implements OnInit, OnDestroy {
   view: boolean;
   iterator = 12;
   toggler = false;
@@ -20,10 +20,10 @@ export class NewsListComponent implements OnInit {
   elements = [];
   remaining = 0;
 
-  constructor(private _ecoNewsService: EcoNewsService) { }
+  constructor(private ecoNewsService: EcoNewsService) { }
 
   ngOnInit() {
-    this._ecoNewsService
+    this.ecoNewsService
       .getAllEcoNews()
       .subscribe(data => {
         this.allEcoNews = data;
@@ -34,6 +34,7 @@ export class NewsListComponent implements OnInit {
         this.toggler = true;
       });
   }
+
 
   ngOnChanges() {
     if (this.toggler && this.temp<this.num) {
@@ -61,5 +62,8 @@ export class NewsListComponent implements OnInit {
   }
   chageView(event: boolean) {
     this.view = event;
+  }
+  ngOnDestroy(){
+
   }
 }
