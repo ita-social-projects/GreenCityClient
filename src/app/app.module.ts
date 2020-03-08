@@ -139,6 +139,7 @@ import { ChangeViewButtonComponent } from './component/general/eco-news/news-lis
 import { FilterNewsComponent } from './component/general/eco-news/filter-news/filter-news.component';
 import { RemainingCountComponent } from './component/general/eco-news/remaining-count/remaining-count.component';
 import { FilterEcoNewsPipe } from './pipe/filter-ecoNews-pipe/filter-eco-news.pipe';
+import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
@@ -226,9 +227,10 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     ChangeViewButtonComponent,
     FilterNewsComponent,
     RemainingCountComponent,
-    FilterEcoNewsPipe,   
+    FilterEcoNewsPipe,
   ],
   imports: [
+    InfiniteScrollModule,
     BrowserModule,
     SwiperModule,
     NgxPageScrollModule,
