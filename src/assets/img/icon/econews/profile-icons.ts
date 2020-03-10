@@ -1,4 +1,3 @@
-
 export const ecoNewsIcons = {
     newsDefaultPictureGallery: 'assets/img/icon/econews/default-image-gallery-view.png',
     newsDefaultPictureList: 'assets/img/icon/econews/default-image-list-view.png',

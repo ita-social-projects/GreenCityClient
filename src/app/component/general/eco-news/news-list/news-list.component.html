@@ -7,10 +7,10 @@
   <ul class="list" 
       [ngClass]="{ 'gallery-view-active': view }">
     <li [ngClass]="{
-        'gallery-view-li-active': view,
-        'list-view-li-active': !view
-      }" 
-      *ngFor="let data of elements|filterEcoNews:gridOutput">
+                    'gallery-view-li-active': view,
+                    'list-view-li-active': !view
+                  }" 
+        *ngFor="let data of elements|filterEcoNews:gridOutput">
       <app-news-list-gallery-view 
         *ngIf="view" 
         [ecoNewsModel]="data">

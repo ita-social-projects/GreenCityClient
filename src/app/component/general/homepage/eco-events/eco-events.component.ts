@@ -25,7 +25,7 @@ export class EcoEventsComponent implements OnInit {
     this.newsService.latestNews.pipe(catchError(() => of([]))).subscribe(
       (newsItems: NewsDto[]) => {
         newsItems.forEach(
-          el => (el.creationDate = this.convertDate(el.creationDate))
+          (element: NewsDto) => (element.creationDate = this.convertDate(element.creationDate))
         );
         this.latestNews = newsItems;
       },

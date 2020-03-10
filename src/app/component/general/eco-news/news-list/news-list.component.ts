@@ -3,7 +3,6 @@ import { EcoNewsService } from 'src/app/service/eco-news/eco-news.service';
 import { Subscription } from 'rxjs';
 import { EcoNewsModel } from '../../../../model/eco-news/eco-news-model';
 
-
 @Component({
   selector: 'app-news-list',
   templateUrl: './news-list.component.html',
