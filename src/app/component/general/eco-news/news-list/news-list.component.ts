@@ -63,7 +63,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.toggler = true;
   }
 
-  chageView(event: boolean): void {
+  private chageView(event: boolean): void {
     this.view = event;
   }
 

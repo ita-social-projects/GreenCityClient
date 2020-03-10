@@ -13,14 +13,17 @@ export class ChangeViewButtonComponent implements OnInit {
   ngOnInit() {
     this.changeGalleryViewEmit(this.gallery);
   }
-  changeGalleryView(gallery: boolean): void {
+
+  private changeGalleryView(gallery: boolean): void {
     this.gallery = true;
     this.view.emit(this.gallery);
   }
-  changeGalleryViewEmit(gallery: boolean): void {
+
+  private changeGalleryViewEmit(gallery: boolean): void {
     this.view.emit(this.gallery);
   }
-  changeListView(list: boolean): void {
+
+  private changeListView(list: boolean): void {
     this.gallery = false;
     this.view.emit(this.gallery);
   }

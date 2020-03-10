@@ -17,7 +17,7 @@ export class EcoNewsComponent implements OnInit {
     this.titleService.setTitle('Eco News');
   }
 
-  getFilterData(value: Array<string>): void {
+  private getFilterData(value: Array<string>): void {
     this.getFilterArray = value;
   }
 }
