@@ -1,5 +1,3 @@
-import { EcoNews } from './eco-news.enum';
-
 export interface EcoNewsModel {
     id: number;
     imagePath: string;

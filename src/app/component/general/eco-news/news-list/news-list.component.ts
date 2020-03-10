@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { EcoNewsService } from 'src/app/service/eco-news/eco-news.service';
 import { Subscription } from 'rxjs';
+import { EcoNewsModel } from '../../../../model/eco-news/eco-news-model';
+
 
 @Component({
   selector: 'app-news-list',
@@ -15,8 +17,8 @@ export class NewsListComponent implements OnInit, OnDestroy {
   @Input() gridOutput: Array<string>;
 
   private ecoNewsSubscription: Subscription;
-  private allEcoNews = [];
-  private elements = [];
+  private allEcoNews: EcoNewsModel[] = [];
+  private elements: EcoNewsModel[] = [];
   public remaining = 0;
 
   constructor(private ecoNewsService: EcoNewsService) { }
