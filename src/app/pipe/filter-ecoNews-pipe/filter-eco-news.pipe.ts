@@ -5,9 +5,7 @@ import { EcoNewsModel } from 'src/app/model/eco-news/eco-news-model';
   name: 'filterEcoNews'
 })
 export class FilterEcoNewsPipe implements PipeTransform {
-
   transform(ecoNewsArray: Array<EcoNewsModel>, newsFilter: Array<string>): Array<EcoNewsModel> {
-
     if (newsFilter.length) {
       const newFormatArray: Array<EcoNewsModel> = [];
       ecoNewsArray.forEach((elem: EcoNewsModel) => {
