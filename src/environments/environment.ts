@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   apiKeys: 'AIzaSyDanBliCzAuCZrsq67FeKEs3vqAilUD_is',
-  backendLink: 'https://greencity-lviv.herokuapp.com/',
+  backendLink: 'https://greencity.azurewebsites.net/',
   frontendLink: 'http://localhost:4200/GreenCityClient',
   firebaseConfig: {
     apiKey: 'AIzaSyDSVxahTHqdffRX2upKIMXCCjEBUYoHX8E',

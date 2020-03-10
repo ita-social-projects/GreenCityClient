@@ -6,6 +6,6 @@ export interface EcoNewsModel {
     title: string;
     text: string;
     name: string;
-    tag: string;
+    tag: Array<string>;
     creationDate: string;
 }

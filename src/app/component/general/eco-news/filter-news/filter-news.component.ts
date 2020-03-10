@@ -8,11 +8,11 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 export class FilterNewsComponent implements OnInit {
 
-  private filters = [{name: 'news', isActive: true},
-                     {name: 'events', isActive: false},
-                     {name: 'courses', isActive: false},
-                     {name: 'initiatives', isActive: false},
-                     {name: 'ads', isActive: false}];
+  private filters = [{ name: 'news', isActive: false },
+  { name: 'events', isActive: false },
+  { name: 'courses', isActive: false },
+  { name: 'initiatives', isActive: false },
+  { name: 'ads', isActive: false }];
 
   @Output() gridOutput = new EventEmitter<Array<string>>();
 
@@ -27,21 +27,31 @@ export class FilterNewsComponent implements OnInit {
   }
 
   private emitTrueFilterValues(): Array<string> {
-      const trueFilterValuesArray = [];
+    const trueFilterValuesArray = [];
 
-      for (const item of this.filters) {
-        if (item.isActive) {
-          trueFilterValuesArray.push(item.name);
-        }
+    for (const item of this.filters) {
+      if (item.isActive) {
+        trueFilterValuesArray.push(item.name);
       }
+    }
 
-      return trueFilterValuesArray;
+    return trueFilterValuesArray;
   }
 
-  private toggleFilter(currentFilter: string, event?: Event): void {
+  private toggleFilterOn(currentFilter: string): void {
     for (const item of this.filters) {
       if (item.name === currentFilter) {
-        item.isActive = !item.isActive;
+        item.isActive = true;
+      }
+    }
+
+    this.emitter();
+  }
+
+  private toggleFilterOff(currentFilter: string, event: Event): void {
+    for (const item of this.filters) {
+      if (item.name === currentFilter) {
+        item.isActive = false;
       }
     }
 

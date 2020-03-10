@@ -13,11 +13,7 @@
   </div>
 </div>
 <div class="container">
-  <app-news-list
-    [gridOutput]="getFilterArray"
-    (quantity)="setQuantity($event)"
-    (current)="setCurrent($event)"
-  ></app-news-list>
+  <app-news-list [gridOutput]="getFilterArray"></app-news-list>
 </div>
 
 <footer #footerElement>

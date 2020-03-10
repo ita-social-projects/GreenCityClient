@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
 })
 export class NewsListComponent implements OnInit, OnDestroy {
   private view: boolean;
-  private iterator = 12;
+  private iterator: number;
   private toggler = false;
 
   @Input() gridOutput: Array<string>;
@@ -30,12 +30,13 @@ export class NewsListComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         this.allEcoNews = [...data];
         this.elements = this.allEcoNews.splice(0, 12);
+        this.iterator = this.elements.length;
         this.remaining = data.length - this.elements.length;
         this.toggler = true;
       });
   }
 
-  private onScroll(): void {
+  public onScroll(): void {
     if (this.toggler) {
       this.addElemsToCurrentList();
     }
@@ -54,6 +55,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     for (let i = 0; i < loadingLength; i++) {
       tempIterator = this.iterator;
       this.elements[tempIterator] = this.allEcoNews[tempIterator];
+      this.iterator++;
     }
   }
   chageView(event: boolean) {
