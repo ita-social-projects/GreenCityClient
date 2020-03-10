@@ -9,12 +9,14 @@ div {
   padding: 16px;
   max-height: 238px;
 }
+
 #list-gallery-content:hover {
   background: #ffffff;
   box-shadow: 0px 4px 32px #e6ebea;
   border-radius: 4px;
   cursor: pointer;
 }
+
 .list-image-content {
   margin-bottom: 16px;
   max-width: 359px;
@@ -48,11 +50,13 @@ div {
   line-height: 28px;
   color: #313131;
 }
+
 .list-text {
   height: 96px;
   margin: 8px 0 0 0;
   font-family: 'Open Sans', sans-serif;
 }
+
 .user-data-added-news {
   margin: 8px 0 0 0;
   display: flex;
@@ -68,6 +72,7 @@ div {
   mix-blend-mode: normal;
   opacity: 0.6;
 }
+
 .icon {
   align-items: center;
   margin-right: 4px;

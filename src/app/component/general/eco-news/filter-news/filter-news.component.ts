@@ -7,22 +7,23 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 
 export class FilterNewsComponent implements OnInit {
-
-  private filters = [{ name: 'news', isActive: false },
-  { name: 'events', isActive: false },
-  { name: 'courses', isActive: false },
-  { name: 'initiatives', isActive: false },
-  { name: 'ads', isActive: false }];
+  private filters = [
+    { name: 'news', isActive: false },
+    { name: 'events', isActive: false },
+    { name: 'courses', isActive: false },
+    { name: 'initiatives', isActive: false },
+    { name: 'ads', isActive: false }
+  ];
 
   @Output() gridOutput = new EventEmitter<Array<string>>();
 
   constructor() { }
 
   ngOnInit() {
-    this.emitter();
+    this.emitActiveFilters();
   }
 
-  private emitter(): void {
+  private emitActiveFilters(): void {
     this.gridOutput.emit(this.emitTrueFilterValues());
   }
 
@@ -45,7 +46,7 @@ export class FilterNewsComponent implements OnInit {
       }
     }
 
-    this.emitter();
+    this.emitActiveFilters();
   }
 
   private toggleFilterOff(currentFilter: string, event: Event): void {
@@ -55,7 +56,7 @@ export class FilterNewsComponent implements OnInit {
       }
     }
 
-    this.emitter();
+    this.emitActiveFilters();
     event.stopPropagation();
   }
 }

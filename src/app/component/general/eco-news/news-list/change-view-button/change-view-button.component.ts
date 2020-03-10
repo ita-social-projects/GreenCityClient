@@ -7,21 +7,20 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class ChangeViewButtonComponent implements OnInit {
   @Output() view = new EventEmitter<boolean>();
-  gallery: boolean = true;
-  constructor() {}
+  gallery = true;
+  constructor() { }
 
   ngOnInit() {
     this.changeGalleryViewEmit(this.gallery);
   }
-
-  changeGalleryView(gallery: boolean) {
+  changeGalleryView(gallery: boolean): void {
     this.gallery = true;
     this.view.emit(this.gallery);
   }
-  changeGalleryViewEmit(gallery: boolean) {
+  changeGalleryViewEmit(gallery: boolean): void {
     this.view.emit(this.gallery);
   }
-  changeListView(list: boolean) {
+  changeListView(list: boolean): void {
     this.gallery = false;
     this.view.emit(this.gallery);
   }

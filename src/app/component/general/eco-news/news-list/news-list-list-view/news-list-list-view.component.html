@@ -1,6 +1,8 @@
 <div id="list-gallery-content">
   <div class="list-image">
-    <img class="list-image-content" src="../../../../../../assets/img/tamplate-image-list.png" alt="user added image" />
+    <img class="list-image-content" 
+         [src]="defaultPicture.newsDefaultPictureList" 
+         alt="user added image" />
   </div>
   <div class="added-data">
     <div class="filter-tag">
@@ -18,13 +20,23 @@
     </div>
     <div class="user-data-added-news">
       <p class="user-data-text-date-share">
-        <img class="icon" [src]="profileIcons.userIcon" alt="user icon" />{{ ecoNewsModel.name }}
+        <img class="icon" 
+          [src]="profileIcons.userIcon" 
+          alt="user icon" />
+        {{ ecoNewsModel.name }}
       </p>
       <p class="user-data-text-date-share">
-        <img class="icon" [src]="profileIcons.calendarIcon" alt="calendar icon" />{{ ecoNewsModel.creationDate }}
+        <img class="icon" 
+          [src]="profileIcons.calendarIcon" 
+          alt="calendar icon" />
+        {{ ecoNewsModel.creationDate }}
       </p>
-      <a class="user-data-text-date-share"><img class="icon" [src]="profileIcons.shareIcon"
-          alt="Share button" />Share</a>
+      <a class="user-data-text-date-share">
+        <img class="icon" 
+          [src]="profileIcons.shareIcon"
+          alt="Share button" />
+        Share
+        </a>
     </div>
   </div>
 </div>

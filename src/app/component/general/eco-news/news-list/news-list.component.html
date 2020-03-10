@@ -4,17 +4,26 @@
 </div>
 
 <div>
-  <ul class="list" [ngClass]="{ 'gallery-view-active': view }">
+  <ul class="list" 
+      [ngClass]="{ 'gallery-view-active': view }">
     <li [ngClass]="{
         'gallery-view-li-active': view,
         'list-view-li-active': !view
-      }" *ngFor="let data of elements|filterEcoNews:gridOutput">
-      <app-news-list-gallery-view *ngIf="view" [ecoNewsModel]="data">
+      }" 
+      *ngFor="let data of elements|filterEcoNews:gridOutput">
+      <app-news-list-gallery-view 
+        *ngIf="view" 
+        [ecoNewsModel]="data">
       </app-news-list-gallery-view>
-      <app-news-list-list-view *ngIf="!view" [ecoNewsModel]="data">
+      <app-news-list-list-view 
+        *ngIf="!view" 
+        [ecoNewsModel]="data">
       </app-news-list-list-view>
     </li>
   </ul>
 </div>
 
-<div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
+<div infiniteScroll [infiniteScrollDistance]="0" 
+     [infiniteScrollThrottle]="500" 
+     (scrolled)="onScroll()">
+</div>

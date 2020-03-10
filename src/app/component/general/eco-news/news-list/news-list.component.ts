@@ -24,6 +24,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.fetchAllEcoNews();
   }
+
   private fetchAllEcoNews(): void {
     this.ecoNewsSubscription = this.ecoNewsService
       .getAllEcoNews()
@@ -58,9 +59,11 @@ export class NewsListComponent implements OnInit, OnDestroy {
       this.iterator++;
     }
   }
-  chageView(event: boolean) {
+
+  chageView(event: boolean): void {
     this.view = event;
   }
+
   ngOnDestroy() {
     this.ecoNewsSubscription.unsubscribe();
   }
