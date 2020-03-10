@@ -30,13 +30,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   private fetchAllEcoNews(): void {
     this.ecoNewsSubscription = this.ecoNewsService
       .getAllEcoNews()
-      .subscribe(data => {
-        this.allEcoNews = [...data];
-        this.elements = this.allEcoNews.splice(0, 12);
-        this.iterator = this.elements.length;
-        this.remaining = data.length - this.elements.length;
-        this.toggler = true;
-      });
+      .subscribe((data: EcoNewsModel[]) => this.setAllAndStartingElems(data));
   }
 
   public onScroll(): void {
@@ -50,16 +44,23 @@ export class NewsListComponent implements OnInit, OnDestroy {
   private addElemsToCurrentList(): void {
     let tempIterator: number;
     let loadingLength: number;
-    if (this.allEcoNews.length - this.elements.length > 11) {
-      loadingLength = 11;
-    } else {
+    this.allEcoNews.length - this.elements.length > 11 ?
+      loadingLength = 11 :
       loadingLength = this.allEcoNews.length - this.elements.length;
-    }
+
     for (let i = 0; i < loadingLength; i++) {
       tempIterator = this.iterator;
       this.elements[tempIterator] = this.allEcoNews[tempIterator];
       this.iterator++;
     }
+  }
+
+  private setAllAndStartingElems(data: EcoNewsModel[]): void {
+    this.allEcoNews = [...data];
+    this.elements = this.allEcoNews.splice(0, 12);
+    this.iterator = this.elements.length;
+    this.remaining = data.length - this.elements.length;
+    this.toggler = true;
   }
 
   chageView(event: boolean): void {
