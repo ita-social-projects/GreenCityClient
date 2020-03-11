@@ -11,7 +11,6 @@ import { EcoNewsModel } from '../../../../model/eco-news/eco-news-model';
 export class NewsListComponent implements OnInit, OnDestroy {
   private view: boolean;
   private iterator: number;
-  private toggler = false;
 
   @Input() gridOutput: Array<string>;
 
@@ -33,31 +32,28 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   public onScroll(): void {
-    if (this.toggler) {
-      this.addElemsToCurrentList();
-    }
-
+    this.addElemsToCurrentList();
     this.remaining = this.allEcoNews.length - this.elements.length;
   }
 
   private addElemsToCurrentList(): void {
-    let tempIterator: number;
     const loadingLength = this.allEcoNews.length - this.elements.length > 11 ? 11 :
       this.allEcoNews.length - this.elements.length;
 
-    for (let i = 0; i < loadingLength; i++) {
-      tempIterator = this.iterator;
-      this.elements[tempIterator] = this.allEcoNews[tempIterator];
-      this.iterator++;
-    }
+    this.allEcoNews.forEach((element, index, elements) => {
+      if (index >= this.iterator && index - this.iterator < loadingLength) {
+        this.elements[index] = elements[index];
+      }
+    });
+
+    this.iterator = this.elements.length;
   }
 
   private setAllAndStartingElems(data: EcoNewsModel[]): void {
     this.allEcoNews = [...data];
-    this.elements = this.allEcoNews.splice(0, 12);
+    this.elements = data.splice(0, 12);
     this.iterator = this.elements.length;
-    this.remaining = data.length - this.elements.length;
-    this.toggler = true;
+    this.remaining = this.allEcoNews.length - this.elements.length;
   }
 
   private chageView(event: boolean): void {
