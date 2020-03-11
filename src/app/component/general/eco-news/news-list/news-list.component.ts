@@ -29,7 +29,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   private fetchAllEcoNews(): void {
     this.ecoNewsSubscription = this.ecoNewsService
       .getAllEcoNews()
-      .subscribe((data: EcoNewsModel[]) => this.setAllAndStartingElems(data));
+      .subscribe(this.setAllAndStartingElems.bind(this));
   }
 
   public onScroll(): void {
@@ -42,10 +42,8 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
   private addElemsToCurrentList(): void {
     let tempIterator: number;
-    let loadingLength: number;
-    this.allEcoNews.length - this.elements.length > 11 ?
-      loadingLength = 11 :
-      loadingLength = this.allEcoNews.length - this.elements.length;
+    const loadingLength = this.allEcoNews.length - this.elements.length > 11 ? 11 :
+      this.allEcoNews.length - this.elements.length;
 
     for (let i = 0; i < loadingLength; i++) {
       tempIterator = this.iterator;
