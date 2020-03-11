@@ -40,9 +40,9 @@ export class NewsListComponent implements OnInit, OnDestroy {
     const loadingLength = this.allEcoNews.length - this.elements.length > 11 ? 11 :
       this.allEcoNews.length - this.elements.length;
 
-    this.allEcoNews.forEach((element, index, elements) => {
+    this.allEcoNews.forEach((element, index) => {
       if (index >= this.iterator && index - this.iterator < loadingLength) {
-        this.elements[index] = elements[index];
+        this.elements[index] = element;
       }
     });
 
