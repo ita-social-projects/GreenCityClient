@@ -15,29 +15,38 @@ export class EcoEventsComponent implements OnInit {
   readonly arrow = 'assets/img/icon/arrow.png';
   latestNews: NewsDto[] = [];
 
-  constructor(private newsService: NewsService, private languageService: LanguageService) { }
+  constructor(
+    private newsService: NewsService,
+    private languageService: LanguageService
+  ) {}
 
   ngOnInit() {
     this.newsService.loadLatestNews();
-    this.newsService.latestNews.pipe(
-      catchError(() => of([]))
-    ).subscribe(
+    this.newsService.latestNews.pipe(catchError(() => of([]))).subscribe(
       (newsItems: NewsDto[]) => {
-        newsItems.forEach(el => el.creationDate = this.convertDate(el.creationDate));
+        newsItems.forEach(
+          (element: NewsDto) => (element.creationDate = this.convertDate(element.creationDate))
+        );
         this.latestNews = newsItems;
       },
-      error => { throw error; }
+      error => {
+        throw error;
+      }
     );
   }
 
   private convertDate(date: string): string {
     const dateObj = new Date(date);
-    const localizedMonth = this.languageService.getLocalizedMonth(dateObj.getMonth());
-    return dateObj.getDate()
-      + ' '
-      + localizedMonth.charAt(0).toUpperCase()
-      + localizedMonth.slice(1, localizedMonth.length)
-      + ' '
-      + dateObj.getFullYear();
+    const localizedMonth = this.languageService.getLocalizedMonth(
+      dateObj.getMonth()
+    );
+    return (
+      dateObj.getDate() +
+      ' ' +
+      localizedMonth.charAt(0).toUpperCase() +
+      localizedMonth.slice(1, localizedMonth.length) +
+      ' ' +
+      dateObj.getFullYear()
+    );
   }
 }

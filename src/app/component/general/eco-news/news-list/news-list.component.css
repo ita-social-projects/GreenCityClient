@@ -1,0 +1,25 @@
+.wrapper {
+  margin: 12.5px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.gallery-view-active {
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
+
+.gallery-view-li-active {
+  margin-right: 32px;
+  margin-bottom: 40px;
+}
+
+.list-view-li-active {
+  margin-bottom: 40px;
+}
+
