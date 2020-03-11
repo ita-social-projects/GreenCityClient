@@ -9,7 +9,7 @@ export class FilterEcoNewsPipe implements PipeTransform {
     if (newsFilter.length) {
       const newFormatArray: Array<EcoNewsModel> = [];
       ecoNewsArray.forEach((elem: EcoNewsModel) => {
-        elem.tag.forEach(element => {
+        elem.tag.forEach((element: string) => {
           if (newsFilter.includes(element)) {
             newFormatArray.push(elem);
           }

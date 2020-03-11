@@ -8,8 +8,7 @@ import { Title } from '@angular/platform-browser';
 })
 export class EcoNewsComponent implements OnInit {
   public getFilterArray: Array<string> = [];
-  public actualDate = new Date();
-  public actualYear = this.actualDate.getFullYear();
+  public actualYear = new Date().getFullYear();
 
   constructor(private titleService: Title) { }
 
