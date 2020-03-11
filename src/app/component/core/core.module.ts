@@ -50,7 +50,7 @@ import { FooterComponent } from './footer/footer.component';
           FileUploadModule,
           MatCardModule,
           NgxPageScrollModule
-        ],
+    ],
     exports: [
         NavBarComponent,
         ProposeCafeComponent,
