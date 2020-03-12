@@ -15,8 +15,7 @@ import { HomepageComponent } from './component/general/homepage/homepage/homepag
 import { AuthPageGuardService } from './service/route-guards/auth-page-guard.service';
 import { HomePageGuardService } from './service/route-guards/home-page-guard.service';
 import { AppComponent } from './app.component';
-import { EcoNewsComponent } from './component/general/eco-news/eco-news.component'
-import { NewsListGalleryViewComponent } from './component/general/eco-news/news-list/news-list-gallery-view/news-list-gallery-view.component';
+import { EcoNewsComponent } from './component/general/eco-news/eco-news.component';
 import { EcoNewsDetailComponent } from './component/general/eco-news/eco-news-detail/eco-news-detail.component';
 
 export const router: Routes = [
@@ -64,9 +63,9 @@ export const router: Routes = [
   },
   {
     path: 'news',
-    component: EcoNewsComponent,
-    children : [
-      { path: 'element/:id', component: EcoNewsDetailComponent }
-    ]
-  }
+    component: EcoNewsComponent
+  },
+  { path: 'news/:id',
+    component: EcoNewsDetailComponent
+   }
 ];
