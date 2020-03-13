@@ -17,6 +17,7 @@ import { HomePageGuardService } from './service/route-guards/home-page-guard.ser
 import { AppComponent } from './app.component';
 import { EcoNewsComponent } from './component/general/eco-news/eco-news.component';
 import { EcoNewsDetailComponent } from './component/general/eco-news/eco-news-detail/eco-news-detail.component';
+import { AboutPageComponent } from './component/about-page/about-page.component';
 
 export const router: Routes = [
   {
@@ -65,7 +66,12 @@ export const router: Routes = [
     path: 'news',
     component: EcoNewsComponent
   },
-  { path: 'news/:id',
+  {
+    path: 'news/:id',
     component: EcoNewsDetailComponent
-   }
+   },
+  {
+    path: 'about',
+    component: AboutPageComponent
+  }
 ];
