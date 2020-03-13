@@ -1,8 +1,14 @@
+<div>
+  <div class="flex-container">
+    <app-filter-news (gridOutput)="getFilterData($event)"></app-filter-news>
+    <app-create-news></app-create-news>
+  </div>
+  <hr />
+</div>
 <div class="wrapper">
   <app-remaining-count [remainingCount]="remaining"></app-remaining-count>
   <app-change-view-button (view)="chageView($event)"></app-change-view-button>
 </div>
-
 <div>
   <ul class="list" 
       [ngClass]="{ 'gallery-view-active': view }">
@@ -10,7 +16,9 @@
                     'gallery-view-li-active': view,
                     'list-view-li-active': !view
                   }" 
-        *ngFor="let data of elements|filterEcoNews:gridOutput">
+        *ngFor="let data of elements|filterEcoNews:gridOutput"
+        [routerLink]="['/news', data.id]"
+        >
       <app-news-list-gallery-view 
         *ngIf="view" 
         [ecoNewsModel]="data">

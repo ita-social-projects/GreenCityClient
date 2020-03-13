@@ -3,19 +3,9 @@
     <h1 class="main-header">Eco News</h1>
   </div>
 </div>
-<div>
-  <div class="container flex-container">
-    <app-filter-news (gridOutput)="getFilterData($event)"></app-filter-news>
-    <app-create-news></app-create-news>
-  </div>
-  <div class="container">
-    <hr />
-  </div>
-</div>
 <div class="container">
-  <app-news-list [gridOutput]="getFilterArray"></app-news-list>
+  <app-news-list></app-news-list>
 </div>
-
 <footer #footerElement>
   <app-footer></app-footer>
   <div class="copyright">
