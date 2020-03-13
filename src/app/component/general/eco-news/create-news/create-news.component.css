@@ -8,6 +8,7 @@ a {
     border: 1px solid #13AA57;
     box-sizing: border-box;
     border-radius: 3px;
+  background: var(--pink-color);
 }
 
 #create-button:hover {
