@@ -2,16 +2,6 @@
   margin: 3px auto;
 }
 
-.flex-container {
-  padding-top: 8px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.app-create-news {
-  top: -10px;
-}
-
 .list-news {
   margin-left: 150px;
 }

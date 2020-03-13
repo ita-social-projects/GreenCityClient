@@ -15,8 +15,4 @@ export class EcoNewsComponent implements OnInit {
   ngOnInit() {
     this.titleService.setTitle('Eco News');
   }
-
-  private getFilterData(value: Array<string>): void {
-    this.getFilterArray = value;
-  }
 }

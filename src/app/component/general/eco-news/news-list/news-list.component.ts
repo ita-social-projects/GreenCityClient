@@ -11,9 +11,7 @@ import { EcoNewsModel } from '../../../../model/eco-news/eco-news-model';
 export class NewsListComponent implements OnInit, OnDestroy {
   private view: boolean;
   private iterator: number;
-
-  @Input() gridOutput: Array<string>;
-
+  private gridOutput: Array<string>;
   private ecoNewsSubscription: Subscription;
   private allEcoNews: EcoNewsModel[] = [];
   private elements: EcoNewsModel[] = [];
@@ -58,6 +56,10 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
   private chageView(event: boolean): void {
     this.view = event;
+  }
+
+  private getFilterData(value: Array<string>): void {
+    this.gridOutput = value;
   }
 
   ngOnDestroy() {
