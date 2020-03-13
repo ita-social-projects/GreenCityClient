@@ -63,20 +63,21 @@
 
 .close{
     position: relative;
-    top: 4px;
+    top: 6px;
     right: -7px;
-    width: 10px;
-    height: 10px;
+     width: 6px;
+    height: 6px;
     cursor: pointer;
     text-shadow: none;
     opacity: 1;
+    background-image: url('../../../../../assets/img/icon/white-cross.png');
 }
 
 .closeNone{
     display: none;
 }
 
-.close::before,
+/* .close::before,
 .close::after {
     position: relative;
     content: " ";
@@ -84,7 +85,7 @@
     top: 0px;
     left: 4.3px;
     margin: 0px 0px 0px 0px;
-    width: 2px;
+    width: 1px;
     height: 11px;
     background:#fff;
 }
@@ -97,4 +98,4 @@
 .close::after {
     top: -11.7px;
     transform: rotate(-45deg);
-}
+} */

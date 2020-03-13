@@ -39,24 +39,14 @@ export class FilterNewsComponent implements OnInit {
     return trueFilterValuesArray;
   }
 
-  private toggleFilterOn(currentFilter: string): void {
+  private toggleFilter(currentFilter: string): void {
     for (const item of this.filters) {
       if (item.name === currentFilter) {
-        item.isActive = true;
+        item.isActive = !item.isActive;
       }
     }
 
     this.emitActiveFilters();
   }
 
-  private toggleFilterOff(currentFilter: string, event: Event): void {
-    for (const item of this.filters) {
-      if (item.name === currentFilter) {
-        item.isActive = false;
-      }
-    }
-
-    this.emitActiveFilters();
-    event.stopPropagation();
-  }
 }
