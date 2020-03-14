@@ -17,10 +17,22 @@
 }
 
 .back-button {
-    color: #494A49;
     font-size: 1rem;
     line-height: 19px;
     text-decoration-line: underline;
+}
+
+.button-link {
+    color: #494A49;
+}
+
+.button-content {
+    display: flex;
+    align-items: center;
+}
+
+.button-arrow {
+  margin-right: 4px;
 }
 
 .edit-news {
@@ -39,6 +51,15 @@
 
 .tags {
     padding: 43px 0 24px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.tags-item {
+    margin: 0 8px 0;
+    padding: 8px 16px;
+    border: 1px solid #878787;
+    border-radius: 25px;
 }
 
 .news-title {
@@ -52,8 +73,21 @@
 .news-info {
     padding: 0 292px 48px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+}
+
+.news-info-dot {
+    padding: 0 32px 0;
+}
+
+.news-image-img {
+  width: 944px;
+  height: 400px;
+}
+
+.news-text-container {
+  margin: 0 98px;
 }
 
 .news-text {
