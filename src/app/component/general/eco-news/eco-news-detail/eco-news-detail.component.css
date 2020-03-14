@@ -56,6 +56,7 @@
 }
 
 .tags-item {
+    text-transform: capitalize;
     margin: 0 8px 0;
     padding: 8px 16px;
     border: 1px solid #878787;

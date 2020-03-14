@@ -11,7 +11,12 @@ import { mockedBackApi } from '../../links';
 export class EcoNewsService {
   private url = mockedBackApi;
   constructor(private http: HttpClient) { }
-    public getAllEcoNews(): Observable <Array<EcoNewsModel>> {
+
+  public getAllEcoNews(): Observable <Array<EcoNewsModel>> {
       return this.http.get<EcoNewsModel[]>(`${this.url}/eco-news`);
+  }
+
+  public getEcoNewsById(id: number): Observable<EcoNewsModel> {
+      return this.http.get<EcoNewsModel>(`${this.url}/eco-news/${id}`);
   }
 }
