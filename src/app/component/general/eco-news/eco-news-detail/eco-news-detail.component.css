@@ -82,13 +82,21 @@
     padding: 0 32px 0;
 }
 
-.news-image-img {
-  width: 944px;
-  height: 400px;
+.news-links-images {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 37px;
+}
+
+.news-links-img {
+  margin: 9px 0;
 }
 
 .news-text-container {
   margin: 0 98px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .news-text {

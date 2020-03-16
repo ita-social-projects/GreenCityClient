@@ -26,23 +26,38 @@
     <div class="news-content">
         <div class="news-title">{{ newsItem.title }}</div>
         <div class="news-info">
-            <div class="news-info-author">by {{ newsItem.name }}</div>
-            <div class="news-info-dot">
-              <img src="../../../../assets/img/icon/econews/ellipse.svg"
-                   alt=""
-              >
-            </div>
-            <div class="news-info-date">{{ newsItem.creationDate }}</div>
+          <div class="news-info-date">{{ newsItem.creationDate }}</div>
+          <div class="news-info-dot">
+            <img src="../../../../assets/img/icon/econews/ellipse.svg"
+                 alt=""
+            >
+          </div>
+          <div class="news-info-author">by {{ newsItem.name }}</div>
         </div>
         <div class="news-image">
-          <img src="../../../../assets/img/icon/econews/default-image-gallery-view.png"
+          <img src="../../../../assets/img/icon/econews/news-default-large.png"
                alt=""
                class="news-image-img"
           >
         </div>
         <div class="news-text-container">
-            <div class="news-text">
-              {{ newsItem.text }}
-            </div>
+          <div class="news-links-images">
+            <img src="../../../../assets/img/icon/econews/twitter.svg"
+                 alt=""
+                 class="news-links-img"
+            >
+            <img src="../../../../assets/img/icon/econews/linkedin.svg"
+                 alt=""
+                 class="news-links-img"
+            >
+            <img src="../../../../assets/img/icon/econews/facebook.svg"
+                 alt=""
+                 class="news-links-img"
+            >
+          </div>
+          <div class="news-text">
+            {{ newsItem.text }}
+          </div>
+        </div>
     </div>
 </div>
