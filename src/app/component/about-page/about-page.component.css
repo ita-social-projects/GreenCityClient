@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
 .illustration-man {
   position: absolute;
   width: 766px;
@@ -5,6 +8,7 @@
   right: 0px;
   top: 125px;
   background: url('../../../assets/img/Illustration-man.png') no-repeat;
+  z-index: 3;
 }
 
 
@@ -25,23 +29,44 @@
 }
 
 .container {
+  position: absolute;
+  top: 0px;
   min-width: 100%;
   min-height: 1000px;
   height: auto;
   background: #FFFFFF url('../../../assets/img/curly-line.png') no-repeat;
-  box-shadow: 0px 18px 52px #F4F5F7;
   margin: 0px;
   padding: 0px;
 }
 
 .container-2 {
   min-width: 100%;
-  min-height: 7000px;
+  min-height: 1200px;
   height: auto;
   background: #fefefe;
   margin: 0px;
   padding: 0px;
   z-index: -1;
+}
+
+.leaf {
+  position: absolute;
+  width: 199px;
+  height: 410px;
+  right: 0px;
+  top: 150px;
+  background: url('../../../assets/img/leaf.png') no-repeat;
+  z-index: 2;
+}
+
+.vector-bg {
+  position: absolute;
+  width: 622px;
+  height: 637.19px;
+  right: 0px;
+  top: 230px;
+  background: url('../../../assets/img/Vector.png') no-repeat;
+  z-index: 0;
 }
 
 .container-2 .full-text-block {
@@ -76,7 +101,7 @@
   float: left;
   font-family: Montserrat, sans-serif;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 48px;
   line-height: 60px;
   margin-bottom: 16px;
@@ -91,4 +116,283 @@
 
 .full-text-block button {
   float: left;
+}
+
+.vector-bg-2 {
+  position: absolute;
+  left: 100px;
+  top: 1000px;
+  width: 562px;
+  height: 435px;
+  background: url('../../../assets/img/Vector1.png') no-repeat;
+  z-index: 1;
+}
+
+.cup-img {
+  position: absolute;
+  left: 250px;
+  top: 1050px;
+  width: 320px;
+  height: 336px;
+  background: url('../../../assets/img/illustration coffee.png') no-repeat;
+  z-index: 3;
+}
+
+
+.steps-main-block {
+  padding-top: 100px;
+  width: auto;
+  height: 4500px;
+  background: url('../../../assets/img/bg-form.png') no-repeat;
+  overflow: hidden;
+}
+
+.steps-main-block h2 {
+  position: absolute;
+  width: 391px;
+  height: 60px;
+  left: 150px;
+  top: 1650px;
+
+  font-family: Montserrat, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 48px;
+  line-height: 60px;
+
+  color: #313131;
+}
+
+.dashed-line {
+  position: absolute;
+  top: 1920px;
+  left: 200px;
+  background: url('../../../assets/img/dashed line.png');
+  width: 838px;
+  height: 3581px;
+}
+
+.leaves {
+  position: absolute;
+  top: 10px;
+  left: 107px;
+  background: url('../../../assets/img/leaves.png');
+  width: 641px;
+  height: 3214px;
+}
+
+
+.card-holder-odd .number-title {
+  position: relative;
+  display: block;
+  left: 600px;
+  top: 20px;
+}
+
+.card-holder-odd .card-h3 {
+  position: relative;
+  display: block;
+  left: 670px;
+  top: -13px;
+  width: 350px;
+  height: 88px;
+
+  font-family: Montserrat, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 44px;
+
+  background: #FFFFFF;
+  color: #263238;
+}
+
+.card-holder-odd .bg-image {
+  position: relative;
+  left: 50px;
+  top: -190px;
+  margin: 0;
+}
+
+.card-holder-odd .main-card-text {
+  position: relative;
+  display: block;
+  width: 470px;
+  height: 150px;
+  left: 760px;
+  top: -500px;
+  padding-top: 20px;
+
+  font-family: OpenSans, sans-serif;
+  font-size: 24px;
+  line-height: 36px;
+  background: #FFFFFF;
+}
+
+.card-holder-odd .card-a {
+  position: relative;
+  left: 1090px;
+  top: -490px;
+  min-width: 200px;
+  font-family: OpenSans, sans-serif;
+  font-size: 16px;
+  line-height: 19px;
+  display: flex;
+  align-items: center;
+  text-decoration-line: underline;
+
+  color: #056B33;
+}
+
+.card-holder-odd {
+  width: 100%;
+  height: 700px;
+  border: 3px dashed red;
+}
+
+.first-card-holder {
+  margin-top: 350px;
+}
+
+        /*styles for even cards*/
+
+
+.card-holder-even {
+  width: 100%;
+  height: 700px;
+  border: 3px dashed cyan;
+  margin-top: 120px;
+  margin-bottom: 170px;
+}
+
+.card-holder-even .number-title {
+  position: relative;
+  display: block;
+  left: 150px;
+  top: 20px;
+}
+
+.card-holder-even .card-h3 {
+  position: relative;
+  display: block;
+  left: 240px;
+  top: -13px;
+  width: 350px;
+  height: 88px;
+
+  font-family: Montserrat, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 44px;
+
+  background: #FFFFFF;
+  color: #263238;
+}
+
+.card-holder-even .bg-image {
+  position: relative;
+  left: 700px;
+  top: -100px;
+  margin: 0;
+}
+
+.card-holder-even .main-card-text {
+  position: relative;
+  display: block;
+  width: 470px;
+  height: 150px;
+  left: 240px;
+  top: -500px;
+  padding-top: 20px;
+
+  font-family: OpenSans, sans-serif;
+  font-size: 24px;
+  line-height: 36px;
+  background: #FFFFFF;
+}
+
+.card-holder-even .card-a {
+  position: relative;
+  left: 400px;
+  top: -490px;
+  min-width: 200px;
+  font-family: OpenSans, sans-serif;
+  font-size: 16px;
+  line-height: 19px;
+  display: flex;
+  align-items: center;
+  text-decoration-line: underline;
+
+  color: #056B33;
+}
+
+
+.card-a::after {
+  margin-left: 5px;
+  top: 2px;
+  content: ' ';
+  width: 10px;
+  height: 10px;
+  background: url('../../../assets/img/Vector3.svg') no-repeat;
+}
+
+.num1 {
+  background: url('../../../assets/img/1.png');
+  width: 33px;
+  height: 68px;
+}
+
+.num2 {
+  background: url('../../../assets/img/2.png');
+  width: 57px;
+  height: 69px;
+}
+
+.num3 {
+  background: url('../../../assets/img/3.png');
+  width: 57px;
+  height: 70px;
+}
+
+.num4 {
+  background: url('../../../assets/img/4.png');
+  width: 65px;
+  height: 68px;
+}
+
+.num5 {
+  background: url('../../../assets/img/5.png');
+  width: 57px;
+  height: 70px;
+}
+
+.bg1 {
+  background: url('../../../assets/img/illustration store.png') no-repeat;
+  width: 622px;
+  height: 633px;
+}
+
+.bg2 {
+  background: url('../../../assets/img/illustration earth.png') no-repeat;
+  width: 629px;
+  height: 566px;
+}
+
+.bg3 {
+  background: url('../../../assets/img/illustration money.png') no-repeat;
+  width: 692px;
+  height: 740px;
+}
+
+.bg4 {
+  background: url('../../../assets/img/illustration recycle.png') no-repeat;
+  width: 629px;
+  height: 579px;
+}
+
+.bg5 {
+  background: url('../../../assets/img/illustration people.png') no-repeat;
+  width: 621px;
+  height: 648px;
 }
