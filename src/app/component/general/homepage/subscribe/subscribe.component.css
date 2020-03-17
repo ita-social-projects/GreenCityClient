@@ -82,15 +82,9 @@
 }
 
 #form-wrapper button {
-  background-color: #13aa57;
-  border: none;
-  border-radius: 4px;
   box-shadow: 0 13px 20px 0 rgba(118, 196, 125, 0.41);
-  color: #ffffff;
-  font-family: 'Open Sans', sans-serif;
   font-size: 18px;
   font-stretch: normal;
-  font-style: normal;
   font-weight: 400;
   letter-spacing: normal;
   line-height: 1.78;

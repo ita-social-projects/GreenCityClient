@@ -44,7 +44,7 @@
                <div class="forgot-wrapper">
                   <a (click)="openDialog()" class="forgot-password">{{'user.auth.sign-in.forgot-password' | translate}}</a>
                </div>
-               <button class="submit" [disabled]="!registerForm.valid" type="submit">
+               <button class="submit primary-global-button" [disabled]="!registerForm.valid" type="submit">
                <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                {{'user.auth.sign-in.sign-in' | translate}}
                </button>

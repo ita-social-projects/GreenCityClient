@@ -35,3 +35,57 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
+.primary-global-button{
+border: none;
+background: #13aa57;
+border-radius: 3px;
+font-family: Open Sans;
+font-style: normal;
+font-weight: bold;
+font-size: 16px;
+line-height: 16px;
+align-items: center;
+text-align: center;
+color: #FFFFFF; 
+}
+.primary-global-button:hover,
+.primary-global-button:active{
+  background: #056B33;
+  outline: none;
+}
+
+.secondary-global-button{
+  border: 1px solid #13AA57;
+  box-sizing: border-box;
+  border-radius: 3px;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 16px;
+  color: #13AA57;
+  text-align: center;
+
+}
+
+.secondary-global-button:hover,
+.secondary-global-button:active{
+border: 1px solid #056B33;
+line-height: 22px;
+color: #056B33;
+}
+
+.tertiary-global-button{
+font-family: Open Sans;
+font-style: normal;
+font-weight: bold;
+font-size: 16px;
+line-height: 16px;
+color: #056B33;
+}
+.tertiary-global-button:hover,
+.tertiary-global-button:focus{
+color: #13AA57;
+line-height: 22px;
+
+}
