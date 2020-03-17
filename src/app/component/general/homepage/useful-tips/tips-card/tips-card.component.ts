@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { LanguageService } from '../../../../../i18n/language.service';
 
 @Component({
   selector: 'app-tips-card',
@@ -6,9 +7,10 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./tips-card.component.css']
 })
 export class TipsCardComponent implements OnInit {
-  @Input() tip: { imageUrl, text };
+  language: string = this.languageService.getCurrentLanguage();
+  @Input() tip: { imageUrl, textUk, textRu, textEn };
 
-  constructor() { }
+  constructor(private languageService: LanguageService) { }
 
   ngOnInit() {
   }

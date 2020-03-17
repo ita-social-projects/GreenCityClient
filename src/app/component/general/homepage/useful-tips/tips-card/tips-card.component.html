@@ -1,6 +1,8 @@
-<div class="tip-card">
+<div class="tip-card" [ngSwitch]="language">
   <div class="tip-image-wrapper">
     <img [src]="tip.imageUrl">
   </div>
-  <p>{{ tip.text }}</p>
+  <p *ngSwitchCase="'uk'">{{ tip.textUk }}</p>
+  <p *ngSwitchCase="'ru'">{{ tip.textRu }}</p>
+  <p *ngSwitchDefault>{{ tip.textEn }}</p>
 </div>
