@@ -9,11 +9,17 @@
     margin: 0 auto;
 }
 
+.top-elements,
+.button-content,
+.news-info,
+.news-links-images {
+    display: flex;
+    align-items: center;
+}
+
 .top-elements {
     margin-top: 141px;
-    display: flex;
     justify-content: space-between;
-    align-items: center;
 }
 
 .back-button {
@@ -24,11 +30,6 @@
 
 .button-link {
     color: #494A49;
-}
-
-.button-content {
-    display: flex;
-    align-items: center;
 }
 
 .button-arrow {
@@ -73,9 +74,7 @@
 
 .news-info {
     padding: 0 292px 48px;
-    display: flex;
     justify-content: center;
-    align-items: center;
 }
 
 .news-info-dot {
@@ -83,9 +82,7 @@
 }
 
 .news-links-images {
-  display: flex;
   flex-direction: column;
-  align-items: center;
   margin-top: 37px;
 }
 
