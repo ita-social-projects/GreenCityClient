@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateNewsComponent implements OnInit {
 
+  link: string = 'https://cdn3.iconfinder.com/data/icons/popular-services-brands/512/angular-js-256.png';
+
   constructor() { }
 
   ngOnInit() {
