@@ -434,5 +434,27 @@
     "previous": "Previous",
     "next": "Next",
     "last": "Last"
+  },
+  "metas": {
+    "welcome": {
+      "description": "GreenCity - a platform to develop and maintain sustainable habits for eco-friendly living. The application is available in web and mobile versions.",
+      "keywords": "best task planner, event planner, project planner, task scheduler, the best task planner, eco planner, task tracker, to do planner, eco tips, useful habits, sustainable eco habits, daily eco habits, habits for every day, eco products, live green",
+      "title": "GreenCity | Home"
+    },
+    "map": {
+      "description": "city establishments map",
+      "keywords": "Find information about local establishments, view maps, and get directions on Google Maps.",
+      "title": "GreenCity | Map"
+    },
+    "about": {
+      "description": "The mission of the GreenCity app. The purpose of the project.",
+      "keywords": "eco products, eco lifestyle, eco habits",
+      "title": "GreenCity | About us"
+    },
+    "econews": {
+      "description": "Eco News. All the latest events about ecology.",
+      "keywords": "eco news, ecological events, ecology news, trainings",
+      "title": "GreenCity | Eco news"
+    }
   }
 }
