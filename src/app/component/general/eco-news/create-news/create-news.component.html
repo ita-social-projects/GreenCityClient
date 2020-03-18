@@ -19,7 +19,10 @@
             <div class="wrapper">
                 <div class="left-form-column">
                     <label>
-                        <h3>Title</h3> <input type="text" placeholder="e.x. Coffee takeaway with 20% discounte">
+                        <h3>Title</h3> 
+                        <input 
+                            type="text" 
+                            placeholder="e.x. Coffee takeaway with 20% discounte">
                         <span>Should contain maximum 200 symbols</span>
                     </label>
                     <div class="tags">
@@ -32,16 +35,23 @@
                         <button>Ads</button>
                     </div>
                     <label>
-                        <h3>Source(optional)</h3> <input type="text" placeholder="link to external source">
+                        <h3>Source(optional)</h3> 
+                        <input 
+                            type="text" 
+                            placeholder="link to external source">
                         <span>Please add the link of original article/news/post</span>
                     </label>
                 </div>
                 <div class="right-form-column">
-                    <img [src]="link" alt="">
+                    <img 
+                        [src]="link" 
+                        alt="preapred image">
                 </div>
             </div>
             <h3 class="textarea-title">Content</h3>
-            <textarea name="main-area" placeholder="E.x. Short description of news, agenda for event"></textarea>
+            <textarea 
+                name="main-area" 
+                placeholder="E.x. Short description of news, agenda for event"></textarea>
             <p class="textarea-description">Should contain minimum 200 symbols</p>
         </form>
     </div>

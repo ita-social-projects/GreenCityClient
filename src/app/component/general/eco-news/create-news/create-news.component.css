@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
 .language-choise {
     border-bottom: 1px solid #13AA57;
     height: 25px;
@@ -27,6 +29,7 @@
 
 .title h2 {
     font-size: 48px;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .info {
@@ -37,8 +40,13 @@
     max-width: 653px;
 }
 
-h3, p, span, b, h2 {
+h3, p, span, b, h2, button {
     color: #494A49;
+    font-family: 'Open Sans';
+}
+
+.left-form-column span, .textarea-description {
+    font-size: 12px;
 }
 
 h3 {
@@ -147,4 +155,33 @@ form label {
     background-color: #13AA57;
     color: #ffffff;
     font-weight: bold;
+}
+
+@media screen and (max-width: 1000px) {
+    .left-form-column input {
+        width: 400px;
+    }
+}
+
+@media screen and (max-width: 740px) {
+    form {
+        height: 900px;
+    }
+
+    .left-form-column input {
+        width: 330px;
+    }
+
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .textarea-title {
+        margin-bottom: -150px;
+    }
+
+    .textarea-description {
+        margin-top: -150px;
+    }
 }

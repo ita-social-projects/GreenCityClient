@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { preparedImageForCreateEcoNews } from '../../../../links';
 
 @Component({
   selector: 'app-create-news',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateNewsComponent implements OnInit {
 
-  link: string = 'https://cdn3.iconfinder.com/data/icons/popular-services-brands/512/angular-js-256.png';
+  link: string = preparedImageForCreateEcoNews;
 
   constructor() { }
 
