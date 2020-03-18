@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
-import {ProposeCafeComponent} from "../../user/propose-cafe/propose-cafe.component";
+import {ProposeCafeComponent} from "../../core/propose-cafe/propose-cafe.component";
 import {UserService} from "../../../service/user/user.service";
 import {MatDialog} from "@angular/material";
 import {UpdateCafeComponent} from "../update-cafe/update-cafe.component";

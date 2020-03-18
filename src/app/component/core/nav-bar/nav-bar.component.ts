@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ModalService} from '../_modal/modal.service';
 import {MatDialog} from '@angular/material';
-import {FavoritePlaceComponent} from '../favorite-place/favorite-place.component';
+import {FavoritePlaceComponent} from '../../user/favorite-place/favorite-place.component';
 import {ProposeCafeComponent} from '../propose-cafe/propose-cafe.component';
 import {FavoritePlaceService} from '../../../service/favorite-place/favorite-place.service';
-import {UserSettingComponent} from '../user-setting/user-setting.component';
+import {UserSettingComponent} from '../../user/user-setting/user-setting.component';
 import {Router} from '@angular/router';
 import {LocalStorageService} from '../../../service/localstorage/local-storage.service';
 import {JwtService} from '../../../service/jwt/jwt.service';
