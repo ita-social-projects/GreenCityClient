@@ -1,0 +1,9 @@
+.gallery-view-active {
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+
+.list {
+    list-style: none;
+    padding-left: 0;
+}

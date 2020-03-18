@@ -1,0 +1,10 @@
+<div class=container>
+    <ul class="gallery-view-active list">
+        <li *ngFor="let data of separetedNews">
+            <app-news-list-gallery-view 
+                [ecoNewsModel]="data"
+                [routerLink]="['/news', data.id]">
+            </app-news-list-gallery-view>
+        </li>
+    </ul>  
+</div>
