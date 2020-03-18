@@ -456,5 +456,47 @@
       "keywords": "eco news, ecological events, ecology news, trainings",
       "title": "GreenCity | Eco news"
     }
+  },
+  "about-us": {
+    "intro": {
+      "block-1": {
+        "header": "About Us",
+        "text": "GreenCity project addresses the challenge of significant changes in behaviours and lifestyles\nof Lviv citizens",
+        "button": "Form Habit"
+      },
+      "block-2": {
+        "header": "Our vision",
+        "text": "Is to help people get sustainable eco habits in\nan easy and fun way and gain support of the likeminded people.",
+        "button": "Form Habit"
+      }
+    },
+    "steps": {
+      "title": "It’s easier with Us",
+      "block-1": {
+        "header": "I don’t have time to look for eco stores",
+        "text": "We will help you to find eco places near to your homes and offices. And we will tell you about discounts.",
+        "button": "Find eco places"
+      },
+      "block-2": {
+        "header": "I don’t know how to do better for the environment",
+        "text": "You will get useful information from our Tips & Tricks section and get inspired with list of possible eco habits.",
+        "button": "Go to Tips & Tricks"
+      },
+      "block-3": {
+        "header": "Eco products are too expensive",
+        "text": "With us you may find like minded people, with whom you can easily share purchases (wholesale).",
+        "button": "Find people"
+      },
+      "block-4": {
+        "header": "I can do nothing to change the situation",
+        "text": "You may get inspired with stories of other people who gained eco habits and changes their lives.",
+        "button": "Get inspired"
+      },
+      "block-5": {
+        "header": "I don’t feel support from family and society",
+        "text": "With our help you may find this support in our community.",
+        "button": "Find people"
+      }
+    }
   }
 }
