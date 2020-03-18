@@ -1,26 +1,20 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { RouterModule } from '@angular/router';
-import { router } from './router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AgmCoreModule } from '@agm/core';
 import { MapComponent } from './component/user/map/map.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { SignUpComponent } from './component/user/auth/sign-up/sign-up.component';
-import { NavBarComponent } from './component/user/nav-bar/nav-bar.component';
 import { GeneralComponent } from './component/general/general.component';
 import { AuthComponent } from './component/user/auth/auth.component';
 import { SignInComponent } from './component/user/auth/sign-in/sign-in.component';
 import { SubmitEmailComponent } from './component/user/auth/submit-email/submit-email.component';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { ModalModule } from './component/user/_modal/modal.module';
 import {
   HTTP_INTERCEPTORS,
   HttpClient,
   HttpClientModule
 } from '@angular/common/http';
-import { ProposeCafeComponent } from './component/user/propose-cafe/propose-cafe.component';
+import { ProposeCafeComponent } from './component/core/propose-cafe/propose-cafe.component';
 import { AdminModule } from './component/admin/admin.module';
 import { NgFlashMessagesModule } from 'ng-flash-messages';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -36,9 +30,6 @@ import { DatePipe } from '@angular/common';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
   MatButtonModule,
-  MatCardModule,
-  MatCheckboxModule,
-  MatDialogModule,
   MatDialogRef,
   MatFormFieldModule,
   MatIconModule,
@@ -51,7 +42,6 @@ import {
 } from '@angular/material';
 
 import { HabitChartComponent } from './component/user/habit/habit-trackers/habit-tracker/habit-chart/habit-chart.component';
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { Ng5SliderModule } from 'ng5-slider';
 import { provideConfig } from './config/GoogleAuthConfig';
 import { RestoreComponent } from './component/user/restore/restore.component';
@@ -60,10 +50,8 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
-import { FileUploadModule } from 'ng2-file-upload';
 import { AddCommentComponent } from './component/user/add-comment/add-comment.component';
 import { RatingModule } from 'ngx-bootstrap';
-import { PhotoUploadComponent } from './component/user/photo-upload/photo-upload.component';
 import { UserSettingComponent } from './component/user/user-setting/user-setting.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserLogComponent } from './component/user/habit/user-log-component/user-log.component';
@@ -71,10 +59,7 @@ import { ButtonComponent } from './component/user/habit/button-component/button.
 import { HabitTrackersComponent } from './component/user/habit/habit-trackers/habit-trackers.component';
 import { HabitItemComponent } from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-item/habit-item.component';
 import { HabitTrackerComponent } from './component/user/habit/habit-trackers/habit-tracker/habit-tracker.component';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { UserHabitPageComponent } from './component/user/habit/user-habit-page/user-habit-page.component';
-import { LowerNavBarComponent } from './component/user/lower-nav-bar/lower-nav-bar.component';
 import { HabitEstimationComponent } from './component/user/habit/habit-trackers/habit-tracker/habit-estimation/habit-estimation.component';
 import { AdviceComponent } from './component/user/habit/habit-trackers/habit-tracker/advice/advice.component';
 import { GoalItemComponent } from './component/user/user-goals/goal-item/goal-item.component';
@@ -121,19 +106,18 @@ import { HomepageComponent } from './component/general/homepage/homepage/homepag
 import { StatRowComponent } from './component/general/homepage/stat-row/stat-row.component';
 import { StatRowsComponent } from './component/general/homepage/stat-rows/stat-rows.component';
 import { SubscribeComponent } from './component/general/homepage/subscribe/subscribe.component';
-import { FooterComponent } from './component/general/homepage/footer/footer.component';
 import { EcoEventsComponent } from './component/general/homepage/eco-events/eco-events.component';
 import { TipsListComponent } from './component/general/homepage/useful-tips/tips-list/tips-list.component';
 import { TipsCardComponent } from './component/general/homepage/useful-tips/tips-card/tips-card.component';
 import { SwiperModule } from 'ngx-swiper-wrapper';
 import { SWIPER_CONFIG } from 'ngx-swiper-wrapper';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
-import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { InputcolorDirective } from './directives/inputcolor.directive';
 import { EcoNewsComponent } from './component/general/eco-news/eco-news.component';
 import { CreateNewsComponent } from './component/general/eco-news/create-news/create-news.component';
 import { NewsListComponent } from './component/general/eco-news/news-list/news-list.component';
 import { NewsListListViewComponent } from './component/general/eco-news/news-list/news-list-list-view/news-list-list-view.component';
+// tslint:disable-next-line: max-line-length
 import { NewsListGalleryViewComponent } from './component/general/eco-news/news-list/news-list-gallery-view/news-list-gallery-view.component';
 import { ChangeViewButtonComponent } from './component/general/eco-news/news-list/change-view-button/change-view-button.component';
 import { FilterNewsComponent } from './component/general/eco-news/filter-news/filter-news.component';
@@ -141,7 +125,7 @@ import { RemainingCountComponent } from './component/general/eco-news/remaining-
 import { FilterEcoNewsPipe } from './pipe/filter-ecoNews-pipe/filter-eco-news.pipe';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import { EcoNewsDetailComponent } from './component/general/eco-news/eco-news-detail/eco-news-detail.component';
-import { AboutPageComponent } from './component/about-page/about-page.component';
+import { CoreModule } from './component/core/core.module';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
@@ -153,7 +137,6 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     AppComponent,
     GeneralComponent,
     SignUpComponent,
-    NavBarComponent,
     HabitFactComponent,
     HabitTitleComponent,
     HabitTrackerDateComponent,
@@ -161,27 +144,23 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     SignInComponent,
     SubmitEmailComponent,
     MapComponent,
-    ProposeCafeComponent,
     FilterComponent,
     FavoritePlaceComponent,
     EditFavoriteNameComponent,
     DeleteFavoriteComponent,
     RestoreComponent,
     RestoreFormComponent,
-    PhotoUploadComponent,
     AddCommentComponent,
     UserSettingComponent,
     HabitTrackersComponent,
     UserLogComponent,
     ButtonComponent,
     UserHabitPageComponent,
-    LowerNavBarComponent,
     GoalItemComponent,
     GoalListComponent,
     AddGoalButtonComponent,
     GoalContainerComponent,
     UserSidebarComponent,
-    LowerNavBarComponent,
     ShowFirstNPipe,
     AlphabeticalPipePipe,
     AddNewHabitModalComponent,
@@ -216,7 +195,6 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     StatRowComponent,
     StatRowsComponent,
     SubscribeComponent,
-    FooterComponent,
     EcoEventsComponent,
     TipsListComponent,
     TipsCardComponent,
@@ -231,59 +209,38 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     RemainingCountComponent,
     FilterEcoNewsPipe,
     EcoNewsDetailComponent,
-    AboutPageComponent
   ],
   imports: [
+    CoreModule,
     InfiniteScrollModule,
     BrowserModule,
     SwiperModule,
-    NgxPageScrollModule,
     BrowserAnimationsModule,
-    RouterModule.forRoot(router),
     HttpClientModule,
     SocialLoginModule,
     FormsModule,
-    FileUploadModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI',
-      libraries: ['places', 'geometry']
-    }),
     AgmDirectionModule,
     Ng2SearchPipeModule,
     AdminModule,
     NgFlashMessagesModule.forRoot(),
-    NgSelectModule,
     MatTableModule,
     MatIconModule,
-    MDBBootstrapModule,
-    ModalModule,
     ReactiveFormsModule,
     MatSliderModule,
     MatTreeModule,
     Ng5SliderModule,
     MatFormFieldModule,
-    MatDialogModule,
     MatInputModule,
     MatButtonModule,
-    MatCheckboxModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AngularFireStorageModule,
-    MatCardModule,
     RatingModule,
     MatSelectModule,
-    MatCheckboxModule,
     MatRadioModule,
     MatSelectModule,
     DragDropModule,
     NgbModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    })
   ],
   entryComponents: [
     ProposeCafeComponent,
@@ -323,12 +280,4 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   bootstrap: [AppComponent]
 })
 export class AppModule {
-}
-
-export function HttpLoaderFactory(httpClient: HttpClient) {
-  return new TranslateHttpLoader(
-    httpClient,
-    './assets/i18n/',
-    '.json'
-  );
 }
