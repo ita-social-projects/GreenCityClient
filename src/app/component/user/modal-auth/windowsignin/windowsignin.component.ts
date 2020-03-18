@@ -12,7 +12,6 @@ import { RestoreComponent } from '../../restore/restore.component';
 import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
 import { WindowsignupComponent } from 'src/app/component/user/modal-auth/windowsignup/windowsignup.component';
 
-
 @Component({
   selector: 'app-windowsignin',
   templateUrl: './windowsignin.component.html',
@@ -124,12 +123,13 @@ export class WindowsigninComponent implements OnInit {
   }
 
   openDialogForgot() {
+    this.matDialogRef.close();
     this.dialog.open(RestoreComponent);
   }
 
   redirectSignUp() {
-       this.matDialogRef.close();
-       this.dialog.open(WindowsignupComponent);    
+    this.matDialogRef.close();
+    this.dialog.open(WindowsignupComponent);    
   }
 
   public close() {

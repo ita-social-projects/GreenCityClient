@@ -210,7 +210,7 @@
       },
       "sign-up": {
         "title-up": "Вітаємо!",
-        "fill-form-up": "Будь ласка, внеси свої дані, щоб зареєструватися",
+        "fill-form-up": "Будь ласка, внеси свої дані для реєстрації",
         "first-name": "Ім'я користувача",
         "first-name-is-required": "Введіть ім'я",
         "first-name-must-be-at-least-1-characters-long": "Ім'я повинно містити принаймі 1 символ",
@@ -315,15 +315,19 @@
       "second-time-have-to-be-late-than-first-please-try-again": "Час початку повинен бути раніше часу завершення. Будь ласка виберіть інший час"
     },
     "restore": {
+      "title-restore": "Проблеми із входом?",
+      "text-restore": "Введіть ім'я користувача або електронну адресу і ми надішлемо вам посилання для відновлення доступу до облікового запису",
       "email": "Електронна пошта",
-      "submit": "Підтвердити"
+      "submit": "Відправити зсилку для входу",
+      "back-text": "Згадали пароль?",
+      "restore-back": "Назад до входу"
     },
     "restore-form": {
       "password": "Пароль",
-      "password-is-required": "Введите пароль.",
-      "password-must-be-at-least-8-characters-long": "Пароль должен содержать по крайней мере 8 символов.",
-      "confirm-password": "Подтвердить пароль",
-      "submit": "Подтвердить"
+      "password-is-required": "Введіть пароль.",
+      "password-must-be-at-least-8-characters-long": "Пароль повинен містити щонайменше 8 символів.",
+      "confirm-password": "Підтвердити пароль",
+      "submit": "Підтвердити"
     },
     "user-setting": {
       "user-settings": "Налаштування профілю",

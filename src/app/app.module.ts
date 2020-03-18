@@ -132,6 +132,7 @@ import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { InputcolorDirective } from './directives/inputcolor.directive';
 import { WindowsignupComponent } from './component/user/modal-auth/windowsignup/windowsignup.component';
 import { WindowsigninComponent } from './component/user/modal-auth/windowsignin/windowsignin.component';
+//import { WindowrestoreComponent } from './component/user/modal-auth/windowrestore/windowrestore.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
@@ -274,7 +275,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     UserSettingComponent,
     AddCommentComponent,
     WindowsignupComponent, 
-    WindowsigninComponent
+    WindowsigninComponent,
   ],
 
   providers: [

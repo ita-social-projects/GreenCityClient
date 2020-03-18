@@ -30,10 +30,4 @@ export class LowerNavBarComponent implements OnInit {
     }
     return 'not_signed_in';
   }
-
-  public openModalSignIn(){
-    if (!this.isLoggedIn) {
-    this.dialog.open(WindowsigninComponent);
-    }
-  }
 }

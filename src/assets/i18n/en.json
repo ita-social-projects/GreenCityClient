@@ -310,15 +310,19 @@
       "second-time-have-to-be-late-than-first-please-try-again": "Second time have to be late than first. Please, try again"
     },
     "restore": {
+      "title-restore": "Problems signing in?",
+      "text-restore": "Введите имя пользователя или адрес электронной почты и мы отправим вам ссылку для восстановления доступа к аккаунту",
       "email": "Email",
-      "submit": "Submit"
+      "back-text": "Remember your password?",
+      "restore-back": "Back to log in",
+      "submit": "Send a login link"
     },
     "restore-form": {
       "password": "Password",
       "password-is-required": "Password is required.",
       "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long.",
       "confirm-password": "Confirm password",
-      "submit": "Submit"
+      "submit": "Submit",
     },
     "user-setting": {
       "user-settings": "user-settings",
