@@ -10,7 +10,7 @@ import {CategoryDto} from "../../../model/category.model";
 import {PlaceWithUserModel} from "../../../model/placeWithUser.model";
 import {NgForm} from "@angular/forms";
 import {NgSelectComponent} from "@ng-select/ng-select";
-import {ModalService} from "../../user/_modal/modal.service";
+import {ModalService} from "../../core/_modal/modal.service";
 import {PlaceService} from "../../../service/place/place.service";
 import {CategoryService} from "../../../service/category.service";
 import {SpecificationService} from "../../../service/specification.service";
