@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {EcoNewsModel} from '../../model/eco-news/eco-news-model';
-import { Observable } from 'rxjs/Observable';
-import { mockedBackApi } from '../../links';
+import { EcoNewsModel } from '../../model/eco-news/eco-news-model';
+import { environment } from '../../../environments/environment';
+import { EcoNewsDto } from '../../model/eco-news/eco-news-dto';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 
@@ -11,20 +11,31 @@ import { take } from 'rxjs/operators';
 })
 
 export class EcoNewsService {
-  private url = mockedBackApi;
+  private backEnd = environment.backendLink;
+  private newsList: Array<EcoNewsModel>;
+  public newsListSubject = new Subject<Array<EcoNewsModel>>();
   public selectedId: number;
   public sortedLastThreeNews =  new Subject<Array<EcoNewsModel>>();
+
   constructor(private http: HttpClient) { }
-    public getAllEcoNews(): Observable <Array<EcoNewsModel>> {
-      return this.http.get<EcoNewsModel[]>(`${this.url}/eco-news`);
+
+  public getEcoNewsList() {
+    this.http.get<EcoNewsDto>(`${this.backEnd}econews`)
+      .pipe(take(1))
+      .subscribe(
+      (newsDto: EcoNewsDto) => {
+        this.newsList = newsDto.page;
+        this.newsListSubject.next(this.newsList);
+      }
+    );
   }
 
   public sortLastThreeNewsChronologically(): any {
-    this.http.get<EcoNewsModel[]>(`${this.url}/eco-news`)
+    this.http.get<EcoNewsDto>(`${this.backEnd}econews`)
       .pipe(take(1))
       .subscribe(
-        (newsList: Array<EcoNewsModel>) => {
-          this.onSortLastThreeNewsFinished(newsList, this.selectedId);
+        (newsList: EcoNewsDto) => {
+          this.onSortLastThreeNewsFinished(this.newsList, this.selectedId);
         }
      );
 }
