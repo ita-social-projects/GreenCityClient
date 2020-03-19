@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EcoNewsService } from '../../../../service/eco-news/eco-news.service';
 import { EcoNewsModel } from '../../../../model/eco-news/eco-news-model';
