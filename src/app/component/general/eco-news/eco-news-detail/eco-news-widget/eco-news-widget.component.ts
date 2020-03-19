@@ -1,33 +1,49 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { ecoNewsIcons } from 'src/assets/img/icon/econews/profile-icons';
 import { EcoNewsService } from 'src/app/service/eco-news/eco-news.service';
 import { EcoNewsModel } from 'src/app/model/eco-news/eco-news-model';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-eco-news-widget',
   templateUrl: './eco-news-widget.component.html',
   styleUrls: ['./eco-news-widget.component.css']
 })
-export class EcoNewsWidgetComponent implements OnInit {
-  @Input() ecoNewsModel: EcoNewsModel;
+export class EcoNewsWidgetComponent implements OnInit, OnDestroy {
+  @Output() ecoNewsModel: EcoNewsModel;
+  @Output() idNumber = new EventEmitter<string>();
   profileIcons = ecoNewsIcons;
   defaultPicture = ecoNewsIcons;
-  separetedNews: EcoNewsModel[];
+  idNumberFromUrl: number;
+  idNumberFromUrlEmit: string;
+  SortedNews: EcoNewsModel[];
+  lastThreeNewsSubscription: Subscription;
 
-  constructor(private ecoNewsService: EcoNewsService) { }
+  constructor(
+    private ecoNewsService: EcoNewsService,
+    private route: ActivatedRoute
+    ) { }
 
   ngOnInit() {
-    this.ecoNewsService
-      .getAllEcoNews()
-      .subscribe(this.setSortedElement.bind(this));
+    this.fetchSortedNews();
+    this.bindNewsToModel();
   }
-  private setSortedElement(data: EcoNewsModel[]) {
-    this.separetedNews = [...data]
-      .sort((a: any, b: any) => {
-        const dateA: any = new Date(a.creationDate);
-        const dateB: any = new Date(b.creationDate);
-        return dateB - dateA;
-      })
-      .splice(0, 3);
+
+  private fetchSortedNews(): void {
+    this.ecoNewsService.selectedId = +this.route.snapshot.paramMap.get('id');
+    this.ecoNewsService.sortLastThreeNewsChronologically();
+  }
+
+  private bindNewsToModel(): void {
+    this.lastThreeNewsSubscription = this.ecoNewsService.sortedLastThreeNews.subscribe(
+      (lastThreeNews: Array<EcoNewsModel>) => {
+        this.SortedNews = lastThreeNews;
+      }
+    );
+  }
+
+  ngOnDestroy() {
+    this.lastThreeNewsSubscription.unsubscribe();
   }
 }

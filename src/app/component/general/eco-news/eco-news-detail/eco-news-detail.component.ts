@@ -1,5 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { EcoNewsModel } from 'src/app/model/eco-news/eco-news-model';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-eco-news-detail',
@@ -7,10 +6,9 @@ import { EcoNewsModel } from 'src/app/model/eco-news/eco-news-model';
   styleUrls: ['./eco-news-detail.component.css']
 })
 export class EcoNewsDetailComponent implements OnInit {
-  @Input() ecoNewsModel: EcoNewsModel;
-  ecoNewsId: number;
+  idNumberFromEmit: string;
+
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 }
