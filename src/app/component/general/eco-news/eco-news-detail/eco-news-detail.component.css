@@ -31,7 +31,7 @@
 }
 
 .button-arrow {
-  margin-right: 6px;
+    margin-right: 6px;
 }
 
 .edit-news {
@@ -82,18 +82,18 @@
 }
 
 .news-links-images {
-  flex-direction: column;
-  margin-top: 37px;
+    flex-direction: column;
+    margin-top: 37px;
 }
 
 .news-links-img {
-  margin: 9px 0;
+    margin: 9px 0;
 }
 
 .news-text-container {
-  margin: 0 98px;
-  display: flex;
-  justify-content: space-between;
+    margin: 0 98px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .news-text {
