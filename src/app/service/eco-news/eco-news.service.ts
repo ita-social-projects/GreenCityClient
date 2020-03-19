@@ -29,6 +29,6 @@ export class EcoNewsService {
   }
 
   public getEcoNewsById(id: number): Observable<EcoNewsModel> {
-      return this.http.get<EcoNewsModel>(`${this.backEnd}eco-news/${id}`);
+    return this.http.get<EcoNewsModel>(`${this.backEnd}econews/${id}`);
   }
 }

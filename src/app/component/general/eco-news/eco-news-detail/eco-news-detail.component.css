@@ -44,7 +44,8 @@
     border-radius: 3px;
 }
 
-.tags, .news-content {
+.tags,
+.news-content {
     text-align: center;
 }
 
