@@ -1,7 +1,11 @@
 <div>
   <div class="flex-container">
     <app-filter-news (gridOutput)="getFilterData($event)"></app-filter-news>
-    <app-create-news></app-create-news>
+    <a [routerLink]="'/create-news'">
+      <div id="create-button">
+          <span id="create-button-text">Create news</span>
+      </div>
+    </a>
   </div>
   <hr />
 </div>
