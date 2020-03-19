@@ -35,7 +35,7 @@ export class EcoNewsService {
       .pipe(take(1))
       .subscribe(
         (newsList: EcoNewsDto) => {
-          this.onSortLastThreeNewsFinished(this.newsList, this.selectedId);
+          this.onSortLastThreeNewsFinished(newsList.page, this.selectedId);
         }
      );
 }

@@ -1,6 +1,7 @@
 <div class=container>
     <ul class="gallery-view-active list">
-        <li *ngFor="let data of SortedNews">
+        <li class="gallery-view-li-active"
+            *ngFor="let data of SortedNews">
             <app-news-list-gallery-view 
                 [ecoNewsModel]="data"
                 [routerLink]="['/news', data.id]">

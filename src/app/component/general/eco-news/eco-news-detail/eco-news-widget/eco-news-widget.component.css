@@ -3,6 +3,10 @@
     grid-template-columns: auto auto auto;
 }
 
+.gallery-view-li-active {
+    margin: 0 32px 40px 0;
+}
+
 .list {
     list-style: none;
     padding-left: 0;
