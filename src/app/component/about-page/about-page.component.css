@@ -11,7 +11,6 @@
   z-index: 3;
 }
 
-
 .copyright {
   background-color: rgba(131, 156, 148, 0.05);
   color: #839c94;
@@ -75,11 +74,9 @@
   height: 300px;
   left: 738px;
   top: 1145px;
-
   font-family: OpenSans, sans-serif;
   font-size: 24px;
   line-height: 36px;
-
   color: #263238;
 }
 
@@ -89,11 +86,9 @@
   height: 333px;
   left: 100px;
   top: 300px;
-
   font-family: OpenSans, sans-serif;
   font-size: 24px;
   line-height: 36px;
-
   color: #263238;
 }
 
@@ -138,7 +133,6 @@
   z-index: 3;
 }
 
-
 .steps-main-block {
   padding-top: 100px;
   width: auto;
@@ -153,13 +147,11 @@
   height: 60px;
   left: 150px;
   top: 1650px;
-
   font-family: Montserrat, sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 48px;
   line-height: 60px;
-
   color: #313131;
 }
 
@@ -181,6 +173,7 @@
   height: 3214px;
 }
 
+          /*styles for odd cards*/
 
 .card-holder-odd .number-title {
   position: relative;
@@ -196,13 +189,11 @@
   top: -13px;
   width: 350px;
   height: 88px;
-
   font-family: Montserrat, sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 32px;
   line-height: 44px;
-
   background: #FFFFFF;
   color: #263238;
 }
@@ -222,7 +213,6 @@
   left: 760px;
   top: -500px;
   padding-top: 20px;
-
   font-family: OpenSans, sans-serif;
   font-size: 24px;
   line-height: 36px;
@@ -240,14 +230,12 @@
   display: flex;
   align-items: center;
   text-decoration-line: underline;
-
   color: #056B33;
 }
 
 .card-holder-odd {
   width: 100%;
   height: 700px;
-  border: 3px dashed red;
 }
 
 .first-card-holder {
@@ -256,11 +244,9 @@
 
         /*styles for even cards*/
 
-
 .card-holder-even {
   width: 100%;
   height: 700px;
-  border: 3px dashed cyan;
   margin-top: 120px;
   margin-bottom: 170px;
 }
@@ -279,13 +265,11 @@
   top: -13px;
   width: 350px;
   height: 88px;
-
   font-family: Montserrat, sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 32px;
   line-height: 44px;
-
   background: #FFFFFF;
   color: #263238;
 }
@@ -301,11 +285,10 @@
   position: relative;
   display: block;
   width: 470px;
-  height: 150px;
+  height: 200px;
   left: 240px;
   top: -500px;
   padding-top: 20px;
-
   font-family: OpenSans, sans-serif;
   font-size: 24px;
   line-height: 36px;
@@ -323,10 +306,8 @@
   display: flex;
   align-items: center;
   text-decoration-line: underline;
-
   color: #056B33;
 }
-
 
 .card-a::after {
   margin-left: 5px;
@@ -395,4 +376,35 @@
   background: url('../../../assets/img/illustration people.png') no-repeat;
   width: 621px;
   height: 648px;
+}
+
+#link-2 {
+  top: -550px;
+  z-index: 2;
+  left: 470px;
+}
+
+#link-3 {
+  top: -590px;
+}
+
+#link-4, #link-5 {
+  top: -550px;
+}
+
+#heading-3 {
+  left: 690px;
+  width: 450px;
+}
+
+#text-3 {
+  top: -600px;
+}
+
+#text-4 {
+  left: 150px;
+}
+
+#text-5 {
+  top: -570px;
 }
