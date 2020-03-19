@@ -1,22 +1,34 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {EcoNewsModel} from '../../model/eco-news/eco-news-model';
-import { Observable } from 'rxjs/Observable';
-import { mockedBackApi } from '../../links';
+import { EcoNewsModel } from '../../model/eco-news/eco-news-model';
+import { environment } from '../../../environments/environment';
+import { EcoNewsDto } from '../../model/eco-news/eco-news-dto';
+import { Observable, Subject } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class EcoNewsService {
-  private url = mockedBackApi;
+  private backEnd = environment.backendLink;
+  private newsList: Array<EcoNewsModel>;
+  public newsListSubject = new Subject<Array<EcoNewsModel>>();
+
   constructor(private http: HttpClient) { }
 
-  public getAllEcoNews(): Observable <Array<EcoNewsModel>> {
-      return this.http.get<EcoNewsModel[]>(`${this.url}/eco-news`);
+  public getEcoNewsList() {
+    this.http.get<EcoNewsDto>(`${this.backEnd}econews`)
+      .pipe(take(1))
+      .subscribe(
+      (newsDto: EcoNewsDto) => {
+        this.newsList = newsDto.page;
+        this.newsListSubject.next(this.newsList);
+      }
+    );
   }
 
   public getEcoNewsById(id: number): Observable<EcoNewsModel> {
-      return this.http.get<EcoNewsModel>(`${this.url}/eco-news/${id}`);
+      return this.http.get<EcoNewsModel>(`${this.backEnd}/eco-news/${id}`);
   }
 }
