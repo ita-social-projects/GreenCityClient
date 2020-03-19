@@ -20,12 +20,13 @@ export class NewsListComponent implements OnInit, OnDestroy {
   constructor(private ecoNewsService: EcoNewsService) { }
 
   ngOnInit() {
+    this.ecoNewsService.getEcoNewsList();
     this.fetchAllEcoNews();
   }
 
   private fetchAllEcoNews(): void {
     this.ecoNewsSubscription = this.ecoNewsService
-      .getAllEcoNews()
+      .newsListSubject
       .subscribe(this.setAllAndStartingElems.bind(this));
   }
 

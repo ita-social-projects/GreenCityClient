@@ -18,7 +18,7 @@ import { HomePageGuardService } from './service/route-guards/home-page-guard.ser
 import { AppComponent } from './app.component';
 import { EcoNewsComponent } from './component/general/eco-news/eco-news.component';
 import { EcoNewsDetailComponent } from './component/general/eco-news/eco-news-detail/eco-news-detail.component';
-import { AboutPageComponent } from './component/about-page/about-page.component';
+import { CreateNewsComponent } from './component/general/eco-news/create-news/create-news.component';
 
 export const routes: Routes = [
   {
@@ -65,15 +65,13 @@ export const routes: Routes = [
   },
   {
     path: 'news',
-    component: EcoNewsComponent
+    component: EcoNewsComponent,
   },
   {
-    path: 'news/:id',
+    path: 'create-news', component: CreateNewsComponent,
+  },
+  { path: 'news/:id',
     component: EcoNewsDetailComponent
-   },
-  {
-    path: 'about',
-    component: AboutPageComponent
   }
 ];
 
