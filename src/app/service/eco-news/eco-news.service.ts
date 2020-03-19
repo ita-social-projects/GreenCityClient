@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { EcoNewsModel } from '../../model/eco-news/eco-news-model';
 import { environment } from '../../../environments/environment';
-import {EcoNewsDto} from '../../model/eco-news/eco-news-dto';
-import {Subject} from 'rxjs';
+import { EcoNewsDto } from '../../model/eco-news/eco-news-dto';
+import { Subject } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,9 @@ export class EcoNewsService {
   constructor(private http: HttpClient) { }
 
   public getEcoNewsList() {
-    this.http.get<EcoNewsDto>(`${this.backEnd}econews`).subscribe(
+    this.http.get<EcoNewsDto>(`${this.backEnd}econews`)
+      .pipe(take(1))
+      .subscribe(
       (newsDto: EcoNewsDto) => {
         this.newsList = newsDto.page;
         this.newsListSubject.next(this.newsList);
