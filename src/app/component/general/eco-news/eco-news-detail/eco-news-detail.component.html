@@ -6,7 +6,7 @@
         <div class="button-content">
           <div class="button-arrow">
             <img src="../../../../assets/img/icon/econews/arrow_left.svg"
-                 alt=""
+                 alt="arrow"
                  class="button-arrow-img"
             >
           </div>
@@ -26,32 +26,32 @@
   <div class="news-content">
     <div class="news-title">{{ newsItem.title }}</div>
     <div class="news-info">
-      <div class="news-info-date">{{ newsItem.creationDate }}</div>
+      <div class="news-info-date">{{ newsItem.creationDate | date: 'mediumDate' }}</div>
       <div class="news-info-dot">
         <img src="../../../../assets/img/icon/econews/ellipse.svg"
-             alt=""
+             alt="dot"
         >
       </div>
       <div class="news-info-author">by {{ newsItem.name }}</div>
     </div>
     <div class="news-image">
       <img src="../../../../assets/img/icon/econews/news-default-large.png"
-           alt=""
+           alt="news-image"
            class="news-image-img"
       >
     </div>
     <div class="news-text-container">
       <div class="news-links-images">
         <img src="../../../../assets/img/icon/econews/twitter.svg"
-             alt=""
+             alt="twitter"
              class="news-links-img"
         >
         <img src="../../../../assets/img/icon/econews/linkedin.svg"
-             alt=""
+             alt="linkedin"
              class="news-links-img"
         >
         <img src="../../../../assets/img/icon/econews/facebook.svg"
-             alt=""
+             alt="facebook"
              class="news-links-img"
         >
       </div>
