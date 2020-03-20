@@ -30,7 +30,7 @@ export class EcoNewsService {
     );
   }
 
-  public sortLastThreeNewsChronologically(): any {
+  public sortLastThreeNewsChronologically(): void {
     this.http.get<EcoNewsDto>(`${this.backEnd}econews`)
       .pipe(take(1))
       .subscribe(
