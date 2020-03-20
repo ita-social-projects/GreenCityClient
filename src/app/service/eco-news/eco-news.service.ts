@@ -43,9 +43,9 @@ export class EcoNewsService {
   private onSortLastThreeNewsFinished(data: EcoNewsModel[], id: number): void {
     const separetedNews: Array<EcoNewsModel> = [...data]
       .sort((a: any, b: any) => {
-        const dateA: any = new Date(a.creationDate);
-        const dateB: any = new Date(b.creationDate);
-        return dateB - dateA;
+        const dateFirstAdded: number = +new Date(a.creationDate);
+        const dateLastAdded: number = +new Date(b.creationDate);
+        return dateLastAdded - dateFirstAdded;
       })
       .filter(news => news.id !== id)
       .splice(0, 3);
