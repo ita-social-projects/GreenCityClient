@@ -13,12 +13,11 @@ import { Subscription } from 'rxjs';
 export class EcoNewsWidgetComponent implements OnInit, OnDestroy {
   @Output() ecoNewsModel: EcoNewsModel;
   @Output() idNumber = new EventEmitter<string>();
-  profileIcons = ecoNewsIcons;
-  defaultPicture = ecoNewsIcons;
-  idNumberFromUrl: number;
-  idNumberFromUrlEmit: string;
-  SortedNews: EcoNewsModel[];
-  lastThreeNewsSubscription: Subscription;
+  private profileIcons = ecoNewsIcons;
+  private defaultPicture = ecoNewsIcons;
+  private idNumberFromUrl: number;
+  private SortedNews: EcoNewsModel[];
+  private lastThreeNewsSubscription: Subscription;
 
   constructor(
     private ecoNewsService: EcoNewsService,

@@ -6,7 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./eco-news-detail.component.css']
 })
 export class EcoNewsDetailComponent implements OnInit {
-  idNumberFromEmit: string;
 
   constructor() { }
 
