@@ -38,7 +38,7 @@ export class EcoNewsService {
           this.onSortLastThreeNewsFinished(newsList.page, this.selectedId);
         }
      );
-}
+  }
 
   private onSortLastThreeNewsFinished(data: EcoNewsModel[], id: number): void {
     const separetedNews: Array<EcoNewsModel> = [...data]

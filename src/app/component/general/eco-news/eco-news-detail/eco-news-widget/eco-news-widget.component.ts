@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './eco-news-widget.component.html',
   styleUrls: ['./eco-news-widget.component.css']
 })
+
 export class EcoNewsWidgetComponent implements OnInit, OnDestroy {
   @Output() ecoNewsModel: EcoNewsModel;
   @Output() idNumber = new EventEmitter<string>();
