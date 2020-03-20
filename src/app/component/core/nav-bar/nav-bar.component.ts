@@ -14,6 +14,7 @@ import {HabitStatisticService} from 'src/app/service/habit-statistic/habit-stati
 import {filter} from 'rxjs/operators';
 import {LanguageService} from '../../../i18n/language.service';
 import {Language} from '../../../i18n/Language';
+import { WindowsigninComponent } from 'src/app/component/user/modal-auth/windowsignin/windowsignin.component';
 
 @Component({
   selector: 'app-nav-bar',
@@ -82,6 +83,14 @@ export class NavBarComponent implements OnInit {
       console.log('The dialog was closed');
     });
   }
+
+  public openModalSignUp(){
+      this.dialog.open(WindowsignupComponent);
+    }
+
+  public openModalSignIn(){
+      this.dialog.open(WindowsigninComponent);
+    }
 
   openDialogProposeCafeComponent(): void {
     this.dropdownVisible = false;
