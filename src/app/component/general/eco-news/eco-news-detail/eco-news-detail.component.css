@@ -78,6 +78,11 @@
     justify-content: center;
 }
 
+.news-info-date,
+.news-info-author {
+    color: #494A49;
+}
+
 .news-info-dot {
     padding: 0 32px 0;
 }
@@ -98,6 +103,7 @@
 }
 
 .news-text {
+    color: #000000;
     padding: 48px 97px 0;
     text-align: left;
 }
