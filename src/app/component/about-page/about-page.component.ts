@@ -8,7 +8,6 @@ import { Title } from '@angular/platform-browser';
 })
 
 export class AboutPageComponent implements OnInit {
-
   public actualYear = new Date().getFullYear();
 
   constructor(private titleService: Title) { }
@@ -17,5 +16,3 @@ export class AboutPageComponent implements OnInit {
     this.titleService.setTitle('About');
   }
 }
-
-
