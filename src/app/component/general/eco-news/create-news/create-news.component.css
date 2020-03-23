@@ -6,11 +6,11 @@ a {
 #create-button{
     width: 185px;
     min-height: 40px;
-    padding: 8px 40px;   
+    padding: 8px 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-   
+
 }
 #create-button span{
 display: block;

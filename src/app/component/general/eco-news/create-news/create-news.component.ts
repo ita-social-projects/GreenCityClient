@@ -1,4 +1,5 @@
-import {Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { preparedImageForCreateEcoNews } from '../../../../links';
 
 @Component({
   selector: 'app-create-news',
@@ -6,6 +7,8 @@ import {Component, OnInit } from '@angular/core';
   styleUrls: ['./create-news.component.css']
 })
 export class CreateNewsComponent implements OnInit {
+
+  link: string = preparedImageForCreateEcoNews;
 
   constructor() { }
 

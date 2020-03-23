@@ -1,3 +1,4 @@
+import { NgModule } from '@angular/core';
 import { SignUpComponent } from './component/user/auth/sign-up/sign-up.component';
 import { AuthComponent } from './component/user/auth/auth.component';
 import { SignInComponent } from './component/user/auth/sign-in/sign-in.component';
@@ -10,15 +11,16 @@ import { FilterComponent } from './component/filter/filter.component';
 import { RestoreFormComponent } from './component/user/restore-form/restore-form.component';
 import { FeedbacksComponent } from './component/admin/feedbacks/feedbacks.component';
 import { UserHabitPageComponent } from './component/user/habit/user-habit-page/user-habit-page.component';
-import { Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { HomepageComponent } from './component/general/homepage/homepage/homepage.component';
 import { AuthPageGuardService } from './service/route-guards/auth-page-guard.service';
 import { HomePageGuardService } from './service/route-guards/home-page-guard.service';
 import { AppComponent } from './app.component';
 import { EcoNewsComponent } from './component/general/eco-news/eco-news.component';
 import { EcoNewsDetailComponent } from './component/general/eco-news/eco-news-detail/eco-news-detail.component';
+import { CreateNewsComponent } from './component/general/eco-news/create-news/create-news.component';
 
-export const router: Routes = [
+export const routes: Routes = [
   {
     path: '',
     component: AppComponent,
@@ -63,9 +65,23 @@ export const router: Routes = [
   },
   {
     path: 'news',
-    component: EcoNewsComponent
+    component: EcoNewsComponent,
+  },
+  {
+    path: 'create-news', component: CreateNewsComponent,
   },
   { path: 'news/:id',
     component: EcoNewsDetailComponent
-   }
+  }
 ];
+
+@NgModule({
+    imports: [
+        RouterModule.forRoot(routes)
+    ],
+    exports: [
+        RouterModule
+    ]
+})
+
+export class AppRoutingModule {}

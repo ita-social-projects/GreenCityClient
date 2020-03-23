@@ -1,5 +1,68 @@
-<a href="#">
-    <div id="create-button"  class="secondary-global-button">
-        <span id="create-button-text">Create news</span>
+<div class="container">
+    <div class="title">
+        <h2>Create news</h2>
     </div>
-</a>
+    <div class="language-choise">
+        <span>Ukrainian</span>
+        <span>English</span>
+        <span>Russian</span>
+    </div>
+    <div class="info">
+        <p>
+            This news will be posted in English. Please create copies
+            of this news in other languages if needed. You can come
+            back and update news anytime after publishing
+        </p>
+    </div>
+    <div class="form-container">
+        <form>
+            <div class="wrapper">
+                <div class="left-form-column">
+                    <label>
+                        <h3>Title</h3>
+                        <input
+                            type="text"
+                            placeholder="e.x. Coffee takeaway with 20% discounte">
+                        <span>Should contain maximum 200 symbols</span>
+                    </label>
+                    <div class="tags">
+                        <h3>Pick tags for news</h3>
+                        <p>Please select one or more tags</p>
+                        <button>News</button>
+                        <button>Events</button>
+                        <button>Courses</button>
+                        <button>Initiatives</button>
+                        <button>Ads</button>
+                    </div>
+                    <label>
+                        <h3>Source(optional)</h3>
+                        <input
+                            type="text"
+                            placeholder="link to external source">
+                        <span>Please add the link of original article/news/post</span>
+                    </label>
+                </div>
+                <div class="right-form-column">
+                    <img
+                        [src]="link"
+                        alt="preapred image">
+                </div>
+            </div>
+            <h3 class="textarea-title">Content</h3>
+            <textarea
+                name="main-area"
+                placeholder="E.x. Short description of news, agenda for event"></textarea>
+            <p class="textarea-description">Should contain minimum 200 symbols</p>
+        </form>
+    </div>
+    <div class="date">
+        <p><b>Date: </b><span>Jan 30, 2020</span></p>
+        <p><b>Author: </b><span>Current User</span></p>
+    </div>
+    <div class="submit-buttons">
+        <button>Cancel</button>
+        <button>Preview</button>
+        <button>Publish</button>
+    </div>
+    <app-footer></app-footer>
+</div>
