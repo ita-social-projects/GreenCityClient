@@ -46,7 +46,7 @@ font-size: 16px;
 line-height: 16px;
 align-items: center;
 text-align: center;
-color: #FFFFFF; 
+color: #FFFFFF;
 }
 .primary-global-button:hover,
 .primary-global-button:active{
@@ -55,17 +55,16 @@ color: #FFFFFF;
 }
 
 .secondary-global-button{
-  border: 1px solid #13AA57;
-  box-sizing: border-box;
-  border-radius: 3px;
-  font-family: Open Sans;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 16px;
-  color: #13AA57;
-  text-align: center;
-
+border: 1px solid #13AA57;
+box-sizing: border-box;
+border-radius: 3px;
+font-family: Open Sans;
+font-style: normal;
+font-weight: bold;
+font-size: 16px;
+line-height: 16px;
+color: #13AA57;
+text-align: center;
 }
 
 .secondary-global-button:hover,
@@ -77,15 +76,14 @@ color: #056B33;
 
 .tertiary-global-button{
 font-family: Open Sans;
+font-size: 16px;
+font-stretch: normal;
 font-style: normal;
 font-weight: bold;
-font-size: 16px;
 line-height: 16px;
 color: #056B33;
 }
 .tertiary-global-button:hover,
 .tertiary-global-button:focus{
 color: #13AA57;
-line-height: 22px;
-
 }
