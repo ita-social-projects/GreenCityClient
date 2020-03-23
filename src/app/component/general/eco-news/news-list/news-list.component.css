@@ -34,32 +34,18 @@
 
 a {
   text-decoration: none;
+
 }
 
 #create-button{
-  max-width: 185px;
+  width: 185px;
+  min-height: 40px;
   padding: 8px 40px;
-  border: 1px solid #13AA57;
-  box-sizing: border-box;
-  border-radius: 3px;
-}
-
-#create-button:hover {
-  border: 1px solid #056B33;
-}
-
-#create-button:hover span {
-  color: #056B33;
-}
-
-#create-button-text{
-  color: #13AA57;
-  font-family: Open Sans;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 1rem;
-  line-height: 22px;
   display: flex;
   align-items: center;
-  text-align: center;
+  justify-content: center;
+
+}
+#create-button span{
+  display: block;
 }
