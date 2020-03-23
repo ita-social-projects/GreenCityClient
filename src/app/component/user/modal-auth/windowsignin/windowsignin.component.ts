@@ -127,11 +127,6 @@ export class WindowsigninComponent implements OnInit {
     this.dialog.open(RestoreComponent);
   }
 
-  redirectSignUp() {
-    this.matDialogRef.close();
-    this.dialog.open(WindowsignupComponent);    
-  }
-
   public close() {
   	this.matDialogRef.close();
   }
