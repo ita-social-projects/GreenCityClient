@@ -1,4 +1,4 @@
-<div class="container" *ngIf="dataIsLoaded">
+<div class="container" *ngIf="newsItem">
   <div class="top-elements">
     <div class="back-button">
       <a [routerLink]="['/news']"
@@ -32,7 +32,7 @@
              alt="dot"
         >
       </div>
-      <div class="news-info-author">by {{ newsItem.name }}</div>
+      <div class="news-info-author">by {{ newsItem.author.firstName}} {{newsItem.author.lastName }}</div>
     </div>
     <div class="news-image">
       <img src="../../../../assets/img/icon/econews/news-default-large.png"

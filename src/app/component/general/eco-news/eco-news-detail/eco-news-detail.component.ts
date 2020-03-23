@@ -13,7 +13,6 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   private newsItemSubscription: Subscription;
   private newsId: number;
   private newsItem: EcoNewsModel;
-  private dataIsLoaded = false;
 
   constructor(private route: ActivatedRoute,
               private ecoNewsService: EcoNewsService) { }
@@ -31,7 +30,6 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
 
   private setNewsItem(item: EcoNewsModel): void {
     this.newsItem = item;
-    this.dataIsLoaded = true;
   }
 
   ngOnDestroy() {
