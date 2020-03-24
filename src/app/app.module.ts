@@ -113,19 +113,9 @@ import { SwiperModule } from 'ngx-swiper-wrapper';
 import { SWIPER_CONFIG } from 'ngx-swiper-wrapper';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 import { InputcolorDirective } from './directives/inputcolor.directive';
-import { EcoNewsComponent } from './component/general/eco-news/eco-news.component';
-import { CreateNewsComponent } from './component/general/eco-news/create-news/create-news.component';
-import { NewsListComponent } from './component/general/eco-news/news-list/news-list.component';
-import { NewsListListViewComponent } from './component/general/eco-news/news-list/news-list-list-view/news-list-list-view.component';
-// tslint:disable-next-line: max-line-length
-import { NewsListGalleryViewComponent } from './component/general/eco-news/news-list/news-list-gallery-view/news-list-gallery-view.component';
-import { ChangeViewButtonComponent } from './component/general/eco-news/news-list/change-view-button/change-view-button.component';
-import { FilterNewsComponent } from './component/general/eco-news/filter-news/filter-news.component';
-import { RemainingCountComponent } from './component/general/eco-news/remaining-count/remaining-count.component';
-import { FilterEcoNewsPipe } from './pipe/filter-ecoNews-pipe/filter-eco-news.pipe';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
-import { EcoNewsDetailComponent } from './component/general/eco-news/eco-news-detail/eco-news-detail.component';
 import { CoreModule } from './component/core/core.module';
+import {EcoNewsModule} from './component/eco-news/eco-news.module';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
@@ -199,19 +189,10 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     TipsListComponent,
     TipsCardComponent,
     InputcolorDirective,
-    EcoNewsComponent,
-    CreateNewsComponent,
-    NewsListComponent,
-    NewsListListViewComponent,
-    NewsListGalleryViewComponent,
-    ChangeViewButtonComponent,
-    FilterNewsComponent,
-    RemainingCountComponent,
-    FilterEcoNewsPipe,
-    EcoNewsDetailComponent,
   ],
   imports: [
     CoreModule,
+    EcoNewsModule,
     InfiniteScrollModule,
     BrowserModule,
     SwiperModule,
@@ -240,7 +221,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     MatRadioModule,
     MatSelectModule,
     DragDropModule,
-    NgbModule,
+    NgbModule
   ],
   entryComponents: [
     ProposeCafeComponent,
