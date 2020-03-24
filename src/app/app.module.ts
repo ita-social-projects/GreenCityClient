@@ -115,7 +115,7 @@ import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 import { InputcolorDirective } from './directives/inputcolor.directive';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import { CoreModule } from './component/core/core.module';
-import {EcoNewsModule} from './component/eco-news/eco-news.module';
+import { EcoNewsModule } from './component/eco-news/eco-news.module';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',

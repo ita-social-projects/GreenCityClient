@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import {EcoNewsService} from '../../../service/eco-news/eco-news.service';
-import {EcoNewsModel} from '../../../model/eco-news/eco-news-model';
+import { EcoNewsService } from '../../../service/eco-news/eco-news.service';
+import { EcoNewsModel } from '../../../model/eco-news/eco-news-model';
 
 @Component({
   selector: 'app-eco-news-detail',

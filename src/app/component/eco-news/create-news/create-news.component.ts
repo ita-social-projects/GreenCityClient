@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {preparedImageForCreateEcoNews} from '../../../links';
+import { preparedImageForCreateEcoNews } from '../../../links';
 
 
 @Component({
