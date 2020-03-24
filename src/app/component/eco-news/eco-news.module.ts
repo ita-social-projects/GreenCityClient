@@ -14,18 +14,20 @@ import {NewsListComponent} from './news-list/news-list.component';
 import {RemainingCountComponent} from './remaining-count/remaining-count.component';
 import {CoreModule} from '../core/core.module';
 import {FilterEcoNewsPipe} from '../../pipe/filter-ecoNews-pipe/filter-eco-news.pipe';
+import {EcoNewsWidgetComponent} from './eco-news-detail/eco-news-widget/eco-news-widget.component';
 
 @NgModule({
   declarations: [
     EcoNewsComponent,
     CreateNewsComponent,
-    EcoNewsDetailComponent,
     FilterNewsComponent,
     ChangeViewButtonComponent,
     NewsListGalleryViewComponent,
     NewsListListViewComponent,
     NewsListComponent,
     RemainingCountComponent,
+    EcoNewsWidgetComponent,
+    EcoNewsDetailComponent,
     FilterEcoNewsPipe
   ],
   imports: [
