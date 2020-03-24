@@ -10,19 +10,22 @@ import { NavigationEnd, Router } from '@angular/router';
 export class AppComponent implements OnInit {
   title = 'GreenCityClient';
 
-  constructor(private languageService: LanguageService, private router: Router) {
-  }
+  constructor(
+    private languageService: LanguageService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.languageService.setDefaultLanguage();
     this.navigateToStartingPositionOnPage();
   }
 
-  navigateToStartingPositionOnPage(): void {
+  private navigateToStartingPositionOnPage(): void {
     this.router.events.subscribe(navigationEvent => {
       if (navigationEvent instanceof NavigationEnd) {
+        console.log(navigationEvent);
         window.scroll(0, 0);
       }
-    })
+    });
   }
 }
