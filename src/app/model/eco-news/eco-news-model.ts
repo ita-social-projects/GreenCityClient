@@ -3,7 +3,11 @@ export interface EcoNewsModel {
     imagePath: string;
     title: string;
     text: string;
-    name: string;
-    tag: Array<string>;
+    author: {
+        id: number;
+        firstName: string;
+        lastName: string;
+    };
+    tags: Array<string>;
     creationDate: string;
 }
