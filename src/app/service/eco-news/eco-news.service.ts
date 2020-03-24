@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { EcoNewsModel } from '../../model/eco-news/eco-news-model';
 import { environment } from '../../../environments/environment';
 import { EcoNewsDto } from '../../model/eco-news/eco-news-dto';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 @Injectable({
@@ -28,6 +28,10 @@ export class EcoNewsService {
         this.newsListSubject.next(this.newsList);
       }
     );
+  }
+
+  public getEcoNewsById(id: number): Observable<EcoNewsModel> {
+    return this.http.get<EcoNewsModel>(`${this.backEnd}econews/${id}`);
   }
 
   public sortLastThreeNewsChronologically(): void {
