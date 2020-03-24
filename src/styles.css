@@ -10,8 +10,12 @@ a {
   cursor: pointer;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
+body {
+  margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 .cdk-drag-preview {
   box-sizing: border-box;
@@ -32,8 +36,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   border: none;
 }
 
-.example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
-  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+.example-list
+.cdk-drop-list-dragging
+.example-box:not(.cdk-drag-placeholder) {
+transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 .primary-global-button{
 border: none;
@@ -83,6 +89,7 @@ font-weight: bold;
 line-height: 16px;
 color: #056B33;
 }
+
 .tertiary-global-button:hover,
 .tertiary-global-button:focus{
 color: #13AA57;
