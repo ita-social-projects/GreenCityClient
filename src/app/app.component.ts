@@ -23,7 +23,6 @@ export class AppComponent implements OnInit {
   private navigateToStartingPositionOnPage(): void {
     this.router.events.subscribe(navigationEvent => {
       if (navigationEvent instanceof NavigationEnd) {
-        console.log(navigationEvent);
         window.scroll(0, 0);
       }
     });
