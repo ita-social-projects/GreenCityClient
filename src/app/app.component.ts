@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {LanguageService} from './i18n/language.service';
+import { Component, OnInit } from '@angular/core';
+import { LanguageService } from './i18n/language.service';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -9,10 +10,19 @@ import {LanguageService} from './i18n/language.service';
 export class AppComponent implements OnInit {
   title = 'GreenCityClient';
 
-  constructor(private languageService: LanguageService) {
+  constructor(private languageService: LanguageService, private router: Router) {
   }
 
   ngOnInit(): void {
     this.languageService.setDefaultLanguage();
+    this.navigateToStartingPositionOnPage();
+  }
+
+  navigateToStartingPositionOnPage(): void {
+    this.router.events.subscribe(navigationEvent => {
+      if (navigationEvent instanceof NavigationEnd) {
+        window.scroll(0, 0);
+      }
+    })
   }
 }
