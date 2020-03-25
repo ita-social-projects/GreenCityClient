@@ -1,20 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 
-@media (min-width: 1366px) {
-  .page-wrapper {
-    width: 1351px;
-  }
-}
-
-@media (min-width: 1920px) {
-  .page-wrapper {
-    width: 1900px;
-  }
-}
-
 .page-wrapper {
+  width: 1350px;
   margin: 0 auto;
+  overflow: hidden;
+  height: 5800px;
 }
 
 .illustration-man {
@@ -157,7 +148,6 @@
   height: 4500px;
   background: url('../../../assets/img/bg-form.png') no-repeat;
   overflow: hidden;
-  border: 3px solid red;
 }
 
 .steps-main-block h2 {
@@ -177,8 +167,8 @@
 
 .dashed-line {
   position: relative;
-  top: 500px;
-  left: 300px;
+  top: 540px;
+  left: 200px;
   background: url('../../../assets/img/dashed line.png');
   width: 838px;
   height: 3581px;
@@ -186,9 +176,9 @@
 
 .leaves {
   position: relative;
-  top: 0px;
-  left: 300px;
-  background: url('../../../assets/img/leaves.png');
+  top: 12px;
+  left: 107px;
+  background: url('../../../assets/img/leaves.png') no-repeat;
   width: 641px;
   height: 3214px;
 }
@@ -231,7 +221,7 @@
   position: relative;
   display: block;
   width: 470px;
-  height: 150px;
+  height: 200px;
   left: 760px;
   top: -500px;
   padding-top: 20px;
@@ -244,7 +234,7 @@
 .card-holder-odd .card-link {
   position: relative;
   left: 1090px;
-  top: -490px;
+  top: -530px;
   min-width: 200px;
   font-family: OpenSans, sans-serif;
   font-size: 16px;
@@ -256,32 +246,27 @@
 }
 
 .card-holder-odd {
-  border: 2px dashed midnightblue;
   width: 100%;
   height: 700px;
 }
 
 .first-card-holder {
-  border: 2px dashed crimson;
   margin-top: 0px;
 }
 
 .steps-wrapper {
   display: flex;
   flex-direction: column;
-  border: 3px dotted mediumblue;
   margin-top: -3300px;
 }
 
         /*styles for even cards*/
 
 .card-holder-even {
-  border: 2px dashed cyan;
   width: 100%;
   height: 700px;
   margin-top: 120px;
   margin-bottom: 170px;
-
   display: block;
   left: 240px;
   top: -500px;
@@ -340,7 +325,7 @@
 .card-holder-even .card-link {
   position: relative;
   left: 400px;
-  top: -490px;
+  top: -530px;
   min-width: 200px;
   font-family: OpenSans, sans-serif;
   font-size: 16px;
@@ -427,11 +412,15 @@
 }
 
 #third-card-link {
-  top: -590px;
+  top: -640px;
 }
 
-#fourth-card-link, #fifth-card-link {
+#fourth-card-link {
   top: -550px;
+}
+
+#fifth-card-link {
+  top: -600px;
 }
 
 #third-card-heading {
