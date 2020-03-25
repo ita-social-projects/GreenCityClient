@@ -1,12 +1,28 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 
+@media (min-width: 1366px) {
+  .page-wrapper {
+    width: 1351px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .page-wrapper {
+    width: 1900px;
+  }
+}
+
+.page-wrapper {
+  margin: 0 auto;
+}
+
 .illustration-man {
-  position: absolute;
+  position: relative;
   width: 766px;
   height: 681px;
-  right: 0px;
-  top: 125px;
+  right: -585px;
+  top: 200px;
   background: url('../../../assets/img/Illustration-man.png') no-repeat;
   z-index: 3;
 }
@@ -28,12 +44,13 @@
 }
 
 .container-about {
-  position: absolute;
-  top: 0px;
+  position: relative;
+  top: -170px;
   min-width: 100%;
   min-height: 1000px;
   height: auto;
   background: #FFFFFF url('../../../assets/img/curly-line.png') no-repeat;
+  background-position: 0 100px;
   margin: 0px;
   padding: 0px;
 }
@@ -49,31 +66,31 @@
 }
 
 .leaf {
-  position: absolute;
+  position: relative;
   width: 199px;
   height: 410px;
-  right: 0px;
-  top: 150px;
+  right: -1152px;
+  top: -450px;
   background: url('../../../assets/img/leaf.png') no-repeat;
   z-index: 2;
 }
 
 .vector-bg {
-  position: absolute;
+  position: relative;
   width: 622px;
   height: 637.19px;
-  right: 0px;
-  top: 230px;
+  right: -730px;
+  top: -770px;
   background: url('../../../assets/img/Vector.png') no-repeat;
   z-index: 0;
 }
 
 .container-vision .full-text-block {
-  position: absolute;
+  position: relative;
   width: 555px;
   height: 300px;
-  left: 738px;
-  top: 1145px;
+  left: 750px;
+  top: -1800px;
   font-family: OpenSans, sans-serif;
   font-size: 24px;
   line-height: 36px;
@@ -81,11 +98,11 @@
 }
 
 .full-text-block {
-  position: absolute;
+  position: relative;
   width: 555px;
   height: 333px;
   left: 100px;
-  top: 300px;
+  top: -1400px;
   font-family: OpenSans, sans-serif;
   font-size: 24px;
   line-height: 36px;
@@ -114,9 +131,9 @@
 }
 
 .vector-cup {
-  position: absolute;
+  position: relative;
   left: 100px;
-  top: 1000px;
+  top: -1200px;
   width: 562px;
   height: 435px;
   background: url('../../../assets/img/Vector1.png') no-repeat;
@@ -124,9 +141,9 @@
 }
 
 .cup-img {
-  position: absolute;
+  position: relative;
   left: 250px;
-  top: 1050px;
+  top: -1600px;
   width: 320px;
   height: 336px;
   background: url('../../../assets/img/illustration coffee.png') no-repeat;
@@ -134,40 +151,43 @@
 }
 
 .steps-main-block {
+  position: relative;
+  top: -2800px;
   padding-top: 100px;
-  width: auto;
   height: 4500px;
   background: url('../../../assets/img/bg-form.png') no-repeat;
   overflow: hidden;
+  border: 3px solid red;
 }
 
 .steps-main-block h2 {
-  position: absolute;
+  position: relative;
   width: 391px;
   height: 60px;
-  left: 150px;
-  top: 1650px;
+  left: 100px;
+  top: -3350px;
   font-family: Montserrat, sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 48px;
   line-height: 60px;
   color: #313131;
+  z-index: 5;
 }
 
 .dashed-line {
-  position: absolute;
-  top: 1920px;
-  left: 200px;
+  position: relative;
+  top: 500px;
+  left: 300px;
   background: url('../../../assets/img/dashed line.png');
   width: 838px;
   height: 3581px;
 }
 
 .leaves {
-  position: absolute;
-  top: 10px;
-  left: 107px;
+  position: relative;
+  top: 0px;
+  left: 300px;
   background: url('../../../assets/img/leaves.png');
   width: 641px;
   height: 3214px;
@@ -183,11 +203,12 @@
 }
 
 .card-holder-odd .card-header {
+  height: 130px;
   position: relative;
   display: block;
   left: 670px;
   top: -13px;
-  width: 350px;
+  width: 400px;
   font-family: Montserrat, sans-serif;
   font-style: normal;
   font-weight: 600;
@@ -196,6 +217,7 @@
   background: #FFFFFF;
   color: #263238;
   border: none;
+  padding-top: -20px;
 }
 
 .card-holder-odd .bg-image {
@@ -234,21 +256,40 @@
 }
 
 .card-holder-odd {
+  border: 2px dashed midnightblue;
   width: 100%;
   height: 700px;
 }
 
 .first-card-holder {
-  margin-top: 350px;
+  border: 2px dashed crimson;
+  margin-top: 0px;
+}
+
+.steps-wrapper {
+  display: flex;
+  flex-direction: column;
+  border: 3px dotted mediumblue;
+  margin-top: -3300px;
 }
 
         /*styles for even cards*/
 
 .card-holder-even {
+  border: 2px dashed cyan;
   width: 100%;
   height: 700px;
   margin-top: 120px;
   margin-bottom: 170px;
+
+  display: block;
+  left: 240px;
+  top: -500px;
+  padding-top: 20px;
+  font-family: OpenSans, sans-serif;
+  font-size: 24px;
+  line-height: 36px;
+  background: #FFFFFF;
 }
 
 .card-holder-even .number-title {
@@ -263,8 +304,8 @@
   display: block;
   left: 240px;
   top: -13px;
-  width: 350px;
-  height: 88px;
+  width: 400px;
+  height: 130px;
   font-family: Montserrat, sans-serif;
   font-style: normal;
   font-weight: 700;
@@ -282,12 +323,12 @@
   margin: 0;
 }
 
-.card-holder-even .main-card-text {
+.main-card-text {
   position: relative;
   display: block;
   width: 470px;
   height: 200px;
-  left: 240px;
+  left: 150px;
   top: -500px;
   padding-top: 20px;
   font-family: OpenSans, sans-serif;
