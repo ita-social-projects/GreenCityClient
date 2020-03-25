@@ -34,7 +34,6 @@
 
 a {
   text-decoration: none;
-
 }
 
 #create-button{
@@ -44,8 +43,8 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
+
 #create-button span{
   display: block;
 }
