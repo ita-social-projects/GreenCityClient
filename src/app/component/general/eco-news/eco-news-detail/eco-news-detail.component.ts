@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { EcoNewsService } from '../../../../service/eco-news/eco-news.service';
 import { EcoNewsModel } from '../../../../model/eco-news/eco-news-model';
 import { Subscription } from 'rxjs';
-
 import { singleNewsImages } from '../../../../../assets/img/icon/econews/single-news-images';
 
 @Component({
@@ -22,10 +21,19 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
               private ecoNewsService: EcoNewsService) { }
 
   ngOnInit() {
+    this.setNewsId();
+    this.setNewsIdSubscription();
+  }
+
+  private setNewsId(): void {
     this.newsId = this.route.snapshot.params.id;
-    this.newsIdSubscription = this.route.paramMap.subscribe(params => {
-      this.newsId = +params.get('id');
-      this.fetchNewsItem();
+  }
+
+  private setNewsIdSubscription(): void {
+    this.newsIdSubscription = this.route.paramMap
+      .subscribe(params => {
+        this.newsId = +params.get('id');
+        this.fetchNewsItem();
     });
   }
 
