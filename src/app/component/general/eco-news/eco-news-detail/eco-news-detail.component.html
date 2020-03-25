@@ -1,1 +1,66 @@
-<p>eco-news-detail works!</p>
+<div class="container" *ngIf="newsItem">
+  <div class="top-elements">
+    <div class="back-button">
+      <a [routerLink]="['/news']"
+         class="button-link">
+        <div class="button-content">
+          <div class="button-arrow">
+            <img src="../../../../assets/img/icon/econews/arrow_left.svg"
+                 alt="arrow"
+                 class="button-arrow-img"
+            >
+          </div>
+          <div class="button-text">Back to news</div>
+        </div>
+      </a>
+    </div>
+    <div class="edit-news">
+      <div>Edit news</div>
+    </div>
+  </div>
+  <div class="tags">
+    <div class="tags-item">Events</div>
+    <div class="tags-item">News</div>
+    <div class="tags-item">Initiatives</div>
+  </div>
+  <div class="news-content">
+    <div class="news-title">{{ newsItem.title }}</div>
+    <div class="news-info">
+      <div class="news-info-date">{{ newsItem.creationDate | date: 'mediumDate' }}</div>
+      <div class="news-info-dot">
+        <img src="../../../../assets/img/icon/econews/ellipse.svg"
+             alt="dot"
+        >
+      </div>
+      <div class="news-info-author">by {{ newsItem.author.firstName}} {{newsItem.author.lastName }}</div>
+    </div>
+    <div class="news-image">
+      <img src="../../../../assets/img/icon/econews/news-default-large.png"
+           alt="news-image"
+           class="news-image-img"
+      >
+    </div>
+    <div class="news-text-container">
+      <div class="news-links-images">
+        <img src="../../../../assets/img/icon/econews/twitter.svg"
+             alt="twitter"
+             class="news-links-img"
+        >
+        <img src="../../../../assets/img/icon/econews/linkedin.svg"
+             alt="linkedin"
+             class="news-links-img"
+        >
+        <img src="../../../../assets/img/icon/econews/facebook.svg"
+             alt="facebook"
+             class="news-links-img"
+        >
+      </div>
+      <div class="news-text">
+        {{ newsItem.text }}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <app-eco-news-widget></app-eco-news-widget>
+</div>

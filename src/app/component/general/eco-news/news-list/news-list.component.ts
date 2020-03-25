@@ -55,7 +55,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.remaining = this.allEcoNews.length - this.elements.length;
   }
 
-  private chageView(event: boolean): void {
+  private changeView(event: boolean): void {
     this.view = event;
   }
 
