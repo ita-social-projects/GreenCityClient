@@ -9,7 +9,7 @@
                    active: language.lang === activeLanguage
                 }">{{ language.name }}</span>
     </div>
-    <div class="info">
+    <div class="form-description">
         <p>
             This news will be posted in English. Please create copies 
             of this news in other languages if needed. You can come 
@@ -65,7 +65,7 @@
                 type="button" 
                 (click)="navigateByUrl()">Cancel</button>
             <button type="button">Preview</button>
-            <button type="submit" [disabled]="createNewsForm.invalid">Publish</button>
+            <button type="submit" [disabled]="createNewsForm.invalid || formValid">Publish</button>
         </div>
     </form>
     <app-footer></app-footer>

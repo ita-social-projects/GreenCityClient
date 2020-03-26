@@ -50,11 +50,11 @@ input.ng-invalid.ng-touched + span, textarea.ng-invalid.ng-touched + p {
     font-family: 'Montserrat', sans-serif;
 }
 
-.info {
+.form-description {
     margin-bottom: 50px;
 }
 
-.info p {
+.form-description p {
     max-width: 653px;
 }
 
