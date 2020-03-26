@@ -24,14 +24,14 @@
   align-items: center;
 }
 
-.img {
+.people-img {
   background: url('../../../assets/img/illustration people.png');
   background-size: contain;
   width: 400px;
   height: 400px;
 }
 
-.text-1 {
+.header {
   height: 48px;
   font-family: Montserrat;
   font-style: normal;
@@ -42,7 +42,7 @@
   color: #313131;
 }
 
-.text-2 {
+.decription {
   height: 32px;
   font-family: OpenSans, sans-serif;
   font-size: 18px;
