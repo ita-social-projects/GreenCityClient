@@ -18,7 +18,7 @@ import { HomePageGuardService } from './service/route-guards/home-page-guard.ser
 import { AppComponent } from './app.component';
 import { EcoNewsComponent } from './component/general/eco-news/eco-news.component';
 import { EcoNewsDetailComponent } from './component/general/eco-news/eco-news-detail/eco-news-detail.component';
-import { CreateNewsComponent } from './component/general/eco-news/create-news/create-news.component';
+import { PostNewsLoaderComponent } from './component/post-news-loader/post-news-loader.component';
 
 export const routes: Routes = [
   {
@@ -65,23 +65,25 @@ export const routes: Routes = [
   },
   {
     path: 'news',
-    component: EcoNewsComponent,
+    component: EcoNewsComponent
   },
   {
-    path: 'create-news', component: CreateNewsComponent,
-  },
-  { path: 'news/:id',
+    path: 'news/:id',
     component: EcoNewsDetailComponent
+  },
+  {
+    path: 'post-news-loader',
+    component: PostNewsLoaderComponent
   }
 ];
 
 @NgModule({
-    imports: [
-        RouterModule.forRoot(routes)
-    ],
-    exports: [
-        RouterModule
-    ]
+  imports: [
+    RouterModule.forRoot(routes)
+  ],
+  exports: [
+    RouterModule
+  ]
 })
 
 export class AppRoutingModule {}
