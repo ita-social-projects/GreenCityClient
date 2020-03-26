@@ -122,7 +122,6 @@ import { NewsListGalleryViewComponent } from './component/general/eco-news/news-
 import { ChangeViewButtonComponent } from './component/general/eco-news/news-list/change-view-button/change-view-button.component';
 import { FilterNewsComponent } from './component/general/eco-news/filter-news/filter-news.component';
 import { RemainingCountComponent } from './component/general/eco-news/remaining-count/remaining-count.component';
-import { FilterEcoNewsPipe } from './pipe/filter-ecoNews-pipe/filter-eco-news.pipe';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import { EcoNewsDetailComponent } from './component/general/eco-news/eco-news-detail/eco-news-detail.component';
 import { CoreModule } from './component/core/core.module';
@@ -208,7 +207,6 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     ChangeViewButtonComponent,
     FilterNewsComponent,
     RemainingCountComponent,
-    FilterEcoNewsPipe,
     EcoNewsDetailComponent,
     EcoNewsWidgetComponent,
   ],
