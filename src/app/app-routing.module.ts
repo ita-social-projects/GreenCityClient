@@ -19,6 +19,7 @@ import { AppComponent } from './app.component';
 import { EcoNewsComponent } from './component/general/eco-news/eco-news.component';
 import { EcoNewsDetailComponent } from './component/general/eco-news/eco-news-detail/eco-news-detail.component';
 import { CreateNewsComponent } from './component/general/eco-news/create-news/create-news.component';
+import {NewsPreviewPageComponent} from "./component/general/eco-news/news-preview-page/news-preview-page.component";
 
 export const routes: Routes = [
   {
@@ -72,6 +73,10 @@ export const routes: Routes = [
   },
   { path: 'news/:id',
     component: EcoNewsDetailComponent
+  },
+  {
+    path: 'create-news/preview',
+    component: NewsPreviewPageComponent
   }
 ];
 

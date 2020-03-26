@@ -1,1 +1,81 @@
-<p>news-preview-page works!</p>
+<div class="container">
+  <div class="top-elements">
+    <div class="back-button">
+      <a [routerLink]="['/create-news']"
+         class="button-link">
+        <div class="button-content">
+          <div class="button-arrow">
+            <img [src]="images.arrowLeft"
+                 alt="arrow"
+                 class="button-arrow-img"
+            >
+          </div>
+          <div class="button-text">Back to editing</div>
+        </div>
+      </a>
+    </div>
+    <div class="publish">
+      <div>Publish</div>
+    </div>
+  </div>
+  <div class="create-news-text">Create news</div>
+  <div class="tags">
+    <div class="tags-item">Events</div>
+    <div class="tags-item">Initiatives</div>
+  </div>
+  <div class="news-content">
+    <div class="news-title">
+      Cycling in our city: community and updates
+    </div>
+    <div class="news-info">
+      <div class="news-info-date">
+        Jan 30, 2020
+      </div>
+      <div class="news-info-dot">
+        <img [src]="images.ellipse"
+             alt="dot"
+        >
+      </div>
+      <div class="news-info-author">
+        by John Smith
+      </div>
+    </div>
+    <div class="news-image">
+      <img [src]="images.largeImage"
+           alt="news-image"
+           class="news-image-img"
+      >
+    </div>
+    <div class="news-text-container">
+      <div class="news-links-images">
+        <img [src]="images.twitter"
+             alt="twitter"
+             class="news-links-img"
+        >
+        <img [src]="images.linkedIn"
+             alt="linkedin"
+             class="news-links-img"
+        >
+        <img [src]="images.facebook"
+             alt="facebook"
+             class="news-links-img"
+        >
+      </div>
+      <div class="news-text">
+        The Bureau of Meteorology (BoM) forecast a tropical cyclone would form off the north Queensland coast over the weekend, and that severe weather over the central and north Queensland coasts would ease.
+
+        “The sea temperatures have dropped quite suddenly because of this weather system,” Professor Terry Hughes from the ARC Centre for Excellence in Coral Reef Studies told ABC News.
+
+        The cooler change comes at a critical time for the health of the reef.
+
+        Figures produced by the BoM showed sea surface temperatures in the marine park in February were hotter than in any month since 1900, and hotter even than during the record bleaching events of 2016 and 2017.
+
+        “We know there is mortality out there. But we don’t yet have the big picture and the bleaching is still building despite this cooler weather. We think it’ll peak in another week or so, Professor Hughes said.
+
+        “Satellite maps are showing that coastal waters are much hotter than mid-shelf and offshore waters, which would lead you to predict that the most severe bleaching this time is likely to be coastal. But we need to confirm that.”
+
+        Dr David Wachenfeld, chief scientist for the Great Barrier Reef Marine Park Authority, said he was concerned by satellite maps indicating significant heat stress.
+      </div>
+    </div>
+  </div>
+</div>
