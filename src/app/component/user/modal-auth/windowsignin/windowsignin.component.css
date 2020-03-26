@@ -78,12 +78,12 @@ form {
     margin: 2% 5% 5% 5%;
 }
 
-.red {
+.red-validation {
     border: 1px solid #f03127 !important;
     background: #FEF2F1;
 }
 
-.grey {
+.grey-validation {
     border: 1px solid #839c94;
 }
 
@@ -106,7 +106,7 @@ form {
     cursor: pointer;
 }
 
-.img {
+.input-img {
     display: inline;
     z-index: 2;
     cursor: pointer;
@@ -146,7 +146,7 @@ a.forgot-password {
     text-decoration: underline;
 }
 
-.or {
+.or-text {
     color: #839c94;
     margin-top: -5px;
 }
@@ -191,25 +191,31 @@ a.forgot-password {
     #cdk-overlay-0 {
         width: 90% !important;
     }
+
     .wrapper-container {
         width: 100%;
         height: auto;
     }
+
     .form-wrapper {
         width: 100%;
     }
+
     .form-pic {
         display: none;
     }
+
     .sign-in {
         width: 100%;
         height: auto;
         padding: 0 0 5% 0;
     }
+
     .wrapper-sign-up {
         margin: 5%;
         text-align: center;
     }
+
     .google {
         white-space: nowrap;
     }

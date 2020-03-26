@@ -10,7 +10,6 @@ import { GoogleSignInService } from '../../../../service/auth/google-sign-in.ser
 import { MatDialog } from '@angular/material';
 import { RestoreComponent } from '../../restore/restore.component';
 import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
-//import { WindowsignupComponent } from 'src/app/component/user/modal-auth/windowsignup/windowsignup.component';
 
 @Component({
   selector: 'app-windowsignin',
@@ -18,24 +17,21 @@ import { LocalStorageService } from '../../../../service/localstorage/local-stor
   styleUrls: ['./windowsignin.component.css']
 })
 export class WindowsigninComponent implements OnInit {
-  userOwnSignIn: UserOwnSignIn;
-  loadingAnim: boolean;
-
-  emailErrorMessageBackEnd: string;
-  passwordErrorMessageBackEnd: string;
-
-  backEndError: string;
+  public userOwnSignIn: UserOwnSignIn;
+  public loadingAnim: boolean;
+  public emailErrorMessageBackEnd: string;
+  public passwordErrorMessageBackEnd: string;
+  public backEndError: string;
 
   constructor(
-  private matDialogRef: MatDialogRef<WindowsigninComponent>,
-  private userOwnSignInService: UserOwnSignInService,
-  private router: Router,
-  private authService: AuthService,
-  private googleService: GoogleSignInService,
-  private localStorageService: LocalStorageService,
-  public dialog: MatDialog,
-  @Inject(MAT_DIALOG_DATA) public data: any
-
+    private matDialogRef: MatDialogRef<WindowsigninComponent>,
+    private userOwnSignInService: UserOwnSignInService,
+    private router: Router,
+    private authService: AuthService,
+    private googleService: GoogleSignInService,
+    private localStorageService: LocalStorageService,
+    public dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
     readonly formPic = 'assets/img/formpic.jpg';
@@ -43,7 +39,11 @@ export class WindowsigninComponent implements OnInit {
     readonly picArrow = 'assets/img/icon/arrows/google-arrow.svg';
 
   ngOnInit() {
-  	this.userOwnSignIn = new UserOwnSignIn();
+     this.test();
+  }
+
+  test() {
+      this.userOwnSignIn = new UserOwnSignIn();
     this.loadingAnim = false;
     this.emailErrorMessageBackEnd = null;
     this.passwordErrorMessageBackEnd = null;
@@ -55,10 +55,14 @@ export class WindowsigninComponent implements OnInit {
     });
   }
 
-   signIn(userOwnSignIn: UserOwnSignIn) {
+  public signIn(userOwnSignIn: UserOwnSignIn) {
     this.loadingAnim = true;
-    this.userOwnSignInService.signIn(userOwnSignIn).subscribe(
-      (data: UserSuccessSignIn) => {
+    this.userOwnSignInService.signIn(userOwnSignIn)
+      .subscribe(this.onsignInSuccess.bind(this), this.onsignInFailure.bind(this));
+  }
+
+  onsignInSuccess(data: UserSuccessSignIn) {
+
         this.loadingAnim = false;
         this.userOwnSignInService.saveUserToLocalStorage(data);
         this.localStorageService.setFirstName(data.firstName);
@@ -66,8 +70,11 @@ export class WindowsigninComponent implements OnInit {
         this.router.navigate(['/welcome'])
           .then(success => console.log('redirect has succeeded ' + success))
           .catch(fail => console.log('redirect has failed ' + fail));
-      },
-      (errors: HttpErrorResponse) => {
+      
+  }
+
+  onsignInFailure((errors: HttpErrorResponse) {
+
         try {
           errors.error.forEach(error => {
             if (error.name === 'email') {
@@ -80,11 +87,10 @@ export class WindowsigninComponent implements OnInit {
           this.backEndError = errors.error.message;
         }
         this.loadingAnim = false;
-      }
-    );
+      
   }
 
-    signInWithGoogle() {
+  public signInWithGoogle() {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(data => {
       this.googleService.signIn(data.idToken).subscribe(
         (data1: UserSuccessSignIn) => {
@@ -108,7 +114,7 @@ export class WindowsigninComponent implements OnInit {
     });
   }
 
-    clickImgSignIn() {
+  public togglePasswordVisibility() {
     const showEye = 'url(\'assets/img/icon/eye.png\')';
     const hideEye = 'url(\'assets/img/icon/eye-show.png\')';
     const passwordField = document.getElementById('password');
@@ -122,7 +128,7 @@ export class WindowsigninComponent implements OnInit {
     }
   }
 
-  openDialogForgot() {
+  public openDialogForgot() {
     this.matDialogRef.close();
     this.dialog.open(RestoreComponent);
   }
