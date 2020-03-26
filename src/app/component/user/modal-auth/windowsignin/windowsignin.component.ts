@@ -39,11 +39,7 @@ export class WindowsigninComponent implements OnInit {
     readonly picArrow = 'assets/img/icon/arrows/google-arrow.svg';
 
   ngOnInit() {
-     this.test();
-  }
-
-  test() {
-      this.userOwnSignIn = new UserOwnSignIn();
+  	this.userOwnSignIn = new UserOwnSignIn();
     this.loadingAnim = false;
     this.emailErrorMessageBackEnd = null;
     this.passwordErrorMessageBackEnd = null;
@@ -57,12 +53,8 @@ export class WindowsigninComponent implements OnInit {
 
   public signIn(userOwnSignIn: UserOwnSignIn) {
     this.loadingAnim = true;
-    this.userOwnSignInService.signIn(userOwnSignIn)
-      .subscribe(this.onsignInSuccess.bind(this), this.onsignInFailure.bind(this));
-  }
-
-  onsignInSuccess(data: UserSuccessSignIn) {
-
+    this.userOwnSignInService.signIn(userOwnSignIn).subscribe(
+      (data: UserSuccessSignIn) => {
         this.loadingAnim = false;
         this.userOwnSignInService.saveUserToLocalStorage(data);
         this.localStorageService.setFirstName(data.firstName);
@@ -70,11 +62,8 @@ export class WindowsigninComponent implements OnInit {
         this.router.navigate(['/welcome'])
           .then(success => console.log('redirect has succeeded ' + success))
           .catch(fail => console.log('redirect has failed ' + fail));
-      
-  }
-
-  onsignInFailure((errors: HttpErrorResponse) {
-
+      },
+      (errors: HttpErrorResponse) => {
         try {
           errors.error.forEach(error => {
             if (error.name === 'email') {
@@ -87,7 +76,8 @@ export class WindowsigninComponent implements OnInit {
           this.backEndError = errors.error.message;
         }
         this.loadingAnim = false;
-      
+      }
+    );
   }
 
   public signInWithGoogle() {
