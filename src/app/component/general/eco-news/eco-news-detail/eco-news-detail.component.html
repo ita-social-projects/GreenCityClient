@@ -26,7 +26,11 @@
     </div>
   </div>
   <div class="news-content">
-    <div class="news-title">{{ newsItem.title }}</div>
+    <div class="news-text-container">
+      <div class="news-title">
+        {{ newsItem.title }}
+      </div>
+    </div>
     <div class="news-info">
       <div class="news-info-date">{{ newsItem.creationDate | date: 'mediumDate' }}</div>
       <div class="news-info-dot">
