@@ -17,6 +17,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { LowerNavBarComponent } from './lower-nav-bar/lower-nav-bar.component';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { FooterComponent } from './footer/footer.component';
+import { AboutPageComponent } from '../about-page/about-page.component';
 
 @NgModule({
     declarations: [
@@ -25,7 +26,8 @@ import { FooterComponent } from './footer/footer.component';
         ModalComponent,
         PhotoUploadComponent,
         LowerNavBarComponent,
-        FooterComponent
+        FooterComponent,
+        AboutPageComponent
     ],
     imports: [
         CommonModule,

@@ -127,6 +127,7 @@ import { EcoNewsDetailComponent } from './component/general/eco-news/eco-news-de
 import { CoreModule } from './component/core/core.module';
 import { PostNewsLoaderComponent } from './component/post-news-loader/post-news-loader.component';
 import { EcoNewsWidgetComponent } from './component/general/eco-news/eco-news-detail/eco-news-widget/eco-news-widget.component';
+import { NewsPreviewPageComponent } from './component/general/eco-news/news-preview-page/news-preview-page.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
@@ -209,8 +210,9 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     FilterNewsComponent,
     RemainingCountComponent,
     EcoNewsDetailComponent,
-    PostNewsLoaderComponent,
-    EcoNewsWidgetComponent
+    EcoNewsWidgetComponent,
+    NewsPreviewPageComponent,
+    PostNewsLoaderComponent
   ],
   imports: [
     CoreModule,
