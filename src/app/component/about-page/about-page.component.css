@@ -1,8 +1,16 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 
+@media only screen and (min-width: 1900px) {
+  .page-wrapper {
+    width: 1920px;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+}
+
 .page-wrapper {
-  width: 1350px;
+  width: 1920px;
   margin: 0 auto;
   overflow: hidden;
   height: 5800px;
@@ -10,12 +18,35 @@
 
 .illustration-man {
   position: relative;
+  float: right;
   width: 766px;
   height: 681px;
-  right: -585px;
+  /*right: 0px;*/
   top: 200px;
   background: url('../../../assets/img/Illustration-man.png') no-repeat;
   z-index: 3;
+}
+
+.leaf {
+  position: relative;
+  float: right;
+  width: 199px;
+  height: 410px;
+  /*right: 0px;*/
+  top: -450px;
+  background: url('../../../assets/img/leaf.png') no-repeat;
+  z-index: 2;
+}
+
+.vector-bg {
+  position: relative;
+  float: right;
+  width: 622px;
+  height: 637.19px;
+  right: -965px;
+  top: 300px;
+  background: url('../../../assets/img/Vector.png') no-repeat;
+  z-index: 0;
 }
 
 .copyright {
@@ -38,62 +69,72 @@
   position: relative;
   top: -170px;
   min-width: 100%;
-  min-height: 1000px;
+  min-height: 110px;
   height: auto;
   background: #FFFFFF url('../../../assets/img/curly-line.png') no-repeat;
-  background-position: 0 100px;
+  /*background-position: 0 100px;*/
+  background-size: 100% 100%;
   margin: 0px;
   padding: 0px;
+  z-index: 2;
 }
 
 .container-vision {
+  position: relative;
+  display: block;
+  top: 300px;
   min-width: 100%;
-  min-height: 1200px;
+  min-height: 900px;
   height: auto;
   background: #fefefe;
   margin: 0px;
   padding: 0px;
-  z-index: -1;
+  z-index: -3;
+  border: 3px dotted darkorchid;
 }
 
-.leaf {
+.container-about .full-text-block {
   position: relative;
-  width: 199px;
-  height: 410px;
-  right: -1152px;
-  top: -450px;
-  background: url('../../../assets/img/leaf.png') no-repeat;
-  z-index: 2;
-}
-
-.vector-bg {
-  position: relative;
-  width: 622px;
-  height: 637.19px;
-  right: -730px;
-  top: -770px;
-  background: url('../../../assets/img/Vector.png') no-repeat;
-  z-index: 0;
+  float: left;
+  left: 200px;
+  margin-top: -800px;
+  border: 2px solid magenta;
 }
 
 .container-vision .full-text-block {
+  top: 200px;
   position: relative;
   width: 555px;
-  height: 300px;
-  left: 750px;
-  top: -1800px;
+  height: 333px;
+  float: right;
+  right: -500px;
   font-family: OpenSans, sans-serif;
   font-size: 24px;
   line-height: 36px;
   color: #263238;
 }
 
-.full-text-block {
+.steps-wrapper {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  top: 0px;
+}
+
+.steps-main-block {
+  position: relative;
+  top: 0px;
+  padding-top: 100px;
+  height: 4500px;
+  background: url('../../../assets/img/bg-form.png') no-repeat;
+  overflow: hidden;
+}
+
+.full-text-block {
   width: 555px;
   height: 333px;
-  left: 100px;
-  top: -1400px;
+  float: left;
+  top: 500px;
   font-family: OpenSans, sans-serif;
   font-size: 24px;
   line-height: 36px;
@@ -124,30 +165,22 @@
 .vector-cup {
   position: relative;
   left: 100px;
-  top: -1200px;
+  float: left;
+  top: 300px;
   width: 562px;
   height: 435px;
   background: url('../../../assets/img/Vector1.png') no-repeat;
-  z-index: 1;
+  z-index: 2;
 }
 
 .cup-img {
   position: relative;
   left: 250px;
-  top: -1600px;
+  top: 700px;
   width: 320px;
   height: 336px;
   background: url('../../../assets/img/illustration coffee.png') no-repeat;
   z-index: 3;
-}
-
-.steps-main-block {
-  position: relative;
-  top: -2800px;
-  padding-top: 100px;
-  height: 4500px;
-  background: url('../../../assets/img/bg-form.png') no-repeat;
-  overflow: hidden;
 }
 
 .steps-main-block h2 {
@@ -252,12 +285,6 @@
 
 .first-card-holder {
   margin-top: 0px;
-}
-
-.steps-wrapper {
-  display: flex;
-  flex-direction: column;
-  margin-top: -3300px;
 }
 
         /*styles for even cards*/
