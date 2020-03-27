@@ -1,187 +1,50 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
-
-.language-choise {
-  border-bottom: 1px solid #13AA57;
-  height: 25px;
-  margin-bottom: 1.5rem;
-}
-
-.language-choise span {
-  display: inline-block;
-  color: #056B33;
-  width: 82px;
-  text-align: center;
-  cursor: pointer;
-}
-
-.language-choise span:hover {
-  border: 1px solid #13AA57;
-  border-radius: 4px;
-  border-bottom: none;
-  background-color: #F0F5F4;
-}
-
-.title {
-  height: 200px;
+.flex-container {
+  padding-top: 8px;
   display: flex;
-  align-items: center;
-}
-
-.title h2 {
-  font-size: 48px;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.info {
-  margin-bottom: 50px;
-}
-
-.info p {
-  max-width: 653px;
-}
-
-h3, p, span, b, h2, button {
-  color: #494A49;
-  font-family: 'Open Sans';
-}
-
-.left-form-column span, .textarea-description {
-  font-size: 12px;
-}
-
-h3 {
-  font-size: 22px;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
   justify-content: space-between;
-  height: 650px;
-  margin-bottom: 1rem;
 }
 
-.left-form-column {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 420px;
-}
-
-.left-form-column input {
-  width: 652px;
-  height: 48px;
-  border-radius: 5px;
-  border: 1px solid #878787;
-}
-
-.tags {
-  margin-left: -20px;
-}
-
-.tags h3, .tags p {
-  margin-left: 20px;
-}
-
-.tags button {
-  margin-left: 20px;
-  border: 1px solid #878787;
-  background-color: #ffffff;
-  border-radius: 50px;
-  padding: 5px 15px 5px 15px;
-}
-
-.textarea-title {
-  margin-bottom: -30px;
-}
-
-.textarea-description {
-  margin-top: -30px;
-}
-
-form textarea {
-  height: 131px;
-  border-radius: 5px;
-  border: 1px solid #878787;
-}
-
-input::placeholder {
-  padding-left: 15px;
-}
-
-textarea::placeholder {
-  padding-left: 15px;
-  padding-top: 5px;
-}
-
-form label {
-  display: flex;
-  flex-direction: column;
-}
-
-.right-form-column {
-  width: 300px;
-  height: 100px;
+.app-create-news {
+  top: -10px;
 }
 
 .wrapper {
-  display:  flex;
+  margin: 12.5px 0;
+  display: flex;
   justify-content: space-between;
 }
 
-.date {
+.list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.gallery-view-active {
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
+
+.gallery-view-li-active {
+  margin: 0 32px 40px 0;
+}
+
+.list-view-li-active {
+  margin-bottom: 40px;
+}
+
+a {
+  text-decoration: none;
+}
+
+#create-button{
+  width: 185px;
+  min-height: 40px;
+  padding: 8px 40px;
   display: flex;
-  max-width: 300px;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
 }
 
-.submit-buttons {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.submit-buttons button {
-  margin-left: 20px;
-  border: 1px solid #13AA57;
-  border-radius: 3px;
-  background-color: #ffffff;
-  width: 139px;
-  height: 48px;
-  color: #13AA57;
-  font-weight: bold;
-}
-
-.submit-buttons button:last-child {
-  background-color: #13AA57;
-  color: #ffffff;
-  font-weight: bold;
-}
-
-@media screen and (max-width: 1000px) {
-  .left-form-column input {
-    width: 400px;
-  }
-}
-
-@media screen and (max-width: 740px) {
-  form {
-    height: 900px;
-  }
-
-  .left-form-column input {
-    width: 330px;
-  }
-
-  .wrapper {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .textarea-title {
-    margin-bottom: -150px;
-  }
-
-  .textarea-description {
-    margin-top: -150px;
-  }
+#create-button span{
+  display: block;
 }
