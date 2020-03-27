@@ -31,11 +31,11 @@ div {
   opacity: 0.8;
   font-family: OpenSans, sans-serif;
   font-size: 14px;
-  line-height: 16px;
-  color: #666666;
+  line-height: 14px;
+  color: #313131;
   display: inline-block;
   padding: 8px 16px;
-  border: 1px solid #666666;
+  border: 1px solid #313131;
   border-radius: 25px;
   margin: 0 16px 0 0;
 }
