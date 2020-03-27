@@ -11,7 +11,10 @@
 }
 
 .news-info,
-.news-text {
+.news-text,
+.edit-news,
+.tags-item,
+.back-button {
     font-family: 'Open Sans';
 }
 
@@ -50,7 +53,7 @@
 }
 
 .tags {
-    padding: 43px 0 24px 0;
+    padding: 48px 0 24px 0;
     display: flex;
     justify-content: center;
 }
@@ -58,6 +61,8 @@
 .tags-item {
     color: #666666;
     text-transform: capitalize;
+    font-size: 14px;
+    line-height: 16px;
     margin: 0 8px 0;
     padding: 8px 16px;
     border: 1px solid #878787;

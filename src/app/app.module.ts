@@ -122,12 +122,12 @@ import { NewsListGalleryViewComponent } from './component/general/eco-news/news-
 import { ChangeViewButtonComponent } from './component/general/eco-news/news-list/change-view-button/change-view-button.component';
 import { FilterNewsComponent } from './component/general/eco-news/filter-news/filter-news.component';
 import { RemainingCountComponent } from './component/general/eco-news/remaining-count/remaining-count.component';
-import { FilterEcoNewsPipe } from './pipe/filter-ecoNews-pipe/filter-eco-news.pipe';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import { EcoNewsDetailComponent } from './component/general/eco-news/eco-news-detail/eco-news-detail.component';
 import { CoreModule } from './component/core/core.module';
 import { PostNewsLoaderComponent } from './component/post-news-loader/post-news-loader.component';
 import { EcoNewsWidgetComponent } from './component/general/eco-news/eco-news-detail/eco-news-widget/eco-news-widget.component';
+import { NewsPreviewPageComponent } from './component/general/eco-news/news-preview-page/news-preview-page.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
@@ -209,10 +209,10 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     ChangeViewButtonComponent,
     FilterNewsComponent,
     RemainingCountComponent,
-    FilterEcoNewsPipe,
     EcoNewsDetailComponent,
-    PostNewsLoaderComponent,
-    EcoNewsWidgetComponent
+    EcoNewsWidgetComponent,
+    NewsPreviewPageComponent,
+    PostNewsLoaderComponent
   ],
   imports: [
     CoreModule,
