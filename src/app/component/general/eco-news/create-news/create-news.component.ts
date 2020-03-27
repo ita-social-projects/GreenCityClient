@@ -70,7 +70,11 @@ export class CreateNewsComponent implements OnInit, DoCheck {
   }
 
   public onSubmit(): void {
-    console.log(this.createNewsForm.value);
+    this.createEcoNewsService.sendFormData(this.createNewsForm).subscribe(
+      (data: any) => {
+        console.log(data);
+      }
+    );
   }
 
   private addFilters(filter: any): void { 
