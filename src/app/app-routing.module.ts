@@ -22,7 +22,6 @@ import { CreateNewsComponent } from './component/general/eco-news/create-news/cr
 import { AboutPageComponent } from './component/about-page/about-page.component';
 import { NewsPreviewPageComponent } from './component/general/eco-news/news-preview-page/news-preview-page.component';
 import { PostNewsLoaderComponent } from './component/post-news-loader/post-news-loader.component';
-import { CreateNewsComponent } from './component/general/eco-news/create-news/create-news.component';
 
 export const routes: Routes = [
   {
