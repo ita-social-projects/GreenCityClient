@@ -14,25 +14,30 @@ import { Subscription } from 'rxjs';
 export class EcoNewsWidgetComponent implements OnInit, OnDestroy {
   @Output() ecoNewsModel: EcoNewsModel;
   @Output() idNumber = new EventEmitter<string>();
+  private lastThreeNewsSubscription: Subscription;
+  private idNewsGotSubscription: Subscription;
+  private SortedNews: EcoNewsModel[];
+  private selectedId: number;
   private profileIcons = ecoNewsIcons;
   private defaultPicture = ecoNewsIcons;
-  private idNumberFromUrl: number;
-  private SortedNews: EcoNewsModel[];
-  private lastThreeNewsSubscription: Subscription;
 
-  constructor(
-    private ecoNewsService: EcoNewsService,
-    private route: ActivatedRoute
-    ) { }
+  constructor(private ecoNewsService: EcoNewsService,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.fetchSortedNews();
-    this.bindNewsToModel();
+    this.newsIdSubscription();
   }
 
-  private fetchSortedNews(): void {
-    this.ecoNewsService.selectedId = +this.route.snapshot.paramMap.get('id');
-    this.ecoNewsService.sortLastThreeNewsChronologically();
+  private newsIdSubscription(): void {
+    this.idNewsGotSubscription = this.route.paramMap.subscribe(param => {
+      this.selectedId = +param.get('id');
+      this.fetchSortedNews();
+      this.bindNewsToModel();
+    });
+  }
+
+  private fetchSortedNews(): any {
+    this.ecoNewsService.sortLastThreeNewsChronologically(this.selectedId);
   }
 
   private bindNewsToModel(): void {
@@ -45,5 +50,6 @@ export class EcoNewsWidgetComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.lastThreeNewsSubscription.unsubscribe();
+    this.idNewsGotSubscription.unsubscribe();
   }
 }
