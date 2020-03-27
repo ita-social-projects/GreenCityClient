@@ -20,8 +20,6 @@ export class EcoNewsService {
 
   constructor(private http: HttpClient) { }
 
-
-
   public getEcoNewsList() {
     this.http.get<EcoNewsDto>(`${this.backEnd}econews`)
       .pipe(take(1))
