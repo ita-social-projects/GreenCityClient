@@ -36,7 +36,7 @@ export class EcoNewsWidgetComponent implements OnInit, OnDestroy {
     });
   }
 
-  private fetchSortedNews(): any {
+  private fetchSortedNews(): void {
     this.ecoNewsService.sortLastThreeNewsChronologically(this.selectedId);
   }
 
