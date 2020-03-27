@@ -50,7 +50,9 @@
         </a>
       </li>
       <li>
-        <a>{{ 'user.lower-nav-bar.about-us' | translate }}</a>
+        <a [routerLink]="['/about']">
+          {{ 'user.lower-nav-bar.about-us' | translate }}
+        </a>
       </li>
     </ul>
   </div>

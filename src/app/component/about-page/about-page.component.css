@@ -1,0 +1,441 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
+.page-wrapper {
+  width: 1350px;
+  margin: 0 auto;
+  overflow: hidden;
+  height: 5800px;
+}
+
+.illustration-man {
+  position: relative;
+  width: 766px;
+  height: 681px;
+  right: -585px;
+  top: 200px;
+  background: url('../../../assets/img/Illustration-man.png') no-repeat;
+  z-index: 3;
+}
+
+.copyright {
+  background-color: rgba(131, 156, 148, 0.05);
+  color: #839c94;
+  font-family: 'Open Sans', sans-serif;
+  font-stretch: normal;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  height: 40px;
+  line-height: normal;
+  letter-spacing: normal;
+  padding-top: 11px;
+  text-align: center;
+  width: 100%;
+}
+
+.container-about {
+  position: relative;
+  top: -170px;
+  min-width: 100%;
+  min-height: 1000px;
+  height: auto;
+  background: #FFFFFF url('../../../assets/img/curly-line.png') no-repeat;
+  background-position: 0 100px;
+  margin: 0px;
+  padding: 0px;
+}
+
+.container-vision {
+  min-width: 100%;
+  min-height: 1200px;
+  height: auto;
+  background: #fefefe;
+  margin: 0px;
+  padding: 0px;
+  z-index: -1;
+}
+
+.leaf {
+  position: relative;
+  width: 199px;
+  height: 410px;
+  right: -1152px;
+  top: -450px;
+  background: url('../../../assets/img/leaf.png') no-repeat;
+  z-index: 2;
+}
+
+.vector-bg {
+  position: relative;
+  width: 622px;
+  height: 637.19px;
+  right: -730px;
+  top: -770px;
+  background: url('../../../assets/img/Vector.png') no-repeat;
+  z-index: 0;
+}
+
+.container-vision .full-text-block {
+  position: relative;
+  width: 555px;
+  height: 300px;
+  left: 750px;
+  top: -1800px;
+  font-family: OpenSans, sans-serif;
+  font-size: 24px;
+  line-height: 36px;
+  color: #263238;
+}
+
+.full-text-block {
+  position: relative;
+  width: 555px;
+  height: 333px;
+  left: 100px;
+  top: -1400px;
+  font-family: OpenSans, sans-serif;
+  font-size: 24px;
+  line-height: 36px;
+  color: #263238;
+}
+
+.full-text-block h2 {
+  float: left;
+  font-family: Montserrat, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 48px;
+  line-height: 60px;
+  margin-bottom: 16px;
+}
+
+.full-text-block span {
+  float: left;
+  margin-bottom: 40px;
+  padding-right: 40px;
+  color: #263238;
+}
+
+.full-text-block button {
+  float: left;
+}
+
+.vector-cup {
+  position: relative;
+  left: 100px;
+  top: -1200px;
+  width: 562px;
+  height: 435px;
+  background: url('../../../assets/img/Vector1.png') no-repeat;
+  z-index: 1;
+}
+
+.cup-img {
+  position: relative;
+  left: 250px;
+  top: -1600px;
+  width: 320px;
+  height: 336px;
+  background: url('../../../assets/img/illustration coffee.png') no-repeat;
+  z-index: 3;
+}
+
+.steps-main-block {
+  position: relative;
+  top: -2800px;
+  padding-top: 100px;
+  height: 4500px;
+  background: url('../../../assets/img/bg-form.png') no-repeat;
+  overflow: hidden;
+}
+
+.steps-main-block h2 {
+  position: relative;
+  width: 391px;
+  height: 60px;
+  left: 100px;
+  top: -3350px;
+  font-family: Montserrat, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 48px;
+  line-height: 60px;
+  color: #313131;
+  z-index: 5;
+}
+
+.dashed-line {
+  position: relative;
+  top: 540px;
+  left: 200px;
+  background: url('../../../assets/img/dashed line.png');
+  width: 838px;
+  height: 3581px;
+}
+
+.leaves {
+  position: relative;
+  top: 12px;
+  left: 107px;
+  background: url('../../../assets/img/leaves.png') no-repeat;
+  width: 641px;
+  height: 3214px;
+}
+
+          /*styles for odd cards*/
+
+.card-holder-odd .number-title {
+  position: relative;
+  display: block;
+  left: 600px;
+  top: 20px;
+}
+
+.card-holder-odd .card-header {
+  height: 130px;
+  position: relative;
+  display: block;
+  left: 670px;
+  top: -13px;
+  width: 400px;
+  font-family: Montserrat, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 44px;
+  background: #FFFFFF;
+  color: #263238;
+  border: none;
+  padding-top: -20px;
+}
+
+.card-holder-odd .bg-image {
+  position: relative;
+  left: 50px;
+  top: -190px;
+  margin: 0;
+}
+
+.card-holder-odd .main-card-text {
+  position: relative;
+  display: block;
+  width: 470px;
+  height: 200px;
+  left: 760px;
+  top: -500px;
+  padding-top: 20px;
+  font-family: OpenSans, sans-serif;
+  font-size: 24px;
+  line-height: 36px;
+  background: #FFFFFF;
+}
+
+.card-holder-odd .card-link {
+  position: relative;
+  left: 1090px;
+  top: -530px;
+  min-width: 200px;
+  font-family: OpenSans, sans-serif;
+  font-size: 16px;
+  line-height: 19px;
+  display: flex;
+  align-items: center;
+  text-decoration-line: underline;
+  color: #056B33;
+}
+
+.card-holder-odd {
+  width: 100%;
+  height: 700px;
+}
+
+.first-card-holder {
+  margin-top: 0px;
+}
+
+.steps-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-top: -3300px;
+}
+
+        /*styles for even cards*/
+
+.card-holder-even {
+  width: 100%;
+  height: 700px;
+  margin-top: 120px;
+  margin-bottom: 170px;
+  display: block;
+  left: 240px;
+  top: -500px;
+  padding-top: 20px;
+  font-family: OpenSans, sans-serif;
+  font-size: 24px;
+  line-height: 36px;
+  background: #FFFFFF;
+}
+
+.card-holder-even .number-title {
+  position: relative;
+  display: block;
+  left: 150px;
+  top: 20px;
+}
+
+.card-holder-even .card-header {
+  position: relative;
+  display: block;
+  left: 240px;
+  top: -13px;
+  width: 400px;
+  height: 130px;
+  font-family: Montserrat, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 44px;
+  background: #FFFFFF;
+  color: #263238;
+  border: none;
+}
+
+.card-holder-even .bg-image {
+  position: relative;
+  left: 700px;
+  top: -100px;
+  margin: 0;
+}
+
+.main-card-text {
+  position: relative;
+  display: block;
+  width: 470px;
+  height: 200px;
+  left: 150px;
+  top: -500px;
+  padding-top: 20px;
+  font-family: OpenSans, sans-serif;
+  font-size: 24px;
+  line-height: 36px;
+  background: #FFFFFF;
+}
+
+.card-holder-even .card-link {
+  position: relative;
+  left: 400px;
+  top: -530px;
+  min-width: 200px;
+  font-family: OpenSans, sans-serif;
+  font-size: 16px;
+  line-height: 19px;
+  display: flex;
+  align-items: center;
+  text-decoration-line: underline;
+  color: #056B33;
+}
+
+.card-link::after {
+  margin-left: 5px;
+  top: 2px;
+  content: ' ';
+  width: 10px;
+  height: 10px;
+  background: url('../../../assets/img/Vector3.svg') no-repeat;
+}
+
+.one-img {
+  background: url('../../../assets/img/1.png');
+  width: 33px;
+  height: 68px;
+}
+
+.two-img {
+  background: url('../../../assets/img/2.png');
+  width: 57px;
+  height: 69px;
+}
+
+.three-img {
+  background: url('../../../assets/img/3.png');
+  width: 57px;
+  height: 70px;
+}
+
+.four-img {
+  background: url('../../../assets/img/4.png');
+  width: 65px;
+  height: 68px;
+}
+
+.five-img {
+  background: url('../../../assets/img/5.png');
+  width: 57px;
+  height: 70px;
+}
+
+.ecostore-bg {
+  background: url('../../../assets/img/illustration store.png') no-repeat;
+  width: 622px;
+  height: 633px;
+}
+
+.planet-bg {
+  background: url('../../../assets/img/illustration earth.png') no-repeat;
+  width: 629px;
+  height: 566px;
+}
+
+.money-bg {
+  background: url('../../../assets/img/illustration money.png') no-repeat;
+  width: 692px;
+  height: 740px;
+}
+
+.cup-bg {
+  background: url('../../../assets/img/illustration recycle.png') no-repeat;
+  width: 629px;
+  height: 579px;
+}
+
+.people-bg {
+  background: url('../../../assets/img/illustration people.png') no-repeat;
+  width: 621px;
+  height: 648px;
+}
+
+#second-card-link {
+  top: -550px;
+  z-index: 2;
+  left: 470px;
+}
+
+#third-card-link {
+  top: -640px;
+}
+
+#fourth-card-link {
+  top: -550px;
+}
+
+#fifth-card-link {
+  top: -600px;
+}
+
+#third-card-heading {
+  left: 690px;
+  width: 450px;
+}
+
+#third-card-text {
+  top: -600px;
+}
+
+#fourth-card-text {
+  left: 150px;
+}
+
+#fifth-card-text {
+  top: -570px;
+}
