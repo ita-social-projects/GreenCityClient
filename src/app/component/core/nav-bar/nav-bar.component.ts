@@ -84,10 +84,6 @@ export class NavBarComponent implements OnInit {
     });
   }
 
-  public openModalSignUp(){
-      this.dialog.open(WindowsignupComponent);
-    }
-
   public openModalSignIn(){
       this.dialog.open(WindowsigninComponent);
     }
