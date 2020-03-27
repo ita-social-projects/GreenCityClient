@@ -498,5 +498,9 @@
         "button": "Find people"
       }
     }
+  },
+  "post-news-loader": {
+    "text-1": "Please wait while loading...",
+    "text-2": "Your news is loading to the website. Please wait until the page refreshes"
   }
 }
