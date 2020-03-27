@@ -13,6 +13,7 @@ import { take } from 'rxjs/operators';
 export class EcoNewsService {
   private backEnd = environment.backendLink;
   private newsList: Array<EcoNewsModel>;
+  private newsListWithActiveFilter: Array<EcoNewsModel>;
   public newsListSubject = new Subject<Array<EcoNewsModel>>();
   public selectedId: number;
   public sortedLastThreeNews =  new Subject<Array<EcoNewsModel>>();
@@ -54,5 +55,13 @@ export class EcoNewsService {
       .filter(news => news.id !== id)
       .splice(0, 3);
     this.sortedLastThreeNews.next(separetedNews);
+  }
+
+  public getEcoNewsFilteredByTag(tags: Array<string>): void {
+      this.http.get<EcoNewsDto>(`${this.backEnd}econews/tags?tags=${tags}`)
+        .subscribe((filteredEcoNews: EcoNewsDto) => {
+          this.newsListWithActiveFilter = filteredEcoNews.page;
+          this.newsListSubject.next(this.newsListWithActiveFilter);
+        });
   }
 }
