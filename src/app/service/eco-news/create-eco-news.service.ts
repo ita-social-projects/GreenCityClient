@@ -10,7 +10,7 @@ export class CreateEcoNewsService {
 
   constructor(private http: HttpClient) { }
 
-  public translations = {
+  public translations: object = {
     'ua': {
       text: "",
       title: ""
@@ -26,8 +26,8 @@ export class CreateEcoNewsService {
   };
 
   private url: string = 'https://greencity.azurewebsites.net/econews';
-  
-  private httpOptions = {
+  private accessToken: string = localStorage.getItem('accessToken');
+  private httpOptions: any = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
       'Authorization': 'my-auth-token'
@@ -43,24 +43,25 @@ export class CreateEcoNewsService {
     this.translations[language].title = translations.title;
   }
 
-  public sendFormData(form): Observable<any> {
-    const body: object = {
+  public sendFormData(form, language): Observable<any> {
+    const body: any = {
       "imagePath": form.value.source,
       "tags": [
-        "news"
+        form.value.tags
       ],
       "translations": [
         {
           "language": {
-            "code": "en"
+            "code": language
           },
           "text": form.value.content,
           "title": form.value.title
         }
       ]
     };
+    body.tags = form.value.tags
     this.httpOptions.headers =
-    this.httpOptions.headers.set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrb3JhdDMyMjc1QGZmdC1tYWlsLmNvbSIsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1ODUzMjMxNDEsImV4cCI6MTU4NTMzMDM0MX0.2RmfgQhs4tp9uYyXj0AEddaf3sTzK5kjZrx3UtQF1KQ');
+    this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
     return this.http.post(this.url, body, this.httpOptions);
   }
 }

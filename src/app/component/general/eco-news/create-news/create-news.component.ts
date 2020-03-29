@@ -70,21 +70,21 @@ export class CreateNewsComponent implements OnInit, DoCheck {
   }
 
   public onSubmit(): void {
-    this.createEcoNewsService.sendFormData(this.createNewsForm).subscribe(
+    this.createEcoNewsService.sendFormData(this.createNewsForm, this.activeLanguage).subscribe(
       (data: any) => {
         console.log(data);
       }
     );
   }
 
-  private addFilters(filter: any): void { 
+  public addFilters(filter: any): void { 
     if(!filter.isActive) {
       filter.isActive = true;
-      this.createNewsForm.value.tags.push(filter.name);
+      this.createNewsForm.value.tags.push(filter.name.toLowerCase());
     } else {
       filter.isActive = false;
       this.createNewsForm.value.tags.forEach((item, index) => {
-        if (item === filter.name) {
+        if (item.toLowerCase() === filter.name.toLowerCase()) {
           this.createNewsForm.value.tags.splice(index, 1);
         }
       })
