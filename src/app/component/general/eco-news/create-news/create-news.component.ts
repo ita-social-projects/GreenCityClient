@@ -3,6 +3,7 @@ import { preparedImageForCreateEcoNews } from '../../../../links';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { CreateEcoNewsService } from '../../../../service/eco-news/create-eco-news.service';
+import { FilterInterface, LanguageInterface } from './create-news-interface';
 
 @Component({
   selector: 'app-create-news',
@@ -22,7 +23,7 @@ export class CreateNewsComponent implements OnInit, DoCheck {
     tags: this.fb.array([])
   });
 
-  public filters: Array<object> = [
+  public filters: Array<FilterInterface> = [
     {name: 'News', isActive: false},
     {name: 'Events', isActive: false}, 
     {name: 'Courses', isActive: false}, 
@@ -36,7 +37,7 @@ export class CreateNewsComponent implements OnInit, DoCheck {
   private date: Date = new Date();
   public formValid: boolean;
 
-  public languages: Array<object> = [
+  public languages: Array<LanguageInterface> = [
     {name: 'Ukrainian', lang: 'ua'},
     {name: 'English', lang: 'en'},
     {name: 'Russian', lang: 'ru'},
@@ -61,7 +62,7 @@ export class CreateNewsComponent implements OnInit, DoCheck {
 
   public onSourceChange(): void {
     this.createNewsForm.get('source').valueChanges.subscribe(source => {
-      if( !source ) {
+      if ( !source ) {
         this.link = this.preparedLink;
       } else {
         this.link = source;
@@ -71,14 +72,14 @@ export class CreateNewsComponent implements OnInit, DoCheck {
 
   public onSubmit(): void {
     this.createEcoNewsService.sendFormData(this.createNewsForm, this.activeLanguage).subscribe(
-      (data: any) => {
+      (data: object) => {
         console.log(data);
       }
     );
   }
 
-  public addFilters(filter: any): void { 
-    if(!filter.isActive) {
+  public addFilters(filter: FilterInterface): void { 
+    if ( !filter.isActive ) {
       filter.isActive = true;
       this.createNewsForm.value.tags.push(filter.name.toLowerCase());
     } else {
@@ -91,7 +92,7 @@ export class CreateNewsComponent implements OnInit, DoCheck {
     }
   }
 
-  public setFormValue(): void {
+  public bindFormValue(): void {
     const translationData = this.createEcoNewsService.getTranslationByLang(this.activeLanguage);
     this.createNewsForm.patchValue({
       title: translationData.title,
@@ -99,13 +100,13 @@ export class CreateNewsComponent implements OnInit, DoCheck {
     });
   }
 
-  public changeLanguage(language: any): void {
+  public changeLanguage(language: LanguageInterface): void {
     const formData = {
       text: this.createNewsForm.value['content'],
       title: this.createNewsForm.value['title']
     }  
     this.createEcoNewsService.setTranslationByLang(this.activeLanguage, formData);
     this.activeLanguage = language.lang;
-    this.setFormValue();
+    this.bindFormValue();
   }
 }

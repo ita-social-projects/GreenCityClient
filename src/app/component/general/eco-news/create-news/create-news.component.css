@@ -186,18 +186,18 @@ button {
     outline: none;
 }
 
-.green {
+.filters-color {
     background-color: #13AA57;
     color: #ffffff;
     border: none;
 }
 
-.green::after {
+.filters-color::after {
     content: '  \2716';
     font-size: 12px;
 }
 
-.green:hover {
+.filters-color:hover {
     color: #ffffff;
     border: none;
 }

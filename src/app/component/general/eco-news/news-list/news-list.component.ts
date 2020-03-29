@@ -59,11 +59,6 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.view = event;
   }
 
-  private getFilterData(value: Array<string>): void {
-    this.gridOutput = value;
-    this.ecoNewsService.getEcoNewsFilteredByTag(value);
-  }
-
   ngOnDestroy() {
     this.ecoNewsSubscription.unsubscribe();
   }

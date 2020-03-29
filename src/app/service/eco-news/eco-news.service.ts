@@ -56,12 +56,4 @@ export class EcoNewsService {
       .splice(0, 3);
     this.sortedLastThreeNews.next(separetedNews);
   }
-  
-  public getEcoNewsFilteredByTag(tags: Array<string>): void {
-    this.http.get<EcoNewsDto>(`${this.backEnd}econews/tags?tags=${tags}`)
-      .subscribe((filteredEcoNews: EcoNewsDto) => {
-        this.newsListWithActiveFilter = filteredEcoNews.page;
-        this.newsListSubject.next(this.newsListWithActiveFilter);
-      });
-  }
 }
