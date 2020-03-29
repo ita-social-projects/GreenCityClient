@@ -11,32 +11,32 @@
 </div>
 <div class="wrapper">
   <app-remaining-count [remainingCount]="remaining"></app-remaining-count>
-  <app-change-view-button (view)="chageView($event)"></app-change-view-button>
+  <app-change-view-button (view)="changeView($event)"></app-change-view-button>
 </div>
 <div>
-  <ul class="list" 
+  <ul class="list"
       [ngClass]="{ 'gallery-view-active': view }">
     <li [ngClass]="{
                     'gallery-view-li-active': view,
                     'list-view-li-active': !view
-                  }" 
+                  }"
         *ngFor="let data of elements|filterEcoNews:gridOutput"
         [routerLink]="['/news', data.id]"
         >
-      <app-news-list-gallery-view 
-        *ngIf="view" 
+      <app-news-list-gallery-view
+        *ngIf="view"
         [ecoNewsModel]="data">
       </app-news-list-gallery-view>
-      <app-news-list-list-view 
-        *ngIf="!view" 
+      <app-news-list-list-view
+        *ngIf="!view"
         [ecoNewsModel]="data">
       </app-news-list-list-view>
     </li>
   </ul>
 </div>
 
-<div infiniteScroll 
-     [infiniteScrollDistance]="0" 
-     [infiniteScrollThrottle]="500" 
+<div infiniteScroll
+     [infiniteScrollDistance]="0"
+     [infiniteScrollThrottle]="500"
      (scrolled)="onScroll()">
 </div>

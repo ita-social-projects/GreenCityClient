@@ -6,7 +6,7 @@
   </div>
   <div class="added-data">
     <div class="filter-tag">
-      <p class="ul-eco-buttons">{{ ecoNewsModel.tag }}</p>
+      <p class="ul-eco-buttons">{{ ecoNewsModel.tags }}</p>
     </div>
     <div class="title-list">
       <p>
@@ -23,13 +23,13 @@
         <img class="icon" 
              [src]="profileIcons.userIcon" 
              alt="user icon" />
-        {{ ecoNewsModel.name }}
+             {{ ecoNewsModel.author.firstName }} {{ ecoNewsModel.author.lastName}}
       </p>
       <p class="user-data-text-date-share">
         <img class="icon" 
              [src]="profileIcons.calendarIcon" 
              alt="calendar icon" />
-        {{ ecoNewsModel.creationDate }}
+        {{ ecoNewsModel.creationDate | date}}
       </p>
       <a class="user-data-text-date-share">
         <img class="icon" 

@@ -20,6 +20,8 @@ import { EcoNewsComponent } from './component/general/eco-news/eco-news.componen
 import { EcoNewsDetailComponent } from './component/general/eco-news/eco-news-detail/eco-news-detail.component';
 import { CreateNewsComponent } from './component/general/eco-news/create-news/create-news.component';
 import { AboutPageComponent } from './component/about-page/about-page.component';
+import { NewsPreviewPageComponent } from './component/general/eco-news/news-preview-page/news-preview-page.component';
+import { PostNewsLoaderComponent } from './component/post-news-loader/post-news-loader.component';
 
 export const routes: Routes = [
   {
@@ -66,26 +68,36 @@ export const routes: Routes = [
   },
   {
     path: 'news',
-    component: EcoNewsComponent,
+    component: EcoNewsComponent
   },
   {
-    path: 'create-news', component: CreateNewsComponent,
-  },
-  { path: 'news/:id',
+    path: 'news/:id',
     component: EcoNewsDetailComponent
   },
   { path: 'about',
     component: AboutPageComponent
+  },
+  {
+    path: 'create-news',
+    component: CreateNewsComponent
+  },
+  {
+    path: 'create-news/preview',
+    component: NewsPreviewPageComponent
+  },
+  {
+    path: 'post-news-loader',
+    component: PostNewsLoaderComponent
   }
 ];
 
 @NgModule({
-    imports: [
-        RouterModule.forRoot(routes)
-    ],
-    exports: [
-        RouterModule
-    ]
+  imports: [
+    RouterModule.forRoot(routes)
+  ],
+  exports: [
+    RouterModule
+  ]
 })
 
 export class AppRoutingModule {}
