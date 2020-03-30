@@ -15,7 +15,6 @@ export class EcoNewsService {
   private newsList: Array<EcoNewsModel>;
   private newsListWithActiveFilter: Array<EcoNewsModel>;
   public newsListSubject = new Subject<Array<EcoNewsModel>>();
-  public selectedId: number;
   public sortedLastThreeNews =  new Subject<Array<EcoNewsModel>>();
 
   constructor(private http: HttpClient) { }
@@ -35,12 +34,12 @@ export class EcoNewsService {
     return this.http.get<EcoNewsModel>(`${this.backEnd}econews/${id}`);
   }
 
-  public sortLastThreeNewsChronologically(): void {
+  public sortLastThreeNewsChronologically(id): void {
     this.http.get<EcoNewsDto>(`${this.backEnd}econews`)
       .pipe(take(1))
       .subscribe(
         (newsList: EcoNewsDto) => {
-          this.onSortLastThreeNewsFinished(newsList.page, this.selectedId);
+          this.onSortLastThreeNewsFinished(newsList.page, id);
         }
      );
   }
