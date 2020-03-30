@@ -29,7 +29,7 @@
 }
 
 .ul-eco-buttons a:hover .ul-eco-buttons-li {
-    color:#056B33; 
+    color:#056B33;
     border: 1px solid #056B33;
 }
 
@@ -63,38 +63,16 @@
 
 .close{
     position: relative;
-    top: 4px;
+    top: 6px;
     right: -7px;
-    width: 10px;
-    height: 10px;
+     width: 6px;
+    height: 6px;
     cursor: pointer;
     text-shadow: none;
     opacity: 1;
+    background-image: url('../../../../../assets/img/icon/white-cross.png');
 }
 
 .closeNone{
     display: none;
-}
-
-.close::before,
-.close::after {
-    position: relative;
-    content: " ";
-    display: block;
-    top: 0px;
-    left: 4.3px;
-    margin: 0px 0px 0px 0px;
-    width: 2px;
-    height: 11px;
-    background:#fff;
-}
-
-.close::before {
-    transform: rotate(45deg);
-    top: -1px;
-}
-
-.close::after {
-    top: -11.7px;
-    transform: rotate(-45deg);
 }

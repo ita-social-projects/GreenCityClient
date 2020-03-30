@@ -42,20 +42,16 @@
 }
 
 #footer-left .button {
-  background-color: #13aa57;
-  border: none;
-  border-radius: 4px;
   box-shadow: 0 13px 20px 0 rgba(118, 196, 125, 0.41);
-  color: #ffffff;
   font-size: 18px;
   font-stretch: normal;
-  font-style: normal;
   font-weight: 400;
   letter-spacing: normal;
   line-height: 1.78;
   height: 50px;
   margin-top: 32px;
   width: 292px;
+  outline: none;
 }
 
 #footer-right {
@@ -96,6 +92,7 @@
   font-weight: 600;
   line-height: 2.5;
   letter-spacing: normal;
+  text-decoration: none;
 }
 
 #footer-right #social-icons {

@@ -9,14 +9,15 @@
     <div class="stat-row-content">
       <div class="content-wrapper" [style.margin-right]="index % 2 === 1 ? 0 : 'auto'">
         <h3>{{ "homepage.stats.bag-stat-before" | translate }}
-          <span>{{ stat.count }}</span>
-          {{ "homepage.stats.bag-stat-after" | translate }}
+            <span>{{ stat.count }}</span>
+            {{ "homepage.stats.bag-stat-after" | translate }}
         </h3>
         <p>{{ "homepage.stats.bag-question" | translate }}</p>
-        <button class="button">{{ "homepage.general.button-start-habit" | translate }}</button>
+        <button class="button primary-global-button">{{ "homepage.general.button-start-habit" | translate }}</button>
         <div class="location-row">
           <img [src]="locationImage" alt="location-image">
-          <a routerLink="/map">{{ "homepage.stats.bag-link" | translate }}</a>
+          <a class="tertiary-global-button" routerLink="/map">
+          {{ "homepage.stats.bag-link" | translate }}</a>
         </div>
       </div>
     </div>
@@ -26,13 +27,15 @@
       <div class="content-wrapper" [style.margin-left]="index % 2 === 0 ? 0 : 'auto'">
         <h3>{{ "homepage.stats.cup-stat-before" | translate }}
           <span>{{ stat.count }}</span>
-          {{ "homepage.stats.cup-stat-after" | translate }}
+           {{ "homepage.stats.cup-stat-after" | translate }}
         </h3>
         <p>{{ "homepage.stats.bag-question" | translate }}</p>
-        <button class="button">{{ "homepage.general.button-start-habit" | translate }}</button>
+        <button class="button primary-global-button">
+           {{ "homepage.general.button-start-habit" | translate }}</button>
         <div class="location-row">
-          <img [src]="locationImage" alt="location-image">
-          <a routerLink="/map">{{ "homepage.stats.cup-link" | translate }}</a>
+           <img [src]="locationImage" alt="location-image">
+           <a class="tertiary-global-button" routerLink="/map">
+           {{ "homepage.stats.cup-link" | translate }}</a>
         </div>
       </div>
     </div>

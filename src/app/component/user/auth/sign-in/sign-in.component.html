@@ -42,18 +42,26 @@
                   {{backEndError}}
                </div>
                <div class="forgot-wrapper">
-                  <a (click)="openDialog()" class="forgot-password">{{'user.auth.sign-in.forgot-password' | translate}}</a>
+                  <a (click)="openDialog()" class="forgot-password">
+                    {{'user.auth.sign-in.forgot-password' | translate}}</a>
                </div>
-               <button class="submit" [disabled]="!registerForm.valid" type="submit">
-               <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-               {{'user.auth.sign-in.sign-in' | translate}}
-               </button>
+               <button class="submit primary-global-button"
+                  [disabled]="!registerForm.valid" type="submit">
+               <span *ngIf="loadingAnim"
+                     class="spinner-border spinner-border-sm"
+                     role="status" aria-hidden="true"></span>
+                     {{'user.auth.sign-in.sign-in' | translate}}</button>
                </form>
                <div class="wrapper-sign-up">
-                  <p>{{'user.auth.sign-in.havenot-account' | translate}} <a routerLink="sign-up" class="signup-link">{{'user.auth.sign-in.sign-up' | translate}}</a></p>
+                  <p>{{'user.auth.sign-in.havenot-account' | translate}}
+                  <a routerLink="sign-up" class="signup-link">
+                     {{'user.auth.sign-in.sign-up' | translate}}</a></p>
                   <span class="or">{{'user.auth.sign-in.or-signin' | translate}}</span>
                   <div>
-                     <button type="submit" class="google" (click)="signInWithGoogle()"><img [src]="picGoogle" alt="G">{{'user.auth.sign-in.sign-in-with-google' | translate}}<img [src]="picArrow" alt="" class="google-arrow"></button>
+                     <button type="submit" class="google"
+                      (click)="signInWithGoogle()"><img [src]="picGoogle" alt="G">
+                      {{'user.auth.sign-in.sign-in-with-google' | translate}}
+                      <img [src]="picArrow" alt="" class="google-arrow"></button>
                   </div>
                </div>
             </div>

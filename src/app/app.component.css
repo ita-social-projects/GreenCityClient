@@ -10,3 +10,6 @@
 .app-container {
   margin-top: 123px;
 }
+:host{
+  --pink-color:deeppink;
+}

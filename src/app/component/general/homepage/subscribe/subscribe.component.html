@@ -16,9 +16,9 @@
         [ngClass]="{'hidden': subscriptionError.length < 1, 'visible': !emailTouched || subscriptionError.length > 0}">
         {{ "homepage.subscription.subscription-error" | translate }}
       </p>
-      <button (click)="subscribe()">
-        {{ "homepage.subscription.button-subscribe" | translate }}
-      </button>
+      <button class="primary-global-button"
+        (click)="subscribe()">
+        {{ "homepage.subscription.button-subscribe" | translate }}</button>
     </div>
   </div>
 </div>
