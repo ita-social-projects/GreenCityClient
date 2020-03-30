@@ -1,13 +1,19 @@
-<div class="container">
+<ng-template [ngIf]="isPosting">
+    <app-post-news-loader></app-post-news-loader>
+</ng-template>
+
+<div class="container" *ngIf="!isPosting">
     <div class="title">
         <h2>Create news</h2>
     </div>
     <div class="language-choise">
-        <span>Ukrainian</span>
-        <span>English</span>
-        <span>Russian</span>
+        <span (click)="changeLanguage(language)"
+               *ngFor="let language of languages"
+               [ngClass]="{
+                   active: language.lang === activeLanguage
+                }">{{ language.name }}</span>
     </div>
-    <div class="info">
+    <div class="form-description">
         <p>
             This news will be posted in English. Please create copies
             of this news in other languages if needed. You can come
@@ -15,54 +21,57 @@
         </p>
     </div>
     <div class="form-container">
-        <form>
+        <form [formGroup]="createNewsForm" (ngSubmit)="onSubmit()">
             <div class="wrapper">
                 <div class="left-form-column">
                     <label>
                         <h3>Title</h3>
-                        <input
-                            type="text"
-                            placeholder="e.x. Coffee takeaway with 20% discounte">
-                        <span>Should contain maximum 200 symbols</span>
+                        <input type="text"
+                               placeholder="e.x. Coffee takeaway with 20% discounte"
+                               formControlName="title">
+                        <span>Should contain maximum 170 symbols</span>
                     </label>
-                    <div class="tags">
+                    <div class="tags" formArrayName="tags">
                         <h3>Pick tags for news</h3>
                         <p>Please select one or more tags</p>
-                        <button>News</button>
-                        <button>Events</button>
-                        <button>Courses</button>
-                        <button>Initiatives</button>
-                        <button>Ads</button>
+                        <button *ngFor="let filter of filters"
+                                (click)="addFilters(filter)"
+                                type="button"
+                                [ngClass]="{
+                                    'filters-color': filter.isActive
+                                }">{{ filter.name }}</button>
                     </div>
                     <label>
                         <h3>Source(optional)</h3>
-                        <input
-                            type="text"
-                            placeholder="link to external source">
-                        <span>Please add the link of original article/news/post</span>
+                        <input type="text"
+                               placeholder="link to external source"
+                               formControlName="source">
+                        <span>Please add the link of original article/news/post. Link should contain https://</span>
                     </label>
                 </div>
                 <div class="right-form-column">
-                    <img
-                        [src]="link"
-                        alt="preapred image">
+                    <img [src]="link" alt="preapred image">
                 </div>
             </div>
-            <h3 class="textarea-title">Content</h3>
-            <textarea
-                name="main-area"
-                placeholder="E.x. Short description of news, agenda for event"></textarea>
-            <p class="textarea-description">Should contain minimum 200 symbols</p>
-        </form>
-    </div>
-    <div class="date">
-        <p><b>Date: </b><span>Jan 30, 2020</span></p>
-        <p><b>Author: </b><span>Current User</span></p>
-    </div>
-    <div class="submit-buttons">
-        <button>Cancel</button>
-        <button>Preview</button>
-        <button>Publish</button>
-    </div>
+            <div class="textarea-wrapper">
+                <h3 class="textarea-title">Content</h3>
+                <textarea name="main-area"
+                          placeholder="E.x. Short description of news, agenda for event"
+                          formControlName="content"></textarea>
+                <p class="textarea-description">Should contain minimum 20 symbols</p>
+            </div>
+        <div class="date">
+            <p><b>Date: </b><span>{{date | date: 'longDate'}}</span></p>
+            <p><b>Author: </b><span>Current User</span></p>
+        </div>
+        <div class="submit-buttons">
+            <button
+                type="button"
+                (click)="navigateByUrl('/news')">Cancel</button>
+            <button type="button" (click)="navigateByUrl('create-news/preview')">Preview</button>
+            <button type="submit" [disabled]="!createNewsForm.valid">Publish</button>
+        </div>
+    </form>
     <app-footer></app-footer>
+</div>
 </div>

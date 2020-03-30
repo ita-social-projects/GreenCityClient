@@ -1,12 +1,15 @@
 <div id="list-gallery-content">
   <div class="list-image">
-    <img class="list-image-content" 
-         [src]="defaultPicture.newsDefaultPictureList" 
+    <img class="list-image-content"
+         [src]="defaultPicture.newsDefaultPictureList"
          alt="user added image" />
   </div>
   <div class="added-data">
     <div class="filter-tag">
-      <p class="ul-eco-buttons">{{ ecoNewsModel.tags }}</p>
+      <div class="ul-eco-buttons"
+           *ngFor="let tag of ecoNewsModel.tags">
+        {{ tag }}
+      </div>
     </div>
     <div class="title-list">
       <p>
@@ -20,19 +23,19 @@
     </div>
     <div class="user-data-added-news">
       <p class="user-data-text-date-share">
-        <img class="icon" 
-             [src]="profileIcons.userIcon" 
+        <img class="icon"
+             [src]="profileIcons.userIcon"
              alt="user icon" />
              {{ ecoNewsModel.author.firstName }} {{ ecoNewsModel.author.lastName}}
       </p>
       <p class="user-data-text-date-share">
-        <img class="icon" 
-             [src]="profileIcons.calendarIcon" 
+        <img class="icon"
+             [src]="profileIcons.calendarIcon"
              alt="calendar icon" />
         {{ ecoNewsModel.creationDate | date}}
       </p>
       <a class="user-data-text-date-share">
-        <img class="icon" 
+        <img class="icon"
              [src]="profileIcons.shareIcon"
              alt="Share button" />
         Share

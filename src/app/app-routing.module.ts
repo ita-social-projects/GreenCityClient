@@ -67,6 +67,10 @@ export const routes: Routes = [
     ]
   },
   {
+    path: 'create-news',
+    component: CreateNewsComponent
+  },
+  {
     path: 'news',
     component: EcoNewsComponent
   },

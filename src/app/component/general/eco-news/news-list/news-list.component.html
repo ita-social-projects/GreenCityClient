@@ -20,7 +20,7 @@
                     'gallery-view-li-active': view,
                     'list-view-li-active': !view
                   }"
-        *ngFor="let data of elements|filterEcoNews:gridOutput"
+        *ngFor="let data of elements"
         [routerLink]="['/news', data.id]"
         >
       <app-news-list-gallery-view
