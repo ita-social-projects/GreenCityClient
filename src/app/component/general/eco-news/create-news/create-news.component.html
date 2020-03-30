@@ -65,7 +65,7 @@
                 type="button" 
                 (click)="navigateByUrl()">Cancel</button>
             <button type="button">Preview</button>
-            <button type="submit" [disabled]="createNewsForm.invalid || formValid">Publish</button>
+            <button type="submit" [disabled]="!createNewsForm.valid">Publish</button>
         </div>
     </form>
     <app-footer></app-footer>
