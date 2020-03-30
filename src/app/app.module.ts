@@ -125,7 +125,7 @@ import { RemainingCountComponent } from './component/eco-news/remaining-count/re
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import { EcoNewsDetailComponent } from './component/eco-news/eco-news-detail/eco-news-detail.component';
 import { CoreModule } from './component/core/core.module';
-import { PostNewsLoaderComponent } from './component/post-news-loader/post-news-loader.component';
+import { PostNewsLoaderComponent } from './component/eco-news/post-news-loader/post-news-loader.component';
 import { EcoNewsWidgetComponent } from './component/eco-news/eco-news-detail/eco-news-widget/eco-news-widget.component';
 import { NewsPreviewPageComponent } from './component/eco-news/news-preview-page/news-preview-page.component';
 import {EcoNewsModule} from './component/eco-news/eco-news.module';

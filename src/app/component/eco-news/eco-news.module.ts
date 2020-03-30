@@ -15,8 +15,7 @@ import {CoreModule} from '../core/core.module';
 import {ChangeViewButtonComponent} from './news-list/change-view-button/change-view-button.component';
 import {EcoNewsRoutingModule} from './eco-news-routing.module';
 import {NewsPreviewPageComponent} from './news-preview-page/news-preview-page.component';
-import {PostNewsLoaderComponent} from '../post-news-loader/post-news-loader.component';
-
+import {PostNewsLoaderComponent} from './post-news-loader/post-news-loader.component';
 
 @NgModule({
   declarations: [
