@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NewsModel, TranslationModel, NewsDTO, NewsResponseDTO } from '../../component/general/eco-news/create-news/create-news-interface';
+import { NewsModel, TranslationModel, NewsDTO, NewsResponseDTO } from '../../component/eco-news/create-news/create-news-interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from './../../../environments/environment';
@@ -16,8 +16,8 @@ export class CreateEcoNewsService {
       'Authorization': 'my-auth-token'
     })
   };
-  public translations: {ua: TranslationModel, 
-                        ru: TranslationModel, 
+  public translations: {ua: TranslationModel,
+                        ru: TranslationModel,
                         en: TranslationModel, imagePath: string} = {
     'ua': {
       text: "",
@@ -35,7 +35,7 @@ export class CreateEcoNewsService {
     imagePath: ""
   };
 
-  
+
   constructor(private http: HttpClient) { }
 
   public getTranslationByLang(lang: string): NewsModel {
@@ -61,7 +61,7 @@ export class CreateEcoNewsService {
         }
       ]
     };
-    
+
     this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
     return this.http.post<NewsResponseDTO>(`${this.url}/econews`, body, this.httpOptions);
   }

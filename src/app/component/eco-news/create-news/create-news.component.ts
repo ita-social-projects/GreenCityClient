@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { preparedImageForCreateEcoNews } from '../../../../links';
+import { preparedImageForCreateEcoNews } from '../../../links';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
-import { CreateEcoNewsService } from '../../../../service/eco-news/create-eco-news.service';
+import { CreateEcoNewsService } from '../../../service/eco-news/create-eco-news.service';
 import { FilterModel, LanguageModel, NewsResponseDTO } from './create-news-interface';
 
 @Component({
@@ -19,12 +19,12 @@ export class CreateNewsComponent implements OnInit {
     content: ['', [Validators.required, Validators.minLength(20)]],
     tags: this.fb.array([])
   });
-  
+
   public filters: Array<FilterModel> = [
     {name: 'News', isActive: false},
-    {name: 'Events', isActive: false}, 
-    {name: 'Courses', isActive: false}, 
-    {name: 'Initiatives', isActive: false}, 
+    {name: 'Events', isActive: false},
+    {name: 'Courses', isActive: false},
+    {name: 'Initiatives', isActive: false},
     {name: 'Ads', isActive: false}
   ];
 
@@ -39,9 +39,9 @@ export class CreateNewsComponent implements OnInit {
   private preparedLink: string = preparedImageForCreateEcoNews;
   private date: Date = new Date();
 
-  constructor(private router: Router, 
-              private fb: FormBuilder, 
-              private createEcoNewsService: CreateEcoNewsService) {}  
+  constructor(private router: Router,
+              private fb: FormBuilder,
+              private createEcoNewsService: CreateEcoNewsService) {}
 
   ngOnInit() {
     this.link = this.preparedLink;
@@ -68,7 +68,7 @@ export class CreateNewsComponent implements OnInit {
     );
   }
 
-  public addFilters(filter: FilterModel): void { 
+  public addFilters(filter: FilterModel): void {
     if ( !filter.isActive ) {
       filter.isActive = true;
       this.createNewsForm.value.tags.push(filter.name.toLowerCase());
@@ -100,7 +100,7 @@ export class CreateNewsComponent implements OnInit {
     const formData = {
       text: this.createNewsForm.value['content'],
       title: this.createNewsForm.value['title']
-    }; 
+    };
 
     this.createEcoNewsService.setTranslationByLang(this.activeLanguage, formData);
     this.createNewsForm.reset();
