@@ -14,11 +14,21 @@
     cursor: pointer;
 }
 
-.language-choise span:hover {
-    border: 1px solid #13AA57;
-    border-radius: 4px;
+.language-choise span.active:hover {
+    background-color: #ffffff;
     border-bottom: none;
+}
+
+.language-choise span:hover {
     background-color: #F0F5F4;
+    border-bottom: 1px solid #13AA57;
+}
+
+span.active {
+    border: 1px solid #13AA57; 
+    border-radius: 5px 5px 0 0;
+    border-bottom: none;
+    background-color: #ffffff;
 }
 
 .title {
@@ -27,16 +37,24 @@
     align-items: center;
 }
 
+input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched {
+    border: 1px solid red !important;
+}
+
+input.ng-invalid.ng-touched + span, textarea.ng-invalid.ng-touched + p {
+    color: red;
+}
+
 .title h2 {
     font-size: 48px;
     font-family: 'Montserrat', sans-serif;
 }
 
-.info {
+.form-description {
     margin-bottom: 50px;
 }
 
-.info p {
+.form-description p {
     max-width: 653px;
 }
 
@@ -57,7 +75,6 @@ form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 650px;
     margin-bottom: 1rem;
 }
 
@@ -83,7 +100,12 @@ form {
     margin-left: 20px;
 }
 
-.tags button {
+button:hover {
+    border: 1px solid #13AA57;
+    color: #13AA57;
+}
+
+button {
     margin-left: 20px;
     border: 1px solid #878787;
     background-color: #ffffff;
@@ -91,18 +113,15 @@ form {
     padding: 5px 15px 5px 15px;
 }
 
-.textarea-title {
-    margin-bottom: -30px;
-}
-
-.textarea-description {
-    margin-top: -30px;
-}
-
-form textarea {
+form .textarea-wrapper textarea {
     height: 131px;
     border-radius: 5px;
     border: 1px solid #878787;
+    width: 100%;
+}
+
+.textarea-wrapper {
+    margin-top: 25px;
 }
 
 input::placeholder {
@@ -131,8 +150,9 @@ form label {
 
 .date {
     display: flex;
-    max-width: 300px;
+    max-width: 350px;
     justify-content: space-between;
+    margin-top: 15px;
 }
 
 .submit-buttons {
@@ -157,6 +177,31 @@ form label {
     font-weight: bold;
 }
 
+.submit-buttons button:last-child:disabled {
+    background-color: #839C94;
+    border: 1px solid #839C94;
+}
+
+button {
+    outline: none;
+}
+
+.filters-color {
+    background-color: #13AA57;
+    color: #ffffff;
+    border: none;
+}
+
+.filters-color::after {
+    content: '  \2716';
+    font-size: 12px;
+}
+
+.filters-color:hover {
+    color: #ffffff;
+    border: none;
+}
+
 @media screen and (max-width: 1000px) {
     .left-form-column input {
         width: 400px;
@@ -165,7 +210,11 @@ form label {
 
 @media screen and (max-width: 740px) {
     form {
-        height: 900px;
+        height: 1000px;
+    }
+
+    .textarea-wrapper {
+        margin-top: 200px;
     }
 
     .left-form-column input {
@@ -175,13 +224,5 @@ form label {
     .wrapper {
         display: flex;
         flex-direction: column;
-    }
-
-    .textarea-title {
-        margin-bottom: -150px;
-    }
-
-    .textarea-description {
-        margin-top: -150px;
     }
 }
