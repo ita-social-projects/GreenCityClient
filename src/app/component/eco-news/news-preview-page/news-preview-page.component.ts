@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { singleNewsImages } from '../../../../../assets/img/icon/econews/single-news-images';
+import { singleNewsImages } from '../../../../assets/img/icon/econews/single-news-images';
 
 @Component({
   selector: 'app-news-preview-page',

@@ -70,7 +70,7 @@
     cursor: pointer;
     text-shadow: none;
     opacity: 1;
-    background-image: url('../../../../../assets/img/icon/white-cross.png');
+    background-image: url('./src/app/assets/img/icon/white-cross.png');
 }
 
 .closeNone{
