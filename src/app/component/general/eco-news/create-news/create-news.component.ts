@@ -3,7 +3,7 @@ import { preparedImageForCreateEcoNews } from '../../../../links';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { CreateEcoNewsService } from '../../../../service/eco-news/create-eco-news.service';
-import { FilterModel, LanguageModel } from './create-news-interface';
+import { FilterModel, LanguageModel, NewsResponseDTO } from './create-news-interface';
 
 @Component({
   selector: 'app-create-news',
@@ -11,6 +11,7 @@ import { FilterModel, LanguageModel } from './create-news-interface';
   styleUrls: ['./create-news.component.css']
 })
 export class CreateNewsComponent implements OnInit {
+  public isPosting: boolean = false;
 
   public createNewsForm = this.fb.group({
     title: ['', [Validators.required, Validators.maxLength(170)]],
@@ -47,8 +48,8 @@ export class CreateNewsComponent implements OnInit {
     this.onSourceChange();
   }
 
-  private navigateByUrl(): void {
-    this.router.navigateByUrl('/news');
+  private navigateByUrl(url: string): void {
+    this.router.navigateByUrl(url);
   }
 
   public onSourceChange(): void {
@@ -58,7 +59,13 @@ export class CreateNewsComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    this.createEcoNewsService.sendFormData(this.createNewsForm, this.activeLanguage).subscribe();
+    this.isPosting = true;
+    this.createEcoNewsService.sendFormData(this.createNewsForm, this.activeLanguage).subscribe(
+      (successRes: NewsResponseDTO) => {
+        this.isPosting = false;
+        this.router.navigate(['/news']);
+      }
+    );
   }
 
   public addFilters(filter: FilterModel): void { 

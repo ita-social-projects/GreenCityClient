@@ -1,4 +1,8 @@
-<div class="container">
+<ng-template [ngIf]="isPosting">
+    <app-post-news-loader></app-post-news-loader>
+</ng-template>
+
+<div class="container" *ngIf="!isPosting">
     <div class="title">
         <h2>Create news</h2>
     </div>
@@ -63,10 +67,11 @@
         <div class="submit-buttons">
             <button 
                 type="button" 
-                (click)="navigateByUrl()">Cancel</button>
-            <button type="button">Preview</button>
+                (click)="navigateByUrl('/news')">Cancel</button>
+            <button type="button" (click)="navigateByUrl('create-news/preview')">Preview</button>
             <button type="submit" [disabled]="!createNewsForm.valid">Publish</button>
         </div>
     </form>
     <app-footer></app-footer>
+</div>
 </div>

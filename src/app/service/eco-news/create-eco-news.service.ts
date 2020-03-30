@@ -18,7 +18,7 @@ export class CreateEcoNewsService {
   };
   public translations: {ua: TranslationModel, 
                         ru: TranslationModel, 
-                        en: TranslationModel} = {
+                        en: TranslationModel, imagePath: string} = {
     'ua': {
       text: "",
       title: ""
@@ -30,7 +30,9 @@ export class CreateEcoNewsService {
     'en': {
       text: "",
       title: ""
-    }
+    },
+
+    imagePath: ""
   };
 
   
