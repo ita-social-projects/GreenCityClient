@@ -1,15 +1,21 @@
 import { Injectable } from '@angular/core';
-import { NewsModel, TranslationModel, NewsDTO } from '../../component/general/eco-news/create-news/create-news-interface';
+import { NewsModel, TranslationModel, NewsDTO, NewsResponseDTO } from '../../component/general/eco-news/create-news/create-news-interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from './../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CreateEcoNewsService {
-
-  constructor(private http: HttpClient) { }
-
+  private url: string = environment.backendLink;
+  private accessToken: string = localStorage.getItem('accessToken');
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json',
+      'Authorization': 'my-auth-token'
+    })
+  };
   public translations: {ua: TranslationModel, 
                         ru: TranslationModel, 
                         en: TranslationModel} = {
@@ -27,14 +33,8 @@ export class CreateEcoNewsService {
     }
   };
 
-  private url: string = 'https://greencity.azurewebsites.net/econews';
-  private accessToken: string = localStorage.getItem('accessToken');
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type':  'application/json',
-      'Authorization': 'my-auth-token'
-    })
-  };
+  
+  constructor(private http: HttpClient) { }
 
   public getTranslationByLang(lang: string): NewsModel {
     return this.translations[lang];
@@ -45,12 +45,10 @@ export class CreateEcoNewsService {
     this.translations[language].title = translations.title;
   }
 
-  public sendFormData(form, language): Observable<any> {
+  public sendFormData(form, language): Observable<NewsResponseDTO> {
     const body: NewsDTO = {
       "imagePath": form.value.source,
-      "tags": [
-        form.value.tags
-      ],
+      "tags": form.value.tags,
       "translations": [
         {
           "language": {
@@ -61,9 +59,8 @@ export class CreateEcoNewsService {
         }
       ]
     };
-    body.tags = form.value.tags
-    this.httpOptions.headers =
+    
     this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
-    return this.http.post(this.url, body, this.httpOptions);
+    return this.http.post<NewsResponseDTO>(`${this.url}/econews`, body, this.httpOptions);
   }
 }

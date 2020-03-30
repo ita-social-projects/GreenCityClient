@@ -31,3 +31,13 @@ export interface NewsDTO {
   tags: Array<string>;
   translations: Array<TranslationDTO>;
 }
+
+export interface NewsResponseDTO {
+  id: number;
+  title: string;
+  text: string;
+  ecoNewsAuthorDto: {id: number, firstName: string, lastName: string};
+  creationDate: string;
+  imagePath: string;
+  tags: Array<string>;
+}
