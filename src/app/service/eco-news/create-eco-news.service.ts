@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NewsInterface, TranslationInterface, BodyInterface } from '../../component/general/eco-news/create-news/create-news-interface';
+import { NewsModel, TranslationModel, NewsDTO } from '../../component/general/eco-news/create-news/create-news-interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -10,9 +10,9 @@ export class CreateEcoNewsService {
 
   constructor(private http: HttpClient) { }
 
-  public translations: {ua: TranslationInterface, 
-                        ru: TranslationInterface, 
-                        en: TranslationInterface} = {
+  public translations: {ua: TranslationModel, 
+                        ru: TranslationModel, 
+                        en: TranslationModel} = {
     'ua': {
       text: "",
       title: ""
@@ -36,17 +36,17 @@ export class CreateEcoNewsService {
     })
   };
 
-  public getTranslationByLang(lang: string): NewsInterface {
+  public getTranslationByLang(lang: string): NewsModel {
     return this.translations[lang];
   }
 
-  public setTranslationByLang(language: string, translations: NewsInterface): void {
+  public setTranslationByLang(language: string, translations: NewsModel): void {
     this.translations[language].text = translations.text;
     this.translations[language].title = translations.title;
   }
 
   public sendFormData(form, language): Observable<any> {
-    const body: BodyInterface = {
+    const body: NewsDTO = {
       "imagePath": form.value.source,
       "tags": [
         form.value.tags

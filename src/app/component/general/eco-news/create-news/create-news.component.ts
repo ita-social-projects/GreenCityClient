@@ -3,7 +3,7 @@ import { preparedImageForCreateEcoNews } from '../../../../links';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { CreateEcoNewsService } from '../../../../service/eco-news/create-eco-news.service';
-import { FilterInterface, LanguageInterface } from './create-news-interface';
+import { FilterModel, LanguageModel } from './create-news-interface';
 
 @Component({
   selector: 'app-create-news',
@@ -23,7 +23,7 @@ export class CreateNewsComponent implements OnInit, DoCheck {
     tags: this.fb.array([])
   });
 
-  public filters: Array<FilterInterface> = [
+  public filters: Array<FilterModel> = [
     {name: 'News', isActive: false},
     {name: 'Events', isActive: false}, 
     {name: 'Courses', isActive: false}, 
@@ -37,7 +37,7 @@ export class CreateNewsComponent implements OnInit, DoCheck {
   private date: Date = new Date();
   public formValid: boolean;
 
-  public languages: Array<LanguageInterface> = [
+  public languages: Array<LanguageModel> = [
     {name: 'Ukrainian', lang: 'ua'},
     {name: 'English', lang: 'en'},
     {name: 'Russian', lang: 'ru'},
@@ -78,7 +78,7 @@ export class CreateNewsComponent implements OnInit, DoCheck {
     );
   }
 
-  public addFilters(filter: FilterInterface): void { 
+  public addFilters(filter: FilterModel): void { 
     if ( !filter.isActive ) {
       filter.isActive = true;
       this.createNewsForm.value.tags.push(filter.name.toLowerCase());
@@ -87,7 +87,7 @@ export class CreateNewsComponent implements OnInit, DoCheck {
     }
   }
 
-  public removeFilters(filter: FilterInterface): void {
+  public removeFilters(filter: FilterModel): void {
     if ( filter.isActive ) {
       filter.isActive = false;
       this.createNewsForm.value.tags.forEach((item, index) => {
@@ -106,7 +106,7 @@ export class CreateNewsComponent implements OnInit, DoCheck {
     });
   }
 
-  public changeLanguage(language: LanguageInterface): void {
+  public changeLanguage(language: LanguageModel): void {
     const formData = {
       text: this.createNewsForm.value['content'],
       title: this.createNewsForm.value['title']

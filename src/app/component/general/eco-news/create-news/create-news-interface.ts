@@ -1,27 +1,33 @@
-export interface NewsInterface {
+export interface NewsModel {
     text: string;
     title: string;
   }
   
-export interface FilterInterface {
+export interface FilterModel {
   name: string;
   isActive: boolean;
 }
 
-export interface LanguageInterface {
+export interface LanguageModel {
   name: string;
   lang: string;
 }
 
-export interface TranslationInterface {
+export interface TranslationModel {
   text: string;
   title: string;
 }
 
-export interface BodyInterface {
+export interface TranslationDTO {
+  language: {
+    code: string
+  };
+  text: string;
+  title: string;
+}
+
+export interface NewsDTO {
   imagePath: string;
   tags: Array<string>;
-  translations: Array<{language: {code: string}, 
-                       text: string, 
-                       title: string}>;
+  translations: Array<TranslationDTO>;
 }
