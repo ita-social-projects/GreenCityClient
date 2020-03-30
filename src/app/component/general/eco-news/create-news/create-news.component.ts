@@ -83,6 +83,12 @@ export class CreateNewsComponent implements OnInit, DoCheck {
       filter.isActive = true;
       this.createNewsForm.value.tags.push(filter.name.toLowerCase());
     } else {
+      this.removeFilters(filter);
+    }
+  }
+
+  public removeFilters(filter: FilterInterface): void {
+    if ( filter.isActive ) {
       filter.isActive = false;
       this.createNewsForm.value.tags.forEach((item, index) => {
         if (item.toLowerCase() === filter.name.toLowerCase()) {
