@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy  } from '@angular/core';
 import { LanguageService } from './i18n/language.service';
-import {NavigationEnd, Router} from '@angular/router';
-import {TranslateService} from '@ngx-translate/core';
-import {TitleAndMetaTagsService} from './service/title-meta-tags/title-and-meta-tags.service';
-import { combineLatest, Subject} from 'rxjs';
-import {filter, map, takeUntil} from 'rxjs/operators';
+import { NavigationEnd, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { TitleAndMetaTagsService } from './service/title-meta-tags/title-and-meta-tags.service';
+import { combineLatest, Subject } from 'rxjs';
+import { filter, map, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +14,7 @@ import {filter, map, takeUntil} from 'rxjs/operators';
 export class AppComponent implements OnInit, OnDestroy  {
   private metasSubject = new Subject <string>();
   private titleSubject = new Subject <any>();
-  private unsubscribe = new Subject<void>();
+  private unsubscribe = new Subject <void>();
 
   constructor(
     private languageService: LanguageService,

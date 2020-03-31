@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import {TitleAndMetaTagsService} from './title-and-meta-tags.service';
+import { TitleAndMetaTagsService } from './title-and-meta-tags.service';
 
 
 describe('TitleAndDataTagsService', () => {
