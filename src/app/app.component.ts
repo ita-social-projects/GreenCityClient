@@ -1,22 +1,55 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy  } from '@angular/core';
 import { LanguageService } from './i18n/language.service';
-import { NavigationEnd, Router } from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
+import {TitleAndMetaTagsService} from './service/title-meta-tags/title-and-meta-tags.service';
+import { combineLatest, Subject} from 'rxjs';
+import {filter, map, takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy  {
+  private metasSubject = new Subject <string>();
+  private titleSubject = new Subject <any>();
+  private unsubscribe = new Subject<void>();
 
   constructor(
     private languageService: LanguageService,
-    private router: Router
+    private router: Router,
+    private translations: TranslateService,
+    private titleAndMetaTagsService: TitleAndMetaTagsService,
+
   ) {}
 
   ngOnInit(): void {
     this.languageService.setDefaultLanguage();
     this.navigateToStartingPositionOnPage();
+
+    this.translations.onDefaultLangChange.subscribe((elem) => {
+      this.metasSubject.next(elem.translations.metas);
+    });
+
+    this.router.events
+      .pipe(
+        filter((events) => events instanceof NavigationEnd),
+        map((events) => (events as any).url.slice(1)),
+      )
+      .subscribe((nameTitle) => this.titleSubject.next(nameTitle));
+
+    combineLatest(
+      this.titleSubject,
+      this.metasSubject,
+    )
+      .pipe(
+        filter(([title, metas]) => !!(title && metas)),
+        map(([title, metas]) => ({nameMeta: metas[title]})),
+        takeUntil(this.unsubscribe)
+      )
+      .subscribe(({nameMeta }) =>
+        this.titleAndMetaTagsService.initTitleAndMeta(nameMeta));
   }
 
   private navigateToStartingPositionOnPage(): void {
@@ -26,4 +59,10 @@ export class AppComponent implements OnInit {
       }
     });
   }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
+  }
+
 }

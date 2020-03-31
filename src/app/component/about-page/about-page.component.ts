@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
-
 @Component({
   selector: 'app-about-page',
   templateUrl: './about-page.component.html',
@@ -10,9 +8,8 @@ import { Title } from '@angular/platform-browser';
 export class AboutPageComponent implements OnInit {
   public actualYear = new Date().getFullYear();
 
-  constructor(private titleService: Title) { }
+  constructor() { }
 
   ngOnInit() {
-    this.titleService.setTitle('About');
   }
 }
