@@ -439,3 +439,10 @@
 #fifth-card-text {
   top: -570px;
 }
+
+.primary-global-button {
+  position: relative;
+  width: 219px;
+  height: 48px;
+  z-index: 3;
+}
