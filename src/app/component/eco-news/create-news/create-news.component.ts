@@ -109,8 +109,8 @@ export class CreateNewsComponent implements OnInit {
   }
 
   private goToPreview(): void {
-    this.createEcoNewsService.currentForm = this.createNewsForm;
-    this.createEcoNewsService.currentLang = this.activeLanguage;
+    this.createEcoNewsService.setForm(this.createNewsForm);
+    this.createEcoNewsService.setLang(this.activeLanguage);
     this.navigateByUrl('create-news/preview');
   }
 }
