@@ -8,6 +8,8 @@ import { environment } from './../../../environments/environment';
   providedIn: 'root'
 })
 export class CreateEcoNewsService {
+  public currentForm: any;
+  public currentLang: any;
   private url: string = environment.backendLink;
   private accessToken: string = localStorage.getItem('accessToken');
   private httpOptions = {
@@ -45,6 +47,25 @@ export class CreateEcoNewsService {
   public setTranslationByLang(language: string, translations: NewsModel): void {
     this.translations[language].text = translations.text;
     this.translations[language].title = translations.title;
+  }
+
+  public getFormData(): NewsDTO {
+    this.setTranslationByLang(this.currentLang, {text: this.currentForm.value.content, title: this.currentForm.value.title});
+    const body: NewsDTO = {
+      "imagePath": this.currentForm.value.source,
+      "tags": this.currentForm.value.tags,
+      "translations": [
+        {
+          "language": {
+            "code": this.currentLang
+          },
+          "text": this.currentForm.value.content,
+          "title": this.currentForm.value.title
+        }
+      ]
+    };
+
+    return body;
   }
 
   public sendFormData(form, language): Observable<NewsResponseDTO> {
