@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { singleNewsImages } from '../../../../assets/img/icon/econews/single-news-images';
 import { CreateEcoNewsService } from '../../../service/eco-news/create-eco-news.service';
-import {NewsDTO, NewsResponseDTO} from '../create-news/create-news-interface';
+import { NewsResponseDTO } from '../create-news/create-news-interface';
 import { Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 
