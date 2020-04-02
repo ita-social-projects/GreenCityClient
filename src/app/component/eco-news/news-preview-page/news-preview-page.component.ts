@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { singleNewsImages } from '../../../../assets/img/icon/econews/single-news-images';
 import { CreateEcoNewsService } from '../../../service/eco-news/create-eco-news.service';
 import {NewsDTO, NewsResponseDTO} from '../create-news/create-news-interface';
-import {Router} from "@angular/router";
+import { Router } from '@angular/router';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-news-preview-page',
@@ -11,8 +12,8 @@ import {Router} from "@angular/router";
 })
 export class NewsPreviewPageComponent implements OnInit {
   private images = singleNewsImages;
-  private previewItem: any;
-  private validData: any;
+  private previewItem: FormGroup;
+  private validData: boolean;
   private actualDate = new Date();
 
   constructor(private createEcoNewsService: CreateEcoNewsService,
@@ -34,13 +35,10 @@ export class NewsPreviewPageComponent implements OnInit {
 
   private postNewsItem(): void {
     const language = this.createEcoNewsService.getLang();
-    this.createEcoNewsService.sendFormData(this.previewItem,
-                                           language).
-                                           subscribe(
-                                              (successRes: NewsResponseDTO) => {
+    this.createEcoNewsService.sendFormData(this.previewItem, language).subscribe
+                                          ((successRes: NewsResponseDTO) => {
                                                this.router.navigate(['/news']);
-                                             }
-      );
+                                          });
   }
 
 }
