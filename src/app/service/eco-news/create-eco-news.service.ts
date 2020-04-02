@@ -49,28 +49,13 @@ export class CreateEcoNewsService {
     this.translations[language].title = translations.title;
   }
 
-  public getFormData(): NewsDTO {
-    this.setTranslationByLang(this.currentLang,{
+  public getFormData(): any {
+    this.setTranslationByLang(this.currentLang, {
                               text: this.currentForm.value.content,
                               title: this.currentForm.value.title
     });
-    console.log(this.translations[this.currentLang]);
-    const body: NewsDTO = {
 
-      "imagePath": this.currentForm.value.source,
-      "tags": this.currentForm.value.tags,
-      "translations": [
-        {
-          "language": {
-            "code": this.currentLang
-          },
-          "text": this.currentForm.value.content,
-          "title": this.currentForm.value.title
-        }
-      ]
-    };
-
-    return body;
+    return this.currentForm;
   }
 
   public setForm(form): void {
@@ -79,6 +64,10 @@ export class CreateEcoNewsService {
 
   public setLang(lang): void {
     this.currentLang = lang;
+  }
+
+  public getLang(): string {
+    return this.currentLang;
   }
 
   public sendFormData(form, language): Observable<NewsResponseDTO> {

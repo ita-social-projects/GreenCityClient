@@ -14,14 +14,18 @@
         </div>
       </a>
     </div>
-    <div class="publish">
-      <div>Publish</div>
-    </div>
+    <button type="submit"
+            [disabled]="!validData"
+            class="publish"
+            (click)="postNewsItem()"
+    >
+      Publish
+    </button>
   </div>
   <div class="create-news-text">Create news</div>
   <div class="tags">
     <div class="tags-item"
-         *ngFor="let tag of previewItem.tags"
+         *ngFor="let tag of previewItem.value.tags"
     >
       {{ tag }}
     </div>
@@ -29,7 +33,7 @@
   <div class="news-content">
     <div class="news-text-container">
       <div class="news-title">
-        {{ previewItem.translations[0].title }}
+        {{ previewItem.value.title }}
       </div>
     </div>
     <div class="news-info">
@@ -67,7 +71,7 @@
         >
       </div>
       <div class="news-text">
-        {{ previewItem.translations[0].text }}
+        {{ previewItem.value.content }}
       </div>
     </div>
   </div>

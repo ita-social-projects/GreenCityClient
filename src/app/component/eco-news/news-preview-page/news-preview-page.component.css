@@ -10,6 +10,10 @@
   align-items: center;
 }
 
+.red {
+  background: red;
+}
+
 .news-info,
 .news-text,
 .publish,
@@ -44,7 +48,14 @@
   line-height: 16px;
   font-weight: 700;
   background: #13AA57;
+  border: 1px solid #13AA57;
   border-radius: 3px;
+  outline: none;
+}
+
+.publish:disabled {
+  background-color: #839C94;
+  border: 1px solid #839C94;
 }
 
 .create-news-text {
@@ -118,5 +129,5 @@
 .news-text {
   color: #000000;
   padding: 48px 97px 0;
-  text-align: left;
+  text-align: center;
 }
