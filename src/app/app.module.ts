@@ -233,7 +233,8 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     RestoreComponent,
     DeleteFavoriteComponent,
     UserSettingComponent,
-    AddCommentComponent
+    AddCommentComponent,
+    SignInNewComponent
   ],
 
   providers: [

@@ -17,6 +17,7 @@ import { AuthPageGuardService } from './service/route-guards/auth-page-guard.ser
 import { HomePageGuardService } from './service/route-guards/home-page-guard.service';
 import { AppComponent } from './app.component';
 import { AboutPageComponent } from './component/about-page/about-page.component';
+import {SignInNewComponent} from './component/user/auth/sign-in-new/sign-in-new.component';
 
 
 export const routes: Routes = [
@@ -34,6 +35,7 @@ export const routes: Routes = [
     component: AuthComponent,
     children: [
       { path: '', component: SignInComponent },
+      { path: 'sign-in', component: SignInNewComponent},
       { path: 'sign-up', component: SignUpComponent },
       { path: 'submit-email', component: SubmitEmailComponent },
       { path: 'restore/:token', component: RestoreFormComponent }

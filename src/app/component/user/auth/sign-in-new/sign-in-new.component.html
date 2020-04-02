@@ -1,1 +1,44 @@
+<div class="wrapper">
+  <div class="left-side">
+    <img [src]="mainSignInImage.signInMainImg" alt="sign-in image">
+  </div>
+  <div class="right-side">
+    <a (click)="CloseSignInWindow()"
+       class="close-modal-window">
+      <img [src]="closeBtn.closeButton"
+           alt="close button">
+    </a>
+    <div>
+      <h1>{{'user.auth.sign-in.title' | translate}}</h1>
+      <h2>{{'user.auth.sign-in.fill-form' | translate}}</h2>
+    </div>
+    <form>
+      <label for="email">{{'user.auth.sign-in.email' | translate}}</label>
+      <input id="email" type="email">
+      <label for="password">{{'user.auth.sign-in.password' | translate}}</label>
+      <input id="password" type="password">
+      <div class="forgot-wrapper">
+        <a (click)="openDialog()"
+           class="forgot-password">
+          {{'user.auth.sign-in.forgot-password' | translate}}</a>
+      </div>
+      <span class="or">{{'user.auth.sign-in.or-signin' | translate}}</span>
+      <div>
+        <button type="submit"
+                class="google"
+                (click)="signInWithGoogle()">
+          <img [src]="googleImage.picGoogle"
+               alt="Google sign">
+          {{'user.auth.sign-in.sign-in-with-google' | translate}}
+        </button>
+      </div>
+    </form>
+    <p>{{'user.auth.sign-in.havenot-account' | translate}}
+      <a routerLink="sign-up"
+         class="sign-up-link">
+        {{'user.auth.sign-in.sign-up' | translate}}
+      </a>
+    </p>
 
+  </div>
+</div>
