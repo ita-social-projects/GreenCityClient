@@ -70,7 +70,7 @@
   border: 1px solid #878787;
   border-right: transparent;
   margin-bottom: 16px;
-  width:89%;
+  width:90%;
   border-radius: 5px 0 0 5px;
 }
 
@@ -83,7 +83,7 @@
 }
 
 .show-hide-btn {
-  width: 32px;
+  width: 10%;
   height: 48px;
   display: inline-block;
   background: #FFFFFF;
@@ -176,4 +176,10 @@
   margin-left: 8px;
   text-decoration-line: underline;
   color: #056B33;
+}
+
+@media screen and (max-width: 1023px) {
+  .left-side {
+    display: none;
+  }
 }
