@@ -14,7 +14,7 @@ import {HabitStatisticService} from 'src/app/service/habit-statistic/habit-stati
 import {filter} from 'rxjs/operators';
 import {LanguageService} from '../../../i18n/language.service';
 import {Language} from '../../../i18n/Language';
-import {SignInNewComponent} from '../../user/auth/sign-in-new/sign-in-new.component';
+import {SignInNewComponent} from '../../auth/sign-in-new/sign-in-new.component';
 
 @Component({
   selector: 'app-nav-bar',
