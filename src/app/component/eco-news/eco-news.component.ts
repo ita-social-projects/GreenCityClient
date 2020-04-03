@@ -8,9 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class EcoNewsComponent implements OnInit {
   public actualYear = new Date().getFullYear();
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

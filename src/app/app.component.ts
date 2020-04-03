@@ -21,35 +21,14 @@ export class AppComponent implements OnInit, OnDestroy  {
     private router: Router,
     private translations: TranslateService,
     private titleAndMetaTagsService: TitleAndMetaTagsService,
-
   ) {}
 
   ngOnInit(): void {
     this.languageService.setDefaultLanguage();
     this.navigateToStartingPositionOnPage();
-
-    this.translations.onDefaultLangChange.subscribe((elem) => {
-      this.metasSubject.next(elem.translations.metas);
-    });
-
-    this.router.events
-      .pipe(
-        filter((events) => events instanceof NavigationEnd),
-        map((events) => (events as any).url.slice(1)),
-      )
-      .subscribe((nameTitle) => this.titleSubject.next(nameTitle));
-
-    combineLatest(
-      this.titleSubject,
-      this.metasSubject,
-    )
-      .pipe(
-        filter(([title, metas]) => !!(title && metas)),
-        map(([title, metas]) => ({nameMeta: metas[title]})),
-        takeUntil(this.unsubscribe)
-      )
-      .subscribe(({nameMeta }) =>
-        this.titleAndMetaTagsService.initTitleAndMeta(nameMeta));
+    this.setTitleSubject();
+    this.setMetasSubject();
+    this.installTitleAndMetaInBrowser();
   }
 
   private navigateToStartingPositionOnPage(): void {
@@ -60,9 +39,36 @@ export class AppComponent implements OnInit, OnDestroy  {
     });
   }
 
-  ngOnDestroy(): void {
+  private setMetasSubject(): void {
+    this.translations.onDefaultLangChange.subscribe((elem) => {
+    this.metasSubject.next(elem.translations.metas);
+  });
+}
+
+  private setTitleSubject(): void {
+     this.router.events
+    .pipe(
+     filter((events) => events instanceof NavigationEnd),
+     map((events) => (events as any).url.slice(1)),
+    )
+    .subscribe((nameTitle) => this.titleSubject.next(nameTitle));
+}
+  private installTitleAndMetaInBrowser(): void {
+   combineLatest(
+     this.titleSubject,
+     this.metasSubject,
+   )
+     .pipe(
+      filter(([title, metas]) => !!(title && metas)),
+      map(([title, metas]) => ({nameMeta: metas[title]})),
+      takeUntil(this.unsubscribe)
+     )
+     .subscribe(({nameMeta }) =>
+      this.titleAndMetaTagsService.initTitleAndMeta(nameMeta));
+ }
+
+  ngOnDestroy() {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }
-
 }
