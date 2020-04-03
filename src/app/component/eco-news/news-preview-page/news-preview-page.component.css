@@ -49,11 +49,6 @@
   outline: none;
 }
 
-.publish:disabled {
-  background-color: #839C94;
-  border: 1px solid #839C94;
-}
-
 .create-news-text {
   font-family: 'Montserrat';
   font-weight: 500;

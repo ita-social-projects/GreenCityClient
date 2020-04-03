@@ -13,7 +13,6 @@ import { FormGroup } from '@angular/forms';
 export class NewsPreviewPageComponent implements OnInit {
   private images = singleNewsImages;
   private previewItem: FormGroup;
-  private validData: boolean;
   private actualDate = new Date();
 
   constructor(private createEcoNewsService: CreateEcoNewsService,
@@ -26,7 +25,6 @@ export class NewsPreviewPageComponent implements OnInit {
 
   private setPreviewItem(): void {
     this.previewItem = this.createEcoNewsService.getFormData();
-    this.validData = this.previewItem.valid;
   }
 
   private postNewsItem(): void {
