@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
+import { NewSignUpComponent } from './new-sign-up/new-sign-up.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    NewSignUpComponent
+  ],
   imports: [],
   providers: []
 })
