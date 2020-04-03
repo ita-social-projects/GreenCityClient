@@ -116,7 +116,7 @@ import { InputcolorDirective } from './directives/inputcolor.directive';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CoreModule } from './component/core/core.module';
 import { EcoNewsModule } from './component/eco-news/eco-news.module';
-import { NewAuthModule } from './component/new-auth/new-auth.module';
+import { AuthModule } from './component/auth/auth.module';
 
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
@@ -193,7 +193,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     InputcolorDirective
   ],
   imports: [
-    NewAuthModule,
+    AuthModule,
     CoreModule,
     EcoNewsModule,
     InfiniteScrollModule,

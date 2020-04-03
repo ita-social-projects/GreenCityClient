@@ -9,4 +9,4 @@ import { NewSignUpComponent } from './new-sign-up/new-sign-up.component';
   providers: []
 })
 
-export class NewAuthModule { }
+export class AuthModule { }
