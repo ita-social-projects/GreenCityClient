@@ -22,23 +22,20 @@ export class NewsPreviewPageComponent implements OnInit {
 
   ngOnInit() {
     this.setPreviewItem();
-    this.setValidData();
   }
 
   private setPreviewItem(): void {
     this.previewItem = this.createEcoNewsService.getFormData();
-  }
-
-  private setValidData(): void {
     this.validData = this.previewItem.valid;
   }
 
   private postNewsItem(): void {
     const language = this.createEcoNewsService.getLang();
-    this.createEcoNewsService.sendFormData(this.previewItem, language).subscribe
-                                          ((successRes: NewsResponseDTO) => {
-                                               this.router.navigate(['/news']);
-                                          });
+    this.createEcoNewsService
+      .sendFormData(this.previewItem, language)
+      .subscribe((successRes: NewsResponseDTO) => {
+        this.router.navigate(['/news']);
+      });
   }
 
 }
