@@ -1,6 +1,6 @@
 import {Component, OnInit } from '@angular/core';
 import { ModalService} from '../_modal/modal.service';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import {FavoritePlaceComponent} from '../../user/favorite-place/favorite-place.component';
 import {ProposeCafeComponent} from '../propose-cafe/propose-cafe.component';
 import {FavoritePlaceService} from '../../../service/favorite-place/favorite-place.service';
@@ -110,6 +110,10 @@ export class NavBarComponent implements OnInit {
     this.languageService.changeCurrentLanguage(this.language as Language);
   }
   private openSingInWindow(): void {
-    this.dialog.open(SignInNewComponent);
+    this.dialog.open(SignInNewComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      panelClass: 'custom-dialog-container',
+    });
   }
 }

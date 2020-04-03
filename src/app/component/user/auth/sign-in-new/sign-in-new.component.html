@@ -1,44 +1,63 @@
 <div class="wrapper">
   <div class="left-side">
-    <img [src]="mainSignInImage.signInMainImg" alt="sign-in image">
+    <img class="main-picture" [src]="mainSignInImage.signInMainImg" alt="sign-in image">
   </div>
   <div class="right-side">
     <a (click)="CloseSignInWindow()"
        class="close-modal-window">
-      <img [src]="closeBtn.closeButton"
+      <img class="cross-btn" [src]="closeBtn.closeButton"
            alt="close button">
     </a>
-    <div>
-      <h1>{{'user.auth.sign-in.title' | translate}}</h1>
-      <h2>{{'user.auth.sign-in.fill-form' | translate}}</h2>
-    </div>
-    <form>
+    <h1>{{'user.auth.sign-in.title' | translate}}</h1>
+    <h2>{{'user.auth.sign-in.fill-form' | translate}}</h2>
+    <form class="sign-in-form">
       <label for="email">{{'user.auth.sign-in.email' | translate}}</label>
-      <input id="email" type="email">
+      <input id="email" type="email" placeholder="example@email.com">
       <label for="password">{{'user.auth.sign-in.password' | translate}}</label>
-      <input id="password" type="password">
+      <div class="password-input-btn-show-hide">
+        <input id="password" type="password" placeholder="password">
+        <span class="show-hide-btn">
+          <img (click)="showHidePassword()"
+               class="image-show-hide-password"
+               src="../../../../../assets/img/icon/eye.png"
+               alt="">
+        </span>
+      </div>
       <div class="forgot-wrapper">
-        <a (click)="openDialog()"
-           class="forgot-password">
+        <a class="forgot-password">
           {{'user.auth.sign-in.forgot-password' | translate}}</a>
       </div>
+      <button class="login-btn"
+              type="submit">
+        <span *ngIf="loadingAnim"
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true">
+        </span>
+        {{'user.auth.sign-in.sign-in' | translate}}
+      </button>
       <span class="or">{{'user.auth.sign-in.or-signin' | translate}}</span>
       <div>
         <button type="submit"
-                class="google"
+                class="google-sign-in"
                 (click)="signInWithGoogle()">
-          <img [src]="googleImage.picGoogle"
-               alt="Google sign">
-          {{'user.auth.sign-in.sign-in-with-google' | translate}}
+          <span class="google-sign">
+            <img [src]="googleImage.picGoogle"
+                 alt="Google sign-in">
+          </span>
+          <span class="google-text-sign-in">
+            {{'user.auth.sign-in.sign-in-with-google' | translate}}
+          </span>
         </button>
       </div>
     </form>
-    <p>{{'user.auth.sign-in.havenot-account' | translate}}
-      <a routerLink="sign-up"
-         class="sign-up-link">
-        {{'user.auth.sign-in.sign-up' | translate}}
-      </a>
-    </p>
-
+    <div class="missing-account">
+      <p>{{'user.auth.sign-in.havenot-account' | translate}}
+        <a routerLink="sign-up"
+           class="sign-up-link">
+          {{'user.auth.sign-in.sign-up' | translate}}
+        </a>
+      </p>
+    </div>
   </div>
 </div>

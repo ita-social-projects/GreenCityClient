@@ -20,7 +20,7 @@ img {
   margin: 0 auto;
   top: 41px;
   width: 100%;
-  z-index: 2000;
+  /*z-index: 200;*/
 }
 
 .lower-navbar .navbar-wrapper {
@@ -138,7 +138,7 @@ img {
   .lower-navbar .navbar-wrapper {
     width: 60% !important;
   }
-}  
+}
 
 @media (min-width: 1024px) {
   .lower-navbar .navbar-wrapper {
