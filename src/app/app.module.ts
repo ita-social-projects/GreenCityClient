@@ -117,6 +117,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CoreModule } from './component/core/core.module';
 import { EcoNewsModule } from './component/eco-news/eco-news.module';
 
+
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
   slidesPerView: 'auto'
@@ -188,7 +189,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     EcoEventsComponent,
     TipsListComponent,
     TipsCardComponent,
-    InputcolorDirective,
+    InputcolorDirective
   ],
   imports: [
     CoreModule,
