@@ -14,6 +14,7 @@ import {HabitStatisticService} from 'src/app/service/habit-statistic/habit-stati
 import {filter} from 'rxjs/operators';
 import {LanguageService} from '../../../i18n/language.service';
 import {Language} from '../../../i18n/Language';
+import {NewSignUpComponent} from "../../auth/new-sign-up/new-sign-up.component";
 
 @Component({
   selector: 'app-nav-bar',
@@ -107,5 +108,9 @@ export class NavBarComponent implements OnInit {
 
   public changeCurrentLanguage() {
     this.languageService.changeCurrentLanguage(this.language as Language);
+  }
+
+  private openSignUpWindow(): void {
+    this.dialog.open(NewSignUpComponent);
   }
 }

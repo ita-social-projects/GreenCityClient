@@ -38,7 +38,8 @@ import {
   MatSelectModule,
   MatSliderModule,
   MatTableModule,
-  MatTreeModule
+  MatTreeModule,
+  MatDialogModule
 } from '@angular/material';
 
 import { HabitChartComponent } from './component/user/habit/habit-trackers/habit-tracker/habit-chart/habit-chart.component';
@@ -117,6 +118,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CoreModule } from './component/core/core.module';
 import { EcoNewsModule } from './component/eco-news/eco-news.module';
 import { AuthModule } from './component/auth/auth.module';
+import {NewsPreviewPageComponent} from "./component/eco-news/news-preview-page/news-preview-page.component";
+import {NewSignUpComponent} from "./component/auth/new-sign-up/new-sign-up.component";
 
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
@@ -193,6 +196,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     InputcolorDirective
   ],
   imports: [
+    MatDialogModule,
     AuthModule,
     CoreModule,
     EcoNewsModule,
@@ -233,7 +237,8 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     RestoreComponent,
     DeleteFavoriteComponent,
     UserSettingComponent,
-    AddCommentComponent
+    AddCommentComponent,
+    NewSignUpComponent
   ],
 
   providers: [
