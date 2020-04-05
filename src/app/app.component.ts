@@ -1,20 +1,19 @@
-import { Component, OnInit, OnDestroy  } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LanguageService } from './i18n/language.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { TitleAndMetaTagsService } from './service/title-meta-tags/title-and-meta-tags.service';
 import { combineLatest, Subject } from 'rxjs';
-import { filter, map, takeUntil } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, OnDestroy  {
+export class AppComponent implements OnInit  {
   private metasSubject = new Subject <string>();
   private titleSubject = new Subject <any>();
-  private unsubscribe = new Subject <void>();
 
   constructor(
     private languageService: LanguageService,
@@ -26,8 +25,8 @@ export class AppComponent implements OnInit, OnDestroy  {
   ngOnInit(): void {
     this.languageService.setDefaultLanguage();
     this.navigateToStartingPositionOnPage();
-    this.setTitleSubject();
-    this.setMetasSubject();
+    this.initTitle();
+    this.initMetas();
     this.installTitleAndMetaInBrowser();
   }
 
@@ -39,13 +38,13 @@ export class AppComponent implements OnInit, OnDestroy  {
     });
   }
 
-  private setMetasSubject(): void {
+  private initMetas(): void {
     this.translations.onDefaultLangChange.subscribe((elem) => {
     this.metasSubject.next(elem.translations.metas);
   });
 }
 
-  private setTitleSubject(): void {
+  private initTitle(): void {
      this.router.events
     .pipe(
      filter((events) => events instanceof NavigationEnd),
@@ -60,15 +59,10 @@ export class AppComponent implements OnInit, OnDestroy  {
    )
      .pipe(
       filter(([title, metas]) => !!(title && metas)),
-      map(([title, metas]) => ({nameMeta: metas[title]})),
-      takeUntil(this.unsubscribe)
+      map(([title, metas]) => ({nameMeta: metas[title]}))
      )
      .subscribe(({nameMeta }) =>
       this.titleAndMetaTagsService.initTitleAndMeta(nameMeta));
  }
 
-  ngOnDestroy() {
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
-  }
 }
