@@ -63,15 +63,26 @@
   margin-bottom: 21px;
   border: 1px solid #878787;
   border-radius: 5px;
+  background: #FFFFFF;
 }
 
-.wrapper .right-side input[type=password] {
+.password-input-btn-show-hide {
   height: 48px;
   border: 1px solid #878787;
-  border-right: transparent;
-  margin-bottom: 16px;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+
+.wrapper .right-side input[type=password],
+input[type=text] {
+  border: transparent;
+  border-radius: 5px;
   width:90%;
-  border-radius: 5px 0 0 5px;
+}
+
+input[type=password]:focus,
+input[type=text]:focus {
+  height: 46px;
 }
 
 .wrapper .right-side ::placeholder {
@@ -84,14 +95,7 @@
 
 .show-hide-btn {
   width: 10%;
-  height: 48px;
-  display: inline-block;
   background: #FFFFFF;
-  border: 1px solid #878787;
-  border-left: transparent;
-  box-sizing: border-box;
-  border-radius: 0 5px 5px 0;
-  margin-bottom: 16px;
 }
 
 .wrapper .right-side .image-show-hide-password {
@@ -105,6 +109,7 @@
   display: flex;
   justify-content: flex-end;
   margin-bottom: 24px;
+  margin-top: 16px;
 }
 
 .wrapper .right-side .forgot-wrapper .forgot-password {
@@ -128,7 +133,7 @@
   margin-bottom: 8px;
 }
 
-.wrapper .right-side .or {
+.wrapper .right-side .or-use-google {
   text-align: center;
   font-family: OpenSans, sans-serif;
   font-size: 12px;

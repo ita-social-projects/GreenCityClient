@@ -1,26 +1,35 @@
 <div class="wrapper">
   <div class="left-side">
-    <img class="main-picture" [src]="mainSignInImage.signInMainImg" alt="sign-in image">
+    <img class="main-picture"
+         [src]="mainSignInImage.signInMainImg"
+         alt="sign-in image">
   </div>
   <div class="right-side">
     <a (click)="CloseSignInWindow()"
        class="close-modal-window">
-      <img class="cross-btn" [src]="closeBtn.closeButton"
+      <img class="cross-btn"
+           [src]="closeBtn.closeButton"
            alt="close button">
     </a>
     <h1>{{'user.auth.sign-in.title' | translate}}</h1>
     <h2>{{'user.auth.sign-in.fill-form' | translate}}</h2>
     <form class="sign-in-form">
       <label for="email">{{'user.auth.sign-in.email' | translate}}</label>
-      <input id="email" type="email" placeholder="example@email.com">
+      <input id="email"
+             type="email"
+             placeholder="example@email.com">
       <label for="password">{{'user.auth.sign-in.password' | translate}}</label>
       <div class="password-input-btn-show-hide">
-        <input id="password" type="password" placeholder="password">
+        <input id="password"
+               #input
+               type="password"
+               placeholder="{{'user.auth.sign-in.password' | translate}}">
         <span class="show-hide-btn">
-          <img (click)="showHidePassword()"
+          <img (click)="showHidePassword(input, src)"
                class="image-show-hide-password"
-               src="../../../../assets/img/icon/eye.png"
-               alt="">
+               [src]="hidePassword"
+               #src
+               alt="show or hide password">
         </span>
       </div>
       <div class="forgot-wrapper">
@@ -36,7 +45,7 @@
         </span>
         {{'user.auth.sign-in.sign-in' | translate}}
       </button>
-      <span class="or">{{'user.auth.sign-in.or-signin' | translate}}</span>
+      <span class="or-use-google">{{'user.auth.sign-in.or-signin' | translate}}</span>
       <div>
         <button type="submit"
                 class="google-sign-in"
