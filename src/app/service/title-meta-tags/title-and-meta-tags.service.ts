@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
-import {filter, map} from 'rxjs/operators';
-import {NavigationEnd, Router} from '@angular/router';
-import {combineLatest, Subject} from 'rxjs';
-import {TranslateService} from '@ngx-translate/core';
+import { filter, map } from 'rxjs/operators';
+import { NavigationEnd, Router } from '@angular/router';
+import { combineLatest, Subject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
-import {MetasModel} from '../../model/meta/metas-model';
-import {MetaModel} from '../../model/meta/meta-model';
+import { MetasModel } from '../../model/meta/metas-model';
+import { MetaModel } from '../../model/meta/meta-model';
 
 @Injectable({
   providedIn: 'root'

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LanguageService } from './i18n/language.service';
 import { NavigationEnd, Router } from '@angular/router';
-import {TitleAndMetaTagsService} from './service/title-meta-tags/title-and-meta-tags.service';
+import { TitleAndMetaTagsService } from './service/title-meta-tags/title-and-meta-tags.service';
 
 @Component({
   selector: 'app-root',
