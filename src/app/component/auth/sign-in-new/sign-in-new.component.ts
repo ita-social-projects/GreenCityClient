@@ -28,8 +28,8 @@ export class SignInNewComponent implements OnInit {
     private googleService: GoogleSignInService
   ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
+
   private CloseSignInWindow(): void {
     this.matDialogRef.close();
   }

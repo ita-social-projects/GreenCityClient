@@ -7,7 +7,7 @@
 }
 
 .wrapper .left-side .main-picture{
-  border-radius: 4px 0px 0px 4px;
+  border-radius: 4px 0 0 4px;
 }
 
 .wrapper .right-side .close-modal-window {
@@ -64,6 +64,11 @@
   border: 1px solid #878787;
   border-radius: 5px;
   background: #FFFFFF;
+  padding: 11px 40px 11px 16px;
+  font-family: OpenSans, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  color: #878787;
 }
 
 .password-input-btn-show-hide {
@@ -78,19 +83,16 @@ input[type=text] {
   border: transparent;
   border-radius: 5px;
   width:90%;
+  padding: 11px 40px 11px 16px;
+  font-family: OpenSans, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  color: #878787;
 }
 
 input[type=password]:focus,
 input[type=text]:focus {
   height: 46px;
-}
-
-.wrapper .right-side ::placeholder {
-  padding: 12px 40px 12px 16px;
-  font-family: OpenSans, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  color: #878787;
 }
 
 .show-hide-btn {
@@ -123,6 +125,7 @@ input[type=text]:focus {
   width: 100%;
   height: 48px;
   background: #13AA57;
+  border: 0;
   border-radius: 3px;
   font-family: OpenSans, sans-serif;
   font-weight: 600;
@@ -147,8 +150,9 @@ input[type=text]:focus {
   height: 40px;
   width: 100%;
   background: #FFFFFF;
-  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.24),
-              0px 0px 2px rgba(0, 0, 0, 0.24);
+  border: 0;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.24),
+              0 0 2px rgba(0, 0, 0, 0.24);
   border-radius: 3px;
   text-align: justify;
 }

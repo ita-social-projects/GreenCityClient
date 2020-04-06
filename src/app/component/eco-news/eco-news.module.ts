@@ -35,7 +35,8 @@ import { PostNewsLoaderComponent } from './post-news-loader/post-news-loader.com
   imports: [
     CommonModule,
     InfiniteScrollModule,
-    CoreModule
+    CoreModule,
+    EcoNewsRoutingModule
   ],
   providers: []
 })
