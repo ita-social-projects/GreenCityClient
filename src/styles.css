@@ -99,7 +99,6 @@ body {
 }
 .custom-dialog-container .mat-dialog-container {
   padding: 0;
-  /*margin: 132px 257px 132px 223px;*/
   display: block;
   border-radius: 4px;
   box-sizing: border-box;

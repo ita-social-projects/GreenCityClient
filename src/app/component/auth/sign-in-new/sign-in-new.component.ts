@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
 import { GoogleSignInService } from '../../../service/auth/google-sign-in.service';
-import {UserSuccessSignIn} from '../../../model/user-success-sign-in';
-import {HttpErrorResponse} from '@angular/common/http';
-import {UserOwnSignInService} from '../../../service/auth/user-own-sign-in.service';
-import {Router} from '@angular/router';
+import { UserSuccessSignIn } from '../../../model/user-success-sign-in';
+import { HttpErrorResponse } from '@angular/common/http';
+import { UserOwnSignInService } from '../../../service/auth/user-own-sign-in.service';
+import { Router } from '@angular/router';
 import { SignInIcons } from 'src/assets/img/icon/sign-in/sign-in-icons';
 import { MatDialogRef } from '@angular/material';
 
