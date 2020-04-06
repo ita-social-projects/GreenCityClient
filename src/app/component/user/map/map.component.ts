@@ -14,7 +14,7 @@ import { FilterPlaceService } from '../../../service/filtering/filter-place.serv
 import { Location } from '../../../model/location.model';
 import { AddCommentComponent } from '../add-comment/add-comment.component';
 import { WeekDaysUtils } from '../../../service/weekDaysUtils.service';
-import {JwtService} from '../../../service/jwt/jwt.service';
+import { JwtService } from '../../../service/jwt/jwt.service';
 
 @Component({
   selector: 'app-map',
