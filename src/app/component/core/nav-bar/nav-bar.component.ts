@@ -111,6 +111,9 @@ export class NavBarComponent implements OnInit {
   }
 
   private openSignUpWindow(): void {
-    this.dialog.open(NewSignUpComponent);
+    this.dialog.open(NewSignUpComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true
+    });
   }
 }

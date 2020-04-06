@@ -1,5 +1,87 @@
-<div class="container">
-  <h1>
-    Hello world
-  </h1>
+<div class="main-container">
+  <div class="main-image">
+    <img [src]="signUpImgs.mainImage"
+         alt="main-image"
+    >
+  </div>
+
+  <div class="main-content">
+    <div class="close-btn">
+      <div class="close-btn-img">
+        <a href="">
+          <img [src]="signUpImgs.cross"
+               alt="cross"
+          >
+        </a>
+      </div>
+    </div>
+    <div class="main-content-container">
+      <div class="title">
+        <h1>Вітаємо!</h1>
+      </div>
+      <div class="subtitle">
+        <h2>
+          Будь ласка, внесіть свої дані для реєстрації.
+        </h2>
+      </div>
+      <form action="submit">
+        <div class="form-content-container">
+          <label class="content-label">
+            Електронна пошта
+          </label>
+          <input type="email"
+                 class="main-data-input"
+                 placeholder="example@email.com"
+          >
+          <label class="content-label">
+            Ваше ім’я
+          </label>
+          <input type="text"
+                 class="main-data-input"
+                 placeholder="Ваше ім’я"
+          >
+          <label class="content-label">
+            Пароль
+          </label>
+          <input type="password"
+                 class="main-data-input"
+                 placeholder="Пароль"
+          >
+          <img [src]="signUpImgs.hiddenEye"
+               alt="eye"
+          >
+          <label class="content-label">
+            Повторіть пароль
+          </label>
+          <input type="password"
+                 class="main-data-input"
+                 placeholder="Пароль"
+          >
+          <img [src]="signUpImgs.hiddenEye"
+               alt="eye"
+          >
+          <button type="submit"
+                  class="cta-button"
+          >
+            Зареєструватись
+          </button>
+          <div class="switch-sign-up">
+            або
+          </div>
+          <button type="submit"
+                  class="cta-button-google"
+          >
+            Зареєструватись через Google
+          </button>
+        </div>
+      </form>
+
+      <div class="exist-account">
+        <span>
+          Вже маєете аккаунт?
+          <a href="#" class="exist-sign-in">Увійти</a>
+        </span>
+      </div>
+    </div>
+  </div>
 </div>

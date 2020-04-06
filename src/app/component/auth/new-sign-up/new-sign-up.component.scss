@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+.main-container {
+  display: flex;
+  max-width: 960px;
+  max-height: 760px;
+  z-index: 2000;
+  font-family: 'Open Sans';
+}
+
+.close-btn {
+  margin: 24px 24px 0 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.close-btn-img {
+  width: 12px;
+  height: 12px;
+}
+
+.main-image {
+  border-radius: 4px 0px 0px 4px;
+}
+
+.main-content-container {
+  margin: 0 56px;
+}
+
+.title {
+  margin: 0 0 8px;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 40px;
+  color: #2B292D;
+}
+
+.subtitle {
+  font-size: 16px;
+  line-height: 16px;
+  color: #494A49;
+}
+
+.form-content-container {
+  display: flex;
+  flex-direction: column;
+  margin: 19px 0 40px;
+}
+
+.content-label {
+  margin: 21px 0 4px;
+  font-size: 12px;
+  line-height: 14px;
+  color: #494A49;
+}
+
+.main-data-input {
+  border: 1px solid #878787;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+
+.main-data-input::placeholder {
+  color:red;
+}
+
+.cta-button {
+  padding: 16px 116px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 16px;
+  color: #fff;
+  background: #13AA57;
+  border: none;
+  border-radius: 3px;
+}
+
+.switch-sign-up {
+  margin: 8px 0;
+  font-size: 12px;
+  line-height: 12px;
+  text-align: center;
+  color: #494A49;
+}
+
+.cta-button-google {
+  padding: 12px 66px 12px 95px;
+  background: #FFFFFF;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.24),
+              0px 0px 2px rgba(0, 0, 0, 0.24);
+  border-radius: 3px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: center;
+  letter-spacing: 0.21875px;
+  color: #494A49;
+  margin: 0 0 0 49px;
+}
+
+.exist-account {
+  margin: 0 0 40px;
+  font-size: 16px;
+  line-height: 16px;
+  color: #494A49;
+}
+
+.exist-sign-in {
+  text-decoration: underline;
+  color: #056B33;
+}
+
+@media screen and (max-width: 1024px) {
+  .main-image {
+    display: none;
+  }
+}
