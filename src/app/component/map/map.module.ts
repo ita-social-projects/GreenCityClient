@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { MapComponent } from './map-component/map.component';
 import {
-    DeleteFavoriteComponent,
-    EditFavoriteNameComponent,
-    FavoritePlaceComponent
+  DeleteFavoriteComponent,
+  EditFavoriteNameComponent,
+  FavoritePlaceComponent
   } from '../user/favorite-place/favorite-place.component';
 import { AddCommentComponent } from '../user/add-comment/add-comment.component';
 import { FilterComponent } from '../filter/filter.component';
