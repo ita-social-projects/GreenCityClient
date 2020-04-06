@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { MapComponent } from './map.component';
+import { MapComponent } from './map-component/map.component';
 import {
     DeleteFavoriteComponent,
     EditFavoriteNameComponent,
     FavoritePlaceComponent
-  } from '../favorite-place/favorite-place.component';
-import { AddCommentComponent } from '../add-comment/add-comment.component';
-import { FilterComponent } from '../../filter/filter.component';
+  } from '../user/favorite-place/favorite-place.component';
+import { AddCommentComponent } from '../user/add-comment/add-comment.component';
+import { FilterComponent } from '../filter/filter.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { AgmDirectionModule } from 'agm-direction';
@@ -23,7 +23,7 @@ import { AgmCoreModule } from '@agm/core';
 import { RatingModule } from 'ngx-bootstrap';
 import { Ng5SliderModule } from 'ng5-slider';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { CoreModule } from '../../core/core.module';
+import { CoreModule } from '../core/core.module';
 import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({

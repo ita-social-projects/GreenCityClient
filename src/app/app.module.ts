@@ -101,7 +101,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CoreModule } from './component/core/core.module';
 import { EcoNewsModule } from './component/eco-news/eco-news.module';
 import { AuthModule } from './component/auth/auth.module';
-import { MapModule } from './component/user/map/map.module';
+import { MapModule } from './component/map/map.module';
 
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
