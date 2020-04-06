@@ -97,6 +97,7 @@ body {
 .tertiary-global-button:focus{
   color: #13AA57;
 }
+
 .custom-dialog-container .mat-dialog-container {
   padding: 0;
   display: block;

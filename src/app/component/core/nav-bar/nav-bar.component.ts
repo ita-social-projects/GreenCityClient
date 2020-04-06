@@ -109,6 +109,7 @@ export class NavBarComponent implements OnInit {
   public changeCurrentLanguage() {
     this.languageService.changeCurrentLanguage(this.language as Language);
   }
+
   private openSingInWindow(): void {
     this.dialog.open(SignInNewComponent, {
       hasBackdrop: true,

@@ -34,13 +34,9 @@ export class SignInNewComponent implements OnInit {
     this.matDialogRef.close();
   }
 
-  private showHidePassword(input: any, src: any): void {
-    if (input.type === 'password') {
-      input.type = 'text';
-      src.src = this.showPassword;
-    } else if (input.type === 'text') {
-      input.type = 'password';
-      src.src = this.hidePassword;
-    }
+  private showHidePassword(input: HTMLInputElement, src: HTMLImageElement): void {
+    input.type === 'password' ?
+      (input.type = 'text', src.src = this.showPassword)
+      : (input.type = 'password', src.src = this.hidePassword);
   }
 }
