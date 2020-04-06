@@ -17,10 +17,12 @@
     </div>
     <div class="main-content-container">
       <div class="title">
-        <h1>Вітаємо!</h1>
+        <h1 class=""title-text>
+          Вітаємо!
+        </h1>
       </div>
       <div class="subtitle">
-        <h2>
+        <h2 class="subtitle-text">
           Будь ласка, внесіть свої дані для реєстрації.
         </h2>
       </div>
@@ -37,29 +39,39 @@
             Ваше ім’я
           </label>
           <input type="text"
-                 class="main-data-input"
+                 class="main-data-input name-input"
                  placeholder="Ваше ім’я"
           >
           <label class="content-label">
             Пароль
           </label>
-          <input type="password"
-                 class="main-data-input"
-                 placeholder="Пароль"
-          >
-          <img [src]="signUpImgs.hiddenEye"
-               alt="eye"
-          >
+          <div class="main-data-input-password">
+            <input type="password"
+                   placeholder="Пароль"
+                   class="password-input"
+            >
+            <span class="show-password">
+              <img [src]="signUpImgs.hiddenEye"
+                   alt="eye"
+                   class="show-password-img"
+              >
+            </span>
+          </div>
           <label class="content-label">
             Повторіть пароль
           </label>
-          <input type="password"
-                 class="main-data-input"
-                 placeholder="Пароль"
-          >
-          <img [src]="signUpImgs.hiddenEye"
-               alt="eye"
-          >
+          <div class="main-data-input-password">
+            <input type="password"
+                   placeholder="Пароль"
+                   class="password-input"
+            >
+            <span class="show-password">
+              <img [src]="signUpImgs.hiddenEye"
+                   alt="eye"
+                   class="show-password-img"
+              >
+            </span>
+          </div>
           <button type="submit"
                   class="cta-button"
           >
@@ -71,7 +83,13 @@
           <button type="submit"
                   class="cta-button-google"
           >
-            Зареєструватись через Google
+            <img [src]="signUpImgs.google"
+                 alt="google"
+                 class="sign-up-google-img"
+            >
+            <span class="sign-up-google-text">
+              Зареєструватись через Google
+            </span>
           </button>
         </div>
       </form>

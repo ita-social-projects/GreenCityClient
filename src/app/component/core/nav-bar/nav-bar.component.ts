@@ -14,7 +14,7 @@ import {HabitStatisticService} from 'src/app/service/habit-statistic/habit-stati
 import {filter} from 'rxjs/operators';
 import {LanguageService} from '../../../i18n/language.service';
 import {Language} from '../../../i18n/Language';
-import {NewSignUpComponent} from "../../auth/new-sign-up/new-sign-up.component";
+import { NewSignUpComponent } from '../../auth/new-sign-up/new-sign-up.component';
 
 @Component({
   selector: 'app-nav-bar',
@@ -113,7 +113,8 @@ export class NavBarComponent implements OnInit {
   private openSignUpWindow(): void {
     this.dialog.open(NewSignUpComponent, {
       hasBackdrop: true,
-      closeOnNavigation: true
+      closeOnNavigation: true,
+      panelClass: 'custom-dialog-container'
     });
   }
 }
