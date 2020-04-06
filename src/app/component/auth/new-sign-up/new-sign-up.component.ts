@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { authImages } from '../../../../assets/img/auth/auth-images';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-new-sign-up',
@@ -9,9 +10,12 @@ import { authImages } from '../../../../assets/img/auth/auth-images';
 export class NewSignUpComponent implements OnInit {
   private signUpImgs = authImages;
 
-  constructor() { }
+  constructor(private matDialogRef: MatDialogRef<NewSignUpComponent>) { }
 
   ngOnInit() {
   }
 
+  private closeSignUpWindow(): void {
+    this.matDialogRef.close();
+  }
 }

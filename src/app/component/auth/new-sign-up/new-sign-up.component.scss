@@ -2,12 +2,16 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 
+$montserrat: 'Montserrat';
+$open-sans: 'Open Sans';
+$roboto: 'Roboto';
+
 .main-container {
   display: flex;
   max-width: 960px;
   max-height: 760px;
   z-index: 2000;
-  font-family: 'Open Sans';
+  font-family: $open-sans;
 }
 
 .close-btn {
@@ -16,7 +20,7 @@
   justify-content: flex-end;
 }
 
-.close-btn-img {
+.cross-img {
   width: 12px;
   height: 12px;
 }
@@ -26,12 +30,12 @@
 }
 
 .main-content-container {
-  margin: 0 56px;
+  margin: 0 55px;
 }
 
 .title-text {
   margin: 0 0 8px;
-  font-family: 'Montserrat';
+  font-family: $montserrat;
   font-style: normal;
   font-weight: 500;
   font-size: 40px;
@@ -130,7 +134,7 @@
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.24),
               0px 0px 2px rgba(0, 0, 0, 0.24);
   border-radius: 3px;
-  font-family: 'Roboto';
+  font-family: $roboto;
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
