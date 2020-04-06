@@ -16,7 +16,7 @@ export class AppComponent implements OnInit  {
     private router: Router,
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.languageService.setDefaultLanguage();
     this.navigateToStartingPositionOnPage();
     this.titleAndMetaTagsService.initTitle();
