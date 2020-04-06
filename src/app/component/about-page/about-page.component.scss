@@ -1,9 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 
+body {
+  overflow-x: hidden;
+}
+
 @media only screen and (min-width: 1900px) {
   .page-wrapper {
-    width: 1920px;
+    width: 1908px;
     margin: 0 auto;
     overflow: hidden;
     min-height: 5800px;
@@ -81,7 +85,7 @@
     height: auto;
     margin: 0px;
     padding: 0px;
-    z-index: -3;
+    z-index: 7;
   }
 
   .container-about .full-text-block {
@@ -179,7 +183,7 @@
 
   .steps-main-block h2 {
     position: relative;
-    width: 391px;
+    width: 30%;
     height: 60px;
     left: 100px;
     top: -3250px;
@@ -214,70 +218,69 @@
 
   /*styles for odd cards*/
 
-  .card-holder-odd .number-title {
-    position: relative;
-    display: block;
-    left: 600px;
-    top: 20px;
-  }
-
-  .card-holder-odd .card-header {
-    height: 130px;
-    position: relative;
-    display: block;
-    left: 670px;
-    top: -13px;
-    width: 400px;
-    font-family: Montserrat, sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 32px;
-    line-height: 44px;
-    background: #FFFFFF;
-    color: #263238;
-    border: none;
-    padding-top: -20px;
-  }
-
-  .card-holder-odd .bg-image {
-    position: relative;
-    left: 50px;
-    top: -190px;
-    margin: 0;
-  }
-
-  .card-holder-odd .main-card-text {
-    position: relative;
-    display: block;
-    width: 470px;
-    height: 200px;
-    left: 760px;
-    top: -500px;
-    padding-top: 20px;
-    font-family: OpenSans, sans-serif;
-    font-size: 24px;
-    line-height: 36px;
-    background: #FFFFFF;
-  }
-
-  .card-holder-odd .card-link {
-    position: relative;
-    left: 1090px;
-    top: -530px;
-    min-width: 200px;
-    font-family: OpenSans, sans-serif;
-    font-size: 16px;
-    line-height: 19px;
-    display: flex;
-    align-items: center;
-    text-decoration-line: underline;
-    color: #056B33;
-  }
-
   .card-holder-odd {
     width: 100%;
     height: 700px;
     padding-left: 300px;
+
+    .number-title {
+      position: relative;
+      display: block;
+      left: 600px;
+      top: 20px;
+    }
+
+    .card-header {
+      height: 130px;
+      position: relative;
+      display: block;
+      left: 670px;
+      top: -13px;
+      width: 400px;
+      font-family: Montserrat, sans-serif;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 32px;
+      line-height: 44px;
+      background: #FFFFFF;
+      color: #263238;
+      border: none;
+      padding-top: -20px;
+    }
+
+    .bg-image {
+      position: relative;
+      left: 50px;
+      top: -190px;
+      margin: 0;
+    }
+
+    .main-card-text {
+      position: relative;
+      display: block;
+      width: 470px;
+      height: 200px;
+      left: 760px;
+      top: -500px;
+      padding-top: 20px;
+      font-family: OpenSans, sans-serif;
+      font-size: 24px;
+      line-height: 36px;
+      background: #FFFFFF;
+    }
+    .card-link {
+      position: relative;
+      left: 1090px;
+      top: -530px;
+      min-width: 200px;
+      font-family: OpenSans, sans-serif;
+      font-size: 16px;
+      line-height: 19px;
+      display: flex;
+      align-items: center;
+      text-decoration-line: underline;
+      color: #056B33;
+    }
   }
 
   .first-card-holder {
@@ -302,37 +305,51 @@
     font-size: 24px;
     line-height: 36px;
     padding-left: 300px;
-  }
 
-  .card-holder-even .number-title {
-    position: relative;
-    display: block;
-    left: 150px;
-    top: 20px;
-  }
+    .number-title {
+      position: relative;
+      display: block;
+      left: 150px;
+      top: 20px;
+    }
 
-  .card-holder-even .card-header {
-    position: relative;
-    display: block;
-    left: 240px;
-    top: -13px;
-    width: 400px;
-    height: 130px;
-    font-family: Montserrat, sans-serif;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 32px;
-    line-height: 44px;
-    background: #FFFFFF;
-    color: #263238;
-    border: none;
-  }
+    .card-header {
+      position: relative;
+      display: block;
+      left: 240px;
+      top: -13px;
+      width: 400px;
+      height: 130px;
+      font-family: Montserrat, sans-serif;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 32px;
+      line-height: 44px;
+      background: #FFFFFF;
+      color: #263238;
+      border: none;
+    }
 
-  .card-holder-even .bg-image {
-    position: relative;
-    left: 700px;
-    top: -100px;
-    margin: 0;
+    .bg-image {
+      position: relative;
+      left: 700px;
+      top: -100px;
+      margin: 0;
+    }
+
+    .card-link {
+      position: relative;
+      left: 400px;
+      top: -530px;
+      min-width: 200px;
+      font-family: OpenSans, sans-serif;
+      font-size: 16px;
+      line-height: 19px;
+      display: flex;
+      align-items: center;
+      text-decoration-line: underline;
+      color: #056B33;
+    }
   }
 
   .main-card-text {
@@ -347,20 +364,6 @@
     font-size: 24px;
     line-height: 36px;
     background: #FFFFFF;
-  }
-
-  .card-holder-even .card-link {
-    position: relative;
-    left: 400px;
-    top: -530px;
-    min-width: 200px;
-    font-family: OpenSans, sans-serif;
-    font-size: 16px;
-    line-height: 19px;
-    display: flex;
-    align-items: center;
-    text-decoration-line: underline;
-    color: #056B33;
   }
 
   .card-link::after {
@@ -528,7 +531,7 @@
     background: #fefefe;
     margin: 0px;
     padding: 0px;
-    z-index: -1;
+    z-index: 7;
   }
 
   .leaf {
@@ -573,27 +576,27 @@
     font-size: 24px;
     line-height: 36px;
     color: #263238;
-  }
 
-  .full-text-block h2 {
-    float: left;
-    font-family: Montserrat, sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 48px;
-    line-height: 60px;
-    margin-bottom: 16px;
-  }
+    h2 {
+      float: left;
+      font-family: Montserrat, sans-serif;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 48px;
+      line-height: 60px;
+      margin-bottom: 16px;
+    }
 
-  .full-text-block span {
-    float: left;
-    margin-bottom: 40px;
-    padding-right: 40px;
-    color: #263238;
-  }
+    span {
+      float: left;
+      margin-bottom: 40px;
+      padding-right: 40px;
+      color: #263238;
+    }
 
-  .full-text-block button {
-    float: left;
+    button {
+      float: left;
+    }
   }
 
   .vector-cup {
@@ -623,21 +626,21 @@
     height: 4500px;
     background: url('../../../assets/img/bg-form.png') no-repeat;
     overflow: hidden;
-  }
 
-  .steps-main-block h2 {
-    position: relative;
-    width: 391px;
-    height: 60px;
-    left: 100px;
-    top: -3350px;
-    font-family: Montserrat, sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 48px;
-    line-height: 60px;
-    color: #313131;
-    z-index: 5;
+    h2 {
+      position: relative;
+      width: 30%;
+      height: 60px;
+      left: 100px;
+      top: -3350px;
+      font-family: Montserrat, sans-serif;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 48px;
+      line-height: 60px;
+      color: #313131;
+      z-index: 5;
+    }
   }
 
   .dashed-line {
@@ -659,69 +662,69 @@
   }
 
   /*styles for odd cards*/
-  .card-holder-odd .number-title {
-    position: relative;
-    display: block;
-    left: 600px;
-    top: 20px;
-  }
-
-  .card-holder-odd .card-header {
-    height: 130px;
-    position: relative;
-    display: block;
-    left: 670px;
-    top: -13px;
-    width: 400px;
-    font-family: Montserrat, sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 32px;
-    line-height: 44px;
-    background: #FFFFFF;
-    color: #263238;
-    border: none;
-    padding-top: -20px;
-  }
-
-  .card-holder-odd .bg-image {
-    position: relative;
-    left: 50px;
-    top: -190px;
-    margin: 0;
-  }
-
-  .card-holder-odd .main-card-text {
-    position: relative;
-    display: block;
-    width: 470px;
-    height: 200px;
-    left: 760px;
-    top: -500px;
-    padding-top: 20px;
-    font-family: OpenSans, sans-serif;
-    font-size: 24px;
-    line-height: 36px;
-    background: #FFFFFF;
-  }
-
-  .card-holder-odd .card-link {
-    position: relative;
-    left: 1090px;
-    top: -530px;
-    min-width: 200px;
-    font-family: OpenSans, sans-serif;
-    font-size: 16px;
-    line-height: 19px;
-    display: flex;
-    align-items: center;
-    text-decoration-line: underline;
-    color: #056B33;
-  }
-
   .card-holder-odd {
     width: 100%;
     height: 700px;
+
+    .number-title {
+      position: relative;
+      display: block;
+      left: 600px;
+      top: 20px;
+    }
+
+    .card-header {
+      height: 130px;
+      position: relative;
+      display: block;
+      left: 670px;
+      top: -13px;
+      width: 400px;
+      font-family: Montserrat, sans-serif;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 32px;
+      line-height: 44px;
+      background: #FFFFFF;
+      color: #263238;
+      border: none;
+      padding-top: -20px;
+    }
+
+    .bg-image {
+      position: relative;
+      left: 50px;
+      top: -190px;
+      margin: 0;
+    }
+
+    .main-card-text {
+      position: relative;
+      display: block;
+      width: 470px;
+      height: 200px;
+      left: 760px;
+      top: -500px;
+      padding-top: 20px;
+      font-family: OpenSans, sans-serif;
+      font-size: 24px;
+      line-height: 36px;
+      background: #FFFFFF;
+    }
+
+    .card-link {
+      position: relative;
+      left: 1090px;
+      top: -530px;
+      min-width: 200px;
+      font-family: OpenSans, sans-serif;
+      font-size: 16px;
+      line-height: 19px;
+      display: flex;
+      align-items: center;
+      text-decoration-line: underline;
+      color: #056B33;
+    }
   }
 
   .first-card-holder {
@@ -748,37 +751,51 @@
     font-size: 24px;
     line-height: 36px;
     background: #FFFFFF;
-  }
 
-  .card-holder-even .number-title {
-    position: relative;
-    display: block;
-    left: 150px;
-    top: 20px;
-  }
+    .number-title {
+      position: relative;
+      display: block;
+      left: 150px;
+      top: 20px;
+    }
 
-  .card-holder-even .card-header {
-    position: relative;
-    display: block;
-    left: 240px;
-    top: -13px;
-    width: 400px;
-    height: 130px;
-    font-family: Montserrat, sans-serif;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 32px;
-    line-height: 44px;
-    background: #FFFFFF;
-    color: #263238;
-    border: none;
-  }
+    .card-header {
+      position: relative;
+      display: block;
+      left: 240px;
+      top: -13px;
+      width: 400px;
+      height: 130px;
+      font-family: Montserrat, sans-serif;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 32px;
+      line-height: 44px;
+      background: #FFFFFF;
+      color: #263238;
+      border: none;
+    }
 
-  .card-holder-even .bg-image {
-    position: relative;
-    left: 700px;
-    top: -100px;
-    margin: 0;
+    .bg-image {
+      position: relative;
+      left: 700px;
+      top: -100px;
+      margin: 0;
+    }
+
+    .card-link {
+      position: relative;
+      left: 400px;
+      top: -530px;
+      min-width: 200px;
+      font-family: OpenSans, sans-serif;
+      font-size: 16px;
+      line-height: 19px;
+      display: flex;
+      align-items: center;
+      text-decoration-line: underline;
+      color: #056B33;
+    }
   }
 
   .main-card-text {
@@ -795,19 +812,6 @@
     background: #FFFFFF;
   }
 
-  .card-holder-even .card-link {
-    position: relative;
-    left: 400px;
-    top: -530px;
-    min-width: 200px;
-    font-family: OpenSans, sans-serif;
-    font-size: 16px;
-    line-height: 19px;
-    display: flex;
-    align-items: center;
-    text-decoration-line: underline;
-    color: #056B33;
-  }
 
   .card-link::after {
     margin-left: 5px;
