@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import  {ModalService } from '../_modal/modal.service';
-import { MatDialog } from '@angular/material';
+import { ModalService } from '../_modal/modal.service';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { FavoritePlaceComponent } from '../../map/favorite-place/favorite-place.component';
 import { ProposeCafeComponent } from '../propose-cafe/propose-cafe.component';
 import { FavoritePlaceService } from '../../../service/favorite-place/favorite-place.service';
@@ -14,6 +14,7 @@ import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-sta
 import { filter } from 'rxjs/operators';
 import { LanguageService } from '../../../i18n/language.service';
 import { Language } from '../../../i18n/Language';
+import { SignInNewComponent } from '../../auth/sign-in-new/sign-in-new.component';
 
 @Component({
   selector: 'app-nav-bar',
@@ -107,5 +108,13 @@ export class NavBarComponent implements OnInit {
 
   public changeCurrentLanguage() {
     this.languageService.changeCurrentLanguage(this.language as Language);
+  }
+
+  private openSingInWindow(): void {
+    this.dialog.open(SignInNewComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      panelClass: 'custom-dialog-container',
+    });
   }
 }
