@@ -2,16 +2,16 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 
-$montserrat: 'Montserrat';
-$open-sans: 'Open Sans';
-$roboto: 'Roboto';
+$title-font: 'Montserrat';
+$main-font: 'Open Sans';
+$sign-up-google-font: 'Roboto';
 
 .main-container {
   display: flex;
   max-width: 960px;
   max-height: 760px;
   z-index: 2000;
-  font-family: $open-sans;
+  font-family: $main-font;
 }
 
 .close-btn {
@@ -35,7 +35,7 @@ $roboto: 'Roboto';
 
 .title-text {
   margin: 0 0 8px;
-  font-family: $montserrat;
+  font-family: $title-font;
   font-style: normal;
   font-weight: 500;
   font-size: 40px;
@@ -134,7 +134,7 @@ $roboto: 'Roboto';
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.24),
               0px 0px 2px rgba(0, 0, 0, 0.24);
   border-radius: 3px;
-  font-family: $roboto;
+  font-family: $sign-up-google-font;
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
