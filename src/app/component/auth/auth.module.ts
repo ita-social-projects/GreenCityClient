@@ -1,15 +1,18 @@
 import { NgModule } from '@angular/core';
 import { NewSignUpComponent } from './new-sign-up/new-sign-up.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { RestorePasswordComponent } from './restore-password/restore-password.component';
+import {CoreModule} from '../core/core.module';
 
 @NgModule({
   declarations: [
     NewSignUpComponent,
-    ForgotPasswordComponent
+    RestorePasswordComponent,
   ],
-  imports: [],
+  imports: [
+    CoreModule
+  ],
   entryComponents: [
-    ForgotPasswordComponent
+    RestorePasswordComponent
   ],
   providers: []
 })
