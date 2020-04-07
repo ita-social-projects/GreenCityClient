@@ -1,20 +1,20 @@
-import {Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ModalService} from '../_modal/modal.service';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import {FavoritePlaceComponent} from '../../user/favorite-place/favorite-place.component';
-import {ProposeCafeComponent} from '../propose-cafe/propose-cafe.component';
-import {FavoritePlaceService} from '../../../service/favorite-place/favorite-place.service';
-import {UserSettingComponent} from '../../user/user-setting/user-setting.component';
-import {Router} from '@angular/router';
-import {LocalStorageService} from '../../../service/localstorage/local-storage.service';
-import {JwtService} from '../../../service/jwt/jwt.service';
-import {UserService} from 'src/app/service/user/user.service';
-import {AchievementService} from 'src/app/service/achievement/achievement.service';
-import {HabitStatisticService} from 'src/app/service/habit-statistic/habit-statistic.service';
-import {filter} from 'rxjs/operators';
-import {LanguageService} from '../../../i18n/language.service';
-import {Language} from '../../../i18n/Language';
-import {SignInNewComponent} from '../../auth/sign-in-new/sign-in-new.component';
+import { FavoritePlaceComponent } from '../../user/favorite-place/favorite-place.component';
+import { ProposeCafeComponent } from '../propose-cafe/propose-cafe.component';
+import { FavoritePlaceService } from '../../../service/favorite-place/favorite-place.service';
+import { UserSettingComponent } from '../../user/user-setting/user-setting.component';
+import { Router } from '@angular/router';
+import { LocalStorageService } from '../../../service/localstorage/local-storage.service';
+import { JwtService } from '../../../service/jwt/jwt.service';
+import { UserService } from 'src/app/service/user/user.service';
+import { AchievementService } from 'src/app/service/achievement/achievement.service';
+import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-statistic.service';
+import { filter } from 'rxjs/operators';
+import { LanguageService } from '../../../i18n/language.service';
+import { Language } from '../../../i18n/Language';
+import { SignInNewComponent } from '../../auth/sign-in-new/sign-in-new.component';
 
 @Component({
   selector: 'app-nav-bar',

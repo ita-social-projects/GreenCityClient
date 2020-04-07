@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 
-$fontOpenSans : OpenSans, sans-serif;
+$generalFont : OpenSans, sans-serif;
 $inputHeight : 48px;
 
 .wrapper {
@@ -42,7 +42,7 @@ $inputHeight : 48px;
 
     h2 {
       margin: 0 56px 40px 56px;
-      font-family: $fontOpenSans;
+      font-family: $generalFont;
       font-size: 16px;
       line-height: 16px;
     }
@@ -55,7 +55,7 @@ $inputHeight : 48px;
       label[for="email"],
       label[for="password"] {
         margin-bottom: 4px;
-        font-family: $fontOpenSans;
+        font-family: $generalFont;
         font-size: 12px;
         line-height: 14px;
         color: #494A49;
@@ -64,36 +64,33 @@ $inputHeight : 48px;
       input {
         background: #FFFFFF;
         box-sizing: border-box;
+        color: #494A49;
+        border-radius: 5px;
+        padding: 11px 40px 11px 16px;
       }
 
       input[type=email] {
         height: $inputHeight;
         margin-bottom: 21px;
         border: 1px solid #878787;
-        border-radius: 5px;
         background: #FFFFFF;
-        padding: 11px 40px 11px 16px;
-        font-family: $fontOpenSans;
+        font-family: $generalFont;
         font-size: 16px;
         line-height: 24px;
-        color: #878787;
       }
 
       input[type=password],
       input[type=text] {
         border: transparent;
-        border-radius: 5px;
         width:90%;
-        padding: 11px 40px 11px 16px;
-        font-family: $fontOpenSans;
+        font-family: $generalFont;
         font-size: 16px;
         line-height: 24px;
-        color: #878787;
       }
 
       input[type=password]:focus,
       input[type=text]:focus {
-        height: $inputHeight;
+        height: 46px;
       }
 
       .password-input-btn-show-hide {
@@ -123,7 +120,7 @@ $inputHeight : 48px;
       margin-top: 16px;
 
       .forgot-password {
-        font-family: $fontOpenSans;
+        font-family: $generalFont;
         font-size: 12px;
         line-height: 16px;
         text-decoration-line: underline;
@@ -136,7 +133,7 @@ $inputHeight : 48px;
       background: #13AA57;
       border: 0;
       border-radius: 3px;
-      font-family: $fontOpenSans;
+      font-family: $generalFont;
       font-weight: 600;
       font-size: 16px;
       line-height: 16px;
@@ -147,7 +144,7 @@ $inputHeight : 48px;
 
     .or-use-google {
       text-align: center;
-      font-family: $fontOpenSans;
+      font-family: $generalFont;
       font-size: 12px;
       line-height: 12px;
       color: #494A49;
@@ -184,7 +181,7 @@ $inputHeight : 48px;
 
     .missing-account {
       margin: 203px 121px 40px 56px;
-      font-family: $fontOpenSans;
+      font-family: $generalFont;
       font-size: 16px;
       line-height: 16px;
       color: #494A49;

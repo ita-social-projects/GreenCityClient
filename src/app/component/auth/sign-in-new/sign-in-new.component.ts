@@ -30,7 +30,7 @@ export class SignInNewComponent implements OnInit {
 
   ngOnInit() {}
 
-  private CloseSignInWindow(): void {
+  private closeSignInWindow(): void {
     this.matDialogRef.close();
   }
 
