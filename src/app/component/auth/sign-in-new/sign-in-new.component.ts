@@ -17,8 +17,8 @@ export class SignInNewComponent implements OnInit {
   private closeBtn = SignInIcons;
   private mainSignInImage = SignInIcons;
   private googleImage = SignInIcons;
-  public hidePassword = '../../../../assets/img/icon/eye.png';
-  public showPassword = '../../../../assets/img/icon/eye-show.png';
+  private hidePassword = '../../../../assets/img/icon/eye.png';
+  private showPassword = '../../../../assets/img/icon/eye-show.png';
 
   constructor(
     private matDialogRef: MatDialogRef<SignInNewComponent>,
