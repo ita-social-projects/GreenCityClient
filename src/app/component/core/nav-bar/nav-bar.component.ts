@@ -15,6 +15,7 @@ import {filter} from 'rxjs/operators';
 import {LanguageService} from '../../../i18n/language.service';
 import {Language} from '../../../i18n/Language';
 import { NewSignUpComponent } from '../../auth/new-sign-up/new-sign-up.component';
+import { SignInNewComponent } from '../../auth/sign-in-new/sign-in-new.component';
 
 @Component({
   selector: 'app-nav-bar',
@@ -114,7 +115,15 @@ export class NavBarComponent implements OnInit {
     this.dialog.open(NewSignUpComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
-      panelClass: 'custom-dialog-container'
+      panelClass: 'custom-dialog-container',
+    });
+  }
+
+  private openSingInWindow(): void {
+    this.dialog.open(SignInNewComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      panelClass: 'custom-dialog-container',
     });
   }
 }

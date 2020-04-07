@@ -30,6 +30,7 @@ import { DatePipe } from '@angular/common';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
   MatButtonModule,
+  MatDialogModule,
   MatDialogRef,
   MatFormFieldModule,
   MatIconModule,
@@ -39,7 +40,6 @@ import {
   MatSliderModule,
   MatTableModule,
   MatTreeModule,
-  MatDialogModule
 } from '@angular/material';
 
 import { HabitChartComponent } from './component/user/habit/habit-trackers/habit-tracker/habit-chart/habit-chart.component';
@@ -197,6 +197,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   imports: [
     MatDialogModule,
     AuthModule,
+    MatDialogModule,
     CoreModule,
     EcoNewsModule,
     InfiniteScrollModule,
