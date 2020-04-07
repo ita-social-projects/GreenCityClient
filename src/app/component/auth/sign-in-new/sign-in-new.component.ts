@@ -17,8 +17,8 @@ export class SignInNewComponent implements OnInit {
   private closeBtn = SignInIcons;
   private mainSignInImage = SignInIcons;
   private googleImage = SignInIcons;
-  private hidePassword = '../../../../assets/img/icon/eye.png';
-  private showPassword = '../../../../assets/img/icon/eye-show.png';
+  private hidePass = SignInIcons;
+  private showPass = SignInIcons;
 
   constructor(
     private matDialogRef: MatDialogRef<SignInNewComponent>,
@@ -36,6 +36,6 @@ export class SignInNewComponent implements OnInit {
 
   private showHidePassword(input: HTMLInputElement, src: HTMLImageElement): void {
     input.type = input.type === 'password' ? 'text' : 'password';
-    src.src = input.type === 'password' ? this.hidePassword : this.showPassword;
+    src.src = input.type === 'password' ? this.hidePass.hidePassword : this.showPass.showPassword;
   }
 }
