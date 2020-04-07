@@ -1,8 +1,8 @@
-import {Component} from '@angular/core';
-import {Options} from 'ng5-slider';
-import {PlaceService} from '../../service/place/place.service';
-import {FilterPlaceService} from '../../service/filtering/filter-place.service';
-import {MapComponent} from '../map/map-component/map.component';
+import { Component } from '@angular/core';
+import { Options } from 'ng5-slider';
+import { PlaceService } from '../../../service/place/place.service';
+import { FilterPlaceService } from '../../../service/filtering/filter-place.service';
+import { MapComponent } from '../map-component/map.component';
 
 @Component({
   selector: 'app-filter',

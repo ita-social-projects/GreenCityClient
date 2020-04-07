@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FavoritePlace } from '../../../model/favorite-place/favorite-place';
 import { FilterPlaceService } from '../../../service/filtering/filter-place.service';
 import { Location } from '../../../model/location.model';
-import { AddCommentComponent } from '../../user/add-comment/add-comment.component';
+import { AddCommentComponent } from '../add-comment/add-comment.component';
 import { WeekDaysUtils } from '../../../service/weekDaysUtils.service';
 import { JwtService } from '../../../service/jwt/jwt.service';
 
