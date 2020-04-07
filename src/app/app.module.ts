@@ -30,6 +30,7 @@ import { DatePipe } from '@angular/common';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
   MatButtonModule,
+  MatDialogModule,
   MatDialogRef,
   MatFormFieldModule,
   MatIconModule,
@@ -194,6 +195,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   ],
   imports: [
     AuthModule,
+    MatDialogModule,
     CoreModule,
     EcoNewsModule,
     InfiniteScrollModule,
@@ -233,7 +235,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     RestoreComponent,
     DeleteFavoriteComponent,
     UserSettingComponent,
-    AddCommentComponent
+    AddCommentComponent,
   ],
 
   providers: [
