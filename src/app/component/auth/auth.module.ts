@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { NewSignUpComponent } from './new-sign-up/new-sign-up.component';
-import {SignInNewComponent} from './sign-in-new/sign-in-new.component';
+import { SignInNewComponent } from './sign-in-new/sign-in-new.component';
 import { RestorePasswordComponent } from './restore-password/restore-password.component';
-import {CoreModule} from '../core/core.module';
+import { CoreModule } from '../core/core.module';
 
 @NgModule({
   declarations: [
@@ -11,10 +11,11 @@ import {CoreModule} from '../core/core.module';
     RestorePasswordComponent
   ],
   imports: [
-    CoreModule,
+    CoreModule
   ],
   entryComponents: [
     SignInNewComponent,
+    NewSignUpComponent
     RestorePasswordComponent
   ],
   providers: []
