@@ -11,7 +11,10 @@
         <span id="text-before">{{ "top-bar.text-before" | translate }}</span>
         <span><a routerLink="/auth/sign-up">{{ "top-bar.sign-up" | translate }}</a></span>
         <span id="text-within">{{ "top-bar.text-within" | translate }}</span>
-        <span>{{ "top-bar.or" | translate }}<a routerLink="/auth">{{ "top-bar.sign-in" | translate }}</a></span>
+        <span>
+          {{ "top-bar.or" | translate }}
+            <a (click)="openSingInWindow()">{{ "top-bar.sign-in" | translate }}
+            </a></span>
         <span id="text-after">{{ "top-bar.text-after" | translate }}</span>
       </div>
     </ng-template>

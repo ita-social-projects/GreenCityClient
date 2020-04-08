@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/service/localstorage/local-storage.service';
-import {UserService} from "../../../../service/user/user.service";
+import {UserService} from '../../../../service/user/user.service';
 
 @Component({
   selector: 'app-homepage',
