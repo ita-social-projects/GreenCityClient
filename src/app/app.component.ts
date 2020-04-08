@@ -19,8 +19,6 @@ export class AppComponent implements OnInit  {
   ngOnInit() {
     this.languageService.setDefaultLanguage();
     this.navigateToStartingPositionOnPage();
-    this.titleAndMetaTagsService.initTitle();
-    this.titleAndMetaTagsService.initMetas();
     this.titleAndMetaTagsService.useTitleMetasData();
   }
 

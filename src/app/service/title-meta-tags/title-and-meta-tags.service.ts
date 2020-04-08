@@ -22,22 +22,31 @@ export class TitleAndMetaTagsService {
     private translations: TranslateService
   ) {}
 
-  public initTitle(): void {
+  public useTitleMetasData(): void {
+    this.initTitle();
+    this.initMetas();
+    this.applyingTitleMetasData();
+  }
+
+  private initTitle(): void {
     this.router.events
       .pipe(
         filter((events) => events instanceof NavigationEnd),
-        map((events) => (events as any).url.slice(1)),
+        map((events) => (events as any).url.slice(1))
       )
-      .subscribe((nameTitle: string) => this.titleSubject.next(nameTitle));
+      .subscribe((nameTitle: string) => {
+        console.log(nameTitle.match(/[a-z]+/g).toString());
+        this.titleSubject.next(nameTitle.match(/[a-z]+/g).toString());
+      });
   }
 
-  public initMetas(): void {
+  private initMetas(): void {
       this.translations.onDefaultLangChange.subscribe((elem) => {
       this.metasSubject.next(elem.translations.metas);
     });
   }
 
-  public useTitleMetasData(): void {
+  private applyingTitleMetasData(): void {
     combineLatest(
       this.titleSubject,
       this.metasSubject,
