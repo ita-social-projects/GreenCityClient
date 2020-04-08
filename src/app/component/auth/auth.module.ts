@@ -7,7 +7,8 @@ import {CoreModule} from '../core/core.module';
 @NgModule({
   declarations: [
     NewSignUpComponent,
-    SignInNewComponent
+    SignInNewComponent,
+    RestorePasswordComponent
   ],
   imports: [
     CoreModule,
