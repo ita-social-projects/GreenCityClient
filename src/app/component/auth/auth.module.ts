@@ -15,8 +15,8 @@ import { CoreModule } from '../core/core.module';
   ],
   entryComponents: [
     SignInNewComponent,
-    NewSignUpComponent
-    RestorePasswordComponent
+    NewSignUpComponent,
+    RestorePasswordComponent,
   ],
   providers: []
 })
