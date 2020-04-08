@@ -12,7 +12,8 @@ import { CoreModule } from '../core/core.module';
     CoreModule
   ],
   entryComponents: [
-    SignInNewComponent
+    SignInNewComponent,
+    NewSignUpComponent
   ],
   providers: []
 })

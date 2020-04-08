@@ -28,6 +28,7 @@ import {
   MatRadioModule,
   MatSelectModule,
   MatSliderModule,
+  MatTableModule,
   MatTreeModule
 } from '@angular/material';
 import { HabitChartComponent } from './component/user/habit/habit-trackers/habit-tracker/habit-chart/habit-chart.component';
@@ -173,6 +174,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     InputcolorDirective
   ],
   imports: [
+    MatDialogModule,
     AuthModule,
     MatDialogModule,
     CoreModule,
