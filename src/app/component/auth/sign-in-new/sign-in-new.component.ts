@@ -19,9 +19,7 @@ export class SignInNewComponent implements OnInit {
   private closeBtn = SignInIcons;
   private mainSignInImage = SignInIcons;
   private googleImage = SignInIcons;
-  private hidePassword = '../../../../assets/img/icon/eye.png';
-  private showPassword = '../../../../assets/img/icon/eye-show.png';
-  public currentLang: string;
+  private hideShowPasswordImage = SignInIcons;
 
   public userOwnSignIn: UserOwnSignIn;
   public loadingAnim: boolean;
@@ -49,7 +47,6 @@ export class SignInNewComponent implements OnInit {
         this.matDialogRef.close();
       }
     });
-    // this.getCurrentLanguage();
   }
 
   public signIn(userOwnSignIn: UserOwnSignIn) {
@@ -109,16 +106,8 @@ export class SignInNewComponent implements OnInit {
     });
   }
 
-  // getCurrentLanguage() {
-  //   this.localStorageService.selectedLanguageBehaviourSubject
-  //     .subscribe(currentLanguage => {
-  //       this.currentLang = currentLanguage;
-  //       console.log(this.currentLang);
-  //     });
-  // }
-
   private showHidePassword(input: HTMLInputElement, src: HTMLImageElement): void {
     input.type = input.type === 'password' ? 'text' : 'password';
-    src.src = input.type === 'password' ? this.hidePassword : this.showPassword;
+    src.src = input.type === 'password' ? this.hideShowPasswordImage.hidePassword : this.hideShowPasswordImage.showPassword;
   }
 }
