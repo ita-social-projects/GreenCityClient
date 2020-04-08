@@ -13,11 +13,11 @@ import { AgmDirectionModule } from 'agm-direction';
 import { CommonModule } from '@angular/common';
 import { MapRoutesModule } from './map-routing.module';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
-import { 
-  MatTableModule, 
-  MatIconModule, 
-  MatDialogModule, 
-  MatRippleModule 
+import {
+  MatTableModule,
+  MatIconModule,
+  MatDialogModule,
+  MatRippleModule
 } from '@angular/material';
 import { AgmCoreModule } from '@agm/core';
 import { RatingModule } from 'ngx-bootstrap';
@@ -59,4 +59,4 @@ import { MatTabsModule } from '@angular/material/tabs';
     ],
   })
 
-  export class MapModule { }
+export class MapModule {}
