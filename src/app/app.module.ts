@@ -2,8 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MapComponent } from './component/user/map/map.component';
-import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { SignUpComponent } from './component/user/auth/sign-up/sign-up.component';
 import { GeneralComponent } from './component/general/general.component';
 import { AuthComponent } from './component/user/auth/auth.component';
@@ -18,14 +16,7 @@ import { ProposeCafeComponent } from './component/core/propose-cafe/propose-cafe
 import { AdminModule } from './component/admin/admin.module';
 import { NgFlashMessagesModule } from 'ng-flash-messages';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FilterComponent } from './component/filter/filter.component';
-import {
-  DeleteFavoriteComponent,
-  EditFavoriteNameComponent,
-  FavoritePlaceComponent
-} from './component/user/favorite-place/favorite-place.component';
 import { AuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
-import { AgmDirectionModule } from 'agm-direction';
 import { DatePipe } from '@angular/common';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
@@ -33,17 +24,13 @@ import {
   MatDialogModule,
   MatDialogRef,
   MatFormFieldModule,
-  MatIconModule,
   MatInputModule,
   MatRadioModule,
   MatSelectModule,
   MatSliderModule,
-  MatTableModule,
   MatTreeModule
 } from '@angular/material';
-
 import { HabitChartComponent } from './component/user/habit/habit-trackers/habit-tracker/habit-chart/habit-chart.component';
-import { Ng5SliderModule } from 'ng5-slider';
 import { provideConfig } from './config/GoogleAuthConfig';
 import { RestoreComponent } from './component/user/restore/restore.component';
 import { RestoreFormComponent } from './component/user/restore-form/restore-form.component';
@@ -51,10 +38,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
-import { AddCommentComponent } from './component/user/add-comment/add-comment.component';
-import { RatingModule } from 'ngx-bootstrap';
 import { UserSettingComponent } from './component/user/user-setting/user-setting.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserLogComponent } from './component/user/habit/user-log-component/user-log.component';
 import { ButtonComponent } from './component/user/habit/button-component/button.component';
 import { HabitTrackersComponent } from './component/user/habit/habit-trackers/habit-trackers.component';
@@ -118,6 +102,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CoreModule } from './component/core/core.module';
 import { EcoNewsModule } from './component/eco-news/eco-news.module';
 import { AuthModule } from './component/auth/auth.module';
+import { MapModule } from './component/map/map.module';
 
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
@@ -136,14 +121,8 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     AuthComponent,
     SignInComponent,
     SubmitEmailComponent,
-    MapComponent,
-    FilterComponent,
-    FavoritePlaceComponent,
-    EditFavoriteNameComponent,
-    DeleteFavoriteComponent,
     RestoreComponent,
     RestoreFormComponent,
-    AddCommentComponent,
     UserSettingComponent,
     HabitTrackersComponent,
     UserLogComponent,
@@ -205,39 +184,28 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     HttpClientModule,
     SocialLoginModule,
     FormsModule,
-    AgmDirectionModule,
-    Ng2SearchPipeModule,
     AdminModule,
     NgFlashMessagesModule.forRoot(),
-    MatTableModule,
-    MatIconModule,
     ReactiveFormsModule,
     MatSliderModule,
     MatTreeModule,
-    Ng5SliderModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AngularFireStorageModule,
-    RatingModule,
     MatSelectModule,
     MatRadioModule,
     MatSelectModule,
     DragDropModule,
-    NgbModule,
+    MapModule,
   ],
   entryComponents: [
     ProposeCafeComponent,
-    FavoritePlaceComponent,
-    EditFavoriteNameComponent,
     RestoreComponent,
-    DeleteFavoriteComponent,
     UserSettingComponent,
-    AddCommentComponent,
   ],
-
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
