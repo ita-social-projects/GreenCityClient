@@ -67,6 +67,10 @@ h3, p, span, b, h2, button {
     font-size: 12px;
 }
 
+.right-form-column span {
+    font-size: 12px;
+}
+
 h3 {
     font-size: 22px;
 }
@@ -98,6 +102,10 @@ form {
 
 .tags h3, .tags p {
     margin-left: 20px;
+}
+
+.right-form-column {
+    margin-left: 40px;
 }
 
 button:hover {
@@ -138,13 +146,8 @@ form label {
     flex-direction: column;
 }
 
-.right-form-column {
-    width: 300px;
-    height: 100px;
-}
-
 .wrapper {
-    display:  flex;
+    display: flex;
     justify-content: space-between;
 }
 

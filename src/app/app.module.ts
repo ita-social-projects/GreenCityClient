@@ -119,7 +119,6 @@ import { CoreModule } from './component/core/core.module';
 import { EcoNewsModule } from './component/eco-news/eco-news.module';
 import { AuthModule } from './component/auth/auth.module';
 
-
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
   slidesPerView: 'auto'
@@ -191,7 +190,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     EcoEventsComponent,
     TipsListComponent,
     TipsCardComponent,
-    InputcolorDirective
+    InputcolorDirective,
   ],
   imports: [
     AuthModule,
