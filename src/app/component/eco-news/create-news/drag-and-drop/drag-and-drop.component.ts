@@ -10,8 +10,6 @@ export class DragAndDropComponent implements OnInit {
 
   constructor() { }
 
-  
-
   files: FileHandle[] = [];
 
   filesDropped(files: FileHandle[]): void {
