@@ -21,7 +21,7 @@ export class RestorePasswordComponent implements OnInit {
   ngOnInit() {
   }
 
-  private CloseRestoreWindow(): void {
+  private onCloseRestoreWindow(): void {
     this.dialog.closeAll();
   }
 

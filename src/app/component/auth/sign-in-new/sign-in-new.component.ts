@@ -35,7 +35,7 @@ export class SignInNewComponent implements OnInit {
     this.matDialogRef.close();
   }
 
-  private openForgotWindow(): void {
+  private onOpenForgotWindow(): void {
     this.dialog.open(RestorePasswordComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
