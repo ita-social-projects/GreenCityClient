@@ -41,6 +41,7 @@ export class SignInNewComponent implements OnInit {
       closeOnNavigation: true,
       panelClass: 'custom-dialog-container',
     });
+    this.matDialogRef.close();
   }
 
   private showHidePassword(input: HTMLInputElement, src: HTMLImageElement): void {
