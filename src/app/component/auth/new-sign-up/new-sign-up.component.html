@@ -50,11 +50,14 @@
             <input type="password"
                    placeholder="Пароль"
                    class="password-input"
+                   #inputPassword
             >
             <span class="show-password">
               <img [src]="signUpImgs.hiddenEye"
                    alt="eye"
                    class="show-password-img"
+                   #inputPasswordImg
+                   (click)="hideShowPassword(inputPassword, inputPasswordImg)"
               >
             </span>
           </div>
@@ -65,11 +68,14 @@
             <input type="password"
                    placeholder="Пароль"
                    class="password-input"
+                   #repeatPassword
             >
             <span class="show-password">
               <img [src]="signUpImgs.hiddenEye"
                    alt="eye"
                    class="show-password-img"
+                   #repeatPasswordImg
+                   (click)="hideShowPassword(repeatPassword, repeatPasswordImg)"
               >
             </span>
           </div>

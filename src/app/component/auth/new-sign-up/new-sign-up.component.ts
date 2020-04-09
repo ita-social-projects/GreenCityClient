@@ -18,4 +18,15 @@ export class NewSignUpComponent implements OnInit {
   private closeSignUpWindow(): void {
     this.matDialogRef.close();
   }
+
+  private hideShowPassword(htmlInput: HTMLInputElement,
+                           htmlImage: HTMLImageElement): void {
+    if (htmlInput.type === 'password') {
+      htmlInput.type = 'text';
+      htmlImage.src = this.signUpImgs.openEye;
+    } else {
+      htmlInput.type = 'password';
+      htmlImage.src = this.signUpImgs.hiddenEye;
+    }
+  }
 }
