@@ -88,7 +88,8 @@
         {{backEndError}}
       </div>
       <div class="forgot-wrapper">
-        <a class="forgot-password">
+        <a (click)="onOpenForgotWindow()"
+           class="forgot-password">
           {{'user.auth.sign-in.forgot-password' | translate}}</a>
       </div>
       <button class="login-btn"

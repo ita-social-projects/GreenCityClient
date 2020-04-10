@@ -131,8 +131,8 @@ img {
 @media (min-width: 1600px) {
   .lower-navbar .navbar-wrapper {
     width: 50% !important;
-    }
   }
+}
 
 @media (min-width: 1440px) {
   .lower-navbar .navbar-wrapper {
