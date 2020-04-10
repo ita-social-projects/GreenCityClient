@@ -41,9 +41,8 @@ export class SignInNewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userOwnSignIn = new UserOwnSignIn();
-    this.defaultErrorMessage();
+    this.configDefaultErrorMessage();
     this.checkIfUserId();
-
   }
 
   private checkIfUserId(): void {
@@ -55,7 +54,7 @@ export class SignInNewComponent implements OnInit, OnDestroy {
     });
   }
 
-  public defaultErrorMessage(): void {
+  public configDefaultErrorMessage(): void {
     this.emailErrorMessageBackEnd = null;
     this.passwordErrorMessageBackEnd = null;
     this.backEndError = null;
@@ -65,10 +64,10 @@ export class SignInNewComponent implements OnInit, OnDestroy {
     this.loadingAnim = true;
     this.userOwnSignInService.signIn(userOwnSignIn).subscribe(
       (data: UserSuccessSignIn) => {
-        this.getUserSuccessSignInData(data);
+        this.onSignInSuccess(data);
       },
       (errors: HttpErrorResponse) => {
-        this.handError(errors);
+        this.onSignInFailure(errors);
         this.loadingAnim = false;
       });
   }
@@ -77,15 +76,15 @@ export class SignInNewComponent implements OnInit, OnDestroy {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(data => {
       this.googleService.signIn(data.idToken).subscribe(
         (signInData: UserSuccessSignIn) => {
-          this.userSuccessGoogleSignIn(signInData);
+          this.onSignInWithGoogleSuccess(signInData);
         },
         (errors: HttpErrorResponse) => {
-          this.handError(errors);
+          this.onSignInFailure(errors);
         });
     });
   }
 
-  private getUserSuccessSignInData(data: UserSuccessSignIn): void {
+  private onSignInSuccess(data: UserSuccessSignIn): void {
     this.loadingAnim = false;
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.localStorageService.setFirstName(data.firstName);
@@ -95,7 +94,7 @@ export class SignInNewComponent implements OnInit, OnDestroy {
       .catch(fail => console.log('redirect has failed ' + fail));
   }
 
-  private handError(errors: HttpErrorResponse): void {
+  private onSignInFailure(errors: HttpErrorResponse): void {
     try {
       errors.error.forEach(error => {
         if (error.name === 'email') {
@@ -109,20 +108,20 @@ export class SignInNewComponent implements OnInit, OnDestroy {
     }
   }
 
-  private userSuccessGoogleSignIn(data: UserSuccessSignIn): void {
+  private onSignInWithGoogleSuccess(data: UserSuccessSignIn): void {
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.router.navigate(['/welcome'])
       .then(success => console.log('redirect has succeeded ' + success))
       .catch(fail => console.log('redirect has failed ' + fail));
   }
 
-  private showHidePassword(input: HTMLInputElement, src: HTMLImageElement): void {
+  private togglePassword(input: HTMLInputElement, src: HTMLImageElement): void {
     input.type = input.type === 'password' ? 'text' : 'password';
     src.src = input.type === 'password' ?
       this.hideShowPasswordImage.hidePassword : this.hideShowPasswordImage.showPassword;
   }
 
-  private CloseSignInWindow(): void {
+  private closeSignInWindow(): void {
     this.matDialogRef.close();
   }
 

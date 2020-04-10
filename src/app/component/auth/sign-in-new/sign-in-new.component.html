@@ -5,7 +5,7 @@
          alt="sign-in image">
   </div>
   <div class="right-side">
-    <a (click)="CloseSignInWindow()"
+    <a (click)="closeSignInWindow()"
        class="close-modal-window">
       <img class="cross-btn"
            [src]="closeBtn.closeButton"
@@ -63,7 +63,7 @@
                required
                minlength="8">
         <span class="show-hide-btn">
-          <img (click)="showHidePassword(input, src)"
+          <img (click)="togglePassword(input, src)"
                class="image-show-hide-password"
                [src]="hideShowPasswordImage.hidePassword"
                #src
