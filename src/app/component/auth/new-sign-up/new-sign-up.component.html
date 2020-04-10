@@ -19,37 +19,45 @@
     <div class="main-content-container">
       <div class="title">
         <h1 class=""title-text>
-          Вітаємо!
+          {{ 'user.auth.sign-up.title-up' | translate }}
         </h1>
       </div>
       <div class="subtitle">
         <h2 class="subtitle-text">
-          Будь ласка, внесіть свої дані для реєстрації.
+          {{ 'user.auth.sign-up.fill-form-up' | translate }}
         </h2>
       </div>
-      <form action="submit">
+      <form (ngSubmit)="onSubmit(userOwnSignUp)"
+            #signUpForm="ngForm"
+      >
         <div class="form-content-container">
           <label class="content-label">
-            Електронна пошта
+            {{ 'user.auth.sign-up.email' | translate }}
           </label>
           <input type="email"
                  class="main-data-input"
                  placeholder="example@email.com"
+                 [class.wrong-input]="true"
           >
-          <label class="content-label">
-            Ваше ім’я
+          <div class="error-message"
+               [class.error-message-show]="true">
+            lololo
+          </div>
+          <label class="content-label under-error">
+            {{ 'user.auth.sign-up.first-name' | translate }}
           </label>
           <input type="text"
                  class="main-data-input"
-                 placeholder="Ваше ім’я"
+                 placeholder="{{ 'user.auth.sign-up.first-name-is-required' | translate }}"
           >
           <label class="content-label">
-            Пароль
+            {{ 'user.auth.sign-up.password' | translate }}
           </label>
           <div class="main-data-input-password">
             <input type="password"
-                   placeholder="Пароль"
+                   placeholder="{{ 'user.auth.sign-up.password' | translate }}"
                    class="password-input"
+                   [class.wrong-input]="true"
                    #inputPassword
             >
             <span class="show-password">
@@ -61,13 +69,18 @@
               >
             </span>
           </div>
-          <label class="content-label">
-            Повторіть пароль
+          <div class="error-message"
+               [class.error-message-show]="true">
+            lololo
+          </div>
+          <label class="content-label under-error">
+            {{ 'user.auth.sign-up.password-confirm' | translate }}
           </label>
           <div class="main-data-input-password">
             <input type="password"
-                   placeholder="Пароль"
+                   placeholder="{{ 'user.auth.sign-up.password' | translate }}"
                    class="password-input"
+                   [class.wrong-input]="true"
                    #repeatPassword
             >
             <span class="show-password">
@@ -79,23 +92,29 @@
               >
             </span>
           </div>
+          <div class="error-message"
+               [class.error-message-show]="true">
+            lololo
+          </div>
           <button type="submit"
                   class="cta-button"
+                  [disabled]="!signUpForm.valid"
           >
-            Зареєструватись
+            {{ 'user.auth.sign-up.submit' | translate }}
           </button>
           <div class="switch-sign-up">
-            або
+            {{'user.auth.sign-up.or' | translate}}
           </div>
           <button type="submit"
                   class="cta-button-google"
+                  (click)="signInWithGoogle()"
           >
             <img [src]="signUpImgs.google"
                  alt="google"
                  class="sign-up-google-img"
             >
             <span class="sign-up-google-text">
-              Зареєструватись через Google
+              {{ 'user.auth.sign-up.submit-with-google' | translate }}
             </span>
           </button>
         </div>
@@ -103,8 +122,11 @@
 
       <div class="exist-account">
         <span>
-          Вже маєете аккаунт?
-          <a href="#" class="exist-sign-in">Увійти</a>
+          {{ 'user.auth.sign-up.haveyou-account' | translate }}
+          <a class="exist-sign-in"
+             (click)="openSignInWindow()">
+            {{ 'user.auth.sign-up.enter' | translate }}
+          </a>
         </span>
       </div>
     </div>

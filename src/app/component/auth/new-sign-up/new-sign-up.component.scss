@@ -59,6 +59,10 @@ $sign-up-google-font: 'Roboto';
         color: #494A49;
       }
 
+      .under-error {
+        margin: 9px 0 4px;
+      }
+
       .main-data-input {
         padding: 12px 40px 12px 16px;
         border: 1px solid #878787;
@@ -68,6 +72,21 @@ $sign-up-google-font: 'Roboto';
 
       .main-data-input::placeholder {
         color: #878787;
+      }
+
+      .wrong-input {
+        border: 1px solid #F03127;
+      }
+
+      .error-message {
+        font-size: 10px;
+        line-height: 12px;
+        color: #F03127;
+        visibility: hidden;
+      }
+
+      .error-message-show {
+        visibility: visible;
       }
 
       .main-data-input-password {
@@ -101,7 +120,7 @@ $sign-up-google-font: 'Roboto';
 
       }
       .cta-button {
-        margin-top: 40px;
+        margin-top: 28px;
         padding: 16px 116px;
         font-style: normal;
         font-weight: 600;

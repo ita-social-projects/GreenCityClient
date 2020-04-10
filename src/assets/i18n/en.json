@@ -221,8 +221,11 @@
         "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long",
         "password-match": "Passwords do not match",
         "password-confirm": "Password confirm",
-        "submit": "Sign Up!",
-        "haveyou-account": "Have you an account already?"
+        "submit": "Sign Up",
+        "or": "or",
+        "submit-with-google": "Sign Up with Google",
+        "haveyou-account": "Have you an account already?",
+        "enter": "Sign in"
       },
       "submit-email": "You have successfully registered on the site. Please confirm your email address in the email box"
     },
