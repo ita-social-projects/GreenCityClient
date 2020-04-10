@@ -6,11 +6,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { UserOwnSignInService } from '../../../service/auth/user-own-sign-in.service';
 import { Router } from '@angular/router';
 import { SignInIcons } from 'src/assets/img/icon/sign-in/sign-in-icons';
-import {MatDialog, MatDialogRef} from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { UserOwnSignIn } from '../../../model/user-own-sign-in';
-import {LocalStorageService} from '../../../service/localstorage/local-storage.service';
-import {NewSignUpComponent} from '../new-sign-up/new-sign-up.component';
-import {Subscription} from 'rxjs';
+import { LocalStorageService } from '../../../service/localstorage/local-storage.service';
+import { NewSignUpComponent } from '../new-sign-up/new-sign-up.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-sign-in-new',
