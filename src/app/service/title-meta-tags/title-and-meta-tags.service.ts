@@ -50,8 +50,12 @@ export class TitleAndMetaTagsService {
       this.titleSubject,
       this.metasSubject,
     )
-      .subscribe(([title, metas])  =>
-        this.initTitleAndMeta(metas[title]));
+      .subscribe(([title, metas])  => {
+        const pages = Object.keys(metas);
+        const meta = pages.includes(title) ? metas[title] : metas['welcome'];
+        this.initTitleAndMeta(meta);
+      });
+
   }
 
   private initTitleAndMeta(meta: MetaModel): void {
