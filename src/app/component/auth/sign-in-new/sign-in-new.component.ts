@@ -11,6 +11,7 @@ import { UserOwnSignIn } from '../../../model/user-own-sign-in';
 import { LocalStorageService } from '../../../service/localstorage/local-storage.service';
 import { NewSignUpComponent } from '../new-sign-up/new-sign-up.component';
 import { Subscription } from 'rxjs';
+import { RestorePasswordComponent } from '../restore-password/restore-password.component';
 
 @Component({
   selector: 'app-sign-in-new',
@@ -92,6 +93,15 @@ export class SignInNewComponent implements OnInit, OnDestroy {
     this.router.navigate(['/welcome'])
       .then(success => console.log('redirect has succeeded ' + success))
       .catch(fail => console.log('redirect has failed ' + fail));
+  }
+
+  private onOpenForgotWindow(): void {
+    this.dialog.open(RestorePasswordComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      panelClass: 'custom-dialog-container',
+    });
+    this.matDialogRef.close();
   }
 
   private onSignInFailure(errors: HttpErrorResponse): void {

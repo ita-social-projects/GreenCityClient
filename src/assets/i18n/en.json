@@ -224,7 +224,16 @@
         "submit": "Sign Up!",
         "haveyou-account": "Have you an account already?"
       },
-      "submit-email": "You have successfully registered on the site. Please confirm your email address in the email box"
+      "submit-email": "You have successfully registered on the site. Please confirm your email address in the email box",
+      "forgot-password": {
+        "title": "Problems sign in?",
+        "fill-form": "Enter your username or email address and we'll send you a link to regain access to your account.",
+        "email": "Email",
+        "send-btn": "Submit a login link",
+        "or-signin": "or sign in with",
+        "remember-your-password": "Remember your password?",
+        "back-to-the-entrance": "Back to the entrance"
+      }
     },
     "favorite-place": {
       "delete-favorite-place": {
