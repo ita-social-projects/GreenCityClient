@@ -18,6 +18,7 @@ import { LowerNavBarComponent } from './lower-nav-bar/lower-nav-bar.component';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { FooterComponent } from './footer/footer.component';
 import { AboutPageComponent } from '../about-page/about-page.component';
+import { HeaderNewComponent } from './header-new/header-new.component';
 
 @NgModule({
     declarations: [
@@ -27,7 +28,8 @@ import { AboutPageComponent } from '../about-page/about-page.component';
         PhotoUploadComponent,
         LowerNavBarComponent,
         FooterComponent,
-        AboutPageComponent
+        AboutPageComponent,
+        HeaderNewComponent
     ],
     imports: [
         CommonModule,
