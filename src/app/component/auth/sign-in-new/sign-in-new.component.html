@@ -26,7 +26,8 @@
              [(ngModel)]="userOwnSignIn.email"
              [ngClass]="emailControl.invalid && (emailControl.dirty||emailControl.touched)?
                 'alert-email-validation':'successful-email-validation'"
-             required minlength="1"
+             required
+             minlength="1"
              email="true">
       <div class="validation-email-error"
            *ngIf="emailControl.invalid && (emailControl.dirty||emailControl.touched)">
@@ -59,7 +60,8 @@
                #passwordControl="ngModel"
                name="form-control password-signin"
                [(ngModel)]="userOwnSignIn.password"
-               required minlength="8">
+               required
+               minlength="8">
         <span class="show-hide-btn">
           <img (click)="showHidePassword(input, src)"
                class="image-show-hide-password"
@@ -116,7 +118,7 @@
     </form>
     <div class="missing-account">
       <p>{{'user.auth.sign-in.havenot-account' | translate}}
-        <a routerLink="sign-up"
+        <a (click)="signUpOpenWindow()"
            class="sign-up-link">
           {{'user.auth.sign-in.sign-up' | translate}}
         </a>
