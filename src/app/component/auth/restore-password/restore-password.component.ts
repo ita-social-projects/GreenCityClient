@@ -31,7 +31,6 @@ export class RestorePasswordComponent implements OnInit {
       closeOnNavigation: true,
       panelClass: 'custom-dialog-container',
     });
-
     this.matDialogRef.close();
   }
 }

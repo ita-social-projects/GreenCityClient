@@ -6,8 +6,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { UserOwnSignInService } from '../../../service/auth/user-own-sign-in.service';
 import { Router } from '@angular/router';
 import { SignInIcons } from 'src/assets/img/icon/sign-in/sign-in-icons';
-import {MatDialog, MatDialogRef} from '@angular/material';
-import {RestorePasswordComponent} from '../restore-password/restore-password.component';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { RestorePasswordComponent } from '../restore-password/restore-password.component';
 
 @Component({
   selector: 'app-sign-in-new',
