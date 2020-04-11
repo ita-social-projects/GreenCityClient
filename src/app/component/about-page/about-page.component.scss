@@ -88,24 +88,28 @@ body {
     z-index: 7;
   }
 
-  .container-about .full-text-block {
-    position: relative;
-    float: left;
-    left: 200px;
-    margin-top: -800px;
+  .container-about {
+    .full-text-block {
+      position: relative;
+      float: left;
+      left: 200px;
+      margin-top: -800px;
+    }
   }
 
-  .container-vision .full-text-block {
-    top: 200px;
-    position: relative;
-    width: 555px;
-    height: 333px;
-    float: right;
-    right: 200px;
-    font-family: OpenSans, sans-serif;
-    font-size: 24px;
-    line-height: 36px;
-    color: #263238;
+  .container-vision {
+    .full-text-block {
+      top: 200px;
+      position: relative;
+      width: 555px;
+      height: 333px;
+      float: right;
+      right: 200px;
+      font-family: OpenSans, sans-serif;
+      font-size: 24px;
+      line-height: 36px;
+      color: #263238;
+    }
   }
 
   .steps-wrapper {
@@ -137,27 +141,27 @@ body {
     font-size: 24px;
     line-height: 36px;
     color: #263238;
-  }
 
-  .full-text-block h2 {
-    float: left;
-    font-family: Montserrat, sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 48px;
-    line-height: 60px;
-    margin-bottom: 16px;
-  }
+    h2 {
+      float: left;
+      font-family: Montserrat, sans-serif;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 48px;
+      line-height: 60px;
+      margin-bottom: 16px;
+    }
 
-  .full-text-block span {
-    float: left;
-    margin-bottom: 40px;
-    padding-right: 40px;
-    color: #263238;
-  }
+    span {
+      float: left;
+      margin-bottom: 40px;
+      padding-right: 40px;
+      color: #263238;
+    }
 
-  .full-text-block button {
-    float: left;
+    button {
+      float: left;
+    }
   }
 
   .vector-cup {
@@ -181,19 +185,21 @@ body {
     z-index: 3;
   }
 
-  .steps-main-block h2 {
-    position: relative;
-    width: 30%;
-    height: 60px;
-    left: 100px;
-    top: -3250px;
-    font-family: Montserrat, sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 48px;
-    line-height: 60px;
-    color: #313131;
-    z-index: 5;
+  .steps-main-block {
+    h2 {
+      position: relative;
+      width: 35%;
+      height: 60px;
+      left: 100px;
+      top: -3250px;
+      font-family: Montserrat, sans-serif;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 48px;
+      line-height: 60px;
+      color: #313131;
+      z-index: 5;
+    }
   }
 
   .dashed-line {
@@ -227,7 +233,7 @@ body {
       position: relative;
       display: block;
       left: 600px;
-      top: 20px;
+      top: 32px;
     }
 
     .card-header {
@@ -237,7 +243,7 @@ body {
       left: 670px;
       top: -13px;
       width: 400px;
-      font-family: Montserrat, sans-serif;
+      font-family: "Open Sans bold", sans-serif;
       font-style: normal;
       font-weight: 600;
       font-size: 32px;
@@ -264,6 +270,7 @@ body {
       top: -500px;
       padding-top: 20px;
       font-family: OpenSans, sans-serif;
+      font-weight: normal;
       font-size: 24px;
       line-height: 36px;
       background: #FFFFFF;
@@ -298,7 +305,7 @@ body {
     margin-top: 120px;
     margin-bottom: 170px;
     display: block;
-    left: 240px;
+    left: 220px;
     top: -500px;
     padding-top: 20px;
     font-family: OpenSans, sans-serif;
@@ -310,17 +317,17 @@ body {
       position: relative;
       display: block;
       left: 150px;
-      top: 20px;
+      top: 32px;
     }
 
     .card-header {
       position: relative;
       display: block;
-      left: 240px;
+      left: 220px;
       top: -13px;
       width: 400px;
       height: 130px;
-      font-family: Montserrat, sans-serif;
+      font-family: "Open Sans bold", sans-serif;
       font-style: normal;
       font-weight: 700;
       font-size: 32px;
@@ -357,7 +364,7 @@ body {
     display: block;
     width: 470px;
     height: 200px;
-    left: 150px;
+    left: 200px;
     top: -500px;
     padding-top: 20px;
     font-family: OpenSans, sans-serif;
@@ -629,7 +636,7 @@ body {
 
     h2 {
       position: relative;
-      width: 30%;
+      width: 35%;
       height: 60px;
       left: 100px;
       top: -3350px;
@@ -670,7 +677,7 @@ body {
       position: relative;
       display: block;
       left: 600px;
-      top: 20px;
+      top: 32px;
     }
 
     .card-header {
@@ -680,7 +687,7 @@ body {
       left: 670px;
       top: -13px;
       width: 400px;
-      font-family: Montserrat, sans-serif;
+      font-family: "Open Sans bold", sans-serif;
       font-style: normal;
       font-weight: 600;
       font-size: 32px;
@@ -756,17 +763,17 @@ body {
       position: relative;
       display: block;
       left: 150px;
-      top: 20px;
+      top: 32px;
     }
 
     .card-header {
       position: relative;
       display: block;
-      left: 240px;
+      left: 220px;
       top: -13px;
       width: 400px;
       height: 130px;
-      font-family: Montserrat, sans-serif;
+      font-family: "Open Sans bold", sans-serif;
       font-style: normal;
       font-weight: 700;
       font-size: 32px;
@@ -803,7 +810,7 @@ body {
     display: block;
     width: 470px;
     height: 200px;
-    left: 150px;
+    left: 240px;
     top: -500px;
     padding-top: 20px;
     font-family: OpenSans, sans-serif;
@@ -907,10 +914,6 @@ body {
 
   #third-card-text {
     top: -600px;
-  }
-
-  #fourth-card-text {
-    left: 150px;
   }
 
   #fifth-card-text {
