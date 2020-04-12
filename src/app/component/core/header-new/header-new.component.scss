@@ -1,0 +1,165 @@
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  box-sizing: border-box;
+}
+
+$size-1400: 1440px;
+$size-1200: 1200px;
+$size-1140: 1140px;
+$size-992: 992px;
+$size-768: 768px;
+$size-576: 576px;
+$size-320: 1920px;
+$first-font-color:#494A49;
+$secondary-font-color:#13AA57;
+$hr-color:#E6E6E6;
+$screen-576: " screen and (max-width : 576px)";
+$screen-1024: " screen and (max-width : 1024px)";
+.main{
+  width: 100%;
+  box-shadow: 0px 0px 8px rgba(73, 74, 73, 0.2);
+}
+.main-container{
+  width: 100%;
+  max-width: $size-1400;
+  margin: 0 auto;
+  height: 54px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #FFFFFF;
+    .header{
+      width: 79.166%;
+      display: flex;
+      align-items: center;
+      .logo{
+      width: 136px;
+      height: 36px;
+        margin-right: 56px;
+      cursor: pointer;
+        @media #{$screen-576} {
+          width: 94px;
+          height: 24px;
+        }
+      }
+      .navigation-menu{
+        display: flex;
+        align-items: center;
+        &-left {
+          width: 435px;
+          display: flex;
+          align-items: center;
+          .main-nav {
+            ul{
+              li{
+                list-style-type: none;
+                display: inline-block;
+                &:not(:last-child) {
+                  margin-right: 32px;
+                }
+                a{
+                  font-size: 14px;
+                  line-height: 16px;
+                  color:$first-font-color}
+              }
+            }
+          }
+        }
+        &-right{
+         ul{
+           li{
+             list-style-type: none;
+           }
+         }
+        }
+      }
+
+    }
+}
+
+
+

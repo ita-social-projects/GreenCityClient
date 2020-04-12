@@ -29,7 +29,7 @@ import { HeaderNewComponent } from './header-new/header-new.component';
         LowerNavBarComponent,
         FooterComponent,
         AboutPageComponent,
-        HeaderNewComponent
+        HeaderNewComponent,
     ],
     imports: [
         CommonModule,
@@ -56,12 +56,13 @@ import { HeaderNewComponent } from './header-new/header-new.component';
           NgxPageScrollModule
     ],
     exports: [
+        FooterComponent,
         NavBarComponent,
         ProposeCafeComponent,
         ModalComponent,
         PhotoUploadComponent,
         LowerNavBarComponent,
-        FooterComponent,
+        HeaderNewComponent,
         CommonModule,
         TranslateModule,
         AppRoutingModule,
