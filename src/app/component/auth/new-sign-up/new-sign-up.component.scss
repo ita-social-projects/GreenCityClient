@@ -74,21 +74,6 @@ $sign-up-google-font: 'Roboto';
         color: #878787;
       }
 
-      .wrong-input {
-        border: 1px solid #F03127;
-      }
-
-      .error-message {
-        font-size: 10px;
-        line-height: 12px;
-        color: #F03127;
-        visibility: hidden;
-      }
-
-      .error-message-show {
-        visibility: visible;
-      }
-
       .main-data-input-password {
         height: 48px;
         border: 1px solid #878787;
@@ -119,6 +104,22 @@ $sign-up-google-font: 'Roboto';
         }
 
       }
+
+      .wrong-input {
+        border: 1px solid #F03127;
+      }
+
+      .error-message {
+        font-size: 10px;
+        line-height: 12px;
+        color: #F03127;
+        visibility: hidden;
+      }
+
+      .error-message-show {
+        visibility: visible;
+      }
+
       .cta-button {
         margin-top: 28px;
         padding: 16px 116px;

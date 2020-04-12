@@ -18,15 +18,15 @@ import {UserSuccessSignIn} from '../../../model/user-success-sign-in';
 })
 export class NewSignUpComponent implements OnInit {
   private signUpImgs = authImages;
-  userOwnSignUp: UserOwnSignUp;
-  firstNameErrorMessageBackEnd: string;
-  lastNameErrorMessageBackEnd: string;
-  emailErrorMessageBackEnd: string;
-  passwordErrorMessageBackEnd: string;
-  passwordConfirmErrorMessageBackEnd: string;
-  loadingAnim = false;
-  tmp: string;
-  backEndError: string;
+  private userOwnSignUp: UserOwnSignUp;
+  private firstNameErrorMessageBackEnd: string;
+  private lastNameErrorMessageBackEnd: string;
+  private emailErrorMessageBackEnd: string;
+  private passwordErrorMessageBackEnd: string;
+  private passwordConfirmErrorMessageBackEnd: string;
+  private loadingAnim = false;
+  private tmp: string;
+  private backEndError: string;
 
   constructor(private matDialogRef: MatDialogRef<NewSignUpComponent>,
               private dialog: MatDialog,
@@ -41,7 +41,15 @@ export class NewSignUpComponent implements OnInit {
     this.setNullAllMessage();
   }
 
-  private onSubmit(userOwnRegister: UserOwnSignUp) {
+  private setNullAllMessage(): void {
+    this.firstNameErrorMessageBackEnd = null;
+    this.lastNameErrorMessageBackEnd = null;
+    this.emailErrorMessageBackEnd = null;
+    this.passwordErrorMessageBackEnd = null;
+    this.passwordConfirmErrorMessageBackEnd = null;
+  }
+
+  private onSubmit(userOwnRegister: UserOwnSignUp): void {
     this.setNullAllMessage();
     this.loadingAnim = true;
     this.userOwnSecurityService.signUp(userOwnRegister).subscribe(
@@ -54,9 +62,6 @@ export class NewSignUpComponent implements OnInit {
           switch (error.name) {
             case 'firstName' :
               this.firstNameErrorMessageBackEnd = error.message;
-              break;
-            case 'lastName' :
-              this.lastNameErrorMessageBackEnd = error.message;
               break;
             case 'email' :
               this.emailErrorMessageBackEnd = error.message;
@@ -74,15 +79,7 @@ export class NewSignUpComponent implements OnInit {
     );
   }
 
-  private setNullAllMessage() {
-    this.firstNameErrorMessageBackEnd = null;
-    this.lastNameErrorMessageBackEnd = null;
-    this.emailErrorMessageBackEnd = null;
-    this.passwordErrorMessageBackEnd = null;
-    this.passwordConfirmErrorMessageBackEnd = null;
-  }
-
-  signInWithGoogle() {
+  private signInWithGoogle(): void {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(data => {
       this.googleService.signIn(data.idToken).subscribe(
         (data1: UserSuccessSignIn) => {
@@ -108,6 +105,16 @@ export class NewSignUpComponent implements OnInit {
 
   private closeSignUpWindow(): void {
     this.matDialogRef.close();
+  }
+
+  private matchPassword(passInput: HTMLInputElement,
+                        passRepeat: HTMLInputElement,
+                        inputBlock: HTMLElement): void {
+    if (passInput.value !== passRepeat.value) {
+      inputBlock.className = 'main-data-input-password wrong-input';
+    } else {
+      inputBlock.className = 'main-data-input-password';
+    }
   }
 
   private hideShowPassword(htmlInput: HTMLInputElement,

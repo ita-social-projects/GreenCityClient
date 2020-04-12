@@ -27,8 +27,8 @@
           {{ 'user.auth.sign-up.fill-form-up' | translate }}
         </h2>
       </div>
-      <form (ngSubmit)="onSubmit(userOwnSignUp)"
-            #signUpForm="ngForm"
+      <form #signUpForm="ngForm"
+            (ngSubmit)="onSubmit(userOwnSignUp)"
       >
         <div class="form-content-container">
           <label class="content-label">
@@ -37,11 +37,36 @@
           <input type="email"
                  class="main-data-input"
                  placeholder="example@email.com"
-                 [class.wrong-input]="true"
+                 #emailControl="ngModel"
+                 name="email"
+                 [(ngModel)]="userOwnSignUp.email"
+                 [ngClass]="emailControl.invalid &&
+                            (emailControl.dirty||emailControl.touched)?
+                 'wrong-input':'main-data-input'"
+                 required
+                 minlength="1"
+                 email="true"
           >
           <div class="error-message"
+               [ngClass]="emailControl.invalid &&
+                            (emailControl.dirty||emailControl.touched)?
+                 'error-message-show':'error-message'"
+          >
+            <div *ngIf="emailControl.errors?.required">
+              {{'user.auth.sign-up.email-is-required' | translate}}
+            </div>
+            <div *ngIf="emailControl.errors?.minlength">
+              {{'user.auth.sign-up.email-must-be-at-least-1-characters-long' | translate}}
+            </div>
+            <div *ngIf="emailControl.errors?.email">
+              {{'user.auth.sign-up.this-is-not-email' | translate}}
+            </div>
+          </div>
+          <div class="error-message"
                [class.error-message-show]="true">
-            lololo
+          </div>
+          <div class="error-message"
+               [class.error-message-show]="true">
           </div>
           <label class="content-label under-error">
             {{ 'user.auth.sign-up.first-name' | translate }}
@@ -49,16 +74,27 @@
           <input type="text"
                  class="main-data-input"
                  placeholder="{{ 'user.auth.sign-up.first-name-is-required' | translate }}"
+                 name="fistName"
+                 #firstNameControl="ngModel"
+                 [(ngModel)]="userOwnSignUp.firstName"
+                 required
           >
           <label class="content-label">
             {{ 'user.auth.sign-up.password' | translate }}
           </label>
-          <div class="main-data-input-password">
+          <div class="main-data-input-password"
+               [ngClass]="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched) ?
+               'wrong-input':'main-data-input-password'"
+          >
             <input type="password"
                    placeholder="{{ 'user.auth.sign-up.password' | translate }}"
                    class="password-input"
-                   [class.wrong-input]="true"
                    #inputPassword
+                   #passwordControl="ngModel"
+                   [(ngModel)]="userOwnSignUp.password"
+                   required
+                   minlength="8"
+                   name="form-control password"
             >
             <span class="show-password">
               <img [src]="signUpImgs.hiddenEye"
@@ -70,18 +106,35 @@
             </span>
           </div>
           <div class="error-message"
-               [class.error-message-show]="true">
-            lololo
+               [ngClass]="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched) ?
+               'error-message-show' : 'error-message'"
+          >
+            <div *ngIf="passwordControl.errors?.required">
+              {{'user.auth.sign-up.password-is-required' | translate}}
+            </div>
+            <div *ngIf="passwordControl.errors?.minlength">
+              {{'user.auth.sign-up.password-must-be-at-least-8-characters-long' | translate}}
+            </div>
+            <div *ngIf="passwordErrorMessageBackEnd!=null">
+              {{passwordErrorMessageBackEnd}}
+            </div>
           </div>
           <label class="content-label under-error">
             {{ 'user.auth.sign-up.password-confirm' | translate }}
           </label>
-          <div class="main-data-input-password">
+          <div class="main-data-input-password"
+               #repeatInput
+          >
             <input type="password"
                    placeholder="{{ 'user.auth.sign-up.password' | translate }}"
                    class="password-input"
                    [class.wrong-input]="true"
                    #repeatPassword
+                   #passwordControlConfirm="ngModel"
+                   [(ngModel)]="tmp"
+                   name="form-control password-confirm"
+                   (input)="matchPassword(inputPassword, repeatPassword, repeatInput)"
+                   required
             >
             <span class="show-password">
               <img [src]="signUpImgs.hiddenEye"
@@ -93,13 +146,25 @@
             </span>
           </div>
           <div class="error-message"
-               [class.error-message-show]="true">
-            lololo
+               [ngClass]="passwordControlConfirm.invalid && (passwordControlConfirm.dirty||passwordControlConfirm.touched) ?
+               'error-message-show' : 'error-message'"
+          >
+            <div *ngIf="passwordControlConfirm.errors?.required">
+              {{'user.auth.sign-up.password-is-required' | translate}}
+            </div>
+            <div *ngIf="passwordErrorMessageBackEnd!=null">
+              {{passwordErrorMessageBackEnd}}
+            </div>
           </div>
           <button type="submit"
                   class="cta-button"
-                  [disabled]="!signUpForm.valid"
+
           >
+            <span *ngIf="loadingAnim"
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true">
+            </span>
             {{ 'user.auth.sign-up.submit' | translate }}
           </button>
           <div class="switch-sign-up">

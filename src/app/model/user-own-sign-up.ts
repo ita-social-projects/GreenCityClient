@@ -1,6 +1,6 @@
 export class UserOwnSignUp {
   private _firstName: string;
-  private _lastName: string;
+  //private _lastName: string;
   private _email: string;
   private _password: string;
 
@@ -18,13 +18,13 @@ export class UserOwnSignUp {
     this._firstName = value;
   }
 
-  get lastName(): string {
+  /*get lastName(): string {
     return this._lastName;
   }
 
   set lastName(value: string) {
     this._lastName = value;
-  }
+  }*/
 
   get email(): string {
     return this._email;

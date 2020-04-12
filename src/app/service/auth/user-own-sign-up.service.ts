@@ -13,13 +13,9 @@ export class UserOwnSignUpService {
   }
 
   public signUp(userOwnRegister: UserOwnSignUp): Observable<any> {
-
+  console.log(userOwnRegister);
     if (userOwnRegister.firstName === undefined) {
-      console.log('First name is empty');
-      return of<any>();
-    }
-    if (userOwnRegister.lastName === undefined) {
-      console.log('First name is empty');
+      console.log('Email name is empty');
       return of<any>();
     }
     if (userOwnRegister.email === undefined) {
@@ -27,12 +23,11 @@ export class UserOwnSignUpService {
       return of<any>();
     }
     if (userOwnRegister.password === undefined) {
-      console.log('First name is empty');
+      console.log('Pass name is empty');
       return of<any>();
     }
     const body = {
       firstName: userOwnRegister.firstName,
-      lastName: userOwnRegister.lastName,
       email: userOwnRegister.email,
       password: userOwnRegister.password
     };
