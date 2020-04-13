@@ -1,92 +1,3 @@
-body,
-div,
-span,
-applet,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-a,
-abbr,
-acronym,
-address,
-big,
-cite,
-code,
-del,
-dfn,
-em,
-img,
-ins,
-kbd,
-q,
-s,
-samp,
-small,
-strike,
-strong,
-sub,
-sup,
-tt,
-var,
-b,
-u,
-i,
-center,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
-article,
-aside,
-canvas,
-details,
-embed,
-figure,
-figcaption,
-footer,
-header,
-hgroup,
-//menu,
-nav,
-output,
-ruby,
-section,
-summary,
-time,
-mark,
-audio,
-video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
-  box-sizing: border-box;
-}
-
 $size-1400: 1440px;
 $size-1200: 1200px;
 $size-1140: 1140px;
@@ -99,86 +10,105 @@ $secondary-font-color:#13AA57;
 $hr-color:#E6E6E6;
 $screen-576: " screen and (max-width : 576px)";
 $screen-1024: " screen and (max-width : 1024px)";
+
 .main{
   width: 100%;
   box-shadow: 0px 0px 8px rgba(73, 74, 73, 0.2);
 }
-.main-container{
+
+.main-container {
   position: fixed;
   width: 100%;
-  max-width: $size-1400;
   margin: 0 auto;
   height: 54px;
   display: flex;
   justify-content: center;
   align-items: center;
   background: #FFFFFF;
-    .header{
+
+    .header {
       width: 79.166%;
       display: flex;
       align-items: center;
-      .logo{
+
+      .logo {
       width: 136px;
       height: 36px;
       margin-right: 56px;
       cursor: pointer;
+
         @media #{$screen-576} {
           width: 94px;
           height: 24px;
         }
       }
-      .navigation-menu{
+
+      .navigation-menu {
         display: flex;
         justify-content: space-between;
         align-items: center;
         width: 83%;
+
         &-left {
           width: 435px;
           display: flex;
           align-items: center;
           .main-nav {
-            .menu{
+
+            .menu {
             }
-            ul{
+
+            ul {
               list-style: none;
               margin: 0;
               overflow: hidden;
               padding: 0;
-              li{
+
+              li {
                 list-style-type: none;
                 display: inline-block;
                 &:not(:last-child) {
                   margin-right: 20px;
                 }
-                a{
+
+                a {
                   font-size: 14px;
                   line-height: 16px;
-                  color:$first-font-color}
+                  color:$first-font-color
+                }
               }
             }
           }
         }
-        &-right{
+
+        &-right {
           width: 253px;
-         ul{
+
+         ul {
            display: flex;
            justify-content: space-between;
            align-items: center;
-           li{
+
+           li {
              list-style-type: none;
            }
-           .search{
+
+           .search {
                line-height: 10px;
            }
-           .sign-in-link{
-             a{
+
+           .sign-in-link {
+
+             a {
                color: #056B33;
-               &:hover{
+
+               &:hover {
                  text-decoration-line: none;
                }
              }
            }
-           #create-button{
+
+           #create-button {
              cursor: pointer;
              width: 91px;
              height: 32px;
@@ -186,12 +116,12 @@ $screen-1024: " screen and (max-width : 1024px)";
              align-items: center;
              justify-content: center;
              border: 1px solid #13AA57;
-             span{
+
+             span {
                display: block;
                font-size: 12px;
                line-height: 12px;
              }
-
            }
          }
         }
