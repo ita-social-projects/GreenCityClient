@@ -1,7 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Title} from '@angular/platform-browser';
 import {JwtService} from '../../service/jwt/jwt.service';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-admin',
@@ -11,13 +10,12 @@ import {JwtService} from '../../service/jwt/jwt.service';
 export class AdminComponent implements OnInit {
   userRole: string;
 
-  constructor(private http: HttpClient,
-              private titleService: Title,
-              private jwtService: JwtService) {
+  constructor(
+    private http: HttpClient,
+    private jwtService: JwtService) {
   }
 
   ngOnInit() {
     this.userRole = this.jwtService.getUserRole();
-    this.titleService.setTitle('Admin');
   }
 }
