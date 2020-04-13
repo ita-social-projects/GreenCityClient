@@ -65,6 +65,7 @@ export class NewSignUpComponent implements OnInit {
   private onSubmitSuccess(): void {
     this.loadingAnim = false;
     this.router.navigateByUrl('/auth/submit-email').then(r => r);
+    this.closeSignUpWindow();
   }
 
   private onSubmitError(errors: HttpErrorResponse): void {

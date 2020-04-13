@@ -25,11 +25,11 @@ export class UserOwnSignUpService {
       console.log('Pass name is empty');
       return of<any>();
     }
-    const body = JSON.stringify({
+    const body = {
       email: userOwnRegister.email,
       name: userOwnRegister.firstName,
       password: userOwnRegister.password
-    });
+    };
     return this.http.post(userOwnSignUpLink, body);
   }
 }

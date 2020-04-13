@@ -79,7 +79,7 @@
           </label>
           <div class="main-data-input-password"
                [ngClass]="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched) ?
-               'wrong-input':'main-data-input-password'"
+               'main-data-input-password wrong-input':'main-data-input-password'"
           >
             <input type="password"
                    placeholder="{{ 'user.auth.sign-up.password' | translate }}"
@@ -118,12 +118,14 @@
             {{ 'user.auth.sign-up.password-confirm' | translate }}
           </label>
           <div class="main-data-input-password"
+               [ngClass]="passwordControlConfirm.invalid &&
+               (passwordControlConfirm.dirty||passwordControlConfirm.touched) ?
+               'main-data-input-password wrong-input':'main-data-input-password'"
                #repeatInput
           >
             <input type="password"
                    placeholder="{{ 'user.auth.sign-up.password' | translate }}"
                    class="password-input"
-                   [class.wrong-input]="true"
                    #repeatPassword
                    #passwordControlConfirm="ngModel"
                    [(ngModel)]="tmp"
@@ -143,13 +145,15 @@
           <div class="error-message"
                [ngClass]="passwordControlConfirm.invalid &&
                (passwordControlConfirm.dirty||passwordControlConfirm.touched) ||
-               inputPassword.value !== repeatPassword.value ?
+               (inputPassword.value !== repeatPassword.value && repeatPassword.value !== '') ?
                'error-message-show' : 'error-message'"
           >
             <div *ngIf="passwordControlConfirm.errors?.required">
               {{'user.auth.sign-up.password-is-required' | translate}}
             </div>
-            <div *ngIf="inputPassword.value !== repeatPassword.value">
+            <div *ngIf="inputPassword.value !== repeatPassword.value &&
+                  !passwordControlConfirm.errors?.required"
+            >
               {{'user.auth.sign-up.password-match' | translate}}
             </div>
             <div *ngIf="passwordErrorMessageBackEnd!=null">
