@@ -72,6 +72,7 @@
                  #firstNameControl="ngModel"
                  [(ngModel)]="userOwnSignUp.firstName"
                  required
+                 maxlength="20"
           >
           <label class="content-label">
             {{ 'user.auth.sign-up.password' | translate }}
@@ -140,11 +141,16 @@
             </span>
           </div>
           <div class="error-message"
-               [ngClass]="passwordControlConfirm.invalid && (passwordControlConfirm.dirty||passwordControlConfirm.touched) ?
+               [ngClass]="passwordControlConfirm.invalid &&
+               (passwordControlConfirm.dirty||passwordControlConfirm.touched) ||
+               inputPassword.value !== repeatPassword.value ?
                'error-message-show' : 'error-message'"
           >
             <div *ngIf="passwordControlConfirm.errors?.required">
               {{'user.auth.sign-up.password-is-required' | translate}}
+            </div>
+            <div *ngIf="inputPassword.value !== repeatPassword.value">
+              {{'user.auth.sign-up.password-match' | translate}}
             </div>
             <div *ngIf="passwordErrorMessageBackEnd!=null">
               {{passwordErrorMessageBackEnd}}
@@ -152,7 +158,7 @@
           </div>
           <button type="submit"
                   class="cta-button"
-
+                  [disabled]="!signUpForm.valid"
           >
             <span *ngIf="loadingAnim"
                   class="spinner-border spinner-border-sm"

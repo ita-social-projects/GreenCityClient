@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { authImages } from '../../../../assets/img/auth/auth-images';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SignInNewComponent } from '../sign-in-new/sign-in-new.component';
-import {UserOwnSignInService} from '../../../service/auth/user-own-sign-in.service';
-import {UserOwnSignUpService} from '../../../service/auth/user-own-sign-up.service';
-import {Router} from '@angular/router';
-import {AuthService, GoogleLoginProvider} from 'angularx-social-login';
-import {GoogleSignInService} from '../../../service/auth/google-sign-in.service';
-import {UserOwnSignUp} from '../../../model/user-own-sign-up';
-import {HttpErrorResponse} from '@angular/common/http';
-import {UserSuccessSignIn} from '../../../model/user-success-sign-in';
+import { UserOwnSignInService } from '../../../service/auth/user-own-sign-in.service';
+import { UserOwnSignUpService } from '../../../service/auth/user-own-sign-up.service';
+import { Router } from '@angular/router';
+import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
+import { GoogleSignInService } from '../../../service/auth/google-sign-in.service';
+import { UserOwnSignUp } from '../../../model/user-own-sign-up';
+import { HttpErrorResponse } from '@angular/common/http';
+import { UserSuccessSignIn } from '../../../model/user-success-sign-in';
 
 @Component({
   selector: 'app-new-sign-up',
@@ -144,6 +144,7 @@ export class NewSignUpComponent implements OnInit {
     this.dialog.open(SignInNewComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
+      disableClose: true,
       panelClass: 'custom-dialog-container',
     });
   }
