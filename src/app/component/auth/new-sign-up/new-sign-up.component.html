@@ -50,7 +50,7 @@
           <div class="error-message"
                [ngClass]="emailControl.invalid &&
                             (emailControl.dirty||emailControl.touched)?
-                 'error-message-show':'error-message'"
+               'error-message-show':'error-message'"
           >
             <div *ngIf="emailControl.errors?.required">
               {{'user.auth.sign-up.email-is-required' | translate}}
@@ -61,12 +61,6 @@
             <div *ngIf="emailControl.errors?.email">
               {{'user.auth.sign-up.this-is-not-email' | translate}}
             </div>
-          </div>
-          <div class="error-message"
-               [class.error-message-show]="true">
-          </div>
-          <div class="error-message"
-               [class.error-message-show]="true">
           </div>
           <label class="content-label under-error">
             {{ 'user.auth.sign-up.first-name' | translate }}
@@ -165,7 +159,9 @@
                   role="status"
                   aria-hidden="true">
             </span>
-            {{ 'user.auth.sign-up.submit' | translate }}
+            <span>
+              {{ 'user.auth.sign-up.submit' | translate }}
+            </span>
           </button>
           <div class="switch-sign-up">
             {{'user.auth.sign-up.or' | translate}}

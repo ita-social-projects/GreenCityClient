@@ -13,7 +13,6 @@ export class UserOwnSignUpService {
   }
 
   public signUp(userOwnRegister: UserOwnSignUp): Observable<any> {
-  console.log(userOwnRegister);
     if (userOwnRegister.firstName === undefined) {
       console.log('Email name is empty');
       return of<any>();
@@ -26,11 +25,11 @@ export class UserOwnSignUpService {
       console.log('Pass name is empty');
       return of<any>();
     }
-    const body = {
-      firstName: userOwnRegister.firstName,
+    const body = JSON.stringify({
       email: userOwnRegister.email,
+      name: userOwnRegister.firstName,
       password: userOwnRegister.password
-    };
+    });
     return this.http.post(userOwnSignUpLink, body);
   }
 }

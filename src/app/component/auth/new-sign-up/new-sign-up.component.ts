@@ -54,53 +54,69 @@ export class NewSignUpComponent implements OnInit {
     this.loadingAnim = true;
     this.userOwnSecurityService.signUp(userOwnRegister).subscribe(
       () => {
-        this.loadingAnim = false;
-        this.router.navigateByUrl('/auth/submit-email').then(r => r);
+        this.onSubmitSuccess();
       },
       (errors: HttpErrorResponse) => {
-        errors.error.forEach(error => {
-          switch (error.name) {
-            case 'firstName' :
-              this.firstNameErrorMessageBackEnd = error.message;
-              break;
-            case 'email' :
-              this.emailErrorMessageBackEnd = error.message;
-              break;
-            case 'password' :
-              this.passwordErrorMessageBackEnd = error.message;
-              break;
-            case 'passwordConfirm' :
-              this.passwordConfirmErrorMessageBackEnd = error.message;
-              break;
-          }
-        });
-        this.loadingAnim = false;
+        this.onSubmitError(errors);
       }
     );
+  }
+
+  private onSubmitSuccess(): void {
+    this.loadingAnim = false;
+    this.router.navigateByUrl('/auth/submit-email').then(r => r);
+  }
+
+  private onSubmitError(errors: HttpErrorResponse): void {
+    errors.error.forEach(error => {
+      switch (error.name) {
+        case 'name' :
+          this.firstNameErrorMessageBackEnd = error.message;
+          break;
+        case 'email' :
+          this.emailErrorMessageBackEnd = error.message;
+          break;
+        case 'password' :
+          this.passwordErrorMessageBackEnd = error.message;
+          break;
+        case 'passwordConfirm' :
+          this.passwordConfirmErrorMessageBackEnd = error.message;
+          break;
+      }
+    });
+    this.loadingAnim = false;
   }
 
   private signInWithGoogle(): void {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(data => {
       this.googleService.signIn(data.idToken).subscribe(
         (data1: UserSuccessSignIn) => {
-          this.userOwnSignInService.saveUserToLocalStorage(data1);
-          this.router.navigate(['/']);
+          this.signInWithGoogleSuccess(data1);
         },
         (errors: HttpErrorResponse) => {
-          try {
-            errors.error.forEach(error => {
-              if (error.name === 'email') {
-                this.emailErrorMessageBackEnd = error.message;
-              } else if (error.name === 'password') {
-                this.passwordErrorMessageBackEnd = error.message;
-              }
-            });
-          } catch (e) {
-            this.backEndError = errors.error.message;
-          }
+          this.signInWithGoogleError(errors);
         }
       );
     });
+  }
+
+  private signInWithGoogleSuccess(data: UserSuccessSignIn): void {
+    this.userOwnSignInService.saveUserToLocalStorage(data);
+    this.router.navigate(['/']);
+  }
+
+  private signInWithGoogleError(errors: HttpErrorResponse): void {
+    try {
+      errors.error.forEach(error => {
+        if (error.name === 'email') {
+          this.emailErrorMessageBackEnd = error.message;
+        } else if (error.name === 'password') {
+          this.passwordErrorMessageBackEnd = error.message;
+        }
+      });
+    } catch (e) {
+      this.backEndError = errors.error.message;
+    }
   }
 
   private closeSignUpWindow(): void {
@@ -110,22 +126,17 @@ export class NewSignUpComponent implements OnInit {
   private matchPassword(passInput: HTMLInputElement,
                         passRepeat: HTMLInputElement,
                         inputBlock: HTMLElement): void {
-    if (passInput.value !== passRepeat.value) {
-      inputBlock.className = 'main-data-input-password wrong-input';
-    } else {
-      inputBlock.className = 'main-data-input-password';
-    }
+    inputBlock.className = passInput.value !== passRepeat.value ?
+                           'main-data-input-password wrong-input' :
+                           'main-data-input-password';
   }
 
   private hideShowPassword(htmlInput: HTMLInputElement,
                            htmlImage: HTMLImageElement): void {
-    if (htmlInput.type === 'password') {
-      htmlInput.type = 'text';
-      htmlImage.src = this.signUpImgs.openEye;
-    } else {
-      htmlInput.type = 'password';
-      htmlImage.src = this.signUpImgs.hiddenEye;
-    }
+    htmlInput.type = htmlInput.type === 'password' ? 'text' : 'password';
+    htmlImage.src = htmlInput.type === 'password' ?
+                    this.signUpImgs.openEye :
+                    this.signUpImgs.hiddenEye;
   }
 
   private openSignInWindow(): void {
