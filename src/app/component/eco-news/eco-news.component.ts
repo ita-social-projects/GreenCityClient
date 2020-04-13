@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Title } from '@angular/platform-browser';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-eco-news',
@@ -7,12 +6,9 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./eco-news.component.css']
 })
 export class EcoNewsComponent implements OnInit {
-  public getFilterArray: Array<string> = [];
   public actualYear = new Date().getFullYear();
 
-  constructor(private titleService: Title) { }
+  constructor() {}
 
-  ngOnInit() {
-    this.titleService.setTitle('Eco News');
-  }
+  ngOnInit() {}
 }
