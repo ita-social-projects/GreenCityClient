@@ -68,7 +68,7 @@ figcaption,
 footer,
 header,
 hgroup,
-menu,
+//menu,
 nav,
 output,
 ruby,
@@ -104,6 +104,7 @@ $screen-1024: " screen and (max-width : 1024px)";
   box-shadow: 0px 0px 8px rgba(73, 74, 73, 0.2);
 }
 .main-container{
+  position: fixed;
   width: 100%;
   max-width: $size-1400;
   margin: 0 auto;
@@ -119,7 +120,7 @@ $screen-1024: " screen and (max-width : 1024px)";
       .logo{
       width: 136px;
       height: 36px;
-        margin-right: 56px;
+      margin-right: 56px;
       cursor: pointer;
         @media #{$screen-576} {
           width: 94px;
@@ -128,18 +129,26 @@ $screen-1024: " screen and (max-width : 1024px)";
       }
       .navigation-menu{
         display: flex;
+        justify-content: space-between;
         align-items: center;
+        width: 83%;
         &-left {
           width: 435px;
           display: flex;
           align-items: center;
           .main-nav {
+            .menu{
+            }
             ul{
+              list-style: none;
+              margin: 0;
+              overflow: hidden;
+              padding: 0;
               li{
                 list-style-type: none;
                 display: inline-block;
                 &:not(:last-child) {
-                  margin-right: 32px;
+                  margin-right: 20px;
                 }
                 a{
                   font-size: 14px;
@@ -150,16 +159,105 @@ $screen-1024: " screen and (max-width : 1024px)";
           }
         }
         &-right{
+          width: 253px;
          ul{
+           display: flex;
+           justify-content: space-between;
+           align-items: center;
            li{
              list-style-type: none;
+           }
+           .search{
+               line-height: 10px;
+           }
+           .sign-in-link{
+             a{
+               color: #056B33;
+               &:hover{
+                 text-decoration-line: none;
+               }
+             }
+           }
+           #create-button{
+             cursor: pointer;
+             width: 91px;
+             height: 32px;
+             display: flex;
+             align-items: center;
+             justify-content: center;
+             border: 1px solid #13AA57;
+             span{
+               display: block;
+               font-size: 12px;
+               line-height: 12px;
+             }
+
            }
          }
         }
       }
-
     }
 }
 
+#language-switcher {
+  outline: none;
+}
+
+#switcher-wrapper {
+  position: relative;
+}
+
+#language-switcher {
+  width: 27px;
+  cursor: pointer;
+}
+
+#switcher-wrapper>select {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+
+#switcher-wrapper>select::-ms-expand {
+  display: none;
+}
+
+#arrow {
+  position: absolute;
+  top: 10px;
+  right: 0;
+  width: 8px;
+  height: 5px;
+}
+
+option {
+  display: block;
+  font-size: 14px;
+  line-height: 16px;
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #494A49;
+}
+
+#language-switcher {
+  background-color: transparent;
+  border: none;
+}
+
+select option:checked,
+select option:hover {
+  background: white;
+  box-shadow: 0 0 10px 100px red inset;
+}
+
+.language-option {
+  border: none;
+&:checked{
+  background: white;
+}
+}
 
 
