@@ -3,11 +3,14 @@ import { NewsModel, TranslationModel, NewsDTO, NewsResponseDTO } from '../../com
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from './../../../environments/environment';
+import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CreateEcoNewsService {
+  private currentForm: FormGroup;
+  private currentLang: string;
   private url: string = environment.backendLink;
   private accessToken: string = localStorage.getItem('accessToken');
   private httpOptions = {
@@ -45,6 +48,27 @@ export class CreateEcoNewsService {
   public setTranslationByLang(language: string, translations: NewsModel): void {
     this.translations[language].text = translations.text;
     this.translations[language].title = translations.title;
+  }
+
+  public getFormData(): FormGroup {
+    this.setTranslationByLang(this.currentLang, {
+                              text: this.currentForm.value.content,
+                              title: this.currentForm.value.title
+    });
+
+    return this.currentForm;
+  }
+
+  public setForm(form: FormGroup): void {
+    this.currentForm = form;
+  }
+
+  public setLang(lang: string): void {
+    this.currentLang = lang;
+  }
+
+  public getLang(): string {
+    return this.currentLang;
   }
 
   public sendFormData(form, language): Observable<NewsResponseDTO> {
