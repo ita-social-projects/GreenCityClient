@@ -1,7 +1,7 @@
 <div id="list-gallery-content">
   <div class="list-image">
     <img class="list-image-content"
-         [src]="defaultPicture.newsDefaultPictureGallery"
+         [src]="profileIcons.newsDefaultPictureGallery"
          alt="user added image" />
   </div>
   <div class="filter-tag">
@@ -17,27 +17,22 @@
   </div>
   <div class="list-text">
     <p>
-      {{ ecoNewsModel.text | slice: 0:200 }}
+      {{ (ecoNewsModel.text.length > 20)?
+          (ecoNewsModel.text | slice: 0:197)+'...' : (ecoNewsModel.text) }}
     </p>
   </div>
   <div class="user-data-added-news">
-    <p class="user-data-text-date-share">
-      <img class="icon"
-           [src]="profileIcons.userIcon"
-           alt="user icon" />
-      {{ ecoNewsModel.author.firstName }} {{ ecoNewsModel.author.lastName}}
-    </p>
-    <p class="user-data-text-date-share">
+    <p class="user-data-text-date">
       <img class="icon"
            [src]="profileIcons.calendarIcon"
            alt="calendar icon" />
       {{ ecoNewsModel.creationDate | date}}
     </p>
-    <a class="user-data-text-date-share">
+    <p class="user-data-text-date">
       <img class="icon"
-           [src]="profileIcons.shareIcon"
-           alt="Share button" />
-       Share
-      </a>
+           [src]="profileIcons.userIcon"
+           alt="user icon" />
+      {{ ecoNewsModel.author.name }}
+    </p>
   </div>
 </div>

@@ -10,7 +10,6 @@ import { ecoNewsIcons } from 'src/assets/img/icon/econews/profile-icons';
 export class NewsListListViewComponent implements OnInit {
   @Input() ecoNewsModel: EcoNewsModel;
   profileIcons = ecoNewsIcons;
-  defaultPicture = ecoNewsIcons;
 
   constructor() { }
 

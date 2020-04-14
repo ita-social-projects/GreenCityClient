@@ -20,8 +20,8 @@
 }
 
 .gallery-view-active {
-  display: grid;
-  grid-template-columns: auto auto auto;
+  column-count: 3;
+  break-inside: avoid;
 }
 
 .gallery-view-li-active {

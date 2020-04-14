@@ -11,7 +11,6 @@ export class NewsListGalleryViewComponent implements OnInit {
   @Input() ecoNewsModel: EcoNewsModel;
 
   profileIcons = ecoNewsIcons;
-  defaultPicture = ecoNewsIcons;
 
   constructor() { }
 
