@@ -178,7 +178,6 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   imports: [
     MatDialogModule,
     AuthModule,
-    MatDialogModule,
     CoreModule,
     EcoNewsModule,
     InfiniteScrollModule,
@@ -201,7 +200,6 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     AngularFireStorageModule,
     MatSelectModule,
     MatRadioModule,
-    MatSelectModule,
     DragDropModule,
     MapModule,
   ],

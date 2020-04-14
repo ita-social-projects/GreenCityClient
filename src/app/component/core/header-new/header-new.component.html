@@ -1,0 +1,85 @@
+<div class="main">
+  <div class="main-container">
+    <div class="header">
+      <div class="logo">
+        <a href="#">
+          <picture>
+          <source media="(max-width: 576px)"
+                  srcset="assets/img/logo_S.png">
+          <img src="assets/img/logo_M.png" alt="logo">
+        </picture>
+        </a>
+      </div>
+<!--      <input class="menu-btn" type="checkbox" id="menu-btn" />-->
+<!--      <label class="menu-icon" for="menu-btn"-->
+<!--      ><span class="navicon"></span-->
+<!--      ></label>-->
+      <div class="navigation-menu">
+                  <div class="navigation-menu-left">
+                    <nav class="main-nav">
+                      <ul class="menu">
+
+                        <li>
+                          <a [routerLink]="['/news']"
+                             pageScroll
+                             href="#events"
+                             [pageScrollDuration]="500">
+                            {{ 'user.lower-nav-bar.eco-events' | translate }}
+                          </a>
+                        </li>
+                        <li>
+                          <a [routerLink]="['/welcome']"
+                             pageScroll
+                             href="#tips"
+                             [pageScrollDuration]="500">
+                            {{ 'user.lower-nav-bar.tips' | translate }}
+                          </a>
+                        </li>
+                        <li>
+                          <a [routerLink]="['/map']"
+                             pageScroll
+                             href="#top-user-bar"
+                             routerLinkActive="active-link"
+                             [routerLinkActiveOptions]="{ exact: true }">
+                            {{ 'user.lower-nav-bar.map' | translate }}
+                          </a>
+                        </li>
+                        <li>
+                          <a [routerLink]="[getUserId(), 'habits']"
+                             routerLinkActive="active-link"
+                             [routerLinkActiveOptions]="{ exact: true }">
+                            {{ 'user.lower-nav-bar.my-habits' | translate }}
+                          </a>
+                        </li>
+                        <li>
+                          <a [routerLink]="['/about']">
+                            {{ 'user.lower-nav-bar.about-us' | translate }}
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+        <div class="navigation-menu-right">
+              <ul>
+                          <li class="search"><a  href="#">    <img src="assets/img/icon/search.png" alt="search">  </a></li>
+              <li>    <div id="switcher-wrapper">
+                <img id="arrow" [src]="arrow" alt="v">
+                <select [(ngModel)]="language" (change)="changeCurrentLanguage()" id="language-switcher">
+                  <option class="language-option" [ngValue]="'uk'">Ua</option>
+                  <option class="language-option" [ngValue]="'ru'">Ru</option>
+                  <option class="language-option" [ngValue]="'en'">En</option>
+                </select>
+              </div>
+              </li>
+        <li class="sign-in-link"><a href="#">Sign in</a></li>
+    <li> <div id="create-button" class="secondary-global-button">
+      <span id="create-button-text">Sign up</span>
+    </div></li>
+    </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+

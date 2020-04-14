@@ -44,7 +44,9 @@
   line-height: 16px;
   font-weight: 700;
   background: #13AA57;
+  border: 1px solid #13AA57;
   border-radius: 3px;
+  outline: none;
 }
 
 .create-news-text {
