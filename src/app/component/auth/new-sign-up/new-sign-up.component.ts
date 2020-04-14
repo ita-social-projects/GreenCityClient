@@ -52,13 +52,10 @@ export class NewSignUpComponent implements OnInit {
   private onSubmit(userOwnRegister: UserOwnSignUp): void {
     this.setNullAllMessage();
     this.loadingAnim = true;
-    this.userOwnSecurityService.signUp(userOwnRegister).subscribe(
-      () => {
-        this.onSubmitSuccess();
-      },
-      (errors: HttpErrorResponse) => {
-        this.onSubmitError(errors);
-      }
+    this.userOwnSecurityService.signUp(userOwnRegister)
+      .subscribe(
+        this.onSubmitSuccess.bind(this),
+        this.onSubmitError.bind(this)
     );
   }
 
@@ -85,18 +82,16 @@ export class NewSignUpComponent implements OnInit {
           break;
       }
     });
+
     this.loadingAnim = false;
   }
 
   private signInWithGoogle(): void {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(data => {
-      this.googleService.signIn(data.idToken).subscribe(
-        (data1: UserSuccessSignIn) => {
-          this.signInWithGoogleSuccess(data1);
-        },
-        (errors: HttpErrorResponse) => {
-          this.signInWithGoogleError(errors);
-        }
+      this.googleService.signIn(data.idToken)
+        .subscribe(
+          this.signInWithGoogleSuccess.bind(this),
+          this.signInWithGoogleError.bind(this)
       );
     });
   }
@@ -132,8 +127,8 @@ export class NewSignUpComponent implements OnInit {
                            'main-data-input-password';
   }
 
-  private hideShowPassword(htmlInput: HTMLInputElement,
-                           htmlImage: HTMLImageElement): void {
+  private setPasswordVisibility(htmlInput: HTMLInputElement,
+                                htmlImage: HTMLImageElement): void {
     htmlInput.type = htmlInput.type === 'password' ? 'text' : 'password';
     htmlImage.src = htmlInput.type === 'password' ?
                     this.signUpImgs.openEye :
