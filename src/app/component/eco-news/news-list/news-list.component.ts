@@ -32,7 +32,6 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
   public onScroll(): void {
     this.addElemsToCurrentList();
-    this.remaining = this.allEcoNews.length - this.elements.length;
   }
 
   private addElemsToCurrentList(): void {
@@ -52,7 +51,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.allEcoNews = [...data];
     this.elements = data.splice(0, 12);
     this.iterator = this.elements.length;
-    this.remaining = this.allEcoNews.length - this.elements.length;
+    this.remaining = this.allEcoNews.length;
   }
 
   private changeView(event: boolean): void {
