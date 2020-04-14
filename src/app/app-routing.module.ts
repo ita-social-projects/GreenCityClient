@@ -4,8 +4,12 @@ import { AuthComponent } from './component/user/auth/auth.component';
 import { SignInComponent } from './component/user/auth/sign-in/sign-in.component';
 import { SubmitEmailComponent } from './component/user/auth/submit-email/submit-email.component';
 import { MapComponent } from './component/user/map/map.component';
+import { AdminComponent } from './component/admin/admin.component';
+import { PlacesComponent } from './component/admin/places/places.component';
+import { UsersComponent } from './component/admin/users/users.component';
 import { FilterComponent } from './component/filter/filter.component';
 import { RestoreFormComponent } from './component/user/restore-form/restore-form.component';
+import { FeedbacksComponent } from './component/admin/feedbacks/feedbacks.component';
 import { UserHabitPageComponent } from './component/user/habit/user-habit-page/user-habit-page.component';
 import { Routes, RouterModule } from '@angular/router';
 import { HomepageComponent } from './component/general/homepage/homepage/homepage.component';
@@ -33,10 +37,6 @@ export const routes: Routes = [
       { path: 'submit-email', component: SubmitEmailComponent },
       { path: 'restore/:token', component: RestoreFormComponent }
     ]
-  },
-  {
-    path: 'map',
-    component: MapComponent
   },
   {
     path: '',

@@ -1,0 +1,129 @@
+<div class="wrapper">
+  <div class="left-side">
+    <img class="main-picture"
+         [src]="mainSignInImage.signInMainImg"
+         alt="sign-in image">
+  </div>
+  <div class="right-side">
+    <a (click)="closeSignInWindow()"
+       class="close-modal-window">
+      <img class="cross-btn"
+           [src]="closeBtn.closeButton"
+           alt="close button">
+    </a>
+    <h1>
+      {{'user.auth.sign-in.title' | translate}}</h1>
+    <h2>{{'user.auth.sign-in.fill-form' | translate}}</h2>
+    <form class="sign-in-form"
+          #registerForm="ngForm"
+          (ngSubmit)="signIn(userOwnSignIn)">
+      <label for="email">{{'user.auth.sign-in.email' | translate}}</label>
+      <input id="email"
+             type="email"
+             placeholder="example@email.com"
+             #emailControl="ngModel"
+             name="email"
+             [(ngModel)]="userOwnSignIn.email"
+             [ngClass]="emailControl.invalid && (emailControl.dirty||emailControl.touched)?
+                'alert-email-validation':'successful-email-validation'"
+             required
+             minlength="1"
+             email="true">
+      <div class="validation-email-error"
+           *ngIf="emailControl.invalid && (emailControl.dirty||emailControl.touched)">
+        <div *ngIf="emailControl.errors.required">
+          {{'user.auth.sign-in.email-is-required' | translate}}
+        </div>
+        <div *ngIf="emailControl.errors.minlength">
+          {{'user.auth.sign-in.email-must-be-at-least-1-characters-long' | translate}}
+        </div>
+        <div *ngIf="emailControl.errors.email">
+          {{'user.auth.sign-in.this-is-not-email' | translate}}
+        </div>
+      </div>
+      <div class="validation-email-error"
+           *ngIf="emailErrorMessageBackEnd!=null">
+        {{emailErrorMessageBackEnd}}
+      </div>
+      <div class="validation-email-error"
+           *ngIf="emailErrorMessageBackEnd!=null">
+        {{emailErrorMessageBackEnd}}
+      </div>
+      <label for="password">{{'user.auth.sign-in.password' | translate}}</label>
+      <div class="password-input-btn-show-hide"
+           [ngClass]="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)?
+              'alert-password-validation':'successful-password-validation'">
+        <input id="password"
+               #input
+               type="password"
+               placeholder="{{'user.auth.sign-in.password' | translate}}"
+               #passwordControl="ngModel"
+               name="form-control password-signin"
+               [(ngModel)]="userOwnSignIn.password"
+               required
+               minlength="8">
+        <span class="show-hide-btn">
+          <img (click)="togglePassword(input, src)"
+               class="image-show-hide-password"
+               [src]="hideShowPasswordImage.hidePassword"
+               #src
+               alt="show or hide password">
+        </span>
+      </div>
+      <div class="validation-password-error"
+           *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
+        <div *ngIf="passwordControl.errors.required">
+          {{'user.auth.sign-in.password-is-required' | translate}}
+        </div>
+        <div *ngIf="passwordControl.errors.minlength">
+          {{'user.auth.sign-in.password-must-be-at-least-8-characters-long' | translate}}
+        </div>
+      </div>
+      <div class="validation-password-error"
+           *ngIf="passwordErrorMessageBackEnd!=null">
+        {{passwordErrorMessageBackEnd}}
+      </div>
+      <div class="alert-general-error"
+           *ngIf="backEndError!=null">
+        {{backEndError}}
+      </div>
+      <div class="forgot-wrapper">
+        <a (click)="onOpenForgotWindow()"
+           class="forgot-password">
+          {{'user.auth.sign-in.forgot-password' | translate}}</a>
+      </div>
+      <button class="login-btn"
+              type="submit"
+              [disabled]="!registerForm.valid">
+        <span *ngIf="loadingAnim"
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true">
+        </span>
+        {{'user.auth.sign-in.sign-in' | translate}}
+      </button>
+      <span class="or-use-google">{{'user.auth.sign-in.or-signin' | translate}}</span>
+      <div>
+        <button type="submit"
+                class="google-sign-in"
+                (click)="signInWithGoogle()">
+          <span class="google-sign">
+            <img [src]="googleImage.picGoogle"
+                 alt="Google sign-in">
+          </span>
+          <span class="google-text-sign-in">
+            {{'user.auth.sign-in.sign-in-with-google' | translate}}
+          </span>
+        </button>
+      </div>
+    </form>
+    <div class="missing-account">
+      <p>{{'user.auth.sign-in.havenot-account' | translate}}
+        <a (click)="signUpOpenWindow()"
+           class="sign-up-link">
+          {{'user.auth.sign-in.sign-up' | translate}}
+        </a>
+      </p>
+    </div>
+  </div>
+</div>

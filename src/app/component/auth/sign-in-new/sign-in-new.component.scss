@@ -1,0 +1,241 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Open+Sans|Roboto&display=swap');
+
+$generalFont : OpenSans, sans-serif;
+$inputHeight : 48px;
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  max-width: 960px;
+  max-height: 760px;
+  z-index: 2000;
+
+  .left-side {
+    .main-picture{
+      border-radius: 4px 0 0 4px;
+    }
+  }
+
+  .right-side {
+    .close-modal-window {
+      display: flex;
+      justify-content: flex-end;
+      margin: 26px 26px 22px 12px;
+    }
+
+    .cross-btn {
+      width: 12px;
+      height: 12px;
+    }
+
+    h1 {
+      margin: 0 56px 8px 56px;
+      font-family: 'Montserrat', sans-serif;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 38px;
+      line-height: 48px;
+      color: #2B292D;
+    }
+
+    h2 {
+      margin: 0 56px 40px 56px;
+      font-family: $generalFont;
+      font-size: 16px;
+      line-height: 16px;
+    }
+
+    .sign-in-form {
+      margin: 0 56px 0 56px;
+      display: flex;
+      flex-direction: column;
+
+      label[for="email"],
+      label[for="password"] {
+        margin-bottom: 4px;
+        font-family: $generalFont;
+        font-size: 12px;
+        line-height: 14px;
+        color: #494A49;
+      }
+
+      input {
+        background: #FFFFFF;
+        box-sizing: border-box;
+        color: #494A49;
+        border-radius: 5px;
+        padding: 11px 40px 11px 16px;
+      }
+
+      input[type=email] {
+        height: $inputHeight;
+        background: #FFFFFF;
+        font-family: $generalFont;
+        font-size: 16px;
+        line-height: 24px;
+      }
+
+      .alert-email-validation {
+        border: 1px solid #f03127;
+        margin-bottom: 0;
+      }
+
+      .successful-email-validation {
+        border: 1px solid #878787;
+        margin-bottom: 21px;
+      }
+
+      .validation-email-error {
+        color: #F03127;
+        font-size: 10px;
+        line-height: 12px;
+        font-family: $generalFont;
+        margin-bottom: 9px;
+      }
+
+      input[type=password],
+      input[type=text] {
+        border: transparent;
+        width:90%;
+        font-family: $generalFont;
+        font-size: 16px;
+        line-height: 24px;
+      }
+
+      input[type=password]:focus,
+      input[type=text]:focus {
+        height: 46px;
+      }
+
+      .password-input-btn-show-hide {
+        height: $inputHeight;
+        box-sizing: border-box;
+        border-radius: 5px;
+      }
+
+      .alert-password-validation {
+        border: 1px solid #f03127;
+      }
+
+      .successful-password-validation {
+        border: 1px solid #878787;
+        margin-bottom: 16px;
+      }
+
+      .validation-password-error {
+        color: #F03127;
+        font-size: 10px;
+        line-height: 12px;
+        font-family: $generalFont;
+        margin-bottom: 4px;
+      }
+
+      .alert-general-error {
+        position: relative;
+        color: #F03127;
+        font-size: 10px;
+        line-height: 12px;
+        font-family: $generalFont;
+        margin-bottom: 4px;
+        margin-top: -16px;
+      }
+
+      .image-show-hide-password {
+        margin: 16px 16px 16px 0;
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+      }
+
+      .show-hide-btn {
+        width: 10%;
+        background: #FFFFFF;
+      }
+    }
+
+    .forgot-wrapper {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 24px;
+
+      .forgot-password {
+        font-family: $generalFont;
+        font-size: 12px;
+        line-height: 16px;
+        text-decoration-line: underline;
+      }
+    }
+
+    .login-btn {
+      width: 100%;
+      height: 48px;
+      background: #13AA57;
+      border: 0;
+      border-radius: 3px;
+      font-family: $generalFont;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 16px;
+      color: #FFFFFF;
+      cursor: pointer;
+      margin-bottom: 8px;
+    }
+
+    .or-use-google {
+      text-align: center;
+      font-family: $generalFont;
+      font-size: 12px;
+      line-height: 12px;
+      color: #494A49;
+      margin-bottom: 8px;
+    }
+
+    .google-sign-in {
+      padding: 0;
+      height: 40px;
+      width: 100%;
+      background: #FFFFFF;
+      border: 0;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.24),
+      0 0 2px rgba(0, 0, 0, 0.24);
+      border-radius: 3px;
+      text-align: justify;
+
+      .google-sign {
+        padding: 11px 0 11px 11px;
+      }
+
+      .google-text-sign-in {
+        margin: 12px 83px 12px 83px;
+        font-family: Roboto, sans-serif;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 16px;
+        text-align: center;
+        letter-spacing: 0.21875px;
+        color: #494A49;
+      }
+    }
+
+    .missing-account {
+      margin: 203px 56px 40px 56px;
+      font-family: $generalFont;
+      font-size: 16px;
+      line-height: 16px;
+      color: #494A49;
+
+      .sign-up-link {
+        margin-left: 8px;
+        text-decoration-line: underline;
+        color: #056B33;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .left-side {
+    display: none;
+  }
+}
