@@ -23,7 +23,3 @@ const adminRoutes: Routes = [
 })
 
 export class AdminRoutingModule { }
-
-
-
-
