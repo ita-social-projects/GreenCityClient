@@ -1,5 +1,4 @@
 import {MatTableModule} from '@angular/material/table';
-
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {AdminNavComponent} from './admin-nav/admin-nav.component';
@@ -37,6 +36,7 @@ import {AdminComponent} from './admin.component';
 import {FeedbacksComponent} from './feedbacks/feedbacks.component';
 import {DialogPhotoComponent} from './feedbacks/dialog-photo/dialog-photo.component';
 import {TranslateModule} from '@ngx-translate/core';
+import {AdminRoutingModule} from './admin-routing.module';
 
 @NgModule({
   declarations: [AdminNavComponent, AdminComponent, PlacesComponent, UsersComponent, ErrorComponent, ConfirmModalComponent,
@@ -51,6 +51,7 @@ import {TranslateModule} from '@ngx-translate/core';
     TableModule
   ],
   imports: [
+    AdminRoutingModule,
     CommonModule,
     NgFlashMessagesModule,
     NgxPaginationModule,
