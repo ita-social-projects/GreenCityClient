@@ -30,6 +30,7 @@ export class HeaderNewComponent implements OnInit {
   private userId: number;
   private isLoggedIn: boolean;
   private language: string;
+  private onToggleBurgerMenu = false;
 
   constructor(private modalService: ModalService,
               public dialog: MatDialog,
@@ -54,6 +55,7 @@ export class HeaderNewComponent implements OnInit {
     this.userRole = this.jwtService.getUserRole();
     this.language = this.languageService.getCurrentLanguage();
   }
+
 
   public changeCurrentLanguage(): void {
     this.languageService.changeCurrentLanguage(this.language as Language);
