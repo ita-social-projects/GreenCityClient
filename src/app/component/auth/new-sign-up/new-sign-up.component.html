@@ -41,7 +41,7 @@
                  name="email"
                  [(ngModel)]="userOwnSignUp.email"
                  [ngClass]="emailControl.invalid &&
-                            (emailControl.dirty||emailControl.touched)?
+                 (emailControl.dirty||emailControl.touched) ?
                  'wrong-input':'main-data-input'"
                  required
                  minlength="1"
@@ -49,7 +49,7 @@
           >
           <div class="error-message"
                [ngClass]="emailControl.invalid &&
-                            (emailControl.dirty||emailControl.touched)?
+               (emailControl.dirty || emailControl.touched) ?
                'error-message-show':'error-message'"
           >
             <div *ngIf="emailControl.errors?.required">
@@ -78,8 +78,9 @@
             {{ 'user.auth.sign-up.password' | translate }}
           </label>
           <div class="main-data-input-password"
-               [ngClass]="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched) ?
-               'main-data-input-password wrong-input':'main-data-input-password'"
+               [ngClass]="passwordControl.invalid &&
+               (passwordControl.dirty || passwordControl.touched) ?
+               'main-data-input-password wrong-input' : 'main-data-input-password'"
           >
             <input type="password"
                    placeholder="{{ 'user.auth.sign-up.password' | translate }}"
@@ -101,7 +102,8 @@
             </span>
           </div>
           <div class="error-message"
-               [ngClass]="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched) ?
+               [ngClass]="passwordControl.invalid &&
+               (passwordControl.dirty || passwordControl.touched) ?
                'error-message-show' : 'error-message'"
           >
             <div *ngIf="passwordControl.errors?.required">
@@ -119,7 +121,7 @@
           </label>
           <div class="main-data-input-password"
                [ngClass]="passwordControlConfirm.invalid &&
-               (passwordControlConfirm.dirty||passwordControlConfirm.touched) ?
+               (passwordControlConfirm.dirty || passwordControlConfirm.touched) ?
                'main-data-input-password wrong-input':'main-data-input-password'"
                #repeatInput
           >
