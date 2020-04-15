@@ -16,6 +16,7 @@ import { ChangeViewButtonComponent } from './news-list/change-view-button/change
 import { EcoNewsRoutingModule } from './eco-news-routing.module';
 import { NewsPreviewPageComponent } from './news-preview-page/news-preview-page.component';
 import { PostNewsLoaderComponent } from './post-news-loader/post-news-loader.component';
+import { CreateNewsCancelComponent } from './create-news/create-news-cancel/create-news-cancel.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { PostNewsLoaderComponent } from './post-news-loader/post-news-loader.com
     EcoNewsWidgetComponent,
     EcoNewsDetailComponent,
     NewsPreviewPageComponent,
-    PostNewsLoaderComponent
+    PostNewsLoaderComponent,
+    CreateNewsCancelComponent
   ],
   imports: [
     CommonModule,
@@ -38,6 +40,7 @@ import { PostNewsLoaderComponent } from './post-news-loader/post-news-loader.com
     CoreModule,
     EcoNewsRoutingModule
   ],
+  entryComponents: [CreateNewsCancelComponent],
   providers: []
 })
 
