@@ -70,7 +70,11 @@
             <button
                 type="button"
                 (click)="navigateByUrl('/news')">Cancel</button>
-            <button type="button" (click)="navigateByUrl('create-news/preview')">Preview</button>
+            <button type="button"
+                    (click)="goToPreview()"
+            >
+              Preview
+            </button>
             <button type="submit" [disabled]="!createNewsForm.valid">Publish</button>
         </div>
     </form>
