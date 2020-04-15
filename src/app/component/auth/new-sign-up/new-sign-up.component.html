@@ -41,7 +41,7 @@
                  name="email"
                  [(ngModel)]="userOwnSignUp.email"
                  [ngClass]="emailControl.invalid &&
-                 (emailControl.dirty||emailControl.touched) ?
+                 (emailControl.dirty || emailControl.touched) ?
                  'wrong-input':'main-data-input'"
                  required
                  minlength="1"
