@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FileHandle } from '../../../../directives/drag-and-drop.directive';
+import { FileHandle } from '../create-news-interface';
 
 @Component({
   selector: 'app-drag-and-drop',
@@ -10,9 +10,9 @@ export class DragAndDropComponent implements OnInit {
 
   constructor() { }
 
-  files: FileHandle[] = [];
+  public files: FileHandle[] = [];
 
-  filesDropped(files: FileHandle[]): void {
+  public filesDropped(files: FileHandle[]): void {
     this.files = files;
   }
 

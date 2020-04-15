@@ -6,11 +6,7 @@ import {
   EventEmitter
 } from "@angular/core";
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-
-export interface FileHandle {
-  file: File,
-  url: SafeUrl
-}
+import { FileHandle } from '../component/eco-news/create-news/create-news-interface';
 
 @Directive({
   selector: '[appDragAndDrop]'
@@ -43,6 +39,7 @@ export class DragAndDropDirective {
       const url = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file));
       files.push({ file, url });
     }
+    
     if (files.length > 0) {
       this.files.emit(files);
     }

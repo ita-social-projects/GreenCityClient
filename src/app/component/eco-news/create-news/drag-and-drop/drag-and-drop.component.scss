@@ -21,10 +21,12 @@
     font-family: 'Open Sans';
 }
 
-.centered span {
-    color: #13AA57;
-    text-decoration: underline;
-    cursor: pointer;
+.centered {
+    span {
+        color: #13AA57;
+        text-decoration: underline;
+        cursor: pointer;
+    } 
 }
 
 img {
