@@ -146,7 +146,7 @@
           </div>
           <div class="error-message"
                [ngClass]="passwordControlConfirm.invalid &&
-               (passwordControlConfirm.dirty||passwordControlConfirm.touched) ||
+               (passwordControlConfirm.dirty || passwordControlConfirm.touched) ||
                (inputPassword.value !== repeatPassword.value && repeatPassword.value !== '') ?
                'error-message-show' : 'error-message'"
           >
