@@ -21,11 +21,11 @@
 
 .gallery-view-active {
   column-count: 3;
-  break-inside: avoid;
 }
 
 .gallery-view-li-active {
   margin: 0 32px 40px 0;
+  break-inside: avoid;
 }
 
 .list-view-li-active {
