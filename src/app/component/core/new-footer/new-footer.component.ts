@@ -8,10 +8,7 @@ import {footerIcons} from '../../../../assets/img/icon/footer/footer-icons';
 })
 export class NewFooterComponent implements OnInit {
   public actualYear = new Date().getFullYear();
-  private fbIcon = footerIcons;
-  private linkedInIcon = footerIcons;
-  private twitter = footerIcons;
-  private logo = footerIcons;
+  private footerImageList = footerIcons;
 
   constructor() { }
 
