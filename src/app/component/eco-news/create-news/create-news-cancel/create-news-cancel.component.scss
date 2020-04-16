@@ -24,27 +24,20 @@ $main-font: 'Open Sans';
   .cta-buttons {
     display: flex;
 
-    .continue-button,
-    .cancel-button {
-      border-radius: 3px;
-      font-style: normal;
-      font-weight: 600;
-      font-size: 16px;
-      line-height: 16px;
+    .secondary-global-button,
+    .primary-global-button {
       padding: 16px 40px;
-      border: 1px solid #13AA57;
     }
 
-    .continue-button {
-      box-sizing: border-box;
-      color: #13AA57;
-      background-color: #fff;
+    .secondary-global-button {
       margin-right: 24px;
+      background-color: #fff;
     }
 
-    .cancel-button {
-      background-color: #13AA57;
-      color: #fff;
+    .secondary-global-button:hover {
+      padding: 16px 40px;
+      line-height: 16px;
+      background-color: #fff;
     }
   }
 }
