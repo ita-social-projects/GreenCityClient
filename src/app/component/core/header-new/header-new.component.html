@@ -1,18 +1,17 @@
-<div class="main">
+<div [ngClass]="onToggleBurgerMenu ? 'break-shadow main' : 'main'">
   <div class="main-container">
-    <div class="header">
+    <div class="header" >
       <div class="logo">
         <a href="#">
           <picture>
           <source media="(max-width: 576px)"
                   srcset="assets/img/logo_S.png">
-          <img src="assets/img/logo_M.png" alt="logo">
+             <img src="assets/img/logo_M.png" alt="logo">
         </picture>
         </a>
       </div>
       <div class="navigation-menu">
-                  <div   [ngClass]="onToggleBurgerMenu ? 'xxx' : 'navigation-menu-left'">
-
+                  <div [ngClass]="onToggleBurgerMenu ? 'navigation-menu-left-col' : 'navigation-menu-left'">
                       <ul>
                         <li>
                           <a [routerLink]="['/welcome']"
@@ -60,40 +59,82 @@
                             {{ 'user.lower-nav-bar.about-us' | translate }}
                           </a>
                         </li>
+                        <li class="mobile-vis">
+                          <a class="sign-in-link">
+                            {{ "top-bar.sign-in" | translate }}
+                          </a>
+                        </li>
+                        <li class="mobile-vis">
+                          <div class="create-button secondary-global-button">
+                            <span>Sign up</span>
+                          </div>
+                        </li>
                       </ul>
-
                   </div>
         <div class="navigation-menu-right">
               <ul>
-                          <li class="search"><a  href="#">
-                            <img src="assets/img/icon/search.png" alt="search">  </a></li>
-              <li>
+               <li class="search" [class.destroy]="onToggleBurgerMenu">
+               <a  href="#"><img src="assets/img/icon/search.png" alt="search"></a>
+               </li>
+              <li [class.destroy]="onToggleBurgerMenu">
                 <div class="switcher-wrapper">
                 <img class="arrow" [src]="arrow" alt="v">
-                <select [(ngModel)]="language" (change)="changeCurrentLanguage()" class="language-switcher">
-                  <option class="language-option" [ngValue]="'uk'">Ua</option>
-                  <option class="language-option" [ngValue]="'ru'">Ru</option>
-                  <option class="language-option" [ngValue]="'en'">En</option>
+                <select
+                  [(ngModel)]="language"
+                  (change)="changeCurrentLanguage()"
+                   class="language-switcher">
+                  <option class="language-option"
+                          [ngValue]="'uk'">Ua</option>
+                  <option class="language-option"
+                          [ngValue]="'ru'">Ru</option>
+                  <option class="language-option"
+                          [ngValue]="'en'">En</option>
                 </select>
               </div>
               </li>
-        <li class="sign-in-link">
-          <a href="#">Sign in</a>
+        <li class="sign-in-link" [class.destroy]="onToggleBurgerMenu">
+          <div *ngIf="!isLoggedIn; then userLoggedIn else userNotLoggedIn"></div>
+          <ng-template #userLoggedIn>
+            <a (click)="openSingInWindow()">{{ "top-bar.sign-in" | translate }}
+            </a>
+          </ng-template>
+          <ng-template #userNotLoggedIn>
+            <div id="user-avatar-wrapper" [class.addBoxShadow]="dropdownVisible" >
+              <a (click)="toggleDropdown()">Nadiia Steblivets</a>
+              <ul class="dropdown" *ngIf="dropdownVisible">
+                <li class="c">
+                  <a class="c" (click)="openDialog()">
+                    {{ "nav-bar.favorite-places" | translate }}
+                  </a>
+                </li>
+                <li>
+                  <a (click)="openSettingDialog()">
+                    {{ "nav-bar.user-settings" | translate }}
+                  </a>
+                </li>
+                <li>
+                  <a (click)="signOut()">
+                    {{ "nav-bar.sign-out" | translate }}
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </ng-template>
         </li>
-    <li>
-      <div class="create-button secondary-global-button">
-      <span>Sign up</span>
-    </div>
-    </li>
+          <li class="sign-up-link" [class.destroy]="onToggleBurgerMenu" *ngIf="!isLoggedIn">
+            <div class="create-button secondary-global-button">
+            <span>Sign up</span>
+          </div>
+          </li>
     <li class="burger-b">
-       <div class="menu-icon-wrapper" (click)="onToggleBurgerMenu=!onToggleBurgerMenu">
+       <div class="menu-icon-wrapper"
+            (click)="onToggleBurgerMenu=!onToggleBurgerMenu">
        <div  [ngClass]="onToggleBurgerMenu ? 'menu-icon menu-icon-active' : 'menu-icon'"></div>
        </div>
       </li>
     </ul>
         </div>
       </div>
-
     </div>
   </div>
 </div>

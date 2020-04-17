@@ -14,6 +14,8 @@ import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-sta
 import { filter } from 'rxjs/operators';
 import { LanguageService } from '../../../i18n/language.service';
 import { Language } from '../../../i18n/Language';
+import {SignInNewComponent} from '../../auth/sign-in-new/sign-in-new.component';
+// import { MatFormFieldModule, MatInputModule, MatSelectModule } from'@angular/material';
 
 @Component({
   selector: 'app-header-new',
@@ -71,5 +73,44 @@ export class HeaderNewComponent implements OnInit {
   public assignData(userId: number): void {
     this.userId = userId;
     this.isLoggedIn = true;
+  }
+  private openSingInWindow(): void {
+    this.dialog.open(SignInNewComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      panelClass: 'custom-dialog-container',
+    });
+  }
+  toggleDropdown(): void {
+    this.dropdownVisible = !this.dropdownVisible;
+  }
+
+  openDialog(): void {
+    this.dropdownVisible = false;
+    const dialogRef = this.dialog.open(FavoritePlaceComponent, {
+      width: '700px'
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      this.favoritePlaceService.getFavoritePlaces();
+    });
+  }
+
+  openSettingDialog(): void {
+    this.dropdownVisible = false;
+    const dialogRef = this.dialog.open(UserSettingComponent, {
+      width: '700px'
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('The dialog was closed');
+    });
+  }
+  private signOut() {
+    this.dropdownVisible = false;
+    this.isLoggedIn = false;
+    this.localStorageService.clear();
+    this.userService.onLogout();
+    this.habitStatisticService.onLogout();
+    this.achievementService.onLogout();
+    this.router.navigateByUrl('/welcome').then(r => r);
   }
 }
