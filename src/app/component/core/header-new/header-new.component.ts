@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { ModalService } from '../_modal/modal.service';
 import { MatDialog } from '@angular/material';
 import { FavoritePlaceComponent } from '../../map/favorite-place/favorite-place.component';
@@ -14,6 +14,7 @@ import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-sta
 import { filter } from 'rxjs/operators';
 import { LanguageService } from '../../../i18n/language.service';
 import { Language } from '../../../i18n/Language';
+import {SearchClickService} from '../../../service/search-click/search-click.service';
 
 @Component({
   selector: 'app-header-new',
@@ -30,6 +31,7 @@ export class HeaderNewComponent implements OnInit {
   private userId: number;
   private isLoggedIn: boolean;
   private language: string;
+  private isSearchClicked = false;
 
   constructor(private modalService: ModalService,
               public dialog: MatDialog,
@@ -40,8 +42,10 @@ export class HeaderNewComponent implements OnInit {
               private userService: UserService,
               private achievementService: AchievementService,
               private habitStatisticService: HabitStatisticService,
-              private languageService: LanguageService) {
-}
+              private languageService: LanguageService,
+              private clickSearch: SearchClickService) {
+    this.clickSearch.emitter.subscribe(signal => this.isSearchClicked = signal);
+  }
 
   ngOnInit() {
     this.dropdownVisible = false;
@@ -69,5 +73,9 @@ export class HeaderNewComponent implements OnInit {
   public assignData(userId: number): void {
     this.userId = userId;
     this.isLoggedIn = true;
+  }
+
+  private toggleSearchPage(): void {
+    this.clickSearch.signal();
   }
 }

@@ -19,6 +19,7 @@ import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { FooterComponent } from './footer/footer.component';
 import { AboutPageComponent } from '../about-page/about-page.component';
 import { HeaderNewComponent } from './header-new/header-new.component';
+import { SearchPopupComponent } from './search-popup/search-popup.component';
 
 @NgModule({
     declarations: [
@@ -30,6 +31,7 @@ import { HeaderNewComponent } from './header-new/header-new.component';
         FooterComponent,
         AboutPageComponent,
         HeaderNewComponent,
+        SearchPopupComponent,
     ],
     imports: [
         CommonModule,
@@ -55,28 +57,29 @@ import { HeaderNewComponent } from './header-new/header-new.component';
           MatCardModule,
           NgxPageScrollModule
     ],
-    exports: [
-        FooterComponent,
-        NavBarComponent,
-        ProposeCafeComponent,
-        ModalComponent,
-        PhotoUploadComponent,
-        LowerNavBarComponent,
-        HeaderNewComponent,
-        CommonModule,
-        TranslateModule,
-        AppRoutingModule,
-        FormsModule,
-        ReactiveFormsModule,
-        AgmCoreModule,
-        NgSelectModule,
-        MDBBootstrapModule,
-        MatCheckboxModule,
-        MatDialogModule,
-        FileUploadModule,
-        MatCardModule,
-        NgxPageScrollModule
-    ],
+  exports: [
+    FooterComponent,
+    NavBarComponent,
+    ProposeCafeComponent,
+    ModalComponent,
+    PhotoUploadComponent,
+    LowerNavBarComponent,
+    HeaderNewComponent,
+    CommonModule,
+    TranslateModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AgmCoreModule,
+    NgSelectModule,
+    MDBBootstrapModule,
+    MatCheckboxModule,
+    MatDialogModule,
+    FileUploadModule,
+    MatCardModule,
+    NgxPageScrollModule,
+    SearchPopupComponent
+  ],
     providers: []
 })
 

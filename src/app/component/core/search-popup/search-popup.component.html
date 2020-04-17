@@ -1,0 +1,8 @@
+<ng-template [ngIf]="isSearchClicked">
+  <div class="search-wrapper">
+    <div class="search-icon"></div>
+    <input class = "search-field" type="text" placeholder="Search">
+    <div class="close-icon" (click)="closeSearch()"></div>
+  </div>
+  <div class="overlay" (click)="closeSearch()"></div>
+</ng-template>
