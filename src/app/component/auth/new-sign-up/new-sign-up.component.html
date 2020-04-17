@@ -112,9 +112,6 @@
             <div *ngIf="passwordControl.errors?.minlength">
               {{'user.auth.sign-up.password-must-be-at-least-8-characters-long' | translate}}
             </div>
-            <div *ngIf="passwordErrorMessageBackEnd!=null">
-              {{passwordErrorMessageBackEnd}}
-            </div>
           </div>
           <label class="content-label under-error">
             {{ 'user.auth.sign-up.password-confirm' | translate }}
@@ -147,7 +144,8 @@
           <div class="error-message"
                [ngClass]="passwordControlConfirm.invalid &&
                (passwordControlConfirm.dirty || passwordControlConfirm.touched) ||
-               (inputPassword.value !== repeatPassword.value && repeatPassword.value !== '') ?
+               (inputPassword.value !== repeatPassword.value && repeatPassword.value !== '') ||
+               passwordErrorMessageBackEnd ?
                'error-message-show' : 'error-message'"
           >
             <div *ngIf="passwordControlConfirm.errors?.required">
@@ -158,8 +156,8 @@
             >
               {{'user.auth.sign-up.password-match' | translate}}
             </div>
-            <div *ngIf="passwordErrorMessageBackEnd!=null">
-              {{passwordConfirmErrorMessageBackEnd}}
+            <div *ngIf="passwordErrorMessageBackEnd">
+              {{ passwordErrorMessageBackEnd }}
             </div>
           </div>
           <button type="submit"
