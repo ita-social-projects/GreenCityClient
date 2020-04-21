@@ -1,0 +1,26 @@
+<div class="main-container">
+  <div class="warning-text">
+    <div class="warning-title">
+      {{ 'cancel-popup.title' | translate }}
+    </div>
+    <div class="warning-subtitle">
+      {{ 'cancel-popup.subtitle' | translate }}
+    </div>
+  </div>
+  <div class="cta-buttons">
+    <div class="continue-btn">
+      <button class="secondary-global-button"
+              (click)="closeCancelPopup()"
+      >
+        {{ 'cancel-popup.continue' | translate }}
+      </button>
+    </div>
+    <div class="cancel-btn">
+      <button class="primary-global-button"
+              (click)="moveToNewsList()"
+      >
+        {{ 'cancel-popup.cancel' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
