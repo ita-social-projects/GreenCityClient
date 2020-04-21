@@ -6,7 +6,8 @@
           <picture>
           <source media="(max-width: 576px)"
                   srcset="assets/img/logo_S.png">
-             <img src="assets/img/logo_M.png" alt="logo">
+             <img src="assets/img/logo_M.png"
+                  alt="logo">
         </picture>
         </a>
       </div>
@@ -99,13 +100,15 @@
                <li class="search"
                    [class.destroy]="onToggleBurgerMenu">
                <a  href="#">
-                 <img src="assets/img/icon/search.png" alt="search">
+                 <img src="assets/img/icon/search.png"
+                      alt="search">
                </a>
                </li>
               <li [class.destroy]="onToggleBurgerMenu">
                 <div class="switcher-wrapper">
                 <img class="arrow"
-                     [src]="arrow" alt="v">
+                     [src]="arrow"
+                      alt="v">
                 <select
                   [(ngModel)]="language"
                   (change)="changeCurrentLanguage()"
@@ -132,8 +135,10 @@
              <ul [class.add-shadow]="dropdownVisible">
                <li class="tertiary-global-button">
                  <a (click)="toggleDropdown()">Nadiia Steblivets
-                 <img class="arrow" [src]="arrowGreen"
-                      [ngClass]="dropdownVisible ? 'arrow reverse' : 'arrow'" alt="v">
+                 <img class="arrow"
+                      [src]="arrowGreen"
+                      [ngClass]="dropdownVisible ? 'arrow reverse' : 'arrow'"
+                      alt="v">
                 </a>
                </li>
                <li [class.text-hidde]="!dropdownVisible">

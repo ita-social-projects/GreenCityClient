@@ -13,8 +13,8 @@ import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-sta
 import { filter } from 'rxjs/operators';
 import { LanguageService } from '../../../i18n/language.service';
 import { Language } from '../../../i18n/Language';
-import {SignInNewComponent} from '../../auth/sign-in-new/sign-in-new.component';
-import {NewSignUpComponent} from '../../auth/new-sign-up/new-sign-up.component';
+import { SignInNewComponent } from '../../auth/sign-in-new/sign-in-new.component';
+import { NewSignUpComponent } from '../../auth/new-sign-up/new-sign-up.component';
 
 @Component({
   selector: 'app-header-new',
@@ -79,7 +79,7 @@ export class HeaderNewComponent implements OnInit {
     this.isLoggedIn = true;
   }
 
-  toggleDropdown(): void {
+  private toggleDropdown(): void {
     this.dropdownVisible = !this.dropdownVisible;
   }
 
@@ -99,7 +99,7 @@ export class HeaderNewComponent implements OnInit {
     });
   }
 
-  openDialog(): void {
+  private openDialog(): void {
     this.dropdownVisible = false;
     const dialogRef = this.dialog.open(FavoritePlaceComponent, {
       width: '700px'
@@ -109,7 +109,7 @@ export class HeaderNewComponent implements OnInit {
     });
   }
 
-  openSettingDialog(): void {
+  private openSettingDialog(): void {
     this.dropdownVisible = false;
     const dialogRef = this.dialog.open(UserSettingComponent, {
       width: '700px'
