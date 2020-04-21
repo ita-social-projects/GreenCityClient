@@ -17,8 +17,7 @@
   </div>
   <div class="list-text">
     <p>
-      {{ (ecoNewsModel.text.length > 20)?
-          (ecoNewsModel.text | slice: 0:197)+'...' : (ecoNewsModel.text) }}
+      {{ newsText }}
     </p>
   </div>
   <div class="user-data-added-news">
