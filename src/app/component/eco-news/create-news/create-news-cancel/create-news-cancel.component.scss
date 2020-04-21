@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
+$title-font: 'Montserrat';
+$main-font: 'Open Sans';
+
+.main-container {
+  max-width: 650px;
+  max-height: 256px;
+  z-index: 2000;
+  font-family: $main-font;
+  padding: 56px;
+
+  .warning-text {
+    font-family: $title-font;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 21px;
+    line-height: 28px;
+    color: #313131;
+    margin-bottom: 40px;
+  }
+
+  .cta-buttons {
+    display: flex;
+
+    .secondary-global-button,
+    .primary-global-button {
+      padding: 16px 40px;
+    }
+
+    .secondary-global-button {
+      margin-right: 24px;
+      background-color: #fff;
+    }
+
+    .secondary-global-button:hover {
+      padding: 16px 40px;
+      line-height: 16px;
+      background-color: #fff;
+    }
+  }
+}

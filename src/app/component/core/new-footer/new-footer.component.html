@@ -1,0 +1,77 @@
+<footer>
+  <div class="main-background-image">
+    <div class="main">
+      <a [routerLink]="['/welcome']"
+         href=""
+         class="small-screen-size">
+        <img [src]="footerImageList.greenCityLogo"
+             class="logo"
+             alt="GreenCity Logo">
+      </a>
+      <div class="links">
+        <div class="left-side">
+          <ul class="list-of-site-links">
+            <li>
+              <a [routerLink]="['/news']"
+                 class="router-links"
+                 href="">{{ "user.lower-nav-bar.eco-events" | translate }}
+              </a>
+            </li>
+            <li>
+              <a href=""
+                 class="router-links">{{ "user.lower-nav-bar.tips" | translate }}
+              </a>
+            </li>
+            <li>
+              <a [routerLink]="['/map']"
+                 class="router-links"
+                 href="">{{ "user.lower-nav-bar.map" | translate }}
+              </a>
+            </li>
+            <li>
+              <a [routerLink]="['/about']"
+                 class="router-links"
+                 href="">{{ "user.lower-nav-bar.about-us" | translate }}
+              </a>
+            </li>
+            <li>
+              <a [routerLink]="['habits']"
+                 href=""
+                 class="router-links">{{ "user.lower-nav-bar.my-habits" | translate }}
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="right-side">
+          <div class="follow-us-text">
+            <p>Follow us</p>
+          </div>
+          <ul class="social-network-links">
+            <li>
+              <a class="social-links-btn">
+                <img [src]="footerImageList.twitterIcon"
+                     alt="Twitter link">
+              </a>
+            </li>
+            <li>
+              <a class="social-links-btn">
+                <img [src]="footerImageList.linkedInIcon"
+                     alt="LinkedIn link">
+              </a>
+            </li>
+            <li>
+              <a class="social-links-btn">
+                <img [src]="footerImageList.facebookIcon"
+                     alt="Facebook link">
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="bottom-part">
+        &copy; Copyright {{ actualYear }}. Green City.
+      </div>
+    </div>
+  </div>
+</footer>
+
