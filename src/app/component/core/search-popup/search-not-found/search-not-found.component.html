@@ -1,0 +1,34 @@
+<span class = "not-found-text">
+  We couldn't find results for "User's search query"<br>
+  Please change the search.
+</span>
+<span class = "choose-alternative">
+  Maybe you can find some interesting stuff here:
+</span>
+<div class="flex-container">
+  <a [routerLink]="['/news']"
+     (click)="emitClose()">
+    <div class="alternative-news">
+      <img class="alternative-image" src="../../../../../assets/img/a_img.png">
+      <h2 class="alternative-header">News</h2>
+      <span class="alternative-description">
+        Find the latest news, events and initiatives here. Find news and create ones.
+      </span>
+    </div>
+  </a>
+  <a [routerLink]="['/welcome']"
+     pageScroll
+     href="#tips"
+     [pageScrollDuration]="500"
+     (click)="emitClose()">
+    <div class="alternative-tips">
+      <img class="alternative-image" src="../../../../../assets/img/a_img.png">
+      <h2 class="alternative-header">Tips & Tricks</h2>
+      <span class="alternative-description">
+        How to sort garbage? Where to find eco stuff?
+        And many other useful stuff for being eco friendly.
+      </span>
+    </div>
+  </a>
+</div>
+

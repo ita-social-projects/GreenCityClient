@@ -8,6 +8,7 @@ import {SearchClickService} from '../../../service/search-click/search-click.ser
 })
 export class SearchPopupComponent implements OnInit {
   private _isSearchClicked = false;
+  private isSearchFound: boolean = true;
 
   set isSearchClicked(value: boolean) {
     this.onSearchClick();

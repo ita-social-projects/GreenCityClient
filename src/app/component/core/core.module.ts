@@ -20,6 +20,8 @@ import { FooterComponent } from './footer/footer.component';
 import { AboutPageComponent } from '../about-page/about-page.component';
 import { HeaderNewComponent } from './header-new/header-new.component';
 import { SearchPopupComponent } from './search-popup/search-popup.component';
+import { SearchItemComponent } from './search-popup/search-item/search-item.component';
+import { SearchNotFoundComponent } from './search-popup/search-not-found/search-not-found.component';
 
 @NgModule({
     declarations: [
@@ -32,6 +34,8 @@ import { SearchPopupComponent } from './search-popup/search-popup.component';
         AboutPageComponent,
         HeaderNewComponent,
         SearchPopupComponent,
+        SearchItemComponent,
+        SearchNotFoundComponent,
     ],
     imports: [
         CommonModule,
