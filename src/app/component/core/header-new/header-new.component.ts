@@ -47,21 +47,19 @@ export class HeaderNewComponent implements OnInit {
   ngOnInit() {
     this.dropdownVisible = false;
     this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => this.firstName = firstName);
-    this.localStorageService.userIdBehaviourSubject
-      .pipe(
-        filter(userId => userId !== null && !isNaN(userId))
-      )
-      .subscribe(this.assignData.bind(this));
+    this.initUser();
     this.userRole = this.jwtService.getUserRole();
     this.language = this.languageService.getCurrentLanguage();
-    this.router.events
-      .pipe(
-        filter((events) => events instanceof NavigationStart)
-      )
-      .subscribe(() => {
-        this.onToggleBurgerMenu = false;
-      });
+    this.autoOffBurgerBtn();
   }
+
+  private initUser(): void {
+  this.localStorageService.userIdBehaviourSubject
+    .pipe(
+      filter(userId => userId !== null && !isNaN(userId))
+    )
+    .subscribe(this.assignData.bind(this));
+}
 
   public changeCurrentLanguage(): void {
     this.languageService.changeCurrentLanguage(this.language as Language);
@@ -72,6 +70,16 @@ export class HeaderNewComponent implements OnInit {
       return this.userId;
     }
     return 'not_signed_in';
+  }
+
+  private autoOffBurgerBtn(): void {
+    this.router.events
+      .pipe(
+        filter((events) => events instanceof NavigationStart)
+      )
+      .subscribe(() => {
+        this.onToggleBurgerMenu = false;
+      });
   }
 
   public assignData(userId: number): void {
