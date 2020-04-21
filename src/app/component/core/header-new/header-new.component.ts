@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ModalService } from '../_modal/modal.service';
 import { MatDialog } from '@angular/material';
 import { FavoritePlaceComponent } from '../../map/favorite-place/favorite-place.component';
-import { ProposeCafeComponent } from '../propose-cafe/propose-cafe.component';
 import { FavoritePlaceService } from '../../../service/favorite-place/favorite-place.service';
 import { UserSettingComponent } from '../../user/user-setting/user-setting.component';
-import { Router } from '@angular/router';
+import {NavigationStart, Router} from '@angular/router';
 import { LocalStorageService } from '../../../service/localstorage/local-storage.service';
 import { JwtService } from '../../../service/jwt/jwt.service';
 import { UserService } from 'src/app/service/user/user.service';
@@ -15,7 +14,7 @@ import { filter } from 'rxjs/operators';
 import { LanguageService } from '../../../i18n/language.service';
 import { Language } from '../../../i18n/Language';
 import {SignInNewComponent} from '../../auth/sign-in-new/sign-in-new.component';
-// import { MatFormFieldModule, MatInputModule, MatSelectModule } from'@angular/material';
+import {NewSignUpComponent} from '../../auth/new-sign-up/new-sign-up.component';
 
 @Component({
   selector: 'app-header-new',
@@ -23,9 +22,8 @@ import {SignInNewComponent} from '../../auth/sign-in-new/sign-in-new.component';
   styleUrls: ['./header-new.component.scss']
 })
 export class HeaderNewComponent implements OnInit {
-  readonly notificationIcon = 'assets/img/notification-icon.png';
-  readonly userAvatar = 'assets/img/user-avatar.png';
   readonly arrow = 'assets/img/arrow_grey.png';
+  readonly arrowGreen = 'assets/img/arrow.png';
   private dropdownVisible: boolean;
   private firstName: string;
   private userRole: string;
@@ -56,8 +54,14 @@ export class HeaderNewComponent implements OnInit {
       .subscribe(this.assignData.bind(this));
     this.userRole = this.jwtService.getUserRole();
     this.language = this.languageService.getCurrentLanguage();
+    this.router.events
+      .pipe(
+        filter((events) => events instanceof NavigationStart)
+      )
+      .subscribe(() => {
+        this.onToggleBurgerMenu = false;
+      });
   }
-
 
   public changeCurrentLanguage(): void {
     this.languageService.changeCurrentLanguage(this.language as Language);
@@ -74,6 +78,11 @@ export class HeaderNewComponent implements OnInit {
     this.userId = userId;
     this.isLoggedIn = true;
   }
+
+  toggleDropdown(): void {
+    this.dropdownVisible = !this.dropdownVisible;
+  }
+
   private openSingInWindow(): void {
     this.dialog.open(SignInNewComponent, {
       hasBackdrop: true,
@@ -81,8 +90,13 @@ export class HeaderNewComponent implements OnInit {
       panelClass: 'custom-dialog-container',
     });
   }
-  toggleDropdown(): void {
-    this.dropdownVisible = !this.dropdownVisible;
+
+  private openSignUpWindow(): void {
+    this.dialog.open(NewSignUpComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      panelClass: 'custom-dialog-container',
+    });
   }
 
   openDialog(): void {
@@ -104,7 +118,8 @@ export class HeaderNewComponent implements OnInit {
       console.log('The dialog was closed');
     });
   }
-  private signOut() {
+
+  private signOut(): void {
     this.dropdownVisible = false;
     this.isLoggedIn = false;
     this.localStorageService.clear();
