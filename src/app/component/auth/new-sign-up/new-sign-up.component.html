@@ -161,10 +161,12 @@
             </div>
           </div>
           <button type="submit"
-                  class="cta-button"
+                  class="primary-global-button"
                   [disabled]="!signUpForm.valid"
           >
-            <span *ngIf="loadingAnim"
+            <span [ngClass]="loadingAnim ?
+                  'spinner-visible' :
+                  'spinner-hidden'"
                   class="spinner-border spinner-border-sm"
                   role="status"
                   aria-hidden="true">

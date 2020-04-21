@@ -122,17 +122,19 @@ $sign-up-google-font: 'Roboto';
         visibility: visible;
       }
 
-      .cta-button {
+      .primary-global-button {
         margin-top: 28px;
-        padding: 16px 116px;
-        font-style: normal;
+        padding: 16px 116px 16px 100px;
         font-weight: 600;
-        font-size: 16px;
-        line-height: 16px;
-        color: #fff;
-        background: #13AA57;
-        border: none;
         border-radius: 3px;
+
+        .spinner-visible {
+          visibility: visible;
+        }
+
+        .spinner-hidden {
+          visibility: hidden;
+        }
       }
 
       .switch-sign-up {
