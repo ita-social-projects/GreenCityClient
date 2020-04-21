@@ -29,9 +29,9 @@ export interface TranslationDTO {
 }
 
 export interface NewsDTO {
-  imagePath: string;
   tags: Array<string>;
-  translations: Array<TranslationDTO>;
+  text: string;
+  title: string;
 }
 
 export interface NewsResponseDTO {

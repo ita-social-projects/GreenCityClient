@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from './../../../environments/environment';
 import { FormGroup } from '@angular/forms';
+import { FileHandle } from '../../component/eco-news/create-news/create-news-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +14,9 @@ export class CreateEcoNewsService {
   private currentLang: string;
   private url: string = environment.backendLink;
   private accessToken: string = localStorage.getItem('accessToken');
+  public files: FileHandle[] = [];
   private httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type':  'application/json',
       'Authorization': 'my-auth-token'
     })
   };
@@ -38,7 +39,6 @@ export class CreateEcoNewsService {
     imagePath: ""
   };
 
-
   constructor(private http: HttpClient) { }
 
   public getTranslationByLang(lang: string): NewsModel {
@@ -48,6 +48,7 @@ export class CreateEcoNewsService {
   public setTranslationByLang(language: string, translations: NewsModel): void {
     this.translations[language].text = translations.text;
     this.translations[language].title = translations.title;
+    console.log(this.files[0].file);
   }
 
   public getFormData(): FormGroup {
@@ -72,21 +73,21 @@ export class CreateEcoNewsService {
   }
 
   public sendFormData(form, language): Observable<NewsResponseDTO> {
-    const body: NewsDTO = {
-      "imagePath": form.value.source,
+    const body: any = {
       "tags": form.value.tags,
-      "translations": [
-        {
-          "language": {
-            "code": language
-          },
-          "text": form.value.content,
-          "title": form.value.title
-        }
-      ]
+      "text": form.value.content,
+      "title": form.value.title,
     };
+    let formData:FormData = new FormData();
+ 
+    formData.append('image', this.files[0].file, this.files[0].file.name);
+    formData.append('addEcoNewsDtoRequest', JSON.stringify(body));
+
+    console.log(JSON.stringify(body), this.files[0].file, this.files[0].file.name);
 
     this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
-    return this.http.post<NewsResponseDTO>(`${this.url}/econews`, body, this.httpOptions);
+    // this.httpOptions.headers.append('Content-Type', 'multipart/form-data;boundary='+Math.random());
+    // this.httpOptions.headers.append('Accept', 'application/json');
+    return this.http.post<NewsResponseDTO>(`${this.url}/econews`, formData, this.httpOptions);
   }
 }

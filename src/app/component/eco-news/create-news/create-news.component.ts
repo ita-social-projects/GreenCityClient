@@ -74,8 +74,8 @@ export class CreateNewsComponent implements OnInit {
       this.createNewsForm.value.tags.push(filter.name.toLowerCase());
     } else {
       this.removeFilters(filter);
-    }
-  }
+    };
+  };
 
   public removeFilters(filter: FilterModel): void {
     if ( filter.isActive ) {
@@ -83,10 +83,10 @@ export class CreateNewsComponent implements OnInit {
       this.createNewsForm.value.tags.forEach((item, index) => {
         if (item.toLowerCase() === filter.name.toLowerCase()) {
           this.createNewsForm.value.tags.splice(index, 1);
-        }
-      })
-    }
-  }
+        };
+      });
+    };
+  };
 
   public bindFormValue(): void {
     const translationData = this.createEcoNewsService.getTranslationByLang(this.activeLanguage);
