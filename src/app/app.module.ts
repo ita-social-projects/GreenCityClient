@@ -104,6 +104,7 @@ import { CoreModule } from './component/core/core.module';
 import { EcoNewsModule } from './component/eco-news/eco-news.module';
 import { AuthModule } from './component/auth/auth.module';
 import { MapModule } from './component/map/map.module';
+import { NewFooterComponent } from './component/core/new-footer/new-footer.component';
 
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
@@ -171,7 +172,8 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     EcoEventsComponent,
     TipsListComponent,
     TipsCardComponent,
-    InputcolorDirective
+    InputcolorDirective,
+    NewFooterComponent
   ],
   imports: [
     MatDialogModule,
