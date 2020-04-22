@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { CreateEcoNewsService } from '../../../service/eco-news/create-eco-news.service';
 import { FilterModel, LanguageModel, NewsResponseDTO } from './create-news-interface';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,7 +15,7 @@ export class CreateNewsComponent implements OnInit {
   public isPosting: boolean = false;
 
   public createNewsForm = this.fb.group({
-    title: ['', [Validators.required, Validators.maxLength(170)]],
+    title: ['', [Validators.required, Validators.maxLength(170), this.noWhitespaceValidator]],
     source: [''],
     content: ['', [Validators.required, Validators.minLength(20)]],
     tags: this.fb.array([])
@@ -72,6 +72,12 @@ export class CreateNewsComponent implements OnInit {
         this.router.navigate(['/news']);
       }
     );
+  }
+
+  public noWhitespaceValidator(control: FormControl) {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : { 'whitespace': true };
   }
 
   public addFilters(filter: FilterModel): void {
