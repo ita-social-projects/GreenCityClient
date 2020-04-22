@@ -10,10 +10,17 @@ import { ecoNewsIcons } from 'src/assets/img/icon/econews/profile-icons';
 export class NewsListGalleryViewComponent implements OnInit {
   @Input() ecoNewsModel: EcoNewsModel;
 
-  profileIcons = ecoNewsIcons;
-  defaultPicture = ecoNewsIcons;
+  private profileIcons = ecoNewsIcons;
+  private newsText: string;
 
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.textValidationOfMinCharacters();
+  }
+
+  private textValidationOfMinCharacters(): string {
+    return this.newsText = (this.ecoNewsModel.text.length > 20) ?
+      ((this.ecoNewsModel.text).slice(0, 197) + '...') : (this.ecoNewsModel.text);
+  }
 }

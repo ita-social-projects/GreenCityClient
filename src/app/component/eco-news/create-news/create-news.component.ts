@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { CreateEcoNewsService } from '../../../service/eco-news/create-eco-news.service';
 import { FilterModel, LanguageModel, NewsResponseDTO } from './create-news-interface';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateNewsCancelComponent } from './create-news-cancel/create-news-cancel.component';
 
 @Component({
   selector: 'app-create-news',
@@ -41,7 +43,8 @@ export class CreateNewsComponent implements OnInit {
 
   constructor(private router: Router,
               private fb: FormBuilder,
-              private createEcoNewsService: CreateEcoNewsService) {}
+              private createEcoNewsService: CreateEcoNewsService,
+              private dialog: MatDialog) {}
 
   ngOnInit() {
     this.link = this.preparedLink;
@@ -112,5 +115,14 @@ export class CreateNewsComponent implements OnInit {
     this.createEcoNewsService.setForm(this.createNewsForm);
     this.createEcoNewsService.setLang(this.activeLanguage);
     this.navigateByUrl('create-news/preview');
+  }
+
+  private openCancelPopup(): void {
+    this.dialog.open(CreateNewsCancelComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: 'custom-dialog-container',
+    });
   }
 }

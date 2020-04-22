@@ -18,6 +18,7 @@ import { NewsPreviewPageComponent } from './news-preview-page/news-preview-page.
 import { PostNewsLoaderComponent } from './post-news-loader/post-news-loader.component';
 import { DragAndDropComponent } from './create-news/drag-and-drop/drag-and-drop.component';
 import { DragAndDropDirective } from 'src/app/directives/drag-and-drop.directive';
+import { CreateNewsCancelComponent } from './create-news/create-news-cancel/create-news-cancel.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { DragAndDropDirective } from 'src/app/directives/drag-and-drop.directive
     PostNewsLoaderComponent,
     DragAndDropComponent,
     DragAndDropDirective,
+    CreateNewsCancelComponent
   ],
   imports: [
     CommonModule,
@@ -42,6 +44,7 @@ import { DragAndDropDirective } from 'src/app/directives/drag-and-drop.directive
     CoreModule,
     EcoNewsRoutingModule,
   ],
+  entryComponents: [CreateNewsCancelComponent],
   providers: []
 })
 
