@@ -21,12 +21,24 @@
     font-family: 'Open Sans';
 }
 
+.red {
+    color: red;
+}
+
+.red-background {
+    background-color: #FEF2F1;
+}
+
 .centered {
     span {
         color: #13AA57;
         text-decoration: underline;
         cursor: pointer;
     } 
+}
+
+.warning {
+    font-size: 12px;
 }
 
 img {

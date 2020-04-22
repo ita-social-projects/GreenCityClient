@@ -41,6 +41,7 @@ export class CreateNewsComponent implements OnInit {
   private preparedLink: string = preparedImageForCreateEcoNews;
   private date: Date = new Date();
   public isFilterValidation: boolean = false;
+  public isLink: boolean = false;
 
   constructor(private router: Router,
               private fb: FormBuilder,
@@ -58,8 +59,14 @@ export class CreateNewsComponent implements OnInit {
 
   public onSourceChange(): void {
     this.createNewsForm.get('source').valueChanges.subscribe(source => {
-      this.link = !source ? this.preparedLink : source;
+      //this.link = !source ? this.preparedLink : source;
+      if(source.startsWith('http://') || source.startsWith('https://')) {
+        this.isLink = false;
+      } else {
+        this.isLink = true;
+      }
     });
+    
   }
 
   public onSubmit(): void {

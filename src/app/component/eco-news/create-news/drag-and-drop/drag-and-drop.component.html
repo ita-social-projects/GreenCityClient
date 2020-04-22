@@ -8,7 +8,27 @@
 </div>
 <div *ngFor="let file of files">
   <img 
-	*ngIf="file"
+	*ngIf="file && 
+	file.file.size < 10485760 && 
+	(file.file.type === 'image/jpeg' || file.file.type === 'image/png'); 
+	else elseBlock" 
 	[src]="file.url" 
 	appDragAndDrop (files)="filesDropped($event)">
 </div>
+<span 
+	class="warning"
+	[ngClass]="{
+	'red':isWarning
+}">Download PNG or JPG only. File size should be less than 10MB</span>
+<ng-template #elseBlock>
+	<div 	 
+		class="dropzone red-background" 
+		appDragAndDrop (files)="filesDropped($event)">
+		<div class="text-wrapper">
+			<div class="centered">
+				<p>Image didn't uploaded.</p>
+				<p>Drop your image here or <span>browse</span></p>
+			</div>
+		</div>
+	</div>
+</ng-template>

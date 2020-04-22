@@ -48,7 +48,6 @@ export class CreateEcoNewsService {
   public setTranslationByLang(language: string, translations: NewsModel): void {
     this.translations[language].text = translations.text;
     this.translations[language].title = translations.title;
-    console.log(this.files[0].file);
   }
 
   public getFormData(): FormGroup {
