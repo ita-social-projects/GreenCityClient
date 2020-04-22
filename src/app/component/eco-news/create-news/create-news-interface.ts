@@ -4,7 +4,7 @@ export interface NewsModel {
     text: string;
     title: string;
   }
-  
+
 export interface FilterModel {
   name: string;
   isActive: boolean;
@@ -45,6 +45,6 @@ export interface NewsResponseDTO {
 }
 
 export interface FileHandle {
-  file: File,
-  url: SafeUrl
+  file: File;
+  url: SafeUrl;
 }
