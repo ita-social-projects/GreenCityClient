@@ -2,7 +2,11 @@
   <div class="main-container">
     <div class="header" >
       <div class="logo">
-        <a href="#">
+        <a [routerLink]="['/welcome']"
+           routerLinkActive="active-link"
+           [routerLinkActiveOptions]="{ exact: true }"
+           pageScroll
+           href="#header">
           <picture>
           <source media="(max-width: 576px)"
                   srcset="assets/img/logo_S.png">
@@ -14,15 +18,6 @@
       <div class="navigation-menu">
                   <div [ngClass]="onToggleBurgerMenu ? 'navigation-menu-left-col' : 'navigation-menu-left'">
                       <ul>
-                        <li>
-                          <a [routerLink]="['/welcome']"
-                             routerLinkActive="active-link"
-                             [routerLinkActiveOptions]="{ exact: true }"
-                             pageScroll
-                             href="#header">
-                            {{ 'user.lower-nav-bar.home' | translate }}
-                          </a>
-                        </li>
                         <li>
                           <a [routerLink]="['/news']"
                              pageScroll
@@ -60,6 +55,7 @@
                             {{ 'user.lower-nav-bar.about-us' | translate }}
                           </a>
                         </li>
+                        <li></li>
                         <div *ngIf="!isLoggedIn; then userLoggedInSmall else userNotLoggerInSmall"></div>
                         <ng-template #userLoggedInSmall>
                         <li class="mobile-vis">
