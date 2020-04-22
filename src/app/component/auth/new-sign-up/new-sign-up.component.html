@@ -49,7 +49,7 @@
           >
           <div class="error-message"
                [ngClass]="emailControl.invalid &&
-               (emailControl.dirty || emailControl.touched) ?
+               (emailControl.dirty || emailControl.touched) || emailErrorMessageBackEnd ?
                'error-message-show':'error-message'"
           >
             <div *ngIf="emailControl.errors?.required">
@@ -60,6 +60,9 @@
             </div>
             <div *ngIf="emailControl.errors?.email">
               {{'user.auth.sign-up.this-is-not-email' | translate}}
+            </div>
+            <div *ngIf="emailErrorMessageBackEnd">
+              {{ emailErrorMessageBackEnd }}
             </div>
           </div>
           <label class="content-label under-error">
@@ -156,7 +159,7 @@
             >
               {{'user.auth.sign-up.password-match' | translate}}
             </div>
-            <div *ngIf="passwordErrorMessageBackEnd">
+            <div *ngIf="passwordErrorMessageBackEnd" >
               {{ passwordErrorMessageBackEnd }}
             </div>
           </div>
