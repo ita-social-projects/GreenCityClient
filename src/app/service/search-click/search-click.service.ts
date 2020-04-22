@@ -4,10 +4,10 @@ import { EventEmitter, Injectable, Output } from '@angular/core';
   providedIn: 'root'
 })
 export class SearchClickService {
-  public emitter: EventEmitter<boolean> = new EventEmitter();
+  public openSearchEmitter: EventEmitter<boolean> = new EventEmitter();
 
   public signal() {
-    this.emitter.emit(true);
+    this.openSearchEmitter.emit(true);
   }
 
   constructor() { }

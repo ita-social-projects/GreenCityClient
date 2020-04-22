@@ -1,29 +1,36 @@
 <div id="list-gallery-content">
   <div class="filter-tag">
-    <div class="ul-eco-buttons">
-      tag
+    <div class="ul-eco-buttons"     >
+      <!--         *ngFor="let tag of ecoNewsModel.tags"-->
+      <!--      {{ tag }}-->tag
     </div>
   </div>
   <div class="title-list">
     <a>
       <p>
+        <!--      {{ ecoNewsModel.title | slice: 0:170 }}-->
         In Ukraine, every person uses more than 500 disposable bags and about 70 paper cups every year.
         It is enough.
       </p>
     </a>
   </div>
+  <!--  <div class="list-text">-->
+  <!--    <p>-->
+  <!--      {{ ecoNewsModel.text | slice: 0:200 }}-->
+  <!--    </p>-->
+  <!--  </div>-->
   <div class="user-data-added-news">
     <p class="user-data-text-date-share">
       <img class="icon"
            [src]="profileIcons.calendarIcon"
            alt="calendar icon" />
-            Jan 30, 2020
+      <!--      {{ ecoNewsModel.creationDate | date}}-->Jan 30, 2020
     </p>
     <p class="user-data-text-date-share">
       <img class="icon"
            [src]="profileIcons.userIcon"
            alt="user icon" />
-            Risu Smith
+      <!--      {{ ecoNewsModel.author.firstName }} {{ ecoNewsModel.author.lastName}}-->Risu Smith
     </p>
   </div>
 </div>

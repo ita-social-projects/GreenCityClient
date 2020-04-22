@@ -4,47 +4,51 @@
       <input class = "search-field"
              type="text"
              placeholder="Search">
-    <div class="close-icon" (click)="closeSearch()"></div>
+    <div class="close-icon"
+         (click)="closeSearch()"></div>
   </div>
 
-  <div class="search-content-wrapper">
-    <div class="remaining-items">
-      34 items found
+  <div class="page-wrapper">
+    <div class="search-content-wrapper">
+      <div class="remaining-items">
+        34 items found
+      </div>
+      <ng-template [ngIf]="isSearchFound">
+        <div class="content-news">
+          <a [routerLink]="['/news']"
+             (click)="closeSearch()">
+            <h3>News</h3>
+          </a>
+          <div class="flex-container">
+            <app-search-item></app-search-item>
+            <app-search-item></app-search-item>
+          </div>
+        </div>
+
+        <div class="content-tips">
+          <a [routerLink]="['/welcome']"
+             pageScroll
+             href="#tips"
+             [pageScrollDuration]="500"
+             (click)="closeSearch()">
+            <h3>Tips & Tricks</h3>
+          </a>
+          <div class="flex-container">
+            <app-search-item></app-search-item>
+            <app-search-item></app-search-item>
+          </div>
+        </div>
+
+        <a class="all-results-link">
+          See all results
+        </a>
+      </ng-template>
+
+      <ng-template [ngIf]="!isSearchFound">
+        <app-search-not-found (closeFromChild)="closeSearch()"></app-search-not-found>
+      </ng-template>
     </div>
-    <ng-template [ngIf]="isSearchFound">
-      <div class="content-news">
-        <a [routerLink]="['/news']"
-           (click)="closeSearch()">
-          <h3>News</h3>
-        </a>
-        <div class="flex-container">
-          <app-search-item></app-search-item>
-          <app-search-item></app-search-item>
-        </div>
-      </div>
-
-      <div class="content-tips">
-        <a [routerLink]="['/welcome']"
-           pageScroll
-           href="#tips"
-           [pageScrollDuration]="500"
-           (click)="closeSearch()">
-          <h3>Tips & Tricks</h3>
-        </a>
-        <div class="flex-container">
-          <app-search-item></app-search-item>
-          <app-search-item></app-search-item>
-        </div>
-      </div>
-
-      <a class="all-results-link">
-        See all results
-      </a>
-    </ng-template>
-
-    <ng-template [ngIf]="!isSearchFound">
-      <app-search-not-found (closeFromChild)="closeSearch()"></app-search-not-found>
-    </ng-template>
+    <div class="overlay"
+         (click)="closeSearch()"></div>
   </div>
-  <div class="overlay" (click)="closeSearch()"></div>
 </ng-template>

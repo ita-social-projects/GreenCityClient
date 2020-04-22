@@ -9,7 +9,7 @@ export class SearchNotFoundComponent implements OnInit {
   @Output() closeFromChild = new EventEmitter();
 
   private emitClose(): void {
-    this.closeFromChild.emit('1');
+    this.closeFromChild.emit(true);
   }
 
   constructor() { }
