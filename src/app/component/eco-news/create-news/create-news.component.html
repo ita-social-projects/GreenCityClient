@@ -42,7 +42,7 @@
                                 }">{{ filter.name }}</button>
                     </div>
                     <label>
-                        <h3>Source(optional)</h3>
+                        <h3>Source (optional)</h3>
                         <input type="text"
                                placeholder="link to external source"
                                formControlName="source">
@@ -50,7 +50,9 @@
                     </label>
                 </div>
                 <div class="right-form-column">
-                    <img [src]="link" alt="preapred image">
+                    <h3>Picture (optional)</h3>
+                    <app-drag-and-drop></app-drag-and-drop>
+                    <span>Download PNG or JPG only. File size should be less than 10MB</span>
                 </div>
             </div>
             <div class="textarea-wrapper">

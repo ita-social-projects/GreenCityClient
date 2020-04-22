@@ -106,7 +106,6 @@ import { AuthModule } from './component/auth/auth.module';
 import { MapModule } from './component/map/map.module';
 import { NewFooterComponent } from './component/core/new-footer/new-footer.component';
 
-
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
   slidesPerView: 'auto'
