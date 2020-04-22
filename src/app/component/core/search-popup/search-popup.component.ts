@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {SearchClickService} from '../../../service/search-click/search-click.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { SearchClickService } from '../../../service/search-click/search-click.service';
 
 @Component({
   selector: 'app-search-popup',

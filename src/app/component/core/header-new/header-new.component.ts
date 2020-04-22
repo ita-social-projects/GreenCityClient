@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ModalService } from '../_modal/modal.service';
 import { MatDialog } from '@angular/material';
 import { FavoritePlaceComponent } from '../../map/favorite-place/favorite-place.component';
@@ -14,7 +14,7 @@ import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-sta
 import { filter } from 'rxjs/operators';
 import { LanguageService } from '../../../i18n/language.service';
 import { Language } from '../../../i18n/Language';
-import {SearchClickService} from '../../../service/search-click/search-click.service';
+import { SearchClickService } from '../../../service/search-click/search-click.service';
 
 @Component({
   selector: 'app-header-new',
@@ -43,11 +43,10 @@ export class HeaderNewComponent implements OnInit {
               private achievementService: AchievementService,
               private habitStatisticService: HabitStatisticService,
               private languageService: LanguageService,
-              private clickSearch: SearchClickService) {
-    this.clickSearch.emitter.subscribe(signal => this.isSearchClicked = signal);
-  }
+              private clickSearch: SearchClickService) {}
 
   ngOnInit() {
+    this.clickSearch.emitter.subscribe(signal => this.isSearchClicked = signal);
     this.dropdownVisible = false;
     this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => this.firstName = firstName);
     this.localStorageService.userIdBehaviourSubject
