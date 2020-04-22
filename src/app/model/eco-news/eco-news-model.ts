@@ -5,8 +5,7 @@ export interface EcoNewsModel {
     text: string;
     author: {
         id: number;
-        firstName: string;
-        lastName: string;
+        name: string;
     };
     tags: Array<string>;
     creationDate: string;

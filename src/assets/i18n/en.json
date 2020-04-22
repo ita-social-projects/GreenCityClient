@@ -511,5 +511,11 @@
   "post-news-loader": {
     "text-1": "Please wait while loading...",
     "text-2": "Your news is loading to the website. Please wait until the page refreshes"
+  },
+  "cancel-popup": {
+    "title": "All created content will be lost.",
+    "subtitle": "Do you still want to cancel news creating?",
+    "continue": "Continue editing",
+    "cancel": "Yes, cancel"
   }
 }
