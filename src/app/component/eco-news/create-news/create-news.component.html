@@ -6,13 +6,6 @@
     <div class="title">
         <h2>Create news</h2>
     </div>
-    <div class="language-choise">
-        <span (click)="changeLanguage(language)"
-               *ngFor="let language of languages"
-               [ngClass]="{
-                   active: language.lang === activeLanguage
-                }">{{ language.name }}</span>
-    </div>
     <div class="form-description">
         <p>
             This news will be posted in English. Please create copies
