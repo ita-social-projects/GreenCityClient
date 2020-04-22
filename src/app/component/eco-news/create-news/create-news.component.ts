@@ -38,6 +38,7 @@ export class CreateNewsComponent implements OnInit {
   public link: string;
   private preparedLink: string = preparedImageForCreateEcoNews;
   private date: Date = new Date();
+  public isFilterValidation: boolean = false;
 
   constructor(private router: Router,
               private fb: FormBuilder,
@@ -72,6 +73,7 @@ export class CreateNewsComponent implements OnInit {
     if ( !filter.isActive ) {
       filter.isActive = true;
       this.createNewsForm.value.tags.push(filter.name.toLowerCase());
+      this.filtersValidation(filter);
     } else {
       this.removeFilters(filter);
     };
@@ -83,8 +85,18 @@ export class CreateNewsComponent implements OnInit {
       this.createNewsForm.value.tags.forEach((item, index) => {
         if (item.toLowerCase() === filter.name.toLowerCase()) {
           this.createNewsForm.value.tags.splice(index, 1);
+          this.filtersValidation(filter);
         };
       });
+    };
+  };
+
+  public filtersValidation(filter: FilterModel): void {
+    if ( this.createNewsForm.value.tags.length > 3) {
+      this.isFilterValidation = true;
+      setTimeout(() => this.isFilterValidation = false, 3000);
+      this.createNewsForm.value.tags.splice(3,1);
+      filter.isActive = false;
     };
   };
 
