@@ -65,22 +65,21 @@
                           formControlName="content"></textarea>
                 <p class="textarea-description">Should contain minimum 20 symbols</p>
             </div>
-        <div class="date">
-            <p><b>Date: </b><span>{{date | date: 'longDate'}}</span></p>
-            <p><b>Author: </b><span>Current User</span></p>
-        </div>
-        <div class="submit-buttons">
-            <button
-                type="button"
-                (click)="navigateByUrl('/news')">Cancel</button>
-            <button type="button"
-                    (click)="goToPreview()"
-            >
-              Preview
-            </button>
-            <button type="submit" [disabled]="!createNewsForm.valid">Publish</button>
-        </div>
-    </form>
-    <app-footer></app-footer>
-</div>
+            <div class="date">
+                <p><b>Date: </b><span>{{date | date: 'longDate'}}</span></p>
+                <p><b>Author: </b><span>Current User</span></p>
+            </div>
+            <div class="submit-buttons">
+                <button
+                    type="button"
+                    (click)="openCancelPopup()">Cancel</button>
+                <button type="button"
+                        (click)="goToPreview()"
+                >
+                  Preview
+                </button>
+                <button type="submit" [disabled]="!createNewsForm.valid">Publish</button>
+            </div>
+        </form>
+    </div>
 </div>
