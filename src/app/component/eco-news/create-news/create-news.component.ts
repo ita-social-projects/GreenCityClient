@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { preparedImageForCreateEcoNews } from '../../../links';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { CreateEcoNewsService } from '../../../service/eco-news/create-eco-news.service';
@@ -37,8 +36,6 @@ export class CreateNewsComponent implements OnInit {
   ];
 
   public activeLanguage: string = 'en';
-  public link: string;
-  private preparedLink: string = preparedImageForCreateEcoNews;
   private date: Date = new Date();
   public isFilterValidation: boolean = false;
   public isLink: boolean = false;
@@ -49,7 +46,6 @@ export class CreateNewsComponent implements OnInit {
               private dialog: MatDialog) {}
 
   ngOnInit() {
-    this.link = this.preparedLink;
     this.onSourceChange();
   }
 
@@ -59,7 +55,6 @@ export class CreateNewsComponent implements OnInit {
 
   public onSourceChange(): void {
     this.createNewsForm.get('source').valueChanges.subscribe(source => {
-      //this.link = !source ? this.preparedLink : source;
       if(source.startsWith('http://') || source.startsWith('https://')) {
         this.isLink = false;
       } else {
