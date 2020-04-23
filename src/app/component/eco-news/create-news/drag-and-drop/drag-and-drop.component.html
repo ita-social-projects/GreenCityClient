@@ -8,10 +8,7 @@
 </div>
 <div *ngFor="let file of files">
   <img 
-	*ngIf="file && 
-	file.file.size < 10485760 && 
-	(file.file.type === 'image/jpeg' || file.file.type === 'image/png'); 
-	else elseBlock" 
+	*ngIf="!isWarning; else elseBlock" 
 	[src]="file.url" 
 	appDragAndDrop (files)="filesDropped($event)">
 </div>

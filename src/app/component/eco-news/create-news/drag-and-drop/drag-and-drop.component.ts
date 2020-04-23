@@ -17,6 +17,10 @@ export class DragAndDropComponent implements OnInit {
   public filesDropped(files: FileHandle[]): void {
     this.files = files;
     this.ecoNewsService.files = files;
+    this.showWarning();
+  }
+
+  public showWarning(){
     this.files.forEach(file => {
       if (file &&
         file.file.size < 10485760 && 

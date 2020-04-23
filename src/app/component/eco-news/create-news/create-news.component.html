@@ -37,14 +37,10 @@
                         <button *ngFor="let filter of filters"
                                 (click)="addFilters(filter)"
                                 type="button"
-                                [ngClass]="{
-                                    'filters-color': filter.isActive
-                                }"
+                                [ngClass]="{'filters-color': filter.isActive}"
                                 >
                                 {{ filter.name }}</button>
-                                <p [ngClass]="{
-                                    'warning': isFilterValidation
-                                }"
+                                <p [ngClass]="{ 'warning': isFilterValidation}"
                                 >
                                 Only 3 tags can be added</p>
                     </div>
@@ -53,9 +49,7 @@
                         <input type="text"
                                placeholder="link to external source"
                                formControlName="source">
-                        <span [ngClass]="{
-                            'warning':isLink
-                        }"
+                        <span [ngClass]="{'warning':isLink}"
                         >
                         Please add the link of original article/news/post. Link should contain https://</span>
                     </label>
