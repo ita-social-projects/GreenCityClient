@@ -39,10 +39,14 @@
                                 type="button"
                                 [ngClass]="{
                                     'filters-color': filter.isActive
-                                }">{{ filter.name }}</button>
+                                }"
+                                >
+                                {{ filter.name }}</button>
                                 <p [ngClass]="{
-                                    'red': isFilterValidation
-                                }">Only 3 tags can be added</p>
+                                    'warning': isFilterValidation
+                                }"
+                                >
+                                Only 3 tags can be added</p>
                     </div>
                     <label>
                         <h3>Source (optional)</h3>
