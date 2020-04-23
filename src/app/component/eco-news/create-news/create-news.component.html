@@ -39,10 +39,14 @@
                                 type="button"
                                 [ngClass]="{
                                     'filters-color': filter.isActive
-                                }">{{ filter.name }}</button>
+                                }"
+                                >
+                                {{ filter.name }}</button>
                                 <p [ngClass]="{
-                                    'red': isFilterValidation
-                                }">Only 3 tags can be added</p>
+                                    'warning': isFilterValidation
+                                }"
+                                >
+                                Only 3 tags can be added</p>
                     </div>
                     <label>
                         <h3>Source (optional)</h3>
@@ -50,8 +54,10 @@
                                placeholder="link to external source"
                                formControlName="source">
                         <span [ngClass]="{
-                            'red':isLink
-                        }">Please add the link of original article/news/post. Link should contain https://</span>
+                            'warning':isLink
+                        }"
+                        >
+                        Please add the link of original article/news/post. Link should contain https://</span>
                     </label>
                 </div>
                 <div class="right-form-column">

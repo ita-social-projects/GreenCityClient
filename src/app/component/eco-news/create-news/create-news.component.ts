@@ -75,8 +75,8 @@ export class CreateNewsComponent implements OnInit {
   }
 
   public noWhitespaceValidator(control: FormControl) {
-    const isWhitespace = (control.value || '').trim().length === 0;
-    const isValid = !isWhitespace;
+    const isWhiteSpace = (control.value || '').trim().length === 0;
+    const isValid = !isWhiteSpace;
     return isValid ? null : { 'whitespace': true };
   }
 

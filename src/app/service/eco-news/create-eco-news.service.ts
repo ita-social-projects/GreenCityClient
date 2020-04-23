@@ -82,11 +82,7 @@ export class CreateEcoNewsService {
     formData.append('image', this.files[0].file, this.files[0].file.name);
     formData.append('addEcoNewsDtoRequest', JSON.stringify(body));
 
-    console.log(JSON.stringify(body), this.files[0].file, this.files[0].file.name);
-
     this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
-    // this.httpOptions.headers.append('Content-Type', 'multipart/form-data;boundary='+Math.random());
-    // this.httpOptions.headers.append('Accept', 'application/json');
     return this.http.post<NewsResponseDTO>(`${this.url}/econews`, formData, this.httpOptions);
   }
 }
