@@ -37,14 +37,10 @@
                         <button *ngFor="let filter of filters"
                                 (click)="addFilters(filter)"
                                 type="button"
-                                [ngClass]="{
-                                    'filters-color': filter.isActive
-                                }"
+                                [ngClass]="{'filters-color': filter.isActive}"
                                 >
                                 {{ filter.name }}</button>
-                                <p [ngClass]="{
-                                    'warning': isFilterValidation
-                                }"
+                                <p [ngClass]="{'warning': isFilterValidation}"
                                 >
                                 Only 3 tags can be added</p>
                     </div>
