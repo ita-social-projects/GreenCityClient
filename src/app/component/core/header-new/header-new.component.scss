@@ -2,7 +2,7 @@ $first-font-color:#494A49;
 $secondary-font-color:#13AA57;
 $hr-color:#E6E6E6;
 $screen-576: " screen and (max-width : 576px)";
-$screen-920: " screen and (max-width : 920px)";
+$screen-920: " screen and (max-width : 992px)";
 $screen-320: " screen and (max-width : 320px)";
 
 .main{
@@ -153,7 +153,9 @@ $screen-320: " screen and (max-width : 320px)";
 
         .navigation-menu-left-col ul .mobile-vis .create-button {
           cursor: pointer;
-          width: 91px;
+          width: auto;
+          min-width: 91px;
+          padding: 0 4px 0;
           height: 32px;
           display: flex;
           align-items: center;
@@ -168,8 +170,7 @@ $screen-320: " screen and (max-width : 320px)";
         }
 
         .navigation-menu-right {
-          width: 100%;
-          max-width: 273px;
+          width: auto;
         }
 
         .navigation-menu-right ul {
@@ -183,13 +184,16 @@ $screen-320: " screen and (max-width : 320px)";
             display: none;
           }
 
-          li {
+        & > li {
             list-style-type: none;
-            margin-left: 5px;
+
+            &:not(:last-child) {
+              margin-right: 20px;
+            }
           }
 
-          .language-switcher {
-            width: 27px;
+              .language-switcher {
+            width: 33px;
             cursor: pointer;
             outline: none;
             appearance: none;
@@ -228,7 +232,9 @@ $screen-320: " screen and (max-width : 320px)";
 
             .create-button {
               cursor: pointer;
-              width: 91px;
+              width: auto;
+              min-width: 86px;
+              padding: 0 4px 0;
               height: 32px;
               display: flex;
               align-items: center;
@@ -261,15 +267,17 @@ $screen-320: " screen and (max-width : 320px)";
       position: relative;
       width: 24px;
       height: 2px;
+      border-radius: 14px;
       background-color: #494A49;
 
       &:before {
         position: absolute;
         left: 0;
-        top: -10px;
+        top: -6px;
         content: '';
         width: 24px;
         height: 2px;
+        border-radius: 14px;
         background-color: #494A49;
         transition: transform 0.2s ease-in, top 0.2s linear 0.2s;
       }
@@ -277,10 +285,11 @@ $screen-320: " screen and (max-width : 320px)";
       &:after {
         position: absolute;
         left: 0;
-        top: 10px;
+        top: 6px;
         content: '';
         width: 24px;
         height: 2px;
+        border-radius: 14px;
         background-color: #494A49;
         transition: transform 0.2s ease-in, top 0.2s linear 0.2s;
       }
@@ -306,7 +315,7 @@ $screen-320: " screen and (max-width : 320px)";
 
 #user-avatar-wrapper {
   position: relative;
-  width: 135px;
+  width: 155px;
   height: 36px;
 
   ul {
@@ -322,9 +331,12 @@ $screen-320: " screen and (max-width : 320px)";
       height: 30px;
       font-size: 14px;
       line-height: 16px;
+      margin: 0 0 3px 0;
+      padding: 0 10px 0;
 
       &:first-of-type {
         color: #056B33;
+        font-size: 12px;
 
         .reverse {
           transform: rotate(180deg);
@@ -341,6 +353,7 @@ $screen-320: " screen and (max-width : 320px)";
 
   .add-shadow {
     box-shadow: 0 0 8px rgba(73, 74, 73, 0.2);
+    height: 176px;
   }
 }
 

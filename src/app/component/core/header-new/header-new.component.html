@@ -86,7 +86,7 @@
                         <li class="mobile-vis"
                             *ngIf="!isLoggedIn">
                           <div class="create-button secondary-global-button">
-                            <span (click)="openSignUpWindow()">Sign up</span>
+                            <span (click)="openSignUpWindow()">{{ "top-bar.sign-up" | translate }}</span>
                           </div>
                         </li>
                       </ul>
@@ -160,7 +160,7 @@
               [class.destroy]="onToggleBurgerMenu"
               *ngIf="!isLoggedIn">
             <div class="create-button secondary-global-button">
-            <span (click)="openSignUpWindow()">Sign up</span>
+            <span (click)="openSignUpWindow()">{{ "top-bar.sign-up" | translate }}</span>
           </div>
           </li>
     <li class="burger-b">
