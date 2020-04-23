@@ -17,10 +17,14 @@ export class DragAndDropComponent implements OnInit {
   public filesDropped(files: FileHandle[]): void {
     this.files = files;
     this.ecoNewsService.files = files;
-    this.files.forEach(file => {
-      if (file &&
-        file.file.size < 10485760 && 
-        (file.file.type === 'image/jpeg' || file.file.type === 'image/png')) {
+    this.showWarning();
+  }
+
+  public showWarning(): void {
+    this.files.forEach(item => {
+      if (item &&
+        item.file.size < 10485760 && 
+        (item.file.type === 'image/jpeg' || item.file.type === 'image/png')) {
         this.isWarning = false;
       } else {
         this.isWarning = true;
