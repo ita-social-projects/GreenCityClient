@@ -1,8 +1,10 @@
+import { SafeUrl } from '@angular/platform-browser';
+
 export interface NewsModel {
     text: string;
     title: string;
   }
-  
+
 export interface FilterModel {
   name: string;
   isActive: boolean;
@@ -40,4 +42,9 @@ export interface NewsResponseDTO {
   creationDate: string;
   imagePath: string;
   tags: Array<string>;
+}
+
+export interface FileHandle {
+  file: File;
+  url: SafeUrl;
 }

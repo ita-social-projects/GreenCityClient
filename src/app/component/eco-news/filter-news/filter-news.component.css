@@ -27,6 +27,7 @@
     border: 1px solid #666666;
     border-radius: 25px;
     margin:0 8px 8px 0;
+    text-transform: capitalize;
 }
 
 .ul-eco-buttons a:hover .ul-eco-buttons-li {
@@ -46,6 +47,7 @@
     padding: 8px 16px;
     border-radius: 25px;
     margin-right: 8px;
+    text-transform: capitalize;
 }
 
 .clicked-filter-button:hover {

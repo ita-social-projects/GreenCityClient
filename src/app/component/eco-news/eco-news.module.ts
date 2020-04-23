@@ -16,6 +16,8 @@ import { ChangeViewButtonComponent } from './news-list/change-view-button/change
 import { EcoNewsRoutingModule } from './eco-news-routing.module';
 import { NewsPreviewPageComponent } from './news-preview-page/news-preview-page.component';
 import { PostNewsLoaderComponent } from './post-news-loader/post-news-loader.component';
+import { DragAndDropComponent } from './create-news/drag-and-drop/drag-and-drop.component';
+import { DragAndDropDirective } from 'src/app/directives/drag-and-drop.directive';
 import { CreateNewsCancelComponent } from './create-news/create-news-cancel/create-news-cancel.component';
 
 @NgModule({
@@ -32,13 +34,15 @@ import { CreateNewsCancelComponent } from './create-news/create-news-cancel/crea
     EcoNewsDetailComponent,
     NewsPreviewPageComponent,
     PostNewsLoaderComponent,
+    DragAndDropComponent,
+    DragAndDropDirective,
     CreateNewsCancelComponent
   ],
   imports: [
     CommonModule,
     InfiniteScrollModule,
     CoreModule,
-    EcoNewsRoutingModule
+    EcoNewsRoutingModule,
   ],
   entryComponents: [CreateNewsCancelComponent],
   providers: []

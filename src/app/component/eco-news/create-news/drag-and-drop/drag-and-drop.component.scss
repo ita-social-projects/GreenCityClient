@@ -1,0 +1,35 @@
+.dropzone {
+    height: 231px;
+    width: 436px !important; 
+    display: table;
+    width: 100%;
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23333' stroke-width='1' stroke-dasharray='10' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+}
+
+.text-wrapper {
+    height: 231px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.centered {
+    font-size: 1.3em;
+    font-size: 18px;
+    text-align: center;
+    width: 200px;
+    font-family: 'Open Sans';
+}
+
+.centered {
+    span {
+        color: #13AA57;
+        text-decoration: underline;
+        cursor: pointer;
+    } 
+}
+
+img {
+    width: 436px;
+    height: 231px;
+}
