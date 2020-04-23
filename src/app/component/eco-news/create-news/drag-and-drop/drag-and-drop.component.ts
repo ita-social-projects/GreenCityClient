@@ -21,10 +21,10 @@ export class DragAndDropComponent implements OnInit {
   }
 
   public showWarning(){
-    this.files.forEach(file => {
-      if (file &&
-        file.file.size < 10485760 && 
-        (file.file.type === 'image/jpeg' || file.file.type === 'image/png')) {
+    this.files.forEach(item => {
+      if (item &&
+        item.file.size < 10485760 && 
+        (item.file.type === 'image/jpeg' || item.file.type === 'image/png')) {
         this.isWarning = false;
       } else {
         this.isWarning = true;
