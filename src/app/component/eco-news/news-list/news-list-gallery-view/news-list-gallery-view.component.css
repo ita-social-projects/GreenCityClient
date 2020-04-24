@@ -34,6 +34,7 @@ div {
   border-radius: 25px;
   margin-right: 16px;
   margin-bottom: 8px;
+  text-transform: capitalize;
 }
 
 .title-list {
