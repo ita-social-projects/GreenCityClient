@@ -30,12 +30,6 @@ export class CreateNewsComponent implements OnInit {
     {name: 'Ads', isActive: false}
   ];
 
-  public languages: Array<LanguageModel> = [
-    {name: 'Ukrainian', lang: 'ua'},
-    {name: 'English', lang: 'en'},
-    {name: 'Russian', lang: 'ru'},
-  ];
-
   public activeLanguage: string = 'en';
   public link: string;
   private preparedLink: string = preparedImageForCreateEcoNews;
@@ -63,7 +57,7 @@ export class CreateNewsComponent implements OnInit {
 
   public onSubmit(): void {
     this.isPosting = true;
-    this.createEcoNewsService.sendFormData(this.createNewsForm, this.activeLanguage).subscribe(
+    this.createEcoNewsService.sendFormData(this.createNewsForm).subscribe(
       (successRes: NewsResponseDTO) => {
         this.isPosting = false;
         this.router.navigate(['/news']);
@@ -91,29 +85,8 @@ export class CreateNewsComponent implements OnInit {
     }
   }
 
-  public bindFormValue(): void {
-    const translationData = this.createEcoNewsService.getTranslationByLang(this.activeLanguage);
-    this.createNewsForm.patchValue({
-      title: translationData.title,
-      content: translationData.text
-    });
-  }
-
-  public changeLanguage(language: LanguageModel): void {
-    const formData = {
-      text: this.createNewsForm.value['content'],
-      title: this.createNewsForm.value['title']
-    };
-
-    this.createEcoNewsService.setTranslationByLang(this.activeLanguage, formData);
-    this.createNewsForm.reset();
-    this.activeLanguage = language.lang;
-    this.bindFormValue();
-  }
-
   private goToPreview(): void {
     this.createEcoNewsService.setForm(this.createNewsForm);
-    this.createEcoNewsService.setLang(this.activeLanguage);
     this.navigateByUrl('create-news/preview');
   }
 
