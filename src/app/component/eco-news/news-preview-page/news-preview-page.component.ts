@@ -28,9 +28,8 @@ export class NewsPreviewPageComponent implements OnInit {
   }
 
   private postNewsItem(): void {
-    const language = this.createEcoNewsService.getLang();
     this.createEcoNewsService
-      .sendFormData(this.previewItem, language)
+      .sendFormData(this.previewItem)
       .subscribe((successRes: NewsResponseDTO) => {
         this.router.navigate(['/news']);
       });
