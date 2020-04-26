@@ -14,7 +14,7 @@ import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-sta
 import { filter } from 'rxjs/operators';
 import { LanguageService } from '../../../i18n/language.service';
 import { Language } from '../../../i18n/Language';
-import { SearchClickService } from '../../../service/search-click/search-click.service';
+import { SearchClickService } from '../../../service/search/search-click.service';
 
 @Component({
   selector: 'app-header-new',

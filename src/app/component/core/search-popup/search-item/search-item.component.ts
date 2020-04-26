@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ecoNewsIcons } from '../../../../../assets/img/icon/econews/profile-icons';
+import { SearchModel } from '../../../../model/search/search.model';
 
 @Component({
   selector: 'app-search-item',
@@ -7,8 +8,14 @@ import { ecoNewsIcons } from '../../../../../assets/img/icon/econews/profile-ico
   styleUrls: ['./search-item.component.scss']
 })
 export class SearchItemComponent implements OnInit {
+  @Input() searchModel: SearchModel;
+  @Output() closeSearch: EventEmitter<any> = new EventEmitter();
   profileIcons = ecoNewsIcons;
   defaultPicture = ecoNewsIcons;
+
+  private emitCloseSearch(): void {
+    this.closeSearch.emit();
+  }
 
   constructor() { }
 
