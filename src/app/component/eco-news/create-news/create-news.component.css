@@ -69,6 +69,10 @@ form {
     margin-left: -20px;
 }
 
+.tags p {
+    font-size: 12px;
+}
+
 .tags h3, .tags p {
     margin-left: 20px;
 }
@@ -172,6 +176,10 @@ button {
 .filters-color:hover {
     color: #ffffff;
     border: none;
+}
+
+.warning {
+    color: red;
 }
 
 @media screen and (max-width: 1000px) {

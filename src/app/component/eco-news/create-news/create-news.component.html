@@ -30,22 +30,26 @@
                         <button *ngFor="let filter of filters"
                                 (click)="addFilters(filter)"
                                 type="button"
-                                [ngClass]="{
-                                    'filters-color': filter.isActive
-                                }">{{ filter.name }}</button>
+                                [ngClass]="{'filters-color': filter.isActive}"
+                                >
+                                {{ filter.name }}</button>
+                                <p [ngClass]="{'warning': isFilterValidation}"
+                                >
+                                Only 3 tags can be added</p>
                     </div>
                     <label>
                         <h3>Source (optional)</h3>
                         <input type="text"
                                placeholder="link to external source"
                                formControlName="source">
-                        <span>Please add the link of original article/news/post. Link should contain https://</span>
+                        <span [ngClass]="{'warning':isLink}"
+                        >
+                        Please add the link of original article/news/post. Link should contain https://</span>
                     </label>
                 </div>
                 <div class="right-form-column">
                     <h3>Picture (optional)</h3>
                     <app-drag-and-drop></app-drag-and-drop>
-                    <span>Download PNG or JPG only. File size should be less than 10MB</span>
                 </div>
             </div>
             <div class="textarea-wrapper">

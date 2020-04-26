@@ -1,5 +1,5 @@
 <div id="eco-events">
-  <div id="eco-events-wrapper">
+  <div id="eco-events-wrapper" *ngIf="latestNews.length > 0">
     <div id="main-event">
       <div id="main-event-image">
         <img [src]="eventImg" alt="event-image">
@@ -17,7 +17,7 @@
         </a>
       </div>
     </div>
-    <div id="other-events">
+    <div id="other-events" >
       <div class="other-event">
         <p class="event-date">{{ latestNews[1]?.creationDate }}</p>
         <h3>{{ latestNews[1]?.title }}</h3>

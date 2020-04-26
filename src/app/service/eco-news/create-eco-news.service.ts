@@ -32,20 +32,16 @@ export class CreateEcoNewsService {
 
   public sendFormData(form): Observable<NewsResponseDTO> {
     const body: NewsDTO = {
-      "imagePath": form.value.source,
       "tags": form.value.tags,
-      "translations": [
-        {
-          "language": {
-            "code": 'en'
-          },
-          "text": form.value.content,
-          "title": form.value.title
-        }
-      ]
+      "text": form.value.content,
+      "title": form.value.title,
     };
+    let formData:FormData = new FormData();
+
+    formData.append('image', this.files[0].file, this.files[0].file.name);
+    formData.append('addEcoNewsDtoRequest', JSON.stringify(body));
 
     this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
-    return this.http.post<NewsResponseDTO>(`${this.url}/econews`, body, this.httpOptions);
-  };
-};
+    return this.http.post<NewsResponseDTO>(`${this.url}/econews`, formData, this.httpOptions);
+  }
+}
