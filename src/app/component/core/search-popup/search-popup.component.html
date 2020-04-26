@@ -3,31 +3,29 @@
     <div class="search-icon"></div>
       <input class = "search-field"
              type="text"
-             placeholder="Search"
-             (keyup)="onKeyUp($event)">
+             placeholder="Search">
     <div class="close-icon"
          (click)="closeSearch()"></div>
   </div>
 
   <div class="page-wrapper">
     <div class="search-content-wrapper">
-      <div class="remaining-items" *ngIf="inputValue != undefined">
-        {{ itemsFound }} items found
+      <div class="remaining-items">
+        34 items found
       </div>
-      <ng-template [ngIf]="isNewsSearchFound || isTipsSearchFound">
-        <div class="content-news" *ngIf="isNewsSearchFound">
+      <ng-template [ngIf]="isSearchFound">
+        <div class="content-news">
           <a [routerLink]="['/news']"
              (click)="closeSearch()">
             <h3>News</h3>
           </a>
           <div class="flex-container">
-            <app-search-item *ngFor="let element of searchElements"
-                             [searchModel]="element"
-                             (closeSearch)="closeSearch()"></app-search-item>
+            <app-search-item></app-search-item>
+            <app-search-item></app-search-item>
           </div>
         </div>
 
-        <div class="content-tips" *ngIf="isTipsSearchFound">
+        <div class="content-tips">
           <a [routerLink]="['/welcome']"
              pageScroll
              href="#tips"
@@ -36,7 +34,8 @@
             <h3>Tips & Tricks</h3>
           </a>
           <div class="flex-container">
-
+            <app-search-item></app-search-item>
+            <app-search-item></app-search-item>
           </div>
         </div>
 
@@ -45,7 +44,7 @@
         </a>
       </ng-template>
 
-      <ng-template [ngIf]="(isNewsSearchFound === false) && (isTipsSearchFound === false)">
+      <ng-template [ngIf]="!isSearchFound">
         <app-search-not-found (closeFromChild)="closeSearch()"></app-search-not-found>
       </ng-template>
     </div>
