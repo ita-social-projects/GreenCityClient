@@ -61,7 +61,7 @@ export class CreateNewsComponent implements OnInit {
         this.isLink = true;
       }
     });
-    
+
   }
 
   public onSubmit(): void {
