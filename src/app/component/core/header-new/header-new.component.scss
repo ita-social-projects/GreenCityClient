@@ -2,8 +2,8 @@ $first-font-color: #494A49;
 $secondary-font-color: #13AA57;
 $hr-color: #E6E6E6;
 $focus-color: #13AA57;
+$screen-800: " screen and (max-width : 800px)";
 $screen-576: " screen and (max-width : 576px)";
-$screen-900: " screen and (max-width : 900px)";
 $screen-320: " screen and (max-width : 320px)";
 
 .main{
@@ -193,6 +193,7 @@ $screen-320: " screen and (max-width : 320px)";
           justify-content: space-between;
           align-items: center;
           margin: 0;
+          padding: 0;
           width: auto;
 
           .destroy {
@@ -201,10 +202,15 @@ $screen-320: " screen and (max-width : 320px)";
 
         & > li {
             list-style-type: none;
+            margin-right: 20px;
 
-            &:not(:last-child) {
-              margin-right: 20px;
-            }
+          &:nth-of-type(4) {
+            margin-right: 5px;
+          }
+
+          &:nth-of-type(5) {
+            margin-right: 0;
+          }
           }
 
               .language-switcher {
@@ -237,6 +243,7 @@ $screen-320: " screen and (max-width : 320px)";
             .sign-in-link {
               font-size: 12px;
               font-weight: 600;
+
               a {
                 display: block;
                 min-width: 40px;
@@ -284,10 +291,9 @@ $screen-320: " screen and (max-width : 320px)";
   .menu-icon-wrapper {
     width: 24px;
     height: 18px;
-    display: flex;
     justify-content: center;
     align-items: center;
-    visibility: hidden;
+    display: none;
 
     .menu-icon {
       position: relative;
@@ -341,7 +347,8 @@ $screen-320: " screen and (max-width : 320px)";
 
 #user-avatar-wrapper {
   position: relative;
-  width: 155px;
+  width: auto;
+  min-width: 135px;
   height: 36px;
 
   ul {
@@ -365,6 +372,7 @@ $screen-320: " screen and (max-width : 320px)";
         color: #056B33;
         font-size: 12px;
         font-weight: 600;
+
         .reverse {
           transform: rotate(180deg);
           transition: .4s ease-out;
@@ -414,7 +422,7 @@ $screen-320: " screen and (max-width : 320px)";
 .active-link {
   color: $focus-color !important;
 }
-@media #{$screen-900} {
+@media #{$screen-800} {
   .navigation-menu {
     width: auto;
 
@@ -424,8 +432,9 @@ $screen-320: " screen and (max-width : 320px)";
   }
 
   .burger-b {
+    margin-left: 5px;
     .menu-icon-wrapper {
-      visibility: visible;
+      display: inline;
     }
   }
 }
@@ -463,9 +472,6 @@ $screen-320: " screen and (max-width : 320px)";
 
         &:nth-of-type(6) {
           border-bottom: 1px solid rgba(73, 74, 73, 0.2);
-        }
-        &:nth-of-type(7) {
-
         }
       }
     }
