@@ -18,7 +18,7 @@ export class NewFooterComponent implements OnInit {
     this.localStorageService.userIdBehaviourSubject.subscribe(userId => this.userId = userId);
   }
 
-  getUserId(): number | string {
+  private getUserId(): number | string {
     return ((this.userId !== null && !isNaN(this.userId)) ? this.userId : 'not_signed-in');
   }
 
