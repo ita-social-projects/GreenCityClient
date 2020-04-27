@@ -72,7 +72,7 @@
                 >
                   Preview
                 </button>
-                <button type="submit" [disabled]="!createNewsForm.valid">Publish</button>
+                <button type="submit" [disabled]="!createNewsForm.valid || isArrayEmpty">Publish</button>
             </div>
         </form>
     </div>
