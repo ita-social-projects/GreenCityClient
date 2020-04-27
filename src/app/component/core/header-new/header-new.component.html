@@ -66,7 +66,7 @@
                         </li>
                         </ng-template>
                         <ng-template #userNotLoggerInSmall>
-                          <li class="mobile-vis tertiary-global-button">Nadiia Steblivets</li>
+                          <li class="mobile-vis name tertiary-global-button">Nadiia Steblivets</li>
                           <li class="mobile-vis">
                             <a (click)="openDialog()">
                             {{ "nav-bar.favorite-places" | translate }}
@@ -103,7 +103,7 @@
               <li [class.destroy]="onToggleBurgerMenu">
                 <div class="switcher-wrapper">
                 <img class="arrow"
-                     [src]="arrow"
+                     [src]="selectLanguageArrow"
                       alt="v">
                 <select
                   [(ngModel)]="language"
@@ -132,7 +132,7 @@
                <li class="tertiary-global-button">
                  <a (click)="toggleDropdown()">Nadiia Steblivets
                  <img class="arrow"
-                      [src]="arrowGreen"
+                      [src]="dropDownArrow"
                       [ngClass]="dropdownVisible ? 'arrow reverse' : 'arrow'"
                       alt="v">
                 </a>
