@@ -2,7 +2,7 @@ $first-font-color:#494A49;
 $secondary-font-color:#13AA57;
 $hr-color:#E6E6E6;
 $screen-576: " screen and (max-width : 576px)";
-$screen-920: " screen and (max-width : 992px)";
+$screen-900: " screen and (max-width : 900px)";
 $screen-320: " screen and (max-width : 320px)";
 
 .main{
@@ -39,7 +39,7 @@ $screen-320: " screen and (max-width : 320px)";
     .logo {
       width: 136px;
       height: 36px;
-      margin-right: 56px;
+      margin-right: 4%;
       cursor: pointer;
 
     }
@@ -56,14 +56,10 @@ $screen-320: " screen and (max-width : 320px)";
         .navigation-menu-left {
           width: 100%;
           max-width: 430px;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
 
               ul {
                 list-style: none;
                 margin: 0;
-                overflow: hidden;
                 padding: 0;
                 display: flex;
                 justify-content: space-between;
@@ -71,7 +67,6 @@ $screen-320: " screen and (max-width : 320px)";
                 li {
                   list-style-type: none;
                   display: inline-block;
-                    margin-right: 20px;
 
                     &:nth-of-type(6) {
                       margin-right: 0;
@@ -233,6 +228,10 @@ $screen-320: " screen and (max-width : 320px)";
             .sign-in-link {
               font-size: 12px;
               font-weight: 600;
+              a {
+                display: block;
+                min-width: 40px;
+              }
             }
 
           .sign-up-link {
@@ -404,7 +403,7 @@ $screen-320: " screen and (max-width : 320px)";
   }
 }
 
-@media #{$screen-920} {
+@media #{$screen-900} {
   .navigation-menu {
     width: auto;
 
