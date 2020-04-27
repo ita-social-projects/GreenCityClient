@@ -20,6 +20,8 @@
                       <ul>
                         <li>
                           <a [routerLink]="['/news']"
+                             routerLinkActive="active-link"
+                             routerLinkActiveOptions="{exact:true}"
                              pageScroll
                              href="#events"
                              [pageScrollDuration]="500">
@@ -28,6 +30,8 @@
                         </li>
                         <li>
                           <a [routerLink]="['/welcome']"
+                             routerLinkActive="active-link"
+                             routerLinkActiveOptions="{exact:true}"
                              pageScroll
                              href="#tips"
                              [pageScrollDuration]="500">
@@ -36,22 +40,26 @@
                         </li>
                         <li>
                           <a [routerLink]="['/map']"
+                             routerLinkActive="active-link"
+                             routerLinkActiveOptions="{exact:true}"
                              pageScroll
                              href="#top-user-bar"
                              routerLinkActive="active-link"
-                             [routerLinkActiveOptions]="{ exact: true }">
+                             routerLinkActiveOptions="{exact:true}">
                             {{ 'user.lower-nav-bar.map' | translate }}
                           </a>
                         </li>
                         <li>
                           <a [routerLink]="[getUserId(), 'habits']"
                              routerLinkActive="active-link"
-                             [routerLinkActiveOptions]="{ exact: true }">
+                             routerLinkActiveOptions="{exact:true}">
                             {{ 'user.lower-nav-bar.my-habits' | translate }}
                           </a>
                         </li>
                         <li>
-                          <a [routerLink]="['/about']">
+                          <a [routerLink]="['/about']"
+                             routerLinkActive="active-link"
+                             routerLinkActiveOptions="{exact:true}">
                             {{ 'user.lower-nav-bar.about-us' | translate }}
                           </a>
                         </li>

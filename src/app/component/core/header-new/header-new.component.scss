@@ -1,6 +1,7 @@
-$first-font-color:#494A49;
-$secondary-font-color:#13AA57;
-$hr-color:#E6E6E6;
+$first-font-color: #494A49;
+$secondary-font-color: #13AA57;
+$hr-color: #E6E6E6;
+$focus-color: #13AA57;
 $screen-576: " screen and (max-width : 576px)";
 $screen-900: " screen and (max-width : 900px)";
 $screen-320: " screen and (max-width : 320px)";
@@ -78,6 +79,9 @@ $screen-320: " screen and (max-width : 320px)";
                     line-height: 16px;
                     color:$first-font-color;
                     text-decoration: none;
+                    &:focus {
+                      color: $focus-color;
+                    }
                   }
                 }
 
@@ -120,7 +124,12 @@ $screen-320: " screen and (max-width : 320px)";
                     display: block;
                     font-size: 20px;
                     line-height: 24px;
-                    color:$first-font-color
+                    color:$first-font-color;
+
+                    &:focus {
+                      color: $focus-color;
+                    }
+
                   }
 
               &:nth-of-type(6) {
@@ -402,7 +411,9 @@ $screen-320: " screen and (max-width : 320px)";
     }
   }
 }
-
+.active-link {
+  color: $focus-color !important;
+}
 @media #{$screen-900} {
   .navigation-menu {
     width: auto;
