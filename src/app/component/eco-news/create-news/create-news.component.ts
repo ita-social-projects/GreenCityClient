@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { preparedImageForCreateEcoNews } from '../../../links';
 import { Router } from '@angular/router';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { CreateEcoNewsService } from '../../../service/eco-news/create-eco-news.service';
 import { FilterModel, LanguageModel, NewsResponseDTO } from './create-news-interface';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,7 +15,7 @@ export class CreateNewsComponent implements OnInit {
   public isPosting: boolean = false;
 
   public createNewsForm = this.fb.group({
-    title: ['', [Validators.required, Validators.maxLength(170)]],
+    title: ['', [Validators.required, Validators.maxLength(170), this.noWhitespaceValidator]],
     source: [''],
     content: ['', [Validators.required, Validators.minLength(20)]],
     tags: this.fb.array([])
@@ -31,9 +30,9 @@ export class CreateNewsComponent implements OnInit {
   ];
 
   public activeLanguage: string = 'en';
-  public link: string;
-  private preparedLink: string = preparedImageForCreateEcoNews;
   private date: Date = new Date();
+  public isFilterValidation: boolean = false;
+  public isLink: boolean = false;
 
   constructor(private router: Router,
               private fb: FormBuilder,
@@ -41,7 +40,6 @@ export class CreateNewsComponent implements OnInit {
               private dialog: MatDialog) {}
 
   ngOnInit() {
-    this.link = this.preparedLink;
     this.onSourceChange();
   }
 
@@ -51,8 +49,13 @@ export class CreateNewsComponent implements OnInit {
 
   public onSourceChange(): void {
     this.createNewsForm.get('source').valueChanges.subscribe(source => {
-      this.link = !source ? this.preparedLink : source;
+      if(source.startsWith('http://') || source.startsWith('https://')) {
+        this.isLink = false;
+      } else {
+        this.isLink = true;
+      }
     });
+
   }
 
   public onSubmit(): void {
@@ -65,14 +68,21 @@ export class CreateNewsComponent implements OnInit {
     );
   }
 
+  public noWhitespaceValidator(control: FormControl) {
+    const isWhiteSpace = (control.value || '').trim().length === 0;
+    const isValid = !isWhiteSpace;
+    return isValid ? null : { 'whitespace': true };
+  }
+
   public addFilters(filter: FilterModel): void {
     if ( !filter.isActive ) {
       filter.isActive = true;
       this.createNewsForm.value.tags.push(filter.name.toLowerCase());
+      this.filtersValidation(filter);
     } else {
       this.removeFilters(filter);
-    }
-  }
+    };
+  };
 
   public removeFilters(filter: FilterModel): void {
     if ( filter.isActive ) {
@@ -80,10 +90,20 @@ export class CreateNewsComponent implements OnInit {
       this.createNewsForm.value.tags.forEach((item, index) => {
         if (item.toLowerCase() === filter.name.toLowerCase()) {
           this.createNewsForm.value.tags.splice(index, 1);
-        }
-      })
-    }
-  }
+          this.filtersValidation(filter);
+        };
+      });
+    };
+  };
+
+  public filtersValidation(filter: FilterModel): void {
+    if ( this.createNewsForm.value.tags.length > 3) {
+      this.isFilterValidation = true;
+      setTimeout(() => this.isFilterValidation = false, 3000);
+      this.createNewsForm.value.tags.splice(3,1);
+      filter.isActive = false;
+    };
+  };
 
   private goToPreview(): void {
     this.createEcoNewsService.setForm(this.createNewsForm);

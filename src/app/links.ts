@@ -27,4 +27,3 @@ export const subscriptionLink = mainLink + 'newsSubscriber';
 // front-end
 export const frontMailLink = environment.frontendLink;
 export const frontAuthLink = frontMailLink + 'auth/';
-export const preparedImageForCreateEcoNews = 'https://cdn3.iconfinder.com/data/icons/popular-services-brands/512/angular-js-256.png';
