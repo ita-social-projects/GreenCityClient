@@ -71,6 +71,10 @@ $sign-up-google-font: 'Roboto';
         border-radius: 5px;
       }
 
+      .main-data-input:focus {
+        outline: none;
+      }
+
       .main-data-input::placeholder {
         color: #878787;
       }
@@ -90,6 +94,7 @@ $sign-up-google-font: 'Roboto';
 
         .password-input:focus {
           height: 46px;
+          outline: none;
         }
 
         .show-password {
@@ -119,22 +124,21 @@ $sign-up-google-font: 'Roboto';
       }
 
       .error-message-show {
-        margin-bottom: 10px;
         visibility: visible;
       }
 
       .primary-global-button {
         margin-top: 28px;
-        padding: 16px 116px 16px 100px;
+        padding: 16px 116px 16px 116px;
         font-weight: 600;
         border-radius: 3px;
 
         .spinner-visible {
-          visibility: visible;
+          display: inline;
         }
 
         .spinner-hidden {
-          visibility: hidden;
+          display: none;
         }
       }
 
