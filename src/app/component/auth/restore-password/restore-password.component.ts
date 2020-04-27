@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { SignInNewComponent } from '../sign-in-new/sign-in-new.component';
 import { SignInIcons } from 'src/assets/img/icon/sign-in/sign-in-icons';
+import {catchError, take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-restore-password',
@@ -32,5 +33,16 @@ export class RestorePasswordComponent implements OnInit {
       panelClass: 'custom-dialog-container',
     });
     this.matDialogRef.close();
+  }
+  sentEmail() {
+    this.restorePasswordService.sendEmailForRestore(this.email)
+      .pipe(
+      take(1)
+    ).subscribe({
+      next: console.log,
+      error: error => {
+        console.log(error);
+      }
+    });
   }
 }
