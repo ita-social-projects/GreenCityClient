@@ -59,7 +59,7 @@
                         <div *ngIf="!isLoggedIn; then userLoggedInSmall else userNotLoggerInSmall"></div>
                         <ng-template #userLoggedInSmall>
                         <li class="mobile-vis">
-                            <a class="sign-in-link"
+                            <a class="sign-in-link tertiary-global-button"
                                (click)="openSingInWindow()">
                               {{ "top-bar.sign-in" | translate }}
                             </a>
@@ -118,7 +118,7 @@
                 </select>
               </div>
               </li>
-        <li class="sign-in-link"
+        <li class="sign-in-link tertiary-global-button"
             [class.destroy]="onToggleBurgerMenu">
           <div *ngIf="!isLoggedIn; then userLoggedIn else userNotLoggedIn"></div>
           <ng-template #userLoggedIn>

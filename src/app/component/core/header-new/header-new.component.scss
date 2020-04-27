@@ -50,6 +50,7 @@ $screen-320: " screen and (max-width : 320px)";
         align-items: center;
         width: 100%;
         background: white;
+        font-family: "Open Sans";
       }
 
         .navigation-menu-left {
@@ -65,6 +66,7 @@ $screen-320: " screen and (max-width : 320px)";
                 overflow: hidden;
                 padding: 0;
                 display: flex;
+                justify-content: space-between;
 
                 li {
                   list-style-type: none;
@@ -142,6 +144,8 @@ $screen-320: " screen and (max-width : 320px)";
 
               .sign-in-link {
                 color: #056B33;
+                font-size: 16px;
+                font-weight: 600;
 
                 &:hover {
                   text-decoration-line: none;
@@ -166,6 +170,7 @@ $screen-320: " screen and (max-width : 320px)";
             display: block;
             font-size: 12px;
             line-height: 12px;
+            font-weight: 600;
           }
         }
 
@@ -219,8 +224,14 @@ $screen-320: " screen and (max-width : 320px)";
             }
           }
 
+            .sign-in-link {
+              font-size: 12px;
+              font-weight: 600;
+            }
+
           .sign-up-link {
             position: relative;
+            font-size: 12px;
 
             a {
               color: #056B33;
@@ -245,6 +256,7 @@ $screen-320: " screen and (max-width : 320px)";
                 display: block;
                 font-size: 12px;
                 line-height: 12px;
+                font-weight: 600;
               }
             }
           }
