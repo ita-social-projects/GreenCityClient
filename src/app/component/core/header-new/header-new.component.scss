@@ -345,11 +345,12 @@ $screen-320: " screen and (max-width : 320px)";
       line-height: 16px;
       margin: 0 0 3px 0;
       padding: 0 10px 0;
+      color: $first-font-color;
 
       &:first-of-type {
         color: #056B33;
         font-size: 12px;
-
+        font-weight: 600;
         .reverse {
           transform: rotate(180deg);
           transition: .4s ease-out;
