@@ -193,3 +193,25 @@ $sign-up-google-font: 'Roboto';
     display: none;
   }
 }
+
+@media (max-width: 375px) {
+  .main-container {
+    .main-content-container {
+      margin: 0 5px;
+      max-width: 343px;
+
+      .title-text {
+        font-size: 32px;
+        line-height: 32px;
+      }
+
+      .form-content-container {
+        .cta-button-google {
+          .sign-up-google-text {
+            margin: 12px 0 12px 50px;
+          }
+        }
+      }
+    }
+  }
+}
