@@ -115,3 +115,9 @@ body {
 .custom-dialog-container .mat-dialog-container::-webkit-scrollbar {
   display: none;
 }
+
+@media (max-width: 375px) {
+  .custom-dialog-container .mat-dialog-container {
+    padding: 30px 24px 27px 10px;
+  }
+}

@@ -40,6 +40,7 @@
                  #emailControl="ngModel"
                  name="email"
                  [(ngModel)]="userOwnSignUp.email"
+                 (input)="setEmailBackendErr()"
                  [ngClass]="emailControl.invalid &&
                  (emailControl.dirty || emailControl.touched) ?
                  'wrong-input':'main-data-input'"
@@ -167,16 +168,12 @@
                   class="primary-global-button"
                   [disabled]="!signUpForm.valid"
           >
-            <span [ngClass]="loadingAnim ?
-                  'spinner-visible' :
-                  'spinner-hidden'"
+            <span *ngIf="loadingAnim"
                   class="spinner-border spinner-border-sm"
                   role="status"
                   aria-hidden="true">
             </span>
-            <span>
-              {{ 'user.auth.sign-up.submit' | translate }}
-            </span>
+            {{ 'user.auth.sign-up.submit' | translate }}
           </button>
           <div class="switch-sign-up">
             {{'user.auth.sign-up.or' | translate}}
