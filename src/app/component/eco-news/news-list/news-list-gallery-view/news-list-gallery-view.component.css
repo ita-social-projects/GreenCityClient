@@ -18,8 +18,8 @@ div {
 
 .list-image-content {
   margin-bottom: 16px;
-  max-width: 327px;
-  max-height: 294.12px;
+  width: 327px;
+  height: 200px;
 }
 
 .ul-eco-buttons {

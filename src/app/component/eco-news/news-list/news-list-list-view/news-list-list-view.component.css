@@ -19,8 +19,8 @@ div {
 
 .list-image-content {
   margin-bottom: 16px;
-  max-width: 359px;
-  max-height: 302.94px;
+  width: 359px;
+  height: 206px;
 }
 
 .added-data {
