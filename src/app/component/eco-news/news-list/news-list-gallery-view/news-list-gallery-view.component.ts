@@ -5,7 +5,8 @@ import { ecoNewsIcons } from 'src/assets/img/icon/econews/profile-icons';
 @Component({
   selector: 'app-news-list-gallery-view',
   templateUrl: './news-list-gallery-view.component.html',
-  styleUrls: ['./news-list-gallery-view.component.css']
+  styleUrls: ['./news-list-gallery-view.component.css'],
+  changeDetection: 0
 })
 export class NewsListGalleryViewComponent implements OnInit {
   @Input() ecoNewsModel: EcoNewsModel;
@@ -26,7 +27,7 @@ export class NewsListGalleryViewComponent implements OnInit {
   }
 
   private checkNewsImage(): string {
-    return this.newsImage = this.ecoNewsModel.imagePath ?
+    return this.newsImage = (this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' ') ?
       this.ecoNewsModel.imagePath : this.profileIcons.newsDefaultPictureList;
   }
 }
