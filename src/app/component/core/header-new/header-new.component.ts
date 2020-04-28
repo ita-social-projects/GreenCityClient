@@ -22,8 +22,8 @@ import { NewSignUpComponent } from '../../auth/new-sign-up/new-sign-up.component
   styleUrls: ['./header-new.component.scss']
 })
 export class HeaderNewComponent implements OnInit {
-  readonly arrow = 'assets/img/arrow_grey.png';
-  readonly arrowGreen = 'assets/img/arrow.png';
+  readonly selectLanguageArrow = 'assets/img/arrow_grey.png';
+  readonly dropDownArrow = 'assets/img/arrow.png';
   private dropdownVisible: boolean;
   private firstName: string;
   private userRole: string;

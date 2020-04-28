@@ -20,6 +20,8 @@
                       <ul>
                         <li>
                           <a [routerLink]="['/news']"
+                             routerLinkActive="active-link"
+                             routerLinkActiveOptions="{exact:true}"
                              pageScroll
                              href="#events"
                              [pageScrollDuration]="500">
@@ -28,6 +30,8 @@
                         </li>
                         <li>
                           <a [routerLink]="['/welcome']"
+                             routerLinkActive="active-link"
+                             routerLinkActiveOptions="{exact:true}"
                              pageScroll
                              href="#tips"
                              [pageScrollDuration]="500">
@@ -36,22 +40,26 @@
                         </li>
                         <li>
                           <a [routerLink]="['/map']"
+                             routerLinkActive="active-link"
+                             routerLinkActiveOptions="{exact:true}"
                              pageScroll
                              href="#top-user-bar"
                              routerLinkActive="active-link"
-                             [routerLinkActiveOptions]="{ exact: true }">
+                             routerLinkActiveOptions="{exact:true}">
                             {{ 'user.lower-nav-bar.map' | translate }}
                           </a>
                         </li>
                         <li>
                           <a [routerLink]="[getUserId(), 'habits']"
                              routerLinkActive="active-link"
-                             [routerLinkActiveOptions]="{ exact: true }">
+                             routerLinkActiveOptions="{exact:true}">
                             {{ 'user.lower-nav-bar.my-habits' | translate }}
                           </a>
                         </li>
                         <li>
-                          <a [routerLink]="['/about']">
+                          <a [routerLink]="['/about']"
+                             routerLinkActive="active-link"
+                             routerLinkActiveOptions="{exact:true}">
                             {{ 'user.lower-nav-bar.about-us' | translate }}
                           </a>
                         </li>
@@ -59,14 +67,14 @@
                         <div *ngIf="!isLoggedIn; then userLoggedInSmall else userNotLoggerInSmall"></div>
                         <ng-template #userLoggedInSmall>
                         <li class="mobile-vis">
-                            <a class="sign-in-link"
+                            <a class="sign-in-link tertiary-global-button"
                                (click)="openSingInWindow()">
                               {{ "top-bar.sign-in" | translate }}
                             </a>
                         </li>
                         </ng-template>
                         <ng-template #userNotLoggerInSmall>
-                          <li class="mobile-vis tertiary-global-button">Nadiia Steblivets</li>
+                          <li class="mobile-vis name tertiary-global-button">Nadiia Steblivets</li>
                           <li class="mobile-vis">
                             <a (click)="openDialog()">
                             {{ "nav-bar.favorite-places" | translate }}
@@ -103,7 +111,7 @@
               <li [class.destroy]="onToggleBurgerMenu">
                 <div class="switcher-wrapper">
                 <img class="arrow"
-                     [src]="arrow"
+                     [src]="selectLanguageArrow"
                       alt="v">
                 <select
                   [(ngModel)]="language"
@@ -118,7 +126,7 @@
                 </select>
               </div>
               </li>
-        <li class="sign-in-link"
+        <li class="sign-in-link tertiary-global-button"
             [class.destroy]="onToggleBurgerMenu">
           <div *ngIf="!isLoggedIn; then userLoggedIn else userNotLoggedIn"></div>
           <ng-template #userLoggedIn>
@@ -132,7 +140,7 @@
                <li class="tertiary-global-button">
                  <a (click)="toggleDropdown()">Nadiia Steblivets
                  <img class="arrow"
-                      [src]="arrowGreen"
+                      [src]="dropDownArrow"
                       [ngClass]="dropdownVisible ? 'arrow reverse' : 'arrow'"
                       alt="v">
                 </a>
