@@ -34,5 +34,4 @@ export class NewsPreviewPageComponent implements OnInit {
         this.router.navigate(['/news']);
       });
   }
-
 }
