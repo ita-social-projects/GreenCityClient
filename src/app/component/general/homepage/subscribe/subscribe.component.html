@@ -7,7 +7,7 @@
       <h2>{{ "homepage.subscription.caption" | translate }}</h2>
       <p>{{ "homepage.subscription.content" | translate }}</p>
       <input #subscriptionEmail type="email" [(ngModel)]="email" (input)="validateEmail()"
-        placeholder="Введіть ваш email">
+        placeholder="{{ 'homepage.subscription.placeholder' | translate }}">
       <p id="validation-error"
         [ngClass]="{'hidden': !emailTouched || emailValid, 'visible': emailTouched && !emailValid}">
         {{ "homepage.subscription.validation-error" | translate }}

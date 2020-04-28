@@ -14,37 +14,37 @@
             <li>
               <a [routerLink]="['/news']"
                  class="router-links"
-                 href="">{{ "user.lower-nav-bar.eco-events" | translate }}
+                 href="">{{ "user.footer.eco-events" | translate }}
               </a>
             </li>
             <li>
               <a href=""
-                 class="router-links">{{ "user.lower-nav-bar.tips" | translate }}
+                 class="router-links">{{ "user.footer.tips" | translate }}
               </a>
             </li>
             <li>
               <a [routerLink]="['/map']"
                  class="router-links"
-                 href="">{{ "user.lower-nav-bar.map" | translate }}
+                 href="">{{ "user.footer.map" | translate }}
               </a>
             </li>
             <li>
               <a [routerLink]="['/about']"
                  class="router-links"
-                 href="">{{ "user.lower-nav-bar.about-us" | translate }}
+                 href="">{{ "user.footer.about-us" | translate }}
               </a>
             </li>
             <li>
-              <a [routerLink]="['habits']"
+              <a [routerLink]="[getUserId(), 'habits']"
                  href=""
-                 class="router-links">{{ "user.lower-nav-bar.my-habits" | translate }}
+                 class="router-links">{{ "user.footer.my-habits" | translate }}
               </a>
             </li>
           </ul>
         </div>
         <div class="right-side">
           <div class="follow-us-text">
-            <p>Follow us</p>
+            <p>{{ "user.footer.follow-us" | translate }}</p>
           </div>
           <ul class="social-network-links">
             <li>

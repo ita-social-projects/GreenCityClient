@@ -1,36 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 
-.language-choise {
-    border-bottom: 1px solid #13AA57;
-    height: 25px;
-    margin-bottom: 1.5rem;
-}
-
-.language-choise span {
-    display: inline-block;
-    color: #056B33;
-    width: 82px;
-    text-align: center;
-    cursor: pointer;
-}
-
-.language-choise span.active:hover {
-    background-color: #ffffff;
-    border-bottom: none;
-}
-
-.language-choise span:hover {
-    background-color: #F0F5F4;
-    border-bottom: 1px solid #13AA57;
-}
-
-span.active {
-    border: 1px solid #13AA57;
-    border-radius: 5px 5px 0 0;
-    border-bottom: none;
-    background-color: #ffffff;
-}
-
 .title {
     height: 200px;
     display: flex;
@@ -98,6 +67,10 @@ form {
 
 .tags {
     margin-left: -20px;
+}
+
+.tags p {
+    font-size: 12px;
 }
 
 .tags h3, .tags p {
@@ -203,6 +176,10 @@ button {
 .filters-color:hover {
     color: #ffffff;
     border: none;
+}
+
+.warning {
+    color: red;
 }
 
 @media screen and (max-width: 1000px) {

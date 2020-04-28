@@ -20,6 +20,7 @@ img {
   margin: 0 auto;
   top: 41px;
   width: 100%;
+  z-index: 9;
 }
 
 .lower-navbar .navbar-wrapper {

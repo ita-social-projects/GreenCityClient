@@ -1,10 +1,10 @@
 {
   "top-bar": {
     "text-before": "Hello! It is a tracker of eco habits. Please ",
-    "sign-up": "register ",
+    "sign-up": "Sign up ",
     "text-within": "to create your own tracker ",
     "or": "or ",
-    "sign-in": "sign in",
+    "sign-in": "Sign in",
     "text-after": " if you are already with us.",
     "hello": "Hello, ",
     "welcome-back": "! Welcome back!"
@@ -369,6 +369,14 @@
       "tips": "Tips & Tricks",
       "map": "Map",
       "my-habits": "My cabinet"
+    },
+    "footer": {
+      "about-us": "About us",
+      "eco-events": "Eco news",
+      "tips": "Tips & Tricks",
+      "map": "Places",
+      "my-habits": "My habits",
+      "follow-us": "Follow us"
     },
     "user-goals": {
       "add-goal": {
