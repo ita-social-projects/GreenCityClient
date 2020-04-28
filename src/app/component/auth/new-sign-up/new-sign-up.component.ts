@@ -122,9 +122,14 @@ export class NewSignUpComponent implements OnInit {
   private matchPassword(passInput: HTMLInputElement,
                         passRepeat: HTMLInputElement,
                         inputBlock: HTMLElement): void {
+    this.passwordErrorMessageBackEnd = null;
     inputBlock.className = passInput.value !== passRepeat.value ?
                            'main-data-input-password wrong-input' :
                            'main-data-input-password';
+  }
+
+  private setEmailBackendErr(): void {
+    this.emailErrorMessageBackEnd = null;
   }
 
   private setPasswordVisibility(htmlInput: HTMLInputElement,

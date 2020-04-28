@@ -375,6 +375,15 @@
       "map": "Карта",
       "my-habits": "Мой кабинет"
     },
+    "footer": {
+      "about-us": "О нас",
+      "eco-events": "Эко новости",
+      "tips": "Советы",
+      "map": "Места",
+      "my-habits": "Мои привычки",
+      "follow-us": "Присоединяйтесь к нам"
+    },
+
     "user-goals": {
       "add-goal": {
         "update": "Обновить",
