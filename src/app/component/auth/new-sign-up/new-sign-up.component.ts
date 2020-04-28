@@ -131,6 +131,7 @@ export class NewSignUpComponent implements OnInit {
   private setEmailBackendErr(): void {
     this.emailErrorMessageBackEnd = null;
   }
+
   private setPasswordVisibility(htmlInput: HTMLInputElement,
                                 htmlImage: HTMLImageElement): void {
     htmlInput.type = htmlInput.type === 'password' ? 'text' : 'password';
