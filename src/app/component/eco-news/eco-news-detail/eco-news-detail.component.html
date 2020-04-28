@@ -41,7 +41,7 @@
       <div class="news-info-author">by {{ newsItem.author.firstName}} {{newsItem.author.lastName }}</div>
     </div>
     <div class="news-image">
-      <img [src]="images.largeImage"
+      <img [src]="newsItem.imagePath"
            alt="news-image"
            class="news-image-img"
       >
