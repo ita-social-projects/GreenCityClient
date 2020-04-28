@@ -19,8 +19,8 @@ div {
 
 .list-image-content {
   margin-bottom: 16px;
-  max-width: 359px;
-  max-height: 302.94px;
+  width: 359px;
+  height: 206px;
 }
 
 .added-data {
@@ -38,6 +38,7 @@ div {
   border: 1px solid #313131;
   border-radius: 25px;
   margin: 0 16px 0 0;
+  text-transform: capitalize;
 }
 
 .title-list {

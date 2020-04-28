@@ -1,7 +1,7 @@
 <div id="list-gallery-content">
   <div class="list-image">
     <img class="list-image-content"
-         [src]="profileIcons.newsDefaultPictureGallery"
+         [src]="checkNewsImage()"
          alt="user added image" />
   </div>
   <div class="filter-tag">
@@ -12,7 +12,7 @@
   </div>
   <div class="title-list">
     <p>
-      {{ ecoNewsModel.title | slice: 0:170 }}
+      {{ ecoNewsModel.title }}
     </p>
   </div>
   <div class="list-text">

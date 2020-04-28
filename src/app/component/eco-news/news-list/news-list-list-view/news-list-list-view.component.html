@@ -1,7 +1,7 @@
 <div id="list-gallery-content">
   <div class="list-image">
     <img class="list-image-content"
-         [src]="profileIcons.newsDefaultPictureList"
+         [src]="checkNewsImage()"
          alt="user added image" />
   </div>
   <div class="added-data">
@@ -18,7 +18,7 @@
     </div>
     <div class="list-text">
       <p>
-        {{ newsText }}
+        {{ textValidationOfMinCharacters() }}
       </p>
     </div>
     <div class="user-data-added-news">
