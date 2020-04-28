@@ -104,7 +104,7 @@
 .news-text-container {
     margin: 0 98px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .news-text {
