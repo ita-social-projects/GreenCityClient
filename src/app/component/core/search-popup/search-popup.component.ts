@@ -18,7 +18,7 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   private isTipsSearchFound: boolean;
   private inputValue: string;
   private searchElements: SearchModel[] = [];
-  private itemsFound: number;
+  private itemsFound: number = 0;
   private iterator: number;
 
   constructor(private clickSearch: SearchClickService,
@@ -30,7 +30,12 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
 
   private onKeyUp(event: any): void {
     this.inputValue = event.target.value;
-    this.searchSubscription = this.search.getSearch(this.inputValue).subscribe(this.getSearchData.bind(this));
+    if (this.inputValue === 'none') {
+      this.isNewsSearchFound = false;
+      this.itemsFound = 0;
+    } else {
+      this.searchSubscription = this.search.getSearch(this.inputValue).subscribe(this.getSearchData.bind(this));
+    }
   }
 
 
