@@ -1,7 +1,8 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { SearchClickService } from '../../../service/search/search-click.service';
 import { SearchService } from '../../../service/search/search.service';
 import { SearchModel } from '../../../model/search/search.model';
+import { NewsSearchModel } from '../../../model/search/newsSearch.model';
+import { TipsSearchModel } from '../../../model/search/tipsSearch.model';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -17,36 +18,41 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   private isNewsSearchFound: boolean;
   private isTipsSearchFound: boolean;
   private inputValue: string;
-  private searchElements: SearchModel[] = [];
-  private itemsFound: number = 0;
-  private iterator: number;
+  private newsElements: NewsSearchModel[];
+  private tipsElements: TipsSearchModel[];
+  private itemsFound = 0;
 
-  constructor(private clickSearch: SearchClickService,
-              private search: SearchService) {}
+  constructor(private search: SearchService) {}
 
   ngOnInit() {
-    this.signalSubscription = this.clickSearch.openSearchEmitter.subscribe(this.subscribeToSignal.bind(this));
+    this.signalSubscription = this.search.openSearchEmitter.subscribe(this.subscribeToSignal.bind(this));
   }
 
   private onKeyUp(event: any): void {
     this.inputValue = event.target.value;
-    if (this.inputValue === 'none') {
-      this.isNewsSearchFound = false;
-      this.itemsFound = 0;
+    this.searchSubscription = this.search.getSearch(this.inputValue).subscribe(this.getSearchData.bind(this));
+  }
+
+  private getSearchData(data: SearchModel): void {
+    this.getNews(data.ecoNews);
+    this.getTricks(data.tips);
+  }
+
+  private getNews(data): void {
+    if (data.length > 0) {
+      this.isNewsSearchFound = true;
+      this.newsElements = data;
     } else {
-      this.searchSubscription = this.search.getSearch(this.inputValue).subscribe(this.getSearchData.bind(this));
+      this.isNewsSearchFound = false;
     }
   }
 
-
-  private getSearchData(data: SearchModel[]): void {
+  private getTricks(data): void {
     if (data.length > 0) {
-      this.isNewsSearchFound = true;
-      this.searchElements = data;
-      this.iterator = data.length;
-      this.itemsFound = data.length;
+      this.isTipsSearchFound = true;
+      this.tipsElements = data;
     } else {
-      this.isNewsSearchFound = false;
+      this.isTipsSearchFound = false;
     }
   }
 

@@ -21,7 +21,7 @@
             <h3>News</h3>
           </a>
           <div class="flex-container">
-            <app-search-item *ngFor="let element of searchElements"
+            <app-search-item *ngFor="let element of newsElements"
                              [searchModel]="element"
                              (closeSearch)="closeSearch()"></app-search-item>
           </div>

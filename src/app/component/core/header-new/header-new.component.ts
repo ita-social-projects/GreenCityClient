@@ -14,7 +14,7 @@ import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-sta
 import { filter } from 'rxjs/operators';
 import { LanguageService } from '../../../i18n/language.service';
 import { Language } from '../../../i18n/Language';
-import { SearchClickService } from '../../../service/search/search-click.service';
+import { SearchService } from '../../../service/search/search.service';
 
 @Component({
   selector: 'app-header-new',
@@ -43,7 +43,7 @@ export class HeaderNewComponent implements OnInit {
               private achievementService: AchievementService,
               private habitStatisticService: HabitStatisticService,
               private languageService: LanguageService,
-              private clickSearch: SearchClickService) {}
+              private clickSearch: SearchService) {}
 
   ngOnInit() {
     this.clickSearch.openSearchEmitter.subscribe(this.subcribeToSearch.bind(this));
