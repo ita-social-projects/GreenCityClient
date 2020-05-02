@@ -20,12 +20,14 @@
 }
 
 .gallery-view-active {
-  display: grid;
-  grid-template-columns: auto auto auto;
+  column-gap: 32px;
+  column-count: 3;
 }
 
 .gallery-view-li-active {
-  margin: 0 32px 40px 0;
+  display: inline-block;
+  margin: 0 0 40px 0;
+  break-inside: avoid;
 }
 
 .list-view-li-active {

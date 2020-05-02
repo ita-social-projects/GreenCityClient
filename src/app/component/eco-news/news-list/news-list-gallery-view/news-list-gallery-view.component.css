@@ -18,8 +18,8 @@ div {
 
 .list-image-content {
   margin-bottom: 16px;
-  max-width: 327px;
-  max-height: 294.12px;
+  width: 327px;
+  height: 200px;
 }
 
 .ul-eco-buttons {
@@ -33,6 +33,8 @@ div {
   border: 1px solid #313131;
   border-radius: 25px;
   margin-right: 16px;
+  margin-bottom: 8px;
+  text-transform: capitalize;
 }
 
 .title-list {
@@ -56,7 +58,7 @@ div {
   flex-wrap: wrap;
 }
 
-.user-data-text-date-share {
+.user-data-text-date {
   margin-right: 16px;
   font-family: 'Open Sans', sans-serif;
   font-size: 16px;

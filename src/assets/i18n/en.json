@@ -1,10 +1,10 @@
 {
   "top-bar": {
     "text-before": "Hello! It is a tracker of eco habits. Please ",
-    "sign-up": "register ",
+    "sign-up": "Sign up ",
     "text-within": "to create your own tracker ",
     "or": "or ",
-    "sign-in": "sign in",
+    "sign-in": "Sign in",
     "text-after": " if you are already with us.",
     "hello": "Hello, ",
     "welcome-back": "! Welcome back!"
@@ -221,8 +221,11 @@
         "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long",
         "password-match": "Passwords do not match",
         "password-confirm": "Password confirm",
-        "submit": "Sign Up!",
-        "haveyou-account": "Have you an account already?"
+        "submit": "Sign Up",
+        "or": "or",
+        "submit-with-google": "Sign Up with Google",
+        "haveyou-account": "Have you an account already?",
+        "enter": "Sign in"
       },
       "submit-email": "You have successfully registered on the site. Please confirm your email address in the email box",
       "forgot-password": {
@@ -366,6 +369,14 @@
       "tips": "Tips & Tricks",
       "map": "Map",
       "my-habits": "My cabinet"
+    },
+    "footer": {
+      "about-us": "About us",
+      "eco-events": "Eco news",
+      "tips": "Tips & Tricks",
+      "map": "Places",
+      "my-habits": "My habits",
+      "follow-us": "Follow us"
     },
     "user-goals": {
       "add-goal": {
@@ -511,5 +522,11 @@
   "post-news-loader": {
     "text-1": "Please wait while loading...",
     "text-2": "Your news is loading to the website. Please wait until the page refreshes"
+  },
+  "cancel-popup": {
+    "title": "All created content will be lost.",
+    "subtitle": "Do you still want to cancel news creating?",
+    "continue": "Continue editing",
+    "cancel": "Yes, cancel"
   }
 }

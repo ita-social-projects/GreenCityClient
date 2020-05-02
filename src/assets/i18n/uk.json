@@ -210,7 +210,7 @@
       },
       "sign-up": {
         "title-up": "Вітаємо!",
-        "fill-form-up": "Будь ласка, внеси свої дані, щоб зареєструватися",
+        "fill-form-up": "Будь ласка, внесіть свої дані, для реєстрації",
         "first-name": "Ім'я користувача",
         "first-name-is-required": "Введіть ім'я",
         "first-name-must-be-at-least-1-characters-long": "Ім'я повинно містити принаймі 1 символ",
@@ -225,9 +225,12 @@
         "password-is-required": "Введіть пароль",
         "password-must-be-at-least-8-characters-long": "Пароль повинен містити принаймі 8 символів",
         "password-match": "Пароль не співпадає",
-        "password-confirm": "Підтвердіть пароль",
-        "submit": "Підтвердити",
-        "haveyou-account": "В тебе вже є аккаунт?"
+        "password-confirm": "Повторіть пароль",
+        "submit": "Зареєструватись",
+        "or": "або",
+        "submit-with-google": "Зареєструватись через Google",
+        "haveyou-account": "Вже маєете аккаунт?",
+        "enter": "Увійти"
       },
       "submit-email": "Ви успішно зареєструвались на сайті. Будь ласка, підтвердіть вашу електронну адресу в електронній скринці.",
       "forgot-password": {
@@ -371,6 +374,14 @@
       "tips": "Поради",
       "map": "Карта",
       "my-habits": "Мій кабінет"
+    },
+    "footer": {
+      "about-us": "Про нас",
+      "eco-events": "Еко новини",
+      "tips": "Поради",
+      "map": "Місця",
+      "my-habits": "Мої звички",
+      "follow-us": "Приєднуйтесь до нас"
     },
     "user-goals": {
       "add-goal": {
@@ -517,5 +528,11 @@
   "post-news-loader": {
     "text-1": "Please wait while loading...",
     "text-2": "Your news is loading to the website. Please wait until the page refreshes"
+  },
+  "cancel-popup": {
+    "title": "Внесені зміни будуть втрачені.",
+    "subtitle": "Бажаєте вийти?",
+    "continue": "Продовжити редагування",
+    "cancel": "Так, вийти"
   }
 }

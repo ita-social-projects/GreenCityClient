@@ -2,7 +2,7 @@
   "top-bar": {
     "text-before": "Привет! Это трекер эко-привычек. ",
     "sign-up": "Зарегистрируйся ",
-    "text-within": "что бы создать собственный ",
+    "text-within": "чтобы создать собственный ",
     "or": "или ",
     "sign-in": "входи",
     "text-after": ", если ты уже с нами.",
@@ -38,7 +38,7 @@
       "caption": "Эко-советы"
     },
     "subscription": {
-      "caption": "Получать интерестные новости",
+      "caption": "Получать интересные новости",
       "content": "Подпишитесь на рассылку и всегда будьте в курсе новостей и обновлений",
       "placeholder": "Введите ваш email",
       "validation-error": "Некорректная электронная почта",
@@ -226,8 +226,11 @@
         "password-must-be-at-least-8-characters-long": "Пароль должен содержать по крайней мере 8 символов",
         "password-confirm": "Підтвердить пароль",
         "password-match": "Пароли не совпадают",
-        "submit": "Зарегистрироваться!",
-        "haveyou-account": "Уже есть аккаунт?"
+        "submit": "Зарегистрироваться",
+        "or": "или",
+        "submit-with-google": "Зарегистрироваться через Google",
+        "haveyou-account": "Уже есть аккаунт?",
+        "enter": "Войти"
       },
       "submit-email": "Вы успешно зарегистрированы на этом сайте. Пожалуйста, подтвердите ваш адрес электронной почты в почтовом ящике",
       "forgot-password": {
@@ -372,6 +375,15 @@
       "map": "Карта",
       "my-habits": "Мой кабинет"
     },
+    "footer": {
+      "about-us": "О нас",
+      "eco-events": "Эко новости",
+      "tips": "Советы",
+      "map": "Места",
+      "my-habits": "Мои привычки",
+      "follow-us": "Присоединяйтесь к нам"
+    },
+
     "user-goals": {
       "add-goal": {
         "update": "Обновить",
@@ -517,5 +529,11 @@
   "post-news-loader": {
     "text-1": "Please wait while loading...",
     "text-2": "Your news is loading to the website. Please wait until the page refreshes"
+  },
+  "cancel-popup": {
+    "title": "Все изменения будут потеряны.",
+    "subtitle": "Желаете выйти?",
+    "continue": "Продолжить редактирование",
+    "cancel": "Да, выйти"
   }
 }

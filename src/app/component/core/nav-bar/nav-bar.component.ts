@@ -115,6 +115,7 @@ export class NavBarComponent implements OnInit {
     this.dialog.open(NewSignUpComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
+      disableClose: true,
       panelClass: 'custom-dialog-container',
     });
   }

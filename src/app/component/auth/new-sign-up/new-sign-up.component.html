@@ -19,77 +19,175 @@
     <div class="main-content-container">
       <div class="title">
         <h1 class=""title-text>
-          Вітаємо!
+          {{ 'user.auth.sign-up.title-up' | translate }}
         </h1>
       </div>
       <div class="subtitle">
         <h2 class="subtitle-text">
-          Будь ласка, внесіть свої дані для реєстрації.
+          {{ 'user.auth.sign-up.fill-form-up' | translate }}
         </h2>
       </div>
-      <form action="submit">
+      <form #signUpForm="ngForm"
+            (ngSubmit)="onSubmit(userOwnSignUp)"
+      >
         <div class="form-content-container">
           <label class="content-label">
-            Електронна пошта
+            {{ 'user.auth.sign-up.email' | translate }}
           </label>
           <input type="email"
                  class="main-data-input"
                  placeholder="example@email.com"
+                 #emailControl="ngModel"
+                 name="email"
+                 [(ngModel)]="userOwnSignUp.email"
+                 (input)="setEmailBackendErr()"
+                 [ngClass]="emailControl.invalid &&
+                 (emailControl.dirty || emailControl.touched) ?
+                 'wrong-input':'main-data-input'"
+                 required
+                 minlength="1"
+                 email="true"
           >
-          <label class="content-label">
-            Ваше ім’я
+          <div class="error-message"
+               [ngClass]="emailControl.invalid &&
+               (emailControl.dirty || emailControl.touched) || emailErrorMessageBackEnd ?
+               'error-message-show':'error-message'"
+          >
+            <div *ngIf="emailControl.errors?.required">
+              {{'user.auth.sign-up.email-is-required' | translate}}
+            </div>
+            <div *ngIf="emailControl.errors?.minlength">
+              {{'user.auth.sign-up.email-must-be-at-least-1-characters-long' | translate}}
+            </div>
+            <div *ngIf="emailControl.errors?.email">
+              {{'user.auth.sign-up.this-is-not-email' | translate}}
+            </div>
+            <div *ngIf="emailErrorMessageBackEnd">
+              {{ emailErrorMessageBackEnd }}
+            </div>
+          </div>
+          <label class="content-label under-error">
+            {{ 'user.auth.sign-up.first-name' | translate }}
           </label>
           <input type="text"
                  class="main-data-input"
-                 placeholder="Ваше ім’я"
+                 placeholder="{{ 'user.auth.sign-up.first-name-is-required' | translate }}"
+                 name="fistName"
+                 #firstNameControl="ngModel"
+                 [(ngModel)]="userOwnSignUp.firstName"
+                 required
+                 maxlength="20"
           >
           <label class="content-label">
-            Пароль
+            {{ 'user.auth.sign-up.password' | translate }}
           </label>
-          <div class="main-data-input-password">
+          <div class="main-data-input-password"
+               [ngClass]="passwordControl.invalid &&
+               (passwordControl.dirty || passwordControl.touched) ?
+               'main-data-input-password wrong-input' : 'main-data-input-password'"
+          >
             <input type="password"
-                   placeholder="Пароль"
+                   placeholder="{{ 'user.auth.sign-up.password' | translate }}"
                    class="password-input"
+                   #inputPassword
+                   #passwordControl="ngModel"
+                   [(ngModel)]="userOwnSignUp.password"
+                   required
+                   minlength="8"
+                   name="form-control password"
             >
             <span class="show-password">
               <img [src]="signUpImgs.hiddenEye"
                    alt="eye"
                    class="show-password-img"
+                   #inputPasswordImg
+                   (click)="setPasswordVisibility(inputPassword, inputPasswordImg)"
               >
             </span>
           </div>
-          <label class="content-label">
-            Повторіть пароль
+          <div class="error-message"
+               [ngClass]="passwordControl.invalid &&
+               (passwordControl.dirty || passwordControl.touched) ?
+               'error-message-show' : 'error-message'"
+          >
+            <div *ngIf="passwordControl.errors?.required">
+              {{'user.auth.sign-up.password-is-required' | translate}}
+            </div>
+            <div *ngIf="passwordControl.errors?.minlength">
+              {{'user.auth.sign-up.password-must-be-at-least-8-characters-long' | translate}}
+            </div>
+          </div>
+          <label class="content-label under-error">
+            {{ 'user.auth.sign-up.password-confirm' | translate }}
           </label>
-          <div class="main-data-input-password">
+          <div class="main-data-input-password"
+               [ngClass]="passwordControlConfirm.invalid &&
+               (passwordControlConfirm.dirty || passwordControlConfirm.touched) ?
+               'main-data-input-password wrong-input':'main-data-input-password'"
+               #repeatInput
+          >
             <input type="password"
-                   placeholder="Пароль"
+                   placeholder="{{ 'user.auth.sign-up.password' | translate }}"
                    class="password-input"
+                   #repeatPassword
+                   #passwordControlConfirm="ngModel"
+                   [(ngModel)]="tmp"
+                   name="form-control password-confirm"
+                   (input)="matchPassword(inputPassword, repeatPassword, repeatInput)"
+                   required
             >
             <span class="show-password">
               <img [src]="signUpImgs.hiddenEye"
                    alt="eye"
                    class="show-password-img"
+                   #repeatPasswordImg
+                   (click)="setPasswordVisibility(repeatPassword, repeatPasswordImg)"
               >
             </span>
+          </div>
+          <div class="error-message"
+               [ngClass]="passwordControlConfirm.invalid &&
+               (passwordControlConfirm.dirty || passwordControlConfirm.touched) ||
+               (inputPassword.value !== repeatPassword.value && repeatPassword.value !== '') ||
+               passwordErrorMessageBackEnd ?
+               'error-message-show' : 'error-message'"
+          >
+            <div *ngIf="passwordControlConfirm.errors?.required">
+              {{'user.auth.sign-up.password-is-required' | translate}}
+            </div>
+            <div *ngIf="inputPassword.value !== repeatPassword.value &&
+                  !passwordControlConfirm.errors?.required"
+            >
+              {{'user.auth.sign-up.password-match' | translate}}
+            </div>
+            <div *ngIf="passwordErrorMessageBackEnd">
+              {{ passwordErrorMessageBackEnd }}
+            </div>
           </div>
           <button type="submit"
-                  class="cta-button"
+                  class="primary-global-button"
+                  [disabled]="!signUpForm.valid"
           >
-            Зареєструватись
+            <span *ngIf="loadingAnim"
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true">
+            </span>
+            {{ 'user.auth.sign-up.submit' | translate }}
           </button>
           <div class="switch-sign-up">
-            або
+            {{'user.auth.sign-up.or' | translate}}
           </div>
           <button type="submit"
                   class="cta-button-google"
+                  (click)="signInWithGoogle()"
           >
             <img [src]="signUpImgs.google"
                  alt="google"
                  class="sign-up-google-img"
             >
             <span class="sign-up-google-text">
-              Зареєструватись через Google
+              {{ 'user.auth.sign-up.submit-with-google' | translate }}
             </span>
           </button>
         </div>
@@ -97,8 +195,11 @@
 
       <div class="exist-account">
         <span>
-          Вже маєете аккаунт?
-          <a href="#" class="exist-sign-in">Увійти</a>
+          {{ 'user.auth.sign-up.haveyou-account' | translate }}
+          <a class="exist-sign-in"
+             (click)="openSignInWindow()">
+            {{ 'user.auth.sign-up.enter' | translate }}
+          </a>
         </span>
       </div>
     </div>

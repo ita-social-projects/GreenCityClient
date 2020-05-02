@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { LowerNavBarComponent } from './lower-nav-bar/lower-nav-bar.component';
 import { CommonModule } from '@angular/common';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -14,7 +15,6 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { MatCheckboxModule, MatDialogModule, MatCardModule } from '@angular/material';
 import { PhotoUploadComponent } from './photo-upload/photo-upload.component';
 import { FileUploadModule } from 'ng2-file-upload';
-import { LowerNavBarComponent } from './lower-nav-bar/lower-nav-bar.component';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { FooterComponent } from './footer/footer.component';
 import { AboutPageComponent } from '../about-page/about-page.component';
