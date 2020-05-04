@@ -50,3 +50,9 @@ img {
         width: 381px;
     }
 }
+
+@media screen and (max-width: 320px) {
+    .dropzone {
+        width: 275px;
+    }
+}

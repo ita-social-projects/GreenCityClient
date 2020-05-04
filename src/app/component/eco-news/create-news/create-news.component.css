@@ -225,21 +225,24 @@ button {
 }
 
 @media screen and (max-width: 320px) {
-    .title, .form-description {
-        width: 370px;
-    }
-
     .left-form-column input, 
-    form .textarea-wrapper textarea {
-        width: 380px;
+    form .textarea-wrapper textarea, 
+    .form-description,
+    .tags {
+        width: 275px;
     }
 
     .right-form-column {
         margin-top: 40px;
     }
 
-    .tags {
-        width: 350px;
+    .tags button {
+        margin: 3px;
+    }
+
+    .title h2 {
+        font-size: 38px;
+        width: 300px;
     }
 
     .submit-buttons {
@@ -247,10 +250,11 @@ button {
         flex-direction: column;
         justify-content: space-between;
         height: 200px;
+        margin-left: -30px;
     }
 
     .submit-buttons button {
-        width: 287px;
+        width: 275px;
         height: 48px;
     }
 }
