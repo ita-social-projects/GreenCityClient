@@ -53,6 +53,6 @@ export class LanguageService {
 
   public changeCurrentLanguage(language: Language) {
     this.localStorageService.setCurrentLanguage(language);
-    location.reload();
+    this.translate.setDefaultLang(language);
   }
 }
