@@ -193,7 +193,8 @@ button {
 }
 
 @media screen and (max-width: 768px) {
-    .left-form-column input, form .textarea-wrapper textarea  {
+    .left-form-column input, 
+    form .textarea-wrapper textarea  {
         width: 600px;
     }
 
@@ -213,7 +214,8 @@ button {
 
 
 @media screen and (max-width: 576px) {
-    .left-form-column input, form .textarea-wrapper textarea {
+    .left-form-column input, 
+    form .textarea-wrapper textarea {
         width: 530px;
     }
 
@@ -227,7 +229,8 @@ button {
         width: 370px;
     }
 
-    .left-form-column input, form .textarea-wrapper textarea {
+    .left-form-column input, 
+    form .textarea-wrapper textarea {
         width: 380px;
     }
 
