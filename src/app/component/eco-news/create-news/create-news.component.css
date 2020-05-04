@@ -182,27 +182,88 @@ button {
     color: red;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1024px) {
     .left-form-column input {
-        width: 400px;
+        width: 500px;
+    }
+
+    form .textarea-wrapper textarea {
+        width: 920px;
     }
 }
 
-@media screen and (max-width: 740px) {
-    form {
-        height: 1000px;
-    }
-
-    .textarea-wrapper {
-        margin-top: 200px;
-    }
-
+@media screen and (max-width: 768px) {
     .left-form-column input {
-        width: 330px;
+        width: 600px;
+    }
+
+    form .textarea-wrapper textarea {
+        width: 600px;
+    }
+
+    .right-form-column {
+        margin-left: 0;
+    }
+
+    .submit-buttons {
+        margin-right: -90px;
     }
 
     .wrapper {
         display: flex;
         flex-direction: column;
+    }
+}
+
+
+@media screen and (max-width: 576px) {
+    .left-form-column input {
+        width: 530px;
+    }
+
+    form .textarea-wrapper textarea {
+        width: 530px;
+    }
+
+    .submit-buttons {
+        margin-right: 0;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .title {
+        width: 370px;
+    }
+
+    .form-description {
+        width: 370px;
+    }
+
+    .left-form-column input {
+        width: 380px;
+    }
+
+    form .textarea-wrapper textarea {
+        width: 380px;
+    }
+
+    .right-form-column {
+        margin-top: 40px;
+    }
+
+    .tags {
+        width: 350px;
+    }
+
+    .submit-buttons {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 200px;
+    }
+
+    .submit-buttons button {
+        width: 287px;
+        height: 48px;
     }
 }
