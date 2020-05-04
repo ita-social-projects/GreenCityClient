@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SignUpComponent } from './component/user/auth/sign-up/sign-up.component';
-import { GeneralComponent } from './component/general/general.component';
 import { AuthComponent } from './component/user/auth/auth.component';
 import { SignInComponent } from './component/user/auth/sign-in/sign-in.component';
 import { SubmitEmailComponent } from './component/user/auth/submit-email/submit-email.component';
@@ -114,7 +113,6 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
 @NgModule({
   declarations: [
     AppComponent,
-    GeneralComponent,
     SignUpComponent,
     HabitFactComponent,
     HabitTitleComponent,
