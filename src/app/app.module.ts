@@ -87,16 +87,6 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { UpdateGoalStatusListComponent } from './component/user/user-goals/add-goal/update-goal-status-list/update-goal-status-list.component';
 // tslint:disable-next-line:max-line-length
 import { UpdateGoalItemComponent } from './component/user/user-goals/add-goal/update-goal-status-list/update-goal-item/update-goal-item.component';
-import { HomepageComponent } from './component/general/homepage/homepage/homepage.component';
-import { StatRowComponent } from './component/general/homepage/stat-row/stat-row.component';
-import { StatRowsComponent } from './component/general/homepage/stat-rows/stat-rows.component';
-import { SubscribeComponent } from './component/general/homepage/subscribe/subscribe.component';
-import { EcoEventsComponent } from './component/general/homepage/eco-events/eco-events.component';
-import { TipsListComponent } from './component/general/homepage/useful-tips/tips-list/tips-list.component';
-import { TipsCardComponent } from './component/general/homepage/useful-tips/tips-card/tips-card.component';
-import { SwiperModule } from 'ngx-swiper-wrapper';
-import { SWIPER_CONFIG } from 'ngx-swiper-wrapper';
-import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 import { InputcolorDirective } from './directives/inputcolor.directive';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CoreModule } from './component/core/core.module';
@@ -104,11 +94,9 @@ import { EcoNewsModule } from './component/eco-news/eco-news.module';
 import { AuthModule } from './component/auth/auth.module';
 import { MapModule } from './component/map/map.module';
 import { NewFooterComponent } from './component/core/new-footer/new-footer.component';
+import { HomeModule } from './component/home/home.module';
 
-const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
-  direction: 'horizontal',
-  slidesPerView: 'auto'
-};
+
 
 @NgModule({
   declarations: [
@@ -162,13 +150,6 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     NewAchievementModalComponent,
     HabitItemListComponent,
     ConfirmationModalComponent,
-    HomepageComponent,
-    StatRowComponent,
-    StatRowsComponent,
-    SubscribeComponent,
-    EcoEventsComponent,
-    TipsListComponent,
-    TipsCardComponent,
     InputcolorDirective,
     NewFooterComponent
   ],
@@ -177,9 +158,9 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     AuthModule,
     CoreModule,
     EcoNewsModule,
+    HomeModule,
     InfiniteScrollModule,
     BrowserModule,
-    SwiperModule,
     BrowserAnimationsModule,
     HttpClientModule,
     SocialLoginModule,
@@ -223,10 +204,6 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     {
       provide: AuthServiceConfig,
       useFactory: provideConfig
-    },
-    {
-      provide: SWIPER_CONFIG,
-      useValue: DEFAULT_SWIPER_CONFIG
     },
     DatePipe
   ],

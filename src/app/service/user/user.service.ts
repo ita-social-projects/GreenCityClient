@@ -1,23 +1,23 @@
-import {LocalStorageService} from '../localstorage/local-storage.service';
-import {catchError} from 'rxjs/operators';
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, Observable, of} from 'rxjs';
-import {UserRoleModel} from '../../model/user/user-role.model';
-import {UserStatusModel} from '../../model/user/user-status.model';
-import {UserPageableDtoModel} from '../../model/user/user-pageable-dto.model';
-import {habitStatisticLink, mainLink, userLink} from '../../links';
-import {RolesModel} from '../../model/user/roles.model';
-import {UserFilterDtoModel} from '../../model/user/userFilterDto.model';
-import {UserUpdateModel} from '../../model/user/user-update.model';
-import {Goal} from '../../model/goal/Goal';
-import {GoalType} from '../../component/user/user-goals/add-goal/add-goal-list/GoalType';
-import {CustomGoalResponseDto} from '../../model/goal/CustomGoalResponseDto';
-import {CustomGoalSaveRequestDto} from '../../model/goal/CustomGoalSaveRequestDto';
-import {UserCustomGoalDto} from '../../model/goal/UserCustomGoalDto';
-import {UserGoalDto} from '../../model/goal/UserGoalDto';
-import {OnLogout} from '../OnLogout';
-import {HabitItemsAmountStatisticDto} from "../../model/goal/HabitItemsAmountStatisticDto";
+import { LocalStorageService } from '../localstorage/local-storage.service';
+import { catchError } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { UserRoleModel } from '../../model/user/user-role.model';
+import { UserStatusModel } from '../../model/user/user-status.model';
+import { UserPageableDtoModel } from '../../model/user/user-pageable-dto.model';
+import { habitStatisticLink, mainLink, userLink } from '../../links';
+import { RolesModel } from '../../model/user/roles.model';
+import { UserFilterDtoModel } from '../../model/user/userFilterDto.model';
+import { UserUpdateModel } from '../../model/user/user-update.model';
+import { Goal } from '../../model/goal/Goal';
+import { GoalType } from '../../component/user/user-goals/add-goal/add-goal-list/GoalType';
+import { CustomGoalResponseDto } from '../../model/goal/CustomGoalResponseDto';
+import { CustomGoalSaveRequestDto } from '../../model/goal/CustomGoalSaveRequestDto';
+import { UserCustomGoalDto } from '../../model/goal/UserCustomGoalDto';
+import { UserGoalDto } from '../../model/goal/UserGoalDto';
+import { OnLogout } from '../OnLogout';
+import { HabitItemsAmountStatisticDto } from '../../model/goal/HabitItemsAmountStatisticDto';
 
 @Injectable({
   providedIn: 'root'
