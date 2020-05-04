@@ -12,7 +12,7 @@ export class SearchService {
   public openSearchEmitter: EventEmitter<boolean> = new EventEmitter();
 
   public getSearch(searchQuery: string): Observable<SearchModel> {
-    return this.http.get<SearchModel>(`${this.backEndLink}search/?searchQuery=${searchQuery}`);
+    return this.http.get<SearchModel>(`${this.backEndLink}search?searchQuery=${searchQuery}`);
   }
 
   public signal() {
