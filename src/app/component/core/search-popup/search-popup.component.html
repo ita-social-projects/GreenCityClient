@@ -11,7 +11,7 @@
 
   <div class="page-wrapper">
     <div class="search-content-wrapper">
-      <div class="remaining-items" *ngIf="inputValue != undefined">
+      <div class="remaining-items" *ngIf="inputValue != undefined && itemsFound != undefined">
         {{ itemsFound }} items found
       </div>
       <ng-template [ngIf]="isNewsSearchFound || isTipsSearchFound">

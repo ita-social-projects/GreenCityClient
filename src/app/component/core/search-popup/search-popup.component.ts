@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SearchService } from '../../../service/search/search.service';
 import { SearchModel } from '../../../model/search/search.model';
 import { NewsSearchModel } from '../../../model/search/newsSearch.model';
@@ -20,7 +20,7 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   private inputValue: string;
   private newsElements: NewsSearchModel[];
   private tipsElements: TipsSearchModel[];
-  private itemsFound = 0;
+  private itemsFound: number;
 
   constructor(private search: SearchService) {}
 
@@ -36,6 +36,7 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   private getSearchData(data: SearchModel): void {
     this.getNews(data.ecoNews);
     this.getTricks(data.tips);
+    this.itemsFound = data.countOfResults;
   }
 
   private getNews(data): void {
