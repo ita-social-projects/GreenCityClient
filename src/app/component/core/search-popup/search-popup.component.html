@@ -1,12 +1,14 @@
 <ng-template [ngIf]="isSearchClicked">
   <div class="search-bar-wrapper">
-    <div class="search-icon"></div>
-      <input class = "search-field"
-             type="text"
-             placeholder="Search"
-             (keyup)="onKeyUp($event)">
-    <div class="close-icon"
-         (click)="closeSearch()"></div>
+    <div class="center-flex-wrapper">
+      <div class="search-icon"></div>
+        <input class = "search-field"
+               type="text"
+               placeholder="Search"
+               (keyup)="onKeyUp($event)">
+      <div class="close-icon"
+           (click)="closeSearch()"></div>
+    </div>
   </div>
 
   <div class="page-wrapper">

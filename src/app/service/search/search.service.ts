@@ -15,7 +15,7 @@ export class SearchService {
     return this.http.get<SearchModel>(`${this.backEndLink}search?searchQuery=${searchQuery}`);
   }
 
-  public signal() {
+  public openSearchSignal() {
     this.openSearchEmitter.emit(true);
   }
 

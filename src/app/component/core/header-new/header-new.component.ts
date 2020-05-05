@@ -47,7 +47,7 @@ export class HeaderNewComponent implements OnInit {
               private clickSearch: SearchService) {}
 
   ngOnInit() {
-    this.clickSearch.openSearchEmitter.subscribe(this.subcribeToSearch.bind(this));
+    this.clickSearch.openSearchEmitter.subscribe(this.openSearchSubscription.bind(this));
     this.dropdownVisible = false;
     this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => this.firstName = firstName);
     this.initUser();
@@ -91,10 +91,10 @@ export class HeaderNewComponent implements OnInit {
   }
 
   private toggleSearchPage(): void {
-    this.clickSearch.signal();
+    this.clickSearch.openSearchSignal();
   }
 
-  private subcribeToSearch(signal: boolean): void {
+  private openSearchSubscription(signal: boolean): void {
     this.isSearchClicked = signal;
   }
 

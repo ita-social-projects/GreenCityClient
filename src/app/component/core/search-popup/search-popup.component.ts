@@ -35,7 +35,9 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
 
   private getSearchData(data: SearchModel): void {
     this.getNews(data.ecoNews);
-    this.getTricks(data.tips);
+    if (data.tips) {
+      this.getTips(data.tips);
+    }
     this.itemsFound = data.countOfResults;
   }
 
@@ -48,7 +50,7 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getTricks(data): void {
+  private getTips(data): void {
     if (data.length > 0) {
       this.isTipsSearchFound = true;
       this.tipsElements = data;
@@ -63,6 +65,10 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
 
   private closeSearch(): void {
     this.isSearchClicked = false;
+    this.newsElements = undefined;
+    this.tipsElements = undefined;
+    this.isNewsSearchFound = undefined;
+    this.isTipsSearchFound = undefined;
   }
 
   ngOnDestroy() {

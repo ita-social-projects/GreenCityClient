@@ -13,6 +13,12 @@
     z-index: 1001;
     box-shadow: 0px 0px 8px rgba(73, 74, 73, 0.2);
 
+    .center-flex-wrapper {
+      display: flex;
+      max-width: 576px;
+      margin: 0 auto;
+    }
+
     .search-icon {
       margin: 28px 28px 28px 16px;
       background: url("../../../../assets/img/icon/search.png") no-repeat;
@@ -63,7 +69,7 @@
   }
 
   .search-content-wrapper {
-    position: fixed;
+    position: relative;
     top: 80px;
     left: 0;
     width: 100%;
@@ -160,7 +166,6 @@
 @media only screen and (min-width: 576px) and (max-width: 768px) {
   .search-bar-wrapper {
     position: fixed;
-    display: flex;
     top: 0px;
     left: 0px;
     width: 100%;
@@ -168,6 +173,13 @@
     background-color: #ffff;
     z-index: 1001;
     box-shadow: 0px 0px 8px rgba(73, 74, 73, 0.2);
+
+    .center-flex-wrapper {
+      display: flex;
+      max-width: 768px;
+      margin: 0 auto;
+    }
+
 
     .search-icon {
       margin: 28px 28px 28px 16px;
@@ -219,7 +231,7 @@
   }
 
   .search-content-wrapper {
-    position: fixed;
+    position: relative;
     top: 80px;
     left: 0;
     width: 100%;
@@ -316,7 +328,6 @@
 @media only screen and (min-width: 768px) and (max-width: 1366px) {
   .search-bar-wrapper {
     position: fixed;
-    display: flex;
     top: 0px;
     left: 0px;
     width: 100%;
@@ -324,6 +335,12 @@
     background-color: #ffff;
     z-index: 1001;
     box-shadow: 0px 0px 8px rgba(73, 74, 73, 0.2);
+
+    .center-flex-wrapper {
+      display: flex;
+      max-width: 1366px;
+      margin: 0 auto;
+    }
 
     .search-icon {
       margin: 28px 28px 28px 16px;
@@ -375,7 +392,7 @@
   }
 
   .search-content-wrapper {
-    position: fixed;
+    position: relative;
     top: 80px;
     left: 0;
     width: 100%;
@@ -472,7 +489,6 @@
   @media only screen and (min-width: 1366px) {
     .search-bar-wrapper {
       position: fixed;
-      display: flex;
       top: 0px;
       left: 0px;
       width: 100%;
@@ -480,6 +496,12 @@
       background-color: #ffff;
       z-index: 1001;
       box-shadow: 0px 0px 8px rgba(73, 74, 73, 0.2);
+
+      .center-flex-wrapper {
+        display: flex;
+        max-width: 1920px;
+        margin: 0 auto;
+      }
 
       .search-icon {
         margin: 28px 28px 28px 9.4rem;
@@ -492,6 +514,7 @@
       .search-field {
         background-color: #fff;
         width: 100%;
+        min-width: 900px;
         height: 28px;
         margin-top: 28px;
         border: none;
