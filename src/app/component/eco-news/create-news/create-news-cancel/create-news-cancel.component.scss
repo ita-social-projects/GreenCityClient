@@ -5,7 +5,7 @@ $title-font: 'Montserrat';
 $main-font: 'Open Sans';
 
 .main-container {
-  max-width: 650px;
+  max-width: 568px;
   max-height: 256px;
   z-index: 2000;
   font-family: $main-font;
@@ -27,6 +27,7 @@ $main-font: 'Open Sans';
     .secondary-global-button,
     .primary-global-button {
       padding: 16px 40px;
+      font-weight: 600;
     }
 
     .secondary-global-button {
@@ -38,6 +39,62 @@ $main-font: 'Open Sans';
       padding: 16px 40px;
       line-height: 16px;
       background-color: #fff;
+    }
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .main-container {
+    max-width: 509px;
+
+    .warning-text {
+      font-size: 18px;
+      line-height: 24px;
+    }
+
+    .cta-buttons {
+      .secondary-global-button,
+      .primary-global-button {
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .main-container {
+    max-width: 288px;
+    max-height: 100%;
+    padding: 236px 0px 76px;
+    margin-bottom: 89px;
+
+    .warning-text {
+      margin-bottom: 89px;
+    }
+
+    .cta-buttons {
+      width: 288px;
+      height: 48px;
+      flex-direction: column;
+      justify-content: center;
+
+      .secondary-global-button,
+      .primary-global-button,
+      .continue-btn,
+      .cancel-btn {
+        width: 288px;
+        height: 48px;
+        text-align: center;
+        font-weight: 600;
+      }
+
+      .secondary-global-button {
+        margin: 0;
+      }
+
+      .primary-global-button {
+        margin-top: 32px;
+      }
     }
   }
 }

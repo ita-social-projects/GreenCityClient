@@ -121,3 +121,9 @@ body {
     padding: 30px 24px 27px 10px;
   }
 }
+
+@media (max-width: 320px) {
+  .custom-dialog-container .mat-dialog-container {
+    padding: 30px 16px 27px;
+  }
+}
