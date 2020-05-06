@@ -10,7 +10,7 @@ import { HomepageComponent } from './component/general/homepage/homepage/homepag
 import { AuthPageGuardService } from './service/route-guards/auth-page-guard.service';
 import { HomePageGuardService } from './service/route-guards/home-page-guard.service';
 import { AppComponent } from './app.component';
-import { AboutPageComponent } from './component/about-page/about-page.component';
+import { AboutPageComponent } from './component/about/about-page/about-page.component';
 import { FilterComponent } from './component/map/filter/filter.component';
 
 export const routes: Routes = [
