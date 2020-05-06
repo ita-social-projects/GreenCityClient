@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
-import {AboutPageComponent} from './about-page/about-page.component';
-import {CoreModule} from '../core/core.module';
+import { AboutPageComponent } from './about-page/about-page.component';
+import { CoreModule } from '../core/core.module';
 
 @NgModule({
   declarations: [
