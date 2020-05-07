@@ -1,14 +1,14 @@
-import {MatTableModule} from '@angular/material/table';
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {AdminNavComponent} from './admin-nav/admin-nav.component';
-import {PlacesComponent} from './places/places.component';
-import {UsersComponent} from './users/users.component';
-import {NgFlashMessagesModule} from 'ng-flash-messages';
-import {ErrorComponent} from '../general/error/error.component';
-import {BrowserModule} from '@angular/platform-browser';
-import {IconsModule, TableModule} from 'angular-bootstrap-md';
-import {NgxPaginationModule} from 'ngx-pagination';
+import { MatTableModule } from '@angular/material/table';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { AdminNavComponent } from './admin-nav/admin-nav.component';
+import { PlacesComponent } from './places/places.component';
+import { UsersComponent } from './users/users.component';
+import { NgFlashMessagesModule } from 'ng-flash-messages';
+import { ErrorComponent } from './error/error.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { IconsModule, TableModule } from 'angular-bootstrap-md';
+import { NgxPaginationModule } from 'ngx-pagination';
 import {
   MAT_DIALOG_DATA,
   MAT_DIALOG_DEFAULT_OPTIONS,

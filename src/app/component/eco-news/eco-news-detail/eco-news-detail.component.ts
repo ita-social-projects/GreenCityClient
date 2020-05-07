@@ -15,6 +15,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   private newsItemSubscription: Subscription;
   private newsId: number;
   private newsItem: EcoNewsModel;
+  private newsImage: string;
   private images = singleNewsImages;
 
   constructor(private route: ActivatedRoute,
@@ -45,6 +46,11 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
 
   private setNewsItem(item: EcoNewsModel): void {
     this.newsItem = item;
+  }
+
+  private checkNewsImage(): string {
+    return this.newsImage = (this.newsItem.imagePath && this.newsItem.imagePath !== ' ') ?
+      this.newsItem.imagePath : this.images.largeImage;
   }
 
   ngOnDestroy() {
