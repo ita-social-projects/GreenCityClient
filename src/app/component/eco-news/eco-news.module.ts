@@ -19,6 +19,7 @@ import { PostNewsLoaderComponent } from './post-news-loader/post-news-loader.com
 import { DragAndDropComponent } from './create-news/drag-and-drop/drag-and-drop.component';
 import { DragAndDropDirective } from 'src/app/directives/drag-and-drop.directive';
 import { CreateNewsCancelComponent } from './create-news/create-news-cancel/create-news-cancel.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { CreateNewsCancelComponent } from './create-news/create-news-cancel/crea
     InfiniteScrollModule,
     CoreModule,
     EcoNewsRoutingModule,
+    ImageCropperModule,
   ],
   entryComponents: [CreateNewsCancelComponent],
   providers: []

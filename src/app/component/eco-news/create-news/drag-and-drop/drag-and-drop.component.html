@@ -18,7 +18,7 @@
 	'warning-color':isWarning
 }">Download PNG or JPG only. File size should be less than 10MB</span>
 <ng-template #elseBlock>
-	<div 	 
+	<!-- <div 	 
 		class="dropzone warning-background" 
 		appDragAndDrop (files)="filesDropped($event)">
 		<div class="text-wrapper">
@@ -27,5 +27,20 @@
 				<p>Drop your image here or <span>browse</span></p>
 			</div>
 		</div>
+	</div> -->
+	<div *ngFor="let file of files">
+		<image-cropper
+		[imageChangedEvent]="imageChangedEvent"
+		[imageFile]="file.file"
+		(imageCropped)="imageCropped($event)"
+		(cropperReady)="cropperReady($event)"
+		(imageLoaded)="imageLoaded($event)"
+	></image-cropper>
+	
+	<img [src]="croppedImage" />
+	
+	  <br>
+	  <br>
+	  <!-- <img *ngIf="file" [src]="file.url" appDrag (files)="filesDropped($event)"> -->
 	</div>
 </ng-template>

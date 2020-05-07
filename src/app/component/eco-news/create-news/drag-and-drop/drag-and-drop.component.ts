@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FileHandle } from '../create-news-interface';
 import { CreateEcoNewsService } from '../../../../service/eco-news/create-eco-news.service';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-drag-and-drop',
@@ -11,12 +12,28 @@ export class DragAndDropComponent implements OnInit {
 
   constructor(private ecoNewsService: CreateEcoNewsService ) { }
 
+    imageChangedEvent: any = '';
+    croppedImage: any = '';
+  
+    imageCropped(event: ImageCroppedEvent) {
+      console.log(event);
+        this.croppedImage = event.base64;
+    }
+    imageLoaded(event) {
+       console.log(event);
+    }
+    cropperReady(event) {
+        console.log(event);
+        
+    }
+
   public files: FileHandle[] = [];
   public isWarning: boolean = false;
 
   public filesDropped(files: FileHandle[]): void {
     this.files = files;
     this.ecoNewsService.files = files;
+    this.imageChangedEvent = files;
     this.showWarning();
   }
 
