@@ -184,26 +184,22 @@ button {
 
 @media screen and (max-width: 1024px) {
     .left-form-column input {
-        width: 500px;
+        width: 25rem;
     }
 
     form .textarea-wrapper textarea {
-        width: 920px;
+        width: 45rem;
     }
 }
 
 @media screen and (max-width: 768px) {
     .left-form-column input, 
     form .textarea-wrapper textarea  {
-        width: 600px;
+        width: 100%;
     }
 
     .right-form-column {
         margin-left: 0;
-    }
-
-    .submit-buttons {
-        margin-right: -90px;
     }
 
     .wrapper {
@@ -216,11 +212,15 @@ button {
 @media screen and (max-width: 576px) {
     .left-form-column input, 
     form .textarea-wrapper textarea {
-        width: 530px;
+        width: 100%;
     }
 
     .submit-buttons {
         margin-right: 0;
+    }
+
+    .right-form-column {
+        margin-top: 40px;
     }
 }
 

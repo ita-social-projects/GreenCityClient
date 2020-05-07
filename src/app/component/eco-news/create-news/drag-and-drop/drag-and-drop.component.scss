@@ -45,9 +45,15 @@ img {
     height: 231px;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1200px) {
     .dropzone {
-        width: 381px;
+        width: 275px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .dropzone {
+        width: 295px;
     }
 }
 
