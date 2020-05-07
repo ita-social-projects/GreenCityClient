@@ -20,11 +20,16 @@ div {
 .list-image-content {
   margin-bottom: 16px;
   width: 359px;
-  height: 206px;
+  height: 214px;
+}
+
+.news-content {
+  margin-left: 16px;
+
 }
 
 .added-data {
-  margin-left: 16px;
+  height: 174px;
 }
 
 .ul-eco-buttons {
@@ -42,7 +47,8 @@ div {
 }
 
 .title-list {
-  max-height: 32px;
+  overflow: hidden;
+  max-height: 96px;
   margin: 8px 0 0 0;
   font-family: 'Montserrat', sans-serif;
   font-style: normal;
@@ -53,13 +59,18 @@ div {
 }
 
 .list-text {
+  overflow: hidden;
   height: 96px;
   margin: 8px 0 0 0;
   font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  color: #313131;
 }
 
 .user-data-added-news {
-  margin: 8px 0 0 0;
+  height: 24px;
+  margin: 16px 0 0 0;
   display: flex;
   flex-wrap: wrap;
 }
