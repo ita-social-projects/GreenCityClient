@@ -10,6 +10,7 @@ import { GoogleSignInService } from '../../../service/auth/google-sign-in.servic
 import { UserOwnSignUp } from '../../../model/user-own-sign-up';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserSuccessSignIn } from '../../../model/user-success-sign-in';
+import { SubmitEmailComponent } from '../../user/auth/submit-email/submit-email.component';
 
 @Component({
   selector: 'app-new-sign-up',
@@ -61,8 +62,17 @@ export class NewSignUpComponent implements OnInit {
 
   private onSubmitSuccess(): void {
     this.loadingAnim = false;
-    this.router.navigateByUrl('/auth/submit-email').then(r => r);
+    this.openSignUpPopup();
     this.closeSignUpWindow();
+  }
+
+  private openSignUpPopup(): void {
+    this.dialog.open(SubmitEmailComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: false,
+      panelClass: 'custom-dialog-container',
+    });
   }
 
   private onSubmitError(errors: HttpErrorResponse): void {
