@@ -16,7 +16,6 @@ import { MatCheckboxModule, MatDialogModule, MatCardModule } from '@angular/mate
 import { PhotoUploadComponent } from './photo-upload/photo-upload.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
-import { AboutPageComponent } from '../about-page/about-page.component';
 import { HeaderNewComponent } from './header-new/header-new.component';
 
 @NgModule({
@@ -26,7 +25,6 @@ import { HeaderNewComponent } from './header-new/header-new.component';
         ModalComponent,
         PhotoUploadComponent,
         LowerNavBarComponent,
-        AboutPageComponent,
         HeaderNewComponent,
     ],
     imports: [
