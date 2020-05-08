@@ -5,7 +5,7 @@ import { ecoNewsIcons } from 'src/assets/img/icon/econews/profile-icons';
 @Component({
   selector: 'app-news-list-list-view',
   templateUrl: './news-list-list-view.component.html',
-  styleUrls: ['./news-list-list-view.component.css'],
+  styleUrls: ['./news-list-list-view.component.scss'],
   changeDetection: 0
 })
 export class NewsListListViewComponent implements OnInit, AfterViewChecked {
@@ -44,8 +44,11 @@ export class NewsListListViewComponent implements OnInit, AfterViewChecked {
       case (this.titleHeightOfElement > 32 && this.titleHeightOfElement <= 64):
         this.textHeightOfElement = 52;
         break;
-      case (this.titleHeightOfElement > 64):
+      case (this.titleHeightOfElement > 64 && this.titleHeightOfElement <= 96):
         this.textHeightOfElement = 28;
+        break;
+      case (this.titleHeightOfElement > 96):
+        this.textHeightOfElement = 0;
         break;
     }
     this.renderer.setStyle(this.textHeight.nativeElement, 'height', this.textHeightOfElement + 'px' );
