@@ -18,6 +18,14 @@ export class NewsListListViewComponent implements OnInit, AfterViewChecked {
   private newsImage: string;
   private titleHeightOfElement: number;
   private textHeightOfElement: number;
+  private quantityOfLines = {
+    hiddenSize: 0,
+    sSize: 28,
+    smSize: 32,
+    msSize: 52,
+    mSize: 64,
+    lSize: 96,
+  };
 
   constructor(private renderer: Renderer2) { }
 
@@ -38,17 +46,19 @@ export class NewsListListViewComponent implements OnInit, AfterViewChecked {
   private checkHeightOfTittle(): void {
     this.titleHeightOfElement = this.titleHeight.nativeElement.offsetHeight;
     switch (true) {
-      case (this.titleHeightOfElement < 32):
-        this.textHeightOfElement = 96;
+      case (this.titleHeightOfElement < this.quantityOfLines.smSize):
+        this.textHeightOfElement = this.quantityOfLines.lSize;
         break;
-      case (this.titleHeightOfElement > 32 && this.titleHeightOfElement <= 64):
-        this.textHeightOfElement = 52;
+      case (this.titleHeightOfElement > this.quantityOfLines.smSize &&
+              this.titleHeightOfElement <= this.quantityOfLines.mSize):
+        this.textHeightOfElement = this.quantityOfLines.msSize;
         break;
-      case (this.titleHeightOfElement > 64 && this.titleHeightOfElement <= 96):
-        this.textHeightOfElement = 28;
+      case (this.titleHeightOfElement > this.quantityOfLines.mSize &&
+              this.titleHeightOfElement <= this.quantityOfLines.lSize):
+        this.textHeightOfElement = this.quantityOfLines.sSize;
         break;
-      case (this.titleHeightOfElement > 96):
-        this.textHeightOfElement = 0;
+      case (this.titleHeightOfElement > this.quantityOfLines.lSize):
+        this.textHeightOfElement = this.quantityOfLines.hiddenSize;
         break;
     }
     this.renderer.setStyle(this.textHeight.nativeElement, 'height', this.textHeightOfElement + 'px' );
