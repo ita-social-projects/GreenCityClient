@@ -1,4 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { EcoNewsService } from 'src/app/service/eco-news/eco-news.service';
+import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-filter-news',
@@ -7,20 +10,26 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 
 export class FilterNewsComponent implements OnInit {
-  private filters = [
-    { name: 'news', isActive: false },
-    { name: 'events', isActive: false },
-    { name: 'courses', isActive: false },
-    { name: 'initiatives', isActive: false },
-    { name: 'ads', isActive: false }
-  ];
+  private tagsSubscription: Subscription;
+  private filters = [];
 
   @Output() gridOutput = new EventEmitter<Array<string>>();
 
-  constructor() { }
+  constructor(private ecoNewsService: EcoNewsService) { }
 
   ngOnInit() {
     this.emitActiveFilters();
+    this.getPresentTags();
+  }
+
+  private getPresentTags(): void {
+    this.tagsSubscription = this.ecoNewsService.getAllPresentTags().subscribe(this.setTags.bind(this));
+  }
+
+  private setTags(tags): void {
+    for (const tag of tags) {
+      this.filters.push({name: tag, isActive: false});
+    }
   }
 
   private emitActiveFilters(): void {
