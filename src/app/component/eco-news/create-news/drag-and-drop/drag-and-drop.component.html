@@ -7,18 +7,28 @@
 	</div>
 </div>
 <div *ngFor="let file of files">
-  <img 
-	*ngIf="!isWarning; else elseBlock" 
-	[src]="file.url" 
-	appDragAndDrop (files)="filesDropped($event)">
-</div>
-<span 
-	class="warning"
-	[ngClass]="{
-	'warning-color':isWarning
-}">Download PNG or JPG only. File size should be less than 10MB</span>
-<ng-template #elseBlock>
-	<!-- <div 	 
+	<div *ngIf="!isWarning; else elseBlock"> 
+		<img 
+			*ngIf = "!isCropper"
+			[src]="file.url" 
+			appDragAndDrop (files)="filesDropped($event)">
+			<div *ngIf = "isCropper && !extentionWarning">
+				<image-cropper
+					[imageChangedEvent]="imageChangedEvent"
+					[imageFile]="file.file"
+					(imageCropped)="imageCropped($event)"
+				></image-cropper>
+				<button 
+					type="button" 
+					(click)=stopCropping()>Submit changes</button>
+				<button 
+					type="button" 
+					(click)=cancelChanges()>Cancel changes</button>
+			</div>
+		</div>
+	</div>
+<div *ngIf = "extentionWarning">
+	<div 	 
 		class="dropzone warning-background" 
 		appDragAndDrop (files)="filesDropped($event)">
 		<div class="text-wrapper">
@@ -27,20 +37,31 @@
 				<p>Drop your image here or <span>browse</span></p>
 			</div>
 		</div>
-	</div> -->
+	</div>
+</div>
+<span 
+	class="warning"
+	[ngClass]="{
+	'warning-color':isWarning || extentionWarning
+}">Download PNG or JPG only. File size should be less than 10MB</span>
+<ng-template #elseBlock>
 	<div *ngFor="let file of files">
-		<image-cropper
-		[imageChangedEvent]="imageChangedEvent"
-		[imageFile]="file.file"
-		(imageCropped)="imageCropped($event)"
-		(cropperReady)="cropperReady($event)"
-		(imageLoaded)="imageLoaded($event)"
-	></image-cropper>
-	
-	<img [src]="croppedImage" />
-	
-	  <br>
-	  <br>
-	  <!-- <img *ngIf="file" [src]="file.url" appDrag (files)="filesDropped($event)"> -->
+		<img 
+			*ngIf = "!isCropper"
+			[src]="file.url" 
+			appDragAndDrop (files)="filesDropped($event)">
+		<div *ngIf = "isCropper">
+			<image-cropper
+				[imageChangedEvent]="imageChangedEvent"
+				[imageFile]="file.file"
+				(imageCropped)="imageCropped($event)"
+			></image-cropper>
+			<button 
+				type="button" 
+				(click)=stopCropping()>Submit changes</button>
+			<button 
+				type="button" 
+				(click)=cancelChanges()>Cancel changes</button>
+		</div>
 	</div>
 </ng-template>
