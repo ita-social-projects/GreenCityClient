@@ -34,4 +34,11 @@ export class NewsPreviewPageComponent implements OnInit {
         this.router.navigate(['/news']);
       });
   }
+
+  private setImage(): string {
+    if(this.previewItem.value.image){
+      return this.previewItem.value.image;
+    }
+    return this.images.largeImage;
+  }
 }
