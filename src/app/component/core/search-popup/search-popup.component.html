@@ -13,7 +13,7 @@
 
   <div class="page-wrapper">
     <div class="search-content-wrapper">
-      <div class="remaining-items" *ngIf="inputValue != undefined && itemsFound != undefined">
+      <div class="remaining-items" *ngIf="inputValue && itemsFound">
         {{ itemsFound }} items found
       </div>
       <ng-template [ngIf]="isNewsSearchFound || isTipsSearchFound">
@@ -47,7 +47,7 @@
         </a>
       </ng-template>
 
-      <ng-template [ngIf]="(isNewsSearchFound === false)">
+      <ng-template [ngIf]="(isNewsSearchFound === false && isTipsSearchFound === false)">
         <app-search-not-found (closeFromChild)="closeSearch()"></app-search-not-found>
       </ng-template>
     </div>

@@ -29,34 +29,22 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   }
 
   private onKeyUp(event: any): void {
-    this.inputValue = event.target.value;
-    this.searchSubscription = this.search.getSearch(this.inputValue).subscribe(this.getSearchData.bind(this));
+    if (event.target.value.length > 0) {
+      this.inputValue = event.target.value;
+      this.searchSubscription = this.search.getSearch(this.inputValue).subscribe(this.getSearchData.bind(this));
+    } else {
+      this.flushData();
+    }
   }
 
   private getSearchData(data: SearchModel): void {
-    this.getNews(data.ecoNews);
-    if (data.tips) {
-      this.getTips(data.tips);
-    }
+    this.getNewsAndTips(data.ecoNews, data.tips);
     this.itemsFound = data.countOfResults;
   }
 
-  private getNews(data): void {
-    if (data.length > 0) {
-      this.isNewsSearchFound = true;
-      this.newsElements = data;
-    } else {
-      this.isNewsSearchFound = false;
-    }
-  }
-
-  private getTips(data): void {
-    if (data.length > 0) {
-      this.isTipsSearchFound = true;
-      this.tipsElements = data;
-    } else {
-      this.isTipsSearchFound = false;
-    }
+  private getNewsAndTips(news, tips): void {
+    (news && news.length > 0) ? (this.isNewsSearchFound = true, this.newsElements = news) : (this.isNewsSearchFound = false);
+    (tips && tips.length > 0) ? (this.isTipsSearchFound = true, this.tipsElements = tips) : (this.isTipsSearchFound = false);
   }
 
   private subscribeToSignal(signal: boolean): void {
@@ -65,10 +53,15 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
 
   private closeSearch(): void {
     this.isSearchClicked = false;
-    this.newsElements = undefined;
-    this.tipsElements = undefined;
-    this.isNewsSearchFound = undefined;
-    this.isTipsSearchFound = undefined;
+    this.flushData();
+  }
+
+  private flushData(): void {
+    this.newsElements = null;
+    this.tipsElements = null;
+    this.isNewsSearchFound = null;
+    this.isTipsSearchFound = null;
+    this.itemsFound = null;
   }
 
   ngOnDestroy() {
