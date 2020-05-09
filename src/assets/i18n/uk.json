@@ -213,6 +213,7 @@
         "fill-form-up": "Будь ласка, внесіть свої дані, для реєстрації",
         "first-name": "Ім'я користувача",
         "first-name-is-required": "Введіть ім'я",
+        "user-name-error": "Iм'я користувача обов'язкове",
         "first-name-must-be-at-least-1-characters-long": "Ім'я повинно містити принаймі 1 символ",
         "last-name": "Прізвище",
         "last-name-is-required": "Введіть прізвище",

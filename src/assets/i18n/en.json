@@ -206,9 +206,10 @@
       "sign-up": {
         "title-up": "Hello!",
         "fill-form-up": "Please enter your details to sign up",
-        "first-name": "First name",
-        "first-name-is-required": "First name is required",
-        "first-name-must-be-at-least-1-characters-long": "First name must be at least 1 characters long",
+        "first-name": "User name",
+        "first-name-is-required": "User name is required",
+        "user-name-error": "User name is required",
+        "first-name-must-be-at-least-1-characters-long": "User name must be at least 1 characters long",
         "last-name": "Last name",
         "last-name-is-required": "Last name is required",
         "last-name-must-be-at-least-1-characters-long": "Last name must be at least 1 characters long",
