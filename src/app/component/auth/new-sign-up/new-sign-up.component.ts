@@ -150,6 +150,10 @@ export class NewSignUpComponent implements OnInit {
                     this.signUpImgs.hiddenEye;
   }
 
+  private checkSpaces(input: string): boolean {
+    return input.indexOf(' ') >= 0;
+  }
+
   private openSignInWindow(): void {
     this.closeSignUpWindow();
     this.dialog.open(SignInNewComponent, {

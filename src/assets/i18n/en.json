@@ -219,6 +219,7 @@
         "password": "Password",
         "password-is-required": "Password is required",
         "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long",
+        "password-spaces-error": "Password must be at least 8 characters long without spaces",
         "password-match": "Passwords do not match",
         "password-confirm": "Password confirm",
         "submit": "Sign Up",

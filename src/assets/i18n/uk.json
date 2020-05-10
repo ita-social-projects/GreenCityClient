@@ -224,6 +224,7 @@
         "password": "Пароль",
         "password-is-required": "Введіть пароль",
         "password-must-be-at-least-8-characters-long": "Пароль повинен містити принаймі 8 символів",
+        "password-spaces-error": "Пароль повинен містити принаймі 8 символів без пробілів",
         "password-match": "Пароль не співпадає",
         "password-confirm": "Повторіть пароль",
         "submit": "Зареєструватись",

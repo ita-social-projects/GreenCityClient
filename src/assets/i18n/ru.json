@@ -224,6 +224,7 @@
         "password": "Пароль",
         "password-is-required": "Введите пароль",
         "password-must-be-at-least-8-characters-long": "Пароль должен содержать по крайней мере 8 символов",
+        "password-spaces-error": "Пароль должен содержать по крайней мере 8 символов без пробелов",
         "password-confirm": "Підтвердить пароль",
         "password-match": "Пароли не совпадают",
         "submit": "Зарегистрироваться",

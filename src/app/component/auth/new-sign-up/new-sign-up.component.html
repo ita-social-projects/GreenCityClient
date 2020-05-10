@@ -83,7 +83,8 @@
           </label>
           <div class="main-data-input-password"
                [ngClass]="passwordControl.invalid &&
-               (passwordControl.dirty || passwordControl.touched) ?
+               (passwordControl.dirty || passwordControl.touched) ||
+                checkSpaces(inputPassword.value)?
                'main-data-input-password wrong-input' : 'main-data-input-password'"
           >
             <input type="password"
@@ -107,14 +108,18 @@
           </div>
           <div class="error-message"
                [ngClass]="passwordControl.invalid &&
-               (passwordControl.dirty || passwordControl.touched) ?
+               (passwordControl.dirty || passwordControl.touched) ||
+                checkSpaces(inputPassword.value)?
                'error-message-show' : 'error-message'"
           >
             <div *ngIf="passwordControl.errors?.required">
               {{'user.auth.sign-up.password-is-required' | translate}}
             </div>
-            <div *ngIf="passwordControl.errors?.minlength">
+            <div *ngIf="passwordControl.errors?.minlength && !checkSpaces(inputPassword.value)">
               {{'user.auth.sign-up.password-must-be-at-least-8-characters-long' | translate}}
+            </div>
+            <div *ngIf="checkSpaces(inputPassword.value)">
+              {{'user.auth.sign-up.password-spaces-error' | translate}}
             </div>
           </div>
           <label class="content-label under-error">
@@ -166,7 +171,8 @@
           </div>
           <button type="submit"
                   class="primary-global-button"
-                  [disabled]="!signUpForm.valid"
+                  [disabled]="!signUpForm.valid ||
+                  checkSpaces(inputPassword.value)"
           >
             <span *ngIf="loadingAnim"
                   class="spinner-border spinner-border-sm"
