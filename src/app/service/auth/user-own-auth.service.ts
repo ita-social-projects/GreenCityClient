@@ -5,13 +5,13 @@ import {UserSuccessSignIn} from '../../model/user-success-sign-in';
 @Injectable({
   providedIn: 'root'
 })
-export class SubscribeDataFromLocalStorageService {
+export class UserOwnAuthService {
 public credentialData = new Subject<UserSuccessSignIn>();
 private newObj: UserSuccessSignIn;
 
   constructor() { }
 
- public (): void {
+ public getDataFrLocalSrtorage(): void {
     Object.keys(localStorage).forEach(
       (key) => {
      this.newObj[key] = localStorage.getItem(key);
