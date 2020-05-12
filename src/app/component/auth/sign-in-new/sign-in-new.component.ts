@@ -12,6 +12,7 @@ import { LocalStorageService } from '../../../service/localstorage/local-storage
 import { NewSignUpComponent } from '../new-sign-up/new-sign-up.component';
 import { Subscription } from 'rxjs';
 import { RestorePasswordComponent } from '../restore-password/restore-password.component';
+import { UserOwnAuthService } from '../../../service/auth/user-own-auth.service';
 
 @Component({
   selector: 'app-sign-in-new',
@@ -38,6 +39,7 @@ export class SignInNewComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private googleService: GoogleSignInService,
     private localStorageService: LocalStorageService,
+    private userOwnAuthService: UserOwnAuthService,
   ) { }
 
   ngOnInit() {
@@ -88,8 +90,9 @@ export class SignInNewComponent implements OnInit, OnDestroy {
   private onSignInSuccess(data: UserSuccessSignIn): void {
     this.loadingAnim = false;
     this.userOwnSignInService.saveUserToLocalStorage(data);
-    this.localStorageService.setFirstName(data.firstName);
+    this.localStorageService.setFirstName(data.name);
     this.localStorageService.setFirstSignIn();
+    this.userOwnAuthService.getDataFromLocalStorage();
     this.router.navigate(['/welcome'])
       .then(success => console.log('redirect has succeeded ' + success))
       .catch(fail => console.log('redirect has failed ' + fail));
@@ -120,6 +123,7 @@ export class SignInNewComponent implements OnInit, OnDestroy {
 
   private onSignInWithGoogleSuccess(data: UserSuccessSignIn): void {
     this.userOwnSignInService.saveUserToLocalStorage(data);
+    this.userOwnAuthService.getDataFromLocalStorage();
     this.router.navigate(['/welcome'])
       .then(success => console.log('redirect has succeeded ' + success))
       .catch(fail => console.log('redirect has failed ' + fail));

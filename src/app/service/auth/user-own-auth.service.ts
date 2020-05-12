@@ -6,16 +6,12 @@ import {UserSuccessSignIn} from '../../model/user-success-sign-in';
   providedIn: 'root'
 })
 export class UserOwnAuthService {
-public credentialData = new Subject<UserSuccessSignIn>();
-private newObj: UserSuccessSignIn;
+public credentialDataSubject = new Subject<any>();
 
   constructor() { }
 
- public getDataFrLocalSrtorage(): void {
-    Object.keys(localStorage).forEach(
-      (key) => {
-     this.newObj[key] = localStorage.getItem(key);
-    });
-    this.credentialData.next(this.newObj);
+ public getDataFromLocalStorage(): void {
+    const keys = {...localStorage};
+    this.credentialDataSubject.next(keys);
  }
 }

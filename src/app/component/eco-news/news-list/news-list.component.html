@@ -1,7 +1,7 @@
 <div>
   <div class="flex-container">
     <app-filter-news (gridOutput)="getFilterData($event)"></app-filter-news>
-    <a [routerLink]="'/create-news'">
+    <a [routerLink]="'/create-news'"  *ngIf="isLoggedIn">
       <div id="create-button" class="secondary-global-button">
           <span id="create-button-text">Create news</span>
       </div>
