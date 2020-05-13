@@ -1,0 +1,32 @@
+.container {
+  margin: 3px auto;
+}
+
+.list-news {
+  margin-left: 150px;
+}
+
+.main-header {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 3rem;
+  line-height: 30px;
+  font-weight: 500;
+  margin: 186px 0 40px;
+}
+
+.copyright {
+  background-color: rgba(131, 156, 148, 0.05);
+  color: #839c94;
+  font-family: 'Open Sans', sans-serif;
+  font-stretch: normal;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  height: 40px;
+  line-height: normal;
+  letter-spacing: normal;
+  padding-top: 11px;
+  text-align: center;
+  width: 100%;
+}
+

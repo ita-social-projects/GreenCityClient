@@ -1,0 +1,81 @@
+.wrapper {
+    display: flex;
+    padding-top: 6px;
+}
+
+.wrapper span {
+    margin-top: 2px;
+    font-family: Montserrat, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 24px;
+    color: #313131;
+}
+
+.ul-eco-buttons {
+    list-style: none;
+}
+
+.ul-eco-buttons-li {
+    font-family: OpenSans, sans-serif;
+    font-size: 14px;
+    line-height: 16px;
+    color: #666666;
+    display: inline-block;
+    padding: 8px 16px;
+    border: 1px solid #666666;
+    border-radius: 25px;
+    margin:0 8px 8px 0;
+    text-transform: capitalize;
+}
+
+.ul-eco-buttons a:hover .ul-eco-buttons-li {
+    color:#056B33;
+    border: 1px solid #056B33;
+}
+
+.clicked-filter-button {
+    background: #13AA57;
+    color: #FFFFFF;
+    font-weight: bold;
+    border: 1px solid #13AA57;
+    font-family: OpenSans, sans-serif;
+    font-size: 14px;
+    line-height: 16px;
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 25px;
+    margin-right: 8px;
+    text-transform: capitalize;
+}
+
+.clicked-filter-button:hover {
+    background: #13AA57;
+    color: #FFFFFF;
+    font-weight: bold;
+    border: 1px solid #13AA57;
+    font-family: OpenSans, sans-serif;
+    font-size: 14px;
+    line-height: 16px;
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 25px;
+    margin-right: 8px;
+}
+
+.close{
+    position: relative;
+    top: 6px;
+    right: -7px;
+     width: 6px;
+    height: 6px;
+    cursor: pointer;
+    text-shadow: none;
+    opacity: 1;
+    background-image: url('src/assets/img/icon/white-cross.png');
+}
+
+.closeNone{
+    display: none;
+}

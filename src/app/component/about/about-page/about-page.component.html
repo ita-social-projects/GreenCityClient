@@ -1,0 +1,125 @@
+<div class="page-wrapper">
+  <div class="container-about">
+    <div class="illustration-man"></div>
+    <div class="leaf"></div>
+    <div class="vector-bg"></div>
+
+    <div class="full-text-block">
+      <h2>
+        {{ "about-us.intro.block-1.header" | translate }}
+      </h2>
+      <span>
+        {{ 'about-us.intro.block-1.text' | translate }}
+      </span>
+      <button class="primary-global-button" (click)="navigateToHabit()">
+        {{ 'about-us.intro.block-1.button' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <div class="vector-cup"></div>
+  <div class="cup-img"></div>
+
+  <div class="container-vision">
+    <div class="full-text-block">
+      <h2>
+        {{ 'about-us.intro.block-2.header' | translate }}
+      </h2>
+      <span>
+        {{ 'about-us.intro.block-2.text' | translate }}
+      </span>
+      <button class="primary-global-button" (click)="navigateToHabit()">
+        {{ 'about-us.intro.block-2.button' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <div class="steps-main-block">
+    <div class="dashed-line">
+      <div class="leaves"></div>
+    </div>
+    <h2>
+      {{ 'about-us.steps.title' | translate }}
+    </h2>
+    <div class="steps-wrapper">
+      <div class="card-holder-odd first-card-holder">
+        <span class="number-title one-img"></span>
+        <h3 class="card-header">
+          {{ 'about-us.steps.block-1.header' | translate }}
+        </h3>
+        <div class="bg-image ecostore-bg"></div>
+        <span class="main-card-text">
+          {{ 'about-us.steps.block-1.text' | translate }}
+        </span>
+        <a class="card-link tertiary-global-button"
+           [routerLink]="['/map']"
+           pageScroll
+           href="#top-user-bar"
+           routerLinkActive="active-link"
+           [routerLinkActiveOptions]="{ exact: true }">
+          {{ 'about-us.steps.block-1.button' | translate }}
+        </a>
+      </div>
+
+      <div class="card-holder-even">
+        <span class="number-title two-img"></span>
+        <h3 class="card-header">
+          {{ 'about-us.steps.block-2.header' | translate }}
+        </h3>
+        <div class="bg-image planet-bg"></div>
+        <span class="main-card-text">
+          {{ 'about-us.steps.block-2.text' | translate }}
+        </span>
+        <a [routerLink]="['/welcome']"
+           pageScroll
+           href="#tips"
+           [pageScrollDuration]="500"
+           class="card-link tertiary-global-button" id="second-card-link">
+          {{ 'about-us.steps.block-2.button' | translate }}
+        </a>
+      </div>
+
+      <div class="card-holder-odd">
+        <span class="number-title three-img"></span>
+        <h3 class="card-header" id="third-card-heading">
+          {{ 'about-us.steps.block-3.header' | translate }}
+        </h3>
+        <div class="bg-image money-bg"></div>
+        <span class="main-card-text" id="third-card-text">
+          {{ 'about-us.steps.block-3.text' | translate }}
+        </span>
+        <a class="card-link tertiary-global-button" id="third-card-link" href="">
+          {{ 'about-us.steps.block-3.button' | translate }}
+        </a>
+      </div>
+
+      <div class="card-holder-even">
+        <span class="number-title four-img"></span>
+        <h3 class="card-header">
+          {{ 'about-us.steps.block-4.header' | translate }}
+        </h3>
+        <div class="bg-image cup-bg"></div>
+        <span class="main-card-text" id="fourth-card-text">
+          {{ 'about-us.steps.block-4.text' | translate }}
+        </span>
+        <a class="card-link tertiary-global-button" id="fourth-card-link" href="">
+          {{ 'about-us.steps.block-4.button' | translate }}
+        </a>
+      </div>
+
+      <div class="card-holder-odd">
+        <span class="number-title five-img"></span>
+        <h3 class="card-header">
+          {{ 'about-us.steps.block-5.header' | translate }}
+        </h3>
+        <div class="bg-image people-bg"></div>
+        <span class="main-card-text" id="fifth-card-text">
+          {{ 'about-us.steps.block-5.text' | translate }}
+        </span>
+        <a class="card-link tertiary-global-button" href="" id="fifth-card-link">
+          {{ 'about-us.steps.block-5.button' | translate }}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

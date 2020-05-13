@@ -1,0 +1,138 @@
+.top-bar {
+  align-items: center;
+  background-color: rgba(239, 237, 241);
+  display: flex;
+  height: 40px !important;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 10;
+}
+
+.top-bar-wrapper {
+  display: flex;
+  float: right;
+  margin: 0 10% 0 auto;
+}
+
+.top-bar-wrapper #language-switcher {
+  margin-left: 25px;
+  outline: none;
+}
+
+.top-bar-wrapper #switcher-wrapper {
+  position: relative;
+}
+
+#language-switcher {
+  width: 42px;
+  cursor: pointer;
+}
+
+#switcher-wrapper>select {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+#switcher-wrapper>select::-ms-expand {
+  display: none;
+}
+
+.top-bar-wrapper #arrow {
+  position: absolute;
+  top: 10px;
+  right: 0;
+  width: 13px;
+  height: 9px;
+}
+
+.top-bar-wrapper span,
+.top-bar-wrapper a,
+.top-bar-wrapper #language-switcher,
+.top-bar-wrapper #language-switcher option {
+  font-family: 'Open Sans';
+  font-size: 14px;
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: normal;
+}
+
+.top-bar-wrapper span {
+  color: #000;
+}
+
+.top-bar-wrapper a {
+  color: #13aa57;
+  text-decoration: none;
+}
+
+.top-bar-wrapper #language-switcher {
+  background-color: transparent;
+  border: none;
+}
+
+.sign-btn {
+  display: block;
+  float: right;
+}
+
+#user-text {
+  vertical-align: sub;
+}
+
+#notification-icon,
+#user-avatar {
+  height: 32px;
+  margin-left: 18px;
+  width: auto;
+}
+
+#user-avatar-wrapper {
+  position: relative;
+}
+
+#dropdown {
+  background-color: #fff;
+  border: 1px solid #13aa57;
+  border-radius: 4px;
+  list-style-type: none;
+  padding: 0;
+  position: absolute;
+  right: -65px;
+  top: 41px;
+  width: 160px;
+}
+
+#dropdown a {
+  display: block;
+  padding: 10px;
+  width: 100%;
+}
+
+#dropdown a:hover {
+  color: #fff;
+}
+
+#dropdown li:hover {
+  background-color: #13aa57;
+}
+
+@media screen and (max-width: 1024px) {
+  .top-bar-wrapper {
+    margin-right: 20px;
+  }
+
+  #text-before,
+  #text-within {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 452px) {
+  #text-after {
+    display: none;
+  }
+}

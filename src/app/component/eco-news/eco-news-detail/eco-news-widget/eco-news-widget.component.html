@@ -1,0 +1,13 @@
+<div class=container>
+    <p>May be interesting for you</p>
+    <hr>
+    <ul class="gallery-view-active list">
+        <li class="gallery-view-li-active"
+            *ngFor="let data of SortedNews">
+            <app-news-list-gallery-view
+                [ecoNewsModel]="data"
+                [routerLink]="['/news', data.id]">
+            </app-news-list-gallery-view>
+        </li>
+    </ul>
+</div>

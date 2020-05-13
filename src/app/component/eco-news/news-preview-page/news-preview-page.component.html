@@ -1,0 +1,78 @@
+<div class="container">
+  <div class="top-elements">
+    <div class="back-button">
+      <a [routerLink]="['/create-news']"
+         class="button-link">
+        <div class="button-content">
+          <div class="button-arrow">
+            <img [src]="images.arrowLeft"
+                 alt="arrow"
+                 class="button-arrow-img"
+            >
+          </div>
+          <div class="button-text">Back to editing</div>
+        </div>
+      </a>
+    </div>
+    <button type="submit"
+            *ngIf="previewItem.valid"
+            class="publish"
+            (click)="postNewsItem()"
+    >
+      Publish
+    </button>
+  </div>
+  <div class="create-news-text">Create news</div>
+  <div class="tags">
+    <div class="tags-item"
+         *ngFor="let tag of previewItem.value.tags"
+    >
+      {{ tag }}
+    </div>
+  </div>
+  <div class="news-content">
+    <div class="news-text-container">
+      <div class="news-title">
+        {{ previewItem.value.title }}
+      </div>
+    </div>
+    <div class="news-info">
+      <div class="news-info-date">
+        {{ actualDate | date: "mediumDate" }}
+      </div>
+      <div class="news-info-dot">
+        <img [src]="images.ellipse"
+             alt="dot"
+        >
+      </div>
+      <div class="news-info-author">
+        by John Smith
+      </div>
+    </div>
+    <div class="news-image">
+      <img [src]="images.largeImage"
+           alt="news-image"
+           class="news-image-img"
+      >
+    </div>
+    <div class="news-text-container">
+      <div class="news-links-images">
+        <img [src]="images.twitter"
+             alt="twitter"
+             class="news-links-img"
+        >
+        <img [src]="images.linkedIn"
+             alt="linkedin"
+             class="news-links-img"
+        >
+        <img [src]="images.facebook"
+             alt="facebook"
+             class="news-links-img"
+        >
+      </div>
+      <div class="news-text">
+        {{ previewItem.value.content }}
+      </div>
+    </div>
+  </div>
+</div>

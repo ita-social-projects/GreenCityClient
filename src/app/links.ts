@@ -2,6 +2,7 @@ import { environment } from 'src/environments/environment';
 
 // back-end
 export const mainLink = environment.backendLink;
+export const mockedBackApi = 'http://localhost:3000';
 
 export const userOwnSecurityLink = mainLink + 'ownSecurity/';
 export const userOwnSignUpLink = userOwnSecurityLink + 'signUp/';

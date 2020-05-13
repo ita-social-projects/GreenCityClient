@@ -1,0 +1,23 @@
+<div class="wrapper">
+  <span>Filter by</span>
+  <ul class="ul-eco-buttons">
+
+    <a href="#/news" *ngFor="let filter of filters; index as i">
+
+      <li (click)="toggleFilter(filters[i].name)" 
+          [ngClass]="{
+                      'ul-eco-buttons-li': !filters[i].isActive,
+                      'clicked-filter-button': filters[i].isActive
+                    }">
+        {{ filters[i].name }}
+        <div [ngClass]="{ 
+                          closeNone: !filters[i].isActive,
+                          close: filters[i].isActive 
+                        }">
+        </div>
+      </li>
+
+    </a>
+
+  </ul>
+</div>

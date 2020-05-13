@@ -5,55 +5,103 @@
             <div class="form-pic "><img [src]="formPic"></div>
             <div class="sign-in">
                <form #registerForm="ngForm" (ngSubmit)="signIn(userOwnSignIn)">
-               <h1>{{'user.auth.sign-in.title' | translate}}</h1>
-               <h2>{{'user.auth.sign-in.fill-form' | translate}}</h2>
-               <label for="email">{{'user.auth.sign-in.email' | translate}}</label>
-               <input id="email" type="email" class="email" [class]="emailControl.errors&&emailControl.touched? 'red':'grey'" #emailControl="ngModel" name="email" [(ngModel)]="userOwnSignIn.email" #emailControl="ngModel" required minlength="1" email="true" appInputcolor [typeColor] = "'#13AA57'" [defaultColor] = "'#000'">
-               <div class="validation-error" *ngIf="emailControl.invalid && (emailControl.dirty||emailControl.touched)">
-                  <div *ngIf="emailControl.errors.required">
-                     {{'user.auth.sign-in.email-is-required' | translate}}
-                  </div>
-                  <div *ngIf="emailControl.errors.minlength">
-                     {{'user.auth.sign-in.email-must-be-at-least-1-characters-long' | translate}}
-                  </div>
-                  <div *ngIf="emailControl.errors.email">
-                     {{'user.auth.sign-in.this-is-not-email' | translate}}
-                  </div>
-               </div>
-               <div class="validation-error" *ngIf="emailErrorMessageBackEnd!=null">
-                  {{emailErrorMessageBackEnd}}
-               </div>
-               <label for="password">{{'user.auth.sign-in.password' | translate}}</label>
-               <div class="password-wrapper">
-                  <input  id="password" #passwordControl="ngModel" type="password" class="form-control password" name="form-control password-signin" [(ngModel)]="userOwnSignIn.password" #passwordControl="ngModel" [ngClass]="passwordControl.errors&&passwordControl.touched? 'red':'grey'" required minlength="8" appInputcolor [typeColor] = "'#13AA57'" [defaultColor] = "'#000'"> <img class="img" id = "img" src = "" alt="" (click)="clickImgSignIn()">
-               </div>
-               <div class="validation-error" *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
-                  <div *ngIf="passwordControl.errors.required">
-                     {{'user.auth.sign-in.password-is-required' | translate}}
-                  </div>
-                  <div *ngIf="passwordControl.errors.minlength">
-                     {{'user.auth.sign-in.password-must-be-at-least-8-characters-long' | translate}}
-                  </div>
-               </div>
-               <div class="validation-error" *ngIf="passwordErrorMessageBackEnd!=null">
-                  {{passwordErrorMessageBackEnd}}
-               </div>
-               <div class="error" *ngIf="backEndError!=null">
-                  {{backEndError}}
-               </div>
-               <div class="forgot-wrapper">
-                  <a (click)="openDialog()" class="forgot-password">{{'user.auth.sign-in.forgot-password' | translate}}</a>
-               </div>
-               <button class="submit" [disabled]="!registerForm.valid" type="submit">
-               <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-               {{'user.auth.sign-in.sign-in' | translate}}
-               </button>
+                 <h1>{{'user.auth.sign-in.title' | translate}}</h1>
+                 <h2>{{'user.auth.sign-in.fill-form' | translate}}</h2>
+                 <label for="email">{{'user.auth.sign-in.email' | translate}}</label>
+                 <input id="email"
+                        #emailControl="ngModel"
+                        type="email"
+                        class="sign-in-input width-inp"
+                        [ngClass]="emailControl.errors&&emailControl.touched? 'red':'grey'"
+                        name="email" [(ngModel)]="userOwnSignIn.email"
+                        required minlength="1"
+                        email="true"
+                        appInputcolor [typeColor] = "'#13AA57'"
+                                      [defaultColor] = "'#000'">
+                 <div class="validation-error"
+                      *ngIf="emailControl.invalid && (emailControl.dirty||emailControl.touched)">
+                    <div *ngIf="emailControl.errors.required">
+                       {{'user.auth.sign-in.email-is-required' | translate}}
+                    </div>
+                    <div *ngIf="emailControl.errors.minlength">
+                       {{'user.auth.sign-in.email-must-be-at-least-1-characters-long' | translate}}
+                    </div>
+                    <div *ngIf="emailControl.errors.email">
+                       {{'user.auth.sign-in.this-is-not-email' | translate}}
+                    </div>
+                 </div>
+                 <div class="validation-error" *ngIf="emailErrorMessageBackEnd!=null">
+                    {{emailErrorMessageBackEnd}}
+                 </div>
+                 <label for="password">{{'user.auth.sign-in.password' | translate}}</label>
+                 <div class="password-wrapper">
+                    <input id="password"
+                           #passwordControl="ngModel"
+                           type="password"
+                           class="sign-in-input pass"
+                           name="form-control password-signin"
+                           [(ngModel)]="userOwnSignIn.password"
+                           [ngClass]="passwordControl.errors&&passwordControl.touched? 'red':'grey'"
+                           required minlength="8"
+                           appInputcolor [typeColor] = "'#13AA57'"
+                                         [defaultColor] = "'#000'">
+                   <div class="img"
+                        id = "img"
+                        (click)="clickImgSignIn()">
+                   </div>
+                 </div>
+                 <div class="validation-error"
+                      *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
+                    <div *ngIf="passwordControl.errors.required">
+                       {{'user.auth.sign-in.password-is-required' | translate}}
+                    </div>
+                    <div *ngIf="passwordControl.errors.minlength">
+                       {{'user.auth.sign-in.password-must-be-at-least-8-characters-long' | translate}}
+                    </div>
+                 </div>
+                 <div class="validation-error"
+                      *ngIf="passwordErrorMessageBackEnd!=null">
+                    {{passwordErrorMessageBackEnd}}
+                 </div>
+                 <div class="error"
+                      *ngIf="backEndError!=null">
+                    {{backEndError}}
+                 </div>
+                 <div class="forgot-wrapper">
+                    <a (click)="openDialog()"
+                       class="forgot-password">
+                      {{'user.auth.sign-in.forgot-password' | translate}}</a>
+                 </div>
+                 <button class="submit primary-global-button"
+                         [disabled]="!registerForm.valid"
+                         type="submit">
+                   <span *ngIf="loadingAnim"
+                         class="spinner-border spinner-border-sm"
+                         role="status"
+                         aria-hidden="true">
+                   </span>
+                       {{'user.auth.sign-in.sign-in' | translate}}
+                 </button>
                </form>
                <div class="wrapper-sign-up">
-                  <p>{{'user.auth.sign-in.havenot-account' | translate}} <a routerLink="sign-up" class="signup-link">{{'user.auth.sign-in.sign-up' | translate}}</a></p>
+                  <p>{{'user.auth.sign-in.havenot-account' | translate}}
+                    <a routerLink="sign-up"
+                       class="signup-link">
+                      {{'user.auth.sign-in.sign-up' | translate}}
+                    </a>
+                  </p>
                   <span class="or">{{'user.auth.sign-in.or-signin' | translate}}</span>
                   <div>
-                     <button type="submit" class="google" (click)="signInWithGoogle()"><img [src]="picGoogle" alt="G">{{'user.auth.sign-in.sign-in-with-google' | translate}}<img [src]="picArrow" alt="" class="google-arrow"></button>
+                     <button type="submit"
+                             class="google"
+                             (click)="signInWithGoogle()">
+                       <img [src]="picGoogle"
+                            alt="G">
+                       {{'user.auth.sign-in.sign-in-with-google' | translate}}
+                       <img [src]="picArrow"
+                           alt=""
+                           class="google-arrow">
+                     </button>
                   </div>
                </div>
             </div>

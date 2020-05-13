@@ -10,9 +10,17 @@
   height: 100%;
 }
 
-.sign-in input {
-  display: block;
+.width-inp {
   width: 100%;
+}
+
+.pass {
+  width: 90%;
+}
+
+.sign-in-input {
+  display: block;
+  
   height: 25px;
   border-radius: 5px;
   -webkit-border-radius: 5px;
@@ -22,6 +30,7 @@
   background-color: rgba(131, 156, 148, 0.07);
   padding: 0 10px;
 }
+
 
 .form-pic>img {
   width: 100%;
@@ -60,13 +69,6 @@ form {
 .submit {
   width: 100%;
   height: 35px;
-  background: #13aa57;
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  -o-border-radius: 4px;
   margin-top: 15px;
   cursor: pointer;
 }
@@ -127,4 +129,10 @@ a.forgot-password {
 
 .google-arrow {
   margin-top: 10px;
+}
+
+@media screen and (max-width: 600px) {
+  .pass {
+    width: 80%;
+  }
 }

@@ -1,11 +1,11 @@
 {
   "top-bar": {
-    "text-before": "Hi there! It's an eco-habit tracker. ",
-    "sign-up": "Sign-up ",
-    "text-within": "to create your own ",
+    "text-before": "Hello! It is a tracker of eco habits. Please ",
+    "sign-up": "Sign up ",
+    "text-within": "to create your own tracker ",
     "or": "or ",
-    "sign-in": "sign-in",
-    "text-after": ", if you are already with us.",
+    "sign-in": "Sign in",
+    "text-after": " if you are already with us.",
     "hello": "Hello, ",
     "welcome-back": "! Welcome back!"
   },
@@ -175,8 +175,8 @@
   },
   "user": {
     "add-comment": {
-      "Add-your-comment-to-place": "Add your comment to place",
-      "Please-rare-us": "Please rare us",
+      "add-your-comment-to-place": "Add your comment to place",
+      "please-rare-us": "Please rate us",
       "comment-is-required": "Comment is required.",
       "comment-must-be-at-least-5-characters-long": "Comment must be at least 5 characters long.",
       "comment-must-be-maximum": "Comment must be maximum",
@@ -201,7 +201,7 @@
         "sign-in-with-google": "Sign-in with Google",
         "forgot-password": "Forgot password?",
         "havenot-account": "Have not an account yet?",
-        "or-signin": "or sign in with"
+        "or-signin": "or"
       },
       "sign-up": {
         "title-up": "Hello!",
@@ -215,16 +215,28 @@
         "email": "Email",
         "email-is-required": "Email is required",
         "email-must-be-at-least-1-characters-long": "Email must be at least 1 characters long",
-        "this-is-not-email": "This is not email",
+        "this-is-not-email": "Please check that your e-mail address is indicated correctly",
         "password": "Password",
         "password-is-required": "Password is required",
         "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long",
         "password-match": "Passwords do not match",
         "password-confirm": "Password confirm",
-        "submit": "Sign Up!",
-        "haveyou-account": "Have you an account already?"
+        "submit": "Sign Up",
+        "or": "or",
+        "submit-with-google": "Sign Up with Google",
+        "haveyou-account": "Have you an account already?",
+        "enter": "Sign in"
       },
-      "submit-email": "You have successfully registered on the site. Please confirm your email address in the email box"
+      "submit-email": "You have successfully registered on the site. Please confirm your email address in the email box",
+      "forgot-password": {
+        "title": "Problems sign in?",
+        "fill-form": "Enter your email address and we'll send you a link to regain access to your account.",
+        "email": "Email",
+        "send-btn": "Submit a login link",
+        "or-signin": "or sign in with",
+        "remember-your-password": "Remember your password?",
+        "back-to-the-entrance": "Back to the entrance"
+      }
     },
     "favorite-place": {
       "delete-favorite-place": {
@@ -353,10 +365,18 @@
     "lower-nav-bar": {
       "home": "Home",
       "about-us": "About",
-      "eco-events": "Eco-news",
-      "tips": "Eco-advices",
+      "eco-events": "Eco news",
+      "tips": "Tips & Tricks",
       "map": "Map",
       "my-habits": "My cabinet"
+    },
+    "footer": {
+      "about-us": "About us",
+      "eco-events": "Eco news",
+      "tips": "Tips & Tricks",
+      "map": "Places",
+      "my-habits": "My habits",
+      "follow-us": "Follow us"
     },
     "user-goals": {
       "add-goal": {
@@ -370,7 +390,7 @@
         "add-button": "Manage goals"
       },
       "goal-list": {
-        "expand": "Show more",
+        "expand": "View all goals",
         "collapse": "Show less",
         "list-placeholder": "Here you can set goals and fulfill them!"
       }
@@ -387,7 +407,7 @@
       },
       "user-log": {
         "day": "Day",
-        "calendar-habit": "Calendar of useful habits",
+        "calendar-habit": "Calendar of eco habits",
         "today": "Today",
         "day-of-the-month": "day of the month and that",
         "less-than": "less than",
@@ -434,5 +454,79 @@
     "previous": "Previous",
     "next": "Next",
     "last": "Last"
+  },
+  "metas": {
+    "welcome": {
+      "description": "GreenCity - a platform to develop and maintain sustainable habits for eco-friendly living. The application is available in web and mobile versions.",
+      "keywords": "best task planner, event planner, project planner, task scheduler, the best task planner, eco planner, task tracker, to do planner, eco tips, useful habits, sustainable eco habits, daily eco habits, habits for every day, eco products, live green",
+      "title": "Home"
+    },
+    "map": {
+      "description": "city establishments map",
+      "keywords": "Find information about local establishments, view maps, and get directions on Google Maps.",
+      "title": "Map"
+    },
+    "about": {
+      "description": "The mission of the GreenCity app. The purpose of the project.",
+      "keywords": "eco products, eco lifestyle, eco habits",
+      "title": "About us"
+    },
+    "news": {
+      "description": "Eco News. All the latest events about ecology.",
+      "keywords": "eco news, ecological events, ecology news, trainings",
+      "title": "Eco news"
+    }
+  },
+  "about-us": {
+    "intro": {
+      "block-1": {
+        "header": "About Us",
+        "text": "GreenCity project addresses the challenge of significant changes in behaviours and lifestyles\nof Lviv citizens",
+        "button": "Form Habit"
+      },
+      "block-2": {
+        "header": "Our vision",
+        "text": "Is to help people get sustainable eco habits in\nan easy and fun way and gain support of the likeminded people.",
+        "button": "Form Habit"
+      }
+    },
+    "steps": {
+      "title": "It’s easier with Us",
+      "block-1": {
+        "header": "I don’t have time to look for eco stores",
+        "text": "We will help you to find eco places near to your homes and offices. And we will tell you about discounts.",
+        "button": "Find eco places"
+      },
+      "block-2": {
+        "header": "I don’t know how to do better for the environment",
+        "text": "You will get useful information from our Tips & Tricks section and get inspired with list of possible eco habits.",
+        "button": "Go to Tips & Tricks"
+      },
+      "block-3": {
+        "header": "Eco products are too expensive",
+        "text": "With us you may find like minded people, with whom you can easily share purchases (wholesale).",
+        "button": "Find people"
+      },
+      "block-4": {
+        "header": "I can do nothing to change the situation",
+        "text": "You may get inspired with stories of other people who gained eco habits and changes their lives.",
+        "button": "Get inspired"
+      },
+      "block-5": {
+        "header": "I don’t feel support from family and society",
+        "text": "With our help you may find this support in our community.",
+        "button": "Find people"
+      }
+    }
+  },
+  "post-news-loader": {
+    "text-1": "Please wait while loading...",
+    "text-2": "Your news is loading to the website. Please wait until the page refreshes"
+  },
+  "cancel-popup": {
+    "title": "All created content will be lost.",
+    "subtitle": "Do you still want to cancel news creating?",
+    "continue": "Continue editing",
+    "cancel": "Yes, cancel"
   }
 }

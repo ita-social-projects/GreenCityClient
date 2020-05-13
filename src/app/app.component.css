@@ -1,7 +1,5 @@
 .flash-message {
-  position: fixed;
   text-align: center;
-  z-index:1000;
   left: 20%;
   right: 20%;
   top: 0;
@@ -9,4 +7,9 @@
 
 .app-container {
   margin-top: 123px;
+  min-height: calc(100% - 250px);
+}
+
+.app-footer {
+  width: 100%;
 }
