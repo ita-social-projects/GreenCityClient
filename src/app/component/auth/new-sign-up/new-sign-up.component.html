@@ -179,7 +179,8 @@
           </div>
           <button type="submit"
                   class="primary-global-button"
-                  [disabled]="!signUpForm.valid"
+                  [disabled]="!signUpForm.valid ||
+                  (inputPassword.value !== repeatPassword.value)"
           >
             <span *ngIf="loadingAnim"
                   class="spinner-border spinner-border-sm"
