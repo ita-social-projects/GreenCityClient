@@ -154,6 +154,12 @@ export class NewSignUpComponent implements OnInit {
     return input.indexOf(' ') >= 0;
   }
 
+  private checkSymbols(input: string): boolean {
+    const regexp = /^(?=.*[a-z]+)(?=.*[A-Z]+)(?=.*\d+)(?=.*[~`!@#$%^&*()+=_\-{}|:;”’?/<>,.\]\[]+).{8,}$/;
+    console.log(regexp.test(input))
+    return (regexp.test(input) || input === '');
+  }
+
   private openSignInWindow(): void {
     this.closeSignUpWindow();
     this.dialog.open(SignInNewComponent, {

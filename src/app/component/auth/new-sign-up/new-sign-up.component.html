@@ -84,7 +84,8 @@
           <div class="main-data-input-password"
                [ngClass]="passwordControl.invalid &&
                (passwordControl.dirty || passwordControl.touched) ||
-                checkSpaces(inputPassword.value)?
+               checkSpaces(inputPassword.value) ||
+               !checkSymbols(inputPassword.value) ?
                'main-data-input-password wrong-input' : 'main-data-input-password'"
           >
             <input type="password"
@@ -127,7 +128,8 @@
           </label>
           <div class="main-data-input-password"
                [ngClass]="passwordControlConfirm.invalid &&
-               (passwordControlConfirm.dirty || passwordControlConfirm.touched) ?
+               (passwordControlConfirm.dirty || passwordControlConfirm.touched) ||
+               ((inputPassword.value !== repeatPassword.value) && repeatPassword.value !== '') ?
                'main-data-input-password wrong-input':'main-data-input-password'"
                #repeatInput
           >
@@ -154,6 +156,7 @@
                [ngClass]="passwordControlConfirm.invalid &&
                (passwordControlConfirm.dirty || passwordControlConfirm.touched) ||
                (inputPassword.value !== repeatPassword.value && repeatPassword.value !== '') ||
+               !checkSymbols(inputPassword.value) ||
                passwordErrorMessageBackEnd ?
                'error-message-show' : 'error-message'"
           >
@@ -164,6 +167,11 @@
                   !passwordControlConfirm.errors?.required"
             >
               {{'user.auth.sign-up.password-match' | translate}}
+            </div>
+            <div *ngIf="!checkSymbols(inputPassword.value) ||
+                 !passwordControlConfirm.errors?.required"
+            >
+              {{'user.auth.sign-up.password-symbols-error' | translate}}
             </div>
             <div *ngIf="passwordErrorMessageBackEnd">
               {{ passwordErrorMessageBackEnd }}
