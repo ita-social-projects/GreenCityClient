@@ -11,10 +11,4 @@ export class UserOwnAuthService {
     const keys = {...localStorage};
     this.credentialDataSubject.next(keys);
  }
-
-
-  public test(): void {
-    const keys = {...localStorage};
-    this.credentialDataSubject.next(keys);
-  }
 }
