@@ -196,6 +196,7 @@
         "password": "Password",
         "password-is-required": "Password is required",
         "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long",
+        "bad-email-or-password": "Bad email or password",
         "sign-in": "Sign-in",
         "sign-up": "Sign-up",
         "sign-in-with-google": "Sign-in with Google",
