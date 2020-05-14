@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Observable, Subject} from 'rxjs';
-import {UserSuccessSignIn} from '../../model/user-success-sign-in';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

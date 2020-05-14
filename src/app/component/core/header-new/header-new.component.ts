@@ -15,7 +15,7 @@ import { LanguageService } from '../../../i18n/language.service';
 import { Language } from '../../../i18n/Language';
 import { SignInNewComponent } from '../../auth/sign-in-new/sign-in-new.component';
 import { NewSignUpComponent } from '../../auth/new-sign-up/new-sign-up.component';
-import {UserOwnAuthService} from '../../../service/auth/user-own-auth.service';
+import { UserOwnAuthService } from '../../../service/auth/user-own-auth.service';
 
 @Component({
   selector: 'app-header-new',
@@ -43,7 +43,7 @@ export class HeaderNewComponent implements OnInit {
               private achievementService: AchievementService,
               private habitStatisticService: HabitStatisticService,
               private languageService: LanguageService,
-              private  userOwnAuthService: UserOwnAuthService) {
+              private userOwnAuthService: UserOwnAuthService) {
 }
 
   ngOnInit() {
