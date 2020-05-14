@@ -173,7 +173,8 @@
                passwordErrorMessageBackEnd ?
                'error-message-show' : 'error-message'"
           >
-            <div *ngIf="passwordControlConfirm.errors?.required">
+            <div *ngIf="passwordControlConfirm.errors?.required &&
+                 passwordControlConfirm.touched">
               {{'user.auth.sign-up.password-is-required' | translate}}
             </div>
             <div *ngIf="inputPassword.value !== repeatPassword.value &&
@@ -181,8 +182,7 @@
             >
               {{'user.auth.sign-up.password-match' | translate}}
             </div>
-            <div *ngIf="!checkSymbols(inputPassword.value) ||
-                 !passwordControlConfirm.errors?.required"
+            <div *ngIf="!checkSymbols(inputPassword.value)"
             >
               {{'user.auth.sign-up.password-symbols-error' | translate}}
             </div>

@@ -156,7 +156,6 @@ export class NewSignUpComponent implements OnInit {
 
   private checkSymbols(input: string): boolean {
     const regexp = /^(?=.*[a-z]+)(?=.*[A-Z]+)(?=.*\d+)(?=.*[~`!@#$%^&*()+=_\-{}|:;”’?/<>,.\]\[]+).{8,}$/;
-    console.log(regexp.test(input))
     return (regexp.test(input) || input === '');
   }
 
