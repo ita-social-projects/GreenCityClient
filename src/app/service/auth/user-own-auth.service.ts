@@ -6,11 +6,9 @@ import {UserSuccessSignIn} from '../../model/user-success-sign-in';
   providedIn: 'root'
 })
 export class UserOwnAuthService {
-public credentialDataSubject = new Subject<any>();
+  public credentialDataSubject = new Subject<any>();
 
-  constructor() { }
-
- public getDataFromLocalStorage(): void {
+  public getDataFromLocalStorage(): void {
     const keys = {...localStorage};
     this.credentialDataSubject.next(keys);
  }
