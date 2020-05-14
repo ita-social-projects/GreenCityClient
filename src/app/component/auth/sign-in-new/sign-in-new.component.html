@@ -24,7 +24,8 @@
              #emailControl="ngModel"
              name="email"
              [(ngModel)]="userOwnSignIn.email"
-             [ngClass]="emailControl.invalid && (emailControl.dirty||emailControl.touched)?
+             (input)="configDefaultErrorMessage()"
+             [ngClass]="emailControl.invalid && (emailControl.dirty||emailControl.touched )||backEndError?
                 'alert-email-validation':'successful-email-validation'"
              required
              minlength="1"
@@ -49,9 +50,12 @@
            *ngIf="emailErrorMessageBackEnd!=null">
         {{emailErrorMessageBackEnd}}
       </div>
+      <div class="email-field-margin"
+           *ngIf="backEndError!=null">
+      </div>
       <label for="password">{{'user.auth.sign-in.password' | translate}}</label>
       <div class="password-input-btn-show-hide"
-           [ngClass]="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)?
+           [ngClass]="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)||backEndError?
               'alert-password-validation':'successful-password-validation'">
         <input id="password"
                #input
@@ -59,6 +63,7 @@
                placeholder="{{'user.auth.sign-in.password' | translate}}"
                #passwordControl="ngModel"
                name="form-control password-signin"
+               (input)="configDefaultErrorMessage()"
                [(ngModel)]="userOwnSignIn.password"
                required
                minlength="8">
@@ -85,7 +90,7 @@
       </div>
       <div class="alert-general-error"
            *ngIf="backEndError!=null">
-        {{backEndError}}
+        {{'user.auth.sign-in.bad-email-or-password' | translate}}
       </div>
       <div class="forgot-wrapper">
         <a (click)="onOpenForgotWindow()"
