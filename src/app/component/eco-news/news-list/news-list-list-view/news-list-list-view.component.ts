@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, ViewChild, ElementRef, Renderer2, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, Renderer2, AfterViewChecked } from '@angular/core';
 import { EcoNewsModel } from 'src/app/model/eco-news/eco-news-model';
 import { ecoNewsIcons } from 'src/assets/img/icon/econews/profile-icons';
 
