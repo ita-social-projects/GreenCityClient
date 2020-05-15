@@ -36,7 +36,7 @@ export class NewsPreviewPageComponent implements OnInit {
   }
 
   private setImage(): string {
-    if(this.previewItem.value.image){
+    if (this.previewItem.value.image) {
       return this.previewItem.value.image;
     }
     return this.images.largeImage;

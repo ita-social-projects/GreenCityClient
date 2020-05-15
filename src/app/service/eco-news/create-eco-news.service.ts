@@ -22,14 +22,18 @@ export class CreateEcoNewsService {
 
   constructor(private http: HttpClient) { }
 
+  public getFiles(): FileHandle[] {
+    return this.files;
+  }
+
   public getFormData(): FormGroup {
     return this.currentForm;
   }
 
   public setForm(form: FormGroup): void {
     this.currentForm = form;
-    console.log(this.currentForm);
-    console.log(this.files[0]);
+    this.currentForm.value.image = this.files[0] ?
+      this.files[0].url : '';
   }
 
   public sendFormData(form): Observable<NewsResponseDTO> {

@@ -112,6 +112,11 @@
   margin: 9px 0;
 }
 
+.news-image-img {
+  width: 944px;
+  height: 400px;
+}
+
 .news-text-container {
   margin: 0 98px;
   display: flex;
