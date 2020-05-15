@@ -22,10 +22,6 @@ export class CreateEcoNewsService {
 
   constructor(private http: HttpClient) { }
 
-  public getFiles(): FileHandle[] {
-    return this.files;
-  }
-
   public getFormData(): FormGroup {
     return this.currentForm;
   }
