@@ -47,7 +47,7 @@ export class HeaderNewComponent implements OnInit {
               private clickSearch: SearchService) {}
 
   ngOnInit() {
-    this.clickSearch.openSearchEmitter.subscribe(this.openSearchSubscription.bind(this));
+    this.clickSearch.SearchEmitter.subscribe(this.openSearchSubscription.bind(this));
     this.dropdownVisible = false;
     this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => this.firstName = firstName);
     this.initUser();

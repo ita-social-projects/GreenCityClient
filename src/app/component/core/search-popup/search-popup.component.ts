@@ -14,22 +14,25 @@ import { Subscription } from 'rxjs';
 export class SearchPopupComponent implements OnInit, OnDestroy {
   private searchSubscription: Subscription;
   private signalSubscription: Subscription;
-  private isSearchClicked = false;
-  private isNewsSearchFound: boolean;
-  private isTipsSearchFound: boolean;
-  private inputValue: string;
   private newsElements: NewsSearchModel[];
   private tipsElements: TipsSearchModel[];
+  private isNewsSearchFound: boolean;
+  private isTipsSearchFound: boolean;
+  private isSearchClicked = false;
+  private inputValue: string;
   private itemsFound: number;
 
   constructor(private search: SearchService) {}
 
   ngOnInit() {
-    this.signalSubscription = this.search.openSearchEmitter.subscribe(this.subscribeToSignal.bind(this));
+    this.signalSubscription = this.search.SearchEmitter.subscribe(this.subscribeToSignal.bind(this));
   }
 
   private onKeyUp(event: any): void {
     if (event.target.value.length > 0) {
+      if (this.searchSubscription) {
+        this.searchSubscription.unsubscribe();
+      }
       this.inputValue = event.target.value;
       this.searchSubscription = this.search.getSearch(this.inputValue).subscribe(this.getSearchData.bind(this));
     } else {
@@ -52,6 +55,7 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   }
 
   private closeSearch(): void {
+    this.search.closeSearchSignal();
     this.isSearchClicked = false;
     this.flushData();
   }
