@@ -142,7 +142,10 @@ $inputHeight : 48px;
         line-height: 12px;
         font-family: $generalFont;
         margin-bottom: 4px;
-        margin-top: -16px;
+      }
+
+      .email-field-margin {
+        height: 21px;
       }
 
       .image-show-hide-password {
