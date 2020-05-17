@@ -20,10 +20,10 @@ export class NewsPreviewPageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.setPreviewItem();
+    this.getPreviewData();
   }
 
-  private setPreviewItem(): void {
+  private getPreviewData(): void {
     this.previewItem = this.createEcoNewsService.getFormData();
   }
 
@@ -35,7 +35,7 @@ export class NewsPreviewPageComponent implements OnInit {
       });
   }
 
-  private setImage(): string {
+  private getImagePath(): string {
     if (this.previewItem.value.image) {
       return this.previewItem.value.image;
     }
