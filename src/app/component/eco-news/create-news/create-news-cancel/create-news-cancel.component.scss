@@ -5,6 +5,7 @@ $title-font: 'Montserrat';
 $main-font: 'Open Sans';
 
 .main-container {
+  position: relative;
   max-width: 568px;
   max-height: 256px;
   z-index: 2000;
@@ -101,7 +102,25 @@ $main-font: 'Open Sans';
 
 @media screen and (max-width: 320px) {
   .main-container {
-    max-width: 288px;
-    padding: 236px 0 76px;
+    width: 100vw;
+    height: 100vh;
+    //padding: 236px 0 76px;
+
+    #wrapper {
+      position: fixed;
+      top: 39.2%;
+      left: 50%;
+      transform: translate(-50%, -39.2%);
+    }
+
+    .cta-buttons {
+      width: 100%;
+
+      .continue-btn,
+      .cancel-btn {
+        width: 100%;
+      }
+    }
+
   }
 }
