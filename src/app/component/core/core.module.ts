@@ -58,7 +58,6 @@ import { SearchNotFoundComponent } from './search-popup/search-not-found/search-
           NgxPageScrollModule
     ],
   exports: [
-    FooterComponent,
     NavBarComponent,
     ProposeCafeComponent,
     ModalComponent,
