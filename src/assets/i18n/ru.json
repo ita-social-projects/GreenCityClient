@@ -201,6 +201,7 @@
         "password": "Пароль",
         "password-is-required": "Введите пароль",
         "password-must-be-at-least-8-characters-long": "Пароль должен содержать по крайней мере 8 символов",
+        "bad-email-or-password": "Неправильная почта или пароль",
         "sign-in": "Войти",
         "sign-up": "Зарегистрироваться",
         "sign-in-with-google": "Войти через Google",

@@ -201,6 +201,7 @@
         "password": "Пароль",
         "password-is-required": "Введіть пароль",
         "password-must-be-at-least-8-characters-long": "Пароль повинен містити принаймі 8 символів",
+        "bad-email-or-password": "Неправильна пошта або пароль",
         "sign-in": "Увійти",
         "sign-up": "Зареєструватись",
         "sign-in-with-google": "Увійти через Google",
