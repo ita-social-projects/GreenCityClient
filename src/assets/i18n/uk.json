@@ -222,6 +222,7 @@
         "email-is-required": "Введіть пошту",
         "email-must-be-at-least-1-characters-long": "Пошта повинна містити принаймі один символ",
         "this-is-not-email": "Це не пошта",
+        "the-user-already-exists-by-this-email": "Користувач з такою поштою вже існує",
         "password": "Пароль",
         "password-is-required": "Введіть пароль",
         "password-must-be-at-least-8-characters-long": "Пароль повинен містити принаймі 8 символів",
