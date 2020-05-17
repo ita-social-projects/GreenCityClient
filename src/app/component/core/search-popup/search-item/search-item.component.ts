@@ -9,9 +9,8 @@ import { SearchModel } from '../../../../model/search/search.model';
 })
 export class SearchItemComponent implements OnInit {
   @Input() searchModel: SearchModel;
-  @Output() closeSearch: EventEmitter<any> = new EventEmitter();
+  @Output() closeSearch: EventEmitter<boolean> = new EventEmitter();
   profileIcons = ecoNewsIcons;
-  defaultPicture = ecoNewsIcons;
 
   private emitCloseSearch(): void {
     this.closeSearch.emit();
@@ -19,7 +18,6 @@ export class SearchItemComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
 }

@@ -6,10 +6,10 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
   styleUrls: ['./search-not-found.component.scss']
 })
 export class SearchNotFoundComponent implements OnInit {
-  @Output() closeFromChild = new EventEmitter();
+  @Output() closeUnsuccessfulSearchResults  = new EventEmitter();
 
   private emitClose(): void {
-    this.closeFromChild.emit(true);
+    this.closeUnsuccessfulSearchResults.emit(true);
   }
 
   constructor() { }

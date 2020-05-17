@@ -5,7 +5,7 @@
         <input class = "search-field"
                type="text"
                placeholder="Search"
-               (keyup)="onKeyUp($event)">
+               (keyup)="onKeyUp($event.target)">
       <div class="close-icon"
            (click)="closeSearch()"></div>
     </div>
@@ -48,7 +48,7 @@
       </ng-template>
 
       <ng-template [ngIf]="(isNewsSearchFound === false && isTipsSearchFound === false)">
-        <app-search-not-found (closeFromChild)="closeSearch()"></app-search-not-found>
+        <app-search-not-found (closeUnsuccessfulSearchResults)="closeSearch()"></app-search-not-found>
       </ng-template>
     </div>
     <div class="overlay"

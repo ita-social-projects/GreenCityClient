@@ -44,10 +44,10 @@ export class HeaderNewComponent implements OnInit {
               private achievementService: AchievementService,
               private habitStatisticService: HabitStatisticService,
               private languageService: LanguageService,
-              private clickSearch: SearchService) {}
+              private searchSearch: SearchService) {}
 
   ngOnInit() {
-    this.clickSearch.SearchEmitter.subscribe(this.openSearchSubscription.bind(this));
+    this.searchSearch.searchSubject.subscribe(this.openSearchSubscription.bind(this));
     this.dropdownVisible = false;
     this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => this.firstName = firstName);
     this.initUser();
@@ -57,12 +57,10 @@ export class HeaderNewComponent implements OnInit {
   }
 
   private initUser(): void {
-  this.localStorageService.userIdBehaviourSubject
-    .pipe(
-      filter(userId => userId !== null && !isNaN(userId))
-    )
-    .subscribe(this.assignData.bind(this));
-}
+    this.localStorageService.userIdBehaviourSubject
+      .pipe(filter(userId => userId !== null && !isNaN(userId)))
+      .subscribe(this.assignData.bind(this));
+  }
 
   public changeCurrentLanguage(): void {
     this.languageService.changeCurrentLanguage(this.language as Language);
@@ -72,6 +70,7 @@ export class HeaderNewComponent implements OnInit {
     if (this.userId !== null && !isNaN(this.userId)) {
       return this.userId;
     }
+
     return 'not_signed_in';
   }
 
@@ -91,7 +90,7 @@ export class HeaderNewComponent implements OnInit {
   }
 
   private toggleSearchPage(): void {
-    this.clickSearch.openSearchSignal();
+    this.searchSearch.toggleSearchModal();
   }
 
   private openSearchSubscription(signal: boolean): void {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
 import { SearchService } from '../../../service/search/search.service';
 import { SearchModel } from '../../../model/search/search.model';
 import { NewsSearchModel } from '../../../model/search/newsSearch.model';
@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
 
 export class SearchPopupComponent implements OnInit, OnDestroy {
   private searchSubscription: Subscription;
-  private signalSubscription: Subscription;
+  private searchModalSubscription: Subscription;
   private newsElements: NewsSearchModel[];
   private tipsElements: TipsSearchModel[];
   private isNewsSearchFound: boolean;
@@ -25,18 +25,16 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   constructor(private search: SearchService) {}
 
   ngOnInit() {
-    this.signalSubscription = this.search.SearchEmitter.subscribe(this.subscribeToSignal.bind(this));
+    this.searchModalSubscription = this.search.searchSubject.subscribe(this.subscribeToSignal.bind(this));
   }
 
-  private onKeyUp(event: any): void {
-    if (event.target.value.length > 0) {
-      if (this.searchSubscription) {
-        this.searchSubscription.unsubscribe();
-      }
-      this.inputValue = event.target.value;
-      this.searchSubscription = this.search.getSearch(this.inputValue).subscribe(this.getSearchData.bind(this));
+  private onKeyUp(event: EventTarget): void {
+    if (event['value'].length > 0) {
+      this.inputValue = event['value'];
+      this.searchSubscription = this.search.getSearch(this.inputValue)
+        .subscribe(this.getSearchData.bind(this));
     } else {
-      this.flushData();
+      this.resetData();
     }
   }
 
@@ -57,10 +55,10 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   private closeSearch(): void {
     this.search.closeSearchSignal();
     this.isSearchClicked = false;
-    this.flushData();
+    this.resetData();
   }
 
-  private flushData(): void {
+  private resetData(): void {
     this.newsElements = null;
     this.tipsElements = null;
     this.isNewsSearchFound = null;
@@ -70,6 +68,6 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.searchSubscription.unsubscribe();
-    this.signalSubscription.unsubscribe();
+    this.searchModalSubscription.unsubscribe();
   }
 }

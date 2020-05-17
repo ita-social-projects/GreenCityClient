@@ -14,7 +14,7 @@ export class AppComponent implements OnInit  {
     private languageService: LanguageService,
     private titleAndMetaTagsService: TitleAndMetaTagsService,
     private router: Router,
-    private clickSearch: SearchService,
+    private searchSearch: SearchService,
     private elRef: ElementRef,
   ) {}
 
@@ -22,11 +22,11 @@ export class AppComponent implements OnInit  {
     this.languageService.setDefaultLanguage();
     this.navigateToStartingPositionOnPage();
     this.titleAndMetaTagsService.useTitleMetasData();
-    this.clickSearch.SearchEmitter.subscribe(this.openSearchSubscription.bind(this));
+    this.searchSearch.searchSubject.subscribe(this.openSearchSubscription.bind(this));
   }
 
-  private openSearchSubscription(signal: boolean): void {
-    signal ? (this.elRef.nativeElement.ownerDocument.body.style.overflow = 'hidden') :
+  private openSearchSubscription(isSearchExpanded: boolean): void {
+    isSearchExpanded ? (this.elRef.nativeElement.ownerDocument.body.style.overflow = 'hidden') :
              (this.elRef.nativeElement.ownerDocument.body.style.overflow = 'auto');
   }
 
