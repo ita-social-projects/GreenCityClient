@@ -61,11 +61,11 @@ $main-font: 'Open Sans';
   }
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 390px) {
   .main-container {
-    max-width: 288px;
+    max-width: 320px;
     max-height: 100%;
-    padding: 236px 0px 76px;
+    padding: 236px 16px 76px;
     margin-bottom: 89px;
 
     .warning-text {
@@ -96,5 +96,12 @@ $main-font: 'Open Sans';
         margin-top: 32px;
       }
     }
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .main-container {
+    max-width: 288px;
+    padding: 236px 0 76px;
   }
 }
