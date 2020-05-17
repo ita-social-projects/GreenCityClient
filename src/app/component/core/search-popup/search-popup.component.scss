@@ -69,8 +69,8 @@
   }
 
   .search-content-wrapper {
-    position: relative;
-    top: 0px;
+    position: fixed;
+    top: 117px;
     left: 0;
     width: 100%;
     height: calc(100% - 80px);
@@ -231,8 +231,8 @@
   }
 
   .search-content-wrapper {
-    position: relative;
-    top: 0px;
+    position: fixed;
+    top: 120px;
     left: 0;
     width: 100%;
     height: calc(100% - 80px);
@@ -392,8 +392,8 @@
   }
 
   .search-content-wrapper {
-    position: relative;
-    top: 0px;
+    position: fixed;
+    top: 120px;
     left: 0;
     width: 100%;
     height: calc(100% - 80px);
@@ -560,8 +560,8 @@
     }
 
     .search-content-wrapper {
-      position: relative;
-      top: 0px;
+      position: fixed;
+      top: 120px;
       left: 8.5rem;
       width: calc((100%) - (8.5rem * 2));
       height: calc(100% - 80px);
