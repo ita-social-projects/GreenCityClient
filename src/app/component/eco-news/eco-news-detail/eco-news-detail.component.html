@@ -26,7 +26,7 @@
     </div>
   </div>
   <div class="news-content">
-    <div class="news-text-container">
+    <div class="news-title-container">
       <div class="news-title">
         {{ newsItem.title }}
       </div>
@@ -41,7 +41,7 @@
       <div class="news-info-author">by {{ newsItem.author.name}}</div>
     </div>
     <div class="news-image">
-      <img [src]="images.largeImage"
+      <img [src]="checkNewsImage()"
            alt="news-image"
            class="news-image-img"
       >
@@ -62,7 +62,9 @@
         >
       </div>
       <div class="news-text">
-        {{ newsItem.text }}
+        <div class="news-text-content">
+          {{ newsItem.text }}
+        </div>
       </div>
     </div>
   </div>

@@ -16,9 +16,10 @@ import { MatCheckboxModule, MatDialogModule, MatCardModule } from '@angular/mate
 import { PhotoUploadComponent } from './photo-upload/photo-upload.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
-import { FooterComponent } from './footer/footer.component';
-import { AboutPageComponent } from '../about-page/about-page.component';
 import { HeaderNewComponent } from './header-new/header-new.component';
+import { SearchPopupComponent } from './search-popup/search-popup.component';
+import { SearchItemComponent } from './search-popup/search-item/search-item.component';
+import { SearchNotFoundComponent } from './search-popup/search-not-found/search-not-found.component';
 
 @NgModule({
     declarations: [
@@ -27,9 +28,10 @@ import { HeaderNewComponent } from './header-new/header-new.component';
         ModalComponent,
         PhotoUploadComponent,
         LowerNavBarComponent,
-        FooterComponent,
-        AboutPageComponent,
         HeaderNewComponent,
+        SearchPopupComponent,
+        SearchItemComponent,
+        SearchNotFoundComponent,
     ],
     imports: [
         CommonModule,
@@ -55,28 +57,28 @@ import { HeaderNewComponent } from './header-new/header-new.component';
           MatCardModule,
           NgxPageScrollModule
     ],
-    exports: [
-        FooterComponent,
-        NavBarComponent,
-        ProposeCafeComponent,
-        ModalComponent,
-        PhotoUploadComponent,
-        LowerNavBarComponent,
-        HeaderNewComponent,
-        CommonModule,
-        TranslateModule,
-        AppRoutingModule,
-        FormsModule,
-        ReactiveFormsModule,
-        AgmCoreModule,
-        NgSelectModule,
-        MDBBootstrapModule,
-        MatCheckboxModule,
-        MatDialogModule,
-        FileUploadModule,
-        MatCardModule,
-        NgxPageScrollModule
-    ],
+  exports: [
+    NavBarComponent,
+    ProposeCafeComponent,
+    ModalComponent,
+    PhotoUploadComponent,
+    LowerNavBarComponent,
+    HeaderNewComponent,
+    CommonModule,
+    TranslateModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AgmCoreModule,
+    NgSelectModule,
+    MDBBootstrapModule,
+    MatCheckboxModule,
+    MatDialogModule,
+    FileUploadModule,
+    MatCardModule,
+    NgxPageScrollModule,
+    SearchPopupComponent
+  ],
     providers: []
 })
 

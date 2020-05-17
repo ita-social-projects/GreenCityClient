@@ -63,6 +63,11 @@ body {
   outline: none;
 }
 
+.primary-global-button:disabled {
+  background-color: #839C94;
+  border: 1px solid #839C94;
+}
+
 .secondary-global-button{
   border: 1px solid #13AA57;
   box-sizing: border-box;

@@ -6,12 +6,12 @@ import { SubmitEmailComponent } from './component/user/auth/submit-email/submit-
 import { RestoreFormComponent } from './component/user/restore-form/restore-form.component';
 import { UserHabitPageComponent } from './component/user/habit/user-habit-page/user-habit-page.component';
 import { Routes, RouterModule } from '@angular/router';
-import { HomepageComponent } from './component/general/homepage/homepage/homepage.component';
 import { AuthPageGuardService } from './service/route-guards/auth-page-guard.service';
 import { HomePageGuardService } from './service/route-guards/home-page-guard.service';
 import { AppComponent } from './app.component';
-import { AboutPageComponent } from './component/about-page/about-page.component';
+import { AboutPageComponent } from './component/about/about-page/about-page.component';
 import { FilterComponent } from './component/map/filter/filter.component';
+import { HomepageComponent } from './component/home/homepage/homepage.component';
 
 export const routes: Routes = [
   {
