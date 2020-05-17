@@ -25,13 +25,13 @@
              name="email"
              [(ngModel)]="userOwnSignIn.email"
              (input)="configDefaultErrorMessage()"
-             [ngClass]="emailControl.invalid && (emailControl.dirty||emailControl.touched )||backEndError?
+             [ngClass]="emailControl.invalid && (emailControl.dirty || emailControl.touched ) || backEndError?
                 'alert-email-validation':'successful-email-validation'"
              required
              minlength="1"
              email="true">
       <div class="validation-email-error"
-           *ngIf="emailControl.invalid && (emailControl.dirty||emailControl.touched)">
+           *ngIf="emailControl.invalid && (emailControl.dirty || emailControl.touched)">
         <div *ngIf="emailControl.errors.required">
           {{'user.auth.sign-in.email-is-required' | translate}}
         </div>
@@ -43,19 +43,19 @@
         </div>
       </div>
       <div class="validation-email-error"
-           *ngIf="emailErrorMessageBackEnd!=null">
+           *ngIf="emailErrorMessageBackEnd">
         {{emailErrorMessageBackEnd}}
       </div>
       <div class="validation-email-error"
-           *ngIf="emailErrorMessageBackEnd!=null">
+           *ngIf="emailErrorMessageBackEnd">
         {{emailErrorMessageBackEnd}}
       </div>
       <div class="email-field-margin"
-           *ngIf="backEndError!=null">
+           *ngIf="backEndError">
       </div>
       <label for="password">{{'user.auth.sign-in.password' | translate}}</label>
       <div class="password-input-btn-show-hide"
-           [ngClass]="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)||backEndError?
+           [ngClass]="passwordControl.invalid && (passwordControl.dirty || passwordControl.touched) || backEndError?
               'alert-password-validation':'successful-password-validation'">
         <input id="password"
                #input
@@ -76,7 +76,7 @@
         </span>
       </div>
       <div class="validation-password-error"
-           *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
+           *ngIf="passwordControl.invalid && (passwordControl.dirty || passwordControl.touched)">
         <div *ngIf="passwordControl.errors.required">
           {{'user.auth.sign-in.password-is-required' | translate}}
         </div>
@@ -85,11 +85,11 @@
         </div>
       </div>
       <div class="validation-password-error"
-           *ngIf="passwordErrorMessageBackEnd!=null">
+           *ngIf="passwordErrorMessageBackEnd">
         {{passwordErrorMessageBackEnd}}
       </div>
       <div class="alert-general-error"
-           *ngIf="backEndError!=null">
+           *ngIf="backEndError">
         {{'user.auth.sign-in.bad-email-or-password' | translate}}
       </div>
       <div class="forgot-wrapper">
