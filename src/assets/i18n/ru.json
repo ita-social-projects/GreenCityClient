@@ -193,11 +193,11 @@
     "auth": {
    "sign-in": {
         "title": "С возвращением!",
-        "fill-form": "Пожалуйста, внеси свои данные, чтобы войти",
+        "fill-form": "Пожалуйста, внесите свои данные, чтобы войти",
         "email": "Электронная почта",
         "email-is-required": "Введите почту",
         "email-must-be-at-least-1-characters-long": "Почта должна содержать по крайней мере 1 символ",
-        "this-is-not-email": "Это не почта",
+        "this-is-not-email": "Пожалуйста, убедитесь, что ваш адрес электронной почты указан правильно",
         "password": "Пароль",
         "password-is-required": "Введите пароль",
         "password-must-be-at-least-8-characters-long": "Пароль должен содержать по крайней мере 8 символов",
@@ -221,7 +221,7 @@
         "email": "Электронная почта",
         "email-is-required": "Введите почту",
         "email-must-be-at-least-1-characters-long": "Почта должна содержать по крайней мере один символ",
-        "this-is-not-email": "Это не почта",
+        "this-is-not-email": "Пожалуйста, убедитесь, что ваш адрес электронной почты указан правильно",
         "the-user-already-exists-by-this-email": "Пользователь с такой почтой уже существует",
         "password": "Пароль",
         "password-is-required": "Введите пароль",
