@@ -182,6 +182,10 @@ button {
     color: red;
 }
 
+.left-form-column .field-warning {
+    border: 1px solid red;
+}
+
 @media screen and (max-width: 1000px) {
     .left-form-column input {
         width: 400px;
