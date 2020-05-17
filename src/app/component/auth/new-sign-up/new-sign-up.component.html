@@ -63,7 +63,7 @@
               {{'user.auth.sign-up.this-is-not-email' | translate}}
             </div>
             <div *ngIf="emailErrorMessageBackEnd">
-              {{ emailErrorMessageBackEnd }}
+              {{'user.auth.sign-up.the-user-already-exists-by-this-email' | translate}}
             </div>
           </div>
           <label class="content-label under-error">
@@ -75,10 +75,23 @@
                  name="fistName"
                  #firstNameControl="ngModel"
                  [(ngModel)]="userOwnSignUp.firstName"
+                 [ngClass]="firstNameControl.invalid &&
+                 (firstNameControl.dirty || firstNameControl.touched) ?
+                 'wrong-input':'main-data-input'"
                  required
+                 minlength="1"
                  maxlength="20"
           >
-          <label class="content-label">
+          <div class="error-message"
+               [ngClass]="firstNameControl.invalid &&
+               (firstNameControl.dirty || firstNameControl.touched) ?
+               'error-message-show' : 'error-message'"
+          >
+            <div *ngIf="firstNameControl.errors?.required">
+              {{'user.auth.sign-up.user-name-error' | translate}}
+            </div>
+          </div>
+          <label class="content-label under-error">
             {{ 'user.auth.sign-up.password' | translate }}
           </label>
           <div class="main-data-input-password"
