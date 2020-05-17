@@ -45,23 +45,30 @@ export class NewsListListViewComponent implements OnInit, AfterViewChecked {
 
   private checkHeightOfTittle(): void {
     this.titleHeightOfElement = this.titleHeight.nativeElement.offsetHeight;
-    switch (true) {
-      case (this.titleHeightOfElement < this.quantityOfLines.smSize):
-        this.textHeightOfElement = this.quantityOfLines.lSize;
-        break;
-      case (this.titleHeightOfElement > this.quantityOfLines.smSize &&
-              this.titleHeightOfElement <= this.quantityOfLines.mSize):
-        this.textHeightOfElement = this.quantityOfLines.msSize;
-        break;
-      case (this.titleHeightOfElement > this.quantityOfLines.mSize &&
-              this.titleHeightOfElement <= this.quantityOfLines.lSize):
-        this.textHeightOfElement = this.quantityOfLines.sSize;
-        break;
-      case (this.titleHeightOfElement > this.quantityOfLines.lSize):
-        this.textHeightOfElement = this.quantityOfLines.hiddenSize;
-        break;
+    this.textHeightOfElement = this.calculateElementHeight();
+    this.renderer.setStyle(this.textHeight.nativeElement,
+                      'height',
+                          this.textHeightOfElement + 'px' );
+  }
+
+  private calculateElementHeight(): number {
+    const titleHeight = this.titleHeightOfElement;
+    const linesQuantity = this.quantityOfLines;
+    let elemHeight;
+
+    if (titleHeight < linesQuantity.smSize) {
+      elemHeight = linesQuantity.lSize;
+    } else if (titleHeight > linesQuantity.lSize) {
+      elemHeight = linesQuantity.hiddenSize;
+    } else if (titleHeight > linesQuantity.smSize &&
+      titleHeight <= linesQuantity.mSize) {
+      elemHeight = linesQuantity.msSize;
+    } else if (titleHeight > linesQuantity.mSize &&
+      titleHeight <= linesQuantity.lSize) {
+      elemHeight = linesQuantity.sSize;
     }
-    this.renderer.setStyle(this.textHeight.nativeElement, 'height', this.textHeightOfElement + 'px' );
+
+    return elemHeight;
   }
 
   private onResize(): void {
