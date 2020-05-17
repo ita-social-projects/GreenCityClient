@@ -36,8 +36,9 @@ export class CreateEcoNewsService {
       "text": form.value.content,
       "title": form.value.title,
     };
-    let formData:FormData = new FormData();
 
+    let formData:FormData = new FormData();
+    
     formData.append('image', this.files[0].file, this.files[0].file.name);
     formData.append('addEcoNewsDtoRequest', JSON.stringify(body));
 
