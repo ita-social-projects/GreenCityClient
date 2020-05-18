@@ -108,6 +108,7 @@ export class NewSignUpComponent implements OnInit {
 
   private signInWithGoogleSuccess(data: UserSuccessSignIn): void {
     this.userOwnSignInService.saveUserToLocalStorage(data);
+    this.closeSignUpWindow();
     this.router.navigate(['/']);
   }
 
