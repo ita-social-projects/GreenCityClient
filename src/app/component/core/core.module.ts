@@ -17,6 +17,9 @@ import { PhotoUploadComponent } from './photo-upload/photo-upload.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { HeaderNewComponent } from './header-new/header-new.component';
+import { SearchPopupComponent } from './search-popup/search-popup.component';
+import { SearchItemComponent } from './search-popup/search-item/search-item.component';
+import { SearchNotFoundComponent } from './search-popup/search-not-found/search-not-found.component';
 
 @NgModule({
     declarations: [
@@ -26,6 +29,9 @@ import { HeaderNewComponent } from './header-new/header-new.component';
         PhotoUploadComponent,
         LowerNavBarComponent,
         HeaderNewComponent,
+        SearchPopupComponent,
+        SearchItemComponent,
+        SearchNotFoundComponent,
     ],
     imports: [
         CommonModule,
@@ -51,27 +57,28 @@ import { HeaderNewComponent } from './header-new/header-new.component';
           MatCardModule,
           NgxPageScrollModule
     ],
-    exports: [
-        NavBarComponent,
-        ProposeCafeComponent,
-        ModalComponent,
-        PhotoUploadComponent,
-        LowerNavBarComponent,
-        HeaderNewComponent,
-        CommonModule,
-        TranslateModule,
-        AppRoutingModule,
-        FormsModule,
-        ReactiveFormsModule,
-        AgmCoreModule,
-        NgSelectModule,
-        MDBBootstrapModule,
-        MatCheckboxModule,
-        MatDialogModule,
-        FileUploadModule,
-        MatCardModule,
-        NgxPageScrollModule
-    ],
+  exports: [
+    NavBarComponent,
+    ProposeCafeComponent,
+    ModalComponent,
+    PhotoUploadComponent,
+    LowerNavBarComponent,
+    HeaderNewComponent,
+    CommonModule,
+    TranslateModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AgmCoreModule,
+    NgSelectModule,
+    MDBBootstrapModule,
+    MatCheckboxModule,
+    MatDialogModule,
+    FileUploadModule,
+    MatCardModule,
+    NgxPageScrollModule,
+    SearchPopupComponent
+  ],
     providers: []
 })
 

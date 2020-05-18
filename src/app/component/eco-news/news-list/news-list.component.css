@@ -50,3 +50,15 @@ a {
 #create-button span{
   display: block;
 }
+
+@media screen and (max-width: 992px) {
+  .gallery-view-active {
+    column-count: 2;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .gallery-view-active {
+    column-count: 1;
+  }
+}
