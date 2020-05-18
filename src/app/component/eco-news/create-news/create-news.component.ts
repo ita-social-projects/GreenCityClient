@@ -18,7 +18,8 @@ export class CreateNewsComponent implements OnInit {
     title: ['', [Validators.required, Validators.maxLength(170), this.noWhitespaceValidator]],
     source: [''],
     content: ['', [Validators.required, Validators.minLength(20)]],
-    tags: this.fb.array([])
+    tags: this.fb.array([]),
+    image: ['']
   });
 
   public filters: Array<FilterModel> = [
@@ -47,14 +48,14 @@ export class CreateNewsComponent implements OnInit {
   }
 
   private setFormItems(): void {
-    this.formData = this.createEcoNewsService.getFormData(); 
-    if (this.formData) {  
+    this.formData = this.createEcoNewsService.getFormData();
+    if (this.formData) {
       this.patchFilters();
       this.createNewsForm.patchValue({
         title: this.formData.value.title,
         content: this.formData.value.content,
       })
-    }     
+    }
   }
 
   private navigateByUrl(url: string): void {
@@ -131,7 +132,7 @@ export class CreateNewsComponent implements OnInit {
           if (filter.name.toLowerCase() === tag && filter.isActive) {
             this.createNewsForm.value.tags.push(tag);
             this.filtersValidation(filter);
-          } 
+          }
         })
       })
     }
