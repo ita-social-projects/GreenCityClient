@@ -7,6 +7,8 @@ import { Subject } from 'rxjs';
 export class UserOwnAuthService {
   public credentialDataSubject = new Subject<any>();
 
+  constructor() { }
+
   public getDataFromLocalStorage(): void {
     const keys = {...localStorage};
     this.credentialDataSubject.next(keys);
