@@ -205,8 +205,17 @@ button {
         width: 100%;
     }
 
+    .left-form-column label:last-child {
+        margin-top: 320px;
+    }
+
     .right-form-column {
+        margin-top: -170px;
         margin-left: 0;
+    }
+
+    .textarea-wrapper {
+        margin-top: 160px;
     }
 
     .wrapper {
@@ -222,12 +231,20 @@ button {
         width: 100%;
     }
 
-    .submit-buttons {
-        margin-right: 0;
+    .left-form-column label:last-child {
+        margin-top: 330px;
     }
 
     .right-form-column {
-        margin-top: 40px;
+        margin-top: -120px;
+    }
+
+    .textarea-wrapper {
+        margin-top: 160px;
+    }
+
+    .submit-buttons {
+        margin-right: 0;
     }
 }
 
@@ -239,8 +256,16 @@ button {
         width: 275px;
     }
 
+    .left-form-column label:last-child {
+        margin-top: 350px;
+    }
+
     .right-form-column {
-        margin-top: 40px;
+        margin-top: -100px;
+    }
+
+    .textarea-wrapper {
+        margin-top: 160px;
     }
 
     .tags button {
@@ -263,5 +288,10 @@ button {
     .submit-buttons button {
         width: 275px;
         height: 48px;
+    }
+
+    .date {
+        display: flex;
+        flex-direction: column;
     }
 }

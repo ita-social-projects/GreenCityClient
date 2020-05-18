@@ -51,6 +51,24 @@ img {
     }
 }
 
+@media screen and (max-width: 1024px) {
+    .dropzone {
+        width: 381px;
+    }
+}
+
+@media screen and (max-width: 981px) {
+    .dropzone {
+        width: 330px;
+    }
+}
+
+@media screen and (max-width: 880px) {
+    .dropzone {
+        width: 280px;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .dropzone {
         width: 381px;
