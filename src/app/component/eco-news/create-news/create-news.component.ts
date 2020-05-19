@@ -63,15 +63,10 @@ export class CreateNewsComponent implements OnInit {
 
   public onSourceChange(): void {
     this.createNewsForm.get('source').valueChanges.subscribe(source => {
-      if(source.startsWith('http://') ||
-        source.startsWith('https://') ||
-        source.length === 0) {
-        this.isLink = false;
-      } else {
-        this.isLink = true;
-      }
+      source.startsWith('http://') ||
+      source.startsWith('https://') ||
+      source.length === 0 ? this.isLink = false : this.isLink = true;
     });
-
   }
 
   public onSubmit(): void {
@@ -105,7 +100,7 @@ export class CreateNewsComponent implements OnInit {
   public removeFilters(filter: FilterModel): void {
     if ( filter.isActive ) {
       filter.isActive = false;
-      if(this.createNewsForm.value.tags !== []) {
+      if(this.createNewsForm.value.tags.length === 1) {
         this.isArrayEmpty = true;
       }
       this.createNewsForm.value.tags.forEach((item, index) => {
