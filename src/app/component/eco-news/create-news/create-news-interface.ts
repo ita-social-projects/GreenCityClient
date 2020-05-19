@@ -32,6 +32,7 @@ export interface NewsDTO {
   tags: Array<string>;
   text: string;
   title: string;
+  source: string;
 }
 
 export interface NewsResponseDTO {
