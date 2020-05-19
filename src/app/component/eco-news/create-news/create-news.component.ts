@@ -44,6 +44,7 @@ export class CreateNewsComponent implements OnInit {
   ngOnInit() {
     this.onSourceChange();
     this.setFormItems();
+    this.createEcoNewsService.setForm(null);
   }
 
   private setFormItems(): void {
