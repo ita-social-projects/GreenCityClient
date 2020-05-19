@@ -125,7 +125,10 @@ export class SignInNewComponent implements OnInit, OnDestroy {
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.userOwnAuthService.getDataFromLocalStorage();
     this.router.navigate(['/welcome'])
-      .then(success => console.log('redirect has succeeded ' + success))
+      .then(success => {
+        this.localStorageService.setFirstSignIn();
+        console.log('redirect has succeeded ' + success);
+      })
       .catch(fail => console.log('redirect has failed ' + fail));
   }
 
