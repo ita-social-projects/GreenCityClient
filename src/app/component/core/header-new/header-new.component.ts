@@ -16,6 +16,7 @@ import { Language } from '../../../i18n/Language';
 import { SearchService } from '../../../service/search/search.service';
 import { SignInNewComponent } from '../../auth/sign-in-new/sign-in-new.component';
 import { NewSignUpComponent } from '../../auth/new-sign-up/new-sign-up.component';
+import { UserOwnAuthService } from '../../../service/auth/user-own-auth.service';
 
 @Component({
   selector: 'app-header-new',
@@ -26,7 +27,7 @@ export class HeaderNewComponent implements OnInit {
   readonly selectLanguageArrow = 'assets/img/arrow_grey.png';
   readonly dropDownArrow = 'assets/img/arrow.png';
   private dropdownVisible: boolean;
-  private firstName: string;
+  private name: string;
   private userRole: string;
   private userId: number;
   private isLoggedIn: boolean;
@@ -44,16 +45,19 @@ export class HeaderNewComponent implements OnInit {
               private achievementService: AchievementService,
               private habitStatisticService: HabitStatisticService,
               private languageService: LanguageService,
-              private searchSearch: SearchService) {}
+              private searchSearch: SearchService,
+              private userOwnAuthService: UserOwnAuthService) {
+}
 
   ngOnInit() {
     this.searchSearch.searchSubject.subscribe(this.openSearchSubscription.bind(this));
     this.dropdownVisible = false;
-    this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => this.firstName = firstName);
+    this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => this.name = firstName);
     this.initUser();
     this.userRole = this.jwtService.getUserRole();
     this.language = this.languageService.getCurrentLanguage();
     this.autoOffBurgerBtn();
+    this.userOwnAuthService.getDataFromLocalStorage();
   }
 
   private initUser(): void {
@@ -145,5 +149,6 @@ export class HeaderNewComponent implements OnInit {
     this.habitStatisticService.onLogout();
     this.achievementService.onLogout();
     this.router.navigateByUrl('/welcome').then(r => r);
+    this.userOwnAuthService.getDataFromLocalStorage();
   }
 }

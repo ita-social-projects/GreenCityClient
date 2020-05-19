@@ -12,9 +12,9 @@ export class LocalStorageService {
   private readonly ACCESS_TOKEN = 'accessToken';
   private readonly REFRESH_TOKEN = 'refreshToken';
   private readonly USER_ID = 'userId';
-  private readonly FIRST_NAME = 'firstName';
+  private readonly NAME = 'name';
 
-  firstNameBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getFirstName());
+  firstNameBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getName());
   userIdBehaviourSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.getUserId());
 
   constructor() {
@@ -32,8 +32,8 @@ export class LocalStorageService {
     return Number.parseInt(localStorage.getItem(this.USER_ID), 10);
   }
 
-  private getFirstName(): string {
-    return localStorage.getItem(this.FIRST_NAME);
+  private getName(): string {
+    return localStorage.getItem(this.NAME);
   }
 
   public setAccessToken(refreshToken: string): void {
@@ -49,9 +49,9 @@ export class LocalStorageService {
     this.userIdBehaviourSubject.next(this.getUserId());
   }
 
-  public setFirstName(firstName: string): void {
-    localStorage.setItem(this.FIRST_NAME, firstName);
-    this.firstNameBehaviourSubject.next(firstName);
+  public setFirstName(name: string): void {
+    localStorage.setItem(this.NAME, name);
+    this.firstNameBehaviourSubject.next(name);
   }
 
   public setFirstSignIn(): void {
