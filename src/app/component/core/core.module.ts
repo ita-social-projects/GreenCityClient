@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
-import { LowerNavBarComponent } from './lower-nav-bar/lower-nav-bar.component';
 import { CommonModule } from '@angular/common';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -27,7 +26,6 @@ import { SearchNotFoundComponent } from './search-popup/search-not-found/search-
         ProposeCafeComponent,
         ModalComponent,
         PhotoUploadComponent,
-        LowerNavBarComponent,
         HeaderNewComponent,
         SearchPopupComponent,
         SearchItemComponent,
@@ -62,7 +60,6 @@ import { SearchNotFoundComponent } from './search-popup/search-not-found/search-
     ProposeCafeComponent,
     ModalComponent,
     PhotoUploadComponent,
-    LowerNavBarComponent,
     HeaderNewComponent,
     CommonModule,
     TranslateModule,
