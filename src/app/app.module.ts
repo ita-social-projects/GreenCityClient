@@ -51,6 +51,9 @@ import { NewFooterComponent } from './component/core/new-footer/new-footer.compo
 import { HomeModule } from './component/home/home.module';
 import { AboutModule } from './component/about/about.module';
 import {UserModule} from './component/user/user.module';
+import { ProfileComponent } from './component/user/profile/profile.component';
+
+
 
 @NgModule({
   declarations: [
@@ -62,7 +65,8 @@ import {UserModule} from './component/user/user.module';
     RestoreComponent,
     RestoreFormComponent,
     InputcolorDirective,
-    NewFooterComponent
+    NewFooterComponent,
+    ProfileComponent
   ],
   imports: [
     MatDialogModule,

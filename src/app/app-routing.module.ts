@@ -12,16 +12,17 @@ import { AppComponent } from './app.component';
 import { AboutPageComponent } from './component/about/about-page/about-page.component';
 import { FilterComponent } from './component/map/filter/filter.component';
 import { HomepageComponent } from './component/home/homepage/homepage.component';
+import { ProfileComponent } from './component/user/profile/profile.component';
 
 export const routes: Routes = [
   {
     path: '',
     component: AppComponent,
-    canActivate: [HomePageGuardService]
+    canActivate: [HomePageGuardService],
   },
   {
     path: 'welcome',
-    component: HomepageComponent
+    component: HomepageComponent,
   },
   {
     path: 'auth',
@@ -30,31 +31,30 @@ export const routes: Routes = [
       { path: '', component: SignInComponent },
       { path: 'sign-up', component: SignUpComponent },
       { path: 'submit-email', component: SubmitEmailComponent },
-      { path: 'restore/:token', component: RestoreFormComponent }
-    ]
+      { path: 'restore/:token', component: RestoreFormComponent },
+    ],
   },
   {
     path: '',
-    component: FilterComponent
+    component: FilterComponent,
   },
   {
     path: ':id/habits',
     component: UserHabitPageComponent,
-    canActivate: [AuthPageGuardService]
+    canActivate: [AuthPageGuardService],
   },
   {
     path: 'about',
-    component: AboutPageComponent
-  }
+    component: AboutPageComponent,
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+  },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes)
-  ],
-  exports: [
-    RouterModule
-  ]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
 })
-
 export class AppRoutingModule {}
