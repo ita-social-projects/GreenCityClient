@@ -157,7 +157,6 @@ export class CreateNewsComponent implements OnInit {
 
   private goToPreview(): void {
     this.createEcoNewsService.setForm(this.createNewsForm);
-    //this.createEcoNewsService.setEmptyForm(this.createNewsForm);
     this.navigateByUrl('create-news/preview');
     this.setFilters();
   }
