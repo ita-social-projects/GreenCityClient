@@ -21,7 +21,6 @@ section {
     div {
       width: 100%;
       box-sizing: inherit;
-      border: 1px solid black;
     }
 
     &:nth-of-type(odd) {
@@ -31,6 +30,43 @@ section {
     &:nth-of-type(2) {
       flex-basis: 48%;
       margin: 0 3% 0 3%;
+    }
+  }
+
+  .right-column {
+    height: 350px;
+
+    .right-cards {
+      .card {
+        height: 115px auto;
+        color: white;
+        text-align: left;
+        padding: 16px 20px 0px 16px;
+        margin-top: 24px;
+
+        .cart-title {
+          font-family: 'Montserrat', sans-serif;
+          font-weight: bold;
+          font-size: 15px;
+        }
+
+        .card-description {
+          font-size: 13px;
+          font-family: 'Open Sans';
+        }
+
+        .shape-img {
+
+          img {
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0px;
+            width: 100%;
+            height: 60%;
+          }
+        }
+      }
     }
   }
 }
