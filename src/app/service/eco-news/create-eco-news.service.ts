@@ -11,7 +11,6 @@ import { FileHandle } from '../../component/eco-news/create-news/create-news-int
 })
 export class CreateEcoNewsService {
   private currentForm: FormGroup;
-  private emptyForm: FormGroup;
   private url: string = environment.backendLink;
   private accessToken: string = localStorage.getItem('accessToken');
   public files: FileHandle[] = [];
