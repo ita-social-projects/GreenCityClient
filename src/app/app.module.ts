@@ -43,10 +43,13 @@ import { UserModule } from './component/user/user.module';
 import { LayoutModule } from './component/layout/layout.module';
 import { AppRoutingModule } from './app-routing.module';
 import { CreateNewsCancelComponent } from './component/shared/create-news-cancel/create-news-cancel.component';
+import { EcoPlacesComponent } from './component/user/profile/eco-places/eco-places.component';
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    EcoPlacesComponent
   ],
   imports: [
     BrowserModule,
