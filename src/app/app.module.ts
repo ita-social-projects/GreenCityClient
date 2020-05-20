@@ -96,6 +96,7 @@ import { MapModule } from './component/map/map.module';
 import { NewFooterComponent } from './component/core/new-footer/new-footer.component';
 import { HomeModule } from './component/home/home.module';
 import { AboutModule } from './component/about/about.module';
+import { ProfileComponent } from './component/user/profile/profile.component';
 
 
 
@@ -152,7 +153,8 @@ import { AboutModule } from './component/about/about.module';
     HabitItemListComponent,
     ConfirmationModalComponent,
     InputcolorDirective,
-    NewFooterComponent
+    NewFooterComponent,
+    ProfileComponent
   ],
   imports: [
     MatDialogModule,

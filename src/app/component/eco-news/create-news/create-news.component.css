@@ -25,6 +25,7 @@ input.ng-invalid.ng-touched + span, textarea.ng-invalid.ng-touched + p {
 
 .form-description p {
     max-width: 653px;
+    color: #878787;
 }
 
 h3, p, span, b, h2, button {
@@ -41,7 +42,7 @@ h3, p, span, b, h2, button {
 }
 
 h3 {
-    font-size: 22px;
+    font-size: 18px;
 }
 
 form {
@@ -65,6 +66,14 @@ form {
     border: 1px solid #878787;
 }
 
+.left-form-column p, .left-form-column span {
+    color: #878787;
+}
+
+.textarea-description {
+    color: #878787;
+}
+
 .tags {
     margin-left: -20px;
 }
@@ -75,6 +84,11 @@ form {
 
 .tags p {
     font-size: 12px;
+}
+
+.tags button {
+    font-size: 14px;
+    color: #666666;
 }
 
 .tags h3, .tags p {
@@ -133,6 +147,15 @@ form label {
     max-width: 350px;
     justify-content: space-between;
     margin-top: 15px;
+}
+
+.date p span:first-child {
+    font-size: 18px;
+}
+
+.date p span:last-child {
+    color: #878787;
+    font-size: 16px;
 }
 
 .submit-buttons {

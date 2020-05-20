@@ -28,6 +28,8 @@ export class CreateEcoNewsService {
 
   public setForm(form: FormGroup): void {
     this.currentForm = form;
+    this.currentForm.value.image = this.files[0] ?
+      this.files[0].url : '';
   }
 
   public sendFormData(form): Observable<NewsResponseDTO> {
