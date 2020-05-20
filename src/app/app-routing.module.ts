@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import { AboutPageComponent } from './component/about/about-page/about-page.component';
 import { FilterComponent } from './component/map/filter/filter.component';
 import { HomepageComponent } from './component/home/homepage/homepage.component';
+import { SearchAllResultsComponent } from './component/core/search-all-results/search-all-results.component';
 
 export const routes: Routes = [
   {
@@ -45,7 +46,11 @@ export const routes: Routes = [
   {
     path: 'about',
     component: AboutPageComponent
-  }
+  },
+  {
+    path: 'search-all',
+    component: SearchAllResultsComponent
+  },
 ];
 
 @NgModule({

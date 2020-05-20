@@ -42,7 +42,11 @@
           </div>
         </div>
 
-        <a class="all-results-link">
+        <a class="all-results-link"
+           [routerLink]="['/search-all']"
+           routerLinkActive="active-link"
+           routerLinkActiveOptions="{exact:true}"
+           (click)="closeSearch()">
           See all results
         </a>
       </ng-template>
