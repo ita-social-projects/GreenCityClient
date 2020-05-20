@@ -22,7 +22,6 @@ export class CreateNewsCancelComponent implements OnInit {
   }
 
   private moveToNewsList(): void {
-    this.createEcoNews.setForm(null);
     this.router.navigate(['/news']);
     this.closeCancelPopup();
   }

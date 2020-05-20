@@ -18,7 +18,8 @@ export class CreateNewsComponent implements OnInit {
     title: ['', [Validators.required, Validators.maxLength(170), this.noWhitespaceValidator]],
     source: [''],
     content: ['', [Validators.required, Validators.minLength(20)]],
-    tags: this.fb.array([])
+    tags: this.fb.array([]),
+    image: ['']
   });
 
   public filters: Array<FilterModel> = [
@@ -44,17 +45,24 @@ export class CreateNewsComponent implements OnInit {
   ngOnInit() {
     this.onSourceChange();
     this.setFormItems();
+    this.setEmptyForm();
   }
 
   private setFormItems(): void {
-    this.formData = this.createEcoNewsService.getFormData(); 
-    if (this.formData) {  
+    this.formData = this.createEcoNewsService.getFormData();
+    if (this.formData) {
       this.patchFilters();
       this.createNewsForm.patchValue({
         title: this.formData.value.title,
         content: this.formData.value.content,
       })
     } 
+  }
+
+  private setEmptyForm(): void {
+    if (this.formData) {
+      this.createEcoNewsService.setForm(null);
+    }
   }
 
   private navigateByUrl(url: string): void {
@@ -130,7 +138,7 @@ export class CreateNewsComponent implements OnInit {
               !this.createNewsForm.value.tags.includes(tag)) {
             this.createNewsForm.value.tags.push(tag);
             this.filtersValidation(filter);
-          } 
+          }
         })
       })
     }
@@ -149,6 +157,7 @@ export class CreateNewsComponent implements OnInit {
 
   private goToPreview(): void {
     this.createEcoNewsService.setForm(this.createNewsForm);
+    //this.createEcoNewsService.setEmptyForm(this.createNewsForm);
     this.navigateByUrl('create-news/preview');
     this.setFilters();
   }

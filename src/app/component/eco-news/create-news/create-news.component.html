@@ -8,9 +8,9 @@
     </div>
     <div class="form-description">
         <p>
-            This news will be posted in English. Please create copies
-            of this news in other languages if needed. You can come
-            back and update news anytime after publishing
+            Please provide as much details as you can - place and time 
+            of event, the goal of gathering etc. You can come back and 
+            update news anytime after publishing
         </p>
     </div>
     <div class="form-container">
@@ -26,7 +26,6 @@
                     </label>
                     <div class="tags" formArrayName="tags">
                         <h3>Pick tags for news</h3>
-                        <p>Please select one or more tags</p>
                         <button *ngFor="let filter of filters"
                                 (click)="addFilters(filter)"
                                 type="button"
@@ -35,7 +34,7 @@
                                 {{ filter.name }}</button>
                                 <p [ngClass]="{'warning': isFilterValidation}"
                                 >
-                                Only 3 tags can be added</p>
+                                Only 3 tags can be added.</p>
                     </div>
                     <label>
                         <h3>Source (optional)</h3>
@@ -61,8 +60,8 @@
                 <p class="textarea-description">Should contain minimum 20 symbols</p>
             </div>
             <div class="date">
-                <p><b>Date: </b><span>{{date | date: 'longDate'}}</span></p>
-                <p><b>Author: </b><span>Current User</span></p>
+                <p><span>Date: </span><span>{{date | date: 'longDate'}}</span></p>
+                <p><span>Author: </span><span>Current User</span></p>
             </div>
             <div class="submit-buttons">
                 <button

@@ -16,7 +16,7 @@
     </div>
     <button type="submit"
             *ngIf="previewItem.valid && previewItem.value.tags.length !== 0"
-            class="publish"
+            class="primary-global-button"
             (click)="postNewsItem()"
     >
       Publish
@@ -31,7 +31,7 @@
     </div>
   </div>
   <div class="news-content">
-    <div class="news-text-container">
+    <div class="news-title-container">
       <div class="news-title">
         {{ previewItem.value.title }}
       </div>
@@ -46,11 +46,11 @@
         >
       </div>
       <div class="news-info-author">
-        by John Smith
+        by John
       </div>
     </div>
     <div class="news-image">
-      <img [src]="images.largeImage"
+      <img [src]="getImagePath()"
            alt="news-image"
            class="news-image-img"
       >
@@ -71,7 +71,9 @@
         >
       </div>
       <div class="news-text">
-        {{ previewItem.value.content }}
+        <div class="news-text-content">
+          {{ previewItem.value.content }}
+        </div>
       </div>
     </div>
   </div>

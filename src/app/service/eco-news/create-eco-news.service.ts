@@ -11,6 +11,7 @@ import { FileHandle } from '../../component/eco-news/create-news/create-news-int
 })
 export class CreateEcoNewsService {
   private currentForm: FormGroup;
+  private emptyForm: FormGroup;
   private url: string = environment.backendLink;
   private accessToken: string = localStorage.getItem('accessToken');
   public files: FileHandle[] = [];
@@ -28,6 +29,10 @@ export class CreateEcoNewsService {
 
   public setForm(form: FormGroup): void {
     this.currentForm = form;
+    if (this.currentForm) {
+      this.currentForm.value.image = this.files[0] ?
+      this.files[0].url : '';
+    }
   }
 
   public sendFormData(form): Observable<NewsResponseDTO> {
