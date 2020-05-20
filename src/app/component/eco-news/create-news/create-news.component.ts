@@ -45,7 +45,7 @@ export class CreateNewsComponent implements OnInit {
   ngOnInit() {
     this.onSourceChange();
     this.setFormItems();
-    this.createEcoNewsService.setForm(null);
+    this.setEmptyForm();
   }
 
   private setFormItems(): void {
@@ -56,6 +56,12 @@ export class CreateNewsComponent implements OnInit {
         title: this.formData.value.title,
         content: this.formData.value.content,
       })
+    }
+  }
+
+  private setEmptyForm(): void {
+    if (this.formData) {
+      this.createEcoNewsService.setForm(null);
     }
   }
 
@@ -151,6 +157,7 @@ export class CreateNewsComponent implements OnInit {
 
   private goToPreview(): void {
     this.createEcoNewsService.setForm(this.createNewsForm);
+    //this.createEcoNewsService.setEmptyForm(this.createNewsForm);
     this.navigateByUrl('create-news/preview');
     this.setFilters();
   }
