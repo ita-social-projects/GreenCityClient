@@ -44,12 +44,14 @@ import { LayoutModule } from './component/layout/layout.module';
 import { AppRoutingModule } from './app-routing.module';
 import { CreateNewsCancelComponent } from './component/shared/create-news-cancel/create-news-cancel.component';
 import { EcoPlacesComponent } from './component/user/profile/eco-places/eco-places.component';
+import { ShoppingListComponent } from './component/user/profile/shopping-list/shopping-list.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    EcoPlacesComponent
+    EcoPlacesComponent,
+    ShoppingListComponent
   ],
   imports: [
     BrowserModule,
