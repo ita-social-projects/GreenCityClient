@@ -45,7 +45,8 @@ export class HeaderNewComponent implements OnInit {
               private achievementService: AchievementService,
               private habitStatisticService: HabitStatisticService,
               private languageService: LanguageService,
-              private searchSearch: SearchService) {}
+              private searchSearch: SearchService,
+              private userOwnAuthService: UserOwnAuthService) {}
 
   ngOnInit() {
     this.searchSearch.searchSubject.subscribe(this.openSearchSubscription.bind(this));
