@@ -31,6 +31,9 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     CoreModule,
     SwiperModule
   ],
+  exports: [
+    HomepageComponent
+  ],
   providers: [
     {
       provide: SWIPER_CONFIG,

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, Subject} from 'rxjs';
 import {Language} from '../../i18n/Language';
 
 /**
@@ -14,6 +14,7 @@ export class LocalStorageService {
   private readonly USER_ID = 'userId';
   private readonly NAME = 'name';
 
+  languageSubject: Subject<string> = new Subject<string>();
   firstNameBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getName());
   userIdBehaviourSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.getUserId());
 
@@ -68,6 +69,7 @@ export class LocalStorageService {
 
   public setCurrentLanguage(language: Language) {
     localStorage.setItem('language', language);
+    this.languageSubject.next(language);
   }
 
   public getCurrentLanguage(): Language {

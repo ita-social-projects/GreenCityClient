@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ModalService } from '../_modal/modal.service';
+import { ModalService } from '../../core/_modal/modal.service';
 import { MatDialog } from '@angular/material';
 import { FavoritePlaceComponent } from '../../map/favorite-place/favorite-place.component';
 import { FavoritePlaceService } from '../../../service/favorite-place/favorite-place.service';
@@ -19,11 +19,11 @@ import { NewSignUpComponent } from '../../auth/new-sign-up/new-sign-up.component
 import { UserOwnAuthService } from '../../../service/auth/user-own-auth.service';
 
 @Component({
-  selector: 'app-header-new',
-  templateUrl: './header-new.component.html',
-  styleUrls: ['./header-new.component.scss']
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss']
 })
-export class HeaderNewComponent implements OnInit {
+export class HeaderComponent implements OnInit {
   readonly selectLanguageArrow = 'assets/img/arrow_grey.png';
   readonly dropDownArrow = 'assets/img/arrow.png';
   private dropdownVisible: boolean;
@@ -52,7 +52,9 @@ export class HeaderNewComponent implements OnInit {
   ngOnInit() {
     this.searchSearch.searchSubject.subscribe(this.openSearchSubscription.bind(this));
     this.dropdownVisible = false;
-    this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => this.name = firstName);
+    this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => {
+      this.name = firstName;
+    });
     this.initUser();
     this.userRole = this.jwtService.getUserRole();
     this.language = this.languageService.getCurrentLanguage();
