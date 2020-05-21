@@ -97,6 +97,8 @@ import { NewFooterComponent } from './component/core/new-footer/new-footer.compo
 import { HomeModule } from './component/home/home.module';
 import { AboutModule } from './component/about/about.module';
 import { ProfileComponent } from './component/user/profile/profile.component';
+import { ProfileMiddleMenuComponent } from './component/user/profile/profile-middle/profile-middle-menu/profile-middle-menu.component';
+import { OneHabitComponent } from './component/user/profile/profile-middle/profile-middle-menu/one-habit/one-habit.component';
 
 
 
@@ -154,7 +156,9 @@ import { ProfileComponent } from './component/user/profile/profile.component';
     ConfirmationModalComponent,
     InputcolorDirective,
     NewFooterComponent,
-    ProfileComponent
+    ProfileComponent,
+    ProfileMiddleMenuComponent,
+    OneHabitComponent
   ],
   imports: [
     MatDialogModule,
