@@ -33,5 +33,5 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 export class AboutModule { }
 
 export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, './../../../assets/i18n/', '.json');
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
