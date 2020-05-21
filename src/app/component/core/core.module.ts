@@ -1,6 +1,4 @@
 import { NgModule } from '@angular/core';
-import { NavBarComponent } from './nav-bar/nav-bar.component';
-import { LowerNavBarComponent } from './lower-nav-bar/lower-nav-bar.component';
 import { CommonModule } from '@angular/common';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -16,19 +14,17 @@ import { MatCheckboxModule, MatDialogModule, MatCardModule } from '@angular/mate
 import { PhotoUploadComponent } from './photo-upload/photo-upload.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
-import { HeaderNewComponent } from './header-new/header-new.component';
 import { SearchPopupComponent } from './search-popup/search-popup.component';
 import { SearchItemComponent } from './search-popup/search-item/search-item.component';
 import { SearchNotFoundComponent } from './search-popup/search-not-found/search-not-found.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
     declarations: [
-        NavBarComponent,
         ProposeCafeComponent,
         ModalComponent,
         PhotoUploadComponent,
-        LowerNavBarComponent,
-        HeaderNewComponent,
+        HeaderComponent,
         SearchPopupComponent,
         SearchItemComponent,
         SearchNotFoundComponent,
@@ -58,12 +54,10 @@ import { SearchNotFoundComponent } from './search-popup/search-not-found/search-
           NgxPageScrollModule
     ],
   exports: [
-    NavBarComponent,
     ProposeCafeComponent,
     ModalComponent,
     PhotoUploadComponent,
-    LowerNavBarComponent,
-    HeaderNewComponent,
+    HeaderComponent,
     CommonModule,
     TranslateModule,
     AppRoutingModule,
