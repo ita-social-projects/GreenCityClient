@@ -3,11 +3,11 @@ import { footerIcons } from '../../../../assets/img/icon/footer/footer-icons';
 import { LocalStorageService } from '../../../service/localstorage/local-storage.service';
 
 @Component({
-  selector: 'app-new-footer',
-  templateUrl: './new-footer.component.html',
-  styleUrls: ['./new-footer.component.scss']
+  selector: 'app-footer',
+  templateUrl: './footer.component.html',
+  styleUrls: ['./footer.component.scss']
 })
-export class NewFooterComponent implements OnInit {
+export class FooterComponent implements OnInit {
   public actualYear = new Date().getFullYear();
   private footerImageList = footerIcons;
   private userId: number;
