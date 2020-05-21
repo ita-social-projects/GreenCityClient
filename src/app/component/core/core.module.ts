@@ -7,21 +7,17 @@ import { ProposeCafeComponent } from './propose-cafe/propose-cafe.component';
 import { ModalComponent } from './_modal/modal.component';
 import { AgmCoreModule } from '@agm/core';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
-import { MatCheckboxModule, MatDialogModule, MatCardModule } from '@angular/material';
-import { PhotoUploadComponent } from './photo-upload/photo-upload.component';
-import { FileUploadModule } from 'ng2-file-upload';
-
-import {SharedModule} from '../shared/shared.module';
-import {NgxPageScrollModule} from 'ngx-page-scroll';
+import { MatCheckboxModule, MatDialogModule  } from '@angular/material';
+import { SharedModule } from '../shared/shared.module';
+import { NgxPageScrollModule } from 'ngx-page-scroll';
 
 @NgModule({
     declarations: [
         ProposeCafeComponent,
         ModalComponent,
-        PhotoUploadComponent
     ],
     imports: [
+        AppRoutingModule,
         CommonModule,
         SharedModule,
         FormsModule,
@@ -30,20 +26,15 @@ import {NgxPageScrollModule} from 'ngx-page-scroll';
             apiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI',
             libraries: ['places', 'geometry']
           }),
-          NgSelectModule,
-          MDBBootstrapModule,
-          MatCheckboxModule,
-          MatDialogModule,
-          FileUploadModule,
-          MatCardModule,
-          NgxPageScrollModule
-
+        NgSelectModule,
+        MatCheckboxModule,
+        MatDialogModule,
+        NgxPageScrollModule
     ],
   exports: [
     NgxPageScrollModule,
     ProposeCafeComponent,
     ModalComponent,
-    PhotoUploadComponent,
     CommonModule,
     TranslateModule,
     AppRoutingModule,
@@ -51,12 +42,8 @@ import {NgxPageScrollModule} from 'ngx-page-scroll';
     ReactiveFormsModule,
     AgmCoreModule,
     NgSelectModule,
-    MDBBootstrapModule,
     MatCheckboxModule,
     MatDialogModule,
-    FileUploadModule,
-    MatCardModule,
-
   ],
     providers: []
 })

@@ -43,6 +43,7 @@ import { AlphabeticalPipePipe } from '../../pipe/alphabetical-pipe/alphabetical-
 import { MatButtonModule, MatRadioModule } from '@angular/material';
 import { ConfirmationModalComponent } from './habit/add-new-habit/confirmation-modal/confirmation-modal.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import {SharedModule} from '../shared/shared.module';
 
 
 @NgModule({
@@ -91,6 +92,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
   imports: [
     CommonModule,
     CoreModule,
+    SharedModule,
     MatButtonModule,
     MatRadioModule,
     DragDropModule,

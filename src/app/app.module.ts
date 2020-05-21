@@ -4,7 +4,6 @@ import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   HTTP_INTERCEPTORS,
-  HttpClient,
   HttpClientModule
 } from '@angular/common/http';
 import { ProposeCafeComponent } from './component/core/propose-cafe/propose-cafe.component';
@@ -40,7 +39,6 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CoreModule } from './component/core/core.module';
 import { EcoNewsModule } from './component/eco-news/eco-news.module';
 import { AuthModule } from './component/auth/auth.module';
-import { MapModule } from './component/map/map.module';
 import { HomeModule } from './component/home/home.module';
 import { UserModule } from './component/user/user.module';
 import { LayoutModule } from './component/layout/layout.module';
@@ -51,6 +49,8 @@ import { AppRoutingModule } from './app-routing.module';
     AppComponent
   ],
   imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     LayoutModule,
     MatDialogModule,
@@ -59,8 +59,6 @@ import { AppRoutingModule } from './app-routing.module';
     EcoNewsModule,
     HomeModule,
     InfiniteScrollModule,
-    BrowserModule,
-    BrowserAnimationsModule,
     HttpClientModule,
     SocialLoginModule,
     FormsModule,
@@ -78,7 +76,6 @@ import { AppRoutingModule } from './app-routing.module';
     MatSelectModule,
     MatRadioModule,
     DragDropModule,
-    MapModule,
     UserModule,
   ],
   entryComponents: [
