@@ -51,10 +51,10 @@ export class SignInNewComponent implements OnInit, OnDestroy {
   private checkIfUserId(): void {
     this.userIdSubscription = this.localStorageService.userIdBehaviourSubject
       .subscribe(userId => {
-      if (userId) {
-        this.matDialogRef.close();
-      }
-    });
+        if (userId) {
+          this.matDialogRef.close();
+        }
+      });
   }
 
   public configDefaultErrorMessage(): void {
@@ -93,7 +93,7 @@ export class SignInNewComponent implements OnInit, OnDestroy {
     this.localStorageService.setFirstName(data.name);
     this.localStorageService.setFirstSignIn();
     this.userOwnAuthService.getDataFromLocalStorage();
-    this.router.navigate(['/welcome'])
+    this.router.navigate([data.userId, 'habits'])
       .then(success => console.log('redirect has succeeded ' + success))
       .catch(fail => console.log('redirect has failed ' + fail));
   }
@@ -155,3 +155,4 @@ export class SignInNewComponent implements OnInit, OnDestroy {
     this.userIdSubscription.unsubscribe();
   }
 }
+
