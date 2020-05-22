@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ModalService } from '../_modal/modal.service';
+import { ModalService } from '../../core/_modal/modal.service';
 import { MatDialog } from '@angular/material';
 import { FavoritePlaceComponent } from '../../map/favorite-place/favorite-place.component';
 import { FavoritePlaceService } from '../../../service/favorite-place/favorite-place.service';
