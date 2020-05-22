@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { SWIPER_CONFIG, SwiperConfigInterface, SwiperModule } from 'ngx-swiper-wrapper';
-
 import { TipsCardComponent } from './useful-tips/tips-card/tips-card.component';
 import { TipsListComponent } from './useful-tips/tips-list/tips-list.component';
 import { CommonModule } from '@angular/common';
@@ -10,6 +9,7 @@ import { StatRowComponent } from './stat-row/stat-row.component';
 import { StatRowsComponent } from './stat-rows/stat-rows.component';
 import { SubscribeComponent } from './subscribe/subscribe.component';
 import { HomepageComponent } from './homepage/homepage.component';
+import { SharedModule } from '../shared/shared.module';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
@@ -29,7 +29,12 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   imports: [
     CommonModule,
     CoreModule,
+    SharedModule,
     SwiperModule
+  ],
+  exports: [
+    HomepageComponent,
+
   ],
   providers: [
     {

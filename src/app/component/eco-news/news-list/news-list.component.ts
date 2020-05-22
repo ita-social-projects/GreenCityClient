@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { EcoNewsService } from 'src/app/service/eco-news/eco-news.service';
 import { Subscription } from 'rxjs';
 import { EcoNewsModel } from '../../../model/eco-news/eco-news-model';
+import { UserOwnAuthService } from '../../../service/auth/user-own-auth.service';
 
 @Component({
   selector: 'app-news-list',
@@ -16,12 +17,25 @@ export class NewsListComponent implements OnInit, OnDestroy {
   private allEcoNews: EcoNewsModel[] = [];
   private elements: EcoNewsModel[] = [];
   public remaining = 0;
+  private isLoggedIn: boolean;
 
-  constructor(private ecoNewsService: EcoNewsService) { }
+  constructor(private ecoNewsService: EcoNewsService,
+              private userOwnAuthService: UserOwnAuthService) { }
 
   ngOnInit() {
     this.ecoNewsService.getEcoNewsList();
     this.fetchAllEcoNews();
+    this.checkUserSingIn();
+    this.userOwnAuthService.getDataFromLocalStorage();
+  }
+
+  private checkUserSingIn(): void {
+    this.userOwnAuthService.credentialDataSubject
+      .subscribe((data) => {
+        if (data && data.firstSignIn) {
+          this.isLoggedIn = data.firstSignIn;
+        }
+      });
   }
 
   private fetchAllEcoNews(): void {

@@ -151,6 +151,15 @@ export class NewSignUpComponent implements OnInit {
                     this.signUpImgs.hiddenEye;
   }
 
+  private checkSpaces(input: string): boolean {
+    return input.indexOf(' ') >= 0;
+  }
+
+  private checkSymbols(input: string): boolean {
+    const regexp = /^(?=.*[a-z]+)(?=.*[A-Z]+)(?=.*\d+)(?=.*[~`!@#$%^&*()+=_\-{}|:;”’?/<>,.\]\[]+).{8,}$/;
+    return (regexp.test(input) || input === '');
+  }
+
   private openSignInWindow(): void {
     this.closeSignUpWindow();
     this.dialog.open(SignInNewComponent, {
