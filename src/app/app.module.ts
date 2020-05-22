@@ -97,6 +97,7 @@ import { NewFooterComponent } from './component/core/new-footer/new-footer.compo
 import { HomeModule } from './component/home/home.module';
 import { AboutModule } from './component/about/about.module';
 import { ProfileComponent } from './component/user/profile/profile.component';
+import { AchievementsFriendsComponent } from './component/user/profile/achievements-friends/achievements-friends.component';
 
 
 
@@ -154,7 +155,8 @@ import { ProfileComponent } from './component/user/profile/profile.component';
     ConfirmationModalComponent,
     InputcolorDirective,
     NewFooterComponent,
-    ProfileComponent
+    ProfileComponent,
+    AchievementsFriendsComponent
   ],
   imports: [
     MatDialogModule,

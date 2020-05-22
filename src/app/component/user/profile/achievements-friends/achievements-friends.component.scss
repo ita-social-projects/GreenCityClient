@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
+$title-font: 'Montserrat';
+
+.main-container {
+  padding: 24px;
+  max-width: 261px;
+
+  .achievements,
+  .friends {
+    max-width: 212px;
+  }
+
+  .achievements-text,
+  .friends-text {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  hr {
+    max-width: 212px;
+    margin: 24px 0;
+    border: 1px solid #EAEEF3
+  }
+
+  .text-main-content {
+    display: flex;
+    justify-content: space-between;
+    width: 142px;
+
+    .text-number {
+      color: #BEBEBE;
+    }
+  }
+
+  .text-title,
+  .text-number {
+    font-family: $title-font;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    color: #494A49;
+  }
+
+  .text-more {
+    font-family: $title-font;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 15px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #494A49;
+  }
+
+  .achievements-images,
+  .friends-images {
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 212px;
+  }
+
+  .achievements-img,
+  .friend-img {
+    margin-top: 24px;
+  }
+}
