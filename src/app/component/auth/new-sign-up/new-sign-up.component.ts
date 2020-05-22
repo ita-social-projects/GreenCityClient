@@ -64,13 +64,12 @@ export class NewSignUpComponent implements OnInit {
 
   private onSubmitSuccess(data): void {
     this.loadingAnim = false;
-    console.log(data);
     this.openSignUpPopup();
     this.closeSignUpWindow();
     this.receiveId(data.userId);
   }
 
-  receiveId(id: number): void {
+  receiveId(id): void {
     setTimeout(() => {
       this.router.navigate([id, 'habits']);
       this.dialog.closeAll();
@@ -78,8 +77,6 @@ export class NewSignUpComponent implements OnInit {
   }
 
   private openSignUpPopup(): void {
-    // const userId = this.localStorageService.getUserId();
-    // console.log(usedId);
     this.dialog.open(SubmitEmailComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
