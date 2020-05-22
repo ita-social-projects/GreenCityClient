@@ -49,17 +49,17 @@
                           </a>
                         </li>
                         <li>
-                          <a [routerLink]="[getUserId(), 'habits']"
-                             routerLinkActive="active-link"
-                             routerLinkActiveOptions="{exact:true}">
-                            {{ 'user.lower-nav-bar.my-habits' | translate }}
-                          </a>
-                        </li>
-                        <li>
                           <a [routerLink]="['/about']"
                              routerLinkActive="active-link"
                              routerLinkActiveOptions="{exact:true}">
                             {{ 'user.lower-nav-bar.about-us' | translate }}
+                          </a>
+                        </li>
+                        <li>
+                          <a [routerLink]="[getUserId(), 'habits']"
+                             routerLinkActive="active-link"
+                             routerLinkActiveOptions="{exact:true}">
+                            {{ 'user.lower-nav-bar.my-habits' | translate }}
                           </a>
                         </li>
                         <li></li>
