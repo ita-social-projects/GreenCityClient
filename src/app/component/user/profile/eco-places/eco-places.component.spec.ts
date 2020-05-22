@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { EcoPlacesComponent } from './eco-places.component';
 
 describe('MyEcoPlacesComponent', () => {
