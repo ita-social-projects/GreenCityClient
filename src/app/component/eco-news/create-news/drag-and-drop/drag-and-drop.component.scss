@@ -11,6 +11,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    input[type = file] {
+        position: absolute;
+        overflow: hidden;
+        z-index: -1;
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+    }
 }
 
 .centered {

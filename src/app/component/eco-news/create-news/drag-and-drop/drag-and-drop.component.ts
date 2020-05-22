@@ -25,11 +25,10 @@ export class DragAndDropComponent implements OnInit {
   private onFileSelected(event): void {
     this.selectedFile = <File>event.target.files[0];
 
-    let reader: any = new FileReader();
+    let reader: FileReader = new FileReader();
     reader.readAsDataURL(this.selectedFile);
     reader.onload =this.handleFile.bind(this);
 
-    this.showWarning();
     this.ecoNewsService.files = this.files;
   }
 
@@ -37,6 +36,7 @@ export class DragAndDropComponent implements OnInit {
     let binaryString = event.target.result;
     this.selectedFileUrl = binaryString;
     this.files[0] = {url: this.selectedFileUrl, file: this.selectedFile};
+    this.showWarning();
     this.ecoNewsService.fileUrl = this.selectedFileUrl;
    }
 
