@@ -2,13 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SignUpComponent } from './component/user/auth/sign-up/sign-up.component';
-import { AuthComponent } from './component/user/auth/auth.component';
-import { SignInComponent } from './component/user/auth/sign-in/sign-in.component';
-import { SubmitEmailComponent } from './component/user/auth/submit-email/submit-email.component';
 import {
   HTTP_INTERCEPTORS,
-  HttpClient,
   HttpClientModule
 } from '@angular/common/http';
 import { ProposeCafeComponent } from './component/core/propose-cafe/propose-cafe.component';
@@ -31,7 +26,6 @@ import {
 } from '@angular/material';
 import { provideConfig } from './config/GoogleAuthConfig';
 import { RestoreComponent } from './component/user/restore/restore.component';
-import { RestoreFormComponent } from './component/user/restore-form/restore-form.component';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireModule } from '@angular/fire';
@@ -41,41 +35,30 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { InterceptorService } from './service/interceptors/interceptor.service';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 // tslint:disable-next-line:max-line-length
-import { InputcolorDirective } from './directives/inputcolor.directive';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CoreModule } from './component/core/core.module';
 import { EcoNewsModule } from './component/eco-news/eco-news.module';
 import { AuthModule } from './component/auth/auth.module';
-import { MapModule } from './component/map/map.module';
-import { FooterComponent } from './component/core/footer/footer.component';
 import { HomeModule } from './component/home/home.module';
-import { AboutModule } from './component/about/about.module';
 import { UserModule } from './component/user/user.module';
-import { ProfileComponent } from './component/user/profile/profile.component';
+import { LayoutModule } from './component/layout/layout.module';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    SignUpComponent,
-    AuthComponent,
-    SignInComponent,
-    SubmitEmailComponent,
-    RestoreComponent,
-    RestoreFormComponent,
-    InputcolorDirective,
-    FooterComponent,
-    ProfileComponent
+    AppComponent
   ],
   imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    LayoutModule,
     MatDialogModule,
     AuthModule,
     CoreModule,
     EcoNewsModule,
     HomeModule,
-    AboutModule,
     InfiniteScrollModule,
-    BrowserModule,
-    BrowserAnimationsModule,
     HttpClientModule,
     SocialLoginModule,
     FormsModule,
@@ -93,7 +76,6 @@ import { ProfileComponent } from './component/user/profile/profile.component';
     MatSelectModule,
     MatRadioModule,
     DragDropModule,
-    MapModule,
     UserModule,
   ],
   entryComponents: [
