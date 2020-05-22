@@ -15,6 +15,9 @@ import { Location } from '../../../model/location.model';
 import { AddCommentComponent } from '../add-comment/add-comment.component';
 import { WeekDaysUtils } from '../../../service/weekDaysUtils.service';
 import { JwtService } from '../../../service/jwt/jwt.service';
+import {TranslateService} from '@ngx-translate/core';
+import {LocalStorageService} from '../../../service/localstorage/local-storage.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-map',
@@ -22,6 +25,7 @@ import { JwtService } from '../../../service/jwt/jwt.service';
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit {
+  private langChangeSub: Subscription;
   placeInfo: PlaceInfo;
   button = false;
   searchText;
@@ -47,6 +51,7 @@ export class MapComponent implements OnInit {
 
   constructor(
     private iconRegistry: MatIconRegistry,
+    private localStorageService: LocalStorageService,
     private sanitizer: DomSanitizer,
     public weekDaysUtils: WeekDaysUtils,
     private route: ActivatedRoute,
@@ -54,7 +59,8 @@ export class MapComponent implements OnInit {
     public filterService: FilterPlaceService,
     private favoritePlaceService: FavoritePlaceService,
     public dialog: MatDialog,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private translate: TranslateService
   ) {
     iconRegistry.addSvgIcon(
       'star-white',
@@ -86,6 +92,17 @@ export class MapComponent implements OnInit {
       this.favoritePlaceService.getFavoritePlaces();
     }
     this.subscribeToFavoritePlaceId();
+    this.subscribeToLangChange();
+    this.bindLang(this.localStorageService.getCurrentLanguage());
+  }
+
+  private bindLang(lang: string): void {
+    this.translate.setDefaultLang(lang);
+  }
+
+  private subscribeToLangChange(): void {
+    this.langChangeSub = this.localStorageService.languageSubject
+      .subscribe(this.bindLang.bind(this));
   }
 
   getDirection(p: Place) {
