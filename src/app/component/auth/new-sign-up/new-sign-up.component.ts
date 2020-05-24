@@ -66,10 +66,10 @@ export class NewSignUpComponent implements OnInit {
     this.loadingAnim = false;
     this.openSignUpPopup();
     this.closeSignUpWindow();
-    this.receiveId(data.userId);
+    this.receiveUserId(data.userId);
   }
 
-  receiveId(id): void {
+  private receiveUserId(id): void {
     setTimeout(() => {
       this.router.navigate([id, 'habits']);
       this.dialog.closeAll();
@@ -145,20 +145,17 @@ export class NewSignUpComponent implements OnInit {
                         inputBlock: HTMLElement): void {
     this.passwordErrorMessageBackEnd = null;
     inputBlock.className = passInput.value !== passRepeat.value ?
-      'main-data-input-password wrong-input' :
-      'main-data-input-password';
+                          'main-data-input-password wrong-input' :
+                          'main-data-input-password';
   }
 
   private setEmailBackendErr(): void {
     this.emailErrorMessageBackEnd = null;
   }
 
-  private setPasswordVisibility(htmlInput: HTMLInputElement,
-                                htmlImage: HTMLImageElement): void {
+  private setPasswordVisibility(htmlInput: HTMLInputElement, htmlImage: HTMLImageElement): void {
     htmlInput.type = htmlInput.type === 'password' ? 'text' : 'password';
-    htmlImage.src = htmlInput.type === 'password' ?
-      this.signUpImgs.openEye :
-      this.signUpImgs.hiddenEye;
+    htmlImage.src = htmlInput.type === 'password' ? this.signUpImgs.openEye : this.signUpImgs.hiddenEye;
   }
 
   private checkSpaces(input: string): boolean {

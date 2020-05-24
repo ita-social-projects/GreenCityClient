@@ -124,7 +124,7 @@ export class SignInNewComponent implements OnInit, OnDestroy {
   private onSignInWithGoogleSuccess(data: UserSuccessSignIn): void {
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.userOwnAuthService.getDataFromLocalStorage();
-    this.router.navigate(['/welcome'])
+    this.router.navigate([data.userId, 'habits'])
       .then(success => {
         this.localStorageService.setFirstSignIn();
         console.log('redirect has succeeded ' + success);

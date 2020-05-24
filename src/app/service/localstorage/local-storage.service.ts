@@ -29,7 +29,7 @@ export class LocalStorageService {
     return localStorage.getItem(this.REFRESH_TOKEN);
   }
 
-  public getUserId(): number {
+  private getUserId(): number {
     return Number.parseInt(localStorage.getItem(this.USER_ID), 10);
   }
 
