@@ -4,6 +4,7 @@
     height: 200px;
     display: flex;
     align-items: center;
+    margin-top: -60px;
 }
 
 input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched {
@@ -20,6 +21,7 @@ input.ng-invalid.ng-touched + span, textarea.ng-invalid.ng-touched + p {
 }
 
 .form-description {
+    margin-top: -30px;
     margin-bottom: 50px;
 }
 
@@ -67,6 +69,8 @@ form {
 }
 
 .left-form-column p, .left-form-column span {
+    margin-top: 2px;
+    display: block;
     color: #878787;
 }
 
@@ -76,6 +80,10 @@ form {
 
 .tags {
     margin-left: -20px;
+}
+
+.tags button {
+    color: #666666;
 }
 
 .tags p {
@@ -112,7 +120,7 @@ form .textarea-wrapper textarea {
     height: 131px;
     border-radius: 5px;
     border: 1px solid #878787;
-    width: 100%;
+    width: 102%;
 }
 
 .textarea-wrapper {
@@ -185,7 +193,7 @@ button {
     outline: none;
 }
 
-.filters-color {
+.tags .filters-color {
     background-color: #13AA57;
     color: #ffffff;
     border: none;
@@ -202,29 +210,126 @@ button {
 }
 
 .warning {
-    color: red;
+    color: red !important;
 }
 
-@media screen and (max-width: 1000px) {
+.left-form-column .field-warning {
+    border: 1px solid red;
+}
+
+@media screen and (max-width: 1024px) {
     .left-form-column input {
-        width: 400px;
+        width: 25rem;
+    }
+
+    form .textarea-wrapper textarea {
+        width: 45rem;
     }
 }
 
-@media screen and (max-width: 740px) {
-    form {
-        height: 1000px;
+@media screen and (max-width: 768px) {
+    .left-form-column input,
+    form .textarea-wrapper textarea  {
+        width: 100%;
+    }
+
+    .left-form-column label:last-child {
+        margin-top: 340px;
+    }
+
+    .right-form-column {
+        margin-top: -190px;
+        margin-left: 0;
     }
 
     .textarea-wrapper {
-        margin-top: 200px;
-    }
-
-    .left-form-column input {
-        width: 330px;
+        margin-top: 160px;
     }
 
     .wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+
+@media screen and (max-width: 576px) {
+    .left-form-column input,
+    form .textarea-wrapper textarea {
+        width: 100%;
+    }
+
+    .left-form-column label:last-child {
+        margin-top: 340px;
+    }
+
+    .right-form-column {
+        margin-top: -200px;
+    }
+
+    .textarea-wrapper {
+        margin-top: 160px;
+    }
+
+    .submit-buttons {
+        margin-right: 0;
+    }
+}
+
+@media screen and (max-width: 505px) {
+    .left-form-column label:last-child {
+        margin-top: 320px;
+    }
+
+    .right-form-column {
+        margin-top: -170px;
+    }
+}
+
+
+@media screen and (max-width: 320px) {
+    .left-form-column input,
+    form .textarea-wrapper textarea,
+    .form-description,
+    .tags {
+        width: 275px;
+    }
+
+    .left-form-column label:last-child {
+        margin-top: 350px;
+    }
+
+    .right-form-column {
+        margin-top: -150px;
+    }
+
+    .textarea-wrapper {
+        margin-top: 160px;
+    }
+
+    .tags button {
+        margin: 3px;
+    }
+
+    .title h2 {
+        font-size: 38px;
+        width: 300px;
+    }
+
+    .submit-buttons {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 200px;
+    }
+
+    .submit-buttons button {
+        margin-left: 0;
+        width: 275px;
+        height: 48px;
+    }
+
+    .date {
         display: flex;
         flex-direction: column;
     }
