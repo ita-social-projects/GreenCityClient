@@ -73,7 +73,7 @@
                         </li>
                         </ng-template>
                         <ng-template #userNotLoggerInSmall>
-                          <li class="mobile-vis name tertiary-global-button">Nadiia Steblivets</li>
+                          <li class="mobile-vis name tertiary-global-button">{{ name }}</li>
                           <li class="mobile-vis">
                             <a (click)="openDialog()">
                             {{ "nav-bar.favorite-places" | translate }}
@@ -137,7 +137,7 @@
             <div id="user-avatar-wrapper">
              <ul [class.add-shadow]="dropdownVisible">
                <li class="tertiary-global-button">
-                 <a (click)="toggleDropdown()">Nadiia Steblivets
+                 <a (click)="toggleDropdown()">{{ name }}
                  <img class="arrow"
                       [src]="dropDownArrow"
                       [ngClass]="dropdownVisible ? 'arrow reverse' : 'arrow'"

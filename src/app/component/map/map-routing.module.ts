@@ -4,10 +4,10 @@ import { MapComponent } from './map-component/map.component';
 
 const mapRoutes: Routes = [
     {
-        path: 'map',
+        path: '',
         component: MapComponent,
     },
-]
+];
 
 @NgModule({
     imports: [RouterModule.forChild(mapRoutes)],

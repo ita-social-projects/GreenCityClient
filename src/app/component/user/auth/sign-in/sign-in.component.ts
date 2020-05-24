@@ -52,7 +52,7 @@ export class SignInComponent implements OnInit {
       (data: UserSuccessSignIn) => {
         this.loadingAnim = false;
         this.userOwnSignInService.saveUserToLocalStorage(data);
-        this.localStorageService.setFirstName(data.firstName);
+        this.localStorageService.setFirstName(data.name);
         this.localStorageService.setFirstSignIn();
         this.router.navigate(['/'])
           .then(success => console.log('redirect has succeeded ' + success))
