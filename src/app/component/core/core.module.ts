@@ -21,44 +21,46 @@ import { SearchPopupComponent } from './search-popup/search-popup.component';
 import { SearchItemComponent } from './search-popup/search-item/search-item.component';
 import { SearchNotFoundComponent } from './search-popup/search-not-found/search-not-found.component';
 import { SearchAllResultsComponent } from './search-all-results/search-all-results.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
-    declarations: [
-        NavBarComponent,
-        ProposeCafeComponent,
-        ModalComponent,
-        PhotoUploadComponent,
-        LowerNavBarComponent,
-        HeaderNewComponent,
-        SearchPopupComponent,
-        SearchItemComponent,
-        SearchNotFoundComponent,
-        SearchAllResultsComponent,
-    ],
-    imports: [
-        CommonModule,
-        TranslateModule.forRoot({
-            loader: {
-              provide: TranslateLoader,
-              useFactory: HttpLoaderFactory,
-              deps: [HttpClient]
-            }
-          }),
-        AppRoutingModule,
-        FormsModule,
-        ReactiveFormsModule,
-        AgmCoreModule.forRoot({
-            apiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI',
-            libraries: ['places', 'geometry']
-          }),
-          NgSelectModule,
-          MDBBootstrapModule,
-          MatCheckboxModule,
-          MatDialogModule,
-          FileUploadModule,
-          MatCardModule,
-          NgxPageScrollModule
-    ],
+  declarations: [
+    NavBarComponent,
+    ProposeCafeComponent,
+    ModalComponent,
+    PhotoUploadComponent,
+    LowerNavBarComponent,
+    HeaderNewComponent,
+    SearchPopupComponent,
+    SearchItemComponent,
+    SearchNotFoundComponent,
+    SearchAllResultsComponent
+  ],
+  imports: [
+    CommonModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI',
+      libraries: ['places', 'geometry']
+    }),
+    NgSelectModule,
+    MDBBootstrapModule,
+    MatCheckboxModule,
+    MatDialogModule,
+    FileUploadModule,
+    MatCardModule,
+    NgxPageScrollModule,
+    InfiniteScrollModule
+  ],
   exports: [
     NavBarComponent,
     ProposeCafeComponent,
@@ -81,15 +83,15 @@ import { SearchAllResultsComponent } from './search-all-results/search-all-resul
     NgxPageScrollModule,
     SearchPopupComponent
   ],
-    providers: []
+  providers: []
 })
 
 export class CoreModule {}
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
-    return new TranslateHttpLoader(
-      httpClient,
-      './assets/i18n/',
-      '.json'
-    );
-  }
+  return new TranslateHttpLoader(
+    httpClient,
+    './assets/i18n/',
+    '.json'
+  );
+}

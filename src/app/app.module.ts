@@ -97,8 +97,6 @@ import { NewFooterComponent } from './component/core/new-footer/new-footer.compo
 import { HomeModule } from './component/home/home.module';
 import { AboutModule } from './component/about/about.module';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -181,7 +179,7 @@ import { AboutModule } from './component/about/about.module';
     MatSelectModule,
     MatRadioModule,
     DragDropModule,
-    MapModule,
+    MapModule
   ],
   entryComponents: [
     ProposeCafeComponent,
