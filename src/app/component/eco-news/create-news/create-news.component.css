@@ -313,7 +313,6 @@ button {
         flex-direction: column;
         justify-content: space-between;
         height: 200px;
-        align-items: center;
     }
 
     .submit-buttons button {
