@@ -28,7 +28,7 @@ export class SearchService {
         break;
       }
       case 'newest': {
-        return this.http.get<SearchModel>('http://localhost:3000/search').pipe(
+        return this.http.get<SearchModel>('http://localhost:3000/newest').pipe(
           switchMap(res => of(res))
         );
         break;
