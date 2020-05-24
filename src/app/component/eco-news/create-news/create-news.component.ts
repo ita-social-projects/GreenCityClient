@@ -4,7 +4,7 @@ import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@ang
 import { CreateEcoNewsService } from '../../../service/eco-news/create-eco-news.service';
 import { FilterModel, LanguageModel, NewsResponseDTO } from './create-news-interface';
 import { MatDialog } from '@angular/material/dialog';
-import { CreateNewsCancelComponent } from './create-news-cancel/create-news-cancel.component';
+import { CreateNewsCancelComponent } from '../../shared/create-news-cancel/create-news-cancel.component';
 
 @Component({
   selector: 'app-create-news',
@@ -151,7 +151,7 @@ export class CreateNewsComponent implements OnInit {
 
   private goToPreview(): void {
     this.createEcoNewsService.setForm(this.createNewsForm);
-    this.navigateByUrl('create-news/preview');
+    this.router.navigate(['news', 'preview']);
     this.setFilters();
   }
 

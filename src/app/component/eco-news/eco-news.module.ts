@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { EcoNewsComponent } from './eco-news.component';
 import { CreateNewsComponent } from './create-news/create-news.component';
 import { FilterNewsComponent } from './filter-news/filter-news.component';
@@ -18,7 +17,10 @@ import { NewsPreviewPageComponent } from './news-preview-page/news-preview-page.
 import { PostNewsLoaderComponent } from './post-news-loader/post-news-loader.component';
 import { DragAndDropComponent } from './create-news/drag-and-drop/drag-and-drop.component';
 import { DragAndDropDirective } from 'src/app/directives/drag-and-drop.directive';
-import { CreateNewsCancelComponent } from './create-news/create-news-cancel/create-news-cancel.component';
+import { SharedModule } from '../shared/shared.module';
+import { HttpClient } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -36,16 +38,33 @@ import { CreateNewsCancelComponent } from './create-news/create-news-cancel/crea
     PostNewsLoaderComponent,
     DragAndDropComponent,
     DragAndDropDirective,
-    CreateNewsCancelComponent
+
   ],
   imports: [
     CommonModule,
+    SharedModule,
     InfiniteScrollModule,
-    CoreModule,
     EcoNewsRoutingModule,
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      },
+      isolate: true
+    })
   ],
-  entryComponents: [CreateNewsCancelComponent],
+  exports: [
+    TranslateModule,
+  ],
+  entryComponents: [
+
+  ],
   providers: []
 })
 
 export class EcoNewsModule  { }
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
