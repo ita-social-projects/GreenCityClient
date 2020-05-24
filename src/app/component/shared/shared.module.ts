@@ -8,10 +8,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { FileUploadModule } from 'ng2-file-upload';
 import { MatCardModule } from '@angular/material';
+import { CreateNewsCancelComponent } from './create-news-cancel/create-news-cancel.component';
 
 @NgModule({
   declarations: [
-    PhotoUploadComponent
+    PhotoUploadComponent,
+    CreateNewsCancelComponent
   ],
   imports: [
     FormsModule,
@@ -30,6 +32,7 @@ import { MatCardModule } from '@angular/material';
 
   ],
   exports: [
+    CreateNewsCancelComponent,
     TranslateModule,
     PhotoUploadComponent,
     FormsModule,

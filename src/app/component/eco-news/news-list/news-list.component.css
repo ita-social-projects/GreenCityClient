@@ -1,3 +1,15 @@
+.container {
+  margin: 3px auto;
+}
+
+.main-header {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 3rem;
+  line-height: 30px;
+  font-weight: 500;
+  margin: 186px -20px 40px;
+}
+
 .flex-container {
   padding-top: 8px;
   display: flex;

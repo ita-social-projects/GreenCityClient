@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { LocalStorageService } from '../../service/localstorage/local-storage.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-eco-news',
@@ -6,9 +9,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./eco-news.component.css']
 })
 export class EcoNewsComponent implements OnInit {
-  public actualYear = new Date().getFullYear();
+  private langChangeSub: Subscription;
 
-  constructor() {}
+  constructor(
+    private localStorageService: LocalStorageService,
+    private translate: TranslateService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.subscribeToLangChange();
+    this.bindLang(this.localStorageService.getCurrentLanguage());
+  }
+
+  private bindLang(lang: string): void {
+    this.translate.setDefaultLang(lang);
+  }
+
+  private subscribeToLangChange(): void {
+    this.langChangeSub = this.localStorageService.languageSubject
+      .subscribe(this.bindLang.bind(this))
+  }
 }

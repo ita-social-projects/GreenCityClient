@@ -19,7 +19,6 @@ export class AboutPageComponent implements OnInit, OnDestroy {
               private translate: TranslateService) {
   }
 
-
   ngOnInit() {
     this.localStorageService.userIdBehaviourSubject.subscribe(userId => this.userId = userId);
     this.subscribeToLangChange();
@@ -32,7 +31,7 @@ export class AboutPageComponent implements OnInit, OnDestroy {
 
   private subscribeToLangChange(): void {
     this.langChangeSub = this.localStorageService.languageSubject
-      .subscribe(this.bindLang.bind(this))
+      .subscribe(this.bindLang.bind(this));
   }
 
   private navigateToHabit(): void {
