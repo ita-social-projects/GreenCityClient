@@ -11,47 +11,49 @@
     </div>
   </div>
 
-  <div class="page-wrapper">
-    <div class="search-content-wrapper">
-      <div class="remaining-items" *ngIf="inputValue && itemsFound">
-        {{ itemsFound }} items found
+  <div class="fixed-wrapper">
+    <div class="adaptive-center-wrapper">
+      <div class="search-content-wrapper">
+        <div class="remaining-items" *ngIf="inputValue && itemsFound">
+          {{ itemsFound }} items found
+        </div>
+        <ng-template [ngIf]="isNewsSearchFound || isTipsSearchFound">
+          <div class="content-news" *ngIf="isNewsSearchFound">
+            <a [routerLink]="['/news']"
+               (click)="closeSearch()">
+              <h3>News</h3>
+            </a>
+            <div class="flex-container">
+              <app-search-item *ngFor="let element of newsElements"
+                               [searchModel]="element"
+                               (closeSearch)="closeSearch()"></app-search-item>
+            </div>
+          </div>
+
+          <div class="content-tips" *ngIf="isTipsSearchFound">
+            <a [routerLink]="['/welcome']"
+               pageScroll
+               href="#tips"
+               [pageScrollDuration]="500"
+               (click)="closeSearch()">
+              <h3>Tips & Tricks</h3>
+            </a>
+            <div class="flex-container">
+
+            </div>
+          </div>
+
+          <a class="all-results-link">
+            See all results
+          </a>
+        </ng-template>
+
+        <ng-template [ngIf]="(isNewsSearchFound === false && isTipsSearchFound === false)">
+          <app-search-not-found (closeUnsuccessfulSearchResults)="closeSearch()"></app-search-not-found>
+        </ng-template>
       </div>
-      <ng-template [ngIf]="isNewsSearchFound || isTipsSearchFound">
-        <div class="content-news" *ngIf="isNewsSearchFound">
-          <a [routerLink]="['/news']"
-             (click)="closeSearch()">
-            <h3>News</h3>
-          </a>
-          <div class="flex-container">
-            <app-search-item *ngFor="let element of newsElements"
-                             [searchModel]="element"
-                             (closeSearch)="closeSearch()"></app-search-item>
-          </div>
-        </div>
-
-        <div class="content-tips" *ngIf="isTipsSearchFound">
-          <a [routerLink]="['/welcome']"
-             pageScroll
-             href="#tips"
-             [pageScrollDuration]="500"
-             (click)="closeSearch()">
-            <h3>Tips & Tricks</h3>
-          </a>
-          <div class="flex-container">
-
-          </div>
-        </div>
-
-        <a class="all-results-link">
-          See all results
-        </a>
-      </ng-template>
-
-      <ng-template [ngIf]="(isNewsSearchFound === false && isTipsSearchFound === false)">
-        <app-search-not-found (closeUnsuccessfulSearchResults)="closeSearch()"></app-search-not-found>
-      </ng-template>
+      <div class="overlay"
+           (click)="closeSearch()"></div>
     </div>
-    <div class="overlay"
-         (click)="closeSearch()"></div>
   </div>
 </ng-template>
