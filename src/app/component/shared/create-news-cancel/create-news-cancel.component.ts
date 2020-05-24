@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { CreateEcoNewsService } from '../../../service/eco-news/create-eco-news.service';
+import { CreateEcoNewsService } from '../../eco-news/services/create-eco-news.service';
 
 
 @Component({
