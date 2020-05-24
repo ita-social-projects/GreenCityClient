@@ -40,7 +40,8 @@
                         <h3>Source (optional)</h3>
                         <input type="text"
                                placeholder="link to external source"
-                               formControlName="source">
+                               formControlName="source"
+                               [ngClass]="{'field-warning':isLink}">
                         <span [ngClass]="{'warning':isLink}"
                         >
                         Please add the link of original article/news/post. Link should contain https://</span>
@@ -71,7 +72,10 @@
                 >
                   Preview
                 </button>
-                <button type="submit" [disabled]="!createNewsForm.valid || isArrayEmpty">Publish</button>
+                <button type="submit" [disabled]="!createNewsForm.valid ||
+                                                  isArrayEmpty ||
+                                                  isLink ||
+                                                  createEcoNewsService.isImageValid">Publish</button>
             </div>
         </form>
     </div>

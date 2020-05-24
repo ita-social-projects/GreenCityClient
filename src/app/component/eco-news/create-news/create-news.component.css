@@ -82,6 +82,10 @@ form {
     margin-left: -20px;
 }
 
+.tags button {
+    color: #666666;
+}
+
 .tags p {
     font-size: 12px;
 }
@@ -189,7 +193,7 @@ button {
     outline: none;
 }
 
-.filters-color {
+.tags .filters-color {
     background-color: #13AA57;
     color: #ffffff;
     border: none;
@@ -206,7 +210,11 @@ button {
 }
 
 .warning {
-    color: red;
+    color: red !important;
+}
+
+.left-form-column .field-warning {
+    border: 1px solid red;
 }
 
 @media screen and (max-width: 1024px) {
