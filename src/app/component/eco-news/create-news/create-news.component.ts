@@ -45,6 +45,7 @@ export class CreateNewsComponent implements OnInit {
   ngOnInit() {
     this.onSourceChange();
     this.setFormItems();
+    this.setEmptyForm();
   }
 
   private setFormItems(): void {
@@ -58,19 +59,22 @@ export class CreateNewsComponent implements OnInit {
     }
   }
 
+  private setEmptyForm(): void {
+    if (this.formData) {
+      this.createEcoNewsService.setForm(null);
+    }
+  }
+
   private navigateByUrl(url: string): void {
     this.router.navigateByUrl(url);
   }
 
   public onSourceChange(): void {
     this.createNewsForm.get('source').valueChanges.subscribe(source => {
-      if(source.startsWith('http://') || source.startsWith('https://')) {
-        this.isLink = false;
-      } else {
-        this.isLink = true;
-      }
+      source.startsWith('http://') ||
+      source.startsWith('https://') ||
+      source.length === 0 ? this.isLink = false : this.isLink = true;
     });
-
   }
 
   public onSubmit(): void {
@@ -104,7 +108,7 @@ export class CreateNewsComponent implements OnInit {
   public removeFilters(filter: FilterModel): void {
     if ( filter.isActive ) {
       filter.isActive = false;
-      if(this.createNewsForm.value.tags !== []) {
+      if(this.createNewsForm.value.tags.length === 1) {
         this.isArrayEmpty = true;
       }
       this.createNewsForm.value.tags.forEach((item, index) => {
@@ -129,7 +133,9 @@ export class CreateNewsComponent implements OnInit {
     if (this.formData) {
       this.formData.value.tags.forEach(tag => {
         this.filters.forEach(filter => {
-          if (filter.name.toLowerCase() === tag && filter.isActive) {
+          if (filter.name.toLowerCase() === tag &&
+              filter.isActive &&
+              !this.createNewsForm.value.tags.includes(tag)) {
             this.createNewsForm.value.tags.push(tag);
             this.filtersValidation(filter);
           }

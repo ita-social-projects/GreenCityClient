@@ -14,6 +14,7 @@ export class CreateEcoNewsService {
   private url: string = environment.backendLink;
   private accessToken: string = localStorage.getItem('accessToken');
   public files: FileHandle[] = [];
+  public isImageValid: boolean;
   private httpOptions = {
     headers: new HttpHeaders({
       'Authorization': 'my-auth-token'
@@ -28,8 +29,10 @@ export class CreateEcoNewsService {
 
   public setForm(form: FormGroup): void {
     this.currentForm = form;
-    this.currentForm.value.image = this.files[0] ?
+    if (this.currentForm) {
+      this.currentForm.value.image = this.files[0] ?
       this.files[0].url : '';
+    }
   }
 
   public sendFormData(form): Observable<NewsResponseDTO> {
