@@ -5,24 +5,23 @@ import { SignInComponent } from './component/user/auth/sign-in/sign-in.component
 import { SubmitEmailComponent } from './component/user/auth/submit-email/submit-email.component';
 import { RestoreFormComponent } from './component/user/restore-form/restore-form.component';
 import { UserHabitPageComponent } from './component/user/habit/user-habit-page/user-habit-page.component';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { AuthPageGuardService } from './service/route-guards/auth-page-guard.service';
-import { HomePageGuardService } from './service/route-guards/home-page-guard.service';
-import { AppComponent } from './app.component';
-import { AboutPageComponent } from './component/about/about-page/about-page.component';
-import { FilterComponent } from './component/map/filter/filter.component';
 import { HomepageComponent } from './component/home/homepage/homepage.component';
-import { SearchAllResultsComponent } from './component/core/search-all-results/search-all-results.component';
+import { ProfileComponent } from './component/user/profile/profile.component';
 
 export const routes: Routes = [
   {
-    path: '',
-    component: AppComponent,
-    canActivate: [HomePageGuardService]
+    path: 'about',
+    loadChildren: () => import('./component/about/about.module').then(mod => mod.AboutModule)
+  },
+  {
+    path: 'map',
+    loadChildren: () => import('./component/map/map.module').then(mod => mod.MapModule)
   },
   {
     path: 'welcome',
-    component: HomepageComponent
+    component: HomepageComponent,
   },
   {
     path: 'auth',
@@ -31,35 +30,27 @@ export const routes: Routes = [
       { path: '', component: SignInComponent },
       { path: 'sign-up', component: SignUpComponent },
       { path: 'submit-email', component: SubmitEmailComponent },
-      { path: 'restore/:token', component: RestoreFormComponent }
-    ]
-  },
-  {
-    path: '',
-    component: FilterComponent
+      { path: 'restore/:token', component: RestoreFormComponent },
+    ],
   },
   {
     path: ':id/habits',
     component: UserHabitPageComponent,
-    canActivate: [AuthPageGuardService]
+    canActivate: [AuthPageGuardService],
   },
   {
-    path: 'about',
-    component: AboutPageComponent
+    path: 'profile',
+    component: ProfileComponent,
   },
   {
-    path: 'search-all',
-    component: SearchAllResultsComponent
-  },
+    path: '',
+    redirectTo: 'welcome',
+    pathMatch: 'full'
+  }
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes)
-  ],
-  exports: [
-    RouterModule
-  ]
+  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
+  exports: [RouterModule],
 })
-
 export class AppRoutingModule {}
