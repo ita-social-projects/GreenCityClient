@@ -220,7 +220,7 @@ button {
 }
 
 @media screen and (max-width: 768px) {
-    .left-form-column input, 
+    .left-form-column input,
     form .textarea-wrapper textarea  {
         width: 100%;
     }
@@ -246,7 +246,7 @@ button {
 
 
 @media screen and (max-width: 576px) {
-    .left-form-column input, 
+    .left-form-column input,
     form .textarea-wrapper textarea {
         width: 100%;
     }
@@ -280,8 +280,8 @@ button {
 
 
 @media screen and (max-width: 320px) {
-    .left-form-column input, 
-    form .textarea-wrapper textarea, 
+    .left-form-column input,
+    form .textarea-wrapper textarea,
     .form-description,
     .tags {
         width: 275px;
@@ -313,10 +313,11 @@ button {
         flex-direction: column;
         justify-content: space-between;
         height: 200px;
-        margin-left: -22px;
+        align-items: center;
     }
 
     .submit-buttons button {
+        margin-left: 0;
         width: 275px;
         height: 48px;
     }
