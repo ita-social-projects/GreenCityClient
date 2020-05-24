@@ -55,6 +55,7 @@ export class CreateNewsComponent implements OnInit {
       this.createNewsForm.patchValue({
         title: this.formData.value.title,
         content: this.formData.value.content,
+        source: this.formData.value.source,
       })
     }
   }

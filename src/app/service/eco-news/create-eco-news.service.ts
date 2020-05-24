@@ -39,11 +39,15 @@ export class CreateEcoNewsService {
     const body: NewsDTO = {
       "tags": form.value.tags,
       "text": form.value.content,
-      "title": form.value.title,
+      "title": form.value.title,   
+      "source": form.value.source
     };
     let formData:FormData = new FormData();
 
-    formData.append('image', this.files[0].file, this.files[0].file.name);
+    if (this.files.length !== 0) {
+      formData.append('image', this.files[0].file, this.files[0].file.name);
+    }
+    
     formData.append('addEcoNewsDtoRequest', JSON.stringify(body));
 
     this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
