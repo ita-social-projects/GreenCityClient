@@ -1,6 +1,6 @@
 export class UserSuccessSignIn {
   userId: string;
-  firstName: string;
+  name: string;
   accessToken: string;
   refreshToken: string;
 }

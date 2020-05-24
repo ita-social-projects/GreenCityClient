@@ -22,10 +22,11 @@ export class UserOwnSignInService {
   }
 
   public saveUserToLocalStorage(data: UserSuccessSignIn) {
-    this.localStorageService.setFirstName(data.firstName);
+    this.localStorageService.setFirstName(data.name);
     this.localStorageService.setAccessToken(data.accessToken);
     this.localStorageService.setRefreshToken(data.refreshToken);
     this.localStorageService.setUserId(Number(data.userId));
+
   }
 }
 
