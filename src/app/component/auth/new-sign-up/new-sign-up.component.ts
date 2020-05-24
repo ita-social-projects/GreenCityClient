@@ -11,6 +11,7 @@ import { UserOwnSignUp } from '../../../model/user-own-sign-up';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserSuccessSignIn } from '../../../model/user-success-sign-in';
 import { SubmitEmailComponent } from '../../user/auth/submit-email/submit-email.component';
+import { LocalStorageService } from '../../../service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-new-sign-up',
@@ -35,7 +36,8 @@ export class NewSignUpComponent implements OnInit {
               private userOwnSecurityService: UserOwnSignUpService,
               private router: Router,
               private authService: AuthService,
-              private googleService: GoogleSignInService) { }
+              private googleService: GoogleSignInService,
+              private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
     this.userOwnSignUp = new UserOwnSignUp();
@@ -57,13 +59,21 @@ export class NewSignUpComponent implements OnInit {
       .subscribe(
         this.onSubmitSuccess.bind(this),
         this.onSubmitError.bind(this)
-    );
+      );
   }
 
-  private onSubmitSuccess(): void {
+  private onSubmitSuccess(data): void {
     this.loadingAnim = false;
     this.openSignUpPopup();
     this.closeSignUpWindow();
+    this.receiveUserId(data.userId);
+  }
+
+  private receiveUserId(id): void {
+    setTimeout(() => {
+      this.router.navigate([id, 'habits']);
+      this.dialog.closeAll();
+    }, 5000);
   }
 
   private openSignUpPopup(): void {
@@ -73,21 +83,22 @@ export class NewSignUpComponent implements OnInit {
       disableClose: false,
       panelClass: 'custom-dialog-container',
     });
+
   }
 
   private onSubmitError(errors: HttpErrorResponse): void {
     errors.error.forEach(error => {
       switch (error.name) {
-        case 'name' :
+        case 'name':
           this.firstNameErrorMessageBackEnd = error.message;
           break;
-        case 'email' :
+        case 'email':
           this.emailErrorMessageBackEnd = error.message;
           break;
-        case 'password' :
+        case 'password':
           this.passwordErrorMessageBackEnd = error.message;
           break;
-        case 'passwordConfirm' :
+        case 'passwordConfirm':
           this.passwordConfirmErrorMessageBackEnd = error.message;
           break;
       }
@@ -102,7 +113,7 @@ export class NewSignUpComponent implements OnInit {
         .subscribe(
           this.signInWithGoogleSuccess.bind(this),
           this.signInWithGoogleError.bind(this)
-      );
+        );
     });
   }
 
@@ -135,20 +146,17 @@ export class NewSignUpComponent implements OnInit {
                         inputBlock: HTMLElement): void {
     this.passwordErrorMessageBackEnd = null;
     inputBlock.className = passInput.value !== passRepeat.value ?
-                           'main-data-input-password wrong-input' :
-                           'main-data-input-password';
+                          'main-data-input-password wrong-input' :
+                          'main-data-input-password';
   }
 
   private setEmailBackendErr(): void {
     this.emailErrorMessageBackEnd = null;
   }
 
-  private setPasswordVisibility(htmlInput: HTMLInputElement,
-                                htmlImage: HTMLImageElement): void {
+  private setPasswordVisibility(htmlInput: HTMLInputElement, htmlImage: HTMLImageElement): void {
     htmlInput.type = htmlInput.type === 'password' ? 'text' : 'password';
-    htmlImage.src = htmlInput.type === 'password' ?
-                    this.signUpImgs.openEye :
-                    this.signUpImgs.hiddenEye;
+    htmlImage.src = htmlInput.type === 'password' ? this.signUpImgs.openEye : this.signUpImgs.hiddenEye;
   }
 
   private checkSpaces(input: string): boolean {

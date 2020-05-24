@@ -15,7 +15,7 @@
       </a>
     </div>
     <button type="submit"
-            *ngIf="previewItem.valid"
+            *ngIf="previewItem.valid && previewItem.value.tags.length !== 0"
             class="primary-global-button"
             (click)="postNewsItem()"
     >
