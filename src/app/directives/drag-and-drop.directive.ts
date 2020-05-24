@@ -12,6 +12,7 @@ import { FileHandle } from '../component/eco-news/create-news/create-news-interf
   selector: '[appDragAndDrop]'
 })
 export class DragAndDropDirective {
+
   @Output() files: EventEmitter<FileHandle[]> = new EventEmitter();
 
   constructor(private sanitizer: DomSanitizer) { }
@@ -43,6 +44,19 @@ export class DragAndDropDirective {
     if (files.length > 0) {
       this.files.emit(files);
     }
+
+    let reader: FileReader = new FileReader();
+    files.forEach(item => {
+      reader.readAsDataURL(item.file);
+    })
+    reader.onload = handleFile.bind(this);
+
+    function handleFile(event): void {
+      let binaryString = event.target.result;
+      files.forEach(item => {
+        item.url = binaryString;
+      })
+     }
   }
 }
 
