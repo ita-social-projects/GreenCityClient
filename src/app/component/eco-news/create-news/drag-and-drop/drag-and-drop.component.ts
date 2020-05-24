@@ -9,15 +9,16 @@ import { CreateEcoNewsService } from '../../../../service/eco-news/create-eco-ne
 })
 export class DragAndDropComponent implements OnInit {
 
-  constructor(private ecoNewsService: CreateEcoNewsService ) { }
+  constructor(private createEcoNewsService: CreateEcoNewsService ) { }
 
   public files: FileHandle[] = [];
   public isWarning: boolean = false;
 
   public filesDropped(files: FileHandle[]): void {
     this.files = files;
-    this.ecoNewsService.files = files;
+    this.createEcoNewsService.files = files;
     this.showWarning();
+    this.createEcoNewsService.isImageValid = this.isWarning;
   }
 
   public showWarning(): void {
