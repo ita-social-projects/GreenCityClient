@@ -12,22 +12,25 @@
 			*ngIf = "!isCropper"
 			[src]="file.url" 
 			appDragAndDrop (files)="filesDropped($event)">
-			<div *ngIf = "isCropper && !extentionWarning">
+			<div *ngIf = "isCropper && !extentionWarning"
+				 class="cropper-block">
 				<image-cropper
 					[imageChangedEvent]="imageChangedEvent"
 					[imageFile]="file.file"
 					(imageCropped)="imageCropped($event)"
 				></image-cropper>
-				<button 
-					type="button" 
-					(click)=stopCropping()>Submit changes</button>
-				<button 
-					type="button" 
-					(click)=cancelChanges()>Cancel changes</button>
+				<div class="cropper-buttons">
+					<button 
+						type="button" 
+						(click)=stopCropping()>Submit changes</button>
+					<button 
+						type="button" 
+						(click)=cancelChanges()>Cancel changes</button>
+				</div>
 			</div>
 		</div>
 	</div>
-<div *ngIf = "extentionWarning">
+<ng-template #elseBlock>
 	<div 	 
 		class="dropzone warning-background" 
 		appDragAndDrop (files)="filesDropped($event)">
@@ -38,30 +41,9 @@
 			</div>
 		</div>
 	</div>
-</div>
 <span 
 	class="warning"
 	[ngClass]="{
 	'warning-color':isWarning || extentionWarning
 }">Download PNG or JPG only. File size should be less than 10MB</span>
-<ng-template #elseBlock>
-	<div *ngFor="let file of files">
-		<img 
-			*ngIf = "!isCropper"
-			[src]="file.url" 
-			appDragAndDrop (files)="filesDropped($event)">
-		<div *ngIf = "isCropper">
-			<image-cropper
-				[imageChangedEvent]="imageChangedEvent"
-				[imageFile]="file.file"
-				(imageCropped)="imageCropped($event)"
-			></image-cropper>
-			<button 
-				type="button" 
-				(click)=stopCropping()>Submit changes</button>
-			<button 
-				type="button" 
-				(click)=cancelChanges()>Cancel changes</button>
-		</div>
-	</div>
 </ng-template>
