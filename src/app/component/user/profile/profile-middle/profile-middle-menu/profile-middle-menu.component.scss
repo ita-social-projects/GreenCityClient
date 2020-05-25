@@ -55,13 +55,12 @@ $second-font-color: #BEBEBE;
 .menu-title {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 17px;
+  margin-bottom: 24px;
 
   #create-button {
     cursor: pointer;
     width: 116px;
     min-width: 86px;
-    padding: 0 4px 0;
     height: 32px;
     display: flex;
     align-items: center;
@@ -86,9 +85,11 @@ $second-font-color: #BEBEBE;
   line-height: 17px;
   color: $first-font-color;
   text-align: left;
+  display: flex;
+  align-items: center;
 
       p {
-        margin-right: 5px;
+        margin: 0;
 
         span {
           color: $second-font-color;
