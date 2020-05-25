@@ -14,6 +14,7 @@ export class CreateEcoNewsService {
   private url: string = environment.backendLink;
   private accessToken: string = localStorage.getItem('accessToken');
   public files: FileHandle[] = [];
+  public fileUrl: string;
   public isImageValid: boolean;
   private httpOptions = {
     headers: new HttpHeaders({
