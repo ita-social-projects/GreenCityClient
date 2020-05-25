@@ -6,16 +6,6 @@
         Fugiat, omnis!
     </div>
     <div class="column right-column">
-        <div class="right-cards">
-            <div [ngStyle]="{'backgroundColor': activity.backgroundColor}"
-                 class="card"
-                 *ngFor="let activity of cardsData;">
-                <p class="cart-title">{{activity.title}}</p>
-                <p class="card-description">{{activity.description}}</p>
-                <div class="shape-img">
-                    <img src="../../../../assets/img/wave_shape.png" alt="">
-                </div>
-            </div>
-        </div>
+      <profile-cards></profile-cards>
     </div>
 </section>
