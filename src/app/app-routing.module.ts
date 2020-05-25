@@ -20,6 +20,10 @@ export const routes: Routes = [
     loadChildren: () => import('./component/map/map.module').then(mod => mod.MapModule)
   },
   {
+    path: 'news',
+    loadChildren: () => import('./component/eco-news/eco-news.module').then(mod => mod.EcoNewsModule)
+  },
+  {
     path: 'welcome',
     component: HomepageComponent,
   },
