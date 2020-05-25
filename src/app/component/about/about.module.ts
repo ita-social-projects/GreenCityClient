@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { AboutPageComponent } from './about-page/about-page.component';
+import { AboutPageComponent } from './components/about-page/about-page.component';
 import { AboutRoutingModule } from './about-routing.module';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';

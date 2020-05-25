@@ -37,12 +37,12 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 // tslint:disable-next-line:max-line-length
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CoreModule } from './component/core/core.module';
-import { EcoNewsModule } from './component/eco-news/eco-news.module';
 import { AuthModule } from './component/auth/auth.module';
 import { HomeModule } from './component/home/home.module';
 import { UserModule } from './component/user/user.module';
 import { LayoutModule } from './component/layout/layout.module';
 import { AppRoutingModule } from './app-routing.module';
+import { CreateNewsCancelComponent } from './component/shared/create-news-cancel/create-news-cancel.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +56,6 @@ import { AppRoutingModule } from './app-routing.module';
     MatDialogModule,
     AuthModule,
     CoreModule,
-    EcoNewsModule,
     HomeModule,
     InfiniteScrollModule,
     HttpClientModule,
@@ -82,6 +81,7 @@ import { AppRoutingModule } from './app-routing.module';
     ProposeCafeComponent,
     RestoreComponent,
     UserSettingComponent,
+    CreateNewsCancelComponent
   ],
   providers: [
     {
