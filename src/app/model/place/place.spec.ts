@@ -1,4 +1,4 @@
-import { Place } from './place';
+import { Place } from '../../component/map/models/place';
 
 describe('Place', () => {
   it('should create an instance', () => {
