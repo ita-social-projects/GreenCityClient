@@ -12,12 +12,20 @@ import { ProfileComponent } from './component/user/profile/profile.component';
 
 export const routes: Routes = [
   {
-    path: 'welcome',
-    component: HomepageComponent,
-  },
-  {
     path: 'about',
     loadChildren: () => import('./component/about/about.module').then(mod => mod.AboutModule)
+  },
+  {
+    path: 'map',
+    loadChildren: () => import('./component/map/map.module').then(mod => mod.MapModule)
+  },
+  {
+    path: 'news',
+    loadChildren: () => import('./component/eco-news/eco-news.module').then(mod => mod.EcoNewsModule)
+  },
+  {
+    path: 'welcome',
+    component: HomepageComponent,
   },
   {
     path: 'auth',

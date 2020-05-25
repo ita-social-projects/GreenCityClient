@@ -37,6 +37,7 @@ import {FeedbacksComponent} from './feedbacks/feedbacks.component';
 import {DialogPhotoComponent} from './feedbacks/dialog-photo/dialog-photo.component';
 import {TranslateModule} from '@ngx-translate/core';
 import {AdminRoutingModule} from './admin-routing.module';
+import {SharedModule} from '../shared/shared.module';
 
 @NgModule({
   declarations: [AdminNavComponent, AdminComponent, PlacesComponent, UsersComponent, ErrorComponent, ConfirmModalComponent,
@@ -53,6 +54,7 @@ import {AdminRoutingModule} from './admin-routing.module';
   imports: [
     AdminRoutingModule,
     CommonModule,
+    SharedModule,
     NgFlashMessagesModule,
     NgxPaginationModule,
     MatTableModule,

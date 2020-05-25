@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
-import { MapComponent } from './map-component/map.component';
 import {
+  MapComponent,
+  FilterComponent,
+  FavoritePlaceComponent,
+  AddCommentComponent,
   DeleteFavoriteComponent,
-  EditFavoriteNameComponent,
-  FavoritePlaceComponent
-  } from './favorite-place/favorite-place.component';
-import { AddCommentComponent } from './add-comment/add-comment.component';
-import { FilterComponent } from './filter/filter.component';
+  EditFavoriteNameComponent
+} from './components';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { AgmDirectionModule } from 'agm-direction';
 import { CommonModule } from '@angular/common';
 import { MapRoutesModule } from './map-routing.module';
-import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { TranslateService, TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import {
   MatTableModule,
   MatIconModule,
@@ -23,8 +23,10 @@ import { AgmCoreModule } from '@agm/core';
 import { RatingModule } from 'ngx-bootstrap';
 import { Ng5SliderModule } from 'ng5-slider';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { CoreModule } from '../core/core.module';
 import { MatTabsModule } from '@angular/material/tabs';
+import { SharedModule } from '../shared/shared.module';
+import { HttpClient } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 @NgModule({
     declarations: [
@@ -36,11 +38,10 @@ import { MatTabsModule } from '@angular/material/tabs';
       AddCommentComponent,
     ],
     imports: [
+      SharedModule,
+      CommonModule,
       MapRoutesModule,
       AgmDirectionModule,
-      TranslateModule,
-      CommonModule,
-      CoreModule,
       Ng2SearchPipeModule,
       MatTableModule,
       FormsModule,
@@ -52,7 +53,15 @@ import { MatTabsModule } from '@angular/material/tabs';
       MatDialogModule,
       NgbModule,
       MatRippleModule,
-      MatTabsModule
+      MatTabsModule,
+      TranslateModule.forChild({
+        loader: {
+          provide: TranslateLoader,
+          useFactory: (createTranslateLoader),
+          deps: [HttpClient]
+        },
+        isolate: true
+      })
     ],
     providers: [
       TranslateService,
@@ -60,3 +69,7 @@ import { MatTabsModule } from '@angular/material/tabs';
   })
 
 export class MapModule {}
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
