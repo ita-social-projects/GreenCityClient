@@ -4,7 +4,7 @@ import {Observable, Subject} from 'rxjs';
 import {FavoritePlace} from '../../model/favorite-place/favorite-place';
 import {favoritePlaceLink} from '../../links';
 import {placeLink} from '../../links';
-import {Place} from '../../model/place/place';
+import {Place} from '../../component/map/models/place';
 
 @Injectable({
   providedIn: 'root'

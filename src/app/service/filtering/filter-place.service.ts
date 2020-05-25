@@ -8,7 +8,7 @@ import {FilterPlaceDtoModel} from '../../model/filtering/filter-place-dto.model'
 import {PlaceStatus} from '../../model/placeStatus.model';
 import {DatePipe} from '@angular/common';
 import {FilterDistanceDto} from '../../model/filtering/filter-distance-dto.model';
-import {Location} from '../../model/location.model';
+import {Location} from '../../component/map/models/location.model';
 
 @Injectable({
   providedIn: 'root'

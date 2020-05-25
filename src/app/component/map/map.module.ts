@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
-import { MapComponent } from './map-component/map.component';
 import {
+  MapComponent,
+  FilterComponent,
+  FavoritePlaceComponent,
+  AddCommentComponent,
   DeleteFavoriteComponent,
-  EditFavoriteNameComponent,
-  FavoritePlaceComponent
-  } from './favorite-place/favorite-place.component';
-import { AddCommentComponent } from './add-comment/add-comment.component';
-import { FilterComponent } from './filter/filter.component';
+  EditFavoriteNameComponent
+} from './components';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { AgmDirectionModule } from 'agm-direction';
 import { CommonModule } from '@angular/common';
 import { MapRoutesModule } from './map-routing.module';
-import {TranslateService, TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import { TranslateService, TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import {
   MatTableModule,
   MatIconModule,
