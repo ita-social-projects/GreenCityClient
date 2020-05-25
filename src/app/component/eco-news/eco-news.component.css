@@ -1,17 +1,5 @@
-.container {
-  margin: 3px auto;
-}
-
 .list-news {
   margin-left: 150px;
-}
-
-.main-header {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 3rem;
-  line-height: 30px;
-  font-weight: 500;
-  margin: 186px 0 40px;
 }
 
 .copyright {
