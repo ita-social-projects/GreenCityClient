@@ -32,6 +32,8 @@ export class DragAndDropComponent implements OnInit {
   private imageCropped(event: ImageCroppedEvent): void {
     this.croppedImage = event.base64;
   }
+  public selectedFile: File = null;
+  public selectedFileUrl: string;
 
   public filesDropped(files: FileHandle[]): void {
     this.files = files;
@@ -40,6 +42,24 @@ export class DragAndDropComponent implements OnInit {
     this.showWarning();
     this.createEcoNewsService.isImageValid = this.isWarning;
   }
+
+  private onFileSelected(event): void {
+    this.selectedFile = <File>event.target.files[0];
+
+    let reader: FileReader = new FileReader();
+    reader.readAsDataURL(this.selectedFile);
+    reader.onload =this.handleFile.bind(this);
+
+    this.createEcoNewsService.files = this.files;
+  }
+
+  private handleFile(event): void {
+    let binaryString = event.target.result;
+    this.selectedFileUrl = binaryString;
+    this.files[0] = {url: this.selectedFileUrl, file: this.selectedFile};
+    this.showWarning();
+    this.createEcoNewsService.fileUrl = this.selectedFileUrl;
+   }
 
   public showWarning(): void {
     this.files.forEach(item => {
