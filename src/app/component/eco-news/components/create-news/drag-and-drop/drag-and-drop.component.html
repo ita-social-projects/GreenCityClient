@@ -3,7 +3,13 @@
 	class="dropzone" 
 	appDragAndDrop (files)="filesDropped($event)">
 	<div class="text-wrapper">
-		<div class="centered">Drop your image here or <span>browse</span></div>
+		<div class="centered">Drop your image here or
+			 <label for="upload"><span>browse</span></label>
+			 <input 
+				type="file" 
+				id="upload" 
+				(change)="onFileSelected($event)">
+		</div>
 	</div>
 </div>
 <div *ngFor="let file of files">
@@ -24,7 +30,12 @@
 		<div class="text-wrapper">
 			<div class="centered">
 				<p>Image didn't uploaded.</p>
-				<p>Drop your image here or <span>browse</span></p>
+				<p>Drop your image here or 
+					<label for="upload"><span>browse</span></label>
+					<input 
+						type="file" 
+						id="upload" 
+						(change)="onFileSelected($event)"></p>
 			</div>
 		</div>
 	</div>
