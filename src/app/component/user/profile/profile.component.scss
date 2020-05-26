@@ -11,7 +11,7 @@ section {
   .column {
     box-sizing: border-box;
     justify-content: center;
-    background-color: rgba(7, 206, 33, 0.1);
+    // background-color: rgba(7, 206, 33, 0.1);
     text-align: center;
     justify-content: center;
     font-size: 5rem;
@@ -21,7 +21,6 @@ section {
     div {
       width: 100%;
       box-sizing: inherit;
-      border: 1px solid black;
     }
 
     &:nth-of-type(odd) {
@@ -31,6 +30,7 @@ section {
     &:nth-of-type(2) {
       flex-basis: 48%;
       margin: 0 3% 0 3%;
+      background-color: white;
     }
   }
 }

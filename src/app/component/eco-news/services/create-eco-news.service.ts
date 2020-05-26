@@ -14,6 +14,7 @@ export class CreateEcoNewsService {
   private url: string = environment.backendLink;
   private accessToken: string = localStorage.getItem('accessToken');
   public files: FileHandle[] = [];
+  public fileUrl: string;
   public isImageValid: boolean;
   private httpOptions = {
     headers: new HttpHeaders({
@@ -40,12 +41,14 @@ export class CreateEcoNewsService {
       "tags": form.value.tags,
       "text": form.value.content,
       "title": form.value.title,
-      "source": form.value.source
+      "source": form.value.source,
+      "image": null
     };
-    let formData:FormData = new FormData();
+
+    let formData = new FormData();
 
     if (this.files.length !== 0) {
-      formData.append('image', this.files[0].file, this.files[0].file.name);
+      body.image = this.files[0].url
     }
 
     formData.append('addEcoNewsDtoRequest', JSON.stringify(body));
