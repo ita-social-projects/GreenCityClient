@@ -43,11 +43,19 @@ import { AlphabeticalPipePipe } from '../../pipe/alphabetical-pipe/alphabetical-
 import { MatButtonModule, MatRadioModule } from '@angular/material';
 import { ConfirmationModalComponent } from './habit/add-new-habit/confirmation-modal/confirmation-modal.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import {SharedModule} from '../shared/shared.module';
+import { SharedModule } from '../shared/shared.module';
+import { ProfileHeaderComponent } from './profile/profile-widget/profile-header/profile-header.component';
+import { ProfileProgressComponent } from './profile/profile-widget/profile-progress/profile-progress.component';
+import { ProfileComponent } from './profile/profile.component';
+import { ProfileWidgetComponent } from "./profile/profile-widget/profile-widget.component";
+import { ProfileDashboardComponent } from "./profile/profile-dashboard/profile-dashboard.component";
+import { OneHabitComponent } from "./profile/profile-dashboard/one-habit/one-habit.component";
 
 
 @NgModule({
   declarations: [
+    ProfileDashboardComponent,
+    OneHabitComponent,
     AchievementItemComponent,
     AchievementListComponent,
     UserAchievementsComponent,
@@ -88,6 +96,10 @@ import {SharedModule} from '../shared/shared.module';
     ShowFirstNPipe,
     UncheckedFirstPipe,
     AlphabeticalPipePipe,
+    ProfileWidgetComponent,
+    ProfileHeaderComponent,
+    ProfileProgressComponent,
+    ProfileComponent
   ],
   imports: [
     CommonModule,
@@ -97,7 +109,6 @@ import {SharedModule} from '../shared/shared.module';
     MatRadioModule,
     DragDropModule,
   ],
-  providers: []
+  providers: [],
 })
-
-export class UserModule { }
+export class UserModule {}
