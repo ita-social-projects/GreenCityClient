@@ -48,10 +48,14 @@ import { ProfileHeaderComponent } from './profile/profile-widget/profile-header/
 import { ProfileProgressComponent } from './profile/profile-widget/profile-progress/profile-progress.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ProfileWidgetComponent } from "./profile/profile-widget/profile-widget.component";
+import { ProfileDashboardComponent } from "./profile/profile-dashboard/profile-dashboard.component";
+import { OneHabitComponent } from "./profile/profile-dashboard/one-habit/one-habit.component";
 
 
 @NgModule({
   declarations: [
+    ProfileDashboardComponent,
+    OneHabitComponent,
     AchievementItemComponent,
     AchievementListComponent,
     UserAchievementsComponent,

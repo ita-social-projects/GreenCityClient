@@ -3,3 +3,10 @@ export interface Habit {
   name: string,
   quantity: number
 }
+
+export interface HabitTab {
+  id: number,
+  name: string,
+  isActive: boolean
+}
+
