@@ -1,18 +1,6 @@
 <div class="progress">
-  <div class="progress__item">
-  <div class="item__title">{{ progress[0].name }}</div>
-  <div class="item__number">{{ progress[0].quantity }}</div>
-</div>
-<div class="progress__item">
-  <div class="item__title">{{ progress[1].name }}</div>
-  <div class="item__number">{{ progress[1].quantity }}</div>
-</div>
-<div class="progress__item">
-  <div class="item__title">{{ progress[2].name }}</div>
-  <div class="item__number">{{ progress[2].quantity }}</div>
-</div>
-<div class="progress__item">
-  <div class="item__title">{{ progress[2].name }}</div>
-  <div class="item__number">{{ progress[2].quantity }}</div>
+  <div class="progress__item" *ngFor="let item of progress; let i = index">
+  <div class="item__title">{{ progress[i].name }}</div>
+  <div class="item__number">{{ progress[i].quantity }}</div>
 </div>
 </div>

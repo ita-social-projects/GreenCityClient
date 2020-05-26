@@ -1,22 +1,25 @@
-// @import '../profile-left.component.scss';
 $font-family-first: Montserrat;
 
 .profile {
   background: #f5f7f6;
   height: 350px;
+
   .details__img {
     .profile-avatar {
       width: 120px;
       height: 120px;
     }
   }
+
   .profile__details {
+
     .details__descriptions {
       display: flex;
-        margin: 15px 0;
+      margin: 15px 0;
       flex-direction: column;
       align-items: center;
       font-family: $font-family-first;
+
       .descriptions__name {
         font-style: normal;
         font-weight: 600;
@@ -24,6 +27,7 @@ $font-family-first: Montserrat;
         line-height: 25px;
         text-align: center;
       }
+
       .descriptions__location {
         font-weight: 600;
         font-size: 14px;

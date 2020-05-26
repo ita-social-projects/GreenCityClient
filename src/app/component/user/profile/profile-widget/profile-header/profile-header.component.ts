@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class ProfileHeaderComponent implements OnInit {
   public userInfo = {
     id: 0,
-    avatarUrl: "../../../../../../assets/img/profileAvatar.png",
+    avatarUrl: "./assets/img/profileAvatar.png",
     name: {
       first: "Brandier",
       last: "Webb",
@@ -19,7 +19,7 @@ export class ProfileHeaderComponent implements OnInit {
     userCredo:
       "My Credo is to make small steps that leads to huge impact. Let’s change the world together.",
   };
-  
+
   constructor() {}
 
   ngOnInit() {}
