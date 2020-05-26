@@ -4,7 +4,7 @@ import { SearchModel } from '../../../model/search/search.model';
 import { SearchService } from '../../../service/search/search.service';
 import { NewsSearchModel } from '../../../model/search/newsSearch.model';
 import { TipsSearchModel } from '../../../model/search/tipsSearch.model';
-import { SearchItemComponent } from '../search-popup/search-item/search-item.component';
+import { SearchItemComponent } from '../components/search-popup/search-item/search-item.component';
 
 @Component({
   selector: 'app-search-all-results',
