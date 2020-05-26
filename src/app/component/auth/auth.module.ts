@@ -8,7 +8,6 @@ import { InputcolorDirective } from '../../directives/inputcolor.directive';
 import { SignUpComponent } from '../user/auth/sign-up/sign-up.component';
 import { AuthComponent } from '../user/auth/auth.component';
 import { SubmitEmailComponent } from '../user/auth/submit-email/submit-email.component';
-import { ProfileComponent } from '../user/profile/profile.component';
 import { RestoreComponent } from '../user/restore/restore.component';
 import { RestoreFormComponent } from '../user/restore-form/restore-form.component';
 import { SharedModule } from '../shared/shared.module';
@@ -25,7 +24,6 @@ import {OneHabitComponent} from '../user/profile/profile-middle/profile-middle-m
     SignUpComponent,
     AuthComponent,
     SubmitEmailComponent,
-    ProfileComponent,
     ProfileMiddleMenuComponent,
     OneHabitComponent,
     RestoreComponent,
