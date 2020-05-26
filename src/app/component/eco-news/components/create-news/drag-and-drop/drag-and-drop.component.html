@@ -13,16 +13,31 @@
 	</div>
 </div>
 <div *ngFor="let file of files">
-  <img 
-	*ngIf="!isWarning; else elseBlock" 
-	[src]="file.url" 
-	appDragAndDrop (files)="filesDropped($event)">
+	<div *ngIf="!isWarning; else elseBlock"> 
+		<img 
+			*ngIf = "!isCropper"
+			[src]="file.url" 
+			appDragAndDrop (files)="filesDropped($event)">
+		<div *ngIf = "isCropper"
+				class="cropper-block">
+			<image-cropper
+				[imageChangedEvent]="imageChangedEvent"
+				[imageFile]="file.file"
+				(imageCropped)="imageCropped($event)"
+			></image-cropper>
+			<div class="cropper-buttons">
+				<button 
+					type="button" 
+					(click)=stopCropping()>Submit changes</button>
+				<button 
+					type="button" 
+					(click)=cancelChanges()>Cancel changes</button>
+			</div>
+		</div>
+	</div>
 </div>
-<span 
-	class="warning"
-	[ngClass]="{
-	'warning-color':isWarning
-}">Download PNG or JPG only. File size should be less than 10MB</span>
+<span *ngIf=!isWarning
+	  class="warning">Download PNG or JPG only. File size should be less than 10MB</span>
 <ng-template #elseBlock>
 	<div 	 
 		class="dropzone warning-background" 
@@ -39,4 +54,9 @@
 			</div>
 		</div>
 	</div>
+<span 
+	class="warning"
+	[ngClass]="{
+	'warning-color':isWarning
+}">Download PNG or JPG only. File size should be less than 10MB</span>
 </ng-template>
