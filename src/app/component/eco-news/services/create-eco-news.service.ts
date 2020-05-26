@@ -41,13 +41,14 @@ export class CreateEcoNewsService {
       "tags": form.value.tags,
       "text": form.value.content,
       "title": form.value.title,
-      "source": form.value.source
+      "source": form.value.source,
+      "image": null
     };
 
     let formData = new FormData();
 
     if (this.files.length !== 0) {
-      formData.append('image', this.files[0].file, this.files[0].file.name);
+      body.image = this.files[0].url
     }
 
     formData.append('addEcoNewsDtoRequest', JSON.stringify(body));
