@@ -50,10 +50,11 @@ import { ProfileComponent } from './profile/profile.component';
 import { ProfileWidgetComponent } from "./profile/profile-widget/profile-widget.component";
 import { ProfileDashboardComponent } from "./profile/profile-dashboard/profile-dashboard.component";
 import { OneHabitComponent } from "./profile/profile-dashboard/one-habit/one-habit.component";
-
+import { ProfileCardsComponent } from "./profile/profile-cards/profile-cards.component";
 
 @NgModule({
   declarations: [
+    ProfileCardsComponent,
     ProfileDashboardComponent,
     OneHabitComponent,
     AchievementItemComponent,

@@ -11,7 +11,6 @@ import { SubmitEmailComponent } from '../user/auth/submit-email/submit-email.com
 import { RestoreComponent } from '../user/restore/restore.component';
 import { RestoreFormComponent } from '../user/restore-form/restore-form.component';
 import { SharedModule } from '../shared/shared.module';
-import {ProfileCardsComponent} from "../user/profile/profile-cards/profile-cards.component";
 
 @NgModule({
   declarations: [
@@ -25,7 +24,6 @@ import {ProfileCardsComponent} from "../user/profile/profile-cards/profile-cards
     SubmitEmailComponent,
     RestoreComponent,
     RestoreFormComponent,
-    ProfileCardsComponent,
   ],
   imports: [
     CoreModule,
