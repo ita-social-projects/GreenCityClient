@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-one-habit',
@@ -6,7 +6,7 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./one-habit.component.scss']
 })
 export class OneHabitComponent implements OnInit {
-@Input() oneHabit;
+ @Input() oneHabit;
 
   constructor() { }
 
