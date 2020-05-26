@@ -1,0 +1,69 @@
+// @import '../profile-left.component.scss';
+$font-family-first: Montserrat;
+
+.profile {
+  background: #f5f7f6;
+  height: 350px;
+  .details__img {
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+    }
+  }
+  .profile__details {
+    .details__descriptions {
+      display: flex;
+        margin: 15px 0;
+      flex-direction: column;
+      align-items: center;
+      font-family: $font-family-first;
+      .descriptions__name {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 25px;
+        text-align: center;
+      }
+      .descriptions__location {
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 25px;
+        text-align: center;
+        color: #6a8079;
+      }
+
+      .descriptions__status {
+        font-size: 14px;
+        line-height: 25px;
+        text-align: center;
+        color: #878787;
+      }
+
+      .descriptions__rate {
+        display: flex;
+        justify-content: center;
+        padding: 2px 16px;
+        font-size: 14px;
+        font-family: Open Sans;
+        height: 24px;
+        line-height: 16px;
+        background: rgba(19, 170, 87, 0.12);
+        border-radius: 4px;
+        font-weight: 600;
+        color: #13aa57;
+      }
+    }
+  }
+
+  .profile__credo {
+    display: flex;
+    text-align: left;
+    width: 100%;
+    padding: 0 24px;
+    height: 66px;
+    font-family: Open Sans;
+    font-size: 18px;
+    line-height: 22px;
+    color: #494a49;
+  }
+}
