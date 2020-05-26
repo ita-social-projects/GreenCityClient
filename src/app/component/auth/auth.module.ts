@@ -11,8 +11,6 @@ import { SubmitEmailComponent } from '../user/auth/submit-email/submit-email.com
 import { RestoreComponent } from '../user/restore/restore.component';
 import { RestoreFormComponent } from '../user/restore-form/restore-form.component';
 import { SharedModule } from '../shared/shared.module';
-import {ProfileMiddleMenuComponent} from '../user/profile/profile-middle/profile-middle-menu/profile-middle-menu.component';
-import {OneHabitComponent} from '../user/profile/profile-middle/profile-middle-menu/one-habit/one-habit.component';
 
 @NgModule({
   declarations: [
@@ -24,8 +22,6 @@ import {OneHabitComponent} from '../user/profile/profile-middle/profile-middle-m
     SignUpComponent,
     AuthComponent,
     SubmitEmailComponent,
-    ProfileMiddleMenuComponent,
-    OneHabitComponent,
     RestoreComponent,
     RestoreFormComponent,
   ],
