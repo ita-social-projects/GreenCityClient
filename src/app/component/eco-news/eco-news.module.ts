@@ -22,6 +22,7 @@ import {
   PostNewsLoaderComponent,
   RemainingCountComponent
 } from './components';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
   declarations: [
@@ -39,13 +40,13 @@ import {
     PostNewsLoaderComponent,
     DragAndDropComponent,
     DragAndDropDirective,
-
   ],
   imports: [
     CommonModule,
     SharedModule,
     InfiniteScrollModule,
     EcoNewsRoutingModule,
+    ImageCropperModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
