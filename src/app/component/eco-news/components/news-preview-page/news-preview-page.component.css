@@ -132,3 +132,10 @@
 .news-text-content {
   width: 750px;
 }
+
+@media screen and (max-width: 576px) {
+  .news-image-img {
+      width: 100%;
+      height: auto;
+  }
+}
