@@ -9,19 +9,23 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
   styleUrls: ['./drag-and-drop.component.scss']
 })
 export class DragAndDropComponent implements OnInit {
-
-  constructor(private createEcoNewsService: CreateEcoNewsService ) { }
-
+  public selectedFile: File = null;
+  public selectedFileUrl: string;
   private imageChangedEvent: FileHandle[];
   private isCropper: boolean = true;
   public files: FileHandle[] = [];
   public isWarning: boolean = false;
   private croppedImage: string;
 
+  constructor(private createEcoNewsService: CreateEcoNewsService ) {}
+
+  ngOnInit() {}
+
   private stopCropping(): void {
     this.files.forEach(item => {
       item.url = this.croppedImage;
-    }) 
+    });
+
     this.isCropper = false;
   }
 
@@ -32,8 +36,6 @@ export class DragAndDropComponent implements OnInit {
   private imageCropped(event: ImageCroppedEvent): void {
     this.croppedImage = event.base64;
   }
-  public selectedFile: File = null;
-  public selectedFileUrl: string;
 
   public filesDropped(files: FileHandle[]): void {
     this.files = files;
@@ -63,16 +65,9 @@ export class DragAndDropComponent implements OnInit {
 
   public showWarning(): void {
     this.files.forEach(item => {
-      if (item &&
-        (item.file.type === 'image/jpeg' || item.file.type === 'image/png')) {
-        this.isWarning = false;
-      } else {
-        this.isWarning = true;
-      }
-    })
-  }
-
-  ngOnInit() {
+      let imageValCondition = item.file.type === 'image/jpeg' || item.file.type === 'image/png';
+      this.isWarning = !(item && imageValCondition);
+    });
   }
 }
 
