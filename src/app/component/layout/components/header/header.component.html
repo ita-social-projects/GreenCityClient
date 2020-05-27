@@ -56,7 +56,7 @@
                           </a>
                         </li>
                         <li>
-                          <a [routerLink]="[getUserId(), 'habits']"
+                          <a [routerLink]="[getUserId(), 'profile']"
                              routerLinkActive="active-link"
                              routerLinkActiveOptions="{exact:true}">
                             {{ 'user.lower-nav-bar.my-habits' | translate }}
@@ -100,13 +100,15 @@
                   </div>
         <div class="navigation-menu-right">
               <ul>
-               <li class="search"
-                   [class.destroy]="onToggleBurgerMenu">
-               <a (click)="toggleSearchPage()">
-                 <img src="assets/img/icon/search.png"
-                      alt="search">
-               </a>
-               </li>
+                <ng-template [ngIf]="!isAllSearchOpen">
+                 <li class="search"
+                     [class.destroy]="onToggleBurgerMenu">
+                 <a (click)="toggleSearchPage()">
+                   <img src="assets/img/icon/search.png"
+                        alt="search">
+                 </a>
+                 </li>
+                </ng-template>
               <li [class.destroy]="onToggleBurgerMenu">
                 <div class="switcher-wrapper">
                 <img class="arrow"

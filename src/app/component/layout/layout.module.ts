@@ -6,8 +6,10 @@ import {
   FooterComponent,
   SearchPopupComponent,
   SearchNotFoundComponent,
-  SearchItemComponent
+  SearchItemComponent,
+  SearchAllResultsComponent
 } from './components';
+import { InfiniteScrollModule } from "ngx-infinite-scroll";
 
 @NgModule({
   declarations: [
@@ -16,10 +18,12 @@ import {
     SearchPopupComponent,
     SearchItemComponent,
     SearchNotFoundComponent,
+    SearchAllResultsComponent
   ],
   imports: [
     CommonModule,
-    CoreModule
+    CoreModule,
+    InfiniteScrollModule
   ],
   exports: [
     HeaderComponent,

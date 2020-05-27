@@ -7,6 +7,7 @@ import { SearchModel } from '../../../../../model/search/search.model';
   templateUrl: './search-item.component.html',
   styleUrls: ['./search-item.component.scss']
 })
+
 export class SearchItemComponent implements OnInit {
   @Input() searchModel: SearchModel;
   @Output() closeSearch: EventEmitter<boolean> = new EventEmitter();
