@@ -23,7 +23,7 @@ import { SharedModule } from '../shared/shared.module';
     AuthComponent,
     SubmitEmailComponent,
     RestoreComponent,
-    RestoreFormComponent,
+    RestoreFormComponent
   ],
   imports: [
     CoreModule,
