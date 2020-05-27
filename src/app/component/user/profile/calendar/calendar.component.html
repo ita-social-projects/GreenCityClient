@@ -1,9 +1,17 @@
 <div class="calendar">
   <div class="top">
     <div class="month-year">
-      <button (click)="previousMonth()"><</button>
+      <div (click)="previousMonth()">
+        <img [src]="calendarImages.arrowPrevious"
+             alt="arrow previous"
+             class="arrow-previous">
+      </div>
       <span class="monthAndYear">{{ monthAndYearName }}</span>
-      <button (click)="nextMonth()">></button>
+      <div (click)="nextMonth()">
+        <img [src]="calendarImages.arrowNext"
+             alt="arrow next"
+             class="arrow-next">
+      </div>
     </div>
     <div class="days">
       <div class="days-name"
@@ -16,7 +24,7 @@
     <div class="calendar-grid">
       <div *ngFor="let dayItem of calendarDay; index as i"
       class="calendar-grid-day"
-            >
+            [ngClass]="{ 'current-day': calendarDay[i].isCurrentDayActive}">
         {{ dayItem.numberOfDate }}
       </div>
     </div>

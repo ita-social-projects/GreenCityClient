@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CalendarInterface } from './calendar-interface';
+import { calendarImage } from '../../../../../assets/img/profile/calendar/calendar-image';
 
 @Component({
   selector: 'app-calendar',
@@ -7,7 +8,7 @@ import { CalendarInterface } from './calendar-interface';
   styleUrls: ['./calendar.component.scss']
 })
 export class CalendarComponent implements OnInit {
-  // private monthView = false;
+  private calendarImages = calendarImage;
   private monthAndYearName: string;
   private daysNameLong = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   private months = [
@@ -41,8 +42,7 @@ export class CalendarComponent implements OnInit {
     isCurrentDayActive: false
   };
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit() {
     this.buildCalendar(this.currentMonth, this.currentYear);
@@ -87,9 +87,7 @@ export class CalendarComponent implements OnInit {
         year : this.calendar.year,
         firstDay : this.calendar.firstDay,
         totalDaysInMonth : this.calendar.totalDaysInMonth,
-        dayName : new Date(this.calendar.year, this.calendar.month, i)
-          .toDateString()
-          .substring(0, 3),
+        dayName : '',
         isHabitsTracked: false,
         isCurrentDayActive: false
       });
@@ -97,7 +95,7 @@ export class CalendarComponent implements OnInit {
   }
   private isCurrentDayActive(): void {
     this.calendarDay.map(el =>
-      (el.date.getDate() === el.numberOfDate) ?
+      (el.date.getDate() === el.numberOfDate && el.date.getMonth() === el.month) ?
         el.isCurrentDayActive = true : el.isCurrentDayActive
     );
   }
