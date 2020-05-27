@@ -4,11 +4,18 @@ $title-font: 'Montserrat';
 
 .main-container {
   padding: 24px;
-  max-width: 261px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  background: #f5f7f6;
 
   .achievements,
   .friends {
     max-width: 212px;
+  }
+
+  .friends {
+    margin-top: 24px;
   }
 
   .achievements-text,

@@ -11,7 +11,6 @@ import { SubmitEmailComponent } from '../user/auth/submit-email/submit-email.com
 import { RestoreComponent } from '../user/restore/restore.component';
 import { RestoreFormComponent } from '../user/restore-form/restore-form.component';
 import { SharedModule } from '../shared/shared.module';
-import { AchievementsFriendsComponent } from '../user/profile/achievements-friends/achievements-friends.component';
 
 @NgModule({
   declarations: [
@@ -24,8 +23,7 @@ import { AchievementsFriendsComponent } from '../user/profile/achievements-frien
     AuthComponent,
     SubmitEmailComponent,
     RestoreComponent,
-    RestoreFormComponent,
-    AchievementsFriendsComponent
+    RestoreFormComponent
   ],
   imports: [
     CoreModule,
