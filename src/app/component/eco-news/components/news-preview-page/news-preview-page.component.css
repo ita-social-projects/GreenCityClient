@@ -2,6 +2,10 @@
   margin: 0 auto;
 }
 
+.word-wrap {
+  word-break: break-word;
+}
+
 .top-elements,
 .button-content,
 .news-info,
