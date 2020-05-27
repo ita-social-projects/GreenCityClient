@@ -93,7 +93,7 @@ export class SignInNewComponent implements OnInit, OnDestroy {
     this.localStorageService.setFirstName(data.name);
     this.localStorageService.setFirstSignIn();
     this.userOwnAuthService.getDataFromLocalStorage();
-    this.router.navigate([data.userId, 'habits'])
+    this.router.navigate([data.userId, 'profile'])
       .then(success => console.log('redirect has succeeded ' + success))
       .catch(fail => console.log('redirect has failed ' + fail));
   }
