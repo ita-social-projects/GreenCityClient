@@ -43,11 +43,14 @@ import { AlphabeticalPipePipe } from '../../pipe/alphabetical-pipe/alphabetical-
 import { MatButtonModule, MatRadioModule } from '@angular/material';
 import { ConfirmationModalComponent } from './habit/add-new-habit/confirmation-modal/confirmation-modal.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import {SharedModule} from '../shared/shared.module';
-
+import { SharedModule } from '../shared/shared.module';
+import { EcoPlacesComponent } from './profile/eco-places/eco-places.component';
+import { ShoppingListComponent } from './profile/shopping-list/shopping-list.component';
+import { ProfileComponent } from "./profile/profile.component";
 
 @NgModule({
   declarations: [
+    ProfileComponent,
     AchievementItemComponent,
     AchievementListComponent,
     UserAchievementsComponent,
@@ -88,6 +91,8 @@ import {SharedModule} from '../shared/shared.module';
     ShowFirstNPipe,
     UncheckedFirstPipe,
     AlphabeticalPipePipe,
+    EcoPlacesComponent,
+    ShoppingListComponent
   ],
   imports: [
     CommonModule,
