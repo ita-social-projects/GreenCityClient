@@ -33,6 +33,7 @@ export interface NewsDTO {
   text: string;
   title: string;
   source: string;
+  image: SafeUrl;
 }
 
 export interface NewsResponseDTO {

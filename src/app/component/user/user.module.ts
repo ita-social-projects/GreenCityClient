@@ -44,13 +44,22 @@ import { MatButtonModule, MatRadioModule } from '@angular/material';
 import { ConfirmationModalComponent } from './habit/add-new-habit/confirmation-modal/confirmation-modal.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { SharedModule } from '../shared/shared.module';
+import { ProfileHeaderComponent } from './profile/profile-widget/profile-header/profile-header.component';
+import { ProfileProgressComponent } from './profile/profile-widget/profile-progress/profile-progress.component';
+import { ProfileComponent } from './profile/profile.component';
+import { ProfileWidgetComponent } from "./profile/profile-widget/profile-widget.component";
+import { ProfileDashboardComponent } from "./profile/profile-dashboard/profile-dashboard.component";
+import { OneHabitComponent } from "./profile/profile-dashboard/one-habit/one-habit.component";
+import { ProfileCardsComponent } from "./profile/profile-cards/profile-cards.component";
+import { AchievementsFriendsComponent } from "./profile/achievements-friends/achievements-friends.component";
 import { EcoPlacesComponent } from './profile/eco-places/eco-places.component';
 import { ShoppingListComponent } from './profile/shopping-list/shopping-list.component';
-import { ProfileComponent } from "./profile/profile.component";
 
 @NgModule({
   declarations: [
-    ProfileComponent,
+    ProfileCardsComponent,
+    ProfileDashboardComponent,
+    OneHabitComponent,
     AchievementItemComponent,
     AchievementListComponent,
     UserAchievementsComponent,
@@ -91,6 +100,11 @@ import { ProfileComponent } from "./profile/profile.component";
     ShowFirstNPipe,
     UncheckedFirstPipe,
     AlphabeticalPipePipe,
+    ProfileWidgetComponent,
+    ProfileHeaderComponent,
+    ProfileProgressComponent,
+    ProfileComponent,
+    AchievementsFriendsComponent
     EcoPlacesComponent,
     ShoppingListComponent
   ],
@@ -102,7 +116,6 @@ import { ProfileComponent } from "./profile/profile.component";
     MatRadioModule,
     DragDropModule,
   ],
-  providers: []
+  providers: [],
 })
-
-export class UserModule { }
+export class UserModule {}
