@@ -25,7 +25,7 @@ export class CreateNewsComponent implements OnInit {
   public filters: Array<FilterModel> = [
     {name: 'News', isActive: false},
     {name: 'Events', isActive: false},
-    {name: 'Courses', isActive: false},
+    {name: 'Education', isActive: false},
     {name: 'Initiatives', isActive: false},
     {name: 'Ads', isActive: false}
   ];

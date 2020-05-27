@@ -10,6 +10,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    input[type = file] {
+        position: absolute;
+        overflow: hidden;
+        z-index: -1;
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+    }
 }
 
 .centered {
@@ -37,6 +45,7 @@
 }
 
 .warning {
+    font-family: 'Open sans';
     font-size: 14px;
     color: #878787;
 }
@@ -44,6 +53,22 @@
 img {
     width: 436px;
     height: 231px;
+}
+
+.cropper-block {
+    .cropper-buttons {
+        display: flex;
+        justify-content: center;
+        button {
+            margin-left: 5px;
+            border: 1px solid #13AA57;
+            border-radius: 3px;
+            background-color: #ffffff;
+            width: 139px;
+            height: 48px;
+            color: #13AA57;
+        }
+    }
 }
 
 @media screen and (max-width: 1200px) {

@@ -1,0 +1,13 @@
+<div [ngClass]="oneHabit.done ? oneHabit.acquired ? 'main man-with-cup' : 'main girl' : 'main man'">
+<div class="day-in-progress">
+  <div class="calendar-img"></div>
+  <p>{{ oneHabit.dayCount }}</p>
+</div>
+  <div class="title">
+{{ oneHabit.title}}
+  </div>
+  <div class="describe">
+    <div [ngClass]="oneHabit.done ? oneHabit.acquired ? 'circle star' : 'circle done' : 'circle undone'"></div>
+    <div class="describe-text">{{ oneHabit.describe }}</div>
+  </div>
+</div>
