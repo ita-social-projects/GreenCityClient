@@ -14,10 +14,12 @@
   </div>
   <div class="middle">
     <div class="calendar-grid">
-      <div *ngFor="let dayItem of calendarDay"
-      class="calendar-grid-day">
+      <div *ngFor="let dayItem of calendarDay; index as i"
+      class="calendar-grid-day"
+            >
         {{ dayItem.numberOfDate }}
       </div>
     </div>
   </div>
 </div>
+
