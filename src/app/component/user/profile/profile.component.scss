@@ -8,6 +8,10 @@ section {
   margin: 0 auto;
   flex-direction: row;
 
+  .left-column {
+    background: #f5f7f6;;
+  }
+
   .column {
     position: relative;
     box-sizing: border-box;

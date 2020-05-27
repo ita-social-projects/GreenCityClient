@@ -1,0 +1,53 @@
+.eco-places-content {
+    width: 81%;
+    margin: 0 auto;
+    font-family: Montserrat;
+    font-style: normal;
+}
+
+.header-position {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.header {
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+    padding-bottom: 8px;
+}
+
+h2 > span {
+    color: #bebebe;
+    margin-left: 10px;
+}
+
+.item {
+    list-style: none;
+    text-align: left;
+    width: 100%;
+    font-weight: normal;
+    font-size: 12px;
+    padding: 6px 0;
+}
+
+.eco-place-list {
+    width: 100%;
+    padding: 0;
+
+    .item {
+        text-decoration: underline;
+    }
+}
+    
+.btn-see-all {
+    text-decoration: none;
+    font-weight: normal;
+    font-size: 12px;
+}
+
+hr {
+    margin-top: 18px;
+    margin-bottom: 24px;
+}
