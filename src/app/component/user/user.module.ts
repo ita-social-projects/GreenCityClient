@@ -104,7 +104,7 @@ import { ShoppingListComponent } from './profile/shopping-list/shopping-list.com
     ProfileHeaderComponent,
     ProfileProgressComponent,
     ProfileComponent,
-    AchievementsFriendsComponent
+    AchievementsFriendsComponent,
     EcoPlacesComponent,
     ShoppingListComponent
   ],

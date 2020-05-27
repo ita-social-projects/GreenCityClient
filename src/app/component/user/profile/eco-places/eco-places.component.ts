@@ -6,14 +6,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./eco-places.component.scss']
 })
 export class EcoPlacesComponent implements OnInit {
-  ecoPlaces = ["Everyday Bakery Cafe", "Culturist", "3 бобра", "Everyday Bakery Cafe", "Culturist", "3 бобра", 
-  "Everyday Bakery Cafe", "Culturist", "3 бобра", "Everyday Bakery Cafe"];
+  private ecoPlaces: Array<string> = [
+    "Everyday Bakery Cafe", "Culturist", "3 бобра",
+    "Everyday Bakery Cafe", "Culturist", "3 бобра",
+    "Everyday Bakery Cafe", "Culturist", "3 бобра",
+    "Everyday Bakery Cafe"];
 
-  showEcoPlaces = this.ecoPlaces.slice(0, 3);
+  constructor() {}
 
-  constructor() { 
+  ngOnInit() {}
+
+  public getEcoPlaces(): Array<string> {
+    return this.ecoPlaces.slice(0, 3);
   }
-  ngOnInit() {
-  }
-
 }

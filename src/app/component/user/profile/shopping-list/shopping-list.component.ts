@@ -6,13 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./shopping-list.component.scss']
 })
 export class ShoppingListComponent implements OnInit {
-  shoppingList = ["Шоппер", "Еко чашка", "Бамбукова щітка"];
-
-  showShoppingList = this.shoppingList.slice(0, 3);
+  private shoppingList: Array<string> = ["Шоппер", "Еко чашка", "Бамбукова щітка"];
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  public getShoppingList(): Array<string> {
+    return this.shoppingList.slice(0, 3);
   }
 
 }
