@@ -32,7 +32,7 @@
   </div>
   <div class="news-content">
     <div class="news-title-container">
-      <div class="news-title">
+      <div class="news-title word-wrap">
         {{ previewItem.value.title }}
       </div>
     </div>
@@ -46,7 +46,7 @@
         >
       </div>
       <div class="news-info-author">
-        by John
+        by {{ userName }}
       </div>
     </div>
     <div class="news-image">
@@ -71,7 +71,7 @@
         >
       </div>
       <div class="news-text">
-        <div class="news-text-content">
+        <div class="news-text-content word-wrap">
           {{ previewItem.value.content }}
         </div>
       </div>

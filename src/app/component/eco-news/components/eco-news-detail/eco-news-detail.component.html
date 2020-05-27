@@ -27,7 +27,7 @@
   </div>
   <div class="news-content">
     <div class="news-title-container">
-      <div class="news-title">
+      <div class="news-title word-wrap">
         {{ newsItem.title }}
       </div>
     </div>
@@ -62,8 +62,11 @@
         >
       </div>
       <div class="news-text">
-        <div class="news-text-content">
+        <div class="news-text-content word-wrap">
           {{ newsItem.text }}
+        </div>
+        <div class="news-source">
+          <p>Source:</p><a href="{{ newsItem.source }}"> {{ newsItem.source }}</a>
         </div>
       </div>
     </div>
