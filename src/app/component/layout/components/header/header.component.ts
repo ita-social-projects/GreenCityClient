@@ -33,6 +33,7 @@ export class HeaderComponent implements OnInit {
   private isLoggedIn: boolean;
   private language: string;
   private isSearchClicked = false;
+  private isAllSearchOpen = false;
   private onToggleBurgerMenu = false;
 
   constructor(private modalService: ModalService,
@@ -50,6 +51,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.searchSearch.searchSubject.subscribe(this.openSearchSubscription.bind(this));
+    this.searchSearch.allSearchSubject.subscribe(this.openAllSearchSubscription.bind(this));
     this.dropdownVisible = false;
     this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => {
       this.name = firstName;
@@ -100,6 +102,10 @@ export class HeaderComponent implements OnInit {
 
   private openSearchSubscription(signal: boolean): void {
     this.isSearchClicked = signal;
+  }
+
+  private openAllSearchSubscription(signal: boolean): void {
+    this.isAllSearchOpen = signal;
   }
 
   private toggleDropdown(): void {

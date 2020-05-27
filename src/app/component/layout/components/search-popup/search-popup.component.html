@@ -43,12 +43,15 @@
             </div>
           </div>
 
-          <a class="all-results-link">
+          <a [routerLink]="['/search']"
+             (click)="closeSearch()"
+             class="all-results-link">
             See all results
           </a>
         </ng-template>
 
         <ng-template [ngIf]="(isNewsSearchFound === false && isTipsSearchFound === false)">
+          <br/><br/>
           <app-search-not-found (closeUnsuccessfulSearchResults)="closeSearch()"></app-search-not-found>
         </ng-template>
       </div>
