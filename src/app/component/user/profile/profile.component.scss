@@ -8,10 +8,14 @@ section {
   margin: 0 auto;
   flex-direction: row;
 
+  .left-column {
+    background: #f5f7f6;;
+  }
+
   .column {
+    position: relative;
     box-sizing: border-box;
     justify-content: center;
-    background-color: rgba(7, 206, 33, 0.1);
     text-align: center;
     justify-content: center;
     border: 1px solid transparentize(white, 0.25);
@@ -20,7 +24,6 @@ section {
     div {
       width: 100%;
       box-sizing: inherit;
-      border: 1px solid black;
     }
 
     &:nth-of-type(odd) {
@@ -30,6 +33,7 @@ section {
     &:nth-of-type(2) {
       flex-basis: 48%;
       margin: 0 3% 0 3%;
+      background-color: white;
     }
   }
 }

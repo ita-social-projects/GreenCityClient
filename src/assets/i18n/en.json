@@ -369,11 +369,11 @@
     },
     "lower-nav-bar": {
       "home": "Home",
-      "about-us": "About",
+      "about-us": "About us",
       "eco-events": "Eco news",
       "tips": "Tips & Tricks",
-      "map": "Map",
-      "my-habits": "My cabinet"
+      "map": "Places",
+      "my-habits": "My habits"
     },
     "footer": {
       "about-us": "About us",
