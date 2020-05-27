@@ -39,13 +39,9 @@ export const routes: Routes = [
     ],
   },
   {
-    path: ':id/habits',
-    component: UserHabitPageComponent,
-    canActivate: [AuthPageGuardService],
-  },
-  {
-    path: 'profile',
+    path: ':id/profile',
     component: ProfileComponent,
+    canActivate: [AuthPageGuardService],
   },
   {
     path: 'search',
