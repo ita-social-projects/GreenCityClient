@@ -12,6 +12,7 @@ import { ProfileComponent } from '../user/profile/profile.component';
 import { RestoreComponent } from '../user/restore/restore.component';
 import { RestoreFormComponent } from '../user/restore-form/restore-form.component';
 import { SharedModule } from '../shared/shared.module';
+import {CalendarComponent} from '../user/profile/calendar/calendar.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { SharedModule } from '../shared/shared.module';
     ProfileComponent,
     RestoreComponent,
     RestoreFormComponent,
+    CalendarComponent
   ],
   imports: [
     CoreModule,

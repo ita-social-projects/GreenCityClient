@@ -1,1 +1,23 @@
-
+<div class="calendar">
+  <div class="top">
+    <div class="month-year">
+      <button (click)="previousMonth()"><</button>
+      <span class="monthAndYear">{{ monthAndYearName }}</span>
+      <button (click)="nextMonth()">></button>
+    </div>
+    <div class="days">
+      <div class="days-name"
+           *ngFor="let day of daysNameLong">
+        {{ day }}
+      </div>
+    </div>
+  </div>
+  <div class="middle">
+    <div class="calendar-grid">
+      <div *ngFor="let dayItem of calendarDay"
+      class="calendar-grid-day">
+        {{ dayItem.numberOfDate }}
+      </div>
+    </div>
+  </div>
+</div>

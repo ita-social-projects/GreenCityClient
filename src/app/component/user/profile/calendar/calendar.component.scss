@@ -1,0 +1,39 @@
+.calendar {
+  width: 261px;
+  height: 244px;
+
+  .top {
+    .month-year {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .days {
+      display: flex;
+      justify-content: space-between;
+      padding: 2px;
+
+      .days-name {
+        width: 36px;
+      }
+    }
+  }
+
+  .middle {
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-template-rows: repeat(6, 35px);
+
+      .calendar-grid-day {
+        padding: 5px;
+      }
+
+      .calendar-grid-build {
+        width: 261px;
+        height: 200px;
+      }
+    }
+  }
+}
