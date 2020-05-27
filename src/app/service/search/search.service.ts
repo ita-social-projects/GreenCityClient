@@ -9,6 +9,7 @@ import { switchMap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class SearchService {
+  private apiUrl: string = 'http://localhost:3000';
   private backEndLink = environment.backendLink;
   public searchSubject = new Subject<boolean>();
   public allSearchSubject = new Subject<boolean>();
@@ -22,29 +23,27 @@ export class SearchService {
   public getAllSearch(searchQuery: string, searchType: string): Observable<SearchModel> {
     switch (searchType) {
       case 'relevance': {
-        return this.http.get<SearchModel>('http://localhost:3000/search').pipe(
-          switchMap(res => of(res))
-        );
+        return this.getResultsByCat('search');
         break;
       }
       case 'newest': {
-        return this.http.get<SearchModel>('http://localhost:3000/newest').pipe(
-          switchMap(res => of(res))
-        );
+        return this.getResultsByCat('newest');
         break;
       }
       case 'latest': {
-        return this.http.get<SearchModel>('http://localhost:3000/noresults').pipe(
-          switchMap(res => of(res))
-        );
+        return this.getResultsByCat('noresults');
         break;
       }
       default: {
-        return this.http.get<SearchModel>('http://localhost:3000/search').pipe(
-          switchMap(res => of(res))
-        );
+        return this.getResultsByCat('search');
       }
     }
+  }
+
+  private getResultsByCat(searchType: string): Observable<SearchModel> {
+    return this.http.get<SearchModel>(`${this.apiUrl}/${searchType}`).pipe(
+      switchMap(res => of(res))
+    );
   }
 
   public toggleSearchModal() {
