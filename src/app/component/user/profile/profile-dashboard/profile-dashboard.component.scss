@@ -26,30 +26,25 @@ $second-font-color: #BEBEBE;
 
       &:hover {
         background-color: #F0F5F4;
+        border-radius: 5px 5px 0 0;
         border-bottom: 1px solid #13AA57;
     }
-
-    .active {
-      &:hover {
-        background-color: #ffffff;
-        border-bottom: none;
-      }
-    }
   }
-}
 
-.active {
-  border: 1px solid #13AA57;
-  border-radius: 5px 5px 0 0;
-  border-bottom: none;
-  background-color: #ffffff;
-  font-family: OpenSans;
-  font-size: 13px;
-  line-height: 15px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  z-index: 2;
+  .active {
+    border: 1px solid #13AA57;
+    border-radius: 5px 5px 0 0;
+    border-bottom: none;
+    background-color: #ffffff;
+    font-family: "Open Sans";
+    z-index: 2;
+
+      &:hover {
+        border: 1px solid #13AA57;
+        border-radius: 5px 5px 0 0;
+        border-bottom: white;
+      }
+  }
 }
 
 .menu-title {
