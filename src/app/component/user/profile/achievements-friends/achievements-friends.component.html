@@ -1,0 +1,41 @@
+<div class="main-container">
+  <div class="achievements">
+    <div class="achievements-text">
+      <div class="text-main-content">
+        <h3 class="text-title">
+          My Achievements
+        </h3>
+        <div class="text-number">8</div>
+      </div>
+      <div class="text-more">See all</div>
+    </div>
+    <div class="achievements-images">
+        <img [src]="image"
+             alt="achievement"
+             class="achievements-img"
+             *ngFor="let image of achievementsImages"
+        >
+    </div>
+  </div>
+  <hr>
+  <div class="friends">
+    <div class="friends-text">
+      <div class="text-main-content">
+        <div>
+          <h3 class="text-title">
+            My Eco Friends
+          </h3>
+        </div>
+        <div class="text-number">139</div>
+      </div>
+      <div class="text-more">See all</div>
+    </div>
+    <div class="friends-images">
+        <img [src]="image"
+             alt="friend"
+             class="friend-img"
+             *ngFor="let image of friendsImages"
+        >
+    </div>
+  </div>
+</div>
