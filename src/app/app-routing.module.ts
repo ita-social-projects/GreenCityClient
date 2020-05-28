@@ -9,7 +9,7 @@ import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { AuthPageGuardService } from './service/route-guards/auth-page-guard.service';
 import { HomepageComponent } from './component/home/homepage/homepage.component';
 import { ProfileComponent } from './component/user/profile/profile.component';
-import { SearchAllResultsComponent } from "./component/layout/components/search-all-results/search-all-results.component";
+import { SearchAllResultsComponent } from './component/layout/components/search-all-results/search-all-results.component';
 
 export const routes: Routes = [
   {
