@@ -419,9 +419,11 @@ $screen-320: " screen and (max-width : 320px)";
     }
   }
 }
+
 .active-link {
   color: $focus-color !important;
 }
+
 @media #{$screen-800} {
   .navigation-menu {
     width: auto;

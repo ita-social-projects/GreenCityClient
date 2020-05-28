@@ -2,6 +2,10 @@ $bg-color: #F8F9FA;
 $digital-color: #BEBEBE;
 $first-color-font: #494A49;
 $second-color-font: #839C94;
+$screen-1024: " screen and (max-width : 1024px)";
+$screen-768: " screen and (max-width : 768px)";
+$screen-576: " screen and (max-width : 576px)";
+$screen-320: " screen and (max-width : 320px)";
 
 .main {
   width: 100%;
@@ -50,7 +54,7 @@ $second-color-font: #839C94;
     color: $first-color-font;
     position: absolute;
     width: auto;
-    max-width: 320px;
+    max-width: 319px;
     height: 63px;
     left: 24px;
     top: 42px;
@@ -105,4 +109,45 @@ $second-color-font: #839C94;
 
 .star {
   background: url("../../../../../../assets/img/icon/star-circle.png") no-repeat center;
+}
+
+@media #{$screen-1024} {
+  .main {
+    min-height: 152px;
+
+    .title {
+      max-width: 264px;
+    }
+  }
+
+}
+
+@media #{$screen-768} {
+  .main {
+    min-height: 142px;
+
+    .title {
+      max-width: 264px;
+    }
+  }
+}
+
+@media #{$screen-576} {
+  .main {
+    min-height: 161px;
+
+    .title {
+      max-width: 319px;
+    }
+  }
+}
+
+@media #{$screen-320} {
+  .main {
+    min-height: 148px;
+
+    .title {
+      max-width: 174px;
+    }
+  }
 }
