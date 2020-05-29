@@ -54,7 +54,7 @@ import { ProfileCardsComponent } from "./profile/profile-cards/profile-cards.com
 import { AchievementsFriendsComponent } from "./profile/achievements-friends/achievements-friends.component";
 import { EcoPlacesComponent } from './profile/eco-places/eco-places.component';
 import { ShoppingListComponent } from './profile/shopping-list/shopping-list.component';
-import {CalendarComponent} from './profile/calendar/calendar.component';
+import { CalendarComponent } from './profile/calendar/calendar.component';
 
 @NgModule({
   declarations: [
