@@ -4,7 +4,6 @@ import { AuthComponent } from './component/user/auth/auth.component';
 import { SignInComponent } from './component/user/auth/sign-in/sign-in.component';
 import { SubmitEmailComponent } from './component/user/auth/submit-email/submit-email.component';
 import { RestoreFormComponent } from './component/user/restore-form/restore-form.component';
-import { UserHabitPageComponent } from './component/user/habit/user-habit-page/user-habit-page.component';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { AuthPageGuardService } from './service/route-guards/auth-page-guard.service';
 import { HomepageComponent } from './component/home/homepage/homepage.component';
