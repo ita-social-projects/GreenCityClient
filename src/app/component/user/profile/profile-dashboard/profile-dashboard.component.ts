@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HabitTab } from "../../models/habit.model";
-import { HabitItemModel } from "../../models/habit-item.model";
+import { HabitTab } from '../../models/habit.model';
+import { HabitItemModel } from '../../models/habit-item.model';
 
 @Component({
   selector: 'app-profile-dashboard',
