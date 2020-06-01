@@ -31,11 +31,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
   private checkUserSingIn(): void {
     this.userOwnAuthService.credentialDataSubject
-      .subscribe((data) => {
-        if (data && data.firstSignIn) {
-          this.isLoggedIn = data.firstSignIn;
-        }
-      });
+      .subscribe((data) => this.isLoggedIn = data && data.userId);
   }
 
   private fetchAllEcoNews(): void {
