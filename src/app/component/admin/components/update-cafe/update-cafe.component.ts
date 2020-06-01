@@ -1,22 +1,22 @@
 import {Component, ElementRef, EventEmitter, Inject, NgZone, OnInit, Output, ViewChild} from '@angular/core';
-import {PlaceAddDto} from "../../../model/placeAddDto.model";
-import {LocationDto} from "../../../model/locationDto.model";
-import {DiscountDto} from "../../../model/discount/DiscountDto";
-import {SpecificationNameDto} from "../../../model/specification/SpecificationNameDto";
-import {OpeningHours} from "../../../model/openingHours.model";
-import {WeekDays} from "../../../model/weekDays.model";
-import {BreakTimes} from "../../../model/breakTimes.model";
-import {CategoryDto} from "../../../model/category.model";
-import {PlaceWithUserModel} from "../../../model/placeWithUser.model";
+import {PlaceAddDto} from "../../../../model/placeAddDto.model";
+import {LocationDto} from "../../../../model/locationDto.model";
+import {DiscountDto} from "../../../../model/discount/DiscountDto";
+import {SpecificationNameDto} from "../../../../model/specification/SpecificationNameDto";
+import {OpeningHours} from "../../../../model/openingHours.model";
+import {WeekDays} from "../../../../model/weekDays.model";
+import {BreakTimes} from "../../../../model/breakTimes.model";
+import {CategoryDto} from "../../../../model/category.model";
+import {PlaceWithUserModel} from "../../../../model/placeWithUser.model";
 import {NgForm} from "@angular/forms";
 import {NgSelectComponent} from "@ng-select/ng-select";
-import {ModalService} from "../../core/_modal/modal.service";
-import {PlaceService} from "../../../service/place/place.service";
-import {CategoryService} from "../../../service/category.service";
-import {SpecificationService} from "../../../service/specification.service";
-import {UserService} from "../../../service/user/user.service";
+import {ModalService} from "../../../core/_modal/modal.service";
+import {PlaceService} from "../../../../service/place/place.service";
+import {CategoryService} from "../../../../service/category.service";
+import {SpecificationService} from "../../../../service/specification.service";
+import {UserService} from "../../../../service/user/user.service";
 import {MapsAPILoader, MouseEvent} from "@agm/core";
-import {PlaceUpdatedDto} from "../../../model/place/placeUpdatedDto.model";
+import {PlaceUpdatedDto} from "../../models/placeUpdatedDto.model";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 
 @Component({

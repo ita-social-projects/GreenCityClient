@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {ConfirmModalComponent} from './confirm-modal.component';
+import {ConfirmModalComponent} from '../components/confirm-modal/confirm-modal.component';
 import {TranslateService} from '@ngx-translate/core';
 
 @Injectable()

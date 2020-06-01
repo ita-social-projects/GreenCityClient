@@ -1,11 +1,7 @@
 import { MatTableModule } from '@angular/material/table';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdminNavComponent } from './admin-nav/admin-nav.component';
-import { PlacesComponent } from './places/places.component';
-import { UsersComponent } from './users/users.component';
 import { NgFlashMessagesModule } from 'ng-flash-messages';
-import { ErrorComponent } from './error/error.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { IconsModule, TableModule } from 'angular-bootstrap-md';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -20,28 +16,43 @@ import {
   MatSelectModule,
   MatMenuModule
 } from '@angular/material';
-import {MatSortModule} from '@angular/material/sort';
-import {PaginationModule} from 'ngx-bootstrap';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {UpdateCafeComponent} from './update-cafe/update-cafe.component';
-import {NgSelectModule} from '@ng-select/ng-select';
-import {AgmCoreModule} from '@agm/core';
-import {FormsModule} from '@angular/forms';
-import {RouterModule} from '@angular/router';
-import {AdminService} from '../../service/admin/admin.service';
-import {ConfirmModalComponent} from './confirm-modal/confirm-modal.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {ConfirmationDialogService} from './confirm-modal/confirmation-dialog-service.service';
-import {AdminComponent} from './admin.component';
-import {FeedbacksComponent} from './feedbacks/feedbacks.component';
-import {DialogPhotoComponent} from './feedbacks/dialog-photo/dialog-photo.component';
-import {TranslateModule} from '@ngx-translate/core';
-import {AdminRoutingModule} from './admin-routing.module';
-import {SharedModule} from '../shared/shared.module';
+import { MatSortModule } from '@angular/material/sort';
+import { PaginationModule } from 'ngx-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { AgmCoreModule } from '@agm/core';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { AdminService } from '../../service/admin/admin.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationDialogService } from './services/confirmation-dialog-service.service';
+import { AdminComponent } from './admin.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { AdminRoutingModule } from './admin-routing.module';
+import { SharedModule } from '../shared/shared.module';
+import {
+  AdminNavComponent,
+  ConfirmModalComponent,
+  ErrorComponent,
+  DialogPhotoComponent,
+  FeedbacksComponent,
+  PlacesComponent,
+  UpdateCafeComponent,
+  UsersComponent
+} from './components/index';
 
 @NgModule({
-  declarations: [AdminNavComponent, AdminComponent, PlacesComponent, UsersComponent, ErrorComponent, ConfirmModalComponent,
-    UpdateCafeComponent, FeedbacksComponent, DialogPhotoComponent],
+  declarations: [
+    AdminNavComponent,
+    AdminComponent,
+    PlacesComponent,
+    UsersComponent,
+    ErrorComponent,
+    ConfirmModalComponent,
+    UpdateCafeComponent,
+    FeedbacksComponent,
+    DialogPhotoComponent
+  ],
   exports: [
     AdminNavComponent,
     AdminComponent,
@@ -94,5 +105,4 @@ import {SharedModule} from '../shared/shared.module';
   entryComponents: [ConfirmModalComponent, UpdateCafeComponent, DialogPhotoComponent],
   bootstrap: [AdminComponent],
 })
-export class AdminModule {
-}
+export class AdminModule {}

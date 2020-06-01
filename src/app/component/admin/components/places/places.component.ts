@@ -1,15 +1,15 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {DomSanitizer, Title} from '@angular/platform-browser';
-import {AdminPlace} from '../../../model/place/admin-place.model';
+import {AdminPlace} from '../../models/admin-place.model';
 import {NgFlashMessageService} from 'ng-flash-messages';
-import {PlaceService} from '../../../service/place/place.service';
+import {PlaceService} from '../../../../service/place/place.service';
 import {MatDialog, MatIconRegistry, MatTableDataSource} from '@angular/material';
-import {PlaceStatus} from '../../../model/placeStatus.model';
-import {FilterPlaceDtoModel} from '../../../model/filtering/filter-place-dto.model';
-import {ConfirmationDialogService} from '../confirm-modal/confirmation-dialog-service.service';
-import {PlaceUpdatedDto} from '../../../model/place/placeUpdatedDto.model';
+import {PlaceStatus} from '../../../../model/placeStatus.model';
+import {FilterPlaceDtoModel} from '../../../../model/filtering/filter-place-dto.model';
+import {ConfirmationDialogService} from '../../services/confirmation-dialog-service.service';
+import {PlaceUpdatedDto} from '../../models/placeUpdatedDto.model';
 import {UpdateCafeComponent} from '../update-cafe/update-cafe.component';
-import {WeekDaysUtils} from '../../../service/weekDaysUtils.service';
+import {WeekDaysUtils} from '../../../../service/weekDaysUtils.service';
 import {PaginationComponent} from 'ngx-bootstrap';
 import {TranslateService} from '@ngx-translate/core';
 

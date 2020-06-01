@@ -1,14 +1,14 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import '@angular/material/prebuilt-themes/deeppurple-amber.css';
-import {UserForListDtoModel} from '../../../model/user/user-for-list-dto.model';
-import {UserService} from '../../../service/user/user.service';
+import {UserForListDtoModel} from '../../../../model/user/user-for-list-dto.model';
+import {UserService} from '../../../../service/user/user.service';
 import {DomSanitizer, Title} from '@angular/platform-browser';
 import {NgFlashMessageService} from 'ng-flash-messages';
 import {MatIconRegistry, MatSort, MatTableDataSource} from '@angular/material';
 import {HttpErrorResponse} from '@angular/common/http';
-import {AdminService} from '../../../service/admin/admin.service';
+import {AdminService} from '../../../../service/admin/admin.service';
 import {PaginationComponent} from 'ngx-bootstrap';
-import {JwtService} from '../../../service/jwt/jwt.service';
+import {JwtService} from '../../../../service/jwt/jwt.service';
 
 
 export interface Role {

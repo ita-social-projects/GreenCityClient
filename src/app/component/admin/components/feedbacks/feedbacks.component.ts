@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {CommentAdminDto} from '../../../model/comment/comment-admin-dto.model';
-import {FeedbackService} from '../../../service/feedbacksAdmin/feedback.service';
+import {CommentAdminDto} from '../../models/comment-admin-dto.model';
+import {FeedbackService} from '../../../../service/feedbacksAdmin/feedback.service';
 import {MatDialog, MatTableDataSource} from '@angular/material';
-import {ConfirmationDialogService} from '../confirm-modal/confirmation-dialog-service.service';
+import {ConfirmationDialogService} from '../../services/confirmation-dialog-service.service';
 import {NgFlashMessageService} from 'ng-flash-messages';
 import {DialogPhotoComponent} from './dialog-photo/dialog-photo.component';
 import {TranslateService} from '@ngx-translate/core';
