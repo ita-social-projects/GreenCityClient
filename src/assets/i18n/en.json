@@ -533,5 +533,11 @@
     "subtitle": "Do you still want to cancel news creating?",
     "continue": "Continue editing",
     "cancel": "Yes, cancel"
+  },
+  "profile": {
+    "calendar": {
+      "days": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    }
   }
 }
