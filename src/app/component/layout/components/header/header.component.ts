@@ -1,9 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ModalService } from '../../../core/_modal/modal.service';
+import { ModalService } from '../../../core/components/_modal/modal.service';
 import { MatDialog } from '@angular/material';
 import { FavoritePlaceComponent } from '../../../map/components/favorite-place/favorite-place.component';
 import { FavoritePlaceService } from '../../../../service/favorite-place/favorite-place.service';
-import { UserSettingComponent } from '../../../user/user-setting/user-setting.component';
+import { UserSettingComponent } from '../../../user/components/user-setting/user-setting.component';
 import {NavigationStart, Router} from '@angular/router';
 import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
 import { JwtService } from '../../../../service/jwt/jwt.service';

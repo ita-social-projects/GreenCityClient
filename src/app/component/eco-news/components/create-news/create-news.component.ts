@@ -4,7 +4,7 @@ import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@ang
 import { CreateEcoNewsService } from '../../services/create-eco-news.service';
 import { FilterModel, LanguageModel, NewsResponseDTO } from '../../models/create-news-interface';
 import { MatDialog } from '@angular/material/dialog';
-import { CreateNewsCancelComponent } from '../../../shared/create-news-cancel/create-news-cancel.component';
+import { CreateNewsCancelComponent } from '../../../shared/components/create-news-cancel/create-news-cancel.component';
 
 @Component({
   selector: 'app-create-news',

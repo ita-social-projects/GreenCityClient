@@ -11,7 +11,7 @@ import { RolesModel } from '../../model/user/roles.model';
 import { UserFilterDtoModel } from '../../model/user/userFilterDto.model';
 import { UserUpdateModel } from '../../model/user/user-update.model';
 import { Goal } from '../../model/goal/Goal';
-import { GoalType } from '../../component/user/user-goals/add-goal/add-goal-list/GoalType';
+import { GoalType } from '../../component/user/components/user-goals/add-goal/add-goal-list/GoalType';
 import { CustomGoalResponseDto } from '../../model/goal/CustomGoalResponseDto';
 import { CustomGoalSaveRequestDto } from '../../model/goal/CustomGoalSaveRequestDto';
 import { UserCustomGoalDto } from '../../model/goal/UserCustomGoalDto';

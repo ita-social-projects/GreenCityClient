@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {Goal} from '../../model/goal/Goal';
-import {GoalType} from '../../component/user/user-goals/add-goal/add-goal-list/GoalType';
+import {GoalType} from '../../component/user/components/user-goals/add-goal/add-goal-list/GoalType';
 
 @Pipe({
   name: 'customLast'
