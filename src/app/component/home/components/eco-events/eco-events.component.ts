@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NewsService } from 'src/app/service/news/news.service';
-import { NewsDto } from 'src/app/service/news/NewsDto';
+import { NewsDto } from 'src/app/component/home/models/NewsDto';
 import { of } from 'rxjs';
 import { LanguageService } from 'src/app/i18n/language.service';
 import { catchError } from 'rxjs/operators';
