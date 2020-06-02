@@ -5,7 +5,7 @@ import {CategoryDto} from '../../../../model/category.model';
 import {LocationDto} from '../../../../model/locationDto.model';
 import {WeekDays} from '../../../../model/weekDays.model';
 import {PlaceWithUserModel} from '../../../../model/placeWithUser.model';
-import {ModalService} from '../_modal/modal.service';
+import {ModalService} from './_modal/modal.service';
 import {CategoryService} from '../../../../service/category.service';
 import {UserService} from '../../../../service/user/user.service';
 import {FormBuilder, NgForm} from '@angular/forms';
@@ -19,8 +19,7 @@ import {DiscountDto} from '../../../../model/discount/DiscountDto';
 import {SpecificationNameDto} from '../../../../model/specification/SpecificationNameDto';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {Photo} from "../../../../model/photo/photo";
-
+import {Photo} from '../../../../model/photo/photo';
 
 @Component({
   selector: 'app-propose-cafe',

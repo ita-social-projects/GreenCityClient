@@ -7,7 +7,7 @@ import {LanguageService} from '../../../../../i18n/language.service';
 @Component({
   selector: 'app-habit-trackers',
   templateUrl: './habit-trackers.component.html',
-  styleUrls: ['./habit-trackers.component.css']
+  styleUrls: ['./habit-trackers.component.scss']
 })
 export class HabitTrackersComponent implements OnInit {
   $trackedHabits: Observable<HabitDto[]>;

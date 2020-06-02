@@ -10,7 +10,7 @@ import {TranslateService} from '@ngx-translate/core';
 @Component({
   selector: 'app-feedbacks',
   templateUrl: './feedbacks.component.html',
-  styleUrls: ['./feedbacks.component.css']
+  styleUrls: ['./feedbacks.component.scss']
 })
 export class FeedbacksComponent implements OnInit {
 

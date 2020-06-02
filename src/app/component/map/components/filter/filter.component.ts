@@ -7,7 +7,7 @@ import { MapComponent } from '../map-component/map.component';
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
-  styleUrls: ['./filter.component.css']
+  styleUrls: ['./filter.component.scss']
 })
 export class FilterComponent {
   discountMin = this.filterService.discountMin;

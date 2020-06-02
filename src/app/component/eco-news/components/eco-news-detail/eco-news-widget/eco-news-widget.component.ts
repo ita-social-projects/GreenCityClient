@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-eco-news-widget',
   templateUrl: './eco-news-widget.component.html',
-  styleUrls: ['./eco-news-widget.component.css']
+  styleUrls: ['./eco-news-widget.component.scss']
 })
 
 export class EcoNewsWidgetComponent implements OnInit, OnDestroy {

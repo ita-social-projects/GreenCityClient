@@ -6,7 +6,7 @@ import {LanguageService} from '../../../../../i18n/language.service';
 @Component({
   selector: 'app-goal-item',
   templateUrl: './goal-item.component.html',
-  styleUrls: ['./goal-item.component.css']
+  styleUrls: ['./goal-item.component.scss']
 })
 export class GoalItemComponent implements OnInit {
   @Input() goal: Goal;

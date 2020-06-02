@@ -1,11 +1,11 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {ModalService} from '../../../../core/components/_modal/modal.service';
+import {ModalService} from '../../../../core/components/propose-cafe/_modal/modal.service';
 
 @Component({
   selector: 'app-dialog-photo',
   templateUrl: './dialog-photo.component.html',
-  styleUrls: ['./dialog-photo.component.css']
+  styleUrls: ['./dialog-photo.component.scss']
 })
 export class DialogPhotoComponent implements OnInit {
 

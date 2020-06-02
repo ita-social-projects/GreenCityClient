@@ -5,7 +5,7 @@ import {LanguageService} from '../../../../../../i18n/language.service';
 @Component({
   selector: 'app-add-new-habit-modal',
   templateUrl: './add-new-habit-modal.component.html',
-  styleUrls: ['./add-new-habit-modal.component.css']
+  styleUrls: ['./add-new-habit-modal.component.scss']
 })
 export class AddNewHabitModalComponent implements OnInit {
 

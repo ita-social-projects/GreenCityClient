@@ -4,7 +4,7 @@ import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-sta
 @Component({
   selector: 'app-habit-card',
   templateUrl: './habit-card.component.html',
-  styleUrls: ['./habit-card.component.css']
+  styleUrls: ['./habit-card.component.scss']
 })
 export class HabitCardComponent implements OnInit {
 

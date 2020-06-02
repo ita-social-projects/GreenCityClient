@@ -7,7 +7,7 @@ import { HabitDto } from 'src/app/model/habit/HabitDto';
 @Component({
   selector: 'app-already-chosen',
   templateUrl: './already-chosen.component.html',
-  styleUrls: ['./already-chosen.component.css']
+  styleUrls: ['./already-chosen.component.scss']
 })
 export class AlreadyChosenComponent implements OnInit {
 

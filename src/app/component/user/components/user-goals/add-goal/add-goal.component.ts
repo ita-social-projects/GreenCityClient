@@ -8,7 +8,7 @@ import {LanguageService} from '../../../../../i18n/language.service';
 @Component({
   selector: 'app-add-goal',
   templateUrl: './add-goal.component.html',
-  styleUrls: ['./add-goal.component.css']
+  styleUrls: ['./add-goal.component.scss']
 })
 export class AddGoalComponent implements OnInit {
   $trackedGoals: Observable<Goal[]>;

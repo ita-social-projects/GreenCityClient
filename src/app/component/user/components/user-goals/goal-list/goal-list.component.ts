@@ -5,7 +5,7 @@ import {LanguageService} from '../../../../../i18n/language.service';
 @Component({
   selector: 'app-goal-list',
   templateUrl: './goal-list.component.html',
-  styleUrls: ['./goal-list.component.css']
+  styleUrls: ['./goal-list.component.scss']
 })
 export class GoalListComponent implements OnInit {
   $goals: any;
