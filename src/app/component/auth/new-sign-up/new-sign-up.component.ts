@@ -10,7 +10,7 @@ import { GoogleSignInService } from '../../../service/auth/google-sign-in.servic
 import { UserOwnSignUp } from '../../../model/user-own-sign-up';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserSuccessSignIn } from '../../../model/user-success-sign-in';
-import { SubmitEmailComponent } from '../../user/auth/submit-email/submit-email.component';
+import { SubmitEmailComponent } from '../../user/components/auth/submit-email/submit-email.component';
 import { LocalStorageService } from '../../../service/localstorage/local-storage.service';
 
 @Component({

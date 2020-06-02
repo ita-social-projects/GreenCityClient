@@ -25,12 +25,12 @@ import {
   MatTreeModule
 } from '@angular/material';
 import { provideConfig } from './config/GoogleAuthConfig';
-import { RestoreComponent } from './component/user/restore/restore.component';
+import { RestoreComponent } from './component/user/components/restore/restore.component';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
-import { UserSettingComponent } from './component/user/user-setting/user-setting.component';
+import { UserSettingComponent } from './component/user/components/user-setting/user-setting.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { InterceptorService } from './service/interceptors/interceptor.service';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
@@ -42,7 +42,7 @@ import { HomeModule } from './component/home/home.module';
 import { UserModule } from './component/user/user.module';
 import { LayoutModule } from './component/layout/layout.module';
 import { AppRoutingModule } from './app-routing.module';
-import { CreateNewsCancelComponent } from './component/shared/create-news-cancel/create-news-cancel.component';
+import { CreateNewsCancelComponent } from './component/shared/components/create-news-cancel/create-news-cancel.component';
 
 @NgModule({
   declarations: [
