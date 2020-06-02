@@ -9,7 +9,6 @@ import {
 } from './components';
 import { AgmCoreModule } from '@agm/core';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { MatCheckboxModule, MatDialogModule  } from '@angular/material';
 import { SharedModule } from '../shared/shared.module';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
 
@@ -29,8 +28,7 @@ import { NgxPageScrollModule } from 'ngx-page-scroll';
             libraries: ['places', 'geometry']
           }),
         NgSelectModule,
-        MatCheckboxModule,
-        MatDialogModule,
+
         NgxPageScrollModule
     ],
   exports: [
@@ -43,9 +41,7 @@ import { NgxPageScrollModule } from 'ngx-page-scroll';
     FormsModule,
     ReactiveFormsModule,
     AgmCoreModule,
-    NgSelectModule,
-    MatCheckboxModule,
-    MatDialogModule,
+    NgSelectModule
   ],
     providers: []
 })

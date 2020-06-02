@@ -71,7 +71,7 @@ export class SignUpComponent implements OnInit {
 
   private receiveUserId(id): void {
     setTimeout(() => {
-      this.router.navigate([id, 'habits']);
+      this.router.navigate(['profile', id]);
       this.dialog.closeAll();
     }, 5000);
   }

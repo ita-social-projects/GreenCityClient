@@ -11,6 +11,8 @@ import {
   PhotoUploadComponent,
   CreateNewsCancelComponent
 } from './components';
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatCheckboxModule } from "@angular/material/checkbox";
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import {
     }),
     MDBBootstrapModule,
     FileUploadModule,
-    MatCardModule
+    MatCardModule,
+    MatDialogModule,
+    MatCheckboxModule
 
   ],
   exports: [
@@ -41,7 +45,9 @@ import {
     ReactiveFormsModule,
     MDBBootstrapModule,
     FileUploadModule,
-    MatCardModule
+    MatCardModule,
+    MatDialogModule,
+    MatCheckboxModule
   ],
   providers: [
 

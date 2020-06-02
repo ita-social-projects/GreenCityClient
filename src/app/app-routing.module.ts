@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
-import { AuthPageGuardService } from './service/route-guards/auth-page-guard.service';
 import { HomepageComponent } from './component/home/components/homepage/homepage.component';
-import { ProfileComponent } from './component/user/components/profile/profile.component';
 import { SearchAllResultsComponent } from './component/layout/components/search-all-results/search-all-results.component';
 
 export const routes: Routes = [
@@ -19,13 +17,12 @@ export const routes: Routes = [
     loadChildren: () => import('./component/eco-news/eco-news.module').then(mod => mod.EcoNewsModule)
   },
   {
-    path: 'welcome',
-    component: HomepageComponent,
+    path: 'profile',
+    loadChildren: () => import('./component/user/user.module').then(mod => mod.UserModule)
   },
   {
-    path: ':id/profile',
-    component: ProfileComponent,
-    canActivate: [AuthPageGuardService],
+    path: 'welcome',
+    component: HomepageComponent,
   },
   {
     path: 'search',
