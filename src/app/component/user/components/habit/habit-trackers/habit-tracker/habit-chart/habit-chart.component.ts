@@ -8,7 +8,7 @@ import 'chartjs-plugin-labels';
 @Component({
   selector: 'app-habit-chart',
   templateUrl: './habit-chart.component.html',
-  styleUrls: ['./habit-chart.component.css']
+  styleUrls: ['./habit-chart.component.scss']
 })
 export class HabitChartComponent implements OnInit, OnChanges {
   @Input() caption: string;

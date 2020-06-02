@@ -5,7 +5,7 @@ import {LanguageService} from '../../../../../i18n/language.service';
 @Component({
   selector: 'app-add-goal-button',
   templateUrl: './add-goal-button.component.html',
-  styleUrls: ['./add-goal-button.component.css']
+  styleUrls: ['./add-goal-button.component.scss']
 })
 export class AddGoalButtonComponent implements OnInit {
   constructor(private service: UserService, private languageService: LanguageService) {

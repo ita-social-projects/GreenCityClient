@@ -9,7 +9,7 @@ import { HabitItem } from '../habit-item/HabitItem';
 @Component({
   selector: 'app-habit-item-list',
   templateUrl: './habit-item-list.component.html',
-  styleUrls: ['./habit-item-list.component.css']
+  styleUrls: ['./habit-item-list.component.scss']
 })
 export class HabitItemListComponent implements OnInit {
   habitItems: HabitItem[] = [];

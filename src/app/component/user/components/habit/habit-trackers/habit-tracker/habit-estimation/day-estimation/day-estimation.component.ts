@@ -8,7 +8,7 @@ import {filter, map} from 'rxjs/operators';
 @Component({
   selector: 'app-day-estimation',
   templateUrl: './day-estimation.component.html',
-  styleUrls: ['./day-estimation.component.css']
+  styleUrls: ['./day-estimation.component.scss']
 })
 export class DayEstimationComponent implements OnInit {
   @Input()

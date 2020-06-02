@@ -8,7 +8,7 @@ import { catchError } from 'rxjs/operators';
 @Component({
   selector: 'app-eco-events',
   templateUrl: './eco-events.component.html',
-  styleUrls: ['./eco-events.component.css']
+  styleUrls: ['./eco-events.component.scss']
 })
 export class EcoEventsComponent implements OnInit {
   readonly eventImg = 'assets/img/main-event-placeholder.png';

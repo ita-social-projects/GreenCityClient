@@ -4,7 +4,7 @@ import {HabitStatisticService} from 'src/app/service/habit-statistic/habit-stati
 @Component({
   selector: 'app-user-log',
   templateUrl: './user-log.component.html',
-  styleUrls: ['./user-log.component.css'],
+  styleUrls: ['./user-log.component.scss'],
 })
 export class UserLogComponent implements OnInit {
 

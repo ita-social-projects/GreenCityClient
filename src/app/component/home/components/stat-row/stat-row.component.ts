@@ -3,7 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 @Component({
   selector: 'app-stat-row',
   templateUrl: './stat-row.component.html',
-  styleUrls: ['./stat-row.component.css']
+  styleUrls: ['./stat-row.component.scss']
 })
 export class StatRowComponent implements OnInit {
 

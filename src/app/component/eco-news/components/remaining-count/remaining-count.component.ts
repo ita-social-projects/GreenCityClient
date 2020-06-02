@@ -3,7 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 @Component({
   selector: 'app-remaining-count',
   templateUrl: './remaining-count.component.html',
-  styleUrls: ['./remaining-count.component.css']
+  styleUrls: ['./remaining-count.component.scss']
 })
 export class RemainingCountComponent implements OnInit {
   @Input() private remainingCount = 0;

@@ -5,7 +5,7 @@ import { UiActionsService } from 'src/app/service/ui-actions/ui-actions.service'
 @Component({
   selector: 'app-new-achievement-modal',
   templateUrl: './new-achievement-modal.component.html',
-  styleUrls: ['./new-achievement-modal.component.css']
+  styleUrls: ['./new-achievement-modal.component.scss']
 })
 export class NewAchievementModalComponent implements OnInit {
 

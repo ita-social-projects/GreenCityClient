@@ -10,7 +10,7 @@ import {CategoryDto} from "../../../../model/category.model";
 import {PlaceWithUserModel} from "../../../../model/placeWithUser.model";
 import {NgForm} from "@angular/forms";
 import {NgSelectComponent} from "@ng-select/ng-select";
-import {ModalService} from "../../../core/components/_modal/modal.service";
+import {ModalService} from "../../../core/components/propose-cafe/_modal/modal.service";
 import {PlaceService} from "../../../../service/place/place.service";
 import {CategoryService} from "../../../../service/category.service";
 import {SpecificationService} from "../../../../service/specification.service";
@@ -22,7 +22,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 @Component({
   selector: 'app-update-cafe',
   templateUrl: './update-cafe.component.html',
-  styleUrls: ['./update-cafe.component.css']
+  styleUrls: ['./update-cafe.component.scss']
 })
 export class UpdateCafeComponent implements OnInit {
   name: any;

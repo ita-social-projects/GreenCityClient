@@ -8,7 +8,7 @@ import {LanguageService} from '../../../../../../i18n/language.service';
 @Component({
   selector: 'app-available-to-choose',
   templateUrl: './available-to-choose.component.html',
-  styleUrls: ['./available-to-choose.component.css']
+  styleUrls: ['./available-to-choose.component.scss']
 })
 export class AvailableToChooseComponent implements OnInit {
 

@@ -5,7 +5,7 @@ import { UserService } from '../../../../service/user/user.service';
 @Component({
   selector: 'app-stat-rows',
   templateUrl: './stat-rows.component.html',
-  styleUrls: ['./stat-rows.component.css']
+  styleUrls: ['./stat-rows.component.scss']
 })
 export class StatRowsComponent implements OnInit {
 

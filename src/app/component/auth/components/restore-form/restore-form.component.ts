@@ -6,7 +6,7 @@ import { ChangePasswordService } from '../../../../service/auth/change-password.
 @Component({
   selector: 'app-restore-form',
   templateUrl: './restore-form.component.html',
-  styleUrls: ['./restore-form.component.css']
+  styleUrls: ['./restore-form.component.scss']
 })
 export class RestoreFormComponent implements OnInit, OnDestroy {
   passwordErrorMessageBackEnd: string;

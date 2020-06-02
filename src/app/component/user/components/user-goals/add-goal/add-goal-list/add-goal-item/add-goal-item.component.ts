@@ -5,7 +5,7 @@ import {GoalType} from '../GoalType';
 @Component({
   selector: 'app-add-goal-item',
   templateUrl: './add-goal-item.component.html',
-  styleUrls: ['./add-goal-item.component.css']
+  styleUrls: ['./add-goal-item.component.scss']
 })
 export class AddGoalItemComponent implements OnInit {
   @Input()

@@ -7,7 +7,7 @@ import { AchievementDto } from 'src/app/model/achievement/AchievementDto';
 @Component({
   selector: 'app-user-habit-page',
   templateUrl: './user-habit-page.component.html',
-  styleUrls: ['./user-habit-page.component.css']
+  styleUrls: ['./user-habit-page.component.scss']
 })
 export class UserHabitPageComponent implements OnInit {
 

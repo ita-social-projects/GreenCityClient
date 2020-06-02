@@ -9,7 +9,7 @@ import { CreateNewsCancelComponent } from '../../../shared/components/create-new
 @Component({
   selector: 'app-create-news',
   templateUrl: './create-news.component.html',
-  styleUrls: ['./create-news.component.css']
+  styleUrls: ['./create-news.component.scss']
 })
 export class CreateNewsComponent implements OnInit {
   public isPosting: boolean = false;

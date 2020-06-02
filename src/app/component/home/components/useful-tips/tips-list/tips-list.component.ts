@@ -5,7 +5,7 @@ import { SwiperDirective, SwiperComponent, SwiperScrollbarInterface, SwiperPagin
 @Component({
   selector: 'app-tips-list',
   templateUrl: './tips-list.component.html',
-  styleUrls: ['./tips-list.component.css']
+  styleUrls: ['./tips-list.component.scss']
 })
 export class TipsListComponent implements OnInit {
   tips = [

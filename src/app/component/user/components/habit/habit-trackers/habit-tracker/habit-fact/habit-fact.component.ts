@@ -8,7 +8,7 @@ import {LanguageService} from '../../../../../../../i18n/language.service';
 @Component({
   selector: 'app-habit-fact',
   templateUrl: './habit-fact.component.html',
-  styleUrls: ['./habit-fact.component.css']
+  styleUrls: ['./habit-fact.component.scss']
 })
 export class HabitFactComponent implements OnInit {
 
