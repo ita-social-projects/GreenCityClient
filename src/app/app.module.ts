@@ -25,7 +25,7 @@ import {
   MatTreeModule
 } from '@angular/material';
 import { provideConfig } from './config/GoogleAuthConfig';
-import { RestoreComponent } from './component/user/components/restore/restore.component';
+import { RestoreComponent } from './component/auth/components/restore/restore.component';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireModule } from '@angular/fire';

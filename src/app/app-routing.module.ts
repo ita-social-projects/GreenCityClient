@@ -1,9 +1,4 @@
 import { NgModule } from '@angular/core';
-import { SignUpComponent } from './component/user/components/auth/sign-up/sign-up.component';
-import { AuthComponent } from './component/user/components/auth/auth.component';
-import { SignInComponent } from './component/user/components/auth/sign-in/sign-in.component';
-import { SubmitEmailComponent } from './component/user/components/auth/submit-email/submit-email.component';
-import { RestoreFormComponent } from './component/user/components/restore-form/restore-form.component';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { AuthPageGuardService } from './service/route-guards/auth-page-guard.service';
 import { HomepageComponent } from './component/home/components/homepage/homepage.component';
@@ -26,16 +21,6 @@ export const routes: Routes = [
   {
     path: 'welcome',
     component: HomepageComponent,
-  },
-  {
-    path: 'auth',
-    component: AuthComponent,
-    children: [
-      { path: '', component: SignInComponent },
-      { path: 'sign-up', component: SignUpComponent },
-      { path: 'submit-email', component: SubmitEmailComponent },
-      { path: 'restore/:token', component: RestoreFormComponent },
-    ],
   },
   {
     path: ':id/profile',
