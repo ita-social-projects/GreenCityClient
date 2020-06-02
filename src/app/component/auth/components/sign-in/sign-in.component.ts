@@ -1,25 +1,25 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
-import { GoogleSignInService } from '../../../service/auth/google-sign-in.service';
-import { UserSuccessSignIn } from '../../../model/user-success-sign-in';
+import { GoogleSignInService } from '../../../../service/auth/google-sign-in.service';
+import { UserSuccessSignIn } from '../../../../model/user-success-sign-in';
 import { HttpErrorResponse } from '@angular/common/http';
-import { UserOwnSignInService } from '../../../service/auth/user-own-sign-in.service';
+import { UserOwnSignInService } from '../../../../service/auth/user-own-sign-in.service';
 import { Router } from '@angular/router';
 import { SignInIcons } from 'src/assets/img/icon/sign-in/sign-in-icons';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { UserOwnSignIn } from '../../../model/user-own-sign-in';
-import { LocalStorageService } from '../../../service/localstorage/local-storage.service';
-import { NewSignUpComponent } from '../new-sign-up/new-sign-up.component';
+import { UserOwnSignIn } from '../../../../model/user-own-sign-in';
+import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
 import { Subscription } from 'rxjs';
 import { RestorePasswordComponent } from '../restore-password/restore-password.component';
-import { UserOwnAuthService } from '../../../service/auth/user-own-auth.service';
+import { UserOwnAuthService } from '../../../../service/auth/user-own-auth.service';
+import { SignUpComponent } from '../sign-up/sign-up.component';
 
 @Component({
-  selector: 'app-sign-in-new',
-  templateUrl: './sign-in-new.component.html',
-  styleUrls: ['./sign-in-new.component.scss']
+  selector: 'app-sign-in',
+  templateUrl: './sign-in.component.html',
+  styleUrls: ['./sign-in.component.scss']
 })
-export class SignInNewComponent implements OnInit, OnDestroy {
+export class SignInComponent implements OnInit, OnDestroy {
   private closeBtn = SignInIcons;
   private mainSignInImage = SignInIcons;
   private googleImage = SignInIcons;
@@ -33,7 +33,7 @@ export class SignInNewComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialog: MatDialog,
-    private matDialogRef: MatDialogRef<SignInNewComponent>,
+    private matDialogRef: MatDialogRef<SignInComponent>,
     private userOwnSignInService: UserOwnSignInService,
     private router: Router,
     private authService: AuthService,
@@ -144,7 +144,7 @@ export class SignInNewComponent implements OnInit, OnDestroy {
 
   private signUpOpenWindow(): void {
     this.matDialogRef.close();
-    this.dialog.open(NewSignUpComponent, {
+    this.dialog.open(SignUpComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
       panelClass: 'custom-dialog-container',

@@ -1,18 +1,18 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { SignInNewComponent } from '../sign-in-new/sign-in-new.component';
 import { SignInIcons } from 'src/assets/img/icon/sign-in/sign-in-icons';
 import {catchError, take} from 'rxjs/operators';
 import {AuthService, GoogleLoginProvider} from 'angularx-social-login';
-import {UserSuccessSignIn} from '../../../model/user-success-sign-in';
+import {UserSuccessSignIn} from '../../../../model/user-success-sign-in';
 import {HttpErrorResponse} from '@angular/common/http';
-import {GoogleSignInService} from '../../../service/auth/google-sign-in.service';
-import {UserOwnSignInService} from '../../../service/auth/user-own-sign-in.service';
+import {GoogleSignInService} from '../../../../service/auth/google-sign-in.service';
+import {UserOwnSignInService} from '../../../../service/auth/user-own-sign-in.service';
 import {Router} from '@angular/router';
-import {RestorePasswordService} from '../../../service/auth/restore-password.service';
-import {UserOwnSignIn} from '../../../model/user-own-sign-in';
+import {RestorePasswordService} from '../../../../service/auth/restore-password.service';
+import {UserOwnSignIn} from '../../../../model/user-own-sign-in';
 import {Subscription} from 'rxjs';
-import {LocalStorageService} from '../../../service/localstorage/local-storage.service';
+import {LocalStorageService} from '../../../../service/localstorage/local-storage.service';
+import {SignInComponent} from '../sign-in/sign-in.component';
 
 @Component({
   selector: 'app-restore-password',
@@ -32,7 +32,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
 
 
   constructor(
-    private matDialogRef: MatDialogRef<SignInNewComponent>,
+    private matDialogRef: MatDialogRef<SignInComponent>,
     public dialog: MatDialog,
     private authService: AuthService,
     private googleService: GoogleSignInService,
@@ -53,7 +53,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   }
 
   private onBackToSignIn(): void {
-    this.dialog.open(SignInNewComponent, {
+    this.dialog.open(SignInComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
       panelClass: 'custom-dialog-container',
