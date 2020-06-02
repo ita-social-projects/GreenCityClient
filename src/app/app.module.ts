@@ -30,7 +30,6 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
-import { UserSettingComponent } from './component/user/components/user-setting/user-setting.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { InterceptorService } from './service/interceptors/interceptor.service';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
@@ -39,7 +38,6 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CoreModule } from './component/core/core.module';
 import { AuthModule } from './component/auth/auth.module';
 import { HomeModule } from './component/home/home.module';
-import { UserModule } from './component/user/user.module';
 import { LayoutModule } from './component/layout/layout.module';
 import { AppRoutingModule } from './app-routing.module';
 import { CreateNewsCancelComponent } from './component/shared/components/create-news-cancel/create-news-cancel.component';
@@ -74,13 +72,11 @@ import { CreateNewsCancelComponent } from './component/shared/components/create-
     AngularFireStorageModule,
     MatSelectModule,
     MatRadioModule,
-    DragDropModule,
-    UserModule,
+    DragDropModule
   ],
   entryComponents: [
     ProposeCafeComponent,
     RestoreComponent,
-    UserSettingComponent,
     CreateNewsCancelComponent
   ],
   providers: [

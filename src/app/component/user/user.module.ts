@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CoreModule } from '../core/core.module';
 import {
   AddNewHabitModalComponent,
   AlreadyChosenComponent,
@@ -57,6 +56,10 @@ import { AlphabeticalPipePipe } from '../../pipe/alphabetical-pipe/alphabetical-
 import { MatButtonModule, MatRadioModule } from '@angular/material';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { SharedModule } from '../shared/shared.module';
+import { UserRoutingModule } from './user-routing.module';
+import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
+import { HttpClient } from "@angular/common/http";
+import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 
 @NgModule({
   declarations: [
@@ -113,13 +116,25 @@ import { SharedModule } from '../shared/shared.module';
     CalendarComponent
   ],
   imports: [
+    UserRoutingModule,
     CommonModule,
-    CoreModule,
     SharedModule,
     MatButtonModule,
     MatRadioModule,
     DragDropModule,
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      },
+      isolate: true
+    })
   ],
-  providers: [],
+  providers: []
 })
 export class UserModule {}
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
