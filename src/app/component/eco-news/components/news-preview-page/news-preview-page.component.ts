@@ -16,6 +16,9 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
   private images = singleNewsImages;
   private previewItem: FormGroup;
   private actualDate = new Date();
+  year: number = new Date().getFullYear();
+  day: number = new Date().getDay();
+  month: number = new Date().getMonth();
   private userName: string;
   private userNameSub: Subscription;
 
