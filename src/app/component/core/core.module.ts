@@ -3,8 +3,10 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ProposeCafeComponent } from './propose-cafe/propose-cafe.component';
-import { ModalComponent } from './_modal/modal.component';
+import {
+  ModalComponent,
+  ProposeCafeComponent
+} from './components';
 import { AgmCoreModule } from '@agm/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MatCheckboxModule, MatDialogModule  } from '@angular/material';

@@ -6,7 +6,7 @@ import {
   HTTP_INTERCEPTORS,
   HttpClientModule
 } from '@angular/common/http';
-import { ProposeCafeComponent } from './component/core/propose-cafe/propose-cafe.component';
+import { ProposeCafeComponent } from './component/core/components/propose-cafe/propose-cafe.component';
 import { AdminModule } from './component/admin/admin.module';
 import { NgFlashMessagesModule } from 'ng-flash-messages';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
