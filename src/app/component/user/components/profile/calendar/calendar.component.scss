@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
+
+.calendar {
+  width: 261px;
+  height: 244px;
+  background: #F5F6F6;
+  border-radius: 4px;
+
+  .top {
+    .month-year {
+      display: flex;
+      justify-content: space-between;
+      text-align: center;
+
+      .arrow-previous {
+        margin-top: 22px;
+        margin-left: 18px;
+        margin-bottom: 16px;
+      }
+
+      .monthAndYear {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        font-size: 13px;
+        color: #494A49;
+        margin-top: 16px;
+        margin-bottom: 12px;
+      }
+
+      .arrow-next {
+        margin-top: 22px;
+        margin-right: 18px;
+        margin-bottom: 16px;
+      }
+    }
+
+    .days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+
+      .days-name {
+        margin: 0;
+        //padding-right: 4px;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        font-size: 13px;
+        line-height: 16px;
+        color: #BEBEBE;
+      }
+
+      .current-week {
+        color: #13AA57;;
+      }
+    }
+  }
+
+  .middle {
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-template-rows: repeat(6, 32px);
+      margin-top: 8px;
+      margin-bottom: 24px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      line-height: 16px;
+      color: #494A49;
+      text-align: center;
+
+      .calendar-grid-day {
+        padding-top: 8px;
+      }
+
+      .current-day {
+        border-radius: 50%;
+        background: #13AA57;
+        color: #FFFFFF;
+      }
+    }
+  }
+}

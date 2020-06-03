@@ -1,15 +1,7 @@
 import { NgModule } from '@angular/core';
-import { SignUpComponent } from './component/user/auth/sign-up/sign-up.component';
-import { AuthComponent } from './component/user/auth/auth.component';
-import { SignInComponent } from './component/user/auth/sign-in/sign-in.component';
-import { SubmitEmailComponent } from './component/user/auth/submit-email/submit-email.component';
-import { RestoreFormComponent } from './component/user/restore-form/restore-form.component';
-import { UserHabitPageComponent } from './component/user/habit/user-habit-page/user-habit-page.component';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
-import { AuthPageGuardService } from './service/route-guards/auth-page-guard.service';
-import { HomepageComponent } from './component/home/homepage/homepage.component';
-import { ProfileComponent } from './component/user/profile/profile.component';
-import { SearchAllResultsComponent } from "./component/layout/components/search-all-results/search-all-results.component";
+import { HomepageComponent } from './component/home/components/homepage/homepage.component';
+import { SearchAllResultsComponent } from './component/layout/components/search-all-results/search-all-results.component';
 
 export const routes: Routes = [
   {
@@ -25,23 +17,12 @@ export const routes: Routes = [
     loadChildren: () => import('./component/eco-news/eco-news.module').then(mod => mod.EcoNewsModule)
   },
   {
+    path: 'profile',
+    loadChildren: () => import('./component/user/user.module').then(mod => mod.UserModule)
+  },
+  {
     path: 'welcome',
     component: HomepageComponent,
-  },
-  {
-    path: 'auth',
-    component: AuthComponent,
-    children: [
-      { path: '', component: SignInComponent },
-      { path: 'sign-up', component: SignUpComponent },
-      { path: 'submit-email', component: SubmitEmailComponent },
-      { path: 'restore/:token', component: RestoreFormComponent },
-    ],
-  },
-  {
-    path: ':id/profile',
-    component: ProfileComponent,
-    canActivate: [AuthPageGuardService],
   },
   {
     path: 'search',

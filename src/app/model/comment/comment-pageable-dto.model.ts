@@ -1,4 +1,4 @@
-import {CommentAdminDto} from './comment-admin-dto.model';
+import {CommentAdminDto} from '../../component/admin/models/comment-admin-dto.model';
 
 export class CommentPageableDtoModel {
   page: CommentAdminDto[];

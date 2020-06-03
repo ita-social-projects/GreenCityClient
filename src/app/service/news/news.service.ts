@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {NewsDto} from './NewsDto';
+import {NewsDto} from '../../component/home/models/NewsDto';
 import {catchError} from 'rxjs/operators';
 import {of, BehaviorSubject} from 'rxjs';
 import {latestNewsLink} from 'src/app/links';
