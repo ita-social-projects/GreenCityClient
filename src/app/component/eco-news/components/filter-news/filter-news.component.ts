@@ -7,7 +7,7 @@ import { FilterModel } from '../../models/filter.model';
 @Component({
   selector: 'app-filter-news',
   templateUrl: './filter-news.component.html',
-  styleUrls: ['./filter-news.component.css']
+  styleUrls: ['./filter-news.component.scss']
 })
 
 export class FilterNewsComponent implements OnInit {

@@ -105,7 +105,7 @@ export class InterceptorService implements HttpInterceptor {
     this.isRefreshing = false;
     if (error.status === BAD_REQUEST) {
       this.localStorageService.clear();
-      this.router.navigate(['/auth']).then(r => r);
+      this.router.navigate(['/welcome']).then(r => r);
       return of<HttpEvent<any>>();
     }
     return throwError(error);
@@ -141,7 +141,7 @@ export class InterceptorService implements HttpInterceptor {
    */
   private handle403Error(req: HttpRequest<any>): Observable<HttpEvent<any>> {
     console.log(`You don't have authorities to access ${req.url}`);
-    this.router.navigate(['/auth']).then(r => r);
+    this.router.navigate(['/welcome']).then(r => r);
     return of<HttpEvent<any>>();
   }
 
