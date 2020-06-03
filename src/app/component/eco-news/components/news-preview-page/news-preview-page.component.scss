@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
+$title-font: 'Montserrat';
+$main-font: 'Open Sans';
+
 .container {
   margin: 0 auto;
 }
@@ -19,7 +25,7 @@
 .publish,
 .back-button,
 .tags-item {
-  font-family: 'Open Sans';
+  font-family: $main-font;
 }
 
 .top-elements {
@@ -49,7 +55,7 @@
 }
 
 .create-news-text {
-  font-family: 'Montserrat';
+  font-family: $title-font;
   font-weight: 500;
   font-size: 3rem;
   line-height: 48px;
@@ -90,7 +96,7 @@
   font-weight: 500;
   font-size: 3rem;
   line-height: 60px;
-  font-family: 'Montserrat';
+  font-family: $title-font;
 }
 
 .news-info {
@@ -127,7 +133,7 @@
 }
 
 .news-text {
-  margin-left: 74px;
+  margin-left: 74px;;
   color: #000000;
   padding: 48px 0 0;
   text-align: left;
@@ -135,4 +141,26 @@
 
 .news-text-content {
   width: 750px;
+}
+
+.source-field {
+  margin-top: 32px;
+  display: flex;
+}
+
+.source-title {
+  font-family: $main-font;
+  font-size: 24px;
+  line-height: 40px;
+  color: #494A49;
+  mix-blend-mode: normal;
+  margin-right: 8px;
+}
+
+.source-text {
+  font-family: $main-font;
+  font-size: 18px;
+  line-height: 32px;
+  color: #000000;
+  margin-top: 6px;
 }
