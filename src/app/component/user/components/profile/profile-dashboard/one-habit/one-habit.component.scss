@@ -148,6 +148,20 @@ $screen-320: " screen and (max-width : 320px)";
 
     .title {
       max-width: 174px;
+      font-size: 16px;
+      line-height: 20px;
     }
+  }
+
+  .man {
+    background: $bg-color url("../../../../../../../assets/img/runMan_320px.png") no-repeat right;
+  }
+
+  .man-with-cup {
+    background: $bg-color url("../../../../../../../assets/img/manWithCup320px.png") no-repeat right;
+  }
+
+  .girl {
+    background: $bg-color url("../../../../../../../assets/img/girl_320px.png") no-repeat right;
   }
 }
