@@ -10,9 +10,9 @@ import {NgFlashMessageService} from 'ng-flash-messages';
 import {PlaceAddDto} from '../../model/placeAddDto.model';
 import {FilterPlaceService} from '../filtering/filter-place.service';
 import {FilterPlaceDtoModel} from '../../model/filtering/filter-place-dto.model';
-import {AdminPlace} from '../../component/admin/models/admin-place.model';
+import {AdminPlace} from '../../model/place/admin-place.model';
 import {BulkUpdatePlaceStatus} from '../../model/place/bulk-update-place-status.model';
-import {PlaceUpdatedDto} from '../../component/admin/models/placeUpdatedDto.model';
+import {PlaceUpdatedDto} from '../../model/place/placeUpdatedDto.model';
 
 @Injectable({
   providedIn: 'root'

@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin.component';
-import { PlacesComponent } from './components/places/places.component';
-import { UsersComponent } from './components/users/users.component';
-import { FeedbacksComponent } from './components/feedbacks/feedbacks.component';
+import { PlacesComponent } from './places/places.component';
+import { UsersComponent } from './users/users.component';
+import { FeedbacksComponent } from './feedbacks/feedbacks.component';
 
 const adminRoutes: Routes = [
   {

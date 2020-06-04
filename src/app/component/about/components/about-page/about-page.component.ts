@@ -35,7 +35,7 @@ export class AboutPageComponent implements OnInit, OnDestroy {
   }
 
   private navigateToHabit(): void {
-    this.router.navigate(['profile', this.userId]);
+    this.router.navigate([this.userId, 'habits']);
   }
 
   ngOnDestroy(): void {

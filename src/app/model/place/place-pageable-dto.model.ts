@@ -1,4 +1,4 @@
-import {AdminPlace} from "../../component/admin/models/admin-place.model";
+import {AdminPlace} from "./admin-place.model";
 
 export class PlacePageableDto {
   page: AdminPlace[];

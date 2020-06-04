@@ -4,13 +4,13 @@ import { CreateEcoNewsService } from '../../services/create-eco-news.service';
 import { NewsResponseDTO } from '../../models/create-news-interface';
 import { Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
-import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
-import { Subscription } from 'rxjs';
+import { LocalStorageService } from "../../../../service/localstorage/local-storage.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: 'app-news-preview-page',
   templateUrl: './news-preview-page.component.html',
-  styleUrls: ['./news-preview-page.component.scss']
+  styleUrls: ['./news-preview-page.component.css']
 })
 export class NewsPreviewPageComponent implements OnInit, OnDestroy {
   private images = singleNewsImages;

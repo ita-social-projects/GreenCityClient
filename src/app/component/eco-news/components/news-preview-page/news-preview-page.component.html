@@ -10,9 +10,7 @@
                  class="button-arrow-img"
             >
           </div>
-          <div class="button-text">
-            {{"news.preview.back" | translate}}
-          </div>
+          <div class="button-text">Back to editing</div>
         </div>
       </a>
     </div>
@@ -21,12 +19,10 @@
             class="primary-global-button"
             (click)="postNewsItem()"
     >
-      {{"news.preview.publish" | translate}}
+      Publish
     </button>
   </div>
-  <div class="create-news-text">
-    {{"news.preview.title" | translate }}
-  </div>
+  <div class="create-news-text">Create news</div>
   <div class="tags">
     <div class="tags-item"
          *ngFor="let tag of previewItem.value.tags"
@@ -42,9 +38,7 @@
     </div>
     <div class="news-info">
       <div class="news-info-date">
-        {{day}}
-        {{'news.months.' + month | translate }}
-        {{year}}
+        {{ actualDate | date: "mediumDate" }}
       </div>
       <div class="news-info-dot">
         <img [src]="images.ellipse"
@@ -52,8 +46,7 @@
         >
       </div>
       <div class="news-info-author">
-        {{"news.preview.by" | translate}}
-        {{ userName }}
+        by {{ userName }}
       </div>
     </div>
     <div class="news-image">

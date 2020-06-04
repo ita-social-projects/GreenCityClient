@@ -3,8 +3,8 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTr
 import { Observable, of } from 'rxjs';
 import { LocalStorageService } from '../localstorage/local-storage.service';
 import { MatDialog } from '@angular/material';
+import { SignInNewComponent } from '../../component/auth/sign-in-new/sign-in-new.component';
 import { filter } from 'rxjs/operators';
-import { SignInComponent } from '../../component/auth/components/sign-in/sign-in.component';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +33,7 @@ export class AuthPageGuardService implements CanActivate {
   }
 
   private openSingInWindow(): void {
-    this.dialog.open(SignInComponent, {
+    this.dialog.open(SignInNewComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
       panelClass: 'custom-dialog-container',

@@ -56,7 +56,7 @@
                           </a>
                         </li>
                         <li>
-                          <a [routerLink]="['profile', getUserId()]"
+                          <a [routerLink]="[getUserId(), 'profile']"
                              routerLinkActive="active-link"
                              routerLinkActiveOptions="{exact:true}">
                             {{ 'user.lower-nav-bar.my-habits' | translate }}

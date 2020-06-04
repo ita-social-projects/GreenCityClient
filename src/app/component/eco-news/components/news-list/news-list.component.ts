@@ -7,7 +7,7 @@ import { UserOwnAuthService } from '../../../../service/auth/user-own-auth.servi
 @Component({
   selector: 'app-news-list',
   templateUrl: './news-list.component.html',
-  styleUrls: ['./news-list.component.scss']
+  styleUrls: ['./news-list.component.css']
 })
 export class NewsListComponent implements OnInit, OnDestroy {
   private view: boolean;
@@ -31,7 +31,11 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
   private checkUserSingIn(): void {
     this.userOwnAuthService.credentialDataSubject
-      .subscribe((data) => this.isLoggedIn = data && data.userId);
+      .subscribe((data) => {
+        if (data && data.firstSignIn) {
+          this.isLoggedIn = data.firstSignIn;
+        }
+      });
   }
 
   private fetchAllEcoNews(): void {

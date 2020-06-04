@@ -1,9 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ModalService } from '../../../core/components/propose-cafe/_modal/modal.service';
+import { ModalService } from '../../../core/_modal/modal.service';
 import { MatDialog } from '@angular/material';
 import { FavoritePlaceComponent } from '../../../map/components/favorite-place/favorite-place.component';
 import { FavoritePlaceService } from '../../../../service/favorite-place/favorite-place.service';
-import { UserSettingComponent } from '../../../user/components/user-setting/user-setting.component';
+import { UserSettingComponent } from '../../../user/user-setting/user-setting.component';
 import {NavigationStart, Router} from '@angular/router';
 import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
 import { JwtService } from '../../../../service/jwt/jwt.service';
@@ -14,9 +14,9 @@ import { filter } from 'rxjs/operators';
 import { LanguageService } from '../../../../i18n/language.service';
 import { Language } from '../../../../i18n/Language';
 import { SearchService } from '../../../../service/search/search.service';
+import { SignInNewComponent } from '../../../auth/sign-in-new/sign-in-new.component';
+import { NewSignUpComponent } from '../../../auth/new-sign-up/new-sign-up.component';
 import { UserOwnAuthService } from '../../../../service/auth/user-own-auth.service';
-import { SignInComponent } from '../../../auth/components/sign-in/sign-in.component';
-import { SignUpComponent } from '../../../auth/components/sign-up/sign-up.component';
 
 @Component({
   selector: 'app-header',
@@ -113,7 +113,7 @@ export class HeaderComponent implements OnInit {
   }
 
   private openSingInWindow(): void {
-    this.dialog.open(SignInComponent, {
+    this.dialog.open(SignInNewComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
       panelClass: 'custom-dialog-container',
@@ -121,7 +121,7 @@ export class HeaderComponent implements OnInit {
   }
 
   private openSignUpWindow(): void {
-    this.dialog.open(SignUpComponent, {
+    this.dialog.open(NewSignUpComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
       panelClass: 'custom-dialog-container',

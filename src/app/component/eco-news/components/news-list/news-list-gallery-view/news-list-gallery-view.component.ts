@@ -5,7 +5,7 @@ import { ecoNewsIcons } from 'src/assets/img/icon/econews/profile-icons';
 @Component({
   selector: 'app-news-list-gallery-view',
   templateUrl: './news-list-gallery-view.component.html',
-  styleUrls: ['./news-list-gallery-view.component.scss'],
+  styleUrls: ['./news-list-gallery-view.component.css'],
   changeDetection: 0
 })
 export class NewsListGalleryViewComponent implements OnInit {

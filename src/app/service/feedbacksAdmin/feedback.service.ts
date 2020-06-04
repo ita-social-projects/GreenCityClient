@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {mainLink, placeLink} from '../../links';
 import {CommentPageableDtoModel} from '../../model/comment/comment-pageable-dto.model';
-import {CommentAdminDto} from '../../component/admin/models/comment-admin-dto.model';
+import {CommentAdminDto} from '../../model/comment/comment-admin-dto.model';
 import {timeout} from 'rxjs/operators';
 
 @Injectable({
