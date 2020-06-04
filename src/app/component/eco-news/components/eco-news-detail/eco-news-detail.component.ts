@@ -8,7 +8,7 @@ import { singleNewsImages } from '../../../../../assets/img/icon/econews/single-
 @Component({
   selector: 'app-eco-news-detail',
   templateUrl: './eco-news-detail.component.html',
-  styleUrls: ['./eco-news-detail.component.css']
+  styleUrls: ['./eco-news-detail.component.scss']
 })
 export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   private newsIdSubscription: Subscription;

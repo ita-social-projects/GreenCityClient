@@ -9,7 +9,7 @@ import {Estimate} from '../../../../model/estimate/estimate';
 @Component({
   selector: 'app-add-comment',
   templateUrl: './add-comment.component.html',
-  styleUrls: ['./add-comment.component.css']
+  styleUrls: ['./add-comment.component.scss']
 })
 export class AddCommentComponent implements OnInit {
   comment: Comment = new Comment();
