@@ -74,6 +74,16 @@
         <div class="news-text-content word-wrap">
           {{ previewItem.value.content }}
         </div>
+        <div class="source-field"
+             *ngIf="previewItem.value.source"
+        >
+          <div class="source-title">
+            Source:
+          </div>
+          <div class="source-text word-wrap">
+            {{ previewItem.value.source }}
+          </div>
+        </div>
       </div>
     </div>
   </div>
