@@ -48,6 +48,11 @@ div {
         margin: 0 16px 0 0;
         text-transform: capitalize;
       }
+
+      .word-wrap {
+        word-break: break-word;
+      }
+
     }
 
     .title-list {
