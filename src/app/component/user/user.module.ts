@@ -60,6 +60,9 @@ import { UserRoutingModule } from './user-routing.module';
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { HttpClient } from "@angular/common/http";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { EffectsModule } from '@ngrx/effects';
+import { UserEffects } from './store/user.effects';
+import { UserSelectors } from './store/user.selectors';
 
 @NgModule({
   declarations: [
@@ -116,6 +119,7 @@ import { TranslateHttpLoader } from "@ngx-translate/http-loader";
     CalendarComponent
   ],
   imports: [
+    EffectsModule.forFeature([UserEffects]),
     UserRoutingModule,
     CommonModule,
     SharedModule,
@@ -131,7 +135,9 @@ import { TranslateHttpLoader } from "@ngx-translate/http-loader";
       isolate: true
     })
   ],
-  providers: []
+  providers: [
+    UserSelectors
+  ]
 })
 export class UserModule {}
 

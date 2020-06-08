@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EcoNewsModel } from '../models/eco-news-model';
 import { environment } from '../../../../environments/environment';
 import { EcoNewsDto } from '../models/eco-news-dto';
-import { Observable, Subject } from 'rxjs';
+import {Observable, Observer, Subject} from 'rxjs';
 import { take } from 'rxjs/operators';
 
 @Injectable({
@@ -33,6 +33,21 @@ export class EcoNewsService {
         this.newsListSubject.next(this.newsList);
       }
     );
+  }
+
+  public getNewsList(): Observable<any> {
+    const headers = new HttpHeaders({'Content-type': 'application/json'});
+    const ecoNewsObservable = Observable.create((observer: Observer<any>) => {
+      this.http.get<EcoNewsDto>(`${this.backEnd}econews`)
+        .pipe(take(1))
+        .subscribe(
+          (newsDto: EcoNewsDto) => {
+            observer.next(newsDto);
+          }
+        );
+    });
+
+    return ecoNewsObservable;
   }
 
   public getEcoNewsById(id: number): Observable<EcoNewsModel> {
