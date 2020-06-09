@@ -23,6 +23,9 @@ import {
   RemainingCountComponent
 } from './components';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { EffectsModule } from '@ngrx/effects';
+import { EcoNewsEffects } from './store/eco-news.effects';
+import { EcoNewsSelectors } from './store/eco-news.selectors';
 
 @NgModule({
   declarations: [
@@ -42,6 +45,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     DragAndDropDirective,
   ],
   imports: [
+    EffectsModule.forFeature([EcoNewsEffects]),
     CommonModule,
     SharedModule,
     InfiniteScrollModule,
@@ -62,7 +66,9 @@ import { ImageCropperModule } from 'ngx-image-cropper';
   entryComponents: [
 
   ],
-  providers: []
+  providers: [
+    EcoNewsSelectors
+  ]
 })
 
 export class EcoNewsModule  { }

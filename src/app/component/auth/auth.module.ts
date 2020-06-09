@@ -10,6 +10,7 @@ import {
   SignUpComponent,
   SubmitEmailComponent
 } from './components';
+import { AuthSelectors } from './store/auth.selectors';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import {
   ],
   imports: [
     CoreModule,
-    SharedModule
+    SharedModule,
+
   ],
   entryComponents: [
     SignInComponent,
@@ -33,7 +35,9 @@ import {
   exports: [
     InputcolorDirective
   ],
-  providers: []
+  providers: [
+    AuthSelectors
+  ]
 })
 
 export class AuthModule { }

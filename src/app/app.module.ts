@@ -41,12 +41,19 @@ import { HomeModule } from './component/home/home.module';
 import { LayoutModule } from './component/layout/layout.module';
 import { AppRoutingModule } from './app-routing.module';
 import { CreateNewsCancelComponent } from './component/shared/components/create-news-cancel/create-news-cancel.component';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { reducers } from './store/app.reducers';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot([]),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
