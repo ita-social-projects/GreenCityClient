@@ -232,7 +232,7 @@
         "haveyou-account": "Have you an account already?",
         "enter": "Sign in"
       },
-      "submit-email": "You have successfully registered on the site. Please confirm your email address in the email box",
+      "submit-email": "Congrats! Your profile is created. Please check the email sent with a link to confirm your email address.",
       "forgot-password": {
         "title": "Problems sign in?",
         "fill-form": "Enter your email address and we'll send you a link to regain access to your account.",
