@@ -4,6 +4,7 @@ import { EcoNewsService } from '../../services/eco-news.service';
 import { EcoNewsModel } from '../../models/eco-news-model';
 import { Subscription } from 'rxjs';
 import { singleNewsImages } from '../../../../../assets/img/icon/econews/single-news-images';
+import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-eco-news-detail',
@@ -17,13 +18,20 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   private newsItem: EcoNewsModel;
   private newsImage: string;
   private images = singleNewsImages;
+  private userId: number;
 
   constructor(private route: ActivatedRoute,
-              private ecoNewsService: EcoNewsService) { }
+              private ecoNewsService: EcoNewsService,
+              private localStorageService: LocalStorageService ) { }
 
   ngOnInit() {
+    this.canUserEditNews();
     this.setNewsId();
     this.setNewsIdSubscription();
+  }
+
+  private canUserEditNews(): void {
+    this.localStorageService.userIdBehaviourSubject.subscribe(id => this.userId = id);
   }
 
   private setNewsId(): void {
@@ -35,7 +43,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
       .subscribe(params => {
         this.newsId = +params.get('id');
         this.fetchNewsItem();
-    });
+      });
   }
 
   private fetchNewsItem(): void {
