@@ -29,14 +29,8 @@ export class NewsListListViewComponent implements OnInit, AfterViewChecked {
 
   constructor(private renderer: Renderer2) { }
 
-  ngOnInit() {
-    this.textValidationOfMinCharacters();
-  }
+  ngOnInit() {}
 
-  private textValidationOfMinCharacters(): string {
-    return this.newsText = (this.ecoNewsModel.text.length >= 198) ?
-      ((this.ecoNewsModel.text).slice(0, 197) + '...') : (this.ecoNewsModel.text);
-  }
 
   private checkNewsImage(): string {
     return this.newsImage = (this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' ') ?
