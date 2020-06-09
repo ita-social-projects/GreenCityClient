@@ -64,6 +64,10 @@ export class NewsListComponent implements OnInit, OnDestroy {
       .subscribe(this.setAllAndStartingElems.bind(this));
   }
 
+  private setAllAndStartingElems(data: EcoNewsModel[]): void {
+    this.remaining = this.ecoNewsService.totalListLength;
+  }
+
   public onScroll(): void {
     this.addElemsToCurrentList();
   }
@@ -75,10 +79,6 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
   public setList(data): void {
     this.elements = [...this.elements, ...data.page];
-  }
-
-  private setAllAndStartingElems(data: EcoNewsModel[]): void {
-    this.remaining = this.ecoNewsService.totalListLength;
   }
 
   private changeView(event: boolean): void {
@@ -100,6 +100,6 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-   // this.ecoNewsSubscription.unsubscribe();
+    this.ecoNewsSubscription.unsubscribe();
   }
 }
