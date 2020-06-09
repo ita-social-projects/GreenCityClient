@@ -11,7 +11,7 @@ import { UserOwnAuthService } from '../../../../service/auth/user-own-auth.servi
 })
 export class NewsListComponent implements OnInit, OnDestroy {
   private view: boolean;
-  private iterator: number;
+  private iterator = 0;
   private gridOutput: Array<string>;
   private ecoNewsSubscription: Subscription;
   private allEcoNews: EcoNewsModel[] = [];
@@ -25,6 +25,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.ecoNewsService.getEcoNewsList();
     this.fetchAllEcoNews();
+    this.addElemsToCurrentList();
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
   }
@@ -45,23 +46,16 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   private addElemsToCurrentList(): void {
-    const loadingLength = this.allEcoNews.length - this.elements.length > 11 ? 11 :
-      this.allEcoNews.length - this.elements.length;
+    this.ecoNewsSubscription = this.ecoNewsService.getEcoNewsListByPage(this.iterator++,12)
+      .subscribe(this.setList.bind(this));
+  }
 
-    this.allEcoNews.forEach((element, index) => {
-      if (index >= this.iterator && index - this.iterator < loadingLength) {
-        this.elements[index] = element;
-      }
-    });
-
-    this.iterator = this.elements.length;
+  public setList(data): void {
+    this.elements = [...this.elements, ...data.page];
   }
 
   private setAllAndStartingElems(data: EcoNewsModel[]): void {
-    this.allEcoNews = [...data];
-    this.elements = data.splice(0, 12);
-    this.iterator = this.elements.length;
-    this.remaining = this.allEcoNews.length;
+    this.remaining = this.ecoNewsService.totalListLength;
   }
 
   private changeView(event: boolean): void {
@@ -69,8 +63,17 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   private getFilterData(value: Array<string>): void {
+    // this.gridOutput = value;
+    // this.ecoNewsService.getEcoNewsFilteredByTag(value);
+    console.log(this.iterator, this.elements);
     this.gridOutput = value;
-    this.ecoNewsService.getEcoNewsFilteredByTag(value);
+    this.ecoNewsSubscription = this.ecoNewsService.getNewsListByTags(this.iterator++, 12, value)
+      .subscribe(this.setList.bind(this));
+  }
+
+  private setNullList(): void {
+    this.iterator = 0;
+    this.elements = [];
   }
 
   ngOnDestroy() {

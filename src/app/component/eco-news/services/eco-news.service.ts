@@ -16,6 +16,7 @@ export class EcoNewsService {
   private newsListWithActiveFilter: Array<EcoNewsModel>;
   public newsListSubject = new Subject<Array<EcoNewsModel>>();
   public sortedLastThreeNews =  new Subject<Array<EcoNewsModel>>();
+  public totalListLength: number;
 
   constructor(private http: HttpClient) { }
 
@@ -30,9 +31,14 @@ export class EcoNewsService {
       .subscribe(
       (newsDto: EcoNewsDto) => {
         this.newsList = newsDto.page;
+        this.totalListLength = newsDto.totalElements;
         this.newsListSubject.next(this.newsList);
       }
     );
+  }
+
+  public getEcoNewsListByPage(page: number, quantity: number) {
+    return this.http.get(`${this.backEnd}econews?page=${page}&size=${quantity}`);
   }
 
   public getEcoNewsById(id: number): Observable<EcoNewsModel> {
@@ -67,5 +73,11 @@ export class EcoNewsService {
         this.newsListWithActiveFilter = filteredEcoNews.page;
         this.newsListSubject.next(this.newsListWithActiveFilter);
       });
+  }
+
+  public getNewsListByTags(page: number,
+                           quantity: number,
+                           tags: Array<string>) {
+    return this.http.get(`${this.backEnd}econews/tags?page=${page}&size=${quantity}&tags=${tags}`);
   }
 }
