@@ -91,9 +91,10 @@
                           </li>
                         </ng-template>
                         <li class="mobile-vis"
-                            *ngIf="!isLoggedIn">
+                            *ngIf="!isLoggedIn"
+                            (click)="openSignUpWindow()">
                           <div class="create-button secondary-global-button">
-                            <span (click)="openSignUpWindow()">{{ "top-bar.sign-up" | translate }}</span>
+                            <span>{{ "top-bar.sign-up" | translate }}</span>
                           </div>
                         </li>
                       </ul>
@@ -167,9 +168,10 @@
         </li>
           <li class="sign-up-link"
               [class.destroy]="onToggleBurgerMenu"
-              *ngIf="!isLoggedIn">
+              *ngIf="!isLoggedIn"
+              (click)="openSignUpWindow()">
             <div class="create-button secondary-global-button">
-            <span (click)="openSignUpWindow()">{{ "top-bar.sign-up" | translate }}</span>
+            <span>{{ "top-bar.sign-up" | translate }}</span>
           </div>
           </li>
     <li class="burger-b">
