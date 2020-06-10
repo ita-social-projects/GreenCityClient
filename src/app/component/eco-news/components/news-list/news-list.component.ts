@@ -15,7 +15,7 @@ import { EcoNewsSelectors } from '../../store/eco-news.selectors';
 })
 export class NewsListComponent implements OnInit, OnDestroy {
   private view: boolean;
-  private iterator = 0;
+  private iterator : number;
   private gridOutput: Array<string>;
   private ecoNewsSubscription: Subscription;
   private allEcoNews: any;
@@ -30,12 +30,8 @@ export class NewsListComponent implements OnInit, OnDestroy {
     private ecoNewsSelectors: EcoNewsSelectors) { }
 
   ngOnInit() {
-    this.ecoNewsService.getEcoNewsList();
-    this.fetchAllEcoNews();
-    this.addElemsToCurrentList();
-    //this.fetchEcoNewsList();
-    //this.ecoNewsService.getEcoNewsList();
-    //this.fetchAllEcoNews();
+    this.setNullList();
+    //this.addElemsToCurrentList();
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
   }
@@ -58,26 +54,25 @@ export class NewsListComponent implements OnInit, OnDestroy {
       .subscribe((data) => this.isLoggedIn = data && data.userId);
   }
 
-  private fetchAllEcoNews(): void {
-    this.ecoNewsSubscription = this.ecoNewsService
-      .newsListSubject
-      .subscribe(this.setAllAndStartingElems.bind(this));
-  }
-
-  private setAllAndStartingElems(data: EcoNewsModel[]): void {
-    this.remaining = this.ecoNewsService.totalListLength;
-  }
-
   public onScroll(): void {
     this.addElemsToCurrentList();
   }
 
   private addElemsToCurrentList(): void {
-    this.ecoNewsSubscription = this.ecoNewsService.getEcoNewsListByPage(this.iterator++,12)
-      .subscribe(this.setList.bind(this));
+    console.log(this.iterator);
+    if(this.gridOutput)
+    {
+      this.ecoNewsSubscription = this.ecoNewsService.getNewsListByTags(this.iterator++, 12, this.gridOutput)
+        .subscribe(this.setList.bind(this));
+    }
+    else {
+      this.ecoNewsSubscription = this.ecoNewsService.getEcoNewsListByPage(this.iterator++,12)
+        .subscribe(this.setList.bind(this));
+    }
   }
 
   public setList(data): void {
+    this.remaining = data.totalElements;
     this.elements = [...this.elements, ...data.page];
   }
 
@@ -86,12 +81,11 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   private getFilterData(value: Array<string>): void {
-    // this.gridOutput = value;
-    // this.ecoNewsService.getEcoNewsFilteredByTag(value);
-    console.log(this.iterator, this.elements);
-    this.gridOutput = value;
-    this.ecoNewsSubscription = this.ecoNewsService.getNewsListByTags(this.iterator++, 12, value)
-      .subscribe(this.setList.bind(this));
+    if(this.gridOutput !== value) {
+      this.setNullList();
+      this.gridOutput = value;
+    }
+    this.addElemsToCurrentList();
   }
 
   private setNullList(): void {
