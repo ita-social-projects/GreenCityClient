@@ -20,9 +20,9 @@
   <app-change-view-button (view)="changeView($event)"></app-change-view-button>
 </div>
 <div>
-  <div class="list"
+  <ul class="list"
       [ngClass]="{ 'gallery-view-active': view }">
-    <div [ngClass]="{
+    <li [ngClass]="{
                     'gallery-view-li-active': view,
                     'list-view-li-active': !view
                   }"
@@ -37,8 +37,8 @@
         *ngIf="!view"
         [ecoNewsModel]="data">
       </app-news-list-list-view>
-    </div>
-  </div>
+    </li>
+  </ul>
 </div>
 
 <div infiniteScroll

@@ -15,7 +15,7 @@ import { EcoNewsSelectors } from '../../store/eco-news.selectors';
 })
 export class NewsListComponent implements OnInit, OnDestroy {
   private view: boolean;
-  private iterator : number;
+  private iterator: number;
   private gridOutput: Array<string>;
   private ecoNewsSubscription: Subscription;
   private allEcoNews: any;
