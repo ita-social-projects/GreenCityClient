@@ -65,9 +65,17 @@
         <div class="news-text-content word-wrap">
           {{ newsItem.text }}
         </div>
-        <div class="news-source">
-          <p>{{ "eco-news-single-view.news-source" | translate }}</p>
-          <a href="{{ newsItem.source }}"> {{ newsItem.source }}</a>
+        <div class="source-field"
+             *ngIf="newsItem.source"
+        >
+          <div class="source-title">
+            Source:
+          </div>
+          <a href="{{ newsItem.source }}"
+             class="source-text word-wrap"
+          >
+            {{ newsItem.source }}
+          </a>
         </div>
       </div>
     </div>

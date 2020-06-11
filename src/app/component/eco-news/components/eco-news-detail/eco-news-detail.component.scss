@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
+$title-font: 'Montserrat';
+$main-font: 'Open Sans';
+
 .container {
     margin: 0 auto;
 }
@@ -19,7 +25,7 @@
 .edit-news,
 .tags-item,
 .back-button {
-    font-family: 'Open Sans';
+    font-family: $main-font;
 }
 
 .top-elements {
@@ -81,11 +87,11 @@
 
 .news-title {
     margin: 0 98px 24px;
-    color: #313131;
+    color: #494A49;
     font-weight: 500;
-    font-size: 3rem;
+    font-size: 40px;
     line-height: 60px;
-    font-family: 'Montserrat';
+    font-family: $title-font;
 }
 
 .news-info {
@@ -96,6 +102,7 @@
 .news-info-date,
 .news-info-author {
     color: #494A49;
+    font-size: 24px;
 }
 
 .news-info-dot {
@@ -130,18 +137,28 @@
 
 .news-text-content {
     width: 750px;
+    font-size: 18px;
+    line-height: 32px;
 }
 
-.news-source {
+.source-field {
     margin-top: 32px;
+    display: flex;
 }
 
-.news-source p {
-    font-size: 22px;
-    display: inline-block;
+.source-title {
+    font-family: $main-font;
+    font-size: 24px;
+    line-height: 40px;
+    color: #494A49;
+    mix-blend-mode: normal;
+    margin-right: 8px;
 }
 
-.news-source a {
-    color: black;
-    text-decoration: none;
-} 
+.source-text {
+    font-family: $main-font;
+    font-size: 18px;
+    line-height: 32px;
+    color: #000000;
+    margin-top: 6px;
+}
