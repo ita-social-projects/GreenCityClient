@@ -12,4 +12,4 @@ export const PROFILE_IMAGES = {
     'assets/img/profile/friends/friend-5.png',
     'assets/img/profile/friends/friend-6.png'
   ]
-}
+};

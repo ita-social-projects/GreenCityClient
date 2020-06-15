@@ -1,5 +1,5 @@
-import {WeekDays} from './weekDays.model';
-import {BreakTimes} from "./breakTimes.model";
+import { WeekDays } from './weekDays.model';
+import { BreakTimes } from './breakTimes.model';
 
 export class OpeningHours {
   openTime: string;

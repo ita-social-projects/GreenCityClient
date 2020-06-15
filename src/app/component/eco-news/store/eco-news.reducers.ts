@@ -2,28 +2,28 @@ import * as EcoNewsActions from './eco-news.actions';
 import { EcoNewsModel } from '../models/eco-news-model';
 
 export interface AppState {
-  ecoNewsList: State
+  ecoNewsList: State;
 }
 
 export interface State {
-  ecoNewsList: Array<EcoNewsModel>
+  ecoNewsList: Array<EcoNewsModel>;
 }
 
 const initialState = {
   ecoNewsList: []
-}
+};
 
 export function ecoNewsReducers(state = initialState, action: EcoNewsActions.EcoNewsActions) {
-  switch(action.type) {
+  switch (action.type) {
     case EcoNewsActions.SAVE_NEWS_LIST:
       return {
         ...state,
         ecoNewsList: action.payload
-      }
+      };
 
     default:
       return {
         ...state
-      }
+      };
   }
 }

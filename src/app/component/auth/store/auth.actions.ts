@@ -3,7 +3,7 @@ import { Action } from '@ngrx/store';
 export interface Credentials {
   login: string;
   password: string;
-};
+}
 
 export const TRY_SIGN_IN = '[AUTH_MODULE] TRY_SIGN_IN';
 export const LOGOUT = '[AUTH_MODULE] LOGOUT';

@@ -12,7 +12,7 @@ import { CreateNewsCancelComponent } from '../../../shared/components/create-new
   styleUrls: ['./create-news.component.scss']
 })
 export class CreateNewsComponent implements OnInit {
-  public isPosting: boolean = false;
+  public isPosting = false;
 
   public createNewsForm = this.fb.group({
     title: ['', [Validators.required, Validators.maxLength(170), this.noWhitespaceValidator]],
@@ -30,12 +30,12 @@ export class CreateNewsComponent implements OnInit {
     {name: 'Ads', isActive: false}
   ];
 
-  public activeLanguage: string = 'en';
+  public activeLanguage = 'en';
   private date: Date = new Date();
-  public isFilterValidation: boolean = false;
-  public isLink: boolean = false;
+  public isFilterValidation = false;
+  public isLink = false;
   public formData: FormGroup;
-  public isArrayEmpty: boolean = true;
+  public isArrayEmpty = true;
 
   constructor(private router: Router,
               private fb: FormBuilder,
@@ -56,7 +56,7 @@ export class CreateNewsComponent implements OnInit {
         title: this.formData.value.title,
         content: this.formData.value.content,
         source: this.formData.value.source,
-      })
+      });
     }
   }
 
@@ -92,7 +92,7 @@ export class CreateNewsComponent implements OnInit {
   public noWhitespaceValidator(control: FormControl) {
     const isWhiteSpace = (control.value || '').trim().length === 0;
     const isValid = !isWhiteSpace;
-    return isValid ? null : { 'whitespace': true };
+    return isValid ? null : { whitespace: true };
   }
 
   public addFilters(filter: FilterModel): void {
@@ -103,32 +103,32 @@ export class CreateNewsComponent implements OnInit {
       this.filtersValidation(filter);
     } else {
       this.removeFilters(filter);
-    };
-  };
+    }
+  }
 
   public removeFilters(filter: FilterModel): void {
     if ( filter.isActive ) {
       filter.isActive = false;
-      if(this.createNewsForm.value.tags.length === 1) {
+      if (this.createNewsForm.value.tags.length === 1) {
         this.isArrayEmpty = true;
       }
       this.createNewsForm.value.tags.forEach((item, index) => {
         if (item.toLowerCase() === filter.name.toLowerCase()) {
           this.createNewsForm.value.tags.splice(index, 1);
           this.filtersValidation(filter);
-        };
+        }
       });
-    };
-  };
+    }
+  }
 
   public filtersValidation(filter: FilterModel): void {
     if ( this.createNewsForm.value.tags.length > 3) {
       this.isFilterValidation = true;
       setTimeout(() => this.isFilterValidation = false, 3000);
-      this.createNewsForm.value.tags.splice(3,1);
+      this.createNewsForm.value.tags.splice(3, 1);
       filter.isActive = false;
-    };
-  };
+    }
+  }
 
   private setFilters(): void {
     if (this.formData) {
@@ -140,8 +140,8 @@ export class CreateNewsComponent implements OnInit {
             this.createNewsForm.value.tags.push(tag);
             this.filtersValidation(filter);
           }
-        })
-      })
+        });
+      });
     }
   }
 
@@ -152,8 +152,8 @@ export class CreateNewsComponent implements OnInit {
           filter.isActive = true;
           this.isArrayEmpty = false;
         }
-      })
-    })
+      });
+    });
   }
 
   private goToPreview(): void {

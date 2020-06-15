@@ -1,13 +1,13 @@
 import * as UserActions from './user.actions';
 
 export interface AppState {
-  userModule: State
+  userModule: State;
 }
 
 export interface State {
-  userData: {},
-  habitsList: Array<any>,
-  cardsList: Array<any>,
+  userData: {};
+  habitsList: Array<any>;
+  cardsList: Array<any>;
 }
 
 const initialState = {
@@ -22,28 +22,28 @@ export function UserReducers(state = initialState, action: UserActions.UserActio
       return {
         ...state,
         userData: action.payload
-      }
+      };
     }
 
     case UserActions.SAVE_CARDS_LIST: {
       return {
         ...state,
         cardsList: action.cardsList
-      }
+      };
     }
 
     case UserActions.SAVE_HABITS_LIST: {
       return {
         ...state,
         cardsList: action.habitsList
-      }
+      };
     }
 
     default: {
 
       return {
         ...state
-      }
+      };
     }
   }
 }

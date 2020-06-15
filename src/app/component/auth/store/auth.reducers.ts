@@ -2,12 +2,12 @@ import * as authActions from './auth.actions';
 
 export interface AppState {
   authModule: State;
-};
+}
 
 export interface State {
-  authStatus: boolean,
-  userData: any
-};
+  authStatus: boolean;
+  userData: any;
+}
 
 export const initialState = {
   authStatus: false,
@@ -20,34 +20,34 @@ export function authReducers(state = initialState, action: authActions.AuthActio
       return {
         // TO DO
         ...state
-      }
+      };
     }
 
     case authActions.SIGN_UP: {
       return {
         // TO DO
         ...state
-      }
+      };
     }
 
     case authActions.LOGOUT: {
       return {
         // TO DO
         ...state
-      }
+      };
     }
 
     case authActions.SET_USER_DATA: {
       return {
         // TO DO
         ...state,
-      }
+      };
     }
 
     default: {
       return {
         ...state
-      }
+      };
     }
   }
 }
