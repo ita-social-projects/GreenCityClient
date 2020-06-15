@@ -25,7 +25,11 @@
              name="email"
              [(ngModel)]="userOwnSignIn.email"
              (input)="configDefaultErrorMessage()"
-             [ngClass]="emailControl.invalid && (emailControl.dirty || emailControl.touched ) || backEndError || emailErrorMessageBackEnd?
+             [ngClass]="emailControl.invalid &&
+                       (emailControl.dirty ||
+                       emailControl.touched ) ||
+                       backEndError ||
+                       emailErrorMessageBackEnd?
                 'alert-email-validation':'successful-email-validation'"
              required
              minlength="1"
@@ -51,7 +55,11 @@
       </div>
       <label for="password">{{'user.auth.sign-in.password' | translate}}</label>
       <div class="password-input-btn-show-hide"
-           [ngClass]="passwordControl.invalid && (passwordControl.dirty || passwordControl.touched) || backEndError || passwordErrorMessageBackEnd?
+           [ngClass]="passwordControl.invalid &&
+                     (passwordControl.dirty ||
+                     passwordControl.touched) ||
+                     backEndError ||
+                     passwordErrorMessageBackEnd?
               'alert-password-validation':'successful-password-validation'">
         <input id="password"
                #input
