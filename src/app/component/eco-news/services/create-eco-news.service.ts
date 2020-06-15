@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NewsModel, TranslationModel, NewsDTO, NewsResponseDTO } from '../models/create-news-interface';
+import { NewsDTO, NewsResponseDTO } from '../models/create-news-interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
@@ -18,7 +18,7 @@ export class CreateEcoNewsService {
   public isImageValid: boolean;
   private httpOptions = {
     headers: new HttpHeaders({
-      'Authorization': 'my-auth-token'
+      Authorization: 'my-auth-token'
     })
   };
 
@@ -38,17 +38,17 @@ export class CreateEcoNewsService {
 
   public sendFormData(form): Observable<NewsResponseDTO> {
     const body: NewsDTO = {
-      "tags": form.value.tags,
-      "text": form.value.content,
-      "title": form.value.title,
-      "source": form.value.source,
-      "image": null
+      tags: form.value.tags,
+      text: form.value.content,
+      title: form.value.title,
+      source: form.value.source,
+      image: null
     };
 
-    let formData = new FormData();
+    const formData = new FormData();
 
     if (this.files.length !== 0) {
-      body.image = this.files[0].url
+      body.image = this.files[0].url;
     }
 
     formData.append('addEcoNewsDtoRequest', JSON.stringify(body));

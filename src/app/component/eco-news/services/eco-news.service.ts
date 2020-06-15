@@ -37,7 +37,7 @@ export class EcoNewsService {
 
   public getNewsList(): Observable<any> {
     const headers = new HttpHeaders({'Content-type': 'application/json'});
-    const ecoNewsObservable = Observable.create((observer: Observer<any>) => {
+    const ecoNewsObservable = new Observable((observer: Observer<any>) => {
       this.http.get<EcoNewsDto>(`${this.backEnd}econews`)
         .pipe(take(1))
         .subscribe(

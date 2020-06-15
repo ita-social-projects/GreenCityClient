@@ -36,8 +36,9 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
 
   private onKeyUp(event: EventTarget): void {
     this.displayedElements = [];
-    if (event['value'].length > 0) {
-      this.inputValue = event['value'];
+    const VALUE = 'value;';
+    if (event[VALUE].length > 0) {
+      this.inputValue = event[VALUE];
       this.searchSubscription = this.search.getAllSearch(this.inputValue, this.inputValues[0])
         .subscribe(this.getSearchData.bind(this));
     } else {
@@ -47,6 +48,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
 
   private getSearchData(data: SearchModel): void {
     this.getNews(data.ecoNews);
+    // tslint:disable-next-line:no-unused-expression
     data.countOfResults ? this.itemsFound = data.countOfResults : null;
     this.spliceResults();
   }

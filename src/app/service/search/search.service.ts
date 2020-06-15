@@ -9,7 +9,7 @@ import { switchMap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class SearchService {
-  private apiUrl: string = 'http://localhost:3000';
+  private apiUrl = 'http://localhost:3000';
   private backEndLink = environment.backendLink;
   public searchSubject = new Subject<boolean>();
   public allSearchSubject = new Subject<boolean>();

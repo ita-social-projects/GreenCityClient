@@ -1,4 +1,4 @@
-import {SpecificationNameDto} from "../specification/SpecificationNameDto";
+import { SpecificationNameDto } from '../specification/SpecificationNameDto';
 
 export class DiscountDto {
   value: number;

@@ -31,15 +31,15 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.fetchEcoNewsList();
-    //this.ecoNewsService.getEcoNewsList();
-    //this.fetchAllEcoNews();
+    // this.ecoNewsService.getEcoNewsList();
+    // this.fetchAllEcoNews();
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
   }
 
   private fetchEcoNewsList(): void {
     this.ecoNewsSelectors.ecoNewsModule$.subscribe(ecoNews => {
-      let data = ecoNews.ecoNewsList;
+      const data = ecoNews.ecoNewsList;
       this.allEcoNews = [...data];
       this.elements = data.slice(0, 12);
       this.iterator = this.elements.length;
