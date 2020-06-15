@@ -31,7 +31,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.setNullList();
-    //this.addElemsToCurrentList();
+    // this.addElemsToCurrentList();
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
   }
@@ -59,13 +59,11 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   private addElemsToCurrentList(): void {
-    if(this.gridOutput)
-    {
+    if (this.gridOutput) {
       this.ecoNewsSubscription = this.ecoNewsService.getNewsListByTags(this.iterator++, 12, this.gridOutput)
         .subscribe(this.setList.bind(this));
-    }
-    else {
-      this.ecoNewsSubscription = this.ecoNewsService.getEcoNewsListByPage(this.iterator++,12)
+    } else {
+      this.ecoNewsSubscription = this.ecoNewsService.getEcoNewsListByPage(this.iterator++, 12)
         .subscribe(this.setList.bind(this));
     }
   }
@@ -80,7 +78,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   private getFilterData(value: Array<string>): void {
-    if(this.gridOutput !== value) {
+    if (this.gridOutput !== value) {
       this.setNullList();
       this.gridOutput = value;
     }
