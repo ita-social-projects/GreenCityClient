@@ -1,7 +1,7 @@
-import {Location} from '../location/location';
-import {OpeningHours} from '../openingHours.model';
-import {CommentDto} from '../comment/commentDto';
-import {DiscountDto} from "../discount/DiscountDto";
+import { Location } from '../location/location';
+import { OpeningHours } from '../openingHours.model';
+import { CommentDto } from '../comment/commentDto';
+import { DiscountDto } from '../discount/DiscountDto';
 
 
 export class PlaceInfo {

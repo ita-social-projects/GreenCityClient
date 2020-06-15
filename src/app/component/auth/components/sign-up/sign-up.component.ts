@@ -56,10 +56,10 @@ export class SignUpComponent implements OnInit {
     this.setNullAllMessage();
     this.loadingAnim = true;
     this.userOwnSecurityService.signUp(userOwnRegister)
-      .subscribe(
-        this.onSubmitSuccess.bind(this),
-        this.onSubmitError.bind(this)
-      );
+      .subscribe({
+        next:  this.onSubmitSuccess.bind(this),
+        error: this.onSubmitError.bind(this)
+      });
   }
 
   private onSubmitSuccess(data): void {
@@ -110,10 +110,10 @@ export class SignUpComponent implements OnInit {
   private signInWithGoogle(): void {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(data => {
       this.googleService.signIn(data.idToken)
-        .subscribe(
-          this.signInWithGoogleSuccess.bind(this),
-          this.signInWithGoogleError.bind(this)
-        );
+        .subscribe({
+          next: this.signInWithGoogleSuccess.bind(this),
+          error: this.signInWithGoogleError.bind(this)
+        });
     });
   }
 

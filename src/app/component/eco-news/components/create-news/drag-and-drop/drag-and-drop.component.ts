@@ -12,9 +12,9 @@ export class DragAndDropComponent implements OnInit {
   public selectedFile: File = null;
   public selectedFileUrl: string;
   private imageChangedEvent: FileHandle[];
-  private isCropper: boolean = true;
+  private isCropper = true;
   public files: FileHandle[] = [];
-  public isWarning: boolean = false;
+  public isWarning = false;
   private croppedImage: string;
 
   constructor(private createEcoNewsService: CreateEcoNewsService ) {}
@@ -46,17 +46,17 @@ export class DragAndDropComponent implements OnInit {
   }
 
   private onFileSelected(event): void {
-    this.selectedFile = <File>event.target.files[0];
+    this.selectedFile = event.target.files[0] as File;
 
-    let reader: FileReader = new FileReader();
+    const reader: FileReader = new FileReader();
     reader.readAsDataURL(this.selectedFile);
-    reader.onload =this.handleFile.bind(this);
+    reader.onload = this.handleFile.bind(this);
 
     this.createEcoNewsService.files = this.files;
   }
 
   private handleFile(event): void {
-    let binaryString = event.target.result;
+    const binaryString = event.target.result;
     this.selectedFileUrl = binaryString;
     this.files[0] = {url: this.selectedFileUrl, file: this.selectedFile};
     this.showWarning();
@@ -65,7 +65,7 @@ export class DragAndDropComponent implements OnInit {
 
   public showWarning(): void {
     this.files.forEach(item => {
-      let imageValCondition = item.file.type === 'image/jpeg' || item.file.type === 'image/png';
+      const imageValCondition = item.file.type === 'image/jpeg' || item.file.type === 'image/png';
       this.isWarning = !(item && imageValCondition);
     });
   }

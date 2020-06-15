@@ -9,7 +9,7 @@ import {
   SearchItemComponent,
   SearchAllResultsComponent
 } from './components';
-import { InfiniteScrollModule } from "ngx-infinite-scroll";
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [

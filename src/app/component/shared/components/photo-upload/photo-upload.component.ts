@@ -49,6 +49,7 @@ export class PhotoUploadComponent implements OnInit {
   }
 
   uploadSubmit() {
+    // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.uploader.queue.length; i++) {
       const fileItem = this.uploader.queue[i]._file;
       if (fileItem.type !== 'image/png' && fileItem.type !== 'image/jpeg') {
@@ -92,8 +93,9 @@ export class PhotoUploadComponent implements OnInit {
 
   fieldChanges() {
     this.showTable = false;
-    let document = this.uploadForm.controls['document'] && this.uploadForm.controls['document'].value || '';
-    if (this.photoLinks['document'] !== document.trim()) {
+    const DOCUMENT = 'document';
+    const document = this.uploadForm.controls[DOCUMENT] && this.uploadForm.controls[DOCUMENT].value || '';
+    if (this.photoLinks[DOCUMENT] !== document.trim()) {
       this.showTable = true;
     }
   }
