@@ -38,7 +38,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
   private fetchEcoNewsList(): void {
     this.ecoNewsSelectors.ecoNewsModule$.subscribe(ecoNews => {
-      let data = ecoNews.ecoNewsList;
+      const data = ecoNews.ecoNewsList;
       this.allEcoNews = [...data];
       this.elements = data.slice(0, 12);
       this.iterator = this.elements.length;

@@ -1,6 +1,9 @@
 export class UserOwnSignUp {
+  // tslint:disable-next-line:variable-name
   private _firstName: string;
+  // tslint:disable-next-line:variable-name
   private _email: string;
+  // tslint:disable-next-line:variable-name
   private _password: string;
 
 
