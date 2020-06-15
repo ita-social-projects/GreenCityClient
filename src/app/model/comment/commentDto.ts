@@ -1,4 +1,4 @@
-import {UserForListDtoModel} from "../UserForListDto.model";
+import { UserForListDtoModel } from '../UserForListDto.model';
 
 export class CommentDto {
 id: number;

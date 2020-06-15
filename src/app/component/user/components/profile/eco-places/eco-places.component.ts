@@ -7,10 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EcoPlacesComponent implements OnInit {
   private ecoPlaces: Array<string> = [
-    "Everyday Bakery Cafe", "Culturist", "3 бобра",
-    "Everyday Bakery Cafe", "Culturist", "3 бобра",
-    "Everyday Bakery Cafe", "Culturist", "3 бобра",
-    "Everyday Bakery Cafe"];
+    'Everyday Bakery Cafe', 'Culturist', '3 бобра',
+    'Everyday Bakery Cafe', 'Culturist', '3 бобра',
+    'Everyday Bakery Cafe', 'Culturist', '3 бобра',
+    'Everyday Bakery Cafe'];
 
   constructor() {}
 
