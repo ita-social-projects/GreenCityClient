@@ -3,6 +3,9 @@ import { CalendarInterface } from './calendar-interface';
 import { calendarImage } from '../../../../../../assets/img/profile/calendar/calendar-image';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { LocalStorageService } from '../../../../../service/localstorage/local-storage.service';
+import { LanguageService } from '../../../../../i18n/language.service';
+import {Language} from '../../../../../i18n/Language';
 
 @Component({
   selector: 'app-calendar',
@@ -19,6 +22,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
   private currentMonth = new Date().getMonth();
   private currentYear = new Date().getFullYear();
   private calendarDay: Array<CalendarInterface> = [];
+  private currentDayName: string;
+  private language: string;
 
   private calendar: CalendarInterface = {
     date: new Date(),
@@ -32,7 +37,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
     isCurrentDayActive: false
   };
 
-  constructor(private translate: TranslateService) {}
+  constructor(private translate: TranslateService,
+              private languageService: LanguageService,
+              private localStorageService: LocalStorageService) {}
 
   ngOnInit() {
     this.bindDefaultTranslate();
@@ -50,6 +57,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
       this.daysNameLong = translations.days;
       this.months = translations.months;
       this.monthAndYearName = this.months[this.currentMonth] + ' ' + this.currentYear;
+      this.markCurrentDayOfWeek();
     });
   }
 
@@ -79,13 +87,13 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   private bindCalendarModel(): void {
     for (let i = 1; i <= this.calendar.totalDaysInMonth; i++) {
-      this.calendarDay.push(this.getMonthTemplate(i));
+      this.calendarDay = [...this.calendarDay, this.getMonthTemplate(i)];
     }
   }
 
   private setEmptyDays(): void {
     for (let i = 1; i <= this.calendar.firstDay; i++) {
-      this.calendarDay.unshift(this.getMonthTemplate());
+      this.calendarDay = [this.getMonthTemplate(), ...this.calendarDay];
     }
   }
 
@@ -105,9 +113,20 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   private isCurrentDayActive(): void {
     this.calendarDay.map(el =>
-      (el.date.getDate() === el.numberOfDate && el.date.getMonth() === el.month) ?
+      (el.date.getDate() === el.numberOfDate && el.date.getMonth() === el.month && el.date.getFullYear() === el.year) ?
         el.isCurrentDayActive = true : el.isCurrentDayActive
     );
+  }
+
+  private markCurrentDayOfWeek(): void {
+    const option = { weekday: 'short' };
+    this.language = this.languageService.getCurrentLanguage();
+    this.calendarDay.find(el => {
+      if (el.isCurrentDayActive && el.date.getMonth() === el.month && el.date.getFullYear() === el.year) {
+        const dayName = (new Date(el.year, el.month, +el.numberOfDate).toLocaleDateString(this.language, option));
+        this.currentDayName = dayName.charAt(0).toUpperCase() + dayName.slice(1);
+      }
+    });
   }
 
   private nextMonth(): void {

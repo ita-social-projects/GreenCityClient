@@ -15,7 +15,8 @@
     </div>
     <div class="days">
       <div class="days-name"
-           *ngFor="let day of daysNameLong">
+           *ngFor="let day of daysNameLong; index as j"
+           [ngClass]="{ 'current-day-name': daysNameLong[j] === currentDayName }">
         {{ day }}
       </div>
     </div>
@@ -24,7 +25,8 @@
     <div class="calendar-grid">
       <div *ngFor="let dayItem of calendarDay; index as i"
       class="calendar-grid-day"
-            [ngClass]="{ 'current-day': calendarDay[i].isCurrentDayActive}">
+           [ngClass]="{ 'current-day': calendarDay[i].isCurrentDayActive,
+                        'tracked-day': calendarDay[i].isHabitsTracked }">
         {{ dayItem.numberOfDate }}
       </div>
     </div>
