@@ -8,6 +8,7 @@ import { SharedModule } from '../shared/shared.module';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { CommentLikeReplyComponent } from '../comment-like-reply/comment-like-reply.component';
 import {
   CreateNewsComponent,
   DragAndDropComponent,
@@ -43,6 +44,7 @@ import { EcoNewsSelectors } from './store/eco-news.selectors';
     PostNewsLoaderComponent,
     DragAndDropComponent,
     DragAndDropDirective,
+    CommentLikeReplyComponent
   ],
   imports: [
     EffectsModule.forFeature([EcoNewsEffects]),
