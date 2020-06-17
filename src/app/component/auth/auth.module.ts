@@ -31,6 +31,7 @@ import { AuthSelectors } from './store/auth.selectors';
     SignInComponent,
     SignUpComponent,
     RestorePasswordComponent,
+    SubmitEmailComponent
   ],
   exports: [
     InputcolorDirective
