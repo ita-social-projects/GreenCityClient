@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import * as fromApp from './../../../../store/app.reducers';
 import * as fromEcoNews from './../../store/eco-news.actions';
 import { EcoNewsSelectors } from '../../store/eco-news.selectors';
+import { EcoNewsDto } from '../../models/eco-news-dto';
 
 @Component({
   selector: 'app-news-list',
@@ -31,22 +32,8 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.setNullList();
-    // this.addElemsToCurrentList();
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
-  }
-
-  private fetchEcoNewsList(): void {
-    this.ecoNewsSelectors.ecoNewsModule$.subscribe(ecoNews => {
-      const data = ecoNews.ecoNewsList;
-      this.allEcoNews = [...data];
-      this.elements = data.slice(0, 12);
-      this.iterator = this.elements.length;
-      this.remaining = this.allEcoNews.length;
-    });
-
-    // dispatch GetDefaultNewsList action which triggers getDefaultNewsList effect
-    this.store.dispatch(new fromEcoNews.GetDefaultNewsList());
   }
 
   private checkUserSingIn(): void {
@@ -59,16 +46,14 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   private addElemsToCurrentList(): void {
-    if (this.gridOutput) {
+    this.ecoNewsSubscription = this.gridOutput ?
       this.ecoNewsSubscription = this.ecoNewsService.getNewsListByTags(this.iterator++, 12, this.gridOutput)
-        .subscribe(this.setList.bind(this));
-    } else {
+        .subscribe(this.setList.bind(this)) :
       this.ecoNewsSubscription = this.ecoNewsService.getEcoNewsListByPage(this.iterator++, 12)
         .subscribe(this.setList.bind(this));
-    }
   }
 
-  public setList(data): void {
+  public setList(data: EcoNewsDto): void {
     this.remaining = data.totalElements;
     this.elements = [...this.elements, ...data.page];
   }
