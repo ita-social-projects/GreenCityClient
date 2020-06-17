@@ -29,8 +29,9 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   }
 
   private onKeyUp(event: EventTarget): void {
-    if (event['value'].length > 0) {
-      this.inputValue = event['value'];
+    const VALUE = 'value';
+    if (event[VALUE].length > 0) {
+      this.inputValue = event[VALUE];
       this.searchSubscription = this.search.getSearch(this.inputValue)
         .subscribe(this.getSearchData.bind(this));
     } else {

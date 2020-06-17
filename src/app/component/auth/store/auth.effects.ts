@@ -23,7 +23,7 @@ export class AuthEffects {
       return of(payload);
     }),
     mergeMap((userData?: any) => {
-      //TO DO
+      // TO DO
       return [
         {
           action: AuthActions.SIGN_IN,

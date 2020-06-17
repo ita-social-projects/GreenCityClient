@@ -19,7 +19,7 @@ export class StatRowsComponent implements OnInit {
     // instead of manual declaration of habit statistics.
     this.userService.getTodayStatisticsForAllHabitItems().subscribe(habitDtoArray => {
       function getStatisticForHabitItemName(habitItemName: string) {
-        let habitItemDto = habitDtoArray.find(it => it.habitItem === habitItemName);
+        const habitItemDto = habitDtoArray.find(it => it.habitItem === habitItemName);
         if (habitItemDto === undefined) {
           return 0;
         } else {

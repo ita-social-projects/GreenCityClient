@@ -20,6 +20,6 @@ export class ChangePasswordService {
         timeout: 3000,
         type: 'success'
       });
-    })
+    });
   }
 }
