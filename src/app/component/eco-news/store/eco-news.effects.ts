@@ -3,7 +3,7 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { EcoNewsService } from '../services/eco-news.service';
 import * as EcoNewsActions from './eco-news.actions';
 import { mergeMap, switchMap } from 'rxjs/operators';
-import {EcoNewsDto} from "../models/eco-news-dto";
+import { EcoNewsDto } from '../models/eco-news-dto';
 
 @Injectable()
 export class EcoNewsEffects {
@@ -21,7 +21,7 @@ export class EcoNewsEffects {
     switchMap(() => {
       return this.ecoNewsService.getNewsList();
     }),
-    mergeMap((newsList:EcoNewsDto) => {
+    mergeMap((newsList: EcoNewsDto) => {
       const news = newsList.page;
 
       return [

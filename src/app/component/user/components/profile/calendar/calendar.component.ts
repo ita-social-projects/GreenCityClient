@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CalendarInterface } from './calendar-interface';
 import { calendarImage } from '../../../../../../assets/img/profile/calendar/calendar-image';
-import { TranslateService } from "@ngx-translate/core";
-import { Subscription } from "rxjs";
+import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-calendar',
@@ -50,12 +50,12 @@ export class CalendarComponent implements OnInit, OnDestroy {
       this.daysNameLong = translations.days;
       this.months = translations.months;
       this.monthAndYearName = this.months[this.currentMonth] + ' ' + this.currentYear;
-    })
+    });
   }
 
   private bindDefaultTranslate(): void {
     this.defaultTranslateSub = this.translate.getTranslation(this.translate.getDefaultLang()).subscribe((res) => {
-      let translations = res.profile.calendar;
+      const translations = res.profile.calendar;
       this.daysNameLong = translations.days;
       this.months = translations.months;
       this.monthAndYearName = this.months[this.currentMonth] + ' ' + this.currentYear;
@@ -100,7 +100,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
       dayName : (new Date(this.calendar.year, this.calendar.month, days).toDateString().substring(0, 3)) || '',
       isHabitsTracked: false,
       isCurrentDayActive: false
-    }
+    };
   }
 
   private isCurrentDayActive(): void {

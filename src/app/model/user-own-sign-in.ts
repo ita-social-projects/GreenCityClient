@@ -1,5 +1,7 @@
 export class UserOwnSignIn {
+  // tslint:disable-next-line:variable-name
   private _email: string;
+  // tslint:disable-next-line:variable-name
   private _password: string;
 
   constructor() {
