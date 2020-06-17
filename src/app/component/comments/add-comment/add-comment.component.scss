@@ -1,0 +1,32 @@
+.wrapper {
+    display: flex;
+    width: 70%;
+    margin: auto;
+    justify-content: space-between;
+}
+
+.wrapper img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50px;
+}
+
+.wrapper textarea {
+    width: 505px;
+    height: 72px;
+}
+
+.wrapper textarea::placeholder {
+    color:#878787;
+    padding: 10px 0 0 10px;
+}
+
+
+.wrapper button {
+    width: 157px;
+    height: 48px;
+    background-color: #13AA57;
+    border-radius: 5px;
+    color: #ffffff;
+    border: none;
+}

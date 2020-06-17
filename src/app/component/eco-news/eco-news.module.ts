@@ -26,6 +26,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { EffectsModule } from '@ngrx/effects';
 import { EcoNewsEffects } from './store/eco-news.effects';
 import { EcoNewsSelectors } from './store/eco-news.selectors';
+import { AddCommentComponent } from '../comments/add-comment/add-comment.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { EcoNewsSelectors } from './store/eco-news.selectors';
     PostNewsLoaderComponent,
     DragAndDropComponent,
     DragAndDropDirective,
+    AddCommentComponent,
   ],
   imports: [
     EffectsModule.forFeature([EcoNewsEffects]),
