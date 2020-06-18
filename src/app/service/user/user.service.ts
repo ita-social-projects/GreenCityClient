@@ -256,7 +256,7 @@ export class UserService implements OnLogout {
    */
   getTodayStatisticsForAllHabitItems(language?: string): Observable<Array<HabitItemsAmountStatisticDto>> {
     let endpointLink = `${habitStatisticLink}todayStatisticsForAllHabitItems`;
-    if (language != undefined) {
+    if (language !== undefined) {
       endpointLink += `?language=${language}`;
     }
     return this.http.get(endpointLink) as Observable<Array<HabitItemsAmountStatisticDto>>;

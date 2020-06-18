@@ -27,6 +27,6 @@ export class EcoNewsComponent implements OnInit {
 
   private subscribeToLangChange(): void {
     this.langChangeSub = this.localStorageService.languageSubject
-      .subscribe(this.bindLang.bind(this))
+      .subscribe(this.bindLang.bind(this));
   }
 }

@@ -11,8 +11,8 @@ import {
   PhotoUploadComponent,
   CreateNewsCancelComponent
 } from './components';
-import { MatDialogModule } from "@angular/material/dialog";
-import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -55,7 +55,7 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 })
 export class SharedModule {}
 
- function HttpLoaderFactory(httpClient: HttpClient) {
+function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(
     httpClient,
     './assets/i18n/',
