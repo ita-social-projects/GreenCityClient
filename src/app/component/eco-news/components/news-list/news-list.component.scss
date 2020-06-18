@@ -71,6 +71,11 @@ a {
 
 @media screen and (max-width: 576px) {
   .gallery-view-active {
+    column-count: 2;
+  }
+}
+@media screen and (max-width: 320px) {
+  .gallery-view-active {
     column-count: 1;
   }
 }
