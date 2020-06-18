@@ -1,13 +1,13 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { EcoNewsService } from 'src/app/component/eco-news/services/eco-news.service';
+import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { Subscription } from 'rxjs';
-import { EcoNewsModel } from '../../models/eco-news-model';
-import { UserOwnAuthService } from '../../../../service/auth/user-own-auth.service';
+import { EcoNewsModel } from '@eco-news-models/eco-news-model';
+import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { Store } from '@ngrx/store';
-import * as fromApp from './../../../../store/app.reducers';
-import * as fromEcoNews from './../../store/eco-news.actions';
-import { EcoNewsSelectors } from '../../store/eco-news.selectors';
-import { EcoNewsDto } from '../../models/eco-news-dto';
+import * as fromApp from '@store/app.reducers';
+import * as fromEcoNews from '@eco-news-store/eco-news.actions';
+import { EcoNewsSelectors } from '@eco-news-store/eco-news.selectors';
+import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 
 @Component({
   selector: 'app-news-list',
@@ -15,12 +15,11 @@ import { EcoNewsDto } from '../../models/eco-news-dto';
   styleUrls: ['./news-list.component.scss']
 })
 export class NewsListComponent implements OnInit, OnDestroy {
-  private view: boolean;
+  public view: boolean;
   private iterator: number;
-  private gridOutput: Array<string>;
+  public gridOutput: Array<string>;
   private ecoNewsSubscription: Subscription;
-  private allEcoNews: any;
-  private elements: any;
+  public elements: EcoNewsModel[];
   public remaining = 0;
   private isLoggedIn: boolean;
 
@@ -53,16 +52,16 @@ export class NewsListComponent implements OnInit, OnDestroy {
         .subscribe((list: EcoNewsDto) => this.setList(list));
   }
 
-  public setList(data: EcoNewsDto): void {
+  private setList(data: EcoNewsDto): void {
     this.remaining = data.totalElements;
     this.elements = [...this.elements, ...data.page];
   }
 
-  private changeView(event: boolean): void {
+  public changeView(event: boolean): void {
     this.view = event;
   }
 
-  private getFilterData(value: Array<string>): void {
+  public getFilterData(value: Array<string>): void {
     if (this.gridOutput !== value) {
       this.setNullList();
       this.gridOutput = value;
