@@ -1,25 +1,25 @@
-import {Component, ElementRef, EventEmitter, Inject, NgZone, OnInit, Output, ViewChild} from '@angular/core';
-import {OpeningHours} from '../../../../model/openingHours.model';
-import {PlaceAddDto} from '../../../../model/placeAddDto.model';
-import {CategoryDto} from '../../../../model/category.model';
-import {LocationDto} from '../../../../model/locationDto.model';
-import {WeekDays} from '../../../../model/weekDays.model';
-import {PlaceWithUserModel} from '../../../../model/placeWithUser.model';
-import {ModalService} from './_modal/modal.service';
-import {CategoryService} from '../../../../service/category.service';
-import {UserService} from '../../../../service/user/user.service';
-import {FormBuilder, NgForm} from '@angular/forms';
-import {NgSelectComponent} from '@ng-select/ng-select';
-import {MapsAPILoader, MouseEvent} from '@agm/core';
-import {PlaceService} from '../../../../service/place/place.service';
-import {BreakTimes} from '../../../../model/breakTimes.model';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {SpecificationService} from '../../../../service/specification.service';
-import {DiscountDto} from '../../../../model/discount/DiscountDto';
-import {SpecificationNameDto} from '../../../../model/specification/SpecificationNameDto';
-import {AngularFireStorage} from '@angular/fire/storage';
-import {AngularFirestore} from '@angular/fire/firestore';
-import {Photo} from '../../../../model/photo/photo';
+import { Component, ElementRef, EventEmitter, Inject, NgZone, OnInit, Output, ViewChild } from '@angular/core';
+import { OpeningHours } from '../../../../model/openingHours.model';
+import { PlaceAddDto } from '../../../../model/placeAddDto.model';
+import { CategoryDto } from '../../../../model/category.model';
+import { LocationDto } from '../../../../model/locationDto.model';
+import { WeekDays } from '../../../../model/weekDays.model';
+import { PlaceWithUserModel } from '../../../../model/placeWithUser.model';
+import { ModalService } from './_modal/modal.service';
+import { CategoryService } from '../../../../service/category.service';
+import { UserService } from '../../../../service/user/user.service';
+import { FormBuilder, NgForm } from '@angular/forms';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { MapsAPILoader, MouseEvent } from '@agm/core';
+import { PlaceService } from '../../../../service/place/place.service';
+import { BreakTimes } from '../../../../model/breakTimes.model';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { SpecificationService } from '../../../../service/specification.service';
+import { DiscountDto } from '../../../../model/discount/DiscountDto';
+import { SpecificationNameDto } from '../../../../model/specification/SpecificationNameDto';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Photo } from '../../../../model/photo/photo';
 
 @Component({
   selector: 'app-propose-cafe',
@@ -116,18 +116,19 @@ export class ProposeCafeComponent implements OnInit {
   }
 
   addDiscountAndSpecification(nameOfSpecification: string, value: number) {
-    let discount1 = new DiscountDto();
+    const discount1 = new DiscountDto();
     discount1.value = value;
-    let specification = new SpecificationNameDto();
+    const specification = new SpecificationNameDto();
     specification.name = nameOfSpecification;
     discount1.specification = specification;
     if (this.discountValues.length === 0) {
       this.discountValues.push(discount1);
     } else {
       let exist = false;
+      // tslint:disable-next-line:prefer-for-of
       for (let i = 0; i < this.discountValues.length; i++) {
         if (discount1.specification.name === this.discountValues[i].specification.name) {
-          alert("Already exists.");
+          alert('Already exists.');
           exist = true;
         }
       }
@@ -142,7 +143,7 @@ export class ProposeCafeComponent implements OnInit {
       alert('Second time have to be late than first. Please, try again.');
       return;
     }
-    let openingHours1 = new OpeningHours();
+    const openingHours1 = new OpeningHours();
     openingHours1.closeTime = openingHours.closeTime;
     openingHours1.openTime = openingHours.openTime;
     openingHours1.weekDay = openingHours.weekDay;
@@ -154,7 +155,7 @@ export class ProposeCafeComponent implements OnInit {
         return;
       }
     }
-    let weekDaysNew: WeekDays[] = [];
+    const weekDaysNew: WeekDays[] = [];
     this.weekDays.forEach(val => {
       if (val !== openingHours1.weekDay) {
         weekDaysNew.push(val);

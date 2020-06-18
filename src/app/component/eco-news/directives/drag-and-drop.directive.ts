@@ -4,7 +4,7 @@ import {
   HostListener,
   Output,
   EventEmitter
-} from "@angular/core";
+} from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { FileHandle } from '../models/create-news-interface';
 
@@ -17,15 +17,15 @@ export class DragAndDropDirective {
 
   constructor(private sanitizer: DomSanitizer) { }
 
-  @HostBinding("style.opacity") private opacity = '1';
+  @HostBinding('style.opacity') private opacity = '1';
 
-  @HostListener("dragover", ["$event"]) public onDragOver(evt: DragEvent) {
+  @HostListener('dragover', ['$event']) public onDragOver(evt: DragEvent) {
     this.opacity = '0.7';
     evt.preventDefault();
     evt.stopPropagation();
   }
 
-  @HostListener("dragleave", ["$event"]) public onDragLeave(evt: DragEvent) {
+  @HostListener('dragleave', ['$event']) public onDragLeave(evt: DragEvent) {
     evt.preventDefault();
     evt.stopPropagation();
   }
@@ -34,7 +34,8 @@ export class DragAndDropDirective {
     evt.preventDefault();
     evt.stopPropagation();
 
-    let files: FileHandle[] = [];
+    const files: FileHandle[] = [];
+    // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < evt.dataTransfer.files.length; i++) {
       const file = evt.dataTransfer.files[i];
       const url = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file));
@@ -45,17 +46,17 @@ export class DragAndDropDirective {
       this.files.emit(files);
     }
 
-    let reader: FileReader = new FileReader();
+    const reader: FileReader = new FileReader();
     files.forEach(item => {
       reader.readAsDataURL(item.file);
-    })
+    });
     reader.onload = handleFile.bind(this);
 
     function handleFile(event): void {
-      let binaryString = event.target.result;
+      const binaryString = event.target.result;
       files.forEach(item => {
         item.url = binaryString;
-      })
+      });
      }
   }
 }

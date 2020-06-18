@@ -52,7 +52,8 @@ export class TitleAndMetaTagsService {
     )
       .subscribe(([title, metas])  => {
         const pages = Object.keys(metas);
-        const meta = pages.includes(title) ? metas[title] : metas['welcome'];
+        const DEFAULT_STRING = 'welcome';
+        const meta = pages.includes(title) ? metas[title] : metas[DEFAULT_STRING];
         this.initTitleAndMeta(meta);
       });
 

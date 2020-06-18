@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CardModel } from "../../../models/card.model";
+import { CardModel } from '../../../models/card.model';
 
 @Component({
-  selector: 'profile-cards',
+  selector: 'app-profile-cards',
   templateUrl: './profile-cards.component.html',
   styleUrls: ['./profile-cards.component.scss']
 })
