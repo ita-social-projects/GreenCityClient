@@ -12,9 +12,6 @@ import { take } from 'rxjs/operators';
 
 export class EcoNewsService {
   private backEnd = environment.backendLink;
-  private newsList: Array<EcoNewsModel>;
-  private newsListWithActiveFilter: Array<EcoNewsModel>;
-  public newsListSubject = new Subject<Array<EcoNewsModel>>();
   public sortedLastThreeNews =  new Subject<Array<EcoNewsModel>>();
 
   constructor(private http: HttpClient) { }
@@ -23,16 +20,14 @@ export class EcoNewsService {
     return this.http.get<Array<string>>(`${this.backEnd}tags`);
   }
 
+  public getEcoNewsListByPage(page: number, quantity: number) {
+    return this.http.get(`${this.backEnd}econews?page=${page}&size=${quantity}`);
+  }
 
-  public getEcoNewsList() {
-    this.http.get<EcoNewsDto>(`${this.backEnd}econews`)
-      .pipe(take(1))
-      .subscribe(
-      (newsDto: EcoNewsDto) => {
-        this.newsList = newsDto.page;
-        this.newsListSubject.next(this.newsList);
-      }
-    );
+  public getNewsListByTags(page: number,
+                           quantity: number,
+                           tags: Array<string>) {
+    return this.http.get(`${this.backEnd}econews/tags?page=${page}&size=${quantity}&tags=${tags}`);
   }
 
   public getNewsList(): Observable<any> {
@@ -74,13 +69,5 @@ export class EcoNewsService {
       .filter(news => news.id !== id)
       .splice(0, 3);
     this.sortedLastThreeNews.next(separetedNews);
-  }
-
-  public getEcoNewsFilteredByTag(tags: Array<string>): void {
-    this.http.get<EcoNewsDto>(`${this.backEnd}econews/tags?tags=${tags}`)
-      .subscribe((filteredEcoNews: EcoNewsDto) => {
-        this.newsListWithActiveFilter = filteredEcoNews.page;
-        this.newsListSubject.next(this.newsListWithActiveFilter);
-      });
   }
 }
