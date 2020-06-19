@@ -16,7 +16,7 @@ import { AddCommentComponent } from '../comments/comments/add-comment/add-commen
     CommonModule,
   ],
   exports: [
-
+    AddCommentComponent,
   ],
   providers: []
 })
