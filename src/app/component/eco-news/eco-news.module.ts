@@ -8,7 +8,6 @@ import { SharedModule } from '../shared/shared.module';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { CommentLikeReplyComponent } from '../comment-like-reply/comment-like-reply.component';
 import {
   CreateNewsComponent,
   DragAndDropComponent,
@@ -27,6 +26,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { EffectsModule } from '@ngrx/effects';
 import { EcoNewsEffects } from './store/eco-news.effects';
 import { EcoNewsSelectors } from './store/eco-news.selectors';
+import {CommentsModule} from "../comments/comments.module";
 
 @NgModule({
   declarations: [
@@ -43,12 +43,12 @@ import { EcoNewsSelectors } from './store/eco-news.selectors';
     NewsPreviewPageComponent,
     PostNewsLoaderComponent,
     DragAndDropComponent,
-    DragAndDropDirective,
-    CommentLikeReplyComponent
+    DragAndDropDirective
   ],
   imports: [
     EffectsModule.forFeature([EcoNewsEffects]),
     CommonModule,
+    CommentsModule,
     SharedModule,
     InfiniteScrollModule,
     EcoNewsRoutingModule,
