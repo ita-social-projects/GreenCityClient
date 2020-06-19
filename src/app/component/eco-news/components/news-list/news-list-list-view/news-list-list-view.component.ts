@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, Renderer2, AfterViewChecked } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, Renderer2, AfterViewChecked } from '@angular/core';
 import { EcoNewsModel } from 'src/app/component/eco-news/models/eco-news-model';
 import { ecoNewsIcons } from 'src/assets/img/icon/econews/profile-icons';
 
@@ -8,16 +8,15 @@ import { ecoNewsIcons } from 'src/assets/img/icon/econews/profile-icons';
   styleUrls: ['./news-list-list-view.component.scss'],
   changeDetection: 0
 })
-export class NewsListListViewComponent implements OnInit, AfterViewChecked {
+export class NewsListListViewComponent implements AfterViewChecked {
   @Input() ecoNewsModel: EcoNewsModel;
   @ViewChild('titleHeight', { static: true }) titleHeight: ElementRef;
   @ViewChild('textHeight', { static: true }) textHeight: ElementRef;
 
-  profileIcons = ecoNewsIcons;
-  private newsText: string;
-  private newsImage: string;
-  private titleHeightOfElement: number;
-  private textHeightOfElement: number;
+  public profileIcons = ecoNewsIcons;
+  public newsImage: string;
+  public titleHeightOfElement: number;
+  public textHeightOfElement: number;
   private quantityOfLines = {
     hiddenSize: 0,
     sSize: 28,
@@ -29,8 +28,9 @@ export class NewsListListViewComponent implements OnInit, AfterViewChecked {
 
   constructor(private renderer: Renderer2) { }
 
-  ngOnInit() {}
-
+  ngAfterViewChecked() {
+    this.checkHeightOfTittle();
+  }
 
   private checkNewsImage(): string {
     return this.newsImage = (this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' ') ?
@@ -45,31 +45,26 @@ export class NewsListListViewComponent implements OnInit, AfterViewChecked {
                           this.textHeightOfElement + 'px' );
   }
 
-  private calculateElementHeight(): number {
+  public calculateElementHeight(): number {
     const titleHeight = this.titleHeightOfElement;
     const linesQuantity = this.quantityOfLines;
     let elemHeight;
 
     if (titleHeight < linesQuantity.smSize) {
       elemHeight = linesQuantity.lSize;
-    } else if (titleHeight > linesQuantity.lSize) {
-      elemHeight = linesQuantity.hiddenSize;
     } else if (titleHeight > linesQuantity.smSize &&
       titleHeight <= linesQuantity.mSize) {
       elemHeight = linesQuantity.msSize;
     } else if (titleHeight > linesQuantity.mSize &&
       titleHeight <= linesQuantity.lSize) {
       elemHeight = linesQuantity.sSize;
+    } else if (titleHeight > linesQuantity.lSize) {
+      elemHeight = linesQuantity.hiddenSize;
     }
-
     return elemHeight;
   }
 
-  private onResize(): void {
-    this.checkHeightOfTittle();
-  }
-
-  ngAfterViewChecked() {
+  public onResize(): void {
     this.checkHeightOfTittle();
   }
 }
