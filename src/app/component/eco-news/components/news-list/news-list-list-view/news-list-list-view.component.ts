@@ -53,12 +53,12 @@ export class NewsListListViewComponent implements AfterViewChecked {
     const titleHeight = this.titleHeightOfElement;
     const linesQuantity = this.quantityOfLines;
 
-    const fourLinesOfText = (titleHeight <= linesQuantity.lSize) ?
+    const firstCheck = (titleHeight <= linesQuantity.lSize) ?
                               linesQuantity.sSize : linesQuantity.hiddenSize;
-    const threeLinesOfText = (titleHeight <= linesQuantity.mSize) ?
-                              linesQuantity.msSize : fourLinesOfText;
+    const secondCheck = (titleHeight <= linesQuantity.mSize) ?
+                              linesQuantity.msSize : firstCheck;
     return (titleHeight <= linesQuantity.smSize) ?
-                              linesQuantity.lSize : threeLinesOfText;
+                              linesQuantity.lSize : secondCheck;
   }
 
 }
