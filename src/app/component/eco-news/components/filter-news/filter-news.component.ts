@@ -28,8 +28,8 @@ export class FilterNewsComponent implements OnInit {
   }
 
   private setTags(tags: Array<string>): void {
-    tags.forEach((filter: string) => {
-      this.filters.push({name: filter, isActive: false});
+    tags.map((filter: string) => {
+      this.filters = [...this.filters, ({name: filter, isActive: false})];
     });
   }
 
@@ -38,25 +38,22 @@ export class FilterNewsComponent implements OnInit {
   }
 
   private emitTrueFilterValues(): Array<string> {
-    const trueFilterValuesArray = [];
+    let trueFilterValuesArray = [];
 
-    for (const item of this.filters) {
-      if (item.isActive) {
-        trueFilterValuesArray.push(item.name);
+    this.filters.map(el => {
+      if (el.isActive) {
+        trueFilterValuesArray = [...trueFilterValuesArray, el.name];
       }
-    }
-
+    });
     return trueFilterValuesArray;
   }
 
   private toggleFilter(currentFilter: string): void {
-    for (const item of this.filters) {
-      if (item.name === currentFilter) {
-        item.isActive = !item.isActive;
+    this.filters.map(el => {
+      if (el.name === currentFilter) {
+        el.isActive = !el.isActive;
       }
-    }
-
+    });
     this.emitActiveFilters();
   }
-
 }
