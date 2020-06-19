@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { EcoNewsService } from '../../services/eco-news.service';
 import { EcoNewsModel } from '../../models/eco-news-model';
 import { Subscription } from 'rxjs';
-import { singleNewsImages } from '../../../../../assets/img/icon/econews/single-news-images';
-import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
+import { singleNewsImages } from '@eco-news-images/single-news-images';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-eco-news-detail',
@@ -15,10 +15,10 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   private newsIdSubscription: Subscription;
   private newsItemSubscription: Subscription;
   private newsId: number;
-  private newsItem: EcoNewsModel;
+  public newsItem: EcoNewsModel;
   private newsImage: string;
-  private images = singleNewsImages;
-  private userId: number;
+  public images = singleNewsImages;
+  public userId: number;
 
   constructor(private route: ActivatedRoute,
               private ecoNewsService: EcoNewsService,
