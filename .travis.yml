@@ -22,11 +22,10 @@ jobs:
       script:
       - ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false
       name: build app
-
-deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: $TRAVIS_GH_TOKEN
-  local_dir: dist/GreenCityClient
-  on:
-    branch: dev
+    - stage: deploy
+      script: skip
+      provider: pages
+      github_token: $TRAVIS_GH_TOKEN
+      local_dir: dist/GreenCityClient
+      on:
+        branch: dev
