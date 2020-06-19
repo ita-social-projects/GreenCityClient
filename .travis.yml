@@ -17,11 +17,11 @@ jobs:
     - stage: build
       script:
       - ng lint
-      name: linter
+      name: check linter
     -
       script:
       - ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false
-      name: build
+      name: build app
     - stage: deploy
       script: skip
       provider: pages
