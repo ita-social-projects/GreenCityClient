@@ -32,12 +32,16 @@ export class NewsListListViewComponent implements AfterViewChecked {
     this.checkHeightOfTittle();
   }
 
-  private checkNewsImage(): string {
+  public onResize(): void {
+    this.checkHeightOfTittle();
+  }
+
+  public checkNewsImage(): string {
     return this.newsImage = (this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' ') ?
       this.ecoNewsModel.imagePath : this.profileIcons.newsDefaultPictureList;
   }
 
-  private checkHeightOfTittle(): void {
+  public checkHeightOfTittle(): void {
     this.titleHeightOfElement = this.titleHeight.nativeElement.offsetHeight;
     this.textHeightOfElement = this.calculateElementHeight();
     this.renderer.setStyle(this.textHeight.nativeElement,
@@ -48,23 +52,13 @@ export class NewsListListViewComponent implements AfterViewChecked {
   public calculateElementHeight(): number {
     const titleHeight = this.titleHeightOfElement;
     const linesQuantity = this.quantityOfLines;
-    let elemHeight;
 
-    if (titleHeight < linesQuantity.smSize) {
-      elemHeight = linesQuantity.lSize;
-    } else if (titleHeight > linesQuantity.smSize &&
-      titleHeight <= linesQuantity.mSize) {
-      elemHeight = linesQuantity.msSize;
-    } else if (titleHeight > linesQuantity.mSize &&
-      titleHeight <= linesQuantity.lSize) {
-      elemHeight = linesQuantity.sSize;
-    } else if (titleHeight > linesQuantity.lSize) {
-      elemHeight = linesQuantity.hiddenSize;
-    }
-    return elemHeight;
+    const fourLinesOfText = (titleHeight <= linesQuantity.lSize) ?
+                              linesQuantity.sSize : linesQuantity.hiddenSize;
+    const threeLinesOfText = (titleHeight <= linesQuantity.mSize) ?
+                              linesQuantity.msSize : fourLinesOfText;
+    return (titleHeight <= linesQuantity.smSize) ?
+                              linesQuantity.lSize : threeLinesOfText;
   }
 
-  public onResize(): void {
-    this.checkHeightOfTittle();
-  }
 }
