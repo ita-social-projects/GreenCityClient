@@ -25,7 +25,7 @@
       "@eco-news-service/*": ["src/app/component/eco-news/services/*"],
       "@store/*": ["src/app/store/*"],
       "@eco-news-store/*": ["src/app/component/eco-news/store/*"],
-      "@eco-news-models/*": ["src/app/component/eco-news/models/*"]
+      "@eco-news-models/*": ["src/app/component/eco-news/models/*"],
       "@eco-news-images/*": ["src/assets/img/icon/econews/*"]
     }
   },
