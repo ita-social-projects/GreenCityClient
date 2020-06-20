@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, Renderer2, AfterViewChecked } from '@angular/core';
-import { EcoNewsModel } from 'src/app/component/eco-news/models/eco-news-model';
+import { Component, Input, ViewChild, ElementRef, Renderer2, AfterViewChecked } from '@angular/core';
+import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { ecoNewsIcons } from 'src/assets/img/icon/econews/profile-icons';
 
 @Component({
@@ -8,16 +8,15 @@ import { ecoNewsIcons } from 'src/assets/img/icon/econews/profile-icons';
   styleUrls: ['./news-list-list-view.component.scss'],
   changeDetection: 0
 })
-export class NewsListListViewComponent implements OnInit, AfterViewChecked {
+export class NewsListListViewComponent implements AfterViewChecked {
   @Input() ecoNewsModel: EcoNewsModel;
-  @ViewChild('titleHeight', { static: true }) titleHeight: ElementRef;
-  @ViewChild('textHeight', { static: true }) textHeight: ElementRef;
+  @ViewChild('titleHeight', {static: true}) titleHeight: ElementRef;
+  @ViewChild('textHeight', {static: true}) textHeight: ElementRef;
 
-  profileIcons = ecoNewsIcons;
-  private newsText: string;
-  private newsImage: string;
-  private titleHeightOfElement: number;
-  private textHeightOfElement: number;
+  public profileIcons = ecoNewsIcons;
+  public newsImage: string;
+  public titleHeightOfElement: number;
+  public textHeightOfElement: number;
   private quantityOfLines = {
     hiddenSize: 0,
     sSize: 28,
@@ -27,55 +26,38 @@ export class NewsListListViewComponent implements OnInit, AfterViewChecked {
     lSize: 96,
   };
 
-  constructor(private renderer: Renderer2) { }
-
-  ngOnInit() {
-    this.textValidationOfMinCharacters();
-  }
-
-  private textValidationOfMinCharacters(): string {
-    return this.newsText = (this.ecoNewsModel.text.length >= 198) ?
-      ((this.ecoNewsModel.text).slice(0, 197) + '...') : (this.ecoNewsModel.text);
-  }
-
-  private checkNewsImage(): string {
-    return this.newsImage = (this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' ') ?
-      this.ecoNewsModel.imagePath : this.profileIcons.newsDefaultPictureList;
-  }
-
-  private checkHeightOfTittle(): void {
-    this.titleHeightOfElement = this.titleHeight.nativeElement.offsetHeight;
-    this.textHeightOfElement = this.calculateElementHeight();
-    this.renderer.setStyle(this.textHeight.nativeElement,
-                      'height',
-                          this.textHeightOfElement + 'px' );
-  }
-
-  private calculateElementHeight(): number {
-    const titleHeight = this.titleHeightOfElement;
-    const linesQuantity = this.quantityOfLines;
-    let elemHeight;
-
-    if (titleHeight < linesQuantity.smSize) {
-      elemHeight = linesQuantity.lSize;
-    } else if (titleHeight > linesQuantity.lSize) {
-      elemHeight = linesQuantity.hiddenSize;
-    } else if (titleHeight > linesQuantity.smSize &&
-      titleHeight <= linesQuantity.mSize) {
-      elemHeight = linesQuantity.msSize;
-    } else if (titleHeight > linesQuantity.mSize &&
-      titleHeight <= linesQuantity.lSize) {
-      elemHeight = linesQuantity.sSize;
-    }
-
-    return elemHeight;
-  }
-
-  private onResize(): void {
-    this.checkHeightOfTittle();
+  constructor(private renderer: Renderer2) {
   }
 
   ngAfterViewChecked() {
     this.checkHeightOfTittle();
+  }
+
+  public onResize(): void {
+    this.checkHeightOfTittle();
+  }
+
+  public checkNewsImage(): string {
+    return this.newsImage = (this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' ') ?
+                              this.ecoNewsModel.imagePath : this.profileIcons.newsDefaultPictureList;
+  }
+
+  public checkHeightOfTittle(): void {
+    this.titleHeightOfElement = this.titleHeight.nativeElement.offsetHeight;
+    this.textHeightOfElement = this.calculateElementHeight();
+    this.renderer.setStyle(this.textHeight.nativeElement,
+                            'height', this.textHeightOfElement + 'px');
+  }
+
+  public calculateElementHeight(): number {
+    const titleHeight = this.titleHeightOfElement;
+    const linesQuantity = this.quantityOfLines;
+
+    const firstCheck = (titleHeight <= linesQuantity.lSize) ?
+                          linesQuantity.sSize : linesQuantity.hiddenSize;
+    const secondCheck = (titleHeight <= linesQuantity.mSize) ?
+                          linesQuantity.msSize : firstCheck;
+    return (titleHeight <= linesQuantity.smSize) ?
+                          linesQuantity.lSize : secondCheck;
   }
 }
