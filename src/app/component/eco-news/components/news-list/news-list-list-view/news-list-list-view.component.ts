@@ -10,8 +10,8 @@ import { ecoNewsIcons } from 'src/assets/img/icon/econews/profile-icons';
 })
 export class NewsListListViewComponent implements AfterViewChecked {
   @Input() ecoNewsModel: EcoNewsModel;
-  @ViewChild('titleHeight', { static: true }) titleHeight: ElementRef;
-  @ViewChild('textHeight', { static: true }) textHeight: ElementRef;
+  @ViewChild('titleHeight', {static: true}) titleHeight: ElementRef;
+  @ViewChild('textHeight', {static: true}) textHeight: ElementRef;
 
   public profileIcons = ecoNewsIcons;
   public newsImage: string;
@@ -26,7 +26,8 @@ export class NewsListListViewComponent implements AfterViewChecked {
     lSize: 96,
   };
 
-  constructor(private renderer: Renderer2) { }
+  constructor(private renderer: Renderer2) {
+  }
 
   ngAfterViewChecked() {
     this.checkHeightOfTittle();
@@ -38,15 +39,14 @@ export class NewsListListViewComponent implements AfterViewChecked {
 
   public checkNewsImage(): string {
     return this.newsImage = (this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' ') ?
-      this.ecoNewsModel.imagePath : this.profileIcons.newsDefaultPictureList;
+                              this.ecoNewsModel.imagePath : this.profileIcons.newsDefaultPictureList;
   }
 
   public checkHeightOfTittle(): void {
     this.titleHeightOfElement = this.titleHeight.nativeElement.offsetHeight;
     this.textHeightOfElement = this.calculateElementHeight();
     this.renderer.setStyle(this.textHeight.nativeElement,
-                      'height',
-                          this.textHeightOfElement + 'px' );
+                            'height', this.textHeightOfElement + 'px');
   }
 
   public calculateElementHeight(): number {
@@ -54,11 +54,10 @@ export class NewsListListViewComponent implements AfterViewChecked {
     const linesQuantity = this.quantityOfLines;
 
     const firstCheck = (titleHeight <= linesQuantity.lSize) ?
-                              linesQuantity.sSize : linesQuantity.hiddenSize;
+                          linesQuantity.sSize : linesQuantity.hiddenSize;
     const secondCheck = (titleHeight <= linesQuantity.mSize) ?
-                              linesQuantity.msSize : firstCheck;
+                          linesQuantity.msSize : firstCheck;
     return (titleHeight <= linesQuantity.smSize) ?
-                              linesQuantity.lSize : secondCheck;
+                          linesQuantity.lSize : secondCheck;
   }
-
 }
