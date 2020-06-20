@@ -31,7 +31,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   }
 
   public setNewsItem(item: EcoNewsModel): void {
-    this.newsItem = item;
+    this.newsItem = {...this.newsItem, ...item };
   }
 
   public checkNewsImage(): string {
@@ -58,7 +58,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   private fetchNewsItem(): void {
     this.newsItemSubscription = this.ecoNewsService
       .getEcoNewsById(this.newsId)
-      .subscribe(this.setNewsItem.bind(this));
+      .subscribe((item: EcoNewsModel) => this.setNewsItem(item));
   }
 
   ngOnDestroy() {
