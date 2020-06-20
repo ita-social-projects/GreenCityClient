@@ -25,8 +25,10 @@ jobs:
     - stage: deploy
       script: skip
       name: deploy on gh_pages
-      provider: pages
-      github_token: $TRAVIS_GH_TOKEN
-      local_dir: dist/GreenCityClient
-      on:
-        branch: dev
+      if: branch IN (dev, master)
+      deploy:
+        provider: pages
+        github_token: $TRAVIS_GH_TOKEN
+        local_dir: dist/GreenCityClient
+        on:
+          branch: dev
