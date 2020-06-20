@@ -8,7 +8,6 @@ sudo: false
 cache:
   directories:
     - node_modules
-    - dist
 
 install:
   - npm install
@@ -29,6 +28,7 @@ jobs:
       if: branch IN (dev, master)
       deploy:
         provider: pages
+        skip_cleanup: true
         github_token: $TRAVIS_GH_TOKEN
         local_dir: dist/GreenCityClient
         on:
