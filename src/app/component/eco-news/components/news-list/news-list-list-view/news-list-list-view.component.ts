@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild, ElementRef, Renderer2, AfterViewChecked } from '@angular/core';
-import { EcoNewsModel } from 'src/app/component/eco-news/models/eco-news-model';
+import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { ecoNewsIcons } from 'src/assets/img/icon/econews/profile-icons';
 
 @Component({
