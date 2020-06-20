@@ -25,6 +25,7 @@ jobs:
     - stage: deploy
       script: skip
       name: deploy on gh_pages
+      if: branch IN (dev, master)
       deploy:
         provider: pages
         github_token: $TRAVIS_GH_TOKEN
