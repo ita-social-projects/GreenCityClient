@@ -12,13 +12,13 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
   styleUrls: ['./eco-news-detail.component.scss']
 })
 export class EcoNewsDetailComponent implements OnInit, OnDestroy {
+  public newsItem: EcoNewsModel;
+  public images = singleNewsImages;
+  public userId: number;
   private newsIdSubscription: Subscription;
   private newsItemSubscription: Subscription;
   private newsId: number;
-  public newsItem: EcoNewsModel;
   private newsImage: string;
-  public images = singleNewsImages;
-  public userId: number;
 
   constructor(private route: ActivatedRoute,
               private ecoNewsService: EcoNewsService,
@@ -30,7 +30,16 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
     this.setNewsIdSubscription();
   }
 
-  private canUserEditNews(): void {
+  public setNewsItem(item: EcoNewsModel): void {
+    this.newsItem = item;
+  }
+
+  public checkNewsImage(): string {
+    return this.newsImage = (this.newsItem.imagePath && this.newsItem.imagePath !== ' ') ?
+      this.newsItem.imagePath : this.images.largeImage;
+  }
+
+  public canUserEditNews(): void {
     this.localStorageService.userIdBehaviourSubject.subscribe(id => this.userId = id);
   }
 
@@ -50,15 +59,6 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
     this.newsItemSubscription = this.ecoNewsService
       .getEcoNewsById(this.newsId)
       .subscribe(this.setNewsItem.bind(this));
-  }
-
-  private setNewsItem(item: EcoNewsModel): void {
-    this.newsItem = item;
-  }
-
-  private checkNewsImage(): string {
-    return this.newsImage = (this.newsItem.imagePath && this.newsItem.imagePath !== ' ') ?
-      this.newsItem.imagePath : this.images.largeImage;
   }
 
   ngOnDestroy() {
