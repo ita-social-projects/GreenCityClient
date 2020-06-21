@@ -1,10 +1,6 @@
-import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
-import {ProposeCafeComponent} from "../../../core/components/propose-cafe/propose-cafe.component";
-import {UserService} from "../../../../service/user/user.service";
-import {MatDialog} from "@angular/material";
-import {UpdateCafeComponent} from "../update-cafe/update-cafe.component";
-import {PlaceService} from "../../../../service/place/place.service";
-import {PlacesComponent} from "../places/places.component";
+import { Component, EventEmitter, OnInit, } from '@angular/core';
+import { ProposeCafeComponent } from '../../../core/components/propose-cafe/propose-cafe.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-admin-nav',

@@ -1,7 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
-import {Subscription} from "rxjs";
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-profile',

@@ -1,10 +1,12 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatIconRegistry} from '@angular/material';
-import {FavoritePlaceService} from '../../../../service/favorite-place/favorite-place.service';
-import {PlaceService} from '../../../../service/place/place.service';
-import {FavoritePlace} from '../../../../model/favorite-place/favorite-place';
-import {frontMailLink} from '../../../../links';
-import {DomSanitizer} from '@angular/platform-browser';
+import { Component, OnInit} from '@angular/core';
+import { MatDialog, MatDialogRef, MatIconRegistry } from '@angular/material';
+import { FavoritePlaceService } from '../../../../service/favorite-place/favorite-place.service';
+import { PlaceService } from '../../../../service/place/place.service';
+import { FavoritePlace } from '../../../../model/favorite-place/favorite-place';
+import { frontMailLink } from '../../../../links';
+import { DomSanitizer } from '@angular/platform-browser';
+import { EditFavoriteNameComponent } from './edit-favorite-name/edit-favorite-name';
+import { DeleteFavoriteComponent } from './delete-favorite-place/delete-favorite-place';
 
 export interface DialogData {
   placeId: number;
@@ -76,32 +78,3 @@ export class FavoritePlaceComponent implements OnInit {
   }
 }
 
-@Component({
-  selector: 'app-edit-name',
-  templateUrl: 'edit-name.html'
-})
-export class EditFavoriteNameComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData, private favoritePlaceService: FavoritePlaceService) {
-  }
-
-  update(name: string) {
-    this.favoritePlaceService.updateFavoritePlace(new FavoritePlace(this.data.placeId, name)).subscribe();
-  }
-
-  clickSubmit() {
-    document.getElementById('closeButton').click();
-  }
-}
-
-@Component({
-  selector: 'app-delete-favorite-place',
-  templateUrl: 'delete-favorite-place.html'
-})
-export class DeleteFavoriteComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData, private favoritePlaceService: FavoritePlaceService) {
-  }
-
-  delete() {
-    this.favoritePlaceService.deleteFavoritePlace(this.data.placeId).subscribe();
-  }
-}

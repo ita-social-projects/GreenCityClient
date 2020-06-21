@@ -1,9 +1,6 @@
-export class RestoreDto{
-  password:string;
-  confirmPassword:string;
+export class RestoreDto {
+  password: string;
+  confirmPassword: string;
   token: string;
-  constructor() {
-  }
-
-
+  constructor() {  }
 }

@@ -14,7 +14,8 @@
         </div>
       </a>
     </div>
-    <div class="edit-news">
+    <div class="edit-news"
+         *ngIf="newsItem.author.id === userId">
       <div>{{ "eco-news-single-view.edit-news-button" | translate }}</div>
     </div>
   </div>
