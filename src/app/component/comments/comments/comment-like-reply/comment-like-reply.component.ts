@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { COMMENTS_IMAGES } from '../../../../../assets/img/comments/comments-images';
+import { COMMENTS_IMAGES } from '@images/comments/comments-images';
 
 @Component({
   selector: 'app-comment-like-reply',
