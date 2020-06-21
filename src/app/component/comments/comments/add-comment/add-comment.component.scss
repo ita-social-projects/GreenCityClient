@@ -37,4 +37,9 @@
         color: #ffffff;
         border: none;
     }   
+
+    button:disabled {
+        background-color: #839C94;
+        border: 1px solid #839C94;
+    }
 }

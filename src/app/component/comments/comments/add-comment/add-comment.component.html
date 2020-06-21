@@ -1,5 +1,14 @@
-<div class="wrapper">
+<form 
+    class="wrapper"
+    [formGroup]="addCommentForm" 
+    (ngSubmit)="onSubmit()">
     <img [src]=avatarImage alt="avatar">
-    <textarea placeholder="Add a comment"></textarea>
-    <button>Comment</button>
+    <textarea placeholder="Add a comment"
+            formControlName="content"></textarea>
+    <button [disabled]="!addCommentForm.valid">Comment</button>
+</form>
+<div class="container">
+    <div *ngFor="let element of elements">
+        {{ element.text }}
+    </div>
 </div>
