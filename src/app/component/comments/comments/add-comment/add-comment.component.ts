@@ -9,6 +9,8 @@ export class AddCommentComponent implements OnInit {
 
   constructor() { }
 
+  public avatarImage = '../../../../assets/img/comment-avatar.png';
+
   ngOnInit() {
   }
 
