@@ -5,7 +5,8 @@
     <img [src]=avatarImage alt="avatar">
     <textarea placeholder="Add a comment"
             formControlName="content"></textarea>
-    <button [disabled]="!addCommentForm.valid">Comment</button>
+    <button class="primary-global-button"
+            [disabled]="!addCommentForm.valid">Comment</button>
 </form>
 <div class="container">
     <div *ngFor="let element of elements">

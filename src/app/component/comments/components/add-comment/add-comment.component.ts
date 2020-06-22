@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { CommentsService } from '../../services/comments.service';
+import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { add } from 'ngx-bootstrap/chronos';
-import { ActivatedRoute } from '@angular/router';
+import { CommentsService } from '../../services/comments.service';
+import { CommentsModel } from '../../models/comments-model';
+import { CommentsDTO } from '../../models/comments-model';
+
 @Component({
   selector: 'app-add-comment',
   templateUrl: './add-comment.component.html',
@@ -15,40 +18,32 @@ export class AddCommentComponent {
               private fb: FormBuilder, 
               private route: ActivatedRoute) { }
 
-  public avatarImage = 'assets/img/comment-avatar.png';
-  public addCommentForm = this.fb.group({
+  public avatarImage: string = 'assets/img/comment-avatar.png';
+  public addCommentForm: FormGroup = this.fb.group({
     content: ['', [Validators.required, Validators.maxLength(8000)]],
   })
-  public iterator = 0;
   public commenstSubscription;
-  public remaining;
   public elements = [];
 
   ngOnInit() {
     this.addElemsToCurrentList();
-   
   }
 
-  private addElemsToCurrentList(): void {
+  public addElemsToCurrentList(): void {
     this.route.url.subscribe(url => this.commentsService.ecoNewsId = url[0].path);
     this.commenstSubscription =  this.commentsService.getCommentsByPage()
-        .subscribe((list: any) => this.setList(list));
+        .subscribe((list: CommentsModel) => this.setList(list));
   }
 
-  private setList(data: any): void {
-    this.remaining = data.totalElements;
+  public setList(data: CommentsModel): void {
     this.elements = [...this.elements, ...data.page];
-    console.log(this.elements)
   }
 
-  private onSubmit(): void {
-    console.log(this.addCommentForm.value.content)
+  public onSubmit(): void {
     this.commentsService.addComment(this.addCommentForm).subscribe(
-      (successRes) => {
-        console.log(successRes);
-       
+      (successRes: CommentsDTO) => {
+        this.elements = [successRes, ...this.elements];
       }
     )
   }
-
 }

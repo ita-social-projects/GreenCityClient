@@ -11,12 +11,6 @@ import { ActivatedRoute } from '@angular/router';
 export class CommentsService {
 
   public accessToken: string = localStorage.getItem('accessToken'); 
-  private httpOptions = {
-    headers: new HttpHeaders({
-     'Content-type': 'Application/json',
-     'Authorization': 'my-auth-token'
-    })
-  };
   private backEnd = environment.backendLink;
   private routeSubscription: Subscription;
   public ecoNewsId: string;
@@ -30,11 +24,10 @@ export class CommentsService {
       "text": form.value.content
     };
 
-    this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
-    return this.http.post(`https://greencity.azurewebsites.net/econews/comments/${this.ecoNewsId}`, body, this.httpOptions)
+    return this.http.post(`https://greencity.azurewebsites.net/econews/comments/${this.ecoNewsId}`, body)
   }
 
   public getCommentsByPage() {
-    return this.http.get(`https://greencity.azurewebsites.net/econews/comments?ecoNewsId=${this.ecoNewsId}&page=0&size=12`);
+    return this.http.get(`https://greencity.azurewebsites.net/econews/comments?ecoNewsId=${this.ecoNewsId}&page=0&size=50`);
   }
 }
