@@ -45,7 +45,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { reducers } from './store/app.reducers';
 import { EffectsModule } from '@ngrx/effects';
-import { CommentsComponent } from './component/comments/comments/comments.component';
+import { CommentsComponent } from './component/comments/components/comments.component';
 import {CommentsModule} from './component/comments/comments.module';
 
 @NgModule({

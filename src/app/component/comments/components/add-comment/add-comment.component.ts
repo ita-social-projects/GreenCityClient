@@ -5,13 +5,10 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './add-comment.component.html',
   styleUrls: ['./add-comment.component.scss']
 })
-export class AddCommentComponent implements OnInit {
+export class AddCommentComponent {
 
   constructor() { }
 
-  public avatarImage = '../../../../assets/img/comment-avatar.png';
-
-  ngOnInit() {
-  }
+  public avatarImage = 'src/assets/img/comment-avatar.png';
 
 }
