@@ -53,6 +53,7 @@ import { CommentsModule } from '../comments/comments.module';
     InfiniteScrollModule,
     EcoNewsRoutingModule,
     ImageCropperModule,
+    CommentsModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,

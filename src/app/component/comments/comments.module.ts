@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
-import { CommentsComponent } from './comments/comments.component';
-import { SharedModule } from '../shared/shared.module';
 import { CommonModule } from '@angular/common';
-import { CommentLikeReplyComponent } from './comments/comment-like-reply/comment-like-reply.component';
+import { CommentsComponent } from './components/comments.component';
+import { SharedModule } from '../shared/shared.module';
+import { AddCommentComponent } from '../comments/components/add-comment/add-comment.component';
+import {CommentLikeReplyComponent} from './components/comment-like-reply/comment-like-reply.component';
 
 
 @NgModule({
   declarations: [
     CommentsComponent,
+    AddCommentComponent,
     CommentLikeReplyComponent
   ],
   imports: [
@@ -15,6 +17,7 @@ import { CommentLikeReplyComponent } from './comments/comment-like-reply/comment
     CommonModule,
   ],
   exports: [
+    AddCommentComponent,
     CommentLikeReplyComponent
   ],
   providers: []
