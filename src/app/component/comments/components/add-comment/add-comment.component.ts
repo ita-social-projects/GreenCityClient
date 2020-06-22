@@ -9,13 +9,13 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './add-comment.component.html',
   styleUrls: ['./add-comment.component.scss']
 })
-export class AddCommentComponent implements OnInit {
+export class AddCommentComponent {
 
   constructor(private commentsService: CommentsService,
               private fb: FormBuilder, 
               private route: ActivatedRoute) { }
 
-  public avatarImage = '../../../../assets/img/comment-avatar.png';
+  public avatarImage = 'assets/img/comment-avatar.png';
   public addCommentForm = this.fb.group({
     content: ['', [Validators.required, Validators.maxLength(8000)]],
   })
