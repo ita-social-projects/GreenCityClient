@@ -43,11 +43,12 @@ import { CommentsModule } from '../comments/comments.module';
     NewsPreviewPageComponent,
     PostNewsLoaderComponent,
     DragAndDropComponent,
-    DragAndDropDirective,
+    DragAndDropDirective
   ],
   imports: [
     EffectsModule.forFeature([EcoNewsEffects]),
     CommonModule,
+    CommentsModule,
     SharedModule,
     InfiniteScrollModule,
     EcoNewsRoutingModule,
