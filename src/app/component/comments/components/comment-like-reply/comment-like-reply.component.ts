@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { COMMENTS_IMAGES } from '@images/comments/comments-images';
 
 @Component({
   selector: 'app-comment-like-reply',
@@ -7,7 +6,10 @@ import { COMMENTS_IMAGES } from '@images/comments/comments-images';
   styleUrls: ['./comment-like-reply.component.scss']
 })
 export class CommentLikeReplyComponent implements OnInit {
-  private commentsImages = COMMENTS_IMAGES;
+  public commentsImages = {
+    like: 'assets/img/comments/like.png',
+    reply: 'assets/img/comments/reply.png'
+  };
 
   constructor() { }
 
