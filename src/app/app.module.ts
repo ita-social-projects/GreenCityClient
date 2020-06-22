@@ -45,8 +45,6 @@ import { AuthModule } from './component/auth/auth.module';
 import { HomeModule } from './component/home/home.module';
 import { LayoutModule } from './component/layout/layout.module';
 import { CreateNewsCancelComponent } from './component/shared/components/create-news-cancel/create-news-cancel.component';
-import { CommentsComponent } from './component/comments/components/comments.component';
-import {CommentsModule} from './component/comments/comments.module';
 
 @NgModule({
   declarations: [
@@ -81,8 +79,7 @@ import {CommentsModule} from './component/comments/comments.module';
     AngularFireStorageModule,
     MatSelectModule,
     MatRadioModule,
-    DragDropModule,
-    CommentsModule,
+    DragDropModule
   ],
   entryComponents: [
     ProposeCafeComponent,
