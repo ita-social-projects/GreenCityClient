@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { COMMENTS_IMAGES } from '@images/comments/comments-images';
 
 @Component({
   selector: 'app-add-comment',
@@ -10,6 +9,6 @@ export class AddCommentComponent {
 
   constructor() { }
 
-  public avatarImage = COMMENTS_IMAGES;
+  public avatarImage = 'assets/img/comment-avatar.png';
 
 }
