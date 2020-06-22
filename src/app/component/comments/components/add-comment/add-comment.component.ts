@@ -12,16 +12,16 @@ import { CommentsDTO } from '../../models/comments-model';
   templateUrl: './add-comment.component.html',
   styleUrls: ['./add-comment.component.scss']
 })
-export class AddCommentComponent {
+export class AddCommentComponent implements OnInit {
 
   constructor(private commentsService: CommentsService,
-              private fb: FormBuilder, 
+              private fb: FormBuilder,
               private route: ActivatedRoute) { }
 
-  public avatarImage: string = 'assets/img/comment-avatar.png';
+  public avatarImage = 'assets/img/comment-avatar.png';
   public addCommentForm: FormGroup = this.fb.group({
     content: ['', [Validators.required, Validators.maxLength(8000)]],
-  })
+  });
   public commenstSubscription;
   public elements = [];
 
@@ -44,6 +44,6 @@ export class AddCommentComponent {
       (successRes: CommentsDTO) => {
         this.elements = [successRes, ...this.elements];
       }
-    )
+    );
   }
 }

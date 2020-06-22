@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class CommentsService {
 
-  public accessToken: string = localStorage.getItem('accessToken'); 
+  public accessToken: string = localStorage.getItem('accessToken');
   private backEnd = environment.backendLink;
   private routeSubscription: Subscription;
   public ecoNewsId: string;
@@ -20,14 +20,14 @@ export class CommentsService {
 
   public addComment(form): any {
     const body = {
-      "parentCommentId": 0,
-      "text": form.value.content
+      parentCommentId: 0,
+      text: form.value.content
     };
 
-    return this.http.post(`https://greencity.azurewebsites.net/econews/comments/${this.ecoNewsId}`, body)
+    return this.http.post(`https://greencity.azurewebsites.net/econews/comments/${this.ecoNewsId}`, body);
   }
 
   public getCommentsByPage() {
-    return this.http.get(`https://greencity.azurewebsites.net/econews/comments?ecoNewsId=${this.ecoNewsId}&page=0&size=50`);
+    return this.http.get(`https://greencity.azurewebsites.net/econews/comments?ecoNewsId=${this.ecoNewsId}&page=0&size=12`);
   }
 }
