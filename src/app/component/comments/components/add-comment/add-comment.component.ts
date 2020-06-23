@@ -6,6 +6,7 @@ import { add } from 'ngx-bootstrap/chronos';
 import { CommentsService } from '../../services/comments.service';
 import { CommentsModel } from '../../models/comments-model';
 import { CommentsDTO } from '../../models/comments-model';
+import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 
 @Component({
   selector: 'app-add-comment',
@@ -16,7 +17,8 @@ export class AddCommentComponent implements OnInit {
 
   constructor(private commentsService: CommentsService,
               private fb: FormBuilder,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private userOwnAuthService: UserOwnAuthService) { }
 
   public avatarImage = 'assets/img/comment-avatar.png';
   public addCommentForm: FormGroup = this.fb.group({
@@ -24,9 +26,12 @@ export class AddCommentComponent implements OnInit {
   });
   public commenstSubscription;
   public elements = [];
+  private isLoggedIn: boolean;
 
   ngOnInit() {
     this.addElemsToCurrentList();
+    this.checkUserSingIn();
+    this.userOwnAuthService.getDataFromLocalStorage();
   }
 
   public addElemsToCurrentList(): void {
@@ -45,5 +50,10 @@ export class AddCommentComponent implements OnInit {
         this.elements = [successRes, ...this.elements];
       }
     );
+  }
+
+  private checkUserSingIn(): void {
+    this.userOwnAuthService.credentialDataSubject
+      .subscribe((data) => this.isLoggedIn = data && data.userId);
   }
 }

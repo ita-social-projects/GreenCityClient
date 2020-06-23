@@ -1,4 +1,5 @@
 <form 
+    *ngIf="isLoggedIn"
     class="wrapper"
     [formGroup]="addCommentForm" 
     (ngSubmit)="onSubmit()">
