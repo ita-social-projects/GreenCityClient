@@ -48,7 +48,7 @@ import { CreateNewsCancelComponent } from './component/shared/components/create-
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     StoreModule.forRoot(reducers),
