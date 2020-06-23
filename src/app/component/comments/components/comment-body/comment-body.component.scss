@@ -1,3 +1,5 @@
+$main-font: 'Open Sans';
+
 .comment-body-wrapper {
   margin: auto;
   width: 70%;
@@ -27,7 +29,7 @@
 
 .comment-date {
   color: #878787;
-  font-family: "Open Sans";
+  font-family: $main-font;
   font-size: 12px;
   line-height: 16px;
   display: flex;
@@ -62,16 +64,21 @@
 
 .comment-main-text {
   margin-left: 62px;
-  font-family: "Open Sans";
+  font-family: $main-font;
   font-size: 16px;
   line-height: 24px;
   margin-bottom: -10px;
 }
 
 .like-amount {
-  font-family: "Open Sans";
+  font-family: $main-font;
   font-size: 12px;
   line-height: 16px;
   color: #878787;
   margin-left: 5px;
+}
+
+.comments-elements {
+  display: flex;
+  justify-content: space-between;
 }
