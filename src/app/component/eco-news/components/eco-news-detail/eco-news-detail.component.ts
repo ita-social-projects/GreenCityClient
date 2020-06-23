@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { EcoNewsService } from '../../services/eco-news.service';
-import { EcoNewsModel } from '../../models/eco-news-model';
 import { Subscription } from 'rxjs';
+import { EcoNewsService } from '@eco-news-service/eco-news.service';
+import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { singleNewsImages } from '@eco-news-images/single-news-images';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
