@@ -32,7 +32,7 @@ private setTags(tags: Array<string>): void {
 
   public emitTrueFilterValues(): Array<string> {
     return this.filters.reduce((result, element) =>
-      element.isActive === true ? [...result, element.name] : result, []);
+      element.isActive === true ? [...result, element.name] : result, Array<string>());
   }
 
   public emitActiveFilters(): void {
