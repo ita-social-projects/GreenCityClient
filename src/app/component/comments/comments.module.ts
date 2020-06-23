@@ -5,6 +5,7 @@ import { SharedModule } from '../shared/shared.module';
 import { AddCommentComponent } from '../comments/components/add-comment/add-comment.component';
 import { CommentLikeReplyComponent } from './components/comment-like-reply/comment-like-reply.component';
 import { CommentBodyComponent } from './components/comment-body/comment-body.component';
+import { ViewRepliesComponent } from './components/view-replies/view-replies.component';
 
 @NgModule({
   declarations: [
@@ -12,6 +13,7 @@ import { CommentBodyComponent } from './components/comment-body/comment-body.com
     AddCommentComponent,
     CommentLikeReplyComponent,
     CommentBodyComponent,
+    ViewRepliesComponent,
   ],
   imports: [
     SharedModule,
@@ -19,7 +21,8 @@ import { CommentBodyComponent } from './components/comment-body/comment-body.com
   ],
   exports: [
     AddCommentComponent,
-    CommentLikeReplyComponent
+    CommentLikeReplyComponent,
+    ViewRepliesComponent,
   ],
   providers: []
 })
