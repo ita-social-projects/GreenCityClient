@@ -43,7 +43,7 @@ div {
   font-style: normal;
   font-weight: 500;
   font-size: 21px;
-  line-height: 28px;
+  line-height: 32px;
   color: #313131;
 }
 
@@ -53,7 +53,7 @@ div {
 }
 
 .user-data-added-news {
-  margin: 8px 0 0 0;
+  margin: 16px 0 0 0;
   display: flex;
   flex-wrap: wrap;
 }
@@ -114,11 +114,23 @@ div {
 @media screen and (max-width: 576px) {
   .list-gallery-content {
     padding: 0;
-    width: 288px;
+    width: 258px;
   }
 
   .list-image-content {
+    width: 258px;
+    height: 159px;
+  }
+}
+
+
+@media screen and (max-width: 320px) {
+  .list-image-content {
     width: 288px;
     height: 177px;
+  }
+  .list-gallery-content {
+    padding: 0;
+    width: 288px;
   }
 }
