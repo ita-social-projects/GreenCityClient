@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { EcoNewsService } from 'src/app/component/eco-news/services/eco-news.service';
 import { Subscription } from 'rxjs';
+
+import { EcoNewsService } from 'src/app/component/eco-news/services/eco-news.service';
 import { FilterModel } from '@eco-news-models/filter.model';
 
 
@@ -32,7 +33,7 @@ private setTags(tags: Array<string>): void {
 
   public emitTrueFilterValues(): Array<string> {
     return this.filters.reduce((result, element) =>
-      element.isActive === true ? [...result, element.name] : result, Array<string>());
+      element.isActive ? [...result, element.name] : result, Array<string>());
   }
 
   public emitActiveFilters(): void {
