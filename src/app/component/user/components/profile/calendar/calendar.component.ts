@@ -55,7 +55,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
       const translations = res.translations.profile.calendar;
       this.daysNameLong = translations.days;
       this.months = translations.months;
-      this.monthAndYearName = this.months[this.currentMonth] + ' ' + this.currentYear;
+      this.monthAndYearName = `${this.months[this.currentMonth]} ${this.currentYear}`;
       this.markCurrentDayOfWeek();
     });
   }
@@ -66,7 +66,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
         const translations = res.profile.calendar;
         this.daysNameLong = translations.days;
         this.months = translations.months;
-        this.monthAndYearName = this.months[this.currentMonth] + ' ' + this.currentYear;
+        this.monthAndYearName = `${this.months[this.currentMonth]} ${this.currentYear}`;
       });
   }
 
@@ -82,19 +82,22 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.calendar.year = year;
     this.calendar.firstDay = (new Date(year, month, 0)).getDay();
     this.calendar.totalDaysInMonth = this.getDaysInMonth(month, year);
-    this.monthAndYearName = this.months[month] + ' ' + year;
+    this.monthAndYearName = `${this.months[month]} ${year}`;
   }
 
   public bindCalendarModel(): void {
-    for (let i = 1; i <= this.calendar.totalDaysInMonth; i++) {
-      this.calendarDay = [...this.calendarDay, this.getMonthTemplate(i)];
-    }
+    const end = this.calendar.totalDaysInMonth;
+    const calendarDays = Array.from({ length: end },
+      (_, i) =>
+        this.getMonthTemplate(i + 1));
+    this.calendarDay = [...this.calendarDay, ...calendarDays];
   }
 
   public setEmptyDays(): void {
-    for (let i = 1; i <= this.calendar.firstDay; i++) {
-      this.calendarDay = [this.getMonthTemplate(), ...this.calendarDay];
-    }
+    const end = this.calendar.firstDay;
+    const emptyDays = Array.from({ length: end }, () => this.getMonthTemplate());
+    this.calendarDay = [...emptyDays, ...this.calendarDay];
+
   }
 
   public getMonthTemplate(days?: number): CalendarInterface {
@@ -114,11 +117,10 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   public isCurrentDayActive(): void {
-    this.calendarDay.map(el =>
-      (el.date.getDate() === el.numberOfDate &&
-        el.date.getMonth() === el.month &&
-        el.date.getFullYear() === el.year) ?
-          el.isCurrentDayActive = true : el.isCurrentDayActive
+    this.calendarDay.map(el => el.isCurrentDayActive =
+      (el.date.getDate() === el.numberOfDate
+        && el.date.getMonth() === el.month
+        && el.date.getFullYear() === el.year)
     );
   }
 
