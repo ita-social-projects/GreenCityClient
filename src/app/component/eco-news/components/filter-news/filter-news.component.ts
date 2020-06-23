@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { EcoNewsService } from 'src/app/component/eco-news/services/eco-news.service';
+import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { FilterModel } from '@eco-news-models/filter.model';
 
 
