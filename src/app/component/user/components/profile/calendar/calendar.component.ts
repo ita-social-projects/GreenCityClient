@@ -1,11 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CalendarInterface } from './calendar-interface';
-import { calendarImage } from '../../../../../../assets/img/profile/calendar/calendar-image';
-import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
-import { LocalStorageService } from '../../../../../service/localstorage/local-storage.service';
-import { LanguageService } from '../../../../../i18n/language.service';
-import {Language} from '../../../../../i18n/Language';
+import { TranslateService } from '@ngx-translate/core';
+
+import { CalendarInterface } from './calendar-interface';
+import { calendarImage } from './calendar-image';
+import { LanguageService } from '@language-service/language.service';
 
 @Component({
   selector: 'app-calendar',
@@ -13,17 +12,18 @@ import {Language} from '../../../../../i18n/Language';
   styleUrls: ['./calendar.component.scss']
 })
 export class CalendarComponent implements OnInit, OnDestroy {
-  private langChangeSub: Subscription;
-  private defaultTranslateSub: Subscription;
-  private calendarImages = calendarImage;
-  private monthAndYearName: string;
-  private daysNameLong: Array<string> = [];
-  private months: Array<string> = [];
+  public calendarImages = calendarImage;
+  public monthAndYearName: string;
+  public daysNameLong: Array<string> = [];
+  public months: Array<string> = [];
+  public calendarDay: Array<CalendarInterface> = [];
+  public currentDayName: string;
+  public language: string;
+
   private currentMonth = new Date().getMonth();
   private currentYear = new Date().getFullYear();
-  private calendarDay: Array<CalendarInterface> = [];
-  private currentDayName: string;
-  private language: string;
+  private langChangeSub: Subscription;
+  private defaultTranslateSub: Subscription;
 
   private calendar: CalendarInterface = {
     date: new Date(),
@@ -38,8 +38,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   };
 
   constructor(private translate: TranslateService,
-              private languageService: LanguageService,
-              private localStorageService: LocalStorageService) {}
+              private languageService: LanguageService) {}
 
   ngOnInit() {
     this.bindDefaultTranslate();
@@ -47,11 +46,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.buildCalendar();
   }
 
-  private getDaysInMonth(iMonth, iYear): number {
+  public getDaysInMonth(iMonth, iYear): number {
     return new Date(iYear, iMonth + 1, 0).getDate();
   }
 
-  private subscribeToLangChange(): void {
+  public subscribeToLangChange(): void {
     this.langChangeSub = this.translate.onDefaultLangChange.subscribe((res) => {
       const translations = res.translations.profile.calendar;
       this.daysNameLong = translations.days;
@@ -61,7 +60,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     });
   }
 
-  private bindDefaultTranslate(): void {
+  public bindDefaultTranslate(): void {
     this.defaultTranslateSub = this.translate.getTranslation(this.translate.getDefaultLang())
       .subscribe((res) => {
         const translations = res.profile.calendar;
@@ -71,14 +70,14 @@ export class CalendarComponent implements OnInit, OnDestroy {
       });
   }
 
-  private buildCalendar(): void {
+  public buildCalendar(): void {
     this.calculateCalendarModel(this.currentMonth, this.currentYear);
     this.bindCalendarModel();
     this.setEmptyDays();
     this.isCurrentDayActive();
   }
 
-  private calculateCalendarModel(month: number, year: number): void {
+  public calculateCalendarModel(month: number, year: number): void {
     this.calendar.month = month;
     this.calendar.year = year;
     this.calendar.firstDay = (new Date(year, month, 0)).getDay();
@@ -86,19 +85,19 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.monthAndYearName = this.months[month] + ' ' + year;
   }
 
-  private bindCalendarModel(): void {
+  public bindCalendarModel(): void {
     for (let i = 1; i <= this.calendar.totalDaysInMonth; i++) {
       this.calendarDay = [...this.calendarDay, this.getMonthTemplate(i)];
     }
   }
 
-  private setEmptyDays(): void {
+  public setEmptyDays(): void {
     for (let i = 1; i <= this.calendar.firstDay; i++) {
       this.calendarDay = [this.getMonthTemplate(), ...this.calendarDay];
     }
   }
 
-  private getMonthTemplate(days?: number): CalendarInterface {
+  public getMonthTemplate(days?: number): CalendarInterface {
     return {
       numberOfDate : days || '',
       date : new Date(),
@@ -114,7 +113,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     };
   }
 
-  private isCurrentDayActive(): void {
+  public isCurrentDayActive(): void {
     this.calendarDay.map(el =>
       (el.date.getDate() === el.numberOfDate &&
         el.date.getMonth() === el.month &&
@@ -123,7 +122,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     );
   }
 
-  private markCurrentDayOfWeek(): void {
+  public markCurrentDayOfWeek(): void {
     const option = { weekday: 'short' };
     this.language = this.languageService.getCurrentLanguage();
     this.calendarDay.find(el => {
@@ -137,14 +136,14 @@ export class CalendarComponent implements OnInit, OnDestroy {
     });
   }
 
-  private nextMonth(): void {
+  public nextMonth(): void {
     this.currentYear = (this.currentMonth === 11) ? this.currentYear + 1 : this.currentYear;
     this.currentMonth = (this.currentMonth + 1) % 12;
     this.calendarDay = [];
     this.buildCalendar();
   }
 
-  private previousMonth(): void {
+  public previousMonth(): void {
     this.currentYear = (this.currentMonth === 0) ? this.currentYear - 1 : this.currentYear;
     this.currentMonth = (this.currentMonth === 0) ? 11 : this.currentMonth - 1;
     this.calendarDay = [];
