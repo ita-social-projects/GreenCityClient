@@ -62,12 +62,13 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   private bindDefaultTranslate(): void {
-    this.defaultTranslateSub = this.translate.getTranslation(this.translate.getDefaultLang()).subscribe((res) => {
-      const translations = res.profile.calendar;
-      this.daysNameLong = translations.days;
-      this.months = translations.months;
-      this.monthAndYearName = this.months[this.currentMonth] + ' ' + this.currentYear;
-    });
+    this.defaultTranslateSub = this.translate.getTranslation(this.translate.getDefaultLang())
+      .subscribe((res) => {
+        const translations = res.profile.calendar;
+        this.daysNameLong = translations.days;
+        this.months = translations.months;
+        this.monthAndYearName = this.months[this.currentMonth] + ' ' + this.currentYear;
+      });
   }
 
   private buildCalendar(): void {
@@ -105,7 +106,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
       year : this.calendar.year,
       firstDay : this.calendar.firstDay,
       totalDaysInMonth : this.calendar.totalDaysInMonth,
-      dayName : (new Date(this.calendar.year, this.calendar.month, days).toDateString().substring(0, 3)) || '',
+      dayName : (new Date(this.calendar.year, this.calendar.month, days)
+        .toDateString()
+        .substring(0, 3)) || '',
       isHabitsTracked: false,
       isCurrentDayActive: false
     };
@@ -113,8 +116,10 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   private isCurrentDayActive(): void {
     this.calendarDay.map(el =>
-      (el.date.getDate() === el.numberOfDate && el.date.getMonth() === el.month && el.date.getFullYear() === el.year) ?
-        el.isCurrentDayActive = true : el.isCurrentDayActive
+      (el.date.getDate() === el.numberOfDate &&
+        el.date.getMonth() === el.month &&
+        el.date.getFullYear() === el.year) ?
+          el.isCurrentDayActive = true : el.isCurrentDayActive
     );
   }
 
@@ -122,10 +127,13 @@ export class CalendarComponent implements OnInit, OnDestroy {
     const option = { weekday: 'short' };
     this.language = this.languageService.getCurrentLanguage();
     this.calendarDay.find(el => {
-      if (el.isCurrentDayActive && el.date.getMonth() === el.month && el.date.getFullYear() === el.year) {
-        const dayName = (new Date(el.year, el.month, +el.numberOfDate).toLocaleDateString(this.language, option));
-        this.currentDayName = dayName.charAt(0).toUpperCase() + dayName.slice(1);
-      }
+        if (el.isCurrentDayActive &&
+          el.date.getMonth() === el.month &&
+          el.date.getFullYear() === el.year) {
+            const dayName = (new Date(el.year, el.month, +el.numberOfDate)
+                .toLocaleDateString(this.language, option));
+            this.currentDayName = dayName.charAt(0).toUpperCase() + dayName.slice(1);
+        }
     });
   }
 
