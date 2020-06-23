@@ -2,7 +2,7 @@
   <div id="eco-events-wrapper" *ngIf="latestNews.length > 0">
     <div id="main-event">
       <div id="main-event-image">
-        <img [src]="eventImg" alt="event-image">
+        <img [src]="latestNews[0]?.imagePath" alt="event-image">
       </div>
       <div id="main-event-content">
         <p class="event-date">{{ latestNews[0]?.creationDate }}</p>
