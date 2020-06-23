@@ -58,14 +58,15 @@ form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 360px;
+    height: 380px;
 }
 
 .left-form-column input {
-    width: 652px;
+    width: 622px;
     height: 48px;
     border-radius: 5px;
     border: 1px solid #878787;
+    padding: 12px 40px 12px 16px;
 }
 
 .left-form-column p, .left-form-column span {
@@ -78,29 +79,19 @@ form {
     color: #878787;
 }
 
-.tags {
-    margin-left: -20px;
-}
-
-.tags button {
-    color: #666666;
-}
-
 .tags p {
     font-size: 12px;
+    margin-top: -4px;
 }
 
 .tags button {
+    margin: 0px 8px 8px 0px;
     font-size: 14px;
     color: #666666;
 }
 
-.tags h3, .tags p {
-    margin-left: 20px;
-}
-
 .right-form-column {
-    margin-left: 40px;
+    margin-left: 32px;
 }
 
 button:hover {
@@ -109,7 +100,7 @@ button:hover {
 }
 
 button {
-    margin-left: 20px;
+    margin-bottom: 8px;
     border: 1px solid #878787;
     background-color: #ffffff;
     border-radius: 50px;
@@ -120,20 +111,12 @@ form .textarea-wrapper textarea {
     height: 131px;
     border-radius: 5px;
     border: 1px solid #878787;
-    width: 104%;
+    width: 100%;
+    padding: 12px 16px 28px 16px;
 }
 
 .textarea-wrapper {
-    margin-top: 25px;
-}
-
-input::placeholder {
-    padding-left: 15px;
-}
-
-textarea::placeholder {
-    padding-left: 15px;
-    padding-top: 5px;
+    margin-top: 32px;
 }
 
 form label {
@@ -148,7 +131,7 @@ form label {
 
 .date {
     display: flex;
-    max-width: 350px;
+    max-width: 500px;
     justify-content: space-between;
     margin-top: 15px;
 }
@@ -172,7 +155,7 @@ form label {
     border: 1px solid #13AA57;
     border-radius: 3px;
     background-color: #ffffff;
-    width: 139px;
+    width: 154px;
     height: 48px;
     color: #13AA57;
     font-weight: bold;
@@ -217,14 +200,24 @@ button {
     border: 1px solid red;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1200px) {
     .left-form-column input {
-        width: 25rem;
+        width: 517px;
     }
+}
 
+@media screen and (max-width: 1024px) {
+    //.left-form-column input {
+    //    width: 25rem;
+    //}
+    //
+    //form .textarea-wrapper textarea {
+    //    width: 45rem;
+    //}
+    .left-form-column input,
     form .textarea-wrapper textarea {
-        width: 45rem;
-    }
+        width: 100%;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -234,16 +227,16 @@ button {
     }
 
     .left-form-column label:last-child {
-        margin-top: 310px;
+        margin-top: 340px;
     }
 
     .right-form-column {
-        margin-top: -140px;
+        margin-top: -170px;
         margin-left: 0;
     }
 
     .textarea-wrapper {
-        margin-top: 160px;
+        margin-top: 180px;
     }
 
     .wrapper {
@@ -254,25 +247,32 @@ button {
 
 
 @media screen and (max-width: 576px) {
-    .left-form-column {
-        height: 390px;
-    }
-
     .left-form-column input,
     form .textarea-wrapper textarea {
         width: 100%;
     }
 
-    .tags {
-        width: 355px;
-    }
-
     .left-form-column label:last-child {
-        margin-top: 330px;
+        margin-top: 340px;
     }
 
     .right-form-column {
-        margin-top: -160px;
+        margin-top: -170px;
+    }
+
+    .textarea-wrapper {
+        margin-top: 180px;
+    }
+}
+
+@media screen and (max-width: 520px) {
+    .left-form-column label:last-child {
+        margin-top: 340px;
+    }
+
+    .right-form-column {
+        margin-top: -170px;
+        margin-bottom: 10px;
     }
 
     .textarea-wrapper {
@@ -280,26 +280,70 @@ button {
     }
 
     .submit-buttons {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 200px;
+    }
+
+    .submit-buttons {
         margin-right: 0;
+    }
+    .submit-buttons button {
+        margin-left: 0;
+        width: 100%;
+        height: 48px;
+    }
+
+    .date {
+       display: flex;
+       flex-direction: column;
     }
 }
 
-@media screen and (max-width: 505px) {
+@media screen and (max-width: 510px) {
     .left-form-column label:last-child {
-        margin-top: 320px;
+        margin-top: 340px;
     }
 
     .right-form-column {
-        margin-top: -170px;
+        margin-top: -120px;
+    }
+
+    .textarea-wrapper {
+        margin-top: 160px;
     }
 }
 
-
-@media screen and (max-width: 320px) {
-    .left-form-column {
-        height: 420px;
+@media screen and (max-width: 360px) {
+    .left-form-column label:last-child {
+        margin-top: 380px;
     }
 
+    .right-form-column {
+        margin-top: -100px;
+    }
+
+    .textarea-wrapper {
+        margin-top: 180px;
+    }
+}
+
+@media screen and (max-width: 340px) {
+    .left-form-column label:last-child {
+        margin-top: 400px;
+    }
+
+    .right-form-column {
+        margin-top: -60px;
+    }
+
+    .textarea-wrapper {
+        margin-top: 200px;
+    }
+}
+
+@media screen and (max-width: 320px) {
     .left-form-column input,
     form .textarea-wrapper textarea,
     .form-description,
@@ -308,15 +352,15 @@ button {
     }
 
     .left-form-column label:last-child {
-        margin-top: 350px;
+        margin-top: 380px;
     }
 
     .right-form-column {
-        margin-top: -150px;
+        margin-top: -100px;
     }
 
     .textarea-wrapper {
-        margin-top: 160px;
+        margin-top: 180px;
     }
 
     .tags button {
