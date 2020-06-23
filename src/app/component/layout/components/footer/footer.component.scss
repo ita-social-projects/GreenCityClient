@@ -35,11 +35,11 @@ $generalFont : OpenSans, sans-serif;
           .router-links {
             text-decoration: none;
             font-family: $generalFont;
-            font-size: 14px;
+            font-size: 14.07px;;
             line-height: 16px;
             color: #494A49;
             margin-right: 32px;
-            padding-top: 6px;
+            padding-top: 3px;
           }
         }
       }
@@ -55,7 +55,7 @@ $generalFont : OpenSans, sans-serif;
             font-size: 14px;
             line-height: 16px;
             margin: 0;
-            padding-top: 6px;
+            padding-top: 6.9px;
             color: #494A49;
           }
         }
@@ -69,10 +69,15 @@ $generalFont : OpenSans, sans-serif;
 
           .social-links-btn {
             margin-right: 16px;
+              .twitter-link-btn{
+                width: 15px;
+                height: 12.19px;
+            }
           }
         }
       }
     }
+
 
     @media screen and (max-width: 1023px) {
       .logo {

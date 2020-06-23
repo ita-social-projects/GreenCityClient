@@ -63,14 +63,21 @@ div {
   font-family: 'Open Sans', sans-serif;
   font-size: 16px;
   line-height: 24px;
-  color: #666666;
+  color: #878787;
   mix-blend-mode: normal;
   opacity: 0.6;
+}
+
+.author-icon{
+  width: 12px;
+  height: 12px;
 }
 
 .icon {
   align-items: center;
   margin-right: 4px;
+  width: 11px;
+  height: 12px;
 }
 
 @media screen and (max-width: 1200px) {
@@ -86,6 +93,12 @@ div {
 
 .word-wrap {
   word-break: break-word;
+}
+
+.author-name{
+  display: flex;
+  align-items: center;
+  width: 176px;
 }
 
 @media screen and (max-width: 992px) {
