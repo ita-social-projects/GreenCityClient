@@ -15,6 +15,7 @@ import { DeleteCommentComponent } from './components/delete-comment/delete-comme
     CommentLikeReplyComponent,
     CommentBodyComponent,
     ViewRepliesComponent,
+    DeleteCommentComponent
   ],
   imports: [
     SharedModule,
@@ -24,6 +25,7 @@ import { DeleteCommentComponent } from './components/delete-comment/delete-comme
     AddCommentComponent,
     CommentLikeReplyComponent,
     ViewRepliesComponent,
+    DeleteCommentComponent
   ],
   providers: []
 })
