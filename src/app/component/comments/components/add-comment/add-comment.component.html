@@ -12,6 +12,8 @@
 <div class="container">
     <div *ngFor="let element of elements">
         {{ element.text }}
+        {{ element.author.name }}
+        {{ element.modifiedDate | date: 'longDate'}}
     </div>
 </div>
 
