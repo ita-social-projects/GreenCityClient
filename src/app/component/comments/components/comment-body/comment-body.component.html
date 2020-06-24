@@ -17,7 +17,10 @@
     <p class="comment-text"> {{ element.text }}</p>
   </div>
   <div class="comments-elements">
-    <app-comment-like-reply *ngIf="isLoggedIn"></app-comment-like-reply>
+    <app-comment-like-reply *ngIf="isLoggedIn"
+                            [commentId]="element.id"
+                            [likeState]="element.currentUserLiked"
+    ></app-comment-like-reply>
     <app-edit-comment></app-edit-comment>
     <app-delete-comment></app-delete-comment>
     <app-view-replies></app-view-replies>

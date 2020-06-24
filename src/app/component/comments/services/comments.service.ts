@@ -29,4 +29,12 @@ export class CommentsService {
   public getCommentsByPage(): Observable<object> {
     return this.http.get(`https://greencity.azurewebsites.net/econews/comments?ecoNewsId=${this.ecoNewsId}&page=0&size=12`);
   }
+
+  public getCommentLikes(id: number): Observable<object> {
+    return this.http.get(`https://greencity.azurewebsites.net/econews/comments/count/likes?id=${id}`);
+  }
+
+  public postLike(id: number): Observable<object> {
+    return this.http.post(`https://greencity.azurewebsites.net/econews/comments/like?id=${id}`, {});
+  }
 }
