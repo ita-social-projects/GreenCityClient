@@ -38,11 +38,6 @@ export class AddCommentComponent implements OnInit {
         .subscribe((list: CommentsModel) => this.setList(list));
   }
 
-  public deleteComment(comment, index): void {
-    this.elements.splice(index, 1);
-    this.commentsService.deleteComments(comment.id).subscribe();
-  }
-
   public setList(data: CommentsModel): void {
     this.elements = [...this.elements, ...data.page];
   }

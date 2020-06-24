@@ -1,4 +1,4 @@
-<div class="comment-body-wrapper" *ngFor="let element of elements">
+<div class="comment-body-wrapper" *ngFor="let element of elements; let i = index">
   <div class="comment-avatar">
      <img src="assets/img/comments/comment_author.png" alt="comment-author">
   </div>
@@ -19,7 +19,9 @@
   <div class="comments-elements">
     <app-comment-like-reply></app-comment-like-reply>
     <app-edit-comment></app-edit-comment>
-    <app-delete-comment></app-delete-comment>
+    <app-delete-comment [elements]="elements" 
+                        [element]="element"
+                        [index]="i"></app-delete-comment>
     <app-view-replies></app-view-replies>
   </div>
 </div>
