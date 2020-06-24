@@ -11,7 +11,6 @@ import set = Reflect.set;
 export class CommentBodyComponent {
   @Input() public elements = [];
   public isLoggedIn: boolean;
-  public likes: any;
 
   constructor(private userOwnAuthService: UserOwnAuthService,
               private commentsService: CommentsService) { }
@@ -25,9 +24,4 @@ export class CommentBodyComponent {
     this.userOwnAuthService.credentialDataSubject
       .subscribe((data) => this.isLoggedIn = data && data.userId);
   }
-
-  // public setLikes(id: number): void {
-  //   this.commentsService.getCommentLikes(id)
-  //     .subscribe((data) => this.likes = data);
-  // }
 }
