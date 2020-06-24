@@ -15,6 +15,7 @@ import { EditCommentComponent } from './components/edit-comment/edit-comment.com
     CommentLikeReplyComponent,
     CommentBodyComponent,
     ViewRepliesComponent,
+    EditCommentComponent
   ],
   imports: [
     SharedModule,
@@ -24,6 +25,7 @@ import { EditCommentComponent } from './components/edit-comment/edit-comment.com
     AddCommentComponent,
     CommentLikeReplyComponent,
     ViewRepliesComponent,
+    EditCommentComponent
   ],
   providers: []
 })
