@@ -1,9 +1,14 @@
 <div class="main-wrapper">
-  <button class="cta-btn like">
+  <button class="cta-btn like"
+          (click)="pressLike(like, span)"
+  >
     <img [src]="commentsImages.like"
          alt="like"
+         #like
     >
-    <span class="btn-text">
+    <span class="btn-text"
+          #span
+    >
       Like
     </span>
   </button>
