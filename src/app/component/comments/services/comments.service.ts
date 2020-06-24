@@ -2,7 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
-import { environment } from '../../../../environments/environment';
+import { environment } from '@environment/environment';
 
 @Injectable({
   providedIn: 'root'
