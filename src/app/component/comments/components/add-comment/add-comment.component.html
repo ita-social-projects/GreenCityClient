@@ -1,15 +1,18 @@
-<app-comment-counter></app-comment-counter>
+<div class="container">
+  <app-comment-counter></app-comment-counter>
+</div>
 <form
-    *ngIf="isLoggedIn"
-    class="wrapper"
-    [formGroup]="addCommentForm"
-    (ngSubmit)="onSubmit()">
-    <img [src]=avatarImage alt="avatar">
-    <textarea placeholder="Add a comment"
+  *ngIf="isLoggedIn"
+  class="wrapper"
+  [formGroup]="addCommentForm"
+  (ngSubmit)="onSubmit()">
+  <img [src]=avatarImage alt="avatar">
+  <textarea placeholder="Add a comment"
             formControlName="content"></textarea>
-    <button class="primary-global-button"
-            [disabled]="!addCommentForm.valid">Comment</button>
+  <button class="primary-global-button"
+          [disabled]="!addCommentForm.valid">Comment</button>
 </form>
-<app-comment-body></app-comment-body>
-<app-edit-comment></app-edit-comment>
-<app-comment-pagination></app-comment-pagination>
+<div class="container">
+  <app-comment-body [elements]="elements"></app-comment-body>
+  <app-comment-pagination></app-comment-pagination>
+</div>

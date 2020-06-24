@@ -1,1 +1,6 @@
-<p>comment-counter works!</p>
+<div class="counter">
+  <p *ngIf="[totalElements] <= 1">{{ totalElements }} comment</p>
+  <p *ngIf="[totalElements] > 1">{{ totalElements }} comments</p>
+  <hr>
+</div>
+
