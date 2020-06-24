@@ -6,6 +6,7 @@ import { AddCommentComponent } from '../comments/components/add-comment/add-comm
 import { CommentLikeReplyComponent } from './components/comment-like-reply/comment-like-reply.component';
 import { CommentBodyComponent } from './components/comment-body/comment-body.component';
 import { ViewRepliesComponent } from './components/view-replies/view-replies.component';
+import { DeleteCommentComponent } from './components/delete-comment/delete-comment.component';
 import { EditCommentComponent } from './components/edit-comment/edit-comment.component';
 import { CommentCounterComponent } from './components/comment-counter/comment-counter.component';
 import { CommentPaginationComponent } from './components/comment-pagination/comment-pagination.component';
@@ -17,6 +18,8 @@ import { CommentPaginationComponent } from './components/comment-pagination/comm
     CommentLikeReplyComponent,
     CommentBodyComponent,
     ViewRepliesComponent,
+    DeleteCommentComponent,
+    EditCommentComponent
     EditCommentComponent,
     CommentCounterComponent,
     CommentPaginationComponent
@@ -29,6 +32,7 @@ import { CommentPaginationComponent } from './components/comment-pagination/comm
     AddCommentComponent,
     CommentLikeReplyComponent,
     ViewRepliesComponent,
+    DeleteCommentComponent,
     EditCommentComponent
   ],
   providers: []
