@@ -1,9 +1,8 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
-import { environment } from '../../../../environments/environment';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +17,7 @@ export class CommentsService {
   constructor(private http: HttpClient,
               private route: ActivatedRoute) { }
 
-  public addComment(form): any {
+  public addComment(form): Observable<object> {
     const body = {
       parentCommentId: 0,
       text: form.value.content
@@ -27,7 +26,7 @@ export class CommentsService {
     return this.http.post(`https://greencity.azurewebsites.net/econews/comments/${this.ecoNewsId}`, body);
   }
 
-  public getCommentsByPage() {
+  public getCommentsByPage(): Observable<object> {
     return this.http.get(`https://greencity.azurewebsites.net/econews/comments?ecoNewsId=${this.ecoNewsId}&page=0&size=12`);
   }
 }
