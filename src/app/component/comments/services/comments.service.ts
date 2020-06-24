@@ -30,4 +30,8 @@ export class CommentsService {
   public getCommentsByPage() {
     return this.http.get(`https://greencity.azurewebsites.net/econews/comments?ecoNewsId=${this.ecoNewsId}&page=0&size=12`);
   }
+
+  public deleteComments(id) {
+    return this.http.delete(`https://greencity.azurewebsites.net/econews/comments?id=${id}`);
+  }
 }

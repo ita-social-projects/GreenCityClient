@@ -10,10 +10,11 @@
             [disabled]="!addCommentForm.valid">Comment</button>
 </form>
 <div class="container">
-    <div *ngFor="let element of elements">
+    <div *ngFor="let element of elements; let i = index">
         {{ element.text }}
         {{ element.author.name }}
         {{ element.modifiedDate | date: 'longDate'}}
+        <button type="button" (click)="deleteComment(element, i)">Delete</button>
     </div>
 </div>
 
