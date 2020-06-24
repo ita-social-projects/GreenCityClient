@@ -79,3 +79,19 @@
 .closeNone{
     display: none;
 }
+
+@media screen and (max-width: 576px) {
+  .wrapper{
+    span{
+      margin: 0 -34px 0 0;
+    }
+  }
+
+
+
+  .ul-eco-buttons{
+    a:nth-child(5){
+      display: none;
+    }
+  }
+}
