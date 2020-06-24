@@ -19,7 +19,6 @@ import { CommentPaginationComponent } from './components/comment-pagination/comm
     CommentBodyComponent,
     ViewRepliesComponent,
     DeleteCommentComponent,
-    EditCommentComponent
     EditCommentComponent,
     CommentCounterComponent,
     CommentPaginationComponent
@@ -33,7 +32,9 @@ import { CommentPaginationComponent } from './components/comment-pagination/comm
     CommentLikeReplyComponent,
     ViewRepliesComponent,
     DeleteCommentComponent,
-    EditCommentComponent
+    EditCommentComponent,
+    CommentCounterComponent,
+    CommentPaginationComponent
   ],
   providers: []
 })
