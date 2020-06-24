@@ -7,6 +7,7 @@ import { CommentLikeReplyComponent } from './components/comment-like-reply/comme
 import { CommentBodyComponent } from './components/comment-body/comment-body.component';
 import { ViewRepliesComponent } from './components/view-replies/view-replies.component';
 import { DeleteCommentComponent } from './components/delete-comment/delete-comment.component';
+import { EditCommentComponent } from './components/edit-comment/edit-comment.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { DeleteCommentComponent } from './components/delete-comment/delete-comme
     CommentLikeReplyComponent,
     CommentBodyComponent,
     ViewRepliesComponent,
-    DeleteCommentComponent
+    DeleteCommentComponent,
+    EditCommentComponent
   ],
   imports: [
     SharedModule,
@@ -25,7 +27,8 @@ import { DeleteCommentComponent } from './components/delete-comment/delete-comme
     AddCommentComponent,
     CommentLikeReplyComponent,
     ViewRepliesComponent,
-    DeleteCommentComponent
+    DeleteCommentComponent,
+    EditCommentComponent
   ],
   providers: []
 })
