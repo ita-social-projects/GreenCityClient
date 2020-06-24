@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { add } from 'ngx-bootstrap/chronos';
+import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { CommentsService } from '../../services/comments.service';
 import { CommentsModel } from '../../models/comments-model';
 import { CommentsDTO } from '../../models/comments-model';
-import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 
 @Component({
   selector: 'app-add-comment',
@@ -53,6 +51,7 @@ export class AddCommentComponent implements OnInit {
     this.commentsService.addComment(this.addCommentForm).subscribe(
       (successRes: CommentsDTO) => {
         this.elements = [successRes, ...this.elements];
+        this.addCommentForm.reset();
       }
     );
   }

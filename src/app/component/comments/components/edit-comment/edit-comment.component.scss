@@ -4,16 +4,11 @@ $main-font: 'Open Sans';
 
 .main-wrapper {
   display: flex;
-  margin-left: 50px;
-  .like {
+
+  .edit {
     width: 74px;
     height: 40px;
     margin-right: 8px;
-  }
-
-  .reply {
-    width: 85px;
-    height: 40px;
   }
 
   .cta-btn {
