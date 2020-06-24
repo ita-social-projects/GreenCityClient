@@ -7,6 +7,8 @@ import { CommentLikeReplyComponent } from './components/comment-like-reply/comme
 import { CommentBodyComponent } from './components/comment-body/comment-body.component';
 import { ViewRepliesComponent } from './components/view-replies/view-replies.component';
 import { EditCommentComponent } from './components/edit-comment/edit-comment.component';
+import { CommentCounterComponent } from './components/comment-counter/comment-counter.component';
+import { CommentPaginationComponent } from './components/comment-pagination/comment-pagination.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,9 @@ import { EditCommentComponent } from './components/edit-comment/edit-comment.com
     CommentLikeReplyComponent,
     CommentBodyComponent,
     ViewRepliesComponent,
-    EditCommentComponent
+    EditCommentComponent,
+    CommentCounterComponent,
+    CommentPaginationComponent
   ],
   imports: [
     SharedModule,
