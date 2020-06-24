@@ -48,6 +48,7 @@ export class AddCommentComponent implements OnInit {
     this.commentsService.addComment(this.addCommentForm).subscribe(
       (successRes: CommentsDTO) => {
         this.elements = [successRes, ...this.elements];
+        this.addCommentForm.reset();
       }
     );
   }
