@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {UserOwnAuthService} from "@global-service/auth/user-own-auth.service";
 
 @Component({
   selector: 'app-comment-like-reply',
