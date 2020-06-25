@@ -153,8 +153,8 @@
     "add-cafe": "Add a cafe",
     "admin": "Administrator",
     "my-habits": "My habits",
-    "favorite-places": "Favorite places",
-    "user-settings": "User settings",
+    "profile": "Profile",
+    "user-settings": "Settings",
     "sign-out": "Sign out",
     "sign-in": "Sign in"
   },
