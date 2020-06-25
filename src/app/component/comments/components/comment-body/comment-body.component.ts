@@ -10,8 +10,10 @@ import set = Reflect.set;
 })
 export class CommentBodyComponent {
   @Input() public elements = [];
+  public replyFormVisibility = false;
   public isLoggedIn: boolean;
   public userId: boolean;
+  public tempId: number;
 
   constructor(private userOwnAuthService: UserOwnAuthService,
               private commentsService: CommentsService) { }
@@ -27,5 +29,10 @@ export class CommentBodyComponent {
         this.isLoggedIn = data && data.userId;
         this.userId = data.userId;
       });
+  }
+
+  public showReplyForm(id: number): void {
+    this.tempId = id;
+    this.replyFormVisibility = !this.replyFormVisibility;
   }
 }

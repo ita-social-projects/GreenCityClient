@@ -9,6 +9,7 @@ import { DeleteCommentComponent } from './components/delete-comment/delete-comme
 import { EditCommentComponent } from './components/edit-comment/edit-comment.component';
 import { LikeCommentComponent } from './components/like-comment/like-comment.component';
 import { ReplyCommentComponent } from './components/reply-comment/reply-comment.component';
+import { AddReplyComponent } from './components/add-reply/add-reply.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ReplyCommentComponent } from './components/reply-comment/reply-comment.
     DeleteCommentComponent,
     EditCommentComponent,
     LikeCommentComponent,
-    ReplyCommentComponent
+    ReplyCommentComponent,
+    AddReplyComponent
   ],
   imports: [
     SharedModule,
@@ -31,7 +33,8 @@ import { ReplyCommentComponent } from './components/reply-comment/reply-comment.
     DeleteCommentComponent,
     EditCommentComponent,
     LikeCommentComponent,
-    ReplyCommentComponent
+    ReplyCommentComponent,
+    AddReplyComponent
   ],
   providers: []
 })

@@ -22,10 +22,15 @@
                         [commentId]="element.id"
                         [likeState]="element.currentUserLiked"
       ></app-like-comment>
-      <app-reply-comment *ngIf="isLoggedIn && !(element.author.id == userId)"></app-reply-comment>
+      <app-reply-comment *ngIf="isLoggedIn && !(element.author.id == userId)"
+                         (click)="showReplyForm(element.id)"
+      ></app-reply-comment>
     </div>
     <app-edit-comment *ngIf="0"></app-edit-comment>
     <app-delete-comment *ngIf="0"></app-delete-comment>
-    <app-view-replies></app-view-replies>
+    <app-view-replies [commentId]="element.id"></app-view-replies>
   </div>
+  <app-add-reply *ngIf="replyFormVisibility && element.id == tempId"
+                 [commentId]="element.id"
+  ></app-add-reply>
 </div>
