@@ -18,11 +18,11 @@
   </div>
   <div class="comments-elements">
     <div class="like-reply">
-      <app-like-comment *ngIf="isLoggedIn"
+      <app-like-comment *ngIf="isLoggedIn && !(element.author.id == userId)"
                         [commentId]="element.id"
                         [likeState]="element.currentUserLiked"
       ></app-like-comment>
-      <app-reply-comment *ngIf="isLoggedIn"></app-reply-comment>
+      <app-reply-comment *ngIf="isLoggedIn && !(element.author.id == userId)"></app-reply-comment>
     </div>
     <app-edit-comment *ngIf="0"></app-edit-comment>
     <app-delete-comment *ngIf="0"></app-delete-comment>

@@ -11,6 +11,7 @@ import set = Reflect.set;
 export class CommentBodyComponent {
   @Input() public elements = [];
   public isLoggedIn: boolean;
+  public userId: boolean;
 
   constructor(private userOwnAuthService: UserOwnAuthService,
               private commentsService: CommentsService) { }
@@ -22,6 +23,9 @@ export class CommentBodyComponent {
 
   private checkUserSingIn(): void {
     this.userOwnAuthService.credentialDataSubject
-      .subscribe((data) => this.isLoggedIn = data && data.userId);
+      .subscribe((data) => {
+        this.isLoggedIn = data && data.userId;
+        this.userId = data.userId;
+      });
   }
 }
