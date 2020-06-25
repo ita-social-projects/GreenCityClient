@@ -4,8 +4,8 @@
   [formGroup]="addCommentForm"
   (ngSubmit)="onSubmit()">
   <img [src]=avatarImage alt="avatar">
-  <textarea placeholder="Add a comment"
+  <textarea placeholder="Add a reply"
             formControlName="content"></textarea>
   <button class="primary-global-button"
-          [disabled]="!addCommentForm.valid">Comment</button>
+          [disabled]="!addCommentForm.valid">Reply</button>
 </form>
