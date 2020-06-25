@@ -10,6 +10,7 @@ import { DeleteCommentComponent } from './components/delete-comment/delete-comme
 import { EditCommentComponent } from './components/edit-comment/edit-comment.component';
 import { CommentCounterComponent } from './components/comment-counter/comment-counter.component';
 import { CommentPaginationComponent } from './components/comment-pagination/comment-pagination.component';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { CommentPaginationComponent } from './components/comment-pagination/comm
   imports: [
     SharedModule,
     CommonModule,
+    NgxPaginationModule,
   ],
   exports: [
     AddCommentComponent,
@@ -34,7 +36,8 @@ import { CommentPaginationComponent } from './components/comment-pagination/comm
     DeleteCommentComponent,
     EditCommentComponent,
     CommentCounterComponent,
-    CommentPaginationComponent
+    CommentPaginationComponent,
+    CommentBodyComponent
   ],
   providers: []
 })

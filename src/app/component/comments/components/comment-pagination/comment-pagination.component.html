@@ -1,8 +1,42 @@
-<p>comment-pagination works!</p>
 <div class="pagination">
-  <img src="" alt="arrow previous">
-  <div>
-
-  </div>
-  <img src="" alt="arrow next">
+  <pagination-template #p="paginationApi"
+                       [id]="config.id"
+                       [maxSize]="maxSize"
+                       (pageChange)="onPageChange($event)">
+    <div class="custom-pagination">
+      <div class="pagination-previous">
+        <a *ngIf="!p.isFirstPage()"
+           (click)="p.previous()">
+          <
+        </a>
+        <a *ngIf="p.isFirstPage()"
+           (click)="p.previous()">
+          stop work
+        </a>
+      </div>
+      <div class="page-number"
+           *ngFor="let page of p.pages"
+           [class.current]="p.getCurrent() === page.value">
+        <a (click)="p.setCurrent(page.value)"
+              *ngIf="p.getCurrent() !== page.value">
+          {{ page.label }}
+        </a>
+        <div *ngIf="p.getCurrent() === page.value">
+        <a>
+          {{ page.label }}
+        </a>
+        </div>
+      </div>
+      <div class="pagination-next">
+        <a *ngIf="!p.isLastPage()"
+           (click)="p.next()">
+          >
+        </a>
+        <a *ngIf="p.isLastPage()"
+           (click)="p.next()">
+          stop work
+        </a>
+      </div>
+    </div>
+  </pagination-template>
 </div>
