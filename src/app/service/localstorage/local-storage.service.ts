@@ -17,6 +17,7 @@ export class LocalStorageService {
   languageSubject: Subject<string> = new Subject<string>();
   firstNameBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getName());
   userIdBehaviourSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.getUserId());
+  languageBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getCurrentLanguage());
 
   constructor() {
   }
