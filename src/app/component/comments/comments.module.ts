@@ -8,6 +8,8 @@ import { CommentBodyComponent } from './components/comment-body/comment-body.com
 import { ViewRepliesComponent } from './components/view-replies/view-replies.component';
 import { DeleteCommentComponent } from './components/delete-comment/delete-comment.component';
 import { EditCommentComponent } from './components/edit-comment/edit-comment.component';
+import { LikeCommentComponent } from './components/like-comment/like-comment.component';
+import { ReplyCommentComponent } from './components/reply-comment/reply-comment.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { EditCommentComponent } from './components/edit-comment/edit-comment.com
     CommentBodyComponent,
     ViewRepliesComponent,
     DeleteCommentComponent,
-    EditCommentComponent
+    EditCommentComponent,
+    LikeCommentComponent,
+    ReplyCommentComponent
   ],
   imports: [
     SharedModule,
@@ -28,7 +32,9 @@ import { EditCommentComponent } from './components/edit-comment/edit-comment.com
     CommentLikeReplyComponent,
     ViewRepliesComponent,
     DeleteCommentComponent,
-    EditCommentComponent
+    EditCommentComponent,
+    LikeCommentComponent,
+    ReplyCommentComponent
   ],
   providers: []
 })

@@ -81,4 +81,8 @@ $main-font: 'Open Sans';
 .comments-elements {
   display: flex;
   justify-content: space-between;
+
+  .like-reply {
+    display: flex;
+  }
 }
