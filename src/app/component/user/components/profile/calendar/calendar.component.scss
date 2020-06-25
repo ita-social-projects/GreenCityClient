@@ -2,7 +2,7 @@
 
 .calendar {
   width: 261px;
-  height: 244px;
+  max-height: 276px;
   background: #F5F6F6;
   border-radius: 4px;
 
@@ -36,12 +36,12 @@
 
     .days {
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
+      grid-template-columns: repeat(7, 34.6px);
       text-align: center;
+      margin: 0 9px 0 10px;
 
       .days-name {
         margin: 0;
-        //padding-right: 4px;
         font-family: 'Montserrat', sans-serif;
         font-weight: 600;
         font-size: 13px;
@@ -49,20 +49,20 @@
         color: #BEBEBE;
       }
 
-      .current-week {
+      .current-day-name {
         color: #13AA57;;
       }
     }
   }
 
   .middle {
+    padding-bottom: 24px;
 
     .calendar-grid {
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      grid-template-rows: repeat(6, 32px);
-      margin-top: 8px;
-      margin-bottom: 24px;
+      grid-template-columns: repeat(7, 34px);
+      grid-auto-rows: 32px;
+      margin: 8px 0 0 14px;
       font-family: 'Montserrat', sans-serif;
       font-size: 13px;
       line-height: 16px;
@@ -70,12 +70,19 @@
       text-align: center;
 
       .calendar-grid-day {
-        padding-top: 8px;
+        padding: 7px 1px 0 0;
       }
 
       .current-day {
-        border-radius: 50%;
-        background: #13AA57;
+        background: url('~/assets/img/profile/calendar/current-day.svg');
+        background-repeat: no-repeat;
+        background-position: center;
+        color: #FFFFFF;
+      }
+      .tracked-day {
+        background: url('~/assets/img/profile/calendar/tracked-day.svg');
+        background-repeat: no-repeat;
+        background-position: center;
         color: #FFFFFF;
       }
     }
