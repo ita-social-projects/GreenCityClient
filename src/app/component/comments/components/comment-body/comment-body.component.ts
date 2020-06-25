@@ -8,7 +8,7 @@ import set = Reflect.set;
   templateUrl: './comment-body.component.html',
   styleUrls: ['./comment-body.component.scss']
 })
-export class CommentBodyComponent {
+export class CommentBodyComponent implements OnInit {
   @Input() public elements = [];
   public isLoggedIn: boolean;
   public userId: boolean;

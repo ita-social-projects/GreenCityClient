@@ -1,5 +1,5 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {CommentsService} from "../../services/comments.service";
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { CommentsService } from '../../services/comments.service';
 
 @Component({
   selector: 'app-like-comment',
@@ -9,9 +9,9 @@ import {CommentsService} from "../../services/comments.service";
 export class LikeCommentComponent implements OnInit {
   @Input() commentId: number;
   @Input() likeState: boolean;
-  @ViewChild("like", {static: true})
+  @ViewChild('like', {static: true})
   like: ElementRef;
-  @ViewChild("span", {static: true})
+  @ViewChild('span', {static: true})
   span: ElementRef;
   public commentsImages = {
     like: 'assets/img/comments/like.png',
@@ -24,8 +24,8 @@ export class LikeCommentComponent implements OnInit {
     this.setStartingElements(this.likeState);
   }
 
-  private setStartingElements(state: boolean){
-    if(state) {
+  private setStartingElements(state: boolean) {
+    if (state) {
       this.like.nativeElement.srcset = this.commentsImages.liked;
       this.span.nativeElement.innerText = 'Liked';
     } else {
@@ -42,7 +42,7 @@ export class LikeCommentComponent implements OnInit {
   }
 
   public changeLkeBtn(): void {
-    if(this.like.nativeElement.srcset === this.commentsImages.like) {
+    if (this.like.nativeElement.srcset === this.commentsImages.like) {
       this.like.nativeElement.srcset = this.commentsImages.liked;
       this.span.nativeElement.innerText = 'Liked';
     } else {
