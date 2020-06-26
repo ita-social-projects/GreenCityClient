@@ -25,7 +25,7 @@ export class FilterNewsComponent implements OnInit {
   }
 
 private setTags(tags: Array<string>): void {
-    this.filter = tags.map((filter: string) =>
+    this.filters = tags.map((filter: string) =>
       ({name: filter, isActive: false})
     );
 }
