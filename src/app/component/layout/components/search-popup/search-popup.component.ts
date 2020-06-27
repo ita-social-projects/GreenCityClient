@@ -40,7 +40,7 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   }
 
   private getSearchData(data: SearchModel): void {
-    this.getNewsAndTips(data.ecoNews, data.tips);
+    this.getNewsAndTips(data.ecoNews, data.tipsAndTricks);
     this.itemsFound = data.countOfResults;
   }
 
