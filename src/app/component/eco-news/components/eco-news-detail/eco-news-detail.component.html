@@ -14,7 +14,8 @@
         </div>
       </a>
     </div>
-    <div class="edit-news">
+    <div class="edit-news"
+         *ngIf="newsItem.author.id === userId">
       <div>Edit news</div>
     </div>
   </div>
@@ -83,4 +84,5 @@
 </div>
 <div class="container">
   <app-eco-news-widget></app-eco-news-widget>
+  <app-add-comment></app-add-comment>
 </div>

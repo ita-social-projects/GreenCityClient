@@ -25,7 +25,7 @@ export class UserLogComponent implements OnInit {
 
   ngOnInit() {
     this.retrieveUserLog();
-    this.habitStatisticService.habitStatistics.subscribe(_data => {
+    this.habitStatisticService.habitStatistics.subscribe(() => {
       this.retrieveUserLog();
     }, error => {
       this.hasStatistic = false;

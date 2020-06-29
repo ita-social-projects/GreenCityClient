@@ -5,7 +5,7 @@ $title-font: 'Montserrat';
 $main-font: 'Open Sans';
 
 .container {
-    margin: 0 auto;
+  margin: 0 auto;
 }
 
 .word-wrap {
@@ -87,9 +87,9 @@ $main-font: 'Open Sans';
 
 .news-title {
     margin: 0 98px 24px;
-    color: #313131;
+    color: #494A49;
     font-weight: 500;
-    font-size: 3rem;
+    font-size: 40px;
     line-height: 60px;
     font-family: $title-font;
 }
@@ -102,6 +102,7 @@ $main-font: 'Open Sans';
 .news-info-date,
 .news-info-author {
     color: #494A49;
+    font-size: 24px;
 }
 
 .news-info-dot {

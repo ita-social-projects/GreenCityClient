@@ -2,22 +2,19 @@
   <span>Filter by</span>
   <ul class="ul-eco-buttons">
 
-    <a href="#/news" *ngFor="let filter of filters; index as i">
-
-      <li (click)="toggleFilter(filters[i].name)" 
+    <a *ngFor="let filter of filters">
+      <li (click)="toggleFilter(filter.name)"
           [ngClass]="{
-                      'ul-eco-buttons-li': !filters[i].isActive,
-                      'clicked-filter-button': filters[i].isActive
+                      'ul-eco-buttons-li': !filter.isActive,
+                      'clicked-filter-button': filter.isActive
                     }">
-        {{ filters[i].name }}
-        <div [ngClass]="{ 
-                          closeNone: !filters[i].isActive,
-                          close: filters[i].isActive 
+        {{ filter.name }}
+        <div [ngClass]="{
+                          closeNone: !filter.isActive,
+                          close: filter.isActive
                         }">
         </div>
       </li>
-
     </a>
-
   </ul>
 </div>

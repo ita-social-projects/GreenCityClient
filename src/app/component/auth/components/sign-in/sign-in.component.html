@@ -25,7 +25,11 @@
              name="email"
              [(ngModel)]="userOwnSignIn.email"
              (input)="configDefaultErrorMessage()"
-             [ngClass]="emailControl.invalid && (emailControl.dirty || emailControl.touched ) || backEndError?
+             [ngClass]="emailControl.invalid &&
+                       (emailControl.dirty ||
+                       emailControl.touched ) ||
+                       backEndError ||
+                       emailErrorMessageBackEnd?
                 'alert-email-validation':'successful-email-validation'"
              required
              minlength="1"
@@ -46,16 +50,16 @@
            *ngIf="emailErrorMessageBackEnd">
         {{emailErrorMessageBackEnd}}
       </div>
-      <div class="validation-email-error"
-           *ngIf="emailErrorMessageBackEnd">
-        {{emailErrorMessageBackEnd}}
-      </div>
       <div class="email-field-margin"
            *ngIf="backEndError">
       </div>
       <label for="password">{{'user.auth.sign-in.password' | translate}}</label>
       <div class="password-input-btn-show-hide"
-           [ngClass]="passwordControl.invalid && (passwordControl.dirty || passwordControl.touched) || backEndError?
+           [ngClass]="passwordControl.invalid &&
+                     (passwordControl.dirty ||
+                     passwordControl.touched) ||
+                     backEndError ||
+                     passwordErrorMessageBackEnd?
               'alert-password-validation':'successful-password-validation'">
         <input id="password"
                #input
@@ -108,20 +112,20 @@
         {{'user.auth.sign-in.sign-in' | translate}}
       </button>
       <span class="or-use-google">{{'user.auth.sign-in.or-signin' | translate}}</span>
-      <div>
-        <button type="submit"
-                class="google-sign-in"
-                (click)="signInWithGoogle()">
+    </form>
+    <div>
+      <button type="submit"
+              class="google-sign-in"
+              (click)="signInWithGoogle()">
           <span class="google-sign">
             <img [src]="googleImage.picGoogle"
                  alt="Google sign-in">
           </span>
-          <span class="google-text-sign-in">
+        <span class="google-text-sign-in">
             {{'user.auth.sign-in.sign-in-with-google' | translate}}
           </span>
-        </button>
-      </div>
-    </form>
+      </button>
+    </div>
     <div class="missing-account">
       <p>{{'user.auth.sign-in.havenot-account' | translate}}
         <a (click)="signUpOpenWindow()"
