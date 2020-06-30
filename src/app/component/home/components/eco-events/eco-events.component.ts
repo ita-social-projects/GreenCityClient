@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NewsService } from 'src/app/service/news/news.service';
-import { NewsDto } from 'src/app/component/home/models/NewsDto';
 import { of } from 'rxjs';
-import { LanguageService } from 'src/app/i18n/language.service';
 import { catchError } from 'rxjs/operators';
+import { NewsDto } from 'src/app/component/home/models/NewsDto';
+import { NewsService } from 'src/app/service/news/news.service';
+import { LanguageService } from 'src/app/i18n/language.service';
 
 @Component({
   selector: 'app-eco-events',
@@ -40,13 +40,9 @@ export class EcoEventsComponent implements OnInit {
     const localizedMonth = this.languageService.getLocalizedMonth(
       dateObj.getMonth()
     );
-    return (
-      dateObj.getDate() +
-      ' ' +
-      localizedMonth.charAt(0).toUpperCase() +
-      localizedMonth.slice(1, localizedMonth.length) +
-      ' ' +
-      dateObj.getFullYear()
-    );
+    const upper = localizedMonth.charAt(0).toUpperCase();
+    const lower = localizedMonth.slice(1, localizedMonth.length);
+
+    return (`${dateObj.getDate()} ${upper}${lower} ${dateObj.getFullYear()}`);
   }
 }
