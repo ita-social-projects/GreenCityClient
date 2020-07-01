@@ -1,7 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { EcoNewsService } from 'src/app/component/eco-news/services/eco-news.service';
 import { Subscription } from 'rxjs';
-import { FilterModel } from '../../models/filter.model';
+
+import { EcoNewsService } from '@eco-news-service/eco-news.service';
+import { FilterModel } from '@eco-news-models/filter.model';
 
 
 @Component({
@@ -11,8 +12,8 @@ import { FilterModel } from '../../models/filter.model';
 })
 
 export class FilterNewsComponent implements OnInit {
+  public filters: Array<FilterModel> = [];
   private tagsSubscription: Subscription;
-  private filters: Array<FilterModel> = [];
 
   @Output() gridOutput = new EventEmitter<Array<string>>();
 
@@ -23,40 +24,27 @@ export class FilterNewsComponent implements OnInit {
     this.getPresentTags();
   }
 
-  private getPresentTags(): void {
-    this.tagsSubscription = this.ecoNewsService.getAllPresentTags().subscribe(this.setTags.bind(this));
+private setTags(tags: Array<string>): void {
+    this.filters = tags.map((filter: string) =>
+      ({name: filter, isActive: false})
+    );
+}
+
+  public emitTrueFilterValues(): Array<string> {
+    return this.filters.filter(el => el.isActive).map(el => el.name);
   }
 
-  private setTags(tags: Array<string>): void {
-    tags.forEach((filter: string) => {
-      this.filters.push({name: filter, isActive: false});
-    });
-  }
-
-  private emitActiveFilters(): void {
+  public emitActiveFilters(): void {
     this.gridOutput.emit(this.emitTrueFilterValues());
   }
 
-  private emitTrueFilterValues(): Array<string> {
-    const trueFilterValuesArray = [];
-
-    for (const item of this.filters) {
-      if (item.isActive) {
-        trueFilterValuesArray.push(item.name);
-      }
-    }
-
-    return trueFilterValuesArray;
-  }
-
-  private toggleFilter(currentFilter: string): void {
-    for (const item of this.filters) {
-      if (item.name === currentFilter) {
-        item.isActive = !item.isActive;
-      }
-    }
-
+  public toggleFilter(currentFilter: string): void {
+    this.filters.map(el => el.isActive = el.name === currentFilter ? !el.isActive : el.isActive);
     this.emitActiveFilters();
   }
 
+  private getPresentTags(): void {
+    this.tagsSubscription = this.ecoNewsService.getAllPresentTags()
+      .subscribe((tag: Array<string> ) => this.setTags(tag));
+  }
 }
