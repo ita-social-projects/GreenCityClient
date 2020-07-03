@@ -30,9 +30,9 @@ export class CreateNewsComponent implements OnInit {
     {name: 'Ads', isActive: false}
   ];
 
-  private year: number = new Date().getFullYear();
-  private day: number = new Date().getDate();
-  private month: number = new Date().getMonth();
+  public year: number = new Date().getFullYear();
+  public day: number = new Date().getDate();
+  public month: number = new Date().getMonth();
   public isFilterValidation = false;
   public isLink = false;
   public formData: FormGroup;
