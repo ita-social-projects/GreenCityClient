@@ -6,5 +6,5 @@ export interface TipsSearchModel {
     name: string;
   };
   creationDate: string;
-  tags: Array<string>;
+  tipsAndTricksTags: Array<string>;
 }

@@ -194,6 +194,8 @@ $inputHeight : 48px;
       padding: 0;
       height: 40px;
       width: 100%;
+      max-width: 294px;
+      margin: 0 56px 0 56px;
       background: #FFFFFF;
       border: 0;
       box-shadow: 0 1px 1px rgba(0, 0, 0, 0.24),
@@ -206,7 +208,7 @@ $inputHeight : 48px;
       }
 
       .google-text-sign-in {
-        margin: 12px 102px 12px 62px;
+        margin: 12px 62px 12px 62px;
         font-family: Roboto, sans-serif;
         font-style: normal;
         font-weight: normal;
