@@ -225,7 +225,7 @@
         "password-spaces-error": "Password must be at least 8 characters long without spaces",
         "password-symbols-error": "Password has contain at least one character of Uppercase letter (A-Z), Lowercase letter (a-z), Digit (0-9), Special character (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.)",
         "password-match": "Passwords do not match",
-        "password-confirm": "Password confirm",
+        "password-confirm": "Confirm password",
         "submit": "Sign Up",
         "or": "or",
         "submit-with-google": "Sign Up with Google",
