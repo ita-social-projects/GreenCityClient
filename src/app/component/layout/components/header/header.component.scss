@@ -104,6 +104,7 @@ $screen-320: " screen and (max-width : 320px)";
           background: white;
           transition: transform 0.2s ease-in, top 0.2s linear 0.2s;
           box-shadow: 0 4px 5px -2px rgba(73, 74, 73, 0.2);
+          overflow-y: auto;
 
           ul {
             display: flex;
@@ -112,6 +113,7 @@ $screen-320: " screen and (max-width : 320px)";
             margin: 0;
             overflow: hidden;
             padding: 0;
+            height: 550px;
 
             li {
               list-style-type: none;
