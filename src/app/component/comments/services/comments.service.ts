@@ -31,6 +31,6 @@ export class CommentsService {
   }
 
   public deleteComments(id) {
-    return this.http.delete(`https://greencity.azurewebsites.net/econews/comments?id=${id}`);
+    return this.http.delete(`https://greencity.azurewebsites.net/econews/comments?id=${id}`, {observe: 'response'});
   }
 }

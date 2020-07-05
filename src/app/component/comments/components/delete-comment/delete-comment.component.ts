@@ -11,12 +11,20 @@ export class DeleteCommentComponent {
   constructor(private commentsService: CommentsService) { }
 
   public deleteIcon = 'assets/img/comments/delete.png';
+
   @Input() public element;
   @Input() public elements;
-  @Input() public index;
+
   public deleteComment(): void {
-    this.elements.splice(this.index, 1);
-    this.commentsService.deleteComments(this.element.id).subscribe();
+    this.commentsService.deleteComments(this.element.id).subscribe(response => {
+      if (response.status === 200) {
+        this.elements = this.elements.filter((item, index) => {
+           if (item.text === this.element.text) {
+             this.elements.splice(index, 1);
+           }
+         });
+      }
+    });
   }
 
 }
