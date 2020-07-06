@@ -539,5 +539,21 @@
       "days": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
       "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     }
+  },
+  "eco-news-single-view": {
+    "back-button": "Back to news",
+    "edit-news-button": "Edit news",
+    "author": "by",
+    "tags": {
+      "news": "news",
+      "events": "events",
+      "initiatives": "initiatives",
+      "ads": "ads",
+      "education": "education"
+    },
+    "news-source": "Source:",
+    "eco-news-widget": {
+      "paragraph": "May be interesting for you"
+    }
   }
 }
