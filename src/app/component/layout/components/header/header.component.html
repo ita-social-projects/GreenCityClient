@@ -9,7 +9,7 @@
           <picture>
             <source media="(max-width: 576px)"
                     srcset="assets/img/logo_S.png">
-            <img src="assets/img/logo_M.png"
+            <img [src]="logoImg"
                  alt="logo">
           </picture>
         </a>
@@ -105,7 +105,7 @@
               <li class="search"
                   [class.destroy]="onToggleBurgerMenu">
                 <a (click)="toggleSearchPage()">
-                  <img src="assets/img/icon/search.png"
+                  <img [src]="searchIcon"
                        alt="search">
                 </a>
               </li>

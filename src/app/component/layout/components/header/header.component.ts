@@ -1,22 +1,22 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ModalService } from '../../../core/components/propose-cafe/_modal/modal.service';
-import { MatDialog } from '@angular/material';
-import { FavoritePlaceComponent } from '../../../map/components/favorite-place/favorite-place.component';
-import { FavoritePlaceService } from '../../../../service/favorite-place/favorite-place.service';
-import { UserSettingComponent } from '../../../user/components/user-setting/user-setting.component';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {ModalService} from '../../../core/components/propose-cafe/_modal/modal.service';
+import {MatDialog} from '@angular/material';
+import {FavoritePlaceComponent} from '../../../map/components/favorite-place/favorite-place.component';
+import {FavoritePlaceService} from '../../../../service/favorite-place/favorite-place.service';
+import {UserSettingComponent} from '../../../user/components/user-setting/user-setting.component';
 import {NavigationStart, Router} from '@angular/router';
-import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
-import { JwtService } from '../../../../service/jwt/jwt.service';
-import { UserService } from 'src/app/service/user/user.service';
-import { AchievementService } from 'src/app/service/achievement/achievement.service';
-import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-statistic.service';
-import { filter } from 'rxjs/operators';
-import { LanguageService } from '../../../../i18n/language.service';
-import { Language } from '../../../../i18n/Language';
-import { SearchService } from '../../../../service/search/search.service';
-import { UserOwnAuthService } from '../../../../service/auth/user-own-auth.service';
-import { SignInComponent } from '../../../auth/components/sign-in/sign-in.component';
-import { SignUpComponent } from '../../../auth/components/sign-up/sign-up.component';
+import {LocalStorageService} from '../../../../service/localstorage/local-storage.service';
+import {JwtService} from '../../../../service/jwt/jwt.service';
+import {UserService} from 'src/app/service/user/user.service';
+import {AchievementService} from 'src/app/service/achievement/achievement.service';
+import {HabitStatisticService} from 'src/app/service/habit-statistic/habit-statistic.service';
+import {filter} from 'rxjs/operators';
+import {LanguageService} from '../../../../i18n/language.service';
+import {Language} from '../../../../i18n/Language';
+import {SearchService} from '../../../../service/search/search.service';
+import {UserOwnAuthService} from '../../../../service/auth/user-own-auth.service';
+import {SignInComponent} from '../../../auth/components/sign-in/sign-in.component';
+import {SignUpComponent} from '../../../auth/components/sign-up/sign-up.component';
 
 @Component({
   selector: 'app-header',
@@ -26,6 +26,8 @@ import { SignUpComponent } from '../../../auth/components/sign-up/sign-up.compon
 export class HeaderComponent implements OnInit {
   readonly selectLanguageArrow = 'assets/img/arrow_grey.png';
   readonly dropDownArrow = 'assets/img/arrow.png';
+  readonly logoImg = 'assets/img/logo_M.png';
+  readonly searchIcon = 'assets/img/icon/search.png';
   private dropdownVisible: boolean;
   private name: string;
   private userRole: string;
@@ -47,7 +49,8 @@ export class HeaderComponent implements OnInit {
               private habitStatisticService: HabitStatisticService,
               private languageService: LanguageService,
               private searchSearch: SearchService,
-              private userOwnAuthService: UserOwnAuthService) {}
+              private userOwnAuthService: UserOwnAuthService) {
+  }
 
   ngOnInit() {
     this.searchSearch.searchSubject.subscribe(this.openSearchSubscription.bind(this));
