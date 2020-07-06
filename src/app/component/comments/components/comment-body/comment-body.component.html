@@ -9,9 +9,7 @@
         <span class="comment-date-month">  {{ element.modifiedDate | date: 'longDate'}}</span>
       </div>
     </div>
-    <div class="comment-likes"><img src="assets/img/comments/like.png" alt="like">
-      <span class="like-amount">{{ element.likes }}</span>
-    </div>
+    <app-likes-counter [commentId]="element.id"></app-likes-counter>
   </div>
   <div class="comment-main-text">
     <p class="comment-text"> {{ element.text }}</p>
