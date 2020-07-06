@@ -45,7 +45,7 @@ import { AuthModule } from './component/auth/auth.module';
 import { HomeModule } from './component/home/home.module';
 import { LayoutModule } from './component/layout/layout.module';
 import { CreateNewsCancelComponent } from './component/shared/components/create-news-cancel/create-news-cancel.component';
-import {NgxPaginationModule} from 'ngx-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @NgModule({

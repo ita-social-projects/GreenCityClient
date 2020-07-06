@@ -10,7 +10,7 @@ import { DeleteCommentComponent } from './components/delete-comment/delete-comme
 import { EditCommentComponent } from './components/edit-comment/edit-comment.component';
 import { CommentCounterComponent } from './components/comment-counter/comment-counter.component';
 import { CommentPaginationComponent } from './components/comment-pagination/comment-pagination.component';
-import {NgxPaginationModule} from 'ngx-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
