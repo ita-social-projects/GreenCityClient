@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CommentsService } from '../../services/comments.service';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
-import set = Reflect.set;
 
 @Component({
   selector: 'app-comment-body',

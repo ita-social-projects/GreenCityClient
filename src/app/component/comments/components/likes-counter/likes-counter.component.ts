@@ -23,7 +23,6 @@ export class LikesCounterComponent implements OnInit {
   }
 
   private setLikes(data): void {
-    console.log(data);
     this.likes = data;
   }
 }
