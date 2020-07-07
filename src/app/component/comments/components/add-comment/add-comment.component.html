@@ -1,5 +1,15 @@
-<div class="wrapper">
-    <img [src]="avatarImage" alt="avatar">
-    <textarea placeholder="Add a comment"></textarea>
-    <button>Comment</button>
+<form 
+    *ngIf="isLoggedIn"
+    class="wrapper"
+    [formGroup]="addCommentForm" 
+    (ngSubmit)="onSubmit()">
+    <img [src]=avatarImage alt="avatar">
+    <textarea placeholder="Add a comment"
+            formControlName="content"></textarea>
+    <button class="primary-global-button"
+            [disabled]="!addCommentForm.valid">Comment</button>
+</form>
+<div class="container">
+    <app-comment-body [elements]="elements"></app-comment-body>
 </div>
+

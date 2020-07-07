@@ -1,9 +1,10 @@
 import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { ecoNewsIcons } from 'src/assets/img/icon/econews/profile-icons';
-import { EcoNewsService } from 'src/app/component/eco-news/services/eco-news.service';
-import { EcoNewsModel } from 'src/app/component/eco-news/models/eco-news-model';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ecoNewsIcons } from 'src/assets/img/icon/econews/profile-icons';
+import { EcoNewsService } from '@eco-news-service/eco-news.service';
+import { EcoNewsModel } from '@eco-news-models/eco-news-model';
+
 
 @Component({
   selector: 'app-eco-news-widget',
