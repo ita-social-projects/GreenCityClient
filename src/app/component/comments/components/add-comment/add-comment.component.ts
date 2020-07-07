@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
@@ -12,6 +12,12 @@ import { CommentsDTO } from '../../models/comments-model';
   styleUrls: ['./add-comment.component.scss']
 })
 export class AddCommentComponent implements OnInit {
+  @Input() commentId: number;
+  @Input() dataSet = {
+    placeholder: 'Add a comment',
+    btnText: 'Comment',
+    type: 'comment'
+  }
 
   constructor(private commentsService: CommentsService,
               private fb: FormBuilder,

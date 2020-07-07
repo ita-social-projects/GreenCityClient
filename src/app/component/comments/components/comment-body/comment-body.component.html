@@ -30,7 +30,8 @@
     <app-delete-comment *ngIf="0"></app-delete-comment>
     <app-view-replies [commentId]="element.id"></app-view-replies>
   </div>
-  <app-add-reply *ngIf="replyFormVisibility && element.id == tempId"
-                 [commentId]="element.id"
-  ></app-add-reply>
+  <app-add-comment *ngIf="replyFormVisibility && element.id == tempId"
+                   [commentId]="element.id"
+                   [dataSet]="addReply"
+  ></app-add-comment>
 </div>

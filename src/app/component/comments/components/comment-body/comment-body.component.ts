@@ -14,6 +14,11 @@ export class CommentBodyComponent {
   public isLoggedIn: boolean;
   public userId: boolean;
   public tempId: number;
+  public addReply = {
+    placeholder: 'Add a reply',
+    btnText: 'Reply',
+    type: 'reply'
+  }
 
   constructor(private userOwnAuthService: UserOwnAuthService,
               private commentsService: CommentsService) { }

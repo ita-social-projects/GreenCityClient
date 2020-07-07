@@ -1,13 +1,15 @@
-<form 
+<form
     *ngIf="isLoggedIn"
     class="wrapper"
-    [formGroup]="addCommentForm" 
+    [formGroup]="addCommentForm"
     (ngSubmit)="onSubmit()">
     <img [src]=avatarImage alt="avatar">
-    <textarea placeholder="Add a comment"
+    <textarea placeholder="{{ dataSet.placeholder }}"
             formControlName="content"></textarea>
     <button class="primary-global-button"
-            [disabled]="!addCommentForm.valid">Comment</button>
+            [disabled]="!addCommentForm.valid">
+      {{ dataSet.btnText }}
+    </button>
 </form>
 <div class="container">
     <app-comment-body [elements]="elements"></app-comment-body>
