@@ -96,9 +96,10 @@ div {
 }
 
 .author-name{
-  display: flex;
-  align-items: center;
   width: 176px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @media screen and (max-width: 992px) {
