@@ -371,6 +371,10 @@ $screen-575: " screen and (max-width : 575px)";
       padding: 0 10px 0;
       color: $first-font-color;
 
+      .username-text{
+        text-align: right;
+      }
+
       &:first-of-type {
         color: #056B33;
         font-size: 12px;
