@@ -19,10 +19,10 @@ export class LikesCounterComponent implements OnInit {
 
   private getLikesFromServer(): void {
     this.commentsService.getCommentLikes(this.commentId)
-      .subscribe(this.setLikes.bind(this));
+      .subscribe(data => this.setLikes(data));
   }
 
-  private setLikes(data: number): void {
+  private setLikes(data): void {
     this.likes = data;
   }
 }
