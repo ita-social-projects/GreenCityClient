@@ -18,7 +18,7 @@ export class CommentBodyComponent implements OnInit {
 
   public config = {
     id: 'custom',
-    itemsPerPage: 1,
+    itemsPerPage: 10,
     currentPage: this.commentTotalItems,
     totalItems: this.commentTotalItems
   };
