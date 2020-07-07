@@ -10,6 +10,10 @@
   min-height: calc(100% - 250px);
 }
 
+.stop-scroll {
+  position: fixed;
+}
+
 .app-footer {
   width: 100%;
 }
