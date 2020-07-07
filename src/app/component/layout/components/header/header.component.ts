@@ -115,6 +115,10 @@ export class HeaderComponent implements OnInit {
     this.dropdownVisible = !this.dropdownVisible;
   }
 
+  private toggleDropdown2(): void {
+    this.dropdownVisible = !this.dropdownVisible;
+  }
+
   private onToggleBurgerMenu(): void {
     this.toggleBurgerMenu = !this.toggleBurgerMenu;
     this.uiActionsService.stopScrollingSubject.next(this.toggleBurgerMenu);
