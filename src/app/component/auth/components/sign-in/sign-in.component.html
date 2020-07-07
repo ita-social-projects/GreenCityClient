@@ -112,20 +112,20 @@
         {{'user.auth.sign-in.sign-in' | translate}}
       </button>
       <span class="or-use-google">{{'user.auth.sign-in.or-signin' | translate}}</span>
-      <div>
-        <button type="submit"
-                class="google-sign-in"
-                (click)="signInWithGoogle()">
+    </form>
+    <div>
+      <button type="submit"
+              class="google-sign-in"
+              (click)="signInWithGoogle()">
           <span class="google-sign">
             <img [src]="googleImage.picGoogle"
                  alt="Google sign-in">
           </span>
-          <span class="google-text-sign-in">
+        <span class="google-text-sign-in">
             {{'user.auth.sign-in.sign-in-with-google' | translate}}
           </span>
-        </button>
-      </div>
-    </form>
+      </button>
+    </div>
     <div class="missing-account">
       <p>{{'user.auth.sign-in.havenot-account' | translate}}
         <a (click)="signUpOpenWindow()"

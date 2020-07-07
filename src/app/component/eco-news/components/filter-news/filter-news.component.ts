@@ -25,15 +25,13 @@ export class FilterNewsComponent implements OnInit {
   }
 
 private setTags(tags: Array<string>): void {
-    const filtersWithProperties = tags.map((filter: string) =>
+    this.filters = tags.map((filter: string) =>
       ({name: filter, isActive: false})
     );
-    this.filters = [...filtersWithProperties];
 }
 
   public emitTrueFilterValues(): Array<string> {
-    return this.filters.reduce((result, element) =>
-      element.isActive ? [...result, element.name] : result, Array<string>());
+    return this.filters.filter(el => el.isActive).map(el => el.name);
   }
 
   public emitActiveFilters(): void {

@@ -39,7 +39,9 @@
               <h3>Tips & Tricks</h3>
             </a>
             <div class="flex-container">
-
+              <app-search-item *ngFor="let element of tipsElements"
+                               [searchModel]="element"
+                               (closeSearch)="closeSearch()"></app-search-item>
             </div>
           </div>
 
