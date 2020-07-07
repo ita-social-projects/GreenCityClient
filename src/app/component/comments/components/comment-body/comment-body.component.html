@@ -18,7 +18,7 @@
   </div>
   <div class="comments-elements">
     <div class="btn-wrapper"
-         *ngIf="isLoggedIn && (element.author.id != userId)"
+         *ngIf="isLoggedIn && (element.author.id !== +userId)"
     >
       <app-like-comment [commentId]="element.id"
                         [likeState]="element.currentUserLiked"
@@ -26,7 +26,7 @@
       <app-reply-comment></app-reply-comment>
     </div>
     <div class="btn-wrapper"
-         *ngIf="isLoggedIn && (element.author.id == userId)"
+         *ngIf="isLoggedIn && (element.author.id === +userId)"
     >
       <app-edit-comment></app-edit-comment>
       <app-delete-comment></app-delete-comment>
