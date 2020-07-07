@@ -158,8 +158,8 @@
     "add-cafe": "Добавить кафе",
     "admin": "Администратор",
     "my-habits": "Мои привычки",
-    "favorite-places": "Любимые места",
-    "user-settings": "Настройка профиля",
+    "profile": "Мой кабинет",
+    "user-settings": "Настройки",
     "sign-out": "Выйти",
     "sign-in": "Войти"
   },
