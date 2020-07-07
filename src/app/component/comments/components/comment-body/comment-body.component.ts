@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CommentsService } from '../../services/comments.service';
-import { CommentsModel } from '../../models/comments-model';
+import {CommentsDTO, CommentsModel } from '../../models/comments-model';
 
 @Component({
   selector: 'app-comment-body',
@@ -10,7 +10,7 @@ import { CommentsModel } from '../../models/comments-model';
 export class CommentBodyComponent implements OnInit {
 
   constructor(private commentsService: CommentsService) { }
-  @Input() public elements = [];
+  @Input() public elements: CommentsDTO[] = [];
 
   public commentCurrentPage: number;
   public commentTotalItems: number;
@@ -18,7 +18,7 @@ export class CommentBodyComponent implements OnInit {
 
   public config = {
     id: 'custom',
-    itemsPerPage: 10,
+    itemsPerPage: 1,
     currentPage: this.commentTotalItems,
     totalItems: this.commentTotalItems
   };

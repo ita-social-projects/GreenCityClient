@@ -12,24 +12,24 @@
                alt="arrow previous">
 
         </a>
-        <a *ngIf="p.isFirstPage()">
-          <img class="prev-btn"
-               [src]="arrowPreviousDisable"
-               alt="arrow previous disable">
-        </a>
+        <div *ngIf="p.pages.length > 0">
+          <a *ngIf="p.isFirstPage()">
+            <img class="prev-btn"
+                 [src]="arrowPreviousDisable"
+                 alt="arrow previous disable">
+          </a>
+        </div>
       </div>
       <div class="page-number"
            *ngFor="let page of p.pages"
+           (click)="p.setCurrent(page.value)"
            [class.current]="p.getCurrent() === page.value">
-        <a (click)="p.setCurrent(page.value)"
-              *ngIf="p.getCurrent() !== page.value">
+        <a *ngIf="p.getCurrent() !== page.value">
           {{ page.label }}
         </a>
-        <div *ngIf="p.getCurrent() === page.value">
-        <a>
+        <a *ngIf="p.getCurrent() === page.value">
           {{ page.label }}
         </a>
-        </div>
       </div>
       <div class="pagination-next">
         <a *ngIf="!p.isLastPage()"
@@ -38,11 +38,13 @@
                [src]="arrowNext"
                alt="arrow next">
         </a>
-        <a *ngIf="p.isLastPage()">
-          <img class="next-btn"
-               [src]="arrowNextDisable"
-               alt="arrow next disable">
-        </a>
+        <div *ngIf="p.pages.length > 0">
+          <a *ngIf="p.isLastPage()">
+            <img class="next-btn"
+                 [src]="arrowNextDisable"
+                 alt="arrow next disable">
+          </a>
+        </div>
       </div>
     </div>
   </pagination-template>
