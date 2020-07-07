@@ -17,18 +17,24 @@
     <p class="comment-text"> {{ element.text }}</p>
   </div>
   <div class="comments-elements">
-    <div class="like-reply">
-      <app-like-comment *ngIf="isLoggedIn && !(element.author.id == userId)"
-                        [commentId]="element.id"
+    <div class="btn-wrapper"
+         *ngIf="isLoggedIn && !(element.author.id == userId)"
+    >
+      <app-like-comment [commentId]="element.id"
                         [likeState]="element.currentUserLiked"
       ></app-like-comment>
-      <app-reply-comment *ngIf="isLoggedIn && !(element.author.id == userId)"
-                         (click)="showReplyForm(element.id)"
+      <app-reply-comment (click)="showReplyForm(element.id)"
       ></app-reply-comment>
     </div>
-    <app-edit-comment *ngIf="0"></app-edit-comment>
-    <app-delete-comment *ngIf="0"></app-delete-comment>
-    <app-view-replies [commentId]="element.id"></app-view-replies>
+    <div class="btn-wrapper"
+         *ngIf="isLoggedIn && (element.author.id == userId)"
+    >
+      <app-edit-comment></app-edit-comment>
+      <app-delete-comment></app-delete-comment>
+    </div>
+    <app-view-replies [commentId]="element.id"
+                      *ngIf="type === 'comment'"
+    ></app-view-replies>
   </div>
   <app-add-comment *ngIf="replyFormVisibility && element.id == tempId"
                    [commentId]="element.id"

@@ -8,8 +8,9 @@ import set = Reflect.set;
   templateUrl: './comment-body.component.html',
   styleUrls: ['./comment-body.component.scss']
 })
-export class CommentBodyComponent {
+export class CommentBodyComponent implements OnInit {
   @Input() public elements = [];
+  @Input() public type: string;
   public replyFormVisibility = false;
   public isLoggedIn: boolean;
   public userId: boolean;
@@ -18,7 +19,7 @@ export class CommentBodyComponent {
     placeholder: 'Add a reply',
     btnText: 'Reply',
     type: 'reply'
-  }
+  };
 
   constructor(private userOwnAuthService: UserOwnAuthService,
               private commentsService: CommentsService) { }

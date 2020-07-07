@@ -39,6 +39,10 @@ export class CommentsService {
     return this.http.get(`https://greencity.azurewebsites.net/econews/comments?ecoNewsId=${this.ecoNewsId}&page=0&size=12`);
   }
 
+  public getAllReplies(id: number): Observable<object> {
+    return this.http.get(`https://greencity.azurewebsites.net/econews/comments/replies/${id}`);
+  }
+
   public getCommentLikes(id: number): Observable<object> {
     return this.http.get(`https://greencity.azurewebsites.net/econews/comments/count/likes?id=${id}`);
   }

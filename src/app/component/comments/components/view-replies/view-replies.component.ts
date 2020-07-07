@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {CommentsService} from "../../services/comments.service";
+import { Component, Input, OnInit } from '@angular/core';
+import { CommentsService } from '../../services/comments.service';
 
 @Component({
   selector: 'app-view-replies',

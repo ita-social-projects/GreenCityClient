@@ -17,7 +17,7 @@ export class AddCommentComponent implements OnInit {
     placeholder: 'Add a comment',
     btnText: 'Comment',
     type: 'comment'
-  }
+  };
 
   constructor(private commentsService: CommentsService,
               private fb: FormBuilder,
@@ -33,7 +33,11 @@ export class AddCommentComponent implements OnInit {
   private isLoggedIn: boolean;
 
   ngOnInit() {
-    this.addElemsToCurrentList();
+    if (this.dataSet.type === 'comment') {
+      this.addElemsToCurrentList();
+    } else if (this.dataSet.type === 'reply') {
+      this.addElemsToRepliesList();
+    }
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
   }
@@ -44,17 +48,35 @@ export class AddCommentComponent implements OnInit {
         .subscribe((list: CommentsModel) => this.setList(list));
   }
 
+  private addElemsToRepliesList(): void {
+    this.commenstSubscription = this.commentsService.getAllReplies(this.commentId)
+      .subscribe((list: CommentsModel) => this.setRepliesList(list));
+  }
+
   public setList(data: CommentsModel): void {
     this.elements = [...this.elements, ...data.page];
   }
 
+  private setRepliesList(data): void {
+    this.elements = [...this.elements, ...data];
+  }
+
   public onSubmit(): void {
-    this.commentsService.addComment(this.addCommentForm).subscribe(
-      (successRes: CommentsDTO) => {
-        this.elements = [successRes, ...this.elements];
-        this.addCommentForm.reset();
-      }
-    );
+    if (this.dataSet.type === 'comment') {
+      this.commentsService.addComment(this.addCommentForm).subscribe(
+        (successRes: CommentsDTO) => {
+          this.elements = [successRes, ...this.elements];
+          this.addCommentForm.reset();
+        }
+      );
+    } else if (this.dataSet.type === 'reply') {
+      this.commentsService.addReply(this.commentId, this.addCommentForm).subscribe(
+        (successRes: CommentsDTO) => {
+          this.elements = [successRes, ...this.elements];
+          this.addCommentForm.reset();
+        }
+      );
+    }
   }
 
   private checkUserSingIn(): void {
