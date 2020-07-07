@@ -1,12 +1,12 @@
-<div class="comment-body-wrapper">
+<div class="comment-body-wrapper" *ngFor="let element of elements">
   <div class="comment-avatar">
      <img src="assets/img/comments/comment_author.png" alt="comment-author">
   </div>
   <div class="comment-details">
     <div class="comment-name-date">
-      <div class="author-name"><span>Jane Long Name Doe</span></div>
+      <div class="author-name"><span>{{ element.author.name }}</span></div>
       <div class="comment-date"><span class="comment-dot"></span>
-        <span class="comment-date-month">Jan 30, 2020</span>
+        <span class="comment-date-month">  {{ element.modifiedDate | date: 'longDate'}}</span>
       </div>
     </div>
     <div class="comment-likes"><img src="assets/img/comments/like.png" alt="like">
@@ -14,10 +14,7 @@
     </div>
   </div>
   <div class="comment-main-text">
-    <p class="comment-text">In this brilliantly conceived tour de force, Stephen King—who has absorbed the social,
-      political, and popular culture of his generation more imaginatively and thoroughly than
-      any other writer—takes readers on an incredible journey into the past and the possibility
-      of altering it.</p>
+    <p class="comment-text"> {{ element.text }}</p>
   </div>
   <div class="comments-elements">
     <app-comment-like-reply></app-comment-like-reply>

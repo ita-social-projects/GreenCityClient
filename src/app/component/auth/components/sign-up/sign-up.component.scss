@@ -6,6 +6,7 @@ $title-font: 'Montserrat';
 $main-font: 'Open Sans';
 $sign-up-google-font: 'Roboto';
 
+
 .main-container {
   display: flex;
   max-width: 960px;
@@ -69,6 +70,8 @@ $sign-up-google-font: 'Roboto';
         border: 1px solid #878787;
         box-sizing: border-box;
         border-radius: 5px;
+        width: 368px;
+        height: 48px;
       }
 
       .main-data-input:focus {
@@ -81,6 +84,7 @@ $sign-up-google-font: 'Roboto';
 
       .main-data-input-password {
         height: 48px;
+        width: 368px;
         border: 1px solid #878787;
         box-sizing: border-box;
         border-radius: 5px;
@@ -128,7 +132,9 @@ $sign-up-google-font: 'Roboto';
       }
 
       .primary-global-button {
-        margin-top: 28px;
+        margin-top: 40px;
+        height: 48px;
+        width: 368px;
         padding: 16px 116px 16px 116px;
         font-weight: 600;
         border-radius: 3px;
@@ -151,6 +157,8 @@ $sign-up-google-font: 'Roboto';
       }
 
       .cta-button-google {
+        height: 40px;
+        width: 368px;
         border: none;
         background: #FFFFFF;
         box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.24),

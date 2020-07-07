@@ -1,4 +1,4 @@
-<div [ngClass]="onToggleBurgerMenu ? 'break-shadow main' : 'main'">
+<div [ngClass]="toggleBurgerMenu ? 'break-shadow main' : 'main'">
   <div class="main-container">
     <div class="header" >
       <div class="logo">
@@ -15,7 +15,7 @@
         </a>
       </div>
       <div class="navigation-menu">
-                  <div [ngClass]="onToggleBurgerMenu ? 'navigation-menu-left-col' : 'navigation-menu-left'">
+                  <div [ngClass]="toggleBurgerMenu ? 'navigation-menu-left-col' : 'navigation-menu-left'">
                       <ul>
                         <li>
                           <a [routerLink]="['/news']"
@@ -103,14 +103,14 @@
               <ul>
                 <ng-template [ngIf]="!isAllSearchOpen">
                  <li class="search"
-                     [class.destroy]="onToggleBurgerMenu">
+                     [class.destroy]="toggleBurgerMenu">
                  <a (click)="toggleSearchPage()">
                    <img src="assets/img/icon/search.png"
                         alt="search">
                  </a>
                  </li>
                 </ng-template>
-              <li [class.destroy]="onToggleBurgerMenu">
+              <li [class.destroy]="toggleBurgerMenu">
                 <div class="switcher-wrapper">
                 <img class="arrow"
                      [src]="selectLanguageArrow"
@@ -130,7 +130,7 @@
               </div>
               </li>
         <li class="sign-in-link tertiary-global-button"
-            [class.destroy]="onToggleBurgerMenu">
+            [class.destroy]="toggleBurgerMenu">
           <div *ngIf="!isLoggedIn; then userLoggedIn else userNotLoggedIn"></div>
           <ng-template #userLoggedIn>
             <a (click)="openSingInWindow()">
@@ -168,7 +168,7 @@
           </ng-template>
         </li>
           <li class="sign-up-link"
-              [class.destroy]="onToggleBurgerMenu"
+              [class.destroy]="toggleBurgerMenu"
               *ngIf="!isLoggedIn"
               (click)="openSignUpWindow()">
             <div class="create-button secondary-global-button">
@@ -177,8 +177,8 @@
           </li>
     <li class="burger-b">
        <div class="menu-icon-wrapper"
-            (click)="onToggleBurgerMenu=!onToggleBurgerMenu">
-       <div  [ngClass]="onToggleBurgerMenu ? 'menu-icon menu-icon-active' : 'menu-icon'"></div>
+            (click)="onToggleBurgerMenu()">
+       <div  [ngClass]="toggleBurgerMenu ? 'menu-icon menu-icon-active' : 'menu-icon'"></div>
        </div>
       </li>
     </ul>

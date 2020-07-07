@@ -15,6 +15,7 @@ import { SearchService } from '../../../../service/search/search.service';
 import { UserOwnAuthService } from '../../../../service/auth/user-own-auth.service';
 import { SignInComponent } from '../../../auth/components/sign-in/sign-in.component';
 import { SignUpComponent } from '../../../auth/components/sign-up/sign-up.component';
+import { UiActionsService } from '@global-service/ui-actions/ui-actions.service';
 
 @Component({
   selector: 'app-header',
@@ -33,7 +34,7 @@ export class HeaderComponent implements OnInit {
   private language: string;
   private isSearchClicked = false;
   private isAllSearchOpen = false;
-  private onToggleBurgerMenu = false;
+  private toggleBurgerMenu = false;
 
   constructor(private modalService: ModalService,
               public dialog: MatDialog,
@@ -45,7 +46,9 @@ export class HeaderComponent implements OnInit {
               private habitStatisticService: HabitStatisticService,
               private languageService: LanguageService,
               private searchSearch: SearchService,
-              private userOwnAuthService: UserOwnAuthService) {}
+              private userOwnAuthService: UserOwnAuthService,
+              private uiActionsService: UiActionsService,
+  ) {}
 
   ngOnInit() {
     this.searchSearch.searchSubject.subscribe(this.openSearchSubscription.bind(this));
@@ -85,7 +88,7 @@ export class HeaderComponent implements OnInit {
         filter((events) => events instanceof NavigationStart)
       )
       .subscribe(() => {
-        this.onToggleBurgerMenu = false;
+        this.toggleBurgerMenu = false;
       });
   }
 
@@ -112,6 +115,11 @@ export class HeaderComponent implements OnInit {
 
   private toggleLangDropdown(): void {
     this.langDropdownVisible = !this.langDropdownVisible;
+  }
+
+  private onToggleBurgerMenu(): void {
+    this.toggleBurgerMenu = !this.toggleBurgerMenu;
+    this.uiActionsService.stopScrollingSubject.next(this.toggleBurgerMenu);
   }
 
   private openSingInWindow(): void {
