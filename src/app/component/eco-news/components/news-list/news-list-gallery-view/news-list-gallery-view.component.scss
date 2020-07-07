@@ -7,6 +7,7 @@ div {
 .list-gallery-content {
   padding: 16px;
   width: 359px;
+  height: 500px;
 }
 
 .list-gallery-content:hover {
@@ -43,13 +44,16 @@ div {
   font-style: normal;
   font-weight: 500;
   font-size: 21px;
-  line-height: 32px;
+  line-height: 24px;
   color: #313131;
 }
 
 .list-text {
   margin: 8px 0 0 0;
   font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  line-height: 21px;
+  color: #313131;
 }
 
 .user-data-added-news {

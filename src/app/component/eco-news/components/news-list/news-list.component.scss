@@ -32,14 +32,17 @@
 }
 
 .gallery-view-active {
-  column-gap: 32px;
-  column-count: 3;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  //grid-auto-columns: ;
+  //column-gap: 32px;
+  //column-count: 3;
 }
 
 .gallery-view-li-active {
-  display: inline-block;
+  //display: inline-block;
   margin: 0 0 40px 0;
-  break-inside: avoid;
+  //break-inside: avoid;
 }
 
 .list-view-li-active {
