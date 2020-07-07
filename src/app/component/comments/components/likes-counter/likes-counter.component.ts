@@ -22,7 +22,7 @@ export class LikesCounterComponent implements OnInit {
       .subscribe(this.setLikes.bind(this));
   }
 
-  private setLikes(data): void {
+  private setLikes(data: number): void {
     this.likes = data;
   }
 }
