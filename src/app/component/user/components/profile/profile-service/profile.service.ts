@@ -15,7 +15,7 @@ export class ProfileService {
   private backEnd = environment.backendLink;
 
   public getFactsOfTheDay(): Observable<CardModel> {
-    return this.http.get<CardModel>(`${this.backEnd}facts/dayFact/2?size=3`);
+    return this.http.get<CardModel>(`${this.backEnd}facts/dayFact/2`);
   }
 
 }
