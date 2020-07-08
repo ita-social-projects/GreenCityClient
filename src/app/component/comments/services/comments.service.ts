@@ -22,15 +22,15 @@ export class CommentsService {
       text: form.value.content
     };
 
-    return this.http.post(`https://greencity.azurewebsites.net/econews/comments/${this.ecoNewsId}`, body);
+    return this.http.post(`${this.backEnd}econews/comments/${this.ecoNewsId}`, body);
   }
 
   public getCommentsByPage(): Observable<object> {
-    return this.http.get(`https://greencity.azurewebsites.net/econews/comments?ecoNewsId=${this.ecoNewsId}&page=0&size=12`);
+    return this.http.get(`${this.backEnd}econews/comments?ecoNewsId=${this.ecoNewsId}&page=0&size=12`);
   }
 
   public deleteComments(id) {
-    return this.http.delete(`https://greencity.azurewebsites.net/econews/comments?id=${id}`, {observe: 'response'});
+    return this.http.delete(`${this.backEnd}econews/comments?id=${id}`, {observe: 'response'});
   }
 
   public getCommentLikes(id: number): Observable<number> {
