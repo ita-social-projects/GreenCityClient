@@ -1,4 +1,6 @@
-<div class="comment-body-wrapper" *ngFor="let element of elements; index as i">
+<div class="comment-body-wrapper"
+     *ngFor="let element of elements;"
+>
   <div class="comment-avatar">
      <img src="assets/img/comments/comment_author.png" alt="comment-author">
   </div>
@@ -9,16 +11,14 @@
         <span class="comment-date-month">  {{ element.modifiedDate | date: 'longDate'}}</span>
       </div>
     </div>
-    <div class="comment-likes"><img src="assets/img/comments/like.png" alt="like">
-      <span class="like-amount">{{ element.likes }}</span>
-    </div>
+    <app-likes-counter [commentId]="element.id"></app-likes-counter>
   </div>
   <div class="comment-main-text">
     <p class="comment-text"> {{ element.text }}</p>
   </div>
   <div class="comments-elements">
     <div class="btn-wrapper"
-         *ngIf="isLoggedIn && !(element.author.id == userId)"
+         *ngIf="isLoggedIn && (element.author.id !== +userId)"
     >
       <app-like-comment [commentId]="element.id"
                         [likeState]="element.currentUserLiked"

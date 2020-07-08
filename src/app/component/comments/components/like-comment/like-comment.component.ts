@@ -25,13 +25,10 @@ export class LikeCommentComponent implements OnInit {
   }
 
   private setStartingElements(state: boolean) {
-    if (state) {
-      this.like.nativeElement.srcset = this.commentsImages.liked;
-      this.span.nativeElement.innerText = 'Liked';
-    } else {
-      this.like.nativeElement.srcset = this.commentsImages.like;
-      this.span.nativeElement.innerText = 'Like';
-    }
+    let imgName = '';
+
+    [this.span.nativeElement.innerText, imgName] = state ? ['Liked', 'liked'] : ['Like', 'like'];
+    this.like.nativeElement.srcset = this.commentsImages[imgName];
   }
 
   public pressLike(): void {
@@ -42,12 +39,10 @@ export class LikeCommentComponent implements OnInit {
   }
 
   public changeLkeBtn(): void {
-    if (this.like.nativeElement.srcset === this.commentsImages.like) {
-      this.like.nativeElement.srcset = this.commentsImages.liked;
-      this.span.nativeElement.innerText = 'Liked';
-    } else {
-      this.like.nativeElement.srcset = this.commentsImages.like;
-      this.span.nativeElement.innerText = 'Like';
-    }
+    const cond = this.like.nativeElement.srcset === this.commentsImages.like;
+    let imgName = '';
+
+    [this.span.nativeElement.innerText, imgName] = cond ? ['Liked', 'liked'] : ['Like', 'like'];
+    this.like.nativeElement.srcset = this.commentsImages[imgName];
   }
 }

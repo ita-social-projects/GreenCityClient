@@ -8,7 +8,6 @@ import { environment } from '@environment/environment';
   providedIn: 'root'
 })
 export class CommentsService {
-
   public accessToken: string = localStorage.getItem('accessToken');
   private backEnd = environment.backendLink;
   private routeSubscription: Subscription;
@@ -43,8 +42,8 @@ export class CommentsService {
     return this.http.get(`https://greencity.azurewebsites.net/econews/comments/replies/${id}`);
   }
 
-  public getCommentLikes(id: number): Observable<object> {
-    return this.http.get(`https://greencity.azurewebsites.net/econews/comments/count/likes?id=${id}`);
+  public getCommentLikes(id: number): Observable<number> {
+    return this.http.get<number>(`${this.backEnd}econews/comments/count/likes?id=${id}`);
   }
 
   public getRepliesAmount(id: number): Observable<object> {
@@ -52,6 +51,6 @@ export class CommentsService {
 }
 
   public postLike(id: number): Observable<object> {
-    return this.http.post(`https://greencity.azurewebsites.net/econews/comments/like?id=${id}`, {});
+    return this.http.post(`${this.backEnd}econews/comments/like?id=${id}`, {});
   }
 }
