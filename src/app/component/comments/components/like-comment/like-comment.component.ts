@@ -17,7 +17,6 @@ export class LikeCommentComponent implements OnInit {
     like: 'assets/img/comments/like.png',
     liked: 'assets/img/comments/liked.png'
   };
-  private imgName = '';
 
   constructor(private commentsService: CommentsService) { }
 
@@ -26,8 +25,10 @@ export class LikeCommentComponent implements OnInit {
   }
 
   private setStartingElements(state: boolean) {
-    [this.span.nativeElement.innerText, this.imgName] = state ? ['Liked', 'liked'] : ['Like', 'like'];
-    this.like.nativeElement.srcset = this.commentsImages[this.imgName];
+    let imgName = '';
+
+    [this.span.nativeElement.innerText, imgName] = state ? ['Liked', 'liked'] : ['Like', 'like'];
+    this.like.nativeElement.srcset = this.commentsImages[imgName];
   }
 
   public pressLike(): void {
@@ -39,8 +40,9 @@ export class LikeCommentComponent implements OnInit {
 
   public changeLkeBtn(): void {
     const cond = this.like.nativeElement.srcset === this.commentsImages.like;
+    let imgName = '';
 
-    [this.span.nativeElement.innerText, this.imgName] = cond ? ['Liked', 'liked'] : ['Like', 'like'];
-    this.like.nativeElement.srcset = this.commentsImages[this.imgName];
+    [this.span.nativeElement.innerText, imgName] = cond ? ['Liked', 'liked'] : ['Like', 'like'];
+    this.like.nativeElement.srcset = this.commentsImages[imgName];
   }
 }
