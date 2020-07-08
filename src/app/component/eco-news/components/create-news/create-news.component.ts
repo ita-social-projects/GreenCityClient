@@ -37,7 +37,7 @@ export class CreateNewsComponent implements OnInit {
   public isLink = false;
   public formData: FormGroup;
   public isArrayEmpty = true;
-  private author: string = localStorage.getItem('name');
+  public author: string = localStorage.getItem('name');
 
   constructor(private router: Router,
               private fb: FormBuilder,
