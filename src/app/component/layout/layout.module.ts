@@ -10,7 +10,7 @@ import {
   SearchAllResultsComponent
 } from './components';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import {CloseDropdownDirective} from './components/header/close-dropdown.directive';
+import { CloseDropdownDirective } from './directives/close-dropdown.directive';
 
 @NgModule({
   declarations: [

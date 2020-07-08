@@ -115,8 +115,8 @@ export class HeaderComponent implements OnInit {
     this.dropdownVisible = !this.dropdownVisible;
   }
 
-  private toggleDropdown2(): void {
-    this.dropdownVisible = !this.dropdownVisible;
+  private autoCloseUserDropDown(): void {
+    this.dropdownVisible = false;
   }
 
   private onToggleBurgerMenu(): void {

@@ -140,7 +140,9 @@
             <div id="user-avatar-wrapper">
              <ul [class.add-shadow]="dropdownVisible">
                <li class="tertiary-global-button">
-                 <a appCloseDropdown (click)="toggleDropdown()"  (clickOutside)="toggleDropdown2()">{{ name }}
+                 <a appCloseDropdown
+                    (click)="toggleDropdown()"
+                    (clickOutSide)="autoCloseUserDropDown()">{{ name }}
                  <img class="arrow"
                       [src]="dropDownArrow"
                       [ngClass]="dropdownVisible ? 'arrow reverse' : 'arrow'"
