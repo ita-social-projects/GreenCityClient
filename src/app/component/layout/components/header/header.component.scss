@@ -42,8 +42,8 @@ $screen-575: " screen and (max-width : 575px)";
     width: 136px;
     height: 36px;
     margin-right: 4%;
+    margin-left: 150px;
     cursor: pointer;
-
   }
 }
 
@@ -107,6 +107,7 @@ $screen-575: " screen and (max-width : 575px)";
   background: white;
   transition: transform 0.2s ease-in, top 0.2s linear 0.2s;
   box-shadow: 0 4px 5px -2px rgba(73, 74, 73, 0.2);
+  overflow-y: auto;
 
   ul {
     display: flex;
@@ -115,6 +116,7 @@ $screen-575: " screen and (max-width : 575px)";
     margin: 0;
     overflow: hidden;
     padding: 0;
+    height: 550px;
 
     li {
       list-style-type: none;
@@ -141,6 +143,7 @@ $screen-575: " screen and (max-width : 575px)";
         border-bottom: 2px solid rgba(73, 74, 73, 0.2);
       }
     }
+
 
     .mobile-vis {
       display: none;
@@ -240,6 +243,12 @@ $screen-575: " screen and (max-width : 575px)";
       right: 0;
       width: 8px;
       height: 5px;
+    }
+
+    .reverse {
+      transform: rotate(180deg);
+      transition: .4s ease-out;
+      transition-delay: 0.1s;
     }
   }
 
@@ -371,7 +380,7 @@ $screen-575: " screen and (max-width : 575px)";
       padding: 0 10px 0;
       color: $first-font-color;
 
-      .username-text{
+      .username-text {
         text-align: right;
       }
 
@@ -431,6 +440,7 @@ $screen-575: " screen and (max-width : 575px)";
   color: $focus-color !important;
 }
 
+
 @media #{$screen-1199} {
   #user-avatar-wrapper {
     min-width: 168px;
@@ -447,9 +457,19 @@ $screen-575: " screen and (max-width : 575px)";
       }
     }
   }
+  .header {
+    .logo {
+      margin-left: 32px;
+    }
+  }
 }
 
 @media #{$screen-991} {
+  .header {
+    .logo {
+      margin-left: 14px;
+    }
+  }
   .navigation-menu {
     width: auto;
 
@@ -480,7 +500,14 @@ $screen-575: " screen and (max-width : 575px)";
   }
 }
 
+
 @media #{$screen-767} {
+  .header {
+    .logo {
+      margin-top: 15px;
+      margin-left: 16px;
+    }
+  }
   .navigation-menu {
     .navigation-menu-left-col {
       height: 100%;
@@ -540,7 +567,3 @@ $screen-575: " screen and (max-width : 575px)";
     margin-bottom: 40px;
   }
 }
-
-
-
-

@@ -1,4 +1,4 @@
-<div [ngClass]="onToggleBurgerMenu ? 'break-shadow main' : 'main'">
+<div [ngClass]="toggleBurgerMenu ? 'break-shadow main' : 'main'">
   <div class="main-container">
     <div class="header">
       <div class="logo">
@@ -15,7 +15,7 @@
         </a>
       </div>
       <div class="navigation-menu">
-        <div [ngClass]="onToggleBurgerMenu ? 'navigation-menu-left-col' : 'navigation-menu-left'">
+        <div [ngClass]="toggleBurgerMenu ? 'navigation-menu-left-col' : 'navigation-menu-left'">
           <ul>
             <li>
               <a [routerLink]="['/news']"
@@ -76,7 +76,7 @@
               <li class="mobile-vis name tertiary-global-button">{{ name }}</li>
               <li class="mobile-vis">
                 <a (click)="openDialog()">
-                  {{ "nav-bar.favorite-places" | translate }}
+                  {{ "nav-bar.profile" | translate }}
                 </a>
               </li>
               <li class="mobile-vis">
@@ -103,36 +103,37 @@
           <ul>
             <ng-template [ngIf]="!isAllSearchOpen">
               <li class="search"
-                  [class.destroy]="onToggleBurgerMenu">
+                  [class.destroy]="toggleBurgerMenu">
                 <a (click)="toggleSearchPage()">
                   <img [src]="searchIcon"
                        alt="search">
                 </a>
               </li>
             </ng-template>
-            <li [class.destroy]="onToggleBurgerMenu">
+            <li [class.destroy]="toggleBurgerMenu">
               <div class="switcher-wrapper">
                 <img class="arrow"
                      [src]="selectLanguageArrow"
+                     [ngClass]="langDropdownVisible ? 'arrow reverse' : 'arrow'"
                      alt="v">
-                <select
-                  [(ngModel)]="language"
-                  (change)="changeCurrentLanguage()"
-                  class="language-switcher">
+                <select (click)="toggleLangDropdown()"
+                        [(ngModel)]="language"
+                        (change)="changeCurrentLanguage()"
+                        class="language-switcher">
+                  <option class="language-option"
+                          [ngValue]="'en'">En
+                  </option>
                   <option class="language-option"
                           [ngValue]="'uk'">Ua
                   </option>
                   <option class="language-option"
                           [ngValue]="'ru'">Ru
                   </option>
-                  <option class="language-option"
-                          [ngValue]="'en'">En
-                  </option>
                 </select>
               </div>
             </li>
             <li class="sign-in-link tertiary-global-button"
-                [class.destroy]="onToggleBurgerMenu">
+                [class.destroy]="toggleBurgerMenu">
               <div *ngIf="!isLoggedIn; then userLoggedIn else userNotLoggedIn"></div>
               <ng-template #userLoggedIn>
                 <a (click)="openSingInWindow()">
@@ -143,9 +144,7 @@
                 <div id="user-avatar-wrapper">
                   <ul [class.add-shadow]="dropdownVisible">
                     <li class="tertiary-global-button">
-                      <a (click)="toggleDropdown()">
-                        <span class="username-text">{{ name }}</span>
-                        &#160;
+                      <a (click)="toggleDropdown()">{{ name }}
                         <img class="arrow"
                              [src]="dropDownArrow"
                              [ngClass]="dropdownVisible ? 'arrow reverse' : 'arrow'"
@@ -154,7 +153,7 @@
                     </li>
                     <li [class.text-hidde]="!dropdownVisible">
                       <a (click)="openDialog()">
-                        {{ "nav-bar.favorite-places" | translate }}
+                        {{ "nav-bar.profile" | translate }}
                       </a>
                     </li>
                     <li [class.text-hidde]="!dropdownVisible">
@@ -172,7 +171,7 @@
               </ng-template>
             </li>
             <li class="sign-up-link"
-                [class.destroy]="onToggleBurgerMenu"
+                [class.destroy]="toggleBurgerMenu"
                 *ngIf="!isLoggedIn"
                 (click)="openSignUpWindow()">
               <div class="create-button secondary-global-button">
@@ -181,8 +180,8 @@
             </li>
             <li class="burger-b">
               <div class="menu-icon-wrapper"
-                   (click)="onToggleBurgerMenu=!onToggleBurgerMenu">
-                <div [ngClass]="onToggleBurgerMenu ? 'menu-icon menu-icon-active' : 'menu-icon'"></div>
+                   (click)="onToggleBurgerMenu()">
+                <div [ngClass]="toggleBurgerMenu ? 'menu-icon menu-icon-active' : 'menu-icon'"></div>
               </div>
             </li>
           </ul>
@@ -191,4 +190,3 @@
     </div>
   </div>
 </div>
-
