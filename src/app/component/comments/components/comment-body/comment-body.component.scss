@@ -70,15 +70,11 @@ $main-font: 'Open Sans';
   margin-bottom: -10px;
 }
 
-.like-amount {
-  font-family: $main-font;
-  font-size: 12px;
-  line-height: 16px;
-  color: #878787;
-  margin-left: 5px;
-}
-
 .comments-elements {
   display: flex;
   justify-content: space-between;
+
+  .btn-wrapper {
+    display: flex;
+  }
 }
