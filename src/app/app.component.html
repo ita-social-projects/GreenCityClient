@@ -1,9 +1,10 @@
 <div class="flash-message">
   <ng-flash-message></ng-flash-message>
 </div>
-<div class="app-container">
-  <app-header></app-header>
-  <app-search-popup></app-search-popup>
+<app-header></app-header>
+<app-search-popup></app-search-popup>
+<div  [ngClass]="toggle ? 'app-container stop-scroll' : 'app-container'">
+
   <router-outlet></router-outlet>
 </div>
 <div class="app-footer">

@@ -1,8 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ModalService } from '../../../core/components/propose-cafe/_modal/modal.service';
 import { MatDialog } from '@angular/material';
-import { FavoritePlaceComponent } from '../../../map/components/favorite-place/favorite-place.component';
-import { FavoritePlaceService } from '../../../../service/favorite-place/favorite-place.service';
 import { UserSettingComponent } from '../../../user/components/user-setting/user-setting.component';
 import {NavigationStart, Router} from '@angular/router';
 import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
@@ -17,6 +15,7 @@ import { SearchService } from '../../../../service/search/search.service';
 import { UserOwnAuthService } from '../../../../service/auth/user-own-auth.service';
 import { SignInComponent } from '../../../auth/components/sign-in/sign-in.component';
 import { SignUpComponent } from '../../../auth/components/sign-up/sign-up.component';
+import { UiActionsService } from '@global-service/ui-actions/ui-actions.service';
 
 @Component({
   selector: 'app-header',
@@ -27,6 +26,7 @@ export class HeaderComponent implements OnInit {
   readonly selectLanguageArrow = 'assets/img/arrow_grey.png';
   readonly dropDownArrow = 'assets/img/arrow.png';
   private dropdownVisible: boolean;
+  private langDropdownVisible: boolean;
   private name: string;
   private userRole: string;
   private userId: number;
@@ -34,11 +34,10 @@ export class HeaderComponent implements OnInit {
   private language: string;
   private isSearchClicked = false;
   private isAllSearchOpen = false;
-  private onToggleBurgerMenu = false;
+  private toggleBurgerMenu = false;
 
   constructor(private modalService: ModalService,
               public dialog: MatDialog,
-              private favoritePlaceService: FavoritePlaceService,
               private localStorageService: LocalStorageService,
               private jwtService: JwtService,
               private router: Router,
@@ -47,7 +46,9 @@ export class HeaderComponent implements OnInit {
               private habitStatisticService: HabitStatisticService,
               private languageService: LanguageService,
               private searchSearch: SearchService,
-              private userOwnAuthService: UserOwnAuthService) {}
+              private userOwnAuthService: UserOwnAuthService,
+              private uiActionsService: UiActionsService,
+  ) {}
 
   ngOnInit() {
     this.searchSearch.searchSubject.subscribe(this.openSearchSubscription.bind(this));
@@ -87,7 +88,7 @@ export class HeaderComponent implements OnInit {
         filter((events) => events instanceof NavigationStart)
       )
       .subscribe(() => {
-        this.onToggleBurgerMenu = false;
+        this.toggleBurgerMenu = false;
       });
   }
 
@@ -112,6 +113,15 @@ export class HeaderComponent implements OnInit {
     this.dropdownVisible = !this.dropdownVisible;
   }
 
+  private toggleLangDropdown(): void {
+    this.langDropdownVisible = !this.langDropdownVisible;
+  }
+
+  private onToggleBurgerMenu(): void {
+    this.toggleBurgerMenu = !this.toggleBurgerMenu;
+    this.uiActionsService.stopScrollingSubject.next(this.toggleBurgerMenu);
+  }
+
   private openSingInWindow(): void {
     this.dialog.open(SignInComponent, {
       hasBackdrop: true,
@@ -130,12 +140,7 @@ export class HeaderComponent implements OnInit {
 
   private openDialog(): void {
     this.dropdownVisible = false;
-    const dialogRef = this.dialog.open(FavoritePlaceComponent, {
-      width: '700px'
-    });
-    dialogRef.afterClosed().subscribe(() => {
-      this.favoritePlaceService.getFavoritePlaces();
-    });
+    this.router.navigate(['/profile/{userId}']);
   }
 
   private openSettingDialog(): void {
