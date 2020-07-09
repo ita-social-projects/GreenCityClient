@@ -1,6 +1,5 @@
 <div class="counter">
-  <p *ngIf="[totalElements] <= 1">{{ totalElements }} comment</p>
-  <p *ngIf="[totalElements] > 1">{{ totalElements }} comments</p>
+  <p >{{ totalElements }} comment{{ totalElements > 1 ? 's' : '' }}</p>
   <hr>
 </div>
 
