@@ -22,11 +22,11 @@ export class CommentsService {
       text: form.value.content
     };
 
-    return this.http.post(`https://greencity.azurewebsites.net/econews/comments/${this.ecoNewsId}`, body);
+    return this.http.post(`${this.backEnd}econews/comments/${this.ecoNewsId}`, body);
   }
 
   public getCommentsByPage(): Observable<object> {
-    return this.http.get(`https://greencity.azurewebsites.net/econews/comments?ecoNewsId=${this.ecoNewsId}&page=0&size=12`);
+    return this.http.get(`${this.backEnd}econews/comments?ecoNewsId=${this.ecoNewsId}&page=0&size=12`);
   }
 
   public getAllReplies(id: number): Observable<object> {

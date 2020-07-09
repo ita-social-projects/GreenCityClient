@@ -1,6 +1,4 @@
-<div class="comment-body-wrapper"
-     *ngFor="let element of elements;"
->
+<div class="comment-body-wrapper" *ngFor="let element of elements | paginate: config">
   <div class="comment-avatar">
      <img src="assets/img/comments/comment_author.png" alt="comment-author">
   </div>
@@ -41,3 +39,6 @@
                    [dataSet]="addReply"
   ></app-add-comment>
 </div>
+<app-comment-pagination [config]="config"
+                        *ngIf="type === 'comment'"
+></app-comment-pagination>
