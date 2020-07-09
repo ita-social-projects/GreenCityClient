@@ -19,11 +19,7 @@ export class ViewRepliesComponent implements OnInit {
 
   private setRepliesCounter(): void {
     this.commentsService.getRepliesAmount(this.commentId)
-      .subscribe(this.setElements.bind(this));
-  }
-
-  private setElements(value): void {
-    this.repliesCounter = value;
+      .subscribe((data: number) => this.repliesCounter = data);
   }
 
 }

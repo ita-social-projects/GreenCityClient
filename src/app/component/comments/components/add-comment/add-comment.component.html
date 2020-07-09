@@ -1,16 +1,15 @@
-<form
-    *ngIf="isLoggedIn"
-    class="wrapper"
-    [ngClass]="dataSet.type === 'reply' ? 'reply-wrapper': 'wrapper'"
-    [formGroup]="addCommentForm"
-    (ngSubmit)="onSubmit()">
-    <img [src]=avatarImage alt="avatar">
-    <textarea placeholder="{{ dataSet.placeholder }}"
+<form *ngIf="isLoggedIn"
+      class="wrapper"
+      [ngClass]="dataSet.type === 'reply' ? 'reply-wrapper': 'wrapper'"
+      [formGroup]="addCommentForm"
+      (ngSubmit)="onSubmit()">
+  <img [src]=avatarImage alt="avatar">
+  <textarea placeholder="{{ dataSet.placeholder }}"
             formControlName="content"></textarea>
-    <button class="primary-global-button"
-            [disabled]="!addCommentForm.valid">
-      {{ dataSet.btnText }}
-    </button>
+  <button class="primary-global-button"
+          [disabled]="!addCommentForm.valid">
+    {{ dataSet.btnText }}
+  </button>
 </form>
 <div class="container">
     <app-comment-body [elements]="elements"

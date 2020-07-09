@@ -46,8 +46,8 @@ export class CommentsService {
     return this.http.get<number>(`${this.backEnd}econews/comments/count/likes?id=${id}`);
   }
 
-  public getRepliesAmount(id: number): Observable<object> {
-    return this.http.get(`https://greencity.azurewebsites.net/econews/comments/count/replies?parentCommentId=${id}`);
+  public getRepliesAmount(id: number): Observable<number> {
+    return this.http.get<number>(`https://greencity.azurewebsites.net/econews/comments/count/replies?parentCommentId=${id}`);
 }
 
   public postLike(id: number): Observable<object> {

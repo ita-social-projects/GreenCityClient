@@ -27,7 +27,7 @@
       ></app-reply-comment>
     </div>
     <div class="btn-wrapper"
-         *ngIf="isLoggedIn && (element.author.id == userId)"
+         *ngIf="isLoggedIn && (element.author.id === +userId)"
     >
       <app-edit-comment></app-edit-comment>
       <app-delete-comment></app-delete-comment>
