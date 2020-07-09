@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+
+import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { CommentsService } from '../../services/comments.service';
 import {CommentsDTO, CommentsModel } from '../../models/comments-model';
 
@@ -9,9 +11,12 @@ import {CommentsDTO, CommentsModel } from '../../models/comments-model';
 })
 export class CommentBodyComponent implements OnInit {
 
-  constructor(private commentsService: CommentsService) { }
+  constructor(private userOwnAuthService: UserOwnAuthService,
+              private commentsService: CommentsService) {}
   @Input() public elements: CommentsDTO[] = [];
 
+  public isLoggedIn: boolean;
+  public userId: boolean;
   public commentCurrentPage: number;
   public commentTotalItems: number;
   public commentsSubscription;
@@ -25,6 +30,8 @@ export class CommentBodyComponent implements OnInit {
 
   ngOnInit() {
     this.getAllComments();
+    this.checkUserSingIn();
+    this.userOwnAuthService.getDataFromLocalStorage();
   }
 
   public getAllComments(): void {
@@ -36,5 +43,13 @@ export class CommentBodyComponent implements OnInit {
   public setData(currentPage, totalElements) {
     this.commentCurrentPage = currentPage;
     this.commentTotalItems = totalElements;
+  }
+
+  private checkUserSingIn(): void {
+    this.userOwnAuthService.credentialDataSubject
+      .subscribe((data) => {
+        this.isLoggedIn = data && data.userId;
+        this.userId = data.userId;
+      });
   }
 }
