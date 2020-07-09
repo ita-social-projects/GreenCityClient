@@ -16,16 +16,7 @@ export class CommentsService {
   constructor(private http: HttpClient,
               private route: ActivatedRoute) { }
 
-  public addComment(form): Observable<object> {
-    const body = {
-      parentCommentId: 0,
-      text: form.value.content
-    };
-
-    return this.http.post(`https://greencity.azurewebsites.net/econews/comments/${this.ecoNewsId}`, body);
-  }
-
-  public addReply(id, form): Observable<object> {
+  public addComment(id = 0, form): Observable<object> {
     const body = {
       parentCommentId: id,
       text: form.value.content

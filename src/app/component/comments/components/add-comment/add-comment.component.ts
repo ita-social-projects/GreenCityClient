@@ -62,21 +62,12 @@ export class AddCommentComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    if (this.dataSet.type === 'comment') {
-      this.commentsService.addComment(this.addCommentForm).subscribe(
-        (successRes: CommentsDTO) => {
-          this.elements = [successRes, ...this.elements];
-          this.addCommentForm.reset();
-        }
-      );
-    } else if (this.dataSet.type === 'reply') {
-      this.commentsService.addReply(this.commentId, this.addCommentForm).subscribe(
-        (successRes: CommentsDTO) => {
-          this.elements = [successRes, ...this.elements];
-          this.addCommentForm.reset();
-        }
-      );
-    }
+    this.commentsService.addComment(this.commentId, this.addCommentForm).subscribe(
+      (successRes: CommentsDTO) => {
+        this.elements = [successRes, ...this.elements];
+        this.addCommentForm.reset();
+      }
+    );
   }
 
   private checkUserSingIn(): void {
