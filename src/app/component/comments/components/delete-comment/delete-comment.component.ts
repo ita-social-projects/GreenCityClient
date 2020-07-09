@@ -18,11 +18,7 @@ export class DeleteCommentComponent {
   public deleteComment(): void {
     this.commentsService.deleteComments(this.element.id).subscribe(response => {
       if (response.status === 200) {
-        this.elements = this.elements.filter((item, index) => {
-           if (item.text === this.element.text) {
-             this.elements.splice(index, 1);
-           }
-         });
+        this.elements = this.elements.filter((item) => item.text !== this.element.text);
       }
     });
   }
