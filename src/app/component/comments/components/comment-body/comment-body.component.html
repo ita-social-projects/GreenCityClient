@@ -1,4 +1,6 @@
-<div class="comment-body-wrapper" *ngFor="let element of elements">
+<div class="comment-body-wrapper"
+     *ngFor="let element of elements;"
+>
   <div class="comment-avatar">
      <img src="assets/img/comments/comment_author.png" alt="comment-author">
   </div>
@@ -9,17 +11,26 @@
         <span class="comment-date-month">  {{ element.modifiedDate | date: 'longDate'}}</span>
       </div>
     </div>
-    <div class="comment-likes"><img src="assets/img/comments/like.png" alt="like">
-      <span class="like-amount">999+</span>
-    </div>
+    <app-likes-counter [commentId]="element.id"></app-likes-counter>
   </div>
   <div class="comment-main-text">
     <p class="comment-text"> {{ element.text }}</p>
   </div>
   <div class="comments-elements">
-    <app-comment-like-reply></app-comment-like-reply>
-    <app-edit-comment></app-edit-comment>
-    <app-delete-comment></app-delete-comment>
+    <div class="btn-wrapper"
+         *ngIf="isLoggedIn && (element.author.id !== +userId)"
+    >
+      <app-like-comment [commentId]="element.id"
+                        [likeState]="element.currentUserLiked"
+      ></app-like-comment>
+      <app-reply-comment></app-reply-comment>
+    </div>
+    <div class="btn-wrapper"
+         *ngIf="isLoggedIn && (element.author.id === +userId)"
+    >
+      <app-edit-comment></app-edit-comment>
+      <app-delete-comment></app-delete-comment>
+    </div>
     <app-view-replies></app-view-replies>
   </div>
 </div>
