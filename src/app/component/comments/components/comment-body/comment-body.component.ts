@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { CommentsService } from '../../services/comments.service';
@@ -9,7 +10,7 @@ import {CommentsDTO, CommentsModel } from '../../models/comments-model';
   templateUrl: './comment-body.component.html',
   styleUrls: ['./comment-body.component.scss']
 })
-export class CommentBodyComponent implements OnInit {
+export class CommentBodyComponent implements OnInit, OnDestroy {
 
   constructor(private userOwnAuthService: UserOwnAuthService,
               private commentsService: CommentsService) {}
@@ -19,7 +20,7 @@ export class CommentBodyComponent implements OnInit {
   public userId: boolean;
   public commentCurrentPage: number;
   public commentTotalItems: number;
-  public commentsSubscription;
+  public commentsSubscription: Subscription;
 
   public config = {
     id: 'custom',
@@ -51,5 +52,9 @@ export class CommentBodyComponent implements OnInit {
         this.isLoggedIn = data && data.userId;
         this.userId = data.userId;
       });
+  }
+
+  ngOnDestroy() {
+    this.commentsSubscription.unsubscribe();
   }
 }
