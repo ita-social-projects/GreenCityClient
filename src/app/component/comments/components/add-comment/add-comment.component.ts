@@ -24,17 +24,19 @@ export class AddCommentComponent implements OnInit {
   });
   public commenstSubscription;
   public elements = [];
+  public totalElements: number;
   private isLoggedIn: boolean;
 
   ngOnInit() {
     this.addElemsToCurrentList();
     this.checkUserSingIn();
+    this.getCommentsTotalElements();
     this.userOwnAuthService.getDataFromLocalStorage();
   }
 
   public addElemsToCurrentList(): void {
     this.route.url.subscribe(url => this.commentsService.ecoNewsId = url[0].path);
-    this.commenstSubscription =  this.commentsService.getCommentsByPage()
+    this.commentsService.getCommentsByPage()
         .subscribe((list: CommentsModel) => this.setList(list));
   }
 
@@ -47,9 +49,15 @@ export class AddCommentComponent implements OnInit {
     this.commentsService.addComment(this.addCommentForm).subscribe(
       (successRes: CommentsDTO) => {
         this.elements = [successRes, ...this.elements];
+        this.getCommentsTotalElements();
         this.addCommentForm.reset();
       }
     );
+  }
+
+  public getCommentsTotalElements(): void {
+    this.commentsService.getCommentsByPage()
+      .subscribe((list: CommentsModel) => this.totalElements = list.totalElements);
   }
 
   private checkUserSingIn(): void {
