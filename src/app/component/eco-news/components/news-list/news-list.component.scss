@@ -37,10 +37,6 @@
   grid-gap: 32px
 }
 
-.gallery-view-li-active {
-  margin: 0 0 40px 0;
-}
-
 .list-view-li-active {
   margin-bottom: 40px;
 }
@@ -86,6 +82,7 @@ a {
 
 @media screen and (max-width: 320px) {
   .gallery-view-active {
-    grid-template-columns: repeat(1, 288px);
+    grid-template-columns: 288px;
+    grid-gap: 0;
   }
 }

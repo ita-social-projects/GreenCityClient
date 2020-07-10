@@ -175,7 +175,7 @@ div {
 @media screen and (max-width: 320px) {
   .list-gallery {
     width: 288px;
-    height: 501px;
+    height: 508px;
 
     .list-image {
 
@@ -184,24 +184,22 @@ div {
         height: 160px;
       }
     }
+    .list-gallery-content {
+      .added-data {
+        height: 222px;
 
-    .added-data {
-      height: 232px;
-
-      .title-list {
-        font-size: 18px;
-        line-height: 24px;
+        .title-list {
+          font-size: 18px;
+          line-height: 24px;
+        }
       }
     }
 
-    .list-gallery-content {
-
-      .user-data-added-news {
+    .user-data-added-news {
         display: block;
 
-        .user-data-text-date {
+      .user-data-text-date {
           margin-bottom: 4px;
-        }
       }
     }
   }
