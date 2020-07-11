@@ -1,0 +1,55 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  height: 35px;
+  margin-top: 64px;
+
+  .custom-pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    .page-number {
+      margin: 0px 40px 0 0;
+    }
+
+    .page-number.current {
+      height: 35px;
+      width: 35px;
+      background: #13AA57 !important;
+      border-radius: 50%;
+    }
+
+    .page-number.current a {
+      padding: 0 5px 0 5px;
+      color: #FFFFFF;
+    }
+
+    .page-number a {
+      display: block;
+      height: 35px;
+      font-family: OpenSans, sans-serif;
+      font-size: 24px;
+      line-height: 35px;
+      color: #494A49;
+      cursor: pointer;
+    }
+
+
+    .pagination-previous, .pagination-next {
+      display: inline-block;
+      font-weight: bold;
+      cursor: pointer;
+
+      .prev-btn {
+        margin: 0 40px 6px 0;
+      }
+
+      .next-btn {
+        margin-bottom: 6px;
+      }
+    }
+  }
+}

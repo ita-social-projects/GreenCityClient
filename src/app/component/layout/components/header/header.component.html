@@ -76,7 +76,7 @@
                           <li class="mobile-vis name tertiary-global-button">{{ name }}</li>
                           <li class="mobile-vis">
                             <a (click)="openDialog()">
-                            {{ "nav-bar.favorite-places" | translate }}
+                            {{ "nav-bar.profile" | translate }}
                              </a>
                           </li>
                           <li class="mobile-vis">
@@ -114,17 +114,18 @@
                 <div class="switcher-wrapper">
                 <img class="arrow"
                      [src]="selectLanguageArrow"
-                      alt="v">
-                <select
+                     [ngClass]="langDropdownVisible ? 'arrow reverse' : 'arrow'"
+                     alt="v">
+                <select (click)="toggleLangDropdown()"
                   [(ngModel)]="language"
                   (change)="changeCurrentLanguage()"
                    class="language-switcher">
                   <option class="language-option"
+                          [ngValue]="'en'">En</option>
+                  <option class="language-option"
                           [ngValue]="'uk'">Ua</option>
                   <option class="language-option"
                           [ngValue]="'ru'">Ru</option>
-                  <option class="language-option"
-                          [ngValue]="'en'">En</option>
                 </select>
               </div>
               </li>
@@ -151,7 +152,7 @@
                </li>
                <li [class.text-hidde]="!dropdownVisible">
                  <a (click)="openDialog()">
-                   {{ "nav-bar.favorite-places" | translate }}
+                   {{ "nav-bar.profile" | translate }}
                  </a>
                </li>
                <li [class.text-hidde]="!dropdownVisible">

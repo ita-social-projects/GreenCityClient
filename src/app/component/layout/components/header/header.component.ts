@@ -1,8 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ModalService } from '../../../core/components/propose-cafe/_modal/modal.service';
 import { MatDialog } from '@angular/material';
-import { FavoritePlaceComponent } from '../../../map/components/favorite-place/favorite-place.component';
-import { FavoritePlaceService } from '../../../../service/favorite-place/favorite-place.service';
 import { UserSettingComponent } from '../../../user/components/user-setting/user-setting.component';
 import {NavigationStart, Router} from '@angular/router';
 import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
@@ -28,6 +26,7 @@ export class HeaderComponent implements OnInit {
   readonly selectLanguageArrow = 'assets/img/arrow_grey.png';
   readonly dropDownArrow = 'assets/img/arrow.png';
   private dropdownVisible: boolean;
+  private langDropdownVisible: boolean;
   private name: string;
   private userRole: string;
   private userId: number;
@@ -39,7 +38,6 @@ export class HeaderComponent implements OnInit {
 
   constructor(private modalService: ModalService,
               public dialog: MatDialog,
-              private favoritePlaceService: FavoritePlaceService,
               private localStorageService: LocalStorageService,
               private jwtService: JwtService,
               private router: Router,
@@ -115,6 +113,10 @@ export class HeaderComponent implements OnInit {
     this.dropdownVisible = !this.dropdownVisible;
   }
 
+  private toggleLangDropdown(): void {
+    this.langDropdownVisible = !this.langDropdownVisible;
+  }
+
   private autoCloseUserDropDown(event): void {
     this.dropdownVisible = event;
   }
@@ -142,12 +144,7 @@ export class HeaderComponent implements OnInit {
 
   private openDialog(): void {
     this.dropdownVisible = false;
-    const dialogRef = this.dialog.open(FavoritePlaceComponent, {
-      width: '700px'
-    });
-    dialogRef.afterClosed().subscribe(() => {
-      this.favoritePlaceService.getFavoritePlaces();
-    });
+    this.router.navigate(['/profile/{userId}']);
   }
 
   private openSettingDialog(): void {
