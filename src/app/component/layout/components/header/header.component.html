@@ -139,11 +139,14 @@
           </ng-template>
           <ng-template #userNotLoggedIn>
             <div id="user-avatar-wrapper">
-             <ul [class.add-shadow]="dropdownVisible">
+             <ul
+               appCloseDropdown
+               (clickOutSide)="autoCloseUserDropDown($event)"
+               [class.add-shadow]="dropdownVisible">
                <li class="tertiary-global-button">
-                 <a appCloseDropdown
+                 <a
                     (click)="toggleDropdown()"
-                    (clickOutSide)="autoCloseUserDropDown($event)">{{ name }}
+                    >{{ name }}
                  <img class="arrow"
                       [src]="dropDownArrow"
                       [ngClass]="dropdownVisible ? 'arrow reverse' : 'arrow'"
