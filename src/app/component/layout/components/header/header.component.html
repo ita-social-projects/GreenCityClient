@@ -142,7 +142,7 @@
                <li class="tertiary-global-button">
                  <a appCloseDropdown
                     (click)="toggleDropdown()"
-                    (clickOutSide)="autoCloseUserDropDown()">{{ name }}
+                    (clickOutSide)="autoCloseUserDropDown($event)">{{ name }}
                  <img class="arrow"
                       [src]="dropDownArrow"
                       [ngClass]="dropdownVisible ? 'arrow reverse' : 'arrow'"

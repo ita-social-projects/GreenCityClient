@@ -11,8 +11,6 @@ export class CloseDropdownDirective {
   @HostListener('document:click', ['$event'])
   public onClick(event: any) {
     const clickedInside = this.elementRef.nativeElement.contains(event.target);
-    if (!clickedInside) {
-      this.clickOutSide.emit(false);
-    }
+    !clickedInside ? this.clickOutSide.emit(false) : this.clickOutSide.emit(true);
   }
 }
