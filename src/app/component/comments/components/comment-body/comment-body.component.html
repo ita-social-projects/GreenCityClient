@@ -1,4 +1,4 @@
-<div class="comment-body-wrapper" *ngFor="let element of elements | paginate: config">
+<div class="comment-body-wrapper" *ngFor="let element of elements | paginate: config; let i = index">
   <div class="comment-avatar">
      <img src="assets/img/comments/comment_author.png" alt="comment-author">
   </div>
@@ -12,7 +12,16 @@
     <app-likes-counter [commentId]="element.id"></app-likes-counter>
   </div>
   <div class="comment-main-text">
-    <p class="comment-text"> {{ element.text }}</p>
+    <p class="comment-text" *ngIf="!element.isEdit">{{ element.text }}</p>
+    <div class="comment-edit-text" 
+          *ngIf="element.isEdit"
+          >
+      <input type="text" 
+             placeholder="Enter your new comment"
+             [formControl]="content"
+             >
+      <button (click)=saveEditedComment(element.id)>Save</button>
+    </div>
   </div>
   <div class="comments-elements">
     <div class="btn-wrapper"
@@ -26,7 +35,10 @@
     <div class="btn-wrapper"
          *ngIf="isLoggedIn && (element.author.id === +userId)"
     >
-      <app-edit-comment></app-edit-comment>
+      <app-edit-comment [editCommentForm]="content" 
+      [element]="element"
+      [elements]="elements"
+      (isEditing)="onEdit(i, element.id)"></app-edit-comment>
       <app-delete-comment [elements]="elements" 
       [element]="element"></app-delete-comment>
     </div>

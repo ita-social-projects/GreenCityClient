@@ -42,7 +42,13 @@ export class AddCommentComponent implements OnInit {
 
   public setList(data: CommentsModel): void {
     this.elements = [...this.elements, ...data.page];
-    this.elements = this.elements.filter(item => item.status === 'ORIGINAL');
+    this.elements = this.elements.filter(item => {
+      if (item.status === 'ORIGINAL') {
+        return item;
+      } else if (item.status === 'EDITED') {
+        return item;
+      }
+    });
   }
 
   public onSubmit(): void {

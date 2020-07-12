@@ -12,9 +12,15 @@ export class CommentsService {
   private backEnd = environment.backendLink;
   private routeSubscription: Subscription;
   public ecoNewsId: string;
+  public isEditing = false;
 
   constructor(private http: HttpClient,
               private route: ActivatedRoute) { }
+
+  // public isCommentEditing() {
+  //   this.isEditing = !this.isEditing ? true : false;
+
+  // }
 
   public addComment(form): Observable<object> {
     const body = {
@@ -39,5 +45,15 @@ export class CommentsService {
 
   public postLike(id: number): Observable<object> {
     return this.http.post(`${this.backEnd}econews/comments/like?id=${id}`, {});
+  }
+
+  public editComment(id: number, form): Observable<object> {
+    console.log(form)
+    const body = {
+      parentCommentId: id,
+      text: form.value
+    };
+
+    return this.http.patch(`${this.backEnd}econews/comments?id=${id}&text=${form.value}`, body);
   }
 }
