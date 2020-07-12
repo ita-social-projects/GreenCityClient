@@ -38,14 +38,9 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
     this.userOwnAuthService.getDataFromLocalStorage();
   }
 
-  public onEdit(index, id) {
-    console.log(index);
-   console.log(this.elements);
-    // this.elements = this.elements.filter((item) => item.id === id);
+  public onEdit(index) {
     this.elements = this.elements.map((item, ind) => {
-      console.log(ind, index)
-      if(ind === index && !item.isEdit) {
-        // this.isEdit = !this.isEdit ? true : false;
+      if (ind === index && !item.isEdit) {
         item.isEdit = true;
         return item;
       } else {
@@ -53,12 +48,10 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
         return item;
       }
     });
-    console.log(this.elements);
-    
   }
 
   public saveEditedComment(id) {
-    console.log(this.content.value)
+    console.log(this.content.value);
     this.commentsService.editComment(id, this.content).subscribe(response => {
       console.log(response);
     });

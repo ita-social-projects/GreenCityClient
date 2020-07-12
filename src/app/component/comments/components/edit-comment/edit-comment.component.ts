@@ -13,26 +13,13 @@ export class EditCommentComponent implements OnInit {
               private fb: FormBuilder) { }
 
   public editIcon = 'assets/img/comments/edit.png';
-  @Input() public elements;
-  @Input() public element;
   @Output() isEditing = new EventEmitter<boolean>();
-  @Input() public editCommentForm: FormControl;
 
   ngOnInit() {
   }
 
-  private editComments(event) {
-    console.log(this.element, this.elements);
-    
-    //this.elements = this.elements.filter((item) => item.text === this.element.text);
-    console.log(this.element, this.elements);
-    
+  private editComments() {
       this.isEditing.emit();
-   
-    // this.commentsService.editComment(this.element.id, this.editCommentForm).subscribe(response => {
-    //   console.log(response);
-    // });
-    console.log(this.commentsService.isEditing, this.isEditing);
   }
 
 }

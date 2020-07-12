@@ -48,7 +48,6 @@ export class CommentsService {
   }
 
   public editComment(id: number, form): Observable<object> {
-    console.log(form)
     const body = {
       parentCommentId: id,
       text: form.value

@@ -35,10 +35,7 @@
     <div class="btn-wrapper"
          *ngIf="isLoggedIn && (element.author.id === +userId)"
     >
-      <app-edit-comment [editCommentForm]="content" 
-      [element]="element"
-      [elements]="elements"
-      (isEditing)="onEdit(i, element.id)"></app-edit-comment>
+      <app-edit-comment (isEditing)="onEdit(i)"></app-edit-comment>
       <app-delete-comment [elements]="elements" 
       [element]="element"></app-delete-comment>
     </div>
