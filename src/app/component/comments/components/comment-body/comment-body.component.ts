@@ -23,7 +23,7 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
   public commentTotalItems: number;
   public commentsSubscription: Subscription;
   public isEdit = false;
-  public content: FormControl = new FormControl('');
+  public content: FormControl = new FormControl('', [Validators.required, Validators.maxLength(8000)]);
 
   public config = {
     id: 'custom',
@@ -48,7 +48,14 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
   public saveEditedComment(element: CommentsDTO): void {
     this.commentsService.editComment(element.id, this.content).subscribe();
     element.isEdit = false;
-    element.text = this.content.value;
+    if (this.content.value) {
+      element.text = this.content.value;
+      element.status = 'EDITED';
+    }
+  }
+
+  public isCommentEdited(element): boolean {
+    return element.status === 'EDITED' ? true : false;
   }
 
   public getAllComments(): void {

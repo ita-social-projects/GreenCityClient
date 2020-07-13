@@ -47,6 +47,11 @@ $main-font: 'Open Sans';
   .comment-date-month {
     margin: 0 0 0 8px;
     display: inline-block;
+
+    .edited {
+      display: inline-block;
+      margin-left: 4px;
+    }
   }
 }
 
@@ -68,10 +73,29 @@ $main-font: 'Open Sans';
   font-size: 16px;
   line-height: 24px;
   margin-bottom: -10px;
-}
 
-.comment-edit-text {
-  margin-bottom: 20px;
+  .comment-edit-text {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    .edit-text-input {
+      width: 505px;
+      height: 72px;
+
+      &::placeholder {
+        color:#878787;
+        position: relative;
+        top: -12px;
+        left: 10px;
+      }
+    }
+
+    .edit-text-button {
+      width: 157px;
+      height: 48px;
+    }
+  }
 }
 
 .comments-elements {

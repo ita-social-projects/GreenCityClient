@@ -7,9 +7,9 @@
       (ngSubmit)="onSubmit()">
   <img [src]=avatarImage
        alt="avatar">
-  <textarea placeholder="Add a comment"
-            formControlName="content">
-  </textarea>
+  <input placeholder="Add a comment"
+            formControlName="content"
+            type="text">
   <button class="primary-global-button"
           [disabled]="!addCommentForm.valid">
     Comment
