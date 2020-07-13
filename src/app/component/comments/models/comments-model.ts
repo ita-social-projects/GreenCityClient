@@ -15,4 +15,5 @@ export interface CommentsDTO {
     id: number;
     modifiedDate: string;
     text: string;
+    isEdit?: boolean;
 }

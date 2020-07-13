@@ -15,7 +15,7 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
   constructor(private userOwnAuthService: UserOwnAuthService,
               private commentsService: CommentsService,
               private fb: FormBuilder) {}
-  @Input() public elements: any[] = [];
+  @Input() public elements: CommentsDTO[] = [];
 
   public isLoggedIn: boolean;
   public userId: boolean;
@@ -38,23 +38,17 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
     this.userOwnAuthService.getDataFromLocalStorage();
   }
 
-  public onEdit(index) {
-    this.elements = this.elements.map((item, ind) => {
-      if (ind === index && !item.isEdit) {
-        item.isEdit = true;
-        return item;
-      } else {
-        item.isEdit = false;
-        return item;
-      }
+  public onEdit(index: number): void {
+    this.elements = this.elements.map((item, idx) => {
+      item.isEdit = idx === index && !item.isEdit ? true : false;
+      return item;
     });
   }
 
-  public saveEditedComment(id) {
-    console.log(this.content.value);
-    this.commentsService.editComment(id, this.content).subscribe(response => {
-      console.log(response);
-    });
+  public saveEditedComment(element: CommentsDTO): void {
+    this.commentsService.editComment(element.id, this.content).subscribe();
+    element.isEdit = false;
+    element.text = this.content.value;
   }
 
   public getAllComments(): void {
