@@ -2,12 +2,18 @@
   margin: 3px auto;
 }
 
+.cont {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
 .main-header {
   font-family: 'Montserrat', sans-serif;
   font-size: 3rem;
   line-height: 30px;
   font-weight: 500;
-  margin: 186px -20px 40px;
+  margin: 0 0 40px 0;
 }
 
 .flex-container {
@@ -73,6 +79,11 @@ a {
   .gallery-view-active {
     column-count: 2;
   }
+
+  .flex-container{
+    width: 105%;
+  }
+
 }
 @media screen and (max-width: 320px) {
   .gallery-view-active {
