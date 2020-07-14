@@ -15,12 +15,10 @@ import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 export class EcoNewsWidgetComponent implements OnInit, OnDestroy {
   @Output() ecoNewsModel: EcoNewsModel;
   @Output() idNumber = new EventEmitter<string>();
-  private lastThreeNewsSubscription: Subscription;
-  private idNewsGotSubscription: Subscription;
-  private SortedNews: EcoNewsModel[];
-  private selectedId: number;
-  private profileIcons = ecoNewsIcons;
-  private defaultPicture = ecoNewsIcons;
+  public recommendedNews: EcoNewsModel;
+  public selectedId: number;
+  public recommendedNewsSubscription: Subscription;
+  public idNewsGotSubscription: Subscription;
 
   constructor(private ecoNewsService: EcoNewsService,
               private route: ActivatedRoute) { }
@@ -29,28 +27,20 @@ export class EcoNewsWidgetComponent implements OnInit, OnDestroy {
     this.newsIdSubscription();
   }
 
-  private newsIdSubscription(): void {
+  public newsIdSubscription(): void {
     this.idNewsGotSubscription = this.route.paramMap.subscribe(param => {
       this.selectedId = +param.get('id');
-      this.fetchSortedNews();
-      this.bindNewsToModel();
+      this.fetchRecommendedNews();
     });
   }
 
-  private fetchSortedNews(): void {
-    this.ecoNewsService.sortLastThreeNewsChronologically(this.selectedId);
-  }
-
-  private bindNewsToModel(): void {
-    this.lastThreeNewsSubscription = this.ecoNewsService.sortedLastThreeNews.subscribe(
-      (lastThreeNews: Array<EcoNewsModel>) => {
-        this.SortedNews = lastThreeNews;
-      }
-    );
+  public fetchRecommendedNews(): void {
+    this.recommendedNewsSubscription = this.ecoNewsService.getRecommendedNews(this.selectedId)
+      .subscribe((element: EcoNewsModel) => this.recommendedNews = element);
   }
 
   ngOnDestroy() {
-    this.lastThreeNewsSubscription.unsubscribe();
+    this.recommendedNewsSubscription.unsubscribe();
     this.idNewsGotSubscription.unsubscribe();
   }
 }
