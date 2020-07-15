@@ -26,7 +26,7 @@ jobs:
       name: check app by linter
     -
       script:
-      - ng test --browsers ChromeHeadless
+      - ng test --watch=false --browsers ChromeHeadless
       name: test app
     -
       script:
@@ -35,7 +35,7 @@ jobs:
     - stage: deploy
       script: skip
       name: deploy on gh_pages
-      if: branch IN (dev, master, pipeline)
+      if: branch IN (dev, master)
       deploy:
         provider: pages
         skip_cleanup: true
