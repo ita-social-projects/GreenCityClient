@@ -26,7 +26,7 @@ jobs:
     - stage: deploy
       script: skip
       name: deploy on gh_pages
-      if: branch IN (dev, master)
+      if: branch IN (dev, master, pipeline)
       deploy:
         provider: pages
         skip_cleanup: true
