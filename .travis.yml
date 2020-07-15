@@ -26,12 +26,12 @@ jobs:
       name: check app by linter
     -
       script:
-      - ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false
-      name: build app
+      - ng test --browsers ChromeHeadless
+      name: test app
     -
       script:
-      - echo 'Hi' && google-chrome --version
-      name: test app
+      - ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false
+      name: build app
     - stage: deploy
       script: skip
       name: deploy on gh_pages
