@@ -22,8 +22,9 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
   public commentCurrentPage: number;
   public commentTotalItems: number;
   public commentsSubscription: Subscription;
-  public isEdit = false;
   public content: FormControl = new FormControl('', [Validators.required, Validators.maxLength(8000)]);
+  public editIcon = 'assets/img/comments/edit.png';
+  public cancelIcon = 'assets/img/comments/cancel-comment-edit.png';
 
   public config = {
     id: 'custom',
@@ -52,6 +53,10 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
       element.text = this.content.value;
       element.status = 'EDITED';
     }
+  }
+
+  public cancelEditedComment(element: CommentsDTO): void {
+    element.isEdit = false;
   }
 
   public isCommentEdited(element): boolean {
