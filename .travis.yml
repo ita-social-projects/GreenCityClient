@@ -4,6 +4,8 @@ node_js:
 
 dist: trusty
 sudo: false
+addons:
+  chrome: stable
 
 cache:
   directories:
@@ -23,6 +25,10 @@ jobs:
       script:
       - ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false
       name: build app
+    -
+      script:
+      - echo 'Hi' && google-chrome --version
+      name: test app
     - stage: deploy
       script: skip
       name: deploy on gh_pages
