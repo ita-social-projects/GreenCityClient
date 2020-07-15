@@ -14,16 +14,23 @@ export class NewsListGalleryViewComponent implements OnInit {
   private profileIcons = ecoNewsIcons;
   private newsText: string;
   private newsImage: string;
+  private authorName: string;
 
   constructor() { }
 
   ngOnInit() {
     this.textValidationOfMinCharacters();
+    this.authorNameValidationOfMinCharacters();
   }
 
   private textValidationOfMinCharacters(): string {
     return this.newsText = (this.ecoNewsModel.text.length >= 198) ?
       ((this.ecoNewsModel.text).slice(0, 197) + '...') : (this.ecoNewsModel.text);
+  }
+
+  private authorNameValidationOfMinCharacters(): string {
+    return this.authorName = (this.ecoNewsModel.author.name.length >= 10) ?
+      ((this.ecoNewsModel.author.name).slice(0, 10) + '...') : (this.ecoNewsModel.author.name);
   }
 
   private checkNewsImage(): string {
