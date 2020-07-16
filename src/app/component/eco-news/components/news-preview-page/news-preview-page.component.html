@@ -1,4 +1,8 @@
-<div class="container">
+<ng-template [ngIf]="isPosting">
+  <app-post-news-loader></app-post-news-loader>
+</ng-template>
+
+<div class="container" *ngIf="!isPosting">
   <div class="top-elements">
     <div class="back-button">
       <a [routerLink]="['/news', 'create-news']"
@@ -14,13 +18,14 @@
         </div>
       </a>
     </div>
-    <button type="submit"
-            *ngIf="previewItem.valid && previewItem.value.tags.length !== 0"
-            class="primary-global-button"
-            (click)="postNewsItem()"
-    >
-      Publish
-    </button>
+    <form (ngSubmit)="postNewsItem()">
+      <button type="submit"
+              *ngIf="previewItem.valid && previewItem.value.tags.length !== 0"
+              class="primary-global-button"
+      >
+        Publish
+      </button>
+    </form>
   </div>
   <div class="create-news-text">Create news</div>
   <div class="tags">
