@@ -155,8 +155,6 @@ export class SignUpComponent implements OnInit {
   }
 
   private setPasswordVisibility(htmlInput: HTMLInputElement, htmlImage: HTMLImageElement): void {
-    console.log(htmlInput.type);
-    console.log(htmlImage.src);
     htmlInput.type = htmlInput.type === 'password' ? 'text' : 'password';
     htmlImage.src = htmlInput.type === 'password' ? this.signUpImgs.hiddenEye : this.signUpImgs.openEye;
   }
