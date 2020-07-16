@@ -59,8 +59,8 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
     element.isEdit = false;
   }
 
-  public isCommentEdited(element): boolean {
-    return element.status === 'EDITED' ? true : false;
+  public isCommentEdited(element: CommentsDTO): boolean {
+    return element.status === 'EDITED';
   }
 
   public getAllComments(): void {
@@ -69,7 +69,7 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
         this.setData(el.currentPage, el.totalElements));
   }
 
-  public setData(currentPage, totalElements) {
+  public setData(currentPage: number, totalElements: number) {
     this.commentCurrentPage = currentPage;
     this.commentTotalItems = totalElements;
   }
