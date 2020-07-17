@@ -16,9 +16,9 @@ export class CommentsService {
   constructor(private http: HttpClient,
               private route: ActivatedRoute) { }
 
-  public addComment(form): Observable<object> {
+  public addComment(id = 0, form): Observable<object> {
     const body = {
-      parentCommentId: 0,
+      parentCommentId: id,
       text: form.value.content
     };
 
@@ -29,6 +29,9 @@ export class CommentsService {
     return this.http.get(`${this.backEnd}econews/comments?ecoNewsId=${this.ecoNewsId}&page=0&size=12`);
   }
 
+  public getAllReplies(id: number): Observable<object> {
+    return this.http.get(`${this.backEnd}econews/comments/replies/${id}`);
+  }
   public deleteComments(id) {
     return this.http.delete(`${this.backEnd}econews/comments?id=${id}`, {observe: 'response'});
   }
@@ -36,6 +39,10 @@ export class CommentsService {
   public getCommentLikes(id: number): Observable<number> {
     return this.http.get<number>(`${this.backEnd}econews/comments/count/likes?id=${id}`);
   }
+
+  public getRepliesAmount(id: number): Observable<number> {
+    return this.http.get<number>(`${this.backEnd}econews/comments/count/replies?parentCommentId=${id}`);
+}
 
   public postLike(id: number): Observable<object> {
     return this.http.post(`${this.backEnd}econews/comments/like?id=${id}`, {});
