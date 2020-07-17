@@ -60,7 +60,8 @@
       <app-like-comment [commentId]="element.id"
                         [likeState]="element.currentUserLiked"
       ></app-like-comment>
-      <app-reply-comment></app-reply-comment>
+      <app-reply-comment (click)="showReplyForm(element.id)"
+      ></app-reply-comment>
     </div>
     <div class="btn-wrapper"
          *ngIf="isLoggedIn && (element.author.id === +userId) && !element.isEdit"
@@ -69,7 +70,15 @@
       <app-delete-comment [elements]="elements" 
       [element]="element"></app-delete-comment>
     </div>
-    <app-view-replies *ngIf="!element.isEdit"></app-view-replies>
+    <app-view-replies [commentId]="element.id"
+                      *ngIf="type === 'comment' && !element.isEdit"
+    ></app-view-replies>
   </div>
+  <app-add-comment *ngIf="replyFormVisibility && element.id == tempId"
+                   [commentId]="element.id"
+                   [dataSet]="addReply"
+  ></app-add-comment>
 </div>
-<app-comment-pagination [config]="config"></app-comment-pagination>
+<app-comment-pagination [config]="config"
+                        *ngIf="type === 'comment'"
+></app-comment-pagination>

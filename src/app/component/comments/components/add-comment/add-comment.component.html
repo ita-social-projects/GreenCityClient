@@ -1,20 +1,25 @@
 <div class="container">
-  <app-comment-counter [totalElements]="totalElements"></app-comment-counter>
+  <app-comment-counter [totalElements]="totalElements"
+                       *ngIf="dataSet.type === 'comment'"
+  ></app-comment-counter>
 </div>
 <form *ngIf="isLoggedIn"
       class="wrapper"
+      [ngClass]="dataSet.type === 'reply' ? 'reply-wrapper': 'wrapper'"
       [formGroup]="addCommentForm"
       (ngSubmit)="onSubmit()">
   <img [src]=avatarImage
        alt="avatar">
-  <input placeholder="Add a comment"
+  <input placeholder="{{ dataSet.placeholder }}"
             formControlName="content"
             type="text">
   <button class="primary-global-button"
           [disabled]="!addCommentForm.valid">
-    Comment
+    {{ dataSet.btnText }}
   </button>
 </form>
 <div class="container">
-  <app-comment-body [elements]="elements"></app-comment-body>
+  <app-comment-body [elements]="elements"
+                    [type]="dataSet.type"
+  ></app-comment-body>
 </div>

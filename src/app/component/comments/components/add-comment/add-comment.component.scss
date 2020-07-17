@@ -21,9 +21,24 @@
             left: 10px;
         }
     }
-    
+
     button {
         width: 157px;
         height: 48px;
     }
+}
+
+.reply-wrapper {
+  width: 678px;
+  margin-right: 0;
+
+  textarea {
+    width: 467px;
+    height: 72px;
+  }
+
+  button {
+    width: 123px;
+    height: 48px;
+  }
 }
