@@ -55,10 +55,8 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
   public saveEditedComment(element: CommentsDTO): void {
     this.commentsService.editComment(element.id, this.content).subscribe();
     element.isEdit = false;
-    if (this.content.value) {
-      element.text = this.content.value;
-      element.status = 'EDITED';
-    }
+    element.text = this.content.value;
+    element.status = 'EDITED';
   }
 
   public cancelEditedComment(element: CommentsDTO): void {
