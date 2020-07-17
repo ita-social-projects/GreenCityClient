@@ -58,7 +58,7 @@ a {
   display: block;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1200px) {
   .gallery-view-active {
     grid-template-columns: repeat(3, 299px);
     grid-gap: 32px
@@ -66,23 +66,24 @@ a {
 }
 
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 992px) {
   .gallery-view-active {
     grid-template-columns: repeat(2, 353px);
     grid-gap: 32px
   }
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 768px) {
   .gallery-view-active {
     grid-template-columns: repeat(2, 258px);
     grid-gap: 32px
   }
 }
 
-@media screen and (max-width: 320px) {
-  .gallery-view-active {
-    grid-template-columns: 288px;
-    grid-gap: 0;
+@media screen and (max-width: 576px) {
+  .list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }

@@ -97,7 +97,7 @@ div {
   cursor: pointer;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1200px) {
   .list-gallery {
     width: 299px;
     height: 500px;
@@ -118,7 +118,7 @@ div {
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 992px) {
   .list-gallery {
     width: 353px;
     height: 500px;
@@ -139,7 +139,7 @@ div {
   }
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 768px) {
   .list-gallery {
     width: 258px;
     height: 501px;
@@ -172,7 +172,7 @@ div {
   }
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 576px) {
   .list-gallery {
     width: 288px;
     height: 508px;
