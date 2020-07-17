@@ -117,10 +117,12 @@
   font-weight: 600;
   font-stretch: normal;
   font-style: normal;
-  height: 90px;
+  height: 100px;
   line-height: 1.5;
   letter-spacing: normal;
-  margin-bottom: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 10px;
 }
 
 @media screen and (max-width: 1024px) {
@@ -157,34 +159,6 @@
 }
 
 @media screen and (max-width: 425px) {
-  .eco-events .eco-events-wrapper .main-event {
-    position: relative;
-  }
-
-  .eco-events .eco-events-wrapper .main-event .main-event-image {
-    border-radius: 4px;
-  }
-
-  .eco-events .eco-events-wrapper .main-event .main-event-content {
-    background-color: rgba(0, 0, 0, 0.5);
-    bottom: 0;
-    position: absolute;
-    padding: 10px;
-    width: 100%;
-  }
-
-  .eco-events .eco-events-wrapper .main-event .main-event-content h3 {
-    color: #fff;
-    font-size: 21px;
-    line-height: 1.14;
-    margin-bottom: 5px;
-  }
-
-  .eco-events .eco-events-wrapper .main-event .main-event-content p {
-    color: #fff;
-    margin-bottom: 10px;
-  }
-
   .eco-events .eco-events-wrapper .other-events {
     padding: 10px;
   }

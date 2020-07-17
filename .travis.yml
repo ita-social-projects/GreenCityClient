@@ -1,9 +1,11 @@
 language: node_js
 node_js:
-  - "10"
+  - "14"
 
 dist: trusty
 sudo: false
+addons:
+  chrome: stable
 
 cache:
   directories:
@@ -14,11 +16,18 @@ install:
   - npm install
 
 jobs:
+  allow_failures:
+    - name: test app
+
   include:
     - stage: build
       script:
       - ng lint
-      name: check linter
+      name: check app by linter
+    -
+      script:
+      - ng test --watch=false --browsers ChromeHeadless
+      name: test app
     -
       script:
       - ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false

@@ -21,6 +21,9 @@
 		<div *ngIf = "isCropper"
 				class="cropper-block">
 			<image-cropper
+				[maintainAspectRatio]="true"
+				[containWithinAspectRatio]="containWithinAspectRatio"
+				[aspectRatio]="4 / 3"
 				[imageChangedEvent]="imageChangedEvent"
 				[imageFile]="file.file"
 				(imageCropped)="imageCropped($event)"

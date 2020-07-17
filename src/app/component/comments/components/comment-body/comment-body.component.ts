@@ -11,23 +11,29 @@ import {CommentsDTO, CommentsModel } from '../../models/comments-model';
   styleUrls: ['./comment-body.component.scss']
 })
 export class CommentBodyComponent implements OnInit, OnDestroy {
-
-  constructor(private userOwnAuthService: UserOwnAuthService,
-              private commentsService: CommentsService) {}
   @Input() public elements: CommentsDTO[] = [];
-
+  @Input() public type: string;
+  public replyFormVisibility = false;
   public isLoggedIn: boolean;
   public userId: boolean;
   public commentCurrentPage: number;
   public commentTotalItems: number;
   public commentsSubscription: Subscription;
-
+  public tempId: number;
+  public addReply = {
+    placeholder: 'Add a reply',
+    btnText: 'Reply',
+    type: 'reply'
+  };
   public config = {
     id: 'custom',
     itemsPerPage: 10,
     currentPage: this.commentTotalItems,
     totalItems: this.commentTotalItems
   };
+
+  constructor(private userOwnAuthService: UserOwnAuthService,
+              private commentsService: CommentsService) {}
 
   ngOnInit() {
     this.getAllComments();
@@ -54,6 +60,10 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
       });
   }
 
+  public showReplyForm(id: number): void {
+    this.tempId = id;
+    this.replyFormVisibility = !this.replyFormVisibility;
+  }
   ngOnDestroy() {
     this.commentsSubscription.unsubscribe();
   }
