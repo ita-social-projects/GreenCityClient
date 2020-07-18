@@ -74,7 +74,7 @@
                       *ngIf="type === 'comment' && !element.isEdit"
     ></app-view-replies>
   </div>
-  <app-add-comment *ngIf="replyFormVisibility && element.id == tempId"
+  <app-add-comment *ngIf="replyFormVisibility && element.id === tempId"
                    [commentId]="element.id"
                    [dataSet]="addReply"
   ></app-add-comment>

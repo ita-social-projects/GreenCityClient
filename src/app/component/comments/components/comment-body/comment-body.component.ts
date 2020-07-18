@@ -47,7 +47,7 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
 
   public onEdit(index: number): void {
     this.elements = this.elements.map((item, idx) => {
-      item.isEdit = idx === index && !item.isEdit ? true : false;
+      item.isEdit = idx === index && !item.isEdit;
       return item;
     });
   }

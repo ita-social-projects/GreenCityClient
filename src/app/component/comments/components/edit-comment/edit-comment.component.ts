@@ -7,16 +7,13 @@ import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@ang
   templateUrl: './edit-comment.component.html',
   styleUrls: ['./edit-comment.component.scss']
 })
-export class EditCommentComponent implements OnInit {
+export class EditCommentComponent {
 
   constructor(private commentsService: CommentsService,
               private fb: FormBuilder) { }
 
   public editIcon = 'assets/img/comments/edit.png';
   @Output() isEditing = new EventEmitter<boolean>();
-
-  ngOnInit() {
-  }
 
   private editComments() {
       this.isEditing.emit();
