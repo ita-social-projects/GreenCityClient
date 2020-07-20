@@ -25,6 +25,7 @@ export class AddCommentComponent implements OnInit {
               private userOwnAuthService: UserOwnAuthService) { }
 
   public avatarImage = 'assets/img/comment-avatar.png';
+  public repliesVisibility = false;
   public addCommentForm: FormGroup = this.fb.group({
     content: ['', [Validators.required, Validators.maxLength(8000)]],
   });
@@ -42,6 +43,7 @@ export class AddCommentComponent implements OnInit {
     this.checkUserSingIn();
     this.getCommentsTotalElements();
     this.userOwnAuthService.getDataFromLocalStorage();
+    this.setRepliesVisibility();
   }
 
   public addElemsToCurrentList(): void {
@@ -50,9 +52,18 @@ export class AddCommentComponent implements OnInit {
         .subscribe((list: CommentsModel) => this.setList(list));
   }
 
+  private setRepliesVisibility(): void {
+    this.commentsService.repliesSubject
+      .subscribe((data: boolean) => {
+        this.repliesVisibility = data;
+      });
+  }
+
   private addElemsToRepliesList(): void {
     this.commenstSubscription = this.commentsService.getAllReplies(this.commentId)
-      .subscribe((list: CommentsModel) => this.setRepliesList(list));
+      .subscribe((list: any[]) => {
+        this.setRepliesList(list.filter((item) => item.status === 'ORIGINAL'));
+      });
   }
 
   public setList(data: CommentsModel): void {

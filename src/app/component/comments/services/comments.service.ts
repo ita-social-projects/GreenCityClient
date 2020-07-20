@@ -1,13 +1,15 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { environment } from '@environment/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommentsService {
+  public repliesSubject = new Subject<boolean>();
+  public repliesVisibility = false;
   public accessToken: string = localStorage.getItem('accessToken');
   private backEnd = environment.backendLink;
   private routeSubscription: Subscription;
@@ -23,6 +25,12 @@ export class CommentsService {
     };
 
     return this.http.post(`${this.backEnd}econews/comments/${this.ecoNewsId}`, body);
+  }
+
+  public setVisibility(): void {
+    this.repliesVisibility = !this.repliesVisibility;
+    this.repliesSubject
+      .next(this.repliesVisibility);
   }
 
   public getCommentsByPage(): Observable<object> {

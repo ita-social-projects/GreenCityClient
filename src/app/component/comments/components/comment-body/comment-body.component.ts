@@ -64,6 +64,13 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
     this.tempId = id;
     this.replyFormVisibility = !this.replyFormVisibility;
   }
+
+  public showReplies(id: number): void {
+    if (this.tempId === id && this.replyFormVisibility) {
+      this.commentsService.setVisibility();
+    }
+  }
+
   ngOnDestroy() {
     this.commentsSubscription.unsubscribe();
   }
