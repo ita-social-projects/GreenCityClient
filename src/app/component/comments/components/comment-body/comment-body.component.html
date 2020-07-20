@@ -1,4 +1,4 @@
-<div class="comment-body-wrapper" *ngFor="let element of elements | paginate: config; let i = index">
+<div class="comment-body-wrapper" *ngFor="let element of elements | paginate: config">
   <div class="comment-avatar">
      <img src="assets/img/comments/comment_author.png" alt="comment-author">
   </div>
@@ -66,7 +66,7 @@
     <div class="btn-wrapper"
          *ngIf="isLoggedIn && (element.author.id === +userId) && !element.isEdit"
     >
-      <app-edit-comment (isEditing)="onEdit(i)"></app-edit-comment>
+      <app-edit-comment (isEditing)="onEdit(element.id)"></app-edit-comment>
       <app-delete-comment [elements]="elements" 
       [element]="element"></app-delete-comment>
     </div>

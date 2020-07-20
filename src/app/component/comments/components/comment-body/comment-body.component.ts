@@ -45,9 +45,9 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
     this.userOwnAuthService.getDataFromLocalStorage();
   }
 
-  public onEdit(index: number): void {
-    this.elements = this.elements.map((item, idx) => {
-      item.isEdit = idx === index && !item.isEdit;
+  public onEdit(id: number): void {
+    this.elements = this.elements.map(item => {
+      item.isEdit = item.id === id && !item.isEdit;
       return item;
     });
   }
