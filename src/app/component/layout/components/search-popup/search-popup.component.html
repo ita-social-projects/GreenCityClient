@@ -14,7 +14,7 @@
   <div class="fixed-wrapper">
     <div class="adaptive-center-wrapper">
       <div class="search-content-wrapper">
-        <div class="remaining-items" *ngIf="inputValue && itemsFound">
+        <div class="remaining-items" *ngIf="inputValue">
           {{ itemsFound }} items found
         </div>
         <ng-template [ngIf]="isNewsSearchFound || isTipsSearchFound">
@@ -54,7 +54,7 @@
 
         <ng-template [ngIf]="(isNewsSearchFound === false && isTipsSearchFound === false)">
           <br/><br/>
-          <app-search-not-found (closeUnsuccessfulSearchResults)="closeSearch()"></app-search-not-found>
+          <app-search-not-found [inputValue]="inputValue" (closeUnsuccessfulSearchResults)="closeSearch()"></app-search-not-found>
         </ng-template>
       </div>
       <div class="overlay"
