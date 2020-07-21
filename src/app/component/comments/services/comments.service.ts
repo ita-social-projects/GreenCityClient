@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { environment } from '@environment/environment';
+import { FormControl } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class CommentsService {
   private backEnd = environment.backendLink;
   private routeSubscription: Subscription;
   public ecoNewsId: string;
+  public isEditing = false;
 
   constructor(private http: HttpClient,
               private route: ActivatedRoute) { }
@@ -22,18 +24,18 @@ export class CommentsService {
       text: form.value.content
     };
 
-    return this.http.post(`${this.backEnd}econews/comments/${this.ecoNewsId}`, body);
+    return this.http.post<object>(`${this.backEnd}econews/comments/${this.ecoNewsId}`, body);
   }
 
   public getCommentsByPage(): Observable<object> {
-    return this.http.get(`${this.backEnd}econews/comments?ecoNewsId=${this.ecoNewsId}&page=0&size=12`);
+    return this.http.get<object>(`${this.backEnd}econews/comments?ecoNewsId=${this.ecoNewsId}&page=0&size=12`);
   }
 
   public getAllReplies(id: number): Observable<object> {
     return this.http.get(`${this.backEnd}econews/comments/replies/${id}`);
   }
   public deleteComments(id) {
-    return this.http.delete(`${this.backEnd}econews/comments?id=${id}`, {observe: 'response'});
+    return this.http.delete<object>(`${this.backEnd}econews/comments?id=${id}`, {observe: 'response'});
   }
 
   public getCommentLikes(id: number): Observable<number> {
@@ -45,6 +47,15 @@ export class CommentsService {
 }
 
   public postLike(id: number): Observable<object> {
-    return this.http.post(`${this.backEnd}econews/comments/like?id=${id}`, {});
+    return this.http.post<object>(`${this.backEnd}econews/comments/like?id=${id}`, {});
+  }
+
+  public editComment(id: number, form: FormControl): Observable<object> {
+    const body = {
+      parentCommentId: id,
+      text: form.value
+    };
+
+    return this.http.patch<object>(`${this.backEnd}econews/comments?id=${id}&text=${form.value}`, body);
   }
 }
