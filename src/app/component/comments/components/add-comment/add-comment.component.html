@@ -10,9 +10,9 @@
       (ngSubmit)="onSubmit()">
   <img [src]=avatarImage
        alt="avatar">
-  <textarea placeholder="{{ dataSet.placeholder }}"
-            formControlName="content">
-  </textarea>
+  <input placeholder="{{ dataSet.placeholder }}"
+            formControlName="content"
+            type="text">
   <button class="primary-global-button"
           [disabled]="!addCommentForm.valid">
     {{ dataSet.btnText }}

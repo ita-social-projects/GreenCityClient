@@ -6,13 +6,52 @@
     <div class="comment-name-date">
       <div class="author-name"><span>{{ element.author.name }}</span></div>
       <div class="comment-date"><span class="comment-dot"></span>
-        <span class="comment-date-month">  {{ element.modifiedDate | date: 'longDate'}}</span>
+        <span class="comment-date-month">{{ element.modifiedDate | date: 'longDate'}}<span *ngIf="isCommentEdited(element)" class="edited">edited</span></span>
       </div>
     </div>
     <app-likes-counter [commentId]="element.id"></app-likes-counter>
   </div>
   <div class="comment-main-text">
-    <p class="comment-text"> {{ element.text }}</p>
+    <p class="comment-text" *ngIf="!element.isEdit">{{ element.text }}</p>
+    <div class="comment-edit-text"
+          *ngIf="element.isEdit"
+          >
+      <input type="text"
+             placeholder="Enter your new comment"
+             [formControl]="content"
+             class="edit-text-input"
+             >
+    <div class="save-cancel-wrapper">
+      <div class="save-cancel-btn">
+        <div class="save-btn">
+          <button (click)="saveEditedComment(element)"
+                [disabled]="!content.valid"
+                class="cta-btn save-edit">
+          <img [src]="editIcon"
+                alt="edit icon"
+          >
+          <span class="btn-text">
+            Save changes
+          </span>
+          </button>
+        </div>
+        <div class="cancel-btn">
+          <button (click)="cancelEditedComment(element)"
+                  class="cta-btn cancel-edit">
+          <img [src]="cancelIcon"
+                alt="cancel icon"
+          >
+          <span class="btn-text">
+            Cancel
+          </span>
+          </button>
+        </div>
+        <div class="replies-btn">
+          <app-view-replies *ngIf="element.isEdit" class="flex"></app-view-replies>
+        </div>
+      </div>
+    </div>
+  </div>
   </div>
   <div class="comments-elements">
     <div class="btn-wrapper"
@@ -25,9 +64,9 @@
       ></app-reply-comment>
     </div>
     <div class="btn-wrapper"
-         *ngIf="isLoggedIn && (element.author.id === +userId)"
+         *ngIf="isLoggedIn && (element.author.id === +userId) && !element.isEdit"
     >
-      <app-edit-comment></app-edit-comment>
+      <app-edit-comment (isEditing)="onEdit(element.id)"></app-edit-comment>
       <app-delete-comment [elements]="elements"
       [element]="element"></app-delete-comment>
     </div>
