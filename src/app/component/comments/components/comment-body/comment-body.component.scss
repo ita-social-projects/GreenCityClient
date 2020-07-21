@@ -47,6 +47,11 @@ $main-font: 'Open Sans';
   .comment-date-month {
     margin: 0 0 0 8px;
     display: inline-block;
+
+    .edited {
+      display: inline-block;
+      margin-left: 4px;
+    }
   }
 }
 
@@ -68,7 +73,77 @@ $main-font: 'Open Sans';
   font-size: 16px;
   line-height: 24px;
   margin-bottom: -10px;
-}
+  display: flex;
+  flex-direction: column;
+
+  .comment-edit-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    
+    
+    .save-cancel-btn {
+      display: flex;
+      
+      .replies-btn {
+        display: flex;
+        justify-content: flex-end;
+        width: 520px;
+      }
+    }
+
+    .save-edit {
+      width: 140px;
+      height: 40px;
+      margin-right: 8px;
+      cursor: pointer;
+    }
+
+    .cancel-edit {
+      width: 74px;
+      height: 40px;
+      margin-right: 8px;
+      cursor: pointer;
+    }
+
+    .edit-text-input {
+      width: 100%;
+      height: 72px;
+
+      &::placeholder {
+        color:#878787;
+        position: relative;
+        top: -12px;
+        left: 10px;
+      }
+    }
+  
+    .cta-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border: none;
+      background-color: #FFFFFF;
+  
+      .btn-text {
+        display: inline-block;
+        margin-left: 5px;
+        font-family: $main-font;
+        font-size: 16px;
+        line-height: 24px;
+        color: #878787;
+        mix-blend-mode: normal;
+      }
+    }
+  } 
+
+    .edit-text-button {
+      width: 157px;
+      height: 48px;
+    }
+  }
 
 .comments-elements {
   display: flex;

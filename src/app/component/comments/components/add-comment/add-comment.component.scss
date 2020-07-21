@@ -1,29 +1,44 @@
-.wrapper {
+.wrapper  {
     display: flex;
-    width: 70%;
+    max-width: 750px;
     margin: auto;
     justify-content: space-between;
-}
 
-.wrapper  {
     img {
         width: 48px;
         height: 48px;
         border-radius: 50px;
     }
 
-    textarea {
+    input {
         width: 505px;
         height: 72px;
+
+        &::placeholder {
+            color:#878787;
+            position: relative;
+            top: -12px;
+            left: 10px;
+        }
     }
 
-    textarea::placeholder {
-        color:#878787;
-        padding: 10px 0 0 10px;
-    }
-    
     button {
         width: 157px;
         height: 48px;
     }
+}
+
+.reply-wrapper {
+  width: 678px;
+  margin-right: 0;
+
+  textarea {
+    width: 467px;
+    height: 72px;
+  }
+
+  button {
+    width: 123px;
+    height: 48px;
+  }
 }
