@@ -30,12 +30,14 @@ export class CreateNewsComponent implements OnInit {
     {name: 'Ads', isActive: false}
   ];
 
-  public activeLanguage = 'en';
-  private date: Date = new Date();
+  public year: number = new Date().getFullYear();
+  public day: number = new Date().getDate();
+  public month: number = new Date().getMonth();
   public isFilterValidation = false;
   public isLink = false;
   public formData: FormGroup;
   public isArrayEmpty = true;
+  public author: string = localStorage.getItem('name');
 
   constructor(private router: Router,
               private fb: FormBuilder,

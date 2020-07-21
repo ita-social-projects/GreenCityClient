@@ -1,17 +1,17 @@
 <div>
-  <div class="container">
+<div class="cont">
     <h1 class="main-header">Eco news</h1>
+    <a [routerLink]="['create-news']"
+       *ngIf="isLoggedIn">
+      <div id="create-button" class="secondary-global-button">
+        <span id="create-button-text">Create news</span>
+      </div>
+    </a>
   </div>
 </div>
 <div>
   <div class="flex-container">
     <app-filter-news (gridOutput)="getFilterData($event)"></app-filter-news>
-    <a [routerLink]="['create-news']"
-       *ngIf="isLoggedIn">
-      <div id="create-button" class="secondary-global-button">
-          <span id="create-button-text">Create news</span>
-      </div>
-    </a>
   </div>
   <hr />
 </div>

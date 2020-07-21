@@ -54,6 +54,6 @@ export class CreateEcoNewsService {
     formData.append('addEcoNewsDtoRequest', JSON.stringify(body));
 
     this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
-    return this.http.post<NewsResponseDTO>(`${this.url}/econews`, formData, this.httpOptions);
+    return this.http.post<NewsResponseDTO>(`${this.url}econews`, formData, this.httpOptions);
   }
 }
