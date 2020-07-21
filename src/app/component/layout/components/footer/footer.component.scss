@@ -77,19 +77,17 @@ $generalFont : OpenSans, sans-serif;
         }
       }
     }
-
-    @media screen and (max-width: 1023px) {
-      .bottom-part {
-        margin-top: 39px;
-        margin-bottom: 12px;
-        display: flex;
-        justify-content: center;
-        align-items: flex-end;
-        font-family: $generalFont;
-        font-size: 14px;
-        line-height: 16px;
-        color: #878787;
-      }
+    
+    .bottom-part {
+      margin-top: 39px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      font-family: $generalFont;
+      font-size: 14px;
+      line-height: 16px;
+      color: #878787;
     }
 
     @media screen and (max-width: 1024px) {
