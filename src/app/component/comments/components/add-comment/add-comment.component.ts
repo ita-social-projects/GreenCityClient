@@ -61,9 +61,7 @@ export class AddCommentComponent implements OnInit {
 
   private addElemsToRepliesList(): void {
     this.commenstSubscription = this.commentsService.getAllReplies(this.commentId)
-      .subscribe((list: any[]) => {
-        this.setRepliesList(list.filter((item) => item.status === 'ORIGINAL'));
-      });
+      .subscribe((list: CommentsModel) => this.setRepliesList(list));
   }
 
   public setList(data: CommentsModel): void {
