@@ -153,8 +153,8 @@
     "add-cafe": "Add a cafe",
     "admin": "Administrator",
     "my-habits": "My habits",
-    "favorite-places": "Favorite places",
-    "user-settings": "User settings",
+    "profile": "Profile",
+    "user-settings": "Settings",
     "sign-out": "Sign out",
     "sign-in": "Sign in"
   },
@@ -539,6 +539,48 @@
       "days": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
       "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     }
+  },
+  "create-news": {
+    "title": "Create news",
+    "form-description": "Please provide as many details as you can - place and time of the event, the goal of gathering, etc. You can come back and update news anytime after publishing.",
+    "news-title": "Title",
+    "title-placeholder": "e.g. Coffee takeaway with 20% discount",
+    "title-tooltip": "Should contain maximum 170 symbols",
+    "tags-title": "Please select one or more tags",
+    "tags-tooltip": "Only 3 tags can be added",
+    "tags": {
+      "news": "News",
+      "events": "Events",
+      "initiatives": "Initiatives",
+      "ads": "Ads",
+      "education": "Education"
+    },
+    "source-title": "Source (optional)",
+    "source-placeholder": "link to external source",
+    "source-tooltip-1": "Please add the link of original article/news/post.",
+    "source-tooltip-2": "Link must start with http(s)://",
+    "picture-title": "Picture (optional)",
+    "content-title": "Content",
+    "content-placeholder": "e.g. Short description of news, agenda for event",
+    "content-tooltip": "Must be minimum 20 symbols",
+    "date": "Date: ",
+    "author": "Author: ",
+    "author-name": "Current User",
+    "cancel-button": "Cancel",
+    "preview-button": "Preview",
+    "publish-button": "Publish"
+  },
+  "drag-and-drop": {
+    "picture-description": "Drop your image here or",
+    "browse": "browse",
+    "picture-tooltip": "Download PNG or JPG only. File size should be less than 10MB",
+    "submit-changes-button": "Submit",
+    "cancel-changes-button": "Cancel",
+    "not-uploaded-warning": "Image isn't uploaded"
+  },
+  "date": {
+    "months": ["Jan,", "Feb,", "Mar,", "Apr,", "May,", "Jun,", "Jul,", "Aug,", "Sep,", "Oct,", "Nov,", "Dec,"],
+    "year": ""
   },
   "eco-news-single-view": {
     "back-button": "Back to news",

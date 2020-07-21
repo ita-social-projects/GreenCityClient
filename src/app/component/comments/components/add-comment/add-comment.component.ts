@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
@@ -12,6 +12,12 @@ import { CommentsDTO } from '../../models/comments-model';
   styleUrls: ['./add-comment.component.scss']
 })
 export class AddCommentComponent implements OnInit {
+  @Input() commentId: number;
+  @Input() dataSet = {
+    placeholder: 'Add a comment',
+    btnText: 'Comment',
+    type: 'comment'
+  };
 
   constructor(private commentsService: CommentsService,
               private fb: FormBuilder,
@@ -24,31 +30,53 @@ export class AddCommentComponent implements OnInit {
   });
   public commenstSubscription;
   public elements = [];
+  public totalElements: number;
   private isLoggedIn: boolean;
 
   ngOnInit() {
-    this.addElemsToCurrentList();
+    if (this.dataSet.type === 'comment') {
+      this.addElemsToCurrentList();
+    } else if (this.dataSet.type === 'reply') {
+      this.addElemsToRepliesList();
+    }
     this.checkUserSingIn();
+    this.getCommentsTotalElements();
     this.userOwnAuthService.getDataFromLocalStorage();
   }
 
   public addElemsToCurrentList(): void {
     this.route.url.subscribe(url => this.commentsService.ecoNewsId = url[0].path);
-    this.commenstSubscription =  this.commentsService.getCommentsByPage()
+    this.commentsService.getCommentsByPage()
         .subscribe((list: CommentsModel) => this.setList(list));
+  }
+
+  private addElemsToRepliesList(): void {
+    this.commenstSubscription = this.commentsService.getAllReplies(this.commentId)
+      .subscribe((list: CommentsModel) => this.setRepliesList(list));
   }
 
   public setList(data: CommentsModel): void {
     this.elements = [...this.elements, ...data.page];
+    this.elements = this.elements.filter(item => item.status === 'ORIGINAL' || item.status === 'EDITED');
+  }
+
+  private setRepliesList(data): void {
+    this.elements = [...this.elements, ...data];
   }
 
   public onSubmit(): void {
-    this.commentsService.addComment(this.addCommentForm).subscribe(
+    this.commentsService.addComment(this.commentId, this.addCommentForm).subscribe(
       (successRes: CommentsDTO) => {
         this.elements = [successRes, ...this.elements];
+        this.getCommentsTotalElements();
         this.addCommentForm.reset();
       }
     );
+  }
+
+  public getCommentsTotalElements(): void {
+    this.commentsService.getCommentsByPage()
+      .subscribe((list: CommentsModel) => this.totalElements = list.totalElements);
   }
 
   private checkUserSingIn(): void {

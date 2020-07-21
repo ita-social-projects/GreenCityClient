@@ -2,7 +2,8 @@ $first-font-color: #494A49;
 $secondary-font-color: #13AA57;
 $hr-color: #E6E6E6;
 $focus-color: #13AA57;
-$screen-800: " screen and (max-width : 800px)";
+$screen-992: " screen and (max-width : 992px)";
+$screen-870: " screen and (max-width : 870px)";
 $screen-576: " screen and (max-width : 576px)";
 $screen-320: " screen and (max-width : 320px)";
 
@@ -41,6 +42,7 @@ $screen-320: " screen and (max-width : 320px)";
       width: 136px;
       height: 36px;
       margin-right: 4%;
+      margin-left: 150px;
       cursor: pointer;
 
     }
@@ -240,6 +242,12 @@ $screen-320: " screen and (max-width : 320px)";
               width: 8px;
               height: 5px;
             }
+
+            .reverse {
+              transform: rotate(180deg);
+              transition: .4s ease-out;
+              transition-delay: 0.1s;
+            }
           }
 
             .sign-in-link {
@@ -426,7 +434,21 @@ $screen-320: " screen and (max-width : 320px)";
   color: $focus-color !important;
 }
 
-@media #{$screen-800} {
+@media #{$screen-992} {
+  .header {
+    .logo {
+      margin-left: 32px;
+    }
+  }
+}
+
+@media #{$screen-870} {
+  .header {
+    .logo {
+      margin-left: 14px;
+    }
+  }
+
   .navigation-menu {
     width: auto;
 
@@ -444,6 +466,13 @@ $screen-320: " screen and (max-width : 320px)";
 }
 
 @media #{$screen-576} {
+  .header {
+    .logo {
+      margin-top: 15px;
+      margin-left: 16px;
+    }
+  }
+
   .navigation-menu-left-col {
     height: 100%;
 

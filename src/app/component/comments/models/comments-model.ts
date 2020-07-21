@@ -1,6 +1,6 @@
 export interface CommentsModel {
     currentPage: number;
-    page: Array<object>;
+    page: Array<CommentsDTO>;
     totalElements: number;
 }
 
@@ -12,7 +12,11 @@ export interface AuthorDTO {
 
 export interface CommentsDTO {
     author: AuthorDTO;
+    currentUserLiked: boolean;
     id: number;
     modifiedDate: string;
+    replies: number;
+    status: string;
     text: string;
+    isEdit?: boolean;
 }
