@@ -1,7 +1,4 @@
-<ng-template [ngIf]="isPosting">
-  <app-post-news-loader></app-post-news-loader>
-</ng-template>
-
+<app-post-news-loader *ngIf="isPosting"></app-post-news-loader>
 <div class="container" *ngIf="!isPosting">
   <div class="top-elements">
     <div class="back-button">
