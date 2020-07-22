@@ -63,7 +63,7 @@ export class AddCommentComponent implements OnInit {
 
   private addElemsToRepliesList(): void {
     this.commenstSubscription = this.commentsService.getAllReplies(this.commentId)
-      .subscribe((list: any) => {
+      .subscribe((list: CommentsModel) => {
         this.setRepliesList(list.page.filter(item => item.status !== 'DELETED'));
       });
   }
