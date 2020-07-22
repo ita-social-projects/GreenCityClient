@@ -5,7 +5,9 @@
         <input class = "search-field"
                type="text"
                placeholder="Search"
+               #inputFocus
                (keyup)="onKeyUp($event.target)">
+               {{inputFocus.focus()}}
       <div class="close-icon"
            (click)="closeSearch()"></div>
     </div>

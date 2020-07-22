@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
@@ -12,6 +12,12 @@ import { CommentsDTO } from '../../models/comments-model';
   styleUrls: ['./add-comment.component.scss']
 })
 export class AddCommentComponent implements OnInit {
+  @Input() commentId: number;
+  @Input() dataSet = {
+    placeholder: 'Add a comment',
+    btnText: 'Comment',
+    type: 'comment'
+  };
 
   constructor(private commentsService: CommentsService,
               private fb: FormBuilder,
@@ -19,6 +25,7 @@ export class AddCommentComponent implements OnInit {
               private userOwnAuthService: UserOwnAuthService) { }
 
   public avatarImage = 'assets/img/comment-avatar.png';
+  public repliesVisibility = false;
   public addCommentForm: FormGroup = this.fb.group({
     content: ['', [Validators.required, Validators.maxLength(8000)]],
   });
@@ -26,12 +33,19 @@ export class AddCommentComponent implements OnInit {
   public elements = [];
   public totalElements: number;
   private isLoggedIn: boolean;
+  private newsId: number;
 
   ngOnInit() {
-    this.addElemsToCurrentList();
+    this.newsId = this.route.snapshot.params.id;
+    if (this.dataSet.type === 'comment') {
+      this.addElemsToCurrentList();
+    } else if (this.dataSet.type === 'reply') {
+      this.addElemsToRepliesList();
+    }
     this.checkUserSingIn();
     this.getCommentsTotalElements();
     this.userOwnAuthService.getDataFromLocalStorage();
+    this.setRepliesVisibility();
   }
 
   public addElemsToCurrentList(): void {
@@ -40,13 +54,31 @@ export class AddCommentComponent implements OnInit {
         .subscribe((list: CommentsModel) => this.setList(list));
   }
 
+  private setRepliesVisibility(): void {
+    this.commentsService.repliesSubject
+      .subscribe((data: boolean) => {
+        this.repliesVisibility = data;
+      });
+  }
+
+  private addElemsToRepliesList(): void {
+    this.commenstSubscription = this.commentsService.getAllReplies(this.commentId)
+      .subscribe((list: CommentsModel) => {
+        this.setRepliesList(list.page.filter(item => item.status !== 'DELETED'));
+      });
+  }
+
   public setList(data: CommentsModel): void {
     this.elements = [...this.elements, ...data.page];
-    this.elements = this.elements.filter(item => item.status === 'ORIGINAL');
+    this.elements = this.elements.filter(item => item.status === 'ORIGINAL' || item.status === 'EDITED');
+  }
+
+  private setRepliesList(data): void {
+    this.elements = [...this.elements, ...data];
   }
 
   public onSubmit(): void {
-    this.commentsService.addComment(this.addCommentForm).subscribe(
+    this.commentsService.addComment(this.commentId, this.addCommentForm).subscribe(
       (successRes: CommentsDTO) => {
         this.elements = [successRes, ...this.elements];
         this.getCommentsTotalElements();
@@ -56,8 +88,8 @@ export class AddCommentComponent implements OnInit {
   }
 
   public getCommentsTotalElements(): void {
-    this.commentsService.getCommentsByPage()
-      .subscribe((list: CommentsModel) => this.totalElements = list.totalElements);
+    this.commentsService.getCommentsCount(this.newsId)
+      .subscribe((data: number) => this.totalElements = data);
   }
 
   private checkUserSingIn(): void {
