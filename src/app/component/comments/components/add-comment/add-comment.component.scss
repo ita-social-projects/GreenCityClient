@@ -1,25 +1,25 @@
-.wrapper {
+.wrapper  {
     display: flex;
-    width: 70%;
+    max-width: 750px;
     margin: auto;
     justify-content: space-between;
-}
 
-.wrapper  {
     img {
         width: 48px;
         height: 48px;
         border-radius: 50px;
     }
 
-    textarea {
+    input {
         width: 505px;
         height: 72px;
-    }
 
-    textarea::placeholder {
-        color:#878787;
-        padding: 10px 0 0 10px;
+        &::placeholder {
+            color:#878787;
+            position: relative;
+            top: -12px;
+            left: 10px;
+        }
     }
 
     button {

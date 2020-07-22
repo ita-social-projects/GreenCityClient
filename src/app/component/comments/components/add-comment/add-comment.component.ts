@@ -57,7 +57,7 @@ export class AddCommentComponent implements OnInit {
 
   public setList(data: CommentsModel): void {
     this.elements = [...this.elements, ...data.page];
-    this.elements = this.elements.filter(item => item.status === 'ORIGINAL');
+    this.elements = this.elements.filter(item => item.status === 'ORIGINAL' || item.status === 'EDITED');
   }
 
   private setRepliesList(data): void {
