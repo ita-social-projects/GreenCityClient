@@ -483,7 +483,7 @@
   }
 }
 
-  @media only screen and (min-width: 1366px) {
+  @media only screen and (min-width: 1367px) {
     .search-bar-wrapper {
       position: fixed;
       top: 0px;
@@ -574,7 +574,7 @@
       padding-left: 0.9rem;
       padding-right: 0.9rem;
       z-index: 1000;
-      background-color: rgba(255, 255, 255, 0.9);
+      background-color: transparent;
 
       .remaining-items {
         margin: 14px 0 1.25rem 0;
