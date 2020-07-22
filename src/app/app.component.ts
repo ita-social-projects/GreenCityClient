@@ -20,7 +20,11 @@ export class AppComponent implements OnInit  {
     private searchSearch: SearchService,
     private elRef: ElementRef,
     private uiActionsService: UiActionsService,
-  ) {}
+    ) {
+      this.router.routeReuseStrategy.shouldReuseRoute = () => {
+        return false;
+    };
+  }
 
   ngOnInit() {
     this.languageService.setDefaultLanguage();
@@ -28,6 +32,7 @@ export class AppComponent implements OnInit  {
     this.titleAndMetaTagsService.useTitleMetasData();
     this.searchSearch.searchSubject.subscribe(this.openSearchSubscription.bind(this));
     this.uiActionsService.stopScrollingSubject.subscribe(data => this.toggle = data);
+    this.router.events.subscribe((evt) => { if (evt instanceof NavigationEnd) { this.router.navigated = false; window.scrollTo(0, 0); } });
   }
 
   private openSearchSubscription(isSearchExpanded: boolean): void {
