@@ -15,6 +15,12 @@ div {
     height: 214px;
   }
 
+  @media screen and (max-width: 1200px) {
+    .list-text {
+      display: none;
+    }
+  }
+
   @media screen and (max-width: 768px) {
     .list-image-content {
       width: 214px;

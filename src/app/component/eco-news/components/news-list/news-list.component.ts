@@ -16,12 +16,13 @@ import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 })
 export class NewsListComponent implements OnInit, OnDestroy {
   public view: boolean;
-  private iterator: number;
   public gridOutput: Array<string>;
-  private ecoNewsSubscription: Subscription;
   public elements: EcoNewsModel[];
   public remaining = 0;
-  private isLoggedIn: boolean;
+  public windowSize: number;
+  public isLoggedIn: boolean;
+  private ecoNewsSubscription: Subscription;
+  private iterator: number;
 
   constructor(
     private ecoNewsService: EcoNewsService,
@@ -30,9 +31,31 @@ export class NewsListComponent implements OnInit, OnDestroy {
     private ecoNewsSelectors: EcoNewsSelectors) { }
 
   ngOnInit() {
+    this.onResize();
     this.setNullList();
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
+  }
+
+  public onResize(): void {
+    this.windowSize = window.innerWidth;
+    this.view = (this.windowSize > 576) ? this.view : true;
+  }
+
+  public onScroll(): void {
+    this.addElemsToCurrentList();
+  }
+
+  public changeView(event: boolean): void {
+    this.view = event;
+  }
+
+  public getFilterData(value: Array<string>): void {
+    if (this.gridOutput !== value) {
+      this.setNullList();
+      this.gridOutput = value;
+    }
+    this.addElemsToCurrentList();
   }
 
   private checkUserSingIn(): void {
@@ -40,9 +63,6 @@ export class NewsListComponent implements OnInit, OnDestroy {
       .subscribe((data) => this.isLoggedIn = data && data.userId);
   }
 
-  public onScroll(): void {
-    this.addElemsToCurrentList();
-  }
 
   private addElemsToCurrentList(): void {
     this.ecoNewsSubscription = this.gridOutput ?
@@ -57,17 +77,6 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.elements = [...this.elements, ...data.page];
   }
 
-  public changeView(event: boolean): void {
-    this.view = event;
-  }
-
-  public getFilterData(value: Array<string>): void {
-    if (this.gridOutput !== value) {
-      this.setNullList();
-      this.gridOutput = value;
-    }
-    this.addElemsToCurrentList();
-  }
 
   private setNullList(): void {
     this.iterator = 0;
