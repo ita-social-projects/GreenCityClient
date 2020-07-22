@@ -23,7 +23,7 @@
     <div class="tags-item"
          *ngFor="let tag of newsItem.tags"
     >
-      {{ "eco-news-single-view.tags." + tag | translate }}
+      {{ "eco-news-single-view.tags." + tag.toLowerCase() | translate }}
     </div>
   </div>
   <div class="news-content">
