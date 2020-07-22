@@ -6,7 +6,10 @@
              alt="arrow previous"
              class="arrow-previous">
       </div>
-      <span class="monthAndYear">{{ monthAndYearName }}</span>
+      <span class="monthAndYear"
+            (click)="buildMonthCalendar(monthsShort)">
+        {{ monthAndYearName }}
+      </span>
       <div (click)="nextMonth()">
         <img [src]="calendarImages.arrowNext"
              alt="arrow next"
@@ -28,6 +31,9 @@
            [ngClass]="{ 'current-day': dayItem.isCurrentDayActive,
                         'tracked-day': dayItem.isHabitsTracked }">
         {{ dayItem.numberOfDate }}
+      </div>
+      <div *ngFor="let month of monthsCalendar">
+        {{ month }}
       </div>
     </div>
   </div>

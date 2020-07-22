@@ -16,6 +16,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
   public monthAndYearName: string;
   public daysNameLong: Array<string> = [];
   public months: Array<string> = [];
+  public monthsShort: Array<string> = [];
+  public monthsCalendar: Array<string> = [];
   public calendarDay: Array<CalendarInterface> = [];
   public currentDayName: string;
   public language: string;
@@ -55,8 +57,10 @@ export class CalendarComponent implements OnInit, OnDestroy {
       const translations = res.translations.profile.calendar;
       this.daysNameLong = translations.days;
       this.months = translations.months;
+      this.monthsShort = translations.monthsShort;
       this.monthAndYearName = `${this.months[this.currentMonth]} ${this.currentYear}`;
       this.markCurrentDayOfWeek();
+      this.buildMonthCalendar(this.monthsShort);
     });
   }
 
@@ -66,7 +70,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
         const translations = res.profile.calendar;
         this.daysNameLong = translations.days;
         this.months = translations.months;
+        this.monthsShort = translations.monthsShort;
         this.monthAndYearName = `${this.months[this.currentMonth]} ${this.currentYear}`;
+        this.buildMonthCalendar(this.monthsShort);
       });
   }
 
@@ -150,6 +156,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.currentMonth = (this.currentMonth === 0) ? 11 : this.currentMonth - 1;
     this.calendarDay = [];
     this.buildCalendar();
+  }
+
+  public buildMonthCalendar(months): void {
+    this.monthsCalendar = months;
+    console.log(this.monthsCalendar);
   }
 
   ngOnDestroy() {
