@@ -66,9 +66,9 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
   private addElemsToCurrentList(): void {
     this.ecoNewsSubscription = this.gridOutput ?
-      this.ecoNewsSubscription = this.ecoNewsService.getNewsListByTags(this.iterator++, 12, this.gridOutput)
+      this.ecoNewsService.getNewsListByTags(this.iterator++, 12, this.gridOutput)
         .subscribe((list: EcoNewsDto) => this.setList(list)) :
-      this.ecoNewsSubscription = this.ecoNewsService.getEcoNewsListByPage(this.iterator++, 12)
+      this.ecoNewsService.getEcoNewsListByPage(this.iterator++, 12)
         .subscribe((list: EcoNewsDto) => this.setList(list));
   }
 
