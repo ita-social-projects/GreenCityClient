@@ -1,4 +1,4 @@
-<div>
+<div (window:resize)="onResize()">
 <div class="cont">
     <h1 class="main-header">Eco news</h1>
     <a [routerLink]="['create-news']"
@@ -34,7 +34,7 @@
         [ecoNewsModel]="data">
       </app-news-list-gallery-view>
       <app-news-list-list-view
-        *ngIf="!view"
+        *ngIf="!view && windowSize > 576"
         [ecoNewsModel]="data">
       </app-news-list-list-view>
     </li>
