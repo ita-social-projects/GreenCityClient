@@ -39,6 +39,10 @@ export class CommentsService {
     return this.http.get<object>(`${this.backEnd}econews/comments?ecoNewsId=${this.ecoNewsId}&page=0&size=12`);
   }
 
+  public getCommentsCount(id: number): Observable<number> {
+    return this.http.get<number>(`${this.backEnd}econews/comments/count/comments/${id}`);
+  }
+
   public getAllReplies(id: number): Observable<object> {
     return this.http.get(`${this.backEnd}econews/comments/replies/${id}`);
   }
@@ -51,7 +55,7 @@ export class CommentsService {
   }
 
   public getRepliesAmount(id: number): Observable<number> {
-    return this.http.get<number>(`${this.backEnd}econews/comments/count/replies?parentCommentId=${id}`);
+    return this.http.get<number>(`${this.backEnd}econews/comments/count/replies/${id}`);
 }
 
   public postLike(id: number): Observable<object> {

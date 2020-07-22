@@ -33,8 +33,10 @@ export class AddCommentComponent implements OnInit {
   public elements = [];
   public totalElements: number;
   private isLoggedIn: boolean;
+  private newsId: number;
 
   ngOnInit() {
+    this.newsId = this.route.snapshot.params.id;
     if (this.dataSet.type === 'comment') {
       this.addElemsToCurrentList();
     } else if (this.dataSet.type === 'reply') {
@@ -61,7 +63,9 @@ export class AddCommentComponent implements OnInit {
 
   private addElemsToRepliesList(): void {
     this.commenstSubscription = this.commentsService.getAllReplies(this.commentId)
-      .subscribe((list: CommentsModel) => this.setRepliesList(list));
+      .subscribe((list: any) => {
+        this.setRepliesList(list.page.filter(item => item.status !== 'DELETED'));
+      });
   }
 
   public setList(data: CommentsModel): void {
@@ -84,8 +88,8 @@ export class AddCommentComponent implements OnInit {
   }
 
   public getCommentsTotalElements(): void {
-    this.commentsService.getCommentsByPage()
-      .subscribe((list: CommentsModel) => this.totalElements = list.totalElements);
+    this.commentsService.getCommentsCount(this.newsId)
+      .subscribe((data: number) => this.totalElements = data);
   }
 
   private checkUserSingIn(): void {
