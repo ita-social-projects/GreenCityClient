@@ -21,5 +21,7 @@
 <div class="container">
   <app-comment-body [elements]="elements"
                     [type]="dataSet.type"
+                    *ngIf="this.dataSet.type === 'comment' ||
+                           (this.dataSet.type === 'reply' && this.repliesVisibility)"
   ></app-comment-body>
 </div>
