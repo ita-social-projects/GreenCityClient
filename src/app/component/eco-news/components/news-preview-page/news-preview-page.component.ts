@@ -18,6 +18,7 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
   private actualDate = new Date();
   private userName: string;
   private userNameSub: Subscription;
+  private isPosting = false;
 
   constructor(private createEcoNewsService: CreateEcoNewsService,
               private localStorageService: LocalStorageService,
@@ -41,9 +42,11 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
   }
 
   private postNewsItem(): void {
+    this.isPosting = true;
     this.createEcoNewsService
       .sendFormData(this.previewItem)
       .subscribe((successRes: NewsResponseDTO) => {
+        this.isPosting = false;
         this.router.navigate(['/news']);
       });
   }
