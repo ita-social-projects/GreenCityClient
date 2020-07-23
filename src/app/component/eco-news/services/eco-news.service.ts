@@ -17,7 +17,7 @@ export class EcoNewsService {
   constructor(private http: HttpClient) { }
 
   public getAllPresentTags(): Observable<Array<string>> {
-    return this.http.get<Array<string>>(`${this.backEnd}econews/ecoNewsTags`);
+    return this.http.get<Array<string>>(`${this.backEnd}econews/tags/all`);
   }
 
   public getEcoNewsListByPage(page: number, quantity: number) {
