@@ -37,8 +37,8 @@
     <div *ngIf="monthView"
          class="days">
       <div class="days-name"
-           *ngFor="let day of daysNameLong"
-           [ngClass]="{ 'current-day-name': day === currentDayName && currentMonth }">
+           *ngFor="let day of daysName"
+           [ngClass]="{ 'current-day-name': day === currentDayName }">
         {{ day }}
       </div>
     </div>

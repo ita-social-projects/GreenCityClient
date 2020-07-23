@@ -17,7 +17,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   public yearData: number;
   public activeMonth: string;
   public monthView = true;
-  public daysNameLong: Array<string> = [];
+  public daysName: Array<string> = [];
   public months: Array<string> = [];
   public monthsShort: Array<string> = [];
   public monthsCalendar: Array<string> = [];
@@ -63,7 +63,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   public subscribeToLangChange(): void {
     this.langChangeSub = this.translate.onDefaultLangChange.subscribe((res) => {
       const translations = res.translations.profile.calendar;
-      this.daysNameLong = translations.days;
+      this.daysName = translations.days;
       this.months = translations.months;
       this.monthsShort = translations.monthsShort;
       this.monthAndYearName = `${this.months[this.currentMonth]} ${this.currentYear}`;
@@ -76,10 +76,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.defaultTranslateSub = this.translate.getTranslation(this.translate.getDefaultLang())
       .subscribe((res) => {
         const translations = res.profile.calendar;
-        this.daysNameLong = translations.days;
+        this.daysName = translations.days;
         this.months = translations.months;
         this.monthsShort = translations.monthsShort;
         this.monthAndYearName = `${this.months[this.currentMonth]} ${this.currentYear}`;
+        this.markCurrentDayOfWeek();
         this.buildMonthCalendar(this.monthsShort);
       });
   }
