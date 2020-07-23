@@ -100,7 +100,7 @@ div {
 @media screen and (max-width: 1200px) {
   .list-gallery {
     width: 299px;
-    height: 500px;
+    height: 492px;
 
     .list-image {
 
@@ -112,7 +112,7 @@ div {
 
     .list-gallery-content {
       .added-data {
-        height: 204px;
+        height: 196px;
       }
       .user-data-added-news {
         margin: 45px 0 0 0;
@@ -137,6 +137,10 @@ div {
     .list-gallery-content {
       .added-data {
         height: 203px;
+      }
+
+      .user-data-added-news {
+        margin: 16px 0 0 0;
       }
     }
   }
