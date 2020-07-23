@@ -78,9 +78,12 @@ export class HeaderComponent implements OnInit {
       .subscribe(this.assignData.bind(this));
   }
 
-  public changeCurrentLanguage(language): void {
+  public changeCurrentLanguage(language, index: number): void {
     this.languageService.changeCurrentLanguage(language as Language);
-
+    const temporary = this.arrayLang[0].lang;
+    this.arrayLang[0].lang = language;
+    this.arrayLang[index].lang = temporary;
+    this.toggleLangDropdown2();
   }
 
   public getUserId(): number | string {

@@ -234,6 +234,8 @@ $screen-320: " screen and (max-width : 320px)";
 
           .switcher-wrapper {
             position: relative;
+            width: 28px;
+            height: 20px;
 
             .arrow {
               position: absolute;
