@@ -116,17 +116,13 @@
                      [src]="selectLanguageArrow"
                      [ngClass]="langDropdownVisible ? 'arrow reverse' : 'arrow'"
                      alt="v">
-                <select (click)="toggleLangDropdown()"
-                  [(ngModel)]="language"
-                  (change)="changeCurrentLanguage()"
-                   class="language-switcher">
-                  <option class="language-option"
-                          [ngValue]="'en'">En</option>
-                  <option class="language-option"
-                          [ngValue]="'uk'">Ua</option>
-                  <option class="language-option"
-                          [ngValue]="'ru'">Ru</option>
-                </select>
+            <ul [class.add-shadow]="langDropdownVisible" (click)="toggleLangDropdown()">
+            <ng-container *ngFor="let lang of arrayLang; index as index; first as isFirst">
+            <li *ngIf="lang.isActive && index<1" (click)="toggleLangDropdown2()">{{lang.lang}}</li>
+            <li *ngIf="lang.isActive && index>0" (click)="changeCurrentLanguage(lang.lang)">{{lang.lang}}</li>
+            </ng-container>
+<!--              <li *ngFor="let a of arrayLang " (click)="changeCurrentLanguage(a)">{{a}}</li>-->
+            </ul>
               </div>
               </li>
         <li class="sign-in-link tertiary-global-button"

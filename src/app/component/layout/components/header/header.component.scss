@@ -248,6 +248,16 @@ $screen-320: " screen and (max-width : 320px)";
               transition: .4s ease-out;
               transition-delay: 0.1s;
             }
+
+            ul {
+              display: flex;
+              flex-direction: column;
+             position: absolute;
+
+              li {
+                cursor: pointer;
+              }
+            }
           }
 
             .sign-in-link {
@@ -355,7 +365,7 @@ $screen-320: " screen and (max-width : 320px)";
   }
 }
 
-#user-avatar-wrapper {
+#user-avatar-wrapper, #lang-wrapper  {
   position: relative;
   width: auto;
   min-width: 135px;
@@ -513,6 +523,9 @@ $screen-320: " screen and (max-width : 320px)";
   li:nth-of-type(6) {
     margin-bottom: 40px;
   }
+}
+.text-hiddez {
+  display: none;
 }
 
 

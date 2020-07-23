@@ -1,21 +1,23 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ModalService } from '../../../core/components/propose-cafe/_modal/modal.service';
-import { MatDialog } from '@angular/material';
-import { UserSettingComponent } from '../../../user/components/user-setting/user-setting.component';
+import {Component, OnInit} from '@angular/core';
+import {ModalService} from '../../../core/components/propose-cafe/_modal/modal.service';
+import {MatDialog} from '@angular/material';
+import {UserSettingComponent} from '../../../user/components/user-setting/user-setting.component';
 import {NavigationStart, Router} from '@angular/router';
-import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
-import { JwtService } from '../../../../service/jwt/jwt.service';
-import { UserService } from 'src/app/service/user/user.service';
-import { AchievementService } from 'src/app/service/achievement/achievement.service';
-import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-statistic.service';
-import { filter } from 'rxjs/operators';
-import { LanguageService } from '../../../../i18n/language.service';
-import { Language } from '../../../../i18n/Language';
-import { SearchService } from '../../../../service/search/search.service';
-import { UserOwnAuthService } from '../../../../service/auth/user-own-auth.service';
-import { SignInComponent } from '../../../auth/components/sign-in/sign-in.component';
-import { SignUpComponent } from '../../../auth/components/sign-up/sign-up.component';
-import { UiActionsService } from '@global-service/ui-actions/ui-actions.service';
+import {LocalStorageService} from '../../../../service/localstorage/local-storage.service';
+import {JwtService} from '../../../../service/jwt/jwt.service';
+import {UserService} from 'src/app/service/user/user.service';
+import {AchievementService} from 'src/app/service/achievement/achievement.service';
+import {HabitStatisticService} from 'src/app/service/habit-statistic/habit-statistic.service';
+import {filter} from 'rxjs/operators';
+import {LanguageService} from '../../../../i18n/language.service';
+import {Language} from '../../../../i18n/Language';
+import {SearchService} from '../../../../service/search/search.service';
+import {UserOwnAuthService} from '../../../../service/auth/user-own-auth.service';
+import {SignInComponent} from '../../../auth/components/sign-in/sign-in.component';
+import {SignUpComponent} from '../../../auth/components/sign-up/sign-up.component';
+import {UiActionsService} from '@global-service/ui-actions/ui-actions.service';
+import {LanguagModel} from '../models/languag.model';
+import {element} from 'protractor';
 
 @Component({
   selector: 'app-header',
@@ -35,6 +37,10 @@ export class HeaderComponent implements OnInit {
   private isSearchClicked = false;
   private isAllSearchOpen = false;
   private toggleBurgerMenu = false;
+  private arrayLang: Array<LanguagModel> = [
+    {lang: 'en', isActive: true },
+    {lang: 'uk', isActive: false },
+    {lang: 'ru', isActive: false }];
 
   constructor(private modalService: ModalService,
               public dialog: MatDialog,
@@ -54,6 +60,7 @@ export class HeaderComponent implements OnInit {
     this.searchSearch.searchSubject.subscribe(this.openSearchSubscription.bind(this));
     this.searchSearch.allSearchSubject.subscribe(this.openAllSearchSubscription.bind(this));
     this.dropdownVisible = false;
+    this.langDropdownVisible = false;
     this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => {
       this.name = firstName;
     });
@@ -62,6 +69,7 @@ export class HeaderComponent implements OnInit {
     this.language = this.languageService.getCurrentLanguage();
     this.autoOffBurgerBtn();
     this.userOwnAuthService.getDataFromLocalStorage();
+    console.log(this.language);
   }
 
   private initUser(): void {
@@ -70,8 +78,9 @@ export class HeaderComponent implements OnInit {
       .subscribe(this.assignData.bind(this));
   }
 
-  public changeCurrentLanguage(): void {
-    this.languageService.changeCurrentLanguage(this.language as Language);
+  public changeCurrentLanguage(language): void {
+    this.languageService.changeCurrentLanguage(language as Language);
+
   }
 
   public getUserId(): number | string {
@@ -116,6 +125,16 @@ export class HeaderComponent implements OnInit {
   private toggleLangDropdown(): void {
     this.langDropdownVisible = !this.langDropdownVisible;
   }
+  private toggleLangDropdown2(): Array<LanguagModel> {
+    // tslint:disable-next-line:no-shadowed-variable
+    return this.arrayLang.map((element, index) => {
+  if (index > 0) {
+    element.isActive = !element.isActive
+    return element;
+  } else {
+    return element;
+  }
+  }); }
 
   private autoCloseUserDropDown(event): void {
     this.dropdownVisible = event;
