@@ -86,5 +86,30 @@
         color: #FFFFFF;
       }
     }
+
+    .calendar-grid-month {
+      display: grid;
+      grid-template-columns: repeat(3, 23px);
+      grid-template-rows: repeat(4, 13px);
+      grid-row-gap: 32px;
+      grid-column-gap: 47px;
+      justify-content: center;
+      margin-top: 32px;
+
+      .calendar-grid-month-view {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        font-size: 11px;
+        line-height: 13px;
+        color: #878787;
+        text-align: center;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+
+      .current-month {
+        color: #13AA57;
+      }
+    }
   }
 }

@@ -1,13 +1,14 @@
 <div class="calendar">
   <div class="top">
-    <div class="month-year">
+    <div *ngIf="monthView"
+         class="month-year">
       <div (click)="previousMonth()">
         <img [src]="calendarImages.arrowPrevious"
              alt="arrow previous"
              class="arrow-previous">
       </div>
       <span class="monthAndYear"
-            (click)="buildMonthCalendar(monthsShort)">
+            (click)="toggleCalendarView()">
         {{ monthAndYearName }}
       </span>
       <div (click)="nextMonth()">
@@ -16,24 +17,50 @@
              class="arrow-next">
       </div>
     </div>
-    <div class="days">
+    <div *ngIf="!monthView"
+         class="month-year">
+      <div (click)="previousYear()">
+        <img [src]="calendarImages.arrowPrevious"
+             alt="arrow previous"
+             class="arrow-previous">
+      </div>
+      <span class="monthAndYear"
+            (click)="toggleCalendarView()">
+        {{ yearData }}
+      </span>
+      <div (click)="nextYear()">
+        <img [src]="calendarImages.arrowNext"
+             alt="arrow next"
+             class="arrow-next">
+      </div>
+    </div>
+    <div *ngIf="monthView"
+         class="days">
       <div class="days-name"
            *ngFor="let day of daysNameLong"
-           [ngClass]="{ 'current-day-name': day === currentDayName }">
+           [ngClass]="{ 'current-day-name': day === currentDayName && currentMonth }">
         {{ day }}
       </div>
     </div>
   </div>
   <div class="middle">
-    <div class="calendar-grid">
+    <div *ngIf="monthView"
+         class="calendar-grid">
       <div *ngFor="let dayItem of calendarDay"
       class="calendar-grid-day"
            [ngClass]="{ 'current-day': dayItem.isCurrentDayActive,
                         'tracked-day': dayItem.isHabitsTracked }">
         {{ dayItem.numberOfDate }}
       </div>
+    </div>
+    <div *ngIf="!monthView"
+         class="calendar-grid-month">
       <div *ngFor="let month of monthsCalendar">
-        {{ month }}
+        <div class="calendar-grid-month-view"
+             (click)="buildSelectedMonthCalendar(month)"
+             [ngClass]="{ 'current-month' : month === activeMonth && currentYear }">
+          {{ month }}
+        </div>
       </div>
     </div>
   </div>

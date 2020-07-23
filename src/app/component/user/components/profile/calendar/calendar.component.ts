@@ -14,6 +14,9 @@ import { LanguageService } from '@language-service/language.service';
 export class CalendarComponent implements OnInit, OnDestroy {
   public calendarImages = calendarImage;
   public monthAndYearName: string;
+  public yearData: number;
+  public activeMonth: string;
+  public monthView = true;
   public daysNameLong: Array<string> = [];
   public months: Array<string> = [];
   public monthsShort: Array<string> = [];
@@ -21,9 +24,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
   public calendarDay: Array<CalendarInterface> = [];
   public currentDayName: string;
   public language: string;
+  public currentMonth = new Date().getMonth();
+  public currentYear = new Date().getFullYear();
 
-  private currentMonth = new Date().getMonth();
-  private currentYear = new Date().getFullYear();
   private langChangeSub: Subscription;
   private defaultTranslateSub: Subscription;
 
@@ -46,6 +49,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.bindDefaultTranslate();
     this.subscribeToLangChange();
     this.buildCalendar();
+  }
+
+  public toggleCalendarView(): void {
+    this.monthView = !this.monthView;
+    this.yearData = this.currentYear;
   }
 
   public getDaysInMonth(iMonth, iYear): number {
@@ -159,8 +167,32 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   public buildMonthCalendar(months): void {
+    this.yearData = this.currentYear;
     this.monthsCalendar = months;
-    console.log(this.monthsCalendar);
+    this.isActiveMonth();
+  }
+
+  public isActiveMonth(): void {
+    this.activeMonth = this.calendarDay.filter(item => item.isCurrentDayActive)
+      .map(el => this.monthsShort[el.month])
+      .toString();
+  }
+
+
+  public previousYear(): void {
+    this.yearData = this.yearData - 1;
+  }
+
+  public nextYear(): void {
+    this.yearData = this.yearData + 1;
+  }
+
+  public buildSelectedMonthCalendar(month): void {
+    this.monthView = true;
+    this.currentMonth = this.monthsShort.indexOf(month);
+    this.currentYear = this.yearData;
+    this.calendarDay = [];
+    this.buildCalendar();
   }
 
   ngOnDestroy() {
