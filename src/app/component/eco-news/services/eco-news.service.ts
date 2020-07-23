@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EcoNewsModel } from '../models/eco-news-model';
-import { environment } from '../../../../environments/environment';
+import { environment } from '@environment/environment';
 import { EcoNewsDto } from '../models/eco-news-dto';
 import { Observable, Observer } from 'rxjs';
 import { take } from 'rxjs/operators';
