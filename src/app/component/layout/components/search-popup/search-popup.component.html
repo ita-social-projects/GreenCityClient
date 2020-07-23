@@ -2,8 +2,14 @@
   <div class="search-bar-wrapper">
     <div class="center-flex-wrapper">
       <div class="search-icon"></div>
-      <input class="search-field" type="text" placeholder="Search" (keyup)="onKeyUp($event.target)">
-      <div class="close-icon" (click)="closeSearch()"></div>
+        <input class = "search-field"
+               type="text"
+               placeholder="Search"
+               #inputFocus
+               (keyup)="onKeyUp($event.target)">
+               {{inputFocus.focus()}}
+      <div class="close-icon"
+           (click)="closeSearch()"></div>
     </div>
   </div>
 

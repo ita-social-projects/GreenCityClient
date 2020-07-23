@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { EcoNewsModel } from 'src/app/component/eco-news/models/eco-news-model';
-import { ecoNewsIcons } from 'src/assets/img/icon/econews/profile-icons';
+import { Component, Input } from '@angular/core';
+import { EcoNewsModel } from '@eco-news-models/eco-news-model';
+import { ecoNewsIcons } from '@eco-news-images/profile-icons';
 
 @Component({
   selector: 'app-news-list-gallery-view',
@@ -8,25 +8,17 @@ import { ecoNewsIcons } from 'src/assets/img/icon/econews/profile-icons';
   styleUrls: ['./news-list-gallery-view.component.scss'],
   changeDetection: 0
 })
-export class NewsListGalleryViewComponent implements OnInit {
+export class NewsListGalleryViewComponent {
   @Input() ecoNewsModel: EcoNewsModel;
 
-  private profileIcons = ecoNewsIcons;
-  private newsText: string;
-  private newsImage: string;
+  public profileIcons = ecoNewsIcons;
+  public newsImage: string;
+  public titleHeightOfElement: number;
+  public textHeightOfElement: number;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-    this.textValidationOfMinCharacters();
-  }
-
-  private textValidationOfMinCharacters(): string {
-    return this.newsText = (this.ecoNewsModel.text.length >= 198) ?
-      ((this.ecoNewsModel.text).slice(0, 197) + '...') : (this.ecoNewsModel.text);
-  }
-
-  private checkNewsImage(): string {
+  public checkNewsImage(): string {
     return this.newsImage = (this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' ') ?
       this.ecoNewsModel.imagePath : this.profileIcons.newsDefaultPictureList;
   }

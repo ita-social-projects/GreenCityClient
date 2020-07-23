@@ -24,12 +24,6 @@ export class FilterNewsComponent implements OnInit {
     this.getPresentTags();
   }
 
-private setTags(tags: Array<string>): void {
-    this.filters = tags.map((filter: string) =>
-      ({name: filter, isActive: false})
-    );
-}
-
   public emitTrueFilterValues(): Array<string> {
     return this.filters.filter(el => el.isActive).map(el => el.name);
   }
@@ -41,6 +35,10 @@ private setTags(tags: Array<string>): void {
   public toggleFilter(currentFilter: string): void {
     this.filters.map(el => el.isActive = el.name === currentFilter ? !el.isActive : el.isActive);
     this.emitActiveFilters();
+  }
+
+  private setTags(tags: Array<string>): void {
+    this.filters = tags.map((filter: string) => ({name: filter, isActive: false}));
   }
 
   private getPresentTags(): void {

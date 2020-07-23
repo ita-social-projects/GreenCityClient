@@ -16,12 +16,13 @@ import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 })
 export class NewsListComponent implements OnInit, OnDestroy {
   public view: boolean;
-  private iterator: number;
   public gridOutput: Array<string>;
-  private ecoNewsSubscription: Subscription;
   public elements: EcoNewsModel[];
   public remaining = 0;
-  private isLoggedIn: boolean;
+  public windowSize: number;
+  public isLoggedIn: boolean;
+  private ecoNewsSubscription: Subscription;
+  private iterator: number;
 
   constructor(
     private ecoNewsService: EcoNewsService,
@@ -30,31 +31,19 @@ export class NewsListComponent implements OnInit, OnDestroy {
     private ecoNewsSelectors: EcoNewsSelectors) { }
 
   ngOnInit() {
+    this.onResize();
     this.setNullList();
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
   }
 
-  private checkUserSingIn(): void {
-    this.userOwnAuthService.credentialDataSubject
-      .subscribe((data) => this.isLoggedIn = data && data.userId);
+  public onResize(): void {
+    this.windowSize = window.innerWidth;
+    this.view = (this.windowSize > 576) ? this.view : true;
   }
 
   public onScroll(): void {
     this.addElemsToCurrentList();
-  }
-
-  private addElemsToCurrentList(): void {
-    this.ecoNewsSubscription = this.gridOutput ?
-      this.ecoNewsSubscription = this.ecoNewsService.getNewsListByTags(this.iterator++, 12, this.gridOutput)
-        .subscribe((list: EcoNewsDto) => this.setList(list)) :
-      this.ecoNewsSubscription = this.ecoNewsService.getEcoNewsListByPage(this.iterator++, 12)
-        .subscribe((list: EcoNewsDto) => this.setList(list));
-  }
-
-  private setList(data: EcoNewsDto): void {
-    this.remaining = data.totalElements;
-    this.elements = [...this.elements, ...data.page];
   }
 
   public changeView(event: boolean): void {
@@ -68,6 +57,26 @@ export class NewsListComponent implements OnInit, OnDestroy {
     }
     this.addElemsToCurrentList();
   }
+
+  private checkUserSingIn(): void {
+    this.userOwnAuthService.credentialDataSubject
+      .subscribe((data) => this.isLoggedIn = data && data.userId);
+  }
+
+
+  private addElemsToCurrentList(): void {
+    this.ecoNewsSubscription = this.gridOutput ?
+      this.ecoNewsService.getNewsListByTags(this.iterator++, 12, this.gridOutput)
+        .subscribe((list: EcoNewsDto) => this.setList(list)) :
+      this.ecoNewsService.getEcoNewsListByPage(this.iterator++, 12)
+        .subscribe((list: EcoNewsDto) => this.setList(list));
+  }
+
+  private setList(data: EcoNewsDto): void {
+    this.remaining = data.totalElements;
+    this.elements = [...this.elements, ...data.page];
+  }
+
 
   private setNullList(): void {
     this.iterator = 0;
