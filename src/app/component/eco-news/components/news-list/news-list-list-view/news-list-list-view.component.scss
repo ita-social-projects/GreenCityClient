@@ -15,6 +15,12 @@ div {
     height: 214px;
   }
 
+  @media screen and (max-width: 1200px) {
+    .list-text {
+      display: none;
+    }
+  }
+
   @media screen and (max-width: 768px) {
     .list-image-content {
       width: 214px;
@@ -35,18 +41,22 @@ div {
     .added-data {
       height: 174px;
 
-      .ul-eco-buttons {
-        opacity: 0.8;
-        font-family: OpenSans, sans-serif;
-        font-size: 14px;
-        line-height: 14px;
-        color: #313131;
-        display: inline-block;
-        padding: 8px 16px;
-        border: 1px solid #313131;
-        border-radius: 25px;
-        margin: 0 16px 0 0;
-        text-transform: capitalize;
+      .filter-tag {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        height: 24px;
+        margin-bottom: 8px;
+
+        .ul-eco-buttons {
+          font-family: OpenSans, sans-serif;
+          font-size: 14px;
+          line-height: 16px;
+          color: #13AA57;
+          margin-right: 16px;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+        }
       }
 
       .word-wrap {

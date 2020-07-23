@@ -81,9 +81,6 @@ $screen-320: " screen and (max-width : 320px)";
                     line-height: 16px;
                     color:$first-font-color;
                     text-decoration: none;
-                    &:focus {
-                      color: $focus-color;
-                    }
                   }
                 }
 
@@ -129,11 +126,6 @@ $screen-320: " screen and (max-width : 320px)";
                     font-size: 20px;
                     line-height: 24px;
                     color:$first-font-color;
-
-                    &:focus {
-                      color: $focus-color;
-                    }
-
                   }
 
               &:nth-of-type(6) {
@@ -269,6 +261,7 @@ $screen-320: " screen and (max-width : 320px)";
               a {
                 display: block;
                 min-width: 40px;
+                word-break: break-all;
               }
             }
 
@@ -444,6 +437,10 @@ $screen-320: " screen and (max-width : 320px)";
 
 .active-link {
   color: $focus-color !important;
+
+    &:focus {
+    color: $focus-color;
+  }
 }
 
 @media #{$screen-992} {
