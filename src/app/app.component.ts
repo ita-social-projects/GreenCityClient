@@ -32,7 +32,12 @@ export class AppComponent implements OnInit  {
     this.titleAndMetaTagsService.useTitleMetasData();
     this.searchSearch.searchSubject.subscribe(this.openSearchSubscription.bind(this));
     this.uiActionsService.stopScrollingSubject.subscribe(data => this.toggle = data);
-    this.router.events.subscribe((evt) => { if (evt instanceof NavigationEnd) { this.router.navigated = false; window.scrollTo(0, 0); } });
+    this.router.events.subscribe((evt) => {
+      if (evt instanceof NavigationEnd) {
+         this.router.navigated = false;
+         window.scrollTo(0, 0);
+      }
+    });
   }
 
   private openSearchSubscription(isSearchExpanded: boolean): void {
