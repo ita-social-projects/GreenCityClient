@@ -116,10 +116,10 @@
                      [src]="selectLanguageArrow"
                      [ngClass]="langDropdownVisible ? 'arrow reverse' : 'arrow'"
                      alt="v">
-            <ul [class.add-shadow]="langDropdownVisible" (click)="toggleLangDropdown()">
+            <ul [class.add-shadow]="langDropdownVisible">
             <ng-container *ngFor="let lang of arrayLang; index as index;">
-            <li *ngIf="lang.isActive && index<1" (click)="toggleLangDropdown2()">{{lang.lang}}</li>
-            <li *ngIf="lang.isActive && index>0" (click)="changeCurrentLanguage(lang.lang, index)">{{lang.lang}}</li>
+            <li *ngIf="index<1" (click)="langDropdownVisible = !langDropdownVisible">{{lang.lang}}</li>
+            <li *ngIf="index>0 && langDropdownVisible"  (click)="changeCurrentLanguage(lang.lang, index)">{{lang.lang}}</li>
             </ng-container>
             </ul>
               </div>

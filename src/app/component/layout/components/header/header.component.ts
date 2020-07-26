@@ -83,7 +83,7 @@ export class HeaderComponent implements OnInit {
     const temporary = this.arrayLang[0].lang;
     this.arrayLang[0].lang = language;
     this.arrayLang[index].lang = temporary;
-    this.toggleLangDropdown2();
+    this.langDropdownVisible = false;
   }
 
   public getUserId(): number | string {
@@ -124,20 +124,6 @@ export class HeaderComponent implements OnInit {
   private toggleDropdown(): void {
     this.dropdownVisible = !this.dropdownVisible;
   }
-
-  private toggleLangDropdown(): void {
-    this.langDropdownVisible = !this.langDropdownVisible;
-  }
-  private toggleLangDropdown2(): Array<LanguagModel> {
-    // tslint:disable-next-line:no-shadowed-variable
-    return this.arrayLang.map((element, index) => {
-  if (index > 0) {
-    element.isActive = !element.isActive
-    return element;
-  } else {
-    return element;
-  }
-  }); }
 
   private autoCloseUserDropDown(event): void {
     this.dropdownVisible = event;
