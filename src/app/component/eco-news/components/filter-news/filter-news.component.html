@@ -8,7 +8,7 @@
                       'ul-eco-buttons-li': !filter.isActive,
                       'clicked-filter-button': filter.isActive
                     }">
-        {{filter.name  }}
+        {{ "homepage.eco-news.tags." + filter.name.toLowerCase() | translate }}
         <div [ngClass]="{
                           closeNone: !filter.isActive,
                           close: filter.isActive
