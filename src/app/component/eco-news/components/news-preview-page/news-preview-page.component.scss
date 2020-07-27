@@ -4,8 +4,8 @@
 $title-font: 'Montserrat';
 $main-font: 'Open Sans';
 
-.container {
-  margin: 0 auto;
+.wrapper {
+  margin: 0 10%;
 }
 
 .word-wrap {
@@ -84,14 +84,17 @@ $main-font: 'Open Sans';
   border-radius: 25px;
 }
 
+.news-content {
+  margin: 0 7.5%;
+}
+
 .news-title-container {
-  margin: 0 98px;
   display: flex;
   justify-content: center;
 }
 
 .news-title {
-  margin: 0 98px 24px;
+  margin: 0 6.8% 24px;
   color: #313131;
   font-weight: 500;
   font-size: 3rem;
@@ -123,24 +126,24 @@ $main-font: 'Open Sans';
 }
 
 .news-image-img {
-  width: 944px;
-  height: auto;
+  width: 100%;
 }
 
 .news-text-container {
-  margin: 0 98px;
   display: flex;
+  padding: 69px 0 0;
 }
 
 .news-text {
   margin-left: 74px;
   color: #000000;
-  padding: 48px 0 0;
   text-align: left;
 }
 
 .news-text-content {
-  width: 750px;
+  width: 90%;
+  font-size: 18px;
+  line-height: 32px;
 }
 
 .source-field {
@@ -165,18 +168,68 @@ $main-font: 'Open Sans';
   margin-top: 6px;
 }
 
-@media screen and (max-width: 768px){
-  .news-image-img{
-    width: 740px;
+@media screen and (max-width: 1024px){
+  .wrapper {
+    margin: 0 3%;
   }
+
+  .news-title {
+    margin: 0 8% 24px;
+  }
+
+  .news-content {
+    margin: 0;
+  }
+}
+
+@media screen and (max-width: 768px){
+  .wrapper {
+    margin: 0 1.8%;
+  }
+
+  .news-title {
+    margin: 0 0 24px;
+  }
+
   .news-image{
     margin: 0 0 0 -41px;
+  }
+
+  .news-links-img {
+    margin: 0 32px 0 0;
+  }
+
+  .last-img {
+    margin: 0;
+  }
+
+  .news-text-container {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .news-links-images {
+    flex-direction: row;
+    margin: 51px auto;
+    width: 136px;
+  }
+
+  .news-text-container {
+    padding: 0;
+  }
+
+  .news-text {
+    margin-left: 0;
+  }
+
+  .news-text-content {
+    width: 100%;
   }
 }
 
 @media screen and (max-width: 576px){
-  .news-image-img{
-    width: 548px;
+  .wrapper {
+    margin: 0 2.4%;
   }
 
   .news-image{
@@ -185,14 +238,48 @@ $main-font: 'Open Sans';
 }
 
 @media screen and (max-width: 320px) {
+  .wrapper {
+    margin: 0 5%;
+  }
+
+  .back-button {
+    margin-bottom: 36px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .primary-global-button {
+    width: 90%;
+    height: 48px;
+  }
+
+  .top-elements,
   .news-info {
     flex-direction: column;
   }
+
+  .create-news-text {
+    font-size: 24px;
+    line-height: 32px;
+    margin-top: 64px;
+  }
+
   .news-image {
     margin: 0 0 0 -14px;
   }
-  .news-image-img {
-    width: 288px;
+
+  .source-field {
+    flex-direction: column;
+  }
+
+  .news-text-content,
+  .source-text {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .source-text {
+    margin-top: 8px;
   }
 }
 
