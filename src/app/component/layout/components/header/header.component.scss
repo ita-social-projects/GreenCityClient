@@ -232,9 +232,10 @@ $screen-320: " screen and (max-width : 320px)";
             .arrow {
               position: absolute;
               top: 10px;
-              right: 0;
+              right: 19px;
               width: 8px;
               height: 5px;
+              z-index: 1;
             }
 
             .reverse {
@@ -244,14 +245,18 @@ $screen-320: " screen and (max-width : 320px)";
             }
 
             ul {
+              position: absolute;
               display: flex;
               flex-direction: column;
-              position: absolute;
+              justify-content: space-between;
+              top: -8px;
               width: 61px;
 
               li {
                 cursor: pointer;
                 height: 44px;
+                font-size: 14px;
+                padding-top: 10px;
               }
             }
 
