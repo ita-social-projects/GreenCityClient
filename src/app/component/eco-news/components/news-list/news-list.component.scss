@@ -67,7 +67,7 @@ a {
 @media screen and (max-width: 1200px) {
   .gallery-view-active {
     grid-template-columns: repeat(3, 299px);
-    grid-gap: 32px
+    grid-gap: 15px;
   }
 }
 
@@ -75,7 +75,7 @@ a {
 @media screen and (max-width: 992px) {
   .gallery-view-active {
     grid-template-columns: repeat(2, 353px);
-    grid-gap: 32px
+    grid-gap: 15px;
   }
 
   .flex-container{
@@ -87,7 +87,7 @@ a {
 @media screen and (max-width: 768px) {
   .gallery-view-active {
     grid-template-columns: repeat(2, 258px);
-    grid-gap: 32px
+    grid-gap: 32px;
   }
 }
 

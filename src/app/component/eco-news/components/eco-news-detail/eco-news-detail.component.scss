@@ -162,3 +162,18 @@ $main-font: 'Open Sans';
     color: #000000;
     margin-top: 6px;
 }
+
+@media screen and (max-width: 576px) {
+    .news-title {
+        font-size: 24px;
+        color: #494A49;
+        min-width: 288px;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .source-title {
+        font-size: 24px;
+        color: #494A49;
+    }
+}
