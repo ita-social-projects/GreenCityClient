@@ -1,13 +1,23 @@
+$bp-smallest: 320px;
+$bp-phone: 576px;
+$bp-tablet: 768px;
+$bp-desktop: 1024px;
+$bp-largest: 1440px;
+
 $font-family-first: Montserrat;
 
 .profile {
   background: #f5f7f6;
-  height: 350px;
-
+  .cards {
+    width: 100%;
+  }
   .details__img {
+    text-align: center;
+    width: 100%;
+    height: 88px;
     .profile-avatar {
-      width: 120px;
-      height: 120px;
+     width: 88px;
+     height: 88px;
     }
   }
 
@@ -23,31 +33,37 @@ $font-family-first: Montserrat;
       .descriptions__name {
         font-style: normal;
         font-weight: 600;
-        font-size: 20px;
-        line-height: 25px;
+        // font-size: 18px;
+        font-size: calc(15px + (18 - 15) * ((100vw - 320px) / (1440 - 320)));
+        line-height: 15px;
         text-align: center;
+      }
+
+      .descriptions__location,
+      .descriptions__status,
+      .descriptions__rate {
+        margin-top: 4px;
+        font-size: calc(11px + (12 - 11) * ((100vw - 320px) / (1440 - 320)));
+        line-height: 15px;
       }
 
       .descriptions__location {
         font-weight: 600;
-        font-size: 14px;
-        line-height: 25px;
         text-align: center;
         color: #6a8079;
       }
 
       .descriptions__status {
-        font-size: 14px;
-        line-height: 25px;
         text-align: center;
         color: #878787;
       }
-
+      
+      
       .descriptions__rate {
         display: flex;
         justify-content: center;
         padding: 2px 16px;
-        font-size: 14px;
+        font-size: 12px;
         font-family: Open Sans;
         height: 24px;
         line-height: 16px;
@@ -57,17 +73,83 @@ $font-family-first: Montserrat;
         color: #13aa57;
       }
     }
-  }
 
-  .profile__credo {
-    display: flex;
-    text-align: left;
-    width: 100%;
-    padding: 0 24px;
-    height: 66px;
-    font-family: Open Sans;
-    font-size: 18px;
-    line-height: 22px;
-    color: #494a49;
+    .details__credo {
+      margin: 16px 0;
+      display: flex;
+      text-align: left;
+      width: 100%;
+      font-family: Open Sans;
+      font-size: calc(11px + (14 - 11) * ((100vw - 320px) / (1440 - 320)));
+      line-height: calc(16px + (22 - 16) * ((100vw - 320px) / (1440 - 320)));
+      color: #494a49;
+    }
   }
+}
+@media only screen and (max-width: $bp-phone) {
+      .profile {
+        display: flex;
+
+        .details__img {
+          width: 76px;
+          height: 76px;
+          .profile-avatar {
+            width: 76px;
+            height: 76px;
+          }
+        }
+
+          .profile__details {
+            display: flex;
+            flex-direction: column;
+            justify-content: left;
+
+            .details__descriptions {
+              display: flex;
+              justify-content: left;
+              align-items: self-start;
+              margin: 0;
+              margin-left: 21px;
+
+              .descriptions__name {
+                width: 100%;
+                // font-size: 16px;
+                text-align: left;
+              }
+
+              .descriptions__location,
+              .descriptions__status,
+              .descriptions__rate {
+                font-size: 11px;
+                line-height: 15px;
+              }
+            }
+
+            .details__credo {
+              margin: 8px auto 8px 21px;
+            }
+          }
+      }
+}
+
+@media only screen and (max-width: $bp-smallest) {
+    .profile {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .profile__details {
+        align-items: center;
+
+        .details__descriptions {
+          align-items: center;
+          margin-left: 0px;
+        }
+
+        .details__credo {
+          margin: 0px;
+        }
+      }
+    }
 }
