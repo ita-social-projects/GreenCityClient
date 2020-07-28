@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 
+$bp-smallest: 320px;
+$bp-phone: 576px;
+$bp-tablet: 768px;
+$bp-desktop: 1024px;
+$bp-largest: 1440px;
+
 $title-font: 'Montserrat';
 $main-font: 'Open Sans';
 
@@ -86,7 +92,6 @@ $main-font: 'Open Sans';
 }
 
 .news-title {
-    margin: 0 98px 24px;
     color: #494A49;
     font-weight: 500;
     font-size: 40px;
@@ -95,7 +100,7 @@ $main-font: 'Open Sans';
 }
 
 .news-info {
-    padding: 0 292px 48px;
+    padding: 24px 0;
     justify-content: center;
 }
 
@@ -110,13 +115,13 @@ $main-font: 'Open Sans';
 }
 
 .news-image-img {
-    width: 944px;
+    width: 100%;
     height: 400px;
+    object-fit: none;
 }
 
 .news-links-images {
     flex-direction: column;
-    margin-top: 37px;
 }
 
 .news-links-img {
@@ -124,19 +129,18 @@ $main-font: 'Open Sans';
 }
 
 .news-text-container {
-    margin: 0 98px;
     display: flex;
+    margin-top: 37px;
 }
 
 .news-text {
     margin-left: 74px;
     color: #000000;
-    padding: 48px 0 0;
     text-align: left;
 }
 
 .news-text-content {
-    width: 750px;
+    width: 100%;
     font-size: 18px;
     line-height: 32px;
 }
@@ -161,4 +165,31 @@ $main-font: 'Open Sans';
     line-height: 32px;
     color: #000000;
     margin-top: 6px;
+}
+
+.wrap {
+    width: 100vw;
+    margin-left: calc(-50vw + 50% - 8px);
+    position: relative;
+}
+
+@media only screen and (max-width: $bp-tablet) {
+    .news-text-container {
+        flex-direction: column;
+
+        .news-links-images {
+            flex-direction: row;
+            justify-content: center;
+            padding: 53px 0;
+            margin-top: 0px;
+            
+            .news-links-img {
+                margin-right: 32px;
+            }
+        }
+
+        .news-text {
+            padding: 0px;
+        }
+    }
 }
