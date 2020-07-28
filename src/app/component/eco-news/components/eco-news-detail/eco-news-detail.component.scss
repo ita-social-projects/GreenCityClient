@@ -6,6 +6,8 @@ $main-font: 'Open Sans';
 
 .container {
   margin: 0 auto;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .word-wrap {
@@ -161,4 +163,73 @@ $main-font: 'Open Sans';
     line-height: 32px;
     color: #000000;
     margin-top: 6px;
+}
+
+@media screen and (max-width: 320px) {
+    .top-elements{
+        margin-top: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .tags {
+        padding: 25px 0 23px;
+    }
+
+    .news-title-container {
+        margin: 0;
+    }
+
+    .news-title {
+        margin: 0;
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 32px;
+        width: 288px;
+    }
+
+    .news-info{
+        padding: 24px 0 22px;
+        flex-direction: column;
+    }
+
+    .news-info-date,
+    .news-info-author {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .news-image-img {
+        width: 288px;
+        height: 179px;
+    }
+
+.news-text-container {
+    flex-direction: column;
+    margin: 0;
+}
+.news-links-images {
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 0;
+}
+
+.news-links-img {
+    margin: 9px 0 0;
+    padding: 0 16px;
+}
+.news-text {
+    margin: 0 18px;
+    color: #000000;
+    padding: 37px 0 0;
+    text-align: left;
+}
+
+.news-text-content {
+    width: 288px;
+    font-size: 16px;
+    line-height: 24px;
+}
+
 }
