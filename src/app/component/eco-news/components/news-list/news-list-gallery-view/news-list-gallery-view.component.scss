@@ -169,7 +169,7 @@ div {
       }
 
       .user-data-added-news {
-        display: block;
+        display: flex;
 
         .user-data-text-date {
           margin-bottom: 4px;
@@ -203,7 +203,8 @@ div {
     }
 
     .user-data-added-news {
-        display: block;
+        display: flex;
+        flex-direction: column;
 
       .user-data-text-date {
           margin-bottom: 4px;
