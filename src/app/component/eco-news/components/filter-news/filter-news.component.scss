@@ -21,7 +21,7 @@
 .ul-eco-buttons-li {
     font-family: OpenSans, sans-serif;
     font-size: calc(11px + (14 - 11) * ((100vw - 320px) / (1200 - 320)));
-    font-size: calc(13px + (16 - 13) * ((100vw - 320px) / (1200 - 320)));
+    line-height: calc(13px + (16 - 13) * ((100vw - 320px) / (1200 - 320)));
     color: #666666;
     display: inline-block;
     padding: calc(6px + (8 - 6) * ((100vw - 320px) / (1200 - 320))) calc(12px + (16 - 12) * ((100vw - 320px) / (1200 - 320)));
