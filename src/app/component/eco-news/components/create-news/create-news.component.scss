@@ -60,7 +60,8 @@ form {
     justify-content: space-between;
 }
 
-.left-form-column input, .left-form-column textarea {
+.left-form-column input, 
+.left-form-column textarea {
     width: 622px;
     height: 48px;
     border-radius: 5px;
@@ -203,7 +204,8 @@ button {
 }
 
 @media screen and (max-width: 1200px) {
-    .left-form-column input, .left-form-column textarea {
+    .left-form-column input, 
+    .left-form-column textarea {
         width: 517px;
     }
 }
