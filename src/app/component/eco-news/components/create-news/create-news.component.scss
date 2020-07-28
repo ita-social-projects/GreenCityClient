@@ -58,15 +58,16 @@ form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 380px;
 }
 
-.left-form-column input {
+.left-form-column input, .left-form-column textarea {
     width: 622px;
     height: 48px;
     border-radius: 5px;
     border: 1px solid #878787;
     padding: 12px 40px 12px 16px;
+    resize: none;
+    overflow: hidden;
 }
 
 .left-form-column p, .left-form-column span {
@@ -113,6 +114,7 @@ form .textarea-wrapper textarea {
     border: 1px solid #878787;
     width: 100%;
     padding: 12px 16px 28px 16px;
+    overflow: hidden;
 }
 
 .textarea-wrapper {
@@ -201,20 +203,22 @@ button {
 }
 
 @media screen and (max-width: 1200px) {
-    .left-form-column input {
+    .left-form-column input, .left-form-column textarea {
         width: 517px;
     }
 }
 
 @media screen and (max-width: 1024px) {
-    .left-form-column input,
+    .left-form-column input, 
+    .left-form-column textarea,
     form .textarea-wrapper textarea {
         width: 100%;
   }
 }
 
 @media screen and (max-width: 768px) {
-    .left-form-column input,
+    .left-form-column input, 
+    .left-form-column  textarea,
     form .textarea-wrapper textarea  {
         width: 100%;
     }
