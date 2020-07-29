@@ -179,7 +179,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
       .toString();
   }
 
-
   public previousYear(): void {
     this.yearData = this.yearData - 1;
   }
