@@ -23,6 +23,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   public isLoggedIn: boolean;
   private ecoNewsSubscription: Subscription;
   private iterator: number;
+  public scroll: boolean;
 
   constructor(
     private ecoNewsService: EcoNewsService,
@@ -35,6 +36,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.setNullList();
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
+    this.scroll = false;
   }
 
   public onResize(): void {
@@ -43,6 +45,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   public onScroll(): void {
+    this.scroll = true;
     this.addElemsToCurrentList();
   }
 
@@ -63,7 +66,6 @@ export class NewsListComponent implements OnInit, OnDestroy {
       .subscribe((data) => this.isLoggedIn = data && data.userId);
   }
 
-
   private addElemsToCurrentList(): void {
     this.ecoNewsSubscription = this.gridOutput ?
       this.ecoNewsService.getNewsListByTags(this.iterator++, 12, this.gridOutput)
@@ -74,9 +76,21 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
   private setList(data: EcoNewsDto): void {
     this.remaining = data.totalElements;
-    this.elements = [...this.elements, ...data.page];
+    this.elements = this.scroll ? [...this.elements, ...data.page] : [...data.page];
   }
 
+private addElemsToCurrentList1(): void {
+    this.ecoNewsSubscription = this.gridOutput ?
+      this.ecoNewsService.getNewsListByTags(this.iterator++, 12, this.gridOutput)
+        .subscribe((list: EcoNewsDto) => this.setList1(list)) :
+      this.ecoNewsService.getEcoNewsListByPage(this.iterator++, 12)
+        .subscribe((list: EcoNewsDto) => this.setList1(list));
+  }
+
+  private setList1(data: EcoNewsDto): void {
+    this.remaining = data.totalElements;
+    this.elements = [...this.elements, ...data.page];
+  }
 
   private setNullList(): void {
     this.iterator = 0;
