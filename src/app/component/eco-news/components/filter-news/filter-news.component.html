@@ -1,5 +1,5 @@
 <div class="wrapper">
-  <span>Filter by</span>
+  <span>{{ "homepage.eco-news.filter" | translate }}</span>
   <ul class="ul-eco-buttons">
 
     <a *ngFor="let filter of filters">
@@ -8,7 +8,7 @@
                       'ul-eco-buttons-li': !filter.isActive,
                       'clicked-filter-button': filter.isActive
                     }">
-        {{ filter.name }}
+        {{ "homepage.eco-news.tags." + filter.name.toLowerCase() | translate }}
         <div [ngClass]="{
                           closeNone: !filter.isActive,
                           close: filter.isActive
