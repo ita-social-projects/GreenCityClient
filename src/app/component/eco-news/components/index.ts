@@ -1,5 +1,4 @@
 export { CreateNewsComponent } from './create-news/create-news.component';
-export { DragAndDropComponent } from './create-news/drag-and-drop/drag-and-drop.component';
 export { EcoNewsDetailComponent } from './eco-news-detail/eco-news-detail.component';
 export { EcoNewsWidgetComponent } from './eco-news-detail/eco-news-widget/eco-news-widget.component';
 export { FilterNewsComponent } from './filter-news/filter-news.component';

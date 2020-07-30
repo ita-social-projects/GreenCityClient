@@ -13,13 +13,19 @@ import {
 } from './components';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { DragAndDropDirective } from '../eco-news/directives/drag-and-drop.directive';
+import { DragAndDropComponent } from './components/drag-and-drop/drag-and-drop.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
   declarations: [
     PhotoUploadComponent,
-    CreateNewsCancelComponent
+    CreateNewsCancelComponent,
+    DragAndDropDirective,
+    DragAndDropComponent,
   ],
   imports: [
+    ImageCropperModule,
     FormsModule,
     CommonModule,
     ReactiveFormsModule,
@@ -27,15 +33,14 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
+        deps: [HttpClient],
+      },
     }),
     MDBBootstrapModule,
     FileUploadModule,
     MatCardModule,
     MatDialogModule,
-    MatCheckboxModule
-
+    MatCheckboxModule,
   ],
   exports: [
     CreateNewsCancelComponent,
@@ -47,11 +52,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     FileUploadModule,
     MatCardModule,
     MatDialogModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    DragAndDropDirective,
+    DragAndDropComponent,
   ],
-  providers: [
-
-  ]
+  providers: [],
 })
 export class SharedModule {}
 
