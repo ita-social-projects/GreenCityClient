@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@ang
 import { CommentsService } from '../../services/comments.service';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
-import { environment } from "@environment/environment";
+import { environment } from '@environment/environment';
 
 @Component({
   selector: 'app-like-comment',
@@ -38,13 +38,12 @@ export class LikeCommentComponent implements OnInit, OnDestroy {
     this.like.nativeElement.srcset = this.commentsImages[imgName];
   }
 
-  private initializeWebSocketConnection(){
-    let ws = new SockJS(this.connectionUrl);
+  private initializeWebSocketConnection() {
+    const ws = new SockJS(this.connectionUrl);
     this.stompClient = Stomp.over(ws);
-    const that = this;
-    this.stompClient.connect({}, function (frame) {
-      that.stompClient.subscribe(that.topic, (message) => {
-        alert(1);
+    this.stompClient.connect({}, (frame) => {
+      this.stompClient.subscribe(this.topic, (message) => {
+        console.log(1);
       });
     });
   }
