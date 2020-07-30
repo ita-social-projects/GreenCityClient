@@ -7,8 +7,8 @@ import { CommentsService } from '../../services/comments.service';
   styleUrls: ['./like-comment.component.scss']
 })
 export class LikeCommentComponent implements OnInit {
-  @Input() commentId: number;
-  @Input() likeState: boolean;
+  @Input() public commentId: number;
+  @Input() public likeState: boolean;
   @ViewChild('like', {static: true})
   like: ElementRef;
   @ViewChild('span', {static: true})
