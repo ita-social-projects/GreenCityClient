@@ -97,7 +97,7 @@ div {
   cursor: pointer;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1199px) {
   .list-gallery {
     width: 299px;
     height: 500px;
@@ -146,15 +146,15 @@ div {
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
   .list-gallery {
-    width: 252px;
+    width: 258px;
     height: 508px;
 
     .list-image {
 
       .list-image-content {
-        width: 252px;
+        width: 258px;
         height: 143px;
       }
     }
@@ -179,7 +179,7 @@ div {
   }
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 575px) {
   .list-gallery {
     width: 288px;
     height: 508px;

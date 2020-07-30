@@ -64,7 +64,7 @@ a {
   display: block;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1199px) {
   .gallery-view-active {
     grid-template-columns: repeat(3, 299px);
     grid-gap: 15px;
@@ -84,14 +84,14 @@ a {
 
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
   .gallery-view-active {
     grid-template-columns: repeat(2, 258px);
     grid-gap: 32px;
   }
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 575px) {
   .list {
     display: flex;
     flex-direction: column;
