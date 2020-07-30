@@ -92,6 +92,13 @@ a {
 }
 
 @media screen and (max-width: 576px) {
+  .gallery-view-active {
+    grid-template-columns: repeat(2, 245px);
+    grid-gap: 32px
+  }
+}
+
+@media screen and (max-width: 575px) {
   .list {
     display: flex;
     flex-direction: column;
