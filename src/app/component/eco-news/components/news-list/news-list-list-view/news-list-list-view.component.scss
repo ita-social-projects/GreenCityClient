@@ -8,6 +8,9 @@ div {
   display: flex;
   padding: 16px;
   max-height: 238px;
+  box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
+  border-radius: 4px;
+  background: #FFFFFF;
 
   .list-image-content {
     border-radius: 4px;

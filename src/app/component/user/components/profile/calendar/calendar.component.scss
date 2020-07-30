@@ -16,6 +16,7 @@
         margin-top: 22px;
         margin-left: 18px;
         margin-bottom: 16px;
+        cursor: pointer;
       }
 
       .monthAndYear {
@@ -25,12 +26,14 @@
         color: #494A49;
         margin-top: 16px;
         margin-bottom: 12px;
+        cursor: pointer;
       }
 
       .arrow-next {
         margin-top: 22px;
         margin-right: 18px;
         margin-bottom: 16px;
+        cursor: pointer;
       }
     }
 
@@ -71,6 +74,15 @@
 
       .calendar-grid-day {
         padding: 7px 1px 0 0;
+        cursor: pointer;
+      }
+
+      .calendar-grid-day:hover {
+        color: #13AA57;
+      }
+
+      .calendar-grid-day:active {
+        color: #056B33;
       }
 
       .current-day {
@@ -84,6 +96,39 @@
         background-repeat: no-repeat;
         background-position: center;
         color: #FFFFFF;
+      }
+
+      .current-day:hover, .tracked-day:hover {
+        color: #FFFFFF;
+      }
+
+      .current-day:active, .tracked-day:active {
+        color: #056B33;
+      }
+    }
+
+    .calendar-grid-month {
+      display: grid;
+      grid-template-columns: repeat(3, 23px);
+      grid-template-rows: repeat(4, 13px);
+      grid-row-gap: 32px;
+      grid-column-gap: 47px;
+      justify-content: center;
+      margin-top: 32px;
+
+      .calendar-grid-month-view {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        font-size: 11px;
+        line-height: 13px;
+        color: #878787;
+        text-align: center;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+
+      .current-month {
+        color: #13AA57;
       }
     }
   }

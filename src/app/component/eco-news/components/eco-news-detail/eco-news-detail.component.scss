@@ -172,8 +172,38 @@ $main-font: 'Open Sans';
 }
 
 @media screen and (max-width: 576px) {
+    .news-title {
+        font-size: 24px;
+        color: #494A49;
+        min-width: 288px;
+        text-align: center;
+        margin: 0 auto;
+    }
+  
     .source-text {
         max-width: 455px;
+    }
+  
+    .source-title {
+        font-size: 24px;
+        color: #494A49;
+    }
+    
+    .top-elements {
+        display: flex;
+        flex-direction: column;
+        margin-top: 54px;
+        align-items: center;
+    }
+
+    .back-button {
+        margin-bottom: 35px;
+    }
+
+    .edit-news {
+        width: 288px;
+        height: 39px;
+        text-align: center;
     }
 }
 
