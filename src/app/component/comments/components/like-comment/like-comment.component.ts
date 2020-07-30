@@ -1,4 +1,13 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { CommentsService } from '../../services/comments.service';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
@@ -10,6 +19,7 @@ import { environment } from '@environment/environment';
   styleUrls: ['./like-comment.component.scss']
 })
 export class LikeCommentComponent implements OnInit, OnDestroy {
+  @Output() likeChange = new EventEmitter();
   @Input() commentId: number;
   @Input() likeState: boolean;
   @ViewChild('like', {static: true})
@@ -41,17 +51,18 @@ export class LikeCommentComponent implements OnInit, OnDestroy {
   private initializeWebSocketConnection() {
     const ws = new SockJS(this.connectionUrl);
     this.stompClient = Stomp.over(ws);
+    this.stompClient.debug = false;
     this.stompClient.connect({}, (frame) => {
       this.stompClient.subscribe(this.topic, (message) => {
-        console.log(1);
+        this.likeChange.emit(message.body);
       });
     });
   }
 
   public pressLike(): void {
-    this.stompClient.send('/app/likeAndCount' , {}, this.commentId);
     this.commentsService.postLike(this.commentId)
       .subscribe(() => {
+        this.stompClient.send('/app/likeAndCount' , {}, this.commentId);
         this.changeLkeBtn();
       });
   }

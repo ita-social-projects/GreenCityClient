@@ -22,6 +22,7 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
   public content: FormControl = new FormControl('', [Validators.required, Validators.maxLength(8000)]);
   public editIcon = 'assets/img/comments/edit.png';
   public cancelIcon = 'assets/img/comments/cancel-comment-edit.png';
+  public likesAmount: number;
 
   public tempId: number;
   public addReply = {
@@ -95,6 +96,14 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
     if (this.tempId === id && this.replyFormVisibility) {
       this.commentsService.setVisibility();
     }
+  }
+
+  public setId(id: number): void {
+    this.tempId = id;
+  }
+
+  public setLikesAmount(data: number): void {
+    this.likesAmount = data;
   }
 
   ngOnDestroy() {
