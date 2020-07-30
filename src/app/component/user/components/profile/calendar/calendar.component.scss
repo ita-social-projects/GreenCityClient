@@ -77,6 +77,14 @@
         cursor: pointer;
       }
 
+      .calendar-grid-day:hover {
+        color: #13AA57;
+      }
+
+      .calendar-grid-day:active {
+        color: #056B33;
+      }
+
       .current-day {
         background: url('~/assets/img/profile/calendar/current-day.svg');
         background-repeat: no-repeat;
@@ -88,6 +96,14 @@
         background-repeat: no-repeat;
         background-position: center;
         color: #FFFFFF;
+      }
+
+      .current-day:hover, .tracked-day:hover {
+        color: #FFFFFF;
+      }
+
+      .current-day:active, .tracked-day:active {
+        color: #056B33;
       }
     }
 
