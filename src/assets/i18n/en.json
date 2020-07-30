@@ -30,9 +30,17 @@
       "cup-link": "places that make a discount on a drink in your cup"
     },
     "eco-news": {
-      "caption": "Eco news",
-      "read-more": "Read more",
-      "read-all": "Read all news"
+      "title": "Eco news",
+      "filter": "Filter by",
+      "create": "Create news",
+      "tags": {
+        "news": "News",
+        "events": "Events",
+        "initiatives": "Initiatives",
+        "ads": "Ads",
+        "education": "Education"
+      },
+      "items-found": "items found"
     },
     "eco-advices": {
       "caption": "Tips & Tricks"
@@ -537,7 +545,8 @@
   "profile": {
     "calendar": {
       "days": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-      "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+      "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+      "monthsShort": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     }
   },
   "create-news": {

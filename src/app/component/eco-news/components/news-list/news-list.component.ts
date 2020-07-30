@@ -39,7 +39,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
   public onResize(): void {
     this.windowSize = window.innerWidth;
-    this.view = (this.windowSize > 576) ? this.view : true;
+    this.view = (this.windowSize >= 576) ? this.view : true;
   }
 
   public onScroll(): void {
