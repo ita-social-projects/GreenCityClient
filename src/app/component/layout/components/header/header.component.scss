@@ -480,6 +480,15 @@ $screen-320: " screen and (max-width : 320px)";
     }
   }
 
+  .create-button {
+    min-width: 138px;
+    min-height: 48px;
+
+    span { 
+      padding: 0 1px;
+    }
+  }
+
   .navigation-menu-right {
     display: flex;
     justify-content: flex-end;
@@ -504,6 +513,15 @@ $screen-320: " screen and (max-width : 320px)";
           border-bottom: 1px solid rgba(73, 74, 73, 0.2);
         }
       }
+    }
+  }
+
+  .create-button {
+    min-width: 138px;
+    min-height: 48px;
+
+    span { 
+      padding: 0 1px;
     }
   }
 
