@@ -35,13 +35,12 @@
           [ecoNewsModel]="data">
         </app-news-list-gallery-view>
         <app-news-list-list-view
-          *ngIf="!view && windowSize > 576"
+          *ngIf="!view && windowSize >= 576"
           [ecoNewsModel]="data">
         </app-news-list-list-view>
       </li>
     </ul>
   </div>
-
   <div infiniteScroll
        [infiniteScrollDistance]="0"
        [infiniteScrollThrottle]="500"
