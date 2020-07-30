@@ -80,13 +80,11 @@ $main-font: 'Open Sans';
 }
 
 .news-title-container {
-    margin: 0 98px;
     display: flex;
     justify-content: center;
 }
 
 .news-title {
-    margin: 0 98px 24px;
     color: #494A49;
     font-weight: 500;
     font-size: 40px;
@@ -124,7 +122,6 @@ $main-font: 'Open Sans';
 }
 
 .news-text-container {
-    margin: 0 98px;
     display: flex;
 }
 
@@ -157,8 +154,35 @@ $main-font: 'Open Sans';
 
 .source-text {
     font-family: $main-font;
+    max-width: 631px;
     font-size: 18px;
     line-height: 32px;
     color: #000000;
     margin-top: 6px;
+}
+
+@media screen and (max-width: 768px) {
+    .news-title {
+        word-break: break-all;
+    }
+
+    .source-text {
+        max-width: 647px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .source-text {
+        max-width: 455px;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .source-field{
+        flex-direction: column;
+
+        .source-text {
+            max-width: 288px; 
+        }
+    }
 }
