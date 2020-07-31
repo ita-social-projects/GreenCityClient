@@ -11,7 +11,7 @@
                  class="button-arrow-img"
             >
           </div>
-          <div class="button-text">Back to editing</div>
+          <div class="button-text">{{ "eco-news-preview.back-button" | translate }}</div>
         </div>
       </a>
     </div>
@@ -22,16 +22,16 @@
               *ngIf="previewItem.valid && previewItem.value.tags.length !== 0"
               class="primary-global-button"
       >
-        Publish
+        {{ "eco-news-preview.publish-button" | translate }}
       </button>
     </form>
   </div>
-  <div class="create-news-text">Create news</div>
+  <div class="create-news-text">{{ "eco-news-preview.create-news" | translate }}</div>
   <div class="tags">
     <div class="tags-item"
          *ngFor="let tag of previewItem.value.tags"
     >
-      {{ tag }}
+      {{ "eco-news-preview.tags." + tag.toLowerCase() | translate }}
     </div>
   </div>
   <div class="news-content">
@@ -50,7 +50,7 @@
         >
       </div>
       <div class="news-info-author">
-        by {{ userName }}
+       {{ "eco-news-preview.author" | translate }} {{ userName }}
       </div>
     </div>
     <img [src]="getImagePath()"
@@ -80,10 +80,10 @@
              *ngIf="previewItem.value.source"
         >
           <div class="source-title">
-            Source:
+            {{ "eco-news-preview.news-source" | translate }}
           </div>
           <div class="source-text word-wrap">
-            {{ previewItem.value.source }}
+            {{ previewItem.value.news-source }}
           </div>
         </div>
       </div>
