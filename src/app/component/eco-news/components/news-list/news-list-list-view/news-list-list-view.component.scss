@@ -22,12 +22,27 @@ div {
     .list-text {
       display: none;
     }
+    .user-data-added-news {
+      min-width: 322px;
+    }
   }
 
   @media screen and (max-width: 768px) {
     .list-image-content {
       width: 214px;
       object-fit: cover;
+    }
+    .user-data-added-news {
+      min-width: 322px;
+    }
+
+    .user-data-text-date:nth-child(2) {
+      max-height: 26px;
+      display: block;
+      white-space: nowrap;
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 
@@ -109,6 +124,15 @@ div {
           align-items: center;
           margin-right: 4px;
         }
+      }
+
+      .user-data-text-date:nth-child(2) {
+        max-height: 26px;
+        display: block;
+        white-space: nowrap;
+        max-width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
   }
