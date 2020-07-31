@@ -156,7 +156,7 @@ export class SignUpComponent implements OnInit {
 
   private setPasswordVisibility(htmlInput: HTMLInputElement, htmlImage: HTMLImageElement): void {
     htmlInput.type = htmlInput.type === 'password' ? 'text' : 'password';
-    htmlImage.src = htmlInput.type === 'password' ? this.signUpImgs.openEye : this.signUpImgs.hiddenEye;
+    htmlImage.src = htmlInput.type === 'password' ? this.signUpImgs.hiddenEye : this.signUpImgs.openEye;
   }
 
   private checkSpaces(input: string): boolean {
