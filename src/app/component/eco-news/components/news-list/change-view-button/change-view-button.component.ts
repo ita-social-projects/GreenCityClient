@@ -20,7 +20,7 @@ export class ChangeViewButtonComponent implements OnInit {
 
   public onResize(): void {
     this.windowSize = window.innerWidth;
-    this.gallery = (this.windowSize > 576) ? this.gallery : true;
+    this.gallery = (this.windowSize >= 576) ? this.gallery : true;
   }
 
   public changeGalleryView(gallery: boolean): void {
