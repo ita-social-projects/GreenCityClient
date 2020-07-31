@@ -73,9 +73,9 @@ export class CreateNewsComponent implements OnInit {
   public autoResize(event): void {
     const checkTextAreaHeight = event.target.scrollHeight > this.textAreasHeight.minTextAreaScrollHeight
     && event.target.scrollHeight < this.textAreasHeight.maxTextAreaScrollHeight;
-    const maxHeight = condition ? this.textAreasHeight.maxTextAreaHeight
+    const maxHeight = checkTextAreaHeight ? this.textAreasHeight.maxTextAreaHeight
     : event.target.scrollHeight < this.textAreasHeight.minTextAreaScrollHeight;
-    const minHeight = condition ? this.textAreasHeight.minTextAreaHeight : `${event.target.scrollHeight}px`;
+    const minHeight = checkTextAreaHeight ? this.textAreasHeight.minTextAreaHeight : `${event.target.scrollHeight}px`;
     event.target.style.height = checkTextAreaHeight ? maxHeight : minHeight;
   }
 
