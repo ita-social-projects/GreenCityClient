@@ -31,11 +31,7 @@ export class AppComponent implements OnInit  {
   }
 
   private openSearchSubscription(isSearchExpanded: boolean): void {
-    if (isSearchExpanded) {
-      this.elRef.nativeElement.ownerDocument.body.style.overflow = 'hidden';
-    } else {
-      this.elRef.nativeElement.ownerDocument.body.style.overflow = 'auto';
-    }
+    this.elRef.nativeElement.ownerDocument.body.style.overflow = isSearchExpanded ? 'hidden' : 'auto';
   }
 
   private navigateToStartingPositionOnPage(): void {
