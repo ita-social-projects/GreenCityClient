@@ -11,7 +11,7 @@ import { UiActionsService } from '@global-service/ui-actions/ui-actions.service'
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit  {
-  private toggle: boolean;
+  public toggle: boolean;
 
   constructor(
     private languageService: LanguageService,
@@ -26,13 +26,16 @@ export class AppComponent implements OnInit  {
     this.languageService.setDefaultLanguage();
     this.navigateToStartingPositionOnPage();
     this.titleAndMetaTagsService.useTitleMetasData();
-    this.searchSearch.searchSubject.subscribe(this.openSearchSubscription.bind(this));
+    this.searchSearch.searchSubject.subscribe(this.openSearchSubscription);
     this.uiActionsService.stopScrollingSubject.subscribe(data => this.toggle = data);
   }
 
   private openSearchSubscription(isSearchExpanded: boolean): void {
-    isSearchExpanded ? (this.elRef.nativeElement.ownerDocument.body.style.overflow = 'hidden') :
-             (this.elRef.nativeElement.ownerDocument.body.style.overflow = 'auto');
+    if (isSearchExpanded) {
+      this.elRef.nativeElement.ownerDocument.body.style.overflow = 'hidden';
+    } else {
+      this.elRef.nativeElement.ownerDocument.body.style.overflow = 'auto';
+    }
   }
 
   private navigateToStartingPositionOnPage(): void {
