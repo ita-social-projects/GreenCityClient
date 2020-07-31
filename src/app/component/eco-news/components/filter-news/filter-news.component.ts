@@ -39,8 +39,8 @@ export class FilterNewsComponent implements OnInit {
   }
 
   private setTags(tags: Array<string>): void {
-    const storageFilters = this.getSessionStorageFilters();
-    this.filters = tags.map((filter: string) => ({ name: filter, isActive: storageFilters.find(el => el === filter) !== undefined }));
+    const savedFilters = this.getSessionStorageFilters();
+    this.filters = tags.map((filter: string) => ({ name: filter, isActive: typeof savedFilters.find(el => el === filter) !== 'undefined'}));
     this.emitActiveFilters();
   }
 
