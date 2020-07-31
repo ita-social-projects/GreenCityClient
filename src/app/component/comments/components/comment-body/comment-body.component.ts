@@ -88,7 +88,7 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
   }
 
   public showReplyForm(id: number): void {
-    this.tempId = id;
+    this.setId(id);
     this.replyFormVisibility = !this.replyFormVisibility;
   }
 
@@ -100,10 +100,7 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
 
   public setId(id: number): void {
     this.tempId = id;
-  }
-
-  public setLikesAmount(data: number): void {
-    this.likesAmount = data;
+    this.commentsService.setCommentId(id);
   }
 
   ngOnDestroy() {

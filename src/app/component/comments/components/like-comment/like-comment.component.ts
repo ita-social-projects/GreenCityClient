@@ -37,8 +37,8 @@ export class LikeCommentComponent implements OnInit, OnDestroy {
   constructor(private commentsService: CommentsService) { }
 
   ngOnInit() {
-    this.setStartingElements(this.likeState);
     this.initializeWebSocketConnection();
+    this.setStartingElements(this.likeState);
   }
 
   private setStartingElements(state: boolean) {
@@ -54,7 +54,7 @@ export class LikeCommentComponent implements OnInit, OnDestroy {
     this.stompClient.debug = false;
     this.stompClient.connect({}, (frame) => {
       this.stompClient.subscribe(this.topic, (message) => {
-        this.likeChange.emit(message.body);
+        this.commentsService.setLikes(message.body);
       });
     });
   }

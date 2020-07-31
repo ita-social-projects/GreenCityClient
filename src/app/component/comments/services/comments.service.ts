@@ -10,13 +10,15 @@ import { FormControl } from '@angular/forms';
 })
 export class CommentsService {
   public repliesSubject = new Subject<boolean>();
+  public likesSubject = new Subject<object>();
   public repliesVisibility = false;
+  public likesCounter = 0;
   public accessToken: string = localStorage.getItem('accessToken');
   private backEnd = environment.backendLink;
   private routeSubscription: Subscription;
   public ecoNewsId: string;
   public isEditing = false;
-
+  private commentId: number;
   constructor(private http: HttpClient,
               private route: ActivatedRoute) { }
 
@@ -27,6 +29,15 @@ export class CommentsService {
     };
 
     return this.http.post<object>(`${this.backEnd}econews/comments/${this.ecoNewsId}`, body);
+  }
+
+  public setCommentId(id: number): void {
+    this.commentId = id;
+  }
+
+  public setLikes(likes: number): void {
+    this.likesSubject
+      .next({ likes, id: this.commentId });
   }
 
   public setVisibility(): void {
