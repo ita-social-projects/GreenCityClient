@@ -38,6 +38,12 @@ export class CreateNewsComponent implements OnInit {
   public formData: FormGroup;
   public isArrayEmpty = true;
   public author: string = localStorage.getItem('name');
+  public textAreasHeight = {
+    minTextAreaScrollHeight: 50,
+    maxTextAreaScrollHeight: 128,
+    minTextAreaHeight: '48px',
+    maxTextAreaHeight: '128px',
+  };
 
   constructor(private router: Router,
               private fb: FormBuilder,
@@ -65,9 +71,12 @@ export class CreateNewsComponent implements OnInit {
   }
 
   public autoResize(event): void {
-    event.target.style.height = event.target.scrollHeight < 128 && event.target.scrollHeight > 50 ? '128px'
-    : event.target.scrollHeight < 50 ? '48px'
-    : `${event.target.scrollHeight}px`;
+    const condition = event.target.scrollHeight > this.textAreasHeight.minTextAreaScrollHeight
+    && event.target.scrollHeight < this.textAreasHeight.maxTextAreaScrollHeight;
+    const maxHeight = condition ? this.textAreasHeight.maxTextAreaHeight
+    : event.target.scrollHeight < this.textAreasHeight.minTextAreaScrollHeight;
+    const minHeight = condition ? this.textAreasHeight.minTextAreaHeight : `${event.target.scrollHeight}px`;
+    event.target.style.height = condition ? maxHeight : minHeight;
   }
 
   private setEmptyForm(): void {
