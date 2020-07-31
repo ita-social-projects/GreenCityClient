@@ -64,8 +64,8 @@ export class CreateNewsComponent implements OnInit {
     }
   }
 
-  public autoResize(event) {
-    event.target.style.height = event.target.scrollHeight < 128 && event.target.scrollHeight > 50 ? '131px'
+  public autoResize(event): void {
+    event.target.style.height = event.target.scrollHeight < 128 && event.target.scrollHeight > 50 ? '128px'
     : event.target.scrollHeight < 50 ? '48px'
     : `${event.target.scrollHeight}px`;
   }
