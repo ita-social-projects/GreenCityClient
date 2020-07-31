@@ -100,6 +100,7 @@
     font-size: 1.3rem;
     color: #313131;
     line-height: 1.6rem;
+    max-width: 359px;
 
     a {
       color: #313131;
@@ -139,5 +140,29 @@
     align-items: center;
     margin-right: 4px;
     margin-top: -3px;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .title-list {
+    max-width: 464px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .title-list {
+    max-width: 352px;
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  .title-list {
+    max-width: 258px;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .title-list {
+    max-width: 288px;
   }
 }

@@ -51,14 +51,16 @@ export class CreateNewsComponent implements OnInit {
   }
 
   private setFormItems(): void {
-    this.formData = this.createEcoNewsService.getFormData();
-    if (this.formData) {
-      this.patchFilters();
-      this.createNewsForm.patchValue({
-        title: this.formData.value.title,
-        content: this.formData.value.content,
-        source: this.formData.value.source,
-      });
+    if (this.createEcoNewsService.isBackToEditing) {
+      this.formData = this.createEcoNewsService.getFormData();
+      if (this.formData) {
+        this.patchFilters();
+        this.createNewsForm.patchValue({
+          title: this.formData.value.title,
+          content: this.formData.value.content,
+          source: this.formData.value.source,
+        });
+      }
     }
   }
 

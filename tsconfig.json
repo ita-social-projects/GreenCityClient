@@ -28,7 +28,9 @@
       "@eco-news-models/*": ["src/app/component/eco-news/models/*"],
       "@eco-news-images/*": ["src/assets/img/icon/econews/*"],
       "@language-service/*": ["src/app/i18n/*"],
-      "@environment/*": ["src/environments/*"]
+      "@environment/*": ["src/environments/*"],
+      "@models/*": ["src/app/model/*"],
+      "@user-models/*": ["src/app/component/user/models/*"]
     }
   },
   "angularCompilerOptions": {
