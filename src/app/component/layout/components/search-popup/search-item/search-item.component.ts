@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ecoNewsIcons } from '../../../../../../assets/img/icon/econews/profile-icons';
-import { SearchModel } from '../../../../../model/search/search.model';
+import { ecoNewsIcons } from '@eco-news-images/profile-icons';
+import { SearchModel } from '@models/search/search.model';
 
 @Component({
   selector: 'app-search-item',

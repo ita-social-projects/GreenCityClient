@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CardModel } from '../../../models/card.model';
+import { CardModel } from '@user-models/card.model';
 import { environment } from '@environment/environment';
 import { HttpClient } from '@angular/common/http';
 
