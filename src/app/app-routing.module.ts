@@ -1,3 +1,4 @@
+import { TipsListComponent } from './component/home/components/useful-tips/tips-list/tips-list.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { HomepageComponent } from './component/home/components/homepage/homepage.component';
@@ -25,6 +26,10 @@ export const routes: Routes = [
     component: HomepageComponent,
   },
   {
+    path: 'tips',
+    component: TipsListComponent,
+  },
+  {
     path: 'search',
     component: SearchAllResultsComponent,
   },
@@ -39,4 +44,4 @@ export const routes: Routes = [
   imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload', preloadingStrategy: PreloadAllModules })],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
