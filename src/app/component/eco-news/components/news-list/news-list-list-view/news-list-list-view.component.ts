@@ -45,8 +45,7 @@ export class NewsListListViewComponent implements AfterViewChecked {
   public checkHeightOfTittle(): void {
     this.titleHeightOfElement = this.titleHeight.nativeElement.offsetHeight;
     this.textHeightOfElement = this.calculateElementHeight();
-    this.renderer.setStyle(this.textHeight.nativeElement,
-                            'height', this.textHeightOfElement + 'px');
+    this.renderer.setStyle(this.textHeight.nativeElement, 'height', `${this.textHeightOfElement}px`);
   }
 
   public calculateElementHeight(): number {

@@ -11,9 +11,10 @@
                  class="button-arrow-img"
             >
           </div>
-          <div class="button-text">{{ "eco-news-preview.back-button" | translate }}</div>
-        </div>
-      </a>
+          <div class="button-text"
+               (click)="isBackToEdit()">{{ "eco-news-preview.back-button" | translate }}</div>
+          </div>
+       </a>
     </div>
     <form (ngSubmit)="postNewsItem()"
           class="submit-form"
