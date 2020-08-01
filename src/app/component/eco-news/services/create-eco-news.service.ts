@@ -16,6 +16,7 @@ export class CreateEcoNewsService {
   public files: FileHandle[] = [];
   public fileUrl: string;
   public isImageValid: boolean;
+  public isBackToEditing: boolean;
   private httpOptions = {
     headers: new HttpHeaders({
       Authorization: 'my-auth-token'

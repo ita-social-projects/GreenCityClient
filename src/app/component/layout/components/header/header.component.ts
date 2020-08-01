@@ -115,6 +115,7 @@ export class HeaderComponent implements OnInit {
 
   private toggleLangDropdown(): void {
     this.langDropdownVisible = !this.langDropdownVisible;
+    this.dropdownVisible = false;
   }
 
   private onToggleBurgerMenu(): void {
