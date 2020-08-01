@@ -196,7 +196,8 @@
       "characters long": "символів",
       "please-write-a-comment": "Будь ласка введіть коментар",
       "submit": "Підтвердити",
-      "close": "Закрити"
+      "close": "Закрити",
+      "reply": "Відповісти"
     },
     "auth": {
       "sign-in": {

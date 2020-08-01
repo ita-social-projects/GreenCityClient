@@ -191,7 +191,8 @@
       "characters-long": "characters long.",
       "please-write-a-comment": "Please write a comment",
       "submit": "Submit",
-      "close": "Close"
+      "close": "Close",
+      "reply": "Reply"
     },
     "auth": {
       "sign-in": {
