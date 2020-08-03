@@ -54,9 +54,10 @@ export class SignUpComponent implements OnInit {
     this.setNullAllMessage();
     this.loadingAnim = true;
     this.userOwnSecurityService.signUp(userOwnRegister)
-      .subscribe({
-        next:  this.onSubmitSuccess.bind(this),
-        error: this.onSubmitError.bind(this)
+      .subscribe((data) => {
+        this.onSubmitSuccess(data);
+      }, (error) => {
+        this.onSubmitError(error);
       });
   }
 
