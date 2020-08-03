@@ -12,7 +12,7 @@ import { filter } from 'rxjs/operators';
 import { LanguageService } from '../../../../i18n/language.service';
 import { Language } from '../../../../i18n/Language';
 import { SearchService } from '../../../../service/search/search.service';
-import { UserOwnAuthService} from '../../../../service/auth/user-own-auth.service';
+import { UserOwnAuthService } from '../../../../service/auth/user-own-auth.service';
 import { SignInComponent } from '../../../auth/components/sign-in/sign-in.component';
 import { SignUpComponent } from '../../../auth/components/sign-up/sign-up.component';
 import { UiActionsService } from '@global-service/ui-actions/ui-actions.service';

@@ -14,14 +14,19 @@ import { LanguageService } from '@language-service/language.service';
 export class CalendarComponent implements OnInit, OnDestroy {
   public calendarImages = calendarImage;
   public monthAndYearName: string;
-  public daysNameLong: Array<string> = [];
+  public yearData: number;
+  public activeMonth: string;
+  public monthView = true;
+  public daysName: Array<string> = [];
   public months: Array<string> = [];
+  public monthsShort: Array<string> = [];
+  public monthsCalendar: Array<string> = [];
   public calendarDay: Array<CalendarInterface> = [];
   public currentDayName: string;
   public language: string;
+  public currentMonth = new Date().getMonth();
+  public currentYear = new Date().getFullYear();
 
-  private currentMonth = new Date().getMonth();
-  private currentYear = new Date().getFullYear();
   private langChangeSub: Subscription;
   private defaultTranslateSub: Subscription;
 
@@ -46,6 +51,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.buildCalendar();
   }
 
+  public toggleCalendarView(): void {
+    this.monthView = !this.monthView;
+    this.yearData = this.currentYear;
+  }
+
   public getDaysInMonth(iMonth, iYear): number {
     return new Date(iYear, iMonth + 1, 0).getDate();
   }
@@ -53,10 +63,12 @@ export class CalendarComponent implements OnInit, OnDestroy {
   public subscribeToLangChange(): void {
     this.langChangeSub = this.translate.onDefaultLangChange.subscribe((res) => {
       const translations = res.translations.profile.calendar;
-      this.daysNameLong = translations.days;
+      this.daysName = translations.days;
       this.months = translations.months;
+      this.monthsShort = translations.monthsShort;
       this.monthAndYearName = `${this.months[this.currentMonth]} ${this.currentYear}`;
       this.markCurrentDayOfWeek();
+      this.buildMonthCalendar(this.monthsShort);
     });
   }
 
@@ -64,9 +76,12 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.defaultTranslateSub = this.translate.getTranslation(this.translate.getDefaultLang())
       .subscribe((res) => {
         const translations = res.profile.calendar;
-        this.daysNameLong = translations.days;
+        this.daysName = translations.days;
         this.months = translations.months;
+        this.monthsShort = translations.monthsShort;
         this.monthAndYearName = `${this.months[this.currentMonth]} ${this.currentYear}`;
+        this.markCurrentDayOfWeek();
+        this.buildMonthCalendar(this.monthsShort);
       });
   }
 
@@ -148,6 +163,34 @@ export class CalendarComponent implements OnInit, OnDestroy {
   public previousMonth(): void {
     this.currentYear = (this.currentMonth === 0) ? this.currentYear - 1 : this.currentYear;
     this.currentMonth = (this.currentMonth === 0) ? 11 : this.currentMonth - 1;
+    this.calendarDay = [];
+    this.buildCalendar();
+  }
+
+  public buildMonthCalendar(months): void {
+    this.yearData = this.currentYear;
+    this.monthsCalendar = months;
+    this.isActiveMonth();
+  }
+
+  public isActiveMonth(): void {
+    this.activeMonth = this.calendarDay.filter(item => item.isCurrentDayActive)
+      .map(el => this.monthsShort[el.month])
+      .toString();
+  }
+
+  public previousYear(): void {
+    this.yearData = this.yearData - 1;
+  }
+
+  public nextYear(): void {
+    this.yearData = this.yearData + 1;
+  }
+
+  public buildSelectedMonthCalendar(month): void {
+    this.monthView = true;
+    this.currentMonth = this.monthsShort.indexOf(month);
+    this.currentYear = this.yearData;
     this.calendarDay = [];
     this.buildCalendar();
   }
