@@ -26,9 +26,7 @@ export class DragAndDropComponent implements OnInit {
   }
 
   private stopCropping(): FileHandle[] {
-    this.files.map(item => {
-      item.url = this.croppedImage;
-    });
+    this.files.map(item => item.url = this.croppedImage);
 
     this.isCropper = false;
     return this.files;
