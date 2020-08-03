@@ -3,18 +3,18 @@ import { ModalService } from '../../../core/components/propose-cafe/_modal/modal
 import { MatDialog } from '@angular/material';
 import { UserSettingComponent } from '../../../user/components/user-setting/user-setting.component';
 import { NavigationStart, Router } from '@angular/router';
-import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
-import { JwtService } from '../../../../service/jwt/jwt.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { JwtService } from '@global-service/jwt/jwt.service';
 import { UserService } from 'src/app/service/user/user.service';
 import { AchievementService } from 'src/app/service/achievement/achievement.service';
 import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-statistic.service';
 import { filter } from 'rxjs/operators';
-import { LanguageService } from '../../../../i18n/language.service';
-import { Language } from '../../../../i18n/Language';
-import { SearchService } from '../../../../service/search/search.service';
-import { UserOwnAuthService } from '../../../../service/auth/user-own-auth.service';
-import { SignInComponent } from '../../../auth/components/sign-in/sign-in.component';
-import { SignUpComponent } from '../../../auth/components/sign-up/sign-up.component';
+import { LanguageService } from '@language-service/language.service';
+import { Language } from '@language-service/Language';
+import { SearchService } from '@global-service/search/search.service';
+import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
+import { SignInComponent } from '@global-auth/index';
+import { SignUpComponent } from '@global-auth/index';
 import { UiActionsService } from '@global-service/ui-actions/ui-actions.service';
 import { LanguageModel } from '../models/languageModel';
 
