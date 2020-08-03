@@ -6,8 +6,7 @@ div {
 
 #list-gallery-content {
   display: flex;
-  padding: 16px;
-  max-height: 238px;
+  max-height: 199px;
   box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
   border-radius: 4px;
   background: #FFFFFF;
@@ -52,29 +51,21 @@ div {
     }
   }
 
-
   .news-content {
     margin-left: 16px;
+    padding: 16px;
 
     .added-data {
-      height: 174px;
 
-      .filter-tag {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        height: 24px;
-        margin-bottom: 8px;
-
-        .ul-eco-buttons {
-          font-family: OpenSans, sans-serif;
-          font-size: 14px;
-          line-height: 16px;
-          color: #13AA57;
-          margin-right: 16px;
-          letter-spacing: 1px;
-          text-transform: uppercase;
-        }
+      .ul-eco-buttons {
+        opacity: 0.8;
+        font-family: OpenSans, sans-serif;
+        font-size: 16px;
+        line-height: 14px;
+        color: #13AA57;
+        display: inline-block;
+        margin: 0 16px 0 0;
+        text-transform: capitalize;
       }
 
       .word-wrap {
@@ -90,18 +81,18 @@ div {
       font-family: 'Montserrat', sans-serif;
       font-style: normal;
       font-weight: 500;
-      font-size: 24px;
-      line-height: 32px;
+      font-size: 21px;
+      line-height: 26px;
       color: #313131;
     }
 
     .list-text {
       overflow: hidden;
-      height: 96px;
+      max-height: 52px;
       margin: 8px 0 0 0;
       font-family: 'Open Sans', sans-serif;
-      font-size: 16px;
-      line-height: 24px;
+      font-size: 14px;
+      line-height: 23px;
       color: #313131;
     }
 
@@ -136,6 +127,28 @@ div {
       }
     }
   }
+}
+
+@media screen and (max-width: 1024px) {
+    #list-gallery-content {
+      max-height: 166px;
+
+      .list-image-content {
+        max-height: 171px;
+        width: 299px;
+      }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #list-gallery-content {
+      max-height: 191px;
+
+      .list-image-content {
+        max-height: 191px;
+        width: 334px;
+      }
+    }
 }
 
 #list-gallery-content:hover {
