@@ -25,22 +25,31 @@
               <h3>News</h3>
             </a>
             <div class="flex-container">
-              <app-search-item *ngFor="let element of newsElements" [searchModel]="element"
-                (closeSearch)="closeSearch()"></app-search-item>
+              <app-search-item *ngFor="let element of newsElements" 
+                                [searchModel]="element"
+                                (closeSearch)="closeSearch()">
+              </app-search-item>
             </div>
           </div>
 
           <div class="content-tips" *ngIf="isTipsSearchFound">
-            <a [routerLink]="['/welcome']" pageScroll href="#tips" [pageScrollDuration]="500" (click)="closeSearch()">
+            <a [routerLink]="['/welcome']" 
+                pageScroll href="#tips" 
+                [pageScrollDuration]="500" 
+                (click)="closeSearch()">
               <h3>Tips & Tricks</h3>
             </a>
             <div class="flex-container">
-              <app-search-item *ngFor="let element of tipsElements" [searchModel]="element"
-                (closeSearch)="closeSearch()"></app-search-item>
+              <app-search-item *ngFor="let element of tipsElements" 
+                                [searchModel]="element"
+                                (closeSearch)="closeSearch()">
+              </app-search-item>
             </div>
           </div>
 
-          <a [routerLink]="['/search']" (click)="closeSearch()" class="all-results-link">
+          <a [routerLink]="['/search']" 
+              (click)="closeSearch()" 
+              class="all-results-link">
             See all results
           </a>
         </ng-container>
