@@ -1,17 +1,17 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
-import { GoogleSignInService } from '../../../../service/auth/google-sign-in.service';
-import { UserSuccessSignIn } from '../../../../model/user-success-sign-in';
+import { GoogleSignInService } from '@auth-service/google-sign-in.service';
+import { UserSuccessSignIn } from '@global-model/user-success-sign-in';
 import { HttpErrorResponse } from '@angular/common/http';
-import { UserOwnSignInService } from '../../../../service/auth/user-own-sign-in.service';
+import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
 import { Router } from '@angular/router';
 import { SignInIcons } from 'src/assets/img/icon/sign-in/sign-in-icons';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { UserOwnSignIn } from '../../../../model/user-own-sign-in';
-import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
+import { UserOwnSignIn } from '@global-model/user-own-sign-in';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subscription } from 'rxjs';
 import { RestorePasswordComponent } from '../restore-password/restore-password.component';
-import { UserOwnAuthService } from '../../../../service/auth/user-own-auth.service';
+import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { SignUpComponent } from '../sign-up/sign-up.component';
 
 @Component({
@@ -20,10 +20,10 @@ import { SignUpComponent } from '../sign-up/sign-up.component';
   styleUrls: ['./sign-in.component.scss']
 })
 export class SignInComponent implements OnInit, OnDestroy {
-  private closeBtn = SignInIcons;
-  private mainSignInImage = SignInIcons;
-  private googleImage = SignInIcons;
-  private hideShowPasswordImage = SignInIcons;
+  public closeBtn = SignInIcons;
+  public mainSignInImage = SignInIcons;
+  public googleImage = SignInIcons;
+  public hideShowPasswordImage = SignInIcons;
   public userOwnSignIn: UserOwnSignIn;
   public userIdSubscription: Subscription;
   public loadingAnim: boolean;

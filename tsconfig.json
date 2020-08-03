@@ -23,6 +23,8 @@
     "paths": {
       "@global-service/*": ["src/app/service/*"],
       "@eco-news-service/*": ["src/app/component/eco-news/services/*"],
+      "@auth-service/*": ["src/app/service/auth/*"],
+      "@global-model/*": ["src/app/model/*"],
       "@store/*": ["src/app/store/*"],
       "@eco-news-store/*": ["src/app/component/eco-news/store/*"],
       "@eco-news-models/*": ["src/app/component/eco-news/models/*"],
