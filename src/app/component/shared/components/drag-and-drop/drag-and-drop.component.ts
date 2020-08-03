@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FileHandle } from '../../../models/create-news-interface';
-import { CreateEcoNewsService } from '../../../services/create-eco-news.service';
+import { Component, OnInit, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
+import { FileHandle } from '@eco-news-models/create-news-interface';
 
 @Component({
   selector: 'app-drag-and-drop',
@@ -16,10 +17,13 @@ export class DragAndDropComponent implements OnInit {
   public files: FileHandle[] = [];
   public isWarning = false;
   private croppedImage: string;
+  @Input() public formData: FormGroup;
 
   constructor(private createEcoNewsService: CreateEcoNewsService ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.patchImage();
+  }
 
   private stopCropping(): void {
     this.files.forEach(item => {
@@ -31,6 +35,13 @@ export class DragAndDropComponent implements OnInit {
 
   private cancelChanges(): void {
     this.isCropper = false;
+  }
+
+  public patchImage(): void {
+    if (this.createEcoNewsService.isBackToEditing) {
+      this.isCropper = false;
+      this.files = [{file: name, url: this.formData.value.image}];
+    }
   }
 
   private imageCropped(event: ImageCroppedEvent): void {

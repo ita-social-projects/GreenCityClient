@@ -30,6 +30,13 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
     this.bindUserName();
   }
 
+  public isBackToEdit(): void {
+    this.createEcoNewsService.isBackToEditing = true;
+    setTimeout(() => {
+      this.createEcoNewsService.isBackToEditing = false;
+    }, 1000);
+  }
+
   private bindUserName(): void {
     this.userNameSub = this.localStorageService.firstNameBehaviourSubject
       .subscribe(name => {
