@@ -1,20 +1,20 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ModalService } from '../../../core/components/propose-cafe/_modal/modal.service';
+import { Component, OnInit } from '@angular/core';
+import { ModalService } from '@global-core/components/propose-cafe/_modal/modal.service';
 import { MatDialog } from '@angular/material';
-import { UserSettingComponent } from '../../../user/components/user-setting/user-setting.component';
-import {NavigationStart, Router} from '@angular/router';
-import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
-import { JwtService } from '../../../../service/jwt/jwt.service';
+import { UserSettingComponent } from '@global-user/components/user-setting/user-setting.component';
+import { NavigationStart, Router } from '@angular/router';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { JwtService } from '@global-service/jwt/jwt.service';
 import { UserService } from 'src/app/service/user/user.service';
 import { AchievementService } from 'src/app/service/achievement/achievement.service';
 import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-statistic.service';
 import { filter } from 'rxjs/operators';
-import { LanguageService } from '../../../../i18n/language.service';
-import { Language } from '../../../../i18n/Language';
-import { SearchService } from '../../../../service/search/search.service';
-import { UserOwnAuthService } from '../../../../service/auth/user-own-auth.service';
-import { SignInComponent } from '../../../auth/components/sign-in/sign-in.component';
-import { SignUpComponent } from '../../../auth/components/sign-up/sign-up.component';
+import { LanguageService } from '@language-service/language.service';
+import { Language } from '@language-service/Language';
+import { SearchService } from '@global-service/search/search.service';
+import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
+import { SignInComponent } from '@global-auth/index';
+import { SignUpComponent } from '@global-auth/index';
 import { UiActionsService } from '@global-service/ui-actions/ui-actions.service';
 
 @Component({
@@ -23,18 +23,18 @@ import { UiActionsService } from '@global-service/ui-actions/ui-actions.service'
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  readonly selectLanguageArrow = 'assets/img/arrow_grey.png';
-  readonly dropDownArrow = 'assets/img/arrow.png';
-  private dropdownVisible: boolean;
-  private langDropdownVisible: boolean;
-  private name: string;
+  public selectLanguageArrow = 'assets/img/arrow_grey.png';
+  public dropDownArrow = 'assets/img/arrow.png';
+  public dropdownVisible: boolean;
+  public langDropdownVisible: boolean;
+  public name: string;
   private userRole: string;
   private userId: number;
-  private isLoggedIn: boolean;
+  public isLoggedIn: boolean;
   private language: string;
   private isSearchClicked = false;
-  private isAllSearchOpen = false;
-  private toggleBurgerMenu = false;
+  public isAllSearchOpen = false;
+  public toggleBurgerMenu = false;
 
   constructor(private modalService: ModalService,
               public dialog: MatDialog,
@@ -51,12 +51,10 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.searchSearch.searchSubject.subscribe(this.openSearchSubscription.bind(this));
-    this.searchSearch.allSearchSubject.subscribe(this.openAllSearchSubscription.bind(this));
+    this.searchSearch.searchSubject.subscribe(signal => this.openSearchSubscription(signal));
+    this.searchSearch.allSearchSubject.subscribe(signal => this.openAllSearchSubscription(signal));
     this.dropdownVisible = false;
-    this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => {
-      this.name = firstName;
-    });
+    this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => {this.name = firstName;});
     this.initUser();
     this.userRole = this.jwtService.getUserRole();
     this.language = this.languageService.getCurrentLanguage();
@@ -67,7 +65,7 @@ export class HeaderComponent implements OnInit {
   private initUser(): void {
     this.localStorageService.userIdBehaviourSubject
       .pipe(filter(userId => userId !== null && !isNaN(userId)))
-      .subscribe(this.assignData.bind(this));
+      .subscribe(userId => this.assignData(userId));
   }
 
   public changeCurrentLanguage(): void {
@@ -92,7 +90,7 @@ export class HeaderComponent implements OnInit {
       });
   }
 
-  public assignData(userId: number): void {
+  private assignData(userId: number): void {
     this.userId = userId;
     this.isLoggedIn = true;
   }
@@ -109,21 +107,21 @@ export class HeaderComponent implements OnInit {
     this.isAllSearchOpen = signal;
   }
 
-  private toggleDropdown(): void {
+  public toggleDropdown(): void {
     this.dropdownVisible = !this.dropdownVisible;
   }
 
-  private toggleLangDropdown(): void {
+  public toggleLangDropdown(): void {
     this.langDropdownVisible = !this.langDropdownVisible;
     this.dropdownVisible = false;
   }
 
-  private onToggleBurgerMenu(): void {
+  public onToggleBurgerMenu(): void {
     this.toggleBurgerMenu = !this.toggleBurgerMenu;
     this.uiActionsService.stopScrollingSubject.next(this.toggleBurgerMenu);
   }
 
-  private openSingInWindow(): void {
+  public openSingInWindow(): void {
     this.dialog.open(SignInComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
@@ -131,7 +129,7 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  private openSignUpWindow(): void {
+  public openSignUpWindow(): void {
     this.dialog.open(SignUpComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
@@ -139,12 +137,12 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  private openDialog(): void {
+  public openDialog(): void {
     this.dropdownVisible = false;
     this.router.navigate(['/profile/{userId}']);
   }
 
-  private openSettingDialog(): void {
+  public openSettingDialog(): void {
     this.dropdownVisible = false;
     const dialogRef = this.dialog.open(UserSettingComponent, {
       width: '700px'
@@ -154,7 +152,7 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  private signOut(): void {
+  public signOut(): void {
     this.dropdownVisible = false;
     this.isLoggedIn = false;
     this.localStorageService.clear();
