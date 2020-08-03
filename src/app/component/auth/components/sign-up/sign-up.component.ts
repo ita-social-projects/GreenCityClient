@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { authImages } from '../../../../../assets/img/auth/auth-images';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { UserOwnSignInService } from '../../../../service/auth/user-own-sign-in.service';
-import { UserOwnSignUpService } from '../../../../service/auth/user-own-sign-up.service';
 import { Router } from '@angular/router';
-import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
-import { GoogleSignInService } from '../../../../service/auth/google-sign-in.service';
-import { UserOwnSignUp } from '../../../../model/user-own-sign-up';
 import { HttpErrorResponse } from '@angular/common/http';
-import { UserSuccessSignIn } from '../../../../model/user-success-sign-in';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
+import { authImages } from '@global-images/auth/auth-images';
+import { UserOwnSignInService } from '@global-service/auth/user-own-sign-in.service';
+import { UserOwnSignUpService } from '@global-service/auth/user-own-sign-up.service';
+import { GoogleSignInService } from '@global-service/auth/google-sign-in.service';
+import { UserOwnSignUp } from '@models/user-own-sign-up';
+import { UserSuccessSignIn } from '@models/user-success-sign-in';
 import { SubmitEmailComponent } from '../submit-email/submit-email.component';
-import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
 import { SignInComponent } from '../sign-in/sign-in.component';
 
 @Component({
@@ -19,15 +18,15 @@ import { SignInComponent } from '../sign-in/sign-in.component';
   styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent implements OnInit {
-  private signUpImgs = authImages;
-  private userOwnSignUp: UserOwnSignUp;
+  public signUpImages = authImages;
+  public userOwnSignUp: UserOwnSignUp;
+  public tmp: string;
+  public loadingAnim = false;
+  public emailErrorMessageBackEnd: string;
+  public passwordErrorMessageBackEnd: string;
   private firstNameErrorMessageBackEnd: string;
   private lastNameErrorMessageBackEnd: string;
-  private emailErrorMessageBackEnd: string;
-  private passwordErrorMessageBackEnd: string;
   private passwordConfirmErrorMessageBackEnd: string;
-  private loadingAnim = false;
-  private tmp: string;
   private backEndError: string;
 
   constructor(private matDialogRef: MatDialogRef<SignUpComponent>,
@@ -36,8 +35,7 @@ export class SignUpComponent implements OnInit {
               private userOwnSecurityService: UserOwnSignUpService,
               private router: Router,
               private authService: AuthService,
-              private googleService: GoogleSignInService,
-              private localStorageService: LocalStorageService) { }
+              private googleService: GoogleSignInService) { }
 
   ngOnInit() {
     this.userOwnSignUp = new UserOwnSignUp();
@@ -52,7 +50,7 @@ export class SignUpComponent implements OnInit {
     this.passwordConfirmErrorMessageBackEnd = null;
   }
 
-  private onSubmit(userOwnRegister: UserOwnSignUp): void {
+  public onSubmit(userOwnRegister: UserOwnSignUp): void {
     this.setNullAllMessage();
     this.loadingAnim = true;
     this.userOwnSecurityService.signUp(userOwnRegister)
@@ -87,7 +85,7 @@ export class SignUpComponent implements OnInit {
   }
 
   private onSubmitError(errors: HttpErrorResponse): void {
-    errors.error.forEach(error => {
+    errors.error.map(error => {
       switch (error.name) {
         case 'name':
           this.firstNameErrorMessageBackEnd = error.message;
@@ -107,14 +105,17 @@ export class SignUpComponent implements OnInit {
     this.loadingAnim = false;
   }
 
-  private signInWithGoogle(): void {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(data => {
+  public signInWithGoogle(): void {
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID)
+      .then((data) => {
       this.googleService.signIn(data.idToken)
-        .subscribe({
-          next: this.signInWithGoogleSuccess.bind(this),
-          error: this.signInWithGoogleError.bind(this)
+        .subscribe((successData) => {
+          this.signInWithGoogleSuccess(successData);
         });
-    });
+      })
+      .catch((errorData) => {
+        this.signInWithGoogleError(errorData);
+      });
   }
 
   private signInWithGoogleSuccess(data: UserSuccessSignIn): void {
@@ -124,51 +125,51 @@ export class SignUpComponent implements OnInit {
   }
 
   private signInWithGoogleError(errors: HttpErrorResponse): void {
-    try {
-      errors.error.forEach(error => {
+    if (errors.error) {
+      errors.error.map(error => {
         if (error.name === 'email') {
           this.emailErrorMessageBackEnd = error.message;
         } else if (error.name === 'password') {
           this.passwordErrorMessageBackEnd = error.message;
         }
       });
-    } catch (e) {
-      this.backEndError = errors.error.message;
+    } else {
+      this.backEndError = errors.toString();
     }
   }
 
-  private closeSignUpWindow(): void {
+  public closeSignUpWindow(): void {
     this.matDialogRef.close();
   }
 
-  private matchPassword(passInput: HTMLInputElement,
-                        passRepeat: HTMLInputElement,
-                        inputBlock: HTMLElement): void {
+  public matchPassword(passInput: HTMLInputElement,
+                       passRepeat: HTMLInputElement,
+                       inputBlock: HTMLElement): void {
     this.passwordErrorMessageBackEnd = null;
     inputBlock.className = passInput.value !== passRepeat.value ?
                           'main-data-input-password wrong-input' :
                           'main-data-input-password';
   }
 
-  private setEmailBackendErr(): void {
+  public setEmailBackendErr(): void {
     this.emailErrorMessageBackEnd = null;
   }
 
-  private setPasswordVisibility(htmlInput: HTMLInputElement, htmlImage: HTMLImageElement): void {
+  public setPasswordVisibility(htmlInput: HTMLInputElement, htmlImage: HTMLImageElement): void {
     htmlInput.type = htmlInput.type === 'password' ? 'text' : 'password';
-    htmlImage.src = htmlInput.type === 'password' ? this.signUpImgs.hiddenEye : this.signUpImgs.openEye;
+    htmlImage.src = htmlInput.type === 'password' ? this.signUpImages.hiddenEye : this.signUpImages.openEye;
   }
 
-  private checkSpaces(input: string): boolean {
+  public checkSpaces(input: string): boolean {
     return input.indexOf(' ') >= 0;
   }
 
-  private checkSymbols(input: string): boolean {
+  public checkSymbols(input: string): boolean {
     const regexp = /^(?=.*[a-z]+)(?=.*[A-Z]+)(?=.*\d+)(?=.*[~`!@#$%^&*()+=_\-{}|:;”’?/<>,.\]\[]+).{8,}$/;
     return (regexp.test(input) || input === '');
   }
 
-  private openSignInWindow(): void {
+  public openSignInWindow(): void {
     this.closeSignUpWindow();
     this.dialog.open(SignInComponent, {
       hasBackdrop: true,
