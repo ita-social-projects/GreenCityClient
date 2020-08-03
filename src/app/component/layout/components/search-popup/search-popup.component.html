@@ -1,4 +1,4 @@
-<ng-template [ngIf]="isSearchClicked">
+<ng-container *ngIf="isSearchClicked">
   <div class="search-bar-wrapper">
     <div class="center-flex-wrapper">
       <div class="search-icon"></div>
@@ -19,7 +19,7 @@
         <div class="remaining-items" *ngIf="inputValue">
           {{ itemsFound }} items found
         </div>
-        <div *ngIf="isNewsSearchFound || isTipsSearchFound">
+        <ng-container *ngIf="isNewsSearchFound || isTipsSearchFound">
           <div class="content-news" *ngIf="isNewsSearchFound">
             <a [routerLink]="['/news']" (click)="closeSearch()">
               <h3>News</h3>
@@ -43,16 +43,16 @@
           <a [routerLink]="['/search']" (click)="closeSearch()" class="all-results-link">
             See all results
           </a>
-        </div>
+        </ng-container>
 
-        <div *ngIf="(isNewsSearchFound === false && isTipsSearchFound === false)">
+        <ng-container *ngIf="(isNewsSearchFound === false && isTipsSearchFound === false)">
           <app-search-not-found 
             [inputValue]="inputValue" 
             (closeUnsuccessfulSearchResults)="closeSearch()">
           </app-search-not-found>
-        </div>
+        </ng-container>
       </div>
       <div class="overlay" (click)="closeSearch()"></div>
     </div>
   </div>
-</ng-template>
+</ng-container>
