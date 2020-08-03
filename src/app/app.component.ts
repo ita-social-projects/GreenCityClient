@@ -29,7 +29,6 @@ export class AppComponent implements OnInit  {
     this.searchSearch.searchSubject.subscribe(this.openSearchSubscription);
     this.uiActionsService.stopScrollingSubject.subscribe(data => this.toggle = data);
     this.updatePage();
-    ерші
   }
 
   private openSearchSubscription(isSearchExpanded: boolean): void {
