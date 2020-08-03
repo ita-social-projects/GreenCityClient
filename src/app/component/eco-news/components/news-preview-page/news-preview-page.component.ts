@@ -16,8 +16,8 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
   public previewItem: FormGroup;
   public actualDate = new Date();
   public userName: string;
-  private userNameSub: Subscription;
   public isPosting = false;
+  private userNameSub: Subscription;
 
   constructor(private createEcoNewsService: CreateEcoNewsService,
               private localStorageService: LocalStorageService,
