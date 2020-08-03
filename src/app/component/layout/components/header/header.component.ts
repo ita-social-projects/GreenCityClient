@@ -28,13 +28,14 @@ export class HeaderComponent implements OnInit {
   public dropdownVisible: boolean;
   public langDropdownVisible: boolean;
   public name: string;
-  private userRole: string;
-  private userId: number;
   public isLoggedIn: boolean;
-  private language: string;
-  private isSearchClicked = false;
   public isAllSearchOpen = false;
   public toggleBurgerMenu = false;
+  private userRole: string;
+  private userId: number;
+  private language: string;
+  private isSearchClicked = false;
+
 
   constructor(private modalService: ModalService,
               public dialog: MatDialog,
