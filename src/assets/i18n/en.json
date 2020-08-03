@@ -191,8 +191,37 @@
       "characters-long": "characters long.",
       "please-write-a-comment": "Please write a comment",
       "submit": "Submit",
-      "close": "Close",
-      "reply": "Reply"
+      "view": "View",
+      "comment": "Comment",
+      "comments": {
+        "zero-comment": "comment",
+        "one-comment": "comment",
+        "more-then-two-comments": "comments",
+        "more-then-four-comments": "сomments"
+      },
+      "reply": "Reply", 
+      "replies": {
+        "zero-reply": "reply",
+        "one-reply": "reply",
+        "more-then-two-replies": "replies",
+        "more-then-four-replies": "replies"
+      }, 
+      "btn": {
+        "reply": "Reply",
+        "like": "Like",
+        "liked": "Liked",
+        "comment": "Comment",
+        "edit": "Edit",
+        "delete": "Delete",
+        "save": "Save",
+        "close": "Close",
+        "cancel": "Cancel"
+      },
+      "placeholder": {
+        "add-a-comment": "Add a comment",
+        "add-a-reply": "Add a reply",
+        "enter-your-new-comment": "Enter your new comment"
+      }
     },
     "auth": {
       "sign-in": {

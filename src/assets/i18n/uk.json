@@ -196,8 +196,37 @@
       "characters long": "символів",
       "please-write-a-comment": "Будь ласка введіть коментар",
       "submit": "Підтвердити",
-      "close": "Закрити",
-      "reply": "Відповісти"
+      "view": "Переглянути",
+      "comment": "Коментар",
+      "comments": {
+        "zero-comment": "коментарів",
+        "one-comment": "коментар",
+        "more-then-two-comments": "коментаря",
+        "more-then-four-comments": "коментарів"
+      },
+      "reply":"Відповісти",
+      "replies": {
+        "zero-reply": "відповідей",
+        "one-reply": "відповідь",
+        "more-then-two-replies": "відповіді",
+        "more-then-four-replies": "відповідей"
+      },
+      "btn": {
+        "reply": "Відповісти",
+        "like": "Подобається",
+        "liked": "Сподобалось",
+        "comment": "Коментар",
+        "edit": "Редагувати",
+        "delete": "Видалити",
+        "save": "Зберегти",
+        "close": "Закрити",
+        "cancel": "Скасувати"
+      },
+      "placeholder": {
+        "add-a-comment": "Додати коментар",
+        "add-a-reply": "Додати відповідь",
+        "enter-your-new-comment": "Введіть ваш новий коментар"
+      }
     },
     "auth": {
       "sign-in": {
