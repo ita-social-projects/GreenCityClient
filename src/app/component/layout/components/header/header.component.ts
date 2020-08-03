@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalService } from '@global-core/components/propose-cafe/_modal/modal.service';
-import { MatDialog } from '@angular/material';
-import { UserSettingComponent } from '@global-user/components/user-setting/user-setting.component';
 import { NavigationStart, Router } from '@angular/router';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { MatDialog } from '@angular/material';
+import { filter } from 'rxjs/operators';
 import { JwtService } from '@global-service/jwt/jwt.service';
+import { ModalService } from '@global-core/components/propose-cafe/_modal/modal.service';
+import { UiActionsService } from '@global-service/ui-actions/ui-actions.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UserService } from 'src/app/service/user/user.service';
 import { AchievementService } from 'src/app/service/achievement/achievement.service';
 import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-statistic.service';
-import { filter } from 'rxjs/operators';
 import { LanguageService } from '@language-service/language.service';
 import { Language } from '@language-service/Language';
 import { SearchService } from '@global-service/search/search.service';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
+import { UserSettingComponent } from '@global-user/components/user-setting/user-setting.component';
 import { SignInComponent } from '@global-auth/index';
 import { SignUpComponent } from '@global-auth/index';
-import { UiActionsService } from '@global-service/ui-actions/ui-actions.service';
 
 @Component({
   selector: 'app-header',

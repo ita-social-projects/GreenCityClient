@@ -1,18 +1,18 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
+import { Subscription } from 'rxjs';
 import { GoogleSignInService } from '@auth-service/google-sign-in.service';
 import { UserSuccessSignIn } from '@models/user-success-sign-in';
-import { HttpErrorResponse } from '@angular/common/http';
 import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
-import { Router } from '@angular/router';
 import { SignInIcons } from 'src/assets/img/icon/sign-in/sign-in-icons';
-import { MatDialog, MatDialogRef } from '@angular/material';
 import { UserOwnSignIn } from '@models/user-own-sign-in';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Subscription } from 'rxjs';
-import { RestorePasswordComponent } from '../restore-password/restore-password.component';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { SignUpComponent } from '../sign-up/sign-up.component';
+import { RestorePasswordComponent } from '../restore-password/restore-password.component';
 
 @Component({
   selector: 'app-sign-in',
