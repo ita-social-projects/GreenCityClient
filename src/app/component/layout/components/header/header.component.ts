@@ -55,7 +55,7 @@ export class HeaderComponent implements OnInit {
     this.searchSearch.searchSubject.subscribe(signal => this.openSearchSubscription(signal));
     this.searchSearch.allSearchSubject.subscribe(signal => this.openAllSearchSubscription(signal));
     this.dropdownVisible = false;
-    this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => {this.name = firstName;});
+    this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => { this.name = firstName; });
     this.initUser();
     this.userRole = this.jwtService.getUserRole();
     this.language = this.languageService.getCurrentLanguage();
