@@ -591,6 +591,20 @@
     "months": ["Jan,", "Feb,", "Mar,", "Apr,", "May,", "Jun,", "Jul,", "Aug,", "Sep,", "Oct,", "Nov,", "Dec,"],
     "year": ""
   },
+  "eco-news-preview": {
+    "back-button": "Back to editing",
+    "publish-button": "Publish",
+    "create-news": "Create news",
+    "tags": {
+      "news": "news",
+      "events": "events",
+      "initiatives": "initiatives",
+      "ads": "ads",
+      "education": "education"
+    },
+    "author": "by",
+    "news-source": "Source:"
+  },
   "eco-news-single-view": {
     "back-button": "Back to news",
     "edit-news-button": "Edit news",
