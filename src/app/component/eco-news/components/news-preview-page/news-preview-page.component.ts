@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { singleNewsImages } from '../../../../../assets/img/icon/econews/single-news-images';
-import { CreateEcoNewsService } from '../../services/create-eco-news.service';
+import { singleNewsImages } from '@eco-news-images/single-news-images';
+import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { NewsResponseDTO } from '../../models/create-news-interface';
 import { Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
-import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subscription } from 'rxjs';
 
 @Component({
