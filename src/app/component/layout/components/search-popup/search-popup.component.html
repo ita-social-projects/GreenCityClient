@@ -54,7 +54,7 @@
           </a>
         </ng-template>
 
-        <ng-template [ngIf]="(isNewsSearchFound === false && isTipsSearchFound === false)">
+        <ng-template [ngIf]="(!isNewsSearchFound && !isTipsSearchFound)">
           <br/><br/>
           <app-search-not-found (closeUnsuccessfulSearchResults)="closeSearch()"></app-search-not-found>
         </ng-template>
