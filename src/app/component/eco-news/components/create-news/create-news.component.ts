@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
-import { FilterModel, LanguageModel, NewsResponseDTO } from '@eco-news-models/create-news-interface';
+import { FilterModel, NewsResponseDTO } from '@eco-news-models/create-news-interface';
 import { CreateNewsCancelComponent } from '../../../shared/components/create-news-cancel/create-news-cancel.component';
 
 @Component({
@@ -126,20 +126,13 @@ export class CreateNewsComponent implements OnInit {
   }
 
   public removeFilters(filter: FilterModel): void {
+    const tagsArray = this.createNewsForm.value.tags;
     if ( filter.isActive ) {
       filter.isActive = false;
-      if (this.createNewsForm.value.tags.length === 1) {
+      if (tagsArray.length === 1) {
         this.isArrayEmpty = true;
       }
-      this.createNewsForm.value.tags.forEach((item, index) => {
-        if (item.toLowerCase() === filter.name.toLowerCase()) {
-          this.createNewsForm.value.tags = [
-            ...this.createNewsForm.value.tags.slice(0, index),
-            ...this.createNewsForm.value.tags.slice(index + 1)
-          ];
-          this.filtersValidation(filter);
-        }
-      });
+      this.createNewsForm.value.tags = tagsArray.filter(item => item.toLowerCase() !== filter.name.toLowerCase());
     }
   }
 
@@ -162,6 +155,7 @@ export class CreateNewsComponent implements OnInit {
               filter.isActive &&
               !this.createNewsForm.value.tags.includes(tag)) {
             this.createNewsForm.value.tags = [...this.createNewsForm.value.tags, tag];
+            console.log(this.createNewsForm.value.tags);
             this.filtersValidation(filter);
           }
         });
@@ -171,12 +165,10 @@ export class CreateNewsComponent implements OnInit {
 
   private patchFilters(): void {
     this.filters.forEach(filter => {
-      this.formData.value.tags.forEach(tag => {
-      if (filter.name.toLowerCase() === tag) {
-          filter.isActive = true;
-          this.isArrayEmpty = false;
-        }
-      });
+      if (this.formData.value.tags.includes(filter.name.toLowerCase())) {
+        filter.isActive = true;
+        this.isArrayEmpty = false;
+      }
     });
   }
 
