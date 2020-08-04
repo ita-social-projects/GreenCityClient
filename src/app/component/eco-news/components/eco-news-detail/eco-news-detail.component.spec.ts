@@ -9,8 +9,19 @@ import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { ActivatedRoute } from '@angular/router';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {HttpClient} from '@angular/common/http';
+import {Pipe, PipeTransform} from '@angular/core';
+
+@Pipe({ name: 'translate' })
+class TranslatePipeMock implements PipeTransform {
+  transform(value: string): string {
+    return value;
+  }
+}
 
 describe('EcoNewsDetailComponent', () => {
+
   let component: EcoNewsDetailComponent;
   let fixture: ComponentFixture<EcoNewsDetailComponent>;
   let localStorageService: LocalStorageService;
@@ -34,11 +45,13 @@ describe('EcoNewsDetailComponent', () => {
       declarations: [
         EcoNewsDetailComponent,
         EcoNewsWidgetComponent,
-        NewsListGalleryViewComponent
+        NewsListGalleryViewComponent,
+        TranslatePipeMock
       ],
       imports: [
         RouterTestingModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        TranslateModule.forRoot(),
       ],
       providers: [
         LocalStorageService,
