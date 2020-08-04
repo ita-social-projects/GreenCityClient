@@ -25,12 +25,11 @@ export class DragAndDropComponent implements OnInit {
     this.patchImage();
   }
 
-  private stopCropping(): void {
-    this.files.forEach(item => {
-      item.url = this.croppedImage;
-    });
+  private stopCropping(): FileHandle[] {
+    this.files.map(item => item.url = this.croppedImage);
 
     this.isCropper = false;
+    return this.files;
   }
 
   private cancelChanges(): void {
@@ -61,7 +60,7 @@ export class DragAndDropComponent implements OnInit {
 
     const reader: FileReader = new FileReader();
     reader.readAsDataURL(this.selectedFile);
-    reader.onload = this.handleFile.bind(this);
+    reader.onload = (ev) => this.handleFile(ev);
 
     this.createEcoNewsService.files = this.files;
   }
@@ -74,11 +73,12 @@ export class DragAndDropComponent implements OnInit {
     this.createEcoNewsService.fileUrl = this.selectedFileUrl;
    }
 
-  public showWarning(): void {
-    this.files.forEach(item => {
+  public showWarning(): FileHandle[] {
+    this.files.map(item => {
       const imageValCondition = item.file.type === 'image/jpeg' || item.file.type === 'image/png';
       this.isWarning = !(item && imageValCondition);
     });
+    return this.files;
   }
 }
 

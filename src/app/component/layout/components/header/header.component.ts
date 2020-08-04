@@ -13,6 +13,7 @@ import { LanguageService } from '@language-service/language.service';
 import { Language } from '@language-service/Language';
 import { SearchService } from '@global-service/search/search.service';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
+import { LanguageModel } from '../models/languageModel';
 import { UserSettingComponent } from '@global-user/components/user-setting/user-setting.component';
 import { SignInComponent } from '@global-auth/index';
 import { SignUpComponent } from '@global-auth/index';
@@ -23,19 +24,19 @@ import { SignUpComponent } from '@global-auth/index';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  public selectLanguageArrow = 'assets/img/arrow_grey.png';
-  public dropDownArrow = 'assets/img/arrow.png';
+  readonly selectLanguageArrow = 'assets/img/arrow_grey.png';
+  readonly dropDownArrow = 'assets/img/arrow.png';
   public dropdownVisible: boolean;
   public langDropdownVisible: boolean;
   public name: string;
   public isLoggedIn: boolean;
   public isAllSearchOpen = false;
   public toggleBurgerMenu = false;
+  public arrayLang: Array<LanguageModel> = [{lang: 'En'}, {lang: 'Uk'}, {lang: 'Ru'}];
   private userRole: string;
   private userId: number;
   private language: string;
   private isSearchClicked = false;
-
 
   constructor(private modalService: ModalService,
               public dialog: MatDialog,
@@ -56,6 +57,10 @@ export class HeaderComponent implements OnInit {
     this.searchSearch.allSearchSubject.subscribe(signal => this.openAllSearchSubscription(signal));
     this.dropdownVisible = false;
     this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => { this.name = firstName; });
+    this.langDropdownVisible = false;
+    this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => {
+      this.name = firstName;
+    });
     this.initUser();
     this.userRole = this.jwtService.getUserRole();
     this.language = this.languageService.getCurrentLanguage();
@@ -69,8 +74,12 @@ export class HeaderComponent implements OnInit {
       .subscribe(userId => this.assignData(userId));
   }
 
-  public changeCurrentLanguage(): void {
-    this.languageService.changeCurrentLanguage(this.language as Language);
+  public changeCurrentLanguage(language, index: number): void {
+    this.languageService.changeCurrentLanguage(language.toLowerCase() as Language);
+    const temporary = this.arrayLang[0].lang;
+    this.arrayLang[0].lang = language;
+    this.arrayLang[index].lang = temporary;
+    this.langDropdownVisible = false;
   }
 
   public getUserId(): number | string {
@@ -115,6 +124,13 @@ export class HeaderComponent implements OnInit {
   public toggleLangDropdown(): void {
     this.langDropdownVisible = !this.langDropdownVisible;
     this.dropdownVisible = false;
+  }
+  private autoCloseUserDropDown(event): void {
+    this.dropdownVisible = event;
+  }
+
+  private autoCloseLangDropDown(event): void {
+    this.langDropdownVisible = event;
   }
 
   public onToggleBurgerMenu(): void {
