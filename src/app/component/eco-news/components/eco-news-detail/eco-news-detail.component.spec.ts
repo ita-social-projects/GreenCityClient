@@ -11,7 +11,7 @@ import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { ActivatedRoute } from '@angular/router';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {HttpClient} from '@angular/common/http';
-import {Pipe, PipeTransform} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {
@@ -47,6 +47,9 @@ describe('EcoNewsDetailComponent', () => {
         EcoNewsWidgetComponent,
         NewsListGalleryViewComponent,
         TranslatePipeMock
+      ],
+      schemas: [
+        CUSTOM_ELEMENTS_SCHEMA
       ],
       imports: [
         RouterTestingModule,
