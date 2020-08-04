@@ -19,13 +19,13 @@ import { environment } from '@environment/environment';
   styleUrls: ['./like-comment.component.scss']
 })
 export class LikeCommentComponent implements OnInit, OnDestroy {
-  @Output() likeChange = new EventEmitter();
-  @Input() commentId: number;
-  @Input() likeState: boolean;
+  @Output() public likeChange = new EventEmitter();
+  @Input() public commentId: number;
+  @Input() public likeState: boolean;
   @ViewChild('like', {static: true})
-  like: ElementRef;
+  public like: ElementRef;
   @ViewChild('span', {static: true})
-  span: ElementRef;
+  public span: ElementRef;
   public commentsImages = {
     like: 'assets/img/comments/like.png',
     liked: 'assets/img/comments/liked.png'
@@ -39,6 +39,8 @@ export class LikeCommentComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.initializeWebSocketConnection();
     this.setStartingElements(this.likeState);
+    this.commentsService.likesCommentId
+      .subscribe((data: number) => this.commentId = data);
   }
 
   private setStartingElements(state: boolean) {

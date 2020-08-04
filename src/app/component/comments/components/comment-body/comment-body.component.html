@@ -59,7 +59,7 @@
     >
       <app-like-comment [commentId]="element.id"
                         [likeState]="element.currentUserLiked"
-                        (click)="setId(element.id)"
+                        (click)="setCommentId(element.id)"
       ></app-like-comment>
       <app-reply-comment (click)="showReplyForm(element.id)"
       ></app-reply-comment>

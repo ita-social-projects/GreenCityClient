@@ -11,6 +11,7 @@ import { FormControl } from '@angular/forms';
 export class CommentsService {
   public repliesSubject = new Subject<boolean>();
   public likesSubject = new Subject<object>();
+  public likesCommentId = new Subject<number>();
   public repliesVisibility = false;
   public likesCounter = 0;
   public accessToken: string = localStorage.getItem('accessToken');
@@ -33,6 +34,8 @@ export class CommentsService {
 
   public setCommentId(id: number): void {
     this.commentId = id;
+    this.likesCommentId
+      .next(this.commentId);
   }
 
   public setLikes(likes: number): void {

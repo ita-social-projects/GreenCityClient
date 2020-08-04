@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
+import { Validators, FormControl } from '@angular/forms';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { CommentsService } from '../../services/comments.service';
 import { CommentsDTO, CommentsModel } from '../../models/comments-model';
@@ -22,8 +22,6 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
   public content: FormControl = new FormControl('', [Validators.required, Validators.maxLength(8000)]);
   public editIcon = 'assets/img/comments/edit.png';
   public cancelIcon = 'assets/img/comments/cancel-comment-edit.png';
-  public likesAmount: number;
-
   public tempId: number;
   public addReply = {
     placeholder: 'Add a reply',
@@ -88,7 +86,7 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
   }
 
   public showReplyForm(id: number): void {
-    this.setId(id);
+    this.tempId = id;
     this.replyFormVisibility = !this.replyFormVisibility;
   }
 
@@ -98,8 +96,7 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
     }
   }
 
-  public setId(id: number): void {
-    this.tempId = id;
+  public setCommentId(id: number): void {
     this.commentsService.setCommentId(id);
   }
 
