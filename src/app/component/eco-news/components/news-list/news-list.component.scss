@@ -44,7 +44,7 @@
 .gallery-view-active {
   display: grid;
   grid-template-columns: repeat(3, 359px);
-  grid-gap: 32px
+  grid-gap: 30px
 }
 
 .list-view-li-active {
@@ -100,7 +100,7 @@ a {
 
   .gallery-view-active {
     grid-template-columns: repeat(2, 258px);
-    grid-gap: 32px;
+    grid-gap: 17px
   }
 }
 
@@ -108,15 +108,10 @@ a {
   .wrapper {
     margin: 0 2.4%;
   }
-  .list {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+
+  .gallery-view-active {
+    grid-template-columns: repeat(1, 288px);
+    grid-gap: 25px
   }
 }
 
-@media screen and (max-width: 320px) {
-  .wrapper {
-    margin: 0 30%;
-  }
-}
