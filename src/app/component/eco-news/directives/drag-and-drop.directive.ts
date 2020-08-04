@@ -6,7 +6,7 @@ import {
   EventEmitter
 } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { FileHandle } from '../models/create-news-interface';
+import { FileHandle } from '@eco-news-models/create-news-interface';
 
 @Directive({
   selector: '[appDragAndDrop]'

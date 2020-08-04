@@ -58,15 +58,18 @@ form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 380px;
+    min-height: 380px;
 }
 
-.left-form-column input {
+.left-form-column input, 
+.left-form-column textarea {
     width: 622px;
     height: 48px;
     border-radius: 5px;
     border: 1px solid #878787;
     padding: 12px 40px 12px 16px;
+    resize: none;
+    overflow: hidden;
 }
 
 .left-form-column p, .left-form-column span {
@@ -113,6 +116,7 @@ form .textarea-wrapper textarea {
     border: 1px solid #878787;
     width: 100%;
     padding: 12px 16px 28px 16px;
+    overflow: hidden;
 }
 
 .textarea-wrapper {
@@ -201,20 +205,23 @@ button {
 }
 
 @media screen and (max-width: 1200px) {
-    .left-form-column input {
+    .left-form-column input, 
+    .left-form-column textarea {
         width: 517px;
     }
 }
 
 @media screen and (max-width: 1024px) {
-    .left-form-column input,
+    .left-form-column input, 
+    .left-form-column textarea,
     form .textarea-wrapper textarea {
         width: 100%;
   }
 }
 
 @media screen and (max-width: 768px) {
-    .left-form-column input,
+    .left-form-column input, 
+    .left-form-column  textarea,
     form .textarea-wrapper textarea  {
         width: 100%;
     }
@@ -259,12 +266,34 @@ button {
 }
 
 @media screen and (max-width: 520px) {
+    .title {
+        height: 170;
+    }
+
+    .title h2 {
+        font-size: 24px;
+    }
+
+    .form-description {
+        margin-top: -52px;
+    }
+
+    form label {
+        margin-bottom: 32px;
+    }
+
     .left-form-column label:last-child {
-        margin-top: 340px;
+        margin-top: 350px;
+    }
+
+    .left-form-column input {
+        font-size: 14px;
+        line-height: 24px;
+        padding-right: 0px;
     }
 
     .right-form-column {
-        margin-top: -170px;
+        margin-top: -488px;
         margin-bottom: 10px;
     }
 
@@ -282,6 +311,7 @@ button {
     .submit-buttons {
         margin-right: 0;
     }
+
     .submit-buttons button {
         margin-left: 0;
         width: 100%;
@@ -291,95 +321,5 @@ button {
     .date {
        display: flex;
        flex-direction: column;
-    }
-}
-
-@media screen and (max-width: 510px) {
-    .left-form-column label:last-child {
-        margin-top: 340px;
-    }
-
-    .right-form-column {
-        margin-top: -120px;
-    }
-
-    .textarea-wrapper {
-        margin-top: 160px;
-    }
-}
-
-@media screen and (max-width: 360px) {
-    .left-form-column label:last-child {
-        margin-top: 380px;
-    }
-
-    .right-form-column {
-        margin-top: -100px;
-    }
-
-    .textarea-wrapper {
-        margin-top: 180px;
-    }
-}
-
-@media screen and (max-width: 340px) {
-    .left-form-column label:last-child {
-        margin-top: 400px;
-    }
-
-    .right-form-column {
-        margin-top: -60px;
-    }
-
-    .textarea-wrapper {
-        margin-top: 200px;
-    }
-}
-
-@media screen and (max-width: 320px) {
-    .left-form-column input,
-    form .textarea-wrapper textarea,
-    .form-description,
-    .tags {
-        width: 275px;
-    }
-
-    .left-form-column label:last-child {
-        margin-top: 380px;
-    }
-
-    .right-form-column {
-        margin-top: -100px;
-    }
-
-    .textarea-wrapper {
-        margin-top: 180px;
-    }
-
-    .tags button {
-        margin: 3px;
-    }
-
-    .title h2 {
-        font-size: 38px;
-        width: 300px;
-    }
-
-    .submit-buttons {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        height: 200px;
-    }
-
-    .submit-buttons button {
-        margin-left: 0;
-        width: 275px;
-        height: 48px;
-    }
-
-    .date {
-        display: flex;
-        flex-direction: column;
     }
 }

@@ -10,13 +10,14 @@
         <form [formGroup]="createNewsForm" (ngSubmit)="onSubmit()">
             <div class="wrapper">
                 <div class="left-form-column">
-                    <label>
+                    
                         <h3>{{ 'create-news.news-title' | translate }}</h3>
-                        <input type="text"
+                        <textarea 
                                placeholder="{{ 'create-news.title-placeholder' | translate }}"
-                               formControlName="title">
+                               formControlName="title"
+                               (input)="autoResize($event)"></textarea>
                         <span>{{ 'create-news.title-tooltip' | translate }}</span>
-                    </label>
+                    
                     <div class="tags" formArrayName="tags">
                         <h3>{{ 'create-news.tags-title' | translate }}</h3>
                         <button *ngFor="let filter of filters"
@@ -45,14 +46,15 @@
                 </div>
                 <div class="right-form-column">
                     <h3>{{ 'create-news.picture-title' | translate }}</h3>
-                    <app-drag-and-drop></app-drag-and-drop>
+                    <app-drag-and-drop [formData]="formData"></app-drag-and-drop>
                 </div>
             </div>
             <div class="textarea-wrapper">
                 <h3 class="textarea-title">{{ 'create-news.content-title' | translate }}</h3>
                 <textarea name="main-area"
                           placeholder="{{ 'create-news.content-placeholder' | translate }}"
-                          formControlName="content"></textarea>
+                          formControlName="content"
+                          (input)="autoResize($event)"></textarea>
                 <p class="textarea-description">{{ 'create-news.content-tooltip' | translate }}</p>
             </div>
             <div class="date">

@@ -226,19 +226,44 @@ $screen-320: " screen and (max-width : 320px)";
 
           .switcher-wrapper {
             position: relative;
+            width: 61px;
+            min-height: 26px;
 
             .arrow {
               position: absolute;
               top: 10px;
-              right: 0;
+              right: 19px;
               width: 8px;
               height: 5px;
+              z-index: 1;
             }
 
             .reverse {
               transform: rotate(180deg);
               transition: .4s ease-out;
               transition-delay: 0.1s;
+            }
+
+            ul {
+              position: absolute;
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+              top: -8px;
+              width: 61px;
+
+              li {
+                cursor: pointer;
+                height: 44px;
+                font-size: 14px;
+                padding-top: 10px;
+              }
+            }
+
+            .add-shadow {
+              background: #FFFFFF;
+              box-shadow: 0px 0px 8px rgba(73, 74, 73, 0.2);
+              border-radius: 2px;
             }
           }
 
@@ -348,7 +373,7 @@ $screen-320: " screen and (max-width : 320px)";
   }
 }
 
-#user-avatar-wrapper {
+#user-avatar-wrapper, #lang-wrapper  {
   position: relative;
   width: auto;
   min-width: 135px;
@@ -480,6 +505,15 @@ $screen-320: " screen and (max-width : 320px)";
     }
   }
 
+  .create-button {
+    min-width: 138px;
+    min-height: 48px;
+
+    span { 
+      padding: 0 1px;
+    }
+  }
+
   .navigation-menu-right {
     display: flex;
     justify-content: flex-end;
@@ -507,11 +541,19 @@ $screen-320: " screen and (max-width : 320px)";
     }
   }
 
+  .create-button {
+    min-width: 138px;
+    min-height: 48px;
+
+    span { 
+      padding: 0 1px;
+    }
+  }
+
   li:nth-of-type(6) {
     margin-bottom: 40px;
   }
 }
-
 
 
 
