@@ -10,14 +10,16 @@
         border-radius: 50px;
     }
 
-    input {
+    textarea {
         width: 505px;
         height: 72px;
+        overflow: hidden;
+        resize: none;
 
         &::placeholder {
             color:#878787;
             position: relative;
-            top: -12px;
+            top: 10px;
             left: 10px;
         }
     }
