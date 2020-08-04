@@ -7,16 +7,11 @@
       <div class="pagination-previous">
         <a *ngIf="!p.isFirstPage()"
            (click)="p.previous()">
-          <img class="prev-btn"
-               [src]="paginationImages.arrowPrevious"
-               alt="arrow previous">
-
+          <div class="previous-btn"></div>
         </a>
         <div *ngIf="p.pages.length > 0">
           <a *ngIf="p.isFirstPage()">
-            <img class="prev-btn"
-                 [src]="paginationImages.arrowPreviousDisable"
-                 alt="arrow previous disable">
+            <div class="previous-btn-disabled"></div>
           </a>
         </div>
       </div>
@@ -34,15 +29,11 @@
       <div class="pagination-next">
         <a *ngIf="!p.isLastPage()"
            (click)="p.next()">
-          <img class="next-btn"
-               [src]="paginationImages.arrowNext"
-               alt="arrow next">
+          <div class="next-btn"></div>
         </a>
         <div *ngIf="p.pages.length > 0">
           <a *ngIf="p.isLastPage()">
-            <img class="next-btn"
-                 [src]="paginationImages.arrowNextDisable"
-                 alt="arrow next disable">
+            <div class="next-btn-disabled"></div>
           </a>
         </div>
       </div>

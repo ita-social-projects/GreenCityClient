@@ -24,12 +24,6 @@ export class FilterNewsComponent implements OnInit {
     this.getPresentTags();
   }
 
-private setTags(tags: Array<string>): void {
-    this.filters = tags.map((filter: string) =>
-      ({name: filter, isActive: false})
-    );
-}
-
   public emitTrueFilterValues(): Array<string> {
     return this.filters.filter(el => el.isActive).map(el => el.name);
   }
@@ -41,10 +35,26 @@ private setTags(tags: Array<string>): void {
   public toggleFilter(currentFilter: string): void {
     this.filters.map(el => el.isActive = el.name === currentFilter ? !el.isActive : el.isActive);
     this.emitActiveFilters();
+    this.setSessionStorageFilters();
+  }
+
+  private setTags(tags: Array<string>): void {
+    const savedFilters = this.getSessionStorageFilters();
+    this.filters = tags.map((filter: string) => ({ name: filter, isActive: typeof savedFilters.find(el => el === filter) !== 'undefined'}));
+    this.emitActiveFilters();
   }
 
   private getPresentTags(): void {
     this.tagsSubscription = this.ecoNewsService.getAllPresentTags()
-      .subscribe((tag: Array<string> ) => this.setTags(tag));
+      .subscribe((tag: Array<string>) => this.setTags(tag));
+  }
+
+  private setSessionStorageFilters() {
+    sessionStorage.setItem('activeFilters', JSON.stringify(this.emitTrueFilterValues()));
+  }
+
+  private getSessionStorageFilters() {
+    const filters = sessionStorage.getItem('activeFilters');
+    return filters !== null ? JSON.parse(filters) : [];
   }
 }

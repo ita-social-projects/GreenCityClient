@@ -22,13 +22,17 @@
     ],
     "paths": {
       "@global-service/*": ["src/app/service/*"],
+      "@auth-service/*": ["src/app/service/auth/*"],
       "@eco-news-service/*": ["src/app/component/eco-news/services/*"],
       "@store/*": ["src/app/store/*"],
       "@eco-news-store/*": ["src/app/component/eco-news/store/*"],
       "@eco-news-models/*": ["src/app/component/eco-news/models/*"],
       "@eco-news-images/*": ["src/assets/img/icon/econews/*"],
       "@language-service/*": ["src/app/i18n/*"],
-      "@environment/*": ["src/environments/*"]
+      "@environment/*": ["src/environments/*"],
+      "@models/*": ["src/app/model/*"],
+      "@user-models/*": ["src/app/component/user/models/*"],
+      "@global-auth/*": ["src/app/component/auth/components/*"]
     }
   },
   "angularCompilerOptions": {

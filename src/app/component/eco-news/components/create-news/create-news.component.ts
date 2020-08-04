@@ -38,6 +38,12 @@ export class CreateNewsComponent implements OnInit {
   public formData: FormGroup;
   public isArrayEmpty = true;
   public author: string = localStorage.getItem('name');
+  public textAreasHeight = {
+    minTextAreaScrollHeight: 50,
+    maxTextAreaScrollHeight: 128,
+    minTextAreaHeight: '48px',
+    maxTextAreaHeight: '128px',
+  };
 
   constructor(private router: Router,
               private fb: FormBuilder,
@@ -51,15 +57,26 @@ export class CreateNewsComponent implements OnInit {
   }
 
   private setFormItems(): void {
-    this.formData = this.createEcoNewsService.getFormData();
-    if (this.formData) {
-      this.patchFilters();
-      this.createNewsForm.patchValue({
-        title: this.formData.value.title,
-        content: this.formData.value.content,
-        source: this.formData.value.source,
-      });
+    if (this.createEcoNewsService.isBackToEditing) {
+      this.formData = this.createEcoNewsService.getFormData();
+      if (this.formData) {
+        this.patchFilters();
+        this.createNewsForm.patchValue({
+          title: this.formData.value.title,
+          content: this.formData.value.content,
+          source: this.formData.value.source,
+        });
+      }
     }
+  }
+
+  public autoResize(event): void {
+    const checkTextAreaHeight = event.target.scrollHeight > this.textAreasHeight.minTextAreaScrollHeight
+    && event.target.scrollHeight < this.textAreasHeight.maxTextAreaScrollHeight;
+    const maxHeight = checkTextAreaHeight ? this.textAreasHeight.maxTextAreaHeight
+    : event.target.scrollHeight < this.textAreasHeight.minTextAreaScrollHeight;
+    const minHeight = checkTextAreaHeight ? this.textAreasHeight.minTextAreaHeight : `${event.target.scrollHeight}px`;
+    event.target.style.height = checkTextAreaHeight ? maxHeight : minHeight;
   }
 
   private setEmptyForm(): void {
