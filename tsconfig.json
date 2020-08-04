@@ -22,6 +22,8 @@
     ],
     "paths": {
       "@global-service/*": ["src/app/service/*"],
+      "@global-images/*": ["src/assets/img/*"],
+      "@auth-service/*": ["src/app/service/auth/*"],
       "@eco-news-service/*": ["src/app/component/eco-news/services/*"],
       "@store/*": ["src/app/store/*"],
       "@eco-news-store/*": ["src/app/component/eco-news/store/*"],
@@ -30,8 +32,8 @@
       "@language-service/*": ["src/app/i18n/*"],
       "@environment/*": ["src/environments/*"],
       "@models/*": ["src/app/model/*"],
-      "@global-images/*": ["src/assets/img/*"],
-      "@user-models/*": ["src/app/component/user/models/*"]
+      "@user-models/*": ["src/app/component/user/models/*"],
+      "@global-auth/*": ["src/app/component/auth/components/*"]
     }
   },
   "angularCompilerOptions": {
