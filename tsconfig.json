@@ -30,7 +30,8 @@
       "@language-service/*": ["src/app/i18n/*"],
       "@environment/*": ["src/environments/*"],
       "@models/*": ["src/app/model/*"],
-      "@user-models/*": ["src/app/component/user/models/*"]
+      "@user-models/*": ["src/app/component/user/models/*"],
+      "@app/*": ["src/app/*"]
     }
   },
   "angularCompilerOptions": {

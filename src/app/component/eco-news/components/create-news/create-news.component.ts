@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
-import { CreateEcoNewsService } from '../../services/create-eco-news.service';
-import { FilterModel, LanguageModel, NewsResponseDTO } from '../../models/create-news-interface';
 import { MatDialog } from '@angular/material/dialog';
+import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
+import { FilterModel, LanguageModel, NewsResponseDTO } from '@eco-news-models/create-news-interface';
 import { CreateNewsCancelComponent } from '../../../shared/components/create-news-cancel/create-news-cancel.component';
 
 @Component({
@@ -91,9 +91,9 @@ export class CreateNewsComponent implements OnInit {
 
   public onSourceChange(): void {
     this.createNewsForm.get('source').valueChanges.subscribe(source => {
-      source.startsWith('http://') ||
-      source.startsWith('https://') ||
-      source.length === 0 ? this.isLink = false : this.isLink = true;
+      this.isLink = source.startsWith('http://') ||
+                    source.startsWith('https://') ||
+                    source.length === 0 ? false : true;
     });
   }
 
@@ -118,7 +118,7 @@ export class CreateNewsComponent implements OnInit {
     if ( !filter.isActive ) {
       filter.isActive = true;
       this.isArrayEmpty = false;
-      this.createNewsForm.value.tags.push(filter.name.toLowerCase());
+      this.createNewsForm.value.tags = [...this.createNewsForm.value.tags, filter.name.toLowerCase()];
       this.filtersValidation(filter);
     } else {
       this.removeFilters(filter);
@@ -133,7 +133,10 @@ export class CreateNewsComponent implements OnInit {
       }
       this.createNewsForm.value.tags.forEach((item, index) => {
         if (item.toLowerCase() === filter.name.toLowerCase()) {
-          this.createNewsForm.value.tags.splice(index, 1);
+          this.createNewsForm.value.tags = [
+            ...this.createNewsForm.value.tags.slice(0, index),
+            ...this.createNewsForm.value.tags.slice(index + 1)
+          ];
           this.filtersValidation(filter);
         }
       });
@@ -144,7 +147,9 @@ export class CreateNewsComponent implements OnInit {
     if ( this.createNewsForm.value.tags.length > 3) {
       this.isFilterValidation = true;
       setTimeout(() => this.isFilterValidation = false, 3000);
-      this.createNewsForm.value.tags.splice(3, 1);
+      this.createNewsForm.value.tags = [
+        ...this.createNewsForm.value.tags.slice(0, 3)
+      ];
       filter.isActive = false;
     }
   }
@@ -156,7 +161,7 @@ export class CreateNewsComponent implements OnInit {
           if (filter.name.toLowerCase() === tag &&
               filter.isActive &&
               !this.createNewsForm.value.tags.includes(tag)) {
-            this.createNewsForm.value.tags.push(tag);
+            this.createNewsForm.value.tags = [...this.createNewsForm.value.tags, tag];
             this.filtersValidation(filter);
           }
         });
