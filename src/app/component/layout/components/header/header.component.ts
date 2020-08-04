@@ -121,15 +121,11 @@ export class HeaderComponent implements OnInit {
     this.dropdownVisible = !this.dropdownVisible;
   }
 
-  public toggleLangDropdown(): void {
-    this.langDropdownVisible = !this.langDropdownVisible;
-    this.dropdownVisible = false;
-  }
-  private autoCloseUserDropDown(event): void {
+  public autoCloseUserDropDown(event): void {
     this.dropdownVisible = event;
   }
 
-  private autoCloseLangDropDown(event): void {
+  public autoCloseLangDropDown(event): void {
     this.langDropdownVisible = event;
   }
 
