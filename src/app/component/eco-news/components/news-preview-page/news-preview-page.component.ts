@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { singleNewsImages } from '../../../../../assets/img/icon/econews/single-news-images';
-import { CreateEcoNewsService } from '../../services/create-eco-news.service';
-import { NewsResponseDTO } from '../../models/create-news-interface';
+import { singleNewsImages } from '@eco-news-images/single-news-images';
+import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
-import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -13,12 +12,12 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./news-preview-page.component.scss']
 })
 export class NewsPreviewPageComponent implements OnInit, OnDestroy {
-  private images = singleNewsImages;
-  private previewItem: FormGroup;
-  private actualDate = new Date();
-  private userName: string;
+  public images = singleNewsImages;
+  public previewItem: FormGroup;
+  public actualDate = new Date();
+  public userName: string;
+  public isPosting = false;
   private userNameSub: Subscription;
-  private isPosting = false;
 
   constructor(private createEcoNewsService: CreateEcoNewsService,
               private localStorageService: LocalStorageService,
@@ -48,17 +47,17 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
     this.previewItem = this.createEcoNewsService.getFormData();
   }
 
-  private postNewsItem(): void {
+  public postNewsItem(): void {
     this.isPosting = true;
     this.createEcoNewsService
       .sendFormData(this.previewItem)
-      .subscribe((successRes: NewsResponseDTO) => {
+      .subscribe(() => {
         this.isPosting = false;
         this.router.navigate(['/news']);
       });
   }
 
-  private getImagePath(): string {
+  public getImagePath(): string {
     if (this.previewItem.value.image) {
       return this.previewItem.value.image;
     }
