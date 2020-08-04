@@ -155,7 +155,6 @@ export class CreateNewsComponent implements OnInit {
               filter.isActive &&
               !this.createNewsForm.value.tags.includes(tag)) {
             this.createNewsForm.value.tags = [...this.createNewsForm.value.tags, tag];
-            console.log(this.createNewsForm.value.tags);
             this.filtersValidation(filter);
           }
         });
