@@ -28,6 +28,7 @@
       "@eco-news-store/*": ["src/app/component/eco-news/store/*"],
       "@eco-news-models/*": ["src/app/component/eco-news/models/*"],
       "@eco-news-images/*": ["src/assets/img/icon/econews/*"],
+      "@footer-images/*": ["src/assets/img/icon/footer/*"],
       "@language-service/*": ["src/app/i18n/*"],
       "@environment/*": ["src/environments/*"],
       "@models/*": ["src/app/model/*"],
