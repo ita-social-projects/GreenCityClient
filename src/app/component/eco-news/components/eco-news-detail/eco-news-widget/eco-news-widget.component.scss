@@ -32,19 +32,3 @@ hr {
   padding-left: 0;
 }
 
-// .gallery-view-li-active {
-//   flex: 1;
-// }
-
-@media only screen and (max-width: 768px) and (min-width: 320px) {
-  .gallery-view-active {
-    flex-direction: column;
-  }
-}
-
-// @media only screen and (max-width: $bp-phone) {
-
-//   .gallery-view-li-active {
-//     flex-direction: row;
-//   }
-// }

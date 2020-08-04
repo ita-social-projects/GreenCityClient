@@ -119,8 +119,7 @@ $main-font: 'Open Sans';
 
 .news-image-img {
     width: 100%;
-    height: 400px;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .news-links-images {
