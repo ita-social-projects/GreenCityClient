@@ -12,12 +12,13 @@ $bp-largest: 1440px;
   border-top: 1px solid #EAEEF3;
   
   .progress__item {
-    width: 80px;
+    width: 76px;
     height: 58px;
     text-align: left;
     margin: 24px 0;
+
     .item__title {
-      width: 78px;
+      width: 100%;
       font-family: Montserrat;
       font-style: normal;
       font-weight: normal;
@@ -37,11 +38,17 @@ $bp-largest: 1440px;
       -webkit-text-fill-color: transparent;
     }
   }
+
+   @media only screen and (max-width: $bp-desktop) {
+      .progress__item {
+        width: 66px;
+        height: 58px;
+      }
+   }
       
    @media only screen and (max-width: $bp-phone) {
     border-top: 0px;
     border-bottom: 0px;
-    // padding: 7px 24px;
     margin: 7px 0px 7px 21px;
 
      .progress__item:not(:last-child) {

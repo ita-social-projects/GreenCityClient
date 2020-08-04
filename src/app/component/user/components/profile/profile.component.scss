@@ -39,11 +39,6 @@ $bp-largest: 1440px;
   }
 }
 
-@media only screen and (max-width: $bp-largest) {
-  .profile-wrapper {
-    // margin: 24px 24px;
-  }
-}
 
 @media only screen and (max-width: $bp-desktop) {
   .profile-wrapper {

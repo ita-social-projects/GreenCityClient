@@ -8,6 +8,7 @@ $font-family-first: Montserrat;
 
 .profile {
   background: #f5f7f6;
+
   .cards {
     width: 100%;
   }
@@ -15,6 +16,7 @@ $font-family-first: Montserrat;
     text-align: center;
     width: 100%;
     height: 88px;
+
     .profile-avatar {
      width: 88px;
      height: 88px;
@@ -58,7 +60,6 @@ $font-family-first: Montserrat;
         color: #878787;
       }
       
-      
       .descriptions__rate {
         display: flex;
         justify-content: center;
@@ -86,6 +87,7 @@ $font-family-first: Montserrat;
     }
   }
 }
+
 @media only screen and (max-width: $bp-phone) {
       .profile {
         display: flex;
@@ -93,6 +95,7 @@ $font-family-first: Montserrat;
         .details__img {
           width: 76px;
           height: 76px;
+
           .profile-avatar {
             width: 76px;
             height: 76px;
@@ -113,7 +116,6 @@ $font-family-first: Montserrat;
 
               .descriptions__name {
                 width: 100%;
-                // font-size: 16px;
                 text-align: left;
               }
 
