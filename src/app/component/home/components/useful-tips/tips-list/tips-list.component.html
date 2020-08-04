@@ -1,4 +1,6 @@
 <div id="swiper-wrapper">
+  <h2 class="section-caption">{{ "homepage.eco-advices.caption" | translate }}</h2>
+
   <swiper class="swiper-container" [config]="config">
     <app-tips-card *ngFor="let tip of tips" class="swiper-slide" [tip]="tip"></app-tips-card>
   </swiper>

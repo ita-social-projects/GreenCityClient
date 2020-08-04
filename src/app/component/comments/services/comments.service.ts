@@ -1,7 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { environment } from '@environment/environment';
 import { FormControl } from '@angular/forms';
 
@@ -9,6 +9,8 @@ import { FormControl } from '@angular/forms';
   providedIn: 'root'
 })
 export class CommentsService {
+  public repliesSubject = new Subject<boolean>();
+  public repliesVisibility = false;
   public accessToken: string = localStorage.getItem('accessToken');
   private backEnd = environment.backendLink;
   private routeSubscription: Subscription;
@@ -27,8 +29,18 @@ export class CommentsService {
     return this.http.post<object>(`${this.backEnd}econews/comments/${this.ecoNewsId}`, body);
   }
 
+  public setVisibility(): void {
+    this.repliesVisibility = !this.repliesVisibility;
+    this.repliesSubject
+      .next(this.repliesVisibility);
+  }
+
   public getCommentsByPage(): Observable<object> {
     return this.http.get<object>(`${this.backEnd}econews/comments?ecoNewsId=${this.ecoNewsId}&page=0&size=12`);
+  }
+
+  public getCommentsCount(id: number): Observable<number> {
+    return this.http.get<number>(`${this.backEnd}econews/comments/count/comments/${id}`);
   }
 
   public getAllReplies(id: number): Observable<object> {
@@ -43,7 +55,7 @@ export class CommentsService {
   }
 
   public getRepliesAmount(id: number): Observable<number> {
-    return this.http.get<number>(`${this.backEnd}econews/comments/count/replies?parentCommentId=${id}`);
+    return this.http.get<number>(`${this.backEnd}econews/comments/count/replies/${id}`);
 }
 
   public postLike(id: number): Observable<object> {
