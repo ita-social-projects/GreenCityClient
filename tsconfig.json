@@ -33,7 +33,8 @@
       "@global-service/*": ["src/app/service/*"],
       "@auth-service/*": ["src/app/service/auth/*"],
       "@store/*": ["src/app/store/*"],
-      "@eco-news-images/*": ["src/assets/img/icon/econews/*"]
+      "@eco-news-images/*": ["src/assets/img/icon/econews/*"],
+      "@environment/*": ["src/environments/*"]
     }
   },
   "angularCompilerOptions": {
