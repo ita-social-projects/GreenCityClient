@@ -28,6 +28,7 @@ export class AppComponent implements OnInit  {
     this.titleAndMetaTagsService.useTitleMetasData();
     this.searchSearch.searchSubject.subscribe(this.openSearchSubscription);
     this.uiActionsService.stopScrollingSubject.subscribe(data => this.toggle = data);
+    this.updatePage();
   }
 
   private openSearchSubscription(isSearchExpanded: boolean): void {
@@ -40,5 +41,11 @@ export class AppComponent implements OnInit  {
         window.scroll(0, 0);
       }
     });
+  }
+
+  private updatePage(): void {
+    this.router.events.subscribe(evt =>
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false
+      );
   }
 }

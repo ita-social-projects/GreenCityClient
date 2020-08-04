@@ -26,3 +26,11 @@ hr {
     list-style: none;
     padding-left: 0;
 }
+
+@media screen and (max-width: 576px) {
+  p {
+    font-size: 18px;
+    color: #313131;
+  }
+}
+
