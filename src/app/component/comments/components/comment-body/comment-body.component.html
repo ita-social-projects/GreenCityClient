@@ -6,7 +6,7 @@
     <div class="comment-name-date">
       <div class="author-name"><span>{{ element.author.name }}</span></div>
       <div class="comment-date"><span class="comment-dot"></span>
-        <span class="comment-date-month">{{ element.modifiedDate | date: 'longDate'}}<span *ngIf="isCommentEdited(element)" class="edited">edited</span></span>
+        <span class="comment-date-month">{{ element.modifiedDate | date: 'longDate'}}<span *ngIf="isCommentEdited(element)" class="edited">{{"user.add-comment.btn.edited" | translate}}</span></span>
       </div>
     </div>
     <app-likes-counter [commentId]="element.id"></app-likes-counter>
