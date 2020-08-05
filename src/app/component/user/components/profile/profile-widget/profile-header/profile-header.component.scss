@@ -35,7 +35,6 @@ $font-family-first: Montserrat;
       .descriptions__name {
         font-style: normal;
         font-weight: 600;
-        // font-size: 18px;
         font-size: calc(15px + (18 - 15) * ((100vw - 320px) / (1440 - 320)));
         line-height: 15px;
         text-align: center;

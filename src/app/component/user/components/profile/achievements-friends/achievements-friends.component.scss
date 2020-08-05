@@ -9,14 +9,11 @@ $bp-desktop: 1024px;
 $bp-largest: 1440px;
 
 .main-container {
-  // padding: 24px;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  // flex-wrap: wrap;
   margin-bottom: 24px;
   background: #f5f7f6;
-  // border-top: 1px solid #EAEEF3;
 
   .achievements,
   .friends {
