@@ -112,17 +112,14 @@ export class SignUpComponent implements OnInit {
   }
 
   private signInWithGoogleError(errors: HttpErrorResponse): void {
-    if (!errors.error.isArray() || !errors.error[0]) {
+    if (!errors.error.isArray()) {
       this.backEndError = errors.error.message;
       return;
     }
 
     errors.error.map((error) => {
-      if (error.name === 'email') {
-        this.emailErrorMessageBackEnd = error.message;
-      } else if (error.name === 'password') {
-        this.passwordErrorMessageBackEnd = error.message;
-      }
+      this.emailErrorMessageBackEnd = error.name === 'email' ? error.message : this.emailErrorMessageBackEnd;
+      this.passwordConfirmErrorMessageBackEnd = error.name === 'password' ? error.message : this.passwordConfirmErrorMessageBackEnd;
     });
   }
 
