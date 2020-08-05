@@ -82,14 +82,19 @@ export class SignUpComponent implements OnInit {
 
   private onSubmitError(errors: HttpErrorResponse): void {
     errors.error.map(error => {
-      if (error.name === 'name') {
-        this.firstNameErrorMessageBackEnd = error.message;
-      } else if (error.name === 'email') {
-        this.emailErrorMessageBackEnd = error.message;
-      } else if (error.name === 'password') {
-        this.passwordErrorMessageBackEnd = error.message;
-      } else if (error.name === 'passwordConfirm') {
-        this.passwordConfirmErrorMessageBackEnd = error.message;
+      switch (error.name) {
+        case 'name':
+          this.firstNameErrorMessageBackEnd = error.message;
+          break;
+        case 'email':
+          this.emailErrorMessageBackEnd = error.message;
+          break;
+        case 'password':
+          this.passwordErrorMessageBackEnd = error.message;
+          break;
+        case 'passwordConfirm':
+          this.passwordConfirmErrorMessageBackEnd = error.message;
+          break;
       }
     });
 
