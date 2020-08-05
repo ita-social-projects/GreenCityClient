@@ -54,11 +54,7 @@ export class SignUpComponent implements OnInit {
     this.setNullAllMessage();
     this.loadingAnim = true;
     this.userOwnSecurityService.signUp(userOwnRegister)
-      .subscribe((data) => {
-        this.onSubmitSuccess(data);
-      }, (error) => {
-        this.onSubmitError(error);
-      });
+      .subscribe((data) => this.onSubmitSuccess(data), (error) => this.onSubmitError(error));
   }
 
   private onSubmitSuccess(data): void {
@@ -82,24 +78,18 @@ export class SignUpComponent implements OnInit {
       disableClose: false,
       panelClass: 'custom-dialog-container',
     });
-
   }
 
   private onSubmitError(errors: HttpErrorResponse): void {
     errors.error.map(error => {
-      switch (error.name) {
-        case 'name':
-          this.firstNameErrorMessageBackEnd = error.message;
-          break;
-        case 'email':
-          this.emailErrorMessageBackEnd = error.message;
-          break;
-        case 'password':
-          this.passwordErrorMessageBackEnd = error.message;
-          break;
-        case 'passwordConfirm':
-          this.passwordConfirmErrorMessageBackEnd = error.message;
-          break;
+      if (error.name === 'name') {
+        this.firstNameErrorMessageBackEnd = error.message;
+      } else if (error.name === 'email') {
+        this.emailErrorMessageBackEnd = error.message;
+      } else if (error.name === 'password') {
+        this.passwordErrorMessageBackEnd = error.message;
+      } else if (error.name === 'passwordConfirm') {
+        this.passwordConfirmErrorMessageBackEnd = error.message;
       }
     });
 
@@ -109,14 +99,10 @@ export class SignUpComponent implements OnInit {
   public signInWithGoogle(): void {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID)
       .then((data) => {
-      this.googleService.signIn(data.idToken)
-        .subscribe((successData) => {
-          this.signInWithGoogleSuccess(successData);
-        });
+        this.googleService.signIn(data.idToken)
+          .subscribe((successData) => this.signInWithGoogleSuccess(successData));
       })
-      .catch((errorData) => {
-        this.signInWithGoogleError(errorData);
-      });
+      .catch((errorData) => this.signInWithGoogleError(errorData));
   }
 
   private signInWithGoogleSuccess(data: UserSuccessSignIn): void {
@@ -126,7 +112,7 @@ export class SignUpComponent implements OnInit {
   }
 
   private signInWithGoogleError(errors: HttpErrorResponse): void {
-    if (!errors.error[0]) {
+    if (!errors.error.isArray() || !errors.error[0]) {
       this.backEndError = errors.error.message;
       return;
     }
