@@ -15,7 +15,7 @@ export class FilterNewsComponent implements OnInit {
   public filters: Array<FilterModel> = [];
   private tagsSubscription: Subscription;
 
-  @Output() gridOutput = new EventEmitter<Array<string>>();
+  @Output() tagsList = new EventEmitter<Array<string>>();
 
   constructor(private ecoNewsService: EcoNewsService) { }
 
@@ -29,7 +29,7 @@ export class FilterNewsComponent implements OnInit {
   }
 
   public emitActiveFilters(): void {
-    this.gridOutput.emit(this.emitTrueFilterValues());
+    this.tagsList.emit(this.emitTrueFilterValues());
   }
 
   public toggleFilter(currentFilter: string): void {
