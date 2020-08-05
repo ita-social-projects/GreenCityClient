@@ -1,9 +1,8 @@
 <span class = "not-found-text">
-  We couldn't find results for "User's search query"<br>
-  Please change the search.
+ {{ "search.search-not-found.not-found-text" | translate }}
 </span>
 <span class = "choose-alternative">
-  Maybe you can find some interesting stuff here:
+  {{ "search.search-not-found.choose-alternative" | translate }}
 </span>
 <div class="flex-container">
   <a [routerLink]="['/news']"
@@ -12,9 +11,9 @@
       <img class="alternative-image"
            src="assets/img/a_img.png"
            alt="news-image">
-      <h2 class="alternative-header">News</h2>
+      <h2 class="alternative-header">{{ "search.search-not-found.alternative-header-news" | translate }}</h2>
       <span class="alternative-description">
-        Find the latest news, events and initiatives here. Find news and create ones.
+        {{ "search.search-not-found.alternative-description-news" | translate }}
       </span>
     </div>
   </a>
@@ -27,10 +26,9 @@
       <img class="alternative-image"
            src="assets/img/a_img.png"
            alt="tips-image">
-      <h2 class="alternative-header">Tips & Tricks</h2>
+      <h2 class="alternative-header">{{ "search.search-not-found.alternative-header-tips" | translate }}</h2>
       <span class="alternative-description">
-        How to sort garbage? Where to find eco stuff?
-        And many other useful stuff for being eco friendly.
+        {{ "search.search-not-found.alternative-description-tips" | translate }}
       </span>
     </div>
   </a>
