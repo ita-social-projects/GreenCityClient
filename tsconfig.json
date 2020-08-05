@@ -28,12 +28,12 @@
       "@eco-news-store/*": ["src/app/component/eco-news/store/*"],
       "@global-user/*": ["src/app/component/user/*"],
       "@user-models/*": ["src/app/component/user/models/*"],
-      "@global-images/*": ["src/assets/img/*"],
       "@language-service/*": ["src/app/i18n/*"],
       "@global-models/*": ["src/app/model/*"],
       "@global-service/*": ["src/app/service/*"],
       "@auth-service/*": ["src/app/service/auth/*"],
       "@store/*": ["src/app/store/*"],
+      "@global-images/*": ["src/assets/img/*"],
       "@eco-news-images/*": ["src/assets/img/icon/econews/*"],
       "@footer-images/*": ["src/assets/img/icon/footer/*"],
       "@environment/*": ["src/environments/*"]
