@@ -7,8 +7,8 @@ import { authImages } from '@global-images/auth/auth-images';
 import { UserOwnSignInService } from '@global-service/auth/user-own-sign-in.service';
 import { UserOwnSignUpService } from '@global-service/auth/user-own-sign-up.service';
 import { GoogleSignInService } from '@global-service/auth/google-sign-in.service';
-import { UserOwnSignUp } from '@models/user-own-sign-up';
-import { UserSuccessSignIn } from '@models/user-success-sign-in';
+import { UserOwnSignUp } from '@global-models/user-own-sign-up';
+import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
 import { SubmitEmailComponent } from '../submit-email/submit-email.component';
 import { SignInComponent } from '../sign-in/sign-in.component';
 
