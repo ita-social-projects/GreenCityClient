@@ -15,18 +15,19 @@
 
 .ul-eco-buttons {
     list-style: none;
+    margin: 0px;
 }
 
 .ul-eco-buttons-li {
     font-family: OpenSans, sans-serif;
-    font-size: 14px;
-    line-height: 16px;
+    font-size: calc(11px + (14 - 11) * ((100vw - 320px) / (1200 - 320)));
+    line-height: calc(13px + (16 - 13) * ((100vw - 320px) / (1200 - 320)));
     color: #666666;
     display: inline-block;
-    padding: 8px 16px;
+    padding: calc(6px + (8 - 6) * ((100vw - 320px) / (1200 - 320))) calc(12px + (16 - 12) * ((100vw - 320px) / (1200 - 320)));
     border: 1px solid #666666;
     border-radius: 25px;
-    margin:0 8px 8px 0;
+    margin:0 8px 0px 0;
     text-transform: capitalize;
 }
 
@@ -82,8 +83,16 @@
 
 @media screen and (max-width: 576px) {
   .wrapper{
+    flex-direction: column;
     span{
       margin: 0 -34px 0 0;
+    }
+  }
+
+  .ul-eco-buttons{
+    padding: 16px 0px 0px 0px;
+    a:nth-child(2){
+      display: none;
     }
   }
 }

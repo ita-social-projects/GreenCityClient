@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { footerIcons } from '../../../../../assets/img/icon/footer/footer-icons';
-import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
+import { footerIcons } from '@footer-images//footer-icons';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+
 
 @Component({
   selector: 'app-footer',
