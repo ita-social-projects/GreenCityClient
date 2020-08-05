@@ -53,31 +53,31 @@
 }
 
 @media screen and (max-width: 767px) {
-    .wrapper  {
-      flex-wrap: wrap;
-      justify-content: flex-end;
+  .wrapper  {
+    flex-wrap: wrap;
+    justify-content: flex-end;
 
-      input {
-        width: 438px;
-        margin-bottom: 16px;
-      }
+    input {
+      width: 438px;
+      margin-bottom: 16px;
     }
+  }
 }
 
 @media screen and (max-width: 575px) {
-    .wrapper  {
-      img {
-        display: none;
-      }
+  .wrapper  {
+    img {
+      display: none;
+    }
 
-      input {
-        width: 543px;
-        margin-bottom: 16px;
-      }
+    input {
+      width: 543px;
+      margin-bottom: 16px;
+    }
 
-      button {
-        width: 543px;
-        margin: 0;
-      }
+    button {
+      width: 543px;
+      margin: 0;
+    }
   }
 }
