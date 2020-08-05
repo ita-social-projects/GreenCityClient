@@ -93,7 +93,7 @@ export class CreateNewsComponent implements OnInit {
     this.createNewsForm.get('source').valueChanges.subscribe(source => {
       this.isLink = source.startsWith('http://') ||
                     source.startsWith('https://') ||
-                    !!source.length;
+                    source.length === 0 ? false : true;
     });
   }
 
