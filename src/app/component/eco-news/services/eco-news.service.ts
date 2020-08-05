@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EcoNewsModel } from '../models/eco-news-model';
-import { environment } from '../../../../environments/environment';
+import { environment } from '@environment/environment';
 import { EcoNewsDto } from '../models/eco-news-dto';
-import {Observable, Observer, Subject} from 'rxjs';
+import { Observable, Observer } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 @Injectable({
@@ -12,12 +12,11 @@ import { take } from 'rxjs/operators';
 
 export class EcoNewsService {
   private backEnd = environment.backendLink;
-  public sortedLastThreeNews =  new Subject<Array<EcoNewsModel>>();
 
   constructor(private http: HttpClient) { }
 
   public getAllPresentTags(): Observable<Array<string>> {
-    return this.http.get<Array<string>>(`${this.backEnd}econews/ecoNewsTags`);
+    return this.http.get<Array<string>>(`${this.backEnd}econews/tags/all`);
   }
 
   public getEcoNewsListByPage(page: number, quantity: number) {
@@ -49,25 +48,7 @@ export class EcoNewsService {
     return this.http.get<EcoNewsModel>(`${this.backEnd}econews/${id}`);
   }
 
-  public sortLastThreeNewsChronologically(id): void {
-    this.http.get<EcoNewsDto>(`${this.backEnd}econews`)
-      .pipe(take(1))
-      .subscribe(
-        (newsList: EcoNewsDto) => {
-          this.onSortLastThreeNewsFinished(newsList.page, id);
-        }
-     );
-  }
-
-  private onSortLastThreeNewsFinished(data: EcoNewsModel[], id: number): void {
-    const separetedNews: Array<EcoNewsModel> = [...data]
-      .sort((a: any, b: any) => {
-        const dateFirstAdded: number = +new Date(a.creationDate);
-        const dateLastAdded: number = +new Date(b.creationDate);
-        return dateLastAdded - dateFirstAdded;
-      })
-      .filter(news => news.id !== id)
-      .splice(0, 3);
-    this.sortedLastThreeNews.next(separetedNews);
+  public getRecommendedNews(id: number): Observable<EcoNewsModel> {
+    return this.http.get<EcoNewsModel>(`${this.backEnd}econews/recommended?openedEcoNewsId=${id}`);
   }
 }

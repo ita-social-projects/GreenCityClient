@@ -1,6 +1,6 @@
 import { Component, Input, ViewChild, ElementRef, Renderer2, AfterViewChecked } from '@angular/core';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
-import { ecoNewsIcons } from 'src/assets/img/icon/econews/profile-icons';
+import { ecoNewsIcons } from '@eco-news-images/profile-icons';
 
 @Component({
   selector: 'app-news-list-list-view',
@@ -45,8 +45,7 @@ export class NewsListListViewComponent implements AfterViewChecked {
   public checkHeightOfTittle(): void {
     this.titleHeightOfElement = this.titleHeight.nativeElement.offsetHeight;
     this.textHeightOfElement = this.calculateElementHeight();
-    this.renderer.setStyle(this.textHeight.nativeElement,
-                            'height', this.textHeightOfElement + 'px');
+    this.renderer.setStyle(this.textHeight.nativeElement, 'height', `${this.textHeightOfElement}px`);
   }
 
   public calculateElementHeight(): number {

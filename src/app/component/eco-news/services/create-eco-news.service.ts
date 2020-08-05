@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { NewsDTO, NewsResponseDTO } from '../models/create-news-interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../../../environments/environment';
+import { environment } from '@environment/environment';
 import { FormGroup } from '@angular/forms';
 import { FileHandle } from '../models/create-news-interface';
 
@@ -16,6 +16,7 @@ export class CreateEcoNewsService {
   public files: FileHandle[] = [];
   public fileUrl: string;
   public isImageValid: boolean;
+  public isBackToEditing: boolean;
   private httpOptions = {
     headers: new HttpHeaders({
       Authorization: 'my-auth-token'

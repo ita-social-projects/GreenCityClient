@@ -13,16 +13,16 @@
   </div>
   <div class="comment-main-text">
     <p class="comment-text" *ngIf="!element.isEdit">{{ element.text }}</p>
-    <div class="comment-edit-text" 
+    <div class="comment-edit-text"
           *ngIf="element.isEdit"
           >
-      <input type="text" 
+      <input type="text"
              placeholder="Enter your new comment"
              [formControl]="content"
              class="edit-text-input"
              >
     <div class="save-cancel-wrapper">
-      <div class="save-cancel-btn">       
+      <div class="save-cancel-btn">
         <div class="save-btn">
           <button (click)="saveEditedComment(element)"
                 [disabled]="!content.valid"
@@ -45,10 +45,10 @@
             Cancel
           </span>
           </button>
-        </div> 
-        <div class="replies-btn"> 
+        </div>
+        <div class="replies-btn">
           <app-view-replies *ngIf="element.isEdit" class="flex"></app-view-replies>
-        </div> 
+        </div>
       </div>
     </div>
   </div>
@@ -67,11 +67,12 @@
          *ngIf="isLoggedIn && (element.author.id === +userId) && !element.isEdit"
     >
       <app-edit-comment (isEditing)="onEdit(element.id)"></app-edit-comment>
-      <app-delete-comment [elements]="elements" 
+      <app-delete-comment [elements]="elements"
       [element]="element"></app-delete-comment>
     </div>
     <app-view-replies [commentId]="element.id"
-                      *ngIf="type === 'comment' && !element.isEdit"
+                      *ngIf="type === 'comment'"
+                      (click)="showReplies(element.id)"
     ></app-view-replies>
   </div>
   <app-add-comment *ngIf="replyFormVisibility && element.id === tempId"
