@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 
+$bp-smallest: 320px;
+$bp-phone: 576px;
+$bp-tablet: 768px;
+$bp-desktop: 1024px;
+$bp-largest: 1440px;
+
 $title-font: 'Montserrat';
 $main-font: 'Open Sans';
 
@@ -92,13 +98,15 @@ $main-font: 'Open Sans';
     margin: 0 6.8% 24px;
     color: #494A49;
     font-weight: 500;
-    font-size: 40px;
-    line-height: 60px;
+    width: 100%;
+    font-size: calc(24px + (40 - 24) * ((100vw - 320px) / (1440 - 320)));
+    line-height: calc(32px + (48 - 32) * ((100vw - 320px) / (1440 - 320)));
     font-family: $title-font;
 }
 
 .news-info {
-    padding: 0 0 30px 0;
+    padding: 24px 0;
+    display: flex;
     justify-content: center;
 }
 
@@ -106,6 +114,8 @@ $main-font: 'Open Sans';
 .news-info-author {
     color: #494A49;
     font-size: 24px;
+    font-size: calc(16px + (24 - 16) * ((100vw - 320px) / (1440 - 320)));
+    line-height: calc(16px + (40 - 16) * ((100vw - 320px) / (1440 - 320)));
 }
 
 .news-info-dot {
@@ -114,6 +124,7 @@ $main-font: 'Open Sans';
 
 .news-image-img {
     width: 100%;
+    object-fit: contain;
 }
 
 .news-links-images {
@@ -127,6 +138,7 @@ $main-font: 'Open Sans';
 .news-text-container {
     display: flex;
     padding: 69px 0 0;
+    margin-top: 37px;
 }
 
 .news-text {
@@ -221,10 +233,33 @@ $main-font: 'Open Sans';
 }
 
 @media screen and (max-width: 576px) {
-    .wrapper {
-        margin: 0 2.4%;
-    }
+  .wrapper {
+    margin: 0 2.4%;
+  }
 
+  .wrap {
+    width: 100vw;
+    margin-left: calc(-50vw + 50% - 8px);
+    position: relative;
+  }
+}
+
+@media only screen and (max-width: $bp-tablet) {
+    .news-text-container {
+        flex-direction: column;
+        margin-top: 0px;
+
+        .news-links-images {
+            flex-direction: row;
+            justify-content: center;
+
+        }
+
+        .news-text {
+            padding: 0px;
+            margin-left: 0px;
+        }
+    }
 }
 
 @media screen and (max-width: 320px) {
@@ -276,11 +311,17 @@ $main-font: 'Open Sans';
     margin-top: 8px;
   }
 
-    .source-field{
-        flex-direction: column;
+  .source-field {
+    flex-direction: column;
 
-        .source-text {
-            max-width: 288px;
-        }
+    .source-text {
+      max-width: 288px;
+    }
+  }
+}
+
+@media only screen and (max-width: $bp-smallest) {
+    .news-info {
+        flex-direction: column;
     }
 }

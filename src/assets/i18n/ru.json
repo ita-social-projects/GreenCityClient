@@ -54,6 +54,23 @@
       "button-subscribe": "Подписаться!"
     }
   },
+  "search": {
+    "search-popup": {
+      "placeholder": "Поиск",
+      "items-found": "найдено",
+      "news": "Новости",
+      "tips":"Советы",
+      "all-results": "Все результаты"
+    },
+    "search-not-found": {
+      "not-found-text": "Не удалось найти результаты по вашему запросу. Измените запрос.",
+      "choose-alternative": "Может быть, здесь вы найдете что-нибудь интересное:",
+      "alternative-header-news": "Новости",
+      "alternative-description-news": "Здесь вы найдете самые свежие новости, события и инициативы. Находите новости и создавайте их.",
+      "alternative-header-tips": "Советы",
+      "alternative-description-tips": "Как сортировать мусор? Где найти эко вещи? И много других полезных вещей, чтобы быть экологически чистыми."
+    }
+  },
   "admin-nav": {
     "places": "Места",
     "users": "Пользователи",

@@ -18,6 +18,12 @@ $main-font: 'Open Sans';
   }
 }
 
+@media screen and (max-width: 768px) {
+  .comment-body-wrapper {
+    width: 100%;
+  }
+}
+
 .author-name {
   font-family: 'Montserrat', sans-serif;
   font-style: normal;
@@ -110,11 +116,13 @@ $main-font: 'Open Sans';
     .edit-text-input {
       width: 100%;
       height: 72px;
+      overflow: hidden;
+      resize: none;
 
       &::placeholder {
         color:#878787;
         position: relative;
-        top: -12px;
+        top: 10px;
         left: 10px;
       }
     }
@@ -153,3 +161,4 @@ $main-font: 'Open Sans';
     display: flex;
   }
 }
+
