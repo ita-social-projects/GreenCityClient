@@ -43,3 +43,4 @@ jobs:
         local_dir: dist/GreenCityClient
         on:
           branch: dev
+        
