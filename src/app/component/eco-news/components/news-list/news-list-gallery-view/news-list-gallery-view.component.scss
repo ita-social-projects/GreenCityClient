@@ -48,7 +48,7 @@ div {
     }
 
     .added-data {
-      height: 200px;
+      max-height: 200px;
       overflow: hidden;
       position: relative;
 
@@ -64,6 +64,8 @@ div {
       }
 
       .title-list {
+        max-height: 52px;
+        overflow: hidden;
         font-family: 'Montserrat', sans-serif;
         font-style: normal;
         font-weight: 500;
@@ -73,6 +75,8 @@ div {
       }
 
       .list-text {
+        max-height: 150px;
+        overflow: hidden;
         margin: 10px 0 0 0;
         font-family: 'Open Sans', sans-serif;
         font-size: 14px;
