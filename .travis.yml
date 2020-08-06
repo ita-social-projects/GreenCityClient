@@ -9,10 +9,11 @@ addons:
 
 cache:
   directories:
+    - node_modules
     - dist
 
 install:
-  - rm -rf node_modules && npm install
+  - npm install
 
 jobs:
   allow_failures:
