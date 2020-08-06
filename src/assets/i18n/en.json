@@ -40,7 +40,41 @@
         "ads": "Ads",
         "education": "Education"
       },
-      "items-found": "items found"
+      "items-found": "items found",
+      "comment": {
+        "comment": "Comment",
+        "comments": {
+          "zero-comment": "comment",
+          "one-comment": "comment",
+          "more-then-two-comments": "comments",
+          "more-then-four-comments": "сomments"
+        },
+        "reply": "Reply",
+        "replies": {
+          "zero-reply": "reply",
+          "one-reply": "reply",
+          "more-then-two-replies": "replies",
+          "more-then-four-replies": "replies"
+        },
+        "btn": {
+          "reply": "Reply",
+          "like": "Like",
+          "liked": "Liked",
+          "comment": "Comment",
+          "edit": "Edit",
+          "edited": "edited",
+          "delete": "Delete",
+          "save": "Save",
+          "close": "Close",
+          "cancel": "Cancel"
+        },
+        "placeholder": {
+          "add-a-comment": "Add a comment",
+          "add-a-reply": "Add a reply",
+          "enter-your-new-comment": "Enter your new comment"
+        },
+        "view": "View"
+      }
     },
     "eco-advices": {
       "caption": "Tips & Tricks"
