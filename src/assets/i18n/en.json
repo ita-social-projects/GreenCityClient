@@ -71,7 +71,7 @@
         "placeholder": {
           "add-a-comment": "Add a comment",
           "add-a-reply": "Add a reply",
-          "enter-your-new-comment": "Enter your new comment"
+          "new-comment": "Enter your new comment"
         },
         "view": "View"
       }

@@ -71,7 +71,7 @@
         "placeholder": {
           "add-a-comment": "Додати коментар",
           "add-a-reply": "Додати відповідь",
-          "enter-your-new-comment": "Введіть ваш новий коментар"
+          "new-comment": "Введіть ваш новий коментар"
         },
         "view": "Переглянути"
       }
