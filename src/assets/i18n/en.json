@@ -224,7 +224,8 @@
       "comment-must-be-maximum": "Comment must be maximum",
       "characters-long": "characters long.",
       "please-write-a-comment": "Please write a comment",
-      "submit": "Submit" 
+      "submit": "Submit",
+      "close": "Close"
     },
     "auth": {
       "sign-in": {

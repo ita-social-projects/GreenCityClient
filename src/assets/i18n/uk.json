@@ -229,7 +229,8 @@
       "comment-must-be-maximum": "Коментар повинен містити максимум",
       "characters long": "символів",
       "please-write-a-comment": "Будь ласка введіть коментар",
-      "submit": "Підтвердити"
+      "submit": "Підтвердити",
+      "close": "Закрити"
     },
     "auth": {
       "sign-in": {

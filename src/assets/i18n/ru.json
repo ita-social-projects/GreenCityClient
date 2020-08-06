@@ -229,7 +229,8 @@
       "comment-must-be-maximum": "Комментарий должен содержать максимум",
       "characters long": "символов",
       "please-write-a-comment": "Будь ласка напишіть коментар",
-      "submit": "Подтвердить"
+      "submit": "Подтвердить",
+      "close": "Закрыть"
     },
     "auth": {
       "sign-in": {
