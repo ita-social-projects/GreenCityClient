@@ -1,6 +1,6 @@
 <div class="main-container">
   <div class="main-image">
-    <img [src]="signUpImgs.mainImage"
+    <img [src]="signUpImages.mainImage"
          alt="main-image"
     >
   </div>
@@ -9,7 +9,7 @@
     <div class="close-btn">
       <div class="close-btn-img">
         <a (click)="closeSignUpWindow()">
-          <img [src]="signUpImgs.cross"
+          <img [src]="signUpImages.cross"
                alt="cross"
                class="cross-img"
           >
@@ -18,7 +18,7 @@
     </div>
     <div class="main-content-container">
       <div class="title">
-        <h1 class=""title-text>
+        <h1 class="title-text">
           {{ 'user.auth.sign-up.title-up' | translate }}
         </h1>
       </div>
@@ -112,7 +112,7 @@
                    name="form-control password"
             >
             <span class="show-password">
-              <img [src]="signUpImgs.hiddenEye"
+              <img [src]="signUpImages.hiddenEye"
                    alt="eye"
                    class="show-password-img"
                    #inputPasswordImg
@@ -157,7 +157,7 @@
                    required
             >
             <span class="show-password">
-              <img [src]="signUpImgs.hiddenEye"
+              <img [src]="signUpImages.hiddenEye"
                    alt="eye"
                    class="show-password-img"
                    #repeatPasswordImg
@@ -210,7 +210,7 @@
                   class="cta-button-google"
                   (click)="signInWithGoogle()"
           >
-            <img [src]="signUpImgs.google"
+            <img [src]="signUpImages.google"
                  alt="google"
                  class="sign-up-google-img"
             >

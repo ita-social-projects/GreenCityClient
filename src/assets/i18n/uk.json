@@ -54,6 +54,23 @@
       "button-subscribe": "Підписатися!"
     }
   },
+  "search": {
+    "search-popup": {
+      "placeholder": "Пошук",
+      "items-found": "знайдено",
+      "news": "Новини",
+      "tips":"Поради",
+      "all-results": "Всі результати"
+    },
+    "search-not-found": {
+      "not-found-text": "Не вдалося знайти результати за вашим запитом. Змініть запит.",
+      "choose-alternative": "Можливо, ви можете знайти тут щось цікаве:",
+      "alternative-header-news": "Новини",
+      "alternative-description-news": "Знайдіть останні новини, події та ініціативи тут. Знайдіть новини та створіть їх.",
+      "alternative-header-tips": "Поради",
+      "alternative-description-tips": "Як сортувати сміття? Де знайти еко-речі? І багато інших корисних речей для екологічності."
+    }
+  },
   "admin-nav": {
     "places": "Місця",
     "users": "Користувачі",

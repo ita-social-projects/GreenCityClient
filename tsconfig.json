@@ -33,9 +33,15 @@
       "@global-service/*": ["src/app/service/*"],
       "@auth-service/*": ["src/app/service/auth/*"],
       "@store/*": ["src/app/store/*"],
+      "@global-images/*": ["src/assets/img/*"],
       "@eco-news-images/*": ["src/assets/img/icon/econews/*"],
+<<<<<<< HEAD
       "@environment/*": ["src/environments/*"],
       "@shared/*": ["src/app/component/shared/*"],
+=======
+      "@footer-images/*": ["src/assets/img/icon/footer/*"],
+      "@environment/*": ["src/environments/*"]
+>>>>>>> 54061ee36dc9ccf2ff299b35b0738cc2b8b299e9
     }
   },
   "angularCompilerOptions": {

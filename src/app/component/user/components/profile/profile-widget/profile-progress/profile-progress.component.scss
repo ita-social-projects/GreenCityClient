@@ -1,26 +1,30 @@
+$bp-smallest: 320px;
+$bp-phone: 576px;
+$bp-tablet: 768px;
+$bp-desktop: 1024px;
+$bp-largest: 1440px;
+
 .progress {
   display: flex;
   flex-flow: row wrap;
-  height: 340px;
-  padding: 30px 0;
-  background: #f5f7f6;
   justify-content: space-around;
-  border-top: 2px solid #EAEEF3;
-  border-bottom: 2px solid #EAEEF3;
+  height: auto;
+  background: #f5f7f6;
+  border-top: 1px solid #EAEEF3;
   
   .progress__item {
-    width: 130px;
-    height: 130px;
-    padding: 10px;
-    background: #ecf1ef;
-    border-radius: 4px;
+    width: 76px;
+    height: 58px;
     text-align: left;
+    margin: 24px 0;
+
     .item__title {
+      width: 100%;
       font-family: Montserrat;
       font-style: normal;
       font-weight: normal;
-      font-size: 18px;
-      line-height: 20px;
+      font-size: 11px;
+      line-height: 13px;
       color: #494a49;
     }
 
@@ -28,11 +32,72 @@
       font-family: Montserrat;
       font-style: normal;
       font-weight: 500;
-      font-size: 40px;
-      line-height: 65px;
+      font-size: 28px;
+      line-height: 32px;
       background: linear-gradient(180deg, #abe64d 0%, #4b9b25 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
   }
+
+   @media only screen and (max-width: $bp-desktop) {
+      .progress__item {
+        width: 66px;
+        height: 58px;
+      }
+   }
+      
+   @media only screen and (max-width: $bp-phone) {
+    justify-content: start;
+    border-top: 0px;
+    border-bottom: 0px;
+    margin: 7px 0px 7px 21px;
+
+     .progress__item:not(:last-child) {
+       border-right: 1px solid #E1E5E3;
+       margin-right: 26px;
+     }
+      
+      .progress__item {
+        width: 80px;
+        height: 58px;
+        margin: 0px 0px;
+
+        .item__title {
+          width: 68px;
+          font-size: 10px;
+          line-height: 12px;
+        }
+
+        .item__number {
+          font-size: 24px;
+          line-height: 24px;
+        }
+      }
+   }
+
+   @media only screen and (max-width: $bp-smallest) {
+    border-top: 0px;
+    border-bottom: 0px;
+    margin: 0px;
+    margin-top: 21px;
+
+    .progress__item:not(:last-child) {
+      margin-right: 12px;
+    }
+
+     .progress__item {
+      width: 56px;
+
+       .item__title {
+         font-size: 10px;
+         line-height: 12px;
+       }
+
+       .item__number {
+         font-size: 24px;
+         line-height: 24px;
+       }
+     }
+   }
 }

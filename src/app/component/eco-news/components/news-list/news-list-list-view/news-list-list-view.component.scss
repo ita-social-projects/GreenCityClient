@@ -6,6 +6,7 @@ div {
 
 #list-gallery-content {
   display: flex;
+  width: 1140px;
   max-height: 199px;
   box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
   border-radius: 4px;
@@ -14,25 +15,129 @@ div {
   .list-image-content {
     border-radius: 4px;
     width: 359px;
-    height: 214px;
+    height: 199px;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  #list-gallery-content { 
+    width: 960px;
+    height: 166px;
+
+    .list-image-content {
+      width: 299px;
+      height: 166px;
+    }
   }
 
-  @media screen and (max-width: 1200px) {
-    .list-text {
-      display: none;
-    }
-    .user-data-added-news {
-      min-width: 322px;
-    }
+  .list-text {
+    display: none;
   }
+  .user-data-added-news {
+    min-width: 322px;
+  }
+}
 
-  @media screen and (max-width: 768px) {
+@media screen and (max-width: 768px) {
+  #list-gallery-content {
+    width: 742px;
+    height: 191px;
+  
     .list-image-content {
       width: 214px;
+      height: 191px;
       object-fit: cover;
     }
-    .user-data-added-news {
-      min-width: 322px;
+  }
+  .user-data-added-news {
+    min-width: 322px;
+  }
+
+  .user-data-text-date:nth-child(2) {
+    max-height: 26px;
+    display: block;
+    white-space: nowrap;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  #list-gallery-content {
+    width: 548px;
+    height: 185px;
+  
+    .list-image-content {
+      display: none;
+    }
+  }
+}
+
+.news-content {
+  margin-left: 16px;
+  padding: 16px;
+
+  .added-data {
+
+    .ul-eco-buttons {
+      opacity: 0.8;
+      font-family: OpenSans, sans-serif;
+      font-size: 16px;
+      line-height: 14px;
+      color: #13AA57;
+      display: inline-block;
+      margin: 0 16px 0 0;
+      text-transform: capitalize;
+    }
+
+    .word-wrap {
+      word-break: break-word;
+    }
+
+  }
+
+  .title-list {
+    overflow: hidden;
+    max-height: 128px;
+    margin: 8px 0 0 0;
+    font-family: 'Montserrat', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 21px;
+    line-height: 26px;
+    color: #313131;
+  }
+
+  .list-text {
+    overflow: hidden;
+    max-height: 52px;
+    margin: 8px 0 0 0;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    line-height: 23px;
+    color: #313131;
+  }
+
+  .user-data-added-news {
+    height: 24px;
+    margin: 16px 0 0 0;
+    display: flex;
+    flex-wrap: wrap;
+
+    .user-data-text-date {
+      margin-right: 16px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 16px;
+      line-height: 24px;
+      color: #666666;
+      mix-blend-mode: normal;
+      opacity: 0.6;
+
+      .icon {
+        align-items: center;
+        margin-right: 4px;
+      }
     }
 
     .user-data-text-date:nth-child(2) {
@@ -44,111 +149,6 @@ div {
       text-overflow: ellipsis;
     }
   }
-
-  @media screen and (max-width: 576px) {
-    .list-image-content {
-      display: none;
-    }
-  }
-
-  .news-content {
-    margin-left: 16px;
-    padding: 16px;
-
-    .added-data {
-
-      .ul-eco-buttons {
-        opacity: 0.8;
-        font-family: OpenSans, sans-serif;
-        font-size: 16px;
-        line-height: 14px;
-        color: #13AA57;
-        display: inline-block;
-        margin: 0 16px 0 0;
-        text-transform: capitalize;
-      }
-
-      .word-wrap {
-        word-break: break-word;
-      }
-
-    }
-
-    .title-list {
-      overflow: hidden;
-      max-height: 128px;
-      margin: 8px 0 0 0;
-      font-family: 'Montserrat', sans-serif;
-      font-style: normal;
-      font-weight: 500;
-      font-size: 21px;
-      line-height: 26px;
-      color: #313131;
-    }
-
-    .list-text {
-      overflow: hidden;
-      max-height: 52px;
-      margin: 8px 0 0 0;
-      font-family: 'Open Sans', sans-serif;
-      font-size: 14px;
-      line-height: 23px;
-      color: #313131;
-    }
-
-    .user-data-added-news {
-      height: 24px;
-      margin: 16px 0 0 0;
-      display: flex;
-      flex-wrap: wrap;
-
-      .user-data-text-date {
-        margin-right: 16px;
-        font-family: 'Open Sans', sans-serif;
-        font-size: 16px;
-        line-height: 24px;
-        color: #666666;
-        mix-blend-mode: normal;
-        opacity: 0.6;
-
-        .icon {
-          align-items: center;
-          margin-right: 4px;
-        }
-      }
-
-      .user-data-text-date:nth-child(2) {
-        max-height: 26px;
-        display: block;
-        white-space: nowrap;
-        max-width: 120px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 1024px) {
-    #list-gallery-content {
-      max-height: 166px;
-
-      .list-image-content {
-        max-height: 171px;
-        width: 299px;
-      }
-    }
-}
-
-@media screen and (max-width: 768px) {
-    #list-gallery-content {
-      max-height: 191px;
-
-      .list-image-content {
-        max-height: 191px;
-        width: 334px;
-      }
-    }
 }
 
 #list-gallery-content:hover {
@@ -157,3 +157,4 @@ div {
   border-radius: 4px;
   cursor: pointer;
 }
+
