@@ -18,6 +18,7 @@ install:
 jobs:
   allow_failures:
     - name: test app
+
   include:
     - stage: build
       script:
