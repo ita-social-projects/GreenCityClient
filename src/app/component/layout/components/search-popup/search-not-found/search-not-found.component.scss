@@ -30,7 +30,7 @@
 
 .flex-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   width: 43rem;
   height: 340px;
   position: relative;
@@ -77,5 +77,18 @@
     box-shadow: 0px 0.25rem 2rem #e6ebea;
     border-radius: 0.25rem;
     cursor: pointer;
+  }
+}
+
+@media (max-width: 797px) {
+  .flex-container {
+    width: 300px;
+    margin-top: 30px;
+    flex-direction: column;
+    height: 650px;
+
+    .alternative-news, .alternative-tips {
+      padding: 2rem;
+    }
   }
 }
