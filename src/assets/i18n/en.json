@@ -88,6 +88,23 @@
       "button-subscribe": "Subscribe!"
     }
   },
+  "search": {
+      "search-popup": {
+        "placeholder": "Search",
+        "items-found": "items found",
+        "news": "News",
+        "tips":"Tips & Tricks",
+        "all-results": "See all results"
+      },
+      "search-not-found": {
+        "not-found-text": "We couldn't find results for 'User's search query' Please change the search.",
+        "choose-alternative": "Maybe you can find some interesting stuff here:",
+        "alternative-header-news": "News",
+        "alternative-description-news": "Find the latest news, events and initiatives here. Find news and create ones.",
+        "alternative-header-tips": "Tips & Tricks",
+        "alternative-description-tips": "How to sort garbage? Where to find eco stuff? And many other useful stuff for being eco friendly."
+      }
+  },
   "admin-nav": {
     "places": "Places",
     "users": "Users",
@@ -624,6 +641,20 @@
   "date": {
     "months": ["Jan,", "Feb,", "Mar,", "Apr,", "May,", "Jun,", "Jul,", "Aug,", "Sep,", "Oct,", "Nov,", "Dec,"],
     "year": ""
+  },
+  "eco-news-preview": {
+    "back-button": "Back to editing",
+    "publish-button": "Publish",
+    "create-news": "Create news",
+    "tags": {
+      "news": "news",
+      "events": "events",
+      "initiatives": "initiatives",
+      "ads": "ads",
+      "education": "education"
+    },
+    "author": "by",
+    "news-source": "Source:"
   },
   "eco-news-single-view": {
     "back-button": "Back to news",

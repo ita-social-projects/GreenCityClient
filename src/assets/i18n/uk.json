@@ -88,6 +88,23 @@
       "button-subscribe": "Підписатися!"
     }
   },
+  "search": {
+    "search-popup": {
+      "placeholder": "Пошук",
+      "items-found": "знайдено",
+      "news": "Новини",
+      "tips":"Поради",
+      "all-results": "Всі результати"
+    },
+    "search-not-found": {
+      "not-found-text": "Не вдалося знайти результати за вашим запитом. Змініть запит.",
+      "choose-alternative": "Можливо, ви можете знайти тут щось цікаве:",
+      "alternative-header-news": "Новини",
+      "alternative-description-news": "Знайдіть останні новини, події та ініціативи тут. Знайдіть новини та створіть їх.",
+      "alternative-header-tips": "Поради",
+      "alternative-description-tips": "Як сортувати сміття? Де знайти еко-речі? І багато інших корисних речей для екологічності."
+    }
+  },
   "admin-nav": {
     "places": "Місця",
     "users": "Користувачі",
@@ -630,6 +647,20 @@
   "date": {
     "months": ["січ.", "лют.", "бер.", "квіт.", "трав.", "черв.", "лип.", "серп.", "вер.", "жовт.", "лист.", "груд."],
     "year": "р."
+  },
+  "eco-news-preview": {
+    "back-button": "Повернутись до редагування",
+    "publish-button": "Опублікувати",
+    "create-news": "Створити новину",
+    "tags": {
+      "news": "новини",
+      "events": "події",
+      "initiatives": "ініціативи",
+      "ads": "оголошення",
+      "education": "освіта "
+    },
+    "author": "автор",
+    "news-source": "Джерело:"
   },
   "eco-news-single-view": {
     "back-button": "Повернутися до новин",

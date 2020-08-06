@@ -15,7 +15,7 @@ export class FilterNewsComponent implements OnInit {
   public filters: Array<FilterModel> = [];
   private tagsSubscription: Subscription;
 
-  @Output() gridOutput = new EventEmitter<Array<string>>();
+  @Output() tagsList = new EventEmitter<Array<string>>();
 
   constructor(private ecoNewsService: EcoNewsService) { }
 
@@ -29,20 +29,32 @@ export class FilterNewsComponent implements OnInit {
   }
 
   public emitActiveFilters(): void {
-    this.gridOutput.emit(this.emitTrueFilterValues());
+    this.tagsList.emit(this.emitTrueFilterValues());
   }
 
   public toggleFilter(currentFilter: string): void {
     this.filters.map(el => el.isActive = el.name === currentFilter ? !el.isActive : el.isActive);
     this.emitActiveFilters();
+    this.setSessionStorageFilters();
   }
 
   private setTags(tags: Array<string>): void {
-    this.filters = tags.map((filter: string) => ({name: filter, isActive: false}));
+    const savedFilters = this.getSessionStorageFilters();
+    this.filters = tags.map((filter: string) => ({ name: filter, isActive: typeof savedFilters.find(el => el === filter) !== 'undefined'}));
+    this.emitActiveFilters();
   }
 
   private getPresentTags(): void {
     this.tagsSubscription = this.ecoNewsService.getAllPresentTags()
-      .subscribe((tag: Array<string> ) => this.setTags(tag));
+      .subscribe((tag: Array<string>) => this.setTags(tag));
+  }
+
+  private setSessionStorageFilters() {
+    sessionStorage.setItem('activeFilters', JSON.stringify(this.emitTrueFilterValues()));
+  }
+
+  private getSessionStorageFilters() {
+    const filters = sessionStorage.getItem('activeFilters');
+    return filters !== null ? JSON.parse(filters) : [];
   }
 }

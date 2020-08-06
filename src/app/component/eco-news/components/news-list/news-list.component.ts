@@ -16,13 +16,15 @@ import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 })
 export class NewsListComponent implements OnInit, OnDestroy {
   public view: boolean;
-  public gridOutput: Array<string>;
+  public tagsList: Array<string>;
   public elements: EcoNewsModel[];
   public remaining = 0;
   public windowSize: number;
   public isLoggedIn: boolean;
   private ecoNewsSubscription: Subscription;
-  private iterator: number;
+  private currentPage: number;
+  public scroll: boolean;
+  public numberOfNews: number;
 
   constructor(
     private ecoNewsService: EcoNewsService,
@@ -32,9 +34,11 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.onResize();
+    this.setDefaultNumberOfNews(12);
     this.setNullList();
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
+    this.scroll = false;
   }
 
   public onResize(): void {
@@ -43,6 +47,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   public onScroll(): void {
+    this.scroll = true;
     this.addElemsToCurrentList();
   }
 
@@ -51,9 +56,9 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   public getFilterData(value: Array<string>): void {
-    if (this.gridOutput !== value) {
+    if (this.tagsList !== value) {
       this.setNullList();
-      this.gridOutput = value;
+      this.tagsList = value;
     }
     this.addElemsToCurrentList();
   }
@@ -63,24 +68,33 @@ export class NewsListComponent implements OnInit, OnDestroy {
       .subscribe((data) => this.isLoggedIn = data && data.userId);
   }
 
-
   private addElemsToCurrentList(): void {
-    this.ecoNewsSubscription = this.gridOutput ?
-      this.ecoNewsService.getNewsListByTags(this.iterator++, 12, this.gridOutput)
-        .subscribe((list: EcoNewsDto) => this.setList(list)) :
-      this.ecoNewsService.getEcoNewsListByPage(this.iterator++, 12)
+    if (this.tagsList) {
+      this.ecoNewsSubscription = this.ecoNewsService.getNewsListByTags(this.currentPage, this.numberOfNews, this.tagsList)
         .subscribe((list: EcoNewsDto) => this.setList(list));
+    } else {
+      this.ecoNewsSubscription = this.ecoNewsService.getEcoNewsListByPage(this.currentPage, this.numberOfNews)
+        .subscribe((list: EcoNewsDto) => this.setList(list));
+    }
+    this.changeCurrentPage();
   }
 
   private setList(data: EcoNewsDto): void {
     this.remaining = data.totalElements;
-    this.elements = [...this.elements, ...data.page];
+    this.elements = this.scroll ? [...this.elements, ...data.page] : [...data.page];
   }
 
-
   private setNullList(): void {
-    this.iterator = 0;
+    this.currentPage = 0;
     this.elements = [];
+  }
+
+  private setDefaultNumberOfNews(quantity: number): void {
+    this.numberOfNews = quantity;
+  }
+
+  private changeCurrentPage(): void {
+    this.currentPage += 1;
   }
 
   ngOnDestroy() {

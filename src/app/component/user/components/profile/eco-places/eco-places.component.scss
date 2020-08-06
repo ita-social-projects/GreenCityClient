@@ -1,8 +1,16 @@
+$bp-smallest: 320px;
+$bp-phone: 576px;
+$bp-tablet: 768px;
+$bp-desktop: 1024px;
+$bp-largest: 1440px;
+
 .eco-places-content {
-    width: 81%;
+    width: 100%;
+    padding: 24px 0;
     margin: 0 auto;
     font-family: Montserrat;
     font-style: normal;
+    border-top: 1px solid #EAEEF3;
 }
 
 .header-position {
@@ -16,11 +24,11 @@
     font-weight: 600;
     font-size: 14px;
     padding-bottom: 8px;
-}
 
-h2 > span {
-    color: #bebebe;
-    margin-left: 10px;
+     span {
+       color: #bebebe;
+       margin-left: 10px;
+     }
 }
 
 .item {
@@ -29,6 +37,7 @@ h2 > span {
     width: 100%;
     font-weight: normal;
     font-size: 12px;
+    line-height: 15px;
     padding: 6px 0;
 }
 
@@ -47,7 +56,20 @@ h2 > span {
     font-size: 12px;
 }
 
-hr {
-    margin-top: 18px;
-    margin-bottom: 24px;
+@media only screen and (max-width: $bp-desktop) {
+  .header,
+  .text-number {
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .text-more {
+    font-size: 11px;
+    line-height: 13px;
+  }
+
+  .item {
+      font-size: 11px;
+      line-height: 16px;
+  }
 }

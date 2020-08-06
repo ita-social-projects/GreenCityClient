@@ -1,3 +1,9 @@
+$bp-smallest: 320px;
+$bp-phone: 576px;
+$bp-tablet: 768px;
+$bp-desktop: 1024px;
+$bp-largest: 1440px;
+
 p,
 div {
   margin: 0;
@@ -6,8 +12,8 @@ div {
 
 .list-gallery {
   margin-bottom: 32px;
-  width: 359px;
-  height: 500px;
+  width: calc(267px + (359 - 267) * ((100vw - 1024px) / (1440 - 1024)));
+  min-height: 500px;
   border-radius: 4px;
   box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
   background: #FFFFFF;
@@ -15,7 +21,7 @@ div {
   .list-image {
 
     .list-image-content {
-      width: 359px;
+      width: 100%;
       height: 199px;
     }
   }
@@ -44,6 +50,18 @@ div {
     .added-data {
       height: 200px;
       overflow: hidden;
+      position: relative;
+
+      &:after {
+        content: "";
+        text-align: right;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 50%;
+        height: 1.4rem;
+        background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);
+      }
 
       .title-list {
         font-family: 'Montserrat', sans-serif;
@@ -55,7 +73,7 @@ div {
       }
 
       .list-text {
-        margin: 8px 0 0 0;
+        margin: 10px 0 0 0;
         font-family: 'Open Sans', sans-serif;
         font-size: 14px;
         line-height: 21px;
@@ -68,7 +86,7 @@ div {
     }
 
     .user-data-added-news {
-      margin: 16px 0 0 0;
+      padding: 16px 0 24px 0;
       display: flex;
       flex-wrap: wrap;
     }
@@ -106,15 +124,14 @@ div {
   cursor: pointer;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: $bp-desktop) {
   .list-gallery {
-    width: 299px;
-    height: 492px;
+    width: 267px;
+    min-height: 492px;
 
     .list-image {
 
       .list-image-content {
-        width: 299px;
         height: 166px;
       }
     }
@@ -123,23 +140,18 @@ div {
       .added-data {
         height: 196px;
       }
-      .user-data-added-news {
-        margin: 45px 0 0 0;
-        min-width: 290px;
-      }
     }
   }
 }
 
-@media screen and (max-width: 992px) {
+@media screen and (max-width: $bp-tablet) {
   .list-gallery {
-    width: 353px;
-    height: 500px;
+    width: calc(258px + (321 - 258) * ((100vw - 768px) / (768 - 576)));
+    min-height: 500px;
 
     .list-image {
 
       .list-image-content {
-        width: 353px;
         height: 202px;
       }
     }
@@ -148,63 +160,22 @@ div {
       .added-data {
         height: 203px;
       }
-
-      .user-data-added-news {
-        margin: 16px 0 0 0;
-      }
-
-      .user-data-added-news {
-        min-width: 290px;
-      }
     }
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: $bp-phone) {
   .list-gallery {
-    width: 258px;
-    height: 501px;
-
-    .list-image {
-
-      .list-image-content {
-        width: 258px;
-        height: 143px;
-      }
-    }
-    .list-gallery-content {
-      .added-data {
-        height: 232px;
-
-        .title-list {
-          font-size: 18px;
-          line-height: 24px;
-        }
-      }
-
-      .user-data-added-news {
-
-        .user-data-text-date:first-child {
-          margin-bottom: 4px;
-          min-width: 100px;
-        }
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 576px) {
-  .list-gallery {
-    width: 288px;
+    width: 300px;
     height: 508px;
 
     .list-image {
 
       .list-image-content {
-        width: 288px;
         height: 160px;
       }
     }
+
     .list-gallery-content {
       .added-data {
         height: 222px;
@@ -217,6 +188,8 @@ div {
     }
 
     .user-data-added-news {
+        display: flex;
+        flex-direction: column;
 
       .user-data-text-date:first-child {
         margin-bottom: 4px;

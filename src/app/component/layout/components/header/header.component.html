@@ -116,17 +116,22 @@
                      [src]="selectLanguageArrow"
                      [ngClass]="langDropdownVisible ? 'arrow reverse' : 'arrow'"
                      alt="v">
-                <select (click)="toggleLangDropdown()"
-                  [(ngModel)]="language"
-                  (change)="changeCurrentLanguage()"
-                   class="language-switcher">
-                  <option class="language-option"
-                          [ngValue]="'en'">En</option>
-                  <option class="language-option"
-                          [ngValue]="'uk'">Ua</option>
-                  <option class="language-option"
-                          [ngValue]="'ru'">Ru</option>
-                </select>
+            <ul [class.add-shadow]="langDropdownVisible"
+                appCloseDropdown
+                (clickOutSide)="autoCloseLangDropDown($event)">
+            <ng-container
+              *ngFor="let lang of arrayLang;
+              index as index;">
+            <li *ngIf="index < 1"
+                (click)="langDropdownVisible = !langDropdownVisible">
+              {{lang.lang}}
+            </li>
+            <li *ngIf="index > 0 && langDropdownVisible"
+                (click)="changeCurrentLanguage(lang.lang, index)">
+              {{lang.lang}}
+            </li>
+            </ng-container>
+            </ul>
               </div>
               </li>
         <li class="sign-in-link tertiary-global-button"
@@ -139,9 +144,14 @@
           </ng-template>
           <ng-template #userNotLoggedIn>
             <div id="user-avatar-wrapper">
-             <ul [class.add-shadow]="dropdownVisible">
+             <ul
+               appCloseDropdown
+               (clickOutSide)="autoCloseUserDropDown($event)"
+               [class.add-shadow]="dropdownVisible">
                <li class="tertiary-global-button">
-                 <a (click)="toggleDropdown()">{{ name }}
+                 <a
+                    (click)="toggleDropdown()"
+                    >{{ name }}
                  <img class="arrow"
                       [src]="dropDownArrow"
                       [ngClass]="dropdownVisible ? 'arrow reverse' : 'arrow'"

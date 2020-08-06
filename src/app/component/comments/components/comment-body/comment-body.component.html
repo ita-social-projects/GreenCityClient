@@ -16,11 +16,11 @@
     <div class="comment-edit-text"
           *ngIf="element.isEdit"
           >
-      <input type="text"
+      <textarea type="text"
              placeholder="{{'homepage.eco-news.comment.placeholder.enter-your-new-comment' | translate}}"
              [formControl]="content"
              class="edit-text-input"
-             >
+             ></textarea>
     <div class="save-cancel-wrapper">
       <div class="save-cancel-btn">
         <div class="save-btn">
