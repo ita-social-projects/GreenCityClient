@@ -12,7 +12,8 @@
        alt="avatar">
   <textarea placeholder="{{ dataSet.placeholder }}"
             formControlName="content"
-            type="text"></textarea>
+            type="text"
+            maxlength="8000"></textarea>
   <button class="primary-global-button"
           [disabled]="!addCommentForm.valid">
     {{ dataSet.btnText }}
