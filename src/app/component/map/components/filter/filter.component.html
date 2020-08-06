@@ -1,0 +1,23 @@
+<div class="container" id="filtering_layout">
+  <h6>{{'filter.discount-rate' | translate}}</h6>
+  <ng5-slider [(value)]="discountMin"
+              [(highValue)]="discountMax"
+              [options]="options">
+  </ng5-slider>
+
+  <label class="is_open_label" style="width: 100%; margin-top: 20px; margin-bottom: 20px">
+    <h6>{{'filter.is-now-open' | translate}}</h6>
+    <input id="is_open_checkbox" type="checkbox" [(ngModel)]="isOpen">
+  </label>
+  <p></p>
+
+  <h6>{{'filter.distance' | translate}}</h6>
+  <h6 class="validation" *ngIf="isDistanceValidationError">{{'filter.wrong-value-of-distance' | translate}}</h6>
+  <input type="number" min="0.1" pattern="^[0-9]{1,5}$" class="form-control"
+         placeholder="{{'filter.distance-in-km' | translate}}"
+         aria-label="Distance"
+         aria-describedby="basic-addon1"
+         [(ngModel)]="distance">
+  <p></p>
+  <button class="btn btn-success btn-sm" id="apply_filter_btn" (click)="applyFilters()">{{'filter.apply' | translate}}</button>
+</div>

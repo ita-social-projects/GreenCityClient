@@ -1,0 +1,85 @@
+.wrapper  {
+    display: flex;
+    max-width: 750px;
+    margin: auto;
+    justify-content: space-between;
+
+    img {
+        width: 48px;
+        height: 48px;
+        border-radius: 50px;
+        margin-right: 24px;
+    }
+
+    textarea {
+        width: 505px;
+        height: 72px;
+        overflow: hidden;
+        resize: none;
+
+        &::placeholder {
+            color:#878787;
+            position: relative;
+            top: 10px;
+            left: 10px;
+        }
+    }
+
+    button {
+        width: 157px;
+        height: 48px;
+        margin-left: 16px;
+    }
+}
+
+.reply-wrapper {
+  width: 678px;
+  margin-right: 0;
+
+  textarea {
+    width: 467px;
+    height: 72px;
+  }
+
+  button {
+    width: 123px;
+    height: 48px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+      padding-left: 0;
+      padding-right: 0;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .wrapper  {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+
+    input {
+      width: 438px;
+      margin-bottom: 16px;
+    }
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .wrapper  {
+    img {
+      display: none;
+    }
+
+    input {
+      width: 543px;
+      margin-bottom: 16px;
+    }
+
+    button {
+      width: 543px;
+      margin: 0;
+    }
+  }
+}

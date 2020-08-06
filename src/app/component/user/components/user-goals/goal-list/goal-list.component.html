@@ -1,0 +1,38 @@
+<div class="main-goal-list-container">
+  <div class="goal-list-container">
+    <span
+      *ngFor="
+        let goal of $goals
+          | async
+          | alphabetical
+          | uncheckedFirst
+          | showFirstN: 3:isCollapse
+      "
+    >
+      <span>
+        <app-goal-item [goal]="goal"></app-goal-item>
+      </span>
+    </span>
+
+    <div class="full-goal-list-container" (click)="isCollapse = !isCollapse">
+      <span *ngIf="isCollapse && this.amount>3" class="full-goal-list-text">
+        {{'user.user-goals.goal-list.expand'|translate}}
+        <span class="full-goal-list-arrow">
+           &#x27F6;
+        </span>
+      </span>
+      <span *ngIf="!isCollapse && this.amount>3" class="full-goal-list-text">
+       {{'user.user-goals.goal-list.collapse'|translate}}
+        <span class="full-goal-list-arrow">
+          &#8592;
+        </span>
+      </span>
+    </div>
+  </div>
+
+  <div class="goal-list-message" *ngIf="this.amount <= 0">
+    <span>
+      {{'user.user-goals.goal-list.list-placeholder'|translate}}
+    </span>
+  </div>
+</div>

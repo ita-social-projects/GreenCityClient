@@ -1,0 +1,26 @@
+<div class="modal fade" id="addHabitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body overflow-auto inner-modal-block">
+        <div class="add-habit-modal-window">
+          <div>
+            <h3>{{'user.habit.add-new-habit.modal-caption' | translate}}</h3>
+            <img [src]="closeCross" alt="close-cross" data-dismiss="modal">
+          </div>
+          <div class=" splitter">
+          </div>
+          <app-already-chosen></app-already-chosen>
+          <app-available-to-choose></app-available-to-choose>
+          <div class="splitter"></div>
+          <div class="button-row">
+            <button class="button button-cancel"
+              data-dismiss="modal">{{'user.habit.add-new-habit.button-cancel' | translate}}</button>
+            <button class="button button-save"
+              (click)="saveSelectedHabits()">{{'user.habit.add-new-habit.button-save' | translate}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

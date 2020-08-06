@@ -1,0 +1,25 @@
+<div class="profile">
+  <div class="details__img">
+    <img [src]="userInfo.avatarUrl" alt="" class="profile-avatar" />
+  </div>
+  <div>
+  <div class="profile__details">
+    <div class="details__descriptions">
+      <h3 class="descriptions__name">
+        {{ userInfo.name.first + " " + userInfo.name.last }}
+      </h3>
+      <div class="descriptions__location">{{ userInfo.location }}</div>
+      <div class="descriptions__status">
+        {{ userInfo.status }}
+      </div>
+      <div class="descriptions__rate">
+        <div>
+          Rate: {{ userInfo.rate }}
+        </div>
+      </div>
+    </div>
+    <div class="details__credo">{{ userInfo.userCredo }}</div>
+  <div class="cards">
+    <app-profile-progress></app-profile-progress>
+  </div>
+</div>

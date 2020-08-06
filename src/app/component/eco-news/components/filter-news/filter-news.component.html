@@ -1,0 +1,20 @@
+<div class="wrapper">
+  <span>{{ "homepage.eco-news.filter" | translate }}</span>
+  <ul class="ul-eco-buttons">
+
+    <a *ngFor="let filter of filters">
+      <li (click)="toggleFilter(filter.name)"
+          [ngClass]="{
+                      'ul-eco-buttons-li': !filter.isActive,
+                      'clicked-filter-button': filter.isActive
+                    }">
+        {{ "homepage.eco-news.tags." + filter.name.toLowerCase() | translate }}
+        <div [ngClass]="{
+                          closeNone: !filter.isActive,
+                          close: filter.isActive
+                        }">
+        </div>
+      </li>
+    </a>
+  </ul>
+</div>

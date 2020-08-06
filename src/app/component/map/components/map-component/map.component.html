@@ -1,0 +1,144 @@
+<div>
+  <div class="main">
+    <div class="sub-1">
+      <div>
+        <div class="btn-group" id="control_panel">
+          <button class="btn btn-success btn-sm" id="filter_btn" (click)="toggleFilter()">{{'user.map.filter-by' | translate}}</button>
+          <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off"
+                 placeholder="{{'user.map.searching-for-a-place' | translate}}">
+        </div>
+        <app-filter *ngIf="isFilter"></app-filter>
+        <div *ngIf="!isFilter">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>{{'user.map.places' | translate}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let p of placeService.places | filter:searchText" (click)="setMarker(p)">
+              {{checkIfUserLoggedIn()}}
+              <td>{{p.name}}
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <button class="btn btn-success btn-sm" *ngIf="button;"
+                  (click)="showAllPlaces()">{{'user.map.show-all' | translate}}</button>
+          <button class="btn btn-success btn-sm" *ngIf="!filterService.isCleared;" (click)="clearFilters()">
+            {{'user.map.clear-filters' | translate}}
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="sub-2" #map>
+      <agm-map [style.width.px]="map.offsetWidth"
+               [style.height.px]="map.offsetHeight"
+               [latitude]="lat"
+               [longitude]="lng"
+               [zoom]="zoom"
+               (idle)="getList()"
+               (boundsChange)="boundsChange($event)">
+
+        <agm-direction *ngIf="navigationMode" [origin]="origin" [destination]="destination"
+                       [travelMode]="travelMode"
+                       [provideRouteAlternatives]="true"
+                       [visible]="true">
+        </agm-direction>
+        <agm-marker *ngIf="userMarkerLocation"
+                    [latitude]="userMarkerLocation.lat"
+                    [longitude]="userMarkerLocation.lng"
+                    [markerDraggable]="true"
+                    (dragEnd)="setLocationToOrigin($event)"
+                    [iconUrl]="icon">
+
+        </agm-marker>
+        <agm-circle *ngIf="filterService.distance"
+                    [latitude]="userMarkerLocation.lat"
+                    [longitude]="userMarkerLocation.lng"
+                    [radius]="filterService.distance*1000"
+                    [fillColor]="'rgba(63, 127, 191, .5)'">
+        </agm-circle>
+        <agm-marker (markerClick)="showDetail(p)"
+                    *ngFor="let p of placeService.places; let i = index"
+                    [latitude]="p.location.lat"
+                    [longitude]="p.location.lng"
+                    [iconUrl]="getMarkerIcon(p.favorite)">
+
+          <agm-info-window *ngIf="placeInfo">
+            <div class="container">
+              <h5>{{placeInfo.name}}
+                <button id="star-button" mat-icon-button
+                        *ngIf="userRole === 'ROLE_ADMIN' || userRole === 'ROLE_MODERATOR' || userRole === 'ROLE_USER'"
+                        style="float: right;  background-color: white; border-width: inherit"
+                        (click)="saveOrDeletePlaceAsFavorite(p); ">
+                  <mat-icon svg svgIcon="{{p.color}}"></mat-icon>
+                </button>
+              </h5>
+              <p style="font-weight: bold">
+              <li
+                *ngFor="let obj of placeInfo.discountValues">{{obj.specification.name}} {{'user.map.discount' | translate}}
+                {{obj.value}}%
+              </li>
+              <p>
+                <rating [(ngModel)]="placeInfo.rate"
+                        [max]="5"
+                        [readonly]="true"
+                        [disabled]="false"
+                        [required]="true"
+                        [titles]="['one', 'two', 'three', 'four', 'five']">
+                </rating>
+              <p>{{'user.map.rate' | translate}} {{placeInfo.rate}}</p>
+              <p>{{'user.map.comments' | translate}} {{placeInfo.comments.length}}</p>
+              <button
+                *ngIf="userRole === 'ROLE_ADMIN' || userRole === 'ROLE_MODERATOR' || userRole === 'ROLE_USER'"
+                (click)="openDialogAddComment(placeInfo.id)">{{'user.map.add-comment' | translate}}</button>
+              <p>{{placeInfo.location.address}}</p>
+              <p>
+              <div class="nav-link dropdown-toggle" role="button"
+                   (click)="placeService.showHours = !placeService.showHours">
+                <img [src]="clockIcon"
+                     style="margin-right: 5px">{{weekDaysUtils.showTodayOnly(placeInfo.openingHoursList)}}
+              </div>
+              <div *ngIf="placeService.showHours" style="margin-left: 35px">
+                <table class="open_hours_table"
+                       *ngFor="let item of weekDaysUtils.sortOpenHoursList(placeInfo.openingHoursList)">
+                  <tbody>
+                  <tr>
+                    <td class="open-hours-day">
+                      <span class="open-hours-bold" *ngIf="weekDaysUtils.equalsToday(item)">
+                        {{weekDaysUtils.getWeekDayShortForm(item.weekDay)}}</span>
+                      <span *ngIf="!weekDaysUtils.equalsToday(item)">
+                        {{weekDaysUtils.getWeekDayShortForm(item.weekDay)}}</span>
+                    </td>
+                    <td class="open-hours-time">
+                      <span class="open-hours-bold" *ngIf="weekDaysUtils.equalsToday(item)">
+                        {{item.openTime}} - {{item.closeTime}}</span>
+                      <span *ngIf="!weekDaysUtils.equalsToday(item)">
+                        {{item.openTime}} - {{item.closeTime}}</span>
+                    </td>
+                    <td class="open-hours-break" *ngIf="item.breakTime !== null">
+                      <span class="open-hours-bold" *ngIf="weekDaysUtils.equalsToday(item)">
+                        {{weekDaysUtils.showBreakTime(item)}}</span>
+                      <span *ngIf="!weekDaysUtils.equalsToday(item)">
+                        {{weekDaysUtils.showBreakTime(item)}}</span>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <p>
+              <p>
+                <button *ngIf="button" (click)="getDirection(p)">{{navigationButton}} </button>
+                <button *ngIf="navigationMode" (click)="changeTravelMode()">{{travelModeButton}}</button>
+              </p>
+              <p *ngIf="distance">{{distance}}</p>
+            </div>
+          </agm-info-window>
+        </agm-marker>
+      </agm-map>
+    </div>
+
+  </div>
+</div>

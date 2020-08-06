@@ -1,0 +1,11 @@
+<div align="center">
+  <div>
+    <p style="color:red; font-size: 150%; font-style: normal">
+      <b>{{'user.favorite-place.delete-favorite-place.delete-favorite-place' | translate}}</b>
+    <p style="font-size: 130%;"><b>"{{data.name}}"</b></p>
+    <button id="closeButton" mat-button [mat-dialog-close]="true" (click)="delete()" class="bg-success">
+      {{'user.favorite-place.delete-favorite-place.submit' | translate}}</button>
+    <button [mat-dialog-close] mat-button class="bg-danger" cdkfocusinitial="true" type="submit">
+      {{'user.favorite-place.delete-favorite-place.cancel' | translate}}</button>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+<div class="eco-places-content">
+    <div class="header-position">
+        <div class="header">My eco places <span>{{ ecoPlaces.length }}</span></div>
+        <a class="btn-see-all">See all</a>
+    </div>
+    <ul class="eco-place-list">
+        <li class="item" *ngFor="let ecoPlace of getEcoPlaces()">{{ ecoPlace }}</li>
+    </ul>
+</div>

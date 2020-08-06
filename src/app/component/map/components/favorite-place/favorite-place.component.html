@@ -1,0 +1,51 @@
+<div class="card mx-auto" style="width: 100%">
+  <div class="card-body">
+
+    <h4 class="card-title" style="color: green">
+      <mat-icon svgIcon="star-yellow"></mat-icon>
+      {{'user.favorite-place.favorite-place.favorite-places' | translate}}
+    </h4>
+    <table mat-table [dataSource]="favoritePlaces" class="mat-elevation-z8" style="width: 100%;  overflow: auto;">
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="Id">
+        <th mat-header-cell *matHeaderCellDef> Id</th>
+        <td mat-cell *matCellDef="let element"> {{element.placeId}} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="Name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'user.favorite-place.favorite-place.name' | translate}}</th>
+        <td mat-cell *matCellDef="let element"><p style="font-size: 18px; "><a
+        style="color: green" (click)="sendIdToServiceAndClose(element.placeId)" >{{element.name}} </a></p></td>
+      </ng-container>
+
+      <!-- Buttons Column -->
+      <ng-container matColumnDef="Actions">
+        <th mat-header-cell *matHeaderCellDef> {{'user.favorite-place.favorite-place.actions' | translate}}</th>
+        <td mat-cell *matCellDef="let element">
+          <div>
+            <button (click)="openDialog(element.placeId, element.name)" class="btn btn-outline-info">
+              {{'user.favorite-place.favorite-place.edit' | translate}}
+            </button>&nbsp;&nbsp;&nbsp;
+            <button (click)="openDialogDelete(element.placeId, element.name)" class="btn btn-outline-danger">
+              {{'user.favorite-place.favorite-place.delete' | translate}}
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+    <div style="display:flex; justify-content:flex-end; align-items:center;">
+      <button class="btn btn-danger submit" cdkfocusinitial="true" type="submit" (click)="onNoClick()">
+        {{'user.favorite-place.favorite-place.close' | translate}}
+      </button>
+    </div>
+  </div>
+</div>
+<!-- Copyright 2019 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->

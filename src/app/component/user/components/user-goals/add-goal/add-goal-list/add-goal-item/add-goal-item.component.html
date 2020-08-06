@@ -1,0 +1,41 @@
+<div *ngIf="goal.type === 'PREDEFINED' || goal.type === 'TRACKED'" class="container-fluid goal-item-container">
+  <div class="row">
+    <div class="col-1 no-padding">
+      <label class="goal-container">
+        <input type="checkbox" [checked]="goal.status === 'CHECKED' || goal.type == 'TRACKED'" (change)="onUpdateStatus()">
+        <span class="check-mark"></span>
+      </label>
+    </div>
+    <div class="col-11 d-flex no-padding">
+      <span class="goal-text align-self-center no-padding" title="{{this.goal.text}}">
+        {{this.goal.text | showFirstNLetters: 40: '...'}}
+      </span>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="goal.type === 'CUSTOM'" class="container-fluid goal-item-container">
+  <div class="row">
+    <div class="col-1 no-padding">
+      <label class="goal-container">
+        <input type="checkbox" [checked]="goal.status === 'CHECKED'" (change)="onUpdateStatus()">
+        <span class="check-mark"></span>
+      </label>
+    </div>
+    <div *ngIf="isEditable" class="col-9 no-padding">
+      <input [(ngModel)]="goal.text" type="text" class="form-control add-goal-input no-padding" value="{{goal.text}}">
+    </div>
+    <div *ngIf="!isEditable" class="col-9 no-padding d-flex">
+      <span class="goal-text align-self-center no-padding text-center"
+            title="{{this.goal.text}}">
+        {{this.goal.text | showFirstNLetters: 40: '...'}}
+      </span>
+    </div>
+    <div class="col-2 d-flex justify-content-around">
+      <mdb-icon (click)="onUpdateButtonClicked()" class="align-self-center edit-button" far icon="edit"></mdb-icon>
+      <button (click)="onDelete()" type="button" class="close edit-button" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+<div class="sign-up">
+
+  <form #registerForm="ngForm" (ngSubmit)="sendPasswords()">
+    <label for="password">{{'user.restore-form.password' | translate}}</label>
+    <div class="validation-error" *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
+      <div *ngIf="passwordControl.errors.required">
+        {{'user.restore-form.password-is-required' | translate}}
+      </div>
+      <div *ngIf="passwordControl.errors.minlength">
+        {{'user.restore-form.password-must-be-at-least-8-characters-long' | translate}}
+      </div>
+    </div>
+    <div class="validation-error" *ngIf="passwordErrorMessageBackEnd!=null">
+      {{passwordErrorMessageBackEnd}}
+    </div>
+    <input id="password" type="password" class="form-control password" name="form-control password"
+           [(ngModel)]="restoreDto.password"
+           #passwordControl="ngModel"
+           required minlength="8">
+
+    <p></p>
+
+    <label for="password">{{'user.restore-form.confirm-password' | translate}}</label>
+    <div class="validation-error" *ngIf="passwordControl.invalid && (passwordControl.dirty||passwordControl.touched)">
+      <div *ngIf="passwordControl.errors.required">
+        {{'user.restore-form.password-is-required' | translate}}
+      </div>
+      <div *ngIf="passwordControl.errors.minlength">
+        {{'user.restore-form.password-must-be-at-least-8-characters-long' | translate}}
+      </div>
+    </div>
+    <div class="validation-error" *ngIf="passwordErrorMessageBackEnd!=null">
+      {{passwordErrorMessageBackEnd}}
+    </div>
+    <input id="passwordConfirm" type="password" class="form-control password" name="form-control password"
+           [(ngModel)]="restoreDto.confirmPassword"
+           #passwordControl="ngModel"
+           required minlength="8">
+
+
+    <p></p>
+
+    <p></p>
+
+    <button class="btn btn-primary submit" [disabled]="!registerForm.valid" type="submit">
+      <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      {{'user.restore-form.submit' | translate}}
+    </button>
+  </form>
+</div>

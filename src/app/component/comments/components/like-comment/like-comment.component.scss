@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+$main-font: 'Open Sans';
+
+.main-wrapper {
+  display: flex;
+  margin-left: 50px;
+
+  .like {
+    width: 74px;
+    height: 40px;
+    margin-right: 8px;
+  }
+
+  .visible {
+    visibility: visible;
+  }
+
+  .hidden {
+    visibility: hidden;
+  }
+
+  .cta-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: none;
+    background-color: #FFFFFF;
+    outline: none;
+
+    .btn-text {
+      margin-left: 5px;
+      font-family: $main-font;
+      font-size: 16px;
+      line-height: 24px;
+      color: #878787;
+      mix-blend-mode: normal;
+    }
+  }
+}

@@ -1,0 +1,15 @@
+<div align="center">
+  <div>
+    <p style="color:green; font-size: 130%; font-style: italic">
+      <b>{{'user.favorite-place.edit-name.edit-name-for-your-favorite-place' | translate}}</b></p>
+  </div>
+  <div><input type="text" #nameInput matInput [value]="data.name" (keyup.enter)="clickSubmit()" required minlength="3"
+              maxlength="30"/>`
+    <button id="closeButton" mat-button [mat-dialog-close]="true" (click)="update(nameInput.value)" class="bg-success"
+            [disabled]="nameInput.value.length<3">{{'user.favorite-place.edit-name.submit' | translate}}
+    </button>
+    <button [mat-dialog-close] mat-button class="bg-danger" cdkfocusinitial="true" type="submit">
+      {{'user.favorite-place.edit-name.cancel' | translate}}
+    </button>
+  </div>
+</div>
