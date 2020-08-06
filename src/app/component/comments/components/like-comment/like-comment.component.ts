@@ -25,7 +25,7 @@ export class LikeCommentComponent implements OnInit {
   }
 
   private setStartingElements(state: boolean) {
-    let imgName = state ? 'liked' : 'like';
+    const imgName = state ? 'liked' : 'like';
     this.like.nativeElement.srcset = this.commentsImages[imgName];
   }
 
@@ -38,7 +38,7 @@ export class LikeCommentComponent implements OnInit {
 
   public changeLkeBtn(): void {
     const cond = this.like.nativeElement.srcset === this.commentsImages.like;
-    let imgName = cond ? 'liked' : 'like';
+    const imgName = cond ? 'liked' : 'like';
     this.like.nativeElement.srcset = this.commentsImages[imgName];
   }
 }

@@ -40,7 +40,41 @@
         "ads": "Оголошення",
         "education": "Навчання"
       },
-      "items-found": "новин знайдено"
+      "items-found": "новин знайдено",
+      "comment": {
+        "comment": "Коментар",
+        "comments": {
+          "zero-comment": "коментарів",
+          "one-comment": "коментар",
+          "more-then-two-comments": "коментаря",
+          "more-then-four-comments": "коментарів"
+        },
+        "reply": "Відповісти",
+        "replies": {
+          "zero-reply": "відповідей",
+          "one-reply": "відповідь",
+          "more-then-two-replies": "відповіді",
+          "more-then-four-replies": "відповідей"
+        },
+        "btn": {
+          "reply": "Відповісти",
+          "like": "Подобається",
+          "liked": "Сподобалось",
+          "comment": "Коментар",
+          "edit": "Редагувати",
+          "edited": "відредаговано",
+          "delete": "Видалити",
+          "save": "Зберегти",
+          "close": "Закрити",
+          "cancel": "Скасувати"
+        },
+        "placeholder": {
+          "add-a-comment": "Додати коментар",
+          "add-a-reply": "Додати відповідь",
+          "enter-your-new-comment": "Введіть ваш новий коментар"
+        },
+        "view": "Переглянути"
+      }
     },
     "eco-advices": {
       "caption": "Еко поради"
@@ -195,39 +229,7 @@
       "comment-must-be-maximum": "Коментар повинен містити максимум",
       "characters long": "символів",
       "please-write-a-comment": "Будь ласка введіть коментар",
-      "submit": "Підтвердити",
-      "view": "Переглянути",
-      "comment": "Коментар",
-      "comments": {
-        "zero-comment": "коментарів",
-        "one-comment": "коментар",
-        "more-then-two-comments": "коментаря",
-        "more-then-four-comments": "коментарів"
-      },
-      "reply":"Відповісти",
-      "replies": {
-        "zero-reply": "відповідей",
-        "one-reply": "відповідь",
-        "more-then-two-replies": "відповіді",
-        "more-then-four-replies": "відповідей"
-      },
-      "btn": {
-        "reply": "Відповісти",
-        "like": "Подобається",
-        "liked": "Сподобалось",
-        "comment": "Коментар",
-        "edit": "Редагувати",
-        "edited": "відредаговано",
-        "delete": "Видалити",
-        "save": "Зберегти",
-        "close": "Закрити",
-        "cancel": "Скасувати"
-      },
-      "placeholder": {
-        "add-a-comment": "Додати коментар",
-        "add-a-reply": "Додати відповідь",
-        "enter-your-new-comment": "Введіть ваш новий коментар"
-      }
+      "submit": "Підтвердити"
     },
     "auth": {
       "sign-in": {

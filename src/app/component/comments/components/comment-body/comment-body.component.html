@@ -6,7 +6,7 @@
     <div class="comment-name-date">
       <div class="author-name"><span>{{ element.author.name }}</span></div>
       <div class="comment-date"><span class="comment-dot"></span>
-        <span class="comment-date-month">{{ element.modifiedDate | date: 'longDate'}}<span *ngIf="isCommentEdited(element)" class="edited">{{"user.add-comment.btn.edited" | translate}}</span></span>
+        <span class="comment-date-month">{{ element.modifiedDate | date: 'longDate'}}<span *ngIf="isCommentEdited(element)" class="edited">{{"homepage.eco-news.comment.btn.edited" | translate}}</span></span>
       </div>
     </div>
     <app-likes-counter [commentId]="element.id"></app-likes-counter>
@@ -17,7 +17,7 @@
           *ngIf="element.isEdit"
           >
       <input type="text"
-             placeholder="{{'user.add-comment.placeholder.enter-your-new-comment' | translate}}"
+             placeholder="{{'homepage.eco-news.comment.placeholder.enter-your-new-comment' | translate}}"
              [formControl]="content"
              class="edit-text-input"
              >
@@ -31,7 +31,7 @@
                 alt="edit icon"
           >
           <span class="btn-text">
-            {{"user.add-comment.btn.save" | translate}}
+            {{"homepage.eco-news.comment.btn.save" | translate}}
           </span>
           </button>
         </div>
@@ -42,7 +42,7 @@
                 alt="cancel icon"
           >
           <span class="btn-text">
-            {{"user.add-comment.btn.cancel" | translate}}
+            {{"homepage.eco-news.comment.btn.cancel" | translate}}
           </span>
           </button>
         </div>
