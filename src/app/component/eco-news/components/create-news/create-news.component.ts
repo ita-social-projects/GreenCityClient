@@ -4,7 +4,7 @@ import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { FilterModel, NewsResponseDTO } from '@eco-news-models/create-news-interface';
-import { CreateNewsCancelComponent } from '@shared/components/create-news-cancel/create-news-cancel.component';
+import { CreateNewsCancelComponent } from '../../../shared/components/create-news-cancel/create-news-cancel.component';
 
 @Component({
   selector: 'app-create-news',
@@ -93,7 +93,8 @@ export class CreateNewsComponent implements OnInit {
     this.createNewsForm.get('source').valueChanges.subscribe(source => {
       this.isLink = source.startsWith('http://') ||
                     source.startsWith('https://') ||
-                    !!source.length;
+                    source.length === 0 ? false : true;
+      console.log(this.isLink);
     });
   }
 

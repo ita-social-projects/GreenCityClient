@@ -36,8 +36,7 @@
       "@global-images/*": ["src/assets/img/*"],
       "@eco-news-images/*": ["src/assets/img/icon/econews/*"],
       "@footer-images/*": ["src/assets/img/icon/footer/*"],
-      "@environment/*": ["src/environments/*"],
-      "@shared/*": ["src/app/component/shared/*"]
+      "@environment/*": ["src/environments/*"]
     }
   },
   "angularCompilerOptions": {
