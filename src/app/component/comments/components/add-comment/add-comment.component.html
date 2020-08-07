@@ -10,7 +10,6 @@
       (ngSubmit)="onSubmit()">
   <img [src]=avatarImage
        alt="avatar">
-<<<<<<< HEAD
   <textarea placeholder="{{ dataSet.placeholder }}"
             formControlName="content"
             type="text"
@@ -19,7 +18,6 @@
           [disabled]="!addCommentForm.valid">
     {{ dataSet.btnText }}
   </button>
-=======
   <ng-container *ngIf="dataSet.type === 'comment'; else reply">
     <textarea placeholder="{{ 'homepage.eco-news.comment.placeholder.add-a-comment' | translate }}"
               formControlName="content"
@@ -36,7 +34,6 @@
       {{ "homepage.eco-news.comment.reply"| translate }}
     </button>
   </ng-template>
->>>>>>> 49179b064b1fa89c3ba711b33680e79e67e96005
 </form>
 <div class="container">
   <app-comment-body [elements]="elements"
