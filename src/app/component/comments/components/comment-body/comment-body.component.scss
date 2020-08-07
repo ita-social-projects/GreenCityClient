@@ -118,12 +118,10 @@ $main-font: 'Open Sans';
       height: 72px;
       overflow: hidden;
       resize: none;
+      padding: 10px 0 0 20px;
 
       &::placeholder {
         color:#878787;
-        position: relative;
-        top: 10px;
-        left: 10px;
       }
     }
   

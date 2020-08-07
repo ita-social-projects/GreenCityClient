@@ -40,7 +40,41 @@
         "ads": "Объявления",
         "education": "Обучение"
       },
-      "items-found": "новостей найдено"
+      "items-found": "новостей найдено",
+      "comment": {
+        "comment": "Комментарий",
+        "comments": {
+          "zero-comment": "комментариев",
+          "one-comment": "комментарий",
+          "more-then-two-comments": "комментария",
+          "more-then-four-comments": "комментариев"
+        },
+        "reply": "Ответить",
+        "replies": {
+          "zero-reply": "ответов",
+          "one-reply": "ответ",
+          "more-then-two-replies": "ответа",
+          "more-then-four-replies": "ответов"
+        },
+        "btn": {
+          "reply": "Ответить",
+          "like": "Нравиться",
+          "liked": "Понравилось",
+          "comment": "Комментарий",
+          "edit": "Редактировать",
+          "edited": "отредактировано",
+          "delete": "Удалить",
+          "save": "Сохранить",
+          "close": "Закрыть",
+          "cancel": "Отменить"
+        },
+        "placeholder": {
+          "add-a-comment": "Добавить комментарий",
+          "add-a-reply": "Добавить ответ",
+          "new-comment": "Введите ваш новый комментарий"
+        },
+        "view": "Посмотреть"
+      }
     },
     "eco-advices": {
       "caption": "Эко советы"
