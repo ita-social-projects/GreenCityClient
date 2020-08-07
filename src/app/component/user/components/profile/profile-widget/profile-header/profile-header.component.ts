@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-profile-header',
@@ -6,21 +8,31 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profile-header.component.scss'],
 })
 export class ProfileHeaderComponent implements OnInit {
-  public userInfo = {
-    id: 0,
-    avatarUrl: './assets/img/profileAvatar.png',
-    name: {
-      first: 'Brandier',
-      last: 'Webb',
-    },
-    location: 'Lviv, Ukraine',
+  public oldUserInfo = {
     status: 'online',
     rate: 658,
-    userCredo:
-      'My Credo is to make small steps that leads to huge impact. Let’s change the world together.',
   };
 
-  constructor() {}
+  public userInfo: object;
+  public isUserOnline: object;
 
-  ngOnInit() {}
+  constructor(private profileService: ProfileService) { }
+
+  ngOnInit() {
+    this.showUserInfo();
+    this.checkUserStatus();
+  }
+
+  public showUserInfo(): void {
+    this.profileService.getUserInfo().subscribe(item => {
+      this.userInfo = item;
+    });
+  }
+
+  public checkUserStatus(): void {
+    this.profileService.getUserStatus().subscribe(item => {
+      this.isUserOnline = item;
+      this.oldUserInfo.status = this.isUserOnline ? 'online' : 'offline';
+    });
+  }
 }
