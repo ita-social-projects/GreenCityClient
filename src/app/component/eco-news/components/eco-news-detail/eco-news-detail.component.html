@@ -18,7 +18,7 @@
     </div>
     <div class="edit-news"
          *ngIf="newsItem.author.id === userId">
-      <div>{{ "eco-news-single-view.edit-news-button" | translate }}</div>
+      {{ "eco-news-single-view.edit-news-button" | translate }}
     </div>
   </div>
   <div class="tags">
@@ -61,7 +61,7 @@
         >
         <img [src]="images.facebook"
              alt="facebook"
-             class="news-links-img"
+             class="news-links-img last-img"
         >
       </div>
       <div class="news-text">
@@ -87,6 +87,6 @@
 <div class="wrapper">
   <app-eco-news-widget></app-eco-news-widget>
 </div>
-<div class="wrap">
+<div class="wrapper">
   <app-add-comment></app-add-comment>
 </div>

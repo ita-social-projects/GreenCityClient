@@ -45,8 +45,7 @@ hr {
   }
 
   .gallery-view-active {
-    grid-template-columns: repeat(2, 43.3%);
-    grid-gap: 8.6%;
+    display: flex;
   }
 }
 
@@ -57,14 +56,12 @@ hr {
   }
 
   .gallery-view-active {
-    grid-template-columns: repeat(1, 47%);
-    grid-gap: 5.8%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
   }
 }
 
 @media screen and (max-width: 320px) {
-  .gallery-view-active {
-    grid-template-columns: repeat(1, 100%);
-    grid-gap: 0;
-  }
+
 }

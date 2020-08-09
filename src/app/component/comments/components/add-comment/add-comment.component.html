@@ -1,24 +1,27 @@
-<div class="container">
+<div class="main-wrapper">
   <app-comment-counter [totalElements]="totalElements"
                        *ngIf="dataSet.type === 'comment'"
   ></app-comment-counter>
 </div>
-<form *ngIf="isLoggedIn"
-      class="wrapper"
-      [ngClass]="dataSet.type === 'reply' ? 'reply-wrapper': 'wrapper'"
-      [formGroup]="addCommentForm"
-      (ngSubmit)="onSubmit()">
-  <img [src]=avatarImage
-       alt="avatar">
-  <textarea placeholder="{{ dataSet.placeholder }}"
-            formControlName="content"
-            type="text"></textarea>
-  <button class="primary-global-button"
-          [disabled]="!addCommentForm.valid">
-    {{ dataSet.btnText }}
-  </button>
-</form>
-<div class="container">
+<div class="main-wrapper">
+  <form *ngIf="isLoggedIn"
+        class="wrapper"
+        [ngClass]="dataSet.type === 'reply' ? 'reply-wrapper': 'wrapper'"
+        [formGroup]="addCommentForm"
+        (ngSubmit)="onSubmit()">
+    <img [src]=avatarImage
+         alt="avatar">
+    <textarea placeholder="{{ dataSet.placeholder }}"
+              formControlName="content"
+              type="text"></textarea>
+    <button class="primary-global-button"
+            [disabled]="!addCommentForm.valid">
+      {{ dataSet.btnText }}
+    </button>
+  </form>
+</div>
+
+<div class="main-wrapper">
   <app-comment-body [elements]="elements"
                     [type]="dataSet.type"
                     *ngIf="this.dataSet.type === 'comment' ||

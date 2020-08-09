@@ -54,13 +54,14 @@ $main-font: 'Open Sans';
 }
 
 .edit-news {
-    padding: 12px 32px;
+    padding: 15px 32px;
     color: #13AA57;
     font-size: 1rem;
     line-height: 16px;
     font-weight: 700;
     border: 1px solid #13AA57;
     border-radius: 3px;
+    text-align: center;
 }
 
 .tags,
@@ -213,6 +214,10 @@ $main-font: 'Open Sans';
     flex-direction: row;
     margin: 51px auto;
     width: 136px;
+  }
+
+  .last-img {
+    margin: 0;
   }
 
   .news-text-container {
