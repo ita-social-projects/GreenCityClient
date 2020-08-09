@@ -1,18 +1,18 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router} from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material';
+import { AuthService, GoogleLoginProvider} from 'angularx-social-login';
+import { Subscription} from 'rxjs';
+import { take } from 'rxjs/operators';
 import { SignInIcons } from 'src/assets/img/icon/sign-in/sign-in-icons';
-import {catchError, take} from 'rxjs/operators';
-import {AuthService, GoogleLoginProvider} from 'angularx-social-login';
-import {UserSuccessSignIn} from '../../../../model/user-success-sign-in';
-import {HttpErrorResponse} from '@angular/common/http';
-import {GoogleSignInService} from '../../../../service/auth/google-sign-in.service';
-import {UserOwnSignInService} from '../../../../service/auth/user-own-sign-in.service';
-import {Router} from '@angular/router';
-import {RestorePasswordService} from '../../../../service/auth/restore-password.service';
-import {UserOwnSignIn} from '../../../../model/user-own-sign-in';
-import {Subscription} from 'rxjs';
-import {LocalStorageService} from '../../../../service/localstorage/local-storage.service';
-import {SignInComponent} from '../sign-in/sign-in.component';
+import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
+import { HttpErrorResponse } from '@angular/common/http';
+import { GoogleSignInService } from '@auth-service/google-sign-in.service';
+import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
+import { RestorePasswordService } from '@auth-service/restore-password.service';
+import { UserOwnSignIn } from '@global-models/user-own-sign-in';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { SignInComponent } from '../sign-in/sign-in.component';
 
 @Component({
   selector: 'app-restore-password',
@@ -82,17 +82,15 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   }
 
   private onSignInFailure(errors: HttpErrorResponse): void {
-    try {
-      errors.error.forEach(error => {
-        if (error.name === 'email') {
-          this.emailErrorMessageBackEnd = error.message;
-        } else if (error.name === 'password') {
-          this.passwordErrorMessageBackEnd = error.message;
-        }
-      });
-    } catch (e) {
-      this.backEndError = errors.error.message;
-    }
+  if (!Array.isArray(errors.error)) {
+   this.backEndError = errors.error.message;
+   return;
+ }
+
+  errors.error.map((error) =>{
+    this.emailErrorMessageBackEnd = error.name === 'email' ? error.message : this.emailErrorMessageBackEnd;
+    this.passwordErrorMessageBackEnd = error.name === 'password' ? error.message : this.passwordErrorMessageBackEnd;
+  });
   }
 
   public configDefaultErrorMessage(): void {
