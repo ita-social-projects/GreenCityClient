@@ -117,7 +117,7 @@ export class SignUpComponent implements OnInit {
   }
 
   private signInWithGoogleError(errors: HttpErrorResponse): void {
-    if (!errors.error.isArray()) {
+    if (!Array.isArray(errors.error)) {
       this.backEndError = errors.error.message;
       return;
     }

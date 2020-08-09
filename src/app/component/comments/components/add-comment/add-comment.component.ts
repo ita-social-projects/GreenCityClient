@@ -32,7 +32,7 @@ export class AddCommentComponent implements OnInit {
   public commenstSubscription;
   public elements = [];
   public totalElements: number;
-  private isLoggedIn: boolean;
+  public isLoggedIn: boolean;
   private newsId: number;
 
   ngOnInit() {

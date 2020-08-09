@@ -7,7 +7,7 @@ $bp-largest: 1440px;
 .gallery-view-active {
   display: inline-flex;
   flex-flow: row wrap;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-content: center;
   width: 100%;
 }

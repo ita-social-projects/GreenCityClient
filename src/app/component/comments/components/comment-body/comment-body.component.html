@@ -7,7 +7,13 @@
     <div class="comment-date-likes">
       <div class="comment-date">
         <span class="comment-dot"></span>
-        <span class="comment-date-month">{{ element.modifiedDate | date: 'longDate'}}<span *ngIf="isCommentEdited(element)" class="edited">edited</span></span>
+        <span class="comment-date-month">{{ element.modifiedDate | date: 'longDate'}}
+          <span *ngIf="isCommentEdited(element)"
+                class="edited"
+          >
+            {{"homepage.eco-news.comment.btn.edited" | translate}}
+          </span>
+        </span>
         <span class="comment-dot last-dot"></span>
       </div>
       <div class="comment-likes">
@@ -21,7 +27,7 @@
           *ngIf="element.isEdit"
           >
       <textarea type="text"
-             placeholder="Enter your new comment"
+             placeholder='{{"homepage.eco-news.comment.placeholder.new-comment" | translate}}'
              [formControl]="content"
              class="edit-text-input"
              ></textarea>
@@ -35,7 +41,7 @@
                 alt="edit icon"
           >
           <span class="btn-text">
-            Save changes
+            {{"homepage.eco-news.comment.btn.save" | translate}}
           </span>
           </button>
         </div>
@@ -46,7 +52,7 @@
                 alt="cancel icon"
           >
           <span class="btn-text">
-            Cancel
+            {{"homepage.eco-news.comment.btn.cancel" | translate}}
           </span>
           </button>
         </div>

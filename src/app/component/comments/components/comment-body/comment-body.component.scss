@@ -36,7 +36,7 @@ $main-font: 'Open Sans';
   align-items: center;
 
   .comment-dot {
-    margin: 0px 0px 0 8px;
+    margin: 0 0 0 8px;
     display: inline-block;
     width: 4px;
     height: 4px;
@@ -61,7 +61,7 @@ $main-font: 'Open Sans';
 
 .comment-details {
   display: flex;
-  margin: 32px 0px 8px 63px;
+  margin: 32px 0 8px 63px;
 
   .comment-date-likes {
     display: flex;
@@ -115,12 +115,10 @@ $main-font: 'Open Sans';
       height: 72px;
       overflow: hidden;
       resize: none;
+      padding: 10px 0 0 20px;
 
       &::placeholder {
         color:#878787;
-        position: relative;
-        top: 10px;
-        left: 10px;
       }
     }
 
