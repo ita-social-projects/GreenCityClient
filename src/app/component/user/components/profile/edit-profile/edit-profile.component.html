@@ -1,0 +1,43 @@
+<div class="container">
+    <div class="title">
+        <h2>Edit profile</h2>
+    </div>
+    <app-personal-photo></app-personal-photo>
+    <form>
+        <div class="personal-info wrapper">
+            <div class="description">
+                <p>Personal info</p>
+            </div>
+            <div class="input-block">
+                <label for="name"> Name </label>
+                <input type="text" placeholder="{{userInfo.name.first + ' ' +  userInfo.name.last}}" id="name">
+                <span>Should contain maximum 170 symbols</span>
+            </div>
+            <div class="input-block">
+                <label for="city"> City </label>
+                <input type="text" placeholder="{{userInfo.location}}" id="city">
+            </div>
+            <div class="input-block">
+                <label for="credo"> Title </label>
+                <textarea placeholder="{{userInfo.userCredo}}" id="credo"></textarea>
+                <span> Should contain maximum 170 symbols </span>
+            </div>
+        </div>
+        <div class="wrapper">
+            <div class="description">
+                <p>Linked social networks</p>
+                <app-social-networks></app-social-networks>
+            </div>
+        </div>
+        <div class="profile-privacy wrapper">
+            <div class="description">
+                <p>Profile privacy</p>
+                <app-profile-privacy></app-profile-privacy>
+            </div>
+        </div>
+        <div class="buttons">
+            <button type="button">Cancel</button>
+            <button type="submit">Save</button>
+        </div>
+    </form>
+</div>

@@ -21,6 +21,10 @@ export { ProfileComponent } from './profile/profile.component';
 export { AchievementsFriendsComponent } from './profile/achievements-friends/achievements-friends.component';
 export { CalendarComponent } from './profile/calendar/calendar.component';
 export { EcoPlacesComponent } from './profile/eco-places/eco-places.component';
+export { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
+export { PersonalPhotoComponent } from './profile/edit-profile/personal-photo/personal-photo.component';
+export { ProfilePrivacyComponent } from './profile/edit-profile/profile-privacy/profile-privacy.component';
+export { SocialNetworksComponent } from './profile/edit-profile/social-networks/social-networks.component';
 export { ProfileCardsComponent } from './profile/profile-cards/profile-cards.component';
 export { ProfileDashboardComponent } from './profile/profile-dashboard/profile-dashboard.component';
 export { OneHabitComponent } from './profile/profile-dashboard/one-habit/one-habit.component';
@@ -44,3 +48,7 @@ export { AddGoalButtonComponent } from './user-goals/add-goal-button/add-goal-bu
 export { GoalContainerComponent } from './user-goals/goal-container/goal-container.component';
 export { GoalItemComponent } from './user-goals/goal-item/goal-item.component';
 export { GoalListComponent } from './user-goals/goal-list/goal-list.component';
+
+
+
+

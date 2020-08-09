@@ -1,14 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ProfileComponent } from './components';
+import { ProfileComponent, EditProfileComponent } from './components';
 import { AuthPageGuardService } from '../../service/route-guards/auth-page-guard.service';
+import { UserComponent } from './user.component';
 
 export const userRoutes: Routes = [
   { path: '',
-    component: ProfileComponent,
+    component: UserComponent,
     canActivate: [ AuthPageGuardService ],
     children: [
-      { path: ':id', component: ProfileComponent }
+      { path: ':id', component: ProfileComponent },
+      { path: ':id/edit', component: EditProfileComponent },
+      { path: '', component: ProfileComponent },
+      { path: '', redirectTo: ':id', pathMatch: 'full' }
     ]
   }
 ];

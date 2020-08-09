@@ -1,0 +1,26 @@
+ul {
+    padding: 0;
+    li {
+        list-style: none;
+
+        input {
+        height: 20px;
+        width: 20px;
+        border: 1px solid #13AA57;
+        box-sizing: border-box;
+        border-radius: 4px;
+        }
+
+        label {
+            height: 24px;
+            color: #494A49;
+            font-family: OpenSans;
+            font-size: 18px;
+            line-height: 24px;
+            margin: 28px 0 0 12px;
+        }
+        .done-true {
+            background: #13AA57;
+        }
+    }
+}
