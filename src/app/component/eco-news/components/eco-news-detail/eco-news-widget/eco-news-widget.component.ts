@@ -1,7 +1,6 @@
-import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ecoNewsIcons } from 'src/assets/img/icon/econews/profile-icons';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 
@@ -13,12 +12,9 @@ import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 })
 
 export class EcoNewsWidgetComponent implements OnInit, OnDestroy {
-  @Output() ecoNewsModel: EcoNewsModel;
-  @Output() idNumber = new EventEmitter<string>();
   public recommendedNews: EcoNewsModel;
   public selectedId: number;
   public recommendedNewsSubscription: Subscription;
-  public idNewsGotSubscription: Subscription;
 
   constructor(private ecoNewsService: EcoNewsService,
               private route: ActivatedRoute) { }
@@ -28,7 +24,7 @@ export class EcoNewsWidgetComponent implements OnInit, OnDestroy {
   }
 
   public newsIdSubscription(): void {
-    this.idNewsGotSubscription = this.route.paramMap.subscribe(param => {
+    this.recommendedNewsSubscription = this.route.paramMap.subscribe(param => {
       this.selectedId = +param.get('id');
       this.fetchRecommendedNews();
     });
@@ -41,6 +37,5 @@ export class EcoNewsWidgetComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.recommendedNewsSubscription.unsubscribe();
-    this.idNewsGotSubscription.unsubscribe();
   }
 }
