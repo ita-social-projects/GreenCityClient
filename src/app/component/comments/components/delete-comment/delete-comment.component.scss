@@ -29,3 +29,15 @@ $main-font: 'Open Sans';
     }
   }
 }
+
+@media screen and (max-width: 380px) {
+  .main-wrapper {
+    .cta-btn {
+      width: 24px;
+
+      .btn-text {
+        display: none;
+      }
+    }
+  }
+}
