@@ -1,18 +1,18 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
-import { GoogleSignInService } from '../../../../service/auth/google-sign-in.service';
-import { UserSuccessSignIn } from '../../../../model/user-success-sign-in';
-import { HttpErrorResponse } from '@angular/common/http';
-import { UserOwnSignInService } from '../../../../service/auth/user-own-sign-in.service';
 import { Router } from '@angular/router';
-import { SignInIcons } from 'src/assets/img/icon/sign-in/sign-in-icons';
+import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { UserOwnSignIn } from '../../../../model/user-own-sign-in';
-import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
+import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
 import { Subscription } from 'rxjs';
-import { RestorePasswordComponent } from '../restore-password/restore-password.component';
-import { UserOwnAuthService } from '../../../../service/auth/user-own-auth.service';
+import { GoogleSignInService } from '@auth-service/google-sign-in.service';
+import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
+import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
+import { SignInIcons } from 'src/assets/img/icon/sign-in/sign-in-icons';
+import { UserOwnSignIn } from '@global-models/user-own-sign-in';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { SignUpComponent } from '../sign-up/sign-up.component';
+import { RestorePasswordComponent } from '../restore-password/restore-password.component';
 
 @Component({
   selector: 'app-sign-in',
@@ -20,10 +20,10 @@ import { SignUpComponent } from '../sign-up/sign-up.component';
   styleUrls: ['./sign-in.component.scss']
 })
 export class SignInComponent implements OnInit, OnDestroy {
-  private closeBtn = SignInIcons;
-  private mainSignInImage = SignInIcons;
-  private googleImage = SignInIcons;
-  private hideShowPasswordImage = SignInIcons;
+  public closeBtn = SignInIcons;
+  public mainSignInImage = SignInIcons;
+  public googleImage = SignInIcons;
+  public hideShowPasswordImage = SignInIcons;
   public userOwnSignIn: UserOwnSignIn;
   public userIdSubscription: Subscription;
   public loadingAnim: boolean;
@@ -75,7 +75,7 @@ export class SignInComponent implements OnInit, OnDestroy {
       });
   }
 
-  private signInWithGoogle(): void {
+  public signInWithGoogle(): void {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(data => {
       this.googleService.signIn(data.idToken).subscribe(
         (signInData: UserSuccessSignIn) => {
@@ -98,7 +98,7 @@ export class SignInComponent implements OnInit, OnDestroy {
       .catch(fail => console.log('redirect has failed ' + fail));
   }
 
-  private onOpenForgotWindow(): void {
+  public onOpenForgotWindow(): void {
     this.dialog.open(RestorePasswordComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
@@ -108,20 +108,18 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   private onSignInFailure(errors: HttpErrorResponse): void {
-    try {
-      errors.error.forEach(error => {
-        if (error.name === 'email') {
-          this.emailErrorMessageBackEnd = error.message;
-        } else if (error.name === 'password') {
-          this.passwordErrorMessageBackEnd = error.message;
-        }
-      });
-    } catch (e) {
+    if (!Array.isArray(errors.error)) {
       this.backEndError = errors.error.message;
+      return;
     }
+
+    errors.error.map((error) => {
+      this.emailErrorMessageBackEnd = error.name === 'email' ? error.message : this.emailErrorMessageBackEnd;
+      this.passwordErrorMessageBackEnd = error.name === 'password' ? error.message : this.passwordErrorMessageBackEnd;
+    });
   }
 
-  private onSignInWithGoogleSuccess(data: UserSuccessSignIn): void {
+  public onSignInWithGoogleSuccess(data: UserSuccessSignIn): void {
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.userOwnAuthService.getDataFromLocalStorage();
     this.router.navigate(['profile', data.userId])
@@ -132,17 +130,17 @@ export class SignInComponent implements OnInit, OnDestroy {
       .catch(fail => console.log('redirect has failed ' + fail));
   }
 
-  private togglePassword(input: HTMLInputElement, src: HTMLImageElement): void {
+  public togglePassword(input: HTMLInputElement, src: HTMLImageElement): void {
     input.type = input.type === 'password' ? 'text' : 'password';
     src.src = input.type === 'password' ?
       this.hideShowPasswordImage.hidePassword : this.hideShowPasswordImage.showPassword;
   }
 
-  private closeSignInWindow(): void {
+  public closeSignInWindow(): void {
     this.matDialogRef.close();
   }
 
-  private signUpOpenWindow(): void {
+  public signUpOpenWindow(): void {
     this.matDialogRef.close();
     this.dialog.open(SignUpComponent, {
       hasBackdrop: true,

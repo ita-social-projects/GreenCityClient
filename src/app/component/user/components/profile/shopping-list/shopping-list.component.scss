@@ -1,5 +1,10 @@
+$bp-smallest: 320px;
+$bp-phone: 576px;
+$bp-tablet: 768px;
+$bp-desktop: 1024px;
+$bp-largest: 1440px;
+
 .shopping-list-content {
-    width: 81%;
     margin: 0 auto;
     font-family: Montserrat;
     font-style: normal;
@@ -53,4 +58,23 @@ h2 > span {
   
 ::ng-deep .mat-checkbox-checked .mat-checkbox-background {
     background-color: green !important;
+}
+
+@media only screen and (max-width: $bp-desktop) {
+
+  .header,
+  .text-number {
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .text-more {
+    font-size: 11px;
+    line-height: 13px;
+  }
+
+  .item {
+    font-size: 11px;
+    line-height: 16px;
+  }
 }

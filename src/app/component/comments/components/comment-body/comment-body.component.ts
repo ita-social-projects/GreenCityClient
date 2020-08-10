@@ -15,7 +15,7 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
   @Input() public type: string;
   public replyFormVisibility = false;
   public isLoggedIn: boolean;
-  public userId: boolean;
+  public userId: number;
   public commentCurrentPage: number;
   public commentTotalItems: number;
   public commentsSubscription: Subscription;

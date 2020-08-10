@@ -44,9 +44,7 @@ export class LikeCommentComponent implements OnInit, OnDestroy {
   }
 
   private setStartingElements(state: boolean) {
-    let imgName = '';
-
-    [this.span.nativeElement.innerText, imgName] = state ? ['Liked', 'liked'] : ['Like', 'like'];
+    const imgName = state ? 'liked' : 'like';
     this.like.nativeElement.srcset = this.commentsImages[imgName];
   }
 
@@ -71,9 +69,7 @@ export class LikeCommentComponent implements OnInit, OnDestroy {
 
   public changeLkeBtn(): void {
     const cond = this.like.nativeElement.srcset === this.commentsImages.like;
-    let imgName = '';
-
-    [this.span.nativeElement.innerText, imgName] = cond ? ['Liked', 'liked'] : ['Like', 'like'];
+    const imgName = cond ? 'liked' : 'like';
     this.like.nativeElement.srcset = this.commentsImages[imgName];
   }
 
