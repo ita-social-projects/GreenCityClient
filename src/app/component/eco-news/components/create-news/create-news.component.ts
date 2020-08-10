@@ -34,7 +34,7 @@ export class CreateNewsComponent implements OnInit {
   public day: number = new Date().getDate();
   public month: number = new Date().getMonth();
   public isFilterValidation = false;
-  public isLink = false;
+  public isLinkOrEmpty = true;
   public formData: FormGroup;
   public isArrayEmpty = true;
   public author: string = localStorage.getItem('name');
@@ -91,9 +91,7 @@ export class CreateNewsComponent implements OnInit {
 
   public onSourceChange(): void {
     this.createNewsForm.get('source').valueChanges.subscribe(source => {
-      this.isLink = !source.startsWith('http://') &&
-                    !source.startsWith('https://') &&
-                    !!source.length;
+      this.isLinkOrEmpty = /^$|^https?:\/\//.test(source);
     });
   }
 
