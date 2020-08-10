@@ -73,7 +73,7 @@
                 </button>
                 <button type="submit" [disabled]="!createNewsForm.valid ||
                                                   isArrayEmpty ||
-                                                  isLinkOrEmpty ||
+                                                  !isLinkOrEmpty ||
                                                   createEcoNewsService.isImageValid">{{ 'create-news.publish-button' | translate }}</button>
             </div>
         </form>
