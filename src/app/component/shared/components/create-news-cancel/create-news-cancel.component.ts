@@ -18,11 +18,11 @@ export class CreateNewsCancelComponent implements OnInit {
   ngOnInit() {
   }
 
-  private closeCancelPopup(): void {
+  public closeCancelPopup(): void {
     this.matDialogRef.close();
   }
 
-  private moveToNewsList(): void {
+  public moveToNewsList(): void {
     this.router.navigate(['/news']);
     this.closeCancelPopup();
   }

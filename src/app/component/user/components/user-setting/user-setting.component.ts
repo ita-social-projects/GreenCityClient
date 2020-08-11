@@ -12,12 +12,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./user-setting.component.scss']
 })
 export class UserSettingComponent implements OnInit {
-  email = '';
-  userUpdateModel = new UserUpdateModel();
-  isFirstNameEditing = false;
-  isLastNameEditing = false;
-  private isSomethingEdited = false;
-  emailNotifications: string[] = [];
+  public isSomethingEdited = false;
+  public email = '';
+  public userUpdateModel = new UserUpdateModel();
+  public isFirstNameEditing = false;
+  public isLastNameEditing = false;
+  public emailNotifications: string[] = [];
 
   constructor(
     private userService: UserService,
@@ -39,7 +39,7 @@ export class UserSettingComponent implements OnInit {
     });
   }
 
-  private updateUser() {
+  public updateUser() {
     this.userService.updateUser(this.userUpdateModel).subscribe(
       () => {
         this.localStorageService.setFirstName(this.userUpdateModel.firstName);
@@ -50,19 +50,19 @@ export class UserSettingComponent implements OnInit {
     );
   }
 
-  private somethingEdited() {
+  public somethingEdited() {
     this.isLastNameEditing = false;
     this.isFirstNameEditing = false;
     this.isSomethingEdited = true;
   }
 
-  private firstNameEditing() {
+  public firstNameEditing() {
     if (!this.isLastNameEditing) {
       this.isFirstNameEditing = true;
     }
   }
 
-  private lastNameEditing() {
+  public lastNameEditing() {
     if (!this.isFirstNameEditing) {
       this.isLastNameEditing = true;
     }

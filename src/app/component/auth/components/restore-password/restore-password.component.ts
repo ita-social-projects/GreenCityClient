@@ -20,9 +20,9 @@ import {SignInComponent} from '../sign-in/sign-in.component';
   styleUrls: ['./restore-password.component.scss']
 })
 export class RestorePasswordComponent implements OnInit, OnDestroy {
-  private closeBtn = SignInIcons;
-  private mainSignInImage = SignInIcons;
-  private googleImage = SignInIcons;
+  public closeBtn = SignInIcons;
+  public mainSignInImage = SignInIcons;
+  public googleImage = SignInIcons;
   public emailErrorMessageBackEnd: string;
   public passwordErrorMessageBackEnd: string;
   public backEndError: string;
@@ -48,11 +48,11 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
     this.checkIfUserId();
   }
 
-  private onCloseRestoreWindow(): void {
+  public onCloseRestoreWindow(): void {
     this.dialog.closeAll();
   }
 
-  private onBackToSignIn(): void {
+  public onBackToSignIn(): void {
     this.dialog.open(SignInComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
@@ -101,7 +101,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
     this.backEndError = null;
   }
 
-  private signInWithGoogle(): void {
+  public signInWithGoogle(): void {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(data => {
       this.googleService.signIn(data.idToken).subscribe(
         (signInData: UserSuccessSignIn) => {

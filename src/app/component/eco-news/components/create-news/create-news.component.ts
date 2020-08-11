@@ -45,9 +45,9 @@ export class CreateNewsComponent implements OnInit {
     maxTextAreaHeight: '128px',
   };
 
-  constructor(private router: Router,
+  constructor(public createEcoNewsService: CreateEcoNewsService,
+              private router: Router,
               private fb: FormBuilder,
-              private createEcoNewsService: CreateEcoNewsService,
               private dialog: MatDialog) {}
 
   ngOnInit() {
@@ -175,13 +175,13 @@ export class CreateNewsComponent implements OnInit {
     });
   }
 
-  private goToPreview(): void {
+  public goToPreview(): void {
     this.createEcoNewsService.setForm(this.createNewsForm);
     this.router.navigate(['news', 'preview']);
     this.setFilters();
   }
 
-  private openCancelPopup(): void {
+  public openCancelPopup(): void {
     this.dialog.open(CreateNewsCancelComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,

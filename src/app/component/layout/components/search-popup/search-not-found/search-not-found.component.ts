@@ -8,7 +8,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 export class SearchNotFoundComponent implements OnInit {
   @Output() closeUnsuccessfulSearchResults  = new EventEmitter();
 
-  private emitClose(): void {
+  public emitClose(): void {
     this.closeUnsuccessfulSearchResults.emit(true);
   }
 

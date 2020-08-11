@@ -7,8 +7,8 @@ import { PROFILE_IMAGES } from '../../../../../../assets/img/profile/profile-ima
   styleUrls: ['./achievements-friends.component.scss']
 })
 export class AchievementsFriendsComponent implements OnInit {
-  private achievementsImages = PROFILE_IMAGES.achs;
-  private friendsImages = PROFILE_IMAGES.friends;
+  public achievementsImages = PROFILE_IMAGES.achs;
+  public friendsImages = PROFILE_IMAGES.friends;
 
   constructor() { }
 

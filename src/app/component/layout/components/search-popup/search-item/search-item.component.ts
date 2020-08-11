@@ -13,7 +13,7 @@ export class SearchItemComponent implements OnInit {
   @Output() closeSearch: EventEmitter<boolean> = new EventEmitter();
   profileIcons = ecoNewsIcons;
 
-  private emitCloseSearch(): void {
+  public emitCloseSearch(): void {
     this.closeSearch.emit();
   }
 

@@ -12,15 +12,15 @@ import { Subscription } from 'rxjs';
 })
 
 export class SearchPopupComponent implements OnInit, OnDestroy {
+  public isTipsSearchFound: boolean;
+  public newsElements: NewsSearchModel[];
+  public tipsElements: TipsSearchModel[];
+  public isNewsSearchFound: boolean;
+  public isSearchClicked = false;
+  public inputValue: string;
+  public itemsFound: number;
   private searchSubscription: Subscription;
   private searchModalSubscription: Subscription;
-  private newsElements: NewsSearchModel[];
-  private tipsElements: TipsSearchModel[];
-  private isNewsSearchFound: boolean;
-  private isTipsSearchFound: boolean;
-  private isSearchClicked = false;
-  private inputValue: string;
-  private itemsFound: number;
 
   constructor(private search: SearchService) {}
 
@@ -28,7 +28,7 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
     this.searchModalSubscription = this.search.searchSubject.subscribe(this.subscribeToSignal.bind(this));
   }
 
-  private onKeyUp(event: EventTarget): void {
+  public onKeyUp(event: EventTarget): void {
     const VALUE = 'value';
     if (event[VALUE].length > 0) {
       this.inputValue = event[VALUE];
@@ -53,7 +53,7 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
     this.isSearchClicked = signal;
   }
 
-  private closeSearch(): void {
+  public closeSearch(): void {
     this.search.closeSearchSignal();
     this.isSearchClicked = false;
     this.resetData();

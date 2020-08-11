@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./eco-places.component.scss']
 })
 export class EcoPlacesComponent implements OnInit {
-  private ecoPlaces: Array<string> = [
+  public ecoPlaces: Array<string> = [
     'Everyday Bakery Cafe', 'Culturist', '3 бобра',
     'Everyday Bakery Cafe', 'Culturist', '3 бобра',
     'Everyday Bakery Cafe', 'Culturist', '3 бобра',
