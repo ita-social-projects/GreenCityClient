@@ -13,10 +13,16 @@ export class SocialNetworksComponent implements OnInit {
     add: './assets/img/profile/icons/add.svg',
     delete: './assets/img/profile/icons/delete.svg'
   };
-  public socialNetworks = {
-    facebook: 'facebook.com/brandiewebb',
-    instagram: 'instagram.com/brandiewebb'
-  };
+  public socialNetworks = [
+    {
+      icon: './assets/img/profile/icons/ic-faceb.svg',
+      link: 'facebook.com/brandiewebb'
+    },
+    {
+      icon: './assets/img/profile/icons/ic-instag.svg',
+      link: 'instagram.com/brandiewebb'
+    }
+  ];
 
   constructor() {}
 

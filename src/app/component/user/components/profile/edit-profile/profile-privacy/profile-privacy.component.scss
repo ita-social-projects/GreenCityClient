@@ -1,26 +1,61 @@
 ul {
+    margin-bottom: 0;
     padding: 0;
+
     li {
         list-style: none;
+        margin-top: 28px;
 
-        input {
-        height: 20px;
-        width: 20px;
-        border: 1px solid #13AA57;
-        box-sizing: border-box;
-        border-radius: 4px;
-        }
-
-        label {
-            height: 24px;
+        .wrapper {
             color: #494A49;
-            font-family: OpenSans;
+            cursor: pointer;
+            font-family: OpenSans, sans-serif;
             font-size: 18px;
             line-height: 24px;
-            margin: 28px 0 0 12px;
-        }
-        .done-true {
-            background: #13AA57;
+            margin: 0;
+            position: relative;
+            padding-left: 32px;
+
+            input {
+                height: 0;
+                opacity: 0;
+                position: absolute;
+                width: 0;
+            }
+
+            input:checked ~ .checkmark {
+                background-color: #13AA57;
+            }
+
+            input:checked ~ .checkmark:after {
+                display: block;
+            }
+
+            .checkmark {
+                border: 1px solid #13AA57;
+                border-radius: 4px;
+                height: 20px;
+                left: 0;
+                position: absolute;
+                top: 0;
+                width: 20px;
+            }
+
+            .checkmark:after {
+                border: solid white;
+                border-width: 0 2px 2px 0;
+                content: "";
+                display: none;
+                height: 12px;
+                left: 5px;
+                position: absolute;
+                top: 1px;
+                -webkit-transform: rotate(45deg);
+                -ms-transform: rotate(45deg);
+                transform: rotate(45deg);
+                width: 7px;
+            }
         }
     }
 }
+

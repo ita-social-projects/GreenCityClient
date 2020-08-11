@@ -1,8 +1,19 @@
-.details__img {
+.details-img {
     margin: 48px 0 41px;
+    position: relative;
 
     .profile-avatar{
         height: 148px;
         width: 148px;
     }
+
+    button{
+        border: none;
+        background-color: transparent;
+        left:115px;
+        padding: 0;
+        position: absolute;
+        top: 101px;
+    }
+    
 }

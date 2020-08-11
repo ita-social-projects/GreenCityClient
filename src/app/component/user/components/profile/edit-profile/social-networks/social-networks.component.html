@@ -1,20 +1,22 @@
-<div class="social-networks">
-    <img src="{{icons.facebook}}" alt="">
-    <a href="{{socialNetworks.facebook}}">{{socialNetworks.facebook}}</a>
-    <div class="edit-icons">
-        <img src="{{icons.edit}}" alt="">
-        <img src="{{icons.delete}}" alt="">
-    </div>
-</div>
-<div class="social-networks">
-    <img src="{{icons.instagram}}" alt="">
-    <a href="{{socialNetworks.instagram}}">{{socialNetworks.instagram}}</a>
-    <div class="edit-icons">
-        <img src="{{icons.edit}}" alt="">
-        <img src="{{icons.delete}}" alt="">
-    </div>
-</div>
-<div class="social-networks">
-    <img src="{{icons.add}}" alt="">
-    <p>Add social network</p>
-</div>
+<ul>
+    <li *ngFor="let socialNetwork of socialNetworks">
+        <div class="link">
+            <a href="{{socialNetwork.link}}"><img src="{{socialNetwork.icon}}" alt=""></a>
+            <a href="{{socialNetwork.link}}">{{socialNetwork.link}}</a>
+        </div>
+        <div class="edit-icons">
+            <button>
+                <img src="{{icons.edit}}" alt="edit icon">
+            </button>
+            <button>
+                <img src="{{icons.delete}}" alt="delete icon">
+            </button>
+        </div>
+    </li>
+    <li>
+        <div class="link">
+            <button><img src="{{icons.add}}" alt="add-icon"></button>
+            <a>Add social network</a>
+        </div>
+    </li>
+</ul>

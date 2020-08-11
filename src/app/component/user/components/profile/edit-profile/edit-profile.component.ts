@@ -9,7 +9,7 @@ export class EditProfileComponent implements OnInit {
 
   public userInfo = {
     id: 0,
-    avatarUrl: './assets/img/profileAvatar.png',
+    avatarUrl: './assets/img/profileAvatarBig.png',
     name: {
       first: 'Brandier',
       last: 'Webb',

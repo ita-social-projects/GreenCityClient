@@ -4,16 +4,14 @@
     </div>
     <app-personal-photo></app-personal-photo>
     <form>
-        <div class="personal-info wrapper">
-            <div class="description">
-                <p>Personal info</p>
-            </div>
-            <div class="input-block">
+        <div class="wrapper">
+            <p>Personal info</p>
+            <div class="input-block" [ngStyle]="{'margin-bottom': '41px'}">
                 <label for="name"> Name </label>
                 <input type="text" placeholder="{{userInfo.name.first + ' ' +  userInfo.name.last}}" id="name">
                 <span>Should contain maximum 170 symbols</span>
             </div>
-            <div class="input-block">
+            <div class="input-block" [ngStyle]="{'margin-bottom': '53px'}">
                 <label for="city"> City </label>
                 <input type="text" placeholder="{{userInfo.location}}" id="city">
             </div>
@@ -24,16 +22,12 @@
             </div>
         </div>
         <div class="wrapper">
-            <div class="description">
-                <p>Linked social networks</p>
-                <app-social-networks></app-social-networks>
-            </div>
+            <p>Linked social networks</p>
+            <app-social-networks></app-social-networks>
         </div>
-        <div class="profile-privacy wrapper">
-            <div class="description">
-                <p>Profile privacy</p>
-                <app-profile-privacy></app-profile-privacy>
-            </div>
+        <div class="wrapper">
+            <p>Profile privacy</p>
+            <app-profile-privacy></app-profile-privacy>
         </div>
         <div class="buttons">
             <button type="button">Cancel</button>

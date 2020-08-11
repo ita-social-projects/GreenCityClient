@@ -7,12 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PersonalPhotoComponent implements OnInit {
   public userInfo = {
-    avatarUrl: './assets/img/profileAvatar.png'
+    avatarUrl: './assets/img/profileAvatarBig.png'
   };
+  public editIcon = './assets/img/profile/icons/edit-photo.svg';
 
   constructor() { }
 
   ngOnInit() {
   }
-
 }
