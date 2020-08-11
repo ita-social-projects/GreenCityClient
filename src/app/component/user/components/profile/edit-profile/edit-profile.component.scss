@@ -1,13 +1,16 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 
+$title-font: Montserrat, sans-serif;
+$main-font: OpenSans, sans-serif;
+
 .container {
     margin-left: 135px;
     max-width: 554px;
     box-sizing: content-box;
 
     h2 {
-        font-family: Montserrat, sans-serif;
+        font-family: $title-font;
         font-style: normal;
         font-weight: 500;
         height: 48px;
@@ -23,7 +26,7 @@
         padding-bottom: 40px;
 
         p {
-            font-family: Montserrat, sans-serif;
+            font-family: $title-font;
             font-weight: 500;
             font-size: 24px;
             line-height: 24px;
@@ -35,7 +38,7 @@
             flex-direction: column;
 
             label {
-                font-family: OpenSans, sans-serif;
+                font-family: $main-font;
                 font-size: 12px;
                 height: 16px;
                 line-height: 16px;
@@ -62,7 +65,7 @@
             }
 
             span {
-                font-family: OpenSans, sans-serif;
+                font-family: $main-font;
                 font-size: 10px;
                 height: 12px;
                 line-height: 12px;
@@ -79,7 +82,7 @@
             border: 1px solid #13AA57;
             box-sizing: border-box;
             border-radius: 5px;
-            font-family: Open Sans, sans-serif;
+            font-family: $main-font;
             font-style: normal;
             font-weight: 600;
             font-size: 16px;
