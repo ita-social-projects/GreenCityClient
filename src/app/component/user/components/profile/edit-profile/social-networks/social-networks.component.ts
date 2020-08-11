@@ -7,8 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SocialNetworksComponent implements OnInit {
   public icons = {
-    facebook: './assets/img/profile/icons/ic-faceb.svg',
-    instagram: './assets/img/profile/icons/ic-instag.svg',
     edit: './assets/img/profile/icons/edit.svg',
     add: './assets/img/profile/icons/add.svg',
     delete: './assets/img/profile/icons/delete.svg'

@@ -6,7 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./edit-profile.component.scss']
 })
 export class EditProfileComponent implements OnInit {
-
   public userInfo = {
     id: 0,
     avatarUrl: './assets/img/profileAvatarBig.png',
