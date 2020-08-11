@@ -48,7 +48,3 @@ export { AddGoalButtonComponent } from './user-goals/add-goal-button/add-goal-bu
 export { GoalContainerComponent } from './user-goals/goal-container/goal-container.component';
 export { GoalItemComponent } from './user-goals/goal-item/goal-item.component';
 export { GoalListComponent } from './user-goals/goal-list/goal-list.component';
-
-
-
-

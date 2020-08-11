@@ -1,7 +1,9 @@
 <ul>
     <li *ngFor="let socialNetwork of socialNetworks">
         <div class="link">
-            <a href="{{socialNetwork.link}}"><img src="{{socialNetwork.icon}}" alt=""></a>
+            <a href="{{socialNetwork.link}}">
+                <img src="{{socialNetwork.icon}}" alt="">
+            </a>
             <a href="{{socialNetwork.link}}">{{socialNetwork.link}}</a>
         </div>
         <div class="edit-icons">
@@ -15,7 +17,9 @@
     </li>
     <li>
         <div class="link">
-            <button><img src="{{icons.add}}" alt="add-icon"></button>
+            <button>
+                <img src="{{icons.add}}" alt="add-icon">
+            </button>
             <a>Add social network</a>
         </div>
     </li>

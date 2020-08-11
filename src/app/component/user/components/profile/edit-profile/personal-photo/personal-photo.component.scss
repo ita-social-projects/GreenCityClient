@@ -14,6 +14,15 @@
         padding: 0;
         position: absolute;
         top: 101px;
+    } 
+}
+
+@media screen and (max-width: 320px) {
+    .details-img {
+        text-align: center;
+
+        button{
+            left:150px;
+        } 
     }
-    
 }
