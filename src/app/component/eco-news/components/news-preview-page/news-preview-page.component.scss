@@ -194,10 +194,6 @@ $main-font: 'Open Sans';
     margin: 0 32px 0 0;
   }
 
-  .last-img {
-    margin: 0;
-  }
-
   .news-text-container {
     flex-direction: column;
     justify-content: center;
@@ -265,6 +261,7 @@ $main-font: 'Open Sans';
     flex-direction: column;
   }
 
+  .news-info,
   .news-text-content,
   .source-text {
     font-size: 16px;
