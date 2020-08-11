@@ -39,8 +39,6 @@ export class LikeCommentComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.initializeWebSocketConnection();
     this.setStartingElements(this.likeState);
-    this.commentsService.likesCommentId
-      .subscribe((data: number) => this.commentId = data);
   }
 
   private setStartingElements(state: boolean) {
@@ -60,6 +58,7 @@ export class LikeCommentComponent implements OnInit, OnDestroy {
   }
 
   public pressLike(): void {
+    this.commentsService.setCommentId(this.commentId);
     this.commentsService.postLike(this.commentId)
       .subscribe(() => {
         this.stompClient.send('/app/likeAndCount' , {}, this.commentId);

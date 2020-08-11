@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommentsService } from '../../services/comments.service';
-import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-likes-counter',
@@ -18,8 +17,9 @@ export class LikesCounterComponent implements OnInit {
     this.getLikesFromServer();
     this.commentsService.likesSubject
       .subscribe((data: any) => {
-        if (this.commentId === data.id) {
-          this.likesAmount = data.likes;
+        const parsedData = JSON.parse(data);
+        if (this.commentId === parsedData.id) {
+          this.likesAmount = parsedData.amountLikes;
         }
     });
   }
