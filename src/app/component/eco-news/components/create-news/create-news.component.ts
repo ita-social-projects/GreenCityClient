@@ -125,13 +125,11 @@ export class CreateNewsComponent implements OnInit {
 
   public removeFilters(filter: FilterModel): void {
     const tagsArray = this.createNewsForm.value.tags;
-    if ( filter.isActive ) {
-      filter.isActive = false;
-      if (tagsArray.length === 1) {
-        this.isArrayEmpty = true;
-      }
+    if ( filter.isActive && tagsArray.length === 1 ) {
+      this.isArrayEmpty = true;
       this.createNewsForm.value.tags = tagsArray.filter(item => item.toLowerCase() !== filter.name.toLowerCase());
     }
+    filter.isActive = false;
   }
 
   public filtersValidation(filter: FilterModel): void {
