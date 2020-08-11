@@ -8,9 +8,11 @@ import { Observable } from 'rxjs';
   styleUrls: ['./profile-header.component.scss'],
 })
 export class ProfileHeaderComponent implements OnInit {
-  public oldUserInfo = {
+  public mockedUserInfo = {
+    profilePicturePath: './assets/img/profileAvatar.png',
     status: 'online',
     rate: 658,
+    userCredo: 'Credo'
   };
 
   public userInfo: object;
@@ -24,15 +26,13 @@ export class ProfileHeaderComponent implements OnInit {
   }
 
   public showUserInfo(): void {
-    this.profileService.getUserInfo().subscribe(item => {
-      this.userInfo = item;
-    });
+    this.profileService.getUserInfo().subscribe(item => this.userInfo = item);
   }
 
   public checkUserStatus(): void {
     this.profileService.getUserStatus().subscribe(item => {
       this.isUserOnline = item;
-      this.oldUserInfo.status = this.isUserOnline ? 'online' : 'offline';
+      this.mockedUserInfo.status = this.isUserOnline ? 'online' : 'offline';
     });
   }
 }

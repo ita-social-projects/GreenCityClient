@@ -1,6 +1,14 @@
 <div class="profile" *ngIf="userInfo">
   <div class="details__img">
-    <img [src]="userInfo.profilePicturePath" alt="" class="profile-avatar" />
+    <img [src]="userInfo.profilePicturePath" 
+         alt="profile avatar" 
+         class="profile-avatar" 
+         *ngIf="userInfo.profilePicturePath; else mockedPicture"/>
+    <ng-template #mockedPicture>
+      <img [src]="mockedUserInfo.profilePicturePath" 
+           alt="profile avatar" 
+           class="profile-avatar">
+    </ng-template>
   </div>
   <div>
   <div class="profile__details">
@@ -8,17 +16,17 @@
       <h3 class="descriptions__name">
         {{ userInfo.firstName }}
       </h3>
-      <div class="descriptions__location">{{ userInfo.city }}</div>
+      <div class="descriptions__location">{{ userInfo.city || mockedUserInfo.city }}</div>
       <div class="descriptions__status">
-        {{ oldUserInfo.status }}
+        {{ mockedUserInfo.status }}
       </div>
       <div class="descriptions__rate">
         <div>
-          Rate: {{ oldUserInfo.rate }}
+          Rate: {{ mockedUserInfo.rate }}
         </div>
       </div>
     </div>
-    <div class="details__credo">{{ userInfo.userCredo }}</div>
+    <div class="details__credo">{{ userInfo.userCredo || mockedUserInfo.userCredo }}</div>
   <div class="cards">
     <app-profile-progress></app-profile-progress>
   </div>
