@@ -127,8 +127,8 @@ export class CreateNewsComponent implements OnInit {
     const tagsArray = this.createNewsForm.value.tags;
     if ( filter.isActive && tagsArray.length === 1 ) {
       this.isArrayEmpty = true;
-      this.createNewsForm.value.tags = tagsArray.filter(item => item.toLowerCase() !== filter.name.toLowerCase());
     }
+    this.createNewsForm.value.tags = tagsArray.filter(item => item.toLowerCase() !== filter.name.toLowerCase());
     filter.isActive = false;
   }
 
