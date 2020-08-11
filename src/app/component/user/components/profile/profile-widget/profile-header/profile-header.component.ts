@@ -11,8 +11,8 @@ export class ProfileHeaderComponent implements OnInit {
   public mockedUserInfo = {
     profilePicturePath: './assets/img/profileAvatar.png',
     status: 'online',
-    rate: 658,
-    userCredo: 'Credo'
+    rating: 0,
+    userCredo: ''
   };
 
   public userInfo: object;
