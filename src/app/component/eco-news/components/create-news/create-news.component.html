@@ -35,8 +35,8 @@
                         <input type="text"
                                placeholder="{{ 'create-news.source-placeholder' | translate }}"
                                formControlName="source"
-                               [ngClass]="{'field-warning':isLink}">
-                        <span [ngClass]="{'warning':isLink}"
+                               [ngClass]="{'field-warning':!isLinkOrEmpty}">
+                        <span [ngClass]="{'warning':!isLinkOrEmpty}"
                         >
                          {{ 'create-news.source-tooltip-1' | translate }}
                           <br>
@@ -73,7 +73,7 @@
                 </button>
                 <button type="submit" [disabled]="!createNewsForm.valid ||
                                                   isArrayEmpty ||
-                                                  isLink ||
+                                                  !isLinkOrEmpty ||
                                                   createEcoNewsService.isImageValid">{{ 'create-news.publish-button' | translate }}</button>
             </div>
         </form>

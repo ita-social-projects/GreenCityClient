@@ -1,0 +1,42 @@
+<div class="container">
+    <h2>Edit profile</h2>
+    <app-personal-photo></app-personal-photo>
+    <form>
+        <div class="wrapper">
+            <p>Personal info</p>
+            <div class="input-block" 
+                 [ngStyle]="{'margin-bottom': '41px'}">
+                <label for="name">Name</label>
+                <input type="text" 
+                       placeholder="{{userInfo.name.first + ' ' +  userInfo.name.last}}" 
+                       id="name">
+                <span>Should contain maximum 170 symbols</span>
+            </div>
+            <div class="input-block" 
+                 [ngStyle]="{'margin-bottom': '53px'}">
+                <label for="city">City</label>
+                <input type="text" 
+                       placeholder="{{userInfo.location}}" 
+                       id="city">
+            </div>
+            <div class="input-block">
+                <label for="credo">Title</label>
+                <textarea placeholder="{{userInfo.userCredo}}" 
+                          id="credo"></textarea>
+                <span>Should contain maximum 170 symbols</span>
+            </div>
+        </div>
+        <div class="wrapper">
+            <p>Linked social networks</p>
+            <app-social-networks></app-social-networks>
+        </div>
+        <div class="wrapper">
+            <p>Profile privacy</p>
+            <app-profile-privacy></app-profile-privacy>
+        </div>
+        <div class="buttons">
+            <button type="button">Cancel</button>
+            <button type="submit">Save</button>
+        </div>
+    </form>
+</div>

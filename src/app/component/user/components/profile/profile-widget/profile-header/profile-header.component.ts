@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-profile-header',
@@ -14,15 +15,19 @@ export class ProfileHeaderComponent implements OnInit {
     rating: 0,
     userCredo: ''
   };
+  public editIcon = './assets/img/profile/icons/edit-line.svg';
+  public userId: number;
 
   public userInfo;
   public isUserOnline;
 
-  constructor(private profileService: ProfileService) { }
+  constructor(private profileService: ProfileService,
+              private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
     this.showUserInfo();
     this.checkUserStatus();
+    this.initUser();
   }
 
   public showUserInfo(): void {
@@ -40,4 +45,14 @@ export class ProfileHeaderComponent implements OnInit {
       this.mockedUserInfo.status = this.isUserOnline ? 'online' : 'offline';
     });
   }
+
+  private initUser(): void {
+    this.localStorageService.userIdBehaviourSubject
+      .subscribe(userId => this.assignData(userId));
+  }
+
+  private assignData(userId: number): void {
+    this.userId = userId;
+  }
 }
+
