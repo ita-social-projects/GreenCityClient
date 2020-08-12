@@ -20,7 +20,7 @@ div {
 }
 
 @media screen and (max-width: 1199px) {
-  #list-gallery-content { 
+  #list-gallery-content {
     width: 960px;
     height: 166px;
 
@@ -42,7 +42,7 @@ div {
   #list-gallery-content {
     width: 742px;
     height: 191px;
-  
+
     .list-image-content {
       width: 214px;
       height: 191px;
@@ -67,7 +67,7 @@ div {
   #list-gallery-content {
     width: 548px;
     height: 185px;
-  
+
     .list-image-content {
       display: none;
     }
@@ -117,6 +117,7 @@ div {
     font-size: 14px;
     line-height: 23px;
     color: #313131;
+    white-space: pre-wrap;
   }
 
   .user-data-added-news {

@@ -137,12 +137,14 @@ $main-font: 'Open Sans';
   margin-left: 74px;
   color: #000000;
   text-align: left;
+  width: 100%;
 }
 
 .news-text-content {
   width: 90%;
   font-size: 18px;
   line-height: 32px;
+  white-space: pre-wrap;
 }
 
 .source-field {
