@@ -1,14 +1,8 @@
 <div class="profile" *ngIf="userInfo">
   <div class="details__img">
-    <img [src]="userInfo.profilePicturePath" 
+    <img [src]="showCorrectImage()" 
          alt="profile avatar" 
-         class="profile-avatar" 
-         *ngIf="userInfo.profilePicturePath; else mockedPicture"/>
-    <ng-template #mockedPicture>
-      <img [src]="mockedUserInfo.profilePicturePath" 
-           alt="profile avatar" 
-           class="profile-avatar">
-    </ng-template>
+         class="profile-avatar"/>
   </div>
   <div>
   <div class="profile__details">

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-profile-header',
@@ -10,13 +9,14 @@ import { Observable } from 'rxjs';
 export class ProfileHeaderComponent implements OnInit {
   public mockedUserInfo = {
     profilePicturePath: './assets/img/profileAvatar.png',
+    city: '',
     status: 'online',
     rating: 0,
     userCredo: ''
   };
 
-  public userInfo: object;
-  public isUserOnline: object;
+  public userInfo;
+  public isUserOnline;
 
   constructor(private profileService: ProfileService) { }
 
@@ -27,6 +27,11 @@ export class ProfileHeaderComponent implements OnInit {
 
   public showUserInfo(): void {
     this.profileService.getUserInfo().subscribe(item => this.userInfo = item);
+  }
+
+  public showCorrectImage(): string {
+    return this.userInfo.profilePicturePath ?
+      this.userInfo.profilePicturePath : this.mockedUserInfo.profilePicturePath;
   }
 
   public checkUserStatus(): void {
