@@ -12,10 +12,9 @@
                 <div class="left-form-column">
 
                         <h3>{{ 'create-news.news-title' | translate }}</h3>
-                        <textarea
-                               placeholder="{{ 'create-news.title-placeholder' | translate }}"
-                               formControlName="title"
-                               (input)="autoResize($event)"></textarea>
+                        <textarea placeholder="{{ 'create-news.title-placeholder' | translate }}"
+                                  formControlName="title"
+                                  (input)="autoResize($event)"></textarea>
                         <span>{{ 'create-news.title-tooltip' | translate }}</span>
 
                     <div class="tags" formArrayName="tags">
