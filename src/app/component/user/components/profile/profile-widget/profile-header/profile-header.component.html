@@ -1,6 +1,12 @@
 <div class="profile">
   <div class="details__img">
-    <img [src]="userInfo.avatarUrl" alt="" class="profile-avatar" />
+    <a class="edit-icon" [routerLink]="['/profile', userId,'edit']">
+      <img [src]="editIcon" 
+           alt="edit icon">
+    </a>
+    <img [src]="userInfo.avatarUrl" 
+         alt="" 
+         class="profile-avatar" />
   </div>
   <div>
   <div class="profile__details">

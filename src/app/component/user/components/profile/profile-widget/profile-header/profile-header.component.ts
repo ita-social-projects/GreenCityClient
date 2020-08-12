@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-profile-header',
@@ -19,8 +20,21 @@ export class ProfileHeaderComponent implements OnInit {
     userCredo:
       'My Credo is to make small steps that leads to huge impact. Let’s change the world together.',
   };
+  public editIcon = './assets/img/profile/icons/edit-line.svg';
+  public userId: number;
 
-  constructor() {}
+  constructor(private localStorageService: LocalStorageService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.initUser();
+  }
+
+  private initUser(): void {
+    this.localStorageService.userIdBehaviourSubject
+      .subscribe(userId => this.assignData(userId));
+  }
+
+  private assignData(userId: number): void {
+    this.userId = userId;
+  }
 }
