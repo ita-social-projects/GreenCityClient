@@ -5,18 +5,16 @@ import { environment } from '@environment/environment';
 import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
-
 @Injectable({
   providedIn: 'root'
 })
 
 export class ProfileService {
+  public userId: number;
+  private backEnd = environment.backendLink;
 
   constructor(private http: HttpClient,
               private localStorageService: LocalStorageService) { }
-
-  private backEnd = environment.backendLink;
-  public userId: number;
 
   public setUserId(): void {
     this.localStorageService
