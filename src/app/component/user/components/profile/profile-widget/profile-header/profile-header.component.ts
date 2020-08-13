@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
@@ -7,26 +8,42 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
   styleUrls: ['./profile-header.component.scss'],
 })
 export class ProfileHeaderComponent implements OnInit {
-  public userInfo = {
-    id: 0,
-    avatarUrl: './assets/img/profileAvatar.png',
-    name: {
-      first: 'Brandier',
-      last: 'Webb',
-    },
-    location: 'Lviv, Ukraine',
+  public mockedUserInfo = {
+    profilePicturePath: './assets/img/profileAvatar.png',
+    city: '',
     status: 'online',
-    rate: 658,
-    userCredo:
-      'My Credo is to make small steps that leads to huge impact. Let’s change the world together.',
+    rating: 0,
+    userCredo: ''
   };
   public editIcon = './assets/img/profile/icons/edit-line.svg';
   public userId: number;
 
-  constructor(private localStorageService: LocalStorageService) {}
+  public userInfo;
+  public isUserOnline;
+
+  constructor(private profileService: ProfileService,
+              private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
+    this.showUserInfo();
+    this.checkUserStatus();
     this.initUser();
+  }
+
+  public showUserInfo(): void {
+    this.profileService.getUserInfo().subscribe(item => this.userInfo = item);
+  }
+
+  public showCorrectImage(): string {
+    return this.userInfo.profilePicturePath ?
+      this.userInfo.profilePicturePath : this.mockedUserInfo.profilePicturePath;
+  }
+
+  public checkUserStatus(): void {
+    this.profileService.getUserStatus().subscribe(item => {
+      this.isUserOnline = item;
+      this.mockedUserInfo.status = this.isUserOnline ? 'online' : 'offline';
+    });
   }
 
   private initUser(): void {
@@ -38,3 +55,4 @@ export class ProfileHeaderComponent implements OnInit {
     this.userId = userId;
   }
 }
+
