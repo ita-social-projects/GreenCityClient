@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { CancelPopUpComponent } from '@shared/components/cancel-pop-up/cancel-pop-up.component';
 
 @Component({
   selector: 'app-edit-profile',
@@ -20,7 +22,19 @@ export class EditProfileComponent implements OnInit {
       'My Credo is to make small steps that leads to huge impact. Let’s change the world together.',
   };
 
-  constructor() {}
+  constructor(private dialog: MatDialog) {}
 
   ngOnInit() {}
+
+  public openCancelPopup(): void {
+    this.dialog.open(CancelPopUpComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: 'custom-dialog-container',
+      data: {
+        currentPage: 'edit profile'
+      }
+    });
+  }
 }
