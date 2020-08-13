@@ -4,13 +4,13 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-news-cancel',
-  templateUrl: './create-news-cancel.component.html',
-  styleUrls: ['./create-news-cancel.component.scss']
+  templateUrl: './cancel-pop-up.component.html',
+  styleUrls: ['./cancel-pop-up.component.scss']
 })
-export class CreateNewsCancelComponent implements OnInit {
+export class CancelPopUpComponent implements OnInit {
   private currentPage: string;
 
-  constructor(private matDialogRef: MatDialogRef<CreateNewsCancelComponent>,
+  constructor(private matDialogRef: MatDialogRef<CancelPopUpComponent>,
               private router: Router,
               @Inject(MAT_DIALOG_DATA) public data) { }
 
@@ -18,7 +18,7 @@ export class CreateNewsCancelComponent implements OnInit {
     this.setCurrentPage();
   }
 
-  private setCurrentPage(){
+  private setCurrentPage() {
     this.currentPage = this.data.currentPage;
   }
 

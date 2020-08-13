@@ -44,7 +44,7 @@ import { CoreModule } from './component/core/core.module';
 import { AuthModule } from './component/auth/auth.module';
 import { HomeModule } from './component/home/home.module';
 import { LayoutModule } from './component/layout/layout.module';
-import { CreateNewsCancelComponent } from './component/shared/components/create-news-cancel/create-news-cancel.component';
+import { CancelPopUpComponent } from './component/shared/components/cancel-pop-up/cancel-pop-up.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
@@ -86,7 +86,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
   entryComponents: [
     ProposeCafeComponent,
     RestoreComponent,
-    CreateNewsCancelComponent
+    CancelPopUpComponent
   ],
   providers: [
     {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { CreateNewsCancelComponent } from '@shared/components/create-news-cancel/create-news-cancel.component';
+import { CancelPopUpComponent } from '@shared/components/cancel-pop-up/cancel-pop-up.component';
 
 @Component({
   selector: 'app-edit-profile',
@@ -27,7 +27,7 @@ export class EditProfileComponent implements OnInit {
   ngOnInit() {}
 
   private openCancelPopup(): void {
-    this.dialog.open(CreateNewsCancelComponent, {
+    this.dialog.open(CancelPopUpComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
       disableClose: true,
