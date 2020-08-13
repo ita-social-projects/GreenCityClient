@@ -1,4 +1,4 @@
-<div class="shopping-list-content">
+<div class="shopping-list-content" *ngIf="!error">
     <div class="header-position">
         <h2 class="header">Shopping list <span>{{ shoppingList.length }}</span></h2>
         <a class="btn-see-all">See all</a>
@@ -6,10 +6,9 @@
     <ul class="shopping-list" *ngIf="shoppingList.length; else unset">
         <li class="item" *ngFor="let shoppingItem of shoppingList">{{ shoppingItem.text }}
             <mat-checkbox
-                [checked]='shoppingItem.status === "DONE" ? true : false' 
+                [checked]='shoppingItem.status === "DONE"' 
                 class="checkbox" 
                 color="primary"
-                (click)="changeValue(shoppingItem)"
             ></mat-checkbox>
         </li>
     </ul>

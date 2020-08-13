@@ -1,19 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { CardModel } from '@user-models/card.model';
 import { ShoppingList } from '@user-models/shoppinglist.model';
 import { environment } from '@environment/environment';
 import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { retry, catchError } from 'rxjs/operators';
-
-const shoppinglist = [
-  {id: 1, status: 'ACTIVE', text: 'umbrela'},
-  {id: 2, status: 'DONE', text: 'bag'},
-  {id: 3, status: 'DONE', text: 'зубная щетка'},
-  {id: 4, status: 'ACTIVE', text: 'jetpack'},
-  {id: 5, status: 'ACTIVE', text: 'glasses'},
-];
 
 @Injectable({
   providedIn: 'root'
@@ -38,21 +29,7 @@ export class ProfileService {
 
   public getShoppingList(): Observable<ShoppingList[]> {
     this.setUserId();
-    return this.http.get<ShoppingList[]>(`${this.backEnd}user/${this.userId}/goals?language=en`)
-      .pipe(
-        retry(1),
-        catchError(this.handleError)
-      );
-  }
-
-  handleError(error) {
-    let errorMessage = '';
-    if (error.error instanceof ErrorEvent) {
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    return throwError(errorMessage);
+    return this.http.get<ShoppingList[]>(`${this.backEnd}user/${this.userId}/goals?language=en`);
   }
 
   public getUserInfo(): Observable<object> {
