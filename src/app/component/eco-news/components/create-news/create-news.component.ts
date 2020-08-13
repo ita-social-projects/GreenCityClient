@@ -167,7 +167,7 @@ export class CreateNewsComponent implements OnInit {
     this.setFilters();
   }
 
-  private openCancelPopup(): void {
+  public openCancelPopup(): void {
     this.dialog.open(CancelPopUpComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
