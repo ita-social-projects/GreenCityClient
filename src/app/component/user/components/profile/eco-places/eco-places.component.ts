@@ -1,3 +1,4 @@
+import { EcoPlaces } from './../../../models/ecoPlaces.model';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./eco-places.component.scss']
 })
 export class EcoPlacesComponent implements OnInit {
-  public ecoPlaces = [];
+  public ecoPlaces: EcoPlaces[] = [];
 
   constructor(private profileService: ProfileService) {}
 
@@ -15,7 +16,7 @@ export class EcoPlacesComponent implements OnInit {
     this.getEcoPlaces();
   }
 
-  public getEcoPlaces(): Array<string> {
+  public getEcoPlaces(): Array<object> {
     return this.profileService.getEcoPlaces().subscribe(success => this.ecoPlaces = success);
   }
 }
