@@ -10,14 +10,13 @@
         <form [formGroup]="createNewsForm" (ngSubmit)="onSubmit()">
             <div class="wrapper">
                 <div class="left-form-column">
-                    
+
                         <h3>{{ 'create-news.news-title' | translate }}</h3>
-                        <textarea 
-                               placeholder="{{ 'create-news.title-placeholder' | translate }}"
-                               formControlName="title"
-                               (input)="autoResize($event)"></textarea>
+                        <textarea placeholder="{{ 'create-news.title-placeholder' | translate }}"
+                                  formControlName="title"
+                                  (input)="autoResize($event)"></textarea>
                         <span>{{ 'create-news.title-tooltip' | translate }}</span>
-                    
+
                     <div class="tags" formArrayName="tags">
                         <h3>{{ 'create-news.tags-title' | translate }}</h3>
                         <button *ngFor="let filter of filters"
@@ -35,8 +34,8 @@
                         <input type="text"
                                placeholder="{{ 'create-news.source-placeholder' | translate }}"
                                formControlName="source"
-                               [ngClass]="{'field-warning':isLink}">
-                        <span [ngClass]="{'warning':isLink}"
+                               [ngClass]="{'field-warning':!isLinkOrEmpty}">
+                        <span [ngClass]="{'warning':!isLinkOrEmpty}"
                         >
                          {{ 'create-news.source-tooltip-1' | translate }}
                           <br>
@@ -73,7 +72,7 @@
                 </button>
                 <button type="submit" [disabled]="!createNewsForm.valid ||
                                                   isArrayEmpty ||
-                                                  isLink ||
+                                                  !isLinkOrEmpty ||
                                                   createEcoNewsService.isImageValid">{{ 'create-news.publish-button' | translate }}</button>
             </div>
         </form>

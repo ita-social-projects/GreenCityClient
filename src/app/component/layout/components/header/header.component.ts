@@ -152,7 +152,7 @@ export class HeaderComponent implements OnInit {
 
   public openDialog(): void {
     this.dropdownVisible = false;
-    this.router.navigate(['/profile/{userId}']);
+    this.router.navigate(['/profile', this.userId]);
   }
 
   public openSettingDialog(): void {

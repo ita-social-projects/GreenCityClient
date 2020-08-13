@@ -45,7 +45,11 @@ import {
   AddGoalButtonComponent,
   GoalContainerComponent,
   GoalItemComponent,
-  GoalListComponent
+  GoalListComponent,
+  EditProfileComponent,
+  PersonalPhotoComponent,
+  SocialNetworksComponent,
+  ProfilePrivacyComponent
 } from './components';
 import { CommonModule } from '@angular/common';
 import { CustomLastPipe } from '../../pipe/custom-last-pipe/custom-first.pipe';
@@ -63,9 +67,11 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from './store/user.effects';
 import { UserSelectors } from './store/user.selectors';
+import { UserComponent } from './user.component';
 
 @NgModule({
   declarations: [
+    UserComponent,
     ProfileCardsComponent,
     ProfileDashboardComponent,
     OneHabitComponent,
@@ -116,7 +122,11 @@ import { UserSelectors } from './store/user.selectors';
     AchievementsFriendsComponent,
     EcoPlacesComponent,
     ShoppingListComponent,
-    CalendarComponent
+    CalendarComponent,
+    EditProfileComponent,
+    PersonalPhotoComponent,
+    SocialNetworksComponent,
+    ProfilePrivacyComponent
   ],
   imports: [
     EffectsModule.forFeature([UserEffects]),
