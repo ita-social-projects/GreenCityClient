@@ -27,6 +27,7 @@ $font-family-first: Montserrat;
     .profile-avatar {
      width: 88px;
      height: 88px;
+     border-radius: 50px;
     }
   }
 
@@ -41,8 +42,8 @@ $font-family-first: Montserrat;
 
       .descriptions__name {
         font-style: normal;
-        font-weight: 600;
-        font-size: calc(15px + (18 - 15) * ((100vw - 320px) / (1440 - 320)));
+        font-weight: 500;
+        font-size: 18px;
         line-height: 15px;
         text-align: center;
       }
@@ -69,7 +70,7 @@ $font-family-first: Montserrat;
       .descriptions__rate {
         display: flex;
         justify-content: center;
-        padding: 2px 16px;
+        padding: 4px 16px;
         font-size: 12px;
         font-family: Open Sans;
         height: 24px;
@@ -87,7 +88,7 @@ $font-family-first: Montserrat;
       text-align: left;
       width: 100%;
       font-family: Open Sans;
-      font-size: calc(11px + (14 - 11) * ((100vw - 320px) / (1440 - 320)));
+      font-size: 14px;
       line-height: calc(16px + (22 - 16) * ((100vw - 320px) / (1440 - 320)));
       color: #494a49;
     }
