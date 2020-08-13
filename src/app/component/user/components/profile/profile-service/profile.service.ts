@@ -36,8 +36,7 @@ export class ProfileService {
   }
 
   public getEcoPlaces(): any {
-    this.setUserId();
-    return this.http.get(`https://greencity.azurewebsites.net/favorite_place/`);
+    return this.http.get(`${this.backEnd}/favorite_place/`);
   }
 
 }
