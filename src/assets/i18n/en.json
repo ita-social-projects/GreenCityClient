@@ -33,6 +33,8 @@
       "title": "Eco news",
       "filter": "Filter by",
       "create": "Create news",
+      "read-more": "Read more",
+      "read-all": "Read all",
       "tags": {
         "news": "News",
         "events": "Events",
