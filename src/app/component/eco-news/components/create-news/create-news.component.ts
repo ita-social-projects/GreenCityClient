@@ -167,13 +167,8 @@ export class CreateNewsComponent implements OnInit {
     this.setFilters();
   }
 
-<<<<<<< HEAD
   private openCancelPopup(): void {
     this.dialog.open(CancelPopUpComponent, {
-=======
-  public openCancelPopup(): void {
-    this.dialog.open(CreateNewsCancelComponent, {
->>>>>>> 9388afcb4d674efc1e0361d3af2517d02741712d
       hasBackdrop: true,
       closeOnNavigation: true,
       disableClose: true,
