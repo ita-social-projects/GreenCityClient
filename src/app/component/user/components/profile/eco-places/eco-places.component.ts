@@ -1,3 +1,4 @@
+import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,17 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./eco-places.component.scss']
 })
 export class EcoPlacesComponent implements OnInit {
-  private ecoPlaces: Array<string> = [
-    'Everyday Bakery Cafe', 'Culturist', '3 бобра',
-    'Everyday Bakery Cafe', 'Culturist', '3 бобра',
-    'Everyday Bakery Cafe', 'Culturist', '3 бобра',
-    'Everyday Bakery Cafe'];
-
-  constructor() {}
+  public ecoPlaces;
+  constructor(private profileService: ProfileService) {}
 
   ngOnInit() {}
 
   public getEcoPlaces(): Array<string> {
-    return this.ecoPlaces.slice(0, 3);
+    return this.profileService.getEcoPlaces().subscribe(success => this.ecoPlaces = success);
   }
 }

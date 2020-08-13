@@ -35,4 +35,9 @@ export class ProfileService {
     return this.http.get<object>(`${this.backEnd}user/isOnline/${this.userId}/`);
   }
 
+  public getEcoPlaces(): any {
+    this.setUserId();
+    return this.http.get(`https://greencity.azurewebsites.net/favorite_place/`);
+  }
+
 }
