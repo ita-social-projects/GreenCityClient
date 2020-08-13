@@ -26,7 +26,7 @@ export class ShoppingListComponent implements OnInit {
     return item.status === 'DONE';
   }
 
-  private changeValue(item) {
+  private changeValue(item): void {
     const index = this.shoppingList.findIndex(shoppingItem => shoppingItem.id === item.id);
     const newItemStatus = item.status === 'ACTIVE' ? 'DONE' : 'ACTIVE';
 
