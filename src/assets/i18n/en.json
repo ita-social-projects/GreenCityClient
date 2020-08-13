@@ -33,6 +33,8 @@
       "title": "Eco news",
       "filter": "Filter by",
       "create": "Create news",
+      "read-more": "Read more",
+      "read-all": "Read all",
       "tags": {
         "news": "News",
         "events": "Events",
@@ -589,7 +591,8 @@
   },
   "cancel-popup": {
     "title": "All created content will be lost.",
-    "subtitle": "Do you still want to cancel news creating?",
+    "subtitle-news": "Do you still want to cancel news creating?",
+    "subtitle-profile": "Do you still want to cancel profile editing?",
     "continue": "Continue editing",
     "cancel": "Yes, cancel"
   },
