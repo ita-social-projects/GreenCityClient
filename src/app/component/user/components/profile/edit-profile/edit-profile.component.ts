@@ -26,7 +26,7 @@ export class EditProfileComponent implements OnInit {
 
   ngOnInit() {}
 
-  private openCancelPopup(): void {
+  public openCancelPopup(): void {
     this.dialog.open(CancelPopUpComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
