@@ -18,8 +18,8 @@ export class ProfileService {
 
   public setUserId(): void {
     this.localStorageService
-    .userIdBehaviourSubject
-    .subscribe(userId => this.userId = userId);
+      .userIdBehaviourSubject
+      .subscribe(userId => this.userId = userId);
   }
 
   public getFactsOfTheDay(): Observable<CardModel> {
@@ -33,6 +33,10 @@ export class ProfileService {
 
   public getUserStatus(): Observable<object> {
     return this.http.get<object>(`${this.backEnd}user/isOnline/${this.userId}/`);
+  }
+
+  public getUserFriends(): Observable<object> {
+    return this.http.get<object>(`${this.backEnd}user/${this.userId}/sixUserFriends/`);
   }
 
 }
