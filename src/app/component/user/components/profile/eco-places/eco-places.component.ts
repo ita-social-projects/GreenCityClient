@@ -7,10 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./eco-places.component.scss']
 })
 export class EcoPlacesComponent implements OnInit {
-  public ecoPlaces;
+  public ecoPlaces = [];
+
   constructor(private profileService: ProfileService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getEcoPlaces();
+  }
 
   public getEcoPlaces(): Array<string> {
     return this.profileService.getEcoPlaces().subscribe(success => this.ecoPlaces = success);
