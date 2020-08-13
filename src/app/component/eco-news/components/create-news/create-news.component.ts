@@ -132,9 +132,7 @@ export class CreateNewsComponent implements OnInit {
     if ( this.createNewsForm.value.tags.length > 3) {
       this.isFilterValidation = true;
       setTimeout(() => this.isFilterValidation = false, 3000);
-      this.createNewsForm.value.tags = [
-        ...this.createNewsForm.value.tags.slice(0, 3)
-      ];
+      this.createNewsForm.value.tags = this.createNewsForm.value.tags.slice(0, 3);
       filter.isActive = false;
     }
   }
