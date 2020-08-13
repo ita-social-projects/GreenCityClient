@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { CreateEcoNewsService } from '../../../eco-news/services/create-eco-news.service';
-
 
 @Component({
   selector: 'app-create-news-cancel',
@@ -10,12 +8,18 @@ import { CreateEcoNewsService } from '../../../eco-news/services/create-eco-news
   styleUrls: ['./create-news-cancel.component.scss']
 })
 export class CreateNewsCancelComponent implements OnInit {
+  private currentPage: string;
 
   constructor(private matDialogRef: MatDialogRef<CreateNewsCancelComponent>,
               private router: Router,
-              private createEcoNews: CreateEcoNewsService) { }
+              @Inject(MAT_DIALOG_DATA) public data) { }
 
   ngOnInit() {
+    this.setCurrentPage();
+  }
+
+  private setCurrentPage(){
+    this.currentPage = this.data.currentPage;
   }
 
   private closeCancelPopup(): void {
@@ -23,7 +27,7 @@ export class CreateNewsCancelComponent implements OnInit {
   }
 
   private moveToNewsList(): void {
-    this.router.navigate(['/news']);
+    this.currentPage === 'eco news' ? this.router.navigate(['/news']) : this.router.navigate(['/profile']);
     this.closeCancelPopup();
   }
 }

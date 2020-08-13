@@ -179,6 +179,9 @@ export class CreateNewsComponent implements OnInit {
       closeOnNavigation: true,
       disableClose: true,
       panelClass: 'custom-dialog-container',
+      data: {
+        currentPage: 'eco news'
+      }
     });
   }
 }
