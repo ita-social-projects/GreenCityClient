@@ -3,7 +3,10 @@
         <div class="header">My eco places <span>{{ ecoPlaces.length }}</span></div>
         <a class="btn-see-all">See all</a>
     </div>
-    <ul class="eco-place-list">
+    <ul class="eco-place-list" *ngIf="ecoPlaces.length; else unset">
         <li class="item" *ngFor="let ecoPlace of ecoPlaces">{{ ecoPlace.name }}</li>
     </ul>
+    <ng-template #unset>
+        <p>You have no items in your Shopping List</p>
+    </ng-template>
 </div>
