@@ -61,7 +61,7 @@ form {
     min-height: 380px;
 }
 
-.left-form-column input, 
+.left-form-column input,
 .left-form-column textarea {
     width: 622px;
     height: 48px;
@@ -205,14 +205,14 @@ button {
 }
 
 @media screen and (max-width: 1200px) {
-    .left-form-column input, 
+    .left-form-column input,
     .left-form-column textarea {
         width: 517px;
     }
 }
 
 @media screen and (max-width: 1024px) {
-    .left-form-column input, 
+    .left-form-column input,
     .left-form-column textarea,
     form .textarea-wrapper textarea {
         width: 100%;
@@ -220,7 +220,7 @@ button {
 }
 
 @media screen and (max-width: 768px) {
-    .left-form-column input, 
+    .left-form-column input,
     .left-form-column  textarea,
     form .textarea-wrapper textarea  {
         width: 100%;
