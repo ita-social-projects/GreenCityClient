@@ -4,6 +4,7 @@ import { CardModel } from '@user-models/card.model';
 import { environment } from '@environment/environment';
 import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { ProfileStatistics } from '@user-models/profile-statistiscs';
 
 @Injectable({
   providedIn: 'root'
@@ -35,4 +36,7 @@ export class ProfileService {
     return this.http.get<object>(`${this.backEnd}user/isOnline/${this.userId}/`);
   }
 
+  public getUserProfileStatistics(): Observable<ProfileStatistics> {
+    return this.http.get<ProfileStatistics>(`${this.backEnd}user/${this.userId}/profileStatistics/`);
+  }
 }
