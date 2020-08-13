@@ -7,6 +7,14 @@ import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { retry, catchError } from 'rxjs/operators';
 
+const shoppinglist = [
+  {id: 1, status: 'ACTIVE', text: 'umbrela'},
+  {id: 2, status: 'DONE', text: 'bag'},
+  {id: 3, status: 'DONE', text: 'зубная щетка'},
+  {id: 4, status: 'ACTIVE', text: 'jetpack'},
+  {id: 5, status: 'ACTIVE', text: 'glasses'},
+];
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,8 +28,8 @@ export class ProfileService {
 
   public setUserId(): void {
     this.localStorageService
-      .userIdBehaviourSubject
-      .subscribe(userId => this.userId = userId);
+    .userIdBehaviourSubject
+    .subscribe(userId => this.userId = userId);
   }
 
   public getFactsOfTheDay(): Observable<CardModel> {
@@ -45,6 +53,15 @@ export class ProfileService {
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
     return throwError(errorMessage);
+  }
+
+  public getUserInfo(): Observable<object> {
+    this.setUserId();
+    return this.http.get<object>(`${this.backEnd}user/${this.userId}/profile/`);
+  }
+
+  public getUserStatus(): Observable<object> {
+    return this.http.get<object>(`${this.backEnd}user/isOnline/${this.userId}/`);
   }
 
 }

@@ -20,7 +20,6 @@ export class ShoppingListComponent implements OnInit {
       console.log(this.shoppingList);
      }
    );
-   console.log(this.shoppingList);
  }
 
   private isItemChecked(item): boolean {
@@ -28,7 +27,7 @@ export class ShoppingListComponent implements OnInit {
   }
 
   private changeValue(item) {
-    const index = this.shoppingList.indexOf(item);
+    const index = this.shoppingList.findIndex(shoppingItem => shoppingItem.id === item.id);
     const newItemStatus = item.status === 'ACTIVE' ? 'DONE' : 'ACTIVE';
 
     const newItem = {

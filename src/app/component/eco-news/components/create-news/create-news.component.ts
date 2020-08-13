@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
-import { FilterModel, NewsResponseDTO } from '@eco-news-models/create-news-interface';
+import { FilterModel } from '@eco-news-models/create-news-interface';
 import { CreateNewsCancelComponent } from '@shared/components/create-news-cancel/create-news-cancel.component';
 
 @Component({
@@ -85,10 +85,6 @@ export class CreateNewsComponent implements OnInit {
     }
   }
 
-  private navigateByUrl(url: string): void {
-    this.router.navigateByUrl(url);
-  }
-
   public onSourceChange(): void {
     this.createNewsForm.get('source').valueChanges.subscribe(source => {
       this.isLinkOrEmpty = /^$|^https?:\/\//.test(source);
@@ -99,7 +95,7 @@ export class CreateNewsComponent implements OnInit {
     this.isPosting = true;
     this.setFilters();
     this.createEcoNewsService.sendFormData(this.createNewsForm).subscribe(
-      (successRes: NewsResponseDTO) => {
+      () => {
         this.isPosting = false;
         this.router.navigate(['/news']);
       }
@@ -136,9 +132,7 @@ export class CreateNewsComponent implements OnInit {
     if ( this.createNewsForm.value.tags.length > 3) {
       this.isFilterValidation = true;
       setTimeout(() => this.isFilterValidation = false, 3000);
-      this.createNewsForm.value.tags = [
-        ...this.createNewsForm.value.tags.slice(0, 3)
-      ];
+      this.createNewsForm.value.tags = this.createNewsForm.value.tags.slice(0, 3);
       filter.isActive = false;
     }
   }
@@ -167,13 +161,13 @@ export class CreateNewsComponent implements OnInit {
     });
   }
 
-  private goToPreview(): void {
+  public goToPreview(): void {
     this.createEcoNewsService.setForm(this.createNewsForm);
     this.router.navigate(['news', 'preview']);
     this.setFilters();
   }
 
-  private openCancelPopup(): void {
+  public openCancelPopup(): void {
     this.dialog.open(CreateNewsCancelComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
