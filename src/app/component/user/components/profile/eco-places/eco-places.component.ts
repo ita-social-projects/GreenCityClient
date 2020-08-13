@@ -1,6 +1,6 @@
-import { EcoPlaces } from './../../../models/ecoPlaces.model';
-import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { Component, OnInit } from '@angular/core';
+import { EcoPlaces } from '@user-models/ecoPlaces.model';
+import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 
 @Component({
   selector: 'app-eco-places',
@@ -9,14 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EcoPlacesComponent implements OnInit {
   public ecoPlaces: EcoPlaces[] = [];
+  public error = null;
 
-  constructor(private profileService: ProfileService) {}
+  constructor(private profileService: ProfileService) { }
 
   ngOnInit() {
     this.getEcoPlaces();
   }
 
-  public getEcoPlaces(): Array<object> {
-    return this.profileService.getEcoPlaces().subscribe(success => this.ecoPlaces = success);
+  public getEcoPlaces(): EcoPlaces[] {
+    return this.profileService.getEcoPlaces().subscribe(
+      (success) => {
+        this.ecoPlaces = success;
+      },
+      (error) => {
+        this.error = error;
+      }
+    );
   }
 }
