@@ -19,12 +19,8 @@ export class EcoPlacesComponent implements OnInit {
 
   public getEcoPlaces(): EcoPlaces[] {
     return this.profileService.getEcoPlaces().subscribe(
-      (success) => {
-        this.ecoPlaces = success;
-      },
-      (error) => {
-        this.error = error;
-      }
+      (success) => this.ecoPlaces = success,
+      (error) => this.error = error
     );
   }
 }
