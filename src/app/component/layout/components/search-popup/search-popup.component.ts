@@ -65,6 +65,7 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
     this.isNewsSearchFound = null;
     this.isTipsSearchFound = null;
     this.itemsFound = null;
+    this.inputValue = null;
   }
 
   ngOnDestroy() {

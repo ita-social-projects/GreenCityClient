@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
-import { CreateEcoNewsService } from '../../services/create-eco-news.service';
-import { FilterModel, LanguageModel, NewsResponseDTO } from '../../models/create-news-interface';
+import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { CreateNewsCancelComponent } from '../../../shared/components/create-news-cancel/create-news-cancel.component';
+import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
+import { FilterModel } from '@eco-news-models/create-news-interface';
+import { CancelPopUpComponent } from '@shared/components/cancel-pop-up/cancel-pop-up.component';
 
 @Component({
   selector: 'app-create-news',
@@ -34,7 +34,7 @@ export class CreateNewsComponent implements OnInit {
   public day: number = new Date().getDate();
   public month: number = new Date().getMonth();
   public isFilterValidation = false;
-  public isLink = false;
+  public isLinkOrEmpty = true;
   public formData: FormGroup;
   public isArrayEmpty = true;
   public author: string = localStorage.getItem('name');
@@ -45,9 +45,9 @@ export class CreateNewsComponent implements OnInit {
     maxTextAreaHeight: '128px',
   };
 
-  constructor(public createEcoNewsService: CreateEcoNewsService,
-              private router: Router,
+  constructor(private router: Router,
               private fb: FormBuilder,
+              private createEcoNewsService: CreateEcoNewsService,
               private dialog: MatDialog) {}
 
   ngOnInit() {
@@ -85,15 +85,9 @@ export class CreateNewsComponent implements OnInit {
     }
   }
 
-  private navigateByUrl(url: string): void {
-    this.router.navigateByUrl(url);
-  }
-
   public onSourceChange(): void {
     this.createNewsForm.get('source').valueChanges.subscribe(source => {
-      source.startsWith('http://') ||
-      source.startsWith('https://') ||
-      source.length === 0 ? this.isLink = false : this.isLink = true;
+      this.isLinkOrEmpty = /^$|^https?:\/\//.test(source);
     });
   }
 
@@ -101,7 +95,7 @@ export class CreateNewsComponent implements OnInit {
     this.isPosting = true;
     this.setFilters();
     this.createEcoNewsService.sendFormData(this.createNewsForm).subscribe(
-      (successRes: NewsResponseDTO) => {
+      () => {
         this.isPosting = false;
         this.router.navigate(['/news']);
       }
@@ -118,7 +112,7 @@ export class CreateNewsComponent implements OnInit {
     if ( !filter.isActive ) {
       filter.isActive = true;
       this.isArrayEmpty = false;
-      this.createNewsForm.value.tags.push(filter.name.toLowerCase());
+      this.createNewsForm.value.tags = [...this.createNewsForm.value.tags, filter.name.toLowerCase()];
       this.filtersValidation(filter);
     } else {
       this.removeFilters(filter);
@@ -126,25 +120,19 @@ export class CreateNewsComponent implements OnInit {
   }
 
   public removeFilters(filter: FilterModel): void {
-    if ( filter.isActive ) {
-      filter.isActive = false;
-      if (this.createNewsForm.value.tags.length === 1) {
-        this.isArrayEmpty = true;
-      }
-      this.createNewsForm.value.tags.forEach((item, index) => {
-        if (item.toLowerCase() === filter.name.toLowerCase()) {
-          this.createNewsForm.value.tags.splice(index, 1);
-          this.filtersValidation(filter);
-        }
-      });
+    const tagsArray = this.createNewsForm.value.tags;
+    if ( filter.isActive && tagsArray.length === 1 ) {
+      this.isArrayEmpty = true;
     }
+    this.createNewsForm.value.tags = tagsArray.filter(item => item.toLowerCase() !== filter.name.toLowerCase());
+    filter.isActive = false;
   }
 
   public filtersValidation(filter: FilterModel): void {
     if ( this.createNewsForm.value.tags.length > 3) {
       this.isFilterValidation = true;
       setTimeout(() => this.isFilterValidation = false, 3000);
-      this.createNewsForm.value.tags.splice(3, 1);
+      this.createNewsForm.value.tags = this.createNewsForm.value.tags.slice(0, 3);
       filter.isActive = false;
     }
   }
@@ -156,7 +144,7 @@ export class CreateNewsComponent implements OnInit {
           if (filter.name.toLowerCase() === tag &&
               filter.isActive &&
               !this.createNewsForm.value.tags.includes(tag)) {
-            this.createNewsForm.value.tags.push(tag);
+            this.createNewsForm.value.tags = [...this.createNewsForm.value.tags, tag];
             this.filtersValidation(filter);
           }
         });
@@ -166,12 +154,10 @@ export class CreateNewsComponent implements OnInit {
 
   private patchFilters(): void {
     this.filters.forEach(filter => {
-      this.formData.value.tags.forEach(tag => {
-      if (filter.name.toLowerCase() === tag) {
-          filter.isActive = true;
-          this.isArrayEmpty = false;
-        }
-      });
+      if (this.formData.value.tags.includes(filter.name.toLowerCase())) {
+        filter.isActive = true;
+        this.isArrayEmpty = false;
+      }
     });
   }
 
@@ -182,11 +168,14 @@ export class CreateNewsComponent implements OnInit {
   }
 
   public openCancelPopup(): void {
-    this.dialog.open(CreateNewsCancelComponent, {
+    this.dialog.open(CancelPopUpComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
       disableClose: true,
       panelClass: 'custom-dialog-container',
+      data: {
+        currentPage: 'eco news'
+      }
     });
   }
 }

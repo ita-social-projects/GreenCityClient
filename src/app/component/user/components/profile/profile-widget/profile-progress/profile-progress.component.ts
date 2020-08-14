@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Habit } from '../../../../models/habit.model';
+import { Habit } from '@user-models/habit.model';
 
 @Component({
   selector: 'app-profile-progress',

@@ -1,0 +1,9 @@
+<ul>
+    <li *ngFor="let item of privacyList">
+        <label class="wrapper">{{item.text}}
+            <input type="checkbox" 
+                   [checked]="item.done">
+            <span class="checkmark"></span>
+        </label>
+    </li>
+</ul>

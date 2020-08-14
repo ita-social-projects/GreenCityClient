@@ -1,20 +1,16 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Output, Input} from '@angular/core';
 
 @Component({
   selector: 'app-search-not-found',
   templateUrl: './search-not-found.component.html',
   styleUrls: ['./search-not-found.component.scss']
 })
-export class SearchNotFoundComponent implements OnInit {
+export class SearchNotFoundComponent {
   @Output() closeUnsuccessfulSearchResults  = new EventEmitter();
+  @Input() inputValue;
 
   public emitClose(): void {
     this.closeUnsuccessfulSearchResults.emit(true);
-  }
-
-  constructor() { }
-
-  ngOnInit() {
   }
 
 }
