@@ -1,14 +1,14 @@
 <div id="list-gallery-content">
   <div class="filter-tag">
-    <div class="ul-eco-buttons" *ngFor="let tag of searchModel">
+    <div class="ul-eco-buttons" *ngFor="let tag of searchModel.tags">
          {{ tag }}
     </div>
   </div>
   <div class="title-list">
-    <a [routerLink]="['/news', searchModel.ecoNews[0]?.id]"
+    <a [routerLink]="['/news', searchModel.id]"
        (click) = "emitCloseSearch()">
       <p>
-        {{ searchModel.ecoNews[0]?.title | slice: 0:130 }}
+        {{ searchModel.title | slice: 0:130 }}
       </p>
     </a>
   </div>
@@ -17,13 +17,13 @@
       <img class="icon"
            [src]="profileIcons.calendarIcon"
            alt="calendar icon" />
-           {{ searchModel.ecoNews[0].creationDate | date }}
+           {{ searchModel.creationDate | date }}
     </p>
     <p class="user-data-text-date-share">
       <img class="icon"
            [src]="profileIcons.userIcon"
            alt="user icon" />
-      {{ searchModel.ecoNews[0]?.author.name }}
+      {{ searchModel.author.name }}
     </p>
   </div>
 </div>
