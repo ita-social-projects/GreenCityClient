@@ -3,36 +3,44 @@
     <div class="achievements-text">
       <div class="text-main-content">
         <div class="text-title">
-          My Achievements 
+          My Achievements
           <span class="text-number">8</span>
         </div>
       </div>
       <div class="text-more">See all</div>
     </div>
     <div class="achievements-images">
-        <img [src]="image"
-             alt="achievement"
-             class="achievements-img"
-             *ngFor="let image of achievementsImages"
-        >
+      <img [src]="image"
+           alt="achievement"
+           class="achievements-img"
+           *ngFor="let image of achievementsImages"
+      >
     </div>
   </div>
-  <div class="friends">
+  <div class="friends" *ngIf="!error">
     <div class="friends-text">
       <div class="text-main-content">
-          <div class="text-title">
-            My Eco Friends
-            <span class="text-number">139</span>
-          </div>
+        <div class="text-title">
+          My Eco Friends
+          <span class="text-number">139</span>
+        </div>
       </div>
       <div class="text-more">See all</div>
     </div>
     <div class="friends-images">
-        <img [src]="image"
-             alt="friend"
-             class="friend-img"
-             *ngFor="let image of friendsImages"
-        >
+      <img [src]=image.profilePicturePath
+           alt="friend"
+           class="friend-img"
+           *ngFor="let image of usersFriends"
+      >
+    </div>
+  </div>
+  <div class="friends-error" *ngIf="error">
+    <div class="text-title">
+      My Eco Friends
+      <div class="error-message">
+        You don't have any friends.
+      </div>
     </div>
   </div>
 </div>
