@@ -4,9 +4,14 @@
       <div class="warning-title">
         {{ 'cancel-popup.title' | translate }}
       </div>
-      <div class="warning-subtitle">
-        {{ 'cancel-popup.subtitle' | translate }}
+      <div class="warning-subtitle" *ngIf="currentPage === 'eco news'; else profile">
+        {{ 'cancel-popup.subtitle-news' | translate }}
       </div>
+      <ng-template #profile>
+        <div class="warning-subtitle">
+          {{ 'cancel-popup.subtitle-profile' | translate }}
+        </div>
+      </ng-template>
     </div>
     <div class="cta-buttons">
       <div class="continue-btn">
