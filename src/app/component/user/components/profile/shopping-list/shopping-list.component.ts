@@ -16,13 +16,13 @@ export class ShoppingListComponent implements OnInit {
 
 
   ngOnInit() {
+    this.getShoppingList();
+  }
+
+  getShoppingList(): void {
     this.profileSubscription = this.profileService.getShoppingList().subscribe(
-      (success: ShoppingList[]) => {
-        this.shoppingList = success;
-      },
-      (error) => {
-        this.error = error;
-      }
+      (success: ShoppingList[]) => this.shoppingList = success,
+      (error) => this.error = error
     );
   }
 }
