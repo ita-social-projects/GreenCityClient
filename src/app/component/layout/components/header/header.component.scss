@@ -20,8 +20,7 @@ $screen-320: " screen and (max-width : 320px)";
   }
 
   .main-container {
-    max-width: 1920px;
-    margin: 0 auto;
+    margin: 0 10%;
     height: 54px;
     display: flex;
     justify-content: center;
@@ -31,8 +30,7 @@ $screen-320: " screen and (max-width : 320px)";
 }
 
   .header {
-    min-width: 96%;
-    max-width: 1920px;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -42,7 +40,6 @@ $screen-320: " screen and (max-width : 320px)";
       width: 136px;
       height: 36px;
       margin-right: 4%;
-      margin-left: 150px;
       cursor: pointer;
 
     }
@@ -207,6 +204,10 @@ $screen-320: " screen and (max-width : 320px)";
           &:nth-of-type(5) {
             margin-right: 0;
           }
+          }
+
+          .last-nav-item {
+            margin-right: 0;
           }
 
               .language-switcher {
@@ -375,8 +376,7 @@ $screen-320: " screen and (max-width : 320px)";
 
 #user-avatar-wrapper, #lang-wrapper  {
   position: relative;
-  width: auto;
-  min-width: 135px;
+  width: 75px;
   height: 36px;
 
   ul {
@@ -456,21 +456,15 @@ $screen-320: " screen and (max-width : 320px)";
   }
 }
 
-@media #{$screen-992} {
-  .header {
-    .logo {
-      margin-left: 32px;
+@media screen and (max-width: 1024px) {
+  .main {
+    .main-container {
+      margin: 0 3%;
     }
   }
 }
 
 @media #{$screen-870} {
-  .header {
-    .logo {
-      margin-left: 14px;
-    }
-  }
-
   .navigation-menu {
     width: auto;
 
@@ -487,11 +481,24 @@ $screen-320: " screen and (max-width : 320px)";
   }
 }
 
+@media screen and (max-width: 767px) {
+  .main {
+    .main-container {
+      margin: 0 1.95%;
+    }
+  }
+}
+
 @media #{$screen-576} {
+  .main {
+    .main-container {
+      margin: 0 2.4%;
+    }
+  }
+
   .header {
     .logo {
       margin-top: 15px;
-      margin-left: 16px;
     }
   }
 
@@ -509,7 +516,7 @@ $screen-320: " screen and (max-width : 320px)";
     min-width: 138px;
     min-height: 48px;
 
-    span { 
+    span {
       padding: 0 1px;
     }
   }
@@ -545,7 +552,7 @@ $screen-320: " screen and (max-width : 320px)";
     min-width: 138px;
     min-height: 48px;
 
-    span { 
+    span {
       padding: 0 1px;
     }
   }
