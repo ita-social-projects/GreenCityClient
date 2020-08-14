@@ -136,3 +136,39 @@ $main-font-color: #494A49;
     }
   }
 }
+
+@media (max-width: 1260px) {
+  .main-block-wrapper {
+    width: 56.625rem;
+  }  
+}
+
+@media (max-width: 1180px) {
+  .main-block-wrapper {
+    width: 46.625rem;
+  }  
+}
+
+@media (max-width: 1010px) {
+  .main-block-wrapper {
+    width: 36.625rem;
+  }  
+}
+
+@media (max-width: 845px) {
+  .main-block-wrapper {
+    width: 30rem;
+  }  
+}
+
+@media (max-width: 725px) {
+  .main-block-wrapper {
+    margin: 0;
+  }  
+}
+
+@media (max-width: 546px) {
+  .main-block-wrapper {
+    width: 20rem;
+  }  
+}
