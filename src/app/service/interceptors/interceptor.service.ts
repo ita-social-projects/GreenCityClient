@@ -137,7 +137,6 @@ export class InterceptorService implements HttpInterceptor {
    * @param req - {@link HttpRequest}
    */
   private handle403Error(req: HttpRequest<any>): Observable<HttpEvent<any>> {
-    console.log(`You don't have authorities to access ${req.url}`);
     this.router.navigate(['/welcome']).then(r => r);
     return of<HttpEvent<any>>();
   }
