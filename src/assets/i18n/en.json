@@ -33,6 +33,8 @@
       "title": "Eco news",
       "filter": "Filter by",
       "create": "Create news",
+      "read-more": "Read more",
+      "read-all": "Read all",
       "tags": {
         "news": "News",
         "events": "Events",
@@ -97,7 +99,7 @@
         "all-results": "See all results"
       },
       "search-not-found": {
-        "not-found-text": "We couldn't find results for 'User's search query' Please change the search.",
+        "not-found-text": "We couldn't find results for '{{searchQuery}}' Please change the search.",
         "choose-alternative": "Maybe you can find some interesting stuff here:",
         "alternative-header-news": "News",
         "alternative-description-news": "Find the latest news, events and initiatives here. Find news and create ones.",
@@ -589,7 +591,8 @@
   },
   "cancel-popup": {
     "title": "All created content will be lost.",
-    "subtitle": "Do you still want to cancel news creating?",
+    "subtitle-news": "Do you still want to cancel news creating?",
+    "subtitle-profile": "Do you still want to cancel profile editing?",
     "continue": "Continue editing",
     "cancel": "Yes, cancel"
   },
