@@ -10,16 +10,16 @@ import { ProfileService } from '@global-user/components/profile/profile-service/
 export class EcoPlacesComponent implements OnInit {
   public ecoPlaces: EcoPlaces[] = [];
   public error = null;
-
+  public subscription;
   constructor(private profileService: ProfileService) { }
 
   ngOnInit() {
     this.getEcoPlaces();
   }
 
-  public getEcoPlaces(): EcoPlaces[] {
-    return this.profileService.getEcoPlaces().subscribe(
-      (success) => this.ecoPlaces = success,
+  public getEcoPlaces(): void {
+    this.subscription = this.profileService.getEcoPlaces().subscribe(
+      (success: EcoPlaces[]) => this.ecoPlaces = success,
       (error) => this.error = error
     );
   }
