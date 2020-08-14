@@ -1,3 +1,4 @@
+import { EcoPlaces } from '@user-models/ecoPlaces.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CardModel } from '@user-models/card.model';
@@ -38,6 +39,10 @@ export class ProfileService {
 
   public getUserProfileStatistics(): Observable<ProfileStatistics> {
     return this.http.get<ProfileStatistics>(`${this.backEnd}user/${this.userId}/profileStatistics/`);
+  }
+
+  public getEcoPlaces(): Observable<EcoPlaces[]> {
+    return this.http.get<EcoPlaces[]>(`${this.backEnd}/favorite_place/`);
   }
 
   public getUserFriends(): Observable<object> {
