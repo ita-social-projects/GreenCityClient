@@ -1,3 +1,4 @@
+import { EcoPlaces } from '@user-models/ecoPlaces.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CardModel } from '@user-models/card.model';
@@ -5,6 +6,7 @@ import { ShoppingList } from '@user-models/shoppinglist.model';
 import { environment } from '@environment/environment';
 import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { ProfileStatistics } from '@user-models/profile-statistiscs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +21,8 @@ export class ProfileService {
 
   public setUserId(): void {
     this.localStorageService
-    .userIdBehaviourSubject
-    .subscribe(userId => this.userId = userId);
+      .userIdBehaviourSubject
+      .subscribe(userId => this.userId = userId);
   }
 
   public getFactsOfTheDay(): Observable<CardModel> {
@@ -41,4 +43,15 @@ export class ProfileService {
     return this.http.get<object>(`${this.backEnd}user/isOnline/${this.userId}/`);
   }
 
+  public getUserProfileStatistics(): Observable<ProfileStatistics> {
+    return this.http.get<ProfileStatistics>(`${this.backEnd}user/${this.userId}/profileStatistics/`);
+  }
+
+  public getEcoPlaces(): Observable<EcoPlaces[]> {
+    return this.http.get<EcoPlaces[]>(`${this.backEnd}/favorite_place/`);
+  }
+
+  public getUserFriends(): Observable<object> {
+    return this.http.get<object>(`${this.backEnd}user/${this.userId}/sixUserFriends/`);
+  }
 }

@@ -8,7 +8,7 @@ import { ShoppingList } from '@global-user/models/shoppinglist.model';
   styleUrls: ['./shopping-list.component.scss']
 })
 export class ShoppingListComponent implements OnInit {
-  private shoppingList = [];
+  public shoppingList = [];
   public profileSubscription;
   public error = null;
 

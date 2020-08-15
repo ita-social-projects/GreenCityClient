@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./cancel-pop-up.component.scss']
 })
 export class CancelPopUpComponent implements OnInit {
-  private currentPage: string;
+  public currentPage: string;
 
   constructor(private matDialogRef: MatDialogRef<CancelPopUpComponent>,
               private router: Router,
@@ -22,11 +22,11 @@ export class CancelPopUpComponent implements OnInit {
     this.currentPage = this.data.currentPage;
   }
 
-  private closeCancelPopup(): void {
+  public closeCancelPopup(): void {
     this.matDialogRef.close();
   }
 
-  private moveToNewsList(): void {
+  public moveToNewsList(): void {
     this.currentPage === 'eco news' ? this.router.navigate(['/news']) : this.router.navigate(['/profile']);
     this.closeCancelPopup();
   }

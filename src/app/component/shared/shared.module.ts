@@ -60,7 +60,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 })
 export class SharedModule {}
 
-function HttpLoaderFactory(httpClient: HttpClient) {
+export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(
     httpClient,
     './assets/i18n/',

@@ -10,15 +10,15 @@ import { NewsSearchModel } from '../../../../model/search/newsSearch.model';
   styleUrls: ['./search-all-results.component.scss']
 })
 export class SearchAllResultsComponent implements OnInit, OnDestroy {
-  private inputValues = ['relevance', 'newest', 'latest'];
-  readonly dropDownArrow = 'assets/img/arrow_grey.png';
+  public inputValues = ['relevance', 'newest', 'latest'];
+  public displayedElements: NewsSearchModel[] = [];
+  public elements: NewsSearchModel[];
+  public dropdownVisible: boolean;
+  public isSearchFound: boolean;
+  public inputValue: string;
+  public itemsFound = 0;
   private searchSubscription: Subscription;
-  private displayedElements: NewsSearchModel[] = [];
-  private elements: NewsSearchModel[];
-  private dropdownVisible: boolean;
-  private isSearchFound: boolean;
-  private inputValue: string;
-  private itemsFound = 0;
+  readonly dropDownArrow = 'assets/img/arrow_grey.png';
 
   constructor(private search: SearchService) { }
 
@@ -26,7 +26,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
     this.search.toggleAllSearch(true);
   }
 
-  private onScroll(): void {
+  public onScroll(): void {
     this.loadNextElements();
   }
 
@@ -34,7 +34,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
     this.spliceResults();
   }
 
-  private onKeyUp(event: EventTarget): void {
+  public onKeyUp(event: EventTarget): void {
     this.displayedElements = [];
     const VALUE = 'value;';
     if (event[VALUE].length > 0) {
@@ -66,12 +66,12 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
     }
   }
 
-  private changeCurrentSorting(newSorting: number): void {
+  public changeCurrentSorting(newSorting: number): void {
     [this.inputValues[0], this.inputValues[newSorting]] = [this.inputValues[newSorting], this.inputValues[0]];
 
   }
 
-  private toggleDropdown(): void {
+  public toggleDropdown(): void {
     this.dropdownVisible = !this.dropdownVisible;
   }
 
