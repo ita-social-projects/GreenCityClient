@@ -8,7 +8,7 @@ import { ProfileService } from '@global-user/components/profile/profile-service/
   styleUrls: ['./achievements-friends.component.scss']
 })
 export class AchievementsFriendsComponent implements OnInit {
-  private achievementsImages = PROFILE_IMAGES.achs;
+  public achievementsImages = PROFILE_IMAGES.achs;
   public usersFriends;
   public error = null;
 

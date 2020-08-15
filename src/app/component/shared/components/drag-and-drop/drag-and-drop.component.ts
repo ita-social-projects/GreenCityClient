@@ -12,8 +12,8 @@ import { FileHandle } from '@eco-news-models/create-news-interface';
 export class DragAndDropComponent implements OnInit {
   public selectedFile: File = null;
   public selectedFileUrl: string;
-  private imageChangedEvent: FileHandle[];
-  private isCropper = true;
+  public imageChangedEvent: FileHandle[];
+  public isCropper = true;
   public files: FileHandle[] = [];
   public isWarning = false;
   private croppedImage: string;
@@ -25,14 +25,14 @@ export class DragAndDropComponent implements OnInit {
     this.patchImage();
   }
 
-  private stopCropping(): FileHandle[] {
+  public stopCropping(): FileHandle[] {
     this.files.map(item => item.url = this.croppedImage);
 
     this.isCropper = false;
     return this.files;
   }
 
-  private cancelChanges(): void {
+  public cancelChanges(): void {
     this.isCropper = false;
   }
 
@@ -43,7 +43,7 @@ export class DragAndDropComponent implements OnInit {
     }
   }
 
-  private imageCropped(event: ImageCroppedEvent): void {
+  public imageCropped(event: ImageCroppedEvent): void {
     this.croppedImage = event.base64;
   }
 
@@ -55,7 +55,7 @@ export class DragAndDropComponent implements OnInit {
     this.createEcoNewsService.isImageValid = this.isWarning;
   }
 
-  private onFileSelected(event): void {
+  public onFileSelected(event): void {
     this.selectedFile = event.target.files[0] as File;
 
     const reader: FileReader = new FileReader();

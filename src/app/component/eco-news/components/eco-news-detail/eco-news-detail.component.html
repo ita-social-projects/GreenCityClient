@@ -69,15 +69,15 @@
           {{ newsItem.text }}
         </div>
         <div class="source-field"
-             *ngIf="newsItem.source"
+             *ngIf="newsItem?.text"
         >
           <div class="source-title">
             {{ "eco-news-single-view.news-source" | translate }}
           </div>
-          <a href="{{ newsItem.source }}"
+          <a href="{{ newsItem?.text }}"
              class="source-text word-wrap"
           >
-            {{ newsItem.source }}
+            {{ newsItem?.text }}
           </a>
         </div>
       </div>
