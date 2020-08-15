@@ -31,7 +31,7 @@ export class ProfileService {
 
   public getShoppingList(): Observable<ShoppingList[]> {
     this.setUserId();
-    return this.http.get<ShoppingList[]>(`${this.backEnd}user/${this.userId}/goals?language=en`);
+    return this.http.get<ShoppingList[]>(`${this.backEnd}goals/shoppingList/${this.userId}/language/en`);
   }
 
   public getUserInfo(): Observable<object> {
