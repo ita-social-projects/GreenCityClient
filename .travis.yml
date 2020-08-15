@@ -32,6 +32,10 @@ jobs:
       script:
       - ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false
       name: build app
+    -
+      script:
+      - ng build --prod --base-href /GreenCityClient/ --outputPath=dist_new
+      name: build app using aot compilation
     - stage: deploy
       script: skip
       name: deploy on gh_pages
