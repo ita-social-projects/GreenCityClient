@@ -30,7 +30,7 @@ jobs:
       name: test app
     -
       script:
-      - ng build --prod --base-href /GreenCityClient/
+      - ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false
       name: build app
     - stage: deploy
       script: skip
