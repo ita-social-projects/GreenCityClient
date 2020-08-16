@@ -19,17 +19,37 @@ export class ShoppingListComponent implements OnInit {
     this.getShoppingList();
   }
 
-  getShoppingList(): void {
+  public getShoppingList(): void {
     this.profileSubscription = this.profileService.getShoppingList().subscribe(
-      (success: ShoppingList[]) => this.shoppingList = success,
+      (success: ShoppingList[]) => {
+        this.shoppingList = success;
+        console.log(this.shoppingList);
+      },
       (error) => this.error = error
     );
   }
 
-  toggleDone(id) {
-    this.profileService.toggleDoneShoppingItem(id)
+  public toggleDone(item): void {
+    this.profileService.toggleDoneShoppingItem(item)
       .subscribe(
-        (success) => console.log(success)
+        (success) => {
+
+          const index = this.shoppingList.findIndex(shoppingItem => shoppingItem.goalId === item.goalId);
+          const newItemStatus = item.status === 'ACTIVE' ? 'DONE' : 'ACTIVE';
+
+          const newItem = {
+            ...item,
+            status: newItemStatus
+          };
+
+          this.shoppingList = [
+            ...this.shoppingList.slice(0, index),
+            newItem,
+            ...this.shoppingList.slice(index + 1)
+          ];
+
+        },
+        (error) => console.log('error' + error)
       );
   }
 }

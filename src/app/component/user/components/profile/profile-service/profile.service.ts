@@ -55,8 +55,12 @@ export class ProfileService {
     return this.http.get<object>(`${this.backEnd}user/${this.userId}/sixUserFriends/`);
   }
 
-  toggleDoneShoppingItem(id) {
-    const body = { status: 'DONE' };
-    return this.http.patch(`${this.backEnd}goals/shoppingList/${this.userId}?goalId=${id}`, body);
+  public toggleDoneShoppingItem(item): Observable<object[]> {
+    console.log(item);
+    const newStatus = item.status === 'DONE' ? false : true;
+    const body = {
+      status: false
+    };
+    return this.http.patch<object[]>(`${this.backEnd}goals/shoppingList/${this.userId}?goalId=${item.goalId}&status=${newStatus}`, body);
   }
 }
