@@ -1,2 +1,2 @@
-export { CreateNewsCancelComponent } from './create-news-cancel/create-news-cancel.component';
+export { CancelPopUpComponent } from './cancel-pop-up/cancel-pop-up.component';
 export { PhotoUploadComponent } from './photo-upload/photo-upload.component';

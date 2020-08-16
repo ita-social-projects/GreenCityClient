@@ -33,6 +33,8 @@
       "title": "Еко новини",
       "filter": "Фільтрувати за",
       "create": "Створити новину",
+      "read-more": "Детальніше",
+      "read-all": "Читати всі",
       "tags": {
         "news": "Новини",
         "events": "Події",
@@ -40,7 +42,41 @@
         "ads": "Оголошення",
         "education": "Навчання"
       },
-      "items-found": "новин знайдено"
+      "items-found": "новин знайдено",
+      "comment": {
+        "comment": "Коментар",
+        "comments": {
+          "zero-comment": "коментарів",
+          "one-comment": "коментар",
+          "more-then-two-comments": "коментаря",
+          "more-then-four-comments": "коментарів"
+        },
+        "reply": "Відповісти",
+        "replies": {
+          "zero-reply": "відповідей",
+          "one-reply": "відповідь",
+          "more-then-two-replies": "відповіді",
+          "more-then-four-replies": "відповідей"
+        },
+        "btn": {
+          "reply": "Відповісти",
+          "like": "Подобається",
+          "liked": "Сподобалось",
+          "comment": "Коментар",
+          "edit": "Редагувати",
+          "edited": "відредаговано",
+          "delete": "Видалити",
+          "save": "Зберегти",
+          "close": "Закрити",
+          "cancel": "Скасувати"
+        },
+        "placeholder": {
+          "add-a-comment": "Додати коментар",
+          "add-a-reply": "Додати відповідь",
+          "new-comment": "Введіть ваш новий коментар"
+        },
+        "view": "Переглянути"
+      }
     },
     "eco-advices": {
       "caption": "Еко поради"
@@ -63,7 +99,7 @@
       "all-results": "Всі результати"
     },
     "search-not-found": {
-      "not-found-text": "Не вдалося знайти результати за вашим запитом. Змініть запит.",
+      "not-found-text": "Не вдалося знайти результати за запитом '{{searchQuery}}'. Змініть запит.",
       "choose-alternative": "Можливо, ви можете знайти тут щось цікаве:",
       "alternative-header-news": "Новини",
       "alternative-description-news": "Знайдіть останні новини, події та ініціативи тут. Знайдіть новини та створіть їх.",
@@ -561,7 +597,8 @@
   },
   "cancel-popup": {
     "title": "Внесені зміни будуть втрачені.",
-    "subtitle": "Бажаєте вийти?",
+    "subtitle-news": "Бажаєте вийти?",
+    "subtitle-profile": "Бажаєте вийти?",
     "continue": "Продовжити редагування",
     "cancel": "Так, вийти"
   },

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
@@ -25,7 +25,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   private subscribeToLangChange(): void {
     this.langChangeSub = this.localStorageService.languageSubject
-      .subscribe(this.bindLang.bind(this));
+      .subscribe(this.bindLang);
   }
 
   ngOnDestroy(): void {

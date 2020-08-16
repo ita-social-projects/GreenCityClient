@@ -63,7 +63,7 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.backEndError = null;
   }
 
-  private signIn(userOwnSignIn: UserOwnSignIn): void {
+  public signIn(userOwnSignIn: UserOwnSignIn): void {
     this.loadingAnim = true;
     this.userOwnSignInService.signIn(userOwnSignIn).subscribe(
       (data: UserSuccessSignIn) => {
@@ -108,17 +108,15 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   private onSignInFailure(errors: HttpErrorResponse): void {
-    if (errors.error) {
-      errors.error.map(error => {
-        if (error.name === 'email') {
-          this.emailErrorMessageBackEnd = error.message;
-        } else if (error.name === 'password') {
-          this.passwordErrorMessageBackEnd = error.message;
-        }
-      });
-    } else {
-      this.backEndError = errors.toString();
+    if (!Array.isArray(errors.error)) {
+      this.backEndError = errors.error.message;
+      return;
     }
+
+    errors.error.map((error) => {
+      this.emailErrorMessageBackEnd = error.name === 'email' ? error.message : this.emailErrorMessageBackEnd;
+      this.passwordErrorMessageBackEnd = error.name === 'password' ? error.message : this.passwordErrorMessageBackEnd;
+    });
   }
 
   public onSignInWithGoogleSuccess(data: UserSuccessSignIn): void {

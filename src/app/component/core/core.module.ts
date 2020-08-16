@@ -4,7 +4,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  ModalComponent,
   ProposeCafeComponent
 } from './components';
 import { AgmCoreModule } from '@agm/core';
@@ -15,7 +14,6 @@ import { NgxPageScrollModule } from 'ngx-page-scroll';
 @NgModule({
     declarations: [
         ProposeCafeComponent,
-        ModalComponent,
     ],
     imports: [
         AppRoutingModule,
@@ -34,7 +32,6 @@ import { NgxPageScrollModule } from 'ngx-page-scroll';
   exports: [
     NgxPageScrollModule,
     ProposeCafeComponent,
-    ModalComponent,
     CommonModule,
     TranslateModule,
     AppRoutingModule,

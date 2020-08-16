@@ -33,6 +33,8 @@
       "title": "Эко новости",
       "filter": "Фильтровать по",
       "create": "Создать новость",
+      "read-more": "Читать далее",
+      "read-all": "Читать все",
       "tags": {
         "news": "Новости",
         "events": "События",
@@ -40,7 +42,41 @@
         "ads": "Объявления",
         "education": "Обучение"
       },
-      "items-found": "новостей найдено"
+      "items-found": "новостей найдено",
+      "comment": {
+        "comment": "Комментарий",
+        "comments": {
+          "zero-comment": "комментариев",
+          "one-comment": "комментарий",
+          "more-then-two-comments": "комментария",
+          "more-then-four-comments": "комментариев"
+        },
+        "reply": "Ответить",
+        "replies": {
+          "zero-reply": "ответов",
+          "one-reply": "ответ",
+          "more-then-two-replies": "ответа",
+          "more-then-four-replies": "ответов"
+        },
+        "btn": {
+          "reply": "Ответить",
+          "like": "Нравиться",
+          "liked": "Понравилось",
+          "comment": "Комментарий",
+          "edit": "Редактировать",
+          "edited": "отредактировано",
+          "delete": "Удалить",
+          "save": "Сохранить",
+          "close": "Закрыть",
+          "cancel": "Отменить"
+        },
+        "placeholder": {
+          "add-a-comment": "Добавить комментарий",
+          "add-a-reply": "Добавить ответ",
+          "new-comment": "Введите ваш новый комментарий"
+        },
+        "view": "Посмотреть"
+      }
     },
     "eco-advices": {
       "caption": "Эко советы"
@@ -63,7 +99,7 @@
       "all-results": "Все результаты"
     },
     "search-not-found": {
-      "not-found-text": "Не удалось найти результаты по вашему запросу. Измените запрос.",
+      "not-found-text": "Не удалось найти результаты по запросу '{{searchQuery}}'. Измените запрос.",
       "choose-alternative": "Может быть, здесь вы найдете что-нибудь интересное:",
       "alternative-header-news": "Новости",
       "alternative-description-news": "Здесь вы найдете самые свежие новости, события и инициативы. Находите новости и создавайте их.",
@@ -562,7 +598,8 @@
   },
   "cancel-popup": {
     "title": "Все изменения будут потеряны.",
-    "subtitle": "Желаете выйти?",
+    "subtitle-news": "Желаете выйти?",
+    "subtitle-profile": "Желаете выйти?",
     "continue": "Продолжить редактирование",
     "cancel": "Да, выйти"
   },

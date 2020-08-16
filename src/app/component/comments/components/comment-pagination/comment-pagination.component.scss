@@ -58,33 +58,30 @@
       .previous-btn-disabled,
       .next-btn,
       .next-btn-disabled {
-        margin-right:40px;
+        margin-right: 40px;
         width: 8px;
         height: 12px;
       }
 
+      .next-btn,
+      .next-btn-disabled {
+        margin-right: 0;
+      }
+
       .previous-btn {
-        background: url('~/assets/img/comments/arrow-previous.svg');
-        background-repeat: no-repeat;
-        background-position: center;
+        background: url('/assets/img/comments/arrow-previous.svg') no-repeat center;
       }
 
       .previous-btn-disabled {
-        background: url('~/assets/img/comments/arrow-previous-disable.svg');
-        background-repeat: no-repeat;
-        background-position: center;
+        background: url('/assets/img/comments/arrow-previous-disable.svg') no-repeat center;
       }
 
       .next-btn-disabled {
-        background: url('~/assets/img/comments/arrow-next-disable.svg');
-        background-repeat: no-repeat;
-        background-position: center;
+        background: url('/assets/img/comments/arrow-next-disable.svg') no-repeat center;
       }
 
       .next-btn {
-        background: url('~/assets/img/comments/arrow-next.svg');
-        background-repeat: no-repeat;
-        background-position: center;
+        background: url('/assets/img/comments/arrow-next.svg') no-repeat center;
       }
     }
   }

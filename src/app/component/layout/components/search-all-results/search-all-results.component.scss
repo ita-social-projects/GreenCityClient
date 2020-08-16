@@ -91,7 +91,7 @@ $main-font-color: #494A49;
 
   .search-icon {
     margin: 28px 28px 28px 0px;
-    background: url("~/assets/img/icon/search.png") no-repeat;
+    background: url("/assets/img/icon/search.png") no-repeat;
     width: 26px;
     height: 26px;
     flex-shrink: 0;
@@ -135,4 +135,46 @@ $main-font-color: #494A49;
       margin-right: 1rem;
     }
   }
+}
+
+@media (max-width: 1260px) {
+  .main-block-wrapper {
+    width: 1000px;
+  }  
+}
+
+@media (max-width: 1180px) {
+  .main-block-wrapper {
+    width: 800px;
+  }  
+}
+
+@media (max-width: 1010px) {
+  .main-block-wrapper {
+    width: 650px;
+  }  
+}
+
+@media (max-width: 850px) {
+  .main-block-wrapper {
+    width: 500px;
+  }  
+}
+
+@media (max-width: 725px) {
+  .main-block-wrapper {
+    margin: 0;
+  }  
+}
+
+@media (max-width: 546px) {
+  .main-block-wrapper {
+    width: 300px;
+  }  
+}
+
+@media (max-width: 360px) {
+  .main-block-wrapper {
+    width: 270px;
+  }  
 }

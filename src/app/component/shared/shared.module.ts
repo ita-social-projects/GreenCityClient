@@ -9,7 +9,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { MatCardModule } from '@angular/material';
 import {
   PhotoUploadComponent,
-  CreateNewsCancelComponent
+  CancelPopUpComponent
 } from './components';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -20,7 +20,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 @NgModule({
   declarations: [
     PhotoUploadComponent,
-    CreateNewsCancelComponent,
+    CancelPopUpComponent,
     DragAndDropDirective,
     DragAndDropComponent,
   ],
@@ -43,7 +43,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     MatCheckboxModule,
   ],
   exports: [
-    CreateNewsCancelComponent,
+    CancelPopUpComponent,
     TranslateModule,
     PhotoUploadComponent,
     FormsModule,
@@ -60,7 +60,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 })
 export class SharedModule {}
 
-function HttpLoaderFactory(httpClient: HttpClient) {
+export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(
     httpClient,
     './assets/i18n/',

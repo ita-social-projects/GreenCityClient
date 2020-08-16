@@ -137,12 +137,14 @@ $main-font: 'Open Sans';
   margin-left: 74px;
   color: #000000;
   text-align: left;
+  width: 100%;
 }
 
 .news-text-content {
   width: 90%;
   font-size: 18px;
   line-height: 32px;
+  white-space: pre-wrap;
 }
 
 .source-field {
@@ -192,10 +194,6 @@ $main-font: 'Open Sans';
 
   .news-links-img {
     margin: 0 32px 0 0;
-  }
-
-  .last-img {
-    margin: 0;
   }
 
   .news-text-container {
@@ -265,6 +263,7 @@ $main-font: 'Open Sans';
     flex-direction: column;
   }
 
+  .news-info,
   .news-text-content,
   .source-text {
     font-size: 16px;

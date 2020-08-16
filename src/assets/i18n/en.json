@@ -33,6 +33,8 @@
       "title": "Eco news",
       "filter": "Filter by",
       "create": "Create news",
+      "read-more": "Read more",
+      "read-all": "Read all",
       "tags": {
         "news": "News",
         "events": "Events",
@@ -40,7 +42,41 @@
         "ads": "Ads",
         "education": "Education"
       },
-      "items-found": "items found"
+      "items-found": "items found",
+      "comment": {
+        "comment": "Comment",
+        "comments": {
+          "zero-comment": "comment",
+          "one-comment": "comment",
+          "more-then-two-comments": "comments",
+          "more-then-four-comments": "сomments"
+        },
+        "reply": "Reply",
+        "replies": {
+          "zero-reply": "reply",
+          "one-reply": "reply",
+          "more-then-two-replies": "replies",
+          "more-then-four-replies": "replies"
+        },
+        "btn": {
+          "reply": "Reply",
+          "like": "Like",
+          "liked": "Liked",
+          "comment": "Comment",
+          "edit": "Edit",
+          "edited": "edited",
+          "delete": "Delete",
+          "save": "Save",
+          "close": "Close",
+          "cancel": "Cancel"
+        },
+        "placeholder": {
+          "add-a-comment": "Add a comment",
+          "add-a-reply": "Add a reply",
+          "new-comment": "Enter your new comment"
+        },
+        "view": "View"
+      }
     },
     "eco-advices": {
       "caption": "Tips & Tricks"
@@ -63,7 +99,7 @@
         "all-results": "See all results"
       },
       "search-not-found": {
-        "not-found-text": "We couldn't find results for 'User's search query' Please change the search.",
+        "not-found-text": "We couldn't find results for '{{searchQuery}}' Please change the search.",
         "choose-alternative": "Maybe you can find some interesting stuff here:",
         "alternative-header-news": "News",
         "alternative-description-news": "Find the latest news, events and initiatives here. Find news and create ones.",
@@ -555,7 +591,8 @@
   },
   "cancel-popup": {
     "title": "All created content will be lost.",
-    "subtitle": "Do you still want to cancel news creating?",
+    "subtitle-news": "Do you still want to cancel news creating?",
+    "subtitle-profile": "Do you still want to cancel profile editing?",
     "continue": "Continue editing",
     "cancel": "Yes, cancel"
   },

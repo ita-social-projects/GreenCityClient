@@ -7,7 +7,7 @@ $bp-largest: 1440px;
 .gallery-view-active {
   display: inline-flex;
   flex-flow: row wrap;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-content: center;
   width: 100%;
 }
@@ -30,4 +30,38 @@ hr {
 .list {
   list-style: none;
   padding-left: 0;
+}
+
+@media screen and (max-width: 1024px) {
+  .gallery-view-active {
+    grid-template-columns: repeat(2, 27.8%);
+    grid-gap: 6.6%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .last-item {
+    display: none;
+  }
+
+  .gallery-view-active {
+    display: flex;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  p {
+    font-size: 18px;
+    color: #313131;
+  }
+
+  .gallery-view-active {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 320px) {
+
 }
