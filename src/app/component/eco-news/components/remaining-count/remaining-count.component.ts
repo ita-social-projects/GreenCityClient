@@ -6,7 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./remaining-count.component.scss']
 })
 export class RemainingCountComponent implements OnInit {
-  @Input() private remainingCount = 0;
+  @Input() public remainingCount = 0;
 
   constructor() { }
 

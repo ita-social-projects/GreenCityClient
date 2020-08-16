@@ -34,7 +34,7 @@ export class AboutPageComponent implements OnInit, OnDestroy {
       .subscribe(this.bindLang.bind(this));
   }
 
-  private navigateToHabit(): void {
+  public navigateToHabit(): void {
     this.router.navigate(['profile', this.userId]);
   }
 

@@ -10,7 +10,7 @@ import { updateAccessTokenLink } from '../../links';
 import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { LocalStorageService } from '../localstorage/local-storage.service';
 import { Router } from '@angular/router';
-import { BAD_REQUEST, FORBIDDEN, NOT_FOUND, UNAUTHORIZED } from '../../http-response-status';
+import { BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../../http-response-status';
 
 /**
  * @author Yurii Koval
@@ -56,9 +56,6 @@ export class InterceptorService implements HttpInterceptor {
         }
         if (error.status === FORBIDDEN) {
           return this.handle403Error(req);
-        }
-        if (error.status === NOT_FOUND) {
-          return this.handle404Error(req);
         }
         return throwError(error);
       })
@@ -140,7 +137,6 @@ export class InterceptorService implements HttpInterceptor {
    * @param req - {@link HttpRequest}
    */
   private handle403Error(req: HttpRequest<any>): Observable<HttpEvent<any>> {
-    console.log(`You don't have authorities to access ${req.url}`);
     this.router.navigate(['/welcome']).then(r => r);
     return of<HttpEvent<any>>();
   }
@@ -150,9 +146,4 @@ export class InterceptorService implements HttpInterceptor {
    *
    * @param req - {@link HttpRequest}
    */
-  private handle404Error(req: HttpRequest<any>): Observable<HttpEvent<any>> {
-    console.log(`Page does not exist ${req.url}`);
-    this.router.navigate(['/error.component.html']).then(r => r);
-    return of<HttpEvent<any>>();
-  }
 }

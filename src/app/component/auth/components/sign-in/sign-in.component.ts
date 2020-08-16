@@ -63,7 +63,7 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.backEndError = null;
   }
 
-  private signIn(userOwnSignIn: UserOwnSignIn): void {
+  public signIn(userOwnSignIn: UserOwnSignIn): void {
     this.loadingAnim = true;
     this.userOwnSignInService.signIn(userOwnSignIn).subscribe(
       (data: UserSuccessSignIn) => {

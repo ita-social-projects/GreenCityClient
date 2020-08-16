@@ -47,7 +47,7 @@ export class CreateNewsComponent implements OnInit {
 
   constructor(private router: Router,
               private fb: FormBuilder,
-              private createEcoNewsService: CreateEcoNewsService,
+              public createEcoNewsService: CreateEcoNewsService,
               private dialog: MatDialog) {}
 
   ngOnInit() {

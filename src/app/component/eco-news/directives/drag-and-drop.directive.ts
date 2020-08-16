@@ -17,7 +17,7 @@ export class DragAndDropDirective {
 
   constructor(private sanitizer: DomSanitizer) { }
 
-  @HostBinding('style.opacity') private opacity = '1';
+  @HostBinding('style.opacity') public opacity = '1';
 
   @HostListener('dragover', ['$event']) public onDragOver(evt: DragEvent) {
     this.opacity = '0.7';
