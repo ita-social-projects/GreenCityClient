@@ -7,22 +7,16 @@ import {
 } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { updateAccessTokenLink } from '../../links';
-import { catchError, filter, switchMap, take } from 'rxjs/operators';
+import { catchError, filter, switchMap, take, retry } from 'rxjs/operators';
 import { LocalStorageService } from '../localstorage/local-storage.service';
 import { Router } from '@angular/router';
 import { BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../../http-response-status';
 
-/**
- * @author Yurii Koval
- */
 interface NewTokenPair {
   accessToken: string;
   refreshToken: string;
 }
 
-/**
- * @author Yurii Koval
- */
 @Injectable({
   providedIn: 'root'
 })
@@ -50,7 +44,15 @@ export class InterceptorService implements HttpInterceptor {
       req = this.addAccessTokenToHeader(req, this.localStorageService.getAccessToken());
     }
     return next.handle(req).pipe(
+      retry(1),
       catchError((error: HttpErrorResponse) => {
+        let errorMessage = '';
+        if (error.error instanceof ErrorEvent) {
+          errorMessage = `Error: ${error.error.message}`;
+        } else {
+          errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+        }
+        window.alert(errorMessage);
         if (error.status === UNAUTHORIZED) {
           return this.handle401Error(req, next);
         }
@@ -146,4 +148,5 @@ export class InterceptorService implements HttpInterceptor {
    *
    * @param req - {@link HttpRequest}
    */
+
 }
