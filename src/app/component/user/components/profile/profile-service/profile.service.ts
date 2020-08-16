@@ -54,4 +54,9 @@ export class ProfileService {
   public getUserFriends(): Observable<object> {
     return this.http.get<object>(`${this.backEnd}user/${this.userId}/sixUserFriends/`);
   }
+
+  toggleDoneShoppingItem(id) {
+    const body = { status: 'DONE' };
+    return this.http.patch(`${this.backEnd}goals/shoppingList/${this.userId}?goalId=${id}`, body);
+  }
 }

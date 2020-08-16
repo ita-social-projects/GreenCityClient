@@ -9,6 +9,7 @@
                 [checked]='shoppingItem.status === "DONE"' 
                 class="checkbox" 
                 color="primary"
+                (click)="toggleDone(shoppingItem.goalId)"
             ></mat-checkbox>
         </li>
     </ul>

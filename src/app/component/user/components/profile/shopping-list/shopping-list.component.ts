@@ -25,4 +25,11 @@ export class ShoppingListComponent implements OnInit {
       (error) => this.error = error
     );
   }
+
+  toggleDone(id) {
+    this.profileService.toggleDoneShoppingItem(id)
+      .subscribe(
+        (success) => console.log(success)
+      );
+  }
 }
