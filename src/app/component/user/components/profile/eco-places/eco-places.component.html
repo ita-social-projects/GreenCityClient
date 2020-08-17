@@ -1,4 +1,4 @@
-<div class="eco-places-content" *ngIf="!error">
+<div class="eco-places-content" *ngIf="ecoPlaces; else loading">
     <div class="header-position">
         <div class="header">My eco places <span>{{ ecoPlaces.length }}</span></div>
         <a class="btn-see-all">See all</a>
@@ -7,6 +7,9 @@
         <li class="item" *ngFor="let ecoPlace of ecoPlaces">{{ ecoPlace.name }}</li>
     </ul>
     <ng-template #unset>
-        <p>You have no items in your Shopping List</p>
+        <p>You have no favourite Eco Places</p>
+    </ng-template>
+    <ng-template #loading>
+        <p>loading...</p>
     </ng-template>
 </div>

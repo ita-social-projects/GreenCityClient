@@ -8,7 +8,7 @@ import { ProfileService } from '@global-user/components/profile/profile-service/
   styleUrls: ['./eco-places.component.scss']
 })
 export class EcoPlacesComponent implements OnInit {
-  public ecoPlaces: EcoPlaces[] = [];
+  public ecoPlaces: EcoPlaces[];
   public error = null;
   public subscription;
   constructor(private profileService: ProfileService) { }
