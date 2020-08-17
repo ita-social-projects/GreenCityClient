@@ -48,12 +48,10 @@
 
 @media screen and (max-width: 768px) {
   .main-wrapper {
-      padding-left: 0;
-      padding-right: 0;
+    padding-left: 0;
+    padding-right: 0;
   }
-}
 
-@media screen and (max-width: 767px) {
   .wrapper  {
     justify-content: flex-end;
     width: 100%;
