@@ -1,3 +1,4 @@
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 $bp-smallest: 320px;
 $bp-phone: 576px;
 $bp-tablet: 768px;
@@ -58,6 +59,10 @@ h2 > span {
   
 ::ng-deep .mat-checkbox-checked .mat-checkbox-background {
     background-color: green !important;
+}
+
+::ng-deep.mat-progress-spinner circle,.mat-spinner circle {
+  stroke: rgb(226, 226, 226) !important;
 }
 
 @media only screen and (max-width: $bp-desktop) {

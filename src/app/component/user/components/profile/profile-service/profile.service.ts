@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { CardModel } from '@user-models/card.model';
 import { ShoppingList } from '@user-models/shoppinglist.model';
 import { environment } from '@environment/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ProfileStatistics } from '@user-models/profile-statistiscs';
 
@@ -55,12 +55,12 @@ export class ProfileService {
     return this.http.get<object>(`${this.backEnd}user/${this.userId}/sixUserFriends/`);
   }
 
-  public toggleDoneShoppingItem(item): Observable<object[]> {
-    console.log(item);
-    const newStatus = item.status === 'DONE' ? false : true;
-    const body = {
-      status: false
-    };
-    return this.http.patch<object[]>(`${this.backEnd}goals/shoppingList/${this.userId}?goalId=${item.goalId}&status=${newStatus}`, body);
+  public toggleStatusOfShoppingItem(item): Observable<object[]> {
+    const { status, goalId } = item;
+    const newStatus = status === 'DONE' ? false : true;
+    const params = new HttpParams()
+      .set('goalId', goalId)
+      .set('status', newStatus.toString());
+    return this.http.patch<object[]>(`${this.backEnd}goals/shoppingList/${this.userId}`, params);
   }
 }

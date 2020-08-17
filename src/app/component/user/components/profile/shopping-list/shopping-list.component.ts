@@ -1,6 +1,8 @@
+import { Observable } from 'rxjs';
 import { ProfileService } from './../profile-service/profile.service';
 import { Component, OnInit } from '@angular/core';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
+import { toArray } from 'rxjs/operators';
 
 @Component({
   selector: 'app-shopping-list',
@@ -8,9 +10,10 @@ import { ShoppingList } from '@global-user/models/shoppinglist.model';
   styleUrls: ['./shopping-list.component.scss']
 })
 export class ShoppingListComponent implements OnInit {
-  public shoppingList = [];
+  public shoppingList;
   public profileSubscription;
   public error = null;
+  public shoppingListIsEMpty = true;
 
   constructor(private profileService: ProfileService) { }
 
@@ -30,26 +33,28 @@ export class ShoppingListComponent implements OnInit {
   }
 
   public toggleDone(item): void {
-    this.profileService.toggleDoneShoppingItem(item)
+    this.profileService.toggleStatusOfShoppingItem(item)
       .subscribe(
-        (success) => {
-
-          const index = this.shoppingList.findIndex(shoppingItem => shoppingItem.goalId === item.goalId);
-          const newItemStatus = item.status === 'ACTIVE' ? 'DONE' : 'ACTIVE';
-
-          const newItem = {
-            ...item,
-            status: newItemStatus
-          };
-
-          this.shoppingList = [
-            ...this.shoppingList.slice(0, index),
-            newItem,
-            ...this.shoppingList.slice(index + 1)
-          ];
-
-        },
+        (success) => this.updateDataOnUi(item),
         (error) => console.log('error' + error)
       );
+  }
+
+  private updateDataOnUi(item): void {
+
+    const index = this.shoppingList.findIndex(shoppingItem => shoppingItem.goalId === item.goalId);
+    const newItemStatus = item.status === 'ACTIVE' ? 'DONE' : 'ACTIVE';
+
+    const newItem = {
+      ...item,
+      status: newItemStatus
+    };
+
+    this.shoppingList = [
+      ...this.shoppingList.slice(0, index),
+      newItem,
+      ...this.shoppingList.slice(index + 1)
+    ];
+
   }
 }
