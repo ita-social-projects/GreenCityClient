@@ -1,8 +1,10 @@
-<div class="eco-places-content" *ngIf="ecoPlaces; else loading">
+<div class="eco-places-content" >
     <div class="header-position">
-        <div class="header">My eco places <span>{{ ecoPlaces.length }}</span></div>
+        <div class="header">My eco places <span>{{ ecoPlaces?.length }}</span></div>
         <a class="btn-see-all">See all</a>
     </div>
+</div>
+<div *ngIf="ecoPlaces; else loading">
     <ul class="eco-place-list" *ngIf="ecoPlaces.length; else unset">
         <li class="item" *ngFor="let ecoPlace of ecoPlaces">{{ ecoPlace.name }}</li>
     </ul>
@@ -10,6 +12,6 @@
         <p>You have no favourite Eco Places</p>
     </ng-template>
     <ng-template #loading>
-        <p>loading...</p>
+        <h1>loading...</h1>
     </ng-template>
 </div>
