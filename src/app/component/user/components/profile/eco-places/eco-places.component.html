@@ -1,12 +1,14 @@
-<div class="header-position eco-places-content">
-    <div class="header">My eco places <span>{{ ecoPlaces?.length }}</span></div>
-    <a class="btn-see-all">See all</a>
-</div>
-<div class="eco-places-content" *ngIf="ecoPlaces; else loading">
-    <div *ngIf="ecoPlaces.length; else unset;">
-        <ul class="eco-place-list">
-            <li class="item" *ngFor="let ecoPlace of ecoPlaces">{{ ecoPlace.name }}</li>
-        </ul>
+<div class="eco-places-content">
+    <div class="header-position">
+        <div class="header">My eco places <span>{{ ecoPlaces?.length }}</span></div>
+        <a class="btn-see-all">See all</a>
+    </div>
+    <div *ngIf="ecoPlaces; else loading">
+        <div *ngIf="ecoPlaces.length; else unset;">
+            <ul class="eco-place-list">
+                <li class="item" *ngFor="let ecoPlace of ecoPlaces">{{ ecoPlace.name }}</li>
+            </ul>
+        </div>
     </div>
 </div>
 <ng-template #unset>
