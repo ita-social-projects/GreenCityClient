@@ -1,4 +1,7 @@
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
+$title-font: 'Montserrat';
 $bp-smallest: 320px;
 $bp-phone: 576px;
 $bp-tablet: 768px;
@@ -51,6 +54,18 @@ h2 > span {
 
 .checkbox {
     float: right;
+}
+
+
+.noItems {
+  font-family: $title-font;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  margin-top: 30px;
+  text-align: center;
+  color: #bebebe;
 }
 
 ::ng-deep .mat-checkbox .mat-checkbox-frame {
