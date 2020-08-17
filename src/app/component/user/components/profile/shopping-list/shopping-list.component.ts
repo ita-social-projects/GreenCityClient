@@ -24,10 +24,7 @@ export class ShoppingListComponent implements OnInit {
 
   public getShoppingList(): void {
     this.profileSubscription = this.profileService.getShoppingList().subscribe(
-      (success: ShoppingList[]) => {
-        this.shoppingList = success;
-        console.log(this.shoppingList);
-      },
+      (success: ShoppingList[]) => this.shoppingList = success,
       (error) => this.error = error
     );
   }
