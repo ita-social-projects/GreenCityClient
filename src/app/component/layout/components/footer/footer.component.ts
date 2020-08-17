@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { footerIcons } from '@footer-images//footer-icons';
+import { footerIcons } from '@footer-images/footer-icons';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 
