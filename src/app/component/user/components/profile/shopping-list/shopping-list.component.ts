@@ -1,8 +1,6 @@
-import { Observable } from 'rxjs';
 import { ProfileService } from './../profile-service/profile.service';
 import { Component, OnInit } from '@angular/core';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
-import { toArray } from 'rxjs/operators';
 
 @Component({
   selector: 'app-shopping-list',
@@ -12,11 +10,8 @@ import { toArray } from 'rxjs/operators';
 export class ShoppingListComponent implements OnInit {
   public shoppingList;
   public profileSubscription;
-  public error = null;
-  public shoppingListIsEMpty = true;
 
   constructor(private profileService: ProfileService) { }
-
 
   ngOnInit() {
     this.getShoppingList();
@@ -25,7 +20,6 @@ export class ShoppingListComponent implements OnInit {
   public getShoppingList(): void {
     this.profileSubscription = this.profileService.getShoppingList().subscribe(
       (success: ShoppingList[]) => this.shoppingList = success,
-      (error) => this.error = error
     );
   }
 
@@ -33,7 +27,6 @@ export class ShoppingListComponent implements OnInit {
     this.profileService.toggleStatusOfShoppingItem(item)
       .subscribe(
         (success) => this.updateDataOnUi(item),
-        (error) => console.log('error' + error)
       );
   }
 
