@@ -56,6 +56,10 @@ $bp-largest: 1440px;
     font-size: 12px;
 }
 
+.loading {
+  margin: 0 auto;
+}
+
 ::ng-deep.mat-progress-spinner circle,.mat-spinner circle {
   stroke: rgb(226, 226, 226) !important;
 }
