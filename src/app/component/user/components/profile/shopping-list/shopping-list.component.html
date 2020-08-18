@@ -1,7 +1,9 @@
 <div class="shopping-list-content">
     <div class="header-position">
-        <h2 class="header">Shopping list <span>{{ shoppingList.length }}</span></h2>
-        <a class="btn-see-all">See all</a>
+        <h2 class="header">
+            {{ 'profile.my-shoppingList' | translate }} <span>{{ shoppingList.length }}</span>
+        </h2>
+        <a class="btn-see-all">{{ 'profile.see-all' | translate }}</a>
     </div>
     <ul class="shopping-list">
         <li class="item" *ngFor="let spoppingItem of getShoppingList()">{{ spoppingItem }}

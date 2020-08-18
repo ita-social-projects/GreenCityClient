@@ -17,6 +17,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
+    console.log(this.translate);
   }
 
   private bindLang(lang: string): void {
@@ -25,7 +26,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   private subscribeToLangChange(): void {
     this.langChangeSub = this.localStorageService.languageSubject
-      .subscribe(this.bindLang);
+      .subscribe(this.bindLang.bind(this));
   }
 
   ngOnDestroy(): void {

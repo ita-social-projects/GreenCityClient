@@ -19,6 +19,7 @@ export class EcoNewsComponent implements OnInit {
   ngOnInit() {
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
+    console.log(this.translate);
   }
 
   private bindLang(lang: string): void {
