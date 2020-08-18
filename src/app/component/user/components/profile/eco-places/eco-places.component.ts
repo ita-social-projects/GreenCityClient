@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { EcoPlaces } from '@user-models/ecoPlaces.model';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
@@ -9,8 +10,8 @@ import { ProfileService } from '@global-user/components/profile/profile-service/
 })
 export class EcoPlacesComponent implements OnInit {
   public ecoPlaces: EcoPlaces[];
-  public error = null;
-  public subscription;
+  public subscription: Subscription;
+
   constructor(private profileService: ProfileService) { }
 
   ngOnInit() {
@@ -18,9 +19,7 @@ export class EcoPlacesComponent implements OnInit {
   }
 
   public getEcoPlaces(): void {
-    this.subscription = this.profileService.getEcoPlaces().subscribe(
-      (success: EcoPlaces[]) => this.ecoPlaces = success,
-      (error) => this.error = error
-    );
+    this.subscription = this.profileService.getEcoPlaces()
+      .subscribe((success: EcoPlaces[]) => this.ecoPlaces = success);
   }
 }
