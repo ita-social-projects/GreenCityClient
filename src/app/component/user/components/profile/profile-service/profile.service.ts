@@ -65,6 +65,7 @@ export class ProfileService {
     const params = new HttpParams()
       .set('goalId', goalId)
       .set('status', newStatus.toString());
+
     return this.http.patch<object[]>(`${this.backEnd}goals/shoppingList/${this.userId}`, params);
   }
 }
