@@ -1,27 +1,22 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat|Open+Sans|Roboto&display=swap');
 
-$generalFont : OpenSans, sans-serif;
+$generalFont : 'Open Sans';
 
 .main-background-image {
-  background: url('/assets/img/icon/footer/background-image-footer.svg');
-  background-repeat: no-repeat;
-  background-position: center;
+  background: url('src/assets/img/icon/footer/background-image-footer.svg') no-repeat center;
   height: 286px;
   width: 100%;
 
   .main {
-    margin: 0 auto;
     max-width: 1440px;
 
     .logo {
-      margin: 119px 0 24px 10.4%;
+      margin: 119px 0 24px 0;
     }
 
     .links {
       display: flex;
       justify-content: space-between;
-      margin-left: 10.4%;
-      margin-right: 10.4%;
 
       .left-side {
 
@@ -46,6 +41,7 @@ $generalFont : OpenSans, sans-serif;
 
       .right-side {
         display: flex;
+        align-items: center;
 
         .follow-us-text {
           margin-right: 16px;
@@ -55,7 +51,6 @@ $generalFont : OpenSans, sans-serif;
             font-size: 14px;
             line-height: 16px;
             margin: 0;
-            padding-top: 6.9px;
             color: #494A49;
           }
         }
@@ -69,21 +64,26 @@ $generalFont : OpenSans, sans-serif;
 
           .social-links-btn {
             margin-right: 16px;
+
               .twitter-link-btn{
                 width: 15px;
                 height: 12.19px;
             }
           }
+
+          .last-item {
+            margin-right: 0;
+          }
         }
       }
     }
-    
+
     .bottom-part {
       margin-top: 39px;
       margin-bottom: 12px;
       display: flex;
       justify-content: center;
-      align-items: flex-end;
+      align-items: center;
       font-family: $generalFont;
       font-size: 14px;
       line-height: 16px;
@@ -92,33 +92,19 @@ $generalFont : OpenSans, sans-serif;
 
     @media screen and (max-width: 1024px) {
       .logo {
-        margin: 137px 0 24px 4.4%;
-      }
-
-      .links {
-        margin-left: 4.4%;
-        margin-right: 4.4%;
-
+        margin: 137px 0 24px 0;
       }
     }
 
     @media screen and (max-width: 768px) {
       .logo {
-        margin: 137px 0 24px 1.82%;
-      }
-
-      .links {
-        margin-left: 1.82%;
-        margin-right: 0%;
+        margin: 137px 0 24px 0;
       }
     }
 
     @media screen and (max-width: 668px) {
-
       .links {
         display: block;
-        margin-left: 1.82%;
-        margin-right: 1.82%;
 
         .left-side {
           .list-of-site-links {
@@ -147,18 +133,20 @@ $generalFont : OpenSans, sans-serif;
       }
 
       .links {
-        margin: 0;
-
         .left-side {
-
           .list-of-site-links {
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin-bottom: 16px;
 
-            .router-links {
-              padding: 0;
-              margin: 0 0 24px 0;
+            &:nth-child(-n+4) {
+              li {
+                .router-links {
+                  display: block;
+                  margin: 0 0 24px 0;
+                }
+              }
             }
           }
         }
@@ -171,25 +159,11 @@ $generalFont : OpenSans, sans-serif;
           .follow-us-text {
             margin: 0 0 21px 0;
           }
-
-          .social-network-links {
-            margin-left: 20px;
-            justify-content: center;
-          }
         }
       }
     }
 
     @media screen and (max-width: 320px) {
-      .list-of-site-links:nth-last-child(-n+4){
-        li{
-          .router-links{
-            display: block;
-            margin-top: 24px;
-          }
-        }
-      }
-
       .bottom-part{
         margin-top: 24px;
       }
@@ -197,3 +171,31 @@ $generalFont : OpenSans, sans-serif;
   }
 }
 
+@media screen and (min-width: 1024px) {
+  .main {
+    margin: 0 10.4%;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .main {
+    margin: 0 3.125%
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .main {
+    margin: 0 1.82%
+  }
+}
+@media screen and (max-width: 576px) {
+  .main {
+    margin: 0 2.4%
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .main {
+    margin: 0 auto;
+  }
+}
