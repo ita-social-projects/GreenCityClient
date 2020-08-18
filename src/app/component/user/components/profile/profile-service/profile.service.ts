@@ -60,8 +60,8 @@ export class ProfileService {
   }
 
   public toggleStatusOfShoppingItem(item): Observable<object[]> {
-    const { status, goalId } = item;
-    const newStatus = status === 'DONE' ? false : true;
+    const { status: prevStatus, goalId } = item;
+    const newStatus = prevStatus !== 'DONE';
     const params = new HttpParams()
       .set('goalId', goalId)
       .set('status', newStatus.toString());
