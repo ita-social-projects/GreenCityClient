@@ -44,7 +44,7 @@ export class EditProfileComponent implements OnInit {
     this.editProfileForm = this.builder.getProfileForm();
   }
 
-  private getInitialValue(): void{
+  private getInitialValue(): void {
     this.profileService.getUserInfo().pipe(
       take(1)
     )
