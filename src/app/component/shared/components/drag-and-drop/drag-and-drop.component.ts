@@ -17,11 +17,13 @@ export class DragAndDropComponent implements OnInit {
   public files: FileHandle[] = [];
   public isWarning = false;
   private croppedImage: string;
+  private currentPage: string;
   @Input() public formData: FormGroup;
 
   constructor(private createEcoNewsService: CreateEcoNewsService ) {}
 
   ngOnInit() {
+    this.getCurrentPage();
     this.patchImage();
   }
 
@@ -37,7 +39,7 @@ export class DragAndDropComponent implements OnInit {
   }
 
   public patchImage(): void {
-    if (this.createEcoNewsService.isBackToEditing) {
+    if (this.currentPage === 'eco news' && this.createEcoNewsService.isBackToEditing) {
       this.isCropper = false;
       this.files = [{file: name, url: this.formData.value.image}];
     }
@@ -49,10 +51,12 @@ export class DragAndDropComponent implements OnInit {
 
   public filesDropped(files: FileHandle[]): void {
     this.files = files;
-    this.createEcoNewsService.files = files;
     this.isCropper = true;
     this.showWarning();
-    this.createEcoNewsService.isImageValid = this.isWarning;
+    if (this.currentPage === 'eco news') {
+      this.createEcoNewsService.files = files;
+      this.createEcoNewsService.isImageValid = this.isWarning;
+    }
   }
 
   public onFileSelected(event): void {
@@ -62,7 +66,9 @@ export class DragAndDropComponent implements OnInit {
     reader.readAsDataURL(this.selectedFile);
     reader.onload = (ev) => this.handleFile(ev);
 
-    this.createEcoNewsService.files = this.files;
+    if (this.currentPage === 'eco news') {
+      this.createEcoNewsService.files = this.files;
+    }
   }
 
   private handleFile(event): void {
@@ -70,7 +76,9 @@ export class DragAndDropComponent implements OnInit {
     this.selectedFileUrl = binaryString;
     this.files[0] = {url: this.selectedFileUrl, file: this.selectedFile};
     this.showWarning();
-    this.createEcoNewsService.fileUrl = this.selectedFileUrl;
+    if (this.currentPage === 'eco news'){
+      this.createEcoNewsService.fileUrl = this.selectedFileUrl;
+    }
    }
 
   public showWarning(): FileHandle[] {
@@ -79,6 +87,10 @@ export class DragAndDropComponent implements OnInit {
       this.isWarning = !(item && imageValCondition);
     });
     return this.files;
+  }
+
+  private getCurrentPage(): void {
+    this.currentPage = sessionStorage.getItem('currentPage');
   }
 }
 

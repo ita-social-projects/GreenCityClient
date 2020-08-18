@@ -1,10 +1,13 @@
 <div class="details-img">
-    <img src="{{userInfo.avatarUrl}}" 
+    <img src="{{checkAvatarImage()}}" 
          alt="avatar" 
          class="profile-avatar">
-    <button>
+    <button (click)="changeDragAndDrop()">
         <img src="{{editIcon}}" 
              alt="edit icon" 
              class="edit-icon">
     </button>
+    <div *ngIf="showDragAndDrop">
+        <app-drag-and-drop></app-drag-and-drop>
+    </div>
 </div>

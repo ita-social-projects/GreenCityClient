@@ -178,4 +178,8 @@ export class CreateNewsComponent implements OnInit {
       }
     });
   }
+
+  private setCurrentPage(): void {
+    sessionStorage.setItem('currentPage', JSON.stringify('eco news'));
+  }
 }
