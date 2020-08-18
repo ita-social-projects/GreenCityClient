@@ -6,20 +6,19 @@
     <div *ngIf="shoppingList.length; else empty;">
         <ul class="shopping-list">
             <li class="item" *ngFor="let shoppingItem of shoppingList">{{ shoppingItem.text }}
-                <mat-checkbox
-                    [checked]='shoppingItem.status === "DONE"' 
-                    class="checkbox" 
-                    color="primary"
-                    (click)="toggleDone(shoppingItem)"
-                ></mat-checkbox>
+                <mat-checkbox [checked]='shoppingItem.status === "DONE"' class="checkbox" color="primary"
+                    (click)="toggleDone(shoppingItem)"></mat-checkbox>
             </li>
         </ul>
     </div>
-    <ng-template #empty>
-        <p class="noItems">You don't have any items in your Shopping List</p>
-    </ng-template>
- </div>
- <ng-template #loading>
-    <mat-spinner color="grey" diameter="70" class="loading"></mat-spinner>
- </ng-template>
- 
+</div>
+<ng-template #empty>
+    <p class="noItems">You don't have any items in your Shopping List</p>
+</ng-template>
+<ng-template #loading>
+    <mat-spinner 
+        color="grey" 
+        diameter="70" 
+        class="loading"
+    ></mat-spinner>
+</ng-template>

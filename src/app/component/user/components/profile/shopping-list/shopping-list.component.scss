@@ -1,4 +1,3 @@
-@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 
 $title-font: 'Montserrat';
@@ -7,6 +6,7 @@ $bp-phone: 576px;
 $bp-tablet: 768px;
 $bp-desktop: 1024px;
 $bp-largest: 1440px;
+$grey: #bebebe;
 
 .shopping-list-content {
     margin: 0 auto;
@@ -28,7 +28,7 @@ $bp-largest: 1440px;
 }
 
 h2 > span {
-    color: #bebebe;
+    color: $grey;
     margin-left: 10px;
 }
 
@@ -65,7 +65,7 @@ h2 > span {
   line-height: 17px;
   margin-top: 30px;
   text-align: center;
-  color: #bebebe;
+  color: $grey;
 }
 
 ::ng-deep .mat-checkbox .mat-checkbox-frame {

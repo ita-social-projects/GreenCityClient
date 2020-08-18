@@ -7,6 +7,7 @@ import { environment } from '@environment/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ProfileStatistics } from '@user-models/profile-statistiscs';
+import { LanguageService } from '@language-service/language.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,8 @@ export class ProfileService {
   private backEnd = environment.backendLink;
 
   constructor(private http: HttpClient,
-              private localStorageService: LocalStorageService) { }
+              private localStorageService: LocalStorageService,
+              private languageService: LanguageService) { }
 
   public setUserId(): void {
     this.localStorageService
@@ -31,7 +33,9 @@ export class ProfileService {
 
   public getShoppingList(): Observable<ShoppingList[]> {
     this.setUserId();
-    return this.http.get<ShoppingList[]>(`${this.backEnd}goals/shoppingList/${this.userId}/language/en`);
+    const currentLang = this.languageService.getCurrentLanguage();
+
+    return this.http.get<ShoppingList[]>(`${this.backEnd}goals/shoppingList/${this.userId}/language/${currentLang}`);
   }
 
   public getUserInfo(): Observable<object> {
