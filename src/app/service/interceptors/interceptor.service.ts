@@ -11,6 +11,8 @@ import { catchError, filter, switchMap, take, retry } from 'rxjs/operators';
 import { LocalStorageService } from '../localstorage/local-storage.service';
 import { Router } from '@angular/router';
 import { BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../../http-response-status';
+import { MatDialog } from '@angular/material';
+import { SignInComponent } from '../../component/auth/components/sign-in/sign-in.component';
 
 interface NewTokenPair {
   accessToken: string;
@@ -26,7 +28,8 @@ export class InterceptorService implements HttpInterceptor {
 
   constructor(private http: HttpClient,
               private localStorageService: LocalStorageService,
-              private router: Router) {
+              private router: Router,
+              private dialog: MatDialog) {
   }
 
   /**
@@ -46,18 +49,8 @@ export class InterceptorService implements HttpInterceptor {
     return next.handle(req).pipe(
       retry(1),
       catchError((error: HttpErrorResponse) => {
-        let errorMessage = '';
-        if (error.error instanceof ErrorEvent) {
-          errorMessage = `Error: ${error.error.message}`;
-        } else {
-          errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-        }
-        window.alert(errorMessage);
-        if (error.status === UNAUTHORIZED) {
-          return this.handle401Error(req, next);
-        }
-        if (error.status === FORBIDDEN) {
-          return this.handle403Error(req);
+        if (error.status === UNAUTHORIZED || error.status === FORBIDDEN) {
+          return this.handle401and403Error(req, next);
         }
         return throwError(error);
       })
@@ -71,7 +64,8 @@ export class InterceptorService implements HttpInterceptor {
    * @param req - {@link HttpRequest}
    * @param next - {@link HttpHandler}
    */
-  private handle401Error(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  private handle401and403Error(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    this.openSignInWindow();
     if (!this.isRefreshing) {
       this.isRefreshing = true;
       this.refreshTokenSubject.next(null);
@@ -133,20 +127,11 @@ export class InterceptorService implements HttpInterceptor {
     });
   }
 
-  /**
-   * Handles 403 HTTP error response, redirects to sign in page.
-   *
-   * @param req - {@link HttpRequest}
-   */
-  private handle403Error(req: HttpRequest<any>): Observable<HttpEvent<any>> {
-    this.router.navigate(['/welcome']).then(r => r);
-    return of<HttpEvent<any>>();
+  public openSignInWindow(): void {
+    this.dialog.open(SignInComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      panelClass: 'custom-dialog-container',
+    });
   }
-
-  /**
-   * Handles 404 HTTP error response, redirects to custom error page.
-   *
-   * @param req - {@link HttpRequest}
-   */
-
 }
