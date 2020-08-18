@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../../http-response-status';
 import { MatDialog } from '@angular/material';
 import { SignInComponent } from '../../component/auth/components/sign-in/sign-in.component';
+import { ErrorComponent } from '../../component/errors/error/error.component';
 
 interface NewTokenPair {
   accessToken: string;
@@ -34,7 +35,7 @@ export class InterceptorService implements HttpInterceptor {
 
   /**
    * Intercepts all HTTP requests, adds access token to authentication header (except authentication requests),
-   * intercepts 401, 403, and 404 error responses.
+   * intercepts 400, 401, and 403 error responses.
    *
    * @param req - {@link HttpRequest}
    * @param next - {@link HttpHandler}
@@ -51,6 +52,9 @@ export class InterceptorService implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         if (error.status === UNAUTHORIZED || error.status === FORBIDDEN) {
           return this.handle401and403Error(req, next);
+        }
+        if (error.status === BAD_REQUEST) {
+          this.openErrorWindow();
         }
         return throwError(error);
       })
@@ -98,7 +102,6 @@ export class InterceptorService implements HttpInterceptor {
     this.isRefreshing = false;
     if (error.status === BAD_REQUEST) {
       this.localStorageService.clear();
-      this.router.navigate(['/welcome']).then(r => r);
       return of<HttpEvent<any>>();
     }
     return throwError(error);
@@ -131,6 +134,15 @@ export class InterceptorService implements HttpInterceptor {
     this.dialog.open(SignInComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
+      panelClass: 'custom-dialog-container',
+    });
+  }
+
+  public openErrorWindow(): void {
+    this.dialog.open(ErrorComponent, {
+      hasBackdrop: false,
+      closeOnNavigation: true,
+      position: {top: '100px'},
       panelClass: 'custom-dialog-container',
     });
   }
