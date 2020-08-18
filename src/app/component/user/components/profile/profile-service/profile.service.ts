@@ -6,6 +6,7 @@ import { environment } from '@environment/environment';
 import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ProfileStatistics } from '@user-models/profile-statistiscs';
+import { EditProfileModel } from '@user-models/edit-profile.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,9 +29,9 @@ export class ProfileService {
     return this.http.get<CardModel>(`${this.backEnd}facts/dayFact/2`);
   }
 
-  public getUserInfo(): Observable<object> {
+  public getUserInfo(): Observable<EditProfileModel> {
     this.setUserId();
-    return this.http.get<object>(`${this.backEnd}user/${this.userId}/profile/`);
+    return this.http.get<EditProfileModel>(`${this.backEnd}user/${this.userId}/profile/`);
   }
 
   public getUserStatus(): Observable<object> {
