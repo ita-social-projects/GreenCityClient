@@ -1,7 +1,6 @@
-import { Injectable, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, Subject } from 'rxjs';
 import { environment } from '@environment/environment';
 import { FormControl } from '@angular/forms';
 
@@ -13,12 +12,9 @@ export class CommentsService {
   public repliesVisibility = false;
   public accessToken: string = localStorage.getItem('accessToken');
   private backEnd = environment.backendLink;
-  private routeSubscription: Subscription;
   public ecoNewsId: string;
-  public isEditing = false;
 
-  constructor(private http: HttpClient,
-              private route: ActivatedRoute) { }
+  constructor(private http: HttpClient) { }
 
   public addComment(id = 0, form): Observable<object> {
     const body = {

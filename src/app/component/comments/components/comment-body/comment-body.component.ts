@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
+import { Validators, FormControl } from '@angular/forms';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { CommentsService } from '../../services/comments.service';
 import { CommentsDTO, CommentsModel } from '../../models/comments-model';
