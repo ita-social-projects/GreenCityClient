@@ -34,6 +34,8 @@ export class AddCommentComponent implements OnInit {
   public totalElements: number;
   public isLoggedIn: boolean;
   private newsId: number;
+  private commentsAmount = 10;
+  private commentsPage = 0;
 
   ngOnInit() {
     this.newsId = this.route.snapshot.params.id;
@@ -50,8 +52,19 @@ export class AddCommentComponent implements OnInit {
 
   public addElemsToCurrentList(): void {
     this.route.url.subscribe(url => this.commentsService.ecoNewsId = url[0].path);
-    this.commentsService.getActiveCommentsByPage(0, 10)
+    this.commentsService.getActiveCommentsByPage(this.commentsPage, this.commentsAmount)
         .subscribe((list: CommentsModel) => this.setList(list));
+  }
+
+  public addElementsByPagination(page: number): void {
+    console.log(page);
+    this.route.url.subscribe(url => this.commentsService.ecoNewsId = url[0].path);
+    this.commentsService.getActiveCommentsByPage(page, this.commentsAmount)
+      .subscribe((list: CommentsModel) => this.setNullList(list));
+  }
+
+  private setNullList(data): void {
+    this.elements = [...data.page];
   }
 
   private setRepliesVisibility(): void {
@@ -70,7 +83,6 @@ export class AddCommentComponent implements OnInit {
 
   public setList(data: CommentsModel): void {
     this.elements = [...this.elements, ...data.page];
-    this.elements = this.elements.filter(item => item.status === 'ORIGINAL' || item.status === 'EDITED');
   }
 
   private setRepliesList(data): void {

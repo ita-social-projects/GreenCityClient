@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import {Component, OnInit, OnDestroy, Input, Output, EventEmitter} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Validators, FormControl } from '@angular/forms';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
@@ -13,11 +13,10 @@ import { CommentsDTO, CommentsModel } from '../../models/comments-model';
 export class CommentBodyComponent implements OnInit, OnDestroy {
   @Input() public elements: CommentsDTO[] = [];
   @Input() public type: string;
+  @Output() public commentsPage = new EventEmitter();
   public replyFormVisibility = false;
   public isLoggedIn: boolean;
   public userId: number;
-  public commentCurrentPage: number;
-  public commentTotalItems: number;
   public commentsSubscription: Subscription;
   public content: FormControl = new FormControl('', [Validators.required, Validators.maxLength(8000)]);
   public editIcon = 'assets/img/comments/edit.png';
@@ -32,8 +31,8 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
   public config = {
     id: 'custom',
     itemsPerPage: 10,
-    currentPage: this.commentCurrentPage,
-    totalItems: this.commentTotalItems
+    currentPage: 0,
+    totalItems: 0
   };
 
   constructor(private userOwnAuthService: UserOwnAuthService,
@@ -70,14 +69,18 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
   public getActiveComments(): void {
     this.commentsSubscription = this.commentsService.getActiveCommentsByPage(0, this.config.itemsPerPage)
       .subscribe((el: CommentsModel) => {
-        console.log(el);
         this.setData(el.currentPage, el.totalElements);
       });
   }
 
+  public getCommentsByPage(pageNumber: number): void {
+    this.commentsPage.emit(pageNumber - 1);
+  }
+
   public setData(currentPage: number, totalElements: number) {
-    this.commentCurrentPage = currentPage;
-    this.commentTotalItems = totalElements;
+    this.config.currentPage = currentPage;
+    this.config.totalItems = totalElements;
+    console.log(this.config);
   }
 
   private checkUserSingIn(): void {

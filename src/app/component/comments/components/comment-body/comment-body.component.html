@@ -93,5 +93,6 @@
 <div class="wrapper">
   <app-comment-pagination [config]="config"
                           *ngIf="type === 'comment'"
+                          (setPage)="getCommentsByPage($event)"
   ></app-comment-pagination>
 </div>

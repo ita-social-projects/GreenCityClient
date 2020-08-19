@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'app-comment-pagination',
@@ -7,9 +7,11 @@ import { Component, Input } from '@angular/core';
 })
 export class CommentPaginationComponent {
   @Input() public config;
+  @Output() public setPage = new EventEmitter();
   public maxSize = 7;
 
   public onPageChange(event) {
     this.config.currentPage = event;
+    this.setPage.emit(event);
   }
 }

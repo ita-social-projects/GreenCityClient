@@ -38,4 +38,5 @@
                   [type]="dataSet.type"
                   *ngIf="this.dataSet.type === 'comment' ||
                          (this.dataSet.type === 'reply' && this.repliesVisibility)"
+                  (commentsPage)="addElementsByPagination($event)"
 ></app-comment-body>
