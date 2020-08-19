@@ -14,7 +14,8 @@
       <h3 class="descriptions__name">
         {{ userInfo.firstName }}
       </h3>
-      <div class="descriptions__location">{{ userInfo.city || mockedUserInfo.city }}</div>
+      <div class="descriptions__location"
+           *ngIf="userInfo.showLocation">{{ userInfo.city || mockedUserInfo.city }}</div>
       <div class="descriptions__status">
         {{ mockedUserInfo.status }}
       </div>

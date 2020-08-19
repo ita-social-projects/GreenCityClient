@@ -14,7 +14,7 @@ export class EditProfileService {
 
 
   postDataUserProfile(data): Observable<EditProfileModel> {
-    return this.http.post<EditProfileModel>(`${this.url}user/profile`, data);
+    return this.http.put<EditProfileModel>(`${this.url}user/profile`, data);
   }
 
 }

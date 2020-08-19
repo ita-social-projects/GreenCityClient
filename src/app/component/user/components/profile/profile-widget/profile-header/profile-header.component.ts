@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
@@ -18,20 +18,15 @@ export class ProfileHeaderComponent implements OnInit {
   public editIcon = './assets/img/profile/icons/edit-line.svg';
   public userId: number;
 
-  public userInfo;
+  @Input() public userInfo;
   public isUserOnline;
 
   constructor(private profileService: ProfileService,
               private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
-    this.showUserInfo();
     this.checkUserStatus();
     this.initUser();
-  }
-
-  public showUserInfo(): void {
-    this.profileService.getUserInfo().subscribe(item => this.userInfo = item);
   }
 
   public showCorrectImage(): string {

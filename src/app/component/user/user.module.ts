@@ -49,7 +49,6 @@ import {
   EditProfileComponent,
   PersonalPhotoComponent,
   SocialNetworksComponent,
-  ProfilePrivacyComponent
 } from './components';
 import { CommonModule } from '@angular/common';
 import { CustomLastPipe } from '../../pipe/custom-last-pipe/custom-first.pipe';
@@ -68,7 +67,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from './store/user.effects';
 import { UserSelectors } from './store/user.selectors';
 import { UserComponent } from './user.component';
-import {EditProfileFormBuilder} from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
+import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 
 @NgModule({
   declarations: [
@@ -127,7 +126,6 @@ import {EditProfileFormBuilder} from '@global-user/components/profile/edit-profi
     EditProfileComponent,
     PersonalPhotoComponent,
     SocialNetworksComponent,
-    ProfilePrivacyComponent,
   ],
   imports: [
     EffectsModule.forFeature([UserEffects]),
