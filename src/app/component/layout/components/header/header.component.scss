@@ -376,7 +376,8 @@ $screen-320: " screen and (max-width : 320px)";
 
 #user-avatar-wrapper, #lang-wrapper  {
   position: relative;
-  width: 75px;
+  width: auto;
+  min-width: 135px;
   height: 36px;
 
   ul {
