@@ -17,7 +17,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
-    console.log(this.translate);
   }
 
   private bindLang(lang: string): void {
