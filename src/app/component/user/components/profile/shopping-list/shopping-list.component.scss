@@ -1,8 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
+$title-font: 'Montserrat';
 $bp-smallest: 320px;
 $bp-phone: 576px;
 $bp-tablet: 768px;
 $bp-desktop: 1024px;
 $bp-largest: 1440px;
+$grey: #bebebe;
 
 .shopping-list-content {
     margin: 0 auto;
@@ -24,7 +28,7 @@ $bp-largest: 1440px;
 }
 
 h2 > span {
-    color: #bebebe;
+    color: $grey;
     margin-left: 10px;
 }
 
@@ -52,12 +56,32 @@ h2 > span {
     float: right;
 }
 
+
+.noItems {
+  font-family: $title-font;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  margin-top: 30px;
+  text-align: center;
+  color: $grey;
+}
+
 ::ng-deep .mat-checkbox .mat-checkbox-frame {
     border: 1px solid #E1E1E1;
   }
   
 ::ng-deep .mat-checkbox-checked .mat-checkbox-background {
     background-color: green !important;
+}
+
+::ng-deep.mat-progress-spinner circle,.mat-spinner circle {
+  stroke: rgb(226, 226, 226) !important;
+}
+
+.loading {
+  margin: 0 auto;
 }
 
 @media only screen and (max-width: $bp-desktop) {
