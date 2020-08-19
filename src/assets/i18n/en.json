@@ -608,9 +608,19 @@
     "my-Achievements": "My Achievements",
     "see-all": "See all",
     "my-eco-friends": "My Eco Friends",
-    "zero-friends": " You don't have any friends.",
+    "zero-friends": "You don't have any friends.",
     "my-eco-places": "My eco places",
-    "my-shoppingList": "My Shopping List"
+    "my-shoppingList": "My Shopping List",
+    "shoppingList-no-items-message": "You don't have any items in your Shopping List",
+    "fact-of-the-day": "Fact of the Day",
+    "no-eco-places": "You don't have any Eco Places.",
+    "online": "online",
+    "acquired-habits": "acquired habits",
+    "written-articles": "written articles",
+    "published-news": "published news",
+    "my-habits": "My habits",
+    "my-news": "My news",
+    "my-articles": "My articles"
   },
   "create-news": {
     "title": "Create news",

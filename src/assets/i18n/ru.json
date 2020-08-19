@@ -615,9 +615,19 @@
     "my-Achievements": "Мои достижения",
     "see-all": "Смотреть все",
     "my-eco-friends": "Мои Эко Друзья",
-    "zero-friends": " You don't have any friends.",
+    "zero-friends": " У Вас нет друзей.",
     "my-eco-places": "Мои Эко Места",
-    "my-shoppingList": "Мой Шоппинг-лист"
+    "my-shoppingList": "Мой Шоппинг-лист",
+    "shoppingList-no-items-message": "У вас нет товаров в вашем списке покупок",
+    "fact-of-the-day": "Факт дня",
+    "no-eco-places": "У вас нет Эко Мест.",
+    "online": "онлайн",
+    "acquired-habits": "приобретенные привычки",
+    "written-articles": "письменные статьи",
+    "published-news": "опубликованные новости",
+    "my-habits": "Мои привычки",
+    "my-news": "Мои новости",
+    "my-articles": "Мои статьи"
   },
   "create-news": {
     "title": "Создать новость",

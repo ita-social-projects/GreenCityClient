@@ -1,8 +1,8 @@
 <div class="profile-menu">
-        <span (click)="triggerTab(oneItem)"
-              *ngFor="let oneItem of menu"
-              [class.active]="oneItem.isActive">{{ oneItem.name }}
-        </span>
+  <span (click)="triggerTab(oneItem)"
+        *ngFor="let oneItem of menu"
+        [class.active]="oneItem.isActive">{{ oneItem.name }}
+  </span>
 </div>
 <div class="menu-title">
   <div class="in-progress">
@@ -34,4 +34,3 @@
                  [oneHabit]="oneHabit">
   </app-one-habit>
 </div>
-

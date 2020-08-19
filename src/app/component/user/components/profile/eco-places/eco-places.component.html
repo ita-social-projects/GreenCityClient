@@ -9,6 +9,6 @@
         <li class="item" *ngFor="let ecoPlace of ecoPlaces">{{ ecoPlace.name }}</li>
     </ul>
     <ng-template #unset>
-        <p>You have no items in your Shopping List</p>
+        <p>{{ 'profile.no-eco-places' | translate }}</p>
     </ng-template>
 </div>
