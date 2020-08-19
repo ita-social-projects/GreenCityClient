@@ -68,6 +68,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from './store/user.effects';
 import { UserSelectors } from './store/user.selectors';
 import { UserComponent } from './user.component';
+import { CalendarWeekComponent } from './components/profile/calendar/calendar-week/calendar-week.component';
 
 @NgModule({
   declarations: [
@@ -126,7 +127,8 @@ import { UserComponent } from './user.component';
     EditProfileComponent,
     PersonalPhotoComponent,
     SocialNetworksComponent,
-    ProfilePrivacyComponent
+    ProfilePrivacyComponent,
+    CalendarWeekComponent
   ],
   imports: [
     EffectsModule.forFeature([UserEffects]),
