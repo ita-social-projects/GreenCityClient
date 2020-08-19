@@ -35,6 +35,10 @@ export class CommentsService {
     return this.http.get<object>(`${this.backEnd}econews/comments?ecoNewsId=${this.ecoNewsId}&page=0&size=12`);
   }
 
+  public getActiveCommentsByPage(page, size): Observable<object> {
+    return this.http.get<object>(`${this.backEnd}econews/comments/active?ecoNewsId=${this.ecoNewsId}&page=${page}&size=${size}`);
+  }
+
   public getCommentsCount(id: number): Observable<number> {
     return this.http.get<number>(`${this.backEnd}econews/comments/count/comments/${id}`);
   }

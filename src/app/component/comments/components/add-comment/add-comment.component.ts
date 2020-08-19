@@ -50,7 +50,7 @@ export class AddCommentComponent implements OnInit {
 
   public addElemsToCurrentList(): void {
     this.route.url.subscribe(url => this.commentsService.ecoNewsId = url[0].path);
-    this.commentsService.getCommentsByPage()
+    this.commentsService.getActiveCommentsByPage(0, 10)
         .subscribe((list: CommentsModel) => this.setList(list));
   }
 

@@ -32,7 +32,7 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
   public config = {
     id: 'custom',
     itemsPerPage: 10,
-    currentPage: this.commentTotalItems,
+    currentPage: this.commentCurrentPage,
     totalItems: this.commentTotalItems
   };
 
@@ -40,7 +40,7 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
               private commentsService: CommentsService) {}
 
   ngOnInit() {
-    this.getAllComments();
+    this.getActiveComments();
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
   }
@@ -67,10 +67,12 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
     return element.status === 'EDITED';
   }
 
-  public getAllComments(): void {
-    this.commentsSubscription = this.commentsService.getCommentsByPage()
-      .subscribe((el: CommentsModel) =>
-        this.setData(el.currentPage, el.totalElements));
+  public getActiveComments(): void {
+    this.commentsSubscription = this.commentsService.getActiveCommentsByPage(0, this.config.itemsPerPage)
+      .subscribe((el: CommentsModel) => {
+        console.log(el);
+        this.setData(el.currentPage, el.totalElements);
+      });
   }
 
   public setData(currentPage: number, totalElements: number) {
