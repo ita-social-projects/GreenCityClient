@@ -5,7 +5,7 @@ import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { CommentsService } from '../../services/comments.service';
 import { CommentsModel } from '../../models/comments-model';
 import { CommentsDTO } from '../../models/comments-model';
-import {Subscription} from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-add-comment',

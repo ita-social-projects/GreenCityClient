@@ -1,4 +1,11 @@
-import {Component, OnInit, OnDestroy, Input, Output, EventEmitter} from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Input,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Validators, FormControl } from '@angular/forms';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
