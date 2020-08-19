@@ -25,6 +25,14 @@ $main-font: OpenSans, sans-serif;
         margin-top: 40px;
         padding-bottom: 40px;
 
+      input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched {
+        border: 1px solid red !important;
+      }
+
+      input.ng-invalid.ng-touched + span, textarea.ng-invalid.ng-touched + span {
+        color: red;
+      }
+
         p {
             font-family: $title-font;
             font-weight: 500;
@@ -36,6 +44,13 @@ $main-font: OpenSans, sans-serif;
         .input-block {
             display: flex;
             flex-direction: column;
+          input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched {
+            border: 1px solid red !important;
+          }
+
+          input.ng-invalid.ng-touched + span, textarea.ng-invalid.ng-touched + p {
+            color: red;
+          }
 
             label {
                 font-family: $main-font;

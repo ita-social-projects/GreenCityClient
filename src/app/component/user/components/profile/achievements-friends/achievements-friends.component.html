@@ -17,12 +17,12 @@
       >
     </div>
   </div>
-  <div class="friends" *ngIf="!error">
+  <div class="friends" *ngIf="!noFriends">
     <div class="friends-text">
       <div class="text-main-content">
         <div class="text-title">
           My Eco Friends
-          <span class="text-number">139</span>
+          <span class="text-number"> {{usersFriends?.length}} </span>
         </div>
       </div>
       <div class="text-more">See all</div>
@@ -35,9 +35,10 @@
       >
     </div>
   </div>
-  <div class="friends-error" *ngIf="error">
+  <div class="friends-error" *ngIf="noFriends">
     <div class="text-title">
       My Eco Friends
+      <span class="text-number"> 0 </span>
       <div class="error-message">
         You don't have any friends.
       </div>
