@@ -71,7 +71,6 @@ export class AddCommentComponent implements OnInit {
   }
 
   public setList(data: CommentsModel): void {
-    console.log(data);
     this.elements = [...data.page];
   }
 

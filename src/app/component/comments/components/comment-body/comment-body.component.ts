@@ -80,7 +80,6 @@ export class CommentBodyComponent implements OnInit, OnDestroy {
   public setData(currentPage: number, totalElements: number) {
     this.config.currentPage = currentPage;
     this.config.totalItems = totalElements;
-    console.log(this.config);
   }
 
   private checkUserSingIn(): void {
