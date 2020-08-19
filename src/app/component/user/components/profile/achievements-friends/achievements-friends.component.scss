@@ -96,6 +96,9 @@ $bp-largest: 1440px;
       font-size: 14px;
       line-height: 17px;
       color: #494A49;
+
+      .text-number {
+        color: #BEBEBE;
     }
 
     .error-message {
@@ -107,6 +110,7 @@ $bp-largest: 1440px;
       margin-top: 30px;
       text-align: center;
       color: #bebebe;
+      }
     }
   }
 }

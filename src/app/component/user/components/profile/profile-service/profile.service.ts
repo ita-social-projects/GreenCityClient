@@ -32,16 +32,16 @@ export class ProfileService {
     return this.http.get<CardModel>(`${this.backEnd}facts/dayFact/2`);
   }
 
+  public getUserInfo(): Observable<EditProfileModel> {
+    this.setUserId();
+    return this.http.get<EditProfileModel>(`${this.backEnd}user/${this.userId}/profile/`);
+  }
+
   public getShoppingList(): Observable<ShoppingList[]> {
     this.setUserId();
     const currentLang = this.languageService.getCurrentLanguage();
 
     return this.http.get<ShoppingList[]>(`${this.backEnd}goals/shoppingList/${this.userId}/language/${currentLang}`);
-  }
-
-  public getUserInfo(): Observable<EditProfileModel> {
-    this.setUserId();
-    return this.http.get<EditProfileModel>(`${this.backEnd}user/${this.userId}/profile/`);
   }
 
   public getUserProfileStatistics(): Observable<ProfileStatistics> {
