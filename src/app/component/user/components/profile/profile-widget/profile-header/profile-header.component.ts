@@ -25,20 +25,12 @@ export class ProfileHeaderComponent implements OnInit {
               private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
-    this.checkUserStatus();
     this.initUser();
   }
 
   public showCorrectImage(): string {
     return this.userInfo.profilePicturePath ?
       this.userInfo.profilePicturePath : this.mockedUserInfo.profilePicturePath;
-  }
-
-  public checkUserStatus(): void {
-    this.profileService.getUserStatus().subscribe(item => {
-      this.isUserOnline = item;
-      this.mockedUserInfo.status = this.isUserOnline ? 'online' : 'offline';
-    });
   }
 
   private initUser(): void {

@@ -44,10 +44,6 @@ export class ProfileService {
     return this.http.get<EditProfileModel>(`${this.backEnd}user/${this.userId}/profile/`);
   }
 
-  public getUserStatus(): Observable<object> {
-    return this.http.get<object>(`${this.backEnd}user/isOnline/${this.userId}/`);
-  }
-
   public getUserProfileStatistics(): Observable<ProfileStatistics> {
     return this.http.get<ProfileStatistics>(`${this.backEnd}user/${this.userId}/profileStatistics/`);
   }
