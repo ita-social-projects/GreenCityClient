@@ -20,11 +20,9 @@ export class ProfileProgressComponent implements OnInit, OnDestroy {
   }
 
   public checkUserActivities(): void {
-    this.progressSubscription = this.profileService.getUserProfileStatistics()
-      .subscribe((statistics: ProfileStatistics) => {
-        console.log(statistics);
-        this.setUserProgress(statistics);
-      });
+    this.progressSubscription = this.profileService.getUserProfileStatistics().subscribe((statistics: ProfileStatistics) => {
+      this.setUserProgress(statistics);
+    });
   }
 
   public setUserProgress(item: ProfileStatistics) {

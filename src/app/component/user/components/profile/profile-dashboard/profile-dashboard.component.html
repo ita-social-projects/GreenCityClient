@@ -1,7 +1,18 @@
 <div class="profile-menu">
   <span (click)="triggerTab(oneItem)"
-        *ngFor="let oneItem of menu"
-        [class.active]="oneItem.isActive">{{ oneItem.name }}
+        *ngFor="let oneItem of menu; index as index"
+        [class.active]="oneItem.isActive">
+        <ng-container [ngSwitch]="index">
+          <ng-container  *ngSwitchCase="0">
+            {{ 'profile.my-habits' | translate }}
+          </ng-container>
+          <ng-container  *ngSwitchCase="1">
+            {{ 'profile.my-news' | translate }}
+          </ng-container>
+          <ng-container  *ngSwitchCase="2">
+            {{ 'profile.my-articles' | translate }}
+          </ng-container>
+       </ng-container>
   </span>
 </div>
 <div class="menu-title">
