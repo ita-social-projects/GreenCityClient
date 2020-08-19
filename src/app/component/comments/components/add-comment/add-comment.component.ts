@@ -5,6 +5,7 @@ import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { CommentsService } from '../../services/comments.service';
 import { CommentsModel } from '../../models/comments-model';
 import { CommentsDTO } from '../../models/comments-model';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-add-comment',
@@ -29,18 +30,17 @@ export class AddCommentComponent implements OnInit {
   public addCommentForm: FormGroup = this.fb.group({
     content: ['', [Validators.required, Validators.maxLength(8000)]],
   });
-  public commenstSubscription;
+  public commentsSubscription: Subscription;
   public elements = [];
   public totalElements: number;
   public isLoggedIn: boolean;
   private newsId: number;
   private commentsAmount = 10;
-  private commentsPage = 0;
 
   ngOnInit() {
     this.newsId = this.route.snapshot.params.id;
     if (this.dataSet.type === 'comment') {
-      this.addElemsToCurrentList();
+      this.addElementsByPagination();
     } else if (this.dataSet.type === 'reply') {
       this.addElemsToRepliesList();
     }
@@ -50,21 +50,10 @@ export class AddCommentComponent implements OnInit {
     this.setRepliesVisibility();
   }
 
-  public addElemsToCurrentList(): void {
-    this.route.url.subscribe(url => this.commentsService.ecoNewsId = url[0].path);
-    this.commentsService.getActiveCommentsByPage(this.commentsPage, this.commentsAmount)
-        .subscribe((list: CommentsModel) => this.setList(list));
-  }
-
-  public addElementsByPagination(page: number): void {
-    console.log(page);
+  public addElementsByPagination(page = 0): void {
     this.route.url.subscribe(url => this.commentsService.ecoNewsId = url[0].path);
     this.commentsService.getActiveCommentsByPage(page, this.commentsAmount)
-      .subscribe((list: CommentsModel) => this.setNullList(list));
-  }
-
-  private setNullList(data): void {
-    this.elements = [...data.page];
+      .subscribe((list: CommentsModel) => this.setList(list));
   }
 
   private setRepliesVisibility(): void {
@@ -75,14 +64,15 @@ export class AddCommentComponent implements OnInit {
   }
 
   private addElemsToRepliesList(): void {
-    this.commenstSubscription = this.commentsService.getAllReplies(this.commentId)
+    this.commentsSubscription = this.commentsService.getAllReplies(this.commentId)
       .subscribe((list: CommentsModel) => {
         this.setRepliesList(list.page.filter(item => item.status !== 'DELETED'));
       });
   }
 
   public setList(data: CommentsModel): void {
-    this.elements = [...this.elements, ...data.page];
+    console.log(data);
+    this.elements = [...data.page];
   }
 
   private setRepliesList(data): void {
