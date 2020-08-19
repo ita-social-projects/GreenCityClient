@@ -2,10 +2,12 @@ import { EcoPlaces } from '@user-models/ecoPlaces.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CardModel } from '@user-models/card.model';
+import { ShoppingList } from '@user-models/shoppinglist.model';
 import { environment } from '@environment/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ProfileStatistics } from '@user-models/profile-statistiscs';
+import { LanguageService } from '@language-service/language.service';
 import { EditProfileModel } from '@user-models/edit-profile.model';
 
 @Injectable({
@@ -17,7 +19,8 @@ export class ProfileService {
   private backEnd = environment.backendLink;
 
   constructor(private http: HttpClient,
-              private localStorageService: LocalStorageService) { }
+              private localStorageService: LocalStorageService,
+              private languageService: LanguageService) { }
 
   public setUserId(): void {
     this.localStorageService
@@ -34,6 +37,13 @@ export class ProfileService {
     return this.http.get<EditProfileModel>(`${this.backEnd}user/${this.userId}/profile/`);
   }
 
+  public getShoppingList(): Observable<ShoppingList[]> {
+    this.setUserId();
+    const currentLang = this.languageService.getCurrentLanguage();
+
+    return this.http.get<ShoppingList[]>(`${this.backEnd}goals/shoppingList/${this.userId}/language/${currentLang}`);
+  }
+
   public getUserStatus(): Observable<object> {
     return this.http.get<object>(`${this.backEnd}user/isOnline/${this.userId}/`);
   }
@@ -48,5 +58,15 @@ export class ProfileService {
 
   public getUserFriends(): Observable<object> {
     return this.http.get<object>(`${this.backEnd}user/${this.userId}/sixUserFriends/`);
+  }
+
+  public toggleStatusOfShoppingItem(item): Observable<object[]> {
+    const { status: prevStatus, goalId } = item;
+    const newStatus = prevStatus !== 'DONE';
+    const params = new HttpParams()
+      .set('goalId', goalId)
+      .set('status', newStatus.toString());
+
+    return this.http.patch<object[]>(`${this.backEnd}goals/shoppingList/${this.userId}`, params);
   }
 }
