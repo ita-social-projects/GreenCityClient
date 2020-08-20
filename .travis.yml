@@ -42,7 +42,7 @@ jobs:
       if: branch IN (dev, master)
       deploy:
         provider: pages
-        skip_cleanup: true
+        script: ls -la dist/GreenCityClient
         github_token: $TRAVIS_GH_TOKEN
         local_dir: dist/GreenCityClient
         on:
