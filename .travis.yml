@@ -18,7 +18,7 @@ install:
 jobs:
   allow_failures:
     - name: test app
-    - name: name: check styles by linter
+    - name: check styles by linter
 
   include:
     - stage: build
