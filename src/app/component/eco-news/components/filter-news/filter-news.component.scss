@@ -81,6 +81,12 @@
     display: none;
 }
 
+@media screen and (max-width: 768px){
+  .ul-eco-buttons {
+    padding-left: 60px;
+  }
+}
+
 @media screen and (max-width: 576px) {
   .wrapper{
     flex-direction: column;
