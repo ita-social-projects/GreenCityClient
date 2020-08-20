@@ -12,14 +12,16 @@
     <img [src]=avatarImage
          alt="avatar">
     <ng-container *ngIf="dataSet.type === 'comment'; else reply">
-    <textarea placeholder="{{ 'homepage.eco-news.comment.placeholder.add-a-comment' | translate }}"
-              formControlName="content"
-              type="text"
-              maxlength="8000"></textarea>
-      <button class="primary-global-button"
-              [disabled]="!addCommentForm.valid">
-        {{ "homepage.eco-news.comment.comment"| translate }}
-      </button>
+      <div class="input-submit">
+        <textarea placeholder="{{ 'homepage.eco-news.comment.placeholder.add-a-comment' | translate }}"
+                  formControlName="content"
+                  type="text"
+                  maxlength="8000"></textarea>
+        <button class="primary-global-button"
+                [disabled]="!addCommentForm.valid">
+          {{ "homepage.eco-news.comment.comment"| translate }}
+        </button>
+      </div>
     </ng-container>
     <ng-template #reply>
     <textarea placeholder="{{ 'homepage.eco-news.comment.placeholder.add-a-reply' | translate }}"
