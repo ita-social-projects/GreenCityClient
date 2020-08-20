@@ -39,7 +39,7 @@ jobs:
       name: build app
     -
       script:      
-      -  ng build --prod --base-href /GreenCityClient/ --outputPath=/dev/null
+      -  ng build --prod --base-href /GreenCityClient/ --outputPath=dist_aot && rm -rf dist_aot
       name: build app using aot compilation
     - stage: deploy
       script: skip
