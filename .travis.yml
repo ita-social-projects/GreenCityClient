@@ -9,8 +9,8 @@ addons:
 
 cache:
   directories:
-    - node_modules
     - dist
+    - node_modules
 
 install:
   - npm install
@@ -35,11 +35,11 @@ jobs:
       name: test app
     -
       script:
-      - ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false && ls -la && ls -la dist
+      - ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false
       name: build app
     -
       script:      
-      - ng build --prod --base-href /GreenCityClient/ --outputPath=dist_new
+      - ng build --prod --base-href /GreenCityClient/ --outputPath=dist_new && pwd && ls -la && ls -la dist
       name: build app using aot compilation
     - stage: deploy
       script: skip
