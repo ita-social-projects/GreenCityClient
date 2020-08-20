@@ -34,7 +34,7 @@ jobs:
       name: build app
     -
       script:      
-      - ls -la dist/GreenCityClient && echo '##########'
+      - ls -la && echo '##########'
       name: build app using aot compilation
     - stage: deploy
       script: skip
