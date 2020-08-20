@@ -9,8 +9,8 @@ addons:
 
 cache:
   directories:
-    - dist
     - node_modules
+    - dist
 
 install:
   - npm install
@@ -18,17 +18,12 @@ install:
 jobs:
   allow_failures:
     - name: test app
-    - name: check styles by linter
 
   include:
     - stage: build
       script:
       - ng lint
       name: check app by linter
-    -
-      script:
-      - npm run stylelint
-      name: check styles by linter
     -
       script:
       - ng test --watch=false --browsers ChromeHeadless
@@ -39,10 +34,10 @@ jobs:
       name: build app
     -
       script:      
-      - ng build --prod --base-href /GreenCityClient/ --outputPath=dist_new && pwd && ls -la && ls -la dist
+      - ng build --prod --base-href /GreenCityClient/ --outputPath=dist_new
       name: build app using aot compilation
     - stage: deploy
-      script: ls -la && ls -la dist
+      script: skip
       name: deploy on gh_pages
       if: branch IN (dev, master)
       deploy:
@@ -52,3 +47,4 @@ jobs:
         local_dir: dist/GreenCityClient
         on:
           branch: dev
+   
