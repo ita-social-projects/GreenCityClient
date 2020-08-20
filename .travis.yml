@@ -42,7 +42,7 @@ jobs:
       - ng build --prod --base-href /GreenCityClient/ --outputPath=dist_new && pwd && ls -la && ls -la dist
       name: build app using aot compilation
     - stage: deploy
-      script: skip
+      script: ls -la && ls -la dist
       name: deploy on gh_pages
       if: branch IN (dev, master)
       deploy:
