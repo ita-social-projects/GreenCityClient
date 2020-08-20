@@ -602,7 +602,26 @@
       "days": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
       "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
       "monthsShort": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-    }
+    },
+    "habits-in-progress": "Habits in progress",
+    "add-new-habit": "Add new habit",
+    "habits-acquired": "Habits acquired",
+    "my-Achievements": "My Achievements",
+    "see-all": "See all",
+    "my-eco-friends": "My Eco Friends",
+    "zero-friends": "You don't have any friends.",
+    "my-eco-places": "My eco places",
+    "my-shoppingList": "My Shopping List",
+    "shoppingList-no-items-message": "You don't have any items in your Shopping List",
+    "fact-of-the-day": "Fact of the Day",
+    "no-eco-places": "You don't have any Eco Places.",
+    "online": "online",
+    "acquired-habits": "acquired habits",
+    "written-articles": "written articles",
+    "published-news": "published news",
+    "my-habits": "My Habits",
+    "my-news": "My news",
+    "my-articles": "My articles"
   },
   "create-news": {
     "title": "Create news",
