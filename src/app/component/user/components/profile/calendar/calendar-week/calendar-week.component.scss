@@ -10,7 +10,7 @@
       display: flex;
       justify-content: space-between;
       text-align: center;
-      margin: 0 19px;
+      margin: 0 20px;
 
       .arrow-previous {
         margin-top: 22px;
@@ -42,7 +42,7 @@
       display: grid;
       grid-template-columns: repeat(7, 66.6px);
       text-align: center;
-      margin: 0 9px 0 10px;
+      margin: 0 10px 0 10px;
       font-size: 11px;
 
       .days-name {
@@ -67,7 +67,7 @@
       display: grid;
       grid-template-columns: repeat(7, 66.6px);
       text-align: center;
-      margin: 0 9px 0 10px;
+      margin: 0 10px 0 10px;
       color: #494A49;
       font-weight: 500;
       font-size: 14px;
@@ -75,7 +75,7 @@
     }
 
     .day {
-      padding: 13px 19px;
+      padding: 10px 20px;
 
       &:hover {
         background-color: #d3ebde;
