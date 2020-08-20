@@ -18,6 +18,7 @@ install:
 jobs:
   allow_failures:
     - name: test app
+    - name: name: check styles by linter
 
   include:
     - stage: build
@@ -26,11 +27,15 @@ jobs:
       name: check app by linter
     -
       script:
+      - npm run stylelint
+      name: check styles by linter
+    -
+      script:
       - ng test --watch=false --browsers ChromeHeadless
       name: test app
     -
       script:
-      - ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false
+      - ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false && ls -la && ls -la dist
       name: build app
     -
       script:      
