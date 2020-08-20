@@ -62,12 +62,13 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { SharedModule } from '../shared/shared.module';
 import { UserRoutingModule } from './user-routing.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from './store/user.effects';
 import { UserSelectors } from './store/user.selectors';
 import { UserComponent } from './user.component';
+import {EditProfileFormBuilder} from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 
 @NgModule({
   declarations: [
@@ -126,7 +127,7 @@ import { UserComponent } from './user.component';
     EditProfileComponent,
     PersonalPhotoComponent,
     SocialNetworksComponent,
-    ProfilePrivacyComponent
+    ProfilePrivacyComponent,
   ],
   imports: [
     EffectsModule.forFeature([UserEffects]),
@@ -136,6 +137,7 @@ import { UserComponent } from './user.component';
     MatButtonModule,
     MatRadioModule,
     DragDropModule,
+    HttpClientModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -146,7 +148,8 @@ import { UserComponent } from './user.component';
     })
   ],
   providers: [
-    UserSelectors
+    UserSelectors,
+    EditProfileFormBuilder
   ]
 })
 export class UserModule {}
