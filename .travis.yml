@@ -18,12 +18,17 @@ install:
 jobs:
   allow_failures:
     - name: test app
+    - name: check styles by linter
 
   include:
     - stage: build
       script:
       - ng lint
       name: check app by linter
+    -
+      script:
+      - npm run stylelint
+      name: check styles by linter
     -
       script:
       - ng test --watch=false --browsers ChromeHeadless
@@ -34,7 +39,7 @@ jobs:
       name: build app
     -
       script:      
-      - ng build --prod --base-href /GreenCityClient/ --outputPath=dist_new
+      -  ng build --prod --base-href /GreenCityClient/ --outputPath=dist_aot && rm -rf dist_aot
       name: build app using aot compilation
     - stage: deploy
       script: skip
@@ -47,3 +52,4 @@ jobs:
         local_dir: dist/GreenCityClient
         on:
           branch: dev
+   
