@@ -3,7 +3,7 @@ $second-font-color: #BEBEBE;
 
 .profile-menu {
   border-bottom: 1px solid #13AA57;
-  height: 28px;
+  min-height: 30px;
   margin-bottom: 1.5rem;
   position: relative;
   display: flex;
@@ -16,11 +16,10 @@ $second-font-color: #BEBEBE;
     width: 82px;
     text-align: center;
     cursor: pointer;
-    height: 28px;
+    min-height: 30px;
     font-size: 13px;
     line-height: 15px;
     align-items: center;
-    vertical-align: center;
     padding-top: 6px;
     font-family: "Open Sans";
 
