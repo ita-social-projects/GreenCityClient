@@ -1,8 +1,8 @@
-$first-font-color: #494A49;
-$second-font-color: #BEBEBE;
+$first-font-color: #494a49;
+$second-font-color: #bebebe;
 
 .profile-menu {
-  border-bottom: 1px solid #13AA57;
+  border-bottom: 1px solid #13aa57;
   min-height: 30px;
   margin-bottom: 1.5rem;
   position: relative;
@@ -12,7 +12,7 @@ $second-font-color: #BEBEBE;
 
   span {
     display: block;
-    color: #056B33;
+    color: #056b33;
     width: 82px;
     text-align: center;
     cursor: pointer;
@@ -21,28 +21,28 @@ $second-font-color: #BEBEBE;
     line-height: 15px;
     align-items: center;
     padding-top: 6px;
-    font-family: "Open Sans";
+    font-family: "Open Sans", sans-serif;
 
-      &:hover {
-        background-color: #F0F5F4;
-        border-radius: 5px 5px 0 0;
-        border-bottom: 1px solid #13AA57;
+    &:hover {
+      background-color: #f0f5f4;
+      border-radius: 5px 5px 0 0;
+      border-bottom: 1px solid #13aa57;
     }
   }
 
   .active {
-    border: 1px solid #13AA57;
+    border: 1px solid #13aa57;
     border-radius: 5px 5px 0 0;
     border-bottom: none;
-    background-color: #ffffff;
-    font-family: "Open Sans";
+    background-color: #fff;
+    font-family: "Open Sans", sans-serif;
     z-index: 2;
 
-      &:hover {
-        border: 1px solid #13AA57;
-        border-radius: 5px 5px 0 0;
-        border-bottom: white;
-      }
+    &:hover {
+      border: 1px solid #13aa57;
+      border-radius: 5px 5px 0 0;
+      border-bottom: white;
+    }
   }
 }
 
@@ -72,7 +72,7 @@ $second-font-color: #BEBEBE;
 }
 
 .in-progress {
-  font-family: Montserrat;
+  font-family: Montserrat, sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
@@ -82,14 +82,14 @@ $second-font-color: #BEBEBE;
   display: flex;
   align-items: center;
 
-      p {
-        margin: 0;
+  p {
+    margin: 0;
 
-        span {
-          color: $second-font-color;
-          margin-left: 5px;
-        }
-      }
+    span {
+      color: $second-font-color;
+      margin-left: 5px;
+    }
+  }
 }
 
 .habits-in-progress {
@@ -101,4 +101,3 @@ $second-font-color: #BEBEBE;
 .acquired {
   margin: 16px 0 24px;
 }
-

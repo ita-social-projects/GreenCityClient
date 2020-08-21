@@ -15,33 +15,33 @@
 
 .ul-eco-buttons {
     list-style: none;
-    margin: 0px;
+    margin: 0;
 }
 
 .ul-eco-buttons-li {
-    font-family: OpenSans, sans-serif;
+    font-family: opensans, sans-serif;
     font-size: calc(11px + (14 - 11) * ((100vw - 320px) / (1200 - 320)));
     line-height: calc(13px + (16 - 13) * ((100vw - 320px) / (1200 - 320)));
-    color: #666666;
+    color: #666;
     display: inline-block;
     padding: calc(6px + (8 - 6) * ((100vw - 320px) / (1200 - 320))) calc(12px + (16 - 12) * ((100vw - 320px) / (1200 - 320)));
-    border: 1px solid #666666;
+    border: 1px solid #666;
     border-radius: 25px;
-    margin:0 8px 0px 0;
+    margin:0 8px 0 0;
     text-transform: capitalize;
 }
 
 .ul-eco-buttons a:hover .ul-eco-buttons-li {
-    color:#056B33;
-    border: 1px solid #056B33;
+    color:#056b33;
+    border: 1px solid #056b33;
 }
 
 .clicked-filter-button {
-    background: #13AA57;
-    color: #FFFFFF;
+    background: #13aa57;
+    color: #fff;
     font-weight: bold;
-    border: 1px solid #13AA57;
-    font-family: OpenSans, sans-serif;
+    border: 1px solid #13aa57;
+    font-family: opensans, sans-serif;
     font-size: 14px;
     line-height: 16px;
     display: inline-block;
@@ -52,11 +52,11 @@
 }
 
 .clicked-filter-button:hover {
-    background: #13AA57;
-    color: #FFFFFF;
+    background: #13aa57;
+    color: #fff;
     font-weight: bold;
-    border: 1px solid #13AA57;
-    font-family: OpenSans, sans-serif;
+    border: 1px solid #13aa57;
+    font-family: opensans, sans-serif;
     font-size: 14px;
     line-height: 16px;
     display: inline-block;
@@ -96,7 +96,7 @@
   }
 
   .ul-eco-buttons{
-    padding: 16px 0px 0px 0px;
+    padding: 16px 0 0 0;
     a:nth-child(2){
       display: none;
     }

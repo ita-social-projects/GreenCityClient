@@ -15,15 +15,11 @@
 .add-achievement-modal-window {
   background-color: #fff;
   border-radius: 4px;
-  box-shadow: 0 0 6px 0 rgba(44, 176, 37, 1), 0 6px 20px 0 rgba(44, 176, 37, 0.50);
+  box-shadow: 0 0 6px 0 rgba(44, 176, 37, 1), 0 6px 20px 0 rgba(43, 68, 42, .5);
   max-width: 600px;
   margin: 0 auto;
   min-height: 270px;
   padding: 30px 10px;
-}
-
-.add-achievement-modal-window > div {
-  /*border: 1px solid;*/
 }
 
 .add-achievement-modal-window h3 {
@@ -89,7 +85,5 @@
   background-color: #13aa57;
   border: solid 1px #13aa57;
   box-shadow: 0 13px 20px 0 rgba(118, 196, 125, 0.41);
-  color: #fff
+  color: #fff;
 }
-
-

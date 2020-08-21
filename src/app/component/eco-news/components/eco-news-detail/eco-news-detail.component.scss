@@ -7,8 +7,8 @@ $bp-tablet: 768px;
 $bp-desktop: 1024px;
 $bp-largest: 1440px;
 
-$title-font: 'Montserrat';
-$main-font: 'Open Sans';
+$title-font: 'Montserrat', sans-serif;
+$main-font: 'Open Sans', sans-serif;
 
 .wrapper {
   margin: 0 10%;
@@ -46,7 +46,7 @@ $main-font: 'Open Sans';
 }
 
 .button-link {
-    color: #494A49;
+    color: #494a49;
 }
 
 .button-arrow {
@@ -55,11 +55,11 @@ $main-font: 'Open Sans';
 
 .edit-news {
     padding: 15px 32px;
-    color: #13AA57;
+    color: #13aa57;
     font-size: 1rem;
     line-height: 16px;
     font-weight: 700;
-    border: 1px solid #13AA57;
+    border: 1px solid #13aa57;
     border-radius: 3px;
     text-align: center;
 }
@@ -76,7 +76,7 @@ $main-font: 'Open Sans';
 }
 
 .tags-item {
-    color: #666666;
+    color: #666;
     text-transform: capitalize;
     font-size: 14px;
     line-height: 16px;
@@ -97,7 +97,7 @@ $main-font: 'Open Sans';
 
 .news-title {
     margin: 0 6.8% 24px;
-    color: #494A49;
+    color: #494a49;
     font-weight: 500;
     width: 100%;
     font-size: calc(24px + (40 - 24) * ((100vw - 320px) / (1440 - 320)));
@@ -113,7 +113,7 @@ $main-font: 'Open Sans';
 
 .news-info-date,
 .news-info-author {
-    color: #494A49;
+    color: #494a49;
     font-size: 24px;
     font-size: calc(16px + (24 - 16) * ((100vw - 320px) / (1440 - 320)));
     line-height: calc(16px + (40 - 16) * ((100vw - 320px) / (1440 - 320)));
@@ -144,7 +144,7 @@ $main-font: 'Open Sans';
 
 .news-text {
     margin-left: 74px;
-    color: #000000;
+    color: #000;
     text-align: left;
     width: 100%;
 }
@@ -165,7 +165,7 @@ $main-font: 'Open Sans';
     font-family: $main-font;
     font-size: 24px;
     line-height: 40px;
-    color: #494A49;
+    color: #494a49;
     mix-blend-mode: normal;
     margin-right: 8px;
 }
@@ -175,7 +175,7 @@ $main-font: 'Open Sans';
     max-width: 631px;
     font-size: 18px;
     line-height: 32px;
-    color: #000000;
+    color: #000;
     margin-top: 6px;
 }
 
@@ -253,7 +253,7 @@ $main-font: 'Open Sans';
 @media only screen and (max-width: $bp-tablet) {
     .news-text-container {
         flex-direction: column;
-        margin-top: 0px;
+        margin-top: 0;
 
         .news-links-images {
             flex-direction: row;
@@ -262,8 +262,8 @@ $main-font: 'Open Sans';
         }
 
         .news-text {
-            padding: 0px;
-            margin-left: 0px;
+            padding: 0;
+            margin-left: 0;
         }
     }
 }

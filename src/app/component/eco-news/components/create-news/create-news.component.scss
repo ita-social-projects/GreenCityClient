@@ -31,8 +31,8 @@ input.ng-invalid.ng-touched + span, textarea.ng-invalid.ng-touched + p {
 }
 
 h3, p, span, b, h2, button {
-    color: #494A49;
-    font-family: 'Open Sans';
+    color: #494a49;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .left-form-column span, .textarea-description {
@@ -88,9 +88,9 @@ form {
 }
 
 .tags button {
-    margin: 0px 8px 8px 0px;
+    margin: 0 8px 8px 0;
     font-size: 14px;
-    color: #666666;
+    color: #666;
 }
 
 .right-form-column {
@@ -98,14 +98,14 @@ form {
 }
 
 button:hover {
-    border: 1px solid #13AA57;
-    color: #13AA57;
+    border: 1px solid #13aa57;
+    color: #13aa57;
 }
 
 button {
     margin-bottom: 8px;
     border: 1px solid #878787;
-    background-color: #ffffff;
+    background-color: #fff;
     border-radius: 50px;
     padding: 5px 15px 5px 15px;
 }
@@ -156,18 +156,18 @@ form label {
 
 .submit-buttons button {
     margin-left: 20px;
-    border: 1px solid #13AA57;
+    border: 1px solid #13aa57;
     border-radius: 3px;
-    background-color: #ffffff;
+    background-color: #fff;
     width: 154px;
     height: 48px;
-    color: #13AA57;
+    color: #13aa57;
     font-weight: bold;
 }
 
 .submit-buttons button:last-child {
-    background-color: #13AA57;
-    color: #ffffff;
+    background-color: #13aa57;
+    color: #fff;
     font-weight: bold;
 }
 
@@ -181,8 +181,8 @@ button {
 }
 
 .tags .filters-color {
-    background-color: #13AA57;
-    color: #ffffff;
+    background-color: #13aa57;
+    color: #fff;
     border: none;
 }
 
@@ -192,7 +192,7 @@ button {
 }
 
 .filters-color:hover {
-    color: #ffffff;
+    color: #fff;
     border: none;
 }
 
@@ -289,7 +289,7 @@ button {
     .left-form-column input {
         font-size: 14px;
         line-height: 24px;
-        padding-right: 0px;
+        padding-right: 0;
     }
 
     .right-form-column {

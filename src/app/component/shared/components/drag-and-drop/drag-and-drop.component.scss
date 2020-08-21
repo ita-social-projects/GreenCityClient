@@ -26,7 +26,7 @@
     font-size: 18px;
     text-align: center;
     width: 250px;
-    font-family: 'Open Sans';
+    font-family: 'Open Sans', sans-serif;
 }
 
 .warning-color {
@@ -39,14 +39,14 @@
 
 .centered {
     span {
-        color: #13AA57;
+        color: #13aa57;
         text-decoration: underline;
         cursor: pointer;
     }
 }
 
 .warning {
-    font-family: 'Open sans';
+    font-family: 'Open sans', sans-serif;
     font-size: 14px;
     color: #878787;
 }
@@ -60,15 +60,15 @@ img {
     .cropper-buttons {
         display: flex;
         justify-content: center;
-        font-family: 'Open Sans';
+        font-family: 'Open Sans', sans-serif;
         button {
             margin-left: 20px;
-            border: 1px solid #13AA57;
+            border: 1px solid #13aa57;
             border-radius: 3px;
-            background-color: #ffffff;
+            background-color: #fff;
             width: 154px;
             height: 48px;
-            color: #13AA57;
+            color: #13aa57;
             font-weight: bold;
         }
     }

@@ -20,7 +20,7 @@
 
 #weekDays-selector input[type=checkbox]:checked + label {
   background: #2eb82e;
-  color: #ffffff;
+  color: #fff;
 }
 
 .label-for-time {
@@ -120,7 +120,7 @@ agm-map {
       right: 130%;
       line-height: 3.3;
       position: absolute;
-      top: 0px;
+      top: 0;
       transition: all 0.3s;
     }
 

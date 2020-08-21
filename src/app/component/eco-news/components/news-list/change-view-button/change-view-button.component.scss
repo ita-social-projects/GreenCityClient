@@ -1,12 +1,12 @@
 .wrapper {
-    display: flex;
-    width: 37px;
-    height: 16px;
-    justify-content: space-between;
+  display: flex;
+  width: 37px;
+  height: 16px;
+  justify-content: space-between;
 }
 
 .gallery-view {
-    width: 16px;
+  width: 16px;
     height: 16px;
     display: flex;
     flex-direction: column;
@@ -26,16 +26,19 @@
     justify-content: space-between;
 }
 
-.list-view:hover .one-line, .gallery-view:hover .one-square{
-    background: #056B33;
+.list-view:hover .one-line, 
+.gallery-view:hover .one-square{
+    background: #056b33;
 }
 
-.list-view:active .one-line, .gallery-view:active .one-square{
-    background: #13AA57;
+.list-view:active .one-line, 
+.gallery-view:active .one-square{
+    background: #13aa57;
 }
 
-.list-view-active .one-line, .gallery-view-active .one-square{
-    background: #13AA57;
+.list-view-active .one-line, 
+.gallery-view-active .one-square{
+    background: #13aa57;
 }
 
 .one-line {
@@ -48,5 +51,4 @@
     width: 7px;
     height: 7px;
     background: #878787;
-
 }

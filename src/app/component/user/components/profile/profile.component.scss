@@ -75,8 +75,8 @@ $bp-largest: 1440px;
   .profile-wrapper {
     grid-template-columns: 1fr;
     grid-template-rows: fit-content(235px)  1fr;
-    grid-row-gap: 0px;
-    margin: 0px;
+    grid-row-gap: 0;
+    margin: 0;
 
     .left-column {
       grid-area: 1 / 1 / 2 / 3;

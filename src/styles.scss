@@ -47,19 +47,19 @@ body {
   border: none;
   background: #13aa57;
   border-radius: 3px;
-  font-family: Open Sans;
+  font-family: Open Sans, sans-serif;
   font-style: normal;
   font-weight: bold;
   font-size: 16px;
   line-height: 16px;
   align-items: center;
   text-align: center;
-  color: #FFFFFF;
+  color: #fff;
 }
 
 .primary-global-button:hover,
 .primary-global-button:active{
-  background: #056B33;
+  background: #056b33;
   outline: none;
 }
 
@@ -69,38 +69,38 @@ body {
 }
 
 .secondary-global-button{
-  border: 1px solid #13AA57;
+  border: 1px solid #13aa57;
   box-sizing: border-box;
   border-radius: 3px;
-  font-family: Open Sans;
+  font-family: Open Sans, sans-serif;
   font-style: normal;
   font-weight: bold;
   font-size: 16px;
   line-height: 16px;
-  color: #13AA57;
+  color: #13aa57;
   text-align: center;
 }
 
 .secondary-global-button:hover,
 .secondary-global-button:active{
-  border: 1px solid #056B33;
+  border: 1px solid #056b33;
   line-height: 22px;
-  color: #056B33;
+  color: #056b33;
 }
 
 .tertiary-global-button{
-  font-family: Open Sans;
+  font-family: Open Sans, sans-serif;
   font-size: 16px;
   font-stretch: normal;
   font-style: normal;
   font-weight: bold;
   line-height: 16px;
-  color: #056B33;
+  color: #056b33;
 }
 
 .tertiary-global-button:hover,
 .tertiary-global-button:focus{
-  color: #13AA57;
+  color: #13aa57;
 }
 
 .custom-dialog-container .mat-dialog-container {
@@ -114,7 +114,7 @@ body {
   height: 100%;
   min-height: inherit;
   max-height: 100vh;
-  background: #FFFFFF;
+  background: #fff;
 }
 
 .custom-dialog-container .mat-dialog-container::-webkit-scrollbar {

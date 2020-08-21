@@ -69,10 +69,10 @@ body {
     min-width: 100%;
     min-height: 1100px;
     height: auto;
-    background: #FFFFFF url("~/assets/img/curly-line.png") no-repeat;
+    background: #fff url("~/assets/img/curly-line.png") no-repeat;
     background-size: 100% 100%;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     z-index: 2;
   }
 
@@ -83,8 +83,8 @@ body {
     min-width: 100%;
     min-height: 600px;
     height: auto;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     z-index: 7;
   }
 
@@ -105,7 +105,7 @@ body {
       height: 333px;
       float: right;
       right: 200px;
-      font-family: OpenSans, sans-serif;
+      font-family: opensans, sans-serif;
       font-size: 24px;
       line-height: 36px;
       color: #263238;
@@ -137,7 +137,7 @@ body {
     height: 333px;
     float: left;
     top: 500px;
-    font-family: OpenSans, sans-serif;
+    font-family: opensans, sans-serif;
     font-size: 24px;
     line-height: 36px;
     color: #263238;
@@ -248,7 +248,7 @@ body {
       font-weight: 600;
       font-size: 32px;
       line-height: 44px;
-      background: #FFFFFF;
+      background: #fff;
       color: #263238;
       border: none;
       padding-top: -20px;
@@ -269,24 +269,24 @@ body {
       left: 760px;
       top: -500px;
       padding-top: 20px;
-      font-family: OpenSans, sans-serif;
+      font-family: opensans, sans-serif;
       font-weight: normal;
       font-size: 24px;
       line-height: 36px;
-      background: #FFFFFF;
+      background: #fff;
     }
     .card-link {
       position: relative;
       left: 1090px;
       top: -530px;
       min-width: 200px;
-      font-family: OpenSans, sans-serif;
+      font-family: opensans, sans-serif;
       font-size: 16px;
       line-height: 19px;
       display: flex;
       align-items: center;
       text-decoration-line: underline;
-      color: #056B33;
+      color: #056b33;
     }
   }
 
@@ -308,7 +308,7 @@ body {
     left: 220px;
     top: -500px;
     padding-top: 20px;
-    font-family: OpenSans, sans-serif;
+    font-family: opensans, sans-serif;
     font-size: 24px;
     line-height: 36px;
     padding-left: 300px;
@@ -332,7 +332,7 @@ body {
       font-weight: 700;
       font-size: 32px;
       line-height: 44px;
-      background: #FFFFFF;
+      background: #fff;
       color: #263238;
       border: none;
     }
@@ -349,13 +349,13 @@ body {
       left: 400px;
       top: -530px;
       min-width: 200px;
-      font-family: OpenSans, sans-serif;
+      font-family: opensans, sans-serif;
       font-size: 16px;
       line-height: 19px;
       display: flex;
       align-items: center;
       text-decoration-line: underline;
-      color: #056B33;
+      color: #056b33;
     }
   }
 
@@ -367,10 +367,10 @@ body {
     left: 200px;
     top: -500px;
     padding-top: 20px;
-    font-family: OpenSans, sans-serif;
+    font-family: opensans, sans-serif;
     font-size: 24px;
     line-height: 36px;
-    background: #FFFFFF;
+    background: #fff;
   }
 
   .card-link::after {
@@ -525,10 +525,10 @@ body {
     min-width: 100%;
     min-height: 1000px;
     height: auto;
-    background: #FFFFFF url("~/assets/img/curly-line.png") no-repeat;
+    background: #fff url("~/assets/img/curly-line.png") no-repeat;
     background-position: 0 100px;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
   }
 
   .container-vision {
@@ -536,8 +536,8 @@ body {
     min-height: 1200px;
     height: auto;
     background: #fefefe;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     z-index: 7;
   }
 
@@ -567,7 +567,7 @@ body {
     height: 300px;
     left: 750px;
     top: -1800px;
-    font-family: OpenSans, sans-serif;
+    font-family: opensans, sans-serif;
     font-size: 24px;
     line-height: 36px;
     color: #263238;
@@ -579,7 +579,7 @@ body {
     height: 333px;
     left: 100px;
     top: -1400px;
-    font-family: OpenSans, sans-serif;
+    font-family: opensans, sans-serif;
     font-size: 24px;
     line-height: 36px;
     color: #263238;
@@ -692,7 +692,7 @@ body {
       font-weight: 600;
       font-size: 32px;
       line-height: 44px;
-      background: #FFFFFF;
+      background: #fff;
       color: #263238;
       border: none;
       padding-top: -20px;
@@ -713,10 +713,10 @@ body {
       left: 760px;
       top: -500px;
       padding-top: 20px;
-      font-family: OpenSans, sans-serif;
+      font-family: opensans, sans-serif;
       font-size: 24px;
       line-height: 36px;
-      background: #FFFFFF;
+      background: #fff;
     }
 
     .card-link {
@@ -724,13 +724,13 @@ body {
       left: 1090px;
       top: -530px;
       min-width: 200px;
-      font-family: OpenSans, sans-serif;
+      font-family: opensans, sans-serif;
       font-size: 16px;
       line-height: 19px;
       display: flex;
       align-items: center;
       text-decoration-line: underline;
-      color: #056B33;
+      color: #056b33;
     }
   }
 
@@ -754,10 +754,10 @@ body {
     left: 240px;
     top: -500px;
     padding-top: 20px;
-    font-family: OpenSans, sans-serif;
+    font-family: opensans, sans-serif;
     font-size: 24px;
     line-height: 36px;
-    background: #FFFFFF;
+    background: #fff;
 
     .number-title {
       position: relative;
@@ -778,7 +778,7 @@ body {
       font-weight: 700;
       font-size: 32px;
       line-height: 44px;
-      background: #FFFFFF;
+      background: #fff;
       color: #263238;
       border: none;
     }
@@ -795,13 +795,13 @@ body {
       left: 400px;
       top: -530px;
       min-width: 200px;
-      font-family: OpenSans, sans-serif;
+      font-family: opensans, sans-serif;
       font-size: 16px;
       line-height: 19px;
       display: flex;
       align-items: center;
       text-decoration-line: underline;
-      color: #056B33;
+      color: #056b33;
     }
   }
 
@@ -813,10 +813,10 @@ body {
     left: 240px;
     top: -500px;
     padding-top: 20px;
-    font-family: OpenSans, sans-serif;
+    font-family: opensans, sans-serif;
     font-size: 24px;
     line-height: 36px;
-    background: #FFFFFF;
+    background: #fff;
   }
 
 

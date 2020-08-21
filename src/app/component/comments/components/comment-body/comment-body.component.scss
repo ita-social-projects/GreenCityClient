@@ -1,9 +1,9 @@
-$main-font: 'Open Sans';
+$main-font: 'Open Sans', sans-serif;
 
 .comment-body-wrapper {
   margin: auto;
   width: 70%;
-  border-bottom: 1px solid #E6E6E6;
+  border-bottom: 1px solid #e6e6e6;
 
   .comment-avatar {
     position: relative;
@@ -128,7 +128,7 @@ $main-font: 'Open Sans';
       justify-content: center;
       text-align: center;
       border: none;
-      background-color: #FFFFFF;
+      background-color: #fff;
 
       .btn-text {
         display: inline-block;

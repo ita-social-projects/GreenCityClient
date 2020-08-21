@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 
-$title-font: 'Montserrat';
+$title-font: 'Montserrat', sans-serif;
 $bp-smallest: 320px;
 $bp-phone: 576px;
 $bp-tablet: 768px;
@@ -9,53 +9,52 @@ $bp-largest: 1440px;
 $grey: #bebebe;
 
 .shopping-list-content {
-    margin: 0 auto;
-    font-family: Montserrat;
-    font-style: normal;
+  margin: 0 auto;
+  font-family: Montserrat, sans-serif;
+  font-style: normal;
 }
 
 .header-position {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .header {
-    text-align: left;
-    font-weight: 600;
-    font-size: 14px;
-    padding-bottom: 8px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  padding-bottom: 8px;
 }
 
 h2 > span {
-    color: $grey;
-    margin-left: 10px;
+  color: $grey;
+  margin-left: 10px;
 }
 
 .item {
-    list-style: none;
-    text-align: left;
-    width: 100%;
-    font-weight: normal;
-    font-size: 12px;
-    padding: 6px 0;
+  list-style: none;
+  text-align: left;
+  width: 100%;
+  font-weight: normal;
+  font-size: 12px;
+  padding: 6px 0;
 }
 
 .shopping-list {
-    width: 100%;
-    padding: 0;
+  width: 100%;
+  padding: 0;
 }
-    
+
 .btn-see-all {
-    text-decoration: none;
-    font-weight: normal;
-    font-size: 12px;
+  text-decoration: none;
+  font-weight: normal;
+  font-size: 12px;
 }
 
 .checkbox {
-    float: right;
+  float: right;
 }
-
 
 .noItems {
   font-family: $title-font;
@@ -69,14 +68,15 @@ h2 > span {
 }
 
 ::ng-deep .mat-checkbox .mat-checkbox-frame {
-    border: 1px solid #E1E1E1;
-  }
-  
-::ng-deep .mat-checkbox-checked .mat-checkbox-background {
-    background-color: green !important;
+  border: 1px solid #e1e1e1;
 }
 
-::ng-deep.mat-progress-spinner circle,.mat-spinner circle {
+::ng-deep .mat-checkbox-checked .mat-checkbox-background {
+  background-color: green !important;
+}
+
+::ng-deep.mat-progress-spinner circle,
+.mat-spinner circle {
   stroke: rgb(226, 226, 226) !important;
 }
 
@@ -85,7 +85,6 @@ h2 > span {
 }
 
 @media only screen and (max-width: $bp-desktop) {
-
   .header,
   .text-number {
     font-size: 12px;

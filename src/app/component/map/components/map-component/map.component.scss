@@ -1,16 +1,18 @@
-agm-map{
-}
-.main{
+.main {
   display: flex;
-
 }
-.main.sub-1{width: 90vw; height: 95vh;
+
+.main.sub-1 {
+  width: 90vw; 
+  height: 95vh;
   flex-grow: 1;
 }
-.main.sub-2{
+
+.main.sub-2 {
   flex-grow: 12;
 }
-.sub-1{
+
+.sub-1 {
   width: 400px;
 }
 
@@ -22,24 +24,27 @@ agm-map{
   display: block;
   min-width: 70px;
 }
-.sub-2{
-  width: 90vw; height: 95vh;
+
+.sub-2 {
+  width: 90vw;
+  height: 95vh;
 }
 
 .open-hours-day {
-  alignment: center;
-  width: 40px
+  text-align: center;
+  width: 40px;
 }
 
 .open-hours-time {
-  alignment: center;
-  width: 90px
+  text-align: center;
+  width: 90px;
 }
 
 .open-hours-break {
-  alignment: center;
-  width: 120px
+  text-align: center;
+  width: 120px;
 }
+
 .open-hours-bold {
-  font-weight:bold
+  font-weight:bold;
 }

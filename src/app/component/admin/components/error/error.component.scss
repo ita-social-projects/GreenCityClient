@@ -32,7 +32,7 @@ body {
 .notfound .notfound-404 {
   position: relative;
   height: 200px;
-  margin: 0px auto 20px;
+  margin: 0 auto 20px;
   z-index: -1;
 }
 
@@ -40,7 +40,7 @@ body {
   font-family: 'Montserrat', sans-serif;
   font-size: 236px;
   font-weight: 200;
-  margin: 0px;
+  margin: 0;
   color: #211b19;
   text-transform: uppercase;
   position: absolute;
@@ -62,7 +62,7 @@ body {
   margin: auto;
   display: inline-block;
   position: absolute;
-  bottom: 0px;
+  bottom: 0;
   left: 0;
   right: 0;
 }
@@ -95,7 +95,7 @@ body {
 @media only screen and (max-width: 480px) {
   .notfound .notfound-404 {
     height: 148px;
-    margin: 0px auto 10px;
+    margin: 0 auto 10px;
   }
   .notfound .notfound-404 h1 {
     font-size: 86px;

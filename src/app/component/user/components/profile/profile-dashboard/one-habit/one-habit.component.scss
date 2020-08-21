@@ -1,7 +1,7 @@
-$bg-color: #F8F9FA;
-$digital-color: #BEBEBE;
-$first-color-font: #494A49;
-$second-color-font: #839C94;
+$bg-color: #f8f9fa;
+$digital-color: #bebebe;
+$first-color-font: #494a49;
+$second-color-font: #839c94;
 $screen-1024: " screen and (max-width : 1024px)";
 $screen-768: " screen and (max-width : 768px)";
 $screen-576: " screen and (max-width : 576px)";
@@ -33,7 +33,7 @@ $screen-320: " screen and (max-width : 320px)";
     }
 
     p {
-      font-family: Montserrat;
+      font-family: Montserrat, sans-serif;
       font-style: normal;
       font-weight: 500;
       font-size: 14px;
@@ -46,7 +46,7 @@ $screen-320: " screen and (max-width : 320px)";
   }
 
   .title {
-    font-family: Montserrat;
+    font-family: Montserrat, sans-serif;
     font-style: normal;
     font-weight: 600;
     font-size: 22px;
@@ -70,7 +70,7 @@ $screen-320: " screen and (max-width : 320px)";
   bottom: 16px;
 
   .describe-text {
-    font-family: Montserrat;
+    font-family: Montserrat, sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
@@ -119,7 +119,6 @@ $screen-320: " screen and (max-width : 320px)";
       max-width: 264px;
     }
   }
-
 }
 
 @media #{$screen-768} {
