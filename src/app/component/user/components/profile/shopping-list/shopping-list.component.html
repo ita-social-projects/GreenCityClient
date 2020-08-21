@@ -1,6 +1,7 @@
 <div class="header-position shopping-list-content">
-    <h2 class="header">Shopping list <span>{{ shoppingList?.length }}</span></h2>
-    <a class="btn-see-all">See all</a>
+    <h2 class="header">
+        {{ 'profile.my-shoppingList' | translate }} <span>{{ shoppingList?.length }}</span></h2>
+    <a class="btn-see-all">{{ 'profile.see-all' | translate }}</a>
 </div>
 <div class="shopping-list-content" *ngIf="shoppingList; else loading;">
     <div *ngIf="shoppingList.length; else empty;">
@@ -16,7 +17,7 @@
     </div>
 </div>
 <ng-template #empty>
-    <p class="noItems">You don't have any items in your Shopping List</p>
+    <p class="noItems">{{ 'profile.shoppingList-no-items-message' | translate }}</p>
 </ng-template>
 <ng-template #loading>
     <mat-spinner color="grey" 
