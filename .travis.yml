@@ -35,7 +35,7 @@ jobs:
       name: test app
     -
       script:
-      - ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false
+      - ng build --prod --base-href /GreenCityClient/ --deploy-url /GreenCityClient/ --aot=false --build-optimizer=false
       name: build app
     -
       script:      
