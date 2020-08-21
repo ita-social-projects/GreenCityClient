@@ -1,5 +1,5 @@
-<div class="details-img">
-    <img src="{{checkAvatarImage()}}" 
+<div class="details-img" *ngIf="avatarImg">
+    <img src="{{ avatarImg }}" 
          alt="avatar" 
          class="profile-avatar">
     <button (click)="changeDragAndDrop()">
@@ -8,6 +8,6 @@
              class="edit-icon">
     </button>
     <div *ngIf="showDragAndDrop">
-        <app-drag-and-drop></app-drag-and-drop>
+        <app-drag-and-drop [currentPage]="currentPage"></app-drag-and-drop>
     </div>
 </div>

@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { FileHandle } from '@eco-news-models/create-news-interface';
+import { EditProfileService } from '@global-user/services/edit-profile.service';
 
 @Component({
   selector: 'app-drag-and-drop',
@@ -17,13 +18,13 @@ export class DragAndDropComponent implements OnInit {
   public files: FileHandle[] = [];
   public isWarning = false;
   private croppedImage: string;
-  private currentPage: string;
   @Input() public formData: FormGroup;
+  @Input() public currentPage: string;
 
-  constructor(private createEcoNewsService: CreateEcoNewsService ) {}
+  constructor(private createEcoNewsService: CreateEcoNewsService,
+              private editProfileService: EditProfileService) {}
 
   ngOnInit() {
-    this.getCurrentPage();
     this.patchImage();
   }
 
@@ -56,6 +57,8 @@ export class DragAndDropComponent implements OnInit {
     if (this.currentPage === 'eco news') {
       this.createEcoNewsService.files = files;
       this.createEcoNewsService.isImageValid = this.isWarning;
+    } else {
+      this.editProfileService.files = files;
     }
   }
 
@@ -68,6 +71,8 @@ export class DragAndDropComponent implements OnInit {
 
     if (this.currentPage === 'eco news') {
       this.createEcoNewsService.files = this.files;
+    } else {
+      this.editProfileService.files = this.files;
     }
   }
 
@@ -76,7 +81,7 @@ export class DragAndDropComponent implements OnInit {
     this.selectedFileUrl = binaryString;
     this.files[0] = {url: this.selectedFileUrl, file: this.selectedFile};
     this.showWarning();
-    if (this.currentPage === 'eco news'){
+    if (this.currentPage === 'eco news') {
       this.createEcoNewsService.fileUrl = this.selectedFileUrl;
     }
    }
@@ -87,10 +92,6 @@ export class DragAndDropComponent implements OnInit {
       this.isWarning = !(item && imageValCondition);
     });
     return this.files;
-  }
-
-  private getCurrentPage(): void {
-    this.currentPage = sessionStorage.getItem('currentPage');
   }
 }
 

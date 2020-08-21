@@ -38,6 +38,7 @@ export class CreateNewsComponent implements OnInit {
   public formData: FormGroup;
   public isArrayEmpty = true;
   public author: string = localStorage.getItem('name');
+  public currentPage = 'eco news';
   public textAreasHeight = {
     minTextAreaScrollHeight: 50,
     maxTextAreaScrollHeight: 128,
@@ -177,9 +178,5 @@ export class CreateNewsComponent implements OnInit {
         currentPage: 'eco news'
       }
     });
-  }
-
-  private setCurrentPage(): void {
-    sessionStorage.setItem('currentPage', JSON.stringify('eco news'));
   }
 }
