@@ -35,7 +35,7 @@ jobs:
       name: test app
     -
       script:
-      - rm -rf dist && ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false
+      - ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false
       name: build app
     -
       script:      
