@@ -114,7 +114,6 @@ $main-font: 'Open Sans';
 .news-info-date,
 .news-info-author {
     color: #494A49;
-    font-size: 24px;
     font-size: calc(16px + (24 - 16) * ((100vw - 320px) / (1440 - 320)));
     line-height: calc(16px + (40 - 16) * ((100vw - 320px) / (1440 - 320)));
 }
@@ -253,7 +252,7 @@ $main-font: 'Open Sans';
 @media only screen and (max-width: $bp-tablet) {
     .news-text-container {
         flex-direction: column;
-        margin-top: 0px;
+        margin-top: 0;
 
         .news-links-images {
             flex-direction: row;
@@ -262,8 +261,8 @@ $main-font: 'Open Sans';
         }
 
         .news-text {
-            padding: 0px;
-            margin-left: 0px;
+            padding: 0;
+            margin-left: 0;
         }
     }
 }
