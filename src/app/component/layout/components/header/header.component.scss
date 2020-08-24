@@ -41,7 +41,6 @@ $screen-320: " screen and (max-width : 320px)";
     height: 36px;
     margin-right: 56px;
     cursor: pointer;
-
   }
 }
 
@@ -77,7 +76,7 @@ $screen-320: " screen and (max-width : 320px)";
       a {
         font-size: 14px;
         line-height: 16px;
-        color:$first-font-color;
+        color: $first-font-color;
         text-decoration: none;
       }
     }
@@ -123,7 +122,7 @@ $screen-320: " screen and (max-width : 320px)";
         display: block;
         font-size: 20px;
         line-height: 24px;
-        color:$first-font-color;
+        color: $first-font-color;
       }
 
       &:nth-of-type(6) {
@@ -158,6 +157,7 @@ $screen-320: " screen and (max-width : 320px)";
     }
   }
 }
+
 
 .navigation-menu-left-col ul .mobile-vis .create-button {
   cursor: pointer;
@@ -242,7 +242,7 @@ $screen-320: " screen and (max-width : 320px)";
 
     .reverse {
       transform: rotate(180deg);
-      transition: .4s ease-out;
+      transition: 0.4s ease-out;
       transition-delay: 0.1s;
     }
 
@@ -264,7 +264,7 @@ $screen-320: " screen and (max-width : 320px)";
 
     .add-shadow {
       background: #fff;
-      box-shadow: 0px 0px 8px rgba(73, 74, 73, 0.2);
+      box-shadow: 0 0 8px rgba(73, 74, 73, 0.2);
       border-radius: 2px;
     }
   }
@@ -332,7 +332,7 @@ $screen-320: " screen and (max-width : 320px)";
       border-radius: 14px;
       background-color: #494a49;
 
-      &:before {
+      &::before {
         position: absolute;
         left: 0;
         top: -6px;
@@ -344,7 +344,7 @@ $screen-320: " screen and (max-width : 320px)";
         transition: transform 0.2s ease-in, top 0.2s linear 0.2s;
       }
 
-      &:after {
+      &::after {
         position: absolute;
         left: 0;
         top: 6px;
@@ -360,13 +360,13 @@ $screen-320: " screen and (max-width : 320px)";
     .menu-icon-active {
       background-color: transparent;
 
-      &:before {
+      &::before {
         transform: rotate(45deg);
         top: 0;
         transition: top 0.2s linear, transform 0.2s ease-in 0.2s;
       }
 
-      &:after {
+      &::after {
         transform: rotate(-45deg);
         top: 0;
         transition: top 0.2s linear, transform 0.2s ease-in 0.2s;
@@ -375,7 +375,8 @@ $screen-320: " screen and (max-width : 320px)";
   }
 }
 
-#user-avatar-wrapper, #lang-wrapper  {
+#user-avatar-wrapper,
+#lang-wrapper  {
   position: relative;
   width: auto;
   min-width: 135px;
@@ -405,7 +406,7 @@ $screen-320: " screen and (max-width : 320px)";
 
         .reverse {
           transform: rotate(180deg);
-          transition: .4s ease-out;
+          transition: 0.4s ease-out;
           transition-delay: 0.1s;
         }
       }
@@ -453,7 +454,7 @@ $screen-320: " screen and (max-width : 320px)";
 .active-link {
   color: $focus-color !important;
 
-    &:focus {
+  &:focus {
     color: $focus-color;
   }
 }
@@ -477,6 +478,7 @@ $screen-320: " screen and (max-width : 320px)";
 
   .burger-b {
     margin-left: 5px;
+
     .menu-icon-wrapper {
       display: inline;
     }
@@ -507,7 +509,7 @@ $screen-320: " screen and (max-width : 320px)";
   .navigation-menu-left-col {
     height: 100%;
 
-      ul {
+    ul {
       .mobile-vis {
         display: flex;
       }
@@ -529,7 +531,8 @@ $screen-320: " screen and (max-width : 320px)";
     align-items: center;
 
     ul {
-      .sign-in-link, .sign-up-link {
+      .sign-in-link,
+      .sign-up-link {
         display: none;
       }
     }
@@ -542,7 +545,6 @@ $screen-320: " screen and (max-width : 320px)";
 
     ul {
       li {
-
         &:nth-of-type(6) {
           border-bottom: 1px solid rgba(73, 74, 73, 0.2);
         }

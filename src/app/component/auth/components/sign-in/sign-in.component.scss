@@ -11,7 +11,7 @@ $inputHeight : 48px;
   z-index: 2000;
 
   .left-side {
-    .main-picture{
+    .main-picture {
       border-radius: 4px 0 0 4px;
     }
   }
@@ -35,7 +35,7 @@ $inputHeight : 48px;
       font-weight: 500;
       font-size: 38px;
       line-height: 48px;
-      color: #2B292D;
+      color: #2b292d;
     }
 
     h2 {
@@ -90,7 +90,7 @@ $inputHeight : 48px;
       }
 
       .validation-email-error {
-        color: #F03127;
+        color: #f03127;
         font-size: 10px;
         line-height: 12px;
         font-family: $generalFont;
@@ -100,7 +100,7 @@ $inputHeight : 48px;
       input[type=password],
       input[type=text] {
         border: transparent;
-        width:90%;
+        width: 90%;
         font-family: $generalFont;
         font-size: 16px;
         line-height: 24px;
@@ -128,7 +128,7 @@ $inputHeight : 48px;
       }
 
       .validation-password-error {
-        color: #F03127;
+        color: #f03127;
         font-size: 10px;
         line-height: 12px;
         font-family: $generalFont;
@@ -137,7 +137,7 @@ $inputHeight : 48px;
 
       .alert-general-error {
         position: relative;
-        color: #F03127;
+        color: #f03127;
         font-size: 10px;
         line-height: 12px;
         font-family: $generalFont;
@@ -175,10 +175,10 @@ $inputHeight : 48px;
     }
 
     .primary-global-button {
-        height: 48px;
-        font-weight: 600;
-        margin-bottom: 8px;
-        border-radius: 3px;
+      height: 48px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      border-radius: 3px;
     }
 
     .or-use-google {
@@ -198,8 +198,7 @@ $inputHeight : 48px;
       margin: 0 56px 0 56px;
       background: #fff;
       border: 0;
-      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.24),
-      0 0 2px rgba(0, 0, 0, 0.24);
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.24);
       border-radius: 3px;
       text-align: justify;
 

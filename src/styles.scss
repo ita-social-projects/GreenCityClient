@@ -10,12 +10,14 @@ a {
   cursor: pointer;
 }
 
-html, body {
+html,
+body {
   height: 100%;
 }
 
 body {
-  margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 .cdk-drag-preview {
@@ -37,13 +39,11 @@ body {
   border: none;
 }
 
-.example-list
-.cdk-drop-list-dragging
-.example-box:not(.cdk-drag-placeholder) {
+.example-list .cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.primary-global-button{
+.primary-global-button {
   border: none;
   background: #13aa57;
   border-radius: 3px;
@@ -58,17 +58,17 @@ body {
 }
 
 .primary-global-button:hover,
-.primary-global-button:active{
+.primary-global-button:active {
   background: #056b33;
   outline: none;
 }
 
 .primary-global-button:disabled {
-  background-color: #839C94;
-  border: 1px solid #839C94;
+  background-color: #839c94;
+  border: 1px solid #839c94;
 }
 
-.secondary-global-button{
+.secondary-global-button {
   border: 1px solid #13aa57;
   box-sizing: border-box;
   border-radius: 3px;
@@ -82,13 +82,13 @@ body {
 }
 
 .secondary-global-button:hover,
-.secondary-global-button:active{
+.secondary-global-button:active {
   border: 1px solid #056b33;
   line-height: 22px;
   color: #056b33;
 }
 
-.tertiary-global-button{
+.tertiary-global-button {
   font-family: Open Sans, sans-serif;
   font-size: 16px;
   font-stretch: normal;
@@ -99,7 +99,7 @@ body {
 }
 
 .tertiary-global-button:hover,
-.tertiary-global-button:focus{
+.tertiary-global-button:focus {
   color: #13aa57;
 }
 

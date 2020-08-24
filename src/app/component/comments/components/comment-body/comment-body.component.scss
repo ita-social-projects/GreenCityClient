@@ -85,7 +85,6 @@ $main-font: 'Open Sans', sans-serif;
     justify-content: space-between;
     margin-bottom: 10px;
 
-
     .save-cancel-btn {
       display: flex;
 
@@ -118,7 +117,7 @@ $main-font: 'Open Sans', sans-serif;
       padding: 10px 0 0 20px;
 
       &::placeholder {
-        color:#878787;
+        color: #878787;
       }
     }
 
@@ -142,11 +141,11 @@ $main-font: 'Open Sans', sans-serif;
     }
   }
 
-    .edit-text-button {
-      width: 157px;
-      height: 48px;
-    }
+  .edit-text-button {
+    width: 157px;
+    height: 48px;
   }
+}
 
 .comments-elements {
   display: flex;

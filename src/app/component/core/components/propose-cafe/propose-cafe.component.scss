@@ -1,15 +1,13 @@
-
 @import "../../../../../../node_modules/@ng-select/ng-select/themes/default.theme.css";
 
-
 #weekDays-selector input[type=checkbox] {
-  display: none!important;
+  display: none !important;
 }
 
 #weekDays-selector input[type=checkbox] + label {
   display: inline-block;
   border-radius: 6px;
-  background: #dddddd;
+  background: #ddd;
   height: 40px;
   width: 110px;
   margin-right: 3px;
@@ -18,35 +16,29 @@
   cursor: pointer;
 }
 
-#weekDays-selector input[type=checkbox]:checked + label {
-  background: #2eb82e;
-  color: #fff;
-}
-
 .label-for-time {
   margin-left: 35px;
   margin-right: 10px;
 }
 
-*{
+* {
   box-sizing: border-box;
 }
 
-/* Create two equal columns that floats next to each other */
 .column {
   float: left;
   width: 50%;
   padding: 10px;
 }
 
-/* Clear floats after the columns */
-.row:after {
+.row::after {
   content: "";
   display: table;
   clear: both;
 }
 
-.error, .validation-error {
+.error,
+.validation-error {
   color: red;
 }
 
@@ -68,7 +60,8 @@ agm-map {
   border-radius: 50%;
 }
 
-::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
   background-color: green !important;
 }
 
@@ -110,8 +103,6 @@ agm-map {
 
     &::before {
       color: #fff;
-      //content: "+";
-      //i.icon.cloud.upload:before { content: "\f382"; }
       content: "\f382";
       font-family: "Font Awesome 5 Pro", serif;
       font-weight: 600;
@@ -134,8 +125,7 @@ agm-map {
   }
 }
 
-
-
-
-
-
+#weekDays-selector input[type=checkbox]:checked + label {
+  background: #2eb82e;
+  color: #fff;
+}

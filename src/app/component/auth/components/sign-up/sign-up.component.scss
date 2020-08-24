@@ -6,7 +6,6 @@ $title-font: 'Montserrat', sans-serif;
 $main-font: 'Open Sans', sans-serif;
 $sign-up-google-font: 'Roboto';
 
-
 .main-container {
   display: flex;
   max-width: 960px;
@@ -26,7 +25,7 @@ $sign-up-google-font: 'Roboto';
   }
 
   .main-image {
-    border-radius: 4px 0px 0px 4px;
+    border-radius: 4px 0 0 4px;
   }
 
   .main-content-container {
@@ -40,7 +39,7 @@ $sign-up-google-font: 'Roboto';
       font-weight: 500;
       font-size: 40px;
       line-height: 40px;
-      color: #2B292D;
+      color: #2b292d;
     }
 
     .subtitle-text {
@@ -112,18 +111,17 @@ $sign-up-google-font: 'Roboto';
           height: 16px;
           cursor: pointer;
         }
-
       }
 
       .wrong-input {
-        border: 1px solid #F03127;
+        border: 1px solid #f03127;
       }
 
       .error-message {
         height: 10px;
         font-size: 10px;
         line-height: 12px;
-        color: #F03127;
+        color: #f03127;
         visibility: hidden;
       }
 
@@ -161,8 +159,7 @@ $sign-up-google-font: 'Roboto';
         width: 368px;
         border: none;
         background: #fff;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.24),
-        0 0 2px rgba(0, 0, 0, 0.24);
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.24);
         border-radius: 3px;
         font-family: $sign-up-google-font;
         font-style: normal;
@@ -196,6 +193,7 @@ $sign-up-google-font: 'Roboto';
     }
   }
 }
+
 @media screen and (max-width: 992px) {
   .main-image {
     display: none;

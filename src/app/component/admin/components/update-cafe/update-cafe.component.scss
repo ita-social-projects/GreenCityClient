@@ -1,13 +1,13 @@
 @import "../../../../../../node_modules/@ng-select/ng-select/themes/default.theme.css";
 
 #weekDays-selector input[type=checkbox] {
-  display: none!important;
+  display: none !important;
 }
 
 #weekDays-selector input[type=checkbox] + label {
   display: inline-block;
   border-radius: 6px;
-  background: #dddddd;
+  background: #ddd;
   height: 40px;
   width: 110px;
   margin-right: 3px;
@@ -26,7 +26,7 @@
   margin-right: 10px;
 }
 
-*{
+* {
   box-sizing: border-box;
 }
 
@@ -37,14 +37,14 @@
   padding: 10px;
 }
 
-/* Clear floats after the columns */
-.row:after {
+.row::after {
   content: "";
   display: table;
   clear: both;
 }
 
-.error, .validation-error {
+.error,
+.validation-error {
   color: red;
 }
 
@@ -66,15 +66,11 @@ agm-map {
   border-radius: 50%;
 }
 
-::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
   background-color: green !important;
 }
 
 ::ng-deep .mat-checkbox:not(.mat-checkbox-disabled).mat-accent .mat-checkbox-ripple .mat-ripple-element {
   background-color: green !important;
 }
-
-
-
-
-

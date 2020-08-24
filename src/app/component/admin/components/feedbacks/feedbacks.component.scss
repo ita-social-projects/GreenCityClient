@@ -1,8 +1,8 @@
 table {
-   width: 100%;
+  width: 100%;
 }
 
-[role="tooltip"]{
+[role="tooltip"] {
   visibility: hidden;
 }
 
@@ -27,31 +27,32 @@ h6 {
   padding-right: 5%;
 }
 
-.descr{
-  display:none;
-  margin-left:-350px;
-  padding:10px;
-  margin-top:17px;
-  background:#f3f3f3;
-  height:200px;
-  -moz-box-shadow:0 5px 5px rgba(0,0,0,0.3);
-  -webkit-box-shadow:0 5px 5px rgba(0,0,0,0.3);
-  box-shadow:0 5px 5px rgba(0,0,0,0.3);
+.descr {
+  display: none;
+  margin-left: -350px;
+  padding: 10px;
+  margin-top: 17px;
+  background: #f3f3f3;
+  height: 200px;
+  -moz-box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
 }
 
 .photo {
   display: none;
-  margin-left:-35%;
+  margin-left: -35%;
   padding: 10px;
-  margin-top:17px;
-  background:#f3f3f3;
-  height:47%;
+  margin-top: 17px;
+  background: #f3f3f3;
+  height: 47%;
 }
-h6:hover .photo{
-  display:block;
-  position:absolute;
-  top:10%;
-  z-index:9999;
+
+h6:hover .photo {
+  display: block;
+  position: absolute;
+  top: 10%;
+  z-index: 9999;
   width: 30%;
 }
 
@@ -59,14 +60,17 @@ h6:hover .photo{
 .less {
   display: none;
 }
+
 .fulltext:target p,
 .fulltext:target .less {
   display: block;
 }
+
 .fulltext:target .more {
   display: none;
 }
 
-mat-cell, .mat-cell {
-  padding: 3px 3px 3px 3px;
+mat-cell,
+.mat-cell {
+  padding: 3px;
 }

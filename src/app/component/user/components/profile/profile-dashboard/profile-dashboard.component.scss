@@ -22,12 +22,6 @@ $second-font-color: #bebebe;
     align-items: center;
     padding-top: 6px;
     font-family: "Open Sans", sans-serif;
-
-    &:hover {
-      background-color: #f0f5f4;
-      border-radius: 5px 5px 0 0;
-      border-bottom: 1px solid #13aa57;
-    }
   }
 
   .active {
@@ -42,6 +36,27 @@ $second-font-color: #bebebe;
       border: 1px solid #13aa57;
       border-radius: 5px 5px 0 0;
       border-bottom: white;
+    }
+  }
+}
+
+.in-progress {
+  font-family: Montserrat, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  color: $first-font-color;
+  text-align: left;
+  display: flex;
+  align-items: center;
+
+  p {
+    margin: 0;
+
+    span {
+      color: $second-font-color;
+      margin-left: 5px;
     }
   }
 }
@@ -71,25 +86,10 @@ $second-font-color: #bebebe;
   }
 }
 
-.in-progress {
-  font-family: Montserrat, sans-serif;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 17px;
-  color: $first-font-color;
-  text-align: left;
-  display: flex;
-  align-items: center;
-
-  p {
-    margin: 0;
-
-    span {
-      color: $second-font-color;
-      margin-left: 5px;
-    }
-  }
+.profile-span:hover {
+  background-color: #f0f5f4;
+  border-radius: 5px 5px 0 0;
+  border-bottom: 1px solid #13aa57;
 }
 
 .habits-in-progress {

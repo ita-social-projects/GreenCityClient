@@ -13,6 +13,13 @@ body {
   height: 80vh;
 }
 
+.notfound {
+  max-width: 520px;
+  width: 100%;
+  line-height: 1.4;
+  text-align: center;
+}
+
 #notfound .notfound {
   position: absolute;
   left: 50%;
@@ -20,13 +27,6 @@ body {
   -webkit-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-}
-
-.notfound {
-  max-width: 520px;
-  width: 100%;
-  line-height: 1.4;
-  text-align: center;
 }
 
 .notfound .notfound-404 {
@@ -97,12 +97,15 @@ body {
     height: 148px;
     margin: 0 auto 10px;
   }
+
   .notfound .notfound-404 h1 {
     font-size: 86px;
   }
+
   .notfound .notfound-404 h2 {
     font-size: 16px;
   }
+
   .notfound a {
     padding: 7px 15px;
     font-size: 14px;
