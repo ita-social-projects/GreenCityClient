@@ -34,12 +34,13 @@ jobs:
       - ng test --watch=false --browsers ChromeHeadless
       name: test app
     -
+      before_script: npm cache clean --force
       script:
       - ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false
       name: build app
     -
       script:      
-      -  ng build --prod --base-href /GreenCityClient/ --outputPath=dist_aot && rm -rf dist_aot
+      -  ng build --prod --delete-output-path --base-href /GreenCityClient/ --outputPath=dist_aot && rm -rf dist_aot
       name: build app using aot compilation
     - stage: deploy
       script: skip
