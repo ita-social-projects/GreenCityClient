@@ -11,7 +11,7 @@
                        formControlName = "name"
                        placeholder="{{userInfo.name.first + ' ' +  userInfo.name.last}}"
                        id="name">
-                <span>{{"user.edit-profile.name-warning" | translate }}</span>
+                <span *ngIf="!editProfileForm.get('name').valid && editProfileForm.get('name').touched">{{"user.edit-profile.name-warning" | translate }}</span>
             </div>
             <div class="input-block"
                  [ngStyle]="{'margin-bottom': '53px'}">
@@ -26,7 +26,7 @@
                 <textarea placeholder="{{userInfo.userCredo}}"
                           formControlName = "title"
                           id="credo"></textarea>
-                <span>{{"user.edit-profile.title-warning" | translate }}</span>
+                <span *ngIf="!editProfileForm.get('title').valid && editProfileForm.get('title').touched">{{"user.edit-profile.title-warning" | translate }}</span>
             </div>
         </div>
         <div class="wrapper">
