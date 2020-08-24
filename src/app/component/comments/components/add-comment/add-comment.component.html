@@ -34,9 +34,16 @@
     </ng-template>
   </form>
 </div>
-<app-comment-body [elements]="elements"
-                  [type]="dataSet.type"
-                  *ngIf="(this.dataSet.type === 'reply' && this.repliesVisibility)
+<div class="comments-loader"
+     *ngIf="elements.length < 1 && elementsArePresent; else comments"
+>
+  <mat-spinner></mat-spinner>
+</div>
+<ng-template #comments>
+  <app-comment-body [elements]="elements"
+                    [type]="dataSet.type"
+                    *ngIf="(this.dataSet.type === 'reply' && this.repliesVisibility)
                          || this.dataSet.type === 'comment'"
-                  (commentsPage)="addElementsByPagination($event)"
-></app-comment-body>
+                    (commentsPage)="addElementsByPagination($event)"
+  ></app-comment-body>
+</ng-template>

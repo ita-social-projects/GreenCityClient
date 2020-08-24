@@ -13,6 +13,7 @@ import { LikesCounterComponent } from './components/likes-counter/likes-counter.
 import { CommentCounterComponent } from './components/comment-counter/comment-counter.component';
 import { CommentPaginationComponent } from './components/comment-pagination/comment-pagination.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { MatProgressSpinnerModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     SharedModule,
     CommonModule,
     NgxPaginationModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     AddCommentComponent,

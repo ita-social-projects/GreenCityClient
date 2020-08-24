@@ -51,6 +51,16 @@
   }
 }
 
+.comments-loader {
+  display: flex;
+  justify-content: center;
+  padding-top: 40px;
+
+  &::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #056B33;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .wrapper  {
     width: 100%;
