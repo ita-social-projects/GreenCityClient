@@ -145,9 +145,11 @@ ${this.months[this.currentMonth]} ${this.currentYear}`;
     if (this.currentDay === this.calendar.totalDaysInMonth - this.maxDaysInWeek) {
       this.currentMonth = this.currentMonth + 1;
       this.currentDay = 1;
+      const [firstDay, ...lastDays] = this.daysName;
+      this.daysName = [...lastDays, firstDay];
     } else {
-      this.currentDay = this.currentDay + 1;
-      this.daysName = [...this.daysName.slice(1), this.daysName[0]];
+      const [firstDay, ...lastDays] = this.daysName;
+      this.daysName = [...lastDays, firstDay];
     }
     this.calendarDay = [];
     this.buildCalendar();
