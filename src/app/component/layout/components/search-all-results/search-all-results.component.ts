@@ -48,7 +48,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
 
   private getSearchData(data: SearchModel): void {
     this.getNews(data.ecoNews);
-    this.itemsFound = data.countOfResults ? this.itemsFound = data.countOfResults : null;
+    this.itemsFound = data.countOfResults ? data.countOfResults : null;
     this.spliceResults();
   }
 
