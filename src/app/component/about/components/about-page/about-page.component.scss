@@ -659,6 +659,20 @@ body {
     height: 3214px;
   }
 
+  .main-card-text {
+    position: relative;
+    display: block;
+    width: 470px;
+    height: 200px;
+    left: 240px;
+    top: -500px;
+    padding-top: 20px;
+    font-family: opensans, sans-serif;
+    font-size: 24px;
+    line-height: 36px;
+    background: #fff;
+  }
+
   .card-holder-odd {
     width: 100%;
     height: 700px;
@@ -792,20 +806,6 @@ body {
       text-decoration-line: underline;
       color: #056b33;
     }
-  }
-
-  .main-card-text {
-    position: relative;
-    display: block;
-    width: 470px;
-    height: 200px;
-    left: 240px;
-    top: -500px;
-    padding-top: 20px;
-    font-family: opensans, sans-serif;
-    font-size: 24px;
-    line-height: 36px;
-    background: #fff;
   }
 
   .card-link::after {

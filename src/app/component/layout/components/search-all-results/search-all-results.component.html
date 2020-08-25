@@ -41,7 +41,7 @@
 
     <div class="center-content-wrapper">
       <div class="flex-container">
-        <ng-template [ngIf]="isSearchFound">
+        <ng-template [ngIf]="isSearchFound" class="app-search-item">
           <app-search-item *ngFor="let element of displayedElements"
                            [searchModel]="element"></app-search-item>
         </ng-template>

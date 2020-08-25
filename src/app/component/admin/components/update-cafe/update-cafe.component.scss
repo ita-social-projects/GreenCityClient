@@ -48,7 +48,7 @@
   color: red;
 }
 
-agm-map {
+.agm-map {
   width: 30vh;
   height: 65vh;
 }
@@ -66,8 +66,8 @@ agm-map {
   border-radius: 50%;
 }
 
-::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,
-.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
   background-color: green !important;
 }
 

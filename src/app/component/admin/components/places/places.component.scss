@@ -22,8 +22,8 @@ td {
   background-color: rgba(0, 0, 0, 0.075);
 }
 
-::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,
-.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
   background-color: grey !important;
 }
 

@@ -44,6 +44,30 @@ $screen-320: " screen and (max-width : 320px)";
   }
 }
 
+.dropdown {
+  background-color: #fff;
+  list-style-type: none;
+  padding: 0;
+  position: absolute;
+  top: 41px;
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  right: -15px;
+  align-items: flex-start;
+
+  li {
+    position: relative;
+    color: black;
+
+    a {
+      display: block;
+      padding: 10px;
+      width: 100%;
+    }
+  }
+}
+
 .navigation-menu {
   display: flex;
   justify-content: space-between;
@@ -67,11 +91,6 @@ $screen-320: " screen and (max-width : 320px)";
     li {
       list-style-type: none;
       display: inline-block;
-
-      &:nth-of-type(6) {
-        margin-right: 0;
-        height: 20px;
-      }
 
       a {
         font-size: 14px;
@@ -124,12 +143,6 @@ $screen-320: " screen and (max-width : 320px)";
         line-height: 24px;
         color: $first-font-color;
       }
-
-      &:nth-of-type(6) {
-        height: 0;
-        width: 900px;
-        border-bottom: 2px solid rgba(73, 74, 73, 0.2);
-      }
     }
 
     .mobile-vis {
@@ -139,16 +152,6 @@ $screen-320: " screen and (max-width : 320px)";
       justify-content: center;
       align-items: center;
       height: 52px;
-
-      .sign-in-link {
-        color: #056b33;
-        font-size: 16px;
-        font-weight: 600;
-
-        &:hover {
-          text-decoration-line: none;
-        }
-      }
     }
 
     .name {
@@ -157,7 +160,6 @@ $screen-320: " screen and (max-width : 320px)";
     }
   }
 }
-
 
 .navigation-menu-left-col ul .mobile-vis .create-button {
   cursor: pointer;
@@ -176,6 +178,10 @@ $screen-320: " screen and (max-width : 320px)";
     line-height: 16px;
     font-weight: 600;
   }
+}
+
+.dropdown li a:hover {
+  color: white;
 }
 
 .navigation-menu-right {
@@ -253,13 +259,6 @@ $screen-320: " screen and (max-width : 320px)";
       justify-content: space-between;
       top: -8px;
       width: 61px;
-
-      li {
-        cursor: pointer;
-        height: 44px;
-        font-size: 14px;
-        padding-top: 10px;
-      }
     }
 
     .add-shadow {
@@ -314,6 +313,34 @@ $screen-320: " screen and (max-width : 320px)";
 
   li .search {
     line-height: 10px;
+  }
+}
+
+.navigation-menu-left ul li:nth-of-type(6) {
+  margin-right: 0;
+  height: 20px;
+}
+
+.navigation-menu-left-col ul li:nth-of-type(6) {
+  height: 0;
+  width: 900px;
+  border-bottom: 2px solid rgba(73, 74, 73, 0.2);
+}
+
+.navigation-menu-right ul .switcher-wrapper ul li {
+  cursor: pointer;
+  height: 44px;
+  font-size: 14px;
+  padding-top: 10px;
+}
+
+.navigation-menu-left-col ul .mobile-vis .sign-in-link {
+  color: #056b33;
+  font-size: 16px;
+  font-weight: 600;
+
+  &:hover {
+    text-decoration-line: none;
   }
 }
 
@@ -376,7 +403,7 @@ $screen-320: " screen and (max-width : 320px)";
 }
 
 #user-avatar-wrapper,
-#lang-wrapper  {
+#lang-wrapper {
   position: relative;
   width: auto;
   min-width: 135px;
@@ -420,34 +447,6 @@ $screen-320: " screen and (max-width : 320px)";
   .add-shadow {
     box-shadow: 0 0 8px rgba(73, 74, 73, 0.2);
     height: 176px;
-  }
-}
-
-.dropdown {
-  background-color: #fff;
-  list-style-type: none;
-  padding: 0;
-  position: absolute;
-  top: 41px;
-  width: 150px;
-  display: flex;
-  flex-direction: column;
-  right: -15px;
-  align-items: flex-start;
-
-  li {
-    position: relative;
-    color: black;
-
-    a {
-      display: block;
-      padding: 10px;
-      width: 100%;
-
-      &:hover {
-        color: white;
-      }
-    }
   }
 }
 
@@ -540,6 +539,10 @@ $screen-320: " screen and (max-width : 320px)";
 }
 
 @media #{$screen-320} {
+  li:nth-of-type(6) {
+    margin-bottom: 40px;
+  }
+
   .navigation-menu-left-col {
     box-shadow: none;
 
@@ -559,9 +562,5 @@ $screen-320: " screen and (max-width : 320px)";
     span {
       padding: 0 1px;
     }
-  }
-
-  li:nth-of-type(6) {
-    margin-bottom: 40px;
   }
 }

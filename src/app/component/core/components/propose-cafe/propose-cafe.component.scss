@@ -4,71 +4,6 @@
   display: none !important;
 }
 
-#weekDays-selector input[type=checkbox] + label {
-  display: inline-block;
-  border-radius: 6px;
-  background: #ddd;
-  height: 40px;
-  width: 110px;
-  margin-right: 3px;
-  line-height: 40px;
-  text-align: center;
-  cursor: pointer;
-}
-
-.label-for-time {
-  margin-left: 35px;
-  margin-right: 10px;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-.column {
-  float: left;
-  width: 50%;
-  padding: 10px;
-}
-
-.row::after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.error,
-.validation-error {
-  color: red;
-}
-
-agm-map {
-  width: 30vh;
-  height: 65vh;
-}
-
-.delete-choice {
-  background-color: darkred;
-  border: none;
-  color: white;
-  padding: 1px 11px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 20px;
-  margin: 3px 3px;
-  border-radius: 50%;
-}
-
-::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,
-.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
-  background-color: green !important;
-}
-
-::ng-deep .mat-checkbox:not(.mat-checkbox-disabled).mat-accent .mat-checkbox-ripple .mat-ripple-element {
-  background-color: green !important;
-}
-
 [type="file"] {
   height: 0;
   overflow: hidden;
@@ -123,6 +58,71 @@ agm-map {
       }
     }
   }
+}
+
+#weekDays-selector input[type=checkbox] + label {
+  display: inline-block;
+  border-radius: 6px;
+  background: #ddd;
+  height: 40px;
+  width: 110px;
+  margin-right: 3px;
+  line-height: 40px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.label-for-time {
+  margin-left: 35px;
+  margin-right: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+
+.row::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.error,
+.validation-error {
+  color: red;
+}
+
+.agm-map {
+  width: 30vh;
+  height: 65vh;
+}
+
+.delete-choice {
+  background-color: darkred;
+  border: none;
+  color: white;
+  padding: 1px 11px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  margin: 3px 3px;
+  border-radius: 50%;
+}
+
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background-color: green !important;
+}
+
+::ng-deep .mat-checkbox:not(.mat-checkbox-disabled).mat-accent .mat-checkbox-ripple .mat-ripple-element {
+  background-color: green !important;
 }
 
 #weekDays-selector input[type=checkbox]:checked + label {

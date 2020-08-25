@@ -65,8 +65,8 @@ $bp-largest: 1440px;
     }
   }
 
-  app-profile-cards,
-  app-calendar {
+  .app-profile-cards,
+  .app-calendar {
     display: none;
   }
 }
@@ -93,9 +93,9 @@ $bp-largest: 1440px;
     }
   }
 
-  app-achievements-friends,
-  app-eco-places,
-  app-shopping-list,
+  .app-achievements-friends,
+  .app-eco-places,
+  .app-shopping-list,
   .right-column {
     display: none;
   }
