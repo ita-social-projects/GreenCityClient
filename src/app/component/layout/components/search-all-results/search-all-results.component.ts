@@ -1,8 +1,8 @@
 import { Subscription } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { SearchModel } from '../../../../model/search/search.model';
-import { SearchService } from '../../../../service/search/search.service';
-import { NewsSearchModel } from '../../../../model/search/newsSearch.model';
+import { SearchModel } from '@global-models/search/search.model';
+import { SearchService } from '@global-service/search/search.service';
+import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 
 @Component({
   selector: 'app-search-all-results',
@@ -48,13 +48,21 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
 
   private getSearchData(data: SearchModel): void {
     this.getNews(data.ecoNews);
-    // tslint:disable-next-line:no-unused-expression
-    data.countOfResults ? this.itemsFound = data.countOfResults : null;
+    if (data.countOfResults) {
+      this.itemsFound = data.countOfResults;
+    } else {
+      this.itemsFound = null;
+    }
     this.spliceResults();
   }
 
   private getNews(news): void {
-    (news && news.length > 0) ? (this.isSearchFound = true, this.elements = news) : (this.isSearchFound = false);
+    if (news && news.length > 0) {
+      this.isSearchFound = true;
+      this.elements = news;
+    } else {
+      this.isSearchFound = false;
+    }
   }
 
   private spliceResults(): void {
