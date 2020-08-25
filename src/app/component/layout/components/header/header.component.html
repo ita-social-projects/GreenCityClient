@@ -111,7 +111,7 @@
                  </li>
                 </ng-template>
               <li [class.destroy]="toggleBurgerMenu">
-                <div class="switcher-wrapper">
+                <div class="switcher-wrapper" (click)="langDropdownVisible = !langDropdownVisible">
                 <img class="arrow"
                      [src]="selectLanguageArrow"
                      [ngClass]="langDropdownVisible ? 'arrow reverse' : 'arrow'"
@@ -122,8 +122,7 @@
             <ng-container
               *ngFor="let lang of arrayLang;
               index as index;">
-            <li *ngIf="index < 1"
-                (click)="langDropdownVisible = !langDropdownVisible">
+            <li *ngIf="index < 1">
               {{lang.lang}}
             </li>
             <li *ngIf="index > 0 && langDropdownVisible"
