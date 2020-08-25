@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { singleNewsImages } from '@eco-news-images/single-news-images';
+import { singleNewsImages } from 'src/app/image-pathes/single-news-images';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
