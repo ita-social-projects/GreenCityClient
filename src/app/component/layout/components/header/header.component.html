@@ -112,25 +112,25 @@
                 </ng-template>
               <li [class.destroy]="toggleBurgerMenu">
                 <div class="switcher-wrapper" (click)="langDropdownVisible = !langDropdownVisible">
-                <img class="arrow"
-                     [src]="selectLanguageArrow"
-                     [ngClass]="langDropdownVisible ? 'arrow reverse' : 'arrow'"
-                     alt="v">
-            <ul [class.add-shadow]="langDropdownVisible"
-                appCloseDropdown
-                (clickOutSide)="autoCloseLangDropDown($event)">
-            <ng-container
-              *ngFor="let lang of arrayLang;
-              index as index;">
-            <li *ngIf="index < 1">
-              {{lang.lang}}
-            </li>
-            <li *ngIf="index > 0 && langDropdownVisible"
-                (click)="changeCurrentLanguage(lang.lang, index)">
-              {{lang.lang}}
-            </li>
-            </ng-container>
-            </ul>
+                  <img class="arrow"
+                      [src]="selectLanguageArrow"
+                      [ngClass]="langDropdownVisible ? 'arrow reverse' : 'arrow'"
+                      alt="v">
+                  <ul [class.add-shadow]="langDropdownVisible"
+                      appCloseDropdown
+                      (clickOutSide)="autoCloseLangDropDown($event)">
+                    <ng-container
+                      *ngFor="let lang of arrayLang;
+                      index as index;">
+                      <li *ngIf="index < 1">
+                        {{lang.lang}}
+                      </li>
+                      <li *ngIf="index > 0 && langDropdownVisible"
+                          (click)="changeCurrentLanguage(lang.lang, index)">
+                        {{lang.lang}}
+                      </li>
+                    </ng-container>
+                  </ul>
               </div>
               </li>
         <li class="sign-in-link tertiary-global-button last-nav-item"
