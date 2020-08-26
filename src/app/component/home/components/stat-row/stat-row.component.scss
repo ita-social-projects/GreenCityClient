@@ -17,7 +17,8 @@
   font-weight: 400;
   letter-spacing: normal;
   line-height: 1.78;
-  height: 50px;
+  min-height: 48px;
+  height: fit-content;
   margin-top: 26px;
   width: 292px;
 }
@@ -136,7 +137,7 @@
   .stat-row-content .content-wrapper h3 {
     font-size: 18px;
   }
-  
+
   .stat-row-content .content-wrapper h3 span {
     font-size: 48px;
   }
