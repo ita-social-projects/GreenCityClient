@@ -9,55 +9,55 @@ $bp-largest: 1440px;
 $grey: #bebebe;
 
 .eco-places-content {
-    width: 100%;
-    padding: 24px 0;
-    margin: 0 auto;
-    font-family: Montserrat;
-    font-style: normal;
-    border-top: 1px solid #EAEEF3;
+  width: 100%;
+  padding: 24px 0;
+  margin: 0 auto;
+  font-family: Montserrat, sans-serif;
+  font-style: normal;
+  border-top: 1px solid #eaeef3;
 }
 
 .header-position {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .header {
-    text-align: left;
-    font-weight: 600;
-    font-size: 14px;
-    padding-bottom: 8px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  padding-bottom: 8px;
 
-     span {
-       color: $grey;
-       margin-left: 10px;
-     }
+  span {
+    color: #bebebe;
+    margin-left: 10px;
+  }
 }
 
 .item {
-    list-style: none;
-    text-align: left;
-    width: 100%;
-    font-weight: normal;
-    font-size: 12px;
-    line-height: 15px;
-    padding: 6px 0;
+  list-style: none;
+  text-align: left;
+  width: 100%;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 15px;
+  padding: 6px 0;
 }
 
 .eco-place-list {
-    width: 100%;
-    padding: 0;
+  width: 100%;
+  padding: 0;
 
-    .item {
-        text-decoration: underline;
-    }
+  .item {
+    text-decoration: underline;
+  }
 }
-    
+
 .btn-see-all {
-    text-decoration: none;
-    font-weight: normal;
-    font-size: 12px;
+  text-decoration: none;
+  font-weight: normal;
+  font-size: 12px;
 }
 
 .loading {
@@ -75,7 +75,8 @@ $grey: #bebebe;
   color: $grey;
 }
 
-::ng-deep.mat-progress-spinner circle,.mat-spinner circle {
+.mat-spinner circle,
+::ng-deep.mat-progress-spinner circle {
   stroke: rgb(226, 226, 226) !important;
 }
 
@@ -92,7 +93,7 @@ $grey: #bebebe;
   }
 
   .item {
-      font-size: 11px;
-      line-height: 16px;
+    font-size: 11px;
+    line-height: 16px;
   }
 }

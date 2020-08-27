@@ -1,6 +1,7 @@
 <div class="profile-menu">
   <span (click)="triggerTab(oneItem)"
         *ngFor="let oneItem of menu; index as index"
+        class="profile-span"
         [class.active]="oneItem.isActive">
         <ng-container [ngSwitch]="index">
           <ng-container  *ngSwitchCase="0">

@@ -4,7 +4,7 @@ $bp-tablet: 768px;
 $bp-desktop: 1024px;
 $bp-largest: 1440px;
 
-$font-family-first: Montserrat;
+$font-family-first: montserrat, sans-serif;
 
 .profile {
   background: #f5f7f6;
@@ -13,6 +13,7 @@ $font-family-first: Montserrat;
   .cards {
     width: 100%;
   }
+
   .details__img {
     text-align: center;
     width: 100%;
@@ -25,14 +26,13 @@ $font-family-first: Montserrat;
     }
 
     .profile-avatar {
-     width: 88px;
-     height: 88px;
-     border-radius: 50px;
+      width: 88px;
+      height: 88px;
+      border-radius: 50px;
     }
   }
 
   .profile__details {
-
     .details__descriptions {
       display: flex;
       margin: 15px 0;
@@ -66,13 +66,13 @@ $font-family-first: Montserrat;
         text-align: center;
         color: #878787;
       }
-      
+
       .descriptions__rate {
         display: flex;
         justify-content: center;
         padding: 4px 16px;
         font-size: 12px;
-        font-family: Open Sans;
+        font-family: Open Sans, sans-serif;
         height: 24px;
         line-height: 16px;
         background: rgba(19, 170, 87, 0.12);
@@ -87,7 +87,7 @@ $font-family-first: Montserrat;
       display: flex;
       text-align: left;
       width: 100%;
-      font-family: Open Sans;
+      font-family: Open Sans, sans-serif;
       font-size: 14px;
       line-height: calc(16px + (22 - 16) * ((100vw - 320px) / (1440 - 320)));
       color: #494a49;
@@ -96,69 +96,69 @@ $font-family-first: Montserrat;
 }
 
 @media only screen and (max-width: $bp-phone) {
-      .profile {
+  .profile {
+    display: flex;
+
+    .details__img {
+      width: 76px;
+      height: 76px;
+
+      .profile-avatar {
+        width: 76px;
+        height: 76px;
+      }
+    }
+
+    .profile__details {
+      display: flex;
+      flex-direction: column;
+      justify-content: left;
+
+      .details__descriptions {
         display: flex;
+        justify-content: left;
+        align-items: self-start;
+        margin: 0;
+        margin-left: 21px;
 
-        .details__img {
-          width: 76px;
-          height: 76px;
-
-          .profile-avatar {
-            width: 76px;
-            height: 76px;
-          }
+        .descriptions__name {
+          width: 100%;
+          text-align: left;
         }
 
-          .profile__details {
-            display: flex;
-            flex-direction: column;
-            justify-content: left;
-
-            .details__descriptions {
-              display: flex;
-              justify-content: left;
-              align-items: self-start;
-              margin: 0;
-              margin-left: 21px;
-
-              .descriptions__name {
-                width: 100%;
-                text-align: left;
-              }
-
-              .descriptions__location,
-              .descriptions__status,
-              .descriptions__rate {
-                font-size: 11px;
-                line-height: 15px;
-              }
-            }
-
-            .details__credo {
-              margin: 8px auto 8px 21px;
-            }
-          }
+        .descriptions__location,
+        .descriptions__status,
+        .descriptions__rate {
+          font-size: 11px;
+          line-height: 15px;
+        }
       }
+
+      .details__credo {
+        margin: 8px auto 8px 21px;
+      }
+    }
+  }
 }
 
 @media only screen and (max-width: $bp-smallest) {
-    .profile {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+  .profile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .profile__details {
       align-items: center;
 
-      .profile__details {
+      .details__descriptions {
         align-items: center;
+        margin-left: 0;
+      }
 
-        .details__descriptions {
-          align-items: center;
-          margin-left: 0px;
-        }
-
-        .details__credo {
-          margin: 0px;
-        }
+      .details__credo {
+        margin: 0;
       }
     }
+  }
 }

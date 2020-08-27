@@ -35,10 +35,8 @@ $bp-largest: 1440px;
       width: 100%;
       box-sizing: inherit;
     }
-
   }
 }
-
 
 @media only screen and (max-width: $bp-desktop) {
   .profile-wrapper {
@@ -47,58 +45,58 @@ $bp-largest: 1440px;
 }
 
 @media only screen and (max-width: $bp-tablet) {
-   .profile-wrapper {
+  .profile-wrapper {
     margin: 14px 14px;
     grid-template-columns: 30% 1fr;
     grid-template-rows: 130px 1fr;
 
-       .left-column {
-         grid-area: 1 / 1 / 3 / 2;
-       }
+    .left-column {
+      grid-area: 1 / 1 / 3 / 2;
+    }
 
-       .habits-dashboard {
-         grid-area: 2 / 2 / 3 / 3;
-       }
+    .habits-dashboard {
+      grid-area: 2 / 2 / 3 / 3;
+    }
 
-       .right-column {
-         grid-area: 1 / 2 / 2 / 3;
-         max-width: 100%;
-         background: #f5f7f6;
-       }
-   }
+    .right-column {
+      grid-area: 1 / 2 / 2 / 3;
+      max-width: 100%;
+      background: #f5f7f6;
+    }
+  }
 
-  app-profile-cards,
-  app-calendar {
+  .app-profile-cards,
+  .app-calendar {
     display: none;
   }
 }
 
 @media only screen and (max-width: $bp-phone) {
-    .profile-wrapper {
-      grid-template-columns: 1fr;
-      grid-template-rows: fit-content(235px)  1fr;
-      grid-row-gap: 0px;
-      margin: 0px;
+  .profile-wrapper {
+    grid-template-columns: 1fr;
+    grid-template-rows: fit-content(235px)  1fr;
+    grid-row-gap: 0;
+    margin: 0;
 
-      .left-column {
-        grid-area: 1 / 1 / 2 / 3;
-        padding: 16px;
+    .left-column {
+      grid-area: 1 / 1 / 2 / 3;
+      padding: 16px;
 
-        .profile {
-          display: flex;
-        }
-      }
-
-      .habits-dashboard {
-        grid-area: 2 / 1 / 3 / 3;
-        margin: 38px 14px;
+      .profile {
+        display: flex;
       }
     }
 
-    app-achievements-friends,
-    app-eco-places,
-    app-shopping-list,
-    .right-column {
-      display: none;
+    .habits-dashboard {
+      grid-area: 2 / 1 / 3 / 3;
+      margin: 38px 14px;
     }
+  }
+
+  .app-achievements-friends,
+  .app-eco-places,
+  .app-shopping-list,
+  .right-column {
+    display: none;
+  }
 }

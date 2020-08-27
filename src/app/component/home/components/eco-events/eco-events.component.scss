@@ -67,7 +67,7 @@
 }
 
 .eco-events .eco-events-wrapper .main-event .main-event-content h3 {
-  color: #000000;
+  color: #000;
   font-family: 'Open Sans', sans-serif;
   font-size: 32px;
   font-stretch: normal;
@@ -112,7 +112,7 @@
 
 .eco-events .eco-events-wrapper .other-events .other-event h3 {
   font-family: 'Open Sans', sans-serif;
-  color: #000000;
+  color: #000;
   font-size: 24px;
   font-weight: 600;
   font-stretch: normal;
@@ -138,9 +138,6 @@
 
   .eco-events .eco-events-wrapper .other-events {
     margin-top: 20px;
-  }
-
-  .eco-events .eco-events-wrapper .other-events {
     max-width: fit-content;
   }
 }
