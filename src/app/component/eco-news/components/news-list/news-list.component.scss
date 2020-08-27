@@ -71,8 +71,9 @@ a {
 .mat-spinner {
   margin: 0 auto;
   padding-top: 40px;
+
   ::ng-deep circle {
-    stroke: #13AA57;
+    stroke: #13aa57;
   }
 }
 
