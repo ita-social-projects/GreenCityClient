@@ -61,7 +61,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
     const splicedData = this.elements.splice(0, 9);
     for (let i = 0; i < 9; i++) {
       if (splicedData[i]) {
-        this.displayedElements = [...splicedData];
+        this.displayedElements.push(splicedData[i]);
       }
     }
   }

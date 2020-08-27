@@ -1,11 +1,10 @@
 .calendar {
   width: 483px;
   max-height: 130px;
-  background: #F5F6F6;
+  background: #f5f6f6;
   border-radius: 4px;
 
   .top {
-
     .month-year {
       display: flex;
       justify-content: space-between;
@@ -20,14 +19,13 @@
       }
 
       .monthAndYear {
-
         font-size: 14px;
         line-height: 17px;
         display: flex;
         align-items: center;
         text-align: center;
         font-family: 'Montserrat', sans-serif;
-        color: #494A49;
+        color: #494a49;
       }
 
       .arrow-next {
@@ -51,11 +49,11 @@
         font-weight: 600;
         font-size: 11px;
         line-height: 16px;
-        color: #BEBEBE;
+        color: #bebebe;
       }
 
       .current-day-name {
-        color: #13AA57;;
+        color: #13aa57;
       }
     }
   }
@@ -68,7 +66,7 @@
       grid-template-columns: repeat(7, 66.6px);
       text-align: center;
       margin: 0 10px 0 10px;
-      color: #494A49;
+      color: #494a49;
       font-weight: 500;
       font-size: 14px;
       line-height: 17px;
