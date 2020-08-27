@@ -13,7 +13,7 @@ $bp-largest: 1440px;
 .calendar {
   width: 261px;
   max-height: 276px;
-  background: #F5F6F6;
+  background: #f5f6f6;
   border-radius: 4px;
 
   .top {
@@ -33,7 +33,7 @@ $bp-largest: 1440px;
         font-family: 'Montserrat', sans-serif;
         font-weight: 600;
         font-size: 13px;
-        color: #494A49;
+        color: #494a49;
         margin-top: 16px;
         margin-bottom: 12px;
         cursor: pointer;
@@ -60,11 +60,11 @@ $bp-largest: 1440px;
         font-weight: 600;
         font-size: 13px;
         line-height: 16px;
-        color: #BEBEBE;
+        color: #bebebe;
       }
 
       .current-day-name {
-        color: #13AA57;;
+        color: #13aa57;
       }
     }
   }
@@ -80,7 +80,7 @@ $bp-largest: 1440px;
       font-family: 'Montserrat', sans-serif;
       font-size: 13px;
       line-height: 16px;
-      color: #494A49;
+      color: #494a49;
       text-align: center;
 
       .calendar-grid-day {
@@ -89,11 +89,11 @@ $bp-largest: 1440px;
       }
 
       .calendar-grid-day:hover {
-        color: #13AA57;
+        color: #13aa57;
       }
 
       .calendar-grid-day:active {
-        color: #056B33;
+        color: #056b33;
       }
 
       .current-day {
@@ -101,23 +101,25 @@ $bp-largest: 1440px;
         border-radius: 50%;
         background-repeat: no-repeat;
         background-position: center;
-        color: #FFFFFF;
+        color: #fff;
       }
-      
+
       .tracked-day {
         background-color: #056B33;
         border-radius: 50%;
         background-repeat: no-repeat;
         background-position: center;
-        color: #FFFFFF;
+        color: #fff;
       }
 
-      .current-day:hover, .tracked-day:hover {
-        color: #FFFFFF;
+      .current-day:hover,
+      .tracked-day:hover {
+        color: #fff;
       }
 
-      .current-day:active, .tracked-day:active {
-        color: #056B33;
+      .current-day:active,
+      .tracked-day:active {
+        color: #056b33;
       }
     }
 
@@ -142,7 +144,7 @@ $bp-largest: 1440px;
       }
 
       .current-month {
-        color: #13AA57;
+        color: #13aa57;
       }
     }
   }

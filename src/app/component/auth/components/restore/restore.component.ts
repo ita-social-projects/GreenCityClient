@@ -3,8 +3,7 @@ import { RestorePasswordService } from '../../../../service/auth/restore-passwor
 
 @Component({
   selector: 'app-restore',
-  templateUrl: './restore.component.html',
-  styleUrls: ['./restore.component.scss']
+  templateUrl: './restore.component.html'
 })
 export class RestoreComponent implements OnInit {
   email: string;
