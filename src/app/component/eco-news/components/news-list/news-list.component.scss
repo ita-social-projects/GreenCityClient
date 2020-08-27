@@ -68,6 +68,15 @@ a {
   display: block;
 }
 
+.mat-spinner {
+  margin: 0 auto;
+  padding-top: 40px;
+
+  ::ng-deep circle {
+    stroke: #13aa57;
+  }
+}
+
 @media screen and (max-width: 1199px) {
   .gallery-view-active {
     grid-template-columns: repeat(3, 299px);
