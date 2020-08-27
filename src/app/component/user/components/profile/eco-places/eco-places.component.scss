@@ -1,8 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
+$title-font: 'Montserrat';
 $bp-smallest: 320px;
 $bp-phone: 576px;
 $bp-tablet: 768px;
 $bp-desktop: 1024px;
 $bp-largest: 1440px;
+$grey: #bebebe;
 
 .eco-places-content {
   width: 100%;
@@ -54,6 +58,26 @@ $bp-largest: 1440px;
   text-decoration: none;
   font-weight: normal;
   font-size: 12px;
+}
+
+.loading {
+  margin: 0 auto;
+}
+
+.noEcoPlaces {
+  font-family: $title-font;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  margin-top: 30px;
+  text-align: center;
+  color: $grey;
+}
+
+.mat-spinner circle,
+::ng-deep.mat-progress-spinner circle {
+  stroke: rgb(226, 226, 226) !important;
 }
 
 @media only screen and (max-width: $bp-desktop) {
