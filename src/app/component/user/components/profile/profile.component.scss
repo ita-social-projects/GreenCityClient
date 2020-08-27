@@ -27,7 +27,7 @@ $bp-largest: 1440px;
   .right-column {
     grid-area: 1 / 3 / 3 / 4;
 
-    app-calendar-week {
+    .app-calendar-week {
       display: none;
     }
   }
@@ -69,14 +69,14 @@ $bp-largest: 1440px;
       max-width: 100%;
       background: #f5f7f6;
 
-      app-calendar-week {
+      .app-calendar-week {
         display: block;
       }
     }
   }
 
-  app-profile-cards,
-  app-calendar {
+  .app-profile-cards,
+  .app-calendar {
     display: none;
   }
 }
@@ -103,10 +103,10 @@ $bp-largest: 1440px;
     }
   }
 
-  app-achievements-friends,
-  app-eco-places,
-  app-shopping-list,
-  app-calendar-week,
+  .app-achievements-friends,
+  .app-eco-places,
+  .app-shopping-list,
+  .app-calendar-week,
   .right-column-card {
     display: none;
   }
