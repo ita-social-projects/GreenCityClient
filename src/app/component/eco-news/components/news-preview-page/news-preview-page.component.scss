@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 
-$title-font: 'Montserrat';
-$main-font: 'Open Sans';
+$title-font: 'Montserrat', sans-serif;
+$main-font: 'Open Sans', sans-serif;
 
 .wrapper {
   margin: 0 10%;
@@ -40,7 +40,7 @@ $main-font: 'Open Sans';
 }
 
 .button-link {
-  color: #494A49;
+  color: #494a49;
 }
 
 .button-arrow {
@@ -49,7 +49,7 @@ $main-font: 'Open Sans';
 
 .primary-global-button {
   padding: 16px 40px;
-  border: 1px solid #13AA57;
+  border: 1px solid #13aa57;
   border-radius: 3px;
   outline: none;
 }
@@ -76,7 +76,7 @@ $main-font: 'Open Sans';
 .tags-item {
   font-size: 14px;
   line-height: 16px;
-  color: #666666;
+  color: #666;
   text-transform: capitalize;
   margin: 0 8px 0;
   padding: 8px 16px;
@@ -109,7 +109,7 @@ $main-font: 'Open Sans';
 
 .news-info-date,
 .news-info-author {
-  color: #494A49;
+  color: #494a49;
 }
 
 .news-info-dot {
@@ -135,7 +135,7 @@ $main-font: 'Open Sans';
 
 .news-text {
   margin-left: 74px;
-  color: #000000;
+  color: #000;
   text-align: left;
   width: 100%;
 }
@@ -156,7 +156,7 @@ $main-font: 'Open Sans';
   font-family: $main-font;
   font-size: 24px;
   line-height: 40px;
-  color: #494A49;
+  color: #494a49;
   mix-blend-mode: normal;
   margin-right: 8px;
 }
@@ -165,11 +165,11 @@ $main-font: 'Open Sans';
   font-family: $main-font;
   font-size: 18px;
   line-height: 32px;
-  color: #000000;
+  color: #000;
   margin-top: 6px;
 }
 
-@media screen and (max-width: 1024px){
+@media screen and (max-width: 1024px) {
   .wrapper {
     margin: 0 3%;
   }
@@ -183,7 +183,7 @@ $main-font: 'Open Sans';
   }
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 768px) {
   .wrapper {
     margin: 0 1.8%;
   }
@@ -199,16 +199,13 @@ $main-font: 'Open Sans';
   .news-text-container {
     flex-direction: column;
     justify-content: center;
+    padding: 0;
   }
 
   .news-links-images {
     flex-direction: row;
     margin: 51px auto;
     width: 136px;
-  }
-
-  .news-text-container {
-    padding: 0;
   }
 
   .news-text {
@@ -220,11 +217,10 @@ $main-font: 'Open Sans';
   }
 }
 
-@media screen and (max-width: 576px){
+@media screen and (max-width: 576px) {
   .wrapper {
     margin: 0 2.4%;
   }
-
 }
 
 @media screen and (max-width: 320px) {
@@ -274,4 +270,3 @@ $main-font: 'Open Sans';
     margin-top: 8px;
   }
 }
-
