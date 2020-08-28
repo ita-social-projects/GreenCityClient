@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
+
+* {
+    box-sizing: border-box;
+}
+
+.habit {
+    background-color: #F5F6F6;
+    height: 638px;
+    border-radius: 8px;
+
+    .habit__container {
+        position: relative;
+        padding-top: 35px;
+        width: 82%;
+        height: 638px;
+        margin: 0 auto;
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+
+            .calendar {
+
+                .calendar__icon {
+                    margin-right: 15px;
+                }
+                .days {
+                    font-size: 14px;
+                    color: #13AA57;
+                    text-transform: uppercase;
+                }
+            }
+
+            .stars {
+                
+                img {
+                    margin-left: 12px;
+                }
+            }
+        }
+
+        .picture {
+            padding-top: 22px;
+            height: 190px;
+            margin-bottom: 31px;
+
+            img {
+                max-width: 90%;
+                display: block;
+                margin: 0 auto;
+            }
+        }
+
+        .info {
+            padding-top: 15px;
+
+            .tags {
+                color: #13AA57;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+
+            .title {
+                color: #494A49;
+                font-size: 22px;
+                line-height: 15px;
+            }
+            
+            .description {
+                font-family: 'OpenSans';
+                font-size: 12px;
+                line-height: 18px;
+                color: #494A49;
+            }
+
+            .aquired {
+                color: #BEBEBE;
+                font-family: 'Montserrat';
+                font-style: normal;
+                font-weight: 500;
+                font-size: 12px;
+                line-height: 20px;
+            }
+        }
+
+        .add {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+
+
+            button {
+                position: absolute;
+                bottom: 25px;
+                color: #FFFFFF;
+                background: #13AA57;
+                border-radius: 5px;
+                padding: 16px 40px;
+                border: none;
+                align-self: flex-end;
+            }
+        }
+        
+    }
+}
+
+
+
+@media screen and (max-width: 1199px) {
+
+    .habit__container {
+
+        .info {
+
+            .tags {
+                font-size: 12px;
+            }
+
+            .title {
+                font-size: 18px;
+            }
+        }
+    }
+}

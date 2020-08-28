@@ -1,3 +1,4 @@
+import { AllHabitsComponent } from './components/habit/all-habits/all-habits.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProfileComponent, EditProfileComponent } from './components';
@@ -11,8 +12,9 @@ export const userRoutes: Routes = [
     children: [
       { path: ':id', component: ProfileComponent },
       { path: ':id/edit', component: EditProfileComponent },
+      { path: ':id/allhabits', component: AllHabitsComponent },
       { path: '', component: ProfileComponent },
-      { path: '', redirectTo: ':id', pathMatch: 'full' }
+      { path: '', redirectTo: ':id', pathMatch: 'full' },
     ]
   }
 ];

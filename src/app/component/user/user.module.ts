@@ -69,6 +69,10 @@ import { UserEffects } from './store/user.effects';
 import { UserSelectors } from './store/user.selectors';
 import { UserComponent } from './user.component';
 import {EditProfileFormBuilder} from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
+import { AllHabitsComponent } from './components/habit/all-habits/all-habits.component';
+import { HabitsListViewComponent } from './components/habit/all-habits/components/habits-list-view/habits-list-view.component';
+import { HabitsGalleryViewComponent } from './components/habit/all-habits/components/habits-gallery-view/habits-gallery-view.component';
+
 
 @NgModule({
   declarations: [
@@ -128,6 +132,9 @@ import {EditProfileFormBuilder} from '@global-user/components/profile/edit-profi
     PersonalPhotoComponent,
     SocialNetworksComponent,
     ProfilePrivacyComponent,
+    AllHabitsComponent,
+    HabitsGalleryViewComponent,
+    HabitsListViewComponent
   ],
   imports: [
     EffectsModule.forFeature([UserEffects]),

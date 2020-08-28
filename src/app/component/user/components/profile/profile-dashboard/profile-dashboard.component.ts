@@ -1,3 +1,4 @@
+import { LocalStorageService } from './../../../../../service/localstorage/local-storage.service';
 import { Component, OnInit } from '@angular/core';
 import { HabitTab } from '../../../models/habit.model';
 import { HabitItemModel } from '../../../models/habit-item.model';
@@ -8,6 +9,7 @@ import { HabitItemModel } from '../../../models/habit-item.model';
   styleUrls: ['./profile-dashboard.component.scss']
 })
 export class ProfileDashboardComponent implements OnInit {
+  public userId: number;
   public menu: Array<HabitTab> = [
     { id: 1, name: 'My habits', isActive: true },
     { id: 2, name: 'My news', isActive: false },
@@ -27,9 +29,11 @@ export class ProfileDashboardComponent implements OnInit {
     {id: 3, dayCount: 38, title: 'Брать кофе с собой в свою эко-чашку', describe: 'Great! You’ve got a habit.', done: true, acquired: true},
   ];
 
-  constructor() { }
+  constructor(private localStorageService: LocalStorageService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.initUser();
+  }
 
   public triggerTab({id}): void {
      this.menu = this.menu.map(
@@ -37,5 +41,10 @@ export class ProfileDashboardComponent implements OnInit {
          elem.isActive = elem.id === id;
          return elem;
        });
+  }
+
+  private initUser(): void {
+    this.localStorageService.userIdBehaviourSubject
+      .subscribe((userId: number) => this.userId = userId);
   }
 }
