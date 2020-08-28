@@ -45,7 +45,7 @@
       height: 190px;
       margin-bottom: 31px;
 
-      img {
+      .habit__picture {
         max-width: 90%;
         display: block;
         margin: 0 auto;
@@ -68,7 +68,7 @@
       }
 
       .description {
-        font-family: "OpenSans";
+        font-family: "OpenSans", sans-serif;
         font-size: 12px;
         line-height: 18px;
         color: #494a49;
@@ -76,7 +76,7 @@
 
       .aquired {
         color: #bebebe;
-        font-family: "Montserrat";
+        font-family: "Montserrat", sans-serif;
         font-style: normal;
         font-weight: 500;
         font-size: 12px;
