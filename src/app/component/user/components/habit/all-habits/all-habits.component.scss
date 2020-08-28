@@ -36,7 +36,6 @@
 }
 
 @media screen and (max-width: 575px) {
-
   .container {
     grid-template-columns: repeat(1, 288px);
     grid-gap: 25px;
@@ -54,10 +53,9 @@
     grid-gap: 15px;
   }
 
-  .flex-container{
+  .flex-container {
     width: 105%;
   }
-
 }
   
 @media screen and (max-width: 767px) {
