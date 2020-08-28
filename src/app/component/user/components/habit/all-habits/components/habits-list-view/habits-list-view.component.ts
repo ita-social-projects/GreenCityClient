@@ -6,7 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./habits-list-view.component.scss']
 })
 export class HabitsListViewComponent implements OnInit {
-  @Input() habit;
+  @Input() habit: object;
 
   constructor() { }
 
