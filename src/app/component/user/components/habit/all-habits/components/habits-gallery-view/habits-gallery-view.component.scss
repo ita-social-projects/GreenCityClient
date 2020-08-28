@@ -1,13 +1,12 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
-
+@import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
 
 * {
     box-sizing: border-box;
 }
 
 .habit {
-    background-color: #F5F6F6;
+    background-color: #f5f6f6;
     height: 638px;
     border-radius: 8px;
 
@@ -23,19 +22,17 @@
             justify-content: space-between;
 
             .calendar {
-
                 .calendar__icon {
                     margin-right: 15px;
                 }
                 .days {
                     font-size: 14px;
-                    color: #13AA57;
+                    color: #13aa57;
                     text-transform: uppercase;
                 }
             }
 
             .stars {
-                
                 img {
                     margin-left: 12px;
                 }
@@ -58,27 +55,27 @@
             padding-top: 15px;
 
             .tags {
-                color: #13AA57;
+                color: #13aa57;
                 text-transform: uppercase;
                 letter-spacing: 1px;
             }
 
             .title {
-                color: #494A49;
+                color: #494a49;
                 font-size: 22px;
                 line-height: 15px;
             }
-            
+
             .description {
-                font-family: 'OpenSans';
+                font-family: "OpenSans";
                 font-size: 12px;
                 line-height: 18px;
-                color: #494A49;
+                color: #494a49;
             }
 
             .aquired {
-                color: #BEBEBE;
-                font-family: 'Montserrat';
+                color: #bebebe;
+                font-family: "Montserrat";
                 font-style: normal;
                 font-weight: 500;
                 font-size: 12px;
@@ -91,30 +88,23 @@
             flex-direction: column;
             align-items: flex-end;
 
-
             button {
                 position: absolute;
                 bottom: 25px;
-                color: #FFFFFF;
-                background: #13AA57;
+                color: #ffffff;
+                background: #13aa57;
                 border-radius: 5px;
                 padding: 16px 40px;
                 border: none;
                 align-self: flex-end;
             }
         }
-        
     }
 }
 
-
-
 @media screen and (max-width: 1199px) {
-
     .habit__container {
-
         .info {
-
             .tags {
                 font-size: 12px;
             }

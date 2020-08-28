@@ -1,83 +1,83 @@
 .active {
-    color: green;
+  color: green;
 }
 
 .container {
-    display: grid;
-    grid-template-columns: repeat(3, 359px);
-    grid-gap: 30px
+  display: grid;
+  grid-template-columns: repeat(3, 359px);
+  grid-gap: 30px;
 }
 
 .title {
-    margin-left: 100px;
+  margin-left: 100px;
 }
 
 .list {
-    display: block;
-    width: 500px;
-    margin: 0 auto;
+  display: block;
+  width: 500px;
+  margin: 0 auto;
 }
 
 .main-wrapper {
-    max-width: 1189px;
-    margin: 0 auto;
+  max-width: 1189px;
+  margin: 0 auto;
 }
 
 .buttons {
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
 }
 
 @media screen and (max-width: 1199px) {
-    .container {
-        grid-template-columns: repeat(3, 299px);
-        grid-gap: 15px;
-    }
+  .container {
+    grid-template-columns: repeat(3, 299px);
+    grid-gap: 15px;
+  }
 }
 
 @media screen and (max-width: 575px) {
 
-    .container {
-        grid-template-columns: repeat(1, 288px);
-        grid-gap: 25px
-    }
+  .container {
+    grid-template-columns: repeat(1, 288px);
+    grid-gap: 25px;
+  }
 
-    .main-wrapper {
-        max-width: 950px;
-        margin: 0 auto;
-    }
+  .main-wrapper {
+    max-width: 950px;
+    margin: 0 auto;
+  }
 }
   
-  @media screen and (max-width: 991px) {
-    .container {
-      grid-template-columns: repeat(2, 353px);
-      grid-gap: 15px;
-    }
-  
-    .flex-container{
-      width: 105%;
-    }
-  
+@media screen and (max-width: 991px) {
+  .container {
+    grid-template-columns: repeat(2, 353px);
+    grid-gap: 15px;
   }
-  
-  @media screen and (max-width: 767px) {
-    .wrapper {
-      margin: 0 1.95%;
-    }
-  
-    .container {
-      grid-template-columns: repeat(2, 258px);
-      grid-gap: 17px
-    }
+
+  .flex-container{
+    width: 105%;
   }
+
+}
   
-  @media screen and (max-width: 575px) {
-    .wrapper {
-      margin: 0 2.4%;
-    }
-  
-    .container {
-      grid-template-columns: repeat(1, 288px);
-      grid-gap: 25px
-    }
+@media screen and (max-width: 767px) {
+  .wrapper {
+    margin: 0 1.95%;
   }
+
+  .container {
+    grid-template-columns: repeat(2, 258px);
+    grid-gap: 17px;
+  }
+}
+  
+@media screen and (max-width: 575px) {
+  .wrapper {
+    margin: 0 2.4%;
+  }
+
+  .container {
+    grid-template-columns: repeat(1, 288px);
+    grid-gap: 25px;
+  }
+}
