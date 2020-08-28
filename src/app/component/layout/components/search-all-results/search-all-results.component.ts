@@ -40,7 +40,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
     if (event[VALUE].length > 0) {
       this.inputValue = event[VALUE];
       this.searchSubscription = this.search.getAllSearch(this.inputValue, this.inputValues[0])
-        .subscribe(this.getSearchData.bind(this));
+        .subscribe(data => this.getSearchData(data));
     } else {
       this.resetData();
     }
@@ -59,16 +59,11 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
 
   private spliceResults(): void {
     const splicedData = this.elements.splice(0, 9);
-    for (let i = 0; i < 9; i++) {
-      if (splicedData[i]) {
-        this.displayedElements.push(splicedData[i]);
-      }
-    }
+    this.displayedElements = [...splicedData.map(elem => elem)];
   }
 
   public changeCurrentSorting(newSorting: number): void {
     [this.inputValues[0], this.inputValues[newSorting]] = [this.inputValues[newSorting], this.inputValues[0]];
-
   }
 
   public toggleDropdown(): void {
