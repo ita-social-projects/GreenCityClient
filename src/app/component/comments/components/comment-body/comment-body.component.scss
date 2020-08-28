@@ -1,9 +1,9 @@
-$main-font: 'Open Sans';
+$main-font: 'Open Sans', sans-serif;
 
 .comment-body-wrapper {
   margin: auto;
   width: 70%;
-  border-bottom: 1px solid #E6E6E6;
+  border-bottom: 1px solid #e6e6e6;
 
   .comment-avatar {
     position: relative;
@@ -85,7 +85,6 @@ $main-font: 'Open Sans';
     justify-content: space-between;
     margin-bottom: 10px;
 
-
     .save-cancel-btn {
       display: flex;
 
@@ -118,7 +117,7 @@ $main-font: 'Open Sans';
       padding: 10px 0 0 20px;
 
       &::placeholder {
-        color:#878787;
+        color: #878787;
       }
     }
 
@@ -128,7 +127,7 @@ $main-font: 'Open Sans';
       justify-content: center;
       text-align: center;
       border: none;
-      background-color: #FFFFFF;
+      background-color: #fff;
 
       .btn-text {
         display: inline-block;
@@ -142,11 +141,11 @@ $main-font: 'Open Sans';
     }
   }
 
-    .edit-text-button {
-      width: 157px;
-      height: 48px;
-    }
+  .edit-text-button {
+    width: 157px;
+    height: 48px;
   }
+}
 
 .comments-elements {
   display: flex;

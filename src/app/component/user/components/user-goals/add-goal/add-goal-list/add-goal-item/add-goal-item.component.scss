@@ -7,7 +7,6 @@
   font-size: 16px;
 }
 
-
 /* Hide the browser's default checkbox */
 .goal-container input {
   opacity: 0;
@@ -15,7 +14,6 @@
   height: 0;
   width: 0;
 }
-
 
 .goal-text {
   white-space: nowrap;
@@ -48,7 +46,7 @@
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
-.check-mark:after {
+.check-mark::after {
   content: "";
   display: none;
 }
@@ -64,13 +62,8 @@
   border-radius: 4px;
 }
 
-/* Show the check-mark when checked */
-.goal-container input:checked ~ .check-mark:after {
-  display: block;
-}
-
 /* Style the check-mark/indicator */
-.goal-container .check-mark:after {
+.goal-container .check-mark::after {
   margin-left: 7px;
   margin-top: 3px;
   width: 6px;
@@ -78,6 +71,11 @@
   border: solid white;
   border-width: 0 2px 2px 0;
   -webkit-transform: rotate(45deg);
+}
+
+/* Show the check-mark when checked */
+.goal-container input:checked ~ .check-mark::after {
+  display: block;
 }
 
 .no-padding {

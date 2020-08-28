@@ -1,195 +1,196 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 
-$title-font: Montserrat, sans-serif;
-$main-font: OpenSans, sans-serif;
+$title-font: montserrat, sans-serif;
+$main-font: opensans, sans-serif;
 
 .container {
-    margin-left: 135px;
-    max-width: 554px;
-    box-sizing: content-box;
+  margin-left: 135px;
+  max-width: 554px;
+  box-sizing: content-box;
 
-    h2 {
-        font-family: $title-font;
-        font-style: normal;
-        font-weight: 500;
-        height: 48px;
-        font-size: 48px;
-        line-height: 48px;
-        margin-bottom: 0;
-        color: #494A49;
+  h2 {
+    font-family: $title-font;
+    font-style: normal;
+    font-weight: 500;
+    height: 48px;
+    font-size: 48px;
+    line-height: 48px;
+    margin-bottom: 0;
+    color: #494a49;
+  }
+
+  .wrapper {
+    border-bottom: 1px solid #e1e5e3;
+    margin-top: 40px;
+    padding-bottom: 40px;
+
+    input.ng-invalid.ng-touched,
+    textarea.ng-invalid.ng-touched {
+      border: 1px solid red !important;
     }
 
-    .wrapper {
-        border-bottom: 1px solid #E1E5E3;
-        margin-top: 40px;
-        padding-bottom: 40px;
+    p {
+      font-family: $title-font;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 24px;
+      margin-bottom: 24px;
+    }
 
-      input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched {
+    .input-block {
+      display: flex;
+      flex-direction: column;
+
+      label {
+        font-family: $main-font;
+        font-size: 12px;
+        height: 16px;
+        line-height: 16px;
+        margin: 0;
+      }
+
+      input,
+      textarea {
+        background: #fff;
+        border: 1px solid #878787;
+        border-radius: 5px;
+        box-sizing: border-box;
+        font-family: $main-font;
+        font-size: 16px;
+      }
+
+      input {
+        height: 48px;
+        padding: 12px 40px 12px 16px;
+      }
+
+      textarea {
+        height: 115px;
+        padding: 12px 16px;
+      }
+
+      span {
+        font-family: $main-font;
+        font-size: 10px;
+        height: 12px;
+        line-height: 12px;
+        color: #878787;
+      }
+
+      input.ng-invalid.ng-touched,
+      textarea.ng-invalid.ng-touched {
         border: 1px solid red !important;
       }
 
-      input.ng-invalid.ng-touched + span, textarea.ng-invalid.ng-touched + span {
+      input.ng-invalid.ng-touched + span,
+      textarea.ng-invalid.ng-touched + p {
         color: red;
       }
+    }
+  }
 
-        p {
-            font-family: $title-font;
-            font-weight: 500;
-            font-size: 24px;
-            line-height: 24px;
-            margin-bottom: 24px;
-        }
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
 
-        .input-block {
-            display: flex;
-            flex-direction: column;
-          input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched {
-            border: 1px solid red !important;
-          }
-
-          input.ng-invalid.ng-touched + span, textarea.ng-invalid.ng-touched + p {
-            color: red;
-          }
-
-            label {
-                font-family: $main-font;
-                font-size: 12px;
-                height: 16px;
-                line-height: 16px;
-                margin: 0;
-            }
-
-            input, textarea {
-                background: #FFFFFF;
-                border: 1px solid #878787;
-                border-radius: 5px;
-                box-sizing: border-box;
-                font-family: OpenSans;
-                font-size: 16px;
-            }
-
-            input {
-                height: 48px;
-                padding: 12px 40px 12px 16px;
-            }
-
-            textarea {
-                height: 115px;
-                padding: 12px 16px;
-            }
-
-            span {
-                font-family: $main-font;
-                font-size: 10px;
-                height: 12px;
-                line-height: 12px;
-                color: #878787;
-            }
-        }
+    button {
+      border: 1px solid #13aa57;
+      box-sizing: border-box;
+      border-radius: 5px;
+      font-family: $main-font;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 16px;
+      height: 48px;
+      line-height: 16px;
+      margin: 32px 0 16px 24px;
+      width: 132px;
     }
 
-    .buttons {
-        display: flex;
-        justify-content: flex-end;
-
-        button {
-            border: 1px solid #13AA57;
-            box-sizing: border-box;
-            border-radius: 5px;
-            font-family: $main-font;
-            font-style: normal;
-            font-weight: 600;
-            font-size: 16px;
-            height: 48px;
-            line-height: 16px;
-            margin: 32px 0 16px 24px;
-            width: 132px;
-        }
-
-        button:first-child {
-            background: #FFFFFF;
-            color: #13AA57;
-        }
-
-        button:first-child:hover{
-            border: 1px solid #056B33;
-            color: #056B33;
-        }
-
-        button:first-child:disabled {
-            border: 1px solid #839C94;
-            color: #839C94;
-        }
-
-        button:last-child {
-            background: #13AA57;
-            color: #FFFFFF;
-        }
-
-        button:last-child:hover{
-            background: #056B33;
-        }
-
-        button:last-child:disabled{
-            background: #839C94;
-            border: 1px solid #839C94;
-        }
+    button:first-child {
+      background: #fff;
+      color: #13aa57;
     }
+
+    button:last-child {
+      background: #13aa57;
+      color: #fff;
+    }
+
+    button:first-child:hover {
+      border: 1px solid #056b33;
+      color: #056b33;
+    }
+
+    button:first-child:disabled {
+      border: 1px solid #839c94;
+      color: #839c94;
+    }
+
+    button:last-child:hover {
+      background: #056b33;
+    }
+
+    button:last-child:disabled {
+      background: #839c94;
+      border: 1px solid #839c94;
+    }
+  }
 }
 
 @media screen and (max-width: 1024px) {
-    .container {
-        margin-left: 100px;
-        max-width: 546px;
-    }
+  .container {
+    margin-left: 100px;
+    max-width: 546px;
+  }
 }
 
 @media screen and (max-width: 768px) {
-    .container {
-        margin-left: 63px;
-        max-width: 612px;
-    }
+  .container {
+    margin-left: 63px;
+    max-width: 612px;
+  }
 }
 
 @media screen and (max-width: 576px) {
-    .container {
-        margin: 0;
-        max-width: 548px;
-        padding-left: 14px;
-        padding-right: 14px;
-    }
+  .container {
+    margin: 0;
+    max-width: 548px;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
 }
 
 @media screen and (max-width: 320px) {
-    .container {
-        width: 288px;
-        padding-left: 16px;
-        padding-right: 16px;
+  .container {
+    width: 288px;
+    padding-left: 16px;
+    padding-right: 16px;
 
-        h2 {
-            font-size: 32px;
-            line-height: 32px;
-            text-align: center;
-        }
-
-        .wrapper {
-            p {
-                font-size: 16px;
-            }
-        }
-
-        .buttons {
-            flex-direction: column;
-
-            button {
-                margin-left: 0;
-                width: 288px;
-            }
-
-            button:last-child {
-                margin: 0 0 8px 0;
-            }
-        }
+    h2 {
+      font-size: 32px;
+      line-height: 32px;
+      text-align: center;
     }
+
+    .wrapper {
+      p {
+        font-size: 16px;
+      }
+    }
+
+    .buttons {
+      flex-direction: column;
+
+      button {
+        margin-left: 0;
+        width: 288px;
+      }
+
+      button:last-child {
+        margin: 0 0 8px 0;
+      }
+    }
+  }
 }

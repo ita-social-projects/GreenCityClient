@@ -111,18 +111,18 @@
   background-color: #839c94 !important;
 }
 
-@media screen and (max-width: 1024px) {  
+@media screen and (max-width: 1024px) {
   #qr-code-wrapper {
     height: auto;
     width: 200px;
   }
-  
+
   #form-wrapper {
     margin-left: 40px;
   }
 }
 
-@media screen and (max-width: 960px) {  
+@media screen and (max-width: 960px) {
   #subscribe-wrapper {
     padding: 0 24px;
   }
@@ -136,7 +136,7 @@
   }
 }
 
-@media screen and (max-width: 768px) {  
+@media screen and (max-width: 768px) {
   #form-wrapper h2 {
     line-height: 1;
   }
