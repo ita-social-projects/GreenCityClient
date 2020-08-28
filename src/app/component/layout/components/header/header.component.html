@@ -114,7 +114,7 @@
                 <div class="switcher-wrapper" (click)="langDropdownVisible = !langDropdownVisible">
                   <img class="arrow"
                       [src]="selectLanguageArrow"
-                      [ngClass]="langDropdownVisible ? 'arrow reverse' : 'arrow'"
+                      [ngClass]="langDropdownVisible ? 'arrow reverse zIndex' : 'arrow'"
                       alt="v">
                   <ul [class.add-shadow]="langDropdownVisible"
                       appCloseDropdown

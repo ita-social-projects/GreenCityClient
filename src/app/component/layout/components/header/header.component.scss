@@ -7,6 +7,10 @@ $screen-870: " screen and (max-width : 870px)";
 $screen-576: " screen and (max-width : 576px)";
 $screen-320: " screen and (max-width : 320px)";
 
+.zIndex {
+  z-index: 1;
+}
+
 .main {
   width: 100%;
   box-shadow: 0 0 8px rgba(73, 74, 73, 0.2);
@@ -243,7 +247,7 @@ $screen-320: " screen and (max-width : 320px)";
       right: 19px;
       width: 8px;
       height: 5px;
-      z-index: 1;
+      // z-index: 1;
     }
 
     .reverse {
@@ -564,3 +568,5 @@ $screen-320: " screen and (max-width : 320px)";
     }
   }
 }
+
+
