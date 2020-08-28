@@ -46,7 +46,7 @@
     margin: 0 auto;
   }
 }
-  
+
 @media screen and (max-width: 991px) {
   .container {
     grid-template-columns: repeat(2, 353px);
@@ -57,7 +57,7 @@
     width: 105%;
   }
 }
-  
+
 @media screen and (max-width: 767px) {
   .wrapper {
     margin: 0 1.95%;
@@ -68,7 +68,7 @@
     grid-gap: 17px;
   }
 }
-  
+
 @media screen and (max-width: 575px) {
   .wrapper {
     margin: 0 2.4%;
