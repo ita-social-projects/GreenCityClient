@@ -131,9 +131,11 @@ ${this.months[this.currentMonth]} ${this.currentYear}`;
     const option = { weekday: 'short' };
     this.language = this.languageService.getCurrentLanguage();
     this.calendarDay.find(el => {
-      if (el.isCurrentDayActive &&
-        el.date.getMonth() === el.month &&
-        el.date.getFullYear() === el.year) {
+      if (
+        el.isCurrentDayActive
+        && el.date.getMonth() === el.month
+        && el.date.getFullYear() === el.year
+      ) {
         const dayName = (new Date(el.year, el.month, +el.numberOfDate)
           .toLocaleDateString(this.language, option));
         this.currentDayName = dayName.charAt(0).toUpperCase() + dayName.slice(1);
@@ -142,12 +144,11 @@ ${this.months[this.currentMonth]} ${this.currentYear}`;
   }
 
   public nextWeek(): void {
-    if (this.currentDay === this.calendar.totalDaysInMonth - this.maxDaysInWeek) {
+    if (this.currentDay === this.calendar.totalDaysInMonth) {
       this.currentMonth = this.currentMonth + 1;
       this.currentDay = 1;
-      const [firstDay, ...lastDays] = this.daysName;
-      this.daysName = [...lastDays, firstDay];
     } else {
+      this.currentDay = this.currentDay + 1;
       const [firstDay, ...lastDays] = this.daysName;
       this.daysName = [...lastDays, firstDay];
     }
