@@ -9,6 +9,111 @@ $main-font: opensans, sans-serif;
   max-width: 554px;
   box-sizing: content-box;
 
+  .wrapper {
+    border-bottom: 1px solid #E1E5E3;
+    margin-top: 40px;
+    padding-bottom: 40px;
+    .input-block {
+      display: flex;
+      flex-direction: column;
+
+    label {
+      font-family: $main-font;
+      font-size: 12px;
+      height: 16px;
+      line-height: 16px;
+      margin: 0;
+    }
+
+    input,
+    textarea {
+      background: #fff;
+      border: 1px solid #878787;
+      border-radius: 5px;
+      box-sizing: border-box;
+      font-family: $main-font;
+      font-size: 16px;
+    }
+
+    input {
+      height: 48px;
+      padding: 12px 40px 12px 16px;
+    }
+
+    textarea {
+      height: 115px;
+      padding: 12px 16px;
+    }
+
+    span {
+      font-family: $main-font;
+      font-size: 10px;
+      height: 12px;
+      line-height: 12px;
+      color: #878787;
+    }
+
+    input.ng-invalid.ng-touched,
+    textarea.ng-invalid.ng-touched {
+      border: 1px solid red !important;
+    }
+
+    input.ng-invalid.ng-touched + span,
+    textarea.ng-invalid.ng-touched + p {
+      color: red;
+    }
+  }
+}
+
+  .buttons {
+  display: flex;
+  justify-content: flex-end;
+
+    button {
+      border: 1px solid #13aa57;
+      box-sizing: border-box;
+      border-radius: 5px;
+      font-family: $main-font;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 16px;
+      height: 48px;
+      line-height: 16px;
+      margin: 32px 0 16px 24px;
+      width: 132px;
+    }
+
+    button:first-child {
+      background: #fff;
+      color: #13aa57;
+    }
+
+    button:last-child {
+      background: #13aa57;
+      color: #fff;
+    }
+
+    button:first-child:hover {
+      border: 1px solid #056b33;
+      color: #056b33;
+    }
+
+    button:first-child:disabled {
+      border: 1px solid #839c94;
+      color: #839c94;
+    }
+
+    button:last-child:hover {
+      background: #056b33;
+    }
+
+    button:last-child:disabled {
+      background: #839c94;
+      border: 1px solid #839c94;
+    }
+  }
+}
+
     h2 {
       font-family: $title-font;
       font-style: normal;
@@ -104,111 +209,6 @@ $main-font: opensans, sans-serif;
               }
           }
       }
-
-      .wrapper {
-          border-bottom: 1px solid #E1E5E3;
-          margin-top: 40px;
-          padding-bottom: 40px;
-      .input-block {
-        display: flex;
-        flex-direction: column;
-
-        label {
-          font-family: $main-font;
-          font-size: 12px;
-          height: 16px;
-          line-height: 16px;
-          margin: 0;
-        }
-
-        input,
-        textarea {
-          background: #fff;
-          border: 1px solid #878787;
-          border-radius: 5px;
-          box-sizing: border-box;
-          font-family: $main-font;
-          font-size: 16px;
-        }
-
-        input {
-          height: 48px;
-          padding: 12px 40px 12px 16px;
-        }
-
-        textarea {
-          height: 115px;
-          padding: 12px 16px;
-        }
-
-        span {
-          font-family: $main-font;
-          font-size: 10px;
-          height: 12px;
-          line-height: 12px;
-          color: #878787;
-        }
-
-        input.ng-invalid.ng-touched,
-        textarea.ng-invalid.ng-touched {
-          border: 1px solid red !important;
-        }
-
-        input.ng-invalid.ng-touched + span,
-        textarea.ng-invalid.ng-touched + p {
-          color: red;
-        }
-      }
-    }
-
-    .buttons {
-      display: flex;
-      justify-content: flex-end;
-
-      button {
-        border: 1px solid #13aa57;
-        box-sizing: border-box;
-        border-radius: 5px;
-        font-family: $main-font;
-        font-style: normal;
-        font-weight: 600;
-        font-size: 16px;
-        height: 48px;
-        line-height: 16px;
-        margin: 32px 0 16px 24px;
-        width: 132px;
-      }
-
-      button:first-child {
-        background: #fff;
-        color: #13aa57;
-      }
-
-      button:last-child {
-        background: #13aa57;
-        color: #fff;
-      }
-
-      button:first-child:hover {
-        border: 1px solid #056b33;
-        color: #056b33;
-      }
-
-      button:first-child:disabled {
-        border: 1px solid #839c94;
-        color: #839c94;
-      }
-
-      button:last-child:hover {
-        background: #056b33;
-      }
-
-      button:last-child:disabled {
-        background: #839c94;
-        border: 1px solid #839c94;
-      }
-    }
-  }
 
   @media screen and (max-width: 1024px) {
     .container {
