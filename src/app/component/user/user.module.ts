@@ -1,4 +1,11 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule, MatRadioModule } from '@angular/material';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { EffectsModule } from '@ngrx/effects';
 import {
   AddNewHabitModalComponent,
   AlreadyChosenComponent,
@@ -50,20 +57,13 @@ import {
   PersonalPhotoComponent,
   SocialNetworksComponent,
 } from './components';
-import { CommonModule } from '@angular/common';
 import { CustomLastPipe } from '../../pipe/custom-last-pipe/custom-first.pipe';
 import { ShowFirstNLettersPipe } from '../../pipe/show-first-n-letters/show-first-n-letters.pipe';
 import { ShowFirstNPipe } from '../../pipe/show-first-n-pipe/show-first-n.pipe';
 import { UncheckedFirstPipe } from '../../pipe/unchecked-first-pipe/unchecked-first.pipe';
 import { AlphabeticalPipePipe } from '../../pipe/alphabetical-pipe/alphabetical-pipe.pipe';
-import { MatButtonModule, MatRadioModule } from '@angular/material';
-import { DragDropModule } from '@angular/cdk/drag-drop';
 import { SharedModule } from '../shared/shared.module';
 import { UserRoutingModule } from './user-routing.module';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from './store/user.effects';
 import { UserSelectors } from './store/user.selectors';
 import { UserComponent } from './user.component';
