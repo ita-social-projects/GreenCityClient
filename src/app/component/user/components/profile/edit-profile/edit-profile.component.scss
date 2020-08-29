@@ -44,25 +44,6 @@ input:checked ~ .checkmark::after {
   display: block;
 }
 
-// .wrapper {
-//   border-bottom: 1px solid #e1e5e3;
-//   margin-top: 40px;
-//   padding-bottom: 40px;
-
-//   input.ng-invalid.ng-touched,
-//   textarea.ng-invalid.ng-touched {
-//     border: 1px solid red !important;
-//   }
-
-//   p {
-//     font-family: $title-font;
-//     font-weight: 500;
-//     font-size: 24px;
-//     line-height: 24px;
-//     margin-bottom: 24px;
-//   }
-// }
-
 .container {
   margin-left: 135px;
   max-width: 554px;
