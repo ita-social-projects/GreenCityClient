@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule, MatRadioModule } from '@angular/material';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import {HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { EffectsModule } from '@ngrx/effects';
@@ -56,7 +56,6 @@ import {
   EditProfileComponent,
   PersonalPhotoComponent,
   SocialNetworksComponent,
-  ProfilePrivacyComponent
 } from './components';
 import { CustomLastPipe } from '../../pipe/custom-last-pipe/custom-first.pipe';
 import { ShowFirstNLettersPipe } from '../../pipe/show-first-n-letters/show-first-n-letters.pipe';
@@ -68,7 +67,7 @@ import { UserRoutingModule } from './user-routing.module';
 import { UserEffects } from './store/user.effects';
 import { UserSelectors } from './store/user.selectors';
 import { UserComponent } from './user.component';
-import {EditProfileFormBuilder} from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
+import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 
 @NgModule({
   declarations: [
@@ -127,7 +126,6 @@ import {EditProfileFormBuilder} from '@global-user/components/profile/edit-profi
     EditProfileComponent,
     PersonalPhotoComponent,
     SocialNetworksComponent,
-    ProfilePrivacyComponent,
   ],
   imports: [
     EffectsModule.forFeature([UserEffects]),

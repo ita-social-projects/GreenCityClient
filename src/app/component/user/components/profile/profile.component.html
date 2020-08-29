@@ -1,16 +1,16 @@
-<section class="profile-wrapper">
+<section class="profile-wrapper" *ngIf="userInfo">
     <div class="column left-column">
       <div class="app-profile-header">
-        <app-profile-header></app-profile-header>
+        <app-profile-header [userInfo]="userInfo"></app-profile-header>
       </div>
       <div class="app-achievements-friends">
         <app-achievements-friends></app-achievements-friends>
       </div>
       <div class="app-eco-places">
-        <app-eco-places></app-eco-places>
+        <app-eco-place *ngIf="userInfo.showEcoPlace"></app-eco-places>
       </div>
       <div class="app-shopping-list">
-        <app-shopping-list></app-shopping-list>
+        <app-shopping-list *ngIf="userInfo.showShoppingList"></app-shopping-list>
       </div>
     </div>
     <div class="column habits-dashboard">

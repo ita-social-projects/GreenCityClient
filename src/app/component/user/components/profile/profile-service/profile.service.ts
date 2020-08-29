@@ -7,8 +7,8 @@ import { environment } from '@environment/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ProfileStatistics } from '@user-models/profile-statistiscs';
-import { LanguageService } from '@language-service/language.service';
 import { EditProfileModel } from '@user-models/edit-profile.model';
+import { LanguageService } from '@language-service/language.service';
 
 @Injectable({
   providedIn: 'root'
@@ -42,10 +42,6 @@ export class ProfileService {
     const currentLang = this.languageService.getCurrentLanguage();
 
     return this.http.get<ShoppingList[]>(`${this.backEnd}goals/shoppingList/${this.userId}/language/${currentLang}`);
-  }
-
-  public getUserStatus(): Observable<object> {
-    return this.http.get<object>(`${this.backEnd}user/isOnline/${this.userId}/`);
   }
 
   public getUserProfileStatistics(): Observable<ProfileStatistics> {
