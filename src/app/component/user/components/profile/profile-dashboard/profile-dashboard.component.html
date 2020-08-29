@@ -1,12 +1,24 @@
 <div class="profile-menu">
-        <span (click)="triggerTab(oneItem)"
-              *ngFor="let oneItem of menu"
-              [class.active]="oneItem.isActive">{{ oneItem.name }}
-        </span>
+  <span (click)="triggerTab(oneItem)"
+        *ngFor="let oneItem of menu; index as index"
+        class="profile-span"
+        [class.active]="oneItem.isActive">
+        <ng-container [ngSwitch]="index">
+          <ng-container  *ngSwitchCase="0">
+            {{ 'profile.my-habits' | translate }}
+          </ng-container>
+          <ng-container  *ngSwitchCase="1">
+            {{ 'profile.my-news' | translate }}
+          </ng-container>
+          <ng-container  *ngSwitchCase="2">
+            {{ 'profile.my-articles' | translate }}
+          </ng-container>
+       </ng-container>
+  </span>
 </div>
 <div class="menu-title">
   <div class="in-progress">
-    <p>Habits in progress
+    <p>{{ 'profile.habits-in-progress' | translate }}
       <span>4</span>
     </p>
   </div>
@@ -14,7 +26,7 @@
     <a>
       <div id="create-button"
            class="secondary-global-button">
-        <span>Add new habit</span>
+        <span>{{ 'profile.add-new-habit' | translate }}</span>
       </div>
     </a>
   </div>
@@ -25,7 +37,7 @@
   </app-one-habit>
 </div>
 <div class="in-progress acquired">
-  <p> Habits acquired
+  <p> {{ 'profile.habits-acquired' | translate }}
     <span>3</span>
   </p>
 </div>
@@ -34,4 +46,3 @@
                  [oneHabit]="oneHabit">
   </app-one-habit>
 </div>
-

@@ -33,7 +33,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   private subscribeToLangChange(): void {
     this.langChangeSub = this.localStorageService.languageSubject
-      .subscribe(this.bindLang);
+      .subscribe((lang) => this.bindLang(lang));
   }
 
   ngOnDestroy(): void {

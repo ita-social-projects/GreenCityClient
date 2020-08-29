@@ -21,7 +21,7 @@ body {
     width: 766px;
     height: 681px;
     top: 200px;
-    background: url('/assets/img/Illustration-man.png') no-repeat;
+    background: url("~/assets/img/Illustration-man.png") no-repeat;
     z-index: 3;
   }
 
@@ -32,7 +32,7 @@ body {
     height: 410px;
     right: -800px;
     top: 200px;
-    background: url('/assets/img/leaf.png') no-repeat;
+    background: url("~/assets/img/leaf.png") no-repeat;
     z-index: 2;
   }
 
@@ -43,7 +43,7 @@ body {
     height: 637.19px;
     right: -965px;
     top: 300px;
-    background: url('/assets/img/Vector.png') no-repeat;
+    background: url("~/assets/img/Vector.png") no-repeat;
     z-index: 0;
   }
 
@@ -63,55 +63,6 @@ body {
     width: 100%;
   }
 
-  .container-about {
-    position: relative;
-    top: -170px;
-    min-width: 100%;
-    min-height: 1100px;
-    height: auto;
-    background: #FFFFFF url('/assets/img/curly-line.png') no-repeat;
-    background-size: 100% 100%;
-    margin: 0px;
-    padding: 0px;
-    z-index: 2;
-  }
-
-  .container-vision {
-    position: relative;
-    display: block;
-    top: -500px;
-    min-width: 100%;
-    min-height: 600px;
-    height: auto;
-    margin: 0px;
-    padding: 0px;
-    z-index: 7;
-  }
-
-  .container-about {
-    .full-text-block {
-      position: relative;
-      float: left;
-      left: 200px;
-      margin-top: -800px;
-    }
-  }
-
-  .container-vision {
-    .full-text-block {
-      top: 200px;
-      position: relative;
-      width: 555px;
-      height: 333px;
-      float: right;
-      right: 200px;
-      font-family: OpenSans, sans-serif;
-      font-size: 24px;
-      line-height: 36px;
-      color: #263238;
-    }
-  }
-
   .steps-wrapper {
     position: relative;
     display: flex;
@@ -121,23 +72,12 @@ body {
     z-index: -1;
   }
 
-  .steps-main-block {
-    position: relative;
-    top: -900px;
-    padding-top: 250px;
-    height: 4800px;
-    background: url('/assets/img/bg-form.png') no-repeat;
-    background-size: 100% 100%;
-    overflow: hidden;
-    z-index: 2;
-  }
-
   .full-text-block {
     width: 555px;
     height: 333px;
     float: left;
     top: 500px;
-    font-family: OpenSans, sans-serif;
+    font-family: opensans, sans-serif;
     font-size: 24px;
     line-height: 36px;
     color: #263238;
@@ -164,6 +104,51 @@ body {
     }
   }
 
+  .container-about {
+    position: relative;
+    top: -170px;
+    min-width: 100%;
+    min-height: 1100px;
+    height: auto;
+    background: #fff url("~/assets/img/curly-line.png") no-repeat;
+    background-size: 100% 100%;
+    margin: 0;
+    padding: 0;
+    z-index: 2;
+
+    .full-text-block {
+      position: relative;
+      float: left;
+      left: 200px;
+      margin-top: -800px;
+    }
+  }
+
+  .container-vision {
+    position: relative;
+    display: block;
+    top: -500px;
+    min-width: 100%;
+    min-height: 600px;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    z-index: 7;
+
+    .full-text-block {
+      top: 200px;
+      position: relative;
+      width: 555px;
+      height: 333px;
+      float: right;
+      right: 200px;
+      font-family: opensans, sans-serif;
+      font-size: 24px;
+      line-height: 36px;
+      color: #263238;
+    }
+  }
+
   .vector-cup {
     position: relative;
     left: 400px;
@@ -171,7 +156,7 @@ body {
     top: -200px;
     width: 562px;
     height: 435px;
-    background: url('/assets/img/Vector1.png') no-repeat;
+    background: url("~/assets/img/Vector1.png") no-repeat;
     z-index: 2;
   }
 
@@ -181,11 +166,20 @@ body {
     top: -150px;
     width: 320px;
     height: 336px;
-    background: url('/assets/img/illustration-coffee.png') no-repeat;
+    background: url("~/assets/img/illustration-coffee.png") no-repeat;
     z-index: 3;
   }
 
   .steps-main-block {
+    position: relative;
+    top: -900px;
+    padding-top: 250px;
+    height: 4800px;
+    background: url("~/assets/img/bg-form.png") no-repeat;
+    background-size: 100% 100%;
+    overflow: hidden;
+    z-index: 2;
+
     h2 {
       position: relative;
       width: 35%;
@@ -206,7 +200,7 @@ body {
     position: relative;
     top: 830px;
     left: 600px;
-    background: url('/assets/img/dashed-line.png');
+    background: url("~/assets/img/dashed-line.png");
     width: 838px;
     height: 3581px;
     z-index: -1;
@@ -216,13 +210,25 @@ body {
     position: relative;
     top: 12px;
     left: 107px;
-    background: url('/assets/img/leaves.png') no-repeat;
+    background: url("~/assets/img/leaves.png") no-repeat;
     width: 641px;
     height: 3214px;
     z-index: -1;
   }
 
-  /*styles for odd cards*/
+  .main-card-text {
+    position: relative;
+    display: block;
+    width: 470px;
+    height: 200px;
+    left: 200px;
+    top: -500px;
+    padding-top: 20px;
+    font-family: opensans, sans-serif;
+    font-size: 24px;
+    line-height: 36px;
+    background: #fff;
+  }
 
   .card-holder-odd {
     width: 100%;
@@ -248,7 +254,7 @@ body {
       font-weight: 600;
       font-size: 32px;
       line-height: 44px;
-      background: #FFFFFF;
+      background: #fff;
       color: #263238;
       border: none;
       padding-top: -20px;
@@ -269,35 +275,34 @@ body {
       left: 760px;
       top: -500px;
       padding-top: 20px;
-      font-family: OpenSans, sans-serif;
+      font-family: opensans, sans-serif;
       font-weight: normal;
       font-size: 24px;
       line-height: 36px;
-      background: #FFFFFF;
+      background: #fff;
     }
+
     .card-link {
       position: relative;
       left: 1090px;
       top: -530px;
       min-width: 200px;
-      font-family: OpenSans, sans-serif;
+      font-family: opensans, sans-serif;
       font-size: 16px;
       line-height: 19px;
       display: flex;
       align-items: center;
       text-decoration-line: underline;
-      color: #056B33;
+      color: #056b33;
     }
   }
 
   .first-card-holder {
     position: relative;
-    margin-top: 0px;
+    margin-top: 0;
     top: -50px;
     padding-left: 300px;
   }
-
-  /*styles for even cards*/
 
   .card-holder-even {
     width: 100%;
@@ -308,7 +313,7 @@ body {
     left: 220px;
     top: -500px;
     padding-top: 20px;
-    font-family: OpenSans, sans-serif;
+    font-family: opensans, sans-serif;
     font-size: 24px;
     line-height: 36px;
     padding-left: 300px;
@@ -332,7 +337,7 @@ body {
       font-weight: 700;
       font-size: 32px;
       line-height: 44px;
-      background: #FFFFFF;
+      background: #fff;
       color: #263238;
       border: none;
     }
@@ -349,28 +354,14 @@ body {
       left: 400px;
       top: -530px;
       min-width: 200px;
-      font-family: OpenSans, sans-serif;
+      font-family: opensans, sans-serif;
       font-size: 16px;
       line-height: 19px;
       display: flex;
       align-items: center;
       text-decoration-line: underline;
-      color: #056B33;
+      color: #056b33;
     }
-  }
-
-  .main-card-text {
-    position: relative;
-    display: block;
-    width: 470px;
-    height: 200px;
-    left: 200px;
-    top: -500px;
-    padding-top: 20px;
-    font-family: OpenSans, sans-serif;
-    font-size: 24px;
-    line-height: 36px;
-    background: #FFFFFF;
   }
 
   .card-link::after {
@@ -379,65 +370,65 @@ body {
     content: ' ';
     width: 10px;
     height: 10px;
-    background: url('/assets/img/Vector3.svg') no-repeat;
+    background: url("~/assets/img/Vector3.svg") no-repeat;
   }
 
   .one-img {
-    background: url('/assets/img/1.png');
+    background: url("~/assets/img/1.png");
     width: 33px;
     height: 68px;
   }
 
   .two-img {
-    background: url('/assets/img/2.png');
+    background: url("~/assets/img/2.png");
     width: 57px;
     height: 69px;
   }
 
   .three-img {
-    background: url('/assets/img/3.png');
+    background: url("~/assets/img/3.png");
     width: 57px;
     height: 70px;
   }
 
   .four-img {
-    background: url('/assets/img/4.png');
+    background: url("~/assets/img/4.png");
     width: 65px;
     height: 68px;
   }
 
   .five-img {
-    background: url('/assets/img/5.png');
+    background: url("~/assets/img/5.png");
     width: 57px;
     height: 70px;
   }
 
   .ecostore-bg {
-    background: url('/assets/img/illustration-store.png') no-repeat;
+    background: url("~/assets/img/illustration-store.png") no-repeat;
     width: 622px;
     height: 633px;
   }
 
   .planet-bg {
-    background: url('/assets/img/illustration-earth.png') no-repeat;
+    background: url("~/assets/img/illustration-earth.png") no-repeat;
     width: 629px;
     height: 566px;
   }
 
   .money-bg {
-    background: url('/assets/img/illustration-money.png') no-repeat;
+    background: url("~/assets/img/illustration-money.png") no-repeat;
     width: 692px;
     height: 740px;
   }
 
   .cup-bg {
-    background: url('/assets/img/illustration-recycle.png') no-repeat;
+    background: url("~/assets/img/illustration-recycle.png") no-repeat;
     width: 629px;
     height: 579px;
   }
 
   .people-bg {
-    background: url('/assets/img/illustration-people.png') no-repeat;
+    background: url("~/assets/img/illustration-people.png") no-repeat;
     width: 621px;
     height: 648px;
   }
@@ -499,7 +490,7 @@ body {
     height: 681px;
     right: -585px;
     top: 200px;
-    background: url('/assets/img/Illustration-man.png') no-repeat;
+    background: url("~/assets/img/Illustration-man.png") no-repeat;
     z-index: 3;
   }
 
@@ -525,10 +516,10 @@ body {
     min-width: 100%;
     min-height: 1000px;
     height: auto;
-    background: #FFFFFF url('/assets/img/curly-line.png') no-repeat;
+    background: #fff url("~/assets/img/curly-line.png") no-repeat;
     background-position: 0 100px;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
   }
 
   .container-vision {
@@ -536,8 +527,8 @@ body {
     min-height: 1200px;
     height: auto;
     background: #fefefe;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     z-index: 7;
   }
 
@@ -547,7 +538,7 @@ body {
     height: 410px;
     right: -1152px;
     top: -450px;
-    background: url('/assets/img/leaf.png') no-repeat;
+    background: url("~/assets/img/leaf.png") no-repeat;
     z-index: 2;
   }
 
@@ -557,20 +548,8 @@ body {
     height: 637.19px;
     right: -730px;
     top: -770px;
-    background: url('/assets/img/Vector.png') no-repeat;
+    background: url("~/assets/img/Vector.png") no-repeat;
     z-index: 0;
-  }
-
-  .container-vision .full-text-block {
-    position: relative;
-    width: 555px;
-    height: 300px;
-    left: 750px;
-    top: -1800px;
-    font-family: OpenSans, sans-serif;
-    font-size: 24px;
-    line-height: 36px;
-    color: #263238;
   }
 
   .full-text-block {
@@ -579,7 +558,7 @@ body {
     height: 333px;
     left: 100px;
     top: -1400px;
-    font-family: OpenSans, sans-serif;
+    font-family: opensans, sans-serif;
     font-size: 24px;
     line-height: 36px;
     color: #263238;
@@ -606,13 +585,25 @@ body {
     }
   }
 
+  .container-vision .full-text-block {
+    position: relative;
+    width: 555px;
+    height: 300px;
+    left: 750px;
+    top: -1800px;
+    font-family: opensans, sans-serif;
+    font-size: 24px;
+    line-height: 36px;
+    color: #263238;
+  }
+
   .vector-cup {
     position: relative;
     left: 100px;
     top: -1200px;
     width: 562px;
     height: 435px;
-    background: url('/assets/img/Vector1.png') no-repeat;
+    background: url("~/assets/img/Vector1.png") no-repeat;
     z-index: 1;
   }
 
@@ -622,7 +613,7 @@ body {
     top: -1600px;
     width: 320px;
     height: 336px;
-    background: url('/assets/img/illustration-coffee.png') no-repeat;
+    background: url("~/assets/img/illustration-coffee.png") no-repeat;
     z-index: 3;
   }
 
@@ -631,7 +622,7 @@ body {
     top: -2800px;
     padding-top: 100px;
     height: 4500px;
-    background: url('/assets/img/bg-form.png') no-repeat;
+    background: url("~/assets/img/bg-form.png") no-repeat;
     overflow: hidden;
 
     h2 {
@@ -654,7 +645,7 @@ body {
     position: relative;
     top: 540px;
     left: 200px;
-    background: url('/assets/img/dashed-line.png');
+    background: url("~/assets/img/dashed-line.png");
     width: 838px;
     height: 3581px;
   }
@@ -663,12 +654,25 @@ body {
     position: relative;
     top: 12px;
     left: 107px;
-    background: url('/assets/img/leaves.png') no-repeat;
+    background: url("~/assets/img/leaves.png") no-repeat;
     width: 641px;
     height: 3214px;
   }
 
-  /*styles for odd cards*/
+  .main-card-text {
+    position: relative;
+    display: block;
+    width: 470px;
+    height: 200px;
+    left: 240px;
+    top: -500px;
+    padding-top: 20px;
+    font-family: opensans, sans-serif;
+    font-size: 24px;
+    line-height: 36px;
+    background: #fff;
+  }
+
   .card-holder-odd {
     width: 100%;
     height: 700px;
@@ -692,7 +696,7 @@ body {
       font-weight: 600;
       font-size: 32px;
       line-height: 44px;
-      background: #FFFFFF;
+      background: #fff;
       color: #263238;
       border: none;
       padding-top: -20px;
@@ -713,10 +717,10 @@ body {
       left: 760px;
       top: -500px;
       padding-top: 20px;
-      font-family: OpenSans, sans-serif;
+      font-family: opensans, sans-serif;
       font-size: 24px;
       line-height: 36px;
-      background: #FFFFFF;
+      background: #fff;
     }
 
     .card-link {
@@ -724,18 +728,18 @@ body {
       left: 1090px;
       top: -530px;
       min-width: 200px;
-      font-family: OpenSans, sans-serif;
+      font-family: opensans, sans-serif;
       font-size: 16px;
       line-height: 19px;
       display: flex;
       align-items: center;
       text-decoration-line: underline;
-      color: #056B33;
+      color: #056b33;
     }
   }
 
   .first-card-holder {
-    margin-top: 0px;
+    margin-top: 0;
   }
 
   .steps-wrapper {
@@ -744,7 +748,6 @@ body {
     margin-top: -3300px;
   }
 
-  /*styles for even cards*/
   .card-holder-even {
     width: 100%;
     height: 700px;
@@ -754,10 +757,10 @@ body {
     left: 240px;
     top: -500px;
     padding-top: 20px;
-    font-family: OpenSans, sans-serif;
+    font-family: opensans, sans-serif;
     font-size: 24px;
     line-height: 36px;
-    background: #FFFFFF;
+    background: #fff;
 
     .number-title {
       position: relative;
@@ -778,7 +781,7 @@ body {
       font-weight: 700;
       font-size: 32px;
       line-height: 44px;
-      background: #FFFFFF;
+      background: #fff;
       color: #263238;
       border: none;
     }
@@ -795,30 +798,15 @@ body {
       left: 400px;
       top: -530px;
       min-width: 200px;
-      font-family: OpenSans, sans-serif;
+      font-family: opensans, sans-serif;
       font-size: 16px;
       line-height: 19px;
       display: flex;
       align-items: center;
       text-decoration-line: underline;
-      color: #056B33;
+      color: #056b33;
     }
   }
-
-  .main-card-text {
-    position: relative;
-    display: block;
-    width: 470px;
-    height: 200px;
-    left: 240px;
-    top: -500px;
-    padding-top: 20px;
-    font-family: OpenSans, sans-serif;
-    font-size: 24px;
-    line-height: 36px;
-    background: #FFFFFF;
-  }
-
 
   .card-link::after {
     margin-left: 5px;
@@ -826,65 +814,65 @@ body {
     content: ' ';
     width: 10px;
     height: 10px;
-    background: url('/assets/img/Vector3.svg') no-repeat;
+    background: url("~/assets/img/Vector3.svg") no-repeat;
   }
 
   .one-img {
-    background: url('/assets/img/1.png');
+    background: url("~/assets/img/1.png");
     width: 33px;
     height: 68px;
   }
 
   .two-img {
-    background: url('/assets/img/2.png');
+    background: url("~/assets/img/2.png");
     width: 57px;
     height: 69px;
   }
 
   .three-img {
-    background: url('/assets/img/3.png');
+    background: url("~/assets/img/3.png");
     width: 57px;
     height: 70px;
   }
 
   .four-img {
-    background: url('/assets/img/4.png');
+    background: url("~/assets/img/4.png");
     width: 65px;
     height: 68px;
   }
 
   .five-img {
-    background: url('/assets/img/5.png');
+    background: url("~/assets/img/5.png");
     width: 57px;
     height: 70px;
   }
 
   .ecostore-bg {
-    background: url('/assets/img/illustration-store.png') no-repeat;
+    background: url("~/assets/img/illustration-store.png") no-repeat;
     width: 622px;
     height: 633px;
   }
 
   .planet-bg {
-    background: url('/assets/img/illustration-earth.png') no-repeat;
+    background: url("~/assets/img/illustration-earth.png") no-repeat;
     width: 629px;
     height: 566px;
   }
 
   .money-bg {
-    background: url('/assets/img/illustration-money.png') no-repeat;
+    background: url("~/assets/img/illustration-money.png") no-repeat;
     width: 692px;
     height: 740px;
   }
 
   .cup-bg {
-    background: url('/assets/img/illustration-recycle.png') no-repeat;
+    background: url("~/assets/img/illustration-recycle.png") no-repeat;
     width: 629px;
     height: 579px;
   }
 
   .people-bg {
-    background: url('/assets/img/illustration-people.png') no-repeat;
+    background: url("~/assets/img/illustration-people.png") no-repeat;
     width: 621px;
     height: 648px;
   }
