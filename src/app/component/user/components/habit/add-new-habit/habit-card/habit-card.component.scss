@@ -21,17 +21,13 @@
 .habit-card {
   border: solid 1px rgba(131, 156, 148, 0.2);
   border-radius: 4px;
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.03) ;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.03);
   height: 132px;
   padding: 20px;
   width: 341px;
 }
 
-.habit-card:hover {
-  border: solid 2px rgba(19, 170, 87, 0.8) !important;
-}
-
-.habit-card
+.habit-card,
 .habit-card-icon-wrapper {
   background-color: #8097b1;
   border-radius: 35px;
@@ -42,7 +38,7 @@
   width: 70px;
 }
 
-.habit-card
+.habit-card,
 .habit-card-text-wrapper {
   display: inline-block;
   margin-left: 15px;
@@ -74,10 +70,14 @@
   letter-spacing: normal;
 }
 
-.habit-card
+.habit-card,
 .habit-card-drag-control {
   display: inline-block;
   vertical-align: top;
+}
+
+.habit-card:hover {
+  border: solid 2px rgba(19, 170, 87, 0.8) !important;
 }
 
 .habit-status-active {
@@ -121,7 +121,7 @@
   letter-spacing: normal;
   line-height: 1.2;
   right: -125px;
-  padding: 5px 0; 
+  padding: 5px 0;
   position: absolute;
   text-align: center;
   top: -40px;

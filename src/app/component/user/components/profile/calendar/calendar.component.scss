@@ -3,7 +3,7 @@
 .calendar {
   width: 261px;
   max-height: 276px;
-  background: #F5F6F6;
+  background: #f5f6f6;
   border-radius: 4px;
 
   .top {
@@ -23,7 +23,7 @@
         font-family: 'Montserrat', sans-serif;
         font-weight: 600;
         font-size: 13px;
-        color: #494A49;
+        color: #494a49;
         margin-top: 16px;
         margin-bottom: 12px;
         cursor: pointer;
@@ -49,11 +49,11 @@
         font-weight: 600;
         font-size: 13px;
         line-height: 16px;
-        color: #BEBEBE;
+        color: #bebebe;
       }
 
       .current-day-name {
-        color: #13AA57;;
+        color: #13aa57;
       }
     }
   }
@@ -69,7 +69,7 @@
       font-family: 'Montserrat', sans-serif;
       font-size: 13px;
       line-height: 16px;
-      color: #494A49;
+      color: #494a49;
       text-align: center;
 
       .calendar-grid-day {
@@ -78,32 +78,35 @@
       }
 
       .calendar-grid-day:hover {
-        color: #13AA57;
+        color: #13aa57;
       }
 
       .calendar-grid-day:active {
-        color: #056B33;
+        color: #056b33;
       }
 
       .current-day {
         background: url("~/assets/img/profile/calendar/current-day.svg");
         background-repeat: no-repeat;
         background-position: center;
-        color: #FFFFFF;
+        color: #fff;
       }
+
       .tracked-day {
         background: url("~/assets/img/profile/calendar/tracked-day.svg");
         background-repeat: no-repeat;
         background-position: center;
-        color: #FFFFFF;
+        color: #fff;
       }
 
-      .current-day:hover, .tracked-day:hover {
-        color: #FFFFFF;
+      .current-day:hover,
+      .tracked-day:hover {
+        color: #fff;
       }
 
-      .current-day:active, .tracked-day:active {
-        color: #056B33;
+      .current-day:active,
+      .tracked-day:active {
+        color: #056b33;
       }
     }
 
@@ -128,7 +131,7 @@
       }
 
       .current-month {
-        color: #13AA57;
+        color: #13aa57;
       }
     }
   }
