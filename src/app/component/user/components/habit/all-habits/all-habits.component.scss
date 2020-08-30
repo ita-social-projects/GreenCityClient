@@ -9,7 +9,7 @@
 }
 
 .title {
-  margin-left: 100px;
+  padding-left: 40px;
 }
 
 .list {
@@ -18,7 +18,9 @@
   margin: 0 auto;
 }
 
-.main-wrapper {
+.header-wrapper {
+  display: flex;
+  justify-content: space-between;
   max-width: 1189px;
   margin: 0 auto;
 }
@@ -34,8 +36,12 @@
     grid-gap: 15px;
   }
 
-  .main-wrapper {
-    max-width: 947px;
+  .header-wrapper {
+    max-width: 935px;
+
+    .title {
+      padding-left: 0;
+    }
   }
 }
 
@@ -45,12 +51,12 @@
     grid-gap: 15px;
   }
 
-  .flex-container {
-    width: 105%;
-  }
+  .header-wrapper {
+    max-width: 774px;
 
-  .main-wrapper {
-    max-width: 776px;
+    .title {
+      padding-left: 40px;
+    }
   }
 }
 
@@ -60,7 +66,7 @@
     grid-gap: 17px;
   }
 
-  .main-wrapper {
+  .header-wrapper {
     max-width: 580px;
   }
 }
