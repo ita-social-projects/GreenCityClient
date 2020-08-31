@@ -22,13 +22,13 @@
         *ngIf="galleryView" 
         [ngClass]="{galleryContainer: galleryView}">
         <app-habits-gallery-view *ngFor='let habit of habitsMockList' 
-                                        [habit]="habit"
+                                [habit]="habit"
         ></app-habits-gallery-view>
     </div>
     <div *ngIf="!galleryView" 
         [ngClass]="{list: !galleryView}">
         <app-habits-list-view *ngFor='let habit of habitsMockList' 
-                                    [habit]="habit"
+                            [habit]="habit"
         ></app-habits-list-view>
     </div>
 </div>
