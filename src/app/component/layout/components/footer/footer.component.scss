@@ -3,9 +3,7 @@
 $generalFont : 'Open Sans', sans-serif;
 
 .main-background-image {
-  background-image: url("~/assets/img/icon/footer/background-image-footer.svg");
-  background-repeat: no-repeat;
-  background-position: center;
+  background: url("~/assets/img/icon/footer/background-image-footer.svg") no-repeat center;
   height: 286px;
   width: 100%;
 

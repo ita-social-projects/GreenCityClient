@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { SignInIcons } from 'src/assets/img/icon/sign-in/sign-in-icons';
+import { SignInIcons } from 'src/app/image-pathes/sign-in-icons';
 import {catchError, take} from 'rxjs/operators';
 import {AuthService, GoogleLoginProvider} from 'angularx-social-login';
 import {UserSuccessSignIn} from '../../../../model/user-success-sign-in';

@@ -275,7 +275,6 @@ $screen-320: " screen and (max-width : 320px)";
     a {
       display: block;
       min-width: 40px;
-      word-break: break-all;
     }
   }
 
@@ -295,6 +294,7 @@ $screen-320: " screen and (max-width : 320px)";
       cursor: pointer;
       width: auto;
       min-width: 86px;
+      margin-left: 25px;
       padding: 0 4px 0;
       height: 32px;
       display: flex;
