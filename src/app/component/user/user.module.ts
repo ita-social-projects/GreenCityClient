@@ -127,7 +127,6 @@ import { EditProfileFormBuilder } from '@global-user/components/profile/edit-pro
     EditProfileComponent,
     PersonalPhotoComponent,
     SocialNetworksComponent,
-    ProfilePrivacyComponent,
     CalendarWeekComponent
   ],
   imports: [
