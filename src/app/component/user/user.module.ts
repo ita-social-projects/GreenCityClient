@@ -67,6 +67,7 @@ import { UserRoutingModule } from './user-routing.module';
 import { UserEffects } from './store/user.effects';
 import { UserSelectors } from './store/user.selectors';
 import { UserComponent } from './user.component';
+import { CalendarWeekComponent } from './components/profile/calendar/calendar-week/calendar-week.component';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 
 @NgModule({
@@ -126,6 +127,8 @@ import { EditProfileFormBuilder } from '@global-user/components/profile/edit-pro
     EditProfileComponent,
     PersonalPhotoComponent,
     SocialNetworksComponent,
+    ProfilePrivacyComponent,
+    CalendarWeekComponent
   ],
   imports: [
     EffectsModule.forFeature([UserEffects]),

@@ -1,0 +1,84 @@
+.calendar {
+  width: 483px;
+  max-height: 130px;
+  background: #f5f6f6;
+  border-radius: 4px;
+
+  .top {
+    .month-year {
+      display: flex;
+      justify-content: space-between;
+      text-align: center;
+      margin: 0 20px;
+
+      .arrow-previous {
+        margin-top: 22px;
+        margin-left: 18px;
+        margin-bottom: 16px;
+        cursor: pointer;
+      }
+
+      .monthAndYear {
+        font-size: 14px;
+        line-height: 17px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        font-family: 'Montserrat', sans-serif;
+        color: #494a49;
+      }
+
+      .arrow-next {
+        margin-top: 22px;
+        margin-right: 18px;
+        margin-bottom: 16px;
+        cursor: pointer;
+      }
+    }
+
+    .days {
+      display: grid;
+      grid-template-columns: repeat(7, 66.6px);
+      text-align: center;
+      margin: 0 10px 0 10px;
+      font-size: 11px;
+
+      .days-name {
+        margin: 0;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        font-size: 11px;
+        line-height: 16px;
+        color: #bebebe;
+      }
+
+      .current-day-name {
+        color: #13aa57;
+      }
+    }
+  }
+
+  .middle {
+    margin-top: 14px;
+
+    .calendar-grid-week-view {
+      display: grid;
+      grid-template-columns: repeat(7, 66.6px);
+      text-align: center;
+      margin: 0 10px 0 10px;
+      color: #494a49;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 17px;
+    }
+
+    .day {
+      padding: 10px 20px;
+
+      &:hover {
+        background-color: #d3ebde;
+        border-radius: 4px;
+      }
+    }
+  }
+}
