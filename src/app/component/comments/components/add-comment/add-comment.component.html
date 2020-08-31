@@ -5,8 +5,8 @@
 </div>
 <div class="main-wrapper">
   <form *ngIf="isLoggedIn"
-        class="wrapper"
-        [ngClass]="dataSet.type === 'comment' ? 'wrapper': 'reply-wrapper'"
+        class="wrapper-comment"
+        [ngClass]="dataSet.type === 'comment' ? 'wrapper-comment': 'wrapper-reply'"
         [formGroup]="addCommentForm"
         (ngSubmit)="onSubmit()">
     <img [src]=avatarImage
@@ -24,13 +24,15 @@
       </div>
     </ng-container>
     <ng-template #reply>
-    <textarea placeholder="{{ 'homepage.eco-news.comment.placeholder.add-a-reply' | translate }}"
-              formControlName="content"
-              type="text"
-              maxlength="8000"></textarea>
-      <button class="primary-global-button" [disabled]="!addCommentForm.valid">
-        {{ "homepage.eco-news.comment.reply"| translate }}
-      </button>
+      <div class="input-submit">
+            <textarea placeholder="{{ 'homepage.eco-news.comment.placeholder.add-a-reply' | translate }}"
+                      formControlName="content"
+                      type="text"
+                      maxlength="8000"></textarea>
+        <button class="primary-global-button" [disabled]="!addCommentForm.valid">
+          {{ "homepage.eco-news.comment.reply"| translate }}
+        </button>
+      </div>
     </ng-template>
   </form>
 </div>
