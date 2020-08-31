@@ -59,7 +59,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
 
   private spliceResults(): void {
     const splicedData = this.elements.splice(0, 9);
-    this.displayedElements = [...splicedData.map(elem => elem)];
+    this.displayedElements = splicedData.filter(elem => elem);
   }
 
   public changeCurrentSorting(newSorting: number): void {
