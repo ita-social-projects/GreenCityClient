@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PROFILE_IMAGES } from '@global-images/profile/profile-images';
+import { PROFILE_IMAGES } from 'src/app/image-pathes/profile-images';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 
 @Component({
