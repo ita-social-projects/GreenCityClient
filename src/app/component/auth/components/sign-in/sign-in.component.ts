@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 import { GoogleSignInService } from '@auth-service/google-sign-in.service';
 import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
 import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
-import { SignInIcons } from 'src/assets/img/icon/sign-in/sign-in-icons';
+import { SignInIcons } from 'src/app/image-pathes/sign-in-icons';
 import { UserOwnSignIn } from '@global-models/user-own-sign-in';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';

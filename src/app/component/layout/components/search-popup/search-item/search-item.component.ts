@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ecoNewsIcons } from '@eco-news-images/profile-icons';
+import { ecoNewsIcons } from 'src/app/image-pathes/profile-icons';
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 
 @Component({
