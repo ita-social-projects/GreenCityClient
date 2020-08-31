@@ -26,10 +26,16 @@ $main-font: 'Open Sans';
     flex-direction: column;
     align-items: center;
 
-    .profile-avatar{
+    .profile-avatar {
       border-radius: 100px;
       height: 148px;
       width: 148px;
+    }
+
+    .selected-photo {
+      max-height: 148px;
+      max-width: 217px;
+      box-sizing: content-box;
     }
 
     p {
@@ -41,7 +47,16 @@ $main-font: 'Open Sans';
     }
 
     .buttons {
-      button {
+      display: flex;
+      align-items: flex-end;
+
+      label {
+        margin: 0;
+        padding-top: 16px;
+      }
+
+      .primary-global-button, 
+      .secondary-global-button {
         border: 1px solid #13AA57;
         box-sizing: border-box;
         border-radius: 5px;
@@ -50,28 +65,37 @@ $main-font: 'Open Sans';
         font-size: 16px;
         height: 48px;
         line-height: 16px;
+        outline: none;
       }
 
-      button:first-child {
+      .primary-global-button {
         background: #FFFFFF;
         color: #13AA57;
         width: 132px;
         margin-right: 24px;
+
+        &:hover{
+          border: 1px solid #056B33;
+          color: #056B33;
+        }
       }
 
-      button:first-child:hover{
-        border: 1px solid #056B33;
-        color: #056B33;
-      }
-
-      button:last-child {
+      .secondary-global-button {
         background: #13AA57;
         color: #FFFFFF;
         width: 191px;
+
+        &:hover{
+          background: #056B33;
+        }
       }
 
-      button:last-child:hover{
-        background: #056B33;
+      .change {
+        width: 191px;
+      }
+
+      input {
+        display: none;
       }
     }
   }

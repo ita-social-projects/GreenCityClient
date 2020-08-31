@@ -10,7 +10,7 @@ export class EditProfileModel {
 export class EditProfileDto {
   city: string;
   firstName: string;
-  profilePicturePath: SafeUrl;
+  // profilePicturePath: SafeUrl;
   userCredo: string;
 }
 

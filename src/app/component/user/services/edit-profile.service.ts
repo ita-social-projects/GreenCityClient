@@ -17,21 +17,21 @@ export class EditProfileService {
 
 
   postDataUserProfile(form): Observable<EditProfileModel> {
-    const body: EditProfileDto = {
-      city: form.value.city,
-      firstName: form.value.name,
-      profilePicturePath: null,
-      userCredo: form.value.title,
-    };
-    const formData = new FormData();
+    // const body: EditProfileDto = {
+    //   city: form.value.city,
+    //   firstName: form.value.name,
+    //   profilePicturePath: null,
+    //   userCredo: form.value.title,
+    // };
+    // const formData = new FormData();
 
-    if (this.files.length !== 0) {
-      body.profilePicturePath = this.files[0].url;
-    }
-    console.log(body);
-    formData.append('userProfileDtoRequest ', JSON.stringify(body));
+    // if (this.files.length !== 0) {
+    //   body.profilePicturePath = this.files[0].url;
+    // }
+    // console.log(body);
+    // formData.append('userProfileDtoRequest ', JSON.stringify(body));
 
-    return this.http.put<EditProfileModel>(`${this.url}user/profile`, formData);
+    return this.http.put<EditProfileModel>(`${this.url}user/profile`, form);
   }
 
 }
