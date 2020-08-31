@@ -68,6 +68,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from './store/user.effects';
 import { UserSelectors } from './store/user.selectors';
 import { UserComponent } from './user.component';
+import { CalendarWeekComponent } from './components/profile/calendar/calendar-week/calendar-week.component';
 import {EditProfileFormBuilder} from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 import { AllHabitsComponent } from './components/habit/all-habits/all-habits.component';
 import { HabitsListViewComponent } from './components/habit/all-habits/components/habits-list-view/habits-list-view.component';
@@ -134,7 +135,8 @@ import { HabitsGalleryViewComponent } from './components/habit/all-habits/compon
     ProfilePrivacyComponent,
     AllHabitsComponent,
     HabitsGalleryViewComponent,
-    HabitsListViewComponent
+    HabitsListViewComponent,
+    CalendarWeekComponent
   ],
   imports: [
     EffectsModule.forFeature([UserEffects]),
