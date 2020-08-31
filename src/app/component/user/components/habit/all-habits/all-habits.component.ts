@@ -7,7 +7,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   templateUrl: './all-habits.component.html',
   styleUrls: ['./all-habits.component.scss']
 })
-export class AllHabitsComponent implements OnInit {
+export class AllHabitsComponent implements OnInit, OnDestroy {
 
   public habitsMockList: object[];
   public galleryView = true;
@@ -28,7 +28,7 @@ export class AllHabitsComponent implements OnInit {
       .subscribe((data: object[]) => this.habitsMockList = data);
   }
 
-  OnDestroy(): void {
+  ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
