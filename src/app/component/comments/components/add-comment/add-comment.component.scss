@@ -51,12 +51,10 @@
   }
 }
 
-.comments-loader {
-  display: flex;
-  justify-content: center;
-  padding-top: 40px;
+.mat-spinner {
+  margin: 40px auto 0;
 
-  &::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+  &::ng-deep circle {
     stroke: #056B33;
   }
 }
