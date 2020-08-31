@@ -37,6 +37,7 @@
       overflow: hidden;
       resize: none;
       padding: 10px 0 0 20px;
+      border-radius: 5px;
 
       &::placeholder {
         color: #878787;
@@ -47,6 +48,7 @@
       width: 157px;
       height: 48px;
       margin-left: 16px;
+      border-radius: 5px;
     }
   }
 }
