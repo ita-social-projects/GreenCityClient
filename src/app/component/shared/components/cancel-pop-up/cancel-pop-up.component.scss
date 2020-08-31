@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 
-$title-font: 'Montserrat';
-$main-font: 'Open Sans';
+$title-font: 'Montserrat', sans-serif;
+$main-font: 'Open Sans', sans-serif;
 
 .main-container {
   position: relative;
@@ -121,6 +121,5 @@ $main-font: 'Open Sans';
         width: 100%;
       }
     }
-
   }
 }
