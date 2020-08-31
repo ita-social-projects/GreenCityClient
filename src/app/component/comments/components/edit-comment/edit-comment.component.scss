@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 
-$main-font: 'Open Sans';
+$main-font: 'Open Sans', sans-serif;
 
 .main-wrapper {
   display: flex;
@@ -18,7 +18,7 @@ $main-font: 'Open Sans';
     justify-content: center;
     text-align: center;
     border: none;
-    background-color: #FFFFFF;
+    background-color: #fff;
 
     .btn-text {
       margin-left: 5px;

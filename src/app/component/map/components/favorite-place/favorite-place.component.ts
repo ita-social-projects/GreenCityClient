@@ -16,8 +16,7 @@ export interface DialogData {
 
 @Component({
   selector: 'app-favorite-place',
-  templateUrl: './favorite-place.component.html',
-  styleUrls: ['./favorite-place.component.scss']
+  templateUrl: './favorite-place.component.html'
 })
 export class FavoritePlaceComponent implements OnInit {
   displayedColumns: string[] = ['Name', 'Actions'];

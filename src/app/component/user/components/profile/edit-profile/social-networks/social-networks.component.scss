@@ -8,15 +8,15 @@ ul {
     list-style: none;
     margin-bottom: 24px;
 
-    .link{
+    .link {
       img {
         height: 24px;
         width: 24px;
       }
 
       a {
-        color: #494A49;
-        font-family: OpenSans, sans-serif;
+        color: #494a49;
+        font-family: opensans, sans-serif;
         font-size: 16px;
         line-height: 24px;
         margin-right: 16px;
@@ -32,7 +32,7 @@ ul {
         outline: none;
         padding: 0;
 
-        img{
+        img {
           padding-left: 18px;
         }
       }
@@ -43,8 +43,8 @@ ul {
     justify-self: start;
     margin-bottom: 0;
 
-    .link{
-      button{
+    .link {
+      button {
         border: transparent;
         background-color: transparent;
         padding: 0;
@@ -57,16 +57,16 @@ ul {
       }
 
       a {
-        color: #056B33;
+        color: #056b33;
       }
     }
   }
 }
 
 @media screen and (max-width: 320px) {
-  ul{
+  ul {
     li {
-      .link{
+      .link {
         img {
           margin-right: 12px;
         }

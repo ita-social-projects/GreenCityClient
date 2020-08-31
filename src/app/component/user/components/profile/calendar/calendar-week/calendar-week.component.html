@@ -1,0 +1,35 @@
+<div class="calendar">
+  <div class="top">
+    <div class="month-year">
+      <div (click)="previousWeek()">
+        <img [src]="calendarImages.arrowPrevious"
+             alt="arrow previous"
+             class="arrow-previous">
+      </div>
+      <span class="monthAndYear">
+        {{ monthAndYearName }}
+      </span>
+      <div (click)="nextWeek()">
+        <img [src]="calendarImages.arrowNext"
+             alt="arrow next"
+             class="arrow-next">
+      </div>
+    </div>
+    <div class="days">
+      <div class="days-name"
+           *ngFor="let day of daysName"
+           [ngClass]="{ 'current-day-name': day === currentDayName }">
+        {{ day.toUpperCase() }}
+      </div>
+    </div>
+  </div>
+  <div class="middle">
+    <div  class="calendar-grid-week-view">
+      <div  *ngFor="let dayItem of calendarDay"
+            class="day"
+            [ngClass]="{ 'current-day': dayItem.isCurrentDayActive }">
+        {{ dayItem.numberOfDate }}
+      </div>
+    </div>
+  </div>
+</div>
