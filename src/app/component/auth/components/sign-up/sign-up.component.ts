@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
-import { authImages } from '@global-images/auth/auth-images';
+import { authImages } from 'src/app/image-pathes/auth-images';
 import { UserOwnSignInService } from '@global-service/auth/user-own-sign-in.service';
 import { UserOwnSignUpService } from '@global-service/auth/user-own-sign-up.service';
 import { GoogleSignInService } from '@global-service/auth/google-sign-in.service';

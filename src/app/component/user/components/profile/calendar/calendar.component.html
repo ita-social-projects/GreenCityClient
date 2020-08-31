@@ -47,7 +47,7 @@
     <div *ngIf="monthView"
          class="calendar-grid">
       <div *ngFor="let dayItem of calendarDay"
-      class="calendar-grid-day"
+           class="calendar-grid-day"
            [ngClass]="{ 'current-day': dayItem.isCurrentDayActive,
                         'tracked-day': dayItem.isHabitsTracked }">
         {{ dayItem.numberOfDate }}
@@ -65,4 +65,3 @@
     </div>
   </div>
 </div>
-

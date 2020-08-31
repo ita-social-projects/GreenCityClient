@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
-import { ecoNewsIcons } from '@eco-news-images/profile-icons';
+import { ecoNewsIcons } from 'src/app/image-pathes/profile-icons';
 
 @Component({
   selector: 'app-news-list-gallery-view',
