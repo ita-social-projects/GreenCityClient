@@ -1,40 +1,3 @@
-.wrapper  {
-  display: flex;
-  margin: auto;
-  width: 70%;
-  justify-content: space-between;
-
-    img {
-        width: 48px;
-        height: 48px;
-        border-radius: 50px;
-        margin-right: 24px;
-    }
-
-  .input-submit {
-    display: flex;
-    width: 100%;
-
-    textarea {
-      width: 100%;
-      height: 72px;
-      overflow: hidden;
-      resize: none;
-      padding: 10px 0 0 20px;
-
-      &::placeholder {
-        color:#878787;
-      }
-    }
-
-    button {
-      width: 157px;
-      height: 48px;
-      margin-left: 16px;
-    }
-  }
-}
-
 .reply-wrapper {
   width: 100%;
   padding-left: 72px;
@@ -51,8 +14,45 @@
   }
 }
 
+.wrapper {
+  display: flex;
+  margin: auto;
+  width: 70%;
+  justify-content: space-between;
+
+  img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50px;
+    margin-right: 24px;
+  }
+
+  .input-submit {
+    display: flex;
+    width: 100%;
+
+    textarea {
+      width: 100%;
+      height: 72px;
+      overflow: hidden;
+      resize: none;
+      padding: 10px 0 0 20px;
+
+      &::placeholder {
+        color: #878787;
+      }
+    }
+
+    button {
+      width: 157px;
+      height: 48px;
+      margin-left: 16px;
+    }
+  }
+}
+
 @media screen and (max-width: 768px) {
-  .wrapper  {
+  .wrapper {
     width: 100%;
 
     .input-submit {
@@ -64,7 +64,7 @@
 }
 
 @media screen and (max-width: 576px) {
-  .wrapper  {
+  .wrapper {
     .input-submit {
       justify-content: flex-end;
       flex-wrap: wrap;
@@ -78,7 +78,6 @@
 
 @media screen and (max-width: 320px) {
   .wrapper {
-
     img {
       display: none;
     }

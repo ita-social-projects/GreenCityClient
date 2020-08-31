@@ -1,11 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat|Open+Sans|Roboto&display=swap');
 
-$generalFont : 'Open Sans';
+$generalFont : 'Open Sans', sans-serif;
 
 .main-background-image {
-  background-image: url("~/assets/img/icon/footer/background-image-footer.svg");
-  background-repeat: no-repeat;
-  background-position: center;
+  background: url("~/assets/img/icon/footer/background-image-footer.svg") no-repeat center;
   height: 286px;
   width: 100%;
 
@@ -21,7 +19,6 @@ $generalFont : 'Open Sans';
       justify-content: space-between;
 
       .left-side {
-
         .list-of-site-links {
           display: flex;
           justify-content: space-around;
@@ -32,9 +29,9 @@ $generalFont : 'Open Sans';
           .router-links {
             text-decoration: none;
             font-family: $generalFont;
-            font-size: 14.07px;;
+            font-size: 14.07px;
             line-height: 16px;
-            color: #494A49;
+            color: #494a49;
             margin-right: 32px;
             padding-top: 3px;
           }
@@ -54,7 +51,7 @@ $generalFont : 'Open Sans';
             font-size: 14px;
             line-height: 16px;
             margin: 0;
-            color: #494A49;
+            color: #494a49;
           }
         }
 
@@ -68,9 +65,9 @@ $generalFont : 'Open Sans';
           .social-links-btn {
             margin-right: 16px;
 
-              .twitter-link-btn{
-                width: 15px;
-                height: 12.19px;
+            .twitter-link-btn {
+              width: 15px;
+              height: 12.19px;
             }
           }
 
@@ -165,7 +162,7 @@ $generalFont : 'Open Sans';
     }
 
     @media screen and (max-width: 320px) {
-      .bottom-part{
+      .bottom-part {
         margin-top: 24px;
       }
     }
@@ -180,18 +177,19 @@ $generalFont : 'Open Sans';
 
 @media screen and (max-width: 1024px) {
   .main {
-    margin: 0 3.125%
+    margin: 0 3.125%;
   }
 }
 
 @media screen and (max-width: 768px) {
   .main {
-    margin: 0 1.82%
+    margin: 0 1.82%;
   }
 }
+
 @media screen and (max-width: 576px) {
   .main {
-    margin: 0 2.4%
+    margin: 0 2.4%;
   }
 }
 

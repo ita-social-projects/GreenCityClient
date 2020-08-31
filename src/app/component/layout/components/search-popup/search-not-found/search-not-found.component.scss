@@ -22,7 +22,7 @@
   left: 25.6rem;
   width: 47rem;
   height: 25px;
-  font-family: OpenSans, sans-serif;
+  font-family: opensans, sans-serif;
   font-size: 1rem;
   line-height: 24px;
   color: #313131;
@@ -51,11 +51,11 @@
     font-weight: 500;
     font-size: 1.3rem;
     line-height: 28px;
-    color: #13AA57;
+    color: #13aa57;
   }
 
   .alternative-description {
-    font-family: OpenSans, sans-serif;
+    font-family: opensans, sans-serif;
     font-size: 1rem;
     line-height: 24px;
     color: #313131;
@@ -73,8 +73,8 @@
 
   .alternative-news:hover,
   .alternative-tips:hover {
-    background: #ffffff;
-    box-shadow: 0px 0.25rem 2rem #e6ebea;
+    background: #fff;
+    box-shadow: 0 0.25rem 2rem #e6ebea;
     border-radius: 0.25rem;
     cursor: pointer;
   }
@@ -87,7 +87,8 @@
     flex-direction: column;
     height: 650px;
 
-    .alternative-news, .alternative-tips {
+    .alternative-news,
+    .alternative-tips {
       padding: 2rem;
     }
   }
