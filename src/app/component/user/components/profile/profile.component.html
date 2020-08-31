@@ -1,9 +1,9 @@
-<section class="profile-wrapper">
+<section class="profile-wrapper" *ngIf="userInfo">
   <div class="column left-column">
-    <app-profile-header class="app-profile-header"></app-profile-header>
+    <app-profile-header class="app-profile-header" [userInfo]="userInfo"></app-profile-header>
     <app-achievements-friends class="app-achievements-friends"></app-achievements-friends>
-    <app-eco-places class="app-eco-places"></app-eco-places>
-    <app-shopping-list class="app-shopping-list"></app-shopping-list>
+    <app-eco-places class="app-eco-places" *ngIf="userInfo.showEcoPlace"></app-eco-places>
+    <app-shopping-list class="app-shopping-list" *ngIf="userInfo.showShoppingList"></app-shopping-list>
   </div>
   <app-profile-dashboard class="column habits-dashboard"></app-profile-dashboard>
   <div class="column right-column">

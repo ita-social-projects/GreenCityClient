@@ -33,9 +33,31 @@
             <p>Linked social networks</p>
             <app-social-networks></app-social-networks>
         </div>
-        <div class="wrapper">
+        <div class="privacy-wrapper">
             <p>Profile privacy</p>
-            <app-profile-privacy></app-profile-privacy>
+            <ul>
+                <li>
+                    <label class="label-wrapper">Show my location
+                        <input type="checkbox" 
+                               formControlName="showLocation">
+                        <span class="checkmark"></span>
+                    </label>
+                </li>
+                <li>
+                    <label class="label-wrapper">Show my eco places
+                        <input type="checkbox" 
+                               formControlName="showEcoPlace">
+                        <span class="checkmark"></span>
+                    </label>
+                </li>
+                <li>
+                    <label class="label-wrapper">Show my shopping list
+                        <input type="checkbox" 
+                               formControlName="showShoppingList">
+                        <span class="checkmark"></span>
+                    </label>
+                </li>
+            </ul>
         </div>
         <div class="buttons">
             <button type="button" (click)="openCancelPopup()">Cancel</button>
