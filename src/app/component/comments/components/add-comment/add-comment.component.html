@@ -6,7 +6,7 @@
 <div class="main-wrapper">
   <form *ngIf="isLoggedIn"
         class="wrapper"
-        [ngClass]="dataSet.type === 'reply' ? 'reply-wrapper': 'wrapper'"
+        [ngClass]="dataSet.type === 'comment' ? 'wrapper': 'reply-wrapper'"
         [formGroup]="addCommentForm"
         (ngSubmit)="onSubmit()">
     <img [src]=avatarImage
