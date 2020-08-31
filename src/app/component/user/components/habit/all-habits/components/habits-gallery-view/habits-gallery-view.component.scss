@@ -7,14 +7,14 @@
 
 .habit {
   background-color: #f5f6f6;
-  height: 638px;
+  min-height: 638px;
   border-radius: 8px;
 
   .habit__container {
     position: relative;
     padding-top: 35px;
     width: 82%;
-    height: 638px;
+    min-height: 638px;
     margin: 0 auto;
 
     .header {
