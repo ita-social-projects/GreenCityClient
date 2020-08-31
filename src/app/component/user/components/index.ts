@@ -23,7 +23,6 @@ export { CalendarComponent } from './profile/calendar/calendar.component';
 export { EcoPlacesComponent } from './profile/eco-places/eco-places.component';
 export { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
 export { PersonalPhotoComponent } from './profile/edit-profile/personal-photo/personal-photo.component';
-export { ProfilePrivacyComponent } from './profile/edit-profile/profile-privacy/profile-privacy.component';
 export { SocialNetworksComponent } from './profile/edit-profile/social-networks/social-networks.component';
 export { ProfileCardsComponent } from './profile/profile-cards/profile-cards.component';
 export { ProfileDashboardComponent } from './profile/profile-dashboard/profile-dashboard.component';
