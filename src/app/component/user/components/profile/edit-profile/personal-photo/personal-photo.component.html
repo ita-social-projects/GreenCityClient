@@ -2,12 +2,9 @@
     <img src="{{ avatarImg }}" 
          alt="avatar" 
          class="profile-avatar">
-    <button (click)="changeDragAndDrop()">
+    <button (click)="openEditPhoto()">
         <img src="{{editIcon}}" 
              alt="edit icon" 
              class="edit-icon">
     </button>
-    <div *ngIf="showDragAndDrop">
-        <app-drag-and-drop [currentPage]="currentPage"></app-drag-and-drop>
-    </div>
 </div>

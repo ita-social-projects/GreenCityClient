@@ -19,7 +19,6 @@ export class DragAndDropComponent implements OnInit {
   public isWarning = false;
   private croppedImage: string;
   @Input() public formData: FormGroup;
-  @Input() public currentPage: string;
 
   constructor(private createEcoNewsService: CreateEcoNewsService,
               private editProfileService: EditProfileService) {}
@@ -40,7 +39,7 @@ export class DragAndDropComponent implements OnInit {
   }
 
   public patchImage(): void {
-    if (this.currentPage === 'eco news' && this.createEcoNewsService.isBackToEditing) {
+    if ( this.createEcoNewsService.isBackToEditing ) {
       this.isCropper = false;
       this.files = [{file: name, url: this.formData.value.image}];
     }
@@ -54,12 +53,8 @@ export class DragAndDropComponent implements OnInit {
     this.files = files;
     this.isCropper = true;
     this.showWarning();
-    if (this.currentPage === 'eco news') {
-      this.createEcoNewsService.files = files;
-      this.createEcoNewsService.isImageValid = this.isWarning;
-    } else {
-      this.editProfileService.files = files;
-    }
+    this.createEcoNewsService.files = files;
+    this.createEcoNewsService.isImageValid = this.isWarning;
   }
 
   public onFileSelected(event): void {
@@ -69,11 +64,7 @@ export class DragAndDropComponent implements OnInit {
     reader.readAsDataURL(this.selectedFile);
     reader.onload = (ev) => this.handleFile(ev);
 
-    if (this.currentPage === 'eco news') {
-      this.createEcoNewsService.files = this.files;
-    } else {
-      this.editProfileService.files = this.files;
-    }
+    this.createEcoNewsService.files = this.files;
   }
 
   private handleFile(event): void {
@@ -81,9 +72,7 @@ export class DragAndDropComponent implements OnInit {
     this.selectedFileUrl = binaryString;
     this.files[0] = {url: this.selectedFileUrl, file: this.selectedFile};
     this.showWarning();
-    if (this.currentPage === 'eco news') {
-      this.createEcoNewsService.fileUrl = this.selectedFileUrl;
-    }
+    this.createEcoNewsService.fileUrl = this.selectedFileUrl;
    }
 
   public showWarning(): FileHandle[] {

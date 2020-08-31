@@ -1,0 +1,16 @@
+<div class="main-container">
+  <button class="cancel" (click)="closeEditPhoto()">
+    <img src="{{ cancelButton }}" 
+         alt="cencel">
+  </button>
+  <div class="wrapper">
+    <img src="{{ avatarImg }}" 
+         alt="avatar" 
+         class="profile-avatar">
+    <p>Do you want to change your profile picture?</p>
+    <div class="buttons">
+      <button type="button" (click)="closeEditPhoto()">Cancel</button>
+      <button type="button">Upload new photo</button>
+    </div>
+  </div>
+</div>
