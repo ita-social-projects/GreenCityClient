@@ -18,14 +18,14 @@
             </button>
         </div>
     </div>
-    <div *ngIf="galleryView" 
-        [ngClass]="{container: galleryView}">
+    <div class="container" 
+        *ngIf="galleryView" 
+        [ngClass]="{galleryContainer: galleryView}">
         <app-habits-gallery-view *ngFor='let habit of habitsMockList' 
                                         [habit]="habit"
         ></app-habits-gallery-view>
     </div>
-    <div class="" 
-        *ngIf="!galleryView" 
+    <div *ngIf="!galleryView" 
         [ngClass]="{list: !galleryView}">
         <app-habits-list-view *ngFor='let habit of habitsMockList' 
                                     [habit]="habit"

@@ -53,7 +53,7 @@
     }
 
     .info {
-      padding-top: 15px;
+      padding-top: 20px;
 
       .tags {
         color: #13aa57;
@@ -104,14 +104,37 @@
 }
 
 @media screen and (max-width: 1199px) {
-  .habit__container {
-    .info {
-      .tags {
-        font-size: 12px;
-      }
+  .habit {
+    .habit__container {
+      .info {
+        .tags {
+          font-size: 12px;
+        }
 
-      .title {
-        font-size: 18px;
+        .title {
+          font-size: 18px;
+        }
+      }
+      .add {
+        button {
+          padding: 12px 30px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .habit {
+    .habit__container {
+      .info {
+        padding-top: 0;
+      }
+      .add {
+        button {
+          padding: 12px 30px;
+          bottom: 15px;
+        }
       }
     }
   }
