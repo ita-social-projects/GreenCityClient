@@ -237,6 +237,7 @@ $screen-320: " screen and (max-width : 320px)";
   }
 
   .switcher-wrapper {
+    cursor: pointer;
     position: relative;
     width: 61px;
     min-height: 26px;
