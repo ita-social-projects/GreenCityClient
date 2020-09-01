@@ -1,4 +1,4 @@
-# GreenCityClient
+# GreenCityClient  [![GitHub commits](https://img.shields.io/github/commits-since/Naereen/StrapDown.js/v1.0.0.svg)](https://GitHub.com/Naereen/StrapDown.js/commit/)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.2.1.
 
