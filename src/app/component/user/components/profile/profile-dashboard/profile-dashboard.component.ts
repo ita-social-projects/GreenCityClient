@@ -1,7 +1,7 @@
-import { LocalStorageService } from './../../../../../service/localstorage/local-storage.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Component, OnInit } from '@angular/core';
-import { HabitTab } from '../../../models/habit.model';
-import { HabitItemModel } from '../../../models/habit-item.model';
+import { HabitTab } from '@user-models/habit.model';
+import { HabitItemModel } from '@user-models/habit-item.model';
 
 @Component({
   selector: 'app-profile-dashboard',
