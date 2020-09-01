@@ -51,6 +51,10 @@
   margin-bottom: 40px;
 }
 
+li:focus {
+  outline: none;
+}
+
 a {
   text-decoration: none;
 }
