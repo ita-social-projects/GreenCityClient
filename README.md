@@ -1,6 +1,6 @@
 # GreenCityClient
 
- [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/ita-social-projects/GreenCityClient/blob/dev/LICENSE)
+ [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/ita-social-projects/GreenCityClient/blob/master/LICENSE)
 
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.2.1.
