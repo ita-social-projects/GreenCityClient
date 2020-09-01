@@ -5,6 +5,12 @@ export class EditProfileModel {
   firstName: string;
   profilePicturePath: any;
   userCredo: string;
+  profilePicturePath: string;
+  rating: number | null;
+  showEcoPlace: boolean;
+  showLocation: boolean;
+  showShoppingList: boolean;
+  socialNetworks: Array<string>;
 }
 
 export class EditProfileDto {
@@ -12,5 +18,8 @@ export class EditProfileDto {
   firstName: string;
   // profilePicturePath: SafeUrl;
   userCredo: string;
+  showEcoPlace: boolean;
+  showLocation: boolean;
+  showShoppingList: boolean;
 }
 
