@@ -107,3 +107,27 @@ $main-font: 'Open Sans';
     height: 100vh;
   }
 }
+
+@media screen and (max-width: 320px) {
+  .main-container {
+    padding-right: 0;
+    padding-left: 0;
+
+    .wrapper {
+      p {
+        padding: 24px 15px 40px;
+      }
+
+      .buttons {
+        flex-direction: column;
+        justify-self: start;
+
+        .primary-global-button,
+        .secondary-global-button {
+          margin: 0 0 24px;
+          width: 287px;
+        }
+      }
+    }
+  }
+}
