@@ -3,6 +3,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { EditProfileService } from '@global-user/services/edit-profile.service';
+import { MatDialog } from '@angular/material';
+import { ErrorComponent } from '../../../../component/errors/error/error.component';
 
 @Component({
   selector: 'app-edit-photo-pop-up',
@@ -12,15 +15,16 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 export class EditPhotoPopUpComponent implements OnInit {
   public avatarImg: string;
   public cancelButton = './assets/img/profile/icons/cancel.svg';
-  public selectPhoto = false;
+  public selectedPhoto = false;
   public selectedFile: File = null;
   public selectedFileUrl: string;
   public files: FileHandle[] = [];
-  public isCropper = true;
   private croppedImage: string;
 
   constructor(private matDialogRef: MatDialogRef<EditPhotoPopUpComponent>,
               private router: Router,
+              private editProfileService: EditProfileService,
+              private dialog: MatDialog,
               @Inject(MAT_DIALOG_DATA) public data) { }
 
   ngOnInit() {
@@ -41,7 +45,7 @@ export class EditPhotoPopUpComponent implements OnInit {
     reader.readAsDataURL(this.selectedFile);
     reader.onload = (ev) => this.handleFile(ev);
     if (typeof this.selectedFile !== 'undefined') {
-      this.selectPhoto = true;
+      this.selectedPhoto = true;
     }
   }
 
@@ -53,5 +57,22 @@ export class EditPhotoPopUpComponent implements OnInit {
 
   public imageCropped(event: ImageCroppedEvent): void {
     this.croppedImage = event.base64;
+  }
+
+  public savePhoto(): void {
+    this.files.map(item => item.url = this.croppedImage);
+    const profilePicturePath = {
+      img: this.files[0].url
+    };
+    this.editProfileService.patchUsersPhoto(profilePicturePath)
+    .subscribe(
+     (succeed) => this.matDialogRef.close(),
+     (error) => this.dialog.open(ErrorComponent, {
+       hasBackdrop: false,
+       closeOnNavigation: true,
+       position: { top: '100px' },
+       panelClass: 'custom-dialog-container',
+     })
+   );
   }
 }

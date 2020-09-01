@@ -101,23 +101,9 @@ $main-font: 'Open Sans';
   }
 }
 
-// @media screen and (max-width: 576px) {
-//   .main-container {
-//     max-width: 509px;
-//   }
-// }
-
-// @media screen and (max-width: 390px) {
-//   .main-container {
-//     max-width: 320px;
-//     max-height: 100%;
-    
-//   }
-// }
-
-// @media screen and (max-width: 320px) {
-//   .main-container {
-//     width: 100vw;
-//     height: 100vh;
-//   }
-// }
+@media screen and (max-width: 631px) {
+  .main-container {
+    width: 100vw;
+    height: 100vh;
+  }
+}

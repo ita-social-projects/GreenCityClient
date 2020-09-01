@@ -3,7 +3,7 @@
     <img src="{{ cancelButton }}" 
          alt="cencel">
   </button>
-  <div class="wrapper" *ngIf="!selectPhoto">
+  <div class="wrapper" *ngIf="!selectedPhoto; else elseBlock">
     <img src="{{ avatarImg }}" 
          alt="avatar" 
          class="profile-avatar">
@@ -18,37 +18,37 @@
                 accept=".jpg, .jpeg, .png"
                 (change)="onSelectPhoto($event)">
       </label>
-      <!-- </button> -->
     </div>
   </div>
-
-  <div *ngFor="let file of files">
-    <div class="wrapper" *ngIf="selectPhoto">
-      <!-- <img src="{{ file.url }}" alt="avatar" class="selected-photo"> -->
-      <div *ngIf="isCropper" class="cropper-block">
-        <image-cropper [maintainAspectRatio]="true" 
-                       [containWithinAspectRatio]="false" 
-                       [aspectRatio]="1 / 1"
-                       [roundCropper]="true"
-                       [resizeToHeight]="148"
-                       [imageChangedEvent]="imageChangedEvent" 
-                       [imageFile]="file.file" 
-                       (imageCropped)="imageCropped($event)"
-                       class="selected-photo">
-        </image-cropper>
-      </div>
-      <p>Would you like to save changes?</p>
-      <div class="buttons">
-        <label class="primary-global-button change">
-          Change photo
-          <input type="file" 
-                  accept=".jpg, .jpeg, .png" 
-                  (change)="onSelectPhoto($event)">
-        </label>
-        <button type="button"
-                class="secondary-global-button"
-                (click)="closeEditPhoto()">Save photo</button>
+  <ng-template #elseBlock> 
+    <div *ngFor="let file of files">
+      <div class="wrapper">
+        <!-- <img src="{{ file.url }}" alt="avatar" class="selected-photo"> -->
+        <div class="cropper-block">
+          <image-cropper [maintainAspectRatio]="true" 
+                        [containWithinAspectRatio]="false" 
+                        [aspectRatio]="1 / 1"
+                        [roundCropper]="true"
+                        [resizeToHeight]="148"
+                        [imageChangedEvent]="imageChangedEvent" 
+                        [imageFile]="file.file" 
+                        (imageCropped)="imageCropped($event)"
+                        class="selected-photo">
+          </image-cropper>
+        </div>
+        <p>Would you like to save changes?</p>
+        <div class="buttons">
+          <label class="primary-global-button change">
+            Change photo
+            <input type="file" 
+                    accept=".jpg, .jpeg, .png" 
+                    (change)="onSelectPhoto($event)">
+          </label>
+          <button type="button"
+                  class="secondary-global-button"
+                  (click)="savePhoto()">Save photo</button>
+        </div>
       </div>
     </div>
-  </div>
+  </ng-template>
 </div>
