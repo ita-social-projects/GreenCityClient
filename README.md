@@ -1,9 +1,28 @@
-# GreenCityClient
+# GreenCityClient    [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/ita-social-projects/GreenCityClient/blob/master/LICENSE)
 
- [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/ita-social-projects/GreenCityClient/blob/master/LICENSE)
+## About the project
 
+The main aim of “GreenCity” project is to teach people in a playful and challenging way to have an eco-friendly lifestyle. A user can view on the map places that have some eco-initiatives or suggest discounts for being environmentally aware (for instance, coffee shops that give a discount if a customer comes with their own cup). А user can start doing an environment-friendly habit and track their progress with a habit tracker.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.2.1.
+
+
+## Where to find back-end part of the project
+
+Here is the front-end part of our project: https://github.com/ita-social-projects/GreenCity
+
+`dev` branch of the back-end corresponds to `dev` branch on the front-end. The same thing with `master` branches.
+
+## How to contribute
+
+You're encouraged to contribute to our project if you've found any issues or missing functionality that you would want to see. Here you can see [the list of issues](https://github.com/ita-social-projects/GreenCity/issues) and here you can create [a new issue](https://github.com/ita-social-projects/GreenCity/issues/new).
+
+Before sending any pull request, please discuss requirements/changes to be implemented using an existing issue or by creating a new one. All pull requests should be done into `dev` branch.
+
+Though there are two GitHub projects ([GreenCity](https://github.com/ita-social-projects/GreenCity) for back-end part and [GreenCityClient](https://github.com/ita-social-projects/GreenCityClient) for front-end part) all of the issues are listed in the first one - [GreenCity](https://github.com/ita-social-projects/GreenCity).
+
+**NOTE: make sure that your code passes checkstyle. Otherwise your pull request will be declined**. See paragraph [Setup Checkstyle](#5-setup-checkstyle).
+
 
 ## Development server
 
