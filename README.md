@@ -21,7 +21,7 @@ Before sending any pull request, please discuss requirements/changes to be imple
 
 Though there are two GitHub projects ([GreenCity](https://github.com/ita-social-projects/GreenCity) for back-end part and [GreenCityClient](https://github.com/ita-social-projects/GreenCityClient) for front-end part) all of the issues are listed in the first one - [GreenCity](https://github.com/ita-social-projects/GreenCity).
 
-**NOTE: make sure that your code passes checkstyle. Otherwise your pull request will be declined**. See paragraph [Setup Checkstyle](#5-setup-checkstyle).
+**NOTE: make sure that your code passes checkstyle. Otherwise your pull request will be declined**. 
 
 
 ## Development server
