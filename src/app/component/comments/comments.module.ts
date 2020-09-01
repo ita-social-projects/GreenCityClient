@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatProgressSpinnerModule } from '@angular/material';
 import { CommentsComponent } from './components/comments.component';
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 import { AddCommentComponent } from './components/add-comment/add-comment.component';
 import { CommentBodyComponent } from './components/comment-body/comment-body.component';
 import { ViewRepliesComponent } from './components/view-replies/view-replies.component';
@@ -33,6 +34,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     SharedModule,
     CommonModule,
     NgxPaginationModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     AddCommentComponent,

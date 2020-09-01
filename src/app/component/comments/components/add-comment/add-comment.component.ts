@@ -36,6 +36,7 @@ export class AddCommentComponent implements OnInit {
   public isLoggedIn: boolean;
   private newsId: number;
   private commentsAmount = 10;
+  public elementsArePresent = true;
 
   ngOnInit() {
     this.newsId = this.route.snapshot.params.id;
@@ -72,6 +73,7 @@ export class AddCommentComponent implements OnInit {
 
   public setList(data: CommentsModel): void {
     this.elements = [...data.page];
+    this.elementsArePresent = this.elements.length > 0;
   }
 
   private setRepliesList(data): void {
