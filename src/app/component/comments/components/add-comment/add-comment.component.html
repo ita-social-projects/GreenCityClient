@@ -36,7 +36,8 @@
     </ng-template>
   </form>
 </div>
-<mat-spinner *ngIf="elements.length < 1
+<mat-spinner class="spinner"
+             *ngIf="elements.length < 1
              && elementsArePresent
              && dataSet.type !== 'reply'; else comments"
 ></mat-spinner>
