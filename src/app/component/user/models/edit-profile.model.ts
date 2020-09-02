@@ -1,9 +1,6 @@
-import { SafeUrl } from '@angular/platform-browser';
-
 export class EditProfileModel {
   city: string;
   firstName: string;
-  profilePicturePath: any;
   userCredo: string;
   profilePicturePath: string;
   rating: number | null;
@@ -16,7 +13,6 @@ export class EditProfileModel {
 export class EditProfileDto {
   city: string;
   firstName: string;
-  // profilePicturePath: SafeUrl;
   userCredo: string;
   showEcoPlace: boolean;
   showLocation: boolean;
