@@ -59,6 +59,7 @@
     "ngx-swiper-wrapper": "^8.0.2",
     "rxjs": "~6.4.0",
     "save": "^2.4.0",
+    "stylelint": "^13.7.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
   },
