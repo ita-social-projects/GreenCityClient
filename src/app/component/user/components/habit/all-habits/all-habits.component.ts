@@ -12,11 +12,13 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   public habitsMockList: object[];
   public galleryView = true;
   private subscription: Subscription;
+  public windowSize: number;
 
   constructor(private allHabitsService: AllHabitsService) { }
 
   ngOnInit() {
     this.getAllHabits();
+    this.onResize();
   }
 
   onDisplayModeChange(mode): void {
@@ -26,6 +28,11 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   getAllHabits(): void {
     this.subscription = this.allHabitsService.getAllHabits()
       .subscribe((data: object[]) => this.habitsMockList = data);
+  }
+
+  public onResize(): void {
+    this.windowSize = window.innerWidth;
+    this.galleryView = (this.windowSize >= 576) ? this.galleryView : true;
   }
 
   ngOnDestroy(): void {

@@ -1,5 +1,211 @@
-.card {
-  width: 100%;
-  height: 200px;
-  border: 1px solid black;
+@import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+.list-habit-content {
+  display: flex;
+  height: 296px;
+  width: 944px;
+  margin-bottom: 30px;
+  border-radius: 8px;
+  background: #f5f6f6 url(/assets/img/icon/HabitPicture.png) no-repeat  top 20px right -61px/34%;
+
+  .header {
+    display: flex;
+    text-transform: uppercase;
+    padding: 35px 0 15px 35px;
+    font-family: "OpenSans", sans-serif;
+    font-size: 14px;
+    line-height: 16px;
+    color: #13aa57;
+
+    .calendar {
+      .calendar__icon {
+        margin-top: -3px;
+        margin-right: 15px;
+      }
+
+      .days {
+        border-right: 1px solid #bebebe;
+        padding-right: 18px;
+        margin-right: 18px;
+      }
+    }
+
+    .tags {
+      span {
+        border-right: 1px solid #bebebe;
+        padding-right: 18px;
+        margin-right: 18px;
+      }
+    }
+
+    .aquired {
+      p {
+        border-right: 1px solid #bebebe;
+        padding-right: 18px;
+        margin-right: 20px;
+      }
+    }
+
+    .stars {
+      margin-top: -3px;
+
+      img {
+        margin-right: 12px;
+      }
+    }
+  }
+
+  .info {
+    .title {
+      h2 {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 30px;
+        color: #494a49;
+        margin-bottom: 8px;
+        margin-left: 32px;
+        max-width: 627px;
+      }
+    }
+  }
+
+  .description {
+    p {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 18px;
+      line-height: 28px;
+      color: #494a49;
+      max-width: 627px;
+      margin-bottom: 36px;
+      margin-left: 32px;
+    }
+  }
+
+  .add-btn {
+    button {
+      width: 166px;
+      height: 48px;
+      margin-left: 32px;
+      background: #13AA57;
+      border: none;
+      border-radius: 5px;
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 16px;
+      color: #fff;
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .list-habit-content {
+    width: 760px;
+    height: 290px;
+    background: #f5f6f6 url(/assets/img/icon/HabitPicture.png) no-repeat top 15px right -58px/40%;
+
+    .list-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .header {
+        padding-top: 20px;
+        font-size: 12px;
+      }
+
+      .info {
+        .title {
+          h2 {
+            max-width: 450px;
+            font-size: 25px;
+          }
+        }
+      }
+
+      .description {
+        p {
+          max-width: 450px;
+          font-size: 15px;
+          margin-bottom: 10px;
+        }
+      }
+
+      .add-btn {
+        button {
+          margin-bottom: 30px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .list-habit-content {
+    width: 548px;
+    height: 240px;
+    background: #f5f6f6 url(/assets/img/icon/HabitPicture.png) no-repeat top 47px right -47px/41%;
+
+    .list-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .header {
+        width: 450px;
+        font-size: 10px;
+        display: flex;
+        flex-wrap: wrap;
+
+        .calendar {
+          .calendar__icon {
+            height: 15px;
+          }
+        }
+
+        .stars {
+          img {
+            height: 15px;
+          }
+        }
+
+        .aquired {
+          p {
+            border-right: none;
+          }
+        }
+      }
+
+      .info {
+        .title {
+          h2 {
+            max-width: 450px;
+            font-size: 20px;
+          }
+        }
+      }
+
+      .description {
+        p {
+          max-width: 350px;
+          font-size: 12px;
+          line-height: 20px;
+        }
+      }
+
+      .add-btn {
+        button {
+          width: 100px;
+          height: 30px;
+          font-size: 11px;
+        }
+      }
+    }
+  }
 }

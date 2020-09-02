@@ -1,1 +1,34 @@
-<div class="card"></div>
+<div class="list-habit-content">
+  <div class="list-container">
+    <div class="header">
+      <div class="calendar">
+        <img class="calendar__icon" src="assets/img/icon/Calendar_icon.png" alt="calendar">
+        <span class="days"> {{ habit.dayCount }} days</span>
+      </div>
+      <div class="tags">
+        <span>Smart consuming</span>
+      </div>
+      <div class="aquired">
+        <p>Aquired by 134 users</p>
+      </div>
+      <div class="stars">
+        <img src="assets/img/icon/star-1.png" alt="star">
+        <img src="assets/img/icon/star-2.png" alt="star">
+        <img src="assets/img/icon/star-2.png" alt="star">
+      </div>
+    </div>
+    <div class="info">
+      <div class="title">
+        <h2>{{ habit.title }}</h2>
+      </div>
+      <div class="description">
+        <p>
+          Употребление в пищу местной еды полезно для качества воздуха и сокращения выбросов в окружающую среду! Кроме того...
+        </p>
+      </div>
+    </div>
+    <div class="add-btn">
+      <button>Add Habit</button>
+    </div>
+  </div>
+</div>
