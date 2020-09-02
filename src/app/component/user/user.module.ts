@@ -68,6 +68,9 @@ import { UserEffects } from './store/user.effects';
 import { UserSelectors } from './store/user.selectors';
 import { UserComponent } from './user.component';
 import { CalendarWeekComponent } from './components/profile/calendar/calendar-week/calendar-week.component';
+import { AllHabitsComponent } from './components/habit/all-habits/all-habits.component';
+import { HabitsListViewComponent } from './components/habit/all-habits/components/habits-list-view/habits-list-view.component';
+import { HabitsGalleryViewComponent } from './components/habit/all-habits/components/habits-gallery-view/habits-gallery-view.component';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 
 @NgModule({
@@ -127,6 +130,9 @@ import { EditProfileFormBuilder } from '@global-user/components/profile/edit-pro
     EditProfileComponent,
     PersonalPhotoComponent,
     SocialNetworksComponent,
+    AllHabitsComponent,
+    HabitsGalleryViewComponent,
+    HabitsListViewComponent,
     CalendarWeekComponent
   ],
   imports: [
