@@ -3,7 +3,7 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
 import { catchError, take } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import { Subscription, throwError, Observable } from 'rxjs';
 import { SignInIcons } from 'src/app/image-pathes/sign-in-icons';
 import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -43,7 +43,6 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    console.log('init');
     this.userOwnSignIn = new UserOwnSignIn();
     this.configDefaultErrorMessage();
     this.checkIfUserId();
@@ -82,18 +81,16 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
     this.emailErrorMessageBackEnd = error.error.message;
   }
 
-  private onSignInFailure(errors: HttpErrorResponse): void {
-    try {
-      errors.error.forEach(error => {
-        if (error.name === 'email') {
-          this.emailErrorMessageBackEnd = error.message;
-        } else if (error.name === 'password') {
-          this.passwordErrorMessageBackEnd = error.message;
-        }
-      });
-    } catch (e) {
-      this.backEndError = errors.error.message;
+  private onSignInFailure(errors: HttpErrorResponse): Observable<any> {
+    if (!Array.isArray(errors.error)) {
+      this.backEndError = errors.message;
+      return;
     }
+
+    errors.error.map((error) => {
+      this.emailErrorMessageBackEnd = error.name === 'email' ? error.message : this.emailErrorMessageBackEnd;
+      this.passwordErrorMessageBackEnd = error.name === 'password' ? error.message : this.passwordErrorMessageBackEnd;
+    });
   }
 
   public configDefaultErrorMessage(): void {
@@ -104,24 +101,19 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
 
   public signInWithGoogle(): void {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(data => {
-      this.googleService.signIn(data.idToken).subscribe(
+      this.googleService.signIn(data.idToken)
+      .pipe(catchError(this.onSignInFailure))
+      .subscribe(
         (signInData: UserSuccessSignIn) => {
-          console.log('success');
+          console.log(signInData);
           this.onSignInWithGoogleSuccess(signInData);
-        },
-        (errors: HttpErrorResponse) => {
-          console.log('errors');
-          this.onSignInFailure(errors);
         });
     });
   }
 
   private onSignInWithGoogleSuccess(data: UserSuccessSignIn): void {
-    console.log(data);
     this.userOwnSignInService.saveUserToLocalStorage(data);
-    this.router.navigate(['/welcome'])
-      .then(success => console.log('redirect has succeeded ' + success))
-      .catch(fail => console.log('redirect has failed ' + fail));
+    this.router.navigate(['/welcome']);
   }
 
   private checkIfUserId(): void {
