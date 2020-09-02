@@ -105,7 +105,6 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
       .pipe(catchError(this.onSignInFailure))
       .subscribe(
         (signInData: UserSuccessSignIn) => {
-          console.log(signInData);
           this.onSignInWithGoogleSuccess(signInData);
         });
     });
