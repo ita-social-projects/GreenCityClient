@@ -18,6 +18,10 @@
 
     button {
       padding: 12px 8px 12px 0;
+
+      &:focus {
+        box-shadow: none;
+      }
     }
   }
 }
