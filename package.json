@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "stylelint": "npx stylelint 'src/**/*.scss'"
+    "stylelint": "npx stylelint \"src/**/*.scss\""
   },
   "private": true,
   "dependencies": {
