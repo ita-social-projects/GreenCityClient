@@ -5,6 +5,9 @@ node_js:
 dist: trusty
 addons:
   chrome: stable
+  apt:
+    packages:
+      - chromium-chromedriver
 
 cache:
   directories:
