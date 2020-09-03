@@ -3,14 +3,13 @@ node_js:
   - "14"
 
 dist: trusty
-sudo: false
 addons:
   chrome: stable
 
 cache:
   directories:
-    - node_modules
     - dist
+    - node_modules
 
 install:
   - npm install
@@ -33,7 +32,11 @@ jobs:
       - ng test --watch=false --browsers ChromeHeadless
       name: test app
     -
-      before_script: npm cache clean --force
+      script:
+      - ng e2e --protractor-config e2e/protractor-ci.conf.js
+      name: test e2e
+    -
+      before_script: rm -rf dist
       script:
       - ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false
       name: build app
@@ -42,13 +45,13 @@ jobs:
       -  ng build --prod --delete-output-path --base-href /GreenCityClient/ --outputPath=dist_aot && rm -rf dist_aot
       name: build app using aot compilation
     - stage: deploy
-      script: skip
+      script: ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false
       name: deploy on gh_pages
       if: branch IN (dev, master)
       deploy:
         provider: pages
-        skip_cleanup: true
         github_token: $TRAVIS_GH_TOKEN
+        skip_cleanup: true
         local_dir: dist/GreenCityClient
         on:
           branch: dev
