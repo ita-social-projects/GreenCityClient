@@ -45,8 +45,10 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   }
 
   private getNewsAndTips(news, tips): void {
-    (news && news.length > 0) ? (this.isNewsSearchFound = true, this.newsElements = news) : (this.isNewsSearchFound = false);
-    (tips && tips.length > 0) ? (this.isTipsSearchFound = true, this.tipsElements = tips) : (this.isTipsSearchFound = false);
+    this.isNewsSearchFound = news.length > 0;
+    this.isTipsSearchFound = tips.length > 0;
+    this.newsElements = news.length > 0 ? news : false;
+    this.tipsElements = tips.length > 0 ? tips : false;
   }
 
   private subscribeToSignal(signal: boolean): void {

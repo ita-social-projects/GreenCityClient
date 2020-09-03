@@ -16,11 +16,12 @@
   <div class="fixed-wrapper">
     <div class="adaptive-center-wrapper">
       <div class="search-content-wrapper">
-        <div class="remaining-items" *ngIf="inputValue">
+        <div class="remaining-items"
+             *ngIf="inputValue">
           {{ itemsFound }} {{ "search.search-popup.items-found" | translate }}
         </div>
-        <ng-template [ngIf]="isNewsSearchFound || isTipsSearchFound">
-          <div class="content-news" *ngIf="isNewsSearchFound">
+          <div class="content-news"
+               *ngIf="isNewsSearchFound">
             <a [routerLink]="['/news']"
                (click)="closeSearch()">
               <h3>{{ "search.search-popup.news" | translate }}</h3>
@@ -32,7 +33,8 @@
             </div>
           </div>
 
-          <div class="content-tips" *ngIf="isTipsSearchFound">
+          <div class="content-tips"
+               *ngIf="isTipsSearchFound">
             <a [routerLink]="['/welcome']"
                pageScroll
                href="#tips"
@@ -52,15 +54,14 @@
              class="all-results-link">
              {{ "search.search-popup.all-results" | translate }}
           </a>
-        </ng-template>
 
-        <ng-template [ngIf]="(isNewsSearchFound === false && isTipsSearchFound === false)">
           <app-search-not-found
+            *ngIf="(isNewsSearchFound === false && isTipsSearchFound === false)"
             [inputValue]='inputValue'
             (closeUnsuccessfulSearchResults)="closeSearch()"
           ></app-search-not-found>
-        </ng-template>
       </div>
+
       <div class="overlay"
            (click)="closeSearch()"></div>
     </div>
