@@ -10,7 +10,6 @@ addons:
 cache:
   directories:
     - node_modules
-    - dist
 
 install:
   - npm install
@@ -33,7 +32,7 @@ jobs:
       - ng test --watch=false --browsers ChromeHeadless
       name: test app
     -
-      before_script: npm cache clean --force && rm -rf dist
+      before_script: ls -la dist/GreenCityClient/assets/img/auth/
       script:
       - ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false
       name: build app
@@ -47,7 +46,7 @@ jobs:
       if: branch IN (dev, master)
       deploy:
         provider: pages
-        skip_cleanup: true
+        cleanup: true
         github_token: $TRAVIS_GH_TOKEN
         local_dir: dist/GreenCityClient
         on:
