@@ -32,9 +32,9 @@ jobs:
       - ng test --watch=false --browsers ChromeHeadless
       name: test app
     -
-      before_script: ls -la dist/GreenCityClient/assets/img/auth/
+      before_script: ls -la && df -h
       script:
-      - ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false
+      - ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false && ls -la dist/GreenCityClient/assets/img/auth
       name: build app
     -
       script:      
@@ -43,10 +43,11 @@ jobs:
     - stage: deploy
       script: skip
       name: deploy on gh_pages
-      if: branch IN (dev, master)
+      if: branch IN (dev, master, travis_investigation)
       deploy:
         provider: pages
-        cleanup: true
+        cleanup: false
+        script: ls -la
         github_token: $TRAVIS_GH_TOKEN
         local_dir: dist/GreenCityClient
         on:
