@@ -64,20 +64,22 @@ export class EditProfileComponent implements OnInit {
   }
 
   public sendFormData(form): void {
-    const body: EditProfileDto = {
-      city: form.value.city,
-      firstName: form.value.name,
-      userCredo: form.value.title,
-      showLocation: form.value.showLocation,
-      showEcoPlace: form.value.showEcoPlace,
-      showShoppingList: form.value.showShoppingList
-    };
-    const formData = new FormData();
-    formData.append('userProfileDtoRequest ', JSON.stringify(body));
+    // const body: EditProfileDto = {
+    //   city: form.value.city,
+    //   firstName: form.value.name,
+    //   userCredo: form.value.title,
+    //   showLocation: form.value.showLocation,
+    //   showEcoPlace: form.value.showEcoPlace,
+    //   showShoppingList: form.value.showShoppingList
+    // };
+    // const formData = new FormData();
+    // formData.append('userProfileDtoRequest ', JSON.stringify(body));
 
-    this.editProfileService.postDataUserProfile(formData).subscribe(
+    this.editProfileService.postDataUserProfile(form).subscribe(
       () => {
         this.router.navigate(['profile', this.profileService.userId]);
+      }, (er) => {
+        console.log(er.message)
       }
     );
   }

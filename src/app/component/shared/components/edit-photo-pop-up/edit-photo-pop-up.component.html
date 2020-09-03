@@ -7,6 +7,7 @@
     <img src="{{ avatarImg }}" 
          alt="avatar" 
          class="profile-avatar">
+    <p *ngIf=isWarning class="warning">Download PNG or JPG only. File size should be less than 10MB</p>
     <p>Do you want to change your profile picture?</p>
     <div class="buttons">
       <button type="button"
@@ -25,16 +26,17 @@
       <div class="wrapper">
         <div class="cropper-block">
           <image-cropper [maintainAspectRatio]="true" 
-                        [containWithinAspectRatio]="false" 
-                        [aspectRatio]="1 / 1"
-                        [roundCropper]="true"
-                        [resizeToHeight]="148"
-                        [imageChangedEvent]="imageChangedEvent" 
-                        [imageFile]="file.file" 
-                        (imageCropped)="imageCropped($event)"
-                        class="selected-photo">
+                         [containWithinAspectRatio]="false" 
+                         [aspectRatio]="1 / 1"
+                         [roundCropper]="true"
+                         [resizeToHeight]="148"
+                         [imageChangedEvent]="imageChangedEvent" 
+                         [imageFile]="file.file" 
+                         (imageCropped)="imageCropped($event)"
+                         class="selected-photo">
           </image-cropper>
         </div>
+        <p *ngIf=isWarning class="warning">Download PNG or JPG only. File size should be less than 10MB</p>
         <p>Would you like to save changes?</p>
         <div class="buttons">
           <label class="primary-global-button change">
@@ -45,6 +47,7 @@
           </label>
           <button type="button"
                   class="secondary-global-button"
+                  [disabled]="isWarning"
                   (click)="savePhoto()">Save photo</button>
         </div>
       </div>

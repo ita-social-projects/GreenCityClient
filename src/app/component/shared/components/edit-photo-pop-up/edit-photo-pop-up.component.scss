@@ -45,6 +45,13 @@ $main-font: 'Open Sans';
       padding: 24px 0 40px;
       margin: 0;
     }
+    
+    .warning {
+      font-family: 'Open sans', sans-serif;
+      font-size: 14px;
+      color: red;
+      padding: 0;
+    }
 
     .buttons {
       display: flex;
@@ -88,6 +95,11 @@ $main-font: 'Open Sans';
         &:hover {
           background: #056b33;
         }
+      }
+
+      button:disabled {
+        background: #839c94;
+        border: 1px solid #839c94;
       }
 
       .change {
