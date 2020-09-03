@@ -277,6 +277,7 @@
         "first-name": "Ім'я користувача",
         "first-name-is-required": "Введіть ім'я",
         "user-name-error": "Iм'я користувача обов'язкове",
+        "user-name-size": "Ім'я повинно містити принаймі 1 і не більше 30 символів",
         "first-name-must-be-at-least-1-characters-long": "Ім'я повинно містити принаймі 1 символ",
         "last-name": "Прізвище",
         "last-name-is-required": "Введіть прізвище",
