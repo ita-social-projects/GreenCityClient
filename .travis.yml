@@ -33,7 +33,7 @@ jobs:
       - ng test --watch=false --browsers ChromeHeadless
       name: test app
     -
-      before_script: npm cache clean --force
+      before_script: npm cache clean --force && r -rf dist
       script:
       - ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false
       name: build app
