@@ -41,7 +41,7 @@ jobs:
       -  ng build --prod --delete-output-path --base-href /GreenCityClient/ --outputPath=dist_aot && rm -rf dist_aot
       name: build app using aot compilation
     - stage: deploy
-      script: ls -la dist/GreenCityClient
+      script: ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false
       name: deploy on gh_pages
       if: branch IN (dev, master)
       deploy:
