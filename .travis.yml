@@ -4,11 +4,13 @@ node_js:
 
 dist: trusty
 addons:
+  apt:
+    packages:
+      - dpkg
   chrome: stable
 
 cache:
   directories:
-    - dist
     - node_modules
 
 install:
@@ -32,7 +34,10 @@ jobs:
       - ng test --watch=false --browsers ChromeHeadless
       name: test app
     -
-      before_script: rm -rf dist
+      script:
+      - ng e2e --protractor-config e2e/protractor-ci.conf.js
+      name: test e2e
+    -
       script:
       - ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false
       name: build app
