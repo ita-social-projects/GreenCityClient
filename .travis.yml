@@ -32,6 +32,7 @@ jobs:
       - ng test --watch=false --browsers ChromeHeadless
       name: test app
     -
+      before_script: google-chrome --version
       script:
       - ng e2e --protractor-config e2e/protractor-ci.conf.js
       name: test e2e
