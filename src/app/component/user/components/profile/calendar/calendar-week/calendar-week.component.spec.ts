@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateNewsCancelComponent } from './create-news-cancel.component';
+import { CalendarWeekComponent } from './calendar-week.component';
 
-describe('CreateNewsCancelComponent', () => {
-  let component: CreateNewsCancelComponent;
-  let fixture: ComponentFixture<CreateNewsCancelComponent>;
+describe('CalendarWeekComponent', () => {
+  let component: CalendarWeekComponent;
+  let fixture: ComponentFixture<CalendarWeekComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreateNewsCancelComponent ]
+      declarations: [ CalendarWeekComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateNewsCancelComponent);
+    fixture = TestBed.createComponent(CalendarWeekComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -35,7 +35,9 @@ export class TitleAndMetaTagsService {
         map((events) => (events as any).url.slice(1))
       )
       .subscribe((nameTitle: string) => {
-        this.titleSubject.next(nameTitle.match(/\w+[-]?[a-z]+/).toString());
+        if (nameTitle) {
+          this.titleSubject.next(nameTitle.match(/\w+[-]?[a-z]+/).toString());
+        }
       });
   }
 

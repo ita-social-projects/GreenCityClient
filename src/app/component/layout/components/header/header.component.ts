@@ -33,10 +33,10 @@ export class HeaderComponent implements OnInit {
   public isAllSearchOpen = false;
   public toggleBurgerMenu = false;
   public arrayLang: Array<LanguageModel> = [{lang: 'En'}, {lang: 'Uk'}, {lang: 'Ru'}];
+  public isSearchClicked = false;
   private userRole: string;
   private userId: number;
   private language: string;
-  private isSearchClicked = false;
 
   constructor(private modalService: ModalService,
               public dialog: MatDialog,
@@ -105,7 +105,7 @@ export class HeaderComponent implements OnInit {
     this.isLoggedIn = true;
   }
 
-  private toggleSearchPage(): void {
+  public toggleSearchPage(): void {
     this.searchSearch.toggleSearchModal();
   }
 
@@ -152,7 +152,7 @@ export class HeaderComponent implements OnInit {
 
   public openDialog(): void {
     this.dropdownVisible = false;
-    this.router.navigate(['/profile/{userId}']);
+    this.router.navigate(['/profile', this.userId]);
   }
 
   public openSettingDialog(): void {

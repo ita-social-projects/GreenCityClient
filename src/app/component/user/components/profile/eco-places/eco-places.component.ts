@@ -1,4 +1,7 @@
+import { Subscription } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
+import { EcoPlaces } from '@user-models/ecoPlaces.model';
+import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 
 @Component({
   selector: 'app-eco-places',
@@ -6,17 +9,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./eco-places.component.scss']
 })
 export class EcoPlacesComponent implements OnInit {
-  private ecoPlaces: Array<string> = [
-    'Everyday Bakery Cafe', 'Culturist', '3 бобра',
-    'Everyday Bakery Cafe', 'Culturist', '3 бобра',
-    'Everyday Bakery Cafe', 'Culturist', '3 бобра',
-    'Everyday Bakery Cafe'];
+  public ecoPlaces: EcoPlaces[];
+  public subscription: Subscription;
 
-  constructor() {}
+  constructor(private profileService: ProfileService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getEcoPlaces();
+  }
 
-  public getEcoPlaces(): Array<string> {
-    return this.ecoPlaces.slice(0, 3);
+  public getEcoPlaces(): void {
+    this.subscription = this.profileService.getEcoPlaces()
+      .subscribe((success: EcoPlaces[]) => this.ecoPlaces = success);
   }
 }

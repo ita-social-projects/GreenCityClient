@@ -7,22 +7,19 @@ import {
 } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { updateAccessTokenLink } from '../../links';
-import { catchError, filter, switchMap, take } from 'rxjs/operators';
+import { catchError, filter, switchMap, take, retry } from 'rxjs/operators';
 import { LocalStorageService } from '../localstorage/local-storage.service';
 import { Router } from '@angular/router';
-import { BAD_REQUEST, FORBIDDEN, NOT_FOUND, UNAUTHORIZED } from '../../http-response-status';
+import { BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../../http-response-status';
+import { MatDialog } from '@angular/material';
+import { SignInComponent } from '../../component/auth/components/sign-in/sign-in.component';
+import { ErrorComponent } from '../../component/errors/error/error.component';
 
-/**
- * @author Yurii Koval
- */
 interface NewTokenPair {
   accessToken: string;
   refreshToken: string;
 }
 
-/**
- * @author Yurii Koval
- */
 @Injectable({
   providedIn: 'root'
 })
@@ -32,12 +29,13 @@ export class InterceptorService implements HttpInterceptor {
 
   constructor(private http: HttpClient,
               private localStorageService: LocalStorageService,
-              private router: Router) {
+              private router: Router,
+              private dialog: MatDialog) {
   }
 
   /**
    * Intercepts all HTTP requests, adds access token to authentication header (except authentication requests),
-   * intercepts 401, 403, and 404 error responses.
+   * intercepts 400, 401, and 403 error responses.
    *
    * @param req - {@link HttpRequest}
    * @param next - {@link HttpHandler}
@@ -50,15 +48,13 @@ export class InterceptorService implements HttpInterceptor {
       req = this.addAccessTokenToHeader(req, this.localStorageService.getAccessToken());
     }
     return next.handle(req).pipe(
+      retry(1),
       catchError((error: HttpErrorResponse) => {
-        if (error.status === UNAUTHORIZED) {
-          return this.handle401Error(req, next);
+        if (error.status === UNAUTHORIZED || error.status === FORBIDDEN) {
+          return this.handle401and403Error(req, next);
         }
-        if (error.status === FORBIDDEN) {
-          return this.handle403Error(req);
-        }
-        if (error.status === NOT_FOUND) {
-          return this.handle404Error(req);
+        if (error.status === BAD_REQUEST) {
+          this.openErrorWindow();
         }
         return throwError(error);
       })
@@ -72,7 +68,8 @@ export class InterceptorService implements HttpInterceptor {
    * @param req - {@link HttpRequest}
    * @param next - {@link HttpHandler}
    */
-  private handle401Error(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  private handle401and403Error(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    this.openSignInWindow();
     if (!this.isRefreshing) {
       this.isRefreshing = true;
       this.refreshTokenSubject.next(null);
@@ -105,7 +102,6 @@ export class InterceptorService implements HttpInterceptor {
     this.isRefreshing = false;
     if (error.status === BAD_REQUEST) {
       this.localStorageService.clear();
-      this.router.navigate(['/welcome']).then(r => r);
       return of<HttpEvent<any>>();
     }
     return throwError(error);
@@ -134,25 +130,20 @@ export class InterceptorService implements HttpInterceptor {
     });
   }
 
-  /**
-   * Handles 403 HTTP error response, redirects to sign in page.
-   *
-   * @param req - {@link HttpRequest}
-   */
-  private handle403Error(req: HttpRequest<any>): Observable<HttpEvent<any>> {
-    console.log(`You don't have authorities to access ${req.url}`);
-    this.router.navigate(['/welcome']).then(r => r);
-    return of<HttpEvent<any>>();
+  public openSignInWindow(): void {
+    this.dialog.open(SignInComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      panelClass: 'custom-dialog-container',
+    });
   }
 
-  /**
-   * Handles 404 HTTP error response, redirects to custom error page.
-   *
-   * @param req - {@link HttpRequest}
-   */
-  private handle404Error(req: HttpRequest<any>): Observable<HttpEvent<any>> {
-    console.log(`Page does not exist ${req.url}`);
-    this.router.navigate(['/error.component.html']).then(r => r);
-    return of<HttpEvent<any>>();
+  public openErrorWindow(): void {
+    this.dialog.open(ErrorComponent, {
+      hasBackdrop: false,
+      closeOnNavigation: true,
+      position: {top: '100px'},
+      panelClass: 'custom-dialog-container',
+    });
   }
 }

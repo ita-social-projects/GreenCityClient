@@ -9,10 +9,11 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { MatCardModule } from '@angular/material';
 import {
   PhotoUploadComponent,
-  CreateNewsCancelComponent
+  CancelPopUpComponent
 } from './components';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DragAndDropDirective } from '../eco-news/directives/drag-and-drop.directive';
 import { DragAndDropComponent } from './components/drag-and-drop/drag-and-drop.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
@@ -20,7 +21,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 @NgModule({
   declarations: [
     PhotoUploadComponent,
-    CreateNewsCancelComponent,
+    CancelPopUpComponent,
     DragAndDropDirective,
     DragAndDropComponent,
   ],
@@ -41,9 +42,10 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     MatCardModule,
     MatDialogModule,
     MatCheckboxModule,
+    MatProgressSpinnerModule
   ],
   exports: [
-    CreateNewsCancelComponent,
+    CancelPopUpComponent,
     TranslateModule,
     PhotoUploadComponent,
     FormsModule,
@@ -53,6 +55,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     MatCardModule,
     MatDialogModule,
     MatCheckboxModule,
+    MatProgressSpinnerModule,
     DragAndDropDirective,
     DragAndDropComponent,
   ],
@@ -60,7 +63,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 })
 export class SharedModule {}
 
-function HttpLoaderFactory(httpClient: HttpClient) {
+export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(
     httpClient,
     './assets/i18n/',

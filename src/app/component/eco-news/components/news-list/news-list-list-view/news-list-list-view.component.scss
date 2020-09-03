@@ -10,7 +10,7 @@ div {
   max-height: 199px;
   box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
   border-radius: 4px;
-  background: #FFFFFF;
+  background: #fff;
 
   .list-image-content {
     border-radius: 4px;
@@ -20,7 +20,7 @@ div {
 }
 
 @media screen and (max-width: 1199px) {
-  #list-gallery-content { 
+  #list-gallery-content {
     width: 960px;
     height: 166px;
 
@@ -33,6 +33,7 @@ div {
   .list-text {
     display: none;
   }
+
   .user-data-added-news {
     min-width: 322px;
   }
@@ -42,13 +43,14 @@ div {
   #list-gallery-content {
     width: 742px;
     height: 191px;
-  
+
     .list-image-content {
       width: 214px;
       height: 191px;
       object-fit: cover;
     }
   }
+
   .user-data-added-news {
     min-width: 322px;
   }
@@ -67,7 +69,7 @@ div {
   #list-gallery-content {
     width: 548px;
     height: 185px;
-  
+
     .list-image-content {
       display: none;
     }
@@ -79,13 +81,12 @@ div {
   padding: 16px;
 
   .added-data {
-
     .ul-eco-buttons {
       opacity: 0.8;
-      font-family: OpenSans, sans-serif;
+      font-family: opensans, sans-serif;
       font-size: 16px;
       line-height: 14px;
-      color: #13AA57;
+      color: #13aa57;
       display: inline-block;
       margin: 0 16px 0 0;
       text-transform: capitalize;
@@ -94,7 +95,6 @@ div {
     .word-wrap {
       word-break: break-word;
     }
-
   }
 
   .title-list {
@@ -117,6 +117,7 @@ div {
     font-size: 14px;
     line-height: 23px;
     color: #313131;
+    white-space: pre-wrap;
   }
 
   .user-data-added-news {
@@ -130,7 +131,7 @@ div {
       font-family: 'Open Sans', sans-serif;
       font-size: 16px;
       line-height: 24px;
-      color: #666666;
+      color: #666;
       mix-blend-mode: normal;
       opacity: 0.6;
 
@@ -152,9 +153,8 @@ div {
 }
 
 #list-gallery-content:hover {
-  background: #ffffff;
-  box-shadow: 0px 4px 32px #e6ebea;
+  background: #fff;
+  box-shadow: 0 4px 32px #e6ebea;
   border-radius: 4px;
   cursor: pointer;
 }
-

@@ -1,9 +1,9 @@
-$main-font: 'Open Sans';
+$main-font: 'Open Sans', sans-serif;
 
 .comment-body-wrapper {
   margin: auto;
   width: 70%;
-  border-bottom: 1px solid #E6E6E6;
+  border-bottom: 1px solid #e6e6e6;
 
   .comment-avatar {
     position: relative;
@@ -15,12 +15,6 @@ $main-font: 'Open Sans';
       width: 48px;
       height: 48px;
     }
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .comment-body-wrapper {
-    width: 100%;
   }
 }
 
@@ -42,7 +36,7 @@ $main-font: 'Open Sans';
   align-items: center;
 
   .comment-dot {
-    margin: 0px 0px 0 8px;
+    margin: 0 0 0 8px;
     display: inline-block;
     width: 4px;
     height: 4px;
@@ -59,17 +53,20 @@ $main-font: 'Open Sans';
       margin-left: 4px;
     }
   }
+
+  .last-dot {
+    display: none;
+  }
 }
 
 .comment-details {
   display: flex;
-  justify-content: space-between;
-  width: 91.7%;
-  margin: 32px 0px 8px 63px;
+  margin: 32px 0 8px 63px;
 
-  .comment-name-date {
+  .comment-date-likes {
     display: flex;
     justify-content: space-between;
+    width: 100%;
   }
 }
 
@@ -87,11 +84,10 @@ $main-font: 'Open Sans';
     flex-direction: column;
     justify-content: space-between;
     margin-bottom: 10px;
-    
-    
+
     .save-cancel-btn {
       display: flex;
-      
+
       .replies-btn {
         display: flex;
         justify-content: flex-end;
@@ -121,18 +117,18 @@ $main-font: 'Open Sans';
       padding: 10px 0 0 20px;
 
       &::placeholder {
-        color:#878787;
+        color: #878787;
       }
     }
-  
+
     .cta-btn {
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
       border: none;
-      background-color: #FFFFFF;
-  
+      background-color: #fff;
+
       .btn-text {
         display: inline-block;
         margin-left: 5px;
@@ -143,13 +139,13 @@ $main-font: 'Open Sans';
         mix-blend-mode: normal;
       }
     }
-  } 
-
-    .edit-text-button {
-      width: 157px;
-      height: 48px;
-    }
   }
+
+  .edit-text-button {
+    width: 157px;
+    height: 48px;
+  }
+}
 
 .comments-elements {
   display: flex;
@@ -160,3 +156,39 @@ $main-font: 'Open Sans';
   }
 }
 
+.comment-likes {
+  .commnet-dot {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .comment-body-wrapper {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .comment-details {
+    flex-direction: column;
+
+    .comment-date-likes {
+      justify-content: left;
+    }
+  }
+
+  .comment-date {
+    .comment-date-month {
+      margin: 0;
+    }
+
+    .comment-dot {
+      display: none;
+    }
+
+    .last-dot {
+      display: inline-block;
+      margin: 0 8px;
+    }
+  }
+}

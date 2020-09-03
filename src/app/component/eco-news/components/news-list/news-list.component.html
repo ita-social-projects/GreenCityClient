@@ -16,6 +16,7 @@
     </div>
     <hr />
   </div>
+
   <div class="main-wrapper">
     <app-remaining-count [remainingCount]="remaining"></app-remaining-count>
     <app-change-view-button (view)="changeView($event)"></app-change-view-button>
@@ -41,6 +42,8 @@
       </li>
     </ul>
   </div>
+    <mat-spinner *ngIf="elementsArePresent">
+    </mat-spinner>
   <div infiniteScroll
        [infiniteScrollDistance]="0"
        [infiniteScrollThrottle]="500"

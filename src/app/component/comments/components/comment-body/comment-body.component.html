@@ -3,13 +3,23 @@
      <img src="assets/img/comments/comment_author.png" alt="comment-author">
   </div>
   <div class="comment-details">
-    <div class="comment-name-date">
-      <div class="author-name"><span>{{ element.author.name }}</span></div>
-      <div class="comment-date"><span class="comment-dot"></span>
-        <span class="comment-date-month">{{ element.modifiedDate | date: 'longDate'}}<span *ngIf="isCommentEdited(element)" class="edited">{{"homepage.eco-news.comment.btn.edited" | translate}}</span></span>
+    <div class="author-name"><span>{{ element.author.name }}</span></div>
+    <div class="comment-date-likes">
+      <div class="comment-date">
+        <span class="comment-dot"></span>
+        <span class="comment-date-month">{{ element.modifiedDate | date: 'longDate'}}
+          <span *ngIf="isCommentEdited(element)"
+                class="edited"
+          >
+            {{"homepage.eco-news.comment.btn.edited" | translate}}
+          </span>
+        </span>
+        <span class="comment-dot last-dot"></span>
+      </div>
+      <div class="comment-likes">
+        <app-likes-counter [commentId]="element.id"></app-likes-counter>
       </div>
     </div>
-    <app-likes-counter [commentId]="element.id"></app-likes-counter>
   </div>
   <div class="comment-main-text">
     <p class="comment-text" *ngIf="!element.isEdit">{{ element.text }}</p>
@@ -80,6 +90,9 @@
                    [dataSet]="addReply"
   ></app-add-comment>
 </div>
-<app-comment-pagination [config]="config"
-                        *ngIf="type === 'comment'"
-></app-comment-pagination>
+<div class="wrapper">
+  <app-comment-pagination [config]="config"
+                          *ngIf="type === 'comment'"
+                          (setPage)="getCommentsByPage($event)"
+  ></app-comment-pagination>
+</div>

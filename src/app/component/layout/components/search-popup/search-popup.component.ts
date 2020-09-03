@@ -1,9 +1,9 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
+import { SearchService } from '../../../../service/search/search.service';
+import { SearchModel } from '../../../../model/search/search.model';
+import { NewsSearchModel } from '../../../../model/search/newsSearch.model';
+import { TipsSearchModel } from '../../../../model/search/tipsSearch.model';
 import { Subscription } from 'rxjs';
-import { SearchService } from '@global-service/search/search.service';
-import { SearchModel } from '@global-models/search/search.model';
-import { NewsSearchModel } from '@global-models/search/newsSearch.model';
-import { TipsSearchModel } from '@global-models/search/tipsSearch.model';
 
 @Component({
   selector: 'app-search-popup',
@@ -12,10 +12,10 @@ import { TipsSearchModel } from '@global-models/search/tipsSearch.model';
 })
 
 export class SearchPopupComponent implements OnInit, OnDestroy {
+  public isTipsSearchFound: boolean;
   public newsElements: NewsSearchModel[];
   public tipsElements: TipsSearchModel[];
   public isNewsSearchFound: boolean;
-  public isTipsSearchFound: boolean;
   public isSearchClicked = false;
   public inputValue: string;
   public itemsFound: number;
@@ -28,7 +28,7 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
     this.searchModalSubscription = this.search.searchSubject.subscribe(signal => this.subscribeToSignal(signal));
   }
 
-  private onKeyUp(event: EventTarget): void {
+  public onKeyUp(event: EventTarget): void {
     const VALUE = 'value';
     if (event[VALUE].length > 0) {
       this.inputValue = event[VALUE];
@@ -45,25 +45,15 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   }
 
   private getNewsAndTips(news, tips): void {
-    if (news.length > 0) {
-      this.isNewsSearchFound = true;
-      this.newsElements = news;
-    } else {
-      this.isNewsSearchFound = false;
-    }
-    if (tips.length > 0) {
-      this.isTipsSearchFound = true;
-      this.tipsElements = tips;
-    } else {
-      this.isTipsSearchFound = false;
-    }
+    (news && news.length > 0) ? (this.isNewsSearchFound = true, this.newsElements = news) : (this.isNewsSearchFound = false);
+    (tips && tips.length > 0) ? (this.isTipsSearchFound = true, this.tipsElements = tips) : (this.isTipsSearchFound = false);
   }
 
   private subscribeToSignal(signal: boolean): void {
     this.isSearchClicked = signal;
   }
 
-  private closeSearch(): void {
+  public closeSearch(): void {
     this.search.closeSearchSignal();
     this.isSearchClicked = false;
     this.resetData();
@@ -75,6 +65,7 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
     this.isNewsSearchFound = null;
     this.isTipsSearchFound = null;
     this.itemsFound = null;
+    this.inputValue = null;
   }
 
   ngOnDestroy() {

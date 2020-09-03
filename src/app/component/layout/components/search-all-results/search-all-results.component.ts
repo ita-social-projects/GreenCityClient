@@ -1,8 +1,8 @@
 import { Subscription } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { SearchModel } from '../../../../model/search/search.model';
-import { SearchService } from '../../../../service/search/search.service';
-import { NewsSearchModel } from '../../../../model/search/newsSearch.model';
+import { SearchModel } from '@global-models/search/search.model';
+import { SearchService } from '@global-service/search/search.service';
+import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 
 @Component({
   selector: 'app-search-all-results',
@@ -10,15 +10,15 @@ import { NewsSearchModel } from '../../../../model/search/newsSearch.model';
   styleUrls: ['./search-all-results.component.scss']
 })
 export class SearchAllResultsComponent implements OnInit, OnDestroy {
-  private inputValues = ['relevance', 'newest', 'latest'];
-  readonly dropDownArrow = 'assets/img/arrow_grey.png';
+  public inputValues = ['relevance', 'newest', 'latest'];
+  public displayedElements: NewsSearchModel[] = [];
+  public elements: NewsSearchModel[];
+  public dropdownVisible: boolean;
+  public isSearchFound: boolean;
+  public inputValue: string;
+  public itemsFound = 0;
   private searchSubscription: Subscription;
-  private displayedElements: NewsSearchModel[] = [];
-  private elements: NewsSearchModel[];
-  private dropdownVisible: boolean;
-  private isSearchFound: boolean;
-  private inputValue: string;
-  private itemsFound = 0;
+  readonly dropDownArrow = 'assets/img/arrow_grey.png';
 
   constructor(private search: SearchService) { }
 
@@ -26,7 +26,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
     this.search.toggleAllSearch(true);
   }
 
-  private onScroll(): void {
+  public onScroll(): void {
     this.loadNextElements();
   }
 
@@ -34,13 +34,13 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
     this.spliceResults();
   }
 
-  private onKeyUp(event: EventTarget): void {
+  public onKeyUp(event: EventTarget): void {
     this.displayedElements = [];
     const VALUE = 'value;';
     if (event[VALUE].length > 0) {
       this.inputValue = event[VALUE];
       this.searchSubscription = this.search.getAllSearch(this.inputValue, this.inputValues[0])
-        .subscribe(this.getSearchData.bind(this));
+        .subscribe(data => this.getSearchData(data));
     } else {
       this.resetData();
     }
@@ -48,30 +48,25 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
 
   private getSearchData(data: SearchModel): void {
     this.getNews(data.ecoNews);
-    // tslint:disable-next-line:no-unused-expression
-    data.countOfResults ? this.itemsFound = data.countOfResults : null;
+    this.itemsFound = data.countOfResults ? data.countOfResults : null;
     this.spliceResults();
   }
 
   private getNews(news): void {
-    (news && news.length > 0) ? (this.isSearchFound = true, this.elements = news) : (this.isSearchFound = false);
+    this.isSearchFound = news && news.length;
+    this.elements = this.isSearchFound ? news : this.elements;
   }
 
   private spliceResults(): void {
     const splicedData = this.elements.splice(0, 9);
-    for (let i = 0; i < 9; i++) {
-      if (splicedData[i]) {
-        this.displayedElements.push(splicedData[i]);
-      }
-    }
+    this.displayedElements = splicedData.filter(elem => elem);
   }
 
-  private changeCurrentSorting(newSorting: number): void {
+  public changeCurrentSorting(newSorting: number): void {
     [this.inputValues[0], this.inputValues[newSorting]] = [this.inputValues[newSorting], this.inputValues[0]];
-
   }
 
-  private toggleDropdown(): void {
+  public toggleDropdown(): void {
     this.dropdownVisible = !this.dropdownVisible;
   }
 

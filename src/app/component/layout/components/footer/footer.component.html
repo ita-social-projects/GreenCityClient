@@ -35,7 +35,7 @@
               </a>
             </li>
             <li>
-              <a [routerLink]="['profile', getUserId()]"
+              <a [routerLink]="['/profile', getUserId()]"
                  href=""
                  class="router-links">{{ "user.footer.my-habits" | translate }}
               </a>
@@ -49,7 +49,7 @@
           <ul class="social-network-links">
             <li>
               <a class="social-links-btn">
-                <img class="twitter-link-btn" 
+                <img class="twitter-link-btn"
                      [src]="footerImageList.twitterIcon"
                      alt="Twitter link">
               </a>
@@ -61,7 +61,7 @@
               </a>
             </li>
             <li>
-              <a class="social-links-btn">
+              <a class="social-links-btn last-item">
                 <img [src]="footerImageList.facebookIcon"
                      alt="Facebook link">
               </a>

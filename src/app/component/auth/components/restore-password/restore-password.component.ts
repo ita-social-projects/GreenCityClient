@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router} from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { AuthService, GoogleLoginProvider} from 'angularx-social-login';
-import { Subscription} from 'rxjs';
-import { take } from 'rxjs/operators';
-import { SignInIcons } from 'src/assets/img/icon/sign-in/sign-in-icons';
+import { Router } from '@angular/router';
+import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
+import { catchError, take } from 'rxjs/operators';
+import { Subscription, throwError, Observable } from 'rxjs';
+import { SignInIcons } from 'src/app/image-pathes/sign-in-icons';
 import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
 import { HttpErrorResponse } from '@angular/common/http';
 import { GoogleSignInService } from '@auth-service/google-sign-in.service';
@@ -20,9 +20,9 @@ import { SignInComponent } from '../sign-in/sign-in.component';
   styleUrls: ['./restore-password.component.scss']
 })
 export class RestorePasswordComponent implements OnInit, OnDestroy {
-  private closeBtn = SignInIcons;
-  private mainSignInImage = SignInIcons;
-  private googleImage = SignInIcons;
+  public closeBtn = SignInIcons;
+  public mainSignInImage = SignInIcons;
+  public googleImage = SignInIcons;
   public emailErrorMessageBackEnd: string;
   public passwordErrorMessageBackEnd: string;
   public backEndError: string;
@@ -48,11 +48,11 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
     this.checkIfUserId();
   }
 
-  private onCloseRestoreWindow(): void {
+  public onCloseRestoreWindow(): void {
     this.dialog.closeAll();
   }
 
-  private onBackToSignIn(): void {
+  public onBackToSignIn(): void {
     this.dialog.open(SignInComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
@@ -81,16 +81,16 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
     this.emailErrorMessageBackEnd = error.error.message;
   }
 
-  private onSignInFailure(errors: HttpErrorResponse): void {
-  if (!Array.isArray(errors.error)) {
-   this.backEndError = errors.error.message;
-   return;
- }
+  private onSignInFailure(errors: HttpErrorResponse): Observable<any> {
+    if (!Array.isArray(errors.error)) {
+      this.backEndError = errors.message;
+      return;
+    }
 
-  errors.error.map((error) => {
-    this.emailErrorMessageBackEnd = error.name === 'email' ? error.message : this.emailErrorMessageBackEnd;
-    this.passwordErrorMessageBackEnd = error.name === 'password' ? error.message : this.passwordErrorMessageBackEnd;
-  });
+    errors.error.map((error) => {
+      this.emailErrorMessageBackEnd = error.name === 'email' ? error.message : this.emailErrorMessageBackEnd;
+      this.passwordErrorMessageBackEnd = error.name === 'password' ? error.message : this.passwordErrorMessageBackEnd;
+    });
   }
 
   public configDefaultErrorMessage(): void {
@@ -99,23 +99,20 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
     this.backEndError = null;
   }
 
-  private signInWithGoogle(): void {
+  public signInWithGoogle(): void {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(data => {
-      this.googleService.signIn(data.idToken).subscribe(
+      this.googleService.signIn(data.idToken)
+      .pipe(catchError(this.onSignInFailure))
+      .subscribe(
         (signInData: UserSuccessSignIn) => {
           this.onSignInWithGoogleSuccess(signInData);
-        },
-        (errors: HttpErrorResponse) => {
-          this.onSignInFailure(errors);
         });
     });
   }
 
   private onSignInWithGoogleSuccess(data: UserSuccessSignIn): void {
     this.userOwnSignInService.saveUserToLocalStorage(data);
-    this.router.navigate(['/welcome'])
-      .then(success => console.log('redirect has succeeded ' + success))
-      .catch(fail => console.log('redirect has failed ' + fail));
+    this.router.navigate(['/welcome']);
   }
 
   private checkIfUserId(): void {

@@ -25,6 +25,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   private currentPage: number;
   public scroll: boolean;
   public numberOfNews: number;
+  public elementsArePresent = true;
 
   constructor(
     private ecoNewsService: EcoNewsService,
@@ -82,6 +83,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   private setList(data: EcoNewsDto): void {
     this.remaining = data.totalElements;
     this.elements = this.scroll ? [...this.elements, ...data.page] : [...data.page];
+    this.elementsArePresent = this.elements.length < data.totalElements;
   }
 
   private setNullList(): void {

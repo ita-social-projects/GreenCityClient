@@ -44,18 +44,22 @@
 .gallery-view-active {
   display: grid;
   grid-template-columns: repeat(3, 359px);
-  grid-gap: 30px
+  grid-gap: 30px;
 }
 
 .list-view-li-active {
   margin-bottom: 40px;
 }
 
+li:focus {
+  outline: none;
+}
+
 a {
   text-decoration: none;
 }
 
-#create-button{
+#create-button {
   width: 185px;
   min-height: 40px;
   padding: 8px 40px;
@@ -64,8 +68,17 @@ a {
   justify-content: center;
 }
 
-#create-button span{
+#create-button span {
   display: block;
+}
+
+.mat-spinner {
+  margin: 0 auto;
+  padding-top: 40px;
+
+  ::ng-deep circle {
+    stroke: #13aa57;
+  }
 }
 
 @media screen and (max-width: 1199px) {
@@ -87,10 +100,9 @@ a {
     grid-gap: 15px;
   }
 
-  .flex-container{
+  .flex-container {
     width: 105%;
   }
-
 }
 
 @media screen and (max-width: 767px) {
@@ -100,7 +112,7 @@ a {
 
   .gallery-view-active {
     grid-template-columns: repeat(2, 258px);
-    grid-gap: 17px
+    grid-gap: 17px;
   }
 }
 
@@ -111,7 +123,6 @@ a {
 
   .gallery-view-active {
     grid-template-columns: repeat(1, 288px);
-    grid-gap: 25px
+    grid-gap: 25px;
   }
 }
-

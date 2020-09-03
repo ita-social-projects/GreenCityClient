@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 
-$main-font: 'Open Sans';
+$main-font: 'Open Sans', sans-serif;
 
 .main-wrapper {
   display: flex;
@@ -26,7 +26,7 @@ $main-font: 'Open Sans';
     justify-content: center;
     text-align: center;
     border: none;
-    background-color: #FFFFFF;
+    background-color: #fff;
     outline: none;
 
     .btn-text {
@@ -36,6 +36,20 @@ $main-font: 'Open Sans';
       line-height: 24px;
       color: #878787;
       mix-blend-mode: normal;
+    }
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .main-wrapper {
+    margin-left: 59px;
+
+    .cta-btn {
+      width: 24px;
+
+      .btn-text {
+        display: none;
+      }
     }
   }
 }

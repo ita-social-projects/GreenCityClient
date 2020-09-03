@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { footerIcons } from '@footer-images//footer-icons';
+import { footerIcons } from 'src/app/image-pathes/footer-icons';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 
@@ -10,7 +10,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 })
 export class FooterComponent implements OnInit {
   public actualYear = new Date().getFullYear();
-  private footerImageList = footerIcons;
+  public footerImageList = footerIcons;
   private userId: number;
 
   constructor(private localStorageService: LocalStorageService) {}
@@ -19,7 +19,7 @@ export class FooterComponent implements OnInit {
     this.localStorageService.userIdBehaviourSubject.subscribe(userId => this.userId = userId);
   }
 
-  private getUserId(): number | string {
+  public getUserId(): number | string {
     return ((this.userId !== null && !isNaN(this.userId)) ? this.userId : 'not_signed-in');
   }
 
