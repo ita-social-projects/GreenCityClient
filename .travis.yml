@@ -9,6 +9,7 @@ addons:
 
 cache:
   directories:
+    - dist
     - node_modules
 
 install:
@@ -32,22 +33,20 @@ jobs:
       - ng test --watch=false --browsers ChromeHeadless
       name: test app
     -
-      before_script: ls -la
+      before_script: ls -la && rm -rf dist
       script:
-      - ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false && ls -la dist/GreenCityClient/assets/img/auth
+      - ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false
       name: build app
     -
       script:      
-      -  ng build --prod --delete-output-path --base-href /GreenCityClient/ --outputPath=dist_aot && rm -rf dist_aot && ls -la dist/GreenCityClient/assets/img/auth
+      -  ng build --prod --delete-output-path --base-href /GreenCityClient/ --outputPath=dist_aot && rm -rf dist_aot
       name: build app using aot compilation
     - stage: deploy
       script: skip
       name: deploy on gh_pages
-      if: branch IN (dev, master, travis_investigation)
+      if: branch IN (dev, master)
       deploy:
         provider: pages
-        cleanup: false
-        script: ls -la
         github_token: $TRAVIS_GH_TOKEN
         local_dir: dist/GreenCityClient
         on:
