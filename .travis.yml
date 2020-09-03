@@ -48,6 +48,7 @@ jobs:
       deploy:
         provider: pages
         github_token: $TRAVIS_GH_TOKEN
+        cleanup: false
         local_dir: dist/GreenCityClient
         on:
           branch: dev
