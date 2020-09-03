@@ -27,7 +27,11 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
 
   getAllHabits(): void {
     this.subscription = this.allHabitsService.getAllHabits()
-      .subscribe((data: object[]) => this.habitsMockList = data);
+      .subscribe((data: object[]) => {
+        this.habitsMockList = data;
+      }, error => {
+        this.habitsMockList = error;
+      });
   }
 
   public onResize(): void {
