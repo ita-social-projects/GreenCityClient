@@ -31,22 +31,22 @@ jobs:
       name: check styles by linter
     -
       script:
-      - ng test --watch=false --browsers ChromeHeadless
+      - ng test --watch=false --progress=false --browsers=ChromeHeadless
       name: test app
     -
       script:
-      - ng e2e --protractor-config e2e/protractor-ci.conf.js
+      - ng e2e --protractor-config=e2e/protractor-ci.conf.js
       name: test e2e
     -
       script:
-      - ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false
+      - ng build --prod --base-href=/GreenCityClient/ --aot=false --build-optimizer=false
       name: build app
     -
       script:      
-      -  ng build --prod --delete-output-path --base-href /GreenCityClient/ --outputPath=dist_aot && rm -rf dist_aot
+      -  ng build --prod --delete-output-path --base-href=/GreenCityClient/ --outputPath=dist_aot && rm -rf dist_aot
       name: build app using aot compilation
     - stage: deploy
-      script: ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false
+      script: ng build --prod --base-href=/GreenCityClient/ --aot=false --build-optimizer=false
       name: deploy on gh_pages
       if: branch IN (dev, master)
       deploy:
