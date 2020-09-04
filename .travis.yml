@@ -4,9 +4,6 @@ node_js:
 
 dist: bionic
 addons:
-  apt:
-    packages:
-      - dpkg
   chrome: stable
 
 cache:
