@@ -438,6 +438,25 @@
       "map": "Places",
       "my-habits": "My habits"
     },
+    "edit-profile": {
+      "edit-profile": "Edit profile",
+      "info": "Personal info",
+      "name": "Name",
+      "name-warning": "Should contain maximum 30 symbols",
+      "city": "City",
+      "title": "Title",
+      "title-warning": "Should contain maximum 170 symbols",
+      "links": "Linked social networks",
+      "add-link": "Add social network",
+      "privacy": "Profile privacy",
+      "location": "Show my location",
+      "eco-place": "Show my eco places",
+      "shoping-list": "Show my shopping list",
+      "btn":{
+        "cancel": "Cancel",
+        "save": "Save"
+      }
+    },
     "footer": {
       "about-us": "About us",
       "eco-events": "Eco news",

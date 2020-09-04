@@ -1,57 +1,57 @@
 <div class="container">
-    <h2>Edit profile</h2>
+    <h2>{{ "user.edit-profile.edit-profile" | translate }}</h2>
     <app-personal-photo></app-personal-photo>
     <form [formGroup]="editProfileForm" (ngSubmit)="onSubmit()" >
         <div class="wrapper">
-            <p>Personal info</p>
+            <p>{{ "user.edit-profile.info" | translate }}</p>
             <div class="input-block"
                  [ngStyle]="{'margin-bottom': '41px'}">
-                <label for="name">Name</label>
+                <label for="name">{{"user.edit-profile.name" | translate }}</label>
                 <input type="text"
                        formControlName = "name"
                        placeholder="{{userInfo.name.first + ' ' +  userInfo.name.last}}"
                        id="name">
-                <span>Should contain maximum 170 symbols</span>
+                <span>{{"user.edit-profile.name-warning" | translate }}</span>
             </div>
             <div class="input-block"
                  [ngStyle]="{'margin-bottom': '53px'}">
-                <label for="city">City</label>
+                <label for="city">{{"user.edit-profile.city" | translate }}</label>
                 <input type="text"
                        formControlName = "city"
                        placeholder="{{userInfo.location}}"
                        id="city">
             </div>
             <div class="input-block">
-                <label for="credo">Title</label>
+                <label for="credo">{{"user.edit-profile.title" | translate }}</label>
                 <textarea placeholder="{{userInfo.userCredo}}"
                           formControlName = "title"
                           id="credo"></textarea>
-                <span>Should contain maximum 170 symbols</span>
+                <span>{{"user.edit-profile.title-warning" | translate }}</span>
             </div>
         </div>
         <div class="wrapper">
-            <p>Linked social networks</p>
+            <p>{{"user.edit-profile.links" | translate }}</p>
             <app-social-networks></app-social-networks>
         </div>
         <div class="privacy-wrapper">
             <p>Profile privacy</p>
             <ul>
                 <li>
-                    <label class="label-wrapper">Show my location
+                    <label class="label-wrapper">{{"user.edit-profile.location" | translate }}
                         <input type="checkbox" 
                                formControlName="showLocation">
                         <span class="checkmark"></span>
                     </label>
                 </li>
                 <li>
-                    <label class="label-wrapper">Show my eco places
+                    <label class="label-wrapper">{{"user.edit-profile.eco-place" | translate }}
                         <input type="checkbox" 
                                formControlName="showEcoPlace">
                         <span class="checkmark"></span>
                     </label>
                 </li>
                 <li>
-                    <label class="label-wrapper">Show my shopping list
+                    <label class="label-wrapper">{{"user.edit-profile.shoping-list" | translate }}
                         <input type="checkbox" 
                                formControlName="showShoppingList">
                         <span class="checkmark"></span>
@@ -60,8 +60,8 @@
             </ul>
         </div>
         <div class="buttons">
-            <button type="button" (click)="openCancelPopup()">Cancel</button>
-            <button type="submit" [disabled]="!editProfileForm.valid">Save</button>
+            <button type="button" (click)="openCancelPopup()">{{"user.edit-profile.btn.cancel" | translate }}</button>
+            <button type="submit" [disabled]="!editProfileForm.valid">{{"user.edit-profile.btn.save" | translate }}</button>
         </div>
     </form>
 </div>
