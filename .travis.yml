@@ -17,8 +17,6 @@ install:
   - npm install
 
 jobs:
-  allow_failures:
-    - name: test app
 
   include:
     - stage: build
@@ -37,10 +35,6 @@ jobs:
       script:
       - ng e2e --protractor-config=e2e/protractor-ci.conf.js
       name: test e2e
-    -
-      script:
-      - ng build --prod --base-href=/GreenCityClient/ --aot=false --build-optimizer=false
-      name: build app
     -
       script:      
       -  ng build --prod --delete-output-path --base-href=/GreenCityClient/ --outputPath=dist_aot && rm -rf dist_aot
