@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 
-$title-font: 'Montserrat';
+$title-font: 'Montserrat', sans-serif;
 
 $bp-smallest: 320px;
 $bp-phone: 576px;
@@ -18,28 +18,8 @@ $bp-largest: 1440px;
   .achievements,
   .friends {
     padding: 24px 0;
-  }
-
-  .achievements,
-  .friends {
     width: 100%;
-    border-top: 1px solid #EAEEF3;
-  }
-
-  .achievements-text,
-  .friends-text {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .text-main-content {
-    display: flex;
-    justify-content: start;
-    width: 100%;
-
-    .text-number {
-      color: #BEBEBE;
-    }
+    border-top: 1px solid #eaeef3;
   }
 
   .text-title {
@@ -58,7 +38,23 @@ $bp-largest: 1440px;
     font-weight: 600;
     font-size: 14px;
     line-height: 17px;
-    color: #494A49;
+    color: #494a49;
+  }
+
+  .achievements-text,
+  .friends-text {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .text-main-content {
+    display: flex;
+    justify-content: start;
+    width: 100%;
+
+    .text-number {
+      color: #bebebe;
+    }
   }
 
   .text-more {
@@ -70,7 +66,7 @@ $bp-largest: 1440px;
     display: flex;
     align-items: center;
     text-align: center;
-    color: #494A49;
+    color: #494a49;
   }
 
   .achievements-images,
@@ -89,24 +85,27 @@ $bp-largest: 1440px;
   }
 
   .friends-error {
-
     .text-title {
       font-style: normal;
       font-weight: 600;
       font-size: 14px;
       line-height: 17px;
-      color: #494A49;
-    }
+      color: #494a49;
 
-    .error-message {
-      font-family: $title-font;
-      font-style: normal;
-      font-weight: 600;
-      font-size: 14px;
-      line-height: 17px;
-      margin-top: 30px;
-      text-align: center;
-      color: #bebebe;
+      .text-number {
+        color: #bebebe;
+      }
+
+      .error-message {
+        font-family: $title-font;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 17px;
+        margin-top: 30px;
+        text-align: center;
+        color: #bebebe;
+      }
     }
   }
 }

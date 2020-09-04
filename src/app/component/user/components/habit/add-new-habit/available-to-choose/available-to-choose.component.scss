@@ -3,13 +3,13 @@
   width: 100%;
 }
 
-.available-to-choose h4{
-  color: #000000;
+.available-to-choose h4 {
+  color: #000;
   cursor: default;
   font-size: 24px;
   font-stretch: normal;
   font-style: normal;
-  font-weight: normal; 
+  font-weight: normal;
   line-height: 1.17;
   letter-spacing: normal;
 }
@@ -28,7 +28,7 @@
   text-align: center;
 }
 
-.available-to-choose
+.available-to-choose,
 .available-to-choose-list {
   border-radius: 4px;
   display: grid;

@@ -3,11 +3,11 @@
     <div class="achievements-text">
       <div class="text-main-content">
         <div class="text-title">
-          My Achievements
+          {{ 'profile.my-Achievements' | translate }}
           <span class="text-number">8</span>
         </div>
       </div>
-      <div class="text-more">See all</div>
+      <div class="text-more">{{ 'profile.see-all' | translate }}</div>
     </div>
     <div class="achievements-images">
       <img [src]="image"
@@ -17,15 +17,15 @@
       >
     </div>
   </div>
-  <div class="friends" *ngIf="!error">
+  <div class="friends" *ngIf="!noFriends">
     <div class="friends-text">
       <div class="text-main-content">
         <div class="text-title">
-          My Eco Friends
-          <span class="text-number">139</span>
+          {{ 'profile.my-eco-friends' | translate }}
+          <span class="text-number"> {{usersFriends?.length}}</span>
         </div>
       </div>
-      <div class="text-more">See all</div>
+      <div class="text-more">{{ 'profile.see-all' | translate }}</div>
     </div>
     <div class="friends-images">
       <img [src]=image.profilePicturePath
@@ -35,11 +35,12 @@
       >
     </div>
   </div>
-  <div class="friends-error" *ngIf="error">
+  <div class="friends-error" *ngIf="noFriends">
     <div class="text-title">
-      My Eco Friends
+      {{ 'profile.my-eco-friends' | translate }}
+      <span class="text-number"> 0 </span>
       <div class="error-message">
-        You don't have any friends.
+        {{ 'profile.zero-friends' | translate }}
       </div>
     </div>
   </div>

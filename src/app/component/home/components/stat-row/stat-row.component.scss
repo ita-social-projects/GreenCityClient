@@ -17,7 +17,8 @@
   font-weight: 400;
   letter-spacing: normal;
   line-height: 1.78;
-  height: 50px;
+  min-height: 48px;
+  height: fit-content;
   margin-top: 26px;
   width: 292px;
 }
@@ -40,7 +41,7 @@
 }
 
 .stat-row-content .content-wrapper h3 {
-  color: #000000;
+  color: #000;
   font-family: 'Open Sans', sans-serif;
   font-size: 21px;
   font-stretch: normal;
@@ -65,7 +66,7 @@
 }
 
 .stat-row-content .content-wrapper p {
-  color: #000000;
+  color: #000;
   font-size: 18px;
   font-stretch: normal;
   font-style: normal;
@@ -136,7 +137,7 @@
   .stat-row-content .content-wrapper h3 {
     font-size: 18px;
   }
-  
+
   .stat-row-content .content-wrapper h3 span {
     font-size: 48px;
   }

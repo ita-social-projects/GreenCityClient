@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 
-$main-font: 'Open Sans';
+$main-font: 'Open Sans', sans-serif;
 
 .cta-btn {
   display: flex;
@@ -8,7 +8,7 @@ $main-font: 'Open Sans';
   justify-content: flex-end;
   text-align: right;
   border: none;
-  background-color: #FFFFFF;
+  background-color: #fff;
   padding: 0;
   outline: none;
 

@@ -1,12 +1,25 @@
-<div class="eco-places-content" *ngIf="!error">
+<div class="eco-places-content">
     <div class="header-position">
-        <div class="header">My eco places <span>{{ ecoPlaces.length }}</span></div>
-        <a class="btn-see-all">See all</a>
+        <div class="header">
+            {{ 'profile.my-eco-places' | translate }}<span>{{ ecoPlaces?.length }}</span>
+        </div>
+        <a class="btn-see-all">{{ 'profile.see-all' | translate }}</a>
     </div>
-    <ul class="eco-place-list" *ngIf="ecoPlaces.length; else unset">
-        <li class="item" *ngFor="let ecoPlace of ecoPlaces">{{ ecoPlace.name }}</li>
-    </ul>
-    <ng-template #unset>
-        <p>You have no items in your Shopping List</p>
-    </ng-template>
+    <div *ngIf="ecoPlaces; else loading">
+        <div *ngIf="ecoPlaces.length; else unset;">
+            <ul class="eco-place-list">
+                <li class="item" *ngFor="let ecoPlace of ecoPlaces">{{ ecoPlace.name }}</li>
+            </ul>
+        </div>
+    </div>
 </div>
+<ng-template #unset>
+    <p class="noEcoPlaces">{{ 'profile.no-eco-places' | translate }}</p>
+</ng-template>
+<ng-template #loading>
+    <mat-spinner 
+        color="grey" 
+        diameter="70" 
+        class="loading"
+    ></mat-spinner>
+</ng-template>

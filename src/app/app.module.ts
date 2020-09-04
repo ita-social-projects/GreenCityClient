@@ -46,10 +46,12 @@ import { HomeModule } from './component/home/home.module';
 import { LayoutModule } from './component/layout/layout.module';
 import { CancelPopUpComponent } from './component/shared/components/cancel-pop-up/cancel-pop-up.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ErrorComponent } from './component/errors/error/error.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ErrorComponent
   ],
   imports: [
     StoreModule.forRoot(reducers),
@@ -86,7 +88,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
   entryComponents: [
     ProposeCafeComponent,
     RestoreComponent,
-    CancelPopUpComponent
+    CancelPopUpComponent,
+    ErrorComponent
   ],
   providers: [
     {
