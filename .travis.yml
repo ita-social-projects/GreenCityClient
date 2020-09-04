@@ -31,7 +31,7 @@ jobs:
       name: check styles by linter
     -
       script:
-      - ng test --watch=false --progress=false --browsers=ChromeHeadless
+      - while read line; do ng test --include=$line --watch=false --progress=false --browsers=ChromeHeadless; done <<< $(find src -name '*.spec.ts')
       name: test app
     -
       script:
