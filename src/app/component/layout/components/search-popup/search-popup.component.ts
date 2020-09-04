@@ -1,9 +1,12 @@
-import {Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
-import { SearchService } from '../../../../service/search/search.service';
-import { SearchModel } from '../../../../model/search/search.model';
-import { NewsSearchModel } from '../../../../model/search/newsSearch.model';
-import { TipsSearchModel } from '../../../../model/search/tipsSearch.model';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
+
+import { SearchService } from '@global-service/search/search.service';
+import { SearchModel } from '@global-models/search/search.model';
+import { NewsSearchModel } from '@global-models/search/newsSearch.model';
+import { TipsSearchModel } from '@global-models/search/tipsSearch.model';
+import { ErrorComponent } from '@global-errors/error/error.component';
 
 @Component({
   selector: 'app-search-popup',
@@ -22,7 +25,9 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   private searchSubscription: Subscription;
   private searchModalSubscription: Subscription;
 
-  constructor(private search: SearchService) {}
+  constructor(private search: SearchService,
+              public dialog: MatDialog,
+  ) {}
 
   ngOnInit() {
     this.searchModalSubscription = this.search.searchSubject.subscribe(signal => this.subscribeToSignal(signal));
@@ -33,7 +38,13 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
     if (event[VALUE].length > 0) {
       this.inputValue = event[VALUE];
       this.searchSubscription = this.search.getSearch(this.inputValue)
-        .subscribe(data => this.getSearchData(data));
+        .subscribe(data => this.getSearchData(data),
+          (error) => this.dialog.open(ErrorComponent, {
+            hasBackdrop: false,
+            closeOnNavigation: true,
+            position: { top: '100px' },
+            panelClass: 'custom-dialog-container',
+          }));
     } else {
       this.resetData();
     }
