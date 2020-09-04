@@ -6,12 +6,11 @@
 }
 
 .list-habit-content {
-  display: flex;
   height: 296px;
   width: 944px;
   margin-bottom: 30px;
   border-radius: 8px;
-  background: #f5f6f6 url(/assets/img/icon/HabitPicture.png) no-repeat  top 20px right -61px/34%;
+  background: #f5f6f6 url(~/assets/img/icon/HabitPicture.png) no-repeat  top 20px right -61px/34%;
 
   .header {
     display: flex;
@@ -102,40 +101,37 @@
   .list-habit-content {
     width: 760px;
     height: 290px;
-    background: #f5f6f6 url(/assets/img/icon/HabitPicture.png) no-repeat top 15px right -58px/40%;
+    background: #f5f6f6 url(~/assets/img/icon/HabitPicture.png) no-repeat top 15px right -58px/40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
-    .list-container {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+    .header {
+      padding-top: 20px;
+      padding-bottom: 20px;
+      font-size: 12px;
+    }
 
-      .header {
-        padding-top: 20px;
-        padding-bottom: 20px;
-        font-size: 12px;
-      }
-
-      .info {
-        .title {
-          h2 {
-            max-width: 450px;
-            font-size: 25px;
-          }
-        }
-
-        .description {
-          p {
-            max-width: 450px;
-            font-size: 15px;
-            margin-bottom: 10px;
-          }
+    .info {
+      .title {
+        h2 {
+          max-width: 450px;
+          font-size: 25px;
         }
       }
 
-      .add-btn {
-        button {
-          margin-bottom: 30px;
+      .description {
+        p {
+          max-width: 450px;
+          font-size: 15px;
+          margin-bottom: 10px;
         }
+      }
+    }
+
+    .add-btn {
+      button {
+        margin-bottom: 30px;
       }
     }
   }
@@ -145,60 +141,57 @@
   .list-habit-content {
     width: 548px;
     height: 240px;
-    background: #f5f6f6 url(/assets/img/icon/HabitPicture.png) no-repeat top 47px right -47px/41%;
+    background: #f5f6f6 url(~/assets/img/icon/HabitPicture.png) no-repeat top 47px right -47px/41%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
-    .list-container {
+    .header {
+      width: 450px;
+      font-size: 10px;
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      flex-wrap: wrap;
 
-      .header {
-        width: 450px;
-        font-size: 10px;
-        display: flex;
-        flex-wrap: wrap;
-
-        .calendar {
-          .calendar__icon {
-            height: 15px;
-          }
-        }
-
-        .stars {
-          img {
-            margin-top: 10px;
-            height: 15px;
-          }
-        }
-
-        .aquired {
-          border-right: none;
+      .calendar {
+        .calendar__icon {
+          height: 15px;
         }
       }
 
-      .info {
-        .title {
-          h2 {
-            max-width: 450px;
-            font-size: 20px;
-          }
-        }
-
-        .description {
-          p {
-            max-width: 350px;
-            font-size: 12px;
-            line-height: 20px;
-          }
+      .stars {
+        img {
+          margin-top: 10px;
+          height: 15px;
         }
       }
 
-      .add-btn {
-        button {
-          width: 100px;
-          height: 30px;
-          font-size: 11px;
+      .aquired {
+        border-right: none;
+      }
+    }
+
+    .info {
+      .title {
+        h2 {
+          max-width: 450px;
+          font-size: 20px;
         }
+      }
+
+      .description {
+        p {
+          max-width: 350px;
+          font-size: 12px;
+          line-height: 20px;
+        }
+      }
+    }
+
+    .add-btn {
+      button {
+        width: 100px;
+        height: 30px;
+        font-size: 11px;
       }
     }
   }
