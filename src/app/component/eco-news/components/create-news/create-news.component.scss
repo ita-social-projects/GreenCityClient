@@ -146,8 +146,11 @@ form label {
 .date {
   display: flex;
   max-width: 500px;
-  justify-content: space-between;
   margin-top: 15px;
+}
+
+.date p:last-child {
+  margin-left: 32px;
 }
 
 .date p span:first-child {
@@ -323,5 +326,9 @@ form label {
   .date {
     display: flex;
     flex-direction: column;
+  }
+
+  .date p:last-child {
+    margin: 0 0 43px;
   }
 }
