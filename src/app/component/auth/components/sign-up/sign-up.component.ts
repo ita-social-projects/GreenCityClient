@@ -160,7 +160,7 @@ export class SignUpComponent implements OnInit {
   }
 
   public checkUserName(input: string): boolean {
-    const regexp = /^[^\.][a-zA-Z0-9\.]{6,30}$/;
+    const regexp = /^[^\.][a-z0-9\. ]{5,29}$/gi;
     return (regexp.test(input) || input === '');
   }
 
