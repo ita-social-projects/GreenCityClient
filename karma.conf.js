@@ -10,7 +10,6 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
-      require('karma-spec-reporter'),
       require('@angular-devkit/build-angular/plugins/karma')
     ],
     client: {
@@ -34,15 +33,7 @@ module.exports = function (config) {
         ],
       }
     },
-    reporters: ['spec'],
-    specReporter: {
-        suppressErrorSummary: false, // do not print error summary
-        suppressFailed: true,      // do not print information about failed tests
-        suppressPassed: false,      // do not print information about passed tests
-        suppressSkipped: true,      // do not print information about skipped tests
-        showSpecTiming: true,      // print the time elapsed for each spec
-        failFast: true              // test would finish with error when a first fail occurs. 
-    },
+    reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
