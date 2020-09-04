@@ -1,3 +1,4 @@
+import { MatSnackBarComponent } from './../errors/mat-snack-bar/mat-snack-bar.component';
 import { NgModule } from '@angular/core';
 import { EcoNewsComponent } from './eco-news.component';
 import { CommonModule } from '@angular/common';
@@ -25,6 +26,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { EcoNewsEffects } from './store/eco-news.effects';
 import { EcoNewsSelectors } from './store/eco-news.selectors';
 import { CommentsModule } from '../comments/comments.module';
+import { MatSnackBarModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { CommentsModule } from '../comments/comments.module';
     EcoNewsDetailComponent,
     NewsPreviewPageComponent,
     PostNewsLoaderComponent,
+    MatSnackBarComponent
   ],
   imports: [
     EffectsModule.forFeature([EcoNewsEffects]),
@@ -60,13 +63,13 @@ import { CommentsModule } from '../comments/comments.module';
     })
   ],
   exports: [
-    TranslateModule,
+    TranslateModule, MatSnackBarModule
   ],
   entryComponents: [
 
   ],
   providers: [
-    EcoNewsSelectors
+    EcoNewsSelectors, MatSnackBarComponent
   ]
 })
 
