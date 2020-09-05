@@ -1,8 +1,7 @@
-import { MatSnackBarComponent } from './../../../errors/mat-snack-bar/mat-snack-bar.component';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
-import { Subscription, throwError, Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { Store } from '@ngrx/store';
@@ -10,7 +9,7 @@ import * as fromApp from '@store/app.reducers';
 import * as fromEcoNews from '@eco-news-store/eco-news.actions';
 import { EcoNewsSelectors } from '@eco-news-store/eco-news.selectors';
 import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
-import { HttpResponse } from '@angular/common/http';
+import { MatSnackBarComponent } from './../../../errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-news-list',
@@ -73,36 +72,16 @@ export class NewsListComponent implements OnInit, OnDestroy {
       .subscribe((data) => this.isLoggedIn = data && data.userId);
   }
 
-  private handleError(error): Observable<any> {
-    console.log(error);
-    return throwError(error);
-  }
-
   private addElemsToCurrentList(): void {
     if (this.tagsList) {
       this.ecoNewsSubscription = this.ecoNewsService.getNewsListByTags(this.currentPage, this.numberOfNews, this.tagsList)
         .pipe(
-          tap(event => {
-            if (event instanceof HttpResponse) {
-
-              console.log('all looks good');
-              // http response status code
-              console.log(event);
-
-              // shows success snackbar with green background
-              // this.snackBar.openSnackBar(event.statusText,'Close','green-snackbar');
-            }
-          }, error => {
-            console.log(error);
-            // show error snackbar with red background
-            this.snackBar.openSnackBar(error.message, 'Close', 'red-snackbar');
-
+          catchError(error => {
+            this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.', 'X', 'red-snackbar');
+            return error;
           })
         )
-        .subscribe(
-          (list: EcoNewsDto) => this.setList(list),
-          (error) => console.log(error)
-        );
+        .subscribe((list: EcoNewsDto) => this.setList(list));
     } else {
       this.ecoNewsSubscription = this.ecoNewsService.getEcoNewsListByPage(this.currentPage, this.numberOfNews)
         .subscribe((list: EcoNewsDto) => this.setList(list));
