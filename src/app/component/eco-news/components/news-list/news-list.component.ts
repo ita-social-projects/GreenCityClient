@@ -1,7 +1,7 @@
 import { catchError } from 'rxjs/operators';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { Store } from '@ngrx/store';
@@ -76,7 +76,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     if (this.tagsList) {
       this.ecoNewsSubscription = this.ecoNewsService.getNewsListByTags(this.currentPage, this.numberOfNews, this.tagsList)
         .pipe(
-          catchError(error => {
+          catchError((error) => {
             this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.', 'X', 'red-snackbar');
             return error;
           })
