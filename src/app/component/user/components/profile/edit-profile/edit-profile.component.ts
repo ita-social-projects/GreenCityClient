@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CancelPopUpComponent } from '@shared/components/cancel-pop-up/cancel-pop-up.component';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
@@ -7,14 +7,18 @@ import { ProfileService } from '@global-user/components/profile/profile-service/
 import { EditProfileDto } from '@user-models/edit-profile.model';
 import { take } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.scss']
 })
-export class EditProfileComponent implements OnInit {
+export class EditProfileComponent implements OnInit, OnDestroy {
   public editProfileForm = null;
+  private langChangeSub: Subscription;
   public userInfo = {
     id: 0,
     avatarUrl: './assets/img/profileAvatarBig.png',
@@ -33,11 +37,15 @@ export class EditProfileComponent implements OnInit {
               public builder: EditProfileFormBuilder,
               private editProfileService: EditProfileService,
               private profileService: ProfileService,
-              private router: Router) {}
+              private router: Router,
+              private localStorageService: LocalStorageService,
+              private translate: TranslateService) {}
 
   ngOnInit() {
     this.setupInitialValue();
     this.getInitialValue();
+    this.subscribeToLangChange();
+    this.bindLang(this.localStorageService.getCurrentLanguage());
   }
 
   private setupInitialValue() {
@@ -94,5 +102,18 @@ export class EditProfileComponent implements OnInit {
         currentPage: 'edit profile'
       }
     });
+  }
+
+  private bindLang(lang: string): void {
+    this.translate.setDefaultLang(lang);
+  }
+
+  private subscribeToLangChange(): void {
+    this.langChangeSub = this.localStorageService.languageSubject
+      .subscribe((lang) => this.bindLang(lang));
+  }
+
+  ngOnDestroy(): void {
+    this.langChangeSub.unsubscribe();
   }
 }
