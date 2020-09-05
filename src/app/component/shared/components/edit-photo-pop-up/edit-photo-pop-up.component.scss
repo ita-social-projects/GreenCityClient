@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
+$title-font: 'Montserrat';
+$main-font: 'Open Sans';
+
+.main-container {
+  position: relative;
+  width: 631px;
+  height: 400px;
+  font-family: $main-font;
+  padding: 56px 0;
+  margin: 0 auto;
+
+  .cancel {
+    position: absolute;
+    top: 26px;
+    right: 26px;
+    border: none;
+    background-color: transparent;
+    outline: none;
+  }
+
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .profile-avatar {
+      border-radius: 100px;
+      height: 148px;
+      width: 148px;
+    }
+
+    .selected-photo {
+      max-height: 148px;
+      max-width: 217px;
+      box-sizing: content-box;
+    }
+
+    p {
+      font-weight: 500;
+      font-size: 21px;
+      line-height: 28px;
+      padding: 24px 0 40px;
+      margin: 0;
+    }
+
+    .warning {
+      font-family: 'Open sans', sans-serif;
+      font-size: 14px;
+      color: red;
+      padding: 0;
+    }
+
+    .buttons {
+      display: flex;
+      align-items: flex-end;
+
+      label {
+        margin: 0;
+        padding-top: 16px;
+      }
+
+      .primary-global-button,
+      .secondary-global-button {
+        border: 1px solid #13aa57;
+        box-sizing: border-box;
+        border-radius: 5px;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        height: 48px;
+        line-height: 16px;
+        outline: none;
+      }
+
+      .primary-global-button {
+        background: #fff;
+        color: #13aa57;
+        width: 132px;
+        margin-right: 24px;
+
+        &:hover {
+          border: 1px solid #056b33;
+          color: #056b33;
+        }
+      }
+
+      .secondary-global-button {
+        background: #13aa57;
+        color: #fff;
+        width: 191px;
+
+        &:hover {
+          background: #056b33;
+        }
+      }
+
+      button:disabled {
+        background: #839c94;
+        border: 1px solid #839c94;
+      }
+
+      .change {
+        width: 191px;
+      }
+
+      input {
+        display: none;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 631px) {
+  .main-container {
+    width: 100vw;
+    height: 100vh;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .main-container {
+    padding-right: 0;
+    padding-left: 0;
+
+    .wrapper {
+      p {
+        padding: 24px 15px 40px;
+      }
+
+      .buttons {
+        flex-direction: column;
+        justify-self: start;
+
+        .primary-global-button,
+        .secondary-global-button {
+          margin: 0 0 24px;
+          width: 287px;
+        }
+      }
+    }
+  }
+}
