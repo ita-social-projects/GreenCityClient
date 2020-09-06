@@ -4,7 +4,7 @@ import { EditProfileModel } from '@user-models/edit-profile.model';
 
 @Injectable()
 export class EditProfileFormBuilder {
-
+  private pattern = /^[a-z(!\-’)\.]*$/gi;
   constructor(
     private builder: FormBuilder,
   ) {
@@ -12,7 +12,7 @@ export class EditProfileFormBuilder {
   getProfileForm() {
     return this.builder.group({
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
-      city: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(85)]],
+      city: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(85), Validators.pattern(this.pattern)]],
       credo: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(170)]],
       showLocation: [''],
       showEcoPlace: [''],
@@ -23,7 +23,7 @@ export class EditProfileFormBuilder {
   getEditProfileForm(editForm: EditProfileModel) {
     return this.builder.group({
       name: [editForm.firstName, [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
-      city: [editForm.city, [Validators.required, Validators.minLength(3), Validators.maxLength(85)]],
+      city: [editForm.city, [Validators.required, Validators.minLength(3), Validators.maxLength(85), Validators.pattern(this.pattern)]],
       credo: [editForm.userCredo, [Validators.required, Validators.minLength(3), Validators.maxLength(170)]],
       showLocation: [editForm.showLocation],
       showEcoPlace: [editForm.showEcoPlace],

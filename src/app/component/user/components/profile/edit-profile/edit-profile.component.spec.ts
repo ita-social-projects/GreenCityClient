@@ -11,6 +11,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
+import { EditProfileModel } from '@user-models/edit-profile.model';
+import {Observable} from 'rxjs';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {
@@ -21,11 +23,16 @@ class TranslatePipeMock implements PipeTransform {
 describe('EditProfileComponent', () => {
   let component: EditProfileComponent;
   let fixture: ComponentFixture<EditProfileComponent>;
-  // let controls: any[];
   // let controlName: any;
-  // let controlCity;
+  // let controlCity: any;
   // let controlCredo: any;
-
+  // let controls: any[];
+  let editProfileService: EditProfileService;
+  let profileService: ProfileService;
+  let spyEditProfileService: jasmine.Spy;
+  let spyProfileService: jasmine.Spy;
+  let mockUserInfo: EditProfileModel;
+  let formData;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -56,6 +63,23 @@ describe('EditProfileComponent', () => {
     // controlCity = component.editProfileForm.get('city');
     // controlCredo = component.editProfileForm.get('credo');
     // controls = [controlName, controlCity, controlCredo];
+    editProfileService = fixture.debugElement.injector.get(EditProfileService);
+    profileService = fixture.debugElement.injector.get(ProfileService);
+    mockUserInfo = {
+      city: 'Lviv',
+      firstName: 'John',
+      userCredo: 'My Credo is to make small steps that leads to huge impact. Let’s change the world together.',
+      profilePicturePath: './assets/img/profileAvatarBig.png',
+      rating: 658,
+      showEcoPlace: true,
+      showLocation: true,
+      showShoppingList: true,
+      socialNetworks: ['Instagram']
+    };
+    formData = new FormData();
+    formData.append('userProfileDtoRequest ', JSON.stringify(mockUserInfo));
+    spyEditProfileService = spyOn(editProfileService, 'postDataUserProfile').and.returnValue(Observable.of(formData));
+    spyProfileService  = spyOn(profileService, 'getUserInfo').and.returnValue(Observable.of(mockUserInfo));
     fixture.detectChanges();
   });
 
@@ -101,5 +125,46 @@ describe('EditProfileComponent', () => {
     expect(controlName.valid).toBeFalsy();
     expect(controlCity.valid).toBeFalsy();
     expect(controlCredo.valid).toBeFalsy();
+  });
+
+  it('should mark the control as invalid if value contains invalid characters', () => {
+    const controlCity = component.editProfileForm.get('city');
+    controlCity.setValue('.Lo&');
+    expect(controlCity.valid).toBeFalsy();
+  });
+
+  it('should call ProfileService', () => {
+    component.getInitialValue();
+    expect(spyProfileService.calls.any()).toBeTruthy();
+  });
+
+  // it('should call EditProfileService', () => {
+  //   component.sendFormData(formData);
+  //   expect(spyEditProfileService).toHaveBeenCalled();
+  // });
+
+  it('ngOnInit should init for method', () => {
+    spyOn(component as any, 'setupInitialValue');
+    spyOn(component as any, 'getInitialValue');
+    spyOn(component as any, 'subscribeToLangChange');
+    spyOn(component as any, 'bindLang');
+    component.ngOnInit();
+
+    expect((component as any).setupInitialValue).toHaveBeenCalledTimes(1);
+    expect((component as any).getInitialValue).toHaveBeenCalledTimes(1);
+    expect((component as any).subscribeToLangChange).toHaveBeenCalledTimes(1);
+    expect((component as any).bindLang).toHaveBeenCalledTimes(1);
+  });
+
+  it('ngOnDestroy should destroy two method ', () => {
+    spyOn((component as any).langChangeSub, 'unsubscribe');
+    component.ngOnDestroy();
+
+    expect((component as any).langChangeSub.unsubscribe).toHaveBeenCalledTimes(1);
+  });
+
+  it('Return from AcceptLeadDialog with hasAccepted equals true should call acceptLead endpoint', () => {
+    spyOn(component.dialog, 'open');
+    expect(component.dialog).toBeDefined();
   });
 });
