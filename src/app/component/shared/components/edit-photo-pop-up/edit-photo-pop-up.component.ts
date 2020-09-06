@@ -18,6 +18,7 @@ export class EditPhotoPopUpComponent implements OnInit {
   public selectedFile: File = null;
   public selectedFileUrl: string;
   public files: FileHandle[] = [];
+  public imageChangedEvent: FileHandle[];
   public isWarning = false;
   private croppedImage: string;
 
