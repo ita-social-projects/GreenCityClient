@@ -11,9 +11,9 @@ export class EditProfileFormBuilder {
   }
   getProfileForm() {
     return this.builder.group({
-      name: ['', [Validators.required, Validators.min(3), Validators.maxLength(30)]],
-      city: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]],
-      title: ['', [Validators.required, Validators.min(3), Validators.maxLength(170)]],
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
+      city: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(85)]],
+      credo: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(170)]],
       showLocation: [''],
       showEcoPlace: [''],
       showShoppingList: ['']
@@ -22,9 +22,9 @@ export class EditProfileFormBuilder {
 
   getEditProfileForm(editForm: EditProfileModel) {
     return this.builder.group({
-      name: [editForm.firstName, [Validators.required, Validators.min(3), Validators.maxLength(30)]],
-      city: [editForm.city, [Validators.required, Validators.minLength(3), Validators.maxLength(80)]],
-      title: [editForm.userCredo, [Validators.required, Validators.min(3), Validators.maxLength(170)]],
+      name: [editForm.firstName, [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
+      city: [editForm.city, [Validators.required, Validators.minLength(3), Validators.maxLength(85)]],
+      credo: [editForm.userCredo, [Validators.required, Validators.minLength(3), Validators.maxLength(170)]],
       showLocation: [editForm.showLocation],
       showEcoPlace: [editForm.showEcoPlace],
       showShoppingList: [editForm.showShoppingList]
