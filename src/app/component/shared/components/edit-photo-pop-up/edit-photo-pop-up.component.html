@@ -30,10 +30,8 @@
         <div class="cropper-block">
           <image-cropper [maintainAspectRatio]="true" 
                          [containWithinAspectRatio]="false" 
-                         [aspectRatio]="1 / 1"
                          [roundCropper]="true" 
                          [resizeToHeight]="148" 
-                         [imageChangedEvent]="imageChangedEvent" 
                          [imageFile]="file.file"
                          (imageCropped)="imageCropped($event)" 
                          class="selected-photo">

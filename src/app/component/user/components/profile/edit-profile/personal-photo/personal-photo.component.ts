@@ -1,17 +1,16 @@
-import { Component, OnInit, AfterViewChecked, OnDestroy } from '@angular/core';
-import { EditProfileModel } from '@user-models/edit-profile.model';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProfileService } from '../../profile-service/profile.service';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { EditPhotoPopUpComponent } from '@shared/components/edit-photo-pop-up/edit-photo-pop-up.component';
-
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-personal-photo',
   templateUrl: './personal-photo.component.html',
   styleUrls: ['./personal-photo.component.scss']
 })
-export class PersonalPhotoComponent implements OnInit, AfterViewChecked, OnDestroy {
+export class PersonalPhotoComponent implements OnInit, OnDestroy {
   public avatarImg: string;
   public avatarDefault = './assets/img/profileAvatarBig.png';
   public editIcon = './assets/img/profile/icons/edit-photo.svg';
@@ -25,14 +24,13 @@ export class PersonalPhotoComponent implements OnInit, AfterViewChecked, OnDestr
     this.setUserAvatar();
   }
 
-  ngAfterViewChecked() {
-    this.setUserAvatar();
-  }
-
   private setUserAvatar(): void {
-    this.avatarSubscription = this.profileService.getUserInfo().subscribe((item: EditProfileModel) => {
-      this.avatarImg = item.profilePicturePath && item.profilePicturePath !== ' ' ?
-        item.profilePicturePath : this.avatarDefault;
+    this.avatarSubscription = this.profileService.getUserInfo()
+    .pipe(
+      map((el) => el.profilePicturePath)
+    )
+    .subscribe((img) => {
+      this.avatarImg = img && img !== ' ' ? img : this.avatarDefault;
     });
   }
 
