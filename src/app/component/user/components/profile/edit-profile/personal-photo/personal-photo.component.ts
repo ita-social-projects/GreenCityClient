@@ -35,7 +35,7 @@ export class PersonalPhotoComponent implements OnInit, OnDestroy {
   }
 
   public openEditPhoto(): void {
-    this.dialog.open(EditPhotoPopUpComponent, {
+    const dialogRef = this.dialog.open(EditPhotoPopUpComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
       disableClose: true,
@@ -43,6 +43,9 @@ export class PersonalPhotoComponent implements OnInit, OnDestroy {
       data: {
         img: this.avatarImg
       }
+    });
+    dialogRef.afterClosed().subscribe( () => {
+      this.setUserAvatar();
     });
   }
 
