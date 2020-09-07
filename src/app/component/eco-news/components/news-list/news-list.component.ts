@@ -84,6 +84,12 @@ export class NewsListComponent implements OnInit, OnDestroy {
         .subscribe((list: EcoNewsDto) => this.setList(list));
     } else {
       this.ecoNewsSubscription = this.ecoNewsService.getEcoNewsListByPage(this.currentPage, this.numberOfNews)
+        .pipe(
+          catchError((error) => {
+            this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.', 'X', 'red-snackbar');
+            return error;
+          })
+        )
         .subscribe((list: EcoNewsDto) => this.setList(list));
     }
     this.changeCurrentPage();
