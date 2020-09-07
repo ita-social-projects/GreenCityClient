@@ -57,6 +57,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   public getFilterData(value: Array<string>): void {
+    console.log(value);
     if (this.tagsList !== value) {
       this.setNullList();
       this.tagsList = value;
@@ -72,10 +73,14 @@ export class NewsListComponent implements OnInit, OnDestroy {
   private addElemsToCurrentList(): void {
     if (this.tagsList) {
       this.ecoNewsSubscription = this.ecoNewsService.getNewsListByTags(this.currentPage, this.numberOfNews, this.tagsList)
-        .subscribe((list: EcoNewsDto) => this.setList(list));
+        .subscribe((list: EcoNewsDto) => {
+          this.setList(list);
+        });
     } else {
       this.ecoNewsSubscription = this.ecoNewsService.getEcoNewsListByPage(this.currentPage, this.numberOfNews)
-        .subscribe((list: EcoNewsDto) => this.setList(list));
+        .subscribe((list: EcoNewsDto) => {
+          this.setList(list);
+        });
     }
     this.changeCurrentPage();
   }

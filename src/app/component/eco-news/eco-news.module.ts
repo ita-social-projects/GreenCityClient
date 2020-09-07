@@ -25,6 +25,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { EcoNewsEffects } from './store/eco-news.effects';
 import { EcoNewsSelectors } from './store/eco-news.selectors';
 import { CommentsModule } from '../comments/comments.module';
+import { NoNewsComponent } from './components/no-news/no-news.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { CommentsModule } from '../comments/comments.module';
     EcoNewsDetailComponent,
     NewsPreviewPageComponent,
     PostNewsLoaderComponent,
+    NoNewsComponent,
   ],
   imports: [
     EffectsModule.forFeature([EcoNewsEffects]),
