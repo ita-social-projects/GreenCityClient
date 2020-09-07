@@ -23,10 +23,8 @@ class TranslatePipeMock implements PipeTransform {
 describe('EditProfileComponent', () => {
   let component: EditProfileComponent;
   let fixture: ComponentFixture<EditProfileComponent>;
-  // let controlName: any;
-  // let controlCity: any;
-  // let controlCredo: any;
-  // let controls: any[];
+  let controlsName: string[];
+  //let controls;
   let editProfileService: EditProfileService;
   let profileService: ProfileService;
   let mockUserInfo: EditProfileModel;
@@ -57,10 +55,8 @@ describe('EditProfileComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EditProfileComponent);
     component = fixture.componentInstance;
-    // controlName = component.editProfileForm.get('name');
-    // controlCity = component.editProfileForm.get('city');
-    // controlCredo = component.editProfileForm.get('credo');
-    // controls = [controlName, controlCity, controlCredo];
+    controlsName = ['name', 'city', 'credo'];
+    //controls = controlsName.map(el => component.editProfileForm.get(el));
     editProfileService = fixture.debugElement.injector.get(EditProfileService);
     profileService = fixture.debugElement.injector.get(ProfileService);
     mockUserInfo = {
@@ -77,69 +73,46 @@ describe('EditProfileComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should create form with 3 controls', () => {
-    expect(component.editProfileForm.contains('name')).toBeTruthy();
-    expect(component.editProfileForm.contains('city')).toBeTruthy();
-    expect(component.editProfileForm.contains('credo')).toBeTruthy();
+  it('should create form with three controls', () => {
+    controlsName.map(el =>  expect(component.editProfileForm.contains(el)).toBeTruthy());
   });
 
-  it('should mark controls as invalid if empty value', () => {
-    const controlName = component.editProfileForm.get('name');
-    const controlCity = component.editProfileForm.get('city');
-    const controlCredo = component.editProfileForm.get('credo');
-    const controls = [controlName, controlCity, controlCredo];
+  it('should mark controls as invalid if empty value. Check the validator "required".', () => {
+    const controls = controlsName.map(el => component.editProfileForm.get(el));
     controls.map(el => el.setValue(''));
-    expect(controlName.valid).toBeFalsy();
-    expect(controlCity.valid).toBeFalsy();
-    expect(controlCredo.valid).toBeFalsy();
+    controls.map(el => expect(el.valid).toBeFalsy());
   });
 
-  it('should mark controls as invalid if longer value', () => {
-    const controlName = component.editProfileForm.get('name');
-    const controlCity = component.editProfileForm.get('city');
-    const controlCredo = component.editProfileForm.get('credo');
-    const controls = [controlName, controlCity, controlCredo];
-    controls.map(el => el.setValue('Lorem ipsum dolor sit amet consectetur, adipisicing elit.' +
-      'Facilis asperiores minus corrupti impedit cumque sapiente est architecto obcaecati quisquam velit quidem quis nesciunt,'));
-    expect(controlName.valid).toBeFalsy();
-    expect(controlCity.valid).toBeFalsy();
-    expect(controlCredo.valid).toBeFalsy();
+  it('should mark controls as invalid if longer value. Check the validator "maxLength".', () => {
+    const controls = controlsName.map(el => component.editProfileForm.get(el));
+    controls.map(el => el.setValue('Lorem ipsum dolor sit amet consectetur, adipisicing elit. ' +
+      'Facilis asperiores minus corrupti impedit cumque sapiente est architecto obcaecati quisquam velit quidem quis nesciunt'));
+    controls.map(el => expect(el.valid).toBeFalsy());
   });
 
-  it('should mark controls as invalid if smaller value', () => {
-    const controlName = component.editProfileForm.get('name');
-    const controlCity = component.editProfileForm.get('city');
-    const controlCredo = component.editProfileForm.get('credo');
-    const controls = [controlName, controlCity, controlCredo];
-    controls.map(el => el.setValue('Lo'));
-    expect(controlName.valid).toBeFalsy();
-    expect(controlCity.valid).toBeFalsy();
-    expect(controlCredo.valid).toBeFalsy();
+  it('should mark controls as invalid if smaller value. Check the validator "minLength".', () => {
+    const controls = controlsName.map(el => component.editProfileForm.get(el));
+    controls.map(el => el.setValue('Lv'));
+    controls.map(el => expect(el.valid).toBeFalsy());
   });
 
-  it('should mark the control as invalid if value contains invalid characters', () => {
+  it('should mark the control as invalid if value contains invalid characters. Check the controller "pattern".', () => {
     const controlCity = component.editProfileForm.get('city');
     controlCity.setValue('.Lo&');
     expect(controlCity.valid).toBeFalsy();
+    controlCity.setValue('$Lo&pr');
+    expect(controlCity.valid).toBeFalsy();
+    controlCity.setValue('Po&-as');
+    expect(controlCity.valid).toBeFalsy();
+    controlCity.setValue('Lviv');
+    expect(controlCity.valid).toBeTruthy();
   });
 
-  it('should call ProfileService', () => {
-    const spy = spyOn(profileService, 'getUserInfo').and.returnValue(Observable.of(mockUserInfo));
-    component.getInitialValue();
-    expect(spy.calls.any()).toBeTruthy();
-  });
-
-  it('should call EditProfileService', () => {
-    const spy = spyOn(editProfileService, 'postDataUserProfile').and.returnValue(Observable.of(mockUserInfo));
-    component.onSubmit();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('ngOnInit should init for method', () => {
+  it('ngOnInit should init four method', () => {
     spyOn(component as any, 'setupInitialValue');
     spyOn(component as any, 'getInitialValue');
     spyOn(component as any, 'subscribeToLangChange');
@@ -152,16 +125,27 @@ describe('EditProfileComponent', () => {
     expect((component as any).bindLang).toHaveBeenCalledTimes(1);
   });
 
-  it('ngOnDestroy should destroy two method ', () => {
-    spyOn((component as any).langChangeSub, 'unsubscribe');
-    component.ngOnDestroy();
-
-    expect((component as any).langChangeSub.unsubscribe).toHaveBeenCalledTimes(1);
+  it('getInitialValue should call ProfileService', () => {
+    const spy = spyOn(profileService, 'getUserInfo').and.returnValue(Observable.of(mockUserInfo));
+    component.getInitialValue();
+    expect(spy.calls.any()).toBeTruthy();
   });
 
-  it('Return from AcceptLeadDialog with hasAccepted equals true should call acceptLead endpoint', () => {
+  it('onSubmit should call EditProfileService', () => {
+    const spy = spyOn(editProfileService, 'postDataUserProfile').and.returnValue(Observable.of(mockUserInfo));
+    component.onSubmit();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call CancelPopup', () => {
     spyOn(component.dialog, 'open');
     component.openCancelPopup();
     expect(component.dialog).toBeDefined();
+  });
+
+  it('ngOnDestroy should destroy two method ', () => {
+    spyOn((component as any).langChangeSub, 'unsubscribe');
+    component.ngOnDestroy();
+    expect((component as any).langChangeSub.unsubscribe).toHaveBeenCalledTimes(1);
   });
 });

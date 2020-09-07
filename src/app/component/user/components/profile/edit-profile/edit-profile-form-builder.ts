@@ -4,7 +4,7 @@ import { EditProfileModel } from '@user-models/edit-profile.model';
 
 @Injectable()
 export class EditProfileFormBuilder {
-  private pattern = /^[a-z(!\-’)\.]*$/gi;
+  private pattern = /^[a-zа-я][a-zа-я(! \-,’)]*$/gi;
   constructor(
     private builder: FormBuilder,
   ) {
