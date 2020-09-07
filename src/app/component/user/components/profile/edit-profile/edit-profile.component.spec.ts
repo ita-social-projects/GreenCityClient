@@ -29,10 +29,8 @@ describe('EditProfileComponent', () => {
   // let controls: any[];
   let editProfileService: EditProfileService;
   let profileService: ProfileService;
-  let spyEditProfileService: jasmine.Spy;
-  let spyProfileService: jasmine.Spy;
   let mockUserInfo: EditProfileModel;
-  let formData;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -53,7 +51,7 @@ describe('EditProfileComponent', () => {
         ProfileService,
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -76,10 +74,6 @@ describe('EditProfileComponent', () => {
       showShoppingList: true,
       socialNetworks: ['Instagram']
     };
-    formData = new FormData();
-    formData.append('userProfileDtoRequest ', JSON.stringify(mockUserInfo));
-    spyEditProfileService = spyOn(editProfileService, 'postDataUserProfile').and.returnValue(Observable.of(formData));
-    spyProfileService  = spyOn(profileService, 'getUserInfo').and.returnValue(Observable.of(mockUserInfo));
     fixture.detectChanges();
   });
 
@@ -134,14 +128,16 @@ describe('EditProfileComponent', () => {
   });
 
   it('should call ProfileService', () => {
+    const spy = spyOn(profileService, 'getUserInfo').and.returnValue(Observable.of(mockUserInfo));
     component.getInitialValue();
-    expect(spyProfileService.calls.any()).toBeTruthy();
+    expect(spy.calls.any()).toBeTruthy();
   });
 
-  // it('should call EditProfileService', () => {
-  //   component.sendFormData(formData);
-  //   expect(spyEditProfileService).toHaveBeenCalled();
-  // });
+  it('should call EditProfileService', () => {
+    const spy = spyOn(editProfileService, 'postDataUserProfile').and.returnValue(Observable.of(mockUserInfo));
+    component.onSubmit();
+    expect(spy).toHaveBeenCalled();
+  });
 
   it('ngOnInit should init for method', () => {
     spyOn(component as any, 'setupInitialValue');
@@ -165,6 +161,7 @@ describe('EditProfileComponent', () => {
 
   it('Return from AcceptLeadDialog with hasAccepted equals true should call acceptLead endpoint', () => {
     spyOn(component.dialog, 'open');
+    component.openCancelPopup();
     expect(component.dialog).toBeDefined();
   });
 });
