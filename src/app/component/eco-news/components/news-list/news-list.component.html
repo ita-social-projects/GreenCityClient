@@ -21,7 +21,7 @@
     <app-remaining-count [remainingCount]="remaining"></app-remaining-count>
     <app-change-view-button (view)="changeView($event)"></app-change-view-button>
   </div>
-  <div *ngIf="remaining; else noNews">
+  <div *ngIf="remaining">
     <ul class="list"
         [ngClass]="{ 'gallery-view-active': view }">
       <li [ngClass]="{
@@ -42,7 +42,7 @@
       </li>
     </ul>
   </div>
-  <mat-spinner *ngIf="elementsArePresent">
+  <mat-spinner *ngIf="elementsArePresent; else noNews">
   </mat-spinner>
   <ng-template #noNews>
     <app-no-news></app-no-news>

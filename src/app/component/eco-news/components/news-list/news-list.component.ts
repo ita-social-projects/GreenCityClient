@@ -93,6 +93,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   private setNullList(): void {
     this.currentPage = 0;
     this.elements = [];
+    this.elementsArePresent = true;
   }
 
   private setDefaultNumberOfNews(quantity: number): void {
