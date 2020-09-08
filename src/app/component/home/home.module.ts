@@ -12,7 +12,7 @@ import {
   TipsCardComponent,
   TipsListComponent
 } from './components';
-import {EcoEventsItemComponent} from './components/eco-events/eco-events-item/eco-events-item.component';
+import { EcoEventsItemComponent } from './components/eco-events/eco-events-item/eco-events-item.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
