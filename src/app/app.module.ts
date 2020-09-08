@@ -17,8 +17,7 @@ import {
   MatRadioModule,
   MatSelectModule,
   MatSliderModule,
-  MatTreeModule,
-  MatSnackBarModule
+  MatTreeModule
 } from '@angular/material';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
@@ -48,6 +47,7 @@ import { LayoutModule } from './component/layout/layout.module';
 import { CancelPopUpComponent } from './component/shared/components/cancel-pop-up/cancel-pop-up.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ErrorComponent } from './component/errors/error/error.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
