@@ -24,7 +24,6 @@ describe('EditProfileComponent', () => {
   let component: EditProfileComponent;
   let fixture: ComponentFixture<EditProfileComponent>;
   let controlsName: string[];
-  //let controls;
   let editProfileService: EditProfileService;
   let profileService: ProfileService;
   let mockUserInfo: EditProfileModel;
@@ -56,7 +55,6 @@ describe('EditProfileComponent', () => {
     fixture = TestBed.createComponent(EditProfileComponent);
     component = fixture.componentInstance;
     controlsName = ['name', 'city', 'credo'];
-    //controls = controlsName.map(el => component.editProfileForm.get(el));
     editProfileService = fixture.debugElement.injector.get(EditProfileService);
     profileService = fixture.debugElement.injector.get(ProfileService);
     mockUserInfo = {
