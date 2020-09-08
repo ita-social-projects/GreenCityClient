@@ -1,7 +1,7 @@
 import { catchError } from 'rxjs/operators';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
-import { Subscription, of } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { Store } from '@ngrx/store';

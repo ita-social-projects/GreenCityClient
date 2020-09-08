@@ -16,7 +16,7 @@ export class MatSnackBarComponent implements OnInit {
   openSnackBar(message: string, action: string, className: string) {
 
     this.snackBar.open(message, action, {
-      // duration: 15000,
+      duration: 5000,
       verticalPosition: 'bottom',
       horizontalPosition: 'center',
       panelClass: [className],
