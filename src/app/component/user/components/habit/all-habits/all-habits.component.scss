@@ -32,10 +32,10 @@
   grid-gap: 30px;
 }
 
-.list {
-  display: block;
-  width: 500px;
-  margin: 0 auto;
+.listView {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 @media screen and (max-width: 1199px) {
