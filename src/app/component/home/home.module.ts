@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { SWIPER_CONFIG, SwiperConfigInterface, SwiperModule } from 'ngx-swiper-wrapper';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '../core/core.module';
+import { SharedModule } from '@shared/shared.module';
 import {
   HomepageComponent,
   EcoEventsComponent,
@@ -11,7 +12,7 @@ import {
   TipsCardComponent,
   TipsListComponent
 } from './components';
-import { SharedModule } from '../shared/shared.module';
+import {EcoEventsItemComponent} from './components/eco-events/eco-events-item/eco-events-item.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
@@ -26,7 +27,8 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     StatRowsComponent,
     SubscribeComponent,
     TipsCardComponent,
-    TipsListComponent
+    TipsListComponent,
+    EcoEventsItemComponent
   ],
   imports: [
     CommonModule,

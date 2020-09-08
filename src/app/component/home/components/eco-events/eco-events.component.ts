@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { NewsDto } from 'src/app/component/home/models/NewsDto';
@@ -13,7 +13,7 @@ import { LanguageService } from 'src/app/i18n/language.service';
 export class EcoEventsComponent implements OnInit {
   readonly eventImg = 'assets/img/main-event-placeholder.png';
   readonly arrow = 'assets/img/icon/arrow.png';
-  latestNews: NewsDto[] = [];
+  public latestNews: NewsDto[] = [];
 
   constructor(
     private newsService: NewsService,
@@ -24,7 +24,7 @@ export class EcoEventsComponent implements OnInit {
     this.newsService.loadLatestNews();
     this.newsService.latestNews.pipe(catchError(() => of([]))).subscribe(
       (newsItems: NewsDto[]) => {
-        newsItems.forEach(
+        newsItems.map(
           (element: NewsDto) => (element.creationDate = this.convertDate(element.creationDate))
         );
         this.latestNews = newsItems;
