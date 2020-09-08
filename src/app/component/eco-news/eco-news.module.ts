@@ -26,7 +26,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { EcoNewsEffects } from './store/eco-news.effects';
 import { EcoNewsSelectors } from './store/eco-news.selectors';
 import { CommentsModule } from '../comments/comments.module';
-import { MatSnackBarModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -63,7 +62,7 @@ import { MatSnackBarModule } from '@angular/material';
     })
   ],
   exports: [
-    TranslateModule, MatSnackBarModule
+    TranslateModule
   ],
   entryComponents: [
 
