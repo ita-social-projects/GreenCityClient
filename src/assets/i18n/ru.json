@@ -277,6 +277,7 @@
         "first-name": "Имя пользователя",
         "first-name-is-required": "Введите имя",
         "user-name-error": "Имя пользователя обязательно",
+        "user-name-size": "Имя должно содержать 6-30 символов и может состоять из букв(a-z), цифр(0-9) и точки(.)",
         "first-name-must-be-at-least-1-characters-long": "Имя должно содержать по крайней мере 1 символ",
         "last-name": "Фамилия",
         "last-name-is-required": "Введите фамилию",
