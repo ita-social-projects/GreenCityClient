@@ -2,11 +2,8 @@ language: node_js
 node_js:
   - "14"
 
-dist: trusty
+dist: bionic
 addons:
-  apt:
-    packages:
-      - dpkg
   chrome: stable
 
 cache:
