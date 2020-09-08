@@ -57,7 +57,6 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   public getFilterData(value: Array<string>): void {
-    console.log(value);
     if (this.tagsList !== value) {
       this.setNullList();
       this.tagsList = value;
