@@ -79,20 +79,20 @@ describe('EditProfileComponent', () => {
     controlsName.map(el =>  expect(component.editProfileForm.contains(el)).toBeTruthy());
   });
 
-  it('should mark controls as invalid if empty value. Check the validator "required".', () => {
+  it('should mark controls as invalid if empty value. Checking the validator "required".', () => {
     const controls = controlsName.map(el => component.editProfileForm.get(el));
     controls.map(el => el.setValue(''));
     controls.map(el => expect(el.valid).toBeFalsy());
   });
 
-  it('should mark controls as invalid if longer value. Check the validator "maxLength".', () => {
+  it('should mark controls as invalid if longer value. Checking the validator "maxLength".', () => {
     const controls = controlsName.map(el => component.editProfileForm.get(el));
     controls.map(el => el.setValue('Lorem ipsum dolor sit amet consectetur, adipisicing elit. ' +
       'Facilis asperiores minus corrupti impedit cumque sapiente est architecto obcaecati quisquam velit quidem quis nesciunt'));
     controls.map(el => expect(el.valid).toBeFalsy());
   });
 
-  it('should mark controls as invalid if smaller value. Check the validator "minLength".', () => {
+  it('should mark controls as invalid if smaller value. Checking the validator "minLength".', () => {
     const controls = controlsName.map(el => component.editProfileForm.get(el));
     controls.map(el => el.setValue('Lv'));
     controls.map(el => expect(el.valid).toBeFalsy());
