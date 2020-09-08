@@ -72,14 +72,10 @@ export class NewsListComponent implements OnInit, OnDestroy {
   private addElemsToCurrentList(): void {
     if (this.tagsList) {
       this.ecoNewsSubscription = this.ecoNewsService.getNewsListByTags(this.currentPage, this.numberOfNews, this.tagsList)
-        .subscribe((list: EcoNewsDto) => {
-          this.setList(list);
-        });
+        .subscribe((list: EcoNewsDto) => this.setList(list));
     } else {
       this.ecoNewsSubscription = this.ecoNewsService.getEcoNewsListByPage(this.currentPage, this.numberOfNews)
-        .subscribe((list: EcoNewsDto) => {
-          this.setList(list);
-        });
+        .subscribe((list: EcoNewsDto) => this.setList(list));
     }
     this.changeCurrentPage();
   }
