@@ -2,8 +2,9 @@
   padding: 30px 30px 0;
   width: 100%;
 }
-.already-chosen-habits h4{
-  color: #000000;
+
+.already-chosen-habits h4 {
+  color: #000;
   cursor: default;
   font-size: 24px;
   font-stretch: normal;
@@ -13,7 +14,7 @@
   letter-spacing: normal;
 }
 
-.already-chosen-habits
+.already-chosen-habits,
 .already-chosen-list {
   border: dashed 1px rgba(131, 156, 148, 0.4);
   border-radius: 4px;

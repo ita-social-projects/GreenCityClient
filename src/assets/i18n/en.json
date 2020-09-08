@@ -40,7 +40,8 @@
         "events": "Events",
         "initiatives": "Initiatives",
         "ads": "Ads",
-        "education": "Education"
+        "education": "Education",
+        "lifehacks": "Lifehacks"
       },
       "items-found": "items found",
       "comment": {
@@ -436,6 +437,25 @@
       "map": "Places",
       "my-habits": "My habits"
     },
+    "edit-profile": {
+      "edit-profile": "Edit profile",
+      "info": "Personal info",
+      "name": "Name",
+      "name-warning": "Should contain maximum 30 symbols",
+      "city": "City",
+      "title": "Title",
+      "title-warning": "Should contain maximum 170 symbols",
+      "links": "Linked social networks",
+      "add-link": "Add social network",
+      "privacy": "Profile privacy",
+      "location": "Show my location",
+      "eco-place": "Show my eco places",
+      "shoping-list": "Show my shopping list",
+      "btn":{
+        "cancel": "Cancel",
+        "save": "Save"
+      }
+    },
     "footer": {
       "about-us": "About us",
       "eco-events": "Eco news",
@@ -601,7 +621,26 @@
       "days": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
       "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
       "monthsShort": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-    }
+    },
+    "habits-in-progress": "Habits in progress",
+    "add-new-habit": "Add new habit",
+    "habits-acquired": "Habits acquired",
+    "my-Achievements": "My Achievements",
+    "see-all": "See all",
+    "my-eco-friends": "My Eco Friends",
+    "zero-friends": "You don't have any friends.",
+    "my-eco-places": "My eco places",
+    "my-shoppingList": "My Shopping List",
+    "shoppingList-no-items-message": "You don't have any items in your Shopping List",
+    "fact-of-the-day": "Fact of the Day",
+    "no-eco-places": "You don't have any Eco Places.",
+    "online": "online",
+    "acquired-habits": "acquired habits",
+    "written-articles": "written articles",
+    "published-news": "published news",
+    "my-habits": "My Habits",
+    "my-news": "My news",
+    "my-articles": "My articles"
   },
   "create-news": {
     "title": "Create news",

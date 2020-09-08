@@ -5,35 +5,47 @@
 </div>
 <div class="main-wrapper">
   <form *ngIf="isLoggedIn"
-        class="wrapper"
-        [ngClass]="dataSet.type === 'reply' ? 'reply-wrapper': 'wrapper'"
+        class="wrapper-comment"
+        [ngClass]="dataSet.type === 'comment' ? 'wrapper-comment': 'wrapper-reply'"
         [formGroup]="addCommentForm"
         (ngSubmit)="onSubmit()">
     <img [src]=avatarImage
          alt="avatar">
     <ng-container *ngIf="dataSet.type === 'comment'; else reply">
-    <textarea placeholder="{{ 'homepage.eco-news.comment.placeholder.add-a-comment' | translate }}"
-              formControlName="content"
-              type="text"
-              maxlength="8000"></textarea>
-      <button class="primary-global-button"
-              [disabled]="!addCommentForm.valid">
-        {{ "homepage.eco-news.comment.comment"| translate }}
-      </button>
+      <div class="input-submit">
+        <textarea placeholder="{{ 'homepage.eco-news.comment.placeholder.add-a-comment' | translate }}"
+                  formControlName="content"
+                  type="text"
+                  maxlength="8000"></textarea>
+        <button class="primary-global-button"
+                [disabled]="!addCommentForm.valid">
+          {{ "homepage.eco-news.comment.comment"| translate }}
+        </button>
+      </div>
     </ng-container>
     <ng-template #reply>
-    <textarea placeholder="{{ 'homepage.eco-news.comment.placeholder.add-a-reply' | translate }}"
-              formControlName="content"
-              type="text"
-              maxlength="8000"></textarea>
-      <button class="primary-global-button" [disabled]="!addCommentForm.valid">
-        {{ "homepage.eco-news.comment.reply"| translate }}
-      </button>
+      <div class="input-submit">
+            <textarea placeholder="{{ 'homepage.eco-news.comment.placeholder.add-a-reply' | translate }}"
+                      formControlName="content"
+                      type="text"
+                      maxlength="8000"></textarea>
+        <button class="primary-global-button" [disabled]="!addCommentForm.valid">
+          {{ "homepage.eco-news.comment.reply"| translate }}
+        </button>
+      </div>
     </ng-template>
   </form>
 </div>
-<app-comment-body [elements]="elements"
-                  [type]="dataSet.type"
-                  *ngIf="this.dataSet.type === 'comment' ||
-                         (this.dataSet.type === 'reply' && this.repliesVisibility)"
-></app-comment-body>
+<mat-spinner class="spinner"
+             *ngIf="elements.length < 1
+             && elementsArePresent
+             && dataSet.type !== 'reply'; else comments"
+></mat-spinner>
+<ng-template #comments>
+  <app-comment-body [elements]="elements"
+                    [type]="dataSet.type"
+                    *ngIf="(this.dataSet.type === 'reply' && this.repliesVisibility)
+                         || this.dataSet.type === 'comment'"
+                    (commentsPage)="addElementsByPagination($event)"
+  ></app-comment-body>
+</ng-template>

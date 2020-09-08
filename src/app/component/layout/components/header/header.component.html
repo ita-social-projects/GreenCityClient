@@ -8,8 +8,8 @@
            pageScroll>
           <picture>
           <source media="(max-width: 576px)"
-                  srcset="/assets/img/logo_S.png">
-             <img src="/assets/img/logo_M.png"
+                  srcset="assets/img/logo_S.png">
+             <img src="assets/img/logo_M.png"
                   alt="logo">
         </picture>
         </a>
@@ -105,36 +105,35 @@
                  <li class="search"
                      [class.destroy]="toggleBurgerMenu">
                  <a (click)="toggleSearchPage()">
-                   <img src="/assets/img/icon/search.png"
+                   <img src="assets/img/icon/search.png"
                         alt="search">
                  </a>
                  </li>
                 </ng-template>
               <li [class.destroy]="toggleBurgerMenu">
-                <div class="switcher-wrapper">
-                <img class="arrow"
-                     [src]="selectLanguageArrow"
-                     [ngClass]="langDropdownVisible ? 'arrow reverse' : 'arrow'"
-                     alt="v">
-            <ul [class.add-shadow]="langDropdownVisible"
-                appCloseDropdown
-                (clickOutSide)="autoCloseLangDropDown($event)">
-            <ng-container
-              *ngFor="let lang of arrayLang;
-              index as index;">
-            <li *ngIf="index < 1"
-                (click)="langDropdownVisible = !langDropdownVisible">
-              {{lang.lang}}
-            </li>
-            <li *ngIf="index > 0 && langDropdownVisible"
-                (click)="changeCurrentLanguage(lang.lang, index)">
-              {{lang.lang}}
-            </li>
-            </ng-container>
-            </ul>
+                <div class="switcher-wrapper" (click)="langDropdownVisible = !langDropdownVisible">
+                  <img class="arrow"
+                      [src]="selectLanguageArrow"
+                      [ngClass]="langDropdownVisible ? 'arrow reverse zIndex' : 'arrow'"
+                      alt="v">
+                  <ul [class.add-shadow]="langDropdownVisible"
+                      appCloseDropdown
+                      (clickOutSide)="autoCloseLangDropDown($event)">
+                    <ng-container
+                      *ngFor="let lang of arrayLang;
+                      index as index;">
+                      <li *ngIf="index < 1">
+                        {{lang.lang}}
+                      </li>
+                      <li *ngIf="index > 0 && langDropdownVisible"
+                          (click)="changeCurrentLanguage(lang.lang, index)">
+                        {{lang.lang}}
+                      </li>
+                    </ng-container>
+                  </ul>
               </div>
               </li>
-        <li class="sign-in-link tertiary-global-button"
+        <li class="sign-in-link tertiary-global-button last-nav-item"
             [class.destroy]="toggleBurgerMenu">
           <div *ngIf="!isLoggedIn; then userLoggedIn else userNotLoggedIn"></div>
           <ng-template #userLoggedIn>
@@ -197,4 +196,3 @@
     </div>
   </div>
 </div>
-

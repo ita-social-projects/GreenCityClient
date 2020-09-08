@@ -2,22 +2,18 @@ language: node_js
 node_js:
   - "14"
 
-dist: trusty
-sudo: false
+dist: bionic
 addons:
   chrome: stable
 
 cache:
   directories:
     - node_modules
-    - dist
 
 install:
   - npm install
 
 jobs:
-  allow_failures:
-    - name: test app
 
   include:
     - stage: build
@@ -26,24 +22,28 @@ jobs:
       name: check app by linter
     -
       script:
-      - ng test --watch=false --browsers ChromeHeadless
+      - npm run stylelint
+      name: check styles by linter
+    -
+      script:
+      - ng test --watch=false --progress=false --browsers=ChromeHeadless
       name: test app
     -
       script:
-      - ng build --prod --base-href /GreenCityClient/ --aot=false --build-optimizer=false
-      name: build app
+      - ng e2e --protractor-config=e2e/protractor-ci.conf.js
+      name: test e2e
     -
       script:      
-      - ng build --prod --base-href /GreenCityClient/ --outputPath=dist_new
+      -  ng build --prod --delete-output-path --base-href=/GreenCityClient/ --outputPath=dist_aot && rm -rf dist_aot
       name: build app using aot compilation
     - stage: deploy
-      script: skip
+      script: ng build --prod --base-href=/GreenCityClient/ --aot=false --build-optimizer=false
       name: deploy on gh_pages
       if: branch IN (dev, master)
       deploy:
         provider: pages
-        skip_cleanup: true
         github_token: $TRAVIS_GH_TOKEN
+        skip_cleanup: true
         local_dir: dist/GreenCityClient
         on:
           branch: dev
