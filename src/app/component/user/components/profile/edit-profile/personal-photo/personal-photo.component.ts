@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ProfileService } from '../../profile-service/profile.service';
-import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { EditPhotoPopUpComponent } from '@shared/components/edit-photo-pop-up/edit-photo-pop-up.component';
+import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { EditPhotoPopUpComponent } from '@shared/components/edit-photo-pop-up/edit-photo-pop-up.component';
+import { ProfileService } from '../../profile-service/profile.service';
 
 @Component({
   selector: 'app-personal-photo',
@@ -13,9 +13,9 @@ import { map } from 'rxjs/operators';
 export class PersonalPhotoComponent implements OnInit, OnDestroy {
   public avatarImg: string;
   public avatarDefault = './assets/img/profileAvatarBig.png';
-  public editIcon = './assets/img/profile/icons/edit-photo.svg';
-  public currentPage = 'edit photo';
   public avatarSubscription: Subscription;
+  public currentPage = 'edit photo';
+  public editIcon = './assets/img/profile/icons/edit-photo.svg';
 
   constructor(private profileService: ProfileService,
               private dialog: MatDialog) { }
