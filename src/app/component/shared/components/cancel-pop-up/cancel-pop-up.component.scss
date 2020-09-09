@@ -44,6 +44,15 @@ $main-font: 'Open Sans', sans-serif;
   }
 }
 
+@media screen and (max-width: 767px) {
+  .main-container {
+    .warning-text {
+      font-size: 18px;
+      max-width: 397px;
+    }
+  }
+}
+
 @media screen and (max-width: 575px) {
   .main-container {
     min-width: 100vh;
