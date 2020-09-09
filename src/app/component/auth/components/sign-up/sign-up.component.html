@@ -73,14 +73,16 @@
                  class="main-data-input"
                  placeholder="{{ 'user.auth.sign-up.first-name-is-required' | translate }}"
                  name="fistName"
+                 #inputName
                  #firstNameControl="ngModel"
                  [(ngModel)]="userOwnSignUp.firstName"
                  [ngClass]="firstNameControl.invalid &&
-                 (firstNameControl.dirty || firstNameControl.touched) ?
+                 (firstNameControl.dirty || firstNameControl.touched) ||
+                 !checkUserName(inputName.value) ?
                  'wrong-input':'main-data-input'"
                  required
-                 minlength="1"
-                 maxlength="20"
+                 minlength="6"
+                 maxlength="30"
           >
           <div class="error-message"
                [ngClass]="firstNameControl.invalid &&
@@ -89,6 +91,9 @@
           >
             <div *ngIf="firstNameControl.errors?.required">
               {{'user.auth.sign-up.user-name-error' | translate}}
+            </div>
+            <div *ngIf="!checkUserName(inputName.value)">
+              {{'user.auth.sign-up.user-name-size' | translate}}
             </div>
           </div>
           <label class="content-label under-error">
