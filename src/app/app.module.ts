@@ -47,7 +47,6 @@ import { LayoutModule } from './component/layout/layout.module';
 import { CancelPopUpComponent } from './component/shared/components/cancel-pop-up/cancel-pop-up.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ErrorComponent } from './component/errors/error/error.component';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -84,8 +83,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatSelectModule,
     MatRadioModule,
     DragDropModule,
-    NgxPaginationModule,
-    MatSnackBarModule
+    NgxPaginationModule
   ],
   entryComponents: [
     ProposeCafeComponent,

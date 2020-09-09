@@ -26,6 +26,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { EcoNewsEffects } from './store/eco-news.effects';
 import { EcoNewsSelectors } from './store/eco-news.selectors';
 import { CommentsModule } from '../comments/comments.module';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 
 @NgModule({
   declarations: [
@@ -51,6 +53,7 @@ import { CommentsModule } from '../comments/comments.module';
     InfiniteScrollModule,
     EcoNewsRoutingModule,
     ImageCropperModule,
+    MatSnackBarModule,
     CommentsModule,
     TranslateModule.forChild({
       loader: {
