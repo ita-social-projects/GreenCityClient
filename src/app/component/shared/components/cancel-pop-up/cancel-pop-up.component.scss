@@ -76,7 +76,8 @@ $main-font: 'Open Sans', sans-serif;
       .continue-btn,
       .cancel-btn {
         width: 288px;
-        height: 48px;
+        height: fit-content;
+        min-height: 48px;
         text-align: center;
         font-weight: 600;
       }
