@@ -8,6 +8,7 @@ import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 import { TipsSearchModel } from '@global-models/search/tipsSearch.model';
 import { ErrorComponent } from '@global-errors/error/error.component';
 
+
 @Component({
   selector: 'app-search-popup',
   templateUrl: './search-popup.component.html',
