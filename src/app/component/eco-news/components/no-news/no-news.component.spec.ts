@@ -1,6 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { Pipe, PipeTransform } from '@angular/core';
 import { NoNewsComponent } from './no-news.component';
+
+@Pipe({ name: 'translate' })
+class TranslatePipeMock implements PipeTransform {
+  transform(value: string): string {
+    return value;
+  }
+}
 
 describe('NoNewsComponent', () => {
   let component: NoNewsComponent;
@@ -8,7 +15,7 @@ describe('NoNewsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NoNewsComponent ]
+      declarations: [ NoNewsComponent, TranslatePipeMock ]
     })
     .compileComponents();
   }));
