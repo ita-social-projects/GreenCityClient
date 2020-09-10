@@ -4,16 +4,16 @@ import { EditProfileModel } from '@user-models/edit-profile.model';
 
 @Injectable()
 export class EditProfileFormBuilder {
-  private pattern = /^[a-zа-я][a-zа-я(! \-,’)]*$/gi;
+  private pattern = /^[a-zа-я!\-\,’ ]*$/gim;
   constructor(
     private builder: FormBuilder,
   ) {
   }
   getProfileForm() {
     return this.builder.group({
-      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
-      city: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(85), Validators.pattern(this.pattern)]],
-      credo: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(170)]],
+      name: ['', [Validators.minLength(3), Validators.maxLength(30)]],
+      city: ['', [Validators.minLength(3), Validators.maxLength(85)]],
+      credo: ['', [Validators.minLength(3), Validators.maxLength(170)]],
       showLocation: [''],
       showEcoPlace: [''],
       showShoppingList: ['']
@@ -22,9 +22,9 @@ export class EditProfileFormBuilder {
 
   getEditProfileForm(editForm: EditProfileModel) {
     return this.builder.group({
-      name: [editForm.firstName, [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
-      city: [editForm.city, [Validators.required, Validators.minLength(3), Validators.maxLength(85), Validators.pattern(this.pattern)]],
-      credo: [editForm.userCredo, [Validators.required, Validators.minLength(3), Validators.maxLength(170)]],
+      name: [editForm.firstName, [Validators.minLength(3), Validators.maxLength(30)]],
+      city: [editForm.city, [Validators.minLength(3), Validators.maxLength(85)]],
+      credo: [editForm.userCredo, [Validators.minLength(3), Validators.maxLength(170)]],
       showLocation: [editForm.showLocation],
       showEcoPlace: [editForm.showEcoPlace],
       showShoppingList: [editForm.showShoppingList]

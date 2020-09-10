@@ -79,25 +79,6 @@ describe('EditProfileComponent', () => {
     controlsName.map(el =>  expect(component.editProfileForm.contains(el)).toBeTruthy());
   });
 
-  it('should mark controls as invalid if empty value. Checking the validator "required".', () => {
-    const controls = controlsName.map(el => component.editProfileForm.get(el));
-    controls.map(el => el.setValue(''));
-    controls.map(el => expect(el.valid).toBeFalsy());
-  });
-
-  it('should mark controls as invalid if longer value. Checking the validator "maxLength".', () => {
-    const controls = controlsName.map(el => component.editProfileForm.get(el));
-    controls.map(el => el.setValue('Lorem ipsum dolor sit amet consectetur, adipisicing elit. ' +
-      'Facilis asperiores minus corrupti impedit cumque sapiente est architecto obcaecati quisquam velit quidem quis nesciunt'));
-    controls.map(el => expect(el.valid).toBeFalsy());
-  });
-
-  it('should mark controls as invalid if smaller value. Checking the validator "minLength".', () => {
-    const controls = controlsName.map(el => component.editProfileForm.get(el));
-    controls.map(el => el.setValue('Lv'));
-    controls.map(el => expect(el.valid).toBeFalsy());
-  });
-
   it('should mark the control as invalid if value contains invalid characters. Check the controller "pattern".', () => {
     const controlCity = component.editProfileForm.get('city');
     controlCity.setValue('.Lo&');
@@ -146,4 +127,39 @@ describe('EditProfileComponent', () => {
     component.ngOnDestroy();
     expect((component as any).langChangeSub.unsubscribe).toHaveBeenCalledTimes(1);
   });
+
+  describe('Testing controls for the form', () => {
+    const controlsName = ['name', 'city', 'credo'];
+    const minLength = 'Lv';
+    const maxLength = 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. ' +
+      'Facilis asperiores minus corrupti impedit cumque sapiente est architecto obcaecati quisquam velit quidem quis nesciunt';
+    const invalidCity = ['@Lviv', '.Lviv', 'Kiev6', 'Kyiv$'];
+    const validCity = ['Lviv', 'Ivano-Frankivsk', 'Kiev(Ukraine)', 'Львов'];
+
+    for (let i = 0; i < controlsName.length; i++) {
+      it(`should create form with formControl: ${controlsName[i]}`, () => {
+        expect(component.editProfileForm.contains(controlsName[i])).toBeTruthy();
+      });
+
+      it(`should mark formControl: ${controlsName[i]} as invalid if empty value. Checking the validator "required".`, () => {
+        const control = component.editProfileForm.get(controlsName[i]);
+        control.setValue('');
+        expect(control.valid).toBeFalsy();
+      });
+
+      it(`The formControl: ${controlsName[i]} should be marked as invalid if the value is too long. Checking the validator "maxLength".`, () => {
+        const control = component.editProfileForm.get(controlsName[i]);
+        control.setValue(maxLength);
+        expect(control.valid).toBeFalsy();
+      });
+
+      it(`The formControl: ${controlsName[i]} should be marked as invalid if the value is too short. Checking the validator "minLength".`, () => {
+        const control = component.editProfileForm.get(controlsName[i]);
+        control.setValue(minLength);
+        expect(control.valid).toBeFalsy();
+      });
+    }
+  });
 });
+
+
