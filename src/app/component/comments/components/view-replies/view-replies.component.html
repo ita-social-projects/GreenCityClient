@@ -1,4 +1,4 @@
-<button class="cta-btn view">
+<button class="cta-btn view" *ngIf="repliesCounter > 1">
   <span class="btn-text">
     {{ "homepage.eco-news.comment.view" | translate }} {{ repliesCounter }}
     <ng-container [ngSwitch]="repliesCounter">
