@@ -14,6 +14,10 @@ import { LikesCounterComponent } from './components/likes-counter/likes-counter.
 import { CommentCounterComponent } from './components/comment-counter/comment-counter.component';
 import { CommentPaginationComponent } from './components/comment-pagination/comment-pagination.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { AddReplyComponent } from './component/add-reply/add-reply.component';
+import { CommentsMainComponent } from './component/comments-main/comments-main.component';
+import { AddCommentsComponent } from './component/add-comments/add-comments.component';
+import { CommentsListComponent } from './component/comments-list/comments-list.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +32,11 @@ import { NgxPaginationModule } from 'ngx-pagination';
     LikesCounterComponent,
     EditCommentComponent,
     CommentCounterComponent,
-    CommentPaginationComponent
+    CommentPaginationComponent,
+    AddReplyComponent,
+    CommentsMainComponent,
+    AddCommentsComponent,
+    CommentsListComponent
   ],
   imports: [
     SharedModule,
@@ -47,7 +55,11 @@ import { NgxPaginationModule } from 'ngx-pagination';
     EditCommentComponent,
     CommentCounterComponent,
     CommentPaginationComponent,
-    CommentBodyComponent
+    CommentBodyComponent,
+    AddReplyComponent,
+    CommentsMainComponent,
+    AddCommentsComponent,
+    CommentsListComponent
   ],
   providers: []
 })

@@ -7,7 +7,7 @@ import { CommentsService } from '../../services/comments.service';
   styleUrls: ['./likes-counter.component.scss']
 })
 export class LikesCounterComponent implements OnInit {
-  @Input() commentId: number;
+  @Input() public commentId: number;
   public likeImg = 'assets/img/comments/like.png';
   public likes: number;
 
