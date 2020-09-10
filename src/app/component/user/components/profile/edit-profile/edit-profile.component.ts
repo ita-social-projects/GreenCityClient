@@ -75,7 +75,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     const body: EditProfileDto = {
       city: form.value.city,
       firstName: form.value.name,
-      userCredo: form.value.title,
+      userCredo: form.value.credo,
       showLocation: form.value.showLocation,
       showEcoPlace: form.value.showEcoPlace,
       showShoppingList: form.value.showShoppingList
