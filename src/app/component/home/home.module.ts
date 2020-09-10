@@ -38,7 +38,13 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   ],
   exports: [
     HomepageComponent,
-
+    EcoEventsComponent,
+    StatRowComponent,
+    StatRowsComponent,
+    SubscribeComponent,
+    TipsCardComponent,
+    TipsListComponent,
+    EcoEventsItemComponent
   ],
   providers: [
     {

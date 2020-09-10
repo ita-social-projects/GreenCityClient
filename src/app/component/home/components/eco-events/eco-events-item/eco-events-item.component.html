@@ -5,7 +5,7 @@
   <p class="event-date">{{ ecoEvent?.creationDate }}</p>
   <h3>{{ ecoEvent?.title }}</h3>
   <a class="read-more"
-     [routerLink]="['/news', ecoEvent.id]"
+     [routerLink]="['/news', ecoEvent?.id]"
   >
     {{ "homepage.eco-news.read-more" | translate }}
     <img [src]="arrow"
