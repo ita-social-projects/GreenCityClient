@@ -100,7 +100,7 @@ input:checked ~ .checkmark::after {
       }
 
       input.ng-invalid.ng-touched + span,
-      textarea.ng-invalid.ng-touched + p {
+      textarea.ng-invalid.ng-touched + span {
         color: red;
       }
     }
