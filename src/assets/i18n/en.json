@@ -77,6 +77,10 @@
           "new-comment": "Enter your new comment"
         },
         "view": "View"
+      },
+      "empty-state": {
+        "no-news": "Unfotunately there is no news finded",
+        "no-news-advice": "We couldn't find any news. Please change filters to get a result."
       }
     },
     "eco-advices": {
