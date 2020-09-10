@@ -88,12 +88,6 @@ a {
   }
 }
 
-@media screen and (max-width: 1024px) {
-  .wrapper {
-    margin: 0 3%;
-  }
-}
-
 @media screen and (max-width: 991px) {
   .gallery-view-active {
     grid-template-columns: repeat(2, 353px);

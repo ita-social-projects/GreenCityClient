@@ -3,17 +3,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProfileProgressComponent } from './profile-progress.component';
 import { ProfileService } from '../../profile-service/profile.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Pipe, PipeTransform } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import 'rxjs/add/observable/of';
-
-@Pipe({ name: 'translate' })
-class TranslatePipeMock implements PipeTransform {
-  transform(value: string): string {
-    return value;
-  }
-}
 
 describe('ProfileProgressComponent', () => {
   let component: ProfileProgressComponent;
@@ -26,7 +18,6 @@ describe('ProfileProgressComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         ProfileProgressComponent,
-        TranslatePipeMock,
       ],
       imports: [
         HttpClientTestingModule,

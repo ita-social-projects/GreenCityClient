@@ -159,6 +159,11 @@ export class SignUpComponent implements OnInit {
     return (regexp.test(input) || input === '');
   }
 
+  public checkUserName(input: string): boolean {
+    const regexp = /^[^\.][a-z0-9\. ]{5,29}$/gi;
+    return (regexp.test(input) || input === '');
+  }
+
   public openSignInWindow(): void {
     this.closeSignUpWindow();
     this.dialog.open(SignInComponent, {

@@ -5,7 +5,6 @@ import { EditProfileFormBuilder } from '@global-user/components/profile/edit-pro
 import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Pipe, PipeTransform } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -14,26 +13,16 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { EditProfileModel } from '@user-models/edit-profile.model';
 import {Observable} from 'rxjs';
 
-@Pipe({ name: 'translate' })
-class TranslatePipeMock implements PipeTransform {
-  transform(value: string): string {
-    return value;
-  }
-}
 describe('EditProfileComponent', () => {
   let component: EditProfileComponent;
   let fixture: ComponentFixture<EditProfileComponent>;
-  let controlsName: string[];
-  let editProfileService: EditProfileService;
-  let profileService: ProfileService;
-  let mockUserInfo: EditProfileModel;
+  const initMethods = ['setupInitialValue', 'getInitialValue', 'subscribeToLangChange', 'bindLang'];
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         EditProfileComponent,
-        TranslatePipeMock,
       ],
       imports: [
         ReactiveFormsModule,
@@ -54,66 +43,11 @@ describe('EditProfileComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EditProfileComponent);
     component = fixture.componentInstance;
-    controlsName = ['name', 'city', 'credo'];
-    editProfileService = fixture.debugElement.injector.get(EditProfileService);
-    profileService = fixture.debugElement.injector.get(ProfileService);
-    mockUserInfo = {
-      city: 'Lviv',
-      firstName: 'John',
-      userCredo: 'My Credo is to make small steps that leads to huge impact. Let’s change the world together.',
-      profilePicturePath: './assets/img/profileAvatarBig.png',
-      rating: 658,
-      showEcoPlace: true,
-      showLocation: true,
-      showShoppingList: true,
-      socialNetworks: ['Instagram']
-    };
     fixture.detectChanges();
   });
 
-  it('should create component', () => {
+  it('should create EditProfileComponent', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should create form with three controls', () => {
-    controlsName.map(el =>  expect(component.editProfileForm.contains(el)).toBeTruthy());
-  });
-
-  it('should mark the control as invalid if value contains invalid characters. Check the controller "pattern".', () => {
-    const controlCity = component.editProfileForm.get('city');
-    controlCity.setValue('.Lo&');
-    expect(controlCity.valid).toBeFalsy();
-    controlCity.setValue('$Lo&pr');
-    expect(controlCity.valid).toBeFalsy();
-    controlCity.setValue('Po&-as');
-    expect(controlCity.valid).toBeFalsy();
-    controlCity.setValue('Lviv');
-    expect(controlCity.valid).toBeTruthy();
-  });
-
-  it('ngOnInit should init four method', () => {
-    spyOn(component as any, 'setupInitialValue');
-    spyOn(component as any, 'getInitialValue');
-    spyOn(component as any, 'subscribeToLangChange');
-    spyOn(component as any, 'bindLang');
-    component.ngOnInit();
-
-    expect((component as any).setupInitialValue).toHaveBeenCalledTimes(1);
-    expect((component as any).getInitialValue).toHaveBeenCalledTimes(1);
-    expect((component as any).subscribeToLangChange).toHaveBeenCalledTimes(1);
-    expect((component as any).bindLang).toHaveBeenCalledTimes(1);
-  });
-
-  it('getInitialValue should call ProfileService', () => {
-    const spy = spyOn(profileService, 'getUserInfo').and.returnValue(Observable.of(mockUserInfo));
-    component.getInitialValue();
-    expect(spy.calls.any()).toBeTruthy();
-  });
-
-  it('onSubmit should call EditProfileService', () => {
-    const spy = spyOn(editProfileService, 'postDataUserProfile').and.returnValue(Observable.of(mockUserInfo));
-    component.onSubmit();
-    expect(spy).toHaveBeenCalled();
   });
 
   it('should call CancelPopup', () => {
@@ -122,43 +56,92 @@ describe('EditProfileComponent', () => {
     expect(component.dialog).toBeDefined();
   });
 
-  it('ngOnDestroy should destroy two method ', () => {
+  it('ngOnDestroy should destroy one method ', () => {
     spyOn((component as any).langChangeSub, 'unsubscribe');
     component.ngOnDestroy();
     expect((component as any).langChangeSub.unsubscribe).toHaveBeenCalledTimes(1);
   });
 
+  describe('General methods', () => {
+
+    for (let i = 0; i < initMethods.length; i++) {
+      it(`ngOnInit should init ${initMethods[i]}`, () => {
+        spyOn(component as any, initMethods[i]);
+        component.ngOnInit();
+        expect((component as any).initMethods[i]).toHaveBeenCalledTimes(1);
+      });
+    }
+
+  });
+
   describe('Testing controls for the form', () => {
     const controlsName = ['name', 'city', 'credo'];
-    const minLength = 'Lv';
     const maxLength = 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. ' +
       'Facilis asperiores minus corrupti impedit cumque sapiente est architecto obcaecati quisquam velit quidem quis nesciunt';
     const invalidCity = ['@Lviv', '.Lviv', 'Kiev6', 'Kyiv$'];
-    const validCity = ['Lviv', 'Ivano-Frankivsk', 'Kiev(Ukraine)', 'Львов'];
+    const validCity = ['Lviv', 'Ivano-Frankivsk', 'Kiev(Ukraine)', 'Львов, Украина'];
 
     for (let i = 0; i < controlsName.length; i++) {
       it(`should create form with formControl: ${controlsName[i]}`, () => {
         expect(component.editProfileForm.contains(controlsName[i])).toBeTruthy();
       });
 
-      it(`should mark formControl: ${controlsName[i]} as invalid if empty value. Checking the validator "required".`, () => {
-        const control = component.editProfileForm.get(controlsName[i]);
-        control.setValue('');
-        expect(control.valid).toBeFalsy();
-      });
-
-      it(`The formControl: ${controlsName[i]} should be marked as invalid if the value is too long. Checking the validator "maxLength".`, () => {
+      it(`The formControl: ${controlsName[i]} should be marked as invalid if the value is too long`, () => {
         const control = component.editProfileForm.get(controlsName[i]);
         control.setValue(maxLength);
         expect(control.valid).toBeFalsy();
       });
+    }
 
-      it(`The formControl: ${controlsName[i]} should be marked as invalid if the value is too short. Checking the validator "minLength".`, () => {
-        const control = component.editProfileForm.get(controlsName[i]);
-        control.setValue(minLength);
+    for (let i = 0; i < invalidCity.length; i++) {
+      it(`The formControl: city should be marked as invalid if the value is ${invalidCity[i]}.`, () => {
+        const control = component.editProfileForm.get('city');
+        control.setValue(invalidCity[i]);
         expect(control.valid).toBeFalsy();
       });
     }
+
+    for (let i = 0; i < validCity.length; i++) {
+      it(`The formControl: city should be marked as invalid if the value is ${validCity[i]}.`, () => {
+        const control = component.editProfileForm.get('city');
+        control.setValue(validCity[i]);
+        expect(control.valid).toBeTruthy();
+      });
+    }
+  });
+
+  describe('Testing services', () => {
+    let editProfileService: EditProfileService;
+    let profileService: ProfileService;
+    let mockUserInfo: EditProfileModel;
+
+    beforeEach(() => {
+      editProfileService = fixture.debugElement.injector.get(EditProfileService);
+      profileService = fixture.debugElement.injector.get(ProfileService);
+      mockUserInfo = {
+        city: 'Lviv',
+        firstName: 'John',
+        userCredo: 'My Credo is to make small steps that leads to huge impact. Let’s change the world together.',
+        profilePicturePath: './assets/img/profileAvatarBig.png',
+        rating: 658,
+        showEcoPlace: true,
+        showLocation: true,
+        showShoppingList: true,
+        socialNetworks: ['Instagram']
+      };
+    });
+
+    it('getInitialValue should call ProfileService', () => {
+      const spy = spyOn(profileService, 'getUserInfo').and.returnValue(Observable.of(mockUserInfo));
+      component.getInitialValue();
+      expect(spy.calls.any()).toBeTruthy();
+    });
+
+    it('onSubmit should call EditProfileService', () => {
+      const spy = spyOn(editProfileService, 'postDataUserProfile').and.returnValue(Observable.of(mockUserInfo));
+      component.onSubmit();
+      expect(spy).toHaveBeenCalled();
+    });
   });
 });
 
