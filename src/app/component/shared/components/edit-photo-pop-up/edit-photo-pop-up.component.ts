@@ -1,11 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FileHandle } from '@eco-news-models/create-news-interface';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
-import { MatDialog } from '@angular/material';
-import { ErrorComponent } from '@global-errors/error/error.component';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
+import { ErrorComponent } from '@global-errors/error/error.component';
+import { FileHandle } from '@eco-news-models/create-news-interface';
 
 @Component({
   selector: 'app-edit-photo-pop-up',
@@ -15,11 +15,11 @@ import { ProfileService } from '@global-user/components/profile/profile-service/
 export class EditPhotoPopUpComponent implements OnInit {
   public avatarImg: string;
   public cancelButton = './assets/img/profile/icons/cancel.svg';
+  public files: FileHandle[] = [];
+  public isWarning = false;
   public selectedPhoto = false;
   public selectedFile: File = null;
   public selectedFileUrl: string;
-  public files: FileHandle[] = [];
-  public isWarning = false;
   private croppedImage: string;
 
   constructor(private matDialogRef: MatDialogRef<EditPhotoPopUpComponent>,
