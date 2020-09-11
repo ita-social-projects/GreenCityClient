@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -6,12 +6,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './mat-snack-bar.component.html',
   styleUrls: ['./mat-snack-bar.component.scss']
 })
-export class MatSnackBarComponent implements OnInit {
+export class MatSnackBarComponent {
 
   constructor(public snackBar: MatSnackBar) { }
-
-  ngOnInit() {
-  }
 
   openSnackBar(message: string, action: string, className: string) {
 

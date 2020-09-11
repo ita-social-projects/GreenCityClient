@@ -9,7 +9,7 @@ import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import * as fromEcoNews from '@eco-news-store/eco-news.actions';
 import { EcoNewsSelectors } from '@eco-news-store/eco-news.selectors';
 import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
-import { MatSnackBarComponent } from '@errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-news-list',
