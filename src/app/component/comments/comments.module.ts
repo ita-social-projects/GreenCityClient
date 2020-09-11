@@ -18,6 +18,7 @@ import { AddReplyComponent } from './component/add-reply/add-reply.component';
 import { CommentsMainComponent } from './component/comments-main/comments-main.component';
 import { AddCommentsComponent } from './component/add-comments/add-comments.component';
 import { CommentsListComponent } from './component/comments-list/comments-list.component';
+import { RepliesListComponent } from './component/replies-list/replies-list.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { CommentsListComponent } from './component/comments-list/comments-list.c
     AddReplyComponent,
     CommentsMainComponent,
     AddCommentsComponent,
-    CommentsListComponent
+    CommentsListComponent,
+    RepliesListComponent
   ],
   imports: [
     SharedModule,

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter } from '@angular/core';
 import { CommentService } from '../../services/comment.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -23,6 +23,8 @@ export class CommentsListComponent implements OnInit {
   public cancelIcon = 'assets/img/comments/cancel-comment-edit.png';
   public commentsSubscription: Subscription;
   public likesCount = 0;
+  @Input() dataType = 'comment';
+
 
   public replyFormVisibility = false;
   public tempId: number;
@@ -44,7 +46,9 @@ export class CommentsListComponent implements OnInit {
 
   ngOnInit() {
     this.addEcoNewsId();
-    this.addCommentByPagination();
+    if (this.dataType === 'comment'){
+      this.addCommentByPagination();
+    }
     this.getActiveComments();
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();

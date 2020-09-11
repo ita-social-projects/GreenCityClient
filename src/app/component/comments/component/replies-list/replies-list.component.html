@@ -1,0 +1,68 @@
+<div class="comment-body-wrapper" *ngFor="let reply of repliesList | paginate: config">
+  <div class="comment-avatar">
+    <img src="assets/img/comments/comment_author.png" alt="reply-author">
+  </div>
+  <div class="comment-details">
+    <div class="author-name"><span>{{ reply.author.name }}</span></div>
+    <div class="comment-date-likes">
+      <div class="comment-date">
+        <span class="comment-dot"></span>
+        <span class="comment-date-month">{{ reply.modifiedDate | date: 'longDate'}}
+          <span *ngIf="isCommentEdited(comment)" class="edited">
+            {{"homepage.eco-news.comment.btn.edited" | translate}}
+          </span>
+        </span>
+        <span class="comment-dot last-dot"></span>
+      </div>
+      <div class="comment-likes">
+        <app-likes-counter [commentId]="reply.id"></app-likes-counter>
+      </div>
+    </div>
+  </div>
+  <div class="comment-main-text">
+    <p class="comment-text" *ngIf="!reply.isEdit">{{ reply.text }}</p>
+    <div class="comment-edit-text" *ngIf="reply.isEdit">
+      <textarea type="text" placeholder='{{"homepage.eco-news.comment.placeholder.new-comment" | translate}}'
+        [formControl]="content" class="edit-text-input"></textarea>
+      <div class="save-cancel-wrapper">
+        <div class="save-cancel-btn">
+          <div class="save-btn">
+            <button (click)="saveEditedComment(comment)" [disabled]="!content.valid" class="cta-btn save-edit">
+              <img [src]="editIcon" alt="edit icon">
+              <span class="btn-text">
+                {{"homepage.eco-news.comment.btn.save" | translate}}
+              </span>
+            </button>
+          </div>
+          <div class="cancel-btn">
+            <button (click)="cancelEditedComment(comment)" class="cta-btn cancel-edit">
+              <img [src]="cancelIcon" alt="cancel icon">
+              <span class="btn-text">
+                {{"homepage.eco-news.comment.btn.cancel" | translate}}
+              </span>
+            </button>
+          </div>
+          <!-- <div class="replies-btn">
+            <app-view-replies *ngIf="element.isEdit" class="flex"></app-view-replies>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="comments-elements">
+    <div class="btn-wrapper" *ngIf="isLoggedIn && (reply.author.id === +userId) && !reply.isEdit">
+      <app-edit-comment (isEditing)="onEdit(comment.id)"></app-edit-comment>
+      <app-delete-comment [elements]="commentsList" [element]="reply" (elementsList)="commentsList=$event">
+      </app-delete-comment>
+    </div>
+    <div class="btn-wrapper" *ngIf="isLoggedIn && (comment.author.id !== +userId)">
+      <app-like-comment [commentId]="comment.id" [likeState]="comment.currentUserLiked"
+        (click)="toggleLike(comment.currentUserLiked)"></app-like-comment>
+      <app-relies-list [commentId]="comment.id"></app-relies-list>
+    </div>
+  </div>
+</div>
+<div class="wrapper">
+  <app-comment-pagination [config]="config" (setPage)="addCommentByPagination($event-1)">
+  </app-comment-pagination>
+</div>

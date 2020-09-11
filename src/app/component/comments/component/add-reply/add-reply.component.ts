@@ -19,17 +19,6 @@ export class AddReplyComponent implements OnInit {
   constructor(private commentService: CommentService,) { }
 
   ngOnInit() {
-    this.addElemsToRepliesList();
   }
 
-  private addElemsToRepliesList(): void {
-    this.commentsSubscription = this.commentService.getAllReplies(this.commentId)
-      .subscribe((list: CommentsModel) => {
-        this.setRepliesList(list.page.filter(item => item.status !== 'DELETED'));
-      });
-  }
-
-  private setRepliesList(data): void {
-    this.repliesList = [...this.repliesList, ...data];
-  }
 }

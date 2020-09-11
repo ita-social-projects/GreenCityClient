@@ -1,1 +1,3 @@
-<app-comments-list></app-comments-list>
+<app-reply-comment></app-reply-comment>
+<app-view-replies [commentId]="commentId" (click)="showReliesList()"></app-view-replies>
+<app-replies-list *ngIf="showRelies" [repliesList]="repliesList"></app-replies-list>

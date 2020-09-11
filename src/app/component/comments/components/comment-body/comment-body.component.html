@@ -22,7 +22,7 @@
     </div>
   </div>
   <div class="comment-main-text">
-    <p class="comment-text" *ngIf="!element.isEdit">{{ element.text }}</p>
+    <p class="comment-text" *ngIf="!element.isEdit">{{ element.text }} {{ element.id }}</p>
     <div class="comment-edit-text"
           *ngIf="element.isEdit"
           >

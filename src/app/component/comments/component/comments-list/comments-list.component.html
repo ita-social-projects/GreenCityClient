@@ -70,8 +70,8 @@
       <app-like-comment [commentId]="comment.id" 
                         [likeState]="comment.currentUserLiked"
                         (click)="toggleLike(comment.currentUserLiked)"></app-like-comment>
+      <app-comments-main [commentId]="comment.id"></app-comments-main>
       <!-- <app-reply-comment (click)="showReplyForm(comment.id)"></app-reply-comment> -->
-      <app-relies-list [commentId]="comment.id"></app-relies-list>
     </div>
 </div>
   </div>
