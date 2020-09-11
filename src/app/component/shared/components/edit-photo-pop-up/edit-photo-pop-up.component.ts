@@ -4,7 +4,8 @@ import { FileHandle } from '@eco-news-models/create-news-interface';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { MatDialog } from '@angular/material';
-import { ErrorComponent } from '@errors/error/error.component';
+import { ErrorComponent } from '@global-errors/error/error.component';
+import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 
 @Component({
   selector: 'app-edit-photo-pop-up',
@@ -24,6 +25,7 @@ export class EditPhotoPopUpComponent implements OnInit {
   constructor(private matDialogRef: MatDialogRef<EditPhotoPopUpComponent>,
               private dialog: MatDialog,
               private editProfileService: EditProfileService,
+              private profileService: ProfileService,
               @Inject(MAT_DIALOG_DATA) public data) { }
 
   ngOnInit() {
@@ -72,12 +74,13 @@ export class EditPhotoPopUpComponent implements OnInit {
     this.files.map(item => item.url = this.croppedImage);
 
     const body = {
-      image: this.croppedImage
+      id: this.profileService.userId,
+      profilePicturePath: this.croppedImage
     };
     const formData = new FormData();
-    formData.append('userProfileDtoRequest ', JSON.stringify(body));
+    formData.append('userProfilePictureDto', JSON.stringify(body));
 
-    this.editProfileService.postDataUserProfile(formData)
+    this.editProfileService.updateProfilePhoto(formData)
     .subscribe(
      () => this.matDialogRef.close(),
      () => this.dialog.open(ErrorComponent, {

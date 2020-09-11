@@ -17,4 +17,7 @@ export class EditProfileService {
     return this.http.put<EditProfileModel>(`${this.url}user/profile`, data);
   }
 
+  public updateProfilePhoto(data): Observable<object[]> {
+    return this.http.patch<object[]>(`${this.url}user/profilePicture`, data);
+  }
 }

@@ -26,13 +26,8 @@ export class AppComponent implements OnInit  {
     this.languageService.setDefaultLanguage();
     this.navigateToStartingPositionOnPage();
     this.titleAndMetaTagsService.useTitleMetasData();
-    this.searchSearch.searchSubject.subscribe(this.openSearchSubscription);
     this.uiActionsService.stopScrollingSubject.subscribe(data => this.toggle = data);
     this.updatePage();
-  }
-
-  private openSearchSubscription(isSearchExpanded: boolean): void {
-    this.elRef.nativeElement.ownerDocument.body.style.overflow = isSearchExpanded ? 'hidden' : 'auto';
   }
 
   private navigateToStartingPositionOnPage(): void {

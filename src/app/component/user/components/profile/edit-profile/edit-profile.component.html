@@ -20,11 +20,12 @@
                        formControlName = "city"
                        placeholder="{{userInfo.location}}"
                        id="city">
+                <span>{{"user.edit-profile.city-warning" | translate }}</span>
             </div>
             <div class="input-block">
                 <label for="credo">{{"user.edit-profile.title" | translate }}</label>
                 <textarea placeholder="{{userInfo.userCredo}}"
-                          formControlName = "title"
+                          formControlName = "credo"
                           id="credo"></textarea>
                 <span>{{"user.edit-profile.title-warning" | translate }}</span>
             </div>

@@ -4,7 +4,7 @@ import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { FilterModel } from '@eco-news-models/create-news-interface';
-import { CancelPopUpComponent } from '@shared/components/cancel-pop-up/cancel-pop-up.component';
+import {CancelPopUpComponent} from '@shared/components';
 
 @Component({
   selector: 'app-create-news',
