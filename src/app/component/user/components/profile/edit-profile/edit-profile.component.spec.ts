@@ -1,22 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditProfileComponent } from './edit-profile.component';
-import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
-import { EditProfileService } from '@global-user/services/edit-profile.service';
-import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TranslateModule } from '@ngx-translate/core';
+import { MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule } from '@angular/material/dialog';
-import { EditProfileModel } from '@user-models/edit-profile.model';
+import { TranslateModule } from '@ngx-translate/core';
 import {Observable} from 'rxjs';
+import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
+import { EditProfileService } from '@global-user/services/edit-profile.service';
+import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
+import { EditProfileModel } from '@user-models/edit-profile.model';
+
 
 describe('EditProfileComponent', () => {
   let component: EditProfileComponent;
   let fixture: ComponentFixture<EditProfileComponent>;
-  const initMethods = ['setupInitialValue', 'getInitialValue', 'subscribeToLangChange', 'bindLang'];
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -50,28 +50,28 @@ describe('EditProfileComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call CancelPopup', () => {
-    spyOn(component.dialog, 'open');
-    component.openCancelPopup();
-    expect(component.dialog).toBeDefined();
-  });
-
-  it('ngOnDestroy should destroy one method ', () => {
-    spyOn((component as any).langChangeSub, 'unsubscribe');
-    component.ngOnDestroy();
-    expect((component as any).langChangeSub.unsubscribe).toHaveBeenCalledTimes(1);
-  });
-
   describe('General methods', () => {
+    const initMethods = ['setupInitialValue', 'getInitialValue', 'subscribeToLangChange', 'bindLang'];
 
     for (let i = 0; i < initMethods.length; i++) {
       it(`ngOnInit should init ${initMethods[i]}`, () => {
-        spyOn(component as any, initMethods[i]);
+        const spy = spyOn(component as any, initMethods[i]);
         component.ngOnInit();
-        expect((component as any).initMethods[i]).toHaveBeenCalledTimes(1);
+        expect(spy).toHaveBeenCalledTimes(1);
       });
     }
 
+    it('ngOnDestroy should destroy one method ', () => {
+      spyOn((component as any).langChangeSub, 'unsubscribe');
+      component.ngOnDestroy();
+      expect((component as any).langChangeSub.unsubscribe).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call CancelPopup', () => {
+      spyOn(component.dialog, 'open');
+      component.openCancelPopup();
+      expect(component.dialog).toBeDefined();
+    });
   });
 
   describe('Testing controls for the form', () => {
@@ -102,7 +102,7 @@ describe('EditProfileComponent', () => {
     }
 
     for (let i = 0; i < validCity.length; i++) {
-      it(`The formControl: city should be marked as invalid if the value is ${validCity[i]}.`, () => {
+      it(`The formControl: city should be marked as valid if the value is ${validCity[i]}.`, () => {
         const control = component.editProfileForm.get('city');
         control.setValue(validCity[i]);
         expect(control.valid).toBeTruthy();
