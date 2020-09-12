@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
@@ -14,8 +14,9 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./add-comments.component.scss']
 })
 export class AddCommentsComponent implements OnInit {
+  @Input() commentId: number;
   public avatarImage = 'assets/img/comment-avatar.png';
-  public isLoggedIn = false;
+
   public addCommentForm: FormGroup = this.fb.group({
     content: ['', [Validators.required, Validators.maxLength(8000)]],
   });
@@ -27,17 +28,10 @@ export class AddCommentsComponent implements OnInit {
               private userOwnAuthService: UserOwnAuthService) { }
 
   ngOnInit() {
-    this.checkUserSingIn();
-    this.userOwnAuthService.getDataFromLocalStorage();
-  }
-
-  private checkUserSingIn(): void {
-    this.userOwnAuthService.credentialDataSubject
-      .subscribe((data) => this.isLoggedIn = data && data.userId);
   }
 
   public onSubmit(): void {
-    this.commentService.addComment(0, this.addCommentForm).subscribe(
+    this.commentService.addComment(this.commentId, this.addCommentForm).subscribe(
       (successRes: CommentsDTO) => {
         this.commentsList.emit(successRes);
         // this.getCommentsTotalElements();

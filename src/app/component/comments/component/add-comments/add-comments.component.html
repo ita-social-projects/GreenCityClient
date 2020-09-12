@@ -1,8 +1,7 @@
 <!-- <div class="main-wrapper">
   <app-comment-counter [totalElements]="totalElements"></app-comment-counter>
 </div> -->
-<div *ngIf="isLoggedIn" 
-     class="main-wrapper">
+<div class="main-wrapper">
   <form class="wrapper-comment"
     [formGroup]="addCommentForm"
     (ngSubmit)="onSubmit()">

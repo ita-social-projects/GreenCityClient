@@ -24,7 +24,7 @@ export class CommentService {
     return this.http.post<object>(`${this.backEnd}econews/comments/${this.ecoNewsId}`, body);
   }
 
-  public getActiveCommentsByPage(page, size): Observable<object> {
+  public getActiveCommentsByPage(page: number, size: number): Observable<object> {
     return this.http.get<object>(`${this.backEnd}econews/comments/active?ecoNewsId=${this.ecoNewsId}&page=${page}&size=${size}`);
   }
 
@@ -32,11 +32,11 @@ export class CommentService {
     return this.http.get<number>(`${this.backEnd}econews/comments/count/comments/${id}`);
   }
 
-  public getAllReplies(id: number): Observable<object> {
-    return this.http.get(`${this.backEnd}econews/comments/replies/${id}`);
+  public getAllReplies(id: number, page: number, size: number): Observable<object> {
+    return this.http.get(`${this.backEnd}econews/comments/replies/${id}?page=${page}?size=${size}`);
   }
   
-  public deleteComments(id) {
+  public deleteComments(id: number) {
     return this.http.delete<object>(`${this.backEnd}econews/comments?id=${id}`, { observe: 'response' });
   }
 

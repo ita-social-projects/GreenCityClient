@@ -1,3 +1,9 @@
-<app-reply-comment></app-reply-comment>
-<app-view-replies [commentId]="commentId" (click)="showReliesList()"></app-view-replies>
-<app-replies-list *ngIf="showRelies" [repliesList]="repliesList"></app-replies-list>
+<app-reply-comment (click)="toggleReply()"></app-reply-comment>
+<app-add-comments *ngIf="showAddReply"
+                  [commentId]="commentId"
+                  (commentsList)="addReply($event)"></app-add-comments>
+<app-view-replies [commentId]="commentId" 
+                  (click)="showReliesList()"></app-view-replies>
+<app-comments-list *ngIf="showRelies"
+                   [commentsList]="repliesList"
+                   [dataType]="reply"></app-comments-list>

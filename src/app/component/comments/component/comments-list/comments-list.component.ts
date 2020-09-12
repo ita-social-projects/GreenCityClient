@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, OnDestroy } from '@angular/core';
 import { CommentService } from '../../services/comment.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -12,8 +12,10 @@ import { CommentsDTO, CommentsModel } from '../../models/comments-model';
   templateUrl: './comments-list.component.html',
   styleUrls: ['./comments-list.component.scss']
 })
-export class CommentsListComponent implements OnInit {
-  public commentsList;
+export class CommentsListComponent implements OnInit, OnDestroy {
+  @Input() public commentsList: CommentsDTO[] = [];
+  @Input() public dataType = 'comment';
+  @Input() public currentCommentId: number;
   private commentsAmount = 10;
   public elementsArePresent = true;
   public isLoggedIn: boolean;
@@ -23,22 +25,17 @@ export class CommentsListComponent implements OnInit {
   public cancelIcon = 'assets/img/comments/cancel-comment-edit.png';
   public commentsSubscription: Subscription;
   public likesCount = 0;
-  @Input() dataType = 'comment';
-
-
-  public replyFormVisibility = false;
-  public tempId: number;
-  public addReply = {
-    placeholder: 'Add a reply',
-    btnText: 'Reply',
-    type: 'reply'
-  };
   public config = {
     id: 'custom',
     itemsPerPage: 10,
     currentPage: 0,
     totalItems: 0
   };
+
+
+  public replyFormVisibility = false;
+  public tempId: number;
+  public addReply = 'reply';
 
   constructor(private commentService: CommentService,
               private route: ActivatedRoute,
@@ -48,8 +45,9 @@ export class CommentsListComponent implements OnInit {
     this.addEcoNewsId();
     if (this.dataType === 'comment'){
       this.addCommentByPagination();
+      this.getActiveComments();
     }
-    this.getActiveComments();
+    
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
   }
@@ -65,6 +63,13 @@ export class CommentsListComponent implements OnInit {
 
   public addComment(data): void {
     this.commentsList = [data, ...this.commentsList];
+  }
+
+  public deleteComment(comments): void {
+    this.commentsList = comments;
+    if (this.dataType === 'comment') {
+      this.addCommentByPagination();
+    }
   }
 
   public setCommentsList(data: CommentsModel): void {
@@ -104,6 +109,18 @@ export class CommentsListComponent implements OnInit {
   }
 
   public getActiveComments(): void {
+    // if(this.dataType === 'comment'){
+    //   this.commentsSubscription = this.commentService.getActiveCommentsByPage(0, this.config.itemsPerPage)
+    //     .subscribe((el: CommentsModel) => {
+    //       this.setData(el.currentPage, el.totalElements);
+    //     });
+    // } else {
+    //   this.commentsSubscription = this.commentService.getAllReplies(this.currentCommentId, 0, this.config.itemsPerPage)
+    //     .subscribe((el: CommentsModel) => {
+    //       this.setData(el.currentPage, el.totalElements);
+    //     });
+    // }
+
     this.commentsSubscription = this.commentService.getActiveCommentsByPage(0, this.config.itemsPerPage)
       .subscribe((el: CommentsModel) => {
         this.setData(el.currentPage, el.totalElements);
@@ -113,5 +130,9 @@ export class CommentsListComponent implements OnInit {
   public setData(currentPage: number, totalElements: number) {
     this.config.currentPage = currentPage;
     this.config.totalItems = totalElements;
+  }
+
+  ngOnDestroy() {
+    this.commentsSubscription.unsubscribe();
   }
 }

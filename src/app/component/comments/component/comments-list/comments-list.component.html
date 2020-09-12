@@ -1,4 +1,5 @@
-<app-add-comments (commentsList)="addComment($event)"></app-add-comments>
+<app-add-comments *ngIf="dataType === 'comment' && isLoggedIn"
+                  (commentsList)="addComment($event)"></app-add-comments>
 
 <div class="comment-body-wrapper" *ngFor="let comment of commentsList | paginate: config">
   <div class="comment-avatar">
@@ -64,21 +65,23 @@
       <app-edit-comment (isEditing)="onEdit(comment.id)"></app-edit-comment>
       <app-delete-comment [elements]="commentsList"
                           [element]="comment"
-                          (elementsList)="commentsList=$event"></app-delete-comment>
+                          (elementsList)="deleteComment($event)"></app-delete-comment>
     </div>
     <div class="btn-wrapper" *ngIf="isLoggedIn && (comment.author.id !== +userId)">
       <app-like-comment [commentId]="comment.id" 
-                        [likeState]="comment.currentUserLiked"
-                        (click)="toggleLike(comment.currentUserLiked)"></app-like-comment>
-      <app-comments-main [commentId]="comment.id"></app-comments-main>
+                        [likeState]="comment.currentUserLiked"></app-like-comment>
+      <app-comments-main *ngIf="dataType === 'comment'"
+                        [commentId]="comment.id"></app-comments-main>
       <!-- <app-reply-comment (click)="showReplyForm(comment.id)"></app-reply-comment> -->
     </div>
 </div>
   </div>
-  <div class="wrapper">
-    <app-comment-pagination [config]="config" (setPage)="addCommentByPagination($event-1)">
+  <!-- <div class="wrapper">
+    <app-comment-pagination *ngIf="dataType === 'comment'"
+                            [config]="config" 
+                            (setPage)="addCommentByPagination($event-1)">
     </app-comment-pagination>
-  </div>
+  </div> -->
 
 
   <!-- <div class="comment-body-wrapper" *ngFor="let element of elements | paginate: config">

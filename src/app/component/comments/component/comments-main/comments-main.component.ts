@@ -14,9 +14,11 @@ import { Subscription } from 'rxjs';
 })
 export class CommentsMainComponent implements OnInit {
   @Input() commentId: number;
-  public repliesList;
+  public repliesList: CommentsDTO[] = [];
   public repliesSubscription: Subscription;
   public showRelies = false;
+  public showAddReply = false;
+  private repliesAmount = 10;
 
   constructor(private commentService: CommentService,) { }
 
@@ -24,8 +26,8 @@ export class CommentsMainComponent implements OnInit {
     this.addElemsToRepliesList();
   }
 
-  addElemsToRepliesList() {
-    this.repliesSubscription = this.commentService.getAllReplies(this.commentId)
+  private addElemsToRepliesList(page = 0) {
+    this.repliesSubscription = this.commentService.getAllReplies(this.commentId, page, this.repliesAmount)
       .subscribe((list: CommentsModel) => {
         this.repliesList = list.page.filter(item => item.status !== 'DELETED');
       });
@@ -33,6 +35,13 @@ export class CommentsMainComponent implements OnInit {
 
   public showReliesList(): void {
     this.showRelies = !this.showRelies;
-    console.log(this.repliesList)
+  }
+
+  public toggleReply(): void {
+    this.showAddReply = !this.showAddReply;
+  }
+
+  public addReply(data): void {
+    this.repliesList = [data, ...this.repliesList];
   }
 }
