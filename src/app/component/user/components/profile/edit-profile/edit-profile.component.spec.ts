@@ -50,18 +50,18 @@ describe('EditProfileComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('General methods', () => {
+  describe('General methods:', () => {
     const initMethods = ['setupInitialValue', 'getInitialValue', 'subscribeToLangChange', 'bindLang'];
 
     for (let i = 0; i < initMethods.length; i++) {
-      it(`ngOnInit should init ${i}-st element ${initMethods[i]}`, () => {
+      it(`ngOnInit should init ${i + 1}-st element ${initMethods[i]}`, () => {
         const spy = spyOn(component as any, initMethods[i]);
         component.ngOnInit();
         expect(spy).toHaveBeenCalledTimes(1);
       });
     }
 
-    it('ngOnDestroy should destroy one method ', () => {
+    it('ngOnDestroy should destroy one method', () => {
       spyOn((component as any).langChangeSub, 'unsubscribe');
       component.ngOnDestroy();
       expect((component as any).langChangeSub.unsubscribe).toHaveBeenCalledTimes(1);
@@ -74,7 +74,7 @@ describe('EditProfileComponent', () => {
     });
   });
 
-  describe('Testing controls for the form', () => {
+  describe('Testing controls for the form:', () => {
     const controlsName = ['name', 'city', 'credo'];
     const maxLength = 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. ' +
       'Facilis asperiores minus corrupti impedit cumque sapiente est architecto obcaecati quisquam velit quidem quis nesciunt';
@@ -82,7 +82,7 @@ describe('EditProfileComponent', () => {
     const validCity = ['Lviv', 'Ivano-Frankivsk', 'Kiev(Ukraine)', 'Львов, Украина'];
 
     for (let i = 0; i < controlsName.length; i++) {
-      it(`should create form with formControl: ${controlsName[i]}`, () => {
+      it(`should create form with ${i + 1}-st formControl: ${controlsName[i]}`, () => {
         expect(component.editProfileForm.contains(controlsName[i])).toBeTruthy();
       });
 
@@ -93,24 +93,28 @@ describe('EditProfileComponent', () => {
       });
     }
 
-    for (let i = 0; i < invalidCity.length; i++) {
-      it(`The formControl: city should be marked as invalid if the value is ${invalidCity[i]}.`, () => {
-        const control = component.editProfileForm.get('city');
-        control.setValue(invalidCity[i]);
-        expect(control.valid).toBeFalsy();
-      });
-    }
+    describe('The formControl: city should be marked as invalid if the value:', () => {
+      for (let i = 0; i < invalidCity.length; i++) {
+        it(`${i + 1}-st - ${validCity[i]}.`, () => {
+          const control = component.editProfileForm.get('city');
+          control.setValue(invalidCity[i]);
+          expect(control.valid).toBeFalsy();
+        });
+      }
+    });
 
-    for (let i = 0; i < validCity.length; i++) {
-      it(`The formControl: city should be marked as valid if the value is ${validCity[i]}.`, () => {
-        const control = component.editProfileForm.get('city');
-        control.setValue(validCity[i]);
-        expect(control.valid).toBeTruthy();
-      });
-    }
+    describe('The formControl: city should be marked as valid if the value:', () => {
+      for (let i = 0; i < validCity.length; i++) {
+        it(`${i + 1}-st - ${validCity[i]}.`, () => {
+          const control = component.editProfileForm.get('city');
+          control.setValue(validCity[i]);
+          expect(control.valid).toBeTruthy();
+        });
+      }
+    });
   });
 
-  describe('Testing services', () => {
+  describe('Testing services:', () => {
     let editProfileService: EditProfileService;
     let profileService: ProfileService;
     let mockUserInfo: EditProfileModel;
