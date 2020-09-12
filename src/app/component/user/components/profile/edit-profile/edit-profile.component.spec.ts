@@ -54,7 +54,7 @@ describe('EditProfileComponent', () => {
     const initMethods = ['setupInitialValue', 'getInitialValue', 'subscribeToLangChange', 'bindLang'];
 
     for (let i = 0; i < initMethods.length; i++) {
-      it(`ngOnInit should init ${initMethods[i]}`, () => {
+      it(`ngOnInit should init ${i}-st element ${initMethods[i]}`, () => {
         const spy = spyOn(component as any, initMethods[i]);
         component.ngOnInit();
         expect(spy).toHaveBeenCalledTimes(1);
