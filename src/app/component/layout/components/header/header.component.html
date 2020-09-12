@@ -101,15 +101,14 @@
                   </div>
         <div class="navigation-menu-right">
               <ul>
-                <ng-template [ngIf]="!isAllSearchOpen">
-                 <li class="search"
+                 <li *ngIf="!isAllSearchOpen"
+                     class="search"
                      [class.destroy]="toggleBurgerMenu">
                  <a (click)="toggleSearchPage()">
                    <img src="assets/img/icon/search.png"
                         alt="search">
                  </a>
                  </li>
-                </ng-template>
               <li [class.destroy]="toggleBurgerMenu">
                 <div class="switcher-wrapper" (click)="langDropdownVisible = !langDropdownVisible">
                   <img class="arrow"
