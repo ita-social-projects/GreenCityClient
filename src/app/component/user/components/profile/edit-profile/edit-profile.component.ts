@@ -78,12 +78,11 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       userCredo: form.value.credo,
       showLocation: form.value.showLocation,
       showEcoPlace: form.value.showEcoPlace,
-      showShoppingList: form.value.showShoppingList
+      showShoppingList: form.value.showShoppingList,
+      socialNetworks: ['']
     };
-    const formData = new FormData();
-    formData.append('userProfileDtoRequest ', JSON.stringify(body));
 
-    this.editProfileService.postDataUserProfile(formData).subscribe(
+    this.editProfileService.postDataUserProfile(JSON.stringify(body)).subscribe(
       () => {
         this.router.navigate(['profile', this.profileService.userId]);
       }
