@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
-import { Observable, of, Subject } from 'rxjs';
-import { SearchModel } from '../../model/search/search.model';
+import { environment } from '@environment/environment';
+import { Observable, of, Subject} from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { SearchModel } from '../../model/search/search.model';
 
 @Injectable({
   providedIn: 'root'

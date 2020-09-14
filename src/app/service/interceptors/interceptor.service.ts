@@ -51,7 +51,7 @@ export class InterceptorService implements HttpInterceptor {
       retry(1),
       catchError((error: HttpErrorResponse) => {
         if (error.status === UNAUTHORIZED || error.status === FORBIDDEN) {
-          return this.handle401and403Error(req, next);
+          this.handle401and403Error(req, next);
         }
         if (error.status === BAD_REQUEST) {
           this.openErrorWindow();
