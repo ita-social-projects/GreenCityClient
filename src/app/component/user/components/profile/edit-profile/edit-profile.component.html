@@ -19,6 +19,7 @@
                 <input type="text"
                        formControlName = "city"
                        placeholder="{{userInfo.location}}"
+                       pattern="^[a-zA-Zа-яА-Я][a-zA-Zа-яА-Я!\-\,’)( ]*$"
                        id="city">
                 <span>{{"user.edit-profile.city-warning" | translate }}</span>
             </div>
@@ -39,21 +40,21 @@
             <ul>
                 <li>
                     <label class="label-wrapper">{{"user.edit-profile.location" | translate }}
-                        <input type="checkbox" 
+                        <input type="checkbox"
                                formControlName="showLocation">
                         <span class="checkmark"></span>
                     </label>
                 </li>
                 <li>
                     <label class="label-wrapper">{{"user.edit-profile.eco-place" | translate }}
-                        <input type="checkbox" 
+                        <input type="checkbox"
                                formControlName="showEcoPlace">
                         <span class="checkmark"></span>
                     </label>
                 </li>
                 <li>
                     <label class="label-wrapper">{{"user.edit-profile.shoping-list" | translate }}
-                        <input type="checkbox" 
+                        <input type="checkbox"
                                formControlName="showShoppingList">
                         <span class="checkmark"></span>
                     </label>
