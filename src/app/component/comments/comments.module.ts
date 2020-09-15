@@ -4,7 +4,6 @@ import { MatProgressSpinnerModule } from '@angular/material';
 import { CommentsComponent } from './components/comments.component';
 import { SharedModule } from '@shared/shared.module';
 import { AddCommentComponent } from './components/add-comment/add-comment.component';
-import { CommentBodyComponent } from './components/comment-body/comment-body.component';
 import { ViewRepliesComponent } from './components/view-replies/view-replies.component';
 import { DeleteCommentComponent } from './components/delete-comment/delete-comment.component';
 import { EditCommentComponent } from './components/edit-comment/edit-comment.component';
@@ -14,17 +13,14 @@ import { LikesCounterComponent } from './components/likes-counter/likes-counter.
 import { CommentCounterComponent } from './components/comment-counter/comment-counter.component';
 import { CommentPaginationComponent } from './components/comment-pagination/comment-pagination.component';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { CommentsMainComponent } from './component/comments-main/comments-main.component';
-import { AddCommentsComponent } from './component/add-comments/add-comments.component';
-import { CommentsListComponent } from './component/comments-list/comments-list.component';
-import { RepliesMainComponent} from './component/replies-list/replies-main.component';
-import { CommentsContainerComponent } from './component/comments-container/comments-container.component';
+import { CommentsListComponent } from './components/comments-list/comments-list.component';
+import { CommentsContainerComponent } from './components/comments-container/comments-container.component';
+import { CommentsService } from './services/comments.service';
 
 @NgModule({
   declarations: [
     CommentsComponent,
     AddCommentComponent,
-    CommentBodyComponent,
     ViewRepliesComponent,
     DeleteCommentComponent,
     EditCommentComponent,
@@ -34,10 +30,7 @@ import { CommentsContainerComponent } from './component/comments-container/comme
     EditCommentComponent,
     CommentCounterComponent,
     CommentPaginationComponent,
-    CommentsMainComponent,
-    AddCommentsComponent,
     CommentsListComponent,
-    RepliesMainComponent,
     CommentsContainerComponent,
   ],
   imports: [
@@ -57,13 +50,12 @@ import { CommentsContainerComponent } from './component/comments-container/comme
     EditCommentComponent,
     CommentCounterComponent,
     CommentPaginationComponent,
-    CommentBodyComponent,
-    CommentsMainComponent,
-    AddCommentsComponent,
     CommentsListComponent,
     CommentsContainerComponent,
   ],
-  providers: []
+  providers: [
+    CommentsService
+  ]
 })
 
 export class CommentsModule { }

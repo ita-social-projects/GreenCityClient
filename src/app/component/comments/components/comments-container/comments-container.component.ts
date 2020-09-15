@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { CommentService } from '../../services/comment.service';
+import { CommentsService } from '../../services/comments.service';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { CommentsDTO, CommentsModel } from '../../models/comments-model';
 
@@ -28,8 +28,8 @@ export class CommentsContainerComponent implements OnInit, OnDestroy {
     currentPage: 0,
     totalItems: 0
   };
- 
-  constructor(private commentService: CommentService,
+
+  constructor(private commentsService: CommentsService,
               private route: ActivatedRoute,
               private userOwnAuthService: UserOwnAuthService) { }
 
@@ -47,15 +47,15 @@ export class CommentsContainerComponent implements OnInit, OnDestroy {
   }
 
   public addEcoNewsId(): void {
-    this.route.url.subscribe(url => this.commentService.ecoNewsId = url[0].path);
+    this.route.url.subscribe(url => this.commentsService.ecoNewsId = url[0].path);
   }
 
   public addCommentByPagination(page = 0): void {
     if (this.dataType === 'comment') {
-      this.commentsSubscription = this.commentService.getActiveCommentsByPage(page, this.config.itemsPerPage)
+      this.commentsSubscription = this.commentsService.getActiveCommentsByPage(page, this.config.itemsPerPage)
         .subscribe((list: CommentsModel) => this.setCommentsList(list));
     } else {
-      this.commentsSubscription = this.commentService.getActiveRepliesByPage(this.commentId, page, this.config.itemsPerPage)
+      this.commentsSubscription = this.commentsService.getActiveRepliesByPage(this.commentId, page, this.config.itemsPerPage)
         .subscribe((list: CommentsModel) => this.setCommentsList(list));
     }
   }
@@ -85,22 +85,22 @@ export class CommentsContainerComponent implements OnInit, OnDestroy {
 
   public getCommentsTotalElements(): void {
     if (this.dataType === 'comment') {
-      this.commentService.getCommentsCount(this.newsId)
+      this.commentsService.getCommentsCount(this.newsId)
         .subscribe((data: number) => this.totalElements = data);
     } else {
-      this.commentService.getRepliesAmount(this.commentId)
+      this.commentsService.getRepliesAmount(this.commentId)
         .subscribe((data: number) => this.totalElements = data);
     }
   }
 
   public getActiveComments(): void {
     if (this.dataType === 'comment') {
-      this.commentService.getActiveCommentsByPage(0, this.config.itemsPerPage)
+      this.commentsService.getActiveCommentsByPage(0, this.config.itemsPerPage)
         .subscribe((el: CommentsModel) => {
           this.setData(el.currentPage, el.totalElements);
         });
     } else {
-      this.commentService.getActiveRepliesByPage(this.commentId, 0, this.config.itemsPerPage)
+      this.commentsService.getActiveRepliesByPage(this.commentId, 0, this.config.itemsPerPage)
         .subscribe((el: CommentsModel) => {
           this.setData(el.currentPage, el.totalElements);
         });

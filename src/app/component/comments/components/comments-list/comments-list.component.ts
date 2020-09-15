@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { CommentService } from '../../services/comment.service';
-import { Subscription } from 'rxjs';
+import { CommentsService } from '../../services/comments.service';
 import { Validators, FormControl } from '@angular/forms';
-import { CommentsDTO, CommentsModel } from '../../models/comments-model';
+import { CommentsDTO } from '../../models/comments-model';
 
 @Component({
   selector: 'app-comments-list',
@@ -21,7 +20,7 @@ export class CommentsListComponent implements OnInit {
   public editIcon = 'assets/img/comments/edit.png';
   public cancelIcon = 'assets/img/comments/cancel-comment-edit.png';
 
-  constructor(private commentService: CommentService) { }
+  constructor(private commentsService: CommentsService) { }
 
   ngOnInit() {
   }
@@ -43,7 +42,7 @@ export class CommentsListComponent implements OnInit {
   }
 
   public saveEditedComment(element: CommentsDTO): void {
-    this.commentService.editComment(element.id, this.content).subscribe(
+    this.commentsService.editComment(element.id, this.content).subscribe(
       () => this.content.reset());
     element.isEdit = false;
     element.text = this.content.value;
