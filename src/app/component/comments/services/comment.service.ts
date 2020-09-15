@@ -11,7 +11,7 @@ import { CommentsDTO, CommentsModel } from '../models/comments-model';
 export class CommentService {
   private backEnd = environment.backendLink;
   public ecoNewsId: string;
-  public commentsList: any[];
+  public elementsList: any[];
 
   constructor(private http: HttpClient) { }
 
@@ -32,10 +32,10 @@ export class CommentService {
     return this.http.get<number>(`${this.backEnd}econews/comments/count/comments/${id}`);
   }
 
-  public getAllReplies(id: number, page: number, size: number): Observable<object> {
-    return this.http.get(`${this.backEnd}econews/comments/replies/${id}?page=${page}?size=${size}`);
+  public getActiveRepliesByPage(id: number, page: number, size: number): Observable<object> {
+    return this.http.get(`${this.backEnd}econews/comments/replies/active/${id}?page=${page}&size=${size}`);
   }
-  
+
   public deleteComments(id: number) {
     return this.http.delete<object>(`${this.backEnd}econews/comments?id=${id}`, { observe: 'response' });
   }

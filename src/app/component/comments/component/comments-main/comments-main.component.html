@@ -1,9 +1,18 @@
-<app-reply-comment (click)="toggleReply()"></app-reply-comment>
-<app-add-comments *ngIf="showAddReply"
-                  [commentId]="commentId"
-                  (commentsList)="addReply($event)"></app-add-comments>
-<app-view-replies [commentId]="commentId" 
-                  (click)="showReliesList()"></app-view-replies>
-<app-comments-list *ngIf="showRelies"
-                   [commentsList]="repliesList"
-                   [dataType]="reply"></app-comments-list>
+<app-comment-counter [totalElements]="totalElements"></app-comment-counter>
+<app-add-comments *ngIf="isLoggedIn"
+                  (elementsList)="addComment($event)"></app-add-comments>
+<mat-spinner class="spinner"
+             *ngIf="elementsList.length < 1
+             && elementsArePresent; else comments"></mat-spinner>
+<ng-template #comments>
+  <app-comments-list dataType="comment"
+                     [elementsList]="elementsList"
+                     [config]="config"
+                     [isLoggedIn]="isLoggedIn"
+                     [userId]="userId"
+                     (changedList)="deleteComment($event)">
+  </app-comments-list>
+  <app-comment-pagination [config]="config"
+                          (setPage)="addCommentByPagination($event-1)">
+  </app-comment-pagination>
+</ng-template>

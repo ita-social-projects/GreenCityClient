@@ -1,6 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { CommentsService } from '../../services/comments.service';
-import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-comment',
@@ -9,8 +7,7 @@ import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@ang
 })
 export class EditCommentComponent {
 
-  constructor(private commentsService: CommentsService,
-              private fb: FormBuilder) { }
+  constructor() { }
 
   public editIcon = 'assets/img/comments/edit.png';
   @Output() isEditing = new EventEmitter<boolean>();
@@ -18,5 +15,4 @@ export class EditCommentComponent {
   public editComments() {
       this.isEditing.emit();
   }
-
 }

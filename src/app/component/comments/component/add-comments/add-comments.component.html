@@ -1,26 +1,25 @@
-<!-- <div class="main-wrapper">
-  <app-comment-counter [totalElements]="totalElements"></app-comment-counter>
-</div> -->
-<div class="main-wrapper">
-  <form class="wrapper-comment"
-    [formGroup]="addCommentForm"
-    (ngSubmit)="onSubmit()">
-    <img [src]=avatarImage 
-         alt="avatar">
+<form class="main-wrapper"
+      [formGroup]="addCommentForm"
+      [ngClass]="!commentId ? 'wrapper-comment': 'wrapper-reply'"
+      (ngSubmit)="onSubmit()">
+  <img [src]=avatarImage 
+        alt="avatar">
+    <div class="input-submit" *ngIf="!commentId; else reply">
+      <textarea placeholder="{{ 'homepage.eco-news.comment.placeholder.add-a-comment' | translate }}"
+                formControlName="content"></textarea>
+      <button class="primary-global-button"
+              [disabled]="!addCommentForm.valid">
+        {{ "homepage.eco-news.comment.comment"| translate }}
+      </button>
+    </div>
+    <ng-template #reply>
       <div class="input-submit">
-        <textarea placeholder="{{ 'homepage.eco-news.comment.placeholder.add-a-comment' | translate }}"
-          formControlName="content" type="text" maxlength="8000"></textarea>
-        <button class="primary-global-button" [disabled]="!addCommentForm.valid">
-          {{ "homepage.eco-news.comment.comment"| translate }}
+        <textarea placeholder="{{ 'homepage.eco-news.comment.placeholder.add-a-reply' | translate }}"
+                  formControlName="content"></textarea>
+        <button class="primary-global-button"
+                [disabled]="!addCommentForm.valid">
+          {{ "homepage.eco-news.comment.reply"| translate }}
         </button>
       </div>
-  </form>
-</div>
-<!-- <mat-spinner class="spinner" *ngIf="elements.length < 1
-             && elementsArePresent
-             && dataSet.type !== 'reply'; else comments"></mat-spinner> -->
-<!-- <ng-template #comments>
-  <app-comment-body [elements]="elements" [type]="dataSet.type" *ngIf="(this.dataSet.type === 'reply' && this.repliesVisibility)
-                         || this.dataSet.type === 'comment'" (commentsPage)="addElementsByPagination($event)">
-  </app-comment-body>
-</ng-template> -->
+    </ng-template>
+</form>

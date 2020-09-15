@@ -7,12 +7,10 @@ import { CommentsService } from '../../services/comments.service';
   styleUrls: ['./like-comment.component.scss']
 })
 export class LikeCommentComponent implements OnInit {
-  @Input() commentId: number;
-  @Input() likeState: boolean;
-  @ViewChild('like', {static: true})
-  like: ElementRef;
-  @ViewChild('span', {static: true})
-  span: ElementRef;
+  @Input() private commentId: number;
+  @Input() public likeState: boolean;
+  @ViewChild('like', {static: true}) like: ElementRef;
+  @ViewChild('span', {static: true}) span: ElementRef;
   public commentsImages = {
     like: 'assets/img/comments/like.png',
     liked: 'assets/img/comments/liked.png'
@@ -40,5 +38,6 @@ export class LikeCommentComponent implements OnInit {
     const cond = this.like.nativeElement.srcset === this.commentsImages.like;
     const imgName = cond ? 'liked' : 'like';
     this.like.nativeElement.srcset = this.commentsImages[imgName];
+    this.likeState = !this.likeState;
   }
 }

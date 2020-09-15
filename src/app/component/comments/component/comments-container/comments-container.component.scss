@@ -1,0 +1,16 @@
+.spinner {
+  margin: 40px auto 0;
+
+  &::ng-deep circle {
+    stroke: #056b33;
+  }
+}
+
+.btn-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.list {
+  width: 100%;
+}

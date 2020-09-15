@@ -9,12 +9,12 @@ import { CommentsService } from '../../services/comments.service';
 export class ViewRepliesComponent implements OnInit {
   public arrowImg = 'assets/img/comments/arrow_down.png';
   @Input() commentId: number;
-  public repliesCounter: number;
+  @Input() public repliesCounter: number;
 
   constructor(private commentsService: CommentsService) { }
 
   ngOnInit() {
-    this.setRepliesCounter();
+    //this.setRepliesCounter();
   }
 
   private setRepliesCounter(): void {

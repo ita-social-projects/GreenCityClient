@@ -1,12 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
-import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommentService } from '../../services/comment.service';
-import { CommentsModel } from '../../models/comments-model';
 import { CommentsDTO } from '../../models/comments-model';
-import { Subscription } from 'rxjs';
-
 
 @Component({
   selector: 'app-add-comments',
@@ -14,18 +9,15 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./add-comments.component.scss']
 })
 export class AddCommentsComponent implements OnInit {
-  @Input() commentId: number;
+  @Output() public elementsList = new EventEmitter();
+  @Input() public commentId: number;
   public avatarImage = 'assets/img/comment-avatar.png';
-
   public addCommentForm: FormGroup = this.fb.group({
     content: ['', [Validators.required, Validators.maxLength(8000)]],
   });
-  @Output() public commentsList = new EventEmitter();
-
+  
   constructor(private commentService: CommentService,
-              private fb: FormBuilder,
-              private route: ActivatedRoute,
-              private userOwnAuthService: UserOwnAuthService) { }
+              private fb: FormBuilder) { }
 
   ngOnInit() {
   }
@@ -33,8 +25,7 @@ export class AddCommentsComponent implements OnInit {
   public onSubmit(): void {
     this.commentService.addComment(this.commentId, this.addCommentForm).subscribe(
       (successRes: CommentsDTO) => {
-        this.commentsList.emit(successRes);
-        // this.getCommentsTotalElements();
+        this.elementsList.emit(successRes);
         this.addCommentForm.reset();
       }
     );

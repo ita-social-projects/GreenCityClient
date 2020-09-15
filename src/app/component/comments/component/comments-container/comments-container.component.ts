@@ -6,29 +6,32 @@ import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { CommentsDTO, CommentsModel } from '../../models/comments-model';
 
 @Component({
-  selector: 'app-comments-main',
-  templateUrl: './comments-main.component.html',
-  styleUrls: ['./comments-main.component.scss']
+  selector: 'app-comments-container',
+  templateUrl: './comments-container.component.html',
+  styleUrls: ['./comments-container.component.scss']
 })
-export class CommentsMainComponent implements OnInit, OnDestroy {
+export class CommentsContainerComponent implements OnInit, OnDestroy {
+  @Input() public commentId: number;
+  @Input() public dataType = 'comment';
   public elementsList: CommentsDTO[] = [];
   public commentsSubscription: Subscription;
   public isLoggedIn: boolean;
   public userId: number;
-  public dataType = 'comment';
   public totalElements: number;
   private newsId: number;
   public elementsArePresent = true;
-  public config = {
+  public showRelies = false;
+  public showAddReply = false;
+  @Input() public config = {
     id: 'comment',
     itemsPerPage: 10,
     currentPage: 0,
     totalItems: 0
   };
-
+ 
   constructor(private commentService: CommentService,
-    private route: ActivatedRoute,
-    private userOwnAuthService: UserOwnAuthService) { }
+              private route: ActivatedRoute,
+              private userOwnAuthService: UserOwnAuthService) { }
 
   ngOnInit() {
     this.checkUserSingIn();
@@ -38,6 +41,9 @@ export class CommentsMainComponent implements OnInit, OnDestroy {
     this.addCommentByPagination();
     this.getActiveComments();
     this.getCommentsTotalElements();
+    if (this.dataType === 'reply') {
+      this.config.id = this.commentId.toString();
+    }
   }
 
   public addEcoNewsId(): void {
@@ -45,8 +51,13 @@ export class CommentsMainComponent implements OnInit, OnDestroy {
   }
 
   public addCommentByPagination(page = 0): void {
-    this.commentsSubscription = this.commentService.getActiveCommentsByPage(page, this.config.itemsPerPage)
-      .subscribe((list: CommentsModel) => this.setCommentsList(list));
+    if (this.dataType === 'comment') {
+      this.commentsSubscription = this.commentService.getActiveCommentsByPage(page, this.config.itemsPerPage)
+        .subscribe((list: CommentsModel) => this.setCommentsList(list));
+    } else {
+      this.commentsSubscription = this.commentService.getActiveRepliesByPage(this.commentId, page, this.config.itemsPerPage)
+        .subscribe((list: CommentsModel) => this.setCommentsList(list));
+    }
   }
 
   public setCommentsList(data: CommentsModel): void {
@@ -73,20 +84,40 @@ export class CommentsMainComponent implements OnInit, OnDestroy {
   }
 
   public getCommentsTotalElements(): void {
-    this.commentService.getCommentsCount(this.newsId)
-      .subscribe((data: number) => this.totalElements = data);
+    if (this.dataType === 'comment') {
+      this.commentService.getCommentsCount(this.newsId)
+        .subscribe((data: number) => this.totalElements = data);
+    } else {
+      this.commentService.getRepliesAmount(this.commentId)
+        .subscribe((data: number) => this.totalElements = data);
+    }
   }
 
   public getActiveComments(): void {
-    this.commentService.getActiveCommentsByPage(0, this.config.itemsPerPage)
-      .subscribe((el: CommentsModel) => {
-        this.setData(el.currentPage, el.totalElements);
-      });
+    if (this.dataType === 'comment') {
+      this.commentService.getActiveCommentsByPage(0, this.config.itemsPerPage)
+        .subscribe((el: CommentsModel) => {
+          this.setData(el.currentPage, el.totalElements);
+        });
+    } else {
+      this.commentService.getActiveRepliesByPage(this.commentId, 0, this.config.itemsPerPage)
+        .subscribe((el: CommentsModel) => {
+          this.setData(el.currentPage, el.totalElements);
+        });
+    }
   }
 
   public setData(currentPage: number, totalElements: number) {
     this.config.currentPage = currentPage;
     this.config.totalItems = totalElements;
+  }
+
+  public showReliesList(): void {
+    this.showRelies = !this.showRelies;
+  }
+
+  public toggleReply(): void {
+    this.showAddReply = !this.showAddReply;
   }
 
   ngOnDestroy() {
