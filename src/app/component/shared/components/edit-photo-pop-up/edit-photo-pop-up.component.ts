@@ -53,17 +53,13 @@ export class EditPhotoPopUpComponent implements OnInit {
     this.files[0] = { url: this.selectedFileUrl, file: this.selectedFile };
     if (!this.isWarning && typeof this.selectedFile !== 'undefined') {
       this.showWarning();
-      if (!this.isWarning) {
-        this.selectedPhoto = true;
-      }
+      this.selectedPhoto = !this.isWarning ? true : this.selectedPhoto;
     }
   }
 
   public showWarning(): void {
     const imageVal = this.files.filter(item => item.file.type === 'image/jpeg' || item.file.type === 'image/png');
-    if (imageVal.length < 1) {
-      this.isWarning = true;
-    }
+    this.isWarning = imageVal.length < 1 ? true : this.selectedPhoto;
   }
 
   public imageCropped(event: ImageCroppedEvent): void {
