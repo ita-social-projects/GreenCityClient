@@ -32,7 +32,7 @@
     <div class="comment-edit-text"
          *ngIf="comment.isEdit">
       <textarea type="text"
-                placeholder='{{"homepage.eco-news.comment.placeholder.new-comment" | translate}}'
+                [value]="comment.text"
                 [formControl]="content"
                 class="edit-text-input"></textarea>
       <div class="save-cancel-wrapper">
