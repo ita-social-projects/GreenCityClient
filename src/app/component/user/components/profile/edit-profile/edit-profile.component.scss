@@ -55,7 +55,7 @@ input:checked ~ .checkmark::after {
     padding-bottom: 40px;
 
     p {
-      font-family: Montserrat;
+      font-family: $title-font;
       font-style: normal;
       font-weight: 500;
       font-size: 24px;
@@ -180,7 +180,7 @@ h2 {
   padding-bottom: 40px;
 
   .title {
-    font-family: Montserrat;
+    font-family: $title-font;
     font-style: normal;
     font-weight: 500;
     font-size: 24px;

@@ -79,7 +79,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       showLocation: form.value.showLocation,
       showEcoPlace: form.value.showEcoPlace,
       showShoppingList: form.value.showShoppingList,
-      socialNetworks: ['']
+      socialNetworks: []
     };
 
     this.editProfileService.postDataUserProfile(JSON.stringify(body)).subscribe(
