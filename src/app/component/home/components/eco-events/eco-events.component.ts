@@ -24,10 +24,12 @@ export class EcoEventsComponent implements OnInit {
     this.newsService.loadLatestNews();
     this.newsService.latestNews.pipe(catchError(() => of([]))).subscribe(
       (newsItems: NewsDto[]) => {
-        newsItems.map(
-          (element: NewsDto) => (element.creationDate = this.convertDate(element.creationDate))
-        );
-        this.latestNews = newsItems;
+        this.latestNews = newsItems.map(
+          (element: NewsDto) => {
+            element.creationDate = this.convertDate(element.creationDate);
+
+            return { ...element };
+          });
       },
       error => {
         throw error;
