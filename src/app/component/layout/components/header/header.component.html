@@ -104,13 +104,16 @@
                  <li *ngIf="!isAllSearchOpen"
                      class="search"
                      [class.destroy]="toggleBurgerMenu">
-                 <a (click)="toggleSearchPage()">
+                 <a (click)="toggleSearchPage()"
+                    tabindex="0">
                    <img src="assets/img/icon/search.png"
                         alt="search">
                  </a>
                  </li>
               <li [class.destroy]="toggleBurgerMenu">
-                <div class="switcher-wrapper" (click)="langDropdownVisible = !langDropdownVisible">
+                <div class="switcher-wrapper" 
+                    (click)="langDropdownVisible = !langDropdownVisible" 
+                    tabindex="0">
                   <img class="arrow"
                       [src]="selectLanguageArrow"
                       [ngClass]="langDropdownVisible ? 'arrow reverse zIndex' : 'arrow'"
@@ -136,7 +139,8 @@
             [class.destroy]="toggleBurgerMenu">
           <div *ngIf="!isLoggedIn; then userLoggedIn else userNotLoggedIn"></div>
           <ng-template #userLoggedIn>
-            <a (click)="openSingInWindow()">
+            <a (click)="openSingInWindow()"
+                tabindex="0">
               {{ "top-bar.sign-in" | translate }}
             </a>
           </ng-template>
@@ -179,7 +183,8 @@
               [class.destroy]="toggleBurgerMenu"
               *ngIf="!isLoggedIn"
               (click)="openSignUpWindow()">
-            <div class="create-button secondary-global-button">
+            <div class="create-button secondary-global-button" 
+                 tabindex="0">
             <span>{{ "top-bar.sign-up" | translate }}</span>
           </div>
           </li>
