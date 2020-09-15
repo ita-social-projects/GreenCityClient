@@ -155,7 +155,9 @@
                [class.add-shadow]="dropdownVisible">
                <li class="tertiary-global-button">
                  <a
+                    tabindex="0"
                     (click)="toggleDropdown()"
+                    (keyup.enter)="toggleDropdown()"
                     >{{ name }}
                  <img class="arrow"
                       [src]="dropDownArrow"
