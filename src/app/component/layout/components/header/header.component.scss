@@ -472,8 +472,8 @@ $screen-320: " screen and (max-width : 320px)";
 }
 
 @media #{$screen-870} {
-  .header{
-    .logo{
+  .header {
+    .logo {
       margin: 0;
     }
   }
@@ -509,8 +509,6 @@ $screen-320: " screen and (max-width : 320px)";
       margin: 0 2.4%;
     }
   }
-
-  
 
   .navigation-menu-left-col {
     height: 100%;
