@@ -472,6 +472,12 @@ $screen-320: " screen and (max-width : 320px)";
 }
 
 @media #{$screen-870} {
+  .header{
+    .logo{
+      margin: 0;
+    }
+  }
+
   .navigation-menu {
     width: auto;
 
@@ -504,11 +510,7 @@ $screen-320: " screen and (max-width : 320px)";
     }
   }
 
-  .header {
-    .logo {
-      margin-top: 15px;
-    }
-  }
+  
 
   .navigation-menu-left-col {
     height: 100%;
@@ -546,6 +548,12 @@ $screen-320: " screen and (max-width : 320px)";
 @media #{$screen-320} {
   li:nth-of-type(6) {
     margin-bottom: 40px;
+  }
+
+  .header {
+    .logo {
+      margin-top: 15px;
+    }
   }
 
   .navigation-menu-left-col {
