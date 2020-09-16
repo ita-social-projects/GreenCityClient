@@ -19,18 +19,22 @@ export class EcoEventsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.loadLatestNews();
+  }
+
+  private loadLatestNews(): void {
     this.newsService.loadLatestNews()
       .subscribe((data: NewsDto[]) => {
-        this.latestNews = data.map(
-          (element: NewsDto) => {
-            element.creationDate = this.convertDate(element.creationDate);
+          this.latestNews = data.map(
+            (element: NewsDto) => {
+              element.creationDate = this.convertDate(element.creationDate);
 
-            return { ...element };
-          });
-      },
-          error => {
-        throw error;
-      });
+              return { ...element };
+            });
+        },
+        error => {
+          throw error;
+        });
   }
 
   private convertDate(date: string): string {
