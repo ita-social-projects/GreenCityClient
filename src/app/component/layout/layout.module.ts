@@ -11,6 +11,8 @@ import {
 } from './components';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CloseDropdownDirective } from './directives/close-dropdown.directive';
+import { NgxPageScrollModule } from 'ngx-page-scroll';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,12 +22,14 @@ import { CloseDropdownDirective } from './directives/close-dropdown.directive';
     SearchItemComponent,
     SearchNotFoundComponent,
     SearchAllResultsComponent,
-    CloseDropdownDirective
+    CloseDropdownDirective,
   ],
   imports: [
     CommonModule,
     CoreModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    NgxPageScrollModule,
+    FormsModule,
   ],
   exports: [
     HeaderComponent,

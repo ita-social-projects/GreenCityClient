@@ -31,6 +31,10 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.setupInitialValue();
+  }
+
+  public setupInitialValue(): void {
     this.searchModalSubscription = this.search.searchSubject.subscribe(signal => this.subscribeToSignal(signal));
   }
 
