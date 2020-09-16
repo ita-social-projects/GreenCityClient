@@ -161,6 +161,11 @@ $inputHeight : 48px;
       }
     }
 
+    .google-sign-in-block {
+      margin: 0 56px 0 56px;
+      display: flex;
+    }
+
     .forgot-wrapper {
       display: flex;
       justify-content: flex-end;
@@ -194,8 +199,6 @@ $inputHeight : 48px;
       padding: 0;
       height: 40px;
       width: 100%;
-      max-width: 294px;
-      margin: 0 56px 0 56px;
       background: #fff;
       border: 0;
       box-shadow: 0 1px 1px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.24);
