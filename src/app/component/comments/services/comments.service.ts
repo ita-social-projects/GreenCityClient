@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Observer } from 'rxjs';
 import { environment } from '@environment/environment';
 import { FormControl } from '@angular/forms';
+import { CommentsDTO, CommentsModel } from '../models/comments-model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,18 @@ export class CommentsService {
   }
 
   public getActiveCommentsByPage(page: number, size: number): Observable<object> {
-    return this.http.get<object>(`${this.backEnd}econews/comments/active?ecoNewsId=${this.ecoNewsId}&page=${page}&size=${size}`);
+    //return this.http.get<object>(`${this.backEnd}econews/comments/active?ecoNewsId=${this.ecoNewsId}&page=${page}&size=${size}`);
+    const commentsObservable = new Observable((observer: Observer<any>) => {
+      this.http.get<object>(`${this.backEnd}econews/comments/active?ecoNewsId=${this.ecoNewsId}&page=${page}&size=${size}`)
+        .subscribe(
+          (list: CommentsModel) => {
+            observer.next(list);
+          }
+        );
+    });
+
+    return commentsObservable;
+  
   }
 
   public getCommentsCount(id: number): Observable<number> {

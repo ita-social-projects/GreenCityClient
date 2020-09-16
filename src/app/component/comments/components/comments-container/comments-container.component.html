@@ -1,7 +1,7 @@
 <ng-container *ngIf="dataType==='comment'; else replyConteiner">
   <app-comment-counter [totalElements]="totalElements"></app-comment-counter>
   <app-add-comment *ngIf="isLoggedIn"
-                    (elementsList)="addComment($event)"></app-add-comment>
+                  (elementsList)="addComment($event)"></app-add-comment>
   <mat-spinner class="spinner"
               *ngIf="elementsList.length < 1
               && elementsArePresent; else comments"></mat-spinner>
