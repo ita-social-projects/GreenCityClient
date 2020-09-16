@@ -25,18 +25,7 @@ export class CommentsService {
   }
 
   public getActiveCommentsByPage(page: number, size: number): Observable<object> {
-    //return this.http.get<object>(`${this.backEnd}econews/comments/active?ecoNewsId=${this.ecoNewsId}&page=${page}&size=${size}`);
-    const commentsObservable = new Observable((observer: Observer<any>) => {
-      this.http.get<object>(`${this.backEnd}econews/comments/active?ecoNewsId=${this.ecoNewsId}&page=${page}&size=${size}`)
-        .subscribe(
-          (list: CommentsModel) => {
-            observer.next(list);
-          }
-        );
-    });
-
-    return commentsObservable;
-  
+    return this.http.get<object>(`${this.backEnd}econews/comments/active?ecoNewsId=${this.ecoNewsId}&page=${page}&size=${size}`);
   }
 
   public getCommentsCount(id: number): Observable<number> {
