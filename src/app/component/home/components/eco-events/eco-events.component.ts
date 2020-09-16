@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import { NewsDto } from 'src/app/component/home/models/NewsDto';
 import { NewsService } from 'src/app/service/news/news.service';
 import { LanguageService } from 'src/app/i18n/language.service';
@@ -21,20 +19,18 @@ export class EcoEventsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.newsService.loadLatestNews();
-    this.newsService.latestNews.pipe(catchError(() => of([]))).subscribe(
-      (newsItems: NewsDto[]) => {
-        this.latestNews = newsItems.map(
+    this.newsService.loadLatestNews()
+      .subscribe((data: NewsDto[]) => {
+        this.latestNews = data.map(
           (element: NewsDto) => {
             element.creationDate = this.convertDate(element.creationDate);
 
             return { ...element };
           });
       },
-      error => {
+          error => {
         throw error;
-      }
-    );
+      });
   }
 
   private convertDate(date: string): string {
