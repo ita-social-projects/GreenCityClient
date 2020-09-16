@@ -64,17 +64,6 @@ $grey: #bebebe;
   margin: 0 auto;
 }
 
-.noEcoPlaces {
-  font-family: $title-font;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 17px;
-  margin-top: 30px;
-  text-align: center;
-  color: $grey;
-}
-
 .mat-spinner circle,
 ::ng-deep.mat-progress-spinner circle {
   stroke: rgb(226, 226, 226) !important;

@@ -33,7 +33,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       'My Credo is to make small steps that leads to huge impact. Let’s change the world together.',
   };
 
-  constructor(private dialog: MatDialog,
+  constructor(public dialog: MatDialog,
               public builder: EditProfileFormBuilder,
               private editProfileService: EditProfileService,
               private profileService: ProfileService,
@@ -52,7 +52,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     this.editProfileForm = this.builder.getProfileForm();
   }
 
-  private getInitialValue(): void {
+  public getInitialValue(): void {
     this.profileService.getUserInfo().pipe(
       take(1)
     )
@@ -75,7 +75,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     const body: EditProfileDto = {
       city: form.value.city,
       firstName: form.value.name,
-      userCredo: form.value.title,
+      userCredo: form.value.credo,
       showLocation: form.value.showLocation,
       showEcoPlace: form.value.showEcoPlace,
       showShoppingList: form.value.showShoppingList
