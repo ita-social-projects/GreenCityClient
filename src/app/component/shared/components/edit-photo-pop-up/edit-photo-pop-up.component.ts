@@ -59,7 +59,7 @@ export class EditPhotoPopUpComponent implements OnInit {
 
   public showWarning(): void {
     const imageVal = this.files.filter(item => item.file.type === 'image/jpeg' || item.file.type === 'image/png');
-    this.isWarning = imageVal.length < 1 ? true : this.selectedPhoto;
+    this.isWarning = imageVal.length < 1;
   }
 
   public imageCropped(event: ImageCroppedEvent): void {
