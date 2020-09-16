@@ -4,7 +4,7 @@ import { SignInIcons } from 'src/app/image-pathes/sign-in-icons';
 import { RestoreDto } from '@global-models/restroreDto';
 import { ActivatedRoute } from '@angular/router';
 import { ChangePasswordService } from '@auth-service/change-password.service';
-import { authImages} from '../../../../image-pathes/auth-images';
+import { authImages } from '../../../../image-pathes/auth-images';
 
 @Component({
   selector: 'app-confirm-restore-password',

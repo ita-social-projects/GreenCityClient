@@ -1,30 +1,40 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { SignInIcons } from 'src/app/image-pathes/sign-in-icons';
 import { ChangePasswordService } from '@auth-service/change-password.service';
-import { authImages} from '../../../../image-pathes/auth-images';
 import { ConfirmRestorePasswordComponent } from './confirm-restore-password.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
+import { FormsModule } from '@angular/forms';
 
 
 describe('ConfirmRestorePasswordComponent', () => {
   let component: ConfirmRestorePasswordComponent;
   let fixture: ComponentFixture<ConfirmRestorePasswordComponent>;
 
+  const ChangePasswordServiceStub = {
+    restorePassword: jasmine.createSpy('restorePassword')
+  };
+
+  class Fake {
+  }
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [ ConfirmRestorePasswordComponent ],
       imports: [
-        authImages,
-        SignInIcons,
-        RouterTestingModule,
-        HttpClientTestingModule,
+        FormsModule,
         TranslateModule.forRoot(),
+        RouterTestingModule.withRoutes([{
+          path: 'welcome',
+          component: Fake
+        }]),
         ],
+      providers: [{
+        provide: ChangePasswordService,
+        useValue: ChangePasswordServiceStub
+      }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
