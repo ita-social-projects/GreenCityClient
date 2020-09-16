@@ -3,12 +3,23 @@
 $generalFont : opensans, sans-serif;
 $inputHeight : 48px;
 
+.main {
+  width: 99vw;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: calc(100vh - -64px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
 .wrapper {
   display: flex;
   justify-content: space-between;
+  width: 100%;
   max-width: 960px;
-  max-height: 760px;
-  z-index: 2000;
+  background-color: white;
 
   .left-side {
     .main-picture {
@@ -17,6 +28,9 @@ $inputHeight : 48px;
   }
 
   .right-side {
+    width: 100%;
+    max-width: 480px;
+
     .close-modal-window {
       display: flex;
       justify-content: flex-end;
@@ -238,8 +252,13 @@ $inputHeight : 48px;
   }
 }
 
-@media screen and (max-width: 1023px) {
+@media screen and (max-width: 992px) {
   .left-side {
     display: none;
+  }
+
+  .right-side {
+    width: 100%;
+    max-width: 480px;
   }
 }
