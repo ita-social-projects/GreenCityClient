@@ -73,7 +73,7 @@ input:checked ~ .checkmark::after {
         border-radius: 5px;
         box-sizing: border-box;
         font-family: $main-font;
-        font-size: 14px;
+        font-size: 16px;
       }
 
       input {
@@ -184,7 +184,7 @@ h2 {
         color: #494a49;
         cursor: pointer;
         font-family: OpenSans, sans-serif;
-        font-size: 14px;
+        font-size: 16px;
         line-height: 24px;
         margin: 0;
         position: relative;
@@ -230,6 +230,15 @@ h2 {
     }
 
     .wrapper {
+
+      .input-block {
+
+        input,
+        textarea {
+          font-size: 14px;
+        }
+      }
+
       p {
         font-size: 16px;
       }
@@ -245,6 +254,19 @@ h2 {
 
       button:last-child {
         margin: 0 0 8px 0;
+      }
+    }
+
+    .privacy-wrapper {
+
+      ul {
+
+        li {
+
+          .label-wrapper {
+            font-size: 14px;
+          }
+        }
       }
     }
   }
