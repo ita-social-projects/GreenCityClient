@@ -67,7 +67,7 @@ export class EditPhotoPopUpComponent implements OnInit {
   }
 
   public savePhoto(): void {
-    this.files.map(item => item.url = this.croppedImage);
+    this.files = this.files.map(item => ({...item, url: this.croppedImage}));
 
     const body = {
       id: this.profileService.userId,
