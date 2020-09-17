@@ -21,29 +21,31 @@
     <app-remaining-count [remainingCount]="remaining"></app-remaining-count>
     <app-change-view-button (view)="changeView($event)"></app-change-view-button>
   </div>
-  <div>
-    <ul class="list"
-        [ngClass]="{ 'gallery-view-active': view }">
-      <li [ngClass]="{
-                    'gallery-view-li-active': view,
-                    'list-view-li-active': !view
-                  }"
-          *ngFor="let data of elements"
-          [routerLink]="['/news', data.id]"
-      >
-        <app-news-list-gallery-view
-          *ngIf="view"
-          [ecoNewsModel]="data">
-        </app-news-list-gallery-view>
-        <app-news-list-list-view
-          *ngIf="!view && windowSize >= 576"
-          [ecoNewsModel]="data">
-        </app-news-list-list-view>
-      </li>
-    </ul>
-  </div>
-    <mat-spinner *ngIf="elementsArePresent">
-    </mat-spinner>
+  <ul class="list" 
+      *ngIf="remaining"
+      [ngClass]="{ 'gallery-view-active': view }">
+    <li [ngClass]="{
+                  'gallery-view-li-active': view,
+                  'list-view-li-active': !view
+                }"
+        *ngFor="let data of elements"
+        [routerLink]="['/news', data.id]"
+    >
+      <app-news-list-gallery-view
+        *ngIf="view"
+        [ecoNewsModel]="data">
+      </app-news-list-gallery-view>
+      <app-news-list-list-view
+        *ngIf="!view && windowSize >= 576"
+        [ecoNewsModel]="data">
+      </app-news-list-list-view>
+    </li>
+  </ul>
+  <mat-spinner *ngIf="elementsArePresent; else noNews">
+  </mat-spinner>
+  <ng-template #noNews>
+    <app-no-news></app-no-news>
+  </ng-template>
   <div infiniteScroll
        [infiniteScrollDistance]="0"
        [infiniteScrollThrottle]="500"
