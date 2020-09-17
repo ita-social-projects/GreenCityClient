@@ -1,18 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Observer } from 'rxjs';
 import { environment } from '@environment/environment';
 import { FormControl } from '@angular/forms';
+import { CommentsDTO, CommentsModel } from '../models/comments-model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommentsService {
-  public repliesSubject = new Subject<boolean>();
-  public repliesVisibility = false;
-  public accessToken: string = localStorage.getItem('accessToken');
   private backEnd = environment.backendLink;
   public ecoNewsId: string;
+  public elementsList: any[];
 
   constructor(private http: HttpClient) { }
 
@@ -25,13 +24,7 @@ export class CommentsService {
     return this.http.post<object>(`${this.backEnd}econews/comments/${this.ecoNewsId}`, body);
   }
 
-  public setVisibility(): void {
-    this.repliesVisibility = !this.repliesVisibility;
-    this.repliesSubject
-      .next(this.repliesVisibility);
-  }
-
-  public getActiveCommentsByPage(page, size): Observable<object> {
+  public getActiveCommentsByPage(page: number, size: number): Observable<object> {
     return this.http.get<object>(`${this.backEnd}econews/comments/active?ecoNewsId=${this.ecoNewsId}&page=${page}&size=${size}`);
   }
 
@@ -39,11 +32,12 @@ export class CommentsService {
     return this.http.get<number>(`${this.backEnd}econews/comments/count/comments/${id}`);
   }
 
-  public getAllReplies(id: number): Observable<object> {
-    return this.http.get(`${this.backEnd}econews/comments/replies/${id}`);
+  public getActiveRepliesByPage(id: number, page: number, size: number): Observable<object> {
+    return this.http.get(`${this.backEnd}econews/comments/replies/active/${id}?page=${page}&size=${size}`);
   }
-  public deleteComments(id) {
-    return this.http.delete<object>(`${this.backEnd}econews/comments?id=${id}`, {observe: 'response'});
+
+  public deleteComments(id: number) {
+    return this.http.delete<object>(`${this.backEnd}econews/comments?id=${id}`, { observe: 'response' });
   }
 
   public getCommentLikes(id: number): Observable<number> {
@@ -52,7 +46,7 @@ export class CommentsService {
 
   public getRepliesAmount(id: number): Observable<number> {
     return this.http.get<number>(`${this.backEnd}econews/comments/count/replies/${id}`);
-}
+  }
 
   public postLike(id: number): Observable<object> {
     return this.http.post<object>(`${this.backEnd}econews/comments/like?id=${id}`, {});
