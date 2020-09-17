@@ -26,11 +26,8 @@ export class EcoEventsComponent implements OnInit {
     this.newsService.loadLatestNews()
       .subscribe((data: NewsDto[]) => {
           this.latestNews = data.map(
-            (element: NewsDto) => {
-              element.creationDate = this.convertDate(element.creationDate);
-
-              return { ...element };
-            });
+            (element: NewsDto) => ({...element, creationDate: this.convertDate(element.creationDate)})
+          );
         },
         error => {
           throw error;
