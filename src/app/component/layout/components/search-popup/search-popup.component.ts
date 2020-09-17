@@ -23,8 +23,8 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   public isSearchClicked = false;
   public inputValue: string;
   public itemsFound: number;
-  private searchSubscription: Subscription;
-  private searchModalSubscription: Subscription;
+  public searchSubscription: Subscription;
+  public searchModalSubscription: Subscription;
 
   constructor(private search: SearchService,
               public dialog: MatDialog,
@@ -44,15 +44,19 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
       this.inputValue = event[VALUE];
       this.searchSubscription = this.search.getSearch(this.inputValue)
         .subscribe(data => this.getSearchData(data),
-          (error) => this.dialog.open(ErrorComponent, {
-            hasBackdrop: false,
-            closeOnNavigation: true,
-            position: { top: '100px' },
-            panelClass: 'custom-dialog-container',
-          }));
+          (error) => this.openErrorPopup());
     } else {
       this.resetData();
     }
+  }
+
+  public openErrorPopup(): void {
+    this.dialog.open(ErrorComponent, {
+      hasBackdrop: false,
+      closeOnNavigation: true,
+      position: { top: '100px' },
+      panelClass: 'custom-dialog-container',
+    });
   }
 
   private getSearchData(data: SearchModel): void {
