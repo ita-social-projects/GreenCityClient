@@ -17,9 +17,11 @@ export class EditProfileService {
 
   constructor(private http: HttpClient) { }
 
-
-  postDataUserProfile(data): Observable<EditProfileModel> {
+  public postDataUserProfile(data): Observable<EditProfileModel> {
     return this.http.put<EditProfileModel>(`${this.url}user/profile`, data, this.httpOptions);
   }
 
+  public updateProfilePhoto(data): Observable<object[]> {
+    return this.http.patch<object[]>(`${this.url}user/profilePicture`, data);
+  }
 }
