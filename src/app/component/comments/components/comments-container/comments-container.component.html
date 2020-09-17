@@ -34,19 +34,18 @@
   <app-add-comment *ngIf="comment.addReply && isLoggedIn" 
                     [commentId]="comment.id"
                     (elementsList)="addComment($event)"></app-add-comment>
-
   <div *ngIf="comment.allRelies">
     <mat-spinner class="spinner" 
                 *ngIf="elementsList.length < 1
                   && elementsArePresent; else reply"></mat-spinner>
     <ng-template #reply>
-      <app-comments-list [elementsList]="elementsList"
+      <app-comments-list dataType="reply"
+                         [elementsList]="elementsList"
                          [commentId]="commentId"
                          [config]="config"
-                         (changedList)="deleteComment($event)"
-                         dataType="reply"
                          [isLoggedIn]="isLoggedIn"
                          [userId]="userId"
+                         (changedList)="deleteComment($event)"
                          class="list">
       </app-comments-list>
       <app-comment-pagination [config]="config"
