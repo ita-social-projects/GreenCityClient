@@ -453,9 +453,15 @@
       "location": "Show my location",
       "eco-place": "Show my eco places",
       "shoping-list": "Show my shopping list",
+      "picture-tooltip": "Download PNG or JPG only. File size should be less than 10MB",
+      "change-photo": "Do you want to change your profile picture?",
+      "would-you-like": "Would you like to save changes?",
       "btn":{
         "cancel": "Cancel",
-        "save": "Save"
+        "save": "Save",
+        "new-photo": "Upload new photo",
+        "change-photo": "Change photo",
+        "save-photo": "Save photo"
       }
     },
     "footer": {
