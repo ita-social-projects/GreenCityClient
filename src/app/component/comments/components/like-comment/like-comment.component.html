@@ -5,12 +5,11 @@
          alt="like"
          #like>
     <span class="btn-text"
-          #span
           *ngIf="!likeState; else liked">
       {{"homepage.eco-news.comment.btn.like" | translate}}
     </span>
     <ng-template #liked>
-      <span class="btn-text" #span>
+      <span class="btn-text">
         {{"homepage.eco-news.comment.btn.liked" | translate}}
       </span>
     </ng-template>

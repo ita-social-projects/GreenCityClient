@@ -73,10 +73,15 @@
                       [commentId]="comment.id"
                       [likeState]="comment.currentUserLiked"
                       ></app-like-comment>
-
-    <app-comments-container *ngIf="dataType === 'comment'"
-                            [commentId]="comment.id"
-                            dataType="reply"
-                            class="reply"></app-comments-container>
+  <div class="btn-replies" *ngIf="dataType==='comment'">
+    <app-reply-comment (click)="toggleReplyButton(comment.id)" *ngIf="isLoggedIn"></app-reply-comment>
+    <app-view-replies [repliesCounter]="comment.replies"
+                      (click)="showReliesList(comment.id)"></app-view-replies>
   </div>
+   
+  </div>
+   <app-comments-container *ngIf="dataType === 'comment'"
+                            [comment]='comment'
+                            (repliesCounter)="calcReplies($event, comment.id)"
+                            dataType="reply"></app-comments-container>
 </div>

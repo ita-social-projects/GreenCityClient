@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CommentsService } from '../../services/comments.service';
@@ -11,8 +11,8 @@ import { CommentsDTO, CommentsModel } from '../../models/comments-model';
   styleUrls: ['./comments-container.component.scss']
 })
 export class CommentsContainerComponent implements OnInit, OnDestroy {
-  @Input() public commentId: number;
   @Input() public dataType = 'comment';
+  @Input() public comment: CommentsDTO;
   public elementsList: CommentsDTO[] = [];
   public commentsSubscription: Subscription;
   public isLoggedIn: boolean;
@@ -20,8 +20,7 @@ export class CommentsContainerComponent implements OnInit, OnDestroy {
   public totalElements: number;
   private newsId: number;
   public elementsArePresent = true;
-  public showRelies = false;
-  public showAddReply = false;
+  @Output() public repliesCounter = new EventEmitter();
   @Input() public config = {
     id: 'comment',
     itemsPerPage: 10,
@@ -42,7 +41,7 @@ export class CommentsContainerComponent implements OnInit, OnDestroy {
     this.getActiveComments();
     this.getCommentsTotalElements();
     if (this.dataType === 'reply') {
-      this.config.id = this.commentId.toString();
+      this.config.id = this.comment.id.toString();
     }
   }
 
@@ -55,7 +54,7 @@ export class CommentsContainerComponent implements OnInit, OnDestroy {
       this.commentsSubscription = this.commentsService.getActiveCommentsByPage(page, this.config.itemsPerPage)
         .subscribe((list: CommentsModel) => this.setCommentsList(list));
     } else {
-      this.commentsSubscription = this.commentsService.getActiveRepliesByPage(this.commentId, page, this.config.itemsPerPage)
+      this.commentsSubscription = this.commentsService.getActiveRepliesByPage(this.comment.id, page, this.config.itemsPerPage)
         .subscribe((list: CommentsModel) => this.setCommentsList(list));
     }
   }
@@ -88,8 +87,8 @@ export class CommentsContainerComponent implements OnInit, OnDestroy {
       this.commentsService.getCommentsCount(this.newsId)
         .subscribe((data: number) => this.totalElements = data);
     } else {
-      this.commentsService.getRepliesAmount(this.commentId)
-        .subscribe((data: number) => this.totalElements = data);
+      this.commentsService.getRepliesAmount(this.comment.id)
+        .subscribe((data: number) => this.repliesCounter.emit(data));
     }
   }
 
@@ -100,7 +99,7 @@ export class CommentsContainerComponent implements OnInit, OnDestroy {
           this.setData(el.currentPage, el.totalElements);
         });
     } else {
-      this.commentsService.getActiveRepliesByPage(this.commentId, 0, this.config.itemsPerPage)
+      this.commentsService.getActiveRepliesByPage(this.comment.id, 0, this.config.itemsPerPage)
         .subscribe((el: CommentsModel) => {
           this.setData(el.currentPage, el.totalElements);
         });
@@ -110,14 +109,6 @@ export class CommentsContainerComponent implements OnInit, OnDestroy {
   public setData(currentPage: number, totalElements: number) {
     this.config.currentPage = currentPage;
     this.config.totalItems = totalElements;
-  }
-
-  public showReliesList(): void {
-    this.showRelies = !this.showRelies;
-  }
-
-  public toggleReply(): void {
-    this.showAddReply = !this.showAddReply;
   }
 
   ngOnDestroy() {

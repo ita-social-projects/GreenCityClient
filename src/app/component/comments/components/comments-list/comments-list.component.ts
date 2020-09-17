@@ -19,6 +19,7 @@ export class CommentsListComponent implements OnInit {
   public content: FormControl = new FormControl('', [Validators.required, Validators.maxLength(8000)]);
   public editIcon = 'assets/img/comments/edit.png';
   public cancelIcon = 'assets/img/comments/cancel-comment-edit.png';
+  public repliesCounter: number;
 
   constructor(private commentsService: CommentsService) { }
 
@@ -51,5 +52,28 @@ export class CommentsListComponent implements OnInit {
 
   public cancelEditedComment(element: CommentsDTO): void {
     element.isEdit = false;
+  }
+
+  public showReliesList(id: number): void {
+    this.elementsList = this.elementsList.map(item => {
+      item.allRelies = item.id === id && !item.allRelies;
+      return item;
+    });
+  }
+
+  public toggleReplyButton(id: number): void {
+    this.elementsList = this.elementsList.map(item => {
+      item.addReply = item.id === id && !item.addReply;
+      return item;
+    });
+  }
+
+  public calcReplies(data: number, id: number): void {
+    this.elementsList = this.elementsList.map(item => {
+      if (item.id === id) {
+        item.replies = data;
+      }
+      return item;
+    });
   }
 }

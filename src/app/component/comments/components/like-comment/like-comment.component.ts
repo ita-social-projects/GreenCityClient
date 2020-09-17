@@ -10,7 +10,6 @@ export class LikeCommentComponent implements OnInit {
   @Input() private commentId: number;
   @Input() public likeState: boolean;
   @ViewChild('like', {static: true}) like: ElementRef;
-  @ViewChild('span', {static: true}) span: ElementRef;
   public commentsImages = {
     like: 'assets/img/comments/like.png',
     liked: 'assets/img/comments/liked.png'

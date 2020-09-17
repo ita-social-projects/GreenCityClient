@@ -10,7 +10,6 @@ import { EditCommentComponent } from './components/edit-comment/edit-comment.com
 import { LikeCommentComponent } from './components/like-comment/like-comment.component';
 import { ReplyCommentComponent } from './components/reply-comment/reply-comment.component';
 import { LikesCounterComponent } from './components/likes-counter/likes-counter.component';
-import { CommentCounterComponent } from './components/comment-counter/comment-counter.component';
 import { CommentPaginationComponent } from './components/comment-pagination/comment-pagination.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CommentsListComponent } from './components/comments-list/comments-list.component';
@@ -28,7 +27,6 @@ import { CommentsService } from './services/comments.service';
     ReplyCommentComponent,
     LikesCounterComponent,
     EditCommentComponent,
-    CommentCounterComponent,
     CommentPaginationComponent,
     CommentsListComponent,
     CommentsContainerComponent,
@@ -48,7 +46,6 @@ import { CommentsService } from './services/comments.service';
     ReplyCommentComponent,
     LikesCounterComponent,
     EditCommentComponent,
-    CommentCounterComponent,
     CommentPaginationComponent,
     CommentsListComponent,
     CommentsContainerComponent,

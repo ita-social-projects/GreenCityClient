@@ -2,7 +2,6 @@ $main-font: 'Open Sans', sans-serif;
 
 .comment-body-wrapper {
   margin: auto;
-  // width: 70%;
   border-bottom: 1px solid #e6e6e6;
 
   .comment-avatar {
@@ -23,8 +22,8 @@ $main-font: 'Open Sans', sans-serif;
 }
 
 .wrapper-reply {
-  width: 115%;
-  margin-left: -70px;
+  width: 90%;
+  margin-left: 70px;
 }
 
 .author-name {
@@ -158,14 +157,15 @@ $main-font: 'Open Sans', sans-serif;
 
 .comments-elements {
   display: flex;
-  justify-content: space-between;
 
   .btn-wrapper {
     display: flex;
   }
 
-  .reply {
+  .btn-replies {
     width: 100%;
+    display: flex;
+    justify-content: space-between;
   }
 }
 
