@@ -1,0 +1,58 @@
+<div class="main-container">
+  <button class="cancel" 
+          (click)="closeEditPhoto()">
+    <img src="{{ cancelButton }}" 
+         alt="cencel">
+  </button>
+  <div class="wrapper" 
+       *ngIf="!selectedPhoto; else elseBlock">
+    <img src="{{ avatarImg }}" 
+         alt="avatar" 
+         class="profile-avatar">
+    <p *ngIf=isWarning 
+       class="warning">{{"user.edit-profile.picture-tooltip" | translate }}</p>
+    <p>{{"user.edit-profile.change-photo" | translate }}</p>
+    <div class="buttons">
+      <button type="button" 
+              class="primary-global-button" 
+              (click)="closeEditPhoto()">{{"user.edit-profile.btn.cancel" | translate }}</button>
+      <label class="secondary-global-button">
+        {{"user.edit-profile.btn.new-photo" | translate }}
+        <input type="file" 
+               accept=".jpg, .jpeg, .png" 
+               (change)="onSelectPhoto($event)">
+      </label>
+    </div>
+  </div>
+  <ng-template #elseBlock>
+    <div *ngFor="let file of files">
+      <div class="wrapper">
+        <div class="cropper-block">
+          <image-cropper [maintainAspectRatio]="true" 
+                         [containWithinAspectRatio]="false" 
+                         [roundCropper]="true" 
+                         [resizeToHeight]="148" 
+                         [imageFile]="file.file"
+                         (imageCropped)="imageCropped($event)" 
+                         class="selected-photo">
+          </image-cropper>
+        </div>
+        <p *ngIf=isWarning 
+           class="warning">{{"user.edit-profile.picture-tooltip" | translate }}</p>
+        <p>{{"user.edit-profile.would-you-like" | translate }}</p>
+        <div class="buttons">
+          <label class="primary-global-button change">
+            {{"user.edit-profile.btn.change-photo" | translate }}
+            <input type="file" 
+                   accept=".jpg, .jpeg, .png" 
+                   (change)="onSelectPhoto($event)">
+          </label>
+          <button type="button" 
+                  class="secondary-global-button" 
+                  [disabled]="isWarning" 
+                  (click)="savePhoto()">{{"user.edit-profile.btn.save-photo" | translate }}</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

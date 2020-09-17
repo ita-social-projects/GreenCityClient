@@ -3,6 +3,7 @@
   position: relative;
 
   .profile-avatar {
+    border-radius: 100px;
     height: 148px;
     width: 148px;
   }
@@ -11,9 +12,14 @@
     border: none;
     background-color: transparent;
     left: 115px;
+    outline: none;
     padding: 0;
     position: absolute;
     top: 101px;
+  }
+
+  div {
+    margin-top: 30px;
   }
 }
 

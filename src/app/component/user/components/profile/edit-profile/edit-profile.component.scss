@@ -54,6 +54,14 @@ input:checked ~ .checkmark::after {
     margin-top: 40px;
     padding-bottom: 40px;
 
+    p {
+      font-family: $title-font;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 24px;
+    }
+
     .input-block {
       display: flex;
       flex-direction: column;
@@ -171,6 +179,14 @@ h2 {
   margin-top: 40px;
   padding-bottom: 40px;
 
+  .title {
+    font-family: $title-font;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 24px;
+  }
+
   ul {
     margin-bottom: 0;
     padding: 0;
@@ -184,7 +200,7 @@ h2 {
         color: #494a49;
         cursor: pointer;
         font-family: OpenSans, sans-serif;
-        font-size: 18px;
+        font-size: 16px;
         line-height: 24px;
         margin: 0;
         position: relative;

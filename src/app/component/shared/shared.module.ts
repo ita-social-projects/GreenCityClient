@@ -9,7 +9,8 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { MatCardModule } from '@angular/material';
 import {
   PhotoUploadComponent,
-  CancelPopUpComponent
+  CancelPopUpComponent,
+  EditPhotoPopUpComponent
 } from './components';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -24,6 +25,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     CancelPopUpComponent,
     DragAndDropDirective,
     DragAndDropComponent,
+    EditPhotoPopUpComponent,
   ],
   imports: [
     ImageCropperModule,
@@ -46,6 +48,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
   ],
   exports: [
     CancelPopUpComponent,
+    EditPhotoPopUpComponent,
     TranslateModule,
     PhotoUploadComponent,
     FormsModule,

@@ -1,0 +1,36 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+
+.container {
+  max-width: 625px;
+  margin: 0 auto;
+  text-align: center;
+
+  .picture {
+    img {
+      max-width: 100%;
+    }
+  }
+
+  .description {
+    .description__title {
+      font-family: Montserrat, sans-serif;
+
+      h2 {
+        font-size: 32px;
+        font-weight: 600;
+        line-height: 48px;
+      }
+    }
+
+    .description__advise {
+      font-family: Opensans, sans-serif;
+
+      p {
+        font-size: 18px;
+        line-height: 32px;
+        letter-spacing: 0.5px;
+      }
+    }
+  }
+}

@@ -1,8 +1,8 @@
-<div class="details-img">
-    <img src="{{userInfo.avatarUrl}}" 
+<div class="details-img" *ngIf="avatarImg">
+    <img src="{{ avatarImg }}"
          alt="avatar" 
          class="profile-avatar">
-    <button>
+    <button (click)="openEditPhoto()">
         <img src="{{editIcon}}" 
              alt="edit icon" 
              class="edit-icon">
