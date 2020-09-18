@@ -17,7 +17,7 @@ export class AddCommentComponent implements OnInit {
   });
 
   constructor(private commentsService: CommentsService,
-    private fb: FormBuilder) { }
+              private fb: FormBuilder) { }
 
   ngOnInit() {
   }

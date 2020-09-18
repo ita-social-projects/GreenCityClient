@@ -14,5 +14,4 @@ export class ReplyCommentComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }

@@ -13,24 +13,24 @@ import { CommentsDTO, CommentsModel } from '../../models/comments-model';
 export class CommentsContainerComponent implements OnInit, OnDestroy {
   @Input() public dataType = 'comment';
   @Input() public comment: CommentsDTO;
-  public elementsList: CommentsDTO[] = [];
-  public commentsSubscription: Subscription;
-  public isLoggedIn: boolean;
-  public userId: number;
-  public totalElements: number;
-  private newsId: number;
-  public elementsArePresent = true;
-  @Output() public repliesCounter = new EventEmitter();
   @Input() public config = {
     id: 'comment',
     itemsPerPage: 10,
     currentPage: 0,
     totalItems: 0
   };
+  @Output() public repliesCounter = new EventEmitter();
+  public elementsList: CommentsDTO[] = [];
+  public commentsSubscription: Subscription;
+  public isLoggedIn: boolean;
+  public userId: number;
+  public totalElements: number;
+  public elementsArePresent = true;
+  private newsId: number;
 
   constructor(private commentsService: CommentsService,
-    private route: ActivatedRoute,
-    private userOwnAuthService: UserOwnAuthService) { }
+              private route: ActivatedRoute,
+              private userOwnAuthService: UserOwnAuthService) { }
 
   ngOnInit() {
     this.checkUserSingIn();
@@ -75,11 +75,13 @@ export class CommentsContainerComponent implements OnInit, OnDestroy {
   public addComment(data): void {
     this.elementsList = [data, ...this.elementsList];
     this.getCommentsTotalElements();
+    this.addCommentByPagination();
   }
 
   public deleteComment(data: CommentsDTO[]): void {
     this.elementsList = data;
     this.getCommentsTotalElements();
+    this.addCommentByPagination();
   }
 
   public getCommentsTotalElements(): void {
