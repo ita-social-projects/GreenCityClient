@@ -79,33 +79,29 @@ export class CommentsContainerComponent implements OnInit, OnDestroy {
   }
 
   public deleteComment(data: CommentsDTO[]): void {
-    this.elementsList = data;
+    this.elementsList = [...data];
     this.getCommentsTotalElements();
     this.addCommentByPagination();
   }
 
   public getCommentsTotalElements(): void {
-    if (this.dataType === 'comment') {
-      this.commentsService.getCommentsCount(this.newsId)
-        .subscribe((data: number) => this.totalElements = data);
-    } else {
-      this.commentsService.getRepliesAmount(this.comment.id)
+    this.dataType === 'comment'
+      ? this.commentsService.getCommentsCount(this.newsId)
+        .subscribe((data: number) => this.totalElements = data)
+      : this.commentsService.getRepliesAmount(this.comment.id)
         .subscribe((data: number) => this.repliesCounter.emit(data));
-    }
   }
 
   public getActiveComments(): void {
-    if (this.dataType === 'comment') {
-      this.commentsService.getActiveCommentsByPage(0, this.config.itemsPerPage)
+    this.dataType === 'comment'
+      ? this.commentsService.getActiveCommentsByPage(0, this.config.itemsPerPage)
         .subscribe((el: CommentsModel) => {
           this.setData(el.currentPage, el.totalElements);
-        });
-    } else {
-      this.commentsService.getActiveRepliesByPage(this.comment.id, 0, this.config.itemsPerPage)
-        .subscribe((el: CommentsModel) => {
-          this.setData(el.currentPage, el.totalElements);
-        });
-    }
+        })
+      : this.commentsService.getActiveRepliesByPage(this.comment.id, 0, this.config.itemsPerPage)
+          .subscribe((el: CommentsModel) => {
+            this.setData(el.currentPage, el.totalElements);
+          });
   }
 
   public setData(currentPage: number, totalElements: number) {
