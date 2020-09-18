@@ -29,7 +29,7 @@ export class ProfileCardsComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe((success: CardModel) => {
-        this.factOfTheDay = success;
+        this.factOfTheDay = { ...success };
       });
   }
 
