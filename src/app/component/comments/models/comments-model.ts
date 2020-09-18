@@ -19,4 +19,6 @@ export interface CommentsDTO {
     status: string;
     text: string;
     isEdit?: boolean;
+    addReply?: boolean;
+    allRelies?: boolean;
 }
