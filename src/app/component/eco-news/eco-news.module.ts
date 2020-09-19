@@ -25,9 +25,9 @@ import {
 import { EcoNewsEffects } from './store/eco-news.effects';
 import { EcoNewsSelectors } from './store/eco-news.selectors';
 import { CommentsModule } from '../comments/comments.module';
+import { NoNewsComponent } from './components/no-news/no-news.component';
 import { MatSnackBarComponent } from './../errors/mat-snack-bar/mat-snack-bar.component';
 import { EcoNewsComponent } from './eco-news.component';
-
 
 
 @NgModule({
@@ -44,6 +44,7 @@ import { EcoNewsComponent } from './eco-news.component';
     EcoNewsDetailComponent,
     NewsPreviewPageComponent,
     PostNewsLoaderComponent,
+    NoNewsComponent,
     MatSnackBarComponent
   ],
   imports: [

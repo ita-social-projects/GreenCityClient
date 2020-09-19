@@ -44,9 +44,10 @@ import { CoreModule } from '@global-core/core.module';
 import { AuthModule } from './component/auth/auth.module';
 import { HomeModule } from './component/home/home.module';
 import { LayoutModule } from './component/layout/layout.module';
-import { CancelPopUpComponent } from '@shared/components';
+import { CancelPopUpComponent } from '@shared/components/cancel-pop-up/cancel-pop-up.component';
+import { EditPhotoPopUpComponent } from '@shared/components/edit-photo-pop-up/edit-photo-pop-up.component';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { ErrorComponent } from './component/errors/error/error.component';
+import { ErrorComponent } from '@global-errors/error/error.component';
 
 @NgModule({
   declarations: [
@@ -89,6 +90,7 @@ import { ErrorComponent } from './component/errors/error/error.component';
     ProposeCafeComponent,
     RestoreComponent,
     CancelPopUpComponent,
+    EditPhotoPopUpComponent,
     ErrorComponent
   ],
   providers: [
