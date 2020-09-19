@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommentsService } from '../../services/comments.service';
-import { CommentsDTO } from '../../models/comments-model';
 
 @Component({
   selector: 'app-add-comment',
@@ -9,7 +8,7 @@ import { CommentsDTO } from '../../models/comments-model';
   styleUrls: ['./add-comment.component.scss']
 })
 export class AddCommentComponent implements OnInit {
-  @Output() public elementsList = new EventEmitter();
+  @Output() public updateList = new EventEmitter();
   @Input() public commentId: number;
   public avatarImage = 'assets/img/comment-avatar.png';
   public addCommentForm: FormGroup = this.fb.group({
@@ -24,8 +23,8 @@ export class AddCommentComponent implements OnInit {
 
   public onSubmit(): void {
     this.commentsService.addComment(this.commentId, this.addCommentForm).subscribe(
-      (successRes: CommentsDTO) => {
-        this.elementsList.emit(successRes);
+      () => {
+        this.updateList.emit();
         this.addCommentForm.reset();
       }
     );

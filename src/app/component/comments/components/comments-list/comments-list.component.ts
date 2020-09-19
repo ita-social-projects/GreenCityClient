@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { CommentsService } from '../../services/comments.service';
-import { Validators, FormControl } from '@angular/forms';
 import { CommentsDTO } from '../../models/comments-model';
 
 @Component({
@@ -19,26 +19,19 @@ export class CommentsListComponent implements OnInit {
   public content: FormControl = new FormControl('', [Validators.required, Validators.maxLength(8000)]);
   public editIcon = 'assets/img/comments/edit.png';
   public cancelIcon = 'assets/img/comments/cancel-comment-edit.png';
+  public likeImg = 'assets/img/comments/like.png';
 
   constructor(private commentsService: CommentsService) { }
 
   ngOnInit() {
   }
 
-  public deleteComment(comments: CommentsDTO[]): void {
-    this.elementsList = comments;
-    this.changedList.emit(comments);
+  public deleteComment(): void {
+    this.changedList.emit();
   }
 
   public isCommentEdited(element: CommentsDTO): boolean {
     return element.status === 'EDITED';
-  }
-
-  public onEdit(id: number): void {
-    this.elementsList = this.elementsList.map(item => {
-      item.isEdit = item.id === id && !item.isEdit;
-      return item;
-    });
   }
 
   public saveEditedComment(element: CommentsDTO): void {
@@ -53,25 +46,18 @@ export class CommentsListComponent implements OnInit {
     element.isEdit = false;
   }
 
-  public showReliesList(id: number): void {
-    this.elementsList = this.elementsList.map(item => {
-      item.showAllRelies = item.id === id && !item.showAllRelies;
-      return item;
-    });
-  }
-
-  public toggleReplyButton(id: number): void {
-    this.elementsList = this.elementsList.map(item => {
-      item.showRelyButton = item.id === id && !item.showRelyButton;
-      return item;
-    });
-  }
-
-  public calcReplies(data: number, id: number): void {
+  public changeCounter(counter: number, id: number, key: string): void {
     this.elementsList = this.elementsList.map(item => {
       if (item.id === id) {
-        item.replies = data;
+        item[key] = counter;
       }
+      return item;
+    });
+  }
+
+  public showElements(id: number, key: string): void {
+    this.elementsList = this.elementsList.map(item => {
+      item[key] = item.id === id && !item[key];
       return item;
     });
   }

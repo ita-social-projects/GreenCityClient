@@ -6,9 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./reply-comment.component.scss']
 })
 export class ReplyCommentComponent implements OnInit {
-  public commentsImages = {
-    reply: 'assets/img/comments/reply.png'
-  };
+  public replyImages = 'assets/img/comments/reply.png';
 
   constructor() { }
 

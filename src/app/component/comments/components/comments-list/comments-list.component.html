@@ -21,7 +21,8 @@
         <span class="comment-dot last-dot"></span>
       </div>
       <div class="comment-likes">
-        <app-likes-counter [commentId]="comment.id"></app-likes-counter>
+        <img [src]="likeImg" alt="like">
+        <span class="like-amount">{{ comment.likes }}</span>
       </div>
     </div>
   </div>
@@ -63,23 +64,22 @@
     </div>
   <div class="comments-elements">
     <div class="btn-wrapper" *ngIf="isLoggedIn && (comment.author.id === +userId) && !comment.isEdit">
-      <app-edit-comment (isEditing)="onEdit(comment.id)"></app-edit-comment>
-      <app-delete-comment [elements]="elementsList"
-                          [element]="comment"
-                          (elementsList)="deleteComment($event)"></app-delete-comment>
+      <app-edit-comment (isEditing)="showElements(comment.id, 'isEdit')"></app-edit-comment>
+      <app-delete-comment [element]="comment"
+                          (elementsList)="deleteComment()"></app-delete-comment>
     </div>
     <app-like-comment *ngIf="isLoggedIn && (comment.author.id !== +userId)"
-                      [commentId]="comment.id"
-                      [likeState]="comment.currentUserLiked"></app-like-comment>
+                      [comment]="comment"
+                      (likesCounter)="changeCounter($event, comment.id, 'likes')"></app-like-comment>
     <div class="btn-replies" *ngIf="dataType==='comment'">
-      <app-reply-comment (click)="toggleReplyButton(comment.id)"
+      <app-reply-comment (click)="showElements(comment.id, 'showRelyButton')"
                          *ngIf="isLoggedIn"></app-reply-comment>
       <app-view-replies [repliesCounter]="comment.replies"
-                        (click)="showReliesList(comment.id)"></app-view-replies>
+                        (click)="showElements(comment.id, 'showAllRelies')"></app-view-replies>
     </div> 
   </div>
    <app-comments-container *ngIf="dataType === 'comment'"
                            [comment]='comment'
-                           (repliesCounter)="calcReplies($event, comment.id)"
+                           (repliesCounter)="changeCounter($event, comment.id, 'replies')"
                            dataType="reply"></app-comments-container>
 </div>

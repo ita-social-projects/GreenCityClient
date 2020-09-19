@@ -1,5 +1,6 @@
-import { Component, Output, Input, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommentsService } from '../../services/comments.service';
+import { CommentsDTO } from '../../models/comments-model';
 
 @Component({
   selector: 'app-delete-comment',
@@ -7,8 +8,7 @@ import { CommentsService } from '../../services/comments.service';
   styleUrls: ['./delete-comment.component.scss']
 })
 export class DeleteCommentComponent {
-  @Input() public element;
-  @Input() public elements;
+  @Input() public element: CommentsDTO;
   @Output() public elementsList = new EventEmitter();
   public deleteIcon = 'assets/img/comments/delete.png';
 
@@ -17,7 +17,7 @@ export class DeleteCommentComponent {
   public deleteComment(): void {
     this.commentsService.deleteComments(this.element.id).subscribe(response => {
       if (response.status === 200) {
-        this.elementsList.emit(this.elements.filter((item) => item.text !== this.element.text));
+        this.elementsList.emit();
       }
     });
   }

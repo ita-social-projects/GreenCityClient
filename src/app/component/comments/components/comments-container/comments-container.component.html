@@ -12,7 +12,7 @@
     <hr>
   </div>
   <app-add-comment *ngIf="isLoggedIn"
-                   (elementsList)="addComment($event)"></app-add-comment>
+                   (updateList)="updateElementsList()"></app-add-comment>
   <mat-spinner class="spinner"
               *ngIf="elementsList.length < 1
               && elementsArePresent; else comments"></mat-spinner>
@@ -22,7 +22,7 @@
                       [config]="config"
                       [isLoggedIn]="isLoggedIn"
                       [userId]="userId"
-                      (changedList)="deleteComment($event)">
+                      (changedList)="updateElementsList()">
     </app-comments-list>
     <app-comment-pagination [config]="config"
                             (setPage)="addCommentByPagination($event-1)">
@@ -33,7 +33,7 @@
 <ng-template #replyConteiner>
   <app-add-comment *ngIf="comment.showRelyButton && isLoggedIn" 
                     [commentId]="comment.id"
-                    (elementsList)="addComment($event)"></app-add-comment>
+                    (updateList)="updateElementsList()"></app-add-comment>
   <div *ngIf="comment.showAllRelies">
     <mat-spinner class="spinner" 
                 *ngIf="elementsList.length < 1
@@ -45,7 +45,7 @@
                          [config]="config"
                          [isLoggedIn]="isLoggedIn"
                          [userId]="userId"
-                         (changedList)="deleteComment($event)"
+                         (changedList)="updateElementsList()"
                          class="list">
       </app-comments-list>
       <app-comment-pagination [config]="config"

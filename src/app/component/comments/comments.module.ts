@@ -9,7 +9,6 @@ import { DeleteCommentComponent } from './components/delete-comment/delete-comme
 import { EditCommentComponent } from './components/edit-comment/edit-comment.component';
 import { LikeCommentComponent } from './components/like-comment/like-comment.component';
 import { ReplyCommentComponent } from './components/reply-comment/reply-comment.component';
-import { LikesCounterComponent } from './components/likes-counter/likes-counter.component';
 import { CommentPaginationComponent } from './components/comment-pagination/comment-pagination.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CommentsListComponent } from './components/comments-list/comments-list.component';
@@ -25,7 +24,6 @@ import { CommentsService } from './services/comments.service';
     EditCommentComponent,
     LikeCommentComponent,
     ReplyCommentComponent,
-    LikesCounterComponent,
     EditCommentComponent,
     CommentPaginationComponent,
     CommentsListComponent,
@@ -44,7 +42,6 @@ import { CommentsService } from './services/comments.service';
     EditCommentComponent,
     LikeCommentComponent,
     ReplyCommentComponent,
-    LikesCounterComponent,
     EditCommentComponent,
     CommentPaginationComponent,
     CommentsListComponent,

@@ -14,6 +14,7 @@ export interface CommentsDTO {
     author: AuthorDTO;
     currentUserLiked: boolean;
     id: number;
+    likes: number;
     modifiedDate: string;
     replies: number;
     status: string;
