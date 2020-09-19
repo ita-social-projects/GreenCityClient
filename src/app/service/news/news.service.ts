@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { NewsDto } from 'home-models/NewsDto';
+import { NewsDto } from '@home-models/NewsDto';
 import { Observable } from 'rxjs';
 import { latestNewsLink } from 'src/app/links';
 import { LanguageService } from '../../i18n/language.service';
