@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { MapsAPILoader } from '@agm/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CancelPopUpComponent } from '@shared/components/cancel-pop-up/cancel-pop-up.component';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
@@ -19,6 +20,7 @@ import { Subscription } from 'rxjs';
 export class EditProfileComponent implements OnInit, OnDestroy {
   public editProfileForm = null;
   private langChangeSub: Subscription;
+  @ViewChild('search', { static: true }) public searchElementRef: ElementRef;
   public userInfo = {
     id: 0,
     avatarUrl: './assets/img/profileAvatarBig.png',
@@ -39,13 +41,16 @@ export class EditProfileComponent implements OnInit, OnDestroy {
               private profileService: ProfileService,
               private router: Router,
               private localStorageService: LocalStorageService,
-              private translate: TranslateService) {}
+              private translate: TranslateService,
+              private mapsAPILoader: MapsAPILoader,
+              private ngZone: NgZone) {}
 
   ngOnInit() {
     this.setupInitialValue();
     this.getInitialValue();
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
+    this.autocompleteCity();
   }
 
   private setupInitialValue() {
@@ -108,6 +113,23 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   private subscribeToLangChange(): void {
     this.langChangeSub = this.localStorageService.languageSubject
       .subscribe((lang) => this.bindLang(lang));
+  }
+
+  private autocompleteCity(): void {
+    this.mapsAPILoader.load().then(() => {
+      const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+        types: ['address']
+      });
+      autocomplete.addListener('place_changed', () => {
+        this.ngZone.run(() => {
+          const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+
+          if (place.geometry === undefined || place.geometry === null) {
+            return;
+          }
+        });
+      });
+    });
   }
 
   ngOnDestroy(): void {

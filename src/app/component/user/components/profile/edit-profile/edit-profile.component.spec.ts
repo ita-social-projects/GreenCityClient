@@ -1,13 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { EditProfileComponent } from './edit-profile.component';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
+import {AgmCoreModule, MapsAPILoader} from '@agm/core';
+
+import { EditProfileComponent } from './edit-profile.component';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
@@ -20,7 +21,7 @@ describe('EditProfileComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
       declarations: [
         EditProfileComponent,
       ],
@@ -29,12 +30,20 @@ describe('EditProfileComponent', () => {
         MatDialogModule,
         RouterTestingModule,
         HttpClientTestingModule,
+        AgmCoreModule,
         TranslateModule.forRoot(),
       ],
       providers: [
+
         EditProfileFormBuilder,
         EditProfileService,
         ProfileService,
+        {
+          provide: MapsAPILoader,
+          useValue: {
+            load: jasmine.createSpy('load')
+          }
+        },
       ]
     })
       .compileComponents();
