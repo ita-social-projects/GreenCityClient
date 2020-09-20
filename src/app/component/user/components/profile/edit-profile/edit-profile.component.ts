@@ -90,6 +90,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     this.editProfileService.postDataUserProfile(JSON.stringify(body)).subscribe(
       () => {
         this.router.navigate(['profile', this.profileService.userId]);
+        this.localStorageService.setFirstName(form.value.name);
       }
     );
   }

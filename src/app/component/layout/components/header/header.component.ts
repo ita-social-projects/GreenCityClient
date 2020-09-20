@@ -17,6 +17,8 @@ import { LanguageModel } from '../models/languageModel';
 import { UserSettingComponent } from '@global-user/components/user-setting/user-setting.component';
 import { SignInComponent } from '@global-auth/index';
 import { SignUpComponent } from '@global-auth/index';
+import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
+import { EditProfileModel } from '@user-models/edit-profile.model';
 
 @Component({
   selector: 'app-header',
@@ -50,6 +52,7 @@ export class HeaderComponent implements OnInit {
               private searchSearch: SearchService,
               private userOwnAuthService: UserOwnAuthService,
               private uiActionsService: UiActionsService,
+              private profileService: ProfileService,
   ) {}
 
   ngOnInit() {
@@ -58,9 +61,6 @@ export class HeaderComponent implements OnInit {
     this.dropdownVisible = false;
     this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => { this.name = firstName; });
     this.langDropdownVisible = false;
-    this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => {
-      this.name = firstName;
-    });
     this.initUser();
     this.userRole = this.jwtService.getUserRole();
     this.language = this.languageService.getCurrentLanguage();
@@ -175,4 +175,8 @@ export class HeaderComponent implements OnInit {
     this.router.navigateByUrl('/welcome').then(r => r);
     this.userOwnAuthService.getDataFromLocalStorage();
   }
+
+  // public getUserName(): void {
+  //   this.profileService.getUserInfo().subscribe((user: EditProfileModel) => this.name = user.firstName);
+  // }
 }
