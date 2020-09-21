@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA, NgZone } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -13,7 +13,6 @@ import { EditProfileFormBuilder } from '@global-user/components/profile/edit-pro
 import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { EditProfileModel } from '@user-models/edit-profile.model';
-
 
 describe('EditProfileComponent', () => {
   let component: EditProfileComponent;
@@ -41,7 +40,7 @@ describe('EditProfileComponent', () => {
         {
           provide: MapsAPILoader,
           useValue: {
-            load: jasmine.createSpy('load')
+            load: jasmine.createSpy('load').and.returnValue(new Promise(() => true))
           }
         },
       ]

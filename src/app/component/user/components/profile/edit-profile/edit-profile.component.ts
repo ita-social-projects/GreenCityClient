@@ -119,13 +119,13 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   private autocompleteCity(): void {
     this.mapsAPILoader.load().then(() => {
       const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-        types: ['address']
+        types: ['(cities)']
       });
       autocomplete.addListener('place_changed', () => {
         this.ngZone.run(() => {
           const place: google.maps.places.PlaceResult = autocomplete.getPlace();
 
-          if (place.geometry === undefined || place.geometry === null) {
+          if (typeof place.geometry === 'undefined' || place.geometry === null) {
             return;
           }
         });
