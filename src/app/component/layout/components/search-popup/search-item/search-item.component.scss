@@ -156,8 +156,10 @@
 }
 
 @media only screen and (max-width: 576px) {
-  .title-list {
+  #list-gallery-content {
+    min-width: 258px;
     max-width: 258px;
+    padding-right: 0;
   }
 }
 
