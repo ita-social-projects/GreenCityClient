@@ -32,7 +32,6 @@ describe('EditProfileComponent', () => {
         TranslateModule.forRoot(),
       ],
       providers: [
-
         EditProfileFormBuilder,
         EditProfileService,
         ProfileService,
