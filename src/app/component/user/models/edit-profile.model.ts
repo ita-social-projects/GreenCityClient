@@ -17,5 +17,6 @@ export class EditProfileDto {
   showEcoPlace: boolean;
   showLocation: boolean;
   showShoppingList: boolean;
+  socialNetworks: Array<string>;
 }
 
