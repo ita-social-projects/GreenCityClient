@@ -10,7 +10,7 @@ import {ConfirmationDialogService} from '../../services/confirmation-dialog-serv
 import {PlaceUpdatedDto} from '../../models/placeUpdatedDto.model';
 import {UpdateCafeComponent} from '../update-cafe/update-cafe.component';
 import {WeekDaysUtils} from '../../../../service/weekDaysUtils.service';
-import {PaginationComponent} from 'ngx-bootstrap';
+import {PaginationComponent} from 'ngx-bootstrap/pagination';
 import {TranslateService} from '@ngx-translate/core';
 
 @Component({

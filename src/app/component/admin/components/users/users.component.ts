@@ -7,7 +7,7 @@ import {NgFlashMessageService} from 'ng-flash-messages';
 import {MatIconRegistry, MatSort, MatTableDataSource} from '@angular/material';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AdminService} from '../../../../service/admin/admin.service';
-import {PaginationComponent} from 'ngx-bootstrap';
+import {PaginationComponent} from 'ngx-bootstrap/pagination';
 import {JwtService} from '../../../../service/jwt/jwt.service';
 
 
