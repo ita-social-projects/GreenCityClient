@@ -208,6 +208,10 @@ $screen-320: " screen and (max-width : 320px)";
     list-style-type: none;
     margin-right: 20px;
 
+    &:first-child img{
+      width: 16px;
+    }
+
     &:nth-of-type(4) {
       margin-right: 5px;
     }
