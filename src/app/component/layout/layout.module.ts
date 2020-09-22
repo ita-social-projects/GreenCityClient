@@ -12,7 +12,7 @@ import {
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CloseDropdownDirective } from './directives/close-dropdown.directive';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -29,6 +29,7 @@ import { FormsModule } from '@angular/forms';
     CoreModule,
     InfiniteScrollModule,
     NgxPageScrollModule,
+    ReactiveFormsModule,
     FormsModule,
   ],
   exports: [

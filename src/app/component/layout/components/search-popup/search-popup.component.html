@@ -4,9 +4,9 @@
       <div class="search-icon"></div>
         <input class = "search-field"
                type="text"
+               [formControl]="searchInput"
                placeholder="{{ 'search.search-popup.placeholder' | translate}}"
-               #inputFocus
-               (keyup)="onKeyUp($event.target)">
+               #inputFocus>
                {{inputFocus.focus()}}
       <div class="close-icon"
            (click)="closeSearch()"></div>

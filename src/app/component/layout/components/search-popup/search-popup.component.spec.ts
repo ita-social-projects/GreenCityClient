@@ -3,17 +3,17 @@ import { TranslateModule } from '@ngx-translate/core';
 
 
 import { SearchPopupComponent } from './search-popup.component';
-import {RouterTestingModule} from '@angular/router/testing';
-import {SearchItemComponent} from './search-item/search-item.component';
-import {SearchNotFoundComponent} from './search-not-found/search-not-found.component';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {MatDialogModule} from '@angular/material/dialog';
+import { RouterTestingModule } from '@angular/router/testing';
+import { SearchItemComponent } from './search-item/search-item.component';
+import { SearchNotFoundComponent } from './search-not-found/search-not-found.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatDialogModule } from '@angular/material/dialog';
 import { SearchService } from '@global-service/search/search.service';
-import {SearchModel} from '@global-models/search/search.model';
-import {NewsSearchModel} from '@global-models/search/newsSearch.model';
-import {TipsSearchModel} from '@global-models/search/tipsSearch.model';
+import { SearchModel } from '@global-models/search/search.model';
+import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 import { Observable } from 'rxjs';
-import {NgxPageScrollModule} from 'ngx-page-scroll';
+import { NgxPageScrollModule } from 'ngx-page-scroll';
+import { ReactiveFormsModule } from '@angular/forms';
 
 fdescribe('SearchPopupComponent', () => {
   let component: SearchPopupComponent;
@@ -29,6 +29,7 @@ fdescribe('SearchPopupComponent', () => {
       imports: [
         RouterTestingModule,
         TranslateModule.forRoot(),
+        ReactiveFormsModule,
         HttpClientTestingModule,
         MatDialogModule,
         NgxPageScrollModule,
@@ -37,7 +38,7 @@ fdescribe('SearchPopupComponent', () => {
         SearchService
       ]
     })
-      .compileComponents();
+      .compileComponents().then(r => r);
   }));
 
   beforeEach(() => {
@@ -63,13 +64,13 @@ fdescribe('SearchPopupComponent', () => {
       component.openErrorPopup();
       expect(component.dialog).toBeDefined();
     });
+
   });
 
   describe('Testing services:', () => {
     let searchService: SearchService;
     let mockDataSearchModel: SearchModel;
     let mockNewsSearchModel: NewsSearchModel;
-    // let mockTipsSearchModel: TipsSearchModel;
 
     beforeEach(() => {
       searchService = fixture.debugElement.injector.get(SearchService);
@@ -90,27 +91,30 @@ fdescribe('SearchPopupComponent', () => {
       creationDate: 'data-time',
       tags: ['news'],
    };
-      // mockTipsSearchModel = {
-      //   id: 10,
-      //   title: 'taras',
-      //   author: {
-      //     id: 20,
-      //     name: 'Ivan',
-      //   },
-      //   creationDate: 'data-time',
-      //   tags: ['news'],
-      // };
-
     });
-  //   it('onKeyUp should open SearchService/getSearch()', () => {
-  // const spy = spyOn(searchService, 'getSearch').and.returnValue(Observable.of(mockDataSearchModel));
-  // component.onKeyUp();
-  //   });
+
+    it('should handle search value changes', () => {
+      const getSearchSpy = spyOn(searchService, 'getSearch').and.returnValue(Observable.of(mockDataSearchModel));
+      const resetDataSpy = spyOn(component as any, 'resetData');
+      component.ngOnInit();
+
+      component.searchInput.setValue('test', { emitEvent: true });
+      expect(getSearchSpy).toHaveBeenCalledWith('test');
+
+      component.searchInput.setValue('', { emitEvent: true });
+      expect(resetDataSpy).toHaveBeenCalled();
+    });
 
     it('closeSearch should open SearchService/closeSearchSignal', () => {
     const spy = spyOn(searchService, 'closeSearchSignal');
     component.closeSearch();
     expect(spy).toHaveBeenCalled();
-     });
+     })
+
+    it('should setup Initial Value', () => {
+      const subscribeToSignalSpy = spyOn(component as any, 'subscribeToSignal');
+      component.search.searchSubject.next(true);
+      expect(subscribeToSignalSpy).toHaveBeenCalledWith(true);
+    });
   });
 });
