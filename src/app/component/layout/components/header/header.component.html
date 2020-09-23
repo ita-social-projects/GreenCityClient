@@ -7,7 +7,7 @@
            [routerLinkActiveOptions]="{ exact: true }"
            pageScroll>
           <picture>
-          <source media="(max-width: 576px)"
+          <source media="(max-width: 320px)"
                   srcset="assets/img/logo_S.png">
              <img src="assets/img/logo_M.png"
                   alt="logo">
@@ -104,13 +104,18 @@
                  <li *ngIf="!isAllSearchOpen"
                      class="search"
                      [class.destroy]="toggleBurgerMenu">
-                 <a (click)="toggleSearchPage()">
+                 <a (click)="toggleSearchPage()"
+                    (keyup.enter)="toggleSearchPage()"
+                    tabindex="0">
                    <img src="assets/img/icon/search.png"
                         alt="search">
                  </a>
                  </li>
               <li [class.destroy]="toggleBurgerMenu">
-                <div class="switcher-wrapper" (click)="langDropdownVisible = !langDropdownVisible">
+                <div class="switcher-wrapper" 
+                    (click)="langDropdownVisible = !langDropdownVisible"
+                    (keyup.enter)="langDropdownVisible = !langDropdownVisible"
+                    tabindex="0">
                   <img class="arrow"
                       [src]="selectLanguageArrow"
                       [ngClass]="langDropdownVisible ? 'arrow reverse zIndex' : 'arrow'"
@@ -136,7 +141,9 @@
             [class.destroy]="toggleBurgerMenu">
           <div *ngIf="!isLoggedIn; then userLoggedIn else userNotLoggedIn"></div>
           <ng-template #userLoggedIn>
-            <a (click)="openSingInWindow()">
+            <a (click)="openSingInWindow()"
+                (keyup.enter)="openSingInWindow()"
+                tabindex="0">
               {{ "top-bar.sign-in" | translate }}
             </a>
           </ng-template>
@@ -148,7 +155,9 @@
                [class.add-shadow]="dropdownVisible">
                <li class="tertiary-global-button">
                  <a
+                    tabindex="0"
                     (click)="toggleDropdown()"
+                    (keyup.enter)="toggleDropdown()"
                     >{{ name }}
                  <img class="arrow"
                       [src]="dropDownArrow"
@@ -178,8 +187,10 @@
           <li class="sign-up-link"
               [class.destroy]="toggleBurgerMenu"
               *ngIf="!isLoggedIn"
-              (click)="openSignUpWindow()">
-            <div class="create-button secondary-global-button">
+              (click)="openSignUpWindow()"
+              (keyup.enter)="openSignUpWindow()">
+            <div class="create-button secondary-global-button" 
+                 tabindex="0">
             <span>{{ "top-bar.sign-up" | translate }}</span>
           </div>
           </li>

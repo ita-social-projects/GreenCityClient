@@ -27,6 +27,7 @@
       "@eco-news-service/*": ["src/app/component/eco-news/services/*"],
       "@eco-news-store/*": ["src/app/component/eco-news/store/*"],
       "@global-errors/*": ["src/app/component/errors/*"],
+      "@home-models/*": ["src/app/component/home/models/*"],
       "@shared/*": ["src/app/component/shared/*"],
       "@global-user/*": ["src/app/component/user/*"],
       "@user-models/*": ["src/app/component/user/models/*"],
