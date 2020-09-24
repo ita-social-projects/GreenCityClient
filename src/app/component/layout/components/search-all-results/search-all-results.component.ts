@@ -20,16 +20,19 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
   private searchSubscription: Subscription;
   readonly dropDownArrow = 'assets/img/arrow_grey.png';
 
-  private query;
-
   constructor(private search: SearchService) { }
 
   ngOnInit() {
     this.search.toggleAllSearch(true);
-    this.search.getElementsAsObserv().subscribe(data => {
-      this.displayedElements = data;
-      console.log(this.displayedElements);
-    });
+    this.getAllElems();
+  }
+
+  private getAllElems(): void {
+    this.search.getElementsAsObserv()
+      .subscribe(data => {
+        this.displayedElements = data;
+        this.itemsFound = data.totalElements;
+      });
   }
 
   public onScroll(): void {

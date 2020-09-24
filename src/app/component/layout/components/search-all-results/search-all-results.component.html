@@ -42,10 +42,9 @@
     <div class="center-content-wrapper">
       <div class="flex-container">
           <app-item *ngFor="let element of displayedElements.page"
-                           [searchModel]="element"></app-item>
-        <ng-template [ngIf]="(isSearchFound === false)">
-          <app-search-not-found></app-search-not-found>
-        </ng-template>
+                    [searchModel]="element"
+                    class="app-search-item"
+          ></app-item>
       </div>
     </div>
   </div>

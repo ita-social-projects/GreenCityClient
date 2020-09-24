@@ -19,8 +19,6 @@ export class SearchItemComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-    console.log(this.searchModel);
-  }
+  ngOnInit() {}
 
 }

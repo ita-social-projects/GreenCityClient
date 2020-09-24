@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@environment/environment';
 import { Observable, of, Subject} from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 import { SearchModel } from '../../model/search/search.model';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +12,10 @@ import { SearchModel } from '../../model/search/search.model';
 export class SearchService {
   private apiUrl = 'http://localhost:3000';
   private backEndLink = environment.backendLink;
+  private allElemsSubj = new Subject<any>();
   public searchSubject = new Subject<boolean>();
   public allSearchSubject = new Subject<boolean>();
   public allElements;
-  private subject = new Subject<any>();
 
   public getSearch(searchQuery: string): Observable<SearchModel> {
     return this.http.get<SearchModel>(`${this.backEndLink}search?searchQuery=${searchQuery}`).pipe(
@@ -61,17 +62,24 @@ export class SearchService {
   }
 
   public getAllResults(query, category) {
-    console.log(query);
-    return this.http.get(`${this.backEndLink}search/${category}?page=0&searchQuery=${query}&size=5`)
-      .subscribe(data => {
+    const itemsPerPage = 9;
+    return this.http.get(`${this.backEndLink}search/${category}?page=0&searchQuery=${query}&size=${itemsPerPage}`)
+    .pipe(
+      catchError((error) => {
+        this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.', 'X', 'red-snackbar');
+        return error;
+      })
+    )
+    .subscribe(data => {
         this.allElements = data;
-        this.subject.next(this.allElements);
+        this.allElemsSubj.next(this.allElements);
       });
     }
 
   public getElementsAsObserv(): Observable<any> {
-    return this.subject.asObservable();
+    return this.allElemsSubj.asObservable();
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private snackBar: MatSnackBarComponent) { }
 }
