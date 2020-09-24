@@ -17,7 +17,7 @@
     <div class="adaptive-center-wrapper">
       <div class="search-content-wrapper">
         <div class="remaining-items"
-             *ngIf="inputValue">
+             *ngIf="searchInput.value">
           {{ itemsFound }} {{ "search.search-popup.items-found" | translate }}
         </div>
           <div class="content-news"
@@ -56,7 +56,7 @@
 
           <app-search-not-found
             *ngIf="(isNewsSearchFound === false && isTipsSearchFound === false)"
-            [inputValue]='inputValue'
+            [inputValue]='searchInput.value'
             (closeUnsuccessfulSearchResults)="closeSearch()"
           ></app-search-not-found>
       </div>
