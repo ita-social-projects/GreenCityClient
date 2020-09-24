@@ -36,7 +36,7 @@ export class PlaceService {
   }
 
   save(place: PlaceAddDto) {
-    this.http.post(`${placeLink}propose/`, place).subscribe(
+    this.http.post(`${placeLink}propose`, place).subscribe(
       () => {
         this.ngFlashMessageService.showFlashMessage({
           messages: ['Cafe ' + place.name + ' was added for approving.'],
@@ -72,7 +72,7 @@ export class PlaceService {
     this.placeStatus.id = id;
     this.placeStatus.status = status;
 
-    return this.http.patch<UpdatePlaceStatus>(`${placeLink}status/`, this.placeStatus);
+    return this.http.patch<UpdatePlaceStatus>(`${placeLink}status`, this.placeStatus);
   }
 
   bulkUpdatePlaceStatuses(places: AdminPlace[], status: string): Observable<UpdatePlaceStatus[]> {
@@ -102,7 +102,7 @@ export class PlaceService {
   }
 
   getStatuses(): Observable<string[]> {
-    return this.http.get<string[]>(`${placeLink}statuses/`);
+    return this.http.get<string[]>(`${placeLink}statuses`);
   }
 
   filterByRegex(paginationSettings: string, filterDto: FilterPlaceDtoModel): Observable<PlacePageableDto> {
