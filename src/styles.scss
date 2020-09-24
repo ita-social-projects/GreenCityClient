@@ -117,6 +117,9 @@ body {
   background: #fff;
 }
 
+.transparent .mat-dialog-container {
+  background: transparent;
+}
 .custom-dialog-container .mat-dialog-container::-webkit-scrollbar {
   display: none;
 }
