@@ -34,20 +34,20 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { provideConfig } from './config/GoogleAuthConfig';
-import { environment } from '../environments/environment';
-import { reducers } from './store/app.reducers';
-import { ProposeCafeComponent } from './component/core/components/propose-cafe/propose-cafe.component';
+import { environment } from '@environment/environment';
+import { reducers } from '@store/app.reducers';
+import { ProposeCafeComponent } from '@global-core/components';
 import { AdminModule } from './component/admin/admin.module';
-import { RestoreComponent } from './component/auth/components/restore/restore.component';
+import { RestoreComponent } from '@global-auth/restore/restore.component';
 import { InterceptorService } from './service/interceptors/interceptor.service';
-import { CoreModule } from './component/core/core.module';
+import { CoreModule } from '@global-core/core.module';
 import { AuthModule } from './component/auth/auth.module';
 import { HomeModule } from './component/home/home.module';
 import { LayoutModule } from './component/layout/layout.module';
-import { CancelPopUpComponent } from './component/shared/components/cancel-pop-up/cancel-pop-up.component';
+import { CancelPopUpComponent } from '@shared/components/cancel-pop-up/cancel-pop-up.component';
 import { EditPhotoPopUpComponent } from '@shared/components/edit-photo-pop-up/edit-photo-pop-up.component';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { ErrorComponent } from './component/errors/error/error.component';
+import { ErrorComponent } from '@global-errors/error/error.component';
 
 @NgModule({
   declarations: [
