@@ -109,7 +109,7 @@ describe('SearchPopupComponent', () => {
     const spy = spyOn(searchService, 'closeSearchSignal');
     component.closeSearch();
     expect(spy).toHaveBeenCalled();
-     })
+     });
 
     it('should setup Initial Value', () => {
       const subscribeToSignalSpy = spyOn(component as any, 'subscribeToSignal');
