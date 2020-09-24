@@ -64,14 +64,6 @@ export class CommentsContainerComponent implements OnInit, OnDestroy {
     this.elementsArePresent = this.elementsList.length > 0;
   }
 
-  private checkUserSingIn(): void {
-    this.userOwnAuthService.credentialDataSubject
-      .subscribe((data) => {
-        this.isLoggedIn = data && data.userId;
-        this.userId = data.userId;
-      });
-  }
-
   public updateElementsList(): void {
     this.addCommentByPagination();
     this.getCommentsTotalElements();
@@ -100,6 +92,14 @@ export class CommentsContainerComponent implements OnInit, OnDestroy {
   public setData(currentPage: number, totalElements: number) {
     this.config.currentPage = currentPage;
     this.config.totalItems = totalElements;
+  }
+
+  private checkUserSingIn(): void {
+    this.userOwnAuthService.credentialDataSubject
+      .subscribe((data) => {
+        this.isLoggedIn = data && data.userId;
+        this.userId = data.userId;
+      });
   }
 
   ngOnDestroy() {

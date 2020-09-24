@@ -12,6 +12,7 @@ export class LikeCommentComponent implements OnInit {
   @Output() public likesCounter = new EventEmitter();
   @ViewChild('like', { static: true }) like: ElementRef;
   public likeState: boolean;
+  public error : boolean;
   public commentsImages = {
     like: 'assets/img/comments/like.png',
     liked: 'assets/img/comments/liked.png'
@@ -46,6 +47,7 @@ export class LikeCommentComponent implements OnInit {
 
   private getLikesFromServer(): void {
     this.commentsService.getCommentLikes(this.comment.id)
-      .subscribe((data: number) => this.likesCounter.emit(data));
+      .subscribe((data: number) => this.likesCounter.emit(data),
+      () => this.error = true);
   }
 }
