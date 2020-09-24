@@ -58,9 +58,6 @@ export class HeaderComponent implements OnInit {
     this.dropdownVisible = false;
     this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => { this.name = firstName; });
     this.langDropdownVisible = false;
-    this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => {
-      this.name = firstName;
-    });
     this.initUser();
     this.userRole = this.jwtService.getUserRole();
     this.language = this.languageService.getCurrentLanguage();
