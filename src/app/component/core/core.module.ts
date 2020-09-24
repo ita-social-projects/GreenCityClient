@@ -22,7 +22,7 @@ import { NgxPageScrollModule } from 'ngx-page-scroll';
         FormsModule,
         ReactiveFormsModule,
         AgmCoreModule.forRoot({
-            apiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI',
+          apiKey: 'AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4',
             libraries: ['places', 'geometry']
           }),
         NgSelectModule,
