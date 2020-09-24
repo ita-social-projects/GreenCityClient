@@ -32,7 +32,7 @@ export class PlaceService {
 
   getFilteredPlaces() {
     const filterDto = this.filterService.getFilters();
-    this.http.post<Place[]>(`${placeLink}filter/`, filterDto).subscribe((res) => this.places = res);
+    this.http.post<Place[]>(`${placeLink}filter`, filterDto).subscribe((res) => this.places = res);
   }
 
   save(place: PlaceAddDto) {
