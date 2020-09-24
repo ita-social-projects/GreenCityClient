@@ -12,7 +12,7 @@ import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 export class SearchAllResultsComponent implements OnInit, OnDestroy {
   public inputValues = ['relevance', 'newest', 'latest'];
   public displayedElements: NewsSearchModel[] = [];
-  public elements: NewsSearchModel[];
+  public elements;
   public dropdownVisible: boolean;
   public isSearchFound: boolean;
   public inputValue: string;
@@ -20,10 +20,16 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
   private searchSubscription: Subscription;
   readonly dropDownArrow = 'assets/img/arrow_grey.png';
 
+  private query;
+
   constructor(private search: SearchService) { }
 
   ngOnInit() {
     this.search.toggleAllSearch(true);
+    this.search.getElementsAsObserv().subscribe(data => {
+      this.displayedElements = data;
+      console.log(this.displayedElements);
+    });
   }
 
   public onScroll(): void {

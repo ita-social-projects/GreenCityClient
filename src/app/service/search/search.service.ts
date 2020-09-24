@@ -13,6 +13,8 @@ export class SearchService {
   private backEndLink = environment.backendLink;
   public searchSubject = new Subject<boolean>();
   public allSearchSubject = new Subject<boolean>();
+  public allElements;
+  private subject = new Subject<any>();
 
   public getSearch(searchQuery: string): Observable<SearchModel> {
     return this.http.get<SearchModel>(`${this.backEndLink}search?searchQuery=${searchQuery}`).pipe(
@@ -56,6 +58,19 @@ export class SearchService {
 
   public toggleAllSearch(value) {
     this.allSearchSubject.next(value);
+  }
+
+  public getAllResults(query, category) {
+    console.log(query);
+    return this.http.get(`${this.backEndLink}search/${category}?page=0&searchQuery=${query}&size=5`)
+      .subscribe(data => {
+        this.allElements = data;
+        this.subject.next(this.allElements);
+      });
+    }
+
+  public getElementsAsObserv(): Observable<any> {
+    return this.subject.asObservable();
   }
 
   constructor(private http: HttpClient) { }

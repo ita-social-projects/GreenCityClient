@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 import { SearchService } from '@global-service/search/search.service';
 import { SearchModel } from '@global-models/search/search.model';
@@ -26,6 +26,7 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   private searchSubscription: Subscription;
   private searchModalSubscription: Subscription;
 
+
   constructor(private search: SearchService,
               public dialog: MatDialog,
   ) {}
@@ -49,6 +50,11 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
     } else {
       this.resetData();
     }
+  }
+
+  public getAllResults(category): void {
+    this.search.getAllResults(this.inputValue, category);
+    this.closeSearch();
   }
 
   private getSearchData(data: SearchModel): void {
