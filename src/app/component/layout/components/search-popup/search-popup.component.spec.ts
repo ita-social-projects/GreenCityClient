@@ -15,7 +15,7 @@ import { Observable } from 'rxjs';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { ReactiveFormsModule } from '@angular/forms';
 
-fdescribe('SearchPopupComponent', () => {
+describe('SearchPopupComponent', () => {
   let component: SearchPopupComponent;
   let fixture: ComponentFixture<SearchPopupComponent>;
 
