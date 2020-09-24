@@ -12,7 +12,7 @@ import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 export class SearchAllResultsComponent implements OnInit, OnDestroy {
   public inputValues = ['relevance', 'newest', 'latest'];
   public displayedElements: NewsSearchModel[] = [];
-  public elements;
+  public elements: NewsSearchModel[];
   public dropdownVisible: boolean;
   public isSearchFound: boolean;
   public inputValue: string;

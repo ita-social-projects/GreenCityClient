@@ -5,6 +5,7 @@ import { Observable, of, Subject} from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { SearchModel } from '../../model/search/search.model';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { SearchDto } from 'src/app/component/layout/components/models/search-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class SearchService {
   private allElemsSubj = new Subject<any>();
   public searchSubject = new Subject<boolean>();
   public allSearchSubject = new Subject<boolean>();
-  public allElements;
+  public allElements: SearchDto;
 
   public getSearch(searchQuery: string): Observable<SearchModel> {
     return this.http.get<SearchModel>(`${this.backEndLink}search?searchQuery=${searchQuery}`).pipe(
@@ -70,7 +71,7 @@ export class SearchService {
         return error;
       })
     )
-    .subscribe(data => {
+    .subscribe((data: SearchDto) => {
         this.allElements = data;
         this.allElemsSubj.next(this.allElements);
       });

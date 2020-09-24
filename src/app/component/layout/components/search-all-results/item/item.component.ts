@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ecoNewsIcons } from 'src/app/image-pathes/profile-icons';
 
 @Component({
@@ -6,13 +6,9 @@ import { ecoNewsIcons } from 'src/app/image-pathes/profile-icons';
   templateUrl: './item.component.html',
   styleUrls: ['./item.component.scss']
 })
-export class ItemComponent implements OnInit {
+export class ItemComponent {
 
   @Input() searchModel;
   profileIcons = ecoNewsIcons;
-
-  constructor() { }
-
-  ngOnInit() {}
 
 }
