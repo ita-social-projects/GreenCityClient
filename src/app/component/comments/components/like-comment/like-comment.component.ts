@@ -12,7 +12,7 @@ export class LikeCommentComponent implements OnInit {
   @Output() public likesCounter = new EventEmitter();
   @ViewChild('like', { static: true }) like: ElementRef;
   public likeState: boolean;
-  public error : boolean;
+  public error = false;
   public commentsImages = {
     like: 'assets/img/comments/like.png',
     liked: 'assets/img/comments/liked.png'

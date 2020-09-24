@@ -1,11 +1,11 @@
-<div class="main-wrapper" *ngIf="!error">
+<div class="main-wrapper">
   <button class="cta-btn like"
           (click)="pressLike()">
     <img [src]="commentsImages.like"
          alt="like"
          #like>
     <span class="btn-text"
-          *ngIf="!likeState; else liked">
+          *ngIf="!likeState && !error; else liked">
       {{"homepage.eco-news.comment.btn.like" | translate}}
     </span>
     <ng-template #liked>
