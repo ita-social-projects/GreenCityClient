@@ -6,12 +6,23 @@ $title-font: 'Montserrat', sans-serif;
 $main-font: 'Open Sans', sans-serif;
 $sign-up-google-font: 'Roboto';
 
+.main {
+  width: 99vw;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: calc(100vh - -64px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+
 .main-container {
   display: flex;
   max-width: 960px;
-  max-height: 760px;
-  z-index: 2000;
   font-family: $main-font;
+  background-color: white;
 
   .close-btn {
     margin: 24px 24px 0 20px;
