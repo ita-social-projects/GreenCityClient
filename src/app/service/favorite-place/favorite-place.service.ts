@@ -29,7 +29,7 @@ export class FavoritePlaceService {
   }
 
   deleteFavoritePlace(placeId: number) {
-    return this.http.delete<any>(`${favoritePlaceLink}${placeId}/`);
+    return this.http.delete<any>(`${favoritePlaceLink}${placeId}`);
   }
 
   getFavoritePlaceWithLocation(placeId: number): Observable<Place> {
