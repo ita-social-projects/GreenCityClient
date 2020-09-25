@@ -1,4 +1,4 @@
-# GreenCityClient    [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/ita-social-projects/GreenCityClient/blob/master/LICENSE) [![GitHub release](https://img.shields.io/static/v1?label=Release&message=v.2.0.0&color=yellowgreen)](https://github.com/ita-social-projects/GreenCityClient/releases/tag/v.2.0.0) [![Build Status](https://travis-ci.org/ita-social-projects/GreenCityClient.png?branch=dev)](https://travis-ci.org/ita-social-projects/GreenCityClient)
+# GreenCityClient    [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/ita-social-projects/GreenCityClient/blob/master/LICENSE) [![GitHub release](https://img.shields.io/static/v1?label=Release&message=v.2.0.0&color=yellowgreen)](https://github.com/ita-social-projects/GreenCityClient/releases/tag/v.2.0.0) [![HitCount](http://hits.dwyl.com/ita-social-projects/GreenCityClient.svg)](http://hits.dwyl.com/ita-social-projects/GreenCityClient)
 
 ## About the project
 
