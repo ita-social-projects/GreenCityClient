@@ -219,12 +219,19 @@ $inputHeight : 48px;
       box-shadow: 0 1px 1px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.24);
       border-radius: 3px;
       text-align: justify;
+      position: relative;
+      display: flex;
+      justify-content: center;
 
       .google-sign {
-        padding: 11px 0 11px 11px;
+        display: block;
+        position: absolute;
+        top: 8px;
+        left: 11px;
       }
 
       .google-text-sign-in {
+        display: block;
         margin: 12px 62px 12px 62px;
         font-family: Roboto, sans-serif;
         font-style: normal;
