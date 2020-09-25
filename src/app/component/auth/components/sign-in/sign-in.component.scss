@@ -211,6 +211,9 @@ $inputHeight : 48px;
     }
 
     .google-sign-in {
+      position: relative;
+      display: flex;
+      justify-content: center;
       padding: 0;
       height: 40px;
       width: 100%;
@@ -219,9 +222,6 @@ $inputHeight : 48px;
       box-shadow: 0 1px 1px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.24);
       border-radius: 3px;
       text-align: justify;
-      position: relative;
-      display: flex;
-      justify-content: center;
 
       .google-sign {
         display: block;
