@@ -6,6 +6,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { EffectsModule } from '@ngrx/effects';
+import { AgmCoreModule } from '@agm/core';
 import {
   AddNewHabitModalComponent,
   AlreadyChosenComponent,
@@ -144,6 +145,10 @@ import { EditProfileFormBuilder } from '@global-user/components/profile/edit-pro
     MatRadioModule,
     DragDropModule,
     HttpClientModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4',
+      libraries: ['places']
+    }),
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
