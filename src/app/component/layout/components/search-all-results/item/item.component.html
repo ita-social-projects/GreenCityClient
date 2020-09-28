@@ -1,4 +1,4 @@
-<div id="list-gallery-content">
+<div id="list-gallery-content" *ngIf="searchModel">
     <div class="filter-tag">
       <div class="ul-eco-buttons" *ngFor="let tag of searchModel.tags">
            {{ tag }}
