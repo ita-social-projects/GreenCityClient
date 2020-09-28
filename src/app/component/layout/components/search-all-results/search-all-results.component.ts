@@ -12,8 +12,8 @@ import { SearchDto } from '../models/search-dto';
 })
 export class SearchAllResultsComponent implements OnInit, OnDestroy {
   public inputValues = ['relevance', 'newest', 'latest'];
-  public displayedElements: SearchDto[] = [];
-  public elements: SearchDto[];
+  public displayedElements: NewsSearchModel[] = [];
+  public elements;
   public dropdownVisible: boolean;
   public isSearchFound: boolean;
   public inputValue: string;
@@ -32,7 +32,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
     this.search.getElementsAsObserv()
       .subscribe(data => {
         console.log(data);
-        this.displayedElements = data;
+        this.displayedElements = data.page;
         this.elements = data.page;
         this.itemsFound = data.totalElements;
       });
