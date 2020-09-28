@@ -7,7 +7,7 @@
     <p>{{ 'create-news.form-description' | translate }}</p>
   </div>
   <div class="form-container">
-    <form [formGroup]="createNewsForm">
+    <form [formGroup]="formGroup">
       <div class="wrapper">
         <div class="left-form-column">
 
@@ -70,7 +70,7 @@
         >
           {{ 'create-news.preview-button' | translate }}
         </button>
-        <button type="submit" [disabled]="!createNewsForm.valid ||
+        <button type="submit" [disabled]="!formGroup.valid ||
                                                   isArrayEmpty ||
                                                   !isLinkOrEmpty ||
                                                   createEcoNewsService.isImageValid">{{ 'create-news.publish-button' | translate }}</button>

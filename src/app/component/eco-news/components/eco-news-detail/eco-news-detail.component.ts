@@ -46,6 +46,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
 
   private setNewsId(): void {
     this.newsId = this.route.snapshot.params.id;
+    console.log(this.newsId);
   }
 
   private setNewsIdSubscription(): void {
