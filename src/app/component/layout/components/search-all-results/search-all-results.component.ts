@@ -13,7 +13,7 @@ import { SearchDto } from '../models/search-dto';
 export class SearchAllResultsComponent implements OnInit, OnDestroy {
   public inputValues = ['relevance', 'newest', 'latest'];
   public displayedElements: SearchDto[] = [];
-  public elements: NewsSearchModel[];
+  public elements: SearchDto[];
   public dropdownVisible: boolean;
   public isSearchFound: boolean;
   public inputValue: string;
@@ -38,6 +38,14 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
       });
   }
 
+  public onScroll(): void {
+    this.loadNextElements();
+  }
+
+  private loadNextElements(): void {
+    this.spliceResults();
+  }
+
   public onKeyUp(event: EventTarget): void {
     this.displayedElements = [];
     const VALUE = 'value;';
@@ -53,11 +61,17 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
   private getSearchData(data: SearchModel): void {
     this.getNews(data.ecoNews);
     this.itemsFound = data.countOfResults ? data.countOfResults : null;
+    this.spliceResults();
   }
 
   private getNews(news): void {
     this.isSearchFound = news && news.length;
     this.elements = this.isSearchFound ? news : this.elements;
+  }
+
+  private spliceResults(): void {
+    const splicedData = this.elements.splice(0, 9);
+    this.displayedElements = splicedData.filter(elem => elem);
   }
 
   public changeCurrentSorting(newSorting: number): void {
