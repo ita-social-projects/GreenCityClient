@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SearchModel } from '@global-models/search/search.model';
 import { SearchService } from '@global-service/search/search.service';
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
+import { SearchDto } from '../models/search-dto';
 
 @Component({
   selector: 'app-search-all-results',
@@ -11,7 +12,7 @@ import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 })
 export class SearchAllResultsComponent implements OnInit, OnDestroy {
   public inputValues = ['relevance', 'newest', 'latest'];
-  public displayedElements: NewsSearchModel[] = [];
+  public displayedElements: SearchDto[] = [];
   public elements: NewsSearchModel[];
   public dropdownVisible: boolean;
   public isSearchFound: boolean;
@@ -30,17 +31,11 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
   private getAllElems(): void {
     this.search.getElementsAsObserv()
       .subscribe(data => {
+        console.log(data);
         this.displayedElements = data;
+        this.elements = data.page;
         this.itemsFound = data.totalElements;
       });
-  }
-
-  public onScroll(): void {
-    this.loadNextElements();
-  }
-
-  private loadNextElements(): void {
-    this.spliceResults();
   }
 
   public onKeyUp(event: EventTarget): void {
@@ -58,17 +53,11 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
   private getSearchData(data: SearchModel): void {
     this.getNews(data.ecoNews);
     this.itemsFound = data.countOfResults ? data.countOfResults : null;
-    this.spliceResults();
   }
 
   private getNews(news): void {
     this.isSearchFound = news && news.length;
     this.elements = this.isSearchFound ? news : this.elements;
-  }
-
-  private spliceResults(): void {
-    const splicedData = this.elements.splice(0, 9);
-    this.displayedElements = splicedData.filter(elem => elem);
   }
 
   public changeCurrentSorting(newSorting: number): void {
