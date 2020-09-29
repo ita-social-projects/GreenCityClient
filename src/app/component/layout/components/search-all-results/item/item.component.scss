@@ -13,14 +13,14 @@
   .ul-eco-buttons {
     opacity: 0.8;
     font-family: opensans, sans-serif;
-    font-size: 0.9rem;
+    font-size: 15px;
     color: #313131;
     display: inline-block;
-    padding: 0.3rem 1rem;
+    padding: 8px 16px;
     border: 1px solid #313131;
     border-radius: 53px;
-    margin-right: 1rem;
-    margin-bottom: 0.3rem;
+    margin-right: 16px;
+    margin-bottom: 5px;
   }
 
   .title-list {
@@ -28,9 +28,9 @@
     font-family: 'Montserrat', sans-serif;
     font-style: normal;
     font-weight: 500;
-    font-size: 1.3rem;
+    font-size: 21px;
     color: #313131;
-    line-height: 1.6rem;
+    line-height: 25px;
 
     a {
       color: #313131;
@@ -58,18 +58,17 @@
   }
 
   .user-data-text-date-share {
-    margin-right: 1rem;
+    margin-right: 16px;
     font-family: 'Open Sans', sans-serif;
-    font-size: 1rem;
+    font-size: 16px;
     color: #666;
     mix-blend-mode: normal;
     opacity: 0.6;
+    display: flex;
   }
 
   .icon {
-    align-items: center;
     margin-right: 4px;
-    margin-top: -3px;
   }
 }
 
@@ -82,14 +81,14 @@
   .ul-eco-buttons {
     opacity: 0.8;
     font-family: opensans, sans-serif;
-    font-size: 0.8rem;
+    font-size: 14px;
     color: #313131;
     display: inline-block;
-    padding: 0.3rem 1rem;
+    padding: 5px 16px;
     border: 1px solid #313131;
     border-radius: 53px;
-    margin-right: 1rem;
-    margin-bottom: 0.3rem;
+    margin-right: 16px;
+    margin-bottom: 5px;
   }
 
   .title-list {
@@ -97,9 +96,9 @@
     font-family: 'Montserrat', sans-serif;
     font-style: normal;
     font-weight: 500;
-    font-size: 1.3rem;
+    font-size: 21px;
     color: #313131;
-    line-height: 1.6rem;
+    line-height: 25px;
     max-width: 359px;
 
     a {
@@ -128,18 +127,18 @@
   }
 
   .user-data-text-date-share {
-    margin-right: 1rem;
+    margin-right: 16px;
     font-family: 'Open Sans', sans-serif;
-    font-size: 1rem;
+    font-size: 16px;
     color: #666;
     mix-blend-mode: normal;
     opacity: 0.6;
+    display: flex;
   }
 
   .icon {
     align-items: center;
     margin-right: 4px;
-    margin-top: -3px;
   }
 }
 

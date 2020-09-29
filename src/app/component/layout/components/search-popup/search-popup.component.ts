@@ -52,7 +52,7 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
     }
   }
 
-  public getAllResults(category): void {
+  public getAllResults(category: string): void {
     this.search.getAllResults(this.inputValue, category);
     this.closeSearch();
   }

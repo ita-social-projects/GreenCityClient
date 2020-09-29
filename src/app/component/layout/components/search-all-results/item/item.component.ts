@@ -7,8 +7,6 @@ import { ecoNewsIcons } from 'src/app/image-pathes/profile-icons';
   styleUrls: ['./item.component.scss']
 })
 export class ItemComponent {
-
   @Input() searchModel;
   profileIcons = ecoNewsIcons;
-
 }
