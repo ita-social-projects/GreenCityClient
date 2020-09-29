@@ -3,7 +3,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SearchModel } from '@global-models/search/search.model';
 import { SearchService } from '@global-service/search/search.service';
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
-import { SearchDto } from '../models/search-dto';
 
 @Component({
   selector: 'app-search-all-results',
@@ -30,12 +29,13 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
 
   private getAllElems(): void {
     this.search.getElementsAsObserv()
-      .subscribe(data => {
-        console.log(data);
-        this.displayedElements = data.page;
-        this.elements = data.page;
-        this.itemsFound = data.totalElements;
-      });
+      .subscribe(data =>  this.setElems(data));
+  }
+
+  private setElems(data): void {
+    this.displayedElements = data.page;
+    this.elements = data.page;
+    this.itemsFound = data.totalElements;
   }
 
   public onScroll(): void {
