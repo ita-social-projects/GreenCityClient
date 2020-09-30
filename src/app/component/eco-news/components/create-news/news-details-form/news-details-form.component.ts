@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {FilterModel} from '@eco-news-models/create-news-interface';
-import {CreateEcoNewsService} from '@eco-news-service/create-eco-news.service';
-import {CancelPopUpComponent} from '@shared/components';
-import {MatDialog} from '@angular/material/dialog';
-import {Router} from '@angular/router';
+import { FormBuilder, FormGroup} from '@angular/forms';
+import { FilterModel } from '@eco-news-models/create-news-interface';
+import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
+import { CancelPopUpComponent } from '@shared/components';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-news-details-form',
@@ -43,7 +43,7 @@ export class NewsDetailsFormComponent implements OnInit {
   tags = this.fb.control([]);
   image = this.fb.control('');
 
-  formGroup = this.fb.group({
+  public formGroupNews = this.fb.group({
     title: this.title,
     source: this.source,
     content: this.content,
@@ -66,7 +66,7 @@ export class NewsDetailsFormComponent implements OnInit {
       this.formData = this.createEcoNewsService.getFormData();
       if (this.formData) {
         this.patchFilters();
-        this.formGroup.patchValue({
+        this.formGroupNews.patchValue({
           title: this.formData.value.title,
           content: this.formData.value.content,
           source: this.formData.value.source,
@@ -97,7 +97,7 @@ export class NewsDetailsFormComponent implements OnInit {
     if ( !filter.isActive ) {
       filter.isActive = true;
       this.isArrayEmpty = false;
-      this.formGroup.value.tags = [...this.formGroup.value.tags, filter.name.toLowerCase()];
+      this.formGroupNews.value.tags = [...this.formGroupNews.value.tags, filter.name.toLowerCase()];
       this.filtersValidation(filter);
     } else {
       this.removeFilters(filter);
@@ -105,20 +105,20 @@ export class NewsDetailsFormComponent implements OnInit {
   }
 
   public filtersValidation(filter: FilterModel): void {
-    if ( this.formGroup.value.tags.length > 3) {
+    if ( this.formGroupNews.value.tags.length > 3) {
       this.isFilterValidation = true;
       setTimeout(() => this.isFilterValidation = false, 3000);
-      this.formGroup.value.tags = this.formGroup.value.tags.slice(0, 3);
+      this.formGroupNews.value.tags = this.formGroupNews.value.tags.slice(0, 3);
       filter.isActive = false;
     }
   }
 
   public removeFilters(filter: FilterModel): void {
-    const tagsArray = this.formGroup.value.tags;
+    const tagsArray = this.formGroupNews.value.tags;
     if ( filter.isActive && tagsArray.length === 1 ) {
       this.isArrayEmpty = true;
     }
-    this.formGroup.value.tags = tagsArray.filter(item => item.toLowerCase() !== filter.name.toLowerCase());
+    this.formGroupNews.value.tags = tagsArray.filter(item => item.toLowerCase() !== filter.name.toLowerCase());
     filter.isActive = false;
   }
 
@@ -143,7 +143,7 @@ export class NewsDetailsFormComponent implements OnInit {
   }
 
   public goToPreview(): void {
-    this.createEcoNewsService.setForm(this.formGroup);
+    this.createEcoNewsService.setForm(this.formGroupNews);
     this.router.navigate(['news', 'preview']);
     this.setFilters();
   }
@@ -154,8 +154,8 @@ export class NewsDetailsFormComponent implements OnInit {
         this.filters.forEach(filter => {
           if (filter.name.toLowerCase() === tag &&
             filter.isActive &&
-            !this.formGroup.value.tags.includes(tag)) {
-            this.formGroup.value.tags = [...this.formGroup.value.tags, tag];
+            !this.formGroupNews.value.tags.includes(tag)) {
+            this.formGroupNews.value.tags = [...this.formGroupNews.value.tags, tag];
             this.filtersValidation(filter);
           }
         });

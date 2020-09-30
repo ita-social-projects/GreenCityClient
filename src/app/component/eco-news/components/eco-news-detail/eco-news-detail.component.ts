@@ -1,10 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { Subscription } from 'rxjs';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { singleNewsImages } from 'src/app/image-pathes/single-news-images';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import {CreateEcoNewsService} from '@eco-news-service/create-eco-news.service';
+import {filter, map} from 'rxjs/operators';
+import {element} from 'protractor';
 
 @Component({
   selector: 'app-eco-news-detail',
@@ -21,7 +24,9 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   private newsImage: string;
 
   constructor(private route: ActivatedRoute,
+              private  router: Router,
               private ecoNewsService: EcoNewsService,
+              public createEcoNewsService: CreateEcoNewsService,
               private localStorageService: LocalStorageService ) { }
 
   ngOnInit() {
@@ -57,7 +62,22 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
       });
   }
 
-  private fetchNewsItem(): void {
+  public  navigateToEditNews(): void {
+    this.setDataForEditNews();
+    this.router.navigate(['news', 'create-news']).then(r => r);
+  }
+
+  public setDataForEditNews() {
+    this.createEcoNewsService.canEditNewsIdSubject.next(this.newsId);
+    this.ecoNewsService.getNewsList()
+    .pipe(
+      map(data => data.page)
+    ).subscribe(page => {
+     const oneElementNews = page.filter(elem => elem.id === this.newsId);
+     this.createEcoNewsService.currentPageElementsSubject.next(oneElementNews); });
+  }
+
+    private fetchNewsItem(): void {
     this.newsItemSubscription = this.ecoNewsService
       .getEcoNewsById(this.newsId)
       .subscribe((item: EcoNewsModel) => this.setNewsItem(item));

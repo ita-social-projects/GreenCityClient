@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { NewsDTO, NewsResponseDTO } from '../models/create-news-interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { environment } from '@environment/environment';
 import { FormGroup } from '@angular/forms';
 import { FileHandle } from '../models/create-news-interface';
+import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,8 @@ export class CreateEcoNewsService {
   public fileUrl: string;
   public isImageValid: boolean;
   public isBackToEditing: boolean;
+  public canEditNewsIdSubject = new Subject<number>();
+  public currentPageElementsSubject = new Subject<Array<EcoNewsModel>>();
   private httpOptions = {
     headers: new HttpHeaders({
       Authorization: 'my-auth-token'

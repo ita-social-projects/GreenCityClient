@@ -7,7 +7,7 @@
     <p>{{ 'create-news.form-description' | translate }}</p>
   </div>
   <div class="form-container">
-    <form [formGroup]="formGroup">
+    <form [formGroup]="formGroupNews">
       <div class="wrapper">
         <div class="left-form-column">
 
@@ -17,9 +17,9 @@
                     (input)="autoResize($event)"></textarea>
           <span>{{ 'create-news.title-tooltip' | translate }}</span>
 
-          <div class="tags" [formControl]="tags">
+          <div class="tags" formArrayName="tags">
             <h3>{{ 'create-news.tags-title' | translate }}</h3>
-            <button *ngFor="let filter of filters"
+            <button *ngFor="let filter of filters; index as i"
                     (click)="addFilters(filter)"
                     type="button"
                     [ngClass]="{'filters-color': filter.isActive}"
@@ -48,6 +48,9 @@
           <app-drag-and-drop [formData]="formData"></app-drag-and-drop>
         </div>
       </div>
+
+
+
       <div class="textarea-wrapper">
         <h3 class="textarea-title">{{ 'create-news.content-title' | translate }}</h3>
         <textarea name="main-area"
@@ -70,7 +73,7 @@
         >
           {{ 'create-news.preview-button' | translate }}
         </button>
-        <button type="submit" [disabled]="!formGroup.valid ||
+        <button type="submit" [disabled]="!formGroupNews.valid ||
                                                   isArrayEmpty ||
                                                   !isLinkOrEmpty ||
                                                   createEcoNewsService.isImageValid">{{ 'create-news.publish-button' | translate }}</button>
