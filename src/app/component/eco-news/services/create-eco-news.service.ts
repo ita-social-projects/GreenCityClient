@@ -19,7 +19,7 @@ export class CreateEcoNewsService {
   public isImageValid: boolean;
   public isBackToEditing: boolean;
   public canEditNewsIdSubject = new Subject<number>();
-  public currentPageElementsSubject = new Subject<Array<EcoNewsModel>>();
+  public currentPageElementsSubject = new Subject<EcoNewsModel>();
   private httpOptions = {
     headers: new HttpHeaders({
       Authorization: 'my-auth-token'

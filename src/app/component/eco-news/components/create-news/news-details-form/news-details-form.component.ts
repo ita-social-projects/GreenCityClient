@@ -5,6 +5,7 @@ import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service'
 import { CancelPopUpComponent } from '@shared/components';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-news-details-form',
@@ -59,6 +60,20 @@ export class NewsDetailsFormComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.createEcoNewsService.currentPageElementsSubject
+      .pipe(
+        filter(Boolean)
+      )
+      .subscribe(data => {
+        console.log(data);
+        this.formGroupNews.patchValue({
+          title: data[0].title,
+          content: data[0].text,
+          source: data[0].source,
+          image: data[0].imagePath,
+          tags: data[0].tags
+        });
+      });
   }
 
   private setFormItems(): void {
