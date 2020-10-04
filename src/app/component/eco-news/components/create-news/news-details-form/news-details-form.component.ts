@@ -74,6 +74,7 @@ export class NewsDetailsFormComponent implements OnInit {
           tags: data[0].tags
         });
       });
+
   }
 
   private setFormItems(): void {
@@ -137,13 +138,13 @@ export class NewsDetailsFormComponent implements OnInit {
     filter.isActive = false;
   }
 
-  // public onSourceChange(): void {
-  //   if (this.formGroup) {
-  //     this.formGroup.get('source').valueChanges.subscribe(source => {
-  //       this.isLinkOrEmpty = /^$|^https?:\/\//.test(source);
-  //     });
-  //   }
-  // }
+  public onSourceChange(): void {
+    if (this.formGroupNews) {
+      this.formGroupNews.get('source').valueChanges.subscribe(source => {
+        this.isLinkOrEmpty = /^$|^https?:\/\//.test(source);
+      });
+    }
+  }
 
   public openCancelPopup(): void {
     this.dialog.open(CancelPopUpComponent, {

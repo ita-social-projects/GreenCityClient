@@ -35,12 +35,11 @@
                    placeholder="{{ 'create-news.source-placeholder' | translate }}"
                    [formControl]="source"
                    [ngClass]="{'field-warning':!isLinkOrEmpty}">
-            <span [ngClass]="{'warning':!isLinkOrEmpty}"
-            >
+            <span [ngClass]="{'warning':!isLinkOrEmpty}">
                          {{ 'create-news.source-tooltip-1' | translate }}
               <br>
               {{ 'create-news.source-tooltip-2' | translate }}
-                        </span>
+            </span>
           </label>
         </div>
         <div class="right-form-column">
