@@ -103,8 +103,10 @@ export class NewsDetailsFormComponent implements OnInit {
         this.patchFilters();
         this.formGroupNews.patchValue({
           title: this.formData.value.title,
-          content: this.formData.value.content,
+          content: this.formData.value.text,
           source: this.formData.value.source,
+          image: this.formData.value.imagePath,
+          tags: this.formData.value.tags
         });
       }
     }
