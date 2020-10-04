@@ -74,10 +74,18 @@ export class NewsDetailsFormComponent implements OnInit {
           tags: data[0].tags
         });
       });
-
+    this.onSourceChange();
+    this.setFormItems();
+    this.setEmptyForm();
   }
 
-  private setFormItems(): void {
+  public setEmptyForm(): void {
+    if (this.formData) {
+      this.createEcoNewsService.setForm(null);
+    }
+  }
+
+  public setFormItems(): void {
     if (this.createEcoNewsService.isBackToEditing) {
       this.formData = this.createEcoNewsService.getFormData();
       if (this.formData) {
