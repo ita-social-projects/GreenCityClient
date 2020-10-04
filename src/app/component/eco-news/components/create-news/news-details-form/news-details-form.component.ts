@@ -85,6 +85,17 @@ export class NewsDetailsFormComponent implements OnInit {
     }
   }
 
+  public onSubmit(): void {
+    this.isPosting = true;
+    this.setFilters();
+    this.createEcoNewsService.sendFormData(this.formGroupNews).subscribe(
+      () => {
+        this.isPosting = false;
+        this.router.navigate(['/news']);
+      }
+    );
+  }
+
   public setFormItems(): void {
     if (this.createEcoNewsService.isBackToEditing) {
       this.formData = this.createEcoNewsService.getFormData();

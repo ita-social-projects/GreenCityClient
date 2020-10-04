@@ -75,7 +75,9 @@
         <button type="submit" [disabled]="!formGroupNews.valid ||
                                                   isArrayEmpty ||
                                                   !isLinkOrEmpty ||
-                                                  createEcoNewsService.isImageValid">{{ 'create-news.publish-button' | translate }}</button>
+                                                  createEcoNewsService.isImageValid"
+        (click)="onSubmit()"
+        >{{ 'create-news.publish-button' | translate }}</button>
       </div>
     </form>
   </div>
