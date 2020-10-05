@@ -6,7 +6,6 @@ import { EcoNewsDetailComponent } from './components/eco-news-detail/eco-news-de
 import { NewsPreviewPageComponent } from './components/news-preview-page/news-preview-page.component';
 import { PostNewsLoaderComponent } from './components/post-news-loader/post-news-loader.component';
 import { NewsListComponent } from './components/news-list/news-list.component';
-import {NewsDetailsFormComponent} from './components/create-news/news-details-form/news-details-form.component';
 
 
 const ecoNewsRoutes: Routes = [
