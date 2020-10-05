@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { FilterModel } from '@eco-news-models/create-news-interface';
-import {CancelPopUpComponent} from '@shared/components';
+import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
+import { CancelPopUpComponent } from '@shared/components';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-news',
@@ -13,14 +14,21 @@ import {CancelPopUpComponent} from '@shared/components';
 })
 export class CreateNewsComponent implements OnInit {
   public isPosting = false;
+  public isArrayEmpty = true;
+  public isFilterValidation = false;
+  public isLinkOrEmpty = true;
+  public formData: FormGroup;
+  public year: number = new Date().getFullYear();
+  public day: number = new Date().getDate();
+  public month: number = new Date().getMonth();
+  public author: string = localStorage.getItem('name');
 
-  public createNewsForm = this.fb.group({
-    title: ['', [Validators.required, Validators.maxLength(170), this.noWhitespaceValidator]],
-    source: [''],
-    content: ['', [Validators.required, Validators.minLength(20)]],
-    tags: this.fb.array([]),
-    image: ['']
-  });
+  public textAreasHeight = {
+    minTextAreaScrollHeight: 50,
+    maxTextAreaScrollHeight: 128,
+    minTextAreaHeight: '48px',
+    maxTextAreaHeight: '128px',
+  };
 
   public filters: Array<FilterModel> = [
     {name: 'News', isActive: false},
@@ -30,76 +38,66 @@ export class CreateNewsComponent implements OnInit {
     {name: 'Ads', isActive: false}
   ];
 
-  public year: number = new Date().getFullYear();
-  public day: number = new Date().getDate();
-  public month: number = new Date().getMonth();
-  public isFilterValidation = false;
-  public isLinkOrEmpty = true;
-  public formData: FormGroup;
-  public isArrayEmpty = true;
-  public author: string = localStorage.getItem('name');
-  public textAreasHeight = {
-    minTextAreaScrollHeight: 50,
-    maxTextAreaScrollHeight: 128,
-    minTextAreaHeight: '48px',
-    maxTextAreaHeight: '128px',
-  };
+  title = this.fb.control('',  [Validators.required, Validators.maxLength(170), this.noWhitespaceValidator]);
+  source = this.fb.control('');
+  content = this.fb.control('', [Validators.required, Validators.minLength(20)]);
+  tags = this.fb.control([]);
+  image = this.fb.control('');
 
-  constructor(private router: Router,
-              private fb: FormBuilder,
-              public createEcoNewsService: CreateEcoNewsService,
-              private dialog: MatDialog) {}
+  public formGroupNews = this.fb.group({
+    title: this.title,
+    source: this.source,
+    content: this.content,
+    tags: this.tags,
+    image: this.image,
+  });
+
+  constructor(
+    private fb: FormBuilder,
+    public createEcoNewsService: CreateEcoNewsService,
+    public dialog: MatDialog,
+    private router: Router,
+  ) { }
 
   ngOnInit() {
+    this.checkIfOwnOneNewsCanEdit();
     this.onSourceChange();
     this.setFormItems();
     this.setEmptyForm();
   }
 
-  private setFormItems(): void {
-    if (this.createEcoNewsService.isBackToEditing) {
-      this.formData = this.createEcoNewsService.getFormData();
-      if (this.formData) {
-        this.patchFilters();
-        this.createNewsForm.patchValue({
-          title: this.formData.value.title,
-          content: this.formData.value.content,
-          source: this.formData.value.source,
+  public checkIfOwnOneNewsCanEdit(): void {
+    this.createEcoNewsService.currentPageElementsSubject
+      .pipe(
+        filter(Boolean)
+      )
+      .subscribe(data => {
+        this.setFiltersForEditNewsForm(data[0].tags);
+
+        this.formGroupNews.patchValue({
+          title: data[0].title,
+          content: data[0].text,
+          source: data[0].source,
+          image: data[0].imagePath,
+          tags: data[0].tags
         });
+      });
+  }
+
+  public setFiltersForEditNewsForm(arrayTags: Array<string>): void {
+    this.filters = this.filters.map((elem: FilterModel) => {
+      if (arrayTags.includes(elem.name)) {
+        elem.isActive = !elem.isActive;
+        return elem;
       }
-    }
+      return elem;
+    } );
   }
 
-  public autoResize(event): void {
-    const checkTextAreaHeight = event.target.scrollHeight > this.textAreasHeight.minTextAreaScrollHeight
-    && event.target.scrollHeight < this.textAreasHeight.maxTextAreaScrollHeight;
-    const maxHeight = checkTextAreaHeight ? this.textAreasHeight.maxTextAreaHeight
-    : event.target.scrollHeight < this.textAreasHeight.minTextAreaScrollHeight;
-    const minHeight = checkTextAreaHeight ? this.textAreasHeight.minTextAreaHeight : `${event.target.scrollHeight}px`;
-    event.target.style.height = checkTextAreaHeight ? maxHeight : minHeight;
-  }
-
-  private setEmptyForm(): void {
+  public setEmptyForm(): void {
     if (this.formData) {
       this.createEcoNewsService.setForm(null);
     }
-  }
-
-  public onSourceChange(): void {
-    this.createNewsForm.get('source').valueChanges.subscribe(source => {
-      this.isLinkOrEmpty = /^$|^https?:\/\//.test(source);
-    });
-  }
-
-  public onSubmit(): void {
-    this.isPosting = true;
-    this.setFilters();
-    this.createEcoNewsService.sendFormData(this.createNewsForm).subscribe(
-      () => {
-        this.isPosting = false;
-        this.router.navigate(['/news']);
-      }
-    );
   }
 
   public noWhitespaceValidator(control: FormControl) {
@@ -108,63 +106,86 @@ export class CreateNewsComponent implements OnInit {
     return isValid ? null : { whitespace: true };
   }
 
-  public addFilters(filter: FilterModel): void {
-    if ( !filter.isActive ) {
-      filter.isActive = true;
-      this.isArrayEmpty = false;
-      this.createNewsForm.value.tags = [...this.createNewsForm.value.tags, filter.name.toLowerCase()];
-      this.filtersValidation(filter);
-    } else {
-      this.removeFilters(filter);
-    }
+  public onSubmit(): void {
+    this.isPosting = true;
+    this.setFilters();
+    this.createEcoNewsService.sendFormData(this.formGroupNews).subscribe(
+      () => {
+        this.isPosting = false;
+        this.router.navigate(['/news']);
+      }
+    );
   }
 
-  public removeFilters(filter: FilterModel): void {
-    const tagsArray = this.createNewsForm.value.tags;
-    if ( filter.isActive && tagsArray.length === 1 ) {
-      this.isArrayEmpty = true;
-    }
-    this.createNewsForm.value.tags = tagsArray.filter(item => item.toLowerCase() !== filter.name.toLowerCase());
-    filter.isActive = false;
-  }
-
-  public filtersValidation(filter: FilterModel): void {
-    if ( this.createNewsForm.value.tags.length > 3) {
-      this.isFilterValidation = true;
-      setTimeout(() => this.isFilterValidation = false, 3000);
-      this.createNewsForm.value.tags = this.createNewsForm.value.tags.slice(0, 3);
-      filter.isActive = false;
-    }
-  }
-
-  private setFilters(): void {
-    if (this.formData) {
-      this.formData.value.tags.forEach(tag => {
-        this.filters.forEach(filter => {
-          if (filter.name.toLowerCase() === tag &&
-              filter.isActive &&
-              !this.createNewsForm.value.tags.includes(tag)) {
-            this.createNewsForm.value.tags = [...this.createNewsForm.value.tags, tag];
-            this.filtersValidation(filter);
-          }
+  public setFormItems(): void {
+    if (this.createEcoNewsService.isBackToEditing) {
+      this.formData = this.createEcoNewsService.getFormData();
+      if (this.formData) {
+        this.patchFilters();
+        this.formGroupNews.patchValue({
+          title: this.formData.value.title,
+          content: this.formData.value.text,
+          source: this.formData.value.source,
+          image: this.formData.value.imagePath,
+          tags: this.formData.value.tags
         });
-      });
+      }
     }
   }
 
   private patchFilters(): void {
-    this.filters.forEach(filter => {
-      if (this.formData.value.tags.includes(filter.name.toLowerCase())) {
-        filter.isActive = true;
+    this.filters.forEach(oneFilter => {
+      if (this.formData.value.tags.includes(oneFilter.name.toLowerCase())) {
+        oneFilter.isActive = true;
         this.isArrayEmpty = false;
       }
     });
   }
 
-  public goToPreview(): void {
-    this.createEcoNewsService.setForm(this.createNewsForm);
-    this.router.navigate(['news', 'preview']);
-    this.setFilters();
+  public autoResize(event): void {
+    const checkTextAreaHeight = event.target.scrollHeight > this.textAreasHeight.minTextAreaScrollHeight
+      && event.target.scrollHeight < this.textAreasHeight.maxTextAreaScrollHeight;
+    const maxHeight = checkTextAreaHeight ? this.textAreasHeight.maxTextAreaHeight
+      : event.target.scrollHeight < this.textAreasHeight.minTextAreaScrollHeight;
+    const minHeight = checkTextAreaHeight ? this.textAreasHeight.minTextAreaHeight : `${event.target.scrollHeight}px`;
+    event.target.style.height = checkTextAreaHeight ? maxHeight : minHeight;
+  }
+
+  public addFilters(oneFilter: FilterModel): void {
+    if ( !oneFilter.isActive ) {
+      oneFilter.isActive = true;
+      this.isArrayEmpty = false;
+      this.formGroupNews.value.tags = [...this.formGroupNews.value.tags, oneFilter.name.toLowerCase()];
+      this.filtersValidation(oneFilter);
+    } else {
+      this.removeFilters(oneFilter);
+    }
+  }
+
+  public filtersValidation(oneFilter: FilterModel): void {
+    if ( this.formGroupNews.value.tags.length > 3) {
+      this.isFilterValidation = true;
+      setTimeout(() => this.isFilterValidation = false, 3000);
+      this.formGroupNews.value.tags = this.formGroupNews.value.tags.slice(0, 3);
+      oneFilter.isActive = false;
+    }
+  }
+
+  public removeFilters(oneFilter: FilterModel): void {
+    const tagsArray = this.formGroupNews.value.tags;
+    if ( oneFilter.isActive && tagsArray.length === 1 ) {
+      this.isArrayEmpty = true;
+    }
+    this.formGroupNews.value.tags = tagsArray.filter(item => item.toLowerCase() !== oneFilter.name.toLowerCase());
+    oneFilter.isActive = false;
+  }
+
+  public onSourceChange(): void {
+    if (this.formGroupNews) {
+      this.formGroupNews.get('source').valueChanges.subscribe(source => {
+        this.isLinkOrEmpty = /^$|^https?:\/\//.test(source);
+      });
+    }
   }
 
   public openCancelPopup(): void {
@@ -177,5 +198,26 @@ export class CreateNewsComponent implements OnInit {
         currentPage: 'eco news'
       }
     });
+  }
+
+  public goToPreview(): void {
+    this.createEcoNewsService.setForm(this.formGroupNews);
+    this.router.navigate(['news', 'preview']);
+    this.setFilters();
+  }
+
+  private setFilters(): void {
+    if (this.formData) {
+      this.formData.value.tags.forEach(tag => {
+        this.filters.forEach(oneFilter => {
+          if (oneFilter.name.toLowerCase() === tag &&
+            oneFilter.isActive &&
+            !this.formGroupNews.value.tags.includes(tag)) {
+            this.formGroupNews.value.tags = [...this.formGroupNews.value.tags, tag];
+            this.filtersValidation(oneFilter);
+          }
+        });
+      });
+    }
   }
 }

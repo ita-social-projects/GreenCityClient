@@ -20,7 +20,7 @@ const ecoNewsRoutes: Routes = [
       },
       {
         path: 'create-news',
-        component: NewsDetailsFormComponent
+        component: CreateNewsComponent
       },
       {
         path: 'post-news-loader',
