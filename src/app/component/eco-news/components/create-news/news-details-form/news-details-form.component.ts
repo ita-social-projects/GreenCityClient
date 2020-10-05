@@ -60,12 +60,18 @@ export class NewsDetailsFormComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.checkIfOwnOnewNewsCanEdit();
+    this.onSourceChange();
+    this.setFormItems();
+    this.setEmptyForm();
+  }
+
+  public checkIfOwnOnewNewsCanEdit(): void {
     this.createEcoNewsService.currentPageElementsSubject
       .pipe(
         filter(Boolean)
       )
       .subscribe(data => {
-        console.log(data);
         this.formGroupNews.patchValue({
           title: data[0].title,
           content: data[0].text,
@@ -74,9 +80,6 @@ export class NewsDetailsFormComponent implements OnInit {
           tags: data[0].tags
         });
       });
-    this.onSourceChange();
-    this.setFormItems();
-    this.setEmptyForm();
   }
 
   public setEmptyForm(): void {
