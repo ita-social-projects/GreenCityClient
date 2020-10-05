@@ -95,11 +95,15 @@ describe('SearchPopupComponent', () => {
 
     it('should handle search value changes', () => {
       const getSearchSpy = spyOn(searchService, 'getSearch').and.returnValue(Observable.of(mockDataSearchModel));
-      const resetDataSpy = spyOn(component as any, 'resetData');
       component.ngOnInit();
 
       component.searchInput.setValue('test', { emitEvent: true });
       expect(getSearchSpy).toHaveBeenCalledWith('test');
+    });
+
+    it('should call resetData', () => {
+      const resetDataSpy = spyOn(component as any, 'resetData');
+      component.ngOnInit();
 
       component.searchInput.setValue('', { emitEvent: true });
       expect(resetDataSpy).toHaveBeenCalled();
