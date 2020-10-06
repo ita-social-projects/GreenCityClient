@@ -5,20 +5,20 @@
         <div class="search-icon"></div>
         <input class = "search-field"
                type="text"
-               placeholder="{{ 'search.search-all-results.search' | translate }}"
+               placeholder="Search"
                (keyup)="onKeyUp($event.target)">
       </div>
     </div>
     <div class="remaining-items">
-      {{ 'search.search-all-results.items-found' | translate:{ itemsFound: itemsFound } }}
+      {{ itemsFound }} items found
     </div>
 
     <div class="sort-items">
-      <span>{{ 'search.search-all-results.sort-by' | translate }}
+      <span>Sort by:
       <ul [class.add-shadow]="dropdownVisible">
         <li>
           <a (click)="toggleDropdown()">
-            {{ 'search.search-all-results.relevance' | translate }}
+            {{ inputValues[0] }}
             <img class="arrow"
                  [src]="dropDownArrow"
                  [ngClass]="dropdownVisible ? 'arrow reverse' : 'arrow'"
@@ -27,12 +27,12 @@
         </li>
         <li [class.text-hidden]="!dropdownVisible">
           <a (click)="changeCurrentSorting(1); toggleDropdown()">
-            {{ 'search.search-all-results.newest' | translate }}
+            {{ inputValues[1] }}
           </a>
         </li>
         <li [class.text-hidden]="!dropdownVisible">
           <a (click)="changeCurrentSorting(2); toggleDropdown()">
-            {{ 'search.search-all-results.latest' | translate }}
+            {{ inputValues[2] }}
           </a>
         </li>
       </ul>

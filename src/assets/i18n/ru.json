@@ -110,14 +110,6 @@
       "alternative-description-news": "Здесь вы найдете самые свежие новости, события и инициативы. Находите новости и создавайте их.",
       "alternative-header-tips": "Советы",
       "alternative-description-tips": "Как сортировать мусор? Где найти эко вещи? И много других полезных вещей, чтобы быть экологически чистыми."
-    },
-    "search-all-results": {
-      "items-found": "{{ itemsFound }} найдено",
-      "sort-by": "Сортировать по:",
-      "relevance": "актуальность",
-      "newest": "новейшие",
-      "latest": "последние",
-      "search": "поиск"
     }
   },
   "admin-nav": {
