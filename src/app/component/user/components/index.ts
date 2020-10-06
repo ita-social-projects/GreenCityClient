@@ -18,7 +18,6 @@ export { HabitTrackerDateComponent } from './habit/habit-trackers/habit-tracker/
 export { UserHabitPageComponent } from './habit/user-habit-page/user-habit-page.component';
 export { UserLogComponent } from './habit/user-log-component/user-log.component';
 export { ProfileComponent } from './profile/profile.component';
-export { AchievementsFriendsComponent } from './profile/achievements-friends/achievements-friends.component';
 export { CalendarComponent } from './profile/calendar/calendar.component';
 export { EcoPlacesComponent } from './profile/eco-places/eco-places.component';
 export { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
