@@ -28,6 +28,7 @@ import { CommentsModule } from '../comments/comments.module';
 import { NoNewsComponent } from './components/no-news/no-news.component';
 import { MatSnackBarComponent } from './../errors/mat-snack-bar/mat-snack-bar.component';
 import { EcoNewsComponent } from './eco-news.component';
+import { CreateEditNewsComponent } from './components/create-edit-news/create-edit-news.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { EcoNewsComponent } from './eco-news.component';
     NewsPreviewPageComponent,
     PostNewsLoaderComponent,
     NoNewsComponent,
-    MatSnackBarComponent
+    MatSnackBarComponent,
+    CreateEditNewsComponent
   ],
   imports: [
     EffectsModule.forFeature([EcoNewsEffects]),
