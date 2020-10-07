@@ -1,6 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { FormControl } from '@angular/forms';
+import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { negate, isNil } from 'lodash';
 
 import { SearchService } from '@global-service/search/search.service';
 import { SearchModel } from '@global-models/search/search.model';
@@ -21,34 +24,44 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   public tipsElements: TipsSearchModel[];
   public isNewsSearchFound: boolean;
   public isSearchClicked = false;
-  public inputValue: string;
   public itemsFound: number;
-  private searchSubscription: Subscription;
-  private searchModalSubscription: Subscription;
+  public searchSubscription: Subscription;
+  public searchModalSubscription: Subscription;
+  public searchInput = new FormControl('');
 
-  constructor(private search: SearchService,
+  constructor(public search: SearchService,
               public dialog: MatDialog,
   ) {}
 
   ngOnInit() {
+    this.setupInitialValue();
+
+    const searchValueChanges$ = this.searchInput.valueChanges;
+
+    searchValueChanges$
+      .pipe(filter(Boolean))
+      .subscribe((value: string) => {
+        this.search.getSearch(value)
+          .subscribe(data => this.getSearchData(data),
+          (error) => this.openErrorPopup());
+    });
+
+    searchValueChanges$
+      .pipe(filter(negate(isNil)))
+      .subscribe(() => this.resetData());
+  }
+
+  public setupInitialValue(): void {
     this.searchModalSubscription = this.search.searchSubject.subscribe(signal => this.subscribeToSignal(signal));
   }
 
-  public onKeyUp(event: EventTarget): void {
-    const VALUE = 'value';
-    if (event[VALUE].length > 0) {
-      this.inputValue = event[VALUE];
-      this.searchSubscription = this.search.getSearch(this.inputValue)
-        .subscribe(data => this.getSearchData(data),
-          (error) => this.dialog.open(ErrorComponent, {
-            hasBackdrop: false,
-            closeOnNavigation: true,
-            position: { top: '100px' },
-            panelClass: 'custom-dialog-container',
-          }));
-    } else {
-      this.resetData();
-    }
+  public openErrorPopup(): void {
+    this.dialog.open(ErrorComponent, {
+      hasBackdrop: false,
+      closeOnNavigation: true,
+      position: { top: '100px' },
+      panelClass: 'custom-dialog-container',
+    });
   }
 
   private getSearchData(data: SearchModel): void {
@@ -79,7 +92,6 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
     this.isNewsSearchFound = null;
     this.isTipsSearchFound = null;
     this.itemsFound = null;
-    this.inputValue = null;
   }
 
   ngOnDestroy() {

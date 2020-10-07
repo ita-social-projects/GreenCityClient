@@ -1,3 +1,15 @@
+.spinner {
+  margin: 40px auto 0;
+
+  &::ng-deep circle {
+    stroke: #056b33;
+  }
+}
+
+.list {
+  width: 100%;
+}
+
 .counter {
   p {
     font-family: Montserrat, sans-serif;

@@ -1,0 +1,85 @@
+<div *ngFor="let comment of elementsList | paginate: config"
+      class="comment-body-wrapper"
+      [ngClass]="dataType === 'comment' ? 'wrapper-comment': 'wrapper-reply'">
+  <div class="comment-avatar">
+    <img src="assets/img/comments/comment_author.png"
+         alt="comment-author">
+  </div>
+  <div class="comment-details">
+    <div class="author-name">
+      <span>{{ comment.author.name }}</span>
+    </div>
+    <div class="comment-date-likes">
+      <div class="comment-date">
+        <span class="comment-dot"></span>
+        <span class="comment-date-month">{{ comment.modifiedDate | date: 'longDate'}}
+          <span *ngIf="isCommentEdited(comment)"
+                class="edited">
+            {{"homepage.eco-news.comment.btn.edited" | translate}}
+          </span>
+        </span>
+        <span class="comment-dot last-dot"></span>
+      </div>
+      <div class="comment-likes">
+        <img [src]="likeImg" alt="like">
+        <span class="like-amount">{{ comment.likes }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="comment-main-text">
+    <p class="comment-text"
+       *ngIf="!comment.isEdit">{{ comment.text }}</p>
+    <div class="comment-edit-text"
+         *ngIf="comment.isEdit">
+      <textarea type="text"
+                [value]="comment.text"
+                [formControl]="content"
+                class="edit-text-input"></textarea>
+      <div class="save-cancel-wrapper">
+        <div class="save-cancel-btn">
+          <div class="save-btn">
+            <button (click)="saveEditedComment(comment)"
+                    [disabled]="!content.valid"
+                    class="cta-btn save-edit">
+              <img [src]="editIcon"
+                   alt="edit icon">
+              <span class="btn-text">
+                {{"homepage.eco-news.comment.btn.save" | translate}}
+              </span>
+            </button>
+          </div>
+          <div class="cancel-btn">
+            <button (click)="cancelEditedComment(comment)"
+                    class="cta-btn cancel-edit">
+              <img [src]="cancelIcon"
+                   alt="cancel icon">
+              <span class="btn-text">
+                {{"homepage.eco-news.comment.btn.cancel" | translate}}
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  <div class="comments-elements">
+    <div class="btn-wrapper" *ngIf="isLoggedIn && (comment.author.id === +userId) && !comment.isEdit">
+      <app-edit-comment (isEditing)="showElements(comment.id, 'isEdit')"></app-edit-comment>
+      <app-delete-comment [element]="comment"
+                          (elementsList)="deleteComment()"></app-delete-comment>
+    </div>
+    <app-like-comment *ngIf="isLoggedIn && (comment.author.id !== +userId)"
+                      [comment]="comment"
+                      (likesCounter)="changeCounter($event, comment.id, 'likes')"></app-like-comment>
+    <div class="btn-replies" *ngIf="dataType==='comment'">
+      <app-reply-comment (click)="showElements(comment.id, 'showRelyButton')"
+                         *ngIf="isLoggedIn"></app-reply-comment>
+      <app-view-replies [repliesCounter]="comment.replies"
+                        (click)="showElements(comment.id, 'showAllRelies')"></app-view-replies>
+    </div> 
+  </div>
+   <app-comments-container *ngIf="dataType === 'comment'"
+                           [comment]='comment'
+                           (repliesCounter)="changeCounter($event, comment.id, 'replies')"
+                           dataType="reply"></app-comments-container>
+</div>
