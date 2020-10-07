@@ -40,13 +40,36 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
     All 3rd party libraries are installed into this folder when you run npm install. Those libraries are bundled into our application. What is important to know is that you shouldn't include this folder when deploying your application to production or committing to the git repository. If you move your project to a new location you should skip this folder and run npm install in a new location.
 
 3. /src/
-    This is where we will keep our application source code.
+    This is where we keep our application source code.
     
     - /app/
-    This folder contains our modules and components.
+    This folder contains templates, styles, images, angular components and anything else In angular project inside src folder. Any files outside of this folder are meant to support building your app.
 
+        /app/component/
+            This folder contains all components
+        
+        /app/component/shared/components/
+            This folder contains all shared components, which we use 
 
-    - /asset/
+        /app/component/layout/
+            The layout directory contains one or more components which act as a layout or are parts of a layout such as a Header, Nav, Footer
+
+        /app/component/directives/
+            This folder contains all custom directives
+        
+        /app/model/
+            This folder contains all models(classes, interfaces)
+
+        /app/pipe/
+            This folder contains all custom pipes
+
+        /app/service/
+            This folder contains all services
+
+        /app/app-routing.module.ts
+            This file contains class AppRoutingModule and all routes of the main page
+
+    - /assets/
     This folder contains static assets for our app like images, icons, styles.
 
     - /environments/
@@ -85,5 +108,67 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 8. tsconfig.json
     A bunch of compiler settings. Based on these settings, it will compile code to JS code which that browser can understand.
 
-9. tslint.json
+9. tsconfig.{app|spec}.json
+    TypeScript compiler configuration for the Angular app (tsconfig.app.json) and for the unit tests (tsconfig.spec.json).
+
+10. tslint.json
     TSlint is a useful static analysis tool that checks our TypeScript code for readability, maintainability, and functionality errors. This file contains its configuration. We will see how it works in a future lesson.
+
+## Modules:
+    app.module.ts - The root module of the application
+    eco-news.module.ts - Eco News module
+    about.module.ts
+    admin-routing.module.ts
+    admin.module.ts
+    auth.module.ts
+    comments.module.ts
+    core.module.ts
+    modal.module.ts
+    eco-news-routing.module.ts
+    home.module.ts
+    layout.module.ts
+    map-routing.module.ts
+    shared.module.ts
+    user-routing.module.ts
+
+## Services:
+    language.service.ts
+    change-password.service.ts
+    profile.service.ts
+    comments.service.ts
+    create-eco-news.service.ts
+    search.service.ts
+    place.service.ts
+    favorite-place.service.ts
+    news.service.ts
+    interceptor.service.ts
+    edit-profile.service.ts
+    eco-news.service.ts
+    local-storage.service.ts
+    all-habits.service.ts
+    title-and-meta-tags.service.ts
+    user.service.ts
+    ui-actions.service.ts
+    auth-page-guard.service.ts
+    filter-place.service.ts
+    feedback.service.ts
+    user-own-sign-up.service.ts
+    user-own-sign-in.service.ts
+    user-own-auth.service.ts
+    restore-password.service.ts
+    language.service.ts
+    modal.service.ts
+    confirmation-dialog-service.service.ts
+    weekDaysUtils.service.ts
+    subscription.service.ts
+    specification.service.ts
+    home-page-guard.service.ts
+    jwt.service.ts
+    habit-statistic.service.ts
+    habit-fact.service.ts
+    comment.service.ts
+    category.service.ts
+    google-sign-in.service.ts
+    advice.service.ts
+    admin.service.ts
+    achievement.service.ts
