@@ -6,6 +6,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { EffectsModule } from '@ngrx/effects';
+import { AgmCoreModule } from '@agm/core';
 import {
   AddNewHabitModalComponent,
   AlreadyChosenComponent,
@@ -27,7 +28,6 @@ import {
   UserHabitPageComponent,
   UserLogComponent,
   ProfileComponent,
-  AchievementsFriendsComponent,
   CalendarComponent,
   EcoPlacesComponent,
   ProfileCardsComponent,
@@ -72,6 +72,8 @@ import { AllHabitsComponent } from './components/habit/all-habits/all-habits.com
 import { HabitsListViewComponent } from './components/habit/all-habits/components/habits-list-view/habits-list-view.component';
 import { HabitsGalleryViewComponent } from './components/habit/all-habits/components/habits-gallery-view/habits-gallery-view.component';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
+import { UsersFriendsComponent } from './components/profile/users-friends/users-friends.component';
+import { UsersAchievementsComponent } from './components/profile/users-achievements/users-achievements.component';
 
 @NgModule({
   declarations: [
@@ -123,7 +125,6 @@ import { EditProfileFormBuilder } from '@global-user/components/profile/edit-pro
     ProfileHeaderComponent,
     ProfileProgressComponent,
     ProfileComponent,
-    AchievementsFriendsComponent,
     EcoPlacesComponent,
     ShoppingListComponent,
     CalendarComponent,
@@ -133,7 +134,9 @@ import { EditProfileFormBuilder } from '@global-user/components/profile/edit-pro
     AllHabitsComponent,
     HabitsGalleryViewComponent,
     HabitsListViewComponent,
-    CalendarWeekComponent
+    CalendarWeekComponent,
+    UsersFriendsComponent,
+    UsersAchievementsComponent
   ],
   imports: [
     EffectsModule.forFeature([UserEffects]),
@@ -144,6 +147,10 @@ import { EditProfileFormBuilder } from '@global-user/components/profile/edit-pro
     MatRadioModule,
     DragDropModule,
     HttpClientModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4',
+      libraries: ['places']
+    }),
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,

@@ -1,8 +1,9 @@
-import { TipsListComponent } from './component/home/components/useful-tips/tips-list/tips-list.component';
+import { TipsListComponent} from './component/home/components';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
-import { HomepageComponent } from './component/home/components/homepage/homepage.component';
-import { SearchAllResultsComponent } from './component/layout/components/search-all-results/search-all-results.component';
+import { HomepageComponent} from './component/home/components';
+import { SearchAllResultsComponent} from './component/layout/components';
+import { ConfirmRestorePasswordComponent } from '@global-auth/index';
 
 export const routes: Routes = [
   {
@@ -37,6 +38,10 @@ export const routes: Routes = [
     path: '',
     redirectTo: 'welcome',
     pathMatch: 'full'
+  },
+  {
+    path: 'auth/restore',
+    component: ConfirmRestorePasswordComponent,
   }
 ];
 

@@ -17,7 +17,7 @@ import {
   MatMenuModule
 } from '@angular/material';
 import { MatSortModule } from '@angular/material/sort';
-import { PaginationModule } from 'ngx-bootstrap';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AgmCoreModule } from '@agm/core';
@@ -84,7 +84,7 @@ import {
     NgSelectModule,
     MatCheckboxModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI',
+      apiKey: 'AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4',
       libraries: ['places']
     }),
     TranslateModule
