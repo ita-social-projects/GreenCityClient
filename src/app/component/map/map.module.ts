@@ -20,7 +20,7 @@ import {
   MatRippleModule
 } from '@angular/material';
 import { AgmCoreModule } from '@agm/core';
-import { RatingModule } from 'ngx-bootstrap';
+import { RatingModule } from 'ngx-bootstrap/rating';
 import { Ng5SliderModule } from 'ng5-slider';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatTabsModule } from '@angular/material/tabs';

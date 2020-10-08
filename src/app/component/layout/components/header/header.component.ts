@@ -32,11 +32,13 @@ export class HeaderComponent implements OnInit {
   public isLoggedIn: boolean;
   public isAllSearchOpen = false;
   public toggleBurgerMenu = false;
-  public arrayLang: Array<LanguageModel> = [{lang: 'En'}, {lang: 'Uk'}, {lang: 'Ru'}];
+  public arrayLang: Array<LanguageModel> = [
+    {lang: 'Uk'},
+    {lang: 'En'},
+    {lang: 'Ru'}];
   public isSearchClicked = false;
   private userRole: string;
   private userId: number;
-  private language: string;
 
   constructor(private modalService: ModalService,
               public dialog: MatDialog,
@@ -59,10 +61,21 @@ export class HeaderComponent implements OnInit {
     this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => { this.name = firstName; });
     this.langDropdownVisible = false;
     this.initUser();
+    this.setLangArr();
     this.userRole = this.jwtService.getUserRole();
-    this.language = this.languageService.getCurrentLanguage();
     this.autoOffBurgerBtn();
     this.userOwnAuthService.getDataFromLocalStorage();
+  }
+
+  setLangArr(): void {
+    const language = this.languageService.getCurrentLanguage();
+    const currentLangObj = { lang: language.charAt(0).toUpperCase() + language.slice(1) };
+    const currentLangIndex = this.arrayLang.findIndex(lang => lang.lang === currentLangObj.lang);
+    this.arrayLang = [
+      currentLangObj,
+      ...this.arrayLang.slice(0, currentLangIndex),
+      ...this.arrayLang.slice(currentLangIndex + 1)
+    ];
   }
 
   private initUser(): void {
