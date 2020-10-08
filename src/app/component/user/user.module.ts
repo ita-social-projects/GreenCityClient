@@ -5,7 +5,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { EffectsModule } from '@ngrx/effects';
 import { AgmCoreModule } from '@agm/core';
 import {
   AddNewHabitModalComponent,
@@ -64,8 +63,6 @@ import { UncheckedFirstPipe } from '../../pipe/unchecked-first-pipe/unchecked-fi
 import { AlphabeticalPipePipe } from '../../pipe/alphabetical-pipe/alphabetical-pipe.pipe';
 import { SharedModule } from '../shared/shared.module';
 import { UserRoutingModule } from './user-routing.module';
-import { UserEffects } from './store/user.effects';
-import { UserSelectors } from './store/user.selectors';
 import { UserComponent } from './user.component';
 import { CalendarWeekComponent } from './components/profile/calendar/calendar-week/calendar-week.component';
 import { AllHabitsComponent } from './components/habit/all-habits/all-habits.component';
@@ -139,7 +136,6 @@ import { UsersAchievementsComponent } from './components/profile/users-achieveme
     UsersAchievementsComponent
   ],
   imports: [
-    EffectsModule.forFeature([UserEffects]),
     UserRoutingModule,
     CommonModule,
     SharedModule,
@@ -161,7 +157,6 @@ import { UsersAchievementsComponent } from './components/profile/users-achieveme
     })
   ],
   providers: [
-    UserSelectors,
     EditProfileFormBuilder
   ]
 })

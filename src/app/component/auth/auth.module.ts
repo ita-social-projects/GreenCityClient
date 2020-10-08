@@ -9,7 +9,6 @@ import {
   SignUpComponent,
   SubmitEmailComponent
 } from './components';
-import { AuthSelectors } from './store/auth.selectors';
 import { ConfirmRestorePasswordComponent } from './components/confirm-restore-password/confirm-restore-password.component';
 
 @NgModule({
@@ -37,9 +36,7 @@ import { ConfirmRestorePasswordComponent } from './components/confirm-restore-pa
   exports: [
     InputcolorDirective
   ],
-  providers: [
-    AuthSelectors
-  ]
+  providers: []
 })
 
 export class AuthModule { }
