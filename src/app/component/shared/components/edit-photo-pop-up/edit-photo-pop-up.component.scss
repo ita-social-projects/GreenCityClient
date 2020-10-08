@@ -11,6 +11,7 @@ $main-font: 'Open Sans';
   font-family: $main-font;
   padding: 56px 0;
   margin: 0 auto;
+  background: #fff;
 
   .cancel {
     position: absolute;
@@ -44,6 +45,7 @@ $main-font: 'Open Sans';
       line-height: 28px;
       padding: 24px 0 40px;
       margin: 0;
+      text-align: center;
     }
 
     .warning {
