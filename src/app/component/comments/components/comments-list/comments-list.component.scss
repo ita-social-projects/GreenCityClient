@@ -2,7 +2,6 @@ $main-font: 'Open Sans', sans-serif;
 
 .comment-body-wrapper {
   margin: auto;
-  width: 70%;
   border-bottom: 1px solid #e6e6e6;
 
   .comment-avatar {
@@ -16,6 +15,15 @@ $main-font: 'Open Sans', sans-serif;
       height: 48px;
     }
   }
+}
+
+.wrapper-comment {
+  width: 70%;
+}
+
+.wrapper-reply {
+  width: 90%;
+  margin-left: 70px;
 }
 
 .author-name {
@@ -149,14 +157,27 @@ $main-font: 'Open Sans', sans-serif;
 
 .comments-elements {
   display: flex;
-  justify-content: space-between;
 
   .btn-wrapper {
     display: flex;
   }
+
+  .btn-replies {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
 }
 
 .comment-likes {
+  .like-amount {
+    font-family: $main-font;
+    font-size: 12px;
+    line-height: 16px;
+    color: #878787;
+    margin-left: 5px;
+  }
+
   .commnet-dot {
     display: none;
   }

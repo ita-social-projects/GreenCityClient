@@ -1,6 +1,8 @@
+import { HttpClientModule } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { TranslateModule } from '@ngx-translate/core';
 import { ProfileCardsComponent } from './profile-cards.component';
+
 
 describe('ProfileCardsComponent', () => {
   let component: ProfileCardsComponent;
@@ -8,7 +10,8 @@ describe('ProfileCardsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProfileCardsComponent ]
+      declarations: [ ProfileCardsComponent ],
+      imports: [TranslateModule.forRoot(), HttpClientModule]
     })
     .compileComponents();
   }));
