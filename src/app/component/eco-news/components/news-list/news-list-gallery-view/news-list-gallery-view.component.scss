@@ -19,6 +19,7 @@ div {
 
   .list-image {
     .list-image-content {
+      object-fit: cover;
       width: 100%;
       height: 206px;
       border-top-left-radius: 4px;

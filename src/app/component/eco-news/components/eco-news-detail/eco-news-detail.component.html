@@ -16,10 +16,12 @@
         </div>
       </a>
     </div>
-    <div class="edit-news"
-         *ngIf="newsItem.author.id === userId">
-      {{ "eco-news-single-view.edit-news-button" | translate }}
-    </div>
+    <a [routerLink]="['/news/create-news']" [queryParams]="{id: newsItem.id}">
+      <div class="edit-news"
+           *ngIf="newsItem.author.id === userId">
+        {{ "eco-news-single-view.edit-news-button" | translate }}
+      </div> 
+    </a>
   </div>
   <div class="tags">
     <div class="tags-item"

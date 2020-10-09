@@ -6,6 +6,7 @@ import { EcoNewsDetailComponent } from './components/eco-news-detail/eco-news-de
 import { NewsPreviewPageComponent } from './components/news-preview-page/news-preview-page.component';
 import { PostNewsLoaderComponent } from './components/post-news-loader/post-news-loader.component';
 import { NewsListComponent } from './components/news-list/news-list.component';
+import { CreateEditNewsComponent } from './components/create-edit-news/create-edit-news.component';
 
 
 const ecoNewsRoutes: Routes = [
@@ -19,7 +20,7 @@ const ecoNewsRoutes: Routes = [
       },
       {
         path: 'create-news',
-        component: CreateNewsComponent
+        component: CreateEditNewsComponent
       },
       {
         path: 'post-news-loader',

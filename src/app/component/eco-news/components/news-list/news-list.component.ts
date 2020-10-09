@@ -101,6 +101,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.remaining = data.totalElements;
     this.elements = this.scroll ? [...this.elements, ...data.page] : [...data.page];
     this.elementsArePresent = this.elements.length < data.totalElements;
+    console.log(this.elements);
   }
 
   private setNullList(): void {

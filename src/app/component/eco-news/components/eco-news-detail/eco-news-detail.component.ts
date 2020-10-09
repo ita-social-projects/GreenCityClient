@@ -31,8 +31,10 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   }
 
   public setNewsItem(item: EcoNewsModel): void {
-    const nestedNewsItem = { ...item.author };
+    const nestedNewsItem = { authorId: item.author.id, authorName: item.author.name };
+    console.log(item);
     this.newsItem = { ...item, ...nestedNewsItem };
+    console.log(this.newsItem);
   }
 
   public checkNewsImage(): string {
