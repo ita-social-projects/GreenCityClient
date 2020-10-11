@@ -9,7 +9,7 @@ import { SearchModel } from '../../model/search/search.model';
   providedIn: 'root'
 })
 export class SearchService {
-  private apiUrl = 'http://localhost:3000';
+  private apiUrl = environment.frontendLink;
   private backEndLink = environment.backendLink;
   public searchSubject = new Subject<boolean>();
   public allSearchSubject = new Subject<boolean>();

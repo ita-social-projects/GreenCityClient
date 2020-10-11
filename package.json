@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "config": "ts-node ./scripts/setenv.ts",
+    "start": "npm run config -- --environment=dev && ng serve --aot=false",
+    "build": "npm run config -- --environment=prod &&ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -70,8 +71,9 @@
     "@types/googlemaps": "^3.37.7",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "^2.0.8",
-    "@types/node": "~8.9.4",
+    "@types/node": "^8.9.5",
     "codelyzer": "^5.1.2",
+    "dotenv": "^8.2.0",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.1.0",
@@ -83,6 +85,7 @@
     "stylelint-config-standard": "^20.0.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
-    "typescript": "~3.5.3"
+    "typescript": "~3.5.3",
+    "yargs": "^16.0.3"
   }
 }
