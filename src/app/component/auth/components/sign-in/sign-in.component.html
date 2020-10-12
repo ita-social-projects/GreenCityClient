@@ -16,36 +16,23 @@
       {{'user.auth.sign-in.title' | translate}}</h1>
     <h2>{{'user.auth.sign-in.fill-form' | translate}}</h2>
     <form class="sign-in-form"
-          #registerForm="ngForm"
-          (ngSubmit)="signIn(userOwnSignIn)">
+          (ngSubmit)="signIn(userOwnSignIn)"
+          [formGroup]="signInForm">
       <label for="email">{{'user.auth.sign-in.email' | translate}}</label>
       <input id="email"
              type="email"
              placeholder="example@email.com"
-             #emailControl="ngModel"
              name="email"
-             [(ngModel)]="userOwnSignIn.email"
+             formControlName="email"
              (input)="configDefaultErrorMessage()"
-             [ngClass]="emailControl.invalid &&
-                       (emailControl.dirty ||
-                       emailControl.touched ) ||
+             [ngClass]="signInForm.get('email').invalid &&
+                       signInForm.get('email').touched ||
                        backEndError ||
                        emailErrorMessageBackEnd?
-                'alert-email-validation':'successful-email-validation'"
-             required
-             minlength="1"
-             email="true">
-      <div class="validation-email-error"
-           *ngIf="emailControl.invalid && (emailControl.dirty || emailControl.touched)">
-        <div *ngIf="emailControl.errors.required">
-          {{'user.auth.sign-in.email-is-required' | translate}}
-        </div>
-        <div *ngIf="emailControl.errors.minlength">
-          {{'user.auth.sign-in.email-must-be-at-least-1-characters-long' | translate}}
-        </div>
-        <div *ngIf="emailControl.errors.email">
-          {{'user.auth.sign-in.this-is-not-email' | translate}}
-        </div>
+                'alert-email-validation':'successful-email-validation'">
+      <div class="validation-email-error" *ngIf="signInForm.get('email').invalid && signInForm.get('email').touched">
+        <app-error [formElement]="signInForm.get('email')" 
+                   [errorMessage]="getErrorMessage(signInForm.get('email'), 'email')"></app-error>
       </div>
       <div class="validation-email-error"
            *ngIf="emailErrorMessageBackEnd">
@@ -56,22 +43,18 @@
       </div>
       <label for="password">{{'user.auth.sign-in.password' | translate}}</label>
       <div class="password-input-btn-show-hide"
-           [ngClass]="passwordControl.invalid &&
-                     (passwordControl.dirty ||
-                     passwordControl.touched) ||
+           [ngClass]="signInForm.get('password').invalid &&
+                     signInForm.get('password').touched ||
                      backEndError ||
                      passwordErrorMessageBackEnd?
               'alert-password-validation':'successful-password-validation'">
         <input id="password"
                #input
                type="password"
+               formControlName="password"
                placeholder="{{'user.auth.sign-in.password' | translate}}"
-               #passwordControl="ngModel"
                name="form-control password-signin"
-               (input)="configDefaultErrorMessage()"
-               [(ngModel)]="userOwnSignIn.password"
-               required
-               minlength="8">
+               (input)="configDefaultErrorMessage()">
         <span class="show-hide-btn">
           <img (click)="togglePassword(input, src)"
                class="image-show-hide-password"
@@ -81,13 +64,9 @@
         </span>
       </div>
       <div class="validation-password-error"
-           *ngIf="passwordControl.invalid && (passwordControl.dirty || passwordControl.touched)">
-        <div *ngIf="passwordControl.errors.required">
-          {{'user.auth.sign-in.password-is-required' | translate}}
-        </div>
-        <div *ngIf="passwordControl.errors.minlength">
-          {{'user.auth.sign-in.password-must-be-at-least-8-characters-long' | translate}}
-        </div>
+           *ngIf="signInForm.get('password').invalid && signInForm.get('password').touched">
+        <app-error [formElement]="signInForm.get('password')" 
+                   [errorMessage]="getErrorMessage(signInForm.get('password'), 'password')"></app-error>
       </div>
       <div class="validation-password-error"
            *ngIf="passwordErrorMessageBackEnd">
@@ -104,7 +83,7 @@
       </div>
       <button class="primary-global-button"
               type="submit"
-              [disabled]="!registerForm.valid">
+              [disabled]="!signInForm.valid">
         <span *ngIf="loadingAnim"
               class="spinner-border spinner-border-sm"
               role="status"

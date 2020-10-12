@@ -1,3 +1,4 @@
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -30,6 +31,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   public emailErrorMessageBackEnd: string;
   public passwordErrorMessageBackEnd: string;
   public backEndError: string;
+  public signInForm: FormGroup;
 
   constructor(
     public dialog: MatDialog,
@@ -46,6 +48,11 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.userOwnSignIn = new UserOwnSignIn();
     this.configDefaultErrorMessage();
     this.checkIfUserId();
+    // Initialization of reactive form
+    this.signInForm = new FormGroup({
+      'email': new FormControl(null, [Validators.required, Validators.email]),
+      'password': new FormControl(null, [Validators.required, Validators.minLength(8)])
+    })
   }
 
   private checkIfUserId(): void {
@@ -63,9 +70,15 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.backEndError = null;
   }
 
-  public signIn(userOwnSignIn: UserOwnSignIn): void {
+  public signIn(): void {
     this.loadingAnim = true;
-    this.userOwnSignInService.signIn(userOwnSignIn).subscribe(
+
+    const { email, password } = this.signInForm.value;
+
+    this.userOwnSignIn.email = email;
+    this.userOwnSignIn.password = password;
+
+    this.userOwnSignInService.signIn(this.userOwnSignIn).subscribe(
       (data: UserSuccessSignIn) => {
         this.onSignInSuccess(data);
       },
@@ -152,5 +165,30 @@ export class SignInComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.userIdSubscription.unsubscribe();
   }
-}
 
+  /**
+ * Returns the string according to the error that needs to be translated later.
+ *
+ * @param {obj} x FormControl on which the error occurred.
+ * @param {string} n Tag to know what element.
+ * @return {string} x Which needs to be translated.
+ */
+  public getErrorMessage({errors}: FormControl, tag: string){
+    // 
+    if(tag === 'email'){
+      if(errors.required){
+        return 'user.auth.sign-in.email-is-required'
+      } else if (errors.email){
+        return 'user.auth.sign-in.this-is-not-email'
+      }
+    }
+    if(tag==='password'){
+      if(errors.required){
+        return 'user.auth.sign-in.password-is-required'
+      } else if (errors.minlength){
+        return 'user.auth.sign-in.password-must-be-at-least-8-characters-long' 
+      }
+    }
+    return false
+  }
+}
