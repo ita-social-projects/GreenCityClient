@@ -20,14 +20,11 @@ h3 {
 }
 
 .title {
-  height: 200px;
   display: flex;
   align-items: center;
-  margin-top: -60px;
 }
 
 .form-description {
-  margin-top: -30px;
   margin-bottom: 50px;
 
   p {
@@ -68,8 +65,17 @@ form {
 }
 
 .left-form-column {
+  grid-row: 1 / 1;
   display: flex;
   flex-direction: column;
+}
+
+.right-form-column {
+  grid-row: 1 / 4;
+}
+
+.bottom-form-column {
+  grid-row: 2 / 4;
 }
 
 .bottom-form-column input,
@@ -256,10 +262,6 @@ form label {
 }
 
 @media screen and (min-width: 992px) {
-  .bottom-form-column {
-    margin-top: -40px;
-  }
-
   .left-form-column {
     height: 260px;
 
@@ -317,10 +319,6 @@ form label {
 
   .title h2 {
     font-size: 24px;
-  }
-
-  .form-description {
-    margin-top: -52px;
   }
 
   form label {
