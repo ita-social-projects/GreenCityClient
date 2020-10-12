@@ -33,7 +33,7 @@ export interface NewsDTO {
   text: string;
   title: string;
   source: string;
-  image: SafeUrl;
+  image?: SafeUrl;
 }
 
 export interface NewsResponseDTO {
@@ -49,4 +49,8 @@ export interface NewsResponseDTO {
 export interface FileHandle {
   file: File;
   url: SafeUrl;
+}
+
+export interface QueryParams {
+  id: string;
 }

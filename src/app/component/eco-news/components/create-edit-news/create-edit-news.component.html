@@ -1,7 +1,7 @@
 <app-post-news-loader *ngIf="isPosting"></app-post-news-loader>
 <div class="container" *ngIf="!isPosting">
     <div class="title">
-        <h2>{{ 'create-news.title' | translate }}</h2>
+        <h2>{{ attributes.title }}</h2>
     </div>
     <div class="form-description">
         <p>{{ 'create-news.form-description' | translate }}</p>
@@ -73,7 +73,7 @@
                 <button type="submit" [disabled]="!form.valid ||
                                                   isArrayEmpty ||
                                                   !isLinkOrEmpty ||
-                                                  createEcoNewsService.isImageValid">{{ 'create-news.publish-button' | translate }}</button>
+                                                  createEcoNewsService.isImageValid">{{ attributes.btnCaption }}</button>
             </div>
         </form>
     </div>

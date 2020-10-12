@@ -1,13 +1,17 @@
+import { QueryParams } from './../../models/create-news-interface';
 import { EcoNewsService } from './../../services/eco-news.service';
-import { Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FilterModel } from '@eco-news-models/create-news-interface';
-import { ActivatedRoute } from '@angular/router';
-import { map } from 'rxjs/operators';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
+import { MatDialog } from '@angular/material/dialog';
+import { CancelPopUpComponent } from '@shared/components';
+import { ACTION_TOKEN } from './action.constants';
+import { ActionInterface } from './action.interface';
 
 @Component({
   selector: 'app-create-edit-news',
@@ -18,6 +22,7 @@ export class CreateEditNewsComponent implements OnInit {
   public isPosting = false;
   public newsData;
   public form: FormGroup;
+  public isArrayEmpty = true;
   public textAreasHeight = {
     minTextAreaScrollHeight: 50,
     maxTextAreaScrollHeight: 128,
@@ -25,7 +30,14 @@ export class CreateEditNewsComponent implements OnInit {
     maxTextAreaHeight: '128px',
   };
   public isLinkOrEmpty = true;
-  public newsItemSubscription;
+  public newsItemSubscription: Subscription;
+  public isFilterValidation = false;
+  public year: number = new Date().getFullYear();
+  public day: number = new Date().getDate();
+  public month: number = new Date().getMonth();
+  public author: string = localStorage.getItem('name');
+  public attributes: ActionInterface;
+
   public filters: Array<FilterModel> = [
     { name: 'News', isActive: false },
     { name: 'Events', isActive: false },
@@ -35,24 +47,33 @@ export class CreateEditNewsComponent implements OnInit {
   ];
   public newsId;
 
-  constructor(private createEditNewsFormBuilder: CreateEditNewsFormBuilder,
+  constructor(private router: Router,
+              private createEditNewsFormBuilder: CreateEditNewsFormBuilder,
               private createEcoNewsService: CreateEcoNewsService,
               private ecoNewsService: EcoNewsService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private dialog: MatDialog,
+              @Inject(ACTION_TOKEN) private config: {[name: string]: ActionInterface}) { }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(
-      (queryParams) => {
-        this.newsId = queryParams.id;
-      }
-    );
-
+    this.getNewsIdFromQueryParams();
 
     this.form = this.createEditNewsFormBuilder.getSetupForm();
+
     if (this.newsId) {
-      this.fetchNewsItem();
+      this.fetchNewsItemToEdit();
+      this.attributes = this.config.edit;
+    } else {
+      this.attributes = this.config.create;
     }
+
     this.onSourceChange();
+  }
+
+  public getNewsIdFromQueryParams(): void {
+    this.route.queryParams.subscribe((queryParams: QueryParams) => {
+      this.newsId = queryParams.id;
+    });
   }
 
   public autoResize(event): void {
@@ -65,21 +86,107 @@ export class CreateEditNewsComponent implements OnInit {
   }
 
   public onSourceChange(): void {
-    this.form.get('source').valueChanges.subscribe(source => {
+    this.form.get('source').valueChanges.subscribe((source: string) => {
       this.isLinkOrEmpty = /^$|^https?:\/\//.test(source);
     });
   }
 
   public onSubmit(): void {
-    console.log(this.form.value);
+    this.isPosting = true;
+    this.createEcoNewsService.sendFormData(this.form).subscribe(
+      () => {
+        this.isPosting = false;
+        this.router.navigate(['/news']);
+      }
+    );
   }
 
-  private fetchNewsItem(): void {
+  private fetchNewsItemToEdit(): void {
     this.newsItemSubscription = this.ecoNewsService
       .getEcoNewsById(this.newsId)
       .subscribe((item: EcoNewsModel) => {
-        console.log(item);
         this.form = this.createEditNewsFormBuilder.getEditForm(item);
+        this.setActiveFilters(item);
       });
+  }
+
+  private setActiveFilters(itemToUpdate: EcoNewsModel): void {
+    if (itemToUpdate.tags.length) {
+      this.isArrayEmpty = false;
+
+      itemToUpdate.tags.forEach((tag: string) => {
+
+        const index = this.filters.findIndex((filterObj: FilterModel) => filterObj.name === tag);
+
+        this.filters = [
+          ...this.filters.slice(0, index),
+          { name: tag, isActive: true },
+          ...this.filters.slice(index + 1)
+        ];
+
+      });
+
+    }
+
+  }
+
+  public addFilters(filter: FilterModel): void {
+    if (!filter.isActive) {
+      this.toggleIsActive(filter, true);
+      this.isArrayEmpty = false;
+      this.form.value.tags.push(filter.name.toLowerCase());
+      this.filtersValidation(filter);
+    } else {
+      this.removeFilters(filter);
+    }
+  }
+
+  public removeFilters(filter: FilterModel): void {
+    const tagsArray = this.form.value.tags;
+    if (filter.isActive && tagsArray.length === 1) {
+      this.isArrayEmpty = true;
+    }
+    this.form.value.tags = tagsArray.filter((item: string) => {
+      return item.toLowerCase() !== filter.name.toLowerCase();
+    });
+    this.toggleIsActive(filter, false);
+
+  }
+
+  public filtersValidation(filter: FilterModel): void {
+    if (this.form.value.tags.length > 3) {
+      this.isFilterValidation = true;
+      setTimeout(() => this.isFilterValidation = false, 3000);
+      this.form.value.tags = this.form.value.tags.slice(0, 3);
+      this.toggleIsActive(filter, false);
+    }
+  }
+
+  public toggleIsActive(filterObj: FilterModel, newValue: boolean): void {
+    const index = this.filters.findIndex((item: FilterModel) => item.name === filterObj.name);
+
+    this.filters = [
+      ...this.filters.slice(0, index),
+      { name: filterObj.name, isActive: newValue },
+      ...this.filters.slice(index + 1)
+    ];
+  }
+
+  public goToPreview(): void {
+    this.createEcoNewsService.setForm(this.form);
+    this.router.navigate(['news', 'preview']);
+    // this.setFilters();
+  }
+
+  public openCancelPopup(): void {
+    this.dialog.open(CancelPopUpComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: 'custom-dialog-container',
+      data: {
+        currentPage: 'eco news'
+      }
+    });
   }
 }

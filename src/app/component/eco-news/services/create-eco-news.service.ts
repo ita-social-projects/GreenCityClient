@@ -43,7 +43,7 @@ export class CreateEcoNewsService {
       text: form.value.content,
       title: form.value.title,
       source: form.value.source,
-      image: null
+      image: form.value.image
     };
 
     const formData = new FormData();
