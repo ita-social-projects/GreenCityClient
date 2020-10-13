@@ -1,3 +1,4 @@
+import { SIGN_UP_TOKEN, SIGN_IN_TOKEN, RESTORE_PASSWORD_TOKEN } from './auth-token.constant';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CoreModule } from '../core/core.module';
@@ -12,6 +13,7 @@ import {
 } from './components';
 import { ErrorComponent } from './components/error/error.component';
 import { ConfirmRestorePasswordComponent } from './components/confirm-restore-password/confirm-restore-password.component';
+import { GoogleBtnComponent } from './components/google-btn/google-btn.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,8 @@ import { ConfirmRestorePasswordComponent } from './components/confirm-restore-pa
     SubmitEmailComponent,
     RestoreComponent,
     ConfirmRestorePasswordComponent,
-    ErrorComponent
+    ErrorComponent,
+    GoogleBtnComponent
   ],
   imports: [
     CoreModule,
@@ -39,7 +42,10 @@ import { ConfirmRestorePasswordComponent } from './components/confirm-restore-pa
   exports: [
     InputcolorDirective
   ],
-  providers: []
+  providers: [
+    { provide: SIGN_UP_TOKEN, useValue: SignUpComponent },
+    { provide: SIGN_IN_TOKEN, useValue: SignInComponent },
+    { provide: RESTORE_PASSWORD_TOKEN, useValue: RestorePasswordComponent }
+  ]
 })
-
 export class AuthModule { }

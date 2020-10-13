@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { SIGN_IN_TOKEN } from './../../auth-token.constant';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -10,7 +11,7 @@ import { GoogleSignInService } from '@global-service/auth/google-sign-in.service
 import { UserOwnSignUp } from '@global-models/user-own-sign-up';
 import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
 import { SubmitEmailComponent } from '../submit-email/submit-email.component';
-import { SignInComponent } from '../sign-in/sign-in.component';
+import { ComponentType } from '@angular/cdk/portal';
 
 @Component({
   selector: 'app-sign-up',
@@ -35,7 +36,9 @@ export class SignUpComponent implements OnInit {
               private userOwnSecurityService: UserOwnSignUpService,
               private router: Router,
               private authService: AuthService,
-              private googleService: GoogleSignInService) { }
+              private googleService: GoogleSignInService,
+              @Inject(SIGN_IN_TOKEN) private signInToken: ComponentType<any>,
+              ) { }
 
   ngOnInit() {
     this.userOwnSignUp = new UserOwnSignUp();
@@ -166,7 +169,7 @@ export class SignUpComponent implements OnInit {
 
   public openSignInWindow(): void {
     this.closeSignUpWindow();
-    this.dialog.open(SignInComponent, {
+    this.dialog.open(this.signInToken, {
       hasBackdrop: true,
       closeOnNavigation: true,
       disableClose: true,

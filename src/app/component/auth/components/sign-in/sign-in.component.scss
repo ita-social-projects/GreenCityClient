@@ -186,6 +186,7 @@ $inputHeight : 48px;
       margin-bottom: 24px;
 
       .forgot-password {
+        color: #056B33;
         font-family: $generalFont;
         font-size: 12px;
         line-height: 16px;
@@ -207,33 +208,6 @@ $inputHeight : 48px;
       line-height: 12px;
       color: #494a49;
       margin-bottom: 8px;
-    }
-
-    .google-sign-in {
-      padding: 0;
-      height: 40px;
-      width: 100%;
-      background: #fff;
-      border: 0;
-      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.24);
-      border-radius: 3px;
-      text-align: justify;
-
-      .google-sign {
-        padding: 11px 0 11px 11px;
-      }
-
-      .google-text-sign-in {
-        margin: 12px 62px 12px 62px;
-        font-family: Roboto, sans-serif;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 14px;
-        line-height: 16px;
-        text-align: center;
-        letter-spacing: 0.21875px;
-        color: #494a49;
-      }
     }
 
     .missing-account {

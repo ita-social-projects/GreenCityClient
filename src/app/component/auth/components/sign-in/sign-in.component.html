@@ -13,26 +13,26 @@
            alt="close button">
     </a>
     <h1>
-      {{'user.auth.sign-in.title' | translate}}</h1>
-    <h2>{{'user.auth.sign-in.fill-form' | translate}}</h2>
+      {{ 'user.auth.sign-in.title' | translate }}</h1>
+    <h2>{{ 'user.auth.sign-in.fill-form' | translate }}</h2>
     <form class="sign-in-form"
           (ngSubmit)="signIn(userOwnSignIn)"
           [formGroup]="signInForm">
-      <label for="email">{{'user.auth.sign-in.email' | translate}}</label>
+      <label for="email">{{ 'user.auth.sign-in.email' | translate }}</label>
       <input id="email"
              type="email"
              placeholder="example@email.com"
              name="email"
              formControlName="email"
              (input)="configDefaultErrorMessage()"
-             [ngClass]="signInForm.get('email').invalid &&
-                       signInForm.get('email').touched ||
-                       backEndError ||
-                       emailErrorMessageBackEnd?
+             [ngClass]="emailField.invalid &&
+                        emailField.touched ||
+                        backEndError ||
+                        emailErrorMessageBackEnd?
                 'alert-email-validation':'successful-email-validation'">
-      <div class="validation-email-error" *ngIf="signInForm.get('email').invalid && signInForm.get('email').touched">
-        <app-error [formElement]="signInForm.get('email')" 
-                   [errorMessage]="getErrorMessage(signInForm.get('email'), 'email')"></app-error>
+      <div class="validation-email-error" *ngIf="emailField.invalid && emailField.touched">
+        <app-error [formElement]="emailField" 
+                   [errorMessage]="getErrorMessage(emailField, 'email')"></app-error>
       </div>
       <div class="validation-email-error"
            *ngIf="emailErrorMessageBackEnd">
@@ -43,10 +43,10 @@
       </div>
       <label for="password">{{'user.auth.sign-in.password' | translate}}</label>
       <div class="password-input-btn-show-hide"
-           [ngClass]="signInForm.get('password').invalid &&
-                     signInForm.get('password').touched ||
-                     backEndError ||
-                     passwordErrorMessageBackEnd?
+           [ngClass]="passwordField.invalid &&
+                      passwordField.touched ||
+                      backEndError ||
+                      passwordErrorMessageBackEnd ?
               'alert-password-validation':'successful-password-validation'">
         <input id="password"
                #input
@@ -64,9 +64,9 @@
         </span>
       </div>
       <div class="validation-password-error"
-           *ngIf="signInForm.get('password').invalid && signInForm.get('password').touched">
-        <app-error [formElement]="signInForm.get('password')" 
-                   [errorMessage]="getErrorMessage(signInForm.get('password'), 'password')"></app-error>
+           *ngIf="passwordField.invalid && passwordField.touched">
+        <app-error [formElement]="passwordField" 
+                   [errorMessage]="getErrorMessage(passwordField, 'password')"></app-error>
       </div>
       <div class="validation-password-error"
            *ngIf="passwordErrorMessageBackEnd">
@@ -94,17 +94,7 @@
       <span class="or-use-google">{{'user.auth.sign-in.or-signin' | translate}}</span>
     </form>
     <div class="google-sign-in-block">
-      <button type="submit"
-              class="google-sign-in"
-              (click)="signInWithGoogle()">
-          <span class="google-sign">
-            <img [src]="googleImage.picGoogle"
-                 alt="Google sign-in">
-          </span>
-        <span class="google-text-sign-in">
-            {{'user.auth.sign-in.sign-in-with-google' | translate}}
-          </span>
-      </button>
+      <app-google-btn (click)="signInWithGoogle()" [text]="'user.auth.sign-in.sign-in-with-google'"></app-google-btn>
     </div>
     <div class="missing-account">
       <p>{{'user.auth.sign-in.havenot-account' | translate}}

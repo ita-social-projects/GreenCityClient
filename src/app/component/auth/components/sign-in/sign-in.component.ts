@@ -1,5 +1,7 @@
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { RESTORE_PASSWORD_TOKEN } from './../../auth-token.constant';
+import { SIGN_UP_TOKEN } from '../../auth-token.constant';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material';
@@ -12,8 +14,7 @@ import { SignInIcons } from 'src/app/image-pathes/sign-in-icons';
 import { UserOwnSignIn } from '@global-models/user-own-sign-in';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
-import { SignUpComponent } from '../sign-up/sign-up.component';
-import { RestorePasswordComponent } from '../restore-password/restore-password.component';
+import { ComponentType } from '@angular/cdk/portal';
 
 @Component({
   selector: 'app-sign-in',
@@ -32,6 +33,8 @@ export class SignInComponent implements OnInit, OnDestroy {
   public passwordErrorMessageBackEnd: string;
   public backEndError: string;
   public signInForm: FormGroup;
+  public emailField: AbstractControl;
+  public passwordField: AbstractControl;
 
   constructor(
     public dialog: MatDialog,
@@ -42,6 +45,8 @@ export class SignInComponent implements OnInit, OnDestroy {
     private googleService: GoogleSignInService,
     private localStorageService: LocalStorageService,
     private userOwnAuthService: UserOwnAuthService,
+    @Inject(SIGN_UP_TOKEN) private signUpToken: ComponentType<any>,
+    @Inject(RESTORE_PASSWORD_TOKEN) private restorePassToken: ComponentType<any>
   ) { }
 
   ngOnInit() {
@@ -52,7 +57,10 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.signInForm = new FormGroup({
       'email': new FormControl(null, [Validators.required, Validators.email]),
       'password': new FormControl(null, [Validators.required, Validators.minLength(8)])
-    })
+    });
+    // Get form fields to use it in the template
+    this.emailField = this.signInForm.get('email');
+    this.passwordField = this.signInForm.get('email');
   }
 
   private checkIfUserId(): void {
@@ -112,7 +120,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   public onOpenForgotWindow(): void {
-    this.dialog.open(RestorePasswordComponent, {
+    this.dialog.open(this.restorePassToken, {
       hasBackdrop: true,
       closeOnNavigation: true,
       panelClass: 'custom-dialog-container',
@@ -155,7 +163,7 @@ export class SignInComponent implements OnInit, OnDestroy {
 
   public signUpOpenWindow(): void {
     this.matDialogRef.close();
-    this.dialog.open(SignUpComponent, {
+    this.dialog.open(this.signUpToken, {
       hasBackdrop: true,
       closeOnNavigation: true,
       panelClass: 'custom-dialog-container',
@@ -174,19 +182,18 @@ export class SignInComponent implements OnInit, OnDestroy {
  * @return {string} x Which needs to be translated.
  */
   public getErrorMessage({errors}: FormControl, tag: string){
-    // 
     if(tag === 'email'){
       if(errors.required){
-        return 'user.auth.sign-in.email-is-required'
+        return 'user.auth.sign-in.email-is-required';
       } else if (errors.email){
-        return 'user.auth.sign-in.this-is-not-email'
+        return 'user.auth.sign-in.this-is-not-email';
       }
     }
     if(tag==='password'){
       if(errors.required){
-        return 'user.auth.sign-in.password-is-required'
+        return 'user.auth.sign-in.password-is-required';
       } else if (errors.minlength){
-        return 'user.auth.sign-in.password-must-be-at-least-8-characters-long' 
+        return 'user.auth.sign-in.password-must-be-at-least-8-characters-long';
       }
     }
     return false
