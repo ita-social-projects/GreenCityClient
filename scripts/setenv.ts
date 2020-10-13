@@ -20,7 +20,7 @@ const environmentFileContent = `export const environment = {
         appId: '${process.env.appId}',
         measurementId: '${process.env.measurementId}'
     }
-}
+};
 `;
 writeFile(targetPath, environmentFileContent, function(err){
     if(err) {
