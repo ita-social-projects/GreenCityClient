@@ -89,7 +89,7 @@ export class SignUpComponent implements OnInit {
           break;
         case 'email':
           this.emailErrorMessageBackEnd = error.message;
-          this.isEmailInvalid = this.emailErrorMessageBackEnd === 'The email is invalid' ? true : false;
+          this.isEmailInvalid = this.emailErrorMessageBackEnd === 'The email is invalid';
           break;
         case 'password':
           this.passwordErrorMessageBackEnd = error.message;
