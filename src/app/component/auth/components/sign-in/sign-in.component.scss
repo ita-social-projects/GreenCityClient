@@ -2,6 +2,7 @@
 
 $generalFont : opensans, sans-serif;
 $inputHeight : 48px;
+$errorColor  : #f03127;
 
 .main {
   width: 99vw;
@@ -12,6 +13,48 @@ $inputHeight : 48px;
   justify-content: center;
   align-items: center;
   z-index: 2000;
+}
+
+.password-input-btn-show-hide {
+  height: $inputHeight;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+
+.alert-email-validation,
+.alert-password-validation {
+  border: 1px solid $errorColor;
+}
+
+.successful-email-validation,
+.successful-password-validation {
+  border: 1px solid #878787;
+  margin-bottom: 16px;
+}
+
+.validation-password-error {
+  color: $errorColor;
+  font-size: 10px;
+  line-height: 12px;
+  font-family: $generalFont;
+  margin-bottom: 4px;
+}
+
+.alert-general-error {
+  position: relative;
+  color: $errorColor;
+  font-size: 10px;
+  line-height: 12px;
+  font-family: $generalFont;
+  margin-bottom: 4px;
+}
+
+.validation-email-error {
+  color: $errorColor;
+  font-size: 10px;
+  line-height: 12px;
+  font-family: $generalFont;
+  margin-bottom: 9px;
 }
 
 .wrapper {
@@ -60,7 +103,7 @@ $inputHeight : 48px;
     }
 
     .sign-in-form {
-      margin: 0 56px 0 56px;
+      margin: 0 56px;
       display: flex;
       flex-direction: column;
 
@@ -93,24 +136,6 @@ $inputHeight : 48px;
         outline: none;
       }
 
-      .alert-email-validation {
-        border: 1px solid #f03127;
-        margin-bottom: 0;
-      }
-
-      .successful-email-validation {
-        border: 1px solid #878787;
-        margin-bottom: 21px;
-      }
-
-      .validation-email-error {
-        color: #f03127;
-        font-size: 10px;
-        line-height: 12px;
-        font-family: $generalFont;
-        margin-bottom: 9px;
-      }
-
       input[type=password],
       input[type=text] {
         border: transparent;
@@ -124,38 +149,6 @@ $inputHeight : 48px;
       input[type=text]:focus {
         height: 46px;
         outline: none;
-      }
-
-      .password-input-btn-show-hide {
-        height: $inputHeight;
-        box-sizing: border-box;
-        border-radius: 5px;
-      }
-
-      .alert-password-validation {
-        border: 1px solid #f03127;
-      }
-
-      .successful-password-validation {
-        border: 1px solid #878787;
-        margin-bottom: 16px;
-      }
-
-      .validation-password-error {
-        color: #f03127;
-        font-size: 10px;
-        line-height: 12px;
-        font-family: $generalFont;
-        margin-bottom: 4px;
-      }
-
-      .alert-general-error {
-        position: relative;
-        color: #f03127;
-        font-size: 10px;
-        line-height: 12px;
-        font-family: $generalFont;
-        margin-bottom: 4px;
       }
 
       .email-field-margin {
