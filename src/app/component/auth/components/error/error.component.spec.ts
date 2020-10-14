@@ -1,17 +1,16 @@
+import { ErrorComponent } from './error.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GoogleBtnComponent } from './google-btn.component';
 
-
-describe('GoogleBtnComponent', () => {
-  let component: GoogleBtnComponent;
-  let fixture: ComponentFixture<GoogleBtnComponent>;
+describe('error component', () => {
+  let component: ErrorComponent;
+  let fixture: ComponentFixture<ErrorComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GoogleBtnComponent ],
+      declarations: [ ErrorComponent ],
       imports: [
         HttpClientTestingModule,
         TranslateModule.forRoot(),
@@ -21,7 +20,7 @@ describe('GoogleBtnComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GoogleBtnComponent);
+    fixture = TestBed.createComponent(ErrorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

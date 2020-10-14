@@ -60,7 +60,7 @@ export class SignInComponent implements OnInit, OnDestroy {
     });
     // Get form fields to use it in the template
     this.emailField = this.signInForm.get('email');
-    this.passwordField = this.signInForm.get('email');
+    this.passwordField = this.signInForm.get('password');
   }
 
   private checkIfUserId(): void {
@@ -181,7 +181,7 @@ export class SignInComponent implements OnInit, OnDestroy {
  * @param {string} n Tag to know what element.
  * @return {string} x Which needs to be translated.
  */
-  public getErrorMessage({errors}: FormControl, tag: string){
+  public getErrorMessage({errors}: FormControl | AbstractControl, tag: string){
     if(tag === 'email'){
       if(errors.required){
         return 'user.auth.sign-in.email-is-required';
