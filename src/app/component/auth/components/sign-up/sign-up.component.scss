@@ -128,15 +128,9 @@ $sign-up-google-font: 'Roboto';
       }
 
       .error-message {
-        height: 10px;
         font-size: 10px;
         line-height: 12px;
         color: #f03127;
-        visibility: hidden;
-      }
-
-      .error-message-show {
-        visibility: visible;
       }
 
       .primary-global-button {

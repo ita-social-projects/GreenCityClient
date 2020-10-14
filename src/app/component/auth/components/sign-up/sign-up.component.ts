@@ -1,5 +1,5 @@
-import { SIGN_IN_TOKEN } from './../../auth-token.constant';
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -12,6 +12,8 @@ import { UserOwnSignUp } from '@global-models/user-own-sign-up';
 import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
 import { SubmitEmailComponent } from '../submit-email/submit-email.component';
 import { ComponentType } from '@angular/cdk/portal';
+import { SIGN_IN_TOKEN } from './../../auth-token.constant';
+import { ConfirmPasswordValidator, ValidatorRegExp } from './sign-up.validator';
 
 @Component({
   selector: 'app-sign-up',
@@ -19,45 +21,84 @@ import { ComponentType } from '@angular/cdk/portal';
   styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent implements OnInit {
+  public signUpForm: FormGroup;
+  public emailControl: AbstractControl;
+  public firstNameControl: AbstractControl;
+  public passwordControl: AbstractControl;
+  public passwordControlConfirm: AbstractControl;
   public signUpImages = authImages;
   public userOwnSignUp: UserOwnSignUp;
-  public tmp: string;
   public loadingAnim = false;
   public emailErrorMessageBackEnd: string;
   public passwordErrorMessageBackEnd: string;
   private firstNameErrorMessageBackEnd: string;
-  private lastNameErrorMessageBackEnd: string;
   private passwordConfirmErrorMessageBackEnd: string;
   private backEndError: string;
 
   constructor(private matDialogRef: MatDialogRef<SignUpComponent>,
               private dialog: MatDialog,
+              private formBuilder: FormBuilder,
               private userOwnSignInService: UserOwnSignInService,
               private userOwnSecurityService: UserOwnSignUpService,
               private router: Router,
               private authService: AuthService,
               private googleService: GoogleSignInService,
-              @Inject(SIGN_IN_TOKEN) private signInToken: ComponentType<any>,
-              ) { }
+              @Inject(SIGN_IN_TOKEN) private signInToken: ComponentType<any>) { }
 
   ngOnInit() {
+    this.InitFormReactive();
+    this.getFormFields();
     this.userOwnSignUp = new UserOwnSignUp();
     this.setNullAllMessage();
   }
 
+  public InitFormReactive() : void {
+    this.signUpForm = this.formBuilder.group(
+      {
+        email: ['', [ Validators.required, Validators.email ]],
+        firstName: ['', [ Validators.required ]],
+        password: ['', [ Validators.required]],
+        repeatPassword: ['', [ Validators.required ]]
+      },
+      {
+        validator: [ 
+          ConfirmPasswordValidator('password', 'repeatPassword'),
+          ValidatorRegExp('firstName'),
+          ValidatorRegExp('password'),
+        ]
+      }
+    );
+  }
+
+  public getFormFields(): void {
+    this.emailControl = this.signUpForm.get('email');
+    this.firstNameControl = this.signUpForm.get('firstName');
+    this.passwordControl = this.signUpForm.get('password');
+    this.passwordControlConfirm = this.signUpForm.get('repeatPassword');
+  }
+
   private setNullAllMessage(): void {
     this.firstNameErrorMessageBackEnd = null;
-    this.lastNameErrorMessageBackEnd = null;
     this.emailErrorMessageBackEnd = null;
     this.passwordErrorMessageBackEnd = null;
     this.passwordConfirmErrorMessageBackEnd = null;
   }
 
   public onSubmit(userOwnRegister: UserOwnSignUp): void {
+    const { email, firstName, password } = this.signUpForm.value;
+
+    userOwnRegister.email = email;
+    userOwnRegister.firstName = firstName;
+    userOwnRegister.password = password;
+
     this.setNullAllMessage();
     this.loadingAnim = true;
     this.userOwnSecurityService.signUp(userOwnRegister)
-      .subscribe((data) => this.onSubmitSuccess(data), (error) => this.onSubmitError(error));
+      .subscribe(
+      (data) => {
+        this.onSubmitSuccess(data)
+      }, (error) => {
+        this.onSubmitError(error)});
   }
 
   private onSubmitSuccess(data): void {
@@ -67,7 +108,7 @@ export class SignUpComponent implements OnInit {
     this.receiveUserId(data.userId);
   }
 
-  private receiveUserId(id): void {
+  private receiveUserId(id: number): void {
     setTimeout(() => {
       this.router.navigate(['profile', id]);
       this.dialog.closeAll();
@@ -100,26 +141,25 @@ export class SignUpComponent implements OnInit {
           break;
       }
     });
-
     this.loadingAnim = false;
   }
 
-  public signInWithGoogle(): void {
+  public signUpWithGoogle(): void {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID)
       .then((data) => {
         this.googleService.signIn(data.idToken)
-          .subscribe((successData) => this.signInWithGoogleSuccess(successData));
+          .subscribe((successData) => this.signUpWithGoogleSuccess(successData));
       })
-      .catch((errorData) => this.signInWithGoogleError(errorData));
+      .catch((errorData) => this.signUpWithGoogleError(errorData));
   }
 
-  private signInWithGoogleSuccess(data: UserSuccessSignIn): void {
+  private signUpWithGoogleSuccess(data: UserSuccessSignIn): void {
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.closeSignUpWindow();
     this.router.navigate(['/']);
   }
 
-  private signInWithGoogleError(errors: HttpErrorResponse): void {
+  private signUpWithGoogleError(errors: HttpErrorResponse): void {
     if (!Array.isArray(errors.error)) {
       this.backEndError = errors.error.message;
       return;
@@ -135,15 +175,6 @@ export class SignUpComponent implements OnInit {
     this.matDialogRef.close();
   }
 
-  public matchPassword(passInput: HTMLInputElement,
-                       passRepeat: HTMLInputElement,
-                       inputBlock: HTMLElement): void {
-    this.passwordErrorMessageBackEnd = null;
-    inputBlock.className = passInput.value !== passRepeat.value ?
-                          'main-data-input-password wrong-input' :
-                          'main-data-input-password';
-  }
-
   public setEmailBackendErr(): void {
     this.emailErrorMessageBackEnd = null;
   }
@@ -151,20 +182,6 @@ export class SignUpComponent implements OnInit {
   public setPasswordVisibility(htmlInput: HTMLInputElement, htmlImage: HTMLImageElement): void {
     htmlInput.type = htmlInput.type === 'password' ? 'text' : 'password';
     htmlImage.src = htmlInput.type === 'password' ? this.signUpImages.hiddenEye : this.signUpImages.openEye;
-  }
-
-  public checkSpaces(input: string): boolean {
-    return input.indexOf(' ') >= 0;
-  }
-
-  public checkSymbols(input: string): boolean {
-    const regexp = /^(?=.*[a-z]+)(?=.*[A-Z]+)(?=.*\d+)(?=.*[~`!@#$%^&*()+=_\-{}|:;”’?/<>,.\]\[]+).{8,}$/;
-    return (regexp.test(input) || input === '');
-  }
-
-  public checkUserName(input: string): boolean {
-    const regexp = /^[^\.][a-z0-9\. ]{5,29}$/gi;
-    return (regexp.test(input) || input === '');
   }
 
   public openSignInWindow(): void {
@@ -175,5 +192,38 @@ export class SignUpComponent implements OnInit {
       disableClose: true,
       panelClass: 'custom-dialog-container',
     });
+  }
+  
+  public getErrorMessage({ errors }: FormControl, tag: string) {
+    if (tag === 'email') {
+      return errors.required 
+        ? 'user.auth.sign-up.email-is-required' 
+        : errors.email 
+        ? 'user.auth.sign-up.this-is-not-email' 
+        : '';
+    }
+    if (tag === 'firstName') {
+      return errors.required
+        ? 'user.auth.sign-up.user-name-error'
+        : errors.symbolInvalid
+        ? 'user.auth.sign-up.user-name-size'
+        : '';
+    }
+    if (tag === 'password') {
+       return errors.required
+        ? 'user.auth.sign-up.password-is-required'
+         : errors.symbolInvalid
+        ? 'user.auth.sign-up.password-symbols-error'
+        : '';
+    }
+    if (tag === 'repeatPassword') {
+      return errors.pattern
+        ? 'user.auth.sign-up.password-symbols-error'
+        : errors.required
+        ? 'user.auth.sign-up.password-is-required'
+        : errors.passwordMismatch && !errors.required
+        ? 'user.auth.sign-up.password-match'
+        : ''; 
+    }
   }
 }

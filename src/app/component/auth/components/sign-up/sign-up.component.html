@@ -2,18 +2,15 @@
 <div class="main-container">
   <div class="main-image">
     <img [src]="signUpImages.mainImage"
-         alt="main-image"
-    >
+         alt="main-image">
   </div>
-
   <div class="main-content">
     <div class="close-btn">
       <div class="close-btn-img">
         <a (click)="closeSignUpWindow()">
           <img [src]="signUpImages.cross"
                alt="cross"
-               class="cross-img"
-          >
+               class="cross-img">
         </a>
       </div>
     </div>
@@ -28,180 +25,119 @@
           {{ 'user.auth.sign-up.fill-form-up' | translate }}
         </h2>
       </div>
-      <form #signUpForm="ngForm"
-            (ngSubmit)="onSubmit(userOwnSignUp)"
-      >
+      <form (ngSubmit)="onSubmit(userOwnSignUp)"
+            [formGroup]="signUpForm">
         <div class="form-content-container">
-          <label class="content-label">
+          <label class="content-label"
+                 for="email">
             {{ 'user.auth.sign-up.email' | translate }}
           </label>
           <input type="email"
                  class="main-data-input"
                  placeholder="example@email.com"
-                 #emailControl="ngModel"
+                 id="email"
                  name="email"
-                 [(ngModel)]="userOwnSignUp.email"
+                 formControlName="email"
                  (input)="setEmailBackendErr()"
-                 [ngClass]="emailControl.invalid &&
-                 (emailControl.dirty || emailControl.touched) ?
-                 'wrong-input':'main-data-input'"
-                 required
-                 minlength="1"
-                 email="true"
-          >
-          <div class="error-message"
-               [ngClass]="emailControl.invalid &&
-               (emailControl.dirty || emailControl.touched) || emailErrorMessageBackEnd ?
-               'error-message-show':'error-message'"
-          >
-            <div *ngIf="emailControl.errors?.required">
-              {{'user.auth.sign-up.email-is-required' | translate}}
-            </div>
-            <div *ngIf="emailControl.errors?.minlength">
-              {{'user.auth.sign-up.email-must-be-at-least-1-characters-long' | translate}}
-            </div>
-            <div *ngIf="emailControl.errors?.email">
-              {{'user.auth.sign-up.this-is-not-email' | translate}}
-            </div>
-            <div *ngIf="emailErrorMessageBackEnd">
-              {{'user.auth.sign-up.the-user-already-exists-by-this-email' | translate}}
-            </div>
+                 [ngClass]="emailControl.invalid && emailControl.touched || emailErrorMessageBackEnd
+                            ? 'wrong-input' :'main-data-input'">
+          <div *ngIf="emailControl.invalid && emailControl.touched"
+               class="error-message">
+            <app-error [formElement]="emailControl" 
+                       [errorMessage]="getErrorMessage(emailControl, 'email')"></app-error>
           </div>
-          <label class="content-label under-error">
+          <div *ngIf="emailErrorMessageBackEnd" 
+                class="error-message error-message-show">
+              {{'user.auth.sign-up.the-user-already-exists-by-this-email' | translate}}
+          </div>
+          <label class="content-label under-error"
+                 for="firstName">
             {{ 'user.auth.sign-up.first-name' | translate }}
           </label>
           <input type="text"
                  class="main-data-input"
                  placeholder="{{ 'user.auth.sign-up.first-name-is-required' | translate }}"
-                 name="fistName"
-                 #inputName
-                 #firstNameControl="ngModel"
-                 [(ngModel)]="userOwnSignUp.firstName"
-                 [ngClass]="firstNameControl.invalid &&
-                 (firstNameControl.dirty || firstNameControl.touched) ||
-                 !checkUserName(inputName.value) ?
-                 'wrong-input':'main-data-input'"
-                 required
-                 minlength="6"
-                 maxlength="30"
-          >
-          <div class="error-message"
-               [ngClass]="firstNameControl.invalid &&
-               (firstNameControl.dirty || firstNameControl.touched) ?
-               'error-message-show' : 'error-message'"
-          >
-            <div *ngIf="firstNameControl.errors?.required">
-              {{'user.auth.sign-up.user-name-error' | translate}}
-            </div>
-            <div *ngIf="!checkUserName(inputName.value)">
-              {{'user.auth.sign-up.user-name-size' | translate}}
-            </div>
+                 id="firstName"
+                 name="firstName"
+                 formControlName="firstName"
+                 [ngClass]="firstNameControl.invalid && firstNameControl.touched
+                            ? 'wrong-input'
+                            :'main-data-input'">
+          <div *ngIf="firstNameControl.invalid && firstNameControl.touched"
+               class="error-message">
+            <app-error [formElement]="firstNameControl"
+                       [errorMessage]="getErrorMessage(firstNameControl, 'firstName')"></app-error>
           </div>
-          <label class="content-label under-error">
+          <div *ngIf="firstNameErrorMessageBackEnd" 
+                class="error-message error-message-show">
+              {{firstNameErrorMessageBackEnd}}
+          </div>
+          <label class="content-label under-error"
+                 for="password">
             {{ 'user.auth.sign-up.password' | translate }}
           </label>
           <div class="main-data-input-password"
-               [ngClass]="passwordControl.invalid &&
-               (passwordControl.dirty || passwordControl.touched) ||
-               checkSpaces(inputPassword.value) ||
-               !checkSymbols(inputPassword.value) ?
-               'main-data-input-password wrong-input' : 'main-data-input-password'"
-          >
+               [ngClass]="passwordControl.invalid && passwordControl.touched
+                          ? 'main-data-input-password wrong-input' 
+                          : 'main-data-input-password'">
             <input type="password"
                    placeholder="{{ 'user.auth.sign-up.password' | translate }}"
                    class="password-input"
                    #inputPassword
-                   #passwordControl="ngModel"
-                   [(ngModel)]="userOwnSignUp.password"
-                   required
-                   minlength="8"
-                   name="form-control password"
-            >
+                   formControlName="password"
+                   id="password"
+                   name="form-control password">
             <span class="show-password">
               <img [src]="signUpImages.hiddenEye"
                    alt="eye"
                    class="show-password-img"
                    #inputPasswordImg
-                   (click)="setPasswordVisibility(inputPassword, inputPasswordImg)"
-              >
+                   (click)="setPasswordVisibility(inputPassword, inputPasswordImg)">
             </span>
           </div>
-          <div class="error-message"
-               [ngClass]="passwordControl.invalid &&
-               (passwordControl.dirty || passwordControl.touched) ||
-                checkSpaces(inputPassword.value)?
-               'error-message-show' : 'error-message'"
-          >
-            <div *ngIf="passwordControl.errors?.required">
-              {{'user.auth.sign-up.password-is-required' | translate}}
-            </div>
-            <div *ngIf="passwordControl.errors?.minlength && !checkSpaces(inputPassword.value)">
-              {{'user.auth.sign-up.password-must-be-at-least-8-characters-long' | translate}}
-            </div>
-            <div *ngIf="checkSpaces(inputPassword.value)">
-              {{'user.auth.sign-up.password-spaces-error' | translate}}
-            </div>
+          <div *ngIf="passwordControl.invalid && passwordControl.touched"
+               class="error-message">
+            <app-error [formElement]="passwordControl"
+                       [errorMessage]="getErrorMessage(passwordControl, 'password')"></app-error>
           </div>
-          <label class="content-label under-error">
+          <label class="content-label under-error"
+                 for="repeatPassword">
             {{ 'user.auth.sign-up.password-confirm' | translate }}
           </label>
           <div class="main-data-input-password"
-               [ngClass]="passwordControlConfirm.invalid &&
-               (passwordControlConfirm.dirty || passwordControlConfirm.touched) ||
-               ((inputPassword.value !== repeatPassword.value) && repeatPassword.value !== '') ?
-               'main-data-input-password wrong-input':'main-data-input-password'"
-               #repeatInput
-          >
+               [ngClass]="passwordControlConfirm.invalid && passwordControlConfirm.touched ||
+               ((inputPassword.value !== repeatPassword.value) && repeatPassword.value !== '')
+               ? 'main-data-input-password wrong-input'
+               :'main-data-input-password'"
+               #repeatInput>
             <input type="password"
                    placeholder="{{ 'user.auth.sign-up.password' | translate }}"
                    class="password-input"
                    #repeatPassword
-                   #passwordControlConfirm="ngModel"
-                   [(ngModel)]="tmp"
-                   name="form-control password-confirm"
-                   (input)="matchPassword(inputPassword, repeatPassword, repeatInput)"
-                   required
-            >
+                   formControlName="repeatPassword"
+                   id="repeatPassword"
+                   name="form-control password-confirm">
             <span class="show-password">
               <img [src]="signUpImages.hiddenEye"
                    alt="eye"
                    class="show-password-img"
                    #repeatPasswordImg
-                   (click)="setPasswordVisibility(repeatPassword, repeatPasswordImg)"
-              >
+                   (click)="setPasswordVisibility(repeatPassword, repeatPasswordImg)">
             </span>
           </div>
-          <div class="error-message"
-               [ngClass]="passwordControlConfirm.invalid &&
-               (passwordControlConfirm.dirty || passwordControlConfirm.touched) ||
-               (inputPassword.value !== repeatPassword.value && repeatPassword.value !== '') ||
-               !checkSymbols(inputPassword.value) ||
-               passwordErrorMessageBackEnd ?
-               'error-message-show' : 'error-message'"
-          >
-            <div *ngIf="passwordControlConfirm.errors?.required &&
-                 passwordControlConfirm.touched">
-              {{'user.auth.sign-up.password-is-required' | translate}}
-            </div>
-            <div *ngIf="inputPassword.value !== repeatPassword.value &&
-                  !passwordControlConfirm.errors?.required"
-            >
-              {{'user.auth.sign-up.password-match' | translate}}
-            </div>
-            <div *ngIf="!checkSymbols(inputPassword.value)"
-            >
-              {{'user.auth.sign-up.password-symbols-error' | translate}}
-            </div>
-            <div *ngIf="passwordErrorMessageBackEnd">
+          <div *ngIf="passwordControlConfirm.invalid && passwordControlConfirm.touched"
+                class="error-message">
+            <app-error [formElement]="passwordControlConfirm" 
+                       [errorMessage]="getErrorMessage(passwordControlConfirm, 'repeatPassword')"></app-error>
+          </div>
+          <div *ngIf="passwordErrorMessageBackEnd" 
+                class="error-message error-message-show">
               {{ passwordErrorMessageBackEnd }}
-            </div>
           </div>
           <button type="submit"
                   class="primary-global-button"
                   [disabled]="!signUpForm.valid ||
-                  checkSpaces(inputPassword.value) ||
-                  (inputPassword.value !== repeatPassword.value)"
-          >
+                  (inputPassword.value !== repeatPassword.value)">
             <span *ngIf="loadingAnim"
                   class="spinner-border spinner-border-sm"
                   role="status"
@@ -212,18 +148,8 @@
           <div class="switch-sign-up">
             {{'user.auth.sign-up.or' | translate}}
           </div>
-          <button type="submit"
-                  class="cta-button-google"
-                  (click)="signInWithGoogle()"
-          >
-            <img [src]="signUpImages.google"
-                 alt="google"
-                 class="sign-up-google-img"
-            >
-            <span class="sign-up-google-text">
-              {{ 'user.auth.sign-up.submit-with-google' | translate }}
-            </span>
-          </button>
+          <app-google-btn (click)="signUpWithGoogle()"
+                          [text]="'user.auth.sign-up.submit-with-google'"></app-google-btn>
         </div>
       </form>
 

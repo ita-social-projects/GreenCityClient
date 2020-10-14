@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GoogleBtnComponent } from './google-btn.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('GoogleBtnComponent', () => {
   let component: GoogleBtnComponent;
@@ -8,7 +9,8 @@ describe('GoogleBtnComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GoogleBtnComponent ]
+      declarations: [ GoogleBtnComponent ],
+      imports: [TranslateModule.forRoot(), ]
     })
     .compileComponents();
   }));
