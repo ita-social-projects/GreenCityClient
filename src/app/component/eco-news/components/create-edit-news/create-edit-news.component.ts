@@ -1,6 +1,6 @@
 import { QueryParams } from './../../models/create-news-interface';
 import { EcoNewsService } from './../../services/eco-news.service';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable, Subject } from 'rxjs';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
@@ -12,15 +12,17 @@ import { MatDialog } from '@angular/material/dialog';
 import { CancelPopUpComponent } from '@shared/components';
 import { ACTION_TOKEN } from './action.constants';
 import { ActionInterface } from './action.interface';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-edit-news',
   templateUrl: './create-edit-news.component.html',
   styleUrls: ['./create-edit-news.component.scss']
 })
-export class CreateEditNewsComponent implements OnInit {
+export class CreateEditNewsComponent implements OnInit, OnDestroy {
   public isPosting = false;
   public newsData;
+  private destroy = new Subject();
   public form: FormGroup;
   public isArrayEmpty = true;
   public textAreasHeight = {
@@ -104,6 +106,9 @@ export class CreateEditNewsComponent implements OnInit {
   private fetchNewsItemToEdit(): void {
     this.newsItemSubscription = this.ecoNewsService
       .getEcoNewsById(this.newsId)
+      .pipe(
+        takeUntil(this.destroy)
+      )
       .subscribe((item: EcoNewsModel) => {
         this.form = this.createEditNewsFormBuilder.getEditForm(item);
         this.setActiveFilters(item);
@@ -188,5 +193,10 @@ export class CreateEditNewsComponent implements OnInit {
         currentPage: 'eco news'
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.destroy.next(true);
+    this.destroy.complete();
   }
 }
