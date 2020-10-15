@@ -4,7 +4,6 @@ import { MatDialog } from '@angular/material';
 import { filter } from 'rxjs/operators';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { ModalService } from '@global-core/components/propose-cafe/_modal/modal.service';
-import { UiActionsService } from '@global-service/ui-actions/ui-actions.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UserService } from 'src/app/service/user/user.service';
 import { AchievementService } from 'src/app/service/achievement/achievement.service';
@@ -51,7 +50,6 @@ export class HeaderComponent implements OnInit {
               private languageService: LanguageService,
               private searchSearch: SearchService,
               private userOwnAuthService: UserOwnAuthService,
-              private uiActionsService: UiActionsService,
   ) {}
 
   ngOnInit() {
@@ -107,6 +105,7 @@ export class HeaderComponent implements OnInit {
       )
       .subscribe(() => {
         this.toggleBurgerMenu = false;
+        this.toggleScroll();
       });
   }
 
@@ -141,7 +140,7 @@ export class HeaderComponent implements OnInit {
 
   public onToggleBurgerMenu(): void {
     this.toggleBurgerMenu = !this.toggleBurgerMenu;
-    this.uiActionsService.stopScrollingSubject.next(this.toggleBurgerMenu);
+    this.toggleScroll();
   }
 
   public openSingInWindow(): void {
@@ -184,5 +183,11 @@ export class HeaderComponent implements OnInit {
     this.achievementService.onLogout();
     this.router.navigateByUrl('/welcome').then(r => r);
     this.userOwnAuthService.getDataFromLocalStorage();
+  }
+
+  public toggleScroll(): void {
+    this.toggleBurgerMenu ?
+    document.body.classList.add('modal-open') :
+    document.body.classList.remove('modal-open');
   }
 }

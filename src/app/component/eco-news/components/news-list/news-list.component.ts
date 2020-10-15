@@ -1,13 +1,9 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
-import * as fromApp from '@store/app.reducers';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
-import * as fromEcoNews from '@eco-news-store/eco-news.actions';
-import { EcoNewsSelectors } from '@eco-news-store/eco-news.selectors';
 import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
@@ -32,8 +28,6 @@ export class NewsListComponent implements OnInit, OnDestroy {
   constructor(
     private ecoNewsService: EcoNewsService,
     private userOwnAuthService: UserOwnAuthService,
-    private store: Store<fromApp.AppState>,
-    private ecoNewsSelectors: EcoNewsSelectors,
     private snackBar: MatSnackBarComponent) { }
 
   ngOnInit() {
