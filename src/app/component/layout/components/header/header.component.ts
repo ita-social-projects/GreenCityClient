@@ -51,7 +51,6 @@ export class HeaderComponent implements OnInit {
               private languageService: LanguageService,
               private searchSearch: SearchService,
               private userOwnAuthService: UserOwnAuthService,
-              private uiActionsService: UiActionsService,
   ) {}
 
   ngOnInit() {
@@ -141,7 +140,9 @@ export class HeaderComponent implements OnInit {
 
   public onToggleBurgerMenu(): void {
     this.toggleBurgerMenu = !this.toggleBurgerMenu;
-    this.uiActionsService.stopScrollingSubject.next(this.toggleBurgerMenu);
+    this.toggleBurgerMenu ?
+    document.body.classList.add('modal-open') :
+    document.body.classList.remove('modal-open');
   }
 
   public openSingInWindow(): void {
