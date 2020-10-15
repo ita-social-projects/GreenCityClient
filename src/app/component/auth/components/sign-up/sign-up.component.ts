@@ -23,6 +23,7 @@ export class SignUpComponent implements OnInit {
   public tmp: string;
   public loadingAnim = false;
   public emailErrorMessageBackEnd: string;
+  public isEmailInvalid = false;
   public passwordErrorMessageBackEnd: string;
   private firstNameErrorMessageBackEnd: string;
   private lastNameErrorMessageBackEnd: string;
@@ -88,6 +89,7 @@ export class SignUpComponent implements OnInit {
           break;
         case 'email':
           this.emailErrorMessageBackEnd = error.message;
+          this.isEmailInvalid = this.emailErrorMessageBackEnd === 'The email is invalid';
           break;
         case 'password':
           this.passwordErrorMessageBackEnd = error.message;

@@ -42,8 +42,8 @@
                  name="email"
                  [(ngModel)]="userOwnSignUp.email"
                  (input)="setEmailBackendErr()"
-                 [ngClass]="emailControl.invalid &&
-                 (emailControl.dirty || emailControl.touched) ?
+                 [ngClass]="emailControl.invalid  &&
+                 (emailControl.dirty || emailControl.touched) || isEmailInvalid ?
                  'wrong-input':'main-data-input'"
                  required
                  minlength="1"
@@ -63,7 +63,10 @@
             <div *ngIf="emailControl.errors?.email">
               {{'user.auth.sign-up.this-is-not-email' | translate}}
             </div>
-            <div *ngIf="emailErrorMessageBackEnd">
+            <div *ngIf="emailErrorMessageBackEnd && isEmailInvalid">
+              {{'user.auth.sign-up.this-is-not-email' | translate}}
+            </div>
+            <div *ngIf="emailErrorMessageBackEnd && !isEmailInvalid">
               {{'user.auth.sign-up.the-user-already-exists-by-this-email' | translate}}
             </div>
           </div>
