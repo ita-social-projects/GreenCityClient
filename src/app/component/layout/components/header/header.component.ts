@@ -127,8 +127,8 @@ export class HeaderComponent implements OnInit {
 
   public onToggleBurgerMenu(): void {
     this.toggleBurgerMenu = !this.toggleBurgerMenu;
-    this.toggleBurgerMenu?
-    document.body.classList.add('modal-open'):
+    this.toggleBurgerMenu ?
+    document.body.classList.add('modal-open') :
     document.body.classList.remove('modal-open');
   }
 
