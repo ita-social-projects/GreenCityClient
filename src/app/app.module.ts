@@ -24,9 +24,6 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireModule } from '@angular/fire';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { EffectsModule } from '@ngrx/effects';
 import { AuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
 import { NgFlashMessagesModule } from 'ng-flash-messages';
 // tslint:disable-next-line:max-line-length
@@ -35,7 +32,6 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { provideConfig } from './config/GoogleAuthConfig';
 import { environment } from '@environment/environment';
-import { reducers } from '@store/app.reducers';
 import { ProposeCafeComponent } from '@global-core/components';
 import { AdminModule } from './component/admin/admin.module';
 import { RestoreComponent } from '@global-auth/restore/restore.component';
@@ -55,9 +51,6 @@ import { ErrorComponent } from '@global-errors/error/error.component';
     ErrorComponent
   ],
   imports: [
-    StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([]),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
