@@ -8,7 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class GoogleBtnComponent implements OnInit {
 
-  @Input() text:string;
+  @Input() text: string;
   public googleImage = SignInIcons;
 
   constructor() { }

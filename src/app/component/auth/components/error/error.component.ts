@@ -7,8 +7,8 @@ import { Component, Input, OnInit } from '@angular/core';
 export class ErrorComponent implements OnInit {
   @Input() errorMessage;
   @Input() formElement;
-  ngOnInit():void {
 
+  ngOnInit(): void {
   }
 
 }

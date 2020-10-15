@@ -103,6 +103,10 @@ body {
   color: #13aa57;
 }
 
+.mat-dialog-container {
+  box-shadow: none;
+}
+
 .custom-dialog-container .mat-dialog-container {
   padding: 0;
   display: block;
@@ -122,10 +126,6 @@ body {
 
 .red-snackbar {
   background: #b00020;
-}
-
-.mat-dialog-container {
-  box-shadow: none;
 }
 
 @media (max-width: 375px) {
