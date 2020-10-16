@@ -147,7 +147,7 @@ export class HeaderComponent implements OnInit {
     this.dialog.open(SignInComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
-      panelClass: 'custom-dialog-container',
+      panelClass: ['custom-dialog-container', 'transparent']
     });
   }
 
@@ -155,7 +155,7 @@ export class HeaderComponent implements OnInit {
     this.dialog.open(SignUpComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
-      panelClass: 'custom-dialog-container',
+      panelClass: ['custom-dialog-container', 'transparent']
     });
   }
 

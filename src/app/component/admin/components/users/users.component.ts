@@ -9,7 +9,6 @@ import { PaginationComponent } from 'ngx-bootstrap/pagination';
 import { JwtService } from '../../../../service/jwt/jwt.service';
 import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 
-
 export interface Role {
   value: string;
   viewValue: string;
