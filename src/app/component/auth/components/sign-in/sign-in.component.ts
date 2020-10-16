@@ -52,8 +52,8 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.checkIfUserId();
     // Initialization of reactive form
     this.signInForm = new FormGroup({
-      'email': new FormControl(null, [Validators.required, Validators.email]),
-      'password': new FormControl(null, [Validators.required, Validators.minLength(8)])
+      email: new FormControl(null, [Validators.required, Validators.email]),
+      password: new FormControl(null, [Validators.required, Validators.minLength(8)])
     });
     // Get form fields to use it in the template
     this.emailField = this.signInForm.get('email');
@@ -155,30 +155,5 @@ export class SignInComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.userIdSubscription.unsubscribe();
-  }
-
-  /**
- * Returns the string according to the error that needs to be translated later.
- *
- * @param {obj} x FormControl on which the error occurred.
- * @param {string} n Tag to know what element.
- * @return {string} x Which needs to be translated.
- */
-  public getErrorMessage({errors}: FormControl | AbstractControl, tag: string){
-    if(tag === 'email'){
-      if(errors.required){
-        return 'user.auth.sign-in.email-is-required';
-      } else if (errors.email){
-        return 'user.auth.sign-in.this-is-not-email';
-      }
-    }
-    if(tag==='password'){
-      if(errors.required){
-        return 'user.auth.sign-in.password-is-required';
-      } else if (errors.minlength){
-        return 'user.auth.sign-in.password-must-be-at-least-8-characters-long';
-      }
-    }
-    return false
   }
 }

@@ -44,7 +44,6 @@ import { AuthModalComponent } from './components/auth-modal/auth-modal.component
   exports: [
     InputcolorDirective
   ],
-
   providers: []
 })
 export class AuthModule { }

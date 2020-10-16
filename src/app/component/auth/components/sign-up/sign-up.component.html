@@ -28,7 +28,7 @@
       <div *ngIf="emailControl.invalid && emailControl.touched"
           class="error-message">
         <app-error [formElement]="emailControl" 
-                  [errorMessage]="getErrorMessage(emailControl, 'email')"></app-error>
+                   [controlName]="'email'"></app-error>
       </div>
       <div *ngIf="emailErrorMessageBackEnd" 
             class="error-message error-message-show">
@@ -50,7 +50,7 @@
       <div *ngIf="firstNameControl.invalid && firstNameControl.touched"
           class="error-message">
         <app-error [formElement]="firstNameControl"
-                  [errorMessage]="getErrorMessage(firstNameControl, 'firstName')"></app-error>
+                   [controlName]="'firstName'"></app-error>
       </div>
       <div *ngIf="firstNameErrorMessageBackEnd" 
             class="error-message error-message-show">
@@ -82,7 +82,7 @@
       <div *ngIf="passwordControl.invalid && passwordControl.touched"
           class="error-message">
         <app-error [formElement]="passwordControl"
-                  [errorMessage]="getErrorMessage(passwordControl, 'password')"></app-error>
+                   [controlName]="'password'"></app-error>
       </div>
       <label class="content-label under-error"
             for="repeatPassword">
@@ -112,7 +112,7 @@
       <div *ngIf="passwordControlConfirm.invalid && passwordControlConfirm.touched"
             class="error-message">
         <app-error [formElement]="passwordControlConfirm" 
-                  [errorMessage]="getErrorMessage(passwordControlConfirm, 'repeatPassword')"></app-error>
+                   [controlName]="'repeatPassword'"></app-error>
       </div>
       <div *ngIf="passwordErrorMessageBackEnd" 
             class="error-message error-message-show">

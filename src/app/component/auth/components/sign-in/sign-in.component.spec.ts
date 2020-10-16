@@ -19,8 +19,7 @@ import { ViewContainerRef } from '@angular/core';
 describe('SignInNewComponent', () => {
   let component: SignInComponent;
   let fixture: ComponentFixture<SignInComponent>;
-  let dialog: MatDialog;
-  let overlayContainerElement: HTMLElement;
+
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -51,7 +50,6 @@ describe('SignInNewComponent', () => {
     fixture = TestBed.createComponent(SignInComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    dialog = TestBed.get(MatDialog)
   });
 
   it('should create', () => {
@@ -74,34 +72,34 @@ describe('SignInNewComponent', () => {
   });
 
   it('form fields validity', () => {
-    let { email, password } = component.signInForm.controls;
-    expect(email.valid && password.valid ).toBeFalsy();
+    const { email, password } = component.signInForm.controls;
+    expect(email[`valid`] && password[`valid`] ).toBeFalsy();
   });
 
   it('submitting a form emits a user', () => {
     expect(component.signInForm.valid).toBeFalsy();
-    component.signInForm.controls['email'].setValue("test@test.com");
-    component.signInForm.controls['password'].setValue("12345678");
+    component.signInForm.controls[`email`].setValue('test@test.com');
+    component.signInForm.controls[`password`].setValue('12345678');
     expect(component.signInForm.valid).toBeTruthy();
   });
 
   it('submitting a form emits a user', () => {
-    expect(component.signInForm.valid).toBeFalsy();
-    component.signInForm.controls['email'].setValue("test@test.com");
-    component.signInForm.controls['password'].setValue("12345678");
-    expect(component.signInForm.valid).toBeTruthy();
+    expect(component.signInForm[`valid`]).toBeFalsy();
+    component.signInForm.controls[`email`].setValue('test@test.com');
+    component.signInForm.controls[`password`].setValue('12345678');
+    expect(component.signInForm[`valid`]).toBeTruthy();
   });
 
-  it('getting error messages', ()=>{
-    const passControl = component.signInForm.controls['password'];
-    const emailControl = component.signInForm.controls['email'];
-    passControl.setErrors({'required': true});
-    expect(component.getErrorMessage(passControl,'password')).toBeTruthy();
-    passControl.setErrors({'minlength': true});
-    expect(component.getErrorMessage(passControl,'password')).toBeTruthy();
-    emailControl.setErrors({'required': true});
-    expect(component.getErrorMessage(emailControl,'email')).toBeTruthy();
-    emailControl.setErrors({'email': true});
-    expect(component.getErrorMessage(emailControl,'email')).toBeTruthy();
-  })
+  it('getting error messages', () => {
+    const passControl = component.signInForm.controls[`password`];
+    const emailControl = component.signInForm.controls[`email`];
+    passControl.setErrors( {required: true} );
+    expect(component.getErrorMessage(passControl, 'password')).toBeTruthy();
+    passControl.setErrors( {minlength: true} );
+    expect(component.getErrorMessage(passControl, 'password')).toBeTruthy();
+    emailControl.setErrors( {required: true} );
+    expect(component.getErrorMessage(emailControl, 'email')).toBeTruthy();
+    emailControl.setErrors( {email: true} );
+    expect(component.getErrorMessage(emailControl, 'email')).toBeTruthy();
+  });
 });

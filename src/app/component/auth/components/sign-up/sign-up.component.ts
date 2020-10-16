@@ -187,37 +187,4 @@ export class SignUpComponent implements OnInit {
   public openSignInWindow(): void {
     this.authModalService.setAuthPopUp('sign-in');
   }
-  
-  public getErrorMessage({ errors }: FormControl, tag: string) {
-    if (tag === 'email') {
-      return errors.required 
-        ? 'user.auth.sign-up.email-is-required' 
-        : errors.email 
-        ? 'user.auth.sign-up.this-is-not-email' 
-        : '';
-    }
-    if (tag === 'firstName') {
-      return errors.required
-        ? 'user.auth.sign-up.user-name-error'
-        : errors.symbolInvalid
-        ? 'user.auth.sign-up.user-name-size'
-        : '';
-    }
-    if (tag === 'password') {
-       return errors.required
-        ? 'user.auth.sign-up.password-is-required'
-         : errors.symbolInvalid
-        ? 'user.auth.sign-up.password-symbols-error'
-        : '';
-    }
-    if (tag === 'repeatPassword') {
-      return errors.pattern
-        ? 'user.auth.sign-up.password-symbols-error'
-        : errors.required
-        ? 'user.auth.sign-up.password-is-required'
-        : errors.passwordMismatch && !errors.required
-        ? 'user.auth.sign-up.password-match'
-        : ''; 
-    }
-  }
 }
