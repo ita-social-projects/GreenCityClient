@@ -1,4 +1,3 @@
-import { SIGN_IN_TOKEN } from './../../auth-token.constant';
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
@@ -14,7 +13,7 @@ import { RestorePasswordService } from '@auth-service/restore-password.service';
 import { UserOwnSignIn } from '@global-models/user-own-sign-in';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { SignInComponent } from '../sign-in/sign-in.component';
-import { ComponentType } from '@angular/cdk/portal';
+import { AuthModalServiceService } from '../../services/auth-service.service';
 
 @Component({
   selector: 'app-restore-password',
@@ -42,7 +41,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
     private router: Router,
     private restorePasswordService: RestorePasswordService,
     private localStorageService: LocalStorageService,
-    @Inject(SIGN_IN_TOKEN) private signInToken: ComponentType<any>
+    private authModalService: AuthModalServiceService,
   ) {}
 
   ngOnInit() {
@@ -56,12 +55,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   }
 
   public onBackToSignIn(): void {
-    this.dialog.open(this.signInToken, {
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      panelClass: 'custom-dialog-container',
-    });
-    this.matDialogRef.close();
+    this.authModalService.setAuthPopUp('sign-in');
   }
 
   sentEmail(userOwnSignIn: UserOwnSignIn): void {

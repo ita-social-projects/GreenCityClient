@@ -15,8 +15,8 @@ import { SearchService } from '@global-service/search/search.service';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { LanguageModel } from '../models/languageModel';
 import { UserSettingComponent } from '@global-user/components/user-setting/user-setting.component';
-import { SignInComponent } from '@global-auth/index';
-import { SignUpComponent } from '@global-auth/index';
+import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
+import { AuthModalServiceService } from 'src/app/component/auth/services/auth-service.service';
 
 @Component({
   selector: 'app-header',
@@ -52,6 +52,7 @@ export class HeaderComponent implements OnInit {
               private searchSearch: SearchService,
               private userOwnAuthService: UserOwnAuthService,
               private uiActionsService: UiActionsService,
+              private authModalService: AuthModalServiceService
   ) {}
 
   ngOnInit() {
@@ -145,15 +146,17 @@ export class HeaderComponent implements OnInit {
   }
 
   public openSingInWindow(): void {
-    this.dialog.open(SignInComponent, {
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      panelClass: 'custom-dialog-container',
-    });
+    this.authModalService.setAuthPopUp('sign-in');
+    this.openAuthModalWindow();
   }
 
   public openSignUpWindow(): void {
-    this.dialog.open(SignUpComponent, {
+    this.authModalService.setAuthPopUp('sign-up');
+    this.openAuthModalWindow();
+  }
+
+  public openAuthModalWindow(): void {
+    this.dialog.open(AuthModalComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
       panelClass: 'custom-dialog-container',

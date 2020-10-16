@@ -11,9 +11,8 @@ import { GoogleSignInService } from '@global-service/auth/google-sign-in.service
 import { UserOwnSignUp } from '@global-models/user-own-sign-up';
 import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
 import { SubmitEmailComponent } from '../submit-email/submit-email.component';
-import { ComponentType } from '@angular/cdk/portal';
-import { SIGN_IN_TOKEN } from './../../auth-token.constant';
 import { ConfirmPasswordValidator, ValidatorRegExp } from './sign-up.validator';
+import { AuthModalServiceService } from '../../services/auth-service.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -43,7 +42,7 @@ export class SignUpComponent implements OnInit {
               private router: Router,
               private authService: AuthService,
               private googleService: GoogleSignInService,
-              @Inject(SIGN_IN_TOKEN) private signInToken: ComponentType<any>) { }
+              private authModalService: AuthModalServiceService,) { }
 
   ngOnInit() {
     this.InitFormReactive();
@@ -53,8 +52,7 @@ export class SignUpComponent implements OnInit {
   }
 
   public InitFormReactive() : void {
-    this.signUpForm = this.formBuilder.group(
-      {
+    this.signUpForm = this.formBuilder.group({
         email: ['', [ Validators.required, Validators.email ]],
         firstName: ['', [ Validators.required ]],
         password: ['', [ Validators.required]],
@@ -185,13 +183,7 @@ export class SignUpComponent implements OnInit {
   }
 
   public openSignInWindow(): void {
-    this.closeSignUpWindow();
-    this.dialog.open(this.signInToken, {
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      disableClose: true,
-      panelClass: 'custom-dialog-container',
-    });
+    this.authModalService.setAuthPopUp('sign-in');
   }
   
   public getErrorMessage({ errors }: FormControl, tag: string) {

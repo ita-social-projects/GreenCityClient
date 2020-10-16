@@ -14,6 +14,7 @@ import {
 import { ErrorComponent } from './components/error/error.component';
 import { ConfirmRestorePasswordComponent } from './components/confirm-restore-password/confirm-restore-password.component';
 import { GoogleBtnComponent } from './components/google-btn/google-btn.component';
+import { AuthModalComponent } from './components/auth-modal/auth-modal.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { GoogleBtnComponent } from './components/google-btn/google-btn.component
     RestoreComponent,
     ConfirmRestorePasswordComponent,
     ErrorComponent,
-    GoogleBtnComponent
+    GoogleBtnComponent,
+    AuthModalComponent
   ],
   imports: [
     CoreModule,
@@ -37,7 +39,8 @@ import { GoogleBtnComponent } from './components/google-btn/google-btn.component
     SignUpComponent,
     RestorePasswordComponent,
     SubmitEmailComponent,
-    ConfirmRestorePasswordComponent
+    ConfirmRestorePasswordComponent,
+    AuthModalComponent
   ],
   exports: [
     InputcolorDirective

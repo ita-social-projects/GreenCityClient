@@ -1,0 +1,51 @@
+.main {
+  width: 99vw;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: calc(100vh - -64px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 960px;
+  background-color: white;
+
+  .left-side {
+    .main-picture {
+      border-radius: 4px 0 0 4px;
+    }
+  }
+
+  .right-side {
+    width: 100%;
+    max-width: 480px;
+
+    .close-modal-window {
+      display: flex;
+      justify-content: flex-end;
+      margin: 26px 26px 22px 12px;
+    }
+
+    .cross-btn {
+      width: 12px;
+      height: 12px;
+    }
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .left-side {
+    display: none;
+  }
+
+  .wrapper {
+    width: 100%;
+    max-width: 480px;
+  }
+}

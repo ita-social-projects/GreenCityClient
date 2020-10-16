@@ -1,5 +1,3 @@
-import { RESTORE_PASSWORD_TOKEN } from './../../auth-token.constant';
-import { SIGN_UP_TOKEN } from '../../auth-token.constant';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { Router } from '@angular/router';
@@ -14,7 +12,7 @@ import { SignInIcons } from 'src/app/image-pathes/sign-in-icons';
 import { UserOwnSignIn } from '@global-models/user-own-sign-in';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
-import { ComponentType } from '@angular/cdk/portal';
+import { AuthModalServiceService } from '../../services/auth-service.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -45,8 +43,7 @@ export class SignInComponent implements OnInit, OnDestroy {
     private googleService: GoogleSignInService,
     private localStorageService: LocalStorageService,
     private userOwnAuthService: UserOwnAuthService,
-    @Inject(SIGN_UP_TOKEN) private signUpToken: ComponentType<any>,
-    @Inject(RESTORE_PASSWORD_TOKEN) private restorePassToken: ComponentType<any>
+    private authModalService: AuthModalServiceService,
   ) { }
 
   ngOnInit() {
@@ -120,12 +117,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   public onOpenForgotWindow(): void {
-    this.dialog.open(this.restorePassToken, {
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      panelClass: 'custom-dialog-container',
-    });
-    this.matDialogRef.close();
+    this.authModalService.setAuthPopUp('restore-password');
   }
 
   private onSignInFailure(errors: HttpErrorResponse): void {
@@ -157,17 +149,12 @@ export class SignInComponent implements OnInit, OnDestroy {
       this.hideShowPasswordImage.hidePassword : this.hideShowPasswordImage.showPassword;
   }
 
-  public closeSignInWindow(): void {
-    this.matDialogRef.close();
-  }
+  // public closeSignInWindow(): void {
+  //   this.matDialogRef.close();
+  // }
 
   public signUpOpenWindow(): void {
-    this.matDialogRef.close();
-    this.dialog.open(this.signUpToken, {
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      panelClass: 'custom-dialog-container',
-    });
+    this.authModalService.setAuthPopUp('sign-up');
   }
 
   ngOnDestroy() {

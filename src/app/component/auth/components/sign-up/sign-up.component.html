@@ -1,168 +1,149 @@
-<div class="main">
-<div class="main-container">
-  <div class="main-image">
-    <img [src]="signUpImages.mainImage"
-         alt="main-image">
+<div class="main-content-container">
+  <div class="title">
+    <h1 class="title-text">
+      {{ 'user.auth.sign-up.title-up' | translate }}
+    </h1>
   </div>
-  <div class="main-content">
-    <div class="close-btn">
-      <div class="close-btn-img">
-        <a (click)="closeSignUpWindow()">
-          <img [src]="signUpImages.cross"
-               alt="cross"
-               class="cross-img">
-        </a>
+  <div class="subtitle">
+    <h2 class="subtitle-text">
+      {{ 'user.auth.sign-up.fill-form-up' | translate }}
+    </h2>
+  </div>
+  <form (ngSubmit)="onSubmit(userOwnSignUp)"
+        [formGroup]="signUpForm">
+    <div class="form-content-container">
+      <label class="content-label"
+            for="email">
+        {{ 'user.auth.sign-up.email' | translate }}
+      </label>
+      <input type="email"
+            class="main-data-input"
+            placeholder="example@email.com"
+            id="email"
+            name="email"
+            formControlName="email"
+            (input)="setEmailBackendErr()"
+            [ngClass]="emailControl.invalid && emailControl.touched || emailErrorMessageBackEnd
+                        ? 'wrong-input' :'main-data-input'">
+      <div *ngIf="emailControl.invalid && emailControl.touched"
+          class="error-message">
+        <app-error [formElement]="emailControl" 
+                  [errorMessage]="getErrorMessage(emailControl, 'email')"></app-error>
       </div>
-    </div>
-    <div class="main-content-container">
-      <div class="title">
-        <h1 class="title-text">
-          {{ 'user.auth.sign-up.title-up' | translate }}
-        </h1>
+      <div *ngIf="emailErrorMessageBackEnd" 
+            class="error-message error-message-show">
+          {{'user.auth.sign-up.the-user-already-exists-by-this-email' | translate}}
       </div>
-      <div class="subtitle">
-        <h2 class="subtitle-text">
-          {{ 'user.auth.sign-up.fill-form-up' | translate }}
-        </h2>
+      <label class="content-label under-error"
+            for="firstName">
+        {{ 'user.auth.sign-up.first-name' | translate }}
+      </label>
+      <input type="text"
+            class="main-data-input"
+            placeholder="{{ 'user.auth.sign-up.first-name-is-required' | translate }}"
+            id="firstName"
+            name="firstName"
+            formControlName="firstName"
+            [ngClass]="firstNameControl.invalid && firstNameControl.touched
+                        ? 'wrong-input'
+                        :'main-data-input'">
+      <div *ngIf="firstNameControl.invalid && firstNameControl.touched"
+          class="error-message">
+        <app-error [formElement]="firstNameControl"
+                  [errorMessage]="getErrorMessage(firstNameControl, 'firstName')"></app-error>
       </div>
-      <form (ngSubmit)="onSubmit(userOwnSignUp)"
-            [formGroup]="signUpForm">
-        <div class="form-content-container">
-          <label class="content-label"
-                 for="email">
-            {{ 'user.auth.sign-up.email' | translate }}
-          </label>
-          <input type="email"
-                 class="main-data-input"
-                 placeholder="example@email.com"
-                 id="email"
-                 name="email"
-                 formControlName="email"
-                 (input)="setEmailBackendErr()"
-                 [ngClass]="emailControl.invalid && emailControl.touched || emailErrorMessageBackEnd
-                            ? 'wrong-input' :'main-data-input'">
-          <div *ngIf="emailControl.invalid && emailControl.touched"
-               class="error-message">
-            <app-error [formElement]="emailControl" 
-                       [errorMessage]="getErrorMessage(emailControl, 'email')"></app-error>
-          </div>
-          <div *ngIf="emailErrorMessageBackEnd" 
-                class="error-message error-message-show">
-              {{'user.auth.sign-up.the-user-already-exists-by-this-email' | translate}}
-          </div>
-          <label class="content-label under-error"
-                 for="firstName">
-            {{ 'user.auth.sign-up.first-name' | translate }}
-          </label>
-          <input type="text"
-                 class="main-data-input"
-                 placeholder="{{ 'user.auth.sign-up.first-name-is-required' | translate }}"
-                 id="firstName"
-                 name="firstName"
-                 formControlName="firstName"
-                 [ngClass]="firstNameControl.invalid && firstNameControl.touched
-                            ? 'wrong-input'
-                            :'main-data-input'">
-          <div *ngIf="firstNameControl.invalid && firstNameControl.touched"
-               class="error-message">
-            <app-error [formElement]="firstNameControl"
-                       [errorMessage]="getErrorMessage(firstNameControl, 'firstName')"></app-error>
-          </div>
-          <div *ngIf="firstNameErrorMessageBackEnd" 
-                class="error-message error-message-show">
-              {{firstNameErrorMessageBackEnd}}
-          </div>
-          <label class="content-label under-error"
-                 for="password">
-            {{ 'user.auth.sign-up.password' | translate }}
-          </label>
-          <div class="main-data-input-password"
-               [ngClass]="passwordControl.invalid && passwordControl.touched
-                          ? 'main-data-input-password wrong-input' 
-                          : 'main-data-input-password'">
-            <input type="password"
-                   placeholder="{{ 'user.auth.sign-up.password' | translate }}"
-                   class="password-input"
-                   #inputPassword
-                   formControlName="password"
-                   id="password"
-                   name="form-control password">
-            <span class="show-password">
-              <img [src]="signUpImages.hiddenEye"
-                   alt="eye"
-                   class="show-password-img"
-                   #inputPasswordImg
-                   (click)="setPasswordVisibility(inputPassword, inputPasswordImg)">
-            </span>
-          </div>
-          <div *ngIf="passwordControl.invalid && passwordControl.touched"
-               class="error-message">
-            <app-error [formElement]="passwordControl"
-                       [errorMessage]="getErrorMessage(passwordControl, 'password')"></app-error>
-          </div>
-          <label class="content-label under-error"
-                 for="repeatPassword">
-            {{ 'user.auth.sign-up.password-confirm' | translate }}
-          </label>
-          <div class="main-data-input-password"
-               [ngClass]="passwordControlConfirm.invalid && passwordControlConfirm.touched ||
-               ((inputPassword.value !== repeatPassword.value) && repeatPassword.value !== '')
-               ? 'main-data-input-password wrong-input'
-               :'main-data-input-password'"
-               #repeatInput>
-            <input type="password"
-                   placeholder="{{ 'user.auth.sign-up.password' | translate }}"
-                   class="password-input"
-                   #repeatPassword
-                   formControlName="repeatPassword"
-                   id="repeatPassword"
-                   name="form-control password-confirm">
-            <span class="show-password">
-              <img [src]="signUpImages.hiddenEye"
-                   alt="eye"
-                   class="show-password-img"
-                   #repeatPasswordImg
-                   (click)="setPasswordVisibility(repeatPassword, repeatPasswordImg)">
-            </span>
-          </div>
-          <div *ngIf="passwordControlConfirm.invalid && passwordControlConfirm.touched"
-                class="error-message">
-            <app-error [formElement]="passwordControlConfirm" 
-                       [errorMessage]="getErrorMessage(passwordControlConfirm, 'repeatPassword')"></app-error>
-          </div>
-          <div *ngIf="passwordErrorMessageBackEnd" 
-                class="error-message error-message-show">
-              {{ passwordErrorMessageBackEnd }}
-          </div>
-          <button type="submit"
-                  class="primary-global-button"
-                  [disabled]="!signUpForm.valid ||
-                  (inputPassword.value !== repeatPassword.value)">
-            <span *ngIf="loadingAnim"
-                  class="spinner-border spinner-border-sm"
-                  role="status"
-                  aria-hidden="true">
-            </span>
-            {{ 'user.auth.sign-up.submit' | translate }}
-          </button>
-          <div class="switch-sign-up">
-            {{'user.auth.sign-up.or' | translate}}
-          </div>
-          <app-google-btn (click)="signUpWithGoogle()"
-                          [text]="'user.auth.sign-up.submit-with-google'"></app-google-btn>
-        </div>
-      </form>
-
-      <div class="exist-account">
-        <span>
-          {{ 'user.auth.sign-up.haveyou-account' | translate }}
-          <a class="exist-sign-in"
-             (click)="openSignInWindow()">
-            {{ 'user.auth.sign-up.enter' | translate }}
-          </a>
+      <div *ngIf="firstNameErrorMessageBackEnd" 
+            class="error-message error-message-show">
+          {{firstNameErrorMessageBackEnd}}
+      </div>
+      <label class="content-label under-error"
+            for="password">
+        {{ 'user.auth.sign-up.password' | translate }}
+      </label>
+      <div class="main-data-input-password"
+          [ngClass]="passwordControl.invalid && passwordControl.touched
+                      ? 'main-data-input-password wrong-input' 
+                      : 'main-data-input-password'">
+        <input type="password"
+              placeholder="{{ 'user.auth.sign-up.password' | translate }}"
+              class="password-input"
+              #inputPassword
+              formControlName="password"
+              id="password"
+              name="form-control password">
+        <span class="show-password">
+          <img [src]="signUpImages.hiddenEye"
+              alt="eye"
+              class="show-password-img"
+              #inputPasswordImg
+              (click)="setPasswordVisibility(inputPassword, inputPasswordImg)">
         </span>
       </div>
+      <div *ngIf="passwordControl.invalid && passwordControl.touched"
+          class="error-message">
+        <app-error [formElement]="passwordControl"
+                  [errorMessage]="getErrorMessage(passwordControl, 'password')"></app-error>
+      </div>
+      <label class="content-label under-error"
+            for="repeatPassword">
+        {{ 'user.auth.sign-up.password-confirm' | translate }}
+      </label>
+      <div class="main-data-input-password"
+          [ngClass]="passwordControlConfirm.invalid && passwordControlConfirm.touched ||
+          ((inputPassword.value !== repeatPassword.value) && repeatPassword.value !== '')
+          ? 'main-data-input-password wrong-input'
+          :'main-data-input-password'"
+          #repeatInput>
+        <input type="password"
+              placeholder="{{ 'user.auth.sign-up.password' | translate }}"
+              class="password-input"
+              #repeatPassword
+              formControlName="repeatPassword"
+              id="repeatPassword"
+              name="form-control password-confirm">
+        <span class="show-password">
+          <img [src]="signUpImages.hiddenEye"
+              alt="eye"
+              class="show-password-img"
+              #repeatPasswordImg
+              (click)="setPasswordVisibility(repeatPassword, repeatPasswordImg)">
+        </span>
+      </div>
+      <div *ngIf="passwordControlConfirm.invalid && passwordControlConfirm.touched"
+            class="error-message">
+        <app-error [formElement]="passwordControlConfirm" 
+                  [errorMessage]="getErrorMessage(passwordControlConfirm, 'repeatPassword')"></app-error>
+      </div>
+      <div *ngIf="passwordErrorMessageBackEnd" 
+            class="error-message error-message-show">
+          {{ passwordErrorMessageBackEnd }}
+      </div>
+      <button type="submit"
+              class="primary-global-button"
+              [disabled]="!signUpForm.valid ||
+              (inputPassword.value !== repeatPassword.value)">
+        <span *ngIf="loadingAnim"
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true">
+        </span>
+        {{ 'user.auth.sign-up.submit' | translate }}
+      </button>
+      <div class="switch-sign-up">
+        {{'user.auth.sign-up.or' | translate}}
+      </div>
+      <app-google-btn (click)="signUpWithGoogle()"
+                      [text]="'user.auth.sign-up.submit-with-google'"></app-google-btn>
     </div>
+  </form>
+
+  <div class="exist-account">
+    <span>
+      {{ 'user.auth.sign-up.haveyou-account' | translate }}
+      <a class="exist-sign-in"
+        (click)="openSignInWindow()">
+        {{ 'user.auth.sign-up.enter' | translate }}
+      </a>
+    </span>
   </div>
-</div>
 </div>

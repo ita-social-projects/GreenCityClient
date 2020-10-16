@@ -1,0 +1,20 @@
+<div class="main">
+  <div class="wrapper">
+    <div class="left-side">
+      <img class="main-picture"
+          [src]="authImages.mainImage"
+          alt="sign-in image">
+    </div>
+    <div class="right-side">
+      <a (click)="closeWindow()"
+        class="close-modal-window">
+        <img class="cross-btn"
+            [src]="authImages.cross"
+            alt="close button">
+      </a>
+      <app-restore-password *ngIf="authPage ==='restore-password'"></app-restore-password>
+      <app-sign-up *ngIf="authPage ==='sign-up'"></app-sign-up>
+      <app-sign-in *ngIf="authPage ==='sign-in'"></app-sign-in>
+    </div>
+  </div>
+</div>
