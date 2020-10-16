@@ -11,7 +11,7 @@ export class ErrorComponent {
   public errorMessage = '';
 
   public getErrorMessage(): string {
-    Object.keys(this.formElement.errors).map(error =>{
+    Object.keys(this.formElement.errors).map(error => {
       switch (error) {
         case 'required':
           this.errorMessage = 'user.auth.sign-in.field-is-required';
@@ -26,7 +26,7 @@ export class ErrorComponent {
           this.errorMessage = 'user.auth.sign-in.password-must-be-at-least-8-characters-long';
           break;
         case 'symbolInvalid':
-          this.errorMessage = this.controlName === 'password' 
+          this.errorMessage = this.controlName === 'password'
           ? 'user.auth.sign-up.password-symbols-error'
           : 'user.auth.sign-up.user-name-size';
           break;

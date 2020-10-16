@@ -43,7 +43,7 @@ export class SignUpComponent implements OnInit {
               private router: Router,
               private authService: AuthService,
               private googleService: GoogleSignInService,
-              private authModalService: AuthModalServiceService,) { }
+              private authModalService: AuthModalServiceService ) { }
 
   ngOnInit() {
     this.InitFormReactive();
@@ -52,7 +52,7 @@ export class SignUpComponent implements OnInit {
     this.setNullAllMessage();
   }
 
-  public InitFormReactive() : void {
+  public InitFormReactive(): void {
     this.signUpForm = this.formBuilder.group({
         email: ['', [ Validators.required, Validators.email ]],
         firstName: ['', [ Validators.required ]],
@@ -60,7 +60,7 @@ export class SignUpComponent implements OnInit {
         repeatPassword: ['', [ Validators.required ]]
       },
       {
-        validator: [ 
+        validator: [
           ConfirmPasswordValidator('password', 'repeatPassword'),
           ValidatorRegExp('firstName'),
           ValidatorRegExp('password'),
@@ -95,9 +95,10 @@ export class SignUpComponent implements OnInit {
     this.userOwnSecurityService.signUp(userOwnRegister)
       .subscribe(
       (data) => {
-        this.onSubmitSuccess(data)
+        this.onSubmitSuccess(data);
       }, (error) => {
-        this.onSubmitError(error)});
+        this.onSubmitError(error);
+      });
   }
 
   private onSubmitSuccess(data): void {
