@@ -1,4 +1,3 @@
-import { SIGN_UP_TOKEN, SIGN_IN_TOKEN, RESTORE_PASSWORD_TOKEN } from './auth-token.constant';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CoreModule } from '../core/core.module';
@@ -45,10 +44,7 @@ import { AuthModalComponent } from './components/auth-modal/auth-modal.component
   exports: [
     InputcolorDirective
   ],
-  providers: [
-    { provide: SIGN_UP_TOKEN, useValue: SignUpComponent },
-    { provide: SIGN_IN_TOKEN, useValue: SignInComponent },
-    { provide: RESTORE_PASSWORD_TOKEN, useValue: RestorePasswordComponent }
-  ]
+
+  providers: []
 })
 export class AuthModule { }

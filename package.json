@@ -28,8 +28,6 @@
     "@ng-bootstrap/ng-bootstrap": "^5.1.1",
     "@ng-select/ng-select": "^3.0.7",
     "@ngrx/effects": "^9.2.0",
-    "@ngrx/store": "^9.2.0",
-    "@ngrx/store-devtools": "^9.2.0",
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
     "agm-direction": "^0.7.8",

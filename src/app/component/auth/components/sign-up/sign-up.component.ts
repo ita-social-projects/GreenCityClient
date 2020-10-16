@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -29,6 +29,7 @@ export class SignUpComponent implements OnInit {
   public userOwnSignUp: UserOwnSignUp;
   public loadingAnim = false;
   public emailErrorMessageBackEnd: string;
+  public isEmailInvalid = false;
   public passwordErrorMessageBackEnd: string;
   private firstNameErrorMessageBackEnd: string;
   private passwordConfirmErrorMessageBackEnd: string;
@@ -130,6 +131,7 @@ export class SignUpComponent implements OnInit {
           break;
         case 'email':
           this.emailErrorMessageBackEnd = error.message;
+          this.isEmailInvalid = this.emailErrorMessageBackEnd === 'The email is invalid';
           break;
         case 'password':
           this.passwordErrorMessageBackEnd = error.message;

@@ -149,10 +149,6 @@ export class SignInComponent implements OnInit, OnDestroy {
       this.hideShowPasswordImage.hidePassword : this.hideShowPasswordImage.showPassword;
   }
 
-  // public closeSignInWindow(): void {
-  //   this.matDialogRef.close();
-  // }
-
   public signUpOpenWindow(): void {
     this.authModalService.setAuthPopUp('sign-up');
   }
