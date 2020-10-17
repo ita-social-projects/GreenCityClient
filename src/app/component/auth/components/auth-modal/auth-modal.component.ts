@@ -15,7 +15,7 @@ export class AuthModalComponent implements OnInit, OnDestroy {
   public authPageSubscript: Subscription;
 
   constructor(private matDialogRef: MatDialogRef<AuthModalComponent>,
-              private authModalService: AuthModalServiceService,) { }
+              private authModalService: AuthModalServiceService ) { }
 
   ngOnInit(): void {
     this.setAuthPage();

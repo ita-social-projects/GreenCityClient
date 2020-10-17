@@ -8,7 +8,7 @@ import { SignInIcons } from 'src/app/image-pathes/sign-in-icons';
 })
 
 export class GoogleBtnComponent {
-  @Input() text:string;
+  @Input() text: string;
   public googleImage = SignInIcons;
 
   constructor() { }

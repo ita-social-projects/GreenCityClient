@@ -1,20 +1,16 @@
-import { MatDialog } from '@angular/material/dialog';
 import { AuthService, AuthServiceConfig } from 'angularx-social-login';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatDialogModule, MatDialogRef } from '@angular/material';
-import { SignUpComponent } from './../sign-up/sign-up.component';
-import { SIGN_UP_TOKEN, SIGN_IN_TOKEN, RESTORE_PASSWORD_TOKEN } from './../../auth-token.constant';
 import { GoogleBtnComponent } from './../google-btn/google-btn.component';
 import { ErrorComponent } from './../error/error.component';
-import { ReactiveFormsModule, FormControl } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { async, ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SignInComponent } from './sign-in.component';
-import { RestorePasswordComponent } from '@global-auth/restore-password/restore-password.component';
 import { provideConfig } from 'src/app/config/GoogleAuthConfig';
-import { ViewContainerRef } from '@angular/core';
+import { By } from '@angular/platform-browser';
 
 describe('SignInNewComponent', () => {
   let component: SignInComponent;
@@ -38,9 +34,6 @@ describe('SignInNewComponent', () => {
           useFactory: provideConfig
         },
         { provide: MatDialogRef, useValue: [] },
-        { provide: SIGN_UP_TOKEN, useValue: SignUpComponent },
-        { provide: SIGN_IN_TOKEN, useValue: SignInComponent },
-        { provide: RESTORE_PASSWORD_TOKEN, useValue: RestorePasswordComponent }
       ]
     })
     .compileComponents();
@@ -90,16 +83,8 @@ describe('SignInNewComponent', () => {
     expect(component.signInForm[`valid`]).toBeTruthy();
   });
 
-  it('getting error messages', () => {
-    const passControl = component.signInForm.controls[`password`];
-    const emailControl = component.signInForm.controls[`email`];
-    passControl.setErrors( {required: true} );
-    expect(component.getErrorMessage(passControl, 'password')).toBeTruthy();
-    passControl.setErrors( {minlength: true} );
-    expect(component.getErrorMessage(passControl, 'password')).toBeTruthy();
-    emailControl.setErrors( {required: true} );
-    expect(component.getErrorMessage(emailControl, 'email')).toBeTruthy();
-    emailControl.setErrors( {email: true} );
-    expect(component.getErrorMessage(emailControl, 'email')).toBeTruthy();
+  it('should containt h2 tag', () => {
+    const h2El = fixture.debugElement.query(By.css('h2'));
+    expect(h2El.nativeElement.textContent).toBe( 'user.auth.sign-in.fill-form' );
   });
 });
