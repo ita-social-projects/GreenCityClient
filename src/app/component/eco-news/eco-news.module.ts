@@ -5,6 +5,11 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { registerLocaleData } from '@angular/common';
+import usLocale from '@angular/common/locales/en-US-POSIX';
+import ruLocale from '@angular/common/locales/ru';
+import ukLocale from '@angular/common/locales/uk';
+
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { EcoNewsRoutingModule } from './eco-news-routing.module';
 import { SharedModule } from '../shared/shared.module';
@@ -25,7 +30,11 @@ import { CommentsModule } from '../comments/comments.module';
 import { NoNewsComponent } from './components/no-news/no-news.component';
 import { MatSnackBarComponent } from './../errors/mat-snack-bar/mat-snack-bar.component';
 import { EcoNewsComponent } from './eco-news.component';
+import { DateLocalisationPipe } from '../../pipe/date-localisation-pipe/date-localisation.pipe';
 
+registerLocaleData(usLocale, 'en');
+registerLocaleData(ruLocale, 'ru');
+registerLocaleData(ukLocale, 'uk');
 
 @NgModule({
   declarations: [
@@ -42,7 +51,8 @@ import { EcoNewsComponent } from './eco-news.component';
     NewsPreviewPageComponent,
     PostNewsLoaderComponent,
     NoNewsComponent,
-    MatSnackBarComponent
+    MatSnackBarComponent,
+    DateLocalisationPipe
   ],
   imports: [
     CommonModule,
