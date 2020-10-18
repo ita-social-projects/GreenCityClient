@@ -1,4 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TranslateModule } from '@ngx-translate/core';
+
 
 import { AuthModalComponent } from './auth-modal.component';
 
@@ -8,7 +12,14 @@ describe('AuthModalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AuthModalComponent ]
+      declarations: [ 
+        AuthModalComponent 
+      ],
+      imports: [
+        HttpClientTestingModule,
+        TranslateModule.forRoot(),
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
   }));
