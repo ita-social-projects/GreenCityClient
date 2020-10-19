@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from '../../service/localstorage/local-storage.service';
 
 @Pipe({
   name: 'dateLocalisation',
