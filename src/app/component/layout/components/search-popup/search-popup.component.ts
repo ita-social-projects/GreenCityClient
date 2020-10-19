@@ -25,7 +25,6 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   public isNewsSearchFound: boolean;
   public isSearchClicked = false;
   public itemsFound: number;
-  public searchSubscription: Subscription;
   public searchModalSubscription: Subscription;
   public searchInput = new FormControl('');
 
@@ -95,7 +94,6 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.searchSubscription.unsubscribe();
     this.searchModalSubscription.unsubscribe();
   }
 }

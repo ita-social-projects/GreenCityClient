@@ -102,7 +102,7 @@ describe('EditProfileComponent', () => {
 
     describe('The formControl: city should be marked as invalid if the value:', () => {
       for (let i = 0; i < invalidCity.length; i++) {
-        it(`${i + 1}-st - ${validCity[i]}.`, () => {
+        it(`${i + 1}-st - ${invalidCity[i]}.`, () => {
           const control = component.editProfileForm.get('city');
           control.setValue(invalidCity[i]);
           expect(control.valid).toBeFalsy();

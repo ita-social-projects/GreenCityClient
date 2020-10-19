@@ -49,8 +49,8 @@ export class SignUpComponent implements OnInit {
   ngOnInit() {
     this.InitFormReactive();
     this.getFormFields();
-    this.userOwnSignUp = new UserOwnSignUp();
     this.setNullAllMessage();
+    this.userOwnSignUp = new UserOwnSignUp();
   }
 
   public InitFormReactive(): void {
