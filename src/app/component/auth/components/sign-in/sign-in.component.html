@@ -2,7 +2,7 @@
   {{ 'user.auth.sign-in.title' | translate }}</h1>
 <h2>{{ 'user.auth.sign-in.fill-form' | translate }}</h2>
 <form class="sign-in-form"
-      (ngSubmit)="signIn(userOwnSignIn)"
+      (ngSubmit)="signIn()"
       [formGroup]="signInForm">
   <label for="email">{{ 'user.auth.sign-in.email' | translate }}</label>
   <input id="email"
