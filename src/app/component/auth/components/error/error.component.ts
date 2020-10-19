@@ -5,17 +5,17 @@ import { FormControl } from '@angular/forms';
   selector: 'app-error',
   templateUrl: './error.component.html'
 })
-export class ErrorComponent implements OnInit{
+export class ErrorComponent implements OnInit {
   @Input() public controlName: string;
   @Input() public formElement: FormControl;
   public errorMessage = '';
 
-  constuctor(){};
+  constructor() {}
 
-  ngOnInit(): void {
-    this.getErrorMessage()
+  ngOnInit() {
+    this.getErrorMessage();
   }
-  
+
   public getErrorMessage(): string {
     Object.keys(this.formElement.errors).map(error => {
       switch (error) {
@@ -36,6 +36,8 @@ export class ErrorComponent implements OnInit{
           ? 'user.auth.sign-up.password-symbols-error'
           : 'user.auth.sign-up.user-name-size';
           break;
+        default:
+          this.errorMessage = 'Ups! something goes wrong...';
       }
     });
     return this.errorMessage;

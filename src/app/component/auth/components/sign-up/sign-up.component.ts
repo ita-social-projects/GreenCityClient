@@ -31,7 +31,7 @@ export class SignUpComponent implements OnInit {
   public emailErrorMessageBackEnd: string;
   public isEmailInvalid = false;
   public passwordErrorMessageBackEnd: string;
-  private firstNameErrorMessageBackEnd: string;
+  public firstNameErrorMessageBackEnd: string;
   private passwordConfirmErrorMessageBackEnd: string;
   private backEndError: string;
 
@@ -43,7 +43,8 @@ export class SignUpComponent implements OnInit {
               private router: Router,
               private authService: AuthService,
               private googleService: GoogleSignInService,
-              private authModalService: AuthModalServiceService ) { }
+              private authModalService: AuthModalServiceService,
+              ) { }
 
   ngOnInit() {
     this.InitFormReactive();

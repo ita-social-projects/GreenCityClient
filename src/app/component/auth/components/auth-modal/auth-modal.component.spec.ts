@@ -1,10 +1,16 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { GoogleBtnComponent } from './../google-btn/google-btn.component';
+import { AuthModalServiceService } from './../../services/auth-service.service';
+import { HttpClientModule } from '@angular/common/http';
+import { ErrorComponent } from '../error/error.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-
+import { RestorePasswordComponent } from './../restore-password/restore-password.component';
+import { SignUpComponent } from './../sign-up/sign-up.component';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { SignInComponent } from '@global-auth/sign-in/sign-in.component';
 
 import { AuthModalComponent } from './auth-modal.component';
+import { MatDialogModule, MatDialogRef } from '@angular/material';
 
 describe('AuthModalComponent', () => {
   let component: AuthModalComponent;
@@ -12,14 +18,25 @@ describe('AuthModalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ 
-        AuthModalComponent 
+      declarations: [
+        AuthModalComponent,
+        SignInComponent,
+        SignUpComponent,
+        RestorePasswordComponent,
+        ErrorComponent,
+        GoogleBtnComponent
       ],
       imports: [
-        HttpClientTestingModule,
         TranslateModule.forRoot(),
+        ReactiveFormsModule,
+        FormsModule,
+        HttpClientModule,
+        MatDialogModule
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      providers: [
+        AuthModalServiceService,
+        { provide: MatDialogRef, useValue: {} },
+      ]
     })
     .compileComponents();
   }));
