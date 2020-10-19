@@ -14,16 +14,8 @@ import { AuthModalServiceService } from '../../services/auth-service.service';
 import { UserOwnSignInService } from '@global-service/auth/user-own-sign-in.service';
 import { UserOwnSignUpService } from '@global-service/auth/user-own-sign-up.service';
 import { GoogleSignInService } from '@global-service/auth/google-sign-in.service';
+import { provideConfig } from 'src/app/config/GoogleAuthConfig';
 
-const config = new AuthServiceConfig([
-  {
-    id: GoogleLoginProvider.PROVIDER_ID,
-    provider: new GoogleLoginProvider('646908969284899')
-  }
-]);
-export function provideConfig() {
-  return config;
-}
 describe('SignUpComponent', () => {
   let component: SignUpComponent;
   let fixture: ComponentFixture<SignUpComponent>;
@@ -90,34 +82,7 @@ describe('SignUpComponent', () => {
       });
     }
 
-    for (let i = 0; i < controlsName.length; i++) {
-      testWrapper(controlsName[i]);
-    };
-
-
-    // function invalidNameWrapper(itemValue) {
-    //   it(`The formControl: firstName should be marked as invalid if the value is ${invalidName[itemValue]}.`, () => {
-    //     const control = component.signUpForm.get('firstName');
-    //     control.setValue(invalidName[itemValue]);
-    //     expect(control.valid).toBeFalsy();
-    //   });
-    // }
-
-    // for (let i = 0; i < invalidName.length; i++) {
-    //   invalidNameWrapper(i);
-    // }
-
-    // function validNameWrapper(itemValue) {
-    //   it(`The formControl: firstName should be marked as invalid if the value is ${validName[itemValue]}.`, () => {
-    //     const control = component.signUpForm.get('firstName');
-    //     control.setValue(validName[itemValue]);
-    //     expect(control.valid).toBeTruthy();
-    //   });
-    // }
-
-    // for (let i = 0; i < validName.length; i++) {
-    //   validNameWrapper(i);
-    // }
+    controlsName.forEach(el => testWrapper(el));
 
     function controlsValidator(itemValue, controlName, status) {
       it(`The formControl: ${controlName} should be marked as ${status} if the value is ${itemValue}.`, () => {
@@ -129,20 +94,15 @@ describe('SignUpComponent', () => {
       });
     }
 
-    for (let i = 0; i < invalidName.length; i++) {
-      controlsValidator(invalidName[i], 'firstName', 'invalid');
-    }
+    invalidName.forEach(el => controlsValidator(el, 'firstName', 'invalid'));
 
-    for (let i = 0; i < validName.length; i++) {
-      controlsValidator(validName[i], 'firstName', 'valid');
-    }
+    validName.forEach(el => controlsValidator(el, 'firstName', 'valid'));
 
-    for (let i = 0; i < invalidPassword.length; i++) {
-      controlsValidator(invalidPassword[i], 'password', 'invalid');
-    }
+    invalidPassword.forEach(el => controlsValidator(el, 'password', 'invalid'));
 
-    for (let i = 0; i < validPassword.length; i++) {
-      controlsValidator(validPassword[i], 'password', 'valid');
-    }
-  })
-})
+    validPassword.forEach(el => controlsValidator(el, 'password', 'valid'));
+
+  });
+
+  
+});
