@@ -1,20 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-error',
   templateUrl: './error.component.html'
 })
-export class ErrorComponent implements OnInit {
+export class ErrorComponent {
   @Input() public controlName: string;
   @Input() public formElement: FormControl;
   public errorMessage = '';
 
   constructor() {}
-
-  ngOnInit(): void {
-    this.getErrorMessage();
-  }
 
   public getErrorMessage(): string {
     Object.keys(this.formElement.errors).map(error => {
