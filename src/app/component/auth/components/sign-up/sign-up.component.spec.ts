@@ -10,11 +10,11 @@ import { Observable } from 'rxjs';
 
 import { SignUpComponent } from './sign-up.component';
 import {AuthService, AuthServiceConfig, GoogleLoginProvider} from 'angularx-social-login';
-import { AuthModalServiceService } from '../../services/auth-service.service';
 import { UserOwnSignInService } from '@global-service/auth/user-own-sign-in.service';
 import { UserOwnSignUpService } from '@global-service/auth/user-own-sign-up.service';
 import { GoogleSignInService } from '@global-service/auth/google-sign-in.service';
 import { provideConfig } from 'src/app/config/GoogleAuthConfig';
+import { By } from '@angular/platform-browser';
 
 describe('SignUpComponent', () => {
   let component: SignUpComponent;
@@ -36,7 +36,6 @@ describe('SignUpComponent', () => {
 
       providers: [
         AuthService,
-        AuthModalServiceService,
         GoogleSignInService,
         UserOwnSignInService,
         UserOwnSignUpService,
@@ -68,6 +67,31 @@ describe('SignUpComponent', () => {
     expect((component as any).getFormFields).toHaveBeenCalledTimes(1);
     expect((component as any).setNullAllMessage).toHaveBeenCalledTimes(1);
   });
+
+  describe('Testing general elements and methods:', () => {
+    let hiddenEye: HTMLInputElement;
+    
+    beforeEach(() => {
+      hiddenEye = fixture.nativeElement.querySelector('.show-password-img');
+    });
+
+    it('should containt h2 tag', () => {
+      const h2El = fixture.debugElement.query(By.css('h2'));
+      expect(h2El.nativeElement.textContent).toBe(' user.auth.sign-up.fill-form-up ');
+    });
+
+    it('should display hiddenEye img', () => {
+      fixture.detectChanges();
+      expect(hiddenEye.src).toContain(component.signUpImages.hiddenEye);
+    });
+
+    it('should call setPasswordVisibility method', () => {
+      spyOn(component, 'setPasswordVisibility');
+      hiddenEye.click();
+      expect(component.setPasswordVisibility).toHaveBeenCalled();
+    });
+  });
+
 
   describe('Testing controls for the signUpForm:', () => {
     const controlsName = ['email', 'firstName', 'password', 'repeatPassword'];
@@ -103,6 +127,4 @@ describe('SignUpComponent', () => {
     validPassword.forEach(el => controlsValidator(el, 'password', 'valid'));
 
   });
-
-  
 });

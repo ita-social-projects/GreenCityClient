@@ -1,5 +1,5 @@
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material';
@@ -12,7 +12,6 @@ import { SignInIcons } from 'src/app/image-pathes/sign-in-icons';
 import { UserOwnSignIn } from '@global-models/user-own-sign-in';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
-import { AuthModalServiceService } from '../../services/auth-service.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -33,6 +32,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   public signInForm: FormGroup;
   public emailField: AbstractControl;
   public passwordField: AbstractControl;
+  @Output() private pageName = new EventEmitter();
 
   constructor(
     public dialog: MatDialog,
@@ -43,7 +43,6 @@ export class SignInComponent implements OnInit, OnDestroy {
     private googleService: GoogleSignInService,
     private localStorageService: LocalStorageService,
     private userOwnAuthService: UserOwnAuthService,
-    private authModalService: AuthModalServiceService,
   ) { }
 
   ngOnInit() {
@@ -117,7 +116,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   public onOpenForgotWindow(): void {
-    this.authModalService.setAuthPopUp('restore-password');
+    this.pageName.emit('restore-password');
   }
 
   private onSignInFailure(errors: HttpErrorResponse): void {
@@ -150,7 +149,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   public signUpOpenWindow(): void {
-    this.authModalService.setAuthPopUp('sign-up');
+    this.pageName.emit('sign-up');
   }
 
   ngOnDestroy() {

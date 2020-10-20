@@ -6,7 +6,7 @@
   </div>
   <div class="subtitle">
     <h2 class="subtitle-text">
-      {{ 'user.auth.sign-up.fill-form-up' | translate }}
+      {{'user.auth.sign-up.fill-form-up' | translate}}
     </h2>
   </div>
   <form (ngSubmit)="onSubmit(userOwnSignUp)"
@@ -32,7 +32,7 @@
       </div>
       <div *ngIf="emailErrorMessageBackEnd" 
             class="error-message error-message-show">
-          {{'user.auth.sign-up.the-user-already-exists-by-this-email' | translate}}
+          {{ 'user.auth.sign-up.the-user-already-exists-by-this-email' | translate }}
       </div>
       <label class="content-label under-error"
             for="firstName">

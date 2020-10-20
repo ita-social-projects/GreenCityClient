@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -12,7 +12,6 @@ import { UserOwnSignUp } from '@global-models/user-own-sign-up';
 import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
 import { SubmitEmailComponent } from '../submit-email/submit-email.component';
 import { ConfirmPasswordValidator, ValidatorRegExp } from './sign-up.validator';
-import { AuthModalServiceService } from '../../services/auth-service.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -34,6 +33,7 @@ export class SignUpComponent implements OnInit {
   public firstNameErrorMessageBackEnd: string;
   private passwordConfirmErrorMessageBackEnd: string;
   private backEndError: string;
+  @Output() private pageName = new EventEmitter();
 
   constructor(private matDialogRef: MatDialogRef<SignUpComponent>,
               private dialog: MatDialog,
@@ -43,7 +43,6 @@ export class SignUpComponent implements OnInit {
               private router: Router,
               private authService: AuthService,
               private googleService: GoogleSignInService,
-              private authModalService: AuthModalServiceService,
               ) { }
 
   ngOnInit() {
@@ -57,7 +56,7 @@ export class SignUpComponent implements OnInit {
     this.signUpForm = this.formBuilder.group({
         email: ['', [ Validators.required, Validators.email ]],
         firstName: ['', [ Validators.required ]],
-        password: ['', [ Validators.required]],
+        password: ['', [ Validators.required ]],
         repeatPassword: ['', [ Validators.required ]]
       },
       {
@@ -187,6 +186,6 @@ export class SignUpComponent implements OnInit {
   }
 
   public openSignInWindow(): void {
-    this.authModalService.setAuthPopUp('sign-in');
+    this.pageName.emit('sign-in');
   }
 }

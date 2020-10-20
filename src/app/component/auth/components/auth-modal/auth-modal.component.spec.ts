@@ -1,5 +1,4 @@
 import { GoogleBtnComponent } from './../google-btn/google-btn.component';
-import { AuthModalServiceService } from './../../services/auth-service.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ErrorComponent } from '../error/error.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -10,7 +9,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SignInComponent } from '@global-auth/sign-in/sign-in.component';
 
 import { AuthModalComponent } from './auth-modal.component';
-import { MatDialogModule, MatDialogRef } from '@angular/material';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 describe('AuthModalComponent', () => {
   let component: AuthModalComponent;
@@ -34,7 +33,7 @@ describe('AuthModalComponent', () => {
         MatDialogModule
       ],
       providers: [
-        AuthModalServiceService,
+        { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: {} },
       ]
     })
