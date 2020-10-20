@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
+import { AbstractControl, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
 import { catchError, take } from 'rxjs/operators';
@@ -21,6 +22,9 @@ import { AuthModalServiceService } from '../../services/auth-service.service';
   styleUrls: ['./restore-password.component.scss']
 })
 export class RestorePasswordComponent implements OnInit, OnDestroy {
+  public restorePasswordForm: FormGroup;
+  public emailField: AbstractControl;
+  public email: FormControl;
   public closeBtn = SignInIcons;
   public mainSignInImage = SignInIcons;
   public googleImage = SignInIcons;
@@ -46,8 +50,10 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userOwnSignIn = new UserOwnSignIn();
+    this.initFormReactive();
     this.configDefaultErrorMessage();
     this.checkIfUserId();
+    this.emailField = this.restorePasswordForm.get('email');
   }
 
   public onCloseRestoreWindow(): void {
@@ -58,8 +64,16 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
     this.authModalService.setAuthPopUp('sign-in');
   }
 
+  public initFormReactive(): void {
+    this.restorePasswordForm = new FormGroup({
+      email: new FormControl(null, [ Validators.required, Validators.email ])
+    });
+  }
+
   sentEmail(userOwnSignIn: UserOwnSignIn): void {
     this.loadingAnim = true;
+    this.userOwnSignIn.email = this.restorePasswordForm.value.email;
+
     this.restorePasswordService.sendEmailForRestore(userOwnSignIn.email)
       .pipe(
        take(1))
@@ -96,13 +110,25 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
     this.backEndError = null;
   }
 
+  // public signInWithGoogle(): void {
+  //   this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(data => {
+  //     this.googleService.signIn(data.idToken)
+  //     .pipe(catchError(this.onSignInFailure))
+  //     .subscribe(
+  //       (signInData: UserSuccessSignIn) => {
+  //         this.onSignInWithGoogleSuccess(signInData);
+  //       });
+  //   });
+  // }
+
   public signInWithGoogle(): void {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(data => {
-      this.googleService.signIn(data.idToken)
-      .pipe(catchError(this.onSignInFailure))
-      .subscribe(
+      this.googleService.signIn(data.idToken).subscribe(
         (signInData: UserSuccessSignIn) => {
           this.onSignInWithGoogleSuccess(signInData);
+        },
+        (errors: HttpErrorResponse) => {
+          this.onSignInFailure(errors);
         });
     });
   }
