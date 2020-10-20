@@ -70,7 +70,7 @@ describe('SignUpComponent', () => {
 
   describe('Testing general elements and methods:', () => {
     let hiddenEye: HTMLInputElement;
-    
+
     beforeEach(() => {
       hiddenEye = fixture.nativeElement.querySelector('.show-password-img');
     });
