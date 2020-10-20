@@ -1,32 +1,29 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { authImages } from 'src/app/image-pathes/auth-images';
-import { AuthModalServiceService } from '../../services/auth-service.service';
 
 @Component({
   selector: 'app-auth-modal',
   templateUrl: './auth-modal.component.html',
   styleUrls: ['./auth-modal.component.scss']
 })
-export class AuthModalComponent implements OnInit, OnDestroy {
+export class AuthModalComponent implements OnInit {
   public authImages = authImages;
   public authPage: string;
-  public authPageSubscript: Subscription;
 
   constructor(private matDialogRef: MatDialogRef<AuthModalComponent>,
-              private authModalService: AuthModalServiceService ) { }
+              @Inject(MAT_DIALOG_DATA) public data ) { }
 
   ngOnInit(): void {
     this.setAuthPage();
   }
 
-  ngOnDestroy(): void {
-    this.authPageSubscript.unsubscribe();
+  public setAuthPage(): void {
+    this.authPage = this.data.popUpName;
   }
 
-  public setAuthPage(): void {
-    this.authPageSubscript = this.authModalService.authPopUpSubj.subscribe((pageName: string) => this.authPage = pageName);
+  public changeAuthPage(page: string): void {
+    this.authPage = page;
   }
 
   public closeWindow(): void {

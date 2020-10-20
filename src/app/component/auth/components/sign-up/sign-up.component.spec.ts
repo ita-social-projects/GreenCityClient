@@ -6,23 +6,16 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AgmCoreModule } from '@agm/core';
+import { Observable } from 'rxjs';
 
 import { SignUpComponent } from './sign-up.component';
 import {AuthService, AuthServiceConfig, GoogleLoginProvider} from 'angularx-social-login';
-import { AuthModalServiceService } from '../../services/auth-service.service';
 import { UserOwnSignInService } from '@global-service/auth/user-own-sign-in.service';
 import { UserOwnSignUpService } from '@global-service/auth/user-own-sign-up.service';
 import { GoogleSignInService } from '@global-service/auth/google-sign-in.service';
+import { provideConfig } from 'src/app/config/GoogleAuthConfig';
+import { By } from '@angular/platform-browser';
 
-const config = new AuthServiceConfig([
-  {
-    id: GoogleLoginProvider.PROVIDER_ID,
-    provider: new GoogleLoginProvider('646908969284899')
-  }
-]);
-export function provideConfig() {
-  return config;
-}
 describe('SignUpComponent', () => {
   let component: SignUpComponent;
   let fixture: ComponentFixture<SignUpComponent>;
@@ -40,9 +33,9 @@ describe('SignUpComponent', () => {
         AgmCoreModule,
         TranslateModule.forRoot(),
       ],
+
       providers: [
         AuthService,
-        AuthModalServiceService,
         GoogleSignInService,
         UserOwnSignInService,
         UserOwnSignUpService,
@@ -62,5 +55,76 @@ describe('SignUpComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('ngOnInit should init three method', () => {
+    spyOn(component as any, 'InitFormReactive');
+    spyOn(component as any, 'getFormFields');
+    spyOn(component as any, 'setNullAllMessage');
+    component.ngOnInit();
+
+    expect((component as any).InitFormReactive).toHaveBeenCalledTimes(1);
+    expect((component as any).getFormFields).toHaveBeenCalledTimes(1);
+    expect((component as any).setNullAllMessage).toHaveBeenCalledTimes(1);
+  });
+
+  describe('Testing general elements and methods:', () => {
+    let hiddenEye: HTMLInputElement;
+
+    beforeEach(() => {
+      hiddenEye = fixture.nativeElement.querySelector('.show-password-img');
+    });
+
+    it('should containt h2 tag', () => {
+      const h2El = fixture.debugElement.query(By.css('h2'));
+      expect(h2El.nativeElement.textContent).toBe(' user.auth.sign-up.fill-form-up ');
+    });
+
+    it('should display hiddenEye img', () => {
+      fixture.detectChanges();
+      expect(hiddenEye.src).toContain(component.signUpImages.hiddenEye);
+    });
+
+    it('should call setPasswordVisibility method', () => {
+      spyOn(component, 'setPasswordVisibility');
+      hiddenEye.click();
+      expect(component.setPasswordVisibility).toHaveBeenCalled();
+    });
+  });
+
+
+  describe('Testing controls for the signUpForm:', () => {
+    const controlsName = ['email', 'firstName', 'password', 'repeatPassword'];
+    const invalidName = ['.Jhon', 'Nick&', 'Mi$ke', '@Andrian'];
+    const validName = ['JhonSmith', 'Nick12', 'Angela', 'Andrian'];
+    const invalidPassword = ['12345aS', '12345aaS', '123456S@', '123456a@'];
+    const validPassword = ['12345aS@', 'Aqwert1%', 'Pi$98765', '!1234567kT'];
+
+    function testWrapper(itemValue) {
+      it(`should create form with formControl: ${itemValue};`, () => {
+        expect(component.signUpForm.contains(itemValue)).toBeTruthy();
+      });
+    }
+
+    controlsName.forEach(el => testWrapper(el));
+
+    function controlsValidator(itemValue, controlName, status) {
+      it(`The formControl: ${controlName} should be marked as ${status} if the value is ${itemValue}.`, () => {
+        const control = component.signUpForm.get(controlName);
+        control.setValue(itemValue);
+        status === 'valid'
+          ? expect(control.valid).toBeTruthy()
+          : expect(control.valid).toBeFalsy();
+      });
+    }
+
+    invalidName.forEach(el => controlsValidator(el, 'firstName', 'invalid'));
+
+    validName.forEach(el => controlsValidator(el, 'firstName', 'valid'));
+
+    invalidPassword.forEach(el => controlsValidator(el, 'password', 'invalid'));
+
+    validPassword.forEach(el => controlsValidator(el, 'password', 'valid'));
+
   });
 });

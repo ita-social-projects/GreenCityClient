@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat|Open+Sans|Roboto&display=swap');
 
-$generalFont : opensans, sans-serif;
+$generalFont : opensans,
+  sans-serif;
 $inputHeight : 48px;
-$errorColor  : #f03127;
+$errorColor : #f03127;
 
 .password-input-btn-show-hide {
   height: $inputHeight;
@@ -44,55 +45,6 @@ $errorColor  : #f03127;
   line-height: 12px;
   font-family: $generalFont;
   margin-bottom: 9px;
-}
-
-.google-sign-in-block {
-  margin: 0 56px 0 56px;
-  display: flex;
-}
-
-.forgot-wrapper {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 24px;
-
-  .forgot-password {
-    color: #056b33;
-    font-family: $generalFont;
-    font-size: 12px;
-    line-height: 16px;
-    text-decoration-line: underline;
-  }
-}
-
-.primary-global-button {
-  height: 48px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  border-radius: 3px;
-}
-
-.or-use-google {
-  text-align: center;
-  font-family: $generalFont;
-  font-size: 12px;
-  line-height: 12px;
-  color: #494a49;
-  margin-bottom: 8px;
-}
-
-.missing-account {
-  margin: 203px 56px 40px 56px;
-  font-family: $generalFont;
-  font-size: 16px;
-  line-height: 16px;
-  color: #494a49;
-
-  .sign-up-link {
-    margin-left: 8px;
-    text-decoration-line: underline;
-    color: #056b33;
-  }
 }
 
 h1 {
@@ -203,25 +155,6 @@ h2 {
       line-height: 16px;
     }
 
-    .google-sign-in-block {
-      margin: 0 56px 0 56px;
-      display: flex;
-    }
-
-    .forgot-wrapper {
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: 24px;
-
-      .forgot-password {
-        color: #056b33;
-        font-family: $generalFont;
-        font-size: 12px;
-        line-height: 16px;
-        text-decoration-line: underline;
-      }
-    }
-
     .sign-in-form {
       margin: 0 56px;
       display: flex;
@@ -287,35 +220,54 @@ h2 {
         background: #fff;
       }
     }
+  }
+}
 
-    .primary-global-button {
-      height: 48px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      border-radius: 3px;
-    }
+.google-sign-in-block {
+  margin: 0 56px 0 56px;
+  display: flex;
+}
 
-    .or-use-google {
-      text-align: center;
-      font-family: $generalFont;
-      font-size: 12px;
-      line-height: 12px;
-      color: #494a49;
-      margin-bottom: 8px;
-    }
+.forgot-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 24px;
 
-    .missing-account {
-      margin: 203px 56px 40px 56px;
-      font-family: $generalFont;
-      font-size: 16px;
-      line-height: 16px;
-      color: #494a49;
+  .forgot-password {
+    color: #056b33;
+    font-family: $generalFont;
+    font-size: 12px;
+    line-height: 16px;
+    text-decoration-line: underline;
+  }
+}
 
-      .sign-up-link {
-        margin-left: 8px;
-        text-decoration-line: underline;
-        color: #056b33;
-      }
-    }
+.primary-global-button {
+  height: 48px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  border-radius: 3px;
+}
+
+.or-use-google {
+  text-align: center;
+  font-family: $generalFont;
+  font-size: 12px;
+  line-height: 12px;
+  color: #494a49;
+  margin-bottom: 8px;
+}
+
+.missing-account {
+  margin: 203px 56px 40px 56px;
+  font-family: $generalFont;
+  font-size: 16px;
+  line-height: 16px;
+  color: #494a49;
+
+  .sign-up-link {
+    margin-left: 8px;
+    text-decoration-line: underline;
+    color: #056b33;
   }
 }

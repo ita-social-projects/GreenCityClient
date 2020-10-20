@@ -12,9 +12,14 @@
             [src]="authImages.cross"
             alt="close button">
       </a>
-      <app-restore-password *ngIf="authPage === 'restore-password'"></app-restore-password>
-      <app-sign-up *ngIf="authPage === 'sign-up'"></app-sign-up>
-      <app-sign-in *ngIf="authPage === 'sign-in'"></app-sign-in>
+      <div [ngSwitch]="authPage">
+        <app-sign-in *ngSwitchCase="'sign-in'"
+                     (pageName)="changeAuthPage($event)"></app-sign-in>
+        <app-sign-up *ngSwitchCase="'sign-up'"
+                     (pageName)="changeAuthPage($event)"></app-sign-up>
+        <app-restore-password *ngSwitchCase="'restore-password'"
+                              (pageName)="changeAuthPage($event)"></app-restore-password>
+      </div>
     </div>
   </div>
 </div>

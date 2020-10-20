@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { AbstractControl, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -14,7 +14,6 @@ import { RestorePasswordService } from '@auth-service/restore-password.service';
 import { UserOwnSignIn } from '@global-models/user-own-sign-in';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { SignInComponent } from '../sign-in/sign-in.component';
-import { AuthModalServiceService } from '../../services/auth-service.service';
 
 @Component({
   selector: 'app-restore-password',
@@ -34,7 +33,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   public userOwnSignIn: UserOwnSignIn;
   public loadingAnim: boolean;
   public userIdSubscription: Subscription;
-
+  @Output() private pageName = new EventEmitter();
 
   constructor(
     private matDialogRef: MatDialogRef<SignInComponent>,
@@ -45,7 +44,6 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
     private router: Router,
     private restorePasswordService: RestorePasswordService,
     private localStorageService: LocalStorageService,
-    private authModalService: AuthModalServiceService,
   ) {}
 
   ngOnInit() {
@@ -61,7 +59,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   }
 
   public onBackToSignIn(): void {
-    this.authModalService.setAuthPopUp('sign-in');
+    this.pageName.emit('sign-in');
   }
 
   public initFormReactive(): void {
