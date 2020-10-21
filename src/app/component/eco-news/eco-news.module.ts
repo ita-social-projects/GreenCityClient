@@ -29,7 +29,7 @@ import { CommentsModule } from '../comments/comments.module';
 import { NoNewsComponent } from './components/no-news/no-news.component';
 import { MatSnackBarComponent } from './../errors/mat-snack-bar/mat-snack-bar.component';
 import { EcoNewsComponent } from './eco-news.component';
-import { DateLocalisationPipe } from '../../pipe/date-localisation-pipe/date-localisation.pipe';
+import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
 
 registerLocaleData(usLocale, 'en');
 registerLocaleData(ruLocale, 'ru');
