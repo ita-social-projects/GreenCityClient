@@ -15,6 +15,10 @@ describe('AuthModalComponent', () => {
   let component: AuthModalComponent;
   let fixture: ComponentFixture<AuthModalComponent>;
 
+  const MatDialogRefMock = {
+    close: () => { }
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -34,7 +38,7 @@ describe('AuthModalComponent', () => {
       ],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
-        { provide: MatDialogRef, useValue: {} },
+        { provide: MatDialogRef, useValue: MatDialogRefMock },
       ]
     })
     .compileComponents();
@@ -48,5 +52,16 @@ describe('AuthModalComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call the function to close the dialog', () => {
+    const spy = spyOn(component.matDialogRef, 'close').and.callThrough();
+    component.closeWindow();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should change authPage after call the function changeAuthPage', () => {
+    component.changeAuthPage('sign-up');
+    expect(component.authPage).toBe('sign-up');
   });
 });

@@ -35,7 +35,7 @@ export class SignUpComponent implements OnInit {
   private backEndError: string;
   @Output() private pageName = new EventEmitter();
 
-  constructor(private matDialogRef: MatDialogRef<SignUpComponent>,
+  constructor(public matDialogRef: MatDialogRef<SignUpComponent>,
               private dialog: MatDialog,
               private formBuilder: FormBuilder,
               private userOwnSignInService: UserOwnSignInService,

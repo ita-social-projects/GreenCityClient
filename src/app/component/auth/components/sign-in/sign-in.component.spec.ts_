@@ -1,0 +1,171 @@
+import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { AuthService, AuthServiceConfig, SocialUser } from 'angularx-social-login';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MatDialogModule, MatDialogRef } from '@angular/material';
+import { GoogleBtnComponent } from '../google-btn/google-btn.component';
+import { ErrorComponent } from '../error/error.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TranslateModule } from '@ngx-translate/core';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+
+
+import { Router } from '@angular/router'
+import { SignInComponent } from './sign-in.component';
+import { provideConfig } from 'src/app/config/GoogleAuthConfig';
+import { BehaviorSubject, of } from 'rxjs';
+import { UserOwnSignIn } from '@global-models/user-own-sign-in';
+import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
+
+describe('SignInNewComponent', () => {
+  let component: SignInComponent;
+  let fixture: ComponentFixture<SignInComponent>;
+  let localStorageServiceMock: LocalStorageService;
+  let matDialogMock: MatDialogRef<SignInComponent>;
+  let signInServiceMock: UserOwnSignInService;
+  let authServiceMock: AuthService; 
+
+  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
+  localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111)
+
+  matDialogMock = jasmine.createSpyObj('MatDialogRef', ['close']);
+  matDialogMock.close = () => { return 'Close the window please' };
+
+  signInServiceMock = jasmine.createSpyObj('UserOwnSignInService', ['signIn']);
+  signInServiceMock.signIn = () => { return of({
+      userId: '1',
+      name: 'Test',
+      accessToken: '1',
+      refreshToken: '1',
+    })
+  };
+  signInServiceMock.saveUserToLocalStorage = () => true;
+
+  // authServiceMock = jasmine.createSpyObj('AuthService', ['signIn']);
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ SignInComponent, ErrorComponent, GoogleBtnComponent ],
+      imports: [
+        HttpClientTestingModule,
+        MatDialogModule,
+        TranslateModule.forRoot(),
+        ReactiveFormsModule,
+        RouterTestingModule.withRoutes([])
+      ],
+      providers: [
+        AuthService,
+        // { provide: AuthService, useValue: authServiceMock },
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
+        {
+          provide: AuthServiceConfig,
+          useFactory: provideConfig
+        },
+        { provide: MatDialogRef, useValue: matDialogMock },
+        { provide: UserOwnSignInService, useValue: signInServiceMock },
+      ]
+    })
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(SignInComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  // describe('Form test', () => {
+  //   it('Shoul create component', () => {
+  //     expect(component).toBeDefined();
+  //   })
+  // })
+
+  describe('Checking user id', () => {
+    it('Should get userId', () => {
+      
+      expect(localStorageServiceMock.userIdBehaviourSubject.value).toBe(1111)
+    });
+
+    // it('Should close window if userId exist', () => {
+    //   spyOn(component as any, 'matDialogMock')
+    //   component.ngOnInit();
+    //   expect(matDialogMock.close).toHaveBeenCalledTimes(1)
+    // })
+  })
+
+  describe('Reset error messages', () => {
+    it('Should reset error messages', () => {
+      component.emailErrorMessageBackEnd = 'I am error message';
+      component.passwordErrorMessageBackEnd = 'I am error message';
+      component.backEndError = 'I am error message';
+
+      component.configDefaultErrorMessage();
+
+      expect(component.backEndError).toBeNull();
+      expect(component.passwordErrorMessageBackEnd).toBeNull();
+      expect(component.emailErrorMessageBackEnd).toBeNull();
+    })
+  })
+
+  describe('Check sign in with email and password method', () => {
+    it('Should call sinIn method', inject([UserOwnSignInService], (service: UserOwnSignInService) => {
+      const userServiceSpy = spyOn(service, 'signIn').and.callThrough();
+      const componentSpy = spyOn(component, 'signIn').and.callThrough();
+      component.signIn();
+      fixture.detectChanges();
+
+      expect(userServiceSpy).toHaveBeenCalledTimes(1);
+      expect(componentSpy).toHaveBeenCalledTimes(1);
+    }))
+
+    it('Check what data comes on subscription', () => {
+      const data = new UserOwnSignIn()
+      data.email = '1';
+      data.password = '1';
+      signInServiceMock.signIn(data).subscribe(data => {
+        expect(data).toBeTruthy();
+      })
+    })
+  })
+
+  // describe('Check sign in with signInWithGoogle', () => {
+  //   it('Should call sinIn method', inject([AuthService], (service: AuthService) => {
+
+  //       const helper = new Promise<SocialUser>((resolve)=>{
+  //           const val = new SocialUser();
+  //                 val.email= ''
+  //                 val.firstName= ''
+  //                 val.authorizationCode= ''
+  //                 val.id= ''
+  //                 val.name= ''
+  //                 val.photoUrl= ''
+  //                 val.authToken= ''
+  //                 resolve(val)
+  //       })
+      
+  //     const serviceSpy = spyOn(service, 'signIn').and.returnValue(helper);
+
+  //     component.signInWithGoogle();
+  //     fixture.detectChanges();
+
+  //     expect(serviceSpy).toHaveBeenCalledTimes(1);
+  //   }));
+
+  //   it('test smt', inject([Router], (router: Router ) => {
+  //     spyOn(router, 'navigate').and.stub();
+
+  //     const data = new UserSuccessSignIn();
+  //       data.userId = '123';
+  //       data.name = '1';
+  //       data.accessToken = '1';
+  //       data.refreshToken = '1';
+
+  //       debugger;
+  //     component.onSignInWithGoogleSuccess(data);
+  //     fixture.detectChanges();
+  //     debugger;
+  //     expect(router.navigate).toHaveBeenCalled();
+  //   }));
+  // })
+
+});
