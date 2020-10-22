@@ -63,7 +63,7 @@
     {{'user.auth.sign-in.bad-email-or-password' | translate}}
   </div>
   <div class="forgot-wrapper">
-    <a (click)="onOpenForgotWindow()"
+    <a (click)="onOpenModalWindow('restore-password')"
         class="forgot-password">
       {{'user.auth.sign-in.forgot-password' | translate}}</a>
   </div>
@@ -84,7 +84,7 @@
 </div>
 <div class="missing-account">
   <p>{{'user.auth.sign-in.havenot-account' | translate}}
-    <a (click)="signUpOpenWindow()"
+    <a (click)="onOpenModalWindow('sign-up')"
         class="sign-up-link">
       {{'user.auth.sign-in.sign-up' | translate}}
     </a>

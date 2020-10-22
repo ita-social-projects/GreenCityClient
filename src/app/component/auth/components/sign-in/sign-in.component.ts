@@ -110,13 +110,11 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.localStorageService.setFirstName(data.name);
     this.localStorageService.setFirstSignIn();
     this.userOwnAuthService.getDataFromLocalStorage();
-    this.router.navigate(['profile', data.userId])
-      .then(success => console.log('redirect has succeeded ' + success))
-      .catch(fail => console.log('redirect has failed ' + fail));
+    this.router.navigate(['profile', data.userId]);
   }
 
-  public onOpenForgotWindow(): void {
-    this.pageName.emit('restore-password');
+  public onOpenModalWindow(windowPath: string): void {
+    this.pageName.emit(windowPath);
   }
 
   private onSignInFailure(errors: HttpErrorResponse): void {
@@ -146,10 +144,6 @@ export class SignInComponent implements OnInit, OnDestroy {
     input.type = input.type === 'password' ? 'text' : 'password';
     src.src = input.type === 'password' ?
       this.hideShowPasswordImage.hidePassword : this.hideShowPasswordImage.showPassword;
-  }
-
-  public signUpOpenWindow(): void {
-    this.pageName.emit('sign-up');
   }
 
   ngOnDestroy() {
