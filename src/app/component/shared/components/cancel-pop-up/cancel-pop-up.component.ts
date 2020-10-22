@@ -20,6 +20,11 @@ export class CancelPopUpComponent implements OnInit {
       if (event.key === 'Escape') {
           this.closeCancelPopup();
       }
+      if (event.key === 'Enter') {
+        this.closeCancelPopup();
+        this.router.navigate(['/profile']);
+    }
+
     });
     this.matDialogRef.backdropClick().subscribe(event => {
       this.closeCancelPopup();

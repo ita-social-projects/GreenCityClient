@@ -1,0 +1,144 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+.main-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-bottom: 24px;
+  background: #f5f7f6;
+}
+
+.main-container .friends {
+  padding: 24px 0;
+  width: 100%;
+  border-top: 1px solid #eaeef3;
+}
+
+.main-container .text-title {
+  margin-right: 5px;
+}
+
+.main-container .text-number {
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+.main-container .text-title,
+.main-container .text-number {
+  font-family: "Montserrat", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  color: #494a49;
+}
+
+.main-container .friends-text {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.main-container .text-main-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  width: 100%;
+}
+
+.main-container .text-main-content .text-number {
+  color: #bebebe;
+}
+
+.main-container .text-more {
+  font-family: "Montserrat", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 15px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-align: center;
+  color: #494a49;
+}
+
+.main-container .friends-images {
+  margin: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  width: 100%;
+}
+
+.main-container .friend-img {
+  margin-top: 24px;
+}
+
+.main-container .friends-error .text-title {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  color: #494a49;
+}
+
+.main-container .friends-error .text-title .text-number {
+  color: #bebebe;
+}
+
+.main-container .friends-error .text-title .error-message {
+  font-family: "Montserrat", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  margin-top: 30px;
+  text-align: center;
+  color: #bebebe;
+}
+
+@media only screen and (max-width: 1440px) {
+  .friend-img {
+    width: 60px;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .friend-img {
+    width: 50px;
+  }
+  .text-title,
+  .text-number {
+    font-size: 12px;
+    line-height: 15px;
+  }
+  .text-more {
+    font-size: 11px;
+    line-height: 13px;
+  }
+}
+/*# sourceMappingURL=users-friends.component.css.map */

@@ -1,0 +1,102 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+.not-found-text {
+  display: inline-block;
+  width: 22.5rem;
+  padding-right: 3rem;
+  height: 85px;
+  left: 0;
+  font-family: Montserrat, sans-serif;
+  font-weight: 500;
+  font-size: 1.3rem;
+  line-height: 28px;
+  color: #313131;
+  margin-right: 1.8rem;
+}
+
+.choose-alternative {
+  display: inline-block;
+  position: relative;
+  top: -85px;
+  left: 25.6rem;
+  width: 47rem;
+  height: 25px;
+  font-family: opensans, sans-serif;
+  font-size: 1rem;
+  line-height: 24px;
+  color: #313131;
+}
+
+.flex-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  width: 43rem;
+  height: 340px;
+  position: relative;
+  float: right;
+}
+
+.flex-container a:hover {
+  text-decoration: none;
+}
+
+.flex-container .alternative-image {
+  border-radius: 5px;
+  max-width: 100%;
+}
+
+.flex-container .alternative-header {
+  margin-top: 15px;
+  font-family: Montserrat, sans-serif;
+  font-weight: 500;
+  font-size: 1.3rem;
+  line-height: 28px;
+  color: #13aa57;
+}
+
+.flex-container .alternative-description {
+  font-family: opensans, sans-serif;
+  font-size: 1rem;
+  line-height: 24px;
+  color: #313131;
+}
+
+.flex-container .alternative-news {
+  width: 21rem;
+  padding: 1rem;
+}
+
+.flex-container .alternative-tips {
+  width: 21rem;
+  padding: 1rem;
+}
+
+.flex-container .alternative-news:hover,
+.flex-container .alternative-tips:hover {
+  background: #fff;
+  -webkit-box-shadow: 0 0.25rem 2rem #e6ebea;
+          box-shadow: 0 0.25rem 2rem #e6ebea;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+@media (max-width: 797px) {
+  .flex-container {
+    width: 300px;
+    margin-top: 30px;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    height: 650px;
+  }
+  .flex-container .alternative-news,
+  .flex-container .alternative-tips {
+    padding: 2rem;
+  }
+}
+/*# sourceMappingURL=search-not-found.component.css.map */

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,kBAAkB,CAAC;EACjB,OAAO,EAAE,IAAI;EACb,qBAAqB,EAAE,WAAW;EAClC,cAAc,EAAE,gCAAgC;EAChD,YAAY,EAAE,IAAI;EAClB,MAAM,EAAE,MAAM;EACd,KAAK,EAAE,KAAK;CACb",
+    "sources": [
+        "achievement-list.component.scss"
+    ],
+    "names": [],
+    "file": "achievement-list.component.css"
+}

@@ -1,0 +1,56 @@
+[hidden] {
+  display: none !important;
+}
+
+button {
+  background: skyblue;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: 'Poppins', sans-serif;
+  font-size: inherit;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  outline: none;
+  padding: 0.8rem 50px;
+  position: relative;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  vertical-align: middle;
+}
+
+button:hover {
+  background-color: #5bbce4;
+}
+
+button.btn-2 {
+  background-color: skyblue;
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+button.btn-2::before {
+  color: #fff;
+  content: "\f382";
+  font-family: "Font Awesome 5 Pro", serif;
+  font-weight: 600;
+  font-size: 100%;
+  height: 100%;
+  right: 130%;
+  line-height: 3.3;
+  position: absolute;
+  top: 0;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+button.btn-2:hover {
+  background-color: #1f8dba;
+}
+
+button.btn-2:hover::before {
+  right: 75%;
+}
+/*# sourceMappingURL=photo-upload.component.css.map */

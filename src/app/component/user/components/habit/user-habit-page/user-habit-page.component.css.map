@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,gBAAgB,CAAC;EACf,OAAO,EAAE,KAAK;EACd,MAAM,EAAE,MAAM;CACf;;AAED,AAAA,UAAU,CAAC;EACT,SAAS,EAAE,MAAM;CAClB;;AAED,AAAA,WAAW,CAAC;EACV,UAAU,EAAE,IAAI;CACjB",
+    "sources": [
+        "user-habit-page.component.scss"
+    ],
+    "names": [],
+    "file": "user-habit-page.component.css"
+}

@@ -1,0 +1,107 @@
+.active {
+  color: green;
+}
+
+.header-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding-bottom: 40px;
+}
+
+.header-wrapper .title {
+  padding-left: 40px;
+}
+
+.header-wrapper .buttons {
+  padding-top: 20px;
+}
+
+.header-wrapper .buttons button {
+  padding: 12px 8px 12px 0;
+}
+
+.header-wrapper .buttons button:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.galleryContainer {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (359px)[3];
+      grid-template-columns: repeat(3, 359px);
+  grid-gap: 30px;
+}
+
+.listView {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+@media screen and (max-width: 1199px) {
+  .galleryContainer {
+    -ms-grid-columns: (299px)[3];
+        grid-template-columns: repeat(3, 299px);
+    grid-gap: 15px;
+  }
+  .header-wrapper {
+    max-width: 935px;
+  }
+  .header-wrapper .title {
+    padding-left: 0;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .galleryContainer {
+    -ms-grid-columns: (353px)[2];
+        grid-template-columns: repeat(2, 353px);
+    grid-gap: 15px;
+  }
+  .header-wrapper {
+    max-width: 768px;
+  }
+  .header-wrapper .title {
+    padding-left: 40px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .galleryContainer {
+    -ms-grid-columns: (258px)[2];
+        grid-template-columns: repeat(2, 258px);
+    grid-gap: 17px;
+  }
+  .header-wrapper {
+    max-width: 570px;
+  }
+  .header-wrapper .title {
+    padding-left: 30px;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .galleryContainer {
+    -ms-grid-columns: (288px)[1];
+        grid-template-columns: repeat(1, 288px);
+    grid-gap: 25px;
+  }
+  .header-wrapper .title {
+    padding-left: 15px;
+  }
+}
+/*# sourceMappingURL=all-habits.component.css.map */

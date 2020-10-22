@@ -1,0 +1,135 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.habit {
+  background-color: #f5f6f6;
+  min-height: 638px;
+  border-radius: 8px;
+}
+
+.habit .habit__container {
+  position: relative;
+  padding-top: 35px;
+  width: 82%;
+  min-height: 638px;
+  margin: 0 auto;
+}
+
+.habit .habit__container .header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.habit .habit__container .header .calendar .calendar__icon {
+  margin-right: 15px;
+}
+
+.habit .habit__container .header .calendar .days {
+  font-size: 14px;
+  color: #13aa57;
+  text-transform: uppercase;
+}
+
+.habit .habit__container .header .stars img {
+  margin-left: 12px;
+}
+
+.habit .habit__container .picture {
+  padding-top: 22px;
+  height: 190px;
+  margin-bottom: 31px;
+}
+
+.habit .habit__container .picture .habit__picture {
+  max-width: 90%;
+  display: block;
+  margin: 0 auto;
+}
+
+.habit .habit__container .info {
+  padding-top: 20px;
+}
+
+.habit .habit__container .info .tags {
+  color: #13aa57;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.habit .habit__container .info .title {
+  color: #494a49;
+  font-size: 22px;
+  line-height: 15px;
+}
+
+.habit .habit__container .info .description {
+  font-family: "OpenSans", sans-serif;
+  font-size: 12px;
+  line-height: 18px;
+  color: #494a49;
+}
+
+.habit .habit__container .info .aquired {
+  color: #bebebe;
+  font-family: "Montserrat", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.habit .habit__container .add {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+.habit .habit__container .add button {
+  position: absolute;
+  bottom: 25px;
+  color: #fff;
+  background: #13aa57;
+  border-radius: 5px;
+  padding: 16px 40px;
+  border: none;
+  -ms-flex-item-align: end;
+      align-self: flex-end;
+}
+
+@media screen and (max-width: 1199px) {
+  .habit .habit__container .info .tags {
+    font-size: 12px;
+  }
+  .habit .habit__container .info .title {
+    font-size: 18px;
+  }
+  .habit .habit__container .add button {
+    padding: 12px 30px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .habit .habit__container .info {
+    padding-top: 0;
+  }
+  .habit .habit__container .add button {
+    padding: 12px 30px;
+    bottom: 15px;
+  }
+}
+/*# sourceMappingURL=habits-gallery-view.component.css.map */

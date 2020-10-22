@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,aAAa,CAAC;EACZ,SAAS,EAAE,IAAI;CAChB;;AAED,AAAA,eAAe,CAAC;EACd,SAAS,EAAE,KAAK;EAChB,UAAU,EAAE,KAAK;EACjB,OAAO,EAAE,IAAI;EACb,WAAW,EAAE,uBAAuB;EACpC,OAAO,EAAE,IAAI;CACd",
+    "sources": [
+        "submit-email.component.scss"
+    ],
+    "names": [],
+    "file": "submit-email.component.css"
+}

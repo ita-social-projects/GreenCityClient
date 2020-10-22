@@ -1,0 +1,59 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
+.main-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-left: 50px;
+}
+
+.main-wrapper .like {
+  width: 74px;
+  height: 40px;
+  margin-right: 8px;
+}
+
+.main-wrapper .visible {
+  visibility: visible;
+}
+
+.main-wrapper .hidden {
+  visibility: hidden;
+}
+
+.main-wrapper .cta-btn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  text-align: center;
+  border: none;
+  background-color: #fff;
+  outline: none;
+}
+
+.main-wrapper .cta-btn .btn-text {
+  margin-left: 5px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  color: #878787;
+  mix-blend-mode: normal;
+}
+
+@media screen and (max-width: 380px) {
+  .main-wrapper {
+    margin-left: 59px;
+  }
+  .main-wrapper .cta-btn {
+    width: 24px;
+  }
+  .main-wrapper .cta-btn .btn-text {
+    display: none;
+  }
+}
+/*# sourceMappingURL=like-comment.component.css.map */

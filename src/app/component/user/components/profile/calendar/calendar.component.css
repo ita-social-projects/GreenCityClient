@@ -1,0 +1,327 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap");
+.calendar-right {
+  display: none;
+}
+
+.calendar {
+  width: 261px;
+  max-height: 276px;
+  background: #f5f6f6;
+  border-radius: 4px;
+}
+
+.calendar .top .month-year {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  text-align: center;
+}
+
+.calendar .top .month-year .arrow-previous {
+  margin-top: 22px;
+  margin-left: 18px;
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+.calendar .top .month-year .monthAndYear {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: #494a49;
+  margin-top: 16px;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+
+.calendar .top .month-year .arrow-next {
+  margin-top: 22px;
+  margin-right: 18px;
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+.calendar .top .days {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (34.6px)[7];
+      grid-template-columns: repeat(7, 34.6px);
+  text-align: center;
+  margin: 0 9px 0 10px;
+  font-size: 11px;
+}
+
+.calendar .top .days .days-name {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 16px;
+  color: #bebebe;
+}
+
+.calendar .top .days .current-day-name {
+  color: #13aa57;
+}
+
+.calendar .middle {
+  padding-bottom: 24px;
+}
+
+.calendar .middle .calendar-grid {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (34px)[7];
+      grid-template-columns: repeat(7, 34px);
+  grid-auto-rows: 32px;
+  margin: 8px 0 0 14px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  line-height: 16px;
+  color: #494a49;
+  text-align: center;
+}
+
+.calendar .middle .calendar-grid .calendar-grid-day {
+  padding: 7px 1px 0 0;
+  cursor: pointer;
+}
+
+.calendar .middle .calendar-grid .calendar-grid-day:hover {
+  color: #13aa57;
+}
+
+.calendar .middle .calendar-grid .calendar-grid-day:active {
+  color: #056b33;
+}
+
+.calendar .middle .calendar-grid .current-day {
+  background-color: #13aa57;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+  color: #fff;
+}
+
+.calendar .middle .calendar-grid .tracked-day {
+  background-color: #056b33;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+  color: #fff;
+}
+
+.calendar .middle .calendar-grid .current-day:hover,
+.calendar .middle .calendar-grid .tracked-day:hover {
+  color: #fff;
+}
+
+.calendar .middle .calendar-grid .current-day:active,
+.calendar .middle .calendar-grid .tracked-day:active {
+  color: #056b33;
+}
+
+.calendar .middle .calendar-grid-month {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (23px)[3];
+      grid-template-columns: repeat(3, 23px);
+  -ms-grid-rows: (13px)[4];
+      grid-template-rows: repeat(4, 13px);
+  grid-row-gap: 32px;
+  grid-column-gap: 47px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 32px;
+}
+
+.calendar .middle .calendar-grid-month .calendar-grid-month-view {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 13px;
+  color: #878787;
+  text-align: center;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.calendar .middle .calendar-grid-month .current-month {
+  color: #13aa57;
+}
+
+@media only screen and (max-width: 1024px) {
+  .calendar {
+    width: 216px;
+    height: 202px;
+  }
+  .calendar .top .days {
+    -ms-grid-columns: (28.6px)[7];
+        grid-template-columns: repeat(7, 28.6px);
+  }
+  .calendar .top .days .days-name {
+    font-size: 10px;
+  }
+  .calendar .middle .calendar-grid {
+    -ms-grid-columns: (28px)[7];
+        grid-template-columns: repeat(7, 28px);
+    grid-auto-rows: 22px;
+    margin: 2px 0 0 14px;
+    font-size: 11px;
+  }
+  .calendar .middle .calendar-grid .calendar-grid-day {
+    padding: 2px 1px 0 0;
+  }
+  .calendar .middle .calendar-grid-month {
+    -ms-grid-columns: (21px)[3];
+        grid-template-columns: repeat(3, 21px);
+    grid-row-gap: 23px;
+    grid-column-gap: 41px;
+    margin-top: 19px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .calendar {
+    display: none;
+  }
+  .calendar-right {
+    width: 483px;
+    height: 130px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .calendar-right .top .month-year {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    text-align: center;
+  }
+  .calendar-right .top .month-year .arrow-previous {
+    margin-top: 22px;
+    margin-left: 18px;
+    margin-bottom: 16px;
+    cursor: pointer;
+  }
+  .calendar-right .top .month-year .monthAndYear {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    color: #494a49;
+    margin-top: 16px;
+    margin-bottom: 12px;
+    cursor: pointer;
+  }
+  .calendar-right .top .month-year .arrow-next {
+    margin-top: 22px;
+    margin-right: 18px;
+    margin-bottom: 16px;
+    cursor: pointer;
+  }
+  .calendar-right .top .days {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: (68.6px)[7];
+        grid-template-columns: repeat(7, 68.6px);
+    text-align: center;
+    margin: 0 9px 0 10px;
+    font-size: 11px;
+  }
+  .calendar-right .top .days .days-name {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    line-height: 16px;
+    color: #bebebe;
+  }
+  .calendar-right .top .days .current-day-name {
+    color: #13aa57;
+  }
+  .calendar-right .middle {
+    padding-bottom: 24px;
+  }
+  .calendar-right .middle .calendar-grid {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: (57px)[7];
+        grid-template-columns: repeat(7, 57px);
+    grid-auto-rows: 34px;
+    margin: 8px 0 0 14px;
+    font-family: "Montserrat", sans-serif;
+    font-size: 19px;
+    line-height: 16px;
+    color: #494a49;
+    text-align: center;
+  }
+  .calendar-right .middle .calendar-grid .calendar-grid-day {
+    padding: 7px 1px 0 0;
+    cursor: pointer;
+  }
+  .calendar-right .middle .calendar-grid .calendar-grid-day:hover {
+    color: #13aa57;
+  }
+  .calendar-right .middle .calendar-grid .calendar-grid-day:active {
+    color: #056b33;
+  }
+  .calendar-right .middle .calendar-grid .current-day {
+    background-color: #056b33;
+    border-radius: 50%;
+    width: 25px;
+    color: #fff;
+  }
+  .calendar-right .middle .calendar-grid .tracked-day {
+    background-color: #056b33;
+    border-radius: 50%;
+    width: 25px;
+    color: #fff;
+  }
+  .calendar-right .middle .calendar-grid .current-day:hover,
+  .calendar-right .middle .calendar-grid .tracked-day:hover {
+    color: #fff;
+  }
+  .calendar-right .middle .calendar-grid .current-day:active,
+  .calendar-right .middle .calendar-grid .tracked-day:active {
+    color: #056b33;
+  }
+  .calendar-right .middle .calendar-grid-month {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: (23px)[3];
+        grid-template-columns: repeat(3, 23px);
+    -ms-grid-rows: (13px)[4];
+        grid-template-rows: repeat(4, 13px);
+    grid-row-gap: 32px;
+    grid-column-gap: 47px;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    margin-top: 32px;
+  }
+  .calendar-right .middle .calendar-grid-month .calendar-grid-month-view {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    line-height: 13px;
+    color: #878787;
+    text-align: center;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .calendar-right .middle .calendar-grid-month .current-month {
+    color: #13aa57;
+  }
+}
+/*# sourceMappingURL=calendar.component.css.map */

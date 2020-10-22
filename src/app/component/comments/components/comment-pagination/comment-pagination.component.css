@@ -1,0 +1,113 @@
+.pagination {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  text-align: center;
+  height: 35px;
+  margin-top: 64px;
+}
+
+.pagination .custom-pagination {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.pagination .custom-pagination .page-number {
+  margin: 0 40px 0 0;
+}
+
+.pagination .custom-pagination .page-number.current {
+  height: 32px;
+  min-width: 32px;
+  background: #13aa57 !important;
+  border-radius: 4px;
+}
+
+.pagination .custom-pagination .page-number a {
+  display: block;
+  height: 35px;
+  font-family: opensans, sans-serif;
+  font-size: 24px;
+  line-height: 35px;
+  color: #494a49;
+  cursor: pointer;
+}
+
+.pagination .custom-pagination .page-number.current a {
+  padding: 0 9px 0 9px;
+  color: #fff;
+}
+
+.pagination .custom-pagination .page-number a:hover {
+  color: #13aa57;
+}
+
+.pagination .custom-pagination .page-number a:active {
+  color: #056b33;
+}
+
+.pagination .custom-pagination .page-number.current a:hover {
+  color: #fff;
+}
+
+.pagination .custom-pagination .pagination-previous,
+.pagination .custom-pagination .pagination-next {
+  display: inline-block;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.pagination .custom-pagination .pagination-previous .previous-btn,
+.pagination .custom-pagination .pagination-previous .previous-btn-disabled,
+.pagination .custom-pagination .pagination-previous .next-btn,
+.pagination .custom-pagination .pagination-previous .next-btn-disabled,
+.pagination .custom-pagination .pagination-next .previous-btn,
+.pagination .custom-pagination .pagination-next .previous-btn-disabled,
+.pagination .custom-pagination .pagination-next .next-btn,
+.pagination .custom-pagination .pagination-next .next-btn-disabled {
+  margin-right: 40px;
+  width: 8px;
+  height: 12px;
+}
+
+.pagination .custom-pagination .pagination-previous .next-btn,
+.pagination .custom-pagination .pagination-previous .next-btn-disabled,
+.pagination .custom-pagination .pagination-next .next-btn,
+.pagination .custom-pagination .pagination-next .next-btn-disabled {
+  margin-right: 0;
+}
+
+.pagination .custom-pagination .pagination-previous .previous-btn,
+.pagination .custom-pagination .pagination-next .previous-btn {
+  background: url("~/assets/img/comments/arrow-previous.svg") no-repeat center;
+}
+
+.pagination .custom-pagination .pagination-previous .previous-btn-disabled,
+.pagination .custom-pagination .pagination-next .previous-btn-disabled {
+  background: url("~/assets/img/comments/arrow-previous-disable.svg") no-repeat center;
+}
+
+.pagination .custom-pagination .pagination-previous .next-btn-disabled,
+.pagination .custom-pagination .pagination-next .next-btn-disabled {
+  background: url("~/assets/img/comments/arrow-next-disable.svg") no-repeat center;
+}
+
+.pagination .custom-pagination .pagination-previous .next-btn,
+.pagination .custom-pagination .pagination-next .next-btn {
+  background: url("~/assets/img/comments/arrow-next.svg") no-repeat center;
+}
+/*# sourceMappingURL=comment-pagination.component.css.map */

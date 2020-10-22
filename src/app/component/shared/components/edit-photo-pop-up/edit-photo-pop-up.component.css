@@ -1,0 +1,157 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+.main-container {
+  position: relative;
+  width: 631px;
+  height: 400px;
+  font-family: "Open Sans";
+  padding: 56px 0;
+  margin: 0 auto;
+  background: #fff;
+}
+
+.main-container .primary-global-button {
+  background: #fff;
+  color: #13aa57;
+  width: 132px;
+  margin-right: 24px;
+}
+
+.main-container .primary-global-button:hover {
+  border: 1px solid #056b33;
+  color: #056b33;
+}
+
+.main-container .secondary-global-button {
+  background: #13aa57;
+  color: #fff;
+  padding: 16px 24px;
+}
+
+.main-container .secondary-global-button:hover {
+  background: #056b33;
+}
+
+.main-container .cancel {
+  position: absolute;
+  top: 26px;
+  right: 26px;
+  border: none;
+  background-color: transparent;
+  outline: none;
+}
+
+.main-container .wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.main-container .wrapper .profile-avatar {
+  border-radius: 100px;
+  height: 148px;
+  width: 148px;
+}
+
+.main-container .wrapper .selected-photo {
+  max-height: 148px;
+  max-width: 217px;
+  -webkit-box-sizing: content-box;
+          box-sizing: content-box;
+}
+
+.main-container .wrapper p {
+  font-weight: 500;
+  font-size: 21px;
+  line-height: 28px;
+  padding: 24px 0 40px;
+  margin: 0;
+  text-align: center;
+}
+
+.main-container .wrapper .warning {
+  font-family: 'Open sans', sans-serif;
+  font-size: 14px;
+  color: red;
+  padding: 0;
+}
+
+.main-container .wrapper .buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+.main-container .wrapper .buttons label {
+  margin: 0;
+  padding-top: 16px;
+}
+
+.main-container .wrapper .buttons .primary-global-button,
+.main-container .wrapper .buttons .secondary-global-button {
+  border: 1px solid #13aa57;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border-radius: 5px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  height: 48px;
+  line-height: 16px;
+  outline: none;
+}
+
+.main-container .wrapper .buttons button:disabled {
+  background: #839c94;
+  border: 1px solid #839c94;
+}
+
+.main-container .wrapper .buttons .change {
+  width: 191px;
+}
+
+.main-container .wrapper .buttons input {
+  display: none;
+}
+
+@media screen and (max-width: 631px) {
+  .main-container {
+    width: 100vw;
+    height: 100vh;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .wrapper p {
+    padding: 24px 15px 40px;
+  }
+  .wrapper .buttons {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .wrapper .buttons .primary-global-button,
+  .wrapper .buttons .secondary-global-button {
+    margin: 0 0 24px;
+    width: 287px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .main-container {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+/*# sourceMappingURL=edit-photo-pop-up.component.css.map */

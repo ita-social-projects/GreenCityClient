@@ -1,0 +1,124 @@
+.profile-menu {
+  border-bottom: 1px solid #13aa57;
+  min-height: 30px;
+  margin-bottom: 1.5rem;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  z-index: 1;
+  text-align: center;
+}
+
+.profile-menu span {
+  display: block;
+  color: #056b33;
+  width: 82px;
+  text-align: center;
+  cursor: pointer;
+  min-height: 30px;
+  font-size: 13px;
+  line-height: 15px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-top: 6px;
+  font-family: "Open Sans", sans-serif;
+}
+
+.profile-menu .active {
+  border: 1px solid #13aa57;
+  border-radius: 5px 5px 0 0;
+  border-bottom: none;
+  background-color: #fff;
+  font-family: "Open Sans", sans-serif;
+  z-index: 2;
+}
+
+.profile-menu .active:hover {
+  border: 1px solid #13aa57;
+  border-radius: 5px 5px 0 0;
+  border-bottom: white;
+}
+
+.in-progress {
+  font-family: Montserrat, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  color: #494a49;
+  text-align: left;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.in-progress p {
+  margin: 0;
+}
+
+.in-progress p span {
+  color: #bebebe;
+  margin-left: 5px;
+}
+
+.menu-title {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.menu-title #create-button {
+  cursor: pointer;
+  width: 116px;
+  min-width: 86px;
+  height: 32px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.menu-title #create-button span {
+  display: block;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+}
+
+.profile-span:hover {
+  background-color: #f0f5f4;
+  border-radius: 5px 5px 0 0;
+  border-bottom: 1px solid #13aa57;
+}
+
+.habits-in-progress {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
+}
+
+.acquired {
+  margin: 16px 0 24px;
+}
+/*# sourceMappingURL=profile-dashboard.component.css.map */

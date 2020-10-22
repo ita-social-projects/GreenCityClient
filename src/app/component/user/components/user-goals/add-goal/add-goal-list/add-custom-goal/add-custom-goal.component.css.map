@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,KAAK,CAAC;EACJ,KAAK,EAAE,OAAO;CACf;;AAED,AAAA,KAAK,CAAC;EACJ,YAAY,EAAE,kBAAkB;CACjC;;AAED,AAAA,WAAW,CAAC;EACV,OAAO,EAAE,YAAY;CACtB",
+    "sources": [
+        "add-custom-goal.component.scss"
+    ],
+    "names": [],
+    "file": "add-custom-goal.component.css"
+}

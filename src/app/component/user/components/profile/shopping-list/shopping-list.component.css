@@ -1,0 +1,89 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+.shopping-list-content {
+  margin: 0 auto;
+  font-family: Montserrat, sans-serif;
+  font-style: normal;
+}
+
+.header-position {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.header {
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  padding-bottom: 8px;
+}
+
+h2 > span {
+  color: #bebebe;
+  margin-left: 10px;
+}
+
+.item {
+  list-style: none;
+  text-align: left;
+  width: 100%;
+  font-weight: normal;
+  font-size: 12px;
+  padding: 6px 0;
+}
+
+.shopping-list {
+  width: 100%;
+  padding: 0;
+}
+
+.btn-see-all {
+  text-decoration: none;
+  font-weight: normal;
+  font-size: 12px;
+}
+
+.checkbox {
+  float: right;
+}
+
+::ng-deep .mat-checkbox .mat-checkbox-frame {
+  border: 1px solid #e1e1e1;
+}
+
+::ng-deep .mat-checkbox-checked .mat-checkbox-background {
+  background-color: green !important;
+}
+
+.mat-spinner circle,
+::ng-deep.mat-progress-spinner circle {
+  stroke: #e2e2e2 !important;
+}
+
+.loading {
+  margin: 0 auto;
+}
+
+@media only screen and (max-width: 1024px) {
+  .header,
+  .text-number {
+    font-size: 12px;
+    line-height: 15px;
+  }
+  .text-more {
+    font-size: 11px;
+    line-height: 13px;
+  }
+  .item {
+    font-size: 11px;
+    line-height: 16px;
+  }
+}
+/*# sourceMappingURL=shopping-list.component.css.map */

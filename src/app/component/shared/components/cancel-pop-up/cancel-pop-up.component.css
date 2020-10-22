@@ -1,0 +1,106 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+.main-container {
+  position: relative;
+  max-width: 568px;
+  max-height: 256px;
+  z-index: 2000;
+  font-family: "Open Sans", sans-serif;
+  padding: 56px;
+}
+
+.main-container .warning-text {
+  font-family: "Montserrat", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 21px;
+  line-height: 28px;
+  color: #313131;
+  margin-bottom: 40px;
+}
+
+.main-container .cta-buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.main-container .cta-buttons .secondary-global-button,
+.main-container .cta-buttons .primary-global-button {
+  padding: 16px 40px;
+  font-weight: 600;
+}
+
+.main-container .cta-buttons .secondary-global-button {
+  margin-right: 24px;
+  background-color: #fff;
+}
+
+.main-container .cta-buttons .secondary-global-button:hover {
+  padding: 16px 40px;
+  line-height: 16px;
+  background-color: #fff;
+}
+
+@media screen and (max-width: 767px) {
+  .main-container .warning-text {
+    font-size: 18px;
+    max-width: 397px;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .main-container {
+    min-width: 100vh;
+    min-height: 100vh;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    margin-bottom: 89px;
+  }
+  .main-container #wrapper {
+    position: fixed;
+    top: 39.2%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -39.2%);
+            transform: translate(-50%, -39.2%);
+  }
+  .main-container .warning-text {
+    font-size: 18px;
+    max-width: 288px;
+    margin-bottom: 89px;
+  }
+  .main-container .cta-buttons {
+    width: 288px;
+    height: 48px;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+  .main-container .cta-buttons .secondary-global-button,
+  .main-container .cta-buttons .primary-global-button,
+  .main-container .cta-buttons .continue-btn,
+  .main-container .cta-buttons .cancel-btn {
+    width: 288px;
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+    min-height: 48px;
+    text-align: center;
+    font-weight: 600;
+  }
+  .main-container .cta-buttons .secondary-global-button {
+    margin: 0;
+  }
+  .main-container .cta-buttons .primary-global-button {
+    margin-top: 32px;
+  }
+}
+/*# sourceMappingURL=cancel-pop-up.component.css.map */

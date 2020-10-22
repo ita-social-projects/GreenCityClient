@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,eAAe,CAAC;EACd,YAAY,EAAE,GAAG;CAClB",
+    "sources": [
+        "mat-snack-bar.component.scss"
+    ],
+    "names": [],
+    "file": "mat-snack-bar.component.css"
+}

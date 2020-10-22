@@ -1,0 +1,12 @@
+.achievements-list {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-rows: minmax(-webkit-min-content, -webkit-max-content);
+  grid-auto-rows: minmax(min-content, max-content);
+  grid-row-gap: 20px;
+  margin: 0 auto;
+  width: 296px;
+}
+/*# sourceMappingURL=achievement-list.component.css.map */

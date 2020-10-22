@@ -1,0 +1,10 @@
+.ratingg {
+  height: 100px;
+  width: 100%;
+}
+
+.error,
+.validation-error {
+  color: red;
+}
+/*# sourceMappingURL=add-comment.component.css.map */

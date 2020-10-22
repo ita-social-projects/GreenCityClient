@@ -1,0 +1,36 @@
+#stat-rows {
+  margin-top: 51px;
+  padding: 0 200px;
+  width: 100%;
+}
+
+@media screen and (max-width: 1250px) {
+  #stat-rows {
+    padding: 0 150px;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  #stat-rows {
+    padding: 0 125px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  #stat-rows {
+    padding: 0 100px;
+  }
+}
+
+@media screen and (max-width: 920px) {
+  #stat-rows {
+    padding: 0 75px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #stat-rows {
+    padding: 0 25px;
+  }
+}
+/*# sourceMappingURL=stat-rows.component.css.map */

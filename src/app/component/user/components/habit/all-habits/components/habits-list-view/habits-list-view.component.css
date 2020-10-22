@@ -1,0 +1,177 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.list-habit-content {
+  height: 296px;
+  width: 944px;
+  margin-bottom: 30px;
+  border-radius: 8px;
+  background: #f5f6f6 url(~/assets/img/icon/HabitPicture.png) no-repeat top 20px right -61px/34%;
+}
+
+.list-habit-content .header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-transform: uppercase;
+  padding: 35px 0 32px 35px;
+  font-family: "OpenSans", sans-serif;
+  font-size: 14px;
+  line-height: 16px;
+  color: #13aa57;
+}
+
+.list-habit-content .header .calendar .calendar__icon {
+  margin-right: 15px;
+}
+
+.list-habit-content .header .calendar .days {
+  border-right: 1px solid #bebebe;
+  padding-right: 18px;
+  margin-right: 18px;
+}
+
+.list-habit-content .header .tags {
+  border-right: 1px solid #bebebe;
+  padding-right: 18px;
+  margin-right: 18px;
+}
+
+.list-habit-content .header .aquired {
+  border-right: 1px solid #bebebe;
+  padding-right: 18px;
+  margin-right: 20px;
+}
+
+.list-habit-content .header .stars img {
+  margin-right: 12px;
+}
+
+.list-habit-content .info .title h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 30px;
+  color: #494a49;
+  margin-bottom: 8px;
+  margin-left: 32px;
+  max-width: 627px;
+}
+
+.list-habit-content .info .description p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 18px;
+  line-height: 28px;
+  color: #494a49;
+  max-width: 627px;
+  margin-bottom: 36px;
+  margin-left: 32px;
+}
+
+.list-habit-content .add-btn button {
+  width: 166px;
+  height: 48px;
+  margin-left: 32px;
+  background: #13aa57;
+  border: none;
+  border-radius: 5px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 16px;
+  color: #fff;
+}
+
+@media screen and (max-width: 1024px) {
+  .list-habit-content {
+    width: 760px;
+    height: 290px;
+    background: #f5f6f6 url(~/assets/img/icon/HabitPicture.png) no-repeat top 15px right -58px/40%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+  }
+  .list-habit-content .header {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-size: 12px;
+  }
+  .list-habit-content .info .title h2 {
+    max-width: 450px;
+    font-size: 25px;
+  }
+  .list-habit-content .info .description p {
+    max-width: 450px;
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+  .list-habit-content .add-btn button {
+    margin-bottom: 30px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .list-habit-content {
+    width: 548px;
+    height: 240px;
+    background: #f5f6f6 url(~/assets/img/icon/HabitPicture.png) no-repeat top 47px right -47px/41%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+  }
+  .list-habit-content .header {
+    width: 450px;
+    font-size: 10px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+  }
+  .list-habit-content .header .calendar .calendar__icon {
+    height: 15px;
+  }
+  .list-habit-content .header .stars img {
+    margin-top: 10px;
+    height: 15px;
+  }
+  .list-habit-content .header .aquired {
+    border-right: none;
+  }
+  .list-habit-content .info .title h2 {
+    max-width: 450px;
+    font-size: 20px;
+  }
+  .list-habit-content .info .description p {
+    max-width: 350px;
+    font-size: 12px;
+    line-height: 20px;
+  }
+  .list-habit-content .add-btn button {
+    width: 100px;
+    height: 30px;
+    font-size: 11px;
+  }
+}
+/*# sourceMappingURL=habits-list-view.component.css.map */

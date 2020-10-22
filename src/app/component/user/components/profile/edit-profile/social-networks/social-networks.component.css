@@ -1,0 +1,77 @@
+ul {
+  margin-bottom: 0;
+  padding: 0;
+}
+
+ul li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  list-style: none;
+  margin-bottom: 24px;
+}
+
+ul li .link img {
+  height: 24px;
+  width: 24px;
+}
+
+ul li .link a {
+  color: #494a49;
+  font-family: opensans, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  margin-right: 16px;
+}
+
+ul li .edit-icons {
+  -ms-grid-column-align: end;
+      justify-self: end;
+}
+
+ul li .edit-icons button {
+  border: none;
+  background-color: transparent;
+  outline: none;
+  padding: 0;
+}
+
+ul li .edit-icons button img {
+  padding-left: 18px;
+}
+
+ul li:last-child {
+  -ms-grid-column-align: start;
+      justify-self: start;
+  margin-bottom: 0;
+}
+
+ul li:last-child .link button {
+  border: transparent;
+  background-color: transparent;
+  padding: 0;
+}
+
+ul li:last-child .link button img {
+  height: 26px;
+  width: 26px;
+  margin-right: 16px;
+}
+
+ul li:last-child .link a {
+  color: #056b33;
+}
+
+@media screen and (max-width: 320px) {
+  ul li .link img {
+    margin-right: 12px;
+  }
+  ul li .link a {
+    font-size: 14px;
+    margin-right: 0;
+  }
+}
+/*# sourceMappingURL=social-networks.component.css.map */

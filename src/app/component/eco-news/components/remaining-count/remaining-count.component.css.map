@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,CAAC,CAAC;EACA,WAAW,EAAE,oBAAoB;EACjC,SAAS,EAAE,IAAI;EACf,WAAW,EAAE,IAAI;EACjB,KAAK,EAAE,IAAI;EACX,cAAc,EAAE,GAAG;CACpB",
+    "sources": [
+        "remaining-count.component.scss"
+    ],
+    "names": [],
+    "file": "remaining-count.component.css"
+}

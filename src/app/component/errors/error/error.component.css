@@ -1,0 +1,27 @@
+.error-wrapper {
+  width: 530px;
+  height: 48px;
+  background-color: #f03127;
+  border-radius: 3px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.error-wrapper p {
+  color: #fff;
+  font-family: opensans, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  padding: 10px 0 0 15px;
+}
+
+.error-wrapper img {
+  width: 12px;
+  height: 12px;
+  margin: 15px 15px 0 0;
+  cursor: pointer;
+}
+/*# sourceMappingURL=error.component.css.map */

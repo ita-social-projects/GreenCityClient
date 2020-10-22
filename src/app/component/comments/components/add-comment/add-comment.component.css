@@ -1,0 +1,99 @@
+.main-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: auto;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.main-wrapper img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50px;
+  margin-right: 24px;
+}
+
+.main-wrapper .input-submit {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+}
+
+.main-wrapper .input-submit textarea {
+  width: 100%;
+  height: 72px;
+  overflow: hidden;
+  resize: none;
+  padding: 10px 0 0 20px;
+  border-radius: 5px;
+}
+
+.main-wrapper .input-submit textarea::-webkit-input-placeholder {
+  color: #878787;
+}
+
+.main-wrapper .input-submit textarea:-ms-input-placeholder {
+  color: #878787;
+}
+
+.main-wrapper .input-submit textarea::-ms-input-placeholder {
+  color: #878787;
+}
+
+.main-wrapper .input-submit textarea::placeholder {
+  color: #878787;
+}
+
+.main-wrapper .input-submit button {
+  width: 157px;
+  height: 48px;
+  margin-left: 16px;
+  border-radius: 5px;
+}
+
+.wrapper-comment {
+  width: 70%;
+}
+
+.wrapper-reply {
+  width: 90%;
+  margin: 32px 0 32px 70px;
+}
+
+@media screen and (max-width: 768px) {
+  .wrapper-comment {
+    width: 100%;
+  }
+  .wrapper-comment .input-submit textarea {
+    margin-bottom: 16px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .wrapper-comment .input-submit {
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+  }
+  .wrapper-comment .input-submit button {
+    margin: 0;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .wrapper-comment img {
+    display: none;
+  }
+  .wrapper-comment .input-submit textarea {
+    width: 100%;
+  }
+  .wrapper-comment .input-submit button {
+    width: 100%;
+  }
+}
+/*# sourceMappingURL=add-comment.component.css.map */

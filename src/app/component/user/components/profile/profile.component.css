@@ -1,0 +1,139 @@
+.profile-wrapper {
+  max-width: 1140px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 2.14fr 1fr;
+      grid-template-columns: 1fr 2.14fr 1fr;
+  -ms-grid-rows: (1fr)[2];
+      grid-template-rows: repeat(2, 1fr);
+  grid-column-gap: 32px;
+  grid-row-gap: 32px;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.profile-wrapper .left-column {
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 2;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 1;
+  grid-area: 1 / 1 / 3 / 2;
+  padding: 24px;
+  background: #f5f7f6;
+}
+
+.profile-wrapper .habits-dashboard {
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 2;
+  -ms-grid-column: 2;
+  -ms-grid-column-span: 1;
+  grid-area: 1 / 2 / 3 / 3;
+}
+
+.profile-wrapper .right-column {
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 2;
+  -ms-grid-column: 3;
+  -ms-grid-column-span: 1;
+  grid-area: 1 / 3 / 3 / 4;
+}
+
+.profile-wrapper .right-column .app-calendar-week {
+  display: none;
+}
+
+.profile-wrapper .column div {
+  width: 100%;
+  -webkit-box-sizing: inherit;
+          box-sizing: inherit;
+}
+
+@media only screen and (max-width: 1024px) {
+  .profile-wrapper {
+    margin: 24px 24px;
+  }
+  .profile-wrapper .right-column {
+    max-width: 216px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .profile-wrapper {
+    margin: 14px 14px;
+    -ms-grid-columns: 30% 1fr;
+        grid-template-columns: 30% 1fr;
+    -ms-grid-rows: 130px 1fr;
+        grid-template-rows: 130px 1fr;
+  }
+  .profile-wrapper .left-column {
+    -ms-grid-row: 1;
+    -ms-grid-row-span: 2;
+    -ms-grid-column: 1;
+    -ms-grid-column-span: 1;
+    grid-area: 1 / 1 / 3 / 2;
+  }
+  .profile-wrapper .habits-dashboard {
+    -ms-grid-row: 2;
+    -ms-grid-row-span: 1;
+    -ms-grid-column: 2;
+    -ms-grid-column-span: 1;
+    grid-area: 2 / 2 / 3 / 3;
+  }
+  .profile-wrapper .right-column {
+    -ms-grid-row: 1;
+    -ms-grid-row-span: 1;
+    -ms-grid-column: 2;
+    -ms-grid-column-span: 1;
+    grid-area: 1 / 2 / 2 / 3;
+    max-width: 100%;
+    background: #f5f7f6;
+  }
+  .profile-wrapper .right-column .app-calendar-week {
+    display: block;
+  }
+  .app-profile-cards,
+  .app-calendar {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  .profile-wrapper {
+    -ms-grid-columns: 1fr;
+        grid-template-columns: 1fr;
+    -ms-grid-rows: fit-content(235px) 1fr;
+        grid-template-rows: fit-content(235px) 1fr;
+    grid-row-gap: 0;
+    margin: 0;
+  }
+  .profile-wrapper .left-column {
+    -ms-grid-row: 1;
+    -ms-grid-row-span: 1;
+    -ms-grid-column: 1;
+    -ms-grid-column-span: 2;
+    grid-area: 1 / 1 / 2 / 3;
+    padding: 16px;
+  }
+  .profile-wrapper .left-column .profile {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .profile-wrapper .habits-dashboard {
+    -ms-grid-row: 2;
+    -ms-grid-row-span: 1;
+    -ms-grid-column: 1;
+    -ms-grid-column-span: 2;
+    grid-area: 2 / 1 / 3 / 3;
+    margin: 38px 14px;
+  }
+  .app-users-achievements,
+  .app-users-friends,
+  .app-eco-places,
+  .app-shopping-list,
+  .app-calendar-week,
+  .right-column-card {
+    display: none;
+  }
+}
+/*# sourceMappingURL=profile.component.css.map */

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,CAAC,CAAC;EACA,MAAM,EAAE,IAAI;EACZ,WAAW,EAAE,uBAAuB;EACpC,SAAS,EAAE,IAAI;EACf,WAAW,EAAE,MAAM;EACnB,YAAY,EAAE,MAAM;EACpB,UAAU,EAAE,MAAM;EAClB,WAAW,EAAE,IAAI;EACjB,cAAc,EAAE,MAAM;EACtB,KAAK,EAAE,OAAO;CACf",
+    "sources": [
+        "habit-fact.component.scss"
+    ],
+    "names": [],
+    "file": "habit-fact.component.css"
+}

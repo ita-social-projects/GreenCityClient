@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,KAAK,CAAC;EACJ,KAAK,EAAE,OAAO;EACd,MAAM,EAAE,OAAO;CAChB",
+    "sources": [
+        "add-goal-list.component.scss"
+    ],
+    "names": [],
+    "file": "add-goal-list.component.css"
+}

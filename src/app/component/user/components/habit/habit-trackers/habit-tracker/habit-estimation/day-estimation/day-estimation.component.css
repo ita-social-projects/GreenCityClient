@@ -1,0 +1,34 @@
+.estimation-button {
+  width: 124px;
+  height: 49px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 0;
+  color: white;
+  outline: none;
+}
+
+.super-button {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#a7dc2f), to(#6eb715));
+  background-image: linear-gradient(to bottom, #a7dc2f, #6eb715);
+}
+
+.normal-button {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#0ba466), to(#056b36));
+  background-image: linear-gradient(to bottom, #0ba466, #056b36);
+}
+
+.bad-button {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#ffe200), color-stop(99%, #fbc728));
+  background-image: linear-gradient(to bottom, #ffe200, #fbc728 99%);
+}
+
+.active-button {
+  border: 2px solid cornflowerblue;
+  border-radius: 4px;
+}
+
+.non-active-button {
+  opacity: 0.5;
+}
+/*# sourceMappingURL=day-estimation.component.css.map */

@@ -1,0 +1,34 @@
+.details-img {
+  margin: 48px 0 41px;
+  position: relative;
+}
+
+.details-img .profile-avatar {
+  border-radius: 100px;
+  height: 148px;
+  width: 148px;
+}
+
+.details-img button {
+  border: none;
+  background-color: transparent;
+  left: 115px;
+  outline: none;
+  padding: 0;
+  position: absolute;
+  top: 101px;
+}
+
+.details-img div {
+  margin-top: 30px;
+}
+
+@media screen and (max-width: 320px) {
+  .details-img {
+    text-align: center;
+  }
+  .details-img button {
+    left: 150px;
+  }
+}
+/*# sourceMappingURL=personal-photo.component.css.map */
