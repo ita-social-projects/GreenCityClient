@@ -64,6 +64,7 @@
   </div>
   <div class="forgot-wrapper">
     <a (click)="onOpenForgotWindow()"
+        tabindex="0"
         class="forgot-password">
       {{'user.auth.sign-in.forgot-password' | translate}}</a>
   </div>
@@ -85,6 +86,7 @@
 <div class="missing-account">
   <p>{{'user.auth.sign-in.havenot-account' | translate}}
     <a (click)="signUpOpenWindow()"
+        tabindex="0"
         class="sign-up-link">
       {{'user.auth.sign-in.sign-up' | translate}}
     </a>
