@@ -23,7 +23,7 @@
             name="email"
             formControlName="email"
             (input)="setEmailBackendErr()"
-            [ngClass]="emailControl.invalid && emailControl.touched || emailErrorMessageBackEnd
+            [ngClass]="emailControl.invalid && emailControl.touched || emailErrorMessageBackEnd ||  backEndError 
                         ? 'wrong-input' :'main-data-input'">
       <div *ngIf="emailControl.invalid && emailControl.touched"
           class="error-message">
@@ -44,7 +44,7 @@
             id="firstName"
             name="firstName"
             formControlName="firstName"
-            [ngClass]="firstNameControl.invalid && firstNameControl.touched
+            [ngClass]="firstNameControl.invalid && firstNameControl.touched ||  backEndError 
                         ? 'wrong-input'
                         :'main-data-input'">
       <div *ngIf="firstNameControl.invalid && firstNameControl.touched"
@@ -61,7 +61,7 @@
         {{ 'user.auth.sign-up.password' | translate }}
       </label>
       <div class="main-data-input-password"
-          [ngClass]="passwordControl.invalid && passwordControl.touched
+          [ngClass]="passwordControl.invalid && passwordControl.touched ||  backEndError 
                       ? 'main-data-input-password wrong-input' 
                       : 'main-data-input-password'">
         <input type="password"
@@ -89,7 +89,7 @@
         {{ 'user.auth.sign-up.password-confirm' | translate }}
       </label>
       <div class="main-data-input-password"
-          [ngClass]="passwordControlConfirm.invalid && passwordControlConfirm.touched ||
+          [ngClass]="passwordControlConfirm.invalid && passwordControlConfirm.touched || backEndError || 
           ((inputPassword.value !== repeatPassword.value) && repeatPassword.value !== '')
           ? 'main-data-input-password wrong-input'
           :'main-data-input-password'"
@@ -118,6 +118,10 @@
             class="error-message error-message-show">
           {{ passwordErrorMessageBackEnd }}
       </div>
+      <div class="alert-general-error"
+            *ngIf="backEndError">
+        {{'user.auth.sign-in.bad-email-or-password' | translate}}
+      </div>
       <button type="submit"
               class="primary-global-button"
               [disabled]="!signUpForm.valid ||
@@ -141,6 +145,7 @@
     <span>
       {{ 'user.auth.sign-up.haveyou-account' | translate }}
       <a class="exist-sign-in"
+      tabindex="0"
         (click)="openSignInWindow()">
         {{ 'user.auth.sign-up.enter' | translate }}
       </a>

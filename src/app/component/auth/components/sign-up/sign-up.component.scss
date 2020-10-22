@@ -101,6 +101,15 @@ $sign-up-google-font: 'Roboto';
       color: #f03127;
     }
 
+    .alert-general-error {
+      position: relative;
+      color: #f03127;
+      font-size: 10px;
+      line-height: 12px;
+      font-family: $main-font;
+      margin-bottom: 4px;
+    }
+
     .primary-global-button {
       margin-top: 40px;
       height: 48px;
