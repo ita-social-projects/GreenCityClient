@@ -12,7 +12,7 @@
     <div class="comment-date-likes">
       <div class="comment-date">
         <span class="comment-dot"></span>
-        <span class="comment-date-month">{{ comment.modifiedDate | date: 'longDate'}}
+        <span class="comment-date-month">{{ comment.modifiedDate | dateLocalisation}}
           <span *ngIf="isCommentEdited(comment)"
                 class="edited">
             {{"homepage.eco-news.comment.btn.edited" | translate}}
@@ -76,7 +76,7 @@
                          *ngIf="isLoggedIn"></app-reply-comment>
       <app-view-replies [repliesCounter]="comment.replies"
                         (click)="showElements(comment.id, 'showAllRelies')"></app-view-replies>
-    </div> 
+    </div>
   </div>
    <app-comments-container *ngIf="dataType === 'comment'"
                            [comment]='comment'
