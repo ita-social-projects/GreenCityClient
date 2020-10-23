@@ -76,7 +76,7 @@
                          *ngIf="isLoggedIn"></app-reply-comment>
       <app-view-replies [repliesCounter]="comment.replies"
                         (click)="showElements(comment.id, 'showAllRelies')"></app-view-replies>
-    </div> 
+    </div>
   </div>
    <app-comments-container *ngIf="dataType === 'comment'"
                            [comment]='comment'
