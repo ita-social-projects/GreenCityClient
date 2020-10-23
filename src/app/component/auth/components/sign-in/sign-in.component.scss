@@ -1,9 +1,26 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat|Open+Sans|Roboto&display=swap');
 
 $generalFont : opensans,
-  sans-serif;
+sans-serif;
 $inputHeight : 48px;
 $errorColor : #f03127;
+
+h1 {
+  margin: 0 56px 8px 56px;
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 38px;
+  line-height: 48px;
+  color: #2b292d;
+}
+
+h2 {
+  margin: 0 56px 40px 56px;
+  font-family: $generalFont;
+  font-size: 16px;
+  line-height: 16px;
+}
 
 .password-input-btn-show-hide {
   height: $inputHeight;
@@ -45,23 +62,6 @@ $errorColor : #f03127;
   line-height: 12px;
   font-family: $generalFont;
   margin-bottom: 9px;
-}
-
-h1 {
-  margin: 0 56px 8px 56px;
-  font-family: 'Montserrat', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 38px;
-  line-height: 48px;
-  color: #2b292d;
-}
-
-h2 {
-  margin: 0 56px 40px 56px;
-  font-family: $generalFont;
-  font-size: 16px;
-  line-height: 16px;
 }
 
 .sign-in-form {
@@ -136,23 +136,6 @@ h2 {
     .cross-btn {
       width: 12px;
       height: 12px;
-    }
-
-    h1 {
-      margin: 0 56px 8px 56px;
-      font-family: 'Montserrat', sans-serif;
-      font-style: normal;
-      font-weight: 500;
-      font-size: 38px;
-      line-height: 48px;
-      color: #2b292d;
-    }
-
-    h2 {
-      margin: 0 56px 40px 56px;
-      font-family: $generalFont;
-      font-size: 16px;
-      line-height: 16px;
     }
 
     .sign-in-form {

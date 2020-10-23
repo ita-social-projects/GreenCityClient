@@ -11,7 +11,7 @@ export class AuthModalComponent implements OnInit {
   public authImages = authImages;
   public authPage: string;
 
-  constructor(private matDialogRef: MatDialogRef<AuthModalComponent>,
+  constructor(public matDialogRef: MatDialogRef<AuthModalComponent>,
               @Inject(MAT_DIALOG_DATA) public data ) { }
 
   ngOnInit(): void {

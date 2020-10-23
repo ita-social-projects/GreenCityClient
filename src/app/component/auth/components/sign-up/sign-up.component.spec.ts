@@ -1,30 +1,37 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { async, ComponentFixture, TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { AgmCoreModule } from '@agm/core';
+import { TranslateModule } from '@ngx-translate/core';
+import { AuthService, AuthServiceConfig, LoginOpt, SocialUser } from 'angularx-social-login';
 import { Observable } from 'rxjs';
+import { UserOwnSignUpService } from '@global-service/auth/user-own-sign-up.service';
+import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
+import { provideConfig } from 'src/app/config/GoogleAuthConfig';
 
 import { SignUpComponent } from './sign-up.component';
-import {AuthService, AuthServiceConfig, GoogleLoginProvider} from 'angularx-social-login';
-import { UserOwnSignInService } from '@global-service/auth/user-own-sign-in.service';
-import { UserOwnSignUpService } from '@global-service/auth/user-own-sign-up.service';
-import { GoogleSignInService } from '@global-service/auth/google-sign-in.service';
-import { provideConfig } from 'src/app/config/GoogleAuthConfig';
-import { By } from '@angular/platform-browser';
 
 describe('SignUpComponent', () => {
   let component: SignUpComponent;
   let fixture: ComponentFixture<SignUpComponent>;
+  let authServiceMock: AuthService;
+  let socialUserMock: SocialUser;
+  const routerSpy = { navigate: jasmine.createSpy('navigate') };
+  class MatDialogRefMock {
+    close() { }
+  }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         SignUpComponent,
-       ],
+      ],
       imports: [
         ReactiveFormsModule,
         MatDialogModule,
@@ -35,63 +42,126 @@ describe('SignUpComponent', () => {
       ],
 
       providers: [
-        AuthService,
-        GoogleSignInService,
-        UserOwnSignInService,
-        UserOwnSignUpService,
-        { provide: MatDialogRef, useValue: {} },
+        { provide: AuthService, useValue: authServiceMock },
+        { provide: MatDialogRef, useClass: MatDialogRefMock },
         { provide: AuthServiceConfig, useFactory: provideConfig },
+        { provide: Router, useValue: routerSpy },
+        UserOwnSignUpService,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SignUpComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    socialUserMock = new SocialUser();
+    socialUserMock.email = '';
+    socialUserMock.firstName = '';
+    socialUserMock.authorizationCode = '';
+    socialUserMock.id = '';
+    socialUserMock.name = '';
+    socialUserMock.photoUrl = '';
+    socialUserMock.authToken = '';
+    authServiceMock = jasmine.createSpyObj('AuthService', ['signIn']);
+    authServiceMock.signIn = (providerId: string, opt?: LoginOpt) => new Promise<SocialUser>((resolve) => {
+      resolve(socialUserMock);
+    });
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('ngOnInit should init three method', () => {
-    spyOn(component as any, 'InitFormReactive');
-    spyOn(component as any, 'getFormFields');
-    spyOn(component as any, 'setNullAllMessage');
-    component.ngOnInit();
-
-    expect((component as any).InitFormReactive).toHaveBeenCalledTimes(1);
-    expect((component as any).getFormFields).toHaveBeenCalledTimes(1);
-    expect((component as any).setNullAllMessage).toHaveBeenCalledTimes(1);
-  });
-
-  describe('Testing general elements and methods:', () => {
-    let hiddenEye: HTMLInputElement;
-
+  describe('Basic tests', () => {
     beforeEach(() => {
-      hiddenEye = fixture.nativeElement.querySelector('.show-password-img');
+      // @ts-ignore
+      spyOn(component.pageName, 'emit');
     });
 
-    it('should containt h2 tag', () => {
-      const h2El = fixture.debugElement.query(By.css('h2'));
-      expect(h2El.nativeElement.textContent).toBe(' user.auth.sign-up.fill-form-up ');
+    it('should create SignUpComponent', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should call closeSignUpWindow ', () => {
+      // @ts-ignore
+      const spy = spyOn(component.matDialogRef, 'close').and.callThrough();
+      // @ts-ignore
+      component.closeSignUpWindow();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call openSignUpPopup', () => {
+      // @ts-ignore
+      spyOn(component.dialog, 'open');
+      // @ts-ignore
+      component.openSignUpPopup();
+      // @ts-ignore
+      expect(component.dialog).toBeDefined();
+    });
+
+    it('should emit "sign-in" after calling openSignInWindowp', () => {
+      component.openSignInWindow();
+      // @ts-ignore
+      expect(component.pageName.emit).toHaveBeenCalledWith('sign-in');
+    });
+  });
+
+  describe('Reset error messages', () => {
+    it('Should reset error messages', () => {
+      component.firstNameErrorMessageBackEnd = 'I am error message';
+      component.emailErrorMessageBackEnd = 'I am error message';
+      component.passwordErrorMessageBackEnd = 'I am error message';
+      component.passwordConfirmErrorMessageBackEnd = 'I am error message';
+      // @ts-ignore
+      component.setNullAllMessage();
+      expect(component.firstNameErrorMessageBackEnd).toBeNull();
+      expect(component.passwordErrorMessageBackEnd).toBeNull();
+      expect(component.emailErrorMessageBackEnd).toBeNull();
+      expect(component.passwordConfirmErrorMessageBackEnd).toBeNull();
+    });
+  });
+
+  describe('Password hiding testing:', () => {
+    let debug: DebugElement;
+    let hiddenEyeImg: HTMLImageElement;
+    let hiddenEyeInput: HTMLInputElement;
+    let hiddenEyeDeImg;
+    let hiddenEyeDeInput;
+
+    beforeEach(() => {
+      debug = fixture.debugElement;
+      hiddenEyeDeImg = debug.query(By.css('.show-password-img'));
+      hiddenEyeDeInput = debug.query(By.css('.password-input'));
+      hiddenEyeImg = hiddenEyeDeImg.nativeElement;
+      hiddenEyeInput = hiddenEyeDeInput.nativeElement;
     });
 
     it('should display hiddenEye img', () => {
       fixture.detectChanges();
-      expect(hiddenEye.src).toContain(component.signUpImages.hiddenEye);
+      expect(hiddenEyeImg.src).toContain(component.signUpImages.hiddenEye);
     });
 
     it('should call setPasswordVisibility method', () => {
       spyOn(component, 'setPasswordVisibility');
-      hiddenEye.click();
+      hiddenEyeImg.click();
       expect(component.setPasswordVisibility).toHaveBeenCalled();
     });
-  });
 
+    it('should change img after calling setPasswordVisibility method', () => {
+      hiddenEyeImg.click();
+      expect(hiddenEyeImg.src).toContain(component.signUpImages.openEye);
+
+      hiddenEyeImg.click();
+      expect(hiddenEyeImg.src).toContain(component.signUpImages.hiddenEye);
+    });
+
+    it('should change type of input after calling setPasswordVisibility method', () => {
+      hiddenEyeImg.click();
+      expect(hiddenEyeInput.type).toEqual('text');
+
+      hiddenEyeImg.click();
+      expect(hiddenEyeInput.type).toEqual('password');
+    });
+  });
 
   describe('Testing controls for the signUpForm:', () => {
     const controlsName = ['email', 'firstName', 'password', 'repeatPassword'];
@@ -107,6 +177,10 @@ describe('SignUpComponent', () => {
     }
 
     controlsName.forEach(el => testWrapper(el));
+
+    it('form should be invalid when empty', () => {
+      expect(component.signUpForm.valid).toBeFalsy();
+    });
 
     function controlsValidator(itemValue, controlName, status) {
       it(`The formControl: ${controlName} should be marked as ${status} if the value is ${itemValue}.`, () => {
@@ -126,5 +200,107 @@ describe('SignUpComponent', () => {
 
     validPassword.forEach(el => controlsValidator(el, 'password', 'valid'));
 
+    it('form should be invalid passwords not matching', () => {
+      const passwordControl = component.signUpForm.get('password');
+      passwordControl.setValue('123456qQ@');
+      const repeatPasswordControl = component.signUpForm.get('repeatPassword');
+      repeatPasswordControl.setValue('23456qQ@1');
+      expect(component.signUpForm.valid).toBeFalsy();
+    });
+
+  });
+
+  describe('Check sign up methods', () => {
+    let userOwnSecurityService: UserOwnSignUpService;
+    let mockUserSuccessSignIn: UserSuccessSignIn;
+    let mockFormData;
+
+    beforeEach(() => {
+      userOwnSecurityService = fixture.debugElement.injector.get(UserOwnSignUpService);
+      mockFormData = {
+        email: 'test@gmail.com',
+        firstName: 'JohnSmith',
+        password: '123456qW@'
+      };
+
+      mockUserSuccessSignIn = {
+        userId: '23',
+        name: 'JohnSmith',
+        accessToken: 'test',
+        refreshToken: 'test',
+      };
+    });
+
+    it('onSubmit should call UserOwnSecurityService', () => {
+      const spy = spyOn(userOwnSecurityService, 'signUp').and.returnValue(Observable.of(mockFormData));
+      component.onSubmit(mockFormData);
+      expect(spy).toHaveBeenCalledWith(mockFormData);
+    });
+
+    it('loadingAnim should equele true', () => {
+      component.onSubmit(mockFormData);
+      expect(component.loadingAnim).toEqual(true);
+    });
+
+    it('receiveUserId should navigate to profile', fakeAsync(() => {
+      // @ts-ignore
+      component.receiveUserId(23);
+      tick(5000);
+      fixture.detectChanges();
+
+      fixture.whenStable().then(() => {
+        expect(routerSpy.navigate).toHaveBeenCalledWith(['profile', 23]);
+      });
+    }));
+
+    it('signUpWithGoogleSuccess should navigate to homePage', fakeAsync(() => {
+      // @ts-ignore
+      component.signUpWithGoogleSuccess(mockUserSuccessSignIn);
+      expect(routerSpy.navigate).toHaveBeenCalledWith(['/']);
+    }));
+  });
+
+  describe('Check ErrorMessageBackEnd', () => {
+
+    it('should return firstNameErrorMessageBackEnd when login failed', () => {
+      const errors = new HttpErrorResponse({ error: [{ name: 'name', message: 'Ups' }] });
+      // @ts-ignore
+      component.onSubmitError(errors);
+      fixture.detectChanges();
+      expect(component.firstNameErrorMessageBackEnd).toBe('Ups');
+    });
+
+    it('should return emailErrorMessageBackEnd when login failed', () => {
+      const errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
+      // @ts-ignore
+      component.signUpWithGoogleError(errors);
+      fixture.detectChanges();
+      expect(component.emailErrorMessageBackEnd).toBe('Ups');
+    });
+
+    it('should return passwordConfirmErrorMessageBackEnd when login failed', () => {
+      const errors = new HttpErrorResponse({ error: [{ name: 'password', message: 'Ups' }] });
+      // @ts-ignore
+      component.signUpWithGoogleError(errors);
+      fixture.detectChanges();
+      expect(component.passwordConfirmErrorMessageBackEnd).toBe('Ups');
+    });
+
+    it('should reset emailErrorMessageBackEnd', () => {
+      component.setEmailBackendErr();
+      expect(component.emailErrorMessageBackEnd).toBeNull();
+    });
+  });
+
+  describe('Check sign up with signInWithGoogle', () => {
+    it('Should call sinIn method', inject([AuthService], (service: AuthService) => {
+      const helper = new Promise<SocialUser>((resolve) => {
+        resolve(socialUserMock);
+      });
+      const serviceSpy = spyOn(service, 'signIn').and.returnValue(helper);
+      component.signUpWithGoogle();
+      fixture.detectChanges();
+      expect(serviceSpy).toHaveBeenCalledTimes(1);
+    }));
   });
 });
