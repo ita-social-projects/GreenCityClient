@@ -7,7 +7,7 @@
         <p>{{ 'create-news.form-description' | translate }}</p>
     </div>
     <div class="form-container" *ngIf="form">
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
             <div class="wrapper">
                 <div class="left-form-column">
 

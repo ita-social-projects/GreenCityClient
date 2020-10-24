@@ -10,6 +10,7 @@ import { FileHandle } from '../models/create-news-interface';
   providedIn: 'root'
 })
 export class CreateEcoNewsService {
+  private newsId: string;
   private currentForm: FormGroup;
   private url: string = environment.backendLink;
   private accessToken: string = localStorage.getItem('accessToken');
@@ -20,8 +21,15 @@ export class CreateEcoNewsService {
   private httpOptions = {
     headers: new HttpHeaders({
       Authorization: 'my-auth-token'
+    }),
+
+  };
+  private httpOptions2 = {
+    headers: new HttpHeaders({
+      'Content-Type': 'multipart/form-data'
     })
   };
+
 
   constructor(private http: HttpClient) { }
 
@@ -29,12 +37,36 @@ export class CreateEcoNewsService {
     return this.currentForm;
   }
 
+  public getNewsId(): string {
+    return this.newsId;
+  }
+
+  public editNews(form): Observable<NewsResponseDTO> {
+    const body = {
+      id: form.id,
+      tags: form.tags,
+      text: form.content,
+      title: form.title,
+      source: form.source,
+      // image: form.value.image
+    };
+    console.log(body);
+    console.log(JSON.stringify(body));
+    return this.http.put<NewsResponseDTO>(`${this.url}econews/update`, JSON.stringify(body), this.httpOptions2);
+  }
+
   public setForm(form: FormGroup): void {
     this.currentForm = form;
+    console.log(this.currentForm.value);
     if (this.currentForm) {
       this.currentForm.value.image = this.files[0] ?
       this.files[0].url : '';
     }
+  }
+
+  public setNewsId(id: string): void {
+    this.newsId = id;
+    console.log(this.newsId);
   }
 
   public sendFormData(form): Observable<NewsResponseDTO> {
