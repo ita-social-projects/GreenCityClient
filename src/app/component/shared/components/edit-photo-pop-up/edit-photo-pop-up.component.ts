@@ -40,6 +40,11 @@ export class EditPhotoPopUpComponent implements OnInit {
     this.matDialogRef.close();
   }
 
+  public delitePhoto(): void {
+    this.editProfileService.deleProfilePhoto().subscribe(
+      () =>  this.closeEditPhoto());
+  }
+
   public onSelectPhoto(event): void {
     this.isWarning = false;
     this.selectedFile = event.target.files[0] as File;

@@ -477,7 +477,8 @@
         "save": "Save",
         "new-photo": "Upload new photo",
         "change-photo": "Change photo",
-        "save-photo": "Save photo"
+        "save-photo": "Save photo",
+        "delete": "Delete photo"
       }
     },
     "footer": {

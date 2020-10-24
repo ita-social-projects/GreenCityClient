@@ -22,6 +22,9 @@
                accept=".jpg, .jpeg, .png" 
                (change)="onSelectPhoto($event)">
       </label>
+      <button type="button" 
+              class="primary-global-button delete" 
+              (click)="delitePhoto()">{{"user.edit-profile.btn.delete" | translate }}</button>
     </div>
   </div>
   <ng-template #elseBlock>

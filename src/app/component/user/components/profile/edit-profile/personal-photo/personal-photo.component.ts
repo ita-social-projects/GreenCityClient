@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { EditPhotoPopUpComponent } from '@shared/components/edit-photo-pop-up/edit-photo-pop-up.component';
 import { ProfileService } from '../../profile-service/profile.service';
 
@@ -12,7 +11,6 @@ import { ProfileService } from '../../profile-service/profile.service';
 })
 export class PersonalPhotoComponent implements OnInit, OnDestroy {
   public avatarImg: string;
-  public avatarDefault = './assets/img/profileAvatarBig.png';
   public avatarSubscription: Subscription;
   public currentPage = 'edit photo';
   public editIcon = './assets/img/profile/icons/edit-photo.svg';
@@ -26,11 +24,8 @@ export class PersonalPhotoComponent implements OnInit, OnDestroy {
 
   private setUserAvatar(): void {
     this.avatarSubscription = this.profileService.getUserInfo()
-    .pipe(
-      map((el) => el.profilePicturePath)
-    )
-    .subscribe((img) => {
-      this.avatarImg = img && img !== ' ' ? img : this.avatarDefault;
+    .subscribe((el) => {
+      this.avatarImg = el.profilePicturePath;
     });
   }
 
