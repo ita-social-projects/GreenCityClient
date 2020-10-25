@@ -39,8 +39,8 @@
 		</div>
 	</div>
 </div>
-<span *ngIf=!isWarning
-	  class="warning">{{ 'drag-and-drop.picture-tooltip' | translate }}</span>
+<p *ngIf=!isWarning
+	  class="warning">{{ 'drag-and-drop.picture-tooltip' | translate }}</p>
 <ng-template #elseBlock>
 	<div
 		class="dropzone warning-background"

@@ -374,6 +374,9 @@ form label {
 }
 
 @media screen and (max-width: 370px) {
+  .container {
+    max-width: 318px;
+  }
   .left-form-column {
     textarea {
       padding: 12px;
