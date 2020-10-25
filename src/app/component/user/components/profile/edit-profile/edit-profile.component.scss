@@ -10,8 +10,10 @@ $main-font: opensans, sans-serif;
   height: 20px;
   left: 0;
   position: absolute;
-  top: 0;
   width: 20px;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 
   &::after {
     border: solid white;
