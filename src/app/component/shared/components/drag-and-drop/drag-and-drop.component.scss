@@ -1,6 +1,7 @@
 .dropzone {
   height: 231px;
-  width: 426px;
+  // width: 426px;
+  width: 100%;
   display: table;
   background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23333' stroke-width='1' stroke-dasharray='10' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
   margin-bottom: 8px;
@@ -74,9 +75,9 @@ img {
   }
 }
 
-@media screen and (max-width: 1200px) {
-  .dropzone {
-    width: 351px;
+@media screen and (max-width: 1440px) {
+  .warning {
+    font-size: 12px;
   }
 }
 
@@ -86,26 +87,8 @@ img {
   }
 }
 
-@media screen and (max-width: 981px) {
+@media screen and (max-width: 431px) {
   .dropzone {
-    width: 330px;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .dropzone {
-    width: 351px;
-  }
-}
-
-@media screen and (max-width: 390px) {
-  .dropzone {
-    width: 288px;
-  }
-}
-
-@media screen and (max-width: 320px) {
-  .dropzone {
-    width: 275px;
+    width: 100%;
   }
 }
