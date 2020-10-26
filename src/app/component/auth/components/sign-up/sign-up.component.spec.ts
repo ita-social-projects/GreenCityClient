@@ -16,16 +16,31 @@ import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
 import { provideConfig } from 'src/app/config/GoogleAuthConfig';
 
 import { SignUpComponent } from './sign-up.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { GoogleSignInService } from '@global-service/auth/google-sign-in.service';
 
 describe('SignUpComponent', () => {
   let component: SignUpComponent;
   let fixture: ComponentFixture<SignUpComponent>;
   let authServiceMock: AuthService;
-  let socialUserMock: SocialUser;
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
   class MatDialogRefMock {
     close() { }
   }
+
+  const promiseSocialUser = new Promise<SocialUser>((resolve) => {
+    const val = new SocialUser();
+    val.email = '1';
+    val.firstName = '1';
+    val.authorizationCode = '1';
+    val.id = '1';
+    val.name = '1';
+    val.photoUrl = '1';
+    val.authToken = '1';
+    resolve(val);
+  });
+  authServiceMock = jasmine.createSpyObj('AuthService', ['signIn']);
+  authServiceMock.signIn = (providerId: string, opt?: LoginOpt) => promiseSocialUser;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -35,12 +50,12 @@ describe('SignUpComponent', () => {
       imports: [
         ReactiveFormsModule,
         MatDialogModule,
-        RouterTestingModule,
+        RouterTestingModule.withRoutes([]),
         HttpClientTestingModule,
         AgmCoreModule,
         TranslateModule.forRoot(),
+        BrowserAnimationsModule
       ],
-
       providers: [
         { provide: AuthService, useValue: authServiceMock },
         { provide: MatDialogRef, useClass: MatDialogRefMock },
@@ -48,27 +63,14 @@ describe('SignUpComponent', () => {
         { provide: Router, useValue: routerSpy },
         UserOwnSignUpService,
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
-    })
-      .compileComponents();
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SignUpComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    socialUserMock = new SocialUser();
-    socialUserMock.email = '';
-    socialUserMock.firstName = '';
-    socialUserMock.authorizationCode = '';
-    socialUserMock.id = '';
-    socialUserMock.name = '';
-    socialUserMock.photoUrl = '';
-    socialUserMock.authToken = '';
-    authServiceMock = jasmine.createSpyObj('AuthService', ['signIn']);
-    authServiceMock.signIn = (providerId: string, opt?: LoginOpt) => new Promise<SocialUser>((resolve) => {
-      resolve(socialUserMock);
-    });
   });
 
   describe('Basic tests', () => {
@@ -232,6 +234,8 @@ describe('SignUpComponent', () => {
     });
 
     it('onSubmit should call UserOwnSecurityService', () => {
+      // @ts-ignore
+      component.onSubmitSuccess = () => true;
       const spy = spyOn(userOwnSecurityService, 'signUp').and.returnValue(Observable.of(mockFormData));
       component.onSubmit(mockFormData);
       expect(spy).toHaveBeenCalledWith(mockFormData);
@@ -243,20 +247,23 @@ describe('SignUpComponent', () => {
     });
 
     it('receiveUserId should navigate to profile', fakeAsync(() => {
-      // @ts-ignore
+        // @ts-ignore
       component.receiveUserId(23);
       tick(5000);
       fixture.detectChanges();
-
-      fixture.whenStable().then(() => {
-        expect(routerSpy.navigate).toHaveBeenCalledWith(['profile', 23]);
+      fixture.ngZone.run(() => {
+        fixture.whenStable().then(() => {
+          expect(routerSpy.navigate).toHaveBeenCalledWith(['profile', 23]);
+        });
       });
     }));
 
     it('signUpWithGoogleSuccess should navigate to homePage', fakeAsync(() => {
       // @ts-ignore
       component.signUpWithGoogleSuccess(mockUserSuccessSignIn);
-      expect(routerSpy.navigate).toHaveBeenCalledWith(['/']);
+      fixture.ngZone.run(() => {
+        expect(routerSpy.navigate).toHaveBeenCalledWith(['/']);
+      });
     }));
   });
 
@@ -293,14 +300,11 @@ describe('SignUpComponent', () => {
   });
 
   describe('Check sign up with signInWithGoogle', () => {
-    it('Should call sinIn method', inject([AuthService], (service: AuthService) => {
-      const helper = new Promise<SocialUser>((resolve) => {
-        resolve(socialUserMock);
-      });
-      const serviceSpy = spyOn(service, 'signIn').and.returnValue(helper);
+    it('Should call sinIn method', async(inject([AuthService, GoogleSignInService], (service: AuthService) => {
+      const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseSocialUser).and.callThrough();
       component.signUpWithGoogle();
       fixture.detectChanges();
-      expect(serviceSpy).toHaveBeenCalledTimes(1);
-    }));
+      expect(serviceSpy).toHaveBeenCalled();
+    })));
   });
 });

@@ -46,7 +46,7 @@ export class SignUpComponent implements OnInit {
               ) { }
 
   ngOnInit() {
-    this.InitFormReactive();
+    this.onFormInit();
     this.getFormFields();
     this.setNullAllMessage();
     this.userOwnSignUp = new UserOwnSignUp();
@@ -92,7 +92,7 @@ export class SignUpComponent implements OnInit {
     this.pageName.emit('sign-in');
   }
 
-  private InitFormReactive(): void {
+  private onFormInit(): void {
     this.signUpForm = this.formBuilder.group({
         email: ['', [ Validators.required, Validators.email ]],
         firstName: ['', [ Validators.required ]],

@@ -56,11 +56,10 @@ describe('SignIn component', () => {
   });
 
   userSuccessSignIn = new UserSuccessSignIn();
-  userSuccessSignIn.userId = '1';
+  userSuccessSignIn.userId = 1;
   userSuccessSignIn.name = '1';
   userSuccessSignIn.accessToken = '1';
   userSuccessSignIn.refreshToken = '1';
-
 
   signInServiceMock = jasmine.createSpyObj('UserOwnSignInService', ['signIn']);
   signInServiceMock.signIn = () => {
@@ -122,40 +121,53 @@ describe('SignIn component', () => {
     it('Should get userId', () => {
       expect(localStorageServiceMock.userIdBehaviourSubject.value).toBe(1111);
     });
+
+    it('should emit "sign-up" after calling openSignInWindowp', () => {
+      // @ts-ignore
+      spyOn(component.pageName, 'emit');
+      component.onOpenModalWindow('sign-up');
+      // @ts-ignore
+      expect(component.pageName.emit).toHaveBeenCalledWith('sign-up');
+    });
   });
 
   describe('Login functionality testing', () => {
-    it('Check what data comes on subscription', () => {
+    it('Check what data comes on subscription', async(() => {
       const userOwnSignIn = new UserOwnSignIn();
       userOwnSignIn.email = '1';
       userOwnSignIn.password = '1';
       signInServiceMock.signIn(userOwnSignIn).subscribe(data => {
         expect(data).toBeTruthy();
       });
-    });
-
-    it('Should call sinIn method', inject([AuthService, GoogleSignInService], (service: AuthService) => {
-      const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseSocialUser);
-      component.signInWithGoogle();
-      fixture.detectChanges();
-      expect(serviceSpy).toHaveBeenCalledTimes(1);
     }));
 
-    it('Test sign in method', inject([UserOwnSignInService], (service: UserOwnSignInService) => {
-      const serviceSpy = spyOn(service, 'signIn').and.returnValue(of(userSuccessSignIn));
-      component.signIn();
+    it('Should call sinIn method', inject([AuthService, GoogleSignInService], (service: AuthService, service2: GoogleSignInService) => {
+      component.onSignInWithGoogleSuccess = () => true;
+      const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseSocialUser);
+      spyOn(service2, 'signIn').and.returnValue(of(userSuccessSignIn));
+      component.signInWithGoogle();
       fixture.detectChanges();
       expect(serviceSpy).toHaveBeenCalled();
     }));
 
+    it('Test sign in method', async(inject([UserOwnSignInService], (service: UserOwnSignInService) => {
+      spyOn(service, 'signIn').and.returnValue(of(userSuccessSignIn));
+      component.signIn();
 
-    it('Sohuld navige to profile after sign in', () => {
-      // @ts-ignore
-      component.onSignInSuccess(userSuccessSignIn);
       fixture.detectChanges();
+      expect(service.signIn).toHaveBeenCalled();
+    })));
 
-      expect(routerSpy.navigate).toHaveBeenCalledWith(['profile', userSuccessSignIn.userId]);
-    });
+    it('Sohuld navige to profile after sign in', async(() => {
+      fixture.ngZone.run(() => {
+          // @ts-ignore
+        component.onSignInSuccess(userSuccessSignIn);
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          expect(routerSpy.navigate).toHaveBeenCalledWith(['profile', userSuccessSignIn.userId]);
+        });
+      });
+    }));
   });
 
   describe('Error functionality testing', () => {

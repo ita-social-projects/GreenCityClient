@@ -4,6 +4,8 @@ $generalFont : opensans,
   sans-serif;
 $inputHeight : 48px;
 $errorColor : #f03127;
+$linkColor: #056b33;
+$secondaryTextColor: #494a49;
 
 h1 {
   margin: 0 56px 8px 56px;
@@ -75,13 +77,13 @@ h2 {
     font-family: $generalFont;
     font-size: 12px;
     line-height: 14px;
-    color: #494a49;
+    color: $secondaryTextColor;
   }
 
   input {
     background: #fff;
     box-sizing: border-box;
-    color: #494a49;
+    color: $secondaryTextColor;
     border-radius: 5px;
     padding: 11px 40px 11px 16px;
   }
@@ -149,13 +151,13 @@ h2 {
         font-family: $generalFont;
         font-size: 12px;
         line-height: 14px;
-        color: #494a49;
+        color: $secondaryTextColor;
       }
 
       input {
         background: #fff;
         box-sizing: border-box;
-        color: #494a49;
+        color: $secondaryTextColor;
         border-radius: 5px;
         padding: 11px 40px 11px 16px;
       }
@@ -217,7 +219,7 @@ h2 {
   margin-bottom: 24px;
 
   .forgot-password {
-    color: #056b33;
+    color: $linkColor;
     font-family: $generalFont;
     font-size: 12px;
     line-height: 16px;
@@ -237,7 +239,7 @@ h2 {
   font-family: $generalFont;
   font-size: 12px;
   line-height: 12px;
-  color: #494a49;
+  color: $secondaryTextColor;
   margin-bottom: 8px;
 }
 
@@ -246,11 +248,11 @@ h2 {
   font-family: $generalFont;
   font-size: 16px;
   line-height: 16px;
-  color: #494a49;
+  color: $secondaryTextColor;
 
   .sign-up-link {
     margin-left: 8px;
     text-decoration-line: underline;
-    color: #056b33;
+    color: $linkColor;
   }
 }

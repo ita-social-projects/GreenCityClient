@@ -1,41 +1,32 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-error',
   templateUrl: './error.component.html'
 })
-export class ErrorComponent {
+export class ErrorComponent implements OnChanges {
   @Input() public controlName: string;
   @Input() public formElement: FormControl;
   public errorMessage = '';
 
+  private getErrorMsg = {
+    required: () => 'user.auth.sign-in.field-is-required',
+    email: () => 'user.auth.sign-in.this-is-not-email',
+    passwordMismatch: () => 'user.auth.sign-up.password-match',
+    minlength: () => 'user.auth.sign-in.password-must-be-at-least-8-characters-long',
+    symbolInvalid: () => this.controlName === 'password' ? 'user.auth.sign-up.password-symbols-error' : 'user.auth.sign-up.user-name-size',
+  };
+
   constructor() {}
 
-  public getErrorMessage(): string {
+  ngOnChanges() {
+    this.getType();
+  }
+
+  private getType() {
     Object.keys(this.formElement.errors).map(error => {
-      switch (error) {
-        case 'required':
-          this.errorMessage = 'user.auth.sign-in.field-is-required';
-          break;
-        case 'email':
-          this.errorMessage = 'user.auth.sign-in.this-is-not-email';
-          break;
-        case 'passwordMismatch':
-          this.errorMessage = 'user.auth.sign-up.password-match';
-          break;
-        case 'minlength':
-          this.errorMessage = 'user.auth.sign-in.password-must-be-at-least-8-characters-long';
-          break;
-        case 'symbolInvalid':
-          this.errorMessage = this.controlName === 'password'
-          ? 'user.auth.sign-up.password-symbols-error'
-          : 'user.auth.sign-up.user-name-size';
-          break;
-        default:
-          this.errorMessage = 'Ups! something goes wrong...';
-      }
+      return this.errorMessage = this.getErrorMsg[error]();
     });
-    return this.errorMessage;
   }
 }
