@@ -2,8 +2,9 @@
   <button class="cta-btn like"
           (click)="pressLike()">
     <img [src]="commentsImages.like"
-         alt="like"
-         #like>
+          class="btn-img"
+          alt="like"
+          #like>
     <span class="btn-text"
           *ngIf="!likeState && !error; else liked">
       {{"homepage.eco-news.comment.btn.like" | translate}}
