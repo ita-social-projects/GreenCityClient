@@ -14,7 +14,6 @@
   letter-spacing: normal;
   padding-top: 11px;
   text-align: center;
-  
 }
 
 .container {
@@ -42,7 +41,7 @@
   line-height: 48px;
   text-align: center;
   color: #313131;
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 
 .description {
@@ -52,10 +51,10 @@
   line-height: 32px;
   text-align: center;
   color: #313131;
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 
-@media screen and (max-width:576px) {
+@media screen and (max-width: 576px) {
   .header {
     width: 288px;
     height: 56px;
