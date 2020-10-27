@@ -5,6 +5,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { registerLocaleData } from '@angular/common';
+import usLocale from '@angular/common/locales/en-US-POSIX';
+import ruLocale from '@angular/common/locales/ru';
+import ukLocale from '@angular/common/locales/uk';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { EcoNewsRoutingModule } from './eco-news-routing.module';
 import { SharedModule } from '../shared/shared.module';
@@ -28,6 +32,9 @@ import { EcoNewsComponent } from './eco-news.component';
 import { CreateEditNewsComponent } from './components/create-edit-news/create-edit-news.component';
 import { ACTION_CONFIG, ACTION_TOKEN } from './components/create-edit-news/action.constants';
 
+registerLocaleData(usLocale, 'en');
+registerLocaleData(ruLocale, 'ru');
+registerLocaleData(ukLocale, 'uk');
 
 @NgModule({
   declarations: [

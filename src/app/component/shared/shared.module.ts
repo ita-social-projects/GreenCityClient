@@ -18,6 +18,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DragAndDropDirective } from '../eco-news/directives/drag-and-drop.directive';
 import { DragAndDropComponent } from './components/drag-and-drop/drag-and-drop.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import {MatSnackBarComponent} from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     DragAndDropDirective,
     DragAndDropComponent,
     EditPhotoPopUpComponent,
+    DateLocalisationPipe
   ],
   imports: [
     ImageCropperModule,
@@ -61,6 +64,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     MatProgressSpinnerModule,
     DragAndDropDirective,
     DragAndDropComponent,
+    DateLocalisationPipe
   ],
   providers: [],
 })
