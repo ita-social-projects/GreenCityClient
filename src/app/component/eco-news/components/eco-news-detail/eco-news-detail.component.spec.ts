@@ -12,7 +12,6 @@ import { ActivatedRoute } from '@angular/router';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {HttpClient} from '@angular/common/http';
 import {CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform} from '@angular/core';
-import {DateLocalisationPipe} from '@pipe/date-localisation-pipe/date-localisation.pipe';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {
@@ -47,8 +46,7 @@ describe('EcoNewsDetailComponent', () => {
         EcoNewsDetailComponent,
         EcoNewsWidgetComponent,
         NewsListGalleryViewComponent,
-        TranslatePipeMock,
-        DateLocalisationPipe
+        TranslatePipeMock
       ],
       schemas: [
         CUSTOM_ELEMENTS_SCHEMA
@@ -133,10 +131,10 @@ describe('EcoNewsDetailComponent', () => {
   });
 
   it('fetchNewsItem should return item by id', async () => {
-    const id = 1;
+    const id = '1';
 
     spyOn(component, 'setNewsItem');
-    (component as any).newsItemSubscription = ecoNewsService.getEcoNewsById(id.toString()).subscribe(
+    (component as any).newsItemSubscription = ecoNewsService.getEcoNewsById(id).subscribe(
       (item: EcoNewsModel) => {
         component.setNewsItem(item);
         expect(component.setNewsItem).toHaveBeenCalledWith(item);
