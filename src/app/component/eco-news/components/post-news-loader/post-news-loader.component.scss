@@ -14,7 +14,7 @@
   letter-spacing: normal;
   padding-top: 11px;
   text-align: center;
-  width: 100%;
+  
 }
 
 .container {
@@ -22,6 +22,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  max-width: 100%;
 }
 
 .people-img {
@@ -32,6 +33,7 @@
 }
 
 .header {
+  width: 435px;
   height: 48px;
   font-family: Montserrat, sans-serif;
   font-style: normal;
@@ -40,13 +42,32 @@
   line-height: 48px;
   text-align: center;
   color: #313131;
+  margin-bottom: 0px;
 }
 
-.decription {
+.description {
   height: 32px;
-  font-family: opensans, sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 18px;
   line-height: 32px;
   text-align: center;
   color: #313131;
+  margin-bottom: 0px;
+}
+
+@media screen and (max-width:576px) {
+  .header {
+    width: 288px;
+    height: 56px;
+    margin-bottom: 16px;
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  .description {
+    width: 288px;
+    height: 36px;
+    font-size: 14px;
+    line-height: 18px;
+  }
 }
