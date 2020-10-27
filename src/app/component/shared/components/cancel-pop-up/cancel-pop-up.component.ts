@@ -16,6 +16,14 @@ export class CancelPopUpComponent implements OnInit {
 
   ngOnInit() {
     this.setCurrentPage();
+    this.matDialogRef.keydownEvents().subscribe(event => {
+      if (event.key === 'Escape') {
+          this.closeCancelPopup();
+      }
+    });
+    this.matDialogRef.backdropClick().subscribe(event => {
+      this.closeCancelPopup();
+  });
   }
 
   private setCurrentPage() {

@@ -1,16 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CoreModule } from '../core/core.module';
 import { InputcolorDirective } from '../../directives/inputcolor.directive';
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 import {
   RestoreComponent,
-  RestoreFormComponent,
   RestorePasswordComponent,
   SignInComponent,
   SignUpComponent,
   SubmitEmailComponent
 } from './components';
-import { AuthSelectors } from './store/auth.selectors';
+import { ConfirmRestorePasswordComponent } from './components/confirm-restore-password/confirm-restore-password.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +19,7 @@ import { AuthSelectors } from './store/auth.selectors';
     InputcolorDirective,
     SubmitEmailComponent,
     RestoreComponent,
-    RestoreFormComponent
+    ConfirmRestorePasswordComponent
   ],
   imports: [
     CoreModule,
@@ -31,14 +30,13 @@ import { AuthSelectors } from './store/auth.selectors';
     SignInComponent,
     SignUpComponent,
     RestorePasswordComponent,
-    SubmitEmailComponent
+    SubmitEmailComponent,
+    ConfirmRestorePasswordComponent
   ],
   exports: [
     InputcolorDirective
   ],
-  providers: [
-    AuthSelectors
-  ]
+  providers: []
 })
 
 export class AuthModule { }

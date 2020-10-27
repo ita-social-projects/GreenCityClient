@@ -308,6 +308,18 @@
         "or-signin": "or sign in with",
         "remember-your-password": "Remember your password?",
         "back-to-the-sign-in": "Back to Sign-in"
+      },
+      "restore-password": {
+        "title": "Do you want to change your password?",
+        "fill-form": "Please, create your new password.",
+        "send-btn": "Change password",
+        "password": "Password",
+        "password-is-required": "Password is required",
+        "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters in length",
+        "password-spaces-error": "Password must be at least 8 characters long without spaces",
+        "password-symbols-error": "Password has contain at least one character of Uppercase letter (A-Z), Lowercase letter (a-z), Digit (0-9), Special character (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.)",
+        "password-match": "Passwords do not match",
+        "password-confirm": "Confirm password"
       }
     },
     "favorite-place": {

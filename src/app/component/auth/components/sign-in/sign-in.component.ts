@@ -102,7 +102,7 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.dialog.open(RestorePasswordComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
-      panelClass: 'custom-dialog-container',
+      panelClass: ['custom-dialog-container', 'transparent'],
     });
     this.matDialogRef.close();
   }

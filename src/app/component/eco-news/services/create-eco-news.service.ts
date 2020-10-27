@@ -42,17 +42,23 @@ export class CreateEcoNewsService {
   }
 
   public editNews(form): Observable<NewsResponseDTO> {
-    const body = {
+    const body: NewsDTO = {
       id: form.id,
       tags: form.tags,
       text: form.content,
       title: form.title,
       source: form.source,
-      // image: form.value.image
     };
-    console.log(body);
-    console.log(JSON.stringify(body));
-    return this.http.put<NewsResponseDTO>(`${this.url}econews/update`, JSON.stringify(body), this.httpOptions2);
+
+    const formData = new FormData();
+
+    formData.append('id', body.id);
+    formData.append('tags', JSON.stringify(body.tags));
+    formData.append('text', body.text);
+    formData.append('title', body.title);
+    formData.append('source', body.source);
+
+    return this.http.put<NewsResponseDTO>(`${this.url}econews/update`, formData);
   }
 
   public setForm(form: FormGroup): void {
@@ -75,7 +81,6 @@ export class CreateEcoNewsService {
       text: form.value.content,
       title: form.value.title,
       source: form.value.source,
-      // image: form.value.image
     };
 
     const formData = new FormData();
@@ -83,9 +88,9 @@ export class CreateEcoNewsService {
     if (this.files.length !== 0) {
       body.image = this.files[0].url;
     }
-
+    this.files = [];
     formData.append('addEcoNewsDtoRequest', JSON.stringify(body));
-
+    console.log(formData);
     this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
     return this.http.post<NewsResponseDTO>(`${this.url}econews`, formData, this.httpOptions);
   }

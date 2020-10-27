@@ -47,7 +47,7 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
     { name: 'Initiatives', isActive: false },
     { name: 'Ads', isActive: false }
   ];
-  public newsId;
+  public newsId: string;
   private destroy: ReplaySubject<any> = new ReplaySubject<any>(1);
   public formData;
   public onSubmit(): void {}
@@ -68,12 +68,10 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
       console.log('returning from preview');
       if (this.createEcoNewsService.getNewsId()) {
         console.log('from edit');
-        this.attributes = this.config.edit;
-        this.onSubmit = this.editNews;
+        this.setDataForEdit();
       } else {
         console.log('from create');
-        this.attributes = this.config.create;
-        this.onSubmit = this.createNews;
+        this.setDataForCreate();
       }
       this.formData = this.createEcoNewsService.getFormData();
       this.newsId = this.createEcoNewsService.getNewsId();
@@ -86,17 +84,25 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
       if (this.newsId) {
         console.log('edit');
         this.fetchNewsItemToEdit();
-        this.attributes = this.config.edit;
-        this.onSubmit = this.editNews;
+        this.setDataForEdit();
       } else {
         console.log('create');
         this.form = this.createEditNewsFormBuilder.getSetupForm();
-        this.attributes = this.config.create;
-        this.onSubmit = this.createNews;
-        this.onSourceChange();
+        this.setDataForCreate();
       }
     }
+    this.onSourceChange();
+    console.log(this.createEcoNewsService.files);
+  }
 
+  public setDataForEdit(): void {
+    this.attributes = this.config.edit;
+    this.onSubmit = this.editNews;
+  }
+
+  public setDataForCreate(): void {
+    this.attributes = this.config.create;
+    this.onSubmit = this.createNews;
   }
 
   public getNewsIdFromQueryParams(): void {
@@ -115,20 +121,24 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
   }
 
   public onSourceChange(): void {
-    this.form.get('source').valueChanges.subscribe((source: string) => {
-      this.isLinkOrEmpty = /^$|^https?:\/\//.test(source);
-    });
+    if (this.form) {
+      this.form.get('source').valueChanges.subscribe((source: string) => {
+        this.isLinkOrEmpty = /^$|^https?:\/\//.test(source);
+      });
+    }
   }
 
 
   public createNews(): void {
     this.isPosting = true;
-    this.createEcoNewsService.sendFormData(this.form).subscribe(
-      () => {
-        this.isPosting = false;
-        this.router.navigate(['/news']);
-      }
-    );
+    this.createEcoNewsService
+      .sendFormData(this.form)
+      .subscribe(
+        () => {
+          this.isPosting = false;
+          this.router.navigate(['/news']);
+        }
+      );
   }
 
   public editNews(): void {
@@ -187,6 +197,7 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
   public addFilters(filterObj: FilterModel): void {
     if (!filterObj.isActive) {
       this.toggleIsActive(filterObj, true);
+      this.isArrayEmpty = false;
       this.tags().push(new FormControl(filterObj.name));
       this.filtersValidation(filterObj);
     } else {
@@ -244,6 +255,7 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.createEcoNewsService.files = [];
     this.destroy.next(null);
     this.destroy.complete();
   }

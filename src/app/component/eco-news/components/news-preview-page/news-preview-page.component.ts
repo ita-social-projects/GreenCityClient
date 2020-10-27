@@ -1,10 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { singleNewsImages } from 'src/app/image-pathes/single-news-images';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subscription } from 'rxjs';
+import { ACTION_TOKEN } from '../create-edit-news/action.constants';
+import { ActionInterface } from '../create-edit-news/action.interface';
 
 @Component({
   selector: 'app-news-preview-page',
@@ -18,15 +20,26 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
   public userName: string;
   public isPosting = false;
   private userNameSub: Subscription;
+  public attributes: ActionInterface;
+  public newsId: string;
+  public onSubmit(): void {}
 
   constructor(private createEcoNewsService: CreateEcoNewsService,
               private localStorageService: LocalStorageService,
-              private router: Router
-  ) {}
+              private router: Router,
+              @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface }) {}
 
   ngOnInit() {
     this.getPreviewData();
     this.bindUserName();
+    if (this.createEcoNewsService.getNewsId()) {
+      this.newsId = this.createEcoNewsService.getNewsId();
+      this.attributes = this.config.edit;
+      this.onSubmit = this.editNews;
+    } else {
+      this.attributes = this.config.create;
+      this.onSubmit = this.postNewsItem;
+    }
   }
 
   public isBackToEdit(): void {
@@ -45,6 +58,7 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
 
   private getPreviewData(): void {
     this.previewItem = this.createEcoNewsService.getFormData();
+    console.log(this.previewItem);
   }
 
   public postNewsItem(): void {
@@ -56,6 +70,22 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
         this.router.navigate(['/news']);
       });
   }
+
+  public editNews(): void {
+    const dataToEdit = {
+      ...this.previewItem.value,
+      id: this.newsId
+    };
+
+    console.log('edit', dataToEdit);
+    this.createEcoNewsService.editNews(dataToEdit).subscribe(
+      () => {
+        this.isPosting = false;
+        this.router.navigate(['/news']);
+      }
+    );
+  }
+
 
   public getImagePath(): string {
     if (this.previewItem.value.image) {

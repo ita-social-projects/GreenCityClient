@@ -134,7 +134,7 @@ describe('EcoNewsDetailComponent', () => {
     const id = 1;
 
     spyOn(component, 'setNewsItem');
-    (component as any).newsItemSubscription = ecoNewsService.getEcoNewsById(id).subscribe(
+    (component as any).newsItemSubscription = ecoNewsService.getEcoNewsById(id.toString()).subscribe(
       (item: EcoNewsModel) => {
         component.setNewsItem(item);
         expect(component.setNewsItem).toHaveBeenCalledWith(item);

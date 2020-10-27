@@ -29,6 +29,7 @@ export interface TranslationDTO {
 }
 
 export interface NewsDTO {
+  id?: string;
   tags: Array<string>;
   text: string;
   title: string;

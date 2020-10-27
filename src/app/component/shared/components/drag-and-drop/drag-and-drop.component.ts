@@ -33,22 +33,29 @@ export class DragAndDropComponent implements OnInit {
   }
 
   public cancelChanges(): void {
+    this.files = [];
+    this.createEcoNewsService.files = [];
     this.isCropper = false;
+    this.croppedImage = null;
   }
 
   public patchImage(): void {
-    if (this.createEcoNewsService.isBackToEditing) {
-      this.isCropper = false;
-      this.files = [{file: name, url: this.formData.value.image}];
-    }
+    console.log(this.formData);
+    // if (this.createEcoNewsService.isBackToEditing) {
+    //   this.isCropper = false;
+    //   this.files = [{file: name, url: this.formData.value.image}];
+    //   console.log(this.files);
+    // }
   }
 
   public imageCropped(event: ImageCroppedEvent): void {
+    console.log(event);
     this.croppedImage = event.base64;
   }
 
   public filesDropped(files: FileHandle[]): void {
     this.files = files;
+    console.log(files);
     this.createEcoNewsService.files = files;
     this.isCropper = true;
     this.showWarning();

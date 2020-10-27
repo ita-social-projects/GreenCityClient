@@ -57,8 +57,9 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   }
 
   private fetchNewsItem(): void {
+    const id = this.newsId.toString();
     this.newsItemSubscription = this.ecoNewsService
-      .getEcoNewsById(this.newsId)
+      .getEcoNewsById(id)
       .subscribe((item: EcoNewsModel) => this.setNewsItem(item));
   }
 

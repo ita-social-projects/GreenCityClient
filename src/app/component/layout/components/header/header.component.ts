@@ -4,7 +4,6 @@ import { MatDialog } from '@angular/material';
 import { filter } from 'rxjs/operators';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { ModalService } from '@global-core/components/propose-cafe/_modal/modal.service';
-import { UiActionsService } from '@global-service/ui-actions/ui-actions.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UserService } from 'src/app/service/user/user.service';
 import { AchievementService } from 'src/app/service/achievement/achievement.service';
@@ -32,11 +31,13 @@ export class HeaderComponent implements OnInit {
   public isLoggedIn: boolean;
   public isAllSearchOpen = false;
   public toggleBurgerMenu = false;
-  public arrayLang: Array<LanguageModel> = [{lang: 'En'}, {lang: 'Uk'}, {lang: 'Ru'}];
+  public arrayLang: Array<LanguageModel> = [
+    {lang: 'Uk'},
+    {lang: 'En'},
+    {lang: 'Ru'}];
   public isSearchClicked = false;
   private userRole: string;
   private userId: number;
-  private language: string;
 
   constructor(private modalService: ModalService,
               public dialog: MatDialog,
@@ -49,7 +50,6 @@ export class HeaderComponent implements OnInit {
               private languageService: LanguageService,
               private searchSearch: SearchService,
               private userOwnAuthService: UserOwnAuthService,
-              private uiActionsService: UiActionsService,
   ) {}
 
   ngOnInit() {
@@ -59,10 +59,21 @@ export class HeaderComponent implements OnInit {
     this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => { this.name = firstName; });
     this.langDropdownVisible = false;
     this.initUser();
+    this.setLangArr();
     this.userRole = this.jwtService.getUserRole();
-    this.language = this.languageService.getCurrentLanguage();
     this.autoOffBurgerBtn();
     this.userOwnAuthService.getDataFromLocalStorage();
+  }
+
+  setLangArr(): void {
+    const language = this.languageService.getCurrentLanguage();
+    const currentLangObj = { lang: language.charAt(0).toUpperCase() + language.slice(1) };
+    const currentLangIndex = this.arrayLang.findIndex(lang => lang.lang === currentLangObj.lang);
+    this.arrayLang = [
+      currentLangObj,
+      ...this.arrayLang.slice(0, currentLangIndex),
+      ...this.arrayLang.slice(currentLangIndex + 1)
+    ];
   }
 
   private initUser(): void {
@@ -94,6 +105,7 @@ export class HeaderComponent implements OnInit {
       )
       .subscribe(() => {
         this.toggleBurgerMenu = false;
+        this.toggleScroll();
       });
   }
 
@@ -128,14 +140,14 @@ export class HeaderComponent implements OnInit {
 
   public onToggleBurgerMenu(): void {
     this.toggleBurgerMenu = !this.toggleBurgerMenu;
-    this.uiActionsService.stopScrollingSubject.next(this.toggleBurgerMenu);
+    this.toggleScroll();
   }
 
   public openSingInWindow(): void {
     this.dialog.open(SignInComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
-      panelClass: 'custom-dialog-container',
+      panelClass: ['custom-dialog-container', 'transparent']
     });
   }
 
@@ -143,7 +155,7 @@ export class HeaderComponent implements OnInit {
     this.dialog.open(SignUpComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
-      panelClass: 'custom-dialog-container',
+      panelClass: ['custom-dialog-container', 'transparent']
     });
   }
 
@@ -171,5 +183,11 @@ export class HeaderComponent implements OnInit {
     this.achievementService.onLogout();
     this.router.navigateByUrl('/welcome').then(r => r);
     this.userOwnAuthService.getDataFromLocalStorage();
+  }
+
+  public toggleScroll(): void {
+    this.toggleBurgerMenu ?
+    document.body.classList.add('modal-open') :
+    document.body.classList.remove('modal-open');
   }
 }
