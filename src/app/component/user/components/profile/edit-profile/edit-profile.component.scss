@@ -196,7 +196,11 @@ h2 {
 
     li {
       list-style: none;
-      margin-top: 28px;
+      margin-bottom: 24px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
 
       .label-wrapper {
         color: #494a49;
