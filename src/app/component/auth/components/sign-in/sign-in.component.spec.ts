@@ -102,7 +102,7 @@ describe('SignIn component', () => {
   });
 
   describe('Basic tests', () => {
-    it('Shoul create component', () => {
+    it('Should create component', () => {
       expect(component).toBeDefined();
     });
 

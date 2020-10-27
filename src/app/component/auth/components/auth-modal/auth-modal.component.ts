@@ -18,15 +18,15 @@ export class AuthModalComponent implements OnInit {
     this.setAuthPage();
   }
 
-  public setAuthPage(): void {
-    this.authPage = this.data.popUpName;
-  }
-
   public changeAuthPage(page: string): void {
     this.authPage = page;
   }
 
   public closeWindow(): void {
     this.matDialogRef.close();
+  }
+
+  private setAuthPage(): void {
+    this.authPage = this.data.popUpName;
   }
 }

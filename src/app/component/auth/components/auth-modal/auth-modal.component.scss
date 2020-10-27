@@ -1,5 +1,5 @@
 .main {
-  width: 99vw;
+  width: 99%;
   overflow-y: auto;
   overflow-x: hidden;
   display: flex;
@@ -28,7 +28,7 @@
     .close-modal-window {
       display: flex;
       justify-content: flex-end;
-      margin: 26px 26px 22px 12px;
+      margin: 26px 26px 22px 0;
     }
 
     .cross-btn {

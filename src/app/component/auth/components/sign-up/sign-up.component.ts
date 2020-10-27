@@ -27,12 +27,17 @@ export class SignUpComponent implements OnInit {
   public signUpImages = authImages;
   public userOwnSignUp: UserOwnSignUp;
   public loadingAnim = false;
-  public isEmailInvalid = false;
   public emailErrorMessageBackEnd: string;
   public passwordErrorMessageBackEnd: string;
   public firstNameErrorMessageBackEnd: string;
   public passwordConfirmErrorMessageBackEnd: string;
   public backEndError: string;
+  private errorsType = {
+    name: (error: string) => this.firstNameErrorMessageBackEnd = error,
+    email: (error: string) => this.emailErrorMessageBackEnd = error,
+    password: (error: string) => this.passwordErrorMessageBackEnd = error,
+    passwordConfirm: (error: string) => this.passwordConfirmErrorMessageBackEnd = error,
+  };
   @Output() private pageName = new EventEmitter();
 
   constructor(private  matDialogRef: MatDialogRef<SignUpComponent>,
@@ -152,21 +157,7 @@ export class SignUpComponent implements OnInit {
 
   private onSubmitError(errors: HttpErrorResponse): void {
     errors.error.map(error => {
-      switch (error.name) {
-        case 'name':
-          this.firstNameErrorMessageBackEnd = error.message;
-          break;
-        case 'email':
-          this.emailErrorMessageBackEnd = error.message;
-          this.isEmailInvalid = this.emailErrorMessageBackEnd === 'The email is invalid';
-          break;
-        case 'password':
-          this.passwordErrorMessageBackEnd = error.message;
-          break;
-        case 'passwordConfirm':
-          this.passwordConfirmErrorMessageBackEnd = error.message;
-          break;
-      }
+      this.errorsType[error.name](error.message);
     });
     this.loadingAnim = false;
   }
