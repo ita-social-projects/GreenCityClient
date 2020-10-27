@@ -116,6 +116,11 @@ $main-font: 'Open Sans', sans-serif;
       height: 40px;
       margin-right: 8px;
       cursor: pointer;
+
+      .btn-img {
+        min-width: 12px;
+        max-height: 12px;
+      }
     }
 
     .edit-text-input {

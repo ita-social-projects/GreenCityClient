@@ -20,6 +20,11 @@ $main-font: 'Open Sans', sans-serif;
     background-color: #fff;
     outline: none;
 
+    .btn-img {
+      min-width: 16px;
+      max-height: 16px;
+    }
+
     .btn-text {
       margin-left: 5px;
       font-family: $main-font;
