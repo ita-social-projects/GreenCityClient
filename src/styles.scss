@@ -103,9 +103,14 @@ body {
   color: #13aa57;
 }
 
+.mat-dialog-container {
+  box-shadow: none;
+}
+
 .custom-dialog-container .mat-dialog-container {
   padding: 0;
   display: block;
+  border-radius: 4px;
   box-sizing: border-box;
   overflow: auto;
   outline: 0;
@@ -113,6 +118,10 @@ body {
   height: 100%;
   min-height: inherit;
   max-height: 100vh;
+  background: #fff;
+}
+
+.transparent .mat-dialog-container {
   background: transparent;
 }
 

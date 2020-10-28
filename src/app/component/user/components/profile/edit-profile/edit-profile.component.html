@@ -19,9 +19,9 @@
                 <input type="text"
                        formControlName = "city"
                        placeholder="{{userInfo.location}}"
-                       autocorrect="off" 
-                       autocapitalize="off" 
-                       spellcheck="off" 
+                       autocorrect="off"
+                       autocapitalize="off"
+                       spellcheck="off"
                        #search
                        pattern="^[a-zA-Zа-яА-Я][a-zA-Zа-яА-Я!\-\,’)( ]*$"
                        id="city">
@@ -40,7 +40,7 @@
             <app-social-networks></app-social-networks>
         </div>
         <div class="privacy-wrapper">
-            <p class="title">Profile privacy</p>
+            <p class="title">{{"user.edit-profile.privacy" | translate }}</p>
             <ul>
                 <li>
                     <label class="label-wrapper">{{"user.edit-profile.location" | translate }}
