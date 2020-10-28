@@ -26,6 +26,8 @@ $main-font: 'Open Sans';
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    height: 40vh;
 
     .profile-avatar {
       border-radius: 100px;
@@ -79,8 +81,9 @@ $main-font: 'Open Sans';
       .primary-global-button {
         background: #fff;
         color: #13aa57;
-        width: 132px;
+        min-width: 132px;
         margin-right: 24px;
+        padding: 16px;
 
         &:hover {
           border: 1px solid #056b33;
@@ -101,21 +104,27 @@ $main-font: 'Open Sans';
           background: #b42626;
           color: #fff;
         }
+
+        &:disabled {
+        background: #839c94;
+        border: 1px solid #839c94;
+      }
       }
 
       .secondary-global-button {
         background: #13aa57;
         color: #fff;
         padding: 16px 24px;
+        display: flex;
+        align-items: center;
 
         &:hover {
           background: #056b33;
         }
-      }
 
-      button:disabled {
-        background: #839c94;
-        border: 1px solid #839c94;
+        .spinner-border {
+          margin-right: 10px;
+        }
       }
 
       .change {
