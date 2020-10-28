@@ -3,14 +3,20 @@
 
 $title-font: 'Montserrat';
 $main-font: 'Open Sans';
+$buttonColor: #13aa57;
+$linkColor: #056b33;
+$disabledColor: #839c94;
+$errorColor : #f03127;
+$secondErrorColor : #b42626;
 
 .main-container {
   position: relative;
   width: 631px;
   height: 400px;
   font-family: $main-font;
-  padding: 56px 0;
-  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: #fff;
 
   .cancel {
@@ -27,7 +33,6 @@ $main-font: 'Open Sans';
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 40vh;
 
     .profile-avatar {
       border-radius: 100px;
@@ -53,7 +58,7 @@ $main-font: 'Open Sans';
     .warning {
       font-family: 'Open sans', sans-serif;
       font-size: 14px;
-      color: red;
+      color: $errorColor;
       padding: 0;
     }
 
@@ -68,7 +73,7 @@ $main-font: 'Open Sans';
 
       .primary-global-button,
       .secondary-global-button {
-        border: 1px solid #13aa57;
+        border: 1px solid $buttonColor;
         box-sizing: border-box;
         border-radius: 5px;
         font-style: normal;
@@ -80,46 +85,49 @@ $main-font: 'Open Sans';
 
       .primary-global-button {
         background: #fff;
-        color: #13aa57;
+        color: $buttonColor;
         min-width: 132px;
         margin-right: 24px;
         padding: 16px;
 
         &:hover {
-          border: 1px solid #056b33;
-          color: #056b33;
+          border: 1px solid $linkColor;
+          color: $linkColor;
         }
       }
 
       .delete {
-        background: #f03127;
-        border: 1px solid #f03127;
+        background: $errorColor;
+        border: 1px solid $errorColor;
         border-radius: 3px;
         color: #fff;
         margin-left: 24px;
-        margin-right: 24px;
 
         &:hover {
-          border: 1px solid #b42626;
-          background: #b42626;
+          border: 1px solid $secondErrorColor;
+          background: $secondErrorColor;
           color: #fff;
         }
 
         &:disabled {
-          background: #839c94;
-          border: 1px solid #839c94;
+          background: $disabledColor;
+          border: 1px solid $disabledColor;
         }
       }
 
       .secondary-global-button {
-        background: #13aa57;
+        background: $buttonColor;
         color: #fff;
         padding: 16px 24px;
         display: flex;
         align-items: center;
 
         &:hover {
-          background: #056b33;
+          background: $linkColor;
+        }
+
+        &:focus {
+          outline: none;
         }
 
         .spinner-border {
