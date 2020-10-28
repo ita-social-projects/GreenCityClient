@@ -67,6 +67,7 @@ export class CommentsContainerComponent implements OnInit, OnDestroy {
   public updateElementsList(): void {
     this.addCommentByPagination();
     this.getCommentsTotalElements();
+    this.getActiveComments();
   }
 
   public getCommentsTotalElements(): void {
