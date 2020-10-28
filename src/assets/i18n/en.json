@@ -256,7 +256,7 @@
         "title": "Welcome back!",
         "fill-form": "Please enter your details to sign in",
         "email": "Email",
-        "email-is-required": "Email is required",
+        "field-is-required": "This field is required",
         "email-must-be-at-least-1-characters-long": "Email must be at least 1 characters long",
         "this-is-not-email": "Please check that your e-mail address is indicated correctly",
         "password": "Password",
