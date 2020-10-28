@@ -10,13 +10,11 @@
         <form [formGroup]="createNewsForm" (ngSubmit)="onSubmit()">
             <div class="wrapper">
                 <div class="left-form-column">
-
-                        <h3>{{ 'create-news.news-title' | translate }}</h3>
-                        <textarea placeholder="{{ 'create-news.title-placeholder' | translate }}"
-                                  formControlName="title"
-                                  (input)="autoResize($event)"></textarea>
-                        <span>{{ 'create-news.title-tooltip' | translate }}</span>
-
+                    <h3>{{ 'create-news.news-title' | translate }}</h3>
+                    <textarea placeholder="{{ 'create-news.title-placeholder' | translate }}"
+                        formControlName="title"
+                        (input)="autoResize($event)"></textarea>
+                    <span>{{ 'create-news.title-tooltip' | translate }}</span>
                     <div class="tags" formArrayName="tags">
                         <h3>{{ 'create-news.tags-title' | translate }}</h3>
                         <button *ngFor="let filter of filters"
@@ -25,27 +23,28 @@
                                 [ngClass]="{'filters-color': filter.isActive}"
                                 >
                                 {{ filter.name }}</button>
-                                <p [ngClass]="{'warning': isFilterValidation}"
-                                >
-                                  {{ 'create-news.tags-tooltip' | translate }}</p>
+                        <p [ngClass]="{'warning': isFilterValidation}">
+                            {{ 'create-news.tags-tooltip' | translate }}
+                        </p>
                     </div>
-                    <label>
-                        <h3>{{ 'create-news.source-title' | translate }}</h3>
-                        <input type="text"
-                               placeholder="{{ 'create-news.source-placeholder' | translate }}"
-                               formControlName="source"
-                               [ngClass]="{'field-warning':!isLinkOrEmpty}">
-                        <span [ngClass]="{'warning':!isLinkOrEmpty}"
-                        >
-                         {{ 'create-news.source-tooltip-1' | translate }}
-                          <br>
-                          {{ 'create-news.source-tooltip-2' | translate }}
-                        </span>
-                    </label>
                 </div>
                 <div class="right-form-column">
                     <h3>{{ 'create-news.picture-title' | translate }}</h3>
                     <app-drag-and-drop [formData]="formData"></app-drag-and-drop>
+                </div>
+                <div class="bottom-form-column">
+                    <label>
+                        <h3>{{ 'create-news.source-title' | translate }}</h3>
+                        <input type="text"
+                            placeholder="{{ 'create-news.source-placeholder' | translate }}"
+                            formControlName="source"
+                            [ngClass]="{'field-warning':!isLinkOrEmpty}"
+                        >
+                        <span [ngClass]="{'warning':!isLinkOrEmpty}">
+                            {{ 'create-news.source-tooltip-1' | translate }}
+                            {{ 'create-news.source-tooltip-2' | translate }}
+                        </span>
+                    </label>
                 </div>
             </div>
             <div class="textarea-wrapper">

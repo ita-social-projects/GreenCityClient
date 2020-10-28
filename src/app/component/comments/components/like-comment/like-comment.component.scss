@@ -7,7 +7,7 @@ $main-font: 'Open Sans', sans-serif;
   margin-left: 50px;
 
   .like {
-    width: 90px;
+    width: fit-content;
     height: 40px;
     margin-right: 8px;
   }
@@ -28,6 +28,11 @@ $main-font: 'Open Sans', sans-serif;
     border: none;
     background-color: #fff;
     outline: none;
+
+    .btn-img {
+      min-width: 16px;
+      max-height: 16px;
+    }
 
     .btn-text {
       margin-left: 5px;

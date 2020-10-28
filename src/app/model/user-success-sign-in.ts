@@ -4,3 +4,10 @@ export class UserSuccessSignIn {
   accessToken: string;
   refreshToken: string;
 }
+
+export interface SuccessSignUpDto {
+  email: string;
+  ownRegistrations: boolean;
+  userId: number;
+  username: string;
+}
