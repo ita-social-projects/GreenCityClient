@@ -7,6 +7,7 @@ $main-font: 'Open Sans',
   display: flex;
 
   .reply {
+    width: fit-content;
     height: 40px;
   }
 
@@ -18,6 +19,11 @@ $main-font: 'Open Sans',
     border: none;
     background-color: #fff;
     outline: none;
+
+    .btn-img {
+      min-width: 16px;
+      max-height: 16px;
+    }
 
     .btn-text {
       margin-left: 5px;
@@ -32,8 +38,6 @@ $main-font: 'Open Sans',
 
 @media screen and (max-width: 575px) {
   .main-wrapper {
-    margin-left: 5px;
-
     .btn-text {
       display: none;
     }

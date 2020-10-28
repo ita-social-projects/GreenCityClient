@@ -33,6 +33,7 @@ $main-font: 'Open Sans', sans-serif;
   font-size: 18px;
   line-height: 28px;
   color: #313131;
+  white-space: nowrap;
 }
 
 .comment-date {
@@ -115,6 +116,11 @@ $main-font: 'Open Sans', sans-serif;
       height: 40px;
       margin-right: 8px;
       cursor: pointer;
+
+      .btn-img {
+        min-width: 12px;
+        max-height: 12px;
+      }
     }
 
     .edit-text-input {
@@ -193,6 +199,13 @@ $main-font: 'Open Sans', sans-serif;
 @media screen and (max-width: 575px) {
   .comments-elements {
     padding-left: 25px;
+  }
+
+  .comment-avatar {
+    img {
+      max-width: 32px;
+      max-height: 32px;
+    }
   }
 }
 

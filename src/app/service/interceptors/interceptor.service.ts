@@ -12,7 +12,7 @@ import { LocalStorageService } from '../localstorage/local-storage.service';
 import { Router } from '@angular/router';
 import { BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../../http-response-status';
 import { MatDialog } from '@angular/material';
-import { SignInComponent } from '../../component/auth/components/sign-in/sign-in.component';
+import { AuthModalComponent } from '../../component/auth/components/auth-modal/auth-modal.component';
 import { ErrorComponent } from '../../component/errors/error/error.component';
 
 interface NewTokenPair {
@@ -131,10 +131,13 @@ export class InterceptorService implements HttpInterceptor {
   }
 
   public openSignInWindow(): void {
-    this.dialog.open(SignInComponent, {
+    this.dialog.open(AuthModalComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
       panelClass: 'custom-dialog-container',
+      data: {
+        popUpName: 'sign-in'
+      }
     });
   }
 
