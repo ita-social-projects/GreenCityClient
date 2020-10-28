@@ -14,8 +14,7 @@ import { SearchService } from '@global-service/search/search.service';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { LanguageModel } from '../models/languageModel';
 import { UserSettingComponent } from '@global-user/components/user-setting/user-setting.component';
-import { SignInComponent } from '@global-auth/index';
-import { SignUpComponent } from '@global-auth/index';
+import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 
 @Component({
   selector: 'app-header',
@@ -144,15 +143,29 @@ export class HeaderComponent implements OnInit {
   }
 
   public openSingInWindow(): void {
-    this.dialog.open(SignInComponent, {
+    this.dialog.open(AuthModalComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
-      panelClass: ['custom-dialog-container', 'transparent']
+      panelClass: ['custom-dialog-container', 'transparent'],
+      data: {
+        popUpName: 'sign-in'
+      }
     });
   }
 
   public openSignUpWindow(): void {
-    this.dialog.open(SignUpComponent, {
+    this.dialog.open(AuthModalComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      panelClass: ['custom-dialog-container', 'transparent'],
+      data: {
+        popUpName: 'sign-up'
+      }
+    });
+  }
+
+  public openAuthModalWindow(): void {
+    this.dialog.open(AuthModalComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
       panelClass: ['custom-dialog-container', 'transparent']
