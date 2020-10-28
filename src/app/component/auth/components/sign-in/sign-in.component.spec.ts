@@ -204,7 +204,7 @@ describe('SignIn component', () => {
       component.emailErrorMessageBackEnd = 'I am error message';
       component.passwordErrorMessageBackEnd = 'I am error message';
       component.backEndError = 'I am error message';
-
+      // @ts-ignore
       component.configDefaultErrorMessage();
 
       expect(component.backEndError).toBeNull();

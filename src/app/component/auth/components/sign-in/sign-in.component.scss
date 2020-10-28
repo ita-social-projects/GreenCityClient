@@ -147,6 +147,13 @@ h2 {
   font-weight: 600;
   margin-bottom: 8px;
   border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .spinner-border {
+    margin-right: 10px;
+  }
 }
 
 .or-use-google {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -12,13 +12,14 @@ import { UserOwnSignInService } from '@global-service/auth/user-own-sign-in.serv
 import { UserOwnSignUpService } from '@global-service/auth/user-own-sign-up.service';
 import { UserOwnSignUp } from '@global-models/user-own-sign-up';
 import { UserSuccessSignIn, SuccessSignUpDto } from '@global-models/user-success-sign-in';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss']
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent implements OnInit, OnDestroy {
   public signUpForm: FormGroup;
   public emailControl: AbstractControl;
   public firstNameControl: AbstractControl;
@@ -26,12 +27,13 @@ export class SignUpComponent implements OnInit {
   public passwordControlConfirm: AbstractControl;
   public signUpImages = authImages;
   public userOwnSignUp: UserOwnSignUp;
-  public loadingAnim = false;
+  public loadingAnim: boolean;
   public emailErrorMessageBackEnd: string;
   public passwordErrorMessageBackEnd: string;
   public firstNameErrorMessageBackEnd: string;
   public passwordConfirmErrorMessageBackEnd: string;
   public backEndError: string;
+  private subscriptions: Subscription[] = [];
   private errorsType = {
     name: (error: string) => this.firstNameErrorMessageBackEnd = error,
     email: (error: string) => this.emailErrorMessageBackEnd = error,
@@ -66,20 +68,23 @@ export class SignUpComponent implements OnInit {
 
     this.setNullAllMessage();
     this.loadingAnim = true;
-    this.userOwnSecurityService.signUp(userOwnRegister)
+
+    const subscription = this.userOwnSecurityService.signUp(userOwnRegister)
       .subscribe(
         (data: SuccessSignUpDto) => {
           this.onSubmitSuccess(data);
         }, (error: HttpErrorResponse) => {
           this.onSubmitError(error);
         });
+    this.subscriptions = [...this.subscriptions, subscription];
   }
 
   public signUpWithGoogle(): void {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID)
       .then((data) => {
-        this.googleService.signIn(data.idToken)
+        const subscription = this.googleService.signIn(data.idToken)
           .subscribe((successData) => this.signUpWithGoogleSuccess(successData));
+        this.subscriptions = [...this.subscriptions, subscription];
       })
       .catch((errorData) => this.signUpWithGoogleError(errorData));
   }
@@ -178,5 +183,11 @@ export class SignUpComponent implements OnInit {
       this.emailErrorMessageBackEnd = error.name === 'email' ? error.message : this.emailErrorMessageBackEnd;
       this.passwordConfirmErrorMessageBackEnd = error.name === 'password' ? error.message : this.passwordConfirmErrorMessageBackEnd;
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscriptions.length !== 0 ) {
+      this.subscriptions.forEach(el => el.unsubscribe());
+    }
   }
 }
