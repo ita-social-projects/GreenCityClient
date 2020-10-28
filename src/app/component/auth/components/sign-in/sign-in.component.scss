@@ -42,7 +42,9 @@ h2 {
   margin-bottom: 16px;
 }
 
-.validation-password-error {
+.validation-password-error,
+.validation-email-error,
+.alert-general-error {
   color: $errorColor;
   font-size: 10px;
   line-height: 12px;
@@ -52,18 +54,9 @@ h2 {
 
 .alert-general-error {
   position: relative;
-  color: $errorColor;
-  font-size: 10px;
-  line-height: 12px;
-  font-family: $generalFont;
-  margin-bottom: 4px;
 }
 
 .validation-email-error {
-  color: $errorColor;
-  font-size: 10px;
-  line-height: 12px;
-  font-family: $generalFont;
   margin-bottom: 9px;
 }
 

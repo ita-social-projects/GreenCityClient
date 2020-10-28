@@ -59,6 +59,12 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.passwordField = this.signInForm.get('password');
   }
 
+  public configDefaultErrorMessage(): void {
+    this.emailErrorMessageBackEnd = null;
+    this.passwordErrorMessageBackEnd = null;
+    this.backEndError = null;
+  }
+
   public signIn(): void {
     this.loadingAnim = true;
 
@@ -119,12 +125,6 @@ export class SignInComponent implements OnInit, OnDestroy {
         }
       });
     this.subscriptions = [...this.subscriptions, subscription];
-  }
-
-  private configDefaultErrorMessage(): void {
-    this.emailErrorMessageBackEnd = null;
-    this.passwordErrorMessageBackEnd = null;
-    this.backEndError = null;
   }
 
   private onSignInSuccess(data: UserSuccessSignIn): void {
