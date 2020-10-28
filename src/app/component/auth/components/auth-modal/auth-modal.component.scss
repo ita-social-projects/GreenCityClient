@@ -1,5 +1,5 @@
 .main {
-  width: 99%;
+  width: 99vw;
   overflow-y: auto;
   overflow-x: hidden;
   display: flex;
@@ -24,6 +24,8 @@
   .right-side {
     width: 100%;
     max-width: 480px;
+    display: flex;
+    flex-direction: column;
 
     .close-modal-window {
       display: flex;
@@ -34,6 +36,11 @@
     .cross-btn {
       width: 12px;
       height: 12px;
+    }
+
+    div {
+      align-self: center;
+      width: 370px;
     }
   }
 }
@@ -46,5 +53,15 @@
   .wrapper {
     width: 100%;
     max-width: 480px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .wrapper {
+    .right-side {
+      div {
+        max-width: 343px;
+      }
+    }
   }
 }

@@ -1,7 +1,8 @@
 <h1>
   {{ 'user.auth.sign-in.title' | translate }}</h1>
 <h2>{{ 'user.auth.sign-in.fill-form' | translate }}</h2>
-<form class="sign-in-form"
+<form *ngIf="signInForm"
+      class="sign-in-form"
       (ngSubmit)="signIn()"
       [formGroup]="signInForm">
   <label for="email">{{ 'user.auth.sign-in.email' | translate }}</label>
@@ -16,7 +17,8 @@
                     backEndError ||
                     emailErrorMessageBackEnd?
             'alert-email-validation':'successful-email-validation'">
-  <div class="validation-email-error" *ngIf="emailField.invalid && emailField.touched">
+  <div class="validation-email-error"
+        *ngIf="emailField.invalid && emailField.touched">
     <app-error [formElement]="emailField" 
                [controlName]="'email'"></app-error>
   </div>
