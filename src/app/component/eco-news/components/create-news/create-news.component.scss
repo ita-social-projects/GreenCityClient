@@ -1,17 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 
-.title {
-  height: 200px;
-  display: flex;
-  align-items: center;
-  margin-top: -60px;
-}
-
-.form-description {
-  margin-top: -30px;
-  margin-bottom: 50px;
-}
-
 h3,
 p,
 span,
@@ -22,19 +10,36 @@ button {
   font-family: 'Open Sans', sans-serif;
 }
 
-.form-description p {
-  max-width: 653px;
-  color: #878787;
-}
-
-.title h2 {
+h2 {
   font-size: 48px;
   font-family: 'Montserrat', sans-serif;
 }
 
-.left-form-column span,
-.textarea-description {
-  font-size: 12px;
+h3 {
+  font-size: 18px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+}
+
+.form-description {
+  margin-bottom: 50px;
+
+  p {
+    max-width: 653px;
+    color: #878787;
+  }
+}
+
+.left-form-column span {
+  margin: 0 0 30px;
+
+  .textarea-description {
+    font-size: 12px;
+    color: #878787;
+  }
 }
 
 .right-form-column span {
@@ -46,10 +51,6 @@ textarea.ng-invalid.ng-touched {
   border: 1px solid red !important;
 }
 
-h3 {
-  font-size: 18px;
-}
-
 form {
   display: flex;
   flex-direction: column;
@@ -57,16 +58,29 @@ form {
   margin-bottom: 1rem;
 }
 
-.left-form-column {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 380px;
+.wrapper {
+  display: grid;
+  grid-template-columns: auto 430px;
+  grid-column-gap: 30px;
 }
 
+.left-form-column {
+  grid-row: 1 / 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.right-form-column {
+  grid-row: 1 / 4;
+}
+
+.bottom-form-column {
+  grid-row: 2 / 4;
+}
+
+.bottom-form-column input,
 .left-form-column input,
 .left-form-column textarea {
-  width: 622px;
   height: 48px;
   border-radius: 5px;
   border: 1px solid #878787;
@@ -82,17 +96,20 @@ form {
   color: #878787;
 }
 
-.textarea-description {
-  color: #878787;
+.tags {
+  p {
+    font-size: 12px;
+    margin-top: 8px;
+  }
+
+  h3 {
+    margin-bottom: 15px;
+  }
 }
 
-.tags p {
-  font-size: 12px;
-  margin-top: -4px;
-}
-
-.right-form-column {
-  margin-left: 32px;
+input.ng-invalid.ng-touched + span,
+textarea.ng-invalid.ng-touched + p {
+  color: red;
 }
 
 button {
@@ -133,60 +150,47 @@ form label {
   flex-direction: column;
 }
 
-.wrapper {
-  display: flex;
-  justify-content: space-between;
-}
-
 .date {
   display: flex;
   max-width: 500px;
+  justify-content: space-between;
   margin-top: 15px;
-}
 
-.date p:last-child {
-  margin-left: 32px;
-}
+  p span:first-child {
+    font-size: 18px;
+  }
 
-.date p span:first-child {
-  font-size: 18px;
-}
-
-.date p span:last-child {
-  color: #878787;
-  font-size: 16px;
-}
-
-input.ng-invalid.ng-touched + span,
-textarea.ng-invalid.ng-touched + p {
-  color: red;
+  p span:last-child {
+    color: #878787;
+    font-size: 16px;
+  }
 }
 
 .submit-buttons {
   display: flex;
   justify-content: flex-end;
-}
 
-.submit-buttons button {
-  margin-left: 20px;
-  border: 1px solid #13aa57;
-  border-radius: 3px;
-  background-color: #fff;
-  width: 154px;
-  height: 48px;
-  color: #13aa57;
-  font-weight: bold;
-}
+  button {
+    margin-left: 20px;
+    border: 1px solid #13aa57;
+    border-radius: 3px;
+    background-color: #fff;
+    width: 154px;
+    height: 48px;
+    color: #13aa57;
+    font-weight: bold;
+  }
 
-.submit-buttons button:last-child {
-  background-color: #13aa57;
-  color: #fff;
-  font-weight: bold;
-}
+  button:last-child {
+    background-color: #13aa57;
+    color: #fff;
+    font-weight: bold;
+  }
 
-.submit-buttons button:last-child:disabled {
-  background-color: #839c94;
-  border: 1px solid #839c94;
+  button:last-child:disabled {
+    background-color: #839c94;
+    border: 1px solid #839c94;
+  }
 }
 
 .tags .filters-color {
@@ -214,17 +218,56 @@ textarea.ng-invalid.ng-touched + p {
 }
 
 @media screen and (max-width: 1200px) {
-  .left-form-column input,
-  .left-form-column textarea {
-    width: 517px;
+  .wrapper {
+    grid-template-columns: auto 350px;
   }
 }
 
 @media screen and (max-width: 1024px) {
+  .wrapper {
+    grid-template-columns: auto 380px;
+  }
+
+  .bottom-form-column {
+    span {
+      font-size: 12px;
+    }
+  }
+
   .left-form-column input,
   .left-form-column textarea,
   form .textarea-wrapper textarea {
     width: 100%;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .left-form-column {
+    height: 350px;
+
+    textarea {
+      height: 100%;
+    }
+  }
+
+  .bottom-form-column {
+    margin: 0;
+  }
+}
+
+@media screen and (max-width: 981px) {
+  .wrapper {
+    grid-template-columns: auto 330px;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .left-form-column {
+    height: 260px;
+
+    textarea {
+      height: 48px;
+    }
   }
 }
 
@@ -235,17 +278,21 @@ textarea.ng-invalid.ng-touched + p {
     width: 100%;
   }
 
-  .left-form-column label:last-child {
-    margin-top: 340px;
+  .bottom-form-column {
+    margin-top: 30px;
+  }
+
+  .left-form-column {
+    max-width: 100%;
+    height: 100%;
+
+    label:last-child {
+      margin-top: 340px;
+    }
   }
 
   .right-form-column {
-    margin-top: -170px;
     margin-left: 0;
-  }
-
-  .textarea-wrapper {
-    margin-top: 180px;
   }
 
   .wrapper {
@@ -263,14 +310,6 @@ textarea.ng-invalid.ng-touched + p {
   .left-form-column label:last-child {
     margin-top: 340px;
   }
-
-  .right-form-column {
-    margin-top: -170px;
-  }
-
-  .textarea-wrapper {
-    margin-top: 180px;
-  }
 }
 
 @media screen and (max-width: 520px) {
@@ -280,10 +319,6 @@ textarea.ng-invalid.ng-touched + p {
 
   .title h2 {
     font-size: 24px;
-  }
-
-  .form-description {
-    margin-top: -52px;
   }
 
   form label {
@@ -301,12 +336,7 @@ textarea.ng-invalid.ng-touched + p {
   }
 
   .right-form-column {
-    margin-top: -488px;
     margin-bottom: 10px;
-  }
-
-  .textarea-wrapper {
-    margin-top: 160px;
   }
 
   .submit-buttons {
@@ -327,8 +357,13 @@ textarea.ng-invalid.ng-touched + p {
     display: flex;
     flex-direction: column;
   }
+}
 
-  .date p:last-child {
-    margin: 0 0 43px;
+@media screen and (max-width: 370px) {
+  .left-form-column {
+    textarea {
+      padding: 12px;
+      height: 100%;
+    }
   }
 }

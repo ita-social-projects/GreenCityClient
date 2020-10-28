@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
@@ -29,7 +29,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   public userOwnSignIn: UserOwnSignIn;
   public loadingAnim: boolean;
   public userIdSubscription: Subscription;
-
+  @Output() private pageName = new EventEmitter();
 
   constructor(
     private matDialogRef: MatDialogRef<SignInComponent>,
@@ -53,12 +53,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   }
 
   public onBackToSignIn(): void {
-    this.dialog.open(SignInComponent, {
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      panelClass: 'custom-dialog-container',
-    });
-    this.matDialogRef.close();
+    this.pageName.emit('sign-in');
   }
 
   sentEmail(userOwnSignIn: UserOwnSignIn): void {
