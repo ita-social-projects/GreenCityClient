@@ -12,7 +12,8 @@ import { UserOwnSignInService } from '@global-service/auth/user-own-sign-in.serv
 import { UserOwnSignUpService } from '@global-service/auth/user-own-sign-up.service';
 import { UserOwnSignUp } from '@global-models/user-own-sign-up';
 import { UserSuccessSignIn, SuccessSignUpDto } from '@global-models/user-success-sign-in';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sign-up',
@@ -33,7 +34,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   public firstNameErrorMessageBackEnd: string;
   public passwordConfirmErrorMessageBackEnd: string;
   public backEndError: string;
-  private subscriptions: Subscription[] = [];
+  private destroy: Subject<boolean> = new Subject<boolean>();
   private errorsType = {
     name: (error: string) => this.firstNameErrorMessageBackEnd = error,
     email: (error: string) => this.emailErrorMessageBackEnd = error,
@@ -69,22 +70,26 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.setNullAllMessage();
     this.loadingAnim = true;
 
-    const subscription = this.userOwnSecurityService.signUp(userOwnRegister)
+    this.userOwnSecurityService.signUp(userOwnRegister)
+      .pipe(
+        takeUntil(this.destroy)
+      )
       .subscribe(
         (data: SuccessSignUpDto) => {
           this.onSubmitSuccess(data);
         }, (error: HttpErrorResponse) => {
           this.onSubmitError(error);
         });
-    this.subscriptions = [...this.subscriptions, subscription];
   }
 
   public signUpWithGoogle(): void {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID)
       .then((data) => {
-        const subscription = this.googleService.signIn(data.idToken)
+        this.googleService.signIn(data.idToken)
+          .pipe(
+            takeUntil(this.destroy)
+          )
           .subscribe((successData) => this.signUpWithGoogleSuccess(successData));
-        this.subscriptions = [...this.subscriptions, subscription];
       })
       .catch((errorData) => this.signUpWithGoogleError(errorData));
   }
@@ -100,6 +105,12 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
   public openSignInWindow(): void {
     this.pageName.emit('sign-in');
+  }
+
+  public getEmailError(): string {
+    return /already registered/.test(this.emailErrorMessageBackEnd)
+      ? 'user.auth.sign-up.the-user-already-exists-by-this-email'
+      : 'user.auth.sign-up.this-is-not-email';
   }
 
   private onFormInit(): void {
@@ -174,7 +185,9 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
 
   private signUpWithGoogleError(errors: HttpErrorResponse): void {
-    if (!Array.isArray(errors.error)) {
+    if (typeof errors === 'string') {
+      return;
+    } else if (!Array.isArray(errors.error)) {
       this.backEndError = errors.error.message;
       return;
     }
@@ -186,8 +199,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.subscriptions.length !== 0 ) {
-      this.subscriptions.forEach(el => el.unsubscribe());
-    }
+    this.destroy.next(true);
+    this.destroy.complete();
   }
 }

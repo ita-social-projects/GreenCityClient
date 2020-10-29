@@ -28,7 +28,7 @@
     </div>
     <div *ngIf="emailErrorMessageBackEnd" 
           class="error-message error-message-show">
-        {{ emailErrorMessageBackEnd }}
+        {{ getEmailError() | translate }}
     </div>
     <label class="content-label under-error"
           for="firstName">
@@ -49,7 +49,7 @@
     </div>
     <div *ngIf="firstNameErrorMessageBackEnd" 
           class="error-message error-message-show">
-        {{firstNameErrorMessageBackEnd}}
+        {{ 'user.auth.sign-up.invalid-user-name' | translate }}
     </div>
     <label class="content-label under-error"
           for="password">
@@ -105,7 +105,7 @@
     </div>
     <div *ngIf="passwordErrorMessageBackEnd" 
           class="error-message error-message-show">
-        {{ passwordErrorMessageBackEnd }}
+        {{ 'user.auth.sign-up.password-symbols-error' | translate}}
     </div>
     <div class="alert-general-error"
           *ngIf="backEndError">
@@ -133,8 +133,8 @@
   <span>
     {{ 'user.auth.sign-up.haveyou-account' | translate }}
     <a class="exist-sign-in"
-    tabindex="0"
-      (click)="openSignInWindow()">
+       tabindex="0"
+       (click)="openSignInWindow()">
       {{ 'user.auth.sign-up.enter' | translate }}
     </a>
   </span>

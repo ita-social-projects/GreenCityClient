@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { GoogleSignInService } from '@auth-service/google-sign-in.service';
 import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
 import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
@@ -12,6 +12,7 @@ import { SignInIcons } from 'src/app/image-pathes/sign-in-icons';
 import { UserOwnSignIn } from '@global-models/user-own-sign-in';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sign-in',
@@ -31,7 +32,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   public signInForm: FormGroup;
   public emailField: AbstractControl;
   public passwordField: AbstractControl;
-  private subscriptions: Subscription[] = [];
+  private destroy: Subject<boolean> = new Subject<boolean>();
   @Output() private pageName = new EventEmitter();
 
   constructor(
@@ -73,7 +74,11 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.userOwnSignIn.email = email;
     this.userOwnSignIn.password = password;
 
-    const subscription = this.userOwnSignInService.signIn(this.userOwnSignIn).subscribe(
+    this.userOwnSignInService.signIn(this.userOwnSignIn)
+    .pipe(
+      takeUntil(this.destroy)
+    )
+    .subscribe(
       (data: UserSuccessSignIn) => {
         this.onSignInSuccess(data);
       },
@@ -81,19 +86,21 @@ export class SignInComponent implements OnInit, OnDestroy {
         this.onSignInFailure(errors);
         this.loadingAnim = false;
       });
-    this.subscriptions = [...this.subscriptions, subscription];
   }
 
   public signInWithGoogle(): void {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(data => {
-      const subscription = this.googleService.signIn(data.idToken).subscribe(
-        (signInData: UserSuccessSignIn) => {
+      this.googleService.signIn(data.idToken)
+        .pipe(
+          takeUntil(this.destroy)
+        )
+        .subscribe(
+          (signInData: UserSuccessSignIn) => {
           this.onSignInWithGoogleSuccess(signInData);
         },
-        (errors: HttpErrorResponse) => {
+          (errors: HttpErrorResponse) => {
           this.onSignInFailure(errors);
         });
-      this.subscriptions = [...this.subscriptions, subscription];
     });
   }
 
@@ -118,13 +125,15 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   private checkIfUserId(): void {
-    const subscription = this.localStorageService.userIdBehaviourSubject
+    this.localStorageService.userIdBehaviourSubject
+      .pipe(
+        takeUntil(this.destroy)
+      )
       .subscribe(userId => {
         if (userId) {
           this.matDialogRef.close(userId);
         }
       });
-    this.subscriptions = [...this.subscriptions, subscription];
   }
 
   private onSignInSuccess(data: UserSuccessSignIn): void {
@@ -137,7 +146,9 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   private onSignInFailure(errors: HttpErrorResponse): void {
-    if (!Array.isArray(errors.error)) {
+    if (typeof errors === 'string') {
+      return;
+    } else if (!Array.isArray(errors.error)) {
       this.backEndError = errors.error.message;
       return;
     }
@@ -149,8 +160,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.subscriptions.length !== 0) {
-      this.subscriptions.forEach(el => el.unsubscribe());
-    }
+    this.destroy.next(true);
+    this.destroy.complete();
   }
 }
