@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 
-$main-font: 'Open Sans', sans-serif;
+$main-font: 'Open Sans',
+  sans-serif;
 
 .main-wrapper {
   display: flex;
-  margin-left: 5px;
 
   .reply {
     width: fit-content;
@@ -32,6 +32,18 @@ $main-font: 'Open Sans', sans-serif;
       line-height: 24px;
       color: #878787;
       mix-blend-mode: normal;
+    }
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .main-wrapper {
+    .btn-text {
+      display: none;
+    }
+
+    .reply {
+      width: 15px;
     }
   }
 }

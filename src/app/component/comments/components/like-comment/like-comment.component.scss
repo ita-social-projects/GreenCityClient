@@ -4,7 +4,6 @@ $main-font: 'Open Sans', sans-serif;
 
 .main-wrapper {
   display: flex;
-  margin-left: 50px;
 
   .like {
     width: fit-content;
@@ -45,16 +44,20 @@ $main-font: 'Open Sans', sans-serif;
   }
 }
 
+@media screen and (max-width: 575px) {
+  .main-wrapper {
+    padding-left: 30px;
+  }
+
+  .btn-text {
+    display: none;
+  }
+}
+
 @media screen and (max-width: 380px) {
   .main-wrapper {
-    margin-left: 59px;
-
     .cta-btn {
       width: 24px;
-
-      .btn-text {
-        display: none;
-      }
     }
   }
 }
