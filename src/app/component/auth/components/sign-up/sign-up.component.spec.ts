@@ -98,7 +98,7 @@ describe('SignUpComponent', () => {
       expect(component.dialog).toBeDefined();
     });
 
-    it('should emit "sign-in" after calling openSignInWindowp', () => {
+    it('should emit "sign-in" after calling openSignInWindow', () => {
       component.openSignInWindow();
       // @ts-ignore
       expect(component.pageName.emit).toHaveBeenCalledWith('sign-in');
