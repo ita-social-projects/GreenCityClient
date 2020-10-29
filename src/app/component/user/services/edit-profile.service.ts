@@ -24,4 +24,8 @@ export class EditProfileService {
   public updateProfilePhoto(data): Observable<object[]> {
     return this.http.patch<object[]>(`${this.url}user/profilePicture`, data);
   }
+
+  public deleProfilePhoto(): Observable<object> {
+    return this.http.patch<object>(`${this.url}user/deleteProfilePicture`, this.httpOptions);
+  }
 }
