@@ -156,7 +156,7 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
     );
   }
 
-  private fetchNewsItemToEdit(): void {
+  public fetchNewsItemToEdit(): void {
     this.newsItemSubscription = this.ecoNewsService
       .getEcoNewsById(this.newsId)
       .pipe(
@@ -170,7 +170,7 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
       });
   }
 
-  private setActiveFilters(itemToUpdate: EcoNewsModel): void {
+  public setActiveFilters(itemToUpdate: EcoNewsModel): void {
     if (itemToUpdate.tags.length) {
       this.isArrayEmpty = false;
 
