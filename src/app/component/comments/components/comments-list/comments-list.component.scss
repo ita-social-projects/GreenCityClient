@@ -42,11 +42,11 @@ $main-font: 'Open Sans', sans-serif;
   font-size: 12px;
   line-height: 16px;
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
   align-items: center;
 
   .comment-dot {
-    margin: 0 0 0 8px;
+    margin: 0 8px;
     display: inline-block;
     width: 4px;
     height: 4px;
@@ -205,6 +205,10 @@ $main-font: 'Open Sans', sans-serif;
     padding-left: 25px;
   }
 
+  .comment-date {
+    flex-direction: row-reverse;
+  }
+
   .comment-avatar {
     img {
       max-width: 32px;
@@ -217,10 +221,6 @@ $main-font: 'Open Sans', sans-serif;
 
     .comment-date-likes {
       justify-content: left;
-
-      .comment-likes {
-        margin-left: 9px;
-      }
     }
   }
 }
@@ -235,6 +235,8 @@ $main-font: 'Open Sans', sans-serif;
   }
 
   .comment-date {
+    flex-direction: row;
+
     .comment-date-month {
       margin: 0;
     }
