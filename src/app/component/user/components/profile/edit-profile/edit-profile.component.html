@@ -19,9 +19,9 @@
                 <input type="text"
                        formControlName = "city"
                        placeholder="{{userInfo.location}}"
-                       autocorrect="off" 
-                       autocapitalize="off" 
-                       spellcheck="off" 
+                       autocorrect="off"
+                       autocapitalize="off"
+                       spellcheck="off"
                        #search
                        pattern="^[a-zA-Zа-яА-Я][a-zA-Zа-яА-Я!\-\,’)( ]*$"
                        id="city">
@@ -40,27 +40,30 @@
             <app-social-networks></app-social-networks>
         </div>
         <div class="privacy-wrapper">
-            <p class="title">Profile privacy</p>
+            <p class="title">{{"user.edit-profile.privacy" | translate }}</p>
             <ul>
                 <li>
-                    <label class="label-wrapper">{{"user.edit-profile.location" | translate }}
+                    <label class="label-wrapper">
                         <input type="checkbox"
-                               formControlName="showLocation">
+                             formControlName="showLocation">
                         <span class="checkmark"></span>
+                        {{"user.edit-profile.location" | translate }}
                     </label>
                 </li>
                 <li>
-                    <label class="label-wrapper">{{"user.edit-profile.eco-place" | translate }}
+                    <label class="label-wrapper">
                         <input type="checkbox"
-                               formControlName="showEcoPlace">
+                             formControlName="showEcoPlace">
                         <span class="checkmark"></span>
+                        {{"user.edit-profile.eco-place" | translate }}
                     </label>
                 </li>
                 <li>
-                    <label class="label-wrapper">{{"user.edit-profile.shoping-list" | translate }}
+                    <label class="label-wrapper">
                         <input type="checkbox"
-                               formControlName="showShoppingList">
+                             formControlName="showShoppingList">
                         <span class="checkmark"></span>
+                        {{"user.edit-profile.shoping-list" | translate }}
                     </label>
                 </li>
             </ul>

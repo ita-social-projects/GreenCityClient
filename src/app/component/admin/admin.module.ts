@@ -17,7 +17,7 @@ import {
   MatMenuModule
 } from '@angular/material';
 import { MatSortModule } from '@angular/material/sort';
-import { PaginationModule } from 'ngx-bootstrap';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AgmCoreModule } from '@agm/core';

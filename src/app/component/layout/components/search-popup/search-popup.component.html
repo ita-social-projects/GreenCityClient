@@ -4,9 +4,9 @@
       <div class="search-icon"></div>
         <input class = "search-field"
                type="text"
+               [formControl]="searchInput"
                placeholder="{{ 'search.search-popup.placeholder' | translate}}"
-               #inputFocus
-               (keyup)="onKeyUp($event.target)">
+               #inputFocus>
                {{inputFocus.focus()}}
       <div class="close-icon"
            (click)="closeSearch()"></div>
@@ -17,7 +17,7 @@
     <div class="adaptive-center-wrapper">
       <div class="search-content-wrapper">
         <div class="remaining-items"
-             *ngIf="inputValue">
+             *ngIf="searchInput.value">
           {{ itemsFound }} {{ "search.search-popup.items-found" | translate }}
         </div>
           <div class="content-news"
@@ -31,6 +31,11 @@
                                [searchModel]="element"
                                (closeSearch)="closeSearch()"></app-search-item>
             </div>
+            <a [routerLink]="['/search']"
+                (click)="getAllResults('econews')"
+                class="all-results-link">
+                {{ "search.search-popup.all-results" | translate }}
+            </a>
           </div>
 
           <div class="content-tips"
@@ -38,7 +43,6 @@
             <a [routerLink]="['/welcome']"
                pageScroll
                href="#tips"
-               [pageScrollDuration]="500"
                (click)="closeSearch()">
               <h3>{{ "search.search-popup.tips" | translate }}</h3>
             </a>
@@ -47,17 +51,17 @@
                                [searchModel]="element"
                                (closeSearch)="closeSearch()"></app-search-item>
             </div>
+            <a [routerLink]="['/search']"
+               (click)="getAllResults('tipsandtricks')"
+               class="all-results-link">
+               {{ "search.search-popup.all-results" | translate }}
+            </a>
           </div>
 
-          <a [routerLink]="['/search']"
-             (click)="closeSearch()"
-             class="all-results-link">
-             {{ "search.search-popup.all-results" | translate }}
-          </a>
 
           <app-search-not-found
             *ngIf="(isNewsSearchFound === false && isTipsSearchFound === false)"
-            [inputValue]='inputValue'
+            [inputValue]='searchInput.value'
             (closeUnsuccessfulSearchResults)="closeSearch()"
           ></app-search-not-found>
       </div>

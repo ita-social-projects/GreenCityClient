@@ -409,6 +409,11 @@ $screen-320: " screen and (max-width : 320px)";
       }
     }
   }
+
+  .modal-open {
+    overflow: hidden !important;
+    position: relative;
+  }
 }
 
 #user-avatar-wrapper,
@@ -419,16 +424,15 @@ $screen-320: " screen and (max-width : 320px)";
   height: 36px;
 
   ul {
-    display: flex;
-    flex-direction: column;
+    display: inline;
     position: absolute;
     margin: 0;
     padding: 10px 0 0 0;
     background: #fff;
 
     li {
-      width: 100%;
-      height: 30px;
+      width: 141px;
+      height: 44px;
       font-size: 14px;
       line-height: 16px;
       margin: 0 0 3px 0;
@@ -439,6 +443,7 @@ $screen-320: " screen and (max-width : 320px)";
         color: #056b33;
         font-size: 12px;
         font-weight: 600;
+        height: 30px;
 
         .reverse {
           transform: rotate(180deg);

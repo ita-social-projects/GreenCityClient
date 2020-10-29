@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
 import { authImages } from 'src/app/image-pathes/auth-images';
+import { ConfirmPasswordValidator, ValidatorRegExp } from './sign-up.validator';
+import { GoogleSignInService } from '@global-service/auth/google-sign-in.service';
+import { SubmitEmailComponent } from '../submit-email/submit-email.component';
 import { UserOwnSignInService } from '@global-service/auth/user-own-sign-in.service';
 import { UserOwnSignUpService } from '@global-service/auth/user-own-sign-up.service';
-import { GoogleSignInService } from '@global-service/auth/google-sign-in.service';
 import { UserOwnSignUp } from '@global-models/user-own-sign-up';
-import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
-import { SubmitEmailComponent } from '../submit-email/submit-email.component';
-import { SignInComponent } from '../sign-in/sign-in.component';
+import { UserSuccessSignIn, SuccessSignUpDto } from '@global-models/user-success-sign-in';
 
 @Component({
   selector: 'app-sign-up',
@@ -18,127 +19,64 @@ import { SignInComponent } from '../sign-in/sign-in.component';
   styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent implements OnInit {
+  public signUpForm: FormGroup;
+  public emailControl: AbstractControl;
+  public firstNameControl: AbstractControl;
+  public passwordControl: AbstractControl;
+  public passwordControlConfirm: AbstractControl;
   public signUpImages = authImages;
   public userOwnSignUp: UserOwnSignUp;
-  public tmp: string;
   public loadingAnim = false;
+  public isEmailInvalid = false;
   public emailErrorMessageBackEnd: string;
   public passwordErrorMessageBackEnd: string;
-  private firstNameErrorMessageBackEnd: string;
-  private lastNameErrorMessageBackEnd: string;
-  private passwordConfirmErrorMessageBackEnd: string;
-  private backEndError: string;
+  public firstNameErrorMessageBackEnd: string;
+  public passwordConfirmErrorMessageBackEnd: string;
+  public backEndError: string;
+  @Output() private pageName = new EventEmitter();
 
-  constructor(private matDialogRef: MatDialogRef<SignUpComponent>,
+  constructor(private  matDialogRef: MatDialogRef<SignUpComponent>,
               private dialog: MatDialog,
+              private formBuilder: FormBuilder,
               private userOwnSignInService: UserOwnSignInService,
               private userOwnSecurityService: UserOwnSignUpService,
               private router: Router,
               private authService: AuthService,
-              private googleService: GoogleSignInService) { }
+              private googleService: GoogleSignInService,
+              ) { }
 
   ngOnInit() {
-    this.userOwnSignUp = new UserOwnSignUp();
+    this.onFormInit();
+    this.getFormFields();
     this.setNullAllMessage();
-  }
-
-  private setNullAllMessage(): void {
-    this.firstNameErrorMessageBackEnd = null;
-    this.lastNameErrorMessageBackEnd = null;
-    this.emailErrorMessageBackEnd = null;
-    this.passwordErrorMessageBackEnd = null;
-    this.passwordConfirmErrorMessageBackEnd = null;
+    this.userOwnSignUp = new UserOwnSignUp();
   }
 
   public onSubmit(userOwnRegister: UserOwnSignUp): void {
+    const { email, firstName, password } = this.signUpForm.value;
+
+    userOwnRegister.email = email;
+    userOwnRegister.firstName = firstName;
+    userOwnRegister.password = password;
+
     this.setNullAllMessage();
     this.loadingAnim = true;
     this.userOwnSecurityService.signUp(userOwnRegister)
-      .subscribe((data) => this.onSubmitSuccess(data), (error) => this.onSubmitError(error));
+      .subscribe(
+        (data: SuccessSignUpDto) => {
+          this.onSubmitSuccess(data);
+        }, (error: HttpErrorResponse) => {
+          this.onSubmitError(error);
+        });
   }
 
-  private onSubmitSuccess(data): void {
-    this.loadingAnim = false;
-    this.openSignUpPopup();
-    this.closeSignUpWindow();
-    this.receiveUserId(data.userId);
-  }
-
-  private receiveUserId(id): void {
-    setTimeout(() => {
-      this.router.navigate(['profile', id]);
-      this.dialog.closeAll();
-    }, 5000);
-  }
-
-  private openSignUpPopup(): void {
-    this.dialog.open(SubmitEmailComponent, {
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      disableClose: false,
-      panelClass: 'custom-dialog-container',
-    });
-  }
-
-  private onSubmitError(errors: HttpErrorResponse): void {
-    errors.error.map(error => {
-      switch (error.name) {
-        case 'name':
-          this.firstNameErrorMessageBackEnd = error.message;
-          break;
-        case 'email':
-          this.emailErrorMessageBackEnd = error.message;
-          break;
-        case 'password':
-          this.passwordErrorMessageBackEnd = error.message;
-          break;
-        case 'passwordConfirm':
-          this.passwordConfirmErrorMessageBackEnd = error.message;
-          break;
-      }
-    });
-
-    this.loadingAnim = false;
-  }
-
-  public signInWithGoogle(): void {
+  public signUpWithGoogle(): void {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID)
       .then((data) => {
         this.googleService.signIn(data.idToken)
-          .subscribe((successData) => this.signInWithGoogleSuccess(successData));
+          .subscribe((successData) => this.signUpWithGoogleSuccess(successData));
       })
-      .catch((errorData) => this.signInWithGoogleError(errorData));
-  }
-
-  private signInWithGoogleSuccess(data: UserSuccessSignIn): void {
-    this.userOwnSignInService.saveUserToLocalStorage(data);
-    this.closeSignUpWindow();
-    this.router.navigate(['/']);
-  }
-
-  private signInWithGoogleError(errors: HttpErrorResponse): void {
-    if (!Array.isArray(errors.error)) {
-      this.backEndError = errors.error.message;
-      return;
-    }
-
-    errors.error.map((error) => {
-      this.emailErrorMessageBackEnd = error.name === 'email' ? error.message : this.emailErrorMessageBackEnd;
-      this.passwordConfirmErrorMessageBackEnd = error.name === 'password' ? error.message : this.passwordConfirmErrorMessageBackEnd;
-    });
-  }
-
-  public closeSignUpWindow(): void {
-    this.matDialogRef.close();
-  }
-
-  public matchPassword(passInput: HTMLInputElement,
-                       passRepeat: HTMLInputElement,
-                       inputBlock: HTMLElement): void {
-    this.passwordErrorMessageBackEnd = null;
-    inputBlock.className = passInput.value !== passRepeat.value ?
-                          'main-data-input-password wrong-input' :
-                          'main-data-input-password';
+      .catch((errorData) => this.signUpWithGoogleError(errorData));
   }
 
   public setEmailBackendErr(): void {
@@ -150,27 +88,104 @@ export class SignUpComponent implements OnInit {
     htmlImage.src = htmlInput.type === 'password' ? this.signUpImages.hiddenEye : this.signUpImages.openEye;
   }
 
-  public checkSpaces(input: string): boolean {
-    return input.indexOf(' ') >= 0;
-  }
-
-  public checkSymbols(input: string): boolean {
-    const regexp = /^(?=.*[a-z]+)(?=.*[A-Z]+)(?=.*\d+)(?=.*[~`!@#$%^&*()+=_\-{}|:;”’?/<>,.\]\[]+).{8,}$/;
-    return (regexp.test(input) || input === '');
-  }
-
-  public checkUserName(input: string): boolean {
-    const regexp = /^[^\.][a-z0-9\. ]{5,29}$/gi;
-    return (regexp.test(input) || input === '');
-  }
-
   public openSignInWindow(): void {
+    this.pageName.emit('sign-in');
+  }
+
+  private onFormInit(): void {
+    this.signUpForm = this.formBuilder.group({
+        email: ['', [ Validators.required, Validators.email ]],
+        firstName: ['', [ Validators.required ]],
+        password: ['', [ Validators.required ]],
+        repeatPassword: ['', [ Validators.required ]]
+      },
+      {
+        validator: [
+          ConfirmPasswordValidator('password', 'repeatPassword'),
+          ValidatorRegExp('firstName'),
+          ValidatorRegExp('password'),
+        ]
+      }
+    );
+  }
+
+  private getFormFields(): void {
+    this.emailControl = this.signUpForm.get('email');
+    this.firstNameControl = this.signUpForm.get('firstName');
+    this.passwordControl = this.signUpForm.get('password');
+    this.passwordControlConfirm = this.signUpForm.get('repeatPassword');
+  }
+
+  private setNullAllMessage(): void {
+    this.firstNameErrorMessageBackEnd = null;
+    this.emailErrorMessageBackEnd = null;
+    this.passwordErrorMessageBackEnd = null;
+    this.passwordConfirmErrorMessageBackEnd = null;
+  }
+
+  private onSubmitSuccess(data: SuccessSignUpDto): void {
+    this.loadingAnim = false;
+    this.openSignUpPopup();
     this.closeSignUpWindow();
-    this.dialog.open(SignInComponent, {
+    this.receiveUserId(data.userId);
+  }
+
+  private openSignUpPopup(): void {
+    this.dialog.open(SubmitEmailComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
-      disableClose: true,
+      disableClose: false,
       panelClass: 'custom-dialog-container',
+    });
+  }
+
+  private closeSignUpWindow(): void {
+    this.matDialogRef.close();
+  }
+
+  private receiveUserId(id: number): void {
+    setTimeout(() => {
+      this.router.navigate(['profile', id]);
+      this.dialog.closeAll();
+    }, 5000);
+  }
+
+  private onSubmitError(errors: HttpErrorResponse): void {
+    errors.error.map(error => {
+      switch (error.name) {
+        case 'name':
+          this.firstNameErrorMessageBackEnd = error.message;
+          break;
+        case 'email':
+          this.emailErrorMessageBackEnd = error.message;
+          this.isEmailInvalid = this.emailErrorMessageBackEnd === 'The email is invalid';
+          break;
+        case 'password':
+          this.passwordErrorMessageBackEnd = error.message;
+          break;
+        case 'passwordConfirm':
+          this.passwordConfirmErrorMessageBackEnd = error.message;
+          break;
+      }
+    });
+    this.loadingAnim = false;
+  }
+
+  private signUpWithGoogleSuccess(data: UserSuccessSignIn): void {
+    this.userOwnSignInService.saveUserToLocalStorage(data);
+    this.closeSignUpWindow();
+    this.router.navigate(['/']);
+  }
+
+  private signUpWithGoogleError(errors: HttpErrorResponse): void {
+    if (!Array.isArray(errors.error)) {
+      this.backEndError = errors.error.message;
+      return;
+    }
+
+    errors.error.map((error) => {
+      this.emailErrorMessageBackEnd = error.name === 'email' ? error.message : this.emailErrorMessageBackEnd;
+      this.passwordConfirmErrorMessageBackEnd = error.name === 'password' ? error.message : this.passwordConfirmErrorMessageBackEnd;
     });
   }
 }

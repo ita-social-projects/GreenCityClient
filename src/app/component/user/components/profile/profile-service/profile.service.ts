@@ -29,7 +29,9 @@ export class ProfileService {
   }
 
   public getFactsOfTheDay(): Observable<CardModel> {
-    return this.http.get<CardModel>(`${this.backEnd}facts/dayFact/2`);
+    const currentLang = this.languageService.getCurrentLanguage();
+
+    return this.http.get<CardModel>(`${this.backEnd}factoftheday/?lang=${currentLang}`);
   }
 
   public getUserInfo(): Observable<EditProfileModel> {

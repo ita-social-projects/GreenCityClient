@@ -1,0 +1,21 @@
+<div class="main-container">
+  <div class="achievements">
+    <div class="achievements-text">
+      <div class="text-main-content">
+        <div class="text-title">
+          {{ 'profile.my-Achievements' | translate }}
+          <span class="text-number">8</span>
+        </div>
+      </div>
+      <div class="text-more">{{ 'profile.see-all' | translate }}</div>
+    </div>
+    <div class="achievements-images">
+      <img [src]="image"
+           alt="achievement"
+           class="achievements-img"
+           *ngFor="let image of achievementsImages"
+      >
+    </div>
+  </div>
+</div>
+

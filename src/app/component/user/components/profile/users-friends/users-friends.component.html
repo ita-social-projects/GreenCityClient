@@ -1,0 +1,29 @@
+<div class="main-container">
+  <div class="friends" *ngIf="!noFriends">
+    <div class="friends-text">
+      <div class="text-main-content">
+        <div class="text-title">
+          {{ 'profile.my-eco-friends' | translate }}
+          <span class="text-number"> {{usersFriends?.length}}</span>
+        </div>
+      </div>
+      <div class="text-more">{{ 'profile.see-all' | translate }}</div>
+    </div>
+    <div class="friends-images">
+      <img [src]=image.profilePicturePath
+           alt="friend"
+           class="friend-img"
+           *ngFor="let image of usersFriends"
+      >
+    </div>
+  </div>
+  <div class="friends-error" *ngIf="noFriends">
+    <div class="text-title">
+      {{ 'profile.my-eco-friends' | translate }}
+      <span class="text-number"> 0 </span>
+      <div class="error-message">
+        {{ 'profile.zero-friends' | translate }}
+      </div>
+    </div>
+  </div>
+</div>

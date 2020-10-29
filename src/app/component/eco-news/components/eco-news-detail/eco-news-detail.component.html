@@ -35,7 +35,7 @@
       </div>
     </div>
     <div class="news-info">
-      <div class="news-info-date">{{ newsItem.creationDate | date: 'mediumDate' }}</div>
+      <div class="news-info-date">{{ newsItem.creationDate | dateLocalisation }}</div>
       <div class="news-info-dot">
         <img [src]="images.ellipse"
              alt="dot"
@@ -88,5 +88,5 @@
   <app-eco-news-widget></app-eco-news-widget>
 </div>
 <div class="wrapper">
-  <app-add-comment></app-add-comment>
+  <app-comments-container></app-comments-container>
 </div>
