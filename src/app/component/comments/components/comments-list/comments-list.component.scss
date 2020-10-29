@@ -88,6 +88,10 @@ $main-font: 'Open Sans', sans-serif;
   display: flex;
   flex-direction: column;
 
+  .comment-text {
+    word-wrap: break-word;
+  }
+
   .comment-edit-text {
     display: flex;
     flex-direction: column;
@@ -199,6 +203,13 @@ $main-font: 'Open Sans', sans-serif;
 @media screen and (max-width: 575px) {
   .comments-elements {
     padding-left: 25px;
+  }
+  
+  .comment-avatar {
+    img {
+      max-width: 32px;
+      max-height: 32px;
+    }
   }
 }
 

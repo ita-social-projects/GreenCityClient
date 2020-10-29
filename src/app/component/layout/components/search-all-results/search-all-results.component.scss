@@ -3,12 +3,11 @@ $main-font-color: #494a49;
 
 .page-wrapper {
   margin: 0 auto;
-  width: 84rem;
   min-height: 130vh;
 }
 
 .main-block-wrapper {
-  margin: 95px 150px 0;
+  margin: 0 auto;
   width: 66.625rem;
   height: 100%;
 
@@ -99,7 +98,6 @@ $main-font-color: #494a49;
   .search-field {
     background-color: #fff;
     width: 100%;
-    min-width: 900px;
     height: 28px;
     margin-top: 28px;
     border: none;
@@ -157,12 +155,6 @@ $main-font-color: #494a49;
 @media (max-width: 850px) {
   .main-block-wrapper {
     width: 500px;
-  }
-}
-
-@media (max-width: 725px) {
-  .main-block-wrapper {
-    margin: 0;
   }
 }
 
