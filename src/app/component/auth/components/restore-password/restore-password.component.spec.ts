@@ -69,7 +69,7 @@ describe('RestorePasswordComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([]),
         BrowserAnimationsModule
-      ],providers: [
+      ], providers: [
         { provide: MatDialogRef, useValue: matDialogMock },
         { provide: AuthService, useValue: authServiceMock },
         { provide: Router, useValue: routerSpy },
@@ -138,7 +138,7 @@ describe('RestorePasswordComponent', () => {
       restorePasswordService = fixture.debugElement.injector.get(RestorePasswordService);
       mockFormData = {
         email: 'test@mail.com'
-      }
+      };
     });
 
     it('Should call sinIn method', inject([AuthService, GoogleSignInService], (service: AuthService) => {

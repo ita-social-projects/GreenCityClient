@@ -95,7 +95,7 @@ export class ConfirmRestorePasswordComponent implements OnInit {
     htmlImage.src = htmlInput.type === 'password' ? this.authImages.hiddenEye : this.authImages.openEye;
   }
 
-  public closeModal( path:string ): void {
+  public closeModal( path: string ): void {
     this.router.navigate(['welcome']);
   }
 }

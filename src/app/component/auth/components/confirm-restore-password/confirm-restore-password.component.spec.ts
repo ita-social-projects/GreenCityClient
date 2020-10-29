@@ -17,7 +17,6 @@ import { RestoreDto } from '@global-models/restroreDto';
 describe('ConfirmRestorePasswordComponent', () => {
   let component: ConfirmRestorePasswordComponent;
   let fixture: ComponentFixture<ConfirmRestorePasswordComponent>;
-  const routerSpy = { navigate: jasmine.createSpy('navigate') };;
   const MatDialogRefMock = {
     close: () => { }
   };
@@ -146,11 +145,8 @@ describe('ConfirmRestorePasswordComponent', () => {
           : expect(control.valid).toBeFalsy();
       });
     }
-
-    validPasswords.forEach(el => controlsValidator(el, 'password', 'valid')); 
-
+    validPasswords.forEach(el => controlsValidator(el, 'password', 'valid'));
     invalidPasswords.forEach(el => controlsValidator(el, 'password', 'invalid'));
-
     it('form should be invalid if passwords do not match', () => {
       const passwordControl = component.confirmRestorePasswordForm.get('password');
       passwordControl.setValue('Password12.');
@@ -209,5 +205,4 @@ describe('ConfirmRestorePasswordComponent', () => {
       expect(component.passwordErrorMessageBackEnd).toBeNull();
     });
   });
-  
 });
