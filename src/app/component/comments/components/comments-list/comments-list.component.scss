@@ -88,6 +88,10 @@ $main-font: 'Open Sans', sans-serif;
   display: flex;
   flex-direction: column;
 
+  .comment-text {
+    word-wrap: break-word;
+  }
+
   .comment-edit-text {
     display: flex;
     flex-direction: column;
