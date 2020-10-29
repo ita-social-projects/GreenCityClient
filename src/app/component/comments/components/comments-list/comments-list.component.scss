@@ -42,6 +42,7 @@ $main-font: 'Open Sans', sans-serif;
   font-size: 12px;
   line-height: 16px;
   display: flex;
+  flex-direction: row-reverse;
   align-items: center;
 
   .comment-dot {
@@ -54,7 +55,6 @@ $main-font: 'Open Sans', sans-serif;
   }
 
   .comment-date-month {
-    margin: 0 0 0 8px;
     display: inline-block;
 
     .edited {
@@ -209,6 +209,18 @@ $main-font: 'Open Sans', sans-serif;
     img {
       max-width: 32px;
       max-height: 32px;
+    }
+  }
+
+  .comment-details {
+    flex-direction: column;
+
+    .comment-date-likes {
+      justify-content: left;
+
+      .comment-likes {
+        margin-left: 9px;
+      }
     }
   }
 }
