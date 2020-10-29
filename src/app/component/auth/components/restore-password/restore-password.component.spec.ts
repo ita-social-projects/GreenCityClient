@@ -10,10 +10,8 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
-import { UserOwnSignIn } from '@global-models/user-own-sign-in';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
 import { RestorePasswordService } from '@auth-service/restore-password.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { GoogleSignInService } from '@global-service/auth/google-sign-in.service';
@@ -24,13 +22,10 @@ describe('RestorePasswordComponent', () => {
   let localStorageServiceMock: LocalStorageService;
   let authServiceMock: AuthService;
   let googleServiceMock: GoogleSignInService;
-  let restorePasswordServiceMock: RestorePasswordService;
-  let sentEmailServiceMock: UserOwnSignInService;
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
   let matDialogMock: MatDialogRef<RestorePasswordComponent>;
   let promiseSocialUser;
   let userSuccessSignIn;
-  let userOwnSignIn;
 
   promiseSocialUser = new Promise<SocialUser>((resolve) => {
     const val = new SocialUser();
@@ -43,9 +38,6 @@ describe('RestorePasswordComponent', () => {
     val.authToken = '13';
     resolve(val);
   });
-
-  userOwnSignIn = new UserOwnSignIn();
-  userOwnSignIn.email = "test@mail.com"
 
   userSuccessSignIn = new UserSuccessSignIn();
   userSuccessSignIn.userId = '13';
@@ -66,9 +58,6 @@ describe('RestorePasswordComponent', () => {
 
   googleServiceMock = jasmine.createSpyObj('GoogleSignInService', ['signIn']);
   googleServiceMock.signIn = () => of(userSuccessSignIn);
-
-  restorePasswordServiceMock = jasmine.createSpyObj('RestorePasswordService', ['sendEmailForRestore']);
-  restorePasswordServiceMock.sendEmailForRestore = () => of(userOwnSignIn);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -165,13 +154,13 @@ describe('RestorePasswordComponent', () => {
       expect(routerSpy.navigate).toHaveBeenCalledWith(['/welcome']);
     }));
 
-    it('Test sendPasswords method', () => {
+    it('Test sendEmailForRestore method', () => {
       const spy = restorePasswordService.sendEmailForRestore = jasmine.createSpy('sendEmail').and.returnValue(Observable.of(mockFormData));
       restorePasswordService.sendEmailForRestore(mockFormData);
       expect(spy).toHaveBeenCalled();
     });
 
-    it('onSubmit should call UserOwnSecurityService', () => {
+    it('sentEmail should call sendEmailForRestore', () => {
       const spy = restorePasswordService.sendEmailForRestore = jasmine.createSpy('sendEmail').and.returnValue(Observable.of(mockFormData));
       component.sentEmail(mockFormData);
       expect(spy).toHaveBeenCalled();
