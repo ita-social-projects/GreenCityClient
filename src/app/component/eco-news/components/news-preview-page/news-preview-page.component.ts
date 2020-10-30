@@ -6,7 +6,7 @@ import { FormGroup } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subscription } from 'rxjs';
 import { ACTION_TOKEN } from '../create-edit-news/action.constants';
-import { ActionInterface } from '../create-edit-news/action.interface';
+import { ActionInterface } from '../../models/action.interface';
 
 @Component({
   selector: 'app-news-preview-page',
