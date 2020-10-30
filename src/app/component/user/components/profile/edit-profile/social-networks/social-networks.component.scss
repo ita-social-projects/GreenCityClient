@@ -44,6 +44,9 @@ ul {
     margin-bottom: 0;
 
     .link {
+      display: flex;
+      align-items: center;
+
       button {
         border: transparent;
         background-color: transparent;
@@ -52,7 +55,7 @@ ul {
         img {
           height: 26px;
           width: 26px;
-          margin-right: 16px;
+          margin-right: 14px;
         }
       }
 
@@ -74,6 +77,16 @@ ul {
         a {
           font-size: 14px;
           margin-right: 0;
+        }
+      }
+    }
+
+    li:last-child {
+      .link {
+        button {
+          img {
+            margin-right: 10px;
+          }
         }
       }
     }
