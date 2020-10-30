@@ -1,3 +1,5 @@
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { DragAndDropComponent } from '../../../shared/components/drag-and-drop/drag-and-drop.component';
 import { async, ComponentFixture, fakeAsync, flush, inject, TestBed, tick } from '@angular/core/testing';
@@ -24,7 +26,11 @@ describe('CreateEditNewsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CreateEditNewsComponent, PostNewsLoaderComponent, DragAndDropComponent],
+      declarations: [
+        CreateEditNewsComponent,
+        PostNewsLoaderComponent,
+        DragAndDropComponent,
+      ],
       imports: [
         TranslateModule.forRoot(),
         FormsModule,
@@ -33,7 +39,8 @@ describe('CreateEditNewsComponent', () => {
         RouterTestingModule,
         HttpClientModule,
         MatDialogModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        MatSnackBarModule
       ],
       providers: [
         CreateEcoNewsService,
@@ -41,7 +48,8 @@ describe('CreateEditNewsComponent', () => {
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: {} },
         { provide: ACTION_TOKEN, useValue: ACTION_CONFIG },
-      ],
+        MatSnackBarComponent
+      ]
     })
       .compileComponents();
   }));
