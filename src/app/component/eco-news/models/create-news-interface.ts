@@ -55,3 +55,10 @@ export interface FileHandle {
 export interface QueryParams {
   id: string;
 }
+
+export interface TextAreasHeight {
+  minTextAreaScrollHeight: number;
+  maxTextAreaScrollHeight: number;
+  minTextAreaHeight: string;
+  maxTextAreaHeight: string;
+}
