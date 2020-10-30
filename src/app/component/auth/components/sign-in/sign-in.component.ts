@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material';
@@ -11,8 +12,6 @@ import { SignInIcons } from 'src/app/image-pathes/sign-in-icons';
 import { UserOwnSignIn } from '@global-models/user-own-sign-in';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
-import { SignUpComponent } from '../sign-up/sign-up.component';
-import { RestorePasswordComponent } from '../restore-password/restore-password.component';
 
 @Component({
   selector: 'app-sign-in',
@@ -30,6 +29,10 @@ export class SignInComponent implements OnInit, OnDestroy {
   public emailErrorMessageBackEnd: string;
   public passwordErrorMessageBackEnd: string;
   public backEndError: string;
+  public signInForm: FormGroup;
+  public emailField: AbstractControl;
+  public passwordField: AbstractControl;
+  @Output() private pageName = new EventEmitter();
 
   constructor(
     public dialog: MatDialog,
@@ -46,6 +49,14 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.userOwnSignIn = new UserOwnSignIn();
     this.configDefaultErrorMessage();
     this.checkIfUserId();
+    // Initialization of reactive form
+    this.signInForm = new FormGroup({
+      email: new FormControl(null, [Validators.required, Validators.email]),
+      password: new FormControl(null, [Validators.required, Validators.minLength(8)])
+    });
+    // Get form fields to use it in the template
+    this.emailField = this.signInForm.get('email');
+    this.passwordField = this.signInForm.get('password');
   }
 
   private checkIfUserId(): void {
@@ -63,9 +74,15 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.backEndError = null;
   }
 
-  public signIn(userOwnSignIn: UserOwnSignIn): void {
+  public signIn(): void {
     this.loadingAnim = true;
-    this.userOwnSignInService.signIn(userOwnSignIn).subscribe(
+
+    const { email, password } = this.signInForm.value;
+
+    this.userOwnSignIn.email = email;
+    this.userOwnSignIn.password = password;
+
+    this.userOwnSignInService.signIn(this.userOwnSignIn).subscribe(
       (data: UserSuccessSignIn) => {
         this.onSignInSuccess(data);
       },
@@ -93,18 +110,11 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.localStorageService.setFirstName(data.name);
     this.localStorageService.setFirstSignIn();
     this.userOwnAuthService.getDataFromLocalStorage();
-    this.router.navigate(['profile', data.userId])
-      .then(success => console.log('redirect has succeeded ' + success))
-      .catch(fail => console.log('redirect has failed ' + fail));
+    this.router.navigate(['profile', data.userId]);
   }
 
-  public onOpenForgotWindow(): void {
-    this.dialog.open(RestorePasswordComponent, {
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      panelClass: ['custom-dialog-container', 'transparent'],
-    });
-    this.matDialogRef.close();
+  public onOpenModalWindow(windowPath: string): void {
+    this.pageName.emit(windowPath);
   }
 
   private onSignInFailure(errors: HttpErrorResponse): void {
@@ -136,21 +146,7 @@ export class SignInComponent implements OnInit, OnDestroy {
       this.hideShowPasswordImage.hidePassword : this.hideShowPasswordImage.showPassword;
   }
 
-  public closeSignInWindow(): void {
-    this.matDialogRef.close();
-  }
-
-  public signUpOpenWindow(): void {
-    this.matDialogRef.close();
-    this.dialog.open(SignUpComponent, {
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      panelClass: 'custom-dialog-container',
-    });
-  }
-
   ngOnDestroy() {
     this.userIdSubscription.unsubscribe();
   }
 }
-

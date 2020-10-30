@@ -256,7 +256,7 @@
         "title": "Welcome back!",
         "fill-form": "Please enter your details to sign in",
         "email": "Email",
-        "email-is-required": "Email is required",
+        "field-is-required": "This field is required",
         "email-must-be-at-least-1-characters-long": "Email must be at least 1 characters long",
         "this-is-not-email": "Please check that your e-mail address is indicated correctly",
         "password": "Password",
@@ -472,12 +472,16 @@
       "picture-tooltip": "Download PNG or JPG only. File size should be less than 10MB",
       "change-photo": "Do you want to change your profile picture?",
       "would-you-like": "Would you like to save changes?",
+      "notification": "Are you sure you want to delete the photo?",
       "btn":{
         "cancel": "Cancel",
         "save": "Save",
         "new-photo": "Upload new photo",
         "change-photo": "Change photo",
-        "save-photo": "Save photo"
+        "save-photo": "Save photo",
+        "delete": "Delete photo",
+        "continue": "Continue editing",
+        "yes-delete": "Yes, delete"
       }
     },
     "footer": {

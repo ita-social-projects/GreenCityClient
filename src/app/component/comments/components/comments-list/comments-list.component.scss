@@ -88,6 +88,10 @@ $main-font: 'Open Sans', sans-serif;
   display: flex;
   flex-direction: column;
 
+  .comment-text {
+    word-wrap: break-word;
+  }
+
   .comment-edit-text {
     display: flex;
     flex-direction: column;
@@ -116,6 +120,11 @@ $main-font: 'Open Sans', sans-serif;
       height: 40px;
       margin-right: 8px;
       cursor: pointer;
+
+      .btn-img {
+        min-width: 12px;
+        max-height: 12px;
+      }
     }
 
     .edit-text-input {
@@ -158,6 +167,7 @@ $main-font: 'Open Sans', sans-serif;
 
 .comments-elements {
   display: flex;
+  padding-left: 55px;
 
   .btn-wrapper {
     display: flex;
@@ -187,6 +197,19 @@ $main-font: 'Open Sans', sans-serif;
 @media screen and (max-width: 768px) {
   .comment-body-wrapper {
     width: 100%;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .comments-elements {
+    padding-left: 25px;
+  }
+
+  .comment-avatar {
+    img {
+      max-width: 32px;
+      max-height: 32px;
+    }
   }
 }
 

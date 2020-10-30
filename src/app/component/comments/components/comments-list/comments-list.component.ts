@@ -40,6 +40,7 @@ export class CommentsListComponent implements OnInit {
     element.isEdit = false;
     element.text = this.content.value;
     element.status = 'EDITED';
+    element.modifiedDate = String(Date.now());
   }
 
   public cancelEditedComment(element: CommentsDTO): void {

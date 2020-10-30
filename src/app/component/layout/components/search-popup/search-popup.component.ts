@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { Subject, Subscription } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { filter } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
 import { negate, isNil } from 'lodash';
 
 import { SearchService } from '@global-service/search/search.service';
@@ -25,9 +25,9 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   public isNewsSearchFound: boolean;
   public isSearchClicked = false;
   public itemsFound: number;
-  public searchSubscription: Subscription;
   public searchModalSubscription: Subscription;
   public searchInput = new FormControl('');
+
 
   constructor(public search: SearchService,
               public dialog: MatDialog,
@@ -64,6 +64,11 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
     });
   }
 
+  public getAllResults(category: string): void {
+    this.search.getAllResults(this.searchInput.value, category);
+    this.closeSearch();
+  }
+
   private getSearchData(data: SearchModel): void {
     this.getNewsAndTips(data.ecoNews, data.tipsAndTricks);
     this.itemsFound = data.countOfResults;
@@ -81,6 +86,7 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   }
 
   public closeSearch(): void {
+    console.log(this.searchInput.value);
     this.search.closeSearchSignal();
     this.isSearchClicked = false;
     this.resetData();
@@ -95,7 +101,6 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.searchSubscription.unsubscribe();
     this.searchModalSubscription.unsubscribe();
   }
 }

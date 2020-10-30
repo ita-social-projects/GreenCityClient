@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { LocalStorageService } from '../localstorage/local-storage.service';
 import { MatDialog } from '@angular/material';
 import { filter } from 'rxjs/operators';
-import { SignInComponent } from '../../component/auth/components/sign-in/sign-in.component';
+import { AuthModalComponent } from '../../component/auth/components/auth-modal/auth-modal.component';
 
 @Injectable({
   providedIn: 'root'
@@ -33,10 +33,13 @@ export class AuthPageGuardService implements CanActivate {
   }
 
   private openSingInWindow(): void {
-    this.dialog.open(SignInComponent, {
+    this.dialog.open(AuthModalComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
       panelClass: 'custom-dialog-container',
+      data: {
+        popUpName: 'sign-in'
+      },
     }).afterClosed()
       .pipe(
         filter(Boolean)
