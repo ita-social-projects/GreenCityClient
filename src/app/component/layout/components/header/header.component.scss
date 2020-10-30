@@ -307,7 +307,7 @@ $screen-320: " screen and (max-width : 320px)";
       justify-content: center;
       border: 1px solid #13aa57;
       color: #13aa57;
-      width: 91px;
+      min-width: 91px;
       height: 32px;
 
       span {
