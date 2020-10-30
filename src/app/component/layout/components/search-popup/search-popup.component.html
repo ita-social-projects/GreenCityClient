@@ -31,6 +31,11 @@
                                [searchModel]="element"
                                (closeSearch)="closeSearch()"></app-search-item>
             </div>
+            <a [routerLink]="['/search']"
+                (click)="getAllResults('econews')"
+                class="all-results-link">
+                {{ "search.search-popup.all-results" | translate }}
+            </a>
           </div>
 
           <div class="content-tips"
@@ -46,13 +51,13 @@
                                [searchModel]="element"
                                (closeSearch)="closeSearch()"></app-search-item>
             </div>
+            <a [routerLink]="['/search']"
+               (click)="getAllResults('tipsandtricks')"
+               class="all-results-link">
+               {{ "search.search-popup.all-results" | translate }}
+            </a>
           </div>
 
-          <a [routerLink]="['/search']"
-             (click)="closeSearch()"
-             class="all-results-link">
-             {{ "search.search-popup.all-results" | translate }}
-          </a>
 
           <app-search-not-found
             *ngIf="(isNewsSearchFound === false && isTipsSearchFound === false)"
