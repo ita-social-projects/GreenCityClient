@@ -26,6 +26,8 @@ export class DragAndDropComponent implements OnInit {
   }
 
   public stopCropping(): FileHandle[] {
+    this.createEcoNewsService.files = this.files;
+
     this.files.map(item => item.url = this.croppedImage);
 
     this.isCropper = false;
@@ -41,22 +43,18 @@ export class DragAndDropComponent implements OnInit {
 
   public patchImage(): void {
     console.log(this.formData);
-    // if (this.createEcoNewsService.isBackToEditing) {
-    //   this.isCropper = false;
-    //   this.files = [{file: name, url: this.formData.value.image}];
-    //   console.log(this.files);
-    // }
+    if (this.createEcoNewsService.isBackToEditing) {
+      this.isCropper = false;
+      this.files = [{file: name, url: this.formData.value.image}];
+    }
   }
 
   public imageCropped(event: ImageCroppedEvent): void {
-    console.log(event);
     this.croppedImage = event.base64;
   }
 
   public filesDropped(files: FileHandle[]): void {
     this.files = files;
-    console.log(files);
-    this.createEcoNewsService.files = files;
     this.isCropper = true;
     this.showWarning();
     this.createEcoNewsService.isImageValid = this.isWarning;

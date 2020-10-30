@@ -226,6 +226,10 @@ textarea.ng-invalid.ng-touched + p {
   form .textarea-wrapper textarea {
     width: 100%;
   }
+
+  .left-form-column textarea {
+    font-size: 15px;
+  }
 }
 
 @media screen and (max-width: 768px) {

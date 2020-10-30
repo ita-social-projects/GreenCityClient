@@ -58,7 +58,6 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
 
   private getPreviewData(): void {
     this.previewItem = this.createEcoNewsService.getFormData();
-    console.log(this.previewItem);
   }
 
   public postNewsItem(): void {
@@ -77,7 +76,6 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
       id: this.newsId
     };
 
-    console.log('edit', dataToEdit);
     this.createEcoNewsService.editNews(dataToEdit).subscribe(
       () => {
         this.isPosting = false;

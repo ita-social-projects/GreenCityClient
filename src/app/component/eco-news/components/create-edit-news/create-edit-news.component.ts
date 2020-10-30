@@ -1,6 +1,6 @@
 import { QueryParams } from './../../models/create-news-interface';
 import { EcoNewsService } from './../../services/eco-news.service';
-import { Subscription, Subject, ReplaySubject, Observable } from 'rxjs';
+import { Subscription, Subject, ReplaySubject, Observable, throwError } from 'rxjs';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
@@ -12,7 +12,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { CancelPopUpComponent } from '@shared/components';
 import { ACTION_TOKEN } from './action.constants';
 import { ActionInterface } from './action.interface';
-import { takeUntil, filter } from 'rxjs/operators';
+import { takeUntil, filter, catchError } from 'rxjs/operators';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-create-edit-news',
@@ -59,7 +60,8 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
               private ecoNewsService: EcoNewsService,
               private route: ActivatedRoute,
               private dialog: MatDialog,
-              @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface }) { }
+              @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface },
+              private snackBar: MatSnackBarComponent) { }
 
   ngOnInit() {
     this.getNewsIdFromQueryParams();
@@ -92,7 +94,6 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
       }
     }
     this.onSourceChange();
-    console.log(this.createEcoNewsService.files);
   }
 
   public setDataForEdit(): void {
@@ -133,6 +134,13 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
     this.isPosting = true;
     this.createEcoNewsService
       .sendFormData(this.form)
+            .pipe(
+        catchError((error) => {
+          this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.', 'X', 'red-snackbar');
+
+          return throwError(error);
+        })
+      )
       .subscribe(
         () => {
           this.isPosting = false;
@@ -147,13 +155,20 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
       id: this.newsId
     };
 
-    console.log('edit', dataToEdit);
-    this.createEcoNewsService.editNews(dataToEdit).subscribe(
-      () => {
-        this.isPosting = false;
-        this.router.navigate(['/news']);
-      }
-    );
+    this.createEcoNewsService.editNews(dataToEdit)
+      .pipe(
+        catchError((error) => {
+          this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.', 'X', 'red-snackbar');
+
+          return throwError(error);
+        })
+      )
+      .subscribe(
+        () => {
+          this.isPosting = false;
+          this.router.navigate(['/news']);
+        }
+      );
   }
 
   public fetchNewsItemToEdit(): void {
@@ -163,7 +178,6 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy)
       )
       .subscribe((item: EcoNewsModel) => {
-        console.log(item);
         this.form = this.createEditNewsFormBuilder.getEditForm(item);
         this.setActiveFilters(item);
         this.onSourceChange();
@@ -252,10 +266,11 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
         currentPage: 'eco news'
       }
     });
+    this.createEcoNewsService.files = [];
   }
 
   ngOnDestroy() {
-    this.createEcoNewsService.files = [];
+    // this.createEcoNewsService.files = [];
     this.destroy.next(null);
     this.destroy.complete();
   }
