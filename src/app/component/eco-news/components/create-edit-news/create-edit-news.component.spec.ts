@@ -6,14 +6,15 @@ import { async, ComponentFixture, fakeAsync, flush, inject, TestBed, tick } from
 import { PostNewsLoaderComponent } from '../post-news-loader/post-news-loader.component';
 import { CreateEditNewsComponent } from './create-edit-news.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ImageCropperModule } from 'ngx-image-cropper';
-import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { ACTION_CONFIG, ACTION_TOKEN } from './action.constants';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
+import { RouterTestingModule } from '@angular/router/testing';
+import { FormBuilder } from '@angular/forms';
 
 describe('CreateEditNewsComponent', () => {
   let component: CreateEditNewsComponent;
@@ -23,6 +24,22 @@ describe('CreateEditNewsComponent', () => {
   let createEcoNewsService: CreateEcoNewsService;
   let newsService: EcoNewsService;
   let httpClientSpy: { get: jasmine.Spy };
+  const validNews = {
+    title: 'newstitle',
+    content: 'contentcontentcontentcontentcontentcontentcontent',
+    tags: ['News'],
+    source: '',
+    image: ''
+  };
+  const inValidNews = {
+    title: 'newstitle',
+    content: 'content',
+    tags: ['News'],
+    source: '',
+    image: ''
+  };
+  const url = `https://greencity.azurewebsites.net/econews`;
+
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -36,11 +53,11 @@ describe('CreateEditNewsComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         ImageCropperModule,
-        RouterTestingModule,
         HttpClientModule,
         MatDialogModule,
         HttpClientTestingModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        RouterTestingModule
       ],
       providers: [
         CreateEcoNewsService,
@@ -48,7 +65,8 @@ describe('CreateEditNewsComponent', () => {
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: {} },
         { provide: ACTION_TOKEN, useValue: ACTION_CONFIG },
-        MatSnackBarComponent
+        MatSnackBarComponent,
+        FormBuilder
       ]
     })
       .compileComponents();
@@ -112,13 +130,12 @@ describe('CreateEditNewsComponent', () => {
       text: 'hellohellohellohellohellohellohellohellohellohello',
       title: 'hello'
     };
-    const url = `https://greencity.azurewebsites.net/econews/${id}`;
 
     newsService.getEcoNewsById(id).subscribe((data) => {
       expect(data).toEqual(expectedData);
     });
 
-    const req = http.expectOne(url);
+    const req = http.expectOne(url + `/${id}`);
     expect(req.request.method).toEqual('GET');
     req.flush(expectedData);
   });
@@ -151,12 +168,11 @@ describe('CreateEditNewsComponent', () => {
 
   it('should call setActiveFilters method after get request', () => {
     const id = '1';
-    const url = `https://greencity.azurewebsites.net/econews/${id}`;
     newsService.getEcoNewsById(id).subscribe((data) => {
       expect(component.setActiveFilters).toHaveBeenCalledWith(data);
     });
 
-    const req = http.expectOne(url);
+    const req = http.expectOne(url + `/${id}`);
     expect(req.request.method).toEqual('GET');
   });
 
@@ -198,6 +214,57 @@ describe('CreateEditNewsComponent', () => {
     tick(2000);
     expect(component.isFilterValidation).toBe(true);
     flush();
+  }));
+
+  it('Should open CancelPopup', () => {
+    spyOn(component, 'openCancelPopup');
+
+    const nativeElement = fixture.nativeElement;
+    const button = nativeElement.querySelector('.cancel');
+    button.dispatchEvent(new Event('click'));
+
+    fixture.detectChanges();
+
+    expect(component.openCancelPopup).toHaveBeenCalled();
+  });
+
+  function updateForm(news) {
+    component.form.controls.title.setValue(news.title);
+    component.form.controls.content.setValue(news.content);
+    (component.form.controls.tags as FormArray).push(new FormControl(news.tags[0]));
+    component.form.controls.image.setValue(news.image);
+    component.form.controls.source.setValue(news.source);
+  }
+
+  it('isValid should be false when form is invalid', fakeAsync(() => {
+    updateForm(inValidNews);
+    expect(component.form.valid).toBeFalsy();
+  }));
+
+  it('isValid should be true when form is valid', fakeAsync(() => {
+    updateForm(validNews);
+    expect(component.form.valid).toBeTruthy();
+  }));
+
+  it('should update form', fakeAsync(() => {
+
+    updateForm(validNews);
+    component.onSubmit();
+
+    const httpRequest = http.expectOne(url);
+    expect(httpRequest.request.method).toBe('POST');
+
+    expect(component.form.value).toEqual(validNews);
+  }));
+
+  it('should send POST request', fakeAsync(() => {
+
+    updateForm(validNews);
+    component.onSubmit();
+
+    const httpRequest = http.expectOne(url);
+    expect(httpRequest.request.method).toBe('POST');
+
   }));
 
 });

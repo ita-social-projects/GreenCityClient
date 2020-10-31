@@ -35,8 +35,8 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
   public attributes: ActionInterface;
   public filters: Array<FilterModel>;
   public newsId: string;
-  private destroy: ReplaySubject<any> = new ReplaySubject<any>(1);
   public formData: FormGroup;
+  private destroy: ReplaySubject<any> = new ReplaySubject<any>(1);
   public onSubmit(): void {}
 
 
