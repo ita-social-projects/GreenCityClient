@@ -113,8 +113,9 @@
     </div>
     <button type="submit"
             class="primary-global-button"
-            [disabled]="!signUpForm.valid ||
-            (inputPassword.value !== repeatPassword.value)">
+            [disabled]="!signUpForm.valid 
+            || (inputPassword.value !== repeatPassword.value) 
+            || emailErrorMessageBackEnd">
       <span *ngIf="loadingAnim"
             class="spinner-border spinner-border-sm"
             role="status"
@@ -134,6 +135,7 @@
     {{ 'user.auth.sign-up.haveyou-account' | translate }}
     <a class="exist-sign-in"
        tabindex="0"
+       (keyup.enter)="openSignInWindow()"
        (click)="openSignInWindow()">
       {{ 'user.auth.sign-up.enter' | translate }}
     </a>

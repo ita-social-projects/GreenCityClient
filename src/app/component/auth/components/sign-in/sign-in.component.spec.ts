@@ -10,7 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { TranslateModule } from '@ngx-translate/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, throwError } from 'rxjs';
 
 import { GoogleSignInService } from '@global-service/auth/google-sign-in.service';
 import { UserOwnSignIn } from '@global-models/user-own-sign-in';
@@ -150,8 +150,41 @@ describe('SignIn component', () => {
       expect(serviceSpy).toHaveBeenCalled();
     }));
 
+    it('Should call sinIn method with errors', async(inject([AuthService, GoogleSignInService],
+      (service: AuthService, service2: GoogleSignInService) => {
+      const promiseErrors = new Promise<SocialUser>((resolve, reject) => {
+        const errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
+        reject(errors);
+      });
+      const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseErrors);
+      component.signInWithGoogle();
+      fixture.detectChanges();
+      expect(serviceSpy).toHaveBeenCalled();
+    })));
+
+    it('Should call onSignInFailure with errors', inject([AuthService, GoogleSignInService],
+      (service: AuthService, service2: GoogleSignInService) => {
+      const errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
+      const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseSocialUser).and.callThrough();
+      spyOn(service2, 'signIn').and.returnValue(throwError(errors));
+
+      // @ts-ignore
+      component.signInWithGoogle();
+      fixture.detectChanges();
+      expect(serviceSpy).toHaveBeenCalled();
+    }));
+
     it('Test sign in method', async(inject([UserOwnSignInService], (service: UserOwnSignInService) => {
       spyOn(service, 'signIn').and.returnValue(of(userSuccessSignIn));
+      component.signIn();
+
+      fixture.detectChanges();
+      expect(service.signIn).toHaveBeenCalled();
+    })));
+
+    it('Test sign in method with errors', async(inject([UserOwnSignInService], (service: UserOwnSignInService) => {
+      const errors = new HttpErrorResponse({ error: [{ name: 'name', message: 'Ups' }] });
+      spyOn(service, 'signIn').and.returnValue(throwError(errors));
       component.signIn();
 
       fixture.detectChanges();
@@ -210,6 +243,12 @@ describe('SignIn component', () => {
       expect(component.backEndError).toBeNull();
       expect(component.passwordErrorMessageBackEnd).toBeNull();
       expect(component.emailErrorMessageBackEnd).toBeNull();
+    });
+
+    it('onSignInFailure should set errors', () => {
+      // @ts-ignore
+      const result = component.onSignInFailure('User cancelled login or did not fully authorize');
+      expect(result).toBe();
     });
   });
 

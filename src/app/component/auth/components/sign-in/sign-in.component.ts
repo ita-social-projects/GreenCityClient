@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
-import { Subject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { GoogleSignInService } from '@auth-service/google-sign-in.service';
 import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
 import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
@@ -89,7 +89,8 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   public signInWithGoogle(): void {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(data => {
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID)
+    .then(data => {
       this.googleService.signIn(data.idToken)
         .pipe(
           takeUntil(this.destroy)
@@ -97,11 +98,9 @@ export class SignInComponent implements OnInit, OnDestroy {
         .subscribe(
           (signInData: UserSuccessSignIn) => {
           this.onSignInWithGoogleSuccess(signInData);
-        },
-          (errors: HttpErrorResponse) => {
-          this.onSignInFailure(errors);
         });
-    });
+      })
+    .catch((errors: HttpErrorResponse) => this.onSignInFailure(errors));
   }
 
   public onOpenModalWindow(windowPath: string): void {

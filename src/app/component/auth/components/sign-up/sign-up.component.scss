@@ -23,6 +23,7 @@ $borderColor:  #878787;
 
 .subtitle-text {
   font-size: 16px;
+  font-family: $main-font;
   line-height: 16px;
   color: $secondaryTextColor;
 }
@@ -35,6 +36,7 @@ $borderColor:  #878787;
   .content-label {
     margin: 21px 0 4px;
     font-size: 12px;
+    font-family: $main-font;
     line-height: 14px;
     color: $secondaryTextColor;
   }

@@ -1,9 +1,11 @@
-import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, Pipe } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { authImages } from 'src/app/image-pathes/auth-images';
 import { ConfirmPasswordValidator, ValidatorRegExp } from './sign-up.validator';
 import { GoogleSignInService } from '@global-service/auth/google-sign-in.service';
@@ -12,8 +14,6 @@ import { UserOwnSignInService } from '@global-service/auth/user-own-sign-in.serv
 import { UserOwnSignUpService } from '@global-service/auth/user-own-sign-up.service';
 import { UserOwnSignUp } from '@global-models/user-own-sign-up';
 import { UserSuccessSignIn, SuccessSignUpDto } from '@global-models/user-success-sign-in';
-import { Subject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sign-up',
@@ -148,7 +148,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.loadingAnim = false;
     this.openSignUpPopup();
     this.closeSignUpWindow();
-    this.receiveUserId(data.userId);
   }
 
   private openSignUpPopup(): void {
@@ -162,13 +161,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
   private closeSignUpWindow(): void {
     this.matDialogRef.close();
-  }
-
-  private receiveUserId(id: number): void {
-    setTimeout(() => {
-      this.router.navigate(['profile', id]);
-      this.dialog.closeAll();
-    }, 5000);
   }
 
   private onSubmitError(errors: HttpErrorResponse): void {
