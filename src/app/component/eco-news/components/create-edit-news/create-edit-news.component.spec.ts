@@ -18,6 +18,7 @@ import { FormBuilder } from '@angular/forms';
 import { EcoNewsComponent } from '../../eco-news.component';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler/src/core';
 
 describe('CreateEditNewsComponent', () => {
   let component: CreateEditNewsComponent;
@@ -57,6 +58,7 @@ describe('CreateEditNewsComponent', () => {
       ],
       imports: [
         TranslateModule.forRoot(),
+        RouterTestingModule.withRoutes([]),
         FormsModule,
         ReactiveFormsModule,
         ImageCropperModule,
@@ -74,7 +76,8 @@ describe('CreateEditNewsComponent', () => {
         MatSnackBarComponent,
         FormBuilder,
         { provide: Router, useValue: [] },
-      ]
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
       .compileComponents();
   }));
