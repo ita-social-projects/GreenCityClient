@@ -8,7 +8,7 @@ import { CreateEditNewsComponent } from './create-edit-news.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormArray, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ImageCropperModule } from 'ngx-image-cropper';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpRequest } from '@angular/common/http';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { ACTION_CONFIG, ACTION_TOKEN } from './action.constants';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
@@ -17,8 +17,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { FormBuilder } from '@angular/forms';
 import { EcoNewsComponent } from '../../eco-news.component';
 import { Router } from '@angular/router';
-import { of } from 'rxjs';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler/src/core';
+import { Observable, of } from 'rxjs';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('CreateEditNewsComponent', () => {
   let component: CreateEditNewsComponent;
@@ -44,9 +44,8 @@ describe('CreateEditNewsComponent', () => {
   };
   const url = `https://greencity.azurewebsites.net/econews`;
   let router: Router;
-  const mockUserService = jasmine.createSpyObj('createEcoNewsService', ['sendFormData']);
-  mockUserService.isBackToEditing = true;
-  const routerSpy = { navigate: jasmine.createSpy('navigate') };
+  const mockCreateEcoNewsService = jasmine.createSpyObj('createEcoNewsService', ['getNewsId', 'sendFormData']);
+  // mockCreateEcoNewsService.isBackToEditing = true;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -66,18 +65,19 @@ describe('CreateEditNewsComponent', () => {
         MatDialogModule,
         HttpClientTestingModule,
         MatSnackBarModule,
+        RouterTestingModule
       ],
       providers: [
-        CreateEcoNewsService,
+        { provide: CreateEcoNewsService, useValue: mockCreateEcoNewsService },
         EcoNewsService,
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: {} },
         { provide: ACTION_TOKEN, useValue: ACTION_CONFIG },
         MatSnackBarComponent,
         FormBuilder,
-        { provide: Router, useValue: [] },
+        // { provide: Router, useValue: [] },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      // schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     })
       .compileComponents();
   }));
@@ -95,9 +95,9 @@ describe('CreateEditNewsComponent', () => {
     spyOn(router, 'navigate');
   });
 
-  it('should go news ', async(() => {
+  xit('should go news ', async(() => {
     fixture.detectChanges();
-    mockUserService.sendFormData.and.returnValue(of({}));
+    mockCreateEcoNewsService.sendFormData.and.returnValue(of({}));
     component.createNews();
     fixture.ngZone.run(() => {
     expect(router.navigate).toHaveBeenCalledWith(['news']);
@@ -267,27 +267,6 @@ describe('CreateEditNewsComponent', () => {
     expect(component.form.valid).toBeTruthy();
   }));
 
-  it('should update form', fakeAsync(() => {
-
-    updateForm(validNews);
-    component.onSubmit();
-
-    const httpRequest = http.expectOne(url);
-    expect(httpRequest.request.method).toBe('POST');
-
-    expect(component.form.value).toEqual(validNews);
-  }));
-
-  it('should send POST request', fakeAsync(() => {
-
-    updateForm(validNews);
-    component.onSubmit();
-
-    const httpRequest = http.expectOne(url);
-    expect(httpRequest.request.method).toBe('POST');
-
-  }));
-
   it('should get news id from CreateEcoNewsService', () => {
     const id = '1';
     const valueServiceSpy = jasmine.createSpyObj('CreateEcoNewsService', {getNewsId: '1'});
@@ -323,7 +302,14 @@ describe('CreateEditNewsComponent', () => {
     expect(component.tags().length).toBe(0);
   });
 
-  fit('should ', () => {
+  it('should call initPageforCreateOrEdit after init', () => {
+    const spy = spyOn(component, 'initPageforCreateOrEdit');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  xit('should make POST request', () => {
+    const id = '4705';
     const expectedData = {
       author: { id: 1601, name: 'Hryshko' },
       creationDate: '2020-10-26T16:43:29.336931Z',
@@ -334,11 +320,20 @@ describe('CreateEditNewsComponent', () => {
       text: 'hellohellohellohellohellohellohellohellohellohello',
       title: 'hello'
     };
-    const id = '1';
-    const valueServiceSpy = jasmine.createSpyObj('CreateEcoNewsService', {getFormData: expectedData});
-    component.ngOnInit();
-    component.formData = valueServiceSpy.getFormData();
-    fixture.detectChanges();
-    expect(spyOn(component, 'setActiveFilters')).toHaveBeenCalledWith(expectedData);
+
+    const form = {
+      id: 4705,
+      imagePath: 'https://storage.cloud.google.com/staging.greencity-c5a3a.appspot.com/35fce8fe-7949-48b8-bf8c-0d9a768ecb42',
+      source: '',
+      tags: ['Events', 'Education'],
+      text: 'hellohellohellohellohellohellohellohellohellohello',
+      title: 'hello'
+    };
+
+    createEcoNewsService.sendFormData(form);
+
+    const req = http.expectOne(url);
+    expect(req.request.method).toEqual('POST');
+    req.flush(expectedData);
   });
 });

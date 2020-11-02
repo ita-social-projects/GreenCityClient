@@ -10,8 +10,8 @@ import { FileHandle } from '../models/create-news-interface';
   providedIn: 'root'
 })
 export class CreateEcoNewsService {
-  private newsId: string;
-  private currentForm: FormGroup;
+  public newsId: string;
+  public currentForm: FormGroup;
   private url: string = environment.backendLink;
   private accessToken: string = localStorage.getItem('accessToken');
   public files: FileHandle[] = [];

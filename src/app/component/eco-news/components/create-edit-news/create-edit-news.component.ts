@@ -119,7 +119,7 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
     this.isPosting = true;
     this.createEcoNewsService
       .sendFormData(this.form)
-            .pipe(
+      .pipe(
         catchError((error) => {
           this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.', 'X', 'red-snackbar');
 
