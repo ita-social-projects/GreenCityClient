@@ -1,8 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { TestBed, inject, async } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-
 import { CreateEcoNewsService } from './create-eco-news.service';
 
 describe('CreateEcoNewsService', () => {
@@ -28,7 +26,6 @@ describe('CreateEcoNewsService', () => {
     service = TestBed.get(CreateEcoNewsService);
     httpTestingController = TestBed.get(HttpTestingController);
     service.files[0] = {file: null, url: 'http://someimage'};
-
   });
 
   afterEach(() => {
@@ -67,16 +64,13 @@ describe('CreateEcoNewsService', () => {
   });
 
   it('should make POST request', () => {
-
     service.sendFormData(form)
       .subscribe(newsData => {
         expect(newsData.title).toEqual('mock news');
       });
 
     const req = httpTestingController.expectOne('https://greencity.azurewebsites.net/econews');
-
     expect(req.request.method).toEqual('POST');
-
     req.flush(form.value);
   });
 
@@ -88,10 +82,7 @@ describe('CreateEcoNewsService', () => {
       });
 
     const req = httpTestingController.expectOne('https://greencity.azurewebsites.net/econews/update');
-
     expect(req.request.method).toEqual('PUT');
-
     req.flush(form.value);
   });
-
 });
