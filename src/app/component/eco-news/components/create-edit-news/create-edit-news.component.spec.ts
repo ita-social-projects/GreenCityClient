@@ -2,7 +2,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { DragAndDropComponent } from '../../../shared/components/drag-and-drop/drag-and-drop.component';
-import { async, ComponentFixture, fakeAsync, flush, inject, TestBed, tick } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, flush, inject, TestBed, tick, getTestBed } from '@angular/core/testing';
 import { PostNewsLoaderComponent } from '../post-news-loader/post-news-loader.component';
 import { CreateEditNewsComponent } from './create-edit-news.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -15,6 +15,9 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormBuilder } from '@angular/forms';
+import { EcoNewsComponent } from '../../eco-news.component';
+import { Router } from '@angular/router';
+import { of } from 'rxjs';
 
 describe('CreateEditNewsComponent', () => {
   let component: CreateEditNewsComponent;
@@ -39,7 +42,10 @@ describe('CreateEditNewsComponent', () => {
     image: ''
   };
   const url = `https://greencity.azurewebsites.net/econews`;
-
+  let router: Router;
+  const mockUserService = jasmine.createSpyObj('createEcoNewsService', ['sendFormData']);
+  mockUserService.isBackToEditing = true;
+  const routerSpy = { navigate: jasmine.createSpy('navigate') };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -47,6 +53,7 @@ describe('CreateEditNewsComponent', () => {
         CreateEditNewsComponent,
         PostNewsLoaderComponent,
         DragAndDropComponent,
+        EcoNewsComponent
       ],
       imports: [
         TranslateModule.forRoot(),
@@ -57,7 +64,6 @@ describe('CreateEditNewsComponent', () => {
         MatDialogModule,
         HttpClientTestingModule,
         MatSnackBarModule,
-        RouterTestingModule
       ],
       providers: [
         CreateEcoNewsService,
@@ -66,7 +72,8 @@ describe('CreateEditNewsComponent', () => {
         { provide: MatDialogRef, useValue: {} },
         { provide: ACTION_TOKEN, useValue: ACTION_CONFIG },
         MatSnackBarComponent,
-        FormBuilder
+        FormBuilder,
+        { provide: Router, useValue: [] },
       ]
     })
       .compileComponents();
@@ -81,8 +88,18 @@ describe('CreateEditNewsComponent', () => {
     http = TestBed.get(HttpTestingController);
     httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
     spyOn(component, 'toggleIsActive');
-
+    router = TestBed.get(Router);
+    spyOn(router, 'navigate');
   });
+
+  it('should go news ', async(() => {
+    fixture.detectChanges();
+    mockUserService.sendFormData.and.returnValue(of({}));
+    component.createNews();
+    fixture.ngZone.run(() => {
+    expect(router.navigate).toHaveBeenCalledWith(['news']);
+    });
+  }));
 
   afterEach(() => {
     http.verify();
@@ -214,6 +231,7 @@ describe('CreateEditNewsComponent', () => {
     tick(2000);
     expect(component.isFilterValidation).toBe(true);
     flush();
+    expect(component.tags().length).toBe(3);
   }));
 
   it('Should open CancelPopup', () => {
@@ -267,4 +285,57 @@ describe('CreateEditNewsComponent', () => {
 
   }));
 
+  it('should get news id from CreateEcoNewsService', () => {
+    const id = '1';
+    const valueServiceSpy = jasmine.createSpyObj('CreateEcoNewsService', {getNewsId: '1'});
+    component.ngOnInit();
+    component.newsId = valueServiceSpy.getNewsId();
+    fixture.detectChanges();
+    expect(component.newsId).toBe(id);
+  });
+
+  it('should set isArrayEmpty to false', () => {
+    const expectedData = {
+      author: { id: 1601, name: 'Hryshko' },
+      creationDate: '2020-10-26T16:43:29.336931Z',
+      id: 4705,
+      imagePath: 'https://storage.cloud.google.com/staging.greencity-c5a3a.appspot.com/35fce8fe-7949-48b8-bf8c-0d9a768ecb42',
+      source: '',
+      tags: ['Events', 'Education'],
+      text: 'hellohellohellohellohellohellohellohellohellohello',
+      title: 'hello'
+    };
+    component.setActiveFilters(expectedData);
+    expect(component.isArrayEmpty).toBeFalsy();
+  });
+
+  it('should add filters', () => {
+    const activeFilter = { name: 'News', isActive: false };
+    const notActiveFilter = { name: 'News', isActive: true };
+    component.addFilters(activeFilter);
+    expect(component.isArrayEmpty).toBeFalsy();
+    expect(component.tags().length).toBe(1);
+
+    component.removeFilters(notActiveFilter);
+    expect(component.tags().length).toBe(0);
+  });
+
+  fit('should ', () => {
+    const expectedData = {
+      author: { id: 1601, name: 'Hryshko' },
+      creationDate: '2020-10-26T16:43:29.336931Z',
+      id: 4705,
+      imagePath: 'https://storage.cloud.google.com/staging.greencity-c5a3a.appspot.com/35fce8fe-7949-48b8-bf8c-0d9a768ecb42',
+      source: '',
+      tags: ['Events', 'Education'],
+      text: 'hellohellohellohellohellohellohellohellohellohello',
+      title: 'hello'
+    };
+    const id = '1';
+    const valueServiceSpy = jasmine.createSpyObj('CreateEcoNewsService', {getFormData: expectedData});
+    component.ngOnInit();
+    component.formData = valueServiceSpy.getFormData();
+    fixture.detectChanges();
+    expect(spyOn(component, 'setActiveFilters')).toHaveBeenCalledWith(expectedData);
+  });
 });

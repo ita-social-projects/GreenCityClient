@@ -56,7 +56,7 @@ export class CreateEcoNewsService {
       formData.append('img', JSON.stringify(this.files[0].url));
     }
     this.files = [];
-    formData.append('addEcoNewsDtoRequest', JSON.stringify(body));
+    formData.append('edit', JSON.stringify(body));
     this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
 
     return this.http.put<NewsResponseDTO>(`${this.url}econews/update`, formData, this.httpOptions);
