@@ -10,7 +10,7 @@ import { NewsSearchModel } from '@global-models/search/newsSearch.model';
   styleUrls: ['./search-all-results.component.scss']
 })
 export class SearchAllResultsComponent implements OnInit, OnDestroy {
-  public inputValues = ['relevance', 'newest', 'latest'];
+  public inputValues = ['Relevance', 'Newest', 'Oldest'];
   public displayedElements: NewsSearchModel[] = [];
   public elements: NewsSearchModel[] = [];
   public dropdownVisible: boolean;
@@ -48,7 +48,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
 
   public onKeyUp(event: EventTarget): void {
     this.displayedElements = [];
-    const VALUE = 'value;';
+    const VALUE = 'value';
     if (event[VALUE].length > 0) {
       this.inputValue = event[VALUE];
       this.searchSubscription = this.search.getAllSearch(this.inputValue, this.inputValues[0])
