@@ -1,143 +1,119 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
 
-* {
-  box-sizing: border-box;
+$cartGreen: #13aa57;
+
+.action-wrp {
+  display: flex;
+  justify-content: space-between;
 }
 
-.habit {
-  background-color: #f5f6f6;
-  min-height: 638px;
+button {
+  height: 48px;
+  padding: 0 20px;
+}
+
+.secondary-global-button {
+  background: transparent;
+}
+
+.habit-wrp {
+  width: 100%;
+  background: #f5f6f6;
   border-radius: 8px;
+  padding: 30px;
+  height: 640px;
 
   .habit__container {
-    position: relative;
-    padding-top: 35px;
-    width: 82%;
-    min-height: 638px;
-    margin: 0 auto;
-
-    .header {
-      display: flex;
-      justify-content: space-between;
-
-      .calendar {
-        .calendar__icon {
-          margin-right: 15px;
-        }
-
-        .days {
-          font-size: 14px;
-          color: #13aa57;
-          text-transform: uppercase;
-        }
-      }
-
-      .stars {
-        img {
-          margin-left: 12px;
-        }
-      }
-    }
-
-    .picture {
-      padding-top: 22px;
-      height: 190px;
-      margin-bottom: 31px;
-
-      .habit__picture {
-        max-width: 90%;
-        display: block;
-        margin: 0 auto;
-      }
-    }
-
-    .info {
-      padding-top: 20px;
-
-      .tags {
-        color: #13aa57;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-      }
-
-      .title {
-        color: #494a49;
-        font-size: 22px;
-        line-height: 15px;
-      }
-
-      .description {
-        font-family: "OpenSans", sans-serif;
-        font-size: 12px;
-        line-height: 18px;
-        color: #494a49;
-      }
-
-      .aquired {
-        color: #bebebe;
-        font-family: "Montserrat", sans-serif;
-        font-style: normal;
-        font-weight: 500;
-        font-size: 12px;
-        line-height: 20px;
-      }
-    }
-
-    .add {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-
-      button {
-        position: absolute;
-        bottom: 25px;
-        color: #fff;
-        background: #13aa57;
-        border-radius: 5px;
-        padding: 16px 40px;
-        border: none;
-        align-self: flex-end;
-      }
-    }
+    display: grid;
+    grid-template-rows: 20px auto 246px 48px;
+    row-gap: 5px;
+    height: 100%;
   }
 }
 
-@media screen and (max-width: 1199px) {
-  .habit {
-    .habit__container {
-      .info {
-        .tags {
-          font-size: 12px;
-        }
+.habit__header {
+  display: flex;
+  justify-content: space-between;
+}
 
-        .title {
-          font-size: 18px;
-        }
-      }
+.habit__picture {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-      .add {
-        button {
-          padding: 12px 30px;
-        }
-      }
-    }
+  img {
+    width: 90%;
   }
 }
 
-@media screen and (max-width: 767px) {
-  .habit {
-    .habit__container {
-      .info {
-        padding-top: 0;
-      }
+.habit__action-wrp {
+  display: grid;
+  grid-template-columns: auto 56.36%;
+  column-gap: 20px;
 
-      .add {
-        button {
-          padding: 12px 30px;
-          bottom: 15px;
-        }
-      }
-    }
+  button {
+    width: 100%;
+  }
+}
+
+.calendar {
+  text-transform: uppercase;
+  font-size: 14px;
+  color: $cartGreen;
+
+  .calendar__icon {
+    margin-right: 15px;
+  }
+}
+
+.habit__info {
+  display: grid;
+  grid-template-rows: 20px auto 100px 20px;
+  padding-bottom: 30px;
+
+  p {
+    margin: 0;
+  }
+
+  .tags {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    line-height: 16px;
+    color: $cartGreen;
+    text-transform: uppercase;
+  }
+
+  .title h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 30px;
+    color: #494a49;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .description {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    color: #494a49;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .aquired {
+    font-family: 'Montserrat', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #bebebe;
   }
 }

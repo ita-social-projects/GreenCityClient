@@ -71,6 +71,7 @@ import { HabitsGalleryViewComponent } from './components/habit/all-habits/compon
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 import { UsersFriendsComponent } from './components/profile/users-friends/users-friends.component';
 import { UsersAchievementsComponent } from './components/profile/users-achievements/users-achievements.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [
@@ -154,7 +155,8 @@ import { UsersAchievementsComponent } from './components/profile/users-achieveme
         deps: [HttpClient]
       },
       isolate: true
-    })
+    }),
+    InfiniteScrollModule
   ],
   providers: [
     EditProfileFormBuilder

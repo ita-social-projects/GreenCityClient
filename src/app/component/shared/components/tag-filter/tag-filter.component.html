@@ -1,0 +1,13 @@
+<div class="wrapper">
+  <span>{{ header | translate }}</span>
+  <ul class="ul-eco-buttons">
+    <a *ngFor="let filter of filters">
+      <li (click)="toggleFilter(filter.name)"
+          class="custom-chip global-tag"
+          [ngClass]="{'global-tag-clicked': filter.isActive }">
+          {{ filter.name | translate }}
+        <div [ngClass]="{'global-tag-close-icon': filter.isActive }"></div>
+      </li>
+    </a>
+  </ul>
+</div>

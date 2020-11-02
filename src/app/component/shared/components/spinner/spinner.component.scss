@@ -1,0 +1,8 @@
+.mat-spinner {
+  margin: 0 auto;
+  padding-top: 40px;
+
+  ::ng-deep circle {
+    stroke: #13aa57;
+  }
+}
