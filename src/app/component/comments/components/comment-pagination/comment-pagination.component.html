@@ -17,9 +17,9 @@
       </div>
       <div class="page-number"
            *ngFor="let page of p.pages"
-           (click)="(page.label !== '...')? p.setCurrent(page.value) : p.getCurrent()"
            [class.current]="p.getCurrent() === page.value">
-        <a *ngIf="p.getCurrent() !== page.value">
+        <a (click)="p.setCurrent(page.value)"
+           *ngIf="p.getCurrent() !== page.value">
           {{ page.label }}
         </a>
         <a *ngIf="p.getCurrent() === page.value">
