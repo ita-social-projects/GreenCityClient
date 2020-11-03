@@ -1,7 +1,7 @@
 <div class="pagination">
   <pagination-template #p="paginationApi"
                        [id]="config.id"
-                       [maxSize]="(p.getTotalItems())>6?7:5"
+                       [maxSize]="(p.getTotalItems())<=5 ? 5: (p.getCurrent()<=3 || p.getCurrent()>=(p.getLastPage()-2))?6:7"
                        (pageChange)="onPageChange($event)"
                        >
     <div class="custom-pagination">
