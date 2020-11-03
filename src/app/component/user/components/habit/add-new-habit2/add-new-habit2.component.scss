@@ -1,0 +1,56 @@
+$main-color: #056B33;
+$main-font: 'Open Sans';
+
+.wrapper {
+  max-width: 1170px;
+  margin: -30px auto;
+  padding: 0 15px;
+
+  .backToMyHabits {
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-bottom: 4px;
+    padding: 4px 0px 0px 4px;
+    color: $main-color;
+    cursor: pointer;
+
+    .arrow {
+      width: 8px;
+      height: 8px;
+      align-items: center;
+    }
+
+    .text {
+      font-family: $main-font;
+      font-size: 16px;
+      line-height: 22px;
+      display: flex;
+      align-items: center;
+      text-decoration-line: underline;
+    }
+  }
+
+  .habitContainer {
+    height: 360px;
+    padding: 32px 0 44px 0;
+    border: 1px solid green;
+    display: flex;
+    // background: #F8F9FA;
+    border-radius: 8px;
+  }
+
+  ::ng-deep {
+
+    .list-habit-content {
+      background-color: white;
+    }
+
+    .add-btn {
+      display: none;
+    }
+  }
+  
+  
+}

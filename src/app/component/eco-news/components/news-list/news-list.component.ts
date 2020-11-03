@@ -94,6 +94,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   private setList(data: EcoNewsDto): void {
     this.remaining = data.totalElements;
     this.elements = this.scroll ? [...this.elements, ...data.page] : [...data.page];
+    console.log(this.elements);
     this.elementsArePresent = this.elements.length < data.totalElements;
   }
 

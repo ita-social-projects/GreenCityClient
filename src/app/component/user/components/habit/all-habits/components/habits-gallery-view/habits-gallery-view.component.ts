@@ -11,6 +11,11 @@ export class HabitsGalleryViewComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log(this.habit);
+  }
+
+  showId(value:string) {
+    console.log(value);
   }
 
 }

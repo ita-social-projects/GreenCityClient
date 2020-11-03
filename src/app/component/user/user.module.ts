@@ -71,6 +71,7 @@ import { HabitsGalleryViewComponent } from './components/habit/all-habits/compon
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 import { UsersFriendsComponent } from './components/profile/users-friends/users-friends.component';
 import { UsersAchievementsComponent } from './components/profile/users-achievements/users-achievements.component';
+import { AddNewHabit2Component } from './components/habit/add-new-habit2/add-new-habit2.component';
 
 @NgModule({
   declarations: [
@@ -133,7 +134,8 @@ import { UsersAchievementsComponent } from './components/profile/users-achieveme
     HabitsListViewComponent,
     CalendarWeekComponent,
     UsersFriendsComponent,
-    UsersAchievementsComponent
+    UsersAchievementsComponent,
+    AddNewHabit2Component
   ],
   imports: [
     UserRoutingModule,

@@ -36,5 +36,8 @@
         <div class="add">
             <button>Add Habit</button>
         </div>
+        <div>
+            <button (click)="showId(habit)" [routerLink]="[ './addhabit', habit.id ]">More</button>
+        </div>
     </div>
 </div>
