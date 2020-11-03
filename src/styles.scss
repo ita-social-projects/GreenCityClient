@@ -121,6 +121,52 @@ body {
   background: #fff;
 }
 
+// [START] Tag guidelines
+.global-tag {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 32px;
+  padding: 0 16px;
+  text-transform: capitalize;
+  font-family: opensans, sans-serif;
+  color: #666;
+  border: 1px solid #666;
+  border-radius: 25px;
+  margin-right: 8px;
+
+  &:hover {
+    color: #056b33;
+    border: 1px solid #056b33;
+  }
+}
+
+.global-tag-clicked {
+  background: #13aa57;
+  color: #fff;
+  font-weight: bold;
+  font-family: opensans, sans-serif;
+  font-size: 14px;
+  line-height: 16px;
+  border-radius: 25px;
+  border: none;
+
+  &:hover {
+    color: #fff;
+    border: none;
+  }
+}
+
+.global-tag-close-icon {
+  width: 6px;
+  height: 6px;
+  margin-left: 6px;
+  opacity: 1;
+  background-image: url("~/assets/img/icon/white-cross.png");
+}
+
+// [END] Tag guidelines
+
 .transparent .mat-dialog-container {
   background: transparent;
 }

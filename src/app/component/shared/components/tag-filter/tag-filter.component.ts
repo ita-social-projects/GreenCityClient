@@ -1,27 +1,31 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { Subscription } from 'rxjs';
-
-import { EcoNewsService } from '@eco-news-service/eco-news.service';
+import { Component, OnInit, Output, EventEmitter, Input, OnChanges } from '@angular/core';
 import { FilterModel } from '@eco-news-models/filter.model';
 
-
 @Component({
-  selector: 'app-filter-news',
-  templateUrl: './filter-news.component.html',
-  styleUrls: ['./filter-news.component.scss']
+  selector: 'app-tag-filter',
+  templateUrl: './tag-filter.component.html',
+  styleUrls: ['./tag-filter.component.scss']
 })
 
-export class FilterNewsComponent implements OnInit {
+export class TagFilterComponent implements OnInit, OnChanges {
   public filters: Array<FilterModel> = [];
-  private tagsSubscription: Subscription;
-
+  @Input() private storageKey: string;
+  @Input() public tagsListData = [];
+  @Input() public header: string;
   @Output() tagsList = new EventEmitter<Array<string>>();
 
-  constructor(private ecoNewsService: EcoNewsService) { }
+  constructor() { }
 
   ngOnInit() {
     this.emitActiveFilters();
-    this.getPresentTags();
+  }
+
+  ngOnChanges(changes) {
+
+    const { currentValue } = changes.tagsListData;
+    if (currentValue !== '' && currentValue) {
+      this.setTags(currentValue);
+    }
   }
 
   public emitTrueFilterValues(): Array<string> {
@@ -44,17 +48,12 @@ export class FilterNewsComponent implements OnInit {
     this.emitActiveFilters();
   }
 
-  private getPresentTags(): void {
-    this.tagsSubscription = this.ecoNewsService.getAllPresentTags()
-      .subscribe((tag: Array<string>) => this.setTags(tag));
-  }
-
   private setSessionStorageFilters() {
-    sessionStorage.setItem('activeFilters', JSON.stringify(this.emitTrueFilterValues()));
+    sessionStorage.setItem(this.storageKey, JSON.stringify(this.emitTrueFilterValues()));
   }
 
   private getSessionStorageFilters() {
-    const filters = sessionStorage.getItem('activeFilters');
+    const filters = sessionStorage.getItem(this.storageKey);
     return filters !== null ? JSON.parse(filters) : [];
   }
 }

@@ -1,23 +1,42 @@
+import { ServerHabitItemModel } from './../../../../models/habit-item.model';
+import { environment } from '@environment/environment';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of, Observable } from 'rxjs';
-
-const allHabits: object[] = [
-  { id: 1, dayCount: 5, title: 'Покупать местные продукты', describe: 'Mark as done', done: false, acquired: false },
-  { id: 2, dayCount: 12, title: 'Меньше пользоваться транспортом', describe: '5 days in a row. You’re good!', done: true, acquired: false },
-  { id: 3, dayCount: 5, title: 'Покупать местные продукты', describe: 'Mark as done', done: false, acquired: false },
-  { id: 4, dayCount: 12, title: 'Меньше пользоваться транспортом', describe: '2 days in a row. You’re good!', done: true, acquired: false },
-  { id: 5, dayCount: 12, title: 'Покупать местные продукты', describe: '6 days in a row. You’re good!', done: true, acquired: false },
-  { id: 6, dayCount: 12, title: 'Меньше пользоваться транспортом', describe: '2 days in a row. You’re good!', done: true, acquired: false },
-];
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AllHabitsService {
+  private ACCESS_TOKEN: string;
+  private backEnd = environment.backendLink;
+  public allHabits = new BehaviorSubject<any>([]);
 
-  constructor() { }
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService
+  ) {
+    this.ACCESS_TOKEN = this.localStorageService.getAccessToken();
+   }
 
-  getAllHabits(): Observable<object[]> {
-    return of(allHabits);
+  fetchAllHabits(page, size, lang: string = 'en'): void {
+    const header = {
+      headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${this.ACCESS_TOKEN}`)
+    };
+
+    this.http.get<ServerHabitItemModel>(`${this.backEnd}habit?page=${page}&size=${size}&lang=${lang}`, header).subscribe(
+      data => {
+        const observableValue = this.allHabits.getValue();
+        const oldItems = observableValue.page ? observableValue.page : [];
+        data.page = [... data.page, ...oldItems];
+        this.allHabits.next(data);
+      }
+    );
+  }
+
+  resetSubject() {
+    this.allHabits.next([]);
   }
 }

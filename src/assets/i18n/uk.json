@@ -550,6 +550,10 @@
         "confirmation-modal-yes": "Так",
         "confirmation-modal-cancel": "Скасувати"
       },
+      "all-habits": {
+        "no-habits":"На жаль, звичок не знайдено",
+        "no-habits-advice": "Ніяких звичок знайти не вдалося. Будь ласка, поміняйте фільтри, щоб отримати результат."
+      },
       "habit-trackers": {
         "habit-tracker": {
           "habit-tracker-date": {

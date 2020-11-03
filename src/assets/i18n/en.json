@@ -545,6 +545,10 @@
         "confirmation-modal-yes": "Yes",
         "confirmation-modal-cancel": "Cancel"
       },
+      "all-habits": {
+        "no-habits":"Sorry, no habits found",
+        "no-habits-advice": "No habits were found. Please change the filters to get the result."
+      },
       "habit-trackers": {
         "habit-tracker": {
           "habit-tracker-date": {

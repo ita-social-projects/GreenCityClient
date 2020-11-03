@@ -551,6 +551,10 @@
         "confirmation-modal-yes": "Да",
         "confirmation-modal-cancel": "Отменить"
       },
+      "all-habits": {
+        "no-habits":"К сожалению, привычек найдено",
+        "no-habits-advice": "Никаких привычек найти не удалось. Пожалуйста, измените фильтры, чтобы получить результат."
+      },
       "habit-trackers": {
         "habit-tracker": {
           "habit-tracker-date": {
