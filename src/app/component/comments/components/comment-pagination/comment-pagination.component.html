@@ -1,8 +1,9 @@
 <div class="pagination">
   <pagination-template #p="paginationApi"
                        [id]="config.id"
-                       [maxSize]="maxSize"
-                       (pageChange)="onPageChange($event)">
+                       [maxSize]="(p.getTotalItems())>6?7:5"
+                       (pageChange)="onPageChange($event)"
+                       >
     <div class="custom-pagination">
       <div class="pagination-previous">
         <a *ngIf="!p.isFirstPage()"
