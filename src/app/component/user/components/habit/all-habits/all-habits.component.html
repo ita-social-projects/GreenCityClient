@@ -1,7 +1,7 @@
 <div class="habits-wrapper container" (window:resize)="onResize()">
     <div class="habits_header-wrapper">
         <div>
-            <h1 class="main-header">All habits</h1>
+            <h1 class="main-header">{{'user.habit.all-habits.title' | translate}}</h1>
         </div>
         <app-tag-filter class="border_bottom"
                         (tagsList)="getFilterData($event)" 
@@ -41,13 +41,13 @@
         </div>
     </div>
     <app-spinner *ngIf="isFetching"></app-spinner>
+    <div infiniteScroll
+        [infiniteScrollDistance]="0"
+        [infiniteScrollThrottle]="500"
+        (scrolled)="onScroll()">
+    </div>
     <app-no-data *ngIf="!elementsLeft" 
                 [title]="'user.habit.all-habits.no-habits'" 
                 [text]="'user.habit.all-habits.no-habits-advice'">
     </app-no-data>
-    <div infiniteScroll
-         [infiniteScrollDistance]="0"
-         [infiniteScrollThrottle]="500"
-         (scrolled)="onScroll()">
-    </div>
 </div>

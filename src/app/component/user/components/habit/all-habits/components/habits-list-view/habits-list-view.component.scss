@@ -1,17 +1,19 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
 
+$borderColor: #bebebe;
+$color-greenCity-green: #13aa57;
+
 :host {
   width: 100%;
   max-width: 945px;
 }
 
 .habit-wrp {
-  background: #F8F9FA;
+  background: #f8f9fa;
   border-radius: 8px;
   height: 295px;
   margin-bottom: 30px;
-  // responsive paddings
   padding: 3.4% 3.2%;
 }
 
@@ -27,8 +29,18 @@
   row-gap: 30px;
 }
 
+.habit__picture-wrp {
+  display: none;
+
+  img {
+    align-self: center;
+    width: 100%;
+    display: block;
+  }
+}
+
 .habit__header {
-  color: #13AA57;
+  color: $color-greenCity-green;
   display: flex;
   align-items: center;
   letter-spacing: 1px;
@@ -45,7 +57,7 @@
 
   .calendar {
     padding-right: 18px;
-    border-right: 1px solid #BEBEBE;
+    border-right: 1px solid $borderColor;
 
     img {
       margin-right: 18px;
@@ -55,7 +67,7 @@
   .aquired,
   .tags {
     padding: 0 18px;
-    border-right: 1px solid #BEBEBE;
+    border-right: 1px solid $borderColor;
   }
 
   .stars {
@@ -66,7 +78,7 @@
 .habit__info {
   font-family: 'Montserrat', sans-serif;
   font-style: normal;
-  color: #494A49;
+  color: #494a49;
 
   p,
   h2 {
@@ -100,7 +112,6 @@
     font-family: 'Montserrat', sans-serif;
     height: 100%;
     font-weight: 600;
-    
   }
 
   .primary-global-button {
@@ -111,16 +122,6 @@
   .secondary-global-button {
     background: transparent;
     width: 120px;
-  }
-}
-
-.habit__picture-wrp {
-  display: none;
-
-  img {
-    align-self: center;
-    width: 100%;
-    display: block;
   }
 }
 

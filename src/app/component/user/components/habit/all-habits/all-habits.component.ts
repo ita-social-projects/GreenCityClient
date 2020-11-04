@@ -1,6 +1,6 @@
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from './../../../../../service/localstorage/local-storage.service';
-import { ServerHabitItemModel, ServerHabitItemPageModel } from './../../../models/habit-item.model';
+import { ServerHabitItemPageModel } from './../../../models/habit-item.model';
 import { Subscription } from 'rxjs';
 import { AllHabitsService } from './services/all-habits.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -35,12 +35,9 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
 
     const langChangeSub = this.localStorageService.languageBehaviourSubject.subscribe(lang => {
       this.translate.setDefaultLang(lang);
-      this.isFetching = true;
-      this.elementsLeft = true;
       this.lang = lang;
-      if (this.lang) {
-        this.allHabitsService.resetSubject();
-      }
+      this.resetState();
+      this.allHabitsService.resetSubject();
       this.getAllHabits(0, this.batchSize, lang);
     });
 
@@ -55,6 +52,8 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
 
       const tag = [];
       if (data.page) {
+        this.elementsLeft = data.totalElements !== this.habitsList.length;
+
         data.page.forEach(element => {
           tag.push(element.habitTranslation.habitItem);
         });
@@ -74,12 +73,18 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     this.allHabitsService.fetchAllHabits(page, size, lang);
   }
 
-  getFilterData(event: Array<string>) {
+  private resetState() {
+    this.isFetching = true;
+    this.currentPage = 0;
+    this.elementsLeft = true;
+  }
+
+  public getFilterData(event: Array<string>) {
     if (event.length === 0) {
       this.totalHabitsCopy = this.totalHabits;
       return this.filteredHabitsList = this.habitsList;
     }
-    if (this.filteredHabitsList) {
+    if (this.filteredHabitsList.length > 0) {
       this.filteredHabitsList = this.habitsList.filter(el => event.includes(el.habitTranslation.habitItem));
       this.totalHabitsCopy = this.filteredHabitsList.length;
     }
@@ -94,13 +99,12 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     this.masterSubscription.unsubscribe();
   }
 
-  onScroll() {
-    this.isFetching = true;
+  public onScroll() {
     if (this.totalPages === this.currentPage) {
-      this.elementsLeft = false;
       this.isFetching = false;
       return;
     }
+    this.isFetching = true;
     this.currentPage += 1;
     this.getAllHabits(this.currentPage, this.batchSize, this.lang);
   }
