@@ -10,7 +10,7 @@ $cartGreen: #13aa57;
 
 button {
   height: 48px;
-  padding: 0 20px;
+  word-break: break-word;
 }
 
 .secondary-global-button {
@@ -43,7 +43,7 @@ button {
   justify-content: center;
 
   img {
-    width: 90%;
+    width: 100%;
   }
 }
 
@@ -115,5 +115,13 @@ button {
     font-size: 14px;
     line-height: 20px;
     color: #bebebe;
+  }
+}
+
+@media (min-width: 1200px) {
+  .habit__picture {
+    img {
+      width: 90%;
+    }
   }
 }

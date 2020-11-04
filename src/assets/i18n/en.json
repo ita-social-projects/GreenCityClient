@@ -547,7 +547,9 @@
       },
       "all-habits": {
         "no-habits":"Sorry, no habits found",
-        "no-habits-advice": "No habits were found. Please change the filters to get the result."
+        "no-habits-advice": "No habits were found. Please change the filters to get the result.",
+        "btn-more": "More",
+        "btn-add": "Add habit"
       },
       "habit-trackers": {
         "habit-tracker": {

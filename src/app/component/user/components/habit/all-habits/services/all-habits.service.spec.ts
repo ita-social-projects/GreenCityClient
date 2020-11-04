@@ -11,9 +11,6 @@ describe('AllHabitsService', () => {
   let service: AllHabitsService;
   let httpTestingController: HttpTestingController;
 
-  const localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getAccessToken']);
-  localStorageServiceMock.getAccessToken = () => 'test';
-
   const mockData: ServerHabitItemModel = {
     totalPages: 1,
     totalElements: 1,
@@ -33,9 +30,6 @@ describe('AllHabitsService', () => {
   beforeEach(async(() => TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule
-      ],
-      providers: [
-        { provide: LocalStorageService, useValue: localStorageServiceMock },
       ]
     })
   ));

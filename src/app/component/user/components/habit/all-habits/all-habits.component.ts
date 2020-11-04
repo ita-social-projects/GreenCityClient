@@ -66,7 +66,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     this.masterSubscription.add(habitServeceSub);
   }
 
-  onDisplayModeChange(mode): void {
+  onDisplayModeChange(mode: boolean): void {
     this.galleryView = mode;
   }
 

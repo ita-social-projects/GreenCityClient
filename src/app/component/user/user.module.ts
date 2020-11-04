@@ -1,3 +1,4 @@
+import { UserSharedModule } from './components/shared/user-shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule, MatRadioModule } from '@angular/material';
@@ -67,7 +68,6 @@ import { UserComponent } from './user.component';
 import { CalendarWeekComponent } from './components/profile/calendar/calendar-week/calendar-week.component';
 import { AllHabitsComponent } from './components/habit/all-habits/all-habits.component';
 import { HabitsListViewComponent } from './components/habit/all-habits/components/habits-list-view/habits-list-view.component';
-import { HabitsGalleryViewComponent } from './components/habit/all-habits/components/habits-gallery-view/habits-gallery-view.component';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 import { UsersFriendsComponent } from './components/profile/users-friends/users-friends.component';
 import { UsersAchievementsComponent } from './components/profile/users-achievements/users-achievements.component';
@@ -130,7 +130,6 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     PersonalPhotoComponent,
     SocialNetworksComponent,
     AllHabitsComponent,
-    HabitsGalleryViewComponent,
     HabitsListViewComponent,
     CalendarWeekComponent,
     UsersFriendsComponent,
@@ -156,7 +155,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
       },
       isolate: true
     }),
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    UserSharedModule
   ],
   providers: [
     EditProfileFormBuilder

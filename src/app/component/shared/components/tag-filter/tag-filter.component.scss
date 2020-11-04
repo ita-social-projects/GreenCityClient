@@ -5,7 +5,6 @@
   row-gap: 15px;
 
   span {
-    margin-top: 2px;
     font-family: Montserrat, sans-serif;
     font-style: normal;
     font-weight: 500;
@@ -29,11 +28,9 @@
 
 @media (min-width: 576px) {
   .wrapper {
-    display: flex;
+    display: grid;
+    grid-template-columns: max-content auto;
     row-gap: 0;
-  }
-
-  .ul-eco-buttons {
-    margin-left: 30px;
+    column-gap: 30px;
   }
 }

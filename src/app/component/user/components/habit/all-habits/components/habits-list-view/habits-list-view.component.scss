@@ -1,194 +1,170 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
 
-.list-habit-content {
-  height: 296px;
-  width: 944px;
-  margin-bottom: 30px;
+:host {
+  width: 100%;
+  max-width: 945px;
+}
+
+.habit-wrp {
+  background: #F8F9FA;
   border-radius: 8px;
-  background: #f5f6f6 url(~/assets/img/icon/HabitPicture.png) no-repeat  top 20px right -61px/34%;
+  height: 295px;
+  margin-bottom: 30px;
+  // responsive paddings
+  padding: 3.4% 3.2%;
+}
 
-  .header {
-    display: flex;
-    align-items: center;
-    text-transform: uppercase;
-    padding: 35px 0 32px 35px;
-    font-family: "OpenSans", sans-serif;
-    font-size: 14px;
-    line-height: 16px;
-    color: #13aa57;
+.habit__container {
+  height: 100%;
+  display: grid;
+  grid-template-columns: auto;
+}
 
-    .calendar {
-      .calendar__icon {
-        margin-right: 15px;
-      }
+.habit__header-wrp {
+  display: grid;
+  grid-template-rows: 20px auto 48px;
+  row-gap: 30px;
+}
 
-      .days {
-        border-right: 1px solid #bebebe;
-        padding-right: 18px;
-        margin-right: 18px;
-      }
-    }
+.habit__header {
+  color: #13AA57;
+  display: flex;
+  align-items: center;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-family: 'OpenSans', sans-serif;
+  font-size: 14px;
+  line-height: 16px;
+  overflow: auto;
+  white-space: nowrap;
 
-    .tags {
-      border-right: 1px solid #bebebe;
-      padding-right: 18px;
+  div {
+    width: max-content;
+  }
+
+  .calendar {
+    padding-right: 18px;
+    border-right: 1px solid #BEBEBE;
+
+    img {
       margin-right: 18px;
     }
-
-    .aquired {
-      border-right: 1px solid #bebebe;
-      padding-right: 18px;
-      margin-right: 20px;
-    }
-
-    .stars {
-      img {
-        margin-right: 12px;
-      }
-    }
   }
 
-  .info {
-    .title {
-      h2 {
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 600;
-        font-size: 24px;
-        line-height: 30px;
-        color: #494a49;
-        margin-bottom: 8px;
-        margin-left: 32px;
-        max-width: 627px;
-      }
-    }
-
-    .description {
-      p {
-        font-family: 'Montserrat', sans-serif;
-        font-size: 18px;
-        line-height: 28px;
-        color: #494a49;
-        max-width: 627px;
-        margin-bottom: 36px;
-        margin-left: 32px;
-      }
-    }
+  .aquired,
+  .tags {
+    padding: 0 18px;
+    border-right: 1px solid #BEBEBE;
   }
 
-  .add-btn {
-    button {
-      width: 166px;
-      height: 48px;
-      margin-left: 32px;
-      background: #13aa57;
-      border: none;
-      border-radius: 5px;
-      font-family: 'Open Sans', sans-serif;
-      font-weight: 600;
-      font-size: 16px;
-      line-height: 16px;
-      color: #fff;
-    }
+  .stars {
+    padding: 0 18px;
   }
 }
 
-@media screen and (max-width: 1024px) {
-  .list-habit-content {
-    width: 760px;
-    height: 290px;
-    background: #f5f6f6 url(~/assets/img/icon/HabitPicture.png) no-repeat top 15px right -58px/40%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.habit__info {
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  color: #494A49;
 
-    .header {
-      padding-top: 20px;
-      padding-bottom: 20px;
-      font-size: 12px;
-    }
+  p,
+  h2 {
+    margin: 0;
+  }
 
-    .info {
-      .title {
-        h2 {
-          max-width: 450px;
-          font-size: 25px;
-        }
-      }
+  .title {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 30px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 
-      .description {
-        p {
-          max-width: 450px;
-          font-size: 15px;
-          margin-bottom: 10px;
-        }
-      }
-    }
-
-    .add-btn {
-      button {
-        margin-bottom: 30px;
-      }
-    }
+  .description {
+    font-size: 18px;
+    line-height: 28px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }
 
-@media screen and (max-width: 768px) {
-  .list-habit-content {
-    width: 548px;
-    height: 240px;
-    background: #f5f6f6 url(~/assets/img/icon/HabitPicture.png) no-repeat top 47px right -47px/41%;
+.habit__action-wrp {
+  display: flex;
+
+  button {
+    font-family: 'Montserrat', sans-serif;
+    height: 100%;
+    font-weight: 600;
+    
+  }
+
+  .primary-global-button {
+    width: 155px;
+    margin-right: 25px;
+  }
+
+  .secondary-global-button {
+    background: transparent;
+    width: 120px;
+  }
+}
+
+.habit__picture-wrp {
+  display: none;
+
+  img {
+    align-self: center;
+    width: 100%;
+    display: block;
+  }
+}
+
+@media (min-width: 768px) {
+  .habit__picture-wrp {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
 
-    .header {
-      width: 450px;
-      font-size: 10px;
-      display: flex;
-      flex-wrap: wrap;
-
-      .calendar {
-        .calendar__icon {
-          height: 15px;
-        }
-      }
-
-      .stars {
-        img {
-          margin-top: 10px;
-          height: 15px;
-        }
-      }
-
-      .aquired {
-        border-right: none;
-      }
+    .habit__picture {
+      width: 130%;
+      height: 120%;
+      position: relative;
+      overflow: hidden;
+      direction: ltr;
+      top: -10%;
     }
 
-    .info {
-      .title {
-        h2 {
-          max-width: 450px;
-          font-size: 20px;
-        }
-      }
-
-      .description {
-        p {
-          max-width: 350px;
-          font-size: 12px;
-          line-height: 20px;
-        }
-      }
+    img {
+      height: 80%;
+      top: 10%;
+      width: 120%;
+      position: absolute;
     }
+  }
 
-    .add-btn {
-      button {
-        width: 100px;
-        height: 30px;
-        font-size: 11px;
-      }
+  .habit__container {
+    display: grid;
+    grid-template-columns: 69% 28%;
+    column-gap: 20px;
+  }
+
+  .habit-wrp {
+    padding: 3.4% 0 3.4% 3.2%;
+  }
+}
+
+@media (min-width: 992px) {
+  .habit__picture-wrp {
+    img {
+      top: 0;
+      height: 100%;
     }
+  }
+
+  .habit__container {
+    grid-template-columns: 69% 29%;
   }
 }

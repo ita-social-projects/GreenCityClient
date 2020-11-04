@@ -13,18 +13,16 @@
         <div class="habits_header-actions">
             <div class="">{{ totalHabitsCopy }} items found</div>
             <div class="habits_header-buttons">
-                <button class="btn btn-white"
-                        type="button"
+                <span class="btn-tiles"
                         (click)="onDisplayModeChange(true)"
-                        [ngClass]="{'active': galleryView}">
+                        [ngClass]="{'btn-tiles-active': galleryView}">
                     <i class="fa fa-th-large"></i>
-                </button>
-                <button class="btn btn-white btn-bars"
-                        type="button"
+                </span>
+                <span class=" btn-bars"
                         (click)="onDisplayModeChange(false)"
-                        [ngClass]="{'active': !galleryView}">
+                        [ngClass]="{'btn-bars-active': !galleryView}">
                     <i class="fa fa-bars"></i>
-                </button>
+                </span>
             </div>
         </div>
     </div>

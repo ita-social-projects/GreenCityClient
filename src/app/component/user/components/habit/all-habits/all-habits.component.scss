@@ -10,10 +10,6 @@ h1 {
   border-bottom: 1px solid #e6e6e6;
 }
 
-.active {
-  color: green;
-}
-
 .habits_header-wrapper {
   display: grid;
   grid-template-rows: auto auto auto;
@@ -48,7 +44,7 @@ h1 {
 
 @media (min-width: 576px) {
   .galleryContainer {
-    grid-template-columns: repeat(2, auto);
+    grid-template-columns: repeat(2, 50%);
   }
 
   .container {
@@ -57,6 +53,10 @@ h1 {
 
   .habits_header-buttons {
     display: block;
+
+    :nth-child(1) {
+      margin-right: 8px;
+    }
   }
 }
 
