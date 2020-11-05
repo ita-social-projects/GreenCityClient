@@ -24,12 +24,6 @@ export class CreateEcoNewsService {
     }),
 
   };
-  private httpOptions2 = {
-    headers: new HttpHeaders({
-      'Content-Type': 'multipart/form-data'
-    })
-  };
-
 
   constructor(private http: HttpClient) { }
 
@@ -42,7 +36,7 @@ export class CreateEcoNewsService {
   }
 
   public editNews(form): Observable<NewsResponseDTO> {
-    const body: NewsDTO = {
+    let body: NewsDTO = {
       id: form.id,
       tags: form.tags,
       text: form.content,
@@ -53,13 +47,16 @@ export class CreateEcoNewsService {
     const formData = new FormData();
 
     if (this.files.length !== 0) {
-      formData.append('img', JSON.stringify(this.files[0].url));
+      body = {
+        ...body,
+        image: this.files[0].url
+      };
     }
     this.files = [];
-    formData.append('edit', JSON.stringify(body));
+    formData.append('updateEcoNewsDto', JSON.stringify(body));
     this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
 
-    return this.http.put<NewsResponseDTO>(`${this.url}econews/update`, formData, this.httpOptions);
+    return this.http.put<NewsResponseDTO>('https://greencity.azurewebsites.net/econews/update', formData, this.httpOptions);
   }
 
   public setForm(form: FormGroup): void {

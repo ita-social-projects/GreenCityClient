@@ -26,6 +26,7 @@ import { Location } from '@angular/common';
 import { HomepageComponent, TipsListComponent } from 'src/app/component/home/components';
 import { SearchAllResultsComponent } from 'src/app/component/layout/components';
 import { ConfirmRestorePasswordComponent } from '@global-auth/confirm-restore-password/confirm-restore-password.component';
+import { By } from '@angular/platform-browser';
 
 describe('CreateEditNewsComponent', () => {
     let component: CreateEditNewsComponent;
@@ -65,8 +66,8 @@ describe('CreateEditNewsComponent', () => {
         image: ''
     };
     const inValidNews = {
-        title: 'newstitle',
-        content: 'content',
+        title: '',
+        content: '',
         tags: [],
         source: '',
         image: ''
@@ -280,18 +281,6 @@ describe('CreateEditNewsComponent', () => {
         expect(component.getNewsIdFromQueryParams).toHaveBeenCalled();
     });
 
-    xit('should call setActiveFilters method after get request', () => {
-        spyOn(component, 'setActiveFilters');
-        fixture.detectChanges();
-        const id = '1';
-        ecoNewsServiceMock.getEcoNewsById(id).subscribe((data) => {
-            expect(component.setActiveFilters).toHaveBeenCalledWith(data);
-        });
-
-        const req = http.expectOne(url + `/${id}`);
-        expect(req.request.method).toEqual('GET');
-    });
-
     it('should change isArrayEmpty to false property after adding tag', () => {
         component.isArrayEmpty = true;
         const filter = {
@@ -354,11 +343,6 @@ describe('CreateEditNewsComponent', () => {
         component.form.controls.source.setValue(news.source);
     }
 
-    xit('isValid should be false when form is invalid', fakeAsync(() => {
-        updateForm(inValidNews);
-        expect(component.form.valid).toBeFalsy();
-    }));
-
     it('isValid should be true when form is valid', fakeAsync(() => {
         updateForm(validNews);
         expect(component.form.valid).toBeTruthy();
@@ -379,7 +363,7 @@ describe('CreateEditNewsComponent', () => {
         expect(component.isArrayEmpty).toBeFalsy();
     });
 
-    it('should add filters', fakeAsync(() => {
+    it('should add filters', () => {
         const activeFilter = { name: 'News', isActive: false };
         const notActiveFilter = { name: 'News', isActive: true };
         component.addFilters(activeFilter);
@@ -388,19 +372,6 @@ describe('CreateEditNewsComponent', () => {
 
         component.removeFilters(notActiveFilter);
         expect(component.tags().length).toBe(0);
-    }));
-
-    xit('should', () => {
-        spyOn(component, 'setActiveFilters');
-
-        createEcoNewsServiceMock.isBackToEditing = true;
-        component.ngOnInit();
-        component.formData = createEcoNewsServiceMock.getFormData();
-        component.newsId = createEcoNewsServiceMock.getNewsId();
-        fixture.detectChanges();
-        expect(component.newsId).toBeTruthy();
-        expect(component.setActiveFilters).toHaveBeenCalledWith(emptyForm().value);
     });
-
 
 });
