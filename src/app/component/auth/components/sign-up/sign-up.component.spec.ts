@@ -253,7 +253,7 @@ describe('SignUpComponent', () => {
       fixture.detectChanges();
       fixture.ngZone.run(() => {
         fixture.whenStable().then(() => {
-          expect(routerSpy.navigate).toHaveBeenCalledWith(['profile', 23]);
+          expect(routerSpy.navigate).toHaveBeenCalledWith(['/welcome']);
         });
       });
     }));
