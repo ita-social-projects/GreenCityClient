@@ -145,6 +145,7 @@ export class SignUpComponent implements OnInit {
 
   private receiveUserId(id: number): void {
     setTimeout(() => {
+      this.router.navigate(['/welcome']);
       this.dialog.closeAll();
     }, 5000);
   }
