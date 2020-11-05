@@ -7,11 +7,6 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AgmCoreModule } from '@agm/core';
 import {
-  AddNewHabitModalComponent,
-  AlreadyChosenComponent,
-  AvailableToChooseComponent,
-  ConfirmationModalComponent,
-  HabitCardComponent,
   ButtonComponent,
   HabitTrackersComponent,
   HabitTrackerComponent,
@@ -71,8 +66,12 @@ import { HabitsGalleryViewComponent } from './components/habit/all-habits/compon
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 import { UsersFriendsComponent } from './components/profile/users-friends/users-friends.component';
 import { UsersAchievementsComponent } from './components/profile/users-achievements/users-achievements.component';
-import { AddNewHabit2Component } from './components/habit/add-new-habit2/add-new-habit2.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { AddNewHabitComponent } from './components/habit/add-new-habit/add-new-habit.component';
+import { HabitProgressComponent } from './components/habit/add-new-habit/habit-progress/habit-progress.component';
+import { HabitInviteFriendsComponent } from './components/habit/add-new-habit/habit-invite-friends/habit-invite-friends.component';
+import { HabitDurationComponent } from './components/habit/add-new-habit/habit-duration/habit-duration.component';
+import { HabitEditShoppingListComponent } from './components/habit/add-new-habit/habit-edit-shopping-list/habit-edit-shopping-list.component';
 
 @NgModule({
   declarations: [
@@ -110,11 +109,6 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     HabitTitleComponent,
     HabitTrackerDateComponent,
     HabitTrackerComponent,
-    HabitCardComponent,
-    AvailableToChooseComponent,
-    AlreadyChosenComponent,
-    AddNewHabitModalComponent,
-    ConfirmationModalComponent,
     CustomLastPipe,
     ShowFirstNLettersPipe,
     ShowFirstNPipe,
@@ -136,7 +130,11 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     CalendarWeekComponent,
     UsersFriendsComponent,
     UsersAchievementsComponent,
-    AddNewHabit2Component
+    AddNewHabitComponent,
+    HabitProgressComponent,
+    HabitInviteFriendsComponent,
+    HabitDurationComponent,
+    HabitEditShoppingListComponent
   ],
   imports: [
     UserRoutingModule,

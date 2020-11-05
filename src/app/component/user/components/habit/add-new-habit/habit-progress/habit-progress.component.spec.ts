@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ConfirmationModalComponent } from './confirmation-modal.component';
+import { HabitProgressComponent } from './habit-progress.component';
 
-describe('ConfirmationModalComponent', () => {
-  let component: ConfirmationModalComponent;
-  let fixture: ComponentFixture<ConfirmationModalComponent>;
+describe('HabitProgressComponent', () => {
+  let component: HabitProgressComponent;
+  let fixture: ComponentFixture<HabitProgressComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ConfirmationModalComponent ]
+      declarations: [ HabitProgressComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConfirmationModalComponent);
+    fixture = TestBed.createComponent(HabitProgressComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

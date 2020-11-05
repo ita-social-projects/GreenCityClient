@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AvailableToChooseComponent } from './available-to-choose.component';
+import { HabitInviteFriendsComponent } from './habit-invite-friends.component';
 
-describe('AvailableToChooseComponent', () => {
-  let component: AvailableToChooseComponent;
-  let fixture: ComponentFixture<AvailableToChooseComponent>;
+describe('HabitInviteFriendsComponent', () => {
+  let component: HabitInviteFriendsComponent;
+  let fixture: ComponentFixture<HabitInviteFriendsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AvailableToChooseComponent ]
+      declarations: [ HabitInviteFriendsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AvailableToChooseComponent);
+    fixture = TestBed.createComponent(HabitInviteFriendsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

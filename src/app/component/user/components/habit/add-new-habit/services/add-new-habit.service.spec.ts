@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AddNewHabit2Service } from './add-new-habit2.service';
+import { AddNewHabitService } from './add-new-habit.service';
 
-describe('AddNewHabit2Service', () => {
+describe('AddNewHabitService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: AddNewHabit2Service = TestBed.get(AddNewHabit2Service);
+    const service: AddNewHabitService = TestBed.get(AddNewHabitService);
     expect(service).toBeTruthy();
   });
 });

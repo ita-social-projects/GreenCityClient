@@ -6,7 +6,7 @@ import { environment } from '@environment/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class AddNewHabit2Service {
+export class AddNewHabitService {
   private backEnd = environment.backendLink;
 
   constructor(private http: HttpClient) { }

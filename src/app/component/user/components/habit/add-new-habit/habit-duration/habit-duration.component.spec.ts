@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddNewHabit2Component } from './add-new-habit2.component';
+import { HabitDurationComponent } from './habit-duration.component';
 
-describe('AddNewHabit2Component', () => {
-  let component: AddNewHabit2Component;
-  let fixture: ComponentFixture<AddNewHabit2Component>;
+describe('HabitDurationComponent', () => {
+  let component: HabitDurationComponent;
+  let fixture: ComponentFixture<HabitDurationComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddNewHabit2Component ]
+      declarations: [ HabitDurationComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddNewHabit2Component);
+    fixture = TestBed.createComponent(HabitDurationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

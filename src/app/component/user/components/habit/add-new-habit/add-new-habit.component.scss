@@ -1,0 +1,137 @@
+$primary-color: #13AA57;
+$second-color: #056B33;
+$main-font: 'Open Sans';
+$second-font: 'Montserrat';
+
+.wrapper {
+  max-width: 1170px;
+  margin: -30px auto;
+  padding: 0 15px;
+
+  .backToMyHabits {
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-bottom: 4px;
+    padding: 4px 0px 0px 4px;
+    color: $second-color;
+    cursor: pointer;
+
+    .arrow {
+      width: 5px;
+      height: 7px;
+      margin-right: 6px;
+      align-self: center;
+      background: url(./../../../../../../assets/img/profile/icons/back-arrow.svg) no-repeat;
+    }
+
+    .text {
+      font-family: $main-font;
+      font-size: 16px;
+      line-height: 22px;
+      display: flex;
+      align-self: center;
+      text-decoration-line: underline;
+    }
+  }
+
+  .habitContainer {
+    height: 360px;
+    padding: 20px 0 0 0;
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .habitInfo {
+      display: flex;
+      flex-direction: column;
+
+      .header {
+        height: 24px;
+        display: flex;
+        align-items: center;
+        color: $primary-color;
+        margin-bottom: 8px;
+
+        .tags,
+        .aquired {
+          font-style: regular;
+          font-size: 14px;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+          cursor: pointer;
+        }
+
+        .stars {
+          display: flex;
+          width: 88px;
+          justify-content: space-between;
+
+          img {
+            cursor: pointer;
+          }
+        }
+
+        .line {
+          width: 1px;
+          height: 18px;
+          margin: 0 18px;
+          background-image: url(src/assets/img/profile/icons/line.svg)
+        }
+      }
+
+      .habitTitle {
+        margin-bottom: 16px;
+        font-family: $second-font;
+        font-size: 36px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 48px;
+        letter-spacing: 0px;
+        text-align: left;
+      }
+
+      .description {
+        p {
+          font-family: $main-font;
+          font-size: 16px;
+          line-height: 24px;
+          color: #000;
+          max-width: 652px;
+        }
+      }
+    }
+
+    .habitImg {
+      width: 395px;
+      // height: 341px;
+      align-self: flex-end;
+      margin-left: 25px;
+
+      img {
+        width: 395px;
+      }
+    }
+
+  }
+
+  .habitEdit {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 35px;
+    color: #313131;
+  }
+
+  .divider {
+    height: 1px;
+    margin: 18px 0 40px 0;
+    background-color: #E6E6E6;
+  }
+
+
+
+}
