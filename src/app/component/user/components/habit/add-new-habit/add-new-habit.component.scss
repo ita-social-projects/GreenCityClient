@@ -132,6 +132,51 @@ $second-font: 'Montserrat';
     background-color: #E6E6E6;
   }
 
+  .containerHabitEdit {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border: 1px solid grey;
+
+    .habitProgress,
+    .habitInfoRightBlock {
+      width: 554px;
+      border: 1px solid grey;
+    }
+
+    .habitInfoRightBlock {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid grey;
+
+      .inviteFriends {
+        width: 554px;
+        border: 1px solid grey;
+      }
+
+      .durationShoping {
+        display: flex;
+        flex-direction: row;
+        width: 554px;
+
+        .duration,
+        .shopping {
+          width: 261px;
+        }
+      }
+    }
 
 
+  }
+
+}
+
+@media screen and (max-width: 1200px) {
+
+  .habitProgress,
+  .habitInfoRightBlock {
+    margin: 0 auto;
+  }
 }

@@ -1,8 +1,6 @@
 <div class="wrapper">
   <div class="backToMyHabits" (click)="goToMyHabits()">
-    <div class="arrow">
-      
-    </div>
+    <div class="arrow"></div>
     <div class="text">Back to My habits</div>
   </div>
   <div class="habitContainer">
@@ -19,7 +17,7 @@
         </div>
       </div>
       <div class="habitTitle">
-        {{ habit?.habitTranslation.name }}
+        {{habit?.habitTranslation.name}}
       </div>
       <div class="description">
         <p>
@@ -35,5 +33,22 @@
     Habit Info
   </div>
   <div class="divider"></div>
-  <app-habit-progress></app-habit-progress>
+  <div class="containerHabitEdit">
+    <div class="habitProgress">
+      <app-habit-progress></app-habit-progress>
+    </div>
+    <div class="habitInfoRightBlock">
+      <div class="inviteFriends">
+        <app-habit-invite-friends></app-habit-invite-friends>
+      </div>
+      <div class="durationShoping">
+        <div class="duration">
+          <app-habit-duration></app-habit-duration>
+        </div>
+        <div class="shopping">
+          <app-habit-edit-shopping-list></app-habit-edit-shopping-list>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

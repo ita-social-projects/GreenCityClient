@@ -67,11 +67,13 @@ import { EditProfileFormBuilder } from '@global-user/components/profile/edit-pro
 import { UsersFriendsComponent } from './components/profile/users-friends/users-friends.component';
 import { UsersAchievementsComponent } from './components/profile/users-achievements/users-achievements.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { AddNewHabitComponent } from './components/habit/add-new-habit/add-new-habit.component';
+// import { AddNewHabitComponent } from './components/habit/add-new-habit/add-new-habit.component';
 import { HabitProgressComponent } from './components/habit/add-new-habit/habit-progress/habit-progress.component';
 import { HabitInviteFriendsComponent } from './components/habit/add-new-habit/habit-invite-friends/habit-invite-friends.component';
 import { HabitDurationComponent } from './components/habit/add-new-habit/habit-duration/habit-duration.component';
 import { HabitEditShoppingListComponent } from './components/habit/add-new-habit/habit-edit-shopping-list/habit-edit-shopping-list.component';
+import { HabitCalendarComponent } from './components/habit/add-new-habit/habit-calendar/habit-calendar.component';
+import { AddNewHabitComponent } from './components/habit/add-new-habit/add-new-habit.component';
 
 @NgModule({
   declarations: [
@@ -134,7 +136,8 @@ import { HabitEditShoppingListComponent } from './components/habit/add-new-habit
     HabitProgressComponent,
     HabitInviteFriendsComponent,
     HabitDurationComponent,
-    HabitEditShoppingListComponent
+    HabitEditShoppingListComponent,
+    HabitCalendarComponent
   ],
   imports: [
     UserRoutingModule,

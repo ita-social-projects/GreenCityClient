@@ -23,6 +23,7 @@ import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisa
 import { NoDataComponent } from './components/no-data/no-data.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { TagFilterComponent } from './components/tag-filter/tag-filter.component';
+import { CalendarBaseComponent } from './components/calendar-base/calendar-base.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { TagFilterComponent } from './components/tag-filter/tag-filter.component
     DateLocalisationPipe,
     NoDataComponent,
     SpinnerComponent,
-    TagFilterComponent
+    TagFilterComponent,
+    CalendarBaseComponent
   ],
   imports: [
     ImageCropperModule,
