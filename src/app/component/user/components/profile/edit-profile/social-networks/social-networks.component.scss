@@ -9,30 +9,32 @@ ul {
     margin-bottom: 24px;
 
     .link {
-      img {
+      .link-button-img {
         height: 24px;
         width: 24px;
       }
 
-      a {
+      .link-text {
         color: #494a49;
         font-family: opensans, sans-serif;
         font-size: 16px;
         line-height: 24px;
-        margin-right: 16px;
+        margin-left: 16px;
       }
     }
 
     .edit-icons {
       justify-self: end;
 
-      button {
+      .edit-button,
+      .delete-button {
         border: none;
         background-color: transparent;
         outline: none;
         padding: 0;
 
-        img {
+        .edit-button-img,
+        .delete-button-img {
           padding-left: 18px;
         }
       }
@@ -47,19 +49,23 @@ ul {
       display: flex;
       align-items: center;
 
-      button {
+      .add-button {
         border: transparent;
         background-color: transparent;
         padding: 0;
 
-        img {
+        &:focus {
+          outline: none;
+        }
+
+        .add-button-img {
           height: 26px;
           width: 26px;
           margin-right: 14px;
         }
       }
 
-      a {
+      .add-text {
         color: #056b33;
       }
     }
@@ -69,25 +75,19 @@ ul {
 @media screen and (max-width: 320px) {
   ul {
     li {
-      .link {
-        img {
-          margin-right: 12px;
-        }
+      .link-button-img {
+        margin-right: 12px;
+      }
 
-        a {
-          font-size: 14px;
-          margin-right: 0;
-        }
+      .link-text {
+        font-size: 14px;
+        margin-right: 0;
       }
     }
 
     li:last-child {
-      .link {
-        button {
-          img {
-            margin-right: 10px;
-          }
-        }
+      .add-button-img {
+        margin-right: 10px;
       }
     }
   }
