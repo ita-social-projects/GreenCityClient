@@ -1,5 +1,6 @@
 h1 {
   margin: 0;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .habits_header-buttons {
@@ -10,8 +11,10 @@ h1 {
   border-bottom: 1px solid #e6e6e6;
 }
 
-.active {
-  color: green;
+.habits_header-items-found {
+  font-family: 'OpenSans', sans-serif;
+  font-size: 16px;
+  line-height: 24px;
 }
 
 .habits_header-wrapper {
@@ -48,7 +51,7 @@ h1 {
 
 @media (min-width: 576px) {
   .galleryContainer {
-    grid-template-columns: repeat(2, auto);
+    grid-template-columns: repeat(2, 50%);
   }
 
   .container {
@@ -57,6 +60,10 @@ h1 {
 
   .habits_header-buttons {
     display: block;
+
+    :nth-child(1) {
+      margin-right: 8px;
+    }
   }
 }
 

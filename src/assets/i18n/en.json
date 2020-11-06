@@ -79,8 +79,8 @@
         "view": "View"
       },
       "empty-state": {
-        "no-news": "Unfotunately there is no news finded",
-        "no-news-advice": "We couldn't find any news. Please change filters to get a result."
+        "no-news": "Unfortunately, no more news found",
+        "no-news-advice": "We couldn't find any more news. Please change filters to get another result."
       }
     },
     "eco-advices": {
@@ -546,8 +546,11 @@
         "confirmation-modal-cancel": "Cancel"
       },
       "all-habits": {
-        "no-habits":"Sorry, no habits found",
-        "no-habits-advice": "No habits were found. Please change the filters to get the result."
+        "title":"All habits",
+        "no-habits":"Unfortunately, no more habits found",
+        "no-habits-advice": "We couldn't find any more habits. Please change filters to get another result.",
+        "btn-more": "More",
+        "btn-add": "Add habit"
       },
       "habit-trackers": {
         "habit-tracker": {

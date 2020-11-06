@@ -14,7 +14,7 @@ import { CalendarBaseComponent } from '@shared/components';
 export class HabitCalendarComponent extends CalendarBaseComponent implements OnInit, OnDestroy {
 
   constructor(public translate: TranslateService,
-    public languageService: LanguageService) {
+              public languageService: LanguageService) {
     super(translate, languageService);
   }
 

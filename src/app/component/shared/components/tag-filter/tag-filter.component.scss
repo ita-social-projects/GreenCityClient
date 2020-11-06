@@ -1,11 +1,9 @@
 .wrapper {
   display: grid;
   grid-template-rows: repeat(2, auto);
-  padding-bottom: 10px;
   row-gap: 15px;
 
   span {
-    margin-top: 2px;
     font-family: Montserrat, sans-serif;
     font-style: normal;
     font-weight: 500;
@@ -21,19 +19,20 @@
   margin: 0;
   overflow: auto;
   white-space: nowrap;
+  min-height: 42px;
 
   a {
     display: inline-block;
+    font-size: 14px;
+    line-height: 16px;
   }
 }
 
 @media (min-width: 576px) {
   .wrapper {
-    display: flex;
+    display: grid;
+    grid-template-columns: max-content auto;
     row-gap: 0;
-  }
-
-  .ul-eco-buttons {
-    margin-left: 30px;
+    column-gap: 30px;
   }
 }

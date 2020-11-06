@@ -1,8 +1,6 @@
 import { environment } from '@environment/environment';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { async, TestBed } from '@angular/core/testing';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { ServerHabitItemModel } from '@global-user/models/habit-item.model';
 import { BehaviorSubject } from 'rxjs';
 
 import { AllHabitsService } from './all-habits.service';
@@ -11,16 +9,13 @@ describe('AllHabitsService', () => {
   let service: AllHabitsService;
   let httpTestingController: HttpTestingController;
 
-  const localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getAccessToken']);
-  localStorageServiceMock.getAccessToken = () => 'test';
-
-  const mockData: ServerHabitItemModel = {
+  const mockData = {
     totalPages: 1,
     totalElements: 1,
     page: [{
       habitTranslation: {
         description: '',
-        habitItem: '',
+        habitItem: 'test',
         languageCode: '',
         name: '',
       },
@@ -33,9 +28,6 @@ describe('AllHabitsService', () => {
   beforeEach(async(() => TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule
-      ],
-      providers: [
-        { provide: LocalStorageService, useValue: localStorageServiceMock },
       ]
     })
   ));
@@ -59,10 +51,11 @@ describe('AllHabitsService', () => {
 
     it('Should fetch new data', async(() => {
       service.fetchAllHabits(0, 1);
+      // @ts-ignore
+      const spy = spyOn(service, 'splitHabitItems').and.returnValue(mockData);
       const req = httpTestingController.expectOne(`${environment.backendLink}habit?page=${0}&size=${1}&lang=en`);
-      expect(req.request.method).toEqual('GET');
       req.flush(mockData);
-      expect(service.allHabits.getValue()).toEqual(mockData);
+      expect(spy).toHaveBeenCalledWith(mockData);
     }));
 
     it('Should fetch more data', async(() => {
@@ -70,7 +63,7 @@ describe('AllHabitsService', () => {
       service.fetchAllHabits(0, 1);
       const req = httpTestingController.expectOne(`${environment.backendLink}habit?page=${0}&size=${1}&lang=en`);
       req.flush(mockData);
-      expect(service.allHabits.getValue()).toBeTruthy();
+      expect(service.allHabits.getValue().page.length).toEqual(2);
     }));
   });
 });

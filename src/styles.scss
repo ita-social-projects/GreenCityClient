@@ -2,6 +2,9 @@
 @import "~@ng-select/ng-select/themes/default.theme.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
+$color-greenCity-green: #13aa57;
+$color-greenCity-dark-green: #056b33;
+
 .hide {
   display: none;
 }
@@ -45,7 +48,7 @@ body {
 
 .primary-global-button {
   border: none;
-  background: #13aa57;
+  background: $color-greenCity-green;
   border-radius: 3px;
   font-family: Open Sans, sans-serif;
   font-style: normal;
@@ -59,7 +62,7 @@ body {
 
 .primary-global-button:hover,
 .primary-global-button:active {
-  background: #056b33;
+  background: $color-greenCity-dark-green;
   outline: none;
 }
 
@@ -69,7 +72,7 @@ body {
 }
 
 .secondary-global-button {
-  border: 1px solid #13aa57;
+  border: 1px solid $color-greenCity-green;
   box-sizing: border-box;
   border-radius: 3px;
   font-family: Open Sans, sans-serif;
@@ -77,15 +80,15 @@ body {
   font-weight: bold;
   font-size: 16px;
   line-height: 16px;
-  color: #13aa57;
+  color: $color-greenCity-green;
   text-align: center;
 }
 
 .secondary-global-button:hover,
 .secondary-global-button:active {
-  border: 1px solid #056b33;
+  border: 1px solid $color-greenCity-dark-green;
   line-height: 22px;
-  color: #056b33;
+  color: $color-greenCity-dark-green;
 }
 
 .tertiary-global-button {
@@ -95,12 +98,12 @@ body {
   font-style: normal;
   font-weight: bold;
   line-height: 16px;
-  color: #056b33;
+  color: $color-greenCity-dark-green;
 }
 
 .tertiary-global-button:hover,
 .tertiary-global-button:focus {
-  color: #13aa57;
+  color: $color-greenCity-green;
 }
 
 .mat-dialog-container {
@@ -136,13 +139,13 @@ body {
   margin-right: 8px;
 
   &:hover {
-    color: #056b33;
-    border: 1px solid #056b33;
+    color: $color-greenCity-dark-green;
+    border: 1px solid $color-greenCity-dark-green;
   }
 }
 
 .global-tag-clicked {
-  background: #13aa57;
+  background: $color-greenCity-green;
   color: #fff;
   font-weight: bold;
   font-family: opensans, sans-serif;
@@ -167,6 +170,24 @@ body {
 
 // [END] Tag guidelines
 
+// [STATR] View switcher buttons
+
+.btn-tiles,
+.btn-bars {
+  color: #878787;
+  font-size: 16px;
+
+  :hover {
+    color: $color-greenCity-dark-green;
+  }
+}
+
+.btn-bars-active,
+.btn-tiles-active {
+  color: $color-greenCity-green;
+}
+
+// [END] View swither btns
 .transparent .mat-dialog-container {
   background: transparent;
 }

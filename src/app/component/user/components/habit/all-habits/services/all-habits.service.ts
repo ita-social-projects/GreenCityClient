@@ -1,32 +1,25 @@
 import { ServerHabitItemModel } from './../../../../models/habit-item.model';
 import { environment } from '@environment/environment';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AllHabitsService {
-  private ACCESS_TOKEN: string;
   private backEnd = environment.backendLink;
   public allHabits = new BehaviorSubject<any>([]);
 
   constructor(
     private http: HttpClient,
-    private localStorageService: LocalStorageService
-  ) {
-    this.ACCESS_TOKEN = this.localStorageService.getAccessToken();
-   }
+  ) { }
 
   fetchAllHabits(page, size, lang: string = 'en'): void {
-    const header = {
-      headers: new HttpHeaders()
-        .set('Authorization',  `Bearer ${this.ACCESS_TOKEN}`)
-    };
-
-    this.http.get<ServerHabitItemModel>(`${this.backEnd}habit?page=${page}&size=${size}&lang=${lang}`, header).subscribe(
+    this.http.get<ServerHabitItemModel>(`${this.backEnd}habit?page=${page}&size=${size}&lang=${lang}`)
+    .pipe<ServerHabitItemModel>( map(data => this.splitHabitItems(data)))
+    .subscribe(
       data => {
         const observableValue = this.allHabits.getValue();
         const oldItems = observableValue.page ? observableValue.page : [];
@@ -38,5 +31,13 @@ export class AllHabitsService {
 
   resetSubject() {
     this.allHabits.next([]);
+  }
+
+  private splitHabitItems(data) {
+    data.page.forEach(el => {
+      return el.habitTranslation.habitItem = el.habitTranslation.habitItem.split(',').map(str => str.trim());
+    });
+
+    return data;
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CalendarInterface } from '@global-user/components/profile/calendar/calendar-interface';
 import { calendarImage } from './calendar-image';
 import { LanguageService } from '@language-service/language.service';
@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   selector: 'app-calendar-base',
   template: ''
 })
-export class CalendarBaseComponent implements OnInit {
+export class CalendarBaseComponent implements OnInit, OnDestroy {
   public calendarImages = calendarImage;
   public monthAndYearName: string;
   public yearData: number;

@@ -1,4 +1,3 @@
-import { ServerHabitItemPageModel } from './../../../../../models/habit-item.model';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -24,7 +23,7 @@ describe('HabitsListViewComponent', () => {
     component.habit = {
       habitTranslation: {
         description: 'string',
-        habitItem: 'string',
+        habitItem: ['string'],
         languageCode: 'string',
         name: '',
       },

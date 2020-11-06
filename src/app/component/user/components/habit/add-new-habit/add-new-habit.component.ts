@@ -18,11 +18,11 @@ export class AddNewHabitComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private addHabitService: AddNewHabitService) { 
+              private addHabitService: AddNewHabitService) {
                 this.route.params.subscribe(params => {
                   this.habitID = +params.habitId;
                   this.userID = +params.id;
-                })
+                });
               }
 
   ngOnInit() {
@@ -30,7 +30,7 @@ export class AddNewHabitComponent implements OnInit {
   }
 
   getHabitById(id: number): any {
-    this.addHabitService.getHabitById(id).subscribe(data =>{
+    this.addHabitService.getHabitById(id).subscribe(data => {
       console.log(data);
       this.habit = data;
     });

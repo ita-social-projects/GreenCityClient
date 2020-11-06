@@ -17,7 +17,7 @@ export class ServerHabitItemModel {
 export class ServerHabitItemPageModel {
   habitTranslation: {
     description: string;
-    habitItem: string;
+    habitItem: string[];
     languageCode: string;
     name: string;
   };

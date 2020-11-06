@@ -1,7 +1,7 @@
 <div class="habits-wrapper container" (window:resize)="onResize()">
     <div class="habits_header-wrapper">
         <div>
-            <h1 class="main-header">All habits</h1>
+            <h1 class="main-header">{{'user.habit.all-habits.title' | translate}}</h1>
         </div>
         <app-tag-filter class="border_bottom"
                         (tagsList)="getFilterData($event)" 
@@ -11,20 +11,18 @@
                         >
         </app-tag-filter>
         <div class="habits_header-actions">
-            <div class="">{{ totalHabitsCopy }} items found</div>
+            <div class="habits_header-items-found">{{ totalHabitsCopy }} items found</div>
             <div class="habits_header-buttons">
-                <button class="btn btn-white"
-                        type="button"
+                <span class="btn-tiles"
                         (click)="onDisplayModeChange(true)"
-                        [ngClass]="{'active': galleryView}">
+                        [ngClass]="{'btn-tiles-active': galleryView}">
                     <i class="fa fa-th-large"></i>
-                </button>
-                <button class="btn btn-white btn-bars"
-                        type="button"
+                </span>
+                <span class=" btn-bars"
                         (click)="onDisplayModeChange(false)"
-                        [ngClass]="{'active': !galleryView}">
+                        [ngClass]="{'btn-bars-active': !galleryView}">
                     <i class="fa fa-bars"></i>
-                </button>
+                </span>
             </div>
         </div>
     </div>
@@ -43,13 +41,13 @@
         </div>
     </div>
     <app-spinner *ngIf="isFetching"></app-spinner>
+    <div infiniteScroll
+        [infiniteScrollDistance]="0"
+        [infiniteScrollThrottle]="500"
+        (scrolled)="onScroll()">
+    </div>
     <app-no-data *ngIf="!elementsLeft" 
                 [title]="'user.habit.all-habits.no-habits'" 
                 [text]="'user.habit.all-habits.no-habits-advice'">
     </app-no-data>
-    <div infiniteScroll
-         [infiniteScrollDistance]="0"
-         [infiniteScrollThrottle]="500"
-         (scrolled)="onScroll()">
-    </div>
 </div>
