@@ -50,12 +50,12 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
       this.habitsList = data.page;
       this.filteredHabitsList = data.page;
 
-      const tag = [];
+      let tag = [];
       if (data.page) {
         this.elementsLeft = data.totalElements !== this.habitsList.length;
 
         data.page.forEach(element => {
-          tag.push(element.habitTranslation.habitItem);
+          return tag = [...tag, ...element.habitTranslation.habitItem];
         });
         this.tagList = [...new Set(tag)];
       }
@@ -85,7 +85,12 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
       return this.filteredHabitsList = this.habitsList;
     }
     if (this.filteredHabitsList.length > 0) {
-      this.filteredHabitsList = this.habitsList.filter(el => event.includes(el.habitTranslation.habitItem));
+      this.filteredHabitsList = this.habitsList.filter(el => {
+        return el.habitTranslation.habitItem.find(item => {
+          return event.includes(item);
+        });
+      });
+      this.onScroll();
       this.totalHabitsCopy = this.filteredHabitsList.length;
     }
   }

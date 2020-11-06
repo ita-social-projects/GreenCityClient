@@ -18,7 +18,7 @@ describe('AllHabitsComponent', () => {
   const habitsMockData: ServerHabitItemPageModel[] = [{
       habitTranslation: {
         description: 'test',
-        habitItem: 'test',
+        habitItem: ['test'],
         languageCode: 'test',
         name: 'test'
       },
@@ -28,7 +28,7 @@ describe('AllHabitsComponent', () => {
     {
       habitTranslation: {
         description: 'test2',
-        habitItem: 'test2',
+        habitItem: ['test2'],
         languageCode: 'test2',
         name: 'test2'
       },

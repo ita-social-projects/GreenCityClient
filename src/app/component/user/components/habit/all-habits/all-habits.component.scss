@@ -11,6 +11,12 @@ h1 {
   border-bottom: 1px solid #e6e6e6;
 }
 
+.habits_header-items-found {
+  font-family: 'OpenSans', sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+}
+
 .habits_header-wrapper {
   display: grid;
   grid-template-rows: auto auto auto;

@@ -1,9 +1,9 @@
 import { ServerHabitItemModel } from './../../../../models/habit-item.model';
 import { environment } from '@environment/environment';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,9 @@ export class AllHabitsService {
   ) { }
 
   fetchAllHabits(page, size, lang: string = 'en'): void {
-    this.http.get<ServerHabitItemModel>(`${this.backEnd}habit?page=${page}&size=${size}&lang=${lang}`).subscribe(
+    this.http.get<ServerHabitItemModel>(`${this.backEnd}habit?page=${page}&size=${size}&lang=${lang}`)
+    .pipe<ServerHabitItemModel>( map(data => this.splitHabitItems(data)))
+    .subscribe(
       data => {
         const observableValue = this.allHabits.getValue();
         const oldItems = observableValue.page ? observableValue.page : [];
@@ -29,5 +31,13 @@ export class AllHabitsService {
 
   resetSubject() {
     this.allHabits.next([]);
+  }
+
+  private splitHabitItems(data) {
+    data.page.forEach(el => {
+      return el.habitTranslation.habitItem = el.habitTranslation.habitItem.split(',').map(str => str.trim());
+    });
+
+    return data;
   }
 }

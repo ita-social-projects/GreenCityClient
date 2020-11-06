@@ -3,6 +3,7 @@
 
 $borderColor: #bebebe;
 $color-greenCity-green: #13aa57;
+$color-greenCity-font-grey: #494a49;
 
 :host {
   width: 100%;
@@ -76,23 +77,27 @@ $color-greenCity-green: #13aa57;
 }
 
 .habit__info {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'OpenSans', sans-serif;
   font-style: normal;
-  color: #494a49;
+  color: $color-greenCity-font-grey;
 
   p,
   h2 {
+    color: $color-greenCity-font-grey;
     margin: 0;
+    font-family: 'Montserrat', sans-serif;
   }
 
   .title {
-    font-weight: 600;
-    font-size: 24px;
-    line-height: 30px;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    h2 {
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 30px;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
   }
 
   .description {
@@ -109,9 +114,8 @@ $color-greenCity-green: #13aa57;
   display: flex;
 
   button {
-    font-family: 'Montserrat', sans-serif;
-    height: 100%;
     font-weight: 600;
+    height: 100%;
   }
 
   .primary-global-button {
