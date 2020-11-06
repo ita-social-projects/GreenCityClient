@@ -26,26 +26,23 @@ export class SearchService {
 
   public getAllSearch(searchQuery: string, searchType: string): Observable<SearchModel> {
     switch (searchType) {
-      case 'relevance': {
-        return this.getResultsByCat('search');
-        break;
+      case 'Relevance': {
+        return this.getResultsByCat(searchQuery, 'search');
       }
-      case 'newest': {
-        return this.getResultsByCat('newest');
-        break;
+      case 'Newest': {
+        return this.getResultsByCat(searchQuery, 'newest');
       }
-      case 'latest': {
-        return this.getResultsByCat('noresults');
-        break;
+      case 'Oldest': {
+        return this.getResultsByCat(searchQuery, 'noresults');
       }
       default: {
-        return this.getResultsByCat('search');
+        return this.getResultsByCat(searchQuery, 'search');
       }
     }
   }
 
-  private getResultsByCat(searchType: string): Observable<SearchModel> {
-    return this.http.get<SearchModel>(`${this.apiUrl}/${searchType}`).pipe(
+  private getResultsByCat(searchQuery: string, searchType: string): Observable<SearchModel> {
+    return this.http.get<SearchModel>(`${this.backEndLink}search?/econews?page=0&searchQuery=${searchQuery}&sort=desc`).pipe(
       switchMap(res => of(res))
     );
   }
@@ -62,9 +59,9 @@ export class SearchService {
     this.allSearchSubject.next(value);
   }
 
-  public getAllResults(query, category) {
+  public getAllResults(query: string, category: string, page: number) {
     const itemsPerPage = 9;
-    return this.http.get(`${this.backEndLink}search/${category}?page=0&searchQuery=${query}&size=${itemsPerPage}`)
+    return this.http.get(`${this.backEndLink}search/${category}?page=${page}&searchQuery=${query}&size=${itemsPerPage}&sort=asc`)
     .pipe(
       catchError((error) => {
         this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.', 'X', 'red-snackbar');
@@ -72,6 +69,7 @@ export class SearchService {
       })
     )
     .subscribe((data: SearchDto) => {
+        console.log(data);
         this.allElements = data;
         this.allElemsSubj.next(this.allElements);
       });

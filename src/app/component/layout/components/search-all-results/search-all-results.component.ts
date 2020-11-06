@@ -11,12 +11,15 @@ import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 })
 export class SearchAllResultsComponent implements OnInit, OnDestroy {
   public inputValues = ['Relevance', 'Newest', 'Oldest'];
+  public searchType: string;
   public displayedElements: NewsSearchModel[] = [];
   public elements: NewsSearchModel[] = [];
   public dropdownVisible: boolean;
   public isSearchFound: boolean;
   public inputValue: string;
   public itemsFound = 0;
+  public currentPage: number = 0;
+  public scroll: boolean;
   private searchSubscription: Subscription;
   readonly dropDownArrow = 'assets/img/arrow_grey.png';
 
@@ -25,6 +28,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.search.toggleAllSearch(true);
     this.getAllElems();
+    this.scroll = false;
   }
 
   private getAllElems(): void {
@@ -33,13 +37,18 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
   }
 
   private setElems(data): void {
-    this.displayedElements = data.page;
+    console.log(this.displayedElements);
+    this.displayedElements = this.displayedElements && this.scroll ? [...this.displayedElements, ...data.page] : [...data.page];
     this.elements = data.page;
+    // this.elements = this.scroll ? [...this.elements, ...data.page] : [...data.page];
     this.itemsFound = data.totalElements;
   }
 
   public onScroll(): void {
-    this.loadNextElements();
+    this.scroll = true;
+    // this.loadNextElements();
+    this.changeCurrentPage();
+    this.search.getAllResults(this.inputValue, "econews", this.currentPage);
   }
 
   private loadNextElements(): void {
@@ -48,11 +57,12 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
 
   public onKeyUp(event: EventTarget): void {
     this.displayedElements = [];
+    this.resetCurrentPage();
     const VALUE = 'value';
     if (event[VALUE].length > 0) {
       this.inputValue = event[VALUE];
-      this.searchSubscription = this.search.getAllSearch(this.inputValue, this.inputValues[0])
-        .subscribe(data => this.getSearchData(data));
+      this.search.getAllResults(this.inputValue, "econews", this.currentPage);
+      this.isSearchFound = true;
     } else {
       this.resetData();
     }
@@ -70,12 +80,15 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
   }
 
   private spliceResults(): void {
-    const splicedData = this.elements.splice(0, 9);
-    this.displayedElements = splicedData.filter(elem => elem);
+    if (this.elements) {
+      const splicedData = this.elements.splice(0, 9);
+      this.displayedElements = splicedData.filter(elem => elem);
+    }
   }
 
   public changeCurrentSorting(newSorting: number): void {
     [this.inputValues[0], this.inputValues[newSorting]] = [this.inputValues[newSorting], this.inputValues[0]];
+    this.searchType = this.inputValues[0];
   }
 
   public toggleDropdown(): void {
@@ -86,6 +99,14 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
     this.itemsFound = 0;
     this.elements = null;
     this.displayedElements = null;
+  }
+
+  private changeCurrentPage(): void {
+    this.currentPage += 1;
+  }
+
+  private resetCurrentPage(): void {
+    this.currentPage = 0;
   }
 
   ngOnDestroy() {

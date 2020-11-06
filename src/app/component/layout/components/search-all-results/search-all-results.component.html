@@ -49,6 +49,19 @@
     </div>
   </div>
 </div>
+<!-- <mat-spinner *ngIf="true; else noNews">
+</mat-spinner> -->
+<!-- <mat-spinner>
+</mat-spinner> -->
+<!-- <ng-template #noNews>
+  <app-no-news></app-no-news>
+</ng-template>
+<div [ngIf]="isSearchFound && elements"
+      infiniteScroll
+      [infiniteScrollDistance]="0"
+      [infiniteScrollThrottle]="500"
+      (scrolled)="onScroll()">
+</div> -->
 <ng-template [ngIf]="isSearchFound && elements">
   <div infiniteScroll
       [infiniteScrollDistance]="0"
