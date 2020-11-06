@@ -177,11 +177,11 @@ $main-font: 'Open Sans', sans-serif;
     width: 100%;
     display: flex;
 
-    &_registered{
+    &_registered {
       justify-content: space-between;
     }
 
-    &_unregistered{
+    &_unregistered {
       justify-content: flex-end;
     }
   }
