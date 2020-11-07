@@ -44,6 +44,12 @@
         "lifehacks": "Лайфхаки"
       },
       "items-found": "новин знайдено",
+      "news-popup": {
+        "title": "Внесені зміни будуть втрачені.",
+        "subtitle": "Бажаєте скасувати створення новини?",
+        "cancel": "Продовжити створення",
+        "confirm": "Так, скасувати"
+      },
       "comment": {
         "comment": "Коментар",
         "comments": {
@@ -52,12 +58,22 @@
           "more-then-two-comments": "коментаря",
           "more-then-four-comments": "коментарів"
         },
+        "comment-popup": {
+          "title": "Ви дійсно бажаєте видалити коментар?",
+          "confirm": "Так, видалити",
+          "cancel": "Скасувати"
+        },
         "reply": "Відповісти",
         "replies": {
           "zero-reply": "відповідей",
           "one-reply": "відповідь",
           "more-then-two-replies": "відповіді",
           "more-then-four-replies": "відповідей"
+        },
+        "reply-popup": {
+          "title": "Ви дійсно бажаєте видалити відповідь?",
+          "confirm": "Так, видалити",
+          "cancel": "Скасувати"
         },
         "btn": {
           "reply": "Відповісти",
@@ -487,6 +503,12 @@
         "delete": "Видалити фото",
         "continue":"Продовжити редагування",
         "yes-delete": "Tак, видалити"
+      },
+      "profile-popup": {
+        "title": "Внесені зміни будуть втрачені.",
+        "subtitle": "Бажаєте скасувати редагування профілю?",
+        "cancel": "Продовжити редагування",
+        "confirm": "Так, вийти"
       }
     },
     "footer": {
@@ -642,13 +664,6 @@
   "post-news-loader": {
     "text-1": "Please wait while loading...",
     "text-2": "Your news is loading to the website. Please wait until the page refreshes"
-  },
-  "cancel-popup": {
-    "title": "Внесені зміни будуть втрачені.",
-    "subtitle-news": "Бажаєте вийти?",
-    "subtitle-profile": "Бажаєте вийти?",
-    "continue": "Продовжити редагування",
-    "cancel": "Так, вийти"
   },
   "profile": {
     "calendar": {

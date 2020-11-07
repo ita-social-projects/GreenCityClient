@@ -67,6 +67,7 @@
     <div class="btn-wrapper" *ngIf="isLoggedIn && (comment.author.id === +userId) && !comment.isEdit">
       <app-edit-comment (isEditing)="showElements(comment.id, 'isEdit')"></app-edit-comment>
       <app-delete-comment [element]="comment"
+                          [dataType] = "dataType"
                           (elementsList)="deleteComment()"></app-delete-comment>
     </div>
     <app-like-comment *ngIf="isLoggedIn && (comment.author.id !== +userId)"

@@ -144,3 +144,9 @@ body {
     padding: 30px 16px 27px;
   }
 }
+
+.popup-dialog-container {
+  .mat-dialog-container {
+    padding: 0;
+  }
+}

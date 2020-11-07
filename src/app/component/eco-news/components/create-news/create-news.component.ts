@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { FilterModel } from '@eco-news-models/create-news-interface';
-import {CancelPopUpComponent} from '@shared/components';
+import { ComponentCanDeactivate } from '@global-service/pending-changes-guard/pending-changes.guard';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-create-news',
   templateUrl: './create-news.component.html',
   styleUrls: ['./create-news.component.scss']
 })
-export class CreateNewsComponent implements OnInit {
+export class CreateNewsComponent implements OnInit, ComponentCanDeactivate {
   public isPosting = false;
 
   public createNewsForm = this.fb.group({
@@ -45,15 +45,50 @@ export class CreateNewsComponent implements OnInit {
     maxTextAreaHeight: '128px',
   };
 
+  private areChangesSaved = false;
+  public popupConfig = {
+    hasBackdrop: true,
+    closeOnNavigation: true,
+    disableClose: true,
+    panelClass: 'popup-dialog-container',
+    data: {
+      popupTitle: 'homepage.eco-news.news-popup.title',
+      popupSubtitle: 'homepage.eco-news.news-popup.subtitle',
+      popupConfirm: 'homepage.eco-news.news-popup.confirm',
+      popupCancel: 'homepage.eco-news.news-popup.cancel',
+    }
+  };
+
   constructor(private router: Router,
               private fb: FormBuilder,
-              public createEcoNewsService: CreateEcoNewsService,
-              private dialog: MatDialog) {}
+              public createEcoNewsService: CreateEcoNewsService) {}
 
   ngOnInit() {
     this.onSourceChange();
     this.setFormItems();
     this.setEmptyForm();
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+
+  canDeactivate(): boolean | Observable<boolean> {
+    if (this.areChangesSaved) {
+      return true;
+    } else {
+      const body = this.createNewsForm.value;
+      for (const key of Object.keys(body)) {
+        if (Array.isArray(body[key])) {
+          if (body[key].some(item => item)) {
+            return false;
+          }
+        } else {
+          if (body[key]) {
+            return false;
+          }
+        }
+      }
+      return true;
+    }
   }
 
   private setFormItems(): void {
@@ -72,9 +107,9 @@ export class CreateNewsComponent implements OnInit {
 
   public autoResize(event): void {
     const checkTextAreaHeight = event.target.scrollHeight > this.textAreasHeight.minTextAreaScrollHeight
-    && event.target.scrollHeight < this.textAreasHeight.maxTextAreaScrollHeight;
+      && event.target.scrollHeight < this.textAreasHeight.maxTextAreaScrollHeight;
     const maxHeight = checkTextAreaHeight ? this.textAreasHeight.maxTextAreaHeight
-    : event.target.scrollHeight < this.textAreasHeight.minTextAreaScrollHeight;
+      : event.target.scrollHeight < this.textAreasHeight.minTextAreaScrollHeight;
     const minHeight = checkTextAreaHeight ? this.textAreasHeight.minTextAreaHeight : `${event.target.scrollHeight}px`;
     event.target.style.height = checkTextAreaHeight ? maxHeight : minHeight;
   }
@@ -92,6 +127,7 @@ export class CreateNewsComponent implements OnInit {
   }
 
   public onSubmit(): void {
+    this.areChangesSaved = true;
     this.isPosting = true;
     this.setFilters();
     this.createEcoNewsService.sendFormData(this.createNewsForm).subscribe(
@@ -142,8 +178,8 @@ export class CreateNewsComponent implements OnInit {
       this.formData.value.tags.forEach(tag => {
         this.filters.forEach(filter => {
           if (filter.name.toLowerCase() === tag &&
-              filter.isActive &&
-              !this.createNewsForm.value.tags.includes(tag)) {
+            filter.isActive &&
+            !this.createNewsForm.value.tags.includes(tag)) {
             this.createNewsForm.value.tags = [...this.createNewsForm.value.tags, tag];
             this.filtersValidation(filter);
           }
@@ -162,20 +198,13 @@ export class CreateNewsComponent implements OnInit {
   }
 
   public goToPreview(): void {
+    this.areChangesSaved = true;
     this.createEcoNewsService.setForm(this.createNewsForm);
     this.router.navigate(['news', 'preview']);
     this.setFilters();
   }
 
-  public openCancelPopup(): void {
-    this.dialog.open(CancelPopUpComponent, {
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      disableClose: true,
-      panelClass: 'custom-dialog-container',
-      data: {
-        currentPage: 'eco news'
-      }
-    });
+  private cancelCreating(): void {
+    this.router.navigate(['news']);
   }
 }

@@ -44,6 +44,12 @@
         "lifehacks": "Lifehacks"
       },
       "items-found": "items found",
+      "news-popup": {
+        "title": "All created content will be lost.",
+        "subtitle": "Do you still want to cancel news creating?",
+        "cancel": "Continue editing",
+        "confirm": "Yes, cancel"
+      },
       "comment": {
         "comment": "Comment",
         "comments": {
@@ -52,12 +58,22 @@
           "more-then-two-comments": "comments",
           "more-then-four-comments": "сomments"
         },
+        "comment-popup": {
+          "title": "Are you sure you want to delete the comment?",
+          "confirm": "Yes, delete",
+          "cancel": "Cancel"
+        },
         "reply": "Reply",
         "replies": {
           "zero-reply": "reply",
           "one-reply": "reply",
           "more-then-two-replies": "replies",
           "more-then-four-replies": "replies"
+        },
+        "reply-popup": {
+          "title": "Are you sure you want to delete the reply?",
+          "confirm": "Yes, delete",
+          "cancel": "Cancel"
         },
         "btn": {
           "reply": "Reply",
@@ -96,21 +112,21 @@
     }
   },
   "search": {
-      "search-popup": {
-        "placeholder": "Search",
-        "items-found": "items found",
-        "news": "News",
-        "tips":"Tips & Tricks",
-        "all-results": "See all results"
-      },
-      "search-not-found": {
-        "not-found-text": "We couldn't find results for '{{searchQuery}}' Please change the search.",
-        "choose-alternative": "Maybe you can find some interesting stuff here:",
-        "alternative-header-news": "News",
-        "alternative-description-news": "Find the latest news, events and initiatives here. Find news and create ones.",
-        "alternative-header-tips": "Tips & Tricks",
-        "alternative-description-tips": "How to sort garbage? Where to find eco stuff? And many other useful stuff for being eco friendly."
-      }
+    "search-popup": {
+      "placeholder": "Search",
+      "items-found": "items found",
+      "news": "News",
+      "tips":"Tips & Tricks",
+      "all-results": "See all results"
+    },
+    "search-not-found": {
+      "not-found-text": "We couldn't find results for '{{searchQuery}}' Please change the search.",
+      "choose-alternative": "Maybe you can find some interesting stuff here:",
+      "alternative-header-news": "News",
+      "alternative-description-news": "Find the latest news, events and initiatives here. Find news and create ones.",
+      "alternative-header-tips": "Tips & Tricks",
+      "alternative-description-tips": "How to sort garbage? Where to find eco stuff? And many other useful stuff for being eco friendly."
+    }
   },
   "admin-nav": {
     "places": "Places",
@@ -482,6 +498,12 @@
         "delete": "Delete photo",
         "continue": "Continue editing",
         "yes-delete": "Yes, delete"
+      },
+      "profile-popup": {
+        "title": "All created content will be lost.",
+        "subtitle": "Do you still want to cancel profile editing?",
+        "cancel": "Continue editing",
+        "confirm": "Yes, cancel"
       }
     },
     "footer": {
@@ -636,13 +658,6 @@
   "post-news-loader": {
     "text-1": "Please wait while loading...",
     "text-2": "Your news is loading to the website. Please wait until the page refreshes"
-  },
-  "cancel-popup": {
-    "title": "All created content will be lost.",
-    "subtitle-news": "Do you still want to cancel news creating?",
-    "subtitle-profile": "Do you still want to cancel profile editing?",
-    "continue": "Continue editing",
-    "cancel": "Yes, cancel"
   },
   "profile": {
     "calendar": {

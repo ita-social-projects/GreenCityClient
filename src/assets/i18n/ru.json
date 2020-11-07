@@ -44,6 +44,12 @@
         "lifehacks": "Лайфхаки"
       },
       "items-found": "новостей найдено",
+      "news-popup": {
+        "title": "Все изменения будут потеряны.",
+        "subtitle": "Желаете отменить создание новости?",
+        "cancel": "Продолжить создание",
+        "confirm": "Да, отменить"
+      },
       "comment": {
         "comment": "Комментарий",
         "comments": {
@@ -52,12 +58,22 @@
           "more-then-two-comments": "комментария",
           "more-then-four-comments": "комментариев"
         },
+        "comment-popup": {
+          "title": "Вы действительно хотите удалить комментарий?",
+          "confirm": "Да, удалить",
+          "cancel": "Отменить"
+        },
         "reply": "Ответить",
         "replies": {
           "zero-reply": "ответов",
           "one-reply": "ответ",
           "more-then-two-replies": "ответа",
           "more-then-four-replies": "ответов"
+        },
+        "reply-popup": {
+          "title": "Вы действительно хотите удалить ответ?",
+          "confirm": "Да, удалить",
+          "cancel": "Отменить"
         },
         "btn": {
           "reply": "Ответить",
@@ -487,6 +503,12 @@
         "delete": "Удалить фото",
         "continue": "Продолжить редактирование",
         "yes-delete": "Да, удалить"
+      },
+      "profile-popup": {
+        "title": "Все изменения будут потеряны.",
+        "subtitle": "Желаете отменить редактирование профиля?",
+        "cancel": "Продолжить редактирование",
+        "confirm": "Да, выйти"
       }
     },
     "footer": {
@@ -643,13 +665,6 @@
   "post-news-loader": {
     "text-1": "Please wait while loading...",
     "text-2": "Your news is loading to the website. Please wait until the page refreshes"
-  },
-  "cancel-popup": {
-    "title": "Все изменения будут потеряны.",
-    "subtitle-news": "Желаете выйти?",
-    "subtitle-profile": "Желаете выйти?",
-    "continue": "Продолжить редактирование",
-    "cancel": "Да, выйти"
   },
   "profile": {
     "calendar": {

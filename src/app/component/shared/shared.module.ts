@@ -8,8 +8,8 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { FileUploadModule } from 'ng2-file-upload';
 import { MatCardModule } from '@angular/material';
 import {
+  WarningPopUpComponent,
   PhotoUploadComponent,
-  CancelPopUpComponent,
   EditPhotoPopUpComponent
 } from './components';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -18,17 +18,16 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DragAndDropDirective } from '../eco-news/directives/drag-and-drop.directive';
 import { DragAndDropComponent } from './components/drag-and-drop/drag-and-drop.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
-import {MatSnackBarComponent} from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
 
 @NgModule({
   declarations: [
     PhotoUploadComponent,
-    CancelPopUpComponent,
     DragAndDropDirective,
     DragAndDropComponent,
     EditPhotoPopUpComponent,
-    DateLocalisationPipe
+    DateLocalisationPipe,
+    WarningPopUpComponent
   ],
   imports: [
     ImageCropperModule,
@@ -50,7 +49,6 @@ import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisa
     MatProgressSpinnerModule
   ],
   exports: [
-    CancelPopUpComponent,
     EditPhotoPopUpComponent,
     TranslateModule,
     PhotoUploadComponent,
@@ -64,9 +62,13 @@ import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisa
     MatProgressSpinnerModule,
     DragAndDropDirective,
     DragAndDropComponent,
-    DateLocalisationPipe
+    DateLocalisationPipe,
+    WarningPopUpComponent
   ],
   providers: [],
+  entryComponents: [
+    WarningPopUpComponent
+  ],
 })
 export class SharedModule {}
 
