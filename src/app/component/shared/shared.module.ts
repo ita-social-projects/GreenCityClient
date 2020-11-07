@@ -19,6 +19,7 @@ import { DragAndDropDirective } from '../eco-news/directives/drag-and-drop.direc
 import { DragAndDropComponent } from './components/drag-and-drop/drag-and-drop.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
+import { FormBaseComponent } from './components/form-base/form-base.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisa
     DragAndDropComponent,
     EditPhotoPopUpComponent,
     DateLocalisationPipe,
-    WarningPopUpComponent
+    WarningPopUpComponent,
+    FormBaseComponent
   ],
   imports: [
     ImageCropperModule,
@@ -63,7 +65,8 @@ import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisa
     DragAndDropDirective,
     DragAndDropComponent,
     DateLocalisationPipe,
-    WarningPopUpComponent
+    WarningPopUpComponent,
+    FormBaseComponent
   ],
   providers: [],
   entryComponents: [

@@ -1,17 +1,17 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { FilterModel } from '@eco-news-models/create-news-interface';
-import { ComponentCanDeactivate } from '@global-service/pending-changes-guard/pending-changes.guard';
-import { Observable } from 'rxjs';
+import { MatDialog } from '@angular/material';
+import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 
 @Component({
   selector: 'app-create-news',
   templateUrl: './create-news.component.html',
   styleUrls: ['./create-news.component.scss']
 })
-export class CreateNewsComponent implements OnInit, ComponentCanDeactivate {
+export class CreateNewsComponent extends FormBaseComponent implements OnInit {
   public isPosting = false;
 
   public createNewsForm = this.fb.group({
@@ -45,7 +45,7 @@ export class CreateNewsComponent implements OnInit, ComponentCanDeactivate {
     maxTextAreaHeight: '128px',
   };
 
-  private areChangesSaved = false;
+  public previousPath = '/news';
   public popupConfig = {
     hasBackdrop: true,
     closeOnNavigation: true,
@@ -59,9 +59,14 @@ export class CreateNewsComponent implements OnInit, ComponentCanDeactivate {
     }
   };
 
-  constructor(private router: Router,
+  constructor(public router: Router,
+              public dialog: MatDialog,
               private fb: FormBuilder,
-              public createEcoNewsService: CreateEcoNewsService) {}
+              public createEcoNewsService: CreateEcoNewsService) {
+
+    super(router, dialog);
+
+  }
 
   ngOnInit() {
     this.onSourceChange();
@@ -69,26 +74,20 @@ export class CreateNewsComponent implements OnInit, ComponentCanDeactivate {
     this.setEmptyForm();
   }
 
-  @HostListener('window:beforeunload', ['$event'])
-
-  canDeactivate(): boolean | Observable<boolean> {
-    if (this.areChangesSaved) {
-      return true;
-    } else {
-      const body = this.createNewsForm.value;
-      for (const key of Object.keys(body)) {
-        if (Array.isArray(body[key])) {
-          if (body[key].some(item => item)) {
-            return false;
-          }
-        } else {
-          if (body[key]) {
-            return false;
-          }
+  public checkChanges(): boolean {
+    const body = this.createNewsForm.value;
+    for (const key of Object.keys(body)) {
+      if (Array.isArray(body[key])) {
+        if (body[key].some(item => item)) {
+          return true;
+        }
+      } else {
+        if (body[key]) {
+          return true;
         }
       }
-      return true;
     }
+    return false;
   }
 
   private setFormItems(): void {
@@ -202,9 +201,5 @@ export class CreateNewsComponent implements OnInit, ComponentCanDeactivate {
     this.createEcoNewsService.setForm(this.createNewsForm);
     this.router.navigate(['news', 'preview']);
     this.setFilters();
-  }
-
-  private cancelCreating(): void {
-    this.router.navigate(['news']);
   }
 }

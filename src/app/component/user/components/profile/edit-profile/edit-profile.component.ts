@@ -1,4 +1,4 @@
-import { Component, ElementRef, NgZone, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
@@ -8,15 +8,16 @@ import { take } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, Subscription } from 'rxjs';
-import { ComponentCanDeactivate } from '@global-service/pending-changes-guard/pending-changes.guard';
+import { Subscription } from 'rxjs';
+import { MatDialog } from '@angular/material';
+import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.scss']
 })
-export class EditProfileComponent implements OnInit, OnDestroy, ComponentCanDeactivate {
+export class EditProfileComponent extends FormBaseComponent implements OnInit, OnDestroy {
   public editProfileForm = null;
   private langChangeSub: Subscription;
   @ViewChild('search', { static: true }) public searchElementRef: ElementRef;
@@ -33,8 +34,8 @@ export class EditProfileComponent implements OnInit, OnDestroy, ComponentCanDeac
     userCredo:
       'My Credo is to make small steps that leads to huge impact. Let’s change the world together.',
   };
-  private initialValues: any;
-  private areChangesSaved = false;
+  public initialValues: any;
+  public previousPath = '/profile';
   public popupConfig = {
     hasBackdrop: true,
     closeOnNavigation: true,
@@ -51,11 +52,16 @@ export class EditProfileComponent implements OnInit, OnDestroy, ComponentCanDeac
   constructor(public builder: EditProfileFormBuilder,
               private editProfileService: EditProfileService,
               private profileService: ProfileService,
-              private router: Router,
+              public router: Router,
+              public dialog: MatDialog,
               private localStorageService: LocalStorageService,
               private translate: TranslateService,
               private mapsAPILoader: MapsAPILoader,
-              private ngZone: NgZone) {}
+              private ngZone: NgZone) {
+
+    super(router, dialog);
+
+  }
 
   ngOnInit() {
     this.setupInitialValue();
@@ -65,34 +71,28 @@ export class EditProfileComponent implements OnInit, OnDestroy, ComponentCanDeac
     this.autocompleteCity();
   }
 
-  @HostListener('window:beforeunload', ['$event'])
-
-  canDeactivate(): boolean | Observable<boolean> {
-    if (this.areChangesSaved) {
-      return true;
-    } else {
-      const body: EditProfileDto = {
-        city: this.searchElementRef.nativeElement.value,
-        firstName: this.editProfileForm.value.name,
-        userCredo: this.editProfileForm.value.credo,
-        showLocation: this.editProfileForm.value.showLocation,
-        showEcoPlace: this.editProfileForm.value.showEcoPlace,
-        showShoppingList: this.editProfileForm.value.showShoppingList,
-        socialNetworks: []
-      };
-      for (const key of Object.keys(body)) {
-        if (Array.isArray(body[key])) {
-          if (body[key].some((item, index) => item !== this.initialValues[key][index])) {
-            return false;
-          }
-        } else {
-          if (body[key] !== this.initialValues[key]) {
-            return false;
-          }
+  public checkChanges(): boolean {
+    const body: EditProfileDto = {
+      city: this.searchElementRef.nativeElement.value,
+      firstName: this.editProfileForm.value.name,
+      userCredo: this.editProfileForm.value.credo,
+      showLocation: this.editProfileForm.value.showLocation,
+      showEcoPlace: this.editProfileForm.value.showEcoPlace,
+      showShoppingList: this.editProfileForm.value.showShoppingList,
+      socialNetworks: []
+    };
+    for (const key of Object.keys(body)) {
+      if (Array.isArray(body[key])) {
+        if (body[key].some((item, index) => item !== this.initialValues[key][index])) {
+          return true;
+        }
+      } else {
+        if (body[key] !== this.initialValues[key]) {
+          return true;
         }
       }
-      return true;
     }
+    return false;
   }
 
   private setupInitialValue() {
@@ -137,10 +137,6 @@ export class EditProfileComponent implements OnInit, OnDestroy, ComponentCanDeac
         this.localStorageService.setFirstName(form.value.name);
       }
     );
-  }
-
-  public cancelEditing(): void {
-    this.router.navigate(['profile']);
   }
 
   private bindLang(lang: string): void {

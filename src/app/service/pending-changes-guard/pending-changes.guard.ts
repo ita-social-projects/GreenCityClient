@@ -6,6 +6,7 @@ import { WarningPopUpComponent } from '@shared/components';
 
 export interface ComponentCanDeactivate {
   canDeactivate: () => boolean | Observable<boolean>;
+  previousPath: string;
   popupConfig: {
     hasBackdrop: boolean,
     closeOnNavigation: boolean,
@@ -16,7 +17,7 @@ export interface ComponentCanDeactivate {
       popupSubtitle: string,
       popupConfirm: string,
       popupCancel: string
-    };
+    }
   };
 }
 
@@ -33,6 +34,9 @@ export class PendingChangesGuard implements CanDeactivate<ComponentCanDeactivate
 
       return new Promise(resolve => {
         const dialogSub = matDialogRef.afterClosed().subscribe(confirm => {
+          if (!confirm) {
+            history.pushState({navigationId: 2}, '', component.previousPath);
+          }
           resolve(confirm);
           dialogSub.unsubscribe();
         });
