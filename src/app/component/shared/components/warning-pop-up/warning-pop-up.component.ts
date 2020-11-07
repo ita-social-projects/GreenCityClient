@@ -8,10 +8,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 })
 export class WarningPopUpComponent implements OnInit {
 
-  private popupTitle: string;
-  private popupSubtitle: string;
-  private popupConfirm: string;
-  private popupCancel: string;
+  public popupTitle: string;
+  public popupSubtitle: string;
+  public popupConfirm: string;
+  public popupCancel: string;
 
   constructor(private matDialogRef: MatDialogRef<WarningPopUpComponent>,
               @Inject(MAT_DIALOG_DATA) public data) { }
@@ -36,7 +36,7 @@ export class WarningPopUpComponent implements OnInit {
     this.popupCancel = this.data.popupCancel;
   }
 
-  private userReply(reply: boolean): void {
+  public userReply(reply: boolean): void {
     this.matDialogRef.close(reply);
   }
 }

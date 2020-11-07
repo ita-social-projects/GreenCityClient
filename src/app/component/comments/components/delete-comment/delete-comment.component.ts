@@ -18,7 +18,7 @@ export class DeleteCommentComponent {
   constructor(private commentsService: CommentsService,
               private dialog: MatDialog) { }
 
-  private openPopup(): void {
+  public openPopup(): void {
     const dialogRef = this.dialog.open(WarningPopUpComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,

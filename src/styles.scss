@@ -125,6 +125,10 @@ body {
   background: transparent;
 }
 
+.popup-dialog-container .mat-dialog-container {
+  padding: 0;
+}
+
 .custom-dialog-container .mat-dialog-container::-webkit-scrollbar {
   display: none;
 }
@@ -142,11 +146,5 @@ body {
 @media (max-width: 320px) {
   .custom-dialog-container .mat-dialog-container {
     padding: 30px 16px 27px;
-  }
-}
-
-.popup-dialog-container {
-  .mat-dialog-container {
-    padding: 0;
   }
 }
