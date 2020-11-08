@@ -1,13 +1,38 @@
 .calendar {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid #28a745;
-    width: 416px;
-    max-height: 316px;
-    height: 316px;
-    background-color: white;
+  display: flex;
+  flex-direction: column;
+  width: 416px;
+  max-height: 316px;
+  height: 316px;
+  background-color: #FBFBFB;
+  border-radius: 5px;
 
-    .middle {
-        align-self: center;
+  .top {
+    .month-year {
+      .monthAndYear {
+        font-size: 16px;
+      }
     }
+
+    .days {
+      grid-template-columns: repeat(7, 52px);
+      margin: 0px 9px 0px 22px;
+      padding: 7px 0 0 0;
+    }
+  }
+
+  .middle {
+    align-self: center;
+    padding-top: 24px;
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 30px);
+      grid-row-gap: 8px;
+      grid-column-gap: 25px;
+      grid-auto-rows: 28px;
+      font-size: 16px;
+      margin: 0;
+    }
+  }
 }

@@ -106,7 +106,6 @@ $second-font: 'Montserrat';
 
     .habitImg {
       width: 395px;
-      // height: 341px;
       align-self: flex-end;
       margin-left: 25px;
 
@@ -138,12 +137,17 @@ $second-font: 'Montserrat';
     align-items: center;
     flex-wrap: wrap;
     justify-content: space-between;
-    border: 1px solid grey;
 
     .habitProgress,
     .habitInfoRightBlock {
       width: 554px;
-      border: 1px solid grey;
+      height: 468px;
+    }
+
+    .habitProgress {
+      padding: 36px 36px 36px 36px;
+      background-color: #F5F6F6;
+      border-radius: 8px;
     }
 
     .habitInfoRightBlock {
@@ -177,6 +181,6 @@ $second-font: 'Montserrat';
 
   .habitProgress,
   .habitInfoRightBlock {
-    margin: 0 auto;
+    margin: 0;
   }
 }
