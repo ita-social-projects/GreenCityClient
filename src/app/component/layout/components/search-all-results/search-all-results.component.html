@@ -5,6 +5,7 @@
         <div class="search-icon"></div>
         <input class = "search-field"
                type="text"
+               [(ngModel)]="inputValue"
                placeholder="Search"
                (keyup)="onKeyUp($event.target)">
       </div>
@@ -40,7 +41,7 @@
     </div>
 
     <div class="center-content-wrapper">
-      <div class="flex-container">
+      <div *ngIf="displayedElements" class="flex-container">
           <app-item *ngFor="let element of displayedElements"
                     [searchModel]="element"
                     class="app-search-item"
@@ -48,24 +49,11 @@
       </div>
     </div>
   </div>
+  <ng-template [ngIf]="isSearchFound && elements">
+    <div infiniteScroll
+        [infiniteScrollDistance]="0"
+        [infiniteScrollThrottle]="500"
+        (scrolled)="onScroll()">
+    </div>
+  </ng-template>
 </div>
-<!-- <mat-spinner *ngIf="true; else noNews">
-</mat-spinner> -->
-<!-- <mat-spinner>
-</mat-spinner> -->
-<!-- <ng-template #noNews>
-  <app-no-news></app-no-news>
-</ng-template>
-<div [ngIf]="isSearchFound && elements"
-      infiniteScroll
-      [infiniteScrollDistance]="0"
-      [infiniteScrollThrottle]="500"
-      (scrolled)="onScroll()">
-</div> -->
-<ng-template [ngIf]="isSearchFound && elements">
-  <div infiniteScroll
-      [infiniteScrollDistance]="0"
-      [infiniteScrollThrottle]="500"
-      (scrolled)="onScroll()">
-  </div>
-</ng-template>

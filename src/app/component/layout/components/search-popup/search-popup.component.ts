@@ -65,7 +65,7 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   }
 
   public getAllResults(category: string): void {
-    this.search.getAllResults(this.searchInput.value, category);
+    this.search.getAllResults(this.searchInput.value, category, 0, '');
     this.closeSearch();
   }
 
@@ -86,7 +86,6 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   }
 
   public closeSearch(): void {
-    console.log(this.searchInput.value);
     this.search.closeSearchSignal();
     this.isSearchClicked = false;
     this.resetData();

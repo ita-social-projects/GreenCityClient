@@ -26,23 +26,26 @@ export class SearchService {
 
   public getAllSearch(searchQuery: string, searchType: string): Observable<SearchModel> {
     switch (searchType) {
-      case 'Relevance': {
-        return this.getResultsByCat(searchQuery, 'search');
+      case 'relevance': {
+        this.getResultsByCat('search');
+        break;
       }
-      case 'Newest': {
-        return this.getResultsByCat(searchQuery, 'newest');
+      case 'newest': {
+        this.getResultsByCat('newest');
+        break;
       }
-      case 'Oldest': {
-        return this.getResultsByCat(searchQuery, 'noresults');
+      case 'latest': {
+        this.getResultsByCat('noresults');
+        break;
       }
       default: {
-        return this.getResultsByCat(searchQuery, 'search');
+        return this.getResultsByCat('search');
       }
     }
   }
 
-  private getResultsByCat(searchQuery: string, searchType: string): Observable<SearchModel> {
-    return this.http.get<SearchModel>(`${this.backEndLink}search?/econews?page=0&searchQuery=${searchQuery}&sort=desc`).pipe(
+  private getResultsByCat(searchType: string): Observable<SearchModel> {
+    return this.http.get<SearchModel>(`${this.apiUrl}/${searchType}`).pipe(
       switchMap(res => of(res))
     );
   }
@@ -59,9 +62,14 @@ export class SearchService {
     this.allSearchSubject.next(value);
   }
 
-  public getAllResults(query: string, category: string, page: number) {
+  public getAllResults(query: string, category: string, page: number, sort: string) {
     const itemsPerPage = 9;
-    return this.http.get(`${this.backEndLink}search/${category}?page=${page}&searchQuery=${query}&size=${itemsPerPage}&sort=asc`)
+
+    if (category === 'tipsandtricks') {
+      sort.replace('creation_date', 'creationDate');
+    }
+
+    return this.http.get(`${this.backEndLink}search/${category}?searchQuery=${query}&sort=${sort}&page=${page}&size=${itemsPerPage}`)
     .pipe(
       catchError((error) => {
         this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.', 'X', 'red-snackbar');
@@ -69,7 +77,6 @@ export class SearchService {
       })
     )
     .subscribe((data: SearchDto) => {
-        console.log(data);
         this.allElements = data;
         this.allElemsSubj.next(this.allElements);
       });
