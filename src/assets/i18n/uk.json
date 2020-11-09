@@ -110,6 +110,16 @@
       "alternative-description-news": "Знайдіть останні новини, події та ініціативи тут. Знайдіть новини та створіть їх.",
       "alternative-header-tips": "Поради",
       "alternative-description-tips": "Як сортувати сміття? Де знайти еко-речі? І багато інших корисних речей для екологічності."
+    },
+    "search-all-results": {
+      "placeholder": "Пошук",
+      "items-found": "знайдено",
+      "news": "Новини",
+      "tips": "Поради",
+      "sort": "Сортувати:",
+      "relevance": "Актуальність",
+      "oldest": "Старі",
+      "newest": "Нові"
     }
   },
   "admin-nav": {

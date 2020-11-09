@@ -122,18 +122,16 @@ $main-font-color: #494a49;
 
   .flex-container {
     display: flex;
-    // grid-template-columns: 1fr 1fr 1fr;
     flex-wrap: wrap;
     justify-content: space-between;
     width: 100%;
     height: 80%;
     overflow: hidden;
-    align-items: start;
+    align-items: flex-start;
 
     .app-search-item {
       margin-right: 1rem;
       margin-bottom: 3rem;
-      // min-height: 100%;
     }
   }
 }

@@ -65,6 +65,7 @@ export class SearchService {
   public getAllResults(query: string, category: string, page: number, sort: string) {
     const itemsPerPage = 9;
 
+    // bug on backend in DB
     if (category === 'tipsandtricks') {
       sort.replace('creation_date', 'creationDate');
     }

@@ -6,20 +6,20 @@
         <input class = "search-field"
                type="text"
                [(ngModel)]="inputValue"
-               placeholder="Search"
+               placeholder="{{ 'search.search-all-results.placeholder' | translate }}"
                (keyup)="onKeyUp($event.target)">
       </div>
     </div>
     <div class="remaining-items">
-      {{ itemsFound }} items found
+      {{ itemsFound }} {{ "search.search-all-results.items-found" | translate }}
     </div>
 
     <div class="sort-items">
-      <span>Sort by:
+      <span>{{ "search.search-all-results.sort" | translate }}
       <ul [class.add-shadow]="dropdownVisible">
         <li>
           <a (click)="toggleDropdown()">
-            {{ inputValues[0] }}
+            {{ sortTypesLocalization[0] | translate }}
             <img class="arrow"
                  [src]="dropDownArrow"
                  [ngClass]="dropdownVisible ? 'arrow reverse' : 'arrow'"
@@ -28,12 +28,12 @@
         </li>
         <li [class.text-hidden]="!dropdownVisible">
           <a (click)="changeCurrentSorting(1); toggleDropdown()">
-            {{ inputValues[1] }}
+            {{ sortTypesLocalization[1] | translate }}
           </a>
         </li>
         <li [class.text-hidden]="!dropdownVisible">
           <a (click)="changeCurrentSorting(2); toggleDropdown()">
-            {{ inputValues[2] }}
+            {{ sortTypesLocalization[2] | translate }}
           </a>
         </li>
       </ul>

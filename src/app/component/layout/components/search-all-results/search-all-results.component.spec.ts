@@ -1,20 +1,13 @@
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
-
-import { MatSnackBarModule } from '@angular/material';
+// import { TranslateModule } from '@ngx-translate/core';
 import { SearchAllResultsComponent } from './search-all-results.component';
 import { RouterTestingModule } from '@angular/router/testing';
-// import { SearchItemComponent } from './search-item/search-item.component';
-// import { SearchNotFoundComponent } from './search-not-found/search-not-found.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatDialogModule } from '@angular/material/dialog';
 import { SearchService } from '@global-service/search/search.service';
 import { SearchModel } from '@global-models/search/search.model';
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 import { Observable } from 'rxjs';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
-import { ReactiveFormsModule } from '@angular/forms';
 
 describe('SearchAllResultsComponent', () => {
   let component: SearchAllResultsComponent;
@@ -24,20 +17,14 @@ describe('SearchAllResultsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         SearchAllResultsComponent,
-        // SearchItemComponent,
-        // SearchNotFoundComponent
       ],
       imports: [
         RouterTestingModule,
-        TranslateModule.forRoot(),
-        ReactiveFormsModule,
         HttpClientTestingModule,
-        MatDialogModule,
         NgxPageScrollModule,
-        MatSnackBarModule
       ],
       providers: [
-        SearchService, MatSnackBarComponent
+        SearchService
       ]
     })
       .compileComponents().then(r => r);
@@ -71,7 +58,7 @@ describe('SearchAllResultsComponent', () => {
       searchService = fixture.debugElement.injector.get(SearchService);
 
       mockDataSearchModel = {
-        countOfResults: 4,
+        countOfResults: 9,
         ecoNews: [mockNewsSearchModel],
         tipsAndTricks: [mockNewsSearchModel]
    };
@@ -87,6 +74,14 @@ describe('SearchAllResultsComponent', () => {
       tags: ['news'],
    };
     });
+
+    it('should call resetData', () => {
+        const scrollSpy = spyOn(component as any, 'onScroll');
+        component.onScroll();
+        expect(scrollSpy).toHaveBeenCalledTimes(1);
+        expect(component.scroll).toBeTruthy();
+        expect(component.isSearchFound).toBeTruthy();
+      });
 
     // it('should handle search value', () => {
     //   const getSearchSpy = spyOn(searchService, 'getAllResults').and.returnValue(Observable.of(mockDataSearchModel));
@@ -115,5 +110,14 @@ describe('SearchAllResultsComponent', () => {
     //   component.search.searchSubject.next(true);
     //   expect(subscribeToSignalSpy).toHaveBeenCalledWith(true);
     // });
+
+    it('should usubscribe from querySubscription', () => {
+      const subscribeToQuerySpy = spyOn(component as any, 'querySubscription.unsubscribe');
+      const toggleAllSearchSpy = spyOn(component as any, 'search.toggleAllSearch');
+      component.ngOnDestroy();
+      expect(subscribeToQuerySpy).toHaveBeenCalledTimes(1);
+      expect(toggleAllSearchSpy).toHaveBeenCalledTimes(1);
+      expect(toggleAllSearchSpy).toHaveBeenCalledWith(false);
+    });
   });
 });
