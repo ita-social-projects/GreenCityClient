@@ -23,11 +23,11 @@
               *ngIf="previewItem.valid && previewItem.value.tags.length !== 0"
               class="primary-global-button"
       >
-        {{ attributes.btnCaption }}
+        {{ attributes.btnCaption | translate }}
       </button>
     </form>
   </div>
-  <div class="create-news-text">{{ attributes.title }}</div>
+  <div class="create-news-text">{{ attributes.title | translate }}</div>
   <div class="tags">
     <div class="tags-item"
          *ngFor="let tag of previewItem.value.tags"
