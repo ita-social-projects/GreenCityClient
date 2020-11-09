@@ -74,7 +74,7 @@
                 <button type="submit" [disabled]="!form.valid ||
                                                   isArrayEmpty ||
                                                   !isLinkOrEmpty ||
-                                                  createEcoNewsService.isImageValid">{{ attributes.btnCaption | translate }}</button>
+                                                  isImageValid()">{{ attributes.btnCaption | translate }}</button>
             </div>
         </form>
     </div>

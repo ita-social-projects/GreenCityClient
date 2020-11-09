@@ -42,7 +42,7 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
               private createEditNewsFormBuilder: CreateEditNewsFormBuilder,
-              public createEcoNewsService: CreateEcoNewsService,
+              private createEcoNewsService: CreateEcoNewsService,
               private ecoNewsService: EcoNewsService,
               private route: ActivatedRoute,
               private dialog: MatDialog,
@@ -251,6 +251,10 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
         currentPage: 'eco news'
       }
     });
+  }
+
+  public isImageValid(): boolean {
+    return this.createEcoNewsService.isImageValid;
   }
 
   ngOnDestroy() {
