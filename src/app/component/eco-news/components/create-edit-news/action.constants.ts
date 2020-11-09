@@ -6,12 +6,12 @@ export const ACTION_TOKEN = new InjectionToken<ActionInterface>('action.config')
 
 export const ACTION_CONFIG: { [name: string]: ActionInterface } = {
     create: {
-        title: 'Create news',
-        btnCaption: 'Publish'
+        title: 'create-news.title',
+        btnCaption: 'create-news.publish-button'
     },
     edit: {
-        title: 'Edit news',
-        btnCaption: 'Edit'
+        title: 'create-news.edit-title',
+        btnCaption: 'create-news.edit-button'
     },
 };
 
