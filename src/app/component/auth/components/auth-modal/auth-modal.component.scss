@@ -24,16 +24,23 @@
   .right-side {
     width: 100%;
     max-width: 480px;
+    display: flex;
+    flex-direction: column;
 
     .close-modal-window {
       display: flex;
       justify-content: flex-end;
-      margin: 26px 26px 22px 12px;
+      margin: 26px 26px 22px 0;
     }
 
     .cross-btn {
       width: 12px;
       height: 12px;
+    }
+
+    div {
+      align-self: center;
+      width: 370px;
     }
   }
 }
@@ -46,5 +53,15 @@
   .wrapper {
     width: 100%;
     max-width: 480px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .wrapper {
+    .right-side {
+      div {
+        max-width: 343px;
+      }
+    }
   }
 }
