@@ -246,12 +246,6 @@ describe('CreateEditNewsComponent', () => {
         expect(component.filters).toEqual(arr);
     });
 
-    it('should render title in a h2 tag', () => {
-        fixture.detectChanges();
-        const compiled = fixture.debugElement.nativeElement;
-        expect(compiled.querySelector('.title h2').textContent)
-            .toContain('Create news');
-    });
 
     it('should addFilters', () => {
         spyOn(component, 'toggleIsActive');
