@@ -42,7 +42,7 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
               private createEditNewsFormBuilder: CreateEditNewsFormBuilder,
-              private createEcoNewsService: CreateEcoNewsService,
+              public createEcoNewsService: CreateEcoNewsService,
               private ecoNewsService: EcoNewsService,
               private route: ActivatedRoute,
               private dialog: MatDialog,
