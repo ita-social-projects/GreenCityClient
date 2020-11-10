@@ -1,9 +1,10 @@
 import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
+import { AbstractControl, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
-import { catchError, take } from 'rxjs/operators';
-import { Subscription, throwError, Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { Subscription, Observable } from 'rxjs';
 import { SignInIcons } from 'src/app/image-pathes/sign-in-icons';
 import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -20,6 +21,9 @@ import { SignInComponent } from '../sign-in/sign-in.component';
   styleUrls: ['./restore-password.component.scss']
 })
 export class RestorePasswordComponent implements OnInit, OnDestroy {
+  public restorePasswordForm: FormGroup;
+  public emailField: AbstractControl;
+  public email: FormControl;
   public closeBtn = SignInIcons;
   public mainSignInImage = SignInIcons;
   public googleImage = SignInIcons;
@@ -29,10 +33,10 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   public userOwnSignIn: UserOwnSignIn;
   public loadingAnim: boolean;
   public userIdSubscription: Subscription;
-  @Output() private pageName = new EventEmitter();
+  @Output() public pageName = new EventEmitter();
 
   constructor(
-    private matDialogRef: MatDialogRef<SignInComponent>,
+    private matDialogRef: MatDialogRef<RestorePasswordComponent>,
     public dialog: MatDialog,
     private authService: AuthService,
     private googleService: GoogleSignInService,
@@ -44,20 +48,45 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userOwnSignIn = new UserOwnSignIn();
+    this.initFormReactive();
     this.configDefaultErrorMessage();
     this.checkIfUserId();
+    this.emailField = this.restorePasswordForm.get('email');
+  }
+
+  public initFormReactive(): void {
+    this.restorePasswordForm = new FormGroup({
+      email: new FormControl(null, [ Validators.required, Validators.email ])
+    });
+  }
+
+  public configDefaultErrorMessage(): void {
+    this.emailErrorMessageBackEnd = null;
+    this.passwordErrorMessageBackEnd = null;
+    this.backEndError = null;
+  }
+
+  private checkIfUserId(): void {
+    this.userIdSubscription = this.localStorageService.userIdBehaviourSubject
+      .subscribe(userId => {
+        if (userId) {
+          this.matDialogRef.close();
+        }
+      });
   }
 
   public onCloseRestoreWindow(): void {
-    this.dialog.closeAll();
+    this.matDialogRef.close();
   }
 
-  public onBackToSignIn(): void {
-    this.pageName.emit('sign-in');
+  public onBackToSignIn(page): void {
+    this.pageName.emit(page);
   }
 
   sentEmail(userOwnSignIn: UserOwnSignIn): void {
     this.loadingAnim = true;
+    userOwnSignIn.email = this.restorePasswordForm.value.email;
+
     this.restorePasswordService.sendEmailForRestore(userOwnSignIn.email)
       .pipe(
        take(1))
@@ -88,19 +117,14 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
     });
   }
 
-  public configDefaultErrorMessage(): void {
-    this.emailErrorMessageBackEnd = null;
-    this.passwordErrorMessageBackEnd = null;
-    this.backEndError = null;
-  }
-
   public signInWithGoogle(): void {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(data => {
-      this.googleService.signIn(data.idToken)
-      .pipe(catchError(this.onSignInFailure))
-      .subscribe(
+      this.googleService.signIn(data.idToken).subscribe(
         (signInData: UserSuccessSignIn) => {
           this.onSignInWithGoogleSuccess(signInData);
+        },
+        (errors: HttpErrorResponse) => {
+          this.onSignInFailure(errors);
         });
     });
   }
@@ -108,15 +132,6 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   private onSignInWithGoogleSuccess(data: UserSuccessSignIn): void {
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.router.navigate(['/welcome']);
-  }
-
-  private checkIfUserId(): void {
-    this.userIdSubscription = this.localStorageService.userIdBehaviourSubject
-      .subscribe(userId => {
-        if (userId) {
-          this.matDialogRef.close();
-        }
-      });
   }
 
   ngOnDestroy() {
