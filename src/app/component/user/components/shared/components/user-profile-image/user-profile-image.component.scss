@@ -1,0 +1,33 @@
+$font-family-first: montserrat, sans-serif;
+
+.profile-avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 50px;
+}
+
+.default-avatar {
+  background: linear-gradient(180deg, #ABE64D 0%, #4B9B25 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: $font-family-first;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 38px;
+  line-height: 48px;
+  color: #FFFFFF;
+  margin: 0 auto;
+
+  p {
+    margin: 0;
+  }
+}
+
+.big {
+  border-radius: 100px;
+  width: 148px;
+  height: 148px;
+  margin: 0;
+  font-size: 48px;
+}

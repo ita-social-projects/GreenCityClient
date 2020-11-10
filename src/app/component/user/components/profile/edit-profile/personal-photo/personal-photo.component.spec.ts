@@ -1,3 +1,4 @@
+import { UserSharedModule } from './../../../shared/user-shared.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PersonalPhotoComponent } from './personal-photo.component';
@@ -16,6 +17,7 @@ describe('PersonalPhotoComponent', () => {
         MatDialogModule,
         HttpClientTestingModule,
         TranslateModule.forRoot(),
+        UserSharedModule
       ]
     })
     .compileComponents();
