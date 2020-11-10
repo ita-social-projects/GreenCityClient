@@ -72,7 +72,7 @@
     <app-like-comment *ngIf="isLoggedIn && (comment.author.id !== +userId)"
                       [comment]="comment"
                       (likesCounter)="changeCounter($event, comment.id, 'likes')"></app-like-comment>
-    <div class="btn-replies" *ngIf="dataType==='comment'"
+    <div class="btn-replies" *ngIf="dataType === commentType"
          [ngClass]="isLoggedIn ? 'btn-replies_registered' : 'btn-replies_unregistered'">
       <app-reply-comment (click)="showElements(comment.id, 'showRelyButton')"
                          *ngIf="isLoggedIn"></app-reply-comment>
