@@ -9,33 +9,51 @@ describe('error component', () => {
     component.formElement = new FormControl();
   });
 
+  it('Shoud call ngOnChanges hook', () => {
+    component.formElement.setErrors({symbolInvalid: true});
+
+    // @ts-ignore
+    const spy = spyOn(component, 'getType');
+    component.ngOnChanges();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('Shoud return error type', () => {
+    component.formElement.setErrors({required: true});
+    // @ts-ignore
+    component.getType();
+
+    expect(component.errorMessage).toBe('user.auth.sign-in.field-is-required');
+  });
+
   it('Error: get email message', () => {
-    component.formElement.setErrors({ email: true });
-    expect(component.getErrorMessage()).toBe('user.auth.sign-in.this-is-not-email');
+    // @ts-ignore
+    expect(component.getErrorMsg[`email`]()).toBe('user.auth.sign-in.this-is-not-email');
   });
 
   it('Error: get required message', () => {
-    component.formElement.setErrors({ required: true });
-    expect(component.getErrorMessage()).toBe('user.auth.sign-in.field-is-required');
+    // @ts-ignore
+    expect(component.getErrorMsg[`required`]()).toBe('user.auth.sign-in.field-is-required');
   });
 
   it('Error: get passwordMismatch message', () => {
-    component.formElement.setErrors({ passwordMismatch: true });
-    expect(component.getErrorMessage()).toBe('user.auth.sign-up.password-match');
+    // @ts-ignore
+    expect(component.getErrorMsg[`passwordMismatch`]()).toBe('user.auth.sign-up.password-match');
   });
 
   it('Error: get minlength message', () => {
-    component.formElement.setErrors({ minlength: true });
-    expect(component.getErrorMessage()).toBe('user.auth.sign-in.password-must-be-at-least-8-characters-long');
-  });
-
-  it('Error: get default value', () => {
-    component.formElement.setErrors({ iAmDefaultValue: true });
-    expect(component.getErrorMessage()).toBeTruthy();
+    // @ts-ignore
+    expect(component.getErrorMsg[`minlength`]()).toBe('user.auth.sign-in.password-must-be-at-least-8-characters-long');
   });
 
   it('Error: get value for password', () => {
-    component.formElement.setErrors({ symbolInvalid: true });
-    expect(component.getErrorMessage()).toBeTruthy();
+    component.controlName = 'password';
+    // @ts-ignore
+    expect(component.getErrorMsg[`symbolInvalid`]()).toBe('user.auth.sign-up.password-symbols-error');
+  });
+
+  it('Error: get value for password', () => {
+    // @ts-ignore
+    expect(component.getErrorMsg[`symbolInvalid`]()).toBe('user.auth.sign-up.user-name-size');
   });
 });

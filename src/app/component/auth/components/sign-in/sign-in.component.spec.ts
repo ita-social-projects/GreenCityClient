@@ -10,7 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { TranslateModule } from '@ngx-translate/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, throwError } from 'rxjs';
 
 import { GoogleSignInService } from '@global-service/auth/google-sign-in.service';
 import { UserOwnSignIn } from '@global-models/user-own-sign-in';
@@ -56,11 +56,10 @@ describe('SignIn component', () => {
   });
 
   userSuccessSignIn = new UserSuccessSignIn();
-  userSuccessSignIn.userId = '1';
+  userSuccessSignIn.userId = 1;
   userSuccessSignIn.name = '1';
   userSuccessSignIn.accessToken = '1';
   userSuccessSignIn.refreshToken = '1';
-
 
   signInServiceMock = jasmine.createSpyObj('UserOwnSignInService', ['signIn']);
   signInServiceMock.signIn = () => {
@@ -103,7 +102,7 @@ describe('SignIn component', () => {
   });
 
   describe('Basic tests', () => {
-    it('Shoul create component', () => {
+    it('Should create component', () => {
       expect(component).toBeDefined();
     });
 
@@ -122,40 +121,86 @@ describe('SignIn component', () => {
     it('Should get userId', () => {
       expect(localStorageServiceMock.userIdBehaviourSubject.value).toBe(1111);
     });
+
+    it('should emit "sign-up" after calling openSignInWindowp', () => {
+      // @ts-ignore
+      spyOn(component.pageName, 'emit');
+      component.onOpenModalWindow('sign-up');
+      // @ts-ignore
+      expect(component.pageName.emit).toHaveBeenCalledWith('sign-up');
+    });
   });
 
   describe('Login functionality testing', () => {
-    it('Check what data comes on subscription', () => {
+    it('Check what data comes on subscription', async(() => {
       const userOwnSignIn = new UserOwnSignIn();
       userOwnSignIn.email = '1';
       userOwnSignIn.password = '1';
       signInServiceMock.signIn(userOwnSignIn).subscribe(data => {
         expect(data).toBeTruthy();
       });
-    });
-
-    it('Should call sinIn method', inject([AuthService, GoogleSignInService], (service: AuthService) => {
-      const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseSocialUser);
-      component.signInWithGoogle();
-      fixture.detectChanges();
-      expect(serviceSpy).toHaveBeenCalledTimes(1);
     }));
 
-    it('Test sign in method', inject([UserOwnSignInService], (service: UserOwnSignInService) => {
-      const serviceSpy = spyOn(service, 'signIn').and.returnValue(of(userSuccessSignIn));
-      component.signIn();
+    it('Should call sinIn method', inject([AuthService, GoogleSignInService], (service: AuthService, service2: GoogleSignInService) => {
+      component.onSignInWithGoogleSuccess = () => true;
+      const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseSocialUser);
+      spyOn(service2, 'signIn').and.returnValue(of(userSuccessSignIn));
+      component.signInWithGoogle();
       fixture.detectChanges();
       expect(serviceSpy).toHaveBeenCalled();
     }));
 
-
-    it('Sohuld navige to profile after sign in', () => {
-      // @ts-ignore
-      component.onSignInSuccess(userSuccessSignIn);
+    it('Should call sinIn method with errors', async(inject([AuthService, GoogleSignInService],
+      (service: AuthService, service2: GoogleSignInService) => {
+      const promiseErrors = new Promise<SocialUser>((resolve, reject) => {
+        const errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
+        reject(errors);
+      });
+      const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseErrors);
+      component.signInWithGoogle();
       fixture.detectChanges();
+      expect(serviceSpy).toHaveBeenCalled();
+    })));
 
-      expect(routerSpy.navigate).toHaveBeenCalledWith(['profile', userSuccessSignIn.userId]);
-    });
+    it('Should call onSignInFailure with errors', inject([AuthService, GoogleSignInService],
+      (service: AuthService, service2: GoogleSignInService) => {
+      const errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
+      const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseSocialUser).and.callThrough();
+      spyOn(service2, 'signIn').and.returnValue(throwError(errors));
+
+      // @ts-ignore
+      component.signInWithGoogle();
+      fixture.detectChanges();
+      expect(serviceSpy).toHaveBeenCalled();
+    }));
+
+    it('Test sign in method', async(inject([UserOwnSignInService], (service: UserOwnSignInService) => {
+      spyOn(service, 'signIn').and.returnValue(of(userSuccessSignIn));
+      component.signIn();
+
+      fixture.detectChanges();
+      expect(service.signIn).toHaveBeenCalled();
+    })));
+
+    it('Test sign in method with errors', async(inject([UserOwnSignInService], (service: UserOwnSignInService) => {
+      const errors = new HttpErrorResponse({ error: [{ name: 'name', message: 'Ups' }] });
+      spyOn(service, 'signIn').and.returnValue(throwError(errors));
+      component.signIn();
+
+      fixture.detectChanges();
+      expect(service.signIn).toHaveBeenCalled();
+    })));
+
+    it('Sohuld navige to profile after sign in', async(() => {
+      fixture.ngZone.run(() => {
+          // @ts-ignore
+        component.onSignInSuccess(userSuccessSignIn);
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          expect(routerSpy.navigate).toHaveBeenCalledWith(['profile', userSuccessSignIn.userId]);
+        });
+      });
+    }));
   });
 
   describe('Error functionality testing', () => {
@@ -192,12 +237,18 @@ describe('SignIn component', () => {
       component.emailErrorMessageBackEnd = 'I am error message';
       component.passwordErrorMessageBackEnd = 'I am error message';
       component.backEndError = 'I am error message';
-
+      // @ts-ignore
       component.configDefaultErrorMessage();
 
       expect(component.backEndError).toBeNull();
       expect(component.passwordErrorMessageBackEnd).toBeNull();
       expect(component.emailErrorMessageBackEnd).toBeNull();
+    });
+
+    it('onSignInFailure should set errors', () => {
+      // @ts-ignore
+      const result = component.onSignInFailure('User cancelled login or did not fully authorize');
+      expect(result).toBe();
     });
   });
 

@@ -276,6 +276,7 @@
         "first-name": "User name",
         "first-name-is-required": "User name is required",
         "user-name-error": "User name is required",
+        "invalid-user-name": "Username must not contains a dot at the beginning, few dots in a row, special characters, Cyrillic letters",
         "user-name-size": "The name must contain 6-30 characters and can contain letters(a-z), numbers(0-9) and a dot(.)",
         "first-name-must-be-at-least-1-characters-long": "User name must be at least 1 characters long",
         "last-name": "Last name",
@@ -472,12 +473,16 @@
       "picture-tooltip": "Download PNG or JPG only. File size should be less than 10MB",
       "change-photo": "Do you want to change your profile picture?",
       "would-you-like": "Would you like to save changes?",
+      "notification": "Are you sure you want to delete the photo?",
       "btn":{
         "cancel": "Cancel",
         "save": "Save",
         "new-photo": "Upload new photo",
         "change-photo": "Change photo",
-        "save-photo": "Save photo"
+        "save-photo": "Save photo",
+        "delete": "Delete photo",
+        "continue": "Continue editing",
+        "yes-delete": "Yes, delete"
       }
     },
     "footer": {

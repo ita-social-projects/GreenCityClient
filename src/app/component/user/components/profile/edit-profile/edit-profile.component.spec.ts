@@ -14,9 +14,14 @@ import { EditProfileModel } from '@user-models/edit-profile.model';
 
 import { EditProfileComponent } from './edit-profile.component';
 
+class Test {
+}
+
 describe('EditProfileComponent', () => {
   let component: EditProfileComponent;
   let fixture: ComponentFixture<EditProfileComponent>;
+
+  const routerSpy = { navigate: jasmine.createSpy('navigate') };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -26,7 +31,9 @@ describe('EditProfileComponent', () => {
       imports: [
         ReactiveFormsModule,
         MatDialogModule,
-        RouterTestingModule,
+        RouterTestingModule.withRoutes([
+          { path: '**', component: Test }
+        ]),
         HttpClientTestingModule,
         AgmCoreModule,
         TranslateModule.forRoot(),

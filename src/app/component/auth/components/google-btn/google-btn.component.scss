@@ -11,16 +11,15 @@
   border: 0;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.24);
   border-radius: 3px;
-  outline: none;
 }
 
 .google-sign {
-  padding: 11px 0 11px 11px;
+  flex: 0.2;
   align-self: center;
 }
 
 .google-text-sign-in {
-  flex: 1 1 auto;
+  flex: 0.9 1 auto;
   align-self: center;
   font-family: Roboto, sans-serif;
   font-style: normal;
@@ -29,5 +28,4 @@
   line-height: 16px;
   letter-spacing: 0.21875px;
   color: #494a49;
-  margin-left: -35px;
 }

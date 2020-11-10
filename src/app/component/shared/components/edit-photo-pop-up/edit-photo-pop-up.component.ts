@@ -20,6 +20,9 @@ export class EditPhotoPopUpComponent implements OnInit {
   public selectedPhoto = false;
   public selectedFile: File = null;
   public selectedFileUrl: string;
+  public isDefaultPhoto: boolean;
+  public isNotification: boolean;
+  public loadingAnim: boolean;
   private croppedImage: string;
 
   constructor(private matDialogRef: MatDialogRef<EditPhotoPopUpComponent>,
@@ -32,20 +35,53 @@ export class EditPhotoPopUpComponent implements OnInit {
     this.setUserAvatar();
   }
 
-  private setUserAvatar() {
-    this.avatarImg = this.data.img;
-  }
-
-  public closeEditPhoto(): void {
-    this.matDialogRef.close();
-  }
-
   public onSelectPhoto(event): void {
     this.isWarning = false;
     this.selectedFile = event.target.files[0] as File;
     const reader: FileReader = new FileReader();
     reader.readAsDataURL(this.selectedFile);
     reader.onload = (ev) => this.handleFile(ev);
+  }
+
+  public imageCropped(event: ImageCroppedEvent): void {
+    this.croppedImage = event.base64;
+  }
+
+  public savePhoto(): void {
+    this.loadingAnim = true;
+    const body = {
+      id: this.profileService.userId,
+      profilePicturePath: this.croppedImage
+    };
+    const formData = new FormData();
+    formData.append('userProfilePictureDto', JSON.stringify(body));
+
+    this.editProfileService.updateProfilePhoto(formData)
+    .subscribe(
+      () => {
+        this.loadingAnim = false;
+        this.closeEditPhoto();
+      },
+      () => this.openErrorDialog());
+  }
+
+  public deletePhoto(): void {
+    this.loadingAnim = true;
+    this.editProfileService.deleProfilePhoto().subscribe(
+      () => {
+        this.loadingAnim = false;
+        this.closeEditPhoto();
+      },
+      () => this.openErrorDialog());
+  }
+
+  public closeEditPhoto(): void {
+    this.matDialogRef.close();
+  }
+
+  private setUserAvatar() {
+    this.avatarImg = this.data.img;
+    this.isDefaultPhoto = /DEFAULT_PROFILE_PICTURE.png/.test(this.avatarImg);
   }
 
   private handleFile(event): void {
@@ -57,34 +93,17 @@ export class EditPhotoPopUpComponent implements OnInit {
     }
   }
 
-  public showWarning(): void {
+  private showWarning(): void {
     const imageVal = this.files.filter(item => item.file.type === 'image/jpeg' || item.file.type === 'image/png');
     this.isWarning = imageVal.length < 1;
   }
 
-  public imageCropped(event: ImageCroppedEvent): void {
-    this.croppedImage = event.base64;
-  }
-
-  public savePhoto(): void {
-    this.files = this.files.map(item => ({...item, url: this.croppedImage}));
-
-    const body = {
-      id: this.profileService.userId,
-      profilePicturePath: this.croppedImage
-    };
-    const formData = new FormData();
-    formData.append('userProfilePictureDto', JSON.stringify(body));
-
-    this.editProfileService.updateProfilePhoto(formData)
-    .subscribe(
-     () => this.matDialogRef.close(),
-     () => this.dialog.open(ErrorComponent, {
-       hasBackdrop: false,
-       closeOnNavigation: true,
-       position: { top: '100px' },
-       panelClass: 'custom-dialog-container',
-     })
-   );
+  private openErrorDialog(): void {
+    this.dialog.open(ErrorComponent, {
+      hasBackdrop: false,
+      closeOnNavigation: true,
+      position: { top: '100px' },
+      panelClass: 'custom-dialog-container',
+    });
   }
 }

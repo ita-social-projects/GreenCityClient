@@ -75,11 +75,6 @@
                         <ng-template #userNotLoggerInSmall>
                           <li class="mobile-vis name tertiary-global-button">{{ name }}</li>
                           <li class="mobile-vis">
-                            <a (click)="openDialog()">
-                            {{ "nav-bar.profile" | translate }}
-                             </a>
-                          </li>
-                          <li class="mobile-vis">
                             <a (click)="openSettingDialog()">
                             {{ "nav-bar.user-settings" | translate }}
                              </a>
@@ -112,7 +107,7 @@
                  </a>
                  </li>
               <li [class.destroy]="toggleBurgerMenu">
-                <div class="switcher-wrapper" 
+                <div class="switcher-wrapper"
                     (click)="langDropdownVisible = !langDropdownVisible"
                     (keyup.enter)="langDropdownVisible = !langDropdownVisible"
                     tabindex="0">
@@ -166,11 +161,6 @@
                 </a>
                </li>
                <li [class.text-hidde]="!dropdownVisible">
-                 <a (click)="openDialog()">
-                   {{ "nav-bar.profile" | translate }}
-                 </a>
-               </li>
-               <li [class.text-hidde]="!dropdownVisible">
                  <a (click)="openSettingDialog()">
                    {{ "nav-bar.user-settings" | translate }}
                  </a>
@@ -189,7 +179,7 @@
               *ngIf="!isLoggedIn"
               (click)="openSignUpWindow()"
               (keyup.enter)="openSignUpWindow()">
-            <div class="create-button secondary-global-button" 
+            <div class="create-button secondary-global-button"
                  tabindex="0">
             <span>{{ "top-bar.sign-up" | translate }}</span>
           </div>
