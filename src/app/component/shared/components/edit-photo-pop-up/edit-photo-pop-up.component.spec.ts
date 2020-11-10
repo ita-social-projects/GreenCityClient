@@ -1,12 +1,12 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
+import { ImageCropperModule } from 'ngx-image-cropper';
 import { ErrorComponent } from '@global-errors/error/error.component';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { ImageCropperModule } from "ngx-image-cropper";
-import { Observable } from 'rxjs';
 
 import { EditPhotoPopUpComponent } from './edit-photo-pop-up.component';
 
@@ -66,17 +66,17 @@ describe('EditPhotoPopUpComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('isWarning should equel false after calling onSelectPhoto method', () => {
+  it('isWarning should equal false after calling onSelectPhoto method', () => {
     const mockEvent = {
       target: {
-        files: [new Blob(['ssdfsdgdjghdslkjghdjg'], { type: 'png' })]
+        files: [new Blob(['test'], { type: 'png' })]
       }
     };
     component.onSelectPhoto(mockEvent);
     expect(component.isWarning).toEqual(false);
   });
 
-  it('isWarning should equel false after calling onSelectPhoto method', () => {
+  it('isWarning should equal false after calling onSelectPhoto method', () => {
     const mockEvent = {
       base64: 'test',
       width: 1,
