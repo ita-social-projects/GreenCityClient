@@ -169,7 +169,7 @@ $screen-320: " screen and (max-width : 320px)";
   cursor: pointer;
   width: auto;
   min-width: 138px;
-  padding: 0 4px 0;
+  padding: 16px 40px;
   height: 48px;
   display: flex;
   align-items: center;
@@ -301,15 +301,14 @@ $screen-320: " screen and (max-width : 320px)";
 
     .create-button {
       cursor: pointer;
-      width: auto;
-      min-width: 86px;
       margin-left: 25px;
-      padding: 0 4px 0;
-      height: 32px;
       display: flex;
       align-items: center;
       justify-content: center;
       border: 1px solid #13aa57;
+      color: #13aa57;
+      min-width: 91px;
+      height: 32px;
 
       span {
         display: block;
