@@ -17,7 +17,6 @@ export class CommentsListComponent implements OnInit {
   @Input() public userId: number;
   @Output() public changedList = new EventEmitter();
   readonly commentType: string = 'comment';
-
   public content: FormControl = new FormControl('', [Validators.required, Validators.maxLength(8000)]);
   public editIcon = 'assets/img/comments/edit.png';
   public cancelIcon = 'assets/img/comments/cancel-comment-edit.png';
