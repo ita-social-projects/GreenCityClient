@@ -8,19 +8,12 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 export class ChangeViewButtonComponent implements OnInit {
   @Output() view = new EventEmitter<boolean>();
   public gallery = true;
-  public windowSize: number;
 
   constructor() { }
 
   ngOnInit() {
     this.getSessionStorageView();
     this.changeGalleryViewEmit(this.gallery);
-    this.onResize();
-  }
-
-  public onResize(): void {
-    this.windowSize = window.innerWidth;
-    this.gallery = (this.windowSize >= 576) ? this.gallery : true;
   }
 
   public changeGalleryView(gallery: boolean): void {
