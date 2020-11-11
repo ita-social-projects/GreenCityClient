@@ -1,18 +1,18 @@
 <div class="container">
     <div class="picture">
-        <img src="assets/img/noNews.jpg" 
-             alt="noNews"
+        <img [src]='imagePath'
+             alt="No data available"
         >
     </div>
     <div class="description">
         <div class="description__title">
             <h2>
-                {{'homepage.eco-news.empty-state.no-news' | translate}}
+                {{ title | translate}}
             </h2>
         </div>
         <div class="description__advise">
             <p>
-                {{ "homepage.eco-news.empty-state.no-news-advice" | translate }}
+                {{ text | translate }}
             </p>
         </div>
     </div>

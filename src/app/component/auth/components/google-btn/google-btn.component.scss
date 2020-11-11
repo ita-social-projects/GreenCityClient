@@ -16,6 +16,8 @@
 .google-sign {
   flex: 0.2;
   align-self: center;
+  padding-left: 10px;
+  position: fixed;
 }
 
 .google-text-sign-in {
@@ -28,4 +30,5 @@
   line-height: 16px;
   letter-spacing: 0.21875px;
   color: #494a49;
+  width: 100%;
 }
