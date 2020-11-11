@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./search-all-results.component.scss']
 })
 export class SearchAllResultsComponent implements OnInit, OnDestroy {
-  public inputValues = ["Relevance", "Newest", "Oldest"];
+  public sortTypes = ["Relevance", "Newest", "Oldest"];
   public sortTypesLocalization = ["search.search-all-results.relevance", "search.search-all-results.newest", "search.search-all-results.oldest"];
   public searchCategory: string;
   public sortType: string;
@@ -87,9 +87,9 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
   }
 
   public changeCurrentSorting(newSorting: number): void {
-    [this.inputValues[0], this.inputValues[newSorting]] = [this.inputValues[newSorting], this.inputValues[0]];
+    [this.sortTypes[0], this.sortTypes[newSorting]] = [this.sortTypes[newSorting], this.sortTypes[0]];
     [this.sortTypesLocalization[0], this.sortTypesLocalization[newSorting]] = [this.sortTypesLocalization[newSorting], this.sortTypesLocalization[0]];
-    switch (this.inputValues[0]) {
+    switch (this.sortTypes[0]) {
       case 'Relevance':
         this.sortType = ``;
         break;

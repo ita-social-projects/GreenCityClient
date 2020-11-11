@@ -83,34 +83,6 @@ xdescribe('SearchAllResultsComponent', () => {
         expect(component.isSearchFound).toBeTruthy();
       });
 
-    // it('should handle search value', () => {
-    //   const getSearchSpy = spyOn(searchService, 'getAllResults').and.returnValue(Observable.of(mockDataSearchModel));
-    //   component.ngOnInit();
-
-    //   component.searchInput.setValue('test', { emitEvent: true });
-    //   expect(getSearchSpy).toHaveBeenCalledWith('test');
-    // });
-
-    // it('should call resetData', () => {
-    //   const resetDataSpy = spyOn(component as any, 'resetData');
-    //   component.ngOnInit();
-
-    //   component.searchInput.setValue('', { emitEvent: true });
-    //   expect(resetDataSpy).toHaveBeenCalled();
-    // });
-
-    // it('closeSearch should open SearchService/closeSearchSignal', () => {
-    // const spy = spyOn(searchService, 'closeSearchSignal');
-    // component.closeSearch();
-    // expect(spy).toHaveBeenCalled();
-    //  });
-
-    // it('should setup Initial Value', () => {
-    //   const subscribeToSignalSpy = spyOn(component as any, 'subscribeToSignal');
-    //   component.search.searchSubject.next(true);
-    //   expect(subscribeToSignalSpy).toHaveBeenCalledWith(true);
-    // });
-
     it('should usubscribe from querySubscription', () => {
       const subscribeToQuerySpy = spyOn(component as any, 'querySubscription.unsubscribe');
       const toggleAllSearchSpy = spyOn(component as any, 'search.toggleAllSearch');
