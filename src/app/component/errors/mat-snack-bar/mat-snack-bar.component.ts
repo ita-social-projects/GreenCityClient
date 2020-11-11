@@ -14,7 +14,7 @@ export class MatSnackBarComponent {
 
     this.snackBar.open(message, action, {
       duration: 5000,
-      verticalPosition: 'bottom',
+      verticalPosition: 'top',
       horizontalPosition: 'center',
       panelClass: [className],
     });
