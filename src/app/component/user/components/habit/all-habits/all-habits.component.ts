@@ -12,7 +12,7 @@ import { AllHabitsService } from './services/all-habits.service';
   styleUrls: ['./all-habits.component.scss']
 })
 export class AllHabitsComponent implements OnInit, OnDestroy {
- 
+
   public filteredHabitsList: ServerHabitItemPageModel[] = [];
   public totalHabits: number;
   public totalHabitsCopy = 0;
