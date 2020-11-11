@@ -1,9 +1,10 @@
-import { TranslateService } from '@ngx-translate/core';
-import { LocalStorageService } from './../../../../../service/localstorage/local-storage.service';
-import { ServerHabitItemPageModel } from './../../../models/habit-item.model';
-import { Subscription } from 'rxjs';
-import { AllHabitsService } from './services/all-habits.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
+
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { ServerHabitItemPageModel } from '@global-user/models/habit-item.model';
+import { AllHabitsService } from './services/all-habits.service';
 
 @Component({
   selector: 'app-all-habits',
@@ -11,20 +12,21 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   styleUrls: ['./all-habits.component.scss']
 })
 export class AllHabitsComponent implements OnInit, OnDestroy {
-  private masterSubscription: Subscription = new Subscription();
-  private habitsList: ServerHabitItemPageModel[] = [];
+
   public filteredHabitsList: ServerHabitItemPageModel[] = [];
   public totalHabits: number;
   public totalHabitsCopy = 0;
   public galleryView = true;
-  private lang: string;
-  public windowSize: number;
-  private batchSize = 6;
-  private currentPage = 0;
-  private totalPages: number;
   public isFetching = true;
   public elementsLeft = true;
   public tagList: string[] = [];
+  public windowSize: number;
+  private currentPage = 0;
+  private totalPages: number;
+  private masterSubscription: Subscription = new Subscription();
+  private habitsList: ServerHabitItemPageModel[] = [];
+  private lang: string;
+  private batchSize = 6;
 
   constructor( private allHabitsService: AllHabitsService,
                private localStorageService: LocalStorageService,
@@ -65,18 +67,12 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     this.masterSubscription.add(habitServeceSub);
   }
 
-  onDisplayModeChange(mode: boolean): void {
+  ngOnDestroy(): void {
+    this.masterSubscription.unsubscribe();
+  }
+
+  public onDisplayModeChange(mode: boolean): void {
     this.galleryView = mode;
-  }
-
-  private getAllHabits(page: number, size: number, lang: string): void {
-    this.allHabitsService.fetchAllHabits(page, size, lang);
-  }
-
-  private resetState() {
-    this.isFetching = true;
-    this.currentPage = 0;
-    this.elementsLeft = true;
   }
 
   public getFilterData(event: Array<string>) {
@@ -100,10 +96,6 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     this.galleryView = (this.windowSize >= 576) ? this.galleryView : true;
   }
 
-  ngOnDestroy(): void {
-    this.masterSubscription.unsubscribe();
-  }
-
   public onScroll() {
     if (this.totalPages === this.currentPage) {
       this.isFetching = false;
@@ -112,5 +104,15 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     this.isFetching = true;
     this.currentPage += 1;
     this.getAllHabits(this.currentPage, this.batchSize, this.lang);
+  }
+
+  private getAllHabits(page: number, size: number, lang: string): void {
+    this.allHabitsService.fetchAllHabits(page, size, lang);
+  }
+
+  private resetState() {
+    this.isFetching = true;
+    this.currentPage = 0;
+    this.elementsLeft = true;
   }
 }

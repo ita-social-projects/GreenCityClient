@@ -35,7 +35,8 @@ export class AllHabitsService {
 
   private splitHabitItems(data) {
     data.page.forEach(el => {
-      return el.habitTranslation.habitItem = el.habitTranslation.habitItem.split(',').map(str => str.trim());
+      const newArr = el.habitTranslation.habitItem.split(',').map(str => str.trim().toLowerCase());
+      return el.habitTranslation.habitItem = newArr;
     });
 
     return data;
