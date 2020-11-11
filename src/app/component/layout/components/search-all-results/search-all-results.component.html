@@ -10,11 +10,13 @@
                (keyup)="onKeyUp($event.target)">
       </div>
     </div>
-    <div class="remaining-items">
+    <div class="remaining-items"
+         *ngIf="itemsFound || inputValue">
       {{ itemsFound }} {{ "search.search-all-results.items-found" | translate }}
     </div>
 
-    <div class="sort-items">
+    <div class="sort-items"
+         *ngIf="itemsFound || inputValue">
       <span>{{ "search.search-all-results.sort" | translate }}
       <ul [class.add-shadow]="dropdownVisible">
         <li>

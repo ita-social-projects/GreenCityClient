@@ -62,7 +62,7 @@ export class SearchService {
     this.allSearchSubject.next(value);
   }
 
-  public getAllResults(query: string, category: string, page: number, sort: string) {
+  public getAllResults(query: string, category: string = "econews", page: number = 0, sort: string = "") {
     const itemsPerPage = 9;
 
     // bug on backend in DB
@@ -71,12 +71,12 @@ export class SearchService {
     }
 
     return this.http.get(`${this.backEndLink}search/${category}?searchQuery=${query}&sort=${sort}&page=${page}&size=${itemsPerPage}`)
-    .pipe(
-      catchError((error) => {
-        this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.', 'X', 'red-snackbar');
-        return error;
-      })
-    )
+    // .pipe(
+    //   catchError((error) => {
+    //     this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.', 'X', 'red-snackbar');
+    //     return error;
+    //   })
+    // )
     .subscribe((data: SearchDto) => {
         this.allElements = data;
         this.allElemsSubj.next(this.allElements);

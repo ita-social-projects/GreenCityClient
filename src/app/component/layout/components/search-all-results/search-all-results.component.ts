@@ -1,10 +1,9 @@
 import { Subscription } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { SearchModel } from '@global-models/search/search.model';
 import { SearchService } from '@global-service/search/search.service';
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-search-all-results',
@@ -43,7 +42,6 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
     this.scroll = false;
     this.sortType = '';
 
-    // get searchQuery from prev page
     this.route.queryParams.subscribe(params => {
       this.inputValue = params['searchQuery'];
       this.searchCategory = params['searchCategory'] || 'econews';
@@ -61,62 +59,32 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
   }
 
   private setElems(data): void {
-    // set new elements to array of rendered items
     this.displayedElements = this.displayedElements && this.scroll ? [...this.displayedElements, ...data.page] : [...data.page];
     this.elements = data.page;
     this.itemsFound = data.totalElements;
   }
 
   public onScroll(): void {
-    // set that scrolling is active
     this.scroll = true;
-    // set new page number to display
     this.changeCurrentPage();
-    // send request to get results from search
     this.search.getAllResults(this.inputValue, this.searchCategory, this.currentPage, this.sortType);
     this.isSearchFound = true;
   }
 
-  // private loadNextElements(): void {
-  //   this.spliceResults();
-  // }
-
   public onKeyUp(event: EventTarget): void {
     this.displayedElements = null;
-    // if input of search is changed then clear rendered items
     this.resetData();
     const VALUE = 'value';
     if (event[VALUE].length > 0) {
-      // get value from input for search
       this.inputValue = event[VALUE];
-      // send request to get results from search
       this.search.getAllResults(this.inputValue, this.searchCategory, this.currentPage, this.sortType);
       this.isSearchFound = true;
     }
     if (event[VALUE].length === 0) {
       this.displayedElements = null;
-      // if input is empty - clear data for displaying
       this.resetData();
     }
   }
-
-  // private getSearchData(data: SearchModel): void {
-  //   this.getNews(data.ecoNews);
-  //   this.itemsFound = data.countOfResults ? data.countOfResults : null;
-  //   this.spliceResults();
-  // }
-
-  // private getNews(news): void {
-  //   this.isSearchFound = news && news.length;
-  //   this.elements = this.isSearchFound ? news : this.elements;
-  // }
-
-  // private spliceResults(): void {
-  //   if (this.elements) {
-  //     const splicedData = this.elements.splice(0, 9);
-  //     this.displayedElements = splicedData.filter(elem => elem);
-  //   }
-  // }
 
   public changeCurrentSorting(newSorting: number): void {
     [this.inputValues[0], this.inputValues[newSorting]] = [this.inputValues[newSorting], this.inputValues[0]];

@@ -9,7 +9,7 @@ import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 import { Observable } from 'rxjs';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
 
-describe('SearchAllResultsComponent', () => {
+xdescribe('SearchAllResultsComponent', () => {
   let component: SearchAllResultsComponent;
   let fixture: ComponentFixture<SearchAllResultsComponent>;
 
