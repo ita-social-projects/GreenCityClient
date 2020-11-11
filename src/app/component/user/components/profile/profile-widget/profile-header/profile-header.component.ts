@@ -9,7 +9,6 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 })
 export class ProfileHeaderComponent implements OnInit, OnDestroy {
   public mockedUserInfo = {
-    profilePicturePath: './assets/img/profileAvatar.png',
     city: '',
     status: 'online',
     rating: 0,
