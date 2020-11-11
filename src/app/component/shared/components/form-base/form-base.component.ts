@@ -7,8 +7,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-form-base',
-  templateUrl: './form-base.component.html',
-  styleUrls: ['./form-base.component.scss']
+  templateUrl: './form-base.component.html'
 })
 export class FormBaseComponent implements ComponentCanDeactivate {
 
@@ -32,20 +31,20 @@ export class FormBaseComponent implements ComponentCanDeactivate {
 
   @HostListener('window:beforeunload', ['$event'])
 
-  public cancel(path): void {
+  public cancel(): void {
     if (this.checkChanges()) {
       const matDialogRef = this.dialog.open(WarningPopUpComponent, this.popupConfig);
 
       const dialogSub = matDialogRef.afterClosed().subscribe(confirm => {
         if (confirm) {
           this.areChangesSaved = true;
-          this.router.navigate([path]);
+          this.router.navigate([this.previousPath]);
         }
         dialogSub.unsubscribe();
       });
     } else {
       this.areChangesSaved = true;
-      this.router.navigate([path]);
+      this.router.navigate([this.previousPath]);
     }
   }
 
