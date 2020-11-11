@@ -12,7 +12,7 @@ describe('ProfileHeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ 
+      declarations: [
         ProfileHeaderComponent,
         ProfileProgressComponent
       ],

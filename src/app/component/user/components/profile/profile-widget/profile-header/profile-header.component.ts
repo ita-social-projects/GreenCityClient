@@ -29,7 +29,7 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
       .subscribe(userId => this.userId = userId );
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.userId$.unsubscribe();
   }
 }

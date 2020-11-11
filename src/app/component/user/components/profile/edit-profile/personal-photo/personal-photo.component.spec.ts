@@ -1,14 +1,30 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { of } from 'rxjs';
 import { UserSharedModule } from './../../../shared/user-shared.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PersonalPhotoComponent } from './personal-photo.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
+import { EditProfileModel } from '@global-user/models/edit-profile.model';
+
+class MatDialogStub {
+  result = true;
+
+  setResult(val: boolean) {
+    this.result = val;
+  }
+
+  open() {
+    return {afterClosed: () => of(this.result) };
+  }
+}
 
 describe('PersonalPhotoComponent', () => {
   let component: PersonalPhotoComponent;
   let fixture: ComponentFixture<PersonalPhotoComponent>;
+  const dialogStub = new MatDialogStub();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -17,7 +33,11 @@ describe('PersonalPhotoComponent', () => {
         MatDialogModule,
         HttpClientTestingModule,
         TranslateModule.forRoot(),
-        UserSharedModule
+        UserSharedModule,
+        BrowserAnimationsModule
+      ],
+      providers: [
+        { provide: MatDialog,  useValue: dialogStub }
       ]
     })
     .compileComponents();
@@ -31,5 +51,52 @@ describe('PersonalPhotoComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('Test main functionality', () => {
+    it('Should set user data', () => {
+      const userData = {
+        profilePicturePath: 'test',
+        firstName: 'test'
+      };
+      // @ts-ignore
+      spyOn(component.profileService, 'getUserInfo').and.returnValue(of(userData));
+      // @ts-ignore
+      component.setUserAvatar();
+
+      expect(component.userName).toBe(userData.firstName);
+    });
+
+    it('Should set user data', () => {
+      const userData: EditProfileModel = {
+        city: '',
+        firstName: '',
+        userCredo: '',
+        profilePicturePath: 'test',
+        rating: 0,
+        showEcoPlace: true,
+        showLocation: true,
+        showShoppingList: true,
+        socialNetworks: ['test']
+      };
+      // @ts-ignore
+      spyOn(component.profileService, 'getUserInfo').and.returnValue(of(userData));
+      // @ts-ignore
+      component.setUserAvatar();
+
+      expect(component.userName).toBe(userData.firstName);
+    });
+
+    it('Should open editPhoto modal window', () => {
+      component.userName = 'test';
+      component.avatarImg = 'test';
+
+      dialogStub.setResult(true);
+      // @ts-ignore
+      const spy = spyOn(component, 'setUserAvatar');
+      component.openEditPhoto();
+
+      expect(spy).toHaveBeenCalled();
+    });
   });
 });

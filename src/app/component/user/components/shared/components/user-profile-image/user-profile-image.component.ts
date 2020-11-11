@@ -8,18 +8,18 @@ import { Component, Input, OnInit } from '@angular/core';
 export class UserProfileImageComponent implements OnInit {
   @Input() firstName: string;
   @Input() imgPath;
-  @Input() additionalImgClass: string = ''
-  
+  @Input() additionalImgClass = '';
+
   constructor() { }
 
   ngOnInit() {
   }
 
-  public getDefaultProfileImg() :string {
+  public getDefaultProfileImg(): string {
     let initials = '';
 
     if (this.firstName) {
-      initials = this.firstName.split(" ").map((n)=>n[0]).join("").toUpperCase();
+      initials = this.firstName.split(' ').map((n) => n[0]).join('').toUpperCase();
     }
     return initials;
   }

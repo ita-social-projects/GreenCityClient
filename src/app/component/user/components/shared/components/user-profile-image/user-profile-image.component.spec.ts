@@ -8,7 +8,7 @@ describe('UserProfileImageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ 
+      declarations: [
         UserProfileImageComponent
       ]
     })
@@ -26,7 +26,7 @@ describe('UserProfileImageComponent', () => {
   });
 
   it('should return initials', () => {
-    component.firstName = 'Test test'
+    component.firstName = 'Test test';
     expect(component.getDefaultProfileImg()).toBe('TT');
   });
 });
