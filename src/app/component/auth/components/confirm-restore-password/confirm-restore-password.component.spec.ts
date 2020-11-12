@@ -11,6 +11,7 @@ import { MatDialogRef } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { RestoreDto } from '@global-models/restroreDto';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 
 
@@ -34,6 +35,7 @@ describe('ConfirmRestorePasswordComponent', () => {
       imports: [
         FormsModule,
         ReactiveFormsModule,
+        MatSnackBarModule, 
         TranslateModule.forRoot(),
         RouterTestingModule.withRoutes([{
           path: 'welcome',

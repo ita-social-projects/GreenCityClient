@@ -12,7 +12,8 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 @Component({
   selector: 'app-confirm-restore-password',
   templateUrl: './confirm-restore-password.component.html',
-  styleUrls: ['./confirm-restore-password.component.scss']
+  styleUrls: ['./confirm-restore-password.component.scss'],
+  providers: [MatSnackBarComponent]
 })
 
 export class ConfirmRestorePasswordComponent implements OnInit {

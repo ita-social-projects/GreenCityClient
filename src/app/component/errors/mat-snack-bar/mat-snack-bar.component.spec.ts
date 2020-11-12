@@ -2,6 +2,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MatSnackBarComponent } from './mat-snack-bar.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('MatSnackBarComponent', () => {
   let component: MatSnackBarComponent;
@@ -10,7 +11,8 @@ describe('MatSnackBarComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ MatSnackBarComponent ],
-      imports: [ MatSnackBarModule ]
+      imports: [ MatSnackBarModule,
+                  TranslateModule.forRoot(), ]
     })
     .compileComponents();
   }));

@@ -15,7 +15,8 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 @Component({
   selector: 'app-search-popup',
   templateUrl: './search-popup.component.html',
-  styleUrls: ['./search-popup.component.scss']
+  styleUrls: ['./search-popup.component.scss'],
+  providers: [MatSnackBarComponent]
 })
 
 export class SearchPopupComponent implements OnInit, OnDestroy {

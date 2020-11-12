@@ -18,7 +18,8 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 @Component({
   selector: 'app-restore-password',
   templateUrl: './restore-password.component.html',
-  styleUrls: ['./restore-password.component.scss']
+  styleUrls: ['./restore-password.component.scss'],
+  providers: [MatSnackBarComponent]
 })
 export class RestorePasswordComponent implements OnInit, OnDestroy {
   public restorePasswordForm: FormGroup;

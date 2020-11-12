@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, inject, fakeAsync } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, inject, fakeAsync, flush, discardPeriodicTasks } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -19,6 +19,7 @@ import { SubmitEmailComponent } from '@global-auth/submit-email/submit-email.com
 import { provideConfig } from 'src/app/config/GoogleAuthConfig';
 
 import { SignUpComponent } from './sign-up.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 describe('SignUpComponent', () => {
   let component: SignUpComponent;
@@ -56,14 +57,15 @@ describe('SignUpComponent', () => {
         HttpClientTestingModule,
         AgmCoreModule,
         TranslateModule.forRoot(),
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        MatSnackBarModule
       ],
       providers: [
         { provide: AuthService, useValue: authServiceMock },
         { provide: MatDialogRef, useClass: MatDialogRefMock },
         { provide: AuthServiceConfig, useFactory: provideConfig },
         { provide: Router, useValue: routerSpy },
-        UserOwnSignUpService,
+        UserOwnSignUpService
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     })
@@ -286,6 +288,8 @@ describe('SignUpComponent', () => {
         fixture.ngZone.run(() => {
           expect(routerSpy.navigate).toHaveBeenCalledWith(['/']);
         });
+        fixture.destroy();
+        flush();
       }));
 
       it('onSubmitSuccess should call openSignUpPopup', fakeAsync(() => {
@@ -306,6 +310,8 @@ describe('SignUpComponent', () => {
             expect(component.openSignUpPopup).toHaveBeenCalled();
           });
         });
+        fixture.destroy();
+        flush();
       }));
     });
   });
