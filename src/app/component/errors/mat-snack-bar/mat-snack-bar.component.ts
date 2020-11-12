@@ -10,7 +10,6 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class MatSnackBarComponent implements OnChanges {
   public message: string;
-  public message1: string;
   public className: string;
   public snackType = {
     error: () => {
@@ -61,7 +60,6 @@ export class MatSnackBarComponent implements OnChanges {
         this.message = translation;
     });
   }
-
 
   ngOnChanges() {
   }
