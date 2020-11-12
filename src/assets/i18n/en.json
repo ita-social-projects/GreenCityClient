@@ -79,8 +79,8 @@
         "view": "View"
       },
       "empty-state": {
-        "no-news": "Unfotunately there is no news finded",
-        "no-news-advice": "We couldn't find any news. Please change filters to get a result."
+        "no-news": "Unfortunately, no more news found",
+        "no-news-advice": "We couldn't find any more news. Please change filters to get another result."
       }
     },
     "eco-advices": {
@@ -286,6 +286,7 @@
         "first-name": "User name",
         "first-name-is-required": "User name is required",
         "user-name-error": "User name is required",
+        "invalid-user-name": "Username must not contains a dot at the beginning, few dots in a row, special characters, Cyrillic letters",
         "user-name-size": "The name must contain 6-30 characters and can contain letters(a-z), numbers(0-9) and a dot(.)",
         "first-name-must-be-at-least-1-characters-long": "User name must be at least 1 characters long",
         "last-name": "Last name",
@@ -554,6 +555,13 @@
         "confirmation-modal-text": "Are you sure you want to delete this eco habit?",
         "confirmation-modal-yes": "Yes",
         "confirmation-modal-cancel": "Cancel"
+      },
+      "all-habits": {
+        "title":"All habits",
+        "no-habits":"Unfortunately, no more habits found",
+        "no-habits-advice": "We couldn't find any more habits. Please change filters to get another result.",
+        "btn-more": "More",
+        "btn-add": "Add habit"
       },
       "habit-trackers": {
         "habit-tracker": {
