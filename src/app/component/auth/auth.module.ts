@@ -14,11 +14,14 @@ import { ErrorComponent } from './components/error/error.component';
 import { ConfirmRestorePasswordComponent } from './components/confirm-restore-password/confirm-restore-password.component';
 import { GoogleBtnComponent } from './components/google-btn/google-btn.component';
 import { AuthModalComponent } from './components/auth-modal/auth-modal.component';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { MatSnackBarModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [
+    BrowserModule,
+    BrowserAnimationsModule,
     SignUpComponent,
     SignInComponent,
     RestorePasswordComponent,
@@ -45,7 +48,6 @@ import { MatSnackBarModule } from '@angular/material';
   ],
   exports: [
     InputcolorDirective,
-    MatSnackBarComponent
   ],
   providers: [MatSnackBarModule ]
 })

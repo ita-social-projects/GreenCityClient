@@ -35,7 +35,7 @@ describe('ConfirmRestorePasswordComponent', () => {
       imports: [
         FormsModule,
         ReactiveFormsModule,
-        MatSnackBarModule, 
+        MatSnackBarModule,
         TranslateModule.forRoot(),
         RouterTestingModule.withRoutes([{
           path: 'welcome',
