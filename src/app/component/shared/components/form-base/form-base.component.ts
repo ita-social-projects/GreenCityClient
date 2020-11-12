@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { ComponentCanDeactivate } from '@global-service/pending-changes-guard/pending-changes.guard';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
@@ -29,7 +29,11 @@ export class FormBaseComponent implements ComponentCanDeactivate {
   constructor(public router: Router,
               public dialog: MatDialog) { }
 
-  @HostListener('window:beforeunload', ['$event'])
+  @HostListener('window:beforeunload')
+
+  canDeactivate(): boolean | Observable<boolean> {
+    return this.areChangesSaved ? true : !this.checkChanges();
+  }
 
   public cancel(): void {
     if (this.checkChanges()) {
@@ -49,8 +53,4 @@ export class FormBaseComponent implements ComponentCanDeactivate {
   }
 
   public checkChanges(): any { }
-
-  canDeactivate(): boolean | Observable<boolean> {
-    return this.areChangesSaved ? true : !this.checkChanges();
-  }
 }
