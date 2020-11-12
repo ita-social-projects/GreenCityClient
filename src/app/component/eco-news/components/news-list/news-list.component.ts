@@ -71,7 +71,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
       this.ecoNewsSubscription = this.ecoNewsService.getNewsListByTags(this.currentPage, this.numberOfNews, this.tagsList)
         .pipe(
           catchError((error) => {
-            this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.', 'X', 'red-snackbar');
+            this.snackBar.openSnackBar('error');
 
             return error;
           })
@@ -81,7 +81,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
       this.ecoNewsSubscription = this.ecoNewsService.getEcoNewsListByPage(this.currentPage, this.numberOfNews)
         .pipe(
           catchError((error) => {
-            this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.', 'X', 'red-snackbar');
+            this.snackBar.openSnackBar('error');
 
             return error;
           })

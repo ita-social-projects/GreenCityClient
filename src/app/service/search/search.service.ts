@@ -67,7 +67,7 @@ export class SearchService {
     return this.http.get(`${this.backEndLink}search/${category}?page=0&searchQuery=${query}&size=${itemsPerPage}`)
     .pipe(
       catchError((error) => {
-        this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.', 'X', 'red-snackbar');
+        this.snackBar.openSnackBar('error');
         return error;
       })
     )

@@ -66,7 +66,7 @@ import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisa
     DragAndDropComponent,
     DateLocalisationPipe
   ],
-  providers: [],
+  providers: [MatSnackBarComponent],
 })
 export class SharedModule {}
 
