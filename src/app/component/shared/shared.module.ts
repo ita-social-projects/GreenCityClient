@@ -1,3 +1,4 @@
+import { UserSharedModule } from './../user/components/shared/user-shared.module';
 import { NgModule } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -18,7 +19,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DragAndDropDirective } from '../eco-news/directives/drag-and-drop.directive';
 import { DragAndDropComponent } from './components/drag-and-drop/drag-and-drop.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
-import {MatSnackBarComponent} from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
 import { NoDataComponent } from './components/no-data/no-data.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
@@ -55,7 +55,8 @@ import { CalendarBaseComponent } from './components/calendar-base/calendar-base.
     MatCardModule,
     MatDialogModule,
     MatCheckboxModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    UserSharedModule
   ],
   exports: [
     CancelPopUpComponent,
@@ -75,9 +76,9 @@ import { CalendarBaseComponent } from './components/calendar-base/calendar-base.
     DateLocalisationPipe,
     NoDataComponent,
     SpinnerComponent,
-    TagFilterComponent
-  ],
-  providers: [],
+    TagFilterComponent,
+    UserSharedModule
+  ]
 })
 export class SharedModule {}
 

@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AbstractControl, FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { SignInIcons } from 'src/app/image-pathes/sign-in-icons';
 import { RestoreDto } from '@global-models/restroreDto';
 import { ActivatedRoute } from '@angular/router';
 import { ChangePasswordService } from '@auth-service/change-password.service';
-import { authImages } from '../../../../image-pathes/auth-images';
+import { authImages } from 'src/app/image-pathes/auth-images';
+import { ConfirmPasswordValidator, ValidatorRegExp } from '../sign-up/sign-up.validator';
 
 @Component({
   selector: 'app-confirm-restore-password',
@@ -13,14 +15,16 @@ import { authImages } from '../../../../image-pathes/auth-images';
 })
 
 export class ConfirmRestorePasswordComponent implements OnInit {
+  public confirmRestorePasswordForm: FormGroup;
+  public passwordField: AbstractControl;
+  public confirmPasswordField: AbstractControl;
+  public password: FormControl;
+  public confirmPassword: FormControl;
   public closeBtn = SignInIcons;
-  public mainSignInImage = SignInIcons;
+  public authImages = authImages;
   public emailErrorMessageBackEnd: string;
   public passwordErrorMessageBackEnd: string;
   public loadingAnim: boolean;
-  public signUpImages = authImages;
-  public password: string;
-  public confirmPassword: string;
   public form: any;
   public token: string;
 
@@ -29,6 +33,7 @@ export class ConfirmRestorePasswordComponent implements OnInit {
   constructor(
     private router: Router,
     private changePasswordService: ChangePasswordService,
+    private formBuilder: FormBuilder,
     private route: ActivatedRoute
   ) {
     this.getToken();
@@ -36,8 +41,28 @@ export class ConfirmRestorePasswordComponent implements OnInit {
 
   ngOnInit() {
     this.restoreDto = new RestoreDto();
-    this.setNullAllMessage();
+    this.initFormReactive();
+    this.getFormFields();
+    this.setPasswordBackendErr();
     this.getToken();
+  }
+
+  public initFormReactive(): void {
+    this.confirmRestorePasswordForm = this.formBuilder.group({
+      password: new FormControl('', [Validators.required, Validators.minLength(8)]),
+      confirmPassword: new FormControl('', [Validators.required, Validators.minLength(8)])
+    },
+    {
+      validator: [
+        ConfirmPasswordValidator('password', 'confirmPassword'),
+        ValidatorRegExp('password'),
+      ]
+    });
+  }
+
+  public getFormFields(): void {
+    this.passwordField = this.confirmRestorePasswordForm.get('password');
+    this.confirmPasswordField = this.confirmRestorePasswordForm.get('confirmPassword');
   }
 
   public getToken() {
@@ -47,6 +72,8 @@ export class ConfirmRestorePasswordComponent implements OnInit {
   }
 
   public sendPasswords() {
+    this.restoreDto.confirmPassword = this.confirmRestorePasswordForm.value.confirmPassword;
+    this.restoreDto.password = this.confirmRestorePasswordForm.value.password;
     this.restoreDto.token = this.token;
     this.changePasswordService.restorePassword(this.restoreDto)
       .subscribe(data => {
@@ -59,34 +86,16 @@ export class ConfirmRestorePasswordComponent implements OnInit {
     }, 2000);
   }
 
-  private setNullAllMessage() {
+  private setPasswordBackendErr() {
     this.passwordErrorMessageBackEnd = null;
-  }
-
-  public matchPassword(passInput: HTMLInputElement,
-                       passRepeat: HTMLInputElement,
-                       inputBlock: HTMLElement): void {
-    this.passwordErrorMessageBackEnd = null;
-    inputBlock.className = passInput.value !== passRepeat.value ?
-      'main-data-input-password wrong-input' :
-      'main-data-input-password';
-  }
-
-  public checkSpaces(input: string): boolean {
-    return input.indexOf(' ') >= 0;
-  }
-
-  public checkSymbols(input: string): boolean {
-    const regexp = /^(?=.*[a-z]+)(?=.*[A-Z]+)(?=.*\d+)(?=.*[~`!@#$%^&*()+=_\-{}|:;”’?/<>,.\]\[]+).{8,}$/;
-    return (regexp.test(input) || input === '');
   }
 
   public setPasswordVisibility(htmlInput: HTMLInputElement, htmlImage: HTMLImageElement): void {
     htmlInput.type = htmlInput.type === 'password' ? 'text' : 'password';
-    htmlImage.src = htmlInput.type === 'password' ? this.signUpImages.hiddenEye : this.signUpImages.openEye;
+    htmlImage.src = htmlInput.type === 'password' ? this.authImages.hiddenEye : this.authImages.openEye;
   }
 
-  public closeModal(): void {
+  public closeModal( path: string ): void {
     this.router.navigate(['welcome']);
   }
 }
