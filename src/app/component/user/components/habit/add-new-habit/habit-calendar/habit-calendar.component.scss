@@ -36,3 +36,9 @@
     }
   }
 }
+
+@media screen and (max-width: 1024px) {
+  .calendar .middle .calendar-grid .calendar-grid-day {
+    padding: 7px 1px 0 0;
+  }
+}

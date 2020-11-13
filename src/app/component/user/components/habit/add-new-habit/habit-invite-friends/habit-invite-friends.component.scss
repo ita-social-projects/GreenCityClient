@@ -1,0 +1,25 @@
+$main-font: 'Montserrat';
+
+.inviteTitle p {
+  font-family: $main-font;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  color: #000000;
+}
+
+.plusCircle img {
+  margin: 10px 0 20px;
+  width: 60px;
+  height: 60px;
+}
+
+.inviteDetail p {
+  font-family: $main-font;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
+  color: #878787;
+}

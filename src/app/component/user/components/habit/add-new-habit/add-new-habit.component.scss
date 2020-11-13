@@ -1,5 +1,6 @@
 $primary-color: #13AA57;
 $second-color: #056B33;
+$background-color: #F5F6F6;
 $main-font: 'Open Sans';
 $second-font: 'Montserrat';
 
@@ -146,35 +147,41 @@ $second-font: 'Montserrat';
 
     .habitProgress {
       padding: 36px 36px 36px 36px;
-      background-color: #F5F6F6;
+      background-color: $background-color;
       border-radius: 8px;
     }
 
     .habitInfoRightBlock {
       display: flex;
       flex-direction: column;
-      border: 1px solid grey;
+      justify-content: space-between;
 
       .inviteFriends {
         width: 554px;
-        border: 1px solid grey;
+        height: 182px;
+        padding: 24px;
+        background: $background-color;
+        border-radius: 8px;
       }
 
       .durationShoping {
         display: flex;
         flex-direction: row;
         width: 554px;
+        justify-content: space-between;
 
         .duration,
         .shopping {
           width: 261px;
+          height: 254px;
+          background: $background-color;
+          border-radius: 8px;
+          padding: 24px;
+          font-family: $second-font;
         }
       }
     }
-
-
   }
-
 }
 
 @media screen and (max-width: 1200px) {
