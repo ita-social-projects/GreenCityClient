@@ -1,4 +1,5 @@
-import { Subscription } from 'rxjs';
+import { Subscription, Subject, fromEvent } from 'rxjs';
+import { map, debounceTime, distinctUntilChanged, tap, switchMap } from 'rxjs/operators';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SearchService } from '@global-service/search/search.service';
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
@@ -24,6 +25,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
   public currentPage: number = 0;
   public scroll: boolean;
   private querySubscription: Subscription;
+  private allElemsSubj = new Subject<any>();
 
   readonly dropDownArrow = 'assets/img/arrow_grey.png';
 
@@ -38,7 +40,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.search.toggleAllSearch(true);
-    this.getAllElems();
+    // this.getAllElems();
     this.scroll = false;
     this.sortType = '';
 
@@ -47,16 +49,29 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
       this.searchCategory = params['searchCategory'] || 'econews';
     });
 
+    fromEvent(document.querySelector(".search-field"), 'input')
+      .pipe(
+        map(e => (<HTMLInputElement>e.target).value),
+        debounceTime(250),
+        distinctUntilChanged(),
+        tap(() => this.resetData()),
+        switchMap(value => this.search.getAllResults(value, this.searchCategory, this.currentPage, this.sortType))
+      )
+      .subscribe(
+        data => this.setElems(data)
+      );
+
     if (this.inputValue && this.searchCategory) {
-      this.search.getAllResults(this.inputValue, this.searchCategory, this.currentPage, this.sortType);
+      this.search.getAllResults(this.inputValue, this.searchCategory, this.currentPage, this.sortType)
+        .subscribe(data => this.setElems(data));
       this.isSearchFound = true;
     }
   }
 
-  private getAllElems(): void {
-    this.search.getElementsAsObserv()
-      .subscribe(data => this.setElems(data));
-  }
+  // private getAllElems(): void {
+  //   this.search.getElementsAsObserv()
+  //     .subscribe(data => this.setElems(data));
+  // }
 
   private setElems(data): void {
     this.displayedElements = this.displayedElements && this.scroll ? [...this.displayedElements, ...data.page] : [...data.page];
@@ -67,23 +82,25 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
   public onScroll(): void {
     this.scroll = true;
     this.changeCurrentPage();
-    this.search.getAllResults(this.inputValue, this.searchCategory, this.currentPage, this.sortType);
+    this.search.getAllResults(this.inputValue, this.searchCategory, this.currentPage, this.sortType)
+      .subscribe(data => this.setElems(data));
     this.isSearchFound = true;
   }
 
   public onKeyUp(event: EventTarget): void {
-    this.displayedElements = null;
-    this.resetData();
-    const VALUE = 'value';
-    if (event[VALUE].length > 0) {
-      this.inputValue = event[VALUE];
-      this.search.getAllResults(this.inputValue, this.searchCategory, this.currentPage, this.sortType);
-      this.isSearchFound = true;
-    }
-    if (event[VALUE].length === 0) {
-      this.displayedElements = null;
-      this.resetData();
-    }
+    // this.displayedElements = null;
+    // this.resetData();
+    // const VALUE = 'value';
+    // if (event[VALUE].length > 0) {
+    //   this.inputValue = event[VALUE];
+    //   this.search.getAllResults(this.inputValue, this.searchCategory, this.currentPage, this.sortType)
+    //     .subscribe(data => this.setElems(data));
+    //   this.isSearchFound = true;
+    // }
+    // if (event[VALUE].length === 0) {
+    //   this.displayedElements = null;
+    //   this.resetData();
+    // }
   }
 
   public changeCurrentSorting(newSorting: number): void {
@@ -104,7 +121,8 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
     };
     this.resetData();
     if (this.inputValue) {
-      this.search.getAllResults(this.inputValue, this.searchCategory, this.currentPage, this.sortType);
+      this.search.getAllResults(this.inputValue, this.searchCategory, this.currentPage, this.sortType)
+        .subscribe(data => this.setElems(data));
       this.isSearchFound = true;
     } else {
       this.resetData();

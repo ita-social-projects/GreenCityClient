@@ -77,10 +77,13 @@ export class SearchService {
     //     return error;
     //   })
     // )
-    .subscribe((data: SearchDto) => {
-        this.allElements = data;
-        this.allElemsSubj.next(this.allElements);
-      });
+    // .subscribe((data: SearchDto) => {
+    //     this.allElements = data;
+    //     this.allElemsSubj.next(this.allElements);
+    //   });
+    .pipe(
+      switchMap(res => of(res))
+    );
     }
 
   public getElementsAsObserv(): Observable<any> {
