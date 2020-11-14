@@ -7,11 +7,12 @@ import { catchError, filter, switchMap, take, retry } from 'rxjs/operators';
 import { updateAccessTokenLink } from '../../links';
 import { LocalStorageService } from '../localstorage/local-storage.service';
 import { BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../../http-response-status';
-import { AuthModalComponent } from '../../component/auth/components/auth-modal/auth-modal.component';
-import { ErrorComponent } from '../../component/errors/error/error.component';
 import { Inject } from '@angular/core';
 import { ERRORS_MeSSAGE_TOKEN } from 'src/app/constants/errors/error.constans';
 import { ErrorMessageInterface } from '@global-models/errors/error-message.interface';
+import {AuthModalComponent} from '@global-auth/auth-modal/auth-modal.component';
+import {ErrorComponent} from '@global-errors/error/error.component';
+import {MatSnackBarComponent} from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 interface NewTokenPair {
   accessToken: string;
@@ -30,6 +31,7 @@ export class InterceptorService implements HttpInterceptor {
               private localStorageService: LocalStorageService,
               private router: Router,
               private dialog: MatDialog,
+              private snackBar: MatSnackBarComponent,
               @Inject(ERRORS_MeSSAGE_TOKEN) private config: { [name: string]: ErrorMessageInterface },
               ) {
   }
@@ -42,16 +44,17 @@ export class InterceptorService implements HttpInterceptor {
    * @param next - {@link HttpHandler}
    */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // if (req.url.includes('ownSecurity') || req.url.includes('googleSecurity')) {
-    //   return next.handle(req).pipe(
-    //     catchError((error: HttpErrorResponse) => {
-    //       console.log(error)
-    //       this.errorMessage = error.message && error.status !== 0 ? error.message : this.config.error.message;
-    //       this.openErrorWindow();
-    //       return throwError(error);
-    //     } )
-    //   );
-    // }
+    if (req.url.includes('ownSecurity') || req.url.includes('googleSecurity')) {
+      return next.handle(req).pipe(
+        catchError((error: HttpErrorResponse) => {
+          if (error.status === 0) {
+            this.errorMessage = this.config.error.message;
+            this.openErrorWindow();
+          }
+          return throwError(error);
+        } )
+      );
+    }
     if (this.localStorageService.getAccessToken()) {
       req = this.addAccessTokenToHeader(req, this.localStorageService.getAccessToken());
     }
@@ -59,11 +62,11 @@ export class InterceptorService implements HttpInterceptor {
       retry(1),
       catchError((error: HttpErrorResponse) => {
         if (error.status === BAD_REQUEST  || error.status === FORBIDDEN) {
-          this.errorMessage = error.message ? error.message : this.config.error.message;
+          this.errorMessage = error.error.message ? error.error.message : error.message ? error.message : this.config.error.message;
           this.openErrorWindow();
         }
         if (error.status === UNAUTHORIZED ) {
-          this.handleRefreshToken(req, next);
+          return this.handleRefreshToken(req, next);
         }
         return throwError(error);
       })
@@ -109,6 +112,7 @@ export class InterceptorService implements HttpInterceptor {
    */
   private handleRefreshTokenIsNotValid(error: HttpErrorResponse): Observable<HttpEvent<any>> {
     this.isRefreshing = false;
+    this.openSignInWindow();
     if (error.status === BAD_REQUEST) {
       this.localStorageService.clear();
       return of<HttpEvent<any>>();
@@ -151,14 +155,16 @@ export class InterceptorService implements HttpInterceptor {
   }
 
   public openErrorWindow(): void {
-    this.dialog.open(ErrorComponent, {
-      hasBackdrop: false,
-      closeOnNavigation: true,
-      position: {top: '100px'},
-      panelClass: 'custom-dialog-container',
-      data: {
-        message: this.errorMessage
-      }
-    });
+    // this.dialog.open(ErrorComponent, {
+    //   hasBackdrop: false,
+    //   closeOnNavigation: true,
+    //   position: {top: '100px'},
+    //   panelClass: 'custom-dialog-container',
+    //   data: {
+    //     message: this.errorMessage
+    //   }
+    // });
+
+    this.snackBar.openSnackBar(this.errorMessage, 'X', 'red-snackbar');
   }
 }
