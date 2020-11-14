@@ -1,5 +1,5 @@
 import { Subscription, Subject, fromEvent } from 'rxjs';
-import { map, debounceTime, distinctUntilChanged, tap, switchMap } from 'rxjs/operators';
+import { map, debounceTime, distinctUntilChanged, tap, switchMap, filter } from 'rxjs/operators';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SearchService } from '@global-service/search/search.service';
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
@@ -55,6 +55,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
         debounceTime(250),
         distinctUntilChanged(),
         tap(() => this.resetData()),
+        filter(value => Boolean(value)),
         switchMap(value => this.search.getAllResults(value, this.searchCategory, this.currentPage, this.sortType))
       )
       .subscribe(
