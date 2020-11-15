@@ -1,2 +1,5 @@
 <div class="title">Duration</div>
-<input class="form-control-range" type="range" value="15" min="7" max="56" step="1" appGradient>
+<div class="thumbLabel" #thumbLabel>{{ habitDuration.value }} d</div>
+<input [formControl]="habitDuration" class="form-control-range" 
+type="range" value="habitDuration.value" min="7" max="56" step="1" appGradient
+(input)="updateDuration()" #range>

@@ -3,23 +3,26 @@ import { Directive, ElementRef, HostListener, Renderer2 } from '@angular/core';
 @Directive({
   selector: '[appGradient]'
 })
+
 export class GradientDirective {
   public durationProgres: number;
   public gradientProgres: number;
-  public min: number = 7;
-  public max: number = 56;
-  public step: number = 1;
+  public min: number = null;
+  public max: number = null;
 
   constructor(public elm: ElementRef, public renderer: Renderer2) {
-    this.durationProgres = this.elm.nativeElement.value;
     this.min = this.elm.nativeElement.min;
     this.max = this.elm.nativeElement.max;
+  }
+
+  ngOnInit(): void {
+    this.durationProgres = this.elm.nativeElement.value;
     this.calcGradientVal();
     this.renderer.setStyle(this.elm.nativeElement, "background-image", `linear-gradient(90deg,
-         rgb(19, 170, 87) 0%,
-         rgb(19, 170, 87) ${this.gradientProgres}%,
-         rgb(212, 224, 222) ${this.gradientProgres}%,
-         rgb(212, 224, 222) 100%)`)
+      rgb(19, 170, 87) 0%,
+      rgb(19, 170, 87) ${this.gradientProgres}%,
+      rgb(212, 224, 222) ${this.gradientProgres}%,
+      rgb(212, 224, 222) 100%)`)
   }
 
   @HostListener("input") onInput() {

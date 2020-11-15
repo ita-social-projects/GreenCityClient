@@ -5,6 +5,24 @@ $primary-color: #13AA57;
   font-weight: 600;
   font-size: 18px;
   line-height: 24px;
+  height: 20px;
+  margin-bottom: 28px;
+}
+
+.thumbLabel {
+  width: 90px;
+  height: 50px;
+  padding: 15px 10px;
+  position: relative;
+  top: 0px;
+  background-image: url("./../../../../../../../assets/img/duration-thumb-label.png");
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 16px;
+  align-items: center;
+  text-align: center;
 }
 
 input[type=range].form-control-range {
@@ -18,14 +36,6 @@ input[type=range].form-control-range {
 input[type=range].form-control-range:focus {
   outline: none;
 }
-
-// input[type=range].change-duration::-webkit-slider-runnable-track {
-//   background-image: linear-gradient(90deg,
-//       rgb(19, 170, 87) 0%,
-//       rgb(19, 170, 87) 20%,
-//       rgb(212, 224, 222) 20%,
-//       rgb(212, 224, 222) 100%);
-// }
 
 input[type=range].form-control-range::-webkit-slider-runnable-track {
   border-radius: 26px;
@@ -45,10 +55,6 @@ input[type=range].form-control-range::-webkit-slider-thumb {
   cursor: pointer;
   -webkit-appearance: none;
 }
-
-// input[type=range].form-control-range:focus::-webkit-slider-runnable-track {
-//   background: #13aa57;
-// }
 
 input[type=range].form-control-range::-moz-range-track {
   background: #13aa57;

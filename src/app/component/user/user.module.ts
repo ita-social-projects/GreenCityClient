@@ -7,6 +7,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AgmCoreModule } from '@agm/core';
+import { MatSliderModule } from '@angular/material/slider';
 import {
   ButtonComponent,
   HabitTrackersComponent,
@@ -145,6 +146,7 @@ import { GradientDirective } from './components/habit/add-new-habit/habit-durati
     SharedModule,
     MatButtonModule,
     MatRadioModule,
+    MatSliderModule,
     DragDropModule,
     HttpClientModule,
     AgmCoreModule.forRoot({
