@@ -77,9 +77,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
     this.itemsFound = data.totalElements;
     if (this.displayedElements.length === this.itemsFound) {
       this.isSearchFound = false;
-      console.log("end");
     }
-    console.log(this.itemsFound);
   }
 
   public onScroll(): void {
