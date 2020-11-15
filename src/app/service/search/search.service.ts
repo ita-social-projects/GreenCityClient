@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@environment/environment';
 import { Observable, of, Subject} from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { SearchModel } from '../../model/search/search.model';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { SearchDto } from 'src/app/component/layout/components/models/search-dto';
@@ -71,20 +71,10 @@ export class SearchService {
     }
 
     return this.http.get(`${this.backEndLink}search/${category}?searchQuery=${query}&sort=${sort}&page=${page}&size=${itemsPerPage}`)
-    // .pipe(
-    //   catchError((error) => {
-    //     this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.', 'X', 'red-snackbar');
-    //     return error;
-    //   })
-    // )
-    // .subscribe((data: SearchDto) => {
-    //     this.allElements = data;
-    //     this.allElemsSubj.next(this.allElements);
-    //   });
     .pipe(
       switchMap(res => of(res))
     );
-    }
+  }
 
   public getElementsAsObserv(): Observable<any> {
     return this.allElemsSubj.asObservable();

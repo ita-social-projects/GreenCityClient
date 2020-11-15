@@ -1,10 +1,10 @@
-import { Subscription, Subject, fromEvent } from 'rxjs';
-import { map, debounceTime, distinctUntilChanged, tap, switchMap, filter } from 'rxjs/operators';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription, fromEvent } from 'rxjs';
+import { map, debounceTime, distinctUntilChanged, tap, switchMap } from 'rxjs/operators';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { SearchService } from '@global-service/search/search.service';
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
-
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-search-all-results',
@@ -12,24 +12,22 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./search-all-results.component.scss']
 })
 export class SearchAllResultsComponent implements OnInit, OnDestroy {
-  public sortTypes = ["Relevance", "Newest", "Oldest"];
-  public sortTypesLocalization = ["search.search-all-results.relevance", "search.search-all-results.newest", "search.search-all-results.oldest"];
-  public searchCategory: string;
-  public sortType: string;
   public displayedElements: NewsSearchModel[] = [];
-  public elements: NewsSearchModel[] = [];
-  public dropdownVisible: boolean;
   public isSearchFound: boolean;
-  public inputValue: string;
   public itemsFound: number = 0;
   public currentPage: number = 0;
+  public searchCategory: string;
+  public sortType: string;
+  public sortTypes = ["Relevance", "Newest", "Oldest"];
+  public sortTypesLocalization = ["search.search-all-results.relevance", "search.search-all-results.newest", "search.search-all-results.oldest"];
+  public dropdownVisible: boolean;
+  public inputValue: string;
   public scroll: boolean;
   private querySubscription: Subscription;
-  private allElemsSubj = new Subject<any>();
 
   readonly dropDownArrow = 'assets/img/arrow_grey.png';
 
-  constructor(private search: SearchService, private route: ActivatedRoute) { 
+  constructor(private search: SearchService, private snackBar: MatSnackBarComponent, private route: ActivatedRoute) { 
     this.querySubscription = route.queryParams.subscribe(
       (queryParam: any) => {
           this.inputValue = queryParam['searchQuery'];
@@ -39,8 +37,6 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.search.toggleAllSearch(true);
-    // this.getAllElems();
     this.scroll = false;
     this.sortType = '';
 
@@ -49,59 +45,47 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
       this.searchCategory = params['searchCategory'] || 'econews';
     });
 
-    fromEvent(document.querySelector(".search-field"), 'input')
+    if (this.inputValue && this.searchCategory) {
+      this.getSearchResults();
+    }
+
+    fromEvent(document.querySelector("#search-input"), 'input')
       .pipe(
         map(e => (<HTMLInputElement>e.target).value),
         debounceTime(250),
         distinctUntilChanged(),
         tap(() => this.resetData()),
-        filter(value => Boolean(value)),
         switchMap(value => this.search.getAllResults(value, this.searchCategory, this.currentPage, this.sortType))
       )
       .subscribe(
-        data => this.setElems(data)
+        data => this.setElems(data),
+        err => this.errorHandler(err)
       );
-
-    if (this.inputValue && this.searchCategory) {
-      this.search.getAllResults(this.inputValue, this.searchCategory, this.currentPage, this.sortType)
-        .subscribe(data => this.setElems(data));
-      this.isSearchFound = true;
-    }
   }
 
-  // private getAllElems(): void {
-  //   this.search.getElementsAsObserv()
-  //     .subscribe(data => this.setElems(data));
-  // }
+  private getSearchResults(): void {
+    this.search.getAllResults(this.inputValue, this.searchCategory, this.currentPage, this.sortType)
+        .subscribe(
+          data => this.setElems(data),
+          err => this.errorHandler(err)
+        );
+    this.isSearchFound = true;
+  }
 
-  private setElems(data): void {
+  private setElems(data: any): void {
     this.displayedElements = this.displayedElements && this.scroll ? [...this.displayedElements, ...data.page] : [...data.page];
-    this.elements = data.page;
     this.itemsFound = data.totalElements;
+    if (this.displayedElements.length === this.itemsFound) {
+      this.isSearchFound = false;
+      console.log("end");
+    }
+    console.log(this.itemsFound);
   }
 
   public onScroll(): void {
     this.scroll = true;
     this.changeCurrentPage();
-    this.search.getAllResults(this.inputValue, this.searchCategory, this.currentPage, this.sortType)
-      .subscribe(data => this.setElems(data));
-    this.isSearchFound = true;
-  }
-
-  public onKeyUp(event: EventTarget): void {
-    // this.displayedElements = null;
-    // this.resetData();
-    // const VALUE = 'value';
-    // if (event[VALUE].length > 0) {
-    //   this.inputValue = event[VALUE];
-    //   this.search.getAllResults(this.inputValue, this.searchCategory, this.currentPage, this.sortType)
-    //     .subscribe(data => this.setElems(data));
-    //   this.isSearchFound = true;
-    // }
-    // if (event[VALUE].length === 0) {
-    //   this.displayedElements = null;
-    //   this.resetData();
-    // }
+    this.getSearchResults();
   }
 
   public changeCurrentSorting(newSorting: number): void {
@@ -122,9 +106,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
     };
     this.resetData();
     if (this.inputValue) {
-      this.search.getAllResults(this.inputValue, this.searchCategory, this.currentPage, this.sortType)
-        .subscribe(data => this.setElems(data));
-      this.isSearchFound = true;
+      this.getSearchResults();
     } else {
       this.resetData();
     }
@@ -135,14 +117,19 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
   }
 
   private resetData(): void {
+    this.isSearchFound = true;
     this.itemsFound = 0;
     this.currentPage = 0;
-    this.elements = null;
     this.displayedElements = null;
   }
 
   private changeCurrentPage(): void {
     this.currentPage += 1;
+  }
+
+  private errorHandler(error: any): void {
+    this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.', 'X', 'red-snackbar');
+    return error;
   }
 
   ngOnDestroy() {

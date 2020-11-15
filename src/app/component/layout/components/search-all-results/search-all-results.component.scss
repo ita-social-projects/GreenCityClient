@@ -3,7 +3,6 @@ $main-font-color: #494a49;
 
 .page-wrapper {
   margin: 0 auto;
-  min-height: 130vh;
 }
 
 .main-block-wrapper {
@@ -123,14 +122,14 @@ $main-font-color: #494a49;
   .flex-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: flex-start;
     width: 100%;
     height: 80%;
     overflow: hidden;
     align-items: flex-start;
 
     .app-search-item {
-      margin-right: 1rem;
+      margin-right: 3rem;
       margin-bottom: 3rem;
     }
   }

@@ -3,11 +3,11 @@
     <div class="search-bar-wrapper">
       <div class="center-flex-wrapper">
         <div class="search-icon"></div>
-        <input class = "search-field"
+        <input id="search-input"
+               class="search-field"
                type="text"
                [(ngModel)]="inputValue"
-               placeholder="{{ 'search.search-all-results.placeholder' | translate }}"
-               (keyup)="onKeyUp($event.target)">
+               placeholder="{{ 'search.search-all-results.placeholder' | translate }}">
       </div>
     </div>
     <div class="remaining-items"
@@ -51,7 +51,8 @@
       </div>
     </div>
   </div>
-  <ng-template [ngIf]="isSearchFound && elements">
+  <!-- <app-spinner></app-spinner> -->
+  <ng-template [ngIf]="isSearchFound">
     <div infiniteScroll
         [infiniteScrollDistance]="0"
         [infiniteScrollThrottle]="500"
