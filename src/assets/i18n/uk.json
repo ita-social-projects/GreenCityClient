@@ -566,6 +566,13 @@
         "confirmation-modal-yes": "Так",
         "confirmation-modal-cancel": "Скасувати"
       },
+      "all-habits": {
+        "title":"Всі звички",
+        "no-habits":"На жаль, звичок не знайдено",
+        "no-habits-advice": "Ніяких звичок більше знайти не вдалося. Будь ласка, поміняйте фільтри, щоб отримати результат.",
+        "btn-more": "Детальніше",
+        "btn-add": "Додати звичку"
+      },
       "habit-trackers": {
         "habit-tracker": {
           "habit-tracker-date": {

@@ -1,6 +1,10 @@
+import { UserSharedModule } from './../../../shared/user-shared.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProfileHeaderComponent } from './profile-header.component';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ProfileProgressComponent } from '../profile-progress/profile-progress.component';
 
 describe('ProfileHeaderComponent', () => {
   let component: ProfileHeaderComponent;
@@ -8,7 +12,17 @@ describe('ProfileHeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProfileHeaderComponent ]
+      declarations: [
+        ProfileHeaderComponent,
+        ProfileProgressComponent
+      ],
+      imports: [
+        UserSharedModule,
+        RouterTestingModule.withRoutes([])
+      ],
+      providers: [
+        { provide: Router, useValue: [] }
+      ]
     })
     .compileComponents();
   }));
