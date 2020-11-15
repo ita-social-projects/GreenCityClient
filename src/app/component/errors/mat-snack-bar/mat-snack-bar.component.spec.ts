@@ -12,9 +12,11 @@ describe('MatSnackBarComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ MatSnackBarComponent ],
-      imports: [MatSnackBarModule,
-                TranslateModule.forRoot(), 
-                BrowserAnimationsModule],
+      imports: [
+        MatSnackBarModule,
+        TranslateModule.forRoot(),
+        BrowserAnimationsModule
+      ],
     })
     .compileComponents();
   }));
@@ -31,15 +33,12 @@ describe('MatSnackBarComponent', () => {
     });
 
     it('should call openSnackBar()', () => {
-      // @ts-ignore
       const spy = spyOn(component, 'openSnackBar').and.callThrough();
       component.openSnackBar('error');
       expect(spy).toHaveBeenCalled();
     });
 
     it('should call getSnackBarMessage()', () => {
-      // @ts-ignore
-      
       const spy = spyOn(component, 'getSnackBarMessage').and.callThrough();
       component.getSnackBarMessage('snack-bar.error.default');
       expect(spy).toHaveBeenCalled();
@@ -49,43 +48,43 @@ describe('MatSnackBarComponent', () => {
   describe('test different notification types call', () => {
     it('should call the function to close the dialog', () => {
       const spy = spyOn(component.snackType, 'error').and.callThrough();
-      component.snackType['error']();
+      component.snackType[`error`]();
       expect(spy).toHaveBeenCalled();
     });
 
     it('should call the function to close the dialog', () => {
       const spy = spyOn(component.snackType, 'attention').and.callThrough();
-      component.snackType['attention']();
+      component.snackType[`attention`]();
       expect(spy).toHaveBeenCalled();
     });
 
     it('should call the function to close the dialog', () => {
       const spy = spyOn(component.snackType, 'success').and.callThrough();
-      component.snackType['success']();
+      component.snackType[`success`]();
       expect(spy).toHaveBeenCalled();
     });
 
     it('should call the function to close the dialog', () => {
       const spy = spyOn(component.snackType, 'exitConfirmRestorePassword').and.callThrough();
-      component.snackType['exitConfirmRestorePassword']();
+      component.snackType[`exitConfirmRestorePassword`]();
       expect(spy).toHaveBeenCalled();
     });
 
     it('should call the function to close the dialog', () => {
       const spy = spyOn(component.snackType, 'successRestorePassword').and.callThrough();
-      component.snackType['successRestorePassword']();
+      component.snackType[`successRestorePassword`]();
       expect(spy).toHaveBeenCalled();
     });
 
     it('should call the function to close the dialog', () => {
       const spy = spyOn(component.snackType, 'successConfirmPassword').and.callThrough();
-      component.snackType['successConfirmPassword']();
+      component.snackType[`successConfirmPassword`]();
       expect(spy).toHaveBeenCalled();
     });
 
     it('should call the function to close the dialog', () => {
       const spy = spyOn(component.snackType, 'signUp').and.callThrough();
-      component.snackType['signUp']();
+      component.snackType[`signUp`]();
       expect(spy).toHaveBeenCalled();
     });
   });
