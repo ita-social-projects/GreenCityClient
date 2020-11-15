@@ -13,7 +13,6 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
   selector: 'app-confirm-restore-password',
   templateUrl: './confirm-restore-password.component.html',
   styleUrls: ['./confirm-restore-password.component.scss'],
-  providers: [MatSnackBarComponent]
 })
 
 export class ConfirmRestorePasswordComponent implements OnInit {
@@ -99,7 +98,7 @@ export class ConfirmRestorePasswordComponent implements OnInit {
     htmlImage.src = htmlInput.type === 'password' ? this.authImages.hiddenEye : this.authImages.openEye;
   }
 
-  public closeModal( path: string ): void {
+  public closeModal(): void {
     this.router.navigate(['welcome']);
     this.snackBar.openSnackBar('exitConfirmRestorePassword');
   }

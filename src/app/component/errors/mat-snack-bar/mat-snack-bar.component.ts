@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./mat-snack-bar.component.scss'],
   providers: [TranslateService]
 })
-export class MatSnackBarComponent implements OnChanges {
+export class MatSnackBarComponent {
   public message: string;
   public className: string;
   public snackType = {
@@ -59,8 +59,5 @@ export class MatSnackBarComponent implements OnChanges {
     this.translate.get(key).subscribe(translation => {
         this.message = translation;
     });
-  }
-
-  ngOnChanges() {
   }
 }

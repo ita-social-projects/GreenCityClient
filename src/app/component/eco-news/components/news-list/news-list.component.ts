@@ -11,7 +11,6 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
   selector: 'app-news-list',
   templateUrl: './news-list.component.html',
   styleUrls: ['./news-list.component.scss'],
-  providers: [MatSnackBarComponent]
 })
 export class NewsListComponent implements OnInit, OnDestroy {
   public view: boolean;
