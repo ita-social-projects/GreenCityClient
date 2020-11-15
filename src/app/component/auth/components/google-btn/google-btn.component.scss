@@ -14,12 +14,11 @@
 }
 
 .google-sign {
-  flex: 0.2;
   align-self: center;
+  padding-left: 10px;
 }
 
 .google-text-sign-in {
-  flex: 0.9 1 auto;
   align-self: center;
   font-family: Roboto, sans-serif;
   font-style: normal;
@@ -28,4 +27,6 @@
   line-height: 16px;
   letter-spacing: 0.21875px;
   color: #494a49;
+  width: 100%;
+  margin-left: -34px;
 }

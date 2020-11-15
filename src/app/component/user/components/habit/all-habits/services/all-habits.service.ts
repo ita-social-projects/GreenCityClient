@@ -1,23 +1,44 @@
+import { ServerHabitItemModel } from './../../../../models/habit-item.model';
+import { environment } from '@environment/environment';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of, Observable } from 'rxjs';
-
-const allHabits: object[] = [
-  { id: 1, dayCount: 5, title: 'Покупать местные продукты', describe: 'Mark as done', done: false, acquired: false },
-  { id: 2, dayCount: 12, title: 'Меньше пользоваться транспортом', describe: '5 days in a row. You’re good!', done: true, acquired: false },
-  { id: 3, dayCount: 5, title: 'Покупать местные продукты', describe: 'Mark as done', done: false, acquired: false },
-  { id: 4, dayCount: 12, title: 'Меньше пользоваться транспортом', describe: '2 days in a row. You’re good!', done: true, acquired: false },
-  { id: 5, dayCount: 12, title: 'Покупать местные продукты', describe: '6 days in a row. You’re good!', done: true, acquired: false },
-  { id: 6, dayCount: 12, title: 'Меньше пользоваться транспортом', describe: '2 days in a row. You’re good!', done: true, acquired: false },
-];
+import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AllHabitsService {
+  private backEnd = environment.backendLink;
+  public allHabits = new BehaviorSubject<any>([]);
 
-  constructor() { }
+  constructor(
+    private http: HttpClient,
+  ) { }
 
-  getAllHabits(): Observable<object[]> {
-    return of(allHabits);
+  fetchAllHabits(page, size, lang: string = 'en'): void {
+    this.http.get<ServerHabitItemModel>(`${this.backEnd}habit?page=${page}&size=${size}&lang=${lang}`)
+    .pipe<ServerHabitItemModel>( map(data => this.splitHabitItems(data)))
+    .subscribe(
+      data => {
+        const observableValue = this.allHabits.getValue();
+        const oldItems = observableValue.page ? observableValue.page : [];
+        data.page = [... data.page, ...oldItems];
+        this.allHabits.next(data);
+      }
+    );
+  }
+
+  resetSubject() {
+    this.allHabits.next([]);
+  }
+
+  private splitHabitItems(data) {
+    data.page.forEach(el => {
+      const newArr = el.habitTranslation.habitItem.split(',').map(str => str.trim().toLowerCase());
+      return el.habitTranslation.habitItem = newArr;
+    });
+
+    return data;
   }
 }

@@ -25,6 +25,8 @@ export class NewsListComponent implements OnInit, OnDestroy {
   public scroll: boolean;
   public numberOfNews: number;
   public elementsArePresent = true;
+  private tagsSubscription: Subscription;
+  public tagList: string[];
 
   constructor(
     private ecoNewsService: EcoNewsService,
@@ -38,6 +40,9 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
     this.scroll = false;
+
+    this.tagsSubscription = this.ecoNewsService.getAllPresentTags()
+      .subscribe((tag: Array<string>) => this.tagList = tag);
   }
 
   public onResize(): void {
@@ -114,5 +119,6 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.ecoNewsSubscription.unsubscribe();
+    this.tagsSubscription.unsubscribe();
   }
 }
