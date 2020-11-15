@@ -6,9 +6,11 @@
   </button>
   <div class="wrapper" 
        *ngIf="!selectedPhoto && !isNotification; else elseBlock">
-    <img src="{{ avatarImg }}" 
-         alt="avatar" 
-         class="profile-avatar">
+    <app-user-profile-image [imgPath]="avatarImg"
+                            [additionalImgClass]="'big'"
+                            [firstName]="data.firstName"
+                            >
+    </app-user-profile-image>
     <p *ngIf=isWarning 
        class="warning">{{"user.edit-profile.picture-tooltip" | translate }}</p>
     <p>{{"user.edit-profile.change-photo" | translate }}</p>
@@ -24,7 +26,7 @@
       </label>
       <button type="button" 
               class="primary-global-button delete" 
-              [disabled]="isDefaultPhoto"
+              [disabled]="!avatarImg"
               (click)="isNotification=true">{{"user.edit-profile.btn.delete" | translate }}</button>
     </div>
   </div>

@@ -56,7 +56,6 @@ describe('AllHabitsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         AllHabitsComponent,
-        HabitsGalleryViewComponent,
         HabitsListViewComponent,
        ],
       imports: [
