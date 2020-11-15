@@ -73,7 +73,8 @@
     }
 
     .day {
-      padding: 10px 20px;
+      padding: 12px 10px;
+      margin: 0 8px;
 
       &:hover {
         background-color: #d3ebde;
@@ -85,7 +86,7 @@
 
 .current-day {
   background-color: #13aa57;
-  border-radius: 50%;
+  border-radius: 4px;
   background-repeat: no-repeat;
   background-position: center;
   color: #fff;
