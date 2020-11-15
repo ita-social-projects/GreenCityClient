@@ -4,7 +4,6 @@ import { environment } from '@environment/environment';
 import { Observable, of, Subject} from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { SearchModel } from '../../model/search/search.model';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { SearchDto } from 'src/app/component/layout/components/models/search-dto';
 
 @Injectable({
@@ -80,6 +79,5 @@ export class SearchService {
     return this.allElemsSubj.asObservable();
   }
 
-  constructor(private http: HttpClient,
-              private snackBar: MatSnackBarComponent) { }
+  constructor(private http: HttpClient) { }
 }

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, fromEvent } from 'rxjs';
 import { map, debounceTime, distinctUntilChanged, tap, switchMap } from 'rxjs/operators';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SearchService } from '@global-service/search/search.service';
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 
@@ -27,7 +27,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
 
   readonly dropDownArrow = 'assets/img/arrow_grey.png';
 
-  constructor(private search: SearchService, private snackBar: MatSnackBarComponent, private route: ActivatedRoute) { 
+  constructor(private search: SearchService, private snackBar: MatSnackBar, private route: ActivatedRoute) { 
     this.querySubscription = route.queryParams.subscribe(
       (queryParam: any) => {
           this.inputValue = queryParam['searchQuery'];
@@ -126,7 +126,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
   }
 
   private errorHandler(error: any): void {
-    this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.', 'X', 'red-snackbar');
+    this.snackBar.open('Oops, something went wrong. Please reload page or try again later.', 'X');
     return error;
   }
 

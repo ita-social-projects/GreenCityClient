@@ -1,15 +1,15 @@
+import { FormsModule } from '@angular/forms';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-// import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { SearchAllResultsComponent } from './search-all-results.component';
+import { ItemComponent } from './item/item.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SearchService } from '@global-service/search/search.service';
-import { SearchModel } from '@global-models/search/search.model';
-import { NewsSearchModel } from '@global-models/search/newsSearch.model';
-import { Observable } from 'rxjs';
-import { NgxPageScrollModule } from 'ngx-page-scroll';
 
-xdescribe('SearchAllResultsComponent', () => {
+describe('SearchAllResultsComponent', () => {
   let component: SearchAllResultsComponent;
   let fixture: ComponentFixture<SearchAllResultsComponent>;
 
@@ -17,17 +17,22 @@ xdescribe('SearchAllResultsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         SearchAllResultsComponent,
+        ItemComponent
       ],
       imports: [
         RouterTestingModule,
         HttpClientTestingModule,
-        NgxPageScrollModule,
+        FormsModule,
+        InfiniteScrollModule,
+        MatSnackBarModule,
+        TranslateModule.forRoot()
       ],
       providers: [
-        SearchService
+        SearchService,
+        MatSnackBar
       ]
     })
-      .compileComponents().then(r => r);
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -38,58 +43,5 @@ xdescribe('SearchAllResultsComponent', () => {
 
   it('should create SearchAllResultsComponent', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('General methods', () => {
-
-    it(`ngOnInit should init getAllElemes method`, () => {
-        const spy = spyOn(component as any, 'getAllElemes');
-        component.ngOnInit();
-        expect(spy).toHaveBeenCalledTimes(1);
-      });
-  });
-
-  describe('Testing services:', () => {
-    let searchService: SearchService;
-    let mockDataSearchModel: SearchModel;
-    let mockNewsSearchModel: NewsSearchModel;
-
-    beforeEach(() => {
-      searchService = fixture.debugElement.injector.get(SearchService);
-
-      mockDataSearchModel = {
-        countOfResults: 9,
-        ecoNews: [mockNewsSearchModel],
-        tipsAndTricks: [mockNewsSearchModel]
-   };
-
-      mockNewsSearchModel = {
-     id: 10,
-      title: 'taras',
-      author: {
-        id: 20,
-        name: 'Ivan',
-      },
-      creationDate: 'data-time',
-      tags: ['news'],
-   };
-    });
-
-    it('should call resetData', () => {
-        const scrollSpy = spyOn(component as any, 'onScroll');
-        component.onScroll();
-        expect(scrollSpy).toHaveBeenCalledTimes(1);
-        expect(component.scroll).toBeTruthy();
-        expect(component.isSearchFound).toBeTruthy();
-      });
-
-    it('should usubscribe from querySubscription', () => {
-      const subscribeToQuerySpy = spyOn(component as any, 'querySubscription.unsubscribe');
-      const toggleAllSearchSpy = spyOn(component as any, 'search.toggleAllSearch');
-      component.ngOnDestroy();
-      expect(subscribeToQuerySpy).toHaveBeenCalledTimes(1);
-      expect(toggleAllSearchSpy).toHaveBeenCalledTimes(1);
-      expect(toggleAllSearchSpy).toHaveBeenCalledWith(false);
-    });
   });
 });
