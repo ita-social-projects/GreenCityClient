@@ -12,12 +12,14 @@ import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { RestoreDto } from '@global-models/restroreDto';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 
 
 describe('ConfirmRestorePasswordComponent', () => {
   let component: ConfirmRestorePasswordComponent;
   let fixture: ComponentFixture<ConfirmRestorePasswordComponent>;
+  let MatSnackBarMock: MatSnackBarComponent;
   const MatDialogRefMock = {
     close: () => { }
   };
@@ -25,6 +27,9 @@ describe('ConfirmRestorePasswordComponent', () => {
   const ChangePasswordServiceStub = {
     restorePassword: jasmine.createSpy('restorePassword')
   };
+
+  MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  MatSnackBarMock.openSnackBar = (type: string) =>  { };
 
   class Fake {
   }
@@ -44,7 +49,8 @@ describe('ConfirmRestorePasswordComponent', () => {
         ],
       providers: [
         { provide: ChangePasswordService, useValue: ChangePasswordServiceStub },
-        { provide: MatDialogRef, useValue: MatDialogRefMock }
+        { provide: MatDialogRef, useValue: MatDialogRefMock },
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock }
     ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
@@ -71,20 +77,17 @@ describe('ConfirmRestorePasswordComponent', () => {
 
     it('should call closeModal()', fakeAsync(() => {
       // @ts-ignore
-      const spy = component.closeModal = jasmine.createSpy('closeModal');
-      component.closeModal('welcome');
-      fixture.detectChanges();
+      const spy = spyOn(component, 'closeModal').and.callThrough();
+      component.closeModal();
       expect(spy).toHaveBeenCalled();
     }));
 
-    it('closeModal() should navigate to homePage', fakeAsync(() => {
+    it('should call closeModal()', fakeAsync(() => {
       // @ts-ignore
-      const spy = component.closeModal = jasmine.createSpy('closeModal');
-      component.closeModal('welcome');
-      fixture.detectChanges();
-      expect(spy).toHaveBeenCalledWith('welcome');
+      const spy = spyOn(component, 'closeModal').and.callThrough();
+      component.closeModal();
+      expect(spy).toHaveBeenCalled();
     }));
-
   });
 
   describe('Check confirm restore password methods', () => {
