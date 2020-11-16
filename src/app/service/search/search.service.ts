@@ -61,7 +61,7 @@ export class SearchService {
     this.allSearchSubject.next(value);
   }
 
-  public getAllResults(query: string, category: string = "econews", page: number = 0, sort: string = "") {
+  public getAllResults(query: string, category: string = 'econews', page: number = 0, sort: string = '') {
     const itemsPerPage = 9;
 
     // bug on backend in DB

@@ -14,12 +14,14 @@ import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 export class SearchAllResultsComponent implements OnInit, OnDestroy {
   public displayedElements: NewsSearchModel[] = [];
   public isSearchFound: boolean;
-  public itemsFound: number = 0;
-  public currentPage: number = 0;
+  public itemsFound = 0;
+  public currentPage = 0;
   public searchCategory: string;
   public sortType: string;
-  public sortTypes = ["Relevance", "Newest", "Oldest"];
-  public sortTypesLocalization = ["search.search-all-results.relevance", "search.search-all-results.newest", "search.search-all-results.oldest"];
+  public sortTypes = ['Relevance', 'Newest', 'Oldest'];
+  public sortTypesLocalization = ['search.search-all-results.relevance',
+                                  'search.search-all-results.newest',
+                                  'search.search-all-results.oldest'];
   public dropdownVisible: boolean;
   public inputValue: string;
   public scroll: boolean;
@@ -27,11 +29,11 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
 
   readonly dropDownArrow = 'assets/img/arrow_grey.png';
 
-  constructor(private search: SearchService, private snackBar: MatSnackBar, private route: ActivatedRoute) { 
+  constructor(private search: SearchService, private snackBar: MatSnackBar, private route: ActivatedRoute) {
     this.querySubscription = route.queryParams.subscribe(
       (queryParam: any) => {
-          this.inputValue = queryParam['searchQuery'];
-          this.searchCategory = queryParam['searchCategory'] || 'econews';
+          this.inputValue = queryParam.searchQuery;
+          this.searchCategory = queryParam.searchCategory || 'econews';
       }
     );
   }
@@ -41,17 +43,17 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
     this.sortType = '';
 
     this.route.queryParams.subscribe(params => {
-      this.inputValue = params['searchQuery'];
-      this.searchCategory = params['searchCategory'] || 'econews';
+      this.inputValue = params.searchQuery;
+      this.searchCategory = params.searchCategory || 'econews';
     });
 
     if (this.inputValue && this.searchCategory) {
       this.getSearchResults();
     }
 
-    fromEvent(document.querySelector("#search-input"), 'input')
+    fromEvent(document.querySelector('#search-input'), 'input')
       .pipe(
-        map(e => (<HTMLInputElement>e.target).value),
+        map(e => (e.target as HTMLInputElement).value),
         debounceTime(250),
         distinctUntilChanged(),
         tap(() => this.resetData()),
@@ -87,8 +89,12 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
   }
 
   public changeCurrentSorting(newSorting: number): void {
-    [this.sortTypes[0], this.sortTypes[newSorting]] = [this.sortTypes[newSorting], this.sortTypes[0]];
-    [this.sortTypesLocalization[0], this.sortTypesLocalization[newSorting]] = [this.sortTypesLocalization[newSorting], this.sortTypesLocalization[0]];
+    [this.sortTypes[0],
+    this.sortTypes[newSorting]] = [this.sortTypes[newSorting],
+                                   this.sortTypes[0]];
+    [this.sortTypesLocalization[0],
+    this.sortTypesLocalization[newSorting]] = [this.sortTypesLocalization[newSorting],
+                                               this.sortTypesLocalization[0]];
     switch (this.sortTypes[0]) {
       case 'Relevance':
         this.sortType = ``;
@@ -101,7 +107,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
         break;
       default:
         this.sortType = '';
-    };
+    }
     this.resetData();
     if (this.inputValue) {
       this.getSearchResults();
