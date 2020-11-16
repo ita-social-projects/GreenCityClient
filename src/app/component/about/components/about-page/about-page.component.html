@@ -54,7 +54,6 @@
         <a class="card-link tertiary-global-button"
            [routerLink]="['/map']"
            pageScroll
-           href="#top-user-bar"
            routerLinkActive="active-link"
            [routerLinkActiveOptions]="{ exact: true }">
           {{ 'about-us.steps.block-1.button' | translate }}
@@ -70,9 +69,8 @@
         <span class="main-card-text">
           {{ 'about-us.steps.block-2.text' | translate }}
         </span>
-        <a [routerLink]="['/welcome']"
+        <a [routerLink]="['/tips']"
            pageScroll
-           href="#tips"
            class="card-link tertiary-global-button" id="second-card-link">
           {{ 'about-us.steps.block-2.button' | translate }}
         </a>
@@ -87,7 +85,9 @@
         <span class="main-card-text" id="third-card-text">
           {{ 'about-us.steps.block-3.text' | translate }}
         </span>
-        <a class="card-link tertiary-global-button" id="third-card-link" href="">
+        <a class="disabled-link card-link tertiary-global-button"
+           title="{{ 'about-us.disabled-link' | translate }}"
+           id="third-card-link">
           {{ 'about-us.steps.block-3.button' | translate }}
         </a>
       </div>
@@ -101,7 +101,9 @@
         <span class="main-card-text" id="fourth-card-text">
           {{ 'about-us.steps.block-4.text' | translate }}
         </span>
-        <a class="card-link tertiary-global-button" id="fourth-card-link" href="">
+        <a class="disabled-link card-link tertiary-global-button"
+           title="{{ 'about-us.disabled-link' | translate }}"
+           id="fourth-card-link">
           {{ 'about-us.steps.block-4.button' | translate }}
         </a>
       </div>
@@ -115,9 +117,11 @@
         <span class="main-card-text" id="fifth-card-text">
           {{ 'about-us.steps.block-5.text' | translate }}
         </span>
-        <a class="card-link tertiary-global-button" href="" id="fifth-card-link">
+        <a class="disabled-link card-link tertiary-global-button"
+          title="{{ 'about-us.disabled-link' | translate }}"
+          id="fifth-card-link">
           {{ 'about-us.steps.block-5.button' | translate }}
-        </a>
+       </a>
       </div>
     </div>
   </div>
