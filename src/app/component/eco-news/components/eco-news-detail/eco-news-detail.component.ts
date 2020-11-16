@@ -19,6 +19,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   private newsItemSubscription: Subscription;
   private newsId: number;
   private newsImage: string;
+  public userInfo;
 
   constructor(private route: ActivatedRoute,
               private ecoNewsService: EcoNewsService,
