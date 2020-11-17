@@ -1,4 +1,6 @@
 $primary-color: #13AA57;
+$second-color: #6A8079;
+$primary-font: 'Montserrat';
 
 .title {
   font-style: normal;
@@ -16,13 +18,38 @@ $primary-color: #13AA57;
   position: relative;
   top: 0px;
   background-image: url("./../../../../../../../assets/img/duration-thumb-label.png");
-  font-family: Montserrat;
+  font-family: $primary-font;
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
   line-height: 16px;
   align-items: center;
   text-align: center;
+}
+
+.rangeLabel {
+  height: 16px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 32px;
+
+  .text {
+    font-family: $primary-font;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 16px;
+    color: $second-color;
+  }
+}
+
+.message {
+  font-family: $primary-font;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
+  color: $second-color;
 }
 
 input[type=range].form-control-range {

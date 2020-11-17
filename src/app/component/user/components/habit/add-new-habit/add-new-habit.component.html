@@ -21,7 +21,7 @@
       </div>
       <div class="description">
         <p>
-          {{habit.habitTranslation.description}}
+          {{habit?.habitTranslation.description}}
         </p>
       </div>
     </div>
@@ -43,7 +43,7 @@
       </div>
       <div class="durationShoping">
         <div class="duration">
-          <app-habit-duration></app-habit-duration>
+          <app-habit-duration [duration]="habit.defaultDuration"></app-habit-duration>
         </div>
         <div class="shopping">
           <app-habit-edit-shopping-list></app-habit-edit-shopping-list>

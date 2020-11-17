@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ServerHabitItemPageModel } from '@global-user/models/habit-item.model';
-import { Subscription } from 'rxjs';
 import { AddNewHabitService } from './services/add-new-habit.service';
 
 @Component({
@@ -11,33 +10,29 @@ import { AddNewHabitService } from './services/add-new-habit.service';
 })
 export class AddNewHabitComponent implements OnInit {
   public habit: ServerHabitItemPageModel;
-  public habitID: number;
-  public userID: number;
-  public galleryView = true;
-  public subscription: Subscription;
+  public habitId: number;
+  public userId: string;
 
   constructor(private route: ActivatedRoute,
-              private router: Router,
-              private addHabitService: AddNewHabitService) {
-                this.route.params.subscribe(params => {
-                  this.habitID = +params.habitId;
-                  this.userID = +params.id;
-                });
-              }
+    private router: Router,
+    private addHabitService: AddNewHabitService) { }
 
   ngOnInit() {
-    this.getHabitById(this.habitID);
-  }
-
-  getHabitById(id: number): any {
-    this.addHabitService.getHabitById(id).subscribe(data => {
-      console.log(data);
+    this.getUserId();
+    this.route.params.subscribe(params => {
+      this.habitId = +params.habitId;
+    });
+    this.addHabitService.getHabitById(this.habitId).subscribe(data => {
       this.habit = data;
     });
   }
 
-  goToMyHabits(): void {
-    this.router.navigate([`/profile/${this.userID}/allhabits`]);
+  public goToMyHabits(): void {
+    this.router.navigate([`/profile/${this.userId}/allhabits`]);
+  }
+
+  private getUserId() {
+    this.userId = localStorage.getItem('userId');
   }
 
 }
