@@ -10,7 +10,8 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 @Component({
   selector: 'app-news-list',
   templateUrl: './news-list.component.html',
-  styleUrls: ['./news-list.component.scss']
+  styleUrls: ['./news-list.component.scss'],
+  providers: [MatSnackBarComponent]
 })
 export class NewsListComponent implements OnInit, OnDestroy {
   public view: boolean;
@@ -76,7 +77,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
       this.ecoNewsSubscription = this.ecoNewsService.getNewsListByTags(this.currentPage, this.numberOfNews, this.tagsList)
         .pipe(
           catchError((error) => {
-            this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.', 'X', 'red-snackbar');
+            this.snackBar.openSnackBar('error');
 
             return error;
           })
@@ -86,7 +87,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
       this.ecoNewsSubscription = this.ecoNewsService.getEcoNewsListByPage(this.currentPage, this.numberOfNews)
         .pipe(
           catchError((error) => {
-            this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.', 'X', 'red-snackbar');
+            this.snackBar.openSnackBar('error');
 
             return error;
           })

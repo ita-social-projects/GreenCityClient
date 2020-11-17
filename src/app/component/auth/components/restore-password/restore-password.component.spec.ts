@@ -15,6 +15,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { RestorePasswordService } from '@auth-service/restore-password.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { GoogleSignInService } from '@global-service/auth/google-sign-in.service';
+import {MatSnackBarModule  } from '@angular/material/snack-bar';
 
 describe('RestorePasswordComponent', () => {
   let component: RestorePasswordComponent;
@@ -68,11 +69,12 @@ describe('RestorePasswordComponent', () => {
         TranslateModule.forRoot(),
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([]),
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        MatSnackBarModule
       ], providers: [
         { provide: MatDialogRef, useValue: matDialogMock },
         { provide: AuthService, useValue: authServiceMock },
-        { provide: Router, useValue: routerSpy },
+        { provide: Router, useValue: routerSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     })

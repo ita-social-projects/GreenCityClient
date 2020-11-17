@@ -14,11 +14,13 @@ import { UserOwnSignInService } from '@global-service/auth/user-own-sign-in.serv
 import { UserOwnSignUpService } from '@global-service/auth/user-own-sign-up.service';
 import { UserOwnSignUp } from '@global-models/user-own-sign-up';
 import { UserSuccessSignIn, SuccessSignUpDto } from '@global-models/user-success-sign-in';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss']
+  styleUrls: ['./sign-up.component.scss'],
+  providers: [MatSnackBarComponent]
 })
 export class SignUpComponent implements OnInit, OnDestroy {
   public signUpForm: FormGroup;
@@ -51,6 +53,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
               private router: Router,
               private authService: AuthService,
               private googleService: GoogleSignInService,
+              private snackBar: MatSnackBarComponent
               ) { }
 
   ngOnInit() {
@@ -148,6 +151,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.loadingAnim = false;
     this.openSignUpPopup();
     this.closeSignUpWindow();
+    this.snackBar.openSnackBar('signUp');
   }
 
   private openSignUpPopup(): void {
@@ -174,6 +178,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.closeSignUpWindow();
     this.router.navigate(['/']);
+    this.snackBar.openSnackBar('signUp');
   }
 
   private signUpWithGoogleError(errors: HttpErrorResponse): void {

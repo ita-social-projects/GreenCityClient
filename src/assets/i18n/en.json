@@ -239,6 +239,21 @@
     "oops": "Oops!",
     "go-to-homepage": "Go To Homepage"
   },
+  "snack-bar": {
+    "error": {
+      "default": "Oops, something went wrong. Please reload page or try again later."
+    },
+    "attention": {
+      "default": "Attention message. The action cannot be performed, because conditions weren’t met.",
+      "exit-confirm-restore-password": "Your password hasn`t been changed."
+    },
+    "success": {
+      "default": "Success message. The action was successful.",
+      "confirm-restore-password": "Your password has just been reset.",
+      "restore-password": "Restore password link was sent to your email address.",
+      "sign-up" : "You have successfully registered on the site. Please confirm your email address in the email box."
+    }
+  },
   "user": {
     "add-comment": {
       "add-your-comment-to-place": "Add your comment to place",
