@@ -20,7 +20,6 @@ export class EditPhotoPopUpComponent implements OnInit {
   public selectedPhoto = false;
   public selectedFile: File = null;
   public selectedFileUrl: string;
-  public isDefaultPhoto: boolean;
   public isNotification: boolean;
   public loadingAnim: boolean;
   private croppedImage: string;
@@ -81,7 +80,6 @@ export class EditPhotoPopUpComponent implements OnInit {
 
   private setUserAvatar() {
     this.avatarImg = this.data.img;
-    this.isDefaultPhoto = /DEFAULT_PROFILE_PICTURE.png/.test(this.avatarImg);
   }
 
   private handleFile(event): void {

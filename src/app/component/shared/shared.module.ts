@@ -1,3 +1,4 @@
+import { UserSharedModule } from './../user/components/shared/user-shared.module';
 import { NgModule } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -18,8 +19,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DragAndDropDirective } from '../eco-news/directives/drag-and-drop.directive';
 import { DragAndDropComponent } from './components/drag-and-drop/drag-and-drop.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
-import {MatSnackBarComponent} from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
+import { NoDataComponent } from './components/no-data/no-data.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { TagFilterComponent } from './components/tag-filter/tag-filter.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,10 @@ import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisa
     DragAndDropDirective,
     DragAndDropComponent,
     EditPhotoPopUpComponent,
-    DateLocalisationPipe
+    DateLocalisationPipe,
+    NoDataComponent,
+    SpinnerComponent,
+    TagFilterComponent
   ],
   imports: [
     ImageCropperModule,
@@ -47,7 +53,8 @@ import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisa
     MatCardModule,
     MatDialogModule,
     MatCheckboxModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    UserSharedModule
   ],
   exports: [
     CancelPopUpComponent,
@@ -64,9 +71,12 @@ import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisa
     MatProgressSpinnerModule,
     DragAndDropDirective,
     DragAndDropComponent,
-    DateLocalisationPipe
-  ],
-  providers: [],
+    DateLocalisationPipe,
+    NoDataComponent,
+    SpinnerComponent,
+    TagFilterComponent,
+    UserSharedModule
+  ]
 })
 export class SharedModule {}
 
