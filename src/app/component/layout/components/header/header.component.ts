@@ -73,7 +73,6 @@ export class HeaderComponent implements OnInit {
       ...this.arrayLang.slice(0, currentLangIndex),
       ...this.arrayLang.slice(currentLangIndex + 1)
     ];
-    console.log(this.arrayLang);
   }
 
   private initUser(): void {
