@@ -19,6 +19,7 @@ import { SubmitEmailComponent } from '@global-auth/submit-email/submit-email.com
 import { provideConfig } from 'src/app/config/GoogleAuthConfig';
 
 import { SignUpComponent } from './sign-up.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 describe('SignUpComponent', () => {
   let component: SignUpComponent;
@@ -219,6 +220,7 @@ describe('SignUpComponent', () => {
   describe('Check sign up methods', () => {
     let userOwnSecurityService: UserOwnSignUpService;
     let mockUserSuccessSignIn: UserSuccessSignIn;
+    let localStorageService: LocalStorageService;
     let mockFormData;
 
     beforeEach(() => {
@@ -242,7 +244,7 @@ describe('SignUpComponent', () => {
       component.onSubmitSuccess = () => true;
       const spy = spyOn(userOwnSecurityService, 'signUp').and.returnValue(Observable.of(mockFormData));
       component.onSubmit(mockFormData);
-      expect(spy).toHaveBeenCalledWith(mockFormData);
+      expect(spy).toHaveBeenCalledWith(mockFormData, null);
     });
 
     it('onSubmit should call onSubmitError', () => {

@@ -87,7 +87,6 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   sentEmail(userOwnSignIn: UserOwnSignIn): void {
     this.loadingAnim = true;
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
-    console.log(this.currentLanguage);
     this.restorePasswordService.sendEmailForRestore(userOwnSignIn.email, this.currentLanguage)
       .pipe(
        take(1))
