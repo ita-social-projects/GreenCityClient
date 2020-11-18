@@ -13,10 +13,10 @@ export class LanguageService {
 
   constructor(private translate: TranslateService, private localStorageService: LocalStorageService) {
     this.langMap.set(Language.EN, ['en']);
-    this.langMap.set(Language.UK, ['ua', 'uk']);
+    this.langMap.set(Language.UA, ['ua']);
     this.langMap.set(Language.RU, ['ru']);
 
-    this.monthMap.set(Language.UK, ['січня', 'лютого', 'березня', 'квітня', 'травня', 'червня', 'липня', 'серпня', 'вересня', 'жовтня',
+    this.monthMap.set(Language.UA, ['січня', 'лютого', 'березня', 'квітня', 'травня', 'червня', 'липня', 'серпня', 'вересня', 'жовтня',
       'листопада', 'грудня']);
     this.monthMap.set(Language.EN, ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october',
       'november', 'december']);

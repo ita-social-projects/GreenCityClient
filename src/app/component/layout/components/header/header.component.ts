@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
   public isAllSearchOpen = false;
   public toggleBurgerMenu = false;
   public arrayLang: Array<LanguageModel> = [
-    {lang: 'Uk'},
+    {lang: 'Ua'},
     {lang: 'En'},
     {lang: 'Ru'}];
   public isSearchClicked = false;
@@ -73,6 +73,7 @@ export class HeaderComponent implements OnInit {
       ...this.arrayLang.slice(0, currentLangIndex),
       ...this.arrayLang.slice(currentLangIndex + 1)
     ];
+    console.log(this.arrayLang);
   }
 
   private initUser(): void {
