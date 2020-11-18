@@ -156,7 +156,6 @@ export class SignInComponent implements OnInit, OnDestroy {
 
     errors.error.map((error) => {
       this.emailErrorMessageBackEnd = error.name === 'email' ? error.message : this.emailErrorMessageBackEnd;
-      console.log('this.emailErrorMessageBackEnd:', this.emailErrorMessageBackEnd);
       this.passwordErrorMessageBackEnd = error.name === 'password' ? error.message : this.passwordErrorMessageBackEnd;
     });
   }
