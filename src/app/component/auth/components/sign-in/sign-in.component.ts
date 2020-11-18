@@ -66,6 +66,10 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.emailErrorMessageBackEnd = null;
     this.passwordErrorMessageBackEnd = null;
     this.backEndError = null;
+    if (this.signInForm) {
+      this.emailFieldValue = this.emailField.value;
+      this.passwordFieldValue = this.passwordField.value;
+    }
   }
 
   public signIn(): void {
