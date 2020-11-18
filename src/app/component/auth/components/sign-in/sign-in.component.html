@@ -11,6 +11,7 @@
           placeholder="example@email.com"
           name="email"
           formControlName="email"
+          [(ngModel)]="emailFieldValue"
           (input)="configDefaultErrorMessage()"
           [ngClass]="emailField.invalid &&
                     emailField.touched ||
@@ -19,8 +20,9 @@
             'alert-email-validation':'successful-email-validation'">
   <div class="validation-email-error"
         *ngIf="emailField.invalid && emailField.touched">
-    <app-error [formElement]="emailField" 
-               [controlName]="'email'"></app-error>
+    <app-error [formElement]="emailField"
+               [controlName]="'email'"
+               [emailFieldValue]="emailFieldValue"></app-error>
   </div>
   <div class="validation-email-error"
         *ngIf="emailErrorMessageBackEnd">
@@ -42,6 +44,7 @@
             formControlName="password"
             placeholder="{{'user.auth.sign-in.password' | translate}}"
             name="form-control password-signin"
+            [(ngModel)]="passwordFieldValue"
             (input)="configDefaultErrorMessage()">
     <span class="show-hide-btn">
       <img (click)="togglePassword(input, src)"
@@ -53,8 +56,9 @@
   </div>
   <div class="validation-password-error"
         *ngIf="passwordField.invalid && passwordField.touched">
-    <app-error [formElement]="passwordField" 
-               [controlName]="'password'"></app-error>
+    <app-error [formElement]="passwordField"
+               [controlName]="'password'"
+               [passwordFieldValue]="passwordFieldValue"></app-error>
   </div>
   <div class="validation-password-error"
         *ngIf="passwordErrorMessageBackEnd">

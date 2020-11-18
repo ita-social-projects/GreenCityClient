@@ -32,6 +32,8 @@ export class SignInComponent implements OnInit, OnDestroy {
   public signInForm: FormGroup;
   public emailField: AbstractControl;
   public passwordField: AbstractControl;
+  public emailFieldValue: string;
+  public passwordFieldValue: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
   @Output() private pageName = new EventEmitter();
 
@@ -154,6 +156,7 @@ export class SignInComponent implements OnInit, OnDestroy {
 
     errors.error.map((error) => {
       this.emailErrorMessageBackEnd = error.name === 'email' ? error.message : this.emailErrorMessageBackEnd;
+      console.log('this.emailErrorMessageBackEnd:', this.emailErrorMessageBackEnd);
       this.passwordErrorMessageBackEnd = error.name === 'password' ? error.message : this.passwordErrorMessageBackEnd;
     });
   }
