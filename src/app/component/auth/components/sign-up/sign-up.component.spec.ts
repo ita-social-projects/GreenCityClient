@@ -220,7 +220,6 @@ describe('SignUpComponent', () => {
   describe('Check sign up methods', () => {
     let userOwnSecurityService: UserOwnSignUpService;
     let mockUserSuccessSignIn: UserSuccessSignIn;
-    let localStorageService: LocalStorageService;
     let mockFormData;
 
     beforeEach(() => {
