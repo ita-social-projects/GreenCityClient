@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import {BehaviorSubject, Subject} from 'rxjs';
+import {LocalStorageService} from '@global-service/localstorage/local-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserOwnAuthService {
   public credentialDataSubject = new Subject<any>();
+  public isLoginUserSubject = new BehaviorSubject<boolean>(this.localStorageService.getUserId() ? true : false);
 
-  constructor() { }
+  constructor(private localStorageService: LocalStorageService) { }
 
   public getDataFromLocalStorage(): void {
     const keys = {...localStorage};

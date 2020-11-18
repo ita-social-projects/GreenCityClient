@@ -1,0 +1,114 @@
+import { TestBed } from '@angular/core/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
+import {HTTP_INTERCEPTORS, HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {InterceptorService} from '@global-service/interceptors/interceptor.service';
+import {ProfileService} from '@global-user/components/profile/profile-service/profile.service';
+import { TranslateModule } from '@ngx-translate/core';
+import {MatDialogModule, MatDialogRef} from '@angular/material';
+import {MatSnackBarComponent} from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import {LocalStorageService} from '@global-service/localstorage/local-storage.service';
+import {BehaviorSubject, throwError, defer } from 'rxjs';
+
+
+describe(`InterceptorService`, () => {
+  let interceptor: InterceptorService;
+  // let mockProfileService: ProfileService;
+  let service: ProfileService;
+  let httpMock: HttpTestingController;
+  let MatSnackBarMock: MatSnackBarComponent;
+  MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  // MatSnackBarMock.openSnackBar = (type: string) =>  { };
+  // class MatDialogRefMock {
+  //   close() { }
+  // }
+  let localStorageServiceMock: LocalStorageService;
+  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getAccessToken']);
+  localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
+  localStorageServiceMock.setFirstName = () => true;
+  localStorageServiceMock.setRefreshToken = () => true;
+  localStorageServiceMock.clear = () => true;
+  let matDialogMock;
+  matDialogMock = jasmine.createSpyObj('MatDialogRef', ['close']);
+  matDialogMock.close = () => 'Close the window please';
+  let http: HttpClient;
+
+  beforeEach(() => {
+    // TestBed.configureTestingModule({
+    //   imports: [
+    //     HttpClientTestingModule,
+    //     TranslateModule.forRoot(),
+    //     MatDialogModule,
+    //   ],
+    //   providers: [
+    //     ProfileService,
+    //     { provide: MatDialogRef, useClass: MatDialogRefMock },
+    //     { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
+    //     // {
+    //     //   provide: HTTP_INTERCEPTORS,
+    //     //   useClass: InterceptorService,
+    //     //   multi: true,
+    //     // },
+    //   ],
+    // });
+    //
+    // service = TestBed.get(ProfileService);
+    httpMock = TestBed.get(HttpTestingController);
+    service = jasmine.createSpyObj('ProfileService', ['getUserInfo']);
+    interceptor = new InterceptorService(http, localStorageServiceMock,  matDialogMock, MatSnackBarMock);
+  });
+
+  it('should add an Bearer header', () => {
+    // const errors = new HttpErrorResponse({ error: { error: 'Unauthorized', message: 'Authorize first.' }, status: 401 });
+    // // service.getUserInfo();
+    // // spyOn(mockRouter, 'navigate');
+    // service.getUserInfo().subscribe(
+    //   res => {
+    //     expect(false).toEqual(true);
+    //   },
+    //   err => {
+    //     // @ts-ignore
+    //     expect(httpMock.getNewTokenPair).toHaveBeenCalled();
+    //   }
+    // );
+    //   // @ts-ignore
+    // httpMock.expectOne(`${service.backEnd}user/${service.userId}/profileStatistics/`).error(new ErrorEvent('401 error'), {
+    //   status: 401
+    // });
+    // httpMock.verify();
+
+
+    //   .subscribe(response => {
+    //   expect(response).toBeTruthy();
+    // });
+        // @ts-ignore
+    // const httpRequest = httpMock.expectOne(`${service.backEnd}user/${service.userId}/profileStatistics/`);
+    //
+    // expect(httpRequest.request.headers.has('Bearer')).toEqual(true);
+
+    let httpRequestSpy;
+    let httpHandlerSpy;
+    const error = {status: 401, statusText: 'error'};
+
+    httpRequestSpy = jasmine.createSpyObj('HttpRequest', ['doesNotMatter']);
+    httpHandlerSpy = jasmine.createSpyObj('HttpHandler', ['handle']);
+    httpHandlerSpy.handle.and.returnValue(
+      throwError(
+      {error:
+          {message: 'test-error'}
+      }
+    ));
+
+    interceptor.intercept(httpRequestSpy, httpHandlerSpy)
+      .subscribe(
+        result => console.log('good', result),
+        err => {
+          expect(err).toEqual('test-error');
+          // @ts-ignore
+          expect(interceptor.handleUnauthorized).toHaveBeenCalled();
+        }
+      );
+  });
+});

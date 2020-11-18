@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./mat-snack-bar.component.scss'],
   providers: [TranslateService]
 })
-export class MatSnackBarComponent implements OnChanges {
+export class MatSnackBarComponent {
   public message: string;
   public className: string;
   public snackType = {
@@ -50,7 +50,7 @@ export class MatSnackBarComponent implements OnChanges {
               private translate: TranslateService) { }
 
   public openSnackBar(type: string) {
-    this.snackType[type] ?  this.snackType[type]() : this.snackType.errorMessage(type);
+    this.snackType[type] ?  this.snackType[type]() : type.includes('400') ? this.snackType.error() : this.snackType.errorMessage(type);
 
     this.snackBar.open(this.message, 'X', {
       duration: 5000,
@@ -64,8 +64,5 @@ export class MatSnackBarComponent implements OnChanges {
     this.translate.get(key).subscribe(translation => {
         this.message = translation;
     });
-  }
-
-  ngOnChanges() {
   }
 }

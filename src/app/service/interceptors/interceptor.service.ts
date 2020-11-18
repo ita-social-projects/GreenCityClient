@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { MatDialog } from '@angular/material';
 import {BehaviorSubject, EMPTY, Observable, of, throwError} from 'rxjs';
-import { catchError, filter, switchMap, take, retry, map } from 'rxjs/operators';
+import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { updateAccessTokenLink } from '../../links';
 import { LocalStorageService } from '../localstorage/local-storage.service';
 import { BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../../http-response-status';
 import {AuthModalComponent} from '@global-auth/auth-modal/auth-modal.component';
 import {MatSnackBarComponent} from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import {UserOwnAuthService} from '@auth-service/user-own-auth.service';
 
 interface NewTokenPair {
   accessToken: string;
@@ -22,9 +23,10 @@ export class InterceptorService implements HttpInterceptor {
   private isRefreshing = false;
 
   constructor(private http: HttpClient,
-              private localStorageService: LocalStorageService,
               private dialog: MatDialog,
-              private snackBar: MatSnackBarComponent) {
+              private snackBar: MatSnackBarComponent,
+              private localStorageService: LocalStorageService,
+              private userOwnAuthService: UserOwnAuthService) {
   }
 
   /**
@@ -105,7 +107,7 @@ export class InterceptorService implements HttpInterceptor {
     this.isRefreshing = false;
     if (error.status === BAD_REQUEST) {
       this.localStorageService.clear();
-      this.openSignInWindow();
+      this.userOwnAuthService.isLoginUserSubject.next(false);
       return of<HttpEvent<any>>();
     }
     return throwError(error);

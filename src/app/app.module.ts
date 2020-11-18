@@ -44,7 +44,7 @@ import { CancelPopUpComponent } from '@shared/components/cancel-pop-up/cancel-po
 import { EditPhotoPopUpComponent } from '@shared/components/edit-photo-pop-up/edit-photo-pop-up.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ErrorComponent } from '@global-errors/error/error.component';
-import { ERRORS_MeSSAGE_CONFIG, ERRORS_MeSSAGE_TOKEN } from './constants/errors/error.constans';
+import { ACTION_TOKEN, ERRORS_MESSAGE_CONFIG } from './constants/errors/error.constans';
 
 @NgModule({
   declarations: [
@@ -107,8 +107,8 @@ import { ERRORS_MeSSAGE_CONFIG, ERRORS_MeSSAGE_TOKEN } from './constants/errors/
       useFactory: provideConfig
     },
     {
-      provide: ERRORS_MeSSAGE_TOKEN, 
-      useValue: ERRORS_MeSSAGE_CONFIG
+      provide: ACTION_TOKEN,
+      useValue: ERRORS_MESSAGE_CONFIG
     },
     DatePipe
   ],
