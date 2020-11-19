@@ -173,7 +173,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   private signUpWithGoogleSuccess(data: UserSuccessSignIn): void {
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.closeSignUpWindow();
-    this.router.navigate(['/']);
+    this.router.navigate(['/profile', data.userId]);
   }
 
   private signUpWithGoogleError(errors: HttpErrorResponse): void {

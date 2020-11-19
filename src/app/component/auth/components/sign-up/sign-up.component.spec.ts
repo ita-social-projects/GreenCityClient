@@ -280,11 +280,11 @@ describe('SignUpComponent', () => {
         expect(serviceSpy).toHaveBeenCalled();
       })));
 
-      it('signUpWithGoogleSuccess should navigate to homePage', fakeAsync(() => {
+      it('signUpWithGoogleSuccess should navigate to profilePage', fakeAsync(() => {
         // @ts-ignore
         component.signUpWithGoogleSuccess(mockUserSuccessSignIn);
         fixture.ngZone.run(() => {
-          expect(routerSpy.navigate).toHaveBeenCalledWith(['/']);
+          expect(routerSpy.navigate).toHaveBeenCalledWith(['/profile', mockUserSuccessSignIn.userId]);
         });
       }));
 
