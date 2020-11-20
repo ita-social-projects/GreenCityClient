@@ -182,12 +182,33 @@ $second-font: 'Montserrat';
       }
     }
   }
+
+  .add-habit-container {
+    margin-top: 60px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    .add-habit-button {
+      width: 160px;
+      height: 48px;
+    }
+  }
 }
 
 @media screen and (max-width: 1200px) {
+  .wrapper {
+    .containerHabitEdit {
+      justify-content: center;
 
-  .habitProgress,
-  .habitInfoRightBlock {
-    margin: 0;
+      .habitInfoRightBlock .inviteFriends {
+        margin: 32px auto;
+      }
+
+      .add-habit-container {
+        width: 554px;
+      }
+    }
   }
 }

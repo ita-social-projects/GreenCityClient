@@ -1,10 +1,10 @@
-import { Directive, ElementRef, HostListener, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, HostListener, OnInit, Renderer2 } from '@angular/core';
 
 @Directive({
   selector: '[appGradient]'
 })
 
-export class GradientDirective {
+export class GradientDirective implements OnInit {
   public durationProgres: number;
   public gradientProgres: number;
   public min: number = null;
@@ -15,7 +15,7 @@ export class GradientDirective {
     this.max = this.elm.nativeElement.max;
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
     this.durationProgres = this.elm.nativeElement.value;
     this.calcGradientVal();
     this.renderer.setStyle(this.elm.nativeElement, "background-image", `linear-gradient(90deg,

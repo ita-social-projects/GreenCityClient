@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, Renderer2, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -8,6 +8,7 @@ import { FormControl } from '@angular/forms';
 })
 export class HabitDurationComponent implements OnInit {
   @Input('duration') habitDurationDefault: number;
+  @Output() changeDuration = new EventEmitter<number>();
   public habitDuration = new FormControl('');
   public position: string = null;
 
@@ -15,18 +16,13 @@ export class HabitDurationComponent implements OnInit {
 
   ngOnInit() {
     this.habitDuration.setValue(this.habitDurationDefault);
-    console.log(this.habitDurationDefault);
     this.updateDuration();
-    console.log(this.habitDuration.value);
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
   }
 
   public updateDuration() {
-    this.position = -39 + ((this.habitDuration.value - 7) * 4.1) + 'px';
+    this.position = `${((this.habitDuration.value - 7) * 4.1) - 39}px`;
     this.renderer.setStyle(this.elm.nativeElement.children[1], "left", this.position);
+    this.changeDuration.emit(this.habitDuration.value);
   }
 
 

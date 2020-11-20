@@ -43,12 +43,15 @@
       </div>
       <div class="durationShoping">
         <div class="duration">
-          <app-habit-duration [duration]="habit.defaultDuration"></app-habit-duration>
+          <app-habit-duration [duration]="habit.defaultDuration" (changeDuration)="getDuration($event)"></app-habit-duration>
         </div>
         <div class="shopping">
           <app-habit-edit-shopping-list></app-habit-edit-shopping-list>
         </div>
       </div>
+    </div>
+    <div class="add-habit-container">
+      <button class="primary-global-button add-habit-button" type="submit" (click)="addHabit()">Add Habit</button>
     </div>
   </div>
 </div>

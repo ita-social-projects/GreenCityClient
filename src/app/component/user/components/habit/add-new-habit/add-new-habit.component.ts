@@ -12,10 +12,11 @@ export class AddNewHabitComponent implements OnInit {
   public habit: ServerHabitItemPageModel;
   public habitId: number;
   public userId: string;
+  public newDuration: number;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
-    private addHabitService: AddNewHabitService) { }
+    private addHabitService: AddNewHabitService) {  }
 
   ngOnInit() {
     this.getUserId();
@@ -24,6 +25,7 @@ export class AddNewHabitComponent implements OnInit {
     });
     this.addHabitService.getHabitById(this.habitId).subscribe(data => {
       this.habit = data;
+      console.log(this.habit);
     });
   }
 
@@ -34,5 +36,17 @@ export class AddNewHabitComponent implements OnInit {
   private getUserId() {
     this.userId = localStorage.getItem('userId');
   }
+
+  public getDuration(newDuration: number) {
+    this.newDuration = newDuration;
+    console.log(newDuration);
+  }
+
+  public addHabit() {
+    console.log('click');
+    console.log(this.newDuration);
+  }
+
+  
 
 }
