@@ -7,7 +7,7 @@ import {LocalStorageService} from '@global-service/localstorage/local-storage.se
 })
 export class UserOwnAuthService {
   public credentialDataSubject = new Subject<any>();
-  public isLoginUserSubject = new BehaviorSubject<boolean>(this.localStorageService.getUserId() ? true : false);
+  public isLoginUserSubject = new BehaviorSubject<boolean>(!!this.localStorageService.getUserId());
 
   constructor(private localStorageService: LocalStorageService) { }
 
