@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./habit-progress.component.scss']
 })
 export class HabitProgressComponent implements OnInit {
-  public indicator: number = 7;
+  public indicator = 7;
 
   constructor() { }
 

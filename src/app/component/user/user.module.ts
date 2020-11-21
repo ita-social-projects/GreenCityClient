@@ -71,7 +71,9 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { HabitProgressComponent } from './components/habit/add-new-habit/habit-progress/habit-progress.component';
 import { HabitInviteFriendsComponent } from './components/habit/add-new-habit/habit-invite-friends/habit-invite-friends.component';
 import { HabitDurationComponent } from './components/habit/add-new-habit/habit-duration/habit-duration.component';
-import { HabitEditShoppingListComponent } from './components/habit/add-new-habit/habit-edit-shopping-list/habit-edit-shopping-list.component';
+import {
+  HabitEditShoppingListComponent
+ } from './components/habit/add-new-habit/habit-edit-shopping-list/habit-edit-shopping-list.component';
 import { HabitCalendarComponent } from './components/habit/add-new-habit/habit-calendar/habit-calendar.component';
 import { AddNewHabitComponent } from './components/habit/add-new-habit/add-new-habit.component';
 import { GradientDirective } from './components/habit/add-new-habit/habit-duration/gradient.directive';

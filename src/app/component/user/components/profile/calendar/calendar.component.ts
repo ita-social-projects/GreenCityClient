@@ -20,5 +20,5 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
     this.subscribeToLangChange();
     this.buildCalendar();
   }
-  
+
 }

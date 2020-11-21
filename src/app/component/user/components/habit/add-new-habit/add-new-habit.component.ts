@@ -15,8 +15,8 @@ export class AddNewHabitComponent implements OnInit {
   public newDuration: number;
 
   constructor(private route: ActivatedRoute,
-    private router: Router,
-    private addHabitService: AddNewHabitService) {  }
+              private router: Router,
+              private addHabitService: AddNewHabitService) { }
 
   ngOnInit() {
     this.getUserId();
@@ -39,11 +39,5 @@ export class AddNewHabitComponent implements OnInit {
   public getDuration(newDuration: number) {
     this.newDuration = newDuration;
   }
-
-  public addHabit() {
-   
-  }
-
-  
 
 }

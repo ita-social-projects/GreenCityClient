@@ -15,19 +15,17 @@ export class GradientDirective implements OnInit {
     this.max = this.elm.nativeElement.max;
   }
 
-  ngOnInit(): void { 
-    const input: HTMLElement = this.elm.nativeElement;
-    // console.log(input.max);
+  ngOnInit(): void {
     this.durationProgres = this.elm.nativeElement.value;
     this.calcGradientVal();
-    this.renderer.setStyle(this.elm.nativeElement, "background-image", `linear-gradient(90deg,
+    this.renderer.setStyle(this.elm.nativeElement, 'background-image', `linear-gradient(90deg,
       rgb(19, 170, 87) 0%,
       rgb(19, 170, 87) ${this.gradientProgres}%,
       rgb(212, 224, 222) ${this.gradientProgres}%,
-      rgb(212, 224, 222) 100%)`)
+      rgb(212, 224, 222) 100%)`);
   }
 
-  @HostListener("input") onInput() {
+  @HostListener('input') onInput() {
     this.durationProgres = this.elm.nativeElement.value;
     this.calcGradientVal();
     this.setGradient(`linear-gradient(90deg,
@@ -38,7 +36,7 @@ export class GradientDirective implements OnInit {
   }
 
   private setGradient(val: string) {
-    this.renderer.setStyle(this.elm.nativeElement, "background-image", val)
+    this.renderer.setStyle(this.elm.nativeElement, 'background-image', val);
   }
 
   private calcGradientVal() {

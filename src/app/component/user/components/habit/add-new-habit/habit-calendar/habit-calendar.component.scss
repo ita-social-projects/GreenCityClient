@@ -4,7 +4,7 @@
   width: 416px;
   max-height: 316px;
   height: 316px;
-  background-color: #FBFBFB;
+  background-color: #fbfbfb;
   border-radius: 5px;
 
   .top {
@@ -16,7 +16,7 @@
 
     .days {
       grid-template-columns: repeat(7, 52px);
-      margin: 0px 9px 0px 22px;
+      margin: 0 9px 0 22px;
       padding: 7px 0 0 0;
     }
   }

@@ -1,5 +1,5 @@
-$primary-color: #13AA57;
-$second-color: #6A8079;
+$primary-color: #13aa57;
+$second-color: #6a8079;
 $primary-font: 'Montserrat';
 
 .title {
@@ -31,22 +31,12 @@ $primary-font: 'Montserrat';
       font-weight: normal;
       font-size: 14px;
       line-height: 17px;
-      display: flex;
-      align-items: center;
       cursor: pointer;
 
       input[type=checkbox] {
         height: 0;
         opacity: 0;
         width: 0;
-      }
-
-      input:checked~.checkmark {
-        background-color: #13aa57;
-      }
-
-      input:checked~.checkmark::after {
-        display: block;
       }
 
       .checkmark {
@@ -68,6 +58,14 @@ $primary-font: 'Montserrat';
         position: absolute;
         transform: rotate(45deg);
         display: none;
+      }
+
+      input:checked ~ .checkmark {
+        background-color: #13aa57;
+      }
+
+      input:checked ~ .checkmark::after {
+        display: block;
       }
     }
   }
