@@ -16,6 +16,8 @@ export class GradientDirective implements OnInit {
   }
 
   ngOnInit(): void { 
+    const input: HTMLElement = this.elm.nativeElement;
+    // console.log(input.max);
     this.durationProgres = this.elm.nativeElement.value;
     this.calcGradientVal();
     this.renderer.setStyle(this.elm.nativeElement, "background-image", `linear-gradient(90deg,

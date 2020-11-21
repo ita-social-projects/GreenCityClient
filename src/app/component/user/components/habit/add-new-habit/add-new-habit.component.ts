@@ -25,7 +25,6 @@ export class AddNewHabitComponent implements OnInit {
     });
     this.addHabitService.getHabitById(this.habitId).subscribe(data => {
       this.habit = data;
-      console.log(this.habit);
     });
   }
 
@@ -39,12 +38,10 @@ export class AddNewHabitComponent implements OnInit {
 
   public getDuration(newDuration: number) {
     this.newDuration = newDuration;
-    console.log(newDuration);
   }
 
   public addHabit() {
-    console.log('click');
-    console.log(this.newDuration);
+   
   }
 
   
