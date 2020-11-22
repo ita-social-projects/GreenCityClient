@@ -1,21 +1,23 @@
 .wrapper {
   display: flex;
-  padding-top: 6px;
 }
 
 .wrapper span {
-  margin-top: 2px;
   font-family: Montserrat, sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 24px;
   line-height: 24px;
   color: #313131;
+  margin-right: 32px;
 }
 
+ul {
+  padding: 0;
+  margin: 0;
+}
 .ul-eco-buttons {
   list-style: none;
-  margin: 0;
 }
 
 .ul-eco-buttons-li {
@@ -27,7 +29,7 @@
   padding: calc(6px + (8 - 6) * ((100vw - 320px) / (1200 - 320))) calc(12px + (16 - 12) * ((100vw - 320px) / (1200 - 320)));
   border: 1px solid #666;
   border-radius: 25px;
-  margin: 0 8px 0 0;
+  margin: 0 8px 8px 0;
   text-transform: capitalize;
 }
 
@@ -81,19 +83,22 @@
   display: none;
 }
 
-@media screen and (max-width: 768px) {
-  .ul-eco-buttons {
-    padding-left: 60px;
+@media screen and (max-width: 767px) {
+  .wrapper span {
+    min-width: 100px;
   }
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 575px) {
   .wrapper {
     flex-direction: column;
+  }
 
-    span {
-      margin: 0 -34px 0 0;
-    }
+  .wrapper span {
+    font-size: 14px;
+    line-height: 24px;
+    width: 100%;
+    margin: 0;
   }
 
   .ul-eco-buttons {

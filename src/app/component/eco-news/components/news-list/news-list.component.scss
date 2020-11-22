@@ -3,7 +3,8 @@
 }
 
 .wrapper {
-  margin: 0 10%;
+  max-width: 1140px;
+  margin: 0 auto;
 }
 
 .cont {
@@ -11,17 +12,19 @@
   display: flex;
   justify-content: space-between;
 }
+div hr {
+  margin: 4px 0 18px 0;
+}
 
 .main-header {
   font-family: 'Montserrat', sans-serif;
-  font-size: 3rem;
-  line-height: 30px;
+  font-size: 48px;
+  line-height: 48px;
   font-weight: 500;
-  margin: 0 0 40px 0;
+  margin: 0 0 34px 0;
 }
 
 .flex-container {
-  padding-top: 8px;
   display: flex;
   justify-content: space-between;
 }
@@ -31,7 +34,7 @@
 }
 
 .main-wrapper {
-  margin: 12.5px 0;
+  margin-bottom: 42px;
   display: flex;
   justify-content: space-between;
 }
@@ -44,7 +47,7 @@
 .gallery-view-active {
   display: grid;
   grid-template-columns: repeat(3, 359px);
-  grid-gap: 30px;
+  grid-gap: 32px;
 }
 
 .list-view-li-active {
@@ -82,41 +85,46 @@ a {
 }
 
 @media screen and (max-width: 1199px) {
+  .wrapper {
+    max-width: 960px;
+  }
   .gallery-view-active {
     grid-template-columns: repeat(3, 299px);
-    grid-gap: 15px;
   }
 }
 
 @media screen and (max-width: 991px) {
-  .gallery-view-active {
-    grid-template-columns: repeat(2, 353px);
-    grid-gap: 15px;
+  .wrapper {
+    max-width: 740px;
   }
 
-  .flex-container {
-    width: 105%;
+  .gallery-view-active {
+    grid-template-columns: repeat(2, 353px);
   }
 }
 
 @media screen and (max-width: 767px) {
   .wrapper {
-    margin: 0 1.95%;
+    max-width: 547px;
   }
 
   .gallery-view-active {
     grid-template-columns: repeat(2, 258px);
-    grid-gap: 17px;
   }
 }
 
 @media screen and (max-width: 575px) {
   .wrapper {
-    margin: 0 2.4%;
+    max-width: 288px;
+  }
+
+  .main-header {
+    font-size: 24px;
+    line-height: 32px;
   }
 
   .gallery-view-active {
     grid-template-columns: repeat(1, 288px);
-    grid-gap: 25px;
+    grid-gap: 19px;
   }
 }

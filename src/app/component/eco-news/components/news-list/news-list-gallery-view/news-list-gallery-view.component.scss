@@ -10,12 +10,13 @@ div {
 }
 
 .list-gallery {
-  margin-bottom: 32px;
   width: 359px;
   min-height: 500px;
   box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
   background: #fff;
   border-radius: 4px;
+  display: flex;
+  flex-direction: column;
 
   .list-image {
     .list-image-content {
@@ -28,7 +29,9 @@ div {
   }
 
   .list-gallery-content {
+    position: relative;
     margin: 8px 24px 24px 24px;
+    flex-grow: 1;
 
     .filter-tag {
       display: flex;
@@ -92,7 +95,8 @@ div {
     }
 
     .user-data-added-news {
-      padding: 16px 0 24px 0;
+      position: absolute;
+      bottom: 0;
       display: flex;
       flex-wrap: wrap;
     }
