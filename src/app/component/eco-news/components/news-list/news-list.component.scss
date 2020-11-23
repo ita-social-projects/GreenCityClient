@@ -12,6 +12,7 @@
   display: flex;
   justify-content: space-between;
 }
+
 div hr {
   margin: 4px 0 18px 0;
 }
@@ -88,6 +89,7 @@ a {
   .wrapper {
     max-width: 960px;
   }
+
   .gallery-view-active {
     grid-template-columns: repeat(3, 299px);
   }

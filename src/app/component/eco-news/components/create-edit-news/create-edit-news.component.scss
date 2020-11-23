@@ -6,19 +6,6 @@
   padding: 0;
 }
 
-.title {
-  margin-bottom: 51px;
-  width: 100%;
-
-  h2 {
-    font-family: Montserrat, sans-serif;
-    font-weight: 500;
-    font-size: 48px;
-    line-height: 48px;
-    margin-bottom: 28px;
-  }
-}
-
 .textarea-title {
   font-size: 12px;
   line-height: 14px;
@@ -39,14 +26,22 @@ button {
   font-family: 'Open Sans', sans-serif;
 }
 
+.title {
+  margin-bottom: 51px;
+  width: 100%;
+
+  h2 {
+    font-family: Montserrat, sans-serif;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 48px;
+    margin-bottom: 28px;
+  }
+}
+
 .form-description p {
   max-width: 652px;
   color: #878787;
-}
-
-.title h2 {
-  font-size: 48px;
-  font-family: 'Montserrat', sans-serif;
 }
 
 .left-form-column span,
