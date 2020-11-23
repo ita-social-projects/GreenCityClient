@@ -14,6 +14,7 @@ export class PersonalPhotoComponent implements OnInit, OnDestroy {
   public avatarSubscription: Subscription;
   public currentPage = 'edit photo';
   public editIcon = './assets/img/profile/icons/edit-photo.svg';
+  public userName: string;
 
   constructor(private profileService: ProfileService,
               private dialog: MatDialog) { }
@@ -26,6 +27,7 @@ export class PersonalPhotoComponent implements OnInit, OnDestroy {
     this.avatarSubscription = this.profileService.getUserInfo()
     .subscribe((el) => {
       this.avatarImg = el.profilePicturePath;
+      this.userName = el.firstName;
     });
   }
 
@@ -36,6 +38,7 @@ export class PersonalPhotoComponent implements OnInit, OnDestroy {
       disableClose: true,
       panelClass: 'custom-dialog-container',
       data: {
+        firstName: this.userName,
         img: this.avatarImg
       }
     });
