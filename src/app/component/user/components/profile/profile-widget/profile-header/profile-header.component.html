@@ -4,9 +4,10 @@
       <img [src]="editIcon" 
            alt="edit icon">
     </a>
-    <img [src]="showCorrectImage()" 
-         alt="profile avatar" 
-         class="profile-avatar"/>
+    <app-user-profile-image [imgPath]="userInfo.profilePicturePath" 
+                            [firstName]="userInfo.firstName"
+                            [additionalImgClass]="'center'">
+    </app-user-profile-image>
   </div>
   <div>
   <div class="profile__details">

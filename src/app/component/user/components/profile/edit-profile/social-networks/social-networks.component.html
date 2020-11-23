@@ -1,30 +1,34 @@
 <ul>
     <li *ngFor="let socialNetwork of socialNetworks">
         <div class="link">
-            <a href="{{socialNetwork.link}}">
-                <img src="{{socialNetwork.icon}}" 
+            <a href="{{socialNetwork.link}}" class="link-button">
+                <img src="{{socialNetwork.icon}}"
+                     class="link-button-img" 
                      alt="">
             </a>
-            <a href="{{socialNetwork.link}}">{{socialNetwork.link}}</a>
+            <a href="{{socialNetwork.link}}" class="link-text">{{socialNetwork.link}}</a>
         </div>
         <div class="edit-icons">
-            <button>
+            <button class="edit-button">
                 <img src="{{icons.edit}}" 
-                     alt="edit icon">
+                     class="edit-button-img"
+                     alt="edit-icon">
             </button>
-            <button>
+            <button class="delete-button">
                 <img src="{{icons.delete}}" 
-                     alt="delete icon">
+                     class="delete-button-img"
+                     alt="delete-icon">
             </button>
         </div>
     </li>
     <li>
         <div class="link">
-            <button>
-                <img src="{{icons.add}}" 
+            <button class="add-button">
+                <img src="{{icons.add}}"
+                     class="add-button-img"
                      alt="add-icon">
             </button>
-            <a>{{"user.edit-profile.add-link" | translate }}</a>
+            <a class="add-text">{{"user.edit-profile.add-link" | translate }}</a>
         </div>
     </li>
 </ul>

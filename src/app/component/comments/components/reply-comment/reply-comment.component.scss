@@ -38,6 +38,8 @@ $main-font: 'Open Sans',
 
 @media screen and (max-width: 575px) {
   .main-wrapper {
+    margin-left: 5px;
+
     .btn-text {
       display: none;
     }

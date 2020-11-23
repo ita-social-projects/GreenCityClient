@@ -16,7 +16,6 @@ import {
   CreateNewsComponent,
   EcoNewsDetailComponent,
   EcoNewsWidgetComponent,
-  FilterNewsComponent,
   NewsListComponent,
   ChangeViewButtonComponent,
   NewsListGalleryViewComponent,
@@ -26,7 +25,6 @@ import {
   RemainingCountComponent
 } from './components';
 import { CommentsModule } from '../comments/comments.module';
-import { NoNewsComponent } from './components/no-news/no-news.component';
 import { MatSnackBarComponent } from './../errors/mat-snack-bar/mat-snack-bar.component';
 import { EcoNewsComponent } from './eco-news.component';
 import { CreateEditNewsComponent } from './components/create-edit-news/create-edit-news.component';
@@ -40,7 +38,6 @@ registerLocaleData(ukLocale, 'uk');
   declarations: [
     EcoNewsComponent,
     CreateNewsComponent,
-    FilterNewsComponent,
     ChangeViewButtonComponent,
     NewsListGalleryViewComponent,
     NewsListListViewComponent,
@@ -50,7 +47,6 @@ registerLocaleData(ukLocale, 'uk');
     EcoNewsDetailComponent,
     NewsPreviewPageComponent,
     PostNewsLoaderComponent,
-    NoNewsComponent,
     MatSnackBarComponent,
     CreateEditNewsComponent
   ],

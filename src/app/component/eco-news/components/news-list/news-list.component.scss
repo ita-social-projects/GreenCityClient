@@ -76,15 +76,6 @@ a {
   display: block;
 }
 
-.mat-spinner {
-  margin: 0 auto;
-  padding-top: 40px;
-
-  ::ng-deep circle {
-    stroke: #13aa57;
-  }
-}
-
 @media screen and (max-width: 1199px) {
   .wrapper {
     max-width: 960px;
