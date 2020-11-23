@@ -32,8 +32,8 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
   constructor(private search: SearchService, private snackBar: MatSnackBar, private route: ActivatedRoute) {
     this.querySubscription = route.queryParams.subscribe(
       (queryParam: any) => {
-          this.inputValue = queryParam.searchQuery;
-          this.searchCategory = queryParam.searchCategory || 'econews';
+          this.inputValue = queryParam.query;
+          this.searchCategory = queryParam.category || 'econews';
       }
     );
   }
@@ -43,8 +43,8 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
     this.sortType = '';
 
     this.route.queryParams.subscribe(params => {
-      this.inputValue = params.searchQuery;
-      this.searchCategory = params.searchCategory || 'econews';
+      this.inputValue = params.query;
+      this.searchCategory = params.category || 'econews';
     });
 
     if (this.inputValue && this.searchCategory) {
