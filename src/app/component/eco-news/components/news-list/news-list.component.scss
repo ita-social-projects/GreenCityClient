@@ -64,7 +64,7 @@ a {
 }
 
 #create-button {
-  width: 185px;
+  width: 183px;
   min-height: 40px;
   padding: 8px 40px;
   display: flex;
@@ -119,5 +119,16 @@ a {
   .gallery-view-active {
     grid-template-columns: repeat(1, 288px);
     grid-gap: 19px;
+  }
+
+  #create-button {
+    width: 122px;
+    min-height: 32px;
+    padding: 0;
+
+    span {
+      font-size: 12px;
+      line-height: 12px;
+    }
   }
 }
