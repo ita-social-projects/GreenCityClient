@@ -81,7 +81,6 @@ import { TagFilterComponent } from './components/tag-filter/tag-filter.component
     UserSharedModule
   ],
   providers: [MatSnackBarComponent, TranslateService],
-
 })
 export class SharedModule {}
 
