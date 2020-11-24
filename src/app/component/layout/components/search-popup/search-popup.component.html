@@ -40,9 +40,8 @@
 
           <div class="content-tips"
                *ngIf="isTipsSearchFound">
-            <a [routerLink]="['/welcome']"
-               pageScroll
-               href="#tips"
+            <a [routerLink]="['/']"
+               fragment="tips"
                (click)="closeSearch()">
               <h3>{{ "search.search-popup.tips" | translate }}</h3>
             </a>

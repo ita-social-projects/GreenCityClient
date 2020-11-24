@@ -151,7 +151,7 @@ describe('RestorePasswordComponent', () => {
     it('signUpWithGoogleSuccess should navigate to homePage', fakeAsync(() => {
       // @ts-ignore
       component.onSignInWithGoogleSuccess(userSuccessSignIn);
-      expect(routerSpy.navigate).toHaveBeenCalledWith(['/welcome']);
+      expect(routerSpy.navigate).toHaveBeenCalledWith(['/']);
     }));
 
     it('Test sendEmailForRestore method', () => {
