@@ -8,6 +8,7 @@
           "ng-deep"
         ]
       }
-    ]
+    ],
+    "at-rule-no-unknown": null
   }
 }
