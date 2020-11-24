@@ -42,7 +42,7 @@
         <app-habit-invite-friends></app-habit-invite-friends>
       </div>
       <div class="durationShoping">
-        <div class="duration">
+        <div class="duration" *ngIf="habit">
           <app-habit-duration [habitDurationDefault]="habit.defaultDuration" (changeDuration)="getDuration($event)"></app-habit-duration>
         </div>
         <div class="shopping">
