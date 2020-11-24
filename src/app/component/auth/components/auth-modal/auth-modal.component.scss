@@ -10,9 +10,10 @@
 
 .wrapper {
   display: flex;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 960px;
+  justify-content: center;
+  align-items: center;
+  min-width: 100vw;
+  min-height: 100vh;
   background-color: white;
   border-radius: 4px;
 
