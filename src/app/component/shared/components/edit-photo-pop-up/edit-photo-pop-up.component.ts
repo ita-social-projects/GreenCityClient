@@ -11,7 +11,6 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
   selector: 'app-edit-photo-pop-up',
   templateUrl: './edit-photo-pop-up.component.html',
   styleUrls: ['./edit-photo-pop-up.component.scss'],
-  providers: [MatSnackBarComponent]
 })
 export class EditPhotoPopUpComponent implements OnInit {
   public avatarImg: string;

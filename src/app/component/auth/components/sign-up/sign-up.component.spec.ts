@@ -20,11 +20,13 @@ import { provideConfig } from 'src/app/config/GoogleAuthConfig';
 
 import { SignUpComponent } from './sign-up.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 describe('SignUpComponent', () => {
   let component: SignUpComponent;
   let fixture: ComponentFixture<SignUpComponent>;
   let authServiceMock: AuthService;
+  let MatSnackBarMock: MatSnackBarComponent;
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
   class MatDialogRefMock {
     close() { }
@@ -43,6 +45,9 @@ describe('SignUpComponent', () => {
   });
   authServiceMock = jasmine.createSpyObj('AuthService', ['signIn']);
   authServiceMock.signIn = (providerId: string, opt?: LoginOpt) => promiseSocialUser;
+
+  MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  MatSnackBarMock.openSnackBar = (type: string) =>  { };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -65,6 +70,7 @@ describe('SignUpComponent', () => {
         { provide: MatDialogRef, useClass: MatDialogRefMock },
         { provide: AuthServiceConfig, useFactory: provideConfig },
         { provide: Router, useValue: routerSpy },
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         UserOwnSignUpService
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
@@ -282,11 +288,11 @@ describe('SignUpComponent', () => {
         expect(serviceSpy).toHaveBeenCalled();
       })));
 
-      it('signUpWithGoogleSuccess should navigate to homePage', fakeAsync(() => {
+      it('signUpWithGoogleSuccess should navigate to profilePage', fakeAsync(() => {
         // @ts-ignore
         component.signUpWithGoogleSuccess(mockUserSuccessSignIn);
         fixture.ngZone.run(() => {
-          expect(routerSpy.navigate).toHaveBeenCalledWith(['/']);
+          expect(routerSpy.navigate).toHaveBeenCalledWith(['/profile', mockUserSuccessSignIn.userId]);
         });
         fixture.destroy();
         flush();

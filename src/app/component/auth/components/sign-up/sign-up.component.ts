@@ -19,8 +19,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss'],
-  providers: [MatSnackBarComponent]
+  styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent implements OnInit, OnDestroy {
   public signUpForm: FormGroup;
@@ -177,7 +176,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   private signUpWithGoogleSuccess(data: UserSuccessSignIn): void {
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.closeSignUpWindow();
-    this.router.navigate(['/']);
+    this.router.navigate(['/profile', data.userId]);
     this.snackBar.openSnackBar('signUp');
   }
 
