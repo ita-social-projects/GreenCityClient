@@ -23,17 +23,17 @@ describe('error component', () => {
     // @ts-ignore
     component.getType();
 
-    expect(component.errorMessage).toBe('user.auth.sign-in.field-is-required');
+    expect(component.errorMessage).toBe('user.auth.sign-in.email-is-required');
   });
 
   it('Error: get email message', () => {
     // @ts-ignore
-    expect(component.getErrorMsg[`email`]()).toBe('user.auth.sign-in.this-is-not-email');
+    expect(component.getErrorMsg[`email`]()).toBe('user.auth.sign-in.email-is-required');
   });
 
   it('Error: get required message', () => {
     // @ts-ignore
-    expect(component.getErrorMsg[`required`]()).toBe('user.auth.sign-in.field-is-required');
+    expect(component.getErrorMsg[`required`]()).toBe('user.auth.sign-in.email-is-required');
   });
 
   it('Error: get passwordMismatch message', () => {
