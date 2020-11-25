@@ -15,6 +15,7 @@ import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 import { Observable } from 'rxjs';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('SearchPopupComponent', () => {
   let component: SearchPopupComponent;
@@ -34,7 +35,8 @@ describe('SearchPopupComponent', () => {
         HttpClientTestingModule,
         MatDialogModule,
         NgxPageScrollModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        BrowserAnimationsModule
       ],
       providers: [
         SearchService, MatSnackBarComponent

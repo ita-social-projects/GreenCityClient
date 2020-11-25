@@ -196,8 +196,23 @@ body {
   display: none;
 }
 
-.red-snackbar {
+.error-snackbar {
   background: #b00020;
+  color: #fff;
+}
+
+.attention-snackbar {
+  background: #ffc100;
+  color: #fff;
+}
+
+.success-snackbar {
+  background: #13aa57;
+  color: #fff;
+}
+
+.mat-simple-snackbar-action {
+  color: #fff;
 }
 
 @media (max-width: 375px) {
