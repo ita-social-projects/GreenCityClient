@@ -32,6 +32,8 @@ export class SignInComponent implements OnInit, OnDestroy {
   public signInForm: FormGroup;
   public emailField: AbstractControl;
   public passwordField: AbstractControl;
+  public emailFieldValue: string;
+  public passwordFieldValue: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
   @Output() private pageName = new EventEmitter();
 
@@ -64,6 +66,10 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.emailErrorMessageBackEnd = null;
     this.passwordErrorMessageBackEnd = null;
     this.backEndError = null;
+    if (this.signInForm) {
+      this.emailFieldValue = this.emailField.value;
+      this.passwordFieldValue = this.passwordField.value;
+    }
   }
 
   public signIn(): void {

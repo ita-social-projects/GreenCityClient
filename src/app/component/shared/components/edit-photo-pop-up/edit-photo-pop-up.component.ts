@@ -4,13 +4,13 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
-import { ErrorComponent } from '@global-errors/error/error.component';
 import { FileHandle } from '@eco-news-models/create-news-interface';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-edit-photo-pop-up',
   templateUrl: './edit-photo-pop-up.component.html',
-  styleUrls: ['./edit-photo-pop-up.component.scss']
+  styleUrls: ['./edit-photo-pop-up.component.scss'],
 })
 export class EditPhotoPopUpComponent implements OnInit {
   public avatarImg: string;
@@ -28,6 +28,7 @@ export class EditPhotoPopUpComponent implements OnInit {
               private dialog: MatDialog,
               private editProfileService: EditProfileService,
               private profileService: ProfileService,
+              private snackBar: MatSnackBarComponent,
               @Inject(MAT_DIALOG_DATA) public data) { }
 
   ngOnInit() {
@@ -97,11 +98,6 @@ export class EditPhotoPopUpComponent implements OnInit {
   }
 
   private openErrorDialog(): void {
-    this.dialog.open(ErrorComponent, {
-      hasBackdrop: false,
-      closeOnNavigation: true,
-      position: { top: '100px' },
-      panelClass: 'custom-dialog-container',
-    });
+    this.snackBar.openSnackBar('error');
   }
 }
