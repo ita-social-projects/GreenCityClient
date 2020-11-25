@@ -79,6 +79,12 @@ a {
   }
 }
 
+@media screen and (max-width: 1024px) {
+  .wrapper {
+    margin: 0 3.12%;
+  }
+}
+
 @media screen and (max-width: 991px) {
   .gallery-view-active {
     grid-template-columns: repeat(2, 353px);
@@ -101,9 +107,9 @@ a {
   }
 }
 
-@media screen and (max-width: 575px) {
+@media screen and (max-width: 576px) {
   .wrapper {
-    margin: 0 2.4%;
+    margin: 0 2.43%;
   }
 
   .gallery-view-active {

@@ -2,8 +2,11 @@
       [formGroup]="addCommentForm"
       [ngClass]="!commentId ? 'wrapper-comment': 'wrapper-reply'"
       (ngSubmit)="onSubmit()">
-  <img [src]=avatarImage 
-        alt="avatar">
+      <app-user-profile-image
+        [imgPath]="avatarImage"
+        [firstName]="firstName"
+        [additionalImgClass]="'comments'">
+    </app-user-profile-image>
     <div class="input-submit" *ngIf="!commentId; else reply">
       <textarea placeholder="{{ 'homepage.eco-news.comment.placeholder.add-a-comment' | translate }}"
                 formControlName="content"></textarea>

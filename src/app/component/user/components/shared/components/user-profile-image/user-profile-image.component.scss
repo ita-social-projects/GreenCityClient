@@ -1,3 +1,4 @@
+
 $font-family-first: montserrat, sans-serif;
 
 .profile-avatar {
@@ -33,6 +34,23 @@ $font-family-first: montserrat, sans-serif;
   font-size: 48px;
 }
 
+.comments {
+  width: 48px;
+  height: 48px;
+  border-radius: 50px;
+  margin-right: 24px;
+  font-size: 24px;
+}
+
+.comments-list {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 48px;
+  height: 48px;
+  font-size: 24px;
+}
+
 .center {
   margin: 0 auto;
 }
@@ -40,5 +58,15 @@ $font-family-first: montserrat, sans-serif;
 @media (max-width: 320px) {
   .profile-avatar {
     margin: 0 auto;
+  }
+
+  .comments {
+    display: none;
+  }
+
+  .comments-list {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
   }
 }

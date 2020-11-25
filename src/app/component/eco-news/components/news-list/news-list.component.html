@@ -10,7 +10,7 @@
       </a>
     </div>
   </div>
-  <div> 
+  <div>
     <div class="flex-container">
        <app-tag-filter (tagsList)="getFilterData($event)"
                        [header]="'homepage.eco-news.filter'"
@@ -25,7 +25,7 @@
     <app-remaining-count [remainingCount]="remaining"></app-remaining-count>
     <app-change-view-button (view)="changeView($event)"></app-change-view-button>
   </div>
-  <ul class="list" 
+  <ul class="list"
       *ngIf="remaining"
       [ngClass]="{ 'gallery-view-active': view }">
     <li [ngClass]="{

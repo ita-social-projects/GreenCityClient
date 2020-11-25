@@ -14,6 +14,7 @@ import { ErrorComponent } from './components/error/error.component';
 import { ConfirmRestorePasswordComponent } from './components/confirm-restore-password/confirm-restore-password.component';
 import { GoogleBtnComponent } from './components/google-btn/google-btn.component';
 import { AuthModalComponent } from './components/auth-modal/auth-modal.component';
+import { MatSnackBarModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -42,8 +43,8 @@ import { AuthModalComponent } from './components/auth-modal/auth-modal.component
     AuthModalComponent
   ],
   exports: [
-    InputcolorDirective
+    InputcolorDirective,
   ],
-  providers: []
+  providers: [MatSnackBarModule ]
 })
 export class AuthModule { }

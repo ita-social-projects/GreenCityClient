@@ -6,14 +6,6 @@ $main-font: 'Open Sans', sans-serif;
 
   .comment-avatar {
     position: relative;
-
-    img {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 48px;
-      height: 48px;
-    }
   }
 }
 
@@ -207,13 +199,6 @@ $main-font: 'Open Sans', sans-serif;
 
   .comment-date {
     flex-direction: row-reverse;
-  }
-
-  .comment-avatar {
-    img {
-      max-width: 32px;
-      max-height: 32px;
-    }
   }
 
   .comment-details {
