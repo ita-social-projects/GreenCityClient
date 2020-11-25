@@ -482,6 +482,7 @@
       "label-tip": "Ссылка на вашу учетную запись в социальной сети",
       "input-validation-required": "Это поле обязательно к заполнению",
       "input-validation-pattern": "Ваш URL-адрес кажется неверным",
+      "input-validation-non-unique": "У вас уже есть добавлена такая ссылка",
       "btn": {
         "cancel": "Отменить",
         "save": "Сохранить",

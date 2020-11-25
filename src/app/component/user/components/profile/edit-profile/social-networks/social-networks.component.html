@@ -2,9 +2,9 @@
 <ng-container *ngIf="socialNetworks && socialNetworks.length > 0">
     <div *ngFor="let socialNetwork of socialNetworks" class="social_network-wrp">
         <a href="{{socialNetwork.url}}" class="social_network-link-text">
-            <img src="{{getSocialImage(socialNetwork)}}"
+            <img [src]="getSocialImage(socialNetwork)"
                  class="social-img"
-                 alt="Social simage">
+                 alt="Social image">
             <p>{{replaceHttp(socialNetwork.url)}}</p>
         </a>
         <div class="social_network-edit-wrp">
@@ -12,14 +12,14 @@
                     type="button"
                     (click)="onEditLink(socialNetwork)"
                     [disabled]="editedSocialLink">
-                <img src="{{icons.edit}}"
+                <img [src]="icons.edit"
                      class="edit-button-img"
                      alt="edit-icon">
             </button>
             <button class="delete-button"
                     type="button"
                     (click)="onDeleteLink(socialNetwork)">
-                <img src="{{icons.delete}}" 
+                <img [src]="icons.delete" 
                      class="delete-button-img"
                      alt="delete-icon">
             </button>

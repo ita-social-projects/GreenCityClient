@@ -1,4 +1,5 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-social-networks',
@@ -17,8 +18,8 @@ export class SocialNetworksComponent implements OnInit {
   public showInput = false;
   public inputTextValue;
   public editedSocialLink: any = false;
-  public errorMessage: string;
 
+  @ViewChild('socialLink', {static: false}) socialLink: NgModel;
   @Input() socialNetworks = [];
   @Output() socialNetworksChange: EventEmitter<any> = new EventEmitter();
 
@@ -26,7 +27,7 @@ export class SocialNetworksComponent implements OnInit {
 
   ngOnInit() {}
 
-  public onEditLink(link) {
+  public onEditLink(link): void {
     this.onToggleInput(true);
     this.inputTextValue = link.url;
     this.editedSocialLink = link.url;
@@ -38,7 +39,7 @@ export class SocialNetworksComponent implements OnInit {
     this.onEmitSocialNetworksChange();
   }
 
-  public onToggleInput(state?: boolean) {
+  public onToggleInput(state?: boolean): void {
     if ( arguments.length > 0 ) {
       this.showInput = state;
     } else {
@@ -52,7 +53,7 @@ export class SocialNetworksComponent implements OnInit {
             : socialNetwork.socialNetworkImage.imagePath;
   }
 
-  public onCloseForm() {
+  public onCloseForm(): void {
     if ( this.editedSocialLink ) {
       this.onAddLink(this.editedSocialLink);
       this.editedSocialLink = false;
@@ -82,6 +83,9 @@ export class SocialNetworksComponent implements OnInit {
       this.onEmitSocialNetworksChange();
       this.editedSocialLink = false;
       this.onCloseForm();
+    } else {
+      // set error to input if user have same link added
+      return this.socialLink.control.setErrors({'non-unique': true});
     }
   }
 
@@ -89,7 +93,7 @@ export class SocialNetworksComponent implements OnInit {
     return str.replace(/(https|http):\/\//i, '');
   }
 
-  private onEmitSocialNetworksChange() {
+  private onEmitSocialNetworksChange(): void {
     this.socialNetworksChange.emit(this.createArrayWithUrl());
   }
 

@@ -481,7 +481,8 @@
       "notification": "Ви впевнені, що хочете видалити фотографію?",
       "label-tip": "Посилання на ваш акаунт у соціальній мережі",
       "input-validation-required": "Це поле є обов'язковим",
-      "input-validation-pattern": "Здається, ваша URL-адреса неправильна",
+      "input-validation-pattern": "Здається, Ваша URL-адреса неправильна",
+      "input-validation-non-unique": "У Вас уже є доданий такий лінк",
       "btn": {
         "cancel": "Скасувати",
         "save": "Зберегти",

@@ -3,8 +3,7 @@ $font-open-sans: 'opensans', sans-serif;
 
 .social_network-wrp {
   display: grid;
-  grid-template-columns: auto 47px;
-  grid-auto-rows: auto;
+  grid-template-columns: calc(100% - 47px) 47px;
   margin-bottom: 20px;
 }
 
@@ -19,7 +18,6 @@ $font-open-sans: 'opensans', sans-serif;
   align-items: center;
 
   p {
-    display: inline-block;
     white-space: nowrap;
     text-overflow: ellipsis;
     margin: 0;
@@ -129,6 +127,6 @@ $font-open-sans: 'opensans', sans-serif;
 @media (min-width: 375px) {
   .social_network-link-text {
     width: fit-content;
-    max-width: 250px;
+    max-width: 75%;
   }
 }
