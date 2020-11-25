@@ -498,7 +498,7 @@
       "label-tip": "Посилання на ваш акаунт у соціальній мережі",
       "input-validation-required": "Це поле є обов'язковим",
       "input-validation-pattern": "Здається, Ваша URL-адреса неправильна",
-      "input-validation-non-unique": "У Вас уже є доданий такий лінк",
+      "input-validation-non-unique": "Це посилання вже додано",
       "btn": {
         "cancel": "Скасувати",
         "save": "Зберегти",

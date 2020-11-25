@@ -498,7 +498,7 @@
       "label-tip": "Ссылка на вашу учетную запись в социальной сети",
       "input-validation-required": "Это поле обязательно к заполнению",
       "input-validation-pattern": "Ваш URL-адрес кажется неверным",
-      "input-validation-non-unique": "У вас уже есть добавлена такая ссылка",
+      "input-validation-non-unique": "Эта ссылка уже добавлена",
       "btn": {
         "cancel": "Отменить",
         "save": "Сохранить",
