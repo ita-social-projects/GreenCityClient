@@ -15,6 +15,8 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { RestorePasswordService } from '@auth-service/restore-password.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { GoogleSignInService } from '@global-service/auth/google-sign-in.service';
+import {MatSnackBarModule  } from '@angular/material/snack-bar';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 describe('RestorePasswordComponent', () => {
   let component: RestorePasswordComponent;
@@ -24,6 +26,7 @@ describe('RestorePasswordComponent', () => {
   let googleServiceMock: GoogleSignInService;
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
   let matDialogMock: MatDialogRef<RestorePasswordComponent>;
+  let MatSnackBarMock: MatSnackBarComponent;
   let promiseSocialUser;
   let userSuccessSignIn;
 
@@ -38,6 +41,9 @@ describe('RestorePasswordComponent', () => {
     val.authToken = '13';
     resolve(val);
   });
+
+  MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  MatSnackBarMock.openSnackBar = (type: string) =>  { };
 
   userSuccessSignIn = new UserSuccessSignIn();
   userSuccessSignIn.userId = '13';
@@ -68,11 +74,13 @@ describe('RestorePasswordComponent', () => {
         TranslateModule.forRoot(),
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([]),
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        MatSnackBarModule
       ], providers: [
         { provide: MatDialogRef, useValue: matDialogMock },
         { provide: AuthService, useValue: authServiceMock },
         { provide: Router, useValue: routerSpy },
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     })
