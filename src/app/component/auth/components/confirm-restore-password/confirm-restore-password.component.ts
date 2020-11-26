@@ -7,11 +7,12 @@ import { ActivatedRoute } from '@angular/router';
 import { ChangePasswordService } from '@auth-service/change-password.service';
 import { authImages } from 'src/app/image-pathes/auth-images';
 import { ConfirmPasswordValidator, ValidatorRegExp } from '../sign-up/sign-up.validator';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-confirm-restore-password',
   templateUrl: './confirm-restore-password.component.html',
-  styleUrls: ['./confirm-restore-password.component.scss']
+  styleUrls: ['./confirm-restore-password.component.scss'],
 })
 
 export class ConfirmRestorePasswordComponent implements OnInit {
@@ -34,7 +35,8 @@ export class ConfirmRestorePasswordComponent implements OnInit {
     private router: Router,
     private changePasswordService: ChangePasswordService,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBarComponent
   ) {
     this.getToken();
   }
@@ -83,6 +85,7 @@ export class ConfirmRestorePasswordComponent implements OnInit {
       });
     setTimeout(() => {
       this.router.navigate(['welcome']);
+      this.snackBar.openSnackBar('successConfirmPassword');
     }, 2000);
   }
 
@@ -95,7 +98,8 @@ export class ConfirmRestorePasswordComponent implements OnInit {
     htmlImage.src = htmlInput.type === 'password' ? this.authImages.hiddenEye : this.authImages.openEye;
   }
 
-  public closeModal( path: string ): void {
+  public closeModal(): void {
     this.router.navigate(['welcome']);
+    this.snackBar.openSnackBar('exitConfirmRestorePassword');
   }
 }

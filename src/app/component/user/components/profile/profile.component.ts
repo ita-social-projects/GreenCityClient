@@ -24,7 +24,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   public showUserInfo(): void {
-    this.profileService.getUserInfo().subscribe(item => this.userInfo = item);
+    this.profileService.getUserInfo().subscribe(item => {
+      this.userInfo = item;
+    });
   }
 
   private bindLang(lang: string): void {

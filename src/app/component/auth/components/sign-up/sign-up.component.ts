@@ -14,6 +14,8 @@ import { UserOwnSignInService } from '@global-service/auth/user-own-sign-in.serv
 import { UserOwnSignUpService } from '@global-service/auth/user-own-sign-up.service';
 import { UserOwnSignUp } from '@global-models/user-own-sign-up';
 import { UserSuccessSignIn, SuccessSignUpDto } from '@global-models/user-success-sign-in';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-sign-up',
@@ -34,6 +36,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   public firstNameErrorMessageBackEnd: string;
   public passwordConfirmErrorMessageBackEnd: string;
   public backEndError: string;
+  public currentLanguage: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
   private errorsType = {
     name: (error: string) => this.firstNameErrorMessageBackEnd = error,
@@ -51,6 +54,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
               private router: Router,
               private authService: AuthService,
               private googleService: GoogleSignInService,
+              private localStorageService: LocalStorageService
+              private snackBar: MatSnackBarComponent
               ) { }
 
   ngOnInit() {
@@ -69,8 +74,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
     this.setNullAllMessage();
     this.loadingAnim = true;
-
-    this.userOwnSecurityService.signUp(userOwnRegister)
+    this.currentLanguage = this.localStorageService.getCurrentLanguage();
+    this.userOwnSecurityService.signUp(userOwnRegister, this.currentLanguage)
       .pipe(
         takeUntil(this.destroy)
       )
@@ -148,6 +153,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.loadingAnim = false;
     this.openSignUpPopup();
     this.closeSignUpWindow();
+    this.snackBar.openSnackBar('signUp');
   }
 
   private openSignUpPopup(): void {
@@ -173,7 +179,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
   private signUpWithGoogleSuccess(data: UserSuccessSignIn): void {
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.closeSignUpWindow();
-    this.router.navigate(['/']);
+    this.router.navigate(['/profile', data.userId]);
+    this.snackBar.openSnackBar('signUp');
   }
 
   private signUpWithGoogleError(errors: HttpErrorResponse): void {
