@@ -41,7 +41,7 @@ $unActiveColor: #839c94;
 
       .form-control {
         padding: 4px 8px;
-        border-radius: 0;
+        border-radius: 5px 0 0 5px;
         line-height: 1;
       }
     }
@@ -49,7 +49,8 @@ $unActiveColor: #839c94;
     .filter-btn {
       @extend .button;
 
-      border-radius: 5px 0 0 5px;
+      margin-right: 5px;
+      border-radius: 5px;
       white-space: nowrap;
     }
 
