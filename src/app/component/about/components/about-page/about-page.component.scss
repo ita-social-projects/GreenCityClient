@@ -181,16 +181,18 @@ img {
     margin: auto 30px;
   }
 
+  .container-about {
+    img {
+      max-width: 60%;
+    }
+  }
+
   .steps-main-block {
     margin: auto 30px;
   }
 
   .card-title {
     width: auto;
-  }
-
-  img {
-    max-width: 65%;
   }
 
   .card-info {
@@ -210,10 +212,6 @@ img {
 
     .full-text-block {
       margin-left: 0;
-    }
-
-    img {
-      margin-right: -150px;
     }
   }
 
