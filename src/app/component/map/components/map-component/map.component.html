@@ -106,12 +106,12 @@
             </div>
             <div class="comments">
               <p class="comments-number">{{'user.map.comments' | translate}} {{placeInfo.comments.length}}</p>
-              <button class=""
+              <button class="comments-add-btn"
                 *ngIf="userRole === 'ROLE_ADMIN' || userRole === 'ROLE_MODERATOR' || userRole === 'ROLE_USER'"
                 (click)="openDialogAddComment(placeInfo.id)">
                 {{'user.map.add-comment' | translate}}
               </button>
-            </div>comments-add-btn
+            </div>
             <p class="adress">
               {{placeInfo.location.address}}
             </p>
