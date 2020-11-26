@@ -121,7 +121,7 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
       .sendFormData(this.form)
       .pipe(
         catchError((error) => {
-          this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.', 'X', 'red-snackbar');
+          this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.');
 
           return throwError(error);
         })
@@ -143,7 +143,7 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
     this.createEcoNewsService.editNews(dataToEdit)
       .pipe(
         catchError((error) => {
-          this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.', 'X', 'red-snackbar');
+          this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.');
 
           return throwError(error);
         })
