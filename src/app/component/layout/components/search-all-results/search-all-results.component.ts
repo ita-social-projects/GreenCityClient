@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, fromEvent } from 'rxjs';
-import { map, debounceTime, distinctUntilChanged, tap, switchMap } from 'rxjs/operators';
+import { map, debounceTime, distinctUntilChanged, tap, switchMap, throttleTime } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SearchService } from '@global-service/search/search.service';
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
@@ -54,7 +54,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
     fromEvent(document.querySelector('#search-input'), 'input')
       .pipe(
         map(e => (e.target as HTMLInputElement).value),
-        debounceTime(250),
+        throttleTime(250),
         distinctUntilChanged(),
         tap(() => this.resetData()),
         switchMap(value => this.search.getAllResults(value, this.searchCategory, this.currentPage, this.sortType))
