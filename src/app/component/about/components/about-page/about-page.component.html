@@ -75,8 +75,8 @@
               {{ 'about-us.steps.block-2.text' | translate }}
             </span>
             <a class="card-link"
-              [routerLink]="['/map']"
-              fragment="top-user-bar"
+              [routerLink]="['/tips']"
+              fragment="tips"
               routerLinkActive="active-link"
               [routerLinkActiveOptions]="{ exact: true }">
               {{ 'about-us.steps.block-2.button' | translate }}
@@ -97,9 +97,8 @@
             <span class="main-card-text">
               {{ 'about-us.steps.block-3.text' | translate }}
             </span>
-            <a [routerLink]="['/tips']"
-               fragment="tips"
-               class="card-link">
+            <a [routerLink]="[]"
+               class="card-link disabled-link">
               {{ 'about-us.steps.block-3.button' | translate }}
             </a>
           </div>
