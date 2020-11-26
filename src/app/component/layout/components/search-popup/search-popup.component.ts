@@ -9,13 +9,13 @@ import { SearchService } from '@global-service/search/search.service';
 import { SearchModel } from '@global-models/search/search.model';
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 import { TipsSearchModel } from '@global-models/search/tipsSearch.model';
-import { ErrorComponent } from '@global-errors/error/error.component';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 
 @Component({
   selector: 'app-search-popup',
   templateUrl: './search-popup.component.html',
-  styleUrls: ['./search-popup.component.scss']
+  styleUrls: ['./search-popup.component.scss'],
 })
 
 export class SearchPopupComponent implements OnInit, OnDestroy {
@@ -31,6 +31,7 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
 
   constructor(public search: SearchService,
               public dialog: MatDialog,
+              private snackBar: MatSnackBarComponent
   ) {}
 
   ngOnInit() {
@@ -56,12 +57,7 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   }
 
   public openErrorPopup(): void {
-    this.dialog.open(ErrorComponent, {
-      hasBackdrop: false,
-      closeOnNavigation: true,
-      position: { top: '100px' },
-      panelClass: 'custom-dialog-container',
-    });
+    this.snackBar.openSnackBar('error');
   }
 
   public getAllResults(category: string): void {

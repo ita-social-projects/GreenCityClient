@@ -86,6 +86,12 @@ a {
   }
 }
 
+@media screen and (max-width: 1024px) {
+  .wrapper {
+    margin: 0 3.12%;
+  }
+}
+
 @media screen and (max-width: 991px) {
   .wrapper {
     max-width: 740px;
@@ -106,7 +112,7 @@ a {
   }
 }
 
-@media screen and (max-width: 575px) {
+@media screen and (max-width: 576px) {
   .wrapper {
     max-width: 288px;
   }
