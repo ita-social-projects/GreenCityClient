@@ -13,7 +13,7 @@ import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
 import { RestorePasswordService } from '@auth-service/restore-password.service';
 import { UserOwnSignIn } from '@global-models/user-own-sign-in';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { SignInComponent } from '../sign-in/sign-in.component';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-restore-password',
@@ -45,6 +45,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
     private router: Router,
     private restorePasswordService: RestorePasswordService,
     private localStorageService: LocalStorageService,
+    private snackBar: MatSnackBarComponent
   ) {}
 
   ngOnInit() {
@@ -93,6 +94,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.onCloseRestoreWindow();
+          this.snackBar.openSnackBar('successRestorePassword');
       },
         error: (error: HttpErrorResponse) => {
           this.onSentEmailBadMessage(error);

@@ -23,6 +23,9 @@ export class CalendarWeekComponent implements OnInit, OnDestroy {
   public currentMonth = new Date().getMonth();
   public currentYear = new Date().getFullYear();
   public currentDay = new Date().getDate();
+  public firstDayInWeek = new Date().getDay()
+    ? new Date().getDate() - new Date().getDay() + 1
+    : new Date().getDate() - 6;
 
   private langChangeSub: Subscription;
   private defaultTranslateSub: Subscription;
@@ -59,9 +62,10 @@ export class CalendarWeekComponent implements OnInit, OnDestroy {
       this.daysName = translations.days;
       this.months = translations.months;
       this.monthsShort = translations.monthsShort;
-      this.monthAndYearName = `${this.currentDay} - ${this.currentDay + this.maxDaysInWeek}
+      this.monthAndYearName = `${this.firstDayInWeek} - ${this.firstDayInWeek + this.maxDaysInWeek}
 ${this.months[this.currentMonth]} ${this.currentYear}`;
       this.markCurrentDayOfWeek();
+      console.log('daysName', this.daysName);
     });
   }
 
@@ -72,14 +76,14 @@ ${this.months[this.currentMonth]} ${this.currentYear}`;
         this.daysName = translations.days;
         this.months = translations.months;
         this.monthsShort = translations.monthsShort;
-        this.monthAndYearName = `${this.currentDay} - ${this.currentDay + this.maxDaysInWeek}
+        this.monthAndYearName = `${this.firstDayInWeek} - ${this.firstDayInWeek + this.maxDaysInWeek}
 ${this.months[this.currentMonth]} ${this.currentYear}`;
         this.markCurrentDayOfWeek();
       });
   }
 
   public buildCalendar(): void {
-    this.calculateCalendarModel(this.currentDay, this.currentMonth, this.currentYear);
+    this.calculateCalendarModel(this.firstDayInWeek, this.currentMonth, this.currentYear);
     this.bindCalendarModel();
     this.isCurrentDayActive();
   }
@@ -90,7 +94,7 @@ ${this.months[this.currentMonth]} ${this.currentYear}`;
     this.calendar.firstDay = (new Date(year, month, 0)).getDay();
     this.calendar.lastDayInWeek = (this.calendar.firstDay + this.maxDaysInWeek);
     this.calendar.totalDaysInMonth = this.getDaysInMonth(month, year);
-    this.monthAndYearName = `${this.currentDay} - ${this.currentDay + this.maxDaysInWeek}
+    this.monthAndYearName = `${this.firstDayInWeek} - ${this.firstDayInWeek + this.maxDaysInWeek}
 ${this.months[this.currentMonth]} ${this.currentYear}`;
   }
 
@@ -98,7 +102,7 @@ ${this.months[this.currentMonth]} ${this.currentYear}`;
     const end = 7;
     const calendarDays = Array.from({ length: end },
       (_, i) =>
-        this.getWeekTemplate(i + this.currentDay));
+        this.getWeekTemplate(i + this.firstDayInWeek));
     this.calendarDay = [...this.calendarDay, ...calendarDays];
   }
 
@@ -115,7 +119,7 @@ ${this.months[this.currentMonth]} ${this.currentYear}`;
         .toDateString()
         .substring(0, 3)) || '',
       isHabitsTracked: false,
-      isCurrentDayActive: false
+      isCurrentDayActive: (this.currentDay === days && this.currentMonth === this.calendar.month)
     };
   }
 
@@ -139,16 +143,17 @@ ${this.months[this.currentMonth]} ${this.currentYear}`;
         const dayName = (new Date(el.year, el.month, +el.numberOfDate)
           .toLocaleDateString(this.language, option));
         this.currentDayName = dayName.charAt(0).toUpperCase() + dayName.slice(1);
+        console.log('currentDayName', this.currentDayName);
       }
     });
   }
 
   public nextWeek(): void {
-    if (this.currentDay === this.calendar.totalDaysInMonth) {
+    if (this.firstDayInWeek === this.calendar.totalDaysInMonth) {
       this.currentMonth = this.currentMonth + 1;
-      this.currentDay = 1;
+      this.firstDayInWeek = 1;
     } else {
-      this.currentDay = this.currentDay + 1;
+      this.firstDayInWeek = this.firstDayInWeek + 1;
       const [firstDay, ...lastDays] = this.daysName;
       this.daysName = [...lastDays, firstDay];
     }
@@ -157,11 +162,11 @@ ${this.months[this.currentMonth]} ${this.currentYear}`;
   }
 
   public previousWeek(): void {
-    if (this.currentDay === 1) {
+    if (this.firstDayInWeek === 1) {
       this.currentMonth = this.currentMonth - 1;
-      this.currentDay = this.calendar.totalDaysInMonth - this.maxDaysInWeek;
+      this.firstDayInWeek = this.calendar.totalDaysInMonth - this.maxDaysInWeek;
     } else {
-      this.currentDay = this.currentDay - 1;
+      this.firstDayInWeek = this.firstDayInWeek - 1;
       this.daysName = [this.daysName[6], ...this.daysName.slice(0, 6)];
     }
     this.calendarDay = [];
