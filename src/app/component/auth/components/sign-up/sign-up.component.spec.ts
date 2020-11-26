@@ -17,8 +17,8 @@ import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
 import { GoogleSignInService } from '@global-service/auth/google-sign-in.service';
 import { SubmitEmailComponent } from '@global-auth/submit-email/submit-email.component';
 import { provideConfig } from 'src/app/config/GoogleAuthConfig';
-
 import { SignUpComponent } from './sign-up.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
@@ -250,7 +250,7 @@ describe('SignUpComponent', () => {
       component.onSubmitSuccess = () => true;
       const spy = spyOn(userOwnSecurityService, 'signUp').and.returnValue(Observable.of(mockFormData));
       component.onSubmit(mockFormData);
-      expect(spy).toHaveBeenCalledWith(mockFormData);
+      expect(spy).toHaveBeenCalledWith(mockFormData, null);
     });
 
     it('onSubmit should call onSubmitError', () => {
