@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
   public isAllSearchOpen = false;
   public toggleBurgerMenu = false;
   public arrayLang: Array<LanguageModel> = [
-    {lang: 'Uk'},
+    {lang: 'Ua'},
     {lang: 'En'},
     {lang: 'Ru'}];
   public isSearchClicked = false;
