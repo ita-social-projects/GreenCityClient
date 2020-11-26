@@ -4,7 +4,7 @@ $secondColor: #056b33;
 $unActiveColor: #839c94;
 
 .button {
-  padding: 6px 18px;
+  padding: 7px 14px;
   color: #fff;
   background-color: $mainColor;
   border: none;
@@ -22,16 +22,17 @@ $unActiveColor: #839c94;
 .main {
   display: flex;
   margin: 0 10%;
-  padding: 5px;
-  border: 1px solid lightgrey;
 
   &.sub-1 {
     width: 90vw;
-    height: 85vh;
+    height: 55vh;
     flex-grow: 8;
   }
 
   .sub-1 {
+    border: 1px solid lightgrey;
+    border-radius: 5px 0 0 5px;
+
     .control-pannel {
       display: flex;
       flex-direction: row;
@@ -40,6 +41,7 @@ $unActiveColor: #839c94;
 
       .form-control {
         padding: 4px 8px;
+        border-radius: 0;
         line-height: 1;
       }
     }
@@ -47,7 +49,7 @@ $unActiveColor: #839c94;
     .filter-btn {
       @extend .button;
 
-      height: 100%;
+      border-radius: 5px 0 0 5px;
       white-space: nowrap;
     }
 
@@ -82,7 +84,7 @@ $unActiveColor: #839c94;
 
   .sub-2 {
     width: 65vw;
-    height: 85vh;
+    height: 55vh;
   }
 
   .show-hours {
