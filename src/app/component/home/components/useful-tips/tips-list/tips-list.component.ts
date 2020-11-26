@@ -8,6 +8,7 @@ import { SwiperDirective, SwiperComponent, SwiperScrollbarInterface, SwiperPagin
   styleUrls: ['./tips-list.component.scss']
 })
 export class TipsListComponent implements OnInit {
+  currentTip;
   tips = [
     {
       imageUrl: 'assets/img/icon/spoon-knife.png',
@@ -31,26 +32,33 @@ export class TipsListComponent implements OnInit {
     }
   ];
 
-  public config: SwiperConfigInterface = {
-    a11y: true,
-    direction: 'horizontal',
-    centeredSlides: true,
-    centerInsufficientSlides: true,
-    slidesPerView: 4,
-    loop: true,
-    keyboard: false,
-    mousewheel: false,
-    scrollbar: false,
-    navigation: {
-      nextEl: '.button-next',
-      prevEl: '.button-prev',
-    }
-  };
+  // public config: SwiperConfigInterface = {
+  //   a11y: true,
+  //   direction: 'horizontal',
+  //   centeredSlides: true,
+  //   centerInsufficientSlides: true,
+  //   slidesPerView: 4,
+  //   loop: true,
+  //   keyboard: false,
+  //   mousewheel: false,
+  //   scrollbar: false,
+  //   speed: 1,
+  //   navigation: {
+  //     nextEl: '.button-next',
+  //     prevEl: '.button-prev',
+  //   }
+  // };
 
-  @ViewChild(SwiperComponent, { static: false }) componentRef?: SwiperComponent;
-  @ViewChild(SwiperDirective, { static: false }) directiveRef?: SwiperDirective;
+  // @ViewChild(SwiperComponent, { static: false }) componentRef?: SwiperComponent;
+  // @ViewChild(SwiperDirective, { static: false }) directiveRef?: SwiperDirective;
 
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.currentTip = this.tips[0];
+  }
+
+  public changeTip(): void {
+
+  }
 }
