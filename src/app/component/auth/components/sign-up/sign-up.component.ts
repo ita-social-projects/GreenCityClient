@@ -54,7 +54,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
               private router: Router,
               private authService: AuthService,
               private googleService: GoogleSignInService,
-              private localStorageService: LocalStorageService
+              private localStorageService: LocalStorageService,
               private snackBar: MatSnackBarComponent
               ) { }
 
