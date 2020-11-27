@@ -116,6 +116,7 @@ body {
   border-radius: 4px;
   box-sizing: border-box;
   overflow: auto;
+  overflow-x: hidden;
   outline: 0;
   width: 100%;
   height: 100%;
@@ -196,8 +197,23 @@ body {
   display: none;
 }
 
-.red-snackbar {
+.error-snackbar {
   background: #b00020;
+  color: #fff;
+}
+
+.attention-snackbar {
+  background: #ffc100;
+  color: #fff;
+}
+
+.success-snackbar {
+  background: #13aa57;
+  color: #fff;
+}
+
+.mat-simple-snackbar-action {
+  color: #fff;
 }
 
 @media (max-width: 375px) {

@@ -8,7 +8,7 @@ export class RestorePasswordService {
 
   constructor(protected http: HttpClient) {}
 
-  sendEmailForRestore(email: string): any {
-    return this.http.get(`${this.apiUrl}/restorePassword?email=${email}`);
-  }
+  sendEmailForRestore(email, lang = 'en'): any {
+      return this.http.get(`${this.apiUrl}/restorePassword?email=${email}&lang=${lang}`);
+    }
 }
