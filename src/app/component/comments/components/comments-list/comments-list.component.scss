@@ -169,11 +169,11 @@ $main-font: 'Open Sans', sans-serif;
     width: 100%;
     display: flex;
 
-    &_registered {
+    &-registered {
       justify-content: space-between;
     }
 
-    &_unregistered {
+    &-unregistered {
       justify-content: flex-end;
     }
   }
