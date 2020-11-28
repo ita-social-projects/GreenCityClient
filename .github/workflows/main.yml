@@ -4,9 +4,9 @@ name: CI/CD GreenCityClient
 on:
   # Triggers the workflow on push or pull request events but only for the dev branch
   push:
-    branches: [ dev ]
+    branches: [ master, dev ]
   pull_request:
-    branches: [ dev ]
+    branches: [ master, dev ]
     
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -48,6 +48,7 @@ jobs:
           npx ng build --prod --base-href=/GreenCityClient/ --aot=false --build-optimizer=false
       
       - name: Deploy 🚀
+        if: ${{ github.event_name == 'push' }}
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
