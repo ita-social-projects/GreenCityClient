@@ -39,6 +39,7 @@ describe('SignIn component', () => {
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.setFirstName = () => true;
   localStorageServiceMock.setFirstSignIn = () => true;
+  localStorageServiceMock.getUserId = () => 1;
 
   matDialogMock = jasmine.createSpyObj('MatDialogRef', ['close']);
   matDialogMock.close = () => 'Close the window please';
@@ -291,4 +292,4 @@ describe('SignIn component', () => {
       expect(hiddenEyeInput.type).toEqual('password');
     });
   });
-});
+ });
