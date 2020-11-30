@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { CommentsService } from '../../services/comments.service';
-import { CommentsDTO } from '../../models/comments-model';
+import { CommentsDTO, dataTypes } from '../../models/comments-model';
 
 @Component({
   selector: 'app-comments-list',
@@ -16,6 +16,7 @@ export class CommentsListComponent implements OnInit {
   @Input() public isLoggedIn: boolean;
   @Input() public userId: number;
   @Output() public changedList = new EventEmitter();
+  public types = dataTypes;
   public content: FormControl = new FormControl('', [Validators.required, Validators.maxLength(8000)]);
   public editIcon = 'assets/img/comments/edit.png';
   public cancelIcon = 'assets/img/comments/cancel-comment-edit.png';
