@@ -7,12 +7,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AgmCoreModule } from '@agm/core';
+import { MatSliderModule } from '@angular/material/slider';
 import {
-  AddNewHabitModalComponent,
-  AlreadyChosenComponent,
-  AvailableToChooseComponent,
-  ConfirmationModalComponent,
-  HabitCardComponent,
   ButtonComponent,
   HabitTrackersComponent,
   HabitTrackerComponent,
@@ -72,6 +68,15 @@ import { EditProfileFormBuilder } from '@global-user/components/profile/edit-pro
 import { UsersFriendsComponent } from './components/profile/users-friends/users-friends.component';
 import { UsersAchievementsComponent } from './components/profile/users-achievements/users-achievements.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { HabitProgressComponent } from './components/habit/add-new-habit/habit-progress/habit-progress.component';
+import { HabitInviteFriendsComponent } from './components/habit/add-new-habit/habit-invite-friends/habit-invite-friends.component';
+import { HabitDurationComponent } from './components/habit/add-new-habit/habit-duration/habit-duration.component';
+import {
+  HabitEditShoppingListComponent
+ } from './components/habit/add-new-habit/habit-edit-shopping-list/habit-edit-shopping-list.component';
+import { HabitCalendarComponent } from './components/habit/add-new-habit/habit-calendar/habit-calendar.component';
+import { AddNewHabitComponent } from './components/habit/add-new-habit/add-new-habit.component';
+import { GradientDirective } from './components/habit/add-new-habit/habit-duration/gradient.directive';
 
 @NgModule({
   declarations: [
@@ -109,11 +114,6 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     HabitTitleComponent,
     HabitTrackerDateComponent,
     HabitTrackerComponent,
-    HabitCardComponent,
-    AvailableToChooseComponent,
-    AlreadyChosenComponent,
-    AddNewHabitModalComponent,
-    ConfirmationModalComponent,
     CustomLastPipe,
     ShowFirstNLettersPipe,
     ShowFirstNPipe,
@@ -133,7 +133,14 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     HabitsListViewComponent,
     CalendarWeekComponent,
     UsersFriendsComponent,
-    UsersAchievementsComponent
+    UsersAchievementsComponent,
+    AddNewHabitComponent,
+    HabitProgressComponent,
+    HabitInviteFriendsComponent,
+    HabitDurationComponent,
+    HabitEditShoppingListComponent,
+    HabitCalendarComponent,
+    GradientDirective
   ],
   imports: [
     UserRoutingModule,
@@ -141,6 +148,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     SharedModule,
     MatButtonModule,
     MatRadioModule,
+    MatSliderModule,
     DragDropModule,
     HttpClientModule,
     AgmCoreModule.forRoot({
