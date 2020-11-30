@@ -1,0 +1,57 @@
+name: CI/CD GreenCityClient
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the dev branch
+  push:
+    branches: [ master, dev ]
+  pull_request:
+    branches: [ master, dev ]
+    
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs a set of commands using the runners shell
+      - name: Install
+        run: |
+          npm install
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt-get install ./google-chrome-stable_current_amd64.deb -y
+      
+      - name: JS Linter
+        run: npm run lint
+
+      - name: CSS Linter
+        run: npm run stylelint
+
+      - name: Unit Tests
+        run: npx ng test --watch=false --progress=false --browsers=ChromeHeadless
+      
+      - name: E2E Tests
+        run: npx ng e2e --protractor-config=e2e/protractor-ci.conf.js
+        
+      - name: Build
+        run: |
+          npx ng build --prod --delete-output-path --base-href=/GreenCityClient/ --outputPath=dist_aot && rm -rf dist_aot
+          npx ng build --prod --base-href=/GreenCityClient/ --aot=false --build-optimizer=false
+      
+      - name: Deploy 🚀
+        if: ${{ github.event_name == 'push' }}
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: dist/GreenCityClient
+          CLEAN: true 

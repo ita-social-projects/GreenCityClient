@@ -3,37 +3,21 @@
 
 $title-font: 'Montserrat';
 $main-font: 'Open Sans';
+$buttonColor: #13aa57;
+$linkColor: #056b33;
+$disabledColor: #839c94;
+$errorColor : #f03127;
+$secondErrorColor : #b42626;
 
 .main-container {
   position: relative;
   width: 631px;
   height: 400px;
   font-family: $main-font;
-  padding: 56px 0;
-  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: #fff;
-
-  .primary-global-button {
-    background: #fff;
-    color: #13aa57;
-    width: 132px;
-    margin-right: 24px;
-
-    &:hover {
-      border: 1px solid #056b33;
-      color: #056b33;
-    }
-  }
-
-  .secondary-global-button {
-    background: #13aa57;
-    color: #fff;
-    padding: 16px 24px;
-
-    &:hover {
-      background: #056b33;
-    }
-  }
 
   .cancel {
     position: absolute;
@@ -48,12 +32,7 @@ $main-font: 'Open Sans';
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    .profile-avatar {
-      border-radius: 100px;
-      height: 148px;
-      width: 148px;
-    }
+    justify-content: center;
 
     .selected-photo {
       max-height: 148px;
@@ -73,7 +52,7 @@ $main-font: 'Open Sans';
     .warning {
       font-family: 'Open sans', sans-serif;
       font-size: 14px;
-      color: red;
+      color: $errorColor;
       padding: 0;
     }
 
@@ -88,7 +67,7 @@ $main-font: 'Open Sans';
 
       .primary-global-button,
       .secondary-global-button {
-        border: 1px solid #13aa57;
+        border: 1px solid $buttonColor;
         box-sizing: border-box;
         border-radius: 5px;
         font-style: normal;
@@ -98,9 +77,56 @@ $main-font: 'Open Sans';
         line-height: 16px;
       }
 
-      button:disabled {
-        background: #839c94;
-        border: 1px solid #839c94;
+      .primary-global-button {
+        background: #fff;
+        color: $buttonColor;
+        min-width: 132px;
+        margin-right: 24px;
+        padding: 16px;
+
+        &:hover {
+          border: 1px solid $linkColor;
+          color: $linkColor;
+        }
+      }
+
+      .delete {
+        background: $errorColor;
+        border: 1px solid $errorColor;
+        border-radius: 3px;
+        color: #fff;
+        margin-left: 24px;
+
+        &:hover {
+          border: 1px solid $secondErrorColor;
+          background: $secondErrorColor;
+          color: #fff;
+        }
+
+        &:disabled {
+          background: $disabledColor;
+          border: 1px solid $disabledColor;
+        }
+      }
+
+      .secondary-global-button {
+        background: $buttonColor;
+        color: #fff;
+        padding: 16px 24px;
+        display: flex;
+        align-items: center;
+
+        &:hover {
+          background: $linkColor;
+        }
+
+        &:focus {
+          outline: none;
+        }
+
+        .spinner-border {
+          margin-right: 10px;
+        }
       }
 
       .change {

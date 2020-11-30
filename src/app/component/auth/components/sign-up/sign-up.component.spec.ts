@@ -1,28 +1,32 @@
-import { async, ComponentFixture, TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, inject, fakeAsync, flush, discardPeriodicTasks } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
+import { BrowserModule, By } from '@angular/platform-browser';
 import { AgmCoreModule } from '@agm/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService, AuthServiceConfig, LoginOpt, SocialUser } from 'angularx-social-login';
-import { Observable } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { UserOwnSignUpService } from '@global-service/auth/user-own-sign-up.service';
 import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
-import { provideConfig } from 'src/app/config/GoogleAuthConfig';
-
-import { SignUpComponent } from './sign-up.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GoogleSignInService } from '@global-service/auth/google-sign-in.service';
+import { SubmitEmailComponent } from '@global-auth/submit-email/submit-email.component';
+import { provideConfig } from 'src/app/config/GoogleAuthConfig';
+import { SignUpComponent } from './sign-up.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 describe('SignUpComponent', () => {
   let component: SignUpComponent;
   let fixture: ComponentFixture<SignUpComponent>;
   let authServiceMock: AuthService;
+  let MatSnackBarMock: MatSnackBarComponent;
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
   class MatDialogRefMock {
     close() { }
@@ -42,10 +46,14 @@ describe('SignUpComponent', () => {
   authServiceMock = jasmine.createSpyObj('AuthService', ['signIn']);
   authServiceMock.signIn = (providerId: string, opt?: LoginOpt) => promiseSocialUser;
 
+  MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  MatSnackBarMock.openSnackBar = (type: string) =>  { };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         SignUpComponent,
+        SubmitEmailComponent,
       ],
       imports: [
         ReactiveFormsModule,
@@ -54,17 +62,21 @@ describe('SignUpComponent', () => {
         HttpClientTestingModule,
         AgmCoreModule,
         TranslateModule.forRoot(),
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        MatSnackBarModule
       ],
       providers: [
         { provide: AuthService, useValue: authServiceMock },
         { provide: MatDialogRef, useClass: MatDialogRefMock },
         { provide: AuthServiceConfig, useFactory: provideConfig },
         { provide: Router, useValue: routerSpy },
-        UserOwnSignUpService,
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
+        UserOwnSignUpService
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-    }).compileComponents();
+    })
+      .overrideModule(BrowserModule, {set: {entryComponents: [SubmitEmailComponent]}})
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -100,7 +112,7 @@ describe('SignUpComponent', () => {
       expect(component.dialog).toBeDefined();
     });
 
-    it('should emit "sign-in" after calling openSignInWindowp', () => {
+    it('should emit "sign-in" after calling openSignInWindow', () => {
       component.openSignInWindow();
       // @ts-ignore
       expect(component.pageName.emit).toHaveBeenCalledWith('sign-in');
@@ -238,7 +250,15 @@ describe('SignUpComponent', () => {
       component.onSubmitSuccess = () => true;
       const spy = spyOn(userOwnSecurityService, 'signUp').and.returnValue(Observable.of(mockFormData));
       component.onSubmit(mockFormData);
-      expect(spy).toHaveBeenCalledWith(mockFormData);
+      expect(spy).toHaveBeenCalledWith(mockFormData, null);
+    });
+
+    it('onSubmit should call onSubmitError', () => {
+      const errors = new HttpErrorResponse({ error: [{ name: 'name', message: 'Ups' }] });
+      const spy = spyOn(userOwnSecurityService, 'signUp').and.returnValue(throwError(errors));
+      component.onSubmit(mockFormData);
+      // @ts-ignore
+      expect(spy).toHaveBeenCalled();
     });
 
     it('loadingAnim should equele true', () => {
@@ -246,35 +266,78 @@ describe('SignUpComponent', () => {
       expect(component.loadingAnim).toEqual(true);
     });
 
-    it('receiveUserId should navigate to profile', fakeAsync(() => {
-        // @ts-ignore
-      component.receiveUserId(23);
-      tick(5000);
-      fixture.detectChanges();
-      fixture.ngZone.run(() => {
-        fixture.whenStable().then(() => {
-          expect(routerSpy.navigate).toHaveBeenCalledWith(['profile', 23]);
-        });
-      });
-    }));
+    describe('Check sign up with signInWithGoogle', () => {
+      it('Should call sinIn method', async(inject([AuthService, GoogleSignInService],
+        (service: AuthService, service2: GoogleSignInService) => {
+        const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseSocialUser).and.callThrough();
+        spyOn(service2, 'signIn').and.returnValue(of(mockUserSuccessSignIn));
+        component.signUpWithGoogle();
+        fixture.detectChanges();
+        expect(serviceSpy).toHaveBeenCalled();
+      })));
 
-    it('signUpWithGoogleSuccess should navigate to homePage', fakeAsync(() => {
-      // @ts-ignore
-      component.signUpWithGoogleSuccess(mockUserSuccessSignIn);
-      fixture.ngZone.run(() => {
-        expect(routerSpy.navigate).toHaveBeenCalledWith(['/']);
-      });
-    }));
+      it('Should call sinIn method with errors', async(inject([AuthService, GoogleSignInService],
+        (service: AuthService, service2: GoogleSignInService) => {
+        const promiseErrors = new Promise<SocialUser>((resolve, reject) => {
+          const errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
+          reject(errors);
+        });
+        const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseErrors);
+        component.signUpWithGoogle();
+        fixture.detectChanges();
+        expect(serviceSpy).toHaveBeenCalled();
+      })));
+
+      it('signUpWithGoogleSuccess should navigate to profilePage', fakeAsync(() => {
+        // @ts-ignore
+        component.signUpWithGoogleSuccess(mockUserSuccessSignIn);
+        fixture.ngZone.run(() => {
+          expect(routerSpy.navigate).toHaveBeenCalledWith(['/profile', mockUserSuccessSignIn.userId]);
+        });
+        fixture.destroy();
+        flush();
+      }));
+
+      it('onSubmitSuccess should call openSignUpPopup', fakeAsync(() => {
+        const mockSuccessSignUp = {
+          email: 'test@gmail.com',
+          ownRegistrations: true,
+          userId: '23',
+          username: 'UserName'
+        };
+        // @ts-ignore
+        spyOn(component, 'openSignUpPopup');
+        // @ts-ignore
+        component.onSubmitSuccess(mockSuccessSignUp);
+        fixture.detectChanges();
+        fixture.ngZone.run(() => {
+          fixture.whenStable().then(() => {
+            // @ts-ignore
+            expect(component.openSignUpPopup).toHaveBeenCalled();
+          });
+        });
+        fixture.destroy();
+        flush();
+      }));
+    });
   });
 
   describe('Check ErrorMessageBackEnd', () => {
 
     it('should return firstNameErrorMessageBackEnd when login failed', () => {
-      const errors = new HttpErrorResponse({ error: [{ name: 'name', message: 'Ups' }] });
+      const errors = new HttpErrorResponse({ error: [
+        { name: 'name', message: 'Ups' },
+        { name: 'email', message: 'Ups' },
+        { name: 'password', message: 'Ups' },
+        { name: 'passwordConfirm', message: 'Ups' }
+      ] });
       // @ts-ignore
       component.onSubmitError(errors);
       fixture.detectChanges();
       expect(component.firstNameErrorMessageBackEnd).toBe('Ups');
+      expect(component.emailErrorMessageBackEnd).toBe('Ups');
+      expect(component.passwordErrorMessageBackEnd).toBe('Ups');
+      expect(component.passwordConfirmErrorMessageBackEnd).toBe('Ups');
     });
 
     it('should return emailErrorMessageBackEnd when login failed', () => {
@@ -297,14 +360,20 @@ describe('SignUpComponent', () => {
       component.setEmailBackendErr();
       expect(component.emailErrorMessageBackEnd).toBeNull();
     });
-  });
 
-  describe('Check sign up with signInWithGoogle', () => {
-    it('Should call sinIn method', async(inject([AuthService, GoogleSignInService], (service: AuthService) => {
-      const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseSocialUser).and.callThrough();
-      component.signUpWithGoogle();
-      fixture.detectChanges();
-      expect(serviceSpy).toHaveBeenCalled();
-    })));
+    it('signUpWithGoogleError should set errors', () => {
+      // @ts-ignore
+      const result = component.signUpWithGoogleError('User cancelled login or did not fully authorize');
+      expect(result).toBe();
+    });
+
+    it('signUpWithGoogleError should set errors', () => {
+      const errors = { error: {
+        message: 'Ups'
+      }};
+      // @ts-ignore
+      component.signUpWithGoogleError(errors);
+      expect(component.backEndError).toBe('Ups');
+    });
   });
 });

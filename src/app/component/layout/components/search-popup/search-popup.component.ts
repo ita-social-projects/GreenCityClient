@@ -1,21 +1,21 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { Subject, Subscription } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { filter } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
 import { negate, isNil } from 'lodash';
 
 import { SearchService } from '@global-service/search/search.service';
 import { SearchModel } from '@global-models/search/search.model';
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 import { TipsSearchModel } from '@global-models/search/tipsSearch.model';
-import { ErrorComponent } from '@global-errors/error/error.component';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 
 @Component({
   selector: 'app-search-popup',
   templateUrl: './search-popup.component.html',
-  styleUrls: ['./search-popup.component.scss']
+  styleUrls: ['./search-popup.component.scss'],
 })
 
 export class SearchPopupComponent implements OnInit, OnDestroy {
@@ -28,8 +28,10 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   public searchModalSubscription: Subscription;
   public searchInput = new FormControl('');
 
+
   constructor(public search: SearchService,
               public dialog: MatDialog,
+              private snackBar: MatSnackBarComponent
   ) {}
 
   ngOnInit() {
@@ -55,12 +57,12 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   }
 
   public openErrorPopup(): void {
-    this.dialog.open(ErrorComponent, {
-      hasBackdrop: false,
-      closeOnNavigation: true,
-      position: { top: '100px' },
-      panelClass: 'custom-dialog-container',
-    });
+    this.snackBar.openSnackBar('error');
+  }
+
+  public getAllResults(category: string): void {
+    this.search.getAllResults(this.searchInput.value, category);
+    this.closeSearch();
   }
 
   private getSearchData(data: SearchModel): void {
@@ -80,6 +82,7 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   }
 
   public closeSearch(): void {
+    console.log(this.searchInput.value);
     this.search.closeSearchSignal();
     this.isSearchClicked = false;
     this.resetData();

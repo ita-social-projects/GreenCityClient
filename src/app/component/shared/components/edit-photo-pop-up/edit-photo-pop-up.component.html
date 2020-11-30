@@ -5,10 +5,12 @@
          alt="cencel">
   </button>
   <div class="wrapper" 
-       *ngIf="!selectedPhoto; else elseBlock">
-    <img src="{{ avatarImg }}" 
-         alt="avatar" 
-         class="profile-avatar">
+       *ngIf="!selectedPhoto && !isNotification; else elseBlock">
+    <app-user-profile-image [imgPath]="avatarImg"
+                            [additionalImgClass]="'big'"
+                            [firstName]="data.firstName"
+                            >
+    </app-user-profile-image>
     <p *ngIf=isWarning 
        class="warning">{{"user.edit-profile.picture-tooltip" | translate }}</p>
     <p>{{"user.edit-profile.change-photo" | translate }}</p>
@@ -22,6 +24,10 @@
                accept=".jpg, .jpeg, .png" 
                (change)="onSelectPhoto($event)">
       </label>
+      <button type="button" 
+              class="primary-global-button delete" 
+              [disabled]="!avatarImg"
+              (click)="isNotification=true">{{"user.edit-profile.btn.delete" | translate }}</button>
     </div>
   </div>
   <ng-template #elseBlock>
@@ -50,9 +56,31 @@
           <button type="button" 
                   class="secondary-global-button" 
                   [disabled]="isWarning" 
-                  (click)="savePhoto()">{{"user.edit-profile.btn.save-photo" | translate }}</button>
+                  (click)="savePhoto()">
+            <span *ngIf="loadingAnim"
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"></span>
+            {{"user.edit-profile.btn.save-photo" | translate }}</button>
         </div>
       </div>
     </div>
   </ng-template>
+  <div *ngIf="isNotification"
+        class="wrapper">
+    <p>{{"user.edit-profile.notification" | translate }}</p>
+    <div class="buttons">
+      <button type="button" 
+              class="primary-global-button" 
+              (click)="isNotification=false">{{"user.edit-profile.btn.continue" | translate }}</button>
+      <button type="button" 
+              class="secondary-global-button" 
+              (click)="deletePhoto()">
+        <span *ngIf="loadingAnim"
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"></span>
+        {{ "user.edit-profile.btn.yes-delete" | translate }}</button>
+    </div>
+  </div>
 </div>

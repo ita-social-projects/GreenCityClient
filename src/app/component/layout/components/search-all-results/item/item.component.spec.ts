@@ -1,20 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ItemComponent } from './item.component';
 
-import { EditPhotoPopUpComponent } from './edit-photo-pop-up.component';
-
-describe('EditPhotoPopUpComponent', () => {
-  let component: EditPhotoPopUpComponent;
-  let fixture: ComponentFixture<EditPhotoPopUpComponent>;
+describe('ItemComponent', () => {
+  let component: ItemComponent;
+  let fixture: ComponentFixture<ItemComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditPhotoPopUpComponent ]
+      imports: [RouterTestingModule],
+      declarations: [ ItemComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditPhotoPopUpComponent);
+    fixture = TestBed.createComponent(ItemComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

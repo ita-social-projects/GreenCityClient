@@ -72,19 +72,16 @@ a {
   display: block;
 }
 
-.mat-spinner {
-  margin: 0 auto;
-  padding-top: 40px;
-
-  ::ng-deep circle {
-    stroke: #13aa57;
-  }
-}
-
 @media screen and (max-width: 1199px) {
   .gallery-view-active {
     grid-template-columns: repeat(3, 299px);
     grid-gap: 15px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .wrapper {
+    margin: 0 3.12%;
   }
 }
 
@@ -110,9 +107,9 @@ a {
   }
 }
 
-@media screen and (max-width: 575px) {
+@media screen and (max-width: 576px) {
   .wrapper {
-    margin: 0 2.4%;
+    margin: 0 2.43%;
   }
 
   .gallery-view-active {

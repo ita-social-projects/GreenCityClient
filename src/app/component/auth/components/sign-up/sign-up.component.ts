@@ -1,9 +1,11 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, Pipe } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { authImages } from 'src/app/image-pathes/auth-images';
 import { ConfirmPasswordValidator, ValidatorRegExp } from './sign-up.validator';
 import { GoogleSignInService } from '@global-service/auth/google-sign-in.service';
@@ -12,13 +14,15 @@ import { UserOwnSignInService } from '@global-service/auth/user-own-sign-in.serv
 import { UserOwnSignUpService } from '@global-service/auth/user-own-sign-up.service';
 import { UserOwnSignUp } from '@global-models/user-own-sign-up';
 import { UserSuccessSignIn, SuccessSignUpDto } from '@global-models/user-success-sign-in';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss']
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent implements OnInit, OnDestroy {
   public signUpForm: FormGroup;
   public emailControl: AbstractControl;
   public firstNameControl: AbstractControl;
@@ -26,13 +30,20 @@ export class SignUpComponent implements OnInit {
   public passwordControlConfirm: AbstractControl;
   public signUpImages = authImages;
   public userOwnSignUp: UserOwnSignUp;
-  public loadingAnim = false;
-  public isEmailInvalid = false;
+  public loadingAnim: boolean;
   public emailErrorMessageBackEnd: string;
   public passwordErrorMessageBackEnd: string;
   public firstNameErrorMessageBackEnd: string;
   public passwordConfirmErrorMessageBackEnd: string;
   public backEndError: string;
+  public currentLanguage: string;
+  private destroy: Subject<boolean> = new Subject<boolean>();
+  private errorsType = {
+    name: (error: string) => this.firstNameErrorMessageBackEnd = error,
+    email: (error: string) => this.emailErrorMessageBackEnd = error,
+    password: (error: string) => this.passwordErrorMessageBackEnd = error,
+    passwordConfirm: (error: string) => this.passwordConfirmErrorMessageBackEnd = error,
+  };
   @Output() private pageName = new EventEmitter();
 
   constructor(private  matDialogRef: MatDialogRef<SignUpComponent>,
@@ -43,6 +54,8 @@ export class SignUpComponent implements OnInit {
               private router: Router,
               private authService: AuthService,
               private googleService: GoogleSignInService,
+              private localStorageService: LocalStorageService,
+              private snackBar: MatSnackBarComponent
               ) { }
 
   ngOnInit() {
@@ -61,7 +74,11 @@ export class SignUpComponent implements OnInit {
 
     this.setNullAllMessage();
     this.loadingAnim = true;
-    this.userOwnSecurityService.signUp(userOwnRegister)
+    this.currentLanguage = this.localStorageService.getCurrentLanguage();
+    this.userOwnSecurityService.signUp(userOwnRegister, this.currentLanguage)
+      .pipe(
+        takeUntil(this.destroy)
+      )
       .subscribe(
         (data: SuccessSignUpDto) => {
           this.onSubmitSuccess(data);
@@ -74,6 +91,9 @@ export class SignUpComponent implements OnInit {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID)
       .then((data) => {
         this.googleService.signIn(data.idToken)
+          .pipe(
+            takeUntil(this.destroy)
+          )
           .subscribe((successData) => this.signUpWithGoogleSuccess(successData));
       })
       .catch((errorData) => this.signUpWithGoogleError(errorData));
@@ -90,6 +110,12 @@ export class SignUpComponent implements OnInit {
 
   public openSignInWindow(): void {
     this.pageName.emit('sign-in');
+  }
+
+  public getEmailError(): string {
+    return /already registered/.test(this.emailErrorMessageBackEnd)
+      ? 'user.auth.sign-up.the-user-already-exists-by-this-email'
+      : 'user.auth.sign-up.this-is-not-email';
   }
 
   private onFormInit(): void {
@@ -127,7 +153,7 @@ export class SignUpComponent implements OnInit {
     this.loadingAnim = false;
     this.openSignUpPopup();
     this.closeSignUpWindow();
-    this.receiveUserId(data.userId);
+    this.snackBar.openSnackBar('signUp');
   }
 
   private openSignUpPopup(): void {
@@ -143,30 +169,9 @@ export class SignUpComponent implements OnInit {
     this.matDialogRef.close();
   }
 
-  private receiveUserId(id: number): void {
-    setTimeout(() => {
-      this.router.navigate(['profile', id]);
-      this.dialog.closeAll();
-    }, 5000);
-  }
-
   private onSubmitError(errors: HttpErrorResponse): void {
     errors.error.map(error => {
-      switch (error.name) {
-        case 'name':
-          this.firstNameErrorMessageBackEnd = error.message;
-          break;
-        case 'email':
-          this.emailErrorMessageBackEnd = error.message;
-          this.isEmailInvalid = this.emailErrorMessageBackEnd === 'The email is invalid';
-          break;
-        case 'password':
-          this.passwordErrorMessageBackEnd = error.message;
-          break;
-        case 'passwordConfirm':
-          this.passwordConfirmErrorMessageBackEnd = error.message;
-          break;
-      }
+      this.errorsType[error.name](error.message);
     });
     this.loadingAnim = false;
   }
@@ -174,11 +179,14 @@ export class SignUpComponent implements OnInit {
   private signUpWithGoogleSuccess(data: UserSuccessSignIn): void {
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.closeSignUpWindow();
-    this.router.navigate(['/']);
+    this.router.navigate(['/profile', data.userId]);
+    this.snackBar.openSnackBar('signUp');
   }
 
   private signUpWithGoogleError(errors: HttpErrorResponse): void {
-    if (!Array.isArray(errors.error)) {
+    if (typeof errors === 'string') {
+      return;
+    } else if (!Array.isArray(errors.error)) {
       this.backEndError = errors.error.message;
       return;
     }
@@ -187,5 +195,10 @@ export class SignUpComponent implements OnInit {
       this.emailErrorMessageBackEnd = error.name === 'email' ? error.message : this.emailErrorMessageBackEnd;
       this.passwordConfirmErrorMessageBackEnd = error.name === 'password' ? error.message : this.passwordConfirmErrorMessageBackEnd;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy.next(true);
+    this.destroy.complete();
   }
 }

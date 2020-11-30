@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
   public isAllSearchOpen = false;
   public toggleBurgerMenu = false;
   public arrayLang: Array<LanguageModel> = [
-    {lang: 'Uk'},
+    {lang: 'Ua'},
     {lang: 'En'},
     {lang: 'Ru'}];
   public isSearchClicked = false;
@@ -179,12 +179,7 @@ export class HeaderComponent implements OnInit {
 
   public openSettingDialog(): void {
     this.dropdownVisible = false;
-    const dialogRef = this.dialog.open(UserSettingComponent, {
-      width: '700px'
-    });
-    dialogRef.afterClosed().subscribe(() => {
-      console.log('The dialog was closed');
-    });
+    this.router.navigate(['/profile', this.userId, 'edit']);
   }
 
   public signOut(): void {

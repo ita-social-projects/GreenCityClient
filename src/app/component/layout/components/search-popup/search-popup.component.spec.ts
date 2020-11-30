@@ -1,7 +1,8 @@
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
-
+import { MatSnackBarModule } from '@angular/material';
 import { SearchPopupComponent } from './search-popup.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SearchItemComponent } from './search-item/search-item.component';
@@ -14,6 +15,7 @@ import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 import { Observable } from 'rxjs';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('SearchPopupComponent', () => {
   let component: SearchPopupComponent;
@@ -24,7 +26,7 @@ describe('SearchPopupComponent', () => {
       declarations: [
         SearchPopupComponent,
         SearchItemComponent,
-        SearchNotFoundComponent,
+        SearchNotFoundComponent
       ],
       imports: [
         RouterTestingModule,
@@ -33,9 +35,11 @@ describe('SearchPopupComponent', () => {
         HttpClientTestingModule,
         MatDialogModule,
         NgxPageScrollModule,
+        MatSnackBarModule,
+        BrowserAnimationsModule
       ],
       providers: [
-        SearchService
+        SearchService, MatSnackBarComponent
       ]
     })
       .compileComponents().then(r => r);

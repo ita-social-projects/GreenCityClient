@@ -12,7 +12,11 @@
   </div>
   <div>
     <div class="flex-container">
-      <app-filter-news (tagsList)="getFilterData($event)"></app-filter-news>
+       <app-tag-filter (tagsList)="getFilterData($event)"
+                       [header]="'homepage.eco-news.filter'"
+                       [storageKey]="'EcoNews-filter'"
+                       [tagsListData]="tagList"
+        ></app-tag-filter>
     </div>
     <hr />
   </div>
@@ -21,7 +25,7 @@
     <app-remaining-count [remainingCount]="remaining"></app-remaining-count>
     <app-change-view-button (view)="changeView($event)"></app-change-view-button>
   </div>
-  <ul class="list" 
+  <ul class="list"
       *ngIf="remaining"
       [ngClass]="{ 'gallery-view-active': view }">
     <li [ngClass]="{
@@ -41,10 +45,11 @@
       </app-news-list-list-view>
     </li>
   </ul>
-  <mat-spinner *ngIf="elementsArePresent; else noNews">
-  </mat-spinner>
+  <app-spinner *ngIf="elementsArePresent; else noNews"></app-spinner>
   <ng-template #noNews>
-    <app-no-news></app-no-news>
+    <app-no-data [text]="'homepage.eco-news.empty-state.no-news-advice'" 
+                 [title]="'homepage.eco-news.empty-state.no-news'">
+    </app-no-data>
   </ng-template>
   <div infiniteScroll
        [infiniteScrollDistance]="0"

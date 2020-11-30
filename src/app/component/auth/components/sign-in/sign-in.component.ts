@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { GoogleSignInService } from '@auth-service/google-sign-in.service';
 import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
 import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
@@ -12,6 +12,7 @@ import { SignInIcons } from 'src/app/image-pathes/sign-in-icons';
 import { UserOwnSignIn } from '@global-models/user-own-sign-in';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sign-in',
@@ -24,7 +25,6 @@ export class SignInComponent implements OnInit, OnDestroy {
   public googleImage = SignInIcons;
   public hideShowPasswordImage = SignInIcons;
   public userOwnSignIn: UserOwnSignIn;
-  public userIdSubscription: Subscription;
   public loadingAnim: boolean;
   public emailErrorMessageBackEnd: string;
   public passwordErrorMessageBackEnd: string;
@@ -32,6 +32,9 @@ export class SignInComponent implements OnInit, OnDestroy {
   public signInForm: FormGroup;
   public emailField: AbstractControl;
   public passwordField: AbstractControl;
+  public emailFieldValue: string;
+  public passwordFieldValue: string;
+  private destroy: Subject<boolean> = new Subject<boolean>();
   @Output() private pageName = new EventEmitter();
 
   constructor(
@@ -59,19 +62,14 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.passwordField = this.signInForm.get('password');
   }
 
-  private checkIfUserId(): void {
-    this.userIdSubscription = this.localStorageService.userIdBehaviourSubject
-      .subscribe(userId => {
-        if (userId) {
-          this.matDialogRef.close(userId);
-        }
-      });
-  }
-
   public configDefaultErrorMessage(): void {
     this.emailErrorMessageBackEnd = null;
     this.passwordErrorMessageBackEnd = null;
     this.backEndError = null;
+    if (this.signInForm) {
+      this.emailFieldValue = this.emailField.value;
+      this.passwordFieldValue = this.passwordField.value;
+    }
   }
 
   public signIn(): void {
@@ -82,7 +80,11 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.userOwnSignIn.email = email;
     this.userOwnSignIn.password = password;
 
-    this.userOwnSignInService.signIn(this.userOwnSignIn).subscribe(
+    this.userOwnSignInService.signIn(this.userOwnSignIn)
+    .pipe(
+      takeUntil(this.destroy)
+    )
+    .subscribe(
       (data: UserSuccessSignIn) => {
         this.onSignInSuccess(data);
       },
@@ -93,15 +95,50 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   public signInWithGoogle(): void {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(data => {
-      this.googleService.signIn(data.idToken).subscribe(
-        (signInData: UserSuccessSignIn) => {
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID)
+    .then(data => {
+      this.googleService.signIn(data.idToken)
+        .pipe(
+          takeUntil(this.destroy)
+        )
+        .subscribe(
+          (signInData: UserSuccessSignIn) => {
           this.onSignInWithGoogleSuccess(signInData);
-        },
-        (errors: HttpErrorResponse) => {
-          this.onSignInFailure(errors);
         });
-    });
+      })
+    .catch((errors: HttpErrorResponse) => this.onSignInFailure(errors));
+  }
+
+  public onOpenModalWindow(windowPath: string): void {
+    this.pageName.emit(windowPath);
+  }
+
+  public onSignInWithGoogleSuccess(data: UserSuccessSignIn): void {
+    this.userOwnSignInService.saveUserToLocalStorage(data);
+    this.userOwnAuthService.getDataFromLocalStorage();
+    this.router.navigate(['profile', data.userId])
+      .then(success => {
+        this.localStorageService.setFirstSignIn();
+      })
+      .catch(fail => console.log('redirect has failed ' + fail));
+  }
+
+  public togglePassword(input: HTMLInputElement, src: HTMLImageElement): void {
+    input.type = input.type === 'password' ? 'text' : 'password';
+    src.src = input.type === 'password' ?
+      this.hideShowPasswordImage.hidePassword : this.hideShowPasswordImage.showPassword;
+  }
+
+  private checkIfUserId(): void {
+    this.localStorageService.userIdBehaviourSubject
+      .pipe(
+        takeUntil(this.destroy)
+      )
+      .subscribe(userId => {
+        if (userId) {
+          this.matDialogRef.close(userId);
+        }
+      });
   }
 
   private onSignInSuccess(data: UserSuccessSignIn): void {
@@ -113,12 +150,10 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.router.navigate(['profile', data.userId]);
   }
 
-  public onOpenModalWindow(windowPath: string): void {
-    this.pageName.emit(windowPath);
-  }
-
   private onSignInFailure(errors: HttpErrorResponse): void {
-    if (!Array.isArray(errors.error)) {
+    if (typeof errors === 'string') {
+      return;
+    } else if (!Array.isArray(errors.error)) {
       this.backEndError = errors.error.message;
       return;
     }
@@ -129,24 +164,8 @@ export class SignInComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onSignInWithGoogleSuccess(data: UserSuccessSignIn): void {
-    this.userOwnSignInService.saveUserToLocalStorage(data);
-    this.userOwnAuthService.getDataFromLocalStorage();
-    this.router.navigate(['profile', data.userId])
-      .then(success => {
-        this.localStorageService.setFirstSignIn();
-        console.log('redirect has succeeded ' + success);
-      })
-      .catch(fail => console.log('redirect has failed ' + fail));
-  }
-
-  public togglePassword(input: HTMLInputElement, src: HTMLImageElement): void {
-    input.type = input.type === 'password' ? 'text' : 'password';
-    src.src = input.type === 'password' ?
-      this.hideShowPasswordImage.hidePassword : this.hideShowPasswordImage.showPassword;
-  }
-
   ngOnDestroy() {
-    this.userIdSubscription.unsubscribe();
+    this.destroy.next(true);
+    this.destroy.complete();
   }
 }

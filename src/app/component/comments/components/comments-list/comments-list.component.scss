@@ -6,14 +6,6 @@ $main-font: 'Open Sans', sans-serif;
 
   .comment-avatar {
     position: relative;
-
-    img {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 48px;
-      height: 48px;
-    }
   }
 }
 
@@ -42,10 +34,11 @@ $main-font: 'Open Sans', sans-serif;
   font-size: 12px;
   line-height: 16px;
   display: flex;
+  flex-direction: row;
   align-items: center;
 
   .comment-dot {
-    margin: 0 0 0 8px;
+    margin: 0 8px;
     display: inline-block;
     width: 4px;
     height: 4px;
@@ -54,7 +47,6 @@ $main-font: 'Open Sans', sans-serif;
   }
 
   .comment-date-month {
-    margin: 0 0 0 8px;
     display: inline-block;
 
     .edited {
@@ -87,6 +79,10 @@ $main-font: 'Open Sans', sans-serif;
   margin-bottom: -10px;
   display: flex;
   flex-direction: column;
+
+  .comment-text {
+    word-wrap: break-word;
+  }
 
   .comment-edit-text {
     display: flex;
@@ -163,6 +159,7 @@ $main-font: 'Open Sans', sans-serif;
 
 .comments-elements {
   display: flex;
+  padding-left: 55px;
 
   .btn-wrapper {
     display: flex;
@@ -195,6 +192,24 @@ $main-font: 'Open Sans', sans-serif;
   }
 }
 
+@media screen and (max-width: 575px) {
+  .comments-elements {
+    padding-left: 25px;
+  }
+
+  .comment-date {
+    flex-direction: row-reverse;
+  }
+
+  .comment-details {
+    flex-direction: column;
+
+    .comment-date-likes {
+      justify-content: left;
+    }
+  }
+}
+
 @media screen and (max-width: 320px) {
   .comment-details {
     flex-direction: column;
@@ -205,6 +220,8 @@ $main-font: 'Open Sans', sans-serif;
   }
 
   .comment-date {
+    flex-direction: row;
+
     .comment-date-month {
       margin: 0;
     }

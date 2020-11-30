@@ -1,7 +1,8 @@
 <h1>
   {{ 'user.auth.sign-in.title' | translate }}</h1>
 <h2>{{ 'user.auth.sign-in.fill-form' | translate }}</h2>
-<form class="sign-in-form"
+<form *ngIf="signInForm"
+      class="sign-in-form"
       (ngSubmit)="signIn()"
       [formGroup]="signInForm">
   <label for="email">{{ 'user.auth.sign-in.email' | translate }}</label>
@@ -16,8 +17,10 @@
                     backEndError ||
                     emailErrorMessageBackEnd?
             'alert-email-validation':'successful-email-validation'">
-  <div class="validation-email-error" *ngIf="emailField.invalid && emailField.touched">
-    <app-error [formElement]="emailField" 
+  <div class="validation-email-error"
+        *ngIf="emailField.invalid && emailField.touched">
+    <app-error [formElement]="emailField"
+               [emailFieldValue]="emailFieldValue"
                [controlName]="'email'"></app-error>
   </div>
   <div class="validation-email-error"
@@ -51,7 +54,8 @@
   </div>
   <div class="validation-password-error"
         *ngIf="passwordField.invalid && passwordField.touched">
-    <app-error [formElement]="passwordField" 
+    <app-error [formElement]="passwordField"
+               [passwordFieldValue]="passwordFieldValue"
                [controlName]="'password'"></app-error>
   </div>
   <div class="validation-password-error"
@@ -64,6 +68,7 @@
   </div>
   <div class="forgot-wrapper">
     <a (click)="onOpenModalWindow('restore-password')"
+       (keyup.enter)="onOpenModalWindow('restore-password')"
         tabindex="0"
         class="forgot-password">
       {{'user.auth.sign-in.forgot-password' | translate}}</a>
@@ -86,6 +91,7 @@
 <div class="missing-account">
   <p>{{'user.auth.sign-in.havenot-account' | translate}}
     <a (click)="onOpenModalWindow('sign-up')"
+       (keyup.enter)="onOpenModalWindow('sign-up')"
         tabindex="0"
         class="sign-up-link">
       {{'user.auth.sign-in.sign-up' | translate}}

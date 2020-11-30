@@ -79,8 +79,8 @@
         "view": "View"
       },
       "empty-state": {
-        "no-news": "Unfotunately there is no news finded",
-        "no-news-advice": "We couldn't find any news. Please change filters to get a result."
+        "no-news": "Unfortunately, no more news found",
+        "no-news-advice": "We couldn't find any more news. Please change filters to get another result."
       }
     },
     "eco-advices": {
@@ -239,6 +239,21 @@
     "oops": "Oops!",
     "go-to-homepage": "Go To Homepage"
   },
+  "snack-bar": {
+    "error": {
+      "default": "Oops, something went wrong. Please reload page or try again later."
+    },
+    "attention": {
+      "default": "Attention message. The action cannot be performed, because conditions weren’t met.",
+      "exit-confirm-restore-password": "Your password hasn`t been changed."
+    },
+    "success": {
+      "default": "Success message. The action was successful.",
+      "confirm-restore-password": "Your password has just been reset.",
+      "restore-password": "Restore password link was sent to your email address.",
+      "sign-up" : "You have successfully registered on the site. Please confirm your email address in the email box."
+    }
+  },
   "user": {
     "add-comment": {
       "add-your-comment-to-place": "Add your comment to place",
@@ -256,6 +271,7 @@
         "title": "Welcome back!",
         "fill-form": "Please enter your details to sign in",
         "email": "Email",
+        "email-is-required": "Email is required",
         "field-is-required": "This field is required",
         "email-must-be-at-least-1-characters-long": "Email must be at least 1 characters long",
         "this-is-not-email": "Please check that your e-mail address is indicated correctly",
@@ -276,6 +292,7 @@
         "first-name": "User name",
         "first-name-is-required": "User name is required",
         "user-name-error": "User name is required",
+        "invalid-user-name": "Username must not contains a dot at the beginning, few dots in a row, special characters, Cyrillic letters",
         "user-name-size": "The name must contain 6-30 characters and can contain letters(a-z), numbers(0-9) and a dot(.)",
         "first-name-must-be-at-least-1-characters-long": "User name must be at least 1 characters long",
         "last-name": "Last name",
@@ -472,12 +489,16 @@
       "picture-tooltip": "Download PNG or JPG only. File size should be less than 10MB",
       "change-photo": "Do you want to change your profile picture?",
       "would-you-like": "Would you like to save changes?",
+      "notification": "Are you sure you want to delete the photo?",
       "btn":{
         "cancel": "Cancel",
         "save": "Save",
         "new-photo": "Upload new photo",
         "change-photo": "Change photo",
-        "save-photo": "Save photo"
+        "save-photo": "Save photo",
+        "delete": "Delete photo",
+        "continue": "Continue editing",
+        "yes-delete": "Yes, delete"
       }
     },
     "footer": {
@@ -540,6 +561,13 @@
         "confirmation-modal-text": "Are you sure you want to delete this eco habit?",
         "confirmation-modal-yes": "Yes",
         "confirmation-modal-cancel": "Cancel"
+      },
+      "all-habits": {
+        "title":"All habits",
+        "no-habits":"Unfortunately, no more habits found",
+        "no-habits-advice": "We couldn't find any more habits. Please change filters to get another result.",
+        "btn-more": "More",
+        "btn-add": "Add habit"
       },
       "habit-trackers": {
         "habit-tracker": {

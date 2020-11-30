@@ -71,6 +71,7 @@ export class LocalStorageService {
   public setCurrentLanguage(language: Language) {
     localStorage.setItem('language', language);
     this.languageSubject.next(language);
+    this.languageBehaviourSubject.next(language);
   }
 
   public getCurrentLanguage(): Language {

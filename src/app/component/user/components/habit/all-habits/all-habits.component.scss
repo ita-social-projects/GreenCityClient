@@ -1,35 +1,46 @@
-.active {
-  color: green;
+h1 {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
 }
 
-.header-wrapper {
-  display: flex;
-  justify-content: space-between;
-  max-width: 1180px;
-  margin: 0 auto;
-  padding-bottom: 40px;
+.habits_header-buttons {
+  display: none;
+}
 
-  .title {
-    padding-left: 40px;
+.border_bottom {
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.habits_header-items-found {
+  font-family: 'OpenSans', sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.habits_header-wrapper {
+  display: grid;
+  grid-template-rows: auto auto auto;
+  row-gap: 20px;
+  margin-bottom: 3.125rem;
+
+  .habits_header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
-  .buttons {
-    padding-top: 20px;
-
-    button {
-      padding: 12px 8px 12px 0;
-
-      &:focus {
-        box-shadow: none;
-      }
+  button {
+    &:focus {
+      box-shadow: none;
     }
   }
 }
 
 .galleryContainer {
   display: grid;
-  grid-template-columns: repeat(3, 359px);
+  grid-template-columns: 290px;
   grid-gap: 30px;
+  justify-content: center;
 }
 
 .listView {
@@ -38,60 +49,32 @@
   align-items: center;
 }
 
-@media screen and (max-width: 1199px) {
+@media (min-width: 576px) {
+  .galleryContainer {
+    grid-template-columns: repeat(2, 50%);
+  }
+
+  .container {
+    padding: 0;
+  }
+
+  .habits_header-buttons {
+    display: block;
+
+    :nth-child(1) {
+      margin-right: 8px;
+    }
+  }
+}
+
+@media (min-width: 992px) {
   .galleryContainer {
     grid-template-columns: repeat(3, 299px);
-    grid-gap: 15px;
-  }
-
-  .header-wrapper {
-    max-width: 935px;
-
-    .title {
-      padding-left: 0;
-    }
   }
 }
 
-@media screen and (max-width: 991px) {
+@media (min-width: 1200px) {
   .galleryContainer {
-    grid-template-columns: repeat(2, 353px);
-    grid-gap: 15px;
-  }
-
-  .header-wrapper {
-    max-width: 768px;
-
-    .title {
-      padding-left: 40px;
-    }
-  }
-}
-
-@media screen and (max-width: 767px) {
-  .galleryContainer {
-    grid-template-columns: repeat(2, 258px);
-    grid-gap: 17px;
-  }
-
-  .header-wrapper {
-    max-width: 570px;
-
-    .title {
-      padding-left: 30px;
-    }
-  }
-}
-
-@media screen and (max-width: 575px) {
-  .galleryContainer {
-    grid-template-columns: repeat(1, 288px);
-    grid-gap: 25px;
-  }
-
-  .header-wrapper {
-    .title {
-      padding-left: 15px;
-    }
+    grid-template-columns: repeat(3, 359px);
   }
 }

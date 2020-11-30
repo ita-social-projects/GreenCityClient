@@ -58,10 +58,15 @@ form {
   margin-bottom: 1rem;
 }
 
+.container {
+  max-width: 1170px;
+  margin: 0 auto;
+}
+
 .wrapper {
   display: grid;
-  grid-template-columns: auto 430px;
-  grid-column-gap: 30px;
+  grid-template-columns: auto 456px;
+  grid-column-gap: 32px;
 }
 
 .left-form-column {
@@ -217,15 +222,34 @@ form label {
   border: 1px solid red;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1440px) {
+  .container {
+    max-width: 1024px;
+  }
+
   .wrapper {
-    grid-template-columns: auto 350px;
+    grid-template-columns: auto 381px;
+  }
+
+  .warning {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .container {
+    max-width: 960px;
   }
 }
 
 @media screen and (max-width: 1024px) {
+  .container {
+    max-width: 740px;
+  }
+
   .wrapper {
-    grid-template-columns: auto 380px;
+    display: flex;
+    flex-direction: column;
   }
 
   .bottom-form-column {
@@ -233,21 +257,11 @@ form label {
       font-size: 12px;
     }
   }
-
-  .left-form-column input,
-  .left-form-column textarea,
-  form .textarea-wrapper textarea {
-    width: 100%;
-  }
 }
 
 @media screen and (min-width: 769px) {
   .left-form-column {
     height: 350px;
-
-    textarea {
-      height: 100%;
-    }
   }
 
   .bottom-form-column {
@@ -360,6 +374,10 @@ form label {
 }
 
 @media screen and (max-width: 370px) {
+  .container {
+    max-width: 318px;
+  }
+
   .left-form-column {
     textarea {
       padding: 12px;

@@ -1,7 +1,7 @@
 <div class="container">
     <h2>{{ "user.edit-profile.edit-profile" | translate }}</h2>
     <app-personal-photo></app-personal-photo>
-    <form [formGroup]="editProfileForm" (ngSubmit)="onSubmit()" >
+    <form [formGroup]="editProfileForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
         <div class="wrapper">
             <p>{{ "user.edit-profile.info" | translate }}</p>
             <div class="input-block"
@@ -43,24 +43,27 @@
             <p class="title">{{"user.edit-profile.privacy" | translate }}</p>
             <ul>
                 <li>
-                    <label class="label-wrapper">{{"user.edit-profile.location" | translate }}
+                    <label class="label-wrapper">
                         <input type="checkbox"
-                               formControlName="showLocation">
+                             formControlName="showLocation">
                         <span class="checkmark"></span>
+                        {{"user.edit-profile.location" | translate }}
                     </label>
                 </li>
                 <li>
-                    <label class="label-wrapper">{{"user.edit-profile.eco-place" | translate }}
+                    <label class="label-wrapper">
                         <input type="checkbox"
-                               formControlName="showEcoPlace">
+                             formControlName="showEcoPlace">
                         <span class="checkmark"></span>
+                        {{"user.edit-profile.eco-place" | translate }}
                     </label>
                 </li>
                 <li>
-                    <label class="label-wrapper">{{"user.edit-profile.shoping-list" | translate }}
+                    <label class="label-wrapper">
                         <input type="checkbox"
-                               formControlName="showShoppingList">
+                             formControlName="showShoppingList">
                         <span class="checkmark"></span>
+                        {{"user.edit-profile.shoping-list" | translate }}
                     </label>
                 </li>
             </ul>
