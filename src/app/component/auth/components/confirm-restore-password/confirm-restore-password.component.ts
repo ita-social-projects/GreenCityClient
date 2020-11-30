@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AbstractControl, FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
@@ -8,6 +9,9 @@ import { ChangePasswordService } from '@auth-service/change-password.service';
 import { authImages } from 'src/app/image-pathes/auth-images';
 import { ConfirmPasswordValidator, ValidatorRegExp } from '../sign-up/sign-up.validator';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { take } from 'rxjs/operators';
+
+import { mainLink } from './../../../../links';
 
 @Component({
   selector: 'app-confirm-restore-password',
@@ -28,18 +32,16 @@ export class ConfirmRestorePasswordComponent implements OnInit {
   public loadingAnim: boolean;
   public form: any;
   public token: string;
-
   public restoreDto: RestoreDto;
 
   constructor(
     private router: Router,
     private changePasswordService: ChangePasswordService,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private snackBar: MatSnackBarComponent
-  ) {
-    this.getToken();
-  }
+    private activatedRoute: ActivatedRoute,
+    private snackBar: MatSnackBarComponent,
+    private http: HttpClient
+  ) {}
 
   ngOnInit() {
     this.restoreDto = new RestoreDto();
@@ -67,10 +69,13 @@ export class ConfirmRestorePasswordComponent implements OnInit {
     this.confirmPasswordField = this.confirmRestorePasswordForm.get('confirmPassword');
   }
 
-  public getToken() {
-    this.route.queryParams.subscribe(params => {
-      this.token = params[`token`];
-    });
+  private getToken(): void {
+    this.activatedRoute.queryParams
+      .pipe(take(1))
+      .subscribe(params => {
+        this.token = params[`token`];
+        this.onCheckToken(params);
+      });
   }
 
   public sendPasswords() {
@@ -101,5 +106,18 @@ export class ConfirmRestorePasswordComponent implements OnInit {
   public closeModal(): void {
     this.router.navigate(['welcome']);
     this.snackBar.openSnackBar('exitConfirmRestorePassword');
+  }
+
+  // check if the token is still valid
+  private onCheckToken(queryParams): void {
+    const {token, user_id} = queryParams;
+
+    this.http.get(`${mainLink}ownSecurity/verifyEmail?token=${token}&user_id=${user_id}`)
+      .pipe(take(1))
+      .subscribe(res => {
+        if (res) {
+          this.snackBar.openSnackBar('successConfirmEmail');
+        }
+      });
   }
 }

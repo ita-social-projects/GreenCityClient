@@ -13,10 +13,10 @@ export class RestoreComponent implements OnInit {
   constructor(private restorePasswordService: RestorePasswordService,
               private localStorageService: LocalStorageService) {}
 
-  sentEmail() {
+  ngOnInit() {}
+
+  public sentEmail(): void {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.restorePasswordService.sendEmailForRestore(this.email, this.currentLanguage);
   }
-
-  ngOnInit() {}
 }

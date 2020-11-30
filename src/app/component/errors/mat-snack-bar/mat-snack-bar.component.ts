@@ -39,7 +39,11 @@ export class MatSnackBarComponent {
     signUp: () => {
       this.getSnackBarMessage('snack-bar.success.sign-up');
       this.className = 'success-snackbar';
-    }
+    },
+    successConfirmEmail: () => {
+      this.getSnackBarMessage('snack-bar.success.confirm-email');
+      this.className = 'success-snackbar';
+    },
   };
 
   constructor(public snackBar: MatSnackBar,
