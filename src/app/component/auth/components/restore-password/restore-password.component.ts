@@ -32,6 +32,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   public backEndError: string;
   public userOwnSignIn: UserOwnSignIn;
   public loadingAnim: boolean;
+  public currentLanguage: string;
   public userIdSubscription: Subscription;
   @Output() public pageName = new EventEmitter();
 
@@ -86,9 +87,8 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
 
   sentEmail(userOwnSignIn: UserOwnSignIn): void {
     this.loadingAnim = true;
-    userOwnSignIn.email = this.restorePasswordForm.value.email;
-
-    this.restorePasswordService.sendEmailForRestore(userOwnSignIn.email)
+    this.currentLanguage = this.localStorageService.getCurrentLanguage();
+    this.restorePasswordService.sendEmailForRestore(userOwnSignIn.email, this.currentLanguage)
       .pipe(
        take(1))
       .subscribe({
