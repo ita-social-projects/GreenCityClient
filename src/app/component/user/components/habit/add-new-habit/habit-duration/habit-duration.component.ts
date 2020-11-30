@@ -9,13 +9,15 @@ import { FormControl } from '@angular/forms';
 export class HabitDurationComponent implements OnInit {
   @Input() habitDurationDefault: number;
   @Output() changeDuration = new EventEmitter<number>();
-  public habitDuration = new FormControl('');
+  habitDuration = new FormControl('');
   public position: string = null;
   public thumbWidth = '12px';
 
   constructor(private elm: ElementRef, private renderer: Renderer2) { }
 
   ngOnInit() {
+    console.log(this.habitDurationDefault);
+    console.log(this.habitDuration);
     this.habitDuration.setValue(this.habitDurationDefault);
     this.updateDuration();
     this.getRangeWidth();

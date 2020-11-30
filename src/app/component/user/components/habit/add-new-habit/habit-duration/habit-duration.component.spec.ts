@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ReactiveFormsModule } from '@angular/forms';
 import { HabitDurationComponent } from './habit-duration.component';
 
 describe('HabitDurationComponent', () => {
@@ -8,9 +8,12 @@ describe('HabitDurationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HabitDurationComponent ]
+      declarations: [HabitDurationComponent],
+      imports: [
+        ReactiveFormsModule
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
