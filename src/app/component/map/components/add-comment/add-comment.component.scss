@@ -1,6 +1,15 @@
-.ratingg {
+.title {
+  text-align: center;
+  font-weight: 400;
+}
+
+.rating {
   height: 100px;
   width: 100%;
+}
+
+.submit {
+  margin-right: 1%;
 }
 
 .error,
