@@ -52,6 +52,7 @@ jobs:
         continue-on-error: true
         run: >
             /opt/sonar-scanner/bin/sonar-scanner
+            -Dsonar.organization=ita-social-projects
             -Dsonar.projectKey=ita-social-projects-green-city-client
             -Dsonar.host.url=https://sonarcloud.io
             -Dsonar.sources=src
