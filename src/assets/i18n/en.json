@@ -110,6 +110,16 @@
         "alternative-description-news": "Find the latest news, events and initiatives here. Find news and create ones.",
         "alternative-header-tips": "Tips & Tricks",
         "alternative-description-tips": "How to sort garbage? Where to find eco stuff? And many other useful stuff for being eco friendly."
+      },
+      "search-all-results": {
+        "placeholder": "Search",
+        "items-found": "items found",
+        "news": "News",
+        "tips": "Tips & Tricks",
+        "sort": "Sort by:",
+        "relevance": "Relevance",
+        "oldest": "Oldest",
+        "newest": "Newest"
       }
   },
   "admin-nav": {
