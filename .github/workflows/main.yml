@@ -45,12 +45,11 @@ jobs:
           wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.2.0.1873-linux.zip
           unzip sonar-scanner-cli-4.2.0.1873-linux.zip
           sudo mv sonar-scanner-4.2.0.1873-linux /opt/sonar-scanner
-          sudo echo 'export PATH="$PATH:/opt/sonar-scanner/bin"' >> /etc/profile.d/sonar-scanner.sh
-          source /etc/profile.d/sonar-scanner.sh
-
+          ls /opt/sonar-scanner
+          
       - name: Run SonarCloud
         run: >
-            sonar-scanner
+            /opt/sonar-scanner/bin/sonar-scanner
             -Dsonar.projectKey=ita-social-projects-green-city-client
             -Dsonar.host.url=https://sonarcloud.io
             -Dsonar.sources=src
