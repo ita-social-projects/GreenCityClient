@@ -1,5 +1,5 @@
-<h2 mat-dialog-title style="text-align: center; font-weight: 400;">{{'user.add-comment.add-your-comment-to-place' | translate}} </h2>
-<div class="ratingg">
+<h2 mat-dialog-title class="title">{{'user.add-comment.add-your-comment-to-place' | translate}} </h2>
+<div class="rating">
 
   <p>{{'user.add-comment.please-rare-us' | translate}}</p>
   <ngb-rating [(ngModel)]="estimate.rate"
@@ -34,7 +34,7 @@
 <div style="display:flex; justify-content:flex-end; align-items:center;">
   <button [disabled]="photoLoadingStatus||commentControl.invalid"
           class="btn btn-primary submit"
-          type="submit" style="margin-right: 1%" (click)="onSubmit()">{{'user.add-comment.submit' | translate}}
+          type="submit" (click)="onSubmit()">{{'user.add-comment.submit' | translate}}
   </button>
   <button mat-dialog-close class="btn btn-primary" type="button">{{'user.add-comment.close' | translate}}</button>
 </div>
