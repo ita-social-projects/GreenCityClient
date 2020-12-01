@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ProfileComponent, EditProfileComponent } from './components';
 import { AuthPageGuardService } from '../../service/route-guards/auth-page-guard.service';
 import { UserComponent } from './user.component';
+import { AddFriendsListComponent } from './components/user-friends/add-friends-list/add-friends-list.component';
 
 export const userRoutes: Routes = [
   { path: '',
@@ -14,6 +15,7 @@ export const userRoutes: Routes = [
       { path: ':id/edit', component: EditProfileComponent },
       { path: ':id/allhabits', component: AllHabitsComponent },
       { path: '', component: ProfileComponent },
+      { path: ':id/friends', component: AddFriendsListComponent},
       { path: '', redirectTo: ':id', pathMatch: 'full' },
     ]
   }
