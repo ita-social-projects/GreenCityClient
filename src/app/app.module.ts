@@ -6,7 +6,7 @@ import {
   HttpClientModule
 } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DatePipe } from '@angular/common';
+import { DatePipe, PathLocationStrategy } from '@angular/common';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
   MatButtonModule,
@@ -23,7 +23,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireModule } from '@angular/fire';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { LocationStrategy } from '@angular/common';
 import { AuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
 import { NgFlashMessagesModule } from 'ng-flash-messages';
 // tslint:disable-next-line:max-line-length
@@ -99,7 +99,7 @@ import { ErrorComponent } from '@global-errors/error/error.component';
     },
     {
       provide: LocationStrategy,
-      useClass: HashLocationStrategy
+      useClass: PathLocationStrategy
     },
     {
       provide: AuthServiceConfig,

@@ -2,7 +2,7 @@
   <div class="main-container">
     <div class="header" >
       <div class="logo">
-        <a [routerLink]="['/welcome']"
+        <a [routerLink]="['/']"
            routerLinkActive="active-link"
            [routerLinkActiveOptions]="{ exact: true }"
            pageScroll>
@@ -40,20 +40,14 @@
                         <li>
                           <a [routerLink]="['/news']"
                              routerLinkActive="active-link"
-                             routerLinkActiveOptions="{exact:true}"
-                             pageScroll
-                             href="#events"
-                             [pageScrollDuration]="500">
+                             routerLinkActiveOptions="{exact:true}">
                             {{ 'user.lower-nav-bar.eco-events' | translate }}
                           </a>
                         </li>
                         <li>
                           <a [routerLink]="['/tips']"
                              routerLinkActive="active-link"
-                             routerLinkActiveOptions="{exact:true}"
-                             pageScroll
-                             href="#tips"
-                             [pageScrollDuration]="500">
+                             routerLinkActiveOptions="{exact:true}">
                             {{ 'user.lower-nav-bar.tips' | translate }}
                           </a>
                         </li>
@@ -61,8 +55,6 @@
                           <a [routerLink]="['/map']"
                              routerLinkActive="active-link"
                              routerLinkActiveOptions="{exact:true}"
-                             pageScroll
-                             href="#top-user-bar"
                              routerLinkActive="active-link"
                              routerLinkActiveOptions="{exact:true}">
                             {{ 'user.lower-nav-bar.map' | translate }}

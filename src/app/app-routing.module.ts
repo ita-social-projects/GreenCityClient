@@ -2,8 +2,6 @@ import { TipsListComponent} from './component/home/components';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { HomepageComponent} from './component/home/components';
-import { SearchAllResultsComponent} from './component/layout/components';
-import { ConfirmRestorePasswordComponent } from '@global-auth/index';
 
 export const routes: Routes = [
   {
@@ -23,26 +21,25 @@ export const routes: Routes = [
     loadChildren: () => import('./component/user/user.module').then(mod => mod.UserModule)
   },
   {
-    path: 'welcome',
-    component: HomepageComponent,
-  },
-  {
     path: 'tips',
     component: TipsListComponent,
   },
   {
     path: 'search',
-    component: SearchAllResultsComponent,
-  },
-  {
-    path: '',
-    redirectTo: 'welcome',
-    pathMatch: 'full'
+    loadChildren: () => import('./component/layout/components').then(mod => mod.SearchAllResultsComponent)
   },
   {
     path: 'auth/restore',
-    component: ConfirmRestorePasswordComponent,
-  }
+    loadChildren: () => import('@global-auth/index').then(mod => mod.ConfirmRestorePasswordComponent)
+  },
+  {
+    path: '',
+    component: HomepageComponent,
+  },
+  {
+    path: '**',
+    redirectTo: '',
+  },
 ];
 
 @NgModule({

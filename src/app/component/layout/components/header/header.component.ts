@@ -172,7 +172,7 @@ export class HeaderComponent implements OnInit {
     this.userService.onLogout();
     this.habitStatisticService.onLogout();
     this.achievementService.onLogout();
-    this.router.navigateByUrl('/welcome').then(r => r);
+    this.router.navigateByUrl('/').then(r => r);
     this.userOwnAuthService.getDataFromLocalStorage();
   }
 
