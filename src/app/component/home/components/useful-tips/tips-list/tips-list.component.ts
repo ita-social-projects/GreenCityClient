@@ -61,8 +61,4 @@ export class TipsListComponent implements OnInit {
   ngOnInit() {
     this.currentTip = this.tips[0];
   }
-
-  public changeTip(): void {
-
-  }
 }
