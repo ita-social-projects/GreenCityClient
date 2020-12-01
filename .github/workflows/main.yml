@@ -10,6 +10,8 @@ on:
     
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+
+     
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
@@ -17,7 +19,7 @@ jobs:
     strategy:
       matrix:
         node-version: [14.x]
-
+    
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -37,8 +39,7 @@ jobs:
         run: npm run stylelint
 
       - name: Unit Tests
-        run: |
-          npx ng test --watch=false --progress=false --browsers=ChromeHeadless
+        run: npx ng test --watch=false --progress=false --browsers=ChromeHeadless
 
       - name: Install Sonar
         run: |
@@ -48,6 +49,7 @@ jobs:
           ls /opt/sonar-scanner
           
       - name: Run SonarCloud
+        continue-on-error: true
         run: >
             /opt/sonar-scanner/bin/sonar-scanner
             -Dsonar.projectKey=ita-social-projects-green-city-client
@@ -57,7 +59,7 @@ jobs:
             -Dsonar.tests=src
             -Dsonar.test.inclusions=**/*.spec.ts
             -Dsonar.javascript.lcov.reportPaths=coverage/GreenCityClient/lcov.info
-      
+
       - name: E2E Tests
         run: npx ng e2e --protractor-config=e2e/protractor-ci.conf.js
         
