@@ -53,7 +53,6 @@ export class DragAndDropDirective {
     reader.onload = handleFile.bind(this);
 
     function handleFile(event): void {
-      console.log(event);
       const binaryString = event.target.result;
       files.forEach(item => {
         item.url = binaryString;
