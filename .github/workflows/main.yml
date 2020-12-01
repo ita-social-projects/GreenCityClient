@@ -39,7 +39,17 @@ jobs:
       - name: Unit Tests
         run: |
           npx ng test --watch=false --progress=false --browsers=ChromeHeadless
-          sonar-scanner -Dsonar.projectKey=ita-social-projects-green-city-client -Dsonar.host.url=https://sonarcloud.io -Dsonar.sources=src -Dsonar.exclusions=**/node_modules/**, **/src/app/component/about/about.module.ts, **/src/app/component/about/about-routing.module.ts, **/src/app/component/admin/admin-routing.module.ts, **/src/app/component/admin/admin.component.ts, **/src/app/service/advice/AdviceDto.ts, **/src/app/app-routing.module.ts, **/src/environments/environment.prod.ts -Dsonar.tests=src -Dsonar.test.inclusions=**/*.spec.ts -Dsonar.javascript.lcov.reportPaths=coverage/GreenCityClient/lcov.info
+
+      - name: Run SonarCloud
+        run: >
+            sonar-scanner
+            -Dsonar.projectKey=ita-social-projects-green-city-client
+            -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.sources=src
+            -Dsonar.exclusions=**/node_modules/**, **/src/app/component/about/about.module.ts, **/src/app/component/about/about-routing.module.ts, **/src/app/component/admin/admin-routing.module.ts, **/src/app/component/admin/admin.component.ts, **/src/app/service/advice/AdviceDto.ts, **/src/app/app-routing.module.ts, **/src/environments/environment.prod.ts
+            -Dsonar.tests=src
+            -Dsonar.test.inclusions=**/*.spec.ts
+            -Dsonar.javascript.lcov.reportPaths=coverage/GreenCityClient/lcov.info
       
       - name: E2E Tests
         run: npx ng e2e --protractor-config=e2e/protractor-ci.conf.js
