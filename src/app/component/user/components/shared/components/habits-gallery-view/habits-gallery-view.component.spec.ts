@@ -1,3 +1,4 @@
+import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { HabitsGalleryViewComponent } from './habits-gallery-view.component';
@@ -11,7 +12,8 @@ describe('HabitsGalleryViewComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ HabitsGalleryViewComponent ],
       imports: [
-        TranslateModule.forRoot()
+        TranslateModule.forRoot(),
+        RouterTestingModule
       ]
     })
     .compileComponents();

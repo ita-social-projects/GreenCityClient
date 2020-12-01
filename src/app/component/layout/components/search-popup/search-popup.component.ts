@@ -82,7 +82,6 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   }
 
   public closeSearch(): void {
-    console.log(this.searchInput.value);
     this.search.closeSearchSignal();
     this.isSearchClicked = false;
     this.resetData();

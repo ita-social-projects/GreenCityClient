@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit {
   public isAllSearchOpen = false;
   public toggleBurgerMenu = false;
   public arrayLang: Array<LanguageModel> = [
-    {lang: 'Uk'},
+    {lang: 'Ua'},
     {lang: 'En'},
     {lang: 'Ru'}];
   public isSearchClicked = false;
@@ -61,6 +61,9 @@ export class HeaderComponent implements OnInit {
     this.userRole = this.jwtService.getUserRole();
     this.autoOffBurgerBtn();
     this.userOwnAuthService.getDataFromLocalStorage();
+    this.userOwnAuthService.isLoginUserSubject.subscribe(
+      status => this.isLoggedIn = status
+    );
   }
 
   setLangArr(): void {
@@ -109,7 +112,7 @@ export class HeaderComponent implements OnInit {
 
   private assignData(userId: number): void {
     this.userId = userId;
-    this.isLoggedIn = true;
+    this.userOwnAuthService.isLoginUserSubject.next(true);
   }
 
   public toggleSearchPage(): void {
@@ -141,33 +144,14 @@ export class HeaderComponent implements OnInit {
     this.toggleScroll();
   }
 
-  public openSingInWindow(): void {
+  public openAuthModalWindow(page: string): void {
     this.dialog.open(AuthModalComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
       panelClass: ['custom-dialog-container', 'transparent'],
       data: {
-        popUpName: 'sign-in'
+        popUpName: page
       }
-    });
-  }
-
-  public openSignUpWindow(): void {
-    this.dialog.open(AuthModalComponent, {
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      panelClass: ['custom-dialog-container', 'transparent'],
-      data: {
-        popUpName: 'sign-up'
-      }
-    });
-  }
-
-  public openAuthModalWindow(): void {
-    this.dialog.open(AuthModalComponent, {
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      panelClass: ['custom-dialog-container', 'transparent']
     });
   }
 
@@ -183,12 +167,12 @@ export class HeaderComponent implements OnInit {
 
   public signOut(): void {
     this.dropdownVisible = false;
-    this.isLoggedIn = false;
+    this.userOwnAuthService.isLoginUserSubject.next(false);
     this.localStorageService.clear();
     this.userService.onLogout();
     this.habitStatisticService.onLogout();
     this.achievementService.onLogout();
-    this.router.navigateByUrl('/welcome').then(r => r);
+    this.router.navigateByUrl('/').then(r => r);
     this.userOwnAuthService.getDataFromLocalStorage();
   }
 

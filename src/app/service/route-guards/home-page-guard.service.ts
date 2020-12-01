@@ -29,6 +29,6 @@ export class HomePageGuardService implements CanActivate {
     if (this.isLoggedIn) {
       return this.router.navigateByUrl(`${this.userId}/habits`).then(r => r);
     }
-    return this.router.navigateByUrl('/welcome').then(r => r);
+    return this.router.navigateByUrl('/').then(r => r);
   }
 }

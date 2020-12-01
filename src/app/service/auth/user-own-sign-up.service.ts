@@ -12,7 +12,7 @@ export class UserOwnSignUpService {
   constructor(private http: HttpClient) {
   }
 
-  public signUp(userOwnRegister: UserOwnSignUp): Observable<any> {
+  public signUp(userOwnRegister: UserOwnSignUp, lang = 'en'): Observable<any> {
     if (userOwnRegister.firstName === undefined) {
       return of<any>();
     }
@@ -27,6 +27,6 @@ export class UserOwnSignUpService {
       name: userOwnRegister.firstName,
       password: userOwnRegister.password
     };
-    return this.http.post(userOwnSignUpLink, body);
+    return this.http.post(`${userOwnSignUpLink}?lang=${lang}`, body);
   }
 }

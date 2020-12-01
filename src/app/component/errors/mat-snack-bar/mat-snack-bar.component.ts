@@ -55,6 +55,10 @@ export class MatSnackBarComponent {
     cafeNotificationsPhotoUpload: () => {
       this.getSnackBarMessage('update-cafe.notifications.photoUpload');
       this.className = 'error-snackbar';
+    },
+    errorMessage: (error) => {
+      this.message = error;
+      this.className = 'error-snackbar';
     }
   };
 
@@ -62,7 +66,8 @@ export class MatSnackBarComponent {
               private translate: TranslateService) { }
 
   public openSnackBar(type: string) {
-    this.snackType[type]();
+    this.snackType[type] ?  this.snackType[type]() : type.includes('400') ? this.snackType.error() : this.snackType.errorMessage(type);
+
     this.snackBar.open(this.message, 'X', {
       duration: 5000,
       verticalPosition: 'top',

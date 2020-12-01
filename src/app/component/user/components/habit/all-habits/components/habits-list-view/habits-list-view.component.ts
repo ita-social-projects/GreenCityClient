@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ServerHabitItemPageModel } from '@user-models/habit-item.model';
 
 @Component({
@@ -9,6 +10,10 @@ import { ServerHabitItemPageModel } from '@user-models/habit-item.model';
 export class HabitsListViewComponent {
   @Input() habit: ServerHabitItemPageModel;
 
-  constructor() { }
+  constructor(public router: Router, public route: ActivatedRoute) { }
+
+  public goHabitMore(habitId) {
+    this.router.navigate(['addhabit', habitId], { relativeTo: this.route });
+  }
 
 }

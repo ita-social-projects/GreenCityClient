@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommentsService } from '../../services/comments.service';
+import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 
 @Component({
   selector: 'app-add-comment',
@@ -9,16 +10,27 @@ import { CommentsService } from '../../services/comments.service';
 })
 export class AddCommentComponent implements OnInit {
   @Output() public updateList = new EventEmitter();
+  public userInfo;
   @Input() public commentId: number;
-  public avatarImage = 'assets/img/comment-avatar.png';
+  public avatarImage: string;
+  public firstName: string;
   public addCommentForm: FormGroup = this.fb.group({
     content: ['', [Validators.required, Validators.maxLength(8000)]],
   });
 
   constructor(private commentsService: CommentsService,
-              private fb: FormBuilder) { }
+              private fb: FormBuilder,
+              private profileService: ProfileService) { }
 
   ngOnInit() {
+    this.getUserInfo();
+  }
+
+  public getUserInfo(): void {
+    this.profileService.getUserInfo().subscribe(item => {
+      this.firstName = item.firstName;
+      this.avatarImage = item.profilePicturePath;
+    });
   }
 
   public onSubmit(): void {
