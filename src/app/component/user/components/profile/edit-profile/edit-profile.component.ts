@@ -34,6 +34,8 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     userCredo:
       'My Credo is to make small steps that leads to huge impact. Let’s change the world together.',
   };
+  public socialNetworks: string [];
+  public socialNetworksToServer: string [] = [];
 
   constructor(public dialog: MatDialog,
               public builder: EditProfileFormBuilder,
@@ -53,6 +55,10 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     this.autocompleteCity();
   }
 
+  public emitSocialLinks(val: string[]) {
+    this.socialNetworksToServer = val;
+  }
+
   private setupInitialValue() {
     this.editProfileForm = this.builder.getProfileForm();
   }
@@ -64,6 +70,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         if (data) {
           this.setupExistingData(data);
+          this.socialNetworks = data.socialNetworks;
         }
       });
   }
@@ -84,7 +91,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       showLocation: form.value.showLocation,
       showEcoPlace: form.value.showEcoPlace,
       showShoppingList: form.value.showShoppingList,
-      socialNetworks: []
+      socialNetworks: this.socialNetworksToServer
     };
 
     this.editProfileService.postDataUserProfile(JSON.stringify(body)).subscribe(

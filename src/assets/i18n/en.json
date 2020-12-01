@@ -500,6 +500,10 @@
       "change-photo": "Do you want to change your profile picture?",
       "would-you-like": "Would you like to save changes?",
       "notification": "Are you sure you want to delete the photo?",
+      "label-tip": "Link to your social network account",
+      "input-validation-required": "This field is required",
+      "input-validation-pattern": "Your URL seems to be incorrect",
+      "input-validation-non-unique": "This link has been already added",
       "btn":{
         "cancel": "Cancel",
         "save": "Save",
@@ -508,7 +512,8 @@
         "save-photo": "Save photo",
         "delete": "Delete photo",
         "continue": "Continue editing",
-        "yes-delete": "Yes, delete"
+        "yes-delete": "Yes, delete",
+        "add": "Add"
       }
     },
     "footer": {
