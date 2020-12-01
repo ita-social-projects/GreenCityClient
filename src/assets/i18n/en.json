@@ -194,7 +194,13 @@
     "start": "start:",
     "end": "end:",
     "submit": "Submit",
-    "close": "Close"
+    "close": "Close",
+    "notifications": {
+      "exists": "Already exists",
+      "closeTime": "Closing time have to be later than opening time. Please, try again",
+      "breakTime": "Invalid break time",
+      "photoUpload": "Download PNG or JPG only. File size should be less than 10MB"
+    }
   },
   "users": {
     "users": "Users",

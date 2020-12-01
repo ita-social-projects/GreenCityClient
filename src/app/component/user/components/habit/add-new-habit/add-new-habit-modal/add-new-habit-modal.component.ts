@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-statistic.service';
 import {LanguageService} from '../../../../../../i18n/language.service';
 

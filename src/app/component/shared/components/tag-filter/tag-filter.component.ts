@@ -37,7 +37,7 @@ export class TagFilterComponent implements OnInit, OnChanges {
   }
 
   public toggleFilter(currentFilter: string): void {
-    this.filters.map(el => el.isActive = el.name === currentFilter ? !el.isActive : el.isActive);
+    this.filters.forEach(el => el.isActive = el.name === currentFilter ? !el.isActive : el.isActive);
     this.emitActiveFilters();
     this.setSessionStorageFilters();
   }

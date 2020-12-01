@@ -3,7 +3,7 @@
     'habit-status-hovered': habit.status === true && hovered, 
     'hidden': habit.status !== true
   }" (mouseover)="this.hovered = true" (mouseout)="this.hovered = false" (click)="onDeleteClicked()">
-  <img class="corner-image" [src]="hovered ? delete : check"></div>
+  <img class="corner-image" alt="corner-image" [src]="hovered ? delete : check"></div>
 <app-confirmation-modal [habit]="{id: this.habit.id, name: this.habit.name}"
   [style.visible]="this.confirmationVisible ? 'visible':'hidden'"
   [style.display]="this.confirmationVisible ? 'block':'none'" (canceled)="onDeleteCanceled($event)">
@@ -22,6 +22,6 @@
     <p class="habit-card-text">{{ habit.description }}</p>
   </div>
   <div class="habit-cart-drag">
-    <img class="habit-cart-drag-image">
+    <img class="habit-cart-drag-image" alt="habit-card-image">
   </div>
 </div>

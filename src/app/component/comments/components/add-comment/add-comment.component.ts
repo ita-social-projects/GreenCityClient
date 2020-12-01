@@ -22,7 +22,7 @@ export class AddCommentComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    this.commentsService.addComment(this.commentId, this.addCommentForm).subscribe(
+    this.commentsService.addComment(this.addCommentForm, this.commentId).subscribe(
       () => {
         this.updateList.emit();
         this.addCommentForm.reset();

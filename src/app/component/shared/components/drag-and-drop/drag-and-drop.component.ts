@@ -26,7 +26,7 @@ export class DragAndDropComponent implements OnInit {
   }
 
   public stopCropping(): FileHandle[] {
-    this.files.map(item => item.url = this.croppedImage);
+    this.files.forEach(item => item.url = this.croppedImage);
 
     this.isCropper = false;
     return this.files;
@@ -74,7 +74,7 @@ export class DragAndDropComponent implements OnInit {
    }
 
   public showWarning(): FileHandle[] {
-    this.files.map(item => {
+    this.files.forEach(item => {
       const imageValCondition = item.file.type === 'image/jpeg' || item.file.type === 'image/png';
       this.isWarning = !(item && imageValCondition);
     });

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, OnDestroy, Output, Pipe } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -188,7 +188,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
       return;
     }
 
-    errors.error.map((error) => {
+    errors.error.forEach((error) => {
       this.emailErrorMessageBackEnd = error.name === 'email' ? error.message : this.emailErrorMessageBackEnd;
       this.passwordConfirmErrorMessageBackEnd = error.name === 'password' ? error.message : this.passwordConfirmErrorMessageBackEnd;
     });
