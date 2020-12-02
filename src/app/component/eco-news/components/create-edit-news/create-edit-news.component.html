@@ -72,10 +72,7 @@
                 >
                   {{ 'create-news.preview-button' | translate }}
                 </button>
-                <button type="submit" [disabled]="!form.valid ||
-                                                  isArrayEmpty ||
-                                                  !isLinkOrEmpty ||
-                                                  isImageValid()">{{ attributes.btnCaption | translate }}</button>
+                <button type="submit" [disabled]="isFormInvalid">{{ attributes.btnCaption | translate }}</button>
             </div>
         </form>
     </div>

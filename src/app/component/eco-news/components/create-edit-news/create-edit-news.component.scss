@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 
+$form-color: #878787;
+$button-green-color: #13aa57;
+$button-disabled-color: #839c94;
+
 .box {
   width: 1140px;
   margin: 115px auto 0 auto;
@@ -41,7 +45,7 @@ button {
 
 .form-description p {
   max-width: 652px;
-  color: #878787;
+  color: $form-color;
 }
 
 .left-form-column span,
@@ -76,7 +80,7 @@ form {
 .left-form-column textarea {
   height: 48px;
   border-radius: 5px;
-  border: 1px solid #878787;
+  border: 1px solid $form-color;
   padding: 12px 16px;
   resize: none;
   overflow: hidden;
@@ -86,7 +90,7 @@ form {
 .left-form-column span {
   margin-top: 4px;
   display: block;
-  color: #878787;
+  color: $form-color;
 }
 
 .item-block {
@@ -95,7 +99,7 @@ form {
 
 .textarea-description {
   margin: 0;
-  color: #878787;
+  color: $form-color;
 }
 
 .tags p {
@@ -114,7 +118,7 @@ form {
 
 button {
   margin-bottom: 8px;
-  border: 1px solid #878787;
+  border: 1px solid $form-color;
   background-color: #fff;
   border-radius: 50px;
   padding: 5px 15px 5px 15px;
@@ -122,8 +126,8 @@ button {
 }
 
 button:hover {
-  border: 1px solid #13aa57;
-  color: #13aa57;
+  border: 1px solid $button-green-color;
+  color: $button-green-color;
 }
 
 .tags button {
@@ -135,7 +139,7 @@ button:hover {
 form .textarea-wrapper textarea {
   height: 131px;
   border-radius: 5px;
-  border: 1px solid #878787;
+  border: 1px solid $form-color;
   width: 100%;
   padding: 12px 16px 28px 16px;
   overflow: hidden;
@@ -162,7 +166,7 @@ form label {
 }
 
 .date p:last-child {
-  margin: 0 0 0 32px;
+  margin-left: 32px;
 }
 
 .date p span:first-child {
@@ -170,7 +174,7 @@ form label {
 }
 
 .date p span:last-child {
-  color: #878787;
+  color: $form-color;
   font-size: 16px;
 }
 
@@ -187,28 +191,28 @@ textarea.ng-invalid.ng-touched + p {
 
 .submit-buttons button {
   margin-left: 20px;
-  border: 1px solid #13aa57;
+  border: 1px solid $button-green-color;
   border-radius: 3px;
   background-color: #fff;
   width: 154px;
   height: 48px;
-  color: #13aa57;
+  color: $button-green-color;
   font-weight: bold;
 }
 
 .submit-buttons button:last-child {
-  background-color: #13aa57;
+  background-color: $button-green-color;
   color: #fff;
   font-weight: bold;
 }
 
 .submit-buttons button:last-child:disabled {
-  background-color: #839c94;
-  border: 1px solid #839c94;
+  background-color: $button-disabled-color;
+  border: 1px solid $button-disabled-color;
 }
 
 .tags .filters-color {
-  background-color: #13aa57;
+  background-color: $button-green-color;
   color: #fff;
   border: none;
 }

@@ -37,6 +37,7 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
   public newsId: string;
   public formData: FormGroup;
   private destroy: ReplaySubject<any> = new ReplaySubject<any>(1);
+  public isFormInvalid: boolean;
   public onSubmit(): void {}
 
 
@@ -53,6 +54,10 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
     this.getNewsIdFromQueryParams();
     this.initPageforCreateOrEdit();
     this.onSourceChange();
+    this.isFormInvalid = !this.form.valid ||
+                          this.isArrayEmpty ||
+                          !this.isLinkOrEmpty ||
+                          this.isImageValid();
   }
 
   public initPageforCreateOrEdit(): void {
