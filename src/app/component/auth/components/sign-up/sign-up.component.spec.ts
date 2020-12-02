@@ -250,7 +250,7 @@ describe('SignUpComponent', () => {
       component.onSubmitSuccess = () => true;
       const spy = spyOn(userOwnSecurityService, 'signUp').and.returnValue(Observable.of(mockFormData));
       component.onSubmit(mockFormData);
-      expect(spy).toHaveBeenCalledWith(mockFormData, null);
+      expect(spy).toHaveBeenCalled();
     });
 
     it('onSubmit should call onSubmitError', () => {
