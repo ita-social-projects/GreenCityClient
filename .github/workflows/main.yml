@@ -4,9 +4,9 @@ name: CI/CD GreenCityClient
 on:
   # Triggers the workflow on push or pull request events but only for the dev branch
   push:
-    branches: [ master, dev, sonar_fix ]
+    branches: [ master, dev, sonar_fix-1 ]
   pull_request:
-    branches: [ master, dev, sonar_fix ]
+    branches: [ master, dev, sonar_fix-1 ]
     
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
