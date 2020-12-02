@@ -9,7 +9,7 @@ import { FormControl } from '@angular/forms';
 export class HabitDurationComponent implements OnInit {
   @Input() habitDurationDefault: number;
   @Output() changeDuration = new EventEmitter<number>();
-  habitDuration = new FormControl('');
+  public habitDuration = new FormControl('');
   public position: string = null;
   public thumbWidth = '12px';
 
