@@ -16,8 +16,6 @@ export class HabitDurationComponent implements OnInit {
   constructor(private elm: ElementRef, private renderer: Renderer2) { }
 
   ngOnInit() {
-    console.log(this.habitDurationDefault);
-    console.log(this.habitDuration);
     this.habitDuration.setValue(this.habitDurationDefault);
     this.updateDuration();
     this.getRangeWidth();
