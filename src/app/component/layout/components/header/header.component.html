@@ -175,12 +175,12 @@
                   </svg>
                 </a>
                </li>
-               <li [class.text-hidde]="!dropdownVisible">
+               <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'">
                  <a (click)="openSettingDialog()">
                    {{ "nav-bar.user-settings" | translate }}
                  </a>
                </li>
-               <li [class.text-hidde]="!dropdownVisible">
+               <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'">
                  <a (click)="signOut()">
                    {{ "nav-bar.sign-out" | translate }}
                  </a>
