@@ -3,7 +3,8 @@
 }
 
 .wrapper {
-  margin: 0 10%;
+  margin: 0 auto;
+  width: 1140px;
 }
 
 .cont {
@@ -31,7 +32,7 @@
 }
 
 .main-wrapper {
-  margin: 12.5px 0;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
 }
@@ -44,7 +45,7 @@
 .gallery-view-active {
   display: grid;
   grid-template-columns: repeat(3, 359px);
-  grid-gap: 30px;
+  grid-gap: 31px;
 }
 
 .list-view-li-active {
@@ -73,47 +74,56 @@ a {
 }
 
 @media screen and (max-width: 1199px) {
+  .wrapper {
+    width: 960px;
+  }
+
   .gallery-view-active {
     grid-template-columns: repeat(3, 299px);
-    grid-gap: 15px;
   }
 }
 
 @media screen and (max-width: 1024px) {
   .wrapper {
-    margin: 0 3.12%;
+    width: 740px;
+    margin: 0 auto;
   }
-}
 
-@media screen and (max-width: 991px) {
   .gallery-view-active {
     grid-template-columns: repeat(2, 353px);
-    grid-gap: 15px;
-  }
-
-  .flex-container {
-    width: 105%;
   }
 }
 
 @media screen and (max-width: 767px) {
   .wrapper {
-    margin: 0 1.95%;
+    margin: 0 auto;
+    width: 547px;
   }
 
   .gallery-view-active {
     grid-template-columns: repeat(2, 258px);
-    grid-gap: 17px;
+    grid-gap: 29px;
   }
 }
 
 @media screen and (max-width: 576px) {
   .wrapper {
-    margin: 0 2.43%;
+    margin: 0 auto;
+    width: auto;
   }
 
   .gallery-view-active {
     grid-template-columns: repeat(1, 288px);
-    grid-gap: 25px;
+    justify-content: center;
+    grid-gap: 19px;
+  }
+
+  #create-button {
+    width: 122px;
+    min-height: 32px;
+    padding: 8px 8px;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 12px;
   }
 }

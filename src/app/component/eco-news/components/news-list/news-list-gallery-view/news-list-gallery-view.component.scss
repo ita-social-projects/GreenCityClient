@@ -1,6 +1,6 @@
 $bp-smallest: 575px;
 $bp-phone: 767px;
-$bp-tablet: 991px;
+$bp-tablet: 1024px;
 $bp-desktop: 1199px;
 
 p,
@@ -10,7 +10,6 @@ div {
 }
 
 .list-gallery {
-  margin-bottom: 32px;
   width: 359px;
   min-height: 500px;
   box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
@@ -152,7 +151,7 @@ div {
 @media screen and (max-width: $bp-tablet) {
   .list-gallery {
     width: 353px;
-    min-height: 500px;
+    height: 500px;
 
     .list-image {
       .list-image-content {
