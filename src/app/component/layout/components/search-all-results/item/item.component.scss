@@ -7,7 +7,6 @@
 
   #list-gallery-content {
     width: 300px;
-    height: 190px;
   }
 
   .ul-eco-buttons {
@@ -35,13 +34,17 @@
     a {
       color: #313131;
 
+      .news-title {
+        font-weight: 600;
+      }
+
       p {
         overflow-wrap: break-word;
       }
     }
 
     a:hover {
-      color: #056b33;
+      color: #079949;
       text-decoration: none;
     }
   }
