@@ -50,6 +50,8 @@ jobs:
           
       - name: Run SonarCloud
         continue-on-error: true
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: >
             /opt/sonar-scanner/bin/sonar-scanner
             -Dsonar.organization=ita-social-projects
