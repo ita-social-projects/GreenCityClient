@@ -2,6 +2,7 @@ $first-font-color: #494a49;
 $secondary-font-color: #13aa57;
 $hr-color: #e6e6e6;
 $focus-color: #13aa57;
+$main-font: 'Open Sans', sans-serif;
 $screen-992: " screen and (max-width : 992px)";
 $screen-870: " screen and (max-width : 870px)";
 $screen-576: " screen and (max-width : 576px)";
@@ -434,11 +435,11 @@ $screen-320: " screen and (max-width : 320px)";
       height: 44px;
       font-size: 14px;
       line-height: 16px;
-      margin: 0 0 3px 0;
+      margin: 0;
       padding: 0 10px 0;
       color: $first-font-color;
 
-      &:first-of-type {
+      &:first-child {
         color: #056b33;
         font-size: 12px;
         font-weight: 600;
@@ -450,16 +451,35 @@ $screen-320: " screen and (max-width : 320px)";
           transition-delay: 0.1s;
         }
       }
-    }
-  }
 
-  .text-hidde {
-    display: none;
+      &.tertiary-global-button {
+        a {
+          outline: none;
+        }
+      }
+
+      &.drop-down-item {
+        display: flex;
+        align-items: center;
+
+        a {
+          color: $first-font-color;
+          font-size: 14px;
+          line-height: 16px;
+          font-family: $main-font;
+          font-weight: 400;
+        }
+      }
+
+      &.text-hidde {
+        display: none;
+      }
+    }
   }
 
   .add-shadow {
     box-shadow: 0 0 8px rgba(73, 74, 73, 0.2);
-    height: 176px;
+    min-height: 44px;
   }
 }
 
