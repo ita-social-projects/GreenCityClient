@@ -43,6 +43,7 @@ jobs:
 
       - name: Unit Tests
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           npx ng test --watch=false --progress=false --browsers=ChromeHeadless
