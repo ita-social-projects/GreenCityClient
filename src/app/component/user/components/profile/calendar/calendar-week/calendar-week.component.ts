@@ -65,7 +65,6 @@ export class CalendarWeekComponent implements OnInit, OnDestroy {
       this.monthAndYearName = `${this.firstDayInWeek} - ${this.firstDayInWeek + this.maxDaysInWeek}
 ${this.months[this.currentMonth]} ${this.currentYear}`;
       this.markCurrentDayOfWeek();
-      console.log('daysName', this.daysName);
     });
   }
 
