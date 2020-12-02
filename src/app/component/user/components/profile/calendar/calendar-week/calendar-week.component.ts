@@ -142,7 +142,6 @@ ${this.months[this.currentMonth]} ${this.currentYear}`;
         const dayName = (new Date(el.year, el.month, +el.numberOfDate)
           .toLocaleDateString(this.language, option));
         this.currentDayName = dayName.charAt(0).toUpperCase() + dayName.slice(1);
-        console.log('currentDayName', this.currentDayName);
       }
     });
   }
