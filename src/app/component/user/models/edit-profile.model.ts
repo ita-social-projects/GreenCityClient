@@ -19,4 +19,3 @@ export class EditProfileDto {
   showShoppingList: boolean;
   socialNetworks: Array<string>;
 }
-

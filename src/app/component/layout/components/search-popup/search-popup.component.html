@@ -32,6 +32,7 @@
                                (closeSearch)="closeSearch()"></app-search-item>
             </div>
             <a [routerLink]="['/search']"
+                [queryParams]="{'query': searchInput.value, 'category': 'econews'}"
                 (click)="getAllResults('econews')"
                 class="all-results-link">
                 {{ "search.search-popup.all-results" | translate }}
@@ -40,9 +41,8 @@
 
           <div class="content-tips"
                *ngIf="isTipsSearchFound">
-            <a [routerLink]="['/welcome']"
-               pageScroll
-               href="#tips"
+            <a [routerLink]="['/']"
+               fragment="tips"
                (click)="closeSearch()">
               <h3>{{ "search.search-popup.tips" | translate }}</h3>
             </a>
@@ -53,6 +53,7 @@
             </div>
             <a [routerLink]="['/search']"
                (click)="getAllResults('tipsandtricks')"
+               [queryParams]="{'query': searchInput.value, 'category': 'tipsandtricks'}"
                class="all-results-link">
                {{ "search.search-popup.all-results" | translate }}
             </a>
