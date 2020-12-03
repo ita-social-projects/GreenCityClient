@@ -26,6 +26,8 @@ export class ConfirmRestorePasswordComponent implements OnInit {
   public emailErrorMessageBackEnd: string;
   public passwordErrorMessageBackEnd: string;
   public loadingAnim: boolean;
+  public passwordFieldValue: string;
+  public passwordConfirmFieldValue: string;
   public form: any;
   public token: string;
 
@@ -51,8 +53,8 @@ export class ConfirmRestorePasswordComponent implements OnInit {
 
   public initFormReactive(): void {
     this.confirmRestorePasswordForm = this.formBuilder.group({
-      password: new FormControl('', [Validators.required, Validators.minLength(8)]),
-      confirmPassword: new FormControl('', [Validators.required, Validators.minLength(8)])
+      password: new FormControl('', []),
+      confirmPassword: new FormControl('', [])
     },
     {
       validator: [
@@ -91,6 +93,10 @@ export class ConfirmRestorePasswordComponent implements OnInit {
 
   private setPasswordBackendErr() {
     this.passwordErrorMessageBackEnd = null;
+    if(this.confirmRestorePasswordForm) {
+      this.passwordFieldValue = this.passwordField.value;
+      this.passwordConfirmFieldValue = this.confirmPasswordField.value;
+    }
   }
 
   public setPasswordVisibility(htmlInput: HTMLInputElement, htmlImage: HTMLImageElement): void {

@@ -36,6 +36,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
   public firstNameErrorMessageBackEnd: string;
   public passwordConfirmErrorMessageBackEnd: string;
   public backEndError: string;
+  public emailFieldValue: string;
+  public nameFieldValue: string = '';
+  public passwordFieldValue: string;
+  public passwordConfirmFieldValue: string;
   public currentLanguage: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
   private errorsType = {
@@ -101,6 +105,12 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
   public setEmailBackendErr(): void {
     this.emailErrorMessageBackEnd = null;
+    if (this.signUpForm) {
+      this.emailFieldValue = this.emailControl.value;
+      this.nameFieldValue = this.firstNameControl.value;
+      this.passwordFieldValue = this.passwordControl.value;
+      this.passwordConfirmFieldValue = this.passwordControlConfirm.value;
+    }
   }
 
   public setPasswordVisibility(htmlInput: HTMLInputElement, htmlImage: HTMLImageElement): void {
@@ -121,9 +131,9 @@ export class SignUpComponent implements OnInit, OnDestroy {
   private onFormInit(): void {
     this.signUpForm = this.formBuilder.group({
         email: ['', [ Validators.required, Validators.email ]],
-        firstName: ['', [ Validators.required ]],
-        password: ['', [ Validators.required ]],
-        repeatPassword: ['', [ Validators.required ]]
+        firstName: [this.nameFieldValue, []],
+        password: ['', []],
+        repeatPassword: ['', []]
       },
       {
         validator: [
