@@ -10,7 +10,8 @@ import { FileHandle } from '../models/create-news-interface';
   providedIn: 'root'
 })
 export class CreateEcoNewsService {
-  private currentForm: FormGroup;
+  public newsId: string;
+  public currentForm: FormGroup;
   private url: string = environment.backendLink;
   private accessToken: string = localStorage.getItem('accessToken');
   public files: FileHandle[] = [];
@@ -20,7 +21,8 @@ export class CreateEcoNewsService {
   private httpOptions = {
     headers: new HttpHeaders({
       Authorization: 'my-auth-token'
-    })
+    }),
+
   };
 
   constructor(private http: HttpClient) { }
@@ -29,12 +31,45 @@ export class CreateEcoNewsService {
     return this.currentForm;
   }
 
+  public getNewsId(): string {
+    return this.newsId;
+  }
+
+  public editNews(form): Observable<NewsResponseDTO> {
+    let body: NewsDTO = {
+      id: form.id,
+      tags: form.tags,
+      text: form.content,
+      title: form.title,
+      source: form.source,
+    };
+
+    const formData = new FormData();
+
+    if (this.files.length !== 0) {
+      body = {
+        ...body,
+        image: this.files[0].url
+      };
+    }
+    this.files = [];
+    formData.append('updateEcoNewsDto', JSON.stringify(body));
+    this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
+
+    return this.http.put<NewsResponseDTO>('https://greencity.azurewebsites.net/econews/update', formData, this.httpOptions);
+  }
+
   public setForm(form: FormGroup): void {
     this.currentForm = form;
     if (this.currentForm) {
       this.currentForm.value.image = this.files[0] ?
       this.files[0].url : '';
     }
+
+  }
+
+  public setNewsId(id: string): void {
+    this.newsId = id;
   }
 
   public sendFormData(form): Observable<NewsResponseDTO> {
@@ -43,7 +78,6 @@ export class CreateEcoNewsService {
       text: form.value.content,
       title: form.value.title,
       source: form.value.source,
-      image: null
     };
 
     const formData = new FormData();
@@ -51,9 +85,8 @@ export class CreateEcoNewsService {
     if (this.files.length !== 0) {
       body.image = this.files[0].url;
     }
-
+    this.files = [];
     formData.append('addEcoNewsDtoRequest', JSON.stringify(body));
-
     this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
     return this.http.post<NewsResponseDTO>(`${this.url}econews`, formData, this.httpOptions);
   }

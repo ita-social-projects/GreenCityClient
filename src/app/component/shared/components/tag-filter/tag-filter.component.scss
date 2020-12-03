@@ -7,7 +7,7 @@
     font-family: Montserrat, sans-serif;
     font-style: normal;
     font-weight: 500;
-    font-size: 24px;
+    font-size: 14px;
     line-height: 24px;
     color: #313131;
   }
@@ -34,5 +34,9 @@
     grid-template-columns: max-content auto;
     row-gap: 0;
     column-gap: 30px;
+
+    span {
+      font-size: 24px;
+    }
   }
 }

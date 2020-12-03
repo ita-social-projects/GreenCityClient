@@ -110,6 +110,16 @@
         "alternative-description-news": "Find the latest news, events and initiatives here. Find news and create ones.",
         "alternative-header-tips": "Tips & Tricks",
         "alternative-description-tips": "How to sort garbage? Where to find eco stuff? And many other useful stuff for being eco friendly."
+      },
+      "search-all-results": {
+        "placeholder": "Search",
+        "items-found": "items found",
+        "news": "News",
+        "tips": "Tips & Tricks",
+        "sort": "Sort by:",
+        "relevance": "Relevance",
+        "oldest": "Oldest",
+        "newest": "Newest"
       }
   },
   "admin-nav": {
@@ -490,6 +500,10 @@
       "change-photo": "Do you want to change your profile picture?",
       "would-you-like": "Would you like to save changes?",
       "notification": "Are you sure you want to delete the photo?",
+      "label-tip": "Link to your social network account",
+      "input-validation-required": "This field is required",
+      "input-validation-pattern": "Your URL seems to be incorrect",
+      "input-validation-non-unique": "This link has been already added",
       "btn":{
         "cancel": "Cancel",
         "save": "Save",
@@ -498,7 +512,8 @@
         "save-photo": "Save photo",
         "delete": "Delete photo",
         "continue": "Continue editing",
-        "yes-delete": "Yes, delete"
+        "yes-delete": "Yes, delete",
+        "add": "Add"
       }
     },
     "footer": {
@@ -616,6 +631,7 @@
     }
   },
   "about-us": {
+    "disabled-link": "The page is in the process of developing",
     "intro": {
       "block-1": {
         "header": "About Us",
@@ -659,7 +675,7 @@
   },
   "post-news-loader": {
     "text-1": "Please wait while loading...",
-    "text-2": "Your news is loading to the website. Please wait until the page refreshes"
+    "text-2": "Your news is loading to website. Please wait until page refresh."
   },
   "cancel-popup": {
     "title": "All created content will be lost.",
@@ -696,6 +712,7 @@
   },
   "create-news": {
     "title": "Create news",
+    "edit-title": "Edit news",
     "form-description": "Please provide as many details as you can - place and time of the event, the goal of gathering, etc. You can come back and update news anytime after publishing.",
     "news-title": "Title",
     "title-placeholder": "e.g. Coffee takeaway with 20% discount",
@@ -722,7 +739,8 @@
     "author-name": "Current User",
     "cancel-button": "Cancel",
     "preview-button": "Preview",
-    "publish-button": "Publish"
+    "publish-button": "Publish",
+    "edit-button": "Edit"
   },
   "drag-and-drop": {
     "picture-description": "Drop your image here or",

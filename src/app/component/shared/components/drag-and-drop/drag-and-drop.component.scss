@@ -7,6 +7,7 @@
 }
 
 .text-wrapper {
+  width: 456px;
   height: 231px;
   display: flex;
   justify-content: center;
@@ -75,7 +76,11 @@ img {
   }
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1439px) {
+  .text-wrapper {
+    width: 381px;
+  }
+
   .warning {
     font-size: 12px;
   }
@@ -87,8 +92,12 @@ img {
   }
 }
 
-@media screen and (max-width: 431px) {
+@media screen and (max-width: 575px) {
+  .text-wrapper {
+    width: 288px;
+  }
+
   .dropzone {
-    width: 100%;
+    width: 288px;
   }
 }
