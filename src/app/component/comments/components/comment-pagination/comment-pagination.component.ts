@@ -9,7 +9,6 @@ export class CommentPaginationComponent implements AfterViewChecked {
   @Input() public config;
   @Output() public setPage = new EventEmitter();
   public maxSize = 5;
-  public itemsLimit = 10;
 
   constructor(private cdr: ChangeDetectorRef) { }
 
