@@ -631,6 +631,7 @@
     }
   },
   "about-us": {
+    "disabled-link": "The page is in the process of developing",
     "intro": {
       "block-1": {
         "header": "About Us",
