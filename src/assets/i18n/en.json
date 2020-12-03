@@ -712,6 +712,7 @@
   },
   "create-news": {
     "title": "Create news",
+    "edit-title": "Edit news",
     "form-description": "Please provide as many details as you can - place and time of the event, the goal of gathering, etc. You can come back and update news anytime after publishing.",
     "news-title": "Title",
     "title-placeholder": "e.g. Coffee takeaway with 20% discount",
@@ -738,7 +739,8 @@
     "author-name": "Current User",
     "cancel-button": "Cancel",
     "preview-button": "Preview",
-    "publish-button": "Publish"
+    "publish-button": "Publish",
+    "edit-button": "Edit"
   },
   "drag-and-drop": {
     "picture-description": "Drop your image here or",

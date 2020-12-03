@@ -23,6 +23,8 @@ import {
 import { CommentsModule } from '../comments/comments.module';
 import { MatSnackBarComponent } from './../errors/mat-snack-bar/mat-snack-bar.component';
 import { EcoNewsComponent } from './eco-news.component';
+import { CreateEditNewsComponent } from './components/create-edit-news/create-edit-news.component';
+import { ACTION_CONFIG, ACTION_TOKEN } from './components/create-edit-news/action.constants';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { EcoNewsComponent } from './eco-news.component';
     EcoNewsDetailComponent,
     NewsPreviewPageComponent,
     PostNewsLoaderComponent,
-    MatSnackBarComponent
+    MatSnackBarComponent,
+    CreateEditNewsComponent
   ],
   imports: [
     CommonModule,
@@ -64,7 +67,7 @@ import { EcoNewsComponent } from './eco-news.component';
 
   ],
   providers: [
-    MatSnackBarComponent
+    MatSnackBarComponent, { provide: ACTION_TOKEN, useValue: ACTION_CONFIG}
   ]
 })
 
