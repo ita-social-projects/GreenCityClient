@@ -1,6 +1,7 @@
+$color-greenCity-grey: #324148;
+
 .tip-card {
   margin: 0 50px;
-  background-color: #fff;
   border-radius: 5px;
   min-height: 296px;
   text-align: center;
@@ -18,7 +19,7 @@
 
   p {
     margin: 0 auto;
-    color: #324148;
+    color: $color-greenCity-grey;
     font-family: 'Open Sans', sans-serif;
     font-size: 18px;
     font-weight: normal;

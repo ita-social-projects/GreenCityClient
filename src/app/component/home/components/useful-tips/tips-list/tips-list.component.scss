@@ -1,3 +1,5 @@
+$color-greenCity-green: #13aa57;
+
 .section-caption {
   font-family: 'Montserrat', sans-serif;
   font-size: 48px;
@@ -17,7 +19,7 @@
 .tips-navigation {
   outline: transparent;
   background-color: transparent;
-  color: #13aa57;
+  color: $color-greenCity-green;
   height: 52px;
   width: 52px;
   margin: 0 50px;
@@ -28,7 +30,7 @@
   font-size: 30px;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1023px) {
   .swiper-slide {
     margin-top: 50px;
   }
