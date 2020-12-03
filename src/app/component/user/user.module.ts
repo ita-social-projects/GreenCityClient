@@ -72,8 +72,8 @@ import { EditProfileFormBuilder } from '@global-user/components/profile/edit-pro
 import { UsersFriendsComponent } from './components/profile/users-friends/users-friends.component';
 import { UsersAchievementsComponent } from './components/profile/users-achievements/users-achievements.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { AddFriendComponent } from './components/user-friends/add-friend/add-friend.component';
-import { AddFriendsListComponent } from './components/user-friends/add-friends-list/add-friends-list.component';
+import { AddFriendComponent } from './components/profile/users-friends/add-friend/add-friend.component';
+import { AddFriendsListComponent } from './components/profile/users-friends/add-friends-list/add-friends-list.component';
 
 @NgModule({
   declarations: [
