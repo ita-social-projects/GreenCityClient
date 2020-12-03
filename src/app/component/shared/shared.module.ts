@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { FileUploadModule } from 'ng2-file-upload';
@@ -26,6 +26,13 @@ import { NoDataComponent } from './components/no-data/no-data.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { TagFilterComponent } from './components/tag-filter/tag-filter.component';
 import { CalendarBaseComponent } from './components/calendar-base/calendar-base.component';
+import usLocale from '@angular/common/locales/en-US-POSIX';
+import ruLocale from '@angular/common/locales/ru';
+import ukLocale from '@angular/common/locales/uk';
+
+registerLocaleData(usLocale, 'en');
+registerLocaleData(ruLocale, 'ru');
+registerLocaleData(ukLocale, 'ua');
 
 @NgModule({
   declarations: [

@@ -5,10 +5,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { registerLocaleData } from '@angular/common';
-import usLocale from '@angular/common/locales/en-US-POSIX';
-import ruLocale from '@angular/common/locales/ru';
-import ukLocale from '@angular/common/locales/uk';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { EcoNewsRoutingModule } from './eco-news-routing.module';
 import { SharedModule } from '../shared/shared.module';
@@ -27,10 +23,8 @@ import {
 import { CommentsModule } from '../comments/comments.module';
 import { MatSnackBarComponent } from './../errors/mat-snack-bar/mat-snack-bar.component';
 import { EcoNewsComponent } from './eco-news.component';
-
-registerLocaleData(usLocale, 'en');
-registerLocaleData(ruLocale, 'ru');
-registerLocaleData(ukLocale, 'uk');
+import { CreateEditNewsComponent } from './components/create-edit-news/create-edit-news.component';
+import { ACTION_CONFIG, ACTION_TOKEN } from './components/create-edit-news/action.constants';
 
 @NgModule({
   declarations: [
@@ -45,7 +39,8 @@ registerLocaleData(ukLocale, 'uk');
     EcoNewsDetailComponent,
     NewsPreviewPageComponent,
     PostNewsLoaderComponent,
-    MatSnackBarComponent
+    MatSnackBarComponent,
+    CreateEditNewsComponent
   ],
   imports: [
     CommonModule,
@@ -72,7 +67,7 @@ registerLocaleData(ukLocale, 'uk');
 
   ],
   providers: [
-    MatSnackBarComponent
+    MatSnackBarComponent, { provide: ACTION_TOKEN, useValue: ACTION_CONFIG}
   ]
 })
 
