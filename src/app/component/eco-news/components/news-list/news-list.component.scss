@@ -3,8 +3,8 @@
 }
 
 .wrapper {
+  max-width: 1140px;
   margin: 0 auto;
-  width: 1140px;
 }
 
 .cont {
@@ -13,16 +13,19 @@
   justify-content: space-between;
 }
 
+div hr {
+  margin: 4px 0 18px 0;
+}
+
 .main-header {
   font-family: 'Montserrat', sans-serif;
-  font-size: 3rem;
-  line-height: 30px;
+  font-size: 48px;
+  line-height: 48px;
   font-weight: 500;
-  margin: 0 0 40px 0;
+  margin: 0 0 34px 0;
 }
 
 .flex-container {
-  padding-top: 8px;
   display: flex;
   justify-content: space-between;
 }
@@ -32,7 +35,7 @@
 }
 
 .main-wrapper {
-  margin: 0 auto;
+  margin-bottom: 42px;
   display: flex;
   justify-content: space-between;
 }
@@ -45,11 +48,11 @@
 .gallery-view-active {
   display: grid;
   grid-template-columns: repeat(3, 359px);
-  grid-gap: 31px;
+  grid-gap: 32px;
 }
 
 .list-view-li-active {
-  margin-bottom: 40px;
+  margin-bottom: 32px;
 }
 
 li:focus {
@@ -61,7 +64,7 @@ a {
 }
 
 #create-button {
-  width: 185px;
+  width: 183px;
   min-height: 40px;
   padding: 8px 40px;
   display: flex;
@@ -75,7 +78,7 @@ a {
 
 @media screen and (max-width: 1199px) {
   .wrapper {
-    width: 960px;
+    max-width: 960px;
   }
 
   .gallery-view-active {
@@ -83,10 +86,9 @@ a {
   }
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 991px) {
   .wrapper {
-    width: 740px;
-    margin: 0 auto;
+    max-width: 740px;
   }
 
   .gallery-view-active {
@@ -96,34 +98,37 @@ a {
 
 @media screen and (max-width: 767px) {
   .wrapper {
-    margin: 0 auto;
-    width: 547px;
+    max-width: 547px;
   }
 
   .gallery-view-active {
     grid-template-columns: repeat(2, 258px);
-    grid-gap: 29px;
   }
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 575px) {
   .wrapper {
-    margin: 0 auto;
-    width: auto;
+    max-width: 288px;
+  }
+
+  .main-header {
+    font-size: 24px;
+    line-height: 32px;
   }
 
   .gallery-view-active {
     grid-template-columns: repeat(1, 288px);
-    justify-content: center;
-    grid-gap: 19px;
+    grid-gap: 24px;
   }
 
   #create-button {
     width: 122px;
     min-height: 32px;
-    padding: 8px 8px;
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 12px;
+    padding: 0;
+
+    span {
+      font-size: 12px;
+      line-height: 12px;
+    }
   }
 }

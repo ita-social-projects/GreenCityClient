@@ -9,4 +9,5 @@ export interface EcoNewsModel {
     };
     tags: Array<string>;
     creationDate: string;
+    source?: string;
 }
