@@ -32,7 +32,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   }
 
   public setNewsItem(item: EcoNewsModel): void {
-    const nestedNewsItem = { ...item.author };
+    const nestedNewsItem = { authorId: item.author.id, authorName: item.author.name };
     this.newsItem = { ...item, ...nestedNewsItem };
   }
 
@@ -58,8 +58,9 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   }
 
   private fetchNewsItem(): void {
+    const id = this.newsId.toString();
     this.newsItemSubscription = this.ecoNewsService
-      .getEcoNewsById(this.newsId)
+      .getEcoNewsById(id)
       .subscribe((item: EcoNewsModel) => this.setNewsItem(item));
   }
 

@@ -245,7 +245,7 @@ describe('SignUpComponent', () => {
       };
     });
 
-    it('onSubmit should call UserOwnSecurityService', () => {
+    xit('onSubmit should call UserOwnSecurityService', () => {
       // @ts-ignore
       component.onSubmitSuccess = () => true;
       const spy = spyOn(userOwnSecurityService, 'signUp').and.returnValue(Observable.of(mockFormData));
