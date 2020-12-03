@@ -29,11 +29,12 @@ export interface TranslationDTO {
 }
 
 export interface NewsDTO {
+  id?: string;
   tags: Array<string>;
   text: string;
   title: string;
   source: string;
-  image: SafeUrl;
+  image?: SafeUrl;
 }
 
 export interface NewsResponseDTO {
@@ -49,4 +50,15 @@ export interface NewsResponseDTO {
 export interface FileHandle {
   file: File;
   url: SafeUrl;
+}
+
+export interface QueryParams {
+  id: string;
+}
+
+export interface TextAreasHeight {
+  minTextAreaScrollHeight: number;
+  maxTextAreaScrollHeight: number;
+  minTextAreaHeight: string;
+  maxTextAreaHeight: string;
 }

@@ -90,6 +90,8 @@ $font-open-sans: 'OpenSans', sans-serif;
   }
 
   .title {
+    margin-bottom: 5px;
+
     h2 {
       font-weight: 600;
       font-size: 24px;
@@ -117,16 +119,15 @@ $font-open-sans: 'OpenSans', sans-serif;
   button {
     font-weight: 600;
     height: 100%;
+    padding: 0 40px;
   }
 
   .primary-global-button {
-    width: 155px;
     margin-right: 25px;
   }
 
   .secondary-global-button {
     background: transparent;
-    width: 120px;
   }
 }
 

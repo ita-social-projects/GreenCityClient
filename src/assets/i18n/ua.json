@@ -643,6 +643,7 @@
     }
   },
   "about-us": {
+    "disabled-link": "Дана сторінка у процесі розробки",
     "intro": {
       "block-1": {
         "header": "Про Нас",
@@ -686,7 +687,7 @@
   },
   "post-news-loader": {
     "text-1": "Please wait while loading...",
-    "text-2": "Your news is loading to the website. Please wait until the page refreshes"
+    "text-2": "Your news is loading to website. Please wait until page refresh."
   },
   "cancel-popup": {
     "title": "Внесені зміни будуть втрачені.",
@@ -723,6 +724,7 @@
   },
   "create-news": {
     "title": "Створити новину",
+    "edit-title": "Редагувати новину",
     "form-description": "Будь ласка, надайте якомога більше деталей - час та місце події, мета зборів тощо. Ви можете повернутись та оновити новину в будь-який час після публікації.",
     "news-title": "Назва",
     "title-placeholder": "напр. Кава з собою зі знижкою 20%",
@@ -749,7 +751,8 @@
     "author-name": "Поточний Користувач",
     "cancel-button": "Вийти",
     "preview-button": "Переглянути",
-    "publish-button": "Опублікувати"
+    "publish-button": "Опублікувати",
+    "edit-button": "Редагувати"
   },
   "drag-and-drop": {
     "picture-description": "Перетягніть зображення сюди або",
