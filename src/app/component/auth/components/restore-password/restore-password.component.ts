@@ -23,7 +23,6 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 export class RestorePasswordComponent implements OnInit, OnDestroy {
   public restorePasswordForm: FormGroup;
   public emailField: AbstractControl;
-  public email: FormControl;
   public closeBtn = SignInIcons;
   public mainSignInImage = SignInIcons;
   public googleImage = SignInIcons;
