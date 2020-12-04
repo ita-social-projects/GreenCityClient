@@ -1,5 +1,5 @@
 <div>
-  <div *ngFor = 'let item of items'>
+  <div *ngFor = 'let item of items '>
     <app-add-friend [friend]="item" (addFriendEvent)="addFriend($event)"></app-add-friend>
   </div>
 </div>
