@@ -91,7 +91,7 @@ export class ConfirmRestorePasswordComponent implements OnInit {
     }, 2000);
   }
 
-  private setPasswordBackendErr() {
+  public setPasswordBackendErr(): void {
     this.passwordErrorMessageBackEnd = null;
     if (this.confirmRestorePasswordForm) {
       this.passwordFieldValue = this.passwordField.value;
