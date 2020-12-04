@@ -67,7 +67,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
     this.emailErrorMessageBackEnd = null;
     this.passwordErrorMessageBackEnd = null;
     this.backEndError = null;
-    if(this.restorePasswordForm) {
+    if (this.restorePasswordForm) {
       this.emailFieldValue = this.restorePasswordForm.get('email').value;
     }
   }

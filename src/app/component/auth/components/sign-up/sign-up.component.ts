@@ -37,7 +37,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   public passwordConfirmErrorMessageBackEnd: string;
   public backEndError: string;
   public emailFieldValue: string;
-  public nameFieldValue: string = '';
+  public nameFieldValue: string;
   public passwordFieldValue: string;
   public passwordConfirmFieldValue: string;
   public currentLanguage: string;
@@ -131,7 +131,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   private onFormInit(): void {
     this.signUpForm = this.formBuilder.group({
         email: ['', [ Validators.required, Validators.email ]],
-        firstName: [this.nameFieldValue, []],
+        firstName: ['', []],
         password: ['', []],
         repeatPassword: ['', []]
       },

@@ -16,13 +16,11 @@ export class ErrorComponent implements OnChanges {
 
   private getErrorMsg = {
     required: () => {
-      if(this.controlName === 'email') {
+      if (this.controlName === 'email') {
         return 'user.auth.sign-in.email-is-required';
-      }
-      else if(this.controlName === 'firstName'){
+      } else if (this.controlName === 'firstName') {
         return 'user.auth.sign-up.first-name-is-required';
-      }
-      else {
+      } else {
         return 'user.auth.sign-in.password-is-required';
       }
     },
