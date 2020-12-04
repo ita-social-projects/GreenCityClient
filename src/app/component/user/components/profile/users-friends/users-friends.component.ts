@@ -32,7 +32,6 @@ export class UsersFriendsComponent implements OnInit {
   public initUser(): void {
     this.localStorageService.userIdBehaviourSubject
       .subscribe((userId: number) => this.userId = userId);
-      console.log(this.userId);
   }
 }
 
