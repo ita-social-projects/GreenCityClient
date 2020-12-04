@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { FriendModel } from '@global-user/models/friend.model';
 
 @Component({
   selector: 'app-add-friend',
@@ -7,16 +8,16 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class AddFriendComponent implements OnInit {
 
-  @Input() imgPath;
-  @Output()addNewFriend = new EventEmitter();
+  @Input() friend: FriendModel;
+  @Output() addFriendEvent = new EventEmitter<number>();
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  public addFriend(): void {
-    this.addNewFriend.emit();
+  public addFriend(id: number): void {
+    this.addFriendEvent.emit(id);
   }
 
 }
