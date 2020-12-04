@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-add-friends-list',
@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./add-friends-list.component.scss']
 })
 export class AddFriendsListComponent implements OnInit {
-
+  @Input() friend:FriendModel
   constructor() { }
 
   ngOnInit() {
