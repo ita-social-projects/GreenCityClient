@@ -1,6 +1,7 @@
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from './mat-snack-bar.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -8,6 +9,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 describe('MatSnackBarComponent', () => {
   let component: MatSnackBarComponent;
   let fixture: ComponentFixture<MatSnackBarComponent>;
+  let matSnackBarMock: MatSnackBar;
+  matSnackBarMock = jasmine.createSpyObj('MatSnackBar', ['open']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -17,6 +20,9 @@ describe('MatSnackBarComponent', () => {
         TranslateModule.forRoot(),
         BrowserAnimationsModule
       ],
+      providers: [
+        { provide: MatSnackBar, useValue: matSnackBarMock }
+      ]
     })
     .compileComponents();
   }));
