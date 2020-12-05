@@ -38,6 +38,8 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public formData: FormGroup;
   private destroy: ReplaySubject<any> = new ReplaySubject<any>(1);
 
+  public isFormInvalid: boolean;
+  public formChangeSub: Subscription;
   public previousPath = '/news';
   public popupConfig = {
     hasBackdrop: true,
@@ -74,7 +76,11 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   public setInitialValues(): void {
-    this.initialValues = this.form.value;
+    if (!this.createEcoNewsService.isBackToEditing) {
+      this.initialValues = this.form.value;
+      this.isFormInvalid = !!!this.newsId;
+    }
+    this.onValueChanges();
   }
 
   public allowUserEscape(): void {
@@ -83,6 +89,15 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
   public getFormValues(): any {
     return this.form.value;
+  }
+
+  public onValueChanges(): void {
+    this.formChangeSub = this.form.valueChanges.subscribe(() => {
+      this.isFormInvalid = !this.form.valid ||
+                            this.isArrayEmpty ||
+                            !this.isLinkOrEmpty ||
+                            this.isImageValid();
+    });
   }
 
   public initPageforCreateOrEdit(): void {
@@ -100,6 +115,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
         this.form = this.createEditNewsFormBuilder.getEditForm(this.formData.value);
         this.setActiveFilters(this.formData.value);
       }
+      this.setInitialValues();
     } else {
       if (this.newsId) {
         this.fetchNewsItemToEdit();
@@ -282,5 +298,8 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   ngOnDestroy() {
     this.destroy.next(null);
     this.destroy.complete();
+    if (this.formChangeSub) {
+      this.formChangeSub.unsubscribe();
+    }
   }
 }
