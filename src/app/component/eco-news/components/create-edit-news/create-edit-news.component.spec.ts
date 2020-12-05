@@ -317,18 +317,6 @@ describe('CreateEditNewsComponent', () => {
         expect(component.tags().length).toBe(3);
     }));
 
-    it('Should open CancelPopup', () => {
-        spyOn(component, 'openCancelPopup');
-
-        const nativeElement = fixture.nativeElement;
-        const button = nativeElement.querySelector('.cancel');
-        button.dispatchEvent(new Event('click'));
-
-        fixture.detectChanges();
-
-        expect(component.openCancelPopup).toHaveBeenCalled();
-    });
-
     function updateForm(news) {
         component.form.controls.title.setValue(news.title);
         component.form.controls.content.setValue(news.content);

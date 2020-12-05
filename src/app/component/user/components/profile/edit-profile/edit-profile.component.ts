@@ -1,7 +1,6 @@
 import { Component, ElementRef, NgZone, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import { MatDialog } from '@angular/material/dialog';
-import { CancelPopUpComponent } from '@shared/components/cancel-pop-up/cancel-pop-up.component';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
@@ -11,13 +10,14 @@ import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.scss']
 })
-export class EditProfileComponent implements OnInit, OnDestroy {
+export class EditProfileComponent extends FormBaseComponent implements OnInit, OnDestroy {
   public editProfileForm = null;
   private langChangeSub: Subscription;
   @ViewChild('search', { static: true }) public searchElementRef: ElementRef;
@@ -34,6 +34,19 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     userCredo:
       'My Credo is to make small steps that leads to huge impact. Let’s change the world together.',
   };
+  public previousPath = '/profile';
+  public popupConfig = {
+    hasBackdrop: true,
+    closeOnNavigation: true,
+    disableClose: true,
+    panelClass: 'popup-dialog-container',
+    data: {
+      popupTitle: 'user.edit-profile.profile-popup.title',
+      popupSubtitle: 'user.edit-profile.profile-popup.subtitle',
+      popupConfirm: 'user.edit-profile.profile-popup.confirm',
+      popupCancel: 'user.edit-profile.profile-popup.cancel',
+    }
+  };
   public socialNetworks: string [];
   public socialNetworksToServer: string [] = [];
 
@@ -41,11 +54,15 @@ export class EditProfileComponent implements OnInit, OnDestroy {
               public builder: EditProfileFormBuilder,
               private editProfileService: EditProfileService,
               private profileService: ProfileService,
-              private router: Router,
+              public router: Router,
               private localStorageService: LocalStorageService,
               private translate: TranslateService,
               private mapsAPILoader: MapsAPILoader,
-              private ngZone: NgZone) {}
+              private ngZone: NgZone) {
+
+    super(router, dialog);
+
+  }
 
   ngOnInit() {
     this.setupInitialValue();
@@ -53,6 +70,18 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.autocompleteCity();
+  }
+
+  public getFormValues(): any {
+    return {
+      city: this.searchElementRef.nativeElement.value,
+      firstName: this.editProfileForm.value.name,
+      userCredo: this.editProfileForm.value.credo,
+      showLocation: this.editProfileForm.value.showLocation,
+      showEcoPlace: this.editProfileForm.value.showEcoPlace,
+      showShoppingList: this.editProfileForm.value.showShoppingList,
+      socialNetworks: this.socialNetworks
+    };
   }
 
   public emitSocialLinks(val: string[]) {
@@ -71,6 +100,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
         if (data) {
           this.setupExistingData(data);
           this.socialNetworks = data.socialNetworks;
+          this.initialValues = data;
         }
       });
   }
@@ -80,7 +110,8 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   }
 
   public onSubmit(): void {
-   this.sendFormData(this.editProfileForm);
+    this.areChangesSaved = true;
+    this.sendFormData(this.editProfileForm);
   }
 
   public sendFormData(form): void {
@@ -100,18 +131,6 @@ export class EditProfileComponent implements OnInit, OnDestroy {
         this.localStorageService.setFirstName(form.value.name);
       }
     );
-  }
-
-  public openCancelPopup(): void {
-    this.dialog.open(CancelPopUpComponent, {
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      disableClose: true,
-      panelClass: 'custom-dialog-container',
-      data: {
-        currentPage: 'edit profile'
-      }
-    });
   }
 
   private bindLang(lang: string): void {

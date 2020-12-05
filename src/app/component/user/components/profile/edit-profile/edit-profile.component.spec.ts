@@ -5,7 +5,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import {AgmCoreModule, MapsAPILoader} from '@agm/core';
+import { AgmCoreModule, MapsAPILoader } from '@agm/core';
 import { Observable } from 'rxjs';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
@@ -80,11 +80,32 @@ describe('EditProfileComponent', () => {
       component.ngOnDestroy();
       expect((component as any).langChangeSub.unsubscribe).toHaveBeenCalledTimes(1);
     });
+  });
 
-    it('should call CancelPopup', () => {
-      spyOn(component.dialog, 'open');
-      component.openCancelPopup();
-      expect(component.dialog).toBeDefined();
+  describe('Testing of warnings in cases of user leaves the page', () => {
+    beforeEach(() => {
+      component.initialValues = {
+        city: '',
+        firstName: '',
+        userCredo: '',
+        showLocation: '',
+        showEcoPlace: '',
+        showShoppingList: '',
+      };
+      component.searchElementRef.nativeElement.value = 'Lviv';
+      component.editProfileForm.value.name = '';
+      component.editProfileForm.value.credo = '';
+      component.editProfileForm.value.showLocation = '';
+      component.editProfileForm.value.showEcoPlace = '';
+      component.editProfileForm.value.showShoppingList = '';
+    });
+
+    it('should return true in case of form fields were changed', () => {
+      expect(component.checkChanges()).toBeTruthy();
+    });
+
+    it('should return false in case of form fields were changed', () => {
+      expect(component.canDeactivate()).toBeFalsy();
     });
   });
 

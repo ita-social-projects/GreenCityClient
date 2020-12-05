@@ -66,13 +66,16 @@
                 <button
                     class="cancel"
                     type="button"
-                    (click)="openCancelPopup()">{{ 'create-news.cancel-button' | translate }}</button>
+                    (click)="cancel()">{{ 'create-news.cancel-button' | translate }}</button>
                 <button type="button"
-                        (click)="goToPreview()"
+                    (click)="goToPreview()"
                 >
                   {{ 'create-news.preview-button' | translate }}
                 </button>
-                <button type="submit" [disabled]="isFormInvalid">{{ attributes.btnCaption | translate }}</button>
+                <button type="submit" [disabled]="!this.form.valid ||
+                                                  this.isArrayEmpty ||
+                                                  !this.isLinkOrEmpty ||
+                                                  this.isImageValid()">{{ attributes.btnCaption | translate }}</button>
             </div>
         </form>
     </div>
