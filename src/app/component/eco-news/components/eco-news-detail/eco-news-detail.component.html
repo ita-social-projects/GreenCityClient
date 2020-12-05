@@ -16,10 +16,12 @@
         </div>
       </a>
     </div>
-    <div class="edit-news"
-         *ngIf="newsItem.author.id === userId">
-      {{ "eco-news-single-view.edit-news-button" | translate }}
-    </div>
+    <a [routerLink]="['/news/create-news']" [queryParams]="{id: newsItem.id}">
+      <div class="edit-news"
+           *ngIf="newsItem.author.id === userId">
+        {{ "eco-news-single-view.edit-news-button" | translate }}
+      </div> 
+    </a>
   </div>
   <div class="tags">
     <div class="tags-item"
@@ -51,18 +53,25 @@
     >
     <div class="news-text-container">
       <div class="news-links-images">
-        <img [src]="images.twitter"
-             alt="twitter"
-             class="news-links-img"
-        >
-        <img [src]="images.linkedIn"
-             alt="linkedin"
-             class="news-links-img"
-        >
-        <img [src]="images.facebook"
-             alt="facebook"
-             class="news-links-img last-img"
-        >
+        <a [href]="'https://twitter.com/share?url=' + currentPage + '&text='+newsItem.title+'&hashtags='+newsItem.tags.join(',')" target="_blank">
+          <img [src]="images.twitter"
+               alt="twitter"
+               class="news-links-img"
+          >
+        </a>
+        <!-- not sure what will work on the local host or on the github pages -->
+        <a [href]="'https://www.linkedin.com/sharing/share-offsite/?url=' + currentPage" target="_blank">
+          <img [src]="images.linkedIn"
+               alt="linkedin"
+               class="news-links-img"
+          >
+        </a>
+        <!-- More FB parameters will be taken from OG meta tags -->
+        <a [href]="'https://www.facebook.com/sharer/sharer.php?u=' + currentPage" target="_blank">
+          <img [src]="images.facebook"
+               alt="facebook"
+               class="news-links-img last-img">
+        </a>
       </div>
       <div class="news-text">
         <div class="news-text-content word-wrap">
@@ -77,7 +86,7 @@
           <a href="{{ newsItem?.text }}"
              class="source-text word-wrap"
           >
-            {{ newsItem?.text }}
+            {{ newsItem?.source }}
           </a>
         </div>
       </div>

@@ -23,4 +23,5 @@ export class ServerHabitItemPageModel {
   };
   id: number;
   image: string;
+  defaultDuration: number;
 }

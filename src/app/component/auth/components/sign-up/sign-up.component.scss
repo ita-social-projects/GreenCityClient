@@ -131,13 +131,14 @@ $borderColor:  #878787;
     text-align: center;
     color: $secondaryTextColor;
   }
+}
 
-  .exist-account {
-    margin-bottom: 40px;
-    font-size: 16px;
-    line-height: 16px;
-    color: $secondaryTextColor;
-  }
+.exist-account {
+  margin-bottom: 40px;
+  font-size: 16px;
+  font-family: $main-font;
+  line-height: 16px;
+  color: $secondaryTextColor;
 
   .exist-sign-in {
     text-decoration: underline;

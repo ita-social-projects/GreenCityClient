@@ -3,22 +3,25 @@
     <div class="search-bar-wrapper">
       <div class="center-flex-wrapper">
         <div class="search-icon"></div>
-        <input class = "search-field"
+        <input id="search-input"
+               class="search-field"
                type="text"
-               placeholder="Search"
-               (keyup)="onKeyUp($event.target)">
+               [(ngModel)]="inputValue"
+               placeholder="{{ 'search.search-all-results.placeholder' | translate }}">
       </div>
     </div>
-    <div class="remaining-items">
-      {{ itemsFound }} items found
+    <div class="remaining-items"
+         *ngIf="itemsFound || inputValue">
+      {{ itemsFound }} {{ "search.search-all-results.items-found" | translate }}
     </div>
 
-    <div class="sort-items">
-      <span>Sort by:
+    <div class="sort-items"
+         *ngIf="itemsFound || inputValue">
+      <span>{{ "search.search-all-results.sort" | translate }}
       <ul [class.add-shadow]="dropdownVisible">
         <li>
           <a (click)="toggleDropdown()">
-            {{ inputValues[0] }}
+            {{ sortTypesLocalization[0] | translate }}
             <img class="arrow"
                  [src]="dropDownArrow"
                  [ngClass]="dropdownVisible ? 'arrow reverse' : 'arrow'"
@@ -27,12 +30,12 @@
         </li>
         <li [class.text-hidden]="!dropdownVisible">
           <a (click)="changeCurrentSorting(1); toggleDropdown()">
-            {{ inputValues[1] }}
+            {{ sortTypesLocalization[1] | translate }}
           </a>
         </li>
         <li [class.text-hidden]="!dropdownVisible">
           <a (click)="changeCurrentSorting(2); toggleDropdown()">
-            {{ inputValues[2] }}
+            {{ sortTypesLocalization[2] | translate }}
           </a>
         </li>
       </ul>
@@ -40,7 +43,7 @@
     </div>
 
     <div class="center-content-wrapper">
-      <div class="flex-container">
+      <div *ngIf="displayedElements" class="flex-container">
           <app-item *ngFor="let element of displayedElements"
                     [searchModel]="element"
                     class="app-search-item"
@@ -48,11 +51,12 @@
       </div>
     </div>
   </div>
+  <!-- <app-spinner></app-spinner> -->
+  <ng-template [ngIf]="isSearchFound">
+    <div infiniteScroll
+        [infiniteScrollDistance]="0"
+        [infiniteScrollThrottle]="500"
+        (scrolled)="onScroll()">
+    </div>
+  </ng-template>
 </div>
-<ng-template [ngIf]="isSearchFound && elements">
-  <div infiniteScroll
-      [infiniteScrollDistance]="0"
-      [infiniteScrollThrottle]="500"
-      (scrolled)="onScroll()">
-  </div>
-</ng-template>

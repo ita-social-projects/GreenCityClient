@@ -110,6 +110,16 @@
       "alternative-description-news": "Знайдіть останні новини, події та ініціативи тут. Знайдіть новини та створіть їх.",
       "alternative-header-tips": "Поради",
       "alternative-description-tips": "Як сортувати сміття? Де знайти еко-речі? І багато інших корисних речей для екологічності."
+    },
+    "search-all-results": {
+      "placeholder": "Пошук",
+      "items-found": "знайдено",
+      "news": "Новини",
+      "tips": "Поради",
+      "sort": "Сортувати за:",
+      "relevance": "Актуальністю",
+      "oldest": "Старими",
+      "newest": "Новими"
     }
   },
   "admin-nav": {
@@ -294,7 +304,7 @@
       },
       "sign-up": {
         "title-up": "Вітаємо!",
-        "fill-form-up": "Будь ласка, внеси свої дані для реєстрації",
+        "fill-form-up": "Будь ласка, внесіть свої дані для реєстрації",
         "first-name": "Ім'я користувача",
         "first-name-is-required": "Введіть ім'я",
         "user-name-error": "Iм'я користувача обов'язкове",
@@ -496,6 +506,10 @@
       "change-photo": "Ви хочете змінити свою фотографію профілю?",
       "would-you-like": "Хочете зберегти зміни?",
       "notification": "Ви впевнені, що хочете видалити фотографію?",
+      "label-tip": "Посилання на ваш акаунт у соціальній мережі",
+      "input-validation-required": "Це поле є обов'язковим",
+      "input-validation-pattern": "Здається, Ваша URL-адреса неправильна",
+      "input-validation-non-unique": "Це посилання вже додано",
       "btn": {
         "cancel": "Скасувати",
         "save": "Зберегти",
@@ -504,7 +518,8 @@
         "save-photo": "Зберегти фото",
         "delete": "Видалити фото",
         "continue":"Продовжити редагування",
-        "yes-delete": "Tак, видалити"
+        "yes-delete": "Tак, видалити",
+        "add": "Додати"
       }
     },
     "footer": {
@@ -623,6 +638,7 @@
     }
   },
   "about-us": {
+    "disabled-link": "Дана сторінка у процесі розробки",
     "intro": {
       "block-1": {
         "header": "Про Нас",
@@ -666,7 +682,7 @@
   },
   "post-news-loader": {
     "text-1": "Please wait while loading...",
-    "text-2": "Your news is loading to the website. Please wait until the page refreshes"
+    "text-2": "Your news is loading to website. Please wait until page refresh."
   },
   "cancel-popup": {
     "title": "Внесені зміни будуть втрачені.",
@@ -703,6 +719,7 @@
   },
   "create-news": {
     "title": "Створити новину",
+    "edit-title": "Редагувати новину",
     "form-description": "Будь ласка, надайте якомога більше деталей - час та місце події, мета зборів тощо. Ви можете повернутись та оновити новину в будь-який час після публікації.",
     "news-title": "Назва",
     "title-placeholder": "напр. Кава з собою зі знижкою 20%",
@@ -729,7 +746,8 @@
     "author-name": "Поточний Користувач",
     "cancel-button": "Вийти",
     "preview-button": "Переглянути",
-    "publish-button": "Опублікувати"
+    "publish-button": "Опублікувати",
+    "edit-button": "Редагувати"
   },
   "drag-and-drop": {
     "picture-description": "Перетягніть зображення сюди або",

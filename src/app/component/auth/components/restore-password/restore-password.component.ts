@@ -134,7 +134,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
 
   private onSignInWithGoogleSuccess(data: UserSuccessSignIn): void {
     this.userOwnSignInService.saveUserToLocalStorage(data);
-    this.router.navigate(['/welcome']);
+    this.router.navigate(['/']);
   }
 
   ngOnDestroy() {

@@ -44,13 +44,18 @@ export class MatSnackBarComponent {
       this.getSnackBarMessage('snack-bar.success.confirm-email');
       this.className = 'success-snackbar';
     },
+    errorMessage: (error) => {
+      this.message = error;
+      this.className = 'error-snackbar';
+    }
   };
 
   constructor(public snackBar: MatSnackBar,
               private translate: TranslateService) { }
 
   public openSnackBar(type: string) {
-    this.snackType[type]();
+    this.snackType[type] ?  this.snackType[type]() : type.includes('400') ? this.snackType.error() : this.snackType.errorMessage(type);
+
     this.snackBar.open(this.message, 'X', {
       duration: 5000,
       verticalPosition: 'top',

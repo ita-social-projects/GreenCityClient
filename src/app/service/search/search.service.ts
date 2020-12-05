@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@environment/environment';
 import { Observable, of, Subject} from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { SearchModel } from '../../model/search/search.model';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { SearchDto } from 'src/app/component/layout/components/models/search-dto';
 
 @Injectable({
@@ -27,15 +26,15 @@ export class SearchService {
   public getAllSearch(searchQuery: string, searchType: string): Observable<SearchModel> {
     switch (searchType) {
       case 'relevance': {
-        return this.getResultsByCat('search');
+        this.getResultsByCat('search');
         break;
       }
       case 'newest': {
-        return this.getResultsByCat('newest');
+        this.getResultsByCat('newest');
         break;
       }
       case 'latest': {
-        return this.getResultsByCat('noresults');
+        this.getResultsByCat('noresults');
         break;
       }
       default: {
@@ -62,25 +61,23 @@ export class SearchService {
     this.allSearchSubject.next(value);
   }
 
-  public getAllResults(query, category) {
+  public getAllResults(query: string, category: string = 'econews', page: number = 0, sort: string = '') {
     const itemsPerPage = 9;
-    return this.http.get(`${this.backEndLink}search/${category}?page=0&searchQuery=${query}&size=${itemsPerPage}`)
-    .pipe(
-      catchError((error) => {
-        this.snackBar.openSnackBar('error');
-        return error;
-      })
-    )
-    .subscribe((data: SearchDto) => {
-        this.allElements = data;
-        this.allElemsSubj.next(this.allElements);
-      });
+
+    // bug on backend in DB
+    if (category === 'tipsandtricks') {
+      sort.replace('creation_date', 'creationDate');
     }
+
+    return this.http.get(`${this.backEndLink}search/${category}?searchQuery=${query}&sort=${sort}&page=${page}&size=${itemsPerPage}`)
+    .pipe(
+      switchMap(res => of(res))
+    );
+  }
 
   public getElementsAsObserv(): Observable<any> {
     return this.allElemsSubj.asObservable();
   }
 
-  constructor(private http: HttpClient,
-              private snackBar: MatSnackBarComponent) { }
+  constructor(private http: HttpClient) { }
 }

@@ -23,3 +23,9 @@ export interface CommentsDTO {
     showRelyButton?: boolean;
     showAllRelies?: boolean;
 }
+
+export enum dataTypes {
+  commentType = 'comment',
+  wrapperCommentType = 'wrapper-comment',
+  wrapperReplyType = 'wrapper-reply'
+}
