@@ -87,5 +87,17 @@ describe('MatSnackBarComponent', () => {
       component.snackType[`signUp`]();
       expect(spy).toHaveBeenCalled();
     });
+
+    it('should call the successConfirmEmail to close the dialog', () => {
+      const spy = spyOn(component.snackType, 'successConfirmEmail').and.callThrough();
+      component.snackType[`successConfirmEmail`]();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the errorMessage to close the dialog', () => {
+      const spy = spyOn(component.snackType, 'errorMessage').and.callThrough();
+      component.snackType[`errorMessage`]('Ups');
+      expect(spy).toHaveBeenCalled();
+    });
   });
 });

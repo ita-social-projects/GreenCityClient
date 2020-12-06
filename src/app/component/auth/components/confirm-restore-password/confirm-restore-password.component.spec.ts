@@ -127,20 +127,6 @@ describe('ConfirmRestorePasswordComponent', () => {
       fixture.detectChanges();
       expect(spy).toHaveBeenCalled();
     });
-
-    it('check the validity of token', async(inject([MatSnackBarComponent], (service: MatSnackBarComponent) => {
-      const spy = spyOn(service, 'openSnackBar').and.returnValue();
-      // @ts-ignore
-      component.onCheckToken({
-        token: '1',
-        user_id: '1'
-      });
-
-      const req = httpTestingController.expectOne('https://greencity.azurewebsites.net/ownSecurity/verifyEmail?token=1&user_id=1')
-        .flush(of(true));
-
-      expect(spy).toHaveBeenCalled();
-    })));
   });
 
   describe('Testing controls for the confirmRestorePasswordForm', () => {

@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AbstractControl, FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
@@ -10,8 +9,6 @@ import { authImages } from 'src/app/image-pathes/auth-images';
 import { ConfirmPasswordValidator, ValidatorRegExp } from '../sign-up/sign-up.validator';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { take } from 'rxjs/operators';
-
-import { mainLink } from './../../../../links';
 
 @Component({
   selector: 'app-confirm-restore-password',
@@ -40,7 +37,6 @@ export class ConfirmRestorePasswordComponent implements OnInit {
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBarComponent,
-    private http: HttpClient
   ) {}
 
   ngOnInit() {
@@ -74,7 +70,6 @@ export class ConfirmRestorePasswordComponent implements OnInit {
       .pipe(take(1))
       .subscribe(params => {
         this.token = params[`token`];
-        this.onCheckToken(params);
       });
   }
 
@@ -89,7 +84,7 @@ export class ConfirmRestorePasswordComponent implements OnInit {
         this.form = error;
       });
     setTimeout(() => {
-      this.router.navigate(['welcome']);
+      this.router.navigate(['']);
       this.snackBar.openSnackBar('successConfirmPassword');
     }, 2000);
   }
@@ -104,20 +99,7 @@ export class ConfirmRestorePasswordComponent implements OnInit {
   }
 
   public closeModal(): void {
-    this.router.navigate(['welcome']);
+    this.router.navigate(['']);
     this.snackBar.openSnackBar('exitConfirmRestorePassword');
-  }
-
-  // check if the token is still valid
-  private onCheckToken(queryParams): void {
-    const {token, user_id} = queryParams;
-
-    this.http.get(`${mainLink}ownSecurity/verifyEmail?token=${token}&user_id=${user_id}`)
-      .pipe(take(1))
-      .subscribe(res => {
-        if (res) {
-          this.snackBar.openSnackBar('successConfirmEmail');
-        }
-      });
   }
 }
