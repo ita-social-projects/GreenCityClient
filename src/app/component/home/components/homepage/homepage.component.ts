@@ -21,7 +21,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
   readonly path2 = 'assets/img/path-2.svg';
   readonly path4 = 'assets/img/path-4_3.png';
   readonly path5 = 'assets/img/path-5.png';
-  private subs = new Subscription;
+  private subs = new Subscription();
   userId: number;
 
   constructor(
@@ -50,14 +50,14 @@ export class HomepageComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap(params => {
           const {token, user_id} = params;
-          if(token && user_id){
+          if (token && user_id) {
             return this.verifyEmailService.onCheckToken(token, user_id);
           } else {
-            return EMPTY
+            return EMPTY;
           }
         })
       ).subscribe(res => {
-        if(res) {
+        if (res) {
           this.snackBar.openSnackBar('successConfirmEmail');
           this.openAuthModalWindow();
         }
@@ -75,7 +75,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.subs.unsubscribe();
   }
 }

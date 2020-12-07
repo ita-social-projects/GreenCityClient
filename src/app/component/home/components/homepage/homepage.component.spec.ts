@@ -25,7 +25,7 @@ describe('HomepageComponent', () => {
   let fixture: ComponentFixture<HomepageComponent>;
   let snackBarMock: MatSnackBarComponent;
   snackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
-  snackBarMock.openSnackBar = () => true
+  snackBarMock.openSnackBar = () => true;
 
   let verifyEmailServiceMock: VerifyEmailService;
   verifyEmailServiceMock = jasmine.createSpyObj('VerifyEmailService', ['onCheckToken']);
@@ -34,7 +34,7 @@ describe('HomepageComponent', () => {
   let localStorageServiceMock: LocalStorageService;
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviorSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
-  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language
+  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
 
   let userServiceMock: UserService;
   userServiceMock = jasmine.createSpyObj('UserService', ['countActivatedUsers']);
@@ -96,7 +96,7 @@ describe('HomepageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('check the validity of token', inject([VerifyEmailService], (sevice:VerifyEmailService) => {
+  it('check the validity of token', inject([VerifyEmailService], (sevice: VerifyEmailService) => {
     const spy = spyOn(sevice, 'onCheckToken');
     // @ts-ignore
     component.onCheckToken();
