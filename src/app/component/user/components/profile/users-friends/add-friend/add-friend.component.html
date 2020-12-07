@@ -1,5 +1,5 @@
 <div class="add-friend">
-    <img [src]="friend.imgPath" alt="###">
+    <img [src]="friend.imgPath?friend.imgPath:'https://i.pinimg.com/236x/2e/3d/6e/2e3d6e6c801ce424de1e6d519e092ee8.jpg' " alt="###">
     <p>{{friend.name}}</p>
-    <button type="button" class="primary-global-button" (click)="addFriend(friend.id)">Add</button>
+    <button type="button" class="primary-global-button" (click)="addFriend(friend.id)">Delete</button>
 </div>

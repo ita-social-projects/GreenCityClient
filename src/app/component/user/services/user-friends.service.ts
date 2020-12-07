@@ -13,11 +13,11 @@ export class UserFriendsService {
   constructor(private http: HttpClient) { }
 
   public getRecommendedFriends(id: number): Observable<any> {
-    return this.http.get<any>(`${this.url}user/${id}/recommendedFriends)`);
+    return this.http.get<any>(`${this.url}user/${id}/recommendedFriends/`);
   }
 
   public getFriends(userId: number): Observable<FriendModel[]> {
-    return this.http.get<FriendModel[]>(`${this.url}user/${userId}/sixUserFriends`);
+    return this.http.get<FriendModel[]>(`${this.url}user/${userId}/sixUserFriends/`);
   }
 
   public addFriend(idUser: number | string, idFriend: number | string): Observable<object> {
@@ -30,10 +30,10 @@ export class UserFriendsService {
   }
 
   public deleteFriends(idUser: number, idFriend: number ): Observable<object> {
-    const body = {
+    const data = {
       friendId: idFriend,
       userId: idUser
     };
-    return this.http.get<object>(`${this.url}/user/${idUser}/sixUserFriends`);
+    return this.http.delete<object>(`${this.url}user/${idUser}/userFriend/${idFriend}`);
   }
 }

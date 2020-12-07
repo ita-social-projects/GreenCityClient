@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FriendModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
@@ -13,18 +14,21 @@ export class AddFriendsListComponent implements OnInit {
   public userId: number;
   public error: any;
 
-
   constructor(private userFriendsService: UserFriendsService,
-              private localStorageService: LocalStorageService) { }
+              private localStorageService: LocalStorageService,
+              private router: Router) { }
 
   ngOnInit() {
     this.initUser();
-    this.userFriendsService.getRecommendedFriends(this.userId).subscribe(data => this.items = data,
+    this.userFriendsService.getFriends(this.userId).subscribe(data => this.items = data,
       error => {this.error = error.message; console.log(error); });
     console.log(this.items);
   }
 
   public addFriend(id: number) {
+    this.userFriendsService.deleteFriends(this.userId, id).subscribe(data =>  console.log(data),
+      error => {this.error = error.message; console.log(error); });
+      this.router.navigate(['profile', this.userId]);
     console.log(id);
   }
 

@@ -7,10 +7,10 @@
           <span class="text-number"> {{usersFriends?.length}}</span>
         </div>
       </div>
-      <div class="text-more">{{ 'profile.see-all' | translate }}</div>
+      <div class="text-more"><a [routerLink]="['/profile', userId, 'friends']">{{ 'profile.see-all' | translate }}</a></div>
     </div>
     <div class="friends-images">
-      <img [src]=image.profilePicturePath
+      <img [src]="image.profilePicturePath? image.profilePicturePath: 'https://i.pinimg.com/236x/2e/3d/6e/2e3d6e6c801ce424de1e6d519e092ee8.jpg'"
            alt="friend"
            class="friend-img"
            *ngFor="let image of usersFriends"
