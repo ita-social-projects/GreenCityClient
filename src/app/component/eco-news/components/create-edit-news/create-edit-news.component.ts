@@ -10,7 +10,7 @@ import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service'
 import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
 import { FilterModel } from '@eco-news-models/create-news-interface';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
-import { ACTION_TOKEN, TEXT_AREAS_HEIGHT, FILTERS } from './action.constants';
+import { ACTION_TOKEN, TEXT_AREAS_HEIGHT } from './action.constants';
 import { ActionInterface } from '../../models/action.interface';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
@@ -33,7 +33,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public month: number = new Date().getMonth();
   public author: string = localStorage.getItem('name');
   public attributes: ActionInterface;
-  public filters: Array<FilterModel>;
+  public filters: Array<FilterModel> = [];
   public newsId: string;
   public formData: FormGroup;
   private destroy: ReplaySubject<any> = new ReplaySubject<any>(1);
@@ -102,7 +102,13 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
   public initPageforCreateOrEdit(): void {
     this.textAreasHeight = TEXT_AREAS_HEIGHT;
-    this.filters = FILTERS;
+    this.ecoNewsService.getAllPresentTags()
+      .subscribe((tagsArray: Array<string>) => {
+        tagsArray.forEach(tag => this.filters.push({
+          name: tag,
+          isActive: false
+        }));
+      });
     if (this.createEcoNewsService.isBackToEditing) {
       if (this.createEcoNewsService.getNewsId()) {
         this.setDataForEdit();

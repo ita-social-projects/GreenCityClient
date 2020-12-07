@@ -83,6 +83,8 @@ describe('CreateEditNewsComponent', () => {
         });
     };
 
+    const tagsArray = ['News', 'Events', 'Education', 'Initiatives', 'Ads'];
+
     createEcoNewsServiceMock = jasmine.createSpyObj(
         'CreateEcoNewsService', ['sendFormData', 'editNews', 'setForm', 'getNewsId', 'getFormData']
     );
@@ -92,10 +94,11 @@ describe('CreateEditNewsComponent', () => {
     createEcoNewsServiceMock.setForm = (form) => of();
     createEcoNewsServiceMock.getNewsId = () => '15';
 
-    ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getEcoNewsById']);
+    ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getEcoNewsById', 'getAllPresentTags']);
     ecoNewsServiceMock.getEcoNewsById = (id) => {
         return of(item);
     };
+    ecoNewsServiceMock.getAllPresentTags = () => of(tagsArray);
 
     createEditNewsFormBuilderMock = jasmine.createSpyObj('CreateEditNewsFormBuilder', ['getSetupForm', 'getEditForm']);
     createEditNewsFormBuilderMock.getSetupForm = () => {
