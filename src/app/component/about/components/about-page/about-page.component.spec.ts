@@ -9,7 +9,7 @@ import { BehaviorSubject, of, Subject } from 'rxjs';
 
 import { AboutPageComponent } from './about-page.component';
 
-describe('AboutPageComponent', () => {
+fdescribe('AboutPageComponent', () => {
   let component: AboutPageComponent;
   let fixture: ComponentFixture<AboutPageComponent>;
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
@@ -18,12 +18,13 @@ describe('AboutPageComponent', () => {
   let translateServiceMock: TranslateService;
   translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
   translateServiceMock.setDefaultLang = (lang: string) => of ();
+  translateServiceMock.get = () => of (true);
   let localStorageServiceMock: LocalStorageService;
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['languageSubject']);
+  //localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['languageSubject']);
   localStorageServiceMock.languageSubject = new Subject();
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
+  //localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
   localStorageServiceMock.getCurrentLanguage = () => mockLang as Language;
 
 
