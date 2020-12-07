@@ -110,6 +110,16 @@
       "alternative-description-news": "Здесь вы найдете самые свежие новости, события и инициативы. Находите новости и создавайте их.",
       "alternative-header-tips": "Советы",
       "alternative-description-tips": "Как сортировать мусор? Где найти эко вещи? И много других полезных вещей, чтобы быть экологически чистыми."
+    },
+    "search-all-results": {
+      "placeholder": "Поиск",
+      "items-found": "найдено",
+      "news": "Новости",
+      "tips": "Советы",
+      "sort": "Сортировать за:",
+      "relevance": "Актуальностью",
+      "oldest": "Старыми",
+      "newest": "Новыми"
     }
   },
   "admin-nav": {
@@ -495,6 +505,10 @@
       "change-photo": "Вы хотите изменить изображение своего профиля?",
       "would-you-like": "Вы хотите сохранить изменения?",
       "notification": "Вы уверены, что хотите удалить фото?",
+      "label-tip": "Ссылка на вашу учетную запись в социальной сети",
+      "input-validation-required": "Это поле обязательно к заполнению",
+      "input-validation-pattern": "Ваш URL-адрес кажется неверным",
+      "input-validation-non-unique": "Эта ссылка уже добавлена",
       "btn": {
         "cancel": "Отменить",
         "save": "Сохранить",
@@ -503,7 +517,8 @@
         "save-photo": "Сохранить фото",
         "delete": "Удалить фото",
         "continue": "Продолжить редактирование",
-        "yes-delete": "Да, удалить"
+        "yes-delete": "Да, удалить",
+        "add": "Добавить"
       }
     },
     "footer": {
@@ -623,6 +638,7 @@
     }
   },
   "about-us": {
+    "disabled-link": "Эта страница в процессе разработки",
     "intro": {
       "block-1": {
         "header": "О нас",
@@ -666,7 +682,7 @@
   },
   "post-news-loader": {
     "text-1": "Please wait while loading...",
-    "text-2": "Your news is loading to the website. Please wait until the page refreshes"
+    "text-2": "Your news is loading to website. Please wait until page refresh."
   },
   "cancel-popup": {
     "title": "Все изменения будут потеряны.",
@@ -703,6 +719,7 @@
   },
   "create-news": {
     "title": "Создать новость",
+    "edit-title": "Редактировать новость",
     "form-description": "Пожалуйста, укажите как можно подробнее время и место мероприятия, цель собрания и т.п. Вы можете изменить новость в любое время после публикации.",
     "news-title": "Название",
     "title-placeholder": "напр. Кофе с собой со скидкой 20%",
@@ -729,7 +746,8 @@
     "author-name": "Текущий Пользователь",
     "cancel-button": "Выйти",
     "preview-button": "Просмотреть",
-    "publish-button": "Опубликовать"
+    "publish-button": "Опубликовать",
+    "edit-button": "Редактировать"
   },
   "drag-and-drop": {
     "picture-description": "Перетяните изображение сюда или",

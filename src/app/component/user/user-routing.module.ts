@@ -5,6 +5,7 @@ import { ProfileComponent, EditProfileComponent } from './components';
 import { AuthPageGuardService } from '../../service/route-guards/auth-page-guard.service';
 import { UserComponent } from './user.component';
 import { AddFriendsListComponent } from './components/profile/users-friends/add-friends-list/add-friends-list.component';
+import { AddNewHabitComponent } from './components/habit/add-new-habit/add-new-habit.component';
 
 export const userRoutes: Routes = [
   { path: '',
@@ -14,6 +15,7 @@ export const userRoutes: Routes = [
       { path: ':id', component: ProfileComponent },
       { path: ':id/edit', component: EditProfileComponent },
       { path: ':id/allhabits', component: AllHabitsComponent },
+      { path: ':id/allhabits/addhabit/:habitId', component: AddNewHabitComponent },
       { path: '', component: ProfileComponent },
       { path: ':id/friends', component: AddFriendsListComponent},
       { path: '', redirectTo: ':id', pathMatch: 'full' },

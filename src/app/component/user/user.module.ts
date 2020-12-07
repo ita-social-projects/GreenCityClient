@@ -7,12 +7,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AgmCoreModule } from '@agm/core';
+import { MatSliderModule } from '@angular/material/slider';
 import {
-  AddNewHabitModalComponent,
-  AlreadyChosenComponent,
-  AvailableToChooseComponent,
-  ConfirmationModalComponent,
-  HabitCardComponent,
   ButtonComponent,
   HabitTrackersComponent,
   HabitTrackerComponent,
@@ -74,6 +70,15 @@ import { UsersAchievementsComponent } from './components/profile/users-achieveme
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { AddFriendComponent } from './components/profile/users-friends/add-friend/add-friend.component';
 import { AddFriendsListComponent } from './components/profile/users-friends/add-friends-list/add-friends-list.component';
+import { HabitProgressComponent } from './components/habit/add-new-habit/habit-progress/habit-progress.component';
+import { HabitInviteFriendsComponent } from './components/habit/add-new-habit/habit-invite-friends/habit-invite-friends.component';
+import { HabitDurationComponent } from './components/habit/add-new-habit/habit-duration/habit-duration.component';
+import {
+  HabitEditShoppingListComponent
+ } from './components/habit/add-new-habit/habit-edit-shopping-list/habit-edit-shopping-list.component';
+import { HabitCalendarComponent } from './components/habit/add-new-habit/habit-calendar/habit-calendar.component';
+import { AddNewHabitComponent } from './components/habit/add-new-habit/add-new-habit.component';
+import { GradientDirective } from './components/habit/add-new-habit/habit-duration/gradient.directive';
 
 @NgModule({
   declarations: [
@@ -111,11 +116,6 @@ import { AddFriendsListComponent } from './components/profile/users-friends/add-
     HabitTitleComponent,
     HabitTrackerDateComponent,
     HabitTrackerComponent,
-    HabitCardComponent,
-    AvailableToChooseComponent,
-    AlreadyChosenComponent,
-    AddNewHabitModalComponent,
-    ConfirmationModalComponent,
     CustomLastPipe,
     ShowFirstNLettersPipe,
     ShowFirstNPipe,
@@ -137,7 +137,14 @@ import { AddFriendsListComponent } from './components/profile/users-friends/add-
     UsersFriendsComponent,
     UsersAchievementsComponent,
     AddFriendComponent,
-    AddFriendsListComponent
+    AddFriendsListComponent,
+    AddNewHabitComponent,
+    HabitProgressComponent,
+    HabitInviteFriendsComponent,
+    HabitDurationComponent,
+    HabitEditShoppingListComponent,
+    HabitCalendarComponent,
+    GradientDirective
   ],
   imports: [
     UserRoutingModule,
@@ -145,6 +152,7 @@ import { AddFriendsListComponent } from './components/profile/users-friends/add-
     SharedModule,
     MatButtonModule,
     MatRadioModule,
+    MatSliderModule,
     DragDropModule,
     HttpClientModule,
     AgmCoreModule.forRoot({

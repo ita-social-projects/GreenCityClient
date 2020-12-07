@@ -30,6 +30,6 @@ export class HomepageComponent implements OnInit {
   }
 
   startHabit() {
-    this.router.navigate(['profile', this.userId]);
+    this.router.navigate(['/profile', this.userId]);
   }
 }

@@ -13,7 +13,7 @@ export class UserFriendsService {
   constructor(private http: HttpClient) { }
 
   public getRecommendedFriends(id: number): Observable<any> {
-    return this.http.get<any>(`${this.url}user/${id}/recommendedFriends&page=0s&size=5&sort=desc)`);
+    return this.http.get<any>(`${this.url}user/${id}/recommendedFriends)`);
   }
 
   public getFriends(userId: number): Observable<FriendModel[]> {
