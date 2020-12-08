@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AchievementDto } from 'src/app/model/achievement/AchievementDto';
-import { UiActionsService } from 'src/app/service/ui-actions/ui-actions.service';
 
 @Component({
   selector: 'app-new-achievement-modal',

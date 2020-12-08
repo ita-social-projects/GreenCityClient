@@ -15,23 +15,24 @@
       </ng-template>
 
       <table *ngIf="showTable; else element">
+        <caption>Photo upload</caption>
         <thead>
         <tr>
-          <th width="90%">
+          <th class="photo-file-name" scope="row">
             {{'user.photo-upload.file-name' | translate}}
           </th>
-          <th width="10%" *ngIf="uploadButton">
+          <th class="photo-delete" scope="row" *ngIf="uploadButton">
             {{'user.photo-upload.remove' | translate}}
           </th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let item of uploader.queue">
-          <th width="90%">
+          <th class="photo-file-image" scope="row">
             <mdb-icon fas icon="file-image" size="2x" class="cyan-text pr-3" aria-hidden="true"></mdb-icon>
             {{ item.file.name}}({{item.file.size / 1000000}} MB)
           </th>
-          <th class="text-center" width="10%" *ngIf="uploadButton">
+          <th class="text-center" class="image-trash-icon" scope="row" *ngIf="uploadButton">
             <a id="trashIcon" (click)="item.remove()" style="padding-left: 2%; color: red;">
               <mdb-icon far icon="trash-alt"></mdb-icon>
             </a>

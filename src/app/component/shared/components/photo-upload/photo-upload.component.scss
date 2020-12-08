@@ -2,6 +2,28 @@
   display: none !important;
 }
 
+table {
+  caption {
+    display: none;
+  }
+
+  .photo-file-name {
+    width: 90%;
+  }
+
+  .photo-delete {
+    width: 10%;
+  }
+
+  .photo-file-image {
+    width: 90%;
+  }
+
+  .image-trash-icon {
+    width: 10%;
+  }
+}
+
 button {
   background: skyblue;
   border: none;

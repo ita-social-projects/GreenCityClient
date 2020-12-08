@@ -1,5 +1,9 @@
 table {
   width: 100%;
+
+  caption {
+    display: none;
+  }
 }
 
 [role="tooltip"] {

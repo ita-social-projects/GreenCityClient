@@ -17,6 +17,7 @@ import { UserService } from '../../../../service/user/user.service';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
 import { PlaceUpdatedDto } from '../../models/placeUpdatedDto.model';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-update-cafe',
@@ -25,9 +26,15 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 })
 export class UpdateCafeComponent implements OnInit {
 
-  constructor(private modalService: ModalService, private placeService: PlaceService, private categoryService: CategoryService,
-              private specificationService: SpecificationService, private uService: UserService, private mapsAPILoader: MapsAPILoader,
-              private ngZone: NgZone, @Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<UpdateCafeComponent>) {
+  constructor(private modalService: ModalService,
+              private placeService: PlaceService,
+              private categoryService: CategoryService,
+              private specificationService: SpecificationService,
+              private uService: UserService,
+              private matSnackBar: MatSnackBarComponent,
+              private mapsAPILoader: MapsAPILoader,
+              private ngZone: NgZone, @Inject(MAT_DIALOG_DATA) public data: any,
+              private dialogRef: MatDialogRef<UpdateCafeComponent>) {
     this.submitButtonEnabled = true;
   }
   name: any;
@@ -133,7 +140,7 @@ export class UpdateCafeComponent implements OnInit {
       // tslint:disable-next-line:prefer-for-of
       for (let i = 0; i < this.discountValues.length; i++) {
         if (discount1.specification.name === this.discountValues[i].specification.name) {
-          alert('Already exists.');
+          this.matSnackBar.openSnackBar('cafeNotificationsExists');
           exist = true;
         }
       }
@@ -145,7 +152,7 @@ export class UpdateCafeComponent implements OnInit {
 
   add(openingHours: OpeningHours, breakTimes: BreakTimes) {
     if (openingHours.closeTime < openingHours.openTime || breakTimes.endTime < breakTimes.startTime) {
-      alert('Second time have to be late than first. Please, try again.');
+      this.matSnackBar.openSnackBar('cafeNotificationsCloseTime');
       return;
     }
 
@@ -157,7 +164,7 @@ export class UpdateCafeComponent implements OnInit {
       if (breakTimes.startTime > openingHours1.openTime && breakTimes.endTime < openingHours1.closeTime) {
         openingHours1.breakTime = breakTimes;
       } else {
-        alert('Invalid break time.');
+        this.matSnackBar.openSnackBar('cafeNotificationsBreakTime');
         return;
       }
     }

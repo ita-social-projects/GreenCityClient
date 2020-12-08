@@ -132,7 +132,7 @@
           </button>
 
           <div class="choice" *ngFor="let list of discountValues" style="margin-top: 3%">
-            <b>{{list.specification.name}}</b> {{'user.propose-cafe.discount' | translate}}: <b>{{list.value}}</b>
+            <strong>{{list.specification.name}}</strong> {{'user.propose-cafe.discount' | translate}}: <strong>{{list.value}}</strong>
             <a id="trashIcon2" (click)="delete(list)" style="padding-left: 2%; color: red;">
               <mdb-icon far icon="trash-alt"></mdb-icon>
             </a>
@@ -184,11 +184,11 @@
         </div>
 
         <div class="choice" *ngFor="let list of openingHoursList" style="margin-top: 3%">
-          <b>{{list.weekDay}}</b> from: <b>{{list.openTime}}</b> to: <b>{{list.closeTime}}</b>
+          <strong>{{list.weekDay}}</strong> from: <strong>{{list.openTime}}</strong> to: <strong>{{list.closeTime}}</strong>
           <div *ngIf="list.breakTime" style="padding-left: 5%; display: inline-block;">
-            <b>{{'user.propose-cafe.start' | translate}}</b>
-            <b>{{list.breakTime.startTime}}</b>
-            {{'user.propose-cafe.end' | translate}} <b>{{list.breakTime.endTime}}</b></div>
+            <strong>{{'user.propose-cafe.start' | translate}}</strong>
+            <strong>{{list.breakTime.startTime}}</strong>
+            {{'user.propose-cafe.end' | translate}} <strong>{{list.breakTime.endTime}}</strong></div>
           <a id="trashIcon" (click)="deleteDay(list)" style="padding-left: 2%; color: red;">
             <mdb-icon far icon="trash-alt"></mdb-icon>
           </a>

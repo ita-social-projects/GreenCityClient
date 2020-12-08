@@ -4,8 +4,9 @@
       <h4 class="card-title">{{'feedbacks.feedbacks' | translate}}</h4>
       <div class="table-responsive" style="padding: 1%">
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+          <caption>Feedback table</caption>
           <ng-container matColumnDef="place">
-            <th mat-header-cell *matHeaderCellDef class="place">
+            <th mat-header-cell *matHeaderCellDef scope="col" class="place">
               {{'feedbacks.place' | translate}}
             </th>
             <td mat-cell id="placeColumn" *matCellDef="let element" class="place">
@@ -14,7 +15,7 @@
           </ng-container>
 
           <ng-container matColumnDef="text">
-            <th mat-header-cell *matHeaderCellDef class="text">
+            <th mat-header-cell *matHeaderCellDef scope="col" class="text">
               {{'feedbacks.comment' | translate}}
             </th>
             <td mat-cell id="textColumn" *matCellDef="let element" class="text">
@@ -34,7 +35,7 @@
 
 
           <ng-container matColumnDef="attachments">
-            <th mat-header-cell *matHeaderCellDef class="attachments" style="text-align: center">
+            <th mat-header-cell *matHeaderCellDef scope="col" class="attachments" style="text-align: center">
               {{'feedbacks.attachments' | translate}}
             </th>
             <td mat-cell id="photosColumn" style="text-align: center" *matCellDef="let element" class="attachments">
@@ -48,7 +49,7 @@
           </ng-container>
 
           <ng-container matColumnDef="delete">
-            <th mat-header-cell *matHeaderCellDef class="delete"></th>
+            <th mat-header-cell *matHeaderCellDef scope="col" class="delete"></th>
             <td mat-cell *matCellDef="let element" class="delete">
               <a id="trashIcon" (click)="confirmDelete(element.id, element.place.name)">
                 <mdb-icon far icon="trash-alt"></mdb-icon>
