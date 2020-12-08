@@ -431,7 +431,7 @@ $screen-320: " screen and (max-width : 320px)";
     background: #fff;
 
     li {
-      width: 141px;
+      min-width: 141px;
       height: 44px;
       font-size: 14px;
       line-height: 16px;
@@ -444,6 +444,12 @@ $screen-320: " screen and (max-width : 320px)";
         font-size: 12px;
         font-weight: 600;
         height: 30px;
+
+        a {
+          display: flex;
+          flex-wrap: nowrap;
+          align-items: center;
+        }
 
         .reverse {
           transform: rotate(180deg);
@@ -532,6 +538,11 @@ $screen-320: " screen and (max-width : 320px)";
 }
 
 @media #{$screen-576} {
+  .logo-img {
+    width: 94px;
+    height: 24px;
+  }
+
   .main {
     .main-container {
       margin: 0 2.4%;
