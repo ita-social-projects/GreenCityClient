@@ -40,9 +40,6 @@ jobs:
         run: npm run stylelint
 
       - name: Unit Tests
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ng test --watch=false --progress=false --codeCoverage=true --browsers=ChromeHeadless
 
       - name: Sonar-scan
@@ -50,16 +47,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          run: >
-            /opt/sonar-scanner/bin/sonar-scanner
-            -Dsonar.organization=ita-social-projects
-            -Dsonar.projectKey=ita-social-projects-green-city-client
-            -Dsonar.host.url=https://sonarcloud.io
-            -Dsonar.sources=src
-            -Dsonar.exclusions=**/node_modules/**
-            -Dsonar.tests=src
-            -Dsonar.test.inclusions=**/*.spec.ts
-            -Dsonar.javascript.lcov.reportPaths=coverage/GreenCityClient/lcov.info
+        run: >
+          /opt/sonar-scanner/bin/sonar-scanner
+          -Dsonar.organization=ita-social-projects
+          -Dsonar.projectKey=ita-social-projects-green-city-client
+          -Dsonar.host.url=https://sonarcloud.io
+          -Dsonar.sources=src
+          -Dsonar.exclusions=**/node_modules/**
+          -Dsonar.tests=src
+          -Dsonar.test.inclusions=**/*.spec.ts
+          -Dsonar.javascript.lcov.reportPaths=coverage/GreenCityClient/lcov.info
 #            -Dsonar.qualitygate.wait=true
           
       - name: E2E Tests
