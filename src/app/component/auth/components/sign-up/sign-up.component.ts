@@ -50,7 +50,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
               private dialog: MatDialog,
               private formBuilder: FormBuilder,
               private userOwnSignInService: UserOwnSignInService,
-              private userOwnSecurityService: UserOwnSignUpService,
+              private userOwnSignUpService: UserOwnSignUpService,
               private router: Router,
               private authService: AuthService,
               private googleService: GoogleSignInService,
@@ -75,7 +75,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.setNullAllMessage();
     this.loadingAnim = true;
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
-    this.userOwnSecurityService.signUp(userOwnRegister, this.currentLanguage)
+    this.userOwnSignUpService.signUp(userOwnRegister, this.currentLanguage)
       .pipe(
         takeUntil(this.destroy)
       )
