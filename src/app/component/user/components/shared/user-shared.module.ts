@@ -5,7 +5,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { UserProfileImageComponent } from './components/user-profile-image/user-profile-image.component';
 
 @NgModule({

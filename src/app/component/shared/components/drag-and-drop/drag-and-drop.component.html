@@ -17,7 +17,8 @@
 		<img
 			*ngIf = "!isCropper"
 			[src]="file.url"
-			appDragAndDrop (files)="filesDropped($event)">
+			appDragAndDrop (files)="filesDropped($event)"
+			alt="image-cropper">
 		<div *ngIf = "isCropper"
 				class="cropper-block">
 			<image-cropper

@@ -88,7 +88,7 @@ export class FeedbacksComponent implements OnInit {
   }
 
   openDialog(photoUrl: string): void {
-    const dialogRef = this.dialog.open(DialogPhotoComponent, {
+    this.dialog.open(DialogPhotoComponent, {
       width: '55%',
       height: '65%',
       hasBackdrop: true,

@@ -6,6 +6,7 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
 import {Observable} from 'rxjs';
 import {Photo} from '../../../../model/photo/photo';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-photo-upload',
@@ -44,7 +45,11 @@ export class PhotoUploadComponent implements OnInit {
     isHTML5: true
   });
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private db: AngularFirestore, private storage: AngularFireStorage) {
+  constructor(private fb: FormBuilder,
+              private http: HttpClient,
+              private matSnackBar: MatSnackBarComponent,
+              private db: AngularFirestore,
+              private storage: AngularFireStorage) {
 
   }
 
@@ -52,14 +57,9 @@ export class PhotoUploadComponent implements OnInit {
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.uploader.queue.length; i++) {
       const fileItem = this.uploader.queue[i]._file;
-      if (fileItem.type !== 'image/png' && fileItem.type !== 'image/jpeg') {
+      if (fileItem.type !== 'image/png' && fileItem.type !== 'image/jpeg' && fileItem.size > 10000000) {
         this.loadingUpload = false;
-        alert('Each File should be png or jpeg.');
-        return;
-      }
-      if (fileItem.size > 10000000) {
-        this.loadingUpload = false;
-        alert('Each File should be less than 10 MB of size.');
+        this.matSnackBar.openSnackBar('cafeNotificationsPhotoUpload');
         return;
       }
     }

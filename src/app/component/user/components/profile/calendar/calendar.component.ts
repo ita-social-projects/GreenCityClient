@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '@language-service/language.service';
-import { CalendarBaseComponent } from '@shared/components';
+import { CalendarBaseComponent } from '@shared/components/calendar-base/calendar-base.component';
 
 @Component({
   selector: 'app-calendar',

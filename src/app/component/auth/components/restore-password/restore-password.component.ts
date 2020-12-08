@@ -114,7 +114,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
       return;
     }
 
-    errors.error.map((error) => {
+    errors.error.forEach((error) => {
       this.emailErrorMessageBackEnd = error.name === 'email' ? error.message : this.emailErrorMessageBackEnd;
       this.passwordErrorMessageBackEnd = error.name === 'password' ? error.message : this.passwordErrorMessageBackEnd;
     });

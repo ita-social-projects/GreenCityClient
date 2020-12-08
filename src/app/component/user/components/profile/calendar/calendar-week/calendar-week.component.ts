@@ -65,7 +65,6 @@ export class CalendarWeekComponent implements OnInit, OnDestroy {
       this.monthAndYearName = `${this.firstDayInWeek} - ${this.firstDayInWeek + this.maxDaysInWeek}
 ${this.months[this.currentMonth]} ${this.currentYear}`;
       this.markCurrentDayOfWeek();
-      console.log('daysName', this.daysName);
     });
   }
 
@@ -124,7 +123,7 @@ ${this.months[this.currentMonth]} ${this.currentYear}`;
   }
 
   public isCurrentDayActive(): void {
-    this.calendarDay.map(el => el.isCurrentDayActive =
+    this.calendarDay.forEach(el => el.isCurrentDayActive =
       (el.date.getDate() === el.numberOfDate
         && el.date.getMonth() === el.month
         && el.date.getFullYear() === el.year)
@@ -134,7 +133,7 @@ ${this.months[this.currentMonth]} ${this.currentYear}`;
   public markCurrentDayOfWeek(): void {
     const option = { weekday: 'short' };
     this.language = this.languageService.getCurrentLanguage();
-    this.calendarDay.find(el => {
+    this.calendarDay.forEach(el => {
       if (
         el.isCurrentDayActive
         && el.date.getMonth() === el.month
@@ -143,7 +142,6 @@ ${this.months[this.currentMonth]} ${this.currentYear}`;
         const dayName = (new Date(el.year, el.month, +el.numberOfDate)
           .toLocaleDateString(this.language, option));
         this.currentDayName = dayName.charAt(0).toUpperCase() + dayName.slice(1);
-        console.log('currentDayName', this.currentDayName);
       }
     });
   }
