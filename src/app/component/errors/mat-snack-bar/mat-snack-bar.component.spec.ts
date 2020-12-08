@@ -1,6 +1,7 @@
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from './mat-snack-bar.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -8,6 +9,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 describe('MatSnackBarComponent', () => {
   let component: MatSnackBarComponent;
   let fixture: ComponentFixture<MatSnackBarComponent>;
+  let matSnackBarMock: MatSnackBar;
+  matSnackBarMock = jasmine.createSpyObj('MatSnackBar', ['open']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -17,6 +20,9 @@ describe('MatSnackBarComponent', () => {
         TranslateModule.forRoot(),
         BrowserAnimationsModule
       ],
+      providers: [
+        { provide: MatSnackBar, useValue: matSnackBarMock }
+      ]
     })
     .compileComponents();
   }));
@@ -98,6 +104,7 @@ describe('MatSnackBarComponent', () => {
     it('should call the errorMessage to close the dialog', () => {
       const spy = spyOn(component.snackType, 'errorMessage').and.callThrough();
       component.snackType[`errorMessage`]('Ups');
+    });
 
     it('should call the function to get type of snackBar', () => {
       const spy = spyOn(component.snackType, 'cafeNotificationsExists').and.callThrough();

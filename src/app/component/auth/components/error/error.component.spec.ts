@@ -23,7 +23,7 @@ describe('error component', () => {
     // @ts-ignore
     component.getType();
 
-    expect(component.errorMessage).toBe('user.auth.sign-in.email-is-required');
+    expect(component.errorMessage).toBe('user.auth.sign-in.password-is-required');
   });
 
   it('Error: get email message', () => {
@@ -33,7 +33,7 @@ describe('error component', () => {
 
   it('Error: get required message', () => {
     // @ts-ignore
-    expect(component.getErrorMsg[`required`]()).toBe('user.auth.sign-in.email-is-required');
+    expect(component.getErrorMsg[`required`]()).toBe('user.auth.sign-in.password-is-required');
   });
 
   it('Error: get passwordMismatch message', () => {

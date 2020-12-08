@@ -15,12 +15,12 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   public newsItem: EcoNewsModel;
   public images = singleNewsImages;
   public userId: number;
+  public userInfo;
   private newsIdSubscription: Subscription;
   private newsItemSubscription: Subscription;
   private newsId: number;
   private newsImage: string;
-  public userInfo;
-  public currentPage: string = window.location.href;
+
   constructor(private route: ActivatedRoute,
               private ecoNewsService: EcoNewsService,
               private localStorageService: LocalStorageService ) { }
@@ -43,6 +43,21 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
 
   public canUserEditNews(): void {
     this.localStorageService.userIdBehaviourSubject.subscribe(id => this.userId = id);
+  }
+
+  public onSocialShareLinkClick(type: string): void {
+    const data = this.shareLinks();
+    window.open(data[type](), '_blank');
+  }
+
+  private shareLinks() {
+    const currentPage: string = window.location.href;
+
+    return {
+      fb: () => `https://www.facebook.com/sharer/sharer.php?u=${currentPage}`,
+      linkedin: () => `https://www.linkedin.com/sharing/share-offsite/?url=${currentPage}`,
+      twitter: () => `https://twitter.com/share?url=${currentPage}&text=${this.newsItem.title}&hashtags=${this.newsItem.tags.join(',')}`
+    };
   }
 
   private setNewsId(): void {

@@ -4,10 +4,14 @@ export function ConfirmPasswordValidator(controlName: string, matchingControlNam
   return (formGroup: FormGroup) => {
     const control = formGroup.controls[controlName];
     const matchingControl = formGroup.controls[matchingControlName];
-    if (control.value !== matchingControl.value && matchingControl.value !== '') {
-      matchingControl.setErrors({ passwordMismatch: true });
+    if (matchingControl.value === '') {
+      matchingControl.setErrors({ required: true });
     } else {
-      matchingControl.setErrors(null);
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ passwordMismatch: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
     }
   };
 }
@@ -18,10 +22,14 @@ export function ValidatorRegExp(controlName: string) {
     const regexpPass = /^(?=.*[a-z]+)(?=.*[A-Z]+)(?=.*\d+)(?=.*[~`!@#$%^&*()+=_\-{}|:;”’?/<>,.\]\[]+).{8,}$/;
     const regexp = controlName === 'firstName' ? regexpName : regexpPass;
     const control = formGroup.controls[controlName];
-    if (!control.value.match(regexp)) {
-      control.setErrors({ symbolInvalid: true });
+    if (control.value === '') {
+      control.setErrors({ required: true });
     } else {
-      control.setErrors(null);
+      if (!control.value.match(regexp)) {
+        control.setErrors({ symbolInvalid: true });
+      } else {
+        control.setErrors(null);
+      }
     }
   };
 }

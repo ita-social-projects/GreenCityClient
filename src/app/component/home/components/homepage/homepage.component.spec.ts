@@ -19,6 +19,10 @@ import { UserService } from '@global-service/user/user.service';
 import { Language } from '@language-service/Language';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthModule } from 'src/app/component/auth/auth.module';
+import { SearchAllResultsComponent } from 'src/app/component/layout/components';
+import { ItemComponent } from 'src/app/component/layout/components/search-all-results/item/item.component';
+import { EcoNewsModule } from 'src/app/component/eco-news/eco-news.module';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 describe('HomepageComponent', () => {
   let component: HomepageComponent;
@@ -61,7 +65,9 @@ describe('HomepageComponent', () => {
         MatSnackBarModule,
         MatDialogModule,
         BrowserAnimationsModule,
-        AuthModule
+        AuthModule,
+        EcoNewsModule,
+        InfiniteScrollModule
       ],
       declarations: [
         StatRowsComponent,
@@ -72,6 +78,8 @@ describe('HomepageComponent', () => {
         StatRowComponent,
         EcoEventsItemComponent,
         TipsCardComponent,
+        SearchAllResultsComponent,
+        ItemComponent
       ],
       providers: [
         { provide: MatSnackBarComponent, useValue: snackBarMock },
