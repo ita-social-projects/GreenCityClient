@@ -59,9 +59,6 @@ jobs:
       - name: E2E Tests
         run: npx ng e2e --protractor-config=e2e/protractor-ci.conf.js
 
-#      - name: Sonar scan
-
-
       - name: Build
         run: |
           npx ng build --prod --delete-output-path --base-href=/GreenCityClient/ --outputPath=dist_aot && rm -rf dist_aot
