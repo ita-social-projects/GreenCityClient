@@ -24,6 +24,7 @@
     <div *ngIf="emailControl.invalid && emailControl.touched"
         class="error-message">
       <app-error [formElement]="emailControl" 
+                 [emailFieldValue]="emailFieldValue"
                  [controlName]="'email'"></app-error>
     </div>
     <div *ngIf="emailErrorMessageBackEnd" 
@@ -35,16 +36,18 @@
       {{ 'user.auth.sign-up.first-name' | translate }}
     </label>
     <input type="text"
-          placeholder="{{ 'user.auth.sign-up.first-name-is-required' | translate }}"
+          placeholder="{{ 'user.auth.sign-up.first-name' | translate }}"
           id="firstName"
           name="firstName"
           formControlName="firstName"
+          (input)="setEmailBackendErr()"
           [ngClass]="firstNameControl.invalid && firstNameControl.touched ||  backEndError 
                       ? 'main-data-input wrong-input'
                       : 'main-data-input'">
     <div *ngIf="firstNameControl.invalid && firstNameControl.touched"
         class="error-message">
       <app-error [formElement]="firstNameControl"
+                 [nameFieldValue]="nameFieldValue"
                  [controlName]="'firstName'"></app-error>
     </div>
     <div *ngIf="firstNameErrorMessageBackEnd" 
@@ -64,7 +67,8 @@
              #inputPassword
              formControlName="password"
              id="password"
-             name="form-control password">
+             name="form-control password"
+             (input)="setEmailBackendErr()">
       <img [src]="signUpImages.hiddenEye"
             alt="eye"
             class="show-password-img"
@@ -74,6 +78,7 @@
     <div *ngIf="passwordControl.invalid && passwordControl.touched"
         class="error-message">
       <app-error [formElement]="passwordControl"
+                 [passwordFieldValue]="passwordFieldValue"
                  [controlName]="'password'"></app-error>
     </div>
     <label class="content-label under-error"
@@ -91,7 +96,8 @@
              #repeatPassword
              formControlName="repeatPassword"
              id="repeatPassword"
-             name="form-control password-confirm">
+             name="form-control password-confirm"
+             (input)="setEmailBackendErr()">
       <img [src]="signUpImages.hiddenEye"
             alt="eye"
             class="show-password-img"
@@ -100,7 +106,8 @@
     </div>
     <div *ngIf="passwordControlConfirm.invalid && passwordControlConfirm.touched"
           class="error-message">
-      <app-error [formElement]="passwordControlConfirm" 
+      <app-error [formElement]="passwordControlConfirm"
+                 [passwordConfirmFieldValue]="passwordConfirmFieldValue"
                  [controlName]="'repeatPassword'"></app-error>
     </div>
     <div *ngIf="passwordErrorMessageBackEnd" 
