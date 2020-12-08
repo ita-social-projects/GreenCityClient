@@ -40,7 +40,7 @@ jobs:
         run: npm run stylelint
 
       - name: Unit Tests
-                #continue-on-error: true
+        continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
