@@ -1,3 +1,4 @@
+import { EcoNewsService } from './../../../services/eco-news.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 
@@ -5,12 +6,29 @@ import { EcoNewsWidgetComponent } from './eco-news-widget.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NewsListGalleryViewComponent } from '../../news-list/news-list-gallery-view/news-list-gallery-view.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { of } from 'rxjs';
-import { EcoNewsService } from '@eco-news-service/eco-news.service';
+import { of, Observable } from 'rxjs';
+import { EcoNewsModel } from '@eco-news-models/eco-news-model';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('EcoNewsWidgetComponent', () => {
   let component: EcoNewsWidgetComponent;
   let fixture: ComponentFixture<EcoNewsWidgetComponent>;
+
+  const mockData = {
+    id: 1,
+    imagePath: 'test',
+    title: 'test',
+    text: 'test',
+    author: {
+        id: 1,
+        name: 'test',
+    },
+    tags: ['test'],
+    creationDate: '11111'
+  };
+  const ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getRecommendedNews']);
+  ecoNewsServiceMock.getRecommendedNews = () => of([mockData]);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -22,7 +40,11 @@ describe('EcoNewsWidgetComponent', () => {
         TranslateModule.forRoot(),
         RouterTestingModule,
         HttpClientTestingModule
-      ]
+      ],
+      providers: [
+        { provide: EcoNewsService, useValue: ecoNewsServiceMock }
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
   }));
@@ -37,23 +59,9 @@ describe('EcoNewsWidgetComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return true on subscription', inject([EcoNewsService], (setvice: EcoNewsService) => {
-    const mockData = {
-      id: 1,
-      imagePath: 'test',
-      title: 'test',
-      text: 'test',
-      author: {
-          id: 1,
-          name: 'test',
-      },
-      tags: ['test'],
-      creationDate: 'test'
-    };
-
-    const spy = spyOn(setvice, 'getRecommendedNews').and.returnValue(of(mockData));
+  it('should return true on subscription', () => {
     component.newsIdSubscription();
 
-    expect(spy).toHaveBeenCalled();
-  }));
+    expect(component.recommendedNews[0]).toBe(mockData);
+  });
 });

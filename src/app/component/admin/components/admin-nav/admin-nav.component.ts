@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ProposeCafeComponent } from '../../../core/components/propose-cafe/propose-cafe.component';
 import { MatDialog } from '@angular/material';
 

@@ -21,12 +21,36 @@ import { SignUpComponent } from './sign-up.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { UserOwnSignUp } from '@global-models/user-own-sign-up';
+import { Language } from '@language-service/Language';
+
+class UserOwnSignUpServiceMock {
+  mockFormData = {
+    email: 'test@gmail.com',
+    firstName: 'JohnSmith',
+    password: '123456qW@'
+  };
+
+  signUp() {
+    return of(this.mockFormData);
+  }
+}
 
 describe('SignUpComponent', () => {
   let component: SignUpComponent;
   let fixture: ComponentFixture<SignUpComponent>;
   let authServiceMock: AuthService;
   let MatSnackBarMock: MatSnackBarComponent;
+  let localStorageServiceMock: LocalStorageService;
+  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
+  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
+  localStorageServiceMock.setFirstName = () => true;
+  localStorageServiceMock.setFirstSignIn = () => true;
+  localStorageServiceMock.getUserId = () => 1;
+  localStorageServiceMock.setAccessToken = () => true;
+  localStorageServiceMock.setRefreshToken = () => true;
+  localStorageServiceMock.setUserId = () => true;
+
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
   class MatDialogRefMock {
     close() { }
@@ -43,6 +67,13 @@ describe('SignUpComponent', () => {
     val.authToken = '1';
     resolve(val);
   });
+
+  const mockFormData = {
+    email: 'test@gmail.com',
+    firstName: 'JohnSmith',
+    password: '123456qW@'
+  };
+
   authServiceMock = jasmine.createSpyObj('AuthService', ['signIn']);
   authServiceMock.signIn = (providerId: string, opt?: LoginOpt) => promiseSocialUser;
 
@@ -71,7 +102,8 @@ describe('SignUpComponent', () => {
         { provide: AuthServiceConfig, useFactory: provideConfig },
         { provide: Router, useValue: routerSpy },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
-        UserOwnSignUpService
+        { provide: UserOwnSignUpService, useClass: UserOwnSignUpServiceMock },
+        { provide: LocalStorageService, useValue: localStorageServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     })
@@ -225,18 +257,9 @@ describe('SignUpComponent', () => {
   });
 
   describe('Check sign up methods', () => {
-    let userOwnSecurityService: UserOwnSignUpService;
     let mockUserSuccessSignIn: UserSuccessSignIn;
-    let mockFormData;
 
     beforeEach(() => {
-      userOwnSecurityService = fixture.debugElement.injector.get(UserOwnSignUpService);
-      mockFormData = {
-        email: 'test@gmail.com',
-        firstName: 'JohnSmith',
-        password: '123456qW@'
-      };
-
       mockUserSuccessSignIn = {
         userId: '23',
         name: 'JohnSmith',
@@ -245,25 +268,22 @@ describe('SignUpComponent', () => {
       };
     });
 
-    xit('onSubmit should call UserOwnSecurityService', () => {
+    it('onSubmit should call userOwnSignUpService', () => {
       // @ts-ignore
       component.onSubmitSuccess = () => true;
-      const spy = spyOn(userOwnSecurityService, 'signUp').and.returnValue(Observable.of(mockFormData));
-      component.onSubmit(mockFormData);
-      expect(spy).toHaveBeenCalled();
+      // @ts-ignore
+      const spy = spyOn(component.userOwnSignUpService, 'signUp').and.returnValue(of(mockFormData));
+      component.onSubmit(mockFormData as UserOwnSignUp);
+      expect(spy).toHaveBeenCalledWith(mockFormData, 'ua');
     });
 
     it('onSubmit should call onSubmitError', () => {
       const errors = new HttpErrorResponse({ error: [{ name: 'name', message: 'Ups' }] });
-      const spy = spyOn(userOwnSecurityService, 'signUp').and.returnValue(throwError(errors));
-      component.onSubmit(mockFormData);
+      // @ts-ignore
+      const spy = spyOn(component.userOwnSignUpService, 'signUp').and.returnValue(throwError(errors));
+      component.onSubmit(mockFormData as UserOwnSignUp);
       // @ts-ignore
       expect(spy).toHaveBeenCalled();
-    });
-
-    it('loadingAnim should equele true', () => {
-      component.onSubmit(mockFormData);
-      expect(component.loadingAnim).toEqual(true);
     });
 
     describe('Check sign up with signInWithGoogle', () => {

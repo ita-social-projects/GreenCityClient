@@ -33,6 +33,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   public loadingAnim: boolean;
   public currentLanguage: string;
   public userIdSubscription: Subscription;
+  public emailFieldValue: string;
   @Output() public pageName = new EventEmitter();
 
   constructor(
@@ -65,6 +66,9 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
     this.emailErrorMessageBackEnd = null;
     this.passwordErrorMessageBackEnd = null;
     this.backEndError = null;
+    if (this.restorePasswordForm) {
+      this.emailFieldValue = this.restorePasswordForm.get('email').value;
+    }
   }
 
   private checkIfUserId(): void {
@@ -113,7 +117,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
       return;
     }
 
-    errors.error.map((error) => {
+    errors.error.forEach((error) => {
       this.emailErrorMessageBackEnd = error.name === 'email' ? error.message : this.emailErrorMessageBackEnd;
       this.passwordErrorMessageBackEnd = error.name === 'password' ? error.message : this.passwordErrorMessageBackEnd;
     });

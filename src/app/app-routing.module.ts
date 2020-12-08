@@ -1,7 +1,9 @@
+import { ConfirmRestorePasswordComponent } from '@global-auth/index';
 import { TipsListComponent} from './component/home/components';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { HomepageComponent} from './component/home/components';
+import { SearchAllResultsComponent } from './component/layout/components';
 
 export const routes: Routes = [
   {
@@ -26,14 +28,15 @@ export const routes: Routes = [
   },
   {
     path: 'search',
-    loadChildren: () => import('./component/layout/components').then(mod => mod.SearchAllResultsComponent)
+    component: SearchAllResultsComponent
   },
   {
     path: 'auth/restore',
-    loadChildren: () => import('@global-auth/index').then(mod => mod.ConfirmRestorePasswordComponent)
+    component: ConfirmRestorePasswordComponent,
   },
   {
     path: '',
+    pathMatch: 'full',
     component: HomepageComponent,
   },
   {

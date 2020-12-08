@@ -538,6 +538,11 @@ $screen-320: " screen and (max-width : 320px)";
 }
 
 @media #{$screen-576} {
+  .logo-img {
+    width: 94px;
+    height: 24px;
+  }
+
   .main {
     .main-container {
       margin: 0 2.4%;
