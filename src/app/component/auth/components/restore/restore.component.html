@@ -5,8 +5,8 @@
          [(ngModel)]="email"
          minlength="1" 
          email="true">
-  <div style="margin-top: 40px; text-align:center">
-    <button [matDialogClose]="true" style="width: 200px" class="btn btn-primary submit" type="submit" (click)="sentEmail()">
+  <div class="btn-wrp">
+    <button [matDialogClose]="true" class="btn btn-primary submit" type="submit" (click)="sentEmail()">
       {{'user.restore.submit' | translate}}
     </button>
   </div>

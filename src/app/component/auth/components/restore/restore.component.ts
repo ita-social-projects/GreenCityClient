@@ -4,7 +4,11 @@ import { RestorePasswordService } from '../../../../service/auth/restore-passwor
 
 @Component({
   selector: 'app-restore',
-  templateUrl: './restore.component.html'
+  templateUrl: './restore.component.html',
+  styles: [
+    '.btn { width: 200px; }',
+    '.btn-wrp { margin-top: 40px; text-align: center }'
+  ]
 })
 export class RestoreComponent implements OnInit {
   public email: string;
