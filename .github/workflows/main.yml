@@ -43,16 +43,13 @@ jobs:
         run: npx ng test --watch=false --progress=false --browsers=ChromeHeadless
         
       - name: E2E Tests
-        run: |
-          npx ng e2e --protractor-config=e2e/protractor-ci.conf.js
-          ls -la
-
-      - name: Sonar scan
-        continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: >
+        continue-on-error: true
+        run: |
+          npx ng e2e --protractor-config=e2e/protractor-ci.conf.js
+          ls -la
           /opt/sonar-scanner/bin/sonar-scanner
           -Dsonar.organization=ita-social-projects
           -Dsonar.projectKey=ita-social-projects-green-city-client
@@ -62,6 +59,8 @@ jobs:
           -Dsonar.tests=src
           -Dsonar.test.inclusions=**/*.spec.ts
           -Dsonar.javascript.lcov.reportPaths=coverage/GreenCityClient/lcov.info
+#      - name: Sonar scan
+
 
       - name: Build
         run: |
