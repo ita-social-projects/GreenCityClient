@@ -28,6 +28,8 @@ export class HeaderComponent implements OnInit {
   public langDropdownVisible: boolean;
   public name: string;
   public isLoggedIn: boolean;
+  public isAdmin: boolean;
+  public managementLink: string;
   public isAllSearchOpen = false;
   public toggleBurgerMenu = false;
   public arrayLang: Array<LanguageModel> = [
@@ -35,13 +37,11 @@ export class HeaderComponent implements OnInit {
     {lang: 'En'},
     {lang: 'Ru'}];
   public isSearchClicked = false;
-  public adminRoleValue = 'ROLE_ADMIN';
+  private adminRoleValue = 'ROLE_ADMIN';
   private userRole: string;
   private userId: number;
   private token: string;
-  private isAdmin: boolean;
   private backEndLink = environment.backendLink;
-  private managementLink: string;
 
   constructor(private modalService: ModalService,
               public dialog: MatDialog,
