@@ -32,7 +32,7 @@ div {
         color: #13aa57;
         display: inline-block;
         margin: 0 16px 0 0;
-        text-transform: capitalize;
+        text-transform: uppercase;
       }
 
       .word-wrap {
@@ -88,7 +88,7 @@ div {
         max-height: 26px;
         display: block;
         white-space: nowrap;
-        max-width: 120px;
+        max-width: 91px;
         overflow: hidden;
         text-overflow: ellipsis;
       }
@@ -107,15 +107,20 @@ div {
   #list-gallery-content {
     width: 960px;
     height: 166px;
+    padding: auto 32px;
 
     .list-image-content {
       width: 299px;
-      height: 166px;
+      height: 171px;
     }
   }
 
   .list-text {
     display: none;
+  }
+
+  .title-list {
+    max-width: 613px;
   }
 
   .user-data-added-news {
