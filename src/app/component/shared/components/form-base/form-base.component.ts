@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { WarningPopUpComponent } from '@shared/components';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-form-base',
@@ -42,12 +43,11 @@ export class FormBaseComponent implements ComponentCanDeactivate {
     if (this.checkChanges()) {
       const matDialogRef = this.dialog.open(WarningPopUpComponent, this.popupConfig);
 
-      const dialogSub = matDialogRef.afterClosed().subscribe(confirm => {
+      matDialogRef.afterClosed().pipe(take(1)).subscribe(confirm => {
         if (confirm) {
           this.areChangesSaved = true;
           this.router.navigate([this.previousPath]);
         }
-        dialogSub.unsubscribe();
       });
     } else {
       this.areChangesSaved = true;

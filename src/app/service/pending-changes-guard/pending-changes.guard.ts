@@ -3,6 +3,7 @@ import { CanDeactivate } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material';
 import { WarningPopUpComponent } from '@shared/components';
+import {take} from 'rxjs/operators';
 
 export interface ComponentCanDeactivate {
   canDeactivate: () => boolean | Observable<boolean>;
@@ -33,12 +34,11 @@ export class PendingChangesGuard implements CanDeactivate<ComponentCanDeactivate
       const matDialogRef = this.dialog.open(WarningPopUpComponent, component.popupConfig);
 
       return new Promise(resolve => {
-        const dialogSub = matDialogRef.afterClosed().subscribe(confirm => {
+        matDialogRef.afterClosed().pipe(take(1)).subscribe(confirm => {
           if (!confirm) {
             history.pushState({navigationId: 2}, '', component.previousPath);
           }
           resolve(confirm);
-          dialogSub.unsubscribe();
         });
       });
     }
