@@ -129,12 +129,16 @@ div {
 }
 
 @media screen and (max-width: 991px) {
+  .title-list {
+    max-width: 501px;
+  }
+
   #list-gallery-content {
     width: 742px;
     height: 191px;
 
     .list-image-content {
-      width: 214px;
+      width: 191px;
       height: 191px;
       object-fit: cover;
     }
