@@ -54,7 +54,7 @@ jobs:
           -Dsonar.projectKey=ita-social-projects-green-city-client
           -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.sources=src
-          -Dsonar.exclusions=**/node_modules/**,src/app/model/achievement/*,src/app/model/achievement/*,src/app/model/advice/*,src/app/model/filtering/*,src/app/model/habit-fact/*,src/app/component/home/models/*,src/app/service/subscription/*
+          -Dsonar.exclusions=**/node_modules/**,src/app/model/achievement/*,src/app/model/achievement/*,src/app/model/advice/*,src/app/model/filtering/*,src/app/model/habit-fact/*,src/app/component/home/models/*,src/app/service/subscription/*,src/app/model/habit/*,src/app/model/user/userFilterDto.model.*,src/app/component/about/about-routing.module.*,src/app/component/about/about.module.*,src/app/component/eco-news/eco-news-routing.module.*,src/app/component/eco-news/eco-news.module.*,src/app/component/map/map-routing.module.*,src/app/component/map/map.module.*,src/app/component/user/user-routing.module.*,src/app/component/user/user.module.*,src/app/app-routing.module.*,src/app/component/shared/shared.module.*,src/app/component/admin/admin-routing.module.*,src/app/component/admin/admin.module.*,src/app/app.module.*,src/app/component/auth/auth.module.*,src/app/component/core/core.module.*,src/app/component/home/home.module.*,src/app/component/layout/layout.module.*,src/app/model/weekDays.model.*
           -Dsonar.tests=src
           -Dsonar.test.inclusions=**/*.spec.ts
           -Dsonar.javascript.lcov.reportPaths=coverage/GreenCityClient/lcov.info
