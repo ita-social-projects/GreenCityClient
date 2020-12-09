@@ -54,7 +54,7 @@ jobs:
           -Dsonar.projectKey=ita-social-projects-green-city-client
           -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.sources=src
-          -Dsonar.exclusions=**/node_modules/**,src/app/model/achievement/*,src/app/model/achievement/*,src/app/model/advice/*,src/app/model/filtering/*,src/app/model/habit-fact/*,src/app/component/home/models/*,src/app/service/subscription/*,src/app/model/user/userFilterDto.model.ts,src/app/component/about/about-routing.module.ts,src/app/component/about/about.module.ts,src/app/component/eco-news/eco-news-routing.module.ts,src/app/component/eco-news/eco-news.module.ts,src/app/component/map/map-routing.module.ts,src/app/component/map/map.module.ts,src/app/component/user/user-routing.module.ts,src/app/component/user/user.module.ts,src/app/app-routing.module.ts,src/app/component/shared/shared.module.ts,src/app/component/admin/admin-routing.module.ts,src/app/component/admin/admin.module.ts,src/app/app.module.ts,src/app/component/auth/auth.module.ts,src/app/component/core/core.module.ts,src/app/component/home/home.module.ts,src/app/component/layout/layout.module.ts,src/app/model/weekDays.model.ts
+          -Dsonar.exclusions=**/node_modules/**,src/app/model/achievement/*,src/app/model/achievement/*,src/app/model/advice/*,src/app/model/filtering/*,src/app/model/habit-fact/*,src/app/component/home/models/*,src/app/service/subscription/*
           -Dsonar.tests=src
           -Dsonar.test.inclusions=**/*.spec.ts
           -Dsonar.javascript.lcov.reportPaths=coverage/GreenCityClient/lcov.info
