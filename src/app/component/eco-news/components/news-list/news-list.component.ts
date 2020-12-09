@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
@@ -34,7 +34,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.onResize();
-    this.setDefaultNumberOfNews(12);
+    this.setDefaultNumberOfNews(6);
     this.setNullList();
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();

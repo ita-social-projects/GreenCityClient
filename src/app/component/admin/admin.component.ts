@@ -1,6 +1,6 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {JwtService} from '../../service/jwt/jwt.service';
-import {HttpClient} from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { JwtService } from '../../service/jwt/jwt.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-admin',

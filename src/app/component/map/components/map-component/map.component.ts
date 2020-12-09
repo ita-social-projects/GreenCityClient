@@ -123,13 +123,17 @@ export class MapComponent implements OnInit {
 
   setCurrentLocation(): Position {
     if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.lat = position.coords.latitude;
-        this.lng = position.coords.longitude;
-        this.zoom = 13;
-        this.userMarkerLocation = { lat: this.lat, lng: this.lng };
-        this.filterService.setUserMarkerLocation(this.userMarkerLocation);
-        return position;
+      navigator.permissions.query({name: 'geolocation'}).then( (permissionStatus) => {
+        if (permissionStatus.state === 'granted') {
+          navigator.geolocation.getCurrentPosition(position => {
+            this.lat = position.coords.latitude;
+            this.lng = position.coords.longitude;
+            this.zoom = 13;
+            this.userMarkerLocation = { lat: this.lat, lng: this.lng };
+            this.filterService.setUserMarkerLocation(this.userMarkerLocation);
+            return position;
+          });
+        }
       });
     }
     return null;

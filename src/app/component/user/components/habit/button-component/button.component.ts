@@ -1,6 +1,4 @@
-import { Component, OnInit, Output } from '@angular/core';
-import { EventEmitter } from 'events';
-import { UiActionsService } from 'src/app/service/ui-actions/ui-actions.service';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-button',

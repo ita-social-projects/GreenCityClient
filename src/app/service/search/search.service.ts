@@ -25,21 +25,14 @@ export class SearchService {
 
   public getAllSearch(searchQuery: string, searchType: string): Observable<SearchModel> {
     switch (searchType) {
-      case 'relevance': {
-        this.getResultsByCat('search');
-        break;
-      }
-      case 'newest': {
-        this.getResultsByCat('newest');
-        break;
-      }
-      case 'latest': {
-        this.getResultsByCat('noresults');
-        break;
-      }
-      default: {
+      case 'relevance':
         return this.getResultsByCat('search');
-      }
+      case 'newest':
+        return this.getResultsByCat('newest');
+      case 'latest':
+        return this.getResultsByCat('noresults');
+      default:
+        return this.getResultsByCat('search');
     }
   }
 

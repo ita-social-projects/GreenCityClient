@@ -1,6 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {UserService} from '../../../../../service/user/user.service';
-import {AchievementService} from '../../../../../service/achievement/achievement.service';
+import { Component, OnInit } from '@angular/core';
+import { AchievementService } from '../../../../../service/achievement/achievement.service';
 
 @Component({
   selector: 'app-achievement-list',

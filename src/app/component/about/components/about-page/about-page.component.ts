@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
 })
 
 export class AboutPageComponent implements OnInit, OnDestroy {
-  private langChangeSub: Subscription;
+  public langChangeSub: Subscription;
   private userId: number;
 
   constructor(private router: Router,
