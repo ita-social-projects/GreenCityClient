@@ -1,6 +1,7 @@
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from './mat-snack-bar.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -8,6 +9,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 describe('MatSnackBarComponent', () => {
   let component: MatSnackBarComponent;
   let fixture: ComponentFixture<MatSnackBarComponent>;
+  let matSnackBarMock: MatSnackBar;
+  matSnackBarMock = jasmine.createSpyObj('MatSnackBar', ['open']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -17,6 +20,9 @@ describe('MatSnackBarComponent', () => {
         TranslateModule.forRoot(),
         BrowserAnimationsModule
       ],
+      providers: [
+        { provide: MatSnackBar, useValue: matSnackBarMock }
+      ]
     })
     .compileComponents();
   }));
@@ -52,39 +58,63 @@ describe('MatSnackBarComponent', () => {
       expect(spy).toHaveBeenCalled();
     });
 
-    it('should call the function to close the dialog', () => {
+    it('should call the function to get type of snackBar', () => {
       const spy = spyOn(component.snackType, 'attention').and.callThrough();
       component.snackType[`attention`]();
       expect(spy).toHaveBeenCalled();
     });
 
-    it('should call the function to close the dialog', () => {
+    it('should call the function to get type of snackBar', () => {
       const spy = spyOn(component.snackType, 'success').and.callThrough();
       component.snackType[`success`]();
       expect(spy).toHaveBeenCalled();
     });
 
-    it('should call the function to close the dialog', () => {
+    it('should call the function to get type of snackBar', () => {
       const spy = spyOn(component.snackType, 'exitConfirmRestorePassword').and.callThrough();
       component.snackType[`exitConfirmRestorePassword`]();
       expect(spy).toHaveBeenCalled();
     });
 
-    it('should call the function to close the dialog', () => {
+    it('should call the function to get type of snackBar', () => {
       const spy = spyOn(component.snackType, 'successRestorePassword').and.callThrough();
       component.snackType[`successRestorePassword`]();
       expect(spy).toHaveBeenCalled();
     });
 
-    it('should call the function to close the dialog', () => {
+    it('should call the function to get type of snackBar', () => {
       const spy = spyOn(component.snackType, 'successConfirmPassword').and.callThrough();
       component.snackType[`successConfirmPassword`]();
       expect(spy).toHaveBeenCalled();
     });
 
-    it('should call the function to close the dialog', () => {
+    it('should call the function to get type of snackBar', () => {
       const spy = spyOn(component.snackType, 'signUp').and.callThrough();
       component.snackType[`signUp`]();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the function to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'cafeNotificationsExists').and.callThrough();
+      component.snackType[`cafeNotificationsExists`]();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the function to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'cafeNotificationsCloseTime').and.callThrough();
+      component.snackType[`cafeNotificationsCloseTime`]();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the function to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'cafeNotificationsBreakTime').and.callThrough();
+      component.snackType[`cafeNotificationsBreakTime`]();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the function to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'cafeNotificationsPhotoUpload').and.callThrough();
+      component.snackType[`cafeNotificationsPhotoUpload`]();
       expect(spy).toHaveBeenCalled();
     });
   });

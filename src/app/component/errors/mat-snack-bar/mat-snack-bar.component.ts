@@ -40,6 +40,22 @@ export class MatSnackBarComponent {
       this.getSnackBarMessage('snack-bar.success.sign-up');
       this.className = 'success-snackbar';
     },
+    cafeNotificationsExists: () => {
+      this.getSnackBarMessage('update-cafe.notifications.exists');
+      this.className = 'error-snackbar';
+    },
+    cafeNotificationsCloseTime: () => {
+      this.getSnackBarMessage('update-cafe.notifications.closeTime');
+      this.className = 'error-snackbar';
+    },
+    cafeNotificationsBreakTime: () => {
+      this.getSnackBarMessage('update-cafe.notifications.breakTime');
+      this.className = 'error-snackbar';
+    },
+    cafeNotificationsPhotoUpload: () => {
+      this.getSnackBarMessage('update-cafe.notifications.photoUpload');
+      this.className = 'error-snackbar';
+    },
     errorMessage: (error) => {
       this.message = error;
       this.className = 'error-snackbar';

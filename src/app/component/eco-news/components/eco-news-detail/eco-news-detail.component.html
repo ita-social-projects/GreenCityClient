@@ -53,21 +53,21 @@
     >
     <div class="news-text-container">
       <div class="news-links-images">
-        <a [href]="'https://twitter.com/share?url=' + currentPage + '&text='+newsItem.title+'&hashtags='+newsItem.tags.join(',')" target="_blank">
+        <a (click)="onSocialShareLinkClick('twitter')">
           <img [src]="images.twitter"
                alt="twitter"
                class="news-links-img"
           >
         </a>
         <!-- not sure what will work on the local host or on the github pages -->
-        <a [href]="'https://www.linkedin.com/sharing/share-offsite/?url=' + currentPage" target="_blank">
+        <a (click)="onSocialShareLinkClick('linkedin')">
           <img [src]="images.linkedIn"
                alt="linkedin"
                class="news-links-img"
           >
         </a>
         <!-- More FB parameters will be taken from OG meta tags -->
-        <a [href]="'https://www.facebook.com/sharer/sharer.php?u=' + currentPage" target="_blank">
+        <a (click)="onSocialShareLinkClick('fb')">
           <img [src]="images.facebook"
                alt="facebook"
                class="news-links-img last-img">

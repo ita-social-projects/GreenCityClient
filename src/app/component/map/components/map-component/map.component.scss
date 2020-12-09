@@ -22,6 +22,7 @@ $unActiveColor: #839c94;
 .main {
   display: flex;
   margin: 0 10%;
+  box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
 
   &.sub-1 {
     width: 90vw;

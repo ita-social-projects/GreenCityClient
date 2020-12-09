@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 // tslint:disable-next-line: max-line-length
-import { SwiperDirective, SwiperComponent, SwiperScrollbarInterface, SwiperPaginationInterface, SwiperConfigInterface } from 'ngx-swiper-wrapper';
+import { SwiperDirective, SwiperComponent, SwiperConfigInterface } from 'ngx-swiper-wrapper';
 
 @Component({
   selector: 'app-tips-list',
