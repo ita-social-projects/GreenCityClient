@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
-import { filter, window } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { ModalService } from '@global-core/components/propose-cafe/_modal/modal.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
