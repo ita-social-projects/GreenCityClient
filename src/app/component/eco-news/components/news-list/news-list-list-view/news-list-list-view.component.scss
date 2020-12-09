@@ -6,7 +6,6 @@ div {
 
 #list-gallery-content {
   display: flex;
-  width: 1140px;
   max-height: 199px;
   box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
   border-radius: 4px;
@@ -105,12 +104,9 @@ div {
 
 @media screen and (max-width: 1199px) {
   #list-gallery-content {
-    width: 960px;
     height: 166px;
-    padding: auto 32px;
 
     .list-image-content {
-      width: 299px;
       height: 171px;
     }
   }
@@ -134,7 +130,6 @@ div {
   }
 
   #list-gallery-content {
-    width: 742px;
     height: 191px;
 
     .list-image-content {
@@ -160,7 +155,6 @@ div {
 
 @media screen and (max-width: 767px) {
   #list-gallery-content {
-    width: 548px;
     height: 185px;
 
     .list-image-content {
@@ -170,6 +164,7 @@ div {
     .title-list {
       font-size: 18px;
       line-height: 24px;
+      max-width: 500px;
     }
   }
 }
