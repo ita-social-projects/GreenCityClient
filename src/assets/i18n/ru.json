@@ -243,7 +243,8 @@
     "profile": "Мой кабинет",
     "user-settings": "Настройки",
     "sign-out": "Выйти",
-    "sign-in": "Войти"
+    "sign-in": "Войти",
+    "management": "Менеджмент"
   },
   "admin": {
     "errorMessage": "Запрещено"

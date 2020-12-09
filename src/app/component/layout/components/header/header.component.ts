@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
-import { filter } from 'rxjs/operators';
+import { filter, window } from 'rxjs/operators';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { ModalService } from '@global-core/components/propose-cafe/_modal/modal.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -14,6 +14,7 @@ import { SearchService } from '@global-service/search/search.service';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { LanguageModel } from '../models/languageModel';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
+import { environment } from '@environment/environment';
 
 @Component({
   selector: 'app-header',
@@ -34,8 +35,13 @@ export class HeaderComponent implements OnInit {
     {lang: 'En'},
     {lang: 'Ru'}];
   public isSearchClicked = false;
+  public adminRoleValue = 'ROLE_ADMIN';
   private userRole: string;
   private userId: number;
+  private token: string;
+  private isAdmin: boolean;
+  private backEndLink = environment.backendLink;
+  private managementLink: string;
 
   constructor(private modalService: ModalService,
               public dialog: MatDialog,
@@ -64,6 +70,9 @@ export class HeaderComponent implements OnInit {
     this.userOwnAuthService.isLoginUserSubject.subscribe(
       status => this.isLoggedIn = status
     );
+    this.token = this.localStorageService.getAccessToken();
+    this.isAdmin = this.userRole === this.adminRoleValue;
+    this.managementLink = `${this.backEndLink}token?accessToken=${this.token}`;
   }
 
   setLangArr(): void {
