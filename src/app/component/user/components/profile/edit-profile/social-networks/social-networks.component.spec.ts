@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { SocialNetworksComponent } from './social-networks.component';
-import { MatDialog, MatDialogModule } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { WarningPopUpComponent } from '@shared/components';
 import { of } from 'rxjs';
 
