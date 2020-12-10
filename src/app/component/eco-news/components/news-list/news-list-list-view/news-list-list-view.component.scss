@@ -108,6 +108,7 @@ div {
 
     .list-image-content {
       height: 171px;
+      width: 299px;
     }
   }
 
@@ -157,14 +158,16 @@ div {
   #list-gallery-content {
     height: 185px;
 
-    .list-image-content {
-      display: none;
-    }
-
     .title-list {
       font-size: 18px;
       line-height: 24px;
       max-width: 500px;
     }
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .list-image-content {
+    display: none;
   }
 }
