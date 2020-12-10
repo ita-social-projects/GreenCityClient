@@ -10,17 +10,17 @@ import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service'
 import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
 import { FilterModel } from '@eco-news-models/create-news-interface';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
-import { CancelPopUpComponent } from '@shared/components';
 import { ACTION_TOKEN, TEXT_AREAS_HEIGHT, FILTERS } from './action.constants';
 import { ActionInterface } from '../../models/action.interface';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 
 @Component({
   selector: 'app-create-edit-news',
   templateUrl: './create-edit-news.component.html',
   styleUrls: ['./create-edit-news.component.scss']
 })
-export class CreateEditNewsComponent implements OnInit, OnDestroy {
+export class CreateEditNewsComponent extends FormBaseComponent implements OnInit, OnDestroy {
   public isPosting = false;
   public form: FormGroup;
   public isArrayEmpty = true;
@@ -37,27 +37,67 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
   public newsId: string;
   public formData: FormGroup;
   private destroy: ReplaySubject<any> = new ReplaySubject<any>(1);
+
   public isFormInvalid: boolean;
+  public formChangeSub: Subscription;
+  public previousPath = '/news';
+  public popupConfig = {
+    hasBackdrop: true,
+    closeOnNavigation: true,
+    disableClose: true,
+    panelClass: 'popup-dialog-container',
+    data: {
+      popupTitle: 'homepage.eco-news.news-popup.title',
+      popupSubtitle: 'homepage.eco-news.news-popup.subtitle',
+      popupConfirm: 'homepage.eco-news.news-popup.confirm',
+      popupCancel: 'homepage.eco-news.news-popup.cancel',
+    }
+  };
+
   public onSubmit(): void {}
 
-
-  constructor(private router: Router,
+  constructor(public router: Router,
+              public dialog: MatDialog,
               private createEditNewsFormBuilder: CreateEditNewsFormBuilder,
               private createEcoNewsService: CreateEcoNewsService,
               private ecoNewsService: EcoNewsService,
               private route: ActivatedRoute,
-              private dialog: MatDialog,
               @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface },
-              private snackBar: MatSnackBarComponent) { }
+              private snackBar: MatSnackBarComponent) {
+
+    super(router, dialog);
+
+  }
 
   ngOnInit() {
     this.getNewsIdFromQueryParams();
     this.initPageforCreateOrEdit();
     this.onSourceChange();
-    this.isFormInvalid = !this.form.valid ||
-                          this.isArrayEmpty ||
-                          !this.isLinkOrEmpty ||
-                          this.isImageValid();
+  }
+
+  public setInitialValues(): void {
+    if (!this.createEcoNewsService.isBackToEditing) {
+      this.initialValues = this.getFormValues();
+      this.isFormInvalid = !!!this.newsId;
+    }
+    this.onValueChanges();
+  }
+
+  public allowUserEscape(): void {
+    this.areChangesSaved = true;
+  }
+
+  public getFormValues(): any {
+    return this.form.value;
+  }
+
+  public onValueChanges(): void {
+    this.formChangeSub = this.form.valueChanges.subscribe(() => {
+      this.isFormInvalid = !this.form.valid ||
+                            this.isArrayEmpty ||
+                            !this.isLinkOrEmpty ||
+                            this.isImageValid();
+    });
   }
 
   public initPageforCreateOrEdit(): void {
@@ -75,6 +115,7 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
         this.form = this.createEditNewsFormBuilder.getEditForm(this.formData.value);
         this.setActiveFilters(this.formData.value);
       }
+      this.setInitialValues();
     } else {
       if (this.newsId) {
         this.fetchNewsItemToEdit();
@@ -82,6 +123,7 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
       } else {
         this.form = this.createEditNewsFormBuilder.getSetupForm();
         this.setDataForCreate();
+        this.setInitialValues();
       }
     }
   }
@@ -119,7 +161,6 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
     }
   }
 
-
   public createNews(): void {
     this.isPosting = true;
     this.createEcoNewsService
@@ -134,6 +175,7 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
       .subscribe(
         () => {
           this.isPosting = false;
+          this.allowUserEscape();
           this.router.navigate(['/news']);
         }
       );
@@ -156,6 +198,7 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
       .subscribe(
         () => {
           this.isPosting = false;
+          this.allowUserEscape();
           this.router.navigate(['/news']);
         }
       );
@@ -171,6 +214,7 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
         this.form = this.createEditNewsFormBuilder.getEditForm(item);
         this.setActiveFilters(item);
         this.onSourceChange();
+        this.setInitialValues();
       });
   }
 
@@ -241,21 +285,10 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
   }
 
   public goToPreview(): void {
+    this.allowUserEscape();
     this.createEcoNewsService.setForm(this.form);
     this.createEcoNewsService.setNewsId(this.newsId);
     this.router.navigate(['news', 'preview']);
-  }
-
-  public openCancelPopup(): void {
-    this.dialog.open(CancelPopUpComponent, {
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      disableClose: true,
-      panelClass: 'custom-dialog-container',
-      data: {
-        currentPage: 'eco news'
-      }
-    });
   }
 
   public isImageValid(): boolean {
@@ -265,5 +298,8 @@ export class CreateEditNewsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy.next(null);
     this.destroy.complete();
+    if (this.formChangeSub) {
+      this.formChangeSub.unsubscribe();
+    }
   }
 }

@@ -1,4 +1,4 @@
-export { CreateNewsComponent } from './create-news/create-news.component';
+export { CreateEditNewsComponent } from './create-edit-news/create-edit-news.component';
 export { EcoNewsDetailComponent } from './eco-news-detail/eco-news-detail.component';
 export { EcoNewsWidgetComponent } from './eco-news-detail/eco-news-widget/eco-news-widget.component';
 export { NewsListComponent } from './news-list/news-list.component';
