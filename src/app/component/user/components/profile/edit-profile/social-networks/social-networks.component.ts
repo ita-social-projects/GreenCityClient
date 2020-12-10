@@ -1,5 +1,8 @@
 import { Component, Input, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { NgModel } from '@angular/forms';
+import { MatDialog } from '@angular/material';
+import { WarningPopUpComponent } from '@shared/components';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-social-networks',
@@ -23,7 +26,7 @@ export class SocialNetworksComponent implements OnInit {
   @Input() socialNetworks = [];
   @Output() socialNetworksChange: EventEmitter<any> = new EventEmitter();
 
-  constructor() {}
+  constructor( private dialog: MatDialog ) {}
 
   ngOnInit() {}
 
@@ -35,8 +38,24 @@ export class SocialNetworksComponent implements OnInit {
   }
 
   public onDeleteLink(link): void {
-    this.socialNetworks = this.socialNetworks.filter(el => link.url !== el.url );
-    this.onEmitSocialNetworksChange();
+    const dialogRef = this.dialog.open(WarningPopUpComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: 'popup-dialog-container',
+      data: {
+        popupTitle: 'user.edit-profile.delete-popup.title',
+        popupConfirm: 'user.edit-profile.btn.yes',
+        popupCancel: 'user.edit-profile.btn.cancel',
+      }
+    });
+
+    dialogRef.afterClosed().pipe(take(1)).subscribe(confirm => {
+      if (confirm) {
+        this.socialNetworks = this.socialNetworks.filter(el => link.url !== el.url );
+        this.onEmitSocialNetworksChange();
+      }
+    });
   }
 
   public onToggleInput(state?: boolean): void {

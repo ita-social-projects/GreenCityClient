@@ -535,13 +535,17 @@
         "delete": "Delete photo",
         "continue": "Continue editing",
         "yes-delete": "Yes, delete",
-        "add": "Add"
+        "add": "Add",
+        "yes": "Yes"
       },
       "profile-popup": {
         "title": "All created content will be lost.",
         "subtitle": "Do you still want to cancel profile editing?",
         "cancel": "Continue editing",
         "confirm": "Yes, cancel"
+      },
+      "delete-popup": {
+        "title": "Are you sure that you want to remove this social network link from your profile?"
       }
     },
     "footer": {
