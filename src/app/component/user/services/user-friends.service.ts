@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environment/environment';
-import { FriendModel } from '@global-user/models/friend.model';
+import { FriendModel, FriendRecommendedModel } from '@global-user/models/friend.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -12,8 +12,8 @@ export class UserFriendsService {
 
   constructor(private http: HttpClient) { }
 
-  public getRecommendedFriends(id: number): Observable<any> {
-    return this.http.get<any>(`${this.url}user/${id}/recommendedFriends/`);
+  public getRecommendedFriends(id: number): Observable<FriendRecommendedModel> {
+    return this.http.get<FriendRecommendedModel>(`${this.url}user/${id}/recommendedFriends/?page=0&size=5`);
   }
 
   public getFriends(userId: number): Observable<FriendModel[]> {
