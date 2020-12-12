@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AbstractControl, FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { SignInIcons } from 'src/app/image-pathes/sign-in-icons';
 import { RestoreDto } from '@global-models/restroreDto';
 import { ActivatedRoute } from '@angular/router';

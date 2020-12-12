@@ -64,8 +64,8 @@ export class SocialNetworksComponent implements OnInit {
 
   public getErrorMessage(linkErrors) {
     let result = 'user.edit-profile.input-validation-';
-    Object.keys(linkErrors).map(error => {
-      return result = result + error;
+    Object.keys(linkErrors).forEach(error => {
+      result = result + error;
     });
     return result;
   }
@@ -107,7 +107,7 @@ export class SocialNetworksComponent implements OnInit {
 
   private createArrayWithUrl(arr = this.socialNetworks) {
     const result = [];
-    Object.values(arr).map(el => result.push(el.url));
+    Object.values(arr).forEach(el => result.push(el.url));
     return result;
   }
 }
