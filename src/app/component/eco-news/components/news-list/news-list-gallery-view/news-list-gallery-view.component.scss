@@ -56,17 +56,6 @@ div {
       overflow: hidden;
       position: relative;
 
-      &::after {
-        content: "";
-        text-align: right;
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        width: 50%;
-        height: 1.4rem;
-        background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);
-      }
-
       .title-list {
         max-height: 52px;
         overflow: hidden;
