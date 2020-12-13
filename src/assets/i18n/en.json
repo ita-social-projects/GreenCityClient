@@ -254,7 +254,8 @@
     "profile": "Profile",
     "user-settings": "Settings",
     "sign-out": "Sign out",
-    "sign-in": "Sign in"
+    "sign-in": "Sign in",
+    "management": "Management"
   },
   "admin": {
     "errorMessage": "Forbidden"
