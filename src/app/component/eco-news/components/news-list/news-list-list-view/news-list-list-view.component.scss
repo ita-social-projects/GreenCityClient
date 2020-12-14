@@ -6,7 +6,6 @@ div {
 
 #list-gallery-content {
   display: flex;
-  width: 1140px;
   max-height: 199px;
   box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
   border-radius: 4px;
@@ -32,7 +31,7 @@ div {
         color: #13aa57;
         display: inline-block;
         margin: 0 16px 0 0;
-        text-transform: capitalize;
+        text-transform: uppercase;
       }
 
       .word-wrap {
@@ -88,7 +87,7 @@ div {
         max-height: 26px;
         display: block;
         white-space: nowrap;
-        max-width: 120px;
+        max-width: 91px;
         overflow: hidden;
         text-overflow: ellipsis;
       }
@@ -105,17 +104,20 @@ div {
 
 @media screen and (max-width: 1199px) {
   #list-gallery-content {
-    width: 960px;
     height: 166px;
 
     .list-image-content {
+      height: 171px;
       width: 299px;
-      height: 166px;
     }
   }
 
   .list-text {
     display: none;
+  }
+
+  .title-list {
+    max-width: 613px;
   }
 
   .user-data-added-news {
@@ -124,12 +126,15 @@ div {
 }
 
 @media screen and (max-width: 991px) {
+  .title-list {
+    max-width: 501px;
+  }
+
   #list-gallery-content {
-    width: 742px;
     height: 191px;
 
     .list-image-content {
-      width: 214px;
+      width: 191px;
       height: 191px;
       object-fit: cover;
     }
@@ -151,16 +156,18 @@ div {
 
 @media screen and (max-width: 767px) {
   #list-gallery-content {
-    width: 548px;
     height: 185px;
-
-    .list-image-content {
-      display: none;
-    }
 
     .title-list {
       font-size: 18px;
       line-height: 24px;
+      max-width: 500px;
     }
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .list-image-content {
+    display: none;
   }
 }

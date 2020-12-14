@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EcoNewsComponent } from './eco-news.component';
-import { EcoNewsDetailComponent } from './components/eco-news-detail/eco-news-detail.component';
-import { NewsPreviewPageComponent } from './components/news-preview-page/news-preview-page.component';
-import { PostNewsLoaderComponent } from './components/post-news-loader/post-news-loader.component';
-import { NewsListComponent } from './components/news-list/news-list.component';
-import { CreateEditNewsComponent } from './components/create-edit-news/create-edit-news.component';
+import { EcoNewsDetailComponent } from './components';
+import { NewsPreviewPageComponent } from './components';
+import { PostNewsLoaderComponent } from './components';
+import { NewsListComponent } from './components';
+import { CreateEditNewsComponent } from './components';
+import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';
 
 
 const ecoNewsRoutes: Routes = [
@@ -19,7 +20,8 @@ const ecoNewsRoutes: Routes = [
       },
       {
         path: 'create-news',
-        component: CreateEditNewsComponent
+        component: CreateEditNewsComponent,
+        canDeactivate: [PendingChangesGuard]
       },
       {
         path: 'post-news-loader',

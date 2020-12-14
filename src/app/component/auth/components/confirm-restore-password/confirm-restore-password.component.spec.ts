@@ -1,4 +1,6 @@
-import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { async, ComponentFixture, TestBed, fakeAsync, tick, flush, inject } from '@angular/core/testing';
 
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ChangePasswordService } from '@auth-service/change-password.service';
@@ -9,17 +11,18 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { By } from '@angular/platform-browser';
-import { Observable } from 'rxjs';
+import { observable, Observable, of } from 'rxjs';
 import { RestoreDto } from '@global-models/restroreDto';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-
 
 
 describe('ConfirmRestorePasswordComponent', () => {
   let component: ConfirmRestorePasswordComponent;
   let fixture: ComponentFixture<ConfirmRestorePasswordComponent>;
   let MatSnackBarMock: MatSnackBarComponent;
+  let httpTestingController: HttpTestingController;
+
   const MatDialogRefMock = {
     close: () => { }
   };
@@ -31,8 +34,7 @@ describe('ConfirmRestorePasswordComponent', () => {
   MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = (type: string) =>  { };
 
-  class Fake {
-  }
+  class Fake { }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -46,15 +48,18 @@ describe('ConfirmRestorePasswordComponent', () => {
           path: 'welcome',
           component: Fake
         }]),
+        HttpClientTestingModule
         ],
       providers: [
         { provide: ChangePasswordService, useValue: ChangePasswordServiceStub },
         { provide: MatDialogRef, useValue: MatDialogRefMock },
-        { provide: MatSnackBarComponent, useValue: MatSnackBarMock }
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
     ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
+
+    httpTestingController = TestBed.get(HttpTestingController);
   }));
 
   beforeEach(() => {

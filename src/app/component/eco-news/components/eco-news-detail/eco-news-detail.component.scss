@@ -37,6 +37,10 @@ $main-font: 'Open Sans', sans-serif;
 .top-elements {
   margin-top: 54px;
   justify-content: space-between;
+
+  a {
+    text-decoration: none;
+  }
 }
 
 .back-button {
@@ -62,6 +66,11 @@ $main-font: 'Open Sans', sans-serif;
   border: 1px solid #13aa57;
   border-radius: 3px;
   text-align: center;
+}
+
+.edit-news:hover {
+  border-color: #056b33;
+  color: #056b33;
 }
 
 .tags,

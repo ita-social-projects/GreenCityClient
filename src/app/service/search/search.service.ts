@@ -57,11 +57,6 @@ export class SearchService {
   public getAllResults(query: string, category: string = 'econews', page: number = 0, sort: string = '') {
     const itemsPerPage = 9;
 
-    // bug on backend in DB
-    if (category === 'tipsandtricks') {
-      sort.replace('creation_date', 'creationDate');
-    }
-
     return this.http.get(`${this.backEndLink}search/${category}?searchQuery=${query}&sort=${sort}&page=${page}&size=${itemsPerPage}`)
     .pipe(
       switchMap(res => of(res))
