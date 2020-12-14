@@ -38,6 +38,7 @@ export class NewsListListViewComponent {
     smallHeigth: {
       26: () => 'one-row',
       52: () => 'two-row',
+      78: () => 'two-row',
       104:() => 'two-row',
     },
     bigHeight: {
@@ -82,10 +83,12 @@ export class NewsListListViewComponent {
   }
 
   private getHeightOfDesc(titleHeigth: number): string {
+    console.log('getHeightOfDesc', titleHeigth, this.getDomWidth())
     return this.possibleDescHeigth[this.getDomWidth()][titleHeigth]();
   }
 
   private getHeightOfTitle(titleHeigth: number): string {
+    console.log('getHeightOfTitle', titleHeigth, this.getDomWidth())
     return this.possibleTitleHeigth[this.getDomWidth()][titleHeigth]();
   }
 }

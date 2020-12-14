@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="container">
   <div (window:resize)="onResize()">
     <div class="cont">
       <h1 class="main-header">{{ "homepage.eco-news.title" | translate }}</h1>
@@ -48,7 +48,7 @@
     </ul>
   </div>
   <app-spinner *ngIf="elementsArePresent; else noNews"></app-spinner>
-  <ng-template #noNews>
+  <ng-template *ngIf="remaining > 0" #noNews>
     <app-no-data [text]="'homepage.eco-news.empty-state.no-news-advice'"
                  [title]="'homepage.eco-news.empty-state.no-news'">
     </app-no-data>
