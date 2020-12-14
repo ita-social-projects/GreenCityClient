@@ -10,14 +10,79 @@ import { ecoNewsIcons } from 'src/app/image-pathes/profile-icons';
 })
 export class NewsListListViewComponent {
   @Input() ecoNewsModel: EcoNewsModel;
+  @ViewChild('titleHeight', {static: true}) titleHeight: ElementRef;
+  @ViewChild('textHeight', {static: true}) textHeight: ElementRef;
+
+  private possibleDescHeigth = {
+    smallHeigth: {
+      26: () => 'one-row',
+      52: () => 'd-none',
+      72: () => 'd-none',
+      78: () => 'd-none',
+      96: () => 'd-none',
+      104:() => 'd-none',
+    },
+    bigHeight: {
+      24: () => 'two-row',
+      26: () => 'tree-row',
+      48: () => 'one-row',
+      52: () => 'two-row',
+      72: () => 'd-none',
+      78: () => 'd-none',
+      96: () => 'd-none',
+    }
+  };
+
+  private possibleTitleHeigth = {
+    smallHeigth: {
+      26: () => 'one-row',
+      52: () => 'two-row',
+      104:() => 'two-row',
+    },
+    bigHeight: {
+      24: () => 'one-row',
+      26: () => 'one-row',
+      48: () => 'two-row',
+      52: () => 'two-row',
+      72: () => 'tree-row',
+      78: () => 'tree-row',
+      96: () => 'tree-row',
+      104:() => 'tree-row'
+    }
+  };
 
   public profileIcons = ecoNewsIcons;
   public newsImage: string;
 
-  constructor() {}
+  constructor(private renderer: Renderer2) {}
+
+  ngAfterViewChecked() {
+    this.checkHeightOfTittle();
+  }
+
+  public checkHeightOfTittle(): void {
+    const titleHeightOfElement = this.titleHeight.nativeElement.offsetHeight;
+    const descCalss = this.getHeightOfDesc(titleHeightOfElement)
+    const titleCalss = this.getHeightOfTitle(titleHeightOfElement)
+    
+    this.renderer.addClass(this.textHeight.nativeElement, descCalss)
+    this.renderer.addClass(this.titleHeight.nativeElement, titleCalss)
+  }
 
   public checkNewsImage(): string {
     return this.newsImage = (this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' ') ?
                               this.ecoNewsModel.imagePath : this.profileIcons.newsDefaultPictureList;
+  }
+
+  private getDomWidth(): string {
+    return window.innerWidth >= 1024 && window.innerWidth < 1440 ? 'smallHeigth' : 'bigHeight'; 
+  }
+
+  private getHeightOfDesc(titleHeigth: number): string {
+    return this.possibleDescHeigth[this.getDomWidth()][titleHeigth]();
+  }
+
+  private getHeightOfTitle(titleHeigth: number): string {
+    return this.possibleTitleHeigth[this.getDomWidth()][titleHeigth]();
   }
 }

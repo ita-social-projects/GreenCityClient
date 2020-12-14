@@ -10,15 +10,19 @@
         {{ tag }}
       </span>
     </div>
-    <div class="eco-news_list-content-title">
-      <p>
-        {{ ecoNewsModel.title }}
-      </p>
-    </div>
-    <div class="eco-news_list-content-text">
-      <p>
-        {{ ecoNewsModel.text }}
-      </p>
+    <div> 
+      <div class="eco-news_list-content-title"
+        #titleHeight>
+        <p>
+          {{ ecoNewsModel.title }}
+        </p>
+      </div>
+      <div class="eco-news_list-content-text"
+        #textHeight>
+        <p>
+          {{ ecoNewsModel.text }}
+        </p>
+      </div>
     </div>
     <div class="eco-news_list-autors">
       <p class="eco-news_data-text-date">

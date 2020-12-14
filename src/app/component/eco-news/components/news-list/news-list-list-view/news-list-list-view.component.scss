@@ -1,6 +1,13 @@
 $color-greenCity-green: #13aa57;
 $--theme-gray: #313131;
-$--theme-fotn-gray: #666;
+$--theme-font-gray: #666;
+
+@mixin rowStyles {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-all;
+}
 
 p,
 div {
@@ -32,9 +39,7 @@ div {
 
 .eco-news_list-content {
   padding: 24px;
-  display: -ms-grid;
   display: grid;
-  -ms-grid-rows: 20px 8px auto 8px 20px;
   grid-template-rows: 20px auto 20px;
   row-gap: 8px;
   height: 100%;
@@ -46,20 +51,10 @@ div {
   font-weight: 500;
   font-size: 18px;
   line-height: 24px;
-  color: --theme-gray;
-  margin-bottom: 8px;
-
-  p {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    word-break: break-all;
-  }
-}
-
-.eco-news_list-content-text {
-  display: none;
+  margin-bottom: 5px;
+  color: $--theme-gray;
+  overflow: hidden;
+  word-break: break-all;
 }
 
 .eco-news_list-autors {
@@ -69,7 +64,7 @@ div {
   font-family: 'opensans', sans-serif;
   font-size: 14px;
   line-height: 21px;
-  color: --theme-fotn-gray;
+  color: $--theme-font-gray;
   mix-blend-mode: normal;
   opacity: 0.6;
 
@@ -89,6 +84,11 @@ div {
 
 .eco-news_data-text-date {
   margin-right: 20px;
+}
+
+.eco-news_list-content-text {
+  font-size: 14px;
+  line-height: 21px;
 }
 
 @media (min-width: 768px) {
@@ -122,42 +122,34 @@ div {
   .eco-news_list-content-title {
     font-size: 21px;
     line-height: 26px;
-
-    p {
-      -webkit-line-clamp: 2;
-    }
   }
 }
 
 @media (min-width: 1440px) {
+  .eco-news_list-content {
+    height: 200px;
+    grid-template-rows: 20px 96px 20px;
+    word-break: break-all;
+  }
+
   .eco-news_list-view-wrp {
     height: 200px;
     -ms-grid-columns: 360px auto;
     grid-template-columns: 360px auto;
   }
+}
 
-  .eco-news_list-content-title {
-    p {
-      -webkit-line-clamp: 1;
-    }
-  }
+.tree-row {
+  -webkit-line-clamp: 3;
+  @include rowStyles;
+}
 
-  .eco-news_list-content {
-    -ms-grid-rows: 20px 26px auto 20px;
-    grid-template-rows: 20px 26px auto 20px;
-  }
+.two-row {
+  -webkit-line-clamp: 2;
+  @include rowStyles;
+}
 
-  .eco-news_list-content-text {
-    display: block;
-    font-size: 14px;
-    line-height: 21px;
-
-    p {
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      word-break: break-all;
-    }
-  }
+.one-row {
+  @include rowStyles;
+  -webkit-line-clamp: 1;
 }
