@@ -1,22 +1,35 @@
-import { Injectable } from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {Observable, Observer, ReplaySubject, Subscription, throwError} from 'rxjs';
+import {catchError, take, takeUntil} from 'rxjs/operators';
 import { EcoNewsModel } from '../models/eco-news-model';
 import { environment } from '@environment/environment';
 import { EcoNewsDto } from '../models/eco-news-dto';
-import { Observable, Observer } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class EcoNewsService {
+export class EcoNewsService implements OnDestroy {
   private backEnd = environment.backendLink;
+  private language: string = this.localStorageService.getCurrentLanguage();
+  private destroy: ReplaySubject<any> = new ReplaySubject<any>(1);
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private localStorageService: LocalStorageService) {
+
+    this.localStorageService.languageSubject
+      .pipe(takeUntil(this.destroy))
+      .subscribe(lang => this.language = lang);
+  }
 
   public getAllPresentTags(): Observable<Array<string>> {
-    return this.http.get<Array<string>>(`${this.backEnd}econews/tags/all`);
+    return this.http.get<Array<string>>(`${this.backEnd}econews/tags/all?lang=${this.language}`)
+      .pipe(catchError(error => {
+        console.log('Error: can not load all tags.');
+        return throwError(error);
+      }));
   }
 
   public getEcoNewsListByPage(page: number, quantity: number) {
@@ -50,5 +63,10 @@ export class EcoNewsService {
 
   public getRecommendedNews(id: number): Observable<EcoNewsModel> {
     return this.http.get<EcoNewsModel>(`${this.backEnd}econews/recommended?openedEcoNewsId=${id}`);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy.next(null);
+    this.destroy.complete();
   }
 }

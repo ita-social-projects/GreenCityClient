@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { FormArray, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { takeUntil, catchError } from 'rxjs/operators';
+import { takeUntil, catchError, take } from 'rxjs/operators';
 import { QueryParams, TextAreasHeight } from './../../models/create-news-interface';
 import { EcoNewsService } from './../../services/eco-news.service';
 import { Subscription, ReplaySubject, throwError } from 'rxjs';
@@ -14,6 +14,7 @@ import { ACTION_TOKEN, TEXT_AREAS_HEIGHT } from './action.constants';
 import { ActionInterface } from '../../models/action.interface';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
+import {LocalStorageService} from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-create-edit-news',
@@ -63,7 +64,8 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
               private ecoNewsService: EcoNewsService,
               private route: ActivatedRoute,
               @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface },
-              private snackBar: MatSnackBarComponent) {
+              private snackBar: MatSnackBarComponent,
+              private localStorageService: LocalStorageService) {
 
     super(router, dialog);
 
@@ -73,6 +75,8 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.getNewsIdFromQueryParams();
     this.initPageforCreateOrEdit();
     this.onSourceChange();
+    this.getAllTags();
+    this.setLocalizedTags();
   }
 
   public setInitialValues(): void {
@@ -100,15 +104,26 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     });
   }
 
-  public initPageforCreateOrEdit(): void {
-    this.textAreasHeight = TEXT_AREAS_HEIGHT;
+  private getAllTags() {
     this.ecoNewsService.getAllPresentTags()
+      .pipe(take(1))
       .subscribe((tagsArray: Array<string>) => {
+        this.filters.length = 0;
         tagsArray.forEach(tag => this.filters.push({
           name: tag,
           isActive: false
         }));
       });
+  }
+
+  private setLocalizedTags() {
+    this.localStorageService.languageSubject
+      .pipe(takeUntil(this.destroy))
+      .subscribe(() => this.getAllTags());
+  }
+
+  public initPageforCreateOrEdit(): void {
+    this.textAreasHeight = TEXT_AREAS_HEIGHT;
     if (this.createEcoNewsService.isBackToEditing) {
       if (this.createEcoNewsService.getNewsId()) {
         this.setDataForEdit();
