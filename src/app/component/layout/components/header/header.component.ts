@@ -3,7 +3,6 @@ import { NavigationStart, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { filter } from 'rxjs/operators';
 import { JwtService } from '@global-service/jwt/jwt.service';
-import { ModalService } from '@global-core/components/propose-cafe/_modal/modal.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UserService } from 'src/app/service/user/user.service';
 import { AchievementService } from 'src/app/service/achievement/achievement.service';
@@ -43,8 +42,7 @@ export class HeaderComponent implements OnInit {
   private token: string;
   private backEndLink = environment.backendLink;
 
-  constructor(private modalService: ModalService,
-              public dialog: MatDialog,
+  constructor(public dialog: MatDialog,
               private localStorageService: LocalStorageService,
               private jwtService: JwtService,
               private router: Router,
