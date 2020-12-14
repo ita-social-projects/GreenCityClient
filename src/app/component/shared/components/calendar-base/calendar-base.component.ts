@@ -130,7 +130,7 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
   }
 
   public isCurrentDayActive(): void {
-    this.calendarDay.map(el => el.isCurrentDayActive =
+    this.calendarDay.forEach(el => el.isCurrentDayActive =
       (el.date.getDate() === el.numberOfDate
         && el.date.getMonth() === el.month
         && el.date.getFullYear() === el.year)
@@ -140,7 +140,7 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
   public markCurrentDayOfWeek(): void {
     const option = { weekday: 'short' };
     this.language = this.languageService.getCurrentLanguage();
-    this.calendarDay.find(el => {
+    this.calendarDay.forEach(el => {
         if (el.isCurrentDayActive &&
           el.date.getMonth() === el.month &&
           el.date.getFullYear() === el.year) {

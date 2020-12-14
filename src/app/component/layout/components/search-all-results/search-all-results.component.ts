@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, fromEvent } from 'rxjs';
-import { map, debounceTime, distinctUntilChanged, tap, switchMap, throttleTime } from 'rxjs/operators';
+import { map, distinctUntilChanged, tap, switchMap, throttleTime } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SearchService } from '@global-service/search/search.service';
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
