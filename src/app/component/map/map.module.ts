@@ -17,8 +17,7 @@ import {
   MatTableModule,
   MatIconModule,
   MatDialogModule,
-  MatRippleModule,
-  MatCheckboxModule
+  MatRippleModule
 } from '@angular/material';
 import { AgmCoreModule } from '@agm/core';
 import { RatingModule } from 'ngx-bootstrap/rating';
