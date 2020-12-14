@@ -180,6 +180,11 @@
                    {{ "nav-bar.user-settings" | translate }}
                  </a>
                </li>
+               <li *ngIf="isLoggedIn && isAdmin" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'">
+                 <a href="{{managementLink}}" target="_blank">
+                   {{ "nav-bar.management" | translate }}
+                 </a>
+               </li>
                <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'">
                  <a (click)="signOut()">
                    {{ "nav-bar.sign-out" | translate }}
