@@ -14,6 +14,7 @@ import { SearchService } from '@global-service/search/search.service';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { LanguageModel } from '../models/languageModel';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
+import { environment } from '@environment/environment';
 
 @Component({
   selector: 'app-header',
@@ -27,6 +28,8 @@ export class HeaderComponent implements OnInit {
   public langDropdownVisible: boolean;
   public name: string;
   public isLoggedIn: boolean;
+  public isAdmin: boolean;
+  public managementLink: string;
   public isAllSearchOpen = false;
   public toggleBurgerMenu = false;
   public arrayLang: Array<LanguageModel> = [
@@ -34,8 +37,11 @@ export class HeaderComponent implements OnInit {
     {lang: 'En'},
     {lang: 'Ru'}];
   public isSearchClicked = false;
+  private adminRoleValue = 'ROLE_ADMIN';
   private userRole: string;
   private userId: number;
+  private token: string;
+  private backEndLink = environment.backendLink;
 
   constructor(private modalService: ModalService,
               public dialog: MatDialog,
@@ -64,6 +70,9 @@ export class HeaderComponent implements OnInit {
     this.userOwnAuthService.isLoginUserSubject.subscribe(
       status => this.isLoggedIn = status
     );
+    this.token = this.localStorageService.getAccessToken();
+    this.isAdmin = this.userRole === this.adminRoleValue;
+    this.managementLink = `${this.backEndLink}token?accessToken=${this.token}`;
   }
 
   setLangArr(): void {

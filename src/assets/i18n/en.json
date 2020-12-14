@@ -254,7 +254,8 @@
     "profile": "Profile",
     "user-settings": "Settings",
     "sign-out": "Sign out",
-    "sign-in": "Sign in"
+    "sign-in": "Sign in",
+    "management": "Management"
   },
   "admin": {
     "errorMessage": "Forbidden"
@@ -282,6 +283,7 @@
     "success": {
       "default": "Success message. The action was successful.",
       "confirm-restore-password": "Your password has just been reset.",
+      "confirm-email": "Your email has been verified.",
       "restore-password": "Restore password link was sent to your email address.",
       "sign-up" : "You have successfully registered on the site. Please confirm your email address in the email box."
     }
@@ -535,13 +537,17 @@
         "delete": "Delete photo",
         "continue": "Continue editing",
         "yes-delete": "Yes, delete",
-        "add": "Add"
+        "add": "Add",
+        "yes": "Yes"
       },
       "profile-popup": {
         "title": "All created content will be lost.",
         "subtitle": "Do you still want to cancel profile editing?",
         "cancel": "Continue editing",
         "confirm": "Yes, cancel"
+      },
+      "delete-popup": {
+        "title": "Are you sure that you want to remove this social network link from your profile?"
       }
     },
     "footer": {

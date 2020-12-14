@@ -170,7 +170,7 @@ describe('RestorePasswordComponent', () => {
 
     it('sentEmail should call sendEmailForRestore', () => {
       const spy = restorePasswordService.sendEmailForRestore = jasmine.createSpy('sendEmail').and.returnValue(Observable.of(mockFormData));
-      component.sentEmail(mockFormData);
+      component.sentEmail();
       expect(spy).toHaveBeenCalled();
     });
   });

@@ -23,7 +23,6 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 export class RestorePasswordComponent implements OnInit, OnDestroy {
   public restorePasswordForm: FormGroup;
   public emailField: AbstractControl;
-  public email: FormControl;
   public closeBtn = SignInIcons;
   public mainSignInImage = SignInIcons;
   public googleImage = SignInIcons;
@@ -89,10 +88,11 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
     this.pageName.emit(page);
   }
 
-  sentEmail(userOwnSignIn: UserOwnSignIn): void {
+  sentEmail(): void {
+    const {email} = this.restorePasswordForm.value;
     this.loadingAnim = true;
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
-    this.restorePasswordService.sendEmailForRestore(userOwnSignIn.email, this.currentLanguage)
+    this.restorePasswordService.sendEmailForRestore(email, this.currentLanguage)
       .pipe(
        take(1))
       .subscribe({
