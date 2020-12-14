@@ -8,7 +8,7 @@ import { ecoNewsIcons } from 'src/app/image-pathes/profile-icons';
   styleUrls: ['./news-list-list-view.component.scss'],
   changeDetection: 0
 })
-export class NewsListListViewComponent {
+export class NewsListListViewComponent implements AfterViewChecked {
   @Input() ecoNewsModel: EcoNewsModel;
   @ViewChild('titleHeight', {static: true}) titleHeight: ElementRef;
   @ViewChild('textHeight', {static: true}) textHeight: ElementRef;
@@ -21,7 +21,7 @@ export class NewsListListViewComponent {
       72: () => 'd-none',
       78: () => 'd-none',
       96: () => 'd-none',
-      104:() => 'd-none',
+      104: () => 'd-none',
     },
     bigHeight: {
       24: () => 'two-row',
@@ -39,7 +39,7 @@ export class NewsListListViewComponent {
       26: () => 'one-row',
       52: () => 'two-row',
       78: () => 'two-row',
-      104:() => 'two-row',
+      104: () => 'two-row',
     },
     bigHeight: {
       24: () => 'one-row',
@@ -49,7 +49,7 @@ export class NewsListListViewComponent {
       72: () => 'tree-row',
       78: () => 'tree-row',
       96: () => 'tree-row',
-      104:() => 'tree-row'
+      104: () => 'tree-row'
     }
   };
 
@@ -66,11 +66,11 @@ export class NewsListListViewComponent {
   // another problem is that the line height and container height are different for different devices
   public checkHeightOfTittle(): void {
     const titleHeightOfElement = this.titleHeight.nativeElement.offsetHeight;
-    const descCalss = this.getHeightOfDesc(titleHeightOfElement)
-    const titleCalss = this.getHeightOfTitle(titleHeightOfElement)
-    
-    this.renderer.addClass(this.textHeight.nativeElement, descCalss)
-    this.renderer.addClass(this.titleHeight.nativeElement, titleCalss)
+    const descCalss = this.getHeightOfDesc(titleHeightOfElement);
+    const titleCalss = this.getHeightOfTitle(titleHeightOfElement);
+
+    this.renderer.addClass(this.textHeight.nativeElement, descCalss);
+    this.renderer.addClass(this.titleHeight.nativeElement, titleCalss);
   }
 
   public checkNewsImage(): string {
@@ -79,16 +79,16 @@ export class NewsListListViewComponent {
   }
 
   private getDomWidth(): string {
-    return window.innerWidth >= 1024 && window.innerWidth < 1440 ? 'smallHeigth' : 'bigHeight'; 
+    return window.innerWidth >= 1024 && window.innerWidth < 1440 ? 'smallHeigth' : 'bigHeight';
   }
 
   private getHeightOfDesc(titleHeigth: number): string {
-    console.log('getHeightOfDesc', titleHeigth, this.getDomWidth())
+    console.log('getHeightOfDesc', titleHeigth, this.getDomWidth());
     return this.possibleDescHeigth[this.getDomWidth()][titleHeigth]();
   }
 
   private getHeightOfTitle(titleHeigth: number): string {
-    console.log('getHeightOfTitle', titleHeigth, this.getDomWidth())
+    console.log('getHeightOfTitle', titleHeigth, this.getDomWidth());
     return this.possibleTitleHeigth[this.getDomWidth()][titleHeigth]();
   }
 }

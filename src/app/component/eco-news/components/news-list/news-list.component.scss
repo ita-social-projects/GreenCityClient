@@ -1,7 +1,3 @@
-.container {
-  padding: 0;
-}
-
 .cont {
   width: 100%;
   display: flex;
@@ -131,5 +127,11 @@ a {
       font-size: 12px;
       line-height: 12px;
     }
+  }
+}
+
+@media (min-width: 576px) {
+  .container {
+    padding: 0;
   }
 }

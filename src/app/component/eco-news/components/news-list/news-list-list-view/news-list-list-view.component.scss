@@ -141,15 +141,18 @@ div {
 
 .tree-row {
   -webkit-line-clamp: 3;
+
   @include rowStyles;
 }
 
 .two-row {
   -webkit-line-clamp: 2;
+
   @include rowStyles;
 }
 
 .one-row {
   @include rowStyles;
+
   -webkit-line-clamp: 1;
 }
