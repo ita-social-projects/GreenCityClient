@@ -8,6 +8,7 @@ import { ChangePasswordService } from '@auth-service/change-password.service';
 import { authImages } from 'src/app/image-pathes/auth-images';
 import { ConfirmPasswordValidator, ValidatorRegExp } from '../sign-up/sign-up.validator';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-confirm-restore-password',
@@ -30,18 +31,15 @@ export class ConfirmRestorePasswordComponent implements OnInit {
   public passwordConfirmFieldValue: string;
   public form: any;
   public token: string;
-
   public restoreDto: RestoreDto;
 
   constructor(
     private router: Router,
     private changePasswordService: ChangePasswordService,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private snackBar: MatSnackBarComponent
-  ) {
-    this.getToken();
-  }
+    private activatedRoute: ActivatedRoute,
+    private snackBar: MatSnackBarComponent,
+  ) {}
 
   ngOnInit() {
     this.restoreDto = new RestoreDto();
@@ -69,10 +67,12 @@ export class ConfirmRestorePasswordComponent implements OnInit {
     this.confirmPasswordField = this.confirmRestorePasswordForm.get('confirmPassword');
   }
 
-  public getToken() {
-    this.route.queryParams.subscribe(params => {
-      this.token = params[`token`];
-    });
+  private getToken(): void {
+    this.activatedRoute.queryParams
+      .pipe(take(1))
+      .subscribe(params => {
+        this.token = params[`token`];
+      });
   }
 
   public sendPasswords() {
@@ -86,7 +86,7 @@ export class ConfirmRestorePasswordComponent implements OnInit {
         this.form = error;
       });
     setTimeout(() => {
-      this.router.navigate(['welcome']);
+      this.router.navigate(['']);
       this.snackBar.openSnackBar('successConfirmPassword');
     }, 2000);
   }
@@ -105,7 +105,7 @@ export class ConfirmRestorePasswordComponent implements OnInit {
   }
 
   public closeModal(): void {
-    this.router.navigate(['welcome']);
+    this.router.navigate(['']);
     this.snackBar.openSnackBar('exitConfirmRestorePassword');
   }
 }

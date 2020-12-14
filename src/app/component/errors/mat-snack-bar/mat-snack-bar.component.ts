@@ -13,32 +13,36 @@ export class MatSnackBarComponent {
   public className: string;
   public snackType = {
     error: () => {
-      this.getSnackBarMessage('snack-bar.error.default');
       this.className = 'error-snackbar';
+      this.getSnackBarMessage('snack-bar.error.default');
     },
     attention: () => {
-      this.getSnackBarMessage('snack-bar.attention.default');
       this.className = 'attention-snackbar';
+      this.getSnackBarMessage('snack-bar.attention.default');
     },
     success: () => {
-      this.getSnackBarMessage('snack-bar.success.default');
       this.className = 'success-snackbar';
+      this.getSnackBarMessage('snack-bar.success.default');
     },
     exitConfirmRestorePassword: () => {
-      this.getSnackBarMessage('snack-bar.attention.exit-confirm-restore-password');
       this.className = 'attention-snackbar';
+      this.getSnackBarMessage('snack-bar.attention.exit-confirm-restore-password');
     },
     successRestorePassword: () => {
-      this.getSnackBarMessage('snack-bar.success.restore-password');
       this.className = 'success-snackbar';
+      this.getSnackBarMessage('snack-bar.success.restore-password');
     },
     successConfirmPassword: () => {
-      this.getSnackBarMessage('snack-bar.success.confirm-restore-password');
       this.className = 'success-snackbar';
+      this.getSnackBarMessage('snack-bar.success.confirm-restore-password');
     },
     signUp: () => {
-      this.getSnackBarMessage('snack-bar.success.sign-up');
       this.className = 'success-snackbar';
+      this.getSnackBarMessage('snack-bar.success.sign-up');
+    },
+    successConfirmEmail: () => {
+      this.className = 'success-snackbar';
+      this.getSnackBarMessage('snack-bar.success.confirm-email');
     },
     cafeNotificationsExists: () => {
       this.getSnackBarMessage('update-cafe.notifications.exists');
@@ -57,28 +61,27 @@ export class MatSnackBarComponent {
       this.className = 'error-snackbar';
     },
     errorMessage: (error) => {
-      this.message = error;
       this.className = 'error-snackbar';
+      this.message = error;
     }
   };
 
   constructor(public snackBar: MatSnackBar,
               private translate: TranslateService) { }
 
-  public openSnackBar(type: string) {
-    this.snackType[type] ?  this.snackType[type]() : type.includes('400') ? this.snackType.error() : this.snackType.errorMessage(type);
-
-    this.snackBar.open(this.message, 'X', {
-      duration: 5000,
-      verticalPosition: 'top',
-      horizontalPosition: 'center',
-      panelClass: [this.className]
-    });
+  public openSnackBar(type: string): void {
+    this.snackType[type] ? this.snackType[type]() : type.includes('400') ? this.snackType.error() : this.snackType.errorMessage(type);
   }
 
-  public getSnackBarMessage(key: string) {
+  public getSnackBarMessage(key: string): void {
     this.translate.get(key).subscribe(translation => {
-        this.message = translation;
+      this.message = translation;
+      this.snackBar.open(this.message, 'X', {
+        duration: 5000,
+        verticalPosition: 'top',
+        horizontalPosition: 'center',
+        panelClass: [this.className]
+      });
     });
   }
 }
