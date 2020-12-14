@@ -13,6 +13,7 @@ export class NewsListListViewComponent {
   @ViewChild('titleHeight', {static: true}) titleHeight: ElementRef;
   @ViewChild('textHeight', {static: true}) textHeight: ElementRef;
 
+  // breakpoints for different line height and font size
   private possibleDescHeigth = {
     smallHeigth: {
       26: () => 'one-row',
@@ -60,6 +61,8 @@ export class NewsListListViewComponent {
     this.checkHeightOfTittle();
   }
 
+  // the idea is to get the height of the header and based on it visualize the Description and Header by adding specific class names
+  // another problem is that the line height and container height are different for different devices
   public checkHeightOfTittle(): void {
     const titleHeightOfElement = this.titleHeight.nativeElement.offsetHeight;
     const descCalss = this.getHeightOfDesc(titleHeightOfElement)
