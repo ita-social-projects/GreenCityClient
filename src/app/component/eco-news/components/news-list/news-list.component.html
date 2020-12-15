@@ -47,8 +47,8 @@
       </li>
     </ul>
   </div>
-  <app-spinner *ngIf="elementsArePresent; else noNews"></app-spinner>
-  <ng-template *ngIf="remaining > 0" #noNews>
+  <app-spinner *ngIf="elementsArePresent"></app-spinner>
+  <ng-template *ngIf="!elementsArePresent && remaining > 0">
     <app-no-data [text]="'homepage.eco-news.empty-state.no-news-advice'"
                  [title]="'homepage.eco-news.empty-state.no-news'">
     </app-no-data>
