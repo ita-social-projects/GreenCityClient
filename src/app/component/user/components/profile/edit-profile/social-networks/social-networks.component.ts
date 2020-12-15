@@ -52,12 +52,12 @@ export class SocialNetworksComponent implements OnInit {
 
     dialogRef.afterClosed().pipe(take(1)).subscribe(confirm => {
       if (confirm) {
-        this.onFilterSocialLink(link)
+        this.onFilterSocialLink(link);
       }
     });
   }
 
-  private onFilterSocialLink(link){
+  private onFilterSocialLink(link) {
     this.socialNetworks = this.socialNetworks.filter(el => link.url !== el.url );
     this.onEmitSocialNetworksChange();
   }
