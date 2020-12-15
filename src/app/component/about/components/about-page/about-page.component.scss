@@ -50,6 +50,10 @@ img {
     margin-left: 171px;
   }
 
+  button {
+    margin-top: 40px;
+  }
+
   padding-bottom: 250px;
   background-image: url("~/assets/img/curly-line.png");
   background-size: 100% 100%;
@@ -125,6 +129,10 @@ img {
     content: url("~/assets/img/2.png");
   }
 
+  .card-title-text {
+    width: 441px;
+  }
+
   margin-bottom: 270px;
 }
 
@@ -176,9 +184,16 @@ img {
   z-index: -1;
 }
 
-@media only screen and (max-width: 1400px) {
+@media only screen and (max-width: 1200px) {
   .container-vision {
     margin: auto 30px;
+  }
+
+  .card-eco-place {
+
+    .card-title-text {
+      width: auto;
+    }
   }
 
   .container-about {
