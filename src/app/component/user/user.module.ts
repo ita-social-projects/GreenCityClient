@@ -68,8 +68,6 @@ import { EditProfileFormBuilder } from '@global-user/components/profile/edit-pro
 import { UsersFriendsComponent } from './components/profile/users-friends/users-friends.component';
 import { UsersAchievementsComponent } from './components/profile/users-achievements/users-achievements.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { AddFriendComponent } from './components/profile/users-friends/add-friend/add-friend.component';
-import { AddFriendsListComponent } from './components/profile/users-friends/add-friends-list/add-friends-list.component';
 import { HabitProgressComponent } from './components/habit/add-new-habit/habit-progress/habit-progress.component';
 import { HabitInviteFriendsComponent } from './components/habit/add-new-habit/habit-invite-friends/habit-invite-friends.component';
 import { HabitDurationComponent } from './components/habit/add-new-habit/habit-duration/habit-duration.component';
@@ -79,6 +77,10 @@ import {
 import { HabitCalendarComponent } from './components/habit/add-new-habit/habit-calendar/habit-calendar.component';
 import { AddNewHabitComponent } from './components/habit/add-new-habit/add-new-habit.component';
 import { GradientDirective } from './components/habit/add-new-habit/habit-duration/gradient.directive';
+import { FriendDashboardComponent } from './components/profile/users-friends/friend-dashboard/friend-dashboard.component';
+import { AllFriendsComponent } from './components/profile/users-friends/friend-dashboard/all-friends/all-friends.component';
+import { RecommendedFriendsComponent } from './components/profile/users-friends/friend-dashboard/recommended-friends/recommended-friends.component';
+import { FriendItemComponent } from './components/profile/users-friends/friend-dashboard/friend-item/friend-item.component';
 
 @NgModule({
   declarations: [
@@ -136,15 +138,17 @@ import { GradientDirective } from './components/habit/add-new-habit/habit-durati
     CalendarWeekComponent,
     UsersFriendsComponent,
     UsersAchievementsComponent,
-    AddFriendComponent,
-    AddFriendsListComponent,
     AddNewHabitComponent,
     HabitProgressComponent,
     HabitInviteFriendsComponent,
     HabitDurationComponent,
     HabitEditShoppingListComponent,
     HabitCalendarComponent,
-    GradientDirective
+    GradientDirective,
+    FriendDashboardComponent,
+    AllFriendsComponent,
+    RecommendedFriendsComponent,
+    FriendItemComponent
   ],
   imports: [
     UserRoutingModule,

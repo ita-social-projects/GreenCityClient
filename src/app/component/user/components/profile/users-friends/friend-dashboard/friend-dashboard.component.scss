@@ -1,0 +1,53 @@
+$screen-1200: " screen and (max-width : 1200px)";
+$screen-992: " screen and (max-width : 992px)";
+$screen-767: " screen and (max-width : 870px)";
+$screen-576: " screen and (max-width : 576px)";
+$screen-320: " screen and (max-width : 320px)";
+$linkColor: #13AA57;
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid $linkColor;
+
+  a {
+    color: $linkColor;
+    margin: auto 50px;
+  }
+
+  .active {
+    border: 1px solid $linkColor;
+    border-bottom: none;
+    border-radius: 5px 5px 0 0;
+  }
+}
+
+@media #{$screen-1200} {
+  .wrapper {
+    margin: 0 3%;
+  }
+}
+
+@media #{$screen-992} {
+  .wrapper {
+    margin: 0 3%;
+  }
+}
+
+@media #{$screen-767} {
+  .wrapper {
+    margin: 0 2.95%;
+  }
+}
+
+@media #{$screen-576} {
+  .wrapper {
+    margin: 0 1.95%;
+  }
+}
+
+@media #{$screen-320} {
+  .wrapper {
+    margin: 0 3%;
+  }
+}

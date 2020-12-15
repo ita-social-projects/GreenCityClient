@@ -1,0 +1,8 @@
+<div class="add-friend">
+  <img [src]="friend.profilePicture?friend.profilePicture:'https://i.pinimg.com/236x/2e/3d/6e/2e3d6e6c801ce424de1e6d519e092ee8.jpg'" alt="photo">
+  <div class="friend-info">
+    <p>{{friend.name}}</p>
+    <button type="button" *ngIf = "!friend.added" class="add-btn" (click)="addFriend(friend.id)">Add friend</button>
+    <button type="button" *ngIf = "friend.added" class="delete-btn" (click)="deleteFriend(friend.id)">Delete friend</button>
+  </div>
+</div>

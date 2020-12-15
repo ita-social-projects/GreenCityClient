@@ -1,0 +1,32 @@
+button {
+  width: 265px;
+  height: 48px;
+  padding: auto;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+}
+
+.add-btn {
+  background: #13AA57;
+}
+
+.delete-btn {
+  background: gray;
+}
+
+img {
+  width: 265px;
+}
+
+.add-friend {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+
+  div {
+    padding: 5px;
+  }
+}

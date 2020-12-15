@@ -2,7 +2,7 @@ export interface FriendModel {
   id: number;
   name: string;
   profilePicture?: string;
-  status?:true;
+  added?: boolean;
 }
 
 export interface FriendRecommendedModel {

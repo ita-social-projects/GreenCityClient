@@ -1,0 +1,6 @@
+<div class="wrapper" *ngFor = "let item of recommendedFriends">
+  <app-friend-item [friend]="item"
+    (addFriendEvent)="addFriend($event)"
+    (deleteFriendEvent)="deleteFriend($event)"
+    ></app-friend-item>
+</div>

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environment/environment';
 import { FriendModel, FriendRecommendedModel } from '@global-user/models/friend.model';
@@ -9,6 +9,11 @@ import { Observable } from 'rxjs';
 })
 export class UserFriendsService {
   private url: string = environment.backendLink;
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
 
   constructor(private http: HttpClient) { }
 
@@ -20,7 +25,7 @@ export class UserFriendsService {
     return this.http.get<FriendModel[]>(`${this.url}user/${userId}/sixUserFriends/`);
   }
 
-  public addFriend(idUser: number | string, idFriend: number | string): Observable<object> {
+  public addFriend(idUser: number, idFriend: number): Observable<object> {
     const body = {
       friendId: idFriend,
       userId: idUser
@@ -29,11 +34,7 @@ export class UserFriendsService {
     return this.http.post<object>(`${this.url}/user/${idUser}/userFriend/${idFriend}`, body);
   }
 
-  public deleteFriends(idUser: number, idFriend: number ): Observable<object> {
-    const data = {
-      friendId: idFriend,
-      userId: idUser
-    };
-    return this.http.delete<object>(`${this.url}user/${idUser}/userFriend/${idFriend}`);
+  public deleteFriend(idUser: number, idFriend: number): Observable<object> {
+    return this.http.delete<object>(`${this.url}user/${idUser}/userFriend/${idFriend}`, this.httpOptions);
   }
 }

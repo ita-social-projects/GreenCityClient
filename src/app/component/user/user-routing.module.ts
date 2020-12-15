@@ -4,8 +4,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { ProfileComponent, EditProfileComponent } from './components';
 import { AuthPageGuardService } from '../../service/route-guards/auth-page-guard.service';
 import { UserComponent } from './user.component';
-import { AddFriendsListComponent } from './components/profile/users-friends/add-friends-list/add-friends-list.component';
 import { AddNewHabitComponent } from './components/habit/add-new-habit/add-new-habit.component';
+import { FriendDashboardComponent } from './components/profile/users-friends/friend-dashboard/friend-dashboard.component';
+import { AllFriendsComponent } from './components/profile/users-friends/friend-dashboard/all-friends/all-friends.component';
+import { RecommendedFriendsComponent } from './components/profile/users-friends/friend-dashboard/recommended-friends/recommended-friends.component';
 
 export const userRoutes: Routes = [
   { path: '',
@@ -17,7 +19,14 @@ export const userRoutes: Routes = [
       { path: ':id/allhabits', component: AllHabitsComponent },
       { path: ':id/allhabits/addhabit/:habitId', component: AddNewHabitComponent },
       { path: '', component: ProfileComponent },
-      { path: ':id/friends', component: AddFriendsListComponent},
+      {
+        path: ':id/friends',
+        component: FriendDashboardComponent,
+        children: [
+          { path: '', component: AllFriendsComponent },
+          { path: 'recommended', component: RecommendedFriendsComponent }
+        ]
+      },
       { path: '', redirectTo: ':id', pathMatch: 'full' },
     ]
   }

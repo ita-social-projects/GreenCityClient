@@ -1,0 +1,41 @@
+$screen-1200: " screen and (max-width : 1200px)";
+$screen-992: " screen and (max-width : 992px)";
+$screen-767: " screen and (max-width : 870px)";
+$screen-576: " screen and (max-width : 576px)";
+$screen-320: " screen and (max-width : 320px)";
+
+.wrapper {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 50px;
+}
+
+@media #{$screen-1200} {
+  .wrapper {
+    margin: 0 3%;
+  }
+}
+
+@media #{$screen-992} {
+  .wrapper {
+    margin: 0 3%;
+  }
+}
+
+@media #{$screen-767} {
+  .wrapper {
+    margin: 0 2.95%;
+  }
+}
+
+@media #{$screen-576} {
+  .wrapper {
+    margin: 0 1.95%;
+  }
+}
+
+@media #{$screen-320} {
+  .wrapper {
+    margin: 0 3%;
+  }
+}
