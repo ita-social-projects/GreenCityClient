@@ -108,7 +108,7 @@ img {
 }
 
 .card-title-text {
-  width: 429px;
+  width: 441px;
   background: white;
   font-size: 32px;
   font-family: 'Open Sans', sans-serif;
@@ -127,10 +127,6 @@ img {
 .card-eco-place {
   .card-title-number::before {
     content: url("~/assets/img/2.png");
-  }
-
-  .card-title-text {
-    width: 441px;
   }
 
   margin-bottom: 270px;
@@ -187,12 +183,6 @@ img {
 @media only screen and (max-width: 1199px) {
   .container-vision {
     margin: auto 30px;
-  }
-
-  .card-eco-place {
-    .card-title-text {
-      width: auto;
-    }
   }
 
   .container-about {
