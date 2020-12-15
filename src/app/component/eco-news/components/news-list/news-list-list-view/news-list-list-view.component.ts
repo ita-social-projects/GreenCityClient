@@ -2,6 +2,8 @@ import { Component, Input, ViewChild, ElementRef, Renderer2, AfterViewChecked } 
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { ecoNewsIcons } from 'src/app/image-pathes/profile-icons';
 
+import { possibleDescHeigth, possibleTitleHeigth } from './breakpoints';
+
 @Component({
   selector: 'app-news-list-list-view',
   templateUrl: './news-list-list-view.component.html',
@@ -13,45 +15,9 @@ export class NewsListListViewComponent implements AfterViewChecked {
   @ViewChild('titleHeight', {static: true}) titleHeight: ElementRef;
   @ViewChild('textHeight', {static: true}) textHeight: ElementRef;
 
+  private smallHeigth = 'smallHeigth';
+  private bigHeight   = 'bigHeight';
   // breakpoints for different line height and font size
-  private possibleDescHeigth = {
-    smallHeigth: {
-      26: () => 'one-row',
-      52: () => 'd-none',
-      72: () => 'd-none',
-      78: () => 'd-none',
-      96: () => 'd-none',
-      104: () => 'd-none',
-    },
-    bigHeight: {
-      24: () => 'two-row',
-      26: () => 'tree-row',
-      48: () => 'one-row',
-      52: () => 'two-row',
-      72: () => 'd-none',
-      78: () => 'd-none',
-      96: () => 'd-none',
-    }
-  };
-
-  private possibleTitleHeigth = {
-    smallHeigth: {
-      26: () => 'one-row',
-      52: () => 'two-row',
-      78: () => 'two-row',
-      104: () => 'two-row',
-    },
-    bigHeight: {
-      24: () => 'one-row',
-      26: () => 'one-row',
-      48: () => 'two-row',
-      52: () => 'two-row',
-      72: () => 'tree-row',
-      78: () => 'tree-row',
-      96: () => 'tree-row',
-      104: () => 'tree-row'
-    }
-  };
 
   public profileIcons = ecoNewsIcons;
   public newsImage: string;
@@ -79,16 +45,17 @@ export class NewsListListViewComponent implements AfterViewChecked {
   }
 
   private getDomWidth(): string {
-    return window.innerWidth >= 1024 && window.innerWidth < 1440 ? 'smallHeigth' : 'bigHeight';
+    return window.innerWidth >= 1024 && window.innerWidth < 1440 ? this.smallHeigth : this.bigHeight;
   }
 
   private getHeightOfDesc(titleHeigth: number): string {
-    console.log('getHeightOfDesc', titleHeigth, this.getDomWidth());
-    return this.possibleDescHeigth[this.getDomWidth()][titleHeigth]();
+    const result = possibleDescHeigth[this.getDomWidth()][titleHeigth];
+    return result ? result : 'd-none';
   }
 
   private getHeightOfTitle(titleHeigth: number): string {
-    console.log('getHeightOfTitle', titleHeigth, this.getDomWidth());
-    return this.possibleTitleHeigth[this.getDomWidth()][titleHeigth]();
+    const result = possibleTitleHeigth[this.getDomWidth()][titleHeigth];
+    return result ? result :
+      this.getDomWidth() === this.smallHeigth ? 'two-row' : 'tree-row';
   }
 }

@@ -1,7 +1,14 @@
+import { Renderer2 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 
 import { NewsListListViewComponent } from './news-list-list-view.component';
+
+class MockRenderer {
+  addClass(document: string, cssClass: string): boolean {
+    return true;
+  }
+}
 
 describe('NewsListListViewComponent', () => {
   let component: NewsListListViewComponent;
@@ -21,7 +28,10 @@ describe('NewsListListViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewsListListViewComponent ]
+      declarations: [ NewsListListViewComponent ],
+      providers: [
+        { provide: Renderer2, useClass: MockRenderer }
+      ]
     })
     .compileComponents();
   }));

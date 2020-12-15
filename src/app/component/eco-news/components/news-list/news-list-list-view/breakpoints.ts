@@ -1,0 +1,38 @@
+export const possibleDescHeigth = {
+    smallHeigth: {
+      26: 'one-row',
+      52: 'd-none',
+      72: 'd-none',
+      78: 'd-none',
+      96: 'd-none',
+      104: 'd-none',
+    },
+    bigHeight: {
+      24: 'two-row',
+      26: 'tree-row',
+      48: 'one-row',
+      52: 'two-row',
+      72: 'd-none',
+      78: 'one-row',
+      96: 'd-none',
+    }
+};
+
+export const possibleTitleHeigth = {
+  smallHeigth: {
+    26: 'one-row',
+    52: 'two-row',
+    78: 'two-row',
+    104: 'two-row',
+  },
+  bigHeight: {
+    24: 'one-row',
+    26: 'one-row',
+    48: 'two-row',
+    52: 'two-row',
+    72: 'tree-row',
+    78: 'tree-row',
+    96: 'tree-row',
+    104: 'tree-row'
+  }
+};
