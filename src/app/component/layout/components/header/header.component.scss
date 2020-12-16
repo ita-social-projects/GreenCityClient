@@ -4,6 +4,10 @@ $hr-color: #e6e6e6;
 $main-font: 'Open Sans', sans-serif;
 $header-heigth: 54px;
 
+::ng-deep .custom-dialog-container .mat-dialog-container {
+  background-color: transparent;
+}
+
 .active-link {
   color: $secondary-font-color !important;
 
@@ -13,7 +17,7 @@ $header-heigth: 54px;
 }
 
 .main {
-  width: 100%;
+  width: 100vw;
   box-shadow: 0 0 8px rgba(73, 74, 73, 0.2);
   position: fixed;
   top: 0;
@@ -23,6 +27,14 @@ $header-heigth: 54px;
   .break-shadow {
     box-shadow: none;
   }
+}
+
+.header_line {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 1px;
+  background: #E6E6E6;
 }
 
 .header_container {
@@ -178,16 +190,10 @@ $header-heigth: 54px;
     border-radius: 2px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    flex-wrap: wrap;
     height: 132px;
-    margin-top: 88px;
+    margin: auto 0;
     width: 60px;
     z-index: 1;
-
-    li {
-      flex-basis: 33%;
-    }
   }
 }
 
@@ -325,16 +331,18 @@ $header-heigth: 54px;
   ul {
     display: flex;
     flex-direction: column;
+    align-items: center;
     margin: 0;
     overflow: hidden;
     padding: 0;
-    width: 300px;
+    width: 100%;
 
     li {
       display: flex;
       justify-content: center;
       align-items: center;
       height: 52px;
+      max-width: 300px;
 
       a {
         font-size: 20px;
@@ -358,15 +366,13 @@ $header-heigth: 54px;
 }
 
 #header_user-wrp {
-  margin: 0;
+  margin: auto 0;
   padding: 0;
-  height: 176px;
-  margin-top: 132px;
+  height: fit-content;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  flex-wrap: wrap;
   width: auto;
+  min-width: 126px;
 
   li {
     height: 44px;
@@ -375,7 +381,6 @@ $header-heigth: 54px;
     margin: 0;
     padding: 0 12px 0;
     color: $first-font-color;
-    flex-basis: 25%;
 
     &:first-child {
       font-size: 12px;
@@ -417,6 +422,16 @@ $header-heigth: 54px;
       display: flex;
     }
   }
+
+  #header_user-wrp {
+    max-width: 126px;
+  }
+}
+
+@media (min-width: 768px) {
+  #header_user-wrp {
+    max-width: 226px;
+  }
 }
 
 @media (min-width: 992px) {
@@ -428,5 +443,15 @@ $header-heigth: 54px;
     .header_burger-btn {
       display: none !important;
     }
+  }
+
+  #header_user-wrp {
+    max-width: 126px;
+  }
+}
+
+@media (min-width: 1200px) {
+  #header_user-wrp {
+    max-width: 226px;
   }
 }

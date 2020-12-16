@@ -34,6 +34,7 @@
                 {{ 'user.lower-nav-bar.my-habits' | translate }}
               </a>
             </li>
+            <hr class="header_line container" [ngClass]="{'d-none': !toggleBurgerMenu}" />
             <div *ngIf="!isLoggedIn; then userLoggedInSmall else userNotLoggerInSmall"></div>
             <ng-template #userLoggedInSmall>
               <li class="mobile-vis">

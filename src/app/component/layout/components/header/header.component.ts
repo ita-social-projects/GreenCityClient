@@ -155,7 +155,7 @@ export class HeaderComponent implements OnInit {
     this.dialog.open(AuthModalComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
-      panelClass: ['custom-dialog-container', 'transparent'],
+      panelClass: ['custom-dialog-container'],
       data: {
         popUpName: page
       }
