@@ -1,5 +1,5 @@
-export const possibleDescHeigth = {
-    smallHeigth: {
+export const possibleDescHeight = {
+    smallHeight: {
       26: 'one-row',
       52: 'd-none',
       72: 'd-none',
@@ -18,8 +18,8 @@ export const possibleDescHeigth = {
     }
 };
 
-export const possibleTitleHeigth = {
-  smallHeigth: {
+export const possibleTitleHeight = {
+  smallHeight: {
     26: 'one-row',
     52: 'two-row',
     78: 'two-row',

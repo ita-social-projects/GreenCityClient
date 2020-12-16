@@ -48,11 +48,10 @@
     </ul>
   </div>
   <app-spinner *ngIf="elementsArePresent"></app-spinner>
-  <ng-template *ngIf="!elementsArePresent && remaining > 0">
-    <app-no-data [text]="'homepage.eco-news.empty-state.no-news-advice'"
-                 [title]="'homepage.eco-news.empty-state.no-news'">
-    </app-no-data>
-  </ng-template>
+  <app-no-data  *ngIf="!elementsArePresent && remaining === 0"
+                [text]="'homepage.eco-news.empty-state.no-news-advice'"
+                [title]="'homepage.eco-news.empty-state.no-news'">
+  </app-no-data>
   <div infiniteScroll
        [infiniteScrollDistance]="0"
        [infiniteScrollThrottle]="500"

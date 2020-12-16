@@ -2,7 +2,7 @@ import { Component, Input, ViewChild, ElementRef, Renderer2, AfterViewChecked } 
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { ecoNewsIcons } from 'src/app/image-pathes/profile-icons';
 
-import { possibleDescHeigth, possibleTitleHeigth } from './breakpoints';
+import { possibleDescHeight, possibleTitleHeight } from './breakpoints';
 
 @Component({
   selector: 'app-news-list-list-view',
@@ -15,7 +15,7 @@ export class NewsListListViewComponent implements AfterViewChecked {
   @ViewChild('titleHeight', {static: true}) titleHeight: ElementRef;
   @ViewChild('textHeight', {static: true}) textHeight: ElementRef;
 
-  private smallHeigth = 'smallHeigth';
+  private smallHeight = 'smallHeight';
   private bigHeight   = 'bigHeight';
   // breakpoints for different line height and font size
 
@@ -45,17 +45,17 @@ export class NewsListListViewComponent implements AfterViewChecked {
   }
 
   private getDomWidth(): string {
-    return window.innerWidth >= 1024 && window.innerWidth < 1440 ? this.smallHeigth : this.bigHeight;
+    return window.innerWidth >= 1024 && window.innerWidth < 1440 ? this.smallHeight : this.bigHeight;
   }
 
-  private getHeightOfDesc(titleHeigth: number): string {
-    const result = possibleDescHeigth[this.getDomWidth()][titleHeigth];
+  private getHeightOfDesc(titleHeight: number): string {
+    const result = possibleDescHeight[this.getDomWidth()][titleHeight];
     return result ? result : 'd-none';
   }
 
-  private getHeightOfTitle(titleHeigth: number): string {
-    const result = possibleTitleHeigth[this.getDomWidth()][titleHeigth];
+  private getHeightOfTitle(titleHeight: number): string {
+    const result = possibleTitleHeight[this.getDomWidth()][titleHeight];
     return result ? result :
-      this.getDomWidth() === this.smallHeigth ? 'two-row' : 'tree-row';
+      this.getDomWidth() === this.smallHeight ? 'two-row' : 'tree-row';
   }
 }
