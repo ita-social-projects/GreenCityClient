@@ -3,7 +3,8 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FriendModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
-import { catchError } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { catchError, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-all-friends',
@@ -14,6 +15,7 @@ export class AllFriendsComponent implements OnInit {
 
   public userId: number;
   public sixFriends: FriendModel[];
+  private destroy = new Subject();
 
   constructor(private userFriendsService: UserFriendsService,
               private localStorageService: LocalStorageService,
@@ -38,9 +40,12 @@ export class AllFriendsComponent implements OnInit {
   public getSixFriends () {
     this.userFriendsService.getFriends(this.userId).pipe(
       catchError((error) => {
-        this.snackBar.openSnackBar('error');
+        this.snackBar.openSnackBar('error.message');
         return error;
       })
+    )
+    .pipe(
+      takeUntil(this.destroy)
     )
     .subscribe (
       (data: FriendModel[]) => {
@@ -53,9 +58,12 @@ export class AllFriendsComponent implements OnInit {
   public deleteFriend(id: number) {
     this.userFriendsService.deleteFriend(this.userId, id).pipe(
       catchError((error) => {
-        this.snackBar.openSnackBar('error');
+        this.snackBar.openSnackBar('error.message');
         return error;
       })
+    )
+    .pipe(
+      takeUntil(this.destroy)
     )
     .subscribe(
       () => {
@@ -68,9 +76,12 @@ export class AllFriendsComponent implements OnInit {
   public addFriend(id: number) {
     this.userFriendsService.addFriend(this.userId, id).pipe(
       catchError((error) => {
-        this.snackBar.openSnackBar('error');
+        this.snackBar.openSnackBar('error.message');
         return error;
       })
+    )
+    .pipe(
+      takeUntil(this.destroy)
     )
     .subscribe(
       () => {
@@ -82,6 +93,14 @@ export class AllFriendsComponent implements OnInit {
 
   public initUser(): void {
     this.localStorageService.userIdBehaviourSubject
+      .pipe(
+        takeUntil(this.destroy)
+      )
       .subscribe((userId: number) => this.userId = userId);
+  }
+
+  ngOnDestroy() {
+    this.destroy.next(null);
+    this.destroy.complete();
   }
 }

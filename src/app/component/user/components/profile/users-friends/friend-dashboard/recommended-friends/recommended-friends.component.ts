@@ -3,7 +3,8 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FriendModel, FriendRecommendedModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
-import { catchError } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { catchError, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-recommended-friends',
@@ -14,6 +15,8 @@ export class RecommendedFriendsComponent implements OnInit {
 
   public recommendedFriends: FriendModel[];
   public userId: number;
+  private destroy = new Subject();
+
   constructor(
     private userFriendsService: UserFriendsService,
     private localStorageService: LocalStorageService,
@@ -39,9 +42,12 @@ export class RecommendedFriendsComponent implements OnInit {
   public getRecommendedFriends () {
     this.userFriendsService.getRecommendedFriends(this.userId).pipe(
       catchError((error) => {
-        this.snackBar.openSnackBar('error');
+        this.snackBar.openSnackBar('error.message');
         return error;
       })
+    )
+    .pipe(
+      takeUntil(this.destroy)
     )
     .subscribe (
       (data: FriendRecommendedModel) => {
@@ -54,9 +60,12 @@ export class RecommendedFriendsComponent implements OnInit {
   public deleteFriend(id: number) {
     this.userFriendsService.deleteFriend(this.userId, id).pipe(
       catchError((error) => {
-        this.snackBar.openSnackBar('error');
+        this.snackBar.openSnackBar('error.message');
         return error;
       })
+    )
+    .pipe(
+      takeUntil(this.destroy)
     )
     .subscribe(
       () => {
@@ -69,21 +78,30 @@ export class RecommendedFriendsComponent implements OnInit {
   public addFriend(id: number) {
     this.userFriendsService.addFriend(this.userId, id).pipe(
       catchError((error) => {
-        this.snackBar.openSnackBar('error');
+        this.snackBar.openSnackBar('error.message');
         return error;
       })
+    )
+    .pipe(
+      takeUntil(this.destroy)
     )
     .subscribe(
       () => {
       this.changeStatus(id);
-      console.log(this.recommendedFriends);
       }
     )
   }
 
   public initUser(): void {
     this.localStorageService.userIdBehaviourSubject
+    .pipe(
+      takeUntil(this.destroy)
+    )
       .subscribe((userId: number) => this.userId = userId);
   }
 
+  ngOnDestroy() {
+    this.destroy.next(null);
+    this.destroy.complete();
+  }
 }

@@ -11,6 +11,11 @@ button {
   background: #13AA57;
 }
 
+.friend-img {
+  width: 100px;
+  //height: 100px;
+}
+
 .delete-btn {
   background: gray;
 }
@@ -20,9 +25,9 @@ img {
 }
 
 .add-friend {
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
+  //display: flex;
+  //flex-direction: row;
+ // align-items: stretch;
   font-family: 'Montserrat', sans-serif;
   text-transform: uppercase;
 

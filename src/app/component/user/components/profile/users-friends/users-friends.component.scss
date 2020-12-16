@@ -76,8 +76,12 @@ $bp-largest: 1440px;
     width: 100%;
   }
 
-  .friend-img {
-    margin-top: 24px;
+  .friend-name {
+    font-size: 12px;
+    font-family: $title-font;
+    color: #494a49;
+    max-width: 60px;
+    text-align: center;
   }
 
   .friends-error {

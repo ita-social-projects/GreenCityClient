@@ -10,11 +10,15 @@
       <div class="text-more"><a [routerLink]="['/profile', userId, 'friends']">{{ 'profile.see-all' | translate }}</a></div>
     </div>
     <div class="friends-images">
-      <img [src]="image.profilePicturePath? image.profilePicturePath: 'https://i.pinimg.com/236x/2e/3d/6e/2e3d6e6c801ce424de1e6d519e092ee8.jpg'"
-           alt="friend"
-           class="friend-img"
-           *ngFor="let image of usersFriends"
-      >
+      <div *ngFor="let friend of usersFriends">
+        <app-user-profile-image
+         [imgPath]="friend.profilePicture"
+         [firstName]="friend.name"
+         class="friend-img"
+         [additionalImgClass]="'friend-user-profile'">
+        </app-user-profile-image>
+        <p class="friend-name">{{friend.name}}</p>
+      </div>
     </div>
   </div>
   <div class="friends-error" *ngIf="noFriends">
