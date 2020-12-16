@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { footerIcons } from 'src/app/image-pathes/footer-icons';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
@@ -8,19 +9,24 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss']
 })
-export class FooterComponent implements OnInit {
+export class FooterComponent implements OnInit, OnDestroy {
   public actualYear = new Date().getFullYear();
   public footerImageList = footerIcons;
   private userId: number;
+  private userIdSub: Subscription;
 
   constructor(private localStorageService: LocalStorageService) {}
 
   ngOnInit() {
-    this.localStorageService.userIdBehaviourSubject.subscribe(userId => this.userId = userId);
+    this.userIdSub = this.localStorageService
+      .userIdBehaviourSubject.subscribe(userId => this.userId = userId);
   }
 
   public getUserId(): number | string {
     return ((this.userId !== null && !isNaN(this.userId)) ? this.userId : 'not_signed-in');
   }
 
+  ngOnDestroy() {
+    this.userIdSub.unsubscribe();
+  }
 }

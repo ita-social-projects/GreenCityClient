@@ -23,8 +23,8 @@ import { environment } from '@environment/environment';
 export class HeaderComponent implements OnInit {
   readonly selectLanguageArrow = 'assets/img/arrow_grey.png';
   readonly dropDownArrow = 'assets/img/arrow.png';
-  public dropdownVisible: boolean;
-  public langDropdownVisible: boolean;
+  public dropdownVisible = false;
+  public langDropdownVisible = false;
   public name: string;
   public isLoggedIn: boolean;
   public isAdmin: boolean;
@@ -57,9 +57,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.searchSearch.searchSubject.subscribe(signal => this.openSearchSubscription(signal));
     this.searchSearch.allSearchSubject.subscribe(signal => this.openAllSearchSubscription(signal));
-    this.dropdownVisible = false;
     this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => { this.name = firstName; });
-    this.langDropdownVisible = false;
     this.initUser();
     this.setLangArr();
     this.userRole = this.jwtService.getUserRole();
@@ -160,11 +158,6 @@ export class HeaderComponent implements OnInit {
         popUpName: page
       }
     });
-  }
-
-  public openDialog(): void {
-    this.dropdownVisible = false;
-    this.router.navigate(['/profile', this.userId]);
   }
 
   public openSettingDialog(): void {

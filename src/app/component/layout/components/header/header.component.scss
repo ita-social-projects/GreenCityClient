@@ -97,22 +97,35 @@ $header-heigth: 54px;
       text-decoration-line: none;
     }
   }
+}
 
-  .create-button {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid $secondary-font-color;
-    color: $secondary-font-color;
-    height: 32px;
+.header_sign-in-link {
+  font-size: 12px;
+  font-weight: 600;
+  width: 70px;
+  padding: 0 12px;
 
-    span {
-      padding: 0 24px;
-      font-size: 12px;
-      line-height: 12px;
-      font-weight: 600;
-    }
+  a {
+    color: #056b33;
+    display: block;
+    min-width: 40px;
+  }
+}
+
+.header_sign-up-btn {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid $secondary-font-color;
+  color: $secondary-font-color;
+  height: 32px;
+
+  span {
+    padding: 0 24px;
+    font-size: 12px;
+    line-height: 12px;
+    font-weight: 600;
   }
 }
 
@@ -129,17 +142,6 @@ $header-heigth: 54px;
 
     option {
       background: white;
-    }
-  }
-
-  .header_sign-in-link {
-    font-size: 12px;
-    font-weight: 600;
-
-    a {
-      color: #056b33;
-      display: block;
-      min-width: 40px;
     }
   }
 }
@@ -343,24 +345,11 @@ $header-heigth: 54px;
       align-items: center;
       height: 52px;
       max-width: 300px;
-
-      a {
-        font-size: 20px;
-        color: $first-font-color;
-      }
     }
 
-    .mobile-vis {
-      margin: 0;
-      list-style-type: none;
-      justify-content: center;
-      align-items: center;
-      height: 52px;
-    }
-
-    .name {
-      font-weight: 600;
-      font-size: 18px;
+    a {
+      font-size: 20px;
+      color: $first-font-color;
     }
   }
 }
@@ -369,10 +358,23 @@ $header-heigth: 54px;
   margin: auto 0;
   padding: 0;
   height: fit-content;
-  display: flex;
+  display: none;
   flex-direction: column;
   width: auto;
   min-width: 126px;
+
+  .header_user-name {
+    display: flex;
+    color: #056b33;
+    text-decoration: none;
+
+    span {
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden; 
+    }
+  }
 
   li {
     height: 44px;
@@ -424,6 +426,7 @@ $header-heigth: 54px;
   }
 
   #header_user-wrp {
+    display: flex;
     max-width: 126px;
   }
 }
@@ -440,6 +443,10 @@ $header-heigth: 54px;
   }
 
   .header_navigation-menu-right {
+    .header_sign-up-link {
+      padding-right: 0;
+    }
+
     .header_burger-btn {
       display: none !important;
     }

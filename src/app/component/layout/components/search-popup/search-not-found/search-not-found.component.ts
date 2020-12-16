@@ -6,7 +6,7 @@ import {Component, EventEmitter, Output, Input} from '@angular/core';
   styleUrls: ['./search-not-found.component.scss']
 })
 export class SearchNotFoundComponent {
-  @Output() closeUnsuccessfulSearchResults  = new EventEmitter();
+  @Output() closeUnsuccessfulSearchResults = new EventEmitter();
   @Input() inputValue;
 
   public emitClose(): void {

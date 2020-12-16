@@ -24,7 +24,7 @@ class MatDialogMock {
   }
 }
 
-fdescribe('HeaderComponent', () => {
+describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
   const mockLang = 'ua';
@@ -57,6 +57,7 @@ fdescribe('HeaderComponent', () => {
   let languageServiceMock: LanguageService;
   languageServiceMock = jasmine.createSpyObj('LanguageService', ['getCurrentLanguage']);
   languageServiceMock.getCurrentLanguage = () => mockLang as Language;
+  languageServiceMock.changeCurrentLanguage = () => true;
 
   let searchServiceMock: SearchService;
   searchServiceMock = jasmine.createSpyObj('SearchService', ['searchSubject', 'allSearchSubject', 'toggleSearchModal']);
@@ -69,13 +70,15 @@ fdescribe('HeaderComponent', () => {
   userOwnAuthServiceMock.getDataFromLocalStorage = () => true;
   userOwnAuthServiceMock.isLoginUserSubject = new BehaviorSubject(true);
 
+  let dialog: MatDialogMock;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ 
+      declarations: [
         HeaderComponent
       ],
       imports: [
-        RouterTestingModule,
+        RouterTestingModule.withRoutes([]),
         TranslateModule.forRoot(),
         MatDialogModule,
         HttpClientTestingModule
@@ -98,10 +101,79 @@ fdescribe('HeaderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;
+
+    // init states
+    component.dropdownVisible = false;
+    component.langDropdownVisible = false;
+    component.toggleBurgerMenu = false;
+    // @ts-ignore
+    component.userId = 1;
+    dialog = TestBed.get(MatDialog);
+
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('test main methods', () => {
+    it('should toogle dropdown state', () => {
+      component.toggleDropdown();
+
+      expect(component.dropdownVisible).toBeTruthy();
+    });
+
+    it('should close dropdown when user click outside', () => {
+      component.autoCloseUserDropDown(false);
+      expect(component.dropdownVisible).toBeFalsy();
+    });
+
+    it('should close lang dropdown when user click outside', () => {
+      component.autoCloseLangDropDown(false);
+      expect(component.langDropdownVisible).toBeFalsy();
+    });
+
+    it('should toogle burger menu state', () => {
+      component.onToggleBurgerMenu();
+      expect(component.toggleBurgerMenu).toBeTruthy();
+    });
+
+    it('should open Auth modal window', () => {
+      const spy = spyOn(dialog, 'open');
+
+      component.openAuthModalWindow('sign-in');
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should toogle search method', () => {
+      // @ts-ignore
+      const spy = spyOn(component.searchSearch, 'toggleSearchModal');
+      component.toggleSearchPage();
+
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should change current language', () => {
+      // @ts-ignore
+      const spy = spyOn(component.languageService, 'changeCurrentLanguage');
+      const index = 1;
+      component.changeCurrentLanguage('en', index);
+
+      expect(spy).toHaveBeenCalled();
+      expect(component.arrayLang[0].lang).toBe('en');
+    });
+
+    it('should log out the user', () => {
+      // @ts-ignore
+      const spy = spyOn(component.localStorageService, 'clear');
+      // @ts-ignore
+      const spy2 = spyOn(component.userService, 'onLogout');
+
+      component.signOut();
+
+      expect(spy).toHaveBeenCalled();
+      expect(spy2).toHaveBeenCalled();
+    });
   });
 });

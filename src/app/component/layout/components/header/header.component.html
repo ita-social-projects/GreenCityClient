@@ -44,7 +44,7 @@
               </li>
             </ng-template>
             <ng-template #userNotLoggerInSmall>
-              <li class="mobile-vis name tertiary-global-button">{{ name }}</li>
+              <li class="mobile-vis header_user-name tertiary-global-button">{{ name }}</li>
               <li class="mobile-vis">
                 <a (click)="openSettingDialog()">
                   {{ "nav-bar.user-settings" | translate }}
@@ -62,7 +62,7 @@
               </li>
             </ng-template>
             <li class="mobile-vis" *ngIf="!isLoggedIn" (click)="openAuthModalWindow('sign-up')">
-              <div class="create-button secondary-global-button">
+              <div class="header_sign-up-btn secondary-global-button">
                 <span>{{ "top-bar.sign-up" | translate }}</span>
               </div>
             </li>
@@ -107,7 +107,8 @@
                   [ngClass]="{'d-none': toggleBurgerMenu,
                               'add-shadow': dropdownVisible}">
                 <li class="tertiary-global-button">
-                  <a tabindex="0" (click)="toggleDropdown()" (keyup.enter)="toggleDropdown()">{{ name }}
+                  <a tabindex="0" (click)="toggleDropdown()" (keyup.enter)="toggleDropdown()" class="header_user-name">
+                    <span>{{ name }}</span>
                     <img class="arrow" [ngClass]="dropdownVisible ? 'arrow reverse' : 'arrow'"
                           src="../../../../../assets/img/arrow_down.svg" 
                           alt="arrow down">
@@ -146,7 +147,7 @@
                 *ngIf="!isLoggedIn"
                 (click)="openAuthModalWindow('sign-up')" 
                 (keyup.enter)="openAuthModalWindow('sign-up')">
-              <div class="create-button secondary-global-button" tabindex="0">
+              <div class="header_sign-up-btn secondary-global-button" tabindex="0">
                 <span>{{ "top-bar.sign-up" | translate }}</span>
               </div>
             </li>
