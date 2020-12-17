@@ -10,6 +10,7 @@ import { SearchModel } from '@global-models/search/search.model';
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 import { TipsSearchModel } from '@global-models/search/tipsSearch.model';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 
 @Component({
@@ -27,11 +28,13 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   public itemsFound: number;
   public searchModalSubscription: Subscription;
   public searchInput = new FormControl('');
+  private currentLanguage: string;
 
 
   constructor(public search: SearchService,
               public dialog: MatDialog,
-              private snackBar: MatSnackBarComponent
+              private snackBar: MatSnackBarComponent,
+              private localStorageService: LocalStorageService
   ) {}
 
   ngOnInit() {
@@ -42,7 +45,8 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
     searchValueChanges$
       .pipe(filter(Boolean))
       .subscribe((value: string) => {
-        this.search.getSearch(value)
+        this.currentLanguage=this.localStorageService.getCurrentLanguage();
+        this.search.getSearch(value, this.currentLanguage)
           .subscribe(data => this.getSearchData(data),
           (error) => this.openErrorPopup());
     });
