@@ -16,6 +16,9 @@ export class RecommendedFriendsComponent implements OnInit {
   public recommendedFriends: FriendModel[];
   public userId: number;
   private destroy = new Subject();
+  public scroll: boolean;
+  public currentPage = 0;
+  public totalPages: number;
 
   constructor(
     private userFriendsService: UserFriendsService,
@@ -28,8 +31,8 @@ export class RecommendedFriendsComponent implements OnInit {
     this.getRecommendedFriends();
   }
 
-  public addStatus () {
-    this.recommendedFriends.forEach( elem => {
+  public addStatus (friendArray) {
+    friendArray.forEach( elem => {
       elem.added = false;
     });
   }
@@ -42,7 +45,7 @@ export class RecommendedFriendsComponent implements OnInit {
   public getRecommendedFriends () {
     this.userFriendsService.getRecommendedFriends(this.userId).pipe(
       catchError((error) => {
-        this.snackBar.openSnackBar('error.message');
+        this.snackBar.openSnackBar('error');
         return error;
       })
     )
@@ -51,16 +54,39 @@ export class RecommendedFriendsComponent implements OnInit {
     )
     .subscribe (
       (data: FriendRecommendedModel) => {
+        this.totalPages = data.totalPages;
         this.recommendedFriends = data.page;
-        this.addStatus();
+        this.addStatus(this.recommendedFriends);
       },
     );
+  }
+
+  public onScroll(): void {
+    this.scroll = true;
+    if(this.currentPage < this.totalPages) {
+      this.currentPage += 1;
+      this.userFriendsService.getRecommendedFriends(this.userId, this.currentPage).pipe(
+        catchError((error) => {
+          this.snackBar.openSnackBar('error');
+          return error;
+        })
+      )
+      .pipe(
+        takeUntil(this.destroy)
+      )
+      .subscribe(
+        (data: FriendRecommendedModel) => {
+          this.addStatus(data.page);
+          this.recommendedFriends = this.recommendedFriends.concat(data.page);
+        },
+       )
+    }
   }
 
   public deleteFriend(id: number) {
     this.userFriendsService.deleteFriend(this.userId, id).pipe(
       catchError((error) => {
-        this.snackBar.openSnackBar('error.message');
+        this.snackBar.openSnackBar('error');
         return error;
       })
     )
@@ -70,7 +96,6 @@ export class RecommendedFriendsComponent implements OnInit {
     .subscribe(
       () => {
         this.changeStatus(id);
-        console.log(this.recommendedFriends);
       }
     )
   }
@@ -78,7 +103,7 @@ export class RecommendedFriendsComponent implements OnInit {
   public addFriend(id: number) {
     this.userFriendsService.addFriend(this.userId, id).pipe(
       catchError((error) => {
-        this.snackBar.openSnackBar('error.message');
+        this.snackBar.openSnackBar('error');
         return error;
       })
     )

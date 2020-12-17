@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { FriendModel } from '@global-user/models/friend.model';
+import { FriendModel, FriendRecommendedModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { Subject } from 'rxjs';
 import { catchError, takeUntil } from 'rxjs/operators';
@@ -14,8 +14,11 @@ import { catchError, takeUntil } from 'rxjs/operators';
 export class AllFriendsComponent implements OnInit {
 
   public userId: number;
-  public sixFriends: FriendModel[];
+  public Friends: FriendModel[];
   private destroy = new Subject();
+  public scroll: boolean;
+  public currentPage = 0;
+  public totalPages: number;
 
   constructor(private userFriendsService: UserFriendsService,
               private localStorageService: LocalStorageService,
@@ -26,19 +29,19 @@ export class AllFriendsComponent implements OnInit {
     this.getSixFriends();
   }
 
-  public addStatus () {
-    this.sixFriends.forEach( elem => {
+  public addStatus (userArray) {
+    userArray.forEach( elem => {
       elem.added = true;
     });
   }
 
   public changeStatus(id) {
-    const index = this.sixFriends.findIndex(elem => elem.id === id);
-    this.sixFriends[index].added = !this.sixFriends[index].added;
+    const index = this.Friends.findIndex(elem => elem.id === id);
+    this.Friends[index].added = !this.Friends[index].added;
   }
 
   public getSixFriends () {
-    this.userFriendsService.getFriends(this.userId).pipe(
+    this.userFriendsService.getAllFriends(this.userId).pipe(
       catchError((error) => {
         this.snackBar.openSnackBar('error.message');
         return error;
@@ -48,11 +51,31 @@ export class AllFriendsComponent implements OnInit {
       takeUntil(this.destroy)
     )
     .subscribe (
-      (data: FriendModel[]) => {
-        this.sixFriends = data;
-        this.addStatus();
+      (data: FriendRecommendedModel) => {
+        this.Friends = data.page;
+        this.addStatus(this.Friends);
       },
     );
+  }
+
+  public onScroll(): void {
+    this.scroll = true;
+    this.currentPage += 1;
+    this.userFriendsService.getAllFriends(this.userId, this.currentPage).pipe(
+      catchError((error) => {
+        this.snackBar.openSnackBar('error.message');
+        return error;
+      })
+    )
+    .pipe(
+      takeUntil(this.destroy)
+    )
+    .subscribe(
+      (data: FriendRecommendedModel) => {
+        this.addStatus(data.page);
+        this.Friends = this.Friends.concat(data.page);
+      },
+     )
   }
 
   public deleteFriend(id: number) {
@@ -68,7 +91,6 @@ export class AllFriendsComponent implements OnInit {
     .subscribe(
       () => {
         this.changeStatus(id);
-        console.log(this.sixFriends);
       }
     )
   }
@@ -86,7 +108,6 @@ export class AllFriendsComponent implements OnInit {
     .subscribe(
       () => {
       this.changeStatus(id);
-      console.log(this.sixFriends);
       }
     )
   }

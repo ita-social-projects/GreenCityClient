@@ -17,12 +17,16 @@ export class UserFriendsService {
 
   constructor(private http: HttpClient) { }
 
-  public getRecommendedFriends(id: number): Observable<FriendRecommendedModel> {
-    return this.http.get<FriendRecommendedModel>(`${this.url}user/${id}/recommendedFriends/?page=0&size=5`);
+  public getRecommendedFriends(id: number, page = 0, size = 10): Observable<FriendRecommendedModel> {
+    return this.http.get<FriendRecommendedModel>(`${this.url}user/${id}/recommendedFriends/?page=${page}&size=${size}`);
   }
 
-  public getFriends(userId: number): Observable<FriendModel[]> {
+  public getSixFriends(userId: number): Observable<FriendModel[]> {
     return this.http.get<FriendModel[]>(`${this.url}user/${userId}/sixUserFriends/`);
+  }
+
+  public getAllFriends(userId: number, page = 0, size = 10): Observable<FriendRecommendedModel[]> {
+    return this.http.get<FriendRecommendedModel[]>(`${this.url}user/${userId}/friends/?page=${page}&size=${size}`);
   }
 
   public addFriend(idUser: number, idFriend: number): Observable<object> {

@@ -1,6 +1,15 @@
-<div class="wrapper" *ngFor="let friend of sixFriends">
-  <app-friend-item [friend]="friend"
-    (addFriendEvent)="addFriend($event)"
-    (deleteFriendEvent)="deleteFriend($event)"
-    ></app-friend-item>
+<div class="friends-list">
+  <div class="container">
+    <div *ngFor="let friend of Friends">
+      <app-friend-item [friend]="friend"
+        (addFriendEvent)="addFriend($event)"
+        (deleteFriendEvent)="deleteFriend($event)"
+        ></app-friend-item>
+    </div>
+  </div>
+  <div infiniteScroll
+         [infiniteScrollDistance]="0"
+         [infiniteScrollThrottle]="500"
+         (scrolled)="onScroll()">
+  </div>
 </div>

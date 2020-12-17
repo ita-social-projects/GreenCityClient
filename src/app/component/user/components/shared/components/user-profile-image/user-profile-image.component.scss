@@ -52,8 +52,11 @@ $font-family-first: montserrat, sans-serif;
 }
 
 .friend-item{
-  width: 88px;
-  height: 88px;
+  border-radius: 100px;
+  width: 100px;
+  max-width: 100px;
+  height: 100px;
+  font-size: 32px;
 }
 
 .friend-user-profile {

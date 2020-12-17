@@ -1,37 +1,116 @@
-button {
-  width: 265px;
-  height: 48px;
-  padding: auto;
-  border-radius: 5px;
-  border: none;
-  outline: none;
-}
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 
 .add-btn {
-  background: #13AA57;
-}
-
-.friend-img {
-  width: 100px;
-  //height: 100px;
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 22px;
+  text-align: center;
+  color: #13AA57;
+  border: 1px solid #13AA57;
+  box-sizing: border-box;
+  border-radius: 5px;
+  width: 145px;
+  height: 48px;
+  background: white;
+  text-transform: uppercase;
 }
 
 .delete-btn {
-  background: gray;
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 22px;
+  text-align: center;
+  color: #13AA57;
+  background: white;
+  border: 1px solid #13AA57;
+  box-sizing: border-box;
+  border-radius: 5px;
+  width: 145px;
+  height: 48px;
+  align-items: flex-end;
 }
 
 img {
-  width: 265px;
+  width: 78px;
+  height: 78px;
 }
 
 .add-friend {
-  //display: flex;
-  //flex-direction: row;
- // align-items: stretch;
-  font-family: 'Montserrat', sans-serif;
-  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  margin: 10px;
+  border: 1px solid #9c9c9c69;
+  border-radius: 5px;
+  width: 200px;
+  border-radius: 5px;
+  background: #F8F9FA;
+}
 
-  div {
-    padding: 5px;
+.friend-name {
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 28px;
+  color: #313131;
+  max-width: 190px;
+  word-wrap: break-word;
+}
+
+.friend-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 0 10px;
+}
+
+@media only screen and (min-width: 320px) {
+  .add-friend {
+    width: 250px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media only screen and (min-width: 576px) {
+  .add-friend {
+    width: 400px;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .friend-info {
+    align-items: flex-start;
+  }
+
+  .friend-name {
+    max-width: 270px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .add-friend {
+    width: 500px;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .add-friend {
+    width: 400px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .add-friend {
+    width: 600px;
   }
 }

@@ -1,41 +1,18 @@
-$screen-1200: " screen and (max-width : 1200px)";
-$screen-992: " screen and (max-width : 992px)";
-$screen-767: " screen and (max-width : 870px)";
-$screen-576: " screen and (max-width : 576px)";
-$screen-320: " screen and (max-width : 320px)";
+.friends-recommended-list {
+  background: url("../../../../../../../../assets/img/friends.png") no-repeat center right fixed,
+  url("../../../../../../../../assets/img/friends.png") no-repeat bottom left fixed;
+}
 
-.wrapper {
+.container {
   display: flex;
-  justify-content: space-around;
-  margin-top: 50px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 
-@media #{$screen-1200} {
-  .wrapper {
-    margin: 0 3%;
-  }
-}
-
-@media #{$screen-992} {
-  .wrapper {
-    margin: 0 3%;
-  }
-}
-
-@media #{$screen-767} {
-  .wrapper {
-    margin: 0 2.95%;
-  }
-}
-
-@media #{$screen-576} {
-  .wrapper {
-    margin: 0 1.95%;
-  }
-}
-
-@media #{$screen-320} {
-  .wrapper {
-    margin: 0 3%;
+@media only screen and (min-width: 1024px) {
+  .container {
+    justify-content: space-between;
   }
 }

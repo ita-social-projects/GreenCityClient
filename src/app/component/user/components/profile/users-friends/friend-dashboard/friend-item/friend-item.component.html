@@ -1,4 +1,4 @@
-<div class="add-friend">
+<div class="add-friend friends-list">
   <app-user-profile-image
     [imgPath]="friend.profilePicture"
     [firstName]="friend.name"
@@ -7,8 +7,8 @@
     >
   </app-user-profile-image>
   <div class="friend-info">
-    <p>{{friend.name}}</p>
-    <button type="button" *ngIf = "!friend.added" class="add-btn" (click)="addFriend(friend.id)">Add friend</button>
-    <button type="button" *ngIf = "friend.added" class="delete-btn" (click)="deleteFriend(friend.id)">Delete friend</button>
+    <p class="friend-name">{{friend.name}}</p>
+    <button *ngIf = "!friend.added" class="add-btn" (click)="addFriend(friend.id)">Add Friend</button>
+    <button *ngIf = "friend.added" class="delete-btn" (click)="deleteFriend(friend.id)">Unfriend</button>
   </div>
 </div>
