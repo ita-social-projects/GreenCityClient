@@ -45,7 +45,7 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
     searchValueChanges$
       .pipe(filter(Boolean))
       .subscribe((value: string) => {
-        this.currentLanguage=this.localStorageService.getCurrentLanguage();
+        this.currentLanguage = this.localStorageService.getCurrentLanguage();
         this.search.getSearch(value, this.currentLanguage)
           .subscribe(data => this.getSearchData(data),
           (error) => this.openErrorPopup());
