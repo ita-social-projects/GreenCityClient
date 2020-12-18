@@ -3,7 +3,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { footerIcons } from 'src/app/image-pathes/footer-icons';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
-
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',

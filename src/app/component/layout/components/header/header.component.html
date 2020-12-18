@@ -1,4 +1,4 @@
-<div [ngClass]="toggleBurgerMenu ? 'break-shadow main' : 'main'">
+<div [ngClass]="toggleBurgerMenu ? 'burger-modal_open main' : 'main'">
   <div class="header_wrp container">
     <div class="header_container">
       <a class="header_logo" [routerLink]="['/']" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
@@ -37,31 +37,35 @@
             <hr class="header_line container" [ngClass]="{'d-none': !toggleBurgerMenu}" />
             <div *ngIf="!isLoggedIn; then userLoggedInSmall else userNotLoggerInSmall"></div>
             <ng-template #userLoggedInSmall>
-              <li class="mobile-vis">
+              <li *ngIf="toggleBurgerMenu" class="header_mobile-menu-sign-in">
                 <a class="header_sign-in-link tertiary-global-button" (click)="openAuthModalWindow('sign-in')">
                   {{ "top-bar.sign-in" | translate }}
                 </a>
               </li>
             </ng-template>
             <ng-template #userNotLoggerInSmall>
-              <li class="mobile-vis header_user-name tertiary-global-button">{{ name }}</li>
-              <li class="mobile-vis">
+              <li class="header_mobile-menu-item header_user-name tertiary-global-button">
+                {{ name }}
+              </li>
+              <li class="header_mobile-menu-item">
                 <a (click)="openSettingDialog()">
                   {{ "nav-bar.user-settings" | translate }}
                 </a>
               </li>
-              <li *ngIf="isLoggedIn && isAdmin" class="mobile-vis">
+              <li *ngIf="isLoggedIn && isAdmin" class="header_mobile-menu-item">
                 <a [href]="managementLink" target="_blank">
                   {{ "nav-bar.management" | translate }}
                 </a>
               </li>
-              <li class="mobile-vis">
+              <li class="header_mobile-menu-item">
                 <a (click)="signOut()">
                   {{ "nav-bar.sign-out" | translate }}
                 </a>
               </li>
             </ng-template>
-            <li class="mobile-vis" *ngIf="!isLoggedIn" (click)="openAuthModalWindow('sign-up')">
+            <li class="header_mobile-menu-sign-up"
+                *ngIf="toggleBurgerMenu && !isLoggedIn"
+                (click)="openAuthModalWindow('sign-up')">
               <div class="header_sign-up-btn secondary-global-button">
                 <span>{{ "top-bar.sign-up" | translate }}</span>
               </div>
@@ -88,9 +92,10 @@
                 tabindex="0">
               <li>
                 {{arrayLang[0].lang}}
-                <img [ngClass]="langDropdownVisible ? 'arrow reverse' : 'arrow'" 
-                     src="../../../../../assets/img/arrow_down.svg" 
-                     alt="arrow down">
+                <object type="image/svg+xml"
+                        data="../../../../../assets/img/arrow_down.svg"
+                        [ngClass]="langDropdownVisible ? 'header_arrow reverse' : 'header_arrow'">
+                </object>
               </li>
               <ng-container *ngIf="langDropdownVisible">
                 <ng-container *ngFor="let lang of arrayLang;index as index;">
@@ -109,9 +114,11 @@
                 <li class="tertiary-global-button">
                   <a tabindex="0" (click)="toggleDropdown()" (keyup.enter)="toggleDropdown()" class="header_user-name">
                     <span>{{ name }}</span>
-                    <img class="arrow" [ngClass]="dropdownVisible ? 'arrow reverse' : 'arrow'"
-                          src="../../../../../assets/img/arrow_down.svg" 
-                          alt="arrow down">
+                    <object type="image/svg+xml"
+                            data="../../../../../assets/img/arrow_down-green.svg"
+                            [ngClass]="dropdownVisible ? 'header_arrow reverse' : 'header_arrow'"
+                            >
+                    </object>
                   </a>
                 </li>
                 <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'">

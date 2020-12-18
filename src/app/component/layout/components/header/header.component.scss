@@ -1,8 +1,10 @@
-$first-font-color: #494a49;
+$primary-color: #056b33;
+$secondary-color: #494a49;
 $secondary-font-color: #13aa57;
 $hr-color: #e6e6e6;
 $main-font: 'Open Sans', sans-serif;
 $header-heigth: 54px;
+$white-color: #fff;
 
 ::ng-deep .custom-dialog-container .mat-dialog-container {
   background-color: transparent;
@@ -21,20 +23,20 @@ $header-heigth: 54px;
   box-shadow: 0 0 8px rgba(73, 74, 73, 0.2);
   position: fixed;
   top: 0;
-  background: white;
+  background: $white-color;
   z-index: 5;
 
-  .break-shadow {
+  .burger-modal_open {
     box-shadow: none;
   }
 }
 
 .header_line {
-  margin: 0;
+  margin: 12px 0;
   padding: 0;
   width: 100%;
   height: 1px;
-  background: #E6E6E6;
+  background: $hr-color;
 }
 
 .header_container {
@@ -54,8 +56,38 @@ $header-heigth: 54px;
   }
 }
 
+.header_navigation-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: $header-heigth;
+  font-family: "Open Sans", sans-serif;
+}
+
+.header_sign-in-link {
+  font-size: 12px;
+  font-weight: 600;
+  width: 70px;
+  padding: 0 12px;
+
+  a {
+    color: $primary-color;
+    display: block;
+    min-width: 40px;
+  }
+}
+
+.header_sign-up-link {
+  font-size: 12px;
+
+  a {
+    color: $primary-color;
+  }
+}
+
 .dropdown {
-  background-color: #fff;
+  background-color: $white-color;
   list-style-type: none;
   padding: 0;
   position: absolute;
@@ -78,38 +110,106 @@ $header-heigth: 54px;
   }
 }
 
-.header_navigation-menu {
+.header_navigation-menu-right-list {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  width: 100%;
-  height: $header-heigth;
-  font-family: "Open Sans", sans-serif;
+  justify-content: flex-end;
+  list-style-type: none;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+
+  li {
+    height: 100%;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+  }
+
+  .header_sign-in-link,
+  .header_sign-up-link {
+    display: none;
+  }
 }
 
-.header_sign-up-link {
-  font-size: 12px;
+// HEADER POP UP
+.header_navigation-menu-left-col {
+  padding-top: 25px;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  top: 53px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: $white-color;
+  transition: transform 0.2s ease-in, top 0.2s linear 0.2s;
+  box-shadow: 0 4px 5px -2px rgba(73, 74, 73, 0.2);
+  overflow: auto;
 
-  a {
-    color: #056b33;
+  ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    width: 100%;
 
-    &:hover {
-      text-decoration-line: none;
+    li {
+      height: 52px;
+      width: 100%;
+      max-width: 300px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      font-size: 20px;
+      color: $secondary-color;
     }
   }
 }
 
-.header_sign-in-link {
-  font-size: 12px;
-  font-weight: 600;
-  width: 70px;
-  padding: 0 12px;
+.header_navigation-menu-left {
+  width: 100%;
+  max-width: 430px;
+  display: none;
 
-  a {
-    color: #056b33;
-    display: block;
-    min-width: 40px;
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+
+    li {
+      list-style-type: none;
+      display: inline-block;
+
+      a {
+        font-size: 14px;
+        line-height: 16px;
+        color: $secondary-color;
+        text-decoration: none;
+      }
+    }
+
+    .header_mobile-menu-item {
+      display: none;
+      font-weight: 600;
+    }
   }
+}
+
+.header_arrow {
+  margin: 2px 0 0 5px;
 }
 
 .header_sign-up-btn {
@@ -141,13 +241,13 @@ $header-heigth: 54px;
     -webkit-appearance: none;
 
     option {
-      background: white;
+      background: $white-color;
     }
   }
 }
 
-.header_navigation-menu-left {
-  display: none;
+.header_sign-up-link a:hover {
+  text-decoration-line: none;
 }
 
 .reverse {
@@ -174,11 +274,6 @@ $header-heigth: 54px;
     height: 100%;
     display: flex;
     justify-content: center;
-    
-    .arrow {
-      margin-top: 5px;
-      width: 8px;
-    }
 
     li {
       width: 30px;
@@ -187,7 +282,7 @@ $header-heigth: 54px;
   }
 
   .add-shadow {
-    background-color: #fff;
+    background-color: $white-color;
     box-shadow: 0 0 8px rgba(73, 74, 73, 0.2);
     border-radius: 2px;
     display: flex;
@@ -196,28 +291,6 @@ $header-heigth: 54px;
     margin: auto 0;
     width: 60px;
     z-index: 1;
-  }
-}
-
-.header_navigation-menu-right-list {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  list-style-type: none;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  
-  li {
-    height: 100%;
-    padding: 10px 12px;
-    display: flex;
-    align-items: center;
-  }
-
-  .header_sign-in-link,
-  .header_sign-up-link {
-    display: none;
   }
 }
 
@@ -236,7 +309,7 @@ $header-heigth: 54px;
       width: 24px;
       height: 2px;
       border-radius: 14px;
-      background-color: #494a49;
+      background-color: $secondary-color;
 
       &::before {
         position: absolute;
@@ -246,7 +319,7 @@ $header-heigth: 54px;
         width: 24px;
         height: 2px;
         border-radius: 14px;
-        background-color: #494a49;
+        background-color: $secondary-color;
         transition: transform 0.2s ease-in, top 0.2s linear 0.2s;
       }
 
@@ -258,7 +331,7 @@ $header-heigth: 54px;
         width: 24px;
         height: 2px;
         border-radius: 14px;
-        background-color: #494a49;
+        background-color: $secondary-color;
         transition: transform 0.2s ease-in, top 0.2s linear 0.2s;
       }
     }
@@ -286,70 +359,39 @@ $header-heigth: 54px;
   }
 }
 
-.header_navigation-menu-left {
-  width: 100%;
-  max-width: 430px;
+.burger-modal_open.main {
+  box-shadow: none;
 
-  ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: space-between;
-
-    li {
-      list-style-type: none;
-      display: inline-block;
-
-      a {
-        font-size: 14px;
-        line-height: 16px;
-        color: $first-font-color;
-        text-decoration: none;
-      }
-    }
-
-    .mobile-vis {
-      display: none;
-      font-weight: 600;
-    }
+  .header_sign-in-link {
+    font-size: 16px;
+    line-height: 16px;
+    width: fit-content;
+    padding: 0 40px;
+    color: $primary-color;
   }
-}
 
-// HEADER POP UP 
-.header_navigation-menu-left-col {
-  display: flex;
-  justify-content: center;
-  position: fixed;
-  top: 53px;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: white;
-  transition: transform 0.2s ease-in, top 0.2s linear 0.2s;
-  box-shadow: 0 4px 5px -2px rgba(73, 74, 73, 0.2);
-  overflow: auto;
+  .header_mobile-menu-sign-in {
+    width: fit-content;
+    margin: 35px 0 30px;
+  }
 
-  ul {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0;
-    overflow: hidden;
-    padding: 0;
-    width: 100%;
+  .header_sign-up-btn {
+    font-size: 16px;
+    line-height: 16px;
+    height: 100%;
+  }
 
-    li {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 52px;
-      max-width: 300px;
-    }
+  .header_mobile-menu-sign-up {
+    width: fit-content;
+    height: 48px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 16px;
 
-    a {
-      font-size: 20px;
-      color: $first-font-color;
+    span {
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 16px;
     }
   }
 }
@@ -365,14 +407,15 @@ $header-heigth: 54px;
 
   .header_user-name {
     display: flex;
-    color: #056b33;
+    color: $primary-color;
     text-decoration: none;
 
     span {
       display: -webkit-box;
       -webkit-line-clamp: 1;
       -webkit-box-orient: vertical;
-      overflow: hidden; 
+      overflow: hidden;
+      word-break: break-all;
     }
   }
 
@@ -382,7 +425,7 @@ $header-heigth: 54px;
     line-height: 16px;
     margin: 0;
     padding: 0 12px 0;
-    color: $first-font-color;
+    color: $secondary-color;
 
     &:first-child {
       font-size: 12px;
@@ -394,7 +437,7 @@ $header-heigth: 54px;
       align-items: center;
 
       a {
-        color: $first-font-color;
+        color: $secondary-color;
         font-size: 14px;
         line-height: 16px;
         font-family: $main-font;
@@ -412,7 +455,7 @@ $header-heigth: 54px;
 @media (min-width: 576px) {
   .container {
     padding: 0;
-  }  
+  }
 
   .header_container {
     grid-template-columns: 136px auto;
