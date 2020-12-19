@@ -6,7 +6,7 @@ import {
   HttpClientModule
 } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DatePipe, PathLocationStrategy } from '@angular/common';
+import { DatePipe, HashLocationStrategy } from '@angular/common';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
   MatButtonModule,
@@ -26,7 +26,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { LocationStrategy } from '@angular/common';
 import { AuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
 import { NgFlashMessagesModule } from 'ng-flash-messages';
-// tslint:disable-next-line:max-line-length
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -96,9 +95,14 @@ import { PendingChangesGuard } from '@global-service/pending-changes-guard/pendi
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: { hasBackdrop: false }
     },
+    // we use HashLocationStrategy because
+    // so it is to avoid collisions in two types of routes (BE and FE)
+    // also this is to stylistically separate them from each other
+    // Also some articles write that this is a well-known mistake of the angular SPA and gh-pages
+    // and I didn't find how to solve it
     {
       provide: LocationStrategy,
-      useClass: PathLocationStrategy
+      useClass: HashLocationStrategy
     },
     {
       provide: AuthServiceConfig,
