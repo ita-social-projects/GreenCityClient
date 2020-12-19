@@ -3,6 +3,7 @@ import { CommentsService } from '../../services/comments.service';
 import { CommentsDTO } from '../../models/comments-model';
 import { WarningPopUpComponent } from '@shared/components/warning-pop-up/warning-pop-up.component';
 import { MatDialog } from '@angular/material';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-delete-comment',
@@ -31,15 +32,14 @@ export class DeleteCommentComponent {
       }
     });
 
-    const subscribeDialog = dialogRef.afterClosed().subscribe(confirm => {
+    dialogRef.afterClosed().pipe(take(1)).subscribe(confirm => {
       if (confirm) {
-        this.commentsService.deleteComments(this.element.id).subscribe(response => {
+        this.commentsService.deleteComments(this.element.id).pipe(take(1)).subscribe(response => {
           if (response.status === 200) {
             this.elementsList.emit();
           }
         });
       }
-      subscribeDialog.unsubscribe();
     });
   }
 }

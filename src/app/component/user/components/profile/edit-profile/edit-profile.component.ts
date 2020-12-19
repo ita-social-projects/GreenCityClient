@@ -74,13 +74,29 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
 
   public getFormValues(): any {
     return {
-      city: this.searchElementRef.nativeElement.value,
       firstName: this.editProfileForm.value.name,
+      city: this.searchElementRef.nativeElement.value,
       userCredo: this.editProfileForm.value.credo,
       showLocation: this.editProfileForm.value.showLocation,
       showEcoPlace: this.editProfileForm.value.showEcoPlace,
       showShoppingList: this.editProfileForm.value.showShoppingList,
       socialNetworks: this.socialNetworks
+    };
+  }
+
+  public getFormInitialValues(data): void {
+    this.initialValues = {
+      firstName: data.firstName,
+      get city() {
+        return (data.city === null) ? '' : data.city;
+      },
+      get userCredo() {
+        return (data.userCredo === null) ? '' : data.userCredo;
+      },
+      showLocation: data.showLocation,
+      showEcoPlace: data.showEcoPlace,
+      showShoppingList: data.showShoppingList,
+      socialNetworks: data.socialNetworks
     };
   }
 
@@ -100,7 +116,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
         if (data) {
           this.setupExistingData(data);
           this.socialNetworks = data.socialNetworks;
-          this.initialValues = data;
+          this.getFormInitialValues(data);
         }
       });
   }

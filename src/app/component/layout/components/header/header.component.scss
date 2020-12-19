@@ -3,6 +3,7 @@ $secondary-font-color: #13aa57;
 $hr-color: #e6e6e6;
 $focus-color: #13aa57;
 $main-font: 'Open Sans', sans-serif;
+$screen-1199: "screen and (max-width : 1199px)";
 $screen-992: " screen and (max-width : 992px)";
 $screen-870: " screen and (max-width : 870px)";
 $screen-576: " screen and (max-width : 576px)";
@@ -431,7 +432,7 @@ $screen-320: " screen and (max-width : 320px)";
     background: #fff;
 
     li {
-      width: 141px;
+      min-width: 141px;
       height: 44px;
       font-size: 14px;
       line-height: 16px;
@@ -444,6 +445,12 @@ $screen-320: " screen and (max-width : 320px)";
         font-size: 12px;
         font-weight: 600;
         height: 30px;
+
+        a {
+          display: flex;
+          flex-wrap: nowrap;
+          align-items: center;
+        }
 
         .reverse {
           transform: rotate(180deg);
@@ -468,6 +475,7 @@ $screen-320: " screen and (max-width : 320px)";
           line-height: 16px;
           font-family: $main-font;
           font-weight: 400;
+          text-decoration: none;
         }
       }
 
@@ -491,7 +499,7 @@ $screen-320: " screen and (max-width : 320px)";
   }
 }
 
-@media screen and (max-width: 1024px) {
+@media #{$screen-1199} {
   .main {
     .main-container {
       margin: 0 3%;
@@ -532,6 +540,11 @@ $screen-320: " screen and (max-width : 320px)";
 }
 
 @media #{$screen-576} {
+  .logo-img {
+    width: 94px;
+    height: 24px;
+  }
+
   .main {
     .main-container {
       margin: 0 2.4%;

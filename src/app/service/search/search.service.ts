@@ -25,21 +25,14 @@ export class SearchService {
 
   public getAllSearch(searchQuery: string, searchType: string): Observable<SearchModel> {
     switch (searchType) {
-      case 'relevance': {
-        this.getResultsByCat('search');
-        break;
-      }
-      case 'newest': {
-        this.getResultsByCat('newest');
-        break;
-      }
-      case 'latest': {
-        this.getResultsByCat('noresults');
-        break;
-      }
-      default: {
+      case 'relevance':
         return this.getResultsByCat('search');
-      }
+      case 'newest':
+        return this.getResultsByCat('newest');
+      case 'latest':
+        return this.getResultsByCat('noresults');
+      default:
+        return this.getResultsByCat('search');
     }
   }
 
@@ -63,11 +56,6 @@ export class SearchService {
 
   public getAllResults(query: string, category: string = 'econews', page: number = 0, sort: string = '') {
     const itemsPerPage = 9;
-
-    // bug on backend in DB
-    if (category === 'tipsandtricks') {
-      sort.replace('creation_date', 'creationDate');
-    }
 
     return this.http.get(`${this.backEndLink}search/${category}?searchQuery=${query}&sort=${sort}&page=${page}&size=${itemsPerPage}`)
     .pipe(

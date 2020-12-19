@@ -22,6 +22,11 @@ $unActiveColor: #839c94;
 .main {
   display: flex;
   margin: 0 10%;
+  box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
+
+  caption {
+    display: none;
+  }
 
   &.sub-1 {
     width: 90vw;
@@ -215,23 +220,29 @@ $unActiveColor: #839c94;
     }
   }
 
-  .open-hours-day {
-    text-align: center;
-    width: 40px;
-  }
+  .open-hours {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 
-  .open-hours-time {
-    text-align: center;
-    width: 90px;
-  }
+    .open-hours-day {
+      text-align: center;
+      width: 40px;
+    }
 
-  .open-hours-break {
-    text-align: center;
-    width: 120px;
-  }
+    .open-hours-time {
+      text-align: center;
+      width: 90px;
+    }
 
-  .open-hours-bold {
-    font-weight: bold;
+    .open-hours-break {
+      text-align: center;
+      width: 120px;
+    }
+
+    .open-hours-bold {
+      font-weight: bold;
+    }
   }
 }
 

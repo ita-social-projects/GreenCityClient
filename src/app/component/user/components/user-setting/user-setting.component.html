@@ -1,18 +1,16 @@
 <h2 mat-dialog-title style="text-align: center; margin-bottom: 2%;">{{'user.user-setting.user-settings' | translate}}</h2>
 <hr>
 <mat-dialog-content>
-  <!--<div class="text-secondary">Email:</div> <div>User email</div>
-  <p>First name:</p> first name
-  <p>Last name:</p> last name-->
 
   <div>
 
 
     <form #formElement="ngForm" (ngSubmit)="formElement.valid ? somethingEdited() : null">
       <table>
+        <caption>User settings form</caption>
         <tr>
-          <td class="text-secondary">{{'user.user-setting.email' | translate}}</td>
-          <td>{{email}}</td>
+          <th class="text-secondary">{{'user.user-setting.email' | translate}}</th>
+          <th>{{email}}</th>
         </tr>
         <tr>
           <td class="text-secondary">{{'user.user-setting.first-name' | translate}}</td>
@@ -27,9 +25,6 @@
                 {{'user.user-setting.first-name-must-be-at-least-1-characters-long' | translate}}
               </div>
             </div>
-            <!-- <div class="validation-error" *ngIf="firstNameErrorMessageBackEnd!=null">
-               {{firstNameErrorMessageBackEnd}}
-             </div>-->
             <input class="form-control" type="text" [(ngModel)]="userUpdateModel.firstName" name="fistName"
                    #firstNameControl="ngModel" required minlength="1" maxlength="20">
           </td>
@@ -52,9 +47,6 @@
                 {{'user.user-setting.last-name-must-be-at-least-1-characters-long' | translate}}
               </div>
             </div>
-            <!--<div class="validation-error" *ngIf="lastNameErrorMessageBackEnd!=null">
-              {{lastNameErrorMessageBackEnd}}
-            </div>-->
             <input class="form-control" type="text" [(ngModel)]="userUpdateModel.lastName" name="lastName"
                    #lastNameControl="ngModel"
                    required

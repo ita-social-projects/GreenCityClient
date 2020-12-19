@@ -9,9 +9,10 @@
       <app-filter *ngIf="isFilter"></app-filter>
       <div *ngIf="!isFilter">
         <table class="table table-striped">
+            <caption>Places table</caption>
           <thead>
             <tr class="table-head-row">
-              <th class="table-header">{{'user.map.places' | translate}}</th>
+              <th class="table-header" scope="row">{{'user.map.places' | translate}}</th>
             </tr>
           </thead>
           <tbody>
@@ -117,34 +118,33 @@
             </p>
             <div class="nav-link dropdown-toggle" role="button"
                   (click)="placeService.showHours = !placeService.showHours">
-              <img [src]="clockIcon"
+              <img [src]="clockIcon" alt="clock-icon"
                     class="clock-icon">{{weekDaysUtils.showTodayOnly(placeInfo.openingHoursList)}}
             </div>
             <div *ngIf="placeService.showHours" 
                   class="show-hours">
               <table class="open_hours_table"
                       *ngFor="let item of weekDaysUtils.sortOpenHoursList(placeInfo.openingHoursList)">
-                <tbody>
-                <tr>
-                  <td class="open-hours-day">
-                    <span class="open-hours-bold" *ngIf="weekDaysUtils.equalsToday(item)">
-                      {{weekDaysUtils.getWeekDayShortForm(item.weekDay)}}</span>
-                    <span *ngIf="!weekDaysUtils.equalsToday(item)">
-                      {{weekDaysUtils.getWeekDayShortForm(item.weekDay)}}</span>
-                  </td>
-                  <td class="open-hours-time">
-                    <span class="open-hours-bold" *ngIf="weekDaysUtils.equalsToday(item)">
-                      {{item.openTime}} - {{item.closeTime}}</span>
-                    <span *ngIf="!weekDaysUtils.equalsToday(item)">
-                      {{item.openTime}} - {{item.closeTime}}</span>
-                  </td>
-                  <td class="open-hours-break" *ngIf="item.breakTime !== null">
-                    <span class="open-hours-bold" *ngIf="weekDaysUtils.equalsToday(item)">
-                      {{weekDaysUtils.showBreakTime(item)}}</span>
-                    <span *ngIf="!weekDaysUtils.equalsToday(item)">
-                      {{weekDaysUtils.showBreakTime(item)}}</span>
-                  </td>
-                </tr>
+                <caption>Open hours table</caption>
+                <tbody class="open-hours">
+                  <tr class="open-hours-day">
+                    <th class="open-hours-bold" *ngIf="weekDaysUtils.equalsToday(item)" scope="row">
+                      {{weekDaysUtils.getWeekDayShortForm(item.weekDay)}}</th>
+                    <th *ngIf="!weekDaysUtils.equalsToday(item)" scope="row">
+                      {{weekDaysUtils.getWeekDayShortForm(item.weekDay)}}</th>
+                  </tr>
+                  <tr class="open-hours-time">
+                    <td class="open-hours-bold" *ngIf="weekDaysUtils.equalsToday(item)">
+                      {{item.openTime}} - {{item.closeTime}}</td>
+                    <td *ngIf="!weekDaysUtils.equalsToday(item)">
+                      {{item.openTime}} - {{item.closeTime}}</td>
+                  </tr>
+                  <tr class="open-hours-break" *ngIf="item.breakTime !== null">
+                    <td class="open-hours-bold" *ngIf="weekDaysUtils.equalsToday(item)">
+                      {{weekDaysUtils.showBreakTime(item)}}</td>
+                    <td *ngIf="!weekDaysUtils.equalsToday(item)">
+                      {{weekDaysUtils.showBreakTime(item)}}</td>
+                  </tr>
                 </tbody>
               </table>
             </div>

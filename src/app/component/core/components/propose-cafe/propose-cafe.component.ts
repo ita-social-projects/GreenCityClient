@@ -20,6 +20,7 @@ import { SpecificationNameDto } from '../../../../model/specification/Specificat
 import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Photo } from '../../../../model/photo/photo';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-propose-cafe',
@@ -64,10 +65,19 @@ export class ProposeCafeComponent implements OnInit {
   @ViewChild('saveForm', {static: true}) private saveForm: NgForm;
   @ViewChild('choice', {static: true}) private choice: any;
 
-  constructor(private modalService: ModalService, private placeService: PlaceService, private categoryService: CategoryService,
-              private specificationService: SpecificationService, private uService: UserService, private mapsAPILoader: MapsAPILoader,
-              private ngZone: NgZone, private dialogRef: MatDialogRef<ProposeCafeComponent>, private storage: AngularFireStorage,
-              private db: AngularFirestore, private fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(private modalService: ModalService,
+              private placeService: PlaceService,
+              private categoryService: CategoryService,
+              private specificationService: SpecificationService,
+              private uService: UserService,
+              private matSnackBar: MatSnackBarComponent,
+              private mapsAPILoader: MapsAPILoader,
+              private ngZone: NgZone,
+              private dialogRef: MatDialogRef<ProposeCafeComponent>,
+              private storage: AngularFireStorage,
+              private db: AngularFirestore,
+              private fb: FormBuilder,
+              @Inject(MAT_DIALOG_DATA) public data: any) {
     this.category = new CategoryDto();
     this.discount = new DiscountDto();
     this.location = new LocationDto();
@@ -128,7 +138,7 @@ export class ProposeCafeComponent implements OnInit {
       // tslint:disable-next-line:prefer-for-of
       for (let i = 0; i < this.discountValues.length; i++) {
         if (discount1.specification.name === this.discountValues[i].specification.name) {
-          alert('Already exists.');
+          this.matSnackBar.openSnackBar('cafeNotificationsExists');
           exist = true;
         }
       }
@@ -140,7 +150,7 @@ export class ProposeCafeComponent implements OnInit {
 
   add(openingHours: OpeningHours, breakTimes: BreakTimes) {
     if (openingHours.closeTime <= openingHours.openTime || breakTimes.endTime <= breakTimes.startTime) {
-      alert('Second time have to be late than first. Please, try again.');
+      this.matSnackBar.openSnackBar('cafeNotificationsCloseTime');
       return;
     }
     const openingHours1 = new OpeningHours();
@@ -151,7 +161,7 @@ export class ProposeCafeComponent implements OnInit {
       if (breakTimes.startTime > openingHours1.openTime && breakTimes.endTime < openingHours1.closeTime) {
         openingHours1.breakTime = breakTimes;
       } else {
-        alert('Invalid break time.');
+        this.matSnackBar.openSnackBar('cafeNotificationsBreakTime');
         return;
       }
     }
@@ -228,12 +238,17 @@ export class ProposeCafeComponent implements OnInit {
   // Get Current Location Coordinates
   private setCurrentLocation() {
     if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
-        this.zoom = 8;
-        this.getAddress(this.latitude, this.longitude);
+      navigator.permissions.query({name: 'geolocation'}).then( (permissionStatus) => {
+        if (permissionStatus.state === 'granted') {
+          navigator.geolocation.getCurrentPosition(position => {
+            this.latitude = position.coords.latitude;
+            this.longitude = position.coords.longitude;
+            this.zoom = 8;
+            this.getAddress(this.latitude, this.longitude);
+          });
+        }
       });
     }
+    return null;
   }
 }
