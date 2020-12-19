@@ -1,8 +1,8 @@
-import {Injectable, OnDestroy} from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {Observable, Observer, ReplaySubject, Subscription, throwError} from 'rxjs';
-import {catchError, take, takeUntil} from 'rxjs/operators';
-import { EcoNewsModel } from '../models/eco-news-model';
+import { Observable, Observer, ReplaySubject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
+import { EcoNewsModel, NewsTagInterface } from '../models/eco-news-model';
 import { environment } from '@environment/environment';
 import { EcoNewsDto } from '../models/eco-news-dto';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -13,23 +13,19 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 
 export class EcoNewsService implements OnDestroy {
   private backEnd = environment.backendLink;
-  private language: string = this.localStorageService.getCurrentLanguage();
+  private language: string;
   private destroy: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   constructor(private http: HttpClient,
               private localStorageService: LocalStorageService) {
 
-    this.localStorageService.languageSubject
+    this.localStorageService.languageBehaviourSubject
       .pipe(takeUntil(this.destroy))
-      .subscribe(lang => this.language = lang);
+      .subscribe(language => this.language = language);
   }
 
-  public getAllPresentTags(): Observable<Array<string>> {
-    return this.http.get<Array<string>>(`${this.backEnd}econews/tags/all?lang=${this.language}`)
-      .pipe(catchError(error => {
-        console.log('Error: can not load all tags.');
-        return throwError(error);
-      }));
+  public getAllPresentTags(): Observable<Array<NewsTagInterface>> {
+    return this.http.get<Array<NewsTagInterface>>(`${this.backEnd}econews/tags/all?lang=${this.language}`);
   }
 
   public getEcoNewsListByPage(page: number, quantity: number) {

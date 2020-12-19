@@ -43,7 +43,10 @@ describe('CreateEditNewsComponent', () => {
         creationDate: '2020-10-26T16:43:29.336931Z',
         id: 4705,
         imagePath: 'https://storage.cloud.google.com/staging.greencity-c5a3a.appspot.com/35fce8fe-7949-48b8-bf8c-0d9a768ecb42',
-        tags: ['Events', 'Education'],
+        tags: [
+          {id: 1, name: 'Events'},
+          {id: 2, name: 'Education'}
+        ],
         text: 'hellohellohellohellohellohellohellohellohellohello',
         title: 'hello'
     };
@@ -83,7 +86,10 @@ describe('CreateEditNewsComponent', () => {
         });
     };
 
-    const tagsArray = ['News', 'Events', 'Education', 'Initiatives', 'Ads'];
+    const tagsArray = [
+      {id: 1, name: 'Events'},
+      {id: 2, name: 'Education'}
+    ];
 
     createEcoNewsServiceMock = jasmine.createSpyObj(
         'CreateEcoNewsService', ['sendFormData', 'editNews', 'setForm', 'getNewsId', 'getFormData']
@@ -240,11 +246,8 @@ describe('CreateEditNewsComponent', () => {
 
     it(`should have filter array as arr`, () => {
         const arr = [
-            { name: 'News', isActive: false },
             { name: 'Events', isActive: false },
-            { name: 'Education', isActive: false },
-            { name: 'Initiatives', isActive: false },
-            { name: 'Ads', isActive: false }
+            { name: 'Education', isActive: false }
         ];
         expect(component.filters).toEqual(arr);
     });
@@ -340,7 +343,10 @@ describe('CreateEditNewsComponent', () => {
             id: 4705,
             imagePath: 'https://storage.cloud.google.com/staging.greencity-c5a3a.appspot.com/35fce8fe-7949-48b8-bf8c-0d9a768ecb42',
             source: '',
-            tags: ['Events', 'Education'],
+            tags: [
+              {id: 1, name: 'Events'},
+              {id: 2, name: 'Education'}
+            ],
             text: 'hellohellohellohellohellohellohellohellohellohello',
             title: 'hello'
         };

@@ -9,12 +9,12 @@ import { Subscription, ReplaySubject, throwError } from 'rxjs';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
 import { FilterModel } from '@eco-news-models/create-news-interface';
-import { EcoNewsModel } from '@eco-news-models/eco-news-model';
+import { EcoNewsModel, NewsTagInterface } from '@eco-news-models/eco-news-model';
 import { ACTION_TOKEN, TEXT_AREAS_HEIGHT } from './action.constants';
 import { ActionInterface } from '../../models/action.interface';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
-import {LocalStorageService} from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-create-edit-news',
@@ -34,7 +34,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public month: number = new Date().getMonth();
   public author: string = localStorage.getItem('name');
   public attributes: ActionInterface;
-  public filters: Array<FilterModel> = [];
+  public filters: Array<FilterModel>;
   public newsId: string;
   public formData: FormGroup;
   private destroy: ReplaySubject<any> = new ReplaySubject<any>(1);
@@ -75,7 +75,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.getNewsIdFromQueryParams();
     this.initPageforCreateOrEdit();
     this.onSourceChange();
-    this.getAllTags();
     this.setLocalizedTags();
   }
 
@@ -104,22 +103,23 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     });
   }
 
+  private setLocalizedTags() {
+    this.localStorageService.languageBehaviourSubject
+      .pipe(takeUntil(this.destroy))
+      .subscribe(() => this.getAllTags());
+  }
+
   private getAllTags() {
     this.ecoNewsService.getAllPresentTags()
       .pipe(take(1))
-      .subscribe((tagsArray: Array<string>) => {
-        this.filters.length = 0;
-        tagsArray.forEach(tag => this.filters.push({
-          name: tag,
-          isActive: false
-        }));
+      .subscribe((tagsArray: Array<NewsTagInterface>) => {
+        this.filters = tagsArray.map(tag => {
+          return {
+            name: tag.name,
+            isActive: false
+          };
+        });
       });
-  }
-
-  private setLocalizedTags() {
-    this.localStorageService.languageSubject
-      .pipe(takeUntil(this.destroy))
-      .subscribe(() => this.getAllTags());
   }
 
   public initPageforCreateOrEdit(): void {
@@ -243,13 +243,13 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     if (itemToUpdate.tags.length) {
       this.isArrayEmpty = false;
 
-      itemToUpdate.tags.forEach((tag: string) => {
+      itemToUpdate.tags.forEach((tag: NewsTagInterface) => {
 
-        const index = this.filters.findIndex((filterObj: FilterModel) => filterObj.name === tag);
+        const index = this.filters.findIndex((filterObj: FilterModel) => filterObj.name === tag.name);
 
         this.filters = [
           ...this.filters.slice(0, index),
-          { name: tag, isActive: true },
+          { name: tag.name, isActive: true },
           ...this.filters.slice(index + 1)
         ];
 
