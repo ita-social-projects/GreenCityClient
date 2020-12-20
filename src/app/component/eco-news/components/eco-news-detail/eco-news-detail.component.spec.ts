@@ -37,7 +37,10 @@ describe('EcoNewsDetailComponent', () => {
       id: 777,
       name: 'John Snow'
     },
-    tags: ['ads', 'events'],
+    tags: [
+      {id: 1, name: 'Events'},
+      {id: 2, name: 'Education'}
+    ],
     creationDate: '2020-06-16T18:08:00.604Z',
   };
   beforeEach(async(() => {
