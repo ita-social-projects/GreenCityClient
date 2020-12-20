@@ -14,13 +14,13 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 export class EcoNewsService implements OnDestroy {
   private backEnd = environment.backendLink;
   private language: string;
-  private destroy: ReplaySubject<any> = new ReplaySubject<any>(1);
+  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   constructor(private http: HttpClient,
               private localStorageService: LocalStorageService) {
 
     this.localStorageService.languageBehaviourSubject
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroyed$))
       .subscribe(language => this.language = language);
   }
 
@@ -63,7 +63,7 @@ export class EcoNewsService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy.next(null);
-    this.destroy.complete();
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 }

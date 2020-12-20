@@ -37,7 +37,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public filters: Array<FilterModel>;
   public newsId: string;
   public formData: FormGroup;
-  private destroy: ReplaySubject<any> = new ReplaySubject<any>(1);
+  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   public isFormInvalid: boolean;
   public formChangeSub: Subscription;
@@ -105,7 +105,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
   private setLocalizedTags() {
     this.localStorageService.languageBehaviourSubject
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroyed$))
       .subscribe(() => this.getAllTags());
   }
 
@@ -229,7 +229,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.newsItemSubscription = this.ecoNewsService
       .getEcoNewsById(this.newsId)
       .pipe(
-        takeUntil(this.destroy)
+        takeUntil(this.destroyed$)
       )
       .subscribe((item: EcoNewsModel) => {
         this.form = this.createEditNewsFormBuilder.getEditForm(item);
@@ -317,8 +317,8 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   ngOnDestroy() {
-    this.destroy.next(null);
-    this.destroy.complete();
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
     if (this.formChangeSub) {
       this.formChangeSub.unsubscribe();
     }

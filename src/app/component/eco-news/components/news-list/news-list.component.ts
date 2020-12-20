@@ -25,7 +25,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   public numberOfNews: number;
   public elementsArePresent = true;
   public tagList: string[];
-  private destroy: ReplaySubject<any> = new ReplaySubject<any>(1);
+  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   constructor(
     private ecoNewsService: EcoNewsService,
@@ -45,7 +45,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
   private setLocalizedTags() {
     this.localStorageService.languageBehaviourSubject
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroyed$))
       .subscribe(() => this.getAllTags());
   }
 
@@ -86,7 +86,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     if (this.tagsList) {
       this.ecoNewsService.getNewsListByTags(this.currentPage, this.numberOfNews, this.tagsList)
         .pipe(
-          takeUntil(this.destroy),
+          takeUntil(this.destroyed$),
           catchError((error) => {
             this.snackBar.openSnackBar('error');
 
@@ -97,7 +97,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     } else {
       this.ecoNewsService.getEcoNewsListByPage(this.currentPage, this.numberOfNews)
         .pipe(
-          takeUntil(this.destroy),
+          takeUntil(this.destroyed$),
           catchError((error) => {
             this.snackBar.openSnackBar('error');
 
@@ -130,7 +130,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroy.next(null);
-    this.destroy.complete();
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 }

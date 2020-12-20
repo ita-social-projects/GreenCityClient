@@ -104,7 +104,7 @@ describe('HomepageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  xit('check the validity of token', inject([VerifyEmailService], (sevice: VerifyEmailService) => {
+  it('check the validity of token', inject([VerifyEmailService], (sevice: VerifyEmailService) => {
     const spy = spyOn(sevice, 'onCheckToken');
     // @ts-ignore
     component.onCheckToken();
