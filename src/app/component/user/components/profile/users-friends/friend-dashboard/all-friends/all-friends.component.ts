@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FriendArrayModel, FriendModel, } from '@global-user/models/friend.model';
@@ -11,7 +11,7 @@ import { catchError, takeUntil } from 'rxjs/operators';
   templateUrl: './all-friends.component.html',
   styleUrls: ['./all-friends.component.scss']
 })
-export class AllFriendsComponent implements OnInit {
+export class AllFriendsComponent implements OnInit, OnDestroy {
 
   public userId: number;
   public Friends: FriendModel[];

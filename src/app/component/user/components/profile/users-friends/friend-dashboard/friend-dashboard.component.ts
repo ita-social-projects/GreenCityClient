@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
@@ -8,12 +8,12 @@ import { Subscription } from 'rxjs';
   templateUrl: './friend-dashboard.component.html',
   styleUrls: ['./friend-dashboard.component.scss']
 })
-export class FriendDashboardComponent implements OnInit {
+export class FriendDashboardComponent implements OnInit, OnDestroy {
   public userId: number;
   private langChangeSub: Subscription;
 
   constructor(private localStorageService: LocalStorageService,
-    private translate: TranslateService) { }
+              private translate: TranslateService) { }
 
   ngOnInit() {
     this.initUser();

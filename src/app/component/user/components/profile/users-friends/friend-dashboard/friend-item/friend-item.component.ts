@@ -21,7 +21,7 @@ export class FriendItemComponent implements OnInit {
     this.addFriendEvent.emit(id);
   }
 
-  public deleteFriend (id: number): void {
+  public deleteFriend(id: number): void {
     this.deleteFriendEvent.emit(id);
   }
 }

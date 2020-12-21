@@ -79,7 +79,9 @@ import { AddNewHabitComponent } from './components/habit/add-new-habit/add-new-h
 import { GradientDirective } from './components/habit/add-new-habit/habit-duration/gradient.directive';
 import { FriendDashboardComponent } from './components/profile/users-friends/friend-dashboard/friend-dashboard.component';
 import { AllFriendsComponent } from './components/profile/users-friends/friend-dashboard/all-friends/all-friends.component';
-import { RecommendedFriendsComponent } from './components/profile/users-friends/friend-dashboard/recommended-friends/recommended-friends.component';
+import {
+  RecommendedFriendsComponent
+ } from './components/profile/users-friends/friend-dashboard/recommended-friends/recommended-friends.component';
 import { FriendItemComponent } from './components/profile/users-friends/friend-dashboard/friend-item/friend-item.component';
 
 @NgModule({

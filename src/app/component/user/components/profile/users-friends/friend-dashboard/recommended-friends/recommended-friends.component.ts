@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
@@ -11,7 +11,7 @@ import { catchError, takeUntil } from 'rxjs/operators';
   templateUrl: './recommended-friends.component.html',
   styleUrls: ['./recommended-friends.component.scss']
 })
-export class RecommendedFriendsComponent implements OnInit {
+export class RecommendedFriendsComponent implements OnInit, OnDestroy {
 
   public recommendedFriends: FriendModel[];
   public userId: number;
@@ -31,7 +31,7 @@ export class RecommendedFriendsComponent implements OnInit {
     this.getRecommendedFriends();
   }
 
-  public addStatus (friendArray) {
+  public addStatus(friendArray) {
     friendArray.forEach( elem => {
       elem.added = false;
     });
@@ -42,7 +42,7 @@ export class RecommendedFriendsComponent implements OnInit {
     this.recommendedFriends[index].added = !this.recommendedFriends[index].added;
   }
 
-  public getRecommendedFriends () {
+  public getRecommendedFriends() {
     this.userFriendsService.getRecommendedFriends(this.userId).pipe(
       catchError((error) => {
         this.snackBar.openSnackBar('error');
@@ -63,7 +63,7 @@ export class RecommendedFriendsComponent implements OnInit {
 
   public onScroll(): void {
     this.scroll = true;
-    if(this.currentPage < this.totalPages) {
+    if ( this.currentPage < this.totalPages ) {
       this.currentPage += 1;
       this.userFriendsService.getRecommendedFriends(this.userId, this.currentPage).pipe(
         catchError((error) => {
@@ -79,7 +79,7 @@ export class RecommendedFriendsComponent implements OnInit {
           this.addStatus(data.page);
           this.recommendedFriends = this.recommendedFriends.concat(data.page);
         },
-       )
+       );
     }
   }
 
@@ -97,7 +97,7 @@ export class RecommendedFriendsComponent implements OnInit {
       () => {
         this.changeStatus(id);
       }
-    )
+    );
   }
 
   public addFriend(id: number) {
@@ -114,7 +114,7 @@ export class RecommendedFriendsComponent implements OnInit {
       () => {
       this.changeStatus(id);
       }
-    )
+    );
   }
 
   public initUser(): void {
