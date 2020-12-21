@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { FriendModel, FriendRecommendedModel } from '@global-user/models/friend.model';
+import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { Subject } from 'rxjs';
 import { catchError, takeUntil } from 'rxjs/operators';
@@ -53,7 +53,7 @@ export class RecommendedFriendsComponent implements OnInit {
       takeUntil(this.destroy)
     )
     .subscribe (
-      (data: FriendRecommendedModel) => {
+      (data: FriendArrayModel) => {
         this.totalPages = data.totalPages;
         this.recommendedFriends = data.page;
         this.addStatus(this.recommendedFriends);
@@ -75,7 +75,7 @@ export class RecommendedFriendsComponent implements OnInit {
         takeUntil(this.destroy)
       )
       .subscribe(
-        (data: FriendRecommendedModel) => {
+        (data: FriendArrayModel) => {
           this.addStatus(data.page);
           this.recommendedFriends = this.recommendedFriends.concat(data.page);
         },

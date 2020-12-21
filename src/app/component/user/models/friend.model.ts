@@ -5,7 +5,7 @@ export interface FriendModel {
   added?: boolean;
 }
 
-export interface FriendRecommendedModel {
+export interface FriendArrayModel {
   totalElements: number;
   totalPages: number;
   currentPage: number;

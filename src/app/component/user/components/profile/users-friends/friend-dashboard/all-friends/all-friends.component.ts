@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { FriendModel, FriendRecommendedModel } from '@global-user/models/friend.model';
+import { FriendArrayModel, FriendModel, } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { Subject } from 'rxjs';
 import { catchError, takeUntil } from 'rxjs/operators';
@@ -29,7 +29,7 @@ export class AllFriendsComponent implements OnInit {
     this.getSixFriends();
   }
 
-  public addStatus (userArray) {
+  public addStatus(userArray) {
     userArray.forEach( elem => {
       elem.added = true;
     });
@@ -40,7 +40,7 @@ export class AllFriendsComponent implements OnInit {
     this.Friends[index].added = !this.Friends[index].added;
   }
 
-  public getSixFriends () {
+  public getSixFriends() {
     this.userFriendsService.getAllFriends(this.userId).pipe(
       catchError((error) => {
         this.snackBar.openSnackBar('error.message');
@@ -51,7 +51,7 @@ export class AllFriendsComponent implements OnInit {
       takeUntil(this.destroy)
     )
     .subscribe (
-      (data: FriendRecommendedModel) => {
+      (data: FriendArrayModel) => {
         this.Friends = data.page;
         this.addStatus(this.Friends);
       },
@@ -71,11 +71,11 @@ export class AllFriendsComponent implements OnInit {
       takeUntil(this.destroy)
     )
     .subscribe(
-      (data: FriendRecommendedModel) => {
+      (data: FriendArrayModel) => {
         this.addStatus(data.page);
         this.Friends = this.Friends.concat(data.page);
       },
-     )
+     );
   }
 
   public deleteFriend(id: number) {
@@ -92,7 +92,7 @@ export class AllFriendsComponent implements OnInit {
       () => {
         this.changeStatus(id);
       }
-    )
+    );
   }
 
   public addFriend(id: number) {
@@ -109,7 +109,7 @@ export class AllFriendsComponent implements OnInit {
       () => {
       this.changeStatus(id);
       }
-    )
+    );
   }
 
   public initUser(): void {
