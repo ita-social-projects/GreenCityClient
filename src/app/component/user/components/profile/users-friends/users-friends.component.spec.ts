@@ -1,11 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { UsersFriendsComponent } from './users-friends.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { of, throwError } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { ProfileService } from '../profile-service/profile.service';
 
 describe('UsersFriendsComponent', () => {
   let component: UsersFriendsComponent;
@@ -17,8 +18,9 @@ describe('UsersFriendsComponent', () => {
       declarations: [ UsersFriendsComponent ],
       imports: [
         TranslateModule.forRoot(),
-        HttpClientTestingModule
-      ]
+        HttpClientTestingModule,
+        RouterTestingModule.withRoutes([])
+      ],
     })
     .compileComponents();
   }));
@@ -36,16 +38,18 @@ describe('UsersFriendsComponent', () => {
 
 describe('GetUserFriends', () => {
   let component: UsersFriendsComponent;
-  let service: ProfileService;
+  let profileService: ProfileService;
+  let localStorageService: LocalStorageService;
 
   beforeEach(() => {
-    service = new ProfileService(null, null, null);
-    component = new UsersFriendsComponent(service);
+    profileService = new ProfileService(null, null, null);
+    localStorageService = new LocalStorageService();
+    component = new UsersFriendsComponent(profileService, localStorageService);
   });
 
   it('should get a user\'s friends', () => {
     const userFriends = {title: 'test'};
-    const spy = spyOn(service, 'getUserFriends').and.returnValue(of(userFriends));
+    const spy = spyOn(profileService, 'getUserFriends').and.returnValue(of(userFriends));
 
     component.showUsersFriends();
 
@@ -54,7 +58,7 @@ describe('GetUserFriends', () => {
 
   it('should set message to error message', () => {
     const error = 'Error message';
-    spyOn(service, 'getUserFriends').and.returnValue(throwError(error));
+    spyOn(profileService, 'getUserFriends').and.returnValue(throwError(error));
 
     component.showUsersFriends();
 

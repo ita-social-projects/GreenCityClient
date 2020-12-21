@@ -7,7 +7,7 @@
           <span class="text-number"> {{usersFriends?.length}}</span>
         </div>
       </div>
-      <div class="text-more"><a [routerLink]="['/profile', userId, 'friends']">{{ 'profile.see-all' | translate }}</a></div>
+      <div class="text-more"><a class="text-more" [routerLink]="['/profile', userId, 'friends']">{{ 'profile.see-all' | translate }}</a></div>
     </div>
     <div class="friends-images">
       <div *ngFor="let friend of usersFriends">
