@@ -119,14 +119,11 @@ export class RecommendedFriendsComponent implements OnInit {
 
   public initUser(): void {
     this.localStorageService.userIdBehaviourSubject
-    .pipe(
-      takeUntil(this.destroy)
-    )
       .subscribe((userId: number) => this.userId = userId);
   }
 
   ngOnDestroy() {
-    this.destroy.next(null);
+    this.destroy.next(true);
     this.destroy.complete();
   }
 }

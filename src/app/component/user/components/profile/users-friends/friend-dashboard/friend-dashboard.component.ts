@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 export class FriendDashboardComponent implements OnInit {
   public userId: number;
   private langChangeSub: Subscription;
+
   constructor(private localStorageService: LocalStorageService,
     private translate: TranslateService) { }
 

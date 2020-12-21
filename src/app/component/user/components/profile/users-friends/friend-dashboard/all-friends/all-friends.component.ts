@@ -121,7 +121,7 @@ export class AllFriendsComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.destroy.next(null);
+    this.destroy.next(true);
     this.destroy.complete();
   }
 }
