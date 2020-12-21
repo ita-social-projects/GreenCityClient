@@ -18,7 +18,6 @@ export class UsersFriendsComponent implements OnInit {
   ngOnInit() {
     this.showUsersFriends();
     this.initUser();
-    console.log(this.usersFriends);
   }
 
   public showUsersFriends(): void {

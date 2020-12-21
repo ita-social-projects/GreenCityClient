@@ -715,7 +715,14 @@
     "published-news": "опубликованные новости",
     "my-habits": "Мои привычки",
     "my-news": "Мои новости",
-    "my-articles": "Мои статьи"
+    "my-articles": "Мои статьи",
+    "friends": {
+      "add-new-friend": "Добавить",
+      "delete-friend": "Удалить",
+      "requests": "Запросы",
+      "all-friends": "Друзья",
+      "search-friends": "Поиск"
+    }
   },
   "create-news": {
     "title": "Создать новость",

@@ -24,5 +24,4 @@ export class FriendItemComponent implements OnInit {
   public deleteFriend (id: number): void {
     this.deleteFriendEvent.emit(id);
   }
-
 }

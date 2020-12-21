@@ -1,6 +1,6 @@
 <div class="container">
-    <a [routerLink]="['/profile', userId, 'friends']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Friends</a>
-    <a [routerLink]="['/profile', userId, 'friends', 'recommended']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Search</a>
-    <a routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Requests</a>
+    <a [routerLink]="['/profile', userId, 'friends']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"> {{ 'profile.friends.all-friends' | translate }}</a>
+    <a [routerLink]="['/profile', userId, 'friends', 'recommended']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">{{ 'profile.friends.search-friends' | translate }}</a>
+    <a routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">{{ 'profile.friends.requests' | translate }}</a>
 </div>
 <router-outlet></router-outlet>

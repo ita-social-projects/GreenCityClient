@@ -1,41 +1,35 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+$btnGreen: #13aa57;
+$btnWhite: #fff;
+$backgroundGrey:#f8f9fa;
+$openSpans: 'Open Sans', sans-serif;
+$montserrat: 'Montserrat', sans-serif;
+$nameColor: #313131;
 
-.add-btn {
-  font-family: 'Open Sans', sans-serif;
+button {
+  font-family: $openSpans;
   font-style: normal;
   font-size: 16px;
   line-height: 22px;
   text-align: center;
-  color: #13AA57;
-  border: 1px solid #13AA57;
   box-sizing: border-box;
   border-radius: 5px;
   width: 145px;
   height: 48px;
-  background: white;
   text-transform: uppercase;
 }
 
-.delete-btn {
-  font-family: 'Open Sans', sans-serif;
-  font-style: normal;
-  font-size: 16px;
-  line-height: 22px;
-  text-align: center;
-  color: #13AA57;
-  background: white;
-  border: 1px solid #13AA57;
-  box-sizing: border-box;
-  border-radius: 5px;
-  width: 145px;
-  height: 48px;
-  align-items: flex-end;
+.add-btn {
+  color: $btnGreen;
+  border: 1px solid $btnGreen;
+  background: $btnWhite;
 }
 
-img {
-  width: 78px;
-  height: 78px;
+.delete-btn {
+  color: $btnWhite;
+  background: $btnGreen;
+  border: 1px solid $btnGreen;
 }
 
 .add-friend {
@@ -45,20 +39,19 @@ img {
   align-items: center;
   padding: 5px;
   margin: 10px;
-  border: 1px solid #9c9c9c69;
   border-radius: 5px;
   width: 200px;
   border-radius: 5px;
-  background: #F8F9FA;
+  background: $backgroundGrey;
 }
 
 .friend-name {
-  font-family: 'Montserrat', sans-serif;
+  font-family: $montserrat;
   font-style: normal;
   font-weight: bold;
   font-size: 18px;
   line-height: 28px;
-  color: #313131;
+  color: $nameColor;
   max-width: 190px;
   word-wrap: break-word;
 }

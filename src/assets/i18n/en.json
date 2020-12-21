@@ -708,7 +708,14 @@
     "published-news": "published news",
     "my-habits": "My Habits",
     "my-news": "My news",
-    "my-articles": "My articles"
+    "my-articles": "My articles",
+    "friends": {
+      "add-new-friend": "Add friend",
+      "delete-friend": "Unfriend",
+      "requests": "Requests",
+      "all-friends": "Friends",
+      "search-friends": "Search"
+    }
   },
   "create-news": {
     "title": "Create news",
