@@ -110,6 +110,29 @@ $bp-largest: 1440px;
       }
     }
   }
+
+  .add-friends {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 55.86px;
+    height: 55.86px;
+    background: none;
+    text-decoration: none;
+    border: 2px dashed #13aa57;
+    border-radius: 50px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 50px;
+
+    a {
+      color: #13aa57;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
 }
 
 @media only screen and (max-width: $bp-largest) {

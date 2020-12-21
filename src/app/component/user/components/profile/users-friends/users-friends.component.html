@@ -25,9 +25,10 @@
     <div class="text-title">
       {{ 'profile.my-eco-friends' | translate }}
       <span class="text-number"> 0 </span>
-      <a [routerLink]="['/profile', userId, 'friends']">Find friends</a>
       <div class="error-message">
-        {{ 'profile.zero-friends' | translate }}
+        <div class="add-friends">
+          <a [routerLink] = "['/profile', userId, 'friends', 'recommended']">+</a>
+        </div>
       </div>
     </div>
   </div>
