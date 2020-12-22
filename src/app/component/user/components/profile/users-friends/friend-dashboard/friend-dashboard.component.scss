@@ -1,5 +1,6 @@
-$linkColorGreen: #13AA57;
-$linkColorGray: #494A49;
+$linkColorGreen: #13aa57;
+$linkColorGray: #494a49;
+
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 
@@ -18,7 +19,6 @@ $linkColorGray: #494A49;
 
   .active {
     color: $linkColorGreen;
-    text-decoration: underline;
     border: 1px solid $linkColorGreen;
     padding: 5px 5px 0;
     text-decoration: none;

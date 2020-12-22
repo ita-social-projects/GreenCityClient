@@ -1,6 +1,7 @@
 .friends-list {
-  background: url("../../../../../../../../assets/img/friends.png") no-repeat center right fixed,
-  url("../../../../../../../../assets/img/friends.png") no-repeat bottom left fixed;
+  background:
+    url("../../../../../../../../assets/img/friends.png") no-repeat center right fixed,
+    url("../../../../../../../../assets/img/friends.png") no-repeat bottom left fixed;
 }
 
 .container {
@@ -16,4 +17,3 @@
     justify-content: space-between;
   }
 }
-
