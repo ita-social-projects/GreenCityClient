@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
+import { SixFriendArrayModel } from '@global-user/models/friend.model';
 
 @Component({
   selector: 'app-users-friends',
@@ -11,6 +12,7 @@ export class UsersFriendsComponent implements OnInit {
   public usersFriends;
   public noFriends = null;
   public userId: number;
+  public amountOfFriends: number;
 
   constructor(private profileService: ProfileService,
               private localStorageService: LocalStorageService) { }
@@ -22,8 +24,9 @@ export class UsersFriendsComponent implements OnInit {
 
   public showUsersFriends(): void {
     this.profileService.getUserFriends()
-      .subscribe(item => {
-        this.usersFriends = item;
+      .subscribe((item: SixFriendArrayModel) => {
+        this.usersFriends = item.pagedFriends.page;
+        this.amountOfFriends = item.amountOfFriends;
       }, error => {
         this.noFriends = error;
       });

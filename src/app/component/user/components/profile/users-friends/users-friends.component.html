@@ -4,7 +4,7 @@
       <div class="text-main-content">
         <div class="text-title">
           {{ 'profile.my-eco-friends' | translate }}
-          <span class="text-number"> {{usersFriends?.length}}</span>
+          <span class="text-number"> {{amountOfFriends}}</span>
         </div>
       </div>
       <div class="text-more"><a class="text-more" [routerLink]="['/profile', userId, 'friends']">{{ 'profile.see-all' | translate }}</a></div>

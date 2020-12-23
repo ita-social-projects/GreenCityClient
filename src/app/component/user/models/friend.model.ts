@@ -11,3 +11,13 @@ export interface FriendArrayModel {
   currentPage: number;
   page: FriendModel[];
 }
+
+export interface SixFriendArrayModel {
+  amountOfFriends: number;
+  pagedFriends: {
+    currentPage: number;
+    page: FriendArrayModel[];
+    totalElements: number;
+    totalPages: number
+  }
+}
