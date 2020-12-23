@@ -88,9 +88,9 @@ describe('FriendDashboardComponent', () => {
     expect(initUserSpy).toHaveBeenCalledTimes(1);
     });
 
-    it('should unsubscribe on destroy', () => {
-      component.langChangeSub = of(true).subscribe();
-      component.ngOnDestroy();
-      expect(component.langChangeSub.closed).toBeTruthy();
-    });
+  it('should unsubscribe on destroy', () => {
+    component.langChangeSub = of(true).subscribe();
+    component.ngOnDestroy();
+    expect(component.langChangeSub.closed).toBeTruthy();
+  });
 });

@@ -5,7 +5,7 @@ import { UserFriendsService } from './user-friends.service';
 
 describe('UserFriendsService', () => {
   let injector: TestBed;
-  let service: UserFriendsService;
+  let userFriendsService: UserFriendsService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
@@ -14,7 +14,7 @@ describe('UserFriendsService', () => {
       providers: [UserFriendsService]
     });
     injector = getTestBed();
-    service = injector.get(UserFriendsService);
+    userFriendsService = injector.get(UserFriendsService);
     httpMock = injector.get(HttpTestingController);
   });
 

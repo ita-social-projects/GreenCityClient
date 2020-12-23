@@ -29,10 +29,10 @@ describe('FriendItemComponent', () => {
     fixture = TestBed.createComponent(FriendItemComponent);
     component = fixture.componentInstance;
     component.friend = { id: 1,
-      name: "Name",
-      profilePicture: "./",
+      name: 'Name',
+      profilePicture: '',
       added: true
-    }
+    };
     fixture.detectChanges();
   });
 
@@ -40,15 +40,15 @@ describe('FriendItemComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it( '', () => {
-    spyOn(component.addFriendEvent, "emit");
+  it( 'it should call addFriendEvent on click', () => {
+    spyOn(component.addFriendEvent, 'emit');
     component.addFriend(component.friend.id);
     expect(component.addFriendEvent.emit).toHaveBeenCalledWith(1);
-  })
+  });
 
-  it( '', () => {
-    spyOn(component.deleteFriendEvent, "emit");
+  it( 'it should call deleteFriendEvent on click', () => {
+    spyOn(component.deleteFriendEvent, 'emit');
     component.deleteFriend(component.friend.id);
     expect(component.deleteFriendEvent.emit).toHaveBeenCalledWith(1);
-  })
+  });
 });
