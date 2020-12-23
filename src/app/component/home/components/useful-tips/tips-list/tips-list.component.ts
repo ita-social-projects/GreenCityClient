@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 // tslint:disable-next-line: max-line-length
-import { SwiperDirective, SwiperComponent, SwiperScrollbarInterface, SwiperPaginationInterface, SwiperConfigInterface } from 'ngx-swiper-wrapper';
+import { SwiperDirective, SwiperComponent, SwiperConfigInterface } from 'ngx-swiper-wrapper';
 
 @Component({
   selector: 'app-tips-list',
@@ -8,11 +8,12 @@ import { SwiperDirective, SwiperComponent, SwiperScrollbarInterface, SwiperPagin
   styleUrls: ['./tips-list.component.scss']
 })
 export class TipsListComponent implements OnInit {
+  currentTip;
   tips = [
     {
       imageUrl: 'assets/img/icon/spoon-knife.png',
       text: 'Не ходіть до магазину голодними. '
-        + 'Складайте список покупок заздалегідь. Тоди ви витратите менше і не купите зайвого, що потім потрібно буде викидати'
+        + 'Складайте список покупок заздалегідь. Тоді ви витратите менше і не купите зайвого, що потім потрібно буде викидати'
     },
     {
       imageUrl: 'assets/img/icon/water-bottle.png',
@@ -36,7 +37,12 @@ export class TipsListComponent implements OnInit {
     direction: 'horizontal',
     centeredSlides: true,
     centerInsufficientSlides: true,
-    slidesPerView: 4,
+    slidesPerView: 3,
+    breakpoints: {
+      768: {
+        slidesPerView: 1,
+      }
+    },
     loop: true,
     keyboard: false,
     mousewheel: false,
@@ -52,5 +58,7 @@ export class TipsListComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.currentTip = this.tips[0];
+  }
 }

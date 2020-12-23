@@ -22,7 +22,6 @@ class TranslatePipeMock implements PipeTransform {
 }
 
 describe('EcoNewsDetailComponent', () => {
-
   let component: EcoNewsDetailComponent;
   let fixture: ComponentFixture<EcoNewsDetailComponent>;
   let localStorageService: LocalStorageService;
@@ -38,7 +37,10 @@ describe('EcoNewsDetailComponent', () => {
       id: 777,
       name: 'John Snow'
     },
-    tags: ['ads', 'events'],
+    tags: [
+      {id: 1, name: 'Events'},
+      {id: 2, name: 'Education'}
+    ],
     creationDate: '2020-06-16T18:08:00.604Z',
   };
   beforeEach(async(() => {
@@ -124,6 +126,27 @@ describe('EcoNewsDetailComponent', () => {
     component.newsItem.imagePath = ' ';
     const imagePath = component.checkNewsImage();
     expect(imagePath).toEqual('assets/img/icon/econews/news-default-large.png');
+  });
+
+  it('should return FB social share link and call open method', () => {
+    const spy = spyOn(window, 'open');
+    component.onSocialShareLinkClick('fb');
+    expect(spy).toHaveBeenCalledWith(`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`, '_blank');
+  });
+
+  it('should return linkedin social share link and call open method', () => {
+    const spy = spyOn(window, 'open');
+    component.onSocialShareLinkClick('linkedin');
+    expect(spy).toHaveBeenCalledWith(`https://www.linkedin.com/sharing/share-offsite/?url=${window.location.href}`, '_blank');
+  });
+
+  it('should return twitter social share link and call open method', () => {
+    component.newsItem = mockEcoNewsModel;
+    const spy = spyOn(window, 'open');
+    component.onSocialShareLinkClick('twitter');
+    expect(spy).toHaveBeenCalledWith
+      (`https://twitter.com/share?url=${window.location.href}&text=${mockEcoNewsModel.title}&hashtags=${mockEcoNewsModel.tags.join(',')}`,
+       '_blank');
   });
 
   it('canUserEditNews should return true if the user can edit news', () => {

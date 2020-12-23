@@ -2,7 +2,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { MatSnackBarModule } from '@angular/material';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material';
 import { SearchPopupComponent } from './search-popup.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SearchItemComponent } from './search-item/search-item.component';
@@ -20,6 +20,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 describe('SearchPopupComponent', () => {
   let component: SearchPopupComponent;
   let fixture: ComponentFixture<SearchPopupComponent>;
+  let matSnackBarMock: MatSnackBar;
+  matSnackBarMock = jasmine.createSpyObj('MatSnackBar', ['open']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -39,7 +41,9 @@ describe('SearchPopupComponent', () => {
         BrowserAnimationsModule
       ],
       providers: [
-        SearchService, MatSnackBarComponent
+        SearchService,
+        MatSnackBarComponent,
+        { provide: MatSnackBar, useValue: matSnackBarMock }
       ]
     })
       .compileComponents().then(r => r);

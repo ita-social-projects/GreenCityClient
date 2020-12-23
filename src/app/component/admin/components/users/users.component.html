@@ -13,9 +13,11 @@
         <table mat-table
                [dataSource]="dataSource"
                class="mat-elevation-z8">
+          <caption>Users table</caption>
           <!-- Position Column -->
           <ng-container matColumnDef="email">
-            <th mat-header-cell *matHeaderCellDef style="cursor: pointer" (click)="selectColumnToSort('email')"
+            <th mat-header-cell *matHeaderCellDef style="cursor: pointer"
+                scope="col" (click)="selectColumnToSort('email')"
                 [matMenuTriggerFor]="menu">
               {{'users.email' | translate}}<mat-icon svgIcon="{{sortArrow}}" [hidden]="sortColumn!=='email' || sortDirection==='asc'"></mat-icon>
             </th>
@@ -28,7 +30,8 @@
 
           <ng-container matColumnDef="firstName">
             <th mat-header-cell *matHeaderCellDef style="cursor: pointer"
-                (click)="selectColumnToSort('firstName')" [matMenuTriggerFor]="menu">
+                scope="col" (click)="selectColumnToSort('firstName')"
+                [matMenuTriggerFor]="menu">
               {{'users.first-name' | translate}}<mat-icon svgIcon="{{sortArrow}}" [hidden]="sortColumn!=='firstName'"></mat-icon>
             </th>
             <td mat-cell id="firstNameColumn" *matCellDef="let element"
@@ -39,7 +42,8 @@
           <!-- Name Column -->
           <ng-container matColumnDef="lastName">
             <th mat-header-cell *matHeaderCellDef style="cursor: pointer"
-                (click)="selectColumnToSort('lastName')" [matMenuTriggerFor]="menu">
+                scope="col" (click)="selectColumnToSort('lastName')"
+                [matMenuTriggerFor]="menu">
               {{'users.last-name' | translate}}<mat-icon svgIcon="{{sortArrow}}" [hidden]="sortColumn!=='lastName'"></mat-icon>
             </th>
             <td mat-cell *matCellDef="let element" id="lastNameColumn"
@@ -50,7 +54,8 @@
 
           <ng-container matColumnDef="dateOfRegistration">
             <th mat-header-cell *matHeaderCellDef style="cursor: pointer"
-                (click)="selectColumnToSort('dateOfRegistration')" [matMenuTriggerFor]="menu">
+                scope="col" (click)="selectColumnToSort('dateOfRegistration')"
+                [matMenuTriggerFor]="menu">
               {{'users.date-of-registration' | translate}}<mat-icon svgIcon="{{sortArrow}}" [hidden]="sortColumn!=='dateOfRegistration'"></mat-icon>
             </th>
             <td mat-cell *matCellDef="let element" id="dateOfRegistrationColumn"
@@ -59,7 +64,7 @@
           </ng-container>
 
           <ng-container matColumnDef="role">
-            <th mat-header-cell *matHeaderCellDef></th>
+            <th mat-header-cell scope="col" *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let element">
               <div class="selectRole">
                 <mat-select [(value)]="element.role"
@@ -74,7 +79,7 @@
           </ng-container>
 
           <ng-container matColumnDef="block">
-            <th mat-header-cell *matHeaderCellDef> {{'users.actions' | translate}}</th>
+            <th mat-header-cell scope="col" *matHeaderCellDef> {{'users.actions' | translate}}</th>
             <td mat-cell *matCellDef="let element">
               <button *ngIf="element.userStatus != 'BLOCKED' && element.userStatus != 'DEACTIVATED'" mat-raised-button
                       class="btn btn-outline-warning"
@@ -89,7 +94,7 @@
           </ng-container>
 
           <ng-container matColumnDef="deactivate">
-            <th mat-header-cell *matHeaderCellDef></th>
+            <th mat-header-cell scope="col" *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let element">
               <button *ngIf="element.userStatus != 'DEACTIVATED'" mat-raised-button class="btn btn-outline-danger"
                       (click)="updateUserStatus(element.id, 'DEACTIVATED', element.email)"

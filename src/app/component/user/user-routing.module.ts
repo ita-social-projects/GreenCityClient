@@ -10,6 +10,7 @@ import { AllFriendsComponent } from './components/profile/users-friends/friend-d
 import {
   RecommendedFriendsComponent
  } from './components/profile/users-friends/friend-dashboard/recommended-friends/recommended-friends.component';
+import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';
 
 export const userRoutes: Routes = [
   { path: '',
@@ -17,7 +18,7 @@ export const userRoutes: Routes = [
     canActivate: [ AuthPageGuardService ],
     children: [
       { path: ':id', component: ProfileComponent },
-      { path: ':id/edit', component: EditProfileComponent },
+      { path: ':id/edit', component: EditProfileComponent, canDeactivate: [PendingChangesGuard] },
       { path: ':id/allhabits', component: AllHabitsComponent },
       { path: ':id/allhabits/addhabit/:habitId', component: AddNewHabitComponent },
       { path: '', component: ProfileComponent },

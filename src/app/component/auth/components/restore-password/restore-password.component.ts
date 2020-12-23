@@ -23,7 +23,6 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 export class RestorePasswordComponent implements OnInit, OnDestroy {
   public restorePasswordForm: FormGroup;
   public emailField: AbstractControl;
-  public email: FormControl;
   public closeBtn = SignInIcons;
   public mainSignInImage = SignInIcons;
   public googleImage = SignInIcons;
@@ -34,6 +33,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   public loadingAnim: boolean;
   public currentLanguage: string;
   public userIdSubscription: Subscription;
+  public emailFieldValue: string;
   @Output() public pageName = new EventEmitter();
 
   constructor(
@@ -66,6 +66,9 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
     this.emailErrorMessageBackEnd = null;
     this.passwordErrorMessageBackEnd = null;
     this.backEndError = null;
+    if (this.restorePasswordForm) {
+      this.emailFieldValue = this.restorePasswordForm.get('email').value;
+    }
   }
 
   private checkIfUserId(): void {
@@ -85,10 +88,11 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
     this.pageName.emit(page);
   }
 
-  sentEmail(userOwnSignIn: UserOwnSignIn): void {
+  sentEmail(): void {
+    const {email} = this.restorePasswordForm.value;
     this.loadingAnim = true;
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
-    this.restorePasswordService.sendEmailForRestore(userOwnSignIn.email, this.currentLanguage)
+    this.restorePasswordService.sendEmailForRestore(email, this.currentLanguage)
       .pipe(
        take(1))
       .subscribe({
@@ -113,7 +117,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
       return;
     }
 
-    errors.error.map((error) => {
+    errors.error.forEach((error) => {
       this.emailErrorMessageBackEnd = error.name === 'email' ? error.message : this.emailErrorMessageBackEnd;
       this.passwordErrorMessageBackEnd = error.name === 'password' ? error.message : this.passwordErrorMessageBackEnd;
     });

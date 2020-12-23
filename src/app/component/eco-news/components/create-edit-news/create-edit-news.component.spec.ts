@@ -43,7 +43,10 @@ describe('CreateEditNewsComponent', () => {
         creationDate: '2020-10-26T16:43:29.336931Z',
         id: 4705,
         imagePath: 'https://storage.cloud.google.com/staging.greencity-c5a3a.appspot.com/35fce8fe-7949-48b8-bf8c-0d9a768ecb42',
-        tags: ['Events', 'Education'],
+        tags: [
+          {id: 1, name: 'Events'},
+          {id: 2, name: 'Education'}
+        ],
         text: 'hellohellohellohellohellohellohellohellohellohello',
         title: 'hello'
     };
@@ -83,6 +86,11 @@ describe('CreateEditNewsComponent', () => {
         });
     };
 
+    const tagsArray = [
+      {id: 1, name: 'Events'},
+      {id: 2, name: 'Education'}
+    ];
+
     createEcoNewsServiceMock = jasmine.createSpyObj(
         'CreateEcoNewsService', ['sendFormData', 'editNews', 'setForm', 'getNewsId', 'getFormData']
     );
@@ -92,10 +100,11 @@ describe('CreateEditNewsComponent', () => {
     createEcoNewsServiceMock.setForm = (form) => of();
     createEcoNewsServiceMock.getNewsId = () => '15';
 
-    ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getEcoNewsById']);
+    ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getEcoNewsById', 'getAllPresentTags']);
     ecoNewsServiceMock.getEcoNewsById = (id) => {
         return of(item);
     };
+    ecoNewsServiceMock.getAllPresentTags = () => of(tagsArray);
 
     createEditNewsFormBuilderMock = jasmine.createSpyObj('CreateEditNewsFormBuilder', ['getSetupForm', 'getEditForm']);
     createEditNewsFormBuilderMock.getSetupForm = () => {
@@ -237,11 +246,8 @@ describe('CreateEditNewsComponent', () => {
 
     it(`should have filter array as arr`, () => {
         const arr = [
-            { name: 'News', isActive: false },
             { name: 'Events', isActive: false },
-            { name: 'Education', isActive: false },
-            { name: 'Initiatives', isActive: false },
-            { name: 'Ads', isActive: false }
+            { name: 'Education', isActive: false }
         ];
         expect(component.filters).toEqual(arr);
     });
@@ -317,18 +323,6 @@ describe('CreateEditNewsComponent', () => {
         expect(component.tags().length).toBe(3);
     }));
 
-    it('Should open CancelPopup', () => {
-        spyOn(component, 'openCancelPopup');
-
-        const nativeElement = fixture.nativeElement;
-        const button = nativeElement.querySelector('.cancel');
-        button.dispatchEvent(new Event('click'));
-
-        fixture.detectChanges();
-
-        expect(component.openCancelPopup).toHaveBeenCalled();
-    });
-
     function updateForm(news) {
         component.form.controls.title.setValue(news.title);
         component.form.controls.content.setValue(news.content);
@@ -349,7 +343,10 @@ describe('CreateEditNewsComponent', () => {
             id: 4705,
             imagePath: 'https://storage.cloud.google.com/staging.greencity-c5a3a.appspot.com/35fce8fe-7949-48b8-bf8c-0d9a768ecb42',
             source: '',
-            tags: ['Events', 'Education'],
+            tags: [
+              {id: 1, name: 'Events'},
+              {id: 2, name: 'Education'}
+            ],
             text: 'hellohellohellohellohellohellohellohellohellohello',
             title: 'hello'
         };

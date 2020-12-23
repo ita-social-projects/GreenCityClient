@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AbstractControl, FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { SignInIcons } from 'src/app/image-pathes/sign-in-icons';
 import { RestoreDto } from '@global-models/restroreDto';
 import { ActivatedRoute } from '@angular/router';
@@ -8,6 +8,7 @@ import { ChangePasswordService } from '@auth-service/change-password.service';
 import { authImages } from 'src/app/image-pathes/auth-images';
 import { ConfirmPasswordValidator, ValidatorRegExp } from '../sign-up/sign-up.validator';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-confirm-restore-password',
@@ -26,20 +27,19 @@ export class ConfirmRestorePasswordComponent implements OnInit {
   public emailErrorMessageBackEnd: string;
   public passwordErrorMessageBackEnd: string;
   public loadingAnim: boolean;
+  public passwordFieldValue: string;
+  public passwordConfirmFieldValue: string;
   public form: any;
   public token: string;
-
   public restoreDto: RestoreDto;
 
   constructor(
     private router: Router,
     private changePasswordService: ChangePasswordService,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private snackBar: MatSnackBarComponent
-  ) {
-    this.getToken();
-  }
+    private activatedRoute: ActivatedRoute,
+    private snackBar: MatSnackBarComponent,
+  ) {}
 
   ngOnInit() {
     this.restoreDto = new RestoreDto();
@@ -51,8 +51,8 @@ export class ConfirmRestorePasswordComponent implements OnInit {
 
   public initFormReactive(): void {
     this.confirmRestorePasswordForm = this.formBuilder.group({
-      password: new FormControl('', [Validators.required, Validators.minLength(8)]),
-      confirmPassword: new FormControl('', [Validators.required, Validators.minLength(8)])
+      password: new FormControl('', []),
+      confirmPassword: new FormControl('', [])
     },
     {
       validator: [
@@ -67,10 +67,12 @@ export class ConfirmRestorePasswordComponent implements OnInit {
     this.confirmPasswordField = this.confirmRestorePasswordForm.get('confirmPassword');
   }
 
-  public getToken() {
-    this.route.queryParams.subscribe(params => {
-      this.token = params[`token`];
-    });
+  private getToken(): void {
+    this.activatedRoute.queryParams
+      .pipe(take(1))
+      .subscribe(params => {
+        this.token = params[`token`];
+      });
   }
 
   public sendPasswords() {
@@ -84,13 +86,17 @@ export class ConfirmRestorePasswordComponent implements OnInit {
         this.form = error;
       });
     setTimeout(() => {
-      this.router.navigate(['welcome']);
+      this.router.navigate(['']);
       this.snackBar.openSnackBar('successConfirmPassword');
     }, 2000);
   }
 
-  private setPasswordBackendErr() {
+  public setPasswordBackendErr(): void {
     this.passwordErrorMessageBackEnd = null;
+    if (this.confirmRestorePasswordForm) {
+      this.passwordFieldValue = this.passwordField.value;
+      this.passwordConfirmFieldValue = this.confirmPasswordField.value;
+    }
   }
 
   public setPasswordVisibility(htmlInput: HTMLInputElement, htmlImage: HTMLImageElement): void {
@@ -99,7 +105,7 @@ export class ConfirmRestorePasswordComponent implements OnInit {
   }
 
   public closeModal(): void {
-    this.router.navigate(['welcome']);
+    this.router.navigate(['']);
     this.snackBar.openSnackBar('exitConfirmRestorePassword');
   }
 }

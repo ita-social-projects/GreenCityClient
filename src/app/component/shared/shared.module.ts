@@ -10,8 +10,8 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { MatCardModule } from '@angular/material';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {
+  WarningPopUpComponent,
   PhotoUploadComponent,
-  CancelPopUpComponent,
   EditPhotoPopUpComponent
 } from './components';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -25,10 +25,11 @@ import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisa
 import { NoDataComponent } from './components/no-data/no-data.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { TagFilterComponent } from './components/tag-filter/tag-filter.component';
-import { CalendarBaseComponent } from './components/calendar-base/calendar-base.component';
+import { CalendarBaseComponent } from '@shared/components';
 import usLocale from '@angular/common/locales/en-US-POSIX';
 import ruLocale from '@angular/common/locales/ru';
 import ukLocale from '@angular/common/locales/uk';
+import { FormBaseComponent } from './components/form-base/form-base.component';
 
 registerLocaleData(usLocale, 'en');
 registerLocaleData(ruLocale, 'ru');
@@ -37,7 +38,6 @@ registerLocaleData(ukLocale, 'ua');
 @NgModule({
   declarations: [
     PhotoUploadComponent,
-    CancelPopUpComponent,
     DragAndDropDirective,
     DragAndDropComponent,
     EditPhotoPopUpComponent,
@@ -45,7 +45,9 @@ registerLocaleData(ukLocale, 'ua');
     NoDataComponent,
     SpinnerComponent,
     TagFilterComponent,
-    CalendarBaseComponent
+    CalendarBaseComponent,
+    WarningPopUpComponent,
+    FormBaseComponent
   ],
   imports: [
     ImageCropperModule,
@@ -68,7 +70,6 @@ registerLocaleData(ukLocale, 'ua');
     UserSharedModule
   ],
   exports: [
-    CancelPopUpComponent,
     EditPhotoPopUpComponent,
     TranslateModule,
     PhotoUploadComponent,
@@ -87,9 +88,14 @@ registerLocaleData(ukLocale, 'ua');
     NoDataComponent,
     SpinnerComponent,
     TagFilterComponent,
-    UserSharedModule
+    UserSharedModule,
+    WarningPopUpComponent,
+    FormBaseComponent
   ],
   providers: [MatSnackBarComponent, TranslateService],
+  entryComponents: [
+    WarningPopUpComponent
+  ]
 })
 export class SharedModule {}
 

@@ -13,7 +13,7 @@ export class CommentsService {
 
   constructor(private http: HttpClient) { }
 
-  public addComment(id = 0, form): Observable<object> {
+  public addComment(form, id = 0): Observable<object> {
     const body = {
       parentCommentId: id,
       text: form.value.content

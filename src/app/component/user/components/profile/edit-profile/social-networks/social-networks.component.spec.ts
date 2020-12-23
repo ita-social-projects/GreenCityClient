@@ -3,17 +3,35 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { SocialNetworksComponent } from './social-networks.component';
+import { MatDialog } from '@angular/material';
+import { WarningPopUpComponent } from '@shared/components';
+import { of } from 'rxjs';
+
+class MatDialogMock {
+  open() {
+    return {
+      afterClosed: () => of(true)
+    };
+  }
+}
 
 describe('SocialNetworksComponent', () => {
   let component: SocialNetworksComponent;
   let fixture: ComponentFixture<SocialNetworksComponent>;
+  let dialog: MatDialogMock;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SocialNetworksComponent ],
+      declarations: [
+        SocialNetworksComponent,
+        WarningPopUpComponent
+      ],
       imports: [
         TranslateModule.forRoot(),
         FormsModule
+      ],
+      providers: [
+        { provide: MatDialog, useClass: MatDialogMock }
       ]
     })
     .compileComponents();
@@ -22,6 +40,8 @@ describe('SocialNetworksComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SocialNetworksComponent);
     component = fixture.componentInstance;
+    dialog = TestBed.get(MatDialog);
+
     fixture.detectChanges();
   });
 
@@ -71,7 +91,9 @@ describe('SocialNetworksComponent', () => {
 
     it('Should delete link', () => {
       component.onDeleteLink({url: 'https://www.facebook.com/'});
+      spyOn(dialog, 'open').and.callThrough();
       // @ts-ignore
+
       expect(component.socialNetworks.length).toBe(0);
     });
 

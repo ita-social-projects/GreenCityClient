@@ -5,6 +5,10 @@
 $color-greenCity-green: #13aa57;
 $color-greenCity-dark-green: #056b33;
 
+html {
+  overflow-y: auto !important;
+}
+
 .hide {
   display: none;
 }
@@ -186,6 +190,10 @@ body {
 // [END] View swither btns
 .transparent .mat-dialog-container {
   background: transparent;
+}
+
+.popup-dialog-container .mat-dialog-container {
+  padding: 0;
 }
 
 .custom-dialog-container .mat-dialog-container::-webkit-scrollbar {

@@ -1,5 +1,3 @@
-import { SearchModel } from '@global-models/search/search.model';
-
 export interface SearchDto {
     page: Array<SearchItem>;
     totalElements: number;

@@ -5,7 +5,7 @@
                        (pageChange)="onPageChange($event)"
                        >
     <div class="custom-pagination"
-         *ngIf="p.getTotalItems() > 10">
+         *ngIf="p.getTotalItems() > maxCommentsOnPage">
       <div class="pagination-previous">
         <a *ngIf="!p.isFirstPage()"
            (click)="p.previous()">
