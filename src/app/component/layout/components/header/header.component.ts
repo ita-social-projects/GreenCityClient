@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { filter } from 'rxjs/operators';
@@ -14,13 +14,14 @@ import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { LanguageModel } from '../models/languageModel';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { environment } from '@environment/environment';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   readonly selectLanguageArrow = 'assets/img/arrow_grey.png';
   readonly dropDownArrow = 'assets/img/arrow.png';
   public dropdownVisible = false;
@@ -41,6 +42,7 @@ export class HeaderComponent implements OnInit {
   private userId: number;
   private token: string;
   private backEndLink = environment.backendLink;
+  private mainSubscription: Subscription[] = [];
 
   constructor(public dialog: MatDialog,
               private localStorageService: LocalStorageService,
@@ -55,20 +57,24 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.searchSearch.searchSubject.subscribe(signal => this.openSearchSubscription(signal));
-    this.searchSearch.allSearchSubject.subscribe(signal => this.openAllSearchSubscription(signal));
-    this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => { this.name = firstName; });
+    this.mainSubscription.push(this.searchSearch.searchSubject.subscribe(signal => this.openSearchSubscription(signal)));
+    this.mainSubscription.push(this.searchSearch.allSearchSubject.subscribe(signal => this.openAllSearchSubscription(signal)));
+    this.mainSubscription.push(this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => { this.name = firstName; }));
     this.initUser();
     this.setLangArr();
     this.userRole = this.jwtService.getUserRole();
     this.autoOffBurgerBtn();
     this.userOwnAuthService.getDataFromLocalStorage();
-    this.userOwnAuthService.isLoginUserSubject.subscribe(
+    this.mainSubscription.push(this.userOwnAuthService.isLoginUserSubject.subscribe(
       status => this.isLoggedIn = status
-    );
+    ));
     this.token = this.localStorageService.getAccessToken();
     this.isAdmin = this.userRole === this.adminRoleValue;
     this.managementLink = `${this.backEndLink}token?accessToken=${this.token}`;
+  }
+
+  ngOnDestroy() {
+    this.mainSubscription.forEach( sub => sub.unsubscribe());
   }
 
   setLangArr(): void {

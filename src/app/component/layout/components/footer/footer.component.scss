@@ -1,5 +1,6 @@
 $generalFont : 'Open Sans', sans-serif;
 $secondary-color: #494a49;
+$secondary-ligth-color: #878787;
 
 p,
 a,
@@ -61,7 +62,7 @@ a,
 }
 
 .footer_bottom-part {
-  color: #878787;
+  color: $secondary-ligth-color;
   width: fit-content;
   margin: 0 auto;
   padding-bottom: 10px;
