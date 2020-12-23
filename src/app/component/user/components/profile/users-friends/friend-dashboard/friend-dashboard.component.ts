@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 })
 export class FriendDashboardComponent implements OnInit, OnDestroy {
   public userId: number;
-  private langChangeSub: Subscription;
+  public langChangeSub: Subscription;
 
   constructor(private localStorageService: LocalStorageService,
               private translate: TranslateService) { }
