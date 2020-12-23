@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { AfterContentInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, fromEvent } from 'rxjs';
-import { map, distinctUntilChanged, tap, switchMap, throttleTime } from 'rxjs/operators';
+import { map, distinctUntilChanged, tap, debounceTime, take } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SearchService } from '@global-service/search/search.service';
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
@@ -11,62 +11,60 @@ import { NewsSearchModel } from '@global-models/search/newsSearch.model';
   templateUrl: './search-all-results.component.html',
   styleUrls: ['./search-all-results.component.scss']
 })
-export class SearchAllResultsComponent implements OnInit, OnDestroy {
+export class SearchAllResultsComponent implements OnInit, OnDestroy, AfterContentInit {
   public displayedElements: NewsSearchModel[] = [];
   public isSearchFound: boolean;
   public itemsFound = 0;
   public currentPage = 0;
   public searchCategory: string;
-  public sortType: string;
+  public sortType = '';
   public sortTypes = ['Relevance', 'Newest', 'Oldest'];
   public sortTypesLocalization = ['search.search-all-results.relevance',
                                   'search.search-all-results.newest',
                                   'search.search-all-results.oldest'];
   public dropdownVisible: boolean;
   public inputValue: string;
-  public scroll: boolean;
+  public isLoading = true;
   private querySubscription: Subscription;
 
   readonly dropDownArrow = 'assets/img/arrow_grey.png';
 
-  constructor(private search: SearchService, private snackBar: MatSnackBar, private route: ActivatedRoute) {
-    this.querySubscription = route.queryParams.subscribe(
-      (queryParam: any) => {
-          this.inputValue = queryParam.query;
-          this.searchCategory = queryParam.category || 'econews';
-      }
-    );
-  }
+  constructor( private search: SearchService,
+               private snackBar: MatSnackBar,
+               private route: ActivatedRoute,
+               private router: Router ) { }
 
   ngOnInit() {
-    this.scroll = false;
-    this.sortType = '';
-
-    this.route.queryParams.subscribe(params => {
+    this.querySubscription = this.route.queryParams.subscribe(params => {
       this.inputValue = params.query;
       this.searchCategory = params.category || 'econews';
     });
 
-    if (this.inputValue && this.searchCategory) {
-      this.getSearchResults();
-    }
+    this.getSearchResults();
+    this.onAddSearchInputListener();
+  }
 
+  ngAfterContentInit() {
+    this.forceScroll();
+  }
+
+  private onAddSearchInputListener() {
     fromEvent(document.querySelector('#search-input'), 'input')
       .pipe(
+        debounceTime(300),
         map(e => (e.target as HTMLInputElement).value),
-        throttleTime(250),
         distinctUntilChanged(),
-        tap(() => this.resetData()),
-        switchMap(value => this.search.getAllResults(value, this.searchCategory, this.currentPage, this.sortType))
-      )
-      .subscribe(
-        data => this.setElems(data),
-        err => this.errorHandler(err)
-      );
+        tap(() => {
+          this.resetData();
+          this.isLoading = true;
+          this.onSearchUpdateQuery().then(() => this.getSearchResults());
+        }),
+        take(1)
+      ).subscribe();
   }
 
   private getSearchResults(): void {
-    this.search.getAllResults(this.inputValue, this.searchCategory, this.currentPage, this.sortType)
+    this.search.getAllResultsByCat(this.inputValue, this.searchCategory, this.currentPage, this.sortType)
         .subscribe(
           data => this.setElems(data),
           err => this.errorHandler(err)
@@ -75,15 +73,33 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
   }
 
   private setElems(data: any): void {
-    this.displayedElements = this.displayedElements && this.scroll ? [...this.displayedElements, ...data.page] : [...data.page];
+    this.isLoading = false;
+    this.displayedElements = [...this.displayedElements, ...data.page];
+
     this.itemsFound = data.totalElements;
+
     if (this.displayedElements.length === this.itemsFound) {
       this.isSearchFound = false;
     }
   }
 
+  private onSearchUpdateQuery() {
+    return this.router.navigate([], {
+      queryParams: {
+        query: this.inputValue,
+        category: this.searchCategory
+      },
+    });
+  }
+
+  private forceScroll() {
+    if (document.documentElement.clientHeight > document.body.clientHeight) {
+      this.onScroll();
+    }
+  }
+
   public onScroll(): void {
-    this.scroll = true;
+    this.isLoading = true;
     this.changeCurrentPage();
     this.getSearchResults();
   }
@@ -111,8 +127,6 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
     this.resetData();
     if (this.inputValue) {
       this.getSearchResults();
-    } else {
-      this.resetData();
     }
   }
 
@@ -124,7 +138,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
     this.isSearchFound = true;
     this.itemsFound = 0;
     this.currentPage = 0;
-    this.displayedElements = null;
+    this.displayedElements = [];
   }
 
   private changeCurrentPage(): void {

@@ -17,8 +17,21 @@ export class SearchService {
   public allSearchSubject = new Subject<boolean>();
   public allElements: SearchDto;
 
-  public getSearch(searchQuery: string): Observable<SearchModel> {
-    return this.http.get<SearchModel>(`${this.backEndLink}search?searchQuery=${searchQuery}`).pipe(
+  public getAllResults(searchQuery: string): Observable<SearchModel> {
+    return this.http.get<SearchModel>(`${this.backEndLink}search?searchQuery=${searchQuery}`);
+  }
+
+  public getAllResultsByCat(
+      query: string,
+      category: string = 'econews',
+      page: number = 0,
+      sort: string = '',
+      items: number = 9): Observable<SearchModel> {
+    return this.http.get<SearchModel>(`${this.backEndLink}search/${category}?searchQuery=${query}&sort=${sort}&page=${page}&size=${items}`);
+  }
+
+  private getResultsByCat(searchType: string): Observable<SearchModel> {
+    return this.http.get<SearchModel>(`${this.apiUrl}/${searchType}`).pipe(
       switchMap(res => of(res))
     );
   }
@@ -36,12 +49,6 @@ export class SearchService {
     }
   }
 
-  private getResultsByCat(searchType: string): Observable<SearchModel> {
-    return this.http.get<SearchModel>(`${this.apiUrl}/${searchType}`).pipe(
-      switchMap(res => of(res))
-    );
-  }
-
   public toggleSearchModal() {
     this.searchSubject.next(true);
   }
@@ -52,15 +59,6 @@ export class SearchService {
 
   public toggleAllSearch(value) {
     this.allSearchSubject.next(value);
-  }
-
-  public getAllResults(query: string, category: string = 'econews', page: number = 0, sort: string = '') {
-    const itemsPerPage = 9;
-
-    return this.http.get(`${this.backEndLink}search/${category}?searchQuery=${query}&sort=${sort}&page=${page}&size=${itemsPerPage}`)
-    .pipe(
-      switchMap(res => of(res))
-    );
   }
 
   public getElementsAsObserv(): Observable<any> {

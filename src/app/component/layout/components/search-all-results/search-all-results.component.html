@@ -1,61 +1,61 @@
-<div class="page-wrapper">
-  <div class="main-block-wrapper">
-    <div class="search-bar-wrapper">
-      <div class="center-flex-wrapper">
-        <div class="search-icon"></div>
-        <input id="search-input"
-               class="search-field"
-               type="text"
-               [(ngModel)]="inputValue"
-               placeholder="{{ 'search.search-all-results.placeholder' | translate }}">
-      </div>
+<div class="main-block-wrapper container">
+  <div class="search-bar-wrapper">
+    <div class="container search_bar-container">
+      <img class="search_search-icon" src="../../../../../assets/img/icon/search.png" alt="search icon" />
+      <input id="search-input"
+              class="search_search-field"
+              type="text"
+              [(ngModel)]="inputValue"
+              placeholder="{{ 'search.search-all-results.placeholder' | translate }}">
     </div>
+  </div>
+  <div class="search_action-wrp">
     <div class="remaining-items"
-         *ngIf="itemsFound || inputValue">
-      {{ itemsFound }} {{ "search.search-all-results.items-found" | translate }}
+        *ngIf="itemsFound || inputValue">
+        {{ itemsFound }} {{ "search.search-all-results.items-found" | translate }}
     </div>
-
     <div class="sort-items"
-         *ngIf="itemsFound || inputValue">
-      <span>{{ "search.search-all-results.sort" | translate }}
-      <ul [class.add-shadow]="dropdownVisible">
+       *ngIf="itemsFound || inputValue">
+      <span>{{ "search.search-all-results.sort" | translate }}</span>
+      <ul>
         <li>
           <a (click)="toggleDropdown()">
             {{ sortTypesLocalization[0] | translate }}
             <img class="arrow"
-                 [src]="dropDownArrow"
-                 [ngClass]="dropdownVisible ? 'arrow reverse' : 'arrow'"
-                 alt="v">
+                  [src]="dropDownArrow"
+                  [ngClass]="dropdownVisible ? 'arrow reverse' : 'arrow'"
+                  alt="v">
           </a>
         </li>
-        <li [class.text-hidden]="!dropdownVisible">
+        <li [class.d-none]="!dropdownVisible">
           <a (click)="changeCurrentSorting(1); toggleDropdown()">
             {{ sortTypesLocalization[1] | translate }}
           </a>
         </li>
-        <li [class.text-hidden]="!dropdownVisible">
+        <li [class.d-none]="!dropdownVisible">
           <a (click)="changeCurrentSorting(2); toggleDropdown()">
             {{ sortTypesLocalization[2] | translate }}
           </a>
         </li>
       </ul>
-      </span>
-    </div>
-
-    <div class="center-content-wrapper">
-      <div *ngIf="displayedElements" class="flex-container">
-          <app-item *ngFor="let element of displayedElements"
-                    [searchModel]="element"
-                    class="app-search-item"
-          ></app-item>
-      </div>
     </div>
   </div>
-  <ng-template [ngIf]="isSearchFound">
-    <div infiniteScroll
-        [infiniteScrollDistance]="0"
-        [infiniteScrollThrottle]="500"
-        (scrolled)="onScroll()">
-    </div>
-  </ng-template>
+  <div class="row" *ngIf="displayedElements.length > 0">
+    <app-search-item *ngFor="let element of displayedElements"
+              [searchModel]="element"
+              class="col-12 col-sm-6 col-xxl-4"
+    ></app-search-item>
+  </div>
+  <app-search-not-found 
+    *ngIf="itemsFound === 0 && !isLoading"
+    [inputValue]="inputValue">
+  </app-search-not-found>
 </div>
+<ng-container *ngIf="isSearchFound">
+  <div infiniteScroll
+      [infiniteScrollDistance]="0"
+      [infiniteScrollThrottle]="500"
+      (scrolled)="onScroll()">
+  </div>
+</ng-container>
+<app-spinner *ngIf="isLoading"></app-spinner>
