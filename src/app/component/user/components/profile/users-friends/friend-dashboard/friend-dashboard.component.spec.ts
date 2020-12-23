@@ -22,7 +22,7 @@ class TranslationServiceStub {
   public setDefaultLang() {return true; }
 }
 
-fdescribe('FriendDashboardComponent', () => {
+describe('FriendDashboardComponent', () => {
   let component: FriendDashboardComponent;
   let fixture: ComponentFixture<FriendDashboardComponent>;
   const mockLang = 'ru';
