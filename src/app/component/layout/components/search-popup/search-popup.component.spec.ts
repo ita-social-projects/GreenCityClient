@@ -16,12 +16,17 @@ import { Observable } from 'rxjs';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Language } from '@language-service/Language';
 
 describe('SearchPopupComponent', () => {
   let component: SearchPopupComponent;
   let fixture: ComponentFixture<SearchPopupComponent>;
   let matSnackBarMock: MatSnackBar;
   matSnackBarMock = jasmine.createSpyObj('MatSnackBar', ['open']);
+  let localStorageServiceMock: LocalStorageService;
+  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
+  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -43,7 +48,8 @@ describe('SearchPopupComponent', () => {
       providers: [
         SearchService,
         MatSnackBarComponent,
-        { provide: MatSnackBar, useValue: matSnackBarMock }
+        { provide: MatSnackBar, useValue: matSnackBarMock },
+        { provide: LocalStorageService, useValue: localStorageServiceMock }
       ]
     })
       .compileComponents().then(r => r);
@@ -86,7 +92,7 @@ describe('SearchPopupComponent', () => {
       mockDataSearchModel = {
         countOfResults: 4,
         ecoNews: [mockNewsSearchModel],
-        tipsAndTricks: [mockNewsSearchModel]
+        tipsAndTricks: [mockNewsSearchModel],
    };
 
       mockNewsSearchModel = {
@@ -106,7 +112,7 @@ describe('SearchPopupComponent', () => {
       component.ngOnInit();
 
       component.searchInput.setValue('test', { emitEvent: true });
-      expect(getSearchSpy).toHaveBeenCalledWith('test');
+      expect(getSearchSpy).toHaveBeenCalledWith('test', 'ua' );
     });
 
     it('should call resetData', () => {
