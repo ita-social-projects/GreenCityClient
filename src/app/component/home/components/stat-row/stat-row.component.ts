@@ -1,11 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-stat-row',
   templateUrl: './stat-row.component.html',
   styleUrls: ['./stat-row.component.scss']
 })
-export class StatRowComponent implements OnInit {
+export class StatRowComponent {
 
   // TODO Replace with entity
   @Input() stat: { action, caption, count, question, iconPath, locationText };
@@ -13,7 +13,4 @@ export class StatRowComponent implements OnInit {
 
   readonly locationImage = 'assets/img/icon/location-icon.png';
 
-  constructor() { }
-
-  ngOnInit() { }
 }
