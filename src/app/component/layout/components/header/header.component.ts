@@ -61,7 +61,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroySub)
       ).subscribe(signal => this.openSearchSubscription(signal));
-    
+
     this.searchSearch.allSearchSubject
       .pipe(
         takeUntil(this.destroySub)
