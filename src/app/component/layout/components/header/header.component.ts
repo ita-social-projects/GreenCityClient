@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
-import { filter } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UserService } from 'src/app/service/user/user.service';
@@ -14,7 +14,7 @@ import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { LanguageModel } from '../models/languageModel';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { environment } from '@environment/environment';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -42,7 +42,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private userId: number;
   private token: string;
   private backEndLink = environment.backendLink;
-  private mainSubscription: Subscription[] = [];
+  private destroySub: Subject<boolean> = new Subject<boolean>();
 
   constructor(public dialog: MatDialog,
               private localStorageService: LocalStorageService,
@@ -57,24 +57,41 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.mainSubscription.push(this.searchSearch.searchSubject.subscribe(signal => this.openSearchSubscription(signal)));
-    this.mainSubscription.push(this.searchSearch.allSearchSubject.subscribe(signal => this.openAllSearchSubscription(signal)));
-    this.mainSubscription.push(this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => { this.name = firstName; }));
+    this.searchSearch.searchSubject
+      .pipe(
+        takeUntil(this.destroySub)
+      ).subscribe(signal => this.openSearchSubscription(signal));
+    
+    this.searchSearch.allSearchSubject
+      .pipe(
+        takeUntil(this.destroySub)
+      ).subscribe(signal => this.openAllSearchSubscription(signal));
+
+    this.localStorageService.firstNameBehaviourSubject
+      .pipe(
+        takeUntil(this.destroySub)
+      ).subscribe(firstName => { this.name = firstName; });
+
     this.initUser();
     this.setLangArr();
     this.userRole = this.jwtService.getUserRole();
     this.autoOffBurgerBtn();
     this.userOwnAuthService.getDataFromLocalStorage();
-    this.mainSubscription.push(this.userOwnAuthService.isLoginUserSubject.subscribe(
+
+    this.userOwnAuthService.isLoginUserSubject
+    .pipe(
+      takeUntil(this.destroySub)
+    ).subscribe(
       status => this.isLoggedIn = status
-    ));
+    );
     this.token = this.localStorageService.getAccessToken();
     this.isAdmin = this.userRole === this.adminRoleValue;
     this.managementLink = `${this.backEndLink}token?accessToken=${this.token}`;
   }
 
   ngOnDestroy() {
-    this.mainSubscription.forEach( sub => sub.unsubscribe());
+    this.destroySub.next(true);
+    this.destroySub.unsubscribe();
   }
 
   setLangArr(): void {
@@ -90,8 +107,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private initUser(): void {
     this.localStorageService.userIdBehaviourSubject
-      .pipe(filter(userId => userId !== null && !isNaN(userId)))
-      .subscribe(userId => this.assignData(userId));
+      .pipe(
+        takeUntil(this.destroySub),
+        filter(userId => userId !== null && !isNaN(userId))
+      ).subscribe(userId => this.assignData(userId));
   }
 
   public changeCurrentLanguage(language, index: number): void {
@@ -113,6 +132,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private autoOffBurgerBtn(): void {
     this.router.events
       .pipe(
+        takeUntil(this.destroySub),
         filter((events) => events instanceof NavigationStart)
       )
       .subscribe(() => {
