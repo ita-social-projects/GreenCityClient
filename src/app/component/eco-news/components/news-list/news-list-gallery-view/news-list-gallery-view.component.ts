@@ -13,8 +13,6 @@ export class NewsListGalleryViewComponent {
 
   public profileIcons = ecoNewsIcons;
   public newsImage: string;
-  public titleHeightOfElement: number;
-  public textHeightOfElement: number;
 
   constructor() {}
 
