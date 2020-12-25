@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '@environment/environment';
 import { Observable, of, Subject} from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { SearchModel } from '../../model/search/search.model';
+import { SearchDataModel, SearchModel } from '../../model/search/search.model';
 import { SearchDto } from 'src/app/component/layout/components/models/search-dto';
 
 @Injectable({
@@ -26,8 +26,8 @@ export class SearchService {
       category: string = 'econews',
       page: number = 0,
       sort: string = '',
-      items: number = 9): Observable<SearchModel> {
-    return this.http.get<SearchModel>(`${this.backEndLink}search/${category}?searchQuery=${query}&sort=${sort}&page=${page}&size=${items}`);
+      items: number = 9): Observable<SearchDataModel> {
+    return this.http.get<SearchDataModel>(`${this.backEndLink}search/${category}?searchQuery=${query}&sort=${sort}&page=${page}&size=${items}`);
   }
 
   private getResultsByCat(searchType: string): Observable<SearchModel> {

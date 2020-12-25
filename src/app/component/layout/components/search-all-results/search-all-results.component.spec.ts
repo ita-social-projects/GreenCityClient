@@ -1,7 +1,6 @@
 import { SharedModule } from '@shared/shared.module';
 import { SearchNotFoundComponent } from './../search-not-found/search-not-found.component';
 import { FormsModule } from '@angular/forms';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
@@ -17,17 +16,6 @@ fdescribe('SearchAllResultsComponent', () => {
   let component: SearchAllResultsComponent;
   let fixture: ComponentFixture<SearchAllResultsComponent>;
 
-  const mockTipData = {
-    id: 1,
-    title: 'test',
-    author: {
-      id: 1,
-      name: 'test'
-    },
-    creationDate: '0101',
-    tags: ['test']
-  };
-
   const mockNewsData = {
     id: 1,
     title: 'test',
@@ -39,25 +27,18 @@ fdescribe('SearchAllResultsComponent', () => {
     tags: ['test']
   };
 
-  const searchModelMock = {
-    countOfResults: 2,
-    ecoNews: [ mockNewsData ],
-    tipsAndTricks: [ mockTipData ]
+  const searchDataMock = {
+    currentPage: 1,
+    page: [mockNewsData],
+    totalElements: 1,
+    totalPages: 1,
   };
 
   let searchMock: SearchService;
   searchMock = jasmine.createSpyObj('SearchService', ['getAllResults']);
   searchMock.searchSubject = new Subject();
-  searchMock.getAllResults = () => of(searchModelMock);
-  searchMock.getAllResultsByCat = () => of(searchModelMock);
+  searchMock.getAllResultsByCat = () => of(searchDataMock);
   searchMock.closeSearchSignal = () => true;
-
-  let mockRouter = {
-    navigate: jasmine.createSpy('navigate')
-  }  
-
-  let snackBarMock: MatSnackBar;
-  snackBarMock = jasmine.createSpyObj('MatSnackBar', ['open']);
 
   const activatedRouteMock = {
     queryParams: of({
@@ -77,12 +58,10 @@ fdescribe('SearchAllResultsComponent', () => {
         HttpClientTestingModule,
         FormsModule,
         InfiniteScrollModule,
-        MatSnackBarModule,
         TranslateModule.forRoot(),
         SharedModule
       ],
       providers: [
-        { provide: MatSnackBar, useValue: snackBarMock },
         { provide: SearchService, useValue: searchMock },
         { provide: ActivatedRoute, useValue: activatedRouteMock },
       ]
@@ -130,5 +109,35 @@ fdescribe('SearchAllResultsComponent', () => {
       expect(mockRouter.navigate).toHaveBeenCalled();
     }));
 
+    it('should toogle dropdown', () => {
+      component.dropdownVisible = true;
+
+      component.toggleDropdown();
+      expect(component.dropdownVisible).toBeFalsy();
+    });
+
+    it('should toogle dropdown', () => {
+      component.itemsFound = 1;
+      component.displayedElements = [mockNewsData];
+      // @ts-ignore
+      component.resetData();
+      expect(component.itemsFound).toBe(0);
+      expect(component.displayedElements).toEqual([]);
+    });
+
+    it('should change current sorting to creation_date,desc', () => {
+      component.changeCurrentSorting(1);
+      expect(component.sortType).toBe('creation_date,desc');
+    });
+
+    it('should change current sorting to default', () => {
+      component.changeCurrentSorting(0);
+      expect(component.sortType).toBe('');
+    });
+
+    it('should change current sorting to creation_date,asc', () => {
+      component.changeCurrentSorting(2);
+      expect(component.sortType).toBe('creation_date,asc');
+    });
   });
 });

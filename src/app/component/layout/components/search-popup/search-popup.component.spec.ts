@@ -59,7 +59,6 @@ describe('SearchPopupComponent', () => {
   searchMock = jasmine.createSpyObj('SearchService', ['getAllResults']);
   searchMock.searchSubject = new Subject();
   searchMock.getAllResults = () => of(searchModelMock);
-  searchMock.getAllResultsByCat = () => of(searchModelMock);
   searchMock.closeSearchSignal = () => true;
 
   beforeEach(async(() => {
@@ -153,13 +152,5 @@ describe('SearchPopupComponent', () => {
       component.search.searchSubject.next(false);
       expect(component.searchInput.value).toBe('');
     });
-
-    it('should fetch data on click', fakeAsync(() => {
-      const spy = spyOn(component.search, 'getAllResultsByCat').and.returnValue(of(searchModelMock));
-
-      component.searchInput.setValue('test', {emitEvent: false});
-      component.getAllResults('econews');
-      expect(spy).toHaveBeenCalledWith('test', 'econews');
-    }));
   });
 });

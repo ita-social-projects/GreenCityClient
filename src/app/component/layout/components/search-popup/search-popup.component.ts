@@ -68,11 +68,6 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
     this.snackBar.openSnackBar('error');
   }
 
-  public getAllResults(category: string): void {
-    this.search.getAllResultsByCat(this.searchInput.value, category);
-    this.closeSearch();
-  }
-
   private setData({ecoNews, tipsAndTricks, countOfResults}: SearchModel): void {
     this.isLoading = false;
 

@@ -1,10 +1,10 @@
 import { AfterContentInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, fromEvent } from 'rxjs';
-import { map, distinctUntilChanged, tap, debounceTime, take } from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subscription, fromEvent, Subject } from 'rxjs';
+import { map, distinctUntilChanged, tap, debounceTime, take, takeUntil } from 'rxjs/operators';
 import { SearchService } from '@global-service/search/search.service';
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
+import { SearchDataModel } from '@global-models/search/search.model';
 
 @Component({
   selector: 'app-search-all-results',
@@ -25,20 +25,21 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy, AfterConten
   public dropdownVisible: boolean;
   public inputValue: string;
   public isLoading = true;
-  private querySubscription: Subscription;
+  private destroySub: Subject<boolean> = new Subject<boolean>();
 
   readonly dropDownArrow = 'assets/img/arrow_grey.png';
 
   constructor( private search: SearchService,
-               private snackBar: MatSnackBar,
                private route: ActivatedRoute,
                private router: Router ) { }
 
   ngOnInit() {
-    this.querySubscription = this.route.queryParams.subscribe(params => {
-      this.inputValue = params.query;
-      this.searchCategory = params.category || 'econews';
-    });
+    this.route.queryParams
+      .pipe(takeUntil(this.destroySub))
+      .subscribe(params => {
+        this.inputValue = params.query;
+        this.searchCategory = params.category || 'econews';
+      });
 
     this.getSearchResults();
     this.onAddSearchInputListener();
@@ -65,14 +66,14 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy, AfterConten
 
   private getSearchResults(): void {
     this.search.getAllResultsByCat(this.inputValue, this.searchCategory, this.currentPage, this.sortType)
-        .subscribe(
-          data => this.setElems(data),
-          err => this.errorHandler(err)
-        );
+      .pipe(takeUntil(this.destroySub))
+      .subscribe(
+        data => this.setElems(data)
+      );
     this.isSearchFound = true;
   }
 
-  private setElems(data: any): void {
+  private setElems(data: SearchDataModel): void {
     this.isLoading = false;
     this.displayedElements = [...this.displayedElements, ...data.page];
 
@@ -145,13 +146,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy, AfterConten
     this.currentPage += 1;
   }
 
-  private errorHandler(error: any): void {
-    this.snackBar.open('Oops, something went wrong. Please reload page or try again later.', 'X');
-    return error;
-  }
-
   ngOnDestroy() {
-    this.search.toggleAllSearch(false);
-    this.querySubscription.unsubscribe();
+    this.destroySub.next(true);
   }
 }

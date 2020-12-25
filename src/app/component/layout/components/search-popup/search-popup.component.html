@@ -33,9 +33,8 @@
         </div>
         <a [routerLink]="['/search']"
             [queryParams]="{'query': searchInput.value, 'category': 'econews'}"
-            (click)="getAllResults('econews')"
             class="all-results-link">
-            {{ "search.search-popup.all-results" | translate }}
+            {{ "search.search-popup.see-all-news" | translate }}
         </a>
       </div>
       <div class="search_content-tips" *ngIf="tipsElements && tipsElements.length > 0">
@@ -51,10 +50,9 @@
           </app-search-item>
         </div>
         <a [routerLink]="['/search']"
-            (click)="getAllResults('tipsandtricks')"
             [queryParams]="{'query': searchInput.value, 'category': 'tipsandtricks'}"
             class="all-results-link">
-            {{ "search.search-popup.all-results" | translate }}
+            {{ "search.search-popup.see-all-tips" | translate }}
         </a>
       </div>
       <app-search-not-found
