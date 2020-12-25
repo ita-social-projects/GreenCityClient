@@ -1,78 +1,59 @@
 <footer>
-  <div class="main-background-image">
-    <div class="main">
-      <a [routerLink]="['/']"
-         href=""
-         class="small-screen-size">
-        <img [src]="footerImageList.greenCityLogo"
-             class="logo"
-             alt="GreenCity Logo">
-      </a>
-      <div class="links">
-        <div class="left-side">
-          <ul class="list-of-site-links">
-            <li>
-              <a [routerLink]="['/news']"
-                 class="router-links"
-                 href="">{{ "user.footer.eco-events" | translate }}
-              </a>
-            </li>
-            <li>
-              <a href=""
-                 class="router-links">{{ "user.footer.tips" | translate }}
-              </a>
-            </li>
-            <li>
-              <a [routerLink]="['/map']"
-                 class="router-links"
-                 href="">{{ "user.footer.map" | translate }}
-              </a>
-            </li>
-            <li>
-              <a [routerLink]="['/about']"
-                 class="router-links"
-                 href="">{{ "user.footer.about-us" | translate }}
-              </a>
-            </li>
-            <li>
-              <a [routerLink]="['/profile', getUserId()]"
-                 href=""
-                 class="router-links">{{ "user.footer.my-habits" | translate }}
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="right-side">
-          <div class="follow-us-text">
+  <div class="footer_background-image">
+    <div class="container">
+      <div class="footer_logo-wrp">
+        <a [routerLink]="['/']">
+          <img [src]="footerImageList.greenCityLogo"
+              class="logo"
+              alt="GreenCity home">
+        </a>
+      </div>
+      <div class="footer_links">
+        <nav class="footer_left-side">
+          <a [routerLink]="['/news']"
+              class="footer_link-item">
+              {{ "user.footer.eco-events" | translate }}
+          </a>
+          <a [routerLink]="['/tips']"
+             class="footer_link-item">
+             {{ "user.footer.tips" | translate }}
+          </a>
+          <a [routerLink]="['/map']"
+              class="footer_link-item">
+              {{ "user.footer.map" | translate }}
+          </a>
+          <a [routerLink]="['/about']"
+              class="footer_link-item">
+              {{ "user.footer.about-us" | translate }}
+          </a>
+          <a [routerLink]="['/profile', getUserId()]"
+              class="footer_link-item">
+              {{ "user.footer.my-habits" | translate }}
+          </a>
+        </nav>
+        <div class="footer_right-side">
+          <div class="footer_follow-us">
             <p>{{ "user.footer.follow-us" | translate }}</p>
           </div>
-          <ul class="social-network-links">
-            <li>
-              <a class="social-links-btn">
-                <img class="twitter-link-btn"
-                     [src]="footerImageList.twitterIcon"
-                     alt="Twitter link">
-              </a>
-            </li>
-            <li>
-              <a class="social-links-btn">
-                <img [src]="footerImageList.linkedInIcon"
-                     alt="LinkedIn link">
-              </a>
-            </li>
-            <li>
-              <a class="social-links-btn last-item">
-                <img [src]="footerImageList.facebookIcon"
-                     alt="Facebook link">
-              </a>
-            </li>
-          </ul>
+          <div class="footer_social-wrp">
+            <a class="footer_social-link" href="#">
+              <img [src]="footerImageList.twitterIcon"
+                    alt="Twitter link">
+            </a>
+            <a class="footer_social-link" href="#">
+              <img [src]="footerImageList.linkedInIcon"
+                    alt="LinkedIn link">
+            </a>
+            <a class="footer_social-link" href="#">
+              <img [src]="footerImageList.facebookIcon"
+                    alt="Facebook link">
+            </a>
+          </div>
         </div>
       </div>
-      <div class="bottom-part">
+      <div class="footer_bottom-part">
         &copy; Copyright {{ actualYear }}. Green City.
       </div>
     </div>
   </div>
 </footer>
-

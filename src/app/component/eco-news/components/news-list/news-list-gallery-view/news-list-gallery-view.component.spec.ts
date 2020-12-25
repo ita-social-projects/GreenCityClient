@@ -15,7 +15,7 @@ describe('NewsListGalleryViewComponent', () => {
         id: 1,
         name: 'string'
     },
-    tags: ['test'],
+    tags: [{id: 1, name: 'test'}],
     creationDate: '11',
   };
 

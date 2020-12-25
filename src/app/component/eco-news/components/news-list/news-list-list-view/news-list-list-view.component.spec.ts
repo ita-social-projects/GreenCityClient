@@ -22,7 +22,7 @@ describe('NewsListListViewComponent', () => {
         id: 1,
         name: 'string'
     },
-    tags: ['test'],
+    tags: [{name: 'test', id: 1}],
     creationDate: '11',
   };
 
