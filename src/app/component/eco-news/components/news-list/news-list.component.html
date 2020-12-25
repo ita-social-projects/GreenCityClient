@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="container">
   <div (window:resize)="onResize()">
     <div class="cont">
       <h1 class="main-header">{{ "homepage.eco-news.title" | translate }}</h1>
@@ -47,12 +47,11 @@
       </li>
     </ul>
   </div>
-  <app-spinner *ngIf="elementsArePresent; else noNews"></app-spinner>
-  <ng-template #noNews>
-    <app-no-data [text]="'homepage.eco-news.empty-state.no-news-advice'"
-                 [title]="'homepage.eco-news.empty-state.no-news'">
-    </app-no-data>
-  </ng-template>
+  <app-spinner *ngIf="elementsArePresent"></app-spinner>
+  <app-no-data  *ngIf="!elementsArePresent && remaining === 0"
+                [text]="'homepage.eco-news.empty-state.no-news-advice'"
+                [title]="'homepage.eco-news.empty-state.no-news'">
+  </app-no-data>
   <div infiniteScroll
        [infiniteScrollDistance]="0"
        [infiniteScrollThrottle]="500"

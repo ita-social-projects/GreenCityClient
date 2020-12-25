@@ -2,18 +2,19 @@ import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { FormArray, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { takeUntil, catchError } from 'rxjs/operators';
+import { takeUntil, catchError, take } from 'rxjs/operators';
 import { QueryParams, TextAreasHeight } from './../../models/create-news-interface';
 import { EcoNewsService } from './../../services/eco-news.service';
 import { Subscription, ReplaySubject, throwError } from 'rxjs';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
 import { FilterModel } from '@eco-news-models/create-news-interface';
-import { EcoNewsModel } from '@eco-news-models/eco-news-model';
-import { ACTION_TOKEN, TEXT_AREAS_HEIGHT, FILTERS } from './action.constants';
+import { EcoNewsModel, NewsTagInterface } from '@eco-news-models/eco-news-model';
+import { ACTION_TOKEN, TEXT_AREAS_HEIGHT } from './action.constants';
 import { ActionInterface } from '../../models/action.interface';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-create-edit-news',
@@ -36,7 +37,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public filters: Array<FilterModel>;
   public newsId: string;
   public formData: FormGroup;
-  private destroy: ReplaySubject<any> = new ReplaySubject<any>(1);
+  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   public isFormInvalid: boolean;
   public formChangeSub: Subscription;
@@ -63,7 +64,8 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
               private ecoNewsService: EcoNewsService,
               private route: ActivatedRoute,
               @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface },
-              private snackBar: MatSnackBarComponent) {
+              private snackBar: MatSnackBarComponent,
+              private localStorageService: LocalStorageService) {
 
     super(router, dialog);
 
@@ -73,6 +75,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.getNewsIdFromQueryParams();
     this.initPageforCreateOrEdit();
     this.onSourceChange();
+    this.setLocalizedTags();
   }
 
   public setInitialValues(): void {
@@ -100,9 +103,27 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     });
   }
 
+  private setLocalizedTags() {
+    this.localStorageService.languageBehaviourSubject
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(() => this.getAllTags());
+  }
+
+  private getAllTags() {
+    this.ecoNewsService.getAllPresentTags()
+      .pipe(take(1))
+      .subscribe((tagsArray: Array<NewsTagInterface>) => {
+        this.filters = tagsArray.map(tag => {
+          return {
+            name: tag.name,
+            isActive: false
+          };
+        });
+      });
+  }
+
   public initPageforCreateOrEdit(): void {
     this.textAreasHeight = TEXT_AREAS_HEIGHT;
-    this.filters = FILTERS;
     if (this.createEcoNewsService.isBackToEditing) {
       if (this.createEcoNewsService.getNewsId()) {
         this.setDataForEdit();
@@ -208,7 +229,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.newsItemSubscription = this.ecoNewsService
       .getEcoNewsById(this.newsId)
       .pipe(
-        takeUntil(this.destroy)
+        takeUntil(this.destroyed$)
       )
       .subscribe((item: EcoNewsModel) => {
         this.form = this.createEditNewsFormBuilder.getEditForm(item);
@@ -222,13 +243,13 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     if (itemToUpdate.tags.length) {
       this.isArrayEmpty = false;
 
-      itemToUpdate.tags.forEach((tag: string) => {
+      itemToUpdate.tags.forEach((tag: NewsTagInterface) => {
 
-        const index = this.filters.findIndex((filterObj: FilterModel) => filterObj.name === tag);
+        const index = this.filters.findIndex((filterObj: FilterModel) => filterObj.name === tag.name);
 
         this.filters = [
           ...this.filters.slice(0, index),
-          { name: tag, isActive: true },
+          { name: tag.name, isActive: true },
           ...this.filters.slice(index + 1)
         ];
 
@@ -296,8 +317,8 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   ngOnDestroy() {
-    this.destroy.next(null);
-    this.destroy.complete();
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
     if (this.formChangeSub) {
       this.formChangeSub.unsubscribe();
     }

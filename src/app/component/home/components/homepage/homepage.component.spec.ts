@@ -24,6 +24,14 @@ import { ItemComponent } from 'src/app/component/layout/components/search-all-re
 import { EcoNewsModule } from 'src/app/component/eco-news/eco-news.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
+class MatDialogMock {
+  open() {
+    return {
+      afterClosed: () => of(true)
+    };
+  }
+}
+
 describe('HomepageComponent', () => {
   let component: HomepageComponent;
   let fixture: ComponentFixture<HomepageComponent>;
@@ -50,9 +58,6 @@ describe('HomepageComponent', () => {
       user_id: '1',
     }),
   };
-
-  let matDialogMock: MatDialog;
-  matDialogMock = jasmine.createSpyObj('MatDialog', ['open']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -88,7 +93,7 @@ describe('HomepageComponent', () => {
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: UserService, useValue: userServiceMock },
         { provide: MAT_DIALOG_DATA, useValue: {} },
-        { provide: MatDialog, useValue: matDialogMock },
+        { provide: MatDialog, useClass: MatDialogMock },
       ]
     })
     .compileComponents();

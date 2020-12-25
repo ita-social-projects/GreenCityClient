@@ -2,6 +2,8 @@ import { Component, Input, ViewChild, ElementRef, Renderer2, AfterViewChecked } 
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { ecoNewsIcons } from 'src/app/image-pathes/profile-icons';
 
+import { possibleDescHeight, possibleTitleHeight } from './breakpoints';
+
 @Component({
   selector: 'app-news-list-list-view',
   templateUrl: './news-list-list-view.component.html',
@@ -13,28 +15,28 @@ export class NewsListListViewComponent implements AfterViewChecked {
   @ViewChild('titleHeight', {static: true}) titleHeight: ElementRef;
   @ViewChild('textHeight', {static: true}) textHeight: ElementRef;
 
+  private smallHeight = 'smallHeight';
+  private bigHeight   = 'bigHeight';
+  // breakpoints for different line height and font size
+
   public profileIcons = ecoNewsIcons;
   public newsImage: string;
-  public titleHeightOfElement: number;
-  public textHeightOfElement: number;
-  private quantityOfLines = {
-    hiddenSize: 0,
-    sSize: 28,
-    smSize: 32,
-    msSize: 52,
-    mSize: 64,
-    lSize: 96,
-  };
 
-  constructor(private renderer: Renderer2) {
-  }
+  constructor(private renderer: Renderer2) {}
 
   ngAfterViewChecked() {
     this.checkHeightOfTittle();
   }
 
-  public onResize(): void {
-    this.checkHeightOfTittle();
+  // the idea is to get the height of the header and based on it visualize the Description and Header by adding specific class names
+  // another problem is that the line height and container height are different for different devices
+  public checkHeightOfTittle(): void {
+    const titleHeightOfElement = this.titleHeight.nativeElement.offsetHeight;
+    const descCalss = this.getHeightOfDesc(titleHeightOfElement);
+    const titleCalss = this.getHeightOfTitle(titleHeightOfElement);
+
+    this.renderer.addClass(this.textHeight.nativeElement, descCalss);
+    this.renderer.addClass(this.titleHeight.nativeElement, titleCalss);
   }
 
   public checkNewsImage(): string {
@@ -42,21 +44,18 @@ export class NewsListListViewComponent implements AfterViewChecked {
                               this.ecoNewsModel.imagePath : this.profileIcons.newsDefaultPictureList;
   }
 
-  public checkHeightOfTittle(): void {
-    this.titleHeightOfElement = this.titleHeight.nativeElement.offsetHeight;
-    this.textHeightOfElement = this.calculateElementHeight();
-    this.renderer.setStyle(this.textHeight.nativeElement, 'height', `${this.textHeightOfElement}px`);
+  private getDomWidth(): string {
+    return window.innerWidth >= 1024 && window.innerWidth < 1440 ? this.smallHeight : this.bigHeight;
   }
 
-  public calculateElementHeight(): number {
-    const titleHeight = this.titleHeightOfElement;
-    const linesQuantity = this.quantityOfLines;
+  private getHeightOfDesc(titleHeight: number): string {
+    const result = possibleDescHeight[this.getDomWidth()][titleHeight];
+    return result ? result : 'd-none';
+  }
 
-    const firstCheck = (titleHeight <= linesQuantity.lSize) ?
-                          linesQuantity.sSize : linesQuantity.hiddenSize;
-    const secondCheck = (titleHeight <= linesQuantity.mSize) ?
-                          linesQuantity.msSize : firstCheck;
-    return (titleHeight <= linesQuantity.smSize) ?
-                          linesQuantity.lSize : secondCheck;
+  private getHeightOfTitle(titleHeight: number): string {
+    const result = possibleTitleHeight[this.getDomWidth()][titleHeight];
+    return result ? result :
+      this.getDomWidth() === this.smallHeight ? 'two-row' : 'tree-row';
   }
 }

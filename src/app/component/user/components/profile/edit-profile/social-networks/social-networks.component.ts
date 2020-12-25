@@ -34,7 +34,7 @@ export class SocialNetworksComponent implements OnInit {
     this.onToggleInput(true);
     this.inputTextValue = link.url;
     this.editedSocialLink = link.url;
-    this.onDeleteLink(link);
+    this.onFilterSocialLink(link);
   }
 
   public onDeleteLink(link): void {
@@ -52,10 +52,14 @@ export class SocialNetworksComponent implements OnInit {
 
     dialogRef.afterClosed().pipe(take(1)).subscribe(confirm => {
       if (confirm) {
-        this.socialNetworks = this.socialNetworks.filter(el => link.url !== el.url );
-        this.onEmitSocialNetworksChange();
+        this.onFilterSocialLink(link);
       }
     });
+  }
+
+  private onFilterSocialLink(link) {
+    this.socialNetworks = this.socialNetworks.filter(el => link.url !== el.url );
+    this.onEmitSocialNetworksChange();
   }
 
   public onToggleInput(state?: boolean): void {

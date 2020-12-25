@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { ReplaySubject } from 'rxjs';
+import { catchError, take, takeUntil } from 'rxjs/operators';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
-import { EcoNewsModel } from '@eco-news-models/eco-news-model';
+import { EcoNewsModel, NewsTagInterface } from '@eco-news-models/eco-news-model';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-news-list',
@@ -19,18 +20,18 @@ export class NewsListComponent implements OnInit, OnDestroy {
   public remaining = 0;
   public windowSize: number;
   public isLoggedIn: boolean;
-  private ecoNewsSubscription: Subscription;
   private currentPage: number;
   public scroll: boolean;
   public numberOfNews: number;
   public elementsArePresent = true;
-  private tagsSubscription: Subscription;
   public tagList: string[];
+  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   constructor(
     private ecoNewsService: EcoNewsService,
     private userOwnAuthService: UserOwnAuthService,
-    private snackBar: MatSnackBarComponent) { }
+    private snackBar: MatSnackBarComponent,
+    private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
     this.onResize();
@@ -39,9 +40,19 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
     this.scroll = false;
+    this.setLocalizedTags();
+  }
 
-    this.tagsSubscription = this.ecoNewsService.getAllPresentTags()
-      .subscribe((tag: Array<string>) => this.tagList = tag);
+  private setLocalizedTags() {
+    this.localStorageService.languageBehaviourSubject
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(() => this.getAllTags());
+  }
+
+  private getAllTags() {
+    this.ecoNewsService.getAllPresentTags()
+      .pipe(take(1))
+      .subscribe((tagsArray: Array<NewsTagInterface>) => this.tagList = tagsArray.map(tag => tag.name));
   }
 
   public onResize(): void {
@@ -73,8 +84,9 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
   private addElemsToCurrentList(): void {
     if (this.tagsList) {
-      this.ecoNewsSubscription = this.ecoNewsService.getNewsListByTags(this.currentPage, this.numberOfNews, this.tagsList)
+      this.ecoNewsService.getNewsListByTags(this.currentPage, this.numberOfNews, this.tagsList)
         .pipe(
+          takeUntil(this.destroyed$),
           catchError((error) => {
             this.snackBar.openSnackBar('error');
 
@@ -83,8 +95,9 @@ export class NewsListComponent implements OnInit, OnDestroy {
         )
         .subscribe((list: EcoNewsDto) => this.setList(list));
     } else {
-      this.ecoNewsSubscription = this.ecoNewsService.getEcoNewsListByPage(this.currentPage, this.numberOfNews)
+      this.ecoNewsService.getEcoNewsListByPage(this.currentPage, this.numberOfNews)
         .pipe(
+          takeUntil(this.destroyed$),
           catchError((error) => {
             this.snackBar.openSnackBar('error');
 
@@ -117,7 +130,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.ecoNewsSubscription.unsubscribe();
-    this.tagsSubscription.unsubscribe();
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 }

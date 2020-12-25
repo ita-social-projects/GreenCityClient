@@ -1,21 +1,26 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NewsListListViewComponent } from './news-list-list-view.component';
+import { TipsCardComponent } from './tips-card.component';
 
-describe('NewsListListViewComponent', () => {
-  let component: NewsListListViewComponent;
-  let fixture: ComponentFixture<NewsListListViewComponent>;
+describe('TipsCardComponent', () => {
+  let component: TipsCardComponent;
+  let fixture: ComponentFixture<TipsCardComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewsListListViewComponent ]
+      declarations: [ TipsCardComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NewsListListViewComponent);
+    fixture = TestBed.createComponent(TipsCardComponent);
     component = fixture.componentInstance;
+    component.tip = {
+      imageUrl: 'test',
+      text: 'test'
+    };
+
     fixture.detectChanges();
   });
 

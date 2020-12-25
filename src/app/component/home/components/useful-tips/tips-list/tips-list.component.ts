@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-// tslint:disable-next-line: max-line-length
 import { SwiperDirective, SwiperComponent, SwiperConfigInterface } from 'ngx-swiper-wrapper';
 
 @Component({
@@ -9,7 +8,7 @@ import { SwiperDirective, SwiperComponent, SwiperConfigInterface } from 'ngx-swi
 })
 export class TipsListComponent implements OnInit {
   currentTip;
-  tips = [
+  tips: object[] = [
     {
       imageUrl: 'assets/img/icon/spoon-knife.png',
       text: 'Не ходіть до магазину голодними. '
