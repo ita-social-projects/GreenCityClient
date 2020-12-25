@@ -1,4 +1,5 @@
-import { Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { Subject, Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { footerIcons } from 'src/app/image-pathes/footer-icons';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -12,13 +13,14 @@ export class FooterComponent implements OnInit, OnDestroy {
   public actualYear = new Date().getFullYear();
   public footerImageList = footerIcons;
   private userId: number;
-  private userIdSub: Subscription;
+  private destroySub: Subject<boolean> = new Subject<boolean>();
 
   constructor(private localStorageService: LocalStorageService) {}
 
   ngOnInit() {
-    this.userIdSub = this.localStorageService
-      .userIdBehaviourSubject.subscribe(userId => this.userId = userId);
+    this.localStorageService.userIdBehaviourSubject
+      .pipe(takeUntil(this.destroySub))
+      .subscribe(userId => this.userId = userId);
   }
 
   public getUserId(): number | string {
@@ -26,6 +28,7 @@ export class FooterComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.userIdSub.unsubscribe();
+    this.destroySub.next(true);
+    this.destroySub.complete();
   }
 }
