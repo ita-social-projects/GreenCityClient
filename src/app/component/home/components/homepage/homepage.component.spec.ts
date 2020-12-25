@@ -1,3 +1,4 @@
+import { LayoutModule } from './../../../layout/layout.module';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -19,7 +20,6 @@ import { UserService } from '@global-service/user/user.service';
 import { Language } from '@language-service/Language';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthModule } from 'src/app/component/auth/auth.module';
-import { SearchAllResultsComponent } from 'src/app/component/layout/components';
 import { EcoNewsModule } from 'src/app/component/eco-news/eco-news.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
@@ -71,7 +71,8 @@ describe('HomepageComponent', () => {
         BrowserAnimationsModule,
         AuthModule,
         EcoNewsModule,
-        InfiniteScrollModule
+        InfiniteScrollModule,
+        LayoutModule
       ],
       declarations: [
         StatRowsComponent,
@@ -82,7 +83,6 @@ describe('HomepageComponent', () => {
         StatRowComponent,
         EcoEventsItemComponent,
         TipsCardComponent,
-        SearchAllResultsComponent,
       ],
       providers: [
         { provide: MatSnackBarComponent, useValue: snackBarMock },

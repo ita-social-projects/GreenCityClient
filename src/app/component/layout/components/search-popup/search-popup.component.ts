@@ -50,7 +50,7 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
         }),
         switchMap((val: string) => {
           this.currentLanguage = this.localStorageService.getCurrentLanguage();
-          return this.search.getAllResults(val, this.currentLanguage)
+          return this.search.getAllResults(val, this.currentLanguage);
         })
       ).subscribe(data => this.setData(data));
 

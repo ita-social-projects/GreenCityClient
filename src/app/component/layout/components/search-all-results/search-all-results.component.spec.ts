@@ -12,7 +12,7 @@ import { SearchItemComponent } from '..';
 import { of, Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 
-fdescribe('SearchAllResultsComponent', () => {
+describe('SearchAllResultsComponent', () => {
   let component: SearchAllResultsComponent;
   let fixture: ComponentFixture<SearchAllResultsComponent>;
 
@@ -79,13 +79,13 @@ fdescribe('SearchAllResultsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('test main functionality', () =>{
+  describe('test main functionality', () => {
     it('should update page', () => {
       component.currentPage = 0;
       // @ts-ignore
       component.changeCurrentPage();
 
-      expect(component.currentPage).toBe(1)
+      expect(component.currentPage).toBe(1);
     });
 
     it('should force fetch data if heigth of body less that document', () => {
@@ -96,14 +96,14 @@ fdescribe('SearchAllResultsComponent', () => {
       const spy = spyOn(component, 'onScroll').and.returnValue();
       // @ts-ignore
       component.forceScroll();
-      
+
       expect(spy).toHaveBeenCalled();
     });
 
     it('should update url query part', inject([Router], (mockRouter: Router) => {
       component.inputValue = 'test';
       component.searchCategory = 'tetCat';
-      spyOn(mockRouter, 'navigate').and.returnValue(new Promise(function(res){return res(true)}));
+      spyOn(mockRouter, 'navigate').and.returnValue(new Promise(res => res(true)));
       // @ts-ignore
       component.onSearchUpdateQuery();
       expect(mockRouter.navigate).toHaveBeenCalled();

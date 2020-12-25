@@ -38,8 +38,6 @@ describe('AboutPageComponent', () => {
   localStorageServiceMock.languageSubject = new Subject();
   localStorageServiceMock.getCurrentLanguage = () => mockLang as Language;
 
-
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ AboutPageComponent ],

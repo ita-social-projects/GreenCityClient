@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { headerIcons } from './../../../../image-pathes/header-icons';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
-import { filter } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { JwtService } from '@global-service/jwt/jwt.service';
-import { ModalService } from '@global-core/components/propose-cafe/_modal/modal.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UserService } from 'src/app/service/user/user.service';
 import { AchievementService } from 'src/app/service/achievement/achievement.service';
@@ -15,17 +15,18 @@ import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { LanguageModel } from '../models/languageModel';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { environment } from '@environment/environment';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   readonly selectLanguageArrow = 'assets/img/arrow_grey.png';
   readonly dropDownArrow = 'assets/img/arrow.png';
-  public dropdownVisible: boolean;
-  public langDropdownVisible: boolean;
+  public dropdownVisible = false;
+  public langDropdownVisible = false;
   public name: string;
   public isLoggedIn: boolean;
   public isAdmin: boolean;
@@ -42,9 +43,10 @@ export class HeaderComponent implements OnInit {
   private userId: number;
   private token: string;
   private backEndLink = environment.backendLink;
+  private destroySub: Subject<boolean> = new Subject<boolean>();
+  public headerImageList = headerIcons;
 
-  constructor(private modalService: ModalService,
-              public dialog: MatDialog,
+  constructor(public dialog: MatDialog,
               private localStorageService: LocalStorageService,
               private jwtService: JwtService,
               private router: Router,
@@ -57,22 +59,41 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.searchSearch.searchSubject.subscribe(signal => this.openSearchSubscription(signal));
-    this.searchSearch.allSearchSubject.subscribe(signal => this.openAllSearchSubscription(signal));
-    this.dropdownVisible = false;
-    this.localStorageService.firstNameBehaviourSubject.subscribe(firstName => { this.name = firstName; });
-    this.langDropdownVisible = false;
+    this.searchSearch.searchSubject
+      .pipe(
+        takeUntil(this.destroySub)
+      ).subscribe(signal => this.openSearchSubscription(signal));
+
+    this.searchSearch.allSearchSubject
+      .pipe(
+        takeUntil(this.destroySub)
+      ).subscribe(signal => this.openAllSearchSubscription(signal));
+
+    this.localStorageService.firstNameBehaviourSubject
+      .pipe(
+        takeUntil(this.destroySub)
+      ).subscribe(firstName => { this.name = firstName; });
+
     this.initUser();
     this.setLangArr();
     this.userRole = this.jwtService.getUserRole();
     this.autoOffBurgerBtn();
     this.userOwnAuthService.getDataFromLocalStorage();
-    this.userOwnAuthService.isLoginUserSubject.subscribe(
+
+    this.userOwnAuthService.isLoginUserSubject
+    .pipe(
+      takeUntil(this.destroySub)
+    ).subscribe(
       status => this.isLoggedIn = status
     );
     this.token = this.localStorageService.getAccessToken();
     this.isAdmin = this.userRole === this.adminRoleValue;
     this.managementLink = `${this.backEndLink}token?accessToken=${this.token}`;
+  }
+
+  ngOnDestroy() {
+    this.destroySub.next(true);
+    this.destroySub.unsubscribe();
   }
 
   setLangArr(): void {
@@ -88,8 +109,10 @@ export class HeaderComponent implements OnInit {
 
   private initUser(): void {
     this.localStorageService.userIdBehaviourSubject
-      .pipe(filter(userId => userId !== null && !isNaN(userId)))
-      .subscribe(userId => this.assignData(userId));
+      .pipe(
+        takeUntil(this.destroySub),
+        filter(userId => userId !== null && !isNaN(userId))
+      ).subscribe(userId => this.assignData(userId));
   }
 
   public changeCurrentLanguage(language, index: number): void {
@@ -111,6 +134,7 @@ export class HeaderComponent implements OnInit {
   private autoOffBurgerBtn(): void {
     this.router.events
       .pipe(
+        takeUntil(this.destroySub),
         filter((events) => events instanceof NavigationStart)
       )
       .subscribe(() => {
@@ -157,16 +181,11 @@ export class HeaderComponent implements OnInit {
     this.dialog.open(AuthModalComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
-      panelClass: ['custom-dialog-container', 'transparent'],
+      panelClass: ['custom-dialog-container'],
       data: {
         popUpName: page
       }
     });
-  }
-
-  public openDialog(): void {
-    this.dropdownVisible = false;
-    this.router.navigate(['/profile', this.userId]);
   }
 
   public openSettingDialog(): void {
