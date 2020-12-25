@@ -17,8 +17,8 @@ export class SearchService {
   public allSearchSubject = new Subject<boolean>();
   public allElements: SearchDto;
 
-  public getAllResults(searchQuery: string): Observable<SearchModel> {
-    return this.http.get<SearchModel>(`${this.backEndLink}search?searchQuery=${searchQuery}`);
+  public getAllResults(searchQuery: string, lang: string): Observable<SearchModel> {
+    return this.http.get<SearchModel>(`${this.backEndLink}search?searchQuery=${searchQuery}&lang=${lang}`);
   }
 
   public getAllResultsByCat(

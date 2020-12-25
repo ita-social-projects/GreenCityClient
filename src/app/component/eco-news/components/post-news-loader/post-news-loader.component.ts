@@ -9,6 +9,7 @@ import { Title } from '@angular/platform-browser';
 
 export class PostNewsLoaderComponent implements OnInit {
   public actualYear = new Date().getFullYear();
+
   constructor(private titleService: Title) { }
 
   ngOnInit() {

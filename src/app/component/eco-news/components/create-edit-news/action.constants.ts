@@ -1,6 +1,6 @@
 import { ActionInterface } from '../../models/action.interface';
 import { InjectionToken } from '@angular/core';
-import { FilterModel, TextAreasHeight } from '@eco-news-models/create-news-interface';
+import { TextAreasHeight } from '@eco-news-models/create-news-interface';
 
 export const ACTION_TOKEN = new InjectionToken<ActionInterface>('action.config');
 
@@ -22,10 +22,3 @@ export const TEXT_AREAS_HEIGHT: TextAreasHeight = {
     maxTextAreaHeight: '128px',
 };
 
-export const FILTERS: Array<FilterModel> = [
-    { name: 'News', isActive: false },
-    { name: 'Events', isActive: false },
-    { name: 'Education', isActive: false },
-    { name: 'Initiatives', isActive: false },
-    { name: 'Ads', isActive: false }
-];

@@ -1,3 +1,4 @@
+import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -11,7 +12,8 @@ describe('HabitsListViewComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ HabitsListViewComponent ],
       imports: [
-        TranslateModule.forRoot()
+        TranslateModule.forRoot(),
+        RouterTestingModule
       ]
     })
     .compileComponents();
@@ -29,6 +31,7 @@ describe('HabitsListViewComponent', () => {
       },
       id: 1,
       image: 'string',
+      defaultDuration: 1,
     };
     fixture.detectChanges();
   });

@@ -15,12 +15,17 @@ import { of, Subject } from 'rxjs';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Language } from '@language-service/Language';
 
 describe('SearchPopupComponent', () => {
   let component: SearchPopupComponent;
   let fixture: ComponentFixture<SearchPopupComponent>;
   let matSnackBarMock: MatSnackBar;
   matSnackBarMock = jasmine.createSpyObj('MatSnackBar', ['open']);
+  let localStorageServiceMock: LocalStorageService;
+  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
+  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
 
   const mockTipData = {
     id: 1,
@@ -78,7 +83,8 @@ describe('SearchPopupComponent', () => {
       providers: [
         { provide: SearchService, useValue: searchMock },
         MatSnackBarComponent,
-        { provide: MatSnackBar, useValue: matSnackBarMock }
+        { provide: MatSnackBar, useValue: matSnackBarMock },
+        { provide: LocalStorageService, useValue: localStorageServiceMock }
       ]
     })
       .compileComponents().then(r => r);
@@ -111,14 +117,13 @@ describe('SearchPopupComponent', () => {
   });
 
   describe('Testing services:', () => {
-
     it('should handle search value changes', fakeAsync(() => {
       const getSearchSpy = spyOn(component.search, 'getAllResults').and.returnValue(of(searchModelMock));
       component.ngOnInit();
 
       component.searchInput.setValue('test');
       tick(300);
-      expect(getSearchSpy).toHaveBeenCalledWith('test');
+      expect(getSearchSpy).toHaveBeenCalledWith('test', 'ua');
     }));
 
     it('should call resetData', () => {

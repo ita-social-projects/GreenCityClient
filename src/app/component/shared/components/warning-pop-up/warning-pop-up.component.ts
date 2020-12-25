@@ -14,14 +14,14 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
   public popupSubtitle: string;
   public popupConfirm: string;
   public popupCancel: string;
-  private destroy: ReplaySubject<any> = new ReplaySubject<any>(1);
+  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   constructor(private matDialogRef: MatDialogRef<WarningPopUpComponent>,
               @Inject(MAT_DIALOG_DATA) public data) { }
 
   ngOnInit() {
     this.setTitles();
-    this.matDialogRef.keydownEvents().pipe(takeUntil(this.destroy)).subscribe(event => {
+    this.matDialogRef.keydownEvents().pipe(takeUntil(this.destroyed$)).subscribe(event => {
       if (event.key === 'Escape') {
         this.userReply(false);
       }
@@ -29,7 +29,7 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
         this.userReply(true);
       }
     });
-    this.matDialogRef.backdropClick().pipe(takeUntil(this.destroy)).subscribe(() => this.userReply(false));
+    this.matDialogRef.backdropClick().pipe(takeUntil(this.destroyed$)).subscribe(() => this.userReply(false));
   }
 
   private setTitles(): void {
@@ -44,7 +44,7 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy.next(null);
-    this.destroy.complete();
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 }

@@ -1,8 +1,9 @@
+import { RouterTestingModule } from '@angular/router/testing';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { SharedModule } from './../../../../shared/shared.module';
+import { SharedModule } from '../../../../shared/shared.module';
 import { HabitsListViewComponent } from './components/habits-list-view/habits-list-view.component';
-import { HabitsGalleryViewComponent } from './../../shared/components/habits-gallery-view/habits-gallery-view.component';
-import { LocalStorageService } from './../../../../../service/localstorage/local-storage.service';
+import { HabitsGalleryViewComponent } from '../../shared/components/habits-gallery-view/habits-gallery-view.component';
+import { LocalStorageService } from '../../../../../service/localstorage/local-storage.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
@@ -23,7 +24,8 @@ describe('AllHabitsComponent', () => {
         name: 'test'
       },
       id: 0,
-      image: 'test'
+      image: 'test',
+      defaultDuration: 1
     },
     {
       habitTranslation: {
@@ -33,7 +35,8 @@ describe('AllHabitsComponent', () => {
         name: 'test2'
       },
       id: 1,
-      image: 'test'
+      image: 'test',
+      defaultDuration: 1
     }
   ];
 
@@ -61,7 +64,8 @@ describe('AllHabitsComponent', () => {
       imports: [
         TranslateModule.forRoot(),
         SharedModule,
-        InfiniteScrollModule
+        InfiniteScrollModule,
+        RouterTestingModule
       ],
       providers: [
         { provide: AllHabitsService, useValue: allHabitsServiceMock },
