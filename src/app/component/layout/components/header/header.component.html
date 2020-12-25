@@ -1,34 +1,34 @@
-<div [ngClass]="toggleBurgerMenu ? 'burger-modal_open main' : 'main'">
+<header [ngClass]="toggleBurgerMenu ? 'burger-modal_open main' : 'main'">
   <div class="header_wrp container">
     <div class="header_container">
       <a class="header_logo" [routerLink]="['/']" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
-        <img src="../../../../../assets/img/logo.svg" alt="Logo">
+        <img src="../../../../../assets/img/logo.svg" alt="GreenCity home">
       </a>
       <div class="header_navigation-menu">
-        <div [ngClass]="toggleBurgerMenu ? 'header_navigation-menu-left-col' : 'header_navigation-menu-left'">
-          <ul>
-            <li>
+        <nav [ngClass]="toggleBurgerMenu ? 'header_navigation-menu-left-col' : 'header_navigation-menu-left'">
+          <ul role="navigation">
+            <li role="navigation to news">
               <a [routerLink]="['/news']" routerLinkActive="active-link" routerLinkActiveOptions="{exact:true}">
                 {{ 'user.lower-nav-bar.eco-events' | translate }}
               </a>
             </li>
-            <li>
+            <li role="navigation to tips and tricks">
               <a [routerLink]="['/tips']" routerLinkActive="active-link" routerLinkActiveOptions="{exact:true}">
                 {{ 'user.lower-nav-bar.tips' | translate }}
               </a>
             </li>
-            <li>
+            <li role="navigation to map">
               <a [routerLink]="['/map']" routerLinkActive="active-link" routerLinkActiveOptions="{exact:true}"
                 routerLinkActive="active-link" routerLinkActiveOptions="{exact:true}">
                 {{ 'user.lower-nav-bar.map' | translate }}
               </a>
             </li>
-            <li>
+            <li role="navigation to about us">
               <a [routerLink]="['/about']" routerLinkActive="active-link" routerLinkActiveOptions="{exact:true}">
                 {{ 'user.lower-nav-bar.about-us' | translate }}
               </a>
             </li>
-            <li>
+            <li role="navigation to profile">
               <a [routerLink]="['/profile', getUserId()]" routerLinkActive="active-link"
                 routerLinkActiveOptions="{exact:true}">
                 {{ 'user.lower-nav-bar.my-habits' | translate }}
@@ -37,27 +37,27 @@
             <hr class="header_line container" [ngClass]="{'d-none': !toggleBurgerMenu}" />
             <div *ngIf="!isLoggedIn; then userLoggedInSmall else userNotLoggerInSmall"></div>
             <ng-template #userLoggedInSmall>
-              <li *ngIf="toggleBurgerMenu" class="header_mobile-menu-sign-in">
+              <li *ngIf="toggleBurgerMenu" class="header_mobile-menu-sign-in" role="sign in link">
                 <a class="header_sign-in-link tertiary-global-button" (click)="openAuthModalWindow('sign-in')">
                   {{ "top-bar.sign-in" | translate }}
                 </a>
               </li>
             </ng-template>
             <ng-template #userNotLoggerInSmall>
-              <li class="header_mobile-menu-item header_user-name tertiary-global-button">
+              <li class="header_mobile-menu-item header_user-name tertiary-global-button" role="user name">
                 {{ name }}
               </li>
-              <li class="header_mobile-menu-item">
+              <li class="header_mobile-menu-item" role="settings">
                 <a (click)="openSettingDialog()">
                   {{ "nav-bar.user-settings" | translate }}
                 </a>
               </li>
               <li *ngIf="isLoggedIn && isAdmin" class="header_mobile-menu-item">
-                <a [href]="managementLink" target="_blank">
+                <a [href]="managementLink" target="_blank" role="management">
                   {{ "nav-bar.management" | translate }}
                 </a>
               </li>
-              <li class="header_mobile-menu-item">
+              <li class="header_mobile-menu-item" role="sign out">
                 <a (click)="signOut()">
                   {{ "nav-bar.sign-out" | translate }}
                 </a>
@@ -71,16 +71,16 @@
               </div>
             </li>
           </ul>
-        </div>
+        </nav>
         <div class="header_navigation-menu-right">
           <ul class="header_navigation-menu-right-list">
             <!-- Search icon -->
-            <li *ngIf="!isAllSearchOpen" class="search-icon">
+            <li *ngIf="!isAllSearchOpen" class="search-icon" role="internal search">
               <img (click)="toggleSearchPage()" 
                    (keyup.enter)="toggleSearchPage()" 
                    tabindex="0" 
                    src="../../../../../assets/img/search.svg" 
-                   alt="Search icon">
+                   alt="Internal search">
             </li>
             <!-- Lang switcher -->
             <ul [ngClass]="{'add-shadow': langDropdownVisible, 
@@ -89,7 +89,8 @@
                 (keyup.enter)="langDropdownVisible = !langDropdownVisible"
                 appCloseDropdown
                 (clickOutSide)="autoCloseLangDropDown($event)"
-                tabindex="0">
+                tabindex="0"
+                role="Language switcher">
               <li>
                 {{arrayLang[0].lang}}
                 <object type="image/svg+xml"
@@ -110,8 +111,9 @@
                   appCloseDropdown 
                   (clickOutSide)="autoCloseUserDropDown($event)"
                   [ngClass]="{'d-none': toggleBurgerMenu,
-                              'add-shadow': dropdownVisible}">
-                <li class="tertiary-global-button">
+                              'add-shadow': dropdownVisible}"
+                  role='management dropdown'>
+                <li class="tertiary-global-button" role="user name">
                   <a tabindex="0" (click)="toggleDropdown()" (keyup.enter)="toggleDropdown()" class="header_user-name">
                     <span>{{ name }}</span>
                     <object type="image/svg+xml"
@@ -121,17 +123,17 @@
                     </object>
                   </a>
                 </li>
-                <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'">
+                <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="settigns">
                   <a (click)="openSettingDialog()">
                     {{ "nav-bar.user-settings" | translate }}
                   </a>
                 </li>
-                <li *ngIf="isLoggedIn && isAdmin" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'">
+                <li *ngIf="isLoggedIn && isAdmin" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="management">
                   <a [href]="managementLink" target="_blank">
                     {{ "nav-bar.management" | translate }}
                   </a>
                 </li>
-                <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'">
+                <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="sign out">
                   <a (click)="signOut()">
                     {{ "nav-bar.sign-out" | translate }}
                   </a>
@@ -144,7 +146,8 @@
                  class="header_sign-in-link tertiary-global-button" 
                  (click)="openAuthModalWindow('sign-in')" 
                  (keyup.enter)="openAuthModalWindow('sign-in')" 
-                 tabindex="0">
+                 tabindex="0"
+                 role="sign in">
                 {{ "top-bar.sign-in" | translate }}
               </a>
             </ng-container>
@@ -153,13 +156,14 @@
                 [ngClass]="{'d-none': toggleBurgerMenu}"
                 *ngIf="!isLoggedIn"
                 (click)="openAuthModalWindow('sign-up')" 
-                (keyup.enter)="openAuthModalWindow('sign-up')">
+                (keyup.enter)="openAuthModalWindow('sign-up')"
+                role="sign up">
               <div class="header_sign-up-btn secondary-global-button" tabindex="0">
                 <span>{{ "top-bar.sign-up" | translate }}</span>
               </div>
             </li>
             <!-- Burger BTN -->
-            <li class="header_burger-btn">
+            <li class="header_burger-btn" role="mobile">
               <div class="menu-icon-wrapper" (click)="onToggleBurgerMenu()">
                 <div [ngClass]="toggleBurgerMenu ? 'menu-icon menu-icon-active' : 'menu-icon'"></div>
               </div>
@@ -169,4 +173,4 @@
       </div>
     </div>
   </div>
-</div>
+</header>
