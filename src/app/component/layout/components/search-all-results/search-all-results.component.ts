@@ -1,10 +1,12 @@
+import { searchIcons } from './../../../../image-pathes/search-icons';
 import { AfterContentInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, fromEvent, Subject } from 'rxjs';
-import { map, distinctUntilChanged, tap, debounceTime, take, takeUntil } from 'rxjs/operators';
+import { fromEvent, Subject } from 'rxjs';
+import { map, distinctUntilChanged, tap, debounceTime, take, takeUntil, filter } from 'rxjs/operators';
 import { SearchService } from '@global-service/search/search.service';
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 import { SearchDataModel } from '@global-models/search/search.model';
+import { FilterByitem } from '../models/search-dto';
 
 @Component({
   selector: 'app-search-all-results',
@@ -22,12 +24,14 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy, AfterConten
   public sortTypesLocalization = ['search.search-all-results.relevance',
                                   'search.search-all-results.newest',
                                   'search.search-all-results.oldest'];
-  public dropdownVisible: boolean;
   public inputValue: string;
   public isLoading = true;
+  public searchIcons = searchIcons;
+  public filterByItems: FilterByitem[] = [
+    {category: 'econews', name: 'news'},
+    {category: 'tipsandtricks', name: 'tips'}
+  ];
   private destroySub: Subject<boolean> = new Subject<boolean>();
-
-  readonly dropDownArrow = 'assets/img/arrow_grey.png';
 
   constructor( private search: SearchService,
                private route: ActivatedRoute,
@@ -106,6 +110,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy, AfterConten
   }
 
   public changeCurrentSorting(newSorting: number): void {
+    this.isLoading = true;
     [this.sortTypes[0],
     this.sortTypes[newSorting]] = [this.sortTypes[newSorting],
                                    this.sortTypes[0]];
@@ -131,8 +136,12 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy, AfterConten
     }
   }
 
-  public toggleDropdown(): void {
-    this.dropdownVisible = !this.dropdownVisible;
+  public onFilterByClick(item: FilterByitem) {
+    if (this.searchCategory === item.category) {
+      return;
+    }
+    this.searchCategory = item.category;
+    this.onSearchUpdateQuery();
   }
 
   private resetData(): void {

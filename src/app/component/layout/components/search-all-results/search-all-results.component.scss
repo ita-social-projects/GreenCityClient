@@ -1,6 +1,13 @@
 $main-font: 'opensans', sans-serif;
 $main-font-color: #494a49;
 
+.search_font-styles {
+  font-family: $main-font;
+  font-size: 16px;
+  line-height: 24px;
+  color: $main-font-color;
+}
+
 .search_search-icon {
   align-self: center;
   width: 24px;
@@ -35,11 +42,62 @@ $main-font-color: #494a49;
   }
 }
 
+.dropdown-toggle {
+  border: none;
+  background-color: transparent;
+  display: inline-block;
+
+  &::after {
+    content: none;
+  }
+}
+
+.dropdown-menu {
+  border: none;
+  padding: 0;
+  font-weight: normal;
+  width: fit-content;
+  min-width: fit-content;
+  left: auto;
+  right: -10px;
+}
+
+.dropdown-item {
+  padding-right: 6px;
+  padding-left: 6px;
+}
+
+.dropdown.show {
+  .arrow {
+    transform: rotate(180deg);
+    transition: 0.3s ease-out;
+    transition-delay: 0.1s;
+  }
+}
+
 .search_action-wrp {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  flex-direction: column;
   justify-content: space-between;
   margin: 15px 0 20px;
+}
+
+.search_action-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.search_filter-by {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  margin: 35px 30px 35px 0;
+
+  span {
+    margin-right: 15px;
+  }
 }
 
 .remaining-items {
@@ -50,37 +108,22 @@ $main-font-color: #494a49;
 .sort-items {
   font-family: $main-font;
   font-size: 1rem;
-
-  ul {
-    padding: 0;
-    position: absolute;
-    margin-left: 0.5rem;
-    font-weight: normal;
-    list-style: none;
-    display: inline-block;
-    z-index: 3;
-
-    li {
-      width: 100%;
-      font-family: $main-font;
-      font-size: 16px;
-      line-height: 24px;
-      height: 30px;
-      margin: 0 0 3px 0;
-      color: $main-font-color;
-
-      .reverse {
-        transform: rotate(180deg);
-        transition: 0.2s ease-out;
-        transition-delay: 0.1s;
-      }
-    }
-  }
+  width: fit-content;
 }
 
 @media (min-width: 576px) {
   .container {
     padding: 0;
+  }
+}
+
+@media (min-width: 768px) {
+  .search_action-wrp {
+    flex-direction: row;
+  }
+
+  .search_filter-by {
+    margin: 0 30px 0 0;
   }
 }
 

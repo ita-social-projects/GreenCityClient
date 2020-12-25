@@ -110,13 +110,6 @@ describe('SearchAllResultsComponent', () => {
     }));
 
     it('should toogle dropdown', () => {
-      component.dropdownVisible = true;
-
-      component.toggleDropdown();
-      expect(component.dropdownVisible).toBeFalsy();
-    });
-
-    it('should toogle dropdown', () => {
       component.itemsFound = 1;
       component.displayedElements = [mockNewsData];
       // @ts-ignore
@@ -138,6 +131,23 @@ describe('SearchAllResultsComponent', () => {
     it('should change current sorting to creation_date,asc', () => {
       component.changeCurrentSorting(2);
       expect(component.sortType).toBe('creation_date,asc');
+    });
+
+    it('should change filter on click', () => {
+      component.searchCategory = 'econews';
+      // @ts-ignore
+      const spy = spyOn(component, 'onSearchUpdateQuery').and.returnValue(true);
+      component.onFilterByClick({category: 'tipsandtricks', name: 'tips'});
+      expect(component.searchCategory).toBe('tipsandtricks');
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should on update page url if current filter is same', () => {
+      component.searchCategory = 'econews';
+      // @ts-ignore
+      const spy = spyOn(component, 'onSearchUpdateQuery').and.returnValue(true);
+      component.onFilterByClick({category: 'econews', name: 'news'});
+      expect(spy).not.toHaveBeenCalled();
     });
   });
 });

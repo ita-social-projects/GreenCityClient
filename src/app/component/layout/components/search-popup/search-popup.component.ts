@@ -1,3 +1,4 @@
+import { searchIcons } from './../../../../image-pathes/search-icons';
 import { negate, isNil } from 'lodash';
 import { Component, OnDestroy, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material';
@@ -29,6 +30,7 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   public isTipsSearchFound: boolean;
   public searchValueChanges;
   private currentLanguage: string;
+  public searchIcons = searchIcons;
 
   constructor(public search: SearchService,
               public dialog: MatDialog,

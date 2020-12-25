@@ -2,14 +2,14 @@
   <!-- search bar -->
   <div class="search_bar-wrapper">
     <div class="container search_bar-container">
-      <img class="search_search-icon" src="../../../../../assets/img/icon/search.png" alt="search icon" />
+      <img class="search_search-icon" [src]="searchIcons.search" alt="search icon" />
       <input class="search_search-field"
               type="text"
               [formControl]="searchInput"
               placeholder="{{ 'search.search-popup.placeholder' | translate}}"
               #inputFocus>
               {{inputFocus.focus()}}
-      <img class="search_close-icon" src="../../../../..//assets/img/icon/Union.png" alt="close search" (click)="closeSearch()" />
+      <img class="search_close-icon" [src]="searchIcons.union" alt="close search" (click)="closeSearch()" />
     </div>
   </div>
   <!-- search results -->
