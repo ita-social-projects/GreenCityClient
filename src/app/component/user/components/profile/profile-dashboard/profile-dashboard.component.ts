@@ -1,6 +1,5 @@
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Component, OnInit } from '@angular/core';
-import { HabitTab } from '@user-models/habit.model';
 import { HabitItemModel } from '@user-models/habit-item.model';
 
 @Component({
@@ -10,7 +9,7 @@ import { HabitItemModel } from '@user-models/habit-item.model';
 })
 export class ProfileDashboardComponent implements OnInit {
   public userId: number;
-  public menu: Array<HabitTab> = [
+  public menu = [
     { id: 1, name: 'My habits', isActive: true },
     { id: 2, name: 'My news', isActive: false },
     { id: 3, name: 'My articles', isActive: false },

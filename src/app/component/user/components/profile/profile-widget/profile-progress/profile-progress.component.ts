@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Habit } from '@user-models/habit.model';
 import { ProfileStatistics } from '@user-models/profile-statistiscs';
 import { ProfileService } from '../../profile-service/profile.service';
 import { Subscription } from 'rxjs';
@@ -10,7 +9,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./profile-progress.component.scss'],
 })
 export class ProfileProgressComponent implements OnInit, OnDestroy {
-  public progress: Array<Habit>;
+  public progress: Array<any>;
   public progressSubscription: Subscription;
 
   constructor(private profileService: ProfileService) { }
