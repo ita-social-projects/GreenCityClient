@@ -1,6 +1,7 @@
-import { Subscription } from 'rxjs';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { EditProfileModel } from '@user-models/edit-profile.model';
 
 @Component({
   selector: 'app-profile-header',
@@ -12,13 +13,14 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
     city: '',
     status: 'online',
     rating: 0,
-    userCredo: ''
+    userCredo: 'User credo'
   };
-  public editIcon = './assets/img/profile/icons/edit-line.svg';
+  socialNetworksList = ['facebook', 'instagram', 'linked', 'twitter', 'green-city'];
+  userSocialNetworks: Array<any>;
   public userId: number;
   private userId$: Subscription;
 
-  @Input() public userInfo;
+  @Input() public userInfo: EditProfileModel;
   public isUserOnline;
 
   constructor( private localStorageService: LocalStorageService ) { }
@@ -26,6 +28,25 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.userId$ = this.localStorageService.userIdBehaviourSubject
       .subscribe(userId => this.userId = userId );
+    this.buildSocialNetworksChart();
+  }
+
+  findNetwork(networkLink) {
+    return this.socialNetworksList.reduce((result, current) => {
+      if (networkLink.includes(current)) {
+        result = current;
+      }
+      return result;
+    }, 'green-city');
+  }
+
+  buildSocialNetworksChart() {
+    this.userSocialNetworks = this.userInfo.socialNetworks.map(item => {
+      return {
+        link: item.url,
+        name: this.findNetwork(item.url)
+      };
+    });
   }
 
   ngOnDestroy() {

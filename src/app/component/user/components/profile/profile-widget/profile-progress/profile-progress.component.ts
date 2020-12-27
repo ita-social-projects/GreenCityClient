@@ -1,17 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ProfileStatistics } from '@user-models/profile-statistiscs';
 import { ProfileService } from '../../profile-service/profile.service';
-import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile-progress',
   templateUrl: './profile-progress.component.html',
   styleUrls: ['./profile-progress.component.scss'],
 })
-export class ProfileProgressComponent implements OnInit, OnDestroy {
-  public progress: Array<any>;
-  public progressSubscription: Subscription;
-
+export class ProfileProgressComponent implements OnInit {
+  public progress: ProfileStatistics;
   constructor(private profileService: ProfileService) { }
 
   ngOnInit() {
@@ -19,21 +17,10 @@ export class ProfileProgressComponent implements OnInit, OnDestroy {
   }
 
   public checkUserActivities(): void {
-    this.progressSubscription = this.profileService.getUserProfileStatistics().subscribe((statistics: ProfileStatistics) => {
-      this.setUserProgress(statistics);
-    });
-  }
-
-  public setUserProgress(item: ProfileStatistics) {
-    this.progress = [
-      { id: 1, name: 'acquired habits', quantity: item.amountHabitsInProgress },
-      { id: 2, name: 'habits in progress', quantity: item.amountHabitsAcquired },
-      { id: 3, name: 'written articles', quantity: item.amountWrittenTipsAndTrick },
-      { id: 4, name: 'published news', quantity: item.amountPublishedNews },
-    ];
-  }
-
-  ngOnDestroy() {
-    this.progressSubscription.unsubscribe();
+    this.profileService.getUserProfileStatistics()
+      .pipe(take(1))
+      .subscribe((statistics: ProfileStatistics) => {
+        this.progress = statistics;
+      });
   }
 }

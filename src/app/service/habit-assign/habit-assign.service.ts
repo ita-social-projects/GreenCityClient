@@ -27,13 +27,6 @@ export class HabitAssignService implements OnDestroy {
       .subscribe(language => this.language = language);
   }
 
-  formatDate(): string {
-    return new Date().toLocaleDateString()
-      .split('.')
-      .reverse()
-      .join('-');
-  }
-
   getAssignedHabits(): Observable<Array<HabitAssignInterface>> {
     return this.http.get<Array<HabitAssignInterface>>(`${habitAssignLink}?lang=${this.language}`);
   }
@@ -58,20 +51,20 @@ export class HabitAssignService implements OnDestroy {
     return this.http.post<ResponseInterface>(`${habitAssignLink}/${habitId}/custom`, { duration });
   }
 
-  enrollByHabit(habitId: number): Observable<HabitAssignInterface> {
-    return this.http.post<HabitAssignInterface>(`${habitAssignLink}/${habitId}/enroll/${this.formatDate()}`, null);
+  enrollByHabit(habitId: number, date: string): Observable<HabitAssignInterface> {
+    return this.http.post<HabitAssignInterface>(`${habitAssignLink}/${habitId}/enroll/${date}`, null);
   }
 
-  unenrollByHabit(habitId: number): Observable<HabitAssignInterface> {
-    return this.http.post<HabitAssignInterface>(`${habitAssignLink}/${habitId}/unenroll/${this.formatDate()}`, null);
+  unenrollByHabit(habitId: number, date: string): Observable<HabitAssignInterface> {
+    return this.http.post<HabitAssignInterface>(`${habitAssignLink}/${habitId}/unenroll/${date}`, null);
   }
 
   getHabitAssignById(id: number): Observable<HabitAssignInterface> {
     return this.http.get<HabitAssignInterface>(`${habitAssignLink}/${id}?lang=${this.language}`);
   }
 
-  getHabitAssignByDate(): Observable<Array<HabitAssignInterface>> {
-    return this.http.get<Array<HabitAssignInterface>>(`${habitAssignLink}/active/${this.formatDate()}?lang=${this.language}`);
+  getHabitAssignByDate(date: string): Observable<Array<HabitAssignInterface>> {
+    return this.http.get<Array<HabitAssignInterface>>(`${habitAssignLink}/active/${date}?lang=${this.language}`);
   }
 
   ngOnDestroy(): void {
