@@ -616,7 +616,8 @@
         "no-habits":"Unfortunately, no more habits found",
         "no-habits-advice": "We couldn't find any more habits. Please change filters to get another result.",
         "btn-more": "More",
-        "btn-add": "Add habit"
+        "btn-add": "Add habit",
+        "new-habit-added": "You have successfully added a new habit to your list"
       },
       "habit-trackers": {
         "habit-tracker": {
@@ -625,6 +626,11 @@
             "from": "from"
           }
         }
+      },
+      "one-habit": {
+        "good": "in a row. You're good!",
+        "done": "Mark as done",
+        "great": "Great! You've got a habit!"
       }
     }
   },
@@ -717,7 +723,7 @@
       "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
       "monthsShort": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     },
-    "habits-in-progress": "Habits in progress",
+    "habits-in-progress": "habits in progress",
     "add-new-habit": "Add new habit",
     "habits-acquired": "Habits acquired",
     "my-Achievements": "My Achievements",
@@ -730,10 +736,11 @@
     "fact-of-the-day": "Fact of the Day",
     "no-eco-places": "You don't have any Eco Places.",
     "online": "online",
+    "rate": "Rate",
     "acquired-habits": "acquired habits",
     "written-articles": "written articles",
     "published-news": "published news",
-    "my-habits": "My Habits",
+    "my-habits": "My habits",
     "my-news": "My news",
     "my-articles": "My articles"
   },
