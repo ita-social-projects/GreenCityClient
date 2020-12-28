@@ -12,7 +12,7 @@ import { HabitService } from '../../../../../service/habit/habit.service';
 import { HabitListInterface } from '../../../../../interface/habit/habit.interface';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 
-describe('AllHabitsComponent', () => {
+fdescribe('AllHabitsComponent', () => {
   let component: AllHabitsComponent;
   let fixture: ComponentFixture<AllHabitsComponent>;
 
@@ -50,9 +50,6 @@ describe('AllHabitsComponent', () => {
 
   const mockData = new BehaviorSubject<any>(habitsMockData);
 
-  const habitServiceMock = jasmine.createSpyObj('HabitService', ['getAllHabits']);
-  habitServiceMock.getAllHabits = () => of (habitsMockData);
-
   const localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['languageBehaviourSubject']);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject<string>('en');
 
@@ -70,7 +67,7 @@ describe('AllHabitsComponent', () => {
         HttpClientTestingModule
       ],
       providers: [
-        { provide: HabitService, useValue: habitServiceMock },
+        HabitService,
         { provide: LocalStorageService, useValue: localStorageServiceMock },
       ]
     })
@@ -83,6 +80,9 @@ describe('AllHabitsComponent', () => {
     fixture.detectChanges();
     component.allHabits = mockData;
     component.resetSubject = () => true;
+    const habitServiceMock: HabitService = TestBed.get(HabitService);
+    habitServiceMock.getAllHabits = () => of(habitsMockData);
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -97,9 +97,9 @@ describe('AllHabitsComponent', () => {
     });
 
     it('Should filter data by array of tags', () => {
-      // @ts-ignore
-      component.habitsList = habitsMockData.page;
-      component.filteredHabitsList = habitsMockData.page;
+      const data = component[`splitHabitItems`](habitsMockData);
+      component.filteredHabitsList = data.page;
+      component[`habitsList`] = data.page;
       component.getFilterData(['test']);
 
       expect(component.filteredHabitsList).toEqual([habitsMockData.page[0]]);
@@ -110,14 +110,14 @@ describe('AllHabitsComponent', () => {
       // @ts-ignore
       component.totalPages = 2;
       // @ts-ignore
-      component.currentPage = 1;
+      component.currentPage = 2;
       component.onScroll();
       expect(component.isFetching).toEqual(false);
     });
 
     it('Should stop fetching data on scroll if there is no page left', () => {
       // @ts-ignore
-      const spy = spyOn(component, 'getHabits').and.returnValue(true);
+      const spy = spyOn(component, 'fetchAllHabits').and.returnValue(true);
       // @ts-ignore
       component.totalPages = 2;
       // @ts-ignore

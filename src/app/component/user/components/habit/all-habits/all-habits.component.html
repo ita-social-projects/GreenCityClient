@@ -46,7 +46,7 @@
         [infiniteScrollThrottle]="500"
         (scrolled)="onScroll()">
     </div>
-    <app-no-data *ngIf="!elementsLeft" 
+    <app-no-data *ngIf="!elementsLeft && totalHabitsCopy === 0" 
                 [title]="'user.habit.all-habits.no-habits'" 
                 [text]="'user.habit.all-habits.no-habits-advice'">
     </app-no-data>

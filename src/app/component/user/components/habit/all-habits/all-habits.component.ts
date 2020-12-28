@@ -42,7 +42,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
       this.lang = lang;
       this.resetState();
       this.resetSubject();
-      this.getHabits(0, this.batchSize);
+      this.fetchAllHabits(0, this.batchSize);
     });
 
     const habitServiceSub = this.allHabits.subscribe(data => {
@@ -131,11 +131,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     }
     this.isFetching = true;
     this.currentPage += 1;
-    this.getHabits(this.currentPage, this.batchSize);
-  }
-
-  private getHabits(page: number, size: number): void {
-    this.fetchAllHabits(page, size);
+    this.fetchAllHabits(this.currentPage, this.batchSize);
   }
 
   private resetState() {
