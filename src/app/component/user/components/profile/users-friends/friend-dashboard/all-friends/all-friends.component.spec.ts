@@ -116,8 +116,8 @@ describe('AllFriendsComponent', () => {
 
   it('should delete user', () => {
     const id = 12;
-    const spy = spyOn(component as any, 'deleteFriend');
-    component.deleteFriend(id);
+    const spy = spyOn(component as any, 'handleDeleteFriend');
+    component.handleDeleteFriend(id);
     expect(spy).toHaveBeenCalledWith(12);
   });
 });

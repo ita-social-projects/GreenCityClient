@@ -46,9 +46,7 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
       catchError((error) => {
         this.snackBar.openSnackBar('error');
         return error;
-      })
-    )
-    .pipe(
+      }),
       takeUntil(this.destroy$)
     )
     .subscribe (
@@ -66,9 +64,7 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
       catchError((error) => {
         this.snackBar.openSnackBar('error');
         return error;
-      })
-    )
-    .pipe(
+      }),
       takeUntil(this.destroy$)
     )
     .subscribe(
@@ -79,14 +75,12 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
      );
   }
 
-  public deleteFriend(id: number) {
+  public handleDeleteFriend(id: number) {
     this.userFriendsService.deleteFriend(this.userId, id).pipe(
       catchError((error) => {
         this.snackBar.openSnackBar('error');
         return error;
-      })
-    )
-    .pipe(
+      }),
       takeUntil(this.destroy$)
     )
     .subscribe(
@@ -96,7 +90,7 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
     );
   }
 
-  public addFriend(id: number) {
+  public handleAddFriend(id: number) {
     this.userFriendsService.addFriend(this.userId, id).pipe(
       catchError((error) => {
         this.snackBar.openSnackBar('error');
