@@ -3,7 +3,7 @@ import { getTestBed, TestBed } from '@angular/core/testing';
 
 import { UserFriendsService } from './user-friends.service';
 
-describe('UserFriendsService', () => {
+fdescribe('UserFriendsService', () => {
   let injector: TestBed;
   let userFriendsService: UserFriendsService;
   let httpMock: HttpTestingController;
@@ -16,6 +16,10 @@ describe('UserFriendsService', () => {
     injector = getTestBed();
     userFriendsService = injector.get(UserFriendsService);
     httpMock = injector.get(HttpTestingController);
+  });
+
+  afterEach(() => {
+    httpMock.verify();
   });
 
   it('should be created', () => {

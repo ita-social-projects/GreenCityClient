@@ -15,7 +15,8 @@ describe('UsersFriendsComponent', () => {
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviorSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   let profileServiceMock: ProfileService;
-  const userFriends = {amountOfFriends: 30,
+  const userFriends = {
+    amountOfFriends: 30,
     pagedFriends: {
       currentPage: 1,
       page: [],

@@ -26,7 +26,7 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initUser();
-    this.getSixFriends();
+    this.getAllFriends();
   }
 
   public addStatus(userArray) {
@@ -35,12 +35,13 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public changeStatus(id) {
-    const index = this.Friends.findIndex(elem => elem.id === id);
-    this.Friends[index].added = !this.Friends[index].added;
+  public changeStatus(id, userArray) {
+    const index = userArray.findIndex(elem => elem.id === id);
+    userArray[index].added = !userArray[index].added;
+    return userArray;
   }
 
-  public getSixFriends() {
+  public getAllFriends() {
     this.userFriendsService.getAllFriends(this.userId).pipe(
       catchError((error) => {
         this.snackBar.openSnackBar('error.message');
@@ -63,7 +64,7 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
     this.currentPage += 1;
     this.userFriendsService.getAllFriends(this.userId, this.currentPage).pipe(
       catchError((error) => {
-        this.snackBar.openSnackBar('error.message');
+        this.snackBar.openSnackBar('error');
         return error;
       })
     )
@@ -81,7 +82,7 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
   public deleteFriend(id: number) {
     this.userFriendsService.deleteFriend(this.userId, id).pipe(
       catchError((error) => {
-        this.snackBar.openSnackBar('error.message');
+        this.snackBar.openSnackBar('error');
         return error;
       })
     )
@@ -90,7 +91,7 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
     )
     .subscribe(
       () => {
-        this.changeStatus(id);
+        this.changeStatus(id, this.Friends);
       }
     );
   }
@@ -98,7 +99,7 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
   public addFriend(id: number) {
     this.userFriendsService.addFriend(this.userId, id).pipe(
       catchError((error) => {
-        this.snackBar.openSnackBar('error.message');
+        this.snackBar.openSnackBar('error');
         return error;
       })
     )
@@ -107,7 +108,7 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
     )
     .subscribe(
       () => {
-      this.changeStatus(id);
+      this.changeStatus(id, this.Friends);
       }
     );
   }
