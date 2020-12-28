@@ -82,7 +82,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
       );
   }
 
-  private resetSubject() {
+  public resetSubject() {
     this.allHabits.next([]);
   }
 
