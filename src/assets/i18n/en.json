@@ -117,7 +117,8 @@
       "items-found": "items found",
       "news": "News",
       "tips":"Tips & Tricks",
-      "all-results": "See all results"
+      "see-all-news": "See all News",
+      "see-all-tips": "See all Tips & Tricks"
     },
     "search-not-found": {
       "not-found-text": "We couldn't find results for '{{searchQuery}}' Please change the search.",
@@ -133,6 +134,7 @@
       "news": "News",
       "tips": "Tips & Tricks",
       "sort": "Sort by:",
+      "filter": "Filter by:",
       "relevance": "Relevance",
       "oldest": "Oldest",
       "newest": "Newest"

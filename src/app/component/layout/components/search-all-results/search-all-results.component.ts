@@ -1,94 +1,116 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Subscription, fromEvent } from 'rxjs';
-import { map, distinctUntilChanged, tap, switchMap, throttleTime } from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { searchIcons } from './../../../../image-pathes/search-icons';
+import { AfterContentInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { fromEvent, Subject } from 'rxjs';
+import { map, distinctUntilChanged, tap, debounceTime, take, takeUntil, filter } from 'rxjs/operators';
 import { SearchService } from '@global-service/search/search.service';
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
+import { SearchDataModel } from '@global-models/search/search.model';
+import { FilterByitem } from '../models/search-dto';
 
 @Component({
   selector: 'app-search-all-results',
   templateUrl: './search-all-results.component.html',
   styleUrls: ['./search-all-results.component.scss']
 })
-export class SearchAllResultsComponent implements OnInit, OnDestroy {
+export class SearchAllResultsComponent implements OnInit, OnDestroy, AfterContentInit {
   public displayedElements: NewsSearchModel[] = [];
   public isSearchFound: boolean;
   public itemsFound = 0;
   public currentPage = 0;
   public searchCategory: string;
-  public sortType: string;
+  public sortType = '';
   public sortTypes = ['Relevance', 'Newest', 'Oldest'];
   public sortTypesLocalization = ['search.search-all-results.relevance',
                                   'search.search-all-results.newest',
                                   'search.search-all-results.oldest'];
-  public dropdownVisible: boolean;
   public inputValue: string;
-  public scroll: boolean;
-  private querySubscription: Subscription;
+  public isLoading = true;
+  public searchIcons = searchIcons;
+  public filterByItems: FilterByitem[] = [
+    {category: 'econews', name: 'news'},
+    {category: 'tipsandtricks', name: 'tips'}
+  ];
+  private destroySub: Subject<boolean> = new Subject<boolean>();
 
-  readonly dropDownArrow = 'assets/img/arrow_grey.png';
-
-  constructor(private search: SearchService, private snackBar: MatSnackBar, private route: ActivatedRoute) {
-    this.querySubscription = route.queryParams.subscribe(
-      (queryParam: any) => {
-          this.inputValue = queryParam.query;
-          this.searchCategory = queryParam.category || 'econews';
-      }
-    );
-  }
+  constructor( private search: SearchService,
+               private route: ActivatedRoute,
+               private router: Router ) { }
 
   ngOnInit() {
-    this.scroll = false;
-    this.sortType = '';
+    this.route.queryParams
+      .pipe(takeUntil(this.destroySub))
+      .subscribe(params => {
+        this.inputValue = params.query;
+        this.searchCategory = params.category || 'econews';
+      });
 
-    this.route.queryParams.subscribe(params => {
-      this.inputValue = params.query;
-      this.searchCategory = params.category || 'econews';
-    });
+    this.getSearchResults();
+    this.onAddSearchInputListener();
+  }
 
-    if (this.inputValue && this.searchCategory) {
-      this.getSearchResults();
-    }
+  ngAfterContentInit() {
+    this.forceScroll();
+  }
 
+  private onAddSearchInputListener() {
     fromEvent(document.querySelector('#search-input'), 'input')
       .pipe(
+        debounceTime(300),
         map(e => (e.target as HTMLInputElement).value),
-        throttleTime(250),
         distinctUntilChanged(),
-        tap(() => this.resetData()),
-        switchMap(value => this.search.getAllResults(value, this.searchCategory, this.currentPage, this.sortType))
-      )
-      .subscribe(
-        data => this.setElems(data),
-        err => this.errorHandler(err)
-      );
+        tap(() => {
+          this.resetData();
+          this.isLoading = true;
+          this.onSearchUpdateQuery().then(() => this.getSearchResults());
+        }),
+        take(1)
+      ).subscribe();
   }
 
   private getSearchResults(): void {
-    this.search.getAllResults(this.inputValue, this.searchCategory, this.currentPage, this.sortType)
-        .subscribe(
-          data => this.setElems(data),
-          err => this.errorHandler(err)
-        );
+    this.search.getAllResultsByCat(this.inputValue, this.searchCategory, this.currentPage, this.sortType)
+      .pipe(takeUntil(this.destroySub))
+      .subscribe(
+        data => this.setElems(data)
+      );
     this.isSearchFound = true;
   }
 
-  private setElems(data: any): void {
-    this.displayedElements = this.displayedElements && this.scroll ? [...this.displayedElements, ...data.page] : [...data.page];
+  private setElems(data: SearchDataModel): void {
+    this.isLoading = false;
+    this.displayedElements = [...this.displayedElements, ...data.page];
+
     this.itemsFound = data.totalElements;
+
     if (this.displayedElements.length === this.itemsFound) {
       this.isSearchFound = false;
     }
   }
 
+  private onSearchUpdateQuery() {
+    return this.router.navigate([], {
+      queryParams: {
+        query: this.inputValue,
+        category: this.searchCategory
+      },
+    });
+  }
+
+  private forceScroll() {
+    if (document.documentElement.clientHeight > document.body.clientHeight) {
+      this.onScroll();
+    }
+  }
+
   public onScroll(): void {
-    this.scroll = true;
+    this.isLoading = true;
     this.changeCurrentPage();
     this.getSearchResults();
   }
 
   public changeCurrentSorting(newSorting: number): void {
+    this.isLoading = true;
     [this.sortTypes[0],
     this.sortTypes[newSorting]] = [this.sortTypes[newSorting],
                                    this.sortTypes[0]];
@@ -111,33 +133,29 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
     this.resetData();
     if (this.inputValue) {
       this.getSearchResults();
-    } else {
-      this.resetData();
     }
   }
 
-  public toggleDropdown(): void {
-    this.dropdownVisible = !this.dropdownVisible;
+  public onFilterByClick(item: FilterByitem) {
+    if (this.searchCategory === item.category) {
+      return;
+    }
+    this.searchCategory = item.category;
+    this.onSearchUpdateQuery();
   }
 
   private resetData(): void {
     this.isSearchFound = true;
     this.itemsFound = 0;
     this.currentPage = 0;
-    this.displayedElements = null;
+    this.displayedElements = [];
   }
 
   private changeCurrentPage(): void {
     this.currentPage += 1;
   }
 
-  private errorHandler(error: any): void {
-    this.snackBar.open('Oops, something went wrong. Please reload page or try again later.', 'X');
-    return error;
-  }
-
   ngOnDestroy() {
-    this.search.toggleAllSearch(false);
-    this.querySubscription.unsubscribe();
+    this.destroySub.next(true);
   }
 }

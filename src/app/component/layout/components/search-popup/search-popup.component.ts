@@ -1,9 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { searchIcons } from './../../../../image-pathes/search-icons';
+import { negate, isNil } from 'lodash';
+import { Component, OnDestroy, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { FormControl } from '@angular/forms';
-import { filter } from 'rxjs/operators';
-import { negate, isNil } from 'lodash';
+import { debounceTime, distinctUntilChanged, tap, switchMap, filter } from 'rxjs/operators';
 
 import { SearchService } from '@global-service/search/search.service';
 import { SearchModel } from '@global-models/search/search.model';
@@ -12,24 +13,24 @@ import { TipsSearchModel } from '@global-models/search/tipsSearch.model';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
-
 @Component({
   selector: 'app-search-popup',
   templateUrl: './search-popup.component.html',
   styleUrls: ['./search-popup.component.scss'],
 })
-
 export class SearchPopupComponent implements OnInit, OnDestroy {
-  public isTipsSearchFound: boolean;
-  public newsElements: NewsSearchModel[];
-  public tipsElements: TipsSearchModel[];
-  public isNewsSearchFound: boolean;
+  public newsElements: NewsSearchModel[] = [];
+  public tipsElements: TipsSearchModel[] = [];
   public isSearchClicked = false;
-  public itemsFound: number;
+  public itemsFound: number = null;
   public searchModalSubscription: Subscription;
   public searchInput = new FormControl('');
+  public isLoading = false;
+  public isNewsSearchFound: boolean;
+  public isTipsSearchFound: boolean;
+  public searchValueChanges;
   private currentLanguage: string;
-
+  public searchIcons = searchIcons;
 
   constructor(public search: SearchService,
               public dialog: MatDialog,
@@ -39,21 +40,26 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.setupInitialValue();
+    this.searchValueChanges = this.searchInput.valueChanges;
 
-    const searchValueChanges$ = this.searchInput.valueChanges;
+    this.searchValueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        tap(() => {
+          this.resetData();
+          this.isLoading = true;
+        }),
+        switchMap((val: string) => {
+          this.currentLanguage = this.localStorageService.getCurrentLanguage();
+          return this.search.getAllResults(val, this.currentLanguage);
+        })
+      ).subscribe(data => this.setData(data));
 
-    searchValueChanges$
-      .pipe(filter(Boolean))
-      .subscribe((value: string) => {
-        this.currentLanguage = this.localStorageService.getCurrentLanguage();
-        this.search.getSearch(value, this.currentLanguage)
-          .subscribe(data => this.getSearchData(data),
-          (error) => this.openErrorPopup());
-    });
-
-    searchValueChanges$
+    this.searchValueChanges
       .pipe(filter(negate(isNil)))
       .subscribe(() => this.resetData());
+
   }
 
   public setupInitialValue(): void {
@@ -64,24 +70,18 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
     this.snackBar.openSnackBar('error');
   }
 
-  public getAllResults(category: string): void {
-    this.search.getAllResults(this.searchInput.value, category);
-    this.closeSearch();
-  }
+  private setData({ecoNews, tipsAndTricks, countOfResults}: SearchModel): void {
+    this.isLoading = false;
 
-  private getSearchData(data: SearchModel): void {
-    this.getNewsAndTips(data.ecoNews, data.tipsAndTricks);
-    this.itemsFound = data.countOfResults;
-  }
-
-  private getNewsAndTips(news, tips): void {
-    this.isNewsSearchFound = news.length > 0;
-    this.isTipsSearchFound = tips.length > 0;
-    this.newsElements = news.length > 0 ? news : this.newsElements;
-    this.tipsElements = tips.length > 0 ? tips : this.tipsElements;
+    this.newsElements = ecoNews;
+    this.tipsElements = tipsAndTricks;
+    this.itemsFound = countOfResults;
   }
 
   private subscribeToSignal(signal: boolean): void {
+    if (!signal) {
+      this.searchInput.reset('', {emitEvent: false});
+    }
     this.isSearchClicked = signal;
   }
 
@@ -92,10 +92,8 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   }
 
   private resetData(): void {
-    this.newsElements = null;
-    this.tipsElements = null;
-    this.isNewsSearchFound = null;
-    this.isTipsSearchFound = null;
+    this.newsElements = [];
+    this.tipsElements = [];
     this.itemsFound = null;
   }
 

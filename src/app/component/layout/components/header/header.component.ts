@@ -1,3 +1,4 @@
+import { headerIcons } from './../../../../image-pathes/header-icons';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
@@ -43,6 +44,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private token: string;
   private backEndLink = environment.backendLink;
   private destroySub: Subject<boolean> = new Subject<boolean>();
+  public headerImageList = headerIcons;
 
   constructor(public dialog: MatDialog,
               private localStorageService: LocalStorageService,
