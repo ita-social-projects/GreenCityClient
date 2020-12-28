@@ -15,7 +15,7 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
 
   public userId: number;
   public Friends: FriendModel[];
-  private destroy = new Subject();
+  private destroy$ = new Subject();
   public scroll: boolean;
   public currentPage = 0;
   public totalPages: number;
@@ -44,12 +44,12 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
   public getAllFriends() {
     this.userFriendsService.getAllFriends(this.userId).pipe(
       catchError((error) => {
-        this.snackBar.openSnackBar('error.message');
+        this.snackBar.openSnackBar('error');
         return error;
       })
     )
     .pipe(
-      takeUntil(this.destroy)
+      takeUntil(this.destroy$)
     )
     .subscribe (
       (data: FriendArrayModel) => {
@@ -69,7 +69,7 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
       })
     )
     .pipe(
-      takeUntil(this.destroy)
+      takeUntil(this.destroy$)
     )
     .subscribe(
       (data: FriendArrayModel) => {
@@ -87,7 +87,7 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
       })
     )
     .pipe(
-      takeUntil(this.destroy)
+      takeUntil(this.destroy$)
     )
     .subscribe(
       () => {
@@ -101,10 +101,8 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
       catchError((error) => {
         this.snackBar.openSnackBar('error');
         return error;
-      })
-    )
-    .pipe(
-      takeUntil(this.destroy)
+      }),
+      takeUntil(this.destroy$)
     )
     .subscribe(
       () => {
@@ -116,13 +114,13 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
   public initUser(): void {
     this.localStorageService.userIdBehaviourSubject
       .pipe(
-        takeUntil(this.destroy)
+        takeUntil(this.destroy$)
       )
       .subscribe((userId: number) => this.userId = userId);
   }
 
   ngOnDestroy() {
-    this.destroy.next(true);
-    this.destroy.complete();
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 }

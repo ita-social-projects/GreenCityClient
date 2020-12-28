@@ -15,7 +15,7 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
 
   public recommendedFriends: FriendModel[];
   public userId: number;
-  private destroy = new Subject();
+  private destroy$ = new Subject();
   public scroll: boolean;
   public currentPage = 0;
   public totalPages: number;
@@ -47,10 +47,8 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
       catchError((error) => {
         this.snackBar.openSnackBar('error');
         return error;
-      })
-    )
-    .pipe(
-      takeUntil(this.destroy)
+      }),
+      takeUntil(this.destroy$)
     )
     .subscribe (
       (data: FriendArrayModel) => {
@@ -69,10 +67,8 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
         catchError((error) => {
           this.snackBar.openSnackBar('error');
           return error;
-        })
-      )
-      .pipe(
-        takeUntil(this.destroy)
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe(
         (data: FriendArrayModel) => {
@@ -88,10 +84,8 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
       catchError((error) => {
         this.snackBar.openSnackBar('error');
         return error;
-      })
-    )
-    .pipe(
-      takeUntil(this.destroy)
+      }),
+      takeUntil(this.destroy$)
     )
     .subscribe(
       () => {
@@ -105,10 +99,8 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
       catchError((error) => {
         this.snackBar.openSnackBar('error');
         return error;
-      })
-    )
-    .pipe(
-      takeUntil(this.destroy)
+      }),
+      takeUntil(this.destroy$)
     )
     .subscribe(
       () => {
@@ -123,7 +115,7 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroy.next(true);
-    this.destroy.complete();
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 }
