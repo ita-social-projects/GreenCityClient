@@ -1,15 +1,16 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { SharedModule } from '@shared/shared.module';
+import { SharedModule } from '../../../../shared/shared.module';
 import { HabitsListViewComponent } from './components/habits-list-view/habits-list-view.component';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from '../../../../../service/localstorage/local-storage.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { BehaviorSubject } from 'rxjs';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 
 import { AllHabitsComponent } from './all-habits.component';
-import { HabitService } from '@global-service/habit/habit.service';
+import { HabitService } from '../../../../../service/habit/habit.service';
 import { HabitListInterface } from '../../../../../interface/habit/habit.interface';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('AllHabitsComponent', () => {
   let component: AllHabitsComponent;
@@ -22,7 +23,7 @@ describe('AllHabitsComponent', () => {
           defaultDuration: 1,
           habitTranslation: {
             description: 'test',
-            habitItem: ['test'],
+            habitItem: 'test, best',
             languageCode: 'en',
             name: 'test'
           },
@@ -34,7 +35,7 @@ describe('AllHabitsComponent', () => {
           defaultDuration: 1,
           habitTranslation: {
             description: 'test2',
-            habitItem: ['test2'],
+            habitItem: 'test2',
             languageCode: 'en',
             name: 'test2'
           },
@@ -49,8 +50,8 @@ describe('AllHabitsComponent', () => {
 
   const mockData = new BehaviorSubject<any>(habitsMockData);
 
-  const HabitServiceMock = jasmine.createSpyObj('HabitService', ['getAllHabits']);
-  HabitServiceMock.fetchAllHabits = (page, size) => true;
+  const habitServiceMock = jasmine.createSpyObj('HabitService', ['getAllHabits']);
+  habitServiceMock.getAllHabits = () => of (habitsMockData);
 
   const localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['languageBehaviourSubject']);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject<string>('en');
@@ -65,10 +66,11 @@ describe('AllHabitsComponent', () => {
         TranslateModule.forRoot(),
         SharedModule,
         InfiniteScrollModule,
-        RouterTestingModule
+        RouterTestingModule,
+        HttpClientTestingModule
       ],
       providers: [
-        { provide: HabitService, useValue: HabitServiceMock },
+        { provide: HabitService, useValue: habitServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
       ]
     })
@@ -84,7 +86,7 @@ describe('AllHabitsComponent', () => {
   });
 
   it('should create', () => {
-    HabitServiceMock.languageBehaviourSubject = new BehaviorSubject<string>('en');
+    // habitServiceMock.languageBehaviourSubject = new BehaviorSubject<string>('en');
     expect(component).toBeTruthy();
   });
 
