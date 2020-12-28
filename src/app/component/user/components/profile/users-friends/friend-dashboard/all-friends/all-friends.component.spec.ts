@@ -12,7 +12,7 @@ import { catchError } from 'rxjs/operators';
 
 import { AllFriendsComponent } from './all-friends.component';
 
-fdescribe('AllFriendsComponent', () => {
+describe('AllFriendsComponent', () => {
   let component: AllFriendsComponent;
   let fixture: ComponentFixture<AllFriendsComponent>;
   let MatSnackBarMock: MatSnackBarComponent;
@@ -23,7 +23,7 @@ fdescribe('AllFriendsComponent', () => {
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   let userFriendsServiceMock: UserFriendsService;
   const userFriends = {
-    totalElements:1,
+    totalElements: 1,
     totalPages: 1,
     currentPage: 1,
     page: [
@@ -40,10 +40,11 @@ fdescribe('AllFriendsComponent', () => {
         added: false
        },
      ]
-    }
-    userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getAllFriends', 'deleteFriend', 'addFriend']);
-    userFriendsServiceMock.getAllFriends = () => (of(userFriends));
-    userFriendsServiceMock.deleteFriend = (idUser, idFriend) => (of());
+    };
+
+  userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getAllFriends', 'deleteFriend', 'addFriend']);
+  userFriendsServiceMock.getAllFriends = () => (of(userFriends));
+  userFriendsServiceMock.deleteFriend = (idUser, idFriend) => (of());
 
 
   beforeEach(async(() => {
@@ -88,7 +89,7 @@ fdescribe('AllFriendsComponent', () => {
     expect(initUserSpy).toHaveBeenCalledTimes(1);
     });
 
-  it('should get a user\'s', () => {
+  it('should get a user\'s friends', () => {
     const getUsersFriendsSpy = spyOn(component as any, 'getAllFriends');
     component.ngOnInit();
     expect(getUsersFriendsSpy).toHaveBeenCalledTimes(1);
@@ -100,7 +101,7 @@ fdescribe('AllFriendsComponent', () => {
     expect(changeStatusSpy).toHaveBeenCalledWith(1, userFriends.page);
   });
 
-  it('should get a friend\'s array', () => {
+  it('should add status to friend\'s array', () => {
     const addStatusSpy = spyOn(component as any, 'addStatus');
     component.addStatus(userFriends.page);
     expect(addStatusSpy).toHaveBeenCalledWith(userFriends.page);
@@ -114,7 +115,7 @@ fdescribe('AllFriendsComponent', () => {
   });
 
   it('should delete user', () => {
-    let id = 12;
+    const id = 12;
     const spy = spyOn(component as any, 'deleteFriend');
     component.deleteFriend(id);
     expect(spy).toHaveBeenCalledWith(12);

@@ -3,7 +3,7 @@ import { getTestBed, TestBed } from '@angular/core/testing';
 
 import { UserFriendsService } from './user-friends.service';
 
-fdescribe('UserFriendsService', () => {
+describe('UserFriendsService', () => {
   let injector: TestBed;
   let userFriendsService: UserFriendsService;
   let httpMock: HttpTestingController;
