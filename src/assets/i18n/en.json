@@ -737,11 +737,13 @@
     "my-news": "My news",
     "my-articles": "My articles",
     "friends": {
+      "link-to-profile": "Back to My habits",
+      "friends": "Friends",
       "add-new-friend": "Add friend",
       "delete-friend": "Unfriend",
       "requests": "Requests",
-      "all-friends": "Friends",
-      "search-friends": "Search"
+      "all-friends": "All friends",
+      "search-friends": "Find friends"
     }
   },
   "create-news": {

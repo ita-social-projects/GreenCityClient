@@ -3,20 +3,16 @@ import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { BehaviorSubject, of, throwError } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 import { AllFriendsComponent } from './all-friends.component';
 
-fdescribe('AllFriendsComponent', () => {
+describe('AllFriendsComponent', () => {
   let component: AllFriendsComponent;
   let fixture: ComponentFixture<AllFriendsComponent>;
-  let MatSnackBarMock: MatSnackBarComponent;
-  MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
-  MatSnackBarMock.openSnackBar = (type: string) =>  { };
   let localStorageServiceMock: LocalStorageService;
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
@@ -38,13 +34,19 @@ fdescribe('AllFriendsComponent', () => {
        id: 1,
        name: 'Name',
        profilePicture: '',
-       added: false
+       added: true,
+       rate: 380,
+       city: 'Lviv',
+       mutualFriends: 5
       },
       {
         id: 2,
         name: 'Name2',
         profilePicture: '',
-        added: false
+        added: true,
+        rate: 380,
+        city: 'Lviv',
+        mutualFriends: 5
        },
      ]
     };
@@ -52,6 +54,7 @@ fdescribe('AllFriendsComponent', () => {
   userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getAllFriends', 'deleteFriend', 'addFriend']);
   userFriendsServiceMock.getAllFriends = () => (of(userFriends));
   userFriendsServiceMock.deleteFriend = (idUser, idFriend) => (of(response));
+  userFriendsServiceMock.addFriend = (idUser, idFriend) => (of(response));
 
 
   beforeEach(async(() => {
@@ -64,9 +67,8 @@ fdescribe('AllFriendsComponent', () => {
         MatSnackBarModule
       ],
       providers: [
-        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         {provide: LocalStorageService, useValue: localStorageServiceMock},
-        {provide: UserFriendsService, useValue: userFriendsServiceMock},
+        {provide: UserFriendsService, useValue: userFriendsServiceMock}
       ],
       schemas: [
         CUSTOM_ELEMENTS_SCHEMA,
@@ -112,23 +114,37 @@ fdescribe('AllFriendsComponent', () => {
     const addStatusSpy = spyOn(component as any, 'addStatus');
     component.addStatus(userFriends.page);
     expect(addStatusSpy).toHaveBeenCalledWith(userFriends.page);
-    });
-
-  it('should set message to error message', () => {
-    const error = 'Error message';
-    spyOn( userFriendsServiceMock, 'getAllFriends').and.returnValue(throwError(new Error(error)));
-    component.getAllFriends();
-    expect(component.Friends).toBeTruthy();
   });
 
   it ('should delete friend', () => {
+    const changeStatusSpy = spyOn(component as any, 'changeStatus');
     userFriendsServiceMock.deleteFriend(1, 5).subscribe(
       () => {
-        const changeStatusSpy = spyOn(component as any, 'changeStatus');
         component.changeStatus(1, userFriends.page);
         expect(changeStatusSpy).toHaveBeenCalledTimes(1);
         expect(changeStatusSpy).toHaveBeenCalledWith(1, userFriends.page);
       }
     )
+  });
+
+  it ('should call method deleteFriend', () => {
+    // @ts-ignore
+    const deleteFriendSpy = spyOn (component.userFriendsService, 'deleteFriend').and.returnValue(of(true));
+    component.handleDeleteFriend(4);
+    expect(deleteFriendSpy).toHaveBeenCalled();
+  });
+
+  it ('should call method addFriend', () => {
+    // @ts-ignore
+    const addFriendSpy = spyOn (component.userFriendsService, 'addFriend').and.returnValue(of(true));
+    component.handleAddFriend(4);
+    expect(addFriendSpy).toHaveBeenCalled();
+  });
+
+  it ('should call getFriends on scroll', () => {
+    // @ts-ignore
+    const getAllFriendSpy = spyOn (component.userFriendsService, 'getAllFriends').and.returnValue(of(userFriends));
+    component.onScroll();
+    expect(getAllFriendSpy).toHaveBeenCalled();
   });
 });

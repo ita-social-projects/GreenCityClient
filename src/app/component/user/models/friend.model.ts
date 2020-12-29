@@ -3,6 +3,9 @@ export interface FriendModel {
   name: string;
   profilePicture?: string;
   added?: boolean;
+  rate?: number;
+  city?: string;
+  //mutualFriends?: number;
 }
 
 export interface FriendArrayModel {

@@ -1,109 +1,93 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
 $btnGreen: #13aa57;
 $btnWhite: #fff;
 $backgroundGrey:#f8f9fa;
+$textGrey: #64727d;
 $openSpans: 'Open Sans', sans-serif;
 $montserrat: 'Montserrat', sans-serif;
-$nameColor: #313131;
+$Lato: 'Lato', sans-serif;
 
-button {
-  font-family: $openSpans;
-  font-style: normal;
-  font-size: 16px;
-  line-height: 22px;
-  text-align: center;
-  box-sizing: border-box;
-  border-radius: 5px;
-  width: 145px;
-  height: 48px;
-  text-transform: uppercase;
+.friend-item {
+  display: flex;
+  flex-direction: row;
+  width: 554px;
+  background: $backgroundGrey;
+  font-family: $Lato;
 }
 
-.add-btn {
+button {
+  font-weight: bold;
+  font-family: $Lato;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  box-sizing: border-box;
+  border-radius: 4px;
+  width: 104px;
+  height: 36px;
   color: $btnGreen;
   border: 1px solid $btnGreen;
   background: $btnWhite;
 }
 
-.delete-btn {
-  color: $btnWhite;
-  background: $btnGreen;
-  border: 1px solid $btnGreen;
-}
-
-.add-friend {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 5px;
-  margin: 10px;
-  border-radius: 5px;
-  width: 200px;
-  background: $backgroundGrey;
-}
-
 .friend-name {
-  font-family: $montserrat;
-  font-style: normal;
   font-weight: bold;
   font-size: 18px;
   line-height: 28px;
-  color: $nameColor;
-  max-width: 190px;
-  word-wrap: break-word;
 }
 
-.friend-info {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding: 0 10px;
+.friend-city,
+.friend-mutual {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  color: $textGrey;
 }
 
-@media only screen and (min-width: 320px) {
-  .add-friend {
-    width: 250px;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-}
+// @media only screen and (min-width: 320px) {
+//   .add-friend {
+//     width: 250px;
+//     flex-direction: column;
+//     justify-content: center;
+//     align-items: center;
+//   }
+// }
 
-@media only screen and (min-width: 576px) {
-  .add-friend {
-    width: 400px;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
-  }
+// @media only screen and (min-width: 576px) {
+//   .add-friend {
+//     width: 400px;
+//     flex-direction: row;
+//     justify-content: flex-start;
+//     align-items: flex-start;
+//   }
 
-  .friend-info {
-    align-items: flex-start;
-  }
+//   .friend-info {
+//     align-items: flex-start;
+//   }
 
-  .friend-name {
-    max-width: 270px;
-  }
-}
+//   .friend-name {
+//     max-width: 270px;
+//   }
+// }
 
-@media only screen and (min-width: 768px) {
-  .add-friend {
-    width: 500px;
-  }
-}
+// @media only screen and (min-width: 768px) {
+//   .add-friend {
+//     width: 500px;
+//   }
+// }
 
-@media only screen and (min-width: 1024px) {
-  .add-friend {
-    width: 400px;
-  }
-}
+// @media only screen and (min-width: 1024px) {
+//   .add-friend {
+//     width: 400px;
+//   }
+// }
 
-@media only screen and (min-width: 1440px) {
-  .add-friend {
-    width: 600px;
-  }
-}
+// @media only screen and (min-width: 1440px) {
+//   .add-friend {
+//     width: 600px;
+//   }
+// }

@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { Subject } from 'rxjs';
-import { catchError, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-recommended-friends',
@@ -23,7 +22,6 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
   constructor(
     private userFriendsService: UserFriendsService,
     private localStorageService: LocalStorageService,
-    private snackBar: MatSnackBarComponent
   ) { }
 
   ngOnInit() {
@@ -44,10 +42,6 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
 
   public getRecommendedFriends() {
     this.userFriendsService.getRecommendedFriends(this.userId).pipe(
-      catchError((error) => {
-        this.snackBar.openSnackBar('error');
-        return error;
-      }),
       takeUntil(this.destroy$)
     )
     .subscribe (
@@ -64,10 +58,6 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
     if ( this.currentPage < this.totalPages ) {
       this.currentPage += 1;
       this.userFriendsService.getRecommendedFriends(this.userId, this.currentPage).pipe(
-        catchError((error) => {
-          this.snackBar.openSnackBar('error');
-          return error;
-        }),
         takeUntil(this.destroy$)
       )
       .subscribe(
@@ -81,10 +71,6 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
 
   public deleteFriend(id: number) {
     this.userFriendsService.deleteFriend(this.userId, id).pipe(
-      catchError((error) => {
-        this.snackBar.openSnackBar('error');
-        return error;
-      }),
       takeUntil(this.destroy$)
     )
     .subscribe(
@@ -96,10 +82,6 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
 
   public addFriend(id: number) {
     this.userFriendsService.addFriend(this.userId, id).pipe(
-      catchError((error) => {
-        this.snackBar.openSnackBar('error');
-        return error;
-      }),
       takeUntil(this.destroy$)
     )
     .subscribe(

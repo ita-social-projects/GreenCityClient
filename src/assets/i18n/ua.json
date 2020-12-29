@@ -743,10 +743,12 @@
     "my-news": "Мої новини",
     "my-articles": "Мої статті",
     "friends": {
+      "link-to-profile": "Мій кабінет",
+      "friends": "Друзі",
       "add-new-friend": "Додати",
       "delete-friend": "Видалити",
       "requests": "Запити",
-      "all-friends": "Друзі",
+      "all-friends": "Всі Друзі",
       "search-friends": "Пошук"
     }
   },

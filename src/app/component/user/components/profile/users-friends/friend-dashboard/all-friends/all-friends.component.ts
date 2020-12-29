@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FriendArrayModel, FriendModel, } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { Subject } from 'rxjs';
-import { catchError, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-all-friends',
@@ -21,8 +20,7 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
   public totalPages: number;
 
   constructor(private userFriendsService: UserFriendsService,
-              private localStorageService: LocalStorageService,
-              private snackBar: MatSnackBarComponent) { }
+              private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
     this.initUser();
@@ -38,15 +36,10 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
   public changeStatus(id, userArray) {
     const index = userArray.findIndex(elem => elem.id === id);
     userArray[index].added = !userArray[index].added;
-    return userArray;
   }
 
   public getAllFriends() {
     this.userFriendsService.getAllFriends(this.userId).pipe(
-      catchError((error) => {
-        this.snackBar.openSnackBar('error');
-        return error;
-      }),
       takeUntil(this.destroy$)
     )
     .subscribe (
@@ -61,10 +54,6 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
     this.scroll = true;
     this.currentPage += 1;
     this.userFriendsService.getAllFriends(this.userId, this.currentPage).pipe(
-      catchError((error) => {
-        this.snackBar.openSnackBar('error');
-        return error;
-      }),
       takeUntil(this.destroy$)
     )
     .subscribe(
@@ -77,10 +66,6 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
 
   public handleDeleteFriend(id: number) {
     this.userFriendsService.deleteFriend(this.userId, id).pipe(
-      catchError((error) => {
-        this.snackBar.openSnackBar('error');
-        return error;
-      }),
       takeUntil(this.destroy$)
     )
     .subscribe(
@@ -92,10 +77,6 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
 
   public handleAddFriend(id: number) {
     this.userFriendsService.addFriend(this.userId, id).pipe(
-      catchError((error) => {
-        this.snackBar.openSnackBar('error');
-        return error;
-      }),
       takeUntil(this.destroy$)
     )
     .subscribe(

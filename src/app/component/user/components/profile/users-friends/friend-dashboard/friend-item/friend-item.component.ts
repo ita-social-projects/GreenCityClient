@@ -10,7 +10,7 @@ export class FriendItemComponent implements OnInit {
 
   @Input() friend: FriendModel;
   @Output() addFriendEvent = new EventEmitter<number>();
-  @Output() deleteFriendEvent = new EventEmitter<number>();
+  @Output() deleteFriendEvent = new EventEmitter<number>();z
 
   constructor() { }
 

@@ -744,10 +744,12 @@
     "my-news": "Мои новости",
     "my-articles": "Мои статьи",
     "friends": {
+      "link-to-profile": "Мой кабинет",
+      "friends": "Друзья",
       "add-new-friend": "Добавить",
       "delete-friend": "Удалить",
       "requests": "Запросы",
-      "all-friends": "Друзья",
+      "all-friends": "Все друзья",
       "search-friends": "Поиск"
     }
   },
