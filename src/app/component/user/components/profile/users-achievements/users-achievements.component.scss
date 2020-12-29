@@ -1,7 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
-
-$title-font: 'Montserrat', sans-serif;
-
 $bp-smallest: 320px;
 $bp-phone: 576px;
 $bp-tablet: 768px;
@@ -32,7 +28,7 @@ $bp-largest: 1440px;
 
   .text-title,
   .text-number {
-    font-family: $title-font;
+    font-family: var(--secondary-font);
     font-style: normal;
     font-weight: 600;
     font-size: 14px;
@@ -56,7 +52,7 @@ $bp-largest: 1440px;
   }
 
   .text-more {
-    font-family: $title-font;
+    font-family: var(--secondary-font);
     font-style: normal;
     font-weight: normal;
     font-size: 12px;

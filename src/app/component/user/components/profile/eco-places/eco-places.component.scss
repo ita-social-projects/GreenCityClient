@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
-
-$title-font: 'Montserrat';
+$title-font: var(--secondary-font);
 $bp-smallest: 320px;
 $bp-phone: 576px;
 $bp-tablet: 768px;
@@ -12,7 +10,7 @@ $grey: #bebebe;
   width: 100%;
   padding: 24px 0;
   margin: 0 auto;
-  font-family: Montserrat, sans-serif;
+  font-family: var(--secondary-font);
   font-style: normal;
   border-top: 1px solid #eaeef3;
 }

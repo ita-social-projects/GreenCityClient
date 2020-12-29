@@ -20,7 +20,7 @@ $bp-largest: 1440px;
 
     .item__title {
       width: 100%;
-      font-family: Montserrat, sans-serif;
+      font-family: var(--secondary-font);
       font-style: normal;
       font-weight: normal;
       font-size: 11px;
@@ -29,7 +29,7 @@ $bp-largest: 1440px;
     }
 
     .item__number {
-      font-family: Montserrat, sans-serif;
+      font-family: var(--secondary-font);
       font-style: normal;
       font-weight: 500;
       font-size: 28px;

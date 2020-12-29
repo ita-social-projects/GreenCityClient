@@ -59,7 +59,7 @@
 }
 
 #header-left div h1 {
-  font-family: 'Open Sans', sans-serif;
+  font-family: var(--primary-font);
   font-size: 46px;
   font-stretch: normal;
   font-style: normal;
@@ -69,7 +69,7 @@
 }
 
 #header-left div p {
-  font-family: 'Open Sans', sans-serif;
+  font-family: var(--primary-font);
   font-size: 18px;
   font-stretch: normal;
   font-style: normal;
@@ -97,7 +97,7 @@
 
 .section-caption {
   color: #000;
-  font-family: 'Open Sans', sans-serif;
+  font-family: var(--primary-font);
   font-size: 46px;
   font-stretch: normal;
   font-style: normal;
@@ -112,7 +112,7 @@
 #copyright {
   background-color: rgba(131, 156, 148, 0.05);
   color: #839c94;
-  font-family: 'Open Sans', sans-serif;
+  font-family: var(--primary-font);
   font-stretch: normal;
   font-size: 14px;
   font-style: normal;

@@ -33,7 +33,7 @@ $screen-320: " screen and (max-width : 320px)";
     }
 
     p {
-      font-family: Montserrat, sans-serif;
+      font-family: var(--secondary-font);
       font-style: normal;
       font-weight: 500;
       font-size: 14px;
@@ -46,7 +46,7 @@ $screen-320: " screen and (max-width : 320px)";
   }
 
   .title {
-    font-family: Montserrat, sans-serif;
+    font-family: var(--secondary-font);
     font-style: normal;
     font-weight: 600;
     font-size: 22px;
@@ -70,7 +70,7 @@ $screen-320: " screen and (max-width : 320px)";
   bottom: 16px;
 
   .describe-text {
-    font-family: Montserrat, sans-serif;
+    font-family: var(--secondary-font);
     font-style: normal;
     font-weight: 500;
     font-size: 14px;

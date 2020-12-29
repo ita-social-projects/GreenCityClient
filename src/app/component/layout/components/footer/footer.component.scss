@@ -1,11 +1,10 @@
-$generalFont : 'Open Sans', sans-serif;
 $secondary-color: #494a49;
 $secondary-ligth-color: #878787;
 
 p,
 a,
 .footer_bottom-part {
-  font-family: $generalFont;
+  font-family: var(--primary-font);
   font-size: 14px;
   line-height: 16px;
 }

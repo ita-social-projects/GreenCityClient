@@ -4,8 +4,6 @@ $bp-tablet: 768px;
 $bp-desktop: 1024px;
 $bp-largest: 1440px;
 
-$font-family-first: montserrat, sans-serif;
-
 .profile {
   background: #f5f7f6;
   position: relative;
@@ -32,7 +30,7 @@ $font-family-first: montserrat, sans-serif;
       margin: 15px 0;
       flex-direction: column;
       align-items: center;
-      font-family: $font-family-first;
+      font-family: var(--secondary-font);
 
       .descriptions__name {
         font-style: normal;
@@ -66,7 +64,7 @@ $font-family-first: montserrat, sans-serif;
         justify-content: center;
         padding: 4px 16px;
         font-size: 12px;
-        font-family: Open Sans, sans-serif;
+        font-family: var(--primary-font);
         height: 24px;
         line-height: 16px;
         background: rgba(19, 170, 87, 0.12);
@@ -81,7 +79,7 @@ $font-family-first: montserrat, sans-serif;
       display: flex;
       text-align: left;
       width: 100%;
-      font-family: Open Sans, sans-serif;
+      font-family: var(--primary-font);
       font-size: 14px;
       line-height: calc(16px + (22 - 16) * ((100vw - 320px) / (1440 - 320)));
       color: #494a49;

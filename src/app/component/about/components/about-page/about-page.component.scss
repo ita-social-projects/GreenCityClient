@@ -1,6 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
-
 $linkColor: #056b33;
 
 body {
@@ -30,17 +27,17 @@ img {
     font-weight: 500;
     font-size: 48px;
     line-height: 60px;
-    font-family: 'Montserrat', sans-serif;
+    font-family: var(--secondary-font);
   }
 
   p {
     font-size: 24px;
     line-height: 36px;
-    font-family: 'Open Sans', sans-serif;
+    font-family: var(--primary-font);
   }
 
   button {
-    font-family: 'Open Sans', sans-serif;
+    font-family: var(--primary-font);
     padding: 16px 40px;
   }
 }
@@ -91,7 +88,7 @@ img {
   padding: 40px 48px;
   line-height: 36px;
   font-size: 24px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: var(--primary-font);
   position: relative;
   top: 150px;
   background: white;
@@ -111,7 +108,7 @@ img {
   width: 441px;
   background: white;
   font-size: 32px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: var(--primary-font);
   margin: 44px auto auto 24px;
   font-weight: bold;
 }

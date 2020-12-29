@@ -20,7 +20,7 @@ a {
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: var(--tertiary-font);
 }
 
 .cdk-drag-preview {
@@ -73,7 +73,7 @@ body {
   height: 32px;
   padding: 0 16px;
   text-transform: capitalize;
-  font-family: opensans, sans-serif;
+  font-family: var(--primary-font);
   color: #666;
   border: 1px solid #666;
   border-radius: 25px;
@@ -89,7 +89,7 @@ body {
   background: $color-greenCity-green;
   color: #fff;
   font-weight: bold;
-  font-family: opensans, sans-serif;
+  font-family: var(--primary-font);
   font-size: 14px;
   line-height: 16px;
   border-radius: 25px;

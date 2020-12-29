@@ -28,7 +28,7 @@
   font-size: 18px;
   text-align: center;
   width: 250px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: var(--primary-font);
 
   span {
     color: #13aa57;
@@ -46,7 +46,7 @@
 }
 
 .warning {
-  font-family: 'Open sans', sans-serif;
+  font-family: var(--primary-font);
   font-size: 14px;
   color: #878787;
   line-height: 16px;
@@ -61,7 +61,7 @@ img {
   .cropper-buttons {
     display: flex;
     justify-content: center;
-    font-family: 'Open Sans', sans-serif;
+    font-family: var(--primary-font);
 
     button {
       margin-left: 20px;

@@ -1,10 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
-
-$title-font: 'Montserrat', sans-serif;
-$main-font: 'Open Sans', sans-serif;
-$sign-up-google-font: 'Roboto';
+$sign-up-google-font: var(--tertiary-font);
 $errorColor : #f03127;
 $linkColor: #056b33;
 $secondaryTextColor: #494a49;
@@ -13,7 +7,7 @@ $borderColor:  #878787;
 
 .title-text {
   margin-bottom: 8px;
-  font-family: $title-font;
+  font-family: var(--secondary-font);
   font-style: normal;
   font-weight: 500;
   font-size: 40px;
@@ -23,7 +17,7 @@ $borderColor:  #878787;
 
 .subtitle-text {
   font-size: 16px;
-  font-family: $main-font;
+  font-family: var(--primary-font);
   line-height: 16px;
   color: $secondaryTextColor;
 }
@@ -36,7 +30,7 @@ $borderColor:  #878787;
   .content-label {
     margin: 21px 0 4px;
     font-size: 12px;
-    font-family: $main-font;
+    font-family: var(--primary-font);
     line-height: 14px;
     color: $secondaryTextColor;
   }
@@ -104,7 +98,7 @@ $borderColor:  #878787;
     color: $errorColor;
     font-size: 10px;
     line-height: 12px;
-    font-family: $main-font;
+    font-family: var(--primary-font);
     margin-bottom: 4px;
   }
 
@@ -136,7 +130,7 @@ $borderColor:  #878787;
 .exist-account {
   margin-bottom: 40px;
   font-size: 16px;
-  font-family: $main-font;
+  font-family: var(--primary-font);
   line-height: 16px;
   color: $secondaryTextColor;
 

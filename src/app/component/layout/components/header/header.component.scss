@@ -2,7 +2,6 @@ $primary-color: #056b33;
 $secondary-color: #494a49;
 $secondary-font-color: #13aa57;
 $hr-color: #e6e6e6;
-$main-font: 'Open Sans', sans-serif;
 $header-heigth: 54px;
 $white-color: #fff;
 
@@ -62,7 +61,7 @@ $white-color: #fff;
   align-items: center;
   width: 100%;
   height: $header-heigth;
-  font-family: "Open Sans", sans-serif;
+  font-family: var(--primary-font);
 }
 
 .header_sign-in-link {
@@ -440,7 +439,7 @@ $white-color: #fff;
         color: $secondary-color;
         font-size: 14px;
         line-height: 16px;
-        font-family: $main-font;
+        font-family: var(--primary-font);
         font-weight: 400;
         text-decoration: none;
       }

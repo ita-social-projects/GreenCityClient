@@ -1,6 +1,5 @@
 $primary-color: #13aa57;
 $second-color: #6a8079;
-$primary-font: 'Montserrat';
 
 .title {
   font-style: normal;
@@ -18,7 +17,7 @@ $primary-font: 'Montserrat';
   position: relative;
   top: 0;
   background-image: url("./../../../../../../../assets/img/duration-thumb-label.png");
-  font-family: $primary-font;
+  font-family: var(--secondary-font);
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -34,7 +33,7 @@ $primary-font: 'Montserrat';
   margin-bottom: 32px;
 
   .text {
-    font-family: $primary-font;
+    font-family: var(--secondary-font);
     font-style: normal;
     font-weight: normal;
     font-size: 11px;
@@ -44,7 +43,7 @@ $primary-font: 'Montserrat';
 }
 
 .message {
-  font-family: $primary-font;
+  font-family: var(--secondary-font);
   font-style: normal;
   font-weight: normal;
   font-size: 12px;

@@ -14,7 +14,7 @@ $bp-largest: 1440px;
 
 p {
   margin-top: 60px;
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--secondary-font);
   font-style: normal;
   font-weight: 500;
   font-size: 24px;

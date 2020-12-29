@@ -1,8 +1,6 @@
 $primary-color: #13aa57;
 $second-color: #056b33;
 $background-color: #f5f6f6;
-$main-font: 'Open Sans';
-$second-font: 'Montserrat';
 
 .wrapper {
   max-width: 1170px;
@@ -28,7 +26,7 @@ $second-font: 'Montserrat';
     }
 
     .text {
-      font-family: $main-font;
+      font-family: var(--primary-font);
       font-size: 16px;
       line-height: 22px;
       display: flex;
@@ -85,7 +83,7 @@ $second-font: 'Montserrat';
 
       .habitTitle {
         margin-bottom: 16px;
-        font-family: $second-font;
+        font-family: var(--secondary-font);
         font-size: 36px;
         font-style: normal;
         font-weight: 500;
@@ -96,7 +94,7 @@ $second-font: 'Montserrat';
 
       .description {
         p {
-          font-family: $main-font;
+          font-family: var(--primary-font);
           font-size: 16px;
           line-height: 24px;
           color: #000;
@@ -117,7 +115,7 @@ $second-font: 'Montserrat';
   }
 
   .habitEdit {
-    font-family: $second-font;
+    font-family: var(--secondary-font);
     font-style: normal;
     font-weight: 500;
     font-size: 24px;
@@ -176,7 +174,7 @@ $second-font: 'Montserrat';
           background: $background-color;
           border-radius: 8px;
           padding: 24px;
-          font-family: $second-font;
+          font-family: var(--secondary-font);
         }
       }
     }

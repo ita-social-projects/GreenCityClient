@@ -1,10 +1,6 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
-@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
-
 $borderColor: #bebebe;
 $color-greenCity-green: #13aa57;
 $color-greenCity-font-grey: #494a49;
-$font-open-sans: 'OpenSans', sans-serif;
 
 :host {
   width: 100%;
@@ -47,7 +43,7 @@ $font-open-sans: 'OpenSans', sans-serif;
   align-items: center;
   letter-spacing: 1px;
   text-transform: uppercase;
-  font-family: $font-open-sans;
+  font-family: var(--primary-font);
   font-size: 14px;
   line-height: 16px;
   overflow: auto;
@@ -78,7 +74,7 @@ $font-open-sans: 'OpenSans', sans-serif;
 }
 
 .habit__info {
-  font-family: 'OpenSans', sans-serif;
+  font-family: var(--primary-font);
   font-style: normal;
   color: $color-greenCity-font-grey;
 
@@ -86,7 +82,7 @@ $font-open-sans: 'OpenSans', sans-serif;
   h2 {
     color: $color-greenCity-font-grey;
     margin: 0;
-    font-family: 'Montserrat', sans-serif;
+    font-family: var(--secondary-font);
   }
 
   .title {

@@ -1,10 +1,8 @@
-$main-font: 'Montserrat', sans-serif;
-$secondary-font: 'opensans', sans-serif;
 $main-color: #313131;
 $secondary-color: #13aa57;
 
 p {
-  font-family: $secondary-font;
+  font-family: var(--primary-font);
   font-size: 16px;
   line-height: 24px;
   color: $main-color;
@@ -12,7 +10,7 @@ p {
 
 .search_not-found-text,
 .search_not-found-header {
-  font-family: $main-font;
+  font-family: var(--secondary-font);
   font-weight: 500;
   font-size: 1.3rem;
   line-height: 28px;

@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
-
 $form-color: #878787;
 $button-green-color: #13aa57;
 $button-disabled-color: #839c94;
@@ -27,7 +25,7 @@ b,
 h2,
 button {
   color: #494a49;
-  font-family: 'Open Sans', sans-serif;
+  font-family: var(--primary-font);
 }
 
 .title {
@@ -35,7 +33,7 @@ button {
   width: 100%;
 
   h2 {
-    font-family: Montserrat, sans-serif;
+    font-family: var(--secondary-font);
     font-weight: 500;
     font-size: 48px;
     line-height: 48px;

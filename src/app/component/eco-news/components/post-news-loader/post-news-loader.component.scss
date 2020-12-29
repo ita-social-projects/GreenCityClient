@@ -1,10 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
-
 .copyright {
   background-color: rgba(131, 156, 148, 0.05);
   color: #839c94;
-  font-family: 'Open Sans', sans-serif;
+  font-family: var(--primary-font);
   font-stretch: normal;
   font-size: 14px;
   font-style: normal;
@@ -37,7 +34,7 @@
 .header {
   width: 435px;
   height: 48px;
-  font-family: Montserrat, sans-serif;
+  font-family: var(--secondary-font);
   font-style: normal;
   font-weight: 600;
   font-size: 32px;
@@ -49,7 +46,7 @@
 
 .description {
   height: 32px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: var(--primary-font);
   font-size: 18px;
   line-height: 32px;
   text-align: center;

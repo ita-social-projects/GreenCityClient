@@ -24,7 +24,7 @@
         display: flex;
         align-items: center;
         text-align: center;
-        font-family: 'Montserrat', sans-serif;
+        font-family: var(--secondary-font);
         color: #494a49;
       }
 
@@ -45,7 +45,7 @@
 
       .days-name {
         margin: 0;
-        font-family: 'Montserrat', sans-serif;
+        font-family: var(--secondary-font);
         font-weight: 600;
         font-size: 11px;
         line-height: 16px;

@@ -1,6 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat|Open+Sans|Roboto&display=swap');
-
-$generalFont : opensans, sans-serif;
 $inputHeight : 48px;
 $errorColor : #f03127;
 $linkColor: #056b33;
@@ -10,7 +7,7 @@ $borderColor:  #878787;
 
 h1 {
   margin-bottom: 8px;
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--secondary-font);
   font-style: normal;
   font-weight: 500;
   font-size: 38px;
@@ -20,7 +17,7 @@ h1 {
 
 h2 {
   margin-bottom: 40px;
-  font-family: $generalFont;
+  font-family: var(--primary-font);
   font-size: 16px;
   line-height: 16px;
 }
@@ -48,7 +45,7 @@ h2 {
   color: $errorColor;
   font-size: 10px;
   line-height: 12px;
-  font-family: $generalFont;
+  font-family: var(--primary-font);
   margin-bottom: 4px;
 }
 
@@ -67,7 +64,7 @@ h2 {
   label[for="email"],
   label[for="password"] {
     margin-bottom: 4px;
-    font-family: $generalFont;
+    font-family: var(--primary-font);
     font-size: 12px;
     line-height: 14px;
     color: $secondaryTextColor;
@@ -86,7 +83,7 @@ h2 {
   input[type=email] {
     height: $inputHeight;
     background: #fff;
-    font-family: $generalFont;
+    font-family: var(--primary-font);
   }
 
   input[type=email]:focus {
@@ -97,7 +94,7 @@ h2 {
   input[type=text] {
     border: transparent;
     width: 90%;
-    font-family: $generalFont;
+    font-family: var(--primary-font);
   }
 
   input[type=password]:focus,
@@ -128,7 +125,7 @@ h2 {
 
   .forgot-password {
     color: $linkColor;
-    font-family: $generalFont;
+    font-family: var(--primary-font);
     font-size: 12px;
     line-height: 16px;
     text-decoration-line: underline;
@@ -151,7 +148,7 @@ h2 {
 
 .or-use-google {
   text-align: center;
-  font-family: $generalFont;
+  font-family: var(--primary-font);
   font-size: 12px;
   line-height: 12px;
   color: $secondaryTextColor;
@@ -161,7 +158,7 @@ h2 {
 .missing-account {
   margin-top: 203px;
   margin-bottom: 40px;
-  font-family: $generalFont;
+  font-family: var(--primary-font);
   font-size: 16px;
   line-height: 16px;
   color: $secondaryTextColor;

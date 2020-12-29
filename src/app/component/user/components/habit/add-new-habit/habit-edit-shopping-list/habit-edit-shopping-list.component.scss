@@ -1,6 +1,6 @@
 $primary-color: #13aa57;
 $second-color: #6a8079;
-$primary-font: 'Montserrat';
+$primary-font: var(--secondary-font);
 
 .title {
   font-style: normal;

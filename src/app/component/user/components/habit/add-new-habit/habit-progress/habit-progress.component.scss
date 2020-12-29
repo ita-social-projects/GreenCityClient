@@ -1,7 +1,5 @@
 $primary-color: #13aa57;
 $second-color: #056b33;
-$main-font: 'Open Sans';
-$second-font: 'Montserrat';
 
 .progressHabit {
   display: flex;
@@ -12,7 +10,7 @@ $second-font: 'Montserrat';
   height: 32px;
 
   .progressText {
-    font-family: $second-font;
+    font-family: var(--secondary-font);
     font-style: normal;
     font-weight: 600;
     font-size: 18px;
@@ -22,7 +20,7 @@ $second-font: 'Montserrat';
   }
 
   .markAsDone {
-    font-family: $second-font;
+    font-family: var(--secondary-font);
     font-style: normal;
     font-weight: 500;
     font-size: 16px;

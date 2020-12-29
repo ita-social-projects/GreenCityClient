@@ -21,7 +21,7 @@ $second-font-color: #bebebe;
     line-height: 15px;
     align-items: center;
     padding-top: 6px;
-    font-family: "Open Sans", sans-serif;
+    font-family: var(--primary-font);
   }
 
   .active {
@@ -29,7 +29,7 @@ $second-font-color: #bebebe;
     border-radius: 5px 5px 0 0;
     border-bottom: none;
     background-color: #fff;
-    font-family: "Open Sans", sans-serif;
+    font-family: var(--primary-font);
     z-index: 2;
 
     &:hover {
@@ -41,7 +41,7 @@ $second-font-color: #bebebe;
 }
 
 .in-progress {
-  font-family: Montserrat, sans-serif;
+  font-family: var(--secondary-font);
   font-style: normal;
   font-weight: 600;
   font-size: 14px;

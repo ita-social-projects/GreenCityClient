@@ -1,8 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
-
-$title-font: 'Montserrat';
-$main-font: 'Open Sans';
+$title-font: var(--secondary-font);
 $buttonColor: #13aa57;
 $linkColor: #056b33;
 $disabledColor: #839c94;
@@ -13,7 +9,7 @@ $secondErrorColor : #b42626;
   position: relative;
   width: 631px;
   height: 400px;
-  font-family: $main-font;
+  font-family: var(--primary-font);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -50,7 +46,7 @@ $secondErrorColor : #b42626;
     }
 
     .warning {
-      font-family: 'Open sans', sans-serif;
+      font-family: var(--primary-font);
       font-size: 14px;
       color: $errorColor;
       padding: 0;

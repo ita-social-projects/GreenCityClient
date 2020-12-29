@@ -1,5 +1,3 @@
-$primary-font: 'opensans', sans-serif;
-$secondary-font: 'Montserrat', sans-serif;
 $secondary-dark-color: #313131;
 $primary-dark-color: #056b33;
 
@@ -15,7 +13,7 @@ div {
 
 .search_item-tag {
   opacity: 0.8;
-  font-family: $primary-font;
+  font-family: var(--primary-font);
   font-size: 0.9rem;
   color: $secondary-dark-color;
   display: inline-block;
@@ -28,7 +26,7 @@ div {
 
 .search_item-title {
   margin: 8px 0 0 0;
-  font-family: $secondary-font;
+  font-family: var(--secondary-font);
   font-style: normal;
   font-weight: 500;
   font-size: 1.3rem;
@@ -51,7 +49,7 @@ div {
 
 .list-text {
   margin: 8px 0 0 0;
-  font-family: $primary-font;
+  font-family: var(--primary-font);
 }
 
 .search_item-data-added-news {
@@ -62,7 +60,7 @@ div {
 
 .user-data-text-date-share,
 .search_item-text {
-  font-family: $primary-font;
+  font-family: var(--primary-font);
   font-size: 1rem;
   color: #878787;
   opacity: 0.6;

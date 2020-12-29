@@ -1,7 +1,5 @@
-$main-font: 'Montserrat';
-
 .inviteTitle p {
-  font-family: $main-font;
+  font-family: var(--secondary-font);
   font-style: normal;
   font-weight: 600;
   font-size: 18px;
@@ -16,7 +14,7 @@ $main-font: 'Montserrat';
 }
 
 .inviteDetail p {
-  font-family: $main-font;
+  font-family: var(--secondary-font);
   font-style: normal;
   font-weight: normal;
   font-size: 12px;

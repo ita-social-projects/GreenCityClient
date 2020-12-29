@@ -1,5 +1,4 @@
 $errorColor: #f03127;
-$font-open-sans: 'opensans', sans-serif;
 
 .social_network-wrp {
   display: grid;
@@ -53,7 +52,7 @@ $font-open-sans: 'opensans', sans-serif;
   flex-direction: column;
 
   label {
-    font-family: $font-open-sans;
+    font-family: var(--primary-font);
     font-size: 12px;
     line-height: 16px;
     color: #494a49;
@@ -107,7 +106,7 @@ $font-open-sans: 'opensans', sans-serif;
 
 .link-text {
   color: #494a49;
-  font-family: $font-open-sans;
+  font-family: var(--primary-font);
   font-size: 14px;
   line-height: 24px;
   margin-left: 16px;
@@ -115,7 +114,7 @@ $font-open-sans: 'opensans', sans-serif;
 
 .social_network-input-error {
   color: $errorColor;
-  font-family: $font-open-sans;
+  font-family: var(--primary-font);
   font-size: 10px;
   line-height: 12px;
 }

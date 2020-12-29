@@ -1,4 +1,3 @@
-$generalFont : opensans, sans-serif;
 $mainColor: #13aa57;
 $secondColor: #056b33;
 $unActiveColor: #839c94;
@@ -126,7 +125,7 @@ $unActiveColor: #839c94;
   .info-container {
     display: flex;
     flex-direction: column;
-    font-family: $generalFont;
+    font-family: var(--primary-font);
 
     .info-place-name {
       display: flex;

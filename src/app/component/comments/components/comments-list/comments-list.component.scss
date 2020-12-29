@@ -1,5 +1,3 @@
-$main-font: 'Open Sans', sans-serif;
-
 .comment-body-wrapper {
   margin: auto;
   border-bottom: 1px solid #e6e6e6;
@@ -19,7 +17,7 @@ $main-font: 'Open Sans', sans-serif;
 }
 
 .author-name {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--secondary-font);
   font-style: normal;
   font-weight: 600;
   font-size: 18px;
@@ -30,7 +28,7 @@ $main-font: 'Open Sans', sans-serif;
 
 .comment-date {
   color: #878787;
-  font-family: $main-font;
+  font-family: var(--primary-font);
   font-size: 12px;
   line-height: 16px;
   display: flex;
@@ -73,7 +71,7 @@ $main-font: 'Open Sans', sans-serif;
 
 .comment-main-text {
   margin-left: 62px;
-  font-family: $main-font;
+  font-family: var(--primary-font);
   font-size: 16px;
   line-height: 24px;
   margin-bottom: -10px;
@@ -142,7 +140,7 @@ $main-font: 'Open Sans', sans-serif;
       .btn-text {
         display: inline-block;
         margin-left: 5px;
-        font-family: $main-font;
+        font-family: var(--primary-font);
         font-size: 16px;
         line-height: 24px;
         color: #878787;
@@ -181,7 +179,7 @@ $main-font: 'Open Sans', sans-serif;
 
 .comment-likes {
   .like-amount {
-    font-family: $main-font;
+    font-family: var(--primary-font);
     font-size: 12px;
     line-height: 16px;
     color: #878787;
