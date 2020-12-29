@@ -8,11 +8,10 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 
 import { AllFriendsComponent } from './all-friends.component';
 
-describe('AllFriendsComponent', () => {
+fdescribe('AllFriendsComponent', () => {
   let component: AllFriendsComponent;
   let fixture: ComponentFixture<AllFriendsComponent>;
   let MatSnackBarMock: MatSnackBarComponent;
@@ -22,6 +21,14 @@ describe('AllFriendsComponent', () => {
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   let userFriendsServiceMock: UserFriendsService;
+
+  const response = {
+    id: 1,
+    name: 'Name',
+    profilePicture: '',
+    added: false
+  };
+
   const userFriends = {
     totalElements: 1,
     totalPages: 1,
@@ -44,7 +51,7 @@ describe('AllFriendsComponent', () => {
 
   userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getAllFriends', 'deleteFriend', 'addFriend']);
   userFriendsServiceMock.getAllFriends = () => (of(userFriends));
-  userFriendsServiceMock.deleteFriend = (idUser, idFriend) => (of());
+  userFriendsServiceMock.deleteFriend = (idUser, idFriend) => (of(response));
 
 
   beforeEach(async(() => {
@@ -114,10 +121,14 @@ describe('AllFriendsComponent', () => {
     expect(component.Friends).toBeTruthy();
   });
 
-  it('should delete user', () => {
-    const id = 12;
-    const spy = spyOn(component as any, 'handleDeleteFriend');
-    component.handleDeleteFriend(id);
-    expect(spy).toHaveBeenCalledWith(12);
+  it ('should delete friend', () => {
+    userFriendsServiceMock.deleteFriend(1, 5).subscribe(
+      () => {
+        const changeStatusSpy = spyOn(component as any, 'changeStatus');
+        component.changeStatus(1, userFriends.page);
+        expect(changeStatusSpy).toHaveBeenCalledTimes(1);
+        expect(changeStatusSpy).toHaveBeenCalledWith(1, userFriends.page);
+      }
+    )
   });
 });
