@@ -28,7 +28,7 @@ export class HabitsGalleryViewComponent implements OnInit {
 
   public addHabit() {
     this.requesting = true;
-    this.habitAssignService.assignHabit(this.habit.id)
+    this.habitAssignService.setHabitStatus(this.habit.id, 'ACTIVE')
       .pipe(take(1))
       .subscribe(() => {
         this.router.navigate(['profile', this.profileService.userId]);

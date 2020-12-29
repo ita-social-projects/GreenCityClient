@@ -5,14 +5,14 @@ import { HabitsListViewComponent } from './components/habits-list-view/habits-li
 import { LocalStorageService } from '../../../../../service/localstorage/local-storage.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import {BehaviorSubject, Observable, of} from 'rxjs';
+import { BehaviorSubject, of} from 'rxjs';
 
 import { AllHabitsComponent } from './all-habits.component';
 import { HabitService } from '../../../../../service/habit/habit.service';
 import { HabitListInterface } from '../../../../../interface/habit/habit.interface';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-fdescribe('AllHabitsComponent', () => {
+describe('AllHabitsComponent', () => {
   let component: AllHabitsComponent;
   let fixture: ComponentFixture<AllHabitsComponent>;
 
