@@ -1,6 +1,3 @@
-$secondary-dark-color: #313131;
-$primary-dark-color: #056b33;
-
 p,
 div {
   margin: 0;
@@ -15,10 +12,10 @@ div {
   opacity: 0.8;
   font-family: var(--primary-font);
   font-size: 0.9rem;
-  color: $secondary-dark-color;
+  color: var(--fifth-font-color);
   display: inline-block;
   padding: 0.3rem 1rem;
-  border: 1px solid $secondary-dark-color;
+  border: 1px solid var(--fifth-font-color);
   border-radius: 53px;
   margin-right: 1rem;
   margin-bottom: 0.3rem;
@@ -30,11 +27,11 @@ div {
   font-style: normal;
   font-weight: 500;
   font-size: 1.3rem;
-  color: $secondary-dark-color;
+  color: var(--fifth-font-color);
   line-height: 1.6rem;
 
   a {
-    color: $secondary-dark-color;
+    color: var(--fifth-font-color);
 
     p {
       overflow-wrap: break-word;
@@ -42,7 +39,7 @@ div {
   }
 
   a:hover {
-    color: $primary-dark-color;
+    color: var(--secondary-dark-green);
     text-decoration: none;
   }
 }
@@ -62,7 +59,7 @@ div {
 .search_item-text {
   font-family: var(--primary-font);
   font-size: 1rem;
-  color: #878787;
+  color: var(--seventh-font-color);
   opacity: 0.6;
   mix-blend-mode: normal;
 }

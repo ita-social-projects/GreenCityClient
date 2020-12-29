@@ -1,10 +1,8 @@
-$title-font: var(--secondary-font);
 $bp-smallest: 320px;
 $bp-phone: 576px;
 $bp-tablet: 768px;
 $bp-desktop: 1024px;
 $bp-largest: 1440px;
-$grey: #bebebe;
 
 .shopping-list-content {
   margin: 0 auto;
@@ -26,7 +24,7 @@ $grey: #bebebe;
 }
 
 h2 > span {
-  color: $grey;
+  color: var(--third-font-color);
   margin-left: 10px;
 }
 

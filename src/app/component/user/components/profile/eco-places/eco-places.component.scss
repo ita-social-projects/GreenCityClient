@@ -4,7 +4,7 @@ $bp-phone: 576px;
 $bp-tablet: 768px;
 $bp-desktop: 1024px;
 $bp-largest: 1440px;
-$grey: #bebebe;
+$grey: var(--third-font-color);
 
 .eco-places-content {
   width: 100%;
@@ -28,7 +28,7 @@ $grey: #bebebe;
   padding-bottom: 8px;
 
   span {
-    color: #bebebe;
+    color: var(--third-font-color);
     margin-left: 10px;
   }
 }

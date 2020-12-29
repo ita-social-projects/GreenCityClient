@@ -1,5 +1,5 @@
 .checkmark {
-  border: 1px solid #13aa57;
+  border: 1px solid var(--primary-green);
   border-radius: 4px;
   height: 20px;
   width: 20px;
@@ -28,7 +28,7 @@ input[type=checkbox] {
 }
 
 input:checked ~ .checkmark {
-  background-color: #13aa57;
+  background-color: var(--primary-green);
 }
 
 input:checked ~ .checkmark::after {
@@ -68,7 +68,7 @@ input:checked ~ .checkmark::after {
       input,
       textarea {
         background: #fff;
-        border: 1px solid #878787;
+        border: 1px solid var(--seventh-font-color);
         border-radius: 5px;
         box-sizing: border-box;
         font-family: var(--primary-font);
@@ -90,7 +90,7 @@ input:checked ~ .checkmark::after {
         font-size: 10px;
         height: 12px;
         line-height: 12px;
-        color: #878787;
+        color: var(--seventh-font-color);
       }
 
       input.ng-invalid.ng-touched,
@@ -110,7 +110,7 @@ input:checked ~ .checkmark::after {
     justify-content: flex-end;
 
     button {
-      border: 1px solid #13aa57;
+      border: 1px solid var(--primary-green);
       box-sizing: border-box;
       border-radius: 5px;
       font-family: var(--primary-font);
@@ -125,31 +125,31 @@ input:checked ~ .checkmark::after {
 
     button:first-child {
       background: #fff;
-      color: #13aa57;
+      color: var(--primary-green);
     }
 
     button:last-child {
-      background: #13aa57;
+      background: var(--primary-green);
       color: #fff;
     }
 
     button:first-child:hover {
-      border: 1px solid #056b33;
-      color: #056b33;
+      border: 1px solid var(--secondary-dark-green);
+      color: var(--secondary-dark-green);
     }
 
     button:first-child:disabled {
-      border: 1px solid #839c94;
-      color: #839c94;
+      border: 1px solid var(--second-color-font);
+      color: var(--second-color-font);
     }
 
     button:last-child:hover {
-      background: #056b33;
+      background: var(--secondary-dark-green);
     }
 
     button:last-child:disabled {
-      background: #839c94;
-      border: 1px solid #839c94;
+      background: var(--second-color-font);
+      border: 1px solid var(--second-color-font);
     }
   }
 }
@@ -162,7 +162,7 @@ h2 {
   font-size: 48px;
   line-height: 48px;
   margin-bottom: 0;
-  color: #494a49;
+  color: var(--first-color-font);
 }
 
 .privacy-wrapper {
@@ -192,7 +192,7 @@ h2 {
       }
 
       .label-wrapper {
-        color: #494a49;
+        color: var(--first-color-font);
         cursor: pointer;
         font-family: var(--primary-font);
         font-size: 16px;

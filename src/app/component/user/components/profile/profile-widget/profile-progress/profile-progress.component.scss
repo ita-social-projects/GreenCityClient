@@ -9,7 +9,7 @@ $bp-largest: 1440px;
   flex-flow: row wrap;
   justify-content: space-around;
   height: auto;
-  background: #f5f7f6;
+  background: var(--primary-light-grey);
   border-top: 1px solid #eaeef3;
 
   .progress__item {
@@ -25,7 +25,7 @@ $bp-largest: 1440px;
       font-weight: normal;
       font-size: 11px;
       line-height: 13px;
-      color: #494a49;
+      color: var(--first-color-font);
     }
 
     .item__number {
@@ -34,7 +34,7 @@ $bp-largest: 1440px;
       font-weight: 500;
       font-size: 28px;
       line-height: 32px;
-      color: #494a49;
+      color: var(--first-color-font);
     }
   }
 

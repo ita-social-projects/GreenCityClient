@@ -10,7 +10,7 @@ span {
   font-stretch: normal;
   font-style: italic;
   line-height: 1.5;
-  color: #839c94;
+  color: var(--second-color-font);
 }
 
 .item-count {
@@ -22,7 +22,7 @@ span {
   line-height: normal;
   letter-spacing: normal;
   text-align: center;
-  color: #13aa57;
+  color: var(--primary-green);
 }
 
 h2 {
@@ -95,7 +95,7 @@ h4 span {
   line-height: normal;
   letter-spacing: normal;
   text-align: center;
-  color: #13aa57;
+  color: var(--primary-green);
   margin: 38px 0 0 20px;
   position: absolute;
 }

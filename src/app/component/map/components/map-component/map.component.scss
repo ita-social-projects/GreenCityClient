@@ -1,11 +1,7 @@
-$mainColor: #13aa57;
-$secondColor: #056b33;
-$unActiveColor: #839c94;
-
 .button {
   padding: 7px 14px;
   color: #fff;
-  background-color: $mainColor;
+  background-color: var(--primary-green);
   border: none;
   border-radius: 5px;
   font-size: 16px;
@@ -14,7 +10,7 @@ $unActiveColor: #839c94;
   transition: 0.3s all ease-in-out;
 
   &:hover {
-    background-color: $secondColor;
+    background-color: var(--secondary-dark-green);
   }
 }
 
@@ -104,7 +100,7 @@ $unActiveColor: #839c94;
     margin-top: 10px;
 
     .table-head-row {
-      background-color: $mainColor;
+      background-color: var(--primary-green);
 
       .table-header {
         color: #fff;
@@ -116,7 +112,7 @@ $unActiveColor: #839c94;
 
       &:hover {
         color: #fff;
-        background-color: $secondColor;
+        background-color: var(--secondary-dark-green);
         cursor: pointer;
       }
     }
@@ -139,7 +135,7 @@ $unActiveColor: #839c94;
 
       .info-place-name-icon {
         background-color: transparent;
-        color: $mainColor;
+        color: var(--primary-green);
         border-width: inherit;
       }
     }
@@ -161,7 +157,7 @@ $unActiveColor: #839c94;
       margin-bottom: 10px;
 
       .star-rating {
-        color: $mainColor;
+        color: var(--primary-green);
         font-size: 24px;
       }
 

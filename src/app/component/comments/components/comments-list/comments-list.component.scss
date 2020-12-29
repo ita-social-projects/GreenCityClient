@@ -22,12 +22,12 @@
   font-weight: 600;
   font-size: 18px;
   line-height: 28px;
-  color: #313131;
+  color: var(--fifth-font-color);
   white-space: nowrap;
 }
 
 .comment-date {
-  color: #878787;
+  color: var(--seventh-font-color);
   font-family: var(--primary-font);
   font-size: 12px;
   line-height: 16px;
@@ -40,7 +40,7 @@
     display: inline-block;
     width: 4px;
     height: 4px;
-    background: #878787;
+    background: var(--seventh-font-color);
     border-radius: 100%;
   }
 
@@ -125,7 +125,7 @@
       padding: 10px 0 0 20px;
 
       &::placeholder {
-        color: #878787;
+        color: var(--seventh-font-color);
       }
     }
 
@@ -143,7 +143,7 @@
         font-family: var(--primary-font);
         font-size: 16px;
         line-height: 24px;
-        color: #878787;
+        color: var(--seventh-font-color);
         mix-blend-mode: normal;
       }
     }
@@ -182,7 +182,7 @@
     font-family: var(--primary-font);
     font-size: 12px;
     line-height: 16px;
-    color: #878787;
+    color: var(--seventh-font-color);
     margin-left: 5px;
   }
 

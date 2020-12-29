@@ -3,9 +3,6 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "typography/typography";
 
-$color-greenCity-green: #13aa57;
-$color-greenCity-dark-green: #056b33;
-
 html {
   overflow-y: auto !important;
 }
@@ -74,19 +71,19 @@ body {
   padding: 0 16px;
   text-transform: capitalize;
   font-family: var(--primary-font);
-  color: #666;
-  border: 1px solid #666;
+  color: var(--eighth-font-color);
+  border: 1px solid var(--eighth-font-color);
   border-radius: 25px;
   margin-right: 8px;
 
   &:hover {
-    color: $color-greenCity-dark-green;
-    border: 1px solid $color-greenCity-dark-green;
+    color: var(--secondary-dark-green);
+    border: 1px solid var(--secondary-dark-green);
   }
 }
 
 .global-tag-clicked {
-  background: $color-greenCity-green;
+  background: var(--primary-green);
   color: #fff;
   font-weight: bold;
   font-family: var(--primary-font);
@@ -115,17 +112,17 @@ body {
 
 .btn-tiles,
 .btn-bars {
-  color: #878787;
+  color: var(--seventh-font-color);
   font-size: 16px;
 
   :hover {
-    color: $color-greenCity-dark-green;
+    color: var(--secondary-dark-green);
   }
 }
 
 .btn-bars-active,
 .btn-tiles-active {
-  color: $color-greenCity-green;
+  color: var(--primary-green);
 }
 
 // [END] View swither btns
@@ -152,7 +149,7 @@ body {
 }
 
 .success-snackbar {
-  background: #13aa57;
+  background: var(--primary-green);
   color: #fff;
 }
 

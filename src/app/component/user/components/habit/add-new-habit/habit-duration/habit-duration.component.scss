@@ -1,4 +1,3 @@
-$primary-color: #13aa57;
 $second-color: #6a8079;
 
 .title {
@@ -74,14 +73,14 @@ input[type=range].form-control-range::-webkit-slider-thumb {
   margin-top: -4px;
   width: 12px;
   height: 12px;
-  background: #13aa57;
+  background: var(--primary-green);
   border-radius: 6px;
   cursor: pointer;
   -webkit-appearance: none;
 }
 
 input[type=range].form-control-range::-moz-range-track {
-  background: #13aa57;
+  background: var(--primary-green);
   border-radius: 26px;
   width: 100%;
   height: 4px;
@@ -91,13 +90,13 @@ input[type=range].form-control-range::-moz-range-track {
 input[type=range].form-control-range::-moz-range-thumb {
   width: 12px;
   height: 12px;
-  background: $primary-color;
+  background: var(--primary-green);
   border-radius: 6px;
   cursor: pointer;
 }
 
 .form-control-range::-webkit-fill-lower {
-  background-color: $primary-color;
+  background-color: var(--primary-green);
   border-radius: 52px;
 }
 

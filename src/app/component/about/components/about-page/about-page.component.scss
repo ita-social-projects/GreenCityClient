@@ -1,5 +1,3 @@
-$linkColor: #056b33;
-
 body {
   overflow-x: hidden;
 }
@@ -98,7 +96,7 @@ img {
     justify-content: flex-end;
     margin-top: 28px;
     text-decoration: underline;
-    color: $linkColor;
+    color: var(--secondary-dark-green);
     font-size: 16px;
     line-height: 18.75px;
   }

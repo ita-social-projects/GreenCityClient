@@ -1,5 +1,5 @@
-$first-font-color: #494a49;
-$second-font-color: #bebebe;
+$first-font-color: var(--first-color-font);
+$second-font-color: var(--third-font-color);
 $first-background-color: #f5f7f6;
 $second-background-color: #ecf1ef;
 $third-background-color: rgba(19, 170, 87, 0.12);

@@ -1,9 +1,4 @@
 $inputHeight : 48px;
-$errorColor : #f03127;
-$linkColor: #056b33;
-$secondaryTextColor: #494a49;
-$headerColor: #2b292d;
-$borderColor:  #878787;
 
 h1 {
   margin-bottom: 8px;
@@ -12,7 +7,7 @@ h1 {
   font-weight: 500;
   font-size: 38px;
   line-height: 48px;
-  color: $headerColor;
+  color: var(--sixth-font-color);
 }
 
 h2 {
@@ -30,19 +25,19 @@ h2 {
 
 .alert-email-validation,
 .alert-password-validation {
-  border: 1px solid $errorColor;
+  border: 1px solid var(--error-ligh-red);
 }
 
 .successful-email-validation,
 .successful-password-validation {
-  border: 1px solid $borderColor;
+  border: 1px solid var(--seventh-font-color);
   margin-bottom: 16px;
 }
 
 .validation-password-error,
 .validation-email-error,
 .alert-general-error {
-  color: $errorColor;
+  color: var(--error-ligh-red);
   font-size: 10px;
   line-height: 12px;
   font-family: var(--primary-font);
@@ -67,13 +62,13 @@ h2 {
     font-family: var(--primary-font);
     font-size: 12px;
     line-height: 14px;
-    color: $secondaryTextColor;
+    color: var(--first-color-font);
   }
 
   input {
     background: #fff;
     box-sizing: border-box;
-    color: $secondaryTextColor;
+    color: var(--first-color-font);
     border-radius: 5px;
     padding: 12px 40px 12px 16px;
     font-size: 16px;
@@ -124,7 +119,7 @@ h2 {
   margin-bottom: 24px;
 
   .forgot-password {
-    color: $linkColor;
+    color: var(--secondary-dark-green);
     font-family: var(--primary-font);
     font-size: 12px;
     line-height: 16px;
@@ -151,7 +146,7 @@ h2 {
   font-family: var(--primary-font);
   font-size: 12px;
   line-height: 12px;
-  color: $secondaryTextColor;
+  color: var(--first-color-font);
   margin-bottom: 8px;
 }
 
@@ -161,11 +156,11 @@ h2 {
   font-family: var(--primary-font);
   font-size: 16px;
   line-height: 16px;
-  color: $secondaryTextColor;
+  color: var(--first-color-font);
 
   .sign-up-link {
     margin-left: 8px;
     text-decoration-line: underline;
-    color: $linkColor;
+    color: var(--secondary-dark-green);
   }
 }

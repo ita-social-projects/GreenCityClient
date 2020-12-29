@@ -5,7 +5,7 @@ $bp-desktop: 1024px;
 $bp-largest: 1440px;
 
 .profile {
-  background: #f5f7f6;
+  background: var(--primary-light-grey);
   position: relative;
 
   .cards {
@@ -56,7 +56,7 @@ $bp-largest: 1440px;
 
       .descriptions__status {
         text-align: center;
-        color: #878787;
+        color: var(--seventh-font-color);
       }
 
       .descriptions__rate {
@@ -70,7 +70,7 @@ $bp-largest: 1440px;
         background: rgba(19, 170, 87, 0.12);
         border-radius: 4px;
         font-weight: 600;
-        color: #13aa57;
+        color: var(--primary-green);
       }
     }
 
@@ -82,7 +82,7 @@ $bp-largest: 1440px;
       font-family: var(--primary-font);
       font-size: 14px;
       line-height: calc(16px + (22 - 16) * ((100vw - 320px) / (1440 - 320)));
-      color: #494a49;
+      color: var(--first-color-font);
     }
   }
 }

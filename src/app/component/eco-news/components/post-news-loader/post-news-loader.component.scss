@@ -1,6 +1,6 @@
 .copyright {
   background-color: rgba(131, 156, 148, 0.05);
-  color: #839c94;
+  color: var(--second-color-font);
   font-family: var(--primary-font);
   font-stretch: normal;
   font-size: 14px;
@@ -40,7 +40,7 @@
   font-size: 32px;
   line-height: 48px;
   text-align: center;
-  color: #313131;
+  color: var(--fifth-font-color);
   margin-bottom: 0;
 }
 
@@ -50,7 +50,7 @@
   font-size: 18px;
   line-height: 32px;
   text-align: center;
-  color: #313131;
+  color: var(--fifth-font-color);
   margin-bottom: 0;
 }
 

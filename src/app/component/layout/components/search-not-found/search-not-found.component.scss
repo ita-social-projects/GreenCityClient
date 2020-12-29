@@ -1,11 +1,8 @@
-$main-color: #313131;
-$secondary-color: #13aa57;
-
 p {
   font-family: var(--primary-font);
   font-size: 16px;
   line-height: 24px;
-  color: $main-color;
+  color: var(--fifth-font-color);
 }
 
 .search_not-found-text,
@@ -17,7 +14,7 @@ p {
 }
 
 .search_not-found-text {
-  color: $main-color;
+  color: var(--fifth-font-color);
 }
 
 .search_not-found-item-wrp {
@@ -39,7 +36,7 @@ p {
 }
 
 .search_not-found-header {
-  color: $secondary-color;
+  color: var(--primary-green);
   padding: 0 25px;
 }
 

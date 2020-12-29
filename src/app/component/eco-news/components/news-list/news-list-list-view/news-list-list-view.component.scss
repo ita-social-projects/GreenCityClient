@@ -1,7 +1,3 @@
-$color-greenCity-green: #13aa57;
-$--theme-gray: #313131;
-$--theme-font-gray: #666;
-
 @mixin rowStyles {
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -33,7 +29,7 @@ div {
   line-height: 16px;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: $color-greenCity-green;
+  color: var(--primary-green);
   margin-right: 5px;
 }
 
@@ -52,7 +48,7 @@ div {
   font-size: 18px;
   line-height: 24px;
   margin-bottom: 5px;
-  color: $--theme-gray;
+  color: var(--fifth-font-color);
   overflow: hidden;
   word-break: break-all;
 }
@@ -64,7 +60,7 @@ div {
   font-family: var(--primary-font);
   font-size: 14px;
   line-height: 21px;
-  color: $--theme-font-gray;
+  color: var(--eighth-font-color);
   mix-blend-mode: normal;
   opacity: 0.6;
 

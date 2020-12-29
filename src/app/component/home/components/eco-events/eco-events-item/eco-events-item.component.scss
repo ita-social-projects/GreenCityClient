@@ -45,7 +45,7 @@
 }
 
 .event-date {
-  color: #839c94 !important;
+  color: var(--second-color-font) !important;
   font-family: var(--primary-font);
   font-size: 14px;
   font-stretch: normal;
@@ -57,7 +57,7 @@
 }
 
 .read-more {
-  color: #13aa57 !important;
+  color: var(--primary-green) !important;
   font-family: var(--primary-font);
   font-size: 16px;
   font-stretch: normal;

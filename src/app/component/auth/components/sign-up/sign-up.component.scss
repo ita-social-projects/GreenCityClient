@@ -1,10 +1,3 @@
-$sign-up-google-font: var(--tertiary-font);
-$errorColor : #f03127;
-$linkColor: #056b33;
-$secondaryTextColor: #494a49;
-$headerColor: #2b292d;
-$borderColor:  #878787;
-
 .title-text {
   margin-bottom: 8px;
   font-family: var(--secondary-font);
@@ -12,14 +5,14 @@ $borderColor:  #878787;
   font-weight: 500;
   font-size: 40px;
   line-height: 40px;
-  color: $headerColor;
+  color: var(--sixth-font-color);
 }
 
 .subtitle-text {
   font-size: 16px;
   font-family: var(--primary-font);
   line-height: 16px;
-  color: $secondaryTextColor;
+  color: var(--first-color-font);
 }
 
 .form-content-container {
@@ -32,7 +25,7 @@ $borderColor:  #878787;
     font-size: 12px;
     font-family: var(--primary-font);
     line-height: 14px;
-    color: $secondaryTextColor;
+    color: var(--first-color-font);
   }
 
   .under-error {
@@ -41,7 +34,7 @@ $borderColor:  #878787;
 
   .main-data-input,
   .main-data-input-password {
-    border: 1px solid $borderColor;
+    border: 1px solid var(--seventh-font-color);
     box-sizing: border-box;
     border-radius: 5px;
     width: 368px;
@@ -57,7 +50,7 @@ $borderColor:  #878787;
   }
 
   .main-data-input::placeholder {
-    color: $borderColor;
+    color: var(--seventh-font-color);
   }
 
   .main-data-input-password {
@@ -84,18 +77,18 @@ $borderColor:  #878787;
   }
 
   .wrong-input {
-    border: 1px solid $errorColor;
+    border: 1px solid var(--error-ligh-red);
   }
 
   .error-message {
     font-size: 10px;
     line-height: 12px;
-    color: $errorColor;
+    color: var(--error-ligh-red);
   }
 
   .alert-general-error {
     position: relative;
-    color: $errorColor;
+    color: var(--error-ligh-red);
     font-size: 10px;
     line-height: 12px;
     font-family: var(--primary-font);
@@ -123,7 +116,7 @@ $borderColor:  #878787;
     font-size: 12px;
     line-height: 12px;
     text-align: center;
-    color: $secondaryTextColor;
+    color: var(--first-color-font);
   }
 }
 
@@ -132,11 +125,11 @@ $borderColor:  #878787;
   font-size: 16px;
   font-family: var(--primary-font);
   line-height: 16px;
-  color: $secondaryTextColor;
+  color: var(--first-color-font);
 
   .exist-sign-in {
     text-decoration: underline;
-    color: $linkColor;
+    color: var(--secondary-dark-green);
   }
 }
 

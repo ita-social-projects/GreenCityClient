@@ -44,7 +44,7 @@ $bp-largest: 1440px;
 }
 
 .button-link {
-  color: #494a49;
+  color: var(--first-color-font);
 }
 
 .button-arrow {
@@ -53,18 +53,18 @@ $bp-largest: 1440px;
 
 .edit-news {
   padding: 15px 32px;
-  color: #13aa57;
+  color: var(--primary-green);
   font-size: 1rem;
   line-height: 16px;
   font-weight: 700;
-  border: 1px solid #13aa57;
+  border: 1px solid var(--primary-green);
   border-radius: 3px;
   text-align: center;
 }
 
 .edit-news:hover {
-  border-color: #056b33;
-  color: #056b33;
+  border-color: var(--secondary-dark-green);
+  color: var(--secondary-dark-green);
 }
 
 .tags,
@@ -79,13 +79,13 @@ $bp-largest: 1440px;
 }
 
 .tags-item {
-  color: #666;
+  color: var(--eighth-font-color);
   text-transform: capitalize;
   font-size: 14px;
   line-height: 16px;
   margin: 0 8px 0;
   padding: 8px 16px;
-  border: 1px solid #878787;
+  border: 1px solid var(--seventh-font-color);
   border-radius: 25px;
 }
 
@@ -100,7 +100,7 @@ $bp-largest: 1440px;
 
 .news-title {
   margin: 0 6.8% 24px;
-  color: #494a49;
+  color: var(--first-color-font);
   font-weight: 500;
   width: 100%;
   font-size: calc(24px + (40 - 24) * ((100vw - 320px) / (1440 - 320)));
@@ -116,7 +116,7 @@ $bp-largest: 1440px;
 
 .news-info-date,
 .news-info-author {
-  color: #494a49;
+  color: var(--first-color-font);
   font-size: calc(16px + (24 - 16) * ((100vw - 320px) / (1440 - 320)));
   line-height: calc(16px + (40 - 16) * ((100vw - 320px) / (1440 - 320)));
 }
@@ -167,7 +167,7 @@ $bp-largest: 1440px;
   font-family: var(--primary-font);
   font-size: 24px;
   line-height: 40px;
-  color: #494a49;
+  color: var(--first-color-font);
   mix-blend-mode: normal;
   margin-right: 8px;
 }

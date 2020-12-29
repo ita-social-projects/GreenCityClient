@@ -1,4 +1,4 @@
-$primary-color: #13aa57;
+$primary-color: var(--primary-green);
 $second-color: #6a8079;
 $primary-font: var(--secondary-font);
 
@@ -40,7 +40,7 @@ $primary-font: var(--secondary-font);
       }
 
       .checkmark {
-        border: 1px solid #13aa57;
+        border: 1px solid var(--primary-green);
         border-radius: 1px;
         height: 12px;
         width: 12px;
@@ -61,7 +61,7 @@ $primary-font: var(--secondary-font);
       }
 
       input:checked ~ .checkmark {
-        background-color: #13aa57;
+        background-color: var(--primary-green);
       }
 
       input:checked ~ .checkmark::after {

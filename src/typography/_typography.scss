@@ -108,7 +108,7 @@
 
 .primary-global-button {
   border: none;
-  background: #13aa57;
+  background: var(--primary-green);
   border-radius: 3px;
   font-family: var(--primary-font);
   font-style: normal;
@@ -122,17 +122,17 @@
 
 .primary-global-button:hover,
 .primary-global-button:active {
-  background: #056b33;
+  background: var(--secondary-dark-green);
   outline: none;
 }
 
 .primary-global-button:disabled {
-  background-color: #839c94;
-  border: 1px solid #839c94;
+  background-color: var(--second-color-font);
+  border: 1px solid var(--second-color-font);
 }
 
 .secondary-global-button {
-  border: 1px solid #13aa57;
+  border: 1px solid var(--primary-green);
   box-sizing: border-box;
   border-radius: 3px;
   font-family: var(--primary-font);
@@ -140,15 +140,15 @@
   font-weight: bold;
   font-size: 16px;
   line-height: 16px;
-  color: #13aa57;
+  color: var(--primary-green);
   text-align: center;
 }
 
 .secondary-global-button:hover,
 .secondary-global-button:active {
-  border: 1px solid #056b33;
+  border: 1px solid var(--secondary-dark-green);
   line-height: 22px;
-  color: #056b33;
+  color: var(--secondary-dark-green);
 }
 
 .tertiary-global-button {
@@ -158,10 +158,10 @@
   font-style: normal;
   font-weight: bold;
   line-height: 16px;
-  color: #056b33;
+  color: var(--secondary-dark-green);
 }
 
 .tertiary-global-button:hover,
 .tertiary-global-button:focus {
-  color: #13aa57;
+  color: var(--primary-green);
 }

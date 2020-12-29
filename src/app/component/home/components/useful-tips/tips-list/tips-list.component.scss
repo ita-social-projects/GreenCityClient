@@ -1,5 +1,3 @@
-$color-greenCity-green: #13aa57;
-
 .section-caption {
   font-family: var(--secondary-font);
   font-size: 48px;
@@ -19,7 +17,7 @@ $color-greenCity-green: #13aa57;
 .tips-navigation {
   outline: transparent;
   background-color: transparent;
-  color: $color-greenCity-green;
+  color: var(--primary-green);
   height: 52px;
   width: 52px;
   margin: 0 50px;
