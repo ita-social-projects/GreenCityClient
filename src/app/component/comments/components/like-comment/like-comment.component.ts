@@ -1,3 +1,4 @@
+import { SocketService } from './../../../../service/socket/socket.service';
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { CommentsService } from '../../services/comments.service';
 import { CommentsDTO } from '../../models/comments-model';
@@ -18,7 +19,13 @@ export class LikeCommentComponent implements OnInit {
     liked: 'assets/img/comments/liked.png'
   };
 
-  constructor(private commentsService: CommentsService) { }
+  constructor( private commentsService: CommentsService,
+              private socketService: SocketService ) {
+
+    //socket to subscribe to chenges to comment id
+    console.log('SOCKET', 'SUBSCRITE TO CHENGES FOR id', this.comment.id)
+    this.socketService.onMessage('/app/econews/comment/likeAndCount?id='+this.comment.id)
+  }
 
   ngOnInit() {
     this.likeState = this.comment.currentUserLiked;
@@ -36,6 +43,9 @@ export class LikeCommentComponent implements OnInit {
         this.changeLkeBtn();
         this.getLikesFromServer();
       });
+    // socket send like
+    console.log('SOCKET', 'SEND LIKE for comment id', this.comment.id)
+    this.socketService.onMessage('/app/econews/comment/likeAndCount?id='+this.comment.id)
   }
 
   public changeLkeBtn(): void {
