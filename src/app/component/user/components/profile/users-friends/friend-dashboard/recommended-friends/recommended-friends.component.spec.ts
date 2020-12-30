@@ -4,12 +4,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { FriendModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { RecommendedFriendsComponent } from './recommended-friends.component';
 
-fdescribe('RecommendedFriendsComponent', () => {
+describe('RecommendedFriendsComponent', () => {
   let component: RecommendedFriendsComponent;
   let fixture: ComponentFixture<RecommendedFriendsComponent>;
   let localStorageServiceMock: LocalStorageService;
@@ -46,10 +47,29 @@ fdescribe('RecommendedFriendsComponent', () => {
         rate: 380,
         city: 'Lviv',
         mutualFriends: 5
-       },
+       }
      ]
     };
-
+  const userFriendsArray: FriendModel[] = [
+    {
+      id: 1,
+      name: 'Name',
+      profilePicture: '',
+      added: true,
+      rate: 380,
+      city: 'Lviv',
+      mutualFriends: 5
+     },
+     {
+       id: 2,
+       name: 'Name2',
+       profilePicture: '',
+       added: true,
+       rate: 380,
+       city: 'Lviv',
+       mutualFriends: 5
+      }
+    ];
   userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getRecommendedFriends', 'deleteFriend', 'addFriend']);
   userFriendsServiceMock.getRecommendedFriends = () => (of(userFriends));
   userFriendsServiceMock.deleteFriend = (idUser, idFriend) => (of(response));
@@ -103,25 +123,25 @@ fdescribe('RecommendedFriendsComponent', () => {
 
   it('should change status a friend\'s', () => {
     const changeStatusSpy = spyOn(component as any, 'changeStatus');
-    component.changeStatus(1);
-    expect(changeStatusSpy).toHaveBeenCalledWith(1);
+    component.changeStatus(1, userFriendsArray);
+    expect(changeStatusSpy).toHaveBeenCalledWith(1, userFriendsArray);
   });
 
   it('should add status to friend\'s array', () => {
     const addStatusSpy = spyOn(component as any, 'addStatus');
-    component.addStatus(userFriends.page);
-    expect(addStatusSpy).toHaveBeenCalledWith(userFriends.page);
+    component.addStatus(userFriendsArray);
+    expect(addStatusSpy).toHaveBeenCalledWith(userFriendsArray);
   });
 
   it ('should delete friend', () => {
     const changeStatusSpy = spyOn(component as any, 'changeStatus');
     userFriendsServiceMock.deleteFriend(1, 5).subscribe(
       () => {
-        component.changeStatus(1);
+        component.changeStatus(1, userFriendsArray);
         expect(changeStatusSpy).toHaveBeenCalledTimes(1);
-        expect(changeStatusSpy).toHaveBeenCalledWith(1);
+        expect(changeStatusSpy).toHaveBeenCalledWith(1,  userFriendsArray);
       }
-    )
+    );
   });
 
   it ('should call method deleteFriend', () => {

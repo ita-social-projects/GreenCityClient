@@ -5,7 +5,7 @@ export interface FriendModel {
   added?: boolean;
   rate?: number;
   city?: string;
-  //mutualFriends?: number;
+  mutualFriends?: number | string;
 }
 
 export interface FriendArrayModel {

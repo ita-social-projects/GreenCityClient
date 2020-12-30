@@ -4,6 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { FriendModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of } from 'rxjs';
@@ -24,7 +25,24 @@ describe('AllFriendsComponent', () => {
     profilePicture: '',
     added: false
   };
-
+  const userFriendsArray: FriendModel[] = [{
+    id: 1,
+    name: 'Name',
+    profilePicture: '',
+    added: true,
+    rate: 380,
+    city: 'Lviv',
+    mutualFriends: 5
+   },
+   {
+     id: 2,
+     name: 'Name2',
+     profilePicture: '',
+     added: true,
+     rate: 380,
+     city: 'Lviv',
+     mutualFriends: 5
+  }];
   const userFriends = {
     totalElements: 1,
     totalPages: 1,
@@ -106,25 +124,25 @@ describe('AllFriendsComponent', () => {
 
   it('should change status a friend\'s', () => {
     const changeStatusSpy = spyOn(component as any, 'changeStatus');
-    component.changeStatus(1, userFriends.page);
-    expect(changeStatusSpy).toHaveBeenCalledWith(1, userFriends.page);
+    component.changeStatus(1, userFriendsArray);
+    expect(changeStatusSpy).toHaveBeenCalledWith(1, userFriendsArray);
   });
 
   it('should add status to friend\'s array', () => {
     const addStatusSpy = spyOn(component as any, 'addStatus');
-    component.addStatus(userFriends.page);
-    expect(addStatusSpy).toHaveBeenCalledWith(userFriends.page);
+    component.addStatus(userFriendsArray);
+    expect(addStatusSpy).toHaveBeenCalledWith(userFriendsArray);
   });
 
   it ('should delete friend', () => {
     const changeStatusSpy = spyOn(component as any, 'changeStatus');
     userFriendsServiceMock.deleteFriend(1, 5).subscribe(
       () => {
-        component.changeStatus(1, userFriends.page);
+        component.changeStatus(1, userFriendsArray);
         expect(changeStatusSpy).toHaveBeenCalledTimes(1);
-        expect(changeStatusSpy).toHaveBeenCalledWith(1, userFriends.page);
+        expect(changeStatusSpy).toHaveBeenCalledWith(1, userFriendsArray);
       }
-    )
+    );
   });
 
   it ('should call method deleteFriend', () => {

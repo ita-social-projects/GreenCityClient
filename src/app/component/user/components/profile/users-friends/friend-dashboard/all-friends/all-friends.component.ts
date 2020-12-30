@@ -27,13 +27,13 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
     this.getAllFriends();
   }
 
-  public addStatus(userArray) {
+  public addStatus(userArray: FriendModel[]) {
     userArray.forEach( elem => {
       elem.added = true;
     });
   }
 
-  public changeStatus(id, userArray) {
+  public changeStatus(id: number, userArray: FriendModel[]) {
     const index = userArray.findIndex(elem => elem.id === id);
     userArray[index].added = !userArray[index].added;
   }

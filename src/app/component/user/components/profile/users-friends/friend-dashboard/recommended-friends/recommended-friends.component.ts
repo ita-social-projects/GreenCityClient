@@ -29,15 +29,15 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
     this.getRecommendedFriends();
   }
 
-  public addStatus(friendArray) {
+  public addStatus(friendArray: FriendModel[]) {
     friendArray.forEach( elem => {
       elem.added = false;
     });
   }
 
-  public changeStatus(id) {
-    const index = this.recommendedFriends.findIndex(elem => elem.id === id);
-    this.recommendedFriends[index].added = !this.recommendedFriends[index].added;
+  public changeStatus(id: number, friendArray: FriendModel[]) {
+    const index = friendArray.findIndex(elem => elem.id === id);
+    friendArray[index].added = !friendArray[index].added;
   }
 
   public getRecommendedFriends() {
@@ -75,7 +75,7 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
     )
     .subscribe(
       () => {
-        this.changeStatus(id);
+        this.changeStatus(id, this.recommendedFriends);
       }
     );
   }
@@ -86,7 +86,7 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
     )
     .subscribe(
       () => {
-      this.changeStatus(id);
+      this.changeStatus(id, this.recommendedFriends);
       }
     );
   }
