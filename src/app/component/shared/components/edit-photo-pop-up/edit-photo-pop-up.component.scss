@@ -95,8 +95,8 @@ $secondErrorColor : #b42626;
         }
 
         &:disabled {
-          background: var(--second-color-font);
-          border: 1px solid var(--second-color-font);
+          background: var(--primary-grey);
+          border: 1px solid var(--primary-grey);
         }
       }
 

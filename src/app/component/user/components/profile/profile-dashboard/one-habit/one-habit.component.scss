@@ -37,7 +37,7 @@ $screen-320: " screen and (max-width : 320px)";
       line-height: 20px;
       width: 9px;
       height: 22px;
-      color: var(--third-font-color);
+      color: var(--tertiary-light-grey);
       margin: 0;
     }
   }
@@ -48,7 +48,7 @@ $screen-320: " screen and (max-width : 320px)";
     font-weight: 600;
     font-size: 22px;
     line-height: 28px;
-    color: var(--first-color-font);
+    color: var(--primary-dark-grey);
     position: absolute;
     width: auto;
     max-width: 319px;
@@ -72,7 +72,7 @@ $screen-320: " screen and (max-width : 320px)";
     font-weight: 500;
     font-size: 14px;
     line-height: 20px;
-    color: var(--second-color-font);
+    color: var(--primary-grey);
     display: flex;
     align-items: center;
   }

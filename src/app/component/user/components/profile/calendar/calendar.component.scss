@@ -31,7 +31,7 @@ $bp-largest: 1440px;
         font-family: var(--secondary-font);
         font-weight: 600;
         font-size: 13px;
-        color: var(--first-color-font);
+        color: var(--primary-dark-grey);
         margin-top: 16px;
         margin-bottom: 12px;
         cursor: pointer;
@@ -58,7 +58,7 @@ $bp-largest: 1440px;
         font-weight: 600;
         font-size: 13px;
         line-height: 16px;
-        color: var(--third-font-color);
+        color: var(--tertiary-light-grey);
       }
 
       .current-day-name {
@@ -78,7 +78,7 @@ $bp-largest: 1440px;
       font-family: var(--secondary-font);
       font-size: 13px;
       line-height: 16px;
-      color: var(--first-color-font);
+      color: var(--primary-dark-grey);
       text-align: center;
 
       .calendar-grid-day {
@@ -135,7 +135,7 @@ $bp-largest: 1440px;
         font-weight: 600;
         font-size: 11px;
         line-height: 13px;
-        color: var(--seventh-font-color);
+        color: var(--secondary-grey);
         text-align: center;
         text-transform: uppercase;
         cursor: pointer;
@@ -213,7 +213,7 @@ $bp-largest: 1440px;
           font-family: var(--secondary-font);
           font-weight: 600;
           font-size: 13px;
-          color: var(--first-color-font);
+          color: var(--primary-dark-grey);
           margin-top: 16px;
           margin-bottom: 12px;
           cursor: pointer;
@@ -240,7 +240,7 @@ $bp-largest: 1440px;
           font-weight: 600;
           font-size: 11px;
           line-height: 16px;
-          color: var(--third-font-color);
+          color: var(--tertiary-light-grey);
         }
 
         .current-day-name {
@@ -260,7 +260,7 @@ $bp-largest: 1440px;
         font-family: var(--secondary-font);
         font-size: 19px;
         line-height: 16px;
-        color: var(--first-color-font);
+        color: var(--primary-dark-grey);
         text-align: center;
 
         .calendar-grid-day {
@@ -315,7 +315,7 @@ $bp-largest: 1440px;
           font-weight: 600;
           font-size: 11px;
           line-height: 13px;
-          color: var(--seventh-font-color);
+          color: var(--secondary-grey);
           text-align: center;
           text-transform: uppercase;
           cursor: pointer;

@@ -25,7 +25,7 @@
         align-items: center;
         text-align: center;
         font-family: var(--secondary-font);
-        color: var(--first-color-font);
+        color: var(--primary-dark-grey);
       }
 
       .arrow-next {
@@ -49,7 +49,7 @@
         font-weight: 600;
         font-size: 11px;
         line-height: 16px;
-        color: var(--third-font-color);
+        color: var(--tertiary-light-grey);
       }
 
       .current-day-name {
@@ -66,7 +66,7 @@
       grid-template-columns: repeat(7, 66.6px);
       text-align: center;
       margin: 0 10px 0 10px;
-      color: var(--first-color-font);
+      color: var(--primary-dark-grey);
       font-weight: 500;
       font-size: 14px;
       line-height: 17px;

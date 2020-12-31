@@ -34,7 +34,7 @@
 }
 
 .button-link {
-  color: var(--first-color-font);
+  color: var(--primary-dark-grey);
 }
 
 .button-arrow {
@@ -53,7 +53,7 @@
   font-weight: 500;
   font-size: 3rem;
   line-height: 48px;
-  color: var(--fifth-font-color);
+  color: var(--secondary-dark-grey);
 }
 
 .tags,
@@ -70,11 +70,11 @@
 .tags-item {
   font-size: 14px;
   line-height: 16px;
-  color: var(--eighth-font-color);
+  color: var(--tertiary-grey);
   text-transform: capitalize;
   margin: 0 8px 0;
   padding: 8px 16px;
-  border: 1px solid var(--seventh-font-color);
+  border: 1px solid var(--secondary-grey);
   border-radius: 25px;
 }
 
@@ -89,7 +89,7 @@
 
 .news-title {
   margin: 0 6.8% 24px;
-  color: var(--fifth-font-color);
+  color: var(--secondary-dark-grey);
   font-weight: 500;
   font-size: 3rem;
   line-height: 60px;
@@ -103,7 +103,7 @@
 
 .news-info-date,
 .news-info-author {
-  color: var(--first-color-font);
+  color: var(--primary-dark-grey);
 }
 
 .news-info-dot {
@@ -150,7 +150,7 @@
   font-family: var(--primary-font);
   font-size: 24px;
   line-height: 40px;
-  color: var(--first-color-font);
+  color: var(--primary-dark-grey);
   mix-blend-mode: normal;
   margin-right: 8px;
 }

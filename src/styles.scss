@@ -71,8 +71,8 @@ body {
   padding: 0 16px;
   text-transform: capitalize;
   font-family: var(--primary-font);
-  color: var(--eighth-font-color);
-  border: 1px solid var(--eighth-font-color);
+  color: var(--tertiary-grey);
+  border: 1px solid var(--tertiary-grey);
   border-radius: 25px;
   margin-right: 8px;
 
@@ -112,7 +112,7 @@ body {
 
 .btn-tiles,
 .btn-bars {
-  color: var(--seventh-font-color);
+  color: var(--secondary-grey);
   font-size: 16px;
 
   :hover {

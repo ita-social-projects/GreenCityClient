@@ -5,14 +5,14 @@
   font-weight: 500;
   font-size: 40px;
   line-height: 40px;
-  color: var(--sixth-font-color);
+  color: var(--tertiary-dark-grey);
 }
 
 .subtitle-text {
   font-size: 16px;
   font-family: var(--primary-font);
   line-height: 16px;
-  color: var(--first-color-font);
+  color: var(--primary-dark-grey);
 }
 
 .form-content-container {
@@ -25,7 +25,7 @@
     font-size: 12px;
     font-family: var(--primary-font);
     line-height: 14px;
-    color: var(--first-color-font);
+    color: var(--primary-dark-grey);
   }
 
   .under-error {
@@ -34,7 +34,7 @@
 
   .main-data-input,
   .main-data-input-password {
-    border: 1px solid var(--seventh-font-color);
+    border: 1px solid var(--secondary-grey);
     box-sizing: border-box;
     border-radius: 5px;
     width: 368px;
@@ -50,7 +50,7 @@
   }
 
   .main-data-input::placeholder {
-    color: var(--seventh-font-color);
+    color: var(--secondary-grey);
   }
 
   .main-data-input-password {
@@ -116,7 +116,7 @@
     font-size: 12px;
     line-height: 12px;
     text-align: center;
-    color: var(--first-color-font);
+    color: var(--primary-dark-grey);
   }
 }
 
@@ -125,7 +125,7 @@
   font-size: 16px;
   font-family: var(--primary-font);
   line-height: 16px;
-  color: var(--first-color-font);
+  color: var(--primary-dark-grey);
 
   .exist-sign-in {
     text-decoration: underline;

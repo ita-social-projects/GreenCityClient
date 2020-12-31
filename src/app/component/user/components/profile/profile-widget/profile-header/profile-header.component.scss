@@ -56,7 +56,7 @@ $bp-largest: 1440px;
 
       .descriptions__status {
         text-align: center;
-        color: var(--seventh-font-color);
+        color: var(--secondary-grey);
       }
 
       .descriptions__rate {
@@ -82,7 +82,7 @@ $bp-largest: 1440px;
       font-family: var(--primary-font);
       font-size: 14px;
       line-height: calc(16px + (22 - 16) * ((100vw - 320px) / (1440 - 320)));
-      color: var(--first-color-font);
+      color: var(--primary-dark-grey);
     }
   }
 }

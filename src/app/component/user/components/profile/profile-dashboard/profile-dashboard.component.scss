@@ -43,7 +43,7 @@
   font-weight: 600;
   font-size: 14px;
   line-height: 17px;
-  color: var(--first-color-font);
+  color: var(--primary-dark-grey);
   text-align: left;
   display: flex;
   align-items: center;
@@ -52,7 +52,7 @@
     margin: 0;
 
     span {
-      color: var(--third-font-color);
+      color: var(--tertiary-light-grey);
       margin-left: 5px;
     }
   }

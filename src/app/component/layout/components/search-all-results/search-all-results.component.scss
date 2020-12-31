@@ -2,7 +2,7 @@
   font-family: var(--primary-font);
   font-size: 16px;
   line-height: 24px;
-  color: var(--first-color-font);
+  color: var(--primary-dark-grey);
 }
 
 .search_search-icon {
@@ -28,14 +28,14 @@
   border: none;
   font-family: var(--primary-font);
   font-size: 1.5rem;
-  color: var(--first-color-font);
+  color: var(--primary-dark-grey);
 
   &:focus {
     outline: none;
   }
 
   &::placeholder {
-    color: var(--third-font-color);
+    color: var(--tertiary-light-grey);
   }
 }
 

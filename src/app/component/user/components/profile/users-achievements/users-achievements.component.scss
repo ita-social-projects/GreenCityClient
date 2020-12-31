@@ -33,7 +33,7 @@ $bp-largest: 1440px;
     font-weight: 600;
     font-size: 14px;
     line-height: 17px;
-    color: var(--first-color-font);
+    color: var(--primary-dark-grey);
   }
 
   .achievements-text {
@@ -47,7 +47,7 @@ $bp-largest: 1440px;
     width: 100%;
 
     .text-number {
-      color: var(--third-font-color);
+      color: var(--tertiary-light-grey);
     }
   }
 
@@ -60,7 +60,7 @@ $bp-largest: 1440px;
     display: flex;
     align-items: center;
     text-align: center;
-    color: var(--first-color-font);
+    color: var(--primary-dark-grey);
   }
 
   .achievements-images {

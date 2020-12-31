@@ -12,10 +12,10 @@ div {
   opacity: 0.8;
   font-family: var(--primary-font);
   font-size: 0.9rem;
-  color: var(--fifth-font-color);
+  color: var(--secondary-dark-grey);
   display: inline-block;
   padding: 0.3rem 1rem;
-  border: 1px solid var(--fifth-font-color);
+  border: 1px solid var(--secondary-dark-grey);
   border-radius: 53px;
   margin-right: 1rem;
   margin-bottom: 0.3rem;
@@ -27,11 +27,11 @@ div {
   font-style: normal;
   font-weight: 500;
   font-size: 1.3rem;
-  color: var(--fifth-font-color);
+  color: var(--secondary-dark-grey);
   line-height: 1.6rem;
 
   a {
-    color: var(--fifth-font-color);
+    color: var(--secondary-dark-grey);
 
     p {
       overflow-wrap: break-word;
@@ -59,7 +59,7 @@ div {
 .search_item-text {
   font-family: var(--primary-font);
   font-size: 1rem;
-  color: var(--seventh-font-color);
+  color: var(--secondary-grey);
   opacity: 0.6;
   mix-blend-mode: normal;
 }

@@ -7,7 +7,7 @@ h1 {
   font-weight: 500;
   font-size: 38px;
   line-height: 48px;
-  color: var(--sixth-font-color);
+  color: var(--tertiary-dark-grey);
 }
 
 h2 {
@@ -30,7 +30,7 @@ h2 {
 
 .successful-email-validation,
 .successful-password-validation {
-  border: 1px solid var(--seventh-font-color);
+  border: 1px solid var(--secondary-grey);
   margin-bottom: 16px;
 }
 
@@ -62,13 +62,13 @@ h2 {
     font-family: var(--primary-font);
     font-size: 12px;
     line-height: 14px;
-    color: var(--first-color-font);
+    color: var(--primary-dark-grey);
   }
 
   input {
     background: #fff;
     box-sizing: border-box;
-    color: var(--first-color-font);
+    color: var(--primary-dark-grey);
     border-radius: 5px;
     padding: 12px 40px 12px 16px;
     font-size: 16px;
@@ -146,7 +146,7 @@ h2 {
   font-family: var(--primary-font);
   font-size: 12px;
   line-height: 12px;
-  color: var(--first-color-font);
+  color: var(--primary-dark-grey);
   margin-bottom: 8px;
 }
 
@@ -156,7 +156,7 @@ h2 {
   font-family: var(--primary-font);
   font-size: 16px;
   line-height: 16px;
-  color: var(--first-color-font);
+  color: var(--primary-dark-grey);
 
   .sign-up-link {
     margin-left: 8px;

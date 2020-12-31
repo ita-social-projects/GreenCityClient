@@ -20,7 +20,7 @@ span,
 b,
 h2,
 button {
-  color: var(--first-color-font);
+  color: var(--primary-dark-grey);
   font-family: var(--primary-font);
 }
 
@@ -39,7 +39,7 @@ button {
 
 .form-description p {
   max-width: 652px;
-  color: var(--seventh-font-color);
+  color: var(--secondary-grey);
 }
 
 .left-form-column span,
@@ -74,7 +74,7 @@ form {
 .left-form-column textarea {
   height: 48px;
   border-radius: 5px;
-  border: 1px solid var(--seventh-font-color);
+  border: 1px solid var(--secondary-grey);
   padding: 12px 16px;
   resize: none;
   overflow: hidden;
@@ -84,7 +84,7 @@ form {
 .left-form-column span {
   margin-top: 4px;
   display: block;
-  color: var(--seventh-font-color);
+  color: var(--secondary-grey);
 }
 
 .item-block {
@@ -93,7 +93,7 @@ form {
 
 .textarea-description {
   margin: 0;
-  color: var(--seventh-font-color);
+  color: var(--secondary-grey);
 }
 
 .tags p {
@@ -112,7 +112,7 @@ form {
 
 button {
   margin-bottom: 8px;
-  border: 1px solid var(--seventh-font-color);
+  border: 1px solid var(--secondary-grey);
   background-color: #fff;
   border-radius: 50px;
   padding: 5px 15px 5px 15px;
@@ -127,13 +127,13 @@ button:hover {
 .tags button {
   margin: 0 8px 8px 0;
   font-size: 14px;
-  color: var(--eighth-font-color);
+  color: var(--tertiary-grey);
 }
 
 form .textarea-wrapper textarea {
   height: 131px;
   border-radius: 5px;
-  border: 1px solid var(--seventh-font-color);
+  border: 1px solid var(--secondary-grey);
   width: 100%;
   padding: 12px 16px 28px 16px;
   overflow: hidden;
@@ -168,7 +168,7 @@ form label {
 }
 
 .date p span:last-child {
-  color: var(--seventh-font-color);
+  color: var(--secondary-grey);
   font-size: 16px;
 }
 
@@ -201,8 +201,8 @@ textarea.ng-invalid.ng-touched + p {
 }
 
 .submit-buttons button:last-child:disabled {
-  background-color: var(--second-color-font);
-  border: 1px solid var(--second-color-font);
+  background-color: var(--primary-grey);
+  border: 1px solid var(--primary-grey);
 }
 
 .tags .filters-color {

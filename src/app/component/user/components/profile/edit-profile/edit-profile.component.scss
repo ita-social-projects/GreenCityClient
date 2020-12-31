@@ -68,7 +68,7 @@ input:checked ~ .checkmark::after {
       input,
       textarea {
         background: #fff;
-        border: 1px solid var(--seventh-font-color);
+        border: 1px solid var(--secondary-grey);
         border-radius: 5px;
         box-sizing: border-box;
         font-family: var(--primary-font);
@@ -90,7 +90,7 @@ input:checked ~ .checkmark::after {
         font-size: 10px;
         height: 12px;
         line-height: 12px;
-        color: var(--seventh-font-color);
+        color: var(--secondary-grey);
       }
 
       input.ng-invalid.ng-touched,
@@ -139,8 +139,8 @@ input:checked ~ .checkmark::after {
     }
 
     button:first-child:disabled {
-      border: 1px solid var(--second-color-font);
-      color: var(--second-color-font);
+      border: 1px solid var(--primary-grey);
+      color: var(--primary-grey);
     }
 
     button:last-child:hover {
@@ -148,8 +148,8 @@ input:checked ~ .checkmark::after {
     }
 
     button:last-child:disabled {
-      background: var(--second-color-font);
-      border: 1px solid var(--second-color-font);
+      background: var(--primary-grey);
+      border: 1px solid var(--primary-grey);
     }
   }
 }
@@ -162,7 +162,7 @@ h2 {
   font-size: 48px;
   line-height: 48px;
   margin-bottom: 0;
-  color: var(--first-color-font);
+  color: var(--primary-dark-grey);
 }
 
 .privacy-wrapper {
@@ -192,7 +192,7 @@ h2 {
       }
 
       .label-wrapper {
-        color: var(--first-color-font);
+        color: var(--primary-dark-grey);
         cursor: pointer;
         font-family: var(--primary-font);
         font-size: 16px;

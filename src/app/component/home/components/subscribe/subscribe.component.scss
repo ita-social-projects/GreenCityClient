@@ -34,7 +34,7 @@
 
 #form-wrapper h2 {
   font-family: var(--primary-font);
-  color: var(--sixth-font-color);
+  color: var(--tertiary-dark-grey);
   font-size: 46px;
   font-stretch: normal;
   font-style: normal;
@@ -44,7 +44,7 @@
 }
 
 #form-wrapper p {
-  color: var(--sixth-font-color);
+  color: var(--tertiary-dark-grey);
   font-family: var(--primary-font);
   font-weight: normal;
   font-size: 18px;
@@ -109,7 +109,7 @@
 }
 
 .disabled {
-  background-color: var(--second-color-font) !important;
+  background-color: var(--primary-grey) !important;
 }
 
 @media screen and (max-width: 1024px) {

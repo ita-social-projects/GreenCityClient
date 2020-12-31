@@ -168,7 +168,7 @@ $white-color: #fff;
       width: 100%;
       height: 100%;
       font-size: 20px;
-      color: var(--first-color-font);
+      color: var(--primary-dark-grey);
     }
   }
 }
@@ -192,7 +192,7 @@ $white-color: #fff;
       a {
         font-size: 14px;
         line-height: 16px;
-        color: var(--first-color-font);
+        color: var(--primary-dark-grey);
         text-decoration: none;
       }
     }
@@ -305,7 +305,7 @@ $white-color: #fff;
       width: 24px;
       height: 2px;
       border-radius: 14px;
-      background-color: var(--first-color-font);
+      background-color: var(--primary-dark-grey);
 
       &::before {
         position: absolute;
@@ -315,7 +315,7 @@ $white-color: #fff;
         width: 24px;
         height: 2px;
         border-radius: 14px;
-        background-color: var(--first-color-font);
+        background-color: var(--primary-dark-grey);
         transition: transform 0.2s ease-in, top 0.2s linear 0.2s;
       }
 
@@ -327,7 +327,7 @@ $white-color: #fff;
         width: 24px;
         height: 2px;
         border-radius: 14px;
-        background-color: var(--first-color-font);
+        background-color: var(--primary-dark-grey);
         transition: transform 0.2s ease-in, top 0.2s linear 0.2s;
       }
     }
@@ -421,7 +421,7 @@ $white-color: #fff;
     line-height: 16px;
     margin: 0;
     padding: 0 12px 0;
-    color: var(--first-color-font);
+    color: var(--primary-dark-grey);
 
     &:first-child {
       font-size: 12px;
@@ -433,7 +433,7 @@ $white-color: #fff;
       align-items: center;
 
       a {
-        color: var(--first-color-font);
+        color: var(--primary-dark-grey);
         font-size: 14px;
         line-height: 16px;
         font-family: var(--primary-font);

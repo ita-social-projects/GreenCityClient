@@ -19,7 +19,7 @@ p {
   font-weight: 500;
   font-size: 24px;
   line-height: 35px;
-  color: var(--fifth-font-color);
+  color: var(--secondary-dark-grey);
 }
 
 hr {
@@ -52,7 +52,7 @@ hr {
 @media screen and (max-width: 576px) {
   p {
     font-size: 18px;
-    color: var(--fifth-font-color);
+    color: var(--secondary-dark-grey);
   }
 
   .gallery-view-active {

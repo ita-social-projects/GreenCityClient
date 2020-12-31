@@ -22,12 +22,12 @@
   font-weight: 600;
   font-size: 18px;
   line-height: 28px;
-  color: var(--fifth-font-color);
+  color: var(--secondary-dark-grey);
   white-space: nowrap;
 }
 
 .comment-date {
-  color: var(--seventh-font-color);
+  color: var(--secondary-grey);
   font-family: var(--primary-font);
   font-size: 12px;
   line-height: 16px;
@@ -40,7 +40,7 @@
     display: inline-block;
     width: 4px;
     height: 4px;
-    background: var(--seventh-font-color);
+    background: var(--secondary-grey);
     border-radius: 100%;
   }
 
@@ -125,7 +125,7 @@
       padding: 10px 0 0 20px;
 
       &::placeholder {
-        color: var(--seventh-font-color);
+        color: var(--secondary-grey);
       }
     }
 
@@ -143,7 +143,7 @@
         font-family: var(--primary-font);
         font-size: 16px;
         line-height: 24px;
-        color: var(--seventh-font-color);
+        color: var(--secondary-grey);
         mix-blend-mode: normal;
       }
     }
@@ -182,7 +182,7 @@
     font-family: var(--primary-font);
     font-size: 12px;
     line-height: 16px;
-    color: var(--seventh-font-color);
+    color: var(--secondary-grey);
     margin-left: 5px;
   }
 
