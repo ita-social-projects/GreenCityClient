@@ -2,7 +2,7 @@ import { searchIcons } from './../../../../image-pathes/search-icons';
 import { AfterContentInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fromEvent, Subject } from 'rxjs';
-import { map, distinctUntilChanged, tap, debounceTime, take, takeUntil, filter } from 'rxjs/operators';
+import { map, distinctUntilChanged, tap, debounceTime, take, takeUntil } from 'rxjs/operators';
 import { SearchService } from '@global-service/search/search.service';
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 import { SearchDataModel } from '@global-models/search/search.model';

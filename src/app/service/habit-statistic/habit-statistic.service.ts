@@ -3,11 +3,10 @@ import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {HabitDto} from '../../model/habit/HabitDto';
 import {NewHabitDto} from '../../model/habit/NewHabitDto';
-import {habitStatisticLink, userLink} from '../../links';
+import {habitStatisticLink, userLink, habitLink} from '../../links';
 
 import {LocalStorageService} from '../localstorage/local-storage.service';
 import {HabitStatisticsDto} from '../../model/habit/HabitStatisticsDto';
-import {habitLink, mainLink} from 'src/app/links';
 import {HabitStatisticLogDto} from 'src/app/model/habit/HabitStatisticLogDto';
 import {AvailableHabitDto} from 'src/app/model/habit/AvailableHabitDto';
 import {OnLogout} from '../OnLogout';
@@ -110,7 +109,7 @@ export class HabitStatisticService implements OnLogout {
   }
 
   getUserLog(): Observable<any> {
-    return this.http.get<HabitStatisticLogDto>(`${mainLink + 'user/' + this.userId + habitLink}`);
+    return this.http.get<HabitStatisticLogDto>(userLink + this.userId + habitLink);
   }
 
   getNumberOfHabits(): number {

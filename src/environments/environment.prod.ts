@@ -2,6 +2,7 @@ export const environment = {
   production: true,
   apiKeys: 'AIzaSyDanBliCzAuCZrsq67FeKEs3vqAilUD_is',
   backendLink: 'https://greencity.azurewebsites.net/',
+  backendUserLink: 'https://greencity-user.azurewebsites.net/',
   frontendLink: 'https://ita-social-projects.github.io/GreenCityClient/',
   firebaseConfig: {
       apiKey: 'AIzaSyDSVxahTHqdffRX2upKIMXCCjEBUYoHX8E',

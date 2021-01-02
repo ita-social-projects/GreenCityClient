@@ -1,14 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {mainLink} from '../../links';
+import {restorePasswordLink} from '../../links';
 
 @Injectable({providedIn: 'root'})
 export class RestorePasswordService {
-  apiUrl = `${mainLink}ownSecurity`;
 
-  constructor(protected http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
   sendEmailForRestore(email, lang = 'en'): any {
-      return this.http.get(`${this.apiUrl}/restorePassword?email=${email}&lang=${lang}`);
-    }
+    return this.http.get(`${restorePasswordLink}?email=${email}&lang=${lang}`);
+  }
 }

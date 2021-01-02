@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { UserRoleModel } from '../../model/user/user-role.model';
 import { UserStatusModel } from '../../model/user/user-status.model';
 import { UserPageableDtoModel } from '../../model/user/user-pageable-dto.model';
-import { habitStatisticLink, mainLink, userLink } from '../../links';
+import { habitStatisticLink, userLink } from '../../links';
 import { RolesModel } from '../../model/user/roles.model';
 import { UserFilterDtoModel } from '../../model/user/userFilterDto.model';
 import { UserUpdateModel } from '../../model/user/user-update.model';
@@ -26,7 +26,6 @@ export class UserService implements OnLogout {
   dto: UserStatusModel;
   roleDto: UserRoleModel;
   filterDto: UserFilterDtoModel;
-  apiUrl = `${mainLink}user`;
   userId: number;
 
   private goalsSubject = new BehaviorSubject<Goal[]>([]);
@@ -46,7 +45,7 @@ export class UserService implements OnLogout {
 
   getAllUsers(paginationSettings: string): Observable<UserPageableDtoModel> {
     return this.http.get<UserPageableDtoModel>(
-      `${this.apiUrl}/all` + paginationSettings
+      `${userLink}/all` + paginationSettings
     );
   }
 
@@ -54,24 +53,24 @@ export class UserService implements OnLogout {
     this.dto = new UserStatusModel();
     this.dto.id = id;
     this.dto.userStatus = userStatus;
-    return this.http.patch<any>(`${this.apiUrl}/status`, this.dto);
+    return this.http.patch<any>(`${userLink}/status`, this.dto);
   }
 
   updateUserRole(id: number, role: string) {
     this.roleDto = new UserRoleModel();
     this.roleDto.id = id;
     this.roleDto.role = role;
-    return this.http.patch<any>(`${this.apiUrl}/role`, this.roleDto);
+    return this.http.patch<any>(`${userLink}/role`, this.roleDto);
   }
 
   getRoles(): Observable<RolesModel> {
-    return this.http.get<RolesModel>(`${this.apiUrl}/roles`);
+    return this.http.get<RolesModel>(`${userLink}/roles`);
   }
 
   getByFilter(reg: string, paginationSettings: string) {
     this.filterDto = new UserFilterDtoModel(reg);
     return this.http.post<UserPageableDtoModel>(
-      `${this.apiUrl}/filter` + paginationSettings,
+      `${userLink}/filter` + paginationSettings,
       this.filterDto
     );
   }
@@ -94,7 +93,7 @@ export class UserService implements OnLogout {
   }
 
   loadAllGoals(language: string) {
-    const http$ = this.http.get<Goal[]>(`${this.apiUrl}/${this.userId}/goals?language=${language}`);
+    const http$ = this.http.get<Goal[]>(`${userLink}/${this.userId}/goals?language=${language}`);
     http$.pipe(
       catchError(() => of([]))
     ).subscribe(
@@ -110,7 +109,7 @@ export class UserService implements OnLogout {
   }
 
   updateGoalStatus(goal: Goal, language: string) {
-    this.http.patch<Goal>(`${this.apiUrl}/${this.userId}/goals/${goal.id}?language=${language}`, goal).subscribe(
+    this.http.patch<Goal>(`${userLink}/${this.userId}/goals/${goal.id}?language=${language}`, goal).subscribe(
       data => {
         this.dataStore.goals = [
           ...this.dataStore.goals.filter(el => el.id !== goal.id),
