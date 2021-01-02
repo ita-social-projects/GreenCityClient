@@ -66,7 +66,6 @@ p {
     column-gap: 41px;
     row-gap: 16px;
     border-top: 1px solid $additional-color;
-    border-bottom: 1px solid $additional-color;
 
     .chain {
       border-right: none;
@@ -76,5 +75,19 @@ p {
         margin-top: 24px;
       }
     }
+  }
+}
+
+@media (min-width: 1024px) {
+  .stat {
+    width: 176px;
+    height: 188px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .stat {
+    width: 213px;
+    column-gap: 48px;
   }
 }

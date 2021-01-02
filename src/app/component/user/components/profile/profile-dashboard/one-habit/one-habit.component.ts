@@ -59,7 +59,7 @@ export class OneHabitComponent implements OnInit {
       .some(item => item.enrollDate === this.currentDate);
     if (this.habit.status === 'ACQUIRED') {
       this.descriptionType.acquired();
-    } else if (this.habit.status === 'ACTIVE') {
+    } else if (this.habit.status === 'INPROGRESS') {
       if (isDone) {
         this.descriptionType.done();
       } else {

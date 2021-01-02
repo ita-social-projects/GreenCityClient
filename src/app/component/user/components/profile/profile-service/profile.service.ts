@@ -9,6 +9,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { ProfileStatistics } from '@user-models/profile-statistiscs';
 import { EditProfileModel } from '@user-models/edit-profile.model';
 import { LanguageService } from '@language-service/language.service';
+import { UserFriendsInterface } from '../../../../../interface/user/user-friends.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -54,8 +55,8 @@ export class ProfileService {
     return this.http.get<EcoPlaces[]>(`${this.backEnd}/favorite_place/`);
   }
 
-  public getUserFriends(): Observable<object> {
-    return this.http.get<object>(`${this.backEnd}user/${this.userId}/sixUserFriends/`);
+  public getUserFriends(): Observable<UserFriendsInterface> {
+    return this.http.get<UserFriendsInterface>(`${this.backEnd}user/${this.userId}/sixUserFriends/`);
   }
 
   public toggleStatusOfShoppingItem(item): Observable<object[]> {

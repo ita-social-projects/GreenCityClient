@@ -4,25 +4,25 @@
          [ngClass]="tabs.habits ? 'active' : 'plain'"
          (click)="toggleTab('habits')"
     >
-      <p>{{ 'profile.my-habits' | translate }}</p>
+      <p>{{ 'profile.dashboard.my-habits' | translate }}</p>
     </div>
     <div class="tab"
          [ngClass]="tabs.news ? 'active' : 'plain'"
          (click)="toggleTab('news')"
     >
-      <p>{{ 'profile.my-news' | translate }}</p>
+      <p>{{ 'profile.dashboard.my-news' | translate }}</p>
     </div>
     <div class="tab"
          [ngClass]="tabs.articles ? 'active' : 'plain'"
          (click)="toggleTab('articles')"
     >
-      <p>{{ 'profile.my-articles' | translate }}</p>
+      <p>{{ 'profile.dashboard.my-articles' | translate }}</p>
     </div>
     <div class="hline"></div>
   </div>
   <div *ngIf="!loading; else spinner">
     <div class="in-progress header">
-      <p>{{ 'profile.habits-in-progress' | translate }}
+      <p>{{ 'profile.dashboard.habits-in-progress' | translate }}
         <span>{{ habitsInProgress.length }}</span>
       </p>
       <a [routerLink]="['/profile', userId, 'allhabits']">
@@ -30,7 +30,7 @@
           id="create-button"
           class="secondary-global-button"
         >
-          <span>{{ 'profile.add-new-habit' | translate }}</span>
+          <span>{{ 'profile.dashboard.add-new-habit' | translate }}</span>
         </div>
       </a>
     </div>
@@ -43,7 +43,7 @@
       </app-one-habit>
     </div>
     <div class="acquired header">
-      <p> {{ 'profile.habits-acquired' | translate }}
+      <p> {{ 'profile.dashboard.habits-acquired' | translate }}
         <span>{{ habitsAcquired.length }}</span>
       </p>
     </div>

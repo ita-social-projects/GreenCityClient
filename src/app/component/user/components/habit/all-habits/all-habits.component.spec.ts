@@ -86,7 +86,6 @@ describe('AllHabitsComponent', () => {
   });
 
   it('should create', () => {
-    // habitServiceMock.languageBehaviourSubject = new BehaviorSubject<string>('en');
     expect(component).toBeTruthy();
   });
 

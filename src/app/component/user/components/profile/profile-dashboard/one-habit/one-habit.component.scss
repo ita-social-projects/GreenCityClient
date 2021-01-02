@@ -11,13 +11,13 @@ button {
 }
 
 .main {
-  width: 100%;
+  //width: 100%;
   height: 148px;
   border-radius: 8px;
   background-color: $background-color;
   display: grid;
-  grid-template-columns: auto 85px;
-  grid-template-rows: auto 40px;
+  grid-template-columns: 1fr 85px;
+  grid-template-rows: 1fr 40px;
 }
 
 .description {

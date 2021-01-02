@@ -1,14 +1,17 @@
-<div class="achievements">
-  <div class="grid">
-    <p>
-      {{ 'profile.my-Achievements' | translate }}
-      <span>15</span>
-    </p>
-    <a href="">{{ 'profile.see-all' | translate }}</a>
-    <img [src]="image"
-         alt="achievement"
-         class="achievements-img"
-         *ngFor="let image of achievementsImages"
-    >
+<div class="outer">
+  <div class="achievements">
+    <div class="header">
+      <p>
+        {{ 'profile.my-Achievements' | translate }}
+        <span>15</span>
+      </p>
+      <a href="">{{ 'profile.see-all' | translate }}</a>
+    </div>
+    <div class="body">
+      <img [src]="image"
+           alt="achievement"
+           *ngFor="let image of achievementsImages"
+      >
+    </div>
   </div>
 </div>

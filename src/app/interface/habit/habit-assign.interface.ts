@@ -2,7 +2,7 @@ import { HabitInterface } from './habit.interface';
 
 export interface HabitAssignInterface {
   id: number;
-  status: 'SUSPENDED' | 'ACTIVE' | 'ACQUIRED';
+  status: 'SUSPENDED' | 'INPROGRESS' | 'ACQUIRED';
   createDateTime: Date;
   habit: HabitInterface;
   userId: number;
@@ -20,7 +20,7 @@ export interface HabitStatusCalendarListInterface {
 
 export interface ResponseInterface {
   id: number;
-  status: 'SUSPENDED' | 'ACTIVE' | 'ACQUIRED';
+  status: 'SUSPENDED' | 'INPROGRESS' | 'ACQUIRED';
   createDateTime: Date;
   habit: number;
   userId: number;

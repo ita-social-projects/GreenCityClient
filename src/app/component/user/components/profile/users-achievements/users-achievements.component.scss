@@ -2,58 +2,89 @@ $main-font: 'Montserrat', sans-serif;
 $background-color: #f5f6f6;
 $main-color: #494a49;
 $additional-color: #e1e5e3;
+$light-color: #bebebe;
 
-.achievements {
-  width: 100%;
+p {
+  margin: 0;
+}
+
+.outer {
   background-color: $background-color;
   display: flex;
   justify-content: center;
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(3, 52px);
-    grid-template-rows: 15px 74px;
-    column-gap: 14px;
-    row-gap: 20px;
-    border-bottom: 1px solid $additional-color;
-    margin-top: 20px;
+  .achievements {
+    width: 185px;
+    height: 129px;
+    border-top: 1px solid $additional-color;
 
-    p:first-child {
-      font-family: $main-font;
-      font-style: normal;
-      font-weight: 600;
-      font-size: 12px;
-      line-height: 15px;
-      color: $main-color;
-      grid-area: 1 / 1 / 2 / 3;
-    }
+    .header {
+      height: 55px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
 
-    a:nth-child(2) {
-      font-family: $main-font;
-      font-style: normal;
-      font-weight: normal;
-      font-size: 11px;
-      line-height: 13px;
-      color: $main-color;
-      text-decoration: none;
-      grid-area: 1 / 3 / 2 / 4;
-      justify-self: end;
-    }
-
-    img {
-      width: 52px;
-      height: 52px;
-
-      &:nth-child(2) {
-        grid-area: 2 / 1 / 3 / 2;
+      p:first-child {
+        font-family: $main-font;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 15px;
+        color: $main-color;
       }
 
-      &:nth-child(3) {
-        grid-area: 2 / 2 / 3 / 3;
+      a:nth-child(2) {
+        font-family: $main-font;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 11px;
+        line-height: 13px;
+        color: $main-color;
+        text-decoration: none;
       }
 
-      &:nth-child(4) {
-        grid-area: 2 / 3 / 3 / 4;
+      span {
+        color: $light-color;
+      }
+    }
+
+    .body {
+      height: 74px;
+      display: flex;
+      justify-content: space-between;
+
+      img {
+        width: 52px;
+        height: 52px;
+      }
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  .outer {
+    .achievements {
+      width: 176px;
+      height: 125px;
+    }
+  }
+}
+
+@media (min-width: 1440px) {
+  .outer {
+    .achievements {
+      width: 213px;
+      height: 149px;
+
+      .header {
+        height: 65px;
+      }
+
+      .body {
+        img {
+          width: 60px;
+          height: 60px;
+        }
       }
     }
   }

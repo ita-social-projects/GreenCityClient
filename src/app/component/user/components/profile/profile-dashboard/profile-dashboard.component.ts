@@ -44,17 +44,20 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       .subscribe(() => this.executeRequests());
   }
 
-  private executeRequests() {
+  executeRequests() {
     this.loading = true;
     this.habitAssignService.getAssignedHabits()
       .pipe(take(1))
       .subscribe((response: Array<HabitAssignInterface>) => {
-        const sortedHabits = response
-          .sort((a, b) => (a.habit.id > b.habit.id) ? 1 : (b.habit.id > a.habit.id) ? -1 : 0);
-        this.habitsInProgress = sortedHabits.filter((habit) => habit.status === 'ACTIVE');
+        const sortedHabits = this.sortHebitsAsc(response);
+        this.habitsInProgress = sortedHabits.filter((habit) => habit.status === 'INPROGRESS');
         this.habitsAcquired = sortedHabits.filter((habit) => habit.status === 'ACQUIRED');
         this.loading = false;
       });
+  }
+
+  sortHebitsAsc(habitsArray): Array<HabitAssignInterface> {
+    return habitsArray.sort((a, b) => (a.habit.id > b.habit.id) ? 1 : (b.habit.id > a.habit.id) ? -1 : 0);
   }
 
   toggleTab(tab: string): void {
