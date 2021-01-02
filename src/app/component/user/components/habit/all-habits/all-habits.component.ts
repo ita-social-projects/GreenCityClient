@@ -7,8 +7,7 @@ import { HabitService } from '@global-service/habit/habit.service';
 import { map } from 'rxjs/operators';
 import { HabitInterface, HabitListInterface } from '../../../../../interface/habit/habit.interface';
 import { singleNewsImages } from '../../../../../image-pathes/single-news-images';
-import {HabitAssignService} from '@global-service/habit-assign/habit-assign.service';
-import {ProfileService} from '@global-user/components/profile/profile-service/profile.service';
+import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 
 @Component({
   selector: 'app-all-habits',
