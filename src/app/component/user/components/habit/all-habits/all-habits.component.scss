@@ -19,9 +19,29 @@ h1 {
 
 .habits_header-wrapper {
   display: grid;
-  grid-template-rows: auto auto auto;
+  grid-template-rows: auto auto auto auto;
   row-gap: 20px;
   margin-bottom: 3.125rem;
+
+  a {
+    text-decoration: none;
+    justify-self: center;
+
+    .back-button {
+      height: 30px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 16px;
+      line-height: 19px;
+      color: #494a49;
+      text-decoration-line: underline;
+      display: flex;
+      align-items: center;
+
+      img {
+        margin-right: 6px;
+      }
+    }
+  }
 
   .habits_header-actions {
     display: flex;
@@ -50,6 +70,12 @@ h1 {
 }
 
 @media (min-width: 576px) {
+  .habits_header-wrapper {
+    a {
+      justify-self: start;
+    }
+  }
+
   .galleryContainer {
     grid-template-columns: repeat(2, 50%);
   }

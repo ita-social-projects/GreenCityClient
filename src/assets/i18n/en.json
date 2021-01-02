@@ -612,6 +612,7 @@
         "confirmation-modal-cancel": "Cancel"
       },
       "all-habits": {
+        "back-button": "Back to My habits",
         "title":"All habits",
         "no-habits":"Unfortunately, no more habits found",
         "no-habits-advice": "We couldn't find any more habits. Please change filters to get another result.",
