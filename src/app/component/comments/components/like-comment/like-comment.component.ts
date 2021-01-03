@@ -23,8 +23,7 @@ export class LikeCommentComponent implements OnInit {
               private socketService: SocketService ) {
 
     //socket to subscribe to chenges to comment id
-    console.log('SOCKET', 'SUBSCRITE TO CHENGES FOR id', this.comment.id)
-    this.socketService.onMessage('/app/econews/comment/likeAndCount?id='+this.comment.id)
+    // this.socketService.onMessage('/app/econews/comment/likeAndCount?id='+this.comment)
   }
 
   ngOnInit() {
