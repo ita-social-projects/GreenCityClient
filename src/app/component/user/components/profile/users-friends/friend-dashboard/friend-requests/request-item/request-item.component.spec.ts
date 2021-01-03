@@ -4,15 +4,15 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { FriendItemComponent } from './friend-item.component';
+import { RequestItemComponent } from './request-item.component';
 
-describe('FriendItemComponent', () => {
-  let component: FriendItemComponent;
-  let fixture: ComponentFixture<FriendItemComponent>;
+describe('RequestItemComponent', () => {
+  let component: RequestItemComponent;
+  let fixture: ComponentFixture<RequestItemComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FriendItemComponent ],
+      declarations: [ RequestItemComponent ],
       imports: [
         TranslateModule.forRoot(),
         HttpClientTestingModule,
@@ -26,9 +26,9 @@ describe('FriendItemComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FriendItemComponent);
+    fixture = TestBed.createComponent(RequestItemComponent);
     component = fixture.componentInstance;
-    component.friend = { id: 1,
+    component.request = { id: 1,
       name: 'Name',
       profilePicture: '',
       added: true
@@ -40,9 +40,15 @@ describe('FriendItemComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it( 'it should call addFriendEvent on click', () => {
-    spyOn(component.friendEventEmit, 'emit');
-    component.friendEvent(component.friend.id);
-    expect(component.friendEventEmit.emit).toHaveBeenCalledWith(1);
+  it( 'it should call accept on click', () => {
+    spyOn(component.acceptEvent, 'emit');
+    component.accept(component.request.id);
+    expect(component.acceptEvent.emit).toHaveBeenCalledWith(1);
+  });
+
+  it( 'it should call decline on click', () => {
+    spyOn(component.declineEvent, 'emit');
+    component.decline(component.request.id);
+    expect(component.declineEvent.emit).toHaveBeenCalledWith(1);
   });
 });

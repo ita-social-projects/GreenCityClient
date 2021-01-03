@@ -29,15 +29,9 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
     this.getRecommendedFriends();
   }
 
-  public addStatus(friendArray: FriendModel[]) {
-    friendArray.forEach( elem => {
-      elem.added = false;
-    });
-  }
-
-  public changeStatus(id: number, friendArray: FriendModel[]) {
-    const index = friendArray.findIndex(elem => elem.id === id);
-    friendArray[index].added = !friendArray[index].added;
+  public deleteFriendsFromList(id, array) {
+    const i = array.findIndex(item => item.id === id);
+    array.splice(i, 1);
   }
 
   public getRecommendedFriends() {
@@ -48,7 +42,6 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
       (data: FriendArrayModel) => {
         this.totalPages = data.totalPages;
         this.recommendedFriends = data.page;
-        this.addStatus(this.recommendedFriends);
       },
     );
   }
@@ -62,22 +55,10 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         (data: FriendArrayModel) => {
-          this.addStatus(data.page);
           this.recommendedFriends = this.recommendedFriends.concat(data.page);
         },
        );
     }
-  }
-
-  public deleteFriend(id: number) {
-    this.userFriendsService.deleteFriend(this.userId, id).pipe(
-      takeUntil(this.destroy$)
-    )
-    .subscribe(
-      () => {
-        this.changeStatus(id, this.recommendedFriends);
-      }
-    );
   }
 
   public addFriend(id: number) {
@@ -86,7 +67,7 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
     )
     .subscribe(
       () => {
-      this.changeStatus(id, this.recommendedFriends);
+      this.deleteFriendsFromList(id, this.recommendedFriends);
       }
     );
   }

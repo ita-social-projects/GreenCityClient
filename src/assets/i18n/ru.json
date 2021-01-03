@@ -746,9 +746,12 @@
     "friends": {
       "link-to-profile": "Мой кабинет",
       "friends": "Друзья",
+      "mutual-friends": "общих друзей",
       "add-new-friend": "Добавить",
       "delete-friend": "Удалить",
       "requests": "Запросы",
+      "request-decline": "Отклонить",
+      "request-accept": "Принять",
       "all-friends": "Все друзья",
       "search-friends": "Поиск"
     }

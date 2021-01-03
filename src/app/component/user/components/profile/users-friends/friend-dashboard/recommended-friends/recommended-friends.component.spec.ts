@@ -101,6 +101,10 @@ describe('RecommendedFriendsComponent', () => {
     fixture.detectChanges();
   });
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -119,36 +123,6 @@ describe('RecommendedFriendsComponent', () => {
     const getRecommendedFriendsSpy = spyOn(component as any, 'getRecommendedFriends');
     component.ngOnInit();
     expect(getRecommendedFriendsSpy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should change status a friend\'s', () => {
-    const changeStatusSpy = spyOn(component as any, 'changeStatus');
-    component.changeStatus(1, userFriendsArray);
-    expect(changeStatusSpy).toHaveBeenCalledWith(1, userFriendsArray);
-  });
-
-  it('should add status to friend\'s array', () => {
-    const addStatusSpy = spyOn(component as any, 'addStatus');
-    component.addStatus(userFriendsArray);
-    expect(addStatusSpy).toHaveBeenCalledWith(userFriendsArray);
-  });
-
-  it ('should delete friend', () => {
-    const changeStatusSpy = spyOn(component as any, 'changeStatus');
-    userFriendsServiceMock.deleteFriend(1, 5).subscribe(
-      () => {
-        component.changeStatus(1, userFriendsArray);
-        expect(changeStatusSpy).toHaveBeenCalledTimes(1);
-        expect(changeStatusSpy).toHaveBeenCalledWith(1,  userFriendsArray);
-      }
-    );
-  });
-
-  it ('should call method deleteFriend', () => {
-    // @ts-ignore
-    const deleteFriendSpy = spyOn (component.userFriendsService, 'deleteFriend').and.returnValue(of(true));
-    component.deleteFriend(4);
-    expect(deleteFriendSpy).toHaveBeenCalled();
   });
 
   it ('should call method addFriend', () => {

@@ -1,19 +1,17 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { FriendModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of } from 'rxjs';
 
-import { AllFriendsComponent } from './all-friends.component';
+import { FriendRequestsComponent } from './friend-requests.component';
 
-describe('AllFriendsComponent', () => {
-  let component: AllFriendsComponent;
-  let fixture: ComponentFixture<AllFriendsComponent>;
+describe('FriendRequestsComponent', () => {
+  let component: FriendRequestsComponent;
+  let fixture: ComponentFixture<FriendRequestsComponent>;
   let localStorageServiceMock: LocalStorageService;
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
@@ -25,25 +23,8 @@ describe('AllFriendsComponent', () => {
     profilePicture: '',
     added: false
   };
-  const userFriendsArray: FriendModel[] = [{
-    id: 1,
-    name: 'Name',
-    profilePicture: '',
-    added: true,
-    rate: 380,
-    city: 'Lviv',
-    mutualFriends: 5
-   },
-   {
-     id: 2,
-     name: 'Name2',
-     profilePicture: '',
-     added: true,
-     rate: 380,
-     city: 'Lviv',
-     mutualFriends: 5
-  }];
-  const userFriends = {
+
+  const requests = {
     totalElements: 1,
     totalPages: 1,
     currentPage: 1,
@@ -69,15 +50,14 @@ describe('AllFriendsComponent', () => {
      ]
     };
 
-  userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getAllFriends', 'deleteFriend', 'addFriend']);
-  userFriendsServiceMock.getAllFriends = () => (of(userFriends));
-  userFriendsServiceMock.deleteFriend = (idUser, idFriend) => (of(response));
-  userFriendsServiceMock.addFriend = (idUser, idFriend) => (of(response));
-
+  userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getRequests', 'declineRequest', 'acceptRequest']);
+  userFriendsServiceMock.getRequests = () => (of(requests));
+  userFriendsServiceMock.declineRequest = (idUser, idFriend) => (of(response));
+  userFriendsServiceMock.acceptRequest = (idUser, idFriend) => (of(response));
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AllFriendsComponent ],
+      declarations: [ FriendRequestsComponent ],
       imports: [
         TranslateModule.forRoot(),
         HttpClientTestingModule,
@@ -96,13 +76,9 @@ describe('AllFriendsComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AllFriendsComponent);
+    fixture = TestBed.createComponent(FriendRequestsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
-
-  afterEach(() => {
-    fixture.destroy();
   });
 
   it('should create', () => {
@@ -119,23 +95,30 @@ describe('AllFriendsComponent', () => {
     expect(initUserSpy).toHaveBeenCalledTimes(1);
     });
 
-  it('should get a user\'s friends', () => {
-    const getUsersFriendsSpy = spyOn(component as any, 'getAllFriends');
+  it('should get a requests', () => {
+    const getRequests = spyOn(component as any, 'getRequests');
     component.ngOnInit();
-    expect(getUsersFriendsSpy).toHaveBeenCalledTimes(1);
+    expect(getRequests).toHaveBeenCalledTimes(1);
   });
 
-  it ('should call method deleteFriend', () => {
+  it ('should call method accept', () => {
     // @ts-ignore
-    const deleteFriendSpy = spyOn (component.userFriendsService, 'deleteFriend').and.returnValue(of(true));
-    component.handleDeleteFriend(4);
-    expect(deleteFriendSpy).toHaveBeenCalled();
+    const acceptSpy = spyOn (component.userFriendsService, 'acceptRequest').and.returnValue(of(true));
+    component.accept(4);
+    expect(acceptSpy).toHaveBeenCalled();
   });
 
-  it ('should call getFriends on scroll', () => {
+  it ('should call method decline', () => {
     // @ts-ignore
-    const getAllFriendSpy = spyOn (component.userFriendsService, 'getAllFriends').and.returnValue(of(userFriends));
+    const declineSpy = spyOn (component.userFriendsService, 'declineRequest').and.returnValue(of(true));
+    component.decline(4);
+    expect(declineSpy).toHaveBeenCalled();
+  });
+
+  it ('should call getRequests on scroll', () => {
+    // @ts-ignore
+    const getRequestSpy = spyOn (component.userFriendsService, 'getRequests').and.returnValue(of(requests));
     component.onScroll();
-    expect(getAllFriendSpy).toHaveBeenCalled();
+    expect(getRequestSpy).toHaveBeenCalled();
   });
 });

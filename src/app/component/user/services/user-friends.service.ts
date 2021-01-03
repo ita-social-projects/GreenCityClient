@@ -22,6 +22,10 @@ export class UserFriendsService {
     return this.http.get<FriendArrayModel>(`${this.url}user/${id}/recommendedFriends/?page=${page}&size=${size}`);
   }
 
+  public getRequests(id: number, page = 0, size = this.size): Observable<FriendArrayModel> {
+    return this.http.get<FriendArrayModel>(`${this.url}user/${id}/friendRequests/?page=${page}&size=${size}`);
+  }
+
   public getSixFriends(userId: number): Observable<SixFriendArrayModel> {
     return this.http.get<SixFriendArrayModel>(`${this.url}user/${userId}/sixUserFriends/`);
   }
@@ -37,6 +41,24 @@ export class UserFriendsService {
     };
 
     return this.http.post<object>(`${this.url}/user/${idUser}/userFriend/${idFriend}`, body);
+  }
+
+  public acceptRequest(idUser: number, idFriend: number): Observable<object> {
+    const body = {
+      friendId: idFriend,
+      userId: idUser
+    };
+
+    return this.http.post<object>(`${this.url}/user/${idUser}/acceptFriend/${idFriend}`, body);
+  }
+
+  public declineRequest(idUser: number, idFriend: number): Observable<object> {
+    const body = {
+      friendId: idFriend,
+      userId: idUser
+    };
+
+    return this.http.post<object>(`${this.url}/user/${idUser}/declineFriend/${idFriend}`, body);
   }
 
   public deleteFriend(idUser: number, idFriend: number): Observable<object> {

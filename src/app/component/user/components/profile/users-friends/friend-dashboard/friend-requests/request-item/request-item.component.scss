@@ -10,7 +10,7 @@ $openSpans: 'Open Sans', sans-serif;
 $montserrat: 'Montserrat', sans-serif;
 $Lato: 'Lato', sans-serif;
 
-.friend-item {
+.request-item {
   display: flex;
   flex-direction: column;
   width: 300px;
@@ -35,12 +35,12 @@ button {
   background: $White;
 }
 
-.friend-with-photo {
+.request-with-photo {
   display: flex;
   flex-direction: column;
 }
 
-.friend-without-photo {
+.request-without-photo {
   display: flex;
   flex-direction: row;
 }
@@ -57,15 +57,15 @@ button {
   }
 }
 
-.friend-name {
+.request-name {
   font-weight: bold;
   font-size: 18px;
   line-height: 28px;
   margin: 2px;
 }
 
-.friend-city,
-.friend-mutual {
+.request-city,
+.request-mutual {
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
@@ -74,7 +74,7 @@ button {
   margin: 2px;
 }
 
-.friend-rate {
+.request-rate {
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
@@ -89,14 +89,14 @@ button {
   margin: 2px;
 }
 
-.friend-info {
+.request-info {
   display: flex;
   flex-direction: column;
   justify-content: start;
   flex: 3;
 }
 
-.friend-btn {
+.request-btn {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -104,19 +104,19 @@ button {
   flex: 1;
 }
 
-.friend-img {
+.request-img {
   flex: 1;
 }
 
 @media only screen and (min-width: 768px) {
-  .friend-item {
+  .request-item {
     width: 554px;
     flex-direction: row;
   }
 }
 
 @media only screen and (min-width: 576px) {
-  .friend-item {
+  .request-item {
     justify-content: center;
   }
 }

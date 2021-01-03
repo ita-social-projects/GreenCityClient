@@ -11,6 +11,7 @@ import {
   RecommendedFriendsComponent
  } from './components/profile/users-friends/friend-dashboard/recommended-friends/recommended-friends.component';
 import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';
+import { FriendRequestsComponent } from './components/profile/users-friends/friend-dashboard/friend-requests/friend-requests.component';
 
 export const userRoutes: Routes = [
   { path: '',
@@ -27,7 +28,8 @@ export const userRoutes: Routes = [
         component: FriendDashboardComponent,
         children: [
           { path: '', component: AllFriendsComponent },
-          { path: 'recommended', component: RecommendedFriendsComponent }
+          { path: 'recommended', component: RecommendedFriendsComponent },
+          { path: 'requests', component: FriendRequestsComponent }
         ]
       },
       { path: '', redirectTo: ':id', pathMatch: 'full' },

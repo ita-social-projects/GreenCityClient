@@ -2,8 +2,8 @@
   <div class="container">
     <div *ngFor="let friend of Friends">
       <app-friend-item [friend]="friend"
-        (addFriendEvent)="handleAddFriend($event)"
-        (deleteFriendEvent)="handleDeleteFriend($event)"
+        (friendEventEmit)="handleDeleteFriend($event)"
+        btnName="{{'profile.friends.delete-friend' | translate}}"
         ></app-friend-item>
     </div>
   </div>

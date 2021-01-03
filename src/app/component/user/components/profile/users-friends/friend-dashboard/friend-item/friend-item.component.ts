@@ -9,19 +9,15 @@ import { FriendModel } from '@global-user/models/friend.model';
 export class FriendItemComponent implements OnInit {
 
   @Input() friend: FriendModel;
-  @Output() addFriendEvent = new EventEmitter<number>();
-  @Output() deleteFriendEvent = new EventEmitter<number>();
+  @Input() btnName: string;
+  @Output() friendEventEmit = new EventEmitter<number>();
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  public addFriend(id: number): void {
-    this.addFriendEvent.emit(id);
-  }
-
-  public deleteFriend(id: number): void {
-    this.deleteFriendEvent.emit(id);
+  public friendEvent(id: number): void {
+    this.friendEventEmit.emit(id);
   }
 }

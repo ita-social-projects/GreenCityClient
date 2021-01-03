@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { FriendArrayModel, FriendModel, } from '@global-user/models/friend.model';
+import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -27,17 +27,6 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
     this.getAllFriends();
   }
 
-  public addStatus(userArray: FriendModel[]) {
-    userArray.forEach( elem => {
-      elem.added = true;
-    });
-  }
-
-  public changeStatus(id: number, userArray: FriendModel[]) {
-    const index = userArray.findIndex(elem => elem.id === id);
-    userArray[index].added = !userArray[index].added;
-  }
-
   public getAllFriends() {
     this.userFriendsService.getAllFriends(this.userId).pipe(
       takeUntil(this.destroy$)
@@ -45,9 +34,13 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
     .subscribe (
       (data: FriendArrayModel) => {
         this.Friends = data.page;
-        this.addStatus(this.Friends);
       },
     );
+  }
+
+  public deleteFriendsFromList(id, array) {
+    const i = array.findIndex(item => item.id === id);
+    array.splice(i, 1);
   }
 
   public onScroll(): void {
@@ -58,7 +51,6 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
     )
     .subscribe(
       (data: FriendArrayModel) => {
-        this.addStatus(data.page);
         this.Friends = this.Friends.concat(data.page);
       },
      );
@@ -70,18 +62,7 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
     )
     .subscribe(
       () => {
-        this.changeStatus(id, this.Friends);
-      }
-    );
-  }
-
-  public handleAddFriend(id: number) {
-    this.userFriendsService.addFriend(this.userId, id).pipe(
-      takeUntil(this.destroy$)
-    )
-    .subscribe(
-      () => {
-      this.changeStatus(id, this.Friends);
+        this.deleteFriendsFromList(id, this.Friends);
       }
     );
   }

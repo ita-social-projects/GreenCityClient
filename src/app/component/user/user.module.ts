@@ -83,6 +83,10 @@ import {
   RecommendedFriendsComponent
  } from './components/profile/users-friends/friend-dashboard/recommended-friends/recommended-friends.component';
 import { FriendItemComponent } from './components/profile/users-friends/friend-dashboard/friend-item/friend-item.component';
+import { FriendRequestsComponent } from './components/profile/users-friends/friend-dashboard/friend-requests/friend-requests.component';
+import {
+  RequestItemComponent
+ } from './components/profile/users-friends/friend-dashboard/friend-requests/request-item/request-item.component';
 
 @NgModule({
   declarations: [
@@ -150,7 +154,9 @@ import { FriendItemComponent } from './components/profile/users-friends/friend-d
     FriendDashboardComponent,
     AllFriendsComponent,
     RecommendedFriendsComponent,
-    FriendItemComponent
+    FriendItemComponent,
+    FriendRequestsComponent,
+    RequestItemComponent
   ],
   imports: [
     UserRoutingModule,
