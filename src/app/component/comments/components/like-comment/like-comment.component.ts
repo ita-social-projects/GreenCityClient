@@ -20,15 +20,14 @@ export class LikeCommentComponent implements OnInit {
   };
 
   constructor( private commentsService: CommentsService,
-              private socketService: SocketService ) {
-
-    //socket to subscribe to chenges to comment id
-    // this.socketService.onMessage('/app/econews/comment/likeAndCount?id='+this.comment)
-  }
+              private socketService: SocketService ) {}
 
   ngOnInit() {
     this.likeState = this.comment.currentUserLiked;
     this.setStartingElements(this.likeState);
+    //socket to subscribe to changes to comment id
+    this.socketService.onMessage('/app/econews/comment/likeAndCount?id='+this.comment.id)
+      .subscribe(data => console.log(data))
   }
 
   private setStartingElements(state: boolean) {
@@ -44,7 +43,7 @@ export class LikeCommentComponent implements OnInit {
       });
     // socket send like
     console.log('SOCKET', 'SEND LIKE for comment id', this.comment.id)
-    this.socketService.onMessage('/app/econews/comment/likeAndCount?id='+this.comment.id)
+    this.socketService.send('/app/econews/comment/likeAndCount?id='+this.comment.id, {})
   }
 
   public changeLkeBtn(): void {
