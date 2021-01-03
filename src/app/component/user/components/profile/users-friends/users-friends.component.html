@@ -1,13 +1,13 @@
 <div class="outer">
-  <div class="friends">
+  <div class="friends" *ngIf="userFriends">
     <div class="header">
       <p>
         {{ 'profile.my-eco-friends' | translate }}
-        <span>{{userFriends.length}}</span>
+        <span>{{ userFriends.length }}</span>
       </p>
       <a href="">{{ 'profile.see-all' | translate }}</a>
     </div>
-    <div class="body" *ngIf="userFriends.length">
+    <div class="body">
       <img [src]="friend.profilePicturePath"
            alt="friend"
            *ngFor="let friend of userFriends"
