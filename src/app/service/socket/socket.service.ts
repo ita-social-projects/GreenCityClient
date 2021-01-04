@@ -1,6 +1,6 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, observable } from 'rxjs';
 import * as SockJS from 'sockjs-client';
 import { Stomp, StompSubscription } from '@stomp/stompjs';
 import { SocketClientState } from './socket-state.enum'
@@ -9,7 +9,7 @@ import { filter, first, switchMap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class SocketService implements OnDestroy {
+export class SocketService {
   
   private state: BehaviorSubject<SocketClientState>;
   private webSocket: any;
@@ -17,42 +17,59 @@ export class SocketService implements OnDestroy {
   coments;
 
   constructor() {
-    this.webSocket = Stomp.over(() => new SockJS('https://greencity.azurewebsites.net/socket/'));
-    this.state = new BehaviorSubject<SocketClientState>(SocketClientState.ATTEMPTING);
+    // this.webSocket.connect({}, () => {
+    //   this.state.next(SocketClientState.CONNECTED);
+    // });
+    this.webSocket = Stomp.over(() => new SockJS('https://greencity.azurewebsites.net/socket'));
     this.webSocket.connect({}, () => {
-      this.state.next(SocketClientState.CONNECTED);
+      console.log('connected')
     });
   }
 
-  public connect (): Observable<any> {
+  connect(): Observable<any> {
     return new Observable(observer => {
-      this.state.pipe(filter(state => state === SocketClientState.CONNECTED)).subscribe(() => {
-        observer.next(this.webSocket);
-      });
+      observer.next(this.webSocket);
     });
   }
 
-  onMessage(what: string): Observable<any> {
-    return this.connect()
-      .pipe(
-        first(),
-        switchMap(client => {
-          return new Observable<any>(observer => {
-            const subscription: StompSubscription = client.subscribe(what, data => {
-              observer.next(data);
-            });
-            return () => client.unsubscribe(subscription.id);
-          });
-    }));
-  }
+  // public onConnected(comment) {
+  //   console.log('onConnected', comment)
+  //   this.webSocket
+  //     .subscribe(`/topic/comment`, this.onMessageReceived);
+  // public connect(): Observable<any> {
+    // return new Observable(observer => {
+    //   this.state.pipe(filter(state => state === SocketClientState.CONNECTED)).subscribe(() => {
+    //     observer.next(this.webSocket);
+    //   });
+    // });
+  // }
 
-  send(what, data): void {
-    this.connect()
-      .pipe(first())
-      .subscribe(client => client.send(what, data));
-  }
+  // onMessageReceived(msg){
+  //   console.log(JSON.parse(msg.body));
+  // }
 
-  ngOnDestroy() {
-    this.connect().pipe(first()).subscribe(client => client.disconnect(null));
-  }
+  // onMessage(what: string): Observable<any> {
+  //   return this.connect()
+  //     .pipe(
+  //       first(),
+  //       switchMap(client => {
+  //         return new Observable<any>(observer => {
+  //           const subscription: StompSubscription = client.subscribe(what, data => {
+  //             observer.next(data);
+  //           });
+  //           return () => client.unsubscribe(subscription.id);
+  //         });
+  //   }));
+  // }
+
+  // sesendMessage(link, comment): void {
+  //   this.webSocket.send(link, {}, JSON.stringify({
+  //     id: comment.id,
+  //     likes: 1
+  //   }));
+  // }
+
+  // ngOnDestroy() {
+  //   this.connect().pipe(first()).subscribe(client => client.disconnect(null));
+  // }
 }

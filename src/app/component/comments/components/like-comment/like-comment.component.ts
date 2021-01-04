@@ -18,6 +18,7 @@ export class LikeCommentComponent implements OnInit {
     like: 'assets/img/comments/like.png',
     liked: 'assets/img/comments/liked.png'
   };
+  private webSocket;
 
   constructor( private commentsService: CommentsService,
               private socketService: SocketService ) {}
@@ -25,9 +26,26 @@ export class LikeCommentComponent implements OnInit {
   ngOnInit() {
     this.likeState = this.comment.currentUserLiked;
     this.setStartingElements(this.likeState);
-    //socket to subscribe to changes to comment id
-    this.socketService.onMessage('/app/econews/comment/likeAndCount?id='+this.comment.id)
-      .subscribe(data => console.log(data))
+    this.socketService.connect().subscribe(socket => {
+      this.webSocket = socket;
+    });
+  }
+
+  public onConnected() {
+    console.log('onConnected', this.comment)
+    this.webSocket
+      .subscribe(`/topic/${this.comment.id}/comment`, this.onMessageReceived);
+  // public connect(): Observable<any> {
+    // return new Observable(observer => {
+    //   this.state.pipe(filter(state => state === SocketClientState.CONNECTED)).subscribe(() => {
+    //     observer.next(this.webSocket);
+    //   });
+    // });
+  }
+
+  onMessageReceived(msg){
+    console.log('onMessageReceived', msg)
+    console.log(JSON.parse(msg.body));
   }
 
   private setStartingElements(state: boolean) {
@@ -36,14 +54,18 @@ export class LikeCommentComponent implements OnInit {
   }
 
   public pressLike(): void {
-    this.commentsService.postLike(this.comment.id)
-      .subscribe(() => {
-        this.changeLkeBtn();
-        this.getLikesFromServer();
-      });
+    // this.commentsService.postLike(this.comment.id)
+    //   .subscribe(() => {
+    //     this.changeLkeBtn();
+    //     this.getLikesFromServer();
+    //   });
     // socket send like
     console.log('SOCKET', 'SEND LIKE for comment id', this.comment.id)
-    this.socketService.send('/app/econews/comment/likeAndCount?id='+this.comment.id, {})
+    // this.socketService.sesendMessage('/app/likeAndCount', this.comment)
+    this.webSocket.send('/app/likeAndCount', {}, JSON.stringify({
+      id: this.comment.id,
+      likes: 1
+    }));
   }
 
   public changeLkeBtn(): void {
@@ -53,9 +75,9 @@ export class LikeCommentComponent implements OnInit {
     this.likeState = !this.likeState;
   }
 
-  private getLikesFromServer(): void {
-    this.commentsService.getCommentLikes(this.comment.id)
-      .subscribe((data: number) => this.likesCounter.emit(data),
-      () => this.error = true);
-  }
+  // private getLikesFromServer(): void {
+  //   this.commentsService.getCommentLikes(this.comment.id)
+  //     .subscribe((data: number) => this.likesCounter.emit(data),
+  //     () => this.error = true);
+  // }
 }
