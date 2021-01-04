@@ -10,10 +10,6 @@ $bp-largest: 1440px;
 $title-font: 'Montserrat', sans-serif;
 $main-font: 'Open Sans', sans-serif;
 
-.wrapper {
-  margin: 0 10%;
-}
-
 .word-wrap {
   word-break: break-word;
 }
@@ -185,6 +181,12 @@ $main-font: 'Open Sans', sans-serif;
   line-height: 32px;
   color: #000;
   margin-top: 6px;
+}
+
+@media (min-width: 576px) {
+  .container {
+    padding: 0;
+  }
 }
 
 @media screen and (max-width: 1024px) {

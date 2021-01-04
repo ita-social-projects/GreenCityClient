@@ -15,7 +15,7 @@ $main-font: 'Open Sans', sans-serif;
 
 .wrapper-reply {
   width: 90%;
-  margin-left: 70px;
+  padding-left: 70px;
 }
 
 .author-name {
@@ -36,6 +36,7 @@ $main-font: 'Open Sans', sans-serif;
   display: flex;
   flex-direction: row;
   align-items: center;
+  padding-top: 4px;
 
   .comment-dot {
     margin: 0 8px;
