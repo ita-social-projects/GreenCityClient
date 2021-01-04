@@ -27,14 +27,19 @@ export class LikeCommentComponent implements OnInit {
     this.likeState = this.comment.currentUserLiked;
     this.setStartingElements(this.likeState);
     this.socketService.connect().subscribe(socket => {
-      this.webSocket = socket;
+      if(socket){
+        this.webSocket = socket;
+        this.onConnected();
+      }
     });
   }
 
   public onConnected() {
     console.log('onConnected', this.comment)
-    this.webSocket
-      .subscribe(`/topic/${this.comment.id}/comment`, this.onMessageReceived);
+    if(this.webSocket){
+      this.webSocket.subscribe(`/topic/${this.comment.id}/comment`, this.onMessageReceived);
+    }
+    
   // public connect(): Observable<any> {
     // return new Observable(observer => {
     //   this.state.pipe(filter(state => state === SocketClientState.CONNECTED)).subscribe(() => {
@@ -64,7 +69,7 @@ export class LikeCommentComponent implements OnInit {
     // this.socketService.sesendMessage('/app/likeAndCount', this.comment)
     this.webSocket.send('/app/likeAndCount', {}, JSON.stringify({
       id: this.comment.id,
-      likes: 1
+      amountLikes: 1
     }));
   }
 
