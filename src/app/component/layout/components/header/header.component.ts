@@ -1,6 +1,6 @@
 import { headerIcons } from './../../../../image-pathes/header-icons';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NavigationStart, Router } from '@angular/router';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ViewChildren, QueryList } from '@angular/core';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { filter, takeUntil } from 'rxjs/operators';
 import { JwtService } from '@global-service/jwt/jwt.service';
@@ -34,9 +34,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public isAllSearchOpen = false;
   public toggleBurgerMenu = false;
   public arrayLang: Array<LanguageModel> = [
-    {lang: 'Ua'},
-    {lang: 'En'},
-    {lang: 'Ru'}];
+    { lang: 'Ua' },
+    { lang: 'En' },
+    { lang: 'Ru' }];
   public isSearchClicked = false;
   private adminRoleValue = 'ROLE_ADMIN';
   private userRole: string;
@@ -45,20 +45,34 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private backEndLink = environment.backendLink;
   private destroySub: Subject<boolean> = new Subject<boolean>();
   public headerImageList = headerIcons;
+  public skipPath: string;
 
   constructor(public dialog: MatDialog,
-              private localStorageService: LocalStorageService,
-              private jwtService: JwtService,
-              private router: Router,
-              private userService: UserService,
-              private achievementService: AchievementService,
-              private habitStatisticService: HabitStatisticService,
-              private languageService: LanguageService,
-              private searchSearch: SearchService,
-              private userOwnAuthService: UserOwnAuthService,
-  ) {}
+    private localStorageService: LocalStorageService,
+    private jwtService: JwtService,
+    private router: Router,
+    private userService: UserService,
+    private achievementService: AchievementService,
+    private habitStatisticService: HabitStatisticService,
+    private languageService: LanguageService,
+    private searchSearch: SearchService,
+    private userOwnAuthService: UserOwnAuthService,
+  ) { }
+
+  @ViewChild('focusFirst', { static: true }) focusFirst: ElementRef;
+  @ViewChildren('link') link: QueryList<ElementRef>;
 
   ngOnInit() {
+
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+      this.link.forEach((item) => {
+        item.nativeElement.tabIndex = '0';
+      })
+      this.focusFirst.nativeElement.focus();
+    });
+
     this.searchSearch.searchSubject
       .pipe(
         takeUntil(this.destroySub)
@@ -81,14 +95,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.userOwnAuthService.getDataFromLocalStorage();
 
     this.userOwnAuthService.isLoginUserSubject
-    .pipe(
-      takeUntil(this.destroySub)
-    ).subscribe(
-      status => this.isLoggedIn = status
-    );
+      .pipe(
+        takeUntil(this.destroySub)
+      ).subscribe(
+        status => this.isLoggedIn = status
+      );
     this.token = this.localStorageService.getAccessToken();
     this.isAdmin = this.userRole === this.adminRoleValue;
     this.managementLink = `${this.backEndLink}token?accessToken=${this.token}`;
+  }
+
+  public skipFocus(): void {
+    this.link.forEach((link) => {
+      link.nativeElement.blur();
+      link.nativeElement.tabIndex = '-1';
+    })
   }
 
   ngOnDestroy() {
@@ -206,7 +227,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public toggleScroll(): void {
     this.toggleBurgerMenu ?
-    document.body.classList.add('modal-open') :
-    document.body.classList.remove('modal-open');
+      document.body.classList.add('modal-open') :
+      document.body.classList.remove('modal-open');
   }
 }
