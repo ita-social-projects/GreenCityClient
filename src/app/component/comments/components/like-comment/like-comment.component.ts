@@ -27,19 +27,16 @@ export class LikeCommentComponent implements OnInit {
     this.likeState = this.comment.currentUserLiked;
     this.setStartingElements(this.likeState);
     this.socketService.connect().subscribe(socket => {
-      if(socket){
-        this.webSocket = socket;
-        this.onConnected();
-      }
+      this.webSocket = socket;
+      this.onConnected()
     });
   }
 
   public onConnected() {
-    console.log('onConnected', this.comment)
     if(this.webSocket){
       this.webSocket.subscribe(`/topic/${this.comment.id}/comment`, this.onMessageReceived);
     }
-    
+
   // public connect(): Observable<any> {
     // return new Observable(observer => {
     //   this.state.pipe(filter(state => state === SocketClientState.CONNECTED)).subscribe(() => {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { BehaviorSubject, Observable, observable } from 'rxjs';
+import { BehaviorSubject, Observable, observable, of } from 'rxjs';
 import * as SockJS from 'sockjs-client';
 import { Stomp, StompSubscription } from '@stomp/stompjs';
 import { SocketClientState } from './socket-state.enum'
@@ -20,15 +20,18 @@ export class SocketService {
     // this.webSocket.connect({}, () => {
     //   this.state.next(SocketClientState.CONNECTED);
     // });
+    this.state = new BehaviorSubject<SocketClientState>(SocketClientState.ATTEMPTING);
     this.webSocket = Stomp.over(() => new SockJS('https://greencity.azurewebsites.net/socket'));
     this.webSocket.connect({}, () => {
-      console.log('connected')
+      this.state.next(SocketClientState.CONNECTED);
     });
   }
 
   connect(): Observable<any> {
     return new Observable(observer => {
-      observer.next(this.webSocket);
+      this.state.pipe(filter(state => state === SocketClientState.CONNECTED)).subscribe(() => {
+        observer.next(this.webSocket);
+      });
     });
   }
 
