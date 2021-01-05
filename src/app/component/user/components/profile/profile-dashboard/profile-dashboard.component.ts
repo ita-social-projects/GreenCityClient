@@ -34,17 +34,17 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     this.getUserId();
   }
 
-  getUserId() {
+  private getUserId() {
     this.userId = this.localStorageService.getUserId();
   }
 
-  subscribeToLangChange() {
+  private subscribeToLangChange() {
     this.localStorageService.languageBehaviourSubject
       .pipe(takeUntil(this.destroyed$))
       .subscribe(() => this.executeRequests());
   }
 
-  executeRequests() {
+  public executeRequests() {
     this.loading = true;
     this.habitAssignService.getAssignedHabits()
       .pipe(take(1))
@@ -56,11 +56,11 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       });
   }
 
-  sortHebitsAsc(habitsArray): Array<HabitAssignInterface> {
+  private sortHebitsAsc(habitsArray): Array<HabitAssignInterface> {
     return habitsArray.sort((a, b) => (a.habit.id > b.habit.id) ? 1 : (b.habit.id > a.habit.id) ? -1 : 0);
   }
 
-  toggleTab(tab: string): void {
+  public toggleTab(tab: string): void {
     Object.keys(this.tabs).forEach(item => this.tabs[item] = item === tab);
   }
 

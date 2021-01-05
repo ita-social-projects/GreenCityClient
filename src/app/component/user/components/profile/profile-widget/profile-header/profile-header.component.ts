@@ -31,7 +31,7 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
     this.buildSocialNetworksChart();
   }
 
-  findNetwork(networkLink) {
+  private findNetwork(networkLink) {
     return this.socialNetworksList.reduce((result, current) => {
       if (networkLink.includes(current)) {
         result = current;
@@ -40,7 +40,7 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
     }, 'green-city');
   }
 
-  buildSocialNetworksChart() {
+  private buildSocialNetworksChart() {
     this.userSocialNetworks = this.userInfo.socialNetworks.map(item => {
       return {
         link: item.url,
