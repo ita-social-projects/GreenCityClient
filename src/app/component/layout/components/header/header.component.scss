@@ -47,24 +47,6 @@ $white-color: #fff;
   column-gap: 55px;
 }
 
-.skip-container {
-  text-align: center;
-}
-
-.skip {
-  position: absolute;
-  top: 100%;
-  left: -100%;
-  width: 100px;
-  color: $secondary-font-color;
-  border-radius: 3px;
-  padding: 2px 2px;
-}
-
-.skip:focus {
-  left: 0;
-}
-
 .header_logo {
   margin: auto;
   max-height: 36px;

@@ -1,5 +1,5 @@
 import { headerIcons } from './../../../../image-pathes/header-icons';
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -59,20 +59,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private userOwnAuthService: UserOwnAuthService,
   ) { }
 
-  @ViewChild('focusFirst', { static: true }) focusFirst: ElementRef;
-  @ViewChildren('link') link: QueryList<ElementRef>;
-
   ngOnInit() {
-
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe((event: any) => {
-      this.link.forEach((item) => {
-        item.nativeElement.tabIndex = '0';
-      })
-      this.focusFirst.nativeElement.focus();
-    });
-
     this.searchSearch.searchSubject
       .pipe(
         takeUntil(this.destroySub)
@@ -103,13 +90,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.token = this.localStorageService.getAccessToken();
     this.isAdmin = this.userRole === this.adminRoleValue;
     this.managementLink = `${this.backEndLink}token?accessToken=${this.token}`;
-  }
-
-  public skipFocus(): void {
-    this.link.forEach((link) => {
-      link.nativeElement.blur();
-      link.nativeElement.tabIndex = '-1';
-    })
   }
 
   ngOnDestroy() {
