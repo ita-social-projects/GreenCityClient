@@ -13,13 +13,13 @@ import { HabitInterface, HabitListInterface, HabitShoppingListInterface } from '
 export class HabitService implements OnDestroy {
 
   language: string;
-  destroy: ReplaySubject<any> = new ReplaySubject<any>(1);
+  destroy$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   constructor(private http: HttpClient,
               private localStorageService: LocalStorageService) {
 
     localStorageService.languageBehaviourSubject
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(language => this.language = language);
 
   }
@@ -46,7 +46,7 @@ export class HabitService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy.next(null);
-    this.destroy.complete();
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 }

@@ -1,7 +1,4 @@
-$main-font: 'Montserrat', sans-serif;
-$main-color: #494a49;
 $additional-color: #e1e5e3;
-$background-color: #f5f6f6;
 
 p {
   margin: 0;
@@ -14,8 +11,8 @@ p {
   column-gap: 8px;
 
   .chain {
-    color: $main-color;
-    font-family: $main-font;
+    color: var(--primary-dark-grey);
+    font-family: var(--secondary-font);
     font-style: normal;
     border-right: 1px solid $additional-color;
 

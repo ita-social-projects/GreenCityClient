@@ -1,12 +1,5 @@
-$main-font: 'Montserrat', sans-serif;
-$additional-font: 'Open Sans', sans-serif;
-$background-color: #f5f6f6;
-$main-color: #494a49;
-$grey-color: #839c94;
 $grey-light-color: #6a8079;
-$green-color: #13aa57;
 $green-light-color: rgba(19, 170, 87, 0.12);
-$additional-color: #bebebe;
 
 p {
   margin: 0;
@@ -14,7 +7,7 @@ p {
 
 .profile {
   height: 366px;
-  background-color: $background-color;
+  background-color: var(--secondary-light-grey);
   position: relative;
 
   .edit-icon {
@@ -39,17 +32,17 @@ p {
     }
 
     .name {
-      font-family: $main-font;
+      font-family: var(--secondary-font);
       font-style: normal;
       font-weight: 500;
       font-size: 14px;
       line-height: 20px;
-      color: $main-color;
+      color: var(--primary-dark-grey);
       justify-self: center;
     }
 
     .location {
-      font-family: $main-font;
+      font-family: var(--secondary-font);
       font-style: normal;
       font-weight: 600;
       font-size: 11px;
@@ -67,12 +60,12 @@ p {
       height: 20px;
       border-radius: 4px;
       background-color: $green-light-color;
-      font-family: $additional-font;
+      font-family: var(--primary-font);
       font-style: normal;
       font-weight: 600;
       font-size: 11px;
       line-height: 15px;
-      color: $green-color;
+      color: var(--primary-green);
       justify-self: center;
       display: flex;
       justify-content: center;
@@ -80,10 +73,10 @@ p {
     }
 
     .credo {
-      font-family: $additional-font;
+      font-family: var(--primary-font);
       font-size: 11px;
       line-height: 16px;
-      color: $main-color;
+      color: var(--primary-dark-grey);
       width: 288px;
       justify-self: center;
     }

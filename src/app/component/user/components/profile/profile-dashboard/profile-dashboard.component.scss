@@ -1,10 +1,3 @@
-$main-font: 'Montserrat', sans-serif;
-$additional-font: 'Open Sans', sans-serif;
-$main-color: #494a49;
-$additional-color: #bebebe;
-$hover-color: #056b33;
-$green-color: #13aa57;
-
 p {
   margin: 0;
 }
@@ -15,17 +8,17 @@ a {
 
 .main {
   .header {
-    font-family: $main-font;
+    font-family: var(--secondary-font);
     font-style: normal;
     font-weight: 600;
     font-size: 13px;
     line-height: 16px;
 
     p {
-      color: $main-color;
+      color: var(--primary-dark-grey);
 
       span {
-        color: $additional-color;
+        color: var(--tertiary-light-grey);
       }
     }
   }
@@ -43,27 +36,27 @@ a {
       cursor: pointer;
 
       p {
-        font-family: $additional-font;
+        font-family: var(--primary-font);
         font-size: 11px;
         line-height: 13px;
-        color: $main-color;
+        color: var(--primary-dark-grey);
       }
     }
 
     .active {
-      border: 1px solid $green-color;
+      border: 1px solid var(--primary-green);
       border-bottom-color: white;
       border-radius: 4px 4px 0 0;
     }
 
     .plain {
       border: 1px solid white;
-      border-bottom-color: $green-color;
+      border-bottom-color: var(--primary-green);
     }
 
     .hline {
       flex-grow: 1;
-      border-bottom: 1px solid $green-color;
+      border-bottom: 1px solid var(--primary-green);
     }
   }
 

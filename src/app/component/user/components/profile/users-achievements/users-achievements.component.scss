@@ -1,15 +1,11 @@
-$main-font: 'Montserrat', sans-serif;
-$background-color: #f5f6f6;
-$main-color: #494a49;
 $additional-color: #e1e5e3;
-$light-color: #bebebe;
 
 p {
   margin: 0;
 }
 
 .outer {
-  background-color: $background-color;
+  background-color: var(--secondary-light-grey);
   display: flex;
   justify-content: center;
 
@@ -25,26 +21,26 @@ p {
       align-items: center;
 
       p:first-child {
-        font-family: $main-font;
+        font-family: var(--secondary-font);
         font-style: normal;
         font-weight: 600;
         font-size: 12px;
         line-height: 15px;
-        color: $main-color;
+        color: var(--primary-dark-grey);
       }
 
       a:nth-child(2) {
-        font-family: $main-font;
+        font-family: var(--secondary-font);
         font-style: normal;
         font-weight: normal;
         font-size: 11px;
         line-height: 13px;
-        color: $main-color;
+        color: var(--primary-dark-grey);
         text-decoration: none;
       }
 
       span {
-        color: $light-color;
+        color: var(--tertiary-light-grey);
       }
     }
 
