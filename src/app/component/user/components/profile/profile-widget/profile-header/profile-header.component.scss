@@ -208,7 +208,7 @@ p {
         display: block;
         grid-area: 4 / 1 / 5 / 2;
         justify-self: center;
-        font-family: $main-font;
+        font-family: var(--secondary-font);
         font-size: 12px;
         font-style: normal;
         font-weight: 400;
