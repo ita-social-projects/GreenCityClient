@@ -1,31 +1,18 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
-
-$title-font: 'Montserrat', sans-serif;
-$main-font: 'Open Sans', sans-serif;
-$sign-up-google-font: 'Roboto';
-$errorColor : #f03127;
-$linkColor: #056b33;
-$secondaryTextColor: #494a49;
-$headerColor: #2b292d;
-$borderColor:  #878787;
-
 .title-text {
   margin-bottom: 8px;
-  font-family: $title-font;
+  font-family: var(--secondary-font);
   font-style: normal;
   font-weight: 500;
   font-size: 40px;
   line-height: 40px;
-  color: $headerColor;
+  color: var(--tertiary-dark-grey);
 }
 
 .subtitle-text {
   font-size: 16px;
-  font-family: $main-font;
+  font-family: var(--primary-font);
   line-height: 16px;
-  color: $secondaryTextColor;
+  color: var(--primary-dark-grey);
 }
 
 .form-content-container {
@@ -36,9 +23,9 @@ $borderColor:  #878787;
   .content-label {
     margin: 21px 0 4px;
     font-size: 12px;
-    font-family: $main-font;
+    font-family: var(--primary-font);
     line-height: 14px;
-    color: $secondaryTextColor;
+    color: var(--primary-dark-grey);
   }
 
   .under-error {
@@ -47,7 +34,7 @@ $borderColor:  #878787;
 
   .main-data-input,
   .main-data-input-password {
-    border: 1px solid $borderColor;
+    border: 1px solid var(--secondary-grey);
     box-sizing: border-box;
     border-radius: 5px;
     width: 368px;
@@ -63,7 +50,7 @@ $borderColor:  #878787;
   }
 
   .main-data-input::placeholder {
-    color: $borderColor;
+    color: var(--secondary-grey);
   }
 
   .main-data-input-password {
@@ -90,21 +77,21 @@ $borderColor:  #878787;
   }
 
   .wrong-input {
-    border: 1px solid $errorColor;
+    border: 1px solid var(--error-ligh-red);
   }
 
   .error-message {
     font-size: 10px;
     line-height: 12px;
-    color: $errorColor;
+    color: var(--error-ligh-red);
   }
 
   .alert-general-error {
     position: relative;
-    color: $errorColor;
+    color: var(--error-ligh-red);
     font-size: 10px;
     line-height: 12px;
-    font-family: $main-font;
+    font-family: var(--primary-font);
     margin-bottom: 4px;
   }
 
@@ -129,20 +116,20 @@ $borderColor:  #878787;
     font-size: 12px;
     line-height: 12px;
     text-align: center;
-    color: $secondaryTextColor;
+    color: var(--primary-dark-grey);
   }
 }
 
 .exist-account {
   margin-bottom: 40px;
   font-size: 16px;
-  font-family: $main-font;
+  font-family: var(--primary-font);
   line-height: 16px;
-  color: $secondaryTextColor;
+  color: var(--primary-dark-grey);
 
   .exist-sign-in {
     text-decoration: underline;
-    color: $linkColor;
+    color: var(--secondary-dark-green);
   }
 }
 

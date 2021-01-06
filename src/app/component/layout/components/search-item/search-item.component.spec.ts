@@ -45,7 +45,7 @@ describe('SearchItemComponent', () => {
     spyOn(component.closeSearch, 'emit');
     // trigger the click
     const nativeElement = fixture.nativeElement;
-    const button = nativeElement.querySelector('.title-list a');
+    const button = nativeElement.querySelector('.search_item-title a');
     button.dispatchEvent(new Event('click'));
 
     fixture.detectChanges();

@@ -4,14 +4,14 @@
 
 .tracker-date-text {
   display: block;
-  font-family: 'Open Sans', sans-serif;
+  font-family: var(--primary-font);
   font-size: 16px;
   font-weight: normal;
   font-stretch: normal;
   font-style: italic;
   line-height: 1.5;
   letter-spacing: 1.5px;
-  color: #839c94;
+  color: var(--primary-grey);
 }
 
 @media screen and (max-width: 768px) {

@@ -59,7 +59,7 @@
 
 /* When the checkbox is checked, add a green background and border radius 4px */
 .goal-container input:checked ~ .check-mark {
-  background-color: #39b54a;
+  background-color: var(--tertiary-light-green);
   border-radius: 4px;
 }
 

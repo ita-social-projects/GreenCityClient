@@ -12,3 +12,8 @@ interface SearchItem {
     tags: Array<string>;
     title: string;
 }
+
+export interface FilterByitem {
+    category: string;
+    name: string;
+}

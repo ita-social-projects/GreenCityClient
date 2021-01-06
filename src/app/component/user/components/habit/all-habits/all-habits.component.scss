@@ -1,6 +1,6 @@
 h1 {
   margin: 0;
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--secondary-font);
 }
 
 .habits_header-buttons {
@@ -12,7 +12,7 @@ h1 {
 }
 
 .habits_header-items-found {
-  font-family: 'OpenSans', sans-serif;
+  font-family: var(--primary-font);
   font-size: 16px;
   line-height: 24px;
 }

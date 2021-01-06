@@ -35,7 +35,7 @@ describe('SearchNotFoundComponent', () => {
     spyOn(component.closeUnsuccessfulSearchResults, 'emit');
     // trigger the click
     const nativeElement = fixture.nativeElement;
-    const button = nativeElement.querySelector('.flex-container a');
+    const button = nativeElement.querySelector('.search_not-found-item-wrp a');
     button.dispatchEvent(new Event('click'));
 
     fixture.detectChanges();

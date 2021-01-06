@@ -2,7 +2,7 @@
   <div class="header_wrp container">
     <div class="header_container">
       <a class="header_logo" [routerLink]="['/']" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
-        <img src="../../../../../assets/img/logo.svg" alt="GreenCity home">
+        <img [src]="headerImageList.greenCityLogo" alt="GreenCity home">
       </a>
       <div class="header_navigation-menu">
         <nav [ngClass]="toggleBurgerMenu ? 'header_navigation-menu-left-col' : 'header_navigation-menu-left'">
@@ -79,7 +79,7 @@
               <img (click)="toggleSearchPage()" 
                    (keyup.enter)="toggleSearchPage()" 
                    tabindex="0" 
-                   src="../../../../../assets/img/search.svg" 
+                   [src]="headerImageList.search" 
                    alt="Internal search">
             </li>
             <!-- Lang switcher -->
@@ -93,10 +93,7 @@
                 role="Language switcher">
               <li>
                 {{arrayLang[0].lang}}
-                <object type="image/svg+xml"
-                        data="../../../../../assets/img/arrow_down.svg"
-                        [ngClass]="langDropdownVisible ? 'header_arrow reverse' : 'header_arrow'">
-                </object>
+                <img [src]="headerImageList.arrowDown" alt="arrow down icon" [ngClass]="langDropdownVisible ? 'header_arrow reverse' : 'header_arrow'">
               </li>
               <ng-container *ngIf="langDropdownVisible">
                 <ng-container *ngFor="let lang of arrayLang;index as index;">
@@ -116,11 +113,7 @@
                 <li class="tertiary-global-button" role="user name">
                   <a tabindex="0" (click)="toggleDropdown()" (keyup.enter)="toggleDropdown()" class="header_user-name">
                     <span>{{ name }}</span>
-                    <object type="image/svg+xml"
-                            data="../../../../../assets/img/arrow_down-green.svg"
-                            [ngClass]="dropdownVisible ? 'header_arrow reverse' : 'header_arrow'"
-                            >
-                    </object>
+                    <img [src]="headerImageList.arrowDownGreen" alt="arrow down icon" [ngClass]="dropdownVisible ? 'header_arrow reverse' : 'header_arrow'">
                   </a>
                 </li>
                 <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="settigns">
