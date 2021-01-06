@@ -1,10 +1,5 @@
-$primary-font: 'opensans', sans-serif;
-$primary-color: #13aa57;
-$secondary-color: #494a49;
-$primary-dark-color: #056b33;
-
 a {
-  color: #666;
+  color: var(--tertiary-grey);
 
   &:hover {
     text-decoration: none;
@@ -12,9 +7,9 @@ a {
 }
 
 h3 {
-  font-family: $primary-font;
+  font-family: var(--primary-font);
   font-size: 1.5rem;
-  color: $primary-color;
+  color: var(--primary-green);
   margin-bottom: 15px;
 }
 
@@ -45,16 +40,16 @@ h3 {
 .search_search-field {
   background-color: #fff;
   border: none;
-  font-family: $primary-font;
+  font-family: var(--primary-font);
   font-size: 1.5rem;
-  color: $secondary-color;
+  color: var(--primary-dark-grey);
 
   &:focus {
     outline: none;
   }
 
   &::placeholder {
-    color: #bebebe;
+    color: var(--tertiary-light-grey);
   }
 }
 
@@ -93,7 +88,7 @@ div.search-content-wrapper {
   margin: 15px 0 2.5rem 0;
   font-size: 16px;
   line-height: 24px;
-  font-family: $primary-font;
+  font-family: var(--primary-font);
 }
 
 .search_content-tips {
@@ -104,8 +99,8 @@ div.search-content-wrapper {
 .all-results-link {
   line-height: 19px;
   text-decoration-line: underline;
-  color: $primary-dark-color;
-  font-family: $primary-font;
+  color: var(--secondary-dark-green);
+  font-family: var(--primary-font);
   font-size: 1rem;
 
   &::after {

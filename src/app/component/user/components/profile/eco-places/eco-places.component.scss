@@ -1,18 +1,16 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
-
-$title-font: 'Montserrat';
+$title-font: var(--secondary-font);
 $bp-smallest: 320px;
 $bp-phone: 576px;
 $bp-tablet: 768px;
 $bp-desktop: 1024px;
 $bp-largest: 1440px;
-$grey: #bebebe;
+$grey: var(--tertiary-light-grey);
 
 .eco-places-content {
   width: 100%;
   padding: 24px 0;
   margin: 0 auto;
-  font-family: Montserrat, sans-serif;
+  font-family: var(--secondary-font);
   font-style: normal;
   border-top: 1px solid #eaeef3;
 }
@@ -30,7 +28,7 @@ $grey: #bebebe;
   padding-bottom: 8px;
 
   span {
-    color: #bebebe;
+    color: var(--tertiary-light-grey);
     margin-left: 10px;
   }
 }

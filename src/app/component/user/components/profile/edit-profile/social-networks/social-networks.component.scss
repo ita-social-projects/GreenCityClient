@@ -1,6 +1,3 @@
-$errorColor: #f03127;
-$font-open-sans: 'opensans', sans-serif;
-
 .social_network-wrp {
   display: grid;
   grid-template-columns: calc(100% - 47px) 47px;
@@ -53,10 +50,10 @@ $font-open-sans: 'opensans', sans-serif;
   flex-direction: column;
 
   label {
-    font-family: $font-open-sans;
+    font-family: var(--primary-font);
     font-size: 12px;
     line-height: 16px;
-    color: #494a49;
+    color: var(--primary-dark-grey);
     margin-bottom: 4px;
   }
 }
@@ -106,22 +103,22 @@ $font-open-sans: 'opensans', sans-serif;
 }
 
 .link-text {
-  color: #494a49;
-  font-family: $font-open-sans;
+  color: var(--primary-dark-grey);
+  font-family: var(--primary-font);
   font-size: 14px;
   line-height: 24px;
   margin-left: 16px;
 }
 
 .social_network-input-error {
-  color: $errorColor;
-  font-family: $font-open-sans;
+  color: var(--error-ligh-red);
+  font-family: var(--primary-font);
   font-size: 10px;
   line-height: 12px;
 }
 
 .ng-touched.ng-invalid {
-  border: 1px solid $errorColor;
+  border: 1px solid var(--error-ligh-red);
 }
 
 @media (min-width: 375px) {

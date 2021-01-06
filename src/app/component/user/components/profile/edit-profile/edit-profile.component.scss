@@ -1,11 +1,5 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
-
-$title-font: montserrat, sans-serif;
-$main-font: opensans, sans-serif;
-
 .checkmark {
-  border: 1px solid #13aa57;
+  border: 1px solid var(--primary-green);
   border-radius: 4px;
   height: 20px;
   width: 20px;
@@ -34,7 +28,7 @@ input[type=checkbox] {
 }
 
 input:checked ~ .checkmark {
-  background-color: #13aa57;
+  background-color: var(--primary-green);
 }
 
 input:checked ~ .checkmark::after {
@@ -52,7 +46,7 @@ input:checked ~ .checkmark::after {
     padding-bottom: 40px;
 
     p {
-      font-family: $title-font;
+      font-family: var(--secondary-font);
       font-style: normal;
       font-weight: 500;
       font-size: 24px;
@@ -64,7 +58,7 @@ input:checked ~ .checkmark::after {
       flex-direction: column;
 
       label {
-        font-family: $main-font;
+        font-family: var(--primary-font);
         font-size: 12px;
         height: 16px;
         line-height: 16px;
@@ -74,10 +68,10 @@ input:checked ~ .checkmark::after {
       input,
       textarea {
         background: #fff;
-        border: 1px solid #878787;
+        border: 1px solid var(--secondary-grey);
         border-radius: 5px;
         box-sizing: border-box;
-        font-family: $main-font;
+        font-family: var(--primary-font);
         font-size: 16px;
       }
 
@@ -92,11 +86,11 @@ input:checked ~ .checkmark::after {
       }
 
       span {
-        font-family: $main-font;
+        font-family: var(--primary-font);
         font-size: 10px;
         height: 12px;
         line-height: 12px;
-        color: #878787;
+        color: var(--secondary-grey);
       }
 
       input.ng-invalid.ng-touched,
@@ -116,10 +110,10 @@ input:checked ~ .checkmark::after {
     justify-content: flex-end;
 
     button {
-      border: 1px solid #13aa57;
+      border: 1px solid var(--primary-green);
       box-sizing: border-box;
       border-radius: 5px;
-      font-family: $main-font;
+      font-family: var(--primary-font);
       font-style: normal;
       font-weight: 600;
       font-size: 16px;
@@ -131,44 +125,44 @@ input:checked ~ .checkmark::after {
 
     button:first-child {
       background: #fff;
-      color: #13aa57;
+      color: var(--primary-green);
     }
 
     button:last-child {
-      background: #13aa57;
+      background: var(--primary-green);
       color: #fff;
     }
 
     button:first-child:hover {
-      border: 1px solid #056b33;
-      color: #056b33;
+      border: 1px solid var(--secondary-dark-green);
+      color: var(--secondary-dark-green);
     }
 
     button:first-child:disabled {
-      border: 1px solid #839c94;
-      color: #839c94;
+      border: 1px solid var(--primary-grey);
+      color: var(--primary-grey);
     }
 
     button:last-child:hover {
-      background: #056b33;
+      background: var(--secondary-dark-green);
     }
 
     button:last-child:disabled {
-      background: #839c94;
-      border: 1px solid #839c94;
+      background: var(--primary-grey);
+      border: 1px solid var(--primary-grey);
     }
   }
 }
 
 h2 {
-  font-family: $title-font;
+  font-family: var(--secondary-font);
   font-style: normal;
   font-weight: 500;
   height: 48px;
   font-size: 48px;
   line-height: 48px;
   margin-bottom: 0;
-  color: #494a49;
+  color: var(--primary-dark-grey);
 }
 
 .privacy-wrapper {
@@ -177,7 +171,7 @@ h2 {
   padding-bottom: 40px;
 
   .title {
-    font-family: $title-font;
+    font-family: var(--secondary-font);
     font-style: normal;
     font-weight: 500;
     font-size: 24px;
@@ -198,9 +192,9 @@ h2 {
       }
 
       .label-wrapper {
-        color: #494a49;
+        color: var(--primary-dark-grey);
         cursor: pointer;
-        font-family: OpenSans, sans-serif;
+        font-family: var(--primary-font);
         font-size: 16px;
         line-height: 24px;
         margin: 0;

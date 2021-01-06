@@ -1,8 +1,3 @@
-$color-greenCity-green: #13aa57;
-$--theme-gray: #313131;
-$--theme-font-gray: #666;
-$--font-open-sans: 'opensans', sans-serif;
-
 @mixin rowStyles {
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -29,12 +24,12 @@ div {
 }
 
 .eco-news_list-tag {
-  font-family: $--font-open-sans;
+  font-family: var(--primary-font);
   font-size: 14px;
   line-height: 16px;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: $color-greenCity-green;
+  color: var(--primary-green);
   margin-right: 5px;
 }
 
@@ -47,13 +42,13 @@ div {
 }
 
 .eco-news_list-content-title {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--secondary-font);
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
   line-height: 24px;
   margin-bottom: 5px;
-  color: $--theme-gray;
+  color: var(--secondary-dark-grey);
   overflow: hidden;
   word-break: break-all;
 }
@@ -62,10 +57,10 @@ div {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  font-family: $--font-open-sans;
+  font-family: var(--primary-font);
   font-size: 14px;
   line-height: 21px;
-  color: $--theme-font-gray;
+  color: var(--tertiary-grey);
   mix-blend-mode: normal;
   opacity: 0.6;
 
@@ -90,7 +85,7 @@ div {
 .eco-news_list-content-text {
   font-size: 14px;
   line-height: 21px;
-  font-family: $--font-open-sans;
+  font-family: var(--primary-font);
 }
 
 @media (min-width: 768px) {

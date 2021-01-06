@@ -41,10 +41,10 @@ div {
       margin-bottom: 8px;
 
       .ul-eco-buttons {
-        font-family: opensans, sans-serif;
+        font-family: var(--primary-font);
         font-size: 14px;
         line-height: 16px;
-        color: #13aa57;
+        color: var(--primary-green);
         margin-right: 16px;
         letter-spacing: 1px;
         text-transform: uppercase;
@@ -59,22 +59,22 @@ div {
       .title-list {
         max-height: 52px;
         overflow: hidden;
-        font-family: 'Montserrat', sans-serif;
+        font-family: var(--secondary-font);
         font-style: normal;
         font-weight: 500;
         font-size: 21px;
         line-height: 26px;
-        color: #313131;
+        color: var(--secondary-dark-grey);
       }
 
       .list-text {
         max-height: 150px;
         overflow: hidden;
         margin: 10px 0 0 0;
-        font-family: 'Open Sans', sans-serif;
+        font-family: var(--primary-font);
         font-size: 14px;
         line-height: 21px;
-        color: #313131;
+        color: var(--secondary-dark-grey);
         white-space: pre-wrap;
       }
     }
@@ -92,10 +92,10 @@ div {
 
     .user-data-text-date {
       margin-right: 16px;
-      font-family: 'Open Sans', sans-serif;
+      font-family: var(--primary-font);
       font-size: 14px;
       line-height: 21px;
-      color: #878787;
+      color: var(--secondary-grey);
       mix-blend-mode: normal;
       opacity: 0.6;
 

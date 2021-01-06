@@ -1,11 +1,7 @@
-$generalFont : 'Open Sans', sans-serif;
-$secondary-color: #494a49;
-$secondary-ligth-color: #878787;
-
 p,
 a,
 .footer_bottom-part {
-  font-family: $generalFont;
+  font-family: var(--primary-font);
   font-size: 14px;
   line-height: 16px;
 }
@@ -30,7 +26,7 @@ a,
 }
 
 .footer_link-item {
-  color: $secondary-color;
+  color: var(--primary-dark-grey);
   margin-top: 24px;
 }
 
@@ -55,14 +51,14 @@ a,
   margin-top: 40px;
 
   p {
-    color: $secondary-color;
+    color: var(--primary-dark-grey);
     width: fit-content;
     margin: 0 auto;
   }
 }
 
 .footer_bottom-part {
-  color: $secondary-ligth-color;
+  color: var(--secondary-grey);
   width: fit-content;
   margin: 0 auto;
   padding-bottom: 10px;
