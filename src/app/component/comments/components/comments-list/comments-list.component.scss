@@ -1,5 +1,3 @@
-$main-font: 'Open Sans', sans-serif;
-
 .comment-body-wrapper {
   margin: auto;
   border-bottom: 1px solid #e6e6e6;
@@ -19,18 +17,18 @@ $main-font: 'Open Sans', sans-serif;
 }
 
 .author-name {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--secondary-font);
   font-style: normal;
   font-weight: 600;
   font-size: 18px;
   line-height: 28px;
-  color: #313131;
+  color: var(--secondary-dark-grey);
   white-space: nowrap;
 }
 
 .comment-date {
-  color: #878787;
-  font-family: $main-font;
+  color: var(--secondary-grey);
+  font-family: var(--primary-font);
   font-size: 12px;
   line-height: 16px;
   display: flex;
@@ -42,7 +40,7 @@ $main-font: 'Open Sans', sans-serif;
     display: inline-block;
     width: 4px;
     height: 4px;
-    background: #878787;
+    background: var(--secondary-grey);
     border-radius: 100%;
   }
 
@@ -73,7 +71,7 @@ $main-font: 'Open Sans', sans-serif;
 
 .comment-main-text {
   margin-left: 62px;
-  font-family: $main-font;
+  font-family: var(--primary-font);
   font-size: 16px;
   line-height: 24px;
   margin-bottom: -10px;
@@ -127,7 +125,7 @@ $main-font: 'Open Sans', sans-serif;
       padding: 10px 0 0 20px;
 
       &::placeholder {
-        color: #878787;
+        color: var(--secondary-grey);
       }
     }
 
@@ -142,10 +140,10 @@ $main-font: 'Open Sans', sans-serif;
       .btn-text {
         display: inline-block;
         margin-left: 5px;
-        font-family: $main-font;
+        font-family: var(--primary-font);
         font-size: 16px;
         line-height: 24px;
-        color: #878787;
+        color: var(--secondary-grey);
         mix-blend-mode: normal;
       }
     }
@@ -181,10 +179,10 @@ $main-font: 'Open Sans', sans-serif;
 
 .comment-likes {
   .like-amount {
-    font-family: $main-font;
+    font-family: var(--primary-font);
     font-size: 12px;
     line-height: 16px;
-    color: #878787;
+    color: var(--secondary-grey);
     margin-left: 5px;
   }
 

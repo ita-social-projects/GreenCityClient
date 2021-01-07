@@ -1,3 +1,4 @@
+import { LayoutModule } from './../../../layout/layout.module';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -19,10 +20,16 @@ import { UserService } from '@global-service/user/user.service';
 import { Language } from '@language-service/Language';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthModule } from 'src/app/component/auth/auth.module';
-import { SearchAllResultsComponent } from 'src/app/component/layout/components';
-import { ItemComponent } from 'src/app/component/layout/components/search-all-results/item/item.component';
 import { EcoNewsModule } from 'src/app/component/eco-news/eco-news.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+
+class MatDialogMock {
+  open() {
+    return {
+      afterClosed: () => of(true)
+    };
+  }
+}
 
 describe('HomepageComponent', () => {
   let component: HomepageComponent;
@@ -51,9 +58,6 @@ describe('HomepageComponent', () => {
     }),
   };
 
-  let matDialogMock: MatDialog;
-  matDialogMock = jasmine.createSpyObj('MatDialog', ['open']);
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -67,7 +71,8 @@ describe('HomepageComponent', () => {
         BrowserAnimationsModule,
         AuthModule,
         EcoNewsModule,
-        InfiniteScrollModule
+        InfiniteScrollModule,
+        LayoutModule
       ],
       declarations: [
         StatRowsComponent,
@@ -78,8 +83,6 @@ describe('HomepageComponent', () => {
         StatRowComponent,
         EcoEventsItemComponent,
         TipsCardComponent,
-        SearchAllResultsComponent,
-        ItemComponent
       ],
       providers: [
         { provide: MatSnackBarComponent, useValue: snackBarMock },
@@ -88,7 +91,7 @@ describe('HomepageComponent', () => {
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: UserService, useValue: userServiceMock },
         { provide: MAT_DIALOG_DATA, useValue: {} },
-        { provide: MatDialog, useValue: matDialogMock },
+        { provide: MatDialog, useClass: MatDialogMock },
       ]
     })
     .compileComponents();
