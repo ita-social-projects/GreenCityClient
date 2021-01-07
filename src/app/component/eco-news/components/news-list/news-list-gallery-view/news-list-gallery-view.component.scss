@@ -59,12 +59,15 @@ div {
       .title-list {
         max-height: 52px;
         overflow: hidden;
-        font-family: var(--secondary-font);
-        font-style: normal;
-        font-weight: 500;
-        font-size: 21px;
-        line-height: 26px;
-        color: var(--secondary-dark-grey);
+
+        h3 {
+          font-family: var(--secondary-font);
+          font-style: normal;
+          font-weight: 500;
+          font-size: 21px;
+          line-height: 26px;
+          color: var(--secondary-dark-grey);
+        }
       }
 
       .list-text {
@@ -175,7 +178,7 @@ div {
       .added-data {
         height: 222px;
 
-        .title-list {
+        .title-list > h3 {
           font-size: 18px;
           line-height: 24px;
         }
