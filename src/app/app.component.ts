@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
     private titleAndMetaTagsService: TitleAndMetaTagsService,
     private router: Router,
     private uiActionsService: UiActionsService,
-  ) {}
+  ) { }
 
   @ViewChild('focusFirst', { static: true }) focusFirst: ElementRef;
   @ViewChild('focusLast', { static: true }) focusLast: ElementRef;

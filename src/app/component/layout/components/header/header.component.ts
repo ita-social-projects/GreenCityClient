@@ -47,7 +47,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public headerImageList = headerIcons;
   public skipPath: string;
 
-  constructor(public dialog: MatDialog,
+  constructor(
+    public dialog: MatDialog,
     private localStorageService: LocalStorageService,
     private jwtService: JwtService,
     private router: Router,
