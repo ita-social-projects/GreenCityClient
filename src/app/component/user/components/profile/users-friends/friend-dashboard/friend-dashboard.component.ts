@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-friend-dashboard',
@@ -11,6 +12,7 @@ import { Subscription } from 'rxjs';
 export class FriendDashboardComponent implements OnInit, OnDestroy {
   public userId: number;
   public langChangeSub: Subscription;
+  public destroy$ = new Subject();
 
   constructor(private localStorageService: LocalStorageService,
               private translate: TranslateService) { }
@@ -22,7 +24,9 @@ export class FriendDashboardComponent implements OnInit, OnDestroy {
   }
 
   public initUser(): void {
-    this.localStorageService.userIdBehaviourSubject
+    this.localStorageService.userIdBehaviourSubject.pipe(
+      takeUntil(this.destroy$)
+    )
       .subscribe((userId: number) => this.userId = userId);
   }
 
@@ -37,5 +41,7 @@ export class FriendDashboardComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.langChangeSub.unsubscribe();
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 }

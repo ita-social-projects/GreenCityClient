@@ -13,7 +13,7 @@ import { takeUntil } from 'rxjs/operators';
 export class AllFriendsComponent implements OnInit, OnDestroy {
 
   public userId: number;
-  public Friends: FriendModel[];
+  public friends: FriendModel[];
   private destroy$ = new Subject();
   public scroll: boolean;
   public currentPage = 0;
@@ -33,14 +33,14 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
     )
     .subscribe (
       (data: FriendArrayModel) => {
-        this.Friends = data.page;
+        this.friends = data.page;
       },
     );
   }
 
   public deleteFriendsFromList(id, array) {
-    const i = array.findIndex(item => item.id === id);
-    array.splice(i, 1);
+    const indexDeletedFriend = array.findIndex(item => item.id === id);
+    array.splice(indexDeletedFriend, 1);
   }
 
   public onScroll(): void {
@@ -51,7 +51,7 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
     )
     .subscribe(
       (data: FriendArrayModel) => {
-        this.Friends = this.Friends.concat(data.page);
+        this.friends = this.friends.concat(data.page);
       },
      );
   }
@@ -62,7 +62,7 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
     )
     .subscribe(
       () => {
-        this.deleteFriendsFromList(id, this.Friends);
+        this.deleteFriendsFromList(id, this.friends);
       }
     );
   }

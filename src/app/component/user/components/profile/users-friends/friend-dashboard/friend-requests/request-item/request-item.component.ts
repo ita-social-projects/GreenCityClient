@@ -6,16 +6,12 @@ import { FriendModel } from '@global-user/models/friend.model';
   templateUrl: './request-item.component.html',
   styleUrls: ['./request-item.component.scss']
 })
-export class RequestItemComponent implements OnInit {
+export class RequestItemComponent {
 
   @Input() request: FriendModel;
   @Input() btnName: string;
   @Output() acceptEvent = new EventEmitter<number>();
   @Output() declineEvent = new EventEmitter<number>();
-  constructor() { }
-
-  ngOnInit() {
-  }
 
   public accept(id: number) {
     this.acceptEvent.emit(id);

@@ -30,8 +30,8 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
   }
 
   public deleteFriendsFromList(id, array) {
-    const i = array.findIndex(item => item.id === id);
-    array.splice(i, 1);
+    const indexAddedFriend = array.findIndex(item => item.id === id);
+    array.splice(indexAddedFriend, 1);
   }
 
   public getRecommendedFriends() {
@@ -73,7 +73,9 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
   }
 
   public initUser(): void {
-    this.localStorageService.userIdBehaviourSubject
+    this.localStorageService.userIdBehaviourSubject.pipe(
+      takeUntil(this.destroy$)
+    )
       .subscribe((userId: number) => this.userId = userId);
   }
 

@@ -1,6 +1,6 @@
 <div class="friends-list">
   <div class="container">
-    <div *ngFor="let friend of Friends">
+    <div *ngFor="let friend of friends">
       <app-friend-item [friend]="friend"
         (friendEventEmit)="handleDeleteFriend($event)"
         btnName="{{'profile.friends.delete-friend' | translate}}"
