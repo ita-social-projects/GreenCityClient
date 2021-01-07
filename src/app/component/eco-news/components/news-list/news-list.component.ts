@@ -35,7 +35,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.onResize();
-    this.setDefaultNumberOfNews(6);
+    this.setDefaultNumberOfNews(12);
     this.setNullList();
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
