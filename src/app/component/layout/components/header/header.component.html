@@ -34,6 +34,12 @@
                 {{ 'user.lower-nav-bar.my-habits' | translate }}
               </a>
             </li>
+            <li role="navigation to ubs">
+              <a [routerLink]="['/ubs']" routerLinkActive="active-link"
+                routerLinkActiveOptions="{exact:true}">
+                UBS
+              </a>
+            </li>
             <hr class="header_line container" [ngClass]="{'d-none': !toggleBurgerMenu}" />
             <div *ngIf="!isLoggedIn; then userLoggedInSmall else userNotLoggerInSmall"></div>
             <ng-template #userLoggedInSmall>
