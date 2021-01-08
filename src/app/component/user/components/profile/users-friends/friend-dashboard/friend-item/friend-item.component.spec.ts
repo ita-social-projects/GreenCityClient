@@ -40,7 +40,7 @@ describe('FriendItemComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it( 'it should call addFriendEvent on click', () => {
+  it( 'it should call friendEvent on click', () => {
     spyOn(component.friendEventEmit, 'emit');
     component.friendEvent(component.friend.id);
     expect(component.friendEventEmit.emit).toHaveBeenCalledWith(1);
