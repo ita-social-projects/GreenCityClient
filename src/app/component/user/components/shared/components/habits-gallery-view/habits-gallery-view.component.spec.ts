@@ -36,12 +36,16 @@ describe('HabitsGalleryViewComponent', () => {
     fixture = TestBed.createComponent(HabitsGalleryViewComponent);
     component = fixture.componentInstance;
     component.habit = {
-      image: './',
+      defaultDuration: 14,
       habitTranslation: {
+        description: 'test',
         habitItem: 'test',
-        name: 'test',
-        description: 'test'
-      }
+        languageCode: 'en',
+        name: 'test'
+      },
+      id: 503,
+      image: 'test',
+      tags: ['test1', 'test2']
     };
     fixture.detectChanges();
   });

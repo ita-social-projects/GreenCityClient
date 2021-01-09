@@ -2,8 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { take } from 'rxjs/operators';
+
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { HabitInterface } from '../../../../../../interface/habit/habit.interface';
 
 @Component({
   selector: 'app-habits-gallery-view',
@@ -11,7 +13,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
   styleUrls: ['./habits-gallery-view.component.scss']
 })
 export class HabitsGalleryViewComponent implements OnInit {
-  @Input() habit;
+  @Input() habit: HabitInterface;
   private requesting = false;
 
   constructor(public router: Router,
@@ -28,7 +30,7 @@ export class HabitsGalleryViewComponent implements OnInit {
 
   public addHabit() {
     this.requesting = true;
-    this.habitAssignService.setHabitStatus(this.habit.id, 'INPROGRESS')
+    this.habitAssignService.assignHabit(this.habit.id)
       .pipe(take(1))
       .subscribe(() => {
         this.router.navigate(['profile', this.profileService.userId]);
