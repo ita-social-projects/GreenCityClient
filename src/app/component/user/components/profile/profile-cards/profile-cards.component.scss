@@ -6,10 +6,10 @@
     padding: 16px 16px 0 16px;
     margin-top: 24px;
     border-radius: 4px;
-    background: #13aa57;
+    background: var(--primary-green);
 
     .cart-title {
-      font-family: 'Montserrat', sans-serif;
+      font-family: var(--secondary-font);
       font-style: normal;
       font-weight: 600;
       font-size: 13px;
@@ -20,7 +20,7 @@
     .card-description {
       font-size: 11px;
       line-height: 15px;
-      font-family: 'Open Sans', sans-serif;
+      font-family: var(--primary-font);
       align-items: center;
     }
 

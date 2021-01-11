@@ -1,7 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
-
-$title-font: 'Montserrat', sans-serif;
-
 $bp-smallest: 320px;
 $bp-phone: 576px;
 $bp-tablet: 768px;
@@ -13,7 +9,7 @@ $bp-largest: 1440px;
   justify-content: center;
   flex-direction: column;
   margin-bottom: 24px;
-  background: #f5f7f6;
+  background: var(--primary-light-grey);
 
   .friends {
     padding: 24px 0;
@@ -32,12 +28,12 @@ $bp-largest: 1440px;
 
   .text-title,
   .text-number {
-    font-family: $title-font;
+    font-family: var(--secondary-font);
     font-style: normal;
     font-weight: 600;
     font-size: 14px;
     line-height: 17px;
-    color: #494a49;
+    color: var(--primary-dark-grey);
   }
 
   .friends-text {
@@ -51,12 +47,12 @@ $bp-largest: 1440px;
     width: 100%;
 
     .text-number {
-      color: #bebebe;
+      color: var(--tertiary-light-grey);
     }
   }
 
   .text-more {
-    font-family: $title-font;
+    font-family: var(--secondary-font);
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
@@ -64,7 +60,7 @@ $bp-largest: 1440px;
     display: flex;
     align-items: center;
     text-align: center;
-    color: #494a49;
+    color: var(--primary-dark-grey);
   }
 
   .friends-images {
@@ -86,21 +82,21 @@ $bp-largest: 1440px;
       font-weight: 600;
       font-size: 14px;
       line-height: 17px;
-      color: #494a49;
+      color: var(--primary-dark-grey);
 
       .text-number {
-        color: #bebebe;
+        color: var(--tertiary-light-grey);
       }
 
       .error-message {
-        font-family: $title-font;
+        font-family: var(--secondary-font);
         font-style: normal;
         font-weight: 600;
         font-size: 14px;
         line-height: 17px;
         margin-top: 30px;
         text-align: center;
-        color: #bebebe;
+        color: var(--tertiary-light-grey);
       }
     }
   }

@@ -28,10 +28,10 @@
   font-size: 18px;
   text-align: center;
   width: 250px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: var(--primary-font);
 
   span {
-    color: #13aa57;
+    color: var(--primary-green);
     text-decoration: underline;
     cursor: pointer;
   }
@@ -46,9 +46,9 @@
 }
 
 .warning {
-  font-family: 'Open sans', sans-serif;
+  font-family: var(--primary-font);
   font-size: 14px;
-  color: #878787;
+  color: var(--secondary-grey);
   line-height: 16px;
 }
 
@@ -61,16 +61,16 @@ img {
   .cropper-buttons {
     display: flex;
     justify-content: center;
-    font-family: 'Open Sans', sans-serif;
+    font-family: var(--primary-font);
 
     button {
       margin-left: 20px;
-      border: 1px solid #13aa57;
+      border: 1px solid var(--primary-green);
       border-radius: 3px;
       background-color: #fff;
       width: 154px;
       height: 48px;
-      color: #13aa57;
+      color: var(--primary-green);
       font-weight: bold;
     }
   }

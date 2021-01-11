@@ -1,8 +1,5 @@
-$first-font-color: #494a49;
-$second-font-color: #bebebe;
-
 .profile-menu {
-  border-bottom: 1px solid #13aa57;
+  border-bottom: 1px solid var(--primary-green);
   min-height: 30px;
   margin-bottom: 1.5rem;
   position: relative;
@@ -12,7 +9,7 @@ $second-font-color: #bebebe;
 
   span {
     display: block;
-    color: #056b33;
+    color: var(--secondary-dark-green);
     width: 82px;
     text-align: center;
     cursor: pointer;
@@ -21,19 +18,19 @@ $second-font-color: #bebebe;
     line-height: 15px;
     align-items: center;
     padding-top: 6px;
-    font-family: "Open Sans", sans-serif;
+    font-family: var(--primary-font);
   }
 
   .active {
-    border: 1px solid #13aa57;
+    border: 1px solid var(--primary-green);
     border-radius: 5px 5px 0 0;
     border-bottom: none;
     background-color: #fff;
-    font-family: "Open Sans", sans-serif;
+    font-family: var(--primary-font);
     z-index: 2;
 
     &:hover {
-      border: 1px solid #13aa57;
+      border: 1px solid var(--primary-green);
       border-radius: 5px 5px 0 0;
       border-bottom: white;
     }
@@ -41,12 +38,12 @@ $second-font-color: #bebebe;
 }
 
 .in-progress {
-  font-family: Montserrat, sans-serif;
+  font-family: var(--secondary-font);
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
   line-height: 17px;
-  color: $first-font-color;
+  color: var(--primary-dark-grey);
   text-align: left;
   display: flex;
   align-items: center;
@@ -55,7 +52,7 @@ $second-font-color: #bebebe;
     margin: 0;
 
     span {
-      color: $second-font-color;
+      color: var(--tertiary-light-grey);
       margin-left: 5px;
     }
   }
@@ -89,7 +86,7 @@ $second-font-color: #bebebe;
 .profile-span:hover {
   background-color: #f0f5f4;
   border-radius: 5px 5px 0 0;
-  border-bottom: 1px solid #13aa57;
+  border-bottom: 1px solid var(--primary-green);
 }
 
 .habits-in-progress {

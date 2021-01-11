@@ -20,13 +20,13 @@
 
 .google-text-sign-in {
   align-self: center;
-  font-family: Roboto, sans-serif;
+  font-family: var(--tertiary-font);
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
   line-height: 16px;
   letter-spacing: 0.21875px;
-  color: #494a49;
+  color: var(--primary-dark-grey);
   width: 100%;
   margin-left: -34px;
 }

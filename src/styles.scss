@@ -1,9 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@ng-select/ng-select/themes/default.theme.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
-
-$color-greenCity-green: #13aa57;
-$color-greenCity-dark-green: #056b33;
+@import "typography/typography";
 
 html {
   overflow-y: auto !important;
@@ -19,7 +17,7 @@ a {
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: var(--tertiary-font);
 }
 
 .cdk-drag-preview {
@@ -43,66 +41,6 @@ body {
 
 .example-list .cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-}
-
-.primary-global-button {
-  border: none;
-  background: $color-greenCity-green;
-  border-radius: 3px;
-  font-family: Open Sans, sans-serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 16px;
-  align-items: center;
-  text-align: center;
-  color: #fff;
-}
-
-.primary-global-button:hover,
-.primary-global-button:active {
-  background: $color-greenCity-dark-green;
-  outline: none;
-}
-
-.primary-global-button:disabled {
-  background-color: #839c94;
-  border: 1px solid #839c94;
-}
-
-.secondary-global-button {
-  border: 1px solid $color-greenCity-green;
-  box-sizing: border-box;
-  border-radius: 3px;
-  font-family: Open Sans, sans-serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 16px;
-  color: $color-greenCity-green;
-  text-align: center;
-}
-
-.secondary-global-button:hover,
-.secondary-global-button:active {
-  border: 1px solid $color-greenCity-dark-green;
-  line-height: 22px;
-  color: $color-greenCity-dark-green;
-}
-
-.tertiary-global-button {
-  font-family: Open Sans, sans-serif;
-  font-size: 16px;
-  font-stretch: normal;
-  font-style: normal;
-  font-weight: bold;
-  line-height: 16px;
-  color: $color-greenCity-dark-green;
-}
-
-.tertiary-global-button:hover,
-.tertiary-global-button:focus {
-  color: $color-greenCity-green;
 }
 
 .mat-dialog-container {
@@ -132,23 +70,23 @@ body {
   height: 32px;
   padding: 0 16px;
   text-transform: capitalize;
-  font-family: opensans, sans-serif;
-  color: #666;
-  border: 1px solid #666;
+  font-family: var(--primary-font);
+  color: var(--tertiary-grey);
+  border: 1px solid var(--tertiary-grey);
   border-radius: 25px;
   margin-right: 8px;
 
   &:hover {
-    color: $color-greenCity-dark-green;
-    border: 1px solid $color-greenCity-dark-green;
+    color: var(--secondary-dark-green);
+    border: 1px solid var(--secondary-dark-green);
   }
 }
 
 .global-tag-clicked {
-  background: $color-greenCity-green;
+  background: var(--primary-green);
   color: #fff;
   font-weight: bold;
-  font-family: opensans, sans-serif;
+  font-family: var(--primary-font);
   font-size: 14px;
   line-height: 16px;
   border-radius: 25px;
@@ -174,17 +112,17 @@ body {
 
 .btn-tiles,
 .btn-bars {
-  color: #878787;
+  color: var(--secondary-grey);
   font-size: 16px;
 
   :hover {
-    color: $color-greenCity-dark-green;
+    color: var(--secondary-dark-green);
   }
 }
 
 .btn-bars-active,
 .btn-tiles-active {
-  color: $color-greenCity-green;
+  color: var(--primary-green);
 }
 
 // [END] View swither btns
@@ -211,7 +149,7 @@ body {
 }
 
 .success-snackbar {
-  background: #13aa57;
+  background: var(--primary-green);
   color: #fff;
 }
 
