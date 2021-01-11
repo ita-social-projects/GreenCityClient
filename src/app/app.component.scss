@@ -27,7 +27,7 @@
   top: 8%;
   left: -100%;
   width: 100px;
-  color: #13aa57;
+  color: var(--primary-green);
   border-radius: 3px;
   padding: 2px 2px;
 }
@@ -35,3 +35,4 @@
 .skip:focus {
   left: 0;
 }
+
