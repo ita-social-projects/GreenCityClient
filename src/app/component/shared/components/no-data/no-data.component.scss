@@ -11,7 +11,7 @@
 
   .description {
     .description__title {
-      font-family: Montserrat, sans-serif;
+      font-family: var(--secondary-font);
 
       h2 {
         font-size: 32px;
@@ -21,7 +21,7 @@
     }
 
     .description__advise {
-      font-family: Opensans, sans-serif;
+      font-family: var(--primary-font);
 
       p {
         font-size: 18px;

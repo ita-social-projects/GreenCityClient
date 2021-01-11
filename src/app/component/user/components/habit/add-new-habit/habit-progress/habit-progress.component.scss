@@ -1,8 +1,3 @@
-$primary-color: #13aa57;
-$second-color: #056b33;
-$main-font: 'Open Sans';
-$second-font: 'Montserrat';
-
 .progressHabit {
   display: flex;
   flex-direction: row;
@@ -12,7 +7,7 @@ $second-font: 'Montserrat';
   height: 32px;
 
   .progressText {
-    font-family: $second-font;
+    font-family: var(--secondary-font);
     font-style: normal;
     font-weight: 600;
     font-size: 18px;
@@ -22,14 +17,14 @@ $second-font: 'Montserrat';
   }
 
   .markAsDone {
-    font-family: $second-font;
+    font-family: var(--secondary-font);
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
     line-height: 24px;
     display: flex;
     align-items: center;
-    color: $primary-color;
+    color: var(--primary-green);
 
     img {
       margin-right: 9px;
@@ -53,7 +48,7 @@ $second-font: 'Montserrat';
 
     .indicator {
       width: 38px;
-      background-color: $primary-color;
+      background-color: var(--primary-green);
       border-radius: 4px 4px 0 0;
     }
 

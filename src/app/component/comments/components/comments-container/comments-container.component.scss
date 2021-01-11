@@ -2,7 +2,7 @@
   margin: 40px auto 0;
 
   &::ng-deep circle {
-    stroke: #056b33;
+    stroke: var(--secondary-dark-green);
   }
 }
 
@@ -12,11 +12,11 @@
 
 .counter {
   p {
-    font-family: Montserrat, sans-serif;
+    font-family: var(--secondary-font);
     font-weight: 500;
     font-size: 24px;
     line-height: 35px;
-    color: #313131;
+    color: var(--secondary-dark-grey);
     margin-bottom: 18px;
   }
 

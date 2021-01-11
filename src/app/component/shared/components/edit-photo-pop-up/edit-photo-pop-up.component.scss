@@ -1,19 +1,10 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
-
-$title-font: 'Montserrat';
-$main-font: 'Open Sans';
-$buttonColor: #13aa57;
-$linkColor: #056b33;
-$disabledColor: #839c94;
-$errorColor : #f03127;
 $secondErrorColor : #b42626;
 
 .main-container {
   position: relative;
   width: 631px;
   height: 400px;
-  font-family: $main-font;
+  font-family: var(--primary-font);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -50,9 +41,9 @@ $secondErrorColor : #b42626;
     }
 
     .warning {
-      font-family: 'Open sans', sans-serif;
+      font-family: var(--primary-font);
       font-size: 14px;
-      color: $errorColor;
+      color: var(--error-ligh-red);
       padding: 0;
     }
 
@@ -67,7 +58,7 @@ $secondErrorColor : #b42626;
 
       .primary-global-button,
       .secondary-global-button {
-        border: 1px solid $buttonColor;
+        border: 1px solid var(--primary-green);
         box-sizing: border-box;
         border-radius: 5px;
         font-style: normal;
@@ -79,20 +70,20 @@ $secondErrorColor : #b42626;
 
       .primary-global-button {
         background: #fff;
-        color: $buttonColor;
+        color: var(--primary-green);
         min-width: 132px;
         margin-right: 24px;
         padding: 16px;
 
         &:hover {
-          border: 1px solid $linkColor;
-          color: $linkColor;
+          border: 1px solid var(--secondary-dark-green);
+          color: var(--secondary-dark-green);
         }
       }
 
       .delete {
-        background: $errorColor;
-        border: 1px solid $errorColor;
+        background: var(--error-ligh-red);
+        border: 1px solid var(--error-ligh-red);
         border-radius: 3px;
         color: #fff;
         margin-left: 24px;
@@ -104,20 +95,20 @@ $secondErrorColor : #b42626;
         }
 
         &:disabled {
-          background: $disabledColor;
-          border: 1px solid $disabledColor;
+          background: var(--primary-grey);
+          border: 1px solid var(--primary-grey);
         }
       }
 
       .secondary-global-button {
-        background: $buttonColor;
+        background: var(--primary-green);
         color: #fff;
         padding: 16px 24px;
         display: flex;
         align-items: center;
 
         &:hover {
-          background: $linkColor;
+          background: var(--secondary-dark-green);
         }
 
         &:focus {
