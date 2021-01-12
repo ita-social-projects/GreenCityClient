@@ -60,9 +60,13 @@ export class MatSnackBarComponent {
       this.getSnackBarMessage('update-cafe.notifications.photoUpload');
       this.className = 'error-snackbar';
     },
+    habitAdded: () => {
+      this.className = 'success-snackbar';
+      this.getSnackBarMessage('user.habit.all-habits.new-habit-added');
+    },
     errorMessage: (error) => {
       this.className = 'error-snackbar';
-      this.message = error;
+      this.getSnackBarMessage(error);
     }
   };
 
