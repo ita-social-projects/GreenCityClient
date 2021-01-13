@@ -2,7 +2,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { UsersFriendsComponent } from './users-friends.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of, throwError } from 'rxjs';
+import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
+import { of } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Friend, UserFriendsInterface } from '../../../../../interface/user/user-friends.interface';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -25,8 +28,6 @@ describe('UsersFriendsComponent', () => {
     }};
   profileServiceMock = jasmine.createSpyObj('ProfileService', ['getUserFriends']);
   profileServiceMock.getUserFriends = () => (of(userFriends));
-
-
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -77,5 +78,4 @@ describe('UsersFriendsComponent', () => {
       component.showUsersFriends();
       expect(component.noFriends).toBeFalsy();
     });
-
 });

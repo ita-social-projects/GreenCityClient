@@ -4,6 +4,7 @@ import { ProfileService } from '@global-user/components/profile/profile-service/
 import { SixFriendArrayModel } from '@global-user/models/friend.model';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Friend, UserFriendsInterface } from '../../../../../interface/user/user-friends.interface';
 
 @Component({
   selector: 'app-users-friends',

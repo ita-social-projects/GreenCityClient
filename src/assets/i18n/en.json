@@ -614,11 +614,13 @@
         "confirmation-modal-cancel": "Cancel"
       },
       "all-habits": {
+        "back-button": "Back to My habits",
         "title":"All habits",
         "no-habits":"Unfortunately, no more habits found",
         "no-habits-advice": "We couldn't find any more habits. Please change filters to get another result.",
         "btn-more": "More",
-        "btn-add": "Add habit"
+        "btn-add": "Add habit",
+        "new-habit-added": "You have successfully added a new habit to your list"
       },
       "habit-trackers": {
         "habit-tracker": {
@@ -627,6 +629,11 @@
             "from": "from"
           }
         }
+      },
+      "one-habit": {
+        "good": "in a row. You're good!",
+        "done": "Mark as done",
+        "great": "Great! You've got a habit!"
       }
     }
   },
@@ -719,9 +726,15 @@
       "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
       "monthsShort": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     },
-    "habits-in-progress": "Habits in progress",
-    "add-new-habit": "Add new habit",
-    "habits-acquired": "Habits acquired",
+    "dashboard": {
+      "my-habits": "My habits",
+      "my-news": "My news",
+      "my-articles": "My articles",
+      "habits-in-progress": "Habits in progress",
+      "add-new-habit": "Add new habit",
+      "habits-acquired": "Habits acquired"
+    },
+    "habits-in-progress": "habits in progress",
     "my-Achievements": "My Achievements",
     "see-all": "See all",
     "my-eco-friends": "My Eco Friends",
@@ -732,6 +745,7 @@
     "fact-of-the-day": "Fact of the Day",
     "no-eco-places": "You don't have any Eco Places.",
     "online": "online",
+    "rate": "Rate",
     "acquired-habits": "acquired habits",
     "written-articles": "written articles",
     "published-news": "published news",
@@ -750,6 +764,7 @@
       "all-friends": "All friends",
       "search-friends": "Find friends"
     }
+    "published-news": "published news"
   },
   "create-news": {
     "title": "Create news",

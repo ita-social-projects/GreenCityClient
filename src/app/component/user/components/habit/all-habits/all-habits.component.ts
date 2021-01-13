@@ -1,10 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription} from 'rxjs';
 
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { ServerHabitItemPageModel } from '@global-user/models/habit-item.model';
-import { AllHabitsService } from './services/all-habits.service';
+import { HabitService } from '@global-service/habit/habit.service';
+import { map } from 'rxjs/operators';
+import { HabitInterface, HabitListInterface } from '../../../../../interface/habit/habit.interface';
+import { singleNewsImages } from '../../../../../image-pathes/single-news-images';
+import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 
 @Component({
   selector: 'app-all-habits',
@@ -13,7 +16,8 @@ import { AllHabitsService } from './services/all-habits.service';
 })
 export class AllHabitsComponent implements OnInit, OnDestroy {
 
-  public filteredHabitsList: ServerHabitItemPageModel[] = [];
+  public allHabits = new BehaviorSubject<any>([]);
+  public filteredHabitsList: HabitInterface[] = [];
   public totalHabits: number;
   public totalHabitsCopy = 0;
   public galleryView = true;
@@ -24,13 +28,15 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   private currentPage = 0;
   private totalPages: number;
   private masterSubscription: Subscription = new Subscription();
-  private habitsList: ServerHabitItemPageModel[] = [];
+  private habitsList: HabitInterface[] = [];
   private lang: string;
   private batchSize = 6;
+  public images = singleNewsImages;
 
-  constructor( private allHabitsService: AllHabitsService,
+  constructor( private habitService: HabitService,
                private localStorageService: LocalStorageService,
-               private translate: TranslateService ) { }
+               private translate: TranslateService,
+               public profileService: ProfileService ) { }
 
   ngOnInit() {
     this.onResize();
@@ -39,11 +45,11 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
       this.translate.setDefaultLang(lang);
       this.lang = lang;
       this.resetState();
-      this.allHabitsService.resetSubject();
-      this.getAllHabits(0, this.batchSize, lang);
+      this.resetSubject();
+      this.fetchAllHabits(0, this.batchSize);
     });
 
-    const habitServeceSub = this.allHabitsService.allHabits.subscribe(data => {
+    const habitServiceSub = this.allHabits.subscribe(data => {
       this.isFetching = false;
       this.totalHabits = data.totalElements;
       this.totalHabitsCopy = data.totalElements;
@@ -64,7 +70,33 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     });
 
     this.masterSubscription.add(langChangeSub);
-    this.masterSubscription.add(habitServeceSub);
+    this.masterSubscription.add(habitServiceSub);
+  }
+
+  private fetchAllHabits(page, size): void {
+    this.habitService.getAllHabits(page, size)
+      .pipe<HabitListInterface>( map(data => this.splitHabitItems(data)))
+      .subscribe(
+        data => {
+          const observableValue = this.allHabits.getValue();
+          const oldItems = observableValue.page ? observableValue.page : [];
+          data.page = [... data.page, ...oldItems];
+          this.allHabits.next(data);
+        }
+      );
+  }
+
+  public resetSubject() {
+    this.allHabits.next([]);
+  }
+
+  private splitHabitItems(data) {
+    data.page.forEach(el => {
+      const newArr = el.habitTranslation.habitItem.split(',').map(str => str.trim().toLowerCase());
+      return el.habitTranslation.habitItem = newArr;
+    });
+
+    return data;
   }
 
   ngOnDestroy(): void {
@@ -103,11 +135,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     }
     this.isFetching = true;
     this.currentPage += 1;
-    this.getAllHabits(this.currentPage, this.batchSize, this.lang);
-  }
-
-  private getAllHabits(page: number, size: number, lang: string): void {
-    this.allHabitsService.fetchAllHabits(page, size, lang);
+    this.fetchAllHabits(this.currentPage, this.batchSize);
   }
 
   private resetState() {
