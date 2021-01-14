@@ -1,16 +1,12 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
-
-$title-font: 'Montserrat', sans-serif;
 $bp-smallest: 320px;
 $bp-phone: 576px;
 $bp-tablet: 768px;
 $bp-desktop: 1024px;
 $bp-largest: 1440px;
-$grey: #bebebe;
 
 .shopping-list-content {
   margin: 0 auto;
-  font-family: Montserrat, sans-serif;
+  font-family: var(--secondary-font);
   font-style: normal;
 }
 
@@ -28,7 +24,7 @@ $grey: #bebebe;
 }
 
 h2 > span {
-  color: $grey;
+  color: var(--tertiary-light-grey);
   margin-left: 10px;
 }
 

@@ -1,4 +1,6 @@
-import {Component, EventEmitter, Output, Input} from '@angular/core';
+import { searchIcons } from './../../../../image-pathes/search-icons';
+import { Component, EventEmitter, Output, Input } from '@angular/core';
+
 
 @Component({
   selector: 'app-search-not-found',
@@ -8,6 +10,7 @@ import {Component, EventEmitter, Output, Input} from '@angular/core';
 export class SearchNotFoundComponent {
   @Output() closeUnsuccessfulSearchResults = new EventEmitter();
   @Input() inputValue;
+  images = searchIcons;
 
   public emitClose(): void {
     this.closeUnsuccessfulSearchResults.emit(true);

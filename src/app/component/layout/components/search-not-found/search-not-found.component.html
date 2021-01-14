@@ -13,7 +13,7 @@
           (click)="emitClose()">
         <div class="search_not-found-item">
           <img class="search_not-found-image"
-          src="../../../../../assets/img/default_news-img.svg"
+            [src]="images.defaultImage"
                 alt="news-image">
           <h2 class="search_not-found-header">{{ "search.search-not-found.alternative-header-news" | translate }}</h2>
           <p class="search_not-found-description">
@@ -26,8 +26,8 @@
           class="m-l-4">
         <div class="search_not-found-item">
           <img class="search_not-found-image"
-                src="../../../../../assets/img/default_news-img.svg"
-                alt="tips-image">
+               [src]="images.defaultImage"
+               alt="tips-image">
           <h2 class="search_not-found-header">{{ "search.search-not-found.alternative-header-tips" | translate }}</h2>
           <p class="search_not-found-description">
             {{ "search.search-not-found.alternative-description-tips" | translate }}

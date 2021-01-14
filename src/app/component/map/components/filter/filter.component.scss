@@ -1,7 +1,3 @@
-$mainColor: #13aa57;
-$secondColor: #056b33;
-$unActiveColor: #839c94;
-
 .filtering_layout {
   margin-top: 15px;
 }
@@ -11,27 +7,27 @@ $unActiveColor: #839c94;
     margin-top: 50px;
 
     .ng5-slider-pointer {
-      background-color: $mainColor !important;
+      background-color: var(--primary-green) !important;
       outline: none;
 
       &.ng5-slider-active::after {
-        background-color: $secondColor !important;
+        background-color: var(--secondary-dark-green) !important;
       }
     }
 
     .ng5-slider-selection {
-      background-color: $secondColor !important;
+      background-color: var(--secondary-dark-green) !important;
     }
   }
 
   .mat-checkbox-checked.mat-accent .mat-checkbox-background,
   .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
-    background-color: $mainColor !important;
+    background-color: var(--primary-green) !important;
   }
 
   .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element,
   .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
-    background: $mainColor !important;
+    background: var(--primary-green) !important;
   }
 }
 
@@ -64,7 +60,7 @@ $unActiveColor: #839c94;
   float: right;
   padding: 6px 18px;
   color: #fff;
-  background-color: $mainColor;
+  background-color: var(--primary-green);
   border: none;
   border-radius: 5px;
   font-size: 16px;
@@ -73,7 +69,7 @@ $unActiveColor: #839c94;
   transition: 0.3s all ease-in-out;
 
   &:hover {
-    background-color: $secondColor;
+    background-color: var(--secondary-dark-green);
   }
 }
 

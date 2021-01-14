@@ -8,7 +8,7 @@
 .add-goal-button {
   width: 292px !important;
   height: 48px !important;
-  font-family: 'Open Sans', sans-serif;
+  font-family: var(--primary-font);
   font-size: 18px;
   font-weight: 600;
   font-stretch: normal;
@@ -18,7 +18,7 @@
   text-align: center;
   border-radius: 4px !important;
   box-shadow: 0 13px 20px 0 rgba(118, 196, 125, 0.41) !important;
-  background-color: #13aa57 !important;
+  background-color: var(--primary-green) !important;
   border: 0;
   color: #fff;
 }

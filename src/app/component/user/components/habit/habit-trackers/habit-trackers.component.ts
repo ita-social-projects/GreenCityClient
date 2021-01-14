@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { HabitStatisticService } from '../../../../../service/habit-statistic/habit-statistic.service';
-import { HabitDto } from '../../../../../model/habit/HabitDto';
+import { HabitStatisticService } from '@global-service/habit-statistic/habit-statistic.service';
+import { HabitDto } from '@global-models/habit/HabitDto';
 import { Observable } from 'rxjs';
-import {LanguageService} from '../../../../../i18n/language.service';
+import {LanguageService} from '@language-service/language.service';
 
 @Component({
   selector: 'app-habit-trackers',

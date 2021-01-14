@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
-
 $bp-smallest: 320px;
 $bp-phone: 576px;
 $bp-tablet: 768px;
@@ -11,9 +9,9 @@ $bp-largest: 1440px;
 }
 
 .calendar {
-  width: 261px;
-  max-height: 276px;
-  background: #f5f6f6;
+  width: 216px;
+  height: 222px;
+  background: var(--secondary-light-grey);
   border-radius: 4px;
 
   .top {
@@ -30,11 +28,12 @@ $bp-largest: 1440px;
       }
 
       .monthAndYear {
-        font-family: 'Montserrat', sans-serif;
+        font-family: var(--secondary-font);
         font-weight: 600;
-        font-size: 13px;
-        color: #494a49;
-        margin-top: 16px;
+        font-size: 11px;
+        line-height: 13px;
+        color: var(--primary-dark-grey);
+        margin-top: 15px;
         margin-bottom: 12px;
         cursor: pointer;
       }
@@ -49,38 +48,38 @@ $bp-largest: 1440px;
 
     .days {
       display: grid;
-      grid-template-columns: repeat(7, 34.6px);
+      grid-template-columns: repeat(7, 30px);
       text-align: center;
-      margin: 0 9px 0 10px;
+      margin: 0 9px 0 0;
       font-size: 11px;
 
       .days-name {
         margin: 0;
-        font-family: 'Montserrat', sans-serif;
+        font-family: var(--secondary-font);
         font-weight: 600;
-        font-size: 13px;
-        line-height: 16px;
-        color: #bebebe;
+        font-size: 10px;
+        line-height: 12px;
+        color: var(--tertiary-light-grey);
       }
 
       .current-day-name {
-        color: #13aa57;
+        color: var(--primary-green);
       }
     }
   }
 
   .middle {
-    padding-bottom: 24px;
+    padding-bottom: 16px;
 
     .calendar-grid {
       display: grid;
-      grid-template-columns: repeat(7, 34px);
-      grid-auto-rows: 32px;
-      margin: 8px 0 0 14px;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 13px;
-      line-height: 16px;
-      color: #494a49;
+      grid-template-columns: repeat(7, 30px);
+      grid-auto-rows: 30px;
+      margin: 8px 0 0 0;
+      font-family: var(--secondary-font);
+      font-size: 11px;
+      line-height: 13px;
+      color: var(--primary-dark-grey);
       text-align: center;
 
       .calendar-grid-day {
@@ -89,15 +88,15 @@ $bp-largest: 1440px;
       }
 
       .calendar-grid-day:hover {
-        color: #13aa57;
+        color: var(--primary-green);
       }
 
       .calendar-grid-day:active {
-        color: #056b33;
+        color: var(--secondary-dark-green);
       }
 
       .current-day {
-        background-color: #13aa57;
+        background-color: var(--primary-green);
         border-radius: 50%;
         background-repeat: no-repeat;
         background-position: center;
@@ -105,7 +104,7 @@ $bp-largest: 1440px;
       }
 
       .tracked-day {
-        background-color: #056b33;
+        background-color: var(--secondary-dark-green);
         border-radius: 50%;
         background-repeat: no-repeat;
         background-position: center;
@@ -119,7 +118,7 @@ $bp-largest: 1440px;
 
       .current-day:active,
       .tracked-day:active {
-        color: #056b33;
+        color: var(--secondary-dark-green);
       }
     }
 
@@ -133,18 +132,18 @@ $bp-largest: 1440px;
       margin-top: 32px;
 
       .calendar-grid-month-view {
-        font-family: 'Montserrat', sans-serif;
+        font-family: var(--secondary-font);
         font-weight: 600;
         font-size: 11px;
         line-height: 13px;
-        color: #878787;
+        color: var(--secondary-grey);
         text-align: center;
         text-transform: uppercase;
         cursor: pointer;
       }
 
       .current-month {
-        color: #13aa57;
+        color: var(--primary-green);
       }
     }
   }
@@ -212,10 +211,10 @@ $bp-largest: 1440px;
         }
 
         .monthAndYear {
-          font-family: 'Montserrat', sans-serif;
+          font-family: var(--secondary-font);
           font-weight: 600;
           font-size: 13px;
-          color: #494a49;
+          color: var(--primary-dark-grey);
           margin-top: 16px;
           margin-bottom: 12px;
           cursor: pointer;
@@ -238,15 +237,15 @@ $bp-largest: 1440px;
 
         .days-name {
           margin: 0;
-          font-family: 'Montserrat', sans-serif;
+          font-family: var(--secondary-font);
           font-weight: 600;
           font-size: 11px;
           line-height: 16px;
-          color: #bebebe;
+          color: var(--tertiary-light-grey);
         }
 
         .current-day-name {
-          color: #13aa57;
+          color: var(--primary-green);
         }
       }
     }
@@ -259,10 +258,10 @@ $bp-largest: 1440px;
         grid-template-columns: repeat(7, 57px);
         grid-auto-rows: 34px;
         margin: 8px 0 0 14px;
-        font-family: "Montserrat", sans-serif;
+        font-family: var(--secondary-font);
         font-size: 19px;
         line-height: 16px;
-        color: #494a49;
+        color: var(--primary-dark-grey);
         text-align: center;
 
         .calendar-grid-day {
@@ -271,22 +270,22 @@ $bp-largest: 1440px;
         }
 
         .calendar-grid-day:hover {
-          color: #13aa57;
+          color: var(--primary-green);
         }
 
         .calendar-grid-day:active {
-          color: #056b33;
+          color: var(--secondary-dark-green);
         }
 
         .current-day {
-          background-color: #056b33;
+          background-color: var(--secondary-dark-green);
           border-radius: 50%;
           width: 25px;
           color: #fff;
         }
 
         .tracked-day {
-          background-color: #056b33;
+          background-color: var(--secondary-dark-green);
           border-radius: 50%;
           width: 25px;
           color: #fff;
@@ -299,7 +298,7 @@ $bp-largest: 1440px;
 
         .current-day:active,
         .tracked-day:active {
-          color: #056b33;
+          color: var(--secondary-dark-green);
         }
       }
 
@@ -313,18 +312,18 @@ $bp-largest: 1440px;
         margin-top: 32px;
 
         .calendar-grid-month-view {
-          font-family: 'Montserrat', sans-serif;
+          font-family: var(--secondary-font);
           font-weight: 600;
           font-size: 11px;
           line-height: 13px;
-          color: #878787;
+          color: var(--secondary-grey);
           text-align: center;
           text-transform: uppercase;
           cursor: pointer;
         }
 
         .current-month {
-          color: #13aa57;
+          color: var(--primary-green);
         }
       }
     }

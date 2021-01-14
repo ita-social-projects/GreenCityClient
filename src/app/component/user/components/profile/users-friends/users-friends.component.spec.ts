@@ -3,13 +3,32 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { UsersFriendsComponent } from './users-friends.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Friend, UserFriendsInterface } from '../../../../../interface/user/user-friends.interface';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('UsersFriendsComponent', () => {
   let component: UsersFriendsComponent;
   let fixture: ComponentFixture<UsersFriendsComponent>;
+  const userFriends: UserFriendsInterface = {
+    amountOfFriends: 2,
+    pagedFriends: {
+      currentPage: 1,
+      page: [
+        {id: 0, name: 'test0', profilePicturePath: 'test0'},
+        {id: 1, name: 'test1', profilePicturePath: 'test1'}
+      ],
+      totalElements: 6,
+      totalPages: 1
+    }
+  };
+  const friends: Array<Friend> = [
+    {id: 0, name: 'test0', profilePicturePath: 'test0'},
+    {id: 1, name: 'test1', profilePicturePath: 'test1'}
+  ];
+  const profileServiceMock: ProfileService = jasmine.createSpyObj('ProfileService', ['getUserFriends']);
+  profileServiceMock.getUserFriends = () => of(userFriends);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -18,6 +37,9 @@ describe('UsersFriendsComponent', () => {
       imports: [
         TranslateModule.forRoot(),
         HttpClientTestingModule
+      ],
+      providers: [
+        { provide: ProfileService, useValue: profileServiceMock }
       ]
     })
     .compileComponents();
@@ -32,35 +54,9 @@ describe('UsersFriendsComponent', () => {
   it('should create UsersFriendsComponent', () => {
     expect(component).toBeTruthy();
   });
-});
 
-describe('GetUserFriends', () => {
-  let component: UsersFriendsComponent;
-  let service: ProfileService;
-
-  beforeEach(() => {
-    service = new ProfileService(null, null, null);
-    component = new UsersFriendsComponent(service);
-  });
-
-  it('should get a user\'s friends', () => {
-    const userFriends = {title: 'test'};
-    const spy = spyOn(service, 'getUserFriends').and.returnValue(of(userFriends));
-
+  it('should get user\'s friends', () => {
     component.showUsersFriends();
-
-    expect(spy).toHaveBeenCalled();
+    expect(component.userFriends).toEqual(friends);
   });
-
-  it('should set message to error message', () => {
-    const error = 'Error message';
-    spyOn(service, 'getUserFriends').and.returnValue(throwError(error));
-
-    component.showUsersFriends();
-
-    expect(component.noFriends).toBe(error);
-  });
-
 });
-
-

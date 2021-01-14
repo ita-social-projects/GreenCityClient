@@ -47,7 +47,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       popupCancel: 'user.edit-profile.profile-popup.cancel',
     }
   };
-  public socialNetworks: string [];
+  public socialNetworks: Array<{ id: number, url: string }>;
   public socialNetworksToServer: string [] = [];
 
   constructor(public dialog: MatDialog,

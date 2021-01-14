@@ -166,7 +166,7 @@ describe('EditProfileComponent', () => {
         showEcoPlace: true,
         showLocation: true,
         showShoppingList: true,
-        socialNetworks: ['Instagram']
+        socialNetworks: [{id: 220, url: 'http://instagram.com/profile'}]
       };
     });
 
