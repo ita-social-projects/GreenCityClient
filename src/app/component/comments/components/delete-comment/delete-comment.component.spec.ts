@@ -65,7 +65,7 @@ describe('DeleteCommentComponent', () => {
       replies: 1,
       status: 'string',
       text: 'string'
-    }
+    };
   });
 
   it('should create', () => {

@@ -49,7 +49,6 @@ export class CommentsListComponent {
   }
 
   public changeCounter(counter: number, id: number, key: string): void {
-    console.log(counter,  this.elementsList)
     this.elementsList = this.elementsList.map(item => {
       if (item.id === id) {
         item[key] = counter;

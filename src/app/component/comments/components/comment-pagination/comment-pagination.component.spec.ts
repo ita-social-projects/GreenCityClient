@@ -27,7 +27,7 @@ describe('CommentPaginationComponent', () => {
       itemsPerPage: 1,
       currentPage: 1,
       totalItems: 1,
-    }
+    };
     fixture.detectChanges();
   });
 

@@ -22,8 +22,8 @@ describe('AddCommentComponent', () => {
     showEcoPlace: true,
     showLocation: true,
     showShoppingList: true,
-    socialNetworks: ['string;','string;']
-  }
+    socialNetworks: [{id: 1, url: 'string;'}]
+  };
 
   let profileServiceMock: ProfileService;
   profileServiceMock = jasmine.createSpyObj('ProfileService', ['getUserInfo']);

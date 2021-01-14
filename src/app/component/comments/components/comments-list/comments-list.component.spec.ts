@@ -6,11 +6,11 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { CommentsListComponent } from './comments-list.component';
-import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
 import { CommentsService } from '../../services/comments.service';
 import { of } from 'rxjs';
+import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
 
-fdescribe('CommentsListComponent', () => {
+describe('CommentsListComponent', () => {
   let component: CommentsListComponent;
   let fixture: ComponentFixture<CommentsListComponent>;
 
@@ -29,9 +29,9 @@ fdescribe('CommentsListComponent', () => {
     likes: 0,
     modifiedDate: '111',
     replies: 1,
-    status: 'string',
+    status: 'EDITED',
     text: 'string'
-  }
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -61,7 +61,7 @@ fdescribe('CommentsListComponent', () => {
       itemsPerPage: 1,
       currentPage: 1,
       totalItems: 1,
-    }
+    };
 
     fixture.detectChanges();
   });
@@ -77,11 +77,11 @@ fdescribe('CommentsListComponent', () => {
   });
 
   it('should return comments status', () => {
-    expect(component.isCommentEdited(commentData)).toBeFalsy();
+    expect(component.isCommentEdited(commentData)).toBeTruthy();
   });
 
   it('should send data when user save edited content', () => {
-    component.content.setValue('some test text')
+    component.content.setValue('some test text');
     // @ts-ignore
     const spy = spyOn(component.commentsService, 'editComment').and.returnValue(of({}));
     component.saveEditedComment(commentData);
