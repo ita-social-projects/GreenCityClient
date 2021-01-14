@@ -17,3 +17,21 @@
 .app-footer {
   width: 100%;
 }
+
+.skip-container {
+  text-align: center;
+}
+
+.skip {
+  position: absolute;
+  top: 8%;
+  left: -100%;
+  width: 100px;
+  color: var(--primary-green);
+  border-radius: 3px;
+  padding: 2px 2px;
+}
+
+.skip:focus {
+  left: 0;
+}

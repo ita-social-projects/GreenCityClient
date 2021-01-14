@@ -1,4 +1,5 @@
 <app-post-news-loader *ngIf="isPosting"></app-post-news-loader>
+<main role="main" id="main-content">
 <div class="box" *ngIf="!isPosting">
     <div class="title">
         <h2>{{ attributes.title | translate }}</h2>
@@ -77,3 +78,4 @@
         </form>
     </div>
 </div>
+</main>
