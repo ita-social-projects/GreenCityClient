@@ -1,13 +1,48 @@
-<div [ngClass]="oneHabit.done ? oneHabit.acquired ? 'main man-with-cup' : 'main girl' : 'main man'">
-<div class="day-in-progress">
-  <div class="calendar-img"></div>
-  <p>{{ oneHabit.dayCount }}</p>
-</div>
-  <div class="title">
-{{ oneHabit.title}}
+<div class="main">
+  <div class="description">
+    <div class="first-row">
+      <div class="calendar"
+           *ngIf="showCalendar"
+      ></div>
+      <p>{{ daysCounter }}</p>
+      <div
+        *ngIf="showPhoto"
+        class="friends-photo"
+      >
+        <img class="first-photo" [src]="firstFriend" alt="First friend photo">
+        <img class="second-photo" [src]="secondFriend" alt="Second friend photo">
+      </div>
+    </div>
+    <div class="second-row">
+      {{ habit.habit.habitTranslation.name}}
+    </div>
   </div>
-  <div class="describe">
-    <div [ngClass]="oneHabit.done ? oneHabit.acquired ? 'circle star' : 'circle done' : 'circle undone'"></div>
-    <div class="describe-text">{{ oneHabit.describe }}</div>
+  <div
+    class="third-row"
+    [ngSwitch]="habitMark"
+  >
+    <ng-template ngSwitchCase="plus">
+      <button
+        class="{{ habitMark }}"
+        (click)="enroll()"
+        [disabled]="isRequest"
+      ></button>
+      <div class="green">{{ 'user.habit.one-habit.done' | translate }}</div>
+    </ng-template>
+    <ng-template ngSwitchCase="mark">
+      <button
+        class="{{ habitMark }}"
+        (click)="unenroll()"
+        [disabled]="isRequest"
+      ></button>
+      <div class="grey">{{ habit.habitStreak }} {{ 'user.habit.one-habit.good' | translate }}</div>
+    </ng-template>
+    <ng-template ngSwitchDefault>
+      <div class="{{ habitMark }}"></div>
+      <div class="grey">{{ 'user.habit.one-habit.great' | translate }}</div>
+    </ng-template>
+  </div>
+  <div class="image">
+    <img [src]="backgroundImage" alt="running man image">
   </div>
 </div>

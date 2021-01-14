@@ -1,14 +1,8 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
-
 $bp-smallest: 320px;
 $bp-phone: 576px;
 $bp-tablet: 768px;
 $bp-desktop: 1024px;
 $bp-largest: 1440px;
-
-$title-font: 'Montserrat', sans-serif;
-$main-font: 'Open Sans', sans-serif;
 
 .wrapper {
   margin: 0 10%;
@@ -31,7 +25,7 @@ $main-font: 'Open Sans', sans-serif;
 .edit-news,
 .tags-item,
 .back-button {
-  font-family: $main-font;
+  font-family: var(--primary-font);
 }
 
 .top-elements {
@@ -50,7 +44,7 @@ $main-font: 'Open Sans', sans-serif;
 }
 
 .button-link {
-  color: #494a49;
+  color: var(--primary-dark-grey);
 }
 
 .button-arrow {
@@ -59,18 +53,18 @@ $main-font: 'Open Sans', sans-serif;
 
 .edit-news {
   padding: 15px 32px;
-  color: #13aa57;
+  color: var(--primary-green);
   font-size: 1rem;
   line-height: 16px;
   font-weight: 700;
-  border: 1px solid #13aa57;
+  border: 1px solid var(--primary-green);
   border-radius: 3px;
   text-align: center;
 }
 
 .edit-news:hover {
-  border-color: #056b33;
-  color: #056b33;
+  border-color: var(--secondary-dark-green);
+  color: var(--secondary-dark-green);
 }
 
 .tags,
@@ -85,13 +79,13 @@ $main-font: 'Open Sans', sans-serif;
 }
 
 .tags-item {
-  color: #666;
+  color: var(--tertiary-grey);
   text-transform: capitalize;
   font-size: 14px;
   line-height: 16px;
   margin: 0 8px 0;
   padding: 8px 16px;
-  border: 1px solid #878787;
+  border: 1px solid var(--secondary-grey);
   border-radius: 25px;
 }
 
@@ -106,12 +100,12 @@ $main-font: 'Open Sans', sans-serif;
 
 .news-title {
   margin: 0 6.8% 24px;
-  color: #494a49;
+  color: var(--primary-dark-grey);
   font-weight: 500;
   width: 100%;
   font-size: calc(24px + (40 - 24) * ((100vw - 320px) / (1440 - 320)));
   line-height: calc(32px + (48 - 32) * ((100vw - 320px) / (1440 - 320)));
-  font-family: $title-font;
+  font-family: var(--secondary-font);
 }
 
 .news-info {
@@ -122,7 +116,7 @@ $main-font: 'Open Sans', sans-serif;
 
 .news-info-date,
 .news-info-author {
-  color: #494a49;
+  color: var(--primary-dark-grey);
   font-size: calc(16px + (24 - 16) * ((100vw - 320px) / (1440 - 320)));
   line-height: calc(16px + (40 - 16) * ((100vw - 320px) / (1440 - 320)));
 }
@@ -170,16 +164,16 @@ $main-font: 'Open Sans', sans-serif;
 }
 
 .source-title {
-  font-family: $main-font;
+  font-family: var(--primary-font);
   font-size: 24px;
   line-height: 40px;
-  color: #494a49;
+  color: var(--primary-dark-grey);
   mix-blend-mode: normal;
   margin-right: 8px;
 }
 
 .source-text {
-  font-family: $main-font;
+  font-family: var(--primary-font);
   max-width: 631px;
   font-size: 18px;
   line-height: 32px;

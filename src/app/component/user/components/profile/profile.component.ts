@@ -3,6 +3,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
+import { EditProfileModel } from '@user-models/edit-profile.model';
 
 @Component({
   selector: 'app-profile',
@@ -11,7 +12,7 @@ import { ProfileService } from '@global-user/components/profile/profile-service/
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   private langChangeSub: Subscription;
-  public userInfo;
+  public userInfo: EditProfileModel;
 
   constructor(private localStorageService: LocalStorageService,
               private translate: TranslateService,

@@ -1,166 +1,220 @@
-$bg-color: #f8f9fa;
-$digital-color: #bebebe;
-$first-color-font: #494a49;
-$second-color-font: #839c94;
-$screen-1024: " screen and (max-width : 1024px)";
-$screen-768: " screen and (max-width : 768px)";
-$screen-576: " screen and (max-width : 576px)";
-$screen-320: " screen and (max-width : 320px)";
+button {
+  border: none;
+  padding: 0;
+}
 
 .main {
-  width: 100%;
-  height: 100%;
-  min-height: 161px;
+  height: 148px;
   border-radius: 8px;
-  position: relative;
+  background-color: var(--secondary-light-grey);
+  display: grid;
+  grid-template-columns: 1fr 85px;
+  grid-template-rows: 1fr 40px;
+}
+
+.description {
+  margin: 12px 0 0 16px;
+  grid-area: 1 / 1 / 2 / 2;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  margin-bottom: 24px;
 
-  .day-in-progress {
+  .first-row {
     display: flex;
-    justify-content: space-between;
-    width: 33px;
-    height: 22px;
-    margin: 16px 0 0 23px;
-    position: absolute;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 4px;
 
-    .calendar-img {
-      width: 20px;
-      height: 20px;
-      background: $bg-color url("~/assets/img/icon/calendar.png") no-repeat center;
+    .calendar {
+      width: 11px;
+      height: 12px;
+      margin-right: 7px;
+      background: url("~/assets/img/icon/calendar.svg") no-repeat;
     }
 
     p {
-      font-family: Montserrat, sans-serif;
+      font-family: var(--secondary-font);
       font-style: normal;
       font-weight: 500;
-      font-size: 14px;
-      line-height: 20px;
-      width: 9px;
-      height: 22px;
-      color: $digital-color;
-      margin: 0;
+      font-size: 12px;
+      line-height: 18px;
+      color: var(--tertiary-light-grey);
+      margin: 0 16px 0 0;
+    }
+
+    .friends-photo {
+      display: flex;
+
+      .first-photo,
+      .second-photo {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 1px solid var(--secondary-light-grey);
+      }
+
+      .first-photo {
+        z-index: 1;
+      }
+
+      .second-photo {
+        position: relative;
+        left: -5px;
+      }
     }
   }
 
-  .title {
-    font-family: Montserrat, sans-serif;
+  .second-row {
+    font-family: var(--secondary-font);
     font-style: normal;
     font-weight: 600;
-    font-size: 22px;
-    line-height: 28px;
-    color: $first-color-font;
-    position: absolute;
-    width: auto;
-    max-width: 319px;
-    height: 63px;
-    left: 24px;
-    top: 42px;
-    text-align: left;
+    font-size: 16px;
+    line-height: 20px;
+    padding-right: 5px;
+    color: var(--primary-dark-grey);
   }
 }
 
-.describe {
-  display: flex;
-  margin-top: 12px;
-  position: absolute;
-  left: 20px;
-  bottom: 16px;
+.image {
+  grid-area: 1 / 2 / 2 / 3;
 
-  .describe-text {
-    font-family: Montserrat, sans-serif;
+  img {
+    height: 100%;
+    width: auto;
+    border-radius: 8px;
+    float: right;
+  }
+}
+
+.third-row {
+  margin: 0 0 16px 16px;
+  grid-area: 2 / 1 / 3 / 3;
+  display: flex;
+  align-items: center;
+
+  div:first-child,
+  button:first-child {
+    width: 24px;
+    height: 24px;
+    margin-right: 13px;
+  }
+
+  .green,
+  .grey {
+    font-family: var(--secondary-font);
     font-style: normal;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 20px;
-    color: $second-color-font;
-    display: flex;
-    align-items: center;
+  }
+
+  .green {
+    color: var(--primary-green);
+  }
+
+  .grey {
+    color: var(--primary-grey);
+  }
+
+  .plus {
+    background: url("~/assets/img/icon/plus-circle-dotted.svg") no-repeat;
+  }
+
+  .mark {
+    background: url("~/assets/img/icon/mark-circle.svg") no-repeat;
+  }
+
+  .star {
+    background: url("~/assets/img/icon/star-circle.svg") no-repeat;
   }
 }
 
-.circle {
-  width: 28px;
-  height: 28px;
-  margin-right: 8px;
-}
-
-.man {
-  background: $bg-color url("~/assets/img/runMan.png") no-repeat right;
-}
-
-.man-with-cup {
-  background: $bg-color url("~/assets/img/manWithCup.png") no-repeat right;
-}
-
-.girl {
-  background: $bg-color url("~/assets/img/girl.png") no-repeat right;
-}
-
-.done {
-  background: url("~/assets/img/icon/chek-circle.png") no-repeat center;
-}
-
-.undone {
-  background: url("~/assets/img/icon/plus-circle.png") no-repeat center;
-}
-
-.star {
-  background: url("~/assets/img/icon/star-circle.png") no-repeat center;
-}
-
-@media #{$screen-1024} {
+@media (min-width: 576px) {
   .main {
-    min-height: 152px;
+    height: 161px;
+    grid-template-columns: auto 167px;
+  }
 
-    .title {
-      max-width: 264px;
+  .description {
+    .first-row {
+      .calendar {
+        width: 14px;
+        height: 15px;
+      }
+
+      p {
+        font-size: 14px;
+        line-height: 20px;
+      }
+    }
+
+    .second-row {
+      font-size: 22px;
+      line-height: 28px;
     }
   }
-}
 
-@media #{$screen-768} {
-  .main {
-    min-height: 142px;
-
-    .title {
-      max-width: 264px;
-    }
+  .image {
+    grid-area: 1 / 2 / 3 / 3;
   }
-}
 
-@media #{$screen-576} {
-  .main {
-    min-height: 161px;
+  .third-row {
+    grid-area: 2 / 1 / 3 / 2;
 
-    .title {
-      max-width: 319px;
+    div:first-child,
+    button:first-child {
+      width: 28px;
+      height: 28px;
+      margin-right: 8px;
     }
-  }
-}
 
-@media #{$screen-320} {
-  .main {
-    min-height: 148px;
-
-    .title {
-      max-width: 174px;
-      font-size: 16px;
+    .green,
+    .grey {
+      font-size: 14px;
       line-height: 20px;
     }
   }
+}
 
-  .man {
-    background: $bg-color url("~/assets/img/runMan_320px.png") no-repeat right;
+@media (min-width: 768px) {
+  .main {
+    height: 142px;
+    grid-template-columns: auto 139px;
   }
 
-  .man-with-cup {
-    background: $bg-color url("~/assets/img/manWithCup320px.png") no-repeat right;
+  .description {
+    .second-row {
+      font-size: 20px;
+      line-height: 24px;
+    }
   }
 
-  .girl {
-    background: $bg-color url("~/assets/img/girl_320px.png") no-repeat right;
+  .third-row {
+    div:first-child,
+    button:first-child {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  .main {
+    height: 152px;
+    grid-template-columns: auto 156px;
+  }
+
+  .description {
+    .second-row {
+      font-size: 20px;
+      line-height: 26px;
+    }
+  }
+
+  .third-row {
+    div:first-child,
+    button:first-child {
+      width: 28px;
+      height: 28px;
+    }
   }
 }

@@ -7,7 +7,7 @@
   }
 
   h3 {
-    font-family: 'Open Sans', sans-serif;
+    font-family: var(--primary-font);
     color: #000;
     font-size: 24px;
     font-weight: 600;
@@ -28,7 +28,7 @@
 
   h3 {
     color: #000;
-    font-family: 'Open Sans', sans-serif;
+    font-family: var(--primary-font);
     font-size: 32px;
     font-stretch: normal;
     font-style: normal;
@@ -45,8 +45,8 @@
 }
 
 .event-date {
-  color: #839c94 !important;
-  font-family: 'Open Sans', sans-serif;
+  color: var(--primary-grey) !important;
+  font-family: var(--primary-font);
   font-size: 14px;
   font-stretch: normal;
   font-style: italic;
@@ -57,8 +57,8 @@
 }
 
 .read-more {
-  color: #13aa57 !important;
-  font-family: 'Open Sans', sans-serif;
+  color: var(--primary-green) !important;
+  font-family: var(--primary-font);
   font-size: 16px;
   font-stretch: normal;
   font-style: normal;

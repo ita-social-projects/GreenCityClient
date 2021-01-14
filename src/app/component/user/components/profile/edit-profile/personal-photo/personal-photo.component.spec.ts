@@ -77,7 +77,7 @@ describe('PersonalPhotoComponent', () => {
         showEcoPlace: true,
         showLocation: true,
         showShoppingList: true,
-        socialNetworks: ['test']
+        socialNetworks: [{id: 220, url: 'http://instagram.com/profile'}]
       };
       // @ts-ignore
       spyOn(component.profileService, 'getUserInfo').and.returnValue(of(userData));
