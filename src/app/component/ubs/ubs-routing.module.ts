@@ -16,5 +16,4 @@ const ubsRoutes: Routes = [
   imports: [RouterModule.forChild(ubsRoutes)],
   exports: [RouterModule]
 })
-
 export class UbsRoutingModule { }
