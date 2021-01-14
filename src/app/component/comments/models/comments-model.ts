@@ -24,6 +24,11 @@ export interface CommentsDTO {
     showAllRelies?: boolean;
 }
 
+export interface SocketAmountLikes {
+    id: number;
+    amountLikes: number;
+}
+
 export enum dataTypes {
   commentType = 'comment',
   wrapperCommentType = 'wrapper-comment',

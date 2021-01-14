@@ -4,6 +4,7 @@ export const environment = {
   backendLink: 'https://greencity.azurewebsites.net/',
   backendUserLink: 'https://greencity-user.azurewebsites.net/',
   frontendLink: 'http://localhost:4200/GreenCityClient',
+  socket: 'https://greencity.azurewebsites.net/socket',
   firebaseConfig: {
       apiKey: 'AIzaSyDSVxahTHqdffRX2upKIMXCCjEBUYoHX8E',
       authDomain: 'greencity-9bdb7.firebaseapp.com',
