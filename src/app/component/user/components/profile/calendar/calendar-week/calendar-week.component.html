@@ -1,34 +1,26 @@
-<div class="calendar">
-  <div class="top">
-    <div class="month-year">
-      <div (click)="previousWeek()">
-        <img [src]="calendarImages.arrowPrevious"
-             alt="arrow previous"
-             class="arrow-previous">
-      </div>
-      <span class="monthAndYear">
-        {{ monthAndYearName }}
-      </span>
-      <div (click)="nextWeek()">
-        <img [src]="calendarImages.arrowNext"
-             alt="arrow next"
-             class="arrow-next">
-      </div>
-    </div>
-    <div class="days">
-      <div class="days-name"
-           *ngFor="let day of daysName"
-           [ngClass]="{ 'current-day-name': day === currentDayName }">
-        {{ day.toUpperCase() }}
-      </div>
-    </div>
+<div class="calendar-week">
+  <div class="title">
+    <button (click)="changeWeek(false)">
+      <img [src]="calendarImages.arrowPrevious" alt="arrow previous">
+    </button>
+    <div class="week">{{ weekTitle }}</div>
+    <button (click)="changeWeek(true)">
+      <img [src]="calendarImages.arrowNext" alt="arrow next">
+    </button>
   </div>
-  <div class="middle">
-    <div  class="calendar-grid-week-view">
-      <div  *ngFor="let dayItem of calendarDay"
-            class="day"
-            [ngClass]="{ 'current-day': dayItem.isCurrentDayActive }">
-        {{ dayItem.numberOfDate }}
+  <div class="body">
+    <div class="day-name-row">
+      <div class="day-name"
+           *ngFor="let day of weekDates"
+           [ngClass]="{ 'current-name': day.isCurrent }">
+        {{ day.dayName | uppercase }}
+      </div>
+    </div>
+    <div class="day-number-row">
+      <div class="day-number"
+           *ngFor="let day of weekDates"
+           [ngClass]="{ 'current-number': day.isCurrent }">
+        {{ day.date.getDate() }}
       </div>
     </div>
   </div>
