@@ -1,4 +1,4 @@
-p {
+h2 {
   font-family: var(--primary-font);
   font-size: 16px;
   line-height: 24px;
@@ -7,7 +7,7 @@ p {
 }
 
 @media screen and (max-width: 575px) {
-  p {
+  h2 {
     font-size: 12px;
   }
 }
