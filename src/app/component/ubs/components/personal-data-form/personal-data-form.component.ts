@@ -32,7 +32,7 @@ export class PersonalDataFormComponent implements OnInit {
           Validators.required,
           Validators.email
         ]],
-        phone: [null, [
+        phone: ['+38 0', [
           Validators.required,
           Validators.minLength(18)
         ]]
