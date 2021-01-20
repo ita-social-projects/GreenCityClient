@@ -9,6 +9,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class PersonalDataFormComponent implements OnInit {
   personalDataForm: FormGroup;
 
+  phoneMask = '+{38}(000) 000 00 00';
+
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {

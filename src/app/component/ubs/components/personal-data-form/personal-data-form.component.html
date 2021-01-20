@@ -14,7 +14,7 @@
     </div>
     <div class="col-12 col-sm-6 form-group">
       <label>Номер телефону</label>
-      <input formControlName="phone" type="text" class="shadow-none form-control" placeholder="+38(___) ___ __ __">
+      <input formControlName="phone" type="text" class="shadow-none form-control" placeholder="+38(___) ___ __ __" [imask]="{mask: phoneMask}">
     </div>
   </div>
   <div class="row adress-section" formGroupName="adress">
