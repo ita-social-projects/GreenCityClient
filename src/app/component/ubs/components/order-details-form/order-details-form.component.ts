@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IOrder } from './order.interface';
+import { Order } from './order.model';
 
 @Component({
   selector: 'app-order-details-form',
   templateUrl: './order-details-form.component.html',
   styleUrls: ['./order-details-form.component.scss']
 })
+
 export class OrderDetailsFormComponent implements OnInit {
   orderDetailsForm: FormGroup;
   total: number;
@@ -16,15 +19,15 @@ export class OrderDetailsFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.orderDetailsForm = this.fb.group({
-      bagServiceUbs: ['Пакет УБС Кур’єр'],
+      bagServiceUbs: [1],
       bagNumUbs: [0, Validators.required],
       bagSizeUbs: ['120 л (250 грн)'],
       bagPriceUbs: [''],
-      bagServiceClothesXL: ['Пакет Безнадійний одяг'],
+      bagServiceClothesXL: [2],
       bagNumClothesXL: [0, Validators.required],
       bagSizeClothesXL: ['120 л (300 грн)'],
       bagPriceClothesXL: [''],
-      bagServiceClothesM: ['Пакет Безнадійний одяг'],
+      bagServiceClothesM: [3],
       bagNumClothesM: [0],
       bagSizeClothesM: ['35 л (150 грн)'],
       bagPriceClothesM: ['']
@@ -44,4 +47,20 @@ export class OrderDetailsFormComponent implements OnInit {
       this.subBtn = true;
     } else {this.displayMes = false; this.subBtn = false;}
   }
+
+  addOrder() {
+    const id: number = this.orderDetailsForm.value.bagServiceUbs;
+    const amount: number = this.orderDetailsForm.value.bagNumUbs;
+    const id2: number = this.orderDetailsForm.value.bagServiceClothesXL;
+    const amount2: number = this.orderDetailsForm.value.bagNumClothesXL;
+    const id3: number = this.orderDetailsForm.value.bagServiceClothesM;
+    const amount3: number = this.orderDetailsForm.value.bagNumClothesM;
+    const newOrder: IOrder = new Order([{id, amount},
+                                        {id2, amount2},
+                                        {id3, amount3}
+                                      ])
+                                      console.log(newOrder)
+
+  }
 }
+

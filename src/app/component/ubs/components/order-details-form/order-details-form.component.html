@@ -3,7 +3,7 @@
   <p>Зверніть будь ласка увагу, що замовити можна вивіз мінімум 2 пакетів, тому сума пакетів по трьом послугам має бути
     2, або більше. Полсуга “УБС Кур’єр” передбачає вивіз сміття, а послуга “Безнадійний Одяг” – вивіз одягу.</p>
 
-    <!-- {{ orderDetailsForm.value | json }} -->
+    {{ orderDetailsForm.value | json }}
 
   <form class="form" [formGroup]="orderDetailsForm">
 
@@ -129,7 +129,7 @@
         <textarea class="form-control" rows="5"></textarea>
       </div>
       <!-- <div class="form-group"> -->
-        <button [disabled]="subBtn" type="submit" class="btn btn-primary" (click)="show()">Далі</button>
+        <button [disabled]="subBtn" type="submit" class="btn btn-primary" (click)="addOrder()">Далі</button>
         <!-- </div> -->
     </div>
 
