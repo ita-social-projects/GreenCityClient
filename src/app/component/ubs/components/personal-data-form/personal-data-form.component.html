@@ -1,12 +1,12 @@
 <form [formGroup]="personalDataForm" (ngSubmit)="submit()">
-  <div class="row personal-data" formGroupName="personalData">
+  <div class="row personal-data">
     <div class="col-12 col-sm-6 form-group">
       <label>Ім'я</label>
-      <input formControlName="name" type="text" class="shadow-none form-control">
+      <input formControlName="firstName" type="text" class="shadow-none form-control">
     </div>
     <div class="col-12 col-sm-6 form-group">
       <label>Прізвище</label>
-      <input formControlName="surname" type="text" class="shadow-none form-control">
+      <input formControlName="lastName" type="text" class="shadow-none form-control">
     </div>
     <div class="col-12 col-sm-6 form-group">
       <label>Email</label>
@@ -14,48 +14,51 @@
     </div>
     <div class="col-12 col-sm-6 form-group">
       <label>Номер телефону</label>
-      <input formControlName="phone" type="text" class="shadow-none form-control" placeholder="+38(___) ___ __ __" [imask]="{mask: phoneMask}">
+      <input formControlName="phoneNumber" type="text" class="shadow-none form-control" placeholder="+38(___) ___ __ __" [imask]="{mask: phoneMask}">
     </div>
   </div>
-  <div class="row adress-section" formGroupName="adress">
+  <div class="row adress-section">
     <div class="row adress">
       <div class="w-100 adress-title">Введіть адресу за якою забрати сміття</div>
       <div class="col-12 col-sm-6 form-group">
         <label>Місто</label>
         <select formControlName="city" class="shadow-none form-control">
-          <option value="Київ">Київ</option>
-          <option value="Львів">Львів</option>
+          <option value="kyiv">Київ</option>
+          <option value="lviv">Львів</option>
         </select>
       </div>
       <div class="col-12 col-sm-6 form-group">
         <label>Район</label>
         <select formControlName="district" class="shadow-none form-control">
-          <option value="Голосїївський">Голосїївський</option>
-          <option value="Печерський">Печерський</option>
+          <option value="golosievskiy">Голосїївський</option>
+          <option value="pecherskiy">Печерський</option>
         </select>
       </div>
       <div class="col-12 col-sm-6 form-group">
         <label>Вулиця</label>
         <input formControlName="street" type="text" class="shadow-none form-control">
       </div>
-      <div class="col-12 col-sm-6 d-flex justify-content-between form-group">
+      <div class="col-12 col-sm-6 d-flex justify-content-between flex-wrap form-group">
         <div class="item">
           <label>Будинок</label>
-          <input formControlName="building" type="text" class="shadow-none form-control">
+          <input formControlName="houseNumber" type="text" class="shadow-none form-control">
         </div>
         <div class="item">
           <label>Корпус</label>
-          <input formControlName="block" type="text" class="shadow-none form-control">
+          <input formControlName="houseCorpus" type="text" class="shadow-none form-control">
         </div>
         <div class="item">
           <label>Під'їзд</label>
-          <input formControlName="entrance" type="text" class="shadow-none form-control">
+          <input formControlName="entranceNumber" type="text" class="shadow-none form-control">
+        </div>
+        <div class="w-100">
+          <small>Це поле є обов'язкове до заповнення</small>
         </div>
       </div>
       <div class="w-100 adress-notice">ВАЖЛИВО: кур’єр забирає пакети біля під’їзду, на поверх не піднімається.</div>
     </div>
     <h5 class="comment-title">Коментар до адреси</h5>
-    <textarea formControlName="comment"></textarea>
+    <textarea formControlName="addressComment"></textarea>
   </div>
   <div class="w-100 d-flex justify-content-end">
     <button class="secondary-global-button btn" matStepperPrevious>Назад</button>
