@@ -1,3 +1,5 @@
+<a href="https://career.softserveinc.com/en-us/technology/course/start_your_career_as_web_ui_developer"><img src="https://github.com/ita-social-projects/GreenCity/blob/master/docs-photos/GreenCity%20Logo.png" title="SoftServe IT Academy. GreenCity project" alt="SoftServe IT Academy. GreenCity project"></a>
+
 # GreenCityClient    [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/ita-social-projects/GreenCityClient/blob/master/LICENSE) [![GitHub release](https://img.shields.io/static/v1?label=Release&message=v.2.0.0&color=yellowgreen)](https://github.com/ita-social-projects/GreenCityClient/releases/tag/v.2.0.0) [![HitCount](http://hits.dwyl.com/ita-social-projects/GreenCityClient.svg)](http://hits.dwyl.com/ita-social-projects/GreenCityClient)
 
 ## About the project
