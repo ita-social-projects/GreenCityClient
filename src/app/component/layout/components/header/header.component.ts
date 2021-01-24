@@ -34,9 +34,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public isAllSearchOpen = false;
   public toggleBurgerMenu = false;
   public arrayLang: Array<LanguageModel> = [
-    {lang: 'Ua'},
-    {lang: 'En'},
-    {lang: 'Ru'}];
+    { lang: 'Ua' },
+    { lang: 'En' },
+    { lang: 'Ru' }];
   public isSearchClicked = false;
   private adminRoleValue = 'ROLE_ADMIN';
   private userRole: string;
@@ -45,18 +45,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private backEndLink = environment.backendLink;
   private destroySub: Subject<boolean> = new Subject<boolean>();
   public headerImageList = headerIcons;
+  public skipPath: string;
 
-  constructor(public dialog: MatDialog,
-              private localStorageService: LocalStorageService,
-              private jwtService: JwtService,
-              private router: Router,
-              private userService: UserService,
-              private achievementService: AchievementService,
-              private habitStatisticService: HabitStatisticService,
-              private languageService: LanguageService,
-              private searchSearch: SearchService,
-              private userOwnAuthService: UserOwnAuthService,
-  ) {}
+  constructor(
+    public dialog: MatDialog,
+    private localStorageService: LocalStorageService,
+    private jwtService: JwtService,
+    private router: Router,
+    private userService: UserService,
+    private achievementService: AchievementService,
+    private habitStatisticService: HabitStatisticService,
+    private languageService: LanguageService,
+    private searchSearch: SearchService,
+    private userOwnAuthService: UserOwnAuthService,
+  ) { }
 
   ngOnInit() {
     this.searchSearch.searchSubject
@@ -81,11 +83,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.userOwnAuthService.getDataFromLocalStorage();
 
     this.userOwnAuthService.isLoginUserSubject
-    .pipe(
-      takeUntil(this.destroySub)
-    ).subscribe(
-      status => this.isLoggedIn = status
-    );
+      .pipe(
+        takeUntil(this.destroySub)
+      ).subscribe(
+        status => this.isLoggedIn = status
+      );
     this.token = this.localStorageService.getAccessToken();
     this.isAdmin = this.userRole === this.adminRoleValue;
     this.managementLink = `${this.backEndLink}token?accessToken=${this.token}`;
@@ -206,7 +208,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public toggleScroll(): void {
     this.toggleBurgerMenu ?
-    document.body.classList.add('modal-open') :
-    document.body.classList.remove('modal-open');
+      document.body.classList.add('modal-open') :
+      document.body.classList.remove('modal-open');
   }
 }

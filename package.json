@@ -31,6 +31,9 @@
     "@ngrx/effects": "^9.2.0",
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
+    "@stomp/stompjs": "^6.0.0",
+    "@types/sockjs-client": "^1.5.0",
+    "@types/stompjs": "^2.3.4",
     "agm-direction": "^0.7.8",
     "angular-bootstrap-md": "^8.3.1",
     "angularx-social-login": "^1.2.7",
@@ -53,6 +56,7 @@
     "ngx-pagination": "^4.1.0",
     "ngx-swiper-wrapper": "^8.0.2",
     "rxjs": "~6.4.0",
+    "sockjs-client": "^1.5.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
   },

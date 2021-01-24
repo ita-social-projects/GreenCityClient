@@ -2,8 +2,7 @@
   display: flex;
   justify-content: center;
   text-align: center;
-  height: 35px;
-  margin-top: 64px;
+  height: 28px;
 
   .custom-pagination {
     display: flex;
@@ -16,7 +15,7 @@
     }
 
     .page-number.current {
-      height: 32px;
+      height: 28px;
       min-width: 32px;
       background: var(--primary-green) !important;
       border-radius: 4px;
@@ -24,10 +23,10 @@
 
     .page-number a {
       display: block;
-      height: 35px;
+      height: 28px;
       font-family: var(--primary-font);
-      font-size: 24px;
-      line-height: 35px;
+      font-size: 21px;
+      line-height: 28px;
       color: var(--primary-dark-grey);
       cursor: pointer;
     }

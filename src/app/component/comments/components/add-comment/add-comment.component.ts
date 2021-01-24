@@ -18,6 +18,7 @@ export class AddCommentComponent implements OnInit {
   public addCommentForm: FormGroup = this.fb.group({
     content: ['', [Validators.required, Validators.maxLength(8000)]],
   });
+  public replyMaxLength = 8000;
 
   constructor(private commentsService: CommentsService,
               private fb: FormBuilder,

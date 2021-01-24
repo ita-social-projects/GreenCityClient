@@ -18,7 +18,8 @@
   <ng-template #reply>
     <div class="input-submit">
       <textarea placeholder="{{ 'homepage.eco-news.comment.placeholder.add-a-reply' | translate }}"
-                formControlName="content"></textarea>
+                formControlName="content"
+                [maxlength]="replyMaxLength"></textarea>
       <button class="primary-global-button"
               [disabled]="!addCommentForm.valid">
         {{ "homepage.eco-news.comment.reply"| translate }}
