@@ -10,6 +10,7 @@ import { OrderDetailsFormComponent } from './components/order-details-form/order
 import { PersonalDataFormComponent } from './components/personal-data-form/personal-data-form.component';
 import { PaymentFormComponent } from './components/payment-form/payment-form.component';
 import { IMaskModule } from 'angular-imask';
+import { ErrorComponent } from './components/error/error.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { IMaskModule } from 'angular-imask';
     UbsFormComponent,
     OrderDetailsFormComponent,
     PersonalDataFormComponent,
-    PaymentFormComponent
+    PaymentFormComponent,
+    ErrorComponent
   ],
   imports: [
     CommonModule,

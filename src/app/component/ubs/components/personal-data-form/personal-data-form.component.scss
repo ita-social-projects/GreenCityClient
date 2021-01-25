@@ -12,6 +12,10 @@ input.ng-touched.ng-invalid {
   border: 1px solid red;
 }
 
+.validation {
+  color: var(--error-ligh-red);
+}
+
 textarea {
   display: block;
   width: 100%;

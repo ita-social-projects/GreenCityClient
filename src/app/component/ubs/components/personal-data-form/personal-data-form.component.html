@@ -3,18 +3,46 @@
     <div class="col-12 col-sm-6 form-group">
       <label>Ім'я</label>
       <input formControlName="firstName" type="text" class="shadow-none form-control">
+      <div class="validation" *ngIf="personalDataForm.get('firstName').invalid && personalDataForm.get('firstName').touched">
+        <app-error
+          [formElement]="personalDataForm.get('firstName')"
+          [firstNameFieldValue]="personalDataForm.get('firstName').value"
+          [controlName]="'firstName'"
+        ></app-error>
+      </div>
     </div>
     <div class="col-12 col-sm-6 form-group">
       <label>Прізвище</label>
       <input formControlName="lastName" type="text" class="shadow-none form-control">
+      <div class="validation" *ngIf="personalDataForm.get('lastName').invalid && personalDataForm.get('lastName').touched">
+        <app-error
+          [formElement]="personalDataForm.get('lastName')"
+          [lastNameFieldValue]="personalDataForm.get('lastName').value"
+          [controlName]="'lastName'"
+        ></app-error>
+      </div>
     </div>
     <div class="col-12 col-sm-6 form-group">
       <label>Email</label>
       <input formControlName="email" type="text" class="shadow-none form-control" placeholder="example@email.com">
+      <div class="validation" *ngIf="personalDataForm.get('email').invalid && personalDataForm.get('email').touched">
+        <app-error
+          [formElement]="personalDataForm.get('email')"
+          [emailFieldValue]="personalDataForm.get('email').value"
+          [controlName]="'email'"
+        ></app-error>
+      </div>
     </div>
     <div class="col-12 col-sm-6 form-group">
       <label>Номер телефону</label>
       <input formControlName="phoneNumber" type="text" class="shadow-none form-control" placeholder="+38(___) ___ __ __" [imask]="{mask: phoneMask}">
+      <div class="validation" *ngIf="personalDataForm.get('phoneNumber').invalid && personalDataForm.get('phoneNumber').touched">
+        <app-error
+          [formElement]="personalDataForm.get('phoneNumber')"
+          [phoneNumberFieldValue]="personalDataForm.get('phoneNumber').value"
+          [controlName]="'phoneNumber'"
+        ></app-error>
+      </div>
     </div>
   </div>
   <div class="row adress-section">
@@ -22,14 +50,14 @@
       <div class="w-100 adress-title">Введіть адресу за якою забрати сміття</div>
       <div class="col-12 col-sm-6 form-group">
         <label>Місто</label>
-        <select formControlName="city" class="shadow-none form-control">
+        <select formControlName="city" class="shadow-none form-control" disabled>
           <option value="kyiv">Київ</option>
           <option value="lviv">Львів</option>
         </select>
       </div>
       <div class="col-12 col-sm-6 form-group">
         <label>Район</label>
-        <select formControlName="district" class="shadow-none form-control">
+        <select formControlName="district" class="shadow-none form-control" disabled>
           <option value="golosievskiy">Голосїївський</option>
           <option value="pecherskiy">Печерський</option>
         </select>
@@ -37,6 +65,13 @@
       <div class="col-12 col-sm-6 form-group">
         <label>Вулиця</label>
         <input formControlName="street" type="text" class="shadow-none form-control">
+        <div class="validation" *ngIf="personalDataForm.get('street').invalid && personalDataForm.get('street').touched">
+          <app-error
+            [formElement]="personalDataForm.get('street')"
+            [streetFieldValue]="personalDataForm.get('street').value"
+            [controlName]="'street'"
+          ></app-error>
+        </div>
       </div>
       <div class="col-12 col-sm-6 d-flex justify-content-between flex-wrap form-group">
         <div class="item">
@@ -52,13 +87,25 @@
           <input formControlName="entranceNumber" type="text" class="shadow-none form-control">
         </div>
         <div class="w-100">
-          <small>Це поле є обов'язкове до заповнення</small>
+          <div class="validation" *ngIf="personalDataForm.get('houseNumber').invalid && personalDataForm.get('houseNumber').touched">
+            <app-error
+              [formElement]="personalDataForm.get('houseNumber')"
+              [houseNumberFieldValue]="personalDataForm.get('houseNumber').value"
+              [controlName]="'houseNumber'"
+            ></app-error>
+          </div>
         </div>
       </div>
       <div class="w-100 adress-notice">ВАЖЛИВО: кур’єр забирає пакети біля під’їзду, на поверх не піднімається.</div>
     </div>
     <h5 class="comment-title">Коментар до адреси</h5>
     <textarea formControlName="addressComment"></textarea>
+    <div class="validation" *ngIf="personalDataForm.get('addressComment').invalid && personalDataForm.get('addressComment').touched">
+      <app-error
+        [formElement]="personalDataForm.get('addressComment')"
+        [controlName]="'addressComment'"
+      ></app-error>
+    </div>
   </div>
   <div class="w-100 d-flex justify-content-end">
     <button class="secondary-global-button btn" matStepperPrevious>Назад</button>
