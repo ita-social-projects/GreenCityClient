@@ -22,6 +22,7 @@ import { GoogleBtnComponent } from '../google-btn/google-btn.component';
 import { ErrorComponent } from '../error/error.component';
 import { SignInComponent } from './sign-in.component';
 import { provideConfig } from 'src/app/config/GoogleAuthConfig';
+import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 
 describe('SignIn component', () => {
   let component: SignInComponent;
@@ -91,7 +92,8 @@ describe('SignIn component', () => {
         { provide: AuthServiceConfig, useFactory: provideConfig },
         { provide: MatDialogRef, useValue: matDialogMock },
         { provide: UserOwnSignInService, useValue: signInServiceMock },
-        { provide: Router, useValue: routerSpy }
+        { provide: Router, useValue: routerSpy },
+        { provide: ProfileService }
       ]
     });
   }));
