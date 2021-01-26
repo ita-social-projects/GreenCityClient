@@ -16,6 +16,7 @@
            placeholder="example@email.com"
            id="email"
            name="email"
+           required
            formControlName="email"
            (input)="setEmailBackendErr()"
            [ngClass]="emailControl.invalid && emailControl.touched || emailErrorMessageBackEnd ||  backEndError
@@ -39,6 +40,7 @@
           placeholder="{{ 'user.auth.sign-up.first-name' | translate }}"
           id="firstName"
           name="firstName"
+          required
           formControlName="firstName"
           (input)="setEmailBackendErr()"
           [ngClass]="firstNameControl.invalid && firstNameControl.touched ||  backEndError 
@@ -65,6 +67,7 @@
              placeholder="{{ 'user.auth.sign-up.password' | translate }}"
              class="password-input"
              #inputPassword
+             required
              formControlName="password"
              id="password"
              name="form-control password"
@@ -94,6 +97,7 @@
              placeholder="{{ 'user.auth.sign-up.password' | translate }}"
              class="password-input"
              #repeatPassword
+             required
              formControlName="repeatPassword"
              id="repeatPassword"
              name="form-control password-confirm"
