@@ -3,19 +3,26 @@
   <p>Зверніть будь ласка увагу, що замовити можна вивіз мінімум 2 пакетів, тому сума пакетів по трьом послугам має бути
     2, або більше. Полсуга “УБС Кур’єр” передбачає вивіз сміття, а послуга “Безнадійний Одяг” – вивіз одягу.</p>
 
-    {{ orderDetailsForm.value | json }}
+    <!-- {{ orderDetailsForm.value | json }} -->
 
-  <form class="form" [formGroup]="orderDetailsForm">
+  <form class="form" [formGroup]="orderDetailsForm" (ngSubmit) ="onSubmit()">
 
     <div class="form-group">
       <label>Послуга</label>
-      <input formControlName="bagServiceUbs" class="form-control" disabled>
+      <input formControlName="bagServiceUbs" class="form-control" placeholder="УБС Kур'єр" disabled>
     </div>
 
     <div class="form-group">
       <label>Кількість пакетів</label>
-      <input formControlName="bagNumUbs" type="number" min="0" max="999" class="form-control" (click)="calc()">
-    </div>
+      <input [class.is-invalid]="orderDetailsForm.get('bagNumUbs').invalid &&
+                                 orderDetailsForm.get('bagNumUbs').touched" formControlName="bagNumUbs" type="number" min="0" max="999" class="form-control" (click)="calc()">
+    <!-- <small class="text-danger" [class.d-none]="orderDetailsForm.get('bagNumUbs').valid ||
+                                               orderDetailsForm.get('bagNumUbs').untouched">amount of bags</small> -->
+        <div *ngIf="orderDetailsForm.get('bagNumUbs').invalid && orderDetailsForm.get('bagNumUbs').touched">
+            <small *ngIf="orderDetailsForm.get('bagNumUbs').errors?.required" class="text-danger">put some bags</small>
+            <small *ngIf="orderDetailsForm.get('bagNumUbs').errors?.wrongAmount" class="text-danger">you need one more</small>
+        </div>
+                                </div>
 
     <div class="form-group">
       <label>Об'єм пакетів</label>
@@ -28,7 +35,7 @@
     </div>
 
     <div class="form-group">
-      <input formControlName="bagServiceClothesXL" class="form-control" disabled>
+      <input formControlName="bagServiceClothesXL" class="form-control" placeholder="Безнадійний одяг" disabled>
     </div>
 
     <div class="form-group">
@@ -44,7 +51,7 @@
     </div>
 
     <div class="form-group">
-      <input formControlName="bagServiceClothesM" type="text" class="form-control" disabled>
+      <input formControlName="bagServiceClothesM" type="text" class="form-control" placeholder="Безнадійний одяг" disabled>
     </div>
 
     <div class="form-group">
@@ -71,23 +78,26 @@
       <small class="text-danger">Мінімальна сума замовлення повинна складати 500 грн</small>
     </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio">
+        <input formControlName="bonus" value="yes" class="form-check-input" type="radio">
         <label class="form-check-label">Так</label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio">
+        <input formControlName="bonus" value="no" class="form-check-input" type="radio">
         <label class="form-check-label">Ні</label>
       </div>
       <div class="p">
         <p>На Вашому бонусному рахунку – 200 грн</p>
       </div>
 
-      <div class="middle_submit">
+      <div *ngIf="displayCert" class="middle_submit">
         <div class="form-group cert">
           <label>Введіть номер сертифіката</label>
-          <input class="form-control" type="text">
-          <!-- <button type="button" class="btn btn-primary">Активувати</button> -->
+          <input formControlName="certificate" [class.is-invalid]="orderDetailsForm.get('certificate').invalid &&
+                                                orderDetailsForm.get('certificate').touched" class="form-control" type="text">
+
         </div>
+        <small class="text-danger" [class.d-none]="orderDetailsForm.get('certificate').valid ||
+                                                    orderDetailsForm.get('certificate').untouched">Certificate is required</small>
 
         <div class="form-group">
           <button type="button" class="btn btn-primary">Активувати</button>
@@ -101,18 +111,19 @@
 
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio">
+        <input formControlName="shop" value="yes" class="form-check-input" type="radio">
         <label class="form-check-label">Так</label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio">
+        <input formControlName="shop" value="no" class="form-check-input" type="radio">
         <label class="form-check-label">Ні</label>
       </div>
 
-      <div class="middle_submit">
+      <div *ngIf="displayShop" class="middle_submit">
         <div class="form-group cert">
           <label>Введіть номер замовлення</label>
-          <input class="form-control" type="text">
+          <input formControlName ="additionalOrder" class="form-control" type="text" [class.is-invalid]="orderDetailsForm.get('additionalOrder').invalid &&
+                                                                                    orderDetailsForm.get('additionalOrder').touched">
           <!-- <button type="button" class="btn btn-primary">Активувати</button> -->
         </div>
         <div class="form-group">
@@ -126,11 +137,20 @@
 
       <div class="form-group">
         <label>Коментар до замовлення</label>
-        <textarea class="form-control" rows="5"></textarea>
+        <textarea formControlName ="orderComment" class="form-control" rows="5"></textarea>
       </div>
-      <!-- <div class="form-group"> -->
-        <button [disabled]="subBtn" type="submit" class="btn btn-primary" (click)="addOrder()">Далі</button>
-        <!-- </div> -->
+      <!-- Password section -->
+      <!-- <div class="form-group">
+        <label>Enter your password</label>
+        <input formControlName="password" type="password" class="form-control">
+      </div>
+      <div class="form-group">
+        <input [class.is-invalid]="orderDetailsForm.errors?.misMatch" formControlName="confirmPassword" type="password" class="form-control">
+        <small *ngIf="orderDetailsForm.errors?.misMatch" class="text-danger">Password is wrong</small>
+      </div> -->
+
+        <button [disabled]="!orderDetailsForm.valid" type="submit" class="btn btn-primary" (click)="addOrder()">Далі</button>
+
     </div>
 
 
