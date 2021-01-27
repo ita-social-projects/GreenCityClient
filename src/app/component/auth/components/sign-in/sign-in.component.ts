@@ -12,8 +12,7 @@ import { SignInIcons } from 'src/app/image-pathes/sign-in-icons';
 import { UserOwnSignIn } from '@global-models/user-own-sign-in';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
-import { takeUntil, take } from 'rxjs/operators';
-import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sign-in',
@@ -47,7 +46,6 @@ export class SignInComponent implements OnInit, OnDestroy {
     private googleService: GoogleSignInService,
     private localStorageService: LocalStorageService,
     private userOwnAuthService: UserOwnAuthService,
-    private profileService: ProfileService
   ) { }
 
   ngOnInit() {
@@ -119,15 +117,8 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.userOwnAuthService.getDataFromLocalStorage();
     this.router.navigate(['profile', data.userId])
-      .then(() => {
+      .then(success => {
         this.localStorageService.setFirstSignIn();
-        this.profileService.getUserInfo()
-        .pipe(
-          take(1)
-        )
-        .subscribe(item => {
-          this.localStorageService.setFirstName(item.firstName);
-        });
       })
       .catch(fail => console.log('redirect has failed ' + fail));
   }
