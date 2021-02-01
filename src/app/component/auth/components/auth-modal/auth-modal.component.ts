@@ -22,7 +22,7 @@ export class AuthModalComponent implements OnInit {
   }
 
   public announce() {
-    this.announcer.announce("Welcome to login page", "assertive");
+    this.announcer.announce('Welcome to login page', 'assertive');
   }
 
   public changeAuthPage(page: string): void {

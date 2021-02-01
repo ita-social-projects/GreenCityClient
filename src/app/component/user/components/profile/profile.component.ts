@@ -28,7 +28,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   public announce() {
-    this.announcer.announce("Success, logging you in", "assertive");
+    this.announcer.announce('Success, logging you in', 'assertive');
   }
 
   public showUserInfo(): void {

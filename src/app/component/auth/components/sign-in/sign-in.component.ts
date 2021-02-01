@@ -129,7 +129,7 @@ export class SignInComponent implements OnInit, OnDestroy {
     src.src = input.type === 'password' ?
     this.hideShowPasswordImage.hidePassword  : this.hideShowPasswordImage.showPassword;
     src.alt = input.type === 'password' ?
-    src.alt = "show password" : src.alt = "hide password";
+    src.alt = 'show password' : src.alt = 'hide password';
   }
 
   private checkIfUserId(): void {
