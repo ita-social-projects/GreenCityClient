@@ -14,6 +14,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { takeUntil } from 'rxjs/operators';
 
+
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
@@ -124,9 +125,11 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   public togglePassword(input: HTMLInputElement, src: HTMLImageElement): void {
-    input.type = input.type === 'password' ? 'text' : 'password';
+    input.type = input.type === 'password' ? 'text'  : 'password';
     src.src = input.type === 'password' ?
-      this.hideShowPasswordImage.hidePassword : this.hideShowPasswordImage.showPassword;
+    this.hideShowPasswordImage.hidePassword  : this.hideShowPasswordImage.showPassword;
+    src.alt = input.type === 'password' ?
+    src.alt = "show password" : src.alt = "hide password";
   }
 
   private checkIfUserId(): void {
