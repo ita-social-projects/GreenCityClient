@@ -10,6 +10,7 @@
           type="email"
           placeholder="example@email.com"
           name="email"
+          required
           formControlName="email"
           (input)="configDefaultErrorMessage()"
           [ngClass]="emailField.invalid &&
@@ -42,6 +43,7 @@
     <input id="password"
             #input
             type="password"
+            required
             formControlName="password"
             placeholder="{{'user.auth.sign-in.password' | translate}}"
             name="form-control password-signin"

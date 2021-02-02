@@ -8,13 +8,11 @@
     </div>
     <div class="right-side">
       <a (click)="closeWindow()"
-        class="close-modal-window"
-        aria-label="close form button"
-        tabindex="0">
+        tabindex="0"
+        class="close-modal-window">
         <img class="cross-btn"
             [src]="authImages.cross"
-            alt="close button"
-            aria-hidden="true">
+            alt="back to home page">
       </a>
       <div [ngSwitch]="authPage">
         <app-sign-in *ngSwitchCase="'sign-in'"
