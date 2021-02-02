@@ -52,19 +52,25 @@
         <label>Місто</label>
         <select formControlName="city" class="shadow-none form-control" disabled>
           <option value="kyiv">Київ</option>
-          <option value="lviv">Львів</option>
         </select>
       </div>
       <div class="col-12 col-sm-6 form-group">
         <label>Район</label>
         <select formControlName="district" class="shadow-none form-control" disabled>
-          <option value="golosievskiy">Голосїївський</option>
-          <option value="pecherskiy">Печерський</option>
+          <option [value]="region">{{ region }}</option>
         </select>
       </div>
       <div class="col-12 col-sm-6 form-group">
         <label>Вулиця</label>
-        <input formControlName="street" type="text" class="shadow-none form-control">
+        <input 
+          formControlName="street"
+          type="text" 
+          class="shadow-none form-control"
+          matGoogleMapsAutocomplete
+          (onAutocompleteSelected)="onAutocompleteSelected($event)"
+          (onLocationSelected)="onLocationSelected($event)"
+          [types]="['address']"
+          [country]="'ua'">
         <div class="validation" *ngIf="personalDataForm.get('street').invalid && personalDataForm.get('street').touched">
           <app-error
             [formElement]="personalDataForm.get('street')"

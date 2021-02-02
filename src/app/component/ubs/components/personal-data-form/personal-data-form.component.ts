@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -7,13 +8,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./personal-data-form.component.scss']
 })
 export class PersonalDataFormComponent implements OnInit {
+  region = '';
   data = {
     id: null,
     firstName: 'Volodymyr',
     lastName: 'Lukashevych',
     phoneNumber: '+38(050) 073 32 27',
     email: 'endmail@gmail.com',
-    city: 'lviv',
+    city: 'kyiv',
     street: 'zolota',
     district: 'pecherskiy',
     houseNumber: '3F',
@@ -26,7 +28,7 @@ export class PersonalDataFormComponent implements OnInit {
 
   phoneMask = '+{38}(000) 000 00 00';
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private http: HttpClient) { }
 
   ngOnInit(): void {
     this.personalDataForm = this.fb.group({
@@ -74,6 +76,18 @@ export class PersonalDataFormComponent implements OnInit {
       ]],
       addressComment: [this.data.addressComment, Validators.maxLength(170)]
     });
+  }
+
+  onLocationSelected(event): void {
+    console.log(event);
+  }
+
+  onAutocompleteSelected(event): void {
+    console.log(event);
+    const streetName = event.name.split(' ').filter(char => char !== 'вулиця').join(' ');
+    this.personalDataForm.get('street').setValue(streetName);
+    this.region = event.address_components[1].long_name.split(' ')[0];
+    this.personalDataForm.get('district').setValue(this.region);
   }
 
   submit(): void {
