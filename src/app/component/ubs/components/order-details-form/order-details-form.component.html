@@ -124,7 +124,6 @@
           <label>Введіть номер замовлення</label>
           <input formControlName ="additionalOrder" class="form-control" type="text" [class.is-invalid]="orderDetailsForm.get('additionalOrder').invalid &&
                                                                                     orderDetailsForm.get('additionalOrder').touched">
-          <!-- <button type="button" class="btn btn-primary">Активувати</button> -->
         </div>
         <div class="form-group">
           <button type="button" class="btn btn-primary">Активувати</button>
@@ -152,8 +151,6 @@
         <button [disabled]="!orderDetailsForm.valid" type="submit" class="btn btn-primary" (click)="addOrder()">Далі</button>
 
     </div>
-
-
 
   </form>
 </div>
