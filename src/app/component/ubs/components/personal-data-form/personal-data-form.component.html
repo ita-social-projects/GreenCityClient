@@ -71,6 +71,12 @@
           (onAutocompleteSelected)="onDistrictSelected($event)"
           [attr.disabled]="districtDisabled ? true : null" 
           [value]="region">
+        <div class="validation" *ngIf="personalDataForm.get('district').invalid && personalDataForm.get('district').touched">
+          <app-error
+            [formElement]="personalDataForm.get('district')"
+            [controlName]="'district'"
+          ></app-error>
+        </div>
       </div>
       <div class="col-12 col-sm-6 form-group">
         <label>Вулиця та номер будинку</label>

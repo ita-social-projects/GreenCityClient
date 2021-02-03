@@ -10,10 +10,10 @@ import { PersonalData } from '../../models/personalData.model';
 })
 export class PersonalDataFormComponent implements OnInit {
   personalDataForm: FormGroup;
+  personalData: PersonalData;
   region = '';
   longitude: number;
   latitude: number;
-  personalData: PersonalData;
   phoneMask = '+{38}(000) 000 00 00';
   nextDisabled = true;
   districtDisabled = true;
@@ -101,9 +101,11 @@ export class PersonalDataFormComponent implements OnInit {
     console.log(event);
     const streetName = event.name.split(' ').filter(char => char !== 'вулиця' && char !== 'вул.').join(' ');
     this.personalDataForm.get('streetAndBuilding').setValue(streetName);
-    this.region = event.address_components[2].long_name.split(' ')[0];
+    this.region = event.address_components[2].long_name.split(' ')[1] === 'район'
+      ? event.address_components[2].long_name.split(' ')[0] : null;
     this.personalDataForm.get('district').setValue(this.region);
     this.nextDisabled = false;
+    this.districtDisabled = event.address_components[2].long_name.split(' ')[1] === 'район' ? true : false;
   }
 
   onDistrictSelected(event): void {
