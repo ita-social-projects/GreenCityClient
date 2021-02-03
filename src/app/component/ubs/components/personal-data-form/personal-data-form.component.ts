@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { UbsFormService } from '../../services/ubs-form.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PersonalData } from '../../models/personalData.model';
 
 @Component({
   selector: 'app-personal-data-form',
@@ -8,90 +9,134 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./personal-data-form.component.scss']
 })
 export class PersonalDataFormComponent implements OnInit {
-  region = '';
-  data = {
-    id: null,
-    firstName: 'Volodymyr',
-    lastName: 'Lukashevych',
-    phoneNumber: '+38(050) 073 32 27',
-    email: 'endmail@gmail.com',
-    city: 'kyiv',
-    street: 'zolota',
-    district: 'pecherskiy',
-    houseNumber: '3F',
-    houseCorpus: '3',
-    entranceNumber: '7',
-    addressComment: 'Some comment for adress'
-  };
-
   personalDataForm: FormGroup;
-
+  region = '';
+  longitude: number;
+  latitude: number;
+  personalData: PersonalData;
   phoneMask = '+{38}(000) 000 00 00';
+  nextDisabled = true;
+  districtDisabled = true;
 
-  constructor(private fb: FormBuilder, private http: HttpClient) { }
+  constructor(
+    private fb: FormBuilder,
+    private ubsFormService: UbsFormService
+  ) { }
 
   ngOnInit(): void {
     this.personalDataForm = this.fb.group({
-      firstName: [this.data.firstName, [
+      firstName: [null, [
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(30),
         Validators.pattern(/^[A-Za-zА-Яа-яїієё\.\'\-\\]+$/)
       ]],
-      lastName: [this.data.lastName, [
+      lastName: [null, [
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(30),
         Validators.pattern(/^[A-Za-zА-Яа-яїієё\.\'\-\\]+$/)
       ]],
-      email: [this.data.email, [
+      email: [null, [
         Validators.required,
         Validators.email
       ]],
-      phoneNumber: [this.data.phoneNumber || '+38 0', [
+      phoneNumber: ['+38 0', [
         Validators.required,
         Validators.minLength(18)
       ]],
-      city: [this.data.city, Validators.required],
-      district: [this.data.district, Validators.required],
-      street: [this.data.street, [
+      city: ['Київ', Validators.required],
+      district: [null, Validators.required],
+      streetAndBuilding: ['', [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(40),
         Validators.pattern(/^[A-Za-zА-Яа-яїієё0-9\'\,\-\ \\]+$/)
       ]],
-      houseNumber: [this.data.houseNumber, [
-        Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(4),
-        Validators.pattern(/^[A-Za-zА-Яа-яїієё0-9]+$/)
-      ]],
-      houseCorpus: [this.data.houseCorpus, [
+      houseCorpus: [null, [
         Validators.maxLength(2),
         Validators.pattern(/^[A-Za-zА-Яа-яїієё0-9]+$/)
       ]],
-      entranceNumber: [this.data.entranceNumber, [
+      entranceNumber: [null, [
         Validators.maxLength(2),
         Validators.pattern(/^-?(0|[1-9]\d*)?$/)
       ]],
-      addressComment: [this.data.addressComment, Validators.maxLength(170)]
+      addressComment: [null, Validators.maxLength(170)]
+    });
+
+    this.ubsFormService.getPersonalData().subscribe((data: PersonalData[]) => {
+      this.personalData = data[data.length - 1];
+
+      this.initForm();
+
+      this.region = this.personalData.district;
+      this.personalDataForm.get('district').setValue(this.region);
+      this.nextDisabled = this.personalDataForm.get('streetAndBuilding').value.length ? false : true;
+
+      console.log(this.personalData);
+    });
+  }
+
+  initForm(): void {
+    this.personalDataForm.setValue({
+      firstName: this.personalData.firstName,
+      lastName: this.personalData.lastName,
+      email: this.personalData.email,
+      phoneNumber: this.personalData.phoneNumber,
+      city: this.personalData.city,
+      district: this.personalData.district,
+      streetAndBuilding: this.personalData.street + ', ' + this.personalData.houseNumber,
+      houseCorpus: this.personalData.houseCorpus,
+      entranceNumber: this.personalData.entranceNumber,
+      addressComment: this.personalData.addressComment,
     });
   }
 
   onLocationSelected(event): void {
-    console.log(event);
+    this.longitude = event.longitude;
+    this.latitude = event.latitude;
   }
 
   onAutocompleteSelected(event): void {
     console.log(event);
-    const streetName = event.name.split(' ').filter(char => char !== 'вулиця').join(' ');
-    this.personalDataForm.get('street').setValue(streetName);
-    this.region = event.address_components[1].long_name.split(' ')[0];
+    const streetName = event.name.split(' ').filter(char => char !== 'вулиця' && char !== 'вул.').join(' ');
+    this.personalDataForm.get('streetAndBuilding').setValue(streetName);
+    this.region = event.address_components[2].long_name.split(' ')[0];
     this.personalDataForm.get('district').setValue(this.region);
+    this.nextDisabled = false;
+  }
+
+  onDistrictSelected(event): void {
+    console.log(event);
+    this.region = event.address_components[0].long_name.split(' ')[0];
+    this.personalDataForm.get('district').setValue(this.region);
+    this.districtDisabled = true;
+    this.nextDisabled = false;
+  }
+
+  onChange(): void {
+    this.districtDisabled = false;
+    this.nextDisabled = true;
   }
 
   submit(): void {
-    console.log({...this.personalDataForm.value, id: this.data.id});
+    const personalData: PersonalData = {
+      firstName: this.personalDataForm.get('firstName').value,
+      lastName: this.personalDataForm.get('lastName').value,
+      email: this.personalDataForm.get('email').value,
+      phoneNumber: this.personalDataForm.get('phoneNumber').value,
+      city: this.personalDataForm.get('city').value,
+      district: this.personalDataForm.get('district').value,
+      street: this.personalDataForm.get('streetAndBuilding').value.split(', ')[0],
+      houseNumber: this.personalDataForm.get('streetAndBuilding').value.split(', ')[1],
+      houseCorpus: this.personalDataForm.get('houseCorpus').value,
+      entranceNumber: this.personalDataForm.get('entranceNumber').value,
+      addressComment: this.personalDataForm.get('addressComment').value,
+      id: this.personalData.id,
+      latitude: this.latitude,
+      longitude: this.longitude
+    };
+    console.log({personalData});
   }
 
 }

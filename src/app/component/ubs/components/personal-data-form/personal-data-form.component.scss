@@ -9,7 +9,7 @@ input, select {
 }
 
 input.ng-touched.ng-invalid {
-  border: 1px solid red;
+  border: 1px solid var(--error-ligh-red);
 }
 
 .validation {
@@ -25,7 +25,7 @@ textarea {
   resize: none;
 }
 
-label, .adress-title, .adress-notice, .comment-title {
+label, .adress-title, .adress-notice, .comment-title, .city-notice {
   font-family: var(--tertiary-font);
   font-size: 16px;
   line-height: 18px;
@@ -50,7 +50,7 @@ label, .adress-title, .adress-notice, .comment-title {
     margin: 0 0 32px;
 
     .item {
-      width: 30%;
+      width: 45%;
     }
 
     .adress-title {
@@ -59,6 +59,10 @@ label, .adress-title, .adress-notice, .comment-title {
     
     .adress-notice {
       margin: 15px 0 15px 15px;
+    }
+
+    .city-notice {
+      margin: 5px 0 0 0;
     }
   }
 }

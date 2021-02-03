@@ -35,7 +35,12 @@
     </div>
     <div class="col-12 col-sm-6 form-group">
       <label>Номер телефону</label>
-      <input formControlName="phoneNumber" type="text" class="shadow-none form-control" placeholder="+38(___) ___ __ __" [imask]="{mask: phoneMask}">
+      <input 
+        formControlName="phoneNumber" 
+        type="text" 
+        class="shadow-none form-control" 
+        placeholder="+38(___) ___ __ __" 
+        [imask]="{mask: phoneMask}">
       <div class="validation" *ngIf="personalDataForm.get('phoneNumber').invalid && personalDataForm.get('phoneNumber').touched">
         <app-error
           [formElement]="personalDataForm.get('phoneNumber')"
@@ -51,39 +56,43 @@
       <div class="col-12 col-sm-6 form-group">
         <label>Місто</label>
         <select formControlName="city" class="shadow-none form-control" disabled>
-          <option value="kyiv">Київ</option>
+          <option value="Kyiv">Київ</option>
         </select>
+        <div class="w-100 city-notice">
+          На даний момент обслуговуємо лише м.Київ
+        </div>
       </div>
       <div class="col-12 col-sm-6 form-group">
         <label>Район</label>
-        <select formControlName="district" class="shadow-none form-control" disabled>
-          <option [value]="region">{{ region }}</option>
-        </select>
+        <input 
+          formControlName="district"
+          class="shadow-none form-control"
+          matGoogleMapsAutocomplete
+          (onAutocompleteSelected)="onDistrictSelected($event)"
+          [attr.disabled]="districtDisabled ? true : null" 
+          [value]="region">
       </div>
       <div class="col-12 col-sm-6 form-group">
-        <label>Вулиця</label>
+        <label>Вулиця та номер будинку</label>
         <input 
-          formControlName="street"
+          formControlName="streetAndBuilding"
           type="text" 
           class="shadow-none form-control"
           matGoogleMapsAutocomplete
           (onAutocompleteSelected)="onAutocompleteSelected($event)"
           (onLocationSelected)="onLocationSelected($event)"
+          (change)="onChange()"
           [types]="['address']"
           [country]="'ua'">
-        <div class="validation" *ngIf="personalDataForm.get('street').invalid && personalDataForm.get('street').touched">
+        <div class="validation" *ngIf="personalDataForm.get('streetAndBuilding').invalid && personalDataForm.get('streetAndBuilding').touched">
           <app-error
-            [formElement]="personalDataForm.get('street')"
-            [streetFieldValue]="personalDataForm.get('street').value"
-            [controlName]="'street'"
+            [formElement]="personalDataForm.get('streetAndBuilding')"
+            [streetFieldValue]="personalDataForm.get('streetAndBuilding').value"
+            [controlName]="'streetAndBuilding'"
           ></app-error>
         </div>
       </div>
       <div class="col-12 col-sm-6 d-flex justify-content-between flex-wrap form-group">
-        <div class="item">
-          <label>Будинок</label>
-          <input formControlName="houseNumber" type="text" class="shadow-none form-control">
-        </div>
         <div class="item">
           <label>Корпус</label>
           <input formControlName="houseCorpus" type="text" class="shadow-none form-control">
@@ -93,11 +102,10 @@
           <input formControlName="entranceNumber" type="text" class="shadow-none form-control">
         </div>
         <div class="w-100">
-          <div class="validation" *ngIf="personalDataForm.get('houseNumber').invalid && personalDataForm.get('houseNumber').touched">
+          <div class="validation" *ngIf="personalDataForm.get('houseCorpus').invalid && personalDataForm.get('houseCorpus').touched">
             <app-error
-              [formElement]="personalDataForm.get('houseNumber')"
-              [houseNumberFieldValue]="personalDataForm.get('houseNumber').value"
-              [controlName]="'houseNumber'"
+              [formElement]="personalDataForm.get('houseCorpus')"
+              [controlName]="'houseCorpus'"
             ></app-error>
           </div>
         </div>
@@ -115,6 +123,10 @@
   </div>
   <div class="w-100 d-flex justify-content-end">
     <button class="secondary-global-button btn" matStepperPrevious>Назад</button>
-    <button type="submit" class="primary-global-button btn" matStepperNext>Далі</button>
+    <button 
+      type="submit" 
+      class="primary-global-button btn" 
+      matStepperNext 
+      [disabled]="nextDisabled || personalDataForm.invalid">Далі</button>
   </div>
 </form>
