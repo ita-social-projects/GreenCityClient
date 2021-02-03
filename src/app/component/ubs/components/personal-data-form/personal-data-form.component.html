@@ -68,6 +68,8 @@
           formControlName="district"
           class="shadow-none form-control"
           matGoogleMapsAutocomplete
+          [country]="'ua'"
+          [types]="['geocode']"
           (onAutocompleteSelected)="onDistrictSelected($event)"
           [attr.disabled]="districtDisabled ? true : null" 
           [value]="region">

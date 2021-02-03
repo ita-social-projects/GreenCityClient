@@ -117,6 +117,8 @@ export class PersonalDataFormComponent implements OnInit {
   }
 
   onChange(): void {
+    this.region = null;
+    this.personalDataForm.get('district').setValue(this.region);
     this.districtDisabled = false;
     this.nextDisabled = true;
   }
