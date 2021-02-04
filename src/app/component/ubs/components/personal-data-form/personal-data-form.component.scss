@@ -1,0 +1,104 @@
+::ng-deep {
+  .pac-container  {
+   .pac-item {
+      padding: 0 0 0 10px;
+      height: 32px;
+
+      .pac-item-query {
+        color: #444e55;
+      }
+
+      &:hover {
+        background-color: var(--primary-green);
+
+        .pac-item-query {
+          color: #fff;
+        }
+      }
+    }
+
+    .pac-icon {
+      display: none;
+    }
+  }
+}
+
+input, textarea, select {
+  border: 1px solid #64727D;
+  border-radius: 0;
+  padding: 0 0 0 24px;
+  color: #1D2830;
+}
+
+input, select {
+  height: 48px;
+}
+
+input.ng-touched.ng-invalid {
+  border: 1px solid var(--error-ligh-red);
+}
+
+.validation {
+  color: var(--error-ligh-red);
+}
+
+textarea {
+  display: block;
+  width: 100%;
+  height: 100px;
+  margin: 0 0 40px 0;
+  padding: 12px 24px;
+  resize: none;
+}
+
+label, .adress-title, .adress-notice, .comment-title, .city-notice {
+  font-family: var(--tertiary-font);
+  font-size: 16px;
+  line-height: 18px;
+  font-weight: 400;
+  color: #64727D;
+}
+
+.personal-data, .adress {
+  background-color: #F7F9FA;
+  padding: 14px 5px 4px;
+}
+
+.personal-data {
+  margin: 32px 0;
+}
+
+.adress-section {
+  max-width: 100%;
+  margin: 0 auto;
+
+  .adress {
+    margin: 0 0 32px;
+
+    .item {
+      width: 48%;
+    }
+
+    .adress-title {
+      margin: 5px 0 20px 15px;
+    }
+    
+    .adress-notice {
+      margin: 15px 0 15px 15px;
+    }
+
+    .city-notice {
+      margin: 5px 0 0 0;
+    }
+  }
+}
+
+.btn {
+  width: 120px;
+  height: 48px;
+  border-radius: 0;
+}
+
+.btn:nth-child(1) {
+  margin: 0 24px 0 0;
+}
