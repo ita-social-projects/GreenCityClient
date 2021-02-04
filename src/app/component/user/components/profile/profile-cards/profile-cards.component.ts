@@ -1,3 +1,4 @@
+import { LanguageService } from '@language-service/language.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { catchError } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
@@ -11,13 +12,19 @@ import { ProfileService } from '../profile-service/profile.service';
 })
 export class ProfileCardsComponent implements OnInit, OnDestroy {
   public profileSubscription: Subscription;
+  public languageSunscription: Subscription;
   public factOfTheDay: CardModel;
   public error;
 
-  constructor(private profileService: ProfileService) { }
+  constructor(
+    private profileService: ProfileService,
+    private languageService: LanguageService
+  ) { }
 
   ngOnInit() {
-    this.getFactOfTheDay();
+    this.languageSunscription = this.languageService.languageBehaviorSubject.subscribe(() => {
+      this.getFactOfTheDay();
+    });
   }
 
   getFactOfTheDay(): void {
@@ -35,5 +42,6 @@ export class ProfileCardsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.profileSubscription.unsubscribe();
+    this.languageSunscription.unsubscribe();
   }
 }

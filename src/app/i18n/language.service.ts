@@ -1,3 +1,4 @@
+import { BehaviorSubject } from 'rxjs';
 import {Injectable} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {Language} from './Language';
@@ -7,6 +8,7 @@ import {LocalStorageService} from '../service/localstorage/local-storage.service
   providedIn: 'root'
 })
 export class LanguageService {
+  public languageBehaviorSubject: BehaviorSubject<Language> = new BehaviorSubject<Language>(this.getCurrentLanguage());
   private langMap = new Map();
   private defaultLanguage = Language.EN;
   private monthMap = new Map<Language, string[]>();
