@@ -1,9 +1,9 @@
-import { LanguageService } from '@language-service/language.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { catchError } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { CardModel } from '@user-models/card.model';
 import { ProfileService } from '../profile-service/profile.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-profile-cards',
@@ -18,11 +18,11 @@ export class ProfileCardsComponent implements OnInit, OnDestroy {
 
   constructor(
     private profileService: ProfileService,
-    private languageService: LanguageService
+    private localStorageService: LocalStorageService
   ) { }
 
   ngOnInit() {
-    this.languageSunscription = this.languageService.languageBehaviorSubject.subscribe(() => {
+    this.languageSunscription = this.localStorageService.languageBehaviourSubject.subscribe(() => {
       this.getFactOfTheDay();
     });
   }

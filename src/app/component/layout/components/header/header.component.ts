@@ -123,7 +123,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.arrayLang[0].lang = language;
     this.arrayLang[index].lang = temporary;
     this.langDropdownVisible = false;
-    this.languageService.languageBehaviorSubject.next(this.languageService.getCurrentLanguage());
   }
 
   public getUserId(): number | string {
