@@ -58,7 +58,6 @@ describe('HeaderComponent', () => {
   languageServiceMock = jasmine.createSpyObj('LanguageService', ['getCurrentLanguage']);
   languageServiceMock.getCurrentLanguage = () => mockLang as Language;
   languageServiceMock.changeCurrentLanguage = () => true;
-  languageServiceMock.languageBehaviorSubject = new BehaviorSubject<Language>('en' as Language);
 
   let searchServiceMock: SearchService;
   searchServiceMock = jasmine.createSpyObj('SearchService', ['searchSubject', 'allSearchSubject', 'toggleSearchModal']);
