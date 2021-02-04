@@ -1,10 +1,10 @@
 import { from } from "rxjs";
 import { IOrder } from "./order.interface";
-import { Bag } from "./shared/bag.model";
+import { Bag } from "./shared/bag.interface";
 
 export class Order implements IOrder {
   constructor (
-    public bags: [
+    public allBags: [
 
       Bag,
       Bag,
@@ -22,9 +22,9 @@ export class Order implements IOrder {
       //   amount: number
       // }
     ],
-    public pointsToUse: number,
-    public cerfiticate: any,
-    public additionalOrder: any,
-    public orderComment: string
+    public points: number,
+    // public cerfiticate: any,
+    // public additionalOrder: any,
+    // public orderComment: string
   ) {}
 }

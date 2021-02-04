@@ -9,6 +9,8 @@ import { UbsFormComponent } from './components/ubs-form/ubs-form.component';
 import { OrderDetailsFormComponent } from './components/order-details-form/order-details-form.component';
 import { PersonalDataFormComponent } from './components/personal-data-form/personal-data-form.component';
 import { PaymentFormComponent } from './components/payment-form/payment-form.component';
+import { OrderService } from './services/order.service';
+import { ShareFormService } from './services/share-form.service';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,10 @@ import { PaymentFormComponent } from './components/payment-form/payment-form.com
     MatStepperModule,
     FormsModule,
     ReactiveFormsModule
+  ],
+  providers: [
+    OrderService,
+    ShareFormService
   ]
 })
 export class UbsModule { }

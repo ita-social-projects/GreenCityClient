@@ -1,7 +1,7 @@
-import { Bag } from "./shared/bag.model";
+import { Bag } from "./shared/bag.interface";
 
 export interface IOrder {
-  bags: Bag[
+  allBags: Bag[
 
 
     // {
@@ -17,8 +17,8 @@ export interface IOrder {
     //   amount: number
     // }
   ];
-  pointsToUse: number;
-  cerfiticate: any;
-  additionalOrder: any;
-  orderComment: string;
+  points: number;
+  // cerfiticate: any;
+  // additionalOrder: any;
+  // orderComment: string;
 }
