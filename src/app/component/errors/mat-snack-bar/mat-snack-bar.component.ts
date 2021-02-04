@@ -81,7 +81,7 @@ export class MatSnackBarComponent {
     this.translate.get(key).subscribe(translation => {
       this.message = translation;
       this.snackBar.open(this.message, 'X', {
-        duration: 5000,
+        duration: 15000,
         verticalPosition: 'top',
         horizontalPosition: 'center',
         panelClass: [this.className]
