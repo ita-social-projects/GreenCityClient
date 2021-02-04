@@ -25,12 +25,9 @@
     .close-modal-window {
       display: flex;
       justify-content: flex-end;
-      margin: 26px 26px 22px 0;
-    }
-
-    .cross-btn {
-      width: 12px;
-      height: 12px;
+      margin: 26px 26px 22px 90%;
+      width: min-content;
+      padding: 5px;
     }
 
     div {

@@ -11,8 +11,9 @@ export class AuthModalComponent implements OnInit {
   public authImages = authImages;
   public authPage: string;
 
+
   constructor(public matDialogRef: MatDialogRef<AuthModalComponent>,
-              @Inject(MAT_DIALOG_DATA) public data ) { }
+              @Inject(MAT_DIALOG_DATA) public data) { }
 
   ngOnInit(): void {
     this.setAuthPage();
@@ -23,8 +24,10 @@ export class AuthModalComponent implements OnInit {
   }
 
   public closeWindow(): void {
-    this.matDialogRef.close();
+    this.matDialogRef.close( );
   }
+
+
 
   private setAuthPage(): void {
     this.authPage = this.data.popUpName;

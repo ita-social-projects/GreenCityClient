@@ -6,11 +6,12 @@
           alt="sign-in image">
     </div>
     <div class="right-side">
-      <a (click)="closeWindow()"
-        class="close-modal-window">
-        <img class="cross-btn"
-            [src]="authImages.cross"
-            alt="close button">
+      <a (click)="closeWindow()" 
+         class="close-modal-window"
+         tabindex="0">
+        <img [src]="authImages.cross"
+            role="button"
+            alt="close forgot password button">
       </a>
       <div [ngSwitch]="authPage">
         <app-sign-in *ngSwitchCase="'sign-in'"
