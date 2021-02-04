@@ -2,6 +2,8 @@ import { UbsFormService } from '../../services/ubs-form.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PersonalData } from '../../models/personalData.model';
+import { ShareFormService } from '../../services/share-form.service';
+import { IOrder } from '../order-details-form/order.interface';
 
 @Component({
   selector: 'app-personal-data-form',
@@ -17,13 +19,16 @@ export class PersonalDataFormComponent implements OnInit {
   phoneMask = '+{38} (000) 000 00 00';
   nextDisabled = true;
   districtDisabled = true;
+  order: any;
 
   constructor(
+    private shareFormService: ShareFormService,
     private fb: FormBuilder,
     private ubsFormService: UbsFormService
   ) { }
 
   ngOnInit(): void {
+    this.shareFormService.objectSource.subscribe(order => this.order = order)
     this.personalDataForm = this.fb.group({
       firstName: [null, [
         Validators.required,
@@ -140,7 +145,9 @@ export class PersonalDataFormComponent implements OnInit {
       latitude: this.latitude,
       longitude: this.longitude
     };
-    console.log({personalData});
+
+    this.order.personalData = personalData;
+    console.log(this.order);
   }
 
 }

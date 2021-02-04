@@ -151,7 +151,9 @@
         <small *ngIf="orderDetailsForm.errors?.misMatch" class="text-danger">Password is wrong</small>
       </div> -->
 
-        <button [disabled]="!orderDetailsForm.valid" type="submit" class="btn btn-primary" (click)="addOrder()">Далі</button>
+        <button [disabled]="!orderDetailsForm.valid" type="submit" class="btn btn-primary"
+         (click)="addOrder()"
+         matStepperNext>Далі</button>
 
     </div>
 
