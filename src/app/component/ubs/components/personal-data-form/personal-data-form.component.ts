@@ -14,7 +14,7 @@ export class PersonalDataFormComponent implements OnInit {
   region = '';
   longitude: number;
   latitude: number;
-  phoneMask = '+{38}(000) 000 00 00';
+  phoneMask = '+{38} (000) 000 00 00';
   nextDisabled = true;
   districtDisabled = true;
 
@@ -43,7 +43,7 @@ export class PersonalDataFormComponent implements OnInit {
       ]],
       phoneNumber: ['+38 0', [
         Validators.required,
-        Validators.minLength(18)
+        Validators.minLength(19)
       ]],
       city: ['Київ', Validators.required],
       district: [null, Validators.required],

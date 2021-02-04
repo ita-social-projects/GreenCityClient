@@ -1,5 +1,31 @@
+::ng-deep {
+  .pac-container  {
+   .pac-item {
+      padding: 0 0 0 10px;
+      height: 32px;
+
+      .pac-item-query {
+        color: #444e55;
+      }
+
+      &:hover {
+        background-color: var(--primary-green);
+
+        .pac-item-query {
+          color: #fff;
+        }
+      }
+    }
+
+    .pac-icon {
+      display: none;
+    }
+  }
+}
+
 input, textarea, select {
   border: 1px solid #64727D;
+  border-radius: 0;
   padding: 0 0 0 24px;
   color: #1D2830;
 }
