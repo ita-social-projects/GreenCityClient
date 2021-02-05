@@ -10,6 +10,83 @@ p {
   justify-content: center;
 
   .friends {
+    padding: 24px 0;
+    width: 100%;
+    border-top: 1px solid #eaeef3;
+  }
+
+  .text-title {
+    margin-right: 5px;
+  }
+
+  .text-number {
+    display: inline-block;
+    vertical-align: bottom;
+  }
+
+  .text-title,
+  .text-number {
+    font-family: var(--secondary-font);
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    color: var(--primary-dark-grey);
+  }
+
+  .friends-text {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .text-main-content {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+
+    .text-number {
+      color: var(--tertiary-light-grey);
+    }
+  }
+
+  .text-more {
+    font-family: var(--secondary-font);
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 15px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: var(--primary-dark-grey);
+  }
+
+  .friends-images {
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .friend-name {
+    font-size: 10px;
+    font-family: var(--secondary-font);
+    color: #494a49;
+    max-width: 65px;
+    text-align: center;
+    overflow: hidden;
+    word-wrap: break-word;
+  }
+
+  .friends-error {
+    .text-title {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 17px;
+      color: var(--primary-dark-grey);
     width: 185px;
     border-top: 1px solid $additional-color;
 
@@ -17,7 +94,6 @@ p {
       height: 55px;
       display: flex;
       justify-content: space-between;
-      align-items: center;
 
       p:first-child {
         font-family: var(--secondary-font);
@@ -53,6 +129,29 @@ p {
         width: 50px;
         height: 50px;
         border-radius: 50%;
+      }
+    }
+  }
+
+  .add-friends {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 55.86px;
+    height: 55.86px;
+    background: none;
+    text-decoration: none;
+    border: 2px dashed #13aa57;
+    border-radius: 50px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 50px;
+
+    a {
+      color: #13aa57;
+
+      &:hover {
+        text-decoration: none;
       }
     }
   }

@@ -1,0 +1,14 @@
+<div class="container">
+  <div *ngFor="let request of requests">
+      <app-request-item [request]="request"
+      (acceptEvent)="accept($event)"
+      (declineEvent)="decline($event)">
+      </app-request-item>
+  </div>
+  <div
+  infiniteScroll
+         [infiniteScrollDistance]="0"
+         [infiniteScrollThrottle]="500"
+         (scrolled)="onScroll()">
+  </div>
+</div>

@@ -1,17 +1,35 @@
-<div class="outer">
-  <div class="friends" *ngIf="userFriends">
-    <div class="header">
-      <p>
-        {{ 'profile.my-eco-friends' | translate }}
-        <span>{{ userFriends.length }}</span>
-      </p>
-      <a href="">{{ 'profile.see-all' | translate }}</a>
+<div class="main-container">
+  <div class="friends" *ngIf="amountOfFriends != 0">
+    <div class="friends-text">
+      <div class="text-main-content">
+        <div class="text-title">
+          {{ 'profile.my-eco-friends' | translate }}
+          <span class="text-number"> {{amountOfFriends}}</span>
+        </div>
+      </div>
+      <div class="text-more"><a class="text-more" [routerLink]="['/profile', userId, 'friends']">{{ 'profile.see-all' | translate }}</a></div>
     </div>
-    <div class="body">
-      <img [src]="friend.profilePicturePath"
-           alt="friend"
-           *ngFor="let friend of userFriends"
-      >
+    <div class="friends-images">
+      <div *ngFor="let friend of usersFriends">
+        <app-user-profile-image
+         [imgPath]="friend.profilePicture"
+         [firstName]="friend.name"
+         class="friend-img"
+         [additionalImgClass]="'friend-user-profile'">
+        </app-user-profile-image>
+        <p class="friend-name">{{friend.name}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="friends-error" *ngIf="amountOfFriends === 0">
+    <div class="text-title">
+      {{ 'profile.my-eco-friends' | translate }}
+      <span class="text-number"> 0 </span>
+      <div class="error-message">
+        <div class="add-friends">
+          <a [routerLink] = "['/profile', userId, 'friends', 'recommended']">+</a>
+        </div>
+      </div>
     </div>
   </div>
 </div>
