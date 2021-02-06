@@ -2,7 +2,7 @@ import { headerIcons } from './../../../../image-pathes/header-icons';
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { MatDialog} from '@angular/material';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, take, takeUntil } from 'rxjs/operators';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UserService } from 'src/app/service/user/user.service';
@@ -64,9 +64,11 @@ export class HeaderComponent implements OnInit,  OnDestroy {
 
   ngOnInit() {
 
-    this.dialog.afterAllClosed.subscribe(() => {
-      this.focusDone();
-    });
+    this.dialog.afterAllClosed
+      .pipe(takeUntil(this.destroySub))
+      .subscribe(() => {
+        this.focusDone();
+      });
 
     this.searchSearch.searchSubject
       .pipe(
