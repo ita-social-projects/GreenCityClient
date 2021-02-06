@@ -2,7 +2,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RestorePasswordService } from './../../../../service/auth/restore-password.service';
 import { Language } from './../../../../i18n/Language';
 import { LocalStorageService } from './../../../../service/localstorage/local-storage.service';
-import { HttpClientModule } from '@angular/common/http';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialogRef } from '@angular/material';
