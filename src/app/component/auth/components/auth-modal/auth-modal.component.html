@@ -7,6 +7,7 @@
     </div>
     <div class="right-side">
       <a (click)="closeWindow()" 
+         (keydown.enter)="closeWindow()" 
          class="close-modal-window"
          tabindex="0">
         <img [src]="authImages.cross"
