@@ -125,8 +125,8 @@ export class SignInComponent implements OnInit, OnDestroy {
 
   public togglePassword(input: HTMLInputElement, src: HTMLImageElement): void {
     input.type = input.type === 'password' ? 'text' : 'password';
-    src.src = input.type === 'password' ?
-      this.hideShowPasswordImage.hidePassword : this.hideShowPasswordImage.showPassword;
+    src.src = input.type === 'password' ? this.hideShowPasswordImage.hidePassword : this.hideShowPasswordImage.showPassword;
+    src.alt = input.type === 'password' ?  src.alt = 'show password' : src.alt = 'hide password';
   }
 
   private checkIfUserId(): void {
