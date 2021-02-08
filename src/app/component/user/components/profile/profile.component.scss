@@ -68,12 +68,6 @@
   }
 }
 
-@media (min-width: 992px) {
-  .profile-wrapper {
-    grid-template-columns: 225px 703px;
-  }
-}
-
 @media (min-width: 1024px) {
   .profile-wrapper {
     grid-template-columns: 216px 464px 216px;
