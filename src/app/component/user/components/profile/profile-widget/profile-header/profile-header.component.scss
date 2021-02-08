@@ -56,8 +56,8 @@ p {
     }
 
     .rate {
-      width: 73px;
       height: 20px;
+      padding: 0 10px;
       border-radius: 4px;
       background-color: $green-light-color;
       font-family: var(--primary-font);
@@ -148,6 +148,7 @@ p {
       .rate {
         grid-area: 3 / 2 / 4 / 3;
         justify-self: start;
+        padding: 0 20px;
       }
 
       .credo {
@@ -218,7 +219,6 @@ p {
       .rate {
         grid-area: 5 / 1 / 6 / 2;
         justify-self: center;
-        width: 89px;
         height: 24px;
         font-size: 12px;
         line-height: 16px;
