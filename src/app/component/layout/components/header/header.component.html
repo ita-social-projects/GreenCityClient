@@ -75,19 +75,22 @@
         <div class="header_navigation-menu-right">
           <ul class="header_navigation-menu-right-list">
             <!-- Search icon -->
-            <li *ngIf="!isAllSearchOpen" class="search-icon" role="internal search">
-              <img (click)="toggleSearchPage()" (keyup.enter)="toggleSearchPage()" tabindex="0"
-                [src]="headerImageList.search" alt="Internal search">
+            <li *ngIf="!isAllSearchOpen" class="search-icon" role="internal search"
+            tabindex="0" aria-label="site search"
+            >
+              <img (click)="toggleSearchPage()" (keyup.enter)="toggleSearchPage()"
+                [src]="headerImageList.search" alt="Internal search" aria-hidden="true"
+                >
             </li>
             <!-- Lang switcher -->
-            <ul #link tabindex="0" [ngClass]="{'add-shadow': langDropdownVisible, 
+            <ul tabindex="0" [ngClass]="{'add-shadow': langDropdownVisible,
                           'header_lang-switcher-wrp header_navigation-menu-right-list': true}"
               (click)="langDropdownVisible = !langDropdownVisible"
               (keyup.enter)="langDropdownVisible = !langDropdownVisible" appCloseDropdown
-              (clickOutSide)="autoCloseLangDropDown($event)" tabindex="0" role="Language switcher">
+              (clickOutSide)="autoCloseLangDropDown($event)" role="Language switcher">
               <li>
-                {{arrayLang[0].lang}}
-                <img [src]="headerImageList.arrowDown" alt="arrow down icon"
+              {{arrayLang[0].lang}}
+                <img [src]="headerImageList.arrowDown" alt="language switch"
                   [ngClass]="langDropdownVisible ? 'header_arrow reverse' : 'header_arrow'">
               </li>
               <ng-container *ngIf="langDropdownVisible">
