@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {LocalStorageService} from '../localstorage/local-storage.service';
-
+import { BehaviorSubject } from 'rxjs';
 
 /**
  * @author Yurii Koval
@@ -9,6 +9,7 @@ import {LocalStorageService} from '../localstorage/local-storage.service';
   providedIn: 'root'
 })
 export class JwtService {
+  userRole$: BehaviorSubject<string> = new BehaviorSubject<string>(this.getUserRole());
 
   constructor(private localStorageService: LocalStorageService) {
   }
