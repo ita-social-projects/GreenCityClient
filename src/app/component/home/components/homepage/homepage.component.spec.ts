@@ -1,4 +1,4 @@
-import { LayoutModule } from './../../../layout/layout.module';
+import { LayoutModule } from '../../../layout/layout.module';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';

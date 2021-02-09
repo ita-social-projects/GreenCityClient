@@ -43,6 +43,7 @@ describe('HeaderComponent', () => {
   let jwtServiceMock: JwtService;
   jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole']);
   jwtServiceMock.getUserRole = () => 'true';
+  jwtServiceMock.userRole$ = new BehaviorSubject('test');
 
   let userServiceMock: UserService;
   userServiceMock = jasmine.createSpyObj('UserService', ['onLogout']);

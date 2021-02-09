@@ -31,7 +31,7 @@
     "@ngrx/effects": "^9.2.0",
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
-    "@stomp/ng2-stompjs": "^8.0.0",
+
     "@stomp/stompjs": "^6.0.0",
     "@types/sockjs-client": "^1.5.0",
     "@types/stompjs": "^2.3.4",
