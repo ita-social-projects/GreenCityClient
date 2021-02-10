@@ -1,3 +1,4 @@
+import { PaginationConfig } from './../../models/comments-model';
 import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -13,7 +14,7 @@ import { CommentsDTO, CommentsModel } from '../../models/comments-model';
 export class CommentsContainerComponent implements OnInit, OnDestroy {
   @Input() public dataType = 'comment';
   @Input() public comment: CommentsDTO;
-  @Input() public config = {
+  @Input() public config: PaginationConfig = {
     id: 'comment',
     itemsPerPage: 10,
     currentPage: 0,

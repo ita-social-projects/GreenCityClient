@@ -100,12 +100,12 @@ describe('EditProfileComponent', () => {
       component.editProfileForm.value.showShoppingList = '';
     });
 
-    it('should return true in case of form fields were changed', () => {
-      expect(component.checkChanges()).toBeTruthy();
+    it('should return false in case of form fields were not changed', () => {
+      expect(component.checkChanges()).toBeFalsy();
     });
 
-    it('should return false in case of form fields were changed', () => {
-      expect(component.canDeactivate()).toBeFalsy();
+    it('should return true in case of form fields were changed', () => {
+      expect(component.canDeactivate()).toBeTruthy();
     });
   });
 

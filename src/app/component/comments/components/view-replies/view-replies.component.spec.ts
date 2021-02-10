@@ -1,3 +1,4 @@
+import { TranslateModule } from '@ngx-translate/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ViewRepliesComponent } from './view-replies.component';
@@ -8,7 +9,12 @@ describe('ViewRepliesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ViewRepliesComponent ]
+      declarations: [
+        ViewRepliesComponent
+      ],
+      imports: [
+        TranslateModule.forRoot(),
+      ]
     })
     .compileComponents();
   }));
@@ -16,6 +22,7 @@ describe('ViewRepliesComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewRepliesComponent);
     component = fixture.componentInstance;
+    component.repliesCounter = 1;
     fixture.detectChanges();
   });
 
