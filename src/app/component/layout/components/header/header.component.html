@@ -90,7 +90,7 @@
                           'header_lang-switcher-wrp header_navigation-menu-right-list': true}"
               (click)="langDropdownVisible = !langDropdownVisible"
               (keyup.enter)="langDropdownVisible = !langDropdownVisible" appCloseDropdown
-              (clickOutSide)="autoCloseLangDropDown($event)" role="Language switcher"  tabindex="0">
+              (clickOutSide)="autoCloseLangDropDown($event)" aria-label="language switcher" tabindex="0">
               <li>
                 {{arrayLang[0].lang}}
                 <img [src]="headerImageList.arrowDown" alt="language switcher" aria-hidden="true"
