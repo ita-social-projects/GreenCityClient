@@ -34,3 +34,10 @@ export enum dataTypes {
   wrapperCommentType = 'wrapper-comment',
   wrapperReplyType = 'wrapper-reply'
 }
+
+export interface PaginationConfig {
+    id: string;
+    itemsPerPage: number;
+    currentPage: number;
+    totalItems: number;
+}

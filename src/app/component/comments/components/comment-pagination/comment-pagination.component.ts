@@ -1,3 +1,4 @@
+import { PaginationConfig } from './../../models/comments-model';
 import { AfterViewChecked, ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
@@ -6,7 +7,7 @@ import { AfterViewChecked, ChangeDetectorRef, Component, EventEmitter, Input, Ou
   styleUrls: ['./comment-pagination.component.scss']
 })
 export class CommentPaginationComponent implements AfterViewChecked {
-  @Input() public config;
+  @Input() public config: PaginationConfig;
   @Output() public setPage = new EventEmitter();
   public maxSize = 5;
   public maxCommentsOnPage = 10;

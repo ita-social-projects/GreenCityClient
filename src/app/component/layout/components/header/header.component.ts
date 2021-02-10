@@ -78,7 +78,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.initUser();
     this.setLangArr();
-    this.userRole = this.jwtService.getUserRole();
+    this.jwtService.userRole$.pipe(
+      takeUntil(this.destroySub)
+    ).subscribe(userRole => {
+      this.userRole = userRole;
+      this.isAdmin = this.userRole === this.adminRoleValue;
+    });
     this.autoOffBurgerBtn();
     this.userOwnAuthService.getDataFromLocalStorage();
 
@@ -89,7 +94,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         status => this.isLoggedIn = status
       );
     this.token = this.localStorageService.getAccessToken();
-    this.isAdmin = this.userRole === this.adminRoleValue;
     this.managementLink = `${this.backEndLink}token?accessToken=${this.token}`;
   }
 
@@ -204,6 +208,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.achievementService.onLogout();
     this.router.navigateByUrl('/').then(r => r);
     this.userOwnAuthService.getDataFromLocalStorage();
+    this.jwtService.userRole$.next('');
   }
 
   public toggleScroll(): void {

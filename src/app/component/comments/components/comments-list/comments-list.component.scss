@@ -13,7 +13,7 @@
 
 .wrapper-reply {
   width: 90%;
-  margin-left: 70px;
+  padding-left: 70px;
 }
 
 .author-name {
@@ -34,6 +34,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  padding-top: 3px;
 
   .comment-dot {
     margin: 0 8px;
@@ -99,9 +100,9 @@
     }
 
     .save-edit {
-      width: 140px;
+      width: fit-content;
       height: 40px;
-      margin-right: 8px;
+      margin-right: 25px;
       cursor: pointer;
     }
 
