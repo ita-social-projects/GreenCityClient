@@ -2,7 +2,6 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { authImages } from 'src/app/image-pathes/auth-images';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-auth-modal',
