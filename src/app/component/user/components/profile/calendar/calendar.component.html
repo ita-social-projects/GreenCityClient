@@ -49,8 +49,25 @@
       <div *ngFor="let dayItem of calendarDay"
            class="calendar-grid-day"
            [ngClass]="{ 'current-day': dayItem.isCurrentDayActive,
-                        'tracked-day': dayItem.isHabitsTracked }">
-        {{ dayItem.numberOfDate }}
+           'tracked-day': dayItem.isHabitsTracked }"
+           (click)="$event.stopPropagation()">
+        <span [ngClass]="{ 'calendar-grid-current-day-content': dayItem.isCurrentDayActive,
+                  'calendar-grid-tracked-day-content': dayItem.isHabitsTracked }"
+                  class="calendar-grid-day-content" (click)="toggleHabitsList(dayItem)">
+          {{ dayItem.numberOfDate }}
+        </span>
+        <div *ngIf="selectedDay === dayItem.numberOfDate" [ngClass]="isHabitsPopUpOpen ? 'calendar-habits-open' : 'calendar-habits'">
+          <p class="habits-title">{{ habitsCalendarSelectedDate }}</p>
+          <ul class="habits-list" *ngFor="let habit of habits2">
+            <li [ngClass]="isChangingEnroll ? 'habits-item-disabled habits-item' : 'habits-item'"
+              (click)=" toggleCompleteHabit(habit, dayItem)">
+            <img class="habit-icon"
+              [src]="habit.completed ? calendarIcons.checkCircle : calendarIcons.plusCircle"
+              alt="habit-icon">
+            {{ habit.habitTranslation.name }}
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
     <div *ngIf="!monthView"
