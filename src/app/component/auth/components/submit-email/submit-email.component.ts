@@ -13,7 +13,7 @@ export class SubmitEmailComponent implements OnInit {
   ngOnInit() {
     setTimeout(() => {
       this.dialogRef.close();
-    }, 5000);
+    }, 15000);
   }
 
 }

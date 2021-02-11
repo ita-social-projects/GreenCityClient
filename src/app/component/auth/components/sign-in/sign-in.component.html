@@ -10,6 +10,7 @@
           type="email"
           placeholder="example@email.com"
           name="email"
+          required
           formControlName="email"
           (input)="configDefaultErrorMessage()"
           [ngClass]="emailField.invalid &&
@@ -18,8 +19,8 @@
                     emailErrorMessageBackEnd?
             'alert-email-validation':'successful-email-validation'"
           aria-required="true"
-          aria-describedby="errorMes" tabindex="0">
-  <div class="validation-email-error" id="errorMes"
+          aria-describedby="email-err-msg" tabindex="0">
+  <div class="validation-email-error" id="email-err-msg"
         *ngIf="emailField.invalid && emailField.touched">
     <app-error [formElement]="emailField"
                [emailFieldValue]="emailFieldValue"
@@ -42,12 +43,13 @@
     <input id="password"
             #input
             type="password"
+            required
             formControlName="password"
             placeholder="{{'user.auth.sign-in.password' | translate}}"
             name="form-control password-signin"
             (input)="configDefaultErrorMessage()"
             aria-required="true"
-            aria-describedby="passErrMes">
+            aria-describedby="pass-err-msg">
     <span class="show-hide-btn"
             role="button" 
             aria-label="show password button">  
@@ -57,10 +59,9 @@
             [src]="hideShowPasswordImage.hidePassword"
             #src
             alt="show-hide-password" 
-            tabindex="0">
     </span>
   </div>
-  <div class="validation-password-error" id="passErrMes"
+  <div class="validation-password-error" id="pass-err-msg"
         *ngIf="passwordField.invalid && passwordField.touched">
     <app-error [formElement]="passwordField"
                [passwordFieldValue]="passwordFieldValue"

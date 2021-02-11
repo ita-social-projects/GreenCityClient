@@ -1,7 +1,10 @@
 <div class="container">
     <h2>{{ "user.edit-profile.edit-profile" | translate }}</h2>
     <app-personal-photo></app-personal-photo>
-    <form [formGroup]="editProfileForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
+    <form #formEditProf 
+        [formGroup]="editProfileForm" 
+        (ngSubmit)="onSubmit()" 
+        (keydown.enter)="$event.preventDefault()">
         <div class="wrapper">
             <p>{{ "user.edit-profile.info" | translate }}</p>
             <div class="input-block"
