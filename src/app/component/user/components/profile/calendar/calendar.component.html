@@ -59,11 +59,13 @@
         <div *ngIf="selectedDay === dayItem.numberOfDate" [ngClass]="isHabitsPopUpOpen ? 'calendar-habits-open' : 'calendar-habits'">
           <p class="habits-title">{{ habitsCalendarSelectedDate }}</p>
           <ul class="habits-list" *ngFor="let habit of habits2">
-            <li [ngClass]="isChangingEnroll ? 'habits-item-disabled habits-item' : 'habits-item'"
-            (click)="isHabitListEditable ? toggleCompleteHabit(habit, dayItem) : null">
-            <img class="habit-icon"
-              [src]="habit.completed ? calendarIcons.checkCircle : calendarIcons.plusCircle"
-              alt="habit-icon">
+            <li [ngClass]="isChangingEnroll ? 'habits-item-disabled habits-item' : 'habits-item'">
+              <span (mouseout)="toggleCompleteHabitHandler(habit)">
+                <img class="habit-icon"
+                [src]="habit.completed ? calendarIcons.checkCircle : calendarIcons.plusCircle"
+                alt="habit-icon"
+                (click)="isHabitListEditable ? toggleCompleteHabit(habit, dayItem) : null">
+              </span>
             {{ habit.habitTranslation.name }}
             </li>
           </ul>

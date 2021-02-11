@@ -22,9 +22,23 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
   public formatedData: string;
   public isChangingEnroll: boolean = false;
   public isHabitListEditable: boolean;
+  public isHabitChecked: boolean;
   public currentDate: number = new Date().getDate();
   public habits2: any[] = [];
-  public habits = [];
+  public habits = [
+    {
+      enrolledDates: ['2020-11-25', '2020-11-26']
+    },
+    {
+      enrolledDates: ['2020-11-20', '2020-11-21', '2020-11-22', '2020-11-23']
+    },
+    {
+      enrolledDates: ['2020-11-25', '2020-11-26', '2020-11-27', '2020-11-28']
+    },
+    {
+      enrolledDates: ['2020-11-25', '2020-11-26', '2020-11-27']
+    }
+  ];
 
   @HostListener('document:click', ['$event']) clickout(event) {
     this.isHabitsPopUpOpen =  this.isHabitsPopUpOpen ? false : null;
@@ -48,23 +62,24 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
   public getFormatedData(dayItem) {
     console.log(dayItem);
     this.formatedData = `${dayItem.year}-${ dayItem.month + 1 < 10 ?
-      '0' + dayItem.month : dayItem.month + 1}-${dayItem.numberOfDate < 10 ?
+      '0' + (dayItem.month + 1) : dayItem.month + 1}-${dayItem.numberOfDate < 10 ?
       '0' + dayItem.numberOfDate : dayItem.numberOfDate}`;
   }
 
   public toggleHabitsList(dayItem) {
     this.checkHabitListEditable(dayItem);
     this.getFormatedData(dayItem);
+    console.log('formatedData', this.formatedData);
     this.getActiveDateHabits(this.formatedData);
     this.isHabitsPopUpOpen = !this.isHabitsPopUpOpen;
     this.selectedDay = dayItem.numberOfDate;
-    this.habitsCalendarSelectedDate = this.months[dayItem.month] + " " + dayItem.numberOfDate + ", " + dayItem.year;
+    this.habitsCalendarSelectedDate = this.months[dayItem.month] + ' ' + dayItem.numberOfDate + ', ' + dayItem.year;
     this.isDayTracked = !this.isDayTracked; 
   }
 
   public checkHabitListEditable(dayItem) {
     this.isHabitListEditable = false;
-    if(this.currentDate - 7 <= dayItem.numberOfDate && dayItem.numberOfDate <= this.currentDate) {
+    if (this.currentDate - 7 <= dayItem.numberOfDate && dayItem.numberOfDate <= this.currentDate) {
       this.isHabitListEditable = true;
     }
   }
@@ -74,6 +89,9 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
     habit.completed = !habit.completed;
     this.isChangingEnroll = true;
     setTimeout(() => this.isChangingEnroll = false, 1000);
+    this.isHabitChecked = habit.completed;
+    // this.isChangingEnroll = true;
+    // setTimeout(() => this.isChangingEnroll = false, 1000);
   }
 
   public getActiveDateHabits(date) {
@@ -86,5 +104,22 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
       });
       console.log(this.habits2);
     });
+  }
+
+  public checkIfEnrolledDate() {
+    this.habits.forEach( habit => {
+      console.log(habit.enrolledDates.filter( date => {
+        return date === this.formatedData;
+      }));
+    });
+  }
+
+  public toggleCompleteHabitHandler(habit) {
+    if (!this.isChangingEnroll){
+      habit.completed = !habit.completed;
+      console.log(`habitid:${habit.id} and formdata:${this.formatedData} and completed${habit.completed}`);
+      console.log("left!");
+    }
+    this.checkIfEnrolledDate();
   }
 }
