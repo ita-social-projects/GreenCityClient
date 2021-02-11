@@ -49,7 +49,7 @@
       <div *ngFor="let dayItem of calendarDay"
            class="calendar-grid-day"
            [ngClass]="{ 'current-day': dayItem.isCurrentDayActive,
-           'tracked-day': dayItem.isHabitsTracked }"
+           'tracked-day': selectedDay === dayItem.numberOfDate && isDayTracked }"
            (click)="$event.stopPropagation()">
         <span [ngClass]="{ 'calendar-grid-current-day-content': dayItem.isCurrentDayActive,
                   'calendar-grid-tracked-day-content': dayItem.isHabitsTracked }"
@@ -60,7 +60,7 @@
           <p class="habits-title">{{ habitsCalendarSelectedDate }}</p>
           <ul class="habits-list" *ngFor="let habit of habits2">
             <li [ngClass]="isChangingEnroll ? 'habits-item-disabled habits-item' : 'habits-item'"
-              (click)=" toggleCompleteHabit(habit, dayItem)">
+            (click)="isHabitListEditable ? toggleCompleteHabit(habit, dayItem) : null">
             <img class="habit-icon"
               [src]="habit.completed ? calendarIcons.checkCircle : calendarIcons.plusCircle"
               alt="habit-icon">

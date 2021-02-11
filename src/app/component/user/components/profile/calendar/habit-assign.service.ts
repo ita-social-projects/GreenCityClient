@@ -15,13 +15,16 @@ export class HabitAssignService {
   apiUrl = `${mainLink}/habit/assign`;
   userId: number;
 
-  private goalsSubject = new BehaviorSubject<Goal[]>([]);
-  private availableCustomGoalsSubject = new BehaviorSubject<Goal[]>([]);
-  private availablePredefinedGoalsSubject = new BehaviorSubject<Goal[]>([]);
+  private $habitStatus = new BehaviorSubject<any[]>([]);
 
-  readonly goals = this.goalsSubject.asObservable();
-  readonly availableCustomGoals = this.availableCustomGoalsSubject.asObservable();
-  readonly availablePredefinedGoals = this.availablePredefinedGoalsSubject.asObservable();
+  private dataStore : {
+    habitStatus: any[]
+  } =
+  {
+    habitStatus: []
+  };
+
+  readonly habitStatus = this.$habitStatus.asObservable();
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
     localStorageService.userIdBehaviourSubject.subscribe(userId => this.userId = userId);
@@ -32,5 +35,33 @@ export class HabitAssignService {
     return this.http.get<any>(
       `${this.apiUrl}/active/${date}?lang=${language}`
     );
+  }
+
+  enrollHabitForSpecificDate(habitId: number, date: string){
+    if (habitId === undefined) {
+      return of<any>();
+    }
+    if (date === undefined) {
+      return of<any>();
+    }
+    const body = {
+      id: habitId,
+      date: date
+    };
+    return this.http.post(`${this.apiUrl}/${habitId}/enroll/`, this.habitStatus);
+  }
+
+  unenrollHabitForSpecificDate(habitId: number, date: string){
+    if (habitId === undefined) {
+      return of<any>();
+    }
+    if (date === undefined) {
+      return of<any>();
+    }
+    const body = {
+      id: habitId,
+      date: date
+    };
+    return this.http.post(`${this.apiUrl}/${habitId}/unenroll/${date}`, this.habitStatus);
   }
 }

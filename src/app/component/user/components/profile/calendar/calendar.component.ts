@@ -18,39 +18,17 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
   public calendarIcons = calendarIcons;
   public userHabitAssigns;
   public habitEnrollDates;
+  public isDayTracked: boolean;
   public formatedData: string;
   public isChangingEnroll: boolean = false;
+  public isHabitListEditable: boolean;
+  public currentDate: number = new Date().getDate();
   public habits2: any[] = [];
-  public habits = [
-        {
-          title: "Use own cup",
-          completed: false,
-          id: 504
-        },
-        {
-          title: "No plastic trash",
-          completed: false,
-          id: 505,
-        },
-        {
-          title: "Use own bag",
-          completed: false,
-          id: 506
-        },
-        {
-          title: "Recycle",
-          completed: true,
-          id: 503,
-        },
-        {
-          title: "Plant a tree",
-          completed: true,
-          id: 502
-        }
-      ];
+  public habits = [];
 
   @HostListener('document:click', ['$event']) clickout(event) {
     this.isHabitsPopUpOpen =  this.isHabitsPopUpOpen ? false : null;
+    this.isDayTracked = false;
   }
 
   constructor(
@@ -75,13 +53,27 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
   }
 
   public toggleHabitsList(dayItem) {
+    this.checkHabitListEditable(dayItem);
     this.getFormatedData(dayItem);
     this.getActiveDateHabits(this.formatedData);
     this.isHabitsPopUpOpen = !this.isHabitsPopUpOpen;
     this.selectedDay = dayItem.numberOfDate;
-    console.log(dayItem.numberOfDate);
-    console.log(this.formatedData);
-    this.habitsCalendarSelectedDate = this.months[dayItem.month] + ' ' + dayItem.numberOfDate + ', ' + dayItem.year;
+    this.habitsCalendarSelectedDate = this.months[dayItem.month] + " " + dayItem.numberOfDate + ", " + dayItem.year;
+    this.isDayTracked = !this.isDayTracked; 
+  }
+
+  public checkHabitListEditable(dayItem) {
+    this.isHabitListEditable = false;
+    if(this.currentDate - 7 <= dayItem.numberOfDate && dayItem.numberOfDate <= this.currentDate) {
+      this.isHabitListEditable = true;
+    }
+  }
+
+  public toggleCompleteHabit(habit) {
+    console.log(`habitid:${habit.id} and formdata:${this.formatedData} and completed${habit.completed}`);
+    habit.completed = !habit.completed;
+    this.isChangingEnroll = true;
+    setTimeout(() => this.isChangingEnroll = false, 1000);
   }
 
   public getActiveDateHabits(date) {

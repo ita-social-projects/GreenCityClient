@@ -239,6 +239,35 @@ $bp-largest: 1200px;
 //   color: #056b33;
 // }
 
+.enrolled-day {
+  background-color: #13AA57;
+  color: #494a49;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 50%;
+}
+
+.unenrolled-day {
+  background-color:  #E1E5E3;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 50%;
+}
+
+.enrolled2-day {
+  border: 1px solid #13AA57;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 50%;
+}
+
+.unenrolled2-day {
+  border: 1px solid  #D0D0D0;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 50%;
+}
+
 @media only screen and (min-width: $bp-largest) {
   .calendar {
     .top {
