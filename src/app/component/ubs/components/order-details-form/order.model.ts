@@ -23,8 +23,8 @@ export class Order implements IOrder {
       // }
     ],
     public points: number,
-    // public cerfiticate: any,
-    // public additionalOrder: any,
-    // public orderComment: string
+    public cerfiticate: any,
+    public additionalOrder: any,
+    public orderComment: string
   ) {}
 }

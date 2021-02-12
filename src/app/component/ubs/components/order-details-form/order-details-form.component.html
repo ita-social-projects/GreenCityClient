@@ -3,104 +3,100 @@
   <p>Зверніть будь ласка увагу, що замовити можна вивіз мінімум 2 пакетів, тому сума пакетів по трьом послугам має бути
     2, або більше. Полсуга “УБС Кур’єр” передбачає вивіз сміття, а послуга “Безнадійний Одяг” – вивіз одягу.</p>
 
-    <!-- {{ orderDetailsForm.value | json }} -->
+  <!-- {{ orderDetailsForm.value | json }} -->
 
-  <form class="form" [formGroup]="orderDetailsForm" (ngSubmit) ="onSubmit()">
+  <form class="form" [formGroup]="orderDetailsForm" (ngSubmit)="onSubmit()">
 
-    <div class="form-group">
+    <div class="form-group" class="service">
       <label>Послуга</label>
-      <input formControlName="bagServiceUbs" class="form-control" disabled>
+      <input formControlName="bagServiceUbs" class="form-control" disabled style="background: white;">
     </div>
 
     <div class="form-group">
       <label>Кількість пакетів</label>
       <input [class.is-invalid]="orderDetailsForm.get('bagNumUbs').invalid &&
-                                 orderDetailsForm.get('bagNumUbs').touched" formControlName="bagNumUbs"
-                                 type="number" min="0" max="999" class="form-control" (click)="calc()">
-    <!-- <small class="text-danger" [class.d-none]="orderDetailsForm.get('bagNumUbs').valid ||
-                                               orderDetailsForm.get('bagNumUbs').untouched">amount of bags</small> -->
-        <div *ngIf="orderDetailsForm.get('bagNumUbs').invalid && orderDetailsForm.get('bagNumUbs').touched">
-            <small *ngIf="orderDetailsForm.get('bagNumUbs').errors?.required" class="text-danger">put some bags</small>
-            <small *ngIf="orderDetailsForm.get('bagNumUbs').errors?.wrongAmount" class="text-danger">you need one more</small>
-        </div>
-                                </div>
-
+                                 orderDetailsForm.get('bagNumUbs').touched" formControlName="bagNumUbs" type="number"
+        min="0" max="999" class="form-control" (click)="calc()">
+    </div>
     <div class="form-group">
       <label>Об'єм пакетів</label>
-      <input formControlName="bagSizeUbs" class="form-control" disabled>
+      <input formControlName="bagSizeUbs" class="form-control" disabled style="background: white;">
     </div>
 
     <div class="form-group">
-      <label>Ціна</label>
-      <input formControlName="bagPriceUbs" type="text" class="form-control" disabled>
+      <label></label>
+      <input formControlName="bagPriceUbs" type="text" class="form-control" disabled
+        style="padding-left:2em;background: transparent; border: none;">
+    </div>
+
+    <div class="form-group" class="service">
+      <input formControlName="bagServiceClothesXL" class="form-control" disabled style="background: white;">
     </div>
 
     <div class="form-group">
-      <input formControlName="bagServiceClothesXL" class="form-control" disabled>
+      <input formControlName="bagNumClothesXL" type="number" min="0" max="999" class="form-control" (click)="calc()">
     </div>
 
     <div class="form-group">
-      <input formControlName="bagNumClothesXL" type="number" min="0" max="999" class="form-control"
-                              (click)="calc()">
+      <input formControlName="bagSizeClothesXL" type="text" class="form-control" disabled style="background: white;">
     </div>
 
     <div class="form-group">
-      <input formControlName="bagSizeClothesXL" type="text" class="form-control" disabled>
+      <input formControlName="bagPriceClothesXL" type="text" class="form-control" disabled
+        style="padding-left:2em;background: transparent; border: none;">
+    </div>
+
+    <div class="form-group" class="service">
+      <input formControlName="bagServiceClothesM" type="text" class="form-control" disabled style="background: white;">
     </div>
 
     <div class="form-group">
-      <input formControlName="bagPriceClothesXL" type="text" class="form-control" disabled>
+      <input formControlName="bagNumClothesM" type="number" min="0" max="999" class="form-control" (click)="calc()">
     </div>
 
     <div class="form-group">
-      <input formControlName="bagServiceClothesM" type="text" class="form-control" disabled>
+      <input formControlName="bagSizeClothesM" type="text" class="form-control" disabled style="background: white;">
     </div>
 
     <div class="form-group">
-      <input formControlName="bagNumClothesM" type="number" min="0" max="999" class="form-control"
-                             (click)="calc()">
-    </div>
-
-    <div class="form-group">
-      <input formControlName="bagSizeClothesM" type="text" class="form-control" disabled>
-    </div>
-
-    <div class="form-group">
-      <input formControlName="bagPriceClothesM" type="text" class="form-control" disabled>
+      <input formControlName="bagPriceClothesM" type="text" class="form-control" disabled
+        style="padding-left:2em;background: transparent; border: none;">
     </div>
 
     <div class="middle">
       <div class="middle-text">
         <p>Чи бажаєте Ви скористатися бонусами?</p>
         <div>
-          <span>Total: </span>
-          <span>{{ total }}</span>
+          <p> <b><span>{{ showTotal }}</span></b><br>
+            <span>{{ showPointsUsed }}</span><br>
+            <b><span>{{ finalSum }}</span></b>
+          </p>
         </div>
       </div>
       <div *ngIf="displayMes">
-      <small class="text-danger">Мінімальна сума замовлення повинна складати 500 грн</small>
-    </div>
+        <small class="text-danger">Мінімальна сума замовлення повинна складати 500 грн</small>
+      </div>
       <div class="form-check">
-        <input formControlName="bonus" value="yes" class="form-check-input" type="radio">
+        <input formControlName="bonus" value="yes" class="form-check-input" type="radio" (click)="calcPoints()">
         <label class="form-check-label">Так</label>
       </div>
       <div class="form-check">
-        <input formControlName="bonus" value="no" class="form-check-input" type="radio">
+        <input formControlName="bonus" value="no" class="form-check-input" type="radio" (click)="resetPoints()">
         <label class="form-check-label">Ні</label>
       </div>
       <div class="p">
-        <p>На Вашому бонусному рахунку – {{ points }} грн</p>
+        <p>На Вашому бонусному рахунку: {{ points }} грн</p>
       </div>
 
-      <div *ngIf="displayCert" class="middle_submit">
+      <div class="middle_submit">
         <div class="form-group cert">
           <label>Введіть номер сертифіката</label>
-          <input formControlName="certificate" [class.is-invalid]="orderDetailsForm.get('certificate').invalid &&
-                                                orderDetailsForm.get('certificate').touched" class="form-control" type="text">
+          <input formControlName="certificate" class="form-control" type="text">
 
         </div>
         <small class="text-danger" [class.d-none]="orderDetailsForm.get('certificate').valid ||
-                                                    orderDetailsForm.get('certificate').untouched">Certificate is required</small>
+                                                    orderDetailsForm.get('certificate').untouched">Certificate is
+          required</small>
 
         <div class="form-group">
           <button type="button" class="btn btn-primary">Активувати</button>
@@ -125,7 +121,8 @@
       <div *ngIf="displayShop" class="middle_submit">
         <div class="form-group cert">
           <label>Введіть номер замовлення</label>
-          <input formControlName ="additionalOrder" class="form-control" type="text" [class.is-invalid]="orderDetailsForm.get('additionalOrder').invalid &&
+          <input formControlName="additionalOrder" class="form-control" type="text"
+            [class.is-invalid]="orderDetailsForm.get('additionalOrder').invalid &&
                                                                                     orderDetailsForm.get('additionalOrder').touched">
         </div>
         <div class="form-group">
@@ -139,23 +136,10 @@
 
       <div class="form-group">
         <label>Коментар до замовлення</label>
-        <textarea formControlName ="orderComment" class="form-control" rows="5"></textarea>
+        <textarea formControlName="orderComment" class="form-control" rows="5"></textarea>
       </div>
-      <!-- Password section -->
-      <!-- <div class="form-group">
-        <label>Enter your password</label>
-        <input formControlName="password" type="password" class="form-control">
-      </div>
-      <div class="form-group">
-        <input [class.is-invalid]="orderDetailsForm.errors?.misMatch" formControlName="confirmPassword" type="password" class="form-control">
-        <small *ngIf="orderDetailsForm.errors?.misMatch" class="text-danger">Password is wrong</small>
-      </div> -->
-
-        <button [disabled]="!orderDetailsForm.valid" type="submit" class="btn btn-primary"
-         (click)="addOrder()"
-         matStepperNext>Далі</button>
-
+      <button [disabled]="!orderDetailsForm.valid" type="submit" class="btn btn-primary" (click)="addOrder()"
+        matStepperNext>Далі</button>
     </div>
-
   </form>
 </div>

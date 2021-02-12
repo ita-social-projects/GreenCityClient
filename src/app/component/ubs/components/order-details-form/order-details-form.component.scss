@@ -24,6 +24,10 @@ button {
   width: 22%;
 }
 
+.service {
+  width: 30%;
+}
+
 .middle, .bottom {
   width: 100%;
   border-top: 1px solid #D8D8D8;
@@ -40,7 +44,12 @@ button {
 .middle-text {
   display: flex;
   justify-content: space-between;
+   div{
+     padding-right: 9em;
+   }
 }
+
+
 
 .p {
   margin-top: 30px;
@@ -58,6 +67,7 @@ button {
 
   .form-control{
     width: 350px;
+
   }
 
   label {

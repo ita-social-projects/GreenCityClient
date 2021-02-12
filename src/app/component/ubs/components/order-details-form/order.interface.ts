@@ -18,7 +18,7 @@ export interface IOrder {
     // }
   ];
   points: number;
-  // cerfiticate: any;
-  // additionalOrder: any;
-  // orderComment: string;
+  cerfiticate: any;
+  additionalOrder: any;
+  orderComment: string;
 }

@@ -29,6 +29,8 @@ export class PersonalDataFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.shareFormService.objectSource.subscribe(order => this.order = order)
+    console.log(this.order);
+
     this.personalDataForm = this.fb.group({
       firstName: [null, [
         Validators.required,

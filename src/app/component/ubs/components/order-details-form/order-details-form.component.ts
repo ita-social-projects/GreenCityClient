@@ -4,8 +4,8 @@ import { OrderService } from '../../services/order.service';
 import { ShareFormService } from '../../services/share-form.service';
 import { IOrder } from './order.interface';
 import { Order } from './order.model';
-import { passwordValidator } from './password-validator';
-import { wrongAmountValidator } from './shared/form-validator';
+// import { passwordValidator } from './password-validator';
+// import { wrongAmountValidator } from './shared/form-validator';
 
 @Component({
   selector: 'app-order-details-form',
@@ -15,8 +15,12 @@ import { wrongAmountValidator } from './shared/form-validator';
 
 export class OrderDetailsFormComponent implements OnInit {
   orderDetailsForm: FormGroup;
-  total: number;
+  showTotal: string;
+  total: any;
+  finalSum: any;
   points: number;
+  pointsUsed: any;
+  showPointsUsed: any;
   displayMes: boolean = false;
   displayCert: boolean = false;
   displayShop: boolean = false;
@@ -52,14 +56,12 @@ export class OrderDetailsFormComponent implements OnInit {
       bagNumClothesM: [0],
       bagSizeClothesM: [''],
       bagPriceClothesM: [''],
-      certificate: [],
+      certificate: [''],
       additionalOrder: [''],
-      orderComment: [],
-      password: [''],
-      confirmPassword: [''],
+      orderComment: [''],
       bonus: ['no'],
       shop: ['no']
-    }, {validator: passwordValidator});
+    });
 
     //  console.log(this.orderDetailsForm.controls);
 
@@ -104,17 +106,34 @@ export class OrderDetailsFormComponent implements OnInit {
 
   calc() {
     this.orderDetailsForm.patchValue({
-      bagPriceUbs: this.orderDetailsForm.value.bagNumUbs * this.orders.allBags[0].price,
-      bagPriceClothesXL: this.orderDetailsForm.value.bagNumClothesXL * this.orders.allBags[1].price,
-      bagPriceClothesM: this.orderDetailsForm.value.bagNumClothesM * this.orders.allBags[2].price,
+      bagPriceUbs: `${this.orderDetailsForm.value.bagNumUbs * this.orders.allBags[0].price} грн`,
+      bagPriceClothesXL: `${this.orderDetailsForm.value.bagNumClothesXL * this.orders.allBags[1].price} грн`,
+      bagPriceClothesM: `${this.orderDetailsForm.value.bagNumClothesM * this.orders.allBags[2].price} грн`,
     });
     this.total = this.orderDetailsForm.value.bagNumUbs * this.orders.allBags[0].price +
                  this.orderDetailsForm.value.bagNumClothesXL * this.orders.allBags[1].price +
                  this.orderDetailsForm.value.bagNumClothesM * this.orders.allBags[2].price;
+                 this.showTotal = `До оплати: ${this.total} грн`;
     if (this.total < 500) {
       this.displayMes = true;
       this.subBtn = true;
     } else {this.displayMes = false; this.subBtn = false;}
+  }
+
+  calcPoints() {
+     this.showTotal = `Загальна сума: ${this.total} грн`;
+     this.points > this.total ? this.pointsUsed = this.total : this.pointsUsed = this.points;
+     this.showPointsUsed = `Списано балів: ${this.pointsUsed}`;
+     this.points > this.total ? this.points = this.points - this.total : this.points = 0;
+     this.finalSum = `До оплати: ${this.total - this.pointsUsed} грн`;
+
+  }
+
+  resetPoints() {
+    this.showTotal = `До оплати: ${this.total} грн`;
+    this.showPointsUsed = '';
+    this.finalSum = '';
+    this.points = this.orders.points;
   }
 
   addOrder() {
@@ -123,9 +142,9 @@ export class OrderDetailsFormComponent implements OnInit {
     let clothesM = Object.assign({id: 3, amount: this.orderDetailsForm.value.bagNumClothesM});
     const newOrder: IOrder = new Order([ubs, clothesXL, clothesM],
                                        this.points,
-                                      //  this.orderDetailsForm.value.certificate,
-                                      //  this.orderDetailsForm.value.additionalOrder,
-                                      //  this.orderDetailsForm.value.orderComment);
+                                       this.orderDetailsForm.value.certificate,
+                                       this.orderDetailsForm.value.additionalOrder,
+                                       this.orderDetailsForm.value.orderComment
     );
                                       // console.log(newOrder)
                                       this._shareFormService.changeObject(newOrder);
