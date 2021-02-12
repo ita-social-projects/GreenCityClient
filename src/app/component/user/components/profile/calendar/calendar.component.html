@@ -53,20 +53,19 @@
            (click)="$event.stopPropagation()">
         <span [ngClass]="{ 'calendar-grid-current-day-content': dayItem.isCurrentDayActive,
                   'calendar-grid-tracked-day-content': dayItem.isHabitsTracked }"
-                  class="calendar-grid-day-content" (click)="toggleHabitsList(dayItem)">
+                  class="calendar-grid-day-content" (click)="checkIfFuture(dayItem)">
           {{ dayItem.numberOfDate }}
         </span>
         <div *ngIf="selectedDay === dayItem.numberOfDate" [ngClass]="isHabitsPopUpOpen ? 'calendar-habits-open' : 'calendar-habits'">
           <p class="habits-title">{{ habitsCalendarSelectedDate }}</p>
+          <app-spinner *ngIf="isFetching"></app-spinner>
           <ul class="habits-list" *ngFor="let habit of habits2">
-            <li [ngClass]="isChangingEnroll ? 'habits-item-disabled habits-item' : 'habits-item'">
-              <span (mouseout)="toggleCompleteHabitHandler(habit)">
-                <img class="habit-icon"
-                [src]="habit.completed ? calendarIcons.checkCircle : calendarIcons.plusCircle"
-                alt="habit-icon"
-                (click)="isHabitListEditable ? toggleCompleteHabit(habit, dayItem) : null">
-              </span>
-            {{ habit.habitTranslation.name }}
+            <li class="habits-item">
+              <img class="habit-icon"
+              [src]="habit.enrolled ? this.calendarIcons.checkCircle : this.calendarIcons.plusCircle"
+              alt="habit-icon"
+              (click)="toggleEnrollHabit(habit)">
+              {{ habit.habit.habitTranslation.name }}
             </li>
           </ul>
         </div>

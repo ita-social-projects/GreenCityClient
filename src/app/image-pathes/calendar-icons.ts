@@ -1,4 +1,4 @@
 export const calendarIcons = {
-  plusCircle: 'assets/img/plus-circle.png',
-  checkCircle: 'assets/img/plus-circle.png'
+  plusCircle: 'assets/img/icon/plus-circle-dotted.svg',
+  checkCircle: 'assets/img/icon/mark-circle.svg'
 };

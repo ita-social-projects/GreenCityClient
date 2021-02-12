@@ -1,12 +1,9 @@
-// import { LocalStorageService } from '../localstorage/local-storage.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-// import { mainLink } from '../../links';
-// import { Goal } from '../../model/goal/Goal';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { mainLink } from 'src/app/links';
-import { Goal } from '@global-models/goal/Goal';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,29 +12,29 @@ export class HabitAssignService {
   apiUrl = `${mainLink}/habit/assign`;
   userId: number;
 
-  private $habitStatus = new BehaviorSubject<any[]>([]);
+  private habits: BehaviorSubject<any> = new BehaviorSubject([]);
 
-  private dataStore : {
-    habitStatus: any[]
-  } =
-  {
-    habitStatus: []
-  };
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService
+  ) {
+    this.localStorageService.userIdBehaviourSubject.subscribe(userId => this.userId = userId);
+  }
 
-  readonly habitStatus = this.$habitStatus.asObservable();
-
-  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
-    localStorageService.userIdBehaviourSubject.subscribe(userId => this.userId = userId);
+  getActiveHabitAssigns(language: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}?lang=${language}`).pipe(
+      map( habits => habits.sort((habit1, habit2) => (habit1.id > habit2.id) ? 1 : -1))
+    );
   }
 
   getActiveDateHabits(date: string, language: string): Observable<any> {
     console.log(language);
-    return this.http.get<any>(
-      `${this.apiUrl}/active/${date}?lang=${language}`
+    return this.http.get<any>(`${this.apiUrl}/active/${date}?lang=${language}`).pipe(
+      map( habits => habits.sort((habit1, habit2) => (habit1.id > habit2.id) ? 1 : -1))
     );
   }
 
-  enrollHabitForSpecificDate(habitId: number, date: string){
+  enrollHabitForSpecificDate(habitId: number, date: string) {
     if (habitId === undefined) {
       return of<any>();
     }
@@ -46,12 +43,12 @@ export class HabitAssignService {
     }
     const body = {
       id: habitId,
-      date: date
+      date
     };
-    return this.http.post(`${this.apiUrl}/${habitId}/enroll/`, this.habitStatus);
+    return this.http.post(`${this.apiUrl}/${habitId}/enroll/${date}`, body);
   }
 
-  unenrollHabitForSpecificDate(habitId: number, date: string){
+  unenrollHabitForSpecificDate(habitId: number, date: string) {
     if (habitId === undefined) {
       return of<any>();
     }
@@ -60,8 +57,8 @@ export class HabitAssignService {
     }
     const body = {
       id: habitId,
-      date: date
+      date
     };
-    return this.http.post(`${this.apiUrl}/${habitId}/unenroll/${date}`, this.habitStatus);
+    return this.http.post(`${this.apiUrl}/${habitId}/unenroll/${date}`, body);
   }
 }
