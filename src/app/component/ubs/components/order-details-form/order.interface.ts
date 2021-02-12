@@ -18,6 +18,7 @@ export interface IOrder {
     // }
   ];
   points: number;
+  pointsToUse?: number;
   cerfiticate: any;
   additionalOrder: any;
   orderComment: string;

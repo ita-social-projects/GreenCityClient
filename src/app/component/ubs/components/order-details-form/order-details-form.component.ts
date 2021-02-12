@@ -4,6 +4,9 @@ import { OrderService } from '../../services/order.service';
 import { ShareFormService } from '../../services/share-form.service';
 import { IOrder } from './order.interface';
 import { Order } from './order.model';
+import { IUserOrder } from './shared/userOrder.interface';
+import { UserOrder } from './shared/userOrder.model';
+
 // import { passwordValidator } from './password-validator';
 // import { wrongAmountValidator } from './shared/form-validator';
 
@@ -27,6 +30,7 @@ export class OrderDetailsFormComponent implements OnInit {
   subBtn: boolean = true;
   order: {};
   orders: IOrder;
+  userOrder: IUserOrder;
   object: {};
 
   constructor(private fb: FormBuilder,
@@ -140,8 +144,9 @@ export class OrderDetailsFormComponent implements OnInit {
     let ubs = Object.assign({id: 1, amount: this.orderDetailsForm.value.bagNumUbs});
     let clothesXL = Object.assign({id: 2, amount: this.orderDetailsForm.value.bagNumClothesXL});
     let clothesM = Object.assign({id: 3, amount: this.orderDetailsForm.value.bagNumClothesM});
-    const newOrder: IOrder = new Order([ubs, clothesXL, clothesM],
-                                       this.points,
+    const newOrder: IUserOrder = new UserOrder([ubs, clothesXL, clothesM],
+
+                                       this.pointsUsed,
                                        this.orderDetailsForm.value.certificate,
                                        this.orderDetailsForm.value.additionalOrder,
                                        this.orderDetailsForm.value.orderComment
@@ -150,10 +155,6 @@ export class OrderDetailsFormComponent implements OnInit {
                                       this._shareFormService.changeObject(newOrder);
 
   }
-
-  // shareForm() {
-  //   this._shareFormService.changeObject();
-  // }
 
   onSubmit() {
     console.log(this.orderDetailsForm.value);

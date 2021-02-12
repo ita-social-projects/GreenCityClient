@@ -1,9 +1,9 @@
-import { UbsFormService } from '../../services/ubs-form.service';
+
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PersonalData } from '../../models/personalData.model';
 import { ShareFormService } from '../../services/share-form.service';
-import { IOrder } from '../order-details-form/order.interface';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-personal-data-form',
@@ -22,15 +22,13 @@ export class PersonalDataFormComponent implements OnInit {
   order: any;
 
   constructor(
+    private orderService: OrderService,
     private shareFormService: ShareFormService,
     private fb: FormBuilder,
-    private ubsFormService: UbsFormService
   ) { }
 
   ngOnInit(): void {
     this.shareFormService.objectSource.subscribe(order => this.order = order)
-    console.log(this.order);
-
     this.personalDataForm = this.fb.group({
       firstName: [null, [
         Validators.required,
@@ -50,7 +48,7 @@ export class PersonalDataFormComponent implements OnInit {
       ]],
       phoneNumber: ['+38 0', [
         Validators.required,
-        Validators.minLength(19)
+        Validators.minLength(12)
       ]],
       city: ['Київ', Validators.required],
       district: [null, Validators.required],
@@ -71,7 +69,7 @@ export class PersonalDataFormComponent implements OnInit {
       addressComment: [null, Validators.maxLength(170)]
     });
 
-    this.ubsFormService.getPersonalData().subscribe((data: PersonalData[]) => {
+    this.orderService.getPersonalData().subscribe((data: PersonalData[]) => {
       this.personalData = data[data.length - 1];
 
       this.initForm();
@@ -135,7 +133,7 @@ export class PersonalDataFormComponent implements OnInit {
       firstName: this.personalDataForm.get('firstName').value,
       lastName: this.personalDataForm.get('lastName').value,
       email: this.personalDataForm.get('email').value,
-      phoneNumber: this.personalDataForm.get('phoneNumber').value,
+      phoneNumber: this.personalDataForm.get('phoneNumber').value.slice(3),
       city: this.personalDataForm.get('city').value,
       district: this.personalDataForm.get('district').value,
       street: this.personalDataForm.get('streetAndBuilding').value.split(', ')[0],
@@ -143,13 +141,14 @@ export class PersonalDataFormComponent implements OnInit {
       houseCorpus: this.personalDataForm.get('houseCorpus').value,
       entranceNumber: this.personalDataForm.get('entranceNumber').value,
       addressComment: this.personalDataForm.get('addressComment').value,
-      id: this.personalData.id,
+      // id: this.personalData.id,
+      id: 1,
       latitude: this.latitude,
       longitude: this.longitude
     };
 
     this.order.personalData = personalData;
-    console.log(this.order);
+    this.orderService.processOrder(this.order).subscribe();
   }
 
 }

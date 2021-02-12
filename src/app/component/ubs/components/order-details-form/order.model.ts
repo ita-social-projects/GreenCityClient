@@ -25,6 +25,7 @@ export class Order implements IOrder {
     public points: number,
     public cerfiticate: any,
     public additionalOrder: any,
-    public orderComment: string
+    public orderComment: string,
+    public pointsToUse?: number
   ) {}
 }
