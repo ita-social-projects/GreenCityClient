@@ -65,7 +65,9 @@
               [src]="habit.enrolled ? this.calendarIcons.checkCircle : this.calendarIcons.plusCircle"
               alt="habit-icon"
               (click)="toggleEnrollHabit(habit)">
-              {{ habit.habit.habitTranslation.name }}
+              {{ habit.habit.habitTranslation.name.length >= 30 ? 
+                 habit.habit.habitTranslation.name.slice(0, 27) + '...' : 
+                 habit.habit.habitTranslation.name }}
             </li>
           </ul>
         </div>
