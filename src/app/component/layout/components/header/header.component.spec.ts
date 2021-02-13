@@ -6,7 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeaderComponent } from './header.component';
-import { BehaviorSubject, of, Subject } from 'rxjs';
+import { BehaviorSubject, of, pipe, Subject } from 'rxjs';
 import { Language } from '@language-service/Language';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { UserService } from '@global-service/user/user.service';
@@ -35,7 +35,7 @@ describe('HeaderComponent', () => {
   localStorageServiceMock.languageSubject = new Subject();
   localStorageServiceMock.getCurrentLanguage = () => mockLang as Language;
   localStorageServiceMock.firstNameBehaviourSubject = new BehaviorSubject('1111');
-  localStorageServiceMock.getAccessToken = () => 'true';
+  localStorageServiceMock.accessTokenBehaviourSubject = new BehaviorSubject('1111');
   localStorageServiceMock.clear = () => true;
 
   let jwtServiceMock: JwtService;

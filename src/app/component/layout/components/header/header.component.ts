@@ -93,8 +93,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
       ).subscribe(
         status => this.isLoggedIn = status
       );
-    this.token = this.localStorageService.getAccessToken();
-    this.managementLink = `${this.backEndLink}token?accessToken=${this.token}`;
+
+    this.localStorageService.accessTokenBehaviourSubject
+      .pipe(
+        takeUntil(this.destroySub)
+      ).subscribe(
+        (value) => {
+          this.token = value;
+          this.managementLink = `${this.backEndLink}token?accessToken=${this.token}`;
+        }
+      );
+
   }
 
   ngOnDestroy() {
