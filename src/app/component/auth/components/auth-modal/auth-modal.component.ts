@@ -8,6 +8,7 @@ import { authImages } from 'src/app/image-pathes/auth-images';
   templateUrl: './auth-modal.component.html',
   styleUrls: ['./auth-modal.component.scss']
 })
+
 export class AuthModalComponent implements OnInit {
   public authImages = authImages;
   public authPage: string;
