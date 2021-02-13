@@ -37,4 +37,5 @@ export class AuthModalComponent implements OnInit {
   private setAuthPage(): void {
     this.authPage = this.data.popUpName;
   }
+  
 }
