@@ -1,7 +1,7 @@
 import { headerIcons } from './../../../../image-pathes/header-icons';
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
-import { MatDialog} from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { filter, takeUntil } from 'rxjs/operators';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
