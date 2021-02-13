@@ -31,7 +31,7 @@ export class AuthModalComponent implements OnInit {
   }
 
   public closeWindow(): void {
-    this.matDialogRef.close( );
+    this.matDialogRef.close();
   }
 
   private setAuthPage(): void {
