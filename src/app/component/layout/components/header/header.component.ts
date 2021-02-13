@@ -22,7 +22,7 @@ import { Subject } from 'rxjs';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit,  OnDestroy {
+export class HeaderComponent implements OnInit, OnDestroy {
   readonly selectLanguageArrow = 'assets/img/arrow_grey.png';
   readonly dropDownArrow = 'assets/img/arrow.png';
   public dropdownVisible = false;
