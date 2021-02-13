@@ -12,7 +12,6 @@ export class AuthModalComponent implements OnInit {
   public authImages = authImages;
   public authPage: string;
 
-
   constructor(private announcer: LiveAnnouncer, public matDialogRef: MatDialogRef<AuthModalComponent>,
               @Inject(MAT_DIALOG_DATA) public data
               ) { }
@@ -33,8 +32,6 @@ export class AuthModalComponent implements OnInit {
   public closeWindow(): void {
     this.matDialogRef.close( );
   }
-
-
 
   private setAuthPage(): void {
     this.authPage = this.data.popUpName;
