@@ -1,9 +1,11 @@
-import { HabitAssignService } from './habit-assign.service';
+// import { HabitAssignService } from './habit-assign.service';
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '@language-service/language.service';
 import { CalendarBaseComponent } from '@shared/components/calendar-base/calendar-base.component';
 import { calendarIcons } from 'src/app/image-pathes/calendar-icons';
+import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
+import { map, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-calendar',
@@ -83,7 +85,9 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
   }
 
   public getActiveDateHabits(date) {
-    this.habitAssignService.getActiveDateHabits(date, this.language).subscribe( data => {
+    this.habitAssignService.getHabitAssignByDate(date).pipe(
+      map(habits => habits.sort((habit1, habit2) => (habit1.id > habit2.id) ? 1 : -1))
+    ).subscribe(data => {
       this.habits2 = [...data];
       this.habits2.forEach(habit => {
         habit.enrolled = this.checkIfEnrolledDate(habit);
@@ -93,11 +97,11 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
   }
 
   public enrollHabit(habit) {
-    this.habitAssignService.enrollHabitForSpecificDate(habit.habit.id, this.formatedData).subscribe();
+    this.habitAssignService.enrollByHabit(habit.habit.id, this.formatedData).subscribe();
   }
 
   public unEnrollHabit(habit) {
-    this.habitAssignService.unenrollHabitForSpecificDate(habit.habit.id, this.formatedData).subscribe();
+    this.habitAssignService.unenrollByHabit(habit.habit.id, this.formatedData).subscribe();
   }
 
   public toggleEnrollHabit(habit) {
@@ -127,7 +131,7 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
     this.calendarDay.forEach(day => {
       const date = this.formatData(day);
       if (this.currentDate.setHours(0, 0, 0, 0) >= new Date(date).setHours(0, 0, 0, 0)) {
-        this.habitAssignService.getActiveDateHabits(date, 'en').subscribe(habits => {
+        this.habitAssignService.getHabitAssignByDate(date).subscribe(habits => {
           day.isHabitsTracked = habits.length > 0;
           day.isAllHabitsEnrolled = habits.every(habit => {
             return habit.habitStatusCalendarDtoList.some(datee => {
