@@ -1,4 +1,3 @@
-// import { HabitAssignService } from './habit-assign.service';
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '@language-service/language.service';
@@ -134,8 +133,8 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
         this.habitAssignService.getHabitAssignByDate(date).subscribe(habits => {
           day.isHabitsTracked = habits.length > 0;
           day.isAllHabitsEnrolled = habits.every(habit => {
-            return habit.habitStatusCalendarDtoList.some(datee => {
-              if (datee.enrollDate === date) {
+            return habit.habitStatusCalendarDtoList.some(enrollDates => {
+              if (enrollDates.enrollDate === date) {
                 return true;
               }
               return false;

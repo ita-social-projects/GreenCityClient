@@ -1,3 +1,4 @@
+import { HabitAssignService } from './../../../../../../service/habit-assign/habit-assign.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -15,15 +16,19 @@ export class CalendarWeekComponent implements OnInit, OnDestroy {
   public calendarImages = calendarImage;
   private language: string;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-  private currentDate = new Date();
+  public currentDate = new Date();
   public weekTitle: string;
   public weekDates: CalendarWeekInterface[];
 
-  constructor(private localStorageService: LocalStorageService) {}
+  constructor(
+    private localStorageService: LocalStorageService,
+    private habitAssignService: HabitAssignService
+  ) {}
 
   ngOnInit() {
     this.buildWeekCalendar(this.getFirstWeekDate());
     this.getLanguage();
+    this.markCalendarDays();
   }
 
   private buildWeekCalendar(firstWeekDay: Date): void {
@@ -40,8 +45,8 @@ export class CalendarWeekComponent implements OnInit, OnDestroy {
         date,
         dayName: this.language ? this.setDayName(date) : '',
         isCurrent,
-        hasHabitsInProgress: true,
-        areHabitsDone: true
+        hasHabitsInProgress: false,
+        areHabitsDone: false
       });
     }
   }
@@ -90,6 +95,32 @@ export class CalendarWeekComponent implements OnInit, OnDestroy {
     const firstWeekDate = new Date(year, month, day);
     this.buildWeekCalendar(firstWeekDate);
     this.buildWeekCalendarTitle();
+    this.markCalendarDays();
+  }
+
+  public formatData(date) {
+    return `${date.getFullYear()}-${ date.getMonth() + 1 < 10 ?
+      '0' + (date.getMonth() + 1) : date.getMonth() + 1}-${date.getDate() < 10 ?
+      '0' + date.getDate() : date.getDate()}`;
+  }
+
+  public markCalendarDays() {
+    this.weekDates.forEach(day => {
+      const date = this.formatData(day.date);
+      if (new Date().setHours(0, 0, 0, 0) >= new Date(date).setHours(0, 0, 0, 0)) {
+        this.habitAssignService.getHabitAssignByDate(date).subscribe(habits => {
+          day.hasHabitsInProgress = habits.length > 0;
+          day.areHabitsDone = habits.every(habit => {
+            return habit.habitStatusCalendarDtoList.some(enrollDates => {
+              if (enrollDates.enrollDate === date) {
+                return true;
+              }
+              return false;
+            });
+          });
+        });
+      }
+    });
   }
 
   ngOnDestroy() {
