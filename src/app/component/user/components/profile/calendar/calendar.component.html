@@ -51,6 +51,8 @@
            [ngClass]="{ 'current-day': dayItem.isCurrentDayActive,
            'enrolled-day': dayItem.isHabitsTracked && dayItem.isAllHabitsEnrolled,
            'unenrolled-day': dayItem.isHabitsTracked && !dayItem.isAllHabitsEnrolled,
+           'enrolled-past-day': dayItem.isHabitsTracked && dayItem.numberOfDate < (dayItem.date.getDate() - 7) && dayItem.isAllHabitsEnrolled,
+           'unenrolled-past-day': dayItem.isHabitsTracked && dayItem.numberOfDate < (dayItem.date.getDate() - 7) && !dayItem.isAllHabitsEnrolled,
            'tracked-day': selectedDay === dayItem.numberOfDate && isDayTracked }"
            (click)="$event.stopPropagation()">
         <span [ngClass]="{ 'calendar-grid-current-day-content': dayItem.isCurrentDayActive,

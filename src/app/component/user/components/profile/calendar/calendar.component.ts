@@ -43,7 +43,6 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
     this.bindDefaultTranslate();
     this.subscribeToLangChange();
     this.buildCalendar();
-    console.log(this.calendarDay);
     this.markCalendarDays();
   }
 
@@ -109,7 +108,6 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
     console.log(this.habits2);
     this.habits2.forEach(habit => {
       if (habit.enrolled !== this.checkIfEnrolledDate(habit)) {
-        console.log('hello');
         habit.enrolled ? this.enrollHabit(habit) : this.unEnrollHabit(habit);
       }
     });

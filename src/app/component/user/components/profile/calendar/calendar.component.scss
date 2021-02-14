@@ -221,14 +221,16 @@ $bp-largest: 1200px;
   border-radius: 50%;
 }
 
-.enrolled2-day {
+.enrolled-past-day {
+  background-color: transparent;
   border: 1px solid #b1dfc6;
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 50%;
 }
 
-.unenrolled2-day {
+.unenrolled-past-day {
+  background-color: transparent;
   border: 1px solid  #D0D0D0;
   background-repeat: no-repeat;
   background-position: center;

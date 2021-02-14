@@ -28,7 +28,6 @@ export class HabitAssignService {
   }
 
   getActiveDateHabits(date: string, language: string): Observable<any> {
-    console.log(language);
     return this.http.get<any>(`${this.apiUrl}/active/${date}?lang=${language}`).pipe(
       map( habits => habits.sort((habit1, habit2) => (habit1.id > habit2.id) ? 1 : -1))
     );
