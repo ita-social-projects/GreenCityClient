@@ -64,11 +64,14 @@
           <p class="habits-title">{{ habitsCalendarSelectedDate }}</p>
           <app-spinner *ngIf="isFetching"></app-spinner>
           <ul class="habits-list" *ngFor="let habit of habits2">
-            <li class="habits-item">
+            <li class="habits-item"
+              matTooltipPosition="above" 
+              [matTooltipDisabled]="habit.habit.habitTranslation.name.length < 30"
+              [matTooltip]="habit.habit.habitTranslation.name">
               <img class="habit-icon"
-              [src]="habit.enrolled ? this.calendarIcons.checkCircle : this.calendarIcons.plusCircle"
-              alt="habit-icon"
-              (click)="toggleEnrollHabit(habit)">
+                [src]="habit.enrolled ? this.calendarIcons.checkCircle : this.calendarIcons.plusCircle"
+                alt="habit-icon"
+                (click)="toggleEnrollHabit(habit)">
               {{ habit.habit.habitTranslation.name.length >= 30 ? 
                  habit.habit.habitTranslation.name.slice(0, 27) + '...' : 
                  habit.habit.habitTranslation.name }}
