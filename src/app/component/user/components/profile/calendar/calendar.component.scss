@@ -68,10 +68,12 @@ $bp-largest: 1200px;
 
     .calendar-grid {
       display: grid;
-      grid-template-columns: repeat(7, 30px);
-      grid-auto-rows: 30px;
-      justify-content: center;
+      grid-template-columns: repeat(7, 24px);
+      grid-auto-rows: 24px;
+      grid-row-gap: 5px;
+      justify-content: space-around;
       margin: 8px 0 0 0;
+      padding: 0 3px;
       font-family: var(--secondary-font);
       font-size: 11px;
       line-height: 13px;
@@ -79,7 +81,7 @@ $bp-largest: 1200px;
       text-align: center;
 
       .calendar-grid-day {
-        padding: 9px 1px 0 0;
+        padding: 7px 0 0;
         cursor: pointer;
       }
 
@@ -255,11 +257,10 @@ $bp-largest: 1200px;
 
     .middle {
       .calendar-grid {
-        grid-template-columns: repeat(7, 35px);
-        grid-auto-rows: 35px;
+        padding: 0 8px;
 
         .calendar-grid-day {
-          padding: 10px 1px 0 0;
+          padding: 6px 0 0;
           font-size: 13px;
         }
       }
