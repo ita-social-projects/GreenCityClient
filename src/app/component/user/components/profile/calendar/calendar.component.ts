@@ -25,6 +25,7 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
   public habits2: any[];
   public daysCanEditHabits = 7;
   public isFetching: boolean;
+  public allHabitsEnrolled: boolean;
 
   @HostListener('document:click', ['$event']) clickout(event) {
     this.isHabitsPopUpOpen ? this.closePopUp() : null;
@@ -42,10 +43,18 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
     this.bindDefaultTranslate();
     this.subscribeToLangChange();
     this.buildCalendar();
+    console.log(this.calendarDay);
+    this.markCalendarDays();
   }
 
   public getFormatedData(dayItem) {
     this.formatedData = `${dayItem.year}-${ dayItem.month + 1 < 10 ?
+      '0' + (dayItem.month + 1) : dayItem.month + 1}-${dayItem.numberOfDate < 10 ?
+      '0' + dayItem.numberOfDate : dayItem.numberOfDate}`;
+  }
+
+  public formatData(dayItem) {
+    return `${dayItem.year}-${ dayItem.month + 1 < 10 ?
       '0' + (dayItem.month + 1) : dayItem.month + 1}-${dayItem.numberOfDate < 10 ?
       '0' + dayItem.numberOfDate : dayItem.numberOfDate}`;
   }
@@ -116,8 +125,23 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
     return this.isHabitEnrolled;
   }
 
-  public markCalendarDays(habit) {
-
+  public markCalendarDays() {
+    this.calendarDay.forEach(day => {
+      const date = this.formatData(day);
+      if (this.currentDate.setHours(0, 0, 0, 0) >= new Date(date).setHours(0, 0, 0, 0)) {
+        this.habitAssignService.getActiveDateHabits(date, 'en').subscribe(habits => {
+          day.isHabitsTracked = habits.length > 0;
+          day.isAllHabitsEnrolled = habits.every(habit => {
+            return habit.habitStatusCalendarDtoList.some(datee => {
+              if (datee.enrollDate === date) {
+                return true;
+              }
+              return false;
+            });
+          });
+        });
+      }
+    });
   }
 
   public closePopUp() {

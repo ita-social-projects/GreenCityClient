@@ -7,5 +7,6 @@ export interface CalendarInterface {
   dayName: string;
   totalDaysInMonth: number;
   isHabitsTracked: boolean;
+  isAllHabitsEnrolled: boolean;
   isCurrentDayActive: boolean;
 }

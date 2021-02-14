@@ -37,6 +37,7 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
     dayName: '',
     totalDaysInMonth: 0,
     isHabitsTracked: false,
+    isAllHabitsEnrolled: false,
     isCurrentDayActive: false
   };
 
@@ -125,6 +126,7 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
         .toDateString()
         .substring(0, 3)) || '',
       isHabitsTracked: false,
+      isAllHabitsEnrolled: false,
       isCurrentDayActive: false
     };
   }
