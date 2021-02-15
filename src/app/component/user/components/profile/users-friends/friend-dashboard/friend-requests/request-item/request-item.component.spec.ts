@@ -31,7 +31,8 @@ describe('RequestItemComponent', () => {
     component.request = { id: 1,
       name: 'Name',
       profilePicture: '',
-      added: true
+      added: true,
+      rating:380
     };
     fixture.detectChanges();
   });

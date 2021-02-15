@@ -34,7 +34,7 @@ describe('FriendRequestsComponent', () => {
        name: 'Name',
        profilePicture: '',
        added: true,
-       rate: 380,
+       rating: 380,
        city: 'Lviv',
        mutualFriends: 5
       },
@@ -43,7 +43,7 @@ describe('FriendRequestsComponent', () => {
         name: 'Name2',
         profilePicture: '',
         added: true,
-        rate: 380,
+        rating: 380,
         city: 'Lviv',
         mutualFriends: 5
        },

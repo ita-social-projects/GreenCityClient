@@ -31,7 +31,8 @@ describe('FriendItemComponent', () => {
     component.friend = { id: 1,
       name: 'Name',
       profilePicture: '',
-      added: true
+      added: true,
+      rating: 380
     };
     fixture.detectChanges();
   });
