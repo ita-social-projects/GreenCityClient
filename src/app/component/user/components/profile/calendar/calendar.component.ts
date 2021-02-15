@@ -41,30 +41,18 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
     public languageService: LanguageService,
     public habitAssignService: HabitAssignService
   ) {
-    super(translate, languageService);
+    super(translate, languageService, habitAssignService);
   }
 
   ngOnInit() {
     this.bindDefaultTranslate();
     this.subscribeToLangChange();
     this.buildCalendar();
-    this.markCalendarDays();
-  }
-
-  public getFormatedDate(dayItem: CalendarInterface) {
-    this.formatedData = `${dayItem.year}-${ dayItem.month + 1 < 10 ?
-      '0' + (dayItem.month + 1) : dayItem.month + 1}-${dayItem.numberOfDate < 10 ?
-      '0' + dayItem.numberOfDate : dayItem.numberOfDate}`;
-  }
-
-  public formatDate(dayItem: CalendarInterface) {
-    return `${dayItem.year}-${ dayItem.month + 1 < 10 ?
-      '0' + (dayItem.month + 1) : dayItem.month + 1}-${dayItem.numberOfDate < 10 ?
-      '0' + dayItem.numberOfDate : dayItem.numberOfDate}`;
+    this.markCalendarDays(true, this.calendarDay);
   }
 
   public checkIfFuture(dayItem: CalendarInterface) {
-    this.getFormatedDate(dayItem);
+    this.formatedData = this.formatDate(true, dayItem);
     if (this.currentDate.setHours(0, 0, 0, 0) >= new Date(this.formatedData).setHours(0, 0, 0, 0)) {
       this.toggleHabitsList(dayItem);
     }
@@ -135,27 +123,6 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
       }
     });
     return this.isHabitEnrolled;
-  }
-
-  public markCalendarDays() {
-    this.calendarDay.forEach((day: CalendarInterface) => {
-      const date = this.formatDate(day);
-      if (this.currentDate.setHours(0, 0, 0, 0) >= new Date(date).setHours(0, 0, 0, 0)) {
-        this.habitAssignService.getHabitAssignByDate(date).pipe(
-          take(1)
-        ).subscribe((habits: HabitAssignInterface[]) => {
-          day.isHabitsTracked = habits.length > 0;
-          day.isAllHabitsEnrolled = habits.every((habit: HabitAssignInterface) => {
-            return habit.habitStatusCalendarDtoList.some((habitEnrollDate: HabitStatusCalendarListInterface) => {
-              if (habitEnrollDate.enrollDate === date) {
-                return true;
-              }
-              return false;
-            });
-          });
-        });
-      }
-    });
   }
 
   public closePopUp() {

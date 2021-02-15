@@ -1,11 +1,12 @@
-import { HabitAssignService } from './../../../../../../service/habit-assign/habit-assign.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
-import { takeUntil, take } from 'rxjs/operators';
-
+import { CalendarBaseComponent } from '@shared/components/calendar-base/calendar-base.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { TranslateService } from '@ngx-translate/core';
+import { HabitAssignService } from './../../../../../../service/habit-assign/habit-assign.service';
+import { LanguageService } from '@language-service/language.service';
+import { ReplaySubject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { CalendarWeekInterface } from '../calendar-week/calendar-week-interface';
-import { HabitAssignInterface, HabitStatusCalendarListInterface } from 'src/app/interface/habit/habit-assign.interface';
 import { calendarImage } from '../calendar-image';
 
 @Component({
@@ -13,9 +14,9 @@ import { calendarImage } from '../calendar-image';
   templateUrl: './calendar-week.component.html',
   styleUrls: ['./calendar-week.component.scss']
 })
-export class CalendarWeekComponent implements OnInit, OnDestroy {
+export class CalendarWeekComponent extends CalendarBaseComponent implements OnInit, OnDestroy {
   public calendarImages = calendarImage;
-  private language: string;
+  public language: string;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public currentDate = new Date();
   public weekTitle: string;
@@ -23,13 +24,17 @@ export class CalendarWeekComponent implements OnInit, OnDestroy {
 
   constructor(
     private localStorageService: LocalStorageService,
-    private habitAssignService: HabitAssignService
-  ) {}
+    public habitAssignService: HabitAssignService,
+    public translate: TranslateService,
+    public languageService: LanguageService
+  ) {
+    super(translate, languageService, habitAssignService);
+  }
 
   ngOnInit() {
     this.buildWeekCalendar(this.getFirstWeekDate());
     this.getLanguage();
-    this.markCalendarDays();
+    this.markCalendarDays(false, this.weekDates);
   }
 
   private buildWeekCalendar(firstWeekDay: Date): void {
@@ -96,34 +101,7 @@ export class CalendarWeekComponent implements OnInit, OnDestroy {
     const firstWeekDate = new Date(year, month, day);
     this.buildWeekCalendar(firstWeekDate);
     this.buildWeekCalendarTitle();
-    this.markCalendarDays();
-  }
-
-  public formatDate(date: Date) {
-    return `${date.getFullYear()}-${ date.getMonth() + 1 < 10 ?
-      '0' + (date.getMonth() + 1) : date.getMonth() + 1}-${date.getDate() < 10 ?
-      '0' + date.getDate() : date.getDate()}`;
-  }
-
-  public markCalendarDays() {
-    this.weekDates.forEach((day: CalendarWeekInterface) => {
-      const date = this.formatDate(day.date);
-      if (new Date().setHours(0, 0, 0, 0) >= new Date(date).setHours(0, 0, 0, 0)) {
-        this.habitAssignService.getHabitAssignByDate(date).pipe(
-          take(1)
-        ).subscribe((habits: HabitAssignInterface[]) => {
-          day.hasHabitsInProgress = habits.length > 0;
-          day.areHabitsDone = habits.every((habit: HabitAssignInterface) => {
-            return habit.habitStatusCalendarDtoList.some((habitEnrollDate: HabitStatusCalendarListInterface) => {
-              if (habitEnrollDate.enrollDate === date) {
-                return true;
-              }
-              return false;
-            });
-          });
-        });
-      }
-    });
+    this.markCalendarDays(false, this.weekDates);
   }
 
   ngOnDestroy() {

@@ -49,10 +49,10 @@
       <div *ngFor="let dayItem of calendarDay"
            class="calendar-grid-day"
            [ngClass]="{ 'current-day': dayItem.isCurrentDayActive,
-           'enrolled-day': dayItem.isHabitsTracked && dayItem.isAllHabitsEnrolled,
-           'unenrolled-day': dayItem.isHabitsTracked && !dayItem.isAllHabitsEnrolled,
-           'enrolled-past-day': dayItem.isHabitsTracked && dayItem.numberOfDate < (dayItem.date.getDate() - 7) && dayItem.isAllHabitsEnrolled,
-           'unenrolled-past-day': dayItem.isHabitsTracked && dayItem.numberOfDate < (dayItem.date.getDate() - 7) && !dayItem.isAllHabitsEnrolled,
+           'enrolled-day': dayItem.hasHabitsInProgress && dayItem.areHabitsDone,
+           'unenrolled-day': dayItem.hasHabitsInProgress && !dayItem.areHabitsDone,
+           'enrolled-past-day': dayItem.hasHabitsInProgress && dayItem.numberOfDate < (dayItem.date.getDate() - 7) && dayItem.areHabitsDone,
+           'unenrolled-past-day': dayItem.hasHabitsInProgress && dayItem.numberOfDate < (dayItem.date.getDate() - 7) && !dayItem.areHabitsDone,
            'tracked-day': selectedDay === dayItem.numberOfDate && isDayTracked }"
            (click)="$event.stopPropagation()">
         <span [ngClass]="{ 'calendar-grid-current-day-content': dayItem.isCurrentDayActive,
