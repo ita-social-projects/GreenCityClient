@@ -41,7 +41,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private adminRoleValue = 'ROLE_ADMIN';
   private userRole: string;
   private userId: number;
-  private token: string;
   private backEndLink = environment.backendLink;
   private destroySub: Subject<boolean> = new Subject<boolean>();
   public headerImageList = headerIcons;
@@ -98,12 +97,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroySub)
       ).subscribe(
-        (value) => {
-          this.token = value;
-          this.managementLink = `${this.backEndLink}token?accessToken=${this.token}`;
+        (token) => {
+          this.managementLink = `${this.backEndLink}token?accessToken=${token}`;
         }
       );
-
   }
 
   ngOnDestroy() {

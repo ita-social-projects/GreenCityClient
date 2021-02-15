@@ -76,11 +76,9 @@
           <ul class="header_navigation-menu-right-list">
             <!-- Search icon -->
             <li *ngIf="!isAllSearchOpen" class="search-icon" role="internal search"
-            tabindex="0" aria-label="site search"
-            >
+            tabindex="0" aria-label="site search">
               <img (click)="toggleSearchPage()" (keyup.enter)="toggleSearchPage()"
-                [src]="headerImageList.search" alt="Internal search" aria-hidden="true"
-                >
+                [src]="headerImageList.search" alt="Internal search" aria-hidden="true">
             </li>
             <!-- Lang switcher -->
             <ul tabindex="0" [ngClass]="{'add-shadow': langDropdownVisible,
