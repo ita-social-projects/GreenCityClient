@@ -3,7 +3,7 @@ export interface FriendModel {
   name: string;
   profilePicture?: string;
   added?: boolean;
-  rate?: number;
+  rating: number;
   city?: string;
   mutualFriends?: number | string;
 }

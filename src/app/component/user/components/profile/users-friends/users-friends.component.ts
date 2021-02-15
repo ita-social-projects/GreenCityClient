@@ -1,10 +1,9 @@
+import { UserFriendsInterface } from './../../../../../interface/user/user-friends.interface';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
-import { SixFriendArrayModel } from '@global-user/models/friend.model';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Friend, UserFriendsInterface } from '../../../../../interface/user/user-friends.interface';
 
 @Component({
   selector: 'app-users-friends',
@@ -30,7 +29,7 @@ export class UsersFriendsComponent implements OnInit, OnDestroy {
     this.profileService.getUserFriends().pipe(
       takeUntil(this.destroy$)
     )
-      .subscribe((item: SixFriendArrayModel) => {
+      .subscribe((item: UserFriendsInterface) => {
         this.usersFriends = item.pagedFriends.page;
         this.amountOfFriends = item.amountOfFriends;
       }, error => {

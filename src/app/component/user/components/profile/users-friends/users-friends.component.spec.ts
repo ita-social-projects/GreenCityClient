@@ -3,13 +3,11 @@ import { UsersFriendsComponent } from './users-friends.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
-import { of } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Friend, UserFriendsInterface } from '../../../../../interface/user/user-friends.interface';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { ProfileService } from '../profile-service/profile.service';
 
 describe('UsersFriendsComponent', () => {
   let component: UsersFriendsComponent;

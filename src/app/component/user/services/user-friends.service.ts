@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environment/environment';
-import { FriendArrayModel, FriendModel, SixFriendArrayModel} from '@global-user/models/friend.model';
+import { FriendArrayModel, SixFriendArrayModel} from '@global-user/models/friend.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class UserFriendsService {
   private size = 10;
-  public url: string = environment.backendLink;
+  public url: string = environment.backendUserLink;
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -31,7 +31,7 @@ export class UserFriendsService {
   }
 
   public getAllFriends(userId: number, page = 0, size = this.size): Observable<FriendArrayModel> {
-    return this.http.get<FriendArrayModel>(`${this.url}user/${userId}/friends/?page=${page}&size=${size}`);
+    return this.http.get<FriendArrayModel>(`${this.url}user/${userId}/findAll/friends/?page=${page}&size=${size}`);
   }
 
   public addFriend(idUser: number, idFriend: number): Observable<object> {

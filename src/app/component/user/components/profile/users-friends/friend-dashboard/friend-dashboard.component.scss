@@ -29,8 +29,10 @@ $linkColorGray: #494a49;
 
   a {
     color: $linkColorGray;
-    margin: 0 18px;
-    font-family: 'Lato', sans-serif;
+    margin: 0 16px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    line-height: 18.75px;
 
     &:hover {
       text-decoration: none;

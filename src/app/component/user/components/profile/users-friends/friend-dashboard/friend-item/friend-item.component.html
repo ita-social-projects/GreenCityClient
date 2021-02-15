@@ -9,9 +9,12 @@
   <div class="friend-info">
     <div class="main-info" [ngClass] = "friend.profilePicture? 'friend-with-photo': 'friend-without-photo'">
       <p class="friend-name">{{friend.name}}</p>
-      <p class="friend-rate" [ngClass] = "friend.profilePicture? 'rate-with-photo': 'rate-without-photo'"></p>
+      <p class="friend-rate" 
+        [ngClass] = "friend.profilePicture? 'rate-with-photo': 'rate-without-photo'">
+       {{friend.rating}}
+      </p>
     </div>
-    <p class="friend-mutual">{{friend.mutualFriends}}{{'profile.friends.mutual-friends' | translate}}</p>
+    <p class="friend-mutual">{{friend.mutualFriends}} {{'profile.friends.mutual-friends' | translate}}</p>
     <p class="friend-city">{{friend.city}}</p>
   </div>
   <div class="friend-btn">

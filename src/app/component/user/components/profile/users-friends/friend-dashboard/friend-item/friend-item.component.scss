@@ -79,12 +79,12 @@ button {
   font-weight: 600;
   font-size: 12px;
   line-height: 16px;
-  width: 89px;
+  width: 60px;
   height: 24px;
   border-radius: 4px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   color: $Green;
   margin: 2px;
 }
@@ -99,7 +99,7 @@ button {
 .friend-btn {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: flex-end;
   flex: 1;
 }
