@@ -5,7 +5,7 @@
 
   <!-- {{ orderDetailsForm.value | json }} -->
 
-  <form class="form" [formGroup]="orderDetailsForm" (ngSubmit)="onSubmit()">
+  <form class="form" [formGroup]="orderDetailsForm">
 
     <div class="form-group" class="service">
       <label>Послуга</label>
@@ -138,7 +138,7 @@
         <label>Коментар до замовлення</label>
         <textarea formControlName="orderComment" class="form-control" rows="5"></textarea>
       </div>
-      <button [disabled]="!orderDetailsForm.valid" type="submit" class="btn btn-primary" (click)="addOrder()"
+      <button [disabled]="!orderDetailsForm.valid" class="btn btn-primary" (click)="addOrder()"
         matStepperNext>Далі</button>
     </div>
   </form>
