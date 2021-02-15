@@ -147,11 +147,11 @@ $bp-largest: 1200px;
   }
 }
 
-.calendar-habits{
+.calendar-habits {
   visibility: hidden;
 }
 
-.calendar-habits-open{
+.calendar-habits-open {
   position: relative;
   z-index: 10;
   margin-right: 314px;
@@ -160,8 +160,8 @@ $bp-largest: 1200px;
   right: 297px;
   top: 3px;
   font-family: var(--secondary-font);
-  color: #494A49;
-  background: #FFFFFF;
+  color: var(--primary-dark-grey);
+  background: #fff;
   box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
   border-radius: 4px;
 }
@@ -201,7 +201,7 @@ $bp-largest: 1200px;
 
 .habits-item-disabled {
   pointer-events: none;
-  opacity: .8;
+  opacity: 0.8;
 }
 
 .habit-icon {
@@ -217,7 +217,7 @@ $bp-largest: 1200px;
 }
 
 .unenrolled-day {
-  background-color:  #e1e5e3;
+  background-color: #e1e5e3;
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 50%;
