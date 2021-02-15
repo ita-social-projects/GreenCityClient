@@ -752,9 +752,6 @@
     "fact-of-the-day": "Факт дня",
     "no-eco-places": "У вас нет Эко Мест.",
     "online": "онлайн",
-    "acquired-habits": "приобретенные привычки",
-    "written-articles": "письменные статьи",
-    "published-news": "опубликованные новости",
     "my-habits": "Мои привычки",
     "my-news": "Мои новости",
     "my-articles": "Мои статьи",
@@ -768,7 +765,7 @@
       "request-decline": "Отклонить",
       "request-accept": "Принять",
       "all-friends": "Все друзья",
-      "search-friends": "Поиск"
+      "search-friends": "Поиск"},
     "rate": "Рейтинг",
     "acquired-habits": "полученные привычки",
     "written-articles": "мои статьи",

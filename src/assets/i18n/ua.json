@@ -751,9 +751,6 @@
     "fact-of-the-day": "Факт дня",
     "no-eco-places": "У вас немає Еко Місць.",
     "online": "онлайн",
-    "acquired-habits": "придбані звички",
-    "written-articles": "письмові статті",
-    "published-news": "опубліковані новини",
     "my-habits": "Мої звички",
     "my-news": "Мої новини",
     "my-articles": "Мої статті",
@@ -768,7 +765,7 @@
       "request-accept": "Прийняти",
       "all-friends": "Всі Друзі",
       "search-friends": "Пошук"
-    }
+    },
     "rate": "Рейтинг",
     "acquired-habits": "набуті звички",
     "written-articles": "мої статті",
