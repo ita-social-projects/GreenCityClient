@@ -28,8 +28,10 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
   public isFetching: boolean;
   public allHabitsEnrolled: boolean;
 
-  @HostListener('document:click', ['$event']) clickout(event) {
-    this.isHabitsPopUpOpen ? this.closePopUp() : null;
+  @HostListener('document:click', ['$event']) clickout() {
+    if (this.isHabitsPopUpOpen) {
+      this.closePopUp();
+    }
   }
 
   constructor(
@@ -78,7 +80,8 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
 
   public checkHabitListEditable() {
     this.isHabitListEditable = false;
-    if (this.currentDate.setHours(0, 0, 0, 0) - this.daysCanEditHabits * 24 * 60 * 60 * 1000 <= new Date(this.formatedData).setHours(0, 0, 0, 0)) {
+    if (this.currentDate.setHours(0, 0, 0, 0) - this.daysCanEditHabits * 24 * 60 * 60 * 1000 <=
+        new Date(this.formatedData).setHours(0, 0, 0, 0)) {
       this.isHabitListEditable = true;
     }
   }
@@ -109,7 +112,9 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
   }
 
   public toggleEnrollHabit(habit) {
-    this.isHabitListEditable ? habit.enrolled = !habit.enrolled : null;
+    if (this.isHabitListEditable) {
+      habit.enrolled = !habit.enrolled;
+    }
   }
 
   public sendEnrollRequest() {
