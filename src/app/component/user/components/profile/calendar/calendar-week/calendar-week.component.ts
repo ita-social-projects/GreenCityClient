@@ -5,6 +5,7 @@ import { takeUntil, take } from 'rxjs/operators';
 
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { CalendarWeekInterface } from '../calendar-week/calendar-week-interface';
+import { HabitAssignInterface, HabitStatusCalendarListInterface } from 'src/app/interface/habit/habit-assign.interface';
 import { calendarImage } from '../calendar-image';
 
 @Component({
@@ -98,23 +99,23 @@ export class CalendarWeekComponent implements OnInit, OnDestroy {
     this.markCalendarDays();
   }
 
-  public formatData(date) {
+  public formatDate(date: Date) {
     return `${date.getFullYear()}-${ date.getMonth() + 1 < 10 ?
       '0' + (date.getMonth() + 1) : date.getMonth() + 1}-${date.getDate() < 10 ?
       '0' + date.getDate() : date.getDate()}`;
   }
 
   public markCalendarDays() {
-    this.weekDates.forEach(day => {
-      const date = this.formatData(day.date);
+    this.weekDates.forEach((day: CalendarWeekInterface) => {
+      const date = this.formatDate(day.date);
       if (new Date().setHours(0, 0, 0, 0) >= new Date(date).setHours(0, 0, 0, 0)) {
         this.habitAssignService.getHabitAssignByDate(date).pipe(
           take(1)
-        ).subscribe(habits => {
+        ).subscribe((habits: HabitAssignInterface[]) => {
           day.hasHabitsInProgress = habits.length > 0;
-          day.areHabitsDone = habits.every(habit => {
-            return habit.habitStatusCalendarDtoList.some(enrollDates => {
-              if (enrollDates.enrollDate === date) {
+          day.areHabitsDone = habits.every((habit: HabitAssignInterface) => {
+            return habit.habitStatusCalendarDtoList.some((habitEnrollDate: HabitStatusCalendarListInterface) => {
+              if (habitEnrollDate.enrollDate === date) {
                 return true;
               }
               return false;

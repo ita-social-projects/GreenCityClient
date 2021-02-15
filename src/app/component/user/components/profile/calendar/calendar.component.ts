@@ -1,10 +1,12 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { CalendarBaseComponent } from '@shared/components/calendar-base/calendar-base.component';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '@language-service/language.service';
-import { CalendarBaseComponent } from '@shared/components/calendar-base/calendar-base.component';
-import { calendarIcons } from 'src/app/image-pathes/calendar-icons';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { map, take } from 'rxjs/operators';
+import { HabitAssignInterface, HabitStatusCalendarListInterface } from 'src/app/interface/habit/habit-assign.interface';
+import { CalendarInterface } from './calendar-interface';
+import { calendarIcons } from 'src/app/image-pathes/calendar-icons';
 
 @Component({
   selector: 'app-calendar',
@@ -14,7 +16,7 @@ import { map, take } from 'rxjs/operators';
 export class CalendarComponent extends CalendarBaseComponent implements OnInit, OnDestroy {
 
   public isHabitsPopUpOpen = false;
-  public selectedDay: number;
+  public selectedDay: number | string;
   public habitsCalendarSelectedDate: string;
   public calendarIcons = calendarIcons;
   public isDayTracked: boolean;
@@ -23,7 +25,7 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
   public isHabitChecked: boolean;
   public isHabitEnrolled: boolean;
   public currentDate: Date = new Date();
-  public habits: any[];
+  public habits: HabitAssignInterface[];
   public daysCanEditHabits = 7;
   public isFetching: boolean;
   public allHabitsEnrolled: boolean;
@@ -49,26 +51,26 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
     this.markCalendarDays();
   }
 
-  public getFormatedData(dayItem) {
+  public getFormatedDate(dayItem: CalendarInterface) {
     this.formatedData = `${dayItem.year}-${ dayItem.month + 1 < 10 ?
       '0' + (dayItem.month + 1) : dayItem.month + 1}-${dayItem.numberOfDate < 10 ?
       '0' + dayItem.numberOfDate : dayItem.numberOfDate}`;
   }
 
-  public formatData(dayItem) {
+  public formatDate(dayItem: CalendarInterface) {
     return `${dayItem.year}-${ dayItem.month + 1 < 10 ?
       '0' + (dayItem.month + 1) : dayItem.month + 1}-${dayItem.numberOfDate < 10 ?
       '0' + dayItem.numberOfDate : dayItem.numberOfDate}`;
   }
 
-  public checkIfFuture(dayItem) {
-    this.getFormatedData(dayItem);
+  public checkIfFuture(dayItem: CalendarInterface) {
+    this.getFormatedDate(dayItem);
     if (this.currentDate.setHours(0, 0, 0, 0) >= new Date(this.formatedData).setHours(0, 0, 0, 0)) {
       this.toggleHabitsList(dayItem);
     }
   }
 
-  public toggleHabitsList(dayItem) {
+  public toggleHabitsList(dayItem: CalendarInterface) {
     this.isFetching = true;
     this.isHabitsPopUpOpen = !this.isHabitsPopUpOpen;
     this.checkHabitListEditable();
@@ -86,50 +88,49 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
     }
   }
 
-  public getActiveDateHabits(date) {
+  public getActiveDateHabits(date: string) {
     this.habitAssignService.getHabitAssignByDate(date).pipe(
       take(1),
-      map(habits => habits.sort((habit1, habit2) => (habit1.id > habit2.id) ? 1 : -1))
-    ).subscribe(data => {
+      map((habits: HabitAssignInterface[]) => habits.sort((habit1, habit2) => (habit1.id > habit2.id) ? 1 : -1))
+    ).subscribe((data: HabitAssignInterface[]) => {
       this.habits = [...data];
-      this.habits.forEach(habit => {
+      this.habits.forEach((habit: HabitAssignInterface) => {
         habit.enrolled = this.checkIfEnrolledDate(habit);
       });
       this.isFetching = false;
     });
   }
 
-  public enrollHabit(habit) {
+  public enrollHabit(habit: HabitAssignInterface) {
     this.habitAssignService.enrollByHabit(habit.habit.id, this.formatedData).pipe(
       take(1)
     ).subscribe();
   }
 
-  public unEnrollHabit(habit) {
+  public unEnrollHabit(habit: HabitAssignInterface) {
     this.habitAssignService.unenrollByHabit(habit.habit.id, this.formatedData).pipe(
       take(1)
     ).subscribe();
   }
 
-  public toggleEnrollHabit(habit) {
+  public toggleEnrollHabit(habit: HabitAssignInterface) {
     if (this.isHabitListEditable) {
       habit.enrolled = !habit.enrolled;
     }
   }
 
   public sendEnrollRequest() {
-    console.log(this.habits);
-    this.habits.forEach(habit => {
+    this.habits.forEach((habit: HabitAssignInterface) => {
       if (habit.enrolled !== this.checkIfEnrolledDate(habit)) {
         habit.enrolled ? this.enrollHabit(habit) : this.unEnrollHabit(habit);
       }
     });
   }
 
-  public checkIfEnrolledDate(habit) {
+  public checkIfEnrolledDate(habit: HabitAssignInterface) {
     this.isHabitEnrolled = false;
-    habit.habitStatusCalendarDtoList.forEach(date => {
-      if (date.enrollDate === this.formatedData) {
+    habit.habitStatusCalendarDtoList.forEach((habitEnrollDate: HabitStatusCalendarListInterface) => {
+      if (habitEnrollDate.enrollDate === this.formatedData) {
         this.isHabitEnrolled = true;
       }
     });
@@ -137,16 +138,16 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
   }
 
   public markCalendarDays() {
-    this.calendarDay.forEach(day => {
-      const date = this.formatData(day);
+    this.calendarDay.forEach((day: CalendarInterface) => {
+      const date = this.formatDate(day);
       if (this.currentDate.setHours(0, 0, 0, 0) >= new Date(date).setHours(0, 0, 0, 0)) {
         this.habitAssignService.getHabitAssignByDate(date).pipe(
           take(1)
-        ).subscribe(habits => {
+        ).subscribe((habits: HabitAssignInterface[]) => {
           day.isHabitsTracked = habits.length > 0;
-          day.isAllHabitsEnrolled = habits.every(habit => {
-            return habit.habitStatusCalendarDtoList.some(enrollDates => {
-              if (enrollDates.enrollDate === date) {
+          day.isAllHabitsEnrolled = habits.every((habit: HabitAssignInterface) => {
+            return habit.habitStatusCalendarDtoList.some((habitEnrollDate: HabitStatusCalendarListInterface) => {
+              if (habitEnrollDate.enrollDate === date) {
                 return true;
               }
               return false;
