@@ -1,7 +1,7 @@
 import { HabitAssignService } from './../../../../../../service/habit-assign/habit-assign.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, take } from 'rxjs/operators';
 
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { CalendarWeekInterface } from '../calendar-week/calendar-week-interface';
@@ -108,7 +108,9 @@ export class CalendarWeekComponent implements OnInit, OnDestroy {
     this.weekDates.forEach(day => {
       const date = this.formatData(day.date);
       if (new Date().setHours(0, 0, 0, 0) >= new Date(date).setHours(0, 0, 0, 0)) {
-        this.habitAssignService.getHabitAssignByDate(date).subscribe(habits => {
+        this.habitAssignService.getHabitAssignByDate(date).pipe(
+          take(1)
+        ).subscribe(habits => {
           day.hasHabitsInProgress = habits.length > 0;
           day.areHabitsDone = habits.every(habit => {
             return habit.habitStatusCalendarDtoList.some(enrollDates => {

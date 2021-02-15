@@ -63,7 +63,7 @@
         <div *ngIf="selectedDay === dayItem.numberOfDate" [ngClass]="isHabitsPopUpOpen ? 'calendar-habits-open' : 'calendar-habits'">
           <p class="habits-title">{{ habitsCalendarSelectedDate }}</p>
           <app-spinner *ngIf="isFetching"></app-spinner>
-          <ul class="habits-list" *ngFor="let habit of habits2">
+          <ul class="habits-list" *ngFor="let habit of habits">
             <li class="habits-item"
               matTooltipPosition="above" 
               [matTooltipDisabled]="habit.habit.habitTranslation.name.length < 30"

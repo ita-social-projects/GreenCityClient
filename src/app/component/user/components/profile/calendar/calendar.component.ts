@@ -23,7 +23,7 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
   public isHabitChecked: boolean;
   public isHabitEnrolled: boolean;
   public currentDate: Date = new Date();
-  public habits2: any[];
+  public habits: any[];
   public daysCanEditHabits = 7;
   public isFetching: boolean;
   public allHabitsEnrolled: boolean;
@@ -85,10 +85,11 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
 
   public getActiveDateHabits(date) {
     this.habitAssignService.getHabitAssignByDate(date).pipe(
+      take(1),
       map(habits => habits.sort((habit1, habit2) => (habit1.id > habit2.id) ? 1 : -1))
     ).subscribe(data => {
-      this.habits2 = [...data];
-      this.habits2.forEach(habit => {
+      this.habits = [...data];
+      this.habits.forEach(habit => {
         habit.enrolled = this.checkIfEnrolledDate(habit);
       });
       this.isFetching = false;
@@ -96,11 +97,15 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
   }
 
   public enrollHabit(habit) {
-    this.habitAssignService.enrollByHabit(habit.habit.id, this.formatedData).subscribe();
+    this.habitAssignService.enrollByHabit(habit.habit.id, this.formatedData).pipe(
+      take(1)
+    ).subscribe();
   }
 
   public unEnrollHabit(habit) {
-    this.habitAssignService.unenrollByHabit(habit.habit.id, this.formatedData).subscribe();
+    this.habitAssignService.unenrollByHabit(habit.habit.id, this.formatedData).pipe(
+      take(1)
+    ).subscribe();
   }
 
   public toggleEnrollHabit(habit) {
@@ -108,8 +113,8 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
   }
 
   public sendEnrollRequest() {
-    console.log(this.habits2);
-    this.habits2.forEach(habit => {
+    console.log(this.habits);
+    this.habits.forEach(habit => {
       if (habit.enrolled !== this.checkIfEnrolledDate(habit)) {
         habit.enrolled ? this.enrollHabit(habit) : this.unEnrollHabit(habit);
       }
@@ -130,7 +135,9 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
     this.calendarDay.forEach(day => {
       const date = this.formatData(day);
       if (this.currentDate.setHours(0, 0, 0, 0) >= new Date(date).setHours(0, 0, 0, 0)) {
-        this.habitAssignService.getHabitAssignByDate(date).subscribe(habits => {
+        this.habitAssignService.getHabitAssignByDate(date).pipe(
+          take(1)
+        ).subscribe(habits => {
           day.isHabitsTracked = habits.length > 0;
           day.isAllHabitsEnrolled = habits.every(habit => {
             return habit.habitStatusCalendarDtoList.some(enrollDates => {
@@ -149,6 +156,6 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
     this.isHabitsPopUpOpen = this.isHabitsPopUpOpen ? false : null;
     this.isDayTracked = false;
     this.sendEnrollRequest();
-    this.habits2 = [];
+    this.habits = [];
   }
 }
