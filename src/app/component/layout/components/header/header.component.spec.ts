@@ -36,7 +36,8 @@ describe('HeaderComponent', () => {
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.languageSubject = new Subject();
   localStorageServiceMock.getCurrentLanguage = () => mockLang as Language;
-  localStorageServiceMock.accessTokenBehaviourSubject = new BehaviorSubject('1111');
+  localStorageServiceMock.firstNameBehaviourSubject = new BehaviorSubject('true');
+  localStorageServiceMock.accessTokenBehaviourSubject = new BehaviorSubject('true');
   localStorageServiceMock.clear = () => true;
 
   let jwtServiceMock: JwtService;
