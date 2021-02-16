@@ -102,7 +102,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         status => this.isLoggedIn = status
       );
 
-    this.localStorageService.accessTokenBehaviuorSubject
+    this.localStorageService.accessTokenBehaviourSubject
       .pipe(
         takeUntil(this.destroySub)
       ).subscribe(
