@@ -12,7 +12,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class FriendRequestsComponent implements OnInit, OnDestroy {
 
-  public requests: FriendModel[]=null;
+  public requests: FriendModel[] = null;
   public userId: number;
   private destroy$ = new Subject();
   public scroll: boolean;
