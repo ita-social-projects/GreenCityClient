@@ -6,7 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeaderComponent } from './header.component';
-import { BehaviorSubject, of, Subject, Observable } from 'rxjs';
+import { BehaviorSubject, of, Subject, Observable, pipe } from 'rxjs';
 import { Language } from '@language-service/Language';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { UserService } from '@global-service/user/user.service';
