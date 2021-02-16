@@ -1,5 +1,5 @@
 import { headerIcons } from './../../../../image-pathes/header-icons';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -46,6 +46,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private destroySub: Subject<boolean> = new Subject<boolean>();
   public headerImageList = headerIcons;
   public skipPath: string;
+  @ViewChild('signinref', {static: false}) signinref: ElementRef;
+  @ViewChild('signupref', {static: false}) signupref: ElementRef;
+  public elementName;
 
   constructor(
     public dialog: MatDialog,
@@ -57,10 +60,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private habitStatisticService: HabitStatisticService,
     private languageService: LanguageService,
     private searchSearch: SearchService,
-    private userOwnAuthService: UserOwnAuthService,
-  ) { }
+    private userOwnAuthService: UserOwnAuthService) { }
 
   ngOnInit() {
+
+    this.dialog.afterAllClosed
+      .pipe(takeUntil(this.destroySub))
+      .subscribe(() => {
+        this.focusDone();
+      });
+
     this.searchSearch.searchSubject
       .pipe(
         takeUntil(this.destroySub)
@@ -95,6 +104,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
       );
     this.token = this.localStorageService.getAccessToken();
     this.managementLink = `${this.backEndLink}token?accessToken=${this.token}`;
+  }
+
+  public focusDone(): void {
+    if (this.elementName === 'sign-up') { this.signupref.nativeElement.focus(); }
+    if (this.elementName === 'sign-in') { this.signinref.nativeElement.focus(); }
   }
 
   ngOnDestroy() {
@@ -184,6 +198,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public openAuthModalWindow(page: string): void {
+    this.elementName = page;
     this.dialog.open(AuthModalComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
