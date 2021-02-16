@@ -12,11 +12,13 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class FriendRequestsComponent implements OnInit, OnDestroy {
 
-  public requests: FriendModel[];
+  public requests: FriendModel[]=null;
   public userId: number;
   private destroy$ = new Subject();
   public scroll: boolean;
   public currentPage = 0;
+  readonly absent = 'assets/img/noNews.jpg';
+  public noFriends = 'Unfortunately, there are no new requests.';
 
   constructor(private localStorageService: LocalStorageService,
               private userFriendsService: UserFriendsService
