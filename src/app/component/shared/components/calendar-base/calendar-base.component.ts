@@ -28,6 +28,16 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
   public currentMonth = new Date().getMonth();
   public currentYear = new Date().getFullYear();
 
+  public isHabitsPopUpOpen;
+  public habitsCalendarSelectedDate;
+  public selectedDay;
+  public isDayTracked;
+  public habits;
+  public isFetching;
+  public calendarIcons;
+  public checkIfFuture;
+  public toggleEnrollHabit;
+
   public langChangeSub: Subscription;
   public defaultTranslateSub: Subscription;
 

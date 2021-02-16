@@ -56,7 +56,7 @@
            'tracked-day': selectedDay === dayItem.numberOfDate && isDayTracked }"
            (click)="$event.stopPropagation()">
         <span [ngClass]="{ 'calendar-grid-current-day-content': dayItem.isCurrentDayActive,
-                  'calendar-grid-tracked-day-content': dayItem.isHabitsTracked }"
+                  'calendar-grid-tracked-day-content': dayItem.hasHabitsInProgress }"
                   class="calendar-grid-day-content" (click)="checkIfFuture(dayItem)">
           {{ dayItem.numberOfDate }}
         </span>
