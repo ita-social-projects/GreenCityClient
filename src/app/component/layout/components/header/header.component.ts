@@ -41,7 +41,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private adminRoleValue = 'ROLE_ADMIN';
   private userRole: string;
   private userId: number;
-  private token: string;
   private backEndLink = environment.backendLink;
   private destroySub: Subject<boolean> = new Subject<boolean>();
   public headerImageList = headerIcons;
@@ -102,8 +101,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
       ).subscribe(
         status => this.isLoggedIn = status
       );
-    this.token = this.localStorageService.getAccessToken();
-    this.managementLink = `${this.backEndLink}token?accessToken=${this.token}`;
+
+    this.localStorageService.accessTokenBehaviuorSubject
+      .pipe(
+        takeUntil(this.destroySub)
+      ).subscribe(
+        (token) => {
+          this.managementLink = `${this.backEndLink}token?accessToken=${token}`;
+        }
+      );
   }
 
   public focusDone(): void {

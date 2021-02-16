@@ -18,6 +18,7 @@ export class LocalStorageService {
   firstNameBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getName());
   userIdBehaviourSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.getUserId());
   languageBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getCurrentLanguage());
+  accessTokenBehaviuorSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getAccessToken());
 
   constructor() {
   }
@@ -38,8 +39,9 @@ export class LocalStorageService {
     return localStorage.getItem(this.NAME);
   }
 
-  public setAccessToken(refreshToken: string): void {
-    localStorage.setItem(this.ACCESS_TOKEN, refreshToken);
+  public setAccessToken(accessToken: string): void {
+    localStorage.setItem(this.ACCESS_TOKEN, accessToken);
+    this.accessTokenBehaviuorSubject.next(accessToken);
   }
 
   public setRefreshToken(refreshToken: string): void {
