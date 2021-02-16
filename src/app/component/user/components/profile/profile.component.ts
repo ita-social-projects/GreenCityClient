@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { EditProfileModel } from '@user-models/edit-profile.model';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-profile',
@@ -14,14 +15,20 @@ export class ProfileComponent implements OnInit, OnDestroy {
   private langChangeSub: Subscription;
   public userInfo: EditProfileModel;
 
-  constructor(private localStorageService: LocalStorageService,
+  constructor(private announcer: LiveAnnouncer,
+              private localStorageService: LocalStorageService,
               private translate: TranslateService,
               private profileService: ProfileService) { }
 
   ngOnInit() {
+    this.announce();
     this.showUserInfo();
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
+  }
+
+  public announce() {
+    this.announcer.announce('Success, logging you in', 'assertive');
   }
 
   public showUserInfo(): void {

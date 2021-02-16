@@ -1,4 +1,4 @@
-import { LayoutModule } from './../../../layout/layout.module';
+import { LayoutModule } from '../../../layout/layout.module';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -110,7 +110,7 @@ describe('HomepageComponent', () => {
   });
 
   it('check the validity of token', inject([VerifyEmailService], (sevice: VerifyEmailService) => {
-    const spy = spyOn(sevice, 'onCheckToken');
+    const spy = spyOn(sevice, 'onCheckToken').and.returnValue(of({}));
     // @ts-ignore
     component.onCheckToken();
 
