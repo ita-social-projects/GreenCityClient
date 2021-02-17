@@ -76,10 +76,14 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
     }
   }
 
+  public sortHabits(habits: HabitAssignInterface[]): HabitAssignInterface[] {
+    return habits.sort((habit1, habit2) => (habit1.id > habit2.id) ? 1 : -1);
+  }
+
   public getActiveDateHabits(date: string) {
     this.habitAssignService.getHabitAssignByDate(date).pipe(
       take(1),
-      map((habits: HabitAssignInterface[]) => habits.sort((habit1, habit2) => (habit1.id > habit2.id) ? 1 : -1))
+      map((habits: HabitAssignInterface[]) => this.sortHabits(habits))
     ).subscribe((data: HabitAssignInterface[]) => {
       this.habits = [...data];
       this.habits.forEach((habit: HabitAssignInterface) => {
