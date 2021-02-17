@@ -152,7 +152,7 @@ describe('SignIn component', () => {
       });
     }));
 
-    xit('Should call sinIn method', inject([AuthService, GoogleSignInService], (service: AuthService, service2: GoogleSignInService) => {
+    it('Should call sinIn method', inject([AuthService, GoogleSignInService], (service: AuthService, service2: GoogleSignInService) => {
       component.onSignInWithGoogleSuccess = () => true;
       const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseSocialUser);
       spyOn(service2, 'signIn').and.returnValue(of(userSuccessSignIn));
@@ -175,6 +175,7 @@ describe('SignIn component', () => {
 
     it('Should call onSignInFailure with errors', inject([AuthService, GoogleSignInService],
       (service: AuthService, service2: GoogleSignInService) => {
+      component.onSignInWithGoogleSuccess = () => false;
       const errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
       const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseSocialUser).and.callThrough();
       spyOn(service2, 'signIn').and.returnValue(throwError(errors));

@@ -9,11 +9,17 @@ import { NavigationEnd, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
+import { JwtService } from '@global-service/jwt/jwt.service';
 
 describe('AppComponent', () => {
   let fixture;
   let app: AppComponent;
   let router: Router;
+
+  let jwtServiceMock: JwtService;
+  jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole']);
+  jwtServiceMock.getUserRole = () => 'true';
+  jwtServiceMock.userRole$ = new BehaviorSubject('test');
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -26,6 +32,9 @@ describe('AppComponent', () => {
         BrowserModule,
         LayoutModule,
         AppModule
+      ],
+      providers: [
+        { provide: JwtService, useValue: jwtServiceMock }
       ]
     }).compileComponents();
   }));

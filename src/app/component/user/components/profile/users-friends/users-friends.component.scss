@@ -17,7 +17,7 @@ p {
       height: 55px;
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      padding: 25px 0;
 
       p:first-child {
         font-family: var(--secondary-font);
@@ -29,12 +29,14 @@ p {
       }
 
       a:nth-child(2) {
+        width: 30%;
         font-family: var(--secondary-font);
         font-style: normal;
         font-weight: normal;
         font-size: 11px;
         line-height: 13px;
         color: var(--primary-dark-grey);
+        text-align: end;
         text-decoration: none;
       }
 
@@ -75,6 +77,10 @@ p {
 
       .header {
         height: 66px;
+
+        a:nth-child(2) {
+          width: auto;
+        }
       }
 
       .body {

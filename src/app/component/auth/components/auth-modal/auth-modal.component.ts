@@ -8,6 +8,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
   templateUrl: './auth-modal.component.html',
   styleUrls: ['./auth-modal.component.scss']
 })
+
 export class AuthModalComponent implements OnInit {
   public authImages = authImages;
   public authPage: string;
