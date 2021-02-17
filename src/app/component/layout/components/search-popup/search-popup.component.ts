@@ -1,7 +1,7 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { searchIcons } from './../../../../image-pathes/search-icons';
 import { negate, isNil } from 'lodash';
-import { Component, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { FormControl } from '@angular/forms';
