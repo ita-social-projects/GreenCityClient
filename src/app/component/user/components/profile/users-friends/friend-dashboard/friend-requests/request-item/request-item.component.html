@@ -12,7 +12,9 @@
       <p class="request-rate" [ngClass] = "request.profilePicture? 'rate-with-photo': 'rate-without-photo'"></p>
     </div>
     <p class="request-mutual">{{request.mutualFriends}}{{'profile.friends.mutual-friends' | translate}}</p>
-    <p class="request-city">{{request.city}}</p>
+    <p class="request-city">{{request.city}}
+      {{request.rating}}
+    </p>
   </div>
   <div class="request-btn">
     <button (click)="accept(request.id)">{{'profile.friends.request-accept' | translate}}</button>
