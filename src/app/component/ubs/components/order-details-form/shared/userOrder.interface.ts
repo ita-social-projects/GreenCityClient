@@ -1,5 +1,3 @@
-// import { Bag } from "./shared/bag.interface";
-
 import { Bag } from "./bag.interface";
 
 export interface IUserOrder {

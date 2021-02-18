@@ -2,66 +2,55 @@
   <h6>Оберіть послугу</h6>
   <p>Зверніть будь ласка увагу, що замовити можна вивіз мінімум 2 пакетів, тому сума пакетів по трьом послугам має бути
     2, або більше. Полсуга “УБС Кур’єр” передбачає вивіз сміття, а послуга “Безнадійний Одяг” – вивіз одягу.</p>
-  </div>
-  <form class="form" [formGroup]="orderDetailsForm" (ngSubmit)="submit()">
-    <div class="main">
+</div>
+<form class="form" [formGroup]="orderDetailsForm" (ngSubmit)="submit()">
+  <div class="main">
     <div class="col-12 col-sm-4 form-group">
       <label>Послуга</label>
       <input formControlName="bagServiceUbs" class="form-control">
     </div>
-
     <div class="col-12 col-sm-3 form-group">
       <label>Кількість пакетів</label>
       <input formControlName="bagNumUbs" type="number" [class.is-invalid]="orderDetailsForm.get('bagNumUbs').invalid &&
-                                 orderDetailsForm.get('bagNumUbs').touched" min="0" max="999" class="shadow-none form-control"
-        (click)="calc()">
+                                 orderDetailsForm.get('bagNumUbs').touched" min="0" max="999"
+        class="shadow-none form-control" (click)="calc()">
     </div>
     <div class="col-12 col-sm-3 form-group">
       <label>Об'єм пакетів</label>
       <input formControlName="bagSizeUbs" class="form-control">
     </div>
-
     <div class="form-group sum">
       <label>Ціна</label>
       <input formControlName="bagPriceUbs" type="text" class="form-control">
     </div>
-
     <div class="col-12 col-sm-4 form-group">
       <input formControlName="bagServiceClothesXL" class="form-control">
     </div>
-
     <div class="col-12 col-sm-3 form-group">
-      <input formControlName="bagNumClothesXL" type="number" min="0" max="999" class="shadow-none form-control" (click)="calc()">
+      <input formControlName="bagNumClothesXL" type="number" min="0" max="999" class="shadow-none form-control"
+        (click)="calc()">
     </div>
-
     <div class="col-12 col-sm-3 form-group">
       <input formControlName="bagSizeClothesXL" type="text" class="form-control">
     </div>
-
     <div class="form-group sum">
       <input formControlName="bagPriceClothesXL" type="text" class="form-control">
     </div>
-
     <div class="col-12 col-sm-4 form-group">
       <input formControlName="bagServiceClothesM" type="text" class="form-control">
     </div>
-
     <div class="col-12 col-sm-3 form-group">
-      <input formControlName="bagNumClothesM" type="number" min="0" max="999" class="shadow-none form-control" (click)="calc()">
+      <input formControlName="bagNumClothesM" type="number" min="0" max="999" class="shadow-none form-control"
+        (click)="calc()">
     </div>
-
     <div class="col-12 col-sm-3 form-group">
       <input formControlName="bagSizeClothesM" type="text" class="form-control">
     </div>
-
     <div class="form-group sum">
       <input formControlName="bagPriceClothesM" type="text" class="form-control">
     </div>
-
     <div class="middle">
-
       <div class="middle-container">
-
         <div>
           <div class="form-check custom-control custom-radio">
             <input formControlName="bonus" id="customRadio1" value="yes" class="form-check-input custom-control-input"
@@ -77,16 +66,15 @@
             <p>На Вашому бонусному рахунку: {{ points }} грн</p>
           </div>
         </div>
-
         <div class="totalInfo">
           <p> <b><span>{{ showTotal }}</span></b><br>
             <span>{{ showPointsUsed }}</span><br>
             <b><span>{{ finalSum }}</span></b>
           </p>
 
-        <div *ngIf="displayMes" class="validMes">
-          <small class="text-danger">Мінімальна сума замовлення повинна складати 500 грн</small>
-        </div>
+          <div *ngIf="displayMes" class="validMes">
+            <small class="text-danger">Мінімальна сума замовлення повинна складати 500 грн</small>
+          </div>
         </div>
       </div>
 
@@ -94,54 +82,50 @@
         <div class="form-group col-12 col-sm-8">
           <label>Введіть номер сертифіката</label>
           <input formControlName="certificate" class="shadow-none form-control" type="text">
-
         </div>
         <small class="text-danger" [class.d-none]="orderDetailsForm.get('certificate').valid ||
-                                                    orderDetailsForm.get('certificate').untouched">Certificate is
-          required</small>
-
+                                                  orderDetailsForm.get('certificate').untouched">Certificate
+          isrequired</small>
         <div class="form-group">
           <button type="button" class="btn btn-primary">Активувати</button>
         </div>
       </div>
     </div>
+  </div>
+  <div class="bottom">
+    <div class="middle-text">
+      <p>Чи чекаєте Ви замовлення з нашого Еко-магазину?</p>
     </div>
-
-    <div class="bottom">
-      <div class="middle-text">
-        <p>Чи чекаєте Ви замовлення з нашого Еко-магазину?</p>
-
-      </div>
-      <div class="form-check custom-control custom-radio">
-        <input formControlName="shop" id="customRadio3" value="yes" class="form-check-input custom-control-input" type="radio">
-        <label class="form-check-label custom-control-label" for="customRadio3">Так</label>
-      </div>
-      <div class="form-check custom-control custom-radio">
-        <input formControlName="shop" id="customRadio4" value="no" class="form-check-input custom-control-input" type="radio">
-        <label class="form-check-label custom-control-label" for="customRadio4">Ні</label>
-      </div>
-
-      <div *ngIf="displayShop" class="form-group col-12 col-sm-6 bottom_submit">
-        <div class="form-group">
-          <label>Введіть номер замовлення</label>
-          <input formControlName="additionalOrder" class="shadow-none form-control" type="text"
-            [class.is-invalid]="orderDetailsForm.get('additionalOrder').invalid &&
+    <div class="form-check custom-control custom-radio">
+      <input formControlName="shop" id="customRadio3" value="yes" class="form-check-input custom-control-input"
+        type="radio">
+      <label class="form-check-label custom-control-label" for="customRadio3">Так</label>
+    </div>
+    <div class="form-check custom-control custom-radio">
+      <input formControlName="shop" id="customRadio4" value="no" class="form-check-input custom-control-input"
+        type="radio">
+      <label class="form-check-label custom-control-label" for="customRadio4">Ні</label>
+    </div>
+    <div *ngIf="displayShop" class="form-group col-12 col-sm-6 bottom_submit">
+      <div class="form-group">
+        <label>Введіть номер замовлення</label>
+        <input formControlName="additionalOrder" class="shadow-none form-control" type="text" [class.is-invalid]="orderDetailsForm.get('additionalOrder').invalid &&
                                 orderDetailsForm.get('additionalOrder').touched">
-        </div>
-      </div>
-      <div class="bottom-text">
-        <p>Якщо Ви не змогли знайти номер замовлення, вкажіть в коментарі прізвище та ім’я, на які робили замовлення.
-        </p>
       </div>
     </div>
-    <div class="bottom_comment">
+    <div class="bottom-text">
+      <p>Якщо Ви не змогли знайти номер замовлення, вкажіть в коментарі прізвище та ім’я, на які робили замовлення.
+      </p>
+    </div>
+  </div>
+  <div class="bottom_comment">
     <div class="form-group comment">
-        <label>Коментар до замовлення</label>
-        <textarea formControlName="orderComment" class="shadow-none form-control textarea" rows="5"></textarea>
-      </div>
-      <div class="w-100 d-flex justify-content-end">
+      <label>Коментар до замовлення</label>
+      <textarea formControlName="orderComment" class="shadow-none form-control textarea" rows="5"></textarea>
+    </div>
+    <div class="w-100 d-flex justify-content-end">
       <button type="submit" class="btn btn-primary" matStepperNext
         [disabled]="!orderDetailsForm.valid || onSubmit">Далі</button>
-      </div>
     </div>
-  </form>
+  </div>
+</form>

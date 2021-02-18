@@ -13,31 +13,29 @@
     <div class="order-details"><span #clothesMSum>{{ clothesBagMNum * clothesBagMPrice}} грн</span></div>
   </div>
   <hr>
-  <div class="finalCost"><span>{{ubsBagNum * ubsBagPrice + clothesBagXLNum * clothesBagXLPrice + clothesBagMNum * clothesBagMPrice - usedPoints}} грн</span></div>
-  <div class="finalCost"><span>{{ total }}</span></div>
+  <div class="finalCost"><span>{{ubsBagNum * ubsBagPrice + clothesBagXLNum * clothesBagXLPrice + clothesBagMNum *
+      clothesBagMPrice - usedPoints}} грн</span></div>
 </div>
-
 <div class="main">
   <h6>Дані замовника:</h6>
   <div class="personalData">
     <div class="data">
       <ul>
         <li>{{ lastName }} {{ firstName }}</li>
-    <li>{{ email }}</li>
-  <li>{{ mobile }}</li>
-</ul>
-</div>
+        <li>{{ email }}</li>
+        <li>0{{ mobile }}</li>
+      </ul>
+    </div>
     <div class="data">
       <ul>
         <li>{{ city }}</li>
         <li>{{ district }}</li>
-      <li>{{ street }}, {{ housenumber }} {{ houseCorpus }}</li>
-      <li>{{ comment }}</li>
-    </ul>
+        <li><span>вул.{{ street }}, б.{{ houseNumber }}</span></li>
+        <li><span>{{ comment }}</span></li>
+      </ul>
     </div>
   </div>
 </div>
-
 <div class="bottom">
   <h6>Оберіть спосіб оплати</h6>
   <div class="col-12 col-sm-12 form-group bottom-select">
@@ -47,10 +45,6 @@
   </div>
   <div class="w-100 d-flex justify-content-end">
     <button class="secondary-global-button btn" matStepperPrevious>Назад</button>
-    <button
-      type="submit"
-      class="primary-global-button btn"
-      >Замовити</button>
+    <button type="submit" class="primary-global-button btn">Замовити</button>
   </div>
 </div>
-

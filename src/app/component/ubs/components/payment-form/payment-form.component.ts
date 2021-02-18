@@ -36,16 +36,14 @@ export class PaymentFormComponent implements OnInit {
   total: number;
 
   constructor(private shareFormService: ShareFormService,
-              private orderService: OrderService,
-              private fb: FormBuilder) { }
+    private orderService: OrderService,
+    private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.orderService.getOrders()
-    .subscribe(data => {this.orders = data; this.initPaymentData();});
-    this.shareFormService.finalObject.subscribe(order => {this.finalOrder = order; this.initPersonalData();});
+      .subscribe(data => { this.orders = data; this.initPaymentData(); });
+    this.shareFormService.finalObject.subscribe(order => { this.finalOrder = order; this.initPersonalData(); });
     this.paymentForm = this.fb.group({});
-    // this.calc();
-
   }
 
   initPaymentData(): void {
@@ -61,6 +59,7 @@ export class PaymentFormComponent implements OnInit {
     this.ubsBagNum = this.finalOrder.bags[0].amount;
     this.clothesBagXLNum = this.finalOrder.bags[1].amount;
     this.clothesBagMNum = this.finalOrder.bags[2].amount;
+    this.usedPoints = this.finalOrder.pointsToUse;
     this.firstName = this.finalOrder.personalData.firstName;
     this.lastName = this.finalOrder.personalData.lastName;
     this.email = this.finalOrder.personalData.email;
@@ -69,16 +68,8 @@ export class PaymentFormComponent implements OnInit {
     this.district = this.finalOrder.personalData.district;
     this.street = this.finalOrder.personalData.street;
     this.houseNumber = this.finalOrder.personalData.houseNumber;
-    this.houseCorpus - this.finalOrder.personalData.houseCorpus;
+    this.houseCorpus - this.finalOrder.personalData.entranceNumber;
     this.comment = this.finalOrder.personalData.addressComment;
-    this.usedPoints = this.finalOrder.pointsToUse;
-
   }
-
-  // calc(): void {
-  //   this.total = this.ubsBagNum * this.ubsBagPrice +
-  //    this.clothesBagXLNum * this.clothesBagXLPrice +
-  //     this.clothesBagMNum * this.clothesBagMPrice - this.usedPoints
-  // }
 
 }

@@ -77,8 +77,6 @@ export class PersonalDataFormComponent implements OnInit {
       this.region = this.personalData.district;
       this.personalDataForm.get('district').setValue(this.region);
       this.nextDisabled = this.personalDataForm.get('streetAndBuilding').value.length ? false : true;
-
-      // console.log(this.personalData);
     });
   }
 
@@ -103,7 +101,6 @@ export class PersonalDataFormComponent implements OnInit {
   }
 
   onAutocompleteSelected(event): void {
-    // console.log(event);
     const streetName = event.name.split(' ').filter(char => char !== 'вулиця' && char !== 'вул.').join(' ');
     this.personalDataForm.get('streetAndBuilding').setValue(streetName);
     this.region = event.address_components[2].long_name.split(' ')[1] === 'район'
@@ -114,7 +111,6 @@ export class PersonalDataFormComponent implements OnInit {
   }
 
   onDistrictSelected(event): void {
-    // console.log(event);
     this.region = event.address_components[0].long_name.split(' ')[0];
     this.personalDataForm.get('district').setValue(this.region);
     this.districtDisabled = true;
@@ -146,11 +142,9 @@ export class PersonalDataFormComponent implements OnInit {
       latitude: this.latitude,
       longitude: this.longitude
     };
-
     this.order.personalData = personalData;
     this.orderService.processOrder(this.order).subscribe();
     this.shareFormService.thirdStepObject(this.order);
-
   }
 
 }

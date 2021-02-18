@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { ShareFormService } from '../../services/share-form.service';
 import { IOrder } from './order.interface';
-import { Order } from './order.model';
 import { IUserOrder } from './shared/userOrder.interface';
 import { UserOrder } from './shared/userOrder.model';
 
@@ -31,32 +30,32 @@ export class OrderDetailsFormComponent implements OnInit {
   object: {};
 
   constructor(private fb: FormBuilder,
-              private _orderService: OrderService,
-              private _shareFormService: ShareFormService) { }
+    private _orderService: OrderService,
+    private _shareFormService: ShareFormService) { }
 
   ngOnInit(): void {
 
     this._shareFormService.objectSource.subscribe(object => this.object = object);
-    // console.log(this.object);
     this._orderService.getOrders()
-    .subscribe(data => {this.orders = data;
-      // console.log(this.orders);
-     this.initForm();}
+      .subscribe(data => {
+        this.orders = data;
+        this.initForm();
+      }
       );
 
     this.orderDetailsForm = this.fb.group({
-      bagServiceUbs: [{value: '', disabled: true}],
+      bagServiceUbs: [{ value: '', disabled: true }],
       bagNumUbs: [0],
-      bagSizeUbs: [{value: '', disabled: true}],
-      bagPriceUbs: [{value: '', disabled: true}],
-      bagServiceClothesXL: [{value: '', disabled: true}],
+      bagSizeUbs: [{ value: '', disabled: true }],
+      bagPriceUbs: [{ value: '', disabled: true }],
+      bagServiceClothesXL: [{ value: '', disabled: true }],
       bagNumClothesXL: [0, Validators.required],
-      bagSizeClothesXL: [{value: '', disabled: true}],
-      bagPriceClothesXL: [{value: '', disabled: true}],
-      bagServiceClothesM: [{value: '', disabled: true}],
+      bagSizeClothesXL: [{ value: '', disabled: true }],
+      bagPriceClothesXL: [{ value: '', disabled: true }],
+      bagServiceClothesM: [{ value: '', disabled: true }],
       bagNumClothesM: [0],
-      bagSizeClothesM: [{value: '', disabled: true}],
-      bagPriceClothesM: [{value: '', disabled: true}],
+      bagSizeClothesM: [{ value: '', disabled: true }],
+      bagPriceClothesM: [{ value: '', disabled: true }],
       certificate: [''],
       additionalOrder: [''],
       orderComment: [''],
@@ -64,34 +63,18 @@ export class OrderDetailsFormComponent implements OnInit {
       shop: ['no'],
     });
 
-    //  console.log(this.orderDetailsForm.controls);
-
-    //  this.orderDetailsForm.get('bonus').valueChanges
-    // this.orderDetailsForm.controls.bonus.valueChanges
-    // .subscribe(checkedValue => {
-    //   const certificate = this.orderDetailsForm.get('certificate');
-    //   if (checkedValue ==='yes') {
-    //     certificate.setValidators(Validators.required);
-    //     this.displayCert = true;
-    //   } else {
-    //     certificate.clearValidators();
-    //     this.displayCert = false;
-    //   }
-    //   certificate.updateValueAndValidity();
-    // })
-
-      this.orderDetailsForm.get('shop').valueChanges.
+    this.orderDetailsForm.get('shop').valueChanges.
       subscribe(checkedValue => {
-      const additionalOrder = this.orderDetailsForm.get('additionalOrder');
-      if (checkedValue==='yes') {
-        additionalOrder.setValidators(Validators.required);
-        this.displayShop = true;
-      } else {
-        additionalOrder.clearValidators();
-        this.displayShop = false;
-      }
-      additionalOrder.updateValueAndValidity();
-    })
+        const additionalOrder = this.orderDetailsForm.get('additionalOrder');
+        if (checkedValue === 'yes') {
+          additionalOrder.setValidators(Validators.required);
+          this.displayShop = true;
+        } else {
+          additionalOrder.clearValidators();
+          this.displayShop = false;
+        }
+        additionalOrder.updateValueAndValidity();
+      })
   }
 
   initForm(): void {
@@ -113,22 +96,21 @@ export class OrderDetailsFormComponent implements OnInit {
       bagPriceClothesM: `${this.orderDetailsForm.value.bagNumClothesM * this.orders.allBags[2].price} грн`,
     });
     this.total = this.orderDetailsForm.value.bagNumUbs * this.orders.allBags[0].price +
-                 this.orderDetailsForm.value.bagNumClothesXL * this.orders.allBags[1].price +
-                 this.orderDetailsForm.value.bagNumClothesM * this.orders.allBags[2].price;
-                 this.showTotal = `До оплати: ${this.total} грн`;
+      this.orderDetailsForm.value.bagNumClothesXL * this.orders.allBags[1].price +
+      this.orderDetailsForm.value.bagNumClothesM * this.orders.allBags[2].price;
+    this.showTotal = `До оплати: ${this.total} грн`;
     if (this.total < 500) {
       this.displayMes = true;
       this.onSubmit = true;
-    } else {this.displayMes = false; this.onSubmit = false;}
+    } else { this.displayMes = false; this.onSubmit = false; }
   }
 
   calcPoints() {
-     this.showTotal = `Загальна сума: ${this.total} грн`;
-     this.points > this.total ? this.pointsUsed = this.total : this.pointsUsed = this.points;
-     this.showPointsUsed = `Списано балів: ${this.pointsUsed}`;
-     this.points > this.total ? this.points = this.points - this.total : this.points = 0;
-     this.finalSum = `До оплати: ${this.total - this.pointsUsed} грн`;
-
+    this.showTotal = `Загальна сума: ${this.total} грн`;
+    this.points > this.total ? this.pointsUsed = this.total : this.pointsUsed = this.points;
+    this.showPointsUsed = `Списано балів: ${this.pointsUsed}`;
+    this.points > this.total ? this.points = this.points - this.total : this.points = 0;
+    this.finalSum = `До оплати: ${this.total - this.pointsUsed} грн`;
   }
 
   resetPoints() {
@@ -139,17 +121,14 @@ export class OrderDetailsFormComponent implements OnInit {
   }
 
   submit() {
-    let ubs = Object.assign({id: 1, amount: this.orderDetailsForm.value.bagNumUbs});
-    let clothesXL = Object.assign({id: 2, amount: this.orderDetailsForm.value.bagNumClothesXL});
-    let clothesM = Object.assign({id: 3, amount: this.orderDetailsForm.value.bagNumClothesM});
+    let ubs = Object.assign({ id: 1, amount: this.orderDetailsForm.value.bagNumUbs });
+    let clothesXL = Object.assign({ id: 2, amount: this.orderDetailsForm.value.bagNumClothesXL });
+    let clothesM = Object.assign({ id: 3, amount: this.orderDetailsForm.value.bagNumClothesM });
     const newOrder: IUserOrder = new UserOrder([ubs, clothesXL, clothesM],
-
-                                       this.pointsUsed,
-                                       this.orderDetailsForm.value.certificate,
-                                       this.orderDetailsForm.value.additionalOrder,
-                                       this.orderDetailsForm.value.orderComment
-    );
-                                      // console.log(newOrder)
-                                      this._shareFormService.changeObject(newOrder);
+      this.pointsUsed,
+      this.orderDetailsForm.value.certificate,
+      this.orderDetailsForm.value.additionalOrder,
+      this.orderDetailsForm.value.orderComment);
+    this._shareFormService.changeObject(newOrder);
   }
 }
