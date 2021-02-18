@@ -23,6 +23,7 @@ import { GoogleBtnComponent } from '../google-btn/google-btn.component';
 import { ErrorComponent } from '../error/error.component';
 import { SignInComponent } from './sign-in.component';
 import { provideConfig } from 'src/app/config/GoogleAuthConfig';
+import { JwtService } from '@global-service/jwt/jwt.service';
 
 describe('SignIn component', () => {
   let component: SignInComponent;
@@ -41,6 +42,7 @@ describe('SignIn component', () => {
   localStorageServiceMock.setFirstName = () => true;
   localStorageServiceMock.setFirstSignIn = () => true;
   localStorageServiceMock.getUserId = () => 1;
+  localStorageServiceMock.getAccessToken = () => '1';
 
   matDialogMock = jasmine.createSpyObj('MatDialogRef', ['close']);
   matDialogMock.close = () => 'Close the window please';
@@ -75,6 +77,11 @@ describe('SignIn component', () => {
   googleServiceMock = jasmine.createSpyObj('GoogleSignInService', ['signIn']);
   googleServiceMock.signIn = () => of(userSuccessSignIn);
 
+  let jwtServiceMock: JwtService;
+  jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole']);
+  jwtServiceMock.getUserRole = () => 'true';
+  jwtServiceMock.userRole$ = new BehaviorSubject('test');
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [SignInComponent, ErrorComponent, GoogleBtnComponent],
@@ -90,6 +97,7 @@ describe('SignIn component', () => {
         { provide: AuthService, useValue: authServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: AuthServiceConfig, useFactory: provideConfig },
+        { provide: JwtService, useValue: jwtServiceMock },
         { provide: MatDialogRef, useValue: matDialogMock },
         { provide: UserOwnSignInService, useValue: signInServiceMock },
         { provide: Router, useValue: routerSpy },
@@ -144,7 +152,7 @@ describe('SignIn component', () => {
       });
     }));
 
-    xit('Should call sinIn method', inject([AuthService, GoogleSignInService], (service: AuthService, service2: GoogleSignInService) => {
+    it('Should call sinIn method', inject([AuthService, GoogleSignInService], (service: AuthService, service2: GoogleSignInService) => {
       component.onSignInWithGoogleSuccess = () => true;
       const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseSocialUser);
       spyOn(service2, 'signIn').and.returnValue(of(userSuccessSignIn));
@@ -167,6 +175,7 @@ describe('SignIn component', () => {
 
     it('Should call onSignInFailure with errors', inject([AuthService, GoogleSignInService],
       (service: AuthService, service2: GoogleSignInService) => {
+      component.onSignInWithGoogleSuccess = () => false;
       const errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
       const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseSocialUser).and.callThrough();
       spyOn(service2, 'signIn').and.returnValue(throwError(errors));
