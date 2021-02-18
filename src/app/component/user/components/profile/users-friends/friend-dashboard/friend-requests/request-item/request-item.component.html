@@ -9,12 +9,12 @@
   <div class="request-info">
     <div class="main-info" [ngClass] = "request.profilePicture? 'friend-with-photo': 'friend-without-photo'">
       <p class="request-name">{{request.name}}</p>
-      <p class="request-rate" [ngClass] = "request.profilePicture? 'rate-with-photo': 'rate-without-photo'"></p>
+      <p class="request-rate" 
+      [ngClass] = "request.profilePicture? 'rate-with-photo': 'rate-without-photo'"
+      >{{request.rating}}</p>
     </div>
-    <p class="request-mutual">{{request.mutualFriends}}{{'profile.friends.mutual-friends' | translate}}</p>
-    <p class="request-city">{{request.city}}
-      {{request.rating}}
-    </p>
+    <p class="request-mutual">{{request.mutualFriends}} {{'profile.friends.mutual-friends' | translate}}</p>
+    <p class="request-city">{{request.city}}</p>
   </div>
   <div class="request-btn">
     <button (click)="accept(request.id)">{{'profile.friends.request-accept' | translate}}</button>

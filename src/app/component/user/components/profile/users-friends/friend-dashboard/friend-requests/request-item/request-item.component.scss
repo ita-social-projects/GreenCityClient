@@ -35,6 +35,11 @@ button {
   background: $White;
 }
 
+.friend-without-photo {
+  display: flex;
+  flex-direction: row;
+}
+
 .request-with-photo {
   display: flex;
   flex-direction: column;
@@ -47,10 +52,12 @@ button {
 
 .rate-without-photo {
   background: none;
+  align-items: flex-end;
 }
 
 .rate-with-photo {
   background: rgba(19, 170, 87, 0.12);
+  align-items: center;
 
   &::before {
     content: "Rate:";
@@ -79,12 +86,11 @@ button {
   font-weight: 600;
   font-size: 12px;
   line-height: 16px;
-  width: 89px;
+  width: 60px;
   height: 24px;
   border-radius: 4px;
   display: flex;
   justify-content: center;
-  align-items: center;
   color: $Green;
   margin: 2px;
 }
