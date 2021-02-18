@@ -1,6 +1,7 @@
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { searchIcons } from './../../../../image-pathes/search-icons';
 import { negate, isNil } from 'lodash';
-import { Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { FormControl } from '@angular/forms';
@@ -31,17 +32,20 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   public searchValueChanges;
   private currentLanguage: string;
   public searchIcons = searchIcons;
+  public searctabindex: SearchService;
 
   constructor(public search: SearchService,
               public dialog: MatDialog,
               private snackBar: MatSnackBarComponent,
-              private localStorageService: LocalStorageService
+              private localStorageService: LocalStorageService,
+              public announcer: LiveAnnouncer
   ) {}
 
   ngOnInit() {
+
+    this.announce();
     this.setupInitialValue();
     this.searchValueChanges = this.searchInput.valueChanges;
-
     this.searchValueChanges
       .pipe(
         debounceTime(300),
@@ -60,6 +64,10 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
       .pipe(filter(negate(isNil)))
       .subscribe(() => this.resetData());
 
+  }
+
+  public announce() {
+    this.announcer.announce( 'Welcome to the search window', 'assertive' );
   }
 
   public setupInitialValue(): void {

@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { ComponentCanDeactivate } from '@global-service/pending-changes-guard/pending-changes.guard';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
@@ -11,6 +11,8 @@ import { take } from 'rxjs/operators';
   templateUrl: './form-base.component.html'
 })
 export class FormBaseComponent implements ComponentCanDeactivate {
+
+  @ViewChild('formEditProf', {static: false}) formEditProf: ElementRef;
 
   public areChangesSaved = false;
   public initialValues = {};
@@ -63,7 +65,8 @@ export class FormBaseComponent implements ComponentCanDeactivate {
           return true;
         }
       } else {
-        if (body[key] !== this.initialValues[key]) {
+        if (body[key] !== this.initialValues[key]
+          && this.formEditProf.nativeElement.classList.contains('ng-touched')) {
           return true;
         }
       }

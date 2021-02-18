@@ -6,6 +6,7 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
 import { Subject } from 'rxjs';
 import { GoogleSignInService } from '@auth-service/google-sign-in.service';
+import { JwtService } from '@global-service/jwt/jwt.service';
 import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
 import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
 import { SignInIcons } from 'src/app/image-pathes/sign-in-icons';
@@ -14,6 +15,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { takeUntil, take } from 'rxjs/operators';
 import { ProfileService } from '../../../user/components/profile/profile-service/profile.service';
+
 
 @Component({
   selector: 'app-sign-in',
@@ -42,6 +44,7 @@ export class SignInComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private matDialogRef: MatDialogRef<SignInComponent>,
     private userOwnSignInService: UserOwnSignInService,
+    private jwtService: JwtService,
     private router: Router,
     private authService: AuthService,
     private googleService: GoogleSignInService,
@@ -118,6 +121,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   public onSignInWithGoogleSuccess(data: UserSuccessSignIn): void {
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.userOwnAuthService.getDataFromLocalStorage();
+    this.jwtService.userRole$.next(this.jwtService.getUserRole());
     this.router.navigate(['profile', data.userId])
       .then(() => {
         this.localStorageService.setFirstSignIn();
@@ -133,9 +137,11 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   public togglePassword(input: HTMLInputElement, src: HTMLImageElement): void {
-    input.type = input.type === 'password' ? 'text' : 'password';
+    input.type = input.type === 'password' ? 'text'  : 'password';
     src.src = input.type === 'password' ?
-      this.hideShowPasswordImage.hidePassword : this.hideShowPasswordImage.showPassword;
+    this.hideShowPasswordImage.hidePassword  : this.hideShowPasswordImage.showPassword;
+    src.alt = input.type === 'password' ?
+    src.alt = 'show password' : src.alt = 'hide password';
   }
 
   private checkIfUserId(): void {
@@ -156,6 +162,7 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.localStorageService.setFirstName(data.name);
     this.localStorageService.setFirstSignIn();
     this.userOwnAuthService.getDataFromLocalStorage();
+    this.jwtService.userRole$.next(this.jwtService.getUserRole());
     this.router.navigate(['profile', data.userId]);
   }
 
