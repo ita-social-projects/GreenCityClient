@@ -19,12 +19,12 @@
                     emailErrorMessageBackEnd?
             'alert-email-validation':'successful-email-validation'"
           aria-required="true"
-          aria-describedby="errorMes">
-  <div class="validation-email-error" id="errorMes"
+          aria-describedby="email-err-msg" tabindex="0">
+  <div class="validation-email-error" id="email-err-msg"
         *ngIf="emailField.invalid && emailField.touched">
     <app-error [formElement]="emailField"
                [emailFieldValue]="emailFieldValue"
-               [controlName]="'email'"></app-error>
+               [controlName]="'email'" tabindex="0"></app-error>
   </div>
   <div class="validation-email-error"
         *ngIf="emailErrorMessageBackEnd">
@@ -49,24 +49,23 @@
             name="form-control password-signin"
             (input)="configDefaultErrorMessage()"
             aria-required="true"
-            aria-describedby="passErrMes">
+            aria-describedby="pass-err-msg">
     <span class="show-hide-btn"
-          role="button"
-          tabindex="0"
-          aria-label="show password button">
+            role="button" 
+            aria-label="show password button">  
       <img (click)="togglePassword(input, src)"
+            (keydown.enter)="togglePassword(input, src)"
             class="image-show-hide-password"
             [src]="hideShowPasswordImage.hidePassword"
             #src
-            [alt]=""
-            tabindex="0">
+            alt="show-hide-password">
     </span>
   </div>
-  <div class="validation-password-error" id="passErrMes"
+  <div class="validation-password-error" id="pass-err-msg"
         *ngIf="passwordField.invalid && passwordField.touched">
     <app-error [formElement]="passwordField"
                [passwordFieldValue]="passwordFieldValue"
-               [controlName]="'password'"></app-error>
+               [controlName]="'password'" tabindex="0"></app-error>
   </div>
   <div class="validation-password-error"
         *ngIf="passwordErrorMessageBackEnd">
@@ -79,8 +78,8 @@
   <div class="forgot-wrapper">
     <a (click)="onOpenModalWindow('restore-password')"
        (keyup.enter)="onOpenModalWindow('restore-password')"
-       class="forgot-password"
-       tabindex="0">
+        class="forgot-password"
+        tabindex="0">
       {{'user.auth.sign-in.forgot-password' | translate}}</a>
   </div>
   <button class="primary-global-button"
