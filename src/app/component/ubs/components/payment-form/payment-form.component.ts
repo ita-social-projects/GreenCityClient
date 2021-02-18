@@ -33,6 +33,7 @@ export class PaymentFormComponent implements OnInit {
   clothesBagXLPrice: number;
   clothesBagMPrice: number;
   usedPoints: number;
+  total: number;
 
   constructor(private shareFormService: ShareFormService,
               private orderService: OrderService,
@@ -43,6 +44,7 @@ export class PaymentFormComponent implements OnInit {
     .subscribe(data => {this.orders = data; this.initPaymentData();});
     this.shareFormService.finalObject.subscribe(order => {this.finalOrder = order; this.initPersonalData();});
     this.paymentForm = this.fb.group({});
+    // this.calc();
 
   }
 
@@ -61,11 +63,22 @@ export class PaymentFormComponent implements OnInit {
     this.clothesBagMNum = this.finalOrder.bags[2].amount;
     this.firstName = this.finalOrder.personalData.firstName;
     this.lastName = this.finalOrder.personalData.lastName;
+    this.email = this.finalOrder.personalData.email;
+    this.mobile = this.finalOrder.personalData.phoneNumber;
+    this.city = this.finalOrder.personalData.city;
+    this.district = this.finalOrder.personalData.district;
+    this.street = this.finalOrder.personalData.street;
+    this.houseNumber = this.finalOrder.personalData.houseNumber;
+    this.houseCorpus - this.finalOrder.personalData.houseCorpus;
+    this.comment = this.finalOrder.personalData.addressComment;
     this.usedPoints = this.finalOrder.pointsToUse;
+
   }
 
   // calc(): void {
-  //   this.total =
+  //   this.total = this.ubsBagNum * this.ubsBagPrice +
+  //    this.clothesBagXLNum * this.clothesBagXLPrice +
+  //     this.clothesBagMNum * this.clothesBagMPrice - this.usedPoints
   // }
 
 }

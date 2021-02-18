@@ -13,8 +13,8 @@
     <div class="order-details"><span #clothesMSum>{{ clothesBagMNum * clothesBagMPrice}} грн</span></div>
   </div>
   <hr>
-  <div class="finalCost"><span>{{ubsBagNum * ubsBagPrice + clothesBagXLNum * clothesBagXLPrice + clothesBagMNum * clothesBagMPrice}}</span></div>
-  <div class="finalCost"><span>{{ usedPoints }}</span></div>
+  <div class="finalCost"><span>{{ubsBagNum * ubsBagPrice + clothesBagXLNum * clothesBagXLPrice + clothesBagMNum * clothesBagMPrice - usedPoints}} грн</span></div>
+  <div class="finalCost"><span>{{ total }}</span></div>
 </div>
 
 <div class="main">
