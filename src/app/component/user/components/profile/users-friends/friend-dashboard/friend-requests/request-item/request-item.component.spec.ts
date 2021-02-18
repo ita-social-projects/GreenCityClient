@@ -32,7 +32,7 @@ describe('RequestItemComponent', () => {
       name: 'Name',
       profilePicture: '',
       added: true,
-      rating:380
+      rating: 380
     };
     fixture.detectChanges();
   });
