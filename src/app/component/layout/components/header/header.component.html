@@ -75,22 +75,20 @@
         <div class="header_navigation-menu-right">
           <ul class="header_navigation-menu-right-list">
             <!-- Search icon -->
-            <li *ngIf="!isAllSearchOpen" class="search-icon" role="internal search"
-            tabindex="0" aria-label="site search"
-            >
-              <img (click)="toggleSearchPage()" (keyup.enter)="toggleSearchPage()"
-                [src]="headerImageList.search" alt="Internal search" aria-hidden="true"
-                >
+            <li *ngIf="!isAllSearchOpen" class="search-icon" role="internal search" aria-label="site search"
+                (click)="toggleSearchPage()" (keydown.enter)="toggleSearchPage()" tabindex="0">
+              <img [src]="headerImageList.search" alt="Internal search button"
+                aria-hidden="true">
             </li>
             <!-- Lang switcher -->
-            <ul tabindex="0" [ngClass]="{'add-shadow': langDropdownVisible,
+            <ul [ngClass]="{'add-shadow': langDropdownVisible, 
                           'header_lang-switcher-wrp header_navigation-menu-right-list': true}"
               (click)="langDropdownVisible = !langDropdownVisible"
               (keyup.enter)="langDropdownVisible = !langDropdownVisible" appCloseDropdown
-              (clickOutSide)="autoCloseLangDropDown($event)" role="Language switcher">
+              (clickOutSide)="autoCloseLangDropDown($event)" aria-label="language switcher" tabindex="0">
               <li>
-              {{arrayLang[0].lang}}
-                <img [src]="headerImageList.arrowDown" alt="language switch"
+                {{arrayLang[0].lang}}
+                <img [src]="headerImageList.arrowDown" alt="language switcher" aria-hidden="true"
                   [ngClass]="langDropdownVisible ? 'header_arrow reverse' : 'header_arrow'">
               </li>
               <ng-container *ngIf="langDropdownVisible">
@@ -105,7 +103,7 @@
               <ul id="header_user-wrp" appCloseDropdown (clickOutSide)="autoCloseUserDropDown($event)" [ngClass]="{'d-none': toggleBurgerMenu,
                               'add-shadow': dropdownVisible}" role='management dropdown'>
                 <li class="tertiary-global-button" role="user name">
-                  <a tabindex="0" (click)="toggleDropdown()" (keyup.enter)="toggleDropdown()" class="header_user-name">
+                  <a (click)="toggleDropdown()" (keyup.enter)="toggleDropdown()" class="header_user-name"  tabindex="0">
                     <span>{{ name }}</span>
                     <img [src]="headerImageList.arrowDownGreen" alt="arrow down icon"
                       [ngClass]="dropdownVisible ? 'header_arrow reverse' : 'header_arrow'">
