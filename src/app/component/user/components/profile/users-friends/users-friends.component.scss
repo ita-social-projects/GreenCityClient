@@ -66,6 +66,7 @@ p {
       color: var(--primary-dark-grey);
     }
   }
+
   .friends-images {
     margin: 0 auto;
     display: flex;
@@ -74,11 +75,11 @@ p {
     width: 85%;
     box-sizing: border-box;
     padding: 0;
+
     .ng-star-inserted {
       width: 60px;
     }
   }
-
 
   .friend-name {
     font-size: 10px;
@@ -145,7 +146,6 @@ p {
 
     a {
       color: #13aa57;
-
 
       &:hover {
         text-decoration: none;
