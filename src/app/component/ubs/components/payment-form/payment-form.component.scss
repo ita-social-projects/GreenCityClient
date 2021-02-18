@@ -1,0 +1,56 @@
+.header,
+.main {
+  width: 100%;
+  background:  #F7F9FA;
+  margin-top: 2rem;
+  padding: 30px 20px;
+  margin-bottom: 3rem;
+}
+
+.header {
+  margin-top: 3rem;
+}
+
+.order {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding-top: 2rem;
+}
+
+.finalCost {
+  text-align: end;
+}
+
+.personalData {
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
+}
+
+ul {
+  list-style: none;
+}
+
+.bottom-select {
+  padding: 0;
+  margin-bottom: 2rem;
+}
+
+select,
+button {
+  height: 3rem;
+  border-radius: 0;
+}
+
+.btn {
+  width: 120px;
+  height: 48px;
+  border-radius: 0;
+  background: var(--primary-green);
+}
+
+.btn:nth-child(1) {
+  margin: 0 24px 0 0;
+  background: var(--primary-grey);
+}

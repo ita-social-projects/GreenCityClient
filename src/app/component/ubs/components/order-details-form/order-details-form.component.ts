@@ -7,9 +7,6 @@ import { Order } from './order.model';
 import { IUserOrder } from './shared/userOrder.interface';
 import { UserOrder } from './shared/userOrder.model';
 
-// import { passwordValidator } from './password-validator';
-// import { wrongAmountValidator } from './shared/form-validator';
-
 @Component({
   selector: 'app-order-details-form',
   templateUrl: './order-details-form.component.html',
@@ -27,7 +24,7 @@ export class OrderDetailsFormComponent implements OnInit {
   displayMes: boolean = false;
   displayCert: boolean = false;
   displayShop: boolean = false;
-  subBtn: boolean = true;
+  onSubmit: boolean = true;
   order: {};
   orders: IOrder;
   userOrder: IUserOrder;
@@ -48,40 +45,40 @@ export class OrderDetailsFormComponent implements OnInit {
       );
 
     this.orderDetailsForm = this.fb.group({
-      bagServiceUbs: [''],
+      bagServiceUbs: [{value: '', disabled: true}],
       bagNumUbs: [0],
-      bagSizeUbs: [''],
-      bagPriceUbs: [''],
-      bagServiceClothesXL: [],
+      bagSizeUbs: [{value: '', disabled: true}],
+      bagPriceUbs: [{value: '', disabled: true}],
+      bagServiceClothesXL: [{value: '', disabled: true}],
       bagNumClothesXL: [0, Validators.required],
-      bagSizeClothesXL: [''],
-      bagPriceClothesXL: [''],
-      bagServiceClothesM: [],
+      bagSizeClothesXL: [{value: '', disabled: true}],
+      bagPriceClothesXL: [{value: '', disabled: true}],
+      bagServiceClothesM: [{value: '', disabled: true}],
       bagNumClothesM: [0],
-      bagSizeClothesM: [''],
-      bagPriceClothesM: [''],
+      bagSizeClothesM: [{value: '', disabled: true}],
+      bagPriceClothesM: [{value: '', disabled: true}],
       certificate: [''],
       additionalOrder: [''],
       orderComment: [''],
       bonus: ['no'],
-      shop: ['no']
+      shop: ['no'],
     });
 
     //  console.log(this.orderDetailsForm.controls);
 
-     this.orderDetailsForm.get('bonus').valueChanges
+    //  this.orderDetailsForm.get('bonus').valueChanges
     // this.orderDetailsForm.controls.bonus.valueChanges
-    .subscribe(checkedValue => {
-      const certificate = this.orderDetailsForm.get('certificate');
-      if (checkedValue==='yes') {
-        certificate.setValidators(Validators.required);
-        this.displayCert = true;
-      } else {
-        certificate.clearValidators();
-        this.displayCert = false;
-      }
-      certificate.updateValueAndValidity();
-    })
+    // .subscribe(checkedValue => {
+    //   const certificate = this.orderDetailsForm.get('certificate');
+    //   if (checkedValue ==='yes') {
+    //     certificate.setValidators(Validators.required);
+    //     this.displayCert = true;
+    //   } else {
+    //     certificate.clearValidators();
+    //     this.displayCert = false;
+    //   }
+    //   certificate.updateValueAndValidity();
+    // })
 
       this.orderDetailsForm.get('shop').valueChanges.
       subscribe(checkedValue => {
@@ -93,6 +90,7 @@ export class OrderDetailsFormComponent implements OnInit {
         additionalOrder.clearValidators();
         this.displayShop = false;
       }
+      additionalOrder.updateValueAndValidity();
     })
   }
 
@@ -120,8 +118,8 @@ export class OrderDetailsFormComponent implements OnInit {
                  this.showTotal = `До оплати: ${this.total} грн`;
     if (this.total < 500) {
       this.displayMes = true;
-      this.subBtn = true;
-    } else {this.displayMes = false; this.subBtn = false;}
+      this.onSubmit = true;
+    } else {this.displayMes = false; this.onSubmit = false;}
   }
 
   calcPoints() {
@@ -140,7 +138,7 @@ export class OrderDetailsFormComponent implements OnInit {
     this.points = this.orders.points;
   }
 
-  addOrder() {
+  submit() {
     let ubs = Object.assign({id: 1, amount: this.orderDetailsForm.value.bagNumUbs});
     let clothesXL = Object.assign({id: 2, amount: this.orderDetailsForm.value.bagNumClothesXL});
     let clothesM = Object.assign({id: 3, amount: this.orderDetailsForm.value.bagNumClothesM});
@@ -153,10 +151,5 @@ export class OrderDetailsFormComponent implements OnInit {
     );
                                       // console.log(newOrder)
                                       this._shareFormService.changeObject(newOrder);
-
   }
-
-  // onSubmit() {
-  //   console.log(this.orderDetailsForm.value);
-  // }
 }

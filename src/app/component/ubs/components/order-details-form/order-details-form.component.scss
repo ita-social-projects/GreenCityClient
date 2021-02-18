@@ -1,14 +1,18 @@
-.container {
-  margin: 50px auto;
-  background-color: #F7F9FA;
+.header {
+  width: 100%;
+  background:  #F7F9FA;
+  margin-top: 2rem;
   padding: 30px 20px;
 }
 
-.form {
-  padding-top: 20px;
+.main {
+  width: 100%;
+  background-color: #F7F9FA;
+  padding: 0 20px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin-bottom: 3rem;
 }
 
 label {
@@ -16,47 +20,83 @@ label {
   font-size: 14px;
 }
 
-button {
+.form-group {
+  padding: 0;
+}
+
+.form-control {
+  height: 3rem;
+  background: #fff;
+  border-radius: 0;
+}
+
+.custom-control-label {
+  padding-top: 3px;
+}
+
+.custom-control-label::before {
+  background-color: #fff;
+}
+
+.custom-radio .custom-control-input:checked~.custom-control-label::before,
+.custom-radio .custom-control-input:checked~.custom-control-label::after {
+    background-color: var(--primary-green);
+    border-radius: 50%;
+  }
+
+.sum {
+  width: 6rem;
+  text-align: center;
+  .form-control {
+    border: none;
+    background: none;
+    padding-left: 2rem;
+    padding-right: 0;
+  }
+}
+
+button{
+  width: 9rem;
+  height: 3rem;
+  border-radius: 0;
+  background: var(--primary-grey);
+  border: none;
+}
+
+button:hover {
   background: var(--primary-green);
 }
 
-.form-group {
-  width: 22%;
+.middle-container {
+  display: flex;
+  justify-content: space-between;
 }
 
-.service {
-  width: 30%;
-}
-
-.middle, .bottom {
+.middle {
   width: 100%;
   border-top: 1px solid #D8D8D8;
   margin-top: 10px;
   padding: 30px 0;
   justify-content: space-between;
 
-  small {
-    margin-left: 700px;
-  }
-
 }
 
-.middle-text {
-  display: flex;
-  justify-content: space-between;
-   div{
-     padding-right: 9em;
+.totalInfo {
+  text-align: end;
+   p {
+     margin: 0;
+   }
+   .validMes {
+     margin-top: -1.5rem;
    }
 }
-
-
 
 .p {
   margin-top: 30px;
 }
 
 .middle_submit {
-  width: 50%;
+  width: 60%;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -65,31 +105,57 @@ button {
     margin-left: 0px;
   }
 
-  .form-control{
-    width: 350px;
-
-  }
-
   label {
     width: 300px;
   }
 
   button{
-    width: 200px;
+    width: 9rem;
+    height: 3rem;
+    border-radius: 0;
+    background: var(--primary-grey);
+    border: none;
   }
+
+  button:hover {
+    background: var(--primary-green);
+  }
+
+}
+
+.bottom_submit {
+  margin-top: 1rem;
+}
+
+.bottom-text {
+  margin-top: 2rem;
+}
+
+.comment {
+  background: white;
+}
+
+.bottom_comment {
+  background: white;
+  button {
+    width: 120px;
+    height: 3rem;
+    border-radius: 0;
+    background: var(--primary-grey);
+    border: none;
+   }
+   button:hover {
+     background: var(--primary-green);
+   }
 }
 
 .bottom {
-  border-top: 50px solid white;
+  background:  #F7F9FA;
+  padding: 30px 20px;
+  margin-bottom: 2rem;
+}
 
-  textarea {
-    width: 1000px;
-  }
-
-  button {
-   width: 120px;
-   margin-left: 880px;
-  }
-
+.textarea {
+  height: 6rem;
 }
 

@@ -1,0 +1,56 @@
+<div class="header">
+  <h6>Ваше замовлення:</h6>
+  <div class="order">
+    <div class="order-details"><span>{{ ubsBag }}</span><span> ({{ ubsBagNum }} пакети)</span></div>
+    <div class="order-details"><span #ubsSum>{{ ubsBagNum * ubsBagPrice }} грн</span></div>
+  </div>
+  <div class="order">
+    <div class="order-details"><span>{{ clothesBagXL }}</span><span> ({{ clothesBagXLNum }} пакети)</span></div>
+    <div class="order-details"><span #clothesXLSum>{{ clothesBagXLNum * clothesBagXLPrice }} грн</span></div>
+  </div>
+  <div class="order">
+    <div class="order-details"><span>{{ clothesBagM }}</span><span> ({{ clothesBagMNum }} пакети)</span></div>
+    <div class="order-details"><span #clothesMSum>{{ clothesBagMNum * clothesBagMPrice}} грн</span></div>
+  </div>
+  <hr>
+  <div class="finalCost"><span>{{ubsBagNum * ubsBagPrice + clothesBagXLNum * clothesBagXLPrice + clothesBagMNum * clothesBagMPrice}}</span></div>
+  <div class="finalCost"><span>{{ usedPoints }}</span></div>
+</div>
+
+<div class="main">
+  <h6>Дані замовника:</h6>
+  <div class="personalData">
+    <div class="data">
+      <ul>
+        <li>{{ lastName }} {{ firstName }}</li>
+    <li>{{ email }}</li>
+  <li>{{ mobile }}</li>
+</ul>
+</div>
+    <div class="data">
+      <ul>
+        <li>{{ city }}</li>
+        <li>{{ district }}</li>
+      <li>{{ street }}, {{ housenumber }} {{ houseCorpus }}</li>
+      <li>{{ comment }}</li>
+    </ul>
+    </div>
+  </div>
+</div>
+
+<div class="bottom">
+  <h6>Оберіть спосіб оплати</h6>
+  <div class="col-12 col-sm-12 form-group bottom-select">
+    <select class="shadow-none form-control">
+      <option value="Kyiv">Карткою через LiqPay</option>
+    </select>
+  </div>
+  <div class="w-100 d-flex justify-content-end">
+    <button class="secondary-global-button btn" matStepperPrevious>Назад</button>
+    <button
+      type="submit"
+      class="primary-global-button btn"
+      >Замовити</button>
+  </div>
+</div>
+

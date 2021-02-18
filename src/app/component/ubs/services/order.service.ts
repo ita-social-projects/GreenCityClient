@@ -21,7 +21,7 @@ export class OrderService {
   }
 
   processOrder(order: FinalOrder): Observable<FinalOrder> {
-    return this.http.post<FinalOrder>(`${this._url}/ubs/processOrder`, order);
+    return this.http.post<FinalOrder>(`${this._url}/processOrder`, order);
   }
 
 }

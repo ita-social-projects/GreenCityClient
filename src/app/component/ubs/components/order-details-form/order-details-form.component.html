@@ -1,97 +1,99 @@
-<div class="container">
-  <h5> {{ message }} Оберіть послугу</h5>
+<div class="header">
+  <h6>Оберіть послугу</h6>
   <p>Зверніть будь ласка увагу, що замовити можна вивіз мінімум 2 пакетів, тому сума пакетів по трьом послугам має бути
     2, або більше. Полсуга “УБС Кур’єр” передбачає вивіз сміття, а послуга “Безнадійний Одяг” – вивіз одягу.</p>
-
-  <!-- {{ orderDetailsForm.value | json }} -->
-
-  <form class="form" [formGroup]="orderDetailsForm">
-
-    <div class="form-group" class="service">
+  </div>
+  <form class="form" [formGroup]="orderDetailsForm" (ngSubmit)="submit()">
+    <div class="main">
+    <div class="col-12 col-sm-4 form-group">
       <label>Послуга</label>
-      <input formControlName="bagServiceUbs" class="form-control" disabled style="background: white;">
+      <input formControlName="bagServiceUbs" class="form-control">
     </div>
 
-    <div class="form-group">
+    <div class="col-12 col-sm-3 form-group">
       <label>Кількість пакетів</label>
-      <input [class.is-invalid]="orderDetailsForm.get('bagNumUbs').invalid &&
-                                 orderDetailsForm.get('bagNumUbs').touched" formControlName="bagNumUbs" type="number"
-        min="0" max="999" class="form-control" (click)="calc()">
+      <input formControlName="bagNumUbs" type="number" [class.is-invalid]="orderDetailsForm.get('bagNumUbs').invalid &&
+                                 orderDetailsForm.get('bagNumUbs').touched" min="0" max="999" class="shadow-none form-control"
+        (click)="calc()">
     </div>
-    <div class="form-group">
+    <div class="col-12 col-sm-3 form-group">
       <label>Об'єм пакетів</label>
-      <input formControlName="bagSizeUbs" class="form-control" disabled style="background: white;">
+      <input formControlName="bagSizeUbs" class="form-control">
     </div>
 
-    <div class="form-group">
-      <label></label>
-      <input formControlName="bagPriceUbs" type="text" class="form-control" disabled
-        style="padding-left:2em;background: transparent; border: none;">
+    <div class="form-group sum">
+      <label>Ціна</label>
+      <input formControlName="bagPriceUbs" type="text" class="form-control">
     </div>
 
-    <div class="form-group" class="service">
-      <input formControlName="bagServiceClothesXL" class="form-control" disabled style="background: white;">
+    <div class="col-12 col-sm-4 form-group">
+      <input formControlName="bagServiceClothesXL" class="form-control">
     </div>
 
-    <div class="form-group">
-      <input formControlName="bagNumClothesXL" type="number" min="0" max="999" class="form-control" (click)="calc()">
+    <div class="col-12 col-sm-3 form-group">
+      <input formControlName="bagNumClothesXL" type="number" min="0" max="999" class="shadow-none form-control" (click)="calc()">
     </div>
 
-    <div class="form-group">
-      <input formControlName="bagSizeClothesXL" type="text" class="form-control" disabled style="background: white;">
+    <div class="col-12 col-sm-3 form-group">
+      <input formControlName="bagSizeClothesXL" type="text" class="form-control">
     </div>
 
-    <div class="form-group">
-      <input formControlName="bagPriceClothesXL" type="text" class="form-control" disabled
-        style="padding-left:2em;background: transparent; border: none;">
+    <div class="form-group sum">
+      <input formControlName="bagPriceClothesXL" type="text" class="form-control">
     </div>
 
-    <div class="form-group" class="service">
-      <input formControlName="bagServiceClothesM" type="text" class="form-control" disabled style="background: white;">
+    <div class="col-12 col-sm-4 form-group">
+      <input formControlName="bagServiceClothesM" type="text" class="form-control">
     </div>
 
-    <div class="form-group">
-      <input formControlName="bagNumClothesM" type="number" min="0" max="999" class="form-control" (click)="calc()">
+    <div class="col-12 col-sm-3 form-group">
+      <input formControlName="bagNumClothesM" type="number" min="0" max="999" class="shadow-none form-control" (click)="calc()">
     </div>
 
-    <div class="form-group">
-      <input formControlName="bagSizeClothesM" type="text" class="form-control" disabled style="background: white;">
+    <div class="col-12 col-sm-3 form-group">
+      <input formControlName="bagSizeClothesM" type="text" class="form-control">
     </div>
 
-    <div class="form-group">
-      <input formControlName="bagPriceClothesM" type="text" class="form-control" disabled
-        style="padding-left:2em;background: transparent; border: none;">
+    <div class="form-group sum">
+      <input formControlName="bagPriceClothesM" type="text" class="form-control">
     </div>
 
     <div class="middle">
-      <div class="middle-text">
-        <p>Чи бажаєте Ви скористатися бонусами?</p>
+
+      <div class="middle-container">
+
         <div>
+          <div class="form-check custom-control custom-radio">
+            <input formControlName="bonus" id="customRadio1" value="yes" class="form-check-input custom-control-input"
+              type="radio" (click)="calcPoints()">
+            <label class="form-check-label custom-control-label" for="customRadio1">Так</label>
+          </div>
+          <div class="form-check custom-control custom-radio">
+            <input formControlName="bonus" id="customRadio2" value="no" class="form-check-input custom-control-input"
+              type="radio" (click)="resetPoints()">
+            <label class="form-check-label custom-control-label" for="customRadio2">Ні</label>
+          </div>
+          <div class="p">
+            <p>На Вашому бонусному рахунку: {{ points }} грн</p>
+          </div>
+        </div>
+
+        <div class="totalInfo">
           <p> <b><span>{{ showTotal }}</span></b><br>
             <span>{{ showPointsUsed }}</span><br>
             <b><span>{{ finalSum }}</span></b>
           </p>
+
+        <div *ngIf="displayMes" class="validMes">
+          <small class="text-danger">Мінімальна сума замовлення повинна складати 500 грн</small>
         </div>
-      </div>
-      <div *ngIf="displayMes">
-        <small class="text-danger">Мінімальна сума замовлення повинна складати 500 грн</small>
-      </div>
-      <div class="form-check">
-        <input formControlName="bonus" value="yes" class="form-check-input" type="radio" (click)="calcPoints()">
-        <label class="form-check-label">Так</label>
-      </div>
-      <div class="form-check">
-        <input formControlName="bonus" value="no" class="form-check-input" type="radio" (click)="resetPoints()">
-        <label class="form-check-label">Ні</label>
-      </div>
-      <div class="p">
-        <p>На Вашому бонусному рахунку: {{ points }} грн</p>
+        </div>
       </div>
 
       <div class="middle_submit">
-        <div class="form-group cert">
+        <div class="form-group col-12 col-sm-8">
           <label>Введіть номер сертифіката</label>
-          <input formControlName="certificate" class="form-control" type="text">
+          <input formControlName="certificate" class="shadow-none form-control" type="text">
 
         </div>
         <small class="text-danger" [class.d-none]="orderDetailsForm.get('certificate').valid ||
@@ -103,43 +105,43 @@
         </div>
       </div>
     </div>
+    </div>
 
     <div class="bottom">
       <div class="middle-text">
         <p>Чи чекаєте Ви замовлення з нашого Еко-магазину?</p>
 
       </div>
-      <div class="form-check">
-        <input formControlName="shop" value="yes" class="form-check-input" type="radio">
-        <label class="form-check-label">Так</label>
+      <div class="form-check custom-control custom-radio">
+        <input formControlName="shop" id="customRadio3" value="yes" class="form-check-input custom-control-input" type="radio">
+        <label class="form-check-label custom-control-label" for="customRadio3">Так</label>
       </div>
-      <div class="form-check">
-        <input formControlName="shop" value="no" class="form-check-input" type="radio">
-        <label class="form-check-label">Ні</label>
+      <div class="form-check custom-control custom-radio">
+        <input formControlName="shop" id="customRadio4" value="no" class="form-check-input custom-control-input" type="radio">
+        <label class="form-check-label custom-control-label" for="customRadio4">Ні</label>
       </div>
 
-      <div *ngIf="displayShop" class="middle_submit">
-        <div class="form-group cert">
-          <label>Введіть номер замовлення</label>
-          <input formControlName="additionalOrder" class="form-control" type="text"
-            [class.is-invalid]="orderDetailsForm.get('additionalOrder').invalid &&
-                                                                                    orderDetailsForm.get('additionalOrder').touched">
-        </div>
+      <div *ngIf="displayShop" class="form-group col-12 col-sm-6 bottom_submit">
         <div class="form-group">
-          <button type="button" class="btn btn-primary">Активувати</button>
+          <label>Введіть номер замовлення</label>
+          <input formControlName="additionalOrder" class="shadow-none form-control" type="text"
+            [class.is-invalid]="orderDetailsForm.get('additionalOrder').invalid &&
+                                orderDetailsForm.get('additionalOrder').touched">
         </div>
       </div>
-      <div class="middle-text">
+      <div class="bottom-text">
         <p>Якщо Ви не змогли знайти номер замовлення, вкажіть в коментарі прізвище та ім’я, на які робили замовлення.
         </p>
       </div>
-
-      <div class="form-group">
+    </div>
+    <div class="bottom_comment">
+    <div class="form-group comment">
         <label>Коментар до замовлення</label>
-        <textarea formControlName="orderComment" class="form-control" rows="5"></textarea>
+        <textarea formControlName="orderComment" class="shadow-none form-control textarea" rows="5"></textarea>
       </div>
-      <button [disabled]="!orderDetailsForm.valid" class="btn btn-primary" (click)="addOrder()"
-        matStepperNext>Далі</button>
+      <div class="w-100 d-flex justify-content-end">
+      <button type="submit" class="btn btn-primary" matStepperNext
+        [disabled]="!orderDetailsForm.valid || onSubmit">Далі</button>
+      </div>
     </div>
   </form>
-</div>

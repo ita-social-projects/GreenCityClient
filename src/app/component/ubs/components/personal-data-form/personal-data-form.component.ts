@@ -30,19 +30,19 @@ export class PersonalDataFormComponent implements OnInit {
   ngOnInit(): void {
     this.shareFormService.objectSource.subscribe(order => this.order = order)
     this.personalDataForm = this.fb.group({
-      firstName: [null, [
+      firstName: ['', [
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(30),
         Validators.pattern(/^[A-Za-zА-Яа-яїієё\.\'\-\\]+$/)
       ]],
-      lastName: [null, [
+      lastName: ['', [
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(30),
         Validators.pattern(/^[A-Za-zА-Яа-яїієё\.\'\-\\]+$/)
       ]],
-      email: [null, [
+      email: ['', [
         Validators.required,
         Validators.email
       ]],
@@ -51,22 +51,22 @@ export class PersonalDataFormComponent implements OnInit {
         Validators.minLength(12)
       ]],
       city: ['Київ', Validators.required],
-      district: [null, Validators.required],
+      district: ['', Validators.required],
       streetAndBuilding: ['', [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(40),
         Validators.pattern(/^[A-Za-zА-Яа-яїієё0-9\'\,\-\ \\]+$/)
       ]],
-      houseCorpus: [null, [
+      houseCorpus: ['', [
         Validators.maxLength(2),
         Validators.pattern(/^[A-Za-zА-Яа-яїієё0-9]+$/)
       ]],
-      entranceNumber: [null, [
+      entranceNumber: ['', [
         Validators.maxLength(2),
         Validators.pattern(/^-?(0|[1-9]\d*)?$/)
       ]],
-      addressComment: [null, Validators.maxLength(170)]
+      addressComment: ['', Validators.maxLength(170)]
     });
 
     this.orderService.getPersonalData().subscribe((data: PersonalData[]) => {
@@ -78,7 +78,7 @@ export class PersonalDataFormComponent implements OnInit {
       this.personalDataForm.get('district').setValue(this.region);
       this.nextDisabled = this.personalDataForm.get('streetAndBuilding').value.length ? false : true;
 
-      console.log(this.personalData);
+      // console.log(this.personalData);
     });
   }
 
@@ -103,7 +103,7 @@ export class PersonalDataFormComponent implements OnInit {
   }
 
   onAutocompleteSelected(event): void {
-    console.log(event);
+    // console.log(event);
     const streetName = event.name.split(' ').filter(char => char !== 'вулиця' && char !== 'вул.').join(' ');
     this.personalDataForm.get('streetAndBuilding').setValue(streetName);
     this.region = event.address_components[2].long_name.split(' ')[1] === 'район'
@@ -114,7 +114,7 @@ export class PersonalDataFormComponent implements OnInit {
   }
 
   onDistrictSelected(event): void {
-    console.log(event);
+    // console.log(event);
     this.region = event.address_components[0].long_name.split(' ')[0];
     this.personalDataForm.get('district').setValue(this.region);
     this.districtDisabled = true;
@@ -149,6 +149,8 @@ export class PersonalDataFormComponent implements OnInit {
 
     this.order.personalData = personalData;
     this.orderService.processOrder(this.order).subscribe();
+    this.shareFormService.thirdStepObject(this.order);
+
   }
 
 }
