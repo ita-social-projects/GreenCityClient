@@ -121,6 +121,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   public onSignInWithGoogleSuccess(data: UserSuccessSignIn): void {
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.userOwnAuthService.getDataFromLocalStorage();
+    this.jwtService.userRole$.next(this.jwtService.getUserRole());
     this.router.navigate(['profile', data.userId])
       .then(() => {
         this.localStorageService.setFirstSignIn();
