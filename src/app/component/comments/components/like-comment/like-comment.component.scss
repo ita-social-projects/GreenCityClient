@@ -40,6 +40,16 @@
   }
 }
 
+@media screen and (max-width: 992px) {
+  .main-wrapper {
+    .cta-btn {
+      .btn-text {
+        font-size: 12px;
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 575px) {
   .main-wrapper {
     padding-left: 30px;
