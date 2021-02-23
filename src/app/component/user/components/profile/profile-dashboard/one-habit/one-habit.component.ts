@@ -12,9 +12,8 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 export class OneHabitComponent implements OnInit {
   @Input() habit: HabitAssignInterface;
   currentDate: string;
-  showCalendar: boolean;
   showPhoto: boolean;
-  daysCounter: string;
+  daysCounter: number;
   habitMark: string;
   isRequest = false;
   backgroundImage = 'assets/img/man.svg';
@@ -23,24 +22,21 @@ export class OneHabitComponent implements OnInit {
 
   private descriptionType = {
     acquired: () => {
-      this.showCalendar = true;
-      this.daysCounter = this.habit.duration.toString();
+      this.daysCounter = this.habit.duration;
       this.showPhoto = false;
       this.habitMark = 'star';
     },
     done: () => {
-      this.showCalendar = false;
       this.daysCounter = this.habit.workingDays
-        ? `${this.habit.workingDays}/${this.habit.duration}`
-        : this.habit.duration.toString();
+        ? this.habit.workingDays
+        : this.habit.duration;
       this.showPhoto = false;
       this.habitMark = 'mark';
     },
     undone: () => {
-      this.showCalendar = true;
       this.daysCounter = this.habit.workingDays
-        ? `${this.habit.workingDays}/${this.habit.duration}`
-        : this.habit.duration.toString();
+        ? this.habit.workingDays
+        : this.habit.duration;
       this.showPhoto = true;
       this.habitMark = 'plus';
     }
