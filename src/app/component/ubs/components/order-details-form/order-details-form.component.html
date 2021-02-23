@@ -5,49 +5,66 @@
 </div>
 <form class="form" [formGroup]="orderDetailsForm" (ngSubmit)="submit()">
   <div class="main">
-    <div class="col-12 col-sm-4 form-group">
+    <div class="col-12 col-sm-3 form-group">
       <label>Послуга</label>
       <input formControlName="bagServiceUbs" class="form-control">
     </div>
-    <div class="col-12 col-sm-3 form-group">
+
+      <div class="col-12 col-sm-2 form-group">
+        <label>Об'єм</label>
+        <input formControlName="bagSizeUbs" class="form-control">
+      </div>
+
+      <div class="col-12 col-sm-2 form-group">
+        <label>Вартість</label>
+        <input formControlName="bagPriceUbs" class="form-control">
+      </div>
+
+      <div class="col-12 col-sm-2 form-group count">
       <label>Кількість пакетів</label>
       <input formControlName="bagNumUbs" type="number" [class.is-invalid]="orderDetailsForm.get('bagNumUbs').invalid &&
                                  orderDetailsForm.get('bagNumUbs').touched" min="0" max="999"
         class="shadow-none form-control" (click)="calc()">
-    </div>
-    <div class="col-12 col-sm-3 form-group">
-      <label>Об'єм пакетів</label>
-      <input formControlName="bagSizeUbs" class="form-control">
-    </div>
+      </div>
+
     <div class="form-group sum">
-      <label>Ціна</label>
-      <input formControlName="bagPriceUbs" type="text" class="form-control">
+      <label>Сума</label>
+      <input formControlName="bagSumUbs" type="text" class="form-control">
     </div>
-    <div class="col-12 col-sm-4 form-group">
+
+    <div class="col-12 col-sm-3 form-group">
       <input formControlName="bagServiceClothesXL" class="form-control">
     </div>
-    <div class="col-12 col-sm-3 form-group">
+
+    <div class="col-12 col-sm-2 form-group">
+      <input formControlName="bagSizeClothesXL" type="text" class="form-control">
+    </div>
+    <div class="col-12 col-sm-2 form-group">
+      <input formControlName="bagPriceClothesXL" type="text" class="form-control">
+    </div>
+    <div class="col-12 col-sm-2 form-group count">
       <input formControlName="bagNumClothesXL" type="number" min="0" max="999" class="shadow-none form-control"
         (click)="calc()">
     </div>
-    <div class="col-12 col-sm-3 form-group">
-      <input formControlName="bagSizeClothesXL" type="text" class="form-control">
-    </div>
     <div class="form-group sum">
-      <input formControlName="bagPriceClothesXL" type="text" class="form-control">
+      <input formControlName="bagSumClothesXL" type="text" class="form-control">
     </div>
-    <div class="col-12 col-sm-4 form-group">
+    <div class="col-12 col-sm-3 form-group">
       <input formControlName="bagServiceClothesM" type="text" class="form-control">
     </div>
-    <div class="col-12 col-sm-3 form-group">
+
+    <div class="col-12 col-sm-2 form-group">
+      <input formControlName="bagSizeClothesM" type="text" class="form-control">
+    </div>
+    <div class="col-12 col-sm-2 form-group">
+      <input formControlName="bagPriceClothesM" type="text" class="form-control">
+    </div>
+    <div class="col-12 col-sm-2 form-group count">
       <input formControlName="bagNumClothesM" type="number" min="0" max="999" class="shadow-none form-control"
         (click)="calc()">
     </div>
-    <div class="col-12 col-sm-3 form-group">
-      <input formControlName="bagSizeClothesM" type="text" class="form-control">
-    </div>
     <div class="form-group sum">
-      <input formControlName="bagPriceClothesM" type="text" class="form-control">
+      <input formControlName="bagSumClothesM" type="text" class="form-control">
     </div>
     <div class="middle">
       <div class="middle-container">

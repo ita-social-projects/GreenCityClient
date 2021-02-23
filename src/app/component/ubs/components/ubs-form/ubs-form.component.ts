@@ -25,16 +25,6 @@ export class UbsFormComponent implements AfterViewInit {
     this.firstStepForm = this.stepOneComponent.orderDetailsForm;
     this.secondStepForm = this.stepTwoComponent.personalDataForm;
     this.thirdStepForm = this.stepThreeComponent.paymentForm;
-    this.firstStepForm.valueChanges.subscribe(data => console.log(data)
-    )
-    this.firstStepForm.get('bagPriceUbs').valueChanges.subscribe(name => console.log(name)
-    )
-
-    // this.firstStepForm.get('bagNumUbs').valueChanges.
-    // subscribe(num => this.firstStepForm.patchValue({bagPriceUbs: num})
-    // )
-
-
     this.cdr.detectChanges();
   }
 

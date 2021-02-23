@@ -48,14 +48,17 @@ export class OrderDetailsFormComponent implements OnInit {
       bagNumUbs: [0],
       bagSizeUbs: [{ value: '', disabled: true }],
       bagPriceUbs: [{ value: '', disabled: true }],
+      bagSumUbs: [{ value: '', disabled: true }],
       bagServiceClothesXL: [{ value: '', disabled: true }],
       bagNumClothesXL: [0, Validators.required],
       bagSizeClothesXL: [{ value: '', disabled: true }],
       bagPriceClothesXL: [{ value: '', disabled: true }],
+      bagSumClothesXL: [{ value: '', disabled: true }],
       bagServiceClothesM: [{ value: '', disabled: true }],
       bagNumClothesM: [0],
       bagSizeClothesM: [{ value: '', disabled: true }],
       bagPriceClothesM: [{ value: '', disabled: true }],
+      bagSumClothesM: [{ value: '', disabled: true }],
       certificate: [''],
       additionalOrder: [''],
       orderComment: [''],
@@ -80,11 +83,14 @@ export class OrderDetailsFormComponent implements OnInit {
   initForm(): void {
     this.orderDetailsForm.patchValue({
       bagServiceUbs: this.orders.allBags[0].name,
-      bagSizeUbs: `${this.orders.allBags[0].capacity} (${this.orders.allBags[0].price} грн)`,
+      bagSizeUbs: `${this.orders.allBags[0].capacity} л`,
+      bagPriceUbs: `${this.orders.allBags[0].price} грн`,
       bagServiceClothesXL: this.orders.allBags[1].name,
-      bagSizeClothesXL: `${this.orders.allBags[1].capacity} (${this.orders.allBags[1].price} грн)`,
+      bagSizeClothesXL: `${this.orders.allBags[1].capacity} л`,
+      bagPriceClothesXL: `${this.orders.allBags[1].price} грн`,
       bagServiceClothesM: this.orders.allBags[2].name,
-      bagSizeClothesM: `${this.orders.allBags[2].capacity} (${this.orders.allBags[2].price} грн)`
+      bagSizeClothesM: `${this.orders.allBags[2].capacity} л`,
+      bagPriceClothesM: `${this.orders.allBags[2].price} грн`
     });
     this.points = this.orders.points;
 
@@ -92,9 +98,9 @@ export class OrderDetailsFormComponent implements OnInit {
 
   calc() {
     this.orderDetailsForm.patchValue({
-      bagPriceUbs: `${this.orderDetailsForm.value.bagNumUbs * this.orders.allBags[0].price} грн`,
-      bagPriceClothesXL: `${this.orderDetailsForm.value.bagNumClothesXL * this.orders.allBags[1].price} грн`,
-      bagPriceClothesM: `${this.orderDetailsForm.value.bagNumClothesM * this.orders.allBags[2].price} грн`,
+      bagSumUbs: `${this.orderDetailsForm.value.bagNumUbs * this.orders.allBags[0].price} грн`,
+      bagSumClothesXL: `${this.orderDetailsForm.value.bagNumClothesXL * this.orders.allBags[1].price} грн`,
+      bagSumClothesM: `${this.orderDetailsForm.value.bagNumClothesM * this.orders.allBags[2].price} грн`,
     });
     this.total = this.orderDetailsForm.value.bagNumUbs * this.orders.allBags[0].price +
       this.orderDetailsForm.value.bagNumClothesXL * this.orders.allBags[1].price +

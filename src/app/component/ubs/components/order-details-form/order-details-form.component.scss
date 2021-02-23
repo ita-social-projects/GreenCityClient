@@ -26,10 +26,17 @@ label {
 
 .form-control {
   height: 3rem;
-  background: #fff;
-  border-radius: 0;
+  background: none;
+  padding-left: 0;
+  border: none;
 }
 
+.count input{
+  background: #fff;
+  border: 1px solid #64727D;
+  border-radius: 0;
+  padding-left: 6px;
+}
 .custom-control-label {
   padding-top: 3px;
 }
@@ -46,11 +53,10 @@ label {
 
 .sum {
   width: 6rem;
-  text-align: center;
+  text-align: left;
+  margin-left: 3rem;
   .form-control {
-    border: none;
-    background: none;
-    padding-left: 2rem;
+    padding-left: 1rem;
     padding-right: 0;
   }
 }
