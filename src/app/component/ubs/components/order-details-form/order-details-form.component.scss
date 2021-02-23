@@ -2,7 +2,8 @@
   width: 100%;
   background:  #F7F9FA;
   margin-top: 2rem;
-  padding: 30px 20px;
+  padding: 30px 30px;
+
 }
 
 .main {
@@ -13,6 +14,15 @@
   flex-wrap: wrap;
   justify-content: space-between;
   margin-bottom: 3rem;
+}
+
+.main-container {
+  // background-color: #F7F9FA;
+  padding: 0 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  border-top: 1px solid #D8D8D8;;
 }
 
 label {
@@ -73,11 +83,6 @@ button:hover {
   background: var(--primary-green);
 }
 
-.middle-container {
-  display: flex;
-  justify-content: space-between;
-}
-
 .middle {
   width: 100%;
   border-top: 1px solid #D8D8D8;
@@ -88,10 +93,12 @@ button:hover {
 }
 
 .totalInfo {
-  text-align: end;
-   p {
-     margin: 0;
-   }
+  text-align: right;
+  padding-right: 2rem;
+  width: 45%;
+  //  p {
+  //    margin: 0;
+  //  }
    .validMes {
      margin-top: -1.5rem;
    }
@@ -101,11 +108,25 @@ button:hover {
   margin-top: 30px;
 }
 
-.middle_submit {
-  width: 60%;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+.middle-container {
+
+  .showTotal {
+    display: flex;
+    justify-content: space-between;
+    min-height: 98px;
+  }
+
+  .certificate-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 55%;
+  }
+
+  input {
+    background: #fff;
+    border: 1px solid #64727D;
+  }
 
   small {
     margin-left: 0px;
@@ -116,7 +137,7 @@ button:hover {
   }
 
   button{
-    width: 9rem;
+    width: 10rem;
     height: 3rem;
     border-radius: 0;
     background: var(--primary-grey);

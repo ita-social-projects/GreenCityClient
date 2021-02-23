@@ -5,6 +5,8 @@
 </div>
 <form class="form" [formGroup]="orderDetailsForm" (ngSubmit)="submit()">
   <div class="main">
+
+    <div class="main-container">
     <div class="col-12 col-sm-3 form-group">
       <label>Послуга</label>
       <input formControlName="bagServiceUbs" class="form-control">
@@ -66,9 +68,40 @@
     <div class="form-group sum">
       <input formControlName="bagSumClothesM" type="text" class="form-control">
     </div>
+
+  </div>
+
     <div class="middle">
       <div class="middle-container">
+        <div class="showTotal">
+        <p>Чи бажаєте Ви скористатись сертифікатом?</p>
+        <div class="totalInfo">
+          <p> <b><span>{{ showTotal }}</span></b><br>
+            <span>{{ showPointsUsed }}</span><br>
+            <b><span>{{ finalSum }}</span></b>
+          </p>
+          <div *ngIf="displayMes" class="validMes">
+            <small class="text-danger">Мінімальна сума замовлення повинна складати 500 грн</small>
+          </div>
+        </div>
+      </div>
+        <div class="certificate-container">
+          <div class="form-group col-12 col-sm-8">
+            <label>Введіть номер сертифіката</label>
+            <input formControlName="certificate" class="shadow-none form-control" type="text">
+          </div>
+          <small class="text-danger" [class.d-none]="orderDetailsForm.get('certificate').valid ||
+                                                    orderDetailsForm.get('certificate').untouched">Certificate
+            isrequired</small>
+          <div class="form-group">
+            <button type="button" class="btn btn-primary">Активувати</button>
+          </div>
+
+        </div>
+
+
         <div>
+          <p>Чи бажаєте Ви скористатися бонусами?</p>
           <div class="form-check custom-control custom-radio">
             <input formControlName="bonus" id="customRadio1" value="yes" class="form-check-input custom-control-input"
               type="radio" (click)="calcPoints()">
@@ -83,7 +116,7 @@
             <p>На Вашому бонусному рахунку: {{ points }} грн</p>
           </div>
         </div>
-        <div class="totalInfo">
+        <!-- <div class="totalInfo">
           <p> <b><span>{{ showTotal }}</span></b><br>
             <span>{{ showPointsUsed }}</span><br>
             <b><span>{{ finalSum }}</span></b>
@@ -92,10 +125,11 @@
           <div *ngIf="displayMes" class="validMes">
             <small class="text-danger">Мінімальна сума замовлення повинна складати 500 грн</small>
           </div>
-        </div>
+        </div> -->
       </div>
 
-      <div class="middle_submit">
+      <!-- <div class="middle_submit">
+        <p>Чи бажаєте Ви скористатись сертифікатом?</p>
         <div class="form-group col-12 col-sm-8">
           <label>Введіть номер сертифіката</label>
           <input formControlName="certificate" class="shadow-none form-control" type="text">
@@ -106,7 +140,7 @@
         <div class="form-group">
           <button type="button" class="btn btn-primary">Активувати</button>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
   <div class="bottom">
