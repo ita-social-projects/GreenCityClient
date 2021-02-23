@@ -10,6 +10,7 @@ export class ShareFormService {
 
   public objectSource = new Subject<IUserOrder>();
   public finalObject = new Subject<FinalOrder>();
+  public billObjectSource = new Subject<{}>();
 
   constructor() { }
 
@@ -19,6 +20,10 @@ export class ShareFormService {
 
   thirdStepObject(order: FinalOrder) {
     this.finalObject.next(order);
+  }
+
+  finalBillObject(order) {
+    this.billObjectSource.next(order);
   }
 
 }

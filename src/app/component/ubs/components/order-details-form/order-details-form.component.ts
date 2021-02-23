@@ -87,6 +87,7 @@ export class OrderDetailsFormComponent implements OnInit {
       bagSizeClothesM: `${this.orders.allBags[2].capacity} (${this.orders.allBags[2].price} грн)`
     });
     this.points = this.orders.points;
+
   }
 
   calc() {
@@ -103,6 +104,7 @@ export class OrderDetailsFormComponent implements OnInit {
       this.displayMes = true;
       this.onSubmit = true;
     } else { this.displayMes = false; this.onSubmit = false; }
+
   }
 
   calcPoints() {
@@ -111,6 +113,7 @@ export class OrderDetailsFormComponent implements OnInit {
     this.showPointsUsed = `Списано балів: ${this.pointsUsed}`;
     this.points > this.total ? this.points = this.points - this.total : this.points = 0;
     this.finalSum = `До оплати: ${this.total - this.pointsUsed} грн`;
+    this.total = this.total - this.pointsUsed;
   }
 
   resetPoints() {
@@ -121,6 +124,16 @@ export class OrderDetailsFormComponent implements OnInit {
   }
 
   submit() {
+    const paymentBill = [{name: this.orderDetailsForm.get('bagServiceUbs').value,
+                        amount: this.orderDetailsForm.get('bagNumUbs').value,
+                        count: this.orderDetailsForm.get('bagPriceUbs').value},
+                        {name: this.orderDetailsForm.get('bagServiceClothesXL').value,
+                        amount: this.orderDetailsForm.get('bagNumClothesXL').value,
+                        count: this.orderDetailsForm.get('bagPriceClothesXL').value},
+                        {name: this.orderDetailsForm.get('bagServiceClothesM').value,
+                        amount: this.orderDetailsForm.get('bagNumClothesM').value,
+                        count: this.orderDetailsForm.get('bagPriceClothesM').value},
+                        this.total, this.pointsUsed, ];
     let ubs = Object.assign({ id: 1, amount: this.orderDetailsForm.value.bagNumUbs });
     let clothesXL = Object.assign({ id: 2, amount: this.orderDetailsForm.value.bagNumClothesXL });
     let clothesM = Object.assign({ id: 3, amount: this.orderDetailsForm.value.bagNumClothesM });
@@ -130,5 +143,7 @@ export class OrderDetailsFormComponent implements OnInit {
       this.orderDetailsForm.value.additionalOrder,
       this.orderDetailsForm.value.orderComment);
     this._shareFormService.changeObject(newOrder);
+    this._shareFormService.finalBillObject(paymentBill);
+    // console.log(this.orderDetailsForm.value, newOrder);
   }
 }

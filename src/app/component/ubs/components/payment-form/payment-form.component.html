@@ -1,20 +1,19 @@
 <div class="header">
   <h6>Ваше замовлення:</h6>
-  <div class="order">
+  <div class="order" *ngIf="ubsRow">
     <div class="order-details"><span>{{ ubsBag }}</span><span> ({{ ubsBagNum }} пакети)</span></div>
-    <div class="order-details"><span #ubsSum>{{ ubsBagNum * ubsBagPrice }} грн</span></div>
+    <div class="order-details"><span #ubsSum>{{ ubsBagPrice }} грн</span></div>
   </div>
-  <div class="order">
+  <div class="order" *ngIf="XLRow">
     <div class="order-details"><span>{{ clothesBagXL }}</span><span> ({{ clothesBagXLNum }} пакети)</span></div>
-    <div class="order-details"><span #clothesXLSum>{{ clothesBagXLNum * clothesBagXLPrice }} грн</span></div>
+    <div class="order-details"><span #clothesXLSum>{{ clothesBagXLPrice }} грн</span></div>
   </div>
-  <div class="order">
+  <div class="order" *ngIf="MRow">
     <div class="order-details"><span>{{ clothesBagM }}</span><span> ({{ clothesBagMNum }} пакети)</span></div>
-    <div class="order-details"><span #clothesMSum>{{ clothesBagMNum * clothesBagMPrice}} грн</span></div>
+    <div class="order-details"><span #clothesMSum>{{ clothesBagMPrice }} грн</span></div>
   </div>
   <hr>
-  <div class="finalCost"><span>{{ubsBagNum * ubsBagPrice + clothesBagXLNum * clothesBagXLPrice + clothesBagMNum *
-      clothesBagMPrice - usedPoints}} грн</span></div>
+  <div class="finalCost"><p><span>Використано бонусів: {{ usedPoints }}</span><br><span>До оплати: {{ total }} грн</span></p></div>
 </div>
 <div class="main">
   <h6>Дані замовника:</h6>

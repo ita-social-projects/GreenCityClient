@@ -13,11 +13,11 @@ export class OrderService {
   constructor(private http: HttpClient) { }
 
   getOrders(): Observable<IOrder> {
-    return this.http.get<IOrder>(`${this._url}/first`);
+    return this.http.get<IOrder>(`${this._url}/order-details`);
   }
 
   getPersonalData(): Observable<any> {
-    return this.http.get(`${this._url}/second`);
+    return this.http.get(`${this._url}/personal-data`);
   }
 
   processOrder(order: FinalOrder): Observable<FinalOrder> {
