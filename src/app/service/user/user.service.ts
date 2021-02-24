@@ -260,4 +260,9 @@ export class UserService implements OnLogout {
     }
     return this.http.get(endpointLink) as Observable<Array<HabitItemsAmountStatisticDto>>;
   }
+
+  updateUserLanguage(userId: number, languageId: number) {
+    const body = {};
+    return this.http.put(`${userLink}/${userId}/language/${languageId}`, body)
+  }
 }
