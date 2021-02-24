@@ -48,11 +48,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('signinref', {static: false}) signinref: ElementRef;
   @ViewChild('signupref', {static: false}) signupref: ElementRef;
   public elementName;
-  public synqLanguageArr: any = [
-    { id: 1, code: 'Ua' },
-    { id: 2, code: 'En' },
-    { id: 3, code: 'Ru' }
-  ]
   constructor(
     public dialog: MatDialog,
     private localStorageService: LocalStorageService,
@@ -151,9 +146,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.arrayLang[0].lang = language;
     this.arrayLang[index].lang = temporary;
     this.langDropdownVisible = false;
-    if (this.localStorageService.getAccessToken()) {
-      const curLangId = this.getLanguageId(language);
-      this.userService.updateUserLanguage(this.userId, curLangId)
+    if (this.isLoggedIn) {
+      const curLangId = this.languageService.getLanguageId(language.toLowerCase() as Language);
+      this.userService.updateUserLanguage(curLangId)
       .subscribe(res => {});
     }
   }
@@ -247,10 +242,4 @@ export class HeaderComponent implements OnInit, OnDestroy {
       document.body.classList.remove('modal-open');
   }
 
-  public getLanguageId(languageCode: string) {
-    if (this.localStorageService.getAccessToken()) {
-      return this.synqLanguageArr.find(res => res.code === languageCode).id;
-    }
-    else return;
-  }
 }
