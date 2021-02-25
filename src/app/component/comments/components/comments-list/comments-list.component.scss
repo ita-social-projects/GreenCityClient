@@ -118,10 +118,6 @@
   }
 }
 
-.save-cancel-btn {
-  display: flex;
-}
-
 .btn-replies {
   display: flex;
   justify-content: flex-end;
@@ -160,17 +156,17 @@
   border: none;
   background-color: #fff;
   outline: none;
+}
 
-  .btn-text {
-    display: inline-block;
-    margin-left: 5px;
-    font-family: var(--primary-font);
-    font-size: 16px;
-    line-height: 24px;
-    color: var(--secondary-grey);
-    mix-blend-mode: normal;
-    white-space: nowrap;
-  }
+.btn-text {
+  display: inline-block;
+  margin-left: 5px;
+  font-family: var(--primary-font);
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--secondary-grey);
+  mix-blend-mode: normal;
+  white-space: nowrap;
 }
 
 .comment-likes {
@@ -188,12 +184,8 @@
 }
 
 @media screen and (max-width: 992px) {
-  .main-wrapper {
-    .cta-btn {
-      .btn-text {
-        font-size: 12px;
-      }
-    }
+  .btn-text {
+    font-size: 12px;
   }
 }
 
@@ -230,12 +222,6 @@
 
   .main-wrapper:last-child {
     margin-left: 0;
-  }
-
-  .cta-btn {
-    .btn-text {
-      display: none;
-    }
   }
 }
 

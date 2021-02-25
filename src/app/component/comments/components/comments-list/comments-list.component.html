@@ -54,14 +54,14 @@
     <ng-template #editComment>
       <div class="save-cancel-wrapper"
            *ngIf="isLoggedIn && (comment.author.id === +userId)">
-        <div class="save-cancel-btn">
+        <div class="d-flex">
           <div class="main-wrapper">
             <button (click)="saveEditedComment(comment)"
                     [disabled]="!content.valid"
                     class="cta-btn save-edit">
               <img [src]="editIcon"
                    alt="edit icon">
-              <span class="btn-text">
+              <span class="d-none d-sm-block btn-text">
                 {{"homepage.eco-news.comment.btn.save" | translate}}
               </span>
             </button>
@@ -72,7 +72,7 @@
               <img [src]="cancelIcon"
                     class="btn-img"
                     alt="cancel icon">
-              <span class="btn-text">
+              <span class="d-none d-sm-block btn-text">
                 {{"homepage.eco-news.comment.btn.cancel" | translate}}
               </span>
             </button>
@@ -85,7 +85,7 @@
                       (likesCounter)="changeCounter($event, comment.id, 'likes')">
     </app-like-comment>
     <app-reply-comment (click)="showElements(comment.id, 'showRelyButton')"
-                      *ngIf="isLoggedIn && !comment.isEdit">
+                      *ngIf="isLoggedIn && !comment.isEdit && dataType === types.commentType">
     </app-reply-comment>
     <div class="btn-replies"
          *ngIf="dataType === types.commentType">
