@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./shopping-list.component.scss']
 })
 export class ShoppingListComponent implements OnInit {
-  public shoppingList: ShoppingList[];
+  public shoppingList: ShoppingList[] = [];
   public profileSubscription: Subscription;
 
   constructor(private profileService: ProfileService) { }

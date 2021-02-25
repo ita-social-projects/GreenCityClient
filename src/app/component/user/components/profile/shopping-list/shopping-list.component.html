@@ -1,21 +1,25 @@
-<div *ngIf="shoppingList; else loading;" >
-    <div class="header-position shopping-list-content" *ngIf="shoppingList?.length">
-        <h2 class="header">
-            {{ 'profile.my-shoppingList' | translate }} <span>{{ shoppingList?.length }}</span></h2>
-        <a class="btn-see-all">{{ 'profile.see-all' | translate }}</a>
-    </div>
-    <div class="shopping-list-content" >
-        <ul class="shopping-list">
-            <li class="item" *ngFor="let shoppingItem of shoppingList">{{ shoppingItem.text }}
-                <mat-checkbox [checked]='shoppingItem.status === "DONE"' 
-                                class="checkbox" 
-                                color="primary"
-                                (click)="toggleDone(shoppingItem)"
-                ></mat-checkbox>
-            </li>
-        </ul>
-    </div>
+<div class="header-position shopping-list-content">
+    <h2 class="header">
+        {{ 'profile.my-shoppingList' | translate }} <span>{{ shoppingList?.length }}</span></h2>
+    <a class="btn-see-all">{{ 'profile.see-all' | translate }}</a>
 </div>
+<div class="shopping-list-content" *ngIf="shoppingList.length>=1; else empty;">
+    <ul class="shopping-list">
+        <li class="item" *ngFor="let shoppingItem of shoppingList">{{ shoppingItem.text }}
+            <mat-checkbox [checked]='shoppingItem.status === "DONE"' 
+                            class="checkbox" 
+                            color="primary"
+                            (click)="toggleDone(shoppingItem)"
+            ></mat-checkbox>
+        </li>
+    </ul>
+</div>
+<ng-template #empty>
+    <p>
+        Your Shopping list is empty.
+    </p>
+</ng-template>
+
 
 <ng-template #loading>
     <mat-spinner color="grey" 
