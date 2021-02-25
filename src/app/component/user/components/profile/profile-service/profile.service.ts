@@ -43,7 +43,7 @@ export class ProfileService {
     this.setUserId();
     const currentLang = this.languageService.getCurrentLanguage();
 
-    return this.http.get<ShoppingList[]>(`${mainLink}goals/shoppingList/${this.userId}?lang=${currentLang}`);
+    return this.http.get<ShoppingList[]>(`${mainLink}custom/shopping-list-items/${this.userId}?lang=${currentLang}`);
   }
 
   public getUserProfileStatistics(): Observable<ProfileStatistics> {
