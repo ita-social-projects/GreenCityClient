@@ -1,33 +1,45 @@
 .header {
   width: 100%;
-  background:  #F7F9FA;
-  margin-top: 2rem;
-  padding: 30px 30px;
+  margin: 2rem 0;
+
+  h3 {
+    margin-bottom: 2rem;
+  }
+}
+
+.labels-container {
+  width: 100%;
+}
+
+.main,
+.labels-container {
+  // background-color: #F7F9FA;
+  // padding: 0 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 
 }
 
 .main {
-  width: 100%;
-  background-color: #F7F9FA;
-  padding: 0 20px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin-bottom: 3rem;
-}
-
-.main-container {
-  // background-color: #F7F9FA;
-  padding: 0 20px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  border-top: 1px solid #D8D8D8;;
+  padding: 1rem 0 1.2rem 0;
+  border-top: 1px solid #CACFD3;
+  border-bottom: 1px solid #CACFD3;
 }
 
 label {
   color: #64727D;
-  font-size: 14px;
+  padding-left: 0;
+}
+
+label:nth-child(2),
+label:nth-child(3) {
+  margin-left: 1.1rem;
+}
+
+label:nth-child(4),
+label:nth-child(5) {
+  padding-left: 1.1rem;
 }
 
 .form-group {
@@ -66,7 +78,7 @@ label {
   text-align: left;
   margin-left: 3rem;
   .form-control {
-    padding-left: 1rem;
+    padding-left: 1.4rem;
     padding-right: 0;
   }
 }
@@ -85,16 +97,14 @@ button:hover {
 
 .middle {
   width: 100%;
-  border-top: 1px solid #D8D8D8;
   margin-top: 10px;
   padding: 30px 0;
   justify-content: space-between;
-
+  border-bottom: 1px solid  #CACFD3;
 }
 
 .totalInfo {
   text-align: right;
-  padding-right: 2rem;
   width: 45%;
   //  p {
   //    margin: 0;
@@ -112,15 +122,21 @@ button:hover {
 
   .showTotal {
     display: flex;
-    justify-content: space-between;
-    min-height: 98px;
+    justify-content: flex-end;
+    // min-height: 98px;
   }
 
-  .certificate-container{
+  .certificate-container,
+  .addCertificate {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    width: 55%;
+    width: 50%;
+    margin-bottom: 2rem;
+  }
+
+  .addCertificate {
+    align-items: center;
   }
 
   input {
@@ -133,7 +149,7 @@ button:hover {
   }
 
   label {
-    width: 300px;
+    margin: 0;
   }
 
   button{
@@ -164,6 +180,12 @@ button:hover {
 
 .bottom_comment {
   background: white;
+
+  textarea {
+    background: #fff;
+    border: 1px solid #64727D;
+    height: 6rem;
+  }
   button {
     width: 120px;
     height: 3rem;
@@ -177,12 +199,21 @@ button:hover {
 }
 
 .bottom {
-  background:  #F7F9FA;
-  padding: 30px 20px;
+  padding: 3rem 0;
   margin-bottom: 2rem;
+
+  .custom-control {
+    padding-left: 1.4rem;
+  }
+
+  label {
+    margin: 0;
+  }
+
+  input {
+    background: #fff;
+    border: 1px solid #64727D;
+  }
 }
 
-.textarea {
-  height: 6rem;
-}
 

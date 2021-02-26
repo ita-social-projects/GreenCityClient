@@ -24,4 +24,8 @@ export class OrderService {
     return this.http.post<FinalOrder>(`${this._url}/processOrder`, order);
   }
 
+  processCertificate(certificate) {
+    return this.http.get(`${this._url}/processCertificate/${certificate}`);
+  }
+
 }

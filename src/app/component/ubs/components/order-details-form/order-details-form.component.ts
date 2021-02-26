@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { ShareFormService } from '../../services/share-form.service';
 import { IOrder } from './order.interface';
@@ -23,11 +23,25 @@ export class OrderDetailsFormComponent implements OnInit {
   displayMes: boolean = false;
   displayCert: boolean = false;
   displayShop: boolean = false;
+  addCert: boolean = false;
   onSubmit: boolean = true;
   order: {};
   orders: IOrder;
+  certificates: any;
   userOrder: IUserOrder;
   object: {};
+
+  get additionalCertificates() {
+    return this.orderDetailsForm.get('additionalCertificates') as FormArray;
+  }
+
+  addCertificate() {
+    this.additionalCertificates.push(this.fb.control(''));
+  }
+
+  deleteCertificate(i) {
+    this.additionalCertificates.removeAt(i);
+  }
 
   constructor(private fb: FormBuilder,
     private _orderService: OrderService,
@@ -64,6 +78,7 @@ export class OrderDetailsFormComponent implements OnInit {
       orderComment: [''],
       bonus: ['no'],
       shop: ['no'],
+      additionalCertificates: this.fb.array([])
     });
 
     this.orderDetailsForm.get('shop').valueChanges.
@@ -123,10 +138,26 @@ export class OrderDetailsFormComponent implements OnInit {
   }
 
   resetPoints() {
+    this.total = this.orderDetailsForm.value.bagNumUbs * this.orders.allBags[0].price +
+    this.orderDetailsForm.value.bagNumClothesXL * this.orders.allBags[1].price +
+    this.orderDetailsForm.value.bagNumClothesM * this.orders.allBags[2].price;
     this.showTotal = `До оплати: ${this.total} грн`;
     this.showPointsUsed = '';
     this.finalSum = '';
     this.points = this.orders.points;
+  }
+
+  certificateSubmit() {
+    this.addCert = true;
+    this.certificates.push(this.orderDetailsForm.value.certificate);
+    this._orderService.processCertificate(this.certificates).subscribe(sertificates => {
+      this.sortData(sertificates);
+    })
+
+  }
+
+  sortData(data) {
+
   }
 
   submit() {
