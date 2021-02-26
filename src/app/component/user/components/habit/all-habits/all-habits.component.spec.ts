@@ -1,3 +1,5 @@
+import { HabitAssignInterface } from './../../../../../interface/habit/habit-assign.interface';
+import { HabitAssignService } from './../../../../../service/habit-assign/habit-assign.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { SharedModule } from '../../../../shared/shared.module';
@@ -12,9 +14,34 @@ import { HabitService } from '../../../../../service/habit/habit.service';
 import { HabitListInterface } from '../../../../../interface/habit/habit.interface';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-describe('AllHabitsComponent', () => {
+describe('AllHabitsComponent', async () => {
   let component: AllHabitsComponent;
   let fixture: ComponentFixture<AllHabitsComponent>;
+
+  const assignedHabitsMock: Array<HabitAssignInterface> = [{
+      createDateTime: new Date('2021-02-11T16:35:18.048839Z'),
+      duration: 14,
+      habit: {
+        defaultDuration: 14,
+        habitTranslation: {
+          description: 'Test',
+          habitItem: 'Test',
+          languageCode: 'en',
+          name: 'Test'
+        },
+        id: 506,
+        image: '',
+        tags: []
+      },
+      habitStatusCalendarDtoList: [],
+      habitStreak: 0,
+      id: 154,
+      lastEnrollmentDate: new Date('2021-02-11T16:35:18.04885Z'),
+      status: 'INPROGRESS',
+      userId: 7835,
+      workingDays: 0
+    }
+  ];
 
   const habitsMockData: HabitListInterface = {
       currentPage: 1,
@@ -52,8 +79,10 @@ describe('AllHabitsComponent', () => {
 
   const localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['languageBehaviourSubject']);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject<string>('en');
+  const assignHabitServiceMock: HabitAssignService = TestBed.get(HabitAssignService);
+  assignHabitServiceMock.getAssignedHabits = () => of(assignedHabitsMock);
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         AllHabitsComponent,
@@ -68,11 +97,12 @@ describe('AllHabitsComponent', () => {
       ],
       providers: [
         HabitService,
+        HabitAssignService,
         { provide: LocalStorageService, useValue: localStorageServiceMock },
       ]
     })
     .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AllHabitsComponent);
