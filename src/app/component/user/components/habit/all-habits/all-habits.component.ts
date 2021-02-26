@@ -154,7 +154,6 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     .pipe(take(1))
     .subscribe((response: Array<HabitAssignInterface>) => {
       response.map((assigned) => {
-        console.log(response);
         this.filteredHabitsList.find((filtered) => {
           if (assigned.habit.id === filtered.id) {
             filtered.isAssigned = true;
