@@ -43,7 +43,7 @@ export class ProfileService {
     this.setUserId();
     const currentLang = this.languageService.getCurrentLanguage();
 
-    return this.http.get<ShoppingList[]>(`${mainLink}custom/shopping-list-items/${this.userId}?lang=${currentLang}`);
+    return this.http.get<ShoppingList[]>(`${mainLink}custom/shopping-list-items/${this.userId}/custom-shopping-list-items?lang=${currentLang}`);
   }
 
   public getUserProfileStatistics(): Observable<ProfileStatistics> {
@@ -62,9 +62,9 @@ export class ProfileService {
     const { status: prevStatus, goalId } = item;
     const newStatus = prevStatus !== 'DONE';
     const params = new HttpParams()
-      .set('goalId', goalId)
-      .set('status', newStatus.toString());
+    .set('goalId', goalId)
+    .set('status', newStatus.toString());
 
-    return this.http.patch<object[]>(`${mainLink}goals/shoppingList/${this.userId}`, params);
+    return this.http.patch<object[]>(`${mainLink}custom/shopping-list-items/${this.userId}/custom-shopping-list-items`, params);
   }
 }

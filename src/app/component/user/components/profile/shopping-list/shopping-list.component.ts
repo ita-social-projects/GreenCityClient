@@ -1,7 +1,9 @@
+import { catchError } from 'rxjs/operators';
 import { ProfileService } from './../profile-service/profile.service';
 import { Component, OnInit } from '@angular/core';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
+
 
 @Component({
   selector: 'app-shopping-list',
@@ -9,9 +11,9 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./shopping-list.component.scss']
 })
 export class ShoppingListComponent implements OnInit {
-  public shoppingList: ShoppingList[] = [];
+  public shoppingList: ShoppingList[];
   public profileSubscription: Subscription;
-
+  public isLoading = true;
   constructor(private profileService: ProfileService) { }
 
   ngOnInit() {
@@ -20,7 +22,15 @@ export class ShoppingListComponent implements OnInit {
 
   public getShoppingList(): void {
     this.profileSubscription = this.profileService.getShoppingList()
-      .subscribe((success: ShoppingList[]) => this.shoppingList = success);
+    .subscribe(
+      (shoppingListArr: ShoppingList[]) => {
+        this.isLoading = false;
+        this.shoppingList = shoppingListArr},
+        error => {
+          this.shoppingList = [];
+          this.isLoading = false;
+        }
+    );
   }
 
   public toggleDone(item): void {

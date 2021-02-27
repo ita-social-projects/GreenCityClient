@@ -1,8 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
 $bp-smallest: 320px;
 $bp-phone: 576px;
 $bp-tablet: 768px;
 $bp-desktop: 1024px;
 $bp-largest: 1440px;
+
+.outer {
+  background-color: var(--secondary-light-grey);
+  display: flex;
+  justify-content: center;
+  
+}
+
+.shoppingList-block {
+  border-top: 1px solid #e1e5e3;
+  width: 185px;
+  padding: 25px 0;
+}
 
 .shopping-list-content {
   margin: 0 auto;
@@ -25,7 +40,15 @@ $bp-largest: 1440px;
 
 h2 > span {
   color: var(--tertiary-light-grey);
-  margin-left: 10px;
+}
+
+.empty-list {
+  text-align: center;
+  font-size: 12px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 15px;
 }
 
 .item {
@@ -86,3 +109,5 @@ h2 > span {
     line-height: 16px;
   }
 }
+
+
