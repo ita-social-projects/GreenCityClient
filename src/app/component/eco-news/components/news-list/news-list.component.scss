@@ -72,6 +72,8 @@ a {
 
 #create-button span {
   display: block;
+  width: 96px;
+  white-space: nowrap;
 }
 
 @media screen and (max-width: 1199px) {
