@@ -16,10 +16,10 @@
         'homepage.eco-news.comment.placeholder.add-a-comment' | translate
       }}"
       formControlName="content"
+      style="width: 505px"
     ></textarea>
     <button
-      class="primary-global-button"
-      style="width: 505px"
+      class="primary-global-button"  
       [disabled]="!addCommentForm.valid"
     >
       {{ "homepage.eco-news.comment.comment" | translate }}
@@ -33,7 +33,7 @@
         }}"
         formControlName="content"
         [maxlength]="replyMaxLength"
-        style="467px"
+        style="width: 467px"
       ></textarea>
       <button class="primary-global-button" [disabled]="!addCommentForm.valid">
         {{ "homepage.eco-news.comment.reply" | translate }}
