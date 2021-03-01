@@ -149,7 +149,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.isLoggedIn) {
       const curLangId = this.languageService.getLanguageId(language.toLowerCase() as Language);
       this.userService.updateUserLanguage(curLangId)
-      .subscribe(res => {});
+      .subscribe();
     }
   }
 

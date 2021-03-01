@@ -1,7 +1,8 @@
-import {Injectable} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
-import {Language} from './Language';
-import {LocalStorageService} from '../service/localstorage/local-storage.service';
+import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { Language } from './Language';
+import { LocalStorageService } from '../service/localstorage/local-storage.service';
+import { LanguageId } from '../interface/language-id';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class LanguageService {
   private langMap = new Map();
   private defaultLanguage = Language.EN;
   private monthMap = new Map<Language, string[]>();
-  public synqLanguageArr: any = [
+  public synqLanguageArr: LanguageId[] = [
     { id: 1, code: 'ua' },
     { id: 2, code: 'en' },
     { id: 3, code: 'ru' }
@@ -62,6 +63,6 @@ export class LanguageService {
   }
 
   public getLanguageId(language: Language) {
-      return this.synqLanguageArr.find(res => res.code === language).id;
+    return this.synqLanguageArr.find(res => res.code === language).id;
   }
 }

@@ -30,7 +30,7 @@ describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
   const mockLang = 'ua';
-  const mockId = 1;
+  const mockLangId = 1;
 
   let localStorageServiceMock: LocalStorageService;
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
@@ -49,7 +49,7 @@ describe('HeaderComponent', () => {
   let userServiceMock: UserService;
   userServiceMock = jasmine.createSpyObj('UserService', ['onLogout']);
   userServiceMock.onLogout = () => true;
-  userServiceMock.updateUserLanguage = () => Observable.of();
+  userServiceMock.updateUserLanguage = () => of(true);
 
   let achievementServiceMock: AchievementService;
   achievementServiceMock = jasmine.createSpyObj('AchievementService', ['onLogout']);
@@ -63,7 +63,7 @@ describe('HeaderComponent', () => {
   languageServiceMock = jasmine.createSpyObj('LanguageService', ['getCurrentLanguage']);
   languageServiceMock.getCurrentLanguage = () => mockLang as Language;
   languageServiceMock.changeCurrentLanguage = () => true;
-  languageServiceMock.getLanguageId = () => mockId;
+  languageServiceMock.getLanguageId = () => mockLangId;
 
   let searchServiceMock: SearchService;
   searchServiceMock = jasmine.createSpyObj('SearchService', ['searchSubject', 'allSearchSubject', 'toggleSearchModal']);
