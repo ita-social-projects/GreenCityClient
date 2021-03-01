@@ -44,7 +44,7 @@
     </div>
   <div class="comments-elements">
     <div class="btn-wrapper"
-         *ngIf="isLoggedIn && (comment.author.id === +userId) && !comment.isEdit; else editComment">
+         *ngIf="isLoggedIn && checkCommentAuthor(comment.author.id) && !comment.isEdit; else editComment">
       <app-edit-comment (isEditing)="showElements(comment.id, 'isEdit')"></app-edit-comment>
       <app-delete-comment [element]="comment"
                           [dataType] = "dataType"
@@ -53,7 +53,7 @@
     </div>
     <ng-template #editComment>
       <div class="save-cancel-wrapper"
-           *ngIf="isLoggedIn && (comment.author.id === +userId)">
+           *ngIf="isLoggedIn && checkCommentAuthor(comment.author.id)">
         <div class="d-flex">
           <div class="main-wrapper">
             <button (click)="saveEditedComment(comment)"
@@ -80,7 +80,7 @@
         </div>
       </div>
     </ng-template>
-    <app-like-comment *ngIf="isLoggedIn && (comment.author.id !== +userId)"
+    <app-like-comment *ngIf="isLoggedIn && !checkCommentAuthor(comment.author.id)"
                       [comment]="comment"
                       (likesCounter)="changeCounter($event, comment.id, 'likes')">
     </app-like-comment>

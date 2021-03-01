@@ -63,4 +63,8 @@ export class CommentsListComponent {
       return item;
     });
   }
+
+  public checkCommentAuthor(commentAuthorId: number) {
+    return commentAuthorId === +this.userId;
+  }
 }
