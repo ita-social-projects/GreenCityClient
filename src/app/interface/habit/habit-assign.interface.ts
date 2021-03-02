@@ -5,6 +5,7 @@ export interface HabitAssignInterface {
   status: 'SUSPENDED' | 'INPROGRESS' | 'ACQUIRED';
   createDateTime: Date;
   habit: HabitInterface;
+  enrolled?: boolean;
   userId: number;
   duration: number;
   workingDays: number;

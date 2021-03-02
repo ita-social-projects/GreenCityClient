@@ -8,6 +8,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AgmCoreModule } from '@agm/core';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import {
   ButtonComponent,
   HabitTrackersComponent,
@@ -165,6 +166,7 @@ import {
     MatButtonModule,
     MatRadioModule,
     MatSliderModule,
+    MatTooltipModule,
     DragDropModule,
     HttpClientModule,
     AgmCoreModule.forRoot({
