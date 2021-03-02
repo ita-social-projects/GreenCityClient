@@ -98,6 +98,7 @@ div {
     width: 100%;
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
+    overflow: hidden;
   }
 
   .eco-news_list-view-wrp {
@@ -111,9 +112,9 @@ div {
 
 @media (min-width: 1024px) {
   .eco-news_list-view-wrp {
-    height: 167px;
-    -ms-grid-columns: 300px auto;
-    grid-template-columns: 300px auto;
+    height: 171px;
+    -ms-grid-columns: 299px auto;
+    grid-template-columns: 299px auto;
   }
 
   .eco-news_list-content-title {
