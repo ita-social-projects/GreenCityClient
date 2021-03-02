@@ -113,8 +113,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public focusDone(): void {
-    if (this.elementName === 'sign-up') { this.signupref.nativeElement.focus(); }
-    if (this.elementName === 'sign-in') { this.signinref.nativeElement.focus(); }
+    if (this.elementName === 'sign-up' && !this.isLoggedIn) { this.signupref.nativeElement.focus(); }
+    if (this.elementName === 'sign-in' && !this.isLoggedIn) { this.signinref.nativeElement.focus(); }
   }
 
   ngOnDestroy() {
