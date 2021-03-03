@@ -13,7 +13,9 @@
         <div *ngIf="!isLoading && shoppingList.length>0">
             <div class="shopping-list-content" >
                 <ul class="shopping-list">
-                    <li class="item" *ngFor="let shoppingItem of shoppingList">{{ shoppingItem.text }}
+                    <li [ngClass]="shoppingItem.status === 'DONE' ? 'item-striked' : 'item'" 
+                        *ngFor="let shoppingItem of shoppingList"
+                    >{{ shoppingItem.text }}
                         <mat-checkbox [checked]='shoppingItem.status === "DONE"' 
                                         class="checkbox" 
                                         color="primary"
@@ -23,7 +25,7 @@
                 </ul>
             </div>
         </div>
-        <div *ngIf = "!isLoading && shoppingList.length===0">
+        <div *ngIf="!isLoading && shoppingList.length===0">
             <p class="empty-list">{{ 'profile.empty-list' | translate}}</p>
         </div>
     </div>

@@ -59,12 +59,11 @@ export class ProfileService {
   }
 
   public toggleStatusOfShoppingItem(item): Observable<object[]> {
-    const { status: prevStatus, goalId } = item;
-    const newStatus = prevStatus !== 'DONE';
-    const params = new HttpParams()
-    .set('goalId', goalId)
-    .set('status', newStatus.toString());
-
-    return this.http.patch<object[]>(`${mainLink}custom/shopping-list-items/${this.userId}/custom-shopping-list-items`, params);
+    this.setUserId();
+    const body = {};
+    const { status: prevStatus } = item;
+    const newStatus = prevStatus === 'DONE' ? 'ACTIVE' : 'DONE';    
+    return this.http.patch<object[]>(`
+    ${mainLink}custom/shopping-list-items/${this.userId}/custom-shopping-list-items?itemId=${item.id}&status=${newStatus}`, body);
   }
 }

@@ -1,8 +1,7 @@
-import { catchError } from 'rxjs/operators';
 import { ProfileService } from './../profile-service/profile.service';
 import { Component, OnInit } from '@angular/core';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
-import { Subscription, of } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -38,22 +37,9 @@ export class ShoppingListComponent implements OnInit {
       .subscribe((success) => this.updateDataOnUi(item));
   }
 
-  private updateDataOnUi(item): void {
-
-    const index = this.shoppingList.findIndex((shoppingItem: ShoppingList) => shoppingItem.goalId === item.goalId);
+  private updateDataOnUi(item): any {
     const { status: prevItemStatus } = item;
     const newItemStatus = prevItemStatus === 'ACTIVE' ? 'DONE' : 'ACTIVE';
-
-    const newItem = {
-      ...item,
-      status: newItemStatus
-    };
-
-    this.shoppingList = [
-      ...this.shoppingList.slice(0, index),
-      newItem,
-      ...this.shoppingList.slice(index + 1)
-    ];
-
+    return item.status = newItemStatus;
   }
 }
