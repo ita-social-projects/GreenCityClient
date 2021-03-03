@@ -24,7 +24,8 @@ export class ShoppingListComponent implements OnInit {
     .subscribe(
       (shoppingListArr: ShoppingList[]) => {
         this.isLoading = false;
-        this.shoppingList = shoppingListArr},
+        this.shoppingList = shoppingListArr;
+      },
         error => {
           this.shoppingList = [];
           this.isLoading = false;
