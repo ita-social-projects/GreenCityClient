@@ -7,29 +7,29 @@
       </a>
       <div class="header_navigation-menu" aria-label="Header Navigation Menu">
         <nav [ngClass]="toggleBurgerMenu ? 'header_navigation-menu-left-col' : 'header_navigation-menu-left'">
-          <ul role="navigation">
-            <li role="navigation to news">
+          <ul>
+            <li role="eco-news">
               <a [routerLink]="['/news']" routerLinkActive="active-link" routerLinkActiveOptions="{exact:true}">
                 {{ 'user.lower-nav-bar.eco-events' | translate }}
               </a>
             </li>
-            <li role="navigation to tips and tricks">
+            <li role="tips and tricks">
               <a [routerLink]="['/tips']" routerLinkActive="active-link" routerLinkActiveOptions="{exact:true}">
                 {{ 'user.lower-nav-bar.tips' | translate }}
               </a>
             </li>
-            <li role="navigation to map">
+            <li role="map">
               <a [routerLink]="['/map']" routerLinkActive="active-link" routerLinkActiveOptions="{exact:true}"
                 routerLinkActive="active-link" routerLinkActiveOptions="{exact:true}">
                 {{ 'user.lower-nav-bar.map' | translate }}
               </a>
             </li>
-            <li role="navigation to about us">
+            <li role="about us">
               <a [routerLink]="['/about']" routerLinkActive="active-link" routerLinkActiveOptions="{exact:true}">
                 {{ 'user.lower-nav-bar.about-us' | translate }}
               </a>
             </li>
-            <li role="navigation to profile">
+            <li role="profile">
               <a [routerLink]="['/profile', getUserId()]" routerLinkActive="active-link"
                 routerLinkActiveOptions="{exact:true}">
                 {{ 'user.lower-nav-bar.my-habits' | translate }}
