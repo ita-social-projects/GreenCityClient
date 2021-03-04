@@ -29,7 +29,6 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
   }
 
   public getAllFriends() {
-    
     this.userFriendsService.getAllFriends(this.userId).pipe(
       takeUntil(this.destroy$)
     )
