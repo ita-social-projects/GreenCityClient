@@ -1,3 +1,5 @@
+
+
 .header {
   width: 100%;
   margin: 2rem 0;
@@ -106,9 +108,7 @@ button:hover {
 .totalInfo {
   text-align: right;
   width: 45%;
-  //  p {
-  //    margin: 0;
-  //  }
+
    .validMes {
      margin-top: -1.5rem;
    }
@@ -132,11 +132,23 @@ button:hover {
     justify-content: space-between;
     align-items: flex-end;
     width: 50%;
-    margin-bottom: 2rem;
+
+    input {
+      padding: .5rem;
+    }
   }
 
   .addCertificate {
     align-items: center;
+  }
+
+  .addCertificateBtn {
+    color: var(--primary-green);
+    cursor: pointer;
+  }
+
+  .addBonus {
+    margin-top: 3rem;
   }
 
   input {

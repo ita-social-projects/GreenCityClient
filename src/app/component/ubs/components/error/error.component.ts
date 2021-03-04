@@ -8,6 +8,7 @@ import { FormControl } from '@angular/forms';
 export class ErrorComponent implements OnChanges {
   @Input() public controlName: string;
   @Input() public formElement: FormControl;
+  @Input() public certificateFieldValue: string;
   @Input() public firstNameFieldValue: string;
   @Input() public lastNameFieldValue: string;
   @Input() public emailFieldValue: string;

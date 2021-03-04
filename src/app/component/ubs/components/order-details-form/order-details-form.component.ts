@@ -15,7 +15,7 @@ import { UserOrder } from './shared/userOrder.model';
 export class OrderDetailsFormComponent implements OnInit {
   orderDetailsForm: FormGroup;
   showTotal: string;
-  total: any;
+  total: number = 0;
   finalSum: any;
   points: number;
   pointsUsed: any;
@@ -23,11 +23,17 @@ export class OrderDetailsFormComponent implements OnInit {
   displayMes: boolean = false;
   displayCert: boolean = false;
   displayShop: boolean = false;
+  // moreCert: boolean = true;
   addCert: boolean = false;
   onSubmit: boolean = true;
   order: {};
   orders: IOrder;
-  certificates: any;
+  certificateMask = '0000-0000';
+  certificates = [];
+  certificateSum: number = 0;
+  certSize: boolean = false;
+  dataCert: any;
+  showCertificateUsed: string;
   userOrder: IUserOrder;
   object: {};
 
@@ -37,6 +43,8 @@ export class OrderDetailsFormComponent implements OnInit {
 
   addCertificate() {
     this.additionalCertificates.push(this.fb.control(''));
+    this.addCert = false;
+    // this.moreCert = false;
   }
 
   deleteCertificate(i) {
@@ -73,7 +81,7 @@ export class OrderDetailsFormComponent implements OnInit {
       bagSizeClothesM: [{ value: '', disabled: true }],
       bagPriceClothesM: [{ value: '', disabled: true }],
       bagSumClothesM: [{ value: '', disabled: true }],
-      certificate: [''],
+      certificate: ['', [Validators.minLength(8), Validators.pattern(/[^0000]\d{4}/)]],
       additionalOrder: [''],
       orderComment: [''],
       bonus: ['no'],
@@ -120,7 +128,7 @@ export class OrderDetailsFormComponent implements OnInit {
     this.total = this.orderDetailsForm.value.bagNumUbs * this.orders.allBags[0].price +
       this.orderDetailsForm.value.bagNumClothesXL * this.orders.allBags[1].price +
       this.orderDetailsForm.value.bagNumClothesM * this.orders.allBags[2].price;
-    this.showTotal = `До оплати: ${this.total} грн`;
+    this.showTotal = `Сума замовлення: ${this.total} грн`;
     if (this.total < 500) {
       this.displayMes = true;
       this.onSubmit = true;
@@ -129,36 +137,65 @@ export class OrderDetailsFormComponent implements OnInit {
   }
 
   calcPoints() {
-    this.showTotal = `Загальна сума: ${this.total} грн`;
+    if(this.certificateSum <= 0) {
+    this.showTotal = `Сума замовлення: ${this.total} грн`;
     this.points > this.total ? this.pointsUsed = this.total : this.pointsUsed = this.points;
     this.showPointsUsed = `Списано балів: ${this.pointsUsed}`;
     this.points > this.total ? this.points = this.points - this.total : this.points = 0;
-    this.finalSum = `До оплати: ${this.total - this.pointsUsed} грн`;
-    this.total = this.total - this.pointsUsed;
+    this.finalSum = `Сума до оплати: ${this.total - this.pointsUsed} грн`;
+    this.total = this.total - this.pointsUsed}
+    else {
+      this.showTotal = `Сума замовлення: ${this.total} грн`;
+      this.points > this.total ? this.pointsUsed = this.total - this.certificateSum : this.pointsUsed = this.points;
+      this.showPointsUsed = `Списано балів: ${this.pointsUsed}`;
+      this.finalSum = `Сума до оплати: ${this.total - this.pointsUsed - this.certificateSum} грн`;
+    }
   }
 
   resetPoints() {
     this.total = this.orderDetailsForm.value.bagNumUbs * this.orders.allBags[0].price +
     this.orderDetailsForm.value.bagNumClothesXL * this.orders.allBags[1].price +
     this.orderDetailsForm.value.bagNumClothesM * this.orders.allBags[2].price;
-    this.showTotal = `До оплати: ${this.total} грн`;
+    this.showTotal = `Сума до оплати: ${this.total} грн`;
     this.showPointsUsed = '';
     this.finalSum = '';
     this.points = this.orders.points;
   }
 
   certificateSubmit() {
-    this.addCert = true;
     this.certificates.push(this.orderDetailsForm.value.certificate);
-    this._orderService.processCertificate(this.certificates).subscribe(sertificates => {
-      this.sortData(sertificates);
+    console.log(this.certificates);
+    this._orderService.processCertificate(this.certificates[0]).subscribe(certificate => {
+      this.certificateMatch(certificate);
+      this.finalSum = `Сума до оплати: ${this.total - this.certificateSum} грн`;
+      this.showCertificateUsed = `Сертифікат -${this.certificateSum} грн`;
+      if(this.total > this.certificateSum) {
+         this.addCert = true;
+      }else {
+        this.addCert = false;
+        this.certSize = true;
+        this.finalSum = `Сума до оплати: 0 грн`;
+      }
     })
-
   }
 
-  sortData(data) {
-
+  certificateReset() {
+    this.certificateSum = 0;
+    this.finalSum = `Сума до оплати: ${this.total - this.certificateSum} грн`;
+    this.showCertificateUsed = '';
+    this.addCert = false;
+    this.orderDetailsForm.patchValue({
+      certificate: '',
+    })
   }
+
+  certificateMatch(cert) {
+      if(cert.certificateStatus === 'ACTIVE'){
+        this.certificateSum = cert.certificatePoints;
+      }else {console.log('invalid');
+      }
+  }
+
 
   submit() {
     const paymentBill = [{name: this.orderDetailsForm.get('bagServiceUbs').value,
@@ -181,6 +218,6 @@ export class OrderDetailsFormComponent implements OnInit {
       this.orderDetailsForm.value.orderComment);
     this._shareFormService.changeObject(newOrder);
     this._shareFormService.finalBillObject(paymentBill);
-    // console.log(this.orderDetailsForm.value, newOrder);
+    console.log(this.orderDetailsForm.value, newOrder);
   }
 }

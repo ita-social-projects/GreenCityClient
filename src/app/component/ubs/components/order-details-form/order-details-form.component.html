@@ -12,122 +12,146 @@
     <label class="col-12 col-sm-2">Кількість пакетів</label>
     <label class="col-12 col-sm-2">Сума</label>
   </div>
-    <div class="main">
+  <div class="main">
     <div class="col-12 col-sm-3 form-group">
-        <input formControlName="bagServiceUbs" class="form-control">
-      </div>
+      <input formControlName="bagServiceUbs" class="form-control">
+    </div>
 
-      <div class="col-12 col-sm-2 form-group">
-        <input formControlName="bagSizeUbs" class="form-control">
-      </div>
+    <div class="col-12 col-sm-2 form-group">
+      <input formControlName="bagSizeUbs" class="form-control">
+    </div>
 
-      <div class="col-12 col-sm-2 form-group">
-        <input formControlName="bagPriceUbs" class="form-control">
-      </div>
+    <div class="col-12 col-sm-2 form-group">
+      <input formControlName="bagPriceUbs" class="form-control">
+    </div>
 
-      <div class="col-12 col-sm-2 form-group count">
-        <input formControlName="bagNumUbs" type="number" [class.is-invalid]="orderDetailsForm.get('bagNumUbs').invalid &&
+    <div class="col-12 col-sm-2 form-group count">
+      <input formControlName="bagNumUbs" type="number" [class.is-invalid]="orderDetailsForm.get('bagNumUbs').invalid &&
                                  orderDetailsForm.get('bagNumUbs').touched" min="0" max="999"
-          class="shadow-none form-control" (click)="calc()">
-      </div>
+        class="shadow-none form-control" (click)="calc()">
+    </div>
 
-      <div class="form-group sum">
-        <input formControlName="bagSumUbs" type="text" class="form-control">
-      </div>
+    <div class="form-group sum">
+      <input formControlName="bagSumUbs" type="text" class="form-control">
+    </div>
 
-      <div class="col-12 col-sm-3 form-group">
-        <input formControlName="bagServiceClothesXL" class="form-control">
-      </div>
+    <div class="col-12 col-sm-3 form-group">
+      <input formControlName="bagServiceClothesXL" class="form-control">
+    </div>
 
-      <div class="col-12 col-sm-2 form-group">
-        <input formControlName="bagSizeClothesXL" type="text" class="form-control">
-      </div>
-      <div class="col-12 col-sm-2 form-group">
-        <input formControlName="bagPriceClothesXL" type="text" class="form-control">
-      </div>
-      <div class="col-12 col-sm-2 form-group count">
-        <input formControlName="bagNumClothesXL" type="number" min="0" max="999" class="shadow-none form-control"
-          (click)="calc()">
-      </div>
-      <div class="form-group sum">
-        <input formControlName="bagSumClothesXL" type="text" class="form-control">
-      </div>
-      <div class="col-12 col-sm-3 form-group">
-        <input formControlName="bagServiceClothesM" type="text" class="form-control">
-      </div>
+    <div class="col-12 col-sm-2 form-group">
+      <input formControlName="bagSizeClothesXL" type="text" class="form-control">
+    </div>
+    <div class="col-12 col-sm-2 form-group">
+      <input formControlName="bagPriceClothesXL" type="text" class="form-control">
+    </div>
+    <div class="col-12 col-sm-2 form-group count">
+      <input formControlName="bagNumClothesXL" type="number" min="0" max="999" class="shadow-none form-control"
+        (click)="calc()">
+    </div>
+    <div class="form-group sum">
+      <input formControlName="bagSumClothesXL" type="text" class="form-control">
+    </div>
+    <div class="col-12 col-sm-3 form-group">
+      <input formControlName="bagServiceClothesM" type="text" class="form-control">
+    </div>
 
-      <div class="col-12 col-sm-2 form-group">
-        <input formControlName="bagSizeClothesM" type="text" class="form-control">
+    <div class="col-12 col-sm-2 form-group">
+      <input formControlName="bagSizeClothesM" type="text" class="form-control">
+    </div>
+    <div class="col-12 col-sm-2 form-group">
+      <input formControlName="bagPriceClothesM" type="text" class="form-control">
+    </div>
+    <div class="col-12 col-sm-2 form-group count">
+      <input formControlName="bagNumClothesM" type="number" min="0" max="999" class="shadow-none form-control"
+        (click)="calc()">
+    </div>
+    <div class="form-group sum">
+      <input formControlName="bagSumClothesM" type="text" class="form-control">
+    </div>
+
+  </div>
+
+  <div class="middle">
+    <div class="middle-container">
+      <div class="showTotal">
+
+        <div class="totalInfo">
+          <p> <b><span>{{ showTotal }}</span></b><br>
+            <span>{{ showPointsUsed }}</span><br>
+            <span>{{ showCertificateUsed }}</span><br>
+            <b><span>{{ finalSum }}</span></b>
+          </p>
+          <div *ngIf="displayMes" class="validMes">
+            <small class="text-danger">Мінімальна сума замовлення повинна складати 500 грн</small>
+          </div>
+        </div>
       </div>
-      <div class="col-12 col-sm-2 form-group">
-        <input formControlName="bagPriceClothesM" type="text" class="form-control">
+      <h5>Чи бажаєте Ви скористатись сертифікатом?</h5>
+      <div class="certificate-container">
+        <div class="form-group col-12 col-sm-8">
+          <label>Введіть номер сертифіката</label>
+          <input formControlName="certificate" class="shadow-none form-control" type="text" placeholder="xxxx-xxxx"
+            [unmask]="false" [imask]="{mask: certificateMask}">
+        </div>
+        <div class="form-group">
+          <button *ngIf="!addCert" type="button" class="btn btn-primary"
+            [disabled]="!orderDetailsForm.get('certificate').valid" (click)="certificateSubmit()">Активувати</button>
+          <button *ngIf="addCert" type="button" class="btn btn-primary" (click)="certificateReset()">Відмінити</button>
+        </div>
+        <!-- <button *ngIf="!moreCert" type="button" class="btn btn-primary" (click)="certificateReset()" style="margin-bottom: 1rem;">Відмінити</button> -->
+
+        <!-- <div class="validation" *ngIf="orderDetailsForm.get('certificate').invalid && orderDetailsForm.get('certificate').touched">
+            <app-error
+              [formElement]="orderDetailsForm.get('certificate')"
+              [certificateFieldValue]="orderDetailsForm.get('certificate').value"
+              [controlName]="'certificate'"
+            ></app-error>
+          </div> -->
+        <small class="text-danger" [class.d-none]="orderDetailsForm.get('certificate').valid ||
+                                                    orderDetailsForm.get('certificate').untouched">Сертифікат не
+          прийнято, споробуйте ще раз</small>
+        <!-- <small class="text-danger" [class.d-none]="orderDetailsForm.get('certificate').invalid ||
+                                                    orderDetailsForm.get('certificate').untouched">Сертифікат на суму
+          активовано</small> -->
+        <small *ngIf="certSize">Сертифікат на суму XXX грн активовано, що перевищує суму Вашого замовлення. Залишок у розмірі YYY грн
+          буде нараховано на Ваш бонусний рахунок для наступного замовлення.</small>
       </div>
-      <div class="col-12 col-sm-2 form-group count">
-        <input formControlName="bagNumClothesM" type="number" min="0" max="999" class="shadow-none form-control"
-          (click)="calc()">
+      <div class="addCertificate" formArrayName="additionalCertificates"
+        *ngFor="let certificate of additionalCertificates.controls; let i=index;">
+        <input type="text" class="shadow-none form-control col-12 col-sm-8 my-1" type="text" placeholder="xxxx-xxxx"
+        [unmask]="false" [imask]="{mask: certificateMask}" [formControlName]="i"><button
+          (click)="deleteCertificate('i')">Відмінити</button>
       </div>
-      <div class="form-group sum">
-        <input formControlName="bagSumClothesM" type="text" class="form-control">
+      <!-- <div *ngIf="!moreCert" class="form-group">
+        <button *ngIf="!addCert" type="button" class="btn btn-primary"
+          [disabled]="!orderDetailsForm.get('certificate').valid" (click)="certificateSubmit()">Активувати</button>
+      </div> -->
+      <p *ngIf="addCert && additionalCertificates.controls.length < 4"
+          class="addCertificateBtn" (click)="addCertificate()">Додати ще сертифікат</p>
+
+      <div class="addBonus">
+        <h5>Чи бажаєте Ви скористатися бонусами?</h5>
+        <p>На Вашому бонусному рахунку: {{ points }} грн</p>
+        <div class="form-check custom-control custom-radio">
+          <input formControlName="bonus" id="customRadio1" value="yes" class="form-check-input custom-control-input"
+            type="radio" (click)="calcPoints()">
+          <label class="form-check-label custom-control-label" for="customRadio1">Так</label>
+        </div>
+        <div class="form-check custom-control custom-radio">
+          <input formControlName="bonus" id="customRadio2" value="no" class="form-check-input custom-control-input"
+            type="radio" (click)="resetPoints()">
+          <label class="form-check-label custom-control-label" for="customRadio2">Ні</label>
+        </div>
       </div>
 
     </div>
 
-    <div class="middle">
-      <div class="middle-container">
-        <div class="showTotal">
-
-          <div class="totalInfo">
-            <p> <b><span>{{ showTotal }}</span></b><br>
-              <span>{{ showPointsUsed }}</span><br>
-              <b><span>{{ finalSum }}</span></b>
-            </p>
-            <div *ngIf="displayMes" class="validMes">
-              <small class="text-danger">Мінімальна сума замовлення повинна складати 500 грн</small>
-            </div>
-          </div>
-        </div>
-        <p>Чи бажаєте Ви скористатись сертифікатом?</p>
-        <div class="certificate-container">
-          <div class="form-group col-12 col-sm-8">
-            <label>Введіть номер сертифіката</label>
-            <input formControlName="certificate" class="shadow-none form-control" type="text">
-          </div>
-          <small class="text-danger" [class.d-none]="orderDetailsForm.get('certificate').valid ||
-                                                    orderDetailsForm.get('certificate').untouched">Certificate
-            isrequired</small>
-          <div class="form-group">
-            <button type="button" class="btn btn-primary" (click)="certificateSubmit()">Активувати</button>
-          </div>
-        </div>
-        <div class="addCertificate" formArrayName="additionalCertificates" *ngFor="let certificate of additionalCertificates.controls; let i=index;">
-          <input type="text" class="form-control col-12 col-sm-8 my-1" [formControlName]="i"><button (click)="deleteCertificate('i')">Видалити</button>
-        </div>
-        <div *ngIf="addCert && additionalCertificates.controls.length < 4" (click)="addCertificate()">Додати ще сертифікат</div>
-
-        <div>
-          <p>Чи бажаєте Ви скористатися бонусами?</p>
-          <p>На Вашому бонусному рахунку: {{ points }} грн</p>
-          <div class="form-check custom-control custom-radio">
-            <input formControlName="bonus" id="customRadio1" value="yes" class="form-check-input custom-control-input"
-              type="radio" (click)="calcPoints()">
-            <label class="form-check-label custom-control-label" for="customRadio1">Так</label>
-          </div>
-          <div class="form-check custom-control custom-radio">
-            <input formControlName="bonus" id="customRadio2" value="no" class="form-check-input custom-control-input"
-              type="radio" (click)="resetPoints()">
-            <label class="form-check-label custom-control-label" for="customRadio2">Ні</label>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
+  </div>
 
   <div class="bottom">
     <h3>Еко магазин</h3>
-    <div class="middle-text">
-      <p>Чи чекаєте Ви замовлення з нашого Еко-магазину?</p>
-    </div>
+      <h5>Чи чекаєте Ви замовлення з нашого Еко-магазину?</h5>
     <div class="form-check custom-control custom-radio">
       <input formControlName="shop" id="customRadio3" value="yes" class="form-check-input custom-control-input"
         type="radio">
