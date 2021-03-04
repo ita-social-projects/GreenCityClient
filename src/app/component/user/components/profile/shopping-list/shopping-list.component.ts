@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { Subscription } from 'rxjs';
 
-
 @Component({
   selector: 'app-shopping-list',
   templateUrl: './shopping-list.component.html',
