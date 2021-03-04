@@ -65,6 +65,6 @@ export class CommentsListComponent {
   }
 
   public checkCommentAuthor(commentAuthorId: number) {
-    return commentAuthorId === +this.userId;
+    return commentAuthorId === Number(this.userId);
   }
 }
