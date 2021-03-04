@@ -33,7 +33,7 @@
       </div>
       <div class="habit__action-wrp">
         <div>
-          <button class="primary-global-button" (click)="addHabit()">
+          <button [disabled] = "habit.isAssigned" class="primary-global-button" (click)="addHabit()">
             {{'user.habit.all-habits.btn-add' | translate}}</button>
         </div>
         <div>
