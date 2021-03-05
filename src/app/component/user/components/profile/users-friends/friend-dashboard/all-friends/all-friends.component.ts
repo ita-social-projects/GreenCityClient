@@ -32,9 +32,7 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)
     )
     .subscribe (
-      (data: FriendArrayModel) => {
-        this.friends = data.page;
-      },
+      (data: FriendArrayModel) => this.friends = data.page
     );
   }
 
