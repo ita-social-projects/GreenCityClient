@@ -1,4 +1,4 @@
-<div *ngIf="!loading; else spinner">
+<div *ngIf="requests!==null; else spinner">
   <div class="container">
     <div *ngIf="requests!==null && requests.length===0">
       <div class="noRequests-wraper">

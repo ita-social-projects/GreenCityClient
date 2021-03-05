@@ -17,7 +17,6 @@ export class FriendRequestsComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject();
   public scroll: boolean;
   public currentPage = 0;
-  public loading = true;
   readonly absent = 'assets/img/noNews.jpg';
 
   constructor(private localStorageService: LocalStorageService,
@@ -65,7 +64,6 @@ export class FriendRequestsComponent implements OnInit, OnDestroy {
     )
     .subscribe (
       (data: FriendArrayModel) => {
-        this.loading = false;
         this.requests = data.page;
       },
     );

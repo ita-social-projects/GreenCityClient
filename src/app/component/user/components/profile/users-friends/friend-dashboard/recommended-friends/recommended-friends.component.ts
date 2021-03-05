@@ -18,7 +18,6 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
   public scroll: boolean;
   public currentPage = 0;
   public totalPages: number;
-  public loading = true;
 
   constructor(
     private userFriendsService: UserFriendsService,
@@ -41,10 +40,9 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
     )
     .subscribe (
       (data: FriendArrayModel) => {
-        this.loading = false;
         this.totalPages = data.totalPages;
         this.recommendedFriends = data.page;
-      },
+      }
     );
   }
 

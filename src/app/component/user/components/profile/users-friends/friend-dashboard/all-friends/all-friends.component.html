@@ -1,4 +1,4 @@
-<div *ngIf="!loading; else spinner">
+<div *ngIf="friends && friends.length>0; else spinner">
   <div class="friends-list">
     <div class="container">
       <div *ngFor="let friend of friends">

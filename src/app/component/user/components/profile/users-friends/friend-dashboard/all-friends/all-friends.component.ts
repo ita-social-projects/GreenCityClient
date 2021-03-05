@@ -18,7 +18,6 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
   public scroll: boolean;
   public currentPage = 0;
   public totalPages: number;
-  public loading = true;
 
   constructor(private userFriendsService: UserFriendsService,
               private localStorageService: LocalStorageService) { }
@@ -33,10 +32,7 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)
     )
     .subscribe (
-      (data: FriendArrayModel) => {
-        this.loading = false;
-        this.friends = data.page;
-      },
+      (data: FriendArrayModel) => this.friends = data.page
     );
   }
 
