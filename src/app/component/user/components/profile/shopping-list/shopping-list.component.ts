@@ -11,7 +11,6 @@ import { Subscription } from 'rxjs';
 export class ShoppingListComponent implements OnInit {
   public shoppingList: ShoppingList[];
   public profileSubscription: Subscription;
-  public isLoading = true;
   constructor(private profileService: ProfileService) { }
 
   ngOnInit() {
@@ -21,20 +20,14 @@ export class ShoppingListComponent implements OnInit {
   public getShoppingList(): void {
     this.profileSubscription = this.profileService.getShoppingList()
     .subscribe(
-      (shoppingListArr: ShoppingList[]) => {
-        this.isLoading = false;
-        this.shoppingList = shoppingListArr;
-      },
-        error => {
-          this.shoppingList = [];
-          this.isLoading = false;
-        }
+      (shoppingListArr: ShoppingList[]) => this.shoppingList = shoppingListArr,
+      error => this.shoppingList = []
     );
   }
 
   public toggleDone(item): void {
     this.profileService.toggleStatusOfShoppingItem(item)
-      .subscribe((success) => this.updateDataOnUi(item));
+    .subscribe((success) => this.updateDataOnUi(item));
   }
 
   private updateDataOnUi(item): any {
