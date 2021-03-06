@@ -11,3 +11,18 @@
     justify-content: space-between;
   }
 }
+
+.noFriends-wraper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .noFriends {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 48px;
+  }
+}
