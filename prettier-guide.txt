@@ -1,0 +1,4 @@
+// use npx prettier --write . to format the whole project
+//  or use prettier --write src/app to format only the app folder
+// Run prettier --check . in CI to make sure that your project stays formatted.
+// On save formatting is enabled at this moment
