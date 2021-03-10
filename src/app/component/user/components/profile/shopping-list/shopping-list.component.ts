@@ -39,7 +39,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
     return item.status = newItemStatus;
   }
 
-  ngOnDestroy () {
+  ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }
