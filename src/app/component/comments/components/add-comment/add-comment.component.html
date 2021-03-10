@@ -12,28 +12,25 @@
   </app-user-profile-image>
   <div class="input-submit" *ngIf="!commentId; else reply">
     <textarea
+      class="comment-width"
       placeholder="{{
         'homepage.eco-news.comment.placeholder.add-a-comment' | translate
       }}"
       formControlName="content"
-      style="width: 505px"
     ></textarea>
-    <button
-      class="primary-global-button"  
-      [disabled]="!addCommentForm.valid"
-    >
+    <button class="primary-global-button" [disabled]="!addCommentForm.valid">
       {{ "homepage.eco-news.comment.comment" | translate }}
     </button>
   </div>
   <ng-template #reply>
     <div class="input-submit">
       <textarea
+        class="reply-width"
         placeholder="{{
           'homepage.eco-news.comment.placeholder.add-a-reply' | translate
         }}"
         formControlName="content"
         [maxlength]="replyMaxLength"
-        style="width: 467px"
       ></textarea>
       <button class="primary-global-button" [disabled]="!addCommentForm.valid">
         {{ "homepage.eco-news.comment.reply" | translate }}
