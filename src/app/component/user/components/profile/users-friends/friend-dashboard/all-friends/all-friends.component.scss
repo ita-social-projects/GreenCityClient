@@ -1,3 +1,5 @@
+$fontMontserrat: 'Montserrat', sans-serif;
+
 .container {
   display: flex;
   flex-direction: row;
@@ -19,7 +21,7 @@
   justify-content: center;
 
   .noFriends {
-    font-family: 'Montserrat', sans-serif;
+    font-family: $fontMontserrat;
     font-size: 32px;
     font-weight: 500;
     font-style: normal;
