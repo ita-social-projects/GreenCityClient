@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { HabitAssignInterface } from '../../../../../../interface/habit/habit-assign.interface';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { take } from 'rxjs/operators';
@@ -42,6 +42,8 @@ export class OneHabitComponent implements OnInit {
     }
   };
 
+  @Output () nowAcquiredHabit = new EventEmitter();
+
   constructor(private localStorageService: LocalStorageService,
               private habitAssignService: HabitAssignService) { }
 
@@ -76,11 +78,16 @@ export class OneHabitComponent implements OnInit {
     this.habitAssignService.enrollByHabit(this.habit.habit.id, this.currentDate)
       .pipe(take(1))
       .subscribe(response => {
+        if (response.status === 'ACQUIRED') {
+          this.descriptionType.acquired();
+          this.nowAcquiredHabit.emit(response);
+        } else {
         this.habit.habitStatusCalendarDtoList = response.habitStatusCalendarDtoList;
         this.habit.workingDays = response.workingDays;
         this.habit.habitStreak = response.habitStreak;
         this.buildHabitDescription();
         this.isRequest = false;
+        }
       });
   }
 

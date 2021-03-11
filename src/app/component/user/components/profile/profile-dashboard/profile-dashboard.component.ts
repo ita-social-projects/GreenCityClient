@@ -34,6 +34,12 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     this.getUserId();
   }
 
+  public changeStatus(response) {
+    const index = this.habitsInProgress.findIndex((habitInProg) => habitInProg.id === response.id);
+    this.habitsInProgress.splice(index, 1);
+    this.habitsAcquired.unshift(response);
+  }
+
   private getUserId() {
     this.userId = this.localStorageService.getUserId();
   }
