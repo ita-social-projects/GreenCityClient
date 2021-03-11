@@ -1,6 +1,38 @@
 <div class="header">
-  <h6>Ваше замовлення:</h6>
-  <div class="order" *ngIf="ubsRow">
+  <h3>Ваше замовлення:</h3>
+  <table>
+    <thead>
+      <th>Послуга</th>
+      <th>Об'єм</th>
+      <th>Вартість</th>
+      <th>Кількість пакетів</th>
+      <th>Сума</th>
+    </thead>
+    <tbody>
+    <tr>
+      <td class="firstRow">{{ ubsBag }}</td>
+      <td class="firstRow"> {{ bagSizeUbs }}</td>
+      <td class="firstRow">{{ ubsBagPrice }}</td>
+      <td class="firstRow">{{ ubsBagNum }}</td>
+      <td class="firstRow">{{ bagSumUbs }}</td>
+    </tr>
+    <tr>
+      <td>{{ clothesBagXL }}</td>
+      <td>{{ bagSizeClothesXL }}</td>
+      <td>{{ clothesBagXLPrice }}</td>
+      <td>{{ clothesBagXLNum }}</td>
+      <td>{{ bagSumClothesXL }}</td>
+    </tr>
+    <tr>
+      <td class="lastRow">{{ clothesBagM }}</td>
+      <td class="lastRow">{{ bagSizeClothesM }}</td>
+      <td class="lastRow">{{ clothesBagMPrice }}</td>
+      <td class="lastRow">{{ clothesBagMNum }}</td>
+      <td class="lastRow">{{ bagSumClothesM }}</td>
+    </tr>
+    </tbody>
+  </table>
+  <!-- <div class="order" *ngIf="ubsRow">
     <div class="order-details"><span>{{ ubsBag }}</span><span> ({{ ubsBagNum }} пакети)</span></div>
     <div class="order-details"><span #ubsSum>{{ ubsBagPrice }} грн</span></div>
   </div>
@@ -11,9 +43,21 @@
   <div class="order" *ngIf="MRow">
     <div class="order-details"><span>{{ clothesBagM }}</span><span> ({{ clothesBagMNum }} пакети)</span></div>
     <div class="order-details"><span #clothesMSum>{{ clothesBagMPrice }} грн</span></div>
+  </div> -->
+  <!-- <hr>
+  <div class="finalCost"><p><span>Використано бонусів: {{ usedPoints }}</span><br><span>До оплати: {{ total }} грн</span></p></div> -->
+  <div class="showTotal">
+    <div class="totalInfo">
+      <p><span>Сума замовлення: </span><span><b>{{ showTotal }}</b></span></p>
+      <p><span>Сертифікат: </span><span><small>{{ showCertificateUsed }}</small></span></p>
+      <p><span>Бонуси: </span><span><small>{{ showPointsUsed }}</small></span></p>
+      <p><span>Сума до оплати: </span><span><b>{{ finalSum }}</b></span></p>
+      <div *ngIf="displayMes" class="validMes">
+        <small class="text-danger">Мінімальна сума замовлення повинна складати 500 грн</small>
+      </div>
+    </div>
   </div>
-  <hr>
-  <div class="finalCost"><p><span>Використано бонусів: {{ usedPoints }}</span><br><span>До оплати: {{ total }} грн</span></p></div>
+
 </div>
 <div class="main">
   <h6>Дані замовника:</h6>

@@ -44,6 +44,10 @@ label:nth-child(5) {
   padding-left: 1.1rem;
 }
 
+label:nth-child(5) {
+  padding-left: 4rem;
+}
+
 .form-group {
   padding: 0;
 }
@@ -58,7 +62,6 @@ label:nth-child(5) {
 .count input{
   background: #fff;
   border: 1px solid #64727D;
-  border-radius: 0;
   padding-left: 6px;
 }
 .custom-control-label {
@@ -77,12 +80,14 @@ label:nth-child(5) {
 
 .sum {
   width: 6rem;
-  text-align: left;
   margin-left: 3rem;
+
   .form-control {
-    padding-left: 1.4rem;
-    padding-right: 0;
+    padding-left: 0;
+    text-align: right;
+    font-weight: 700;
   }
+
 }
 
 button{
@@ -107,23 +112,37 @@ button:hover {
 
 .totalInfo {
   text-align: right;
-  width: 45%;
+  width: 25%;
+
+  p {
+    display: flex;
+    justify-content: space-between;
+    color: #64727D;
+    padding-right: .5rem;
+  }
+
+  span {
+    display: block;
+  }
+
+  small {
+    color: var(--primary-green);
+  }
 
    .validMes {
-     margin-top: -1.5rem;
+     margin-top: -1rem;
+     text-align: left;
    }
 }
 
-.p {
-  margin-top: 30px;
-}
+
 
 .middle-container {
 
   .showTotal {
     display: flex;
     justify-content: flex-end;
-    // min-height: 98px;
+    margin-bottom: 2rem;
   }
 
   .certificate-container,
@@ -140,6 +159,10 @@ button:hover {
 
   .addCertificate {
     align-items: center;
+
+    button {
+      margin-top: 1rem;
+    }
   }
 
   .addCertificateBtn {
@@ -178,12 +201,31 @@ button:hover {
 
 }
 
-.bottom_submit {
+.shop_submit {
+  position: relative;
+  width: 85%;
   margin-top: 1rem;
+
+  .form-group {
+    width: 39%;
+    input {
+      padding: .5rem;
+    }
+  }
+
+}
+
+.addOrderBtn {
+  width: 60%;
+  color: var(--primary-green);
+  cursor: pointer;
 }
 
 .bottom-text {
-  margin-top: 2rem;
+  position: absolute;
+  right: 0;
+  width: 60%;
+  padding: 1.5rem 0 0 .5rem;
 }
 
 .comment {
@@ -212,7 +254,8 @@ button:hover {
 
 .bottom {
   padding: 3rem 0;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid  #CACFD3;
 
   .custom-control {
     padding-left: 1.4rem;

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { ShareFormService } from '../../services/share-form.service';
 import { IOrder } from './order.interface';
@@ -16,14 +16,15 @@ export class OrderDetailsFormComponent implements OnInit {
   orderDetailsForm: FormGroup;
   showTotal: string;
   total: number = 0;
-  finalSum: any;
+  finalSum: string = '0 грн';
   points: number;
   pointsUsed: any;
   showPointsUsed: any;
+  displayCalc: boolean = false;
   displayMes: boolean = false;
   displayCert: boolean = false;
+  displayBonus: boolean = false;
   displayShop: boolean = false;
-  // moreCert: boolean = true;
   addCert: boolean = false;
   onSubmit: boolean = true;
   order: {};
@@ -34,6 +35,7 @@ export class OrderDetailsFormComponent implements OnInit {
   certSize: boolean = false;
   dataCert: any;
   showCertificateUsed: string;
+  certificateLeft: number = 0;
   userOrder: IUserOrder;
   object: {};
 
@@ -41,15 +43,10 @@ export class OrderDetailsFormComponent implements OnInit {
     return this.orderDetailsForm.get('additionalCertificates') as FormArray;
   }
 
-  addCertificate() {
-    this.additionalCertificates.push(this.fb.control(''));
-    this.addCert = false;
-    // this.moreCert = false;
+  get additionalOrders() {
+    return this.orderDetailsForm.get('additionalOrders') as FormArray;
   }
 
-  deleteCertificate(i) {
-    this.additionalCertificates.removeAt(i);
-  }
 
   constructor(private fb: FormBuilder,
     private _orderService: OrderService,
@@ -70,23 +67,24 @@ export class OrderDetailsFormComponent implements OnInit {
       bagNumUbs: [0],
       bagSizeUbs: [{ value: '', disabled: true }],
       bagPriceUbs: [{ value: '', disabled: true }],
-      bagSumUbs: [{ value: '', disabled: true }],
+      bagSumUbs: [{ value: '0 грн', disabled: true }],
       bagServiceClothesXL: [{ value: '', disabled: true }],
       bagNumClothesXL: [0, Validators.required],
       bagSizeClothesXL: [{ value: '', disabled: true }],
       bagPriceClothesXL: [{ value: '', disabled: true }],
-      bagSumClothesXL: [{ value: '', disabled: true }],
+      bagSumClothesXL: [{ value: '0 грн', disabled: true }],
       bagServiceClothesM: [{ value: '', disabled: true }],
       bagNumClothesM: [0],
       bagSizeClothesM: [{ value: '', disabled: true }],
       bagPriceClothesM: [{ value: '', disabled: true }],
-      bagSumClothesM: [{ value: '', disabled: true }],
+      bagSumClothesM: [{ value: '0 грн', disabled: true }],
       certificate: ['', [Validators.minLength(8), Validators.pattern(/[^0000]\d{4}/)]],
       additionalOrder: [''],
       orderComment: [''],
       bonus: ['no'],
       shop: ['no'],
-      additionalCertificates: this.fb.array([])
+      additionalCertificates: this.fb.array([]),
+      additionalOrders: this.fb.array(['']),
     });
 
     this.orderDetailsForm.get('shop').valueChanges.
@@ -120,6 +118,7 @@ export class OrderDetailsFormComponent implements OnInit {
   }
 
   calc() {
+    console.log(this.additionalOrders.value);
     this.orderDetailsForm.patchValue({
       bagSumUbs: `${this.orderDetailsForm.value.bagNumUbs * this.orders.allBags[0].price} грн`,
       bagSumClothesXL: `${this.orderDetailsForm.value.bagNumClothesXL * this.orders.allBags[1].price} грн`,
@@ -128,7 +127,9 @@ export class OrderDetailsFormComponent implements OnInit {
     this.total = this.orderDetailsForm.value.bagNumUbs * this.orders.allBags[0].price +
       this.orderDetailsForm.value.bagNumClothesXL * this.orders.allBags[1].price +
       this.orderDetailsForm.value.bagNumClothesM * this.orders.allBags[2].price;
-    this.showTotal = `Сума замовлення: ${this.total} грн`;
+    this.showTotal = `${this.total} грн`;
+    this.finalSum = `${this.total} грн`;
+    this.displayCalc = true;
     if (this.total < 500) {
       this.displayMes = true;
       this.onSubmit = true;
@@ -137,61 +138,114 @@ export class OrderDetailsFormComponent implements OnInit {
   }
 
   calcPoints() {
+    this.displayBonus = true;
     if(this.certificateSum <= 0) {
-    this.showTotal = `Сума замовлення: ${this.total} грн`;
+    this.showTotal = `${this.total} грн`;
     this.points > this.total ? this.pointsUsed = this.total : this.pointsUsed = this.points;
-    this.showPointsUsed = `Списано балів: ${this.pointsUsed}`;
+    this.showPointsUsed = `-${this.pointsUsed} грн`;
     this.points > this.total ? this.points = this.points - this.total : this.points = 0;
-    this.finalSum = `Сума до оплати: ${this.total - this.pointsUsed} грн`;
+    this.finalSum = `${this.total - this.pointsUsed} грн`;
     this.total = this.total - this.pointsUsed}
     else {
-      this.showTotal = `Сума замовлення: ${this.total} грн`;
+      this.showTotal = `${this.total} грн`;
+      this.points > this.total ? this.points = this.points - this.total : this.points = 0;
       this.points > this.total ? this.pointsUsed = this.total - this.certificateSum : this.pointsUsed = this.points;
-      this.showPointsUsed = `Списано балів: ${this.pointsUsed}`;
-      this.finalSum = `Сума до оплати: ${this.total - this.pointsUsed - this.certificateSum} грн`;
+      this.showPointsUsed = `-${this.pointsUsed} грн`;
+      this.finalSum = `${this.total - this.pointsUsed - this.certificateSum} грн`;
     }
   }
 
   resetPoints() {
+    this.displayBonus = false;
     this.total = this.orderDetailsForm.value.bagNumUbs * this.orders.allBags[0].price +
     this.orderDetailsForm.value.bagNumClothesXL * this.orders.allBags[1].price +
     this.orderDetailsForm.value.bagNumClothesM * this.orders.allBags[2].price;
-    this.showTotal = `Сума до оплати: ${this.total} грн`;
+    this.showTotal = `${this.total} грн`;
     this.showPointsUsed = '';
-    this.finalSum = '';
+    this.finalSum = this.showTotal;
     this.points = this.orders.points;
   }
+
+  addOrder() {
+    this.additionalOrders.push(this.fb.control(''));
+  }
+
+  addCertificate() {
+    this.additionalCertificates.push(this.fb.control(''));
+    this.addCert = false;
+  }
+
+  deleteCertificate(i) {
+    if(this.displayCert === false){
+      this.certificates.splice(i, 1);
+      this.additionalCertificates.removeAt(i);
+      this.calcCertificates(this.certificates);
+    } else {
+    this.certificates.splice(i+1, 1);
+    this.additionalCertificates.removeAt(i);
+    console.log(this.certificates);
+    this.calcCertificates(this.certificates);}
+  }
+
+  addedCertificateSubmit(i) {
+    this.certificates.push(this.additionalCertificates.value[i]);
+    this.calcCertificates(this.certificates);
+    console.log(this.certificates);
+    this.addCert = true;
+  }
+
+ calcCertificates(arr) {
+   if(arr.length > 0){
+    this.certificateSum = 0;
+    for (const certificate of arr) {
+      this._orderService.processCertificate(certificate).subscribe(certificate => {
+        this.certificateMatch(certificate);
+        if(this.total > this.certificateSum) {
+          this.finalSum = `${this.total - this.certificateSum} грн`;
+          this.showCertificateUsed = `-${this.certificateSum} грн`;
+           this.addCert = true;
+        } else {
+          this.finalSum = `0 грн`;
+          this.certificateLeft = this.certificateSum - this.total;
+          this.showCertificateUsed = `-${this.total} грн`;
+          this.points = this.orders.points + this.certificateLeft;
+          this.addCert = false;
+          this.certSize = true;
+        }
+      })
+    }
+  } else {
+    this.certificateSum = 0;
+    this.finalSum = `${this.total - this.certificateSum} грн`;
+    console.log('empty');
+  }
+ }
 
   certificateSubmit() {
     this.certificates.push(this.orderDetailsForm.value.certificate);
     console.log(this.certificates);
-    this._orderService.processCertificate(this.certificates[0]).subscribe(certificate => {
-      this.certificateMatch(certificate);
-      this.finalSum = `Сума до оплати: ${this.total - this.certificateSum} грн`;
-      this.showCertificateUsed = `Сертифікат -${this.certificateSum} грн`;
-      if(this.total > this.certificateSum) {
-         this.addCert = true;
-      }else {
-        this.addCert = false;
-        this.certSize = true;
-        this.finalSum = `Сума до оплати: 0 грн`;
-      }
-    })
+    this.calcCertificates(this.certificates);
+    this.displayCert = true;
+
   }
 
   certificateReset() {
-    this.certificateSum = 0;
-    this.finalSum = `Сума до оплати: ${this.total - this.certificateSum} грн`;
     this.showCertificateUsed = '';
     this.addCert = false;
+    this.displayCert = false;
+    this.certificates.splice(0, 1);
+    console.log(this.certificates);
     this.orderDetailsForm.patchValue({
       certificate: '',
-    })
+    });
+    this.calcCertificates(this.certificates);
   }
 
   certificateMatch(cert) {
-      if(cert.certificateStatus === 'ACTIVE'){
-        this.certificateSum = cert.certificatePoints;
+      if(cert.certificateStatus){
+        this.certificateSum = this.certificateSum + cert.certificatePoints;
+        console.log(cert.certificatePoints);
+
       }else {console.log('invalid');
       }
   }
@@ -199,15 +253,21 @@ export class OrderDetailsFormComponent implements OnInit {
 
   submit() {
     const paymentBill = [{name: this.orderDetailsForm.get('bagServiceUbs').value,
+                          size: this.orderDetailsForm.get('bagSizeUbs').value,
                         amount: this.orderDetailsForm.get('bagNumUbs').value,
-                        count: this.orderDetailsForm.get('bagPriceUbs').value},
+                        count: this.orderDetailsForm.get('bagPriceUbs').value,
+                        sum: this.orderDetailsForm.get('bagSumUbs').value},
                         {name: this.orderDetailsForm.get('bagServiceClothesXL').value,
+                        size: this.orderDetailsForm.get('bagSizeClothesXL').value,
                         amount: this.orderDetailsForm.get('bagNumClothesXL').value,
-                        count: this.orderDetailsForm.get('bagPriceClothesXL').value},
+                        count: this.orderDetailsForm.get('bagPriceClothesXL').value,
+                        sum: this.orderDetailsForm.get('bagSumClothesXL').value},
                         {name: this.orderDetailsForm.get('bagServiceClothesM').value,
+                        size: this.orderDetailsForm.get('bagSizeClothesM').value,
                         amount: this.orderDetailsForm.get('bagNumClothesM').value,
-                        count: this.orderDetailsForm.get('bagPriceClothesM').value},
-                        this.total, this.pointsUsed, ];
+                        count: this.orderDetailsForm.get('bagPriceClothesM').value,
+                        sum: this.orderDetailsForm.get('bagSumClothesM').value},
+                      this.showTotal, this.showCertificateUsed, this.showPointsUsed, this.finalSum];
     let ubs = Object.assign({ id: 1, amount: this.orderDetailsForm.value.bagNumUbs });
     let clothesXL = Object.assign({ id: 2, amount: this.orderDetailsForm.value.bagNumClothesXL });
     let clothesM = Object.assign({ id: 3, amount: this.orderDetailsForm.value.bagNumClothesM });

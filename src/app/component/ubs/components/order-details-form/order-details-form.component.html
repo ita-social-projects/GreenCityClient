@@ -69,19 +69,16 @@
     <div class="form-group sum">
       <input formControlName="bagSumClothesM" type="text" class="form-control">
     </div>
-
   </div>
 
   <div class="middle">
     <div class="middle-container">
       <div class="showTotal">
-
         <div class="totalInfo">
-          <p> <b><span>{{ showTotal }}</span></b><br>
-            <span>{{ showPointsUsed }}</span><br>
-            <span>{{ showCertificateUsed }}</span><br>
-            <b><span>{{ finalSum }}</span></b>
-          </p>
+          <p *ngIf="displayCalc"><span>Сума замовлення: </span><span><b>{{ showTotal }}</b></span></p>
+          <p *ngIf="displayCert"><span>Сертифікат: </span><span><small>{{ showCertificateUsed }}</small></span></p>
+          <p *ngIf="displayBonus"><span>Бонуси: </span><span><small>{{ showPointsUsed }}</small></span></p>
+          <p><span>Сума до оплати: </span><span><b>{{ finalSum }}</b></span></p>
           <div *ngIf="displayMes" class="validMes">
             <small class="text-danger">Мінімальна сума замовлення повинна складати 500 грн</small>
           </div>
@@ -99,8 +96,6 @@
             [disabled]="!orderDetailsForm.get('certificate').valid" (click)="certificateSubmit()">Активувати</button>
           <button *ngIf="addCert" type="button" class="btn btn-primary" (click)="certificateReset()">Відмінити</button>
         </div>
-        <!-- <button *ngIf="!moreCert" type="button" class="btn btn-primary" (click)="certificateReset()" style="margin-bottom: 1rem;">Відмінити</button> -->
-
         <!-- <div class="validation" *ngIf="orderDetailsForm.get('certificate').invalid && orderDetailsForm.get('certificate').touched">
             <app-error
               [formElement]="orderDetailsForm.get('certificate')"
@@ -108,25 +103,25 @@
               [controlName]="'certificate'"
             ></app-error>
           </div> -->
-        <small class="text-danger" [class.d-none]="orderDetailsForm.get('certificate').valid ||
+        <!-- <small class="text-danger" [class.d-none]="orderDetailsForm.get('certificate').valid ||
                                                     orderDetailsForm.get('certificate').untouched">Сертифікат не
           прийнято, споробуйте ще раз</small>
-        <!-- <small class="text-danger" [class.d-none]="orderDetailsForm.get('certificate').invalid ||
+        <small class="text-danger" [class.d-none]="orderDetailsForm.get('certificate').invalid ||
                                                     orderDetailsForm.get('certificate').untouched">Сертифікат на суму
-          активовано</small> -->
+          активовано</small>
         <small *ngIf="certSize">Сертифікат на суму XXX грн активовано, що перевищує суму Вашого замовлення. Залишок у розмірі YYY грн
-          буде нараховано на Ваш бонусний рахунок для наступного замовлення.</small>
+          буде нараховано на Ваш бонусний рахунок для наступного замовлення.</small> -->
       </div>
       <div class="addCertificate" formArrayName="additionalCertificates"
         *ngFor="let certificate of additionalCertificates.controls; let i=index;">
         <input type="text" class="shadow-none form-control col-12 col-sm-8 my-1" type="text" placeholder="xxxx-xxxx"
-        [unmask]="false" [imask]="{mask: certificateMask}" [formControlName]="i"><button
-          (click)="deleteCertificate('i')">Відмінити</button>
+        [unmask]="false" [imask]="{mask: certificateMask}" [formControlName]="i">
+        <div class="form-group">
+          <button *ngIf="!addCert" type="button" class="btn btn-primary"
+            [disabled]="!orderDetailsForm.get('certificate').valid" (click)="addedCertificateSubmit(i)">Активувати</button>
+          <button *ngIf="addCert" type="button" class="btn btn-primary" (click)="deleteCertificate(i)">Відмінити</button>
+        </div>
       </div>
-      <!-- <div *ngIf="!moreCert" class="form-group">
-        <button *ngIf="!addCert" type="button" class="btn btn-primary"
-          [disabled]="!orderDetailsForm.get('certificate').valid" (click)="certificateSubmit()">Активувати</button>
-      </div> -->
       <p *ngIf="addCert && additionalCertificates.controls.length < 4"
           class="addCertificateBtn" (click)="addCertificate()">Додати ще сертифікат</p>
 
@@ -150,6 +145,7 @@
   </div>
 
   <div class="bottom">
+
     <h3>Еко магазин</h3>
       <h5>Чи чекаєте Ви замовлення з нашого Еко-магазину?</h5>
     <div class="form-check custom-control custom-radio">
@@ -162,17 +158,23 @@
         type="radio">
       <label class="form-check-label custom-control-label" for="customRadio4">Ні</label>
     </div>
-    <div *ngIf="displayShop" class="form-group col-12 col-sm-6 bottom_submit">
-      <div class="form-group col-12 col-sm-8">
-        <label>Введіть номер замовлення</label>
-        <input formControlName="additionalOrder" class="shadow-none form-control" type="text" [class.is-invalid]="orderDetailsForm.get('additionalOrder').invalid &&
-                                orderDetailsForm.get('additionalOrder').touched">
+
+    <div *ngIf="displayShop" class="form-group shop_submit">
+      <div class="bottom-text">
+        <p>Якщо Ви не змогли знайти номер замовлення, вкажіть в коментарі прізвище та ім’я, на які робили замовлення.</p>
       </div>
+      <div *ngFor="let order of additionalOrders.controls; let i=index" class="form-group">
+        <label>Введіть номер замовлення</label>
+        <input [formControl]="additionalOrders.controls[i]" class="shadow-none form-control" type="text" placeholder="xxxx-xxxx"
+         [class.is-invalid]="orderDetailsForm.get('additionalOrder').invalid &&
+                                orderDetailsForm.get('additionalOrder').touched"></div>
+
+          <p *ngIf="additionalOrders.controls.length < 3"
+          class="addOrderBtn" (click)="addOrder()">Додати ще номер замовлення</p>
+
     </div>
-    <div class="bottom-text">
-      <p>Якщо Ви не змогли знайти номер замовлення, вкажіть в коментарі прізвище та ім’я, на які робили замовлення.
-      </p>
-    </div>
+
+
   </div>
   <div class="bottom_comment">
     <div class="form-group comment">
@@ -181,7 +183,7 @@
     </div>
     <div class="w-100 d-flex justify-content-end">
       <button type="submit" class="btn btn-primary" matStepperNext
-        [disabled]="!orderDetailsForm.valid || onSubmit">Далі</button>
+        [disabled]="onSubmit">Далі</button>
     </div>
   </div>
 </form>

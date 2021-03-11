@@ -1,10 +1,65 @@
 .header,
 .main {
   width: 100%;
-  background:  #F7F9FA;
+  // background:  #F7F9FA;
   margin-top: 2rem;
   padding: 30px 20px;
   margin-bottom: 3rem;
+}
+
+table {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+tbody {
+  padding: 4rem 0;
+  border-bottom: 1px solid  #CACFD3;
+  border-top: 1px solid  #CACFD3;
+
+}
+
+.firstRow {
+  padding-top: 2rem;
+}
+
+.lastRow {
+  padding-bottom: 2rem;
+}
+
+th, td {
+  padding: .8rem 1rem .8rem 0;
+}
+
+th {
+  color: #64727D;
+}
+
+.showTotal {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.totalInfo {
+  text-align: right;
+  width: 25%;
+
+  p {
+    display: flex;
+    justify-content: space-between;
+    color: #64727D;
+    padding-right: .5rem;
+  }
+
+  span {
+    display: block;
+  }
+
+  small {
+    color: var(--primary-green);
+  }
 }
 
 .header {
@@ -54,3 +109,4 @@ button {
   margin: 0 24px 0 0;
   background: transparent;
 }
+

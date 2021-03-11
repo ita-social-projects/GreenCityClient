@@ -26,16 +26,24 @@ export class PaymentFormComponent implements OnInit {
   comment: string;
   orders: IOrder;
   ubsBag: string;
+  bagSizeUbs: string;
+  bagSumUbs: string;
   clothesBagXL: string;
+  bagSizeClothesXL: string;
+  bagSumClothesXL: string;
   clothesBagM: string;
+  bagSizeClothesM: string;
+  bagSumClothesM: string;
   ubsBagNum: number;
   clothesBagXLNum: number;
   clothesBagMNum: number;
   ubsBagPrice: number;
   clothesBagXLPrice: number;
   clothesBagMPrice: number;
-  usedPoints: number;
-  total: number;
+  showTotal: string;
+  showCertificateUsed: string;
+  showPointsUsed: string;
+  finalSum: string;
   ubsRow: boolean = false;
   XLRow: boolean = false;
   MRow: boolean = false;
@@ -54,20 +62,22 @@ export class PaymentFormComponent implements OnInit {
   }
 
   initPaymentData(): void {
-    // this.ubsBag = this.orders.allBags[0].name;
-    // this.clothesBagXL = this.orders.allBags[1].name;
-    // this.clothesBagM = this.orders.allBags[2].name;
-    // this.ubsBagPrice = this.orders.allBags[0].price;
-    // this.clothesBagXLPrice = this.orders.allBags[1].price;
-    // this.clothesBagMPrice = this.orders.allBags[2].price;
     this.ubsBag = this.bill[0].name;
+    this.bagSizeUbs = this.bill[0].size;
+    this.bagSumUbs = this.bill[0].sum;
     this.clothesBagXL = this.bill[1].name;
+    this.bagSizeClothesXL = this.bill[1].size;
+    this.bagSumClothesXL = this.bill[1].sum;
     this.clothesBagM = this.bill[2].name;
+    this.bagSizeClothesM = this.bill[2].size;
+    this.bagSumClothesM = this.bill[2].sum;
     this.ubsBagPrice = this.bill[0].count;
     this.clothesBagXLPrice = this.bill[1].count;
     this.clothesBagMPrice = this.bill[2].count;
-    this.usedPoints = this.bill[4];
-    this.total = this.bill[3];
+    this.showTotal = this.bill[3];
+    this.showCertificateUsed = this.bill[4];
+    this.showPointsUsed = this.bill[5];
+    this.finalSum = this.bill[6];
   }
 
   initPersonalData(): void {
@@ -77,7 +87,7 @@ export class PaymentFormComponent implements OnInit {
     this.clothesBagXLNum > 0 ? this.XLRow = true : this.XLRow = false;
     this.clothesBagMNum = this.finalOrder.bags[2].amount;
     this.clothesBagMNum > 0 ? this.MRow = true : this.MRow = false;
-    this.usedPoints = this.finalOrder.pointsToUse;
+    this.showPointsUsed = this.finalOrder.pointsToUse;
     this.firstName = this.finalOrder.personalData.firstName;
     this.lastName = this.finalOrder.personalData.lastName;
     this.email = this.finalOrder.personalData.email;
