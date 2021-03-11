@@ -12,17 +12,9 @@ describe('EcoEventsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        EcoEventsComponent,
-        EcoEventsItemComponent
-      ],
-      imports: [
-        RouterTestingModule,
-        HttpClientModule,
-        TranslateModule.forRoot()
-      ]
-    })
-    .compileComponents();
+      declarations: [EcoEventsComponent, EcoEventsItemComponent],
+      imports: [RouterTestingModule, HttpClientModule, TranslateModule.forRoot()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

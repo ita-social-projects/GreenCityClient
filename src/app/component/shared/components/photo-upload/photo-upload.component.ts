@@ -1,17 +1,17 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {FileUploader} from 'ng2-file-upload';
-import {HttpClient} from '@angular/common/http';
-import {AngularFirestore} from '@angular/fire/firestore';
-import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
-import {Observable} from 'rxjs';
-import {Photo} from '../../../../model/photo/photo';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { FileUploader } from 'ng2-file-upload';
+import { HttpClient } from '@angular/common/http';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
+import { Observable } from 'rxjs';
+import { Photo } from '../../../../model/photo/photo';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-photo-upload',
   templateUrl: './photo-upload.component.html',
-  styleUrls: ['./photo-upload.component.scss']
+  styleUrls: ['./photo-upload.component.scss'],
 })
 export class PhotoUploadComponent implements OnInit {
   @Output() listOfPhotos = new EventEmitter();
@@ -42,16 +42,10 @@ export class PhotoUploadComponent implements OnInit {
   uploadButton = true;
 
   public uploader: FileUploader = new FileUploader({
-    isHTML5: true
+    isHTML5: true,
   });
 
-  constructor(private fb: FormBuilder,
-              private http: HttpClient,
-              private matSnackBar: MatSnackBarComponent,
-              private db: AngularFirestore,
-              private storage: AngularFireStorage) {
-
-  }
+  constructor(private fb: FormBuilder, private http: HttpClient, private matSnackBar: MatSnackBarComponent, private db: AngularFirestore, private storage: AngularFireStorage) {}
 
   uploadSubmit() {
     // tslint:disable-next-line:prefer-for-of
@@ -70,7 +64,7 @@ export class PhotoUploadComponent implements OnInit {
       const path = `${new Date().getTime()}_${fileItem.name}`;
       this.task = this.storage.upload(path, fileItem);
       if (j === this.uploader.queue.length - 1) {
-        this.task.snapshotChanges().subscribe(value => {
+        this.task.snapshotChanges().subscribe((value) => {
           if (value.bytesTransferred === value.totalBytes) {
             this.loadingUpload = false;
             this.doneUpload = true;
@@ -78,7 +72,7 @@ export class PhotoUploadComponent implements OnInit {
           }
         });
       }
-      this.photoLinks.push({name: 'https://firebasestorage.googleapis.com/v0/b/greencity-9bdb7.appspot.com/o/' + path + '?alt=media'});
+      this.photoLinks.push({ name: 'https://firebasestorage.googleapis.com/v0/b/greencity-9bdb7.appspot.com/o/' + path + '?alt=media' });
     }
     this.listOfPhotos.emit(this.photoLinks);
     this.uploadButton = false;
@@ -86,15 +80,15 @@ export class PhotoUploadComponent implements OnInit {
 
   ngOnInit() {
     this.uploadForm = this.fb.group({
-      document: [null, null]
+      document: [null, null],
     });
-    this.uploadForm.valueChanges.subscribe(dt => this.fieldChanges());
+    this.uploadForm.valueChanges.subscribe((dt) => this.fieldChanges());
   }
 
   fieldChanges() {
     this.showTable = false;
     const DOCUMENT = 'document';
-    const document = this.uploadForm.controls[DOCUMENT] && this.uploadForm.controls[DOCUMENT].value || '';
+    const document = (this.uploadForm.controls[DOCUMENT] && this.uploadForm.controls[DOCUMENT].value) || '';
     if (this.photoLinks[DOCUMENT] !== document.trim()) {
       this.showTable = true;
     }

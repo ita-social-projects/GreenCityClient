@@ -22,19 +22,21 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 @Component({
   selector: 'app-update-cafe',
   templateUrl: './update-cafe.component.html',
-  styleUrls: ['./update-cafe.component.scss']
+  styleUrls: ['./update-cafe.component.scss'],
 })
 export class UpdateCafeComponent implements OnInit {
-
-  constructor(private modalService: ModalService,
-              private placeService: PlaceService,
-              private categoryService: CategoryService,
-              private specificationService: SpecificationService,
-              private uService: UserService,
-              private matSnackBar: MatSnackBarComponent,
-              private mapsAPILoader: MapsAPILoader,
-              private ngZone: NgZone, @Inject(MAT_DIALOG_DATA) public data: any,
-              private dialogRef: MatDialogRef<UpdateCafeComponent>) {
+  constructor(
+    private modalService: ModalService,
+    private placeService: PlaceService,
+    private categoryService: CategoryService,
+    private specificationService: SpecificationService,
+    private uService: UserService,
+    private matSnackBar: MatSnackBarComponent,
+    private mapsAPILoader: MapsAPILoader,
+    private ngZone: NgZone,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialogRef: MatDialogRef<UpdateCafeComponent>
+  ) {
     this.submitButtonEnabled = true;
   }
   name: any;
@@ -48,8 +50,7 @@ export class UpdateCafeComponent implements OnInit {
   discountValues: DiscountDto[] = [];
   specification: SpecificationNameDto;
   openingHoursList: OpeningHours[] = [];
-  weekDays: WeekDays[] = [WeekDays.MONDAY, WeekDays.TUESDAY, WeekDays.WEDNESDAY, WeekDays.THURSDAY, WeekDays.FRIDAY,
-    WeekDays.SATURDAY, WeekDays.SUNDAY];
+  weekDays: WeekDays[] = [WeekDays.MONDAY, WeekDays.TUESDAY, WeekDays.WEDNESDAY, WeekDays.THURSDAY, WeekDays.FRIDAY, WeekDays.SATURDAY, WeekDays.SUNDAY];
   openingHours: OpeningHours = new OpeningHours();
   breakTimes: BreakTimes = new BreakTimes();
   categories: any;
@@ -63,15 +64,15 @@ export class UpdateCafeComponent implements OnInit {
   submitButtonEnabled: boolean;
   isBreakTime = false;
   @Output() newPlaceEvent = new EventEmitter<PlaceWithUserModel>();
-  @ViewChild('saveForm', {static: true}) private saveForm: NgForm;
-  @ViewChild(NgSelectComponent, {static: true}) ngSelectComponent: NgSelectComponent;
-  @ViewChild('search', {static: true})
+  @ViewChild('saveForm', { static: true }) private saveForm: NgForm;
+  @ViewChild(NgSelectComponent, { static: true }) ngSelectComponent: NgSelectComponent;
+  @ViewChild('search', { static: true })
   public searchElementRef: ElementRef;
 
   weekDaysNew: WeekDays[] = [];
 
   ngOnInit() {
-    this.placeService.getPlaceByID(this.data).subscribe(data => {
+    this.placeService.getPlaceByID(this.data).subscribe((data) => {
       this.place = data;
       this.address = this.place.location.address;
       this.latitude = data.location.lat;
@@ -83,30 +84,30 @@ export class UpdateCafeComponent implements OnInit {
       this.name = this.place.category.name;
 
       if (data.openingHoursList.length !== 0) {
-        data.openingHoursList.forEach(day => {
+        data.openingHoursList.forEach((day) => {
           this.removeDay(day);
         });
         this.weekDays = this.weekDaysNew;
       }
     });
 
-    this.categoryService.findAllCategory().subscribe(data => {
+    this.categoryService.findAllCategory().subscribe((data) => {
       this.categories = data;
     });
 
-    this.specificationService.findAllSpecification().subscribe(data => {
+    this.specificationService.findAllSpecification().subscribe((data) => {
       this.specifications = data;
-      this.nameOfSpecification = data.map(res => res.name);
+      this.nameOfSpecification = data.map((res) => res.name);
     });
 
-    this.discountsNumber = Array.apply(null, {length: this.discountsNumber}).map(Number.call, Number);
+    this.discountsNumber = Array.apply(null, { length: this.discountsNumber }).map(Number.call, Number);
 
     // load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
       this.geoCoder = new google.maps.Geocoder();
 
       const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-        types: ['address']
+        types: ['address'],
       });
       autocomplete.addListener('place_changed', () => {
         this.ngZone.run(() => {
@@ -169,7 +170,7 @@ export class UpdateCafeComponent implements OnInit {
       }
     }
     const weekDaysNew: WeekDays[] = [];
-    this.weekDays.forEach(val => {
+    this.weekDays.forEach((val) => {
       if (val !== openingHours1.weekDay) {
         weekDaysNew.push(val);
       }
@@ -182,7 +183,7 @@ export class UpdateCafeComponent implements OnInit {
   }
 
   removeDay(openingHours1) {
-    this.weekDays.forEach(val => {
+    this.weekDays.forEach((val) => {
       if (val !== openingHours1.weekDay) {
         this.weekDaysNew.push(val);
       }
@@ -194,16 +195,16 @@ export class UpdateCafeComponent implements OnInit {
   }
 
   deleteDay(openingHours: OpeningHours) {
-    this.openingHoursList = this.openingHoursList.filter(item => item !== openingHours);
+    this.openingHoursList = this.openingHoursList.filter((item) => item !== openingHours);
     this.weekDays.push(openingHours.weekDay);
   }
 
   delete(discount: DiscountDto) {
-    this.discountValues = this.discountValues.filter(item => item !== discount);
+    this.discountValues = this.discountValues.filter((item) => item !== discount);
   }
 
   onSubmit() {
-    this.placeService.getPlaceByID(this.data).subscribe(data => {
+    this.placeService.getPlaceByID(this.data).subscribe((data) => {
       this.place = data;
       this.submitButtonEnabled = false;
       this.place.openingHoursList = this.openingHoursList;
@@ -226,7 +227,7 @@ export class UpdateCafeComponent implements OnInit {
   }
 
   getAddress(latitude, longitude) {
-    this.geoCoder.geocode({location: {lat: latitude, lng: longitude}}, (results, status) => {
+    this.geoCoder.geocode({ location: { lat: latitude, lng: longitude } }, (results, status) => {
       if (status === 'OK') {
         if (results[0]) {
           this.zoom = 12;

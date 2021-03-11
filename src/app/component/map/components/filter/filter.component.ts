@@ -7,7 +7,7 @@ import { MapComponent } from '../map-component/map.component';
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
-  styleUrls: ['./filter.component.scss']
+  styleUrls: ['./filter.component.scss'],
 })
 export class FilterComponent {
   discountMin = this.filterService.discountMin;
@@ -17,15 +17,12 @@ export class FilterComponent {
     floor: 0,
     ceil: 100,
     step: 1,
-    noSwitching: true
+    noSwitching: true,
   };
   distance: number;
   isDistanceValidationError = false;
 
-  constructor(private placeService: PlaceService,
-              private mapComponent: MapComponent,
-              private filterService: FilterPlaceService) {
-  }
+  constructor(private placeService: PlaceService, private mapComponent: MapComponent, private filterService: FilterPlaceService) {}
 
   applyFilters() {
     this.isDistanceValidationError = false;

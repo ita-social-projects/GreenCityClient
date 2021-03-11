@@ -1,4 +1,4 @@
 export enum SocketClientState {
-    ATTEMPTING,
-    CONNECTED
+  ATTEMPTING,
+  CONNECTED,
 }

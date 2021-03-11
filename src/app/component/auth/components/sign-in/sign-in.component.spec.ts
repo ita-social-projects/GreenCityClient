@@ -85,13 +85,7 @@ describe('SignIn component', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [SignInComponent, ErrorComponent, GoogleBtnComponent],
-      imports: [
-        HttpClientTestingModule,
-        MatDialogModule,
-        TranslateModule.forRoot(),
-        ReactiveFormsModule,
-        RouterTestingModule.withRoutes([])
-      ],
+      imports: [HttpClientTestingModule, MatDialogModule, TranslateModule.forRoot(), ReactiveFormsModule, RouterTestingModule.withRoutes([])],
       providers: [
         { provide: GoogleSignInService, useValue: googleServiceMock },
         { provide: AuthService, useValue: authServiceMock },
@@ -101,8 +95,8 @@ describe('SignIn component', () => {
         { provide: MatDialogRef, useValue: matDialogMock },
         { provide: UserOwnSignInService, useValue: signInServiceMock },
         { provide: Router, useValue: routerSpy },
-        { provide: ProfileService }
-      ]
+        { provide: ProfileService },
+      ],
     });
   }));
 
@@ -147,7 +141,7 @@ describe('SignIn component', () => {
       const userOwnSignIn = new UserOwnSignIn();
       userOwnSignIn.email = '1';
       userOwnSignIn.password = '1';
-      signInServiceMock.signIn(userOwnSignIn).subscribe(data => {
+      signInServiceMock.signIn(userOwnSignIn).subscribe((data) => {
         expect(data).toBeTruthy();
       });
     }));
@@ -161,20 +155,20 @@ describe('SignIn component', () => {
       expect(serviceSpy).toHaveBeenCalled();
     }));
 
-    it('Should call sinIn method with errors', async(inject([AuthService, GoogleSignInService],
-      (service: AuthService, service2: GoogleSignInService) => {
-      const promiseErrors = new Promise<SocialUser>((resolve, reject) => {
-        const errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
-        reject(errors);
-      });
-      const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseErrors);
-      component.signInWithGoogle();
-      fixture.detectChanges();
-      expect(serviceSpy).toHaveBeenCalled();
-    })));
+    it('Should call sinIn method with errors', async(
+      inject([AuthService, GoogleSignInService], (service: AuthService, service2: GoogleSignInService) => {
+        const promiseErrors = new Promise<SocialUser>((resolve, reject) => {
+          const errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
+          reject(errors);
+        });
+        const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseErrors);
+        component.signInWithGoogle();
+        fixture.detectChanges();
+        expect(serviceSpy).toHaveBeenCalled();
+      })
+    ));
 
-    it('Should call onSignInFailure with errors', inject([AuthService, GoogleSignInService],
-      (service: AuthService, service2: GoogleSignInService) => {
+    it('Should call onSignInFailure with errors', inject([AuthService, GoogleSignInService], (service: AuthService, service2: GoogleSignInService) => {
       component.onSignInWithGoogleSuccess = () => false;
       const errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
       const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseSocialUser).and.callThrough();
@@ -186,26 +180,30 @@ describe('SignIn component', () => {
       expect(serviceSpy).toHaveBeenCalled();
     }));
 
-    it('Test sign in method', async(inject([UserOwnSignInService], (service: UserOwnSignInService) => {
-      spyOn(service, 'signIn').and.returnValue(of(userSuccessSignIn));
-      component.signIn();
+    it('Test sign in method', async(
+      inject([UserOwnSignInService], (service: UserOwnSignInService) => {
+        spyOn(service, 'signIn').and.returnValue(of(userSuccessSignIn));
+        component.signIn();
 
-      fixture.detectChanges();
-      expect(service.signIn).toHaveBeenCalled();
-    })));
+        fixture.detectChanges();
+        expect(service.signIn).toHaveBeenCalled();
+      })
+    ));
 
-    it('Test sign in method with errors', async(inject([UserOwnSignInService], (service: UserOwnSignInService) => {
-      const errors = new HttpErrorResponse({ error: [{ name: 'name', message: 'Ups' }] });
-      spyOn(service, 'signIn').and.returnValue(throwError(errors));
-      component.signIn();
+    it('Test sign in method with errors', async(
+      inject([UserOwnSignInService], (service: UserOwnSignInService) => {
+        const errors = new HttpErrorResponse({ error: [{ name: 'name', message: 'Ups' }] });
+        spyOn(service, 'signIn').and.returnValue(throwError(errors));
+        component.signIn();
 
-      fixture.detectChanges();
-      expect(service.signIn).toHaveBeenCalled();
-    })));
+        fixture.detectChanges();
+        expect(service.signIn).toHaveBeenCalled();
+      })
+    ));
 
     it('Sohuld navige to profile after sign in', async(() => {
       fixture.ngZone.run(() => {
-          // @ts-ignore
+        // @ts-ignore
         component.onSignInSuccess(userSuccessSignIn);
         fixture.detectChanges();
         fixture.whenStable().then(() => {
@@ -303,4 +301,4 @@ describe('SignIn component', () => {
       expect(hiddenEyeInput.type).toEqual('password');
     });
   });
- });
+});

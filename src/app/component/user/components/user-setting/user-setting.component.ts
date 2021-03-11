@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-user-setting',
   templateUrl: './user-setting.component.html',
-  styleUrls: ['./user-setting.component.scss']
+  styleUrls: ['./user-setting.component.scss'],
 })
 export class UserSettingComponent implements OnInit {
   public isSomethingEdited = false;
@@ -31,7 +31,7 @@ export class UserSettingComponent implements OnInit {
     this.setEmailNotifications();
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   private getUser() {
     this.userService.getUser().subscribe((userUpdateModel: UserUpdateModel) => {
@@ -46,7 +46,7 @@ export class UserSettingComponent implements OnInit {
         this.dialogRef.close();
         this.router.navigate(['/']);
       },
-      error => { }
+      (error) => {}
     );
   }
 
@@ -69,13 +69,13 @@ export class UserSettingComponent implements OnInit {
   }
 
   private setEmailNotifications() {
-    this.userService.getEmailNotificationsStatuses().subscribe(res => {
+    this.userService.getEmailNotificationsStatuses().subscribe((res) => {
       this.emailNotifications = [
         ...res
-          .filter(eNotification => {
+          .filter((eNotification) => {
             return eNotification !== 'DISABLED';
           })
-          .map(column => column)
+          .map((column) => column),
       ];
     });
   }

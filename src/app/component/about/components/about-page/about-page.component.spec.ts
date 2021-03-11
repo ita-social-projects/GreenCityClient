@@ -13,13 +13,25 @@ class TranslationServiceStub {
   public onLangChange = new EventEmitter<any>();
   public onTranslationChange = new EventEmitter<any>();
   public onDefaultLangChange = new EventEmitter<any>();
-  public addLangs(langs: string[]) { }
-  public getLangs() { return 'en-us'; }
-  public getBrowserLang() { return ''; }
-  public getBrowserCultureLang() { return ''; }
-  public use(lang: string) { return ''; }
-  public get(key: any): any { return of(key); }
-  public setDefaultLang() {return true; }
+  public addLangs(langs: string[]) {}
+  public getLangs() {
+    return 'en-us';
+  }
+  public getBrowserLang() {
+    return '';
+  }
+  public getBrowserCultureLang() {
+    return '';
+  }
+  public use(lang: string) {
+    return '';
+  }
+  public get(key: any): any {
+    return of(key);
+  }
+  public setDefaultLang() {
+    return true;
+  }
 }
 
 describe('AboutPageComponent', () => {
@@ -30,8 +42,8 @@ describe('AboutPageComponent', () => {
 
   let translateServiceMock: TranslateService;
   translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
-  translateServiceMock.setDefaultLang = (lang: string) => of ();
-  translateServiceMock.get = () => of (true);
+  translateServiceMock.setDefaultLang = (lang: string) => of();
+  translateServiceMock.get = () => of(true);
   let localStorageServiceMock: LocalStorageService;
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
@@ -40,20 +52,14 @@ describe('AboutPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AboutPageComponent ],
-      imports: [
-        RouterTestingModule.withRoutes([]),
-        TranslateModule.forRoot()
-      ],
+      declarations: [AboutPageComponent],
+      imports: [RouterTestingModule.withRoutes([]), TranslateModule.forRoot()],
       providers: [
-        {provide: LocalStorageService, useValue: localStorageServiceMock},
-        {provide: TranslateService, useClass: TranslationServiceStub }
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
+        { provide: TranslateService, useClass: TranslationServiceStub },
       ],
-      schemas: [
-        CUSTOM_ELEMENTS_SCHEMA,
-        NO_ERRORS_SCHEMA]
-    })
-    .compileComponents();
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -62,16 +68,16 @@ describe('AboutPageComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create',  () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   afterEach(() => {
-    spyOn(component, 'ngOnDestroy').and.callFake(() => { });
+    spyOn(component, 'ngOnDestroy').and.callFake(() => {});
     fixture.destroy();
   });
 
-  it ('ngOnInit should called subscribeToLangChange method one time', () => {
+  it('ngOnInit should called subscribeToLangChange method one time', () => {
     const subscribeToLangChangeSpy = spyOn(component as any, 'subscribeToLangChange');
     component.ngOnInit();
     expect(subscribeToLangChangeSpy).toHaveBeenCalledTimes(1);

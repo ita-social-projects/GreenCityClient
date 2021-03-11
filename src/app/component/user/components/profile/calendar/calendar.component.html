@@ -1,91 +1,70 @@
 <div class="calendar">
   <div class="top">
-    <div *ngIf="monthView"
-         class="month-year">
+    <div *ngIf="monthView" class="month-year">
       <div (click)="previousMonth()">
-        <img [src]="calendarImages.arrowPrevious"
-             alt="arrow previous"
-             class="arrow-previous">
+        <img [src]="calendarImages.arrowPrevious" alt="arrow previous" class="arrow-previous" />
       </div>
-      <span class="monthAndYear"
-            (click)="toggleCalendarView()">
+      <span class="monthAndYear" (click)="toggleCalendarView()">
         {{ monthAndYearName }}
       </span>
       <div (click)="nextMonth()">
-        <img [src]="calendarImages.arrowNext"
-             alt="arrow next"
-             class="arrow-next">
+        <img [src]="calendarImages.arrowNext" alt="arrow next" class="arrow-next" />
       </div>
     </div>
-    <div *ngIf="!monthView"
-         class="month-year">
+    <div *ngIf="!monthView" class="month-year">
       <div (click)="previousYear()">
-        <img [src]="calendarImages.arrowPrevious"
-             alt="arrow previous"
-             class="arrow-previous">
+        <img [src]="calendarImages.arrowPrevious" alt="arrow previous" class="arrow-previous" />
       </div>
-      <span class="monthAndYear"
-            (click)="toggleCalendarView()">
+      <span class="monthAndYear" (click)="toggleCalendarView()">
         {{ yearData }}
       </span>
       <div (click)="nextYear()">
-        <img [src]="calendarImages.arrowNext"
-             alt="arrow next"
-             class="arrow-next">
+        <img [src]="calendarImages.arrowNext" alt="arrow next" class="arrow-next" />
       </div>
     </div>
-    <div *ngIf="monthView"
-         class="days">
-      <div class="days-name"
-           *ngFor="let day of daysName"
-           [ngClass]="{ 'current-day-name': day === currentDayName }">
+    <div *ngIf="monthView" class="days">
+      <div class="days-name" *ngFor="let day of daysName" [ngClass]="{ 'current-day-name': day === currentDayName }">
         {{ day }}
       </div>
     </div>
   </div>
   <div class="middle">
-    <div *ngIf="monthView"
-         class="calendar-grid">
-      <div *ngFor="let dayItem of calendarDay"
-           class="calendar-grid-day"
-           [ngClass]="{ 'current-day': dayItem.isCurrentDayActive,
-           'enrolled-day': dayItem.hasHabitsInProgress && dayItem.areHabitsDone,
-           'unenrolled-day': dayItem.hasHabitsInProgress && !dayItem.areHabitsDone,
-           'enrolled-past-day': dayItem.hasHabitsInProgress && dayItem.numberOfDate < (dayItem.date.getDate() - 7) && dayItem.areHabitsDone,
-           'unenrolled-past-day': dayItem.hasHabitsInProgress && dayItem.numberOfDate < (dayItem.date.getDate() - 7) && !dayItem.areHabitsDone,
-           'tracked-day': selectedDay === dayItem.numberOfDate && isDayTracked }"
-           (click)="$event.stopPropagation()">
-        <span [ngClass]="{ 'calendar-grid-current-day-content': dayItem.isCurrentDayActive,
-                  'calendar-grid-tracked-day-content': dayItem.hasHabitsInProgress }"
-                  class="calendar-grid-day-content" (click)="checkIfFuture(dayItem)">
+    <div *ngIf="monthView" class="calendar-grid">
+      <div
+        *ngFor="let dayItem of calendarDay"
+        class="calendar-grid-day"
+        [ngClass]="{
+          'current-day': dayItem.isCurrentDayActive,
+          'enrolled-day': dayItem.hasHabitsInProgress && dayItem.areHabitsDone,
+          'unenrolled-day': dayItem.hasHabitsInProgress && !dayItem.areHabitsDone,
+          'enrolled-past-day': dayItem.hasHabitsInProgress && dayItem.numberOfDate < dayItem.date.getDate() - 7 && dayItem.areHabitsDone,
+          'unenrolled-past-day': dayItem.hasHabitsInProgress && dayItem.numberOfDate < dayItem.date.getDate() - 7 && !dayItem.areHabitsDone,
+          'tracked-day': selectedDay === dayItem.numberOfDate && isDayTracked
+        }"
+        (click)="$event.stopPropagation()"
+      >
+        <span
+          [ngClass]="{ 'calendar-grid-current-day-content': dayItem.isCurrentDayActive, 'calendar-grid-tracked-day-content': dayItem.hasHabitsInProgress }"
+          class="calendar-grid-day-content"
+          (click)="checkIfFuture(dayItem)"
+        >
           {{ dayItem.numberOfDate }}
         </span>
         <div *ngIf="selectedDay === dayItem.numberOfDate" [ngClass]="isHabitsPopUpOpen ? 'calendar-habits-open' : 'calendar-habits'">
           <p class="habits-title">{{ habitsCalendarSelectedDate }}</p>
           <app-spinner *ngIf="isFetching"></app-spinner>
           <ul class="habits-list" *ngFor="let habit of habits">
-            <li class="habits-item"
-              matTooltipPosition="above" 
-              [matTooltipDisabled]="habit.habit.habitTranslation.name.length < 30"
-              [matTooltip]="habit.habit.habitTranslation.name">
-              <img class="habit-icon"
-                [src]="habit.enrolled ? this.calendarIcons.checkCircle : this.calendarIcons.plusCircle"
-                alt="habit-icon"
-                (click)="toggleEnrollHabit(habit)">
-              {{ habit.habit.habitTranslation.name.length >= 30 ? 
-                 habit.habit.habitTranslation.name.slice(0, 27) + '...' : 
-                 habit.habit.habitTranslation.name }}
+            <li class="habits-item" matTooltipPosition="above" [matTooltipDisabled]="habit.habit.habitTranslation.name.length < 30" [matTooltip]="habit.habit.habitTranslation.name">
+              <img class="habit-icon" [src]="habit.enrolled ? this.calendarIcons.checkCircle : this.calendarIcons.plusCircle" alt="habit-icon" (click)="toggleEnrollHabit(habit)" />
+              {{ habit.habit.habitTranslation.name.length >= 30 ? habit.habit.habitTranslation.name.slice(0, 27) + '...' : habit.habit.habitTranslation.name }}
             </li>
           </ul>
         </div>
       </div>
     </div>
-    <div *ngIf="!monthView"
-         class="calendar-grid-month">
+    <div *ngIf="!monthView" class="calendar-grid-month">
       <div *ngFor="let month of monthsCalendar">
-        <div class="calendar-grid-month-view"
-             (click)="buildSelectedMonthCalendar(month)"
-             [ngClass]="{ 'current-month' : month === activeMonth && currentYear }">
+        <div class="calendar-grid-month-view" (click)="buildSelectedMonthCalendar(month)" [ngClass]="{ 'current-month': month === activeMonth && currentYear }">
           {{ month }}
         </div>
       </div>

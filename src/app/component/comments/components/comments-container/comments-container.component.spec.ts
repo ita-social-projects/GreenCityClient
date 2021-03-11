@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import {NgxPaginationModule} from 'ngx-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { RouterModule } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommentsService } from '../../services/comments.service';
@@ -17,24 +17,11 @@ describe('CommentsContainerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        CommentsContainerComponent
-      ],
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        ReactiveFormsModule,
-        NgxPaginationModule,
-        RouterModule,
-        TranslateModule.forRoot(),
-      ],
-      providers: [
-        CommentsService,
-        UserOwnAuthService
-      ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
-    })
-    .compileComponents();
+      declarations: [CommentsContainerComponent],
+      imports: [HttpClientTestingModule, RouterTestingModule, ReactiveFormsModule, NgxPaginationModule, RouterModule, TranslateModule.forRoot()],
+      providers: [CommentsService, UserOwnAuthService],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

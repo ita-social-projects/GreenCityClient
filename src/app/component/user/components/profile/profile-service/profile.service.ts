@@ -12,20 +12,15 @@ import { UserFriendsInterface } from '../../../../../interface/user/user-friends
 import { mainLink, mainUserLink } from '../../../../../links';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class ProfileService {
   public userId: number;
 
-  constructor(private http: HttpClient,
-              private localStorageService: LocalStorageService,
-              private languageService: LanguageService) { }
+  constructor(private http: HttpClient, private localStorageService: LocalStorageService, private languageService: LanguageService) {}
 
   public setUserId(): void {
-    this.localStorageService
-      .userIdBehaviourSubject
-      .subscribe(userId => this.userId = userId);
+    this.localStorageService.userIdBehaviourSubject.subscribe((userId) => (this.userId = userId));
   }
 
   public getFactsOfTheDay(): Observable<CardModel> {
@@ -61,9 +56,7 @@ export class ProfileService {
   public toggleStatusOfShoppingItem(item): Observable<object[]> {
     const { status: prevStatus, goalId } = item;
     const newStatus = prevStatus !== 'DONE';
-    const params = new HttpParams()
-      .set('goalId', goalId)
-      .set('status', newStatus.toString());
+    const params = new HttpParams().set('goalId', goalId).set('status', newStatus.toString());
 
     return this.http.patch<object[]>(`${mainLink}goals/shoppingList/${this.userId}`, params);
   }

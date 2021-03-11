@@ -21,32 +21,22 @@ describe('EcoNewsWidgetComponent', () => {
     title: 'test',
     text: 'test',
     author: {
-        id: 1,
-        name: 'test',
+      id: 1,
+      name: 'test',
     },
     tags: ['test'],
-    creationDate: '11111'
+    creationDate: '11111',
   };
   const ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getRecommendedNews']);
   ecoNewsServiceMock.getRecommendedNews = () => of([mockData]);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        EcoNewsWidgetComponent,
-        NewsListGalleryViewComponent,
-      ],
-      imports: [
-        TranslateModule.forRoot(),
-        RouterTestingModule,
-        HttpClientTestingModule
-      ],
-      providers: [
-        { provide: EcoNewsService, useValue: ecoNewsServiceMock }
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    })
-    .compileComponents();
+      declarations: [EcoNewsWidgetComponent, NewsListGalleryViewComponent],
+      imports: [TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule],
+      providers: [{ provide: EcoNewsService, useValue: ecoNewsServiceMock }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

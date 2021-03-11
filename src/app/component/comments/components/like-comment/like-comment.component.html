@@ -1,18 +1,12 @@
 <div class="main-wrapper">
-  <button class="cta-btn like"
-          (click)="pressLike()">
-    <img [src]="commentsImages.like"
-          class="btn-img"
-          alt="like"
-          aria-hidden="true"
-          #like>
-    <span class="btn-text"
-          *ngIf="!likeState && !error; else liked">
-      {{"homepage.eco-news.comment.btn.like" | translate}}
+  <button class="cta-btn like" (click)="pressLike()">
+    <img [src]="commentsImages.like" class="btn-img" alt="like" aria-hidden="true" #like />
+    <span class="btn-text" *ngIf="!likeState && !error; else liked">
+      {{ 'homepage.eco-news.comment.btn.like' | translate }}
     </span>
     <ng-template #liked>
       <span class="btn-text">
-        {{"homepage.eco-news.comment.btn.liked" | translate}}
+        {{ 'homepage.eco-news.comment.btn.liked' | translate }}
       </span>
     </ng-template>
   </button>

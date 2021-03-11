@@ -8,9 +8,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-  declarations: [
-    AboutPageComponent
-  ],
+  declarations: [AboutPageComponent],
   imports: [
     AboutRoutingModule,
     SharedModule,
@@ -18,19 +16,16 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [HttpClient]
+        useFactory: createTranslateLoader,
+        deps: [HttpClient],
       },
-      isolate: true
-    })
+      isolate: true,
+    }),
   ],
-  exports: [
-
-  ],
-  providers: []
+  exports: [],
+  providers: [],
 })
-
-export class AboutModule { }
+export class AboutModule {}
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');

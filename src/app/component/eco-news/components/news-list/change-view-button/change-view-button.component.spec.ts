@@ -8,9 +8,8 @@ describe('ChangeViewButtonComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChangeViewButtonComponent ]
-    })
-    .compileComponents();
+      declarations: [ChangeViewButtonComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

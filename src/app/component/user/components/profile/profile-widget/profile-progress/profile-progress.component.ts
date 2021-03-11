@@ -10,14 +10,15 @@ import { take } from 'rxjs/operators';
 })
 export class ProfileProgressComponent implements OnInit {
   public progress: ProfileStatistics;
-  constructor(private profileService: ProfileService) { }
+  constructor(private profileService: ProfileService) {}
 
   ngOnInit() {
     this.checkUserActivities();
   }
 
   public checkUserActivities(): void {
-    this.profileService.getUserProfileStatistics()
+    this.profileService
+      .getUserProfileStatistics()
       .pipe(take(1))
       .subscribe((statistics: ProfileStatistics) => {
         this.progress = statistics;

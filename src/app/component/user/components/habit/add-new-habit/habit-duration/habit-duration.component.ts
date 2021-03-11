@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-habit-duration',
   templateUrl: './habit-duration.component.html',
-  styleUrls: ['./habit-duration.component.scss']
+  styleUrls: ['./habit-duration.component.scss'],
 })
 export class HabitDurationComponent implements OnInit {
   @Input() habitDurationDefault: number;
@@ -13,7 +13,7 @@ export class HabitDurationComponent implements OnInit {
   public position: string = null;
   public thumbWidth = '12px';
 
-  constructor(private elm: ElementRef, private renderer: Renderer2) { }
+  constructor(private elm: ElementRef, private renderer: Renderer2) {}
 
   ngOnInit() {
     this.habitDuration.setValue(this.habitDurationDefault);
@@ -27,8 +27,8 @@ export class HabitDurationComponent implements OnInit {
 
   public updateDuration() {
     const step = (this.getRangeWidth() - this.getThumbWidth()) / (this.getRangeMax() - this.getRangeMin());
-    const relPos = (this.getThumbLabelWidth() / 2) - (this.getThumbWidth() / 2);
-    this.position = `${((this.habitDuration.value - this.getRangeMin()) * step) - relPos}px`;
+    const relPos = this.getThumbLabelWidth() / 2 - this.getThumbWidth() / 2;
+    this.position = `${(this.habitDuration.value - this.getRangeMin()) * step - relPos}px`;
     this.renderer.setStyle(this.elm.nativeElement.children[1], 'left', this.position);
     this.changeDuration.emit(this.habitDuration.value);
   }
@@ -61,6 +61,4 @@ export class HabitDurationComponent implements OnInit {
     const thumbWidth = parseInt(this.thumbWidth, 10);
     return thumbWidth;
   }
-
-
 }

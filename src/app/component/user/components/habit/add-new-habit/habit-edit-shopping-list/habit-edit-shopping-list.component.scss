@@ -33,7 +33,7 @@ $primary-font: var(--secondary-font);
       line-height: 17px;
       cursor: pointer;
 
-      input[type=checkbox] {
+      input[type='checkbox'] {
         height: 0;
         opacity: 0;
         width: 0;
@@ -50,7 +50,7 @@ $primary-font: var(--secondary-font);
       .checkmark::after {
         border: solid #fff;
         border-width: 0 1px 1px 0;
-        content: "";
+        content: '';
         width: 4px;
         height: 7px;
         left: 4px;

@@ -10,7 +10,7 @@ describe('error component', () => {
   });
 
   it('Shoud call ngOnChanges hook', () => {
-    component.formElement.setErrors({symbolInvalid: true});
+    component.formElement.setErrors({ symbolInvalid: true });
 
     // @ts-ignore
     const spy = spyOn(component, 'getType');
@@ -19,7 +19,7 @@ describe('error component', () => {
   });
 
   it('Shoud return error type', () => {
-    component.formElement.setErrors({required: true});
+    component.formElement.setErrors({ required: true });
     // @ts-ignore
     component.getType();
 

@@ -7,7 +7,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 @Component({
   selector: 'app-one-habit',
   templateUrl: './one-habit.component.html',
-  styleUrls: ['./one-habit.component.scss']
+  styleUrls: ['./one-habit.component.scss'],
 })
 export class OneHabitComponent implements OnInit {
   @Input() habit: HabitAssignInterface;
@@ -27,23 +27,18 @@ export class OneHabitComponent implements OnInit {
       this.habitMark = 'star';
     },
     done: () => {
-      this.daysCounter = this.habit.workingDays
-        ? this.habit.workingDays
-        : this.habit.duration;
+      this.daysCounter = this.habit.workingDays ? this.habit.workingDays : this.habit.duration;
       this.showPhoto = false;
       this.habitMark = 'mark';
     },
     undone: () => {
-      this.daysCounter = this.habit.workingDays
-        ? this.habit.workingDays
-        : this.habit.duration;
+      this.daysCounter = this.habit.workingDays ? this.habit.workingDays : this.habit.duration;
       this.showPhoto = true;
       this.habitMark = 'plus';
-    }
+    },
   };
 
-  constructor(private localStorageService: LocalStorageService,
-              private habitAssignService: HabitAssignService) { }
+  constructor(private localStorageService: LocalStorageService, private habitAssignService: HabitAssignService) {}
 
   ngOnInit() {
     this.currentDate = this.formatDate(new Date());
@@ -51,8 +46,7 @@ export class OneHabitComponent implements OnInit {
   }
 
   public buildHabitDescription(): void {
-    const isDone = this.habit.habitStatusCalendarDtoList
-      .some(item => item.enrollDate === this.currentDate);
+    const isDone = this.habit.habitStatusCalendarDtoList.some((item) => item.enrollDate === this.currentDate);
     if (this.habit.status === 'ACQUIRED') {
       this.descriptionType.acquired();
     } else if (this.habit.status === 'INPROGRESS') {
@@ -65,17 +59,15 @@ export class OneHabitComponent implements OnInit {
   }
 
   private formatDate(date: Date): string {
-    return date.toLocaleDateString()
-      .split('.')
-      .reverse()
-      .join('-');
+    return date.toLocaleDateString().split('.').reverse().join('-');
   }
 
   public enroll() {
     this.isRequest = true;
-    this.habitAssignService.enrollByHabit(this.habit.habit.id, this.currentDate)
+    this.habitAssignService
+      .enrollByHabit(this.habit.habit.id, this.currentDate)
       .pipe(take(1))
-      .subscribe(response => {
+      .subscribe((response) => {
         this.habit.habitStatusCalendarDtoList = response.habitStatusCalendarDtoList;
         this.habit.workingDays = response.workingDays;
         this.habit.habitStreak = response.habitStreak;
@@ -86,9 +78,10 @@ export class OneHabitComponent implements OnInit {
 
   public unenroll() {
     this.isRequest = true;
-    this.habitAssignService.unenrollByHabit(this.habit.habit.id, this.currentDate)
+    this.habitAssignService
+      .unenrollByHabit(this.habit.habit.id, this.currentDate)
       .pipe(take(1))
-      .subscribe(response => {
+      .subscribe((response) => {
         this.habit.habitStatusCalendarDtoList = response.habitStatusCalendarDtoList;
         this.habit.workingDays = response.workingDays;
         this.habit.habitStreak = response.habitStreak;

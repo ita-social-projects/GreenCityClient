@@ -1,11 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {HabitDto} from '../../../../../../../model/habit/HabitDto';
-import {HabitStatisticsDto} from '../../../../../../../model/habit/HabitStatisticsDto';
+import { Component, Input, OnInit } from '@angular/core';
+import { HabitDto } from '../../../../../../../model/habit/HabitDto';
+import { HabitStatisticsDto } from '../../../../../../../model/habit/HabitStatisticsDto';
 
 @Component({
   selector: 'app-habit-estimation',
   templateUrl: './habit-estimation.component.html',
-  styleUrls: ['./habit-estimation.component.scss']
+  styleUrls: ['./habit-estimation.component.scss'],
 })
 export class HabitEstimationComponent implements OnInit {
   @Input()
@@ -13,10 +13,7 @@ export class HabitEstimationComponent implements OnInit {
   @Input()
   statistic: HabitStatisticsDto;
 
-  constructor() {
-  }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

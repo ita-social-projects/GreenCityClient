@@ -10,7 +10,7 @@ import { calendarImage } from './calendar-image';
 
 @Component({
   selector: 'app-calendar-base',
-  template: ''
+  template: '',
 })
 export class CalendarBaseComponent implements OnInit, OnDestroy {
   public calendarImages = calendarImage;
@@ -51,14 +51,10 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
     totalDaysInMonth: 0,
     hasHabitsInProgress: false,
     areHabitsDone: false,
-    isCurrentDayActive: false
+    isCurrentDayActive: false,
   };
 
-  constructor(
-    public translate: TranslateService,
-    public languageService: LanguageService,
-    public habitAssignService: HabitAssignService
-  ) {}
+  constructor(public translate: TranslateService, public languageService: LanguageService, public habitAssignService: HabitAssignService) {}
 
   ngOnInit() {
     this.bindDefaultTranslate();
@@ -88,16 +84,15 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
   }
 
   public bindDefaultTranslate(): void {
-    this.defaultTranslateSub = this.translate.getTranslation(this.translate.getDefaultLang())
-      .subscribe((res) => {
-        const translations = res.profile.calendar;
-        this.daysName = translations.days;
-        this.months = translations.months;
-        this.monthsShort = translations.monthsShort;
-        this.monthAndYearName = `${this.months[this.currentMonth]} ${this.currentYear}`;
-        this.markCurrentDayOfWeek();
-        this.buildMonthCalendar(this.monthsShort);
-      });
+    this.defaultTranslateSub = this.translate.getTranslation(this.translate.getDefaultLang()).subscribe((res) => {
+      const translations = res.profile.calendar;
+      this.daysName = translations.days;
+      this.months = translations.months;
+      this.monthsShort = translations.monthsShort;
+      this.monthAndYearName = `${this.months[this.currentMonth]} ${this.currentYear}`;
+      this.markCurrentDayOfWeek();
+      this.buildMonthCalendar(this.monthsShort);
+    });
   }
 
   public buildCalendar(): void {
@@ -110,16 +105,14 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
   public calculateCalendarModel(month: number, year: number): void {
     this.calendar.month = month;
     this.calendar.year = year;
-    this.calendar.firstDay = (new Date(year, month, 0)).getDay();
+    this.calendar.firstDay = new Date(year, month, 0).getDay();
     this.calendar.totalDaysInMonth = this.getDaysInMonth(month, year);
     this.monthAndYearName = `${this.months[month]} ${year}`;
   }
 
   public bindCalendarModel(): void {
     const end = this.calendar.totalDaysInMonth;
-    const calendarDays = Array.from({ length: end },
-      (_, i) =>
-        this.getMonthTemplate(i + 1));
+    const calendarDays = Array.from({ length: end }, (_, i) => this.getMonthTemplate(i + 1));
     this.calendarDay = [...this.calendarDay, ...calendarDays];
   }
 
@@ -127,58 +120,48 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
     const end = this.calendar.firstDay;
     const emptyDays = Array.from({ length: end }, () => this.getMonthTemplate());
     this.calendarDay = [...emptyDays, ...this.calendarDay];
-
   }
 
   public getMonthTemplate(days?: number): CalendarInterface {
     return {
-      numberOfDate : days || '',
-      date : new Date(),
-      month : this.calendar.month,
-      year : this.calendar.year,
-      firstDay : this.calendar.firstDay,
-      totalDaysInMonth : this.calendar.totalDaysInMonth,
-      dayName : (new Date(this.calendar.year, this.calendar.month, days)
-        .toDateString()
-        .substring(0, 3)) || '',
+      numberOfDate: days || '',
+      date: new Date(),
+      month: this.calendar.month,
+      year: this.calendar.year,
+      firstDay: this.calendar.firstDay,
+      totalDaysInMonth: this.calendar.totalDaysInMonth,
+      dayName: new Date(this.calendar.year, this.calendar.month, days).toDateString().substring(0, 3) || '',
       hasHabitsInProgress: false,
       areHabitsDone: false,
-      isCurrentDayActive: false
+      isCurrentDayActive: false,
     };
   }
 
   public isCurrentDayActive(): void {
-    this.calendarDay.forEach(el => el.isCurrentDayActive =
-      (el.date.getDate() === el.numberOfDate
-        && el.date.getMonth() === el.month
-        && el.date.getFullYear() === el.year)
-    );
+    this.calendarDay.forEach((el) => (el.isCurrentDayActive = el.date.getDate() === el.numberOfDate && el.date.getMonth() === el.month && el.date.getFullYear() === el.year));
   }
 
   public markCurrentDayOfWeek(): void {
     const option = { weekday: 'short' };
     this.language = this.languageService.getCurrentLanguage();
-    this.calendarDay.forEach(el => {
-        if (el.isCurrentDayActive &&
-          el.date.getMonth() === el.month &&
-          el.date.getFullYear() === el.year) {
-            const dayName = (new Date(el.year, el.month, +el.numberOfDate)
-                .toLocaleDateString(this.language, option));
-            this.currentDayName = dayName.charAt(0).toUpperCase() + dayName.slice(1);
-        }
+    this.calendarDay.forEach((el) => {
+      if (el.isCurrentDayActive && el.date.getMonth() === el.month && el.date.getFullYear() === el.year) {
+        const dayName = new Date(el.year, el.month, +el.numberOfDate).toLocaleDateString(this.language, option);
+        this.currentDayName = dayName.charAt(0).toUpperCase() + dayName.slice(1);
+      }
     });
   }
 
   public nextMonth(): void {
-    this.currentYear = (this.currentMonth === 11) ? this.currentYear + 1 : this.currentYear;
+    this.currentYear = this.currentMonth === 11 ? this.currentYear + 1 : this.currentYear;
     this.currentMonth = (this.currentMonth + 1) % 12;
     this.calendarDay = [];
     this.buildCalendar();
   }
 
   public previousMonth(): void {
-    this.currentYear = (this.currentMonth === 0) ? this.currentYear - 1 : this.currentYear;
-    this.currentMonth = (this.currentMonth === 0) ? 11 : this.currentMonth - 1;
+    this.currentYear = this.currentMonth === 0 ? this.currentYear - 1 : this.currentYear;
+    this.currentMonth = this.currentMonth === 0 ? 11 : this.currentMonth - 1;
     this.calendarDay = [];
     this.buildCalendar();
   }
@@ -190,8 +173,9 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
   }
 
   public isActiveMonth(): void {
-    this.activeMonth = this.calendarDay.filter(item => item.isCurrentDayActive)
-      .map(el => this.monthsShort[el.month])
+    this.activeMonth = this.calendarDay
+      .filter((item) => item.isCurrentDayActive)
+      .map((el) => this.monthsShort[el.month])
       .toString();
   }
 
@@ -213,33 +197,32 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
 
   public formatDate(isMonthCalendar: boolean, dayItem) {
     if (isMonthCalendar) {
-      return `${dayItem.year}-${ dayItem.month + 1 < 10 ?
-        '0' + (dayItem.month + 1) : dayItem.month + 1}-${dayItem.numberOfDate < 10 ?
-        '0' + dayItem.numberOfDate : dayItem.numberOfDate}`;
+      return `${dayItem.year}-${dayItem.month + 1 < 10 ? '0' + (dayItem.month + 1) : dayItem.month + 1}-${dayItem.numberOfDate < 10 ? '0' + dayItem.numberOfDate : dayItem.numberOfDate}`;
     } else {
-      return `${dayItem.date.getFullYear()}-${ dayItem.date.getMonth() + 1 < 10 ?
-        '0' + (dayItem.date.getMonth() + 1) : dayItem.date.getMonth() + 1}-${dayItem.date.getDate() < 10 ?
-        '0' + dayItem.date.getDate() : dayItem.date.getDate()}`;
+      return `${dayItem.date.getFullYear()}-${dayItem.date.getMonth() + 1 < 10 ? '0' + (dayItem.date.getMonth() + 1) : dayItem.date.getMonth() + 1}-${
+        dayItem.date.getDate() < 10 ? '0' + dayItem.date.getDate() : dayItem.date.getDate()
+      }`;
     }
   }
 
   public markCalendarDays(isMonthCalendar, days) {
-    days.forEach(day => {
+    days.forEach((day) => {
       const date = this.formatDate(isMonthCalendar, day);
       if (new Date().setHours(0, 0, 0, 0) >= new Date(date).setHours(0, 0, 0, 0)) {
-        this.habitAssignService.getHabitAssignByDate(date).pipe(
-          take(1)
-        ).subscribe((habits: HabitAssignInterface[]) => {
-          day.hasHabitsInProgress = habits.length > 0;
-          day.areHabitsDone = habits.every((habit: HabitAssignInterface) => {
-            return habit.habitStatusCalendarDtoList.some((habitEnrollDate: HabitStatusCalendarListInterface) => {
-              if (habitEnrollDate.enrollDate === date) {
-                return true;
-              }
-              return false;
+        this.habitAssignService
+          .getHabitAssignByDate(date)
+          .pipe(take(1))
+          .subscribe((habits: HabitAssignInterface[]) => {
+            day.hasHabitsInProgress = habits.length > 0;
+            day.areHabitsDone = habits.every((habit: HabitAssignInterface) => {
+              return habit.habitStatusCalendarDtoList.some((habitEnrollDate: HabitStatusCalendarListInterface) => {
+                if (habitEnrollDate.enrollDate === date) {
+                  return true;
+                }
+                return false;
+              });
             });
           });
-        });
       }
     });
   }

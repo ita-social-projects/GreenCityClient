@@ -11,14 +11,10 @@ describe('UsersAchievementsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-      declarations: [ UsersAchievementsComponent ],
-      imports: [
-        TranslateModule.forRoot(),
-        HttpClientTestingModule
-      ]
-    })
-    .compileComponents();
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [UsersAchievementsComponent],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -31,5 +27,3 @@ describe('UsersAchievementsComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-
-

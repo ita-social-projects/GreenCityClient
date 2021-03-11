@@ -9,9 +9,9 @@ import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { ActivatedRoute } from '@angular/router';
-import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
-import {HttpClient} from '@angular/common/http';
-import {CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform} from '@angular/core';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
+import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
 
 @Pipe({ name: 'translate' })
@@ -35,37 +35,21 @@ describe('EcoNewsDetailComponent', () => {
     text: 'some description',
     author: {
       id: 777,
-      name: 'John Snow'
+      name: 'John Snow',
     },
     tags: [
-      {id: 1, name: 'Events'},
-      {id: 2, name: 'Education'}
+      { id: 1, name: 'Events' },
+      { id: 2, name: 'Education' },
     ],
     creationDate: '2020-06-16T18:08:00.604Z',
   };
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        EcoNewsDetailComponent,
-        EcoNewsWidgetComponent,
-        NewsListGalleryViewComponent,
-        TranslatePipeMock,
-        DateLocalisationPipe
-      ],
-      schemas: [
-        CUSTOM_ELEMENTS_SCHEMA
-      ],
-      imports: [
-        RouterTestingModule,
-        HttpClientTestingModule,
-        TranslateModule.forRoot(),
-      ],
-      providers: [
-        LocalStorageService,
-        EcoNewsService
-      ]
-    })
-      .compileComponents();
+      declarations: [EcoNewsDetailComponent, EcoNewsWidgetComponent, NewsListGalleryViewComponent, TranslatePipeMock, DateLocalisationPipe],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [RouterTestingModule, HttpClientTestingModule, TranslateModule.forRoot()],
+      providers: [LocalStorageService, EcoNewsService],
+    }).compileComponents();
 
     localStorageService = TestBed.get(LocalStorageService);
     ecoNewsService = TestBed.get(EcoNewsService);
@@ -104,10 +88,9 @@ describe('EcoNewsDetailComponent', () => {
   });
 
   it('setNewsItem should compare edited item with EcoNewsModel interface', () => {
-
     const nestedNewsItem = {
       authorId: 777,
-      authorName: 'John Snow'
+      authorName: 'John Snow',
     };
     component.setNewsItem(mockEcoNewsModel);
     expect(component.newsItem).toEqual({ ...mockEcoNewsModel, ...nestedNewsItem });
@@ -118,7 +101,6 @@ describe('EcoNewsDetailComponent', () => {
     component.newsItem.imagePath = 'test';
     const imagePath = component.checkNewsImage();
     expect(imagePath).toEqual('test');
-
   });
 
   it('checkNewsImage should return default image src', () => {
@@ -144,34 +126,29 @@ describe('EcoNewsDetailComponent', () => {
     component.newsItem = mockEcoNewsModel;
     const spy = spyOn(window, 'open');
     component.onSocialShareLinkClick('twitter');
-    expect(spy).toHaveBeenCalledWith
-      (`https://twitter.com/share?url=${window.location.href}&text=${mockEcoNewsModel.title}&hashtags=${mockEcoNewsModel.tags.join(',')}`,
-       '_blank');
+    expect(spy).toHaveBeenCalledWith(`https://twitter.com/share?url=${window.location.href}&text=${mockEcoNewsModel.title}&hashtags=${mockEcoNewsModel.tags.join(',')}`, '_blank');
   });
 
   it('canUserEditNews should return true if the user can edit news', () => {
     localStorageService.userIdBehaviourSubject.next(3);
-    localStorageService.userIdBehaviourSubject.subscribe(
-      (id: number) => {
-        component.userId = id;
-        expect(component.userId).toEqual(3);
-      });
+    localStorageService.userIdBehaviourSubject.subscribe((id: number) => {
+      component.userId = id;
+      expect(component.userId).toEqual(3);
+    });
   });
 
   it('fetchNewsItem should return item by id', async () => {
     const id = '1';
 
     spyOn(component, 'setNewsItem');
-    (component as any).newsItemSubscription = ecoNewsService.getEcoNewsById(id).subscribe(
-      (item: EcoNewsModel) => {
-        component.setNewsItem(item);
-        expect(component.setNewsItem).toHaveBeenCalledWith(item);
-      });
+    (component as any).newsItemSubscription = ecoNewsService.getEcoNewsById(id).subscribe((item: EcoNewsModel) => {
+      component.setNewsItem(item);
+      expect(component.setNewsItem).toHaveBeenCalledWith(item);
+    });
 
     const request = httpMock.expectOne(`https://greencity.azurewebsites.net/econews/${id}`);
     request.flush(mockEcoNewsModel);
 
     expect((component as any).newsItemSubscription).not.toEqual(undefined);
-
   });
 });

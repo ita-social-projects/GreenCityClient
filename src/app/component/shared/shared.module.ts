@@ -9,11 +9,7 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { FileUploadModule } from 'ng2-file-upload';
 import { MatCardModule } from '@angular/material';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import {
-  WarningPopUpComponent,
-  PhotoUploadComponent,
-  EditPhotoPopUpComponent
-} from './components';
+import { WarningPopUpComponent, PhotoUploadComponent, EditPhotoPopUpComponent } from './components';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -47,7 +43,7 @@ registerLocaleData(ukLocale, 'ua');
     TagFilterComponent,
     CalendarBaseComponent,
     WarningPopUpComponent,
-    FormBaseComponent
+    FormBaseComponent,
   ],
   imports: [
     ImageCropperModule,
@@ -67,7 +63,7 @@ registerLocaleData(ukLocale, 'ua');
     MatDialogModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
-    UserSharedModule
+    UserSharedModule,
   ],
   exports: [
     EditPhotoPopUpComponent,
@@ -90,19 +86,13 @@ registerLocaleData(ukLocale, 'ua');
     TagFilterComponent,
     UserSharedModule,
     WarningPopUpComponent,
-    FormBaseComponent
+    FormBaseComponent,
   ],
   providers: [MatSnackBarComponent, TranslateService],
-  entryComponents: [
-    WarningPopUpComponent
-  ]
+  entryComponents: [WarningPopUpComponent],
 })
 export class SharedModule {}
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
-  return new TranslateHttpLoader(
-    httpClient,
-    './assets/i18n/',
-    '.json'
-  );
+  return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
 }

@@ -14,8 +14,7 @@ import { EditProfileModel } from '@user-models/edit-profile.model';
 
 import { EditProfileComponent } from './edit-profile.component';
 
-class Test {
-}
+class Test {}
 
 describe('EditProfileComponent', () => {
   let component: EditProfileComponent;
@@ -25,19 +24,8 @@ describe('EditProfileComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        EditProfileComponent,
-      ],
-      imports: [
-        ReactiveFormsModule,
-        MatDialogModule,
-        RouterTestingModule.withRoutes([
-          { path: '**', component: Test }
-        ]),
-        HttpClientTestingModule,
-        AgmCoreModule,
-        TranslateModule.forRoot(),
-      ],
+      declarations: [EditProfileComponent],
+      imports: [ReactiveFormsModule, MatDialogModule, RouterTestingModule.withRoutes([{ path: '**', component: Test }]), HttpClientTestingModule, AgmCoreModule, TranslateModule.forRoot()],
       providers: [
         EditProfileFormBuilder,
         EditProfileService,
@@ -45,13 +33,12 @@ describe('EditProfileComponent', () => {
         {
           provide: MapsAPILoader,
           useValue: {
-            load: jasmine.createSpy('load').and.returnValue(new Promise(() => true))
-          }
+            load: jasmine.createSpy('load').and.returnValue(new Promise(() => true)),
+          },
         },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
-    })
-      .compileComponents();
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -111,8 +98,8 @@ describe('EditProfileComponent', () => {
 
   describe('Testing controls for the form:', () => {
     const controlsName = ['name', 'city', 'credo'];
-    const maxLength = 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. ' +
-      'Facilis asperiores minus corrupti impedit cumque sapiente est architecto obcaecati quisquam velit quidem quis nesciunt';
+    const maxLength =
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. ' + 'Facilis asperiores minus corrupti impedit cumque sapiente est architecto obcaecati quisquam velit quidem quis nesciunt';
     const invalidCity = ['@Lviv', '.Lviv', 'Kiev6', 'Kyiv$'];
     const validCity = ['Lviv', 'Ivano-Frankivsk', 'Kiev(Ukraine)', 'Львов, Украина'];
 
@@ -166,7 +153,7 @@ describe('EditProfileComponent', () => {
         showEcoPlace: true,
         showLocation: true,
         showShoppingList: true,
-        socialNetworks: [{id: 220, url: 'http://instagram.com/profile'}]
+        socialNetworks: [{ id: 220, url: 'http://instagram.com/profile' }],
       };
     });
 

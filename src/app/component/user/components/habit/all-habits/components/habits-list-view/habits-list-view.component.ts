@@ -10,17 +10,13 @@ import { HabitInterface } from '../../../../../../../interface/habit/habit.inter
 @Component({
   selector: 'app-habits-list-view',
   templateUrl: './habits-list-view.component.html',
-  styleUrls: ['./habits-list-view.component.scss']
+  styleUrls: ['./habits-list-view.component.scss'],
 })
 export class HabitsListViewComponent {
   @Input() habit: HabitInterface;
   private requesting = false;
 
-  constructor(public router: Router,
-              public route: ActivatedRoute,
-              private snackBar: MatSnackBarComponent,
-              public habitAssignService: HabitAssignService,
-              public profileService: ProfileService) { }
+  constructor(public router: Router, public route: ActivatedRoute, private snackBar: MatSnackBarComponent, public habitAssignService: HabitAssignService, public profileService: ProfileService) {}
 
   public goHabitMore() {
     this.router.navigate(['addhabit', this.habit.id], { relativeTo: this.route });
@@ -28,7 +24,8 @@ export class HabitsListViewComponent {
 
   public addHabit() {
     this.requesting = true;
-    this.habitAssignService.assignHabit(this.habit.id)
+    this.habitAssignService
+      .assignHabit(this.habit.id)
       .pipe(take(1))
       .subscribe(() => {
         this.router.navigate(['profile', this.profileService.userId]);

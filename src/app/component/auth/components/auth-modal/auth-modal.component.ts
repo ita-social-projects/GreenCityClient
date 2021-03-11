@@ -6,15 +6,13 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 @Component({
   selector: 'app-auth-modal',
   templateUrl: './auth-modal.component.html',
-  styleUrls: ['./auth-modal.component.scss']
+  styleUrls: ['./auth-modal.component.scss'],
 })
-
 export class AuthModalComponent implements OnInit {
   public authImages = authImages;
   public authPage: string;
 
-  constructor(private announcer: LiveAnnouncer, public matDialogRef: MatDialogRef<AuthModalComponent>,
-              @Inject(MAT_DIALOG_DATA) public data ) { }
+  constructor(private announcer: LiveAnnouncer, public matDialogRef: MatDialogRef<AuthModalComponent>, @Inject(MAT_DIALOG_DATA) public data) {}
 
   ngOnInit(): void {
     this.setAuthPage();
