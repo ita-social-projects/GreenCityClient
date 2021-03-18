@@ -18,8 +18,8 @@ export class OrderDetailsFormComponent implements OnInit {
   total: number = 0;
   finalSum: string = '0 грн';
   points: number;
-  pointsUsed: any;
-  showPointsUsed: any;
+  pointsUsed: number;
+  showPointsUsed: string;
   displayCalc: boolean = false;
   displayMes: boolean = false;
   displayCert: boolean = false;
@@ -33,11 +33,15 @@ export class OrderDetailsFormComponent implements OnInit {
   certificates = [];
   certificateSum: number = 0;
   certSize: boolean = false;
-  dataCert: any;
   showCertificateUsed: string;
   certificateLeft: number = 0;
+  certMessage: string;
   userOrder: IUserOrder;
   object: {};
+
+  constructor(private fb: FormBuilder,
+    private _orderService: OrderService,
+    private _shareFormService: ShareFormService) { }
 
   get additionalCertificates() {
     return this.orderDetailsForm.get('additionalCertificates') as FormArray;
@@ -47,20 +51,13 @@ export class OrderDetailsFormComponent implements OnInit {
     return this.orderDetailsForm.get('additionalOrders') as FormArray;
   }
 
-
-  constructor(private fb: FormBuilder,
-    private _orderService: OrderService,
-    private _shareFormService: ShareFormService) { }
-
   ngOnInit(): void {
-
     this._shareFormService.objectSource.subscribe(object => this.object = object);
     this._orderService.getOrders()
       .subscribe(data => {
         this.orders = data;
         this.initForm();
-      }
-      );
+      });
 
     this.orderDetailsForm = this.fb.group({
       bagServiceUbs: [{ value: '', disabled: true }],
@@ -78,27 +75,15 @@ export class OrderDetailsFormComponent implements OnInit {
       bagSizeClothesM: [{ value: '', disabled: true }],
       bagPriceClothesM: [{ value: '', disabled: true }],
       bagSumClothesM: [{ value: '0 грн', disabled: true }],
-      certificate: ['', [Validators.minLength(8), Validators.pattern(/[^0000]\d{4}/)]],
-      additionalOrder: [''],
+      certificate: ['', [Validators.minLength(8), Validators.pattern(/(?!0000)\d{4}-(?!0000)\d{4}/)]],
       orderComment: [''],
       bonus: ['no'],
       shop: ['no'],
       additionalCertificates: this.fb.array([]),
-      additionalOrders: this.fb.array(['']),
+      additionalOrders: this.fb.array([])
     });
 
-    this.orderDetailsForm.get('shop').valueChanges.
-      subscribe(checkedValue => {
-        const additionalOrder = this.orderDetailsForm.get('additionalOrder');
-        if (checkedValue === 'yes') {
-          additionalOrder.setValidators(Validators.required);
-          this.displayShop = true;
-        } else {
-          additionalOrder.clearValidators();
-          this.displayShop = false;
-        }
-        additionalOrder.updateValueAndValidity();
-      })
+    this.addOrder();
   }
 
   initForm(): void {
@@ -114,38 +99,56 @@ export class OrderDetailsFormComponent implements OnInit {
       bagPriceClothesM: `${this.orders.allBags[2].price} грн`
     });
     this.points = this.orders.points;
-
   }
 
-  calc() {
-    console.log(this.additionalOrders.value);
+  calcTotal(): void {
+    this.total = this.orderDetailsForm.value.bagNumUbs * this.orders.allBags[0].price +
+      this.orderDetailsForm.value.bagNumClothesXL * this.orders.allBags[1].price +
+      this.orderDetailsForm.value.bagNumClothesM * this.orders.allBags[2].price;
+    this.showTotal = `${this.total} грн`;
+    this.displayCalc = true;
+    if (this.total < 500) {
+      this.displayMes = true;
+      this.onSubmit = true;
+    } else {
+      this.displayMes = false;
+      this.onSubmit = false;
+    };
+    this.finalSum = `${this.total} грн`;
+    if (this.certificateSum > 0) {
+      if (this.total > this.certificateSum) {
+        this.certificateLeft = 0;
+        this.finalSum = `${this.total - this.certificateSum} грн`;
+        this.showCertificateUsed = `-${this.certificateSum} грн`;
+      } else {
+        this.finalSum = `0 грн`;
+        this.certificateLeft = this.certificateSum - this.total;
+        this.showCertificateUsed = `-${this.total} грн`;
+        this.points = this.orders.points + this.certificateLeft;
+      }
+      this.showCertificateUsed = `-${this.certificateSum} грн`;
+    }
+  }
+
+  calc(): void {
     this.orderDetailsForm.patchValue({
       bagSumUbs: `${this.orderDetailsForm.value.bagNumUbs * this.orders.allBags[0].price} грн`,
       bagSumClothesXL: `${this.orderDetailsForm.value.bagNumClothesXL * this.orders.allBags[1].price} грн`,
       bagSumClothesM: `${this.orderDetailsForm.value.bagNumClothesM * this.orders.allBags[2].price} грн`,
     });
-    this.total = this.orderDetailsForm.value.bagNumUbs * this.orders.allBags[0].price +
-      this.orderDetailsForm.value.bagNumClothesXL * this.orders.allBags[1].price +
-      this.orderDetailsForm.value.bagNumClothesM * this.orders.allBags[2].price;
-    this.showTotal = `${this.total} грн`;
-    this.finalSum = `${this.total} грн`;
-    this.displayCalc = true;
-    if (this.total < 500) {
-      this.displayMes = true;
-      this.onSubmit = true;
-    } else { this.displayMes = false; this.onSubmit = false; }
-
+    this.calcTotal();
   }
 
-  calcPoints() {
+  calcPoints(): void {
     this.displayBonus = true;
-    if(this.certificateSum <= 0) {
-    this.showTotal = `${this.total} грн`;
-    this.points > this.total ? this.pointsUsed = this.total : this.pointsUsed = this.points;
-    this.showPointsUsed = `-${this.pointsUsed} грн`;
-    this.points > this.total ? this.points = this.points - this.total : this.points = 0;
-    this.finalSum = `${this.total - this.pointsUsed} грн`;
-    this.total = this.total - this.pointsUsed}
+    if (this.certificateSum <= 0) {
+      this.showTotal = `${this.total} грн`;
+      this.points > this.total ? this.pointsUsed = this.total : this.pointsUsed = this.points;
+      this.showPointsUsed = `-${this.pointsUsed} грн`;
+      this.points > this.total ? this.points = this.points - this.total : this.points = 0;
+      this.finalSum = `${this.total - this.pointsUsed} грн`;
+      this.total = this.total - this.pointsUsed
+    }
     else {
       this.showTotal = `${this.total} грн`;
       this.points > this.total ? this.points = this.points - this.total : this.points = 0;
@@ -155,129 +158,153 @@ export class OrderDetailsFormComponent implements OnInit {
     }
   }
 
-  resetPoints() {
+  resetPoints(): void {
     this.displayBonus = false;
     this.total = this.orderDetailsForm.value.bagNumUbs * this.orders.allBags[0].price +
-    this.orderDetailsForm.value.bagNumClothesXL * this.orders.allBags[1].price +
-    this.orderDetailsForm.value.bagNumClothesM * this.orders.allBags[2].price;
+      this.orderDetailsForm.value.bagNumClothesXL * this.orders.allBags[1].price +
+      this.orderDetailsForm.value.bagNumClothesM * this.orders.allBags[2].price;
     this.showTotal = `${this.total} грн`;
     this.showPointsUsed = '';
     this.finalSum = this.showTotal;
     this.points = this.orders.points;
+    this.calcTotal();
   }
 
-  addOrder() {
-    this.additionalOrders.push(this.fb.control(''));
+  addOrder(): void {
+    this.additionalOrders.push(this.fb.control('', [Validators.minLength(10),]));
+    console.log(this.additionalOrders);
   }
 
-  addCertificate() {
-    this.additionalCertificates.push(this.fb.control(''));
+
+  addCertificate(): void {
+    this.additionalCertificates.push(this.fb.control('', [Validators.minLength(8), Validators.pattern(/(?!0000)\d{4}-(?!0000)\d{4}/)]));
     this.addCert = false;
   }
 
-  deleteCertificate(i) {
-    if(this.displayCert === false){
+  deleteCertificate(i): void {
+    if (this.displayCert === false) {
       this.certificates.splice(i, 1);
       this.additionalCertificates.removeAt(i);
       this.calcCertificates(this.certificates);
     } else {
-    this.certificates.splice(i+1, 1);
-    this.additionalCertificates.removeAt(i);
-    console.log(this.certificates);
-    this.calcCertificates(this.certificates);}
-  }
-
-  addedCertificateSubmit(i) {
-    this.certificates.push(this.additionalCertificates.value[i]);
-    this.calcCertificates(this.certificates);
-    console.log(this.certificates);
-    this.addCert = true;
-  }
-
- calcCertificates(arr) {
-   if(arr.length > 0){
-    this.certificateSum = 0;
-    for (const certificate of arr) {
-      this._orderService.processCertificate(certificate).subscribe(certificate => {
-        this.certificateMatch(certificate);
-        if(this.total > this.certificateSum) {
-          this.finalSum = `${this.total - this.certificateSum} грн`;
-          this.showCertificateUsed = `-${this.certificateSum} грн`;
-           this.addCert = true;
-        } else {
-          this.finalSum = `0 грн`;
-          this.certificateLeft = this.certificateSum - this.total;
-          this.showCertificateUsed = `-${this.total} грн`;
-          this.points = this.orders.points + this.certificateLeft;
-          this.addCert = false;
-          this.certSize = true;
-        }
-      })
+      this.certificates.splice(i + 1, 1);
+      this.additionalCertificates.removeAt(i);
+      console.log(this.certificates);
+      this.calcCertificates(this.certificates);
     }
-  } else {
-    this.certificateSum = 0;
-    this.finalSum = `${this.total - this.certificateSum} грн`;
-    console.log('empty');
-  }
- }
-
-  certificateSubmit() {
-    this.certificates.push(this.orderDetailsForm.value.certificate);
-    console.log(this.certificates);
-    this.calcCertificates(this.certificates);
-    this.displayCert = true;
-
   }
 
-  certificateReset() {
+  addedCertificateSubmit(i): void {
+    if (!this.certificates.includes(this.additionalCertificates.value[i])) {
+      this.certificates.push(this.additionalCertificates.value[i]);
+      this.calcCertificates(this.certificates);
+    }
+    else {
+      console.log('ERROR');
+    }
+  }
+
+  calcCertificates(arr): void {
+    if (arr.length > 0) {
+      this.certificateSum = 0;
+      for (const certificate of arr) {
+        this._orderService.processCertificate(certificate).subscribe(certificate => {
+          this.certificateMatch(certificate);
+          if (this.total > this.certificateSum) {
+            this.addCert = true;
+          } else {
+            this.addCert = false;
+            this.certSize = true;
+          }
+          this.calcTotal();
+        })
+      }
+    } else {
+      this.certificateSum = 0;
+      this.calcTotal();
+    }
+  }
+
+  certificateSubmit(): void {
+    if (!this.certificates.includes(this.orderDetailsForm.value.certificate)) {
+      this.certificates.push(this.orderDetailsForm.value.certificate);
+      console.log(this.certificates);
+      this.calcCertificates(this.certificates);
+    }
+    else {
+      this.orderDetailsForm.patchValue({ certificate: '' });
+      console.log('ERROR');
+    }
+  }
+
+  certificateReset(): void {
     this.showCertificateUsed = '';
     this.addCert = false;
     this.displayCert = false;
     this.certificates.splice(0, 1);
     console.log(this.certificates);
-    this.orderDetailsForm.patchValue({
-      certificate: '',
-    });
+    this.certMessage = '';
+    this.orderDetailsForm.patchValue({ certificate: '' });
     this.calcCertificates(this.certificates);
   }
 
-  certificateMatch(cert) {
-      if(cert.certificateStatus){
-        this.certificateSum = this.certificateSum + cert.certificatePoints;
-        console.log(cert.certificatePoints);
-
-      }else {console.log('invalid');
-      }
+  certificateMatch(cert): void {
+    if (cert.certificateStatus === 'ACTIVE' || cert.certificateStatus === 'NEW') {
+      this.certificateSum = this.certificateSum + cert.certificatePoints;
+      this.certMessage = `Сертифiкат на cуму ${cert.certificatePoints} грн активовано. Строк дії сертифікату - до ${cert.certificateDate}`;
+      console.log(cert.certificatePoints);
+      this.displayCert = true;
+    } else if (cert.certificateStatus === 'USED') {
+      this.certificateSum = this.certificateSum;
+      this.certMessage = `Сертифiкат вже використано. Строк дії сертифікату - до ${cert.certificateDate}`;
+      this.displayCert = false;
+    } else if (cert.certificateDate.startsWith('2020')) {
+      this.certificateSum = this.certificateSum;
+      this.certMessage = `Сертифікат не є дійсним. Строк дії сертифікату - до до ${cert.certificateDate}`;
+      this.displayCert = false;
+    }
+    else {
+      console.log('invalid');
+    }
   }
 
-
-  submit() {
-    const paymentBill = [{name: this.orderDetailsForm.get('bagServiceUbs').value,
-                          size: this.orderDetailsForm.get('bagSizeUbs').value,
-                        amount: this.orderDetailsForm.get('bagNumUbs').value,
-                        count: this.orderDetailsForm.get('bagPriceUbs').value,
-                        sum: this.orderDetailsForm.get('bagSumUbs').value},
-                        {name: this.orderDetailsForm.get('bagServiceClothesXL').value,
-                        size: this.orderDetailsForm.get('bagSizeClothesXL').value,
-                        amount: this.orderDetailsForm.get('bagNumClothesXL').value,
-                        count: this.orderDetailsForm.get('bagPriceClothesXL').value,
-                        sum: this.orderDetailsForm.get('bagSumClothesXL').value},
-                        {name: this.orderDetailsForm.get('bagServiceClothesM').value,
-                        size: this.orderDetailsForm.get('bagSizeClothesM').value,
-                        amount: this.orderDetailsForm.get('bagNumClothesM').value,
-                        count: this.orderDetailsForm.get('bagPriceClothesM').value,
-                        sum: this.orderDetailsForm.get('bagSumClothesM').value},
-                      this.showTotal, this.showCertificateUsed, this.showPointsUsed, this.finalSum];
-    let ubs = Object.assign({ id: 1, amount: this.orderDetailsForm.value.bagNumUbs });
-    let clothesXL = Object.assign({ id: 2, amount: this.orderDetailsForm.value.bagNumClothesXL });
-    let clothesM = Object.assign({ id: 3, amount: this.orderDetailsForm.value.bagNumClothesM });
-    const newOrder: IUserOrder = new UserOrder([ubs, clothesXL, clothesM],
+  submit(): void {
+    const ubs = Object.assign({ id: 1, amount: this.orderDetailsForm.value.bagNumUbs });
+    const clothesXL = Object.assign({ id: 2, amount: this.orderDetailsForm.value.bagNumClothesXL });
+    const clothesM = Object.assign({ id: 3, amount: this.orderDetailsForm.value.bagNumClothesM });
+    const newOrder: IUserOrder = new UserOrder(
+      [ubs, clothesXL, clothesM],
       this.pointsUsed,
-      this.orderDetailsForm.value.certificate,
-      this.orderDetailsForm.value.additionalOrder,
+      this.certificates,
+      this.additionalOrders.value,
       this.orderDetailsForm.value.orderComment);
+    const paymentBill = [
+      {
+        name: this.orderDetailsForm.get('bagServiceUbs').value,
+        size: this.orderDetailsForm.get('bagSizeUbs').value,
+        amount: this.orderDetailsForm.get('bagNumUbs').value,
+        count: this.orderDetailsForm.get('bagPriceUbs').value,
+        sum: this.orderDetailsForm.get('bagSumUbs').value
+      },
+      {
+        name: this.orderDetailsForm.get('bagServiceClothesXL').value,
+        size: this.orderDetailsForm.get('bagSizeClothesXL').value,
+        amount: this.orderDetailsForm.get('bagNumClothesXL').value,
+        count: this.orderDetailsForm.get('bagPriceClothesXL').value,
+        sum: this.orderDetailsForm.get('bagSumClothesXL').value
+      },
+      {
+        name: this.orderDetailsForm.get('bagServiceClothesM').value,
+        size: this.orderDetailsForm.get('bagSizeClothesM').value,
+        amount: this.orderDetailsForm.get('bagNumClothesM').value,
+        count: this.orderDetailsForm.get('bagPriceClothesM').value,
+        sum: this.orderDetailsForm.get('bagSumClothesM').value
+      },
+      this.showTotal, this.showCertificateUsed, this.showPointsUsed, this.finalSum];
     this._shareFormService.changeObject(newOrder);
     this._shareFormService.finalBillObject(paymentBill);
-    console.log(this.orderDetailsForm.value, newOrder);
+    console.log(newOrder);
+    console.log(this.orderDetailsForm.get('additionalOrders').value);
+    console.log(this.additionalOrders);
   }
 }

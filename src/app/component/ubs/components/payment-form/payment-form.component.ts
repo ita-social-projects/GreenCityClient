@@ -47,18 +47,19 @@ export class PaymentFormComponent implements OnInit {
   ubsRow: boolean = false;
   XLRow: boolean = false;
   MRow: boolean = false;
+  showCert: boolean = false;
+  showPoints: boolean = false;
 
 
-  constructor(private shareFormService: ShareFormService,
+  constructor(
+    private shareFormService: ShareFormService,
     private orderService: OrderService,
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    // this.orderService.getOrders().subscribe(data => { this.orders = data; this.initPaymentData(); });
-    this.shareFormService.finalObject.subscribe(order => { this.finalOrder = order; this.initPersonalData(); });
+    this.shareFormService.finalObject.subscribe(order => {this.finalOrder = order; this.initPersonalData();});
     this.shareFormService.billObjectSource.subscribe(order => {this.bill = order; this.initPaymentData();});
     this.paymentForm = this.fb.group({});
-
   }
 
   initPaymentData(): void {
@@ -78,16 +79,15 @@ export class PaymentFormComponent implements OnInit {
     this.showCertificateUsed = this.bill[4];
     this.showPointsUsed = this.bill[5];
     this.finalSum = this.bill[6];
+    this.ubsBagNum = this.bill[0].amount;
+    this.ubsBagNum > 0 ? this.ubsRow = true : this.ubsRow = false;
+    this.clothesBagXLNum = this.bill[1].amount;
+    this.clothesBagXLNum > 0 ? this.XLRow = true : this.XLRow = false;
+    this.clothesBagMNum = this.bill[2].amount;
+    this.clothesBagMNum > 0 ? this.MRow = true : this.MRow = false;
   }
 
   initPersonalData(): void {
-    this.ubsBagNum = this.finalOrder.bags[0].amount;
-    this.ubsBagNum > 0 ? this.ubsRow = true : this.ubsRow = false;
-    this.clothesBagXLNum = this.finalOrder.bags[1].amount;
-    this.clothesBagXLNum > 0 ? this.XLRow = true : this.XLRow = false;
-    this.clothesBagMNum = this.finalOrder.bags[2].amount;
-    this.clothesBagMNum > 0 ? this.MRow = true : this.MRow = false;
-    this.showPointsUsed = this.finalOrder.pointsToUse;
     this.firstName = this.finalOrder.personalData.firstName;
     this.lastName = this.finalOrder.personalData.lastName;
     this.email = this.finalOrder.personalData.email;
@@ -98,6 +98,7 @@ export class PaymentFormComponent implements OnInit {
     this.houseNumber = this.finalOrder.personalData.houseNumber;
     this.houseCorpus - this.finalOrder.personalData.entranceNumber;
     this.comment = this.finalOrder.personalData.addressComment;
+    this.finalOrder.certificates.length > 0 ? this.showCert = true : this.showCert = false;
+    this.finalOrder.pointsToUse > 0 ? this.showPoints = true : this.showPoints = false;
   }
-
 }

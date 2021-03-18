@@ -1,9 +1,10 @@
-
+import { MatDialog } from '@angular/material';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PersonalData } from '../../models/personalData.model';
 import { ShareFormService } from '../../services/share-form.service';
 import { OrderService } from '../../services/order.service';
+import { AddAddressComponent } from './add-address/add-address/add-address.component';
 
 @Component({
   selector: 'app-personal-data-form',
@@ -20,15 +21,30 @@ export class PersonalDataFormComponent implements OnInit {
   nextDisabled = true;
   districtDisabled = true;
   order: any;
+  addresses: any = [];
 
   constructor(
     private orderService: OrderService,
     private shareFormService: ShareFormService,
     private fb: FormBuilder,
+    public dialog: MatDialog
   ) { }
 
+  openDialog(): void {
+    const dialogRef = this.dialog.open(AddAddressComponent, {
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(address => {
+      if (address !== undefined) {
+        this.addresses.push(address);
+      }
+      console.log(this.addresses);
+    });
+  }
+
   ngOnInit(): void {
-    this.shareFormService.objectSource.subscribe(order => this.order = order)
+    this.shareFormService.objectSource.subscribe(order => {this.order = order; console.log(this.order)});
     this.personalDataForm = this.fb.group({
       firstName: ['', [
         Validators.required,
@@ -50,33 +66,12 @@ export class PersonalDataFormComponent implements OnInit {
         Validators.required,
         Validators.minLength(12)
       ]],
-      city: ['Київ', Validators.required],
-      district: ['', Validators.required],
-      streetAndBuilding: ['', [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(40),
-        Validators.pattern(/^[A-Za-zА-Яа-яїієё0-9\'\,\-\ \\]+$/)
-      ]],
-      houseCorpus: ['', [
-        Validators.maxLength(2),
-        Validators.pattern(/^[A-Za-zА-Яа-яїієё0-9]+$/)
-      ]],
-      entranceNumber: ['', [
-        Validators.maxLength(2),
-        Validators.pattern(/^-?(0|[1-9]\d*)?$/)
-      ]],
       addressComment: ['', Validators.maxLength(170)]
     });
 
     this.orderService.getPersonalData().subscribe((data: PersonalData[]) => {
       this.personalData = data[data.length - 1];
-
       this.initForm();
-
-      this.region = this.personalData.district;
-      this.personalDataForm.get('district').setValue(this.region);
-      this.nextDisabled = this.personalDataForm.get('streetAndBuilding').value.length ? false : true;
     });
   }
 
@@ -85,43 +80,9 @@ export class PersonalDataFormComponent implements OnInit {
       firstName: this.personalData.firstName,
       lastName: this.personalData.lastName,
       email: this.personalData.email,
-      phoneNumber: this.personalData.phoneNumber,
-      city: this.personalData.city,
-      district: this.personalData.district,
-      streetAndBuilding: this.personalData.street + ', ' + this.personalData.houseNumber,
-      houseCorpus: this.personalData.houseCorpus,
-      entranceNumber: this.personalData.entranceNumber,
+      phoneNumber: '380' + this.personalData.phoneNumber,
       addressComment: this.personalData.addressComment,
     });
-  }
-
-  onLocationSelected(event): void {
-    this.longitude = event.longitude;
-    this.latitude = event.latitude;
-  }
-
-  onAutocompleteSelected(event): void {
-    const streetName = event.name.split(' ').filter(char => char !== 'вулиця' && char !== 'вул.').join(' ');
-    this.personalDataForm.get('streetAndBuilding').setValue(streetName);
-    this.region = event.address_components[2].long_name.split(' ')[1] === 'район'
-      ? event.address_components[2].long_name.split(' ')[0] : null;
-    this.personalDataForm.get('district').setValue(this.region);
-    this.nextDisabled = false;
-    this.districtDisabled = event.address_components[2].long_name.split(' ')[1] === 'район' ? true : false;
-  }
-
-  onDistrictSelected(event): void {
-    this.region = event.address_components[0].long_name.split(' ')[0];
-    this.personalDataForm.get('district').setValue(this.region);
-    this.districtDisabled = true;
-    this.nextDisabled = false;
-  }
-
-  onChange(): void {
-    this.region = null;
-    this.personalDataForm.get('district').setValue(this.region);
-    this.districtDisabled = false;
-    this.nextDisabled = true;
   }
 
   submit(): void {
@@ -130,21 +91,19 @@ export class PersonalDataFormComponent implements OnInit {
       lastName: this.personalDataForm.get('lastName').value,
       email: this.personalDataForm.get('email').value,
       phoneNumber: this.personalDataForm.get('phoneNumber').value.slice(3),
-      city: this.personalDataForm.get('city').value,
-      district: this.personalDataForm.get('district').value,
-      street: this.personalDataForm.get('streetAndBuilding').value.split(', ')[0],
-      houseNumber: this.personalDataForm.get('streetAndBuilding').value.split(', ')[1],
-      houseCorpus: this.personalDataForm.get('houseCorpus').value,
-      entranceNumber: this.personalDataForm.get('entranceNumber').value,
+      city: this.addresses[0].city,
+      district: this.addresses[0].district,
+      street: this.addresses[0].street.split(',').splice(0, 1).join().split(' ').splice(1,1).join(),
+      houseNumber: this.addresses[0].street.split(',').slice(1).join().trim(),
+      houseCorpus: this.addresses[0].houseCorpus,
+      entranceNumber: this.addresses[0].entranceNumber,
       addressComment: this.personalDataForm.get('addressComment').value,
-      // id: this.personalData.id,
       id: 1,
-      latitude: this.latitude,
-      longitude: this.longitude
+      latitude: this.addresses[0].latitude,
+      longitude: this.addresses[0].longitude
     };
     this.order.personalData = personalData;
     this.orderService.processOrder(this.order).subscribe();
     this.shareFormService.thirdStepObject(this.order);
   }
-
 }

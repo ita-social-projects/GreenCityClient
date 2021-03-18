@@ -4,8 +4,8 @@ import { PersonalData } from "./personalData.model";
 export interface FinalOrder {
   bags: Bag[];
   pointsToUse: number;
-  cerfiticate: string;
-  additionalOrder: string;
+  cerfiticates: any;
+  additionalOrders: any;
   orderComment: string;
   personalData: PersonalData;
 }

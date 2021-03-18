@@ -9,8 +9,8 @@ export class Order implements IOrder {
       Bag
     ],
     public points: number,
-    public cerfiticate: any,
-    public additionalOrder: any,
+    public certificates: any,
+    public additionalOrders: any,
     public orderComment: string,
     public pointsToUse?: number
   ) {}

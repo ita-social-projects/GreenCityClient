@@ -4,7 +4,7 @@ export interface IOrder {
   allBags: Bag[];
   points: number;
   pointsToUse?: number;
-  cerfiticate: any;
-  additionalOrder: any;
+  certificates: any;
+  additionalOrders: any;
   orderComment: string;
 }

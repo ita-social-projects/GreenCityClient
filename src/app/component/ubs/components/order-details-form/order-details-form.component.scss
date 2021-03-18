@@ -1,12 +1,26 @@
-
+.container {
+  box-shadow: 1px 4px 8px rgb(100 114 125 / 18%);
+  padding: 10px 25px 40px;
+  color: #444E55;
+}
 
 .header {
   width: 100%;
-  margin: 2rem 0;
+  margin: 3rem 0 0;
 
   h3 {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
   }
+
+  p {
+    color: #64727D;
+    margin-bottom: 3rem;
+  }
+
+}
+
+h3 {
+  font-weight: bold;
 }
 
 .labels-container {
@@ -15,8 +29,6 @@
 
 .main,
 .labels-container {
-  // background-color: #F7F9FA;
-  // padding: 0 20px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -59,11 +71,12 @@ label:nth-child(5) {
   border: none;
 }
 
-.count input{
+.count input {
   background: #fff;
   border: 1px solid #64727D;
   padding-left: 6px;
 }
+
 .custom-control-label {
   padding-top: 3px;
 }
@@ -74,9 +87,9 @@ label:nth-child(5) {
 
 .custom-radio .custom-control-input:checked~.custom-control-label::before,
 .custom-radio .custom-control-input:checked~.custom-control-label::after {
-    background-color: var(--primary-green);
-    border-radius: 50%;
-  }
+  background-color: var(--primary-green);
+  border-radius: 50%;
+}
 
 .sum {
   width: 6rem;
@@ -90,7 +103,7 @@ label:nth-child(5) {
 
 }
 
-button{
+button {
   width: 9rem;
   height: 3rem;
   border-radius: 0;
@@ -98,16 +111,12 @@ button{
   border: none;
 }
 
-button:hover {
-  background: var(--primary-green);
-}
-
 .middle {
   width: 100%;
   margin-top: 10px;
   padding: 30px 0;
   justify-content: space-between;
-  border-bottom: 1px solid  #CACFD3;
+  border-bottom: 1px solid #CACFD3;
 }
 
 .totalInfo {
@@ -129,13 +138,11 @@ button:hover {
     color: var(--primary-green);
   }
 
-   .validMes {
-     margin-top: -1rem;
-     text-align: left;
-   }
+  .validMes {
+    margin-top: -1rem;
+    text-align: left;
+  }
 }
-
-
 
 .middle-container {
 
@@ -148,12 +155,19 @@ button:hover {
   .certificate-container,
   .addCertificate {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: flex-end;
     width: 50%;
 
     input {
       padding: .5rem;
+    }
+
+    .validMes {
+      width: 65%;
+      margin: -1rem 0 1rem;
+      color: var(--primary-green);
     }
   }
 
@@ -166,12 +180,25 @@ button:hover {
   }
 
   .addCertificateBtn {
+    width: 180px;
+    padding: 0;
+    text-align: left;
+    background: none;
     color: var(--primary-green);
-    cursor: pointer;
+    outline: none;
+  }
+
+  .addCertificateBtn:hover {
+    background: none;
   }
 
   .addBonus {
     margin-top: 3rem;
+
+    span {
+      color: var(--primary-green);
+      padding-left: 1rem;
+    }
   }
 
   input {
@@ -187,10 +214,9 @@ button:hover {
     margin: 0;
   }
 
-  button{
+  button {
     width: 10rem;
     height: 3rem;
-    border-radius: 0;
     background: var(--primary-grey);
     border: none;
   }
@@ -208,6 +234,7 @@ button:hover {
 
   .form-group {
     width: 39%;
+
     input {
       padding: .5rem;
     }
@@ -216,9 +243,16 @@ button:hover {
 }
 
 .addOrderBtn {
-  width: 60%;
+  width: 250px;
+  padding: 0;
+  text-align: left;
+  background: none;
   color: var(--primary-green);
-  cursor: pointer;
+  outline: none;
+}
+
+.addOrderBtn:hover {
+  background: none;
 }
 
 .bottom-text {
@@ -236,26 +270,36 @@ button:hover {
   background: white;
 
   textarea {
-    background: #fff;
-    border: 1px solid #64727D;
     height: 6rem;
+    border: 1px solid #64727D;
+    padding: .5rem;
+    background: #fff;
   }
+
+  .btn:nth-child(1) {
+    margin: 0 24px 0 0;
+    border: 1px solid var(--primary-green);
+    background: none;
+    color: var(--primary-green);
+  }
+
   button {
     width: 120px;
     height: 3rem;
     border-radius: 0;
     background: var(--primary-grey);
     border: none;
-   }
-   button:hover {
-     background: var(--primary-green);
-   }
+  }
+
+  button:hover {
+    background: var(--primary-green);
+  }
 }
 
 .bottom {
   padding: 3rem 0;
   margin-bottom: 3rem;
-  border-bottom: 1px solid  #CACFD3;
+  border-bottom: 1px solid #CACFD3;
 
   .custom-control {
     padding-left: 1.4rem;
@@ -270,5 +314,3 @@ button:hover {
     border: 1px solid #64727D;
   }
 }
-
-

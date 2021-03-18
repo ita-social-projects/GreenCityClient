@@ -14,6 +14,10 @@ import { PersonalDataFormComponent } from './components/personal-data-form/perso
 import { PaymentFormComponent } from './components/payment-form/payment-form.component';
 import { IMaskModule } from 'angular-imask';
 import { ErrorComponent } from './components/error/error.component';
+import { AddAddressComponent } from './components/personal-data-form/add-address/add-address/add-address.component';
+import { AddressComponent } from './components/personal-data-form/address/address/address.component';
+import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
+
 
 @NgModule({
   declarations: [
@@ -23,12 +27,15 @@ import { ErrorComponent } from './components/error/error.component';
     OrderDetailsFormComponent,
     PersonalDataFormComponent,
     PaymentFormComponent,
-    ErrorComponent
+    ErrorComponent,
+    AddAddressComponent,
+    AddressComponent
   ],
   imports: [
     CommonModule,
     UbsRoutingModule,
     MatStepperModule,
+    MatDialogModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
@@ -38,6 +45,15 @@ import { ErrorComponent } from './components/error/error.component';
       apiKey: 'AIzaSyCdBtR8O8eazfWUSdyb5O2cnL32uJtWUwA',
       libraries: ['places']
     })
+  ],
+  entryComponents: [
+    AddAddressComponent
+  ],
+  providers: [
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: {hasBackdrop: true}
+    }
   ]
 })
 export class UbsModule { }

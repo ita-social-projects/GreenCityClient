@@ -5,8 +5,8 @@ export class UserOrder implements IUserOrder {
   constructor (
     public bags: [Bag, Bag, Bag],
     public pointsToUse: number,
-    public cerfiticate: any,
-    public additionalOrder: any,
+    public certificates: any,
+    public additionalOrders: any,
     public orderComment: string,
   ) {}
 }

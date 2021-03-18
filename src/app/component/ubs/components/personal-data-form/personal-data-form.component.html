@@ -1,141 +1,75 @@
 <form [formGroup]="personalDataForm" (ngSubmit)="submit()">
   <div class="row personal-data">
+    <div class="w-100">
+      <h2 class="personal-data-title">Особисті дані</h2>
+    </div>
     <div class="col-12 col-sm-6 form-group">
       <label>Ім'я</label>
       <input formControlName="firstName" type="text" class="shadow-none form-control">
-      <div class="validation" *ngIf="personalDataForm.get('firstName').invalid && personalDataForm.get('firstName').touched">
-        <app-error
-          [formElement]="personalDataForm.get('firstName')"
-          [firstNameFieldValue]="personalDataForm.get('firstName').value"
-          [controlName]="'firstName'"
-        ></app-error>
+      <div class="validation"
+        *ngIf="personalDataForm.get('firstName').invalid && personalDataForm.get('firstName').touched">
+        <app-error [formElement]="personalDataForm.get('firstName')"
+          [firstNameFieldValue]="personalDataForm.get('firstName').value" [controlName]="'firstName'"></app-error>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 form-group">
+      <label>Номер телефону</label>
+      <input formControlName="phoneNumber" type="text" class="shadow-none form-control" placeholder="+38(___) ___ __ __"
+        [unmask]="true" [imask]="{mask: phoneMask}">
+      <div class="validation"
+        *ngIf="personalDataForm.get('phoneNumber').invalid && personalDataForm.get('phoneNumber').touched">
+        <app-error [formElement]="personalDataForm.get('phoneNumber')"
+          [phoneNumberFieldValue]="personalDataForm.get('phoneNumber').value" [controlName]="'phoneNumber'"></app-error>
       </div>
     </div>
     <div class="col-12 col-sm-6 form-group">
       <label>Прізвище</label>
       <input formControlName="lastName" type="text" class="shadow-none form-control">
-      <div class="validation" *ngIf="personalDataForm.get('lastName').invalid && personalDataForm.get('lastName').touched">
-        <app-error
-          [formElement]="personalDataForm.get('lastName')"
-          [lastNameFieldValue]="personalDataForm.get('lastName').value"
-          [controlName]="'lastName'"
-        ></app-error>
+      <div class="validation"
+        *ngIf="personalDataForm.get('lastName').invalid && personalDataForm.get('lastName').touched">
+        <app-error [formElement]="personalDataForm.get('lastName')"
+          [lastNameFieldValue]="personalDataForm.get('lastName').value" [controlName]="'lastName'"></app-error>
       </div>
     </div>
     <div class="col-12 col-sm-6 form-group">
       <label>Email</label>
       <input formControlName="email" type="text" class="shadow-none form-control" placeholder="example@email.com">
       <div class="validation" *ngIf="personalDataForm.get('email').invalid && personalDataForm.get('email').touched">
-        <app-error
-          [formElement]="personalDataForm.get('email')"
-          [emailFieldValue]="personalDataForm.get('email').value"
-          [controlName]="'email'"
-        ></app-error>
-      </div>
-    </div>
-    <div class="col-12 col-sm-6 form-group">
-      <label>Номер телефону</label>
-      <input
-        formControlName="phoneNumber"
-        type="text"
-        class="shadow-none form-control"
-        placeholder="+38(___) ___ __ __"
-        [unmask]="true"
-        [imask]="{mask: phoneMask}">
-      <div class="validation" *ngIf="personalDataForm.get('phoneNumber').invalid && personalDataForm.get('phoneNumber').touched">
-        <app-error
-          [formElement]="personalDataForm.get('phoneNumber')"
-          [phoneNumberFieldValue]="personalDataForm.get('phoneNumber').value"
-          [controlName]="'phoneNumber'"
-        ></app-error>
+        <app-error [formElement]="personalDataForm.get('email')" [emailFieldValue]="personalDataForm.get('email').value"
+          [controlName]="'email'"></app-error>
       </div>
     </div>
   </div>
+  <hr>
   <div class="row adress-section">
-    <div class="row adress">
-      <div class="w-100 adress-title">Введіть адресу за якою забрати сміття</div>
-      <div class="col-12 col-sm-6 form-group">
-        <label>Місто</label>
-        <select formControlName="city" class="shadow-none form-control">
-          <option value="Kyiv">Київ</option>
-        </select>
-        <div class="w-100 city-notice">
-          На даний момент обслуговуємо лише м.Київ
-        </div>
-      </div>
-      <div class="col-12 col-sm-6 form-group">
-        <label>Район</label>
-        <input
-          formControlName="district"
-          class="shadow-none form-control"
-          matGoogleMapsAutocomplete
-          [country]="'ua'"
-          [types]="['geocode']"
-          (onAutocompleteSelected)="onDistrictSelected($event)"
-          [attr.disabled]="districtDisabled ? true : null"
-          [value]="region">
-        <div class="validation" *ngIf="personalDataForm.get('district').invalid && personalDataForm.get('district').touched">
-          <app-error
-            [formElement]="personalDataForm.get('district')"
-            [controlName]="'district'"
-          ></app-error>
-        </div>
-      </div>
-      <div class="col-12 col-sm-6 form-group">
-        <label>Вулиця та номер будинку</label>
-        <input
-          formControlName="streetAndBuilding"
-          type="text"
-          class="shadow-none form-control"
-          matGoogleMapsAutocomplete
-          (onAutocompleteSelected)="onAutocompleteSelected($event)"
-          (onLocationSelected)="onLocationSelected($event)"
-          (change)="onChange()"
-          [types]="['address']"
-          [country]="'ua'">
-        <div class="validation" *ngIf="personalDataForm.get('streetAndBuilding').invalid && personalDataForm.get('streetAndBuilding').touched">
-          <app-error
-            [formElement]="personalDataForm.get('streetAndBuilding')"
-            [streetFieldValue]="personalDataForm.get('streetAndBuilding').value"
-            [controlName]="'streetAndBuilding'"
-          ></app-error>
-        </div>
-      </div>
-      <div class="col-12 col-sm-6 d-flex justify-content-between flex-wrap form-group">
-        <div class="item">
-          <label>Корпус</label>
-          <input formControlName="houseCorpus" type="text" class="shadow-none form-control">
-        </div>
-        <div class="item">
-          <label>Під'їзд</label>
-          <input formControlName="entranceNumber" type="text" class="shadow-none form-control">
-        </div>
-        <div class="w-100">
-          <div class="validation" *ngIf="personalDataForm.get('houseCorpus').invalid && personalDataForm.get('houseCorpus').touched">
-            <app-error
-              [formElement]="personalDataForm.get('houseCorpus')"
-              [controlName]="'houseCorpus'"
-            ></app-error>
-          </div>
-        </div>
-      </div>
-      <div class="w-100 adress-notice">ВАЖЛИВО: кур’єр забирає пакети біля під’їзду, на поверх не піднімається.</div>
+    <div class="w-100">
+      <h2 class="address-title">Адреса вивозу сміття</h2>
     </div>
-    <h5 class="comment-title">Коментар до адреси</h5>
-    <textarea formControlName="addressComment"></textarea>
-    <div class="validation" *ngIf="personalDataForm.get('addressComment').invalid && personalDataForm.get('addressComment').touched">
-      <app-error
-        [formElement]="personalDataForm.get('addressComment')"
-        [controlName]="'addressComment'"
-      ></app-error>
+    <div *ngIf="addresses.length === 0; else addressesList" class="no-addresses">У Вас немає доданих адрес. Додайте,
+      будь ласка, адресу.</div>
+    <ng-template #addressesList>
+      <app-address *ngFor="let address of addresses" [address]="address" class="address col-12 col-md-6"></app-address>
+    </ng-template>
+    <div class="w-100">
+      <button type="button" class="btn add-address" mat-raised-button (click)="openDialog()">Додати адресу</button>
     </div>
   </div>
-  <div class="w-100 d-flex justify-content-end">
+  <hr>
+  <div class="address-comment">
+    <h5 class="comment-title">Коментар до адреси</h5>
+    <textarea class="form-control" formControlName="addressComment"
+      placeholder="Будь-які деталі, які ви б хотіли нам повідомити додатково"></textarea>
+    <div class="validation"
+      *ngIf="personalDataForm.get('addressComment').invalid && personalDataForm.get('addressComment').touched">
+      <app-error [formElement]="personalDataForm.get('addressComment')" [controlName]="'addressComment'"></app-error>
+    </div>
+  </div>
+  <div class="w-100 d-flex justify-content-between personal-data-navigation">
     <button class="secondary-global-button btn" matStepperPrevious>Назад</button>
-    <button
-      type="submit"
-      class="primary-global-button btn"
-      matStepperNext
-      [disabled]="nextDisabled || personalDataForm.invalid">Далі</button>
+    <div>
+      <button class="secondary-global-button btn" matStepperPrevious>Відмінити</button>
+      <button type="submit" class="primary-global-button btn" matStepperNext
+        [disabled]="personalDataForm.invalid">Далі</button>
+    </div>
   </div>
 </form>
