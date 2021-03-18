@@ -96,7 +96,7 @@ export class PaymentFormComponent implements OnInit {
     this.district = this.finalOrder.personalData.district;
     this.street = this.finalOrder.personalData.street;
     this.houseNumber = this.finalOrder.personalData.houseNumber;
-    this.houseCorpus - this.finalOrder.personalData.entranceNumber;
+    this.houseCorpus = this.finalOrder.personalData.entranceNumber;
     this.comment = this.finalOrder.personalData.addressComment;
     this.finalOrder.certificates.length > 0 ? this.showCert = true : this.showCert = false;
     this.finalOrder.pointsToUse > 0 ? this.showPoints = true : this.showPoints = false;
