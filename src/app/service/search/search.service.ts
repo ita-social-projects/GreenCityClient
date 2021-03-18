@@ -21,8 +21,16 @@ export class SearchService {
     return this.http.get<SearchModel>(`${this.backEndLink}search?searchQuery=${searchQuery}&lang=${lang}`);
   }
 
-  public getAllResultsByCat(query: string, category: string = 'econews', page: number = 0, sort: string = '', items: number = 9): Observable<SearchDataModel> {
-    return this.http.get<SearchDataModel>(`${this.backEndLink}search/${category}?searchQuery=${query}&sort=${sort}&page=${page}&size=${items}`);
+  public getAllResultsByCat(
+    query: string,
+    category: string = 'econews',
+    page: number = 0,
+    sort: string = '',
+    items: number = 9
+  ): Observable<SearchDataModel> {
+    return this.http.get<SearchDataModel>(
+      `${this.backEndLink}search/${category}?searchQuery=${query}&sort=${sort}&page=${page}&size=${items}`
+    );
   }
 
   private getResultsByCat(searchType: string): Observable<SearchModel> {

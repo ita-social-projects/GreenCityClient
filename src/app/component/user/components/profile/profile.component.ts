@@ -15,7 +15,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
   private langChangeSub: Subscription;
   public userInfo: EditProfileModel;
 
-  constructor(private announcer: LiveAnnouncer, private localStorageService: LocalStorageService, private translate: TranslateService, private profileService: ProfileService) {}
+  constructor(
+    private announcer: LiveAnnouncer,
+    private localStorageService: LocalStorageService,
+    private translate: TranslateService,
+    private profileService: ProfileService
+  ) {}
 
   ngOnInit() {
     this.announce();

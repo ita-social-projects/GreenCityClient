@@ -32,7 +32,11 @@ export class UserService implements OnLogout {
   private availableCustomGoalsSubject = new BehaviorSubject<Goal[]>([]);
   private availablePredefinedGoalsSubject = new BehaviorSubject<Goal[]>([]);
 
-  private dataStore: { goals: Goal[]; availableCustomGoals: Goal[]; availablePredefinedGoals } = { goals: [], availableCustomGoals: [], availablePredefinedGoals: [] };
+  private dataStore: { goals: Goal[]; availableCustomGoals: Goal[]; availablePredefinedGoals } = {
+    goals: [],
+    availableCustomGoals: [],
+    availablePredefinedGoals: [],
+  };
 
   readonly goals = this.goalsSubject.asObservable();
   readonly availableCustomGoals = this.availableCustomGoalsSubject.asObservable();

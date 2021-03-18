@@ -16,7 +16,13 @@ export class HabitsGalleryViewComponent implements OnInit {
   @Input() habit: HabitInterface;
   private requesting = false;
 
-  constructor(public router: Router, public route: ActivatedRoute, private snackBar: MatSnackBarComponent, public habitAssignService: HabitAssignService, public profileService: ProfileService) {}
+  constructor(
+    public router: Router,
+    public route: ActivatedRoute,
+    private snackBar: MatSnackBarComponent,
+    public habitAssignService: HabitAssignService,
+    public profileService: ProfileService
+  ) {}
 
   ngOnInit() {}
 

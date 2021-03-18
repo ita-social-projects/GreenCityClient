@@ -7,8 +7,24 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class WeekDaysUtils {
-  static sortedUTCDays = [WeekDays.SUNDAY, WeekDays.MONDAY, WeekDays.TUESDAY, WeekDays.WEDNESDAY, WeekDays.THURSDAY, WeekDays.FRIDAY, WeekDays.SATURDAY];
-  static sortedDays = [WeekDays.MONDAY, WeekDays.TUESDAY, WeekDays.WEDNESDAY, WeekDays.THURSDAY, WeekDays.FRIDAY, WeekDays.SATURDAY, WeekDays.SUNDAY];
+  static sortedUTCDays = [
+    WeekDays.SUNDAY,
+    WeekDays.MONDAY,
+    WeekDays.TUESDAY,
+    WeekDays.WEDNESDAY,
+    WeekDays.THURSDAY,
+    WeekDays.FRIDAY,
+    WeekDays.SATURDAY,
+  ];
+  static sortedDays = [
+    WeekDays.MONDAY,
+    WeekDays.TUESDAY,
+    WeekDays.WEDNESDAY,
+    WeekDays.THURSDAY,
+    WeekDays.FRIDAY,
+    WeekDays.SATURDAY,
+    WeekDays.SUNDAY,
+  ];
 
   public static getCurrentDay(): string {
     const currTime = new Date();

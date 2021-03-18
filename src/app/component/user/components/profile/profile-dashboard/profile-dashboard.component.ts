@@ -24,7 +24,11 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   };
   userId: number;
 
-  constructor(private localStorageService: LocalStorageService, private habitService: HabitService, private habitAssignService: HabitAssignService) {}
+  constructor(
+    private localStorageService: LocalStorageService,
+    private habitService: HabitService,
+    private habitAssignService: HabitAssignService
+  ) {}
 
   ngOnInit() {
     this.executeRequests();

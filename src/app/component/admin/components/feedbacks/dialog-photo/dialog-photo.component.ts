@@ -8,7 +8,11 @@ import { ModalService } from '../../../../core/components/propose-cafe/_modal/mo
   styleUrls: ['./dialog-photo.component.scss'],
 })
 export class DialogPhotoComponent implements OnInit {
-  constructor(@Inject(MAT_DIALOG_DATA) public data, private dialogRef: MatDialogRef<DialogPhotoComponent>, private modalService: ModalService) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data,
+    private dialogRef: MatDialogRef<DialogPhotoComponent>,
+    private modalService: ModalService
+  ) {}
 
   ngOnInit() {}
 }

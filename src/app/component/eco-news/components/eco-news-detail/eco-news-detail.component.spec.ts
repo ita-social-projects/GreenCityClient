@@ -126,7 +126,10 @@ describe('EcoNewsDetailComponent', () => {
     component.newsItem = mockEcoNewsModel;
     const spy = spyOn(window, 'open');
     component.onSocialShareLinkClick('twitter');
-    expect(spy).toHaveBeenCalledWith(`https://twitter.com/share?url=${window.location.href}&text=${mockEcoNewsModel.title}&hashtags=${mockEcoNewsModel.tags.join(',')}`, '_blank');
+    expect(spy).toHaveBeenCalledWith(
+      `https://twitter.com/share?url=${window.location.href}&text=${mockEcoNewsModel.title}&hashtags=${mockEcoNewsModel.tags.join(',')}`,
+      '_blank'
+    );
   });
 
   it('canUserEditNews should return true if the user can edit news', () => {

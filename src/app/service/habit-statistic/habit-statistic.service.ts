@@ -91,7 +91,13 @@ export class HabitStatisticService implements OnLogout {
         this.dataStore.habitStatistics.forEach((item, i) => {
           index = item.habitStatistics.findIndex((stat) => stat.id === data.id);
           if (index !== -1) {
-            this.dataStore.habitStatistics[i].habitStatistics[index] = new HabitStatisticsDto(data.id, data.habitRate, data.createdOn, data.amountOfItems, data.habitId);
+            this.dataStore.habitStatistics[i].habitStatistics[index] = new HabitStatisticsDto(
+              data.id,
+              data.habitRate,
+              data.createdOn,
+              data.amountOfItems,
+              data.habitId
+            );
 
             this.$habitStatistics.next(Object.assign({}, this.dataStore).habitStatistics);
           }
@@ -110,7 +116,13 @@ export class HabitStatisticService implements OnLogout {
           if (habit.id === habitStatistics.habitId) {
             habit.habitStatistics.forEach((stat, statIndex) => {
               if (new Date(stat.createdOn).toLocaleDateString() === new Date(habitStatistics.createdOn).toLocaleDateString()) {
-                this.dataStore.habitStatistics[habitIndex].habitStatistics[statIndex] = new HabitStatisticsDto(data.id, data.habitRate, data.createdOn, data.amountOfItems, data.habitId);
+                this.dataStore.habitStatistics[habitIndex].habitStatistics[statIndex] = new HabitStatisticsDto(
+                  data.id,
+                  data.habitRate,
+                  data.createdOn,
+                  data.amountOfItems,
+                  data.habitId
+                );
                 this.$habitStatistics.next(Object.assign({}, this.dataStore).habitStatistics);
                 return;
               }

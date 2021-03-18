@@ -74,7 +74,9 @@ export class SocialNetworksComponent implements OnInit {
   }
 
   public getSocialImage(socialNetwork) {
-    return socialNetwork && socialNetwork.socialNetworkImage && socialNetwork.socialNetworkImage.imagePath === '' ? this.icons.defaultIcon : socialNetwork.socialNetworkImage.imagePath;
+    return socialNetwork && socialNetwork.socialNetworkImage && socialNetwork.socialNetworkImage.imagePath === ''
+      ? this.icons.defaultIcon
+      : socialNetwork.socialNetworkImage.imagePath;
   }
 
   public onCloseForm(): void {

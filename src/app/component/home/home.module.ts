@@ -3,7 +3,15 @@ import { SWIPER_CONFIG, SwiperConfigInterface, SwiperModule } from 'ngx-swiper-w
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '../core/core.module';
 import { SharedModule } from '@shared/shared.module';
-import { HomepageComponent, EcoEventsComponent, StatRowComponent, StatRowsComponent, SubscribeComponent, TipsCardComponent, TipsListComponent } from './components';
+import {
+  HomepageComponent,
+  EcoEventsComponent,
+  StatRowComponent,
+  StatRowsComponent,
+  SubscribeComponent,
+  TipsCardComponent,
+  TipsListComponent,
+} from './components';
 import { EcoEventsItemComponent } from './components/eco-events/eco-events-item/eco-events-item.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
@@ -12,9 +20,27 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
 };
 
 @NgModule({
-  declarations: [HomepageComponent, EcoEventsComponent, StatRowComponent, StatRowsComponent, SubscribeComponent, TipsCardComponent, TipsListComponent, EcoEventsItemComponent],
+  declarations: [
+    HomepageComponent,
+    EcoEventsComponent,
+    StatRowComponent,
+    StatRowsComponent,
+    SubscribeComponent,
+    TipsCardComponent,
+    TipsListComponent,
+    EcoEventsItemComponent,
+  ],
   imports: [CommonModule, CoreModule, SharedModule, SwiperModule],
-  exports: [HomepageComponent, EcoEventsComponent, StatRowComponent, StatRowsComponent, SubscribeComponent, TipsCardComponent, TipsListComponent, EcoEventsItemComponent],
+  exports: [
+    HomepageComponent,
+    EcoEventsComponent,
+    StatRowComponent,
+    StatRowsComponent,
+    SubscribeComponent,
+    TipsCardComponent,
+    TipsListComponent,
+    EcoEventsItemComponent,
+  ],
   providers: [
     {
       provide: SWIPER_CONFIG,

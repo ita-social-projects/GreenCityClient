@@ -25,7 +25,14 @@ describe('EditProfileComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [EditProfileComponent],
-      imports: [ReactiveFormsModule, MatDialogModule, RouterTestingModule.withRoutes([{ path: '**', component: Test }]), HttpClientTestingModule, AgmCoreModule, TranslateModule.forRoot()],
+      imports: [
+        ReactiveFormsModule,
+        MatDialogModule,
+        RouterTestingModule.withRoutes([{ path: '**', component: Test }]),
+        HttpClientTestingModule,
+        AgmCoreModule,
+        TranslateModule.forRoot(),
+      ],
       providers: [
         EditProfileFormBuilder,
         EditProfileService,
@@ -99,7 +106,8 @@ describe('EditProfileComponent', () => {
   describe('Testing controls for the form:', () => {
     const controlsName = ['name', 'city', 'credo'];
     const maxLength =
-      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. ' + 'Facilis asperiores minus corrupti impedit cumque sapiente est architecto obcaecati quisquam velit quidem quis nesciunt';
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. ' +
+      'Facilis asperiores minus corrupti impedit cumque sapiente est architecto obcaecati quisquam velit quidem quis nesciunt';
     const invalidCity = ['@Lviv', '.Lviv', 'Kiev6', 'Kyiv$'];
     const validCity = ['Lviv', 'Ivano-Frankivsk', 'Kiev(Ukraine)', 'Львов, Украина'];
 

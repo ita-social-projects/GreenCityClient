@@ -39,14 +39,25 @@
       <button type="button" class="secondary-global-button" (click)="onCloseForm()">
         {{ 'user.edit-profile.btn.cancel' | translate }}
       </button>
-      <button type="button" class="primary-global-button" (click)="onAddLink()" [disabled]="(socialNetworks && socialNetworks.length >= 5) || socialLink.errors">
+      <button
+        type="button"
+        class="primary-global-button"
+        (click)="onAddLink()"
+        [disabled]="(socialNetworks && socialNetworks.length >= 5) || socialLink.errors"
+      >
         {{ 'user.edit-profile.btn.add' | translate }}
       </button>
     </div>
   </div>
 
   <!-- add button & text -->
-  <button *ngIf="!showInput" class="add-button social-btn" type="button" (click)="onToggleInput()" [disabled]="socialNetworks && socialNetworks.length >= 5">
+  <button
+    *ngIf="!showInput"
+    class="add-button social-btn"
+    type="button"
+    (click)="onToggleInput()"
+    [disabled]="socialNetworks && socialNetworks.length >= 5"
+  >
     <img [src]="icons.add" class="social-img-add" alt="add-icon" />
     {{ 'user.edit-profile.add-link' | translate }}
   </button>

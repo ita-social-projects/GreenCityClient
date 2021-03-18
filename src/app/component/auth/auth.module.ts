@@ -24,7 +24,14 @@ import { MatSnackBarModule } from '@angular/material';
     AuthModalComponent,
   ],
   imports: [CoreModule, SharedModule, ReactiveFormsModule],
-  entryComponents: [SignInComponent, SignUpComponent, RestorePasswordComponent, SubmitEmailComponent, ConfirmRestorePasswordComponent, AuthModalComponent],
+  entryComponents: [
+    SignInComponent,
+    SignUpComponent,
+    RestorePasswordComponent,
+    SubmitEmailComponent,
+    ConfirmRestorePasswordComponent,
+    AuthModalComponent,
+  ],
   exports: [InputcolorDirective],
   providers: [MatSnackBarModule],
 })

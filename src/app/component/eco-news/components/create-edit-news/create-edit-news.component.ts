@@ -162,8 +162,12 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   public autoResize(event): void {
-    const checkTextAreaHeight = event.target.scrollHeight > this.textAreasHeight.minTextAreaScrollHeight && event.target.scrollHeight < this.textAreasHeight.maxTextAreaScrollHeight;
-    const maxHeight = checkTextAreaHeight ? this.textAreasHeight.maxTextAreaHeight : event.target.scrollHeight < this.textAreasHeight.minTextAreaScrollHeight;
+    const checkTextAreaHeight =
+      event.target.scrollHeight > this.textAreasHeight.minTextAreaScrollHeight &&
+      event.target.scrollHeight < this.textAreasHeight.maxTextAreaScrollHeight;
+    const maxHeight = checkTextAreaHeight
+      ? this.textAreasHeight.maxTextAreaHeight
+      : event.target.scrollHeight < this.textAreasHeight.minTextAreaScrollHeight;
     const minHeight = checkTextAreaHeight ? this.textAreasHeight.minTextAreaHeight : `${event.target.scrollHeight}px`;
     event.target.style.height = checkTextAreaHeight ? maxHeight : minHeight;
   }

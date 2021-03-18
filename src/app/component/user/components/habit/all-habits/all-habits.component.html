@@ -9,7 +9,14 @@
     <div>
       <h1 class="main-header">{{ 'user.habit.all-habits.title' | translate }}</h1>
     </div>
-    <app-tag-filter class="border_bottom" (tagsList)="getFilterData($event)" [storageKey]="'Habits-filter'" [header]="'homepage.eco-news.filter'" [tagsListData]="tagList"> </app-tag-filter>
+    <app-tag-filter
+      class="border_bottom"
+      (tagsList)="getFilterData($event)"
+      [storageKey]="'Habits-filter'"
+      [header]="'homepage.eco-news.filter'"
+      [tagsListData]="tagList"
+    >
+    </app-tag-filter>
     <div class="habits_header-actions">
       <div class="habits_header-items-found">{{ totalHabitsCopy }} items found</div>
       <div class="habits_header-buttons">
@@ -32,5 +39,10 @@
   </div>
   <app-spinner *ngIf="isFetching"></app-spinner>
   <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
-  <app-no-data *ngIf="!elementsLeft && totalHabitsCopy === 0" [title]="'user.habit.all-habits.no-habits'" [text]="'user.habit.all-habits.no-habits-advice'"> </app-no-data>
+  <app-no-data
+    *ngIf="!elementsLeft && totalHabitsCopy === 0"
+    [title]="'user.habit.all-habits.no-habits'"
+    [text]="'user.habit.all-habits.no-habits-advice'"
+  >
+  </app-no-data>
 </div>

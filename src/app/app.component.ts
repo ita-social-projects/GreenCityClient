@@ -12,7 +12,12 @@ import { UiActionsService } from '@global-service/ui-actions/ui-actions.service'
 export class AppComponent implements OnInit {
   public toggle: boolean;
 
-  constructor(private languageService: LanguageService, private titleAndMetaTagsService: TitleAndMetaTagsService, private router: Router, private uiActionsService: UiActionsService) {}
+  constructor(
+    private languageService: LanguageService,
+    private titleAndMetaTagsService: TitleAndMetaTagsService,
+    private router: Router,
+    private uiActionsService: UiActionsService
+  ) {}
 
   @ViewChild('focusFirst', { static: true }) focusFirst: ElementRef;
   @ViewChild('focusLast', { static: true }) focusLast: ElementRef;

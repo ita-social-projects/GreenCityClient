@@ -1,5 +1,12 @@
 import { NgModule } from '@angular/core';
-import { MapComponent, FilterComponent, FavoritePlaceComponent, AddCommentComponent, DeleteFavoriteComponent, EditFavoriteNameComponent } from './components';
+import {
+  MapComponent,
+  FilterComponent,
+  FavoritePlaceComponent,
+  AddCommentComponent,
+  DeleteFavoriteComponent,
+  EditFavoriteNameComponent,
+} from './components';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { AgmDirectionModule } from 'agm-direction';
@@ -17,7 +24,14 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 @NgModule({
-  declarations: [MapComponent, FilterComponent, FavoritePlaceComponent, EditFavoriteNameComponent, DeleteFavoriteComponent, AddCommentComponent],
+  declarations: [
+    MapComponent,
+    FilterComponent,
+    FavoritePlaceComponent,
+    EditFavoriteNameComponent,
+    DeleteFavoriteComponent,
+    AddCommentComponent,
+  ],
   imports: [
     SharedModule,
     CommonModule,

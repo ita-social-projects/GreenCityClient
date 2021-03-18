@@ -1,6 +1,15 @@
-<div *ngFor="let comment of elementsList | paginate: config" class="comment-body-wrapper" [ngClass]="dataType === types.commentType ? types.wrapperCommentType : types.wrapperReplyType">
+<div
+  *ngFor="let comment of elementsList | paginate: config"
+  class="comment-body-wrapper"
+  [ngClass]="dataType === types.commentType ? types.wrapperCommentType : types.wrapperReplyType"
+>
   <div class="comment-avatar">
-    <app-user-profile-image [imgPath]="comment.author.userProfilePicturePath" [firstName]="comment.author.name" [additionalImgClass]="'comments-list'"> </app-user-profile-image>
+    <app-user-profile-image
+      [imgPath]="comment.author.userProfilePicturePath"
+      [firstName]="comment.author.name"
+      [additionalImgClass]="'comments-list'"
+    >
+    </app-user-profile-image>
   </div>
   <div class="comment-details">
     <span class="author-name">
@@ -54,11 +63,24 @@
       <app-edit-comment (isEditing)="showElements(comment.id, 'isEdit')"></app-edit-comment>
       <app-delete-comment [element]="comment" [dataType]="dataType" (elementsList)="deleteComment()"></app-delete-comment>
     </div>
-    <app-like-comment *ngIf="isLoggedIn && comment.author.id !== +userId" [comment]="comment" (likesCounter)="changeCounter($event, comment.id, 'likes')"></app-like-comment>
-    <div class="btn-replies" *ngIf="dataType === types.commentType" [ngClass]="isLoggedIn ? 'btn-replies-registered' : 'btn-replies-unregistered'">
+    <app-like-comment
+      *ngIf="isLoggedIn && comment.author.id !== +userId"
+      [comment]="comment"
+      (likesCounter)="changeCounter($event, comment.id, 'likes')"
+    ></app-like-comment>
+    <div
+      class="btn-replies"
+      *ngIf="dataType === types.commentType"
+      [ngClass]="isLoggedIn ? 'btn-replies-registered' : 'btn-replies-unregistered'"
+    >
       <app-reply-comment (click)="showElements(comment.id, 'showRelyButton')" *ngIf="isLoggedIn"></app-reply-comment>
       <app-view-replies [repliesCounter]="comment.replies" (click)="showElements(comment.id, 'showAllRelies')"></app-view-replies>
     </div>
   </div>
-  <app-comments-container *ngIf="dataType === types.commentType" [comment]="comment" (repliesCounter)="changeCounter($event, comment.id, 'replies')" dataType="reply"></app-comments-container>
+  <app-comments-container
+    *ngIf="dataType === types.commentType"
+    [comment]="comment"
+    (repliesCounter)="changeCounter($event, comment.id, 'replies')"
+    dataType="reply"
+  ></app-comments-container>
 </div>

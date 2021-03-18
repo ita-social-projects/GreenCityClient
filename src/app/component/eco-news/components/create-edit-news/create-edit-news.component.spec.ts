@@ -91,7 +91,13 @@ describe('CreateEditNewsComponent', () => {
     { id: 2, name: 'Education' },
   ];
 
-  createEcoNewsServiceMock = jasmine.createSpyObj('CreateEcoNewsService', ['sendFormData', 'editNews', 'setForm', 'getNewsId', 'getFormData']);
+  createEcoNewsServiceMock = jasmine.createSpyObj('CreateEcoNewsService', [
+    'sendFormData',
+    'editNews',
+    'setForm',
+    'getNewsId',
+    'getFormData',
+  ]);
   createEcoNewsServiceMock.sendFormData = (form) => of(newsResponseMock);
   createEcoNewsServiceMock.getFormData = () => emptyForm();
   createEcoNewsServiceMock.editNews = (form) => of(newsResponseMock);
@@ -127,8 +133,25 @@ describe('CreateEditNewsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CreateEditNewsComponent, PostNewsLoaderComponent, DragAndDropComponent, HomepageComponent, TipsListComponent, SearchAllResultsComponent, ConfirmRestorePasswordComponent],
-      imports: [TranslateModule.forRoot(), RouterTestingModule.withRoutes(routes), FormsModule, ReactiveFormsModule, ImageCropperModule, HttpClientTestingModule, MatSnackBarModule, MatDialogModule],
+      declarations: [
+        CreateEditNewsComponent,
+        PostNewsLoaderComponent,
+        DragAndDropComponent,
+        HomepageComponent,
+        TipsListComponent,
+        SearchAllResultsComponent,
+        ConfirmRestorePasswordComponent,
+      ],
+      imports: [
+        TranslateModule.forRoot(),
+        RouterTestingModule.withRoutes(routes),
+        FormsModule,
+        ReactiveFormsModule,
+        ImageCropperModule,
+        HttpClientTestingModule,
+        MatSnackBarModule,
+        MatDialogModule,
+      ],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: {} },

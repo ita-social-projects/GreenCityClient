@@ -12,7 +12,11 @@
     required
     formControlName="email"
     (input)="configDefaultErrorMessage()"
-    [ngClass]="(emailField.invalid && emailField.touched) || backEndError || emailErrorMessageBackEnd ? 'alert-email-validation' : 'successful-email-validation'"
+    [ngClass]="
+      (emailField.invalid && emailField.touched) || backEndError || emailErrorMessageBackEnd
+        ? 'alert-email-validation'
+        : 'successful-email-validation'
+    "
     aria-required="true"
     aria-describedby="email-err-msg"
     tabindex="0"
@@ -27,7 +31,11 @@
   <label for="password" aria-required="true">{{ 'user.auth.sign-in.password' | translate }}</label>
   <div
     class="password-input-btn-show-hide"
-    [ngClass]="(passwordField.invalid && passwordField.touched) || backEndError || passwordErrorMessageBackEnd ? 'alert-password-validation' : 'successful-password-validation'"
+    [ngClass]="
+      (passwordField.invalid && passwordField.touched) || backEndError || passwordErrorMessageBackEnd
+        ? 'alert-password-validation'
+        : 'successful-password-validation'
+    "
   >
     <input
       id="password"
@@ -62,7 +70,12 @@
     {{ 'user.auth.sign-in.bad-email-or-password' | translate }}
   </div>
   <div class="forgot-wrapper">
-    <a (click)="onOpenModalWindow('restore-password')" (keyup.enter)="onOpenModalWindow('restore-password')" class="forgot-password" tabindex="0">
+    <a
+      (click)="onOpenModalWindow('restore-password')"
+      (keyup.enter)="onOpenModalWindow('restore-password')"
+      class="forgot-password"
+      tabindex="0"
+    >
       {{ 'user.auth.sign-in.forgot-password' | translate }}</a
     >
   </div>

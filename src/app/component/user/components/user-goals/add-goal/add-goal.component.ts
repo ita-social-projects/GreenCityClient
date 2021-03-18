@@ -73,7 +73,9 @@ export class AddGoalComponent implements OnInit {
   }
 
   saveCustomGoals() {
-    const goalsToSave = this.changedGoals.filter((goal) => goal.type === GoalType.CUSTOM && this.goals.filter((g) => g.type === GoalType.CUSTOM && goal.id === g.id).length === 0);
+    const goalsToSave = this.changedGoals.filter(
+      (goal) => goal.type === GoalType.CUSTOM && this.goals.filter((g) => g.type === GoalType.CUSTOM && goal.id === g.id).length === 0
+    );
 
     if (goalsToSave.length !== 0) {
       this.service.saveCustomGoals(goalsToSave, this.languageService.getCurrentLanguage());
@@ -81,7 +83,10 @@ export class AddGoalComponent implements OnInit {
   }
 
   deleteCustomGoals() {
-    const goalsToDelete = this.goals.filter((goal) => goal.type === GoalType.CUSTOM && this.changedGoals.filter((g) => g.type === GoalType.CUSTOM && goal.id === g.id).length === 0);
+    const goalsToDelete = this.goals.filter(
+      (goal) =>
+        goal.type === GoalType.CUSTOM && this.changedGoals.filter((g) => g.type === GoalType.CUSTOM && goal.id === g.id).length === 0
+    );
 
     if (goalsToDelete.length !== 0) {
       this.service.deleteCustomGoals(goalsToDelete);
@@ -90,7 +95,9 @@ export class AddGoalComponent implements OnInit {
 
   updateCustomGoals() {
     const goalsToUpdate = this.changedGoals.filter(
-      (goal) => goal.type === GoalType.CUSTOM && this.goals.filter((g) => g.type === GoalType.CUSTOM && g.id === goal.id && !this.compareGoals(g, goal)).length !== 0
+      (goal) =>
+        goal.type === GoalType.CUSTOM &&
+        this.goals.filter((g) => g.type === GoalType.CUSTOM && g.id === goal.id && !this.compareGoals(g, goal)).length !== 0
     );
 
     if (goalsToUpdate.length !== 0) {
@@ -100,7 +107,9 @@ export class AddGoalComponent implements OnInit {
 
   deleteTrackedGoals() {
     const goalsToDelete = this.goals.filter(
-      (goal) => goal.type === GoalType.TRACKED && this.changedGoals.filter((g) => g.type === GoalType.TRACKED && g.id === goal.id && g.status === 'CHECKED').length === 0
+      (goal) =>
+        goal.type === GoalType.TRACKED &&
+        this.changedGoals.filter((g) => g.type === GoalType.TRACKED && g.id === goal.id && g.status === 'CHECKED').length === 0
     );
 
     if (goalsToDelete.length !== 0) {
@@ -110,7 +119,10 @@ export class AddGoalComponent implements OnInit {
 
   trackCustomAndPredefinedGoals() {
     const customGoalsToTrack = this.changedGoals.filter(
-      (goal) => goal.type === GoalType.CUSTOM && goal.status === 'CHECKED' && this.goals.filter((g) => g.type === GoalType.CUSTOM && goal.id === g.id).length !== 0
+      (goal) =>
+        goal.type === GoalType.CUSTOM &&
+        goal.status === 'CHECKED' &&
+        this.goals.filter((g) => g.type === GoalType.CUSTOM && goal.id === g.id).length !== 0
     );
     const predefinedGoalsToTrack = this.changedGoals.filter((goal) => goal.type === GoalType.PREDEFINED && goal.status === 'CHECKED');
 

@@ -3,7 +3,13 @@
     <div class="edit-icon"></div>
   </a>
   <div class="column">
-    <app-user-profile-image class="user-image" [imgPath]="userInfo.profilePicturePath" [firstName]="userInfo.firstName" [additionalImgClass]="'center'"> </app-user-profile-image>
+    <app-user-profile-image
+      class="user-image"
+      [imgPath]="userInfo.profilePicturePath"
+      [firstName]="userInfo.firstName"
+      [additionalImgClass]="'center'"
+    >
+    </app-user-profile-image>
     <p class="name">
       {{ userInfo.firstName }}
     </p>

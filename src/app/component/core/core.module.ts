@@ -25,7 +25,17 @@ import { NgxPageScrollModule } from 'ngx-page-scroll';
 
     NgxPageScrollModule,
   ],
-  exports: [NgxPageScrollModule, ProposeCafeComponent, CommonModule, TranslateModule, AppRoutingModule, FormsModule, ReactiveFormsModule, AgmCoreModule, NgSelectModule],
+  exports: [
+    NgxPageScrollModule,
+    ProposeCafeComponent,
+    CommonModule,
+    TranslateModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AgmCoreModule,
+    NgSelectModule,
+  ],
   providers: [],
 })
 export class CoreModule {}

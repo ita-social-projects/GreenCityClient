@@ -16,7 +16,11 @@
     required
     formControlName="email"
     (input)="setEmailBackendErr()"
-    [ngClass]="(emailControl.invalid && emailControl.touched) || emailErrorMessageBackEnd || backEndError ? 'main-data-input wrong-input' : 'main-data-input'"
+    [ngClass]="
+      (emailControl.invalid && emailControl.touched) || emailErrorMessageBackEnd || backEndError
+        ? 'main-data-input wrong-input'
+        : 'main-data-input'
+    "
     aria-required="true"
     aria-describedby="email-err-msg"
     tabindex="0"
@@ -52,7 +56,13 @@
   <label class="content-label under-error" for="password" aria-required="true">
     {{ 'user.auth.sign-up.password' | translate }}
   </label>
-  <div [ngClass]="(passwordControl.invalid && passwordControl.touched) || backEndError ? 'main-data-input-password wrong-input' : 'main-data-input-password'">
+  <div
+    [ngClass]="
+      (passwordControl.invalid && passwordControl.touched) || backEndError
+        ? 'main-data-input-password wrong-input'
+        : 'main-data-input-password'
+    "
+  >
     <input
       type="password"
       placeholder="{{ 'user.auth.sign-up.password' | translate }}"
@@ -78,14 +88,21 @@
     />
   </div>
   <div *ngIf="passwordControl.invalid && passwordControl.touched" class="error-message" id="password-err-msg">
-    <app-error [formElement]="passwordControl" [passwordFieldValue]="passwordFieldValue" [controlName]="'password'" tabindex="0"></app-error>
+    <app-error
+      [formElement]="passwordControl"
+      [passwordFieldValue]="passwordFieldValue"
+      [controlName]="'password'"
+      tabindex="0"
+    ></app-error>
   </div>
   <label class="content-label under-error" for="repeatPassword" aria-required="true">
     {{ 'user.auth.sign-up.password-confirm' | translate }}
   </label>
   <div
     [ngClass]="
-      (passwordControlConfirm.invalid && passwordControlConfirm.touched) || backEndError || (inputPassword.value !== repeatPassword.value && repeatPassword.value !== '')
+      (passwordControlConfirm.invalid && passwordControlConfirm.touched) ||
+      backEndError ||
+      (inputPassword.value !== repeatPassword.value && repeatPassword.value !== '')
         ? 'main-data-input-password wrong-input'
         : 'main-data-input-password'
     "
@@ -116,7 +133,12 @@
     />
   </div>
   <div *ngIf="passwordControlConfirm.invalid && passwordControlConfirm.touched" class="error-message" id="confirm-err-msg">
-    <app-error [formElement]="passwordControlConfirm" [passwordConfirmFieldValue]="passwordConfirmFieldValue" [controlName]="'repeatPassword'" tabindex="0"></app-error>
+    <app-error
+      [formElement]="passwordControlConfirm"
+      [passwordConfirmFieldValue]="passwordConfirmFieldValue"
+      [controlName]="'repeatPassword'"
+      tabindex="0"
+    ></app-error>
   </div>
   <div *ngIf="passwordErrorMessageBackEnd" class="error-message error-message-show">
     {{ 'user.auth.sign-up.password-symbols-error' | translate }}
@@ -124,7 +146,12 @@
   <div class="alert-general-error" *ngIf="backEndError">
     {{ 'user.auth.sign-in.bad-email-or-password' | translate }}
   </div>
-  <button type="submit" class="primary-global-button" role="link" [disabled]="!signUpForm.valid || inputPassword.value !== repeatPassword.value || emailErrorMessageBackEnd">
+  <button
+    type="submit"
+    class="primary-global-button"
+    role="link"
+    [disabled]="!signUpForm.valid || inputPassword.value !== repeatPassword.value || emailErrorMessageBackEnd"
+  >
     <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
     {{ 'user.auth.sign-up.submit' | translate }}
   </button>

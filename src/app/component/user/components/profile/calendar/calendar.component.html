@@ -44,7 +44,10 @@
         (click)="$event.stopPropagation()"
       >
         <span
-          [ngClass]="{ 'calendar-grid-current-day-content': dayItem.isCurrentDayActive, 'calendar-grid-tracked-day-content': dayItem.hasHabitsInProgress }"
+          [ngClass]="{
+            'calendar-grid-current-day-content': dayItem.isCurrentDayActive,
+            'calendar-grid-tracked-day-content': dayItem.hasHabitsInProgress
+          }"
           class="calendar-grid-day-content"
           (click)="checkIfFuture(dayItem)"
         >
@@ -54,9 +57,23 @@
           <p class="habits-title">{{ habitsCalendarSelectedDate }}</p>
           <app-spinner *ngIf="isFetching"></app-spinner>
           <ul class="habits-list" *ngFor="let habit of habits">
-            <li class="habits-item" matTooltipPosition="above" [matTooltipDisabled]="habit.habit.habitTranslation.name.length < 30" [matTooltip]="habit.habit.habitTranslation.name">
-              <img class="habit-icon" [src]="habit.enrolled ? this.calendarIcons.checkCircle : this.calendarIcons.plusCircle" alt="habit-icon" (click)="toggleEnrollHabit(habit)" />
-              {{ habit.habit.habitTranslation.name.length >= 30 ? habit.habit.habitTranslation.name.slice(0, 27) + '...' : habit.habit.habitTranslation.name }}
+            <li
+              class="habits-item"
+              matTooltipPosition="above"
+              [matTooltipDisabled]="habit.habit.habitTranslation.name.length < 30"
+              [matTooltip]="habit.habit.habitTranslation.name"
+            >
+              <img
+                class="habit-icon"
+                [src]="habit.enrolled ? this.calendarIcons.checkCircle : this.calendarIcons.plusCircle"
+                alt="habit-icon"
+                (click)="toggleEnrollHabit(habit)"
+              />
+              {{
+                habit.habit.habitTranslation.name.length >= 30
+                  ? habit.habit.habitTranslation.name.slice(0, 27) + '...'
+                  : habit.habit.habitTranslation.name
+              }}
             </li>
           </ul>
         </div>
@@ -64,7 +81,11 @@
     </div>
     <div *ngIf="!monthView" class="calendar-grid-month">
       <div *ngFor="let month of monthsCalendar">
-        <div class="calendar-grid-month-view" (click)="buildSelectedMonthCalendar(month)" [ngClass]="{ 'current-month': month === activeMonth && currentYear }">
+        <div
+          class="calendar-grid-month-view"
+          (click)="buildSelectedMonthCalendar(month)"
+          [ngClass]="{ 'current-month': month === activeMonth && currentYear }"
+        >
           {{ month }}
         </div>
       </div>

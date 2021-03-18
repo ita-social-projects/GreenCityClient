@@ -72,7 +72,9 @@ export class PlacesComponent implements OnInit {
     this.setAllStatuses();
 
     this.translation.get('feedbacks.delete').subscribe((translation) => (this.deleteTranslation = translation));
-    this.translation.get('feedbacks.Do-you-really-want-to-delete-comment-of').subscribe((translation) => (this.deleteMessageTranslation = translation));
+    this.translation
+      .get('feedbacks.Do-you-really-want-to-delete-comment-of')
+      .subscribe((translation) => (this.deleteMessageTranslation = translation));
     this.translation.get('feedbacks.places').subscribe((translation) => (this.placesTranslation = translation));
   }
 
@@ -182,22 +184,26 @@ export class PlacesComponent implements OnInit {
   }
 
   confirmDelete(id: number, placeName: string) {
-    this.confirmationDialogService.confirm(this.deleteTranslation, this.deleteMessageTranslation + ' ' + placeName + ' ?').then((confirmed) => {
-      if (confirmed) {
-        this.delete(id, placeName);
-      }
-    });
+    this.confirmationDialogService
+      .confirm(this.deleteTranslation, this.deleteMessageTranslation + ' ' + placeName + ' ?')
+      .then((confirmed) => {
+        if (confirmed) {
+          this.delete(id, placeName);
+        }
+      });
   }
 
   confirmBulkDelete() {
     if (this.selectedPlaces.length === 1) {
       this.confirmDelete(this.selectedPlaces[0].id, this.selectedPlaces[0].name);
     } else {
-      this.confirmationDialogService.confirm(this.deleteTranslation, this.deleteMessageTranslation + ' ' + this.selectedPlaces.length + this.placesTranslation + ' ?').then((confirmed) => {
-        if (confirmed) {
-          this.bulkDelete(this.selectedPlaces);
-        }
-      });
+      this.confirmationDialogService
+        .confirm(this.deleteTranslation, this.deleteMessageTranslation + ' ' + this.selectedPlaces.length + this.placesTranslation + ' ?')
+        .then((confirmed) => {
+          if (confirmed) {
+            this.bulkDelete(this.selectedPlaces);
+          }
+        });
     }
   }
 

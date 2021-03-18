@@ -45,7 +45,13 @@ export class PhotoUploadComponent implements OnInit {
     isHTML5: true,
   });
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private matSnackBar: MatSnackBarComponent, private db: AngularFirestore, private storage: AngularFireStorage) {}
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private matSnackBar: MatSnackBarComponent,
+    private db: AngularFirestore,
+    private storage: AngularFireStorage
+  ) {}
 
   uploadSubmit() {
     // tslint:disable-next-line:prefer-for-of

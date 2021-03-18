@@ -5,7 +5,11 @@
     </p>
 
     <p style="font-size: 130%"><strong>"{{data.name}}"</strong></p>
-    <button id="closeButton" mat-button [mat-dialog-close]="true" (click)="delete()" class="bg-success">{{'user.favorite-place.delete-favorite-place.submit' | translate}}</button>
-    <button [mat-dialog-close] mat-button class="bg-danger" cdkfocusinitial="true" type="submit">{{'user.favorite-place.delete-favorite-place.cancel' | translate}}</button>
+    <button id="closeButton" mat-button [mat-dialog-close]="true" (click)="delete()" class="bg-success">
+      {{'user.favorite-place.delete-favorite-place.submit' | translate}}
+    </button>
+    <button [mat-dialog-close] mat-button class="bg-danger" cdkfocusinitial="true" type="submit">
+      {{'user.favorite-place.delete-favorite-place.cancel' | translate}}
+    </button>
   </div>
 </div>

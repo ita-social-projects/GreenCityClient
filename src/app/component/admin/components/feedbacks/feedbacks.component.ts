@@ -35,7 +35,9 @@ export class FeedbacksComponent implements OnInit {
     this.getCommentsByPage();
 
     this.translation.get('feedbacks.delete').subscribe((translation) => (this.deleteTranslation = translation));
-    this.translation.get('feedbacks.Do-you-really-want-to-delete-comment-of').subscribe((translation) => (this.deleteMessageTranslation = translation));
+    this.translation
+      .get('feedbacks.Do-you-really-want-to-delete-comment-of')
+      .subscribe((translation) => (this.deleteMessageTranslation = translation));
   }
 
   changePage(event: any) {
@@ -55,11 +57,13 @@ export class FeedbacksComponent implements OnInit {
   }
 
   confirmDelete(id: number, commentName: string) {
-    this.confirmationDialogService.confirm(this.deleteTranslation, this.deleteMessageTranslation + ' ' + commentName + ' ?').then((confirmed) => {
-      if (confirmed) {
-        this.delete(id);
-      }
-    });
+    this.confirmationDialogService
+      .confirm(this.deleteTranslation, this.deleteMessageTranslation + ' ' + commentName + ' ?')
+      .then((confirmed) => {
+        if (confirmed) {
+          this.delete(id);
+        }
+      });
   }
 
   delete(id: number) {

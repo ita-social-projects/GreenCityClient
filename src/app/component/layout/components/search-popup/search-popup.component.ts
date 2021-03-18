@@ -34,7 +34,13 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   public searchIcons = searchIcons;
   public searctabindex: SearchService;
 
-  constructor(public search: SearchService, public dialog: MatDialog, private snackBar: MatSnackBarComponent, private localStorageService: LocalStorageService, public announcer: LiveAnnouncer) {}
+  constructor(
+    public search: SearchService,
+    public dialog: MatDialog,
+    private snackBar: MatSnackBarComponent,
+    private localStorageService: LocalStorageService,
+    public announcer: LiveAnnouncer
+  ) {}
 
   ngOnInit() {
     this.announce();

@@ -12,7 +12,11 @@ export class AuthModalComponent implements OnInit {
   public authImages = authImages;
   public authPage: string;
 
-  constructor(private announcer: LiveAnnouncer, public matDialogRef: MatDialogRef<AuthModalComponent>, @Inject(MAT_DIALOG_DATA) public data) {}
+  constructor(
+    private announcer: LiveAnnouncer,
+    public matDialogRef: MatDialogRef<AuthModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data
+  ) {}
 
   ngOnInit(): void {
     this.setAuthPage();

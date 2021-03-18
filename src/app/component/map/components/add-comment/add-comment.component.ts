@@ -17,7 +17,11 @@ export class AddCommentComponent implements OnInit {
   photoLoadingStatus = false;
   placeId: number;
 
-  constructor(private commentService: CommentService, private dialogRef: MatDialogRef<AddCommentComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(
+    private commentService: CommentService,
+    private dialogRef: MatDialogRef<AddCommentComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
     this.placeId = data.id;
     this.countOfPhotos = data.listOfPhoto;
   }

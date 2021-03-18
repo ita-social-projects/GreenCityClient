@@ -85,7 +85,13 @@ describe('SignIn component', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [SignInComponent, ErrorComponent, GoogleBtnComponent],
-      imports: [HttpClientTestingModule, MatDialogModule, TranslateModule.forRoot(), ReactiveFormsModule, RouterTestingModule.withRoutes([])],
+      imports: [
+        HttpClientTestingModule,
+        MatDialogModule,
+        TranslateModule.forRoot(),
+        ReactiveFormsModule,
+        RouterTestingModule.withRoutes([]),
+      ],
       providers: [
         { provide: GoogleSignInService, useValue: googleServiceMock },
         { provide: AuthService, useValue: authServiceMock },
@@ -168,17 +174,20 @@ describe('SignIn component', () => {
       })
     ));
 
-    it('Should call onSignInFailure with errors', inject([AuthService, GoogleSignInService], (service: AuthService, service2: GoogleSignInService) => {
-      component.onSignInWithGoogleSuccess = () => false;
-      const errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
-      const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseSocialUser).and.callThrough();
-      spyOn(service2, 'signIn').and.returnValue(throwError(errors));
+    it('Should call onSignInFailure with errors', inject(
+      [AuthService, GoogleSignInService],
+      (service: AuthService, service2: GoogleSignInService) => {
+        component.onSignInWithGoogleSuccess = () => false;
+        const errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
+        const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseSocialUser).and.callThrough();
+        spyOn(service2, 'signIn').and.returnValue(throwError(errors));
 
-      // @ts-ignore
-      component.signInWithGoogle();
-      fixture.detectChanges();
-      expect(serviceSpy).toHaveBeenCalled();
-    }));
+        // @ts-ignore
+        component.signInWithGoogle();
+        fixture.detectChanges();
+        expect(serviceSpy).toHaveBeenCalled();
+      }
+    ));
 
     it('Test sign in method', async(
       inject([UserOwnSignInService], (service: UserOwnSignInService) => {

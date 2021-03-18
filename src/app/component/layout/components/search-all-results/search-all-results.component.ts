@@ -21,7 +21,11 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy, AfterConten
   public searchCategory: string;
   public sortType = '';
   public sortTypes = ['Relevance', 'Newest', 'Oldest'];
-  public sortTypesLocalization = ['search.search-all-results.relevance', 'search.search-all-results.newest', 'search.search-all-results.oldest'];
+  public sortTypesLocalization = [
+    'search.search-all-results.relevance',
+    'search.search-all-results.newest',
+    'search.search-all-results.oldest',
+  ];
   public inputValue: string;
   public isLoading = true;
   public searchIcons = searchIcons;
@@ -106,7 +110,10 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy, AfterConten
   public changeCurrentSorting(newSorting: number): void {
     this.isLoading = true;
     [this.sortTypes[0], this.sortTypes[newSorting]] = [this.sortTypes[newSorting], this.sortTypes[0]];
-    [this.sortTypesLocalization[0], this.sortTypesLocalization[newSorting]] = [this.sortTypesLocalization[newSorting], this.sortTypesLocalization[0]];
+    [this.sortTypesLocalization[0], this.sortTypesLocalization[newSorting]] = [
+      this.sortTypesLocalization[newSorting],
+      this.sortTypesLocalization[0],
+    ];
     switch (this.sortTypes[0]) {
       case 'Relevance':
         this.sortType = ``;

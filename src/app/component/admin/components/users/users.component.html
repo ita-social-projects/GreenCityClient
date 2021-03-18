@@ -23,8 +23,16 @@
           </caption>
           <!-- Position Column -->
           <ng-container matColumnDef="email">
-            <th mat-header-cell *matHeaderCellDef style="cursor: pointer" scope="col" (click)="selectColumnToSort('email')" [matMenuTriggerFor]="menu">
-              {{ 'users.email' | translate }}<mat-icon svgIcon="{{ sortArrow }}" [hidden]="sortColumn !== 'email' || sortDirection === 'asc'"></mat-icon>
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              style="cursor: pointer"
+              scope="col"
+              (click)="selectColumnToSort('email')"
+              [matMenuTriggerFor]="menu"
+            >
+              {{ 'users.email' | translate
+              }}<mat-icon svgIcon="{{ sortArrow }}" [hidden]="sortColumn !== 'email' || sortDirection === 'asc'"></mat-icon>
             </th>
             <td mat-cell id="emailColumn" *matCellDef="let element" [class.blueColumn]="sortColumn === 'email' && sortDirection === 'desc'">
               {{ element.email }}
@@ -32,7 +40,14 @@
           </ng-container>
 
           <ng-container matColumnDef="firstName">
-            <th mat-header-cell *matHeaderCellDef style="cursor: pointer" scope="col" (click)="selectColumnToSort('firstName')" [matMenuTriggerFor]="menu">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              style="cursor: pointer"
+              scope="col"
+              (click)="selectColumnToSort('firstName')"
+              [matMenuTriggerFor]="menu"
+            >
               {{ 'users.first-name' | translate }}<mat-icon svgIcon="{{ sortArrow }}" [hidden]="sortColumn !== 'firstName'"></mat-icon>
             </th>
             <td mat-cell id="firstNameColumn" *matCellDef="let element" [class.blueColumn]="sortColumn === 'firstName'">
@@ -41,7 +56,14 @@
           </ng-container>
           <!-- Name Column -->
           <ng-container matColumnDef="lastName">
-            <th mat-header-cell *matHeaderCellDef style="cursor: pointer" scope="col" (click)="selectColumnToSort('lastName')" [matMenuTriggerFor]="menu">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              style="cursor: pointer"
+              scope="col"
+              (click)="selectColumnToSort('lastName')"
+              [matMenuTriggerFor]="menu"
+            >
               {{ 'users.last-name' | translate }}<mat-icon svgIcon="{{ sortArrow }}" [hidden]="sortColumn !== 'lastName'"></mat-icon>
             </th>
             <td mat-cell *matCellDef="let element" id="lastNameColumn" [class.blueColumn]="sortColumn === 'lastName'">
@@ -50,8 +72,16 @@
           </ng-container>
 
           <ng-container matColumnDef="dateOfRegistration">
-            <th mat-header-cell *matHeaderCellDef style="cursor: pointer" scope="col" (click)="selectColumnToSort('dateOfRegistration')" [matMenuTriggerFor]="menu">
-              {{ 'users.date-of-registration' | translate }}<mat-icon svgIcon="{{ sortArrow }}" [hidden]="sortColumn !== 'dateOfRegistration'"></mat-icon>
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              style="cursor: pointer"
+              scope="col"
+              (click)="selectColumnToSort('dateOfRegistration')"
+              [matMenuTriggerFor]="menu"
+            >
+              {{ 'users.date-of-registration' | translate
+              }}<mat-icon svgIcon="{{ sortArrow }}" [hidden]="sortColumn !== 'dateOfRegistration'"></mat-icon>
             </th>
             <td mat-cell *matCellDef="let element" id="dateOfRegistrationColumn" [class.blueColumn]="sortColumn === 'dateOfRegistration'">
               {{ element.dateOfRegistration }}
@@ -62,7 +92,11 @@
             <th mat-header-cell scope="col" *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let element">
               <div class="selectRole">
-                <mat-select [(value)]="element.role" (selectionChange)="changeRole(element.id, $event.value, element.email)" [disabled]="element.email === userEmail">
+                <mat-select
+                  [(value)]="element.role"
+                  (selectionChange)="changeRole(element.id, $event.value, element.email)"
+                  [disabled]="element.email === userEmail"
+                >
                   <mat-option *ngFor="let role of roles" [value]="role">
                     {{ role.toString().toLocaleLowerCase() }}
                   </mat-option>

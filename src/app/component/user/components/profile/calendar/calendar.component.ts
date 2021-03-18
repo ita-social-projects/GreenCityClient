@@ -65,7 +65,10 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
 
   public checkHabitListEditable() {
     this.isHabitListEditable = false;
-    if (this.currentDate.setHours(0, 0, 0, 0) - this.daysCanEditHabits * 24 * 60 * 60 * 1000 <= new Date(this.formatedDate).setHours(0, 0, 0, 0)) {
+    if (
+      this.currentDate.setHours(0, 0, 0, 0) - this.daysCanEditHabits * 24 * 60 * 60 * 1000 <=
+      new Date(this.formatedDate).setHours(0, 0, 0, 0)
+    ) {
       this.isHabitListEditable = true;
     }
   }

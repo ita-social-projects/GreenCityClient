@@ -17,6 +17,9 @@ export class NewsListGalleryViewComponent {
   constructor() {}
 
   public checkNewsImage(): string {
-    return (this.newsImage = this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' ' ? this.ecoNewsModel.imagePath : this.profileIcons.newsDefaultPictureList);
+    return (this.newsImage =
+      this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' '
+        ? this.ecoNewsModel.imagePath
+        : this.profileIcons.newsDefaultPictureList);
   }
 }

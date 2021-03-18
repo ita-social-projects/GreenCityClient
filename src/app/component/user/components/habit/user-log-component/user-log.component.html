@@ -12,7 +12,8 @@
             <a *ngIf="$differenceUnTakenItemsWithPreviousDayBag < 0">{{ 'user.habit.user-log.less-than' | translate }}</a>
             {{ checkCountForMonth($differenceUnTakenItemsWithPreviousDayBag) }}
             {{ 'user.habit.user-log.package' | translate }}
-            {{ 'user.habit.user-log.and' | translate }} <a *ngIf="$differenceUnTakenItemsWithPreviousDayCap > 0">{{ 'user.habit.user-log.more-on' | translate }}</a>
+            {{ 'user.habit.user-log.and' | translate }}
+            <a *ngIf="$differenceUnTakenItemsWithPreviousDayCap > 0">{{ 'user.habit.user-log.more-on' | translate }}</a>
             <a *ngIf="$differenceUnTakenItemsWithPreviousDayCap < 0">{{ 'user.habit.user-log.less-than' | translate }}</a>
             {{ checkCountForMonth($differenceUnTakenItemsWithPreviousDayCap) }} {{ 'user.habit.user-log.glasses-than-past' | translate }}
           </p>

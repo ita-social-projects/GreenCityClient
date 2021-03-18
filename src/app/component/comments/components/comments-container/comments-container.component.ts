@@ -50,9 +50,13 @@ export class CommentsContainerComponent implements OnInit, OnDestroy {
 
   public addCommentByPagination(page = 0): void {
     if (this.dataType === 'comment') {
-      this.commentsSubscription = this.commentsService.getActiveCommentsByPage(page, this.config.itemsPerPage).subscribe((list: CommentsModel) => this.setCommentsList(list));
+      this.commentsSubscription = this.commentsService
+        .getActiveCommentsByPage(page, this.config.itemsPerPage)
+        .subscribe((list: CommentsModel) => this.setCommentsList(list));
     } else {
-      this.commentsSubscription = this.commentsService.getActiveRepliesByPage(this.comment.id, page, this.config.itemsPerPage).subscribe((list: CommentsModel) => this.setCommentsList(list));
+      this.commentsSubscription = this.commentsService
+        .getActiveRepliesByPage(this.comment.id, page, this.config.itemsPerPage)
+        .subscribe((list: CommentsModel) => this.setCommentsList(list));
     }
   }
 

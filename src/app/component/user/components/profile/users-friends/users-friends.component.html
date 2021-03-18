@@ -15,7 +15,13 @@
     </div>
     <div class="friends-images">
       <div *ngFor="let friend of usersFriends">
-        <app-user-profile-image [imgPath]="friend.profilePicture" [firstName]="friend.name" class="friend-img" [additionalImgClass]="'friend-user-profile'"> </app-user-profile-image>
+        <app-user-profile-image
+          [imgPath]="friend.profilePicture"
+          [firstName]="friend.name"
+          class="friend-img"
+          [additionalImgClass]="'friend-user-profile'"
+        >
+        </app-user-profile-image>
         <p class="friend-name">{{ friend.name }}</p>
       </div>
     </div>

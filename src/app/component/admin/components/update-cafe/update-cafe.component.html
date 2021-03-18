@@ -62,8 +62,20 @@
         <br />
 
         <div class="sub-2" #map>
-          <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" [style.width.px]="map.offsetWidth" [style.height.px]="map.offsetHeight" class="agm-map">
-            <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)"></agm-marker>
+          <agm-map
+            [latitude]="latitude"
+            [longitude]="longitude"
+            [zoom]="zoom"
+            [style.width.px]="map.offsetWidth"
+            [style.height.px]="map.offsetHeight"
+            class="agm-map"
+          >
+            <agm-marker
+              [latitude]="latitude"
+              [longitude]="longitude"
+              [markerDraggable]="true"
+              (dragEnd)="markerDragEnd($event)"
+            ></agm-marker>
           </agm-map>
         </div>
 
@@ -149,7 +161,13 @@
           >
           </ng-select>
 
-          <button class="btn btn-primary" type="button" [disabled]="discountForm.invalid" style="margin-top: 4%" (click)="addDiscountAndSpecification(nameOfSpecification, value)">
+          <button
+            class="btn btn-primary"
+            type="button"
+            [disabled]="discountForm.invalid"
+            style="margin-top: 4%"
+            (click)="addDiscountAndSpecification(nameOfSpecification, value)"
+          >
             {{ 'update-cafe.add-discount' | translate }}
           </button>
 
@@ -169,7 +187,14 @@
         <div id="weekDays">
           <div class="weekDay">
             <h4 style="text-align: left; font-weight: 400">{{ 'update-cafe.select-schedule' | translate }}</h4>
-            <select class="form-control" style="width: 190px; display: inline" required [(ngModel)]="openingHours.weekDay" #day="ngModel" name="weekday">
+            <select
+              class="form-control"
+              style="width: 190px; display: inline"
+              required
+              [(ngModel)]="openingHours.weekDay"
+              #day="ngModel"
+              name="weekday"
+            >
               <option disabled>{{ 'update-cafe.select-day' | translate }}</option>
               <option *ngFor="let day of weekDays">{{ day }}</option>
             </select>
@@ -186,7 +211,17 @@
               required
             />
             <label for="time-end" class="label-for-time">to: </label>
-            <input name="closeTime" type="time" class="form-control" style="width: 100px; display: inline" #time id="time-end" placeholder="HH:mm" [(ngModel)]="openingHours.closeTime" required />
+            <input
+              name="closeTime"
+              type="time"
+              class="form-control"
+              style="width: 100px; display: inline"
+              #time
+              id="time-end"
+              placeholder="HH:mm"
+              [(ngModel)]="openingHours.closeTime"
+              required
+            />
           </div>
           <div style="margin-top: 1.5%; text-align: left">
             <mat-checkbox (change)="switch()">{{ 'update-cafe.is-break-time-needed' | translate }}</mat-checkbox>
@@ -220,13 +255,20 @@
         </div>
 
         <div>
-          <button class="btn btn-primary" type="button" [disabled]="openHoursForm.invalid" style="margin-top: 8px" (click)="add(openingHours, breakTimes)">
+          <button
+            class="btn btn-primary"
+            type="button"
+            [disabled]="openHoursForm.invalid"
+            style="margin-top: 8px"
+            (click)="add(openingHours, breakTimes)"
+          >
             {{ 'update-cafe.add-day' | translate }}
           </button>
         </div>
 
         <div class="choice" *ngFor="let list of openingHoursList" style="margin-top: 3%">
-          <strong>{{ list.weekDay }}</strong> {{ 'update-cafe.from' | translate }} <strong>{{ list.openTime }}</strong> {{ 'update-cafe.to' | translate }} <strong>{{ list.closeTime }}</strong>
+          <strong>{{ list.weekDay }}</strong> {{ 'update-cafe.from' | translate }} <strong>{{ list.openTime }}</strong>
+          {{ 'update-cafe.to' | translate }} <strong>{{ list.closeTime }}</strong>
           <div *ngIf="list.breakTime" style="padding-left: 5%; display: inline-block">
             <strong>break</strong> {{ 'update-cafe.start' | translate }}
             <strong>{{ list.breakTime.startTime }}</strong>
@@ -240,10 +282,17 @@
     </form>
 
     <div style="display: flex; justify-content: flex-end; align-items: center">
-      <button [disabled]="!updateForm.valid || !(openingHoursList.length > 0) || !(discountValues.length > 0)" class="btn btn-primary submit" type="submit" style="margin-right: 1%">
+      <button
+        [disabled]="!updateForm.valid || !(openingHoursList.length > 0) || !(discountValues.length > 0)"
+        class="btn btn-primary submit"
+        type="submit"
+        style="margin-right: 1%"
+      >
         {{ 'update-cafe.submit' | translate }}
       </button>
-      <button mat-dialog-close class="btn btn-primary" type="button">{{ 'update-cafe.close' | translate }}{{ 'update-cafe.submit' | translate }} {{ 'update-cafe.close' | translate }}</button>
+      <button mat-dialog-close class="btn btn-primary" type="button">
+        {{ 'update-cafe.close' | translate }}{{ 'update-cafe.submit' | translate }} {{ 'update-cafe.close' | translate }}
+      </button>
     </div>
   </form>
 </mat-dialog-content>

@@ -27,7 +27,12 @@ export class NewsListComponent implements OnInit, OnDestroy {
   public tagList: string[];
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
-  constructor(private ecoNewsService: EcoNewsService, private userOwnAuthService: UserOwnAuthService, private snackBar: MatSnackBarComponent, private localStorageService: LocalStorageService) {}
+  constructor(
+    private ecoNewsService: EcoNewsService,
+    private userOwnAuthService: UserOwnAuthService,
+    private snackBar: MatSnackBarComponent,
+    private localStorageService: LocalStorageService
+  ) {}
 
   ngOnInit() {
     this.onResize();

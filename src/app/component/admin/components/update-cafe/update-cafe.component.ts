@@ -50,7 +50,15 @@ export class UpdateCafeComponent implements OnInit {
   discountValues: DiscountDto[] = [];
   specification: SpecificationNameDto;
   openingHoursList: OpeningHours[] = [];
-  weekDays: WeekDays[] = [WeekDays.MONDAY, WeekDays.TUESDAY, WeekDays.WEDNESDAY, WeekDays.THURSDAY, WeekDays.FRIDAY, WeekDays.SATURDAY, WeekDays.SUNDAY];
+  weekDays: WeekDays[] = [
+    WeekDays.MONDAY,
+    WeekDays.TUESDAY,
+    WeekDays.WEDNESDAY,
+    WeekDays.THURSDAY,
+    WeekDays.FRIDAY,
+    WeekDays.SATURDAY,
+    WeekDays.SUNDAY,
+  ];
   openingHours: OpeningHours = new OpeningHours();
   breakTimes: BreakTimes = new BreakTimes();
   categories: any;

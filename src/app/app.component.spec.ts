@@ -23,7 +23,16 @@ describe('AppComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NgFlashMessagesModule.forRoot(), RouterTestingModule, TranslateModule.forRoot(), FormsModule, ReactiveFormsModule, BrowserModule, LayoutModule, AppModule],
+      imports: [
+        NgFlashMessagesModule.forRoot(),
+        RouterTestingModule,
+        TranslateModule.forRoot(),
+        FormsModule,
+        ReactiveFormsModule,
+        BrowserModule,
+        LayoutModule,
+        AppModule,
+      ],
       providers: [{ provide: JwtService, useValue: jwtServiceMock }],
     }).compileComponents();
   }));

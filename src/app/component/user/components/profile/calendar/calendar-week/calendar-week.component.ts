@@ -22,7 +22,12 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
   public weekTitle: string;
   public weekDates: CalendarWeekInterface[];
 
-  constructor(private localStorageService: LocalStorageService, public habitAssignService: HabitAssignService, public translate: TranslateService, public languageService: LanguageService) {
+  constructor(
+    private localStorageService: LocalStorageService,
+    public habitAssignService: HabitAssignService,
+    public translate: TranslateService,
+    public languageService: LanguageService
+  ) {
     super(translate, languageService, habitAssignService);
   }
 
@@ -39,7 +44,10 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
     this.weekDates = [];
     for (let i = 0; i < 7; i++) {
       const date = new Date(year, month, day + i);
-      const isCurrent = date.getFullYear() === this.currentDate.getFullYear() && date.getMonth() === this.currentDate.getMonth() && date.getDate() === this.currentDate.getDate();
+      const isCurrent =
+        date.getFullYear() === this.currentDate.getFullYear() &&
+        date.getMonth() === this.currentDate.getMonth() &&
+        date.getDate() === this.currentDate.getDate();
       this.weekDates.push({
         date,
         dayName: this.language ? this.setDayName(date) : '',
@@ -51,7 +59,8 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
   }
 
   private getFirstWeekDate(): Date {
-    const day = this.currentDate.getDay() === 0 ? this.currentDate.getDay() - 6 : this.currentDate.getDate() - this.currentDate.getDay() + 1;
+    const day =
+      this.currentDate.getDay() === 0 ? this.currentDate.getDay() - 6 : this.currentDate.getDate() - this.currentDate.getDay() + 1;
     const month = this.currentDate.getMonth();
     const year = this.currentDate.getFullYear();
     return new Date(year, month, day);

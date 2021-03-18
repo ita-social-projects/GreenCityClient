@@ -6,9 +6,18 @@
   </div>
   <div>
     <input type="text" #nameInput matInput [value]="data.name" (keyup.enter)="clickSubmit()" required minlength="3" maxlength="30" />`
-    <button id="closeButton" mat-button [mat-dialog-close]="true" (click)="update(nameInput.value)" class="bg-success" [disabled]="nameInput.value.length<3">
+    <button
+      id="closeButton"
+      mat-button
+      [mat-dialog-close]="true"
+      (click)="update(nameInput.value)"
+      class="bg-success"
+      [disabled]="nameInput.value.length<3"
+    >
       {{'user.favorite-place.edit-name.submit' | translate}}
     </button>
-    <button [mat-dialog-close] mat-button class="bg-danger" cdkfocusinitial="true" type="submit">{{'user.favorite-place.edit-name.cancel' | translate}}</button>
+    <button [mat-dialog-close] mat-button class="bg-danger" cdkfocusinitial="true" type="submit">
+      {{'user.favorite-place.edit-name.cancel' | translate}}
+    </button>
   </div>
 </div>

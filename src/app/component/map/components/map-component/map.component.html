@@ -4,7 +4,14 @@
       <div>
         <div class="control-pannel">
           <button class="filter-btn" (click)="toggleFilter()">{{ 'user.map.filter-by' | translate }}</button>
-          <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="{{ 'user.map.searching-for-a-place' | translate }}" />
+          <input
+            class="form-control"
+            type="text"
+            name="search"
+            [(ngModel)]="searchText"
+            autocomplete="off"
+            placeholder="{{ 'user.map.searching-for-a-place' | translate }}"
+          />
         </div>
         <app-filter *ngIf="isFilter"></app-filter>
         <div *ngIf="!isFilter">
@@ -40,8 +47,24 @@
       </div>
     </div>
     <div class="sub-2" #map>
-      <agm-map [style.width.px]="map.offsetWidth" [style.height.px]="map.offsetHeight" [latitude]="lat" [longitude]="lng" [zoom]="zoom" (idle)="getList()" (boundsChange)="boundsChange($event)">
-        <agm-direction *ngIf="navigationMode" [origin]="origin" [destination]="destination" [travelMode]="travelMode" [provideRouteAlternatives]="true" [visible]="true"> </agm-direction>
+      <agm-map
+        [style.width.px]="map.offsetWidth"
+        [style.height.px]="map.offsetHeight"
+        [latitude]="lat"
+        [longitude]="lng"
+        [zoom]="zoom"
+        (idle)="getList()"
+        (boundsChange)="boundsChange($event)"
+      >
+        <agm-direction
+          *ngIf="navigationMode"
+          [origin]="origin"
+          [destination]="destination"
+          [travelMode]="travelMode"
+          [provideRouteAlternatives]="true"
+          [visible]="true"
+        >
+        </agm-direction>
         <agm-marker
           *ngIf="userMarkerLocation"
           [latitude]="userMarkerLocation.lat"
@@ -51,9 +74,21 @@
           [iconUrl]="icon"
         >
         </agm-marker>
-        <agm-circle *ngIf="filterService.distance" [latitude]="userMarkerLocation.lat" [longitude]="userMarkerLocation.lng" [radius]="filterService.distance * 1000" [fillColor]="'#13aa57'">
+        <agm-circle
+          *ngIf="filterService.distance"
+          [latitude]="userMarkerLocation.lat"
+          [longitude]="userMarkerLocation.lng"
+          [radius]="filterService.distance * 1000"
+          [fillColor]="'#13aa57'"
+        >
         </agm-circle>
-        <agm-marker (markerClick)="showDetail(p)" *ngFor="let p of placeService.places; let i = index" [latitude]="p.location.lat" [longitude]="p.location.lng" [iconUrl]="getMarkerIcon(p.favorite)">
+        <agm-marker
+          (markerClick)="showDetail(p)"
+          *ngFor="let p of placeService.places; let i = index"
+          [latitude]="p.location.lat"
+          [longitude]="p.location.lng"
+          [iconUrl]="getMarkerIcon(p.favorite)"
+        >
           <agm-info-window *ngIf="placeInfo">
             <div class="info-container">
               <div class="info-place-name">
@@ -71,15 +106,30 @@
                 </mat-icon>
               </div>
               <ul class="discount-list">
-                <li *ngFor="let obj of placeInfo.discountValues" class="discount-list-item">{{ obj.specification.name }} {{ 'user.map.discount' | translate }} {{ obj.value }}%</li>
+                <li *ngFor="let obj of placeInfo.discountValues" class="discount-list-item">
+                  {{ obj.specification.name }} {{ 'user.map.discount' | translate }} {{ obj.value }}%
+                </li>
               </ul>
               <div class="rating">
                 <p class="rate-rating">{{ 'user.map.rate' | translate }} {{ placeInfo.rate }}</p>
-                <rating [(ngModel)]="placeInfo.rate" [max]="5" [readonly]="true" [disabled]="false" [required]="true" [titles]="['one', 'two', 'three', 'four', 'five']" class="star-rating"> </rating>
+                <rating
+                  [(ngModel)]="placeInfo.rate"
+                  [max]="5"
+                  [readonly]="true"
+                  [disabled]="false"
+                  [required]="true"
+                  [titles]="['one', 'two', 'three', 'four', 'five']"
+                  class="star-rating"
+                >
+                </rating>
               </div>
               <div class="comments">
                 <p class="comments-number">{{ 'user.map.comments' | translate }} {{ placeInfo.comments.length }}</p>
-                <button class="comments-add-btn" *ngIf="userRole === 'ROLE_ADMIN' || userRole === 'ROLE_MODERATOR' || userRole === 'ROLE_USER'" (click)="openDialogAddComment(placeInfo.id)">
+                <button
+                  class="comments-add-btn"
+                  *ngIf="userRole === 'ROLE_ADMIN' || userRole === 'ROLE_MODERATOR' || userRole === 'ROLE_USER'"
+                  (click)="openDialogAddComment(placeInfo.id)"
+                >
                   {{ 'user.map.add-comment' | translate }}
                 </button>
               </div>

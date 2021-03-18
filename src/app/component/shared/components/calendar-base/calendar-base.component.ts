@@ -138,7 +138,11 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
   }
 
   public isCurrentDayActive(): void {
-    this.calendarDay.forEach((el) => (el.isCurrentDayActive = el.date.getDate() === el.numberOfDate && el.date.getMonth() === el.month && el.date.getFullYear() === el.year));
+    this.calendarDay.forEach(
+      (el) =>
+        (el.isCurrentDayActive =
+          el.date.getDate() === el.numberOfDate && el.date.getMonth() === el.month && el.date.getFullYear() === el.year)
+    );
   }
 
   public markCurrentDayOfWeek(): void {
@@ -197,11 +201,13 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
 
   public formatDate(isMonthCalendar: boolean, dayItem) {
     if (isMonthCalendar) {
-      return `${dayItem.year}-${dayItem.month + 1 < 10 ? '0' + (dayItem.month + 1) : dayItem.month + 1}-${dayItem.numberOfDate < 10 ? '0' + dayItem.numberOfDate : dayItem.numberOfDate}`;
-    } else {
-      return `${dayItem.date.getFullYear()}-${dayItem.date.getMonth() + 1 < 10 ? '0' + (dayItem.date.getMonth() + 1) : dayItem.date.getMonth() + 1}-${
-        dayItem.date.getDate() < 10 ? '0' + dayItem.date.getDate() : dayItem.date.getDate()
+      return `${dayItem.year}-${dayItem.month + 1 < 10 ? '0' + (dayItem.month + 1) : dayItem.month + 1}-${
+        dayItem.numberOfDate < 10 ? '0' + dayItem.numberOfDate : dayItem.numberOfDate
       }`;
+    } else {
+      return `${dayItem.date.getFullYear()}-${
+        dayItem.date.getMonth() + 1 < 10 ? '0' + (dayItem.date.getMonth() + 1) : dayItem.date.getMonth() + 1
+      }-${dayItem.date.getDate() < 10 ? '0' + dayItem.date.getDate() : dayItem.date.getDate()}`;
     }
   }
 

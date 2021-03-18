@@ -18,7 +18,14 @@ describe('CommentsContainerComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CommentsContainerComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule, ReactiveFormsModule, NgxPaginationModule, RouterModule, TranslateModule.forRoot()],
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule,
+        ReactiveFormsModule,
+        NgxPaginationModule,
+        RouterModule,
+        TranslateModule.forRoot(),
+      ],
       providers: [CommentsService, UserOwnAuthService],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

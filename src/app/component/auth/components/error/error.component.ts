@@ -27,7 +27,8 @@ export class ErrorComponent implements OnChanges {
     email: () => (this.emailFieldValue ? 'user.auth.sign-in.this-is-not-email' : 'user.auth.sign-in.email-is-required'),
     passwordMismatch: () => 'user.auth.sign-up.password-match',
     minlength: () => 'user.auth.sign-in.password-must-be-at-least-8-characters-long',
-    symbolInvalid: () => (this.controlName === 'password' ? 'user.auth.sign-up.password-symbols-error' : 'user.auth.sign-up.user-name-size'),
+    symbolInvalid: () =>
+      this.controlName === 'password' ? 'user.auth.sign-up.password-symbols-error' : 'user.auth.sign-up.user-name-size',
   };
 
   constructor() {}

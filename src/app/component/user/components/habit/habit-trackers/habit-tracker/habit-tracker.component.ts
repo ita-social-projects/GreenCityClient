@@ -50,7 +50,11 @@ export class HabitTrackerComponent implements OnInit {
   }
 
   compareDates(a: Date, b: Date): boolean {
-    return new Date(a).getFullYear() === new Date(b).getFullYear() && new Date(a).getMonth() === new Date(b).getMonth() && new Date(a).getDate() === new Date(b).getDate();
+    return (
+      new Date(a).getFullYear() === new Date(b).getFullYear() &&
+      new Date(a).getMonth() === new Date(b).getMonth() &&
+      new Date(a).getDate() === new Date(b).getDate()
+    );
   }
 
   countCurrentStatisticDayNumber() {

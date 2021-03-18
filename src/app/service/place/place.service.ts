@@ -107,10 +107,16 @@ export class PlaceService {
     if (filterDto.searchReg === undefined) {
       filterDto.searchReg = '%%';
       // tslint:disable-next-line:max-line-length
-      return this.http.post<PlacePageableDto>(`${this.baseUrl}filter/predicate` + paginationSettings + `&sort=modifiedDate,desc`, filterDto);
+      return this.http.post<PlacePageableDto>(
+        `${this.baseUrl}filter/predicate` + paginationSettings + `&sort=modifiedDate,desc`,
+        filterDto
+      );
     } else {
       // tslint:disable-next-line:max-line-length
-      return this.http.post<PlacePageableDto>(`${this.baseUrl}filter/predicate` + paginationSettings + `&sort=modifiedDate,desc`, filterDto);
+      return this.http.post<PlacePageableDto>(
+        `${this.baseUrl}filter/predicate` + paginationSettings + `&sort=modifiedDate,desc`,
+        filterDto
+      );
     }
   }
 

@@ -42,7 +42,10 @@ export class TagFilterComponent implements OnInit, OnChanges {
 
   private setTags(tags: Array<string>): void {
     const savedFilters = this.getSessionStorageFilters();
-    this.filters = tags.map((filter: string) => ({ name: filter, isActive: typeof savedFilters.find((el) => el === filter) !== 'undefined' }));
+    this.filters = tags.map((filter: string) => ({
+      name: filter,
+      isActive: typeof savedFilters.find((el) => el === filter) !== 'undefined',
+    }));
     this.emitActiveFilters();
   }
 

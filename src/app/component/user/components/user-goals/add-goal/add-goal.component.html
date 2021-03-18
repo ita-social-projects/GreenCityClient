@@ -8,7 +8,10 @@
         </button>
       </div>
       <div class="modal-body overflow-auto inner-modal-block">
-        <app-add-goal-list *ngIf="$trackedGoals && $predefinedGoals && $customGoals | async" [goals]="changedGoals | customLast"></app-add-goal-list>
+        <app-add-goal-list
+          *ngIf="$trackedGoals && $predefinedGoals && $customGoals | async"
+          [goals]="changedGoals | customLast"
+        ></app-add-goal-list>
       </div>
       <div class="modal-footer d-flex justify-content-center">
         <button type="button" class="add-goal-button" data-dismiss="modal" (click)="addGoals()">

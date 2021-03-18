@@ -125,7 +125,9 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
 
   public getEmailError(): string {
-    return /already registered/.test(this.emailErrorMessageBackEnd) ? 'user.auth.sign-up.the-user-already-exists-by-this-email' : 'user.auth.sign-up.this-is-not-email';
+    return /already registered/.test(this.emailErrorMessageBackEnd)
+      ? 'user.auth.sign-up.the-user-already-exists-by-this-email'
+      : 'user.auth.sign-up.this-is-not-email';
   }
 
   private onFormInit(): void {

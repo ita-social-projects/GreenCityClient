@@ -7,12 +7,16 @@
     <p *ngIf="isWarning" class="warning">{{ 'user.edit-profile.picture-tooltip' | translate }}</p>
     <p>{{ 'user.edit-profile.change-photo' | translate }}</p>
     <div class="buttons">
-      <button type="button" class="primary-global-button" (click)="closeEditPhoto()">{{ 'user.edit-profile.btn.cancel' | translate }}</button>
+      <button type="button" class="primary-global-button" (click)="closeEditPhoto()">
+        {{ 'user.edit-profile.btn.cancel' | translate }}
+      </button>
       <label class="secondary-global-button" tabindex="0">
         {{ 'user.edit-profile.btn.new-photo' | translate }}
         <input type="file" accept=".jpg, .jpeg, .png" (change)="onSelectPhoto($event)" />
       </label>
-      <button type="button" class="primary-global-button delete" [disabled]="!avatarImg" (click)="isNotification = true">{{ 'user.edit-profile.btn.delete' | translate }}</button>
+      <button type="button" class="primary-global-button delete" [disabled]="!avatarImg" (click)="isNotification = true">
+        {{ 'user.edit-profile.btn.delete' | translate }}
+      </button>
     </div>
   </div>
   <ng-template #elseBlock>
@@ -48,7 +52,9 @@
   <div *ngIf="isNotification" class="wrapper">
     <p>{{ 'user.edit-profile.notification' | translate }}</p>
     <div class="buttons">
-      <button type="button" class="primary-global-button" (click)="isNotification = false">{{ 'user.edit-profile.btn.continue' | translate }}</button>
+      <button type="button" class="primary-global-button" (click)="isNotification = false">
+        {{ 'user.edit-profile.btn.continue' | translate }}
+      </button>
       <button type="button" class="secondary-global-button" (click)="deletePhoto()">
         <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         {{ 'user.edit-profile.btn.yes-delete' | translate }}

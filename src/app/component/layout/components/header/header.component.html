@@ -18,7 +18,13 @@
               </a>
             </li>
             <li role="map">
-              <a [routerLink]="['/map']" routerLinkActive="active-link" routerLinkActiveOptions="{exact:true}" routerLinkActive="active-link" routerLinkActiveOptions="{exact:true}">
+              <a
+                [routerLink]="['/map']"
+                routerLinkActive="active-link"
+                routerLinkActiveOptions="{exact:true}"
+                routerLinkActive="active-link"
+                routerLinkActiveOptions="{exact:true}"
+              >
                 {{ 'user.lower-nav-bar.map' | translate }}
               </a>
             </li>
@@ -71,7 +77,15 @@
         <div class="header_navigation-menu-right">
           <ul class="header_navigation-menu-right-list">
             <!-- Search icon -->
-            <li *ngIf="!isAllSearchOpen" class="search-icon" role="internal search" aria-label="site search" (click)="toggleSearchPage()" (keydown.enter)="toggleSearchPage()" tabindex="0">
+            <li
+              *ngIf="!isAllSearchOpen"
+              class="search-icon"
+              role="internal search"
+              aria-label="site search"
+              (click)="toggleSearchPage()"
+              (keydown.enter)="toggleSearchPage()"
+              tabindex="0"
+            >
               <img [src]="headerImageList.search" alt="Internal search button" aria-hidden="true" />
             </li>
             <!-- Lang switcher -->
@@ -86,7 +100,12 @@
             >
               <li>
                 {{ arrayLang[0].lang }}
-                <img [src]="headerImageList.arrowDown" alt="language switcher" aria-hidden="true" [ngClass]="langDropdownVisible ? 'header_arrow reverse' : 'header_arrow'" />
+                <img
+                  [src]="headerImageList.arrowDown"
+                  alt="language switcher"
+                  aria-hidden="true"
+                  [ngClass]="langDropdownVisible ? 'header_arrow reverse' : 'header_arrow'"
+                />
               </li>
               <ng-container *ngIf="langDropdownVisible">
                 <ng-container *ngFor="let lang of arrayLang; index as index">
@@ -107,7 +126,11 @@
                 <li class="tertiary-global-button" role="user name">
                   <a (click)="toggleDropdown()" (keyup.enter)="toggleDropdown()" class="header_user-name" tabindex="0">
                     <span>{{ name }}</span>
-                    <img [src]="headerImageList.arrowDownGreen" alt="arrow down icon" [ngClass]="dropdownVisible ? 'header_arrow reverse' : 'header_arrow'" />
+                    <img
+                      [src]="headerImageList.arrowDownGreen"
+                      alt="arrow down icon"
+                      [ngClass]="dropdownVisible ? 'header_arrow reverse' : 'header_arrow'"
+                    />
                   </a>
                 </li>
                 <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="settigns">

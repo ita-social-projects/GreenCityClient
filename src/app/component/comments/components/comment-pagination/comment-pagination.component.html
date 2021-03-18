@@ -1,5 +1,10 @@
 <div class="pagination">
-  <pagination-template #p="paginationApi" [id]="config.id" [maxSize]="calcPaginationSize(p.getLastPage(), p.getCurrent())" (pageChange)="onPageChange($event)">
+  <pagination-template
+    #p="paginationApi"
+    [id]="config.id"
+    [maxSize]="calcPaginationSize(p.getLastPage(), p.getCurrent())"
+    (pageChange)="onPageChange($event)"
+  >
     <div class="custom-pagination" *ngIf="p.getTotalItems() > maxCommentsOnPage">
       <div class="pagination-previous">
         <a *ngIf="!p.isFirstPage()" (click)="p.previous()">

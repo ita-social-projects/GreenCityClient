@@ -23,7 +23,16 @@
                 {{ 'user.user-setting.first-name-must-be-at-least-1-characters-long' | translate }}
               </div>
             </div>
-            <input class="form-control" type="text" [(ngModel)]="userUpdateModel.firstName" name="fistName" #firstNameControl="ngModel" required minlength="1" maxlength="20" />
+            <input
+              class="form-control"
+              type="text"
+              [(ngModel)]="userUpdateModel.firstName"
+              name="fistName"
+              #firstNameControl="ngModel"
+              required
+              minlength="1"
+              maxlength="20"
+            />
           </td>
           <td>
             <a (click)="firstNameEditing()">
@@ -43,7 +52,16 @@
                 {{ 'user.user-setting.last-name-must-be-at-least-1-characters-long' | translate }}
               </div>
             </div>
-            <input class="form-control" type="text" [(ngModel)]="userUpdateModel.lastName" name="lastName" #lastNameControl="ngModel" required minlength="1" maxlength="20" />
+            <input
+              class="form-control"
+              type="text"
+              [(ngModel)]="userUpdateModel.lastName"
+              name="lastName"
+              #lastNameControl="ngModel"
+              required
+              minlength="1"
+              maxlength="20"
+            />
           </td>
           <td>
             <a (click)="lastNameEditing()">
@@ -74,8 +92,19 @@
         </tr>
         <tr *ngIf="userUpdateModel.emailNotification !== 'DISABLED'">
           <td class="text-secondary" id="frequency">{{ 'user.user-setting.frequency' | translate }}</td>
-          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-grooup" [(ngModel)]="userUpdateModel.emailNotification" [ngModelOptions]="{ standalone: true }">
-            <mat-radio-button class="example-radio-button" *ngFor="let notification of emailNotifications" [value]="notification" (change)="somethingEdited()" color="primary">
+          <mat-radio-group
+            aria-labelledby="example-radio-group-label"
+            class="example-radio-grooup"
+            [(ngModel)]="userUpdateModel.emailNotification"
+            [ngModelOptions]="{ standalone: true }"
+          >
+            <mat-radio-button
+              class="example-radio-button"
+              *ngFor="let notification of emailNotifications"
+              [value]="notification"
+              (change)="somethingEdited()"
+              color="primary"
+            >
               {{ notification | titlecase }}
             </mat-radio-button>
           </mat-radio-group>
@@ -86,6 +115,8 @@
 </mat-dialog-content>
 
 <div style="display: flex; justify-content: flex-end; align-items: center">
-  <button class="btn btn-primary submit" type="submit" style="margin-right: 1%" [disabled]="!isSomethingEdited" (click)="updateUser()">{{ 'user.user-setting.submit' | translate }}</button>
+  <button class="btn btn-primary submit" type="submit" style="margin-right: 1%" [disabled]="!isSomethingEdited" (click)="updateUser()">
+    {{ 'user.user-setting.submit' | translate }}
+  </button>
   <button mat-dialog-close class="btn btn-primary" type="button">{{ 'user.user-setting.close' | translate }}</button>
 </div>

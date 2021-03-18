@@ -75,7 +75,16 @@ describe('HomepageComponent', () => {
         InfiniteScrollModule,
         LayoutModule,
       ],
-      declarations: [StatRowsComponent, HomepageComponent, EcoEventsComponent, TipsListComponent, SubscribeComponent, StatRowComponent, EcoEventsItemComponent, TipsCardComponent],
+      declarations: [
+        StatRowsComponent,
+        HomepageComponent,
+        EcoEventsComponent,
+        TipsListComponent,
+        SubscribeComponent,
+        StatRowComponent,
+        EcoEventsItemComponent,
+        TipsCardComponent,
+      ],
       providers: [
         { provide: MatSnackBarComponent, useValue: snackBarMock },
         { provide: ActivatedRoute, useValue: activatedRouteMock },

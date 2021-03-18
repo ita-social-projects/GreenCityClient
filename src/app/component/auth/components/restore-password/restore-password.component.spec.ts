@@ -68,7 +68,15 @@ describe('RestorePasswordComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [RestorePasswordComponent],
-      imports: [MatDialogModule, ReactiveFormsModule, TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule.withRoutes([]), BrowserAnimationsModule, MatSnackBarModule],
+      imports: [
+        MatDialogModule,
+        ReactiveFormsModule,
+        TranslateModule.forRoot(),
+        HttpClientTestingModule,
+        RouterTestingModule.withRoutes([]),
+        BrowserAnimationsModule,
+        MatSnackBarModule,
+      ],
       providers: [
         { provide: MatDialogRef, useValue: matDialogMock },
         { provide: AuthService, useValue: authServiceMock },
@@ -155,13 +163,17 @@ describe('RestorePasswordComponent', () => {
     }));
 
     it('Test sendEmailForRestore method', () => {
-      const spy = (restorePasswordService.sendEmailForRestore = jasmine.createSpy('sendEmail').and.returnValue(Observable.of(mockFormData)));
+      const spy = (restorePasswordService.sendEmailForRestore = jasmine
+        .createSpy('sendEmail')
+        .and.returnValue(Observable.of(mockFormData)));
       restorePasswordService.sendEmailForRestore(mockFormData);
       expect(spy).toHaveBeenCalled();
     });
 
     it('sentEmail should call sendEmailForRestore', () => {
-      const spy = (restorePasswordService.sendEmailForRestore = jasmine.createSpy('sendEmail').and.returnValue(Observable.of(mockFormData)));
+      const spy = (restorePasswordService.sendEmailForRestore = jasmine
+        .createSpy('sendEmail')
+        .and.returnValue(Observable.of(mockFormData)));
       component.sentEmail();
       expect(spy).toHaveBeenCalled();
     });

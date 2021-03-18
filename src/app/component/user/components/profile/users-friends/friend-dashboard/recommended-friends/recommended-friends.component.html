@@ -2,7 +2,11 @@
   <div class="friends-recommended-list">
     <div class="container">
       <div *ngFor="let item of recommendedFriends">
-        <app-friend-item [friend]="item" (friendEventEmit)="addFriend($event)" btnName="{{ 'profile.friends.add-new-friend' | translate }}"></app-friend-item>
+        <app-friend-item
+          [friend]="item"
+          (friendEventEmit)="addFriend($event)"
+          btnName="{{ 'profile.friends.add-new-friend' | translate }}"
+        ></app-friend-item>
       </div>
     </div>
     <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
