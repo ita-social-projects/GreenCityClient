@@ -44,7 +44,7 @@ export class PersonalDataFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.shareFormService.objectSource.subscribe(order => {this.order = order; console.log(this.order)});
+    this.shareFormService.objectSource.subscribe(order => {this.order = order; console.log(this.order);});
     this.personalDataForm = this.fb.group({
       firstName: ['', [
         Validators.required,
@@ -93,7 +93,7 @@ export class PersonalDataFormComponent implements OnInit {
       phoneNumber: this.personalDataForm.get('phoneNumber').value.slice(3),
       city: this.addresses[0].city,
       district: this.addresses[0].district,
-      street: this.addresses[0].street.split(',').splice(0, 1).join().split(' ').splice(1,1).join(),
+      street: this.addresses[0].street.split(',').splice(0, 1).join().split(' ').splice(1, 1).join(),
       houseNumber: this.addresses[0].street.split(',').slice(1).join().trim(),
       houseCorpus: this.addresses[0].houseCorpus,
       entranceNumber: this.addresses[0].entranceNumber,

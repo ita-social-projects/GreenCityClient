@@ -1,5 +1,5 @@
-import { Bag } from "../components/order-details-form/shared/bag.interface";
-import { PersonalData } from "./personalData.model";
+import { Bag } from '../components/order-details-form/shared/bag.interface';
+import { PersonalData } from './personalData.model';
 
 export interface FinalOrder {
   bags: Bag[];

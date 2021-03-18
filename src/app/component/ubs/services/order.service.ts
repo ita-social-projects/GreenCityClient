@@ -9,26 +9,26 @@ import { FinalOrder } from '../models/finalOrder.interface';
   providedIn: 'root'
 })
 export class OrderService {
-  private _url: string = 'https://greencity-ubs.azurewebsites.net/ubs';
+  private url = 'https://greencity-ubs.azurewebsites.net/ubs';
 
   constructor(private http: HttpClient) { }
 
   getOrders(): Observable<IOrder> {
-    return this.http.get<IOrder>(`${this._url}/order-details`);
+    return this.http.get<IOrder>(`${this.url}/order-details`);
   }
 
   getPersonalData(): Observable<any> {
-    return this.http.get(`${this._url}/personal-data`);
+    return this.http.get(`${this.url}/personal-data`);
   }
 
   processOrder(order: FinalOrder): Observable<FinalOrder> {
-    return this.http.post<FinalOrder>(`${this._url}/processOrder`, order);
+    return this.http.post<FinalOrder>(`${this.url}/processOrder`, order);
   }
 
 
 
   processCertificate(certificate): Observable<ICertificate[]> {
-    return this.http.get<ICertificate[]>(`${this._url}/certificate/${certificate}`);
+    return this.http.get<ICertificate[]>(`${this.url}/certificate/${certificate}`);
   }
 
 }
