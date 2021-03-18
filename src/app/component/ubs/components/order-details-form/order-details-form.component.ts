@@ -206,8 +206,8 @@ export class OrderDetailsFormComponent implements OnInit {
     if (arr.length > 0) {
       this.certificateSum = 0;
       for (const certificate of arr) {
-        this.orderService.processCertificate(certificate).subscribe(certificate => {
-          this.certificateMatch(certificate);
+        this.orderService.processCertificate(certificate).subscribe(cert => {
+          this.certificateMatch(cert);
           if (this.total > this.certificateSum) {
             this.addCert = true;
           } else {
@@ -259,8 +259,7 @@ export class OrderDetailsFormComponent implements OnInit {
       this.certificateSum = this.certificateSum;
       this.certMessage = `Сертифікат не є дійсним. Строк дії сертифікату - до до ${cert.certificateDate}`;
       this.displayCert = false;
-    }
-    else {
+    } else {
       console.log('invalid');
     }
   }
@@ -300,8 +299,5 @@ export class OrderDetailsFormComponent implements OnInit {
       this.showTotal, this.showCertificateUsed, this.showPointsUsed, this.finalSum];
     this.shareFormService.changeObject(newOrder);
     this.shareFormService.finalBillObject(paymentBill);
-    console.log(newOrder);
-    console.log(this.orderDetailsForm.get('additionalOrders').value);
-    console.log(this.additionalOrders);
   }
 }
