@@ -1,4 +1,4 @@
-import { Bag } from "./shared/bag.interface";
+import { Bag } from './shared/bag.interface';
 
 export interface IOrder {
   allBags: Bag[];

@@ -1,5 +1,5 @@
-export interface ICertificate{
-  certificatePoints: number,
-  certificateStatus: string,
+export interface ICertificate {
+  certificatePoints: number;
+  certificateStatus: string;
   // certificateDate: any
 }

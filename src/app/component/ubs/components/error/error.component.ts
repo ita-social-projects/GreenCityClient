@@ -15,7 +15,6 @@ export class ErrorComponent implements OnChanges {
   @Input() public phoneNumberFieldValue: string;
   @Input() public streetFieldValue: string;
   @Input() public houseNumberFieldValue: string;
-  
   public errorMessage = '';
 
   private getErrorMsg = {

@@ -1,4 +1,4 @@
-import { Bag } from "./bag.interface";
+import { Bag } from './bag.interface';
 
 export interface IUserOrder {
   bags: Bag[];

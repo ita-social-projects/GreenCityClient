@@ -1,8 +1,8 @@
-import { IOrder } from "./order.interface";
-import { Bag } from "./shared/bag.interface";
+import { IOrder } from './order.interface';
+import { Bag } from './shared/bag.interface';
 
 export class Order implements IOrder {
-  constructor (
+  constructor(
     public allBags: [
       Bag,
       Bag,

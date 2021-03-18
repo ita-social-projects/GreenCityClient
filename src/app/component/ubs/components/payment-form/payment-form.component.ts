@@ -44,11 +44,11 @@ export class PaymentFormComponent implements OnInit {
   showCertificateUsed: string;
   showPointsUsed: string;
   finalSum: string;
-  ubsRow: boolean = false;
-  XLRow: boolean = false;
-  MRow: boolean = false;
-  showCert: boolean = false;
-  showPoints: boolean = false;
+  ubsRow = false;
+  XLRow = false;
+  MRow = false;
+  showCert = false;
+  showPoints = false;
 
 
   constructor(
@@ -57,8 +57,8 @@ export class PaymentFormComponent implements OnInit {
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.shareFormService.finalObject.subscribe(order => {this.finalOrder = order; this.initPersonalData();});
-    this.shareFormService.billObjectSource.subscribe(order => {this.bill = order; this.initPaymentData();});
+    this.shareFormService.finalObject.subscribe(order => {this.finalOrder = order; this.initPersonalData(); });
+    this.shareFormService.billObjectSource.subscribe(order => {this.bill = order; this.initPaymentData(); });
     this.paymentForm = this.fb.group({});
   }
 

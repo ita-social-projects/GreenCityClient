@@ -1,8 +1,8 @@
-import { Bag } from "./bag.interface";
-import { IUserOrder } from "./userOrder.interface";
+import { Bag } from './bag.interface';
+import { IUserOrder } from './userOrder.interface';
 
 export class UserOrder implements IUserOrder {
-  constructor (
+  constructor(
     public bags: [Bag, Bag, Bag],
     public pointsToUse: number,
     public certificates: any,

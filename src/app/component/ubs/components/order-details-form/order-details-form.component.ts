@@ -15,33 +15,33 @@ import { UserOrder } from './shared/userOrder.model';
 export class OrderDetailsFormComponent implements OnInit {
   orderDetailsForm: FormGroup;
   showTotal: string;
-  total: number = 0;
-  finalSum: string = '0 грн';
+  total = 0;
+  finalSum = '0 грн';
   points: number;
   pointsUsed: number;
   showPointsUsed: string;
-  displayCalc: boolean = false;
-  displayMes: boolean = false;
-  displayCert: boolean = false;
-  displayBonus: boolean = false;
-  displayShop: boolean = false;
-  addCert: boolean = false;
-  onSubmit: boolean = true;
+  displayCalc = false;
+  displayMes = false;
+  displayCert = false;
+  displayBonus = false;
+  displayShop = false;
+  addCert = false;
+  onSubmit = true;
   order: {};
   orders: IOrder;
   certificateMask = '0000-0000';
   certificates = [];
-  certificateSum: number = 0;
-  certSize: boolean = false;
+  certificateSum = 0;
+  certSize = false;
   showCertificateUsed: string;
-  certificateLeft: number = 0;
+  certificateLeft = 0;
   certMessage: string;
   userOrder: IUserOrder;
   object: {};
 
   constructor(private fb: FormBuilder,
-    private _orderService: OrderService,
-    private _shareFormService: ShareFormService) { }
+              private orderService: OrderService,
+              private shareFormService: ShareFormService) { }
 
   get additionalCertificates() {
     return this.orderDetailsForm.get('additionalCertificates') as FormArray;
@@ -52,8 +52,8 @@ export class OrderDetailsFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._shareFormService.objectSource.subscribe(object => this.object = object);
-    this._orderService.getOrders()
+    this.shareFormService.objectSource.subscribe(object => this.object = object);
+    this.orderService.getOrders()
       .subscribe(data => {
         this.orders = data;
         this.initForm();
@@ -113,7 +113,7 @@ export class OrderDetailsFormComponent implements OnInit {
     } else {
       this.displayMes = false;
       this.onSubmit = false;
-    };
+    }
     this.finalSum = `${this.total} грн`;
     if (this.certificateSum > 0) {
       if (this.total > this.certificateSum) {
@@ -147,9 +147,8 @@ export class OrderDetailsFormComponent implements OnInit {
       this.showPointsUsed = `-${this.pointsUsed} грн`;
       this.points > this.total ? this.points = this.points - this.total : this.points = 0;
       this.finalSum = `${this.total - this.pointsUsed} грн`;
-      this.total = this.total - this.pointsUsed
-    }
-    else {
+      this.total = this.total - this.pointsUsed;
+    } else {
       this.showTotal = `${this.total} грн`;
       this.points > this.total ? this.points = this.points - this.total : this.points = 0;
       this.points > this.total ? this.pointsUsed = this.total - this.certificateSum : this.pointsUsed = this.points;
@@ -171,7 +170,7 @@ export class OrderDetailsFormComponent implements OnInit {
   }
 
   addOrder(): void {
-    this.additionalOrders.push(this.fb.control('', [Validators.minLength(10),]));
+    this.additionalOrders.push(this.fb.control('', [Validators.minLength(10)]));
     console.log(this.additionalOrders);
   }
 
@@ -198,8 +197,7 @@ export class OrderDetailsFormComponent implements OnInit {
     if (!this.certificates.includes(this.additionalCertificates.value[i])) {
       this.certificates.push(this.additionalCertificates.value[i]);
       this.calcCertificates(this.certificates);
-    }
-    else {
+    } else {
       console.log('ERROR');
     }
   }
@@ -208,7 +206,7 @@ export class OrderDetailsFormComponent implements OnInit {
     if (arr.length > 0) {
       this.certificateSum = 0;
       for (const certificate of arr) {
-        this._orderService.processCertificate(certificate).subscribe(certificate => {
+        this.orderService.processCertificate(certificate).subscribe(certificate => {
           this.certificateMatch(certificate);
           if (this.total > this.certificateSum) {
             this.addCert = true;
@@ -217,7 +215,7 @@ export class OrderDetailsFormComponent implements OnInit {
             this.certSize = true;
           }
           this.calcTotal();
-        })
+        });
       }
     } else {
       this.certificateSum = 0;
@@ -230,8 +228,7 @@ export class OrderDetailsFormComponent implements OnInit {
       this.certificates.push(this.orderDetailsForm.value.certificate);
       console.log(this.certificates);
       this.calcCertificates(this.certificates);
-    }
-    else {
+    } else {
       this.orderDetailsForm.patchValue({ certificate: '' });
       console.log('ERROR');
     }
@@ -301,8 +298,8 @@ export class OrderDetailsFormComponent implements OnInit {
         sum: this.orderDetailsForm.get('bagSumClothesM').value
       },
       this.showTotal, this.showCertificateUsed, this.showPointsUsed, this.finalSum];
-    this._shareFormService.changeObject(newOrder);
-    this._shareFormService.finalBillObject(paymentBill);
+    this.shareFormService.changeObject(newOrder);
+    this.shareFormService.finalBillObject(paymentBill);
     console.log(newOrder);
     console.log(this.orderDetailsForm.get('additionalOrders').value);
     console.log(this.additionalOrders);
