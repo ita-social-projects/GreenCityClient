@@ -1,7 +1,7 @@
 <div *ngIf="!friends">
   <app-spinner></app-spinner>
 </div>
-<div *ngIf="friends && friends.length > 0">
+<div *ngIf="friends?.length">
   <div class="friends-list">
     <div class="container">
       <div *ngFor="let friend of friends">
