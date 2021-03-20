@@ -76,19 +76,19 @@ export class OneHabitComponent implements OnInit {
   public enroll() {
     this.isRequest = true;
     this.habitAssignService.enrollByHabit(this.habit.habit.id, this.currentDate)
-      .pipe(take(1))
-      .subscribe(response => {
-        if (response.status === 'ACQUIRED') {
-          this.descriptionType.acquired();
-          this.nowAcquiredHabit.emit(response);
-        } else {
-        this.habit.habitStatusCalendarDtoList = response.habitStatusCalendarDtoList;
-        this.habit.workingDays = response.workingDays;
-        this.habit.habitStreak = response.habitStreak;
-        this.buildHabitDescription();
-        this.isRequest = false;
-        }
-      });
+    .pipe(take(1))
+    .subscribe(response => {
+      if (response.status === 'ACQUIRED') {
+        this.descriptionType.acquired();
+        this.nowAcquiredHabit.emit(response);
+      } else {
+      this.habit.habitStatusCalendarDtoList = response.habitStatusCalendarDtoList;
+      this.habit.workingDays = response.workingDays;
+      this.habit.habitStreak = response.habitStreak;
+      this.buildHabitDescription();
+      this.isRequest = false;
+      }
+    });
   }
 
   public unenroll() {
