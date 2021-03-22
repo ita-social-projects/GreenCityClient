@@ -1,7 +1,10 @@
+@import '../../ubs.component.scss';
+
+
 .container {
   box-shadow: 1px 4px 8px rgb(100 114 125 / 18%);
   padding: 10px 25px 40px;
-  color: #444E55;
+  color: var(--primary-grey);
 }
 
 .header {
@@ -13,36 +16,29 @@
   }
 
   p {
-    color: #64727D;
+    color: var(--secondary-grey);
     margin-bottom: 3rem;
   }
-
 }
 
 h3 {
   font-weight: bold;
 }
 
-.labels-container {
-  width: 100%;
-}
-
-.main,
-.labels-container {
+.main {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-
 }
 
 .main {
   padding: 1rem 0 1.2rem 0;
-  border-top: 1px solid #CACFD3;
-  border-bottom: 1px solid #CACFD3;
+  border-top: var(--primary-light-grey);
+  border-bottom: var(--primary-light-grey);
 }
 
 label {
-  color: #64727D;
+  color: var(--secondary-grey);
   padding-left: 0;
 }
 
@@ -72,8 +68,8 @@ label:nth-child(5) {
 }
 
 .count input {
-  background: #fff;
-  border: 1px solid #64727D;
+  background: var(--primary-white);
+  border: var(--secondary-grey);
   padding-left: 6px;
 }
 
@@ -82,7 +78,7 @@ label:nth-child(5) {
 }
 
 .custom-control-label::before {
-  background-color: #fff;
+  background-color: var(--primary-white);
 }
 
 .custom-radio .custom-control-input:checked~.custom-control-label::before,
@@ -100,7 +96,6 @@ label:nth-child(5) {
     text-align: right;
     font-weight: 700;
   }
-
 }
 
 button {
@@ -116,7 +111,7 @@ button {
   margin-top: 10px;
   padding: 30px 0;
   justify-content: space-between;
-  border-bottom: 1px solid #CACFD3;
+  border-bottom: var(--primary-light-grey);
 }
 
 .totalInfo {
@@ -126,7 +121,7 @@ button {
   p {
     display: flex;
     justify-content: space-between;
-    color: #64727D;
+    color: var(--secondary-grey);
     padding-right: .5rem;
   }
 
@@ -202,8 +197,8 @@ button {
   }
 
   input {
-    background: #fff;
-    border: 1px solid #64727D;
+    background: var(--primary-white);
+    border: var(--secondary-grey);
   }
 
   small {
@@ -224,7 +219,6 @@ button {
   button:hover {
     background: var(--primary-green);
   }
-
 }
 
 .shop_submit {
@@ -239,7 +233,6 @@ button {
       padding: .5rem;
     }
   }
-
 }
 
 .addOrderBtn {
@@ -263,17 +256,17 @@ button {
 }
 
 .comment {
-  background: white;
+  background: var(--primary-white);
 }
 
 .bottom_comment {
-  background: white;
+  background: var(--primary-white);
 
   textarea {
     height: 6rem;
-    border: 1px solid #64727D;
+    border: 1px solid var(--secondary-grey);
     padding: .5rem;
-    background: #fff;
+    background: var(--primary-white);
   }
 
   .btn:nth-child(1) {
@@ -299,7 +292,7 @@ button {
 .bottom {
   padding: 3rem 0;
   margin-bottom: 3rem;
-  border-bottom: 1px solid #CACFD3;
+  border-bottom: 1px solid var(--primary-light-grey);
 
   .custom-control {
     padding-left: 1.4rem;
@@ -310,7 +303,7 @@ button {
   }
 
   input {
-    background: #fff;
-    border: 1px solid #64727D;
+    background: var(--primary-white);
+    border: 1px solid var(--secondary-grey);
   }
 }

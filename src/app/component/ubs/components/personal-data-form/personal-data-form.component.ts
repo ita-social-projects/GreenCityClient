@@ -17,6 +17,7 @@ export class PersonalDataFormComponent implements OnInit {
   region = '';
   longitude: number;
   latitude: number;
+  namePattern = /^[A-Za-zА-Яа-яїієё\.\'\-\\]+$/;
   phoneMask = '+{38} (000) 000 00 00';
   nextDisabled = true;
   districtDisabled = true;
@@ -49,13 +50,13 @@ export class PersonalDataFormComponent implements OnInit {
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(30),
-        Validators.pattern(/^[A-Za-zА-Яа-яїієё\.\'\-\\]+$/)
+        Validators.pattern(this.namePattern)
       ]],
       lastName: ['', [
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(30),
-        Validators.pattern(/^[A-Za-zА-Яа-яїієё\.\'\-\\]+$/)
+        Validators.pattern(this.namePattern)
       ]],
       email: ['', [
         Validators.required,

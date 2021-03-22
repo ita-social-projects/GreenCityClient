@@ -4,7 +4,7 @@
     <p>Зверніть, будь ласка, увагу на те, що мінімальна сума замовлення має складати 500 грн.</p>
   </div>
   <form class="form" [formGroup]="orderDetailsForm" (ngSubmit)="submit()">
-    <div class="labels-container">
+    <div class="w-100 d-flex justify-content-between">
       <label class="col-12 col-sm-3">Послуга</label>
       <label class="col-12 col-sm-2">Об'єм</label>
       <label class="col-12 col-sm-2">Вартість</label>
@@ -23,7 +23,7 @@
       </div>
       <div class="col-12 col-sm-2 form-group count">
         <input formControlName="bagNumUbs" type="number" class="shadow-none form-control" [class.is-invalid]="orderDetailsForm.get('bagNumUbs').invalid &&
-                             orderDetailsForm.get('bagNumUbs').touched" min="0" max="999" (click)="calc()">
+                             orderDetailsForm.get('bagNumUbs').touched" min="0" max="999" (click)="calculate()">
       </div>
       <div class="form-group sum">
         <input formControlName="bagSumUbs" type="text" class="form-control">
@@ -39,7 +39,7 @@
       </div>
       <div class="col-12 col-sm-2 form-group count">
         <input formControlName="bagNumClothesXL" type="number" min="0" class="shadow-none form-control" max="999"
-          (click)="calc()">
+          (click)="calculate()">
       </div>
       <div class="form-group sum">
         <input formControlName="bagSumClothesXL" type="text" class="form-control">
@@ -55,7 +55,7 @@
       </div>
       <div class="col-12 col-sm-2 form-group count">
         <input formControlName="bagNumClothesM" type="number" class="shadow-none form-control" min="0" max="999"
-          (click)="calc()">
+          (click)="calculate()">
       </div>
       <div class="form-group sum">
         <input formControlName="bagSumClothesM" type="text" class="form-control">
@@ -68,7 +68,7 @@
             <p *ngIf="displayCalc"><span>Сума замовлення: </span><span><b>{{ showTotal }}</b></span></p>
             <p *ngIf="displayCert"><span>Сертифікат: </span><span><small>{{ showCertificateUsed }}</small></span></p>
             <p *ngIf="displayBonus"><span>Бонуси: </span><span><small>{{ showPointsUsed }}</small></span></p>
-            <p><span>Сума до оплати: </span><span><b>{{ finalSum }}</b></span></p>
+            <p><span>Сума до оплати: </span><span><b>{{ finalSum }} грн</b></span></p>
             <div *ngIf="displayMes" class="validMes">
               <small class="text-danger">Мінімальна сума замовлення повинна складати 500 грн</small>
             </div>
@@ -122,7 +122,7 @@
           <p>На Вашому бонусному рахунку: {{ points }} грн</p>
           <div class="form-check custom-control custom-radio">
             <input formControlName="bonus" id="customRadio1" value="yes" class="form-check-input custom-control-input"
-              type="radio" (click)="calcPoints()">
+              type="radio" (click)="calculatePoints()">
             <label class="form-check-label custom-control-label" for="customRadio1">Так</label>
           </div>
           <div class="form-check custom-control custom-radio">

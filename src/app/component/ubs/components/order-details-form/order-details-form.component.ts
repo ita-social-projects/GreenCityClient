@@ -9,14 +9,14 @@ import { UserOrder } from './shared/userOrder.model';
 @Component({
   selector: 'app-order-details-form',
   templateUrl: './order-details-form.component.html',
-  styleUrls: ['./order-details-form.component.scss']
+  styleUrls: ['../../ubs.component.scss', './order-details-form.component.scss']
 })
 
 export class OrderDetailsFormComponent implements OnInit {
   orderDetailsForm: FormGroup;
   showTotal: string;
   total = 0;
-  finalSum = '0 грн';
+  finalSum = 0;
   points: number;
   pointsUsed: number;
   showPointsUsed: string;
@@ -30,6 +30,7 @@ export class OrderDetailsFormComponent implements OnInit {
   order: {};
   orders: IOrder;
   certificateMask = '0000-0000';
+  certificatePattern = /(?!0000)\d{4}-(?!0000)\d{4}/;
   certificates = [];
   certificateSum = 0;
   certSize = false;
@@ -75,7 +76,7 @@ export class OrderDetailsFormComponent implements OnInit {
       bagSizeClothesM: [{ value: '', disabled: true }],
       bagPriceClothesM: [{ value: '', disabled: true }],
       bagSumClothesM: [{ value: '0 грн', disabled: true }],
-      certificate: ['', [Validators.minLength(8), Validators.pattern(/(?!0000)\d{4}-(?!0000)\d{4}/)]],
+      certificate: ['', [Validators.minLength(8), Validators.pattern(this.certificatePattern)]],
       orderComment: [''],
       bonus: ['no'],
       shop: ['no'],
@@ -101,7 +102,7 @@ export class OrderDetailsFormComponent implements OnInit {
     this.points = this.orders.points;
   }
 
-  calcTotal(): void {
+  calculateTotal(): void {
     this.total = this.orderDetailsForm.value.bagNumUbs * this.orders.allBags[0].price +
       this.orderDetailsForm.value.bagNumClothesXL * this.orders.allBags[1].price +
       this.orderDetailsForm.value.bagNumClothesM * this.orders.allBags[2].price;
@@ -114,14 +115,14 @@ export class OrderDetailsFormComponent implements OnInit {
       this.displayMes = false;
       this.onSubmit = false;
     }
-    this.finalSum = `${this.total} грн`;
+    this.finalSum = this.total;
     if (this.certificateSum > 0) {
       if (this.total > this.certificateSum) {
         this.certificateLeft = 0;
-        this.finalSum = `${this.total - this.certificateSum} грн`;
+        this.finalSum = this.total - this.certificateSum;
         this.showCertificateUsed = `-${this.certificateSum} грн`;
       } else {
-        this.finalSum = `0 грн`;
+        this.finalSum = 0;
         this.certificateLeft = this.certificateSum - this.total;
         this.showCertificateUsed = `-${this.total} грн`;
         this.points = this.orders.points + this.certificateLeft;
@@ -130,30 +131,30 @@ export class OrderDetailsFormComponent implements OnInit {
     }
   }
 
-  calc(): void {
+  calculate(): void {
     this.orderDetailsForm.patchValue({
       bagSumUbs: `${this.orderDetailsForm.value.bagNumUbs * this.orders.allBags[0].price} грн`,
       bagSumClothesXL: `${this.orderDetailsForm.value.bagNumClothesXL * this.orders.allBags[1].price} грн`,
       bagSumClothesM: `${this.orderDetailsForm.value.bagNumClothesM * this.orders.allBags[2].price} грн`,
     });
-    this.calcTotal();
+    this.calculateTotal();
   }
 
-  calcPoints(): void {
+  calculatePoints(): void {
     this.displayBonus = true;
     if (this.certificateSum <= 0) {
       this.showTotal = `${this.total} грн`;
       this.points > this.total ? this.pointsUsed = this.total : this.pointsUsed = this.points;
       this.showPointsUsed = `-${this.pointsUsed} грн`;
       this.points > this.total ? this.points = this.points - this.total : this.points = 0;
-      this.finalSum = `${this.total - this.pointsUsed} грн`;
+      this.finalSum = this.total - this.pointsUsed;
       this.total = this.total - this.pointsUsed;
     } else {
       this.showTotal = `${this.total} грн`;
       this.points > this.total ? this.points = this.points - this.total : this.points = 0;
       this.points > this.total ? this.pointsUsed = this.total - this.certificateSum : this.pointsUsed = this.points;
       this.showPointsUsed = `-${this.pointsUsed} грн`;
-      this.finalSum = `${this.total - this.pointsUsed - this.certificateSum} грн`;
+      this.finalSum = this.total - this.pointsUsed - this.certificateSum;
     }
   }
 
@@ -164,9 +165,9 @@ export class OrderDetailsFormComponent implements OnInit {
       this.orderDetailsForm.value.bagNumClothesM * this.orders.allBags[2].price;
     this.showTotal = `${this.total} грн`;
     this.showPointsUsed = '';
-    this.finalSum = this.showTotal;
+    this.finalSum = this.total;
     this.points = this.orders.points;
-    this.calcTotal();
+    this.calculateTotal();
   }
 
   addOrder(): void {
@@ -183,22 +184,22 @@ export class OrderDetailsFormComponent implements OnInit {
     if (this.displayCert === false) {
       this.certificates.splice(i, 1);
       this.additionalCertificates.removeAt(i);
-      this.calcCertificates(this.certificates);
+      this.calculateCertificates(this.certificates);
     } else {
       this.certificates.splice(i + 1, 1);
       this.additionalCertificates.removeAt(i);
-      this.calcCertificates(this.certificates);
+      this.calculateCertificates(this.certificates);
     }
   }
 
   addedCertificateSubmit(i): void {
     if (!this.certificates.includes(this.additionalCertificates.value[i])) {
       this.certificates.push(this.additionalCertificates.value[i]);
-      this.calcCertificates(this.certificates);
+      this.calculateCertificates(this.certificates);
     }
   }
 
-  calcCertificates(arr): void {
+  calculateCertificates(arr): void {
     if (arr.length > 0) {
       this.certificateSum = 0;
       for (const certificate of arr) {
@@ -210,19 +211,19 @@ export class OrderDetailsFormComponent implements OnInit {
             this.addCert = false;
             this.certSize = true;
           }
-          this.calcTotal();
+          this.calculateTotal();
         });
       }
     } else {
       this.certificateSum = 0;
-      this.calcTotal();
+      this.calculateTotal();
     }
   }
 
   certificateSubmit(): void {
     if (!this.certificates.includes(this.orderDetailsForm.value.certificate)) {
       this.certificates.push(this.orderDetailsForm.value.certificate);
-      this.calcCertificates(this.certificates);
+      this.calculateCertificates(this.certificates);
     } else {
       this.orderDetailsForm.patchValue({ certificate: '' });
     }
@@ -235,7 +236,7 @@ export class OrderDetailsFormComponent implements OnInit {
     this.certificates.splice(0, 1);
     this.certMessage = '';
     this.orderDetailsForm.patchValue({ certificate: '' });
-    this.calcCertificates(this.certificates);
+    this.calculateCertificates(this.certificates);
   }
 
   certificateMatch(cert): void {

@@ -13,6 +13,9 @@ export class AddAddressComponent implements OnInit {
   region = '';
   districtDisabled = true;
   nextDisabled = true;
+  streetPattern = /^[A-Za-zА-Яа-яїієё0-9\'\,\-\ \\]+$/;
+  houseCorpusPattern = /^[A-Za-zА-Яа-яїієё0-9]+$/;
+  entranceNumberPattern = /^-?(0|[1-9]\d*)?$/;
 
   constructor(
     private fb: FormBuilder,
@@ -27,16 +30,16 @@ export class AddAddressComponent implements OnInit {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(40),
-        Validators.pattern(/^[A-Za-zА-Яа-яїієё0-9\'\,\-\ \\]+$/)
+        Validators.pattern(this.streetPattern)
       ]],
       houseNumber: ['', Validators.required],
       houseCorpus: ['', [
         Validators.maxLength(2),
-        Validators.pattern(/^[A-Za-zА-Яа-яїієё0-9]+$/)
+        Validators.pattern(this.houseCorpusPattern)
       ]],
       entranceNumber: ['', [
         Validators.maxLength(2),
-        Validators.pattern(/^-?(0|[1-9]\d*)?$/)
+        Validators.pattern(this.entranceNumberPattern)
       ]],
       longitude: ['', Validators.required],
       latitude: ['', Validators.required]
