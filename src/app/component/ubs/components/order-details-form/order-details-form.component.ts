@@ -171,7 +171,6 @@ export class OrderDetailsFormComponent implements OnInit {
 
   addOrder(): void {
     this.additionalOrders.push(this.fb.control('', [Validators.minLength(10)]));
-    console.log(this.additionalOrders);
   }
 
 
@@ -188,7 +187,6 @@ export class OrderDetailsFormComponent implements OnInit {
     } else {
       this.certificates.splice(i + 1, 1);
       this.additionalCertificates.removeAt(i);
-      console.log(this.certificates);
       this.calcCertificates(this.certificates);
     }
   }
@@ -197,8 +195,6 @@ export class OrderDetailsFormComponent implements OnInit {
     if (!this.certificates.includes(this.additionalCertificates.value[i])) {
       this.certificates.push(this.additionalCertificates.value[i]);
       this.calcCertificates(this.certificates);
-    } else {
-      console.log('ERROR');
     }
   }
 
@@ -226,11 +222,9 @@ export class OrderDetailsFormComponent implements OnInit {
   certificateSubmit(): void {
     if (!this.certificates.includes(this.orderDetailsForm.value.certificate)) {
       this.certificates.push(this.orderDetailsForm.value.certificate);
-      console.log(this.certificates);
       this.calcCertificates(this.certificates);
     } else {
       this.orderDetailsForm.patchValue({ certificate: '' });
-      console.log('ERROR');
     }
   }
 
@@ -239,7 +233,6 @@ export class OrderDetailsFormComponent implements OnInit {
     this.addCert = false;
     this.displayCert = false;
     this.certificates.splice(0, 1);
-    console.log(this.certificates);
     this.certMessage = '';
     this.orderDetailsForm.patchValue({ certificate: '' });
     this.calcCertificates(this.certificates);
@@ -249,7 +242,6 @@ export class OrderDetailsFormComponent implements OnInit {
     if (cert.certificateStatus === 'ACTIVE' || cert.certificateStatus === 'NEW') {
       this.certificateSum = this.certificateSum + cert.certificatePoints;
       this.certMessage = `Сертифiкат на cуму ${cert.certificatePoints} грн активовано. Строк дії сертифікату - до ${cert.certificateDate}`;
-      console.log(cert.certificatePoints);
       this.displayCert = true;
     } else if (cert.certificateStatus === 'USED') {
       this.certificateSum = this.certificateSum;
@@ -259,8 +251,6 @@ export class OrderDetailsFormComponent implements OnInit {
       this.certificateSum = this.certificateSum;
       this.certMessage = `Сертифікат не є дійсним. Строк дії сертифікату - до до ${cert.certificateDate}`;
       this.displayCert = false;
-    } else {
-      console.log('invalid');
     }
   }
 

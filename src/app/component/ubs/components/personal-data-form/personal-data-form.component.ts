@@ -39,12 +39,11 @@ export class PersonalDataFormComponent implements OnInit {
       if (address !== undefined) {
         this.addresses.push(address);
       }
-      console.log(this.addresses);
     });
   }
 
   ngOnInit(): void {
-    this.shareFormService.objectSource.subscribe(order => {this.order = order; console.log(this.order); });
+    this.shareFormService.objectSource.subscribe(order => this.order = order);
     this.personalDataForm = this.fb.group({
       firstName: ['', [
         Validators.required,
