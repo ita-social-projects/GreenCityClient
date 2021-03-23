@@ -1,8 +1,9 @@
 <div class="main">
   <div class="description">
     <div class="first-row">
-      <div class="calendar">
-      </div>
+      <div class="calendar"
+           *ngIf="showCalendar"
+      ></div>
       <p>{{ daysCounter }}</p>
       <div
         *ngIf="showPhoto"

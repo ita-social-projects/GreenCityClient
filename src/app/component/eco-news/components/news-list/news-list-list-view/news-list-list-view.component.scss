@@ -98,15 +98,14 @@ div {
     width: 100%;
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
-    overflow: hidden;
   }
 
   .eco-news_list-view-wrp {
-    height: 204px;
+    height: 190px;
     display: -ms-grid;
     display: grid;
-    -ms-grid-columns: 204px auto;
-    grid-template-columns: 204px auto;
+    -ms-grid-columns: 190px auto;
+    grid-template-columns: 190px auto;
   }
 }
 

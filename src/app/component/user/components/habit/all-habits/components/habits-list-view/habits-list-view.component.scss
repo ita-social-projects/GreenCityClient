@@ -42,33 +42,30 @@
   font-family: var(--primary-font);
   font-size: 14px;
   line-height: 16px;
-  word-wrap: normal;
-  white-space: normal;
-  text-align: center;
+  overflow: auto;
+  white-space: nowrap;
 
   div {
-    width: auto;
+    width: max-content;
   }
 
   .calendar {
-    padding-right: 10px;
+    padding-right: 18px;
     border-right: 1px solid var(--tertiary-light-grey);
-    white-space: nowrap;
 
     img {
-      margin-right: 12px;
+      margin-right: 18px;
     }
   }
 
   .aquired,
   .tags {
-    padding: 0 12px;
+    padding: 0 18px;
     border-right: 1px solid var(--tertiary-light-grey);
   }
 
   .stars {
-    display: flex;
-    padding: 0 12px;
+    padding: 0 18px;
   }
 }
 

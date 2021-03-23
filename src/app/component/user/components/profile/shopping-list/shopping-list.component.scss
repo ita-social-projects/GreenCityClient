@@ -4,18 +4,6 @@ $bp-tablet: 768px;
 $bp-desktop: 1024px;
 $bp-largest: 1440px;
 
-.outer {
-  background-color: var(--secondary-light-grey);
-  display: flex;
-  justify-content: center;
-}
-
-.shoppingList-block {
-  border-top: 1px solid var(--quaternary-light-grey);
-  width: 185px;
-  padding: 25px 0;
-}
-
 .shopping-list-content {
   margin: 0 auto;
   font-family: var(--secondary-font);
@@ -31,21 +19,13 @@ $bp-largest: 1440px;
 .header {
   text-align: left;
   font-weight: 600;
-  font-size: 12px;
+  font-size: 14px;
   padding-bottom: 8px;
 }
 
 h2 > span {
   color: var(--tertiary-light-grey);
-}
-
-.empty-list {
-  text-align: center;
-  font-size: 12px;
-  font-family: var(--secondary-font);
-  font-weight: 400;
-  font-style: normal;
-  line-height: 15px;
+  margin-left: 10px;
 }
 
 .item {
@@ -55,17 +35,6 @@ h2 > span {
   font-weight: normal;
   font-size: 12px;
   padding: 6px 0;
-  text-decoration: none;
-}
-
-.item-striked {
-  list-style: none;
-  text-align: left;
-  width: 100%;
-  font-weight: normal;
-  font-size: 12px;
-  padding: 6px 0;
-  text-decoration: line-through;
 }
 
 .shopping-list {

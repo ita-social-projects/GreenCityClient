@@ -69,22 +69,12 @@
         align-items: center;
       }
 
-      .enrolled-day {
+      .done {
         background-color: rgba(19, 170, 87, 0.15);
       }
 
-      .unenrolled-day {
+      .undone {
         background-color: var(--quaternary-light-grey);
-      }
-
-      .enrolled-past-day {
-        background-color: transparent;
-        border: 1px solid #b1dfc6;
-      }
-
-      .unenrolled-past-day {
-        background-color: transparent;
-        border: 1px solid var(--quaternary-light-grey);
       }
 
       .current-number {

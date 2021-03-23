@@ -8,7 +8,6 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AgmCoreModule } from '@agm/core';
 import { MatSliderModule } from '@angular/material/slider';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import {
   ButtonComponent,
   HabitTrackersComponent,
@@ -78,16 +77,6 @@ import {
 import { HabitCalendarComponent } from './components/habit/add-new-habit/habit-calendar/habit-calendar.component';
 import { AddNewHabitComponent } from './components/habit/add-new-habit/add-new-habit.component';
 import { GradientDirective } from './components/habit/add-new-habit/habit-duration/gradient.directive';
-import { FriendDashboardComponent } from './components/profile/users-friends/friend-dashboard/friend-dashboard.component';
-import { AllFriendsComponent } from './components/profile/users-friends/friend-dashboard/all-friends/all-friends.component';
-import {
-  RecommendedFriendsComponent
- } from './components/profile/users-friends/friend-dashboard/recommended-friends/recommended-friends.component';
-import { FriendItemComponent } from './components/profile/users-friends/friend-dashboard/friend-item/friend-item.component';
-import { FriendRequestsComponent } from './components/profile/users-friends/friend-dashboard/friend-requests/friend-requests.component';
-import {
-  RequestItemComponent
- } from './components/profile/users-friends/friend-dashboard/friend-requests/request-item/request-item.component';
 
 @NgModule({
   declarations: [
@@ -151,13 +140,7 @@ import {
     HabitDurationComponent,
     HabitEditShoppingListComponent,
     HabitCalendarComponent,
-    GradientDirective,
-    FriendDashboardComponent,
-    AllFriendsComponent,
-    RecommendedFriendsComponent,
-    FriendItemComponent,
-    FriendRequestsComponent,
-    RequestItemComponent
+    GradientDirective
   ],
   imports: [
     UserRoutingModule,
@@ -166,7 +149,6 @@ import {
     MatButtonModule,
     MatRadioModule,
     MatSliderModule,
-    MatTooltipModule,
     DragDropModule,
     HttpClientModule,
     AgmCoreModule.forRoot({

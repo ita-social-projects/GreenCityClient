@@ -19,13 +19,7 @@
     <div class="day-number-row">
       <div class="day-number"
            *ngFor="let day of weekDates"
-           [ngClass]="{ 
-             'enrolled-day': day.hasHabitsInProgress && day.areHabitsDone,
-             'unenrolled-day': day.hasHabitsInProgress && !day.areHabitsDone,
-             'enrolled-past-day': day.hasHabitsInProgress && day.date.getDate() < (currentDate.getDate() - 7) && day.areHabitsDone,
-             'unenrolled-past-day': day.hasHabitsInProgress && day.date.getDate() < (currentDate.getDate() - 7) && !day.areHabitsDone,
-             'current-number': day.isCurrent
-            }">
+           [ngClass]="{ 'current-number': day.isCurrent }">
         {{ day.date.getDate() }}
       </div>
     </div>

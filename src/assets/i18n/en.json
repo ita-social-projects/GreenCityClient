@@ -739,10 +739,8 @@
     "see-all": "See all",
     "my-eco-friends": "My Eco Friends",
     "zero-friends": "You don't have any friends.",
-    "zero-requests": "Unfortunately, there are no new requests.",
     "my-eco-places": "My eco places",
-    "shoppingList": "Shopping list",
-    "empty-list":"Your Shopping list is empty.",
+    "my-shoppingList": "My Shopping List",
     "shoppingList-no-items-message": "You don't have any items in your Shopping List",
     "fact-of-the-day": "Fact of the Day",
     "no-eco-places": "You don't have any Eco Places.",
@@ -750,22 +748,7 @@
     "rate": "Rate",
     "acquired-habits": "acquired habits",
     "written-articles": "written articles",
-    "published-news": "published news",
-    "my-habits": "My Habits",
-    "my-news": "My news",
-    "my-articles": "My articles",
-    "friends": {
-      "link-to-profile": "Back to My habits",
-      "mutual-friends": "mutual friends",
-      "friends": "Friends",
-      "add-new-friend": "Add friend",
-      "delete-friend": "Unfriend",
-      "requests": "Requests",
-      "request-decline": "Decline",
-      "request-accept": "Accept",
-      "all-friends": "All friends",
-      "search-friends": "Find friends"
-    }
+    "published-news": "published news"
   },
   "create-news": {
     "title": "Create news",

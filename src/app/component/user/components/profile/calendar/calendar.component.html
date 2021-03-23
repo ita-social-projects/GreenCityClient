@@ -49,35 +49,8 @@
       <div *ngFor="let dayItem of calendarDay"
            class="calendar-grid-day"
            [ngClass]="{ 'current-day': dayItem.isCurrentDayActive,
-           'enrolled-day': dayItem.hasHabitsInProgress && dayItem.areHabitsDone,
-           'unenrolled-day': dayItem.hasHabitsInProgress && !dayItem.areHabitsDone,
-           'enrolled-past-day': dayItem.hasHabitsInProgress && dayItem.numberOfDate < (dayItem.date.getDate() - 7) && dayItem.areHabitsDone,
-           'unenrolled-past-day': dayItem.hasHabitsInProgress && dayItem.numberOfDate < (dayItem.date.getDate() - 7) && !dayItem.areHabitsDone,
-           'tracked-day': selectedDay === dayItem.numberOfDate && isDayTracked }"
-           (click)="$event.stopPropagation()">
-        <span [ngClass]="{ 'calendar-grid-current-day-content': dayItem.isCurrentDayActive,
-                  'calendar-grid-tracked-day-content': dayItem.hasHabitsInProgress }"
-                  class="calendar-grid-day-content" (click)="checkIfFuture(dayItem)">
-          {{ dayItem.numberOfDate }}
-        </span>
-        <div *ngIf="selectedDay === dayItem.numberOfDate" [ngClass]="isHabitsPopUpOpen ? 'calendar-habits-open' : 'calendar-habits'">
-          <p class="habits-title">{{ habitsCalendarSelectedDate }}</p>
-          <app-spinner *ngIf="isFetching"></app-spinner>
-          <ul class="habits-list" *ngFor="let habit of habits">
-            <li class="habits-item"
-              matTooltipPosition="above" 
-              [matTooltipDisabled]="habit.habit.habitTranslation.name.length < 30"
-              [matTooltip]="habit.habit.habitTranslation.name">
-              <img class="habit-icon"
-                [src]="habit.enrolled ? this.calendarIcons.checkCircle : this.calendarIcons.plusCircle"
-                alt="habit-icon"
-                (click)="toggleEnrollHabit(habit)">
-              {{ habit.habit.habitTranslation.name.length >= 30 ? 
-                 habit.habit.habitTranslation.name.slice(0, 27) + '...' : 
-                 habit.habit.habitTranslation.name }}
-            </li>
-          </ul>
-        </div>
+                        'tracked-day': dayItem.isHabitsTracked }">
+        {{ dayItem.numberOfDate }}
       </div>
     </div>
     <div *ngIf="!monthView"

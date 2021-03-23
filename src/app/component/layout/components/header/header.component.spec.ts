@@ -6,7 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeaderComponent } from './header.component';
-import { BehaviorSubject, of, Subject, Observable } from 'rxjs';
+import { BehaviorSubject, of, Subject, Observable} from 'rxjs';
 import { Language } from '@language-service/Language';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { UserService } from '@global-service/user/user.service';
@@ -30,7 +30,6 @@ describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
   const mockLang = 'ua';
-  const mockLangId = 1;
 
   let localStorageServiceMock: LocalStorageService;
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
@@ -49,7 +48,6 @@ describe('HeaderComponent', () => {
   let userServiceMock: UserService;
   userServiceMock = jasmine.createSpyObj('UserService', ['onLogout']);
   userServiceMock.onLogout = () => true;
-  userServiceMock.updateUserLanguage = () => of(true);
 
   let achievementServiceMock: AchievementService;
   achievementServiceMock = jasmine.createSpyObj('AchievementService', ['onLogout']);
@@ -63,7 +61,6 @@ describe('HeaderComponent', () => {
   languageServiceMock = jasmine.createSpyObj('LanguageService', ['getCurrentLanguage']);
   languageServiceMock.getCurrentLanguage = () => mockLang as Language;
   languageServiceMock.changeCurrentLanguage = () => true;
-  languageServiceMock.getLanguageId = () => mockLangId;
 
   let searchServiceMock: SearchService;
   searchServiceMock = jasmine.createSpyObj('SearchService', ['searchSubject', 'allSearchSubject', 'toggleSearchModal']);
@@ -101,7 +98,7 @@ describe('HeaderComponent', () => {
         { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock },
       ]
     })
-      .compileComponents();
+    .compileComponents();
   }));
 
   beforeEach(() => {

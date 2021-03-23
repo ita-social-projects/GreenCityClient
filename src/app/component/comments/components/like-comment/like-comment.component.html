@@ -1,4 +1,4 @@
-<div class="d-flex main-wrapper">
+<div class="main-wrapper">
   <button class="cta-btn like"
           (click)="pressLike()">
     <img [src]="commentsImages.like"
@@ -6,12 +6,12 @@
           alt="like"
           aria-hidden="true"
           #like>
-    <span class="d-none d-sm-block btn-text"
+    <span class="btn-text"
           *ngIf="!likeState && !error; else liked">
       {{"homepage.eco-news.comment.btn.like" | translate}}
     </span>
     <ng-template #liked>
-      <span class="d-none d-sm-block btn-text">
+      <span class="btn-text">
         {{"homepage.eco-news.comment.btn.liked" | translate}}
       </span>
     </ng-template>

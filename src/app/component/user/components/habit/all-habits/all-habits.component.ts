@@ -1,15 +1,13 @@
-import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Subscription} from 'rxjs';
 
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HabitService } from '@global-service/habit/habit.service';
-import { map, take } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { HabitInterface, HabitListInterface } from '../../../../../interface/habit/habit.interface';
 import { singleNewsImages } from '../../../../../image-pathes/single-news-images';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
-import { HabitAssignInterface } from 'src/app/interface/habit/habit-assign.interface';
 
 @Component({
   selector: 'app-all-habits',
@@ -38,8 +36,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   constructor( private habitService: HabitService,
                private localStorageService: LocalStorageService,
                private translate: TranslateService,
-               public profileService: ProfileService,
-               public habitAssignService: HabitAssignService ) { }
+               public profileService: ProfileService ) { }
 
   ngOnInit() {
     this.onResize();
@@ -51,8 +48,6 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
       this.resetSubject();
       this.fetchAllHabits(0, this.batchSize);
     });
-
-    this.checkIfAssigned();
 
     const habitServiceSub = this.allHabits.subscribe(data => {
       this.isFetching = false;
@@ -147,19 +142,5 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     this.isFetching = true;
     this.currentPage = 0;
     this.elementsLeft = true;
-  }
-
-  public checkIfAssigned() {
-    this.habitAssignService.getAssignedHabits()
-    .pipe(take(1))
-    .subscribe((response: Array<HabitAssignInterface>) => {
-      response.forEach((assigned) => {
-        this.filteredHabitsList.find((filtered) => {
-          if (assigned.habit.id === filtered.id) {
-            filtered.isAssigned = true;
-          }
-        });
-      });
-    });
   }
 }

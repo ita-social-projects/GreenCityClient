@@ -4,7 +4,6 @@ export interface HabitInterface {
   id: number;
   image: string;
   tags: Array<string>;
-  isAssigned?: boolean;
 }
 
 export interface HabitTranslationInterface {

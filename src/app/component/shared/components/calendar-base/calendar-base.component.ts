@@ -1,12 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { LanguageService } from '@language-service/language.service';
-import { TranslateService } from '@ngx-translate/core';
-import { HabitAssignService } from './../../../../service/habit-assign/habit-assign.service';
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
-import { HabitAssignInterface, HabitStatusCalendarListInterface } from 'src/app/interface/habit/habit-assign.interface';
 import { CalendarInterface } from '@global-user/components/profile/calendar/calendar-interface';
 import { calendarImage } from './calendar-image';
+import { LanguageService } from '@language-service/language.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-calendar-base',
@@ -28,16 +25,6 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
   public currentMonth = new Date().getMonth();
   public currentYear = new Date().getFullYear();
 
-  public isHabitsPopUpOpen;
-  public habitsCalendarSelectedDate;
-  public selectedDay;
-  public isDayTracked;
-  public habits;
-  public isFetching;
-  public calendarIcons;
-  public checkIfFuture;
-  public toggleEnrollHabit;
-
   public langChangeSub: Subscription;
   public defaultTranslateSub: Subscription;
 
@@ -49,16 +36,12 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
     firstDay: 0,
     dayName: '',
     totalDaysInMonth: 0,
-    hasHabitsInProgress: false,
-    areHabitsDone: false,
+    isHabitsTracked: false,
     isCurrentDayActive: false
   };
 
-  constructor(
-    public translate: TranslateService,
-    public languageService: LanguageService,
-    public habitAssignService: HabitAssignService
-  ) {}
+  constructor(public translate: TranslateService,
+              public languageService: LanguageService) {}
 
   ngOnInit() {
     this.bindDefaultTranslate();
@@ -141,8 +124,7 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
       dayName : (new Date(this.calendar.year, this.calendar.month, days)
         .toDateString()
         .substring(0, 3)) || '',
-      hasHabitsInProgress: false,
-      areHabitsDone: false,
+      isHabitsTracked: false,
       isCurrentDayActive: false
     };
   }
@@ -211,41 +193,9 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
     this.buildCalendar();
   }
 
-  public formatDate(isMonthCalendar: boolean, dayItem) {
-    if (isMonthCalendar) {
-      return `${dayItem.year}-${ dayItem.month + 1 < 10 ?
-        '0' + (dayItem.month + 1) : dayItem.month + 1}-${dayItem.numberOfDate < 10 ?
-        '0' + dayItem.numberOfDate : dayItem.numberOfDate}`;
-    } else {
-      return `${dayItem.date.getFullYear()}-${ dayItem.date.getMonth() + 1 < 10 ?
-        '0' + (dayItem.date.getMonth() + 1) : dayItem.date.getMonth() + 1}-${dayItem.date.getDate() < 10 ?
-        '0' + dayItem.date.getDate() : dayItem.date.getDate()}`;
-    }
-  }
-
-  public markCalendarDays(isMonthCalendar, days) {
-    days.forEach(day => {
-      const date = this.formatDate(isMonthCalendar, day);
-      if (new Date().setHours(0, 0, 0, 0) >= new Date(date).setHours(0, 0, 0, 0)) {
-        this.habitAssignService.getHabitAssignByDate(date).pipe(
-          take(1)
-        ).subscribe((habits: HabitAssignInterface[]) => {
-          day.hasHabitsInProgress = habits.length > 0;
-          day.areHabitsDone = habits.every((habit: HabitAssignInterface) => {
-            return habit.habitStatusCalendarDtoList.some((habitEnrollDate: HabitStatusCalendarListInterface) => {
-              if (habitEnrollDate.enrollDate === date) {
-                return true;
-              }
-              return false;
-            });
-          });
-        });
-      }
-    });
-  }
-
   ngOnDestroy() {
     this.langChangeSub.unsubscribe();
     this.defaultTranslateSub.unsubscribe();
   }
+
 }
