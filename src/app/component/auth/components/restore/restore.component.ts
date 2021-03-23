@@ -5,17 +5,13 @@ import { RestorePasswordService } from '../../../../service/auth/restore-passwor
 @Component({
   selector: 'app-restore',
   templateUrl: './restore.component.html',
-  styles: [
-    '.btn { width: 200px; }',
-    '.btn-wrp { margin-top: 40px; text-align: center }'
-  ]
+  styles: ['.btn { width: 200px; }', '.btn-wrp { margin-top: 40px; text-align: center }'],
 })
 export class RestoreComponent implements OnInit {
   public email: string;
   public currentLanguage: string;
 
-  constructor(private restorePasswordService: RestorePasswordService,
-              private localStorageService: LocalStorageService) {}
+  constructor(private restorePasswordService: RestorePasswordService, private localStorageService: LocalStorageService) {}
 
   ngOnInit() {}
 

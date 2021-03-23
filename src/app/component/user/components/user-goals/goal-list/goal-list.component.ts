@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {UserService} from '../../../../../service/user/user.service';
-import {LanguageService} from '../../../../../i18n/language.service';
+import { Component, OnInit } from '@angular/core';
+import { UserService } from '../../../../../service/user/user.service';
+import { LanguageService } from '../../../../../i18n/language.service';
 
 @Component({
   selector: 'app-goal-list',
   templateUrl: './goal-list.component.html',
-  styleUrls: ['./goal-list.component.scss']
+  styleUrls: ['./goal-list.component.scss'],
 })
 export class GoalListComponent implements OnInit {
   $goals: any;
@@ -18,7 +18,7 @@ export class GoalListComponent implements OnInit {
 
   ngOnInit() {
     this.$goals = this.userService.goals;
-    this.$goals.subscribe(goals => {
+    this.$goals.subscribe((goals) => {
       this.amount = goals.length;
     });
   }

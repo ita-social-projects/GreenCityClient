@@ -5,9 +5,8 @@ import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 @Component({
   selector: 'app-search-item',
   templateUrl: './search-item.component.html',
-  styleUrls: ['./search-item.component.scss']
+  styleUrls: ['./search-item.component.scss'],
 })
-
 export class SearchItemComponent implements OnInit {
   @Input() searchModel: NewsSearchModel;
   @Output() closeSearch: EventEmitter<boolean> = new EventEmitter();
@@ -17,8 +16,7 @@ export class SearchItemComponent implements OnInit {
     this.closeSearch.emit();
   }
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {}
-
 }

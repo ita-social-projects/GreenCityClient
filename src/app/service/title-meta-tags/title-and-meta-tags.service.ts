@@ -9,18 +9,13 @@ import { MetasModel } from '../../model/meta/metas-model';
 import { MetaModel } from '../../model/meta/meta-model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TitleAndMetaTagsService {
-  private titleSubject = new Subject <string>();
-  private metasSubject = new Subject <MetasModel>();
+  private titleSubject = new Subject<string>();
+  private metasSubject = new Subject<MetasModel>();
 
-  constructor(
-    private titleService: Title,
-    private meta: Meta,
-    private router: Router,
-    private translations: TranslateService
-  ) {}
+  constructor(private titleService: Title, private meta: Meta, private router: Router, private translations: TranslateService) {}
 
   public useTitleMetasData(): void {
     this.initTitle();
@@ -42,28 +37,23 @@ export class TitleAndMetaTagsService {
   }
 
   private initMetas(): void {
-      this.translations.onDefaultLangChange.subscribe((elem) => {
+    this.translations.onDefaultLangChange.subscribe((elem) => {
       this.metasSubject.next(elem.translations.metas);
     });
   }
 
   private applyingTitleMetasData(): void {
-    combineLatest(
-      this.titleSubject,
-      this.metasSubject,
-    )
-      .subscribe(([title, metas])  => {
-        const pages = Object.keys(metas);
-        const DEFAULT_STRING = 'welcome';
-        const meta = pages.includes(title) ? metas[title] : metas[DEFAULT_STRING];
-        this.initTitleAndMeta(meta);
-      });
-
+    combineLatest(this.titleSubject, this.metasSubject).subscribe(([title, metas]) => {
+      const pages = Object.keys(metas);
+      const DEFAULT_STRING = 'welcome';
+      const meta = pages.includes(title) ? metas[title] : metas[DEFAULT_STRING];
+      this.initTitleAndMeta(meta);
+    });
   }
 
   private initTitleAndMeta(meta: MetaModel): void {
     this.titleService.setTitle(meta.title);
-    this.meta.updateTag({name: 'keywords', content: meta && meta.keywords || ''});
-    this.meta.updateTag({name: 'description', content: meta && meta.description || ''});
+    this.meta.updateTag({ name: 'keywords', content: (meta && meta.keywords) || '' });
+    this.meta.updateTag({ name: 'description', content: (meta && meta.description) || '' });
   }
 }

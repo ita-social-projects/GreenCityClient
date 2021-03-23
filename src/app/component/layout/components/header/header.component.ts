@@ -20,7 +20,7 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   readonly selectLanguageArrow = 'assets/img/arrow_grey.png';
@@ -33,10 +33,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public managementLink: string;
   public isAllSearchOpen = false;
   public toggleBurgerMenu = false;
-  public arrayLang: Array<LanguageModel> = [
-    { lang: 'Ua' },
-    { lang: 'En' },
-    { lang: 'Ru' }];
+  public arrayLang: Array<LanguageModel> = [{ lang: 'Ua' }, { lang: 'En' }, { lang: 'Ru' }];
   public isSearchClicked = false;
   private adminRoleValue = 'ROLE_ADMIN';
   private userRole: string;
@@ -45,8 +42,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private destroySub: Subject<boolean> = new Subject<boolean>();
   public headerImageList = headerIcons;
   public skipPath: string;
-  @ViewChild('signinref', {static: false}) signinref: ElementRef;
-  @ViewChild('signupref', {static: false}) signupref: ElementRef;
+  @ViewChild('signinref', { static: false }) signinref: ElementRef;
+  @ViewChild('signupref', { static: false }) signupref: ElementRef;
   public elementName;
   constructor(
     public dialog: MatDialog,
@@ -58,62 +55,45 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private habitStatisticService: HabitStatisticService,
     private languageService: LanguageService,
     private searchSearch: SearchService,
-    private userOwnAuthService: UserOwnAuthService) { }
+    private userOwnAuthService: UserOwnAuthService
+  ) {}
 
   ngOnInit() {
+    this.dialog.afterAllClosed.pipe(takeUntil(this.destroySub)).subscribe(() => {
+      this.focusDone();
+    });
 
-    this.dialog.afterAllClosed
-      .pipe(takeUntil(this.destroySub))
-      .subscribe(() => {
-        this.focusDone();
-      });
+    this.searchSearch.searchSubject.pipe(takeUntil(this.destroySub)).subscribe((signal) => this.openSearchSubscription(signal));
 
-    this.searchSearch.searchSubject
-      .pipe(
-        takeUntil(this.destroySub)
-      ).subscribe(signal => this.openSearchSubscription(signal));
+    this.searchSearch.allSearchSubject.pipe(takeUntil(this.destroySub)).subscribe((signal) => this.openAllSearchSubscription(signal));
 
-    this.searchSearch.allSearchSubject
-      .pipe(
-        takeUntil(this.destroySub)
-      ).subscribe(signal => this.openAllSearchSubscription(signal));
-
-    this.localStorageService.firstNameBehaviourSubject
-      .pipe(
-        takeUntil(this.destroySub)
-      ).subscribe(firstName => { this.name = firstName; });
+    this.localStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((firstName) => {
+      this.name = firstName;
+    });
 
     this.initUser();
     this.setLangArr();
-    this.jwtService.userRole$.pipe(
-      takeUntil(this.destroySub)
-    ).subscribe(userRole => {
+    this.jwtService.userRole$.pipe(takeUntil(this.destroySub)).subscribe((userRole) => {
       this.userRole = userRole;
       this.isAdmin = this.userRole === this.adminRoleValue;
     });
     this.autoOffBurgerBtn();
     this.userOwnAuthService.getDataFromLocalStorage();
 
-    this.userOwnAuthService.isLoginUserSubject
-      .pipe(
-        takeUntil(this.destroySub)
-      ).subscribe(
-        status => this.isLoggedIn = status
-      );
+    this.userOwnAuthService.isLoginUserSubject.pipe(takeUntil(this.destroySub)).subscribe((status) => (this.isLoggedIn = status));
 
-    this.localStorageService.accessTokenBehaviourSubject
-      .pipe(
-        takeUntil(this.destroySub)
-      ).subscribe(
-        (token) => {
-          this.managementLink = `${this.backEndLink}token?accessToken=${token}`;
-        }
-      );
+    this.localStorageService.accessTokenBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((token) => {
+      this.managementLink = `${this.backEndLink}token?accessToken=${token}`;
+    });
   }
 
   public focusDone(): void {
-    if (this.elementName === 'sign-up' && !this.isLoggedIn) { this.signupref.nativeElement.focus(); }
-    if (this.elementName === 'sign-in' && !this.isLoggedIn) { this.signinref.nativeElement.focus(); }
+    if (this.elementName === 'sign-up' && !this.isLoggedIn) {
+      this.signupref.nativeElement.focus();
+    }
+    if (this.elementName === 'sign-in' && !this.isLoggedIn) {
+      this.signinref.nativeElement.focus();
+    }
   }
 
   ngOnDestroy() {
@@ -124,20 +104,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
   setLangArr(): void {
     const language = this.languageService.getCurrentLanguage();
     const currentLangObj = { lang: language.charAt(0).toUpperCase() + language.slice(1) };
-    const currentLangIndex = this.arrayLang.findIndex(lang => lang.lang === currentLangObj.lang);
-    this.arrayLang = [
-      currentLangObj,
-      ...this.arrayLang.slice(0, currentLangIndex),
-      ...this.arrayLang.slice(currentLangIndex + 1)
-    ];
+    const currentLangIndex = this.arrayLang.findIndex((lang) => lang.lang === currentLangObj.lang);
+    this.arrayLang = [currentLangObj, ...this.arrayLang.slice(0, currentLangIndex), ...this.arrayLang.slice(currentLangIndex + 1)];
   }
 
   private initUser(): void {
     this.localStorageService.userIdBehaviourSubject
       .pipe(
         takeUntil(this.destroySub),
-        filter(userId => userId !== null && !isNaN(userId))
-      ).subscribe(userId => this.assignData(userId));
+        filter((userId) => userId !== null && !isNaN(userId))
+      )
+      .subscribe((userId) => this.assignData(userId));
   }
 
   public changeCurrentLanguage(language, index: number): void {
@@ -148,8 +125,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.langDropdownVisible = false;
     if (this.isLoggedIn) {
       const curLangId = this.languageService.getLanguageId(language.toLowerCase() as Language);
-      this.userService.updateUserLanguage(curLangId)
-      .subscribe();
+      this.userService.updateUserLanguage(curLangId).subscribe();
     }
   }
 
@@ -214,8 +190,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       closeOnNavigation: true,
       panelClass: ['custom-dialog-container'],
       data: {
-        popUpName: page
-      }
+        popUpName: page,
+      },
     });
   }
 
@@ -231,15 +207,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.userService.onLogout();
     this.habitStatisticService.onLogout();
     this.achievementService.onLogout();
-    this.router.navigateByUrl('/').then(r => r);
+    this.router.navigateByUrl('/').then((r) => r);
     this.userOwnAuthService.getDataFromLocalStorage();
     this.jwtService.userRole$.next('');
   }
 
   public toggleScroll(): void {
-    this.toggleBurgerMenu ?
-      document.body.classList.add('modal-open') :
-      document.body.classList.remove('modal-open');
+    this.toggleBurgerMenu ? document.body.classList.add('modal-open') : document.body.classList.remove('modal-open');
   }
-
 }

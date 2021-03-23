@@ -30,27 +30,16 @@ describe('CommentsListComponent', () => {
     modifiedDate: '111',
     replies: 1,
     status: 'EDITED',
-    text: 'string'
+    text: 'string',
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        CommentsListComponent,
-        DateLocalisationPipe
-      ],
-      imports: [
-        HttpClientTestingModule,
-        NgxPaginationModule,
-        ReactiveFormsModule,
-        TranslateModule.forRoot(),
-      ],
-      providers: [
-        { provide: CommentsService, useValue: commentsServiceMock }
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    })
-      .compileComponents();
+      declarations: [CommentsListComponent, DateLocalisationPipe],
+      imports: [HttpClientTestingModule, NgxPaginationModule, ReactiveFormsModule, TranslateModule.forRoot()],
+      providers: [{ provide: CommentsService, useValue: commentsServiceMock }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

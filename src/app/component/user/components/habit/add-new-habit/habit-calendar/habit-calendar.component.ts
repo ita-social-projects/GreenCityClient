@@ -7,18 +7,10 @@ import { CalendarBaseComponent } from '@shared/components/calendar-base/calendar
 @Component({
   selector: 'app-habit-calendar',
   templateUrl: './../../../profile/calendar/calendar.component.html',
-  styleUrls: [
-    './../../../profile/calendar/calendar.component.scss',
-    './habit-calendar.component.scss']
+  styleUrls: ['./../../../profile/calendar/calendar.component.scss', './habit-calendar.component.scss'],
 })
-
 export class HabitCalendarComponent extends CalendarBaseComponent implements OnInit, OnDestroy {
-
-  constructor(
-    public translate: TranslateService,
-    public languageService: LanguageService,
-    public habitAsignService: HabitAssignService
-  ) {
+  constructor(public translate: TranslateService, public languageService: LanguageService, public habitAsignService: HabitAssignService) {
     super(translate, languageService, habitAsignService);
   }
 
@@ -27,5 +19,4 @@ export class HabitCalendarComponent extends CalendarBaseComponent implements OnI
     this.subscribeToLangChange();
     this.buildCalendar();
   }
-
 }

@@ -16,11 +16,9 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-places',
   templateUrl: './places.component.html',
-  styleUrls: ['./places.component.scss']
+  styleUrls: ['./places.component.scss'],
 })
-
 export class PlacesComponent implements OnInit {
-
   place: PlaceUpdatedDto;
   places: AdminPlace[];
   pageSize = 5;
@@ -46,27 +44,25 @@ export class PlacesComponent implements OnInit {
   sortDirection = 'asc';
   selectedColumnToSort = 'name';
   sortArrow: string;
-  @ViewChild('paginationElement', {static: false})
+  @ViewChild('paginationElement', { static: false })
   paginationComponent: PaginationComponent;
   deleteTranslation: string;
   deleteMessageTranslation: string;
   placesTranslation: string;
 
-  constructor(public dialog: MatDialog,
-              private titleService: Title,
-              private placeService: PlaceService,
-              public weekDaysUtils: WeekDaysUtils,
-              private ngFlashMessageService: NgFlashMessageService,
-              private confirmationDialogService: ConfirmationDialogService,
-              private translation: TranslateService,
-              iconRegistry: MatIconRegistry,
-              sanitizer: DomSanitizer) {
-    iconRegistry.addSvgIcon(
-      'arrow-up',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/arrows/arrow-up-bold.svg'));
-    iconRegistry.addSvgIcon(
-      'arrow-down',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/arrows/arrow-down-bold.svg'));
+  constructor(
+    public dialog: MatDialog,
+    private titleService: Title,
+    private placeService: PlaceService,
+    public weekDaysUtils: WeekDaysUtils,
+    private ngFlashMessageService: NgFlashMessageService,
+    private confirmationDialogService: ConfirmationDialogService,
+    private translation: TranslateService,
+    iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer
+  ) {
+    iconRegistry.addSvgIcon('arrow-up', sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/arrows/arrow-up-bold.svg'));
+    iconRegistry.addSvgIcon('arrow-down', sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/arrows/arrow-down-bold.svg'));
   }
 
   ngOnInit() {
@@ -75,10 +71,11 @@ export class PlacesComponent implements OnInit {
     this.filterByRegex(this.searchReg);
     this.setAllStatuses();
 
-    this.translation.get('feedbacks.delete').subscribe(translation => this.deleteTranslation = translation);
-    this.translation.get('feedbacks.Do-you-really-want-to-delete-comment-of').
-    subscribe(translation => this.deleteMessageTranslation = translation);
-    this.translation.get('feedbacks.places').subscribe(translation => this.placesTranslation = translation);
+    this.translation.get('feedbacks.delete').subscribe((translation) => (this.deleteTranslation = translation));
+    this.translation
+      .get('feedbacks.Do-you-really-want-to-delete-comment-of')
+      .subscribe((translation) => (this.deleteMessageTranslation = translation));
+    this.translation.get('feedbacks.places').subscribe((translation) => (this.placesTranslation = translation));
   }
 
   getCurrentPaginationSettings(): string {
@@ -103,7 +100,7 @@ export class PlacesComponent implements OnInit {
         this.showMessage(`"<b>${placeName}</b>" was <b>${placeStatus}</b>`, 'success');
         this.filterByRegex(this.searchReg);
       },
-      error => {
+      (error) => {
         this.showMessage(`ERROR! "<b>${placeName}</b>" was not <b>${placeStatus}</b>. Please try again`, 'danger');
       }
     );
@@ -118,7 +115,7 @@ export class PlacesComponent implements OnInit {
           this.showMessage(`<b>${data.length}</b> places were <b>${status}</b>`, 'success');
           this.filterByRegex(this.searchReg);
         },
-        error => {
+        (error) => {
           this.showMessage(`ERROR! <b>${checkedPlaces.length}</b> places were not <b>${status}</b>. Please try again`, 'danger');
         }
       );
@@ -126,22 +123,26 @@ export class PlacesComponent implements OnInit {
   }
 
   setAllStatuses() {
-    this.placeService.getStatuses().subscribe(res => {
+    this.placeService.getStatuses().subscribe((res) => {
       this.allStatuses = res;
       this.setChangeStatuses();
     });
   }
 
   setChangeStatuses() {
-    this.changeStatuses = [...this.allStatuses.filter((status) => {
-      if (status === 'DELETED' && this.defaultStatus !== 'deleted') {
-        return false; // skip
-      }
-      if ((status === 'PROPOSED' || status === 'DECLINED') && this.defaultStatus === 'deleted') {
-        return false; // skip
-      }
-      return true;
-    }).map((column) => column)];
+    this.changeStatuses = [
+      ...this.allStatuses
+        .filter((status) => {
+          if (status === 'DELETED' && this.defaultStatus !== 'deleted') {
+            return false; // skip
+          }
+          if ((status === 'PROPOSED' || status === 'DECLINED') && this.defaultStatus === 'deleted') {
+            return false; // skip
+          }
+          return true;
+        })
+        .map((column) => column),
+    ];
   }
 
   delete(id: number, placeName: string) {
@@ -150,7 +151,7 @@ export class PlacesComponent implements OnInit {
         this.showMessage(`Place "<b>${placeName}</b>" was <b>DELETED</b>!`, 'success');
         this.filterByRegex(this.searchReg);
       },
-      error => {
+      (error) => {
         this.showMessage(`ERROR! Place "<b>${placeName}</b>" was not <b>DELETED</b>!. Please try again`, 'danger');
       }
     );
@@ -162,20 +163,20 @@ export class PlacesComponent implements OnInit {
         this.showMessage(`<b>${count}</b> places were <b>DELETED</b>!`, 'success');
         this.filterByRegex(this.searchReg);
       },
-      error => {
+      (error) => {
         this.showMessage(`ERROR! <b>${checkedPlaces.length}</b> places were not <b>DELETED</b>!. Please try again`, 'danger');
       }
     );
   }
 
   isAnyPlaceSelected() {
-    this.selectedPlaces = this.places.filter(p => p.isSelected);
+    this.selectedPlaces = this.places.filter((p) => p.isSelected);
     this.isButtonsShows = this.selectedPlaces.length !== 0;
     this.isCheckAll = this.selectedPlaces.length === this.places.length;
   }
 
   checkAll() {
-    this.places.forEach(place => {
+    this.places.forEach((place) => {
       place.isSelected = this.isCheckAll;
     });
 
@@ -183,7 +184,8 @@ export class PlacesComponent implements OnInit {
   }
 
   confirmDelete(id: number, placeName: string) {
-    this.confirmationDialogService.confirm(this.deleteTranslation, this.deleteMessageTranslation + ' ' + placeName + ' ?')
+    this.confirmationDialogService
+      .confirm(this.deleteTranslation, this.deleteMessageTranslation + ' ' + placeName + ' ?')
       .then((confirmed) => {
         if (confirmed) {
           this.delete(id, placeName);
@@ -195,8 +197,8 @@ export class PlacesComponent implements OnInit {
     if (this.selectedPlaces.length === 1) {
       this.confirmDelete(this.selectedPlaces[0].id, this.selectedPlaces[0].name);
     } else {
-      this.confirmationDialogService.confirm(this.deleteTranslation, this.deleteMessageTranslation +
-      ' ' + this.selectedPlaces.length + this.placesTranslation + ' ?')
+      this.confirmationDialogService
+        .confirm(this.deleteTranslation, this.deleteMessageTranslation + ' ' + this.selectedPlaces.length + this.placesTranslation + ' ?')
         .then((confirmed) => {
           if (confirmed) {
             this.bulkDelete(this.selectedPlaces);
@@ -215,36 +217,40 @@ export class PlacesComponent implements OnInit {
   }
 
   setDisplayedColumns() {
-    this.displayedColumns = [...this.allColumns.filter((column) => {
-      if (column === 'Checkbox' && this.places.length === 0) {
-        return false; // skip
-      }
-      if (column === 'Delete' && this.defaultStatus === 'deleted') {
-        return false; // skip
-      }
-      return true;
-    }).map((column) => column)];
+    this.displayedColumns = [
+      ...this.allColumns
+        .filter((column) => {
+          if (column === 'Checkbox' && this.places.length === 0) {
+            return false; // skip
+          }
+          if (column === 'Delete' && this.defaultStatus === 'deleted') {
+            return false; // skip
+          }
+          return true;
+        })
+        .map((column) => column),
+    ];
   }
 
   setDisplayedButtons() {
     switch (this.defaultStatus) {
-      case 'proposed' :
+      case 'proposed':
         this.displayedButtons = ['Approve', 'Decline', 'Delete'];
         break;
-      case 'approved' :
+      case 'approved':
         this.displayedButtons = ['Decline', 'Propose', 'Delete'];
         break;
-      case 'declined' :
+      case 'declined':
         this.displayedButtons = ['Approve', 'Propose', 'Delete'];
         break;
-      case 'deleted' :
+      case 'deleted':
         this.displayedButtons = ['Approve'];
         break;
     }
   }
 
   filterByRegex(searchReg: string) {
-    if ((searchReg === undefined) || (searchReg === '')) {
+    if (searchReg === undefined || searchReg === '') {
       this.flag = false;
       searchReg = '%%';
     } else {
@@ -253,7 +259,7 @@ export class PlacesComponent implements OnInit {
     }
     this.status = PlaceStatus[this.defaultStatus.toUpperCase()];
     this.filterDto = new FilterPlaceDtoModel(this.status, null, null, null, searchReg, null);
-    this.placeService.filterByRegex(this.getCurrentPaginationSettings(), this.filterDto).subscribe(res => {
+    this.placeService.filterByRegex(this.getCurrentPaginationSettings(), this.filterDto).subscribe((res) => {
       this.places = res.page;
       this.page = res.currentPage + 1;
       this.totalItems = res.totalElements;
@@ -277,10 +283,10 @@ export class PlacesComponent implements OnInit {
   openDialog(placeId: number): void {
     const dialogRef = this.dialog.open(UpdateCafeComponent, {
       width: '800px',
-      data: placeId
+      data: placeId,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       setTimeout(() => this.filterByRegex(this.searchReg), 1000);
     });
   }

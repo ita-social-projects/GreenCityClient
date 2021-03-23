@@ -1,21 +1,21 @@
 export const possibleDescHeight = {
-    smallHeight: {
-      26: 'one-row',
-      52: 'd-none',
-      72: 'd-none',
-      78: 'd-none',
-      96: 'd-none',
-      104: 'd-none',
-    },
-    bigHeight: {
-      24: 'two-row',
-      26: 'tree-row',
-      48: 'one-row',
-      52: 'two-row',
-      72: 'd-none',
-      78: 'one-row',
-      96: 'd-none',
-    }
+  smallHeight: {
+    26: 'one-row',
+    52: 'd-none',
+    72: 'd-none',
+    78: 'd-none',
+    96: 'd-none',
+    104: 'd-none',
+  },
+  bigHeight: {
+    24: 'two-row',
+    26: 'tree-row',
+    48: 'one-row',
+    52: 'two-row',
+    72: 'd-none',
+    78: 'one-row',
+    96: 'd-none',
+  },
 };
 
 export const possibleTitleHeight = {
@@ -33,6 +33,6 @@ export const possibleTitleHeight = {
     72: 'tree-row',
     78: 'tree-row',
     96: 'tree-row',
-    104: 'tree-row'
-  }
+    104: 'tree-row',
+  },
 };

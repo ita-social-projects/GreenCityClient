@@ -11,10 +11,9 @@ import { calendarIcons } from 'src/app/image-pathes/calendar-icons';
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss']
+  styleUrls: ['./calendar.component.scss'],
 })
 export class CalendarComponent extends CalendarBaseComponent implements OnInit, OnDestroy {
-
   public isHabitsPopUpOpen = false;
   public selectedDay: number | string;
   public habitsCalendarSelectedDate: string;
@@ -36,11 +35,7 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
     }
   }
 
-  constructor(
-    public translate: TranslateService,
-    public languageService: LanguageService,
-    public habitAssignService: HabitAssignService
-  ) {
+  constructor(public translate: TranslateService, public languageService: LanguageService, public habitAssignService: HabitAssignService) {
     super(translate, languageService, habitAssignService);
   }
 
@@ -56,7 +51,7 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
     if (this.currentDate.setHours(0, 0, 0, 0) >= new Date(this.formatedDate).setHours(0, 0, 0, 0)) {
       this.toggleHabitsList(dayItem);
     }
-  }
+  };
 
   public toggleHabitsList(dayItem: CalendarInterface) {
     this.isFetching = true;
@@ -70,46 +65,47 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
 
   public checkHabitListEditable() {
     this.isHabitListEditable = false;
-    if (this.currentDate.setHours(0, 0, 0, 0) - this.daysCanEditHabits * 24 * 60 * 60 * 1000 <=
-        new Date(this.formatedDate).setHours(0, 0, 0, 0)) {
+    if (
+      this.currentDate.setHours(0, 0, 0, 0) - this.daysCanEditHabits * 24 * 60 * 60 * 1000 <=
+      new Date(this.formatedDate).setHours(0, 0, 0, 0)
+    ) {
       this.isHabitListEditable = true;
     }
   }
 
   public sortHabits(habits: HabitAssignInterface[]): HabitAssignInterface[] {
-    return habits.sort((habit1, habit2) => (habit1.id > habit2.id) ? 1 : -1);
+    return habits.sort((habit1, habit2) => (habit1.id > habit2.id ? 1 : -1));
   }
 
   public getActiveDateHabits(date: string) {
-    this.habitAssignService.getHabitAssignByDate(date).pipe(
-      take(1),
-      map((habits: HabitAssignInterface[]) => this.sortHabits(habits))
-    ).subscribe((data: HabitAssignInterface[]) => {
-      this.habits = [...data];
-      this.habits.forEach((habit: HabitAssignInterface) => {
-        habit.enrolled = this.checkIfEnrolledDate(habit);
+    this.habitAssignService
+      .getHabitAssignByDate(date)
+      .pipe(
+        take(1),
+        map((habits: HabitAssignInterface[]) => this.sortHabits(habits))
+      )
+      .subscribe((data: HabitAssignInterface[]) => {
+        this.habits = [...data];
+        this.habits.forEach((habit: HabitAssignInterface) => {
+          habit.enrolled = this.checkIfEnrolledDate(habit);
+        });
+        this.isFetching = false;
       });
-      this.isFetching = false;
-    });
   }
 
   public enrollHabit(habit: HabitAssignInterface) {
-    this.habitAssignService.enrollByHabit(habit.habit.id, this.formatedDate).pipe(
-      take(1)
-    ).subscribe();
+    this.habitAssignService.enrollByHabit(habit.habit.id, this.formatedDate).pipe(take(1)).subscribe();
   }
 
   public unEnrollHabit(habit: HabitAssignInterface) {
-    this.habitAssignService.unenrollByHabit(habit.habit.id, this.formatedDate).pipe(
-      take(1)
-    ).subscribe();
+    this.habitAssignService.unenrollByHabit(habit.habit.id, this.formatedDate).pipe(take(1)).subscribe();
   }
 
   public toggleEnrollHabit = (habit: HabitAssignInterface) => {
     if (this.isHabitListEditable) {
       habit.enrolled = !habit.enrolled;
     }
-  }
+  };
 
   public sendEnrollRequest() {
     this.habits.forEach((habit: HabitAssignInterface) => {

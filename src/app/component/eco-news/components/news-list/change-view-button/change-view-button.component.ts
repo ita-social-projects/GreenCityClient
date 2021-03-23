@@ -3,13 +3,13 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'app-change-view-button',
   templateUrl: './change-view-button.component.html',
-  styleUrls: ['./change-view-button.component.scss']
+  styleUrls: ['./change-view-button.component.scss'],
 })
 export class ChangeViewButtonComponent implements OnInit {
   @Output() view = new EventEmitter<boolean>();
   public gallery = true;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     this.getSessionStorageView();

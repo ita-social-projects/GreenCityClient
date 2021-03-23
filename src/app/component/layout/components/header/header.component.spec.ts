@@ -21,7 +21,7 @@ class MatDialogMock {
 
   open() {
     return {
-      afterClosed: () => of(true)
+      afterClosed: () => of(true),
     };
   }
 }
@@ -80,15 +80,8 @@ describe('HeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        HeaderComponent
-      ],
-      imports: [
-        RouterTestingModule.withRoutes([]),
-        TranslateModule.forRoot(),
-        MatDialogModule,
-        HttpClientTestingModule
-      ],
+      declarations: [HeaderComponent],
+      imports: [RouterTestingModule.withRoutes([]), TranslateModule.forRoot(), MatDialogModule, HttpClientTestingModule],
       providers: [
         { provide: MatDialog, useClass: MatDialogMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
@@ -99,9 +92,8 @@ describe('HeaderComponent', () => {
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: SearchService, useValue: searchServiceMock },
         { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock },
-      ]
-    })
-      .compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

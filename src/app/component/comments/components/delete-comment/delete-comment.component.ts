@@ -3,12 +3,12 @@ import { CommentsService } from '../../services/comments.service';
 import { CommentsDTO } from '../../models/comments-model';
 import { WarningPopUpComponent } from '@shared/components/warning-pop-up/warning-pop-up.component';
 import { MatDialog } from '@angular/material';
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-delete-comment',
   templateUrl: './delete-comment.component.html',
-  styleUrls: ['./delete-comment.component.scss']
+  styleUrls: ['./delete-comment.component.scss'],
 })
 export class DeleteCommentComponent {
   @Input() public element: CommentsDTO;
@@ -16,8 +16,7 @@ export class DeleteCommentComponent {
   @Output() public elementsList = new EventEmitter();
   public deleteIcon = 'assets/img/comments/delete.png';
 
-  constructor(private commentsService: CommentsService,
-              private dialog: MatDialog) { }
+  constructor(private commentsService: CommentsService, private dialog: MatDialog) {}
 
   public openPopup(): void {
     const dialogRef = this.dialog.open(WarningPopUpComponent, {
@@ -29,17 +28,23 @@ export class DeleteCommentComponent {
         popupTitle: `homepage.eco-news.comment.${this.dataType}-popup.title`,
         popupConfirm: `homepage.eco-news.comment.${this.dataType}-popup.confirm`,
         popupCancel: `homepage.eco-news.comment.${this.dataType}-popup.cancel`,
-      }
+      },
     });
 
-    dialogRef.afterClosed().pipe(take(1)).subscribe(confirm => {
-      if (confirm) {
-        this.commentsService.deleteComments(this.element.id).pipe(take(1)).subscribe(response => {
-          if (response.status === 200) {
-            this.elementsList.emit();
-          }
-        });
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((confirm) => {
+        if (confirm) {
+          this.commentsService
+            .deleteComments(this.element.id)
+            .pipe(take(1))
+            .subscribe((response) => {
+              if (response.status === 200) {
+                this.elementsList.emit();
+              }
+            });
+        }
+      });
   }
 }

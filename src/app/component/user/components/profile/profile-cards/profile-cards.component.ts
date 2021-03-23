@@ -8,7 +8,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 @Component({
   selector: 'app-profile-cards',
   templateUrl: './profile-cards.component.html',
-  styleUrls: ['./profile-cards.component.scss']
+  styleUrls: ['./profile-cards.component.scss'],
 })
 export class ProfileCardsComponent implements OnInit, OnDestroy {
   public profileSubscription: Subscription;
@@ -16,10 +16,7 @@ export class ProfileCardsComponent implements OnInit, OnDestroy {
   public factOfTheDay: CardModel;
   public error;
 
-  constructor(
-    private profileService: ProfileService,
-    private localStorageService: LocalStorageService
-  ) { }
+  constructor(private profileService: ProfileService, private localStorageService: LocalStorageService) {}
 
   ngOnInit() {
     this.languageSunscription = this.localStorageService.languageBehaviourSubject.subscribe(() => {
@@ -28,7 +25,8 @@ export class ProfileCardsComponent implements OnInit, OnDestroy {
   }
 
   getFactOfTheDay(): void {
-    this.profileSubscription = this.profileService.getFactsOfTheDay()
+    this.profileSubscription = this.profileService
+      .getFactsOfTheDay()
       .pipe(
         catchError((error) => {
           this.error = error;

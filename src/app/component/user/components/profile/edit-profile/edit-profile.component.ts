@@ -15,7 +15,7 @@ import { FormBaseComponent } from '@shared/components/form-base/form-base.compon
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
-  styleUrls: ['./edit-profile.component.scss']
+  styleUrls: ['./edit-profile.component.scss'],
 })
 export class EditProfileComponent extends FormBaseComponent implements OnInit, OnDestroy {
   public editProfileForm = null;
@@ -31,8 +31,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     location: 'Lviv',
     status: 'online',
     rate: 658,
-    userCredo:
-      'My Credo is to make small steps that leads to huge impact. Let’s change the world together.',
+    userCredo: 'My Credo is to make small steps that leads to huge impact. Let’s change the world together.',
   };
   public previousPath = '/profile';
   public popupConfig = {
@@ -45,23 +44,23 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       popupSubtitle: 'user.edit-profile.profile-popup.subtitle',
       popupConfirm: 'user.edit-profile.profile-popup.confirm',
       popupCancel: 'user.edit-profile.profile-popup.cancel',
-    }
+    },
   };
-  public socialNetworks: Array<{ id: number, url: string }>;
-  public socialNetworksToServer: string [] = [];
+  public socialNetworks: Array<{ id: number; url: string }>;
+  public socialNetworksToServer: string[] = [];
 
-  constructor(public dialog: MatDialog,
-              public builder: EditProfileFormBuilder,
-              private editProfileService: EditProfileService,
-              private profileService: ProfileService,
-              public router: Router,
-              private localStorageService: LocalStorageService,
-              private translate: TranslateService,
-              private mapsAPILoader: MapsAPILoader,
-              private ngZone: NgZone) {
-
+  constructor(
+    public dialog: MatDialog,
+    public builder: EditProfileFormBuilder,
+    private editProfileService: EditProfileService,
+    private profileService: ProfileService,
+    public router: Router,
+    private localStorageService: LocalStorageService,
+    private translate: TranslateService,
+    private mapsAPILoader: MapsAPILoader,
+    private ngZone: NgZone
+  ) {
     super(router, dialog);
-
   }
 
   ngOnInit() {
@@ -80,7 +79,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       showLocation: this.editProfileForm.value.showLocation,
       showEcoPlace: this.editProfileForm.value.showEcoPlace,
       showShoppingList: this.editProfileForm.value.showShoppingList,
-      socialNetworks: this.socialNetworks
+      socialNetworks: this.socialNetworks,
     };
   }
 
@@ -88,15 +87,15 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     this.initialValues = {
       firstName: data.firstName,
       get city() {
-        return (data.city === null) ? '' : data.city;
+        return data.city === null ? '' : data.city;
       },
       get userCredo() {
-        return (data.userCredo === null) ? '' : data.userCredo;
+        return data.userCredo === null ? '' : data.userCredo;
       },
       showLocation: data.showLocation,
       showEcoPlace: data.showEcoPlace,
       showShoppingList: data.showShoppingList,
-      socialNetworks: data.socialNetworks
+      socialNetworks: data.socialNetworks,
     };
   }
 
@@ -109,10 +108,10 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   }
 
   public getInitialValue(): void {
-    this.profileService.getUserInfo().pipe(
-      take(1)
-    )
-      .subscribe(data => {
+    this.profileService
+      .getUserInfo()
+      .pipe(take(1))
+      .subscribe((data) => {
         if (data) {
           this.setupExistingData(data);
           this.socialNetworks = data.socialNetworks;
@@ -138,15 +137,13 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       showLocation: form.value.showLocation,
       showEcoPlace: form.value.showEcoPlace,
       showShoppingList: form.value.showShoppingList,
-      socialNetworks: this.socialNetworksToServer
+      socialNetworks: this.socialNetworksToServer,
     };
 
-    this.editProfileService.postDataUserProfile(JSON.stringify(body)).subscribe(
-      () => {
-        this.router.navigate(['profile', this.profileService.userId]);
-        this.localStorageService.setFirstName(form.value.name);
-      }
-    );
+    this.editProfileService.postDataUserProfile(JSON.stringify(body)).subscribe(() => {
+      this.router.navigate(['profile', this.profileService.userId]);
+      this.localStorageService.setFirstName(form.value.name);
+    });
   }
 
   private bindLang(lang: string): void {
@@ -154,14 +151,13 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   }
 
   private subscribeToLangChange(): void {
-    this.langChangeSub = this.localStorageService.languageSubject
-      .subscribe((lang) => this.bindLang(lang));
+    this.langChangeSub = this.localStorageService.languageSubject.subscribe((lang) => this.bindLang(lang));
   }
 
   private autocompleteCity(): void {
     this.mapsAPILoader.load().then(() => {
       const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-        types: ['(cities)']
+        types: ['(cities)'],
       });
       autocomplete.addListener('place_changed', () => {
         this.ngZone.run(() => {

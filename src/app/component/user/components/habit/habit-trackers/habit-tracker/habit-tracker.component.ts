@@ -9,7 +9,7 @@ import { LanguageService } from '../../../../../../i18n/language.service';
 @Component({
   selector: 'app-habit-tracker',
   templateUrl: './habit-tracker.component.html',
-  styleUrls: ['./habit-tracker.component.scss']
+  styleUrls: ['./habit-tracker.component.scss'],
 })
 export class HabitTrackerComponent implements OnInit {
   @Input()
@@ -24,16 +24,14 @@ export class HabitTrackerComponent implements OnInit {
   chartRedrawTrigger: boolean;
   curDayNumber: number;
 
-  constructor(private service: HabitStatisticService, public translation: LanguageService) {
-  }
+  constructor(private service: HabitStatisticService, public translation: LanguageService) {}
 
   ngOnInit() {
     this.initCurrentStatistic();
-    this.$habit = this.service.habitStatistics
-      .pipe(
-        map(habit => habit.find(item => item.id === this.habit.id)),
-        filter(habit => habit !== undefined)
-      );
+    this.$habit = this.service.habitStatistics.pipe(
+      map((habit) => habit.find((item) => item.id === this.habit.id)),
+      filter((habit) => habit !== undefined)
+    );
 
     this.$habit.subscribe((data: HabitDto) => {
       this.habit.createDate = new Date(this.habit.createDate);
@@ -47,14 +45,16 @@ export class HabitTrackerComponent implements OnInit {
   initCurrentStatistic() {
     const today: Date = new Date();
     if (this.habit.habitStatistics !== undefined) {
-      this.currentStatistic = this.habit.habitStatistics.filter(stat => this.compareDates(today, stat.createdOn))[0];
+      this.currentStatistic = this.habit.habitStatistics.filter((stat) => this.compareDates(today, stat.createdOn))[0];
     }
   }
 
   compareDates(a: Date, b: Date): boolean {
-    return new Date(a).getFullYear() === new Date(b).getFullYear() &&
+    return (
+      new Date(a).getFullYear() === new Date(b).getFullYear() &&
       new Date(a).getMonth() === new Date(b).getMonth() &&
-      new Date(a).getDate() === new Date(b).getDate();
+      new Date(a).getDate() === new Date(b).getDate()
+    );
   }
 
   countCurrentStatisticDayNumber() {

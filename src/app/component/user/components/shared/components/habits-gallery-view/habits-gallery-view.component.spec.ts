@@ -6,29 +6,20 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-
 describe('HabitsGalleryViewComponent', () => {
   let component: HabitsGalleryViewComponent;
   let fixture: ComponentFixture<HabitsGalleryViewComponent>;
   let MatSnackBarMock: MatSnackBarComponent;
   MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
-  MatSnackBarMock.openSnackBar = (type: string) =>  { };
+  MatSnackBarMock.openSnackBar = (type: string) => {};
   let httpTestingController: HttpTestingController;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HabitsGalleryViewComponent ],
-      imports: [
-        TranslateModule.forRoot(),
-        RouterTestingModule,
-        MatSnackBarModule,
-        HttpClientTestingModule
-      ],
-      providers: [
-        { provide: MatSnackBarComponent, useValue: MatSnackBarMock }
-      ]
-    })
-      .compileComponents();
+      declarations: [HabitsGalleryViewComponent],
+      imports: [TranslateModule.forRoot(), RouterTestingModule, MatSnackBarModule, HttpClientTestingModule],
+      providers: [{ provide: MatSnackBarComponent, useValue: MatSnackBarMock }],
+    }).compileComponents();
     httpTestingController = TestBed.get(HttpTestingController);
   }));
 
@@ -41,11 +32,11 @@ describe('HabitsGalleryViewComponent', () => {
         description: 'test',
         habitItem: 'test',
         languageCode: 'en',
-        name: 'test'
+        name: 'test',
       },
       id: 503,
       image: 'test',
-      tags: ['test1', 'test2']
+      tags: ['test1', 'test2'],
     };
     fixture.detectChanges();
   });

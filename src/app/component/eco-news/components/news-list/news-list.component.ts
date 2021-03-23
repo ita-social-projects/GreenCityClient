@@ -31,7 +31,8 @@ export class NewsListComponent implements OnInit, OnDestroy {
     private ecoNewsService: EcoNewsService,
     private userOwnAuthService: UserOwnAuthService,
     private snackBar: MatSnackBarComponent,
-    private localStorageService: LocalStorageService) { }
+    private localStorageService: LocalStorageService
+  ) {}
 
   ngOnInit() {
     this.onResize();
@@ -44,20 +45,19 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   private setLocalizedTags() {
-    this.localStorageService.languageBehaviourSubject
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe(() => this.getAllTags());
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe(() => this.getAllTags());
   }
 
   private getAllTags() {
-    this.ecoNewsService.getAllPresentTags()
+    this.ecoNewsService
+      .getAllPresentTags()
       .pipe(take(1))
-      .subscribe((tagsArray: Array<NewsTagInterface>) => this.tagList = tagsArray.map(tag => tag.name));
+      .subscribe((tagsArray: Array<NewsTagInterface>) => (this.tagList = tagsArray.map((tag) => tag.name)));
   }
 
   public onResize(): void {
     this.windowSize = window.innerWidth;
-    this.view = (this.windowSize >= 576) ? this.view : true;
+    this.view = this.windowSize >= 576 ? this.view : true;
   }
 
   public onScroll(): void {
@@ -78,13 +78,13 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   private checkUserSingIn(): void {
-    this.userOwnAuthService.credentialDataSubject
-      .subscribe((data) => this.isLoggedIn = data && data.userId);
+    this.userOwnAuthService.credentialDataSubject.subscribe((data) => (this.isLoggedIn = data && data.userId));
   }
 
   private addElemsToCurrentList(): void {
     if (this.tagsList) {
-      this.ecoNewsService.getNewsListByTags(this.currentPage, this.numberOfNews, this.tagsList)
+      this.ecoNewsService
+        .getNewsListByTags(this.currentPage, this.numberOfNews, this.tagsList)
         .pipe(
           takeUntil(this.destroyed$),
           catchError((error) => {
@@ -95,7 +95,8 @@ export class NewsListComponent implements OnInit, OnDestroy {
         )
         .subscribe((list: EcoNewsDto) => this.setList(list));
     } else {
-      this.ecoNewsService.getEcoNewsListByPage(this.currentPage, this.numberOfNews)
+      this.ecoNewsService
+        .getEcoNewsListByPage(this.currentPage, this.numberOfNews)
         .pipe(
           takeUntil(this.destroyed$),
           catchError((error) => {

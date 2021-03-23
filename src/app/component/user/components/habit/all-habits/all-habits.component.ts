@@ -1,7 +1,7 @@
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, Subscription} from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HabitService } from '@global-service/habit/habit.service';
@@ -14,10 +14,9 @@ import { HabitAssignInterface } from 'src/app/interface/habit/habit-assign.inter
 @Component({
   selector: 'app-all-habits',
   templateUrl: './all-habits.component.html',
-  styleUrls: ['./all-habits.component.scss']
+  styleUrls: ['./all-habits.component.scss'],
 })
 export class AllHabitsComponent implements OnInit, OnDestroy {
-
   public allHabits = new BehaviorSubject<any>([]);
   public filteredHabitsList: HabitInterface[] = [];
   public totalHabits: number;
@@ -35,16 +34,18 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   private batchSize = 6;
   public images = singleNewsImages;
 
-  constructor( private habitService: HabitService,
-               private localStorageService: LocalStorageService,
-               private translate: TranslateService,
-               public profileService: ProfileService,
-               public habitAssignService: HabitAssignService ) { }
+  constructor(
+    private habitService: HabitService,
+    private localStorageService: LocalStorageService,
+    private translate: TranslateService,
+    public profileService: ProfileService,
+    public habitAssignService: HabitAssignService
+  ) {}
 
   ngOnInit() {
     this.onResize();
 
-    const langChangeSub = this.localStorageService.languageBehaviourSubject.subscribe(lang => {
+    const langChangeSub = this.localStorageService.languageBehaviourSubject.subscribe((lang) => {
       this.translate.setDefaultLang(lang);
       this.lang = lang;
       this.resetState();
@@ -54,7 +55,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
 
     this.checkIfAssigned();
 
-    const habitServiceSub = this.allHabits.subscribe(data => {
+    const habitServiceSub = this.allHabits.subscribe((data) => {
       this.isFetching = false;
       this.totalHabits = data.totalElements;
       this.totalHabitsCopy = data.totalElements;
@@ -67,8 +68,8 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
       if (data.page) {
         this.elementsLeft = data.totalElements !== this.habitsList.length;
 
-        data.page.forEach(element => {
-          return tag = [...tag, ...element.habitTranslation.habitItem];
+        data.page.forEach((element) => {
+          return (tag = [...tag, ...element.habitTranslation.habitItem]);
         });
         this.tagList = [...new Set(tag)];
       }
@@ -79,16 +80,15 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   }
 
   private fetchAllHabits(page, size): void {
-    this.habitService.getAllHabits(page, size)
-      .pipe<HabitListInterface>( map(data => this.splitHabitItems(data)))
-      .subscribe(
-        data => {
-          const observableValue = this.allHabits.getValue();
-          const oldItems = observableValue.page ? observableValue.page : [];
-          data.page = [... data.page, ...oldItems];
-          this.allHabits.next(data);
-        }
-      );
+    this.habitService
+      .getAllHabits(page, size)
+      .pipe<HabitListInterface>(map((data) => this.splitHabitItems(data)))
+      .subscribe((data) => {
+        const observableValue = this.allHabits.getValue();
+        const oldItems = observableValue.page ? observableValue.page : [];
+        data.page = [...data.page, ...oldItems];
+        this.allHabits.next(data);
+      });
   }
 
   public resetSubject() {
@@ -96,9 +96,9 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   }
 
   private splitHabitItems(data) {
-    data.page.forEach(el => {
-      const newArr = el.habitTranslation.habitItem.split(',').map(str => str.trim().toLowerCase());
-      return el.habitTranslation.habitItem = newArr;
+    data.page.forEach((el) => {
+      const newArr = el.habitTranslation.habitItem.split(',').map((str) => str.trim().toLowerCase());
+      return (el.habitTranslation.habitItem = newArr);
     });
 
     return data;
@@ -115,11 +115,11 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   public getFilterData(event: Array<string>) {
     if (event.length === 0) {
       this.totalHabitsCopy = this.totalHabits;
-      return this.filteredHabitsList = this.habitsList;
+      return (this.filteredHabitsList = this.habitsList);
     }
     if (this.filteredHabitsList.length > 0) {
-      this.filteredHabitsList = this.habitsList.filter(el => {
-        return el.habitTranslation.habitItem.find(item => {
+      this.filteredHabitsList = this.habitsList.filter((el) => {
+        return el.habitTranslation.habitItem.find((item) => {
           return event.includes(item);
         });
       });
@@ -130,7 +130,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
 
   public onResize(): void {
     this.windowSize = window.innerWidth;
-    this.galleryView = (this.windowSize >= 576) ? this.galleryView : true;
+    this.galleryView = this.windowSize >= 576 ? this.galleryView : true;
   }
 
   public onScroll() {
@@ -150,16 +150,17 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   }
 
   public checkIfAssigned() {
-    this.habitAssignService.getAssignedHabits()
-    .pipe(take(1))
-    .subscribe((response: Array<HabitAssignInterface>) => {
-      response.forEach((assigned) => {
-        this.filteredHabitsList.find((filtered) => {
-          if (assigned.habit.id === filtered.id) {
-            filtered.isAssigned = true;
-          }
+    this.habitAssignService
+      .getAssignedHabits()
+      .pipe(take(1))
+      .subscribe((response: Array<HabitAssignInterface>) => {
+        response.forEach((assigned) => {
+          this.filteredHabitsList.find((filtered) => {
+            if (assigned.habit.id === filtered.id) {
+              filtered.isAssigned = true;
+            }
+          });
         });
       });
-    });
   }
 }

@@ -8,9 +8,8 @@ describe('HabitTitleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HabitTitleComponent ]
-    })
-    .compileComponents();
+      declarations: [HabitTitleComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

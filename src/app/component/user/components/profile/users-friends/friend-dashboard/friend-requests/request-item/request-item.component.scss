@@ -4,7 +4,7 @@
 
 $Green: #13aa57;
 $White: #fff;
-$backgroundGrey:#f8f9fa;
+$backgroundGrey: #f8f9fa;
 $textGrey: #64727d;
 $openSpans: 'Open Sans', sans-serif;
 $montserrat: 'Montserrat', sans-serif;
@@ -60,7 +60,7 @@ button {
   align-items: center;
 
   &::before {
-    content: "Rate:";
+    content: 'Rate:';
   }
 }
 

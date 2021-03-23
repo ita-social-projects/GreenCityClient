@@ -22,7 +22,7 @@ describe('AddCommentComponent', () => {
     showEcoPlace: true,
     showLocation: true,
     showShoppingList: true,
-    socialNetworks: [{id: 1, url: 'string;'}]
+    socialNetworks: [{ id: 1, url: 'string;' }],
   };
 
   let profileServiceMock: ProfileService;
@@ -35,22 +35,13 @@ describe('AddCommentComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AddCommentComponent,
-        UserProfileImageComponent
-      ],
-      imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        TranslateModule.forRoot(),
-        HttpClientTestingModule
-      ],
+      declarations: [AddCommentComponent, UserProfileImageComponent],
+      imports: [FormsModule, ReactiveFormsModule, TranslateModule.forRoot(), HttpClientTestingModule],
       providers: [
         { provide: ProfileService, useValue: profileServiceMock },
         { provide: CommentsService, useValue: commentsServiceMock },
-      ]
-    })
-    .compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

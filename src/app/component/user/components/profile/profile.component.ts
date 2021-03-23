@@ -9,16 +9,18 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   private langChangeSub: Subscription;
   public userInfo: EditProfileModel;
 
-  constructor(private announcer: LiveAnnouncer,
-              private localStorageService: LocalStorageService,
-              private translate: TranslateService,
-              private profileService: ProfileService) { }
+  constructor(
+    private announcer: LiveAnnouncer,
+    private localStorageService: LocalStorageService,
+    private translate: TranslateService,
+    private profileService: ProfileService
+  ) {}
 
   ngOnInit() {
     this.announce();
@@ -32,7 +34,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   public showUserInfo(): void {
-    this.profileService.getUserInfo().subscribe(item => {
+    this.profileService.getUserInfo().subscribe((item) => {
       this.userInfo = item;
     });
   }
@@ -42,8 +44,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToLangChange(): void {
-    this.langChangeSub = this.localStorageService.languageSubject
-      .subscribe((lang) => this.bindLang(lang));
+    this.langChangeSub = this.localStorageService.languageSubject.subscribe((lang) => this.bindLang(lang));
   }
 
   ngOnDestroy(): void {

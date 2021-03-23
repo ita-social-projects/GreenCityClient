@@ -1,12 +1,12 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject, Subject} from 'rxjs';
-import {Language} from '../../i18n/Language';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { Language } from '../../i18n/Language';
 
 /**
  * @author Yurii Koval
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LocalStorageService {
   private readonly ACCESS_TOKEN = 'accessToken';
@@ -20,8 +20,7 @@ export class LocalStorageService {
   languageBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getCurrentLanguage());
   accessTokenBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getAccessToken());
 
-  constructor() {
-  }
+  constructor() {}
 
   public getAccessToken(): string {
     return localStorage.getItem(this.ACCESS_TOKEN);

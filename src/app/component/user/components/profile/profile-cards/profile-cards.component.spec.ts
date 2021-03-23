@@ -3,17 +3,15 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProfileCardsComponent } from './profile-cards.component';
 
-
 describe('ProfileCardsComponent', () => {
   let component: ProfileCardsComponent;
   let fixture: ComponentFixture<ProfileCardsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProfileCardsComponent ],
-      imports: [TranslateModule.forRoot(), HttpClientModule]
-    })
-    .compileComponents();
+      declarations: [ProfileCardsComponent],
+      imports: [TranslateModule.forRoot(), HttpClientModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

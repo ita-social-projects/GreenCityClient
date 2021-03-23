@@ -3,13 +3,7 @@ import { NgModule } from '@angular/core';
 import { CoreModule } from '../core/core.module';
 import { InputcolorDirective } from '../../directives/inputcolor.directive';
 import { SharedModule } from '@shared/shared.module';
-import {
-  RestoreComponent,
-  RestorePasswordComponent,
-  SignInComponent,
-  SignUpComponent,
-  SubmitEmailComponent,
-} from './components';
+import { RestoreComponent, RestorePasswordComponent, SignInComponent, SignUpComponent, SubmitEmailComponent } from './components';
 import { ErrorComponent } from './components/error/error.component';
 import { ConfirmRestorePasswordComponent } from './components/confirm-restore-password/confirm-restore-password.component';
 import { GoogleBtnComponent } from './components/google-btn/google-btn.component';
@@ -27,24 +21,18 @@ import { MatSnackBarModule } from '@angular/material';
     ConfirmRestorePasswordComponent,
     ErrorComponent,
     GoogleBtnComponent,
-    AuthModalComponent
+    AuthModalComponent,
   ],
-  imports: [
-    CoreModule,
-    SharedModule,
-    ReactiveFormsModule
-  ],
+  imports: [CoreModule, SharedModule, ReactiveFormsModule],
   entryComponents: [
     SignInComponent,
     SignUpComponent,
     RestorePasswordComponent,
     SubmitEmailComponent,
     ConfirmRestorePasswordComponent,
-    AuthModalComponent
+    AuthModalComponent,
   ],
-  exports: [
-    InputcolorDirective,
-  ],
-  providers: [MatSnackBarModule ]
+  exports: [InputcolorDirective],
+  providers: [MatSnackBarModule],
 })
-export class AuthModule { }
+export class AuthModule {}

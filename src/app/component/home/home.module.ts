@@ -10,13 +10,13 @@ import {
   StatRowsComponent,
   SubscribeComponent,
   TipsCardComponent,
-  TipsListComponent
+  TipsListComponent,
 } from './components';
 import { EcoEventsItemComponent } from './components/eco-events/eco-events-item/eco-events-item.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
-  slidesPerView: 'auto'
+  slidesPerView: 'auto',
 };
 
 @NgModule({
@@ -28,14 +28,9 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     SubscribeComponent,
     TipsCardComponent,
     TipsListComponent,
-    EcoEventsItemComponent
+    EcoEventsItemComponent,
   ],
-  imports: [
-    CommonModule,
-    CoreModule,
-    SharedModule,
-    SwiperModule
-  ],
+  imports: [CommonModule, CoreModule, SharedModule, SwiperModule],
   exports: [
     HomepageComponent,
     EcoEventsComponent,
@@ -44,14 +39,13 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     SubscribeComponent,
     TipsCardComponent,
     TipsListComponent,
-    EcoEventsItemComponent
+    EcoEventsItemComponent,
   ],
   providers: [
     {
       provide: SWIPER_CONFIG,
-      useValue: DEFAULT_SWIPER_CONFIG
-    }
-  ]
+      useValue: DEFAULT_SWIPER_CONFIG,
+    },
+  ],
 })
-
-export class HomeModule { }
+export class HomeModule {}

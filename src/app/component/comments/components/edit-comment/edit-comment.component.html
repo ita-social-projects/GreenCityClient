@@ -1,12 +1,8 @@
 <div class="main-wrapper">
-    <button class="cta-btn edit"
-            (click)=editComments()>
-      <img [src]="editIcon"
-            class="btn-img"
-            aria-hidden="true"
-            alt="edit icon">
-      <span class="btn-text">
-        {{"homepage.eco-news.comment.btn.edit" | translate}}
-      </span> 
-    </button>
+  <button class="cta-btn edit" (click)="editComments()">
+    <img [src]="editIcon" class="btn-img" aria-hidden="true" alt="edit icon" />
+    <span class="btn-text">
+      {{ 'homepage.eco-news.comment.btn.edit' | translate }}
+    </span>
+  </button>
 </div>

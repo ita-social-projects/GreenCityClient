@@ -4,7 +4,7 @@ import { AfterViewChecked, ChangeDetectorRef, Component, EventEmitter, Input, Ou
 @Component({
   selector: 'app-comment-pagination',
   templateUrl: './comment-pagination.component.html',
-  styleUrls: ['./comment-pagination.component.scss']
+  styleUrls: ['./comment-pagination.component.scss'],
 })
 export class CommentPaginationComponent implements AfterViewChecked {
   @Input() public config: PaginationConfig;
@@ -12,7 +12,7 @@ export class CommentPaginationComponent implements AfterViewChecked {
   public maxSize = 5;
   public maxCommentsOnPage = 10;
 
-  constructor(private cdr: ChangeDetectorRef) { }
+  constructor(private cdr: ChangeDetectorRef) {}
 
   public onPageChange(event) {
     this.config.currentPage = event;
@@ -20,7 +20,7 @@ export class CommentPaginationComponent implements AfterViewChecked {
   }
 
   public calcPaginationSize(totalPages, currentPages) {
-    this.maxSize = totalPages <= 5 ? 5 : ( currentPages <= 3 || currentPages >= (totalPages - 2) ) ? 6 : 7;
+    this.maxSize = totalPages <= 5 ? 5 : currentPages <= 3 || currentPages >= totalPages - 2 ? 6 : 7;
     return this.maxSize;
   }
 

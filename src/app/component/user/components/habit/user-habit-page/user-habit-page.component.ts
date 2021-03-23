@@ -7,11 +7,10 @@ import { AchievementDto } from 'src/app/model/achievement/AchievementDto';
 @Component({
   selector: 'app-user-habit-page',
   templateUrl: './user-habit-page.component.html',
-  styleUrls: ['./user-habit-page.component.scss']
+  styleUrls: ['./user-habit-page.component.scss'],
 })
 export class UserHabitPageComponent implements OnInit {
-
-  constructor(private achievementService: AchievementService, private localStorageService: LocalStorageService) { }
+  constructor(private achievementService: AchievementService, private localStorageService: LocalStorageService) {}
 
   $achievement: Observable<AchievementDto[]>;
   achievement: AchievementDto;
@@ -19,12 +18,12 @@ export class UserHabitPageComponent implements OnInit {
 
   ngOnInit() {
     this.achievementService.loadAchievements();
-    this.achievementService.achievements.subscribe(data => {
+    this.achievementService.achievements.subscribe((data) => {
       this.achievement = data[0];
     });
     if (this.localStorageService.getFirstSighIn()) {
       setTimeout(() => {
-        this.achievement === undefined ? this.achievementVisible = false : this.achievementVisible = true;
+        this.achievement === undefined ? (this.achievementVisible = false) : (this.achievementVisible = true);
       }, 500);
     }
   }

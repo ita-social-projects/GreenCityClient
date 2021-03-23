@@ -7,7 +7,7 @@ import { take } from 'rxjs/operators';
 @Component({
   selector: 'app-comments-list',
   templateUrl: './comments-list.component.html',
-  styleUrls: ['./comments-list.component.scss']
+  styleUrls: ['./comments-list.component.scss'],
 })
 export class CommentsListComponent {
   @Input() public elementsList: CommentsDTO[] = [];
@@ -23,7 +23,7 @@ export class CommentsListComponent {
   public cancelIcon = 'assets/img/comments/cancel-comment-edit.png';
   public likeImg = 'assets/img/comments/like.png';
 
-  constructor(private commentsService: CommentsService) { }
+  constructor(private commentsService: CommentsService) {}
 
   public deleteComment(): void {
     this.changedList.emit();
@@ -34,7 +34,8 @@ export class CommentsListComponent {
   }
 
   public saveEditedComment(element: CommentsDTO): void {
-    this.commentsService.editComment(element.id, this.content)
+    this.commentsService
+      .editComment(element.id, this.content)
       .pipe(take(1))
       .subscribe(() => this.content.reset());
 
@@ -49,7 +50,7 @@ export class CommentsListComponent {
   }
 
   public changeCounter(counter: number, id: number, key: string): void {
-    this.elementsList = this.elementsList.map(item => {
+    this.elementsList = this.elementsList.map((item) => {
       if (item.id === id) {
         item[key] = counter;
       }
@@ -58,7 +59,7 @@ export class CommentsListComponent {
   }
 
   public showElements(id: number, key: string): void {
-    this.elementsList = this.elementsList.map(item => {
+    this.elementsList = this.elementsList.map((item) => {
       item[key] = item.id === id && !item[key];
       return item;
     });

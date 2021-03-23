@@ -15,14 +15,14 @@ import { Location } from '../../models/location.model';
 import { AddCommentComponent } from '../add-comment/add-comment.component';
 import { WeekDaysUtils } from '../../../../service/weekDaysUtils.service';
 import { JwtService } from '../../../../service/jwt/jwt.service';
-import {TranslateService} from '@ngx-translate/core';
-import {LocalStorageService} from '../../../../service/localstorage/local-storage.service';
-import {Subscription} from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.scss']
+  styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements OnInit {
   private langChangeSub: Subscription;
@@ -62,18 +62,8 @@ export class MapComponent implements OnInit {
     private jwtService: JwtService,
     private translate: TranslateService
   ) {
-    iconRegistry.addSvgIcon(
-      'star-white',
-      sanitizer.bypassSecurityTrustResourceUrl(
-        'assets/img/icon/favorite-place/star-white.svg'
-      )
-    );
-    iconRegistry.addSvgIcon(
-      'star-yellow',
-      sanitizer.bypassSecurityTrustResourceUrl(
-        'assets/img/icon/favorite-place/star-yellow.svg'
-      )
-    );
+    iconRegistry.addSvgIcon('star-white', sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/favorite-place/star-white.svg'));
+    iconRegistry.addSvgIcon('star-yellow', sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/favorite-place/star-yellow.svg'));
     this.filterService.setCategoryName('Food');
     this.filterService.setSpecName('Own cup');
   }
@@ -84,11 +74,7 @@ export class MapComponent implements OnInit {
     this.setCurrentLocation();
     this.userMarkerLocation = { lat: this.lat, lng: this.lng };
     this.filterService.setUserMarkerLocation(this.userMarkerLocation);
-    if (
-      this.userRole === 'ROLE_ADMIN' ||
-      this.userRole === 'ROLE_MODERATOR' ||
-      this.userRole === 'ROLE_USER'
-    ) {
+    if (this.userRole === 'ROLE_ADMIN' || this.userRole === 'ROLE_MODERATOR' || this.userRole === 'ROLE_USER') {
       this.favoritePlaceService.getFavoritePlaces();
     }
     this.subscribeToFavoritePlaceId();
@@ -101,8 +87,7 @@ export class MapComponent implements OnInit {
   }
 
   private subscribeToLangChange(): void {
-    this.langChangeSub = this.localStorageService.languageSubject
-      .subscribe(this.bindLang.bind(this));
+    this.langChangeSub = this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
   }
 
   getDirection(p: Place) {
@@ -112,7 +97,7 @@ export class MapComponent implements OnInit {
       this.destination = { lat: p.location.lat, lng: p.location.lng };
       this.origin = {
         lat: this.userMarkerLocation.lat,
-        lng: this.userMarkerLocation.lng
+        lng: this.userMarkerLocation.lng,
       };
       this.filterService.setUserMarkerLocation(this.userMarkerLocation);
     } else {
@@ -123,9 +108,9 @@ export class MapComponent implements OnInit {
 
   setCurrentLocation(): Position {
     if ('geolocation' in navigator) {
-      navigator.permissions.query({name: 'geolocation'}).then( (permissionStatus) => {
+      navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
         if (permissionStatus.state === 'granted') {
-          navigator.geolocation.getCurrentPosition(position => {
+          navigator.geolocation.getCurrentPosition((position) => {
             this.lat = position.coords.latitude;
             this.lng = position.coords.longitude;
             this.zoom = 13;
@@ -163,21 +148,17 @@ export class MapComponent implements OnInit {
 
   showDetail(pl: Place) {
     this.directionButton = true;
-    this.placeService.getPlaceInfo(pl.id).subscribe(res => {
+    this.placeService.getPlaceInfo(pl.id).subscribe((res) => {
       this.placeInfo = res;
-      if (
-        this.userRole === 'ROLE_ADMIN' ||
-        this.userRole === 'ROLE_MODERATOR' ||
-        this.userRole === 'ROLE_USER'
-      ) {
-        this.favoritePlaceService.favoritePlaces.forEach(fp => {
+      if (this.userRole === 'ROLE_ADMIN' || this.userRole === 'ROLE_MODERATOR' || this.userRole === 'ROLE_USER') {
+        this.favoritePlaceService.favoritePlaces.forEach((fp) => {
           if (fp.placeId === this.placeInfo.id) {
             this.placeInfo.name = fp.name;
           }
         });
       }
     });
-    this.placeService.places = this.placeService.places.filter(r => {
+    this.placeService.places = this.placeService.places.filter((r) => {
       return r.id === pl.id;
     });
     if (this.placeService.places.length === 1 && this.button !== true) {
@@ -188,16 +169,14 @@ export class MapComponent implements OnInit {
 
   saveOrDeletePlaceAsFavorite(place: Place) {
     if (!place.favorite) {
-      this.favoritePlaceService
-        .saveFavoritePlace(new FavoritePlace(place.id, place.name))
-        .subscribe(res => {
-          this.favoritePlaceService.getFavoritePlaces();
-          this.changePlaceToFavoritePlace();
-        });
+      this.favoritePlaceService.saveFavoritePlace(new FavoritePlace(place.id, place.name)).subscribe((res) => {
+        this.favoritePlaceService.getFavoritePlaces();
+        this.changePlaceToFavoritePlace();
+      });
       place.favorite = true;
       place.color = this.getIcon(place.favorite);
     } else {
-      this.favoritePlaceService.deleteFavoritePlace(place.id).subscribe(res => {
+      this.favoritePlaceService.deleteFavoritePlace(place.id).subscribe((res) => {
         this.favoritePlaceService.getFavoritePlaces();
         this.changePlaceToFavoritePlace();
       });
@@ -218,11 +197,7 @@ export class MapComponent implements OnInit {
   }
 
   checkIfUserLoggedIn() {
-    if (
-      this.userRole === 'ROLE_ADMIN' ||
-      this.userRole === 'ROLE_MODERATOR' ||
-      this.userRole === 'ROLE_USER'
-    ) {
+    if (this.userRole === 'ROLE_ADMIN' || this.userRole === 'ROLE_MODERATOR' || this.userRole === 'ROLE_USER') {
       this.changePlaceToFavoritePlace();
     }
   }
@@ -240,19 +215,17 @@ export class MapComponent implements OnInit {
   }
 
   setFavoritePlaceOnMap(id: number) {
-    this.favoritePlaceService
-      .getFavoritePlaceWithLocation(id)
-      .subscribe(res => {
-        res.favorite = true;
-        this.placeService.places = [res];
-        this.setMarker(this.placeService.places[0]);
-        this.lat = this.placeService.places[0].location.lat;
-        this.lng = this.placeService.places[0].location.lng;
-      });
+    this.favoritePlaceService.getFavoritePlaceWithLocation(id).subscribe((res) => {
+      res.favorite = true;
+      this.placeService.places = [res];
+      this.setMarker(this.placeService.places[0]);
+      this.lat = this.placeService.places[0].location.lat;
+      this.lng = this.placeService.places[0].location.lng;
+    });
   }
 
   subscribeToFavoritePlaceId() {
-    this.favoritePlaceService.subject.subscribe(value => {
+    this.favoritePlaceService.subject.subscribe((value) => {
       if (typeof value === 'number') {
         this.setFavoritePlaceOnMap(value);
       } else {
@@ -262,9 +235,9 @@ export class MapComponent implements OnInit {
   }
 
   changePlaceToFavoritePlace() {
-    this.placeService.places.forEach(place => {
+    this.placeService.places.forEach((place) => {
       place.favorite = false;
-      this.favoritePlaceService.favoritePlaces.forEach(favoritePlace => {
+      this.favoritePlaceService.favoritePlaces.forEach((favoritePlace) => {
         if (place.id === favoritePlace.placeId) {
           place.name = favoritePlace.name;
           place.favorite = true;
@@ -282,11 +255,11 @@ export class MapComponent implements OnInit {
     if (this.placeService.places.length === 1) {
       this.destination = {
         lat: this.placeService.places[0].location.lat,
-        lng: this.placeService.places[0].location.lng
+        lng: this.placeService.places[0].location.lng,
       };
       this.origin = {
         lat: this.userMarkerLocation.lat,
-        lng: this.userMarkerLocation.lng
+        lng: this.userMarkerLocation.lng,
       };
     }
     this.filterService.setUserMarkerLocation(this.userMarkerLocation);
@@ -295,8 +268,7 @@ export class MapComponent implements OnInit {
 
   changeTravelMode() {
     this.travelMode = this.travelMode === 'WALKING' ? 'DRIVING' : 'WALKING';
-    this.travelModeButton =
-      this.travelModeButton === 'DRIVING' ? 'WALKING' : 'DRIVING';
+    this.travelModeButton = this.travelModeButton === 'DRIVING' ? 'WALKING' : 'DRIVING';
   }
 
   openDialogAddComment(id: number) {
@@ -304,11 +276,11 @@ export class MapComponent implements OnInit {
       width: '800px',
       data: {
         listOfPhoto: 3,
-        id
-      }
+        id,
+      },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
   }
