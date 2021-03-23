@@ -1,5 +1,5 @@
 import { MatDialog } from '@angular/material';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PersonalData } from '../../models/personalData.model';
 import { ShareFormService } from '../../services/share-form.service';
@@ -11,7 +11,7 @@ import { AddAddressComponent } from './add-address/add-address/add-address.compo
   templateUrl: './personal-data-form.component.html',
   styleUrls: ['./personal-data-form.component.scss']
 })
-export class PersonalDataFormComponent implements OnInit {
+export class PersonalDataFormComponent implements OnInit, OnDestroy {
   personalDataForm: FormGroup;
   personalData: PersonalData;
   region = '';
@@ -73,6 +73,10 @@ export class PersonalDataFormComponent implements OnInit {
       this.personalData = data[data.length - 1];
       this.initForm();
     });
+  }
+
+  ngOnDestroy(): void {
+    this.shareFormService.objectSource.unsubscribe();
   }
 
   initForm(): void {

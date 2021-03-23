@@ -1,10 +1,7 @@
-@import '../../ubs.component.scss';
-
-
 .container {
   box-shadow: 1px 4px 8px rgb(100 114 125 / 18%);
   padding: 10px 25px 40px;
-  color: var(--primary-grey);
+  color: var(--ubs-primary-grey);
 }
 
 .header {
@@ -16,7 +13,7 @@
   }
 
   p {
-    color: var(--secondary-grey);
+    color: var(--ubs-secondary-grey);
     margin-bottom: 3rem;
   }
 }
@@ -33,12 +30,12 @@ h3 {
 
 .main {
   padding: 1rem 0 1.2rem 0;
-  border-top: var(--primary-light-grey);
-  border-bottom: var(--primary-light-grey);
+  border-top: 1px solid var(--ubs-primary-light-grey);
+  border-bottom: 1px solid var(--ubs-primary-light-grey);
 }
 
 label {
-  color: var(--secondary-grey);
+  color: var(--ubs-secondary-grey);
   padding-left: 0;
 }
 
@@ -68,8 +65,8 @@ label:nth-child(5) {
 }
 
 .count input {
-  background: var(--primary-white);
-  border: var(--secondary-grey);
+  background: var(--ubs-primary-white);
+  border: 1px solid var(--ubs-secondary-grey);
   padding-left: 6px;
 }
 
@@ -78,12 +75,12 @@ label:nth-child(5) {
 }
 
 .custom-control-label::before {
-  background-color: var(--primary-white);
+  background-color: var(--ubs-primary-white);
 }
 
 .custom-radio .custom-control-input:checked~.custom-control-label::before,
 .custom-radio .custom-control-input:checked~.custom-control-label::after {
-  background-color: var(--primary-green);
+  background-color: var(--ubs-primary-green);
   border-radius: 50%;
 }
 
@@ -102,7 +99,7 @@ button {
   width: 9rem;
   height: 3rem;
   border-radius: 0;
-  background: var(--primary-grey);
+  background: var(--ubs-primary-grey);
   border: none;
 }
 
@@ -111,7 +108,7 @@ button {
   margin-top: 10px;
   padding: 30px 0;
   justify-content: space-between;
-  border-bottom: var(--primary-light-grey);
+  border-bottom: 1px solid var(--ubs-primary-light-grey);
 }
 
 .totalInfo {
@@ -121,7 +118,7 @@ button {
   p {
     display: flex;
     justify-content: space-between;
-    color: var(--secondary-grey);
+    color: var(--ubs-secondary-grey);
     padding-right: .5rem;
   }
 
@@ -130,7 +127,7 @@ button {
   }
 
   small {
-    color: var(--primary-green);
+    color: var(--ubs-primary-green);
   }
 
   .validMes {
@@ -162,7 +159,7 @@ button {
     .validMes {
       width: 65%;
       margin: -1rem 0 1rem;
-      color: var(--primary-green);
+      color: var(--ubs-primary-green);
     }
   }
 
@@ -179,7 +176,7 @@ button {
     padding: 0;
     text-align: left;
     background: none;
-    color: var(--primary-green);
+    color: var(--ubs-primary-green);
     outline: none;
   }
 
@@ -191,14 +188,14 @@ button {
     margin-top: 3rem;
 
     span {
-      color: var(--primary-green);
+      color: var(--ubs-primary-green);
       padding-left: 1rem;
     }
   }
 
   input {
-    background: var(--primary-white);
-    border: var(--secondary-grey);
+    background: var(--ubs-primary-white);
+    border: 1px solid var(--ubs-secondary-grey);
   }
 
   small {
@@ -212,12 +209,12 @@ button {
   button {
     width: 10rem;
     height: 3rem;
-    background: var(--primary-grey);
+    background: var(--ubs-secondary-grey);
     border: none;
   }
 
   button:hover {
-    background: var(--primary-green);
+    background: var(--ubs-primary-green);
   }
 }
 
@@ -240,7 +237,7 @@ button {
   padding: 0;
   text-align: left;
   background: none;
-  color: var(--primary-green);
+  color: var(--ubs-primary-green);
   outline: none;
 }
 
@@ -256,43 +253,43 @@ button {
 }
 
 .comment {
-  background: var(--primary-white);
+  background: var(--ubs-primary-white);
 }
 
 .bottom_comment {
-  background: var(--primary-white);
+  background: var(--ubs-primary-white);
 
   textarea {
     height: 6rem;
-    border: 1px solid var(--secondary-grey);
+    border: 1px solid var(--ubs-secondary-grey);
     padding: .5rem;
-    background: var(--primary-white);
+    background: var(--ubs-primary-white);
   }
 
   .btn:nth-child(1) {
     margin: 0 24px 0 0;
-    border: 1px solid var(--primary-green);
+    border: 1px solid var(--ubs-primary-green);
     background: none;
-    color: var(--primary-green);
+    color: var(--ubs-primary-green);
   }
 
   button {
     width: 120px;
     height: 3rem;
     border-radius: 0;
-    background: var(--primary-grey);
+    background: var(--ubs-secondary-grey);
     border: none;
   }
 
   button:hover {
-    background: var(--primary-green);
+    background: var(--ubs-primary-green);
   }
 }
 
 .bottom {
   padding: 3rem 0;
   margin-bottom: 3rem;
-  border-bottom: 1px solid var(--primary-light-grey);
+  border-bottom: 1px solid var(--ubs-primary-light-grey);
 
   .custom-control {
     padding-left: 1.4rem;
@@ -303,7 +300,7 @@ button {
   }
 
   input {
-    background: var(--primary-white);
-    border: 1px solid var(--secondary-grey);
+    background: var(--ubs-primary-white);
+    border: 1px solid var(--ubs-secondary-grey);
   }
 }

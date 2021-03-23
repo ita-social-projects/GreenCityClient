@@ -11,14 +11,14 @@
       height: 32px;
 
       .pac-item-query {
-        color: #444e55;
+        color: var(--ubs-primary-grey);
       }
 
       &:hover {
-        background-color: var(--primary-green);
+        background-color: var(--ubs-primary-green);
 
         .pac-item-query {
-          color: #fff;
+          color: var(----ubs-primary-white);
         }
       }
     }
@@ -30,7 +30,7 @@
 }
 
 form {
-  box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
+  box-shadow: 1px 4px 8px rgb(100 114 125 / 18%);
   padding: 10px 25px 40px;
 }
 
@@ -41,9 +41,9 @@ hr {
 input,
 textarea,
 select {
-  border: 1px solid #64727D;
+  border: 1px solid var(--ubs-secondary-grey);
   padding: 0 0 0 24px;
-  color: #1D2830;
+  color: var(--ubs-primary-grey);
 }
 
 input,
@@ -52,11 +52,11 @@ select {
 }
 
 input.ng-touched.ng-invalid {
-  border: 1px solid var(--error-ligh-red);
+  border: 1px solid var(--ubs-error-ligh-red);
 }
 
 .validation {
-  color: var(--error-ligh-red);
+  color: var(--ubs-error-ligh-red);
 }
 
 textarea {
@@ -72,24 +72,24 @@ label,
 .adress-notice,
 .comment-title,
 .city-notice {
-  font-family: var(--tertiary-font);
+  font-family: var(--ubs-tertiary-font);
   font-size: 16px;
   line-height: 18px;
   font-weight: 400;
-  color: #64727D;
+  color:  var(--ubs-secondary-grey);
 }
 
 .personal-data-title,
 .comment-title,
 .address-title {
   margin: 0 0 20px 15px;
-  font-family: var(--tertiary-font);
+  font-family: var(--ubs-tertiary-font);
   font-style: normal;
   font-weight: bold;
   font-size: 24px;
   line-height: 32px;
   letter-spacing: 0.002em;
-  color: #444E55;
+  color: var(--ubs-primary-grey);
 }
 
 .comment-title {
@@ -149,7 +149,7 @@ label,
   margin: 0 0 0 15px;
   padding: 0;
   text-align: left;
-  color: var(--primary-green);
+  color: var(--ubs-primary-green);
 }
 
 

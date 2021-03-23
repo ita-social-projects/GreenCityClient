@@ -1,5 +1,5 @@
 .container {
-  color: #444E55;
+  color: var(--ubs-primary-grey);
   box-shadow: 1px 4px 8px rgb(100 114 125 / 18%);
   padding: 10px 25px 40px;
 }
@@ -22,8 +22,8 @@ table {
 
 tbody {
   padding: 4rem 0;
-  border-bottom: 1px solid  #CACFD3;
-  border-top: 1px solid  #CACFD3;
+  border-bottom: 1px solid var(--ubs-primary-light-grey);
+  border-top: 1px solid var(--ubs-primary-grey);
 }
 
 .firstRow {
@@ -39,7 +39,7 @@ th, td {
 }
 
 th, label {
-  color: #64727D;
+  color: var(--ubs-secondary-grey);
 }
 
 .showTotal {
@@ -56,7 +56,7 @@ th, label {
   p {
     display: flex;
     justify-content: space-between;
-    color: #64727D;
+    color: var(--ubs-secondary-grey);
     padding-right: .5rem;
   }
 
@@ -65,7 +65,7 @@ th, label {
   }
 
   small {
-    color: var(--primary-green);
+    color: var(--ubs-primary-green);
   }
 }
 
@@ -120,7 +120,7 @@ button {
   width: 120px;
   height: 48px;
   border-radius: 0;
-  background: var(--primary-green);
+  background: var(--ubs-primary-green);
 }
 
 .btn:nth-child(1) {
@@ -130,7 +130,7 @@ button {
 
 .bottom {
   padding-top: 4rem;
-  border-top: 1px solid  #CACFD3;
+  border-top: 1px solid var(--ubs-primary-light-grey);
 
   p {
     padding: 2rem 0;

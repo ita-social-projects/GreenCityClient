@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { ShareFormService } from '../../services/share-form.service';
@@ -9,7 +9,7 @@ import { UserOrder } from './shared/userOrder.model';
 @Component({
   selector: 'app-order-details-form',
   templateUrl: './order-details-form.component.html',
-  styleUrls: ['../../ubs.component.scss', './order-details-form.component.scss']
+  styleUrls: ['./order-details-form.component.scss']
 })
 
 export class OrderDetailsFormComponent implements OnInit {
@@ -212,6 +212,7 @@ export class OrderDetailsFormComponent implements OnInit {
             this.certSize = true;
           }
           this.calculateTotal();
+          // this.orderService.processCertificate(certificate).unsubscribe();
         });
       }
     } else {
