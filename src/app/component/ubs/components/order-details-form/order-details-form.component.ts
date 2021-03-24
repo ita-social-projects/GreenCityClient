@@ -1,5 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
 import { ShareFormService } from '../../services/share-form.service';
 import { IOrder } from './order.interface';
@@ -39,10 +41,11 @@ export class OrderDetailsFormComponent implements OnInit {
   certMessage: string;
   userOrder: IUserOrder;
   object: {};
+  private destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(private fb: FormBuilder,
-              private orderService: OrderService,
-              private shareFormService: ShareFormService) { }
+    private orderService: OrderService,
+    private shareFormService: ShareFormService) { }
 
   get additionalCertificates() {
     return this.orderDetailsForm.get('additionalCertificates') as FormArray;
@@ -53,8 +56,18 @@ export class OrderDetailsFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.shareFormService.objectSource.subscribe(object => this.object = object);
+    this.shareFormService.objectSource
+      .pipe(
+        takeUntil(this.destroy)
+      )
+      .subscribe(object => {
+        this.object = object;
+      });
+
     this.orderService.getOrders()
+      .pipe(
+        takeUntil(this.destroy)
+      )
       .subscribe(data => {
         this.orders = data;
         this.initForm();
@@ -203,17 +216,20 @@ export class OrderDetailsFormComponent implements OnInit {
     if (arr.length > 0) {
       this.certificateSum = 0;
       for (const certificate of arr) {
-        this.orderService.processCertificate(certificate).subscribe(cert => {
-          this.certificateMatch(cert);
-          if (this.total > this.certificateSum) {
-            this.addCert = true;
-          } else {
-            this.addCert = false;
-            this.certSize = true;
-          }
-          this.calculateTotal();
-          // this.orderService.processCertificate(certificate).unsubscribe();
-        });
+        this.orderService.processCertificate(certificate)
+          .pipe(
+            takeUntil(this.destroy)
+          )
+          .subscribe(cert => {
+            this.certificateMatch(cert);
+            if (this.total > this.certificateSum) {
+              this.addCert = true;
+            } else {
+              this.addCert = false;
+              this.certSize = true;
+            }
+            this.calculateTotal();
+          });
       }
     } else {
       this.certificateSum = 0;

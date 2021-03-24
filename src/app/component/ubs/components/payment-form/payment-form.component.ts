@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
 import { ShareFormService } from '../../services/share-form.service';
 import { OrderDetailsFormComponent } from '../order-details-form/order-details-form.component';
@@ -49,6 +51,7 @@ export class PaymentFormComponent implements OnInit {
   MRow = false;
   showCert = false;
   showPoints = false;
+  private destroy: Subject<boolean> = new Subject<boolean>();
 
 
   constructor(
@@ -57,8 +60,20 @@ export class PaymentFormComponent implements OnInit {
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.shareFormService.finalObject.subscribe(order => {this.finalOrder = order; this.initPersonalData(); });
-    this.shareFormService.billObjectSource.subscribe(order => {this.bill = order; this.initPaymentData(); });
+    this.shareFormService.finalObject
+      .pipe(
+        takeUntil(this.destroy)
+      )
+      .subscribe(order => {
+        this.finalOrder = order; this.initPersonalData();
+      });
+    this.shareFormService.billObjectSource
+      .pipe(
+        takeUntil(this.destroy)
+      )
+      .subscribe(order => {
+        this.bill = order; this.initPaymentData();
+      });
     this.paymentForm = this.fb.group({});
   }
 

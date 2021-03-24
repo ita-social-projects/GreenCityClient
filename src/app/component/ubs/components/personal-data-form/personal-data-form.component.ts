@@ -5,6 +5,8 @@ import { PersonalData } from '../../models/personalData.model';
 import { ShareFormService } from '../../services/share-form.service';
 import { OrderService } from '../../services/order.service';
 import { AddAddressComponent } from './add-address/add-address/add-address.component';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-personal-data-form',
@@ -23,6 +25,7 @@ export class PersonalDataFormComponent implements OnInit, OnDestroy {
   districtDisabled = true;
   order: any;
   addresses: any = [];
+  private destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private orderService: OrderService,
@@ -36,15 +39,21 @@ export class PersonalDataFormComponent implements OnInit, OnDestroy {
       data: {}
     });
 
-    dialogRef.afterClosed().subscribe(address => {
-      if (address !== undefined) {
-        this.addresses.push(address);
-      }
-    });
+    dialogRef.afterClosed()
+      .pipe(
+        takeUntil(this.destroy)
+      )
+      .subscribe(address => {
+        if (address !== undefined) {
+          this.addresses.push(address);
+        }
+      });
   }
 
   ngOnInit(): void {
-    this.shareFormService.objectSource.subscribe(order => this.order = order);
+    this.shareFormService.objectSource.subscribe(order => {
+      this.order = order
+    });
     this.personalDataForm = this.fb.group({
       firstName: ['', [
         Validators.required,
@@ -69,10 +78,14 @@ export class PersonalDataFormComponent implements OnInit, OnDestroy {
       addressComment: ['', Validators.maxLength(170)]
     });
 
-    this.orderService.getPersonalData().subscribe((data: PersonalData[]) => {
-      this.personalData = data[data.length - 1];
-      this.initForm();
-    });
+    this.orderService.getPersonalData()
+      .pipe(
+        takeUntil(this.destroy)
+      )
+      .subscribe((data: PersonalData[]) => {
+        this.personalData = data[data.length - 1];
+        this.initForm();
+      });
   }
 
   ngOnDestroy(): void {
@@ -107,7 +120,11 @@ export class PersonalDataFormComponent implements OnInit, OnDestroy {
       longitude: this.addresses[0].longitude
     };
     this.order.personalData = personalData;
-    this.orderService.processOrder(this.order).subscribe();
+    this.orderService.processOrder(this.order)
+      .pipe(
+        takeUntil(this.destroy)
+      )
+      .subscribe();
     this.shareFormService.thirdStepObject(this.order);
   }
 }
