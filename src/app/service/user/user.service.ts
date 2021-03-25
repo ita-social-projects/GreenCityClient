@@ -124,7 +124,7 @@ export class UserService implements OnLogout {
   }
 
   loadAvailableCustomGoals() {
-    this.http.get<Goal[]>(`${userLink}/${this.userId}/customGoals/available`).subscribe(data => {
+    this.http.get<Goal[]>(`${userLink}/${this.userId}/custom-shopping-list-items/available`).subscribe(data => {
       data.forEach(goal => {
         goal.type = GoalType.CUSTOM;
         goal.status = 'UNCHECKED';
@@ -259,5 +259,10 @@ export class UserService implements OnLogout {
       endpointLink += `?language=${language}`;
     }
     return this.http.get(endpointLink) as Observable<Array<HabitItemsAmountStatisticDto>>;
+  }
+
+  updateUserLanguage(languageId: number) {
+    const body = {};
+    return this.http.put(`${userLink}/${this.userId}/language/${languageId}`, body);
   }
 }

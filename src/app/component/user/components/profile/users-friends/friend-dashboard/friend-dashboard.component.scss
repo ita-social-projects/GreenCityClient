@@ -1,0 +1,47 @@
+$linkColorGreen: #13aa57;
+$linkColorGray: #494a49;
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+.container {
+  .profile-link {
+    text-decoration: underline;
+    color: $linkColorGreen;
+  }
+
+  .friends {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Open Sans', sans-serif;
+
+    h1 {
+      font-style: normal;
+      font-weight: 500;
+      font-size: 48px;
+      line-height: 48px;
+      font-family: 'Montserrat', sans-serif;
+    }
+  }
+
+  a {
+    color: $linkColorGray;
+    margin: 0 16px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    line-height: 18.75px;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .active {
+    color: $linkColorGreen;
+    padding: 5px 5px 0;
+    text-decoration: none;
+  }
+}
