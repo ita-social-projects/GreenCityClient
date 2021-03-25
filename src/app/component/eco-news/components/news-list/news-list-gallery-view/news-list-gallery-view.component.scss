@@ -1,7 +1,7 @@
 $bp-smallest: 575px;
 $bp-phone: 767px;
-$bp-tablet: 1023px;
-$bp-desktop: 1439px;
+$bp-tablet: 991px;
+$bp-desktop: 1199px;
 
 p,
 div {
@@ -11,7 +11,7 @@ div {
 
 .list-gallery {
   width: 359px;
-  min-height: 528px;
+  min-height: 500px;
   box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
   background: #fff;
   border-radius: 4px;
@@ -128,11 +128,11 @@ div {
 @media screen and (max-width: $bp-desktop) {
   .list-gallery {
     width: 299px;
-    min-height: 528px;
+    min-height: 500px;
 
     .list-image {
       .list-image-content {
-        height: 206px;
+        height: 172px;
       }
     }
 
@@ -146,12 +146,12 @@ div {
 
 @media screen and (max-width: $bp-tablet) {
   .list-gallery {
-    width: 354px;
-    min-height: 528px;
+    width: 353px;
+    min-height: 500px;
 
     .list-image {
       .list-image-content {
-        height: 206px;
+        height: 202px;
       }
     }
 
@@ -166,11 +166,11 @@ div {
 @media screen and (max-width: $bp-phone) {
   .list-gallery {
     width: 258px;
-    height: 528px;
+    height: 508px;
 
     .list-image {
       .list-image-content {
-        height: 206px;
+        height: 147px;
       }
     }
 
@@ -200,11 +200,11 @@ div {
 @media screen and (max-width: $bp-smallest) {
   .list-gallery {
     width: 288px;
-    height: 528px;
+    height: 508px;
 
     .list-image {
       .list-image-content {
-        height: 206px;
+        height: 166px;
       }
     }
   }
