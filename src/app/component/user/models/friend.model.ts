@@ -21,6 +21,6 @@ export interface SixFriendArrayModel {
     currentPage: number;
     page: FriendArrayModel[];
     totalElements: number;
-    totalPages: number;
+    totalPages: number
   };
 }

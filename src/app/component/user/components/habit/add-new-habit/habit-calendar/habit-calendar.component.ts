@@ -10,7 +10,11 @@ import { CalendarBaseComponent } from '@shared/components/calendar-base/calendar
   styleUrls: ['./../../../profile/calendar/calendar.component.scss', './habit-calendar.component.scss'],
 })
 export class HabitCalendarComponent extends CalendarBaseComponent implements OnInit, OnDestroy {
-  constructor(public translate: TranslateService, public languageService: LanguageService, public habitAsignService: HabitAssignService) {
+  constructor(
+    public translate: TranslateService,
+    public languageService: LanguageService,
+    public habitAsignService: HabitAssignService
+  ) {
     super(translate, languageService, habitAsignService);
   }
 

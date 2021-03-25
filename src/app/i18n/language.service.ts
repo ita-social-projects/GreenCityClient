@@ -14,7 +14,7 @@ export class LanguageService {
   public synqLanguageArr: LanguageId[] = [
     { id: 1, code: 'ua' },
     { id: 2, code: 'en' },
-    { id: 3, code: 'ru' },
+    { id: 3, code: 'ru' }
   ];
 
   constructor(private translate: TranslateService, private localStorageService: LocalStorageService) {
@@ -99,6 +99,6 @@ export class LanguageService {
   }
 
   public getLanguageId(language: Language) {
-    return this.synqLanguageArr.find((res) => res.code === language).id;
+    return this.synqLanguageArr.find(res => res.code === language).id;
   }
 }

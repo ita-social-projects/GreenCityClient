@@ -44,6 +44,27 @@
         <div class="habit__picture">
           <img [src]="habit.image" alt="habit picture" />
         </div>
+
+        <div class="description">
+          <p>{{ habit.habitTranslation.description }}</p>
+        </div>
+      </div>
+      <div class="habit__action-wrp">
+        <div>
+          <button [disabled]="habit.isAssigned" class="primary-global-button" (click)="addHabit()">
+            {{ 'user.habit.all-habits.btn-add' | translate }}
+          </button>
+        </div>
+        <div>
+          <button class="secondary-global-button" (click)="goHabitMore()">
+            {{ 'user.habit.all-habits.btn-more' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="habit__picture-wrp">
+      <div class="habit__picture">
+        <img [src]="habit.image" alt="habit picture" />
       </div>
     </div>
   </div>

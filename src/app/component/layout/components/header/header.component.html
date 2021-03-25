@@ -67,6 +67,7 @@
                 </a>
               </li>
             </ng-template>
+
             <li class="header_mobile-menu-sign-up" *ngIf="toggleBurgerMenu && !isLoggedIn" (click)="openAuthModalWindow('sign-up')">
               <div class="header_sign-up-btn secondary-global-button" role="link">
                 <span>{{ 'top-bar.sign-up' | translate }}</span>
@@ -77,6 +78,7 @@
         <div class="header_navigation-menu-right">
           <ul class="header_navigation-menu-right-list">
             <!-- Search icon -->
+
             <li
               *ngIf="!isAllSearchOpen"
               class="search-icon"
@@ -138,6 +140,7 @@
                     {{ 'nav-bar.user-settings' | translate }}
                   </a>
                 </li>
+
                 <li *ngIf="isLoggedIn && isAdmin" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="management">
                   <a [href]="managementLink" target="_blank">
                     {{ 'nav-bar.management' | translate }}

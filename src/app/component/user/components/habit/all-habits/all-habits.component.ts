@@ -34,13 +34,12 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   private batchSize = 6;
   public images = singleNewsImages;
 
-  constructor(
-    private habitService: HabitService,
-    private localStorageService: LocalStorageService,
-    private translate: TranslateService,
-    public profileService: ProfileService,
-    public habitAssignService: HabitAssignService
-  ) {}
+
+  constructor( private habitService: HabitService,
+               private localStorageService: LocalStorageService,
+               private translate: TranslateService,
+               public profileService: ProfileService,
+               public habitAssignService: HabitAssignService ) { }
 
   ngOnInit() {
     this.onResize();
@@ -55,7 +54,8 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
 
     this.checkIfAssigned();
 
-    const habitServiceSub = this.allHabits.subscribe((data) => {
+
+    const habitServiceSub = this.allHabits.subscribe(data => {
       this.isFetching = false;
       this.totalHabits = data.totalElements;
       this.totalHabitsCopy = data.totalElements;
@@ -150,17 +150,16 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   }
 
   public checkIfAssigned() {
-    this.habitAssignService
-      .getAssignedHabits()
-      .pipe(take(1))
-      .subscribe((response: Array<HabitAssignInterface>) => {
-        response.forEach((assigned) => {
-          this.filteredHabitsList.find((filtered) => {
-            if (assigned.habit.id === filtered.id) {
-              filtered.isAssigned = true;
-            }
-          });
+    this.habitAssignService.getAssignedHabits()
+    .pipe(take(1))
+    .subscribe((response: Array<HabitAssignInterface>) => {
+      response.forEach((assigned) => {
+        this.filteredHabitsList.find((filtered) => {
+          if (assigned.habit.id === filtered.id) {
+            filtered.isAssigned = true;
+          }
         });
       });
+    });
   }
 }

@@ -7,14 +7,15 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-friend-dashboard',
   templateUrl: './friend-dashboard.component.html',
-  styleUrls: ['./friend-dashboard.component.scss'],
+  styleUrls: ['./friend-dashboard.component.scss']
 })
 export class FriendDashboardComponent implements OnInit, OnDestroy {
   public userId: number;
   public langChangeSub: Subscription;
   public destroy$ = new Subject();
 
-  constructor(private localStorageService: LocalStorageService, private translate: TranslateService) {}
+  constructor(private localStorageService: LocalStorageService,
+              private translate: TranslateService) { }
 
   ngOnInit() {
     this.initUser();
@@ -23,7 +24,11 @@ export class FriendDashboardComponent implements OnInit, OnDestroy {
   }
 
   public initUser(): void {
-    this.localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((userId: number) => (this.userId = userId));
+
+    this.localStorageService.userIdBehaviourSubject.pipe(
+      takeUntil(this.destroy$)
+    )
+      .subscribe((userId: number) => this.userId = userId);
   }
 
   private bindLang(lang: string): void {
@@ -31,7 +36,9 @@ export class FriendDashboardComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToLangChange(): void {
-    this.langChangeSub = this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
+
+    this.langChangeSub = this.localStorageService.languageSubject
+      .subscribe(this.bindLang.bind(this));
   }
 
   ngOnDestroy(): void {

@@ -17,7 +17,9 @@ export class UsersFriendsComponent implements OnInit, OnDestroy {
   public amountOfFriends: number;
   public destroy$ = new Subject();
 
-  constructor(private profileService: ProfileService, private localStorageService: LocalStorageService) {}
+
+  constructor(private profileService: ProfileService,
+              private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
     this.showUsersFriends();
@@ -25,19 +27,31 @@ export class UsersFriendsComponent implements OnInit, OnDestroy {
   }
 
   public showUsersFriends(): void {
-    this.profileService
-      .getUserFriends()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        (item: UserFriendsInterface) => {
-          this.usersFriends = item.pagedFriends.page;
-          this.amountOfFriends = item.amountOfFriends;
-        },
-        (error) => {
-          this.noFriends = error;
-        }
-      );
+
+    this.profileService.getUserFriends().pipe(
+      takeUntil(this.destroy$)
+    )
+      .subscribe((item: UserFriendsInterface) => {
+        this.usersFriends = item.pagedFriends.page;
+        this.amountOfFriends = item.amountOfFriends;
+      }, error => {
+        this.noFriends = error;
+      });
   }
+
+  public initUser(): void {
+    this.localStorageService.userIdBehaviourSubject.pipe(
+      takeUntil(this.destroy$)
+    )
+      .subscribe((userId: number) => this.userId = userId);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.complete();
+  }
+}
+
 
   public initUser(): void {
     this.localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((userId: number) => (this.userId = userId));

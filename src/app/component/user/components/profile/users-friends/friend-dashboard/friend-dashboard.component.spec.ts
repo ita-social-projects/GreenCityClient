@@ -13,25 +13,14 @@ class TranslationServiceStub {
   public onLangChange = new EventEmitter<any>();
   public onTranslationChange = new EventEmitter<any>();
   public onDefaultLangChange = new EventEmitter<any>();
-  public addLangs(langs: string[]) {}
-  public getLangs() {
-    return 'en-us';
-  }
-  public getBrowserLang() {
-    return '';
-  }
-  public getBrowserCultureLang() {
-    return '';
-  }
-  public use(lang: string) {
-    return '';
-  }
-  public get(key: any): any {
-    return of(key);
-  }
-  public setDefaultLang() {
-    return true;
-  }
+
+  public addLangs(langs: string[]) { }
+  public getLangs() { return 'en-us'; }
+  public getBrowserLang() { return ''; }
+  public getBrowserCultureLang() { return ''; }
+  public use(lang: string) { return ''; }
+  public get(key: any): any { return of (key); }
+  public setDefaultLang() {return true; }
 }
 
 describe('FriendDashboardComponent', () => {
@@ -46,14 +35,22 @@ describe('FriendDashboardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [FriendDashboardComponent],
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule.withRoutes([])],
-      providers: [
-        { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: TranslateService, useClass: TranslationServiceStub },
+
+      declarations: [ FriendDashboardComponent ],
+      imports: [
+        TranslateModule.forRoot(),
+        HttpClientTestingModule,
+        RouterTestingModule.withRoutes([])
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-    }).compileComponents();
+      providers: [
+        {provide: LocalStorageService, useValue: localStorageServiceMock},
+        {provide: TranslateService, useClass: TranslationServiceStub }
+      ],
+      schemas: [
+        CUSTOM_ELEMENTS_SCHEMA,
+        NO_ERRORS_SCHEMA]
+    })
+    .compileComponents();
   }));
 
   beforeEach(() => {
@@ -63,7 +60,8 @@ describe('FriendDashboardComponent', () => {
   });
 
   afterEach(() => {
-    spyOn(component, 'ngOnDestroy').and.callFake(() => {});
+
+    spyOn(component, 'ngOnDestroy').and.callFake(() => { });
     fixture.destroy();
   });
 
@@ -71,7 +69,8 @@ describe('FriendDashboardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('ngOnInit should called subscribeToLangChange method one time', () => {
+
+  it ('ngOnInit should called subscribeToLangChange method one time', () => {
     const subscribeToLangChangeSpy = spyOn(component as any, 'subscribeToLangChange');
     component.ngOnInit();
     expect(subscribeToLangChangeSpy).toHaveBeenCalledTimes(1);
@@ -81,7 +80,8 @@ describe('FriendDashboardComponent', () => {
     const initUserSpy = spyOn(component as any, 'initUser');
     component.ngOnInit();
     expect(initUserSpy).toHaveBeenCalledTimes(1);
-  });
+
+    });
 
   it('should get userId', () => {
     expect(localStorageServiceMock.userIdBehaviourSubject.value).toBe(1111);
@@ -91,7 +91,8 @@ describe('FriendDashboardComponent', () => {
     const initUserSpy = spyOn(component as any, 'initUser');
     component.ngOnInit();
     expect(initUserSpy).toHaveBeenCalledTimes(1);
-  });
+
+    });
 
   it('should unsubscribe on destroy', () => {
     component.langChangeSub = of(true).subscribe();
