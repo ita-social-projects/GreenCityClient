@@ -12,30 +12,17 @@ describe('RequestItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-
-      declarations: [ RequestItemComponent ],
-      imports: [
-        TranslateModule.forRoot(),
-        HttpClientTestingModule,
-        RouterTestingModule.withRoutes([])
-      ],
-      schemas: [
-        CUSTOM_ELEMENTS_SCHEMA,
-        NO_ERRORS_SCHEMA]
-    })
-    .compileComponents();
+      declarations: [RequestItemComponent],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule.withRoutes([])],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RequestItemComponent);
     component = fixture.componentInstance;
 
-    component.request = { id: 1,
-      name: 'Name',
-      profilePicture: '',
-      added: true,
-      rating: 380
-    };
+    component.request = { id: 1, name: 'Name', profilePicture: '', added: true, rating: 380 };
     fixture.detectChanges();
   });
 
@@ -43,14 +30,13 @@ describe('RequestItemComponent', () => {
     expect(component).toBeTruthy();
   });
 
-
-  it( 'it should call accept on click', () => {
+  it('it should call accept on click', () => {
     spyOn(component.acceptEvent, 'emit');
     component.accept(component.request.id);
     expect(component.acceptEvent.emit).toHaveBeenCalledWith(1);
   });
 
-  it( 'it should call decline on click', () => {
+  it('it should call decline on click', () => {
     spyOn(component.declineEvent, 'emit');
     component.decline(component.request.id);
     expect(component.declineEvent.emit).toHaveBeenCalledWith(1);

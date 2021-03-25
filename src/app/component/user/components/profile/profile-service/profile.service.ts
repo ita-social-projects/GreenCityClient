@@ -59,7 +59,10 @@ export class ProfileService {
     const body = {};
     const { status: prevStatus } = item;
     const newStatus = prevStatus === 'DONE' ? 'ACTIVE' : 'DONE';
-    return this.http.patch<object[]>(`
-    ${mainLink}custom/shopping-list-items/${this.userId}/custom-shopping-list-items?itemId=${item.id}&status=${newStatus}`, body);
+    return this.http.patch<object[]>(
+      `
+    ${mainLink}custom/shopping-list-items/${this.userId}/custom-shopping-list-items?itemId=${item.id}&status=${newStatus}`,
+      body
+    );
   }
 }

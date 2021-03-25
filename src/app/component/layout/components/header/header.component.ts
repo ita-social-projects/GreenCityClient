@@ -88,9 +88,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public focusDone(): void {
-
-    if (this.elementName === 'sign-up' && !this.isLoggedIn) { this.signupref.nativeElement.focus(); }
-    if (this.elementName === 'sign-in' && !this.isLoggedIn) { this.signinref.nativeElement.focus(); }
+    if (this.elementName === 'sign-up' && !this.isLoggedIn) {
+      this.signupref.nativeElement.focus();
+    }
+    if (this.elementName === 'sign-in' && !this.isLoggedIn) {
+      this.signinref.nativeElement.focus();
+    }
   }
 
   ngOnDestroy() {
@@ -123,8 +126,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.isLoggedIn) {
       const curLangId = this.languageService.getLanguageId(language.toLowerCase() as Language);
 
-      this.userService.updateUserLanguage(curLangId)
-      .subscribe();
+      this.userService.updateUserLanguage(curLangId).subscribe();
     }
   }
 
@@ -214,5 +216,4 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public toggleScroll(): void {
     this.toggleBurgerMenu ? document.body.classList.add('modal-open') : document.body.classList.remove('modal-open');
   }
-
 }

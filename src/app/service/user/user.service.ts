@@ -117,11 +117,12 @@ export class UserService implements OnLogout {
   }
 
   loadAvailableCustomGoals() {
-    this.http.get<Goal[]>(`${userLink}/${this.userId}/custom-shopping-list-items/available`).subscribe(data => {
-      data.forEach(goal => {
-        goal.type = GoalType.CUSTOM;
-        goal.status = 'UNCHECKED';
-      });
+    this.http.get<Goal[]>(`${userLink}/${this.userId}/custom-shopping-list-items/available`).subscribe(
+      (data) => {
+        data.forEach((goal) => {
+          goal.type = GoalType.CUSTOM;
+          goal.status = 'UNCHECKED';
+        });
 
         this.dataStore.availableCustomGoals = data;
         this.availableCustomGoalsSubject.next(Object.assign({}, this.dataStore).availableCustomGoals);

@@ -13,30 +13,30 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   public shoppingList: ShoppingList[];
   public profileSubscription: Subscription;
   private destroy$ = new Subject<void>();
-  constructor(private profileService: ProfileService) { }
+  constructor(private profileService: ProfileService) {}
 
   ngOnInit() {
     this.getShoppingList();
   }
 
   public getShoppingList(): void {
-    this.profileSubscription = this.profileService.getShoppingList()
-    .subscribe(
-      (shoppingListArr: ShoppingList[]) => this.shoppingList = shoppingListArr,
-      error => this.shoppingList = []
+    this.profileSubscription = this.profileService.getShoppingList().subscribe(
+      (shoppingListArr: ShoppingList[]) => (this.shoppingList = shoppingListArr),
+      (error) => (this.shoppingList = [])
     );
   }
 
   public toggleDone(item): void {
-    this.profileService.toggleStatusOfShoppingItem(item)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((success) => this.updateDataOnUi(item));
+    this.profileService
+      .toggleStatusOfShoppingItem(item)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((success) => this.updateDataOnUi(item));
   }
 
   private updateDataOnUi(item): any {
     const { status: prevItemStatus } = item;
     const newItemStatus = prevItemStatus === 'ACTIVE' ? 'DONE' : 'ACTIVE';
-    return item.status = newItemStatus;
+    return (item.status = newItemStatus);
   }
 
   ngOnDestroy() {

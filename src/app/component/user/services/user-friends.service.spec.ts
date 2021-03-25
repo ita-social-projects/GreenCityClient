@@ -12,7 +12,7 @@ describe('UserFriendsService', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
 
-      providers: [UserFriendsService]
+      providers: [UserFriendsService],
     });
     injector = getTestBed();
     userFriendsService = injector.get(UserFriendsService);
@@ -37,19 +37,19 @@ describe('UserFriendsService', () => {
           page: [],
           totalElements: 6,
 
-          totalPages: 1
-        }};
+          totalPages: 1,
+        },
+      };
 
-      userFriendsService.getSixFriends(4).subscribe(users => {
-      expect(users.pagedFriends.page.length).toBe(0);
-    });
+      userFriendsService.getSixFriends(4).subscribe((users) => {
+        expect(users.pagedFriends.page.length).toBe(0);
+      });
 
       const req = httpMock.expectOne(`${userFriendsService.url}user/4/sixUserFriends/`);
       expect(req.request.method).toBe('GET');
       req.flush(userFriends);
-
+    });
   });
-});
 
   describe('getRecommendedFriends', () => {
     it('should return an FriendArrayModel', () => {
@@ -62,17 +62,17 @@ describe('UserFriendsService', () => {
             id: 1,
             name: 'temp1',
 
-            profilePicture: ''
-        },
+            profilePicture: '',
+          },
           {
             id: 1,
             name: 'temp1',
-            profilePicture: ''
+            profilePicture: '',
           },
-        ]
+        ],
       };
-      userFriendsService.getRecommendedFriends(4).subscribe(users => {
-      expect(users.page.length).toBe(2);
+      userFriendsService.getRecommendedFriends(4).subscribe((users) => {
+        expect(users.page.length).toBe(2);
       });
 
       const req = httpMock.expectOne(`${userFriendsService.url}user/4/recommendedFriends/?page=0&size=10`);
@@ -92,16 +92,16 @@ describe('UserFriendsService', () => {
             id: 1,
             name: 'temp1',
 
-            profilePicture: ''
-        },
+            profilePicture: '',
+          },
           {
             id: 2,
             name: 'temp2',
-            profilePicture: ''
+            profilePicture: '',
           },
-        ]
+        ],
       };
-      userFriendsService.getAllFriends(4).subscribe(users => {
+      userFriendsService.getAllFriends(4).subscribe((users) => {
         expect(users.page.length).toBe(2);
       });
 
@@ -122,16 +122,16 @@ describe('UserFriendsService', () => {
             id: 1,
             name: 'temp1',
 
-            profilePicture: ''
-        },
+            profilePicture: '',
+          },
           {
             id: 2,
             name: 'temp2',
-            profilePicture: ''
+            profilePicture: '',
           },
-        ]
+        ],
       };
-      userFriendsService.getRequests(4).subscribe(users => {
+      userFriendsService.getRequests(4).subscribe((users) => {
         expect(users.page.length).toBe(2);
       });
 

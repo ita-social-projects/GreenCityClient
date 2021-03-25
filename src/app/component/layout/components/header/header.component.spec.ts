@@ -92,10 +92,8 @@ describe('HeaderComponent', () => {
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: SearchService, useValue: searchServiceMock },
         { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock },
-
-      ]
-    })
-      .compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

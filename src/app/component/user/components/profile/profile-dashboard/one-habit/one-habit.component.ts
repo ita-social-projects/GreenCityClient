@@ -27,16 +27,12 @@ export class OneHabitComponent implements OnInit {
       this.habitMark = 'star';
     },
     done: () => {
-      this.daysCounter = this.habit.workingDays
-        ? this.habit.workingDays
-        : this.habit.duration;
+      this.daysCounter = this.habit.workingDays ? this.habit.workingDays : this.habit.duration;
       this.showPhoto = false;
       this.habitMark = 'mark';
     },
     undone: () => {
-      this.daysCounter = this.habit.workingDays
-        ? this.habit.workingDays
-        : this.habit.duration;
+      this.daysCounter = this.habit.workingDays ? this.habit.workingDays : this.habit.duration;
       this.showPhoto = true;
       this.habitMark = 'plus';
     },

@@ -9,10 +9,9 @@ import { takeUntil } from 'rxjs/operators';
   selector: 'app-all-friends',
   templateUrl: './all-friends.component.html',
 
-  styleUrls: ['./all-friends.component.scss']
+  styleUrls: ['./all-friends.component.scss'],
 })
 export class AllFriendsComponent implements OnInit, OnDestroy {
-
   public userId: number;
   public friends: FriendModel[] = [];
   private destroy$ = new Subject();
@@ -20,9 +19,7 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
   public currentPage = 0;
   public totalPages: number;
 
-
-  constructor(private userFriendsService: UserFriendsService,
-              private localStorageService: LocalStorageService) { }
+  constructor(private userFriendsService: UserFriendsService, private localStorageService: LocalStorageService) {}
 
   ngOnInit() {
     this.initUser();
@@ -30,17 +27,14 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
   }
 
   public getAllFriends() {
-
-    this.userFriendsService.getAllFriends(this.userId).pipe(
-      takeUntil(this.destroy$)
-    )
-    .subscribe (
-      (data: FriendArrayModel) => this.friends = data.page
-    );
+    this.userFriendsService
+      .getAllFriends(this.userId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: FriendArrayModel) => (this.friends = data.page));
   }
 
   public deleteFriendsFromList(id, array) {
-    const indexDeletedFriend = array.findIndex(item => item.id === id);
+    const indexDeletedFriend = array.findIndex((item) => item.id === id);
     array.splice(indexDeletedFriend, 1);
   }
 
@@ -48,33 +42,25 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
     this.scroll = true;
     this.currentPage += 1;
 
-    this.userFriendsService.getAllFriends(this.userId, this.currentPage).pipe(
-      takeUntil(this.destroy$)
-    )
-    .subscribe(
-      (data: FriendArrayModel) => {
+    this.userFriendsService
+      .getAllFriends(this.userId, this.currentPage)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: FriendArrayModel) => {
         this.friends = this.friends.concat(data.page);
-      },
-     );
+      });
   }
 
   public handleDeleteFriend(id: number) {
-    this.userFriendsService.deleteFriend(this.userId, id).pipe(
-      takeUntil(this.destroy$)
-    )
-    .subscribe(
-      () => {
+    this.userFriendsService
+      .deleteFriend(this.userId, id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
         this.deleteFriendsFromList(id, this.friends);
-      }
-    );
+      });
   }
 
   public initUser(): void {
-    this.localStorageService.userIdBehaviourSubject
-      .pipe(
-        takeUntil(this.destroy$)
-      )
-      .subscribe((userId: number) => this.userId = userId);
+    this.localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((userId: number) => (this.userId = userId));
   }
 
   ngOnDestroy() {
