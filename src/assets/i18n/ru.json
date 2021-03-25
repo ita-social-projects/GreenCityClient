@@ -724,8 +724,8 @@
     }
   },
   "post-news-loader": {
-    "text-1": "Please wait while loading...",
-    "text-2": "Your news is loading to website. Please wait until page refresh."
+    "text-1": "Подождите, пожалуйста...",
+    "text-2": "Ваши новости загружаются на веб-сайт. Дождитесь обновления страницы."
   },
   "profile": {
     "calendar": {
