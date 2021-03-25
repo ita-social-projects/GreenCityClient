@@ -31,7 +31,7 @@
           {{'user.habit.all-habits.btn-more' | translate}}</button>
       </div>
       <div>
-        <button class="primary-global-button" (click)="addHabit()">
+        <button [disabled] = "habit.isAssigned" class="primary-global-button" (click)="addHabit()">
           {{'user.habit.all-habits.btn-add' | translate}}</button>
       </div>
     </div>

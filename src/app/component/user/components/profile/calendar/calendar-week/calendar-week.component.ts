@@ -1,8 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { CalendarBaseComponent } from '@shared/components/calendar-base/calendar-base.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { TranslateService } from '@ngx-translate/core';
+import { HabitAssignService } from './../../../../../../service/habit-assign/habit-assign.service';
+import { LanguageService } from '@language-service/language.service';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { CalendarWeekInterface } from '../calendar-week/calendar-week-interface';
 import { calendarImage } from '../calendar-image';
 
@@ -11,19 +14,27 @@ import { calendarImage } from '../calendar-image';
   templateUrl: './calendar-week.component.html',
   styleUrls: ['./calendar-week.component.scss']
 })
-export class CalendarWeekComponent implements OnInit, OnDestroy {
+export class CalendarWeekComponent extends CalendarBaseComponent implements OnInit, OnDestroy {
   public calendarImages = calendarImage;
-  private language: string;
+  public language: string;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-  private currentDate = new Date();
+  public currentDate = new Date();
   public weekTitle: string;
   public weekDates: CalendarWeekInterface[];
 
-  constructor(private localStorageService: LocalStorageService) {}
+  constructor(
+    private localStorageService: LocalStorageService,
+    public habitAssignService: HabitAssignService,
+    public translate: TranslateService,
+    public languageService: LanguageService
+  ) {
+    super(translate, languageService, habitAssignService);
+  }
 
   ngOnInit() {
     this.buildWeekCalendar(this.getFirstWeekDate());
     this.getLanguage();
+    this.markCalendarDays(false, this.weekDates);
   }
 
   private buildWeekCalendar(firstWeekDay: Date): void {
@@ -40,8 +51,8 @@ export class CalendarWeekComponent implements OnInit, OnDestroy {
         date,
         dayName: this.language ? this.setDayName(date) : '',
         isCurrent,
-        hasHabitsInProgress: true,
-        areHabitsDone: true
+        hasHabitsInProgress: false,
+        areHabitsDone: false
       });
     }
   }
@@ -90,6 +101,7 @@ export class CalendarWeekComponent implements OnInit, OnDestroy {
     const firstWeekDate = new Date(year, month, day);
     this.buildWeekCalendar(firstWeekDate);
     this.buildWeekCalendarTitle();
+    this.markCalendarDays(false, this.weekDates);
   }
 
   ngOnDestroy() {

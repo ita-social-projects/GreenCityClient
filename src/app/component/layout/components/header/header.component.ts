@@ -48,7 +48,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('signinref', {static: false}) signinref: ElementRef;
   @ViewChild('signupref', {static: false}) signupref: ElementRef;
   public elementName;
-
   constructor(
     public dialog: MatDialog,
     private localStorageService: LocalStorageService,
@@ -113,8 +112,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public focusDone(): void {
-    if (this.elementName === 'sign-up') { this.signupref.nativeElement.focus(); }
-    if (this.elementName === 'sign-in') { this.signinref.nativeElement.focus(); }
+    if (this.elementName === 'sign-up' && !this.isLoggedIn) { this.signupref.nativeElement.focus(); }
+    if (this.elementName === 'sign-in' && !this.isLoggedIn) { this.signinref.nativeElement.focus(); }
   }
 
   ngOnDestroy() {
@@ -147,6 +146,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.arrayLang[0].lang = language;
     this.arrayLang[index].lang = temporary;
     this.langDropdownVisible = false;
+    if (this.isLoggedIn) {
+      const curLangId = this.languageService.getLanguageId(language.toLowerCase() as Language);
+      this.userService.updateUserLanguage(curLangId)
+      .subscribe();
+    }
   }
 
   public getUserId(): number | string {
@@ -237,4 +241,5 @@ export class HeaderComponent implements OnInit, OnDestroy {
       document.body.classList.add('modal-open') :
       document.body.classList.remove('modal-open');
   }
+
 }
