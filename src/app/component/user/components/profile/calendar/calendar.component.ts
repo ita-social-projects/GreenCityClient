@@ -104,7 +104,6 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
     this.habitAssignService.unenrollByHabit(habit.habit.id, this.formatedDate).pipe(
       take(1)
     ).subscribe();
->>>>>>> ee9b77a4840ba7cd32e3eb19a32976e550be63a8
   }
 
   public toggleEnrollHabit = (habit: HabitAssignInterface) => {
