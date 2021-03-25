@@ -8,16 +8,11 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-friend-requests',
   templateUrl: './friend-requests.component.html',
-<<<<<<< HEAD
-  styleUrls: ['./friend-requests.component.scss'],
-})
-export class FriendRequestsComponent implements OnInit, OnDestroy {
-=======
+
   styleUrls: ['./friend-requests.component.scss']
 })
 export class FriendRequestsComponent implements OnInit, OnDestroy {
 
->>>>>>> ee9b77a4840ba7cd32e3eb19a32976e550be63a8
   public requests: FriendModel[] = null;
   public userId: number;
   private destroy$ = new Subject();
@@ -25,13 +20,10 @@ export class FriendRequestsComponent implements OnInit, OnDestroy {
   public currentPage = 0;
   readonly absent = 'assets/img/noNews.jpg';
 
-<<<<<<< HEAD
-  constructor(private localStorageService: LocalStorageService, private userFriendsService: UserFriendsService) {}
-=======
+
   constructor(private localStorageService: LocalStorageService,
               private userFriendsService: UserFriendsService
     ) { }
->>>>>>> ee9b77a4840ba7cd32e3eb19a32976e550be63a8
 
   ngOnInit() {
     this.initUser();
@@ -39,11 +31,8 @@ export class FriendRequestsComponent implements OnInit, OnDestroy {
   }
 
   public deleteFriendsFromList(id, array) {
-<<<<<<< HEAD
-    const indexSuggestion = array.findIndex((item) => item.id === id);
-=======
+
     const indexSuggestion = array.findIndex(item => item.id === id);
->>>>>>> ee9b77a4840ba7cd32e3eb19a32976e550be63a8
     array.splice(indexSuggestion, 1);
   }
 
