@@ -41,8 +41,8 @@ export class OrderDetailsFormComponent implements OnInit {
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(private fb: FormBuilder,
-    private orderService: OrderService,
-    private shareFormService: ShareFormService) { }
+              private orderService: OrderService,
+              private shareFormService: ShareFormService) { }
 
   get bagNumUbs() {
     return this.orderDetailsForm.get('bagNumUbs');
@@ -288,7 +288,7 @@ export class OrderDetailsFormComponent implements OnInit {
       pointsSum: this.pointsUsed,
       total: this.showTotal,
       finalSum: this.finalSum,
-    }
+    };
     this.shareFormService.changeObject(newOrder);
     this.shareFormService.finalBillObject(paymentBill);
   }

@@ -72,7 +72,7 @@ export class PersonalDataFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.shareFormService.objectSource.subscribe(order => {
-      this.order = order
+      this.order = order;
     });
     this.personalDataForm = this.fb.group({
       firstName: ['', [
