@@ -3,6 +3,7 @@ import { HabitAssignInterface } from '../../../../../../interface/habit/habit-as
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { take } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { HabitStatus } from './../../../../../../model/habit/HabitStatus';
 
 @Component({
   selector: 'app-one-habit',
@@ -55,9 +56,9 @@ export class OneHabitComponent implements OnInit {
   public buildHabitDescription(): void {
     const isDone = this.habit.habitStatusCalendarDtoList
       .some(item => item.enrollDate === this.currentDate);
-    if (this.habit.status === 'ACQUIRED') {
+    if (this.habit.status === HabitStatus.ACQUIRED) {
       this.descriptionType.acquired();
-    } else if (this.habit.status === 'INPROGRESS') {
+    } else if (this.habit.status === HabitStatus.INPROGRESS) {
       if (isDone) {
         this.descriptionType.done();
       } else {
@@ -78,7 +79,7 @@ export class OneHabitComponent implements OnInit {
     this.habitAssignService.enrollByHabit(this.habit.habit.id, this.currentDate)
     .pipe(take(1))
     .subscribe(response => {
-      if (response.status === 'ACQUIRED') {
+      if (response.status === HabitStatus.ACQUIRED) {
         this.descriptionType.acquired();
         this.nowAcquiredHabit.emit(response);
       } else {
