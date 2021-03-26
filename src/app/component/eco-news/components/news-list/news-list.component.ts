@@ -1,5 +1,5 @@
 import { Breakpoints } from './breakpoints.constants';
-import { Component, OnInit, OnDestroy, DoCheck, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 import { catchError, take, takeUntil } from 'rxjs/operators';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
