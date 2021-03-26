@@ -8,6 +8,9 @@ import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CalendarWeekInterface } from '../calendar-week/calendar-week-interface';
 import { calendarImage } from '../calendar-image';
+import { CalendarInterface } from '../calendar-interface';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { HabitsPopupComponent } from '../habits-popup/habits-popup.component';
 
 @Component({
   selector: 'app-calendar-week',
@@ -26,15 +29,17 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
     private localStorageService: LocalStorageService,
     public habitAssignService: HabitAssignService,
     public translate: TranslateService,
-    public languageService: LanguageService
+    public languageService: LanguageService,
+    public dialog: MatDialog,
   ) {
-    super(translate, languageService, habitAssignService);
+    super(translate, languageService, habitAssignService, dialog);
   }
 
   ngOnInit() {
     this.buildWeekCalendar(this.getFirstWeekDate());
     this.getLanguage();
-    this.markCalendarDays(false, this.weekDates);
+    this.getUserHabits(false, this.weekDates);
+    // this.markCalendarDays(false, this.weekDates);
   }
 
   private buildWeekCalendar(firstWeekDay: Date): void {
@@ -101,11 +106,43 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
     const firstWeekDate = new Date(year, month, day);
     this.buildWeekCalendar(firstWeekDate);
     this.buildWeekCalendarTitle();
-    this.markCalendarDays(false, this.weekDates);
+    this.getUserHabits(false, this.weekDates);
+    // this.markCalendarDays(false, this.weekDates);
   }
 
   ngOnDestroy() {
     this.destroyed$.next(true);
     this.destroyed$.complete();
+  }
+
+  public showHabits(e, dayItem: CalendarInterface) {
+    // this.checkIfFuture(dayItem);
+    this.openDialogDayHabits(e, dayItem);
+
+
+  }
+  openDialogDayHabits(e, dayItem: CalendarInterface) {
+    const date = this.formatDate(false, dayItem)
+
+    const habits = this.getHabitsForDay(this.userHabitsList, date)
+    console.log(habits)
+    const pos = e.target.getBoundingClientRect()
+    console.log(pos)
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.backdropClass = 'backdropBackground';
+    dialogConfig.position = {
+      top: (pos.y + 20) + 'px',
+      left: (pos.x - 300) + 'px'
+    };
+    dialogConfig.data = {
+      enrollDate:habits.enrollDate,
+      habitsCalendarSelectedDate: this.months[dayItem.month] + ' ' + dayItem.numberOfDate + ', ' + dayItem.year,
+      habits: habits.habitAssigns
+    };
+
+    const dialogRef = this.dialog.open(HabitsPopupComponent, dialogConfig);
   }
 }

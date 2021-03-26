@@ -63,6 +63,12 @@ $bp-largest: 1200px;
     }
   }
 
+  .disabled {
+    cursor: none;
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
   .middle {
     padding-bottom: 5px;
 
@@ -84,7 +90,7 @@ $bp-largest: 1200px;
         padding: 6px 0 0;
         cursor: pointer;
       }
-
+      
       .calendar-grid-day:hover {
         color: var(--primary-green);
       }
@@ -147,66 +153,7 @@ $bp-largest: 1200px;
   }
 }
 
-.calendar-habits {
-  visibility: hidden;
-}
 
-.calendar-habits-open {
-  position: relative;
-  z-index: 10;
-  margin-right: 314px;
-  width: 314px;
-  height: 334px;
-  right: 297px;
-  top: 3px;
-  font-family: var(--secondary-font);
-  color: var(--primary-dark-grey);
-  background: #fff;
-  box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
-  border-radius: 4px;
-}
-
-.habits-title {
-  font-family: var(--secondary-font);
-  font-weight: 600;
-  font-size: 13px;
-  line-height: 16px;
-  padding: 20px 0 16px 20px;
-  margin: 0;
-  display: flex;
-  align-items: center;
-}
-
-.habits-list {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 16px 16px;
-  margin: 0;
-}
-
-.habits-item {
-  display: flex;
-  align-items: center;
-  padding: 0;
-  margin: 0;
-  font-family: var(--secondary-font);
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 14px;
-  width: 282px;
-  height: 28px;
-  list-style: none;
-}
-
-.habits-item-disabled {
-  pointer-events: none;
-  opacity: 0.8;
-}
-
-.habit-icon {
-  padding-right: 9px;
-}
 
 .enrolled-day {
   background-color: #b1dfc6;
@@ -233,18 +180,10 @@ $bp-largest: 1200px;
 
 .unenrolled-past-day {
   background-color: transparent;
-  border: 1px solid  #d0d0d0;
+  border: 1px solid #d0d0d0;
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 50%;
-}
-
-.spinner {
-  width: 18px;
-  height: 18px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 @media only screen and (min-width: $bp-largest) {
@@ -266,4 +205,8 @@ $bp-largest: 1200px;
       }
     }
   }
+}
+
+.backdropBackground {
+  background: none;
 }
