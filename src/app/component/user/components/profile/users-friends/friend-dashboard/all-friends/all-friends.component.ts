@@ -13,11 +13,12 @@ import { takeUntil } from 'rxjs/operators';
 export class AllFriendsComponent implements OnInit, OnDestroy {
 
   public userId: number;
-  public friends: FriendModel[] = [];
+  public friends: FriendModel[];
   private destroy$ = new Subject();
   public scroll: boolean;
   public currentPage = 0;
   public totalPages: number;
+  readonly absent = 'assets/img/noNews.jpg';
 
   constructor(private userFriendsService: UserFriendsService,
               private localStorageService: LocalStorageService) { }
