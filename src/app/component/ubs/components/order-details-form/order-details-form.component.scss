@@ -65,7 +65,6 @@ label:nth-child(5) {
 }
 
 .count input {
-  background: var(--ubs-primary-white);
   border: 1px solid var(--ubs-secondary-grey);
   padding-left: 6px;
 }
@@ -99,8 +98,11 @@ button {
   width: 9rem;
   height: 3rem;
   border-radius: 0;
-  background: var(--ubs-primary-grey);
   border: none;
+}
+
+.primary-global-button {
+  background: var(--ubs-primary-green);
 }
 
 .middle {
@@ -209,12 +211,7 @@ button {
   button {
     width: 10rem;
     height: 3rem;
-    background: var(--ubs-secondary-grey);
     border: none;
-  }
-
-  button:hover {
-    background: var(--ubs-primary-green);
   }
 }
 
@@ -277,7 +274,6 @@ button {
     width: 120px;
     height: 3rem;
     border-radius: 0;
-    background: var(--ubs-secondary-grey);
     border: none;
   }
 
@@ -300,7 +296,6 @@ button {
   }
 
   input {
-    background: var(--ubs-primary-white);
     border: 1px solid var(--ubs-secondary-grey);
   }
 }

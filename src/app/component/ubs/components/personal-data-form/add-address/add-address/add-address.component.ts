@@ -20,7 +20,19 @@ export class AddAddressComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<AddAddressComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+
+  get district() {
+    return this.addAddressForm.get('district');
+  }
+
+  get street() {
+    return this.addAddressForm.get('street');
+  }
+
+  get houseCorpus() {
+    return this.addAddressForm.get('houseCorpus');
+  }
 
   ngOnInit() {
     this.addAddressForm = this.fb.group({

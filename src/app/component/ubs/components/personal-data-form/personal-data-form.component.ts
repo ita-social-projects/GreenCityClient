@@ -34,6 +34,26 @@ export class PersonalDataFormComponent implements OnInit, OnDestroy {
     public dialog: MatDialog
   ) { }
 
+  get firstName() {
+    return this.personalDataForm.get('firstName');
+  }
+
+  get phoneNumber() {
+    return this.personalDataForm.get('phoneNumber');
+  }
+
+  get lastName() {
+    return this.personalDataForm.get('lastName');
+  }
+
+  get email() {
+    return this.personalDataForm.get('email');
+  }
+
+  get addressComment() {
+    return this.personalDataForm.get('addressComment');
+  }
+
   openDialog(): void {
     const dialogRef = this.dialog.open(AddAddressComponent, {
       data: {}

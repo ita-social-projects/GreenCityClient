@@ -6,10 +6,9 @@
     <div class="col-12 col-sm-6 form-group">
       <label>Ім'я</label>
       <input formControlName="firstName" type="text" class="shadow-none form-control">
-      <div class="validation"
-        *ngIf="personalDataForm.get('firstName').invalid && personalDataForm.get('firstName').touched">
-        <app-error [formElement]="personalDataForm.get('firstName')"
-          [firstNameFieldValue]="personalDataForm.get('firstName').value" [controlName]="'firstName'"></app-error>
+      <div class="validation" *ngIf="firstName.invalid && firstName.touched">
+        <app-error [formElement]="firstName" [firstNameFieldValue]="firstName.value" [controlName]="'firstName'">
+        </app-error>
       </div>
     </div>
     <div class="col-12 col-sm-6 form-group">
@@ -18,25 +17,23 @@
         [unmask]="true" [imask]="{mask: phoneMask}">
       <div class="validation"
         *ngIf="personalDataForm.get('phoneNumber').invalid && personalDataForm.get('phoneNumber').touched">
-        <app-error [formElement]="personalDataForm.get('phoneNumber')"
-          [phoneNumberFieldValue]="personalDataForm.get('phoneNumber').value" [controlName]="'phoneNumber'"></app-error>
+        <app-error [formElement]="phoneNumber" [phoneNumberFieldValue]="phoneNumber.value"
+          [controlName]="'phoneNumber'"></app-error>
       </div>
     </div>
     <div class="col-12 col-sm-6 form-group">
       <label>Прізвище</label>
       <input formControlName="lastName" type="text" class="shadow-none form-control">
-      <div class="validation"
-        *ngIf="personalDataForm.get('lastName').invalid && personalDataForm.get('lastName').touched">
-        <app-error [formElement]="personalDataForm.get('lastName')"
-          [lastNameFieldValue]="personalDataForm.get('lastName').value" [controlName]="'lastName'"></app-error>
+      <div class="validation" *ngIf="lastName.invalid && lastName.touched">
+        <app-error [formElement]="lastName" [lastNameFieldValue]="lastName.value" [controlName]="'lastName'">
+        </app-error>
       </div>
     </div>
     <div class="col-12 col-sm-6 form-group">
       <label>Email</label>
       <input formControlName="email" type="text" class="shadow-none form-control" placeholder="example@email.com">
-      <div class="validation" *ngIf="personalDataForm.get('email').invalid && personalDataForm.get('email').touched">
-        <app-error [formElement]="personalDataForm.get('email')" [emailFieldValue]="personalDataForm.get('email').value"
-          [controlName]="'email'"></app-error>
+      <div class="validation" *ngIf="email.invalid && email.touched">
+        <app-error [formElement]="email" [emailFieldValue]="email.value" [controlName]="'email'"></app-error>
       </div>
     </div>
   </div>
@@ -59,9 +56,8 @@
     <h5 class="comment-title">Коментар до адреси</h5>
     <textarea class="form-control" formControlName="addressComment"
       placeholder="Будь-які деталі, які ви б хотіли нам повідомити додатково"></textarea>
-    <div class="validation"
-      *ngIf="personalDataForm.get('addressComment').invalid && personalDataForm.get('addressComment').touched">
-      <app-error [formElement]="personalDataForm.get('addressComment')" [controlName]="'addressComment'"></app-error>
+    <div class="validation" *ngIf="addressComment.invalid && addressComment.touched">
+      <app-error [formElement]="addressComment" [controlName]="'addressComment'"></app-error>
     </div>
   </div>
   <div class="w-100 d-flex justify-content-between personal-data-navigation">

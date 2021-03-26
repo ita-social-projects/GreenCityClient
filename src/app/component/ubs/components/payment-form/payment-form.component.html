@@ -10,35 +10,35 @@
       <th>Сума</th>
     </thead>
     <tbody>
-    <tr *ngIf="ubsRow">
+    <tr [class.d-none]="bill.amountUbs === 0">
       <td class="firstRow">{{ ubsBag }}</td>
-      <td class="firstRow"> {{ bagSizeUbs }}</td>
-      <td class="firstRow">{{ ubsBagPrice }}</td>
-      <td class="firstRow">{{ ubsBagNum }}</td>
-      <td class="firstRow">{{ bagSumUbs }}</td>
+      <td class="firstRow"> {{ bagSizeUbs }} л</td>
+      <td class="firstRow">{{ ubsBagPrice }} грн</td>
+      <td class="firstRow">{{ bill.amountUbs }}</td>
+      <td class="firstRow">{{ bill.sumUbs }} </td>
     </tr>
-    <tr *ngIf="XLRow">
+    <tr [class.d-none]="bill.amountClothesXL === 0">
       <td>{{ clothesBagXL }}</td>
-      <td>{{ bagSizeClothesXL }}</td>
-      <td>{{ clothesBagXLPrice }}</td>
-      <td>{{ clothesBagXLNum }}</td>
-      <td>{{ bagSumClothesXL }}</td>
+      <td>{{ bagSizeClothesXL }} л</td>
+      <td>{{ clothesBagXLPrice }} грн</td>
+      <td>{{ bill.amountClothesXL }}</td>
+      <td>{{ bill.sumClothesXL }}</td>
     </tr>
-    <tr *ngIf="MRow">
+    <tr [class.d-none]="bill.amountClothesM === 0">
       <td class="lastRow">{{ clothesBagM }}</td>
-      <td class="lastRow">{{ bagSizeClothesM }}</td>
-      <td class="lastRow">{{ clothesBagMPrice }}</td>
-      <td class="lastRow">{{ clothesBagMNum }}</td>
-      <td class="lastRow">{{ bagSumClothesM }}</td>
+      <td class="lastRow">{{ bagSizeClothesM }} л</td>
+      <td class="lastRow">{{ clothesBagMPrice }} грн</td>
+      <td class="lastRow">{{ bill.amountClothesM }}</td>
+      <td class="lastRow">{{ bill.sumClothesM }}</td>
     </tr>
     </tbody>
   </table>
   <div class="showTotal">
     <div class="totalInfo">
-      <p><span>Сума замовлення:</span><span><b>{{ showTotal }}</b></span></p>
-      <p *ngIf="showCert"><span>Сертифікат: </span><span><small>{{ showCertificateUsed }}</small></span></p>
-      <p *ngIf="showPoints"><span>Бонуси: </span><span><small>{{ showPointsUsed }}</small></span></p>
-      <p><span>Сума до оплати: </span><span><b>{{ finalSum }}</b></span></p>
+      <p><span>Сума замовлення:</span><span><b>{{ bill.total }} грн</b></span></p>
+      <p [class.d-none]="bill.certificatesSum === 0"><span>Сертифікат: </span><span><small>{{ bill.certificatesSum }}</small></span></p>
+      <p [class.d-none]="bill.pointsSum === 0"><span>Бонуси: </span><span><small>{{ bill.pointsSum }}</small></span></p>
+      <p><span>Сума до оплати: </span><span><b>{{ bill.finalSum }} грн</b></span></p>
       <div *ngIf="displayMes" class="validMes">
         <small class="text-danger">Мінімальна сума замовлення повинна складати 500 грн</small>
       </div>
@@ -48,7 +48,8 @@
 <div class="main">
 <div>
   <h4>Еко магазин</h4>
-  <p>Номер вашого замовлення</p>
+  <p>Номер вашого замовлення: <span *ngFor="let order of additionalOrders ">{{ order }} </span></p>
+  <p><span>{{ orderComment }}</span></p>
 </div>
 <div class="personalData">
     <div class="data">

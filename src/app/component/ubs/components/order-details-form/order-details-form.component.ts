@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
@@ -16,16 +16,13 @@ import { UserOrder } from './shared/userOrder.model';
 
 export class OrderDetailsFormComponent implements OnInit {
   orderDetailsForm: FormGroup;
-  showTotal: string;
+  showTotal = 0;
   total = 0;
   finalSum = 0;
   points: number;
-  pointsUsed: number;
-  showPointsUsed: string;
-  displayCalc = false;
+  pointsUsed = 0;
   displayMes = false;
   displayCert = false;
-  displayBonus = false;
   displayShop = false;
   addCert = false;
   onSubmit = true;
@@ -36,7 +33,7 @@ export class OrderDetailsFormComponent implements OnInit {
   certificates = [];
   certificateSum = 0;
   certSize = false;
-  showCertificateUsed: string;
+  showCertificateUsed = 0;
   certificateLeft = 0;
   certMessage: string;
   userOrder: IUserOrder;
@@ -46,6 +43,14 @@ export class OrderDetailsFormComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private orderService: OrderService,
     private shareFormService: ShareFormService) { }
+
+  get bagNumUbs() {
+    return this.orderDetailsForm.get('bagNumUbs');
+  }
+
+  get certificate() {
+    return this.orderDetailsForm.get('certificate');
+  }
 
   get additionalCertificates() {
     return this.orderDetailsForm.get('additionalCertificates') as FormArray;
@@ -94,10 +99,8 @@ export class OrderDetailsFormComponent implements OnInit {
       bonus: ['no'],
       shop: ['no'],
       additionalCertificates: this.fb.array([]),
-      additionalOrders: this.fb.array([])
+      additionalOrders: this.fb.array([''])
     });
-
-    this.addOrder();
   }
 
   initForm(): void {
@@ -119,8 +122,7 @@ export class OrderDetailsFormComponent implements OnInit {
     this.total = this.orderDetailsForm.value.bagNumUbs * this.orders.allBags[0].price +
       this.orderDetailsForm.value.bagNumClothesXL * this.orders.allBags[1].price +
       this.orderDetailsForm.value.bagNumClothesM * this.orders.allBags[2].price;
-    this.showTotal = `${this.total} грн`;
-    this.displayCalc = true;
+    this.showTotal = this.total;
     if (this.total < 500) {
       this.displayMes = true;
       this.onSubmit = true;
@@ -132,15 +134,15 @@ export class OrderDetailsFormComponent implements OnInit {
     if (this.certificateSum > 0) {
       if (this.total > this.certificateSum) {
         this.certificateLeft = 0;
-        this.finalSum = this.total - this.certificateSum;
-        this.showCertificateUsed = `-${this.certificateSum} грн`;
+        this.finalSum = this.total - this.certificateSum - this.pointsUsed;
+        this.showCertificateUsed = this.certificateSum;
       } else {
         this.finalSum = 0;
         this.certificateLeft = this.certificateSum - this.total;
-        this.showCertificateUsed = `-${this.total} грн`;
+        this.showCertificateUsed = this.total;
         this.points = this.orders.points + this.certificateLeft;
       }
-      this.showCertificateUsed = `-${this.certificateSum} грн`;
+      this.showCertificateUsed = this.certificateSum;
     }
   }
 
@@ -154,37 +156,34 @@ export class OrderDetailsFormComponent implements OnInit {
   }
 
   calculatePoints(): void {
-    this.displayBonus = true;
     if (this.certificateSum <= 0) {
-      this.showTotal = `${this.total} грн`;
+      this.showTotal = this.total;
       this.points > this.total ? this.pointsUsed = this.total : this.pointsUsed = this.points;
-      this.showPointsUsed = `-${this.pointsUsed} грн`;
       this.points > this.total ? this.points = this.points - this.total : this.points = 0;
-      this.finalSum = this.total - this.pointsUsed;
-      this.total = this.total - this.pointsUsed;
+      this.points > this.total ? this.total = 0 : this.total = this.total - this.pointsUsed;
+      this.finalSum = this.showTotal - this.pointsUsed - this.certificateSum;
     } else {
-      this.showTotal = `${this.total} грн`;
-      this.points > this.total ? this.points = this.points - this.total : this.points = 0;
       this.points > this.total ? this.pointsUsed = this.total - this.certificateSum : this.pointsUsed = this.points;
-      this.showPointsUsed = `-${this.pointsUsed} грн`;
-      this.finalSum = this.total - this.pointsUsed - this.certificateSum;
+      this.points > this.total ? this.total = 0 : this.total = this.total - this.pointsUsed;
+      this.points > this.showTotal ? this.points = this.points - this.showTotal : this.points = 0;
+      this.finalSum = this.showTotal - this.pointsUsed - this.certificateSum;
     }
   }
 
   resetPoints(): void {
-    this.displayBonus = false;
     this.total = this.orderDetailsForm.value.bagNumUbs * this.orders.allBags[0].price +
       this.orderDetailsForm.value.bagNumClothesXL * this.orders.allBags[1].price +
       this.orderDetailsForm.value.bagNumClothesM * this.orders.allBags[2].price;
-    this.showTotal = `${this.total} грн`;
-    this.showPointsUsed = '';
+    this.showTotal = this.total;
+    this.pointsUsed = 0;
     this.finalSum = this.total;
     this.points = this.orders.points;
     this.calculateTotal();
   }
 
   addOrder(): void {
-    this.additionalOrders.push(this.fb.control('', [Validators.minLength(10)]));
+    const additionalOrder = new FormControl('', [Validators.minLength(10)]);
+    this.additionalOrders.push(additionalOrder);
   }
 
 
@@ -247,7 +246,7 @@ export class OrderDetailsFormComponent implements OnInit {
   }
 
   certificateReset(): void {
-    this.showCertificateUsed = '';
+    this.showCertificateUsed = null;
     this.addCert = false;
     this.displayCert = false;
     this.certificates.splice(0, 1);
@@ -265,10 +264,6 @@ export class OrderDetailsFormComponent implements OnInit {
       this.certificateSum = this.certificateSum;
       this.certMessage = `Сертифiкат вже використано. Строк дії сертифікату - до ${cert.certificateDate}`;
       this.displayCert = false;
-    } else if (cert.certificateDate.startsWith('2020')) {
-      this.certificateSum = this.certificateSum;
-      this.certMessage = `Сертифікат не є дійсним. Строк дії сертифікату - до до ${cert.certificateDate}`;
-      this.displayCert = false;
     }
   }
 
@@ -282,29 +277,18 @@ export class OrderDetailsFormComponent implements OnInit {
       this.certificates,
       this.additionalOrders.value,
       this.orderDetailsForm.value.orderComment);
-    const paymentBill = [
-      {
-        name: this.orderDetailsForm.get('bagServiceUbs').value,
-        size: this.orderDetailsForm.get('bagSizeUbs').value,
-        amount: this.orderDetailsForm.get('bagNumUbs').value,
-        count: this.orderDetailsForm.get('bagPriceUbs').value,
-        sum: this.orderDetailsForm.get('bagSumUbs').value
-      },
-      {
-        name: this.orderDetailsForm.get('bagServiceClothesXL').value,
-        size: this.orderDetailsForm.get('bagSizeClothesXL').value,
-        amount: this.orderDetailsForm.get('bagNumClothesXL').value,
-        count: this.orderDetailsForm.get('bagPriceClothesXL').value,
-        sum: this.orderDetailsForm.get('bagSumClothesXL').value
-      },
-      {
-        name: this.orderDetailsForm.get('bagServiceClothesM').value,
-        size: this.orderDetailsForm.get('bagSizeClothesM').value,
-        amount: this.orderDetailsForm.get('bagNumClothesM').value,
-        count: this.orderDetailsForm.get('bagPriceClothesM').value,
-        sum: this.orderDetailsForm.get('bagSumClothesM').value
-      },
-      this.showTotal, this.showCertificateUsed, this.showPointsUsed, this.finalSum];
+    const paymentBill = {
+      amountUbs: ubs.amount,
+      amountClothesXL: clothesXL.amount,
+      amountClothesM: clothesM.amount,
+      sumUbs: this.orderDetailsForm.get('bagSumUbs').value,
+      sumClothesXL: this.orderDetailsForm.get('bagSumClothesXL').value,
+      sumClothesM: this.orderDetailsForm.get('bagSumClothesM').value,
+      certificatesSum: this.showCertificateUsed,
+      pointsSum: this.pointsUsed,
+      total: this.showTotal,
+      finalSum: this.finalSum,
+    }
     this.shareFormService.changeObject(newOrder);
     this.shareFormService.finalBillObject(paymentBill);
   }

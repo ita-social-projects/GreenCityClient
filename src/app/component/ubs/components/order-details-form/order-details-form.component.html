@@ -22,8 +22,8 @@
         <input formControlName="bagPriceUbs" class="form-control">
       </div>
       <div class="col-12 col-sm-2 form-group count">
-        <input formControlName="bagNumUbs" type="number" class="shadow-none form-control" [class.is-invalid]="orderDetailsForm.get('bagNumUbs').invalid &&
-                             orderDetailsForm.get('bagNumUbs').touched" min="0" max="999" (click)="calculate()">
+        <input formControlName="bagNumUbs" type="number" class="shadow-none form-control" [class.is-invalid]="bagNumUbs.invalid &&
+                                                                bagNumUbs.touched" min="0" max="999" (click)="calculate()">
       </div>
       <div class="form-group sum">
         <input formControlName="bagSumUbs" type="text" class="form-control">
@@ -65,9 +65,9 @@
       <div class="middle-container">
         <div class="showTotal">
           <div class="totalInfo">
-            <p *ngIf="displayCalc"><span>Сума замовлення: </span><span><b>{{ showTotal }}</b></span></p>
-            <p *ngIf="displayCert"><span>Сертифікат: </span><span><small>{{ showCertificateUsed }}</small></span></p>
-            <p *ngIf="displayBonus"><span>Бонуси: </span><span><small>{{ showPointsUsed }}</small></span></p>
+            <p [class.d-none]="showTotal === 0"><span>Сума замовлення: </span><span><b>{{ showTotal }} грн</b></span></p>
+            <p *ngIf="displayCert"><span>Сертифікат: </span><span><small>-{{ showCertificateUsed }} грн</small></span></p>
+            <p [class.d-none]="pointsUsed === 0"><span>Бонуси: </span><span><small>-{{ pointsUsed }} грн</small></span></p>
             <p><span>Сума до оплати: </span><span><b>{{ finalSum }} грн</b></span></p>
             <div *ngIf="displayMes" class="validMes">
               <small class="text-danger">Мінімальна сума замовлення повинна складати 500 грн</small>
@@ -82,15 +82,15 @@
               [unmask]="false" [imask]="{mask: certificateMask}">
           </div>
           <div class="form-group">
-            <button *ngIf="!addCert" type="button" class="btn btn-primary"
-              [disabled]="!orderDetailsForm.get('certificate').valid || orderDetailsForm.get('certificate').pristine || onSubmit"
+            <button *ngIf="!addCert" type="button" class="primary-global-button btn"
+              [disabled]="!certificate.valid || certificate.pristine || finalSum === 0"
               (click)="certificateSubmit()">Активувати</button>
-            <button *ngIf="addCert" type="button" class="btn btn-primary"
+            <button *ngIf="addCert" type="button" class="primary-global-button btn"
               (click)="certificateReset()">Відмінити</button>
           </div>
           <div class="validMes">
             <small class="text-danger"
-              *ngIf="orderDetailsForm.get('certificate').invalid && orderDetailsForm.get('certificate').touched">
+              *ngIf="certificate.invalid && certificate.touched">
               Сертифікат не прийнято, споробуйте ще раз</small>
             <small class="text-message"> {{ certMessage }} </small>
           </div>
@@ -103,15 +103,15 @@
           <input type="text" class="shadow-none form-control col-12 col-sm-8 my-1" type="text" placeholder="xxxx-xxxx"
             [unmask]="false" [imask]="{mask: certificateMask}" [formControlName]="i">
           <div class="form-group">
-            <button *ngIf="!addCert" type="button" class="btn btn-primary"
-              [disabled]="orderDetailsForm.get('additionalCertificates')['controls'][i].invalid || orderDetailsForm.get('additionalCertificates')['controls'][i].pristine"
+            <button *ngIf="!addCert" type="button" class="primary-global-button btn"
+              [disabled]="additionalCertificates['controls'][i].invalid || additionalCertificates['controls'][i].pristine"
               (click)="addedCertificateSubmit(i)">Активувати</button>
-            <button *ngIf="addCert" type="button" class="btn btn-primary"
+            <button *ngIf="addCert" type="button" class="primary-global-button btn"
               (click)="deleteCertificate(i)">Відмінити</button>
           </div>
           <div class="validMes">
-            <small class="text-danger" *ngIf="orderDetailsForm.get('certificate').invalid &&
-                                                      orderDetailsForm.get('certificate').touched">Сертифікат не
+            <small class="text-danger" *ngIf="certificate.invalid &&
+                                                      certificate.touched">Сертифікат не
               прийнято, споробуйте ще раз</small>
             <small class="text-message"> {{ certMessage }} </small>
           </div>
@@ -130,7 +130,7 @@
               type="radio" (click)="resetPoints()">
             <label class="form-check-label custom-control-label" for="customRadio2">Ні</label>
           </div>
-          <small class="text-message" *ngIf="displayBonus"><span>Використано {{ pointsUsed }}
+          <small class="text-message" [class.d-none]="pointsUsed === 0"><span>Використано {{ pointsUsed }}
               грн</span><br><span>Залишилось {{ points }} грн</span></small>
         </div>
       </div>
@@ -171,7 +171,7 @@
       <div class="w-100 d-flex justify-content-end">
         <div>
         <button class="secondary-global-button btn" matStepperPrevious>Відмінити</button>
-        <button type="submit" class="btn btn-primary" matStepperNext [disabled]="onSubmit">Далі</button>
+        <button type="submit" class="primary-global-button btn" matStepperNext [disabled]="onSubmit">Далі</button>
       </div>
       </div>
     </div>
