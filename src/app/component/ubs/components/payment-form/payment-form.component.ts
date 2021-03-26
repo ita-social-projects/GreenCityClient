@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { IOrder } from '../../models/order.interface';
+
 import { OrderService } from '../../services/order.service';
 import { ShareFormService } from '../../services/share-form.service';
-import { IOrder } from '../order-details-form/order.interface';
 
 @Component({
   selector: 'app-payment-form',

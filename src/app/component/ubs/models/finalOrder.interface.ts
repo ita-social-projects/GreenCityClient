@@ -1,4 +1,4 @@
-import { Bag } from '../components/order-details-form/shared/bag.interface';
+import { Bag } from './order.interface';
 import { PersonalData } from './personalData.model';
 
 export interface FinalOrder {

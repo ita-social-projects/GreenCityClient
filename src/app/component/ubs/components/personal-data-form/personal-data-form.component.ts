@@ -1,12 +1,13 @@
 import { MatDialog } from '@angular/material';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+
 import { PersonalData } from '../../models/personalData.model';
 import { ShareFormService } from '../../services/share-form.service';
 import { OrderService } from '../../services/order.service';
-import { AddAddressComponent } from './add-address/add-address/add-address.component';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { AddAddressComponent } from './add-address/add-address.component';
 
 @Component({
   selector: 'app-personal-data-form',

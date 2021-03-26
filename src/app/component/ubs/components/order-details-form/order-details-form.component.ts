@@ -2,18 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
 import { OrderService } from '../../services/order.service';
 import { ShareFormService } from '../../services/share-form.service';
-import { IOrder } from './order.interface';
-import { IUserOrder } from './shared/userOrder.interface';
-import { UserOrder } from './shared/userOrder.model';
+import { UserOrder } from '../../models/order.model';
+import { IOrder, IUserOrder } from '../../models/order.interface';
 
 @Component({
   selector: 'app-order-details-form',
   templateUrl: './order-details-form.component.html',
   styleUrls: ['./order-details-form.component.scss']
 })
-
 export class OrderDetailsFormComponent implements OnInit {
   orderDetailsForm: FormGroup;
   showTotal = 0;

@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UbsComponent } from './ubs/ubs.component';
+import { UbsComponent } from './ubs.component';
 
 describe('UbsComponent', () => {
   let component: UbsComponent;

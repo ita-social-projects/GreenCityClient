@@ -15,8 +15,8 @@ export class ErrorComponent implements OnChanges {
   @Input() public phoneNumberFieldValue: string;
   @Input() public streetFieldValue: string;
   @Input() public houseNumberFieldValue: string;
-  public errorMessage = '';
 
+  public errorMessage = '';
   private getErrorMsg = {
     required: () => 'Це поле є обов\'язкове до заповнення',
     email: () => this.emailFieldValue ? 'Введіть коректний email' : 'Це поле  обов\'язкове до заповнення',

@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IOrder } from '../components/order-details-form/order.interface';
-import { ICertificate } from '../components/order-details-form/shared/certificate.interface';
+
 import { FinalOrder } from '../models/finalOrder.interface';
+import { ICertificate, IOrder } from '../models/order.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -25,9 +25,7 @@ export class OrderService {
     return this.http.post<FinalOrder>(`${this.url}/processOrder`, order);
   }
 
-
   processCertificate(certificate): Observable<ICertificate[]> {
     return this.http.get<ICertificate[]>(`${this.url}/certificate/${certificate}`);
   }
-
 }

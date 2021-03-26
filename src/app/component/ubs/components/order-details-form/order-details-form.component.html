@@ -22,8 +22,13 @@
         <input formControlName="bagPriceUbs" class="form-control">
       </div>
       <div class="col-12 col-sm-2 form-group count">
-        <input formControlName="bagNumUbs" type="number" class="shadow-none form-control" [class.is-invalid]="bagNumUbs.invalid &&
-                                                                bagNumUbs.touched" min="0" max="999" (click)="calculate()">
+        <input formControlName="bagNumUbs"
+               type="number"
+               class="shadow-none form-control"
+               [class.is-invalid]="bagNumUbs.invalid && bagNumUbs.touched"
+               min="0"
+               max="999"
+               (click)="calculate()">
       </div>
       <div class="form-group sum">
         <input formControlName="bagSumUbs" type="text" class="form-control">
@@ -78,8 +83,12 @@
         <div class="certificate-container">
           <div class="form-group col-12 col-sm-8">
             <label>Введіть номер сертифіката</label>
-            <input formControlName="certificate" type="text" class="shadow-none form-control" placeholder="xxxx-xxxx"
-              [unmask]="false" [imask]="{mask: certificateMask}">
+            <input formControlName="certificate"
+                   type="text"
+                   class="shadow-none form-control"
+                   placeholder="xxxx-xxxx"
+                   [unmask]="false"
+                   [imask]="{mask: certificateMask}">
           </div>
           <div class="form-group">
             <button *ngIf="!addCert" type="button" class="primary-global-button btn"
@@ -110,9 +119,10 @@
               (click)="deleteCertificate(i)">Відмінити</button>
           </div>
           <div class="validMes">
-            <small class="text-danger" *ngIf="certificate.invalid &&
-                                                      certificate.touched">Сертифікат не
-              прийнято, споробуйте ще раз</small>
+            <small class="text-danger"
+                   *ngIf="certificate.invalid && certificate.touched">
+              Сертифікат не прийнято, споробуйте ще раз
+            </small>
             <small class="text-message"> {{ certMessage }} </small>
           </div>
         </div>

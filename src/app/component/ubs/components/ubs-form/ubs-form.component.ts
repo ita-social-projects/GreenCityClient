@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, ViewChild } from '@angular/core';
 import { AfterViewInit, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+
 import { PaymentFormComponent } from './../payment-form/payment-form.component';
 import { PersonalDataFormComponent } from './../personal-data-form/personal-data-form.component';
 import { OrderDetailsFormComponent } from './../order-details-form/order-details-form.component';
@@ -27,5 +28,4 @@ export class UbsFormComponent implements AfterViewInit {
     this.thirdStepForm = this.stepThreeComponent.paymentForm;
     this.cdr.detectChanges();
   }
-
 }

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { IUserOrder } from '../components/order-details-form/shared/userOrder.interface';
+
 import { FinalOrder } from '../models/finalOrder.interface';
+import { IUserOrder } from '../models/order.interface';
 
 @Injectable({
   providedIn: 'root'
