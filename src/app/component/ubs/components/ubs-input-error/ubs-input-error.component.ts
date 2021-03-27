@@ -2,10 +2,10 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-error',
-  templateUrl: './error.component.html'
+  selector: 'app-ubs-input-error',
+  templateUrl: './ubs-input-error.component.html'
 })
-export class ErrorComponent implements OnChanges {
+export class UBSInputErrorComponent implements OnChanges {
   @Input() public controlName: string;
   @Input() public formElement: FormControl;
   @Input() public certificateFieldValue: string;

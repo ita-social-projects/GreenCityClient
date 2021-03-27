@@ -3,11 +3,11 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
-  selector: 'app-add-address',
-  templateUrl: './add-address.component.html',
-  styleUrls: ['./add-address.component.scss']
+  selector: 'app-ubs-add-address-pop-up',
+  templateUrl: './ubs-add-address-pop-up.component.html',
+  styleUrls: ['./ubs-add-address-pop-up.component.scss']
 })
-export class AddAddressComponent implements OnInit {
+export class UBSAddAddressPopUpComponent implements OnInit {
   addAddressForm: FormGroup;
   region = '';
   districtDisabled = true;
@@ -18,7 +18,7 @@ export class AddAddressComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    public dialogRef: MatDialogRef<AddAddressComponent>,
+    public dialogRef: MatDialogRef<UBSAddAddressPopUpComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   get district() {

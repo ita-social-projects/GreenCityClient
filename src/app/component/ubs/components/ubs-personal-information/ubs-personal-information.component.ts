@@ -4,18 +4,17 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
-import { PersonalData } from '../../models/personalData.model';
-import { ShareFormService } from '../../services/share-form.service';
+import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { OrderService } from '../../services/order.service';
-import { AddAddressComponent } from './add-address/add-address.component';
+import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up/ubs-add-address-pop-up.component';
+import { PersonalData } from '../../models/ubs.interface';
 
 @Component({
-  selector: 'app-personal-data-form',
-  templateUrl: './personal-data-form.component.html',
-  styleUrls: ['./personal-data-form.component.scss']
+  selector: 'app-ubs-personal-information',
+  templateUrl: './ubs-personal-information.component.html',
+  styleUrls: ['./ubs-personal-information.component.scss']
 })
-export class PersonalDataFormComponent implements OnInit, OnDestroy {
-  personalDataForm: FormGroup;
+export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
   personalData: PersonalData;
   region = '';
   longitude: number;
@@ -30,10 +29,34 @@ export class PersonalDataFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private orderService: OrderService,
-    private shareFormService: ShareFormService,
+    private shareFormService: UBSOrderFormService,
     private fb: FormBuilder,
     public dialog: MatDialog
   ) { }
+
+  personalDataForm: FormGroup = this.fb.group({
+    firstName: ['', [
+      Validators.required,
+      Validators.minLength(1),
+      Validators.maxLength(30),
+      Validators.pattern(this.namePattern)
+    ]],
+    lastName: ['', [
+      Validators.required,
+      Validators.minLength(1),
+      Validators.maxLength(30),
+      Validators.pattern(this.namePattern)
+    ]],
+    email: ['', [
+      Validators.required,
+      Validators.email
+    ]],
+    phoneNumber: ['+38 0', [
+      Validators.required,
+      Validators.minLength(12)
+    ]],
+    addressComment: ['', Validators.maxLength(170)]
+  });
 
   get firstName() {
     return this.personalDataForm.get('firstName');
@@ -56,7 +79,7 @@ export class PersonalDataFormComponent implements OnInit, OnDestroy {
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(AddAddressComponent, {
+    const dialogRef = this.dialog.open(UBSAddAddressPopUpComponent, {
       data: {}
     });
 
@@ -72,31 +95,12 @@ export class PersonalDataFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.shareFormService.objectSource.subscribe(order => {
+    this.shareFormService.objectSource
+    .pipe(
+      takeUntil(this.destroy)
+    )
+    .subscribe(order => {
       this.order = order;
-    });
-    this.personalDataForm = this.fb.group({
-      firstName: ['', [
-        Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(30),
-        Validators.pattern(this.namePattern)
-      ]],
-      lastName: ['', [
-        Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(30),
-        Validators.pattern(this.namePattern)
-      ]],
-      email: ['', [
-        Validators.required,
-        Validators.email
-      ]],
-      phoneNumber: ['+38 0', [
-        Validators.required,
-        Validators.minLength(12)
-      ]],
-      addressComment: ['', Validators.maxLength(170)]
     });
 
     this.orderService.getPersonalData()

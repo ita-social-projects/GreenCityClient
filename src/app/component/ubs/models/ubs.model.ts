@@ -1,4 +1,4 @@
-import { IOrder, IUserOrder, Bag } from './order.interface';
+import { IOrder, IUserOrder, Bag } from './ubs.interface';
 
 export class Order implements IOrder {
   constructor(

@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 
-import { FinalOrder } from '../models/finalOrder.interface';
-import { IUserOrder } from '../models/order.interface';
+import { FinalOrder, IUserOrder } from '../models/ubs.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ShareFormService {
+export class UBSOrderFormService {
 
   public objectSource = new Subject<IUserOrder>();
   public finalObject = new Subject<FinalOrder>();

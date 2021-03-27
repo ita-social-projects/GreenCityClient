@@ -14,7 +14,7 @@
       [types]="['geocode']" (onAutocompleteSelected)="onDistrictSelected($event)"
       [attr.disabled]="districtDisabled ? true : null" [value]="region">
     <div class="validation" *ngIf="district.invalid && addAddressForm.get('district').touched">
-      <app-error [formElement]="district" [controlName]="'district'"></app-error>
+      <app-ubs-input-error [formElement]="district" [controlName]="'district'"></app-ubs-input-error>
     </div>
   </div>
   <div class="col-12 col-sm-6 form-group">
@@ -23,7 +23,7 @@
       (onAutocompleteSelected)="onAutocompleteSelected($event)" (onLocationSelected)="onLocationSelected($event)"
       (change)="onChange()" [types]="['address']" [country]="'ua'">
     <div class="validation" *ngIf="street.invalid && addAddressForm.get('street').touched">
-      <app-error [formElement]="street" [streetFieldValue]="street.value" [controlName]="'street'"></app-error>
+      <app-ubs-input-error [formElement]="street" [streetFieldValue]="street.value" [controlName]="'street'"></app-ubs-input-error>
     </div>
   </div>
   <div class="col-12 col-sm-6 d-flex justify-content-between flex-wrap form-group">
@@ -37,12 +37,12 @@
     </div>
     <div class="w-100">
       <div class="validation" *ngIf="houseCorpus.invalid && houseCorpus.touched">
-        <app-error [formElement]="houseCorpus" [controlName]="'houseCorpus'"></app-error>
+        <app-ubs-input-error [formElement]="houseCorpus" [controlName]="'houseCorpus'"></app-ubs-input-error>
       </div>
     </div>
   </div>
 </form>
 <div class="d-flex justify-content-end" mat-dialog-actions>
   <button class="btn secondary-global-button" mat-button (click)="onNoClick()">Відмінити</button>
-  <button class=" btn primary-global-button" mat-button [mat-dialog-close]="addAddressForm.value">Додати адресу</button>
+  <button class="btn primary-global-button" mat-button [mat-dialog-close]="addAddressForm.value">Додати адресу</button>
 </div>

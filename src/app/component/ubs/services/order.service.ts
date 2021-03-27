@@ -2,8 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { FinalOrder } from '../models/finalOrder.interface';
-import { ICertificate, IOrder } from '../models/order.interface';
+import { FinalOrder, ICertificate, IOrder } from '../models/ubs.interface';
 
 @Injectable({
   providedIn: 'root'

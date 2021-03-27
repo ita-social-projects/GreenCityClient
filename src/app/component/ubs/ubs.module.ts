@@ -11,23 +11,23 @@ import { environment } from '@environment/environment';
 
 import { UbsRoutingModule } from './ubs-routing.module';
 import { UbsComponent } from './ubs.component';
-import { UbsFormComponent } from './components/ubs-form/ubs-form.component';
-import { OrderDetailsFormComponent } from './components/order-details-form/order-details-form.component';
-import { PersonalDataFormComponent } from './components/personal-data-form/personal-data-form.component';
-import { PaymentFormComponent } from './components/payment-form/payment-form.component';
-import { ErrorComponent } from './components/error/error.component';
-import { AddAddressComponent } from './components/personal-data-form/add-address/add-address.component';
-import { AddressComponent } from './components/personal-data-form/address/address.component';
+import { UBSOrderFormComponent } from './components/ubs-order-form/ubs-order-form.component';
+import { UBSOrderDetailsComponent } from './components/ubs-order-details/ubs-order-details.component';
+import { UBSPersonalInformationComponent } from './components/ubs-personal-information/ubs-personal-information.component';
+import { UBSSubmitOrderComponent } from './components/ubs-submit-order/ubs-submit-order.component';
+import { UBSInputErrorComponent } from './components/ubs-input-error/ubs-input-error.component';
+import { UBSAddAddressPopUpComponent } from './components/ubs-personal-information/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
+import { AddressComponent } from './components/ubs-personal-information/address/address.component';
 
 @NgModule({
   declarations: [
     UbsComponent,
-    UbsFormComponent,
-    OrderDetailsFormComponent,
-    PersonalDataFormComponent,
-    PaymentFormComponent,
-    ErrorComponent,
-    AddAddressComponent,
+    UBSOrderFormComponent,
+    UBSOrderDetailsComponent,
+    UBSPersonalInformationComponent,
+    UBSSubmitOrderComponent,
+    UBSInputErrorComponent,
+    UBSAddAddressPopUpComponent,
     AddressComponent
   ],
   imports: [
@@ -46,7 +46,7 @@ import { AddressComponent } from './components/personal-data-form/address/addres
     })
   ],
   entryComponents: [
-    AddAddressComponent
+    UBSAddAddressPopUpComponent
   ],
   providers: [
     {

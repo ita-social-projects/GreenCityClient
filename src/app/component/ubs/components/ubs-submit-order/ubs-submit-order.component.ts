@@ -2,18 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { IOrder } from '../../models/order.interface';
 
+import { IOrder } from '../../models/ubs.interface';
 import { OrderService } from '../../services/order.service';
-import { ShareFormService } from '../../services/share-form.service';
+import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 
 @Component({
-  selector: 'app-payment-form',
-  templateUrl: './payment-form.component.html',
-  styleUrls: ['./payment-form.component.scss']
+  selector: 'app-ubs-submit-order',
+  templateUrl: './ubs-submit-order.component.html',
+  styleUrls: ['./ubs-submit-order.component.scss']
 })
-export class PaymentFormComponent implements OnInit {
-  paymentForm: FormGroup;
+export class UBSSubmitOrderComponent implements OnInit {
+  paymentForm: FormGroup = this.fb.group({});
   bill: {};
   finalOrder: any;
   firstName: string;
@@ -42,7 +42,7 @@ export class PaymentFormComponent implements OnInit {
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private shareFormService: ShareFormService,
+    private shareFormService: UBSOrderFormService,
     private orderService: OrderService,
     private fb: FormBuilder) { }
 
@@ -71,8 +71,6 @@ export class PaymentFormComponent implements OnInit {
       .subscribe(order => {
         this.bill = order;
       });
-
-    this.paymentForm = this.fb.group({});
   }
 
   initPaymentData(): void {
