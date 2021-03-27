@@ -1,0 +1,47 @@
+::ng-deep .mat-step-header  {
+
+  .mat-step-label {
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: bold;
+  }
+
+  .mat-step-label.mat-step-label-active {
+    color: #64727D;
+  }
+
+  .mat-step-label.mat-step-label-selected {
+    color: var(--primary-green);
+  }
+
+  .mat-step-icon {
+    background-color: #e3e6e8;
+  }
+
+  .mat-step-icon-selected {
+    background-color: var(--primary-green);
+  }
+
+  .mat-step-icon-state-number {
+    color:  #64727D;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .mat-step-icon-state-number.mat-step-icon-selected {
+    color:  #fff;
+  }
+
+  .mat-icon {
+    color:  #64727D;
+  }
+}
+
+.container {
+  padding: 0;
+}
+
+.form-title {
+  margin: -35px 0 35px 0;
+  color: #444e55;
+}

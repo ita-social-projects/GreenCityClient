@@ -1,30 +1,58 @@
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UbsRoutingModule } from './ubs-routing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
+import { AgmCoreModule } from '@agm/core';
+import { IMaskModule } from 'angular-imask';
+import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
+import { environment } from '@environment/environment';
+
+import { UbsRoutingModule } from './ubs-routing.module';
 import { UbsComponent } from './ubs.component';
-import { UbsAboutComponent } from './components/ubs-about/ubs-about.component';
-import { UbsFormComponent } from './components/ubs-form/ubs-form.component';
-import { OrderDetailsFormComponent } from './components/order-details-form/order-details-form.component';
-import { PersonalDataFormComponent } from './components/personal-data-form/personal-data-form.component';
-import { PaymentFormComponent } from './components/payment-form/payment-form.component';
+import { UBSOrderFormComponent } from './components/ubs-order-form/ubs-order-form.component';
+import { UBSOrderDetailsComponent } from './components/ubs-order-details/ubs-order-details.component';
+import { UBSPersonalInformationComponent } from './components/ubs-personal-information/ubs-personal-information.component';
+import { UBSSubmitOrderComponent } from './components/ubs-submit-order/ubs-submit-order.component';
+import { UBSInputErrorComponent } from './components/ubs-input-error/ubs-input-error.component';
+import { UBSAddAddressPopUpComponent } from './components/ubs-personal-information/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
+import { AddressComponent } from './components/ubs-personal-information/address/address.component';
 
 @NgModule({
   declarations: [
     UbsComponent,
-    UbsAboutComponent,
-    UbsFormComponent,
-    OrderDetailsFormComponent,
-    PersonalDataFormComponent,
-    PaymentFormComponent
+    UBSOrderFormComponent,
+    UBSOrderDetailsComponent,
+    UBSPersonalInformationComponent,
+    UBSSubmitOrderComponent,
+    UBSInputErrorComponent,
+    UBSAddAddressPopUpComponent,
+    AddressComponent
   ],
   imports: [
     CommonModule,
     UbsRoutingModule,
     MatStepperModule,
+    MatDialogModule,
+    HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    IMaskModule,
+    MatGoogleMapsAutocompleteModule,
+    AgmCoreModule.forRoot({
+      apiKey: environment.agmCoreModuleApiKey,
+      libraries: ['places']
+    })
+  ],
+  entryComponents: [
+    UBSAddAddressPopUpComponent
+  ],
+  providers: [
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: {hasBackdrop: true}
+    }
   ]
 })
 export class UbsModule { }

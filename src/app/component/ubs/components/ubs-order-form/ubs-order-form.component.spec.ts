@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UbsComponent } from './ubs.component';
+import { UBSOrderFormComponent } from './ubs-order-form.component';
 
-describe('UbsComponent', () => {
-  let component: UbsComponent;
-  let fixture: ComponentFixture<UbsComponent>;
+describe('UbsFormComponent', () => {
+  let component: UBSOrderFormComponent;
+  let fixture: ComponentFixture<UBSOrderFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UbsComponent ]
+      declarations: [ UBSOrderFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UbsComponent);
+    fixture = TestBed.createComponent(UBSOrderFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
