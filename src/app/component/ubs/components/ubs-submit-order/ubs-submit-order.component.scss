@@ -34,11 +34,13 @@ tbody {
   padding-bottom: 2rem;
 }
 
-th, td {
-  padding: .8rem 1rem .8rem 0;
+th,
+td {
+  padding: 0.8rem 1rem 0.8rem 0;
 }
 
-th, label {
+th,
+label {
   color: var(--ubs-secondary-grey);
 }
 
@@ -57,7 +59,7 @@ th, label {
     display: flex;
     justify-content: space-between;
     color: var(--ubs-secondary-grey);
-    padding-right: .5rem;
+    padding-right: 0.5rem;
   }
 
   span {

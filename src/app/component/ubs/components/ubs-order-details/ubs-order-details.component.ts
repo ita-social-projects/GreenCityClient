@@ -9,9 +9,9 @@ import { UserOrder } from '../../models/ubs.model';
 import { IOrder, IUserOrder } from '../../models/ubs.interface';
 
 @Component({
-  selector: "app-ubs-order-details",
-  templateUrl: "./ubs-order-details.component.html",
-  styleUrls: ["./ubs-order-details.component.scss"],
+  selector: 'app-ubs-order-details',
+  templateUrl: './ubs-order-details.component.html',
+  styleUrls: ['./ubs-order-details.component.scss'],
 })
 export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   showTotal = 0;
@@ -26,7 +26,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   onSubmit = true;
   order: {};
   orders: IOrder;
-  certificateMask = "0000-0000";
+  certificateMask = '0000-0000';
   certificatePattern = /(?!0000)\d{4}-(?!0000)\d{4}/;
   certificates = [];
   certificateSum = 0;
@@ -45,46 +45,46 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   ) {}
 
   orderDetailsForm: FormGroup = this.fb.group({
-    bagServiceUbs: [{ value: "", disabled: true }],
+    bagServiceUbs: [{ value: '', disabled: true }],
     bagNumUbs: [0],
-    bagSizeUbs: [{ value: "", disabled: true }],
-    bagPriceUbs: [{ value: "", disabled: true }],
-    bagSumUbs: [{ value: "0 грн", disabled: true }],
-    bagServiceClothesXL: [{ value: "", disabled: true }],
+    bagSizeUbs: [{ value: '', disabled: true }],
+    bagPriceUbs: [{ value: '', disabled: true }],
+    bagSumUbs: [{ value: '0 грн', disabled: true }],
+    bagServiceClothesXL: [{ value: '', disabled: true }],
     bagNumClothesXL: [0, Validators.required],
-    bagSizeClothesXL: [{ value: "", disabled: true }],
-    bagPriceClothesXL: [{ value: "", disabled: true }],
-    bagSumClothesXL: [{ value: "0 грн", disabled: true }],
-    bagServiceClothesM: [{ value: "", disabled: true }],
+    bagSizeClothesXL: [{ value: '', disabled: true }],
+    bagPriceClothesXL: [{ value: '', disabled: true }],
+    bagSumClothesXL: [{ value: '0 грн', disabled: true }],
+    bagServiceClothesM: [{ value: '', disabled: true }],
     bagNumClothesM: [0],
-    bagSizeClothesM: [{ value: "", disabled: true }],
-    bagPriceClothesM: [{ value: "", disabled: true }],
-    bagSumClothesM: [{ value: "0 грн", disabled: true }],
+    bagSizeClothesM: [{ value: '', disabled: true }],
+    bagPriceClothesM: [{ value: '', disabled: true }],
+    bagSumClothesM: [{ value: '0 грн', disabled: true }],
     certificate: [
-      "",
+      '',
       [Validators.minLength(8), Validators.pattern(this.certificatePattern)],
     ],
-    orderComment: [""],
-    bonus: ["no"],
-    shop: ["no"],
+    orderComment: [''],
+    bonus: ['no'],
+    shop: ['no'],
     additionalCertificates: this.fb.array([]),
-    additionalOrders: this.fb.array([""]),
+    additionalOrders: this.fb.array(['']),
   });
 
   get bagNumUbs() {
-    return this.orderDetailsForm.get("bagNumUbs");
+    return this.orderDetailsForm.get('bagNumUbs');
   }
 
   get certificate() {
-    return this.orderDetailsForm.get("certificate");
+    return this.orderDetailsForm.get('certificate');
   }
 
   get additionalCertificates() {
-    return this.orderDetailsForm.get("additionalCertificates") as FormArray;
+    return this.orderDetailsForm.get('additionalCertificates') as FormArray;
   }
 
   get additionalOrders() {
-    return this.orderDetailsForm.get("additionalOrders") as FormArray;
+    return this.orderDetailsForm.get('additionalOrders') as FormArray;
   }
 
   ngOnInit(): void {
@@ -206,13 +206,13 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   }
 
   addOrder(): void {
-    const additionalOrder = new FormControl("", [Validators.minLength(10)]);
+    const additionalOrder = new FormControl('', [Validators.minLength(10)]);
     this.additionalOrders.push(additionalOrder);
   }
 
   addCertificate(): void {
     this.additionalCertificates.push(
-      this.fb.control("", [
+      this.fb.control('', [
         Validators.minLength(8),
         Validators.pattern(/(?!0000)\d{4}-(?!0000)\d{4}/),
       ])
@@ -268,7 +268,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
       this.certificates.push(this.orderDetailsForm.value.certificate);
       this.calculateCertificates(this.certificates);
     } else {
-      this.orderDetailsForm.patchValue({ certificate: "" });
+      this.orderDetailsForm.patchValue({ certificate: '' });
     }
   }
 
@@ -277,20 +277,20 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
     this.addCert = false;
     this.displayCert = false;
     this.certificates.splice(0, 1);
-    this.certMessage = "";
-    this.orderDetailsForm.patchValue({ certificate: "" });
+    this.certMessage = '';
+    this.orderDetailsForm.patchValue({ certificate: '' });
     this.calculateCertificates(this.certificates);
   }
 
   certificateMatch(cert): void {
     if (
-      cert.certificateStatus === "ACTIVE" ||
-      cert.certificateStatus === "NEW"
+      cert.certificateStatus === 'ACTIVE' ||
+      cert.certificateStatus === 'NEW'
     ) {
       this.certificateSum = this.certificateSum + cert.certificatePoints;
       this.certMessage = `Сертифiкат на cуму ${cert.certificatePoints} грн активовано. Строк дії сертифікату - до ${cert.certificateDate}`;
       this.displayCert = true;
-    } else if (cert.certificateStatus === "USED") {
+    } else if (cert.certificateStatus === 'USED') {
       this.certificateSum = this.certificateSum;
       this.certMessage = `Сертифiкат вже використано. Строк дії сертифікату - до ${cert.certificateDate}`;
       this.displayCert = false;
@@ -321,9 +321,9 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
       amountUbs: ubs.amount,
       amountClothesXL: clothesXL.amount,
       amountClothesM: clothesM.amount,
-      sumUbs: this.orderDetailsForm.get("bagSumUbs").value,
-      sumClothesXL: this.orderDetailsForm.get("bagSumClothesXL").value,
-      sumClothesM: this.orderDetailsForm.get("bagSumClothesM").value,
+      sumUbs: this.orderDetailsForm.get('bagSumUbs').value,
+      sumClothesXL: this.orderDetailsForm.get('bagSumClothesXL').value,
+      sumClothesM: this.orderDetailsForm.get('bagSumClothesM').value,
       certificatesSum: this.showCertificateUsed,
       pointsSum: this.pointsUsed,
       total: this.showTotal,

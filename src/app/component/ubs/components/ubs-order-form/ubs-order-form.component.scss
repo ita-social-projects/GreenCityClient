@@ -1,5 +1,4 @@
-::ng-deep .mat-step-header  {
-
+::ng-deep .mat-step-header {
   .mat-step-label {
     font-size: 20px;
     line-height: 28px;
@@ -7,7 +6,7 @@
   }
 
   .mat-step-label.mat-step-label-active {
-    color: #64727D;
+    color: #64727d;
   }
 
   .mat-step-label.mat-step-label-selected {
@@ -23,17 +22,17 @@
   }
 
   .mat-step-icon-state-number {
-    color:  #64727D;
+    color: #64727d;
     font-size: 16px;
     font-weight: bold;
   }
 
   .mat-step-icon-state-number.mat-step-icon-selected {
-    color:  #fff;
+    color: #fff;
   }
 
   .mat-icon {
-    color:  #64727D;
+    color: #64727d;
   }
 }
 

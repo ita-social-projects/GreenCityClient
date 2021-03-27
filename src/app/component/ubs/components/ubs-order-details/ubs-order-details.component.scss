@@ -4,6 +4,10 @@
   color: var(--ubs-primary-grey);
 }
 
+h3 {
+  font-weight: bold;
+}
+
 .header {
   width: 100%;
   margin: 3rem 0 0;
@@ -18,17 +22,10 @@
   }
 }
 
-h3 {
-  font-weight: bold;
-}
-
 .main {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-}
-
-.main {
   padding: 1rem 0 1.2rem 0;
   border-top: 1px solid var(--ubs-primary-light-grey);
   border-bottom: 1px solid var(--ubs-primary-light-grey);
@@ -77,8 +74,8 @@ label:nth-child(5) {
   background-color: var(--ubs-primary-white);
 }
 
-.custom-radio .custom-control-input:checked~.custom-control-label::before,
-.custom-radio .custom-control-input:checked~.custom-control-label::after {
+.custom-radio .custom-control-input:checked ~ .custom-control-label::before,
+.custom-radio .custom-control-input:checked ~ .custom-control-label::after {
   background-color: var(--ubs-primary-green);
   border-radius: 50%;
 }
@@ -121,7 +118,7 @@ button {
     display: flex;
     justify-content: space-between;
     color: var(--ubs-secondary-grey);
-    padding-right: .5rem;
+    padding-right: 0.5rem;
   }
 
   span {
@@ -138,12 +135,41 @@ button {
   }
 }
 
-.middle-container {
+.bottom {
+  padding: 3rem 0;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid var(--ubs-primary-light-grey);
 
+  .custom-control {
+    padding-left: 1.4rem;
+  }
+
+  label {
+    margin: 0;
+  }
+
+  input {
+    border: 1px solid var(--ubs-secondary-grey);
+  }
+}
+
+.bottom_comment button {
+  width: 120px;
+  height: 3rem;
+  border-radius: 0;
+  border: none;
+}
+
+.middle-container {
   .showTotal {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 2rem;
+  }
+
+  input {
+    background: var(--ubs-primary-white);
+    border: 1px solid var(--ubs-secondary-grey);
   }
 
   .certificate-container,
@@ -155,7 +181,7 @@ button {
     width: 50%;
 
     input {
-      padding: .5rem;
+      padding: 0.5rem;
     }
 
     .validMes {
@@ -163,6 +189,12 @@ button {
       margin: -1rem 0 1rem;
       color: var(--ubs-primary-green);
     }
+  }
+
+  button {
+    width: 10rem;
+    height: 3rem;
+    border: none;
   }
 
   .addCertificate {
@@ -195,23 +227,12 @@ button {
     }
   }
 
-  input {
-    background: var(--ubs-primary-white);
-    border: 1px solid var(--ubs-secondary-grey);
-  }
-
   small {
-    margin-left: 0px;
+    margin-left: 0;
   }
 
   label {
     margin: 0;
-  }
-
-  button {
-    width: 10rem;
-    height: 3rem;
-    border: none;
   }
 }
 
@@ -224,7 +245,7 @@ button {
     width: 39%;
 
     input {
-      padding: .5rem;
+      padding: 0.5rem;
     }
   }
 }
@@ -246,7 +267,7 @@ button {
   position: absolute;
   right: 0;
   width: 60%;
-  padding: 1.5rem 0 0 .5rem;
+  padding: 1.5rem 0 0 0.5rem;
 }
 
 .comment {
@@ -259,7 +280,7 @@ button {
   textarea {
     height: 6rem;
     border: 1px solid var(--ubs-secondary-grey);
-    padding: .5rem;
+    padding: 0.5rem;
     background: var(--ubs-primary-white);
   }
 
@@ -270,32 +291,7 @@ button {
     color: var(--ubs-primary-green);
   }
 
-  button {
-    width: 120px;
-    height: 3rem;
-    border-radius: 0;
-    border: none;
-  }
-
   button:hover {
     background: var(--ubs-primary-green);
-  }
-}
-
-.bottom {
-  padding: 3rem 0;
-  margin-bottom: 3rem;
-  border-bottom: 1px solid var(--ubs-primary-light-grey);
-
-  .custom-control {
-    padding-left: 1.4rem;
-  }
-
-  label {
-    margin: 0;
-  }
-
-  input {
-    border: 1px solid var(--ubs-secondary-grey);
   }
 }

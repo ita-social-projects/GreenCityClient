@@ -1,5 +1,4 @@
 ::ng-deep {
-
   .mat-dialog-container {
     margin: auto !important;
     width: 80% !important;
@@ -76,7 +75,7 @@ label,
   font-size: 16px;
   line-height: 18px;
   font-weight: 400;
-  color:  var(--ubs-secondary-grey);
+  color: var(--ubs-secondary-grey);
 }
 
 .personal-data-title,
@@ -95,7 +94,6 @@ label,
 .comment-title {
   margin: 0 0 20px 0;
 }
-
 
 .personal-data,
 .adress {
@@ -151,7 +149,6 @@ label,
   text-align: left;
   color: var(--ubs-primary-green);
 }
-
 
 .btn:nth-child(1) {
   margin: 0 24px 0 16px;
