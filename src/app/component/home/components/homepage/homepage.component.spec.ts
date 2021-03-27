@@ -1,4 +1,4 @@
-import { LayoutModule } from './../../../layout/layout.module';
+import { LayoutModule } from '../../../layout/layout.module';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -22,6 +22,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthModule } from 'src/app/component/auth/auth.module';
 import { EcoNewsModule } from 'src/app/component/eco-news/eco-news.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import {APP_BASE_HREF} from '@angular/common';
 
 class MatDialogMock {
   open() {
@@ -92,6 +93,7 @@ describe('HomepageComponent', () => {
         { provide: UserService, useValue: userServiceMock },
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialog, useClass: MatDialogMock },
+        { provide: APP_BASE_HREF, useValue : '/' }
       ]
     })
     .compileComponents();
@@ -108,7 +110,7 @@ describe('HomepageComponent', () => {
   });
 
   it('check the validity of token', inject([VerifyEmailService], (sevice: VerifyEmailService) => {
-    const spy = spyOn(sevice, 'onCheckToken');
+    const spy = spyOn(sevice, 'onCheckToken').and.returnValue(of({}));
     // @ts-ignore
     component.onCheckToken();
 

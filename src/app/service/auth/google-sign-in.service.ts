@@ -12,8 +12,8 @@ export class GoogleSignInService {
   constructor(private http: HttpClient) {
   }
 
-  public signIn(token: string): Observable<UserSuccessSignIn> {
-    return this.http.get<UserSuccessSignIn>(`${googleSecurityLink}?idToken=${token}`);
+  public signIn(token: string, lang = 'en'): Observable<UserSuccessSignIn> {
+    return this.http.get<UserSuccessSignIn>(`${googleSecurityLink}?idToken=${token}&lang=${lang}`);
   }
 }
 

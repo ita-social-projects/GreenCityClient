@@ -1,61 +1,88 @@
+import { HabitAssignInterface } from './../../../../../interface/habit/habit-assign.interface';
+import { HabitAssignService } from './../../../../../service/habit-assign/habit-assign.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { SharedModule } from '../../../../shared/shared.module';
 import { HabitsListViewComponent } from './components/habits-list-view/habits-list-view.component';
-import { HabitsGalleryViewComponent } from '../../shared/components/habits-gallery-view/habits-gallery-view.component';
 import { LocalStorageService } from '../../../../../service/localstorage/local-storage.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of} from 'rxjs';
 
 import { AllHabitsComponent } from './all-habits.component';
-import { AllHabitsService } from './services/all-habits.service';
-import { ServerHabitItemPageModel } from '@global-user/models/habit-item.model';
+import { HabitService } from '../../../../../service/habit/habit.service';
+import { HabitListInterface } from '../../../../../interface/habit/habit.interface';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-describe('AllHabitsComponent', () => {
+describe('AllHabitsComponent', async () => {
   let component: AllHabitsComponent;
   let fixture: ComponentFixture<AllHabitsComponent>;
 
-  const habitsMockData: ServerHabitItemPageModel[] = [{
-      habitTranslation: {
-        description: 'test',
-        habitItem: ['test'],
-        languageCode: 'test',
-        name: 'test'
+  const assignedHabitsMock: Array<HabitAssignInterface> = [{
+      createDateTime: new Date('2021-02-11T16:35:18.048839Z'),
+      duration: 14,
+      habit: {
+        defaultDuration: 14,
+        habitTranslation: {
+          description: 'Test',
+          habitItem: 'Test',
+          languageCode: 'en',
+          name: 'Test'
+        },
+        id: 506,
+        image: '',
+        tags: []
       },
-      id: 0,
-      image: 'test',
-      defaultDuration: 1
-    },
-    {
-      habitTranslation: {
-        description: 'test2',
-        habitItem: ['test2'],
-        languageCode: 'test2',
-        name: 'test2'
-      },
-      id: 1,
-      image: 'test',
-      defaultDuration: 1
+      habitStatusCalendarDtoList: [],
+      habitStreak: 0,
+      id: 154,
+      lastEnrollmentDate: new Date('2021-02-11T16:35:18.04885Z'),
+      status: 'INPROGRESS',
+      userId: 7835,
+      workingDays: 0
     }
   ];
 
-  const mockData = new BehaviorSubject<any>({
-    currentPage: 0,
-    page: habitsMockData,
-    totalElements: 2,
-    totalPages: 1
-  });
+  const habitsMockData: HabitListInterface = {
+      currentPage: 1,
+      page: [
+        {
+          defaultDuration: 1,
+          habitTranslation: {
+            description: 'test',
+            habitItem: 'test, best',
+            languageCode: 'en',
+            name: 'test'
+          },
+          id: 0,
+          image: 'test',
+          tags: ['test']
+        },
+        {
+          defaultDuration: 1,
+          habitTranslation: {
+            description: 'test2',
+            habitItem: 'test2',
+            languageCode: 'en',
+            name: 'test2'
+          },
+          id: 1,
+          image: 'test2',
+          tags: ['test2']
+        }
+      ],
+      totalElements: 2,
+      totalPages: 1
+    };
 
-  const allHabitsServiceMock = jasmine.createSpyObj('AllHabitsService', ['allHabits', 'fetchAllHabits', 'resetSubject']);
-  allHabitsServiceMock.allHabits = mockData;
-  allHabitsServiceMock.fetchAllHabits = (page, batchSize, lang) => true;
-  allHabitsServiceMock.resetSubject = () => true;
+  const mockData = new BehaviorSubject<any>(habitsMockData);
 
   const localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['languageBehaviourSubject']);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject<string>('en');
+  const assignHabitServiceMock: HabitAssignService = TestBed.get(HabitAssignService);
+  assignHabitServiceMock.getAssignedHabits = () => of(assignedHabitsMock);
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         AllHabitsComponent,
@@ -65,24 +92,30 @@ describe('AllHabitsComponent', () => {
         TranslateModule.forRoot(),
         SharedModule,
         InfiniteScrollModule,
-        RouterTestingModule
+        RouterTestingModule,
+        HttpClientTestingModule
       ],
       providers: [
-        { provide: AllHabitsService, useValue: allHabitsServiceMock },
+        HabitService,
+        HabitAssignService,
         { provide: LocalStorageService, useValue: localStorageServiceMock },
       ]
     })
     .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AllHabitsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    component.allHabits = mockData;
+    component.resetSubject = () => true;
+    const habitServiceMock: HabitService = TestBed.get(HabitService);
+    habitServiceMock.getAllHabits = () => of(habitsMockData);
+    fixture.detectChanges();
   });
 
   it('should create', () => {
-    allHabitsServiceMock.languageBehaviourSubject = new BehaviorSubject<string>('en');
     expect(component).toBeTruthy();
   });
 
@@ -93,26 +126,27 @@ describe('AllHabitsComponent', () => {
     });
 
     it('Should filter data by array of tags', () => {
-      // @ts-ignore
-      component.habitsList = habitsMockData;
+      const data = component[`splitHabitItems`](habitsMockData);
+      component.filteredHabitsList = data.page;
+      component[`habitsList`] = data.page;
       component.getFilterData(['test']);
 
-      expect(component.filteredHabitsList).toEqual([habitsMockData[0]]);
+      expect(component.filteredHabitsList).toEqual([habitsMockData.page[0]]);
     });
 
     it('Should stop fetching data on scroll if there is no page left', () => {
       component.isFetching = true;
       // @ts-ignore
-      component.totalPages = 1;
+      component.totalPages = 2;
       // @ts-ignore
-      component.currentPage = 1;
+      component.currentPage = 2;
       component.onScroll();
       expect(component.isFetching).toEqual(false);
     });
 
     it('Should stop fetching data on scroll if there is no page left', () => {
       // @ts-ignore
-      const spy = spyOn(component, 'getAllHabits').and.returnValue(true);
+      const spy = spyOn(component, 'fetchAllHabits').and.returnValue(true);
       // @ts-ignore
       component.totalPages = 2;
       // @ts-ignore
@@ -120,7 +154,7 @@ describe('AllHabitsComponent', () => {
       // @ts-ignore
       component.lang = 'en';
       component.onScroll();
-      expect(spy).toHaveBeenCalledWith(2, 6, 'en');
+      expect(spy).toHaveBeenCalledWith(2, 6);
     });
   });
 });

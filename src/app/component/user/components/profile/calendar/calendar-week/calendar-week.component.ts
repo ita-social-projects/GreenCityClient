@@ -1,178 +1,111 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CalendarWeekInterface  } from '../calendar-week/calendar-week-interface';
-import { calendarImage } from '../calendar-image';
-import { LanguageService } from '@language-service/language.service';
-import { Subscription } from 'rxjs';
+import { CalendarBaseComponent } from '@shared/components/calendar-base/calendar-base.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
+import { HabitAssignService } from './../../../../../../service/habit-assign/habit-assign.service';
+import { LanguageService } from '@language-service/language.service';
+import { ReplaySubject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { CalendarWeekInterface } from '../calendar-week/calendar-week-interface';
+import { calendarImage } from '../calendar-image';
 
 @Component({
   selector: 'app-calendar-week',
   templateUrl: './calendar-week.component.html',
   styleUrls: ['./calendar-week.component.scss']
 })
-export class CalendarWeekComponent implements OnInit, OnDestroy {
+export class CalendarWeekComponent extends CalendarBaseComponent implements OnInit, OnDestroy {
   public calendarImages = calendarImage;
-  public monthAndYearName: string;
-  public maxDaysInWeek = 6;
-  public daysName: Array<string> = [];
-  public months: Array<string> = [];
-  public monthsShort: Array<string> = [];
-  public calendarDay: Array<CalendarWeekInterface> = [];
-  public currentDayName: string;
   public language: string;
-  public currentMonth = new Date().getMonth();
-  public currentYear = new Date().getFullYear();
-  public currentDay = new Date().getDate();
-  public firstDayInWeek = new Date().getDay()
-    ? new Date().getDate() - new Date().getDay() + 1
-    : new Date().getDate() - 6;
+  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  public currentDate = new Date();
+  public weekTitle: string;
+  public weekDates: CalendarWeekInterface[];
 
-  private langChangeSub: Subscription;
-  private defaultTranslateSub: Subscription;
-
-  private calendar: CalendarWeekInterface = {
-    date: new Date(),
-    numberOfDate: 0,
-    year: 0,
-    month: 0,
-    firstDay: 0,
-    lastDayInWeek: 7,
-    dayName: '',
-    totalDaysInMonth: 0,
-    isHabitsTracked: false,
-    isCurrentDayActive: false
-  };
-
-  constructor(private translate: TranslateService,
-              private languageService: LanguageService) {}
+  constructor(
+    private localStorageService: LocalStorageService,
+    public habitAssignService: HabitAssignService,
+    public translate: TranslateService,
+    public languageService: LanguageService
+  ) {
+    super(translate, languageService, habitAssignService);
+  }
 
   ngOnInit() {
-    this.bindDefaultTranslate();
-    this.subscribeToLangChange();
-    this.buildCalendar();
+    this.buildWeekCalendar(this.getFirstWeekDate());
+    this.getLanguage();
+    this.markCalendarDays(false, this.weekDates);
   }
 
-  public getDaysInMonth(iMonth, iYear): number {
-    return new Date(iYear, iMonth + 1, 0).getDate();
+  private buildWeekCalendar(firstWeekDay: Date): void {
+    const year = firstWeekDay.getFullYear();
+    const month = firstWeekDay.getMonth();
+    const day = firstWeekDay.getDate();
+    this.weekDates = [];
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(year, month, day + i);
+      const isCurrent = date.getFullYear() === this.currentDate.getFullYear()
+        && date.getMonth() === this.currentDate.getMonth()
+        && date.getDate() === this.currentDate.getDate();
+      this.weekDates.push({
+        date,
+        dayName: this.language ? this.setDayName(date) : '',
+        isCurrent,
+        hasHabitsInProgress: false,
+        areHabitsDone: false
+      });
+    }
   }
 
-  public subscribeToLangChange(): void {
-    this.langChangeSub = this.translate.onDefaultLangChange.subscribe((res) => {
-      const translations = res.translations.profile.calendar;
-      this.daysName = translations.days;
-      this.months = translations.months;
-      this.monthsShort = translations.monthsShort;
-      this.monthAndYearName = `${this.firstDayInWeek} - ${this.firstDayInWeek + this.maxDaysInWeek}
-${this.months[this.currentMonth]} ${this.currentYear}`;
-      this.markCurrentDayOfWeek();
-    });
+  private getFirstWeekDate(): Date {
+    const day = this.currentDate.getDay() === 0
+      ? this.currentDate.getDay() - 6
+      : this.currentDate.getDate() - this.currentDate.getDay() + 1;
+    const month = this.currentDate.getMonth();
+    const year = this.currentDate.getFullYear();
+    return new Date(year, month, day);
   }
 
-  public bindDefaultTranslate(): void {
-    this.defaultTranslateSub = this.translate.getTranslation(this.translate.getDefaultLang())
-      .subscribe((res) => {
-        const translations = res.profile.calendar;
-        this.daysName = translations.days;
-        this.months = translations.months;
-        this.monthsShort = translations.monthsShort;
-        this.monthAndYearName = `${this.firstDayInWeek} - ${this.firstDayInWeek + this.maxDaysInWeek}
-${this.months[this.currentMonth]} ${this.currentYear}`;
-        this.markCurrentDayOfWeek();
+  private setDayName(source: Date): string {
+    return source.toLocaleDateString(this.language, { weekday: 'short'});
+  }
+
+  private getLanguage(): void {
+    this.localStorageService.languageBehaviourSubject
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(language => {
+        this.language = language;
+        this.weekDates.forEach(dateObj => dateObj.dayName = this.setDayName(dateObj.date));
+        this.buildWeekCalendarTitle();
       });
   }
 
-  public buildCalendar(): void {
-    this.calculateCalendarModel(this.firstDayInWeek, this.currentMonth, this.currentYear);
-    this.bindCalendarModel();
-    this.isCurrentDayActive();
+  public buildWeekCalendarTitle(): void {
+    const firstDay = this.weekDates[0].date.getDate();
+    const lastDay = this.weekDates[6].date.getDate();
+    const firstDayMonth = this.weekDates[0].date.toLocaleDateString(this.language, { month: 'long'});
+    const lastDayMonth = this.weekDates[6].date.toLocaleDateString(this.language, { month: 'long'});
+    const firstDayYear = this.weekDates[0].date.getFullYear();
+    const lastDayYear = this.weekDates[6].date.getFullYear();
+    this.weekTitle = firstDayMonth === lastDayMonth
+      ? `${firstDay} - ${lastDay} ${firstDayMonth} ${firstDayYear}`
+      : firstDayYear === lastDayYear
+        ? `${firstDay} ${firstDayMonth} - ${lastDay} ${lastDayMonth} ${firstDayYear}`
+        : `${firstDay} ${firstDayMonth} ${firstDayYear} - ${lastDay} ${lastDayMonth} ${lastDayYear}`;
   }
 
-  public calculateCalendarModel(day: number, month: number, year: number): void {
-    this.calendar.month = month;
-    this.calendar.year = year;
-    this.calendar.firstDay = (new Date(year, month, 0)).getDay();
-    this.calendar.lastDayInWeek = (this.calendar.firstDay + this.maxDaysInWeek);
-    this.calendar.totalDaysInMonth = this.getDaysInMonth(month, year);
-    this.monthAndYearName = `${this.firstDayInWeek} - ${this.firstDayInWeek + this.maxDaysInWeek}
-${this.months[this.currentMonth]} ${this.currentYear}`;
-  }
-
-  public bindCalendarModel(): void {
-    const end = 7;
-    const calendarDays = Array.from({ length: end },
-      (_, i) =>
-        this.getWeekTemplate(i + this.firstDayInWeek));
-    this.calendarDay = [...this.calendarDay, ...calendarDays];
-  }
-
-  public getWeekTemplate(days?: number): CalendarWeekInterface {
-    return {
-      numberOfDate : days || '',
-      date : new Date(),
-      month : this.calendar.month,
-      year : this.calendar.year,
-      firstDay : this.calendar.firstDay,
-      lastDayInWeek: this.calendar.lastDayInWeek,
-      totalDaysInMonth : this.calendar.totalDaysInMonth,
-      dayName : (new Date(this.calendar.year, this.calendar.month, days)
-        .toDateString()
-        .substring(0, 3)) || '',
-      isHabitsTracked: false,
-      isCurrentDayActive: (this.currentDay === days && this.currentMonth === this.calendar.month)
-    };
-  }
-
-  public isCurrentDayActive(): void {
-    this.calendarDay.forEach(el => el.isCurrentDayActive =
-      (el.date.getDate() === el.numberOfDate
-        && el.date.getMonth() === el.month
-        && el.date.getFullYear() === el.year)
-    );
-  }
-
-  public markCurrentDayOfWeek(): void {
-    const option = { weekday: 'short' };
-    this.language = this.languageService.getCurrentLanguage();
-    this.calendarDay.forEach(el => {
-      if (
-        el.isCurrentDayActive
-        && el.date.getMonth() === el.month
-        && el.date.getFullYear() === el.year
-      ) {
-        const dayName = (new Date(el.year, el.month, +el.numberOfDate)
-          .toLocaleDateString(this.language, option));
-        this.currentDayName = dayName.charAt(0).toUpperCase() + dayName.slice(1);
-      }
-    });
-  }
-
-  public nextWeek(): void {
-    if (this.firstDayInWeek === this.calendar.totalDaysInMonth) {
-      this.currentMonth = this.currentMonth + 1;
-      this.firstDayInWeek = 1;
-    } else {
-      this.firstDayInWeek = this.firstDayInWeek + 1;
-      const [firstDay, ...lastDays] = this.daysName;
-      this.daysName = [...lastDays, firstDay];
-    }
-    this.calendarDay = [];
-    this.buildCalendar();
-  }
-
-  public previousWeek(): void {
-    if (this.firstDayInWeek === 1) {
-      this.currentMonth = this.currentMonth - 1;
-      this.firstDayInWeek = this.calendar.totalDaysInMonth - this.maxDaysInWeek;
-    } else {
-      this.firstDayInWeek = this.firstDayInWeek - 1;
-      this.daysName = [this.daysName[6], ...this.daysName.slice(0, 6)];
-    }
-    this.calendarDay = [];
-    this.buildCalendar();
+  public changeWeek(isNext: boolean): void {
+    const year = this.weekDates[0].date.getFullYear();
+    const month = this.weekDates[0].date.getMonth();
+    const day = this.weekDates[0].date.getDate() + (isNext ? 7 : - 7);
+    const firstWeekDate = new Date(year, month, day);
+    this.buildWeekCalendar(firstWeekDate);
+    this.buildWeekCalendarTitle();
+    this.markCalendarDays(false, this.weekDates);
   }
 
   ngOnDestroy() {
-    this.langChangeSub.unsubscribe();
-    this.defaultTranslateSub.unsubscribe();
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 }

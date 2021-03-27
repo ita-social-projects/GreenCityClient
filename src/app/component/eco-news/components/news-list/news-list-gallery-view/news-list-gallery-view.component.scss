@@ -1,7 +1,7 @@
 $bp-smallest: 575px;
 $bp-phone: 767px;
-$bp-tablet: 991px;
-$bp-desktop: 1199px;
+$bp-tablet: 1023px;
+$bp-desktop: 1439px;
 
 p,
 div {
@@ -11,7 +11,7 @@ div {
 
 .list-gallery {
   width: 359px;
-  min-height: 500px;
+  min-height: 528px;
   box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
   background: #fff;
   border-radius: 4px;
@@ -57,14 +57,16 @@ div {
       position: relative;
 
       .title-list {
-        max-height: 52px;
         overflow: hidden;
-        font-family: var(--secondary-font);
-        font-style: normal;
-        font-weight: 500;
-        font-size: 21px;
-        line-height: 26px;
-        color: var(--secondary-dark-grey);
+
+        h3 {
+          font-family: var(--secondary-font);
+          font-style: normal;
+          font-weight: 500;
+          font-size: 21px;
+          line-height: 26px;
+          color: var(--secondary-dark-grey);
+        }
       }
 
       .list-text {
@@ -75,7 +77,6 @@ div {
         font-size: 14px;
         line-height: 21px;
         color: var(--secondary-dark-grey);
-        white-space: pre-wrap;
       }
     }
 
@@ -126,11 +127,11 @@ div {
 @media screen and (max-width: $bp-desktop) {
   .list-gallery {
     width: 299px;
-    min-height: 500px;
+    min-height: 528px;
 
     .list-image {
       .list-image-content {
-        height: 172px;
+        height: 206px;
       }
     }
 
@@ -144,12 +145,12 @@ div {
 
 @media screen and (max-width: $bp-tablet) {
   .list-gallery {
-    width: 353px;
-    min-height: 500px;
+    width: 354px;
+    min-height: 528px;
 
     .list-image {
       .list-image-content {
-        height: 202px;
+        height: 206px;
       }
     }
 
@@ -164,11 +165,11 @@ div {
 @media screen and (max-width: $bp-phone) {
   .list-gallery {
     width: 258px;
-    height: 508px;
+    height: 528px;
 
     .list-image {
       .list-image-content {
-        height: 147px;
+        height: 206px;
       }
     }
 
@@ -176,7 +177,7 @@ div {
       .added-data {
         height: 222px;
 
-        .title-list {
+        .title-list > h3 {
           font-size: 18px;
           line-height: 24px;
         }
@@ -198,11 +199,11 @@ div {
 @media screen and (max-width: $bp-smallest) {
   .list-gallery {
     width: 288px;
-    height: 508px;
+    height: 528px;
 
     .list-image {
       .list-image-content {
-        height: 166px;
+        height: 206px;
       }
     }
   }

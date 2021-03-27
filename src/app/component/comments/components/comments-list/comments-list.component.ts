@@ -1,18 +1,19 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { CommentsService } from '../../services/comments.service';
-import { CommentsDTO, dataTypes } from '../../models/comments-model';
+import { CommentsDTO, dataTypes, PaginationConfig } from '../../models/comments-model';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-comments-list',
   templateUrl: './comments-list.component.html',
   styleUrls: ['./comments-list.component.scss']
 })
-export class CommentsListComponent implements OnInit {
+export class CommentsListComponent {
   @Input() public elementsList: CommentsDTO[] = [];
   @Input() public dataType: string;
   @Input() public commentId: number;
-  @Input() public config;
+  @Input() public config: PaginationConfig;
   @Input() public isLoggedIn: boolean;
   @Input() public userId: number;
   @Output() public changedList = new EventEmitter();
@@ -24,9 +25,6 @@ export class CommentsListComponent implements OnInit {
 
   constructor(private commentsService: CommentsService) { }
 
-  ngOnInit() {
-  }
-
   public deleteComment(): void {
     this.changedList.emit();
   }
@@ -36,8 +34,10 @@ export class CommentsListComponent implements OnInit {
   }
 
   public saveEditedComment(element: CommentsDTO): void {
-    this.commentsService.editComment(element.id, this.content).subscribe(
-      () => this.content.reset());
+    this.commentsService.editComment(element.id, this.content)
+      .pipe(take(1))
+      .subscribe(() => this.content.reset());
+
     element.isEdit = false;
     element.text = this.content.value;
     element.status = 'EDITED';
@@ -62,5 +62,9 @@ export class CommentsListComponent implements OnInit {
       item[key] = item.id === id && !item[key];
       return item;
     });
+  }
+
+  public checkCommentAuthor(commentAuthorId: number) {
+    return commentAuthorId === Number(this.userId);
   }
 }

@@ -3,13 +3,17 @@
   <div class="search_bar-wrapper">
     <div class="container search_bar-container">
       <img class="search_search-icon" [src]="searchIcons.search" alt="search icon" />
-      <input class="search_search-field"
+      <input  #inputFocus
+              class="search_search-field"
               type="text"
               [formControl]="searchInput"
-              placeholder="{{ 'search.search-popup.placeholder' | translate}}"
-              #inputFocus>
+              placeholder="{{ 'search.search-popup.placeholder' | translate}}" >
               {{inputFocus.focus()}}
-      <img class="search_close-icon" [src]="searchIcons.union" alt="close search" (click)="closeSearch()" />
+      <img class="search_close-icon"
+           [src]="searchIcons.union" 
+           alt="close search" 
+           (click)="closeSearch()" 
+           (keydown.enter)="closeSearch()" tabindex="0">
     </div>
   </div>
   <!-- search results -->

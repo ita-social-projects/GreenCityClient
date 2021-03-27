@@ -6,7 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeaderComponent } from './header.component';
-import { BehaviorSubject, of, Subject } from 'rxjs';
+import { BehaviorSubject, of, Subject, Observable } from 'rxjs';
 import { Language } from '@language-service/Language';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { UserService } from '@global-service/user/user.service';
@@ -17,6 +17,8 @@ import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { SearchService } from '@global-service/search/search.service';
 
 class MatDialogMock {
+  afterAllClosed = of(true);
+
   open() {
     return {
       afterClosed: () => of(true)
@@ -28,23 +30,26 @@ describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
   const mockLang = 'ua';
+  const mockLangId = 1;
 
   let localStorageServiceMock: LocalStorageService;
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.languageSubject = new Subject();
   localStorageServiceMock.getCurrentLanguage = () => mockLang as Language;
-  localStorageServiceMock.firstNameBehaviourSubject = new BehaviorSubject('1111');
-  localStorageServiceMock.getAccessToken = () => 'true';
+  localStorageServiceMock.firstNameBehaviourSubject = new BehaviorSubject('true');
+  localStorageServiceMock.accessTokenBehaviourSubject = new BehaviorSubject('true');
   localStorageServiceMock.clear = () => true;
 
   let jwtServiceMock: JwtService;
   jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole']);
   jwtServiceMock.getUserRole = () => 'true';
+  jwtServiceMock.userRole$ = new BehaviorSubject('test');
 
   let userServiceMock: UserService;
   userServiceMock = jasmine.createSpyObj('UserService', ['onLogout']);
   userServiceMock.onLogout = () => true;
+  userServiceMock.updateUserLanguage = () => of(true);
 
   let achievementServiceMock: AchievementService;
   achievementServiceMock = jasmine.createSpyObj('AchievementService', ['onLogout']);
@@ -58,6 +63,7 @@ describe('HeaderComponent', () => {
   languageServiceMock = jasmine.createSpyObj('LanguageService', ['getCurrentLanguage']);
   languageServiceMock.getCurrentLanguage = () => mockLang as Language;
   languageServiceMock.changeCurrentLanguage = () => true;
+  languageServiceMock.getLanguageId = () => mockLangId;
 
   let searchServiceMock: SearchService;
   searchServiceMock = jasmine.createSpyObj('SearchService', ['searchSubject', 'allSearchSubject', 'toggleSearchModal']);
@@ -95,7 +101,7 @@ describe('HeaderComponent', () => {
         { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock },
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

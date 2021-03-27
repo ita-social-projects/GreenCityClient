@@ -1,15 +1,31 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { UsersFriendsComponent } from './users-friends.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { BehaviorSubject, of, throwError } from 'rxjs';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
-import { of, throwError } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Friend, UserFriendsInterface } from '../../../../../interface/user/user-friends.interface';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 describe('UsersFriendsComponent', () => {
   let component: UsersFriendsComponent;
   let fixture: ComponentFixture<UsersFriendsComponent>;
+  let localStorageServiceMock: LocalStorageService;
+  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviorSubject']);
+  localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
+  let profileServiceMock: ProfileService;
+  const userFriends = {
+    amountOfFriends: 30,
+    pagedFriends: {
+      currentPage: 1,
+      page: [],
+      totalElements: 6,
+      totalPages: 1
+    }};
+  profileServiceMock = jasmine.createSpyObj('ProfileService', ['getUserFriends']);
+  profileServiceMock.getUserFriends = () => (of(userFriends));
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -17,7 +33,12 @@ describe('UsersFriendsComponent', () => {
       declarations: [ UsersFriendsComponent ],
       imports: [
         TranslateModule.forRoot(),
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        RouterTestingModule.withRoutes([])
+      ],
+      providers: [
+        {provide: LocalStorageService, useValue: localStorageServiceMock},
+        {provide: ProfileService, useValue: profileServiceMock}
       ]
     })
     .compileComponents();
@@ -32,35 +53,27 @@ describe('UsersFriendsComponent', () => {
   it('should create UsersFriendsComponent', () => {
     expect(component).toBeTruthy();
   });
-});
 
-describe('GetUserFriends', () => {
-  let component: UsersFriendsComponent;
-  let service: ProfileService;
-
-  beforeEach(() => {
-    service = new ProfileService(null, null, null);
-    component = new UsersFriendsComponent(service);
+  it ('should get userId', () => {
+    expect(localStorageServiceMock.userIdBehaviourSubject.value).toBe(1111);
   });
 
-  it('should get a user\'s friends', () => {
-    const userFriends = {title: 'test'};
-    const spy = spyOn(service, 'getUserFriends').and.returnValue(of(userFriends));
+  it('should get a user', () => {
+    const initUserSpy = spyOn(component as any, 'initUser');
+    component.ngOnInit();
+    expect(initUserSpy).toHaveBeenCalledTimes(1);
+    });
 
-    component.showUsersFriends();
-
-    expect(spy).toHaveBeenCalled();
+  it('should get a user\'s', () => {
+    const showUsersFriendsSpy = spyOn(component as any, 'showUsersFriends');
+    component.ngOnInit();
+    expect(showUsersFriendsSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should set message to error message', () => {
-    const error = 'Error message';
-    spyOn(service, 'getUserFriends').and.returnValue(throwError(error));
-
-    component.showUsersFriends();
-
-    expect(component.noFriends).toBe(error);
-  });
-
+      const error = 'Error message';
+      spyOn(profileServiceMock, 'getUserFriends').and.returnValue(throwError(error));
+      component.showUsersFriends();
+      expect(component.noFriends).toBeFalsy();
+    });
 });
-
-

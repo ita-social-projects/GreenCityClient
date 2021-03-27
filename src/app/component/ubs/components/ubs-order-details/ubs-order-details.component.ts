@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -13,7 +13,7 @@ import { IOrder, IUserOrder } from '../../models/ubs.interface';
   templateUrl: "./ubs-order-details.component.html",
   styleUrls: ["./ubs-order-details.component.scss"],
 })
-export class UBSOrderDetailsComponent implements OnInit {
+export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   showTotal = 0;
   total = 0;
   finalSum = 0;
@@ -331,5 +331,9 @@ export class UBSOrderDetailsComponent implements OnInit {
     };
     this.shareFormService.changeObject(newOrder);
     this.shareFormService.finalBillObject(paymentBill);
+  }
+
+  ngOnDestroy() {
+    // [TASK] implement unsubscribe
   }
 }

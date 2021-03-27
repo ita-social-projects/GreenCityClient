@@ -1,16 +1,11 @@
 $bp-smallest: 320px;
 $bp-phone: 576px;
 $bp-tablet: 768px;
-$bp-desktop: 1024px;
-$bp-largest: 1440px;
-
-.calendar-right {
-  display: none;
-}
+$bp-desktop: 1023px;
+$bp-largest: 1200px;
 
 .calendar {
-  width: 261px;
-  max-height: 276px;
+  display: block;
   background: var(--secondary-light-grey);
   border-radius: 4px;
 
@@ -31,8 +26,9 @@ $bp-largest: 1440px;
         font-family: var(--secondary-font);
         font-weight: 600;
         font-size: 13px;
+        line-height: 13px;
         color: var(--primary-dark-grey);
-        margin-top: 16px;
+        margin-top: 15px;
         margin-bottom: 12px;
         cursor: pointer;
       }
@@ -47,17 +43,17 @@ $bp-largest: 1440px;
 
     .days {
       display: grid;
-      grid-template-columns: repeat(7, 34.6px);
+      grid-template-columns: repeat(7, 30px);
+      justify-content: center;
       text-align: center;
-      margin: 0 9px 0 10px;
       font-size: 11px;
 
       .days-name {
         margin: 0;
         font-family: var(--secondary-font);
         font-weight: 600;
-        font-size: 13px;
-        line-height: 16px;
+        font-size: 11px;
+        line-height: 12px;
         color: var(--tertiary-light-grey);
       }
 
@@ -68,21 +64,24 @@ $bp-largest: 1440px;
   }
 
   .middle {
-    padding-bottom: 24px;
+    padding-bottom: 5px;
 
     .calendar-grid {
       display: grid;
-      grid-template-columns: repeat(7, 34px);
-      grid-auto-rows: 32px;
-      margin: 8px 0 0 14px;
+      grid-template-columns: repeat(7, 24px);
+      grid-auto-rows: 24px;
+      grid-row-gap: 5px;
+      justify-content: space-around;
+      margin: 8px 0 0;
+      padding: 0 3px;
       font-family: var(--secondary-font);
-      font-size: 13px;
-      line-height: 16px;
+      font-size: 11px;
+      line-height: 13px;
       color: var(--primary-dark-grey);
       text-align: center;
 
       .calendar-grid-day {
-        padding: 7px 1px 0 0;
+        padding: 6px 0 0;
         cursor: pointer;
       }
 
@@ -128,7 +127,7 @@ $bp-largest: 1440px;
       grid-row-gap: 32px;
       grid-column-gap: 47px;
       justify-content: center;
-      margin-top: 32px;
+      margin: 32px 0;
 
       .calendar-grid-month-view {
         font-family: var(--secondary-font);
@@ -148,181 +147,121 @@ $bp-largest: 1440px;
   }
 }
 
-@media only screen and (max-width: $bp-desktop) {
-  .calendar {
-    width: 216px;
-    height: 202px;
-
-    .top {
-      .days {
-        grid-template-columns: repeat(7, 28.6px);
-
-        .days-name {
-          font-size: 10px;
-        }
-      }
-    }
-
-    .middle {
-      .calendar-grid {
-        grid-template-columns: repeat(7, 28px);
-        grid-auto-rows: 22px;
-        margin: 2px 0 0 14px;
-        font-size: 11px;
-
-        .calendar-grid-day {
-          padding: 2px 1px 0 0;
-        }
-      }
-
-      .calendar-grid-month {
-        grid-template-columns: repeat(3, 21px);
-        grid-row-gap: 23px;
-        grid-column-gap: 41px;
-        margin-top: 19px;
-      }
-    }
-  }
+.calendar-habits {
+  visibility: hidden;
 }
 
-@media only screen and (max-width: $bp-tablet) {
+.calendar-habits-open {
+  position: relative;
+  z-index: 10;
+  margin-right: 314px;
+  width: 314px;
+  height: 334px;
+  right: 297px;
+  top: 3px;
+  font-family: var(--secondary-font);
+  color: var(--primary-dark-grey);
+  background: #fff;
+  box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
+  border-radius: 4px;
+}
+
+.habits-title {
+  font-family: var(--secondary-font);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 16px;
+  padding: 20px 0 16px 20px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.habits-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 16px 16px;
+  margin: 0;
+}
+
+.habits-item {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  font-family: var(--secondary-font);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 14px;
+  width: 282px;
+  height: 28px;
+  list-style: none;
+}
+
+.habits-item-disabled {
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.habit-icon {
+  padding-right: 9px;
+}
+
+.enrolled-day {
+  background-color: #b1dfc6;
+  color: #494a49;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 50%;
+}
+
+.unenrolled-day {
+  background-color: #e1e5e3;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 50%;
+}
+
+.enrolled-past-day {
+  background-color: transparent;
+  border: 1px solid #b1dfc6;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 50%;
+}
+
+.unenrolled-past-day {
+  background-color: transparent;
+  border: 1px solid  #d0d0d0;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 50%;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media only screen and (min-width: $bp-largest) {
   .calendar {
-    display: none;
-  }
-
-  .calendar-right {
-    width: 483px;
-    height: 130px;
-    display: flex;
-    flex-direction: column;
-
     .top {
-      .month-year {
-        display: flex;
-        justify-content: space-between;
-        text-align: center;
-
-        .arrow-previous {
-          margin-top: 22px;
-          margin-left: 18px;
-          margin-bottom: 16px;
-          cursor: pointer;
-        }
-
-        .monthAndYear {
-          font-family: var(--secondary-font);
-          font-weight: 600;
-          font-size: 13px;
-          color: var(--primary-dark-grey);
-          margin-top: 16px;
-          margin-bottom: 12px;
-          cursor: pointer;
-        }
-
-        .arrow-next {
-          margin-top: 22px;
-          margin-right: 18px;
-          margin-bottom: 16px;
-          cursor: pointer;
-        }
-      }
-
       .days {
-        display: grid;
-        grid-template-columns: repeat(7, 68.6px);
-        text-align: center;
-        margin: 0 9px 0 10px;
-        font-size: 11px;
-
-        .days-name {
-          margin: 0;
-          font-family: var(--secondary-font);
-          font-weight: 600;
-          font-size: 11px;
-          line-height: 16px;
-          color: var(--tertiary-light-grey);
-        }
-
-        .current-day-name {
-          color: var(--primary-green);
-        }
+        grid-template-columns: repeat(7, 35px);
       }
     }
 
     .middle {
-      padding-bottom: 24px;
-
       .calendar-grid {
-        display: grid;
-        grid-template-columns: repeat(7, 57px);
-        grid-auto-rows: 34px;
-        margin: 8px 0 0 14px;
-        font-family: var(--secondary-font);
-        font-size: 19px;
-        line-height: 16px;
-        color: var(--primary-dark-grey);
-        text-align: center;
+        padding: 0 8px;
 
         .calendar-grid-day {
-          padding: 7px 1px 0 0;
-          cursor: pointer;
-        }
-
-        .calendar-grid-day:hover {
-          color: var(--primary-green);
-        }
-
-        .calendar-grid-day:active {
-          color: var(--secondary-dark-green);
-        }
-
-        .current-day {
-          background-color: var(--secondary-dark-green);
-          border-radius: 50%;
-          width: 25px;
-          color: #fff;
-        }
-
-        .tracked-day {
-          background-color: var(--secondary-dark-green);
-          border-radius: 50%;
-          width: 25px;
-          color: #fff;
-        }
-
-        .current-day:hover,
-        .tracked-day:hover {
-          color: #fff;
-        }
-
-        .current-day:active,
-        .tracked-day:active {
-          color: var(--secondary-dark-green);
-        }
-      }
-
-      .calendar-grid-month {
-        display: grid;
-        grid-template-columns: repeat(3, 23px);
-        grid-template-rows: repeat(4, 13px);
-        grid-row-gap: 32px;
-        grid-column-gap: 47px;
-        justify-content: center;
-        margin-top: 32px;
-
-        .calendar-grid-month-view {
-          font-family: var(--secondary-font);
-          font-weight: 600;
-          font-size: 11px;
-          line-height: 13px;
-          color: var(--secondary-grey);
-          text-align: center;
-          text-transform: uppercase;
-          cursor: pointer;
-        }
-
-        .current-month {
-          color: var(--primary-green);
+          padding: 6px 0 0;
+          font-size: 13px;
         }
       }
     }

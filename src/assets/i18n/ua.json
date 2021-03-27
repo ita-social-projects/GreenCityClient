@@ -83,7 +83,7 @@
           "edit": "Редагувати",
           "edited": "відредаговано",
           "delete": "Видалити",
-          "save": "Зберегти",
+          "save": "Зберегти зміни",
           "close": "Закрити",
           "cancel": "Скасувати"
         },
@@ -329,7 +329,7 @@
       },
       "sign-up": {
         "title-up": "Вітаємо!",
-        "fill-form-up": "Будь ласка, внесіть свої дані для реєстрації",
+        "fill-form-up": "Буль ласка, внеси свої дані для реєстрації",
         "first-name": "Ім'я користувача",
         "first-name-is-required": "Введіть ім'я",
         "user-name-error": "Iм'я користувача обов'язкове",
@@ -619,11 +619,13 @@
         "confirmation-modal-cancel": "Скасувати"
       },
       "all-habits": {
+        "back-button": "Назад до Моїх звичок",
         "title":"Всі звички",
         "no-habits":"На жаль, звичок не знайдено",
         "no-habits-advice": "Ніяких звичок більше знайти не вдалося. Будь ласка, поміняйте фільтри, щоб отримати результат.",
         "btn-more": "Детальніше",
-        "btn-add": "Додати звичку"
+        "btn-add": "Додати звичку",
+        "new-habit-added": "Ви успішно додали звичку у свій список"
       },
       "habit-trackers": {
         "habit-tracker": {
@@ -632,6 +634,11 @@
             "from": "з"
           }
         }
+      },
+      "one-habit": {
+        "good": "поспіль. Ти молодець!",
+        "done": "Відмітити як виконану",
+        "great": "Чудово! Ви набули звичку!"
       }
     }
   },
@@ -725,25 +732,46 @@
       "months": ["Січень", "Лютий", "Березень", "Квітень", "Травень", "Червень", "Липень", "Серпень", "Вересень", "Жовтень", "Листопад", "Грудень"],
       "monthsShort": ["Січ", "Лют", "Бер", "Кві", "Тра", "Чер", "Лип", "Сер", "Вер", "Жов", "Лис", "Гру"]
     },
-    "habits-in-progress": "Звички в процесі",
-    "add-new-habit": "Додати нову звичку",
-    "habits-acquired": "Придбані звички",
+    "dashboard": {
+      "my-habits": "Мої звички",
+      "my-news": "Мої новини",
+      "my-articles": "Мої статті",
+      "habits-in-progress": "Звички у процесі",
+      "add-new-habit": "Додати нову звичку",
+      "habits-acquired": "Набуті звички"
+    },
+    "habits-in-progress": "звички у процесі",
     "my-Achievements": "Мої досягнення",
     "see-all": "Побачити все",
     "my-eco-friends": "Мої Еко Друзі",
     "zero-friends": "У Вас немає друзів.",
+    "zero-requests": "На жаль, нових запитів немає.",
     "my-eco-places": "Мої Еко Місця",
-    "my-shoppingList": "Мій Шопінг-лист",
+    "shoppingList": "Шопінг-лист",
+    "empty-list": "Твій Шопінг-лист порожній.",
     "shoppingList-no-items-message": "У вас немає товарів у вашому списку покупок",
     "fact-of-the-day": "Факт дня",
     "no-eco-places": "У вас немає Еко Місць.",
     "online": "онлайн",
-    "acquired-habits": "придбані звички",
-    "written-articles": "письмові статті",
-    "published-news": "опубліковані новини",
     "my-habits": "Мої звички",
     "my-news": "Мої новини",
-    "my-articles": "Мої статті"
+    "my-articles": "Мої статті",
+    "friends": {
+      "link-to-profile": "Мій кабінет",
+      "mutual-friends": "спільних друзів",
+      "friends": "Друзі",
+      "add-new-friend": "Додати",
+      "delete-friend": "Видалити",
+      "requests": "Запити",
+      "request-decline": "Відхилити",
+      "request-accept": "Прийняти",
+      "all-friends": "Всі Друзі",
+      "search-friends": "Пошук"
+    },
+    "rate": "Рейтинг",
+    "acquired-habits": "набуті звички",
+    "written-articles": "мої статті",
+    "published-news": "мої новини"
   },
   "create-news": {
     "title": "Створити новину",

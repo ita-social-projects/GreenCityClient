@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { ReplyCommentComponent } from './reply-comment.component';
 
@@ -8,7 +9,12 @@ describe('ReplyCommentComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReplyCommentComponent ]
+      declarations: [
+        ReplyCommentComponent
+      ],
+      imports: [
+        TranslateModule.forRoot(),
+      ]
     })
     .compileComponents();
   }));

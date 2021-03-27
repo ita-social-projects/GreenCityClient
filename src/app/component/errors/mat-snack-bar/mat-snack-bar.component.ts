@@ -60,9 +60,13 @@ export class MatSnackBarComponent {
       this.getSnackBarMessage('update-cafe.notifications.photoUpload');
       this.className = 'error-snackbar';
     },
+    habitAdded: () => {
+      this.className = 'success-snackbar';
+      this.getSnackBarMessage('user.habit.all-habits.new-habit-added');
+    },
     errorMessage: (error) => {
       this.className = 'error-snackbar';
-      this.message = error;
+      this.getSnackBarMessage(error);
     }
   };
 
@@ -77,7 +81,7 @@ export class MatSnackBarComponent {
     this.translate.get(key).subscribe(translation => {
       this.message = translation;
       this.snackBar.open(this.message, 'X', {
-        duration: 5000,
+        duration: 15000,
         verticalPosition: 'top',
         horizontalPosition: 'center',
         panelClass: [this.className]

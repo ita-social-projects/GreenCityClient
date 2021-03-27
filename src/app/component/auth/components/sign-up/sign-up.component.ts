@@ -94,7 +94,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   public signUpWithGoogle(): void {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID)
       .then((data) => {
-        this.googleService.signIn(data.idToken)
+        this.googleService.signIn(data.idToken, this.currentLanguage)
           .pipe(
             takeUntil(this.destroy)
           )

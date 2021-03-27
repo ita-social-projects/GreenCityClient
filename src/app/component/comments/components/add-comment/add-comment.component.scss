@@ -34,6 +34,14 @@
       }
     }
 
+    .comment-width {
+      width: 505px;
+    }
+
+    .reply-width {
+      width: 467px;
+    }
+
     button {
       width: 157px;
       height: 48px;
@@ -48,7 +56,6 @@
 }
 
 .wrapper-reply {
-  width: 90%;
   margin: 32px 0 32px 70px;
 }
 
@@ -65,6 +72,7 @@
 }
 
 @media screen and (max-width: 576px) {
+  .wrapper-reply,
   .wrapper-comment {
     .input-submit {
       justify-content: flex-end;
@@ -72,6 +80,14 @@
 
       button {
         margin: 0;
+      }
+    }
+  }
+
+  .wrapper-reply {
+    .input-submit {
+      textarea {
+        margin-bottom: 16px;
       }
     }
   }
