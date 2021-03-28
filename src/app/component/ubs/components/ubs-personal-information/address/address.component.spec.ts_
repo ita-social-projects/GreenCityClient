@@ -20,6 +20,7 @@ describe('AddressComponent', () => {
   });
 
   it('should create', () => {
+    component.address = 'test';
     expect(component).toBeTruthy();
   });
 });
