@@ -30,13 +30,11 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
   public currentMonth = new Date().getMonth();
   public currentYear = new Date().getFullYear();
 
-  public isHabitsPopUpOpen;
-  public habitsCalendarSelectedDate;
+
   public selectedDay;
   public isDayTracked;
   public habits;
   public isFetching;
-  public calendarIcons;
   public checkIfFuture;
   public toggleEnrollHabit;
 
@@ -93,7 +91,9 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
       this.monthsShort = translations.monthsShort;
       this.monthAndYearName = `${this.months[this.currentMonth]} ${this.currentYear}`;
       this.markCurrentDayOfWeek();
+      this.getHabitsForDay
       this.buildMonthCalendar(this.monthsShort);
+      this.getUserHabits(true,this.calendarDay)
     });
   }
 
@@ -234,6 +234,10 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
     }
   }
 
+  formatSelectedDate(dayItem: CalendarInterface) {
+    return this.months[dayItem.month] + ' ' + dayItem.numberOfDate + ', ' + dayItem.year;
+  }
+
   getHabitsForDay(habitsList, date) {
     const habitsListForDay = habitsList.find(list => list.enrollDate == date);
     return habitsListForDay;
@@ -294,11 +298,22 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
     }
   }
 
-  formatSelectedDate(dayItem: CalendarInterface) {
-    return this.months[dayItem.month] + ' ' + dayItem.numberOfDate + ', ' + dayItem.year;
+  public formatedDate: string;
+  public isHabitListEditable: boolean;
+  public currentDate: Date = new Date();
+  public daysCanEditHabits = 7;
+
+  checkHabitListEditable() {
+    this.isHabitListEditable = false;
+    if (this.currentDate.setHours(0, 0, 0, 0) - this.daysCanEditHabits * 24 * 60 * 60 * 1000 <=
+      new Date(this.formatedDate).setHours(0, 0, 0, 0)) {
+      this.isHabitListEditable = true;
+    }
   }
-  openDialogDayHabits(e, dayItem: CalendarInterface) {
-    const date = this.formatDate(true, dayItem)
+
+  openDialogDayHabits(e, isMonthCalendar, dayItem: CalendarInterface) {
+    const isHabitListEditable = this.checkHabitListEditable()
+    const date = this.formatDate(isMonthCalendar, dayItem)
     const habits = this.getHabitsForDay(this.userHabitsList, date)
     const pos = e.target.getBoundingClientRect()
     const dialogConfig = new MatDialogConfig();
@@ -312,6 +327,8 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
     };
     dialogConfig.data = {
       habitsCalendarSelectedDate: this.formatSelectedDate(dayItem),
+      
+      
       habits: habits.habitAssigns
     };
 
@@ -358,7 +375,6 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
       this.checkAnswer = false;
     })
   }
-
 
   ngOnDestroy() {
     this.langChangeSub.unsubscribe();

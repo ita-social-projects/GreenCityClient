@@ -18,7 +18,6 @@ import { HabitsPopupComponent } from '../habits-popup/habits-popup.component';
   styleUrls: ['./calendar-week.component.scss']
 })
 export class CalendarWeekComponent extends CalendarBaseComponent implements OnInit, OnDestroy {
-  public calendarImages = calendarImage;
   public language: string;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public currentDate = new Date();
@@ -117,32 +116,15 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
 
   public showHabits(e, dayItem: CalendarInterface) {
     // this.checkIfFuture(dayItem);
-    this.openDialogDayHabits(e, dayItem);
+    this.openDialogDayHabits(e, false, dayItem);
 
 
-  }
-  openDialogDayHabits(e, dayItem: CalendarInterface) {
-    const date = this.formatDate(false, dayItem)
-
-    const habits = this.getHabitsForDay(this.userHabitsList, date)
-    console.log(habits)
-    const pos = e.target.getBoundingClientRect()
-    console.log(pos)
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.backdropClass = 'backdropBackground';
-    dialogConfig.position = {
-      top: (pos.y + 20) + 'px',
-      left: (pos.x - 300) + 'px'
-    };
-    dialogConfig.data = {
-      enrollDate:habits.enrollDate,
-      habitsCalendarSelectedDate: this.months[dayItem.month] + ' ' + dayItem.numberOfDate + ', ' + dayItem.year,
-      habits: habits.habitAssigns
-    };
-
-    const dialogRef = this.dialog.open(HabitsPopupComponent, dialogConfig);
   }
 }
+// [ngClass]="{ 
+//   'enrolled-day': day.hasHabitsInProgress && day.areHabitsDone,
+//   'unenrolled-day': day.hasHabitsInProgress && !day.areHabitsDone,
+//   'enrolled-past-day': day.hasHabitsInProgress && day.date.getDate() < (currentDate.getDate() - 7) && day.areHabitsDone,
+//   'unenrolled-past-day': day.hasHabitsInProgress && day.date.getDate() < (currentDate.getDate() - 7) && !day.areHabitsDone,
+//   'current-number': day.isCurrent
+//  }"

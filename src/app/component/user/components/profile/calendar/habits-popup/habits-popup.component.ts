@@ -1,10 +1,9 @@
-import { Component, HostListener, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
-import { Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { calendarIcons } from 'src/app/image-pathes/calendar-icons';
-import { HabitAssignInterface, HabitStatusCalendarListInterface } from 'src/app/interface/habit/habit-assign.interface';
+import { HabitPopupInterface } from '../habit-popup-interface';
 
 @Component({
   selector: 'app-habits-popup',
@@ -12,21 +11,18 @@ import { HabitAssignInterface, HabitStatusCalendarListInterface } from 'src/app/
   styleUrls: ['./habits-popup.component.scss']
 })
 export class HabitsPopupComponent implements OnInit {
-  // public habits: HabitAssignInterface[];
-  isFetching: boolean;
 
   calendarIcons = calendarIcons;
-
   habitsCalendarSelectedDate;
-  habits: any[];
+  popupHabits: HabitPopupInterface[];
+  trimWidth: number = 30;
 
   constructor(
-    // public habitAssignService: HabitAssignService,
     public dialogRef: MatDialogRef<HabitsPopupComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       habitsCalendarSelectedDate: string,
-      habits: any[]
+      habits: HabitPopupInterface[];
     }
   ) { }
 
@@ -35,21 +31,29 @@ export class HabitsPopupComponent implements OnInit {
     this.closePopup();
   }
 
-  loadPopup() {
-    this.habitsCalendarSelectedDate = this.data.habitsCalendarSelectedDate;
-    this.habits = this.data.habits.map(x => Object.assign({}, x));
+  ngOnDestroy() {
+    this.destroy.next();
+    this.destroy.complete();
   }
 
+  loadPopup() {
+    this.habitsCalendarSelectedDate = this.data.habitsCalendarSelectedDate;
+    this.popupHabits = this.data.habits.map(x => Object.assign({}, x));
+  }
+  destroy = new Subject<void>();
+
   closePopup() {
-    this.dialogRef.beforeClosed().subscribe(() => this.dialogRef.close(this.habits));
+    this.dialogRef.beforeClosed().pipe(
+      takeUntil(this.destroy)
+    ).subscribe(() => this.dialogRef.close(this.popupHabits));
   }
 
   toggleEnrollHabit(id: number) {
-    const habitIndex = this.habits.findIndex(h => h.habitId === id);
-    this.habits[habitIndex].enrolled = !this.habits[habitIndex].enrolled
+    const habitIndex = this.popupHabits.findIndex(h => h.habitId === id);
+    this.popupHabits[habitIndex].enrolled = !this.popupHabits[habitIndex].enrolled
   }
 
   showTooltip(habit) {
-    return habit.habitName.length < 30;
+    return habit.habitName.length < this.trimWidth;
   }
 }

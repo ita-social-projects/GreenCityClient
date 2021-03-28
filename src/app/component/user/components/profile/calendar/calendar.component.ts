@@ -19,11 +19,11 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
   // public selectedDay: number | string;
   // public habitsCalendarSelectedDate: string;
   // public isDayTracked: boolean;
-  public formatedDate: string;
-  public isHabitListEditable: boolean;
-  public currentDate: Date = new Date();
-  public habits: HabitAssignInterface[];
-  public daysCanEditHabits = 7;
+  // public formatedDate: string;
+  // public isHabitListEditable: boolean;
+  // public currentDate: Date = new Date();
+  // public habits: HabitAssignInterface[];
+  // public daysCanEditHabits = 7;
 
 
 
@@ -43,18 +43,9 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
     this.getUserHabits(true, this.calendarDay);
   }
 
-
-
-  public checkHabitListEditable() {
-    this.isHabitListEditable = false;
-    if (this.currentDate.setHours(0, 0, 0, 0) - this.daysCanEditHabits * 24 * 60 * 60 * 1000 <=
-      new Date(this.formatedDate).setHours(0, 0, 0, 0)) {
-      this.isHabitListEditable = true;
-    }
-  }
-
   showHabits(e, dayItem: CalendarInterface) {
-    this.openDialogDayHabits(e, dayItem);
+    console.log(dayItem)
+    this.openDialogDayHabits(e, true, dayItem);
   }
 
 

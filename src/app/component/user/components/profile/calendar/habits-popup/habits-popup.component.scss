@@ -43,19 +43,6 @@
   cursor: pointer;
 }
 
-.spinner {
-  width: 18px;
-  height: 18px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-
-.calendar-habits {
-  visibility: hidden;
-}
-
 .calendar-habits-open {
   width: 314px;
   font-family: var(--secondary-font);
