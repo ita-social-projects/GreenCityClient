@@ -14,7 +14,8 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 })
 export class UBSSubmitOrderComponent implements OnInit {
   paymentForm: FormGroup = this.fb.group({});
-  bill: {};
+  displayMes = true;
+  bill: any;
   finalOrder: any;
   firstName: string;
   lastName: string;
