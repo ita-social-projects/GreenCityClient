@@ -16,7 +16,7 @@
         {{ day.dayName | uppercase }}
       </div> 
     </div>
-    <div class="day-number-row">
+    <div class="day-number-row"[ngClass]="{'disabled':checkAnswer}">
       <div class="day-number"
            *ngFor="let day of weekDates"
            [ngClass]="{ 

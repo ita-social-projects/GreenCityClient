@@ -15,7 +15,8 @@ export class HabitAssignService implements OnDestroy {
   language: string;
   destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
-  constructor(private http: HttpClient,
+  constructor(
+    private http: HttpClient,
     private localStorageService: LocalStorageService) {
 
     localStorageService.userIdBehaviourSubject
@@ -68,7 +69,7 @@ export class HabitAssignService implements OnDestroy {
   }
 
   getAssignHabitsByPeriod(startDate: string, endDate: string) {
-    const querry = `${habitAssignLink}/activity/${startDate}/to/${endDate}?lang=${this.language}`
+    const querry = `${habitAssignLink}/activity/${startDate}/to/${endDate}?lang=${this.language}`;
     return this.http.get(querry);
   }
   ngOnDestroy(): void {

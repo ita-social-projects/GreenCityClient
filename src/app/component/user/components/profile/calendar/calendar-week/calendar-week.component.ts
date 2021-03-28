@@ -7,10 +7,8 @@ import { LanguageService } from '@language-service/language.service';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CalendarWeekInterface } from '../calendar-week/calendar-week-interface';
-import { calendarImage } from '../calendar-image';
 import { CalendarInterface } from '../calendar-interface';
-import { MatDialog, MatDialogConfig } from '@angular/material';
-import { HabitsPopupComponent } from '../habits-popup/habits-popup.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-calendar-week',
@@ -38,7 +36,6 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
     this.buildWeekCalendar(this.getFirstWeekDate());
     this.getLanguage();
     this.getUserHabits(false, this.weekDates);
-    // this.markCalendarDays(false, this.weekDates);
   }
 
   private buildWeekCalendar(firstWeekDay: Date): void {
@@ -63,15 +60,15 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
 
   private getFirstWeekDate(): Date {
     const day = this.currentDate.getDay() === 0
-      ? this.currentDate.getDay() - 6
+      ? this.currentDate.getDate() - 6
       : this.currentDate.getDate() - this.currentDate.getDay() + 1;
-    const month = this.currentDate.getMonth();
+    const month = new Date().getMonth();
     const year = this.currentDate.getFullYear();
     return new Date(year, month, day);
   }
 
   private setDayName(source: Date): string {
-    return source.toLocaleDateString(this.language, { weekday: 'short'});
+    return source.toLocaleDateString(this.language, { weekday: 'short' });
   }
 
   private getLanguage(): void {
@@ -87,8 +84,8 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
   public buildWeekCalendarTitle(): void {
     const firstDay = this.weekDates[0].date.getDate();
     const lastDay = this.weekDates[6].date.getDate();
-    const firstDayMonth = this.weekDates[0].date.toLocaleDateString(this.language, { month: 'long'});
-    const lastDayMonth = this.weekDates[6].date.toLocaleDateString(this.language, { month: 'long'});
+    const firstDayMonth = this.weekDates[0].date.toLocaleDateString(this.language, { month: 'long' });
+    const lastDayMonth = this.weekDates[6].date.toLocaleDateString(this.language, { month: 'long' });
     const firstDayYear = this.weekDates[0].date.getFullYear();
     const lastDayYear = this.weekDates[6].date.getFullYear();
     this.weekTitle = firstDayMonth === lastDayMonth
@@ -106,7 +103,6 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
     this.buildWeekCalendar(firstWeekDate);
     this.buildWeekCalendarTitle();
     this.getUserHabits(false, this.weekDates);
-    // this.markCalendarDays(false, this.weekDates);
   }
 
   ngOnDestroy() {
@@ -115,16 +111,8 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
   }
 
   public showHabits(e, dayItem: CalendarInterface) {
-    // this.checkIfFuture(dayItem);
-    this.openDialogDayHabits(e, false, dayItem);
-
-
+    if (this.checkCanOpenPopup(dayItem)) {
+      this.openDialogDayHabits(e, false, dayItem);
+    }
   }
 }
-// [ngClass]="{ 
-//   'enrolled-day': day.hasHabitsInProgress && day.areHabitsDone,
-//   'unenrolled-day': day.hasHabitsInProgress && !day.areHabitsDone,
-//   'enrolled-past-day': day.hasHabitsInProgress && day.date.getDate() < (currentDate.getDate() - 7) && day.areHabitsDone,
-//   'unenrolled-past-day': day.hasHabitsInProgress && day.date.getDate() < (currentDate.getDate() - 7) && !day.areHabitsDone,
-//   'current-number': day.isCurrent
-//  }"

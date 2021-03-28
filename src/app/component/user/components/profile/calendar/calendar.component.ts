@@ -1,13 +1,10 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CalendarBaseComponent } from '@shared/components/calendar-base/calendar-base.component';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '@language-service/language.service';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
-import { map, take } from 'rxjs/operators';
-import { HabitAssignInterface, HabitStatusCalendarListInterface } from 'src/app/interface/habit/habit-assign.interface';
 import { CalendarInterface } from './calendar-interface';
-import { MatDialog, MatDialogConfig } from '@angular/material';
-import { HabitsPopupComponent } from './habits-popup/habits-popup.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-calendar',
@@ -15,17 +12,6 @@ import { HabitsPopupComponent } from './habits-popup/habits-popup.component';
   styleUrls: ['./calendar.component.scss']
 })
 export class CalendarComponent extends CalendarBaseComponent implements OnInit, OnDestroy {
-
-  // public selectedDay: number | string;
-  // public habitsCalendarSelectedDate: string;
-  // public isDayTracked: boolean;
-  // public formatedDate: string;
-  // public isHabitListEditable: boolean;
-  // public currentDate: Date = new Date();
-  // public habits: HabitAssignInterface[];
-  // public daysCanEditHabits = 7;
-
-
 
   constructor(
     public translate: TranslateService,
@@ -44,9 +30,8 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
   }
 
   showHabits(e, dayItem: CalendarInterface) {
-    console.log(dayItem)
-    this.openDialogDayHabits(e, true, dayItem);
+    if (this.checkCanOpenPopup(dayItem)) {
+      this.openDialogDayHabits(e, true, dayItem);
+    }
   }
-
-
 }

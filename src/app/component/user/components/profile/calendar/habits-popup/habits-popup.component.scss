@@ -52,6 +52,11 @@
   border-radius: 4px;
 }
 
-::ng-deep .mat-dialog-container{
+.disabled {
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+::ng-deep .mat-dialog-container {
   padding: 0;
 }

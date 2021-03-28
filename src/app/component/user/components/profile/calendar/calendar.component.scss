@@ -90,7 +90,7 @@ $bp-largest: 1200px;
         padding: 6px 0 0;
         cursor: pointer;
       }
-      
+
       .calendar-grid-day:hover {
         color: var(--primary-green);
       }
@@ -107,21 +107,11 @@ $bp-largest: 1200px;
         color: #fff;
       }
 
-      .tracked-day {
-        background-color: var(--secondary-dark-green);
-        border-radius: 50%;
-        background-repeat: no-repeat;
-        background-position: center;
+      .current-day:hover {
         color: #fff;
       }
 
-      .current-day:hover,
-      .tracked-day:hover {
-        color: #fff;
-      }
-
-      .current-day:active,
-      .tracked-day:active {
+      .current-day:active {
         color: var(--secondary-dark-green);
       }
     }
@@ -152,8 +142,6 @@ $bp-largest: 1200px;
     }
   }
 }
-
-
 
 .enrolled-day {
   background-color: #b1dfc6;
