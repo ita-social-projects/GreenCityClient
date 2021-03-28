@@ -36,8 +36,9 @@
               </a>
             </li>
             <li role="navigation to ubs">
-              <a [routerLink]="['/ubs']" routerLinkActive="active-link"
-                routerLinkActiveOptions="{exact:true}">
+              <a routerLinkActive="active-link"
+                routerLinkActiveOptions="{exact:true}"
+                (click)=ubsNavigate()>
                 UBS
               </a>
             </li>

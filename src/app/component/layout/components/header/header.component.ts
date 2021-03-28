@@ -1,6 +1,6 @@
 import { headerIcons } from './../../../../image-pathes/header-icons';
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { NavigationStart, Router } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { filter, takeUntil } from 'rxjs/operators';
 import { JwtService } from '@global-service/jwt/jwt.service';
@@ -45,8 +45,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private destroySub: Subject<boolean> = new Subject<boolean>();
   public headerImageList = headerIcons;
   public skipPath: string;
-  @ViewChild('signinref', {static: false}) signinref: ElementRef;
-  @ViewChild('signupref', {static: false}) signupref: ElementRef;
+  @ViewChild('signinref', { static: false }) signinref: ElementRef;
+  @ViewChild('signupref', { static: false }) signupref: ElementRef;
   public elementName;
   constructor(
     public dialog: MatDialog,
@@ -58,7 +58,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private habitStatisticService: HabitStatisticService,
     private languageService: LanguageService,
     private searchSearch: SearchService,
-    private userOwnAuthService: UserOwnAuthService) { }
+    private userOwnAuthService: UserOwnAuthService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
 
@@ -149,7 +150,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.isLoggedIn) {
       const curLangId = this.languageService.getLanguageId(language.toLowerCase() as Language);
       this.userService.updateUserLanguage(curLangId)
-      .subscribe();
+        .subscribe();
     }
   }
 
@@ -240,6 +241,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.toggleBurgerMenu ?
       document.body.classList.add('modal-open') :
       document.body.classList.remove('modal-open');
+  }
+
+  ubsNavigate() {
+    if (this.userId !== null && !isNaN(this.userId)) {
+      this.router.navigate(['/ubs']);
+    }
+    else {
+      this.openAuthModalWindow('sign-in');
+    }
+
   }
 
 }
