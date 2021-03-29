@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { HabitsPopupComponent } from './habits-popup.component';
 
@@ -8,9 +9,12 @@ describe('HabitsPopupComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HabitsPopupComponent ]
+      declarations: [HabitsPopupComponent],
+      providers: [
+        { provide: MatDialogRef, useValue: {} },
+        { provide: MAT_DIALOG_DATA, useValue: {} }]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
