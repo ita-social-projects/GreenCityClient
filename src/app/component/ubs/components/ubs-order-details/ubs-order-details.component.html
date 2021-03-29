@@ -1,15 +1,15 @@
 <div class="container">
   <div class="header">
-    <h3>Послуги</h3>
-    <p>Зверніть, будь ласка, увагу на те, що мінімальна сума замовлення має складати 500 грн.</p>
+    <h3 class="font-bolt order-title">Послуги</h3>
+    <p class="order-content">Зверніть, будь ласка, увагу на те, що мінімальна сума замовлення має складати 500 грн.</p>
   </div>
   <form class="form" [formGroup]="orderDetailsForm" (ngSubmit)="submit()">
     <div class="w-100 d-flex justify-content-between">
-      <label class="col-12 col-sm-3">Послуга</label>
-      <label class="col-12 col-sm-2">Об'єм</label>
-      <label class="col-12 col-sm-2">Вартість</label>
-      <label class="col-12 col-sm-2">Кількість пакетів</label>
-      <label class="col-12 col-sm-2">Сума</label>
+      <label class="col-12 col-sm-3 label">Послуга</label>
+      <label class="col-12 col-sm-2 label">Об'єм</label>
+      <label class="col-12 col-sm-2 label">Вартість</label>
+      <label class="col-12 col-sm-2 label">Кількість пакетів</label>
+      <label class="col-12 col-sm-2 label">Сума</label>
     </div>
     <div class="main">
       <div class="col-12 col-sm-3 form-group">
@@ -24,7 +24,7 @@
       <div class="col-12 col-sm-2 form-group count">
         <input formControlName="bagNumUbs"
                type="number"
-               class="shadow-none form-control"
+               class="shadow-none form-control input"
                [class.is-invalid]="bagNumUbs.invalid && bagNumUbs.touched"
                min="0"
                max="999"
@@ -43,7 +43,7 @@
         <input formControlName="bagPriceClothesXL" type="text" class="form-control">
       </div>
       <div class="col-12 col-sm-2 form-group count">
-        <input formControlName="bagNumClothesXL" type="number" min="0" class="shadow-none form-control" max="999"
+        <input formControlName="bagNumClothesXL" type="number" min="0" class="shadow-none form-control input" max="999"
           (click)="calculate()">
       </div>
       <div class="form-group sum">
@@ -59,7 +59,7 @@
         <input formControlName="bagPriceClothesM" type="text" class="form-control">
       </div>
       <div class="col-12 col-sm-2 form-group count">
-        <input formControlName="bagNumClothesM" type="number" class="shadow-none form-control" min="0" max="999"
+        <input formControlName="bagNumClothesM" type="number" class="shadow-none form-control input" min="0" max="999"
           (click)="calculate()">
       </div>
       <div class="form-group sum">
@@ -70,10 +70,10 @@
       <div class="middle-container">
         <div class="showTotal">
           <div class="totalInfo">
-            <p [class.d-none]="showTotal === 0"><span>Сума замовлення: </span><span><b>{{ showTotal }} грн</b></span></p>
-            <p *ngIf="displayCert"><span>Сертифікат: </span><span><small>-{{ showCertificateUsed }} грн</small></span></p>
-            <p [class.d-none]="pointsUsed === 0"><span>Бонуси: </span><span><small>-{{ pointsUsed }} грн</small></span></p>
-            <p><span>Сума до оплати: </span><span><b>{{ finalSum }} грн</b></span></p>
+            <p class="total-content" [class.d-none]="showTotal === 0"><span>Сума замовлення: </span><span><b>{{ showTotal }} грн</b></span></p>
+            <p class="total-content" *ngIf="displayCert"><span>Сертифікат: </span><span><small>-{{ showCertificateUsed }} грн</small></span></p>
+            <p class="total-content" [class.d-none]="pointsUsed === 0"><span>Бонуси: </span><span><small>-{{ pointsUsed }} грн</small></span></p>
+            <p class="total-content"><span>Сума до оплати: </span><span><b>{{ finalSum }} грн</b></span></p>
             <div *ngIf="displayMes" class="validMes">
               <small class="text-danger">Мінімальна сума замовлення повинна складати 500 грн</small>
             </div>
@@ -82,7 +82,7 @@
         <h5>Чи бажаєте Ви скористатись сертифікатом?</h5>
         <div class="certificate-container">
           <div class="form-group col-12 col-sm-8">
-            <label>Введіть номер сертифіката</label>
+            <label class="label m-0">Введіть номер сертифіката</label>
             <input formControlName="certificate"
                    type="text"
                    class="shadow-none form-control"
@@ -165,8 +165,8 @@
         </div>
         <div formArrayName="additionalOrders" *ngFor="let order of additionalOrders.controls; let i=index"
           class="form-group">
-          <label>Введіть номер замовлення</label>
-          <input [formControlName]="i" class="shadow-none form-control" type="text" placeholder="xxxxxxxxxx">
+          <label class="label m-0">Введіть номер замовлення</label>
+          <input [formControlName]="i" class="shadow-none form-control border-input p-2" type="text" placeholder="xxxxxxxxxx">
         </div>
         <button *ngIf="additionalOrders.controls.length < 5" class="addOrderBtn" (click)="addOrder()">Додати ще номер
           замовлення</button>
@@ -175,13 +175,13 @@
     <div class="bottom_comment">
       <div class="form-group comment">
         <h3>Коментар</h3>
-        <textarea formControlName="orderComment" class="shadow-none form-control" rows="5"
+        <textarea formControlName="orderComment" class="shadow-none form-control textarea" rows="5"
           placeholder="Будь-які деталі які Ви б хотіли повідомити додатково щодо цього замовлення"></textarea>
       </div>
       <div class="w-100 d-flex justify-content-end">
         <div>
-        <button class="secondary-global-button btn" matStepperPrevious>Відмінити</button>
-        <button type="submit" class="primary-global-button btn" matStepperNext [disabled]="onSubmit">Далі</button>
+        <button class="secondary-global-button btn btn-main" matStepperPrevious>Відмінити</button>
+        <button type="submit" class="primary-global-button btn btn-main" matStepperNext [disabled]="onSubmit">Далі</button>
       </div>
       </div>
     </div>
