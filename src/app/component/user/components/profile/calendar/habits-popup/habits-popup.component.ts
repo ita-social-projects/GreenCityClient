@@ -43,6 +43,7 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
     this.habitsCalendarSelectedDate = this.data.habitsCalendarSelectedDate;
     this.isHabitListEditable = this.data.isHabitListEditable;
     this.popupHabits = this.data.habits.map(x => Object.assign({}, x));
+    console.log(this.popupHabits)
   }
 
   closePopup() {

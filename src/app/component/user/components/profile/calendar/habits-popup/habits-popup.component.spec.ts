@@ -1,5 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { of } from 'rxjs';
+import { HabitPopupInterface } from '../habit-popup-interface';
 
 import { HabitsPopupComponent } from './habits-popup.component';
 
@@ -7,11 +9,33 @@ describe('HabitsPopupComponent', () => {
   let component: HabitsPopupComponent;
   let fixture: ComponentFixture<HabitsPopupComponent>;
 
+  let mockPopupHabits: HabitPopupInterface[] = [
+    {
+      enrolled: false,
+      habitDescription: "Eating local food is good for air quality and reducing environmental emissions! In addition, by buying \"local\" you encourage the development of agriculture.",
+      habitId: 503,
+      habitName: "Buy local products",
+    },
+    {
+      enrolled: true,
+      habitDescription: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the co",
+      habitId: 506,
+      habitName: "Use less transport",
+    }
+  ]
+  const dialogRefMock = {
+    beforeClosed() {
+      return of(true);
+    },
+    close() {
+      return of(true);
+    }
+  }
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [HabitsPopupComponent],
       providers: [
-        { provide: MatDialogRef, useValue: {} },
+        { provide: MatDialogRef, useValue: dialogRefMock },
         { provide: MAT_DIALOG_DATA, useValue: {} }]
     })
       .compileComponents();
@@ -20,6 +44,7 @@ describe('HabitsPopupComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HabitsPopupComponent);
     component = fixture.componentInstance;
+    component.data.habits = mockPopupHabits;
     fixture.detectChanges();
   });
 
