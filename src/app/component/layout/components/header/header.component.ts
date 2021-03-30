@@ -242,15 +242,4 @@ export class HeaderComponent implements OnInit, OnDestroy {
       document.body.classList.add('modal-open') :
       document.body.classList.remove('modal-open');
   }
-
-  ubsNavigate() {
-    if (this.userId !== null && !isNaN(this.userId)) {
-      this.router.navigate(['/ubs']);
-    }
-    else {
-      this.openAuthModalWindow('sign-in');
-    }
-
-  }
-
 }
