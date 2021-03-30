@@ -9,20 +9,20 @@ describe('HabitsPopupComponent', () => {
   let component: HabitsPopupComponent;
   let fixture: ComponentFixture<HabitsPopupComponent>;
 
-  let mockPopupHabits: HabitPopupInterface[] = [
+  const mockPopupHabits: HabitPopupInterface[] = [
     {
       enrolled: false,
-      habitDescription: "Eating local food is good for air quality and reducing environmental emissions! In addition, by buying \"local\" you encourage the development of agriculture.",
+      habitDescription: 'Eating local food is good for air quality and reducing environmental emissions!',
       habitId: 503,
-      habitName: "Buy local products",
+      habitName: 'Buy local products',
     },
     {
       enrolled: true,
-      habitDescription: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the co",
+      habitDescription: 'Far far away, behind the word mountains, far from the countries Vokalia and Consonantia',
       habitId: 506,
-      habitName: "Use less transport",
+      habitName: 'Use less transport',
     }
-  ]
+  ];
   const dialogRefMock = {
     beforeClosed() {
       return of(true);
@@ -30,7 +30,7 @@ describe('HabitsPopupComponent', () => {
     close() {
       return of(true);
     }
-  }
+  };
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [HabitsPopupComponent],
