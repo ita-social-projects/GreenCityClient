@@ -29,9 +29,9 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
     this.getUserHabits(true, this.calendarDay);
   }
 
-  showHabits(e, dayItem: CalendarInterface) {
+  showHabits(event, dayItem: CalendarInterface) {
     if (this.checkCanOpenPopup(dayItem)) {
-      this.openDialogDayHabits(e, true, dayItem);
+      this.openDialogDayHabits(event, true, dayItem);
     }
   }
 }

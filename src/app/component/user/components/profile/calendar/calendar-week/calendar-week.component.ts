@@ -110,9 +110,9 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
     this.destroyed$.complete();
   }
 
-  public showHabits(e, dayItem: CalendarInterface) {
+  public showHabits(event, dayItem: CalendarInterface) {
     if (this.checkCanOpenPopup(dayItem)) {
-      this.openDialogDayHabits(e, false, dayItem);
+      this.openDialogDayHabits(event, false, dayItem);
     }
   }
 }
