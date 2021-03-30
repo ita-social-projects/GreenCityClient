@@ -4,7 +4,7 @@
   color: var(--ubs-primary-grey);
 }
 
-h3 {
+.font-bolt {
   font-weight: bold;
 }
 
@@ -12,11 +12,11 @@ h3 {
   width: 100%;
   margin: 3rem 0 0;
 
-  h3 {
+  .order-title {
     margin-bottom: 1rem;
   }
 
-  p {
+  .order-content {
     color: var(--ubs-secondary-grey);
     margin-bottom: 3rem;
   }
@@ -31,22 +31,22 @@ h3 {
   border-bottom: 1px solid var(--ubs-primary-light-grey);
 }
 
-label {
+.label {
   color: var(--ubs-secondary-grey);
   padding-left: 0;
 }
 
-label:nth-child(2),
-label:nth-child(3) {
+.label:nth-child(2),
+.label:nth-child(3) {
   margin-left: 1.1rem;
 }
 
-label:nth-child(4),
-label:nth-child(5) {
+.label:nth-child(4),
+.label:nth-child(5) {
   padding-left: 1.1rem;
 }
 
-label:nth-child(5) {
+.label:nth-child(5) {
   padding-left: 4rem;
 }
 
@@ -61,12 +61,16 @@ label:nth-child(5) {
   border: none;
 }
 
-.count input {
-  border: 1px solid var(--ubs-secondary-grey);
-  padding-left: 6px;
+.count {
+  .input {
+    border: 1px solid var(--ubs-secondary-grey);
+    padding-left: 6px;
+  }
 }
 
 .custom-control-label {
+  color: var(--ubs-secondary-grey);
+  padding-left: 0;
   padding-top: 3px;
 }
 
@@ -74,8 +78,8 @@ label:nth-child(5) {
   background-color: var(--ubs-primary-white);
 }
 
-.custom-radio .custom-control-input:checked ~ .custom-control-label::before,
-.custom-radio .custom-control-input:checked ~ .custom-control-label::after {
+.custom-radio .custom-control-input:checked~.custom-control-label::before,
+.custom-radio .custom-control-input:checked~.custom-control-label::after {
   background-color: var(--ubs-primary-green);
   border-radius: 50%;
 }
@@ -114,15 +118,11 @@ button {
   text-align: right;
   width: 25%;
 
-  p {
+  .total-content {
     display: flex;
     justify-content: space-between;
     color: var(--ubs-secondary-grey);
     padding-right: 0.5rem;
-  }
-
-  span {
-    display: block;
   }
 
   small {
@@ -144,20 +144,9 @@ button {
     padding-left: 1.4rem;
   }
 
-  label {
-    margin: 0;
-  }
-
-  input {
+  .border-input {
     border: 1px solid var(--ubs-secondary-grey);
   }
-}
-
-.bottom_comment button {
-  width: 120px;
-  height: 3rem;
-  border-radius: 0;
-  border: none;
 }
 
 .middle-container {
@@ -230,10 +219,6 @@ button {
   small {
     margin-left: 0;
   }
-
-  label {
-    margin: 0;
-  }
 }
 
 .shop_submit {
@@ -243,10 +228,6 @@ button {
 
   .form-group {
     width: 39%;
-
-    input {
-      padding: 0.5rem;
-    }
   }
 }
 
@@ -277,7 +258,7 @@ button {
 .bottom_comment {
   background: var(--ubs-primary-white);
 
-  textarea {
+  .textarea {
     height: 6rem;
     border: 1px solid var(--ubs-secondary-grey);
     padding: 0.5rem;
@@ -291,7 +272,15 @@ button {
     color: var(--ubs-primary-green);
   }
 
-  button:hover {
+  .btn-main {
+    width: 120px;
+    height: 3rem;
+    border-radius: 0;
+    border: none;
+  }
+
+  .btn-main:hover {
     background: var(--ubs-primary-green);
+    color: var(--ubs-primary-white);
   }
 }

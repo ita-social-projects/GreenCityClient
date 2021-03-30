@@ -6,7 +6,7 @@
   }
 
   .mat-step-label.mat-step-label-active {
-    color: #64727d;
+    color: var(--ubs-secondary-grey);
   }
 
   .mat-step-label.mat-step-label-selected {
@@ -14,7 +14,7 @@
   }
 
   .mat-step-icon {
-    background-color: #e3e6e8;
+    background-color: var(--ubs-quaternary-light-grey);
   }
 
   .mat-step-icon-selected {
@@ -22,17 +22,17 @@
   }
 
   .mat-step-icon-state-number {
-    color: #64727d;
+    color: var(--ubs-secondary-grey);
     font-size: 16px;
     font-weight: bold;
   }
 
   .mat-step-icon-state-number.mat-step-icon-selected {
-    color: #fff;
+    color: var(--ubs-primary-white);
   }
 
   .mat-icon {
-    color: #64727d;
+    color: var(--ubs-secondary-grey);
   }
 }
 
@@ -42,5 +42,5 @@
 
 .form-title {
   margin: -35px 0 35px 0;
-  color: #444e55;
+  color: var(--ubs-primary-grey);
 }
