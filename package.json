@@ -64,6 +64,7 @@
     "sockjs-client": "^1.5.0",
     "ssri": "^8.0.1",
     "tslib": "^1.10.0",
+    "y18n": "^5.0.5",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
