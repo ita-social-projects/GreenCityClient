@@ -249,12 +249,12 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
 
   formatSelectedDate(isMonthCalendar, dayItem: CalendarInterface) {
     if (isMonthCalendar) {
-      return this.months[dayItem.month] + ' ' + dayItem.numberOfDate + ', ' + dayItem.year;
+      return `${this.months[dayItem.month]} ${dayItem.numberOfDate}, ${dayItem.year}`;
     } else {
       const month = dayItem.date.toLocaleDateString(this.language, { month: 'long' });
       const day = dayItem.date.getDate();
       const year = dayItem.date.getFullYear();
-      return month + ' ' + day + ', ' + year;
+      return `${month} ${day}, ${year}`;
     }
   }
 
