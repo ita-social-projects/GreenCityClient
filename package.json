@@ -49,6 +49,7 @@
     "fileuploader": "^1.2.7",
     "firebase": "^7.20.0",
     "hammerjs": "^2.0.8",
+    "ini": "^2.0.0",
     "nativescript-material-bottomsheet": "^2.5.0",
     "ng-flash-messages": "^0.3.0",
     "ng2-file-upload": "^1.3.0",
