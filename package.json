@@ -62,6 +62,7 @@
     "ngx-pagination": "^4.1.0",
     "ngx-swiper-wrapper": "^8.0.2",
     "rxjs": "~6.4.0",
+    "socket.io": "^4.0.0",
     "sockjs-client": "^1.5.0",
     "ssri": "^8.0.1",
     "tslib": "^1.10.0",
