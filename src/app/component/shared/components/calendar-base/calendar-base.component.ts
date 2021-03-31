@@ -344,6 +344,7 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
     const habits = this.getHabitsForDay(this.userHabitsList, date);
     const pos = event.target.getBoundingClientRect();
     const dialogConfig = new MatDialogConfig();
+    const dialogRef = this.dialog.open(HabitsPopupComponent, dialogConfig);
 
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
@@ -358,7 +359,6 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
       habits: habits.habitAssigns
     };
 
-    const dialogRef = this.dialog.open(HabitsPopupComponent, dialogConfig);
     dialogRef.afterClosed().pipe(
       takeUntil(this.destroyOpenPopup)
     ).subscribe(changedList => {
