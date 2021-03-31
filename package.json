@@ -70,6 +70,7 @@
     "tree-kill": "^1.2.2",
     "tslib": "^1.10.0",
     "webpack-subresource-integrity": "^1.5.2",
+    "websocket-extensions": "^0.1.4",
     "y18n": "^5.0.5",
     "yargs-parser": "^20.2.7",
     "zone.js": "~0.9.1"
