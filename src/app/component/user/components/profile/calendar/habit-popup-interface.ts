@@ -4,3 +4,8 @@ export interface HabitPopupInterface {
   habitId: number;
   habitName: string;
 }
+
+export interface HabitsForDateInterface {
+  enrollDate: string;
+  habitAssigns: Array<HabitPopupInterface>;
+}

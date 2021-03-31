@@ -6,6 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { habitAssignLink } from '../../links';
 import { HabitAssignInterface, ResponseInterface } from '../../interface/habit/habit-assign.interface';
+import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -69,8 +70,8 @@ export class HabitAssignService implements OnDestroy {
   }
 
   getAssignHabitsByPeriod(startDate: string, endDate: string) {
-    const querry = `${habitAssignLink}/activity/${startDate}/to/${endDate}?lang=${this.language}`;
-    return this.http.get(querry);
+    const query: string = `${habitAssignLink}/activity/${startDate}/to/${endDate}?lang=${this.language}`
+    return this.http.get<Array<HabitsForDateInterface>>(query);
   }
   ngOnDestroy(): void {
     this.destroyed$.next(true);

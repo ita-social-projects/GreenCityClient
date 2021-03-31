@@ -13,7 +13,7 @@ import { HabitPopupInterface } from '../habit-popup-interface';
 export class HabitsPopupComponent implements OnInit, OnDestroy {
 
   calendarIcons = calendarIcons;
-  habitsCalendarSelectedDate;
+  habitsCalendarSelectedDate: string;
   isHabitListEditable: boolean;
   popupHabits: HabitPopupInterface[];
   trimWidth = 30;

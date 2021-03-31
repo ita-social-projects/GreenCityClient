@@ -8,6 +8,7 @@ import { CalendarInterface } from '@global-user/components/profile/calendar/cale
 import { calendarImage } from './calendar-image';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { HabitsPopupComponent } from '@global-user/components/profile/calendar/habits-popup/habits-popup.component';
+import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
 
 @Component({
   selector: 'app-calendar-base',
@@ -57,7 +58,7 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
   };
 
 
-  public userHabitsList: any;
+  public userHabitsList: Array<HabitsForDateInterface>;
   public currentDayItem: CalendarInterface;
   public isCheckedHabits: boolean;
   public checkAnswer = false;
@@ -344,7 +345,7 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
     const habits = this.getHabitsForDay(this.userHabitsList, date);
     const pos = event.target.getBoundingClientRect();
     const dialogConfig = new MatDialogConfig();
-    const dialogRef = this.dialog.open(HabitsPopupComponent, dialogConfig);
+
 
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
@@ -358,7 +359,7 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
       isHabitListEditable: this.isHabitListEditable,
       habits: habits.habitAssigns
     };
-
+    const dialogRef = this.dialog.open(HabitsPopupComponent, dialogConfig);
     dialogRef.afterClosed().pipe(
       takeUntil(this.destroyOpenPopup)
     ).subscribe(changedList => {
