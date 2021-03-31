@@ -3,7 +3,7 @@ import { HabitAssignInterface } from '../../../../../../interface/habit/habit-as
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { take } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { HabitStatus } from './../../../../../../model/habit/HabitStatus';
+import { HabitStatus } from '../../../../../../model/habit/HabitStatus.enum';
 
 @Component({
   selector: 'app-one-habit',

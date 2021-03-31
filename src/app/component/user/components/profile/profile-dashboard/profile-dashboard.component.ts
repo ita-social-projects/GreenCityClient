@@ -6,7 +6,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { HabitService } from '@global-service/habit/habit.service';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { HabitAssignInterface } from '../../../../../interface/habit/habit-assign.interface';
-import { HabitStatus } from './../../../../../model/habit/HabitStatus';
+import { HabitStatus } from '../../../../../model/habit/HabitStatus.enum';
 
 @Component({
   selector: 'app-profile-dashboard',
