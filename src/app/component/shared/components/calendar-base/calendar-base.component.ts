@@ -279,17 +279,17 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
       days.forEach(day => {
         const date = this.formatDate(isMonthCalendar, day);
         if (new Date().setHours(0, 0, 0, 0) >= new Date(date).setHours(0, 0, 0, 0)) {
-          day.hasHabitsInProgress = this.userHabitsList.filter(h => h.enrollDate === date)[0].habitAssigns.length > 0;
+          day.hasHabitsInProgress = this.userHabitsList.filter(habit => habit.enrollDate === date)[0].habitAssigns.length > 0;
           day.areHabitsDone = this.userHabitsList
-            .filter(h => h.enrollDate === date)[0].habitAssigns
-            .filter(hab => !hab.enrolled).length === 0;
+            .filter(habit => habit.enrollDate === date)[0].habitAssigns
+            .filter(habit => !habit.enrolled).length === 0;
         }
       });
     });
   }
 
   isCheckedAllHabits(habitsForDay) {
-    const unenrolledHabit = habitsForDay.find(h => h.enrolled === false);
+    const unenrolledHabit = habitsForDay.find(habit => habit.enrolled === false);
     if (unenrolledHabit) {
       return false;
     } else {
@@ -338,11 +338,11 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
     }
   }
 
-  openDialogDayHabits(e, isMonthCalendar, dayItem: CalendarInterface) {
+  openDialogDayHabits(event, isMonthCalendar, dayItem: CalendarInterface) {
     this.checkHabitListEditable(isMonthCalendar, dayItem);
     const date = this.formatDate(isMonthCalendar, dayItem);
     const habits = this.getHabitsForDay(this.userHabitsList, date);
-    const pos = e.target.getBoundingClientRect();
+    const pos = event.target.getBoundingClientRect();
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = false;
