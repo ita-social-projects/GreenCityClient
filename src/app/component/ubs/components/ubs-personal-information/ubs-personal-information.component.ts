@@ -115,6 +115,8 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.shareFormService.objectSource.unsubscribe();
+    this.destroy.next(true);
+    this.destroy.unsubscribe();
   }
 
   initForm(): void {

@@ -118,7 +118,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
     this.points = this.orders.points;
   }
 
-  calculateTotal(): void {
+  private calculateTotal(): void {
     this.total =
       this.orderDetailsForm.value.bagNumUbs * this.orders.allBags[0].price +
       this.orderDetailsForm.value.bagNumClothesXL *

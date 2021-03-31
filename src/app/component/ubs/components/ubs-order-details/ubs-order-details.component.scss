@@ -78,8 +78,8 @@
   background-color: var(--ubs-primary-white);
 }
 
-.custom-radio .custom-control-input:checked~.custom-control-label::before,
-.custom-radio .custom-control-input:checked~.custom-control-label::after {
+.custom-radio .custom-control-input:checked ~ .custom-control-label::before,
+.custom-radio .custom-control-input:checked ~ .custom-control-label::after {
   background-color: var(--ubs-primary-green);
   border-radius: 50%;
 }
@@ -277,10 +277,10 @@ button {
     height: 3rem;
     border-radius: 0;
     border: none;
-  }
 
-  .btn-main:hover {
-    background: var(--ubs-primary-green);
-    color: var(--ubs-primary-white);
+    &:hover {
+      background: var(--ubs-primary-green);
+      color: var(--ubs-primary-white);
+    }
   }
 }
