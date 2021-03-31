@@ -16,4 +16,5 @@ export const environment = {
       measurementId: 'G-CCHRKQ4R0S'
    },
   googleClientId: '129513550972-eu9ej46rviv1ac8q14at62t2k5qon1pu.apps.googleusercontent.com',
+  agmCoreModuleApiKey: 'AIzaSyCdBtR8O8eazfWUSdyb5O2cnL32uJtWUwA',
 };
