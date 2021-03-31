@@ -42,7 +42,7 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
   loadPopup() {
     this.habitsCalendarSelectedDate = this.data.habitsCalendarSelectedDate;
     this.isHabitListEditable = this.data.isHabitListEditable;
-    this.popupHabits = this.data.habits.map(x => Object.assign({}, x));
+    this.popupHabits = this.data.habits.map(habit => Object.assign({}, habit));
   }
 
   closePopup() {
@@ -52,7 +52,7 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
   }
 
   toggleEnrollHabit(id: number) {
-    const habitIndex = this.popupHabits.findIndex(h => h.habitId === id);
+    const habitIndex = this.popupHabits.findIndex(habit => habit.habitId === id);
     this.popupHabits[habitIndex].enrolled = !this.popupHabits[habitIndex].enrolled;
   }
 
