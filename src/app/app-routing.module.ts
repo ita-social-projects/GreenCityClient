@@ -23,6 +23,10 @@ export const routes: Routes = [
     loadChildren: () => import('./component/user/user.module').then((mod) => mod.UserModule),
   },
   {
+    path: 'ubs',
+    loadChildren: () => import('./component/ubs/ubs.module').then(mod => mod.UbsModule)
+  },
+  {
     path: 'tips',
     component: TipsListComponent,
   },

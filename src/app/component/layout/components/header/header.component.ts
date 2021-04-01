@@ -1,6 +1,6 @@
 import { headerIcons } from './../../../../image-pathes/header-icons';
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { NavigationStart, Router } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { filter, takeUntil } from 'rxjs/operators';
 import { JwtService } from '@global-service/jwt/jwt.service';
@@ -55,8 +55,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private habitStatisticService: HabitStatisticService,
     private languageService: LanguageService,
     private searchSearch: SearchService,
-    private userOwnAuthService: UserOwnAuthService
-  ) {}
+    private userOwnAuthService: UserOwnAuthService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.dialog.afterAllClosed.pipe(takeUntil(this.destroySub)).subscribe(() => {
@@ -125,8 +125,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.langDropdownVisible = false;
     if (this.isLoggedIn) {
       const curLangId = this.languageService.getLanguageId(language.toLowerCase() as Language);
-
-      this.userService.updateUserLanguage(curLangId).subscribe();
+      this.userService.updateUserLanguage(curLangId)
+        .subscribe();
     }
   }
 

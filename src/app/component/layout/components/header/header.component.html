@@ -38,8 +38,14 @@
                 {{ 'user.lower-nav-bar.my-habits' | translate }}
               </a>
             </li>
-            <hr class="header_line container" [ngClass]="{ 'd-none': !toggleBurgerMenu }" />
-            <div *ngIf="!isLoggedIn; then userLoggedInSmall; else userNotLoggerInSmall"></div>
+            <li role="navigation to ubs">
+              <a [routerLink]="['/ubs']" routerLinkActive="active-link"
+                routerLinkActiveOptions="{exact:true}">
+                UBS
+              </a>
+            </li>
+            <hr class="header_line container" [ngClass]="{'d-none': !toggleBurgerMenu}" />
+            <div *ngIf="!isLoggedIn; then userLoggedInSmall else userNotLoggerInSmall"></div>
             <ng-template #userLoggedInSmall>
               <li *ngIf="toggleBurgerMenu" class="header_mobile-menu-sign-in" role="sign in link">
                 <a class="header_sign-in-link tertiary-global-button" (click)="openAuthModalWindow('sign-in')">

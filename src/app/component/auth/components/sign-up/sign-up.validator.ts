@@ -25,7 +25,9 @@ export function ValidatorRegExp(controlName: string) {
     if (control.value === '') {
       control.setErrors({ required: true });
     } else {
-      if (!control.value.match(regexp)) {
+      if (controlName === 'password' && control.value.length < 8) {
+        control.setErrors({ minlength: true });
+      } else if (!control.value.match(regexp)) {
         control.setErrors({ symbolInvalid: true });
       } else {
         control.setErrors(null);
