@@ -1,0 +1,29 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
+
+import { UbsComponent } from './ubs.component';
+
+describe('UbsComponent', () => {
+  let component: UbsComponent;
+  let fixture: ComponentFixture<UbsComponent>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        RouterModule
+      ],
+      declarations: [ UbsComponent ]
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(UbsComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

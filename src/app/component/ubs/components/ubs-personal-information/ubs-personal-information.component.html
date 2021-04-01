@@ -1,0 +1,71 @@
+<form [formGroup]="personalDataForm" (ngSubmit)="submit()">
+  <div class="row personal-data">
+    <div class="w-100">
+      <h2 class="personal-data-title">Особисті дані</h2>
+    </div>
+    <div class="col-12 col-sm-6 form-group">
+      <label>Ім'я</label>
+      <input formControlName="firstName" type="text" class="shadow-none form-control">
+      <div class="validation" *ngIf="firstName.invalid && firstName.touched">
+        <app-ubs-input-error [formElement]="firstName" [firstNameFieldValue]="firstName.value" [controlName]="'firstName'">
+        </app-ubs-input-error>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 form-group">
+      <label>Номер телефону</label>
+      <input formControlName="phoneNumber" type="text" class="shadow-none form-control" placeholder="+38(___) ___ __ __"
+        [unmask]="true" [imask]="{mask: phoneMask}">
+      <div class="validation"
+        *ngIf="personalDataForm.get('phoneNumber').invalid && personalDataForm.get('phoneNumber').touched">
+        <app-ubs-input-error [formElement]="phoneNumber" [phoneNumberFieldValue]="phoneNumber.value"
+          [controlName]="'phoneNumber'"></app-ubs-input-error>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 form-group">
+      <label>Прізвище</label>
+      <input formControlName="lastName" type="text" class="shadow-none form-control">
+      <div class="validation" *ngIf="lastName.invalid && lastName.touched">
+        <app-ubs-input-error [formElement]="lastName" [lastNameFieldValue]="lastName.value" [controlName]="'lastName'">
+        </app-ubs-input-error>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 form-group">
+      <label>Email</label>
+      <input formControlName="email" type="text" class="shadow-none form-control" placeholder="example@email.com">
+      <div class="validation" *ngIf="email.invalid && email.touched">
+        <app-ubs-input-error [formElement]="email" [emailFieldValue]="email.value" [controlName]="'email'"></app-ubs-input-error>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row adress-section">
+    <div class="w-100">
+      <h2 class="address-title">Адреса вивозу сміття</h2>
+    </div>
+    <div *ngIf="addresses.length === 0; else addressesList" class="no-addresses">У Вас немає доданих адрес. Додайте,
+      будь ласка, адресу.</div>
+    <ng-template #addressesList>
+      <app-address *ngFor="let address of addresses" [address]="address" class="address col-12 col-md-6"></app-address>
+    </ng-template>
+    <div class="w-100">
+      <button type="button" class="btn add-address" mat-raised-button (click)="openDialog()">Додати адресу</button>
+    </div>
+  </div>
+  <hr>
+  <div class="address-comment">
+    <h5 class="comment-title">Коментар до адреси</h5>
+    <textarea class="form-control" formControlName="addressComment"
+      placeholder="Будь-які деталі, які ви б хотіли нам повідомити додатково"></textarea>
+    <div class="validation" *ngIf="addressComment.invalid && addressComment.touched">
+      <app-ubs-input-error [formElement]="addressComment" [controlName]="'addressComment'"></app-ubs-input-error>
+    </div>
+  </div>
+  <div class="w-100 d-flex justify-content-between personal-data-navigation">
+    <button class="secondary-global-button btn" matStepperPrevious>Назад</button>
+    <div>
+      <button class="secondary-global-button btn" matStepperPrevious>Відмінити</button>
+      <button type="submit" class="primary-global-button btn" matStepperNext
+        [disabled]="personalDataForm.invalid">Далі</button>
+    </div>
+  </div>
+</form>
