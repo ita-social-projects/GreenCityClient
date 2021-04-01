@@ -70,7 +70,7 @@ export class HabitAssignService implements OnDestroy {
   }
 
   getAssignHabitsByPeriod(startDate: string, endDate: string) {
-    const query: string = `${habitAssignLink}/activity/${startDate}/to/${endDate}?lang=${this.language}`
+    const query = `${habitAssignLink}/activity/${startDate}/to/${endDate}?lang=${this.language}`;
     return this.http.get<Array<HabitsForDateInterface>>(query);
   }
   ngOnDestroy(): void {
