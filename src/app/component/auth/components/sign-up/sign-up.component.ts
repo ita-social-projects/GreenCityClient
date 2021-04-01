@@ -161,19 +161,9 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
   private onSubmitSuccess(data: SuccessSignUpDto): void {
     this.loadingAnim = false;
-    // this.openSignUpPopup();
     this.closeSignUpWindow();
     this.snackBar.openSnackBar('signUp');
   }
-
-  // private openSignUpPopup(): void {
-  //   this.dialog.open(SubmitEmailComponent, {
-  //     hasBackdrop: true,
-  //     closeOnNavigation: true,
-  //     disableClose: false,
-  //     panelClass: 'custom-dialog-container',
-  //   });
-  // }
 
   private closeSignUpWindow(): void {
     this.matDialogRef.close();
