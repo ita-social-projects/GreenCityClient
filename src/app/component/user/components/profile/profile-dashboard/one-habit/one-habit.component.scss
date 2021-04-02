@@ -84,7 +84,6 @@ button {
   width: 100%;
   height: 100%;
   float: left;
-
 }
 
 .third-row {
@@ -114,14 +113,13 @@ button {
 
   .empty {
     background-color: var(--primary-white);
-    border: 1px solid #64727D;
+    border: 1px solid #64727d;
   }
 
   .mark {
     background: url("~/assets/img/icon/green-checkbox.svg") no-repeat;
-    border: 1px solid white
+    border: 1px solid white;
   }
-
 }
 
 @media (min-width: 280px) {
@@ -130,21 +128,18 @@ button {
     grid-template-columns: 0 auto;
   }
 
-    .description {
-      grid-area: 1 / 1 / 2 / 3;
-    }
+  .description {
+    grid-area: 1 / 1 / 2 / 3;
   }
 
   .image {
     display: none;
-
   }
 
   .third-row {
     grid-area: 2 / 1 / 3 / 3;
-
   }
-
+}
 
 @media (min-width: 480px) {
   .main {
@@ -155,14 +150,16 @@ button {
   .image {
     display: block;
   }
+
   .description {
     grid-area: 1 / 2 / 2 / 2;
+
     .first-row {
       .calendar {
         width: 14px;
         height: 15px;
       }
-     
+
       p {
         font-size: 14px;
         line-height: 20px;

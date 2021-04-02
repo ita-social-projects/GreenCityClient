@@ -53,12 +53,14 @@ a {
 
     .active {
       border-bottom: 1px solid var(--primary-green);
+
       p {
         color: var(--primary-green);
       }
     }
 
-    .plain, .hline {
+    .plain,
+    .hline {
       border-bottom: 1px solid var(--quintynary-light-grey);
     }
 
@@ -105,6 +107,7 @@ a {
     .menu {
       .tab {
         padding: 0 12px;
+
         p {
           font-size: 14px;
           line-height: 20px;
@@ -129,7 +132,7 @@ a {
     .menu {
       .tab {
         padding: 0 24px;
-        
+
         p {
           font-size: 16px;
           line-height: 20px;
@@ -147,4 +150,3 @@ a {
     }
   }
 }
-
