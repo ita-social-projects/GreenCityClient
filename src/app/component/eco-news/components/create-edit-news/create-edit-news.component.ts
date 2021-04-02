@@ -154,7 +154,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.onSubmit = this.editNews;
   }
 
-  
   public setDataForCreate(): void {
     this.attributes = this.config.create;
     this.onSubmit = this.createNews;
