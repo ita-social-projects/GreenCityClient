@@ -71,7 +71,7 @@
       }
 
       .enrolled-day {
-        background-color: rgba(19, 170, 87, 0.15);
+        background-color: var(--primary-light-green);
       }
 
       .unenrolled-day {
@@ -80,7 +80,7 @@
 
       .enrolled-past-day {
         background-color: transparent;
-        border: 1px solid #b1dfc6;
+        border: 1px solid var(--primary-light-green);
       }
 
       .unenrolled-past-day {
@@ -89,7 +89,7 @@
       }
 
       .current-number {
-        color: white;
+        color: var(--primary-white);
         background-color: var(--primary-green);
       }
     }
