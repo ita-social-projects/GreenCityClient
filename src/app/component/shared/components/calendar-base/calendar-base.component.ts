@@ -3,12 +3,13 @@ import { LanguageService } from '@language-service/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { Subject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { finalize, takeUntil } from 'rxjs/operators';
 import { CalendarInterface } from '@global-user/components/profile/calendar/calendar-interface';
 import { calendarImage } from './calendar-image';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { HabitsPopupComponent } from '@global-user/components/profile/calendar/habits-popup/habits-popup.component';
 import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
+import { ItemClass } from './CalendarItemStyleClasses';
 
 @Component({
   selector: 'app-calendar-base',
@@ -59,7 +60,6 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
   public currentDayItem: CalendarInterface;
   public isCheckedHabits: boolean;
   public checkAnswer = false;
-  public getClass: string;
   public isHabitListEditable: boolean;
   public daysCanEditHabits = 7;
 
@@ -291,20 +291,15 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
 
   chooseDisplayClass(dayItem) {
     if (dayItem.isCurrentDayActive) {
-      this.getClass = 'current-day';
-      return this.getClass;
+      return ItemClass.CURRENT;
     } else if (dayItem.hasHabitsInProgress && dayItem.numberOfDate < (dayItem.date.getDate() - 7) && dayItem.areHabitsDone) {
-      this.getClass = 'enrolled-past-day';
-      return this.getClass;
+      return ItemClass.ENROLLEDPAST;
     } else if (dayItem.hasHabitsInProgress && dayItem.numberOfDate < (dayItem.date.getDate() - 7) && !dayItem.areHabitsDone) {
-      this.getClass = 'unenrolled-past-day';
-      return this.getClass;
+      return ItemClass.UNENROLLEDPAST;
     } else if (dayItem.hasHabitsInProgress && dayItem.areHabitsDone) {
-      this.getClass = 'enrolled-day';
-      return this.getClass;
+      return ItemClass.ENROLLED;
     } else if (dayItem.hasHabitsInProgress && !dayItem.areHabitsDone) {
-      this.getClass = 'unenrolled-day';
-      return this.getClass;
+      return ItemClass.UNENROLLED;
     }
   }
 
@@ -374,22 +369,24 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
   enrollHabit(habit, date) {
     this.checkAnswer = true;
     this.habitAssignService.enrollByHabit(habit.habitId, date).pipe(
-      takeUntil(this.destroySub)
+      takeUntil(this.destroySub),
+      finalize(()=>this.checkAnswer = false)
     ).subscribe(() => {
       habit.enrolled = !habit.enrolled;
       this.isCheckedHabits ? this.currentDayItem.areHabitsDone = true : this.currentDayItem.areHabitsDone = false;
-      this.checkAnswer = false;
+      // this.checkAnswer = false;
     });
   }
 
   unEnrollHabit(habit, date) {
     this.checkAnswer = true;
     this.habitAssignService.unenrollByHabit(habit.habitId, date).pipe(
-      takeUntil(this.destroySub)
+      takeUntil(this.destroySub),
+      finalize(()=>this.checkAnswer = false)
     ).subscribe(() => {
       habit.enrolled = !habit.enrolled;
       this.isCheckedHabits ? this.currentDayItem.areHabitsDone = true : this.currentDayItem.areHabitsDone = false;
-      this.checkAnswer = false;
+      // this.checkAnswer = false;
     });
   }
 }
