@@ -113,7 +113,7 @@ describe('RecommendedFriendsComponent', () => {
     expect(initUserSpy).toHaveBeenCalledTimes(1);
   });
 
-  it("should get a user's friends", () => {
+  it('should get a user\'s friends', () => {
     const getRecommendedFriendsSpy = spyOn(component as any, 'getRecommendedFriends');
     component.ngOnInit();
     expect(getRecommendedFriendsSpy).toHaveBeenCalledTimes(1);
