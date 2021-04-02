@@ -9,7 +9,5 @@ export class HabitEditShoppingListComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

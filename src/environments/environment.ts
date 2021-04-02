@@ -1,6 +1,8 @@
 export const environment = {
   production: false,
   apiKeys: 'AIzaSyDanBliCzAuCZrsq67FeKEs3vqAilUD_is',
+  // backendLink: 'http://localhost:8060/',
+  // backendUserLink: 'http://http://localhost:8080/',
   backendLink: 'https://greencity.azurewebsites.net/',
   backendUserLink: 'https://greencity-user.azurewebsites.net/',
   frontendLink: 'http://localhost:4200/GreenCityClient',
