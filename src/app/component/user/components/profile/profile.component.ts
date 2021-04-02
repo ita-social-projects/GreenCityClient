@@ -24,7 +24,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private profileService: ProfileService) { }
 
   ngOnInit() {
-    window.innerWidth > this.screenBreakpoint ? this.isDesktopWidth = true : this.isDesktopWidth = false;
+    this.isDesktopWidth = this.isDeskWidth();
     this.announce();
     this.showUserInfo();
     this.subscribeToLangChange();
@@ -32,8 +32,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('window:resize') public checkDisplayWidth() {
-    const windowWidth = window.innerWidth;
-    windowWidth > this.screenBreakpoint ? this.isDesktopWidth = true : this.isDesktopWidth = false;
+    this.isDesktopWidth = this.isDeskWidth();
+  }
+
+  public isDeskWidth() {
+    return window.innerWidth > this.screenBreakpoint;
   }
 
   public announce() {
