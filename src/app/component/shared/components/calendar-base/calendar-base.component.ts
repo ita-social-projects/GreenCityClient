@@ -39,10 +39,7 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
 
   public langChangeSub: Subscription;
   public defaultTranslateSub: Subscription;
-  private destroyGetHabits = new Subject<void>();
-  public destroyOpenPopup = new Subject<void>();
-  public destroyEnroll = new Subject<void>();
-  public destroyUnEnroll = new Subject<void>();
+  private destroySub = new Subject<void>();
 
   public calendar: CalendarInterface = {
     date: new Date(),
@@ -79,14 +76,8 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.langChangeSub.unsubscribe();
     this.defaultTranslateSub.unsubscribe();
-    this.destroyGetHabits.next();
-    this.destroyGetHabits.complete();
-    this.destroyOpenPopup.next();
-    this.destroyOpenPopup.complete();
-    this.destroyEnroll.next();
-    this.destroyEnroll.complete();
-    this.destroyUnEnroll.next();
-    this.destroyUnEnroll.complete();
+    this.destroySub.next();
+    this.destroySub.complete();
   }
 
   public toggleCalendarView(): void {
@@ -274,7 +265,7 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
     const startDate = this.formatDate(isMonthCalendar, firstDay);
     const endDate = this.formatDate(isMonthCalendar, days[days.length - 1]);
     this.habitAssignService.getAssignHabitsByPeriod(startDate, endDate).pipe(
-      takeUntil(this.destroyGetHabits)
+      takeUntil(this.destroySub)
     ).subscribe(res => {
       this.userHabitsList = res;
       days.forEach(day => {
@@ -361,7 +352,7 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
     };
     const dialogRef = this.dialog.open(HabitsPopupComponent, dialogConfig);
     dialogRef.afterClosed().pipe(
-      takeUntil(this.destroyOpenPopup)
+      takeUntil(this.destroySub)
     ).subscribe(changedList => {
       this.sendEnrollRequest(changedList, habits.enrollDate);
 
@@ -383,7 +374,7 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
   enrollHabit(habit, date) {
     this.checkAnswer = true;
     this.habitAssignService.enrollByHabit(habit.habitId, date).pipe(
-      takeUntil(this.destroyEnroll)
+      takeUntil(this.destroySub)
     ).subscribe(() => {
       habit.enrolled = !habit.enrolled;
       this.isCheckedHabits ? this.currentDayItem.areHabitsDone = true : this.currentDayItem.areHabitsDone = false;
@@ -394,7 +385,7 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
   unEnrollHabit(habit, date) {
     this.checkAnswer = true;
     this.habitAssignService.unenrollByHabit(habit.habitId, date).pipe(
-      takeUntil(this.destroyUnEnroll)
+      takeUntil(this.destroySub)
     ).subscribe(() => {
       habit.enrolled = !habit.enrolled;
       this.isCheckedHabits ? this.currentDayItem.areHabitsDone = true : this.currentDayItem.areHabitsDone = false;
