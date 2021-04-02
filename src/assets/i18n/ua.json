@@ -735,12 +735,13 @@
     "dashboard": {
       "my-habits": "Мої звички",
       "my-news": "Мої новини",
-      "my-articles": "Мої статті",
-      "habits-in-progress": "Звички у процесі",
+      "my-tips-and-tricks": "Мої статті",
+      "habits-inprogress": "У процесі",
       "add-new-habit": "Додати нову звичку",
-      "habits-acquired": "Набуті звички"
+      "habits-acquired": "Набуті",
+      "habits": "звички"
     },
-    "habits-in-progress": "звички у процесі",
+    "habits-in-progress": "У процесі",
     "my-Achievements": "Мої досягнення",
     "see-all": "Побачити все",
     "my-eco-friends": "Мої Еко Друзі",

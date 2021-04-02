@@ -730,11 +730,13 @@
       "my-habits": "My habits",
       "my-news": "My news",
       "my-articles": "My articles",
-      "habits-in-progress": "Habits in progress",
+      "my-tips-and-tricks": "My tips and tricks",
+      "habits-inprogress": "In progress",
       "add-new-habit": "Add new habit",
-      "habits-acquired": "Habits acquired"
+      "habits-acquired": "Acquired",
+      "habits": "habits"
     },
-    "habits-in-progress": "habits in progress",
+    "habits-in-progress": "In progress",
     "my-Achievements": "My Achievements",
     "see-all": "See all",
     "my-eco-friends": "My Eco Friends",
