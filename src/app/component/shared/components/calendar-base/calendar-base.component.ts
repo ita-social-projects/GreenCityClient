@@ -370,11 +370,10 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
     this.checkAnswer = true;
     this.habitAssignService.enrollByHabit(habit.habitId, date).pipe(
       takeUntil(this.destroySub),
-      finalize(()=>this.checkAnswer = false)
+      finalize(() => this.checkAnswer = false)
     ).subscribe(() => {
       habit.enrolled = !habit.enrolled;
       this.isCheckedHabits ? this.currentDayItem.areHabitsDone = true : this.currentDayItem.areHabitsDone = false;
-      // this.checkAnswer = false;
     });
   }
 
@@ -382,11 +381,10 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
     this.checkAnswer = true;
     this.habitAssignService.unenrollByHabit(habit.habitId, date).pipe(
       takeUntil(this.destroySub),
-      finalize(()=>this.checkAnswer = false)
+      finalize(() => this.checkAnswer = false)
     ).subscribe(() => {
       habit.enrolled = !habit.enrolled;
       this.isCheckedHabits ? this.currentDayItem.areHabitsDone = true : this.currentDayItem.areHabitsDone = false;
-      // this.checkAnswer = false;
     });
   }
 }
