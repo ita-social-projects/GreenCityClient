@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
@@ -14,17 +14,26 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 export class ProfileComponent implements OnInit, OnDestroy {
   private langChangeSub: Subscription;
   public userInfo: EditProfileModel;
+  public isDesktopWidth: boolean;
+  public screenBreakpoint = 1024;
 
-  constructor(private announcer: LiveAnnouncer,
-              private localStorageService: LocalStorageService,
-              private translate: TranslateService,
-              private profileService: ProfileService) { }
+  constructor(
+    private announcer: LiveAnnouncer,
+    private localStorageService: LocalStorageService,
+    private translate: TranslateService,
+    private profileService: ProfileService) { }
 
   ngOnInit() {
+    window.innerWidth > this.screenBreakpoint ? this.isDesktopWidth = true : this.isDesktopWidth = false;
     this.announce();
     this.showUserInfo();
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
+  }
+
+  @HostListener('window:resize') public checkDisplayWidth() {
+    const windowWidth = window.innerWidth;
+    windowWidth > this.screenBreakpoint ? this.isDesktopWidth = true : this.isDesktopWidth = false;
   }
 
   public announce() {
