@@ -22,7 +22,7 @@ export class HabitAssignService implements OnDestroy {
   }
 
   getAssignedHabits(): Observable<Array<HabitAssignInterface>> {
-    return this.http.get<Array<HabitAssignInterface>>(`${habitAssignLink}?lang=${this.language}`);
+    return this.http.get<Array<HabitAssignInterface>>(`${habitAssignLink}/allForCurrentUser?lang=${this.language}`);
   }
 
   assignHabit(habitId: number): Observable<ResponseInterface> {
