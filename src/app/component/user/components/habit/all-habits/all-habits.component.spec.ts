@@ -84,31 +84,10 @@ describe('AllHabitsComponent', async () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-<<<<<<< HEAD
       declarations: [AllHabitsComponent, HabitsListViewComponent],
       imports: [TranslateModule.forRoot(), SharedModule, InfiniteScrollModule, RouterTestingModule, HttpClientTestingModule],
       providers: [HabitService, HabitAssignService, { provide: LocalStorageService, useValue: localStorageServiceMock }],
     }).compileComponents();
-=======
-      declarations: [
-        AllHabitsComponent,
-        HabitsListViewComponent,
-       ],
-      imports: [
-        TranslateModule.forRoot(),
-        SharedModule,
-        InfiniteScrollModule,
-        RouterTestingModule,
-        HttpClientTestingModule
-      ],
-      providers: [
-        HabitService,
-        HabitAssignService,
-        { provide: LocalStorageService, useValue: localStorageServiceMock },
-      ]
-    })
-    .compileComponents();
->>>>>>> ee9b77a4840ba7cd32e3eb19a32976e550be63a8
   });
 
   beforeEach(() => {
