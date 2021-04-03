@@ -30,14 +30,12 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
   public language: string;
   public currentMonth = new Date().getMonth();
   public currentYear = new Date().getFullYear();
-
   public selectedDay;
   public isDayTracked;
   public habits;
   public isFetching;
   public checkIfFuture;
   public toggleEnrollHabit;
-
   public langChangeSub: Subscription;
   public defaultTranslateSub: Subscription;
   private destroySub = new Subject<void>();
@@ -54,7 +52,6 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
     areHabitsDone: false,
     isCurrentDayActive: false
   };
-
 
   public userHabitsList: Array<HabitsForDateInterface>;
   public currentDayItem: CalendarInterface;
@@ -176,7 +173,7 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
       if (el.isCurrentDayActive &&
         el.date.getMonth() === el.month &&
         el.date.getFullYear() === el.year) {
-        const dayName = (new Date(el.year, el.month, +el.numberOfDate)
+        const dayName = (new Date(el.year, el.month, Number(el.numberOfDate))
           .toLocaleDateString(this.language, option));
         this.currentDayName = dayName.charAt(0).toUpperCase() + dayName.slice(1);
       }
@@ -251,17 +248,11 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
   }
 
   getHabitsForDay(habitsList, date) {
-    const habitsListForDay = habitsList.find(list => list.enrollDate === date);
-    return habitsListForDay;
+    return habitsList.find(list => list.enrollDate === date);
   }
 
   public getUserHabits(isMonthCalendar, days) {
-    let firstDay;
-    if (isMonthCalendar) {
-      firstDay = days.find(day => day.numberOfDate === 1);
-    } else {
-      firstDay = days[0];
-    }
+    let firstDay = isMonthCalendar ? days.find(day => day.numberOfDate === 1) : days[0];
     const startDate = this.formatDate(isMonthCalendar, firstDay);
     const endDate = this.formatDate(isMonthCalendar, days[days.length - 1]);
     this.habitAssignService.getAssignHabitsByPeriod(startDate, endDate).pipe(
@@ -281,20 +272,15 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
   }
 
   isCheckedAllHabits(habitsForDay) {
-    const unenrolledHabit = habitsForDay.find(habit => habit.enrolled === false);
-    if (unenrolledHabit) {
-      return false;
-    } else {
-      return true;
-    }
+    return habitsForDay.find(habit => !habit.enrolled) ? false : true;
   }
 
   chooseDisplayClass(dayItem) {
     if (dayItem.isCurrentDayActive) {
       return ItemClass.CURRENT;
-    } else if (dayItem.hasHabitsInProgress && dayItem.numberOfDate < (dayItem.date.getDate() - 7) && dayItem.areHabitsDone) {
+    } else if (dayItem.hasHabitsInProgress && dayItem.numberOfDate < (dayItem.date.getDate() - this.daysCanEditHabits) && dayItem.areHabitsDone) {
       return ItemClass.ENROLLEDPAST;
-    } else if (dayItem.hasHabitsInProgress && dayItem.numberOfDate < (dayItem.date.getDate() - 7) && !dayItem.areHabitsDone) {
+    } else if (dayItem.hasHabitsInProgress && dayItem.numberOfDate < (dayItem.date.getDate() - this.daysCanEditHabits) && !dayItem.areHabitsDone) {
       return ItemClass.UNENROLLEDPAST;
     } else if (dayItem.hasHabitsInProgress && dayItem.areHabitsDone) {
       return ItemClass.ENROLLED;
@@ -331,8 +317,6 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
     const habits = this.getHabitsForDay(this.userHabitsList, date);
     const pos = event.target.getBoundingClientRect();
     const dialogConfig = new MatDialogConfig();
-
-
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.backdropClass = 'backdropBackground';
@@ -350,7 +334,6 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
       takeUntil(this.destroySub)
     ).subscribe(changedList => {
       this.sendEnrollRequest(changedList, habits.enrollDate);
-
       this.isCheckedHabits = this.isCheckedAllHabits(changedList);
       this.currentDayItem = dayItem;
     });
