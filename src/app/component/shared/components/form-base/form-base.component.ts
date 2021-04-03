@@ -60,7 +60,6 @@ export class FormBaseComponent implements ComponentCanDeactivate {
   public checkChanges(): boolean {
     const body = this.getFormValues();
     for (const key of Object.keys(body)) {
-      console.log(body[key])
       if (body[key] != "") {
         return true
       }
