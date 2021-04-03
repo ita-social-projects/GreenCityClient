@@ -60,15 +60,9 @@ export class FormBaseComponent implements ComponentCanDeactivate {
   public checkChanges(): boolean {
     const body = this.getFormValues();
     for (const key of Object.keys(body)) {
-      if (Array.isArray(body[key])) {
-        if (body[key].some((item, index) => item !== this.initialValues[key][index])) {
-          return true;
-        }
-      } else {
-        if (body[key] !== this.initialValues[key]
-          && this.formEditProf.nativeElement.classList.contains('ng-touched')) {
-          return true;
-        }
+      console.log(body[key])
+      if (body[key] != "") {
+        return true
       }
     }
     return false;
