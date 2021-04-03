@@ -113,12 +113,12 @@ button {
 
   .empty {
     background-color: var(--primary-white);
-    border: 1px solid #64727d;
+    border: 1px solid var(--quaternary-grey);
   }
 
   .mark {
     background: url("~/assets/img/icon/green-checkbox.svg") no-repeat;
-    border: 1px solid white;
+    border: 1px solid var(--primary-white);
   }
 }
 
@@ -174,5 +174,5 @@ button {
 
   .third-row {
     grid-area: 2 / 2 / 3 / 3;
-  }
+  }   
 }
