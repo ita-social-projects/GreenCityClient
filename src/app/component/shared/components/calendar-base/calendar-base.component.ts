@@ -252,7 +252,7 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
   }
 
   public getUserHabits(isMonthCalendar, days) {
-    let firstDay = isMonthCalendar ? days.find(day => day.numberOfDate === 1) : days[0];
+    const firstDay = isMonthCalendar ? days.find(day => day.numberOfDate === 1) : days[0];
     const startDate = this.formatDate(isMonthCalendar, firstDay);
     const endDate = this.formatDate(isMonthCalendar, days[days.length - 1]);
     this.habitAssignService.getAssignHabitsByPeriod(startDate, endDate).pipe(
@@ -278,9 +278,11 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
   chooseDisplayClass(dayItem) {
     if (dayItem.isCurrentDayActive) {
       return ItemClass.CURRENT;
-    } else if (dayItem.hasHabitsInProgress && dayItem.numberOfDate < (dayItem.date.getDate() - this.daysCanEditHabits) && dayItem.areHabitsDone) {
+    } else if (dayItem.hasHabitsInProgress &&
+      dayItem.numberOfDate < (dayItem.date.getDate() - this.daysCanEditHabits) && dayItem.areHabitsDone) {
       return ItemClass.ENROLLEDPAST;
-    } else if (dayItem.hasHabitsInProgress && dayItem.numberOfDate < (dayItem.date.getDate() - this.daysCanEditHabits) && !dayItem.areHabitsDone) {
+    } else if (dayItem.hasHabitsInProgress &&
+      dayItem.numberOfDate < (dayItem.date.getDate() - this.daysCanEditHabits) && !dayItem.areHabitsDone) {
       return ItemClass.UNENROLLEDPAST;
     } else if (dayItem.hasHabitsInProgress && dayItem.areHabitsDone) {
       return ItemClass.ENROLLED;
