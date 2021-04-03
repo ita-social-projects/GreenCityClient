@@ -292,25 +292,15 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
   }
 
   checkHabitListEditable(isMonthCalendar, dayItem: CalendarInterface) {
-    if (isMonthCalendar) {
-      this.selectedDay = new Date(dayItem.year, dayItem.month, +dayItem.numberOfDate);
-    } else {
-      this.selectedDay = dayItem.date;
-    }
+    this.selectedDay = isMonthCalendar ? new Date(dayItem.year, dayItem.month, Number(dayItem.numberOfDate)) : dayItem.date;
     this.isHabitListEditable = false;
     const currentDate: Date = new Date();
-    if (currentDate.setHours(0, 0, 0, 0) - this.daysCanEditHabits * 24 * 60 * 60 * 1000 >=
-      new Date(this.selectedDay).setHours(0, 0, 0, 0)) {
-      this.isHabitListEditable = true;
-    }
+    this.isHabitListEditable = currentDate.setHours(0, 0, 0, 0) - this.daysCanEditHabits * 24 * 60 * 60 * 1000 >=
+      new Date(this.selectedDay).setHours(0, 0, 0, 0);
   }
 
   checkCanOpenPopup(dayItem: CalendarInterface) {
-    if (dayItem.hasHabitsInProgress) {
-      return true;
-    } else {
-      return false;
-    }
+    return dayItem.hasHabitsInProgress ? true : false;
   }
 
   openDialogDayHabits(event, isMonthCalendar, dayItem: CalendarInterface) {
@@ -358,7 +348,7 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
       finalize(() => this.checkAnswer = false)
     ).subscribe(() => {
       habit.enrolled = !habit.enrolled;
-      this.isCheckedHabits ? this.currentDayItem.areHabitsDone = true : this.currentDayItem.areHabitsDone = false;
+      this.currentDayItem.areHabitsDone = this.isCheckedHabits;
     });
   }
 
@@ -369,7 +359,7 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
       finalize(() => this.checkAnswer = false)
     ).subscribe(() => {
       habit.enrolled = !habit.enrolled;
-      this.isCheckedHabits ? this.currentDayItem.areHabitsDone = true : this.currentDayItem.areHabitsDone = false;
+      this.currentDayItem.areHabitsDone = this.isCheckedHabits;
     });
   }
 }
