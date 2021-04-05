@@ -3,7 +3,7 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { AbstractControl, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
-import { take } from 'rxjs/operators';
+import { catchError, take } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
 import { SignInIcons } from 'src/app/image-pathes/sign-in-icons';
 import { UserSuccessSignIn } from '@global-models/user-success-sign-in';

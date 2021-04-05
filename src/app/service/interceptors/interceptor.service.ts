@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { MatDialog } from '@angular/material';
 import {BehaviorSubject, EMPTY, Observable, of, throwError} from 'rxjs';
-import { catchError, filter, switchMap, take } from 'rxjs/operators';
+import { catchError, filter, retry, switchMap, take } from 'rxjs/operators';
 import { updateAccessTokenLink } from '../../links';
 import { LocalStorageService } from '../localstorage/local-storage.service';
 import { BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../../http-response-status';
