@@ -4,16 +4,6 @@ $bp-tablet: 768px;
 $bp-desktop: 1023px;
 $bp-largest: 1200px;
 
-$bp-smallest: 320px;
-$bp-phone: 576px;
-$bp-tablet: 768px;
-$bp-desktop: 1024px;
-$bp-largest: 1440px;
-
-.calendar-right {
-  display: none;
-}
-
 .calendar {
   display: block;
   background: var(--secondary-light-grey);

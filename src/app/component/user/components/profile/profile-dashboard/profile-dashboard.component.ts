@@ -68,9 +68,4 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     this.destroyed$.next(true);
     this.destroyed$.complete();
   }
-
-  private initUser(): void {
-    this.localStorageService.userIdBehaviourSubject
-      .subscribe((userId: number) => this.userId = userId);
-  }
 }

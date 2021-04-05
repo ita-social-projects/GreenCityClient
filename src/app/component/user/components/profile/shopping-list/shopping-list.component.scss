@@ -20,6 +20,18 @@ $grey: #bebebe;
   padding: 25px 0;
 }
 
+.outer {
+  background-color: var(--secondary-light-grey);
+  display: flex;
+  justify-content: center;
+}
+
+.shoppingList-block {
+  border-top: 1px solid var(--quaternary-light-grey);
+  width: 185px;
+  padding: 25px 0;
+}
+
 .shopping-list-content {
   margin: 0 auto;
   font-family: var(--secondary-font);

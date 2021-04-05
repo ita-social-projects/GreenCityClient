@@ -57,10 +57,6 @@ li:focus {
   outline: none;
 }
 
-li:focus {
-  outline: none;
-}
-
 a {
   text-decoration: none;
 }
@@ -76,15 +72,6 @@ a {
 
 #create-button span {
   display: block;
-}
-
-.mat-spinner {
-  margin: 0 auto;
-  padding-top: 40px;
-
-  ::ng-deep circle {
-    stroke: #13aa57;
-  }
 }
 
 @media screen and (max-width: 1199px) {
