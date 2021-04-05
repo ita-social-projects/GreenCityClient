@@ -42,7 +42,7 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
       (data: FriendArrayModel) => {
         this.totalPages = data.totalPages;
         this.recommendedFriends = data.page;
-      },
+      }
     );
   }
 
