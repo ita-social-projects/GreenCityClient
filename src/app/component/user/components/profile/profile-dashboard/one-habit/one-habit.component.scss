@@ -41,6 +41,11 @@ button {
       line-height: 20px;
       color: var(--primary-green);
       margin: 0 16px 0 0;
+
+      span {
+        height: 12px;
+        margin-left: 12px;
+      }
     }
 
     .friends-photo {
