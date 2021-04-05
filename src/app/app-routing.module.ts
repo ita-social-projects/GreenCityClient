@@ -1,8 +1,9 @@
-import { TipsListComponent } from './component/home/components/useful-tips/tips-list/tips-list.component';
+import { ConfirmRestorePasswordComponent } from '@global-auth/index';
+import { TipsListComponent} from './component/home/components';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
-import { HomepageComponent } from './component/home/components/homepage/homepage.component';
-import { SearchAllResultsComponent } from './component/layout/components/search-all-results/search-all-results.component';
+import { HomepageComponent} from './component/home/components';
+import { SearchAllResultsComponent } from './component/layout/components';
 
 export const routes: Routes = [
   {
@@ -22,8 +23,8 @@ export const routes: Routes = [
     loadChildren: () => import('./component/user/user.module').then(mod => mod.UserModule)
   },
   {
-    path: 'welcome',
-    component: HomepageComponent,
+    path: 'ubs',
+    loadChildren: () => import('./component/ubs/ubs.module').then(mod => mod.UbsModule)
   },
   {
     path: 'tips',
@@ -31,13 +32,21 @@ export const routes: Routes = [
   },
   {
     path: 'search',
-    component: SearchAllResultsComponent,
+    component: SearchAllResultsComponent
+  },
+  {
+    path: 'auth/restore',
+    component: ConfirmRestorePasswordComponent,
   },
   {
     path: '',
-    redirectTo: 'welcome',
-    pathMatch: 'full'
-  }
+    pathMatch: 'full',
+    component: HomepageComponent,
+  },
+  {
+    path: '**',
+    redirectTo: '',
+  },
 ];
 
 @NgModule({

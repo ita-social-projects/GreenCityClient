@@ -1,17 +1,9 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
-
-$title-font: montserrat, sans-serif;
-$main-font: opensans, sans-serif;
-
 .checkmark {
-  border: 1px solid #13aa57;
+  border: 1px solid var(--primary-green);
   border-radius: 4px;
   height: 20px;
-  left: 0;
-  position: absolute;
-  top: 0;
   width: 20px;
+  margin-right: 12px;
 
   &::after {
     border: solid white;
@@ -19,9 +11,9 @@ $main-font: opensans, sans-serif;
     content: "";
     display: none;
     height: 12px;
-    left: 5px;
+    left: 6px;
     position: absolute;
-    top: 1px;
+    top: 4px;
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
@@ -32,12 +24,11 @@ $main-font: opensans, sans-serif;
 input[type=checkbox] {
   height: 0;
   opacity: 0;
-  position: absolute;
   width: 0;
 }
 
 input:checked ~ .checkmark {
-  background-color: #13aa57;
+  background-color: var(--primary-green);
 }
 
 input:checked ~ .checkmark::after {
@@ -54,12 +45,20 @@ input:checked ~ .checkmark::after {
     margin-top: 40px;
     padding-bottom: 40px;
 
+    p {
+      font-family: var(--secondary-font);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 24px;
+    }
+
     .input-block {
       display: flex;
       flex-direction: column;
 
       label {
-        font-family: $main-font;
+        font-family: var(--primary-font);
         font-size: 12px;
         height: 16px;
         line-height: 16px;
@@ -69,10 +68,10 @@ input:checked ~ .checkmark::after {
       input,
       textarea {
         background: #fff;
-        border: 1px solid #878787;
+        border: 1px solid var(--secondary-grey);
         border-radius: 5px;
         box-sizing: border-box;
-        font-family: $main-font;
+        font-family: var(--primary-font);
         font-size: 16px;
       }
 
@@ -87,11 +86,11 @@ input:checked ~ .checkmark::after {
       }
 
       span {
-        font-family: $main-font;
+        font-family: var(--primary-font);
         font-size: 10px;
         height: 12px;
         line-height: 12px;
-        color: #878787;
+        color: var(--secondary-grey);
       }
 
       input.ng-invalid.ng-touched,
@@ -100,7 +99,7 @@ input:checked ~ .checkmark::after {
       }
 
       input.ng-invalid.ng-touched + span,
-      textarea.ng-invalid.ng-touched + p {
+      textarea.ng-invalid.ng-touched + span {
         color: red;
       }
     }
@@ -111,10 +110,10 @@ input:checked ~ .checkmark::after {
     justify-content: flex-end;
 
     button {
-      border: 1px solid #13aa57;
+      border: 1px solid var(--primary-green);
       box-sizing: border-box;
       border-radius: 5px;
-      font-family: $main-font;
+      font-family: var(--primary-font);
       font-style: normal;
       font-weight: 600;
       font-size: 16px;
@@ -126,50 +125,58 @@ input:checked ~ .checkmark::after {
 
     button:first-child {
       background: #fff;
-      color: #13aa57;
+      color: var(--primary-green);
     }
 
     button:last-child {
-      background: #13aa57;
+      background: var(--primary-green);
       color: #fff;
     }
 
     button:first-child:hover {
-      border: 1px solid #056b33;
-      color: #056b33;
+      border: 1px solid var(--secondary-dark-green);
+      color: var(--secondary-dark-green);
     }
 
     button:first-child:disabled {
-      border: 1px solid #839c94;
-      color: #839c94;
+      border: 1px solid var(--primary-grey);
+      color: var(--primary-grey);
     }
 
     button:last-child:hover {
-      background: #056b33;
+      background: var(--secondary-dark-green);
     }
 
     button:last-child:disabled {
-      background: #839c94;
-      border: 1px solid #839c94;
+      background: var(--primary-grey);
+      border: 1px solid var(--primary-grey);
     }
   }
 }
 
 h2 {
-  font-family: $title-font;
+  font-family: var(--secondary-font);
   font-style: normal;
   font-weight: 500;
   height: 48px;
   font-size: 48px;
   line-height: 48px;
   margin-bottom: 0;
-  color: #494a49;
+  color: var(--primary-dark-grey);
 }
 
 .privacy-wrapper {
   border-bottom: 1px solid #e1e5e3;
   margin-top: 40px;
   padding-bottom: 40px;
+
+  .title {
+    font-family: var(--secondary-font);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 24px;
+  }
 
   ul {
     margin-bottom: 0;
@@ -178,17 +185,22 @@ h2 {
 
     li {
       list-style: none;
-      margin-top: 28px;
+      margin-bottom: 24px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
 
       .label-wrapper {
-        color: #494a49;
+        color: var(--primary-dark-grey);
         cursor: pointer;
-        font-family: OpenSans, sans-serif;
-        font-size: 18px;
+        font-family: var(--primary-font);
+        font-size: 16px;
         line-height: 24px;
         margin: 0;
         position: relative;
-        padding-left: 32px;
+        display: flex;
+        align-items: center;
       }
     }
   }
@@ -230,6 +242,13 @@ h2 {
     }
 
     .wrapper {
+      .input-block {
+        input,
+        textarea {
+          font-size: 14px;
+        }
+      }
+
       p {
         font-size: 16px;
       }
@@ -245,6 +264,16 @@ h2 {
 
       button:last-child {
         margin: 0 0 8px 0;
+      }
+    }
+
+    .privacy-wrapper {
+      ul {
+        li {
+          .label-wrapper {
+            font-size: 14px;
+          }
+        }
       }
     }
   }

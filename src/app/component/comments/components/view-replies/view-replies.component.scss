@@ -1,7 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
-
-$main-font: 'Open Sans', sans-serif;
-
 .cta-btn {
   display: flex;
   align-items: center;
@@ -14,15 +10,23 @@ $main-font: 'Open Sans', sans-serif;
 
   .btn-text {
     margin-right: 5px;
-    font-family: $main-font;
+    font-family: var(--primary-font);
     font-size: 16px;
     line-height: 24px;
-    color: #878787;
+    color: var(--secondary-grey);
     mix-blend-mode: normal;
+    white-space: nowrap;
   }
 }
 
 .view {
-  width: 140px;
   height: 40px;
+}
+
+@media screen and (max-width: 992px) {
+  .cta-btn {
+    .btn-text {
+      font-size: 12px;
+    }
+  }
 }

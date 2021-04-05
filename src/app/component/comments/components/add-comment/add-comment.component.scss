@@ -1,10 +1,16 @@
-.wrapper-comment {
+.main-wrapper {
   display: flex;
   margin: auto;
-  width: 70%;
   justify-content: space-between;
 
   img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50px;
+    margin-right: 24px;
+  }
+
+  #comment-user-image {
     width: 48px;
     height: 48px;
     border-radius: 50px;
@@ -24,8 +30,16 @@
       border-radius: 5px;
 
       &::placeholder {
-        color: #878787;
+        color: var(--secondary-grey);
       }
+    }
+
+    .comment-width {
+      width: 505px;
+    }
+
+    .reply-width {
+      width: 467px;
     }
 
     button {
@@ -37,33 +51,12 @@
   }
 }
 
-.wrapper-reply {
-  width: 100%;
-  padding-left: 72px;
-  margin-right: 0;
-
-  .input-submit {
-    display: flex;
-    width: 100%;
-
-    textarea {
-      width: 100%;
-      height: 72px;
-    }
-
-    button {
-      width: 123px;
-      height: 48px;
-    }
-  }
+.wrapper-comment {
+  width: 70%;
 }
 
-.spinner {
-  margin: 40px auto 0;
-
-  &::ng-deep circle {
-    stroke: #056b33;
-  }
+.wrapper-reply {
+  margin: 32px 0 32px 70px;
 }
 
 @media screen and (max-width: 768px) {
@@ -79,6 +72,7 @@
 }
 
 @media screen and (max-width: 576px) {
+  .wrapper-reply,
   .wrapper-comment {
     .input-submit {
       justify-content: flex-end;
@@ -86,6 +80,14 @@
 
       button {
         margin: 0;
+      }
+    }
+  }
+
+  .wrapper-reply {
+    .input-submit {
+      textarea {
+        margin-bottom: 16px;
       }
     }
   }

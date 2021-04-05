@@ -8,9 +8,21 @@ $bp-desktop: 1024px;
 $bp-largest: 1440px;
 $grey: #bebebe;
 
+.outer {
+  background-color: var(--secondary-light-grey);
+  display: flex;
+  justify-content: center;
+}
+
+.shoppingList-block {
+  border-top: 1px solid var(--quaternary-light-grey);
+  width: 185px;
+  padding: 25px 0;
+}
+
 .shopping-list-content {
   margin: 0 auto;
-  font-family: Montserrat, sans-serif;
+  font-family: var(--secondary-font);
   font-style: normal;
 }
 
@@ -23,13 +35,21 @@ $grey: #bebebe;
 .header {
   text-align: left;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 12px;
   padding-bottom: 8px;
 }
 
 h2 > span {
-  color: $grey;
-  margin-left: 10px;
+  color: var(--tertiary-light-grey);
+}
+
+.empty-list {
+  text-align: center;
+  font-size: 12px;
+  font-family: var(--secondary-font);
+  font-weight: 400;
+  font-style: normal;
+  line-height: 15px;
 }
 
 .item {
@@ -39,6 +59,17 @@ h2 > span {
   font-weight: normal;
   font-size: 12px;
   padding: 6px 0;
+  text-decoration: none;
+}
+
+.item-striked {
+  list-style: none;
+  text-align: left;
+  width: 100%;
+  font-weight: normal;
+  font-size: 12px;
+  padding: 6px 0;
+  text-decoration: line-through;
 }
 
 .shopping-list {
@@ -54,17 +85,6 @@ h2 > span {
 
 .checkbox {
   float: right;
-}
-
-.noItems {
-  font-family: $title-font;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 17px;
-  margin-top: 30px;
-  text-align: center;
-  color: $grey;
 }
 
 ::ng-deep .mat-checkbox .mat-checkbox-frame {

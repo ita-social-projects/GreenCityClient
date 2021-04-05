@@ -1,6 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
 import { NewsDto } from 'src/app/component/home/models/NewsDto';
 import { NewsService } from 'src/app/service/news/news.service';
 import { LanguageService } from 'src/app/i18n/language.service';
@@ -13,7 +11,7 @@ import { LanguageService } from 'src/app/i18n/language.service';
 export class EcoEventsComponent implements OnInit {
   readonly eventImg = 'assets/img/main-event-placeholder.png';
   readonly arrow = 'assets/img/icon/arrow.png';
-  latestNews: NewsDto[] = [];
+  public latestNews: NewsDto[] = [];
 
   constructor(
     private newsService: NewsService,
@@ -21,18 +19,19 @@ export class EcoEventsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.newsService.loadLatestNews();
-    this.newsService.latestNews.pipe(catchError(() => of([]))).subscribe(
-      (newsItems: NewsDto[]) => {
-        newsItems.forEach(
-          (element: NewsDto) => (element.creationDate = this.convertDate(element.creationDate))
-        );
-        this.latestNews = newsItems;
-      },
-      error => {
-        throw error;
-      }
-    );
+    this.loadLatestNews();
+  }
+
+  private loadLatestNews(): void {
+    this.newsService.loadLatestNews()
+      .subscribe((data: NewsDto[]) => {
+          this.latestNews = data.map(
+            (element: NewsDto) => ({...element, creationDate: this.convertDate(element.creationDate)})
+          );
+        },
+        error => {
+          throw error;
+        });
   }
 
   private convertDate(date: string): string {

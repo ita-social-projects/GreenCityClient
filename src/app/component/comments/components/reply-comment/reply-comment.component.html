@@ -1,9 +1,10 @@
-<div class="main-wrapper">
+<div class="d-flex main-wrapper">
   <button class="cta-btn reply">
-    <img [src]="commentsImages.reply"
-         alt="reply"
-    >
-    <span class="btn-text">
+    <img [src]="replyImages"
+          class="btn-img"
+          aria-hidden="true"
+          alt="reply">
+    <span class="d-none d-sm-block btn-text">
     {{"homepage.eco-news.comment.btn.reply" | translate}}
     </span>
   </button>

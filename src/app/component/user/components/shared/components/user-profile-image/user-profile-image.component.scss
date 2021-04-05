@@ -1,0 +1,84 @@
+.profile-avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+.default-avatar {
+  background: linear-gradient(180deg, #abe64d 0%, #4b9b25 100%);
+  font-family: var(--secondary-font);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 25px;
+  line-height: 48px;
+  color: #fff;
+  box-sizing: border-box;
+  margin: 0;
+
+  p {
+    text-align: center;
+    margin: 0;
+  }
+}
+
+.big {
+  border-radius: 100px;
+  width: 148px;
+  max-width: 148px;
+  height: 148px;
+  font-size: 48px;
+}
+
+.comments {
+  width: 48px;
+  height: 48px;
+  border-radius: 50px;
+  margin-right: 24px;
+  font-size: 24px;
+}
+
+.comments-list {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 48px;
+  height: 48px;
+  font-size: 24px;
+}
+
+.friend-item {
+  border-radius: 92px;
+  width: 92px;
+  height: 92px;
+  font-size: 44px;
+}
+
+.friend-user-profile {
+  width: 60px;
+  height: 60px;
+  margin: 0;
+}
+
+.center {
+  margin: 0 auto;
+}
+
+@media (max-width: 320px) {
+  .profile-avatar {
+    margin: 0;
+  }
+
+  .comments {
+    display: none;
+  }
+
+  .comments-list {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+}

@@ -1,7 +1,6 @@
-export { CreateNewsComponent } from './create-news/create-news.component';
+export { CreateEditNewsComponent } from './create-edit-news/create-edit-news.component';
 export { EcoNewsDetailComponent } from './eco-news-detail/eco-news-detail.component';
 export { EcoNewsWidgetComponent } from './eco-news-detail/eco-news-widget/eco-news-widget.component';
-export { FilterNewsComponent } from './filter-news/filter-news.component';
 export { NewsListComponent } from './news-list/news-list.component';
 export { ChangeViewButtonComponent } from './news-list/change-view-button/change-view-button.component';
 export { NewsListGalleryViewComponent } from './news-list/news-list-gallery-view/news-list-gallery-view.component';

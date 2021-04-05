@@ -7,7 +7,7 @@ export class EditProfileModel {
   showEcoPlace: boolean;
   showLocation: boolean;
   showShoppingList: boolean;
-  socialNetworks: Array<string>;
+  socialNetworks: Array<{ id: number, url: string }>;
 }
 
 export class EditProfileDto {
@@ -17,5 +17,5 @@ export class EditProfileDto {
   showEcoPlace: boolean;
   showLocation: boolean;
   showShoppingList: boolean;
+  socialNetworks: Array<string>;
 }
-

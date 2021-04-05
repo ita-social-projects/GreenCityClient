@@ -1,3 +1,4 @@
+import { UserSharedModule } from './components/shared/user-shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule, MatRadioModule } from '@angular/material';
@@ -5,13 +6,10 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { EffectsModule } from '@ngrx/effects';
+import { AgmCoreModule } from '@agm/core';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import {
-  AddNewHabitModalComponent,
-  AlreadyChosenComponent,
-  AvailableToChooseComponent,
-  ConfirmationModalComponent,
-  HabitCardComponent,
   ButtonComponent,
   HabitTrackersComponent,
   HabitTrackerComponent,
@@ -27,7 +25,6 @@ import {
   UserHabitPageComponent,
   UserLogComponent,
   ProfileComponent,
-  AchievementsFriendsComponent,
   CalendarComponent,
   EcoPlacesComponent,
   ProfileCardsComponent,
@@ -64,14 +61,33 @@ import { UncheckedFirstPipe } from '../../pipe/unchecked-first-pipe/unchecked-fi
 import { AlphabeticalPipePipe } from '../../pipe/alphabetical-pipe/alphabetical-pipe.pipe';
 import { SharedModule } from '../shared/shared.module';
 import { UserRoutingModule } from './user-routing.module';
-import { UserEffects } from './store/user.effects';
-import { UserSelectors } from './store/user.selectors';
 import { UserComponent } from './user.component';
 import { CalendarWeekComponent } from './components/profile/calendar/calendar-week/calendar-week.component';
 import { AllHabitsComponent } from './components/habit/all-habits/all-habits.component';
 import { HabitsListViewComponent } from './components/habit/all-habits/components/habits-list-view/habits-list-view.component';
-import { HabitsGalleryViewComponent } from './components/habit/all-habits/components/habits-gallery-view/habits-gallery-view.component';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
+import { UsersFriendsComponent } from './components/profile/users-friends/users-friends.component';
+import { UsersAchievementsComponent } from './components/profile/users-achievements/users-achievements.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { HabitProgressComponent } from './components/habit/add-new-habit/habit-progress/habit-progress.component';
+import { HabitInviteFriendsComponent } from './components/habit/add-new-habit/habit-invite-friends/habit-invite-friends.component';
+import { HabitDurationComponent } from './components/habit/add-new-habit/habit-duration/habit-duration.component';
+import {
+  HabitEditShoppingListComponent
+ } from './components/habit/add-new-habit/habit-edit-shopping-list/habit-edit-shopping-list.component';
+import { HabitCalendarComponent } from './components/habit/add-new-habit/habit-calendar/habit-calendar.component';
+import { AddNewHabitComponent } from './components/habit/add-new-habit/add-new-habit.component';
+import { GradientDirective } from './components/habit/add-new-habit/habit-duration/gradient.directive';
+import { FriendDashboardComponent } from './components/profile/users-friends/friend-dashboard/friend-dashboard.component';
+import { AllFriendsComponent } from './components/profile/users-friends/friend-dashboard/all-friends/all-friends.component';
+import {
+  RecommendedFriendsComponent
+ } from './components/profile/users-friends/friend-dashboard/recommended-friends/recommended-friends.component';
+import { FriendItemComponent } from './components/profile/users-friends/friend-dashboard/friend-item/friend-item.component';
+import { FriendRequestsComponent } from './components/profile/users-friends/friend-dashboard/friend-requests/friend-requests.component';
+import {
+  RequestItemComponent
+ } from './components/profile/users-friends/friend-dashboard/friend-requests/request-item/request-item.component';
 
 @NgModule({
   declarations: [
@@ -109,11 +125,6 @@ import { EditProfileFormBuilder } from '@global-user/components/profile/edit-pro
     HabitTitleComponent,
     HabitTrackerDateComponent,
     HabitTrackerComponent,
-    HabitCardComponent,
-    AvailableToChooseComponent,
-    AlreadyChosenComponent,
-    AddNewHabitModalComponent,
-    ConfirmationModalComponent,
     CustomLastPipe,
     ShowFirstNLettersPipe,
     ShowFirstNPipe,
@@ -123,7 +134,6 @@ import { EditProfileFormBuilder } from '@global-user/components/profile/edit-pro
     ProfileHeaderComponent,
     ProfileProgressComponent,
     ProfileComponent,
-    AchievementsFriendsComponent,
     EcoPlacesComponent,
     ShoppingListComponent,
     CalendarComponent,
@@ -131,19 +141,38 @@ import { EditProfileFormBuilder } from '@global-user/components/profile/edit-pro
     PersonalPhotoComponent,
     SocialNetworksComponent,
     AllHabitsComponent,
-    HabitsGalleryViewComponent,
     HabitsListViewComponent,
-    CalendarWeekComponent
+    CalendarWeekComponent,
+    UsersFriendsComponent,
+    UsersAchievementsComponent,
+    AddNewHabitComponent,
+    HabitProgressComponent,
+    HabitInviteFriendsComponent,
+    HabitDurationComponent,
+    HabitEditShoppingListComponent,
+    HabitCalendarComponent,
+    GradientDirective,
+    FriendDashboardComponent,
+    AllFriendsComponent,
+    RecommendedFriendsComponent,
+    FriendItemComponent,
+    FriendRequestsComponent,
+    RequestItemComponent
   ],
   imports: [
-    EffectsModule.forFeature([UserEffects]),
     UserRoutingModule,
     CommonModule,
     SharedModule,
     MatButtonModule,
     MatRadioModule,
+    MatSliderModule,
+    MatTooltipModule,
     DragDropModule,
     HttpClientModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4',
+      libraries: ['places']
+    }),
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -151,10 +180,11 @@ import { EditProfileFormBuilder } from '@global-user/components/profile/edit-pro
         deps: [HttpClient]
       },
       isolate: true
-    })
+    }),
+    InfiniteScrollModule,
+    UserSharedModule
   ],
   providers: [
-    UserSelectors,
     EditProfileFormBuilder
   ]
 })

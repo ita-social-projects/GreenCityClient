@@ -1,46 +1,72 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { take, takeUntil } from 'rxjs/operators';
+import { ReplaySubject } from 'rxjs';
+
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Component, OnInit } from '@angular/core';
-import { HabitTab } from '@user-models/habit.model';
-import { HabitItemModel } from '@user-models/habit-item.model';
+import { HabitService } from '@global-service/habit/habit.service';
+import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
+import { HabitAssignInterface } from '../../../../../interface/habit/habit-assign.interface';
 
 @Component({
   selector: 'app-profile-dashboard',
   templateUrl: './profile-dashboard.component.html',
   styleUrls: ['./profile-dashboard.component.scss']
 })
-export class ProfileDashboardComponent implements OnInit {
-  public userId: number;
-  public menu: Array<HabitTab> = [
-    { id: 1, name: 'My habits', isActive: true },
-    { id: 2, name: 'My news', isActive: false },
-    { id: 3, name: 'My articles', isActive: false },
-  ];
+export class ProfileDashboardComponent implements OnInit, OnDestroy {
+  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  loading = false;
+  habitsInProgress: Array<HabitAssignInterface> = [];
+  habitsAcquired: Array<HabitAssignInterface> = [];
+  public tabs = {
+    habits: true,
+    news: false,
+    articles: false
+  };
+  userId: number;
 
-  public habitArray: Array<HabitItemModel> = [
-    {id: 1, dayCount: 5, title: 'Покупать местные продукты', describe: 'Mark as done', done: false, acquired: false},
-    {id: 2, dayCount: 12, title: 'Меньше пользоваться транспортом', describe: '5 days in a row. You’re good!', done: true, acquired: false},
-    {id: 3, dayCount: 5, title: 'Покупать местные продукты', describe: 'Mark as done', done: false, acquired: false},
-    {id: 4, dayCount: 12, title: 'Меньше пользоваться транспортом', describe: '2 days in a row. You’re good!', done: true, acquired: false},
-  ];
-
-  public habitAcquired: Array<HabitItemModel> = [
-    {id: 1, dayCount: 38, title: 'Брать кофе с собой в свою эко-чашку', describe: 'Great! You’ve got a habit.', done: true, acquired: true},
-    {id: 2, dayCount: 38, title: 'Брать кофе с собой в свою эко-чашку', describe: 'Great! You’ve got a habit.', done: true, acquired: true},
-    {id: 3, dayCount: 38, title: 'Брать кофе с собой в свою эко-чашку', describe: 'Great! You’ve got a habit.', done: true, acquired: true},
-  ];
-
-  constructor(private localStorageService: LocalStorageService) { }
+  constructor(private localStorageService: LocalStorageService,
+              private habitService: HabitService,
+              private habitAssignService: HabitAssignService) { }
 
   ngOnInit() {
-    this.initUser();
+    this.executeRequests();
+    this.subscribeToLangChange();
+    this.getUserId();
   }
 
-  public triggerTab({id}): void {
-     this.menu = this.menu.map(
-       (elem) => {
-         elem.isActive = elem.id === id;
-         return elem;
-       });
+  private getUserId() {
+    this.userId = this.localStorageService.getUserId();
+  }
+
+  private subscribeToLangChange() {
+    this.localStorageService.languageBehaviourSubject
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(() => this.executeRequests());
+  }
+
+  public executeRequests() {
+    this.loading = true;
+    this.habitAssignService.getAssignedHabits()
+      .pipe(take(1))
+      .subscribe((response: Array<HabitAssignInterface>) => {
+        const sortedHabits = this.sortHebitsAsc(response);
+        this.habitsInProgress = sortedHabits.filter((habit) => habit.status === 'INPROGRESS');
+        this.habitsAcquired = sortedHabits.filter((habit) => habit.status === 'ACQUIRED');
+        this.loading = false;
+      });
+  }
+
+  private sortHebitsAsc(habitsArray): Array<HabitAssignInterface> {
+    return habitsArray.sort((a, b) => (a.habit.id > b.habit.id) ? 1 : (b.habit.id > a.habit.id) ? -1 : 0);
+  }
+
+  public toggleTab(tab: string): void {
+    Object.keys(this.tabs).forEach(item => this.tabs[item] = item === tab);
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 
   private initUser(): void {

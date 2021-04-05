@@ -1,0 +1,77 @@
+name: CI/CD GreenCityClient
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the dev branch
+  push:
+    branches: [ master, dev ]
+  pull_request:
+    branches: [ master, dev ]
+    
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    
+    # Steps
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs a set of commands using the runners shell
+      - name: Install
+        run: |
+          npm install
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt-get install ./google-chrome-stable_current_amd64.deb -y
+          wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.2.0.1873-linux.zip
+          unzip sonar-scanner-cli-4.2.0.1873-linux.zip
+          sudo mv sonar-scanner-4.2.0.1873-linux /opt/sonar-scanner
+      
+      - name: JS Linter
+        run: npm run lint
+
+      - name: CSS Linter
+        run: npm run stylelint
+
+      - name: Unit Tests
+        run: npx ng test --watch=false --progress=false --codeCoverage=true --browsers=ChromeHeadless
+
+
+      - name: Sonar scan
+        #continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: >
+          /opt/sonar-scanner/bin/sonar-scanner
+          -Dsonar.organization=ita-social-projects
+          -Dsonar.projectKey=ita-social-projects-green-city-client
+          -Dsonar.host.url=https://sonarcloud.io
+          -Dsonar.sources=src
+          -Dsonar.exclusions=**/node_modules/**,src/app/component/user/components/profile/calendar/calendar-image.*,src/app/component/user/components/profile/calendar/calendar-week/calendar-image.*,src/environments/environment.prod.*,src/app/image-pathes/auth-images.*,src/app/image-pathes/profile-icons.*,src/app/image-pathes/profile-images.*,src/app/image-pathes/single-news-images.*,src/app/image-pathes/sign-in-icons.*,src/app/component/about/about-routing.module.*,src/app/component/about/about.module.*,src/app/component/eco-news/eco-news-routing.module.*,src/app/component/eco-news/eco-news.module.*,src/app/component/map/map-routing.module.*,src/app/component/map/map.module.*,src/app/component/user/user-routing.module.*,src/app/component/user/user.module.*,src/app/app-routing.module.*,src/app/component/shared/shared.module.*,src/app/component/admin/admin-routing.module.*,src/app/component/admin/admin.module.*,src/app/app.module.*,src/app/component/auth/auth.module.*,src/app/component/core/core.module.*,src/app/component/home/home.module.*,src/app/component/layout/layout.module.*,src/app/model/weekDays.model.*,src/app/model/achievement/AchievementDto.*,src/app/model/advice/AdviceDto.*,src/app/model/filtering/filter-discount-dto.model.*,src/app/model/filtering/filter-distance-dto.model.*,src/app/model/filtering/filter-place-dto.model.*,src/app/model/habit-fact/HabitFactDto.*,src/app/model/habit/HabitStatisticLogDto.*,src/app/model/habit/HabitStatisticMapDto.*,src/app/model/habit/HabitStatisticsDto.*,src/app/model/habit/NewHabitDto.*,src/app/component/home/models/NewsDto.*,src/app/service/subscription/SubscriptionDto.*,src/app/model/user/userFilterDto.model.*
+          -Dsonar.tests=src
+          -Dsonar.test.inclusions=**/*.spec.ts
+          -Dsonar.javascript.lcov.reportPaths=coverage/GreenCityClient/lcov.info
+          
+      - name: E2E Tests
+        run: npx ng e2e --protractor-config=e2e/protractor-ci.conf.js
+
+      - name: Build
+        run: |
+          npx ng build --prod --delete-output-path --base-href=/GreenCityClient/ --outputPath=dist_aot && rm -rf dist_aot
+          npx ng build --prod --base-href=/GreenCityClient/ --aot=false --build-optimizer=false
+      
+      - name: Deploy 🚀
+        if: ${{ github.event_name == 'push' }}
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: dist/GreenCityClient
+          CLEAN: true 

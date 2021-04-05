@@ -1,83 +1,95 @@
-.calendar {
-  width: 483px;
-  max-height: 130px;
-  background: #f5f6f6;
+.calendar-week {
+  width: 100%;
+  height: 130px;
+  background: var(--secondary-light-grey);
   border-radius: 4px;
+  margin-top: 26px;
+  padding: 16px 12px 12px;
+  font-family: var(--secondary-font);
 
-  .top {
-    .month-year {
-      display: flex;
-      justify-content: space-between;
-      text-align: center;
-      margin: 0 20px;
+  .title {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    color: var(--primary-dark-grey);
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-      .arrow-previous {
-        margin-top: 22px;
-        margin-left: 18px;
-        margin-bottom: 16px;
-        cursor: pointer;
-      }
-
-      .monthAndYear {
-        font-size: 14px;
-        line-height: 17px;
-        display: flex;
-        align-items: center;
-        text-align: center;
-        font-family: 'Montserrat', sans-serif;
-        color: #494a49;
-      }
-
-      .arrow-next {
-        margin-top: 22px;
-        margin-right: 18px;
-        margin-bottom: 16px;
-        cursor: pointer;
-      }
+    button {
+      padding: 0 8px;
+      border: none;
+      background: none;
     }
 
-    .days {
-      display: grid;
-      grid-template-columns: repeat(7, 66.6px);
-      text-align: center;
-      margin: 0 10px 0 10px;
-      font-size: 11px;
+    button:first-child {
+      margin-left: 10px;
+    }
 
-      .days-name {
-        margin: 0;
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 600;
-        font-size: 11px;
-        line-height: 16px;
-        color: #bebebe;
-      }
-
-      .current-day-name {
-        color: #13aa57;
-      }
+    button:last-child {
+      margin-right: 10px;
     }
   }
 
-  .middle {
-    margin-top: 14px;
+  .body {
+    .day-name-row {
+      font-weight: 600;
+      font-size: 11px;
+      line-height: 14px;
+      color: var(--tertiary-light-grey);
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 14px;
 
-    .calendar-grid-week-view {
-      display: grid;
-      grid-template-columns: repeat(7, 66.6px);
-      text-align: center;
-      margin: 0 10px 0 10px;
-      color: #494a49;
+      .day-name {
+        width: 52px;
+        text-align: center;
+      }
+
+      .current-name {
+        color: var(--primary-green);
+      }
+    }
+
+    .day-number-row {
       font-weight: 500;
       font-size: 14px;
       line-height: 17px;
-    }
+      color: var(--primary-dark-grey);
+      display: flex;
+      justify-content: space-between;
 
-    .day {
-      padding: 10px 20px;
-
-      &:hover {
-        background-color: #d3ebde;
+      .day-number {
+        width: 52px;
+        height: 40px;
         border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .enrolled-day {
+        background-color: rgba(19, 170, 87, 0.15);
+      }
+
+      .unenrolled-day {
+        background-color: var(--quaternary-light-grey);
+      }
+
+      .enrolled-past-day {
+        background-color: transparent;
+        border: 1px solid #b1dfc6;
+      }
+
+      .unenrolled-past-day {
+        background-color: transparent;
+        border: 1px solid var(--quaternary-light-grey);
+      }
+
+      .current-number {
+        color: white;
+        background-color: var(--primary-green);
       }
     }
   }

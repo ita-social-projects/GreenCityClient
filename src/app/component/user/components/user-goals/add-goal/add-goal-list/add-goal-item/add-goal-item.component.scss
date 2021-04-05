@@ -58,7 +58,7 @@
 
 /* When the checkbox is checked, add a green background and border radius 4px */
 .goal-container input:checked ~ .check-mark {
-  background-color: #39b54a;
+  background-color: var(--tertiary-light-green);
   border-radius: 4px;
 }
 
@@ -86,7 +86,7 @@
 .add-goal-input {
   border-radius: 0;
   border: 0 !important;
-  border-bottom: 1px solid #13aa57 !important;
+  border-bottom: 1px solid var(--primary-green) !important;
   outline: none !important;
   -webkit-appearance: none;
   padding-left: 0 !important;
@@ -94,10 +94,10 @@
 }
 
 .add-goal-input:focus {
-  border-bottom: 2px solid #13aa57 !important;
+  border-bottom: 2px solid var(--primary-green) !important;
 }
 
 .edit-button {
   cursor: pointer;
-  color: #13aa57;
+  color: var(--primary-green);
 }

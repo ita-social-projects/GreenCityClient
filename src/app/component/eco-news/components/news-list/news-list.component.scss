@@ -1,27 +1,22 @@
-.container {
-  margin: 3px auto;
-}
-
-.wrapper {
-  margin: 0 10%;
-}
-
 .cont {
   width: 100%;
   display: flex;
   justify-content: space-between;
 }
 
+div hr {
+  margin: 4px 0 18px 0;
+}
+
 .main-header {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 3rem;
-  line-height: 30px;
+  font-family: var(--secondary-font);
+  font-size: 48px;
+  line-height: 48px;
   font-weight: 500;
-  margin: 0 0 40px 0;
+  margin: 0 0 34px -3px;
 }
 
 .flex-container {
-  padding-top: 8px;
   display: flex;
   justify-content: space-between;
 }
@@ -31,24 +26,35 @@
 }
 
 .main-wrapper {
-  margin: 12.5px 0;
+  margin-bottom: 42px;
   display: flex;
   justify-content: space-between;
 }
 
-.list {
-  list-style: none;
-  padding-left: 0;
+.list-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .list {
+    list-style: none;
+    padding-left: 0;
+    width: 100%;
+  }
 }
 
 .gallery-view-active {
   display: grid;
   grid-template-columns: repeat(3, 359px);
-  grid-gap: 30px;
+  grid-gap: 32px;
 }
 
 .list-view-li-active {
-  margin-bottom: 40px;
+  margin-bottom: 32px;
+}
+
+li:focus {
+  outline: none;
 }
 
 li:focus {
@@ -60,7 +66,7 @@ a {
 }
 
 #create-button {
-  width: 185px;
+  width: 183px;
   min-height: 40px;
   padding: 8px 40px;
   display: flex;
@@ -82,26 +88,22 @@ a {
 }
 
 @media screen and (max-width: 1199px) {
-  .gallery-view-active {
-    grid-template-columns: repeat(3, 299px);
-    grid-gap: 15px;
-  }
-}
-
-@media screen and (max-width: 1024px) {
   .wrapper {
     margin: 0 3%;
+  }
+
+  .gallery-view-active {
+    grid-template-columns: repeat(3, 299px);
   }
 }
 
 @media screen and (max-width: 991px) {
-  .gallery-view-active {
-    grid-template-columns: repeat(2, 353px);
-    grid-gap: 15px;
+  .wrapper {
+    margin: 0 2.43%;
   }
 
-  .flex-container {
-    width: 105%;
+  .gallery-view-active {
+    grid-template-columns: repeat(2, 353px);
   }
 }
 
@@ -112,7 +114,6 @@ a {
 
   .gallery-view-active {
     grid-template-columns: repeat(2, 258px);
-    grid-gap: 17px;
   }
 }
 
@@ -121,8 +122,30 @@ a {
     margin: 0 2.4%;
   }
 
+  .main-header {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
   .gallery-view-active {
     grid-template-columns: repeat(1, 288px);
-    grid-gap: 25px;
+    grid-gap: 24px;
+  }
+
+  #create-button {
+    width: 122px;
+    min-height: 32px;
+    padding: 0;
+
+    span {
+      font-size: 12px;
+      line-height: 12px;
+    }
+  }
+}
+
+@media (min-width: 576px) {
+  .container {
+    padding: 0;
   }
 }

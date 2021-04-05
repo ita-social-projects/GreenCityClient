@@ -1,43 +1,46 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+.delete {
+  width: fit-content;
+  height: 40px;
+}
 
-$main-font: 'Open Sans', sans-serif;
-
-.main-wrapper {
+.cta-btn {
   display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: none;
+  background-color: #fff;
+  outline: none;
+}
 
-  .delete {
-    width: 74px;
-    height: 40px;
-    margin-right: 8px;
+.btn-img {
+  min-width: 12px;
+  max-height: 14px;
+}
+
+.btn-text {
+  margin-left: 5px;
+  font-family: var(--primary-font);
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--secondary-grey);
+  mix-blend-mode: normal;
+}
+
+@media screen and (max-width: 992px) {
+  .btn-text {
+    font-size: 12px;
   }
+}
 
-  .cta-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    border: none;
-    background-color: #fff;
-
-    .btn-text {
-      margin-left: 5px;
-      font-family: $main-font;
-      font-size: 16px;
-      line-height: 24px;
-      color: #878787;
-      mix-blend-mode: normal;
-    }
+@media screen and (max-width: 575px) {
+  .delete {
+    margin-right: 15px;
   }
 }
 
 @media screen and (max-width: 380px) {
-  .main-wrapper {
-    .cta-btn {
-      width: 24px;
-
-      .btn-text {
-        display: none;
-      }
-    }
+  .cta-btn {
+    width: 24px;
   }
 }

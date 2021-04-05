@@ -1,25 +1,12 @@
-<div class="wrapper"
-     (window:resize)="onResize()">
-  <a (click)="changeGalleryView(gallery)"
-     *ngIf="windowSize >= 576">
-    <div class="gallery-view" [ngClass]="{'gallery-view-active':gallery}">
-      <div class="top-squares">
-        <div class="one-square"></div>
-        <div class="one-square"></div>
-      </div>
-
-      <div class="bottom-squares">
-        <div class="one-square"></div>
-        <div class="one-square"></div>
-      </div>
-    </div>
-  </a>
-  <a (click)="changeListView(gallery)"
-     *ngIf="windowSize >= 576">
-    <div class="list-view" [ngClass]="{'list-view-active':!gallery}">
-      <div class="one-line"></div>
-      <div class="one-line"></div>
-      <div class="one-line"></div>
-    </div>
-  </a>
+<div class="wrapper">
+  <span class="btn-tiles"
+        (click)="changeGalleryView(true)"
+        [ngClass]="{'btn-tiles-active': gallery}">
+    <em class="fa fa-th-large"></em>
+  </span>
+  <span class="btn-bars"
+          (click)="changeListView(false)"
+          [ngClass]="{'btn-bars-active': !gallery}">
+      <em class="fa fa-bars"></em>
+  </span>
 </div>

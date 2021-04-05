@@ -1,8 +1,3 @@
-export { AddNewHabitModalComponent } from './habit/add-new-habit/add-new-habit-modal/add-new-habit-modal.component';
-export { AlreadyChosenComponent } from './habit/add-new-habit/already-chosen/already-chosen.component';
-export { AvailableToChooseComponent } from './habit/add-new-habit/available-to-choose/available-to-choose.component';
-export { ConfirmationModalComponent } from './habit/add-new-habit/confirmation-modal/confirmation-modal.component';
-export { HabitCardComponent } from './habit/add-new-habit/habit-card/habit-card.component';
 export { ButtonComponent } from './habit/button-component/button.component';
 export { HabitTrackersComponent } from './habit/habit-trackers/habit-trackers.component';
 export { HabitTrackerComponent } from './habit/habit-trackers/habit-tracker/habit-tracker.component';
@@ -18,7 +13,6 @@ export { HabitTrackerDateComponent } from './habit/habit-trackers/habit-tracker/
 export { UserHabitPageComponent } from './habit/user-habit-page/user-habit-page.component';
 export { UserLogComponent } from './habit/user-log-component/user-log.component';
 export { ProfileComponent } from './profile/profile.component';
-export { AchievementsFriendsComponent } from './profile/achievements-friends/achievements-friends.component';
 export { CalendarComponent } from './profile/calendar/calendar.component';
 export { EcoPlacesComponent } from './profile/eco-places/eco-places.component';
 export { EditProfileComponent } from './profile/edit-profile/edit-profile.component';

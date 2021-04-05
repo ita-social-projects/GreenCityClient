@@ -1,0 +1,144 @@
+.container {
+  color: var(--ubs-primary-grey);
+  box-shadow: 1px 4px 8px rgb(100 114 125 / 18%);
+  padding: 10px 25px 40px;
+}
+
+.header,
+.main {
+  width: 100%;
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+}
+
+h3 {
+  font-weight: bold;
+}
+
+table {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+tbody {
+  padding: 4rem 0;
+  border-bottom: 1px solid var(--ubs-primary-light-grey);
+  border-top: 1px solid var(--ubs-primary-grey);
+}
+
+.firstRow {
+  padding-top: 2rem;
+}
+
+.lastRow {
+  padding-bottom: 2rem;
+}
+
+th,
+td {
+  padding: 0.8rem 1rem 0.8rem 0;
+}
+
+th,
+label {
+  color: var(--ubs-secondary-grey);
+}
+
+.showTotal {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.totalInfo {
+  text-align: right;
+  width: 25%;
+
+  p {
+    display: flex;
+    justify-content: space-between;
+    color: var(--ubs-secondary-grey);
+    padding-right: 0.5rem;
+  }
+
+  span {
+    display: block;
+  }
+
+  small {
+    color: var(--ubs-primary-green);
+  }
+}
+
+.header {
+  margin-top: 3rem;
+}
+
+.order {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding-top: 2rem;
+}
+
+.finalCost {
+  text-align: end;
+}
+
+.personalData {
+  width: 60%;
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.data {
+  width: 100%;
+}
+
+.data:nth-child(2) {
+  margin-top: 3rem;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.bottom-select {
+  padding: 0;
+  margin-bottom: 2rem;
+}
+
+select,
+button {
+  height: 3rem;
+  border-radius: 0;
+}
+
+.btn {
+  width: 120px;
+  height: 48px;
+  border-radius: 0;
+  background: var(--ubs-primary-green);
+}
+
+.btn:nth-child(1) {
+  margin: 0 24px 0 0;
+  background: transparent;
+}
+
+.bottom {
+  padding-top: 4rem;
+  border-top: 1px solid var(--ubs-primary-light-grey);
+
+  p {
+    padding: 2rem 0;
+  }
+
+  .w-100 {
+    margin-top: 40px;
+  }
+}

@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
-import { EcoNewsComponent } from './eco-news.component';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { EcoNewsRoutingModule } from './eco-news-routing.module';
-import { SharedModule } from '../shared/shared.module';
-import { HttpClient } from '@angular/common/http';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { SharedModule } from '@shared/shared.module';
 import {
-  CreateNewsComponent,
+  CreateEditNewsComponent,
   EcoNewsDetailComponent,
   EcoNewsWidgetComponent,
-  FilterNewsComponent,
   NewsListComponent,
   ChangeViewButtonComponent,
   NewsListGalleryViewComponent,
@@ -20,17 +20,14 @@ import {
   PostNewsLoaderComponent,
   RemainingCountComponent
 } from './components';
-import { ImageCropperModule } from 'ngx-image-cropper';
-import { EffectsModule } from '@ngrx/effects';
-import { EcoNewsEffects } from './store/eco-news.effects';
-import { EcoNewsSelectors } from './store/eco-news.selectors';
 import { CommentsModule } from '../comments/comments.module';
+import { MatSnackBarComponent } from './../errors/mat-snack-bar/mat-snack-bar.component';
+import { EcoNewsComponent } from './eco-news.component';
+import { ACTION_CONFIG, ACTION_TOKEN } from './components/create-edit-news/action.constants';
 
 @NgModule({
   declarations: [
     EcoNewsComponent,
-    CreateNewsComponent,
-    FilterNewsComponent,
     ChangeViewButtonComponent,
     NewsListGalleryViewComponent,
     NewsListListViewComponent,
@@ -40,15 +37,17 @@ import { CommentsModule } from '../comments/comments.module';
     EcoNewsDetailComponent,
     NewsPreviewPageComponent,
     PostNewsLoaderComponent,
+    MatSnackBarComponent,
+    CreateEditNewsComponent
   ],
   imports: [
-    EffectsModule.forFeature([EcoNewsEffects]),
     CommonModule,
     CommentsModule,
     SharedModule,
     InfiniteScrollModule,
     EcoNewsRoutingModule,
     ImageCropperModule,
+    MatSnackBarModule,
     CommentsModule,
     TranslateModule.forChild({
       loader: {
@@ -60,13 +59,13 @@ import { CommentsModule } from '../comments/comments.module';
     })
   ],
   exports: [
-    TranslateModule,
+    TranslateModule
   ],
   entryComponents: [
 
   ],
   providers: [
-    EcoNewsSelectors
+    MatSnackBarComponent, { provide: ACTION_TOKEN, useValue: ACTION_CONFIG}
   ]
 })
 

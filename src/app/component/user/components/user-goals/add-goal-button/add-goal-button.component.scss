@@ -23,7 +23,7 @@ button {
   height: 48px;
   border-radius: 4px;
   box-shadow: 0 13px 20px 0 rgba(118, 196, 125, 0.41);
-  background-color: #13aa57;
+  background-color: var(--primary-green);
 }
 
 .add-goal-button:hover {

@@ -2,10 +2,14 @@
 
 table {
   width: 100%;
+
+  caption {
+    display: none;
+  }
 }
 
 body {
-  font-family: Roboto, Arial, sans-serif;
+  font-family: var(--tertiary-font);
   margin: 0;
 }
 

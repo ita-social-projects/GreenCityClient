@@ -16,6 +16,11 @@ describe('TipsCardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TipsCardComponent);
     component = fixture.componentInstance;
+    component.tip = {
+      imageUrl: 'test',
+      text: 'test'
+    };
+
     fixture.detectChanges();
   });
 

@@ -1,82 +1,161 @@
-import { Subscription } from 'rxjs';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { SearchModel } from '@global-models/search/search.model';
+import { searchIcons } from './../../../../image-pathes/search-icons';
+import { AfterContentInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { fromEvent, Subject } from 'rxjs';
+import { map, distinctUntilChanged, tap, debounceTime, take, takeUntil } from 'rxjs/operators';
 import { SearchService } from '@global-service/search/search.service';
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
+import { SearchDataModel } from '@global-models/search/search.model';
+import { FilterByitem } from '../models/search-dto';
 
 @Component({
   selector: 'app-search-all-results',
   templateUrl: './search-all-results.component.html',
   styleUrls: ['./search-all-results.component.scss']
 })
-export class SearchAllResultsComponent implements OnInit, OnDestroy {
-  public inputValues = ['relevance', 'newest', 'latest'];
+export class SearchAllResultsComponent implements OnInit, OnDestroy, AfterContentInit {
   public displayedElements: NewsSearchModel[] = [];
-  public elements: NewsSearchModel[];
-  public dropdownVisible: boolean;
   public isSearchFound: boolean;
-  public inputValue: string;
   public itemsFound = 0;
-  private searchSubscription: Subscription;
-  readonly dropDownArrow = 'assets/img/arrow_grey.png';
+  public currentPage = 0;
+  public searchCategory: string;
+  public sortType = '';
+  public sortTypes = ['Relevance', 'Newest', 'Oldest'];
+  public sortTypesLocalization = ['search.search-all-results.relevance',
+                                  'search.search-all-results.newest',
+                                  'search.search-all-results.oldest'];
+  public inputValue: string;
+  public isLoading = true;
+  public searchIcons = searchIcons;
+  public filterByItems: FilterByitem[] = [
+    {category: 'econews', name: 'news'},
+    {category: 'tipsandtricks', name: 'tips'}
+  ];
+  private destroySub: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private search: SearchService) { }
+  constructor( private search: SearchService,
+               private route: ActivatedRoute,
+               private router: Router ) { }
 
   ngOnInit() {
-    this.search.toggleAllSearch(true);
+    this.route.queryParams
+      .pipe(takeUntil(this.destroySub))
+      .subscribe(params => {
+        this.inputValue = params.query;
+        this.searchCategory = params.category || 'econews';
+      });
+
+    this.getSearchResults();
+    this.onAddSearchInputListener();
   }
 
-  public onScroll(): void {
-    this.loadNextElements();
+  ngAfterContentInit() {
+    this.forceScroll();
   }
 
-  private loadNextElements(): void {
-    this.spliceResults();
+  private onAddSearchInputListener() {
+    fromEvent(document.querySelector('#search-input'), 'input')
+      .pipe(
+        debounceTime(300),
+        map(e => (e.target as HTMLInputElement).value),
+        distinctUntilChanged(),
+        tap(() => {
+          this.resetData();
+          this.isLoading = true;
+          this.onSearchUpdateQuery().then(() => this.getSearchResults());
+        }),
+        take(1)
+      ).subscribe();
   }
 
-  public onKeyUp(event: EventTarget): void {
-    this.displayedElements = [];
-    const VALUE = 'value;';
-    if (event[VALUE].length > 0) {
-      this.inputValue = event[VALUE];
-      this.searchSubscription = this.search.getAllSearch(this.inputValue, this.inputValues[0])
-        .subscribe(data => this.getSearchData(data));
-    } else {
-      this.resetData();
+  private getSearchResults(): void {
+    this.search.getAllResultsByCat(this.inputValue, this.searchCategory, this.currentPage, this.sortType)
+      .pipe(takeUntil(this.destroySub))
+      .subscribe(
+        data => this.setElems(data)
+      );
+    this.isSearchFound = true;
+  }
+
+  private setElems(data: SearchDataModel): void {
+    this.isLoading = false;
+    this.displayedElements = [...this.displayedElements, ...data.page];
+
+    this.itemsFound = data.totalElements;
+
+    if (this.displayedElements.length === this.itemsFound) {
+      this.isSearchFound = false;
     }
   }
 
-  private getSearchData(data: SearchModel): void {
-    this.getNews(data.ecoNews);
-    this.itemsFound = data.countOfResults ? data.countOfResults : null;
-    this.spliceResults();
+  private onSearchUpdateQuery() {
+    return this.router.navigate([], {
+      queryParams: {
+        query: this.inputValue,
+        category: this.searchCategory
+      },
+    });
   }
 
-  private getNews(news): void {
-    this.isSearchFound = news && news.length;
-    this.elements = this.isSearchFound ? news : this.elements;
+  private forceScroll() {
+    if (document.documentElement.clientHeight > document.body.clientHeight) {
+      this.onScroll();
+    }
   }
 
-  private spliceResults(): void {
-    const splicedData = this.elements.splice(0, 9);
-    this.displayedElements = splicedData.filter(elem => elem);
+  public onScroll(): void {
+    this.isLoading = true;
+    this.changeCurrentPage();
+    this.getSearchResults();
   }
 
   public changeCurrentSorting(newSorting: number): void {
-    [this.inputValues[0], this.inputValues[newSorting]] = [this.inputValues[newSorting], this.inputValues[0]];
+    this.isLoading = true;
+    [this.sortTypes[0],
+    this.sortTypes[newSorting]] = [this.sortTypes[newSorting],
+                                   this.sortTypes[0]];
+    [this.sortTypesLocalization[0],
+    this.sortTypesLocalization[newSorting]] = [this.sortTypesLocalization[newSorting],
+                                               this.sortTypesLocalization[0]];
+    switch (this.sortTypes[0]) {
+      case 'Relevance':
+        this.sortType = ``;
+        break;
+      case 'Newest':
+        this.sortType = `creation_date,desc`;
+        break;
+      case 'Oldest':
+        this.sortType = `creation_date,asc`;
+        break;
+      default:
+        this.sortType = '';
+    }
+    this.resetData();
+    if (this.inputValue) {
+      this.getSearchResults();
+    }
   }
 
-  public toggleDropdown(): void {
-    this.dropdownVisible = !this.dropdownVisible;
+  public onFilterByClick(item: FilterByitem) {
+    if (this.searchCategory === item.category) {
+      return;
+    }
+    this.searchCategory = item.category;
+    this.onSearchUpdateQuery();
   }
 
   private resetData(): void {
+    this.isSearchFound = true;
     this.itemsFound = 0;
-    this.elements = null;
-    this.displayedElements = null;
+    this.currentPage = 0;
+    this.displayedElements = [];
+  }
+
+  private changeCurrentPage(): void {
+    this.currentPage += 1;
   }
 
   ngOnDestroy() {
-    this.search.toggleAllSearch(false);
+    this.destroySub.next(true);
   }
 }

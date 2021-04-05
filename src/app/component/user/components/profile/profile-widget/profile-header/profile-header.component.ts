@@ -1,45 +1,56 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { EditProfileModel } from '@user-models/edit-profile.model';
 
 @Component({
   selector: 'app-profile-header',
   templateUrl: './profile-header.component.html',
   styleUrls: ['./profile-header.component.scss'],
 })
-export class ProfileHeaderComponent implements OnInit {
+export class ProfileHeaderComponent implements OnInit, OnDestroy {
   public mockedUserInfo = {
-    profilePicturePath: './assets/img/profileAvatar.png',
     city: '',
     status: 'online',
     rating: 0,
-    userCredo: ''
+    userCredo: 'User credo'
   };
-  public editIcon = './assets/img/profile/icons/edit-line.svg';
+  socialNetworksList = ['facebook', 'instagram', 'linked', 'twitter', 'green-city'];
+  userSocialNetworks: Array<any>;
   public userId: number;
+  private userId$: Subscription;
 
-  @Input() public userInfo;
+  @Input() public userInfo: EditProfileModel;
   public isUserOnline;
 
-  constructor(private profileService: ProfileService,
-              private localStorageService: LocalStorageService) { }
+  constructor( private localStorageService: LocalStorageService ) { }
 
   ngOnInit() {
-    this.initUser();
+    this.userId$ = this.localStorageService.userIdBehaviourSubject
+      .subscribe(userId => this.userId = userId );
+    this.buildSocialNetworksChart();
   }
 
-  public showCorrectImage(): string {
-    return this.userInfo.profilePicturePath ?
-      this.userInfo.profilePicturePath : this.mockedUserInfo.profilePicturePath;
+  private findNetwork(networkLink) {
+    return this.socialNetworksList.reduce((result, current) => {
+      if (networkLink.includes(current)) {
+        result = current;
+      }
+      return result;
+    }, 'green-city');
   }
 
-  private initUser(): void {
-    this.localStorageService.userIdBehaviourSubject
-      .subscribe(userId => this.assignData(userId));
+  private buildSocialNetworksChart() {
+    this.userSocialNetworks = this.userInfo.socialNetworks.map(item => {
+      return {
+        link: item.url,
+        name: this.findNetwork(item.url)
+      };
+    });
   }
 
-  private assignData(userId: number): void {
-    this.userId = userId;
+  ngOnDestroy() {
+    this.userId$.unsubscribe();
   }
 }
 

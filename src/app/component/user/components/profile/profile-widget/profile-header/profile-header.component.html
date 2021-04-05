@@ -1,32 +1,40 @@
 <div class="profile" *ngIf="userInfo">
-  <div class="details__img">
-    <a class="edit-icon" [routerLink]="['/profile', userId,'edit']">
-      <img [src]="editIcon" 
-           alt="edit icon">
-    </a>
-    <img [src]="showCorrectImage()" 
-         alt="profile avatar" 
-         class="profile-avatar"/>
-  </div>
-  <div>
-  <div class="profile__details">
-    <div class="details__descriptions">
-      <h3 class="descriptions__name">
-        {{ userInfo.firstName }}
-      </h3>
-      <div class="descriptions__location"
-           *ngIf="userInfo.showLocation">{{ userInfo.city || mockedUserInfo.city }}</div>
-      <div class="descriptions__status">
-        {{ 'profile.online' | translate }}
-      </div>
-      <div class="descriptions__rate">
-        <div>
-          Rate: {{ userInfo.rating || mockedUserInfo.rating }}
-        </div>
-      </div>
+  <a [routerLink]="['/profile', userId,'edit']">
+    <div class="edit-icon"></div>
+  </a>
+  <div class="column">
+    <app-user-profile-image
+      class="user-image"
+      [imgPath]="userInfo.profilePicturePath"
+      [firstName]="userInfo.firstName"
+      [additionalImgClass]="'center'">
+    </app-user-profile-image>
+    <p class="name">
+      {{ userInfo.firstName }}
+    </p>
+    <p
+      class="location"
+    >
+      {{ userInfo.city || mockedUserInfo.city }}
+    </p>
+    <div class="online">
+      {{ 'profile.online' | translate }}
     </div>
-    <div class="details__credo">{{ userInfo.userCredo || mockedUserInfo.userCredo }}</div>
-  <div class="cards">
-    <app-profile-progress></app-profile-progress>
+    <div class="rate">
+      <p>{{ 'profile.rate' | translate }}: {{ userInfo.rating || mockedUserInfo.rating }}</p>
+    </div>
+    <div class="credo">{{ userInfo.userCredo || mockedUserInfo.userCredo }}</div>
+    <div
+      class="social"
+      *ngIf="userSocialNetworks"
+    >
+      <a *ngFor="let item of userSocialNetworks"
+         [href]="item.link">
+        <div [class]="item.name"></div>
+      </a>
+    </div>
+    <div class="profile-progress">
+      <app-profile-progress></app-profile-progress>
+    </div>
   </div>
 </div>

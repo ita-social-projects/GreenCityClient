@@ -1,198 +1,162 @@
-<div [ngClass]="toggleBurgerMenu ? 'break-shadow main' : 'main'">
-  <div class="main-container">
-    <div class="header" >
-      <div class="logo">
-        <a [routerLink]="['/welcome']"
-           routerLinkActive="active-link"
-           [routerLinkActiveOptions]="{ exact: true }"
-           pageScroll>
-          <picture>
-          <source media="(max-width: 576px)"
-                  srcset="assets/img/logo_S.png">
-             <img src="assets/img/logo_M.png"
-                  alt="logo">
-        </picture>
-        </a>
-      </div>
-      <div class="navigation-menu">
-                  <div [ngClass]="toggleBurgerMenu ? 'navigation-menu-left-col' : 'navigation-menu-left'">
-                      <ul>
-                        <li>
-                          <a [routerLink]="['/news']"
-                             routerLinkActive="active-link"
-                             routerLinkActiveOptions="{exact:true}"
-                             pageScroll
-                             href="#events"
-                             [pageScrollDuration]="500">
-                            {{ 'user.lower-nav-bar.eco-events' | translate }}
-                          </a>
-                        </li>
-                        <li>
-                          <a [routerLink]="['/tips']"
-                             routerLinkActive="active-link"
-                             routerLinkActiveOptions="{exact:true}"
-                             pageScroll
-                             href="#tips"
-                             [pageScrollDuration]="500">
-                            {{ 'user.lower-nav-bar.tips' | translate }}
-                          </a>
-                        </li>
-                        <li>
-                          <a [routerLink]="['/map']"
-                             routerLinkActive="active-link"
-                             routerLinkActiveOptions="{exact:true}"
-                             pageScroll
-                             href="#top-user-bar"
-                             routerLinkActive="active-link"
-                             routerLinkActiveOptions="{exact:true}">
-                            {{ 'user.lower-nav-bar.map' | translate }}
-                          </a>
-                        </li>
-                        <li>
-                          <a [routerLink]="['/about']"
-                             routerLinkActive="active-link"
-                             routerLinkActiveOptions="{exact:true}">
-                            {{ 'user.lower-nav-bar.about-us' | translate }}
-                          </a>
-                        </li>
-                        <li>
-                          <a [routerLink]="['/profile', getUserId()]"
-                             routerLinkActive="active-link"
-                             routerLinkActiveOptions="{exact:true}">
-                            {{ 'user.lower-nav-bar.my-habits' | translate }}
-                          </a>
-                        </li>
-                        <li></li>
-                        <div *ngIf="!isLoggedIn; then userLoggedInSmall else userNotLoggerInSmall"></div>
-                        <ng-template #userLoggedInSmall>
-                        <li class="mobile-vis">
-                            <a class="sign-in-link tertiary-global-button"
-                               (click)="openSingInWindow()">
-                              {{ "top-bar.sign-in" | translate }}
-                            </a>
-                        </li>
-                        </ng-template>
-                        <ng-template #userNotLoggerInSmall>
-                          <li class="mobile-vis name tertiary-global-button">{{ name }}</li>
-                          <li class="mobile-vis">
-                            <a (click)="openDialog()">
-                            {{ "nav-bar.profile" | translate }}
-                             </a>
-                          </li>
-                          <li class="mobile-vis">
-                            <a (click)="openSettingDialog()">
-                            {{ "nav-bar.user-settings" | translate }}
-                             </a>
-                          </li>
-                          <li class="mobile-vis">
-                              <a (click)="signOut()">
-                            {{ "nav-bar.sign-out" | translate }}
-                             </a>
-                          </li>
-                        </ng-template>
-                        <li class="mobile-vis"
-                            *ngIf="!isLoggedIn"
-                            (click)="openSignUpWindow()">
-                          <div class="create-button secondary-global-button">
-                            <span>{{ "top-bar.sign-up" | translate }}</span>
-                          </div>
-                        </li>
-                      </ul>
-                  </div>
-        <div class="navigation-menu-right">
-              <ul>
-                <ng-template [ngIf]="!isAllSearchOpen">
-                 <li class="search"
-                     [class.destroy]="toggleBurgerMenu">
-                 <a (click)="toggleSearchPage()">
-                   <img src="assets/img/icon/search.png"
-                        alt="search">
-                 </a>
-                 </li>
-                </ng-template>
-              <li [class.destroy]="toggleBurgerMenu">
-                <div class="switcher-wrapper" (click)="langDropdownVisible = !langDropdownVisible">
-                  <img class="arrow"
-                      [src]="selectLanguageArrow"
-                      [ngClass]="langDropdownVisible ? 'arrow reverse zIndex' : 'arrow'"
-                      alt="v">
-                  <ul [class.add-shadow]="langDropdownVisible"
-                      appCloseDropdown
-                      (clickOutSide)="autoCloseLangDropDown($event)">
-                    <ng-container
-                      *ngFor="let lang of arrayLang;
-                      index as index;">
-                      <li *ngIf="index < 1">
-                        {{lang.lang}}
-                      </li>
-                      <li *ngIf="index > 0 && langDropdownVisible"
-                          (click)="changeCurrentLanguage(lang.lang, index)">
-                        {{lang.lang}}
-                      </li>
-                    </ng-container>
-                  </ul>
-              </div>
-              </li>
-        <li class="sign-in-link tertiary-global-button last-nav-item"
-            [class.destroy]="toggleBurgerMenu">
-          <div *ngIf="!isLoggedIn; then userLoggedIn else userNotLoggedIn"></div>
-          <ng-template #userLoggedIn>
-            <a (click)="openSingInWindow()">
-              {{ "top-bar.sign-in" | translate }}
-            </a>
-          </ng-template>
-          <ng-template #userNotLoggedIn>
-            <div id="user-avatar-wrapper">
-             <ul
-               appCloseDropdown
-               (clickOutSide)="autoCloseUserDropDown($event)"
-               [class.add-shadow]="dropdownVisible">
-               <li class="tertiary-global-button">
-                 <a
-                    (click)="toggleDropdown()"
-                    >{{ name }}
-                 <img class="arrow"
-                      [src]="dropDownArrow"
-                      [ngClass]="dropdownVisible ? 'arrow reverse' : 'arrow'"
-                      alt="v">
+<header role="banner" [ngClass]="toggleBurgerMenu ? 'burger-modal_open main' : 'main'">
+  <div class="header_wrp container">
+    <div class="header_container">
+      <a class="header_logo" [routerLink]="['/']" routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }">
+        <img [src]="headerImageList.greenCityLogo" alt="GreenCity home">
+      </a>
+      <div class="header_navigation-menu" aria-label="Header Navigation Menu">
+        <nav [ngClass]="toggleBurgerMenu ? 'header_navigation-menu-left-col' : 'header_navigation-menu-left'">
+          <ul>
+            <li role="eco-news">
+              <a [routerLink]="['/news']" routerLinkActive="active-link" routerLinkActiveOptions="{exact:true}">
+                {{ 'user.lower-nav-bar.eco-events' | translate }}
+              </a>
+            </li>
+            <li role="tips and tricks">
+              <a [routerLink]="['/tips']" routerLinkActive="active-link" routerLinkActiveOptions="{exact:true}">
+                {{ 'user.lower-nav-bar.tips' | translate }}
+              </a>
+            </li>
+            <li role="map">
+              <a [routerLink]="['/map']" routerLinkActive="active-link" routerLinkActiveOptions="{exact:true}"
+                routerLinkActive="active-link" routerLinkActiveOptions="{exact:true}">
+                {{ 'user.lower-nav-bar.map' | translate }}
+              </a>
+            </li>
+            <li role="about us">
+              <a [routerLink]="['/about']" routerLinkActive="active-link" routerLinkActiveOptions="{exact:true}">
+                {{ 'user.lower-nav-bar.about-us' | translate }}
+              </a>
+            </li>
+            <li role="profile">
+              <a [routerLink]="['/profile', getUserId()]" routerLinkActive="active-link"
+                routerLinkActiveOptions="{exact:true}">
+                {{ 'user.lower-nav-bar.my-habits' | translate }}
+              </a>
+            </li>
+            <li role="navigation to ubs">
+              <a [routerLink]="['/ubs']" routerLinkActive="active-link"
+                routerLinkActiveOptions="{exact:true}">
+                UBS
+              </a>
+            </li>
+            <hr class="header_line container" [ngClass]="{'d-none': !toggleBurgerMenu}" />
+            <div *ngIf="!isLoggedIn; then userLoggedInSmall else userNotLoggerInSmall"></div>
+            <ng-template #userLoggedInSmall>
+              <li *ngIf="toggleBurgerMenu" class="header_mobile-menu-sign-in" role="sign in link">
+                <a class="header_sign-in-link tertiary-global-button" (click)="openAuthModalWindow('sign-in')">
+                  {{ "top-bar.sign-in" | translate }}
                 </a>
-               </li>
-               <li [class.text-hidde]="!dropdownVisible">
-                 <a (click)="openDialog()">
-                   {{ "nav-bar.profile" | translate }}
-                 </a>
-               </li>
-               <li [class.text-hidde]="!dropdownVisible">
-                 <a (click)="openSettingDialog()">
-                   {{ "nav-bar.user-settings" | translate }}
-                 </a>
-               </li>
-               <li [class.text-hidde]="!dropdownVisible">
-                 <a (click)="signOut()">
-                   {{ "nav-bar.sign-out" | translate }}
-                 </a>
-               </li>
-             </ul>
-            </div>
-          </ng-template>
-        </li>
-          <li class="sign-up-link"
-              [class.destroy]="toggleBurgerMenu"
-              *ngIf="!isLoggedIn"
-              (click)="openSignUpWindow()">
-            <div class="create-button secondary-global-button">
-            <span>{{ "top-bar.sign-up" | translate }}</span>
-          </div>
-          </li>
-    <li class="burger-b">
-       <div class="menu-icon-wrapper"
-            (click)="onToggleBurgerMenu()">
-       <div  [ngClass]="toggleBurgerMenu ? 'menu-icon menu-icon-active' : 'menu-icon'"></div>
-       </div>
-      </li>
-    </ul>
+              </li>
+            </ng-template>
+            <ng-template #userNotLoggerInSmall>
+              <li class="header_mobile-menu-item header_user-name tertiary-global-button" role="user name">
+                {{ name }}
+              </li>
+              <li class="header_mobile-menu-item" role="settings">
+                <a (click)="openSettingDialog()">
+                  {{ "nav-bar.user-settings" | translate }}
+                </a>
+              </li>
+              <li *ngIf="isLoggedIn && isAdmin" class="header_mobile-menu-item">
+                <a [href]="managementLink" target="_blank" role="management">
+                  {{ "nav-bar.management" | translate }}
+                </a>
+              </li>
+              <li class="header_mobile-menu-item" role="sign out">
+                <a (click)="signOut()">
+                  {{ "nav-bar.sign-out" | translate }}
+                </a>
+              </li>
+            </ng-template>
+            <li class="header_mobile-menu-sign-up" *ngIf="toggleBurgerMenu && !isLoggedIn"
+              (click)="openAuthModalWindow('sign-up')">
+              <div class="header_sign-up-btn secondary-global-button" role="link">
+                <span>{{ "top-bar.sign-up" | translate }}</span>
+              </div>
+            </li>
+          </ul>
+        </nav>
+        <div class="header_navigation-menu-right">
+          <ul class="header_navigation-menu-right-list">
+            <!-- Search icon -->
+            <li *ngIf="!isAllSearchOpen" class="search-icon" role="internal search" aria-label="site search"
+                (click)="toggleSearchPage()" (keydown.enter)="toggleSearchPage()" tabindex="0">
+              <img [src]="headerImageList.search" alt="Internal search button"
+                aria-hidden="true">
+            </li>
+            <!-- Lang switcher -->
+            <ul [ngClass]="{'add-shadow': langDropdownVisible, 
+                          'header_lang-switcher-wrp header_navigation-menu-right-list': true}"
+              (click)="langDropdownVisible = !langDropdownVisible"
+              (keyup.enter)="langDropdownVisible = !langDropdownVisible" appCloseDropdown
+              (clickOutSide)="autoCloseLangDropDown($event)" aria-label="language switcher" tabindex="0">
+              <li>
+                {{arrayLang[0].lang}}
+                <img [src]="headerImageList.arrowDown" alt="language switcher" aria-hidden="true"
+                  [ngClass]="langDropdownVisible ? 'header_arrow reverse' : 'header_arrow'">
+              </li>
+              <ng-container *ngIf="langDropdownVisible">
+                <ng-container *ngFor="let lang of arrayLang;index as index;">
+                  <li *ngIf="index > 0" (click)="changeCurrentLanguage(lang.lang, index)">
+                    {{lang.lang}}
+                  </li>
+                </ng-container>
+              </ng-container>
+            </ul>
+            <ng-container *ngIf="isLoggedIn">
+              <ul id="header_user-wrp" appCloseDropdown (clickOutSide)="autoCloseUserDropDown($event)" [ngClass]="{'d-none': toggleBurgerMenu,
+                              'add-shadow': dropdownVisible}" role='management dropdown'>
+                <li class="tertiary-global-button" role="user name">
+                  <a (click)="toggleDropdown()" (keyup.enter)="toggleDropdown()" class="header_user-name"  tabindex="0">
+                    <span>{{ name }}</span>
+                    <img [src]="headerImageList.arrowDownGreen" alt="arrow down icon"
+                      [ngClass]="dropdownVisible ? 'header_arrow reverse' : 'header_arrow'">
+                  </a>
+                </li>
+                <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="settigns">
+                  <a (click)="openSettingDialog()">
+                    {{ "nav-bar.user-settings" | translate }}
+                  </a>
+                </li>
+                <li *ngIf="isLoggedIn && isAdmin" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'"
+                  role="management">
+                  <a [href]="managementLink" target="_blank">
+                    {{ "nav-bar.management" | translate }}
+                  </a>
+                </li>
+                <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="sign out">
+                  <a (click)="signOut()">
+                    {{ "nav-bar.sign-out" | translate }}
+                  </a>
+                </li>
+              </ul>
+            </ng-container>
+            <!-- SIGN IN LINK -->
+            <ng-container *ngIf="!isLoggedIn">
+              <a #signinref [ngClass]="{'d-none': toggleBurgerMenu}" class="header_sign-in-link tertiary-global-button"
+                (click)="openAuthModalWindow('sign-in')" (keyup.enter)="openAuthModalWindow('sign-in')" tabindex="0"
+                role="sign in">
+                {{ "top-bar.sign-in" | translate }}
+              </a>
+            </ng-container>
+            <!-- SIGN UP LINK -->
+            <li class="header_sign-up-link" [ngClass]="{'d-none': toggleBurgerMenu}" *ngIf="!isLoggedIn"
+              (click)="openAuthModalWindow('sign-up')" (keyup.enter)="openAuthModalWindow('sign-up')" role="sign up">
+              <div #signupref class="header_sign-up-btn secondary-global-button" tabindex="0">
+                <span>{{ "top-bar.sign-up" | translate }}</span>
+              </div>
+            </li>
+            <!-- Burger BTN -->
+            <li class="header_burger-btn" role="mobile">
+              <div class="menu-icon-wrapper" (click)="onToggleBurgerMenu()">
+                <div [ngClass]="toggleBurgerMenu ? 'menu-icon menu-icon-active' : 'menu-icon'"></div>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
   </div>
-</div>
+</header>

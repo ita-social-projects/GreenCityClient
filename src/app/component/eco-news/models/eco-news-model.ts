@@ -7,6 +7,12 @@ export interface EcoNewsModel {
         id: number;
         name: string;
     };
-    tags: Array<string>;
+    tags: Array<NewsTagInterface>;
     creationDate: string;
+    source?: string;
+}
+
+export interface NewsTagInterface {
+  id: number;
+  name: string;
 }

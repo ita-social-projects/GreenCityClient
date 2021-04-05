@@ -1,15 +1,18 @@
+import { UserSharedModule } from './../user/components/shared/user-shared.module';
 import { NgModule } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { CommonModule } from '@angular/common';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { FileUploadModule } from 'ng2-file-upload';
 import { MatCardModule } from '@angular/material';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {
+  WarningPopUpComponent,
   PhotoUploadComponent,
-  CancelPopUpComponent
+  EditPhotoPopUpComponent
 } from './components';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -17,13 +20,34 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DragAndDropDirective } from '../eco-news/directives/drag-and-drop.directive';
 import { DragAndDropComponent } from './components/drag-and-drop/drag-and-drop.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
+import { NoDataComponent } from './components/no-data/no-data.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { TagFilterComponent } from './components/tag-filter/tag-filter.component';
+import { CalendarBaseComponent } from '@shared/components';
+import usLocale from '@angular/common/locales/en-US-POSIX';
+import ruLocale from '@angular/common/locales/ru';
+import ukLocale from '@angular/common/locales/uk';
+import { FormBaseComponent } from './components/form-base/form-base.component';
+
+registerLocaleData(usLocale, 'en');
+registerLocaleData(ruLocale, 'ru');
+registerLocaleData(ukLocale, 'ua');
 
 @NgModule({
   declarations: [
     PhotoUploadComponent,
-    CancelPopUpComponent,
     DragAndDropDirective,
     DragAndDropComponent,
+    EditPhotoPopUpComponent,
+    DateLocalisationPipe,
+    NoDataComponent,
+    SpinnerComponent,
+    TagFilterComponent,
+    CalendarBaseComponent,
+    WarningPopUpComponent,
+    FormBaseComponent
   ],
   imports: [
     ImageCropperModule,
@@ -42,10 +66,11 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     MatCardModule,
     MatDialogModule,
     MatCheckboxModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    UserSharedModule
   ],
   exports: [
-    CancelPopUpComponent,
+    EditPhotoPopUpComponent,
     TranslateModule,
     PhotoUploadComponent,
     FormsModule,
@@ -56,10 +81,21 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     MatDialogModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
+    MatSnackBarModule,
     DragAndDropDirective,
     DragAndDropComponent,
+    DateLocalisationPipe,
+    NoDataComponent,
+    SpinnerComponent,
+    TagFilterComponent,
+    UserSharedModule,
+    WarningPopUpComponent,
+    FormBaseComponent
   ],
-  providers: [],
+  providers: [MatSnackBarComponent, TranslateService],
+  entryComponents: [
+    WarningPopUpComponent
+  ]
 })
 export class SharedModule {}
 

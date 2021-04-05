@@ -1,8 +1,7 @@
-$bp-smallest: 320px;
-$bp-phone: 576px;
-$bp-tablet: 768px;
-$bp-desktop: 1024px;
-$bp-largest: 1440px;
+$bp-smallest: 575px;
+$bp-phone: 767px;
+$bp-tablet: 1023px;
+$bp-desktop: 1439px;
 
 p,
 div {
@@ -11,35 +10,41 @@ div {
 }
 
 .list-gallery {
-  margin-bottom: 32px;
-  width: calc(267px + (359 - 267) * ((100vw - 1024px) / (1440 - 1024)));
-  min-height: 500px;
-  border-radius: 4px;
+  width: 359px;
+  min-height: 528px;
   box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
   background: #fff;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
 
   .list-image {
     .list-image-content {
+      object-fit: cover;
       width: 100%;
-      height: 199px;
+      height: 206px;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
     }
   }
 
   .list-gallery-content {
+    position: relative;
     margin: 8px 24px 24px 24px;
+    flex-grow: 1;
 
     .filter-tag {
       display: flex;
       flex-direction: row;
-      flex-wrap: nowrap;
+      flex-wrap: wrap;
       height: 24px;
       margin-bottom: 8px;
 
       .ul-eco-buttons {
-        font-family: opensans, sans-serif;
+        font-family: var(--primary-font);
         font-size: 14px;
         line-height: 16px;
-        color: #13aa57;
+        color: var(--primary-green);
         margin-right: 16px;
         letter-spacing: 1px;
         text-transform: uppercase;
@@ -51,37 +56,27 @@ div {
       overflow: hidden;
       position: relative;
 
-      &::after {
-        content: "";
-        text-align: right;
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        width: 50%;
-        height: 1.4rem;
-        background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);
-      }
-
       .title-list {
-        max-height: 52px;
         overflow: hidden;
-        font-family: 'Montserrat', sans-serif;
-        font-style: normal;
-        font-weight: 500;
-        font-size: 21px;
-        line-height: 26px;
-        color: #313131;
+
+        h3 {
+          font-family: var(--secondary-font);
+          font-style: normal;
+          font-weight: 500;
+          font-size: 21px;
+          line-height: 26px;
+          color: var(--secondary-dark-grey);
+        }
       }
 
       .list-text {
         max-height: 150px;
         overflow: hidden;
         margin: 10px 0 0 0;
-        font-family: 'Open Sans', sans-serif;
+        font-family: var(--primary-font);
         font-size: 14px;
         line-height: 21px;
-        color: #313131;
-        white-space: pre-wrap;
+        color: var(--secondary-dark-grey);
       }
     }
 
@@ -90,17 +85,18 @@ div {
     }
 
     .user-data-added-news {
-      padding: 16px 0 24px 0;
+      position: absolute;
+      bottom: 0;
       display: flex;
       flex-wrap: wrap;
     }
 
     .user-data-text-date {
       margin-right: 16px;
-      font-family: 'Open Sans', sans-serif;
+      font-family: var(--primary-font);
       font-size: 14px;
       line-height: 21px;
-      color: #666;
+      color: var(--secondary-grey);
       mix-blend-mode: normal;
       opacity: 0.6;
 
@@ -130,12 +126,12 @@ div {
 
 @media screen and (max-width: $bp-desktop) {
   .list-gallery {
-    width: 267px;
-    min-height: 492px;
+    width: 299px;
+    min-height: 528px;
 
     .list-image {
       .list-image-content {
-        height: 166px;
+        height: 206px;
       }
     }
 
@@ -149,12 +145,12 @@ div {
 
 @media screen and (max-width: $bp-tablet) {
   .list-gallery {
-    width: calc(258px + (321 - 258) * ((100vw - 768px) / (768 - 576)));
-    min-height: 500px;
+    width: 354px;
+    min-height: 528px;
 
     .list-image {
       .list-image-content {
-        height: 202px;
+        height: 206px;
       }
     }
 
@@ -168,12 +164,12 @@ div {
 
 @media screen and (max-width: $bp-phone) {
   .list-gallery {
-    width: 300px;
-    height: 508px;
+    width: 258px;
+    height: 528px;
 
     .list-image {
       .list-image-content {
-        height: 160px;
+        height: 206px;
       }
     }
 
@@ -181,7 +177,7 @@ div {
       .added-data {
         height: 222px;
 
-        .title-list {
+        .title-list > h3 {
           font-size: 18px;
           line-height: 24px;
         }
@@ -195,6 +191,19 @@ div {
       .user-data-text-date:first-child {
         margin-bottom: 4px;
         min-width: 100px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $bp-smallest) {
+  .list-gallery {
+    width: 288px;
+    height: 528px;
+
+    .list-image {
+      .list-image-content {
+        height: 206px;
       }
     }
   }

@@ -1,0 +1,33 @@
+.container {
+  max-width: 625px;
+  margin: 0 auto;
+  text-align: center;
+
+  .picture {
+    img {
+      max-width: 100%;
+    }
+  }
+
+  .description {
+    .description__title {
+      font-family: var(--secondary-font);
+
+      h2 {
+        font-size: 32px;
+        font-weight: 600;
+        line-height: 48px;
+      }
+    }
+
+    .description__advise {
+      font-family: var(--primary-font);
+
+      p {
+        font-size: 18px;
+        line-height: 32px;
+        letter-spacing: 0.5px;
+      }
+    }
+  }
+}

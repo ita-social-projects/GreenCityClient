@@ -18,6 +18,7 @@ export class LocalStorageService {
   firstNameBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getName());
   userIdBehaviourSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.getUserId());
   languageBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getCurrentLanguage());
+  accessTokenBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getAccessToken());
 
   constructor() {
   }
@@ -30,7 +31,7 @@ export class LocalStorageService {
     return localStorage.getItem(this.REFRESH_TOKEN);
   }
 
-  private getUserId(): number {
+  public getUserId(): number {
     return Number.parseInt(localStorage.getItem(this.USER_ID), 10);
   }
 
@@ -38,8 +39,9 @@ export class LocalStorageService {
     return localStorage.getItem(this.NAME);
   }
 
-  public setAccessToken(refreshToken: string): void {
-    localStorage.setItem(this.ACCESS_TOKEN, refreshToken);
+  public setAccessToken(accessToken: string): void {
+    localStorage.setItem(this.ACCESS_TOKEN, accessToken);
+    this.accessTokenBehaviourSubject.next(accessToken);
   }
 
   public setRefreshToken(refreshToken: string): void {
@@ -70,6 +72,7 @@ export class LocalStorageService {
 
   public setCurrentLanguage(language: Language) {
     localStorage.setItem('language', language);
+    this.languageSubject.next(language);
     this.languageBehaviourSubject.next(language);
   }
 

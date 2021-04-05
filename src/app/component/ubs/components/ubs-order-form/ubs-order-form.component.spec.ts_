@@ -1,0 +1,36 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatStepperModule } from '@angular/material';
+import { UBSInputErrorComponent } from '../ubs-input-error/ubs-input-error.component';
+
+import { UBSOrderFormComponent } from './ubs-order-form.component';
+
+describe('UBSOrderFormComponent', () => {
+  let component: UBSOrderFormComponent;
+  let fixture: ComponentFixture<UBSOrderFormComponent>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatStepperModule
+      ],
+      declarations: [ 
+        UBSOrderFormComponent,
+        UBSInputErrorComponent
+      ]
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(UBSOrderFormComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

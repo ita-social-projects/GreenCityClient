@@ -1,7 +1,13 @@
-p {
-  font-family: opensans, sans-serif;
+h2 {
+  font-family: var(--primary-font);
   font-size: 16px;
   line-height: 24px;
   color: #000;
-  padding-bottom: 7px;
+  margin: 0;
+}
+
+@media screen and (max-width: 575px) {
+  h2 {
+    font-size: 12px;
+  }
 }

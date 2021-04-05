@@ -1,10 +1,11 @@
-<div class="main-wrapper">
+<div class="d-flex">
     <button class="cta-btn delete"
-            (click)="deleteComment()">
+            (click)="openPopup()">
       <img [src]="deleteIcon"
-           alt="edit icon"
-      >
-      <span class="btn-text">
+            class="btn-img"
+            aria-hidden="true"
+            alt="edit icon">
+      <span class="d-none d-sm-block btn-text">
         {{"homepage.eco-news.comment.btn.delete" | translate}}
       </span>
     </button>
