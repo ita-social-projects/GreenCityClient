@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import * as SockJS from 'sockjs-client';
-// import { Stomp, StompSubscription } from '@stomp/stompjs';
+import { Stomp, StompSubscription } from '@stomp/stompjs';
 import { SocketClientState } from './socket-state.enum';
 import { filter, first, switchMap } from 'rxjs/operators';
 

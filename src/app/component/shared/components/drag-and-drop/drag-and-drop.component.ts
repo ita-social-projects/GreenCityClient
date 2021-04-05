@@ -35,12 +35,13 @@ export class DragAndDropComponent implements OnInit {
   public cancelChanges(): void {
     this.files = [];
     this.createEcoNewsService.files = [];
-    this.isCropper = false;
+    this.isCropper = true;
     this.croppedImage = null;
   }
 
   public patchImage(): void {
     if (this.createEcoNewsService.isBackToEditing && this.formData.value.image) {
+      console.log('works');
       this.isCropper = false;
       this.files = [{file: name, url: this.formData.value.image}];
     }
