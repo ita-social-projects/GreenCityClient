@@ -12,7 +12,7 @@ import { take } from 'rxjs/operators';
 })
 export class FormBaseComponent implements ComponentCanDeactivate {
 
-  @ViewChild('formEditProf', {static: false}) formEditProf: ElementRef;
+  @ViewChild('formEditProf', { static: false }) formEditProf: ElementRef;
 
   public areChangesSaved = false;
   public initialValues = {};
@@ -32,7 +32,7 @@ export class FormBaseComponent implements ComponentCanDeactivate {
   public getFormValues(): any { }
 
   constructor(public router: Router,
-              public dialog: MatDialog) {
+    public dialog: MatDialog) {
   }
 
   @HostListener('window:beforeunload')
@@ -60,7 +60,7 @@ export class FormBaseComponent implements ComponentCanDeactivate {
   public checkChanges(): boolean {
     const body = this.getFormValues();
     for (const key of Object.keys(body)) {
-      if (body[key] != '') {
+      if (JSON.stringify(body[key]) !== JSON.stringify(this.initialValues[key])) {
         return true;
       }
     }
