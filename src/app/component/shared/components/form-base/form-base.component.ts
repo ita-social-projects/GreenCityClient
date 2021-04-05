@@ -31,8 +31,7 @@ export class FormBaseComponent implements ComponentCanDeactivate {
   };
   public getFormValues(): any { }
 
-  constructor(public router: Router,
-    public dialog: MatDialog) {
+  constructor(public router: Router, public dialog: MatDialog) {
   }
 
   @HostListener('window:beforeunload')
