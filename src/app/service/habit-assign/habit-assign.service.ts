@@ -6,6 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { habitAssignLink } from '../../links';
 import { HabitAssignInterface, ResponseInterface } from '../../interface/habit/habit-assign.interface';
+import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,9 @@ export class HabitAssignService implements OnDestroy {
   language: string;
   destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
-  constructor(private http: HttpClient,
-              private localStorageService: LocalStorageService) {
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService) {
 
     localStorageService.userIdBehaviourSubject
       .pipe(takeUntil(this.destroyed$))
@@ -67,6 +69,10 @@ export class HabitAssignService implements OnDestroy {
     return this.http.get<Array<HabitAssignInterface>>(`${habitAssignLink}/active/${date}?lang=${this.language}`);
   }
 
+  getAssignHabitsByPeriod(startDate: string, endDate: string) {
+    const query = `${habitAssignLink}/activity/${startDate}/to/${endDate}?lang=${this.language}`;
+    return this.http.get<Array<HabitsForDateInterface>>(query);
+  }
   ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();
