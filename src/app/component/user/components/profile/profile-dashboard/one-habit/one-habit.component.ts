@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { HabitAssignInterface } from '../../../../../../interface/habit/habit-assign.interface';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { take } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { HabitStatus } from '../../../../../../model/habit/HabitStatus.enum';
 
 @Component({
   selector: 'app-one-habit',
@@ -42,6 +43,8 @@ export class OneHabitComponent implements OnInit {
     }
   };
 
+  @Output () nowAcquiredHabit = new EventEmitter();
+
   constructor(private localStorageService: LocalStorageService,
               private habitAssignService: HabitAssignService) { }
 
@@ -53,9 +56,9 @@ export class OneHabitComponent implements OnInit {
   public buildHabitDescription(): void {
     const isDone = this.habit.habitStatusCalendarDtoList
       .some(item => item.enrollDate === this.currentDate);
-    if (this.habit.status === 'ACQUIRED') {
+    if (this.habit.status === HabitStatus.ACQUIRED) {
       this.descriptionType.acquired();
-    } else if (this.habit.status === 'INPROGRESS') {
+    } else if (this.habit.status === HabitStatus.INPROGRESS) {
       if (isDone) {
         this.descriptionType.done();
       } else {
@@ -74,14 +77,19 @@ export class OneHabitComponent implements OnInit {
   public enroll() {
     this.isRequest = true;
     this.habitAssignService.enrollByHabit(this.habit.habit.id, this.currentDate)
-      .pipe(take(1))
-      .subscribe(response => {
-        this.habit.habitStatusCalendarDtoList = response.habitStatusCalendarDtoList;
-        this.habit.workingDays = response.workingDays;
-        this.habit.habitStreak = response.habitStreak;
-        this.buildHabitDescription();
-        this.isRequest = false;
-      });
+    .pipe(take(1))
+    .subscribe(response => {
+      if (response.status === HabitStatus.ACQUIRED) {
+        this.descriptionType.acquired();
+        this.nowAcquiredHabit.emit(response);
+      } else {
+      this.habit.habitStatusCalendarDtoList = response.habitStatusCalendarDtoList;
+      this.habit.workingDays = response.workingDays;
+      this.habit.habitStreak = response.habitStreak;
+      this.buildHabitDescription();
+      this.isRequest = false;
+      }
+    });
   }
 
   public unenroll() {
