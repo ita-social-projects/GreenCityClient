@@ -46,7 +46,7 @@ export class HabitAssignService implements OnDestroy {
   }
 
   enrollByHabit(habitId: number, date: string): Observable<HabitAssignInterface> {
-    return this.http.post<HabitAssignInterface>(`${habitAssignLink}/${habitId}/enroll/${date}`, null);
+    return this.http.post<HabitAssignInterface>(`${habitAssignLink}/${habitId}/enroll/${date}?lang=${this.language}`, null);
   }
 
   unenrollByHabit(habitId: number, date: string): Observable<HabitAssignInterface> {

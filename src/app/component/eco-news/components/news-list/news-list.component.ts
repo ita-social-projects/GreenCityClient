@@ -1,3 +1,4 @@
+import { Breakpoints } from '../../../../config/breakpoints.constants';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 import { catchError, take, takeUntil } from 'rxjs/operators';
@@ -15,6 +16,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 })
 export class NewsListComponent implements OnInit, OnDestroy {
   public view: boolean;
+  public gallery: boolean;
   public tagsList: Array<string>;
   public elements: EcoNewsModel[];
   public remaining = 0;
@@ -56,8 +58,16 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   public onResize(): void {
+    this.getSessionStorageView();
     this.windowSize = window.innerWidth;
-    this.view = this.windowSize >= 576 ? this.view : true;
+    this.view = this.windowSize < Breakpoints.tabletLow ? true : (this.gallery ? true : false);
+  }
+
+  private getSessionStorageView() {
+    const view = sessionStorage.getItem('viewGallery');
+    if (view !== null) {
+      this.gallery = JSON.parse(view);
+    }
   }
 
   public onScroll(): void {

@@ -36,18 +36,25 @@
           *ngFor="let data of elements"
           [routerLink]="['/news', data.id]"
         >
-          <app-news-list-gallery-view *ngIf="view" [ecoNewsModel]="data"> </app-news-list-gallery-view>
-          <app-news-list-list-view *ngIf="!view && windowSize >= 576" [ecoNewsModel]="data"> </app-news-list-list-view>
-        </li>
-      </ul>
-    </div>
-    <app-spinner *ngIf="elementsArePresent"></app-spinner>
-    <app-no-data
-      *ngIf="!elementsArePresent && remaining === 0"
-      [text]="'homepage.eco-news.empty-state.no-news-advice'"
-      [title]="'homepage.eco-news.empty-state.no-news'"
-    >
-    </app-no-data>
-    <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
+        <app-news-list-gallery-view
+          *ngIf="view"
+          [ecoNewsModel]="data">
+        </app-news-list-gallery-view>
+        <app-news-list-list-view
+          *ngIf="!view"
+          [ecoNewsModel]="data">
+        </app-news-list-list-view>
+      </li>
+    </ul>
+  </div>
+  <app-spinner *ngIf="elementsArePresent"></app-spinner>
+  <app-no-data  *ngIf="!elementsArePresent && remaining === 0"
+                [text]="'homepage.eco-news.empty-state.no-news-advice'"
+                [title]="'homepage.eco-news.empty-state.no-news'">
+  </app-no-data>
+  <div infiniteScroll
+       [infiniteScrollDistance]="0"
+       [infiniteScrollThrottle]="500"
+       (scrolled)="onScroll()">
   </div>
 </main>

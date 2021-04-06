@@ -6,6 +6,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { HabitService } from '@global-service/habit/habit.service';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { HabitAssignInterface } from '../../../../../interface/habit/habit-assign.interface';
+import { HabitStatus } from '../../../../../model/habit/HabitStatus.enum';
 
 @Component({
   selector: 'app-profile-dashboard',
@@ -36,6 +37,11 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     this.getUserId();
   }
 
+  public changeStatus(habit: HabitAssignInterface) {
+    this.habitsInProgress = this.habitsInProgress.filter((el) => el.id !== habit.id);
+    this.habitsAcquired = [...this.habitsAcquired, habit];
+  }
+
   private getUserId() {
     this.userId = this.localStorageService.getUserId();
   }
@@ -51,8 +57,8 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe((response: Array<HabitAssignInterface>) => {
         const sortedHabits = this.sortHebitsAsc(response);
-        this.habitsInProgress = sortedHabits.filter((habit) => habit.status === 'INPROGRESS');
-        this.habitsAcquired = sortedHabits.filter((habit) => habit.status === 'ACQUIRED');
+        this.habitsInProgress = sortedHabits.filter((habit) => habit.status === HabitStatus.INPROGRESS);
+        this.habitsAcquired = sortedHabits.filter((habit) => habit.status === HabitStatus.ACQUIRED);
         this.loading = false;
       });
   }
