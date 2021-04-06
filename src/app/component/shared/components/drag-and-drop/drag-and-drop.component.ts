@@ -42,7 +42,7 @@ export class DragAndDropComponent implements OnInit {
   public patchImage(): void {
     if (this.createEcoNewsService.isBackToEditing && this.formData.value.image) {
       this.isCropper = false;
-      this.files = [{file: name, url: this.formData.value.image}];
+      this.files = [{file: this.formData.value.file, url: this.formData.value.image}];
     }
   }
 
