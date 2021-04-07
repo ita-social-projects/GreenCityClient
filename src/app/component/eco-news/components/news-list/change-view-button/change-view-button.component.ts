@@ -16,13 +16,13 @@ export class ChangeViewButtonComponent implements OnInit {
     this.changeGalleryViewEmit(this.gallery);
   }
 
-  public changeGalleryView(gallery: boolean): void {
+  public changeGalleryView(): void {
     this.gallery = true;
     this.view.emit(this.gallery);
     this.setSessionStorageView();
   }
 
-  public changeListView(list: boolean): void {
+  public changeListView(): void {
     this.gallery = false;
     this.view.emit(this.gallery);
     this.setSessionStorageView();
