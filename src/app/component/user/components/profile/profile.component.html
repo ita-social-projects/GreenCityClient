@@ -8,8 +8,10 @@
   </div>
   <app-profile-dashboard class="habits-dashboard"></app-profile-dashboard>
   <div class="right-column">
-    <app-calendar class="app-calendar"></app-calendar>
-    <app-calendar-week class="app-calendar-week"></app-calendar-week>
+    <app-calendar class="app-calendar" *ngIf="isDesktopWidth; else mobileView"></app-calendar>
+    <ng-template #mobileView>
+      <app-calendar-week class="app-calendar-week"></app-calendar-week>
+    </ng-template>
     <app-profile-cards class="app-profile-cards"></app-profile-cards>
   </div>
 </div>

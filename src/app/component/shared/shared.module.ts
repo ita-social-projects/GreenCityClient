@@ -7,10 +7,14 @@ import { CommonModule, registerLocaleData } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { FileUploadModule } from 'ng2-file-upload';
-import { MatCardModule } from '@angular/material';
+import { MatCardModule, MatTooltipModule } from '@angular/material';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { WarningPopUpComponent, PhotoUploadComponent, EditPhotoPopUpComponent } from './components';
-import { MatDialogModule } from '@angular/material/dialog';
+import {
+  WarningPopUpComponent,
+  PhotoUploadComponent,
+  EditPhotoPopUpComponent
+} from './components';
+import { MatDialogModule } from '@angular/material';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DragAndDropDirective } from '../eco-news/directives/drag-and-drop.directive';
@@ -26,6 +30,7 @@ import usLocale from '@angular/common/locales/en-US-POSIX';
 import ruLocale from '@angular/common/locales/ru';
 import ukLocale from '@angular/common/locales/uk';
 import { FormBaseComponent } from './components/form-base/form-base.component';
+import { HabitsPopupComponent } from '@global-user/components/profile/calendar/habits-popup/habits-popup.component';
 
 registerLocaleData(usLocale, 'en');
 registerLocaleData(ruLocale, 'ru');
@@ -44,6 +49,7 @@ registerLocaleData(ukLocale, 'ua');
     CalendarBaseComponent,
     WarningPopUpComponent,
     FormBaseComponent,
+    HabitsPopupComponent
   ],
   imports: [
     ImageCropperModule,
@@ -64,6 +70,7 @@ registerLocaleData(ukLocale, 'ua');
     MatCheckboxModule,
     MatProgressSpinnerModule,
     UserSharedModule,
+    MatTooltipModule
   ],
   exports: [
     EditPhotoPopUpComponent,
@@ -89,7 +96,10 @@ registerLocaleData(ukLocale, 'ua');
     FormBaseComponent,
   ],
   providers: [MatSnackBarComponent, TranslateService],
-  entryComponents: [WarningPopUpComponent],
+  entryComponents: [
+    WarningPopUpComponent,
+    HabitsPopupComponent
+  ]
 })
 export class SharedModule {}
 
