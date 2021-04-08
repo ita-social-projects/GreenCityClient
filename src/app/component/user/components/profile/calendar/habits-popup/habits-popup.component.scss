@@ -1,0 +1,62 @@
+.habits-title {
+  font-family: var(--secondary-font);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 16px;
+  padding: 20px 0 16px 20px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.habits-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 16px 16px;
+  margin: 0;
+}
+
+.habits-item {
+  display: block;
+  padding: 0;
+  margin: 0;
+  font-family: var(--secondary-font);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 14px;
+  width: 282px;
+  height: 28px;
+  list-style: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.habits-item-disabled {
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.habit-icon {
+  padding-right: 9px;
+  cursor: pointer;
+}
+
+.calendar-habits-open {
+  width: 314px;
+  font-family: var(--secondary-font);
+  color: var(--primary-dark-grey);
+  background: var(--primary-white);
+  box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
+  border-radius: 4px;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+::ng-deep .mat-dialog-container {
+  padding: 0;
+}

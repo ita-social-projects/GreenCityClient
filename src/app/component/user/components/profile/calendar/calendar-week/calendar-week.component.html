@@ -14,18 +14,19 @@
            *ngFor="let day of weekDates"
            [ngClass]="{ 'current-name': day.isCurrent }">
         {{ day.dayName | uppercase }}
-      </div>
+      </div> 
     </div>
-    <div class="day-number-row">
+    <div class="day-number-row"[ngClass]="{'disabled':checkAnswer}">
       <div class="day-number"
            *ngFor="let day of weekDates"
            [ngClass]="{ 
-             'enrolled-day': day.hasHabitsInProgress && day.areHabitsDone,
-             'unenrolled-day': day.hasHabitsInProgress && !day.areHabitsDone,
-             'enrolled-past-day': day.hasHabitsInProgress && day.date.getDate() < (currentDate.getDate() - 7) && day.areHabitsDone,
-             'unenrolled-past-day': day.hasHabitsInProgress && day.date.getDate() < (currentDate.getDate() - 7) && !day.areHabitsDone,
-             'current-number': day.isCurrent
-            }">
+            'enrolled-day': day.hasHabitsInProgress && day.areHabitsDone,
+            'unenrolled-day': day.hasHabitsInProgress && !day.areHabitsDone,
+            'enrolled-past-day': day.hasHabitsInProgress && day.date.getDate() < (currentDate.getDate() - 7) && day.areHabitsDone,
+            'unenrolled-past-day': day.hasHabitsInProgress && day.date.getDate() < (currentDate.getDate() - 7) && !day.areHabitsDone,
+            'current-number': day.isCurrent
+           }"
+            (click)="showHabits($event, day)">
         {{ day.date.getDate() }}
       </div>
     </div>
