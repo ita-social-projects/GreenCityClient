@@ -5,6 +5,7 @@ import { take } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HabitService } from '@global-service/habit/habit.service';
+import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 
 @Component({
   selector: 'app-one-habit',
