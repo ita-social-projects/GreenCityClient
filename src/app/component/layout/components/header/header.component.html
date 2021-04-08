@@ -7,7 +7,7 @@
       </a>
       <div class="header_navigation-menu" aria-label="Header Navigation Menu">
         <nav [ngClass]="toggleBurgerMenu ? 'header_navigation-menu-left-col' : 'header_navigation-menu-left'">
-          <ul>
+          <ul role="navigation">
             <li role="eco-news">
               <a [routerLink]="['/news']" routerLinkActive="active-link" routerLinkActiveOptions="{exact:true}">
                 {{ 'user.lower-nav-bar.eco-events' | translate }}
@@ -79,7 +79,7 @@
           </ul>
         </nav>
         <div class="header_navigation-menu-right">
-          <ul class="header_navigation-menu-right-list">
+          <ul role="button" class="header_navigation-menu-right-list">
             <!-- Search icon -->
             <li *ngIf="!isAllSearchOpen" class="search-icon" role="internal search" aria-label="site search"
                 (click)="toggleSearchPage()" (keydown.enter)="toggleSearchPage()" tabindex="0">
@@ -87,46 +87,48 @@
                 aria-hidden="true">
             </li>
             <!-- Lang switcher -->
-            <ul [ngClass]="{'add-shadow': langDropdownVisible, 
+            <ul role="menu" [ngClass]="{'add-shadow': langDropdownVisible,
                           'header_lang-switcher-wrp header_navigation-menu-right-list': true}"
               (click)="langDropdownVisible = !langDropdownVisible"
               (keyup.enter)="langDropdownVisible = !langDropdownVisible" appCloseDropdown
               (clickOutSide)="autoCloseLangDropDown($event)" aria-label="language switcher" tabindex="0">
-              <li>
-                {{arrayLang[0].lang}}
+              <li role="button" aria-label="english">
+                <span aria-hidden="true">{{arrayLang[0].lang}}</span>
                 <img [src]="headerImageList.arrowDown" alt="language switcher" aria-hidden="true"
                   [ngClass]="langDropdownVisible ? 'header_arrow reverse' : 'header_arrow'">
               </li>
               <ng-container *ngIf="langDropdownVisible">
                 <ng-container *ngFor="let lang of arrayLang;index as index;">
-                  <li *ngIf="index > 0" (click)="changeCurrentLanguage(lang.lang, index)">
-                    {{lang.lang}}
+                  <li role="button" *ngIf="index > 0" (click)="changeCurrentLanguage(lang.lang, index)" [attr.aria-label]="lang.langName" tabindex="0">
+                    <span aria-hidden="true">{{lang.lang}}</span>
                   </li>
                 </ng-container>
               </ng-container>
             </ul>
             <ng-container *ngIf="isLoggedIn">
-              <ul id="header_user-wrp" appCloseDropdown (clickOutSide)="autoCloseUserDropDown($event)" [ngClass]="{'d-none': toggleBurgerMenu,
-                              'add-shadow': dropdownVisible}" role='management dropdown'>
-                <li class="tertiary-global-button" role="user name">
-                  <a (click)="toggleDropdown()" (keyup.enter)="toggleDropdown()" class="header_user-name"  tabindex="0">
+              <ul id="header_user-wrp" role="menu" (clickOutSide)="autoCloseUserDropDown($event)" [ngClass]="{'d-none': toggleBurgerMenu,
+                              'add-shadow': dropdownVisible}"
+                               class="tertiary-global-button" (click)="toggleDropdown()" (keyup.enter)="toggleDropdown()" appCloseDropdown
+                                tabindex="0" aria-label="profile options">
+                <li role="button">
+                  <a class="header_user-name" aria-hidden="true">
                     <span>{{ name }}</span>
-                    <img [src]="headerImageList.arrowDownGreen" alt="arrow down icon"
+                    <img [src]="headerImageList.arrowDownGreen" alt="arrow down icon" aria-hidden="true"
                       [ngClass]="dropdownVisible ? 'header_arrow reverse' : 'header_arrow'">
                   </a>
                 </li>
-                <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="settigns">
+                <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="button" aria-label="settings" tabindex="0">
                   <a (click)="openSettingDialog()">
                     {{ "nav-bar.user-settings" | translate }}
                   </a>
                 </li>
                 <li *ngIf="isLoggedIn && isAdmin" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'"
-                  role="management">
+                  role="button" aria-label="management" tabindex="0">
                   <a [href]="managementLink" target="_blank">
                     {{ "nav-bar.management" | translate }}
                   </a>
                 </li>
-                <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="sign out">
+                <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="button" aria-label="sign-out" tabindex="0">
                   <a (click)="signOut()">
                     {{ "nav-bar.sign-out" | translate }}
                   </a>
