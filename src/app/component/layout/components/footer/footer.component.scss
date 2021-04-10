@@ -2,8 +2,13 @@ p,
 a,
 .footer_bottom-part {
   font-family: var(--primary-font);
-  font-size: 14px;
+  font-size: 15px;
   line-height: 16px;
+}
+
+#copyright-label {
+  width: 194px;
+  white-space: nowrap;
 }
 
 ul {
@@ -16,7 +21,8 @@ li {
 }
 
 .footer_background-image {
-  background: url('~/assets/img/icon/footer/background-image-footer.svg') no-repeat center;
+  background: url('~/assets/img/icon/footer/background-image-footer.svg') center;
+  background-repeat: no-repeat;
   height: 286px;
   width: 100%;
   display: flex;

@@ -32,7 +32,6 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.executeRequests();
     this.subscribeToLangChange();
     this.getUserId();
   }

@@ -22,7 +22,7 @@ export class NewsListListViewComponent implements AfterViewChecked {
   public profileIcons = ecoNewsIcons;
   public newsImage: string;
 
-  constructor(private renderer: Renderer2) {}
+  constructor(private renderer: Renderer2) { }
 
   ngAfterViewChecked() {
     this.checkHeightOfTittle();
@@ -47,16 +47,18 @@ export class NewsListListViewComponent implements AfterViewChecked {
   }
 
   private getDomWidth(): string {
-    return window.innerWidth >= 1024 && window.innerWidth < 1440 ? this.smallHeight : this.bigHeight;
+    return window.innerWidth <= 768 ? this.smallHeight : this.bigHeight;
   }
 
   private getHeightOfDesc(titleHeight: number): string {
     const result = possibleDescHeight[this.getDomWidth()][titleHeight];
-    return result ? result : 'd-none';
+
+    return result ? result : titleHeight > 78 ? 'd-none' : titleHeight > 52 ? 'one-row' : titleHeight > 26 ? 'two-row' : 'tree-row';
   }
 
   private getHeightOfTitle(titleHeight: number): string {
+
     const result = possibleTitleHeight[this.getDomWidth()][titleHeight];
-    return result ? result : this.getDomWidth() === this.smallHeight ? 'two-row' : 'tree-row';
+    return result ? result : titleHeight > 78 ? 'four-row' : titleHeight > 52 ? 'tree-row' : titleHeight > 26 ? 'two-row' : 'one-row';
   }
 }

@@ -40,7 +40,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     public profileService: ProfileService,
     public habitAssignService: HabitAssignService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.onResize();
@@ -80,15 +80,16 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   }
 
   private fetchAllHabits(page, size): void {
-    this.habitService
-      .getAllHabits(page, size)
-      .pipe<HabitListInterface>(map((data) => this.splitHabitItems(data)))
-      .subscribe((data) => {
-        const observableValue = this.allHabits.getValue();
-        const oldItems = observableValue.page ? observableValue.page : [];
-        data.page = [...data.page, ...oldItems];
-        this.allHabits.next(data);
-      });
+    this.habitService.getAllHabits(page, size)
+      .pipe<HabitListInterface>(map(data => this.splitHabitItems(data)))
+      .subscribe(
+        data => {
+          const observableValue = this.allHabits.getValue();
+          const oldItems = observableValue.page ? observableValue.page : [];
+          data.page = [...oldItems, ...data.page];
+          this.allHabits.next(data);
+        }
+      );
   }
 
   public resetSubject() {
