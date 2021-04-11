@@ -3,6 +3,8 @@ import { LanguageService } from '@language-service/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { HabitAssignService } from './../../../../../../service/habit-assign/habit-assign.service';
 import { CalendarBaseComponent } from '@shared/components/calendar-base/calendar-base.component';
+import { MatDialog } from '@angular/material';
+import { CalendarInterface } from '@global-user/components/profile/calendar/calendar-interface';
 
 @Component({
   selector: 'app-habit-calendar',
@@ -17,9 +19,10 @@ export class HabitCalendarComponent extends CalendarBaseComponent implements OnI
   constructor(
     public translate: TranslateService,
     public languageService: LanguageService,
-    public habitAsignService: HabitAssignService
+    public habitAsignService: HabitAssignService,
+    public dialog: MatDialog
   ) {
-    super(translate, languageService, habitAsignService);
+    super(translate, languageService, habitAsignService, dialog);
   }
 
   ngOnInit() {
@@ -28,4 +31,9 @@ export class HabitCalendarComponent extends CalendarBaseComponent implements OnI
     this.buildCalendar();
   }
 
+  showHabits(event, dayItem: CalendarInterface) {
+    if (this.checkCanOpenPopup(dayItem)) {
+      this.openDialogDayHabits(event, true, dayItem);
+    }
+  }
 }

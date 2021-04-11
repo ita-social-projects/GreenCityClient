@@ -7,7 +7,8 @@ import { LanguageService } from '@language-service/language.service';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CalendarWeekInterface } from '../calendar-week/calendar-week-interface';
-import { calendarImage } from '../calendar-image';
+import { CalendarInterface } from '../calendar-interface';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-calendar-week',
@@ -15,7 +16,6 @@ import { calendarImage } from '../calendar-image';
   styleUrls: ['./calendar-week.component.scss']
 })
 export class CalendarWeekComponent extends CalendarBaseComponent implements OnInit, OnDestroy {
-  public calendarImages = calendarImage;
   public language: string;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public currentDate = new Date();
@@ -26,15 +26,16 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
     private localStorageService: LocalStorageService,
     public habitAssignService: HabitAssignService,
     public translate: TranslateService,
-    public languageService: LanguageService
+    public languageService: LanguageService,
+    public dialog: MatDialog,
   ) {
-    super(translate, languageService, habitAssignService);
+    super(translate, languageService, habitAssignService, dialog);
   }
 
   ngOnInit() {
     this.buildWeekCalendar(this.getFirstWeekDate());
     this.getLanguage();
-    this.markCalendarDays(false, this.weekDates);
+    this.getUserHabits(false, this.weekDates);
   }
 
   private buildWeekCalendar(firstWeekDay: Date): void {
@@ -59,15 +60,15 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
 
   private getFirstWeekDate(): Date {
     const day = this.currentDate.getDay() === 0
-      ? this.currentDate.getDay() - 6
+      ? this.currentDate.getDate() - 6
       : this.currentDate.getDate() - this.currentDate.getDay() + 1;
-    const month = this.currentDate.getMonth();
+    const month = new Date().getMonth();
     const year = this.currentDate.getFullYear();
     return new Date(year, month, day);
   }
 
   private setDayName(source: Date): string {
-    return source.toLocaleDateString(this.language, { weekday: 'short'});
+    return source.toLocaleDateString(this.language, { weekday: 'short' });
   }
 
   private getLanguage(): void {
@@ -83,8 +84,8 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
   public buildWeekCalendarTitle(): void {
     const firstDay = this.weekDates[0].date.getDate();
     const lastDay = this.weekDates[6].date.getDate();
-    const firstDayMonth = this.weekDates[0].date.toLocaleDateString(this.language, { month: 'long'});
-    const lastDayMonth = this.weekDates[6].date.toLocaleDateString(this.language, { month: 'long'});
+    const firstDayMonth = this.weekDates[0].date.toLocaleDateString(this.language, { month: 'long' });
+    const lastDayMonth = this.weekDates[6].date.toLocaleDateString(this.language, { month: 'long' });
     const firstDayYear = this.weekDates[0].date.getFullYear();
     const lastDayYear = this.weekDates[6].date.getFullYear();
     this.weekTitle = firstDayMonth === lastDayMonth
@@ -101,11 +102,17 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
     const firstWeekDate = new Date(year, month, day);
     this.buildWeekCalendar(firstWeekDate);
     this.buildWeekCalendarTitle();
-    this.markCalendarDays(false, this.weekDates);
+    this.getUserHabits(false, this.weekDates);
   }
 
   ngOnDestroy() {
     this.destroyed$.next(true);
     this.destroyed$.complete();
+  }
+
+  public showHabits(event, dayItem: CalendarInterface) {
+    if (this.checkCanOpenPopup(dayItem)) {
+      this.openDialogDayHabits(event, false, dayItem);
+    }
   }
 }
