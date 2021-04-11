@@ -4,6 +4,7 @@
       <img [src]="latestNews[0]?.imagePath || eventImg"
             alt="event-image"
             class="main-event-image"
+            aria-hidden="true"
       >
       <app-eco-events-item [ecoEvent]="latestNews[0]"
                            [mainEvent]="true"
@@ -17,10 +18,12 @@
   </div>
   <a class="centered"
      [routerLink]="['/news']"
+     aria-label="link to eco-news page"
   >
     {{ "homepage.eco-news.read-all" | translate }}
     <img [src]="arrow"
          alt="arrow"
+         aria-hidden="true"
     >
   </a>
 </div>

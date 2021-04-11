@@ -37,6 +37,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     { lang: 'Ua', langName: 'ukrainian' },
     { lang: 'En', langName: 'english' },
     { lang: 'Ru', langName: 'russian' }];
+  public ariaStatus = 'profile options collapsed';
   public isSearchClicked = false;
   private adminRoleValue = 'ROLE_ADMIN';
   private userRole: string;
@@ -193,10 +194,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public toggleDropdown(): void {
     this.dropdownVisible = !this.dropdownVisible;
+    this.dropdownVisible ? this.ariaStatus = 'profile options expanded': this.ariaStatus = 'profile options collapsed';
   }
 
   public autoCloseUserDropDown(event): void {
     this.dropdownVisible = event;
+    this.ariaStatus = 'profile options collapsed';
   }
 
   public autoCloseLangDropDown(event): void {
