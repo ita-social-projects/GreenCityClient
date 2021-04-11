@@ -1,0 +1,68 @@
+.wraper {
+    background-color: var(--ubs-secondary-light-grey);
+    display: flex;
+    justify-content: center;
+}
+
+.order {
+    width: 750px;
+    height: 540px;
+    background-color: var(--ubs-primary-white);
+    box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
+}
+
+.title {
+    font-family: var(--primary-font);
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 32px;
+    text-align: center;
+    letter-spacing: 0.002em;
+    color: var(--ubs-primary-dark-grey);
+    margin-top: 40px;
+}
+
+.description {
+    font-family: var(--primary-font);
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    color: var(--ubs-primary-dark-grey);
+    width: 510px;
+    height: 60px;
+    margin: auto;
+}
+
+.infolinks {
+    display: flex;
+    justify-content: space-between;
+}
+
+.image {
+    width: 300px;
+    height: 300px;
+    margin: 55px;
+}
+
+li {
+    list-style-type: none;
+}
+
+.list {
+    padding: 30px 0;
+    font-size: 14px;
+    color: var(--ubs-primary-green);
+    font-family: var(--primary-font);
+    margin: 55px;
+    a {
+        text-decoration: underline;
+    }
+
+    h5 {
+        font-size: 16px;
+        font-weight: bold;
+        color: var(--ubs-primary-dark-grey);
+    }
+}
