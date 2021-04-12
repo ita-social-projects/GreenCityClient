@@ -1,3 +1,4 @@
+import { UsbAdminModule } from './component/usb-admin/usb-admin.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -76,7 +77,8 @@ import { PendingChangesGuard } from '@global-service/pending-changes-guard/pendi
     MatSelectModule,
     MatRadioModule,
     DragDropModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    UsbAdminModule
   ],
   entryComponents: [
     ProposeCafeComponent,

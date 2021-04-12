@@ -40,6 +40,11 @@
                 routerLinkActiveOptions="{exact:true}">
                 UBS
               </a>
+              <li role="navigation to ubs">
+                <a [routerLink]="['/ubs-admin']" routerLinkActive="active-link"
+                  routerLinkActiveOptions="{exact:true}">
+                  UBS-admin
+                </a>
             </li>
             <hr class="header_line container" [ngClass]="{'d-none': !toggleBurgerMenu}" />
             <div *ngIf="!isLoggedIn; then userLoggedInSmall else userNotLoggerInSmall"></div>
