@@ -42,7 +42,8 @@ export class OneHabitComponent implements OnInit {
 
   @Output() nowAcquiredHabit = new EventEmitter();
 
-  constructor(private localStorageService: LocalStorageService,
+  constructor(
+    private localStorageService: LocalStorageService,
     private habitAssignService: HabitAssignService,
     public router: Router,
     public route: ActivatedRoute,
