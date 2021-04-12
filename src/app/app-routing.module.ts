@@ -1,3 +1,4 @@
+import { ConfirmRestorePasswordGuard } from './service/route-guards/confirm-restore-password.guard';
 import { ConfirmRestorePasswordComponent } from '@global-auth/index';
 import { TipsListComponent} from './component/home/components';
 import { NgModule } from '@angular/core';
@@ -36,7 +37,7 @@ export const routes: Routes = [
   },
   {
     path: 'auth/restore',
-    component: ConfirmRestorePasswordComponent,
+    component: ConfirmRestorePasswordComponent, canActivate: [ConfirmRestorePasswordGuard]
   },
   {
     path: '',
