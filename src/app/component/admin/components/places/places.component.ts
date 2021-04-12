@@ -52,7 +52,8 @@ export class PlacesComponent implements OnInit {
   deleteMessageTranslation: string;
   placesTranslation: string;
 
-  constructor(public dialog: MatDialog,
+  constructor(
+    public dialog: MatDialog,
     private titleService: Title,
     private placeService: PlaceService,
     public weekDaysUtils: WeekDaysUtils,
