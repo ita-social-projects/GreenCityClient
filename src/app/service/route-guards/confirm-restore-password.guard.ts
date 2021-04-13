@@ -10,7 +10,9 @@ export class ConfirmRestorePasswordGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | boolean  {
       const f = next.queryParams.token;
-      return confirm(f);
+      const g = atob(f)
+      const j = g.split(".")[0]
+      return confirm(j);
      
   }
   
