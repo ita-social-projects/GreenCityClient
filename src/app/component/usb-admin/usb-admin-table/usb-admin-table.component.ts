@@ -43,7 +43,6 @@ export class UsbAdminTableComponent implements OnInit {
     { field: 'weight' },
     { field: 'symbol' },
     
-
   ];
 
   displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol'];
