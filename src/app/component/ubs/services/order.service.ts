@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
-import { FinalOrder, ICertificate, IOrder } from '../models/ubs.interface';
+import { Bag, FinalOrder, ICertificate, OrderDetails, PersonalData, WorkingData } from '../models/ubs.interface';
+import { Order } from '../models/ubs.model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,18 +12,23 @@ import { FinalOrder, ICertificate, IOrder } from '../models/ubs.interface';
 export class OrderService {
   private url = 'https://greencity-ubs.azurewebsites.net/ubs';
 
+  orderDetails: OrderDetails;
+  personalData: PersonalData;
+
   constructor(private http: HttpClient) { }
 
-  getOrders(): Observable<IOrder> {
-    return this.http.get<IOrder>(`${this.url}/order-details`);
+  getOrders(): Observable<OrderDetails> {
+    return this.http.get<OrderDetails>(`${this.url}/order-details`)
+      .pipe(tap(orderDetails => this.orderDetails = orderDetails));
   }
 
   getPersonalData(): Observable<any> {
-    return this.http.get(`${this.url}/personal-data`);
+    return this.http.get(`${this.url}/personal-data`)
+      .pipe(tap(personalData => this.personalData=personalData[0]));
   }
 
-  processOrder(order: FinalOrder): Observable<FinalOrder> {
-    return this.http.post<FinalOrder>(`${this.url}/processOrder`, order);
+  processOrder(order: Order): Observable<Order> {
+    return this.http.post<Order>(`${this.url}/processOrder`, order);
   }
 
   processCertificate(certificate): Observable<ICertificate[]> {

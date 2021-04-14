@@ -18,6 +18,8 @@ import { UBSSubmitOrderComponent } from './components/ubs-submit-order/ubs-submi
 import { UBSInputErrorComponent } from './components/ubs-input-error/ubs-input-error.component';
 import { UBSAddAddressPopUpComponent } from './components/ubs-personal-information/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { AddressComponent } from './components/ubs-personal-information/address/address.component';
+import { SharedModule } from '@shared/shared.module';
+import { SpinnerComponent } from '@shared/components/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,7 @@ import { AddressComponent } from './components/ubs-personal-information/address/
     UBSSubmitOrderComponent,
     UBSInputErrorComponent,
     UBSAddAddressPopUpComponent,
-    AddressComponent
+    AddressComponent,
   ],
   imports: [
     CommonModule,
@@ -43,7 +45,8 @@ import { AddressComponent } from './components/ubs-personal-information/address/
     AgmCoreModule.forRoot({
       apiKey: environment.agmCoreModuleApiKey,
       libraries: ['places']
-    })
+    }),
+    SharedModule
   ],
   entryComponents: [
     UBSAddAddressPopUpComponent
@@ -51,7 +54,7 @@ import { AddressComponent } from './components/ubs-personal-information/address/
   providers: [
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
-      useValue: {hasBackdrop: true}
+      useValue: { hasBackdrop: true }
     }
   ]
 })

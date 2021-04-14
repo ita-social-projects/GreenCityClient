@@ -156,7 +156,7 @@ button {
     margin-bottom: 2rem;
   }
 
-  input {
+  .input-border {
     background: var(--ubs-primary-white);
     border: 1px solid var(--ubs-secondary-grey);
   }
@@ -283,4 +283,8 @@ button {
       color: var(--ubs-primary-white);
     }
   }
+}
+
+li{
+  list-style: none;
 }

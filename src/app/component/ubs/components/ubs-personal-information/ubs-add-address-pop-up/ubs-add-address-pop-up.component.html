@@ -26,20 +26,25 @@
       <app-ubs-input-error [formElement]="street" [streetFieldValue]="street.value" [controlName]="'street'"></app-ubs-input-error>
     </div>
   </div>
-  <div class="col-12 col-sm-6 d-flex justify-content-between flex-wrap form-group">
-    <div class="item">
+
+  <div class="row col-12 col-sm-6 d-flex justify-content-between flex-wrap form-group">
+    <div class="item col-sm-4">
+      <label>Будинок</label>
+      <input formControlName="houseNumber" type="text" class="shadow-none form-control">
+    </div>
+    <div class="item col-sm-4">
       <label>Корпус</label>
       <input formControlName="houseCorpus" type="text" class="shadow-none form-control">
     </div>
-    <div class="item">
+    <div class="item col-sm-4">
       <label>Під'їзд</label>
       <input formControlName="entranceNumber" type="text" class="shadow-none form-control">
     </div>
-    <div class="w-100">
+    <!-- <div class="w-100">
       <div class="validation" *ngIf="houseCorpus.invalid && houseCorpus.touched">
         <app-ubs-input-error [formElement]="houseCorpus" [controlName]="'houseCorpus'"></app-ubs-input-error>
       </div>
-    </div>
+    </div> -->
   </div>
 </form>
 <div class="d-flex justify-content-end" mat-dialog-actions>

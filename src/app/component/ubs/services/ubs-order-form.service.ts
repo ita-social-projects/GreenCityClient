@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 
-import { FinalOrder, IUserOrder } from '../models/ubs.interface';
+import { FinalOrder } from '../models/ubs.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UBSOrderFormService {
 
-  public objectSource = new Subject<IUserOrder>();
+  public objectSource = new Subject<FinalOrder>();
   public finalObject = new Subject<FinalOrder>();
   public billObjectSource = new BehaviorSubject<{}>({
     amountUbs: 0,
@@ -25,7 +25,7 @@ export class UBSOrderFormService {
 
   constructor() { }
 
-  changeObject(order: IUserOrder) {
+  changeObject(order: FinalOrder) {
     this.objectSource.next(order);
   }
 

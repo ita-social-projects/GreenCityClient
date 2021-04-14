@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="bags.length">
   <div class="header">
     <h3>Ваше замовлення</h3>
     <table>
@@ -10,26 +10,12 @@
         <th>Сума</th>
       </thead>
       <tbody>
-      <tr [class.d-none]="bill.amountUbs === 0">
-        <td class="firstRow">{{ ubsBag }}</td>
-        <td class="firstRow"> {{ bagSizeUbs }} л</td>
-        <td class="firstRow">{{ ubsBagPrice }} грн</td>
-        <td class="firstRow">{{ bill.amountUbs }}</td>
-        <td class="firstRow">{{ bill.sumUbs }} </td>
-      </tr>
-      <tr [class.d-none]="bill.amountClothesXL === 0">
-        <td>{{ clothesBagXL }}</td>
-        <td>{{ bagSizeClothesXL }} л</td>
-        <td>{{ clothesBagXLPrice }} грн</td>
-        <td>{{ bill.amountClothesXL }}</td>
-        <td>{{ bill.sumClothesXL }}</td>
-      </tr>
-      <tr [class.d-none]="bill.amountClothesM === 0">
-        <td class="lastRow">{{ clothesBagM }}</td>
-        <td class="lastRow">{{ bagSizeClothesM }} л</td>
-        <td class="lastRow">{{ clothesBagMPrice }} грн</td>
-        <td class="lastRow">{{ bill.amountClothesM }}</td>
-        <td class="lastRow">{{ bill.sumClothesM }}</td>
+      <tr *ngFor="let bag of bags">
+        <td class="firstRow">{{ bag.name }}</td>
+        <td class="firstRow"> {{ bag.capacity }} л</td>
+        <td class="firstRow">{{ bag.price }} грн</td>
+        <td class="firstRow">{{ bag.quantity }}</td>
+        <td class="firstRow">{{ bag.price* bag.quantity}} </td>
       </tr>
       </tbody>
     </table>

@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { IOrder } from '../../models/ubs.interface';
+import { Bag, FinalOrder, orderBag, OrderDetails, PersonalData } from '../../models/ubs.interface';
+import { Order } from '../../models/ubs.model';
 import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 
@@ -14,6 +15,9 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 })
 export class UBSSubmitOrderComponent implements OnInit {
   paymentForm: FormGroup = this.fb.group({});
+  bags: Bag[] = [];
+  personalData: PersonalData;
+
   displayMes = true;
   bill: any;
   finalOrder: any;
@@ -28,7 +32,7 @@ export class UBSSubmitOrderComponent implements OnInit {
   houseCorpus: any;
   comment: string;
   orderComment: string;
-  orders: IOrder;
+  orders: OrderDetails;
   ubsBag: string;
   bagSizeUbs = 0;
   clothesBagXL: string;
@@ -47,22 +51,31 @@ export class UBSSubmitOrderComponent implements OnInit {
     private orderService: OrderService,
     private fb: FormBuilder) { }
 
+
+  ngDoCheck() {
+    if (this.orderService.orderDetails) {
+      this.bags = this.orderService.orderDetails.bags.filter(bag => bag.quantity !== 0)
+      console.log(this.bags)
+    }
+  }
+
   ngOnInit(): void {
-    this.orderService.getOrders()
-      .pipe(
-        takeUntil(this.destroy)
-      )
-      .subscribe(data => {
-        this.orders = data;
-        this.initPaymentData();
-      });
+    // this.orderService.getOrders()
+    //   .pipe(
+    //     takeUntil(this.destroy)
+    //   )
+    //   .subscribe(data => {
+    //     this.orders = data;
+    //     this.initPaymentData();
+    //   });
 
     this.shareFormService.finalObject
       .pipe(
         takeUntil(this.destroy)
       )
       .subscribe(order => {
-        this.finalOrder = order; this.initPersonalData();
+        // this.finalOrder = order;
+        // this.initPersonalData();
       });
 
     this.shareFormService.billObjectSource
@@ -73,31 +86,30 @@ export class UBSSubmitOrderComponent implements OnInit {
         this.bill = order;
       });
   }
+  // initPaymentData(): void {
+  //   this.ubsBag = this.orders.bags[0].name;
+  //   this.bagSizeUbs = this.orders.bags[0].capacity;
+  //   this.clothesBagXL = this.orders.bags[1].name;
+  //   this.bagSizeClothesXL = this.orders.bags[1].capacity;
+  //   this.clothesBagM = this.orders.bags[2].name;
+  //   this.bagSizeClothesM = this.orders.bags[2].capacity;
+  //   this.ubsBagPrice = this.orders.bags[0].price;
+  //   this.clothesBagXLPrice = this.orders.bags[1].price;
+  //   this.clothesBagMPrice = this.orders.bags[2].price;
+  // }
 
-  initPaymentData(): void {
-    this.ubsBag = this.orders.allBags[0].name;
-    this.bagSizeUbs = this.orders.allBags[0].capacity;
-    this.clothesBagXL = this.orders.allBags[1].name;
-    this.bagSizeClothesXL = this.orders.allBags[1].capacity;
-    this.clothesBagM = this.orders.allBags[2].name;
-    this.bagSizeClothesM = this.orders.allBags[2].capacity;
-    this.ubsBagPrice = this.orders.allBags[0].price;
-    this.clothesBagXLPrice = this.orders.allBags[1].price;
-    this.clothesBagMPrice = this.orders.allBags[2].price;
-  }
-
-  initPersonalData(): void {
-    this.firstName = this.finalOrder.personalData.firstName;
-    this.lastName = this.finalOrder.personalData.lastName;
-    this.email = this.finalOrder.personalData.email;
-    this.mobile = this.finalOrder.personalData.phoneNumber;
-    this.city = this.finalOrder.personalData.city;
-    this.district = this.finalOrder.personalData.district;
-    this.street = this.finalOrder.personalData.street;
-    this.houseNumber = this.finalOrder.personalData.houseNumber;
-    this.houseCorpus = this.finalOrder.personalData.entranceNumber;
-    this.comment = this.finalOrder.personalData.addressComment;
-    this.orderComment = this.finalOrder.orderComment;
-    this.additionalOrders = this.finalOrder.additionalOrders;
-  }
+  // initPersonalData(): void {
+  //   this.firstName = this.finalOrder.personalData.firstName;
+  //   this.lastName = this.finalOrder.personalData.lastName;
+  //   this.email = this.finalOrder.personalData.email;
+  //   this.mobile = this.finalOrder.personalData.phoneNumber;
+  //   this.city = this.finalOrder.personalData.city;
+  //   this.district = this.finalOrder.personalData.district;
+  //   this.street = this.finalOrder.personalData.street;
+  //   this.houseNumber = this.finalOrder.personalData.houseNumber;
+  //   this.houseCorpus = this.finalOrder.personalData.entranceNumber;
+  //   this.comment = this.finalOrder.personalData.addressComment;
+  //   this.orderComment = this.finalOrder.orderComment;
+  //   this.additionalOrders = this.finalOrder.additionalOrders;
+  // }
 }

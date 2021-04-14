@@ -27,5 +27,6 @@ export class UBSOrderFormComponent implements AfterViewInit {
     this.secondStepForm = this.stepTwoComponent.personalDataForm;
     this.thirdStepForm = this.stepThreeComponent.paymentForm;
     this.cdr.detectChanges();
+    console.log(this.firstStepForm)
   }
 }

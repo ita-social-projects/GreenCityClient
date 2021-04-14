@@ -29,6 +29,10 @@ export class UBSAddAddressPopUpComponent implements OnInit {
     return this.addAddressForm.get('street');
   }
 
+  get house(){
+    return this.addAddressForm.get('house')
+  }
+
   get houseCorpus() {
     return this.addAddressForm.get('houseCorpus');
   }
@@ -43,7 +47,7 @@ export class UBSAddAddressPopUpComponent implements OnInit {
         Validators.maxLength(40),
         Validators.pattern(this.streetPattern)
       ]],
-      houseNumber: ['', Validators.required],
+      houseNumber: ['', [Validators.required]],
       houseCorpus: ['', [
         Validators.maxLength(2),
         Validators.pattern(this.houseCorpusPattern)
