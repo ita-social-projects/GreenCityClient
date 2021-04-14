@@ -67,6 +67,10 @@ export class MatSnackBarComponent {
     errorMessage: (error) => {
       this.className = 'error-snackbar';
       this.getSnackBarMessage(error);
+    },
+    sendNewLetter: () => {
+      this.className = 'error-snackbar';
+      this.getSnackBarMessage('snack-bar.error.restore-password-again');
     }
   };
 
