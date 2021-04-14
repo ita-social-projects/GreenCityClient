@@ -3,11 +3,11 @@
     <h3>Ваше замовлення</h3>
     <table>
       <thead>
-        <th>Послуга</th>
-        <th>Об'єм</th>
-        <th>Вартість</th>
-        <th>Кількість пакетів</th>
-        <th>Сума</th>
+        <th scope="col">Послуга</th>
+        <th scope="col">Об'єм</th>
+        <th scope="col">Вартість</th>
+        <th scope="col">Кількість пакетів</th>
+        <th scope="col">Сума</th>
       </thead>
       <tbody>
       <tr [class.d-none]="bill.amountUbs === 0">
@@ -35,10 +35,10 @@
     </table>
     <div class="showTotal">
       <div class="totalInfo">
-        <p><span>Сума замовлення:</span><span><b>{{ bill.total }} грн</b></span></p>
+        <p><span>Сума замовлення:</span><span><strong>{{ bill.total }} грн</strong></span></p>
         <p [class.d-none]="bill.certificatesSum === 0"><span>Сертифікат: </span><span><small>{{ bill.certificatesSum }}</small></span></p>
         <p [class.d-none]="bill.pointsSum === 0"><span>Бонуси: </span><span><small>{{ bill.pointsSum }}</small></span></p>
-        <p><span>Сума до оплати: </span><span><b>{{ bill.finalSum }} грн</b></span></p>
+        <p><span>Сума до оплати: </span><span><strong>{{ bill.finalSum }} грн</strong></span></p>
         <div *ngIf="displayMes" class="validMes">
           <small class="text-danger">Мінімальна сума замовлення повинна складати 500 грн</small>
         </div>
