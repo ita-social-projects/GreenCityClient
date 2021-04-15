@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ProposeCafeComponent } from '../../../core/components/propose-cafe/propose-cafe.component';
 import { MatDialog } from '@angular/material';
 
@@ -7,12 +7,9 @@ import { MatDialog } from '@angular/material';
   templateUrl: './admin-nav.component.html',
   styleUrls: ['./admin-nav.component.scss']
 })
-export class AdminNavComponent implements OnInit {
+export class AdminNavComponent {
 
   constructor(public dialog: MatDialog) {
-  }
-
-  ngOnInit() {
   }
 
   openDialog(): void {

@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AbstractControl, FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { SignInIcons } from 'src/app/image-pathes/sign-in-icons';
 import { RestoreDto } from '@global-models/restroreDto';
-import { ActivatedRoute } from '@angular/router';
 import { ChangePasswordService } from '@auth-service/change-password.service';
 import { authImages } from 'src/app/image-pathes/auth-images';
 import { ConfirmPasswordValidator, ValidatorRegExp } from '../sign-up/sign-up.validator';
@@ -39,7 +38,7 @@ export class ConfirmRestorePasswordComponent implements OnInit {
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBarComponent,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.restoreDto = new RestoreDto();
@@ -54,12 +53,12 @@ export class ConfirmRestorePasswordComponent implements OnInit {
       password: new FormControl('', []),
       confirmPassword: new FormControl('', [])
     },
-    {
-      validator: [
-        ConfirmPasswordValidator('password', 'confirmPassword'),
-        ValidatorRegExp('password'),
-      ]
-    });
+      {
+        validator: [
+          ConfirmPasswordValidator('password', 'confirmPassword'),
+          ValidatorRegExp('password'),
+        ]
+      });
   }
 
   public getFormFields(): void {
