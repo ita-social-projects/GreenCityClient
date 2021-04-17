@@ -9,10 +9,8 @@ import { Observable} from 'rxjs';
   providedIn: 'root'
 })
 export class ConfirmRestorePasswordGuard implements CanActivate {
-
   currenDate: number = Date.now();
-  millisecondsOfDay: number = 86400000; 
-
+  millisecondsOfDay = 86400000;
   constructor( private router: Router, public dialog: MatDialog, private snackBar: MatSnackBarComponent) {}
 
   canActivate(
@@ -20,14 +18,14 @@ export class ConfirmRestorePasswordGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree  {
       const token = next.queryParams.token;
       const tokenString = atob(token);
-      const dateFromToken = tokenString.split(".")[0];
-        if (this.currenDate - +dateFromToken > this.millisecondsOfDay) {
-          this.openSingInWindow();
-          this.snackBar.openSnackBar('sendNewLetter');
-          return this.router.navigateByUrl('/');
-        } else {
-          return true;
-        }
+      const dateFromToken = tokenString.split('.')[0];
+      if (this.currenDate - +dateFromToken > this.millisecondsOfDay) {
+        this.openSingInWindow();
+        this.snackBar.openSnackBar('sendNewLetter');
+        return this.router.navigateByUrl('/');
+      } else {
+        return true;
+      }
   }
 
   private openSingInWindow(): void {
@@ -39,5 +37,6 @@ export class ConfirmRestorePasswordGuard implements CanActivate {
         popUpName: 'restore-password'
       }
     }
-  )}
+  );
+  }
 }
