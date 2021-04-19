@@ -8,44 +8,46 @@ import { CheckboxComponent } from 'angular-bootstrap-md';
 import 'hammerjs';
 
 export interface PeriodicElement {
-  name: string;
-  position: number;
+  'статус замовлення': string;
+  'замовлення': number;
   weight: number;
   symbol: string;
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
   
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
+  {'замовлення': 1, 'статус замовлення': 'Hydrogen', weight: 1.0079, symbol: 'H'},
+  {'замовлення': 2, 'статус замовлення': 'Helium', weight: 4.0026, symbol: 'He'},
+  {'замовлення': 3, 'статус замовлення': 'Lithium', weight: 6.941, symbol: 'Li'},
+  {'замовлення': 4, 'статус замовлення': 'Beryllium', weight: 9.0122, symbol: 'Be'},
+  {'замовлення': 5, 'статус замовлення': 'Boron', weight: 10.811, symbol: 'B'},
+  {'замовлення': 6, 'статус замовлення': 'Carbon', weight: 12.0107, symbol: 'C'},
+  {'замовлення': 7, 'статус замовлення': 'Nitrogen', weight: 14.0067, symbol: 'N'},
+  {'замовлення': 8, 'статус замовлення': 'Oxygen', weight: 15.9994, symbol: 'O'},
+  {'замовлення': 9, 'статус замовлення': 'Fluorine', weight: 18.9984, symbol: 'F'},
+  {'замовлення': 10, 'статус замовлення': 'Neon', weight: 20.1797, symbol: 'Ne'},
 ];
 
 
 @Component({
-  selector: 'app-usb-admin-table',
-  templateUrl: './usb-admin-table.component.html',
-  styleUrls: ['./usb-admin-table.component.scss']
+  selector: 'app-ubs-admin-table',
+  templateUrl: './ubs-admin-table.component.html',
+  styleUrls: ['./ubs-admin-table.component.scss']
 })
-export class UsbAdminTableComponent implements OnInit {
+export class UbsAdminTableComponent implements OnInit {
+ 
+  sticky: boolean;
+  visibile: boolean;
 
   columns: any[] = [
-    { field: 'select' },
-    { field: 'position' },
-    { field: 'name' },
+    { field: 'select', sticky: true, visibile: true},
+    { field: 'замовлення' },
+    { field: 'статус замовлення' },
     { field: 'weight' },
     { field: 'symbol' },
-    
-  ];
+    ];
 
-  displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol'];
+  displayedColumns: string[] = [];
 
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   selection = new SelectionModel<PeriodicElement>(true, []);
@@ -100,6 +102,6 @@ export class UsbAdminTableComponent implements OnInit {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.замовлення + 1}`;
   }
 }

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UsbAdminTableComponent } from './usb-admin-table/usb-admin-table.component';
+import { UbsAdminTableComponent } from './ubs-admin-table/ubs-admin-table.component';
 import { BrowserModule } from '@angular/platform-browser';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource, MatCheckboxModule} from '@angular/material';
@@ -21,7 +21,7 @@ import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
-    UsbAdminTableComponent,
+    UbsAdminTableComponent,
     
   ],
   imports: [
@@ -45,7 +45,7 @@ import { MatListModule } from '@angular/material/list';
   ],
   providers: [MatSort, MatTableDataSource],
   entryComponents: [
-    UsbAdminTableComponent
+    UbsAdminTableComponent
   ],
 })
-export class UsbAdminModule { }
+export class UbsAdminModule { }

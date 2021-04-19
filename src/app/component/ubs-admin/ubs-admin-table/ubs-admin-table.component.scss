@@ -76,14 +76,33 @@ table {
       color: #CACFD3;
       border: 1px solid #CACFD3;
       display:flex;
-      justify-content:center;
-      
+      justify-content: center;
+      font-size: 14px;
+      flex: 0 0 15% !important;
+      word-wrap: break-word !important;
+      white-space:  nowrap !important;
   }
+
+  mat-cell:last-of-type, mat-footer-cell:last-of-type, mat-header-cell:last-of-type {
+    padding-right: 0px;
+    
+}
+
+mat-cell:first-of-type, mat-footer-cell:first-of-type, 
+mat-header-cell:first-of-type {
+  padding-left: 0px;
+  flex: 0 0 4% !important;
+  display: flex;
+}
 
   ::ng-deep .mat-cell {
     border: 1px solid #CACFD3;
-    display:flex;
-    justify-content:center;
+    display: flex;
+    justify-content: center;
+    font-size: 14px;
+    word-wrap: break-word !important;
+    white-space:  nowrap !important;
+    flex: 0 0 15% !important;
   }
 
   ::ng-deep table {
@@ -98,7 +117,7 @@ align-items: center;
 padding: 8px;
 margin: 20px;
 position: static;
-width: 258px;
+width: 158px;
 height: 36px;
 left: calc(50% - 258px/2);
 top: calc(50% - 36px/2);

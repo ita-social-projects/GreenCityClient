@@ -1,4 +1,4 @@
-import { UsbAdminTableComponent } from './component/usb-admin/usb-admin-table/usb-admin-table.component';
+import { UbsAdminTableComponent } from './component/ubs-admin/ubs-admin-table/ubs-admin-table.component';
 import { ConfirmRestorePasswordComponent } from '@global-auth/index';
 import { TipsListComponent} from './component/home/components';
 import { NgModule } from '@angular/core';
@@ -29,7 +29,7 @@ export const routes: Routes = [
   },
   {
     path: 'ubs-admin',
-    component: UsbAdminTableComponent
+    component: UbsAdminTableComponent
   },
   {
     path: 'tips',

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UsbAdminTableComponent } from './usb-admin-table.component';
+import { UbsAdminTableComponent } from './ubs-admin-table.component';
 
 describe('UsbAdminTableComponent', () => {
-  let component: UsbAdminTableComponent;
-  let fixture: ComponentFixture<UsbAdminTableComponent>;
+  let component: UbsAdminTableComponent;
+  let fixture: ComponentFixture<UbsAdminTableComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UsbAdminTableComponent ]
+      declarations: [ UbsAdminTableComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UsbAdminTableComponent);
+    fixture = TestBed.createComponent(UbsAdminTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
