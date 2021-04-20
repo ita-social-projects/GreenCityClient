@@ -22,7 +22,7 @@ export class UbsComponent implements OnInit, OnDestroy {
       this.translate.setDefaultLang(lang);
     });
   }
-  
+
   ngOnDestroy() {
     this.destroyed$.next(true);
     this.destroyed$.complete();

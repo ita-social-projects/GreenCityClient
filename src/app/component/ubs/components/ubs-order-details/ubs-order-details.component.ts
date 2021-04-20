@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
@@ -8,13 +8,12 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { UserOrder } from '../../models/ubs.model';
 import { IOrder, IUserOrder } from '../../models/ubs.interface';
 import { TranslateService } from '@ngx-translate/core';
-
 @Component({
   selector: 'app-ubs-order-details',
   templateUrl: './ubs-order-details.component.html',
   styleUrls: ['./ubs-order-details.component.scss'],
 })
-export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
+export class UBSOrderDetailsComponent implements OnInit, OnDestroy, OnChanges {
   showTotal = 0;
   total = 0;
   finalSum = 0;
@@ -38,6 +37,9 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   userOrder: IUserOrder;
   object: {};
   private destroy: Subject<boolean> = new Subject<boolean>();
+  certMessageFirst = '';
+  certMessageFourth = '';
+  certMessageFifth = '';
 
   constructor(
     private fb: FormBuilder,
@@ -87,6 +89,18 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
 
   get additionalOrders() {
     return this.orderDetailsForm.get('additionalOrders') as FormArray;
+  }
+
+  ngOnChanges() {
+    this.translate.get('order-details.activated-certificate1')
+      .pipe(take(1))
+      .subscribe(item => this.certMessageFirst = item);
+    this.translate.get('order-details.activated-certificate4')
+      .pipe(take(1))
+      .subscribe(item => this.certMessageFourth = item);
+    this.translate.get('order-details.activated-certificate5')
+      .pipe(take(1))
+      .subscribe(item => this.certMessageFifth = item);
   }
 
   ngOnInit(): void {
@@ -274,26 +288,18 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
     this.calculateCertificates(this.certificates);
   }
 
-  translateWords(key: string) {
-    let res = '';
-    this.translate.get(key)
-      .pipe(take(1))
-      .subscribe((text: string) => res = text);
-    return res;
-  }
-
   certificateMatch(cert): void {
     if (
       cert.certificateStatus === 'ACTIVE' ||
       cert.certificateStatus === 'NEW'
     ) {
       this.certificateSum = this.certificateSum + cert.certificatePoints;
-      this.certMessage = this.translateWords('order-details.activated-certificate1') + ' ' + cert.certificatePoints +
-       ' ' + this.translateWords('order-details.activated-certificate4') + ' ' + cert.certificateDate;
+      this.certMessage = this.certMessageFirst + ' ' + cert.certificatePoints +
+       ' ' + this.certMessageFourth + ' ' + cert.certificateDate;
       this.displayCert = true;
     } else if (cert.certificateStatus === 'USED') {
       this.certificateSum = this.certificateSum;
-      this.certMessage = this.translateWords('order-details.activated-certificate5') + ' ' + cert.certificateDate;
+      this.certMessage = this.certMessageFifth + ' ' + cert.certificateDate;
       this.displayCert = false;
     }
   }
