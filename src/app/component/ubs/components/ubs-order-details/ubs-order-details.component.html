@@ -132,7 +132,7 @@
                    *ngIf="certificate.invalid && certificate.touched">
                    {{'order-details.failed-certificate' | translate}}
             </small>
-            <small class="text-message"> {{ certMessage | translate}} </small>
+            <small class="text-message"> {{ certMessage }} </small>
           </div>
         </div>
         <button *ngIf="addCert" class="addCertificateBtn" (click)="addCertificate()">{{'order-details.add-certificate' | translate}}</button>

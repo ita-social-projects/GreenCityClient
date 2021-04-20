@@ -1,6 +1,6 @@
-import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
 import { OrderService } from '../../services/order.service';
@@ -8,12 +8,13 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { UserOrder } from '../../models/ubs.model';
 import { IOrder, IUserOrder } from '../../models/ubs.interface';
 import { TranslateService } from '@ngx-translate/core';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 @Component({
   selector: 'app-ubs-order-details',
   templateUrl: './ubs-order-details.component.html',
   styleUrls: ['./ubs-order-details.component.scss'],
 })
-export class UBSOrderDetailsComponent implements OnInit, OnDestroy, OnChanges {
+export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   showTotal = 0;
   total = 0;
   finalSum = 0;
@@ -37,6 +38,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy, OnChanges {
   userOrder: IUserOrder;
   object: {};
   private destroy: Subject<boolean> = new Subject<boolean>();
+  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   certMessageFirst = '';
   certMessageFourth = '';
   certMessageFifth = '';
@@ -45,7 +47,8 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy, OnChanges {
     private fb: FormBuilder,
     private orderService: OrderService,
     private shareFormService: UBSOrderFormService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private localStorageService: LocalStorageService
   ) {}
 
   orderDetailsForm: FormGroup  = this.fb.group({
@@ -91,19 +94,15 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy, OnChanges {
     return this.orderDetailsForm.get('additionalOrders') as FormArray;
   }
 
-  ngOnChanges() {
-    this.translate.get('order-details.activated-certificate1')
-      .pipe(take(1))
-      .subscribe(item => this.certMessageFirst = item);
-    this.translate.get('order-details.activated-certificate4')
-      .pipe(take(1))
-      .subscribe(item => this.certMessageFourth = item);
-    this.translate.get('order-details.activated-certificate5')
-      .pipe(take(1))
-      .subscribe(item => this.certMessageFifth = item);
-  }
-
   ngOnInit(): void {
+    this.localStorageService.languageBehaviourSubject
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(() => {
+        this.translateWords('order-details.activated-certificate1', this.certMessageFirst);
+        this.translateWords('order-details.activated-certificate4', this.certMessageFourth);
+        this.translateWords('order-details.activated-certificate5', this.certMessageFifth);
+    });
+
     this.shareFormService.objectSource
       .pipe(takeUntil(this.destroy))
       .subscribe((object) => {
@@ -117,6 +116,12 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy, OnChanges {
         this.orders = data;
         this.initForm();
       });
+  }
+
+  translateWords(key: string, variable) {
+    return this.translate.get(key)
+      .pipe(take(1))
+      .subscribe(item => variable = item);
   }
 
   initForm(): void {
@@ -342,5 +347,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnDestroy() {
     // [TASK] implement unsubscribe
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 }
