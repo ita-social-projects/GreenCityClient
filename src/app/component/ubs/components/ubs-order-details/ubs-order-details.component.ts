@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 
 import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
@@ -38,7 +38,6 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   userOrder: IUserOrder;
   object: {};
   private destroy: Subject<boolean> = new Subject<boolean>();
-  currency = '';
 
   constructor(
     private fb: FormBuilder,
@@ -275,18 +274,26 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
     this.calculateCertificates(this.certificates);
   }
 
+  translateWords(key: string) {
+    let res = '';
+    this.translate.get(key)
+      .pipe(take(1))
+      .subscribe((text: string) => res = text);
+    return res;
+  }
+
   certificateMatch(cert): void {
     if (
       cert.certificateStatus === 'ACTIVE' ||
       cert.certificateStatus === 'NEW'
     ) {
       this.certificateSum = this.certificateSum + cert.certificatePoints;
-      this.certMessage = 'order-details.activated-certificate1' + ' ' + cert.certificatePoints +
-       ' ' + 'order-details.activated-certificate4' + ' ' + cert.certificateDate;
+      this.certMessage = this.translateWords('order-details.activated-certificate1') + ' ' + cert.certificatePoints +
+       ' ' + this.translateWords('order-details.activated-certificate4') + ' ' + cert.certificateDate;
       this.displayCert = true;
     } else if (cert.certificateStatus === 'USED') {
       this.certificateSum = this.certificateSum;
-      this.certMessage = 'order-details.activated-certificate5' + ' ' + cert.certificateDate;
+      this.certMessage = this.translateWords('order-details.activated-certificate5') + ' ' + cert.certificateDate;
       this.displayCert = false;
     }
   }
