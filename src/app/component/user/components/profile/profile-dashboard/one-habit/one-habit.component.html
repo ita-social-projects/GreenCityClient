@@ -1,9 +1,10 @@
 <div class="main">
+  <div class="image">
+  </div>
   <div class="description">
     <div class="first-row">
-      <div class="calendar">
-      </div>
-      <p>{{ daysCounter }}</p>
+      <div class="calendar"></div>
+      <p>{{ daysCounter }} <span>I</span></p>
       <div
         *ngIf="showPhoto"
         class="friends-photo"
@@ -20,7 +21,7 @@
     class="third-row"
     [ngSwitch]="habitMark"
   >
-    <ng-template ngSwitchCase="plus">
+    <ng-template ngSwitchCase="empty">
       <button
         class="{{ habitMark }}"
         (click)="enroll()"
@@ -40,8 +41,5 @@
       <div class="{{ habitMark }}"></div>
       <div class="grey">{{ 'user.habit.one-habit.great' | translate }}</div>
     </ng-template>
-  </div>
-  <div class="image">
-    <img [src]="backgroundImage" alt="running man image">
   </div>
 </div>

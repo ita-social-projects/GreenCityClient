@@ -80,8 +80,8 @@
               <h5 class="info-place-name-header">
                 {{placeInfo.name}}
               </h5>
-              <mat-icon svg svgIcon="{{p.color}}" 
-                        class="info-place-name-icon" 
+              <mat-icon svg svgIcon="{{p.color}}"
+                        class="info-place-name-icon"
                         mat-icon-button
                         *ngIf="userRole === 'ROLE_ADMIN' || userRole === 'ROLE_MODERATOR' || userRole === 'ROLE_USER'"
                         (click)="saveOrDeletePlaceAsFavorite(p); ">
@@ -119,10 +119,10 @@
             </p>
             <div class="nav-link dropdown-toggle" role="button"
                   (click)="placeService.showHours = !placeService.showHours">
-              <img [src]="clockIcon" alt="clock-icon"
+              <img [src]="clockIcon" alt="clock"
                     class="clock-icon">{{weekDaysUtils.showTodayOnly(placeInfo.openingHoursList)}}
             </div>
-            <div *ngIf="placeService.showHours" 
+            <div *ngIf="placeService.showHours"
                   class="show-hours">
               <table class="open_hours_table"
                       *ngFor="let item of weekDaysUtils.sortOpenHoursList(placeInfo.openingHoursList)">

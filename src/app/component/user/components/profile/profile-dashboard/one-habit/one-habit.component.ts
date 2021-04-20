@@ -3,7 +3,9 @@ import { HabitAssignInterface } from '../../../../../../interface/habit/habit-as
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { take } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { HabitStatus } from '../../../../../../model/habit/HabitStatus.enum';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HabitService } from '@global-service/habit/habit.service';
+import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 
 @Component({
   selector: 'app-one-habit',
@@ -17,15 +19,14 @@ export class OneHabitComponent implements OnInit {
   daysCounter: number;
   habitMark: string;
   isRequest = false;
-  backgroundImage = 'assets/img/man.svg';
+  // backgroundImage = 'assets/img/man.svg';
   firstFriend = 'assets/img/kimi.png';
   secondFriend = 'assets/img/lewis.png';
-
   private descriptionType = {
     acquired: () => {
       this.daysCounter = this.habit.duration;
       this.showPhoto = false;
-      this.habitMark = 'star';
+      this.habitMark = 'empty';
     },
     done: () => {
       this.daysCounter = this.habit.workingDays
@@ -39,14 +40,17 @@ export class OneHabitComponent implements OnInit {
         ? this.habit.workingDays
         : this.habit.duration;
       this.showPhoto = true;
-      this.habitMark = 'plus';
+      this.habitMark = 'empty';
     }
   };
 
   @Output () nowAcquiredHabit = new EventEmitter();
 
   constructor(private localStorageService: LocalStorageService,
-              private habitAssignService: HabitAssignService) { }
+              private habitAssignService: HabitAssignService,
+              public router: Router,
+              public route: ActivatedRoute,
+              public habitService: HabitService) {}
 
   ngOnInit() {
     this.currentDate = this.formatDate(new Date());

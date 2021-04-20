@@ -9,6 +9,7 @@ import { UserOrder } from '../../models/ubs.model';
 import { IOrder, IUserOrder } from '../../models/ubs.interface';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+
 @Component({
   selector: 'app-ubs-order-details',
   templateUrl: './ubs-order-details.component.html',

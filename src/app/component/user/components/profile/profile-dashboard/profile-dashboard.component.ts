@@ -30,7 +30,6 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
               private habitAssignService: HabitAssignService) { }
 
   ngOnInit() {
-    this.executeRequests();
     this.subscribeToLangChange();
     this.getUserId();
   }

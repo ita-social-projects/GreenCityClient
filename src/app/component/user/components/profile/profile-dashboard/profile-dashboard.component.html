@@ -16,14 +16,14 @@
          [ngClass]="tabs.articles ? 'active' : 'plain'"
          (click)="toggleTab('articles')"
     >
-      <p>{{ 'profile.dashboard.my-articles' | translate }}</p>
+      <p>{{ 'profile.dashboard.my-tips-and-tricks' | translate }}</p>
     </div>
     <div class="hline"></div>
   </div>
   <div *ngIf="!loading; else spinner">
     <div class="in-progress header">
-      <p>{{ 'profile.dashboard.habits-in-progress' | translate }}
-        <span>{{ habitsInProgress.length }}</span>
+      <p>{{ 'profile.dashboard.habits-inprogress' | translate }} <br>
+        <span>{{ habitsInProgress.length }} {{ 'profile.dashboard.habits' | translate }}</span>
       </p>
       <a [routerLink]="['/profile', userId, 'allhabits']">
         <div
@@ -44,8 +44,8 @@
       </app-one-habit>
     </div>
     <div class="acquired header">
-      <p> {{ 'profile.dashboard.habits-acquired' | translate }}
-        <span>{{ habitsAcquired.length }}</span>
+      <p> {{ 'profile.dashboard.habits-acquired' | translate }} <br>
+        <span>{{ habitsAcquired.length }} {{ 'profile.dashboard.habits' | translate }}</span>
       </p>
     </div>
     <div

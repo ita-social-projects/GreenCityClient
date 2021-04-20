@@ -46,21 +46,22 @@ export class PlacesComponent implements OnInit {
   sortDirection = 'asc';
   selectedColumnToSort = 'name';
   sortArrow: string;
-  @ViewChild('paginationElement', {static: false})
+  @ViewChild('paginationElement', { static: false })
   paginationComponent: PaginationComponent;
   deleteTranslation: string;
   deleteMessageTranslation: string;
   placesTranslation: string;
 
-  constructor(public dialog: MatDialog,
-              private titleService: Title,
-              private placeService: PlaceService,
-              public weekDaysUtils: WeekDaysUtils,
-              private ngFlashMessageService: NgFlashMessageService,
-              private confirmationDialogService: ConfirmationDialogService,
-              private translation: TranslateService,
-              iconRegistry: MatIconRegistry,
-              sanitizer: DomSanitizer) {
+  constructor(
+    public dialog: MatDialog,
+    private titleService: Title,
+    private placeService: PlaceService,
+    public weekDaysUtils: WeekDaysUtils,
+    private ngFlashMessageService: NgFlashMessageService,
+    private confirmationDialogService: ConfirmationDialogService,
+    private translation: TranslateService,
+    iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer) {
     iconRegistry.addSvgIcon(
       'arrow-up',
       sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/arrows/arrow-up-bold.svg'));
@@ -77,7 +78,7 @@ export class PlacesComponent implements OnInit {
 
     this.translation.get('feedbacks.delete').subscribe(translation => this.deleteTranslation = translation);
     this.translation.get('feedbacks.Do-you-really-want-to-delete-comment-of').
-    subscribe(translation => this.deleteMessageTranslation = translation);
+      subscribe(translation => this.deleteMessageTranslation = translation);
     this.translation.get('feedbacks.places').subscribe(translation => this.placesTranslation = translation);
   }
 
@@ -196,7 +197,7 @@ export class PlacesComponent implements OnInit {
       this.confirmDelete(this.selectedPlaces[0].id, this.selectedPlaces[0].name);
     } else {
       this.confirmationDialogService.confirm(this.deleteTranslation, this.deleteMessageTranslation +
-      ' ' + this.selectedPlaces.length + this.placesTranslation + ' ?')
+        ' ' + this.selectedPlaces.length + this.placesTranslation + ' ?')
         .then((confirmed) => {
           if (confirmed) {
             this.bulkDelete(this.selectedPlaces);
@@ -228,16 +229,16 @@ export class PlacesComponent implements OnInit {
 
   setDisplayedButtons() {
     switch (this.defaultStatus) {
-      case 'proposed' :
+      case 'proposed':
         this.displayedButtons = ['Approve', 'Decline', 'Delete'];
         break;
-      case 'approved' :
+      case 'approved':
         this.displayedButtons = ['Decline', 'Propose', 'Delete'];
         break;
-      case 'declined' :
+      case 'declined':
         this.displayedButtons = ['Approve', 'Propose', 'Delete'];
         break;
-      case 'deleted' :
+      case 'deleted':
         this.displayedButtons = ['Approve'];
         break;
     }
@@ -291,7 +292,6 @@ export class PlacesComponent implements OnInit {
     } else {
       this.selectedColumnToSort = columnToSort;
     }
-    // this.page++;
     this.sortColumn = columnToSort;
     this.sortDirection = direction;
     this.filterByRegex(this.searchReg);

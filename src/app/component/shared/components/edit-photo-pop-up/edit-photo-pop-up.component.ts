@@ -49,13 +49,8 @@ export class EditPhotoPopUpComponent implements OnInit {
 
   public savePhoto(): void {
     this.loadingAnim = true;
-    const body = {
-      id: this.profileService.userId,
-      profilePicturePath: this.croppedImage
-    };
     const formData = new FormData();
-    formData.append('userProfilePictureDto', JSON.stringify(body));
-
+    formData.append('base64', this.croppedImage);
     this.editProfileService.updateProfilePhoto(formData)
     .subscribe(
       () => {
