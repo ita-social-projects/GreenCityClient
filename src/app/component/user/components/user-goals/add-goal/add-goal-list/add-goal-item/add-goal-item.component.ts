@@ -14,9 +14,6 @@ export class AddGoalItemComponent implements OnInit {
   goals: Goal[];
   isEditable: boolean;
 
-  constructor() {
-  }
-
   ngOnInit() {
     this.isEditable = false;
     if (this.goal.type === GoalType.TRACKED) {
@@ -36,7 +33,6 @@ export class AddGoalItemComponent implements OnInit {
     this.goals.forEach((el, index) => {
       if (el.id === this.goal.id && el.type === this.goal.type) {
         this.goals.splice(index, 1);
-        return;
       }
     });
   }

@@ -25,8 +25,6 @@ export class UBSInputErrorComponent implements OnChanges {
     pattern: () => 'Поле містить заборонені символи'
   };
 
-  constructor() {}
-
   ngOnChanges() {
     this.getType();
   }

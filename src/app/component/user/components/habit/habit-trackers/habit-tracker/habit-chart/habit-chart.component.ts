@@ -42,9 +42,6 @@ export class HabitChartComponent implements OnInit, OnChanges {
     }
   ];
 
-  constructor() {
-  }
-
   ngOnInit() {
     const canvas = document.getElementById('chartIdGeneral');
     canvas.id = this.chartId;

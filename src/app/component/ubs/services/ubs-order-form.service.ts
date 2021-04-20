@@ -23,8 +23,6 @@ export class UBSOrderFormService {
     finalSum: 0,
   });
 
-  constructor() { }
-
   changeObject(order: IUserOrder) {
     this.objectSource.next(order);
   }

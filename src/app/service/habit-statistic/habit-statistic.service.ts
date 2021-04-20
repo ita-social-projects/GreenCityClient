@@ -100,7 +100,6 @@ export class HabitStatisticService implements OnLogout {
               this.dataStore.habitStatistics[habitIndex].habitStatistics[statIndex] =
                 new HabitStatisticsDto(data.id, data.habitRate, data.createdOn, data.amountOfItems, data.habitId);
               this.$habitStatistics.next(Object.assign({}, this.dataStore).habitStatistics);
-              return;
             }
           });
         }
