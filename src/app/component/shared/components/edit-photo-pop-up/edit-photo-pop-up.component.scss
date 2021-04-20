@@ -57,7 +57,6 @@ $secondErrorColor: #b42626;
         padding: 8px 24px;
         box-sizing: border-box;
         border-radius: 4px;
-        font-family: Lato;
         font-style: normal;
         font-weight: bold;
         font-size: 16px;
@@ -131,10 +130,12 @@ $secondErrorColor: #b42626;
   .main-container {
     width: 100vw;
     height: 100vh;
+
     .wrapper {
       p {
         width: 288px;
       }
+
       .buttons {
         flex-direction: column;
 
