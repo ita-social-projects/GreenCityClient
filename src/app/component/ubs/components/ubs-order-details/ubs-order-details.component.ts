@@ -51,7 +51,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService
   ) {}
 
-  orderDetailsForm: FormGroup  = this.fb.group({
+  orderDetailsForm: FormGroup = this.fb.group({
     bagServiceUbs: [{ value: '', disabled: true }],
     bagNumUbs: [0],
     bagSizeUbs: [{ value: '', disabled: true }],
