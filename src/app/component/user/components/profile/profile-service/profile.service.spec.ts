@@ -8,7 +8,8 @@ import { ProfileService } from './profile.service';
 
 
 describe('ProfileService', () => {
-
+  const backUserLink = 'https://greencity-user.azurewebsites.net/';
+  const backLink = 'https://greencity.azurewebsites.net/';
   let profileService: ProfileService;
   let httpMock: HttpTestingController;
 
@@ -50,20 +51,20 @@ describe('ProfileService', () => {
     expect(userId).toBe(1111);
   });
 
-  describe('getFactsOfTheDay', () => {
+  describe('test for method which get facts for today', () => {
     it('should return fact of the day', () => {
       const fact = { id: 1, content: 'Great day!'};
       profileService.getFactsOfTheDay().subscribe(info => {
         expect(info.content).toBe('Great day!');
       });
 
-      const req = httpMock.expectOne(`https://greencity.azurewebsites.net/factoftheday/?lang=en`);
+      const req = httpMock.expectOne(`${backLink}factoftheday/?lang=en`);
       expect(req.request.method).toBe('GET');
       req.flush(fact);
     });
   });
 
-  describe('getUserInfo', () => {
+  describe('test for method which get info about user', () => {
     it('should return user info', () => {
       const userInfo = {
         city: 'Lviv',
@@ -81,13 +82,13 @@ describe('ProfileService', () => {
         expect(info.rating).toBe(1999);
       });
 
-      const req = httpMock.expectOne(`https://greencity-user.azurewebsites.net/user/1111/profile/`);
+      const req = httpMock.expectOne(`${backUserLink}user/1111/profile/`);
       expect(req.request.method).toBe('GET');
       req.flush(userInfo);
     });
   });
 
-  describe('getUserProfileStatistics', () => {
+  describe('test for method which get statistics about user profile', () => {
     it('should return user profile statistics', () => {
       const stat = {
         amountHabitsInProgress: 2,
@@ -100,13 +101,13 @@ describe('ProfileService', () => {
         expect(info.amountHabitsAcquired).toBe(1);
       });
 
-      const req = httpMock.expectOne(`https://greencity-user.azurewebsites.net/user/1111/profileStatistics/`);
+      const req = httpMock.expectOne(`${backUserLink}user/1111/profileStatistics/`);
       expect(req.request.method).toBe('GET');
       req.flush(stat);
     });
   });
 
-  describe('getEcoPlaces', () => {
+  describe('test for method which get user eco-places', () => {
     it('should return eco-places', () => {
       const places = [
         {
@@ -123,14 +124,14 @@ describe('ProfileService', () => {
         expect(info.length).toBe(2);
       });
 
-      const req = httpMock.expectOne(`https://greencity.azurewebsites.net/favorite_place/`);
+      const req = httpMock.expectOne(`${backLink}favorite_place/`);
       expect(req.request.method).toBe('GET');
       req.flush(places);
     });
   });
 
-  describe('getUserFriends', () => {
-    it('should six user friends', () => {
+  describe('test for method which get six user friends for dashboard', () => {
+    it('should return six user friends', () => {
       const userFriends = {
         amountOfFriends: 30,
         pagedFriends: {
@@ -145,7 +146,7 @@ describe('ProfileService', () => {
         expect(info.pagedFriends.totalElements).toBe(6);
       });
 
-      const req = httpMock.expectOne(`https://greencity-user.azurewebsites.net/user/1111/sixUserFriends/`);
+      const req = httpMock.expectOne(`${backUserLink}user/1111/sixUserFriends/`);
       expect(req.request.method).toBe('GET');
       req.flush(userFriends);
     });
