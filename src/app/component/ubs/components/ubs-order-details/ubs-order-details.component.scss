@@ -59,6 +59,7 @@
   background: none;
   padding-left: 0;
   border: none;
+  display: flex;
 }
 
 .count {
@@ -66,6 +67,12 @@
     border: 1px solid var(--ubs-secondary-grey);
     padding-left: 6px;
   }
+}
+
+.info {
+  position: relative;
+  bottom: 35px;
+  left: 60px;
 }
 
 .custom-control-label {
@@ -90,7 +97,7 @@
 
   .form-control {
     padding-left: 0;
-    text-align: right;
+    text-align: center;
     font-weight: 700;
   }
 }

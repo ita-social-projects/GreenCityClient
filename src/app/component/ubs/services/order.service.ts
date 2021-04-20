@@ -27,4 +27,5 @@ export class OrderService {
   processCertificate(certificate): Observable<ICertificate[]> {
     return this.http.get<ICertificate[]>(`${this.url}/certificate/${certificate}`);
   }
+
 }
