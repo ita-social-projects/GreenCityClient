@@ -530,6 +530,7 @@
       "input-validation-required": "This field is required",
       "input-validation-pattern": "Your URL seems to be incorrect",
       "input-validation-non-unique": "This link has been already added",
+      "profile-changes-saved": "Your changes have been saved",
       "btn":{
         "cancel": "Cancel",
         "save": "Save",

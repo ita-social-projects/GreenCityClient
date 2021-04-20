@@ -535,6 +535,7 @@
       "input-validation-required": "Це поле є обов'язковим",
       "input-validation-pattern": "Здається, Ваша URL-адреса неправильна",
       "input-validation-non-unique": "Це посилання вже додано",
+      "profile-changes-saved": "Внесені зміни збережено",
       "btn": {
         "cancel": "Скасувати",
         "save": "Зберегти",
