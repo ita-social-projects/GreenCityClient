@@ -15,7 +15,7 @@
           type="text"
           formControlName="name"
           placeholder="{{ userInfo.name.first + ' ' + userInfo.name.last }}"
-          pattern="^(?!\s|.*\s$).*$"
+          pattern="^\S((?!.*  ).*\S)?$"
           id="name"
         />
         <span>{{ "user.edit-profile.name-warning" | translate }}</span>
