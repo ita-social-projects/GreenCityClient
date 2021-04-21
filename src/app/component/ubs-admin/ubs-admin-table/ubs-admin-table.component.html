@@ -1,9 +1,22 @@
 
-
+<div class="filter">
 <input (keyup)="applyFilter($event.target.value)" placeholder="Search" class="search">
 <input (keyup)="applyFilter($event.target.value)" placeholder="Статус замовлення">
 <input (keyup)="applyFilter($event.target.value)" placeholder="Оплата">
-<input (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+
+
+<div >
+  
+  <input value="Filter" (keyup)="onKey(searchField.value)" ><i class="fas fa-filter" data-toggle="dropdown"></i>
+    
+
+  <ul class="dropdown-menu" >
+      <li *ngFor="let column of columns"><input type="checkbox" value="id1" >{{column.field}}</li>
+     
+      <button class="btn btn-info" onClick="showTable();">Check</button>
+  </ul>
+</div>
+</div>
 
 <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" cdkDropListGroup>
 

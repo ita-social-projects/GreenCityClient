@@ -70,7 +70,7 @@ table {
   .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
   }
-
+///////////////////////////////////////////////////////////////////////////////////////////
   ::ng-deep .mat-header-cell {
       background-color: #444E55;;
       color: #CACFD3;
@@ -109,7 +109,22 @@ mat-header-cell:first-of-type {
     margin-left: 50px;
   }
 
-  input {
+ form {
+    display: flex;
+    justify-content: right;
+    height: 36px;
+  }
+
+
+  .filter {
+    display: flex;
+  }
+
+//   .dropdown-menu ul {
+//    padding-left: 130px ;
+// }   
+/////////////////////////////////////////////////////////////////////////////////////
+  input  {
     display: inline-block;
 flex-direction: row;
 justify-content: center;
@@ -117,7 +132,7 @@ align-items: center;
 padding: 8px;
 margin: 20px;
 position: static;
-width: 158px;
+width: 128px;
 height: 36px;
 left: calc(50% - 258px/2);
 top: calc(50% - 36px/2);
