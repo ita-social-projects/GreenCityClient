@@ -1,9 +1,9 @@
 <div class="container">
     <h2>{{ "user.edit-profile.edit-profile" | translate }}</h2>
     <app-personal-photo></app-personal-photo>
-    <form #formEditProf 
-        [formGroup]="editProfileForm" 
-        (ngSubmit)="onSubmit()" 
+    <form #formEditProf
+        [formGroup]="editProfileForm"
+        (ngSubmit)="onSubmit()"
         (keydown.enter)="$event.preventDefault()">
         <div class="wrapper">
             <p>{{ "user.edit-profile.info" | translate }}</p>
@@ -73,7 +73,7 @@
         </div>
         <div class="buttons">
             <button type="button" (click)="cancel()">{{"user.edit-profile.btn.cancel" | translate }}</button>
-            <button type="submit" [disabled]="!editProfileForm.valid">{{"user.edit-profile.btn.save" | translate }}</button>
+            <button type="submit" [disabled]="!editProfileForm.valid || editProfileForm.pristine">{{"user.edit-profile.btn.save" | translate }}</button>
         </div>
     </form>
 </div>
