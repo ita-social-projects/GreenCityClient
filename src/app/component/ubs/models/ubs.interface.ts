@@ -6,7 +6,7 @@ export interface Bag {
   quantity?: number;
 }
 
-export interface orderBag {
+export interface OrderBag {
   amount: number;
   id: number;
 }
@@ -14,6 +14,10 @@ export interface orderBag {
 export interface OrderDetails {
   bags: Bag[];
   points: number;
+  pointsToUse?: number;
+  certificates?: any;
+  additionalOrders: any;
+  orderComment?: string;
 }
 
 export interface WorkingData {
@@ -74,7 +78,9 @@ export interface PersonalData {
   latitude?: number;
 }
 
-export interface Address{
+export interface Address {
+  checked: boolean;
+  id: number;
   city: string;
   district: string;
   street: string;
@@ -84,4 +90,3 @@ export interface Address{
   longitude?: number;
   latitude?: number;
 }
-

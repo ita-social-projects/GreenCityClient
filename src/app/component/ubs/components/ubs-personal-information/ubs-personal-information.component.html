@@ -1,4 +1,4 @@
-<form [formGroup]="personalDataForm" (ngSubmit)="submit()" *ngIf="personalData!==undefined">
+<form [formGroup]="personalDataForm" (ngSubmit)="submit()" *ngIf="personalData" (change)="changePersonalData()">
   <div class="row personal-data">
     <div class="w-100">
       <h2 class="personal-data-title">Особисті дані</h2>
@@ -76,15 +76,33 @@
     <div class="w-100">
       <h2 class="address-title">Адреса вивозу сміття</h2>
     </div>
-    <div *ngIf="addresses.length === 0; else addressesList" class="no-addresses">
+    <div *ngIf="!addresses; else addressesList" class="no-addresses">
       <input formControlName="isAddress" style="display: none;">
       <p>У Вас немає доданих адрес. Додайте,будь ласка, адресу.</p>
     </div>
     <ng-template #addressesList>
-      <app-address *ngFor="let address of addresses" [address]="address" class="address col-12 col-md-6"></app-address>
+      <div class="address d-flex" *ngFor="let address of addresses">
+        <div class="custom-radio d-flex">
+          <input
+            type="radio"
+            [value]="address.id"
+            [checked]="address.checked"
+            (click)="checkAddress(address.id)">
+        </div>
+        <app-address [address]="address" class="address col-12 col-md-6">
+        </app-address>
+        <div class="edit-address" (click)="editAddress(address.id)">
+          <img src="../../../../../../assets/img/comments/edit.png" alt="">
+        </div>
+      </div>
     </ng-template>
     <div class="w-100">
-      <button type="button" class="btn add-address" mat-raised-button (click)="openDialog()">Додати адресу</button>
+      <button
+        type="button"
+        class="btn add-address"
+        mat-raised-button
+        (click)="addNewAddress()"
+        [disabled]="addresses.length === maxAddressLength">Додати адресу</button>
     </div>
   </div>
   <hr>

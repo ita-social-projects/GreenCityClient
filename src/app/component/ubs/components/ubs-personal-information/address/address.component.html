@@ -1,10 +1,6 @@
-<div class="address d-flex flex-column">
-  <div class="custom-radio">
-    <input id="addressRadio" class="custom-control-input"
-      type="radio" (click)="checkAddress()">
-      <label class="custom-control-label" for="addressRadio"></label>
+  <div class="content">
+    <p>м.{{ address.city }}</p>
+    <p>{{ address.street }},{{ address.houseNumber }},корпус {{ address.houseCorpus }},під'їзд
+      {{ address.entranceNumber }}</p>
+    <p>район {{ address.region }}</p>
   </div>
-  <p>м.{{ address.city }}</p>
-  <p>{{ address.street }},{{ address.houseNumber }},корпус {{ address.houseCorpus }},під'їзд {{ address.entranceNumber }}</p>
-  <p>район {{ address.region }}</p>
-</div>

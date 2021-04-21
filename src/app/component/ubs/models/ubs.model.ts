@@ -7,7 +7,7 @@ export class Order {
   orderComment: string;
   personalData: PersonalData;
   pointsToUse: number;
-  
+
   constructor(
     additionalOrders: Array<string>,
     bags: Bag[],
