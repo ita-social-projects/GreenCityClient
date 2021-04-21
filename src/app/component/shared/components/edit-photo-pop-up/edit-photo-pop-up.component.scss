@@ -8,7 +8,7 @@ $secondErrorColor: #b42626;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #fff;
+  background: var(--primary-white);
 
   .cancel {
     position: absolute;
@@ -63,7 +63,7 @@ $secondErrorColor: #b42626;
       }
 
       .primary-global-button {
-        background: #fff;
+        background: var(--primary-white);
         color: var(--primary-green);
 
         &:hover {
@@ -80,7 +80,7 @@ $secondErrorColor: #b42626;
         &:hover {
           border: 1px solid $secondErrorColor;
           background: $secondErrorColor;
-          color: #fff;
+          color: var(--primary-white);
         }
 
         &:disabled {
@@ -92,7 +92,7 @@ $secondErrorColor: #b42626;
 
       .secondary-global-button {
         background: var(--primary-green);
-        color: #fff;
+        color: var(--primary-white);
 
         &:hover {
           background: var(--secondary-dark-green);
