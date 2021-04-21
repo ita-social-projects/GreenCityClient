@@ -1,8 +1,9 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { LanguageService } from './i18n/language.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { TitleAndMetaTagsService } from './service/title-meta-tags/title-and-meta-tags.service';
 import { UiActionsService } from '@global-service/ui-actions/ui-actions.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-root',
@@ -27,6 +28,13 @@ export class AppComponent implements OnInit {
     this.navigateToStartingPositionOnPage();
     this.titleAndMetaTagsService.useTitleMetasData();
     this.uiActionsService.stopScrollingSubject.subscribe(data => this.toggle = data);
+  }
+
+  @HostListener('window:beforeunload',)
+  onExitHandler() {
+    let date = new Date;
+    let currentDate = moment(date).format('yyyy-MM-dd.HH:mm:ss.SSSSSS');
+    return currentDate;
   }
 
   public setFocus(): void {
