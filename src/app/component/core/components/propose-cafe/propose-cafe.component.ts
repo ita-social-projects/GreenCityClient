@@ -136,8 +136,8 @@ export class ProposeCafeComponent implements OnInit {
     } else {
       let exist = false;
       // tslint:disable-next-line:prefer-for-of
-      for (let i = 0; i < this.discountValues.length; i++) {
-        if (discount1.specification.name === this.discountValues[i].specification.name) {
+      for (let discount of this.discountValues) {
+        if (discount1.specification.name === discount.specification.name) {
           this.matSnackBar.openSnackBar('cafeNotificationsExists');
           exist = true;
         }

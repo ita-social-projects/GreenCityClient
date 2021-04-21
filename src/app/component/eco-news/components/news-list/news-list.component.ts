@@ -99,7 +99,6 @@ export class NewsListComponent implements OnInit, OnDestroy {
           takeUntil(this.destroyed$),
           catchError((error) => {
             this.snackBar.openSnackBar('error');
-
             return error;
           })
         )
@@ -108,10 +107,9 @@ export class NewsListComponent implements OnInit, OnDestroy {
       this.ecoNewsService.getEcoNewsListByPage(this.currentPage, this.numberOfNews)
         .pipe(
           takeUntil(this.destroyed$),
-          catchError((error) => {
+          catchError((err) => {
             this.snackBar.openSnackBar('error');
-
-            return error;
+            return err;
           })
         )
         .subscribe((list: EcoNewsDto) => this.setList(list));

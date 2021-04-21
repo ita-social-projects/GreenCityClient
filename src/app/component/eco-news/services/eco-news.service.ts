@@ -41,7 +41,7 @@ export class EcoNewsService implements OnDestroy {
   public getNewsList(): Observable<any> {
     const headers = new HttpHeaders();
     headers.set('Content-type', 'application/json');
-    const ecoNewsObservable = new Observable((observer: Observer<any>) => {
+    return new Observable((observer: Observer<any>) => {
       this.http.get<EcoNewsDto>(`${this.backEnd}econews`)
         .pipe(take(1))
         .subscribe(
@@ -50,8 +50,6 @@ export class EcoNewsService implements OnDestroy {
           }
         );
     });
-
-    return ecoNewsObservable;
   }
 
   public getEcoNewsById(id: string): Observable<EcoNewsModel> {

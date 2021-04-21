@@ -3,7 +3,6 @@ import {Chart} from 'chart.js';
 import 'chartjs-plugin-labels';
 import {DayEstimation} from '../../../../../../../model/habit/DayEstimation';
 import {HabitStatisticsDto} from '../../../../../../../model/habit/HabitStatisticsDto';
-import 'chartjs-plugin-labels';
 
 @Component({
   selector: 'app-habit-chart',

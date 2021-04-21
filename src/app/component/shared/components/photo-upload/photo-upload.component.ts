@@ -55,8 +55,8 @@ export class PhotoUploadComponent implements OnInit {
 
   uploadSubmit() {
     // tslint:disable-next-line:prefer-for-of
-    for (let i = 0; i < this.uploader.queue.length; i++) {
-      const fileItem = this.uploader.queue[i]._file;
+    for (let upqueue of this.uploader.queue) {
+      const fileItem = upqueue._file;
       if (fileItem.type !== 'image/png' && fileItem.type !== 'image/jpg' && fileItem.type !== 'image/jpeg' && fileItem.size > 10000000) {
         this.loadingUpload = false;
         this.matSnackBar.openSnackBar('cafeNotificationsPhotoUpload');

@@ -35,32 +35,26 @@ export class HabitDurationComponent implements OnInit {
 
   public getRangeWidth() {
     const appHabit: HTMLElement = this.elm.nativeElement;
-    const inputWidth = appHabit.getElementsByClassName('form-control-range').item(0).clientWidth;
-    return inputWidth;
+    return appHabit.getElementsByClassName('form-control-range').item(0).clientWidth;
   }
 
   public getRangeMin() {
     const appHabit: HTMLElement = this.elm.nativeElement;
-    const min = +appHabit.getElementsByClassName('form-control-range').item(0).getAttribute('min');
-    return min;
+    return +appHabit.getElementsByClassName('form-control-range').item(0).getAttribute('min');
   }
 
   public getRangeMax() {
     const appHabit: HTMLElement = this.elm.nativeElement;
-    const max = +appHabit.getElementsByClassName('form-control-range').item(0).getAttribute('max');
-    return max;
+    return +appHabit.getElementsByClassName('form-control-range').item(0).getAttribute('max');
   }
 
   public getThumbLabelWidth() {
     const appHabit: HTMLElement = this.elm.nativeElement;
-    const thumbLabelWidth = appHabit.getElementsByClassName('thumbLabel').item(0).clientWidth;
-    return thumbLabelWidth;
+    return appHabit.getElementsByClassName('thumbLabel').item(0).clientWidth;
   }
 
   public getThumbWidth() {
-    const thumbWidth = parseInt(this.thumbWidth, 10);
-    return thumbWidth;
+    return parseInt(this.thumbWidth, 10);
   }
-
 
 }
