@@ -1,10 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Bag, FinalOrder, OrderDetails } from '../../models/ubs.interface';
+import { ReplaySubject, Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
+
 import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
-import { Bag, FinalOrder, OrderDetails } from '../../models/ubs.interface';
+// import { UserOrder } from '../../models/ubs.model';
+
+import { TranslateService } from '@ngx-translate/core';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-ubs-order-details',
@@ -41,17 +46,36 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   userOrder: FinalOrder;
   object: {};
   private destroy: Subject<boolean> = new Subject<boolean>();
+  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  certMessageFirst = '';
+  certMessageFourth = '';
+  certMessageFifth = '';
 
   constructor(
     private fb: FormBuilder,
     private orderService: OrderService,
-    private shareFormService: UBSOrderFormService
+    private shareFormService: UBSOrderFormService,
+    private translate: TranslateService,
+    private localStorageService: LocalStorageService
   ) {
     this.initForm();
   }
 
   ngOnInit(): void {
     this.takeOrderData();
+    this.localStorageService.languageBehaviourSubject
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(() => {
+        this.translateWords('order-details.activated-certificate1', this.certMessageFirst);
+        this.translateWords('order-details.activated-certificate4', this.certMessageFourth);
+        this.translateWords('order-details.activated-certificate5', this.certMessageFifth);
+      });
+  }
+
+  translateWords(key: string, variable) {
+    return this.translate.get(key)
+      .pipe(take(1))
+      .subscribe(item => variable = item);
   }
 
   initForm() {
@@ -247,11 +271,12 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
       cert.certificateStatus === 'NEW'
     ) {
       this.certificateSum = this.certificateSum + cert.certificatePoints;
-      this.certMessage = `Сертифiкат на cуму ${cert.certificatePoints} грн активовано. Строк дії сертифікату - до ${cert.certificateDate}`;
+      this.certMessage = this.certMessageFirst + ' ' + cert.certificatePoints +
+        ' ' + this.certMessageFourth + ' ' + cert.certificateDate;
       this.displayCert = true;
     } else if (cert.certificateStatus === 'USED') {
-      this.certificateSum = 0;
-      this.certMessage = `Сертифiкат вже використано. Строк дії сертифікату - до ${cert.certificateDate}`;
+      this.certificateSum = this.certificateSum;
+      this.certMessage = this.certMessageFifth + ' ' + cert.certificateDate;
       this.displayCert = false;
     }
   }

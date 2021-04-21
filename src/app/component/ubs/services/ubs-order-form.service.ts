@@ -1,6 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-
 import { FinalOrder, OrderDetails, PersonalData } from '../models/ubs.interface';
 
 @Injectable({

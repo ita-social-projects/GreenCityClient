@@ -1,10 +1,11 @@
 <form [formGroup]="personalDataForm" (ngSubmit)="submit()" *ngIf="personalData" (change)="changePersonalData()">
   <div class="row personal-data">
     <div class="w-100">
-      <h2 class="personal-data-title">Особисті дані</h2>
+      <h2 class="personal-data-title">{{'personal-info.info-personal-data' | translate}}</h2>
     </div>
     <div class="col-12 col-sm-6 form-group">
-      <label>Ім'я</label>
+
+      <label>{{'personal-info.info-name' | translate}}</label>
       <input
         formControlName="firstName"
         type="text"
@@ -20,7 +21,7 @@
       </div>
     </div>
     <div class="col-12 col-sm-6 form-group">
-      <label>Номер телефону</label>
+      <label>{{'personal-info.info-phone' | translate}}</label>
       <input
         formControlName="phoneNumber"
         type="text" class="shadow-none form-control"
@@ -38,7 +39,7 @@
       </div>
     </div>
     <div class="col-12 col-sm-6 form-group">
-      <label>Прізвище</label>
+      <label>{{'personal-info.info-surname' | translate}}</label>
       <input
         formControlName="lastName"
         type="text"
@@ -74,11 +75,11 @@
   <hr>
   <div class="row adress-section">
     <div class="w-100">
-      <h2 class="address-title">Адреса вивозу сміття</h2>
+      <h2 class="address-title">{{'personal-info.info-address' | translate}}</h2>
     </div>
     <div *ngIf="!addresses; else addressesList" class="no-addresses">
       <input formControlName="isAddress" style="display: none;">
-      <p>У Вас немає доданих адрес. Додайте,будь ласка, адресу.</p>
+      <p>{{'personal-info.info-no-address' | translate}}</p>
     </div>
     <ng-template #addressesList>
       <div class="address d-flex" *ngFor="let address of addresses">
@@ -102,14 +103,14 @@
         class="btn add-address"
         mat-raised-button
         (click)="addNewAddress()"
-        [disabled]="addresses.length === maxAddressLength">Додати адресу</button>
+        [disabled]="addresses.length === maxAddressLength">{{'personal-info.info-add-address' | translate}}</button>
     </div>
   </div>
   <hr>
   <div class="address-comment">
-    <h5 class="comment-title">Коментар до адреси</h5>
+    <h5 class="comment-title">{{'personal-info.info-address-coment' | translate}}</h5>
     <textarea class="form-control" formControlName="addressComment"
-      placeholder="Будь-які деталі, які ви б хотіли нам повідомити додатково"></textarea>
+      placeholder="{{'personal-info.info-coment-placeholder' | translate}}"></textarea>
     <div
       class="validation"
       *ngIf="getControl('addressComment').invalid && getControl('addressComment').touched">
@@ -120,11 +121,11 @@
     </div>
   </div>
   <div class="w-100 d-flex justify-content-between personal-data-navigation">
-    <button class="secondary-global-button btn" matStepperPrevious>Назад</button>
+    <button class="secondary-global-button btn" matStepperPrevious>{{'personal-info.info-back' | translate}}</button>
     <div>
-      <button class="secondary-global-button btn" matStepperPrevious>Відмінити</button>
+      <button class="secondary-global-button btn" matStepperPrevious>{{'personal-info.info-cancel' | translate}}</button>
       <button type="submit" class="primary-global-button btn" matStepperNext
-        [disabled]="personalDataForm.invalid">Далі</button>
+        [disabled]="personalDataForm.invalid">{{'personal-info.info-next' | translate}}</button>
     </div>
   </div>
 </form>
