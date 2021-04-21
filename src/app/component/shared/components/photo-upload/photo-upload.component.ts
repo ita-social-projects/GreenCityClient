@@ -55,7 +55,7 @@ export class PhotoUploadComponent implements OnInit {
 
   uploadSubmit() {
     // tslint:disable-next-line:prefer-for-of
-    for (let upqueue of this.uploader.queue) {
+    for (const upqueue of this.uploader.queue) {
       const fileItem = upqueue._file;
       if (fileItem.type !== 'image/png' && fileItem.type !== 'image/jpg' && fileItem.type !== 'image/jpeg' && fileItem.size > 10000000) {
         this.loadingUpload = false;

@@ -73,9 +73,9 @@ export class MatSnackBarComponent {
   constructor(public snackBar: MatSnackBar,
               private translate: TranslateService) { }
 
-  public openSnackBar(type: string): void {
-    let isInclude = type.includes('400') ? this.snackType.error() : this.snackType.errorMessage(type);
-    this.snackType[type] ? this.snackType[type]() : isInclude;
+  public openSnackBar(type: string) {
+    const isInclude = type.includes('400') ? this.snackType.error() : this.snackType.errorMessage(type);
+    return this.snackType[type] ? this.snackType[type]() : isInclude;
   }
 
   public getSnackBarMessage(key: string): void {

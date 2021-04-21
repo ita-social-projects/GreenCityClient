@@ -50,17 +50,17 @@ export class NewsListListViewComponent implements AfterViewChecked {
 
   private getHeightOfDesc(titleHeight: number): string {
     const result = possibleDescHeight[this.getDomWidth()][titleHeight];
-    let smallTitleHeight = titleHeight > 26 ? 'two-row' : 'tree-row';
-    let midTitleHeught = titleHeight > 52 ? 'one-row' : smallTitleHeight;
-    let largeTitleheight = titleHeight > 78 ? 'd-none' : midTitleHeught;
+    const smallTitleHeight = titleHeight > 26 ? 'two-row' : 'tree-row';
+    const midTitleHeught = titleHeight > 52 ? 'one-row' : smallTitleHeight;
+    const largeTitleheight = titleHeight > 78 ? 'd-none' : midTitleHeught;
     return result ? result : largeTitleheight;
   }
 
   private getHeightOfTitle(titleHeight: number): string {
     const result = possibleTitleHeight[this.getDomWidth()][titleHeight];
-    let smallTitleHeight = titleHeight > 26 ? 'two-row' : 'one-row';
-    let midTitleHeught = titleHeight > 52 ? 'tree-row' : smallTitleHeight;
-    let largeTitleheight = titleHeight > 78 ? 'four-row' : midTitleHeught;
+    const smallTitleHeight = titleHeight > 26 ? 'two-row' : 'one-row';
+    const midTitleHeught = titleHeight > 52 ? 'tree-row' : smallTitleHeight;
+    const largeTitleheight = titleHeight > 78 ? 'four-row' : midTitleHeught;
     return result ? result :  largeTitleheight;
   }
 }
