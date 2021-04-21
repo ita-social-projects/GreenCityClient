@@ -35,5 +35,4 @@ export class UBSOrderFormService {
   finalBillObject(order) {
     this.billObjectSource.next(order);
   }
-
 }
