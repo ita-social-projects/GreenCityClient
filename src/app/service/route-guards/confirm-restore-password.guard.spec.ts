@@ -26,8 +26,3 @@ describe('ConfirmRestorePasswordGuard', () => {
     expect(guard).toBeTruthy();
   }));
 });
-
-
-
-
-
