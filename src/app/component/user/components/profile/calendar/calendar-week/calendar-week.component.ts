@@ -88,11 +88,11 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
     const lastDayMonth = this.weekDates[6].date.toLocaleDateString(this.language, { month: 'long' });
     const firstDayYear = this.weekDates[0].date.getFullYear();
     const lastDayYear = this.weekDates[6].date.getFullYear();
-    this.weekTitle = firstDayMonth === lastDayMonth
-      ? `${firstDay} - ${lastDay} ${firstDayMonth} ${firstDayYear}`
-      : firstDayYear === lastDayYear
-        ? `${firstDay} ${firstDayMonth} - ${lastDay} ${lastDayMonth} ${firstDayYear}`
-        : `${firstDay} ${firstDayMonth} ${firstDayYear} - ${lastDay} ${lastDayMonth} ${lastDayYear}`;
+    const weekBetweenTwoYears = `${firstDay} ${firstDayMonth} ${firstDayYear} - ${lastDay} ${lastDayMonth} ${lastDayYear}`;
+    const weekBetweenTwoMonth = `${firstDay} ${firstDayMonth} - ${lastDay} ${lastDayMonth} ${firstDayYear}`;
+    const weekInOneMonth = `${firstDay} - ${lastDay} ${firstDayMonth} ${firstDayYear}`;
+    const isWeekBetweenTwoMonth = firstDayYear === lastDayYear ? weekBetweenTwoMonth : weekBetweenTwoYears;
+    this.weekTitle = firstDayMonth === lastDayMonth ? weekInOneMonth : isWeekBetweenTwoMonth;
   }
 
   public changeWeek(isNext: boolean): void {
