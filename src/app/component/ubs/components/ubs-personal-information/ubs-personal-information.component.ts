@@ -9,7 +9,6 @@ import { OrderService } from '../../services/order.service';
 import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { Address, OrderBag, OrderDetails, PersonalData } from '../../models/ubs.interface';
 import { Order } from '../../models/ubs.model';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-ubs-personal-information',
@@ -195,12 +194,12 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
     this.personalData.email = this.personalDataForm.get('email').value;
     this.personalData.phoneNumber = this.personalDataForm.get('phoneNumber').value.slice(3);
     this.order = new Order(
-      [''],
+      this.shareFormService.orderDetails.additionalOrders,
       orderBags,
-      [],
-      '',
+      this.shareFormService.orderDetails.certificates,
+      this.shareFormService.orderDetails.orderComment,
       this.personalData,
-      0);
+      this.shareFormService.orderDetails.pointsToUse);
     this.orderService.processOrder(this.order).pipe(takeUntil(this.destroy)).subscribe(res => {
     });
   }

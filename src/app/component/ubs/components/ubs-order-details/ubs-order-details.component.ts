@@ -3,11 +3,8 @@ import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@ang
 import { Bag, FinalOrder, OrderDetails } from '../../models/ubs.interface';
 import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-
 import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
-// import { UserOrder } from '../../models/ubs.model';
-
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
@@ -25,7 +22,6 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   showTotal = 0;
   pointsUsed = 0;
   certificates = [];
-  // additionOrders = [];
 
   total = 0;
   finalSum = 0;

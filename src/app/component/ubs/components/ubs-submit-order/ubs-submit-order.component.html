@@ -1,4 +1,4 @@
-<div class="container" *ngIf="bags.length">
+<div class="container" *ngIf="bags.length && personalData">
   <div class="header">
     <h3>{{'submit-order.your-order' | translate}}</h3>
     <table>
@@ -48,25 +48,26 @@
   <div class="main">
     <div>
       <h4>{{'submit-order.eco-shop' | translate}}</h4>
-      <p>{{'submit-order.order-number' | translate}} <span *ngFor="let order of additionalOrders ">{{ order }} </span></p>
-      <p><span>{{ orderComment }}</span></p>
+      <p>{{'submit-order.order-number' | translate}} <span *ngFor="let order of orderDetails.additionalOrders ">{{ order }} </span>
+      </p>
+      <p><span>{{ orderDetails.orderComment }}</span></p>
     </div>
     <div class="personalData">
       <div class="data">
         <h4>{{'submit-order.personal-data' | translate}}</h4>
         <ul>
-          <li>{{ lastName }} {{ firstName }}</li>
-          <li>{{ email }}</li>
-          <li>0{{ mobile }}</li>
+          <li>{{ personalData.lastName }} {{ personalData.firstName }}</li>
+          <li>{{ personalData.email }}</li>
+          <li>0{{ personalData.phoneNumber }}</li>
         </ul>
       </div>
       <div class="data">
         <h4>{{'submit-order.address' | translate}}</h4>
         <ul>
-          <li>{{ city }}</li>
-          <li>{{ district }}</li>
-          <li><span>{{'submit-order.str' | translate}}{{ street }}, {{ houseNumber }}</span>, {{ houseCorpus }}</li>
-          <li><span>{{ comment }}</span></li>
+          <li>{{ personalData.city }}</li>
+          <li>{{ personalData.district }}</li>
+          <li><span>{{'submit-order.str' | translate}}{{ personalData.street }}, {{ personalData.houseNumber }}</span>, {{ personalData.houseCorpus }}</li>
+          <li><span>{{ personalData.addressComment }}</span></li>
         </ul>
       </div>
     </div>

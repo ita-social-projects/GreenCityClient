@@ -17,10 +17,10 @@
     </div>
     <div class="main">
         <ul class="w-100 p-0">
-          <li *ngFor="let bag of bags" class="d-flex justify-content-between">
+          <li *ngFor="let bag of bags" class="d-flex justify-content-between align-items-baseline">
             <span class="col-12 col-sm-3 form-group form-control">{{bag.name}}</span>
-            <span class="col-12 col-sm-2 form-group form-control">{{bag.capacity}} <span class="litr_code">{{'order-details.litr' | translate}}</span></span>
-            <span class="col-12 col-sm-2 form-group form-control">{{bag.price}} <span class="currency_code">{{'order-details.currency' | translate}}</span></span>
+            <span class="col-12 col-sm-2 form-group form-control">{{bag.capacity}} {{'order-details.litr' | translate}}</span>
+            <span class="col-12 col-sm-2 form-group form-control">{{bag.price}} {{'order-details.currency' | translate}}</span>
             <div class="col-12 col-sm-2 form-group count">
               <input formControlName="quantity{{bag.id}}"
                      type="number"
@@ -29,7 +29,7 @@
                      max="999"
                     (click)="calculate()">
             </div>
-            <span class="form-group sum"> {{bag.quantity*bag.price}} <span class="currency_code">{{'order-details.currency' | translate}}</span></span>
+            <span class="form-group sum"> {{bag.quantity*bag.price}} {{'order-details.currency' | translate}}</span>
           </li>
         </ul>
     </div>
