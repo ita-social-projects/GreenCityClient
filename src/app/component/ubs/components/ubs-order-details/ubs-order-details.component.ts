@@ -250,7 +250,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
       this.certMessage = `Сертифiкат на cуму ${cert.certificatePoints} грн активовано. Строк дії сертифікату - до ${cert.certificateDate}`;
       this.displayCert = true;
     } else if (cert.certificateStatus === 'USED') {
-      this.certificateSum = this.certificateSum;
+      this.certificateSum = 0;
       this.certMessage = `Сертифiкат вже використано. Строк дії сертифікату - до ${cert.certificateDate}`;
       this.displayCert = false;
     }

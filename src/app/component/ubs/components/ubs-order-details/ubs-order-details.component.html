@@ -37,16 +37,10 @@
       <div class="middle-container">
         <div class="showTotal">
           <div class="totalInfo">
-            <p class="total-content" [class.d-none]="showTotal === 0">
-              <span>Сума замовлення: </span>
-              <span>
-                <input formControlName="orderSum" style="display: none;">
-                <b>{{showTotal}} грн</b>
-              </span>
-            </p>
+            <p class="total-content" [class.d-none]="showTotal === 0"><span>Сума замовлення: </span><span><strong>{{ showTotal }} грн</strong></span></p>
             <p class="total-content" *ngIf="displayCert"><span>Сертифікат: </span><span><small>-{{ showCertificateUsed }} грн</small></span></p>
             <p class="total-content" [class.d-none]="pointsUsed === 0"><span>Бонуси: </span><span><small>-{{ pointsUsed }} грн</small></span></p>
-            <p class="total-content"><span>Сума до оплати: </span><span><b>{{ finalSum }} грн</b></span></p>
+            <p class="total-content"><span>Сума до оплати: </span><span><strong>{{ finalSum }} грн</strong></span></p>
             <div *ngIf="displayMes" class="validMes">
               <small class="text-danger">Мінімальна сума замовлення повинна складати 500 грн</small>
             </div>

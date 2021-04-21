@@ -1,7 +1,7 @@
 <div class="main-block-wrapper container">
   <div class="search-bar-wrapper">
     <div class="container search_bar-container">
-      <img class="search_search-icon" [src]="searchIcons.search" alt="search icon" />
+      <img class="search_search-icon" [src]="searchIcons.search" alt="search icon" aria-hidden="true">
       <input id="search-input"
               class="search_search-field"
               type="text"
@@ -30,7 +30,7 @@
         <span class="search_font-styles">{{ "search.search-all-results.sort" | translate }}</span>
         <button class="dropdown-toggle search_font-styles" type="menu" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           {{ sortTypesLocalization[0] | translate }}
-          <img class="arrow" [src]="searchIcons.arrowDown" alt="arrow icon">
+          <img class="arrow" [src]="searchIcons.arrowDown" alt="arrow icon" aria-hidden="true">
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
           <a class="dropdown-item search_font-styles" tabindex="0" (click)="changeCurrentSorting(1)">
@@ -49,7 +49,7 @@
               class="col-12 col-sm-6 col-xxl-4"
     ></app-search-item>
   </div>
-  <app-search-not-found 
+  <app-search-not-found
     *ngIf="itemsFound === 0 && !isLoading"
     [inputValue]="inputValue">
   </app-search-not-found>

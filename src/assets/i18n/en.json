@@ -329,7 +329,7 @@
         "first-name-is-required": "User name is required",
         "user-name-error": "User name is required",
         "invalid-user-name": "Username must not contains a dot at the beginning, few dots in a row, special characters, Cyrillic letters",
-        "user-name-size": "The name must contain 6-30 characters and can contain letters(a-z), numbers(0-9) and a dot(.)",
+        "user-name-size": "The name must contain 6-30 characters and can contain letters(a-z), numbers(0-9) and a dot(.), dot at the start, at the end and consecutive dot is forbidden",
         "first-name-must-be-at-least-1-characters-long": "User name must be at least 1 characters long",
         "last-name": "Last name",
         "last-name-is-required": "Last name is required",
@@ -718,7 +718,7 @@
   },
   "post-news-loader": {
     "text-1": "Please wait while loading...",
-    "text-2": "Your news is loading to website. Please wait until page refresh."
+    "text-2": "Your news is loading to the website. Please wait until the page refreshes."
   },
   "profile": {
     "calendar": {
@@ -730,11 +730,13 @@
       "my-habits": "My habits",
       "my-news": "My news",
       "my-articles": "My articles",
-      "habits-in-progress": "Habits in progress",
+      "my-tips-and-tricks": "My tips and tricks",
+      "habits-inprogress": "In progress",
       "add-new-habit": "Add new habit",
-      "habits-acquired": "Habits acquired"
+      "habits-acquired": "Acquired",
+      "habits": "habits"
     },
-    "habits-in-progress": "habits in progress",
+    "habits-in-progress": "In progress",
     "my-Achievements": "My Achievements",
     "see-all": "See all",
     "my-eco-friends": "My Eco Friends",

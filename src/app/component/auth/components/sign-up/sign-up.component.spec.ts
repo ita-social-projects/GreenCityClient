@@ -135,15 +135,6 @@ describe('SignUpComponent', () => {
       expect(spy).toHaveBeenCalled();
     });
 
-    it('should call openSignUpPopup', () => {
-      // @ts-ignore
-      spyOn(component.dialog, 'open');
-      // @ts-ignore
-      component.openSignUpPopup();
-      // @ts-ignore
-      expect(component.dialog).toBeDefined();
-    });
-
     it('should emit "sign-in" after calling openSignInWindow', () => {
       component.openSignInWindow();
       // @ts-ignore
@@ -313,28 +304,6 @@ describe('SignUpComponent', () => {
         component.signUpWithGoogleSuccess(mockUserSuccessSignIn);
         fixture.ngZone.run(() => {
           expect(routerSpy.navigate).toHaveBeenCalledWith(['/profile', mockUserSuccessSignIn.userId]);
-        });
-        fixture.destroy();
-        flush();
-      }));
-
-      it('onSubmitSuccess should call openSignUpPopup', fakeAsync(() => {
-        const mockSuccessSignUp = {
-          email: 'test@gmail.com',
-          ownRegistrations: true,
-          userId: '23',
-          username: 'UserName'
-        };
-        // @ts-ignore
-        spyOn(component, 'openSignUpPopup');
-        // @ts-ignore
-        component.onSubmitSuccess(mockSuccessSignUp);
-        fixture.detectChanges();
-        fixture.ngZone.run(() => {
-          fixture.whenStable().then(() => {
-            // @ts-ignore
-            expect(component.openSignUpPopup).toHaveBeenCalled();
-          });
         });
         fixture.destroy();
         flush();

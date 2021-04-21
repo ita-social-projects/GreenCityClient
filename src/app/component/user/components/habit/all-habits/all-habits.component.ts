@@ -85,7 +85,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
         data => {
           const observableValue = this.allHabits.getValue();
           const oldItems = observableValue.page ? observableValue.page : [];
-          data.page = [... data.page, ...oldItems];
+          data.page = [...oldItems, ... data.page ];
           this.allHabits.next(data);
         }
       );

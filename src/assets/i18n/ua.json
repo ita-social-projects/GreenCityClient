@@ -334,7 +334,7 @@
         "first-name-is-required": "Введіть ім'я",
         "user-name-error": "Iм'я користувача обов'язкове",
         "invalid-user-name": "Ім'я користувача не повинно містити крапку на початку, кілька крапок поспіль, спеціальні символи, кириличні літери",
-        "user-name-size": "Ім'я повинно містити 6-30 символів і може складатись з літер(a-z), цифр(0-9) та крапки(.)",
+        "user-name-size": "Ім'я повинно містити 6-30 символів і може складатись з літер(a-z), цифр(0-9) та крапки(.), крапка на початку імені, в кінці та послідовність крапок заборонена",
         "first-name-must-be-at-least-1-characters-long": "Ім'я повинно містити принаймі 1 символ",
         "last-name": "Прізвище",
         "last-name-is-required": "Введіть прізвище",
@@ -723,8 +723,8 @@
     }
   },
   "post-news-loader": {
-    "text-1": "Please wait while loading...",
-    "text-2": "Your news is loading to website. Please wait until page refresh."
+    "text-1": "Зачекайте, будь-ласка...",
+    "text-2": "Ваші новини завантажуються на веб-сайт. Дочекайтесь оновлення сторінки."
   },
   "profile": {
     "calendar": {
@@ -735,12 +735,13 @@
     "dashboard": {
       "my-habits": "Мої звички",
       "my-news": "Мої новини",
-      "my-articles": "Мої статті",
-      "habits-in-progress": "Звички у процесі",
+      "my-tips-and-tricks": "Мої статті",
+      "habits-inprogress": "У процесі",
       "add-new-habit": "Додати нову звичку",
-      "habits-acquired": "Набуті звички"
+      "habits-acquired": "Набуті",
+      "habits": "звички"
     },
-    "habits-in-progress": "звички у процесі",
+    "habits-in-progress": "У процесі",
     "my-Achievements": "Мої досягнення",
     "see-all": "Побачити все",
     "my-eco-friends": "Мої Еко Друзі",

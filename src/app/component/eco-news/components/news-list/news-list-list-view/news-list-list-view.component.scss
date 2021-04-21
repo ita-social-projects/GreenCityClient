@@ -45,8 +45,8 @@ div {
   font-family: var(--secondary-font);
   font-style: normal;
   font-weight: 500;
-  font-size: 18px;
-  line-height: 24px;
+  font-size: 21px;
+  line-height: 26px;
   margin-bottom: 5px;
   color: var(--secondary-dark-grey);
   overflow: hidden;
@@ -113,13 +113,8 @@ div {
 @media (min-width: 1024px) {
   .eco-news_list-view-wrp {
     height: 204px;
-    -ms-grid-columns: 359px auto;
-    grid-template-columns: 359px auto;
-  }
-
-  .eco-news_list-content-title {
-    font-size: 21px;
-    line-height: 26px;
+    -ms-grid-columns: 299px auto;
+    grid-template-columns: 299px auto;
   }
 }
 
@@ -135,6 +130,12 @@ div {
     -ms-grid-columns: 359px auto;
     grid-template-columns: 359px auto;
   }
+}
+
+.four-row {
+  -webkit-line-clamp: 4;
+
+  @include rowStyles;
 }
 
 .tree-row {
