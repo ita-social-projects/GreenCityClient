@@ -18,6 +18,7 @@ import { UserCustomGoalDto } from '../../model/goal/UserCustomGoalDto';
 import { UserGoalDto } from '../../model/goal/UserGoalDto';
 import { OnLogout } from '../OnLogout';
 import { HabitItemsAmountStatisticDto } from '../../model/goal/HabitItemsAmountStatisticDto';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +34,7 @@ export class UserService implements OnLogout {
   private availablePredefinedGoalsSubject = new BehaviorSubject<Goal[]>([]);
 
   private dataStore: { goals: Goal[], availableCustomGoals: Goal[], availablePredefinedGoals } =
-    {goals: [], availableCustomGoals: [], availablePredefinedGoals: []};
+    { goals: [], availableCustomGoals: [], availablePredefinedGoals: [] };
 
   readonly goals = this.goalsSubject.asObservable();
   readonly availableCustomGoals = this.availableCustomGoalsSubject.asObservable();
@@ -143,7 +144,7 @@ export class UserService implements OnLogout {
       .pipe(catchError(err => of([])))
       .subscribe(data => {
         data.forEach(goal => {
-          goals.push({id: goal.id, text: goal.text, status: 'UNCHECKED', type: GoalType.PREDEFINED});
+          goals.push({ id: goal.id, text: goal.text, status: 'UNCHECKED', type: GoalType.PREDEFINED });
         });
         this.dataStore.availablePredefinedGoals = goals;
         this.availablePredefinedGoalsSubject.next(Object.assign({}, this.dataStore).availablePredefinedGoals);
@@ -155,7 +156,7 @@ export class UserService implements OnLogout {
   saveCustomGoals(goals: Goal[], language: string) {
     const dto = {
       customGoalSaveRequestDtoList: goals.map<CustomGoalSaveRequestDto>(data => {
-        return {text: data.text};
+        return { text: data.text };
       })
     };
 
@@ -179,7 +180,7 @@ export class UserService implements OnLogout {
   updateCustomGoals(goals: Goal[]) {
     const dto = {
       customGoals: goals.map<CustomGoalResponseDto>(data => {
-        return {id: data.id, text: data.text};
+        return { id: data.id, text: data.text };
       })
     };
 
@@ -208,10 +209,10 @@ export class UserService implements OnLogout {
   addPredefinedAndCustomGoals(predefinedGoals: Goal[], customGoals: Goal[], language: string) {
     const dto = {
       userGoals: predefinedGoals.map<UserGoalDto>(data => {
-        return {goal: {id: data.id}};
+        return { goal: { id: data.id } };
       }),
       userCustomGoal: customGoals.map<UserCustomGoalDto>(data => {
-        return {customGoal: {id: data.id}};
+        return { customGoal: { id: data.id } };
       })
     };
 
@@ -221,6 +222,12 @@ export class UserService implements OnLogout {
     }, error => {
       throw error;
     });
+  }
+
+  updateLastTimeActivity() {
+    let date = new Date;
+    let currentDate = moment(date).format('yyyy-MM-dd.HH:mm:ss.SSSSSS');
+    console.log(currentDate);
   }
 
   onLogout(): void {

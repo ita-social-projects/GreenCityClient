@@ -3,7 +3,7 @@ import { LanguageService } from './i18n/language.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { TitleAndMetaTagsService } from './service/title-meta-tags/title-and-meta-tags.service';
 import { UiActionsService } from '@global-service/ui-actions/ui-actions.service';
-import * as moment from 'moment';
+import { UserService } from '@global-service/user/user.service';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
     private titleAndMetaTagsService: TitleAndMetaTagsService,
     private router: Router,
     private uiActionsService: UiActionsService,
+    private userService: UserService
   ) { }
 
   @ViewChild('focusFirst', { static: true }) focusFirst: ElementRef;
@@ -32,9 +33,7 @@ export class AppComponent implements OnInit {
 
   @HostListener('window:beforeunload',)
   onExitHandler() {
-    let date = new Date;
-    let currentDate = moment(date).format('yyyy-MM-dd.HH:mm:ss.SSSSSS');
-    return currentDate;
+    this.userService.updateLastTimeActivity();
   }
 
   public setFocus(): void {
