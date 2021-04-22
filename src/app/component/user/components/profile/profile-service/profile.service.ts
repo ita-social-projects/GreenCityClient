@@ -40,14 +40,15 @@ export class ProfileService {
   }
 
   public getShoppingList(): Observable<ShoppingList[]> {
-    this.setUserId();
     const currentLang = this.languageService.getCurrentLanguage();
+    this.setUserId();
     return this.http.get<ShoppingList[]>(`
     ${mainLink}custom/shopping-list-items/${this.userId}/custom-shopping-list-items?lang=${currentLang}
     `);
   }
 
   public getUserProfileStatistics(): Observable<ProfileStatistics> {
+    this.setUserId();
     return this.http.get<ProfileStatistics>(`${mainUserLink}user/${this.userId}/profileStatistics/`);
   }
 
@@ -56,6 +57,7 @@ export class ProfileService {
   }
 
   public getUserFriends(): Observable<UserFriendsInterface> {
+    this.setUserId();
     return this.http.get<UserFriendsInterface>(`${mainUserLink}user/${this.userId}/sixUserFriends/`);
   }
 
