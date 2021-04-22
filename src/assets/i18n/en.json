@@ -508,7 +508,7 @@
       "my-habits": "My habits"
     },
     "edit-profile": {
-      "edit-profile": "Edit profile",
+      "edit-profile": "Edit Profile",
       "info": "Personal info",
       "name": "Name",
       "name-warning": "Should contain maximum 30 symbols",
@@ -517,8 +517,8 @@
       "title": "Credo",
       "title-warning": "Should contain maximum 170 symbols",
       "links": "Linked social networks",
-      "add-link": "Add social network",
-      "privacy": "Profile privacy",
+      "add-link": "Add Social Network",
+      "privacy": "Profile Privacy",
       "location": "Show my location",
       "eco-place": "Show my eco places",
       "shoping-list": "Show my shopping list",
