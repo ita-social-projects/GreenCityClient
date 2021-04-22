@@ -171,7 +171,7 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
     };
     const dialogRef = this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
     dialogRef.afterClosed().pipe(takeUntil(this.destroy)).subscribe((address) => {
-      if (address !== undefined && !isEdit) {
+      if (address && !isEdit) {
         this.addAddress(address);
         this.personalDataForm.patchValue({ isAddress: new FormControl('true') });
       } else if (isEdit) {
