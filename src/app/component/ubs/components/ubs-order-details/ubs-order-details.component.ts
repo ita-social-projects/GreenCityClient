@@ -304,7 +304,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
       this.certMessage = this.certMessageFirst + ' ' + cert.certificatePoints +
        ' ' + this.certMessageFourth + ' ' + cert.certificateDate;
       this.displayCert = true;
-    } else if (cert.certificateStatus === CertificateStatus.us) {
+    } else if (cert.certificateStatus === CertificateStatus.USED) {
       this.certificateSum = this.certificateSum;
       this.certMessage = this.certMessageFifth + ' ' + cert.certificateDate;
       this.displayCert = false;
