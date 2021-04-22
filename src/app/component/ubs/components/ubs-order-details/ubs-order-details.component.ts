@@ -9,6 +9,7 @@ import { UserOrder } from '../../models/ubs.model';
 import { IOrder, IUserOrder } from '../../models/ubs.interface';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { MessagePart } from '../../message-part.enum';
 
 @Component({
   selector: 'app-ubs-order-details',
@@ -40,9 +41,6 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   object: {};
   private destroy: Subject<boolean> = new Subject<boolean>();
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-  certMessageFirst = '';
-  certMessageFourth = '';
-  certMessageFifth = '';
 
   constructor(
     private fb: FormBuilder,
@@ -99,9 +97,9 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
     this.localStorageService.languageBehaviourSubject
       .pipe(takeUntil(this.destroyed$))
       .subscribe(() => {
-        this.translateWords('order-details.activated-certificate1', this.certMessageFirst);
-        this.translateWords('order-details.activated-certificate4', this.certMessageFourth);
-        this.translateWords('order-details.activated-certificate5', this.certMessageFifth);
+        this.translateWords('order-details.activated-certificate1', MessagePart.FIRST);
+        this.translateWords('order-details.activated-certificate4', MessagePart.FOURTH);
+        this.translateWords('order-details.activated-certificate5', MessagePart.FIFTH);
     });
 
     this.shareFormService.objectSource
@@ -300,12 +298,12 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
       cert.certificateStatus === 'NEW'
     ) {
       this.certificateSum = this.certificateSum + cert.certificatePoints;
-      this.certMessage = this.certMessageFirst + ' ' + cert.certificatePoints +
-       ' ' + this.certMessageFourth + ' ' + cert.certificateDate;
+      this.certMessage = MessagePart.FIRST + ' ' + cert.certificatePoints +
+       ' ' + MessagePart.FOURTH + ' ' + cert.certificateDate;
       this.displayCert = true;
     } else if (cert.certificateStatus === 'USED') {
       this.certificateSum = this.certificateSum;
-      this.certMessage = this.certMessageFifth + ' ' + cert.certificateDate;
+      this.certMessage = MessagePart.FIFTH + ' ' + cert.certificateDate;
       this.displayCert = false;
     }
   }
