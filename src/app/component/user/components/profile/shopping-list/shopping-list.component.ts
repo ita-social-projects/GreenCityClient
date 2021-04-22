@@ -7,7 +7,7 @@ import { Subscription, Subject } from 'rxjs';
 @Component({
   selector: 'app-shopping-list',
   templateUrl: './shopping-list.component.html',
-  styleUrls: ['./shopping-list.component.scss'],
+  styleUrls: ['./shopping-list.component.scss']
 })
 export class ShoppingListComponent implements OnInit, OnDestroy {
   public shoppingList: ShoppingList[];
@@ -23,7 +23,9 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
     this.profileSubscription = this.profileService.getShoppingList().pipe(
       takeUntil(this.destroy$),
       finalize(() => {
-        if (!this.shoppingList) this.shoppingList = [];
+        if (!this.shoppingList) {
+          this.shoppingList = [];
+        }
       })
     ).subscribe(
       (shoppingListArr: ShoppingList[]) => this.shoppingList = shoppingListArr,
