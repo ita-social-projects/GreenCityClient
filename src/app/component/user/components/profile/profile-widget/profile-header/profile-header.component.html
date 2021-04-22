@@ -23,7 +23,7 @@
     <div class="rate">
       <p>{{ 'profile.rate' | translate }}: {{ userInfo.rating || mockedUserInfo.rating }}</p>
     </div>
-    <div *ngIf="userInfo.userCredo.length > 0"
+    <div *ngIf="userInfo.userCredo?.length"
           class="credo">{{ userInfo.userCredo || mockedUserInfo.userCredo }}
     </div>
     <div
