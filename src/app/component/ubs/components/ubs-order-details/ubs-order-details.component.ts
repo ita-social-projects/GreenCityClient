@@ -87,6 +87,10 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
     return this.orderDetailsForm.get('additionalOrders') as FormArray;
   }
 
+  get shop() {
+    return this.orderDetailsForm.get('shop') as FormArray;
+  }
+
   ngOnInit(): void {
     this.shareFormService.objectSource
       .pipe(takeUntil(this.destroy))
@@ -146,6 +150,12 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
       }
       this.showCertificateUsed = this.certificateSum;
     }
+  }
+
+  clearOrderValues(): void {
+    this.additionalOrders.controls.map(element => {
+      element.setValue('');
+    });
   }
 
   calculate(): void {
