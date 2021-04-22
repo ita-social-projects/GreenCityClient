@@ -159,7 +159,7 @@ h2 {
   font-style: normal;
   font-weight: 500;
   height: 48px;
-  font-size: 40px;
+  font-size: 2.1em;
   line-height: 48px;
   margin-bottom: 40px;
   color: var(--primary-dark-grey);
@@ -211,10 +211,6 @@ h2 {
     margin-left: 100px;
     max-width: 546px;
   }
-
-  h2 {
-    font-size: 35px;
-  }
 }
 
 @media screen and (max-width: 768px) {
@@ -231,10 +227,6 @@ h2 {
     padding-left: 14px;
     padding-right: 14px;
   }
-
-  h2 {
-    font-size: 30px;
-  }
 }
 
 @media screen and (max-width: 320px) {
@@ -245,7 +237,6 @@ h2 {
 
     h2 {
       margin-bottom: 24px;
-      font-size: 32px;
       line-height: 32px;
       text-align: center;
     }
