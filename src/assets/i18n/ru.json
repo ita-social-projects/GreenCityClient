@@ -535,6 +535,7 @@
       "input-validation-required": "Это поле обязательно к заполнению",
       "input-validation-pattern": "Ваш URL-адрес кажется неверным",
       "input-validation-non-unique": "Эта ссылка уже добавлена",
+      "profile-changes-saved": "Внесенные изменения сохранено",
       "btn": {
         "cancel": "Отменить",
         "save": "Сохранить",
