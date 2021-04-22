@@ -4,7 +4,6 @@ import { FormGroup } from '@angular/forms';
 import { UBSSubmitOrderComponent } from '../ubs-submit-order/ubs-submit-order.component';
 import { UBSPersonalInformationComponent } from '../ubs-personal-information/ubs-personal-information.component';
 import { UBSOrderDetailsComponent } from '../ubs-order-details/ubs-order-details.component';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-ubs-order-form',
@@ -22,7 +21,6 @@ export class UBSOrderFormComponent implements AfterViewInit {
 
   constructor(
     private cdr: ChangeDetectorRef,
-    private translate: TranslateService
   ) { }
 
   ngAfterViewInit(): void {

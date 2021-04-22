@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
 import { Bag, OrderDetails, PersonalData } from '../../models/ubs.interface';
-import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 
 @Component({
@@ -20,7 +18,6 @@ export class UBSSubmitOrderComponent implements OnInit {
 
   displayMes = true;
   bill: any;
-  finalOrder: any;
 
   bagSumClothesM: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
@@ -32,12 +29,9 @@ export class UBSSubmitOrderComponent implements OnInit {
   ngOnInit(): void {
     this.takeOrderDetails();
 
-    this.shareFormService.finalObject.pipe(takeUntil(this.destroy)).subscribe(order => {
-      this.finalOrder = order;
-    });
-
     this.shareFormService.billObjectSource.pipe(takeUntil(this.destroy)).subscribe(order => {
       this.bill = order;
+      console.log(order)
     });
   }
 

@@ -108,12 +108,19 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   }
 
   changeOrderDetails() {
+    const paymentBill = {
+      certificatesSum: this.showCertificateUsed,
+      pointsSum: this.pointsUsed,
+      total: this.showTotal,
+      finalSum: this.finalSum,
+    };
+    this.shareFormService.finalBillObject(paymentBill);
+    
     this.shareFormService.orderDetails.pointsToUse = this.pointsUsed;
     this.shareFormService.orderDetails.certificates = this.certificates;
     this.shareFormService.orderDetails.additionalOrders = this.additionalOrders.value;
     this.shareFormService.orderDetails.orderComment = this.orderDetailsForm.value.orderComment;
     this.shareFormService.changeOrderDetails();
-    console.log(this.shareFormService.orderDetails);
   }
 
   get certificate() {
@@ -278,25 +285,6 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
-
-    // const newOrder: IUserOrder = new UserOrder(
-    //   [ubs, clothesXL, clothesM],
-    //   this.pointsUsed,
-    //   this.certificates,
-    //   this.additionalOrders.value,
-    //   this.orderDetailsForm.value.orderComment
-    // );
-    // const paymentBill = {
-    //   sumUbs: this.orderDetailsForm.get('bagSumUbs').value,
-    //   sumClothesXL: this.orderDetailsForm.get('bagSumClothesXL').value,
-    //   sumClothesM: this.orderDetailsForm.get('bagSumClothesM').value,
-    //   certificatesSum: this.showCertificateUsed,
-    //   pointsSum: this.pointsUsed,
-    //   total: this.showTotal,
-    //   finalSum: this.finalSum,
-    // };
-    // this.shareFormService.changeObject(newOrder);
-    // this.shareFormService.finalBillObject(paymentBill);
   }
 
   ngOnDestroy() {

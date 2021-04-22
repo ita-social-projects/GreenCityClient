@@ -3,7 +3,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { OrderService } from '../../services/order.service';
 import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up/ubs-add-address-pop-up.component';
@@ -23,16 +22,8 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
   order: Order;
   addresses: Address[] = [];
   maxAddressLength = 4;
-
   namePattern = /^[A-Za-zА-Яа-яїієё\.\'\-\\]+$/;
   phoneMask = '+{38} (000) 000 00 00';
-
-  // region = '';
-  // longitude: number;
-  // latitude: number;
-  // nextDisabled = true;
-  // districtDisabled = true;
-
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -71,11 +62,6 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
       this.addAddress();
       this.setFormData();
     });
-
-    // this.shareFormService.changedPersonalData.subscribe(data => {
-    //   this.personalData = data;
-    //   console.log(this.personalData)
-    // })
   }
 
   changePersonalData() {
