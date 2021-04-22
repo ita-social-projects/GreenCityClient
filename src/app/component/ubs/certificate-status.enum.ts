@@ -1,5 +1,5 @@
-export enum MessagePart {
-    FIRST = '',
-    FOURTH = '',
-    FIFTH = ''
+export enum CertificateStatus {
+    ACTIVE = 'ACTIVE',
+    NEW = 'NEW',
+    USED = 'USED'
 }
