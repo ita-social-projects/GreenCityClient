@@ -1,15 +1,15 @@
 <div class="container">
   <div class="header">
-    <h3 class="font-bolt order-title">Послуги</h3>
-    <p class="order-content">Зверніть, будь ласка, увагу на те, що мінімальна сума замовлення має складати 500 грн.</p>
+    <h3 class="font-bolt order-title">{{'order-details.order-title' | translate}}</h3>
+    <p class="order-content">{{'order-details.order-content' | translate}}</p>
   </div>
   <form class="form" [formGroup]="orderDetailsForm" (ngSubmit)="submit()">
     <div class="w-100 d-flex justify-content-between">
-      <label class="col-12 col-sm-3 label">Послуга</label>
-      <label class="col-12 col-sm-2 label">Об'єм</label>
-      <label class="col-12 col-sm-2 label">Вартість</label>
-      <label class="col-12 col-sm-2 label">Кількість пакетів</label>
-      <label class="col-12 col-sm-2 label">Сума</label>
+      <label class="col-12 col-sm-3 label">{{'order-details.service' | translate}}</label>
+      <label class="col-12 col-sm-2 label">{{'order-details.volume' | translate}}</label>
+      <label class="col-12 col-sm-2 label">{{'order-details.cost' | translate}}</label>
+      <label class="col-12 col-sm-2 label">{{'order-details.number-of-packages' | translate}}</label>
+      <label class="col-12 col-sm-2 label">{{'order-details.sum' | translate}}</label>
     </div>
     <div class="main">
       <div class="col-12 col-sm-3 form-group">
@@ -17,9 +17,11 @@
       </div>
       <div class="col-12 col-sm-2 form-group">
         <input formControlName="bagSizeUbs" class="form-control">
+        <span class="litr_code">{{'order-details.litr' | translate}}</span>
       </div>
       <div class="col-12 col-sm-2 form-group">
         <input formControlName="bagPriceUbs" class="form-control">
+        <span class="currency_code">{{'order-details.currency' | translate}}</span>
       </div>
       <div class="col-12 col-sm-2 form-group count">
         <input formControlName="bagNumUbs"
@@ -32,15 +34,18 @@
       </div>
       <div class="form-group sum">
         <input formControlName="bagSumUbs" type="text" class="form-control">
+        <span class="currency_code">{{'order-details.currency' | translate}}</span>
       </div>
       <div class="col-12 col-sm-3 form-group">
         <input formControlName="bagServiceClothesXL" class="form-control">
       </div>
       <div class="col-12 col-sm-2 form-group">
         <input formControlName="bagSizeClothesXL" type="text" class="form-control">
+        <span class="litr_code">{{'order-details.litr' | translate}}</span>
       </div>
       <div class="col-12 col-sm-2 form-group">
         <input formControlName="bagPriceClothesXL" type="text" class="form-control">
+        <span class="currency_code">{{'order-details.currency' | translate}}</span>
       </div>
       <div class="col-12 col-sm-2 form-group count">
         <input formControlName="bagNumClothesXL" type="number" min="0" class="shadow-none form-control input" max="999"
@@ -48,15 +53,18 @@
       </div>
       <div class="form-group sum">
         <input formControlName="bagSumClothesXL" type="text" class="form-control">
+        <span class="currency_code">{{'order-details.currency' | translate}}</span>
       </div>
       <div class="col-12 col-sm-3 form-group">
         <input formControlName="bagServiceClothesM" type="text" class="form-control">
       </div>
       <div class="col-12 col-sm-2 form-group">
         <input formControlName="bagSizeClothesM" type="text" class="form-control">
+        <span class="litr_code">{{'order-details.litr' | translate}}</span>
       </div>
       <div class="col-12 col-sm-2 form-group">
         <input formControlName="bagPriceClothesM" type="text" class="form-control">
+        <span class="currency_code">{{'order-details.currency' | translate}}</span>
       </div>
       <div class="col-12 col-sm-2 form-group count">
         <input formControlName="bagNumClothesM" type="number" class="shadow-none form-control input" min="0" max="999"
@@ -64,25 +72,26 @@
       </div>
       <div class="form-group sum">
         <input formControlName="bagSumClothesM" type="text" class="form-control">
+        <span class="currency_code">{{'order-details.currency' | translate}}</span>
       </div>
     </div>
     <div class="middle">
       <div class="middle-container">
         <div class="showTotal">
           <div class="totalInfo">
-            <p class="total-content" [class.d-none]="showTotal === 0"><span>Сума замовлення: </span><span><strong>{{ showTotal }} грн</strong></span></p>
-            <p class="total-content" *ngIf="displayCert"><span>Сертифікат: </span><span><small>-{{ showCertificateUsed }} грн</small></span></p>
-            <p class="total-content" [class.d-none]="pointsUsed === 0"><span>Бонуси: </span><span><small>-{{ pointsUsed }} грн</small></span></p>
-            <p class="total-content"><span>Сума до оплати: </span><span><strong>{{ finalSum }} грн</strong></span></p>
+            <p class="total-content" [class.d-none]="showTotal === 0"><span>{{'order-details.order-amount' | translate}}</span><span><b>{{ showTotal }} {{'order-details.currency' | translate}}</b></span></p>
+            <p class="total-content" *ngIf="displayCert"><span>{{'order-details.sertificate' | translate}} </span><span><small>-{{ showCertificateUsed }}  {{'order-details.currency' | translate}}</small></span></p>
+            <p class="total-content" [class.d-none]="pointsUsed === 0"><span>{{'order-details.bonuses' | translate}} </span><span><small>-{{ pointsUsed }} {{'order-details.currency' | translate}}</small></span></p>
+            <p class="total-content"><span>{{'order-details.amount-due' | translate}} </span><span><b>{{ finalSum }} {{'order-details.currency' | translate}}</b></span></p>
             <div *ngIf="displayMes" class="validMes">
-              <small class="text-danger">Мінімальна сума замовлення повинна складати 500 грн</small>
+              <small class="text-danger">{{'order-details.min-sum' | translate}}</small>
             </div>
           </div>
         </div>
-        <h5>Чи бажаєте Ви скористатись сертифікатом?</h5>
+        <h5>{{'order-details.question-certificate' | translate}}</h5>
         <div class="certificate-container">
           <div class="form-group col-12 col-sm-8">
-            <label class="label m-0">Введіть номер сертифіката</label>
+            <label class="label m-0">{{'order-details.certificate-number' | translate}}</label>
             <input formControlName="certificate"
                    type="text"
                    class="shadow-none form-control"
@@ -93,19 +102,19 @@
           <div class="form-group">
             <button *ngIf="!addCert" type="button" class="primary-global-button btn"
               [disabled]="!certificate.valid || certificate.pristine || finalSum === 0"
-              (click)="certificateSubmit()">Активувати</button>
+              (click)="certificateSubmit()">{{'order-details.activate' | translate}}</button>
             <button *ngIf="addCert" type="button" class="primary-global-button btn"
-              (click)="certificateReset()">Відмінити</button>
+              (click)="certificateReset()">{{'order-details.cancel' | translate}}</button>
           </div>
           <div class="validMes">
             <small class="text-danger"
               *ngIf="certificate.invalid && certificate.touched">
-              Сертифікат не прийнято, споробуйте ще раз</small>
-            <small class="text-message"> {{ certMessage }} </small>
+              {{'order-details.failed-certificate' | translate}}</small>
+            <small class="text-message"> {{ certMessage | translate}} </small>
           </div>
-          <small *ngIf="certSize">Сертифікат на суму {{ certificateSum }} грн активовано, що перевищує суму Вашого
-            замовлення. Залишок у розмірі {{ certificateLeft }} грн
-            буде нараховано на Ваш бонусний рахунок для наступного замовлення.</small>
+          <small *ngIf="certSize">
+            {{'order-details.activated-certificate1' | translate}} {{certificateSum}} {{'order-details.activated-certificate2' | translate}} {{certificateLeft}} {{'order-details.activated-certificate2' | translate}}
+          </small>
         </div>
         <div class="addCertificate" formArrayName="additionalCertificates"
           *ngFor="let certificate of additionalCertificates.controls; let i=index;">
@@ -114,74 +123,73 @@
           <div class="form-group">
             <button *ngIf="!addCert" type="button" class="primary-global-button btn"
               [disabled]="additionalCertificates['controls'][i].invalid || additionalCertificates['controls'][i].pristine"
-              (click)="addedCertificateSubmit(i)">Активувати</button>
+              (click)="addedCertificateSubmit(i)">{{'order-details.activate' | translate}}</button>
             <button *ngIf="addCert" type="button" class="primary-global-button btn"
-              (click)="deleteCertificate(i)">Відмінити</button>
+              (click)="deleteCertificate(i)">{{'order-details.cancel' | translate}}</button>
           </div>
           <div class="validMes">
             <small class="text-danger"
                    *ngIf="certificate.invalid && certificate.touched">
-              Сертифікат не прийнято, споробуйте ще раз
+                   {{'order-details.failed-certificate' | translate}}
             </small>
             <small class="text-message"> {{ certMessage }} </small>
           </div>
         </div>
-        <button *ngIf="addCert" class="addCertificateBtn" (click)="addCertificate()">Додати ще сертифікат</button>
+        <button *ngIf="addCert" class="addCertificateBtn" (click)="addCertificate()">{{'order-details.add-certificate' | translate}}</button>
         <div class="addBonus">
-          <h5>Чи бажаєте Ви скористатися бонусами?</h5>
-          <p>На Вашому бонусному рахунку: {{ points }} грн</p>
+          <h5>{{'order-details.bonus-need' | translate}}</h5>
+          <p>{{'order-details.bonus-left' | translate}} {{points}} {{'order-details.currency' | translate}} </p>
           <div class="form-check custom-control custom-radio">
             <input formControlName="bonus" id="customRadio1" value="yes" class="form-check-input custom-control-input"
               type="radio" (click)="calculatePoints()">
-            <label class="form-check-label custom-control-label" for="customRadio1">Так</label>
+            <label class="form-check-label custom-control-label" for="customRadio1">{{'order-details.yes' | translate}}</label>
           </div>
           <div class="form-check custom-control custom-radio">
             <input formControlName="bonus" id="customRadio2" value="no" class="form-check-input custom-control-input"
               type="radio" (click)="resetPoints()">
-            <label class="form-check-label custom-control-label" for="customRadio2">Ні</label>
+            <label class="form-check-label custom-control-label" for="customRadio2">{{'order-details.no' | translate}}</label>
           </div>
-          <small class="text-message" [class.d-none]="pointsUsed === 0"><span>Використано {{ pointsUsed }}
-              грн</span><br><span>Залишилось {{ points }} грн</span></small>
+          <small class="text-message" [class.d-none]="pointsUsed === 0">
+            <span>{{'order-details.used' | translate}} {{ pointsUsed }} {{'order-details.currency' | translate}}</span></small>
         </div>
       </div>
     </div>
     <div class="bottom">
-      <h3>Еко магазин</h3>
-      <h5>Чи чекаєте Ви замовлення з нашого Еко-магазину?</h5>
+      <h3>{{'order-details.eco-shop' | translate}}</h3>
+      <h5>{{'order-details.shop-order-question' | translate}}</h5>
       <div class="form-check custom-control custom-radio">
         <input formControlName="shop" id="customRadio3" value="yes" class="form-check-input custom-control-input"
           type="radio">
-        <label class="form-check-label custom-control-label" for="customRadio3">Так</label>
+        <label class="form-check-label custom-control-label" for="customRadio3">{{'order-details.yes' | translate}}</label>
       </div>
       <div class="form-check custom-control custom-radio">
         <input formControlName="shop" id="customRadio4" value="no" class="form-check-input custom-control-input"
           type="radio">
-        <label class="form-check-label custom-control-label" for="customRadio4">Ні</label>
+        <label class="form-check-label custom-control-label" for="customRadio4">{{'order-details.no' | translate}}</label>
       </div>
       <div class="form-group shop_submit">
         <div class="bottom-text">
-          <p>Якщо Ви не змогли знайти номер замовлення, вкажіть в коментарі прізвище та ім’я, на які робили замовлення.
+          <p>{{'order-details.cant-found-order' | translate}}
           </p>
         </div>
         <div formArrayName="additionalOrders" *ngFor="let order of additionalOrders.controls; let i=index"
           class="form-group">
-          <label class="label m-0">Введіть номер замовлення</label>
+          <label class="label m-0">{{'order-details.enter-order-num' | translate}}</label>
           <input [formControlName]="i" class="shadow-none form-control border-input p-2" type="text" placeholder="xxxxxxxxxx">
         </div>
-        <button *ngIf="additionalOrders.controls.length < 5" class="addOrderBtn" (click)="addOrder()">Додати ще номер
-          замовлення</button>
+        <button *ngIf="additionalOrders.controls.length < 5" class="addOrderBtn" (click)="addOrder()">{{'order-details.additional-orders' | translate}}</button>
       </div>
     </div>
     <div class="bottom_comment">
       <div class="form-group comment">
-        <h3>Коментар</h3>
+        <h3>{{'order-details.coment' | translate}}</h3>
         <textarea formControlName="orderComment" class="shadow-none form-control textarea" rows="5"
-          placeholder="Будь-які деталі які Ви б хотіли повідомити додатково щодо цього замовлення"></textarea>
+          placeholder="{{'order-details.any-details' | translate}}"></textarea>
       </div>
       <div class="w-100 d-flex justify-content-end">
         <div>
-        <button class="secondary-global-button btn btn-main" matStepperPrevious>Відмінити</button>
-        <button type="submit" class="primary-global-button btn btn-main" matStepperNext [disabled]="onSubmit">Далі</button>
+        <button class="secondary-global-button btn btn-main" matStepperPrevious>{{'order-details.cancel' | translate}}</button>
+        <button type="submit" class="primary-global-button btn btn-main" matStepperNext [disabled]="onSubmit">{{'order-details.next' | translate}}</button>
       </div>
       </div>
     </div>

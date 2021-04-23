@@ -1,12 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { ReplaySubject, Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 
 import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { UserOrder } from '../../models/ubs.model';
 import { IOrder, IUserOrder } from '../../models/ubs.interface';
+import { TranslateService } from '@ngx-translate/core';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { CertificateStatus } from '../../certificate-status.enum';
 
 @Component({
   selector: 'app-ubs-order-details',
@@ -37,11 +40,17 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   userOrder: IUserOrder;
   object: {};
   private destroy: Subject<boolean> = new Subject<boolean>();
+  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  certMessageFirst = '';
+  certMessageFourth = '';
+  certMessageFifth = '';
 
   constructor(
     private fb: FormBuilder,
     private orderService: OrderService,
-    private shareFormService: UBSOrderFormService
+    private shareFormService: UBSOrderFormService,
+    private translate: TranslateService,
+    private localStorageService: LocalStorageService
   ) {}
 
   orderDetailsForm: FormGroup = this.fb.group({
@@ -49,17 +58,17 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
     bagNumUbs: [0],
     bagSizeUbs: [{ value: '', disabled: true }],
     bagPriceUbs: [{ value: '', disabled: true }],
-    bagSumUbs: [{ value: '0 грн', disabled: true }],
+    bagSumUbs: [{ value: 0, disabled: true }],
     bagServiceClothesXL: [{ value: '', disabled: true }],
     bagNumClothesXL: [0, Validators.required],
     bagSizeClothesXL: [{ value: '', disabled: true }],
     bagPriceClothesXL: [{ value: '', disabled: true }],
-    bagSumClothesXL: [{ value: '0 грн', disabled: true }],
+    bagSumClothesXL: [{ value: 0, disabled: true }],
     bagServiceClothesM: [{ value: '', disabled: true }],
     bagNumClothesM: [0],
     bagSizeClothesM: [{ value: '', disabled: true }],
     bagPriceClothesM: [{ value: '', disabled: true }],
-    bagSumClothesM: [{ value: '0 грн', disabled: true }],
+    bagSumClothesM: [{ value: 0, disabled: true }],
     certificate: [
       '',
       [Validators.minLength(8), Validators.pattern(this.certificatePattern)],
@@ -88,6 +97,14 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.localStorageService.languageBehaviourSubject
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(() => {
+        this.translateWords('order-details.activated-certificate1', this.certMessageFirst);
+        this.translateWords('order-details.activated-certificate4', this.certMessageFourth);
+        this.translateWords('order-details.activated-certificate5', this.certMessageFifth);
+    });
+
     this.shareFormService.objectSource
       .pipe(takeUntil(this.destroy))
       .subscribe((object) => {
@@ -103,17 +120,21 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
+  translateWords(key: string, variable) {
+    return this.translate.get(key)
+      .pipe(take(1))
+      .subscribe(item => variable = item);
+  }
+
   initForm(): void {
     this.orderDetailsForm.patchValue({
       bagServiceUbs: this.orders.allBags[0].name,
-      bagSizeUbs: `${this.orders.allBags[0].capacity} л`,
-      bagPriceUbs: `${this.orders.allBags[0].price} грн`,
+      bagSizeUbs: this.orders.allBags[0].capacity,
+      bagPriceUbs: this.orders.allBags[0].price,
       bagServiceClothesXL: this.orders.allBags[1].name,
-      bagSizeClothesXL: `${this.orders.allBags[1].capacity} л`,
-      bagPriceClothesXL: `${this.orders.allBags[1].price} грн`,
+      bagSizeClothesXL: this.orders.allBags[1].capacity,
       bagServiceClothesM: this.orders.allBags[2].name,
-      bagSizeClothesM: `${this.orders.allBags[2].capacity} л`,
-      bagPriceClothesM: `${this.orders.allBags[2].price} грн`,
+      bagSizeClothesM: this.orders.allBags[2].capacity
     });
     this.points = this.orders.points;
   }
@@ -150,17 +171,9 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
 
   calculate(): void {
     this.orderDetailsForm.patchValue({
-      bagSumUbs: `${
-        this.orderDetailsForm.value.bagNumUbs * this.orders.allBags[0].price
-      } грн`,
-      bagSumClothesXL: `${
-        this.orderDetailsForm.value.bagNumClothesXL *
-        this.orders.allBags[1].price
-      } грн`,
-      bagSumClothesM: `${
-        this.orderDetailsForm.value.bagNumClothesM *
-        this.orders.allBags[2].price
-      } грн`,
+      bagSumUbs: this.orderDetailsForm.value.bagNumUbs * this.orders.allBags[0].price,
+      bagSumClothesXL: this.orderDetailsForm.value.bagNumClothesXL * this.orders.allBags[1].price,
+      bagSumClothesM: this.orderDetailsForm.value.bagNumClothesM * this.orders.allBags[2].price,
     });
     this.calculateTotal();
   }
@@ -284,15 +297,16 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
 
   certificateMatch(cert): void {
     if (
-      cert.certificateStatus === 'ACTIVE' ||
-      cert.certificateStatus === 'NEW'
+      cert.certificateStatus === CertificateStatus.ACTIVE ||
+      cert.certificateStatus === CertificateStatus.NEW
     ) {
       this.certificateSum = this.certificateSum + cert.certificatePoints;
-      this.certMessage = `Сертифiкат на cуму ${cert.certificatePoints} грн активовано. Строк дії сертифікату - до ${cert.certificateDate}`;
+      this.certMessage = this.certMessageFirst + ' ' + cert.certificatePoints +
+       ' ' + this.certMessageFourth + ' ' + cert.certificateDate;
       this.displayCert = true;
-    } else if (cert.certificateStatus === 'USED') {
-      this.certificateSum = 0;
-      this.certMessage = `Сертифiкат вже використано. Строк дії сертифікату - до ${cert.certificateDate}`;
+    } else if (cert.certificateStatus === CertificateStatus.USED) {
+      this.certificateSum = this.certificateSum;
+      this.certMessage = this.certMessageFifth + ' ' + cert.certificateDate;
       this.displayCert = false;
     }
   }
@@ -335,5 +349,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     // [TASK] implement unsubscribe
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 }

@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -6,8 +6,10 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
 import { AgmCoreModule } from '@agm/core';
 import { IMaskModule } from 'angular-imask';
-import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
+import { MatDialogModule, MatFormFieldModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
 import { environment } from '@environment/environment';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { UbsRoutingModule } from './ubs-routing.module';
 import { UbsComponent } from './ubs.component';
@@ -18,7 +20,6 @@ import { UBSSubmitOrderComponent } from './components/ubs-submit-order/ubs-submi
 import { UBSInputErrorComponent } from './components/ubs-input-error/ubs-input-error.component';
 import { UBSAddAddressPopUpComponent } from './components/ubs-personal-information/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { AddressComponent } from './components/ubs-personal-information/address/address.component';
-
 @NgModule({
   declarations: [
     UbsComponent,
@@ -31,6 +32,7 @@ import { AddressComponent } from './components/ubs-personal-information/address/
     AddressComponent
   ],
   imports: [
+    MatFormFieldModule,
     CommonModule,
     UbsRoutingModule,
     MatStepperModule,
@@ -43,16 +45,29 @@ import { AddressComponent } from './components/ubs-personal-information/address/
     AgmCoreModule.forRoot({
       apiKey: environment.agmCoreModuleApiKey,
       libraries: ['places']
-    })
-  ],
-  entryComponents: [
-    UBSAddAddressPopUpComponent
+    }),
+    TranslateModule.forChild({
+      loader: {
+          provide: TranslateLoader,
+          useFactory: (createTranslateLoader),
+          deps: [HttpClient]
+      },
+      isolate: true
+    }),
   ],
   providers: [
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
-      useValue: {hasBackdrop: true}
-    }
+      useValue: {hasBackdrop: true},
+    },
+    TranslateService
+  ],
+  entryComponents: [
+    UBSAddAddressPopUpComponent
   ]
 })
 export class UbsModule { }
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/ubs/', '.json');
+}
