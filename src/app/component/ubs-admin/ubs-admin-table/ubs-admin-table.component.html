@@ -1,27 +1,27 @@
 
 <div class="filter">
-<input (keyup)="applyFilter($event.target.value)" placeholder="Search" class="search">
-<input (keyup)="applyFilter($event.target.value)" placeholder="Статус замовлення">
-<input (keyup)="applyFilter($event.target.value)" placeholder="Оплата">
+  <input (keyup)="applyFilter($event.target.value)" placeholder="Search" class="search">
+  <input (keyup)="applyFilter($event.target.value)" placeholder="Статус замовлення">
+  <input (keyup)="applyFilter($event.target.value)" placeholder="Оплата">
 
 
-<div >
+  <div>  
   
-  <input value="Filter" (keyup)="onKey(searchField.value)" ><i class="fas fa-filter" data-toggle="dropdown"></i>
+    <input value="Filter" (keyup)="onKey(searchField.value)" ><i class="fas fa-filter" data-toggle="dropdown"></i>
     
 
-  <ul class="dropdown-menu" >
-      <li *ngFor="let column of columns"><input type="checkbox" value="id1" >{{column.field}}</li>
+    <ul class="dropdown-menu" >
+      <li *ngFor="let column of columns; let i = index">
+        <input type="checkbox" value="id1" (change)="change(i)">{{column.field}}</li>
      
-      <button class="btn btn-info" onClick="showTable();">Check</button>
-  </ul>
-</div>
+      <button class="btn btn-info" (click)="showTable()">Check</button>
+    </ul>
+  </div>
 </div>
 
 <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" cdkDropListGroup>
 
   <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.field" >
-    
     
     <mat-header-cell *matHeaderCellDef
       cdkDropList
@@ -30,28 +30,24 @@
       (cdkDropListDropped)="dropListDropped($event, i)"
       cdkDrag
       (cdkDragStarted)="dragStarted($event, i)"
-      [cdkDragData]="{name: column.field, columIndex: i}" mat-sort-header >
-      
-
-      <div *ngIf="column.field !== 'select';else unset">
+      [cdkDragData]="{name: column.field, columIndex: i}">
+      <div *ngIf="column.field !== 'select';else checkbox">
        {{column.field}}
       </div>
 
-      <ng-template  #unset><mat-checkbox
-        (change)="$event ? masterToggle() : null"
+      <ng-template  #checkbox ><mat-checkbox
+                    (change)="$event ? masterToggle() : null"
                     [checked]="selection.hasValue() && isAllSelected()"
                     [indeterminate]="selection.hasValue() && !isAllSelected()"
                     [aria-label]="checkboxLabel()">
       </mat-checkbox>
     </ng-template>
+  </mat-header-cell>
+ 
 
-    </mat-header-cell>
-  
-
-
-      <mat-cell *matCellDef="let row" >
-        <div *ngIf="column.field !== 'select';else unset"> {{row[column.field]}}</div>
-        <ng-template  #unset  class="checkbox"><mat-checkbox
+  <mat-cell *matCellDef="let row" >
+        <div *ngIf="column.field !== 'select';else checkbox"> {{row[column.field]}}</div>
+        <ng-template  #checkbox  class="checkbox"><mat-checkbox
                    
                     (click)="$event.stopPropagation()"
                     (change)="$event ? selection.toggle(row) : null"
@@ -66,6 +62,7 @@
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
  
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
 </table>
 
 

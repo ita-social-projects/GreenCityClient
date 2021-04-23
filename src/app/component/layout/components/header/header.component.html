@@ -40,11 +40,6 @@
                 routerLinkActiveOptions="{exact:true}">
                 UBS
               </a>
-              <li role="navigation to ubs">
-                <a [routerLink]="['/ubs-admin']" routerLinkActive="active-link"
-                  routerLinkActiveOptions="{exact:true}">
-                  UBS-admin
-                </a>
             </li>
             <hr class="header_line container" [ngClass]="{'d-none': !toggleBurgerMenu}" />
             <div *ngIf="!isLoggedIn; then userLoggedInSmall else userNotLoggerInSmall"></div>
@@ -134,6 +129,11 @@
                 <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="sign out">
                   <a (click)="signOut()">
                     {{ "nav-bar.sign-out" | translate }}
+                  </a>
+                </li>
+                <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="navigation to ubs">
+                  <a [routerLink]="['/ubs-admin']" routerLinkActive="active-link">
+                    UBS-admin
                   </a>
                 </li>
               </ul>

@@ -36,15 +36,14 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class UbsAdminTableComponent implements OnInit {
  
-  sticky: boolean;
-  visibile: boolean;
+  sortt: boolean = false; 
 
   columns: any[] = [
-    { field: 'select', sticky: true, visibile: true},
-    { field: 'замовлення' },
-    { field: 'статус замовлення' },
-    { field: 'дата замовлення' },
-    { field: 'ім"я замовника' },
+    { field: 'select', sort: false, sticky: true},
+    { field: 'замовлення', sort: false, sticky: true },
+    { field: 'статус замовлення', sort: true, sticky: true },
+    { field: 'дата замовлення', sort: false, sticky: false },
+    { field: 'ім"я замовника', sort: true, sticky: false },
     ];
 
   displayedColumns: string[] = [];
@@ -62,8 +61,8 @@ export class UbsAdminTableComponent implements OnInit {
   ngOnInit() {
     this.setDisplayedColumns();
     this.dataSource.sort = this.sort;
-    
   }
+
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -104,4 +103,13 @@ export class UbsAdminTableComponent implements OnInit {
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.замовлення + 1}`;
   }
+
+  showTable(): void {
+    console.log("Yes")
+  }
+
+  change(i:number) {
+    console.log("No" + i)
+    }
+
 }
