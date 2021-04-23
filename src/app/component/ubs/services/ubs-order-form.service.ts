@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-
 import { FinalOrder, IUserOrder } from '../models/ubs.interface';
 
 @Injectable({

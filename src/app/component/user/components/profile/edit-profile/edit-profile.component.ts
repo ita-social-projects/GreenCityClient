@@ -1,3 +1,4 @@
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { Component, ElementRef, NgZone, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -55,6 +56,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
               private editProfileService: EditProfileService,
               private profileService: ProfileService,
               public router: Router,
+              private snackBar: MatSnackBarComponent,
               private localStorageService: LocalStorageService,
               private translate: TranslateService,
               private mapsAPILoader: MapsAPILoader,
@@ -144,6 +146,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     this.editProfileService.postDataUserProfile(JSON.stringify(body)).subscribe(
       () => {
         this.router.navigate(['profile', this.profileService.userId]);
+        this.snackBar.openSnackBar('changesSaved');
         this.localStorageService.setFirstName(form.value.name);
       }
     );

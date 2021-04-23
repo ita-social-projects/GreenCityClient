@@ -1,33 +1,33 @@
 <div class="container">
   <div class="header">
-    <h3>Ваше замовлення</h3>
+    <h3>{{'submit-order.your-order' | translate}}</h3>
     <table aria-label="order table">
       <thead>
-        <th scope="col">Послуга</th>
-        <th scope="col">Об'єм</th>
-        <th scope="col">Вартість</th>
-        <th scope="col">Кількість пакетів</th>
-        <th scope="col">Сума</th>
+        <th>{{'submit-order.service' | translate}}</th>
+        <th>{{'submit-order.volume' | translate}}</th>
+        <th>{{'submit-order.cost' | translate}}</th>
+        <th>{{'submit-order.number-of-packages' | translate}}</th>
+        <th>{{'submit-order.sum' | translate}}</th>
       </thead>
       <tbody>
       <tr [class.d-none]="bill.amountUbs === 0">
         <td class="firstRow">{{ ubsBag }}</td>
-        <td class="firstRow"> {{ bagSizeUbs }} л</td>
-        <td class="firstRow">{{ ubsBagPrice }} грн</td>
+        <td class="firstRow"> {{ bagSizeUbs }} {{'submit-order.litr' | translate}}</td>
+        <td class="firstRow">{{ ubsBagPrice }} {{'submit-order.currency' | translate}}</td>
         <td class="firstRow">{{ bill.amountUbs }}</td>
         <td class="firstRow">{{ bill.sumUbs }} </td>
       </tr>
       <tr [class.d-none]="bill.amountClothesXL === 0">
         <td>{{ clothesBagXL }}</td>
-        <td>{{ bagSizeClothesXL }} л</td>
-        <td>{{ clothesBagXLPrice }} грн</td>
+        <td>{{ bagSizeClothesXL }} {{'submit-order.litr' | translate}}</td>
+        <td>{{ clothesBagXLPrice }} {{'submit-order.currency' | translate}}</td>
         <td>{{ bill.amountClothesXL }}</td>
         <td>{{ bill.sumClothesXL }}</td>
       </tr>
       <tr [class.d-none]="bill.amountClothesM === 0">
         <td class="lastRow">{{ clothesBagM }}</td>
-        <td class="lastRow">{{ bagSizeClothesM }} л</td>
-        <td class="lastRow">{{ clothesBagMPrice }} грн</td>
+        <td class="lastRow">{{ bagSizeClothesM }} {{'submit-order.litr' | translate}}</td>
+        <td class="lastRow">{{ clothesBagMPrice }} {{'submit-order.currency' | translate}}</td>
         <td class="lastRow">{{ bill.amountClothesM }}</td>
         <td class="lastRow">{{ bill.sumClothesM }}</td>
       </tr>
@@ -35,25 +35,25 @@
     </table>
     <div class="showTotal">
       <div class="totalInfo">
-        <p><span>Сума замовлення:</span><span><strong>{{ bill.total }} грн</strong></span></p>
-        <p [class.d-none]="bill.certificatesSum === 0"><span>Сертифікат: </span><span><small>{{ bill.certificatesSum }}</small></span></p>
-        <p [class.d-none]="bill.pointsSum === 0"><span>Бонуси: </span><span><small>{{ bill.pointsSum }}</small></span></p>
-        <p><span>Сума до оплати: </span><span><strong>{{ bill.finalSum }} грн</strong></span></p>
+        <p><span>{{'submit-order.order-amount' | translate}}</span><span><b>{{ bill.total }} {{'submit-order.currency' | translate}}</b></span></p>
+        <p [class.d-none]="bill.certificatesSum === 0"><span>{{'submit-order.certificate' | translate}} </span><span><small>{{ bill.certificatesSum }}</small></span></p>
+        <p [class.d-none]="bill.pointsSum === 0"><span>{{'submit-order.bonuses' | translate}} </span><span><small>{{ bill.pointsSum }}</small></span></p>
+        <p><span>{{'submit-order.amount-due' | translate}} </span><span><b>{{ bill.finalSum }} {{'submit-order.currency' | translate}}</b></span></p>
         <div *ngIf="displayMes" class="validMes">
-          <small class="text-danger">Мінімальна сума замовлення повинна складати 500 грн</small>
+          <small class="text-danger">{{'submit-order.min-sum' | translate}}</small>
         </div>
       </div>
     </div>
   </div>
   <div class="main">
   <div>
-    <h4>Еко магазин</h4>
-    <p>Номер вашого замовлення: <span *ngFor="let order of additionalOrders ">{{ order }} </span></p>
+    <h4>{{'submit-order.eco-shop' | translate}}</h4>
+    <p>{{'submit-order.order-number' | translate}}<span *ngFor="let order of additionalOrders">{{ order }} </span></p>
     <p><span>{{ orderComment }}</span></p>
   </div>
   <div class="personalData">
       <div class="data">
-        <h4>Особисті дані</h4>
+        <h4>{{'submit-order.personal-data' | translate}}</h4>
         <ul>
           <li>{{ lastName }} {{ firstName }}</li>
           <li>{{ email }}</li>
@@ -61,28 +61,28 @@
         </ul>
       </div>
       <div class="data">
-        <h4>Адреса вивозу сміття</h4>
+        <h4>{{'submit-order.address' | translate}}</h4>
         <ul>
           <li>{{ city }}</li>
           <li>{{ district }}</li>
-          <li><span>вул.{{ street }}, {{ houseNumber }}</span>, {{ houseCorpus }}</li>
+          <li><span>{{'submit-order.str' | translate}}{{ street }}, {{ houseNumber }}</span>, {{ houseCorpus }}</li>
           <li><span>{{ comment }}</span></li>
         </ul>
       </div>
     </div>
   </div>
   <div class="bottom">
-    <h3>Оплата</h3>
-    <p>Після розміщення замовлення Ви можете здійснити оплату вибраним способом</p>
+    <h3>{{'submit-order.payment' | translate}}</h3>
+    <p>{{'submit-order.after-payment' | translate}}</p>
     <div class="col-12 col-sm-12 form-group bottom-select">
-      <label for="">Оберіть способ оплати</label>
+      <label for="">{{'submit-order.choose-payment' | translate}}</label>
       <select class="shadow-none form-control">
-        <option value="LiqPay">Карткою через LiqPay</option>
+        <option value="LiqPay">{{'submit-order.liqpay-card' | translate}}</option>
       </select>
     </div>
     <div class="w-100 d-flex justify-content-end">
-      <button class="secondary-global-button btn" matStepperPrevious>Назад</button>
-      <button type="submit" class="primary-global-button btn">Замовити</button>
+      <button class="secondary-global-button btn" matStepperPrevious>{{'submit-order.back' | translate}}</button>
+      <button type="submit" class="primary-global-button btn">{{'submit-order.to-order' | translate}}</button>
     </div>
   </div>
 </div>

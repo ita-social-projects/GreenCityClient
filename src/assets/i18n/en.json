@@ -509,6 +509,7 @@
     },
     "edit-profile": {
       "edit-profile": "Edit profile",
+      "edit-button": "Edit Picture",
       "info": "Personal info",
       "name": "Name",
       "name-warning": "Should contain maximum 30 symbols",
@@ -517,8 +518,8 @@
       "title": "Credo",
       "title-warning": "Should contain maximum 170 symbols",
       "links": "Linked social networks",
-      "add-link": "Add social network",
-      "privacy": "Profile privacy",
+      "add-link": "Add Social Network",
+      "privacy": "Profile Privacy",
       "location": "Show my location",
       "eco-place": "Show my eco places",
       "shoping-list": "Show my shopping list",
@@ -530,6 +531,7 @@
       "input-validation-required": "This field is required",
       "input-validation-pattern": "Your URL seems to be incorrect",
       "input-validation-non-unique": "This link has been already added",
+      "profile-changes-saved": "Your changes have been saved",
       "btn":{
         "cancel": "Cancel",
         "save": "Save",

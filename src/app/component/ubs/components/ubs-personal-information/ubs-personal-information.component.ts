@@ -8,6 +8,7 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { OrderService } from '../../services/order.service';
 import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { PersonalData } from '../../models/ubs.interface';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-ubs-personal-information',

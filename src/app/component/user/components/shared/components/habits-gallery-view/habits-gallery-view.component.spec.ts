@@ -1,3 +1,4 @@
+import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -5,6 +6,7 @@ import { HabitsGalleryViewComponent } from './habits-gallery-view.component';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { Observable } from 'rxjs';
 
 
 describe('HabitsGalleryViewComponent', () => {
@@ -14,6 +16,9 @@ describe('HabitsGalleryViewComponent', () => {
   MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = (type: string) =>  { };
   let httpTestingController: HttpTestingController;
+  let habitAssignServiceMock: HabitAssignService;
+  habitAssignServiceMock = jasmine.createSpyObj('HabitAssignService', ['assignHabit']);
+  habitAssignServiceMock.assignHabit = () => new Observable();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -25,7 +30,8 @@ describe('HabitsGalleryViewComponent', () => {
         HttpClientTestingModule
       ],
       providers: [
-        { provide: MatSnackBarComponent, useValue: MatSnackBarMock }
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
+        { provide: HabitAssignService, useValue: habitAssignServiceMock }
       ]
     })
       .compileComponents();
@@ -52,5 +58,20 @@ describe('HabitsGalleryViewComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should open snackbar if habit assigned', () => {
+    // @ts-ignore
+    const spy = spyOn(component.snackBar, 'openSnackBar');
+    component.addHabit();
+    // @ts-ignore
+    expect(component.requesting).toBeTruthy();
+    expect(spy).toBeDefined();
+  });
+
+  it('should navigate to habit-more page', () => {
+    const spy = spyOn(component.router, 'navigate');
+    component.goHabitMore();
+    expect(spy).toHaveBeenCalled();
   });
 });

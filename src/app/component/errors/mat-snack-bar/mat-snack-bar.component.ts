@@ -67,6 +67,10 @@ export class MatSnackBarComponent {
     errorMessage: (error) => {
       this.className = 'error-snackbar';
       this.getSnackBarMessage(error);
+    },
+    changesSaved: () => {
+      this.className = 'success-snackbar';
+      this.getSnackBarMessage('user.edit-profile.profile-changes-saved');
     }
   };
 

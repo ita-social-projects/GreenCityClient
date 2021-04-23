@@ -18,11 +18,11 @@ export class UBSInputErrorComponent implements OnChanges {
 
   public errorMessage;
   private getErrorMsg = {
-    required: () => 'Це поле є обов\'язкове до заповнення',
-    email: () => this.emailFieldValue ? 'Введіть коректний email' : 'Це поле  обов\'язкове до заповнення',
-    minlength: () => this.phoneNumberFieldValue ? 'Введіть номер телефону повністю' : 'Мінімальна кількість символів: 3',
-    maxlength: () => 'Перевищена максимальна кількість символів',
-    pattern: () => 'Поле містить заборонені символи'
+    required: () => 'input-error.required',
+    email: () => this.emailFieldValue ? 'input-error.email-wrong' : 'input-error.email-empty',
+    minlength: () => this.phoneNumberFieldValue ? 'input-error.minlength-unfull' : 'minlength-short',
+    maxlength: () => 'input-error.maxlenght',
+    pattern: () => 'input-error.pattern'
   };
 
   ngOnChanges() {
