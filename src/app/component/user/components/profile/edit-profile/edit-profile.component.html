@@ -82,7 +82,7 @@
       <button type="button" (click)="cancel()">
         {{ "user.edit-profile.btn.cancel" | translate }}
       </button>
-      <button type="submit" [disabled]="!editProfileForm.valid">
+      <button type="submit" [disabled]="!editProfileForm.valid || editProfileForm.pristine">
         {{ "user.edit-profile.btn.save" | translate }}
       </button>
     </div>
