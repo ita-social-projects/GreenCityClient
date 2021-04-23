@@ -60,7 +60,7 @@ body {
   height: 100%;
   min-height: inherit;
   max-height: 100vh;
-  background: #fff;
+  background: var(--primary-white);;
 }
 
 // [START] Tag guidelines
@@ -85,7 +85,7 @@ body {
 
 .global-tag-clicked {
   background: var(--primary-green);
-  color: #fff;
+  color: var(--primary-white);
   font-weight: bold;
   font-family: var(--primary-font);
   font-size: 14px;
@@ -94,7 +94,7 @@ body {
   border: none;
 
   &:hover {
-    color: #fff;
+    color: var(--primary-white);
     border: none;
   }
 }
@@ -140,28 +140,28 @@ body {
 }
 
 .error-snackbar {
-  background-color: #fce0de;
-  color: #444e55;
+  background-color: var(--error-light-red);
+  color: var(--quaternary-dark-grey);
   border-radius: 4px;
-  box-shadow: 0 -2px #eb180d;
+  box-shadow: 0 -2px  var(--error-red);
 }
 
 .attention-snackbar {
-  background-color: #fff4bf;
-  color: #444e55;
+  background-color: var(--attention-light-yellow);
+  color: var(--quaternary-dark-grey);
   border-radius: 4px;
-  box-shadow: 0 -2px #ffc000;
+  box-shadow: 0 -2px var(--attention-yellow);
 }
 
 .success-snackbar {
-  background-color: #b3e5c9;
-  color: #444e55;
+  background-color: var(--success-light-green);
+  color: var(--quaternary-dark-grey);
   border-radius: 4px;
-  box-shadow: 0 -2px #13aa57;
+  box-shadow: 0 -2px var(--primary-green);
 }
 
 .mat-simple-snackbar-action {
-  color: #444e55;
+  color: var(--quaternary-dark-grey);
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
