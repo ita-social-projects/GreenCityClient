@@ -508,7 +508,8 @@
       "my-habits": "My habits"
     },
     "edit-profile": {
-      "edit-profile": "Edit Profile",
+      "edit-profile": "Edit profile",
+      "edit-button": "Edit Picture",
       "info": "Personal info",
       "name": "Name",
       "name-warning": "Should contain maximum 30 symbols",
