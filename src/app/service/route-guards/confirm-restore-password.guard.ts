@@ -22,7 +22,8 @@ export class ConfirmRestorePasswordGuard implements CanActivate {
       if (this.currenDate - +dateFromToken > this.millisecondsOfDay) {
         this.openSingInWindow();
         this.snackBar.openSnackBar('sendNewLetter');
-        return this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/');
+        return false;
       } else {
         return true;
       }
