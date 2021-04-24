@@ -31,7 +31,6 @@ export class UBSSubmitOrderComponent implements OnInit {
 
     this.shareFormService.billObjectSource.pipe(takeUntil(this.destroy)).subscribe(order => {
       this.bill = order;
-      console.log(order)
     });
   }
 

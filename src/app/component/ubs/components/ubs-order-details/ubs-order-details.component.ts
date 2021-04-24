@@ -115,7 +115,6 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
       finalSum: this.finalSum,
     };
     this.shareFormService.finalBillObject(paymentBill);
-    
     this.shareFormService.orderDetails.pointsToUse = this.pointsUsed;
     this.shareFormService.orderDetails.certificates = this.certificates;
     this.shareFormService.orderDetails.additionalOrders = this.additionalOrders.value;
