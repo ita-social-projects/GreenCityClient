@@ -7,6 +7,7 @@ import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { CertificateStatus } from '../../certificate-status.enum';
 
 @Component({
   selector: 'app-ubs-order-details',
@@ -269,14 +270,14 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
 
   certificateMatch(cert): void {
     if (
-      cert.certificateStatus === 'ACTIVE' ||
-      cert.certificateStatus === 'NEW'
+      cert.certificateStatus === CertificateStatus.ACTIVE ||
+      cert.certificateStatus === CertificateStatus.NEW
     ) {
       this.certificateSum = this.certificateSum + cert.certificatePoints;
       this.certMessage = this.certMessageFirst + ' ' + cert.certificatePoints +
         ' ' + this.certMessageFourth + ' ' + cert.certificateDate;
       this.displayCert = true;
-    } else if (cert.certificateStatus === 'USED') {
+    } else if (cert.certificateStatus === CertificateStatus.USED) {
       this.certificateSum = this.certificateSum;
       this.certMessage = this.certMessageFifth + ' ' + cert.certificateDate;
       this.displayCert = false;
