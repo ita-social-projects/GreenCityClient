@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
     this.uiActionsService.stopScrollingSubject.subscribe(data => this.toggle = data);
   }
 
-  @HostListener('window:beforeunload',)
+  @HostListener('window:beforeunload')
   onExitHandler() {
     this.userService.updateLastTimeActivity();
   }
