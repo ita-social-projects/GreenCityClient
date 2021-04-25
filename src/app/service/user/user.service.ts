@@ -226,7 +226,7 @@ export class UserService implements OnLogout {
 
   updateLastTimeActivity() {
     let date = new Date;
-    let currentDate = moment(date).format('yyyy-MM-dd.HH:mm:ss.SSSSSS');
+    let currentDate = moment(date).format('yyyy-MM-DDTHH:mm:ss.SSSSSS');
     return this.http.put(`${userLink}/updateUserLastActivityTime/`, currentDate);
   }
 
