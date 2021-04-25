@@ -24,11 +24,14 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
     .subscribe(
       (shoppingListArr: ShoppingList[]) => this.shoppingList = shoppingListArr
     );
-    this.getLength();
   }
 
-  public getLength() {
-    return this.shoppingList.length;
+  public getShoppingListLength() {
+     if (this.shoppingList === undefined) {
+       return this.shoppingList = [];
+     } else {
+       return this.shoppingList.length;
+     }
   }
 
   public toggleDone(item): void {
