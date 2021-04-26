@@ -226,9 +226,12 @@ export class UserService implements OnLogout {
 
   updateLastTimeActivity() {
     const date = new Date();
-    const currentDate = moment(date).format('yyyy-MM-DDTHH:mm:ss.SSSSSS');
-    return this.http.put(`${userLink}/updateUserLastActivityTime/`, currentDate);
+    this.convertDate(date);
+    return this.http.put(`${userLink}/updateUserLastActivityTime/`, this.convertDate(date));
   }
+
+  convertDate = (date) => moment(date).format('yyyy-MM-DDTHH:mm:ss.SSSSSS');
+
 
   onLogout(): void {
     this.dataStore.goals = [];
