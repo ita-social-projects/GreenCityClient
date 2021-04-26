@@ -508,7 +508,8 @@
       "my-habits": "My habits"
     },
     "edit-profile": {
-      "edit-profile": "Edit Profile",
+      "edit-profile": "Edit profile",
+      "edit-button": "Edit Picture",
       "info": "Personal info",
       "name": "Name",
       "name-warning": "Should contain maximum 30 symbols",
@@ -530,6 +531,7 @@
       "input-validation-required": "This field is required",
       "input-validation-pattern": "Your URL seems to be incorrect",
       "input-validation-non-unique": "This link has been already added",
+      "profile-changes-saved": "Your changes have been saved",
       "btn":{
         "cancel": "Cancel",
         "save": "Save",

@@ -55,8 +55,6 @@ export class TipsListComponent implements OnInit {
   @ViewChild(SwiperComponent, { static: false }) componentRef?: SwiperComponent;
   @ViewChild(SwiperDirective, { static: false }) directiveRef?: SwiperDirective;
 
-  constructor() { }
-
   ngOnInit() {
     this.currentTip = this.tips[0];
   }

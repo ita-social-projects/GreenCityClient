@@ -93,7 +93,7 @@ describe('SearchAllResultsComponent', () => {
       spyOn(document.documentElement, 'clientHeight').and.returnValue(200);
       // @ts-ignore
       spyOn(document.body, 'clientHeight').and.returnValue(100);
-      const spy = spyOn(component, 'onScroll').and.returnValue();
+      const spy = spyOn(component, 'onScroll');
       // @ts-ignore
       component.forceScroll();
 

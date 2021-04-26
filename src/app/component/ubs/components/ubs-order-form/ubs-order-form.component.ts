@@ -1,10 +1,9 @@
-import { ChangeDetectorRef, ViewChild } from '@angular/core';
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-
 import { UBSSubmitOrderComponent } from '../ubs-submit-order/ubs-submit-order.component';
 import { UBSPersonalInformationComponent } from '../ubs-personal-information/ubs-personal-information.component';
 import { UBSOrderDetailsComponent } from '../ubs-order-details/ubs-order-details.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-ubs-order-form',
@@ -20,7 +19,10 @@ export class UBSOrderFormComponent implements AfterViewInit {
   @ViewChild('secondStep', {static: false}) stepTwoComponent: UBSPersonalInformationComponent;
   @ViewChild('thirdStep', {static: false}) stepThreeComponent: UBSSubmitOrderComponent;
 
-  constructor(private cdr: ChangeDetectorRef) { }
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private translate: TranslateService
+    ) { }
 
   ngAfterViewInit(): void {
     this.firstStepForm = this.stepOneComponent.orderDetailsForm;

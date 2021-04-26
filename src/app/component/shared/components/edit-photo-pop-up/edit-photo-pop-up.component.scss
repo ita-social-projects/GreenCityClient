@@ -1,14 +1,14 @@
-$secondErrorColor : #b42626;
+$secondErrorColor: #b42626;
 
 .main-container {
   position: relative;
-  width: 631px;
-  height: 400px;
+  width: 615px;
+  height: 376px;
   font-family: var(--primary-font);
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #fff;
+  background: var(--primary-white);
 
   .cancel {
     position: absolute;
@@ -27,16 +27,15 @@ $secondErrorColor : #b42626;
 
     .selected-photo {
       max-height: 148px;
-      max-width: 217px;
+      max-width: 148px;
       box-sizing: content-box;
     }
 
     p {
-      font-weight: 500;
-      font-size: 21px;
+      margin: 32px 0 40px 0;
+      font-weight: 700;
+      font-size: 20px;
       line-height: 28px;
-      padding: 24px 0 40px;
-      margin: 0;
       text-align: center;
     }
 
@@ -49,63 +48,51 @@ $secondErrorColor : #b42626;
 
     .buttons {
       display: flex;
-      align-items: flex-end;
-
-      label {
-        margin: 0;
-        padding-top: 16px;
-      }
+      align-items: center;
 
       .primary-global-button,
       .secondary-global-button {
-        border: 1px solid var(--primary-green);
+        margin: 0 8px;
+        padding: 8px 24px;
         box-sizing: border-box;
-        border-radius: 5px;
+        border-radius: 4px;
         font-style: normal;
-        font-weight: 600;
+        font-weight: bold;
         font-size: 16px;
-        height: 48px;
-        line-height: 16px;
+        line-height: 24px;
       }
 
       .primary-global-button {
-        background: #fff;
+        background: var(--primary-white);
         color: var(--primary-green);
-        min-width: 132px;
-        margin-right: 24px;
-        padding: 16px;
 
         &:hover {
-          border: 1px solid var(--secondary-dark-green);
+          border: var(--secondary-dark-green);
           color: var(--secondary-dark-green);
         }
       }
 
       .delete {
-        background: var(--error-ligh-red);
-        border: 1px solid var(--error-ligh-red);
-        border-radius: 3px;
-        color: #fff;
-        margin-left: 24px;
+        background: transparent;
+        border: 1px solid var(--primary-green);
+        color: var(--primary-green);
 
         &:hover {
           border: 1px solid $secondErrorColor;
           background: $secondErrorColor;
-          color: #fff;
+          color: var(--primary-white);
         }
 
         &:disabled {
-          background: var(--primary-grey);
-          border: 1px solid var(--primary-grey);
+          color: var(--primary-green);
+          background: transparent;
+          border: 1px solid var(--primary-green);
         }
       }
 
       .secondary-global-button {
         background: var(--primary-green);
-        color: #fff;
-        padding: 16px 24px;
-        display: flex;
-        align-items: center;
+        color: var(--primary-white);
 
         &:hover {
           background: var(--secondary-dark-green);
@@ -122,6 +109,7 @@ $secondErrorColor : #b42626;
 
       .change {
         width: 191px;
+        display: flex;
       }
 
       input {
@@ -131,34 +119,38 @@ $secondErrorColor : #b42626;
   }
 }
 
-@media screen and (max-width: 631px) {
+@media screen and (max-width: 620px) {
   .main-container {
-    width: 100vw;
-    height: 100vh;
+    width: 548px;
+    height: 376px;
   }
 }
 
-@media screen and (max-width: 500px) {
-  .wrapper {
-    p {
-      padding: 24px 15px 40px;
-    }
+@media screen and (max-width: 576px) {
+  .main-container {
+    width: 100vw;
+    height: 100vh;
 
-    .buttons {
-      flex-direction: column;
+    .wrapper {
+      p {
+        width: 288px;
+      }
 
-      .primary-global-button,
-      .secondary-global-button {
-        margin: 0 0 24px;
-        width: 287px;
+      .buttons {
+        flex-direction: column;
+
+        .primary-global-button,
+        .secondary-global-button {
+          margin: 8px 0;
+          width: 288px;
+        }
       }
     }
   }
 }
 
-@media screen and (max-width: 320px) {
-  .main-container {
-    padding-right: 0;
-    padding-left: 0;
+@media screen and (max-width: 375px) {
+  .mat-dialog-container {
+    padding: 0;
   }
 }

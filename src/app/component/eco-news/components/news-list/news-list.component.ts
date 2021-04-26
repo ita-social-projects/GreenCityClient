@@ -60,7 +60,8 @@ export class NewsListComponent implements OnInit, OnDestroy {
   public onResize(): void {
     this.getSessionStorageView();
     this.windowSize = window.innerWidth;
-    this.view = this.windowSize < Breakpoints.tabletLow ? true : (this.gallery ? true : false);
+    const isGalleryView = this.gallery ? true : false;
+    this.view = this.windowSize < Breakpoints.tabletLow ? true : isGalleryView;
   }
 
   private getSessionStorageView() {
@@ -99,7 +100,6 @@ export class NewsListComponent implements OnInit, OnDestroy {
           takeUntil(this.destroyed$),
           catchError((error) => {
             this.snackBar.openSnackBar('error');
-
             return error;
           })
         )
@@ -108,10 +108,9 @@ export class NewsListComponent implements OnInit, OnDestroy {
       this.ecoNewsService.getEcoNewsListByPage(this.currentPage, this.numberOfNews)
         .pipe(
           takeUntil(this.destroyed$),
-          catchError((error) => {
+          catchError((err) => {
             this.snackBar.openSnackBar('error');
-
-            return error;
+            return err;
           })
         )
         .subscribe((list: EcoNewsDto) => this.setList(list));

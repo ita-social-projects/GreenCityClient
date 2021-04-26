@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { take } from 'rxjs/operators';
@@ -12,7 +12,7 @@ import { HabitInterface } from '../../../../../../interface/habit/habit.interfac
   templateUrl: './habits-gallery-view.component.html',
   styleUrls: ['./habits-gallery-view.component.scss']
 })
-export class HabitsGalleryViewComponent implements OnInit {
+export class HabitsGalleryViewComponent {
   @Input() habit: HabitInterface;
   private requesting = false;
 
@@ -21,8 +21,6 @@ export class HabitsGalleryViewComponent implements OnInit {
               private snackBar: MatSnackBarComponent,
               public habitAssignService: HabitAssignService,
               public profileService: ProfileService) { }
-
-  ngOnInit() { }
 
   public goHabitMore() {
     this.router.navigate(['addhabit', this.habit.id], { relativeTo: this.route });

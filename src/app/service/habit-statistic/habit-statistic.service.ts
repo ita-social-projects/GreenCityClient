@@ -59,10 +59,9 @@ export class HabitStatisticService implements OnLogout {
   }
 
   createHabits(language: string) {
-    this.http.post<any>(`${userLink}/${this.userId}/habit?language=${language}`, this.dataStore.newHabits).subscribe(() => {
-      this.dataStore.newHabits = [];
-      this.loadAvailableHabits(language);
-      this.loadHabitStatistics(language);
+    this.http.post<any>(`${userLink}/${this.userId}/habit?language=${language}`, this.dataStore.newHabits)
+    .subscribe(() => {
+      this.clearDataStore(language);
     }, () => console.log('Can not assign new habit for this user'));
   }
 
@@ -100,7 +99,6 @@ export class HabitStatisticService implements OnLogout {
               this.dataStore.habitStatistics[habitIndex].habitStatistics[statIndex] =
                 new HabitStatisticsDto(data.id, data.habitRate, data.createdOn, data.amountOfItems, data.habitId);
               this.$habitStatistics.next(Object.assign({}, this.dataStore).habitStatistics);
-              return;
             }
           });
         }

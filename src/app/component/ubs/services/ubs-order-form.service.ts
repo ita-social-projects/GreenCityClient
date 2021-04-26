@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-
 import { FinalOrder, IUserOrder } from '../models/ubs.interface';
 
 @Injectable({
@@ -22,8 +21,6 @@ export class UBSOrderFormService {
     total: 0,
     finalSum: 0,
   });
-
-  constructor() { }
 
   changeObject(order: IUserOrder) {
     this.objectSource.next(order);

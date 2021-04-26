@@ -1,3 +1,6 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -11,7 +14,6 @@ import { EditProfileFormBuilder } from '@global-user/components/profile/edit-pro
 import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { EditProfileModel } from '@user-models/edit-profile.model';
-
 import { EditProfileComponent } from './edit-profile.component';
 
 class Test {
@@ -31,6 +33,8 @@ describe('EditProfileComponent', () => {
       imports: [
         ReactiveFormsModule,
         MatDialogModule,
+        MatSnackBarModule,
+        BrowserAnimationsModule,
         RouterTestingModule.withRoutes([
           { path: '**', component: Test }
         ]),
@@ -41,6 +45,7 @@ describe('EditProfileComponent', () => {
       providers: [
         EditProfileFormBuilder,
         EditProfileService,
+        MatSnackBarComponent,
         ProfileService,
         {
           provide: MapsAPILoader,

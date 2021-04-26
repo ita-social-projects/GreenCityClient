@@ -67,14 +67,19 @@ export class MatSnackBarComponent {
     errorMessage: (error) => {
       this.className = 'error-snackbar';
       this.getSnackBarMessage(error);
+    },
+    changesSaved: () => {
+      this.className = 'success-snackbar';
+      this.getSnackBarMessage('user.edit-profile.profile-changes-saved');
     }
   };
 
   constructor(public snackBar: MatSnackBar,
               private translate: TranslateService) { }
 
-  public openSnackBar(type: string): void {
-    this.snackType[type] ? this.snackType[type]() : type.includes('400') ? this.snackType.error() : this.snackType.errorMessage(type);
+  public openSnackBar(type: string) {
+    const isInclude = type.includes('400') ? this.snackType.error() : this.snackType.errorMessage(type);
+    return this.snackType[type] ? this.snackType[type]() : isInclude;
   }
 
   public getSnackBarMessage(key: string): void {

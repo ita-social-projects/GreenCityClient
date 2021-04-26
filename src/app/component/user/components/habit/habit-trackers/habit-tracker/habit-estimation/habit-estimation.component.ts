@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input } from '@angular/core';
 import {HabitDto} from '../../../../../../../model/habit/HabitDto';
 import {HabitStatisticsDto} from '../../../../../../../model/habit/HabitStatisticsDto';
 
@@ -7,16 +7,10 @@ import {HabitStatisticsDto} from '../../../../../../../model/habit/HabitStatisti
   templateUrl: './habit-estimation.component.html',
   styleUrls: ['./habit-estimation.component.scss']
 })
-export class HabitEstimationComponent implements OnInit {
+export class HabitEstimationComponent {
   @Input()
   habit: HabitDto;
   @Input()
   statistic: HabitStatisticsDto;
-
-  constructor() {
-  }
-
-  ngOnInit() {
-  }
 
 }
