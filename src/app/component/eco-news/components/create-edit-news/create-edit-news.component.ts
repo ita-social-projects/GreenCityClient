@@ -187,6 +187,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.createEcoNewsService
       .sendFormData(this.form)
       .pipe(
+        takeUntil(this.destroyed$),
         catchError((err) => {
           this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.');
           return throwError(err);
