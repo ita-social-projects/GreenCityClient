@@ -14,10 +14,6 @@ import { UBSOrderFormService } from './ubs-order-form.service';
 export class OrderService {
   private url = 'https://greencity-ubs.azurewebsites.net/ubs';
 
-  // orderDetails: OrderDetails;
-  // personalData: PersonalData;
-  // changeOrder: any = new EventEmitter();
-
   constructor(
     private http: HttpClient,
     private shareFormService: UBSOrderFormService
@@ -40,8 +36,4 @@ export class OrderService {
   processCertificate(certificate): Observable<ICertificate[]> {
     return this.http.get<ICertificate[]>(`${this.url}/certificate/${certificate}`);
   }
-
-  // onChanged() {
-  //   this.changeOrder.emit(this.orderDetails)
-  // }
 }

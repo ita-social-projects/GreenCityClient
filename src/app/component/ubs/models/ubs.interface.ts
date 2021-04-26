@@ -20,12 +20,6 @@ export interface OrderDetails {
   orderComment?: string;
 }
 
-export interface WorkingData {
-  bags: Bag[];
-  points: number;
-
-}
-
 export interface FinalOrder {
   bags: Bag[];
   pointsToUse?: number;
@@ -36,30 +30,11 @@ export interface FinalOrder {
   points?: number;
 }
 
-// export interface IOrder {
-//   allBags: Bag[];
-//   points: number;
-//   pointsToUse?: number;
-//   certificates: any;
-//   additionalOrders: any;
-//   orderComment: string;
-// }
-
-
-
 export interface ICertificate {
   certificatePoints: number;
   certificateStatus: string;
   // certificateDate: any
 }
-
-// export interface IUserOrder {
-//   bags: Bag[];
-//   pointsToUse: number;
-//   certificates: any;
-//   additionalOrders: any;
-//   orderComment: string;
-// }
 
 export interface PersonalData {
   id: number;
