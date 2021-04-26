@@ -28,7 +28,8 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
 
   public getShoppingListLength() {
      if (this.shoppingList === undefined) {
-       return this.shoppingList = [];
+       this.shoppingList = [];
+       return shoppingList.length;
      } else {
        return this.shoppingList.length;
      }
