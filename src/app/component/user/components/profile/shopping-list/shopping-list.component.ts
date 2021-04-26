@@ -10,10 +10,17 @@ import { Subscription, Subject } from 'rxjs';
   styleUrls: ['./shopping-list.component.scss']
 })
 export class ShoppingListComponent implements OnInit, OnDestroy {
-  public shoppingList: ShoppingList[];
+  public shoppingList: ShoppingList[] = [];
   public profileSubscription: Subscription;
   private destroy$ = new Subject<void>();
   constructor(private profileService: ProfileService) { }
+
+  get shoppingListLength(): number {
+    if (!this.shoppingList) {
+      return 0;
+    }
+    return this.shoppingList.length;
+ }
 
   ngOnInit() {
     this.getShoppingList();
@@ -22,8 +29,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   public getShoppingList(): void {
     this.profileSubscription = this.profileService.getShoppingList()
     .subscribe(
-      (shoppingListArr: ShoppingList[]) => this.shoppingList = shoppingListArr,
-      error => this.shoppingList = []
+      (shoppingListArr: ShoppingList[]) => this.shoppingList = shoppingListArr
     );
   }
 
