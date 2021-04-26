@@ -10,10 +10,17 @@ import { Subscription, Subject } from 'rxjs';
   styleUrls: ['./shopping-list.component.scss']
 })
 export class ShoppingListComponent implements OnInit, OnDestroy {
-  public shoppingList: ShoppingList[];
+  public shoppingList: ShoppingList[] = [];
   public profileSubscription: Subscription;
   private destroy$ = new Subject<void>();
   constructor(private profileService: ProfileService) { }
+
+  get shoppingListLength(): number {
+    if (!this.shoppingList) {
+      return 0;
+    }
+    return this.shoppingList.length;
+ }
 
   ngOnInit() {
     this.getShoppingList();
@@ -24,15 +31,6 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
     .subscribe(
       (shoppingListArr: ShoppingList[]) => this.shoppingList = shoppingListArr
     );
-  }
-
-  public getShoppingListLength() {
-     if (this.shoppingList === undefined) {
-       this.shoppingList = [];
-       return this.shoppingList.length;
-     } else {
-       return this.shoppingList.length;
-     }
   }
 
   public toggleDone(item): void {
