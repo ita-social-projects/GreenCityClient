@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input } from '@angular/core';
 import {HabitItem} from './HabitItem';
 
 @Component({
@@ -6,13 +6,7 @@ import {HabitItem} from './HabitItem';
   templateUrl: './habit-item.component.html',
   styleUrls: ['./habit-item.component.scss']
 })
-export class HabitItemComponent implements OnInit {
+export class HabitItemComponent {
   @Input() habitItem: HabitItem;
-
-  constructor() {
-  }
-
-  ngOnInit() {
-  }
 
 }

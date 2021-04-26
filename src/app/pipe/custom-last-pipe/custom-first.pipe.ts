@@ -9,9 +9,10 @@ export class CustomLastPipe implements PipeTransform {
 
   transform(goals: Goal[]): any {
     goals.sort((a, b) => {
-      const first = a.type === GoalType.TRACKED ? 2 : (a.type === GoalType.PREDEFINED ? 1 : 0);
-      const second = b.type === GoalType.TRACKED ? 2 : (b.type === GoalType.PREDEFINED ? 1 : 0);
-
+      const isPredefinedA = a.type === GoalType.PREDEFINED ? 1 : 0;
+      const first = a.type === GoalType.TRACKED ? 2 : isPredefinedA;
+      const isPredefinedB = b.type === GoalType.PREDEFINED ? 1 : 0;
+      const second = b.type === GoalType.TRACKED ? 2 : isPredefinedB;
       return second - first;
     });
 

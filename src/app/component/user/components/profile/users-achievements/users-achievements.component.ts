@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { PROFILE_IMAGES } from 'src/app/image-pathes/profile-images';
 
 @Component({
@@ -6,12 +6,7 @@ import { PROFILE_IMAGES } from 'src/app/image-pathes/profile-images';
   templateUrl: './users-achievements.component.html',
   styleUrls: ['./users-achievements.component.scss']
 })
-export class UsersAchievementsComponent implements OnInit {
+export class UsersAchievementsComponent {
   public achievementsImages = PROFILE_IMAGES.achs;
-
-  constructor() { }
-
-  ngOnInit() {
-  }
 
 }

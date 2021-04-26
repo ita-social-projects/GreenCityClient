@@ -14,8 +14,6 @@ export class TagFilterComponent implements OnInit, OnChanges {
   @Input() public header: string;
   @Output() tagsList = new EventEmitter<Array<string>>();
 
-  constructor() { }
-
   ngOnInit() {
     this.emitActiveFilters();
   }

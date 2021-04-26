@@ -8,13 +8,12 @@ import { ecoNewsIcons } from 'src/app/image-pathes/profile-icons';
   styleUrls: ['./news-list-gallery-view.component.scss'],
   changeDetection: 0
 })
+
 export class NewsListGalleryViewComponent {
   @Input() ecoNewsModel: EcoNewsModel;
 
   public profileIcons = ecoNewsIcons;
   public newsImage: string;
-
-  constructor() {}
 
   public checkNewsImage(): string {
     return this.newsImage = (this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' ') ?

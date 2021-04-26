@@ -15,7 +15,7 @@ import { ItemClass } from './CalendarItemStyleClasses';
   selector: 'app-calendar-base',
   template: ''
 })
-export class CalendarBaseComponent implements OnInit, OnDestroy {
+export class CalendarBaseComponent implements OnDestroy {
   public calendarImages = calendarImage;
   public monthAndYearName: string;
   public yearData: number;
@@ -66,9 +66,6 @@ export class CalendarBaseComponent implements OnInit, OnDestroy {
     public habitAssignService: HabitAssignService,
     public dialog: MatDialog,
   ) { }
-
-  ngOnInit() {
-  }
 
   ngOnDestroy() {
     this.langChangeSub.unsubscribe();
