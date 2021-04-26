@@ -1,0 +1,75 @@
+.sidebar {
+  margin-top: -95px;
+  height: 100vh;
+
+  .sidebar-container {
+    margin-left: 1.9em;
+  }
+
+  .sidebar-slider {
+    margin-top: 52px;
+    position: fixed;
+    background-color: var(--ubs-primary-grey);
+  }
+}
+
+.sidebar-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  text-align: center;
+
+  .sidebar-list-item {
+    padding: 0.75em 1em;
+    display: flex;
+    align-items: center;
+    line-height: 1.5em;
+    font-style: normal;
+    font-weight: normal;
+    cursor: pointer;
+    color: var(--ubs-primary-white);
+
+    &:hover,
+    &:focus {
+      background-color: var(--ubs-secondary-grey);
+    }
+
+    .sidebar-list-item-link {
+      margin: 0 4.4em 0 1.2em;
+      font-size: 0.9em;
+    }
+
+    .sidebar-list-item-icon {
+      height: 1.6em;
+      font-size: 1.1em;
+    }
+  }
+}
+
+.sidebar-icons {
+  position: fixed;
+  width: 3.7em;
+  height: 100vh;
+  background-color: var(--ubs-primary-grey);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.sidebar-toggler {
+  margin-left: 0.6em;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--ubs-primary-white);
+  border: 1px solid var(--ubs-primary-green);
+  background-color: var(--ubs-primary-green);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

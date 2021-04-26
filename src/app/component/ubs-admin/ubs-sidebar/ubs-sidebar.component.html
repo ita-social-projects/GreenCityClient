@@ -1,0 +1,71 @@
+<div class="sidebar-icons" #sideBarIcons>
+  <ul class="sidebar-list">
+    <li class="sidebar-list-item" (click)="toggleSideBar()">
+      <img class="sidebar-list-item-icon" src="assets\img\sidebarIcons\user_icon.svg">
+    </li>
+    <li class="sidebar-list-item" (click)="toggleSideBar()">
+      <img class="sidebar-list-item-icon" src="assets\img\sidebarIcons\achievment_icon.svg">
+    </li>
+    <li class="sidebar-list-item" (click)="toggleSideBar()">
+      <img class="sidebar-list-item-icon" src="assets\img\sidebarIcons\shopping-cart_icon.svg">
+    </li>
+    <li class="sidebar-list-item" (click)="toggleSideBar()">
+      <img class="sidebar-list-item-icon" src="assets\img\sidebarIcons\workers_icon.svg">
+    </li>
+    <li class="sidebar-list-item" (click)="toggleSideBar()">
+      <img class="sidebar-list-item-icon" src="assets\img\sidebarIcons\documents_icon.svg">
+    </li>
+    <li class="sidebar-list-item" (click)="toggleSideBar()">
+      <img class="sidebar-list-item-icon" src="assets\img\sidebarIcons\calendar_icon.svg">
+    </li>
+  </ul>
+  <button
+      class="sidebar-toggler"
+      type="button"
+      (click)="toggleSideBar()"
+      #sidebarToggler
+      [disabled] = "stopClick">
+      >>
+  </button>
+</div>
+<mat-drawer-container class="sidebar" autosize>
+  <mat-drawer #drawer class="sidebar-slider" mode="side" opened disableClose>
+    <ul class="sidebar-list">
+      <li class="sidebar-list-item">
+        <img class="sidebar-list-item-icon" src="assets\img\sidebarIcons\user_icon.svg">
+        <a class="sidebar-list-item-link">Користувачі</a>
+      </li>
+      <li class="sidebar-list-item">
+        <img class="sidebar-list-item-icon" src="assets\img\sidebarIcons\achievment_icon.svg">
+        <a class="sidebar-list-item-link">Сертифікати</a>
+      </li>
+      <li class="sidebar-list-item">
+        <img class="sidebar-list-item-icon" src="assets\img\sidebarIcons\shopping-cart_icon.svg">
+        <a class="sidebar-list-item-link">Замовлення</a>
+      </li>
+      <li class="sidebar-list-item">
+        <img class="sidebar-list-item-icon" src="assets\img\sidebarIcons\workers_icon.svg">
+        <a class="sidebar-list-item-link">Працівники</a>
+      </li>
+      <li class="sidebar-list-item">
+        <img class="sidebar-list-item-icon" src="assets\img\sidebarIcons\documents_icon.svg">
+        <a class="sidebar-list-item-link">Документи</a>
+      </li>
+      <li class="sidebar-list-item">
+        <img class="sidebar-list-item-icon" src="assets\img\sidebarIcons\calendar_icon.svg">
+        <a class="sidebar-list-item-link">Графік</a>
+      </li>
+    </ul>
+    <button
+        class="sidebar-toggler"
+        type="button"
+        (click)="toggleSideBar()"
+        #sidebarToggler
+        [disabled] = "stopClick">
+      <<
+    </button>
+  </mat-drawer>
+  <div class="sidebar-container">
+    <app-ubs-admin-table></app-ubs-admin-table>
+  </div>
+</mat-drawer-container>

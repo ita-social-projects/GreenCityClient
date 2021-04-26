@@ -5,15 +5,15 @@
   <input (keyup)="applyFilter($event.target.value)" placeholder="Оплата">
 
 
-  <div>  
-  
+  <div>
+
     <input value="Filter" (keyup)="onKey(searchField.value)" ><i class="fas fa-filter" data-toggle="dropdown"></i>
-    
+
 
     <ul class="dropdown-menu" >
       <li *ngFor="let column of columns; let i = index">
         <input type="checkbox" value="id1" (change)="change(i)">{{column.field}}</li>
-     
+
       <button class="btn btn-info" (click)="showTable()">Check</button>
     </ul>
   </div>
@@ -22,7 +22,7 @@
 <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" cdkDropListGroup>
 
   <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.field" >
-    
+
     <mat-header-cell *matHeaderCellDef
       cdkDropList
       cdkDropListLockAxis="x"
@@ -43,24 +43,24 @@
       </mat-checkbox>
     </ng-template>
   </mat-header-cell>
- 
+
 
   <mat-cell *matCellDef="let row" >
         <div *ngIf="column.field !== 'select';else checkbox"> {{row[column.field]}}</div>
         <ng-template  #checkbox  class="checkbox"><mat-checkbox
-                   
+
                     (click)="$event.stopPropagation()"
                     (change)="$event ? selection.toggle(row) : null"
                     [checked]="selection.isSelected(row)"
                     [aria-label]="checkboxLabel(row)">
         </mat-checkbox></ng-template>
     </mat-cell>
-    
+
 
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
- 
+
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 
 </table>
@@ -72,6 +72,6 @@
 
 
 
- 
- 
+
+
 

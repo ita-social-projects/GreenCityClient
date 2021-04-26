@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { HomepageComponent} from './component/home/components';
 import { SearchAllResultsComponent } from './component/layout/components';
+import { UbsSidebarComponent } from './component/ubs-admin/ubs-sidebar/ubs-sidebar.component';
 
 export const routes: Routes = [
   {
@@ -29,7 +30,7 @@ export const routes: Routes = [
   },
   {
     path: 'ubs-admin',
-    component: UbsAdminTableComponent
+    component: UbsSidebarComponent
   },
   {
     path: 'tips',
