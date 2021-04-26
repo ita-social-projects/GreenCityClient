@@ -10,7 +10,7 @@ import { Subscription, Subject } from 'rxjs';
   styleUrls: ['./shopping-list.component.scss']
 })
 export class ShoppingListComponent implements OnInit, OnDestroy {
-  public shoppingList: ShoppingList[] = [];
+  public shoppingList: ShoppingList[];
   public profileSubscription: Subscription;
   private destroy$ = new Subject<void>();
   constructor(private profileService: ProfileService) { }
@@ -29,7 +29,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   public getShoppingListLength() {
      if (this.shoppingList === undefined) {
        this.shoppingList = [];
-       return shoppingList.length;
+       return this.shoppingList.length;
      } else {
        return this.shoppingList.length;
      }
