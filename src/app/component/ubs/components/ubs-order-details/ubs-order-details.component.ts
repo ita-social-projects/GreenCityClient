@@ -92,7 +92,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
       this.orders = this.shareFormService.orderDetails;
       this.bags = this.orders.bags;
       this.points = this.orders.points;
-      this.bags.forEach(bag => {
+      this.bags.map(bag => {
         bag.quantity = 0;
         this.orderDetailsForm.addControl(
           'quantity' + String(bag.id),
@@ -141,7 +141,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
 
   private calculateTotal(): void {
     this.total = 0;
-    this.bags.forEach(bag => {
+    this.bags.map(bag => {
       this.total += bag.price * bag.quantity;
     });
     this.showTotal = this.total;
@@ -170,13 +170,13 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   }
 
   clearOrderValues(): void {
-    this.additionalOrders.controls.forEach(element => {
+    this.additionalOrders.controls.map(element => {
       element.setValue('');
     });
   }
 
   calculate(): void {
-    this.bags.forEach(bag => {
+    this.bags.map(bag => {
       const valueName = 'quantity' + String(bag.id);
       bag.quantity = this.orderDetailsForm.controls[valueName].value;
     });

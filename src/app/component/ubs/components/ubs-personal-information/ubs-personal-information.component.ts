@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { OrderService } from '../../services/order.service';
 import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up/ubs-add-address-pop-up.component';
-import { Address, OrderBag, OrderDetails, PersonalData } from '../../models/ubs.interface';
+import { Address, Bag, OrderBag, OrderDetails, PersonalData } from '../../models/ubs.interface';
 import { Order } from '../../models/ubs.model';
 
 @Component({
@@ -69,7 +69,7 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
   }
 
   checkAddress(addressId) {
-    this.addresses.forEach(address => {
+    this.addresses.map(address => {
       if (address.id !== addressId && address.checked) {
         address.checked = !address.checked;
       } else if (address.id === addressId && !address.checked) {
@@ -170,9 +170,9 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
   submit(): void {
     this.orderDetails = this.shareFormService.orderDetails;
     let orderBags: OrderBag[] = [];
-    this.orderDetails.bags.forEach((bagItem) => {
+    this.orderDetails.bags.map((bagItem: Bag) => {
       const bag: OrderBag = { amount: bagItem.quantity, id: bagItem.id };
-      orderBags.push(bag);
+      orderBags = [...orderBags, bag];
     });
     orderBags = orderBags.filter(bag => bag.amount !== 0);
     this.personalData.firstName = this.personalDataForm.get('firstName').value;
