@@ -135,6 +135,10 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
     return this.orderDetailsForm.get('additionalOrders') as FormArray;
   }
 
+  get shop() {
+    return this.orderDetailsForm.get('shop') as FormArray;
+  }
+
   private calculateTotal(): void {
     this.total = 0;
     this.bags.forEach(bag => {
@@ -163,6 +167,12 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
       }
       this.showCertificateUsed = this.certificateSum;
     }
+  }
+
+  clearOrderValues(): void {
+    this.additionalOrders.controls.forEach(element => {
+      element.setValue('');
+    });
   }
 
   calculate(): void {

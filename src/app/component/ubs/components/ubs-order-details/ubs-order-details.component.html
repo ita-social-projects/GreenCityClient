@@ -123,8 +123,9 @@
       </div>
       <div class="form-check custom-control custom-radio">
         <input formControlName="shop" id="customRadio4" value="no" class="form-check-input custom-control-input"
-          type="radio">
+          type="radio" (click)="clearOrderValues()">
         <label class="form-check-label custom-control-label" for="customRadio4">{{'order-details.no' | translate}}</label>
+
       </div>
       <div class="form-group shop_submit">
         <div class="bottom-text">
@@ -134,7 +135,7 @@
         <div formArrayName="additionalOrders" *ngFor="let order of additionalOrders.controls; let i=index"
           class="form-group">
           <label class="label m-0">{{'order-details.enter-order-num' | translate}}</label>
-          <input [formControlName]="i" class="shadow-none form-control border-input p-2" type="text" placeholder="xxxxxxxxxx">
+          <input [formControlName]="i" class="shadow-none form-control border-input p-2" type="text" placeholder="xxxxxxxxxx" [readonly]="shop.value === 'no'">
         </div>
         <button *ngIf="additionalOrders.controls.length < 5" class="addOrderBtn" (click)="addOrder()">{{'order-details.additional-orders' | translate}}</button>
       </div>
