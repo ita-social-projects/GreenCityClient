@@ -16,8 +16,12 @@ export interface OrderDetails {
   points: number;
   pointsToUse?: number;
   certificates?: any;
-  additionalOrders: any;
+  additionalOrders?: any;
   orderComment?: string;
+  certificatesSum?: number;
+  pointsSum?: number;
+  total?: number;
+  finalSum?: number;
 }
 
 export interface FinalOrder {

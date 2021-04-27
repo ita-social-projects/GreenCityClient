@@ -23,9 +23,10 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   showTotal = 0;
   pointsUsed = 0;
   certificates = [];
-
+  certificateSum = 0;
   total = 0;
   finalSum = 0;
+
   points: number;
   displayMes = false;
   displayCert = false;
@@ -35,7 +36,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   order: {};
   certificateMask = '0000-0000';
   certificatePattern = /(?!0000)\d{4}-(?!0000)\d{4}/;
-  certificateSum = 0;
+
   certSize = false;
   showCertificateUsed = 0;
   certificateLeft = 0;
@@ -109,17 +110,14 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   }
 
   changeOrderDetails() {
-    const paymentBill = {
-      certificatesSum: this.showCertificateUsed,
-      pointsSum: this.pointsUsed,
-      total: this.showTotal,
-      finalSum: this.finalSum,
-    };
-    this.shareFormService.finalBillObject(paymentBill);
     this.shareFormService.orderDetails.pointsToUse = this.pointsUsed;
     this.shareFormService.orderDetails.certificates = this.certificates;
     this.shareFormService.orderDetails.additionalOrders = this.additionalOrders.value;
     this.shareFormService.orderDetails.orderComment = this.orderDetailsForm.value.orderComment;
+    this.shareFormService.orderDetails.certificatesSum = this.showCertificateUsed;
+    this.shareFormService.orderDetails.pointsSum = this.pointsUsed;
+    this.shareFormService.orderDetails.total = this.showTotal;
+    this.shareFormService.orderDetails.finalSum = this.finalSum;
     this.shareFormService.changeOrderDetails();
   }
 
@@ -154,6 +152,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
       this.onSubmit = false;
     }
     this.finalSum = this.total;
+    this.changeOrderDetails();
     if (this.certificateSum > 0) {
       if (this.total > this.certificateSum) {
         this.certificateLeft = 0;

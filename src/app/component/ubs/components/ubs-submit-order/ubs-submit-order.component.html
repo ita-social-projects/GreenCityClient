@@ -25,19 +25,19 @@
       <div class="totalInfo">
         <p>
           <span>{{'submit-order.order-amount' | translate}}</span>
-          <span><strong>{{ bill.total }} {{'submit-order.currency' | translate}}</strong></span>
+          <span><strong>{{ orderDetails.total }} {{'submit-order.currency' | translate}}</strong></span>
         </p>
-        <p [class.d-none]="bill.certificatesSum === 0">
+        <p [class.d-none]="orderDetails.certificatesSum === 0">
           <span>{{'submit-order.certificate' | translate}}</span>
-          <span><small>{{ bill.certificatesSum }} </small></span>
+          <span><small>{{ orderDetails.certificatesSum }} </small></span>
         </p>
-        <p [class.d-none]="bill.pointsSum === 0">
+        <p [class.d-none]="orderDetails.pointsSum === 0">
           <span>{{'submit-order.bonuses' | translate}} </span>
-          <span><small>{{ bill.pointsSum }}</small></span>
+          <span><small>{{ orderDetails.pointsSum }}</small></span>
         </p>
         <p>
           <span>{{'submit-order.amount-due' | translate}} </span>
-          <span><strong>{{ bill.finalSum }} {{'submit-order.currency' | translate}}</strong></span>
+          <span><strong>{{ orderDetails.finalSum }} {{'submit-order.currency' | translate}}</strong></span>
         </p>
         <div *ngIf="displayMes" class="validMes">
           <small class="text-danger">{{'submit-order.min-sum' | translate}}</small>

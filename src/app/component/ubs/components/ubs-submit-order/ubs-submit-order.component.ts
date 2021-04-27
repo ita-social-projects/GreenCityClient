@@ -28,7 +28,6 @@ export class UBSSubmitOrderComponent implements OnInit {
 
   ngOnInit(): void {
     this.takeOrderDetails();
-    this.takeOrderResults();
   }
 
   ngOnDestroy() {
@@ -43,12 +42,6 @@ export class UBSSubmitOrderComponent implements OnInit {
     });
     this.shareFormService.changedPersonalData.subscribe((personalData: PersonalData) => {
       this.personalData = personalData;
-    });
-  }
-
-  takeOrderResults() {
-    this.shareFormService.billObjectSource.pipe(takeUntil(this.destroy)).subscribe(order => {
-      this.bill = order;
     });
   }
 }
