@@ -57,7 +57,7 @@ export class OneHabitComponent implements OnInit {
     this.buildHabitDescription();
   }
 
-  public goHabitMore() {
+  public goEditHabit() {
     const userId = localStorage.getItem('userId');
     this.router.navigate([`profile/${userId}/allhabits/addhabit/${this.habit.habit.id}`]);
   }
