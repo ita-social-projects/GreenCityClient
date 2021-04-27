@@ -18,6 +18,8 @@ export class UbsSidebarComponent implements OnInit, AfterViewInit {
   public openClose = false;
   public stopClick = false;
   public fixed = false;
+  public primaryGreenColor = '#13aa57'
+  public secondaryGrayColor = '#444e55'
 
   @ViewChild('sidebarToggler', { static: false }) sidebarToggler: ElementRef;
   @ViewChild('sideBarIcons', { static: false }) sideBarIcons: ElementRef;
@@ -30,12 +32,12 @@ export class UbsSidebarComponent implements OnInit, AfterViewInit {
       this.drawer.toggle();
 
       this.stopClick = true;
-      this.sidebarToggler.nativeElement.style.backgroundColor = '#444e55';
+      this.sidebarToggler.nativeElement.style.backgroundColor = this.secondaryGrayColor;
 
       setTimeout(() => {
         this.sideBarIcons.nativeElement.style.zIndex = '0';
         this.stopClick = false;
-        this.sidebarToggler.nativeElement.style.backgroundColor = '#13aa57';
+        this.sidebarToggler.nativeElement.style.backgroundColor = this.primaryGreenColor;
       }, 350);
 
       this.sidebarToggler.nativeElement.textContent = '<<';
