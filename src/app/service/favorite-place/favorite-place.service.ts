@@ -1,10 +1,9 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable, Subject} from 'rxjs';
-import {FavoritePlace} from '../../model/favorite-place/favorite-place';
-import {favoritePlaceLink} from '../../links';
-import {placeLink} from '../../links';
-import {Place} from '../../component/map/models/place';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, Subject } from 'rxjs';
+import { FavoritePlace } from '../../model/favorite-place/favorite-place';
+import { favoritePlaceLink, placeLink } from '../../links';
+import { Place } from '../../component/map/models/place';
 
 @Injectable({
   providedIn: 'root'

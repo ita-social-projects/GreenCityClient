@@ -11,6 +11,7 @@ export class CommentPaginationComponent implements AfterViewChecked {
   @Output() public setPage = new EventEmitter();
   public maxSize = 5;
   public maxCommentsOnPage = 10;
+  public bigTotalSize = null;
 
   constructor(private cdr: ChangeDetectorRef) { }
 
@@ -20,7 +21,8 @@ export class CommentPaginationComponent implements AfterViewChecked {
   }
 
   public calcPaginationSize(totalPages, currentPages) {
-    this.maxSize = totalPages <= 5 ? 5 : ( currentPages <= 3 || currentPages >= (totalPages - 2) ) ? 6 : 7;
+    this.bigTotalSize = ( currentPages <= 3 || currentPages >= (totalPages - 2) ) ? 6 : 7;
+    this.maxSize = totalPages <= 5 ? 5 : this.bigTotalSize;
     return this.maxSize;
   }
 

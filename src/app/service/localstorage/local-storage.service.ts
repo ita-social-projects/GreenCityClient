@@ -20,9 +20,6 @@ export class LocalStorageService {
   languageBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getCurrentLanguage());
   accessTokenBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getAccessToken());
 
-  constructor() {
-  }
-
   public getAccessToken(): string {
     return localStorage.getItem(this.ACCESS_TOKEN);
   }

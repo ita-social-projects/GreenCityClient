@@ -54,11 +54,12 @@ export class InterceptorService implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === BAD_REQUEST  || error.status === FORBIDDEN) {
-          const message = error.error.message ? error.error.message : error.message ? error.message : 'error';
-          this.openErrorWindow( message);
+          const noErrorErrorMessage = error.message ? error.message : 'error';
+          const message = error.error.message ? error.error.message : noErrorErrorMessage;
+          this.openErrorWindow(message);
           return EMPTY;
         }
-        if (error.status === UNAUTHORIZED ) {
+        if (error.status === UNAUTHORIZED) {
           return this.handleUnauthorized(req, next);
         }
         return throwError(error);

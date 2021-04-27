@@ -3,12 +3,10 @@ import {Injectable} from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
+
 export class AdminService {
   static sortColumn = 'email';
   static sortDirection = 'asc';
-
-  constructor() {
-  }
 
   get staticSortColumn() {
     return AdminService.sortColumn;

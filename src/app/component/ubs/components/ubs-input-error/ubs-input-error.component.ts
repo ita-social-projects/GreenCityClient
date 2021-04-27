@@ -25,8 +25,6 @@ export class UBSInputErrorComponent implements OnChanges {
     pattern: () => 'input-error.pattern'
   };
 
-  constructor() {}
-
   ngOnChanges() {
     this.getType();
   }

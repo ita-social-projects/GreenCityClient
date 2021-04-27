@@ -1,5 +1,4 @@
-import { ChangeDetectorRef, ViewChild } from '@angular/core';
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { UBSSubmitOrderComponent } from '../ubs-submit-order/ubs-submit-order.component';
 import { UBSPersonalInformationComponent } from '../ubs-personal-information/ubs-personal-information.component';
