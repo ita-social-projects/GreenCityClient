@@ -1,4 +1,5 @@
 .main-container {
+  position: relative;
   max-width: 568px;
   height: 256px;
   padding: 56px;
@@ -6,6 +7,15 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  .close {
+    position: absolute;
+    top: 26px;
+    right: 26px;
+    border: none;
+    background-color: transparent;
+    outline: none;
+  }
 }
 
 .warning-text {
