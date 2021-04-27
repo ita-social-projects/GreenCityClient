@@ -68,6 +68,13 @@ button {
         left: -5px;
       }
     }
+
+    .edit {
+      width: 20px;
+      height: 20px;
+      background-image: url(/assets/img/profile/icons/edit-line.svg);
+      margin-left: auto;
+    }
   }
 
   .second-row {
@@ -100,10 +107,10 @@ button {
 
   div:first-child,
   button:first-child {
-    width: 17px;
-    height: 17px;
+    width: 28px;
+    height: 28px;
     margin-right: 8px;
-    border-radius: 3px;
+    border-radius: 50%;
   }
 
   .grey,
@@ -113,17 +120,26 @@ button {
     font-weight: normal;
     font-size: 14px;
     line-height: 20px;
+  }
+
+  .grey {
     color: var(--quintynary-light-grey);
   }
 
-  .empty {
-    background-color: var(--primary-white);
-    border: 1px solid var(--quaternary-grey);
+  .green {
+    color: var(--primary-green);
   }
 
-  .mark {
-    background: url("~/assets/img/icon/green-checkbox.svg") no-repeat;
-    border: 1px solid var(--primary-white);
+  .done {
+    background: url("~/assets/img/icon/chek-circle.png") no-repeat center;
+  }
+
+  .undone {
+    background: url("~/assets/img/icon/plus-circle.png") no-repeat center;
+  }
+
+  .aquired {
+    background: url("~/assets/img/icon/star-circle.png") no-repeat center;
   }
 }
 

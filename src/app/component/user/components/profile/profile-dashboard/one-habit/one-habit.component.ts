@@ -26,21 +26,21 @@ export class OneHabitComponent implements OnInit {
     acquired: () => {
       this.daysCounter = this.habit.duration;
       this.showPhoto = false;
-      this.habitMark = 'empty';
+      this.habitMark = 'aquired';
     },
     done: () => {
       this.daysCounter = this.habit.workingDays
         ? this.habit.workingDays
         : this.habit.duration;
       this.showPhoto = false;
-      this.habitMark = 'mark';
+      this.habitMark = 'done';
     },
     undone: () => {
       this.daysCounter = this.habit.workingDays
         ? this.habit.workingDays
         : this.habit.duration;
       this.showPhoto = true;
-      this.habitMark = 'empty';
+      this.habitMark = 'undone';
     }
   };
 
@@ -55,6 +55,11 @@ export class OneHabitComponent implements OnInit {
   ngOnInit() {
     this.currentDate = this.formatDate(new Date());
     this.buildHabitDescription();
+  }
+
+  public goHabitMore() {
+    const userId = localStorage.getItem('userId');
+    this.router.navigate([`profile/${userId}/allhabits/addhabit/${this.habit.habit.id}`]);
   }
 
   public buildHabitDescription(): void {
