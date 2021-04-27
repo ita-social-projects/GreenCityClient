@@ -93,7 +93,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
       this.orders = this.shareFormService.orderDetails;
       this.bags = this.orders.bags;
       this.points = this.orders.points;
-      this.bags.map(bag => {
+      this.bags.forEach(bag => {
         bag.quantity = 0;
         this.orderDetailsForm.addControl(
           'quantity' + String(bag.id),
@@ -139,7 +139,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
 
   private calculateTotal(): void {
     this.total = 0;
-    this.bags.map(bag => {
+    this.bags.forEach(bag => {
       this.total += bag.price * bag.quantity;
     });
     this.showTotal = this.total;
@@ -169,13 +169,13 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   }
 
   clearOrderValues(): void {
-    this.additionalOrders.controls.map(element => {
+    this.additionalOrders.controls.forEach(element => {
       element.setValue('');
     });
   }
 
   calculate(): void {
-    this.bags.map(bag => {
+    this.bags.forEach(bag => {
       const valueName = 'quantity' + String(bag.id);
       bag.quantity = this.orderDetailsForm.controls[valueName].value;
     });
@@ -291,9 +291,6 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
       this.certMessage = this.certMessageFifth + ' ' + cert.certificateDate;
       this.displayCert = false;
     }
-  }
-
-  submit(): void {
   }
 
   ngOnDestroy() {

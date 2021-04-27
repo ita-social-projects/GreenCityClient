@@ -30,7 +30,7 @@ export class UBSInputErrorComponent implements OnChanges {
   }
 
   private getType() {
-    Object.keys(this.formElement.errors).map(error => {
+    Object.keys(this.formElement.errors).forEach(error => {
       return this.errorMessage = this.getErrorMsg[error]();
     });
   }

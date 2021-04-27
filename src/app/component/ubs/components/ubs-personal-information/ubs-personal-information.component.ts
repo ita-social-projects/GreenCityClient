@@ -69,7 +69,7 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
   }
 
   checkAddress(addressId) {
-    this.addresses.map(address => {
+    this.addresses.forEach(address => {
       if (address.id !== addressId && address.checked) {
         address.checked = !address.checked;
       } else if (address.id === addressId && !address.checked) {
@@ -170,7 +170,7 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
   submit(): void {
     this.orderDetails = this.shareFormService.orderDetails;
     let orderBags: OrderBag[] = [];
-    this.orderDetails.bags.map((bagItem: Bag) => {
+    this.orderDetails.bags.forEach((bagItem: Bag) => {
       const bag: OrderBag = { amount: bagItem.quantity, id: bagItem.id };
       orderBags = [...orderBags, bag];
     });
@@ -186,7 +186,6 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
       this.shareFormService.orderDetails.orderComment,
       this.personalData,
       this.shareFormService.orderDetails.pointsToUse);
-    this.orderService.processOrder(this.order).pipe(takeUntil(this.destroy)).subscribe(res => {
-    });
+    this.orderService.processOrder(this.order).pipe(takeUntil(this.destroy)).subscribe(() => { });
   }
 }

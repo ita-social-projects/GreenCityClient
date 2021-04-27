@@ -11,8 +11,6 @@ export class UBSOrderFormService {
   changedOrder: any = new EventEmitter();
   changedPersonalData: any = new EventEmitter();
 
-  constructor() { }
-
   changeOrderDetails() {
     this.changedOrder.emit(this.orderDetails);
   }
