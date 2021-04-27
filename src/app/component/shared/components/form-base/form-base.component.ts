@@ -12,7 +12,7 @@ import { take } from 'rxjs/operators';
 })
 export class FormBaseComponent implements ComponentCanDeactivate {
 
-  @ViewChild('formEditProf', {static: false}) formEditProf: ElementRef;
+  @ViewChild('formEditProf', { static: false }) formEditProf: ElementRef;
 
   public areChangesSaved = false;
   public initialValues = {};
@@ -31,8 +31,7 @@ export class FormBaseComponent implements ComponentCanDeactivate {
   };
   public getFormValues(): any { }
 
-  constructor(public router: Router,
-              public dialog: MatDialog) {
+  constructor(public router: Router, public dialog: MatDialog) {
   }
 
   @HostListener('window:beforeunload')
@@ -60,17 +59,9 @@ export class FormBaseComponent implements ComponentCanDeactivate {
   public checkChanges(): boolean {
     const body = this.getFormValues();
     for (const key of Object.keys(body)) {
-      if (Array.isArray(body[key])) {
-        if (body[key].some((item, index) => item !== this.initialValues[key][index])) {
-          return true;
-        }
-      } else {
-        if (body[key] !== this.initialValues[key]
-          && this.formEditProf.nativeElement.classList.contains('ng-touched')) {
-          return true;
-        }
+      if (JSON.stringify(body[key]) !== JSON.stringify(this.initialValues[key]) && this.initialValues[key] !== undefined) {
+        return true;
       }
     }
-    return false;
   }
 }
