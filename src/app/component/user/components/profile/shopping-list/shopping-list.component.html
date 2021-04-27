@@ -10,7 +10,7 @@
                 diameter="70"
                 class="loading"></mat-spinner>
         </div>
-        <div *ngIf="profileSubscription && shoppingList && shoppingList.length > 0">
+        <div *ngIf="profileSubscription && shoppingList && shoppingListLength > 0">
             <div class="shopping-list-content" >
                 <ul class="shopping-list">
                     <li [ngClass]="shoppingItem.status === 'DONE' ? 'item-striked' : 'item'"
@@ -25,7 +25,7 @@
                 </ul>
             </div>
         </div>
-        <div *ngIf="profileSubscription && shoppingList && shoppingList.length === 0">
+        <div *ngIf="profileSubscription && shoppingListLength === 0">
             <p class="empty-list">{{ 'profile.empty-list' | translate}}</p>
         </div>
     </div>
