@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -10,7 +10,7 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
   templateUrl: './ubs-submit-order.component.html',
   styleUrls: ['./ubs-submit-order.component.scss']
 })
-export class UBSSubmitOrderComponent implements OnInit {
+export class UBSSubmitOrderComponent implements OnInit, OnDestroy {
   paymentForm: FormGroup = this.fb.group({});
   bags: Bag[] = [];
   personalData: PersonalData;
@@ -36,11 +36,11 @@ export class UBSSubmitOrderComponent implements OnInit {
   }
 
   takeOrderDetails() {
-    this.shareFormService.changedOrder.subscribe((orderDetails: OrderDetails) => {
+    this.shareFormService.changedOrder.pipe(takeUntil(this.destroy)).subscribe((orderDetails: OrderDetails) => {
       this.orderDetails = orderDetails;
       this.bags = orderDetails.bags;
     });
-    this.shareFormService.changedPersonalData.subscribe((personalData: PersonalData) => {
+    this.shareFormService.changedPersonalData.pipe(takeUntil(this.destroy)).subscribe((personalData: PersonalData) => {
       this.personalData = personalData;
     });
   }
