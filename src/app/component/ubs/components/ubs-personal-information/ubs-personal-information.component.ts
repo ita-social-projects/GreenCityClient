@@ -70,9 +70,8 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
 
   checkAddress(addressId) {
     this.addresses.forEach(address => {
-      if (address.id !== addressId && address.checked) {
-        address.checked = !address.checked;
-      } else if (address.id === addressId && !address.checked) {
+      if (address.id !== addressId && address.checked ||
+        address.id === addressId && !address.checked) {
         address.checked = !address.checked;
       }
     });
@@ -186,6 +185,6 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
       this.shareFormService.orderDetails.orderComment,
       this.personalData,
       this.shareFormService.orderDetails.pointsToUse);
-    this.orderService.processOrder(this.order).pipe(takeUntil(this.destroy)).subscribe(() => { });
+    this.orderService.processOrder(this.order).pipe(takeUntil(this.destroy)).subscribe();
   }
 }
