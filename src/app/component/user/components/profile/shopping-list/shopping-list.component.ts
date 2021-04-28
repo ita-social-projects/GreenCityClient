@@ -1,4 +1,4 @@
-import { takeUntil } from 'rxjs/operators';
+import { finalize, takeUntil } from 'rxjs/operators';
 import { ProfileService } from './../profile-service/profile.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
@@ -27,22 +27,30 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   }
 
   public getShoppingList(): void {
-    this.profileSubscription = this.profileService.getShoppingList()
-    .subscribe(
-      (shoppingListArr: ShoppingList[]) => this.shoppingList = shoppingListArr
+    this.profileSubscription = this.profileService.getShoppingList().pipe(
+      takeUntil(this.destroy$),
+      finalize(() => {
+        if (!this.shoppingList) {
+          this.shoppingList = [];
+        }
+      })
+    ).subscribe(
+      (shoppingListArr: ShoppingList[]) => this.shoppingList = shoppingListArr,
+      (error) => this.shoppingList = []
     );
   }
 
   public toggleDone(item): void {
-    this.profileService.toggleStatusOfShoppingItem(item)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((success) => this.updateDataOnUi(item));
+    this.profileService
+      .toggleStatusOfShoppingItem(item)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((success) => this.updateDataOnUi(item));
   }
 
   private updateDataOnUi(item): any {
     const { status: prevItemStatus } = item;
     const newItemStatus = prevItemStatus === 'ACTIVE' ? 'DONE' : 'ACTIVE';
-    return item.status = newItemStatus;
+    return (item.status = newItemStatus);
   }
 
   ngOnDestroy() {
