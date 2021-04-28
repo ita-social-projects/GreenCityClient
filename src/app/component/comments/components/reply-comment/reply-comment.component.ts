@@ -7,6 +7,4 @@ import { Component } from '@angular/core';
 })
 export class ReplyCommentComponent {
   public replyImages = 'assets/img/comments/reply.png';
-
-
 }

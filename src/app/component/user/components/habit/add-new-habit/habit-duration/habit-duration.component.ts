@@ -13,7 +13,7 @@ export class HabitDurationComponent implements OnInit {
   public position: string = null;
   public thumbWidth = '12px';
 
-  constructor(private elm: ElementRef, private renderer: Renderer2) { }
+  constructor(private elm: ElementRef, private renderer: Renderer2) {}
 
   ngOnInit() {
     this.habitDuration.setValue(this.habitDurationDefault);

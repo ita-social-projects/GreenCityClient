@@ -32,7 +32,7 @@ describe('CommentsListComponent', () => {
     text: 'string',
 
     isEdit: true,
-    showRelyButton: true
+    showRelyButton: true,
   };
 
   beforeEach(async(() => {
@@ -104,5 +104,4 @@ describe('CommentsListComponent', () => {
     component.checkCommentAuthor(commentData.author.id);
     expect(commentData.author.id).toEqual(userId);
   });
-
 });

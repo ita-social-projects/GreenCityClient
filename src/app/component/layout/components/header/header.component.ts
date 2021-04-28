@@ -37,7 +37,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public arrayLang: Array<LanguageModel> = [
     { lang: 'Ua', langName: 'ukrainian' },
     { lang: 'En', langName: 'english' },
-    { lang: 'Ru', langName: 'russian' }];
+    { lang: 'Ru', langName: 'russian' },
+  ];
   public ariaStatus = 'profile options collapsed';
   public isSearchClicked = false;
   private adminRoleValue = 'ROLE_ADMIN';
@@ -61,7 +62,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private languageService: LanguageService,
     private searchSearch: SearchService,
     private userOwnAuthService: UserOwnAuthService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     this.dialog.afterAllClosed.pipe(takeUntil(this.destroySub)).subscribe(() => {
@@ -110,12 +112,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     const language = this.languageService.getCurrentLanguage();
 
     const currentLangObj = { lang: language.charAt(0).toUpperCase() + language.slice(1), langName: language };
-    const currentLangIndex = this.arrayLang.findIndex(lang => lang.lang === currentLangObj.lang);
-    this.arrayLang = [
-      currentLangObj,
-      ...this.arrayLang.slice(0, currentLangIndex),
-      ...this.arrayLang.slice(currentLangIndex + 1)
-    ];
+    const currentLangIndex = this.arrayLang.findIndex((lang) => lang.lang === currentLangObj.lang);
+    this.arrayLang = [currentLangObj, ...this.arrayLang.slice(0, currentLangIndex), ...this.arrayLang.slice(currentLangIndex + 1)];
   }
 
   private initUser(): void {
@@ -135,8 +133,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.langDropdownVisible = false;
     if (this.isLoggedIn) {
       const curLangId = this.languageService.getLanguageId(language.toLowerCase() as Language);
-      this.userService.updateUserLanguage(curLangId)
-        .subscribe();
+      this.userService.updateUserLanguage(curLangId).subscribe();
     }
   }
 
@@ -179,7 +176,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public toggleDropdown(): void {
     this.dropdownVisible = !this.dropdownVisible;
-    this.dropdownVisible ? this.ariaStatus = 'profile options expanded' : this.ariaStatus = 'profile options collapsed';
+    this.dropdownVisible ? (this.ariaStatus = 'profile options expanded') : (this.ariaStatus = 'profile options collapsed');
   }
 
   public autoCloseUserDropDown(event): void {

@@ -1,4 +1,3 @@
-
 import { Component, Input } from '@angular/core';
 import { Goal } from '../../../../../../model/goal/Goal';
 import { GoalType } from './GoalType';
@@ -11,7 +10,6 @@ import { GoalType } from './GoalType';
 export class AddGoalListComponent {
   @Input()
   goals: Goal[];
-
 
   addCustomGoal() {
     const goal = { id: this.generateCustomGoalId(), status: 'CHECKED', text: 'Write your goal here', type: GoalType.CUSTOM };

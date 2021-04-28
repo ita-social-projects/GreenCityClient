@@ -19,7 +19,7 @@ export class DragAndDropComponent implements OnInit {
   private croppedImage: string;
   @Input() public formData: FormGroup;
 
-  constructor(private createEcoNewsService: CreateEcoNewsService) { }
+  constructor(private createEcoNewsService: CreateEcoNewsService) {}
 
   ngOnInit() {
     this.patchImage();

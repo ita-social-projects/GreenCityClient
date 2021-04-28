@@ -1,4 +1,3 @@
-
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,7 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './user-achievements.component.html',
   styleUrls: ['./user-achievements.component.scss'],
 })
-
-export class UserAchievementsComponent {
-
-}
+export class UserAchievementsComponent {}

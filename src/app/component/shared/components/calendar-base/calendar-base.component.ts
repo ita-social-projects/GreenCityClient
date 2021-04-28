@@ -65,8 +65,8 @@ export class CalendarBaseComponent implements OnDestroy {
     public translate: TranslateService,
     public languageService: LanguageService,
     public habitAssignService: HabitAssignService,
-    public dialog: MatDialog,
-  ) { }
+    public dialog: MatDialog
+  ) {}
 
   ngOnDestroy() {
     this.langChangeSub.unsubscribe();
@@ -144,9 +144,7 @@ export class CalendarBaseComponent implements OnDestroy {
       year: this.calendar.year,
       firstDay: this.calendar.firstDay,
       totalDaysInMonth: this.calendar.totalDaysInMonth,
-      dayName: (new Date(this.calendar.year, this.calendar.month, days)
-        .toDateString()
-        .substring(0, 3)) || '',
+      dayName: new Date(this.calendar.year, this.calendar.month, days).toDateString().substring(0, 3) || '',
       hasHabitsInProgress: false,
       areHabitsDone: false,
       isCurrentDayActive: false,
@@ -164,12 +162,9 @@ export class CalendarBaseComponent implements OnDestroy {
   public markCurrentDayOfWeek(): void {
     const option: any = { weekday: 'short' };
     this.language = this.languageService.getCurrentLanguage();
-    this.calendarDay.forEach(el => {
-      if (el.isCurrentDayActive &&
-        el.date.getMonth() === el.month &&
-        el.date.getFullYear() === el.year) {
-        const dayName = (new Date(el.year, el.month, Number(el.numberOfDate))
-          .toLocaleDateString(this.language, option));
+    this.calendarDay.forEach((el) => {
+      if (el.isCurrentDayActive && el.date.getMonth() === el.month && el.date.getFullYear() === el.year) {
+        const dayName = new Date(el.year, el.month, Number(el.numberOfDate)).toLocaleDateString(this.language, option);
         this.currentDayName = dayName.charAt(0).toUpperCase() + dayName.slice(1);
       }
     });
@@ -222,13 +217,13 @@ export class CalendarBaseComponent implements OnDestroy {
 
   public formatDate(isMonthCalendar: boolean, dayItem) {
     if (isMonthCalendar) {
-      return `${dayItem.year}-${dayItem.month + 1 < 10 ?
-        '0' + (dayItem.month + 1) : dayItem.month + 1}-${dayItem.numberOfDate < 10 ?
-          '0' + dayItem.numberOfDate : dayItem.numberOfDate}`;
+      return `${dayItem.year}-${dayItem.month + 1 < 10 ? '0' + (dayItem.month + 1) : dayItem.month + 1}-${
+        dayItem.numberOfDate < 10 ? '0' + dayItem.numberOfDate : dayItem.numberOfDate
+      }`;
     } else {
-      return `${dayItem.date.getFullYear()}-${dayItem.date.getMonth() + 1 < 10 ?
-        '0' + (dayItem.date.getMonth() + 1) : dayItem.date.getMonth() + 1}-${dayItem.date.getDate() < 10 ?
-          '0' + dayItem.date.getDate() : dayItem.date.getDate()}`;
+      return `${dayItem.date.getFullYear()}-${
+        dayItem.date.getMonth() + 1 < 10 ? '0' + (dayItem.date.getMonth() + 1) : dayItem.date.getMonth() + 1
+      }-${dayItem.date.getDate() < 10 ? '0' + dayItem.date.getDate() : dayItem.date.getDate()}`;
     }
   }
 
@@ -244,41 +239,48 @@ export class CalendarBaseComponent implements OnDestroy {
   }
 
   getHabitsForDay(habitsList, date) {
-    return habitsList.find(list => list.enrollDate === date);
+    return habitsList.find((list) => list.enrollDate === date);
   }
 
   public getUserHabits(isMonthCalendar, days) {
-    const firstDay = isMonthCalendar ? days.find(day => day.numberOfDate === 1) : days[0];
+    const firstDay = isMonthCalendar ? days.find((day) => day.numberOfDate === 1) : days[0];
     const startDate = this.formatDate(isMonthCalendar, firstDay);
     const endDate = this.formatDate(isMonthCalendar, days[days.length - 1]);
-    this.habitAssignService.getAssignHabitsByPeriod(startDate, endDate).pipe(
-      takeUntil(this.destroySub)
-    ).subscribe(res => {
-      this.userHabitsList = res;
-      days.forEach(day => {
-        const date = this.formatDate(isMonthCalendar, day);
-        if (new Date().setHours(0, 0, 0, 0) >= new Date(date).setHours(0, 0, 0, 0)) {
-          day.hasHabitsInProgress = this.userHabitsList.filter(habit => habit.enrollDate === date)[0].habitAssigns.length > 0;
-          day.areHabitsDone = this.userHabitsList
-            .filter(habit => habit.enrollDate === date)[0].habitAssigns
-            .filter(habit => !habit.enrolled).length === 0;
-        }
+    this.habitAssignService
+      .getAssignHabitsByPeriod(startDate, endDate)
+      .pipe(takeUntil(this.destroySub))
+      .subscribe((res) => {
+        this.userHabitsList = res;
+        days.forEach((day) => {
+          const date = this.formatDate(isMonthCalendar, day);
+          if (new Date().setHours(0, 0, 0, 0) >= new Date(date).setHours(0, 0, 0, 0)) {
+            day.hasHabitsInProgress = this.userHabitsList.filter((habit) => habit.enrollDate === date)[0].habitAssigns.length > 0;
+            day.areHabitsDone =
+              this.userHabitsList.filter((habit) => habit.enrollDate === date)[0].habitAssigns.filter((habit) => !habit.enrolled).length ===
+              0;
+          }
+        });
       });
-    });
   }
 
   isCheckedAllHabits(habitsForDay) {
-    return habitsForDay.find(habit => !habit.enrolled) ? false : true;
+    return habitsForDay.find((habit) => !habit.enrolled) ? false : true;
   }
 
   chooseDisplayClass(dayItem) {
     if (dayItem.isCurrentDayActive) {
       return ItemClass.CURRENT;
-    } else if (dayItem.hasHabitsInProgress &&
-      dayItem.numberOfDate < (dayItem.date.getDate() - this.daysCanEditHabits) && dayItem.areHabitsDone) {
+    } else if (
+      dayItem.hasHabitsInProgress &&
+      dayItem.numberOfDate < dayItem.date.getDate() - this.daysCanEditHabits &&
+      dayItem.areHabitsDone
+    ) {
       return ItemClass.ENROLLEDPAST;
-    } else if (dayItem.hasHabitsInProgress &&
-      dayItem.numberOfDate < (dayItem.date.getDate() - this.daysCanEditHabits) && !dayItem.areHabitsDone) {
+    } else if (
+      dayItem.hasHabitsInProgress &&
+      dayItem.numberOfDate < dayItem.date.getDate() - this.daysCanEditHabits &&
+      !dayItem.areHabitsDone
+    ) {
       return ItemClass.UNENROLLEDPAST;
     } else if (dayItem.hasHabitsInProgress && dayItem.areHabitsDone) {
       return ItemClass.ENROLLED;
@@ -291,8 +293,8 @@ export class CalendarBaseComponent implements OnDestroy {
     this.selectedDay = isMonthCalendar ? new Date(dayItem.year, dayItem.month, Number(dayItem.numberOfDate)) : dayItem.date;
     this.isHabitListEditable = false;
     const currentDate: Date = new Date();
-    this.isHabitListEditable = currentDate.setHours(0, 0, 0, 0) - this.daysCanEditHabits * 24 * 60 * 60 * 1000 >=
-      new Date(this.selectedDay).setHours(0, 0, 0, 0);
+    this.isHabitListEditable =
+      currentDate.setHours(0, 0, 0, 0) - this.daysCanEditHabits * 24 * 60 * 60 * 1000 >= new Date(this.selectedDay).setHours(0, 0, 0, 0);
   }
 
   checkCanOpenPopup(dayItem: CalendarInterface) {
@@ -309,22 +311,23 @@ export class CalendarBaseComponent implements OnDestroy {
     dialogConfig.autoFocus = true;
     dialogConfig.backdropClass = 'backdropBackground';
     dialogConfig.position = {
-      top: (pos.y + 20) + 'px',
-      left: (pos.x - 300) + 'px'
+      top: pos.y + 20 + 'px',
+      left: pos.x - 300 + 'px',
     };
     dialogConfig.data = {
       habitsCalendarSelectedDate: this.formatSelectedDate(isMonthCalendar, dayItem),
       isHabitListEditable: this.isHabitListEditable,
-      habits: habits.habitAssigns
+      habits: habits.habitAssigns,
     };
     const dialogRef = this.dialog.open(HabitsPopupComponent, dialogConfig);
-    dialogRef.afterClosed().pipe(
-      takeUntil(this.destroySub)
-    ).subscribe(changedList => {
-      this.sendEnrollRequest(changedList, habits.enrollDate);
-      this.isCheckedHabits = this.isCheckedAllHabits(changedList);
-      this.currentDayItem = dayItem;
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroySub))
+      .subscribe((changedList) => {
+        this.sendEnrollRequest(changedList, habits.enrollDate);
+        this.isCheckedHabits = this.isCheckedAllHabits(changedList);
+        this.currentDayItem = dayItem;
+      });
   }
 
   sendEnrollRequest(changedList, date) {
@@ -339,23 +342,29 @@ export class CalendarBaseComponent implements OnDestroy {
 
   enrollHabit(habit, date) {
     this.checkAnswer = true;
-    this.habitAssignService.enrollByHabit(habit.habitId, date).pipe(
-      takeUntil(this.destroySub),
-      finalize(() => this.checkAnswer = false)
-    ).subscribe(() => {
-      habit.enrolled = !habit.enrolled;
-      this.currentDayItem.areHabitsDone = this.isCheckedHabits;
-    });
+    this.habitAssignService
+      .enrollByHabit(habit.habitId, date)
+      .pipe(
+        takeUntil(this.destroySub),
+        finalize(() => (this.checkAnswer = false))
+      )
+      .subscribe(() => {
+        habit.enrolled = !habit.enrolled;
+        this.currentDayItem.areHabitsDone = this.isCheckedHabits;
+      });
   }
 
   unEnrollHabit(habit, date) {
     this.checkAnswer = true;
-    this.habitAssignService.unenrollByHabit(habit.habitId, date).pipe(
-      takeUntil(this.destroySub),
-      finalize(() => this.checkAnswer = false)
-    ).subscribe(() => {
-      habit.enrolled = !habit.enrolled;
-      this.currentDayItem.areHabitsDone = this.isCheckedHabits;
-    });
+    this.habitAssignService
+      .unenrollByHabit(habit.habitId, date)
+      .pipe(
+        takeUntil(this.destroySub),
+        finalize(() => (this.checkAnswer = false))
+      )
+      .subscribe(() => {
+        habit.enrolled = !habit.enrolled;
+        this.currentDayItem.areHabitsDone = this.isCheckedHabits;
+      });
   }
 }

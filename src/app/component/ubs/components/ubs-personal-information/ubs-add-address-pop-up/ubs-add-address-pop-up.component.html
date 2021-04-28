@@ -1,29 +1,44 @@
 <form [formGroup]="addAddressForm" class="row adress">
   <div class="col-12 col-sm-6 form-group">
-    <label>{{'personal-info.pop-up-city' | translate}}</label>
+    <label>{{ 'personal-info.pop-up-city' | translate }}</label>
     <select formControlName="city" class="shadow-none form-control">
-      <option value="Kyiv">{{'personal-info.pop-up-city-name' | translate}}</option>
+      <option value="Kyiv">{{ 'personal-info.pop-up-city-name' | translate }}</option>
     </select>
     <div class="w-100 city-notice">
-      {{'personal-info.pop-up-info-message' | translate}}
+      {{ 'personal-info.pop-up-info-message' | translate }}
     </div>
   </div>
   <div class="col-12 col-sm-6 form-group">
-    <label>{{'personal-info.pop-up-district' | translate}}</label>
-    <input formControlName="district" class="shadow-none form-control" matGoogleMapsAutocomplete [country]="'ua'"
-      [types]="['geocode']" (onAutocompleteSelected)="onDistrictSelected($event)"
-      [attr.disabled]="districtDisabled ? true : null" [value]="region"
-      placeholder="{{'personal-info.pop-up-enter-you-location' | translate}}">
+    <label>{{ 'personal-info.pop-up-district' | translate }}</label>
+    <input
+      formControlName="district"
+      class="shadow-none form-control"
+      matGoogleMapsAutocomplete
+      [country]="'ua'"
+      [types]="['geocode']"
+      (onAutocompleteSelected)="onDistrictSelected($event)"
+      [attr.disabled]="districtDisabled ? true : null"
+      [value]="region"
+      placeholder="{{ 'personal-info.pop-up-enter-you-location' | translate }}"
+    />
     <div class="validation" *ngIf="district.invalid && addAddressForm.get('district').touched">
       <app-ubs-input-error [formElement]="district" [controlName]="'district'"></app-ubs-input-error>
     </div>
   </div>
   <div class="col-12 col-sm-6 form-group">
-    <label>{{'personal-info.pop-up-street' | translate}}</label>
-    <input formControlName="street" type="text" class="shadow-none form-control" matGoogleMapsAutocomplete
-      (onAutocompleteSelected)="onAutocompleteSelected($event)" (onLocationSelected)="onLocationSelected($event)"
-      (change)="onChange()" [types]="['address']" [country]="'ua'"
-      placeholder="{{'personal-info.pop-up-enter-you-location' | translate}}">
+    <label>{{ 'personal-info.pop-up-street' | translate }}</label>
+    <input
+      formControlName="street"
+      type="text"
+      class="shadow-none form-control"
+      matGoogleMapsAutocomplete
+      (onAutocompleteSelected)="onAutocompleteSelected($event)"
+      (onLocationSelected)="onLocationSelected($event)"
+      (change)="onChange()"
+      [types]="['address']"
+      [country]="'ua'"
+      placeholder="{{ 'personal-info.pop-up-enter-you-location' | translate }}"
+    />
     <div class="validation" *ngIf="street.invalid && addAddressForm.get('street').touched">
       <app-ubs-input-error [formElement]="street" [streetFieldValue]="street.value" [controlName]="'street'"></app-ubs-input-error>
     </div>
@@ -31,15 +46,15 @@
   <div class="row col-12 col-sm-6 d-flex justify-content-between flex-wrap form-group">
     <div class="item col-sm-4">
       <label>Будинок</label>
-      <input formControlName="houseNumber" type="text" class="shadow-none form-control">
+      <input formControlName="houseNumber" type="text" class="shadow-none form-control" />
     </div>
     <div class="item col-sm-4">
-      <label>{{'personal-info.pop-up-corps' | translate}}</label>
-      <input formControlName="houseCorpus" type="text" class="shadow-none form-control">
+      <label>{{ 'personal-info.pop-up-corps' | translate }}</label>
+      <input formControlName="houseCorpus" type="text" class="shadow-none form-control" />
     </div>
     <div class="item col-sm-4">
-      <label>{{'personal-info.pop-up-entrance' | translate}}</label>
-      <input formControlName="entranceNumber" type="text" class="shadow-none form-control">
+      <label>{{ 'personal-info.pop-up-entrance' | translate }}</label>
+      <input formControlName="entranceNumber" type="text" class="shadow-none form-control" />
     </div>
     <div class="w-100">
       <div class="validation" *ngIf="houseCorpus.invalid && houseCorpus.touched">
@@ -49,6 +64,8 @@
   </div>
 </form>
 <div class="d-flex justify-content-end" mat-dialog-actions>
-  <button class="btn secondary-global-button" mat-button (click)="onNoClick()">{{'personal-info.pop-up-cancel' | translate}}</button>
-  <button class="btn primary-global-button" mat-button [mat-dialog-close]="addAddressForm.value">{{'personal-info.pop-up-add-address' | translate}}</button>
+  <button class="btn secondary-global-button" mat-button (click)="onNoClick()">{{ 'personal-info.pop-up-cancel' | translate }}</button>
+  <button class="btn primary-global-button" mat-button [mat-dialog-close]="addAddressForm.value">
+    {{ 'personal-info.pop-up-add-address' | translate }}
+  </button>
 </div>

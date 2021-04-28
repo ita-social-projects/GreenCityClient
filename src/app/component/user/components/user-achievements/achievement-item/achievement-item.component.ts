@@ -6,10 +6,7 @@ import { AchievementDto } from '../../../../../model/achievement/AchievementDto'
   templateUrl: './achievement-item.component.html',
   styleUrls: ['./achievement-item.component.scss'],
 })
-
 export class AchievementItemComponent {
   @Input() achievement: AchievementDto;
   readonly achieve = 'assets/img/achieve.png';
-
-  ngOnInit() { }
 }

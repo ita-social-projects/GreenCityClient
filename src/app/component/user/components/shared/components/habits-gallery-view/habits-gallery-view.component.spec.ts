@@ -13,7 +13,7 @@ describe('HabitsGalleryViewComponent', () => {
   let fixture: ComponentFixture<HabitsGalleryViewComponent>;
   let MatSnackBarMock: MatSnackBarComponent;
   MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
-  MatSnackBarMock.openSnackBar = (type: string) => { };
+  MatSnackBarMock.openSnackBar = (type: string) => {};
   let httpTestingController: HttpTestingController;
   let habitAssignServiceMock: HabitAssignService;
   habitAssignServiceMock = jasmine.createSpyObj('HabitAssignService', ['assignHabit']);
@@ -21,20 +21,13 @@ describe('HabitsGalleryViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-
       declarations: [HabitsGalleryViewComponent],
-      imports: [
-        TranslateModule.forRoot(),
-        RouterTestingModule,
-        MatSnackBarModule,
-        HttpClientTestingModule
-      ],
+      imports: [TranslateModule.forRoot(), RouterTestingModule, MatSnackBarModule, HttpClientTestingModule],
       providers: [
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
-        { provide: HabitAssignService, useValue: habitAssignServiceMock }
-      ]
-    })
-      .compileComponents();
+        { provide: HabitAssignService, useValue: habitAssignServiceMock },
+      ],
+    }).compileComponents();
     httpTestingController = TestBed.get(HttpTestingController);
   }));
 

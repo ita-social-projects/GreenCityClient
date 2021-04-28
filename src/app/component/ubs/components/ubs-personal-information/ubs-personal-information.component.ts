@@ -12,10 +12,9 @@ import { Order } from '../../models/ubs.model';
 @Component({
   selector: 'app-ubs-personal-information',
   templateUrl: './ubs-personal-information.component.html',
-  styleUrls: ['./ubs-personal-information.component.scss']
+  styleUrls: ['./ubs-personal-information.component.scss'],
 })
 export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
-
   orderDetails: OrderDetails;
   personalData: PersonalData;
   personalDataForm: FormGroup;
@@ -30,7 +29,7 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
     private orderService: OrderService,
     private shareFormService: UBSOrderFormService,
     private fb: FormBuilder,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) {
     this.initForm();
   }
@@ -46,22 +45,33 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
 
   initForm() {
     this.personalDataForm = this.fb.group({
-      firstName: new FormControl('',
-        [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(this.namePattern)]),
-      lastName: new FormControl('',
-        [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(this.namePattern)]),
+      firstName: new FormControl('', [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(30),
+        Validators.pattern(this.namePattern),
+      ]),
+      lastName: new FormControl('', [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(30),
+        Validators.pattern(this.namePattern),
+      ]),
       email: new FormControl('', [Validators.required, Validators.email]),
       phoneNumber: new FormControl('+38 0', [Validators.required, Validators.minLength(12)]),
-      addressComment: new FormControl('', Validators.maxLength(170))
+      addressComment: new FormControl('', Validators.maxLength(170)),
     });
   }
 
   public takeUserData() {
-    this.orderService.getPersonalData().pipe(takeUntil(this.destroy)).subscribe((personalData: PersonalData) => {
-      this.personalData = this.shareFormService.personalData;
-      this.addAddress();
-      this.setFormData();
-    });
+    this.orderService
+      .getPersonalData()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((personalData: PersonalData) => {
+        this.personalData = this.shareFormService.personalData;
+        this.addAddress();
+        this.setFormData();
+      });
   }
 
   changePersonalData() {
@@ -69,9 +79,8 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
   }
 
   checkAddress(addressId) {
-    this.addresses.forEach(address => {
-      if (address.id !== addressId && address.checked ||
-        address.id === addressId && !address.checked) {
+    this.addresses.forEach((address) => {
+      if ((address.id !== addressId && address.checked) || (address.id === addressId && !address.checked)) {
         address.checked = !address.checked;
       }
     });
@@ -79,7 +88,7 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
   }
 
   changeAddressInPersonalData() {
-    const activeAddress = this.addresses.find(address => address.checked);
+    const activeAddress = this.addresses.find((address) => address.checked);
     this.personalData.city = activeAddress.city;
     this.personalData.district = activeAddress.district;
     this.personalData.street = activeAddress.street;
@@ -104,7 +113,7 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
         houseNumber: this.personalData.houseNumber,
         entranceNumber: this.personalData.entranceNumber,
         longitude: this.personalData.longitude,
-        latitude: this.personalData.latitude
+        latitude: this.personalData.latitude,
       };
     } else {
       address = {
@@ -117,7 +126,7 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
         houseNumber: newAddress.houseNumber,
         entranceNumber: newAddress.entranceNumber,
         longitude: newAddress.longitude,
-        latitude: newAddress.latitude
+        latitude: newAddress.latitude,
       };
     }
     this.addresses.push(address);
@@ -147,7 +156,7 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
   }
 
   openDialog(isEdit: boolean, addressId?: number): void {
-    const currentAddress = this.addresses.find(address => address.id === addressId);
+    const currentAddress = this.addresses.find((address) => address.id === addressId);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'address-matDialog-styles';
     dialogConfig.data = {
@@ -155,15 +164,18 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
       address: isEdit ? currentAddress : {},
     };
     const dialogRef = this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
-    dialogRef.afterClosed().pipe(takeUntil(this.destroy)).subscribe((address) => {
-      if (address && !isEdit) {
-        this.addAddress(address);
-        this.personalDataForm.patchValue({ isAddress: new FormControl('true') });
-      } else if (isEdit) {
-        const adrIdx = this.addresses.findIndex(adr => adr.id === addressId);
-        this.addresses[adrIdx] = address;
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((address) => {
+        if (address && !isEdit) {
+          this.addAddress(address);
+          this.personalDataForm.patchValue({ isAddress: new FormControl('true') });
+        } else if (isEdit) {
+          const adrIdx = this.addresses.findIndex((adr) => adr.id === addressId);
+          this.addresses[adrIdx] = address;
+        }
+      });
   }
 
   submit(): void {
@@ -173,7 +185,7 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
       const bag: OrderBag = { amount: bagItem.quantity, id: bagItem.id };
       orderBags = [...orderBags, bag];
     });
-    orderBags = orderBags.filter(bag => bag.amount !== 0);
+    orderBags = orderBags.filter((bag) => bag.amount !== 0);
     this.personalData.firstName = this.personalDataForm.get('firstName').value;
     this.personalData.lastName = this.personalDataForm.get('lastName').value;
     this.personalData.email = this.personalDataForm.get('email').value;
@@ -184,7 +196,8 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
       this.shareFormService.orderDetails.certificates,
       this.shareFormService.orderDetails.orderComment,
       this.personalData,
-      this.shareFormService.orderDetails.pointsToUse);
+      this.shareFormService.orderDetails.pointsToUse
+    );
     this.orderService.processOrder(this.order).pipe(takeUntil(this.destroy)).subscribe();
   }
 }

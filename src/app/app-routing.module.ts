@@ -24,7 +24,7 @@ export const routes: Routes = [
   },
   {
     path: 'ubs',
-    loadChildren: () => import('./component/ubs/ubs.module').then(mod => mod.UbsModule)
+    loadChildren: () => import('./component/ubs/ubs.module').then((mod) => mod.UbsModule),
   },
   {
     path: 'tips',

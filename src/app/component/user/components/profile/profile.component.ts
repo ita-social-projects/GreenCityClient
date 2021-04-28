@@ -21,7 +21,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private announcer: LiveAnnouncer,
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
-    private profileService: ProfileService) { }
+    private profileService: ProfileService
+  ) {}
 
   ngOnInit() {
     this.isDesktopWidth = this.isDeskWidth();

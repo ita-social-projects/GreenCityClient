@@ -5,7 +5,6 @@ import { Component, Input } from '@angular/core';
   templateUrl: './habit-title.component.html',
   styleUrls: ['./habit-title.component.scss'],
 })
-
 export class HabitTitleComponent {
   @Input()
   habitId: number;

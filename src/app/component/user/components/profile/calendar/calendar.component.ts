@@ -12,12 +12,11 @@ import { MatDialog } from '@angular/material';
   styleUrls: ['./calendar.component.scss'],
 })
 export class CalendarComponent extends CalendarBaseComponent implements OnInit, OnDestroy {
-
   constructor(
     public translate: TranslateService,
     public languageService: LanguageService,
     public habitAssignService: HabitAssignService,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) {
     super(translate, languageService, habitAssignService, dialog);
   }
@@ -33,6 +32,5 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
     if (this.checkCanOpenPopup(dayItem)) {
       this.openDialogDayHabits(event, true, dayItem);
     }
-
   }
 }

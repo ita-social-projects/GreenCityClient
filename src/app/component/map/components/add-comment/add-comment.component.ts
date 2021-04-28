@@ -1,4 +1,3 @@
-
 import { Component, Inject } from '@angular/core';
 import { Comment } from '../../../../model/comment/comment';
 import { Photo } from '../../../../model/photo/photo';
@@ -11,7 +10,6 @@ import { Estimate } from '../../../../model/estimate/estimate';
   templateUrl: './add-comment.component.html',
   styleUrls: ['./add-comment.component.scss'],
 })
-
 export class AddCommentComponent {
   comment: Comment = new Comment();
   estimate: Estimate = new Estimate();
@@ -27,7 +25,6 @@ export class AddCommentComponent {
     this.placeId = data.id;
     this.countOfPhotos = data.listOfPhoto;
   }
-
 
   getListOfPhotos(photos: Photo[]) {
     this.comment.photos = photos;

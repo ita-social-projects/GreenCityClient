@@ -7,11 +7,8 @@ import { MatDialog } from '@angular/material';
   templateUrl: './admin-nav.component.html',
   styleUrls: ['./admin-nav.component.scss'],
 })
-
 export class AdminNavComponent {
-
-  constructor(public dialog: MatDialog) {
-  }
+  constructor(public dialog: MatDialog) {}
 
   openDialog(): void {
     const dialogRef = this.dialog.open(ProposeCafeComponent, {

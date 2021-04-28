@@ -45,30 +45,28 @@ import { SharedModule } from '@shared/shared.module';
     MatGoogleMapsAutocompleteModule,
     AgmCoreModule.forRoot({
       apiKey: environment.agmCoreModuleApiKey,
-      libraries: ['places']
+      libraries: ['places'],
     }),
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [HttpClient]
+        useFactory: createTranslateLoader,
+        deps: [HttpClient],
       },
-      isolate: true
+      isolate: true,
     }),
-    SharedModule
+    SharedModule,
   ],
-  entryComponents: [
-    UBSAddAddressPopUpComponent
-  ],
+  entryComponents: [UBSAddAddressPopUpComponent],
   providers: [
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: { hasBackdrop: true },
     },
-    TranslateService
+    TranslateService,
   ],
 })
-export class UbsModule { }
+export class UbsModule {}
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/ubs/', '.json');

@@ -9,7 +9,6 @@ export class ChangeViewButtonComponent implements OnInit {
   @Output() view = new EventEmitter<boolean>();
   public gallery = true;
 
-
   ngOnInit() {
     this.getSessionStorageView();
     this.changeGalleryViewEmit(this.gallery);

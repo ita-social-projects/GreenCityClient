@@ -8,6 +8,4 @@ import { Component, Input } from '@angular/core';
 export class UpdateGoalStatusListComponent {
   @Input()
   goals: Goal[];
-
-
 }

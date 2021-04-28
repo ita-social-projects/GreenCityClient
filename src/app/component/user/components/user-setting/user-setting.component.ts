@@ -31,7 +31,6 @@ export class UserSettingComponent {
     this.setEmailNotifications();
   }
 
-
   private getUser() {
     this.userService.getUser().subscribe((userUpdateModel: UserUpdateModel) => {
       this.userUpdateModel = userUpdateModel;
@@ -39,14 +38,11 @@ export class UserSettingComponent {
   }
 
   public updateUser() {
-    this.userService.updateUser(this.userUpdateModel).subscribe(
-      () => {
-        this.localStorageService.setFirstName(this.userUpdateModel.firstName);
-        this.dialogRef.close();
-        this.router.navigate(['/']);
-
-      }
-    );
+    this.userService.updateUser(this.userUpdateModel).subscribe(() => {
+      this.localStorageService.setFirstName(this.userUpdateModel.firstName);
+      this.dialogRef.close();
+      this.router.navigate(['/']);
+    });
   }
 
   public somethingEdited() {

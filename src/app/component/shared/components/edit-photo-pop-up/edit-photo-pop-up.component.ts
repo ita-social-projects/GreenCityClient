@@ -31,7 +31,7 @@ export class EditPhotoPopUpComponent implements OnInit {
     private profileService: ProfileService,
     private snackBar: MatSnackBarComponent,
     @Inject(MAT_DIALOG_DATA) public data
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.setUserAvatar();
@@ -54,14 +54,13 @@ export class EditPhotoPopUpComponent implements OnInit {
 
     const formData = new FormData();
     formData.append('base64', this.croppedImage);
-    this.editProfileService.updateProfilePhoto(formData)
-      .subscribe(
-        () => {
-          this.loadingAnim = false;
-          this.closeEditPhoto();
-        },
-        () => this.openErrorDialog()
-      );
+    this.editProfileService.updateProfilePhoto(formData).subscribe(
+      () => {
+        this.loadingAnim = false;
+        this.closeEditPhoto();
+      },
+      () => this.openErrorDialog()
+    );
   }
 
   public deletePhoto(): void {

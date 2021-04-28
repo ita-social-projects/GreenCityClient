@@ -22,8 +22,7 @@ export class HabitsGalleryViewComponent {
     private snackBar: MatSnackBarComponent,
     public habitAssignService: HabitAssignService,
     public profileService: ProfileService
-  ) { }
-
+  ) {}
 
   public goHabitMore() {
     this.router.navigate(['addhabit', this.habit.id], { relativeTo: this.route });

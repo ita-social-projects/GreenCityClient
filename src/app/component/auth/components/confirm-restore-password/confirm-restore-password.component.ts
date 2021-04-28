@@ -36,13 +36,9 @@ export class ConfirmRestorePasswordComponent implements OnInit {
     private changePasswordService: ChangePasswordService,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
-<<<<<<< HEAD
+
     private snackBar: MatSnackBarComponent
-  ) { }
-=======
-    private snackBar: MatSnackBarComponent,
-  ) { }
->>>>>>> b9c92eca5e35f05b433f3e56f0d0273e8d983fa4
+  ) {}
 
   ngOnInit() {
     this.restoreDto = new RestoreDto();
@@ -53,17 +49,15 @@ export class ConfirmRestorePasswordComponent implements OnInit {
   }
 
   public initFormReactive(): void {
-
-    this.confirmRestorePasswordForm = this.formBuilder.group({
-      password: new FormControl('', []),
-      confirmPassword: new FormControl('', [])
-    },
+    this.confirmRestorePasswordForm = this.formBuilder.group(
       {
-        validator: [
-          ConfirmPasswordValidator('password', 'confirmPassword'),
-          ValidatorRegExp('password'),
-        ]
-      });
+        password: new FormControl('', []),
+        confirmPassword: new FormControl('', []),
+      },
+      {
+        validator: [ConfirmPasswordValidator('password', 'confirmPassword'), ValidatorRegExp('password')],
+      }
+    );
   }
 
   public getFormFields(): void {

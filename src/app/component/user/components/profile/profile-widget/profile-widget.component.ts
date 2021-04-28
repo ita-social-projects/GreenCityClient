@@ -5,5 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './profile-widget.component.html',
   styleUrls: ['./profile-widget.component.scss'],
 })
-export class ProfileWidgetComponent {
-}
+export class ProfileWidgetComponent {}

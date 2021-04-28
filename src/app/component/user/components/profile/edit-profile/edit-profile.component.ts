@@ -48,10 +48,11 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     },
   };
 
-  public socialNetworks: Array<{ id: number, url: string }>;
+  public socialNetworks: Array<{ id: number; url: string }>;
   public socialNetworksToServer: string[] = [];
 
-  constructor(public dialog: MatDialog,
+  constructor(
+    public dialog: MatDialog,
     public builder: EditProfileFormBuilder,
     private editProfileService: EditProfileService,
     private profileService: ProfileService,
@@ -60,8 +61,8 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
     private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone) {
-
+    private ngZone: NgZone
+  ) {
     super(router, dialog);
   }
 
@@ -142,14 +143,11 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       socialNetworks: this.socialNetworksToServer,
     };
 
-
-    this.editProfileService.postDataUserProfile(JSON.stringify(body)).subscribe(
-      () => {
-        this.router.navigate(['profile', this.profileService.userId]);
-        this.snackBar.openSnackBar('changesSaved');
-        this.localStorageService.setFirstName(form.value.name);
-      }
-    );
+    this.editProfileService.postDataUserProfile(JSON.stringify(body)).subscribe(() => {
+      this.router.navigate(['profile', this.profileService.userId]);
+      this.snackBar.openSnackBar('changesSaved');
+      this.localStorageService.setFirstName(form.value.name);
+    });
   }
 
   private bindLang(lang: string): void {

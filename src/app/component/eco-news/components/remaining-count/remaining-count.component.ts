@@ -5,9 +5,6 @@ import { Component, Input } from '@angular/core';
   templateUrl: './remaining-count.component.html',
   styleUrls: ['./remaining-count.component.scss'],
 })
-
-
 export class RemainingCountComponent {
   @Input() public remainingCount = 0;
-
 }

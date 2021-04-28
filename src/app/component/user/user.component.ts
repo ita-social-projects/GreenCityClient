@@ -4,7 +4,4 @@ import { Component } from '@angular/core';
   selector: 'app-user-component',
   templateUrl: './user.component.html',
 })
-export class UserComponent {
-
-
-}
+export class UserComponent {}

@@ -9,7 +9,6 @@ export class EditCommentComponent {
   public editIcon = 'assets/img/comments/edit.png';
   @Output() isEditing = new EventEmitter<boolean>();
 
-
   public editComments() {
     this.isEditing.emit();
   }

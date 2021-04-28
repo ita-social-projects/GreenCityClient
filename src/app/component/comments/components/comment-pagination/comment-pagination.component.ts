@@ -13,7 +13,7 @@ export class CommentPaginationComponent implements AfterViewChecked {
   public maxCommentsOnPage = 10;
   public bigTotalSize = null;
 
-  constructor(private cdr: ChangeDetectorRef) { }
+  constructor(private cdr: ChangeDetectorRef) {}
 
   public onPageChange(event) {
     this.config.currentPage = event;
@@ -21,8 +21,7 @@ export class CommentPaginationComponent implements AfterViewChecked {
   }
 
   public calcPaginationSize(totalPages, currentPages) {
-
-    this.bigTotalSize = (currentPages <= 3 || currentPages >= (totalPages - 2)) ? 6 : 7;
+    this.bigTotalSize = currentPages <= 3 || currentPages >= totalPages - 2 ? 6 : 7;
     this.maxSize = totalPages <= 5 ? 5 : this.bigTotalSize;
     return this.maxSize;
   }

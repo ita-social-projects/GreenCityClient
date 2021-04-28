@@ -22,11 +22,10 @@ describe('ChangeViewButtonComponent', () => {
   });
 
   describe('test main methods', () => {
-
     it('should set value to sessionStorage', () => {
       const store = {};
-      const spy = spyOn(sessionStorage, 'setItem').and.callFake( (key: string, value: string): string => {
-        return store[key] = value;
+      const spy = spyOn(sessionStorage, 'setItem').and.callFake((key: string, value: string): string => {
+        return (store[key] = value);
       });
       // @ts-ignore
       component.setSessionStorageView();
@@ -34,7 +33,7 @@ describe('ChangeViewButtonComponent', () => {
     });
 
     it('should get value from sessionStorage', () => {
-      const store = {viewGallery : 'true'};
+      const store = { viewGallery: 'true' };
       const spy = spyOn(sessionStorage, 'getItem').and.callFake((key) => {
         return store[key];
       });
@@ -46,7 +45,7 @@ describe('ChangeViewButtonComponent', () => {
     it('should emit gallery view', () => {
       let result = null;
       const gallery = true;
-      component.view.subscribe(value => result = value);
+      component.view.subscribe((value) => (result = value));
       // @ts-ignore
       component.changeGalleryViewEmit(gallery);
       expect(result).toBeTruthy();

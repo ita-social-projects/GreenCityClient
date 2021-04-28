@@ -1,4 +1,3 @@
-
 import { Component, Input } from '@angular/core';
 import { HabitItem } from './HabitItem';
 
@@ -9,6 +8,4 @@ import { HabitItem } from './HabitItem';
 })
 export class HabitItemComponent {
   @Input() habitItem: HabitItem;
-
-
 }

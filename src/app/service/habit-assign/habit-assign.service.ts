@@ -16,11 +16,7 @@ export class HabitAssignService implements OnDestroy {
   language: string;
   destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
-
-  constructor(
-    private http: HttpClient,
-    private localStorageService: LocalStorageService) {
-
+  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
     localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((language) => (this.language = language));
   }
 

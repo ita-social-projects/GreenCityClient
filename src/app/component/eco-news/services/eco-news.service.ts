@@ -36,7 +36,8 @@ export class EcoNewsService implements OnDestroy {
     headers.set('Content-type', 'application/json');
 
     return new Observable((observer: Observer<any>) => {
-      this.http.get<EcoNewsDto>(`${this.backEnd}econews`)
+      this.http
+        .get<EcoNewsDto>(`${this.backEnd}econews`)
         .pipe(take(1))
         .subscribe((newsDto: EcoNewsDto) => {
           observer.next(newsDto);

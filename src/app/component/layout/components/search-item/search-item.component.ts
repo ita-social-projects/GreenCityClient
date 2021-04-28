@@ -7,8 +7,6 @@ import { NewsSearchModel } from '@global-models/search/newsSearch.model';
   templateUrl: './search-item.component.html',
   styleUrls: ['./search-item.component.scss'],
 })
-
-
 export class SearchItemComponent {
   @Input() searchModel: NewsSearchModel;
   @Output() closeSearch: EventEmitter<boolean> = new EventEmitter();
@@ -17,6 +15,4 @@ export class SearchItemComponent {
   public emitCloseSearch(): void {
     this.closeSearch.emit();
   }
-
-
 }

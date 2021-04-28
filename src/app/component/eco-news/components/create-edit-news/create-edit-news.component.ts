@@ -55,7 +55,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     },
   };
 
-  public onSubmit(): void { }
+  public onSubmit(): void {}
 
   constructor(
     public router: Router,

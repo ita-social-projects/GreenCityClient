@@ -16,7 +16,7 @@ import { ProfileService } from '@global-user/components/profile/profile-service/
 import { EditProfileModel } from '@user-models/edit-profile.model';
 import { EditProfileComponent } from './edit-profile.component';
 
-class Test { }
+class Test {}
 
 describe('EditProfileComponent', () => {
   let component: EditProfileComponent;
@@ -32,9 +32,7 @@ describe('EditProfileComponent', () => {
         MatDialogModule,
         MatSnackBarModule,
         BrowserAnimationsModule,
-        RouterTestingModule.withRoutes([
-          { path: '**', component: Test }
-        ]),
+        RouterTestingModule.withRoutes([{ path: '**', component: Test }]),
         HttpClientTestingModule,
         AgmCoreModule,
         TranslateModule.forRoot(),
@@ -168,7 +166,7 @@ describe('EditProfileComponent', () => {
         showEcoPlace: true,
         showLocation: true,
         showShoppingList: true,
-        socialNetworks: [{ id: 220, url: 'http://instagram.com/profile' }]
+        socialNetworks: [{ id: 220, url: 'http://instagram.com/profile' }],
       };
     });
 

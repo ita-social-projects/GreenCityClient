@@ -21,15 +21,13 @@ describe('ProfileCardsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-
       declarations: [ProfileCardsComponent],
       imports: [TranslateModule.forRoot(), HttpClientModule],
       providers: [
         { provide: ProfileService, useValue: profileServiceMock },
-        { provide: LocalStorageService, useValue: localStorageServiceMock }
-      ]
-    })
-      .compileComponents();
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -45,8 +43,7 @@ describe('ProfileCardsComponent', () => {
   it('should get language', () => {
     let mockLang = null;
     // @ts-ignore
-    component.localStorageService.languageBehaviourSubject
-      .subscribe(language => mockLang = language);
+    component.localStorageService.languageBehaviourSubject.subscribe((language) => (mockLang = language));
     expect(mockLang).toBe('ua');
   });
 

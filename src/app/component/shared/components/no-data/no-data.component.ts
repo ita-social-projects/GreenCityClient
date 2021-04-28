@@ -9,6 +9,4 @@ export class NoDataComponent {
   @Input() imagePath = 'assets/img/noNews.jpg';
   @Input() title;
   @Input() text;
-
-
 }

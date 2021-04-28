@@ -6,7 +6,6 @@ export class UserOwnSignUp {
   // tslint:disable-next-line:variable-name
   private _password: string;
 
-
   get firstName(): string {
     return this._firstName;
   }

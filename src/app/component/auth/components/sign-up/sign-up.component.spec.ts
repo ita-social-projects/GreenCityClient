@@ -53,7 +53,7 @@ describe('SignUpComponent', () => {
 
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
   class MatDialogRefMock {
-    close() { }
+    close() {}
   }
 
   const promiseSocialUser = new Promise<SocialUser>((resolve) => {
@@ -78,7 +78,7 @@ describe('SignUpComponent', () => {
   authServiceMock.signIn = (providerId: string, opt?: LoginOpt) => promiseSocialUser;
 
   MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
-  MatSnackBarMock.openSnackBar = (type: string) => { };
+  MatSnackBarMock.openSnackBar = (type: string) => {};
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -304,7 +304,6 @@ describe('SignUpComponent', () => {
         fixture.destroy();
         flush();
       }));
-
     });
   });
 

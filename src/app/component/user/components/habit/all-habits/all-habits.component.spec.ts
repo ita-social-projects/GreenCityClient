@@ -18,7 +18,8 @@ describe('AllHabitsComponent', async () => {
   let component: AllHabitsComponent;
   let fixture: ComponentFixture<AllHabitsComponent>;
 
-  const assignedHabitsMock: Array<HabitAssignInterface> = [{
+  const assignedHabitsMock: Array<HabitAssignInterface> = [
+    {
       createDateTime: new Date('2021-02-11T16:35:18.048839Z'),
       duration: 14,
       habit: {
@@ -27,11 +28,11 @@ describe('AllHabitsComponent', async () => {
           description: 'Test',
           habitItem: 'Test',
           languageCode: 'en',
-          name: 'Test'
+          name: 'Test',
         },
         id: 506,
         image: '',
-        tags: []
+        tags: [],
       },
       habitStatusCalendarDtoList: [],
       habitStreak: 0,
@@ -39,8 +40,8 @@ describe('AllHabitsComponent', async () => {
       lastEnrollmentDate: new Date('2021-02-11T16:35:18.04885Z'),
       status: 'INPROGRESS',
       userId: 7835,
-      workingDays: 0
-    }
+      workingDays: 0,
+    },
   ];
 
   const habitsMockData: HabitListInterface = {

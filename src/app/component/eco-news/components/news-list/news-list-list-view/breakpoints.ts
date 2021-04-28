@@ -16,8 +16,8 @@ export const possibleDescHeight = {
     72: 'one-row',
     78: 'one-row',
     96: 'one-row',
-    100: 'one-row'
-  }
+    100: 'one-row',
+  },
 };
 
 export const possibleTitleHeight = {
@@ -36,6 +36,6 @@ export const possibleTitleHeight = {
     78: 'four-row',
     96: 'four-row',
     100: 'four-row',
-    104: 'four-row'
-  }
+    104: 'four-row',
+  },
 };

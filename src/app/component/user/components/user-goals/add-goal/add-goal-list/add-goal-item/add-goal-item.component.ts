@@ -14,7 +14,6 @@ export class AddGoalItemComponent implements OnInit {
   goals: Goal[];
   isEditable: boolean;
 
-
   ngOnInit() {
     this.isEditable = false;
     if (this.goal.type === GoalType.TRACKED) {

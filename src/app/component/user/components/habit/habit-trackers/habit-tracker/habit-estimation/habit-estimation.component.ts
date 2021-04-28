@@ -1,4 +1,3 @@
-
 import { Component, Input } from '@angular/core';
 import { HabitDto } from '../../../../../../../model/habit/HabitDto';
 import { HabitStatisticsDto } from '../../../../../../../model/habit/HabitStatisticsDto';

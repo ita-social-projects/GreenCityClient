@@ -111,6 +111,7 @@ describe('RecommendedFriendsComponent', () => {
     const initUserSpy = spyOn(component as any, 'initUser');
     component.ngOnInit();
     expect(initUserSpy).toHaveBeenCalledTimes(1);
+    \
   });
 
   it('should get a user\'s friends', () => {

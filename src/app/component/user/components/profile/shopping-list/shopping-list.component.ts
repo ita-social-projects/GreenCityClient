@@ -13,7 +13,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   public shoppingList: ShoppingList[] = [];
   public profileSubscription: Subscription;
   private destroy$ = new Subject<void>();
-  constructor(private profileService: ProfileService) { }
+  constructor(private profileService: ProfileService) {}
 
   get shoppingListLength(): number {
     if (!this.shoppingList) {
@@ -27,18 +27,20 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   }
 
   public getShoppingList(): void {
-
-    this.profileSubscription = this.profileService.getShoppingList().pipe(
-      takeUntil(this.destroy$),
-      finalize(() => {
-        if (!this.shoppingList) {
-          this.shoppingList = [];
-        }
-      })
-    ).subscribe(
-      (shoppingListArr: ShoppingList[]) => this.shoppingList = shoppingListArr,
-      (error) => this.shoppingList = []
-    );
+    this.profileSubscription = this.profileService
+      .getShoppingList()
+      .pipe(
+        takeUntil(this.destroy$),
+        finalize(() => {
+          if (!this.shoppingList) {
+            this.shoppingList = [];
+          }
+        })
+      )
+      .subscribe(
+        (shoppingListArr: ShoppingList[]) => (this.shoppingList = shoppingListArr),
+        (error) => (this.shoppingList = [])
+      );
   }
 
   public toggleDone(item): void {

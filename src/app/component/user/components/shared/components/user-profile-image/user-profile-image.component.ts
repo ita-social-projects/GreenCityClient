@@ -5,12 +5,10 @@ import { Component, Input } from '@angular/core';
   templateUrl: './user-profile-image.component.html',
   styleUrls: ['./user-profile-image.component.scss'],
 })
-
 export class UserProfileImageComponent {
   @Input() firstName: string;
   @Input() imgPath;
   @Input() additionalImgClass = '';
-
 
   public getDefaultProfileImg(): string {
     let initials = '';

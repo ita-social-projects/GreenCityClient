@@ -60,13 +60,10 @@ export class PlacesComponent implements OnInit {
     private translation: TranslateService,
     iconRegistry: MatIconRegistry,
 
-    sanitizer: DomSanitizer) {
-    iconRegistry.addSvgIcon(
-      'arrow-up',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/arrows/arrow-up-bold.svg'));
-    iconRegistry.addSvgIcon(
-      'arrow-down',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/arrows/arrow-down-bold.svg'));
+    sanitizer: DomSanitizer
+  ) {
+    iconRegistry.addSvgIcon('arrow-up', sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/arrows/arrow-up-bold.svg'));
+    iconRegistry.addSvgIcon('arrow-down', sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/arrows/arrow-down-bold.svg'));
   }
 
   ngOnInit() {
@@ -75,11 +72,11 @@ export class PlacesComponent implements OnInit {
     this.filterByRegex(this.searchReg);
     this.setAllStatuses();
 
-
-    this.translation.get('feedbacks.delete').subscribe(translation => this.deleteTranslation = translation);
-    this.translation.get('feedbacks.Do-you-really-want-to-delete-comment-of').
-      subscribe(translation => this.deleteMessageTranslation = translation);
-    this.translation.get('feedbacks.places').subscribe(translation => this.placesTranslation = translation);
+    this.translation.get('feedbacks.delete').subscribe((translation) => (this.deleteTranslation = translation));
+    this.translation
+      .get('feedbacks.Do-you-really-want-to-delete-comment-of')
+      .subscribe((translation) => (this.deleteMessageTranslation = translation));
+    this.translation.get('feedbacks.places').subscribe((translation) => (this.placesTranslation = translation));
   }
 
   getCurrentPaginationSettings(): string {
@@ -201,9 +198,8 @@ export class PlacesComponent implements OnInit {
     if (this.selectedPlaces.length === 1) {
       this.confirmDelete(this.selectedPlaces[0].id, this.selectedPlaces[0].name);
     } else {
-
-      this.confirmationDialogService.confirm(this.deleteTranslation, this.deleteMessageTranslation +
-        ' ' + this.selectedPlaces.length + this.placesTranslation + ' ?')
+      this.confirmationDialogService
+        .confirm(this.deleteTranslation, this.deleteMessageTranslation + ' ' + this.selectedPlaces.length + this.placesTranslation + ' ?')
         .then((confirmed) => {
           if (confirmed) {
             this.bulkDelete(this.selectedPlaces);

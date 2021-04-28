@@ -8,7 +8,6 @@ import { ecoNewsIcons } from 'src/app/image-pathes/profile-icons';
   styleUrls: ['./news-list-gallery-view.component.scss'],
   changeDetection: 0,
 })
-
 export class NewsListGalleryViewComponent {
   @Input() ecoNewsModel: EcoNewsModel;
 

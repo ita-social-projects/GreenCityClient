@@ -6,5 +6,4 @@ export class OpeningHours {
   closeTime: string;
   weekDay: WeekDays;
   breakTime: BreakTimes;
-
 }

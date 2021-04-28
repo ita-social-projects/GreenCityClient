@@ -6,7 +6,6 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TestBed } from '@angular/core/testing';
 import { ProfileService } from './profile.service';
 
-
 describe('ProfileService', () => {
   const backUserLink = 'https://greencity-user.azurewebsites.net/';
   const backLink = 'https://greencity.azurewebsites.net/';
@@ -23,12 +22,12 @@ describe('ProfileService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
+      imports: [HttpClientTestingModule],
       providers: [
         ProfileService,
-        { provide: LocalStorageService, useValue : localStorageServiceMock },
-        { provide: LanguageService, useValue : languageServiceMock }
-      ]
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
+        { provide: LanguageService, useValue: languageServiceMock },
+      ],
     });
     profileService = TestBed.get(ProfileService);
     httpMock = TestBed.get(HttpTestingController);
@@ -46,15 +45,14 @@ describe('ProfileService', () => {
   it('should set user id', () => {
     let userId = null;
     // @ts-ignore
-    profileService.localStorageService.userIdBehaviourSubject
-    .subscribe(id => userId = id);
+    profileService.localStorageService.userIdBehaviourSubject.subscribe((id) => (userId = id));
     expect(userId).toBe(1111);
   });
 
   describe('test for method which get facts for today', () => {
     it('should return fact of the day', () => {
-      const fact = { id: 1, content: 'Great day!'};
-      profileService.getFactsOfTheDay().subscribe(info => {
+      const fact = { id: 1, content: 'Great day!' };
+      profileService.getFactsOfTheDay().subscribe((info) => {
         expect(info.content).toBe('Great day!');
       });
 
@@ -75,10 +73,10 @@ describe('ProfileService', () => {
         showEcoPlace: true,
         showLocation: false,
         showShoppingList: true,
-        socialNetworks: []
+        socialNetworks: [],
       };
 
-      profileService.getUserInfo().subscribe(info => {
+      profileService.getUserInfo().subscribe((info) => {
         expect(info.rating).toBe(1999);
       });
 
@@ -94,10 +92,10 @@ describe('ProfileService', () => {
         amountHabitsInProgress: 2,
         amountHabitsAcquired: 1,
         amountWrittenTipsAndTrick: 0,
-        amountPublishedNews: 7
-    };
+        amountPublishedNews: 7,
+      };
 
-      profileService.getUserProfileStatistics().subscribe(info => {
+      profileService.getUserProfileStatistics().subscribe((info) => {
         expect(info.amountHabitsAcquired).toBe(1);
       });
 
@@ -112,15 +110,15 @@ describe('ProfileService', () => {
       const places = [
         {
           placeId: 1,
-          name: 'string'
+          name: 'string',
         },
         {
-        placeId: 2,
-        name: 'string2'
-        }
+          placeId: 2,
+          name: 'string2',
+        },
       ];
 
-      profileService.getEcoPlaces().subscribe(info => {
+      profileService.getEcoPlaces().subscribe((info) => {
         expect(info.length).toBe(2);
       });
 
@@ -138,11 +136,11 @@ describe('ProfileService', () => {
           currentPage: 1,
           page: [],
           totalElements: 6,
-          totalPages: 1
-        }
+          totalPages: 1,
+        },
       };
 
-      profileService.getUserFriends().subscribe(info => {
+      profileService.getUserFriends().subscribe((info) => {
         expect(info.pagedFriends.totalElements).toBe(6);
       });
 

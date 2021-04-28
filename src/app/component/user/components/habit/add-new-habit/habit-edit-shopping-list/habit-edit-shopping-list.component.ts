@@ -5,5 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './habit-edit-shopping-list.component.html',
   styleUrls: ['./habit-edit-shopping-list.component.scss'],
 })
-
-export class HabitEditShoppingListComponent { }
+export class HabitEditShoppingListComponent {}

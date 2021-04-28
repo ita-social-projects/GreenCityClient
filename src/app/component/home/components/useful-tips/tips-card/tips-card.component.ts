@@ -5,8 +5,6 @@ import { Component, Input } from '@angular/core';
   templateUrl: './tips-card.component.html',
   styleUrls: ['./tips-card.component.scss'],
 })
-
 export class TipsCardComponent {
-  @Input() tip: { imageUrl, text };
-
+  @Input() tip: { imageUrl; text };
 }

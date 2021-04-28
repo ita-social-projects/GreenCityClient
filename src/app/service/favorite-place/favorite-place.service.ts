@@ -13,7 +13,7 @@ export class FavoritePlaceService {
   favoritePlaces: FavoritePlace[] = [];
   subject = new Subject();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   findAllByUserEmail(): Observable<FavoritePlace[]> {
     return this.http.get<FavoritePlace[]>(favoritePlaceLink);

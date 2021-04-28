@@ -10,6 +10,4 @@ export class UpdateGoalItemComponent {
   @Input()
   goal: Goal;
   text: string;
-
-
 }

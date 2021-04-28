@@ -36,7 +36,7 @@ export class OneHabitComponent implements OnInit {
       this.daysCounter = this.habit.workingDays ? this.habit.workingDays : this.habit.duration;
       this.showPhoto = true;
       this.habitMark = 'empty';
-    }
+    },
   };
 
   @Output() nowAcquiredHabit = new EventEmitter();
@@ -46,7 +46,8 @@ export class OneHabitComponent implements OnInit {
     private habitAssignService: HabitAssignService,
     public router: Router,
     public route: ActivatedRoute,
-    public habitService: HabitService) { }
+    public habitService: HabitService
+  ) {}
 
   ngOnInit() {
     this.currentDate = this.formatDate(new Date());
@@ -54,8 +55,7 @@ export class OneHabitComponent implements OnInit {
   }
 
   public buildHabitDescription(): void {
-    const isDone = this.habit.habitStatusCalendarDtoList
-      .some(item => item.enrollDate === this.currentDate);
+    const isDone = this.habit.habitStatusCalendarDtoList.some((item) => item.enrollDate === this.currentDate);
     if (this.habit.status === HabitStatus.ACQUIRED) {
       this.descriptionType.acquired();
     } else if (this.habit.status === HabitStatus.INPROGRESS) {
@@ -73,9 +73,10 @@ export class OneHabitComponent implements OnInit {
 
   public enroll() {
     this.isRequest = true;
-    this.habitAssignService.enrollByHabit(this.habit.habit.id, this.currentDate)
+    this.habitAssignService
+      .enrollByHabit(this.habit.habit.id, this.currentDate)
       .pipe(take(1))
-      .subscribe(response => {
+      .subscribe((response) => {
         if (response.status === HabitStatus.ACQUIRED) {
           this.descriptionType.acquired();
           this.nowAcquiredHabit.emit(response);

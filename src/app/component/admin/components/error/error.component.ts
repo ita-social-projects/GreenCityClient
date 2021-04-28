@@ -5,10 +5,7 @@ import { Component, Input } from '@angular/core';
   templateUrl: './error.component.html',
   styleUrls: ['./error.component.scss'],
 })
-
 export class ErrorComponent {
   @Input() errorCode: number;
   @Input() errorMessage: string;
-
-
 }

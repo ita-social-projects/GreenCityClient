@@ -28,7 +28,7 @@ export class InterceptorService implements HttpInterceptor {
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
     private userOwnAuthService: UserOwnAuthService
-  ) { }
+  ) {}
 
   /**
    * Intercepts all HTTP requests, adds access token to authentication header (except authentication requests),

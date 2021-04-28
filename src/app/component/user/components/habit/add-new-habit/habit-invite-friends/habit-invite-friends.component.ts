@@ -5,8 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './habit-invite-friends.component.html',
   styleUrls: ['./habit-invite-friends.component.scss'],
 })
-
-
-export class HabitInviteFriendsComponent {
-
-}
+export class HabitInviteFriendsComponent {}
