@@ -32,10 +32,10 @@ describe('SearchPopupComponent', () => {
     title: 'test',
     author: {
       id: 1,
-      name: 'test'
+      name: 'test',
     },
     creationDate: '0101',
-    tags: ['test']
+    tags: ['test'],
   };
 
   const mockNewsData = {
@@ -46,13 +46,13 @@ describe('SearchPopupComponent', () => {
       name: 'test',
     },
     creationDate: '0101',
-    tags: ['test']
+    tags: ['test'],
   };
 
   const searchModelMock = {
     countOfResults: 2,
-    ecoNews: [ mockNewsData ],
-    tipsAndTricks: [ mockTipData ]
+    ecoNews: [mockNewsData],
+    tipsAndTricks: [mockTipData],
   };
 
   let searchMock: SearchService;
@@ -63,11 +63,7 @@ describe('SearchPopupComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SearchPopupComponent,
-        SearchItemComponent,
-        SearchNotFoundComponent,
-      ],
+      declarations: [SearchPopupComponent, SearchItemComponent, SearchNotFoundComponent],
       imports: [
         RouterTestingModule,
         TranslateModule.forRoot(),
@@ -77,16 +73,17 @@ describe('SearchPopupComponent', () => {
         NgxPageScrollModule,
         MatSnackBarModule,
         BrowserAnimationsModule,
-        SharedModule
+        SharedModule,
       ],
       providers: [
         { provide: SearchService, useValue: searchMock },
         MatSnackBarComponent,
         { provide: MatSnackBar, useValue: matSnackBarMock },
-        { provide: LocalStorageService, useValue: localStorageServiceMock }
-      ]
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
+      ],
     })
-      .compileComponents().then(r => r);
+      .compileComponents()
+      .then((r) => r);
   }));
 
   beforeEach(() => {
@@ -100,7 +97,6 @@ describe('SearchPopupComponent', () => {
   });
 
   describe('General methods', () => {
-
     it(`ngOnInit should init setupInitialValue method`, () => {
       const spy = spyOn(component as any, 'setupInitialValue');
       component.ngOnInit();
@@ -112,7 +108,6 @@ describe('SearchPopupComponent', () => {
       component.openErrorPopup();
       expect(component.dialog).toBeDefined();
     });
-
   });
 
   describe('Testing services:', () => {
@@ -148,7 +143,7 @@ describe('SearchPopupComponent', () => {
 
     it('should reset input value', () => {
       component.setupInitialValue();
-      component.searchInput.setValue('test', {emitEvent: false});
+      component.searchInput.setValue('test', { emitEvent: false });
       component.search.searchSubject.next(false);
       expect(component.searchInput.value).toBe('');
     });

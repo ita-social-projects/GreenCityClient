@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild} from '@angular/core';
-import { UserForListDtoModel} from '../../../../model/user/user-for-list-dto.model';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { UserForListDtoModel } from '../../../../model/user/user-for-list-dto.model';
 import { UserService } from '../../../../service/user/user.service';
 import { DomSanitizer, Title } from '@angular/platform-browser';
 import { NgFlashMessageService } from 'ng-flash-messages';
@@ -17,10 +17,9 @@ export interface Role {
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  styleUrls: ['./users.component.scss'],
 })
 export class UsersComponent implements OnInit {
-
   users: UserForListDtoModel[];
   pageSize = 5;
   page = 0;
@@ -37,21 +36,21 @@ export class UsersComponent implements OnInit {
   displayedColumns: string[] = ['email', 'firstName', 'lastName', 'dateOfRegistration', 'role', 'block', 'deactivate'];
   maxSizePagination = 6;
   sortArrow: string;
-  @ViewChild('paginationElement', {static: false}) paginationComponent: PaginationComponent;
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild('paginationElement', { static: false }) paginationComponent: PaginationComponent;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
-    private userService: UserService, private titleService: Title, private ngFlashMessageService: NgFlashMessageService,
-    iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private jwtService: JwtService) {
+    private userService: UserService,
+    private titleService: Title,
+    private ngFlashMessageService: NgFlashMessageService,
+    iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer,
+    private jwtService: JwtService
+  ) {
     this.userEmail = jwtService.getEmailFromAccessToken();
-    iconRegistry.addSvgIcon(
-      'arrow-up',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/arrows/arrow-up-bold.svg'));
-    iconRegistry.addSvgIcon(
-      'arrow-down',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/arrows/arrow-down-bold.svg'));
+    iconRegistry.addSvgIcon('arrow-up', sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/arrows/arrow-up-bold.svg'));
+    iconRegistry.addSvgIcon('arrow-down', sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/arrows/arrow-down-bold.svg'));
   }
-
 
   ngOnInit() {
     this.getFromLocalStorage();
@@ -62,20 +61,23 @@ export class UsersComponent implements OnInit {
   }
 
   getCurrentPaginationSettings(sort: string): string {
-    return '?page=' + (this.page) + '&size=' + this.pageSize + '&sort=' + this.sortColumn + ',' + this.sortDirection;
+    return '?page=' + this.page + '&size=' + this.pageSize + '&sort=' + this.sortColumn + ',' + this.sortDirection;
   }
 
   updateUserStatus(id: number, userStatus: string, email: string) {
-    this.userService.updateUserStatus(id, userStatus).subscribe((data) => {
-      this.successfulAction(email + ' is ' + data.userStatus);
-      this.filterByRegex(this.sortParam);
-    }, (error: HttpErrorResponse) => {
-      this.errorMessage(error.error.message);
-    });
+    this.userService.updateUserStatus(id, userStatus).subscribe(
+      (data) => {
+        this.successfulAction(email + ' is ' + data.userStatus);
+        this.filterByRegex(this.sortParam);
+      },
+      (error: HttpErrorResponse) => {
+        this.errorMessage(error.error.message);
+      }
+    );
   }
 
   getUsersByPage(sort: string) {
-    this.userService.getAllUsers(this.getCurrentPaginationSettings(sort)).subscribe(res => {
+    this.userService.getAllUsers(this.getCurrentPaginationSettings(sort)).subscribe((res) => {
       this.users = res.page;
       this.page = res.currentPage;
       this.totalItems = res.totalElements;
@@ -89,12 +91,15 @@ export class UsersComponent implements OnInit {
   }
 
   changeRole(id: number, role: string, email: string) {
-    this.userService.updateUserRole(id, role).subscribe((data) => {
-      this.successfulAction('Role for ' + email + ' is updated to ' + role.substr(5));
-    }, (error: HttpErrorResponse) => {
-      this.errorMessage(error.error.message);
-      this.sortData(this.sortColumn, this.sortDirection);
-    });
+    this.userService.updateUserRole(id, role).subscribe(
+      (data) => {
+        this.successfulAction('Role for ' + email + ' is updated to ' + role.substr(5));
+      },
+      (error: HttpErrorResponse) => {
+        this.errorMessage(error.error.message);
+        this.sortData(this.sortColumn, this.sortDirection);
+      }
+    );
   }
 
   successfulAction(message: string) {
@@ -102,7 +107,7 @@ export class UsersComponent implements OnInit {
       messages: [message],
       dismissible: true,
       timeout: 3000,
-      type: 'success'
+      type: 'success',
     });
   }
 
@@ -111,16 +116,15 @@ export class UsersComponent implements OnInit {
       messages: [message],
       dismissible: true,
       timeout: 3000,
-      type: 'danger'
+      type: 'danger',
     });
   }
 
   getRoles() {
-    this.userService.getRoles().subscribe(res => {
+    this.userService.getRoles().subscribe((res) => {
       this.roles = res.roles;
     });
   }
-
 
   selectColumnToSort(s: string) {
     this.selectedColumnToSort = s;
@@ -138,7 +142,7 @@ export class UsersComponent implements OnInit {
   }
 
   filterByRegex(sort: string) {
-    this.userService.getByFilter(this.searchReg, this.getCurrentPaginationSettings(sort)).subscribe(res => {
+    this.userService.getByFilter(this.searchReg, this.getCurrentPaginationSettings(sort)).subscribe((res) => {
       this.users = res.page;
       this.page = res.currentPage;
       this.totalItems = res.totalElements;
@@ -149,7 +153,7 @@ export class UsersComponent implements OnInit {
   }
 
   onKeydown() {
-    if ((this.searchReg === undefined) || (this.searchReg === '')) {
+    if (this.searchReg === undefined || this.searchReg === '') {
       if (this.flag) {
         this.flag = false;
         this.sortData(this.sortColumn, this.sortDirection);
@@ -168,7 +172,6 @@ export class UsersComponent implements OnInit {
     window.localStorage.setItem('usersPageSize', String(this.pageSize));
   }
 
-
   getFromLocalStorage() {
     if (window.localStorage.getItem('usersSortColumn') !== null) {
       this.sortColumn = window.localStorage.getItem('usersSortColumn');
@@ -185,5 +188,3 @@ export class UsersComponent implements OnInit {
     this.paginationComponent.selectPage(this.page + 1);
   }
 }
-
-

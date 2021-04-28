@@ -9,23 +9,22 @@ describe('CreateEcoNewsService', () => {
   const form = new FormGroup({
     title: new FormControl('mock news'),
     content: new FormControl('This is mock news content Greencity!!!!!!!!!!!!'),
-    tags: new FormArray([
-      new FormControl('News'),
-      new FormControl('Ads'),
-    ]),
+    tags: new FormArray([new FormControl('News'), new FormControl('Ads')]),
     image: new FormControl(''),
-    source: new FormControl('http://mocknews.com')
+    source: new FormControl('http://mocknews.com'),
   });
 
-  beforeEach(() => TestBed.configureTestingModule({
-    imports: [HttpClientTestingModule],
-    providers: [ CreateEcoNewsService ]
-  }));
+  beforeEach(() =>
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [CreateEcoNewsService],
+    })
+  );
 
   beforeEach(() => {
     service = TestBed.get(CreateEcoNewsService);
     httpTestingController = TestBed.get(HttpTestingController);
-    service.files[0] = {file: null, url: 'http://someimage'};
+    service.files[0] = { file: null, url: 'http://someimage' };
   });
 
   afterEach(() => {
@@ -64,10 +63,9 @@ describe('CreateEcoNewsService', () => {
   });
 
   it('should make POST request', () => {
-    service.sendFormData(form)
-      .subscribe(newsData => {
-        expect(newsData.title).toEqual('mock news');
-      });
+    service.sendFormData(form).subscribe((newsData) => {
+      expect(newsData.title).toEqual('mock news');
+    });
 
     const req = httpTestingController.expectOne('https://greencity.azurewebsites.net/econews');
     expect(req.request.method).toEqual('POST');
@@ -75,10 +73,9 @@ describe('CreateEcoNewsService', () => {
   });
 
   it('should make PUT request', () => {
-    service.editNews(form)
-      .subscribe(newsData => {
-        expect(newsData.tags[0]).toEqual('News');
-      });
+    service.editNews(form).subscribe((newsData) => {
+      expect(newsData.tags[0]).toEqual('News');
+    });
 
     const req = httpTestingController.expectOne('https://greencity.azurewebsites.net/econews/update');
     expect(req.request.method).toEqual('PUT');

@@ -8,7 +8,7 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 @Component({
   selector: 'app-ubs-submit-order',
   templateUrl: './ubs-submit-order.component.html',
-  styleUrls: ['./ubs-submit-order.component.scss']
+  styleUrls: ['./ubs-submit-order.component.scss'],
 })
 export class UBSSubmitOrderComponent implements OnInit, OnDestroy {
   paymentForm: FormGroup = this.fb.group({});
@@ -18,9 +18,7 @@ export class UBSSubmitOrderComponent implements OnInit, OnDestroy {
   displayMes = true;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
-  constructor(
-    private shareFormService: UBSOrderFormService,
-    private fb: FormBuilder) { }
+  constructor(private shareFormService: UBSOrderFormService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.takeOrderDetails();

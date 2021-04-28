@@ -4,9 +4,7 @@ import { EditProfileModel } from '@user-models/edit-profile.model';
 
 @Injectable()
 export class EditProfileFormBuilder {
-
-  constructor(private builder: FormBuilder) {
-  }
+  constructor(private builder: FormBuilder) {}
   getProfileForm() {
     return this.builder.group({
       name: ['', Validators.maxLength(30)],
@@ -14,7 +12,7 @@ export class EditProfileFormBuilder {
       credo: ['', Validators.maxLength(170)],
       showLocation: [''],
       showEcoPlace: [''],
-      showShoppingList: ['']
+      showShoppingList: [''],
     });
   }
 
@@ -25,7 +23,7 @@ export class EditProfileFormBuilder {
       credo: [editForm.userCredo, Validators.maxLength(170)],
       showLocation: [editForm.showLocation],
       showEcoPlace: [editForm.showEcoPlace],
-      showShoppingList: [editForm.showShoppingList]
+      showShoppingList: [editForm.showShoppingList],
     });
   }
 }

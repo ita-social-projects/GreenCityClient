@@ -1,4 +1,4 @@
-import {DayEstimation} from './DayEstimation';
+import { DayEstimation } from './DayEstimation';
 
 export class HabitStatisticsDto {
   id: number;

@@ -8,9 +8,8 @@ describe('TipsCardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TipsCardComponent ]
-    })
-    .compileComponents();
+      declarations: [TipsCardComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -18,7 +17,7 @@ describe('TipsCardComponent', () => {
     component = fixture.componentInstance;
     component.tip = {
       imageUrl: 'test',
-      text: 'test'
+      text: 'test',
     };
 
     fixture.detectChanges();

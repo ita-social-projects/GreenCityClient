@@ -12,10 +12,9 @@ import { switchMap } from 'rxjs/operators';
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
-  styleUrls: ['./homepage.component.scss']
+  styleUrls: ['./homepage.component.scss'],
 })
 export class HomepageComponent implements OnInit, OnDestroy {
-
   usersAmount: number;
   readonly guyImage = 'assets/img/guy.png';
   readonly path2 = 'assets/img/path-2.svg';
@@ -31,12 +30,12 @@ export class HomepageComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private verifyEmailService: VerifyEmailService,
     private snackBar: MatSnackBarComponent,
-    public dialog: MatDialog,
-  ) { }
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit() {
-    this.subs.add(this.localStorageService.userIdBehaviourSubject.subscribe(userId => this.userId = userId));
-    this.subs.add(this.userService.countActivatedUsers().subscribe(num => this.usersAmount = num));
+    this.subs.add(this.localStorageService.userIdBehaviourSubject.subscribe((userId) => (this.userId = userId)));
+    this.subs.add(this.userService.countActivatedUsers().subscribe((num) => (this.usersAmount = num)));
     this.onCheckToken();
   }
 
@@ -46,22 +45,25 @@ export class HomepageComponent implements OnInit, OnDestroy {
 
   // check if the token is still valid
   private onCheckToken(): void {
-    this.subs.add(this.activatedRoute.queryParams
-      .pipe(
-        switchMap(params => {
-          const {token, user_id} = params;
-          if (token && user_id) {
-            return this.verifyEmailService.onCheckToken(token, user_id);
-          } else {
-            return EMPTY;
+    this.subs.add(
+      this.activatedRoute.queryParams
+        .pipe(
+          switchMap((params) => {
+            const { token, user_id } = params;
+            if (token && user_id) {
+              return this.verifyEmailService.onCheckToken(token, user_id);
+            } else {
+              return EMPTY;
+            }
+          })
+        )
+        .subscribe((res) => {
+          if (res) {
+            this.snackBar.openSnackBar('successConfirmEmail');
+            this.openAuthModalWindow();
           }
         })
-      ).subscribe(res => {
-        if (res) {
-          this.snackBar.openSnackBar('successConfirmEmail');
-          this.openAuthModalWindow();
-        }
-      }));
+    );
   }
 
   private openAuthModalWindow(): void {
@@ -70,8 +72,8 @@ export class HomepageComponent implements OnInit, OnDestroy {
       closeOnNavigation: true,
       panelClass: ['custom-dialog-container', 'transparent'],
       data: {
-        popUpName: 'sign-in'
-      }
+        popUpName: 'sign-in',
+      },
     });
   }
 

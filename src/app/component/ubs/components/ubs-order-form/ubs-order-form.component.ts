@@ -7,7 +7,7 @@ import { UBSOrderDetailsComponent } from '../ubs-order-details/ubs-order-details
 @Component({
   selector: 'app-ubs-order-form',
   templateUrl: './ubs-order-form.component.html',
-  styleUrls: ['./ubs-order-form.component.scss']
+  styleUrls: ['./ubs-order-form.component.scss'],
 })
 export class UBSOrderFormComponent implements AfterViewInit {
   firstStepForm: FormGroup;
@@ -18,9 +18,7 @@ export class UBSOrderFormComponent implements AfterViewInit {
   @ViewChild('secondStep', { static: false }) stepTwoComponent: UBSPersonalInformationComponent;
   @ViewChild('thirdStep', { static: false }) stepThreeComponent: UBSSubmitOrderComponent;
 
-  constructor(
-    private cdr: ChangeDetectorRef,
-  ) { }
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
     this.firstStepForm = this.stepOneComponent.orderDetailsForm;

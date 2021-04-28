@@ -1,7 +1,7 @@
 import { Directive, HostListener, Input, HostBinding } from '@angular/core';
 
 @Directive({
-  selector: '[appInputcolor]'
+  selector: '[appInputcolor]',
 })
 export class InputcolorDirective {
   @Input() typeColor = '#13aa57';

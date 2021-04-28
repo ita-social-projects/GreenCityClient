@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@environment/environment';
-import { Observable, of, Subject} from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { SearchDataModel, SearchModel } from '../../model/search/search.model';
 import { SearchDto } from 'src/app/component/layout/components/models/search-dto';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SearchService {
   private apiUrl = 'http://localhost:3000';
@@ -22,19 +22,19 @@ export class SearchService {
   }
 
   public getAllResultsByCat(
-      query: string,
-      category: string = 'econews',
-      page: number = 0,
-      sort: string = '',
-      items: number = 9): Observable<SearchDataModel> {
-    return this.http.get<SearchDataModel>
-      (`${this.backEndLink}search/${category}?searchQuery=${query}&sort=${sort}&page=${page}&size=${items}`);
+    query: string,
+    category: string = 'econews',
+    page: number = 0,
+    sort: string = '',
+    items: number = 9
+  ): Observable<SearchDataModel> {
+    return this.http.get<SearchDataModel>(
+      `${this.backEndLink}search/${category}?searchQuery=${query}&sort=${sort}&page=${page}&size=${items}`
+    );
   }
 
   private getResultsByCat(searchType: string): Observable<SearchModel> {
-    return this.http.get<SearchModel>(`${this.apiUrl}/${searchType}`).pipe(
-      switchMap(res => of(res))
-    );
+    return this.http.get<SearchModel>(`${this.apiUrl}/${searchType}`).pipe(switchMap((res) => of(res)));
   }
 
   public getAllSearch(searchQuery: string, searchType: string): Observable<SearchModel> {
@@ -66,5 +66,5 @@ export class SearchService {
     return this.allElemsSubj.asObservable();
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 }

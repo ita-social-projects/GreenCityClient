@@ -1,4 +1,4 @@
-import {GoalRequestDto} from './GoalRequestDto';
+import { GoalRequestDto } from './GoalRequestDto';
 
 export class UserGoalDto {
   goal: GoalRequestDto;

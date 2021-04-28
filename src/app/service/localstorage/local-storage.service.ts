@@ -1,12 +1,12 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject, Subject} from 'rxjs';
-import {Language} from '../../i18n/Language';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { Language } from '../../i18n/Language';
 
 /**
  * @author Yurii Koval
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LocalStorageService {
   private readonly ACCESS_TOKEN = 'accessToken';

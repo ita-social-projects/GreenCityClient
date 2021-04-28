@@ -5,11 +5,10 @@ import { LanguageService } from '../../../../../i18n/language.service';
 @Component({
   selector: 'app-add-goal-button',
   templateUrl: './add-goal-button.component.html',
-  styleUrls: ['./add-goal-button.component.scss']
+  styleUrls: ['./add-goal-button.component.scss'],
 })
 export class AddGoalButtonComponent {
-  constructor(private service: UserService, private languageService: LanguageService) {
-  }
+  constructor(private service: UserService, private languageService: LanguageService) {}
 
   onModalOpen() {
     this.service.loadAvailableCustomGoals();

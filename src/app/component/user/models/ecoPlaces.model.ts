@@ -1,4 +1,4 @@
 export interface EcoPlaces {
-    placeId: number;
-    name: string;
+  placeId: number;
+  name: string;
 }

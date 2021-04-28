@@ -9,13 +9,9 @@ import { CalendarInterface } from '@global-user/components/profile/calendar/cale
 @Component({
   selector: 'app-habit-calendar',
   templateUrl: './../../../profile/calendar/calendar.component.html',
-  styleUrls: [
-    './../../../profile/calendar/calendar.component.scss',
-    './habit-calendar.component.scss']
+  styleUrls: ['./../../../profile/calendar/calendar.component.scss', './habit-calendar.component.scss'],
 })
-
 export class HabitCalendarComponent extends CalendarBaseComponent implements OnInit, OnDestroy {
-
   constructor(
     public translate: TranslateService,
     public languageService: LanguageService,

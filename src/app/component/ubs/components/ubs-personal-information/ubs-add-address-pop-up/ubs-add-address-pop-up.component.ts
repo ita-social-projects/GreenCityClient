@@ -6,7 +6,7 @@ import { Address } from '../../../models/ubs.interface';
 @Component({
   selector: 'app-ubs-add-address-pop-up',
   templateUrl: './ubs-add-address-pop-up.component.html',
-  styleUrls: ['./ubs-add-address-pop-up.component.scss']
+  styleUrls: ['./ubs-add-address-pop-up.component.scss'],
 })
 export class UBSAddAddressPopUpComponent implements OnInit {
   address: Address;
@@ -21,10 +21,12 @@ export class UBSAddAddressPopUpComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<UBSAddAddressPopUpComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
       edit: boolean;
       address: Address;
-    }) { }
+    }
+  ) {}
 
   get district() {
     return this.addAddressForm.get('district');
@@ -46,23 +48,21 @@ export class UBSAddAddressPopUpComponent implements OnInit {
     this.addAddressForm = this.fb.group({
       city: [this.data.edit ? this.data.address.city : 'Київ', Validators.required],
       district: [this.data.edit ? this.data.address.district : '', Validators.required],
-      street: [this.data.edit ? this.data.address.street : '', [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(40),
-        Validators.pattern(this.streetPattern)
-      ]],
+      street: [
+        this.data.edit ? this.data.address.street : '',
+        [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(this.streetPattern)],
+      ],
       houseNumber: [this.data.edit ? this.data.address.houseNumber : '', [Validators.required]],
-      houseCorpus: [this.data.edit ? this.data.address.houseCorpus : '', [
-        Validators.maxLength(2),
-        Validators.pattern(this.houseCorpusPattern)
-      ]],
-      entranceNumber: [this.data.edit ? this.data.address.entranceNumber : '', [
-        Validators.maxLength(2),
-        Validators.pattern(this.entranceNumberPattern)
-      ]],
+      houseCorpus: [
+        this.data.edit ? this.data.address.houseCorpus : '',
+        [Validators.maxLength(2), Validators.pattern(this.houseCorpusPattern)],
+      ],
+      entranceNumber: [
+        this.data.edit ? this.data.address.entranceNumber : '',
+        [Validators.maxLength(2), Validators.pattern(this.entranceNumberPattern)],
+      ],
       longitude: [this.data.edit ? this.data.address.longitude : '', Validators.required],
-      latitude: [this.data.edit ? this.data.address.latitude : '', Validators.required]
+      latitude: [this.data.edit ? this.data.address.latitude : '', Validators.required],
     });
   }
 
@@ -74,8 +74,8 @@ export class UBSAddAddressPopUpComponent implements OnInit {
   onAutocompleteSelected(event): void {
     const streetName = event.name;
     this.addAddressForm.get('street').setValue(streetName);
-    this.region = event.address_components[2].long_name.split(' ')[1] === 'район'
-      ? event.address_components[2].long_name.split(' ')[0] : null;
+    this.region =
+      event.address_components[2].long_name.split(' ')[1] === 'район' ? event.address_components[2].long_name.split(' ')[0] : null;
     this.addAddressForm.get('district').setValue(this.region);
     this.nextDisabled = false;
     this.districtDisabled = event.address_components[2].long_name.split(' ')[1] === 'район' ? true : false;
