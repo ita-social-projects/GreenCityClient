@@ -14,12 +14,38 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
   templateUrl: './ubs-sidebar.component.html',
   styleUrls: ['./ubs-sidebar.component.scss'],
 })
-export class UbsSidebarComponent implements OnInit, AfterViewInit {
+export class UbsSidebarComponent implements AfterViewInit {
   public openClose = false;
   public stopClick = false;
   public fixed = false;
-  public primaryGreenColor = '#13aa57'
-  public secondaryGrayColor = '#444e55'
+  public primaryGreenColor = '#13aa57';
+  public secondaryGrayColor = '#444e55';
+  public listElements = [
+    {
+      link: 'assets/img/sidebarIcons/user_icon.svg',
+      name: 'Користувачі'
+    },
+    {
+      link: 'assets/img/sidebarIcons/achievment_icon.svg',
+      name: 'Сертифікати'
+    },
+    {
+      link: 'assets/img/sidebarIcons/shopping-cart_icon.svg',
+      name: 'Замовлення'
+    },
+    {
+      link: 'assets/img/sidebarIcons/workers_icon.svg',
+      name: 'Працівники'
+    },
+    {
+      link: 'assets/img/sidebarIcons/documents_icon.svg',
+      name: 'Документи'
+    },
+    {
+      link: 'assets/img/sidebarIcons/calendar_icon.svg',
+      name: 'Графік'
+    }
+  ];
 
   @ViewChild('sidebarToggler', { static: false }) sidebarToggler: ElementRef;
   @ViewChild('sideBarIcons', { static: false }) sideBarIcons: ElementRef;
@@ -51,8 +77,6 @@ export class UbsSidebarComponent implements OnInit, AfterViewInit {
       this.openClose = true;
     }
   }
-
-  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     setTimeout(() => {
