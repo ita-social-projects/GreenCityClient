@@ -168,7 +168,7 @@ describe('EcoNewsDetailComponent', () => {
         expect(component.setNewsItem).toHaveBeenCalledWith(item);
       });
 
-    const request = httpMock.expectOne(`https://greencity.azurewebsites.net/econews/${id}`);
+    const request = httpMock.expectOne(`https://greencity.azurewebsites.net/econews/${id}?lang=en`);
     request.flush(mockEcoNewsModel);
 
     expect((component as any).newsItemSubscription).not.toEqual(undefined);
