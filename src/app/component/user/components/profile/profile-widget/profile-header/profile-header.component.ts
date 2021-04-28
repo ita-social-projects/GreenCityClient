@@ -31,6 +31,13 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
     this.buildSocialNetworksChart();
   }
 
+  get checkUserCredo() {
+    if (this.userInfo && this.userInfo.userCredo) {
+      return this.userInfo.userCredo.length;
+    }
+    return 0;
+  }
+
   private findNetwork(networkLink) {
     return this.socialNetworksList.reduce((result, current) => {
       if (networkLink.includes(current)) {
