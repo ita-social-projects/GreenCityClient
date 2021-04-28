@@ -6,6 +6,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { ActivatedRoute, Router } from '@angular/router';
 import { HabitService } from '@global-service/habit/habit.service';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
+import { HabitMark } from '@global-user/models/HabitMark.enum';
 
 @Component({
   selector: 'app-one-habit',
@@ -26,21 +27,21 @@ export class OneHabitComponent implements OnInit {
     acquired: () => {
       this.daysCounter = this.habit.duration;
       this.showPhoto = false;
-      this.habitMark = 'aquired';
+      this.habitMark = HabitMark.AQUIRED;
     },
     done: () => {
       this.daysCounter = this.habit.workingDays
         ? this.habit.workingDays
         : this.habit.duration;
       this.showPhoto = false;
-      this.habitMark = 'done';
+      this.habitMark = HabitMark.DONE;
     },
     undone: () => {
       this.daysCounter = this.habit.workingDays
         ? this.habit.workingDays
         : this.habit.duration;
       this.showPhoto = true;
-      this.habitMark = 'undone';
+      this.habitMark = HabitMark.UNDONE;
     }
   };
 
@@ -57,7 +58,7 @@ export class OneHabitComponent implements OnInit {
     this.buildHabitDescription();
   }
 
-  public goEditHabit() {
+  public goToHabitProfile() {
     const userId = localStorage.getItem('userId');
     this.router.navigate([`profile/${userId}/allhabits/addhabit/${this.habit.habit.id}`]);
   }
