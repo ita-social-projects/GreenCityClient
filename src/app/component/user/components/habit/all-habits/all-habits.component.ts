@@ -162,5 +162,6 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
             return filtered;
           });
         });
-      };
+      });
   }
+}
