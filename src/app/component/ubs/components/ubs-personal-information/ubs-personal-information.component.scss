@@ -1,4 +1,4 @@
-::ng-deep {
+::ng-deep .address-matDialog-styles {
   .mat-dialog-container {
     margin: auto !important;
     width: 80% !important;
@@ -160,4 +160,9 @@ label,
 
 .personal-data-navigation {
   margin: 40px 0 0;
+}
+
+.edit-address {
+  height: 100%;
+  cursor: pointer;
 }

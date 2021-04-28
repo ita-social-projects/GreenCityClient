@@ -20,11 +20,12 @@
         [imageChangedEvent]="imageChangedEvent"
         [imageFile]="file.file"
         (imageCropped)="imageCropped($event)"
-      ></image-cropper>
-      <div class="cropper-buttons">
-        <button type="button" (click)="stopCropping()">{{ 'drag-and-drop.submit-changes-button' | translate }}</button>
-        <button type="button" (click)="cancelChanges()">{{ 'drag-and-drop.cancel-changes-button' | translate }}</button>
-      </div>
+      >
+      </image-cropper>
+    </div>
+    <div class="cropper-buttons">
+      <button type="button" (click)="stopCropping()">{{ 'drag-and-drop.submit-changes-button' | translate }}</button>
+      <button type="button" (click)="cancelChanges()">{{ 'drag-and-drop.cancel-changes-button' | translate }}</button>
     </div>
   </div>
 </div>
@@ -34,6 +35,7 @@
     <div class="text-wrapper">
       <div class="centered">
         <p>{{ 'drag-and-drop.not-uploaded-warning' | translate }}</p>
+
         <p>
           {{ 'drag-and-drop.picture-description' | translate }}
           <label for="upload"
@@ -44,6 +46,7 @@
       </div>
     </div>
   </div>
+
   <span
     class="warning"
     [ngClass]="{

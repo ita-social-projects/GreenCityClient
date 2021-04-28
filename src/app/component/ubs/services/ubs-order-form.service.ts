@@ -1,39 +1,21 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
-
-import { FinalOrder, IUserOrder } from '../models/ubs.interface';
+import { EventEmitter, Injectable } from '@angular/core';
+import { OrderDetails, PersonalData } from '../models/ubs.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UBSOrderFormService {
 
-  public objectSource = new Subject<IUserOrder>();
-  public finalObject = new Subject<FinalOrder>();
-  public billObjectSource = new BehaviorSubject<{}>({
-    amountUbs: 0,
-    amountClothesXL: 0,
-    amountClothesM: 0,
-    sumUbs: 0,
-    sumClothesXL: 0,
-    sumClothesM: 0,
-    certificatesSum: '',
-    pointsSum: '',
-    total: 0,
-    finalSum: 0,
-  });
+  orderDetails: OrderDetails;
+  personalData: PersonalData;
+  changedOrder: any = new EventEmitter();
+  changedPersonalData: any = new EventEmitter();
 
-  constructor() { }
-
-  changeObject(order: IUserOrder) {
-    this.objectSource.next(order);
+  changeOrderDetails() {
+    this.changedOrder.emit(this.orderDetails);
   }
 
-  thirdStepObject(order: FinalOrder) {
-    this.finalObject.next(order);
-  }
-
-  finalBillObject(order) {
-    this.billObjectSource.next(order);
+  changePersonalData() {
+    this.changedPersonalData.emit(this.personalData);
   }
 }

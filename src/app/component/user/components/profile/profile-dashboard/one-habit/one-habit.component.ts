@@ -19,7 +19,6 @@ export class OneHabitComponent implements OnInit {
   daysCounter: number;
   habitMark: string;
   isRequest = false;
-  // backgroundImage = 'assets/img/man.svg';
   firstFriend = 'assets/img/kimi.png';
   secondFriend = 'assets/img/lewis.png';
   private descriptionType = {

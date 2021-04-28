@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AchievementDto } from '../../../../../model/achievement/AchievementDto';
 
 @Component({
@@ -6,10 +6,10 @@ import { AchievementDto } from '../../../../../model/achievement/AchievementDto'
   templateUrl: './achievement-item.component.html',
   styleUrls: ['./achievement-item.component.scss'],
 })
-export class AchievementItemComponent implements OnInit {
+
+export class AchievementItemComponent {
   @Input() achievement: AchievementDto;
   readonly achieve = 'assets/img/achieve.png';
-  constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() { }
 }

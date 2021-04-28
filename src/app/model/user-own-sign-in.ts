@@ -4,7 +4,6 @@ export class UserOwnSignIn {
   // tslint:disable-next-line:variable-name
   private _password: string;
 
-  constructor() {}
 
   get email(): string {
     return this._email;

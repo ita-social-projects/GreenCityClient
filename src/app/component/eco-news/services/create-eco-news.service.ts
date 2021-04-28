@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { NewsDTO, NewsResponseDTO } from '../models/create-news-interface';
+import { NewsDTO, NewsResponseDTO, FileHandle } from '../models/create-news-interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '@environment/environment';
 import { FormGroup } from '@angular/forms';
-import { FileHandle } from '../models/create-news-interface';
 
 @Injectable({
   providedIn: 'root',

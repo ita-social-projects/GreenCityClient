@@ -33,7 +33,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public managementLink: string;
   public isAllSearchOpen = false;
   public toggleBurgerMenu = false;
-  public arrayLang: Array<LanguageModel> = [{ lang: 'Ua' }, { lang: 'En' }, { lang: 'Ru' }];
+
+  public arrayLang: Array<LanguageModel> = [
+    { lang: 'Ua', langName: 'ukrainian' },
+    { lang: 'En', langName: 'english' },
+    { lang: 'Ru', langName: 'russian' }];
+  public ariaStatus = 'profile options collapsed';
   public isSearchClicked = false;
   private adminRoleValue = 'ROLE_ADMIN';
   private userRole: string;
@@ -103,9 +108,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   setLangArr(): void {
     const language = this.languageService.getCurrentLanguage();
-    const currentLangObj = { lang: language.charAt(0).toUpperCase() + language.slice(1) };
-    const currentLangIndex = this.arrayLang.findIndex((lang) => lang.lang === currentLangObj.lang);
-    this.arrayLang = [currentLangObj, ...this.arrayLang.slice(0, currentLangIndex), ...this.arrayLang.slice(currentLangIndex + 1)];
+
+    const currentLangObj = { lang: language.charAt(0).toUpperCase() + language.slice(1), langName: language };
+    const currentLangIndex = this.arrayLang.findIndex(lang => lang.lang === currentLangObj.lang);
+    this.arrayLang = [
+      currentLangObj,
+      ...this.arrayLang.slice(0, currentLangIndex),
+      ...this.arrayLang.slice(currentLangIndex + 1)
+    ];
   }
 
   private initUser(): void {
@@ -169,10 +179,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public toggleDropdown(): void {
     this.dropdownVisible = !this.dropdownVisible;
+    this.dropdownVisible ? this.ariaStatus = 'profile options expanded' : this.ariaStatus = 'profile options collapsed';
   }
 
   public autoCloseUserDropDown(event): void {
     this.dropdownVisible = event;
+    this.ariaStatus = 'profile options collapsed';
   }
 
   public autoCloseLangDropDown(event): void {

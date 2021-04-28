@@ -9,7 +9,6 @@ import { takeUntil } from 'rxjs/operators';
 import { authImages } from 'src/app/image-pathes/auth-images';
 import { ConfirmPasswordValidator, ValidatorRegExp } from './sign-up.validator';
 import { GoogleSignInService } from '@global-service/auth/google-sign-in.service';
-import { SubmitEmailComponent } from '../submit-email/submit-email.component';
 import { UserOwnSignInService } from '@global-service/auth/user-own-sign-in.service';
 import { UserOwnSignUpService } from '@global-service/auth/user-own-sign-up.service';
 import { UserOwnSignUp } from '@global-models/user-own-sign-up';
@@ -160,18 +159,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
   private onSubmitSuccess(data: SuccessSignUpDto): void {
     this.loadingAnim = false;
-    this.openSignUpPopup();
     this.closeSignUpWindow();
     this.snackBar.openSnackBar('signUp');
-  }
-
-  private openSignUpPopup(): void {
-    this.dialog.open(SubmitEmailComponent, {
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      disableClose: false,
-      panelClass: 'custom-dialog-container',
-    });
   }
 
   private closeSignUpWindow(): void {

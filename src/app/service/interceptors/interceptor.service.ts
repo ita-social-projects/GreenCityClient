@@ -28,7 +28,7 @@ export class InterceptorService implements HttpInterceptor {
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
     private userOwnAuthService: UserOwnAuthService
-  ) {}
+  ) { }
 
   /**
    * Intercepts all HTTP requests, adds access token to authentication header (except authentication requests),
@@ -54,7 +54,8 @@ export class InterceptorService implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === BAD_REQUEST || error.status === FORBIDDEN) {
-          const message = error.error.message ? error.error.message : error.message ? error.message : 'error';
+          const noErrorErrorMessage = error.message ? error.message : 'error';
+          const message = error.error.message ? error.error.message : noErrorErrorMessage;
           this.openErrorWindow(message);
           return EMPTY;
         }

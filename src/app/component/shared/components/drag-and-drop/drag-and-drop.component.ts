@@ -19,7 +19,7 @@ export class DragAndDropComponent implements OnInit {
   private croppedImage: string;
   @Input() public formData: FormGroup;
 
-  constructor(private createEcoNewsService: CreateEcoNewsService) {}
+  constructor(private createEcoNewsService: CreateEcoNewsService) { }
 
   ngOnInit() {
     this.patchImage();
@@ -35,14 +35,15 @@ export class DragAndDropComponent implements OnInit {
   public cancelChanges(): void {
     this.files = [];
     this.createEcoNewsService.files = [];
-    this.isCropper = false;
+    this.isCropper = true;
     this.croppedImage = null;
   }
 
   public patchImage(): void {
     if (this.createEcoNewsService.isBackToEditing && this.formData.value.image) {
       this.isCropper = false;
-      this.files = [{ file: name, url: this.formData.value.image }];
+
+      this.files = [{ file: this.formData.value.file, url: this.formData.value.image }];
     }
   }
 

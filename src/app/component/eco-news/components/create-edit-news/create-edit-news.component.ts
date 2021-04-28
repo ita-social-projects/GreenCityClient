@@ -55,7 +55,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     },
   };
 
-  public onSubmit(): void {}
+  public onSubmit(): void { }
 
   constructor(
     public router: Router,
@@ -185,17 +185,20 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.createEcoNewsService
       .sendFormData(this.form)
       .pipe(
-        catchError((error) => {
+        takeUntil(this.destroyed$),
+        catchError((err) => {
           this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.');
-
-          return throwError(error);
+          return throwError(err);
         })
       )
-      .subscribe(() => {
-        this.isPosting = false;
-        this.allowUserEscape();
-        this.router.navigate(['/news']);
-      });
+
+      .subscribe(() => this.escapeFromCreatePage());
+  }
+
+  public escapeFromCreatePage() {
+    this.isPosting = false;
+    this.allowUserEscape();
+    this.router.navigate(['/news']);
   }
 
   public editNews(): void {
@@ -208,16 +211,12 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       .editNews(dataToEdit)
       .pipe(
         catchError((error) => {
-          this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.');
-
+          this.snackBar.openSnackBar('Something went wrong. Please reload page or try again later.');
           return throwError(error);
         })
       )
-      .subscribe(() => {
-        this.isPosting = false;
-        this.allowUserEscape();
-        this.router.navigate(['/news']);
-      });
+
+      .subscribe(() => this.escapeFromCreatePage());
   }
 
   public fetchNewsItemToEdit(): void {

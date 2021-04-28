@@ -6,7 +6,13 @@
       <p>{{ 'user.edit-profile.info' | translate }}</p>
       <div class="input-block" [ngStyle]="{ 'margin-bottom': '41px' }">
         <label for="name">{{ 'user.edit-profile.name' | translate }}</label>
-        <input type="text" formControlName="name" placeholder="{{ userInfo.name.first + ' ' + userInfo.name.last }}" id="name" />
+        <input
+          type="text"
+          formControlName="name"
+          placeholder="{{ userInfo.name.first + ' ' + userInfo.name.last }}"
+          pattern="^\S((?!.*  ).*\S)?$"
+          id="name"
+        />
         <span>{{ 'user.edit-profile.name-warning' | translate }}</span>
       </div>
       <div class="input-block" [ngStyle]="{ 'margin-bottom': '53px' }">
@@ -22,6 +28,7 @@
           pattern="^[a-zA-Zа-яА-Я][a-zA-Zа-яА-Я!\-\,’)( ]*$"
           id="city"
         />
+
         <span>{{ 'user.edit-profile.city-warning' | translate }}</span>
       </div>
       <div class="input-block">
@@ -41,6 +48,7 @@
           <label class="label-wrapper">
             <input type="checkbox" formControlName="showLocation" />
             <span class="checkmark"></span>
+
             {{ 'user.edit-profile.location' | translate }}
           </label>
         </li>
@@ -48,6 +56,7 @@
           <label class="label-wrapper">
             <input type="checkbox" formControlName="showEcoPlace" />
             <span class="checkmark"></span>
+
             {{ 'user.edit-profile.eco-place' | translate }}
           </label>
         </li>
@@ -55,14 +64,19 @@
           <label class="label-wrapper">
             <input type="checkbox" formControlName="showShoppingList" />
             <span class="checkmark"></span>
+
             {{ 'user.edit-profile.shoping-list' | translate }}
           </label>
         </li>
       </ul>
     </div>
     <div class="buttons">
-      <button type="button" (click)="cancel()">{{ 'user.edit-profile.btn.cancel' | translate }}</button>
-      <button type="submit" [disabled]="!editProfileForm.valid">{{ 'user.edit-profile.btn.save' | translate }}</button>
+      <button type="button" (click)="cancel()">
+        {{ 'user.edit-profile.btn.cancel' | translate }}
+      </button>
+      <button type="submit" [disabled]="!editProfileForm.valid || editProfileForm.pristine">
+        {{ 'user.edit-profile.btn.save' | translate }}
+      </button>
     </div>
   </form>
 </div>

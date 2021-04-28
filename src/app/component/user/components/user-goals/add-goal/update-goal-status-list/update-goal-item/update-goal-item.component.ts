@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Goal } from '../../../../../../../model/goal/Goal';
 
 @Component({
@@ -6,12 +6,10 @@ import { Goal } from '../../../../../../../model/goal/Goal';
   templateUrl: './update-goal-item.component.html',
   styleUrls: ['./update-goal-item.component.scss'],
 })
-export class UpdateGoalItemComponent implements OnInit {
+export class UpdateGoalItemComponent {
   @Input()
   goal: Goal;
   text: string;
 
-  constructor() {}
 
-  ngOnInit() {}
 }

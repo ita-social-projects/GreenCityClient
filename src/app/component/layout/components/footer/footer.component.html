@@ -6,8 +6,9 @@
           <img [src]="footerImageList.greenCityLogo" class="logo" alt="GreenCity home" />
         </a>
       </div>
-      <nav class="footer_links" aria-label="Footer Navigation Menu">
-        <ul class="footer_left-side">
+
+      <nav class="footer_links" role="navigation">
+        <ul class="footer_left-side" role="menu">
           <li>
             <a [routerLink]="['/news']" class="footer_link-item">
               {{ 'user.footer.eco-events' | translate }}
@@ -34,8 +35,7 @@
             </a>
           </li>
         </ul>
-
-        <ul class="footer_right-side">
+        <ul class="footer_right-side" role="menu">
           <li class="footer_follow-us">
             <p>
               <span>{{ 'user.footer.follow-us' | translate }}</span>

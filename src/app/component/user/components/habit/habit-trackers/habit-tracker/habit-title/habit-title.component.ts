@@ -1,18 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-habit-title',
   templateUrl: './habit-title.component.html',
   styleUrls: ['./habit-title.component.scss'],
 })
-export class HabitTitleComponent implements OnInit {
+
+export class HabitTitleComponent {
   @Input()
   habitId: number;
 
   @Input()
   habitTitle: string;
-
-  constructor() {}
-
-  ngOnInit() {}
 }

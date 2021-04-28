@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { NgModel } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { WarningPopUpComponent } from '@shared/components';
@@ -9,7 +9,7 @@ import { take } from 'rxjs/operators';
   templateUrl: './social-networks.component.html',
   styleUrls: ['./social-networks.component.scss'],
 })
-export class SocialNetworksComponent implements OnInit {
+export class SocialNetworksComponent {
   public icons = {
     edit: './assets/img/profile/icons/edit.svg',
     add: './assets/img/profile/icons/add.svg',
@@ -27,8 +27,6 @@ export class SocialNetworksComponent implements OnInit {
   @Output() socialNetworksChange: EventEmitter<any> = new EventEmitter();
 
   constructor(private dialog: MatDialog) {}
-
-  ngOnInit() {}
 
   public onEditLink(link): void {
     this.onToggleInput(true);

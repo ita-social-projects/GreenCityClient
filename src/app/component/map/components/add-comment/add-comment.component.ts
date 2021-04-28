@@ -1,4 +1,5 @@
-import { Component, Inject, OnInit } from '@angular/core';
+
+import { Component, Inject } from '@angular/core';
 import { Comment } from '../../../../model/comment/comment';
 import { Photo } from '../../../../model/photo/photo';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
@@ -10,7 +11,8 @@ import { Estimate } from '../../../../model/estimate/estimate';
   templateUrl: './add-comment.component.html',
   styleUrls: ['./add-comment.component.scss'],
 })
-export class AddCommentComponent implements OnInit {
+
+export class AddCommentComponent {
   comment: Comment = new Comment();
   estimate: Estimate = new Estimate();
   countOfPhotos: number;
@@ -26,7 +28,6 @@ export class AddCommentComponent implements OnInit {
     this.countOfPhotos = data.listOfPhoto;
   }
 
-  ngOnInit() {}
 
   getListOfPhotos(photos: Photo[]) {
     this.comment.photos = photos;

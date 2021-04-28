@@ -23,10 +23,10 @@ export class HabitStatisticService implements OnLogout {
     availableHabits: AvailableHabitDto[];
     newHabits: NewHabitDto[];
   } = {
-    habitStatistics: [],
-    availableHabits: [],
-    newHabits: [],
-  };
+      habitStatistics: [],
+      availableHabits: [],
+      newHabits: [],
+    };
   readonly habitStatistics = this.$habitStatistics.asObservable();
   readonly availableHabits = this.$availableHabits.asObservable();
 
@@ -63,14 +63,11 @@ export class HabitStatisticService implements OnLogout {
   }
 
   createHabits(language: string) {
-    this.http.post<any>(`${userLink}/${this.userId}/habit?language=${language}`, this.dataStore.newHabits).subscribe(
-      () => {
-        this.dataStore.newHabits = [];
-        this.loadAvailableHabits(language);
-        this.loadHabitStatistics(language);
-      },
-      () => console.log('Can not assign new habit for this user')
-    );
+
+    this.http.post<any>(`${userLink}/${this.userId}/habit?language=${language}`, this.dataStore.newHabits)
+      .subscribe(() => {
+        this.clearDataStore(language);
+      }, () => console.log('Can not assign new habit for this user'));
   }
 
   deleteHabit(habitId: number, language: string) {
@@ -110,28 +107,20 @@ export class HabitStatisticService implements OnLogout {
   createHabitStatistic(habitStatistics: HabitStatisticsDto) {
     const toSend: any = habitStatistics;
     toSend.createdOn = new Date().toISOString();
-    this.http.post<HabitStatisticsDto>(`${habitStatisticLink}`, toSend).subscribe(
-      (data) => {
-        this.dataStore.habitStatistics.forEach((habit, habitIndex) => {
-          if (habit.id === habitStatistics.habitId) {
-            habit.habitStatistics.forEach((stat, statIndex) => {
-              if (new Date(stat.createdOn).toLocaleDateString() === new Date(habitStatistics.createdOn).toLocaleDateString()) {
-                this.dataStore.habitStatistics[habitIndex].habitStatistics[statIndex] = new HabitStatisticsDto(
-                  data.id,
-                  data.habitRate,
-                  data.createdOn,
-                  data.amountOfItems,
-                  data.habitId
-                );
-                this.$habitStatistics.next(Object.assign({}, this.dataStore).habitStatistics);
-                return;
-              }
-            });
-          }
-        });
-      },
-      () => console.log('Can not create habit statistic')
-    );
+
+    this.http.post<HabitStatisticsDto>(`${habitStatisticLink}`, toSend).subscribe(data => {
+      this.dataStore.habitStatistics.forEach((habit, habitIndex) => {
+        if (habit.id === habitStatistics.habitId) {
+          habit.habitStatistics.forEach((stat, statIndex) => {
+            if (new Date(stat.createdOn).toLocaleDateString() === new Date(habitStatistics.createdOn).toLocaleDateString()) {
+              this.dataStore.habitStatistics[habitIndex].habitStatistics[statIndex] =
+                new HabitStatisticsDto(data.id, data.habitRate, data.createdOn, data.amountOfItems, data.habitId);
+              this.$habitStatistics.next(Object.assign({}, this.dataStore).habitStatistics);
+            }
+          });
+        }
+      });
+    }, () => console.log('Can not create habit statistic'));
   }
 
   getUserLog(): Observable<any> {

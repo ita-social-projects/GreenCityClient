@@ -53,7 +53,7 @@ describe('SignUpComponent', () => {
 
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
   class MatDialogRefMock {
-    close() {}
+    close() { }
   }
 
   const promiseSocialUser = new Promise<SocialUser>((resolve) => {
@@ -78,7 +78,7 @@ describe('SignUpComponent', () => {
   authServiceMock.signIn = (providerId: string, opt?: LoginOpt) => promiseSocialUser;
 
   MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
-  MatSnackBarMock.openSnackBar = (type: string) => {};
+  MatSnackBarMock.openSnackBar = (type: string) => { };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -130,15 +130,6 @@ describe('SignUpComponent', () => {
       // @ts-ignore
       component.closeSignUpWindow();
       expect(spy).toHaveBeenCalled();
-    });
-
-    it('should call openSignUpPopup', () => {
-      // @ts-ignore
-      spyOn(component.dialog, 'open');
-      // @ts-ignore
-      component.openSignUpPopup();
-      // @ts-ignore
-      expect(component.dialog).toBeDefined();
     });
 
     it('should emit "sign-in" after calling openSignInWindow', () => {
@@ -314,27 +305,6 @@ describe('SignUpComponent', () => {
         flush();
       }));
 
-      it('onSubmitSuccess should call openSignUpPopup', fakeAsync(() => {
-        const mockSuccessSignUp = {
-          email: 'test@gmail.com',
-          ownRegistrations: true,
-          userId: '23',
-          username: 'UserName',
-        };
-        // @ts-ignore
-        spyOn(component, 'openSignUpPopup');
-        // @ts-ignore
-        component.onSubmitSuccess(mockSuccessSignUp);
-        fixture.detectChanges();
-        fixture.ngZone.run(() => {
-          fixture.whenStable().then(() => {
-            // @ts-ignore
-            expect(component.openSignUpPopup).toHaveBeenCalled();
-          });
-        });
-        fixture.destroy();
-        flush();
-      }));
     });
   });
 

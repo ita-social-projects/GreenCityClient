@@ -1,3 +1,6 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -11,10 +14,9 @@ import { EditProfileFormBuilder } from '@global-user/components/profile/edit-pro
 import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { EditProfileModel } from '@user-models/edit-profile.model';
-
 import { EditProfileComponent } from './edit-profile.component';
 
-class Test {}
+class Test { }
 
 describe('EditProfileComponent', () => {
   let component: EditProfileComponent;
@@ -28,7 +30,11 @@ describe('EditProfileComponent', () => {
       imports: [
         ReactiveFormsModule,
         MatDialogModule,
-        RouterTestingModule.withRoutes([{ path: '**', component: Test }]),
+        MatSnackBarModule,
+        BrowserAnimationsModule,
+        RouterTestingModule.withRoutes([
+          { path: '**', component: Test }
+        ]),
         HttpClientTestingModule,
         AgmCoreModule,
         TranslateModule.forRoot(),
@@ -36,6 +42,7 @@ describe('EditProfileComponent', () => {
       providers: [
         EditProfileFormBuilder,
         EditProfileService,
+        MatSnackBarComponent,
         ProfileService,
         {
           provide: MapsAPILoader,
@@ -94,12 +101,12 @@ describe('EditProfileComponent', () => {
       component.editProfileForm.value.showShoppingList = '';
     });
 
-    it('should return false in case of form fields were not changed', () => {
-      expect(component.checkChanges()).toBeFalsy();
+    it('should return true in case of form fields were not changed', () => {
+      expect(component.checkChanges()).toBeTruthy();
     });
 
-    it('should return true in case of form fields were changed', () => {
-      expect(component.canDeactivate()).toBeTruthy();
+    it('should return false in case of form fields were changed', () => {
+      expect(component.canDeactivate()).toBeFalsy();
     });
   });
 
@@ -161,7 +168,7 @@ describe('EditProfileComponent', () => {
         showEcoPlace: true,
         showLocation: true,
         showShoppingList: true,
-        socialNetworks: [{ id: 220, url: 'http://instagram.com/profile' }],
+        socialNetworks: [{ id: 220, url: 'http://instagram.com/profile' }]
       };
     });
 

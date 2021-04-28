@@ -7,5 +7,4 @@ export class OpeningHours {
   weekDay: WeekDays;
   breakTime: BreakTimes;
 
-  constructor() {}
 }

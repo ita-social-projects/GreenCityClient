@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UserService } from '../../../../service/user/user.service';
 import { UserUpdateModel } from '../../../../model/user/user-update.model';
 import { JwtService } from '../../../../service/jwt/jwt.service';
@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   templateUrl: './user-setting.component.html',
   styleUrls: ['./user-setting.component.scss'],
 })
-export class UserSettingComponent implements OnInit {
+export class UserSettingComponent {
   public isSomethingEdited = false;
   public email = '';
   public userUpdateModel = new UserUpdateModel();
@@ -31,7 +31,6 @@ export class UserSettingComponent implements OnInit {
     this.setEmailNotifications();
   }
 
-  ngOnInit() {}
 
   private getUser() {
     this.userService.getUser().subscribe((userUpdateModel: UserUpdateModel) => {
@@ -45,8 +44,8 @@ export class UserSettingComponent implements OnInit {
         this.localStorageService.setFirstName(this.userUpdateModel.firstName);
         this.dialogRef.close();
         this.router.navigate(['/']);
-      },
-      (error) => {}
+
+      }
     );
   }
 

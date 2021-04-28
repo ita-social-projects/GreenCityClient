@@ -10,5 +10,5 @@ export class NoDataComponent {
   @Input() title;
   @Input() text;
 
-  constructor() {}
+
 }

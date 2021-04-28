@@ -1,4 +1,4 @@
-import { takeUntil } from 'rxjs/operators';
+import { finalize, takeUntil } from 'rxjs/operators';
 import { ProfileService } from './../profile-service/profile.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
@@ -10,19 +10,34 @@ import { Subscription, Subject } from 'rxjs';
   styleUrls: ['./shopping-list.component.scss'],
 })
 export class ShoppingListComponent implements OnInit, OnDestroy {
-  public shoppingList: ShoppingList[];
+  public shoppingList: ShoppingList[] = [];
   public profileSubscription: Subscription;
   private destroy$ = new Subject<void>();
-  constructor(private profileService: ProfileService) {}
+  constructor(private profileService: ProfileService) { }
+
+  get shoppingListLength(): number {
+    if (!this.shoppingList) {
+      return 0;
+    }
+    return this.shoppingList.length;
+  }
 
   ngOnInit() {
     this.getShoppingList();
   }
 
   public getShoppingList(): void {
-    this.profileSubscription = this.profileService.getShoppingList().subscribe(
-      (shoppingListArr: ShoppingList[]) => (this.shoppingList = shoppingListArr),
-      (error) => (this.shoppingList = [])
+
+    this.profileSubscription = this.profileService.getShoppingList().pipe(
+      takeUntil(this.destroy$),
+      finalize(() => {
+        if (!this.shoppingList) {
+          this.shoppingList = [];
+        }
+      })
+    ).subscribe(
+      (shoppingListArr: ShoppingList[]) => this.shoppingList = shoppingListArr,
+      (error) => this.shoppingList = []
     );
   }
 

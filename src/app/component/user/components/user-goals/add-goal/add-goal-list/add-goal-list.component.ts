@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+
+import { Component, Input } from '@angular/core';
 import { Goal } from '../../../../../../model/goal/Goal';
 import { GoalType } from './GoalType';
 
@@ -7,13 +8,10 @@ import { GoalType } from './GoalType';
   templateUrl: './add-goal-list.component.html',
   styleUrls: ['./add-goal-list.component.scss'],
 })
-export class AddGoalListComponent implements OnInit {
+export class AddGoalListComponent {
   @Input()
   goals: Goal[];
 
-  constructor() {}
-
-  ngOnInit() {}
 
   addCustomGoal() {
     const goal = { id: this.generateCustomGoalId(), status: 'CHECKED', text: 'Write your goal here', type: GoalType.CUSTOM };

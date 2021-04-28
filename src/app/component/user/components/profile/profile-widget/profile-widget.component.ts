@@ -6,5 +6,4 @@ import { Component } from '@angular/core';
   styleUrls: ['./profile-widget.component.scss'],
 })
 export class ProfileWidgetComponent {
-  constructor() {}
 }

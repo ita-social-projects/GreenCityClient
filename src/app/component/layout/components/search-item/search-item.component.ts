@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ecoNewsIcons } from 'src/app/image-pathes/profile-icons';
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 
@@ -7,7 +7,9 @@ import { NewsSearchModel } from '@global-models/search/newsSearch.model';
   templateUrl: './search-item.component.html',
   styleUrls: ['./search-item.component.scss'],
 })
-export class SearchItemComponent implements OnInit {
+
+
+export class SearchItemComponent {
   @Input() searchModel: NewsSearchModel;
   @Output() closeSearch: EventEmitter<boolean> = new EventEmitter();
   profileIcons = ecoNewsIcons;
@@ -16,7 +18,5 @@ export class SearchItemComponent implements OnInit {
     this.closeSearch.emit();
   }
 
-  constructor() {}
 
-  ngOnInit() {}
 }

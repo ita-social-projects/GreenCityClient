@@ -1,6 +1,6 @@
 <div class="details-img">
   <app-user-profile-image [additionalImgClass]="'big'" [imgPath]="avatarImg" [firstName]="userName"> </app-user-profile-image>
-  <button (click)="openEditPhoto()">
-    <img src="{{ editIcon }}" alt="edit icon" class="edit-icon" />
+  <button class="edit-image-button" (click)="openEditPhoto()">
+    {{ 'user.edit-profile.edit-button' | translate }}
   </button>
 </div>

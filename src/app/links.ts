@@ -6,10 +6,11 @@ export const mainUserLink = environment.backendUserLink;
 
 // Own Security Controller
 export const userOwnSecurityLink = mainUserLink + 'ownSecurity/';
+export const changePasswordLink = userOwnSecurityLink + 'changePassword';
 export const userOwnSignUpLink = userOwnSecurityLink + 'signUp';
 export const userOwnSignInLink = userOwnSecurityLink + 'signIn';
 export const updateAccessTokenLink = userOwnSecurityLink + 'updateAccessToken';
-export const changePasswordLink = userOwnSecurityLink + 'changePassword';
+export const updatePasswordLink = userOwnSecurityLink + 'updatePassword';
 export const verifyEmailLink = userOwnSecurityLink + 'verifyEmail';
 export const restorePasswordLink = userOwnSecurityLink + 'restorePassword';
 
