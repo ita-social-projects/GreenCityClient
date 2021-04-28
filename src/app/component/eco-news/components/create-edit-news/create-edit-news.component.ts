@@ -235,21 +235,15 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public setActiveFilters(itemToUpdate: EcoNewsModel): void {
     if (itemToUpdate.tags.length) {
       this.isArrayEmpty = false;
-
       itemToUpdate.tags.forEach((tag: NewsTagInterface) => {
-
-        const index = this.filters.findIndex((filterObj: FilterModel) => filterObj.name === tag.name);
-
+        const index = this.filters.findIndex((filterObj: FilterModel) => filterObj.name === `${tag}`);
         this.filters = [
           ...this.filters.slice(0, index),
-          { name: tag.name, isActive: true },
+          { name: `${tag}`, isActive: true },
           ...this.filters.slice(index + 1)
         ];
-
       });
-
     }
-
   }
 
   tags(): FormArray {
@@ -274,9 +268,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     }
     const index = tagsArray.findIndex(tag => tag === filterObj.name);
     this.tags().removeAt(index);
-
     this.toggleIsActive(filterObj, false);
-
   }
 
   public filtersValidation(filterObj: FilterModel): void {
@@ -290,7 +282,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
   public toggleIsActive(filterObj: FilterModel, newValue: boolean): void {
     const index = this.filters.findIndex((item: FilterModel) => item.name === filterObj.name);
-
     this.filters = [
       ...this.filters.slice(0, index),
       { name: filterObj.name, isActive: newValue },
