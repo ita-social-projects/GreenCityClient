@@ -3,7 +3,10 @@
     <h3 class="font-bolt order-title">{{'order-details.order-title' | translate}}</h3>
     <p class="order-content">{{'order-details.order-content' | translate}}</p>
   </div>
-  <form class="form" [formGroup]="orderDetailsForm" (ngSubmit)="submit()">
+  <form class="form"
+        [formGroup]="orderDetailsForm"
+        *ngIf="bags; else spinner"
+        (change)="changeOrderDetails()">
     <div class="w-100 d-flex justify-content-between">
       <label class="col-12 col-sm-3 label">{{'order-details.service' | translate}}</label>
       <label class="col-12 col-sm-2 label">{{'order-details.volume' | translate}}</label>
@@ -12,68 +15,22 @@
       <label class="col-12 col-sm-2 label">{{'order-details.sum' | translate}}</label>
     </div>
     <div class="main">
-      <div class="col-12 col-sm-3 form-group">
-        <input formControlName="bagServiceUbs" class="form-control">
-      </div>
-      <div class="col-12 col-sm-2 form-group">
-        <input formControlName="bagSizeUbs" class="form-control">
-        <span class="litr_code">{{'order-details.litr' | translate}}</span>
-      </div>
-      <div class="col-12 col-sm-2 form-group">
-        <input formControlName="bagPriceUbs" class="form-control">
-        <span class="currency_code">{{'order-details.currency' | translate}}</span>
-      </div>
-      <div class="col-12 col-sm-2 form-group count">
-        <input formControlName="bagNumUbs"
-               type="number"
-               class="shadow-none form-control input"
-               [class.is-invalid]="bagNumUbs.invalid && bagNumUbs.touched"
-               min="0"
-               max="999"
-               (click)="calculate()">
-      </div>
-      <div class="form-group sum">
-        <input formControlName="bagSumUbs" type="text" class="form-control">
-        <span class="currency_code">{{'order-details.currency' | translate}}</span>
-      </div>
-      <div class="col-12 col-sm-3 form-group">
-        <input formControlName="bagServiceClothesXL" class="form-control">
-      </div>
-      <div class="col-12 col-sm-2 form-group">
-        <input formControlName="bagSizeClothesXL" type="text" class="form-control">
-        <span class="litr_code">{{'order-details.litr' | translate}}</span>
-      </div>
-      <div class="col-12 col-sm-2 form-group">
-        <input formControlName="bagPriceClothesXL" type="text" class="form-control">
-        <span class="currency_code">{{'order-details.currency' | translate}}</span>
-      </div>
-      <div class="col-12 col-sm-2 form-group count">
-        <input formControlName="bagNumClothesXL" type="number" min="0" class="shadow-none form-control input" max="999"
-          (click)="calculate()">
-      </div>
-      <div class="form-group sum">
-        <input formControlName="bagSumClothesXL" type="text" class="form-control">
-        <span class="currency_code">{{'order-details.currency' | translate}}</span>
-      </div>
-      <div class="col-12 col-sm-3 form-group">
-        <input formControlName="bagServiceClothesM" type="text" class="form-control">
-      </div>
-      <div class="col-12 col-sm-2 form-group">
-        <input formControlName="bagSizeClothesM" type="text" class="form-control">
-        <span class="litr_code">{{'order-details.litr' | translate}}</span>
-      </div>
-      <div class="col-12 col-sm-2 form-group">
-        <input formControlName="bagPriceClothesM" type="text" class="form-control">
-        <span class="currency_code">{{'order-details.currency' | translate}}</span>
-      </div>
-      <div class="col-12 col-sm-2 form-group count">
-        <input formControlName="bagNumClothesM" type="number" class="shadow-none form-control input" min="0" max="999"
-          (click)="calculate()">
-      </div>
-      <div class="form-group sum">
-        <input formControlName="bagSumClothesM" type="text" class="form-control">
-        <span class="currency_code">{{'order-details.currency' | translate}}</span>
-      </div>
+        <ul class="w-100 p-0">
+          <li *ngFor="let bag of bags" class="d-flex justify-content-between align-items-baseline">
+            <span class="col-12 col-sm-3 form-group form-control">{{bag.name}}</span>
+            <span class="col-12 col-sm-2 form-group form-control">{{bag.capacity}} {{'order-details.litr' | translate}}</span>
+            <span class="col-12 col-sm-2 form-group form-control">{{bag.price}} {{'order-details.currency' | translate}}</span>
+            <div class="col-12 col-sm-2 form-group count">
+              <input formControlName="quantity{{bag.id}}"
+                     type="number"
+                     class="shadow-none form-control input"
+                     min="0"
+                     max="999"
+                    (click)="calculate()">
+            </div>
+            <span class="form-group sum"> {{bag.quantity*bag.price}} {{'order-details.currency' | translate}}</span>
+          </li>
+        </ul>
     </div>
     <div class="middle">
       <div class="middle-container">
@@ -94,10 +51,11 @@
             <label class="label m-0">{{'order-details.certificate-number' | translate}}</label>
             <input formControlName="certificate"
                    type="text"
-                   class="shadow-none form-control"
+                   class="shadow-none form-control input-border"
                    placeholder="xxxx-xxxx"
                    [unmask]="false"
-                   [imask]="{mask: certificateMask}">
+                   [imask]="{mask: certificateMask}"
+                   >
           </div>
           <div class="form-group">
             <button *ngIf="!addCert" type="button" class="primary-global-button btn"
@@ -118,7 +76,7 @@
         </div>
         <div class="addCertificate" formArrayName="additionalCertificates"
           *ngFor="let certificate of additionalCertificates.controls; let i=index;">
-          <input type="text" class="shadow-none form-control col-12 col-sm-8 my-1" type="text" placeholder="xxxx-xxxx"
+          <input type="text" class="shadow-none form-control col-12 col-sm-8 my-1 input-border" type="text" placeholder="xxxx-xxxx"
             [unmask]="false" [imask]="{mask: certificateMask}" [formControlName]="i">
           <div class="form-group">
             <button *ngIf="!addCert" type="button" class="primary-global-button btn"
@@ -140,12 +98,12 @@
           <h5>{{'order-details.bonus-need' | translate}}</h5>
           <p>{{'order-details.bonus-left' | translate}} {{points}} {{'order-details.currency' | translate}} </p>
           <div class="form-check custom-control custom-radio">
-            <input formControlName="bonus" id="customRadio1" value="yes" class="form-check-input custom-control-input"
+            <input formControlName="bonus" id="customRadio1" value="yes" class="form-check-input custom-control-input input-border"
               type="radio" (click)="calculatePoints()">
             <label class="form-check-label custom-control-label" for="customRadio1">{{'order-details.yes' | translate}}</label>
           </div>
           <div class="form-check custom-control custom-radio">
-            <input formControlName="bonus" id="customRadio2" value="no" class="form-check-input custom-control-input"
+            <input formControlName="bonus" id="customRadio2" value="no" class="form-check-input custom-control-input input-border"
               type="radio" (click)="resetPoints()">
             <label class="form-check-label custom-control-label" for="customRadio2">{{'order-details.no' | translate}}</label>
           </div>
@@ -164,8 +122,9 @@
       </div>
       <div class="form-check custom-control custom-radio">
         <input formControlName="shop" id="customRadio4" value="no" class="form-check-input custom-control-input"
-          type="radio">
+          type="radio" (click)="clearOrderValues()">
         <label class="form-check-label custom-control-label" for="customRadio4">{{'order-details.no' | translate}}</label>
+
       </div>
       <div class="form-group shop_submit">
         <div class="bottom-text">
@@ -175,7 +134,7 @@
         <div formArrayName="additionalOrders" *ngFor="let order of additionalOrders.controls; let i=index"
           class="form-group">
           <label class="label m-0">{{'order-details.enter-order-num' | translate}}</label>
-          <input [formControlName]="i" class="shadow-none form-control border-input p-2" type="text" placeholder="xxxxxxxxxx">
+          <input [formControlName]="i" class="shadow-none form-control border-input p-2" type="text" placeholder="xxxxxxxxxx" [readonly]="shop.value === 'no'">
         </div>
         <button *ngIf="additionalOrders.controls.length < 5" class="addOrderBtn" (click)="addOrder()">{{'order-details.additional-orders' | translate}}</button>
       </div>
@@ -194,4 +153,8 @@
       </div>
     </div>
   </form>
+  <ng-template #spinner>
+     <app-spinner></app-spinner>
+  </ng-template>
+ 
 </div>

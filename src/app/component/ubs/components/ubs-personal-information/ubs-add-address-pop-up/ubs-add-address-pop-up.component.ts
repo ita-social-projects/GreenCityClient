@@ -1,6 +1,7 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Address } from '../../../models/ubs.interface';
 
 @Component({
   selector: 'app-ubs-add-address-pop-up',
@@ -8,6 +9,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
   styleUrls: ['./ubs-add-address-pop-up.component.scss']
 })
 export class UBSAddAddressPopUpComponent implements OnInit {
+  address: Address;
   addAddressForm: FormGroup;
   region = '';
   districtDisabled = true;
@@ -19,7 +21,10 @@ export class UBSAddAddressPopUpComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<UBSAddAddressPopUpComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: {
+      edit: boolean;
+      address: Address;
+    }) { }
 
   get district() {
     return this.addAddressForm.get('district');
@@ -29,31 +34,35 @@ export class UBSAddAddressPopUpComponent implements OnInit {
     return this.addAddressForm.get('street');
   }
 
+  get house() {
+    return this.addAddressForm.get('house');
+  }
+
   get houseCorpus() {
     return this.addAddressForm.get('houseCorpus');
   }
 
   ngOnInit() {
     this.addAddressForm = this.fb.group({
-      city: ['Київ', Validators.required],
-      district: ['', Validators.required],
-      street: ['', [
+      city: [this.data.edit ? this.data.address.city : 'Київ', Validators.required],
+      district: [this.data.edit ? this.data.address.district : '', Validators.required],
+      street: [this.data.edit ? this.data.address.street : '', [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(40),
         Validators.pattern(this.streetPattern)
       ]],
-      houseNumber: ['', Validators.required],
-      houseCorpus: ['', [
+      houseNumber: [this.data.edit ? this.data.address.houseNumber : '', [Validators.required]],
+      houseCorpus: [this.data.edit ? this.data.address.houseCorpus : '', [
         Validators.maxLength(2),
         Validators.pattern(this.houseCorpusPattern)
       ]],
-      entranceNumber: ['', [
+      entranceNumber: [this.data.edit ? this.data.address.entranceNumber : '', [
         Validators.maxLength(2),
         Validators.pattern(this.entranceNumberPattern)
       ]],
-      longitude: ['', Validators.required],
-      latitude: ['', Validators.required]
+      longitude: [this.data.edit ? this.data.address.longitude : '', Validators.required],
+      latitude: [this.data.edit ? this.data.address.latitude : '', Validators.required]
     });
   }
 

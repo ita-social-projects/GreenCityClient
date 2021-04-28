@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="bags.length && personalData">
   <div class="header">
     <h3>{{'submit-order.your-order' | translate}}</h3>
     <table aria-label="order table">
@@ -10,35 +10,35 @@
         <th>{{'submit-order.sum' | translate}}</th>
       </thead>
       <tbody>
-      <tr [class.d-none]="bill.amountUbs === 0">
-        <td class="firstRow">{{ ubsBag }}</td>
-        <td class="firstRow"> {{ bagSizeUbs }} {{'submit-order.litr' | translate}}</td>
-        <td class="firstRow">{{ ubsBagPrice }} {{'submit-order.currency' | translate}}</td>
-        <td class="firstRow">{{ bill.amountUbs }}</td>
-        <td class="firstRow">{{ bill.sumUbs }} </td>
-      </tr>
-      <tr [class.d-none]="bill.amountClothesXL === 0">
-        <td>{{ clothesBagXL }}</td>
-        <td>{{ bagSizeClothesXL }} {{'submit-order.litr' | translate}}</td>
-        <td>{{ clothesBagXLPrice }} {{'submit-order.currency' | translate}}</td>
-        <td>{{ bill.amountClothesXL }}</td>
-        <td>{{ bill.sumClothesXL }}</td>
-      </tr>
-      <tr [class.d-none]="bill.amountClothesM === 0">
-        <td class="lastRow">{{ clothesBagM }}</td>
-        <td class="lastRow">{{ bagSizeClothesM }} {{'submit-order.litr' | translate}}</td>
-        <td class="lastRow">{{ clothesBagMPrice }} {{'submit-order.currency' | translate}}</td>
-        <td class="lastRow">{{ bill.amountClothesM }}</td>
-        <td class="lastRow">{{ bill.sumClothesM }}</td>
-      </tr>
+        <tr *ngFor="let bag of bags">
+          <ng-container *ngIf="bag.quantity">
+            <td class="firstRow">{{ bag.name }}</td>
+            <td class="firstRow"> {{ bag.capacity }} {{'submit-order.litr' | translate}}</td>
+            <td class="firstRow">{{ bag.price }} {{'submit-order.currency' | translate}}</td>
+            <td class="firstRow">{{ bag.quantity }}</td>
+            <td class="firstRow">{{ bag.price* bag.quantity}} </td>
+          </ng-container>
+        </tr>
       </tbody>
     </table>
     <div class="showTotal">
       <div class="totalInfo">
-        <p><span>{{'submit-order.order-amount' | translate}}</span><span><b>{{ bill.total }} {{'submit-order.currency' | translate}}</b></span></p>
-        <p [class.d-none]="bill.certificatesSum === 0"><span>{{'submit-order.certificate' | translate}} </span><span><small>{{ bill.certificatesSum }}</small></span></p>
-        <p [class.d-none]="bill.pointsSum === 0"><span>{{'submit-order.bonuses' | translate}} </span><span><small>{{ bill.pointsSum }}</small></span></p>
-        <p><span>{{'submit-order.amount-due' | translate}} </span><span><b>{{ bill.finalSum }} {{'submit-order.currency' | translate}}</b></span></p>
+        <p>
+          <span>{{'submit-order.order-amount' | translate}}</span>
+          <span><strong>{{ orderDetails.total }} {{'submit-order.currency' | translate}}</strong></span>
+        </p>
+        <p [class.d-none]="orderDetails.certificatesSum === 0">
+          <span>{{'submit-order.certificate' | translate}}</span>
+          <span><small>{{ orderDetails.certificatesSum }} </small></span>
+        </p>
+        <p [class.d-none]="orderDetails.pointsSum === 0">
+          <span>{{'submit-order.bonuses' | translate}} </span>
+          <span><small>{{ orderDetails.pointsSum }}</small></span>
+        </p>
+        <p>
+          <span>{{'submit-order.amount-due' | translate}} </span>
+          <span><strong>{{ orderDetails.finalSum }} {{'submit-order.currency' | translate}}</strong></span>
+        </p>
         <div *ngIf="displayMes" class="validMes">
           <small class="text-danger">{{'submit-order.min-sum' | translate}}</small>
         </div>
@@ -46,27 +46,28 @@
     </div>
   </div>
   <div class="main">
-  <div>
-    <h4>{{'submit-order.eco-shop' | translate}}</h4>
-    <p>{{'submit-order.order-number' | translate}}<span *ngFor="let order of additionalOrders">{{ order }} </span></p>
-    <p><span>{{ orderComment }}</span></p>
-  </div>
-  <div class="personalData">
+    <div>
+      <h4>{{'submit-order.eco-shop' | translate}}</h4>
+      <p>{{'submit-order.order-number' | translate}} <span *ngFor="let order of orderDetails.additionalOrders ">{{ order }} </span>
+      </p>
+      <p><span>{{ orderDetails.orderComment }}</span></p>
+    </div>
+    <div class="personalData">
       <div class="data">
         <h4>{{'submit-order.personal-data' | translate}}</h4>
         <ul>
-          <li>{{ lastName }} {{ firstName }}</li>
-          <li>{{ email }}</li>
-          <li>0{{ mobile }}</li>
+          <li>{{ personalData.lastName }} {{ personalData.firstName }}</li>
+          <li>{{ personalData.email }}</li>
+          <li>0{{ personalData.phoneNumber }}</li>
         </ul>
       </div>
       <div class="data">
         <h4>{{'submit-order.address' | translate}}</h4>
         <ul>
-          <li>{{ city }}</li>
-          <li>{{ district }}</li>
-          <li><span>{{'submit-order.str' | translate}}{{ street }}, {{ houseNumber }}</span>, {{ houseCorpus }}</li>
-          <li><span>{{ comment }}</span></li>
+          <li>{{ personalData.city }}</li>
+          <li>{{ personalData.district }}</li>
+          <li><span>{{'submit-order.str' | translate}}{{ personalData.street }}, {{ personalData.houseNumber }}</span>, {{ personalData.houseCorpus }}</li>
+          <li><span>{{ personalData.addressComment }}</span></li>
         </ul>
       </div>
     </div>
