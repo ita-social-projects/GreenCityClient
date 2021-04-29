@@ -10,7 +10,7 @@ import { CommentsDTO, SocketAmountLikes } from '../../models/comments-model';
   styleUrls: ['./like-comment.component.scss']
 })
 export class LikeCommentComponent implements OnInit {
-  @Input() public comment: CommentsDTO; ///////////////////////////////////////
+  @Input() private comment: CommentsDTO;
   @Output() public likesCounter = new EventEmitter();
   @ViewChild('like', { static: true }) like: ElementRef;
   public likeState: boolean;
@@ -63,10 +63,10 @@ export class LikeCommentComponent implements OnInit {
   public changeLkeBtn(msg: SocketAmountLikes): void {
     if (msg.liked) {
       this.likeState = true;
-      this.like.nativeElement.srcset = this.commentsImages['liked'];
+      this.like.nativeElement.srcset = this.commentsImages.liked;
     } else {
       this.likeState = false;
-      this.like.nativeElement.srcset = this.commentsImages['like'];
-    };
+      this.like.nativeElement.srcset = this.commentsImages.like;
+    }
   }
 }
