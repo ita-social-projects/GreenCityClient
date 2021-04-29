@@ -1,17 +1,17 @@
-import {Injectable} from '@angular/core';
-import {MapBounds} from '../../model/map/map-bounds';
-import {CategoryDto} from '../../model/category.model';
-import {Specification} from '../../model/specification/specification';
-import {LatLngBounds} from '@agm/core';
-import {FilterDiscountDtoModel} from '../../model/filtering/filter-discount-dto.model';
-import {FilterPlaceDtoModel} from '../../model/filtering/filter-place-dto.model';
-import {PlaceStatus} from '../../model/placeStatus.model';
-import {DatePipe} from '@angular/common';
-import {FilterDistanceDto} from '../../model/filtering/filter-distance-dto.model';
-import {Location} from '../../component/map/models/location.model';
+import { Injectable } from '@angular/core';
+import { MapBounds } from '../../model/map/map-bounds';
+import { CategoryDto } from '../../model/category.model';
+import { Specification } from '../../model/specification/specification';
+import { LatLngBounds } from '@agm/core';
+import { FilterDiscountDtoModel } from '../../model/filtering/filter-discount-dto.model';
+import { FilterPlaceDtoModel } from '../../model/filtering/filter-place-dto.model';
+import { PlaceStatus } from '../../model/placeStatus.model';
+import { DatePipe } from '@angular/common';
+import { FilterDistanceDto } from '../../model/filtering/filter-distance-dto.model';
+import { Location } from '../../component/map/models/location.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FilterPlaceService {
   isCleared = true;
@@ -25,8 +25,7 @@ export class FilterPlaceService {
   distance: number;
   userMarkerLocation: Location = new Location();
 
-  constructor(private datePipe: DatePipe) {
-  }
+  constructor(private datePipe: DatePipe) {}
 
   setCategoryName(name: string) {
     this.category = new CategoryDto();
@@ -71,7 +70,7 @@ export class FilterPlaceService {
   }
 
   setDistance(distance: number) {
-    distance > 0 ? this.distance = distance : this.distance = null;
+    distance > 0 ? (this.distance = distance) : (this.distance = null);
   }
 
   setUserMarkerLocation(userMarkerLocation: Location) {

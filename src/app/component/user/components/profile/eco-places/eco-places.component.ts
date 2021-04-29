@@ -6,20 +6,19 @@ import { ProfileService } from '@global-user/components/profile/profile-service/
 @Component({
   selector: 'app-eco-places',
   templateUrl: './eco-places.component.html',
-  styleUrls: ['./eco-places.component.scss']
+  styleUrls: ['./eco-places.component.scss'],
 })
 export class EcoPlacesComponent implements OnInit {
   public ecoPlaces: EcoPlaces[];
   public subscription: Subscription;
 
-  constructor(private profileService: ProfileService) { }
+  constructor(private profileService: ProfileService) {}
 
   ngOnInit() {
     this.getEcoPlaces();
   }
 
   public getEcoPlaces(): void {
-    this.subscription = this.profileService.getEcoPlaces()
-      .subscribe((success: EcoPlaces[]) => this.ecoPlaces = success);
+    this.subscription = this.profileService.getEcoPlaces().subscribe((success: EcoPlaces[]) => (this.ecoPlaces = success));
   }
 }

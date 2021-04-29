@@ -19,18 +19,15 @@ describe('NewsListComponent', () => {
   let fixture: ComponentFixture<NewsListComponent>;
 
   let ecoNewsServiceMock: EcoNewsService;
-  ecoNewsServiceMock = jasmine.createSpyObj(
-    'EcoNewsService', [
-    'getAllPresentTags',
-    'getNewsListByTags',
-    'getEcoNewsListByPage'
-  ]);
-  ecoNewsServiceMock.getAllPresentTags = () => of([
-    {id: 1, name: 'News'},
-    {id: 2, name: 'Ads'},
-    {id: 3, name: 'Events'},
-    {id: 4, name: 'Initiatives'},
-    {id: 5, name: 'Education'}]);
+  ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getAllPresentTags', 'getNewsListByTags', 'getEcoNewsListByPage']);
+  ecoNewsServiceMock.getAllPresentTags = () =>
+    of([
+      { id: 1, name: 'News' },
+      { id: 2, name: 'Ads' },
+      { id: 3, name: 'Events' },
+      { id: 4, name: 'Initiatives' },
+      { id: 5, name: 'Education' },
+    ]);
   ecoNewsServiceMock.getNewsListByTags = () => new Observable();
   ecoNewsServiceMock.getEcoNewsListByPage = () => new Observable();
 
@@ -52,22 +49,15 @@ describe('NewsListComponent', () => {
         ChangeViewButtonComponent,
         NewsListGalleryViewComponent,
         NewsListListViewComponent,
-        RemainingCountComponent
-       ],
-      imports: [
-        TranslateModule.forRoot(),
-        RouterTestingModule,
-        SharedModule,
-        InfiniteScrollModule,
-        HttpClientTestingModule
+        RemainingCountComponent,
       ],
+      imports: [TranslateModule.forRoot(), RouterTestingModule, SharedModule, InfiniteScrollModule, HttpClientTestingModule],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: EcoNewsService, useValue: ecoNewsServiceMock },
-        { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock }
-      ]
-    })
-    .compileComponents();
+        { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock },
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -114,16 +104,17 @@ describe('NewsListComponent', () => {
     const listMock = {
       totalElements: 25,
       page: [
-        { id: 11,
+        {
+          id: 11,
           imagePath: 'somepath',
           title: 'somestring',
           text: 'sometext',
           author: { id: 125, name: 'somename' },
           tags: [{ id: 77, name: 'stringname' }],
-          creationDate: 'somedate'
-        }
+          creationDate: 'somedate',
+        },
       ],
-      currentPage: 1
+      currentPage: 1,
     };
     component.scroll = false;
     // @ts-ignore
@@ -142,8 +133,7 @@ describe('NewsListComponent', () => {
   it('should check if user logged in', () => {
     let userID = null;
     // @ts-ignore
-    component.userOwnAuthService.isLoginUserSubject
-    .subscribe(id => userID = id);
+    component.userOwnAuthService.isLoginUserSubject.subscribe((id) => (userID = id));
     expect(userID).toBeDefined();
   });
 
@@ -165,7 +155,7 @@ describe('NewsListComponent', () => {
   });
 
   it('should get value from sessionStorage', () => {
-    const store = {viewGallery : 'true'};
+    const store = { viewGallery: 'true' };
     const spy = spyOn(sessionStorage, 'getItem').and.callFake((key) => {
       return store[key];
     });

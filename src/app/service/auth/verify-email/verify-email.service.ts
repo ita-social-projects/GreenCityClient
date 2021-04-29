@@ -3,11 +3,10 @@ import { Injectable } from '@angular/core';
 import { verifyEmailLink } from 'src/app/links';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class VerifyEmailService {
-
-  constructor( private http: HttpClient ) { }
+  constructor(private http: HttpClient) {}
 
   // check if the token is still valid
   public onCheckToken(token: string, userId: string) {

@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 @Component({
   selector: 'app-subscribe',
   templateUrl: './subscribe.component.html',
-  styleUrls: ['./subscribe.component.scss']
+  styleUrls: ['./subscribe.component.scss'],
 })
 export class SubscribeComponent implements OnInit {
   readonly qrCode = 'assets/img/qr-code.png';
@@ -17,21 +17,17 @@ export class SubscribeComponent implements OnInit {
   emailValid: boolean;
   email: string;
 
-  constructor(private subscriptionService: SubscriptionService) { }
+  constructor(private subscriptionService: SubscriptionService) {}
 
   ngOnInit() {
     this.emailTouched = false;
-    this.subscriptionService.subscriptionError.pipe(
-      catchError(() => of(''))
-    ).subscribe(
-      (subscriptionError: string) => {
-        if (subscriptionError !== undefined && subscriptionError.length > 0) {
-          this.subscriptionError = subscriptionError;
-        } else {
-          this.subscriptionError = '';
-        }
+    this.subscriptionService.subscriptionError.pipe(catchError(() => of(''))).subscribe((subscriptionError: string) => {
+      if (subscriptionError !== undefined && subscriptionError.length > 0) {
+        this.subscriptionError = subscriptionError;
+      } else {
+        this.subscriptionError = '';
       }
-    );
+    });
   }
 
   validateEmail() {

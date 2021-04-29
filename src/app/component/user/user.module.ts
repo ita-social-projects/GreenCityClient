@@ -72,22 +72,16 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { HabitProgressComponent } from './components/habit/add-new-habit/habit-progress/habit-progress.component';
 import { HabitInviteFriendsComponent } from './components/habit/add-new-habit/habit-invite-friends/habit-invite-friends.component';
 import { HabitDurationComponent } from './components/habit/add-new-habit/habit-duration/habit-duration.component';
-import {
-  HabitEditShoppingListComponent
- } from './components/habit/add-new-habit/habit-edit-shopping-list/habit-edit-shopping-list.component';
+import { HabitEditShoppingListComponent } from './components/habit/add-new-habit/habit-edit-shopping-list/habit-edit-shopping-list.component';
 import { HabitCalendarComponent } from './components/habit/add-new-habit/habit-calendar/habit-calendar.component';
 import { AddNewHabitComponent } from './components/habit/add-new-habit/add-new-habit.component';
 import { GradientDirective } from './components/habit/add-new-habit/habit-duration/gradient.directive';
 import { FriendDashboardComponent } from './components/profile/users-friends/friend-dashboard/friend-dashboard.component';
 import { AllFriendsComponent } from './components/profile/users-friends/friend-dashboard/all-friends/all-friends.component';
-import {
-  RecommendedFriendsComponent
- } from './components/profile/users-friends/friend-dashboard/recommended-friends/recommended-friends.component';
+import { RecommendedFriendsComponent } from './components/profile/users-friends/friend-dashboard/recommended-friends/recommended-friends.component';
 import { FriendItemComponent } from './components/profile/users-friends/friend-dashboard/friend-item/friend-item.component';
 import { FriendRequestsComponent } from './components/profile/users-friends/friend-dashboard/friend-requests/friend-requests.component';
-import {
-  RequestItemComponent
- } from './components/profile/users-friends/friend-dashboard/friend-requests/request-item/request-item.component';
+import { RequestItemComponent } from './components/profile/users-friends/friend-dashboard/friend-requests/request-item/request-item.component';
 
 @NgModule({
   declarations: [
@@ -157,7 +151,7 @@ import {
     RecommendedFriendsComponent,
     FriendItemComponent,
     FriendRequestsComponent,
-    RequestItemComponent
+    RequestItemComponent,
   ],
   imports: [
     UserRoutingModule,
@@ -171,22 +165,20 @@ import {
     HttpClientModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4',
-      libraries: ['places']
+      libraries: ['places'],
     }),
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [HttpClient]
+        useFactory: createTranslateLoader,
+        deps: [HttpClient],
       },
-      isolate: true
+      isolate: true,
     }),
     InfiniteScrollModule,
-    UserSharedModule
+    UserSharedModule,
   ],
-  providers: [
-    EditProfileFormBuilder
-  ]
+  providers: [EditProfileFormBuilder],
 })
 export class UserModule {}
 

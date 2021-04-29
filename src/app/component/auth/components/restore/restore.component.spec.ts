@@ -27,18 +27,10 @@ describe('RestoreComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RestoreComponent ],
-      imports: [
-        TranslateModule.forRoot(),
-        FormsModule,
-        MatDialogModule,
-        HttpClientTestingModule
-      ],
-      providers: [
-        { provide: MatDialogRef, useValue: matDialogMock },
-      ]
-    })
-    .compileComponents();
+      declarations: [RestoreComponent],
+      imports: [TranslateModule.forRoot(), FormsModule, MatDialogModule, HttpClientTestingModule],
+      providers: [{ provide: MatDialogRef, useValue: matDialogMock }],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

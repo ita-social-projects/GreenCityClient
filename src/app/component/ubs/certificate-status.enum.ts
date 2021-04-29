@@ -1,5 +1,5 @@
 export enum CertificateStatus {
-    ACTIVE = 'ACTIVE',
-    NEW = 'NEW',
-    USED = 'USED'
+  ACTIVE = 'ACTIVE',
+  NEW = 'NEW',
+  USED = 'USED',
 }

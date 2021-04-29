@@ -22,26 +22,22 @@ describe('UsersFriendsComponent', () => {
       currentPage: 1,
       page: [],
       totalElements: 6,
-      totalPages: 1
-    }};
+      totalPages: 1,
+    },
+  };
   profileServiceMock = jasmine.createSpyObj('ProfileService', ['getUserFriends']);
-  profileServiceMock.getUserFriends = () => (of(userFriends));
+  profileServiceMock.getUserFriends = () => of(userFriends);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [ UsersFriendsComponent ],
-      imports: [
-        TranslateModule.forRoot(),
-        HttpClientTestingModule,
-        RouterTestingModule.withRoutes([])
-      ],
+      declarations: [UsersFriendsComponent],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule.withRoutes([])],
       providers: [
-        {provide: LocalStorageService, useValue: localStorageServiceMock},
-        {provide: ProfileService, useValue: profileServiceMock}
-      ]
-    })
-    .compileComponents();
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
+        { provide: ProfileService, useValue: profileServiceMock },
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -54,7 +50,7 @@ describe('UsersFriendsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it ('should get userId', () => {
+  it('should get userId', () => {
     expect(localStorageServiceMock.userIdBehaviourSubject.value).toBe(1111);
   });
 
@@ -62,7 +58,7 @@ describe('UsersFriendsComponent', () => {
     const initUserSpy = spyOn(component as any, 'initUser');
     component.ngOnInit();
     expect(initUserSpy).toHaveBeenCalledTimes(1);
-    });
+  });
 
   it('should get a user\'s', () => {
     const showUsersFriendsSpy = spyOn(component as any, 'showUsersFriends');
@@ -71,9 +67,9 @@ describe('UsersFriendsComponent', () => {
   });
 
   it('should set message to error message', () => {
-      const error = 'Error message';
-      spyOn(profileServiceMock, 'getUserFriends').and.returnValue(throwError(error));
-      component.showUsersFriends();
-      expect(component.noFriends).toBeFalsy();
-    });
+    const error = 'Error message';
+    spyOn(profileServiceMock, 'getUserFriends').and.returnValue(throwError(error));
+    component.showUsersFriends();
+    expect(component.noFriends).toBeFalsy();
+  });
 });

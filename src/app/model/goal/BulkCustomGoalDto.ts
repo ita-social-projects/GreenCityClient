@@ -1,4 +1,4 @@
-import {CustomGoalResponseDto} from './CustomGoalResponseDto';
+import { CustomGoalResponseDto } from './CustomGoalResponseDto';
 
 export class BulkCustomGoalDto {
   customGoals: CustomGoalResponseDto;

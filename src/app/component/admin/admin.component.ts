@@ -4,15 +4,12 @@ import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-admin',
-  templateUrl: './admin.component.html'
+  templateUrl: './admin.component.html',
 })
 export class AdminComponent implements OnInit {
   userRole: string;
 
-  constructor(
-    private http: HttpClient,
-    private jwtService: JwtService) {
-  }
+  constructor(private http: HttpClient, private jwtService: JwtService) {}
 
   ngOnInit() {
     this.userRole = this.jwtService.getUserRole();

@@ -19,7 +19,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 @Component({
   selector: 'app-create-edit-news',
   templateUrl: './create-edit-news.component.html',
-  styleUrls: ['./create-edit-news.component.scss']
+  styleUrls: ['./create-edit-news.component.scss'],
 })
 export class CreateEditNewsComponent extends FormBaseComponent implements OnInit, OnDestroy {
   public isPosting = false;
@@ -52,23 +52,23 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       popupSubtitle: 'homepage.eco-news.news-popup.subtitle',
       popupConfirm: 'homepage.eco-news.news-popup.confirm',
       popupCancel: 'homepage.eco-news.news-popup.cancel',
-    }
+    },
   };
 
   public onSubmit(): void {}
 
-  constructor(public router: Router,
-              public dialog: MatDialog,
-              private createEditNewsFormBuilder: CreateEditNewsFormBuilder,
-              private createEcoNewsService: CreateEcoNewsService,
-              private ecoNewsService: EcoNewsService,
-              private route: ActivatedRoute,
-              @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface },
-              private snackBar: MatSnackBarComponent,
-              private localStorageService: LocalStorageService) {
-
+  constructor(
+    public router: Router,
+    public dialog: MatDialog,
+    private createEditNewsFormBuilder: CreateEditNewsFormBuilder,
+    private createEcoNewsService: CreateEcoNewsService,
+    private ecoNewsService: EcoNewsService,
+    private route: ActivatedRoute,
+    @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface },
+    private snackBar: MatSnackBarComponent,
+    private localStorageService: LocalStorageService
+  ) {
     super(router, dialog);
-
   }
 
   ngOnInit() {
@@ -96,27 +96,23 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
   public onValueChanges(): void {
     this.formChangeSub = this.form.valueChanges.subscribe(() => {
-      this.isFormInvalid = !this.form.valid ||
-                            this.isArrayEmpty ||
-                            !this.isLinkOrEmpty ||
-                            this.isImageValid();
+      this.isFormInvalid = !this.form.valid || this.isArrayEmpty || !this.isLinkOrEmpty || this.isImageValid();
     });
   }
 
   private setLocalizedTags() {
-    this.localStorageService.languageBehaviourSubject
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe(() => this.getAllTags());
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe(() => this.getAllTags());
   }
 
   private getAllTags() {
-    this.ecoNewsService.getAllPresentTags()
+    this.ecoNewsService
+      .getAllPresentTags()
       .pipe(take(1))
       .subscribe((tagsArray: Array<NewsTagInterface>) => {
-        this.filters = tagsArray.map(tag => {
+        this.filters = tagsArray.map((tag) => {
           return {
             name: tag.name,
-            isActive: false
+            isActive: false,
           };
         });
       });
@@ -166,9 +162,11 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   public autoResize(event): void {
-    const checkTextAreaHeight = event.target.scrollHeight > this.textAreasHeight.minTextAreaScrollHeight
-      && event.target.scrollHeight < this.textAreasHeight.maxTextAreaScrollHeight;
-    const maxHeight = checkTextAreaHeight ? this.textAreasHeight.maxTextAreaHeight
+    const checkTextAreaHeight =
+      event.target.scrollHeight > this.textAreasHeight.minTextAreaScrollHeight &&
+      event.target.scrollHeight < this.textAreasHeight.maxTextAreaScrollHeight;
+    const maxHeight = checkTextAreaHeight
+      ? this.textAreasHeight.maxTextAreaHeight
       : event.target.scrollHeight < this.textAreasHeight.minTextAreaScrollHeight;
     const minHeight = checkTextAreaHeight ? this.textAreasHeight.minTextAreaHeight : `${event.target.scrollHeight}px`;
     event.target.style.height = checkTextAreaHeight ? maxHeight : minHeight;
@@ -205,10 +203,11 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public editNews(): void {
     const dataToEdit = {
       ...this.form.value,
-      id: this.newsId
+      id: this.newsId,
     };
 
-    this.createEcoNewsService.editNews(dataToEdit)
+    this.createEcoNewsService
+      .editNews(dataToEdit)
       .pipe(
         catchError((error) => {
           this.snackBar.openSnackBar('Something went wrong. Please reload page or try again later.');
@@ -221,9 +220,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public fetchNewsItemToEdit(): void {
     this.newsItemSubscription = this.ecoNewsService
       .getEcoNewsById(this.newsId)
-      .pipe(
-        takeUntil(this.destroyed$)
-      )
+      .pipe(takeUntil(this.destroyed$))
       .subscribe((item: EcoNewsModel) => {
         this.form = this.createEditNewsFormBuilder.getEditForm(item);
         this.setActiveFilters(item);
@@ -237,19 +234,11 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       this.isArrayEmpty = false;
 
       itemToUpdate.tags.forEach((tag: NewsTagInterface) => {
-
         const index = this.filters.findIndex((filterObj: FilterModel) => filterObj.name === tag.name);
 
-        this.filters = [
-          ...this.filters.slice(0, index),
-          { name: tag.name, isActive: true },
-          ...this.filters.slice(index + 1)
-        ];
-
+        this.filters = [...this.filters.slice(0, index), { name: tag.name, isActive: true }, ...this.filters.slice(index + 1)];
       });
-
     }
-
   }
 
   tags(): FormArray {
@@ -272,17 +261,16 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     if (filterObj.isActive && tagsArray.length === 1) {
       this.isArrayEmpty = true;
     }
-    const index = tagsArray.findIndex(tag => tag === filterObj.name);
+    const index = tagsArray.findIndex((tag) => tag === filterObj.name);
     this.tags().removeAt(index);
 
     this.toggleIsActive(filterObj, false);
-
   }
 
   public filtersValidation(filterObj: FilterModel): void {
     if (this.form.value.tags.length > 3) {
       this.isFilterValidation = true;
-      setTimeout(() => this.isFilterValidation = false, 3000);
+      setTimeout(() => (this.isFilterValidation = false), 3000);
       this.tags().removeAt(3);
       this.toggleIsActive(filterObj, false);
     }
@@ -291,11 +279,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public toggleIsActive(filterObj: FilterModel, newValue: boolean): void {
     const index = this.filters.findIndex((item: FilterModel) => item.name === filterObj.name);
 
-    this.filters = [
-      ...this.filters.slice(0, index),
-      { name: filterObj.name, isActive: newValue },
-      ...this.filters.slice(index + 1)
-    ];
+    this.filters = [...this.filters.slice(0, index), { name: filterObj.name, isActive: newValue }, ...this.filters.slice(index + 1)];
   }
 
   public goToPreview(): void {

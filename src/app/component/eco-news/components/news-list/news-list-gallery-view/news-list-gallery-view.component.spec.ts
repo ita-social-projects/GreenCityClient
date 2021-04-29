@@ -12,18 +12,17 @@ describe('NewsListGalleryViewComponent', () => {
     title: 'string',
     text: 'string',
     author: {
-        id: 1,
-        name: 'string'
+      id: 1,
+      name: 'string',
     },
-    tags: [{id: 1, name: 'test'}],
+    tags: [{ id: 1, name: 'test' }],
     creationDate: '11',
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewsListGalleryViewComponent ]
-    })
-    .compileComponents();
+      declarations: [NewsListGalleryViewComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

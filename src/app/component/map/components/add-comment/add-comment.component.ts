@@ -8,9 +8,8 @@ import { Estimate } from '../../../../model/estimate/estimate';
 @Component({
   selector: 'app-add-comment',
   templateUrl: './add-comment.component.html',
-  styleUrls: ['./add-comment.component.scss']
+  styleUrls: ['./add-comment.component.scss'],
 })
-
 export class AddCommentComponent {
   comment: Comment = new Comment();
   estimate: Estimate = new Estimate();
@@ -18,9 +17,11 @@ export class AddCommentComponent {
   photoLoadingStatus = false;
   placeId: number;
 
-  constructor(private commentService: CommentService,
-              private dialogRef: MatDialogRef<AddCommentComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(
+    private commentService: CommentService,
+    private dialogRef: MatDialogRef<AddCommentComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
     this.placeId = data.id;
     this.countOfPhotos = data.listOfPhoto;
   }

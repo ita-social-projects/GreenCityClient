@@ -1,13 +1,13 @@
-import {Component, OnInit, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {Chart} from 'chart.js';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Chart } from 'chart.js';
 import 'chartjs-plugin-labels';
-import {DayEstimation} from '../../../../../../../model/habit/DayEstimation';
-import {HabitStatisticsDto} from '../../../../../../../model/habit/HabitStatisticsDto';
+import { DayEstimation } from '../../../../../../../model/habit/DayEstimation';
+import { HabitStatisticsDto } from '../../../../../../../model/habit/HabitStatisticsDto';
 
 @Component({
   selector: 'app-habit-chart',
   templateUrl: './habit-chart.component.html',
-  styleUrls: ['./habit-chart.component.scss']
+  styleUrls: ['./habit-chart.component.scss'],
 })
 export class HabitChartComponent implements OnInit, OnChanges {
   @Input() caption: string;
@@ -37,8 +37,8 @@ export class HabitChartComponent implements OnInit, OnChanges {
       data: [],
       backgroundColor: [],
       borderColor: this.COLOR_WHITE,
-      borderWidth: 3
-    }
+      borderWidth: 3,
+    },
   ];
 
   ngOnInit() {
@@ -53,16 +53,16 @@ export class HabitChartComponent implements OnInit, OnChanges {
       type: 'doughnut',
       data: {
         datasets: this.habitChartDataset,
-        labels: this.outerLabels
+        labels: this.outerLabels,
       },
       options: {
         animation: {
-          duration: 0
+          duration: 0,
         },
         cutoutPercentage: 61,
         responsive: false,
         legend: {
-          display: false
+          display: false,
         },
         tooltips: {
           enabled: this.showTooltipOnHover,
@@ -74,11 +74,9 @@ export class HabitChartComponent implements OnInit, OnChanges {
             label(tooltipItem, data) {
               const tooltip = data.datasets[tooltipItem.datasetIndex];
               const value = data.labels[tooltipItem.index];
-              return value === 0
-                ? tooltip.label + ': ' + 0
-                : tooltip.label + ': ' + value;
-            }
-          }
+              return value === 0 ? tooltip.label + ': ' + 0 : tooltip.label + ': ' + value;
+            },
+          },
         },
         plugins: {
           labels: {
@@ -86,15 +84,15 @@ export class HabitChartComponent implements OnInit, OnChanges {
               return args.label >= 0 ? args.label : '';
             },
             fontSize: 16,
-            fontColor: this.COLOR_WHITE
-          }
-        }
-      }
+            fontColor: this.COLOR_WHITE,
+          },
+        },
+      },
     });
   }
 
   private fillSegments() {
-    this.values.forEach(el => {
+    this.values.forEach((el) => {
       this.habitChartDataset[0].data = [...this.habitChartDataset[0].data, 1];
       let color;
       switch (el.habitRate) {
@@ -112,10 +110,7 @@ export class HabitChartComponent implements OnInit, OnChanges {
           break;
       }
 
-      this.habitChartDataset[0].backgroundColor = [
-        ...this.habitChartDataset[0].backgroundColor,
-        color
-      ];
+      this.habitChartDataset[0].backgroundColor = [...this.habitChartDataset[0].backgroundColor, color];
 
       this.outerLabels = [...this.outerLabels, el.amountOfItems];
     });
@@ -129,8 +124,8 @@ export class HabitChartComponent implements OnInit, OnChanges {
           data: [],
           backgroundColor: [],
           borderColor: this.COLOR_WHITE,
-          borderWidth: 3
-        }
+          borderWidth: 3,
+        },
       ];
       this.outerLabels = [];
       this.outerHabitChart.update();
@@ -138,7 +133,7 @@ export class HabitChartComponent implements OnInit, OnChanges {
       this.fillSegments();
       this.outerHabitChart.data = {
         datasets: this.habitChartDataset,
-        labels: this.outerLabels
+        labels: this.outerLabels,
       };
 
       this.outerHabitChart.update();

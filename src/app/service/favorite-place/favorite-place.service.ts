@@ -6,14 +6,13 @@ import { favoritePlaceLink, placeLink } from '../../links';
 import { Place } from '../../component/map/models/place';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FavoritePlaceService {
   favoritePlaces: FavoritePlace[] = [];
   subject = new Subject();
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   findAllByUserEmail(): Observable<FavoritePlace[]> {
     return this.http.get<FavoritePlace[]>(favoritePlaceLink);
@@ -37,8 +36,7 @@ export class FavoritePlaceService {
 
   getFavoritePlaces() {
     this.findAllByUserEmail().subscribe((res) => {
-        this.favoritePlaces = res;
-      }
-    );
+      this.favoritePlaces = res;
+    });
   }
 }
