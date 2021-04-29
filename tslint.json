@@ -31,8 +31,7 @@
       true,
       {
         "limit": 140,
-        "ignore-pattern": "^import "
-
+        "ignore-pattern": "^import"
       }
     ],
     "member-access": false,
