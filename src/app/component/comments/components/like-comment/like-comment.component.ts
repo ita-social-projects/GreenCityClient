@@ -24,7 +24,7 @@ export class LikeCommentComponent implements OnInit {
   constructor( private commentsService: CommentsService,
                private socketService: SocketService,
                private localStorageService: LocalStorageService ) {}
-  
+
   ngOnInit() {
     this.likeState = this.comment.currentUserLiked;
     this.setStartingElements(this.likeState);
