@@ -36,28 +36,20 @@
         <div class="showTotal">
           <div class="totalInfo">
             <p class="total-content" [class.d-none]="showTotal === 0">
-              <span>{{ 'order-details.order-amount' | translate }}</span
-              ><span
-                ><b>{{ showTotal }} {{ 'order-details.currency' | translate }}</b></span
-              >
+              <span>{{ 'order-details.order-amount' | translate }}</span>
+              <span><strong>{{ showTotal }} {{ 'order-details.currency' | translate }}</strong></span>
             </p>
             <p class="total-content" *ngIf="displayCert">
-              <span>{{ 'order-details.sertificate' | translate }} </span
-              ><span
-                ><small>-{{ showCertificateUsed }} {{ 'order-details.currency' | translate }}</small></span
-              >
+              <span>{{ 'order-details.sertificate' | translate }} </span>
+              <span><small>-{{ showCertificateUsed }} {{ 'order-details.currency' | translate }}</small></span>
             </p>
             <p class="total-content" [class.d-none]="pointsUsed === 0">
-              <span>{{ 'order-details.bonuses' | translate }} </span
-              ><span
-                ><small>-{{ pointsUsed }} {{ 'order-details.currency' | translate }}</small></span
-              >
+              <span>{{ 'order-details.bonuses' | translate }} </span><span>
+                <small>-{{ pointsUsed }} {{ 'order-details.currency' | translate }}</small></span>
             </p>
             <p class="total-content">
-              <span>{{ 'order-details.amount-due' | translate }} </span
-              ><span
-                ><b>{{ finalSum }} {{ 'order-details.currency' | translate }}</b></span
-              >
+              <span>{{ 'order-details.amount-due' | translate }} </span><span>
+                <strong>{{ finalSum }} {{ 'order-details.currency' | translate }}</strong></span>
             </p>
             <div *ngIf="displayMes" class="validMes">
               <small class="text-danger">{{ 'order-details.min-sum' | translate }}</small>
