@@ -17,18 +17,10 @@ describe('FooterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        FooterComponent
-      ],
-      imports: [
-        RouterTestingModule,
-        TranslateModule.forRoot(),
-      ],
-      providers: [
-        { provide: LocalStorageService, useValue: localStorageServiceMock }
-      ]
-    })
-    .compileComponents();
+      declarations: [FooterComponent],
+      imports: [RouterTestingModule, TranslateModule.forRoot()],
+      providers: [{ provide: LocalStorageService, useValue: localStorageServiceMock }],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

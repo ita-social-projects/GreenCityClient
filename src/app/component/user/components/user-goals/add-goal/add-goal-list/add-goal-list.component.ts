@@ -5,20 +5,20 @@ import { GoalType } from './GoalType';
 @Component({
   selector: 'app-add-goal-list',
   templateUrl: './add-goal-list.component.html',
-  styleUrls: ['./add-goal-list.component.scss']
+  styleUrls: ['./add-goal-list.component.scss'],
 })
 export class AddGoalListComponent {
   @Input()
   goals: Goal[];
 
   addCustomGoal() {
-    const goal = {id: this.generateCustomGoalId(), status: 'CHECKED', text: 'Write your goal here', type: GoalType.CUSTOM};
+    const goal = { id: this.generateCustomGoalId(), status: 'CHECKED', text: 'Write your goal here', type: GoalType.CUSTOM };
     this.goals.push(goal);
   }
 
   generateCustomGoalId() {
     for (let i = 0; ; i++) {
-      if (this.goals.filter(goal => goal.type === GoalType.CUSTOM && goal.id === i).length === 0) {
+      if (this.goals.filter((goal) => goal.type === GoalType.CUSTOM && goal.id === i).length === 0) {
         return i;
       }
     }

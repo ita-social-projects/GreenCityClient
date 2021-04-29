@@ -1,21 +1,21 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {Place} from '../../component/map/models/place';
-import {PlaceInfo} from '../../model/place/place-info';
-import {UpdatePlaceStatus} from '../../model/place/update-place-status.model';
-import {PlacePageableDto} from '../../model/place/place-pageable-dto.model';
-import {mainLink, placeLink} from '../../links';
-import {NgFlashMessageService} from 'ng-flash-messages';
-import {PlaceAddDto} from '../../model/placeAddDto.model';
-import {FilterPlaceService} from '../filtering/filter-place.service';
-import {FilterPlaceDtoModel} from '../../model/filtering/filter-place-dto.model';
-import {AdminPlace} from '../../component/admin/models/admin-place.model';
-import {BulkUpdatePlaceStatus} from '../../model/place/bulk-update-place-status.model';
-import {PlaceUpdatedDto} from '../../component/admin/models/placeUpdatedDto.model';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Place } from '../../component/map/models/place';
+import { PlaceInfo } from '../../model/place/place-info';
+import { UpdatePlaceStatus } from '../../model/place/update-place-status.model';
+import { PlacePageableDto } from '../../model/place/place-pageable-dto.model';
+import { mainLink, placeLink } from '../../links';
+import { NgFlashMessageService } from 'ng-flash-messages';
+import { PlaceAddDto } from '../../model/placeAddDto.model';
+import { FilterPlaceService } from '../filtering/filter-place.service';
+import { FilterPlaceDtoModel } from '../../model/filtering/filter-place-dto.model';
+import { AdminPlace } from '../../component/admin/models/admin-place.model';
+import { BulkUpdatePlaceStatus } from '../../model/place/bulk-update-place-status.model';
+import { PlaceUpdatedDto } from '../../component/admin/models/placeUpdatedDto.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PlaceService {
   places: Place[];
@@ -25,14 +25,11 @@ export class PlaceService {
   private bulkUpdateStatus: BulkUpdatePlaceStatus;
   private ids: any;
 
-  constructor(private http: HttpClient,
-              private ngFlashMessageService: NgFlashMessageService,
-              private filterService: FilterPlaceService) {
-  }
+  constructor(private http: HttpClient, private ngFlashMessageService: NgFlashMessageService, private filterService: FilterPlaceService) {}
 
   getFilteredPlaces() {
     const filterDto = this.filterService.getFilters();
-    this.http.post<Place[]>(`${placeLink}filter`, filterDto).subscribe((res) => this.places = res);
+    this.http.post<Place[]>(`${placeLink}filter`, filterDto).subscribe((res) => (this.places = res));
   }
 
   save(place: PlaceAddDto) {
@@ -42,14 +39,15 @@ export class PlaceService {
           messages: ['Cafe ' + place.name + ' was added for approving.'],
           dismissible: true,
           timeout: 3000,
-          type: 'success'
+          type: 'success',
         });
-      }, error => {
+      },
+      (error) => {
         this.ngFlashMessageService.showFlashMessage({
           messages: ['Please try again'],
           dismissible: true,
           timeout: 3000,
-          type: 'danger'
+          type: 'danger',
         });
       }
     );
@@ -109,10 +107,16 @@ export class PlaceService {
     if (filterDto.searchReg === undefined) {
       filterDto.searchReg = '%%';
       // tslint:disable-next-line:max-line-length
-      return this.http.post<PlacePageableDto>(`${this.baseUrl}filter/predicate` + paginationSettings + `&sort=modifiedDate,desc`, filterDto);
+      return this.http.post<PlacePageableDto>(
+        `${this.baseUrl}filter/predicate` + paginationSettings + `&sort=modifiedDate,desc`,
+        filterDto
+      );
     } else {
       // tslint:disable-next-line:max-line-length
-      return this.http.post<PlacePageableDto>(`${this.baseUrl}filter/predicate` + paginationSettings + `&sort=modifiedDate,desc`, filterDto);
+      return this.http.post<PlacePageableDto>(
+        `${this.baseUrl}filter/predicate` + paginationSettings + `&sort=modifiedDate,desc`,
+        filterDto
+      );
     }
   }
 
@@ -127,17 +131,17 @@ export class PlaceService {
           messages: ['Cafe ' + updatedPlace.name + ' was updated.'],
           dismissible: true,
           timeout: 3000,
-          type: 'success'
+          type: 'success',
         });
-      }, error => {
+      },
+      (error) => {
         this.ngFlashMessageService.showFlashMessage({
           messages: ['Cafe ' + updatedPlace.name + ' was not updated.'],
           dismissible: true,
           timeout: 3000,
-          type: 'danger'
+          type: 'danger',
         });
       }
     );
   }
 }
-

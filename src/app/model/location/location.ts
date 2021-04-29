@@ -5,4 +5,3 @@ export class Location {
   lng: number;
   distanceFromUser: number;
 }
-

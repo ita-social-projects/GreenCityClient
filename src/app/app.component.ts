@@ -7,7 +7,7 @@ import { UiActionsService } from '@global-service/ui-actions/ui-actions.service'
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
   public toggle: boolean;
@@ -16,8 +16,8 @@ export class AppComponent implements OnInit {
     private languageService: LanguageService,
     private titleAndMetaTagsService: TitleAndMetaTagsService,
     private router: Router,
-    private uiActionsService: UiActionsService,
-  ) { }
+    private uiActionsService: UiActionsService
+  ) {}
 
   @ViewChild('focusFirst', { static: true }) focusFirst: ElementRef;
   @ViewChild('focusLast', { static: true }) focusLast: ElementRef;
@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
     this.languageService.setDefaultLanguage();
     this.navigateToStartingPositionOnPage();
     this.titleAndMetaTagsService.useTitleMetasData();
-    this.uiActionsService.stopScrollingSubject.subscribe(data => this.toggle = data);
+    this.uiActionsService.stopScrollingSubject.subscribe((data) => (this.toggle = data));
   }
 
   public setFocus(): void {
@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
   }
 
   private navigateToStartingPositionOnPage(): void {
-    this.router.events.subscribe(navigationEvent => {
+    this.router.events.subscribe((navigationEvent) => {
       if (navigationEvent instanceof NavigationEnd) {
         window.scroll(0, 0);
       }

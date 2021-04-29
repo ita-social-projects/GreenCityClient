@@ -1,21 +1,14 @@
-import {
-  Directive,
-  HostBinding,
-  HostListener,
-  Output,
-  EventEmitter
-} from '@angular/core';
+import { Directive, HostBinding, HostListener, Output, EventEmitter } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 
 @Directive({
-  selector: '[appDragAndDrop]'
+  selector: '[appDragAndDrop]',
 })
 export class DragAndDropDirective {
-
   @Output() files: EventEmitter<FileHandle[]> = new EventEmitter();
 
-  constructor(private sanitizer: DomSanitizer) { }
+  constructor(private sanitizer: DomSanitizer) {}
 
   @HostBinding('style.opacity') public opacity = '1';
 
@@ -47,17 +40,16 @@ export class DragAndDropDirective {
     }
 
     const reader: FileReader = new FileReader();
-    files.forEach(item => {
+    files.forEach((item) => {
       reader.readAsDataURL(item.file);
     });
     reader.onload = handleFile.bind(this);
 
     function handleFile(event): void {
       const binaryString = event.target.result;
-      files.forEach(item => {
+      files.forEach((item) => {
         item.url = binaryString;
       });
-     }
+    }
   }
 }
-

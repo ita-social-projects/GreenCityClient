@@ -13,18 +13,12 @@ describe('EditPhotoPopUpComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SharedModule,
-        UserSharedModule,
-        TranslateModule.forRoot(),
-        HttpClientTestingModule
-      ],
+      imports: [SharedModule, UserSharedModule, TranslateModule.forRoot(), HttpClientTestingModule],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: {} },
-      ]
-    })
-    .compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

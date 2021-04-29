@@ -1,7 +1,7 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'showFirstN'
+  name: 'showFirstN',
 })
 export class ShowFirstNPipe implements PipeTransform {
   transform(values: any, n: number, collapse: boolean): any {

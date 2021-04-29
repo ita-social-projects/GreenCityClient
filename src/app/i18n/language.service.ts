@@ -5,7 +5,7 @@ import { LocalStorageService } from '../service/localstorage/local-storage.servi
 import { LanguageId } from '../interface/language-id';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LanguageService {
   private langMap = new Map();
@@ -14,7 +14,7 @@ export class LanguageService {
   public synqLanguageArr: LanguageId[] = [
     { id: 1, code: 'ua' },
     { id: 2, code: 'en' },
-    { id: 3, code: 'ru' }
+    { id: 3, code: 'ru' },
   ];
 
   constructor(private translate: TranslateService, private localStorageService: LocalStorageService) {
@@ -22,12 +22,48 @@ export class LanguageService {
     this.langMap.set(Language.UA, ['ua']);
     this.langMap.set(Language.RU, ['ru']);
 
-    this.monthMap.set(Language.UA, ['січня', 'лютого', 'березня', 'квітня', 'травня', 'червня', 'липня', 'серпня', 'вересня', 'жовтня',
-      'листопада', 'грудня']);
-    this.monthMap.set(Language.EN, ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october',
-      'november', 'december']);
-    this.monthMap.set(Language.RU, ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября',
-      'ноября', 'декабря']);
+    this.monthMap.set(Language.UA, [
+      'січня',
+      'лютого',
+      'березня',
+      'квітня',
+      'травня',
+      'червня',
+      'липня',
+      'серпня',
+      'вересня',
+      'жовтня',
+      'листопада',
+      'грудня',
+    ]);
+    this.monthMap.set(Language.EN, [
+      'january',
+      'february',
+      'march',
+      'april',
+      'may',
+      'june',
+      'july',
+      'august',
+      'september',
+      'october',
+      'november',
+      'december',
+    ]);
+    this.monthMap.set(Language.RU, [
+      'января',
+      'февраля',
+      'марта',
+      'апреля',
+      'мая',
+      'июня',
+      'июля',
+      'августа',
+      'сентября',
+      'октября',
+      'ноября',
+      'декабря',
+    ]);
   }
 
   public setDefaultLanguage() {
@@ -63,6 +99,6 @@ export class LanguageService {
   }
 
   public getLanguageId(language: Language) {
-    return this.synqLanguageArr.find(res => res.code === language).id;
+    return this.synqLanguageArr.find((res) => res.code === language).id;
   }
 }

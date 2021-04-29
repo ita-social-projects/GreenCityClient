@@ -7,7 +7,7 @@ import { ProfileService } from '@global-user/components/profile/profile-service/
 @Component({
   selector: 'app-add-comment',
   templateUrl: './add-comment.component.html',
-  styleUrls: ['./add-comment.component.scss']
+  styleUrls: ['./add-comment.component.scss'],
 })
 export class AddCommentComponent implements OnInit {
   @Output() public updateList = new EventEmitter();
@@ -20,23 +20,22 @@ export class AddCommentComponent implements OnInit {
   });
   public replyMaxLength = 8000;
 
-  constructor(private commentsService: CommentsService,
-              private fb: FormBuilder,
-              private profileService: ProfileService) { }
+  constructor(private commentsService: CommentsService, private fb: FormBuilder, private profileService: ProfileService) {}
 
   ngOnInit() {
     this.getUserInfo();
   }
 
   public getUserInfo(): void {
-    this.profileService.getUserInfo().subscribe(item => {
+    this.profileService.getUserInfo().subscribe((item) => {
       this.firstName = item.firstName;
       this.avatarImage = item.profilePicturePath;
     });
   }
 
   public onSubmit(): void {
-    this.commentsService.addComment(this.addCommentForm, this.commentId)
+    this.commentsService
+      .addComment(this.addCommentForm, this.commentId)
       .pipe(take(1))
       .subscribe(() => {
         this.updateList.emit();

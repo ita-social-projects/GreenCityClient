@@ -19,7 +19,7 @@ import { SubmitEmailComponent } from '@global-auth/submit-email/submit-email.com
 import { provideConfig } from 'src/app/config/GoogleAuthConfig';
 import { SignUpComponent } from './sign-up.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UserOwnSignUp } from '@global-models/user-own-sign-up';
 import { Language } from '@language-service/Language';
@@ -28,7 +28,7 @@ class UserOwnSignUpServiceMock {
   mockFormData = {
     email: 'test@gmail.com',
     firstName: 'JohnSmith',
-    password: '123456qW@'
+    password: '123456qW@',
   };
 
   signUp() {
@@ -53,7 +53,7 @@ describe('SignUpComponent', () => {
 
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
   class MatDialogRefMock {
-    close() { }
+    close() {}
   }
 
   const promiseSocialUser = new Promise<SocialUser>((resolve) => {
@@ -71,21 +71,18 @@ describe('SignUpComponent', () => {
   const mockFormData = {
     email: 'test@gmail.com',
     firstName: 'JohnSmith',
-    password: '123456qW@'
+    password: '123456qW@',
   };
 
   authServiceMock = jasmine.createSpyObj('AuthService', ['signIn']);
   authServiceMock.signIn = (providerId: string, opt?: LoginOpt) => promiseSocialUser;
 
   MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
-  MatSnackBarMock.openSnackBar = (type: string) =>  { };
+  MatSnackBarMock.openSnackBar = (type: string) => {};
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SignUpComponent,
-        SubmitEmailComponent,
-      ],
+      declarations: [SignUpComponent, SubmitEmailComponent],
       imports: [
         ReactiveFormsModule,
         MatDialogModule,
@@ -94,7 +91,7 @@ describe('SignUpComponent', () => {
         AgmCoreModule,
         TranslateModule.forRoot(),
         BrowserAnimationsModule,
-        MatSnackBarModule
+        MatSnackBarModule,
       ],
       providers: [
         { provide: AuthService, useValue: authServiceMock },
@@ -103,11 +100,11 @@ describe('SignUpComponent', () => {
         { provide: Router, useValue: routerSpy },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         { provide: UserOwnSignUpService, useClass: UserOwnSignUpServiceMock },
-        { provide: LocalStorageService, useValue: localStorageServiceMock }
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     })
-      .overrideModule(BrowserModule, {set: {entryComponents: [SubmitEmailComponent]}})
+      .overrideModule(BrowserModule, { set: { entryComponents: [SubmitEmailComponent] } })
       .compileComponents();
   }));
 
@@ -213,7 +210,7 @@ describe('SignUpComponent', () => {
       });
     }
 
-    controlsName.forEach(el => testWrapper(el));
+    controlsName.forEach((el) => testWrapper(el));
 
     it('form should be invalid when empty', () => {
       expect(component.signUpForm.valid).toBeFalsy();
@@ -223,19 +220,17 @@ describe('SignUpComponent', () => {
       it(`The formControl: ${controlName} should be marked as ${status} if the value is ${itemValue}.`, () => {
         const control = component.signUpForm.get(controlName);
         control.setValue(itemValue);
-        status === 'valid'
-          ? expect(control.valid).toBeTruthy()
-          : expect(control.valid).toBeFalsy();
+        status === 'valid' ? expect(control.valid).toBeTruthy() : expect(control.valid).toBeFalsy();
       });
     }
 
-    invalidName.forEach(el => controlsValidator(el, 'firstName', 'invalid'));
+    invalidName.forEach((el) => controlsValidator(el, 'firstName', 'invalid'));
 
-    validName.forEach(el => controlsValidator(el, 'firstName', 'valid'));
+    validName.forEach((el) => controlsValidator(el, 'firstName', 'valid'));
 
-    invalidPassword.forEach(el => controlsValidator(el, 'password', 'invalid'));
+    invalidPassword.forEach((el) => controlsValidator(el, 'password', 'invalid'));
 
-    validPassword.forEach(el => controlsValidator(el, 'password', 'valid'));
+    validPassword.forEach((el) => controlsValidator(el, 'password', 'valid'));
 
     it('form should be invalid passwords not matching', () => {
       const passwordControl = component.signUpForm.get('password');
@@ -244,7 +239,6 @@ describe('SignUpComponent', () => {
       repeatPasswordControl.setValue('23456qQ@1');
       expect(component.signUpForm.valid).toBeFalsy();
     });
-
   });
 
   describe('Check sign up methods', () => {
@@ -278,26 +272,28 @@ describe('SignUpComponent', () => {
     });
 
     describe('Check sign up with signInWithGoogle', () => {
-      it('Should call sinIn method', async(inject([AuthService, GoogleSignInService],
-        (service: AuthService, service2: GoogleSignInService) => {
-        const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseSocialUser).and.callThrough();
-        spyOn(service2, 'signIn').and.returnValue(of(mockUserSuccessSignIn));
-        component.signUpWithGoogle();
-        fixture.detectChanges();
-        expect(serviceSpy).toHaveBeenCalled();
-      })));
+      it('Should call sinIn method', async(
+        inject([AuthService, GoogleSignInService], (service: AuthService, service2: GoogleSignInService) => {
+          const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseSocialUser).and.callThrough();
+          spyOn(service2, 'signIn').and.returnValue(of(mockUserSuccessSignIn));
+          component.signUpWithGoogle();
+          fixture.detectChanges();
+          expect(serviceSpy).toHaveBeenCalled();
+        })
+      ));
 
-      it('Should call sinIn method with errors', async(inject([AuthService, GoogleSignInService],
-        (service: AuthService, service2: GoogleSignInService) => {
-        const promiseErrors = new Promise<SocialUser>((resolve, reject) => {
-          const errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
-          reject(errors);
-        });
-        const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseErrors);
-        component.signUpWithGoogle();
-        fixture.detectChanges();
-        expect(serviceSpy).toHaveBeenCalled();
-      })));
+      it('Should call sinIn method with errors', async(
+        inject([AuthService, GoogleSignInService], (service: AuthService, service2: GoogleSignInService) => {
+          const promiseErrors = new Promise<SocialUser>((resolve, reject) => {
+            const errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
+            reject(errors);
+          });
+          const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseErrors);
+          component.signUpWithGoogle();
+          fixture.detectChanges();
+          expect(serviceSpy).toHaveBeenCalled();
+        })
+      ));
 
       it('signUpWithGoogleSuccess should navigate to profilePage', fakeAsync(() => {
         // @ts-ignore
@@ -312,14 +308,15 @@ describe('SignUpComponent', () => {
   });
 
   describe('Check ErrorMessageBackEnd', () => {
-
     it('should return firstNameErrorMessageBackEnd when login failed', () => {
-      const errors = new HttpErrorResponse({ error: [
-        { name: 'name', message: 'Ups' },
-        { name: 'email', message: 'Ups' },
-        { name: 'password', message: 'Ups' },
-        { name: 'passwordConfirm', message: 'Ups' }
-      ] });
+      const errors = new HttpErrorResponse({
+        error: [
+          { name: 'name', message: 'Ups' },
+          { name: 'email', message: 'Ups' },
+          { name: 'password', message: 'Ups' },
+          { name: 'passwordConfirm', message: 'Ups' },
+        ],
+      });
       // @ts-ignore
       component.onSubmitError(errors);
       fixture.detectChanges();
@@ -357,9 +354,11 @@ describe('SignUpComponent', () => {
     });
 
     it('signUpWithGoogleError should set errors', () => {
-      const errors = { error: {
-        message: 'Ups'
-      }};
+      const errors = {
+        error: {
+          message: 'Ups',
+        },
+      };
       // @ts-ignore
       component.signUpWithGoogleError(errors);
       expect(component.backEndError).toBe('Ups');

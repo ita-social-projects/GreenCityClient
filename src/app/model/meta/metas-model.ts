@@ -1,4 +1,4 @@
-import {MetaModel} from './meta-model';
+import { MetaModel } from './meta-model';
 
 export interface MetasModel {
   welcome: MetaModel;

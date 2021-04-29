@@ -1,11 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Goal} from '../../../../../../../model/goal/Goal';
-import {GoalType} from '../GoalType';
+import { Component, Input, OnInit } from '@angular/core';
+import { Goal } from '../../../../../../../model/goal/Goal';
+import { GoalType } from '../GoalType';
 
 @Component({
   selector: 'app-add-goal-item',
   templateUrl: './add-goal-item.component.html',
-  styleUrls: ['./add-goal-item.component.scss']
+  styleUrls: ['./add-goal-item.component.scss'],
 })
 export class AddGoalItemComponent implements OnInit {
   @Input()
@@ -22,7 +22,7 @@ export class AddGoalItemComponent implements OnInit {
   }
 
   onUpdateStatus() {
-    this.goal.status = (this.goal.status === 'UNCHECKED' ? 'CHECKED' : 'UNCHECKED');
+    this.goal.status = this.goal.status === 'UNCHECKED' ? 'CHECKED' : 'UNCHECKED';
   }
 
   onUpdateButtonClicked() {

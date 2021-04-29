@@ -1,5 +1,8 @@
 <div class="address d-flex flex-column">
-  <p>{{'personal-info.address-city' | translate}} {{ address.city }}</p>
-  <p>{{ address.street }}, {{ address.houseNumber }}, {{'personal-info.address-corp' | translate}} {{ address.houseCorpus }}, {{'personal-info.address-entrance' | translate}} {{ address.entranceNumber }}</p>
-  <p>{{'personal-info.address-district' | translate}} {{ address.district }}</p>
+  <p>{{ 'personal-info.address-city' | translate }} {{ address.city }}</p>
+  <p>
+    {{ address.street }}, {{ address.houseNumber }}, {{ 'personal-info.address-corp' | translate }} {{ address.houseCorpus }},
+    {{ 'personal-info.address-entrance' | translate }} {{ address.entranceNumber }}
+  </p>
+  <p>{{ 'personal-info.address-district' | translate }} {{ address.district }}</p>
 </div>

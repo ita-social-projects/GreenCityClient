@@ -6,14 +6,13 @@ import { LanguageService } from '../../../../../i18n/language.service';
 @Component({
   selector: 'app-goal-item',
   templateUrl: './goal-item.component.html',
-  styleUrls: ['./goal-item.component.scss']
+  styleUrls: ['./goal-item.component.scss'],
 })
 export class GoalItemComponent {
   @Input() goal: Goal;
   @Output() update = new EventEmitter();
 
-  constructor(public userService: UserService, private languageService: LanguageService) {
-  }
+  constructor(public userService: UserService, private languageService: LanguageService) {}
 
   onUpdate() {
     this.userService.updateGoalStatus(this.goal, this.languageService.getCurrentLanguage());
@@ -26,5 +25,4 @@ export class GoalItemComponent {
       return true;
     }
   }
-
 }

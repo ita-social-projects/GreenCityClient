@@ -5,11 +5,10 @@ import { DialogData } from '../favorite-place.component';
 
 @Component({
   selector: 'app-delete-favorite-place',
-  templateUrl: './delete-favorite-place.html'
+  templateUrl: './delete-favorite-place.html',
 })
 export class DeleteFavoriteComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData, private favoritePlaceService: FavoritePlaceService) {
-  }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData, private favoritePlaceService: FavoritePlaceService) {}
 
   delete() {
     this.favoritePlaceService.deleteFavoritePlace(this.data.placeId).subscribe();

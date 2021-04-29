@@ -1,4 +1,4 @@
-import {Location} from '../../../model/location/location';
+import { Location } from '../../../model/location/location';
 
 export class Place {
   id: number;

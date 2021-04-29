@@ -14,7 +14,8 @@ export class Order {
     certificates: Array<string>,
     orderComment: string,
     personalData: PersonalData,
-    pointsToUse: number) {
+    pointsToUse: number
+  ) {
     this.additionalOrders = additionalOrders;
     this.bags = bags;
     this.certificates = certificates;

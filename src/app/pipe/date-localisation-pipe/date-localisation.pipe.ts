@@ -5,16 +5,14 @@ import { LocalStorageService } from '../../service/localstorage/local-storage.se
 
 @Pipe({
   name: 'dateLocalisation',
-  pure: false
+  pure: false,
 })
 export class DateLocalisationPipe implements PipeTransform {
-
   private langChangeSubscription: Subscription;
   private locale: string = this.localStorageService.getCurrentLanguage();
 
   constructor(private localStorageService: LocalStorageService) {
-    this.langChangeSubscription = this.localStorageService.languageSubject
-      .subscribe(lang => this.locale = lang);
+    this.langChangeSubscription = this.localStorageService.languageSubject.subscribe((lang) => (this.locale = lang));
   }
 
   transform(date: string | Date): string {

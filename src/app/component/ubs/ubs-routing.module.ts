@@ -5,16 +5,11 @@ import { UBSOrderFormComponent } from './components/ubs-order-form/ubs-order-for
 import { UbsComponent } from './ubs.component';
 
 const ubsRoutes: Routes = [
-  { path: '',
-    component: UbsComponent,
-    canActivate: [ AuthPageGuardService ],
-    children: [
-      { path: '', component: UBSOrderFormComponent }
-    ]
-  }];
+  { path: '', component: UbsComponent, canActivate: [AuthPageGuardService], children: [{ path: '', component: UBSOrderFormComponent }] },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(ubsRoutes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class UbsRoutingModule { }
+export class UbsRoutingModule {}

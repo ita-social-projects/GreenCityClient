@@ -13,7 +13,7 @@ import { MatDialog } from '@angular/material';
 @Component({
   selector: 'app-calendar-week',
   templateUrl: './calendar-week.component.html',
-  styleUrls: ['./calendar-week.component.scss']
+  styleUrls: ['./calendar-week.component.scss'],
 })
 export class CalendarWeekComponent extends CalendarBaseComponent implements OnInit, OnDestroy {
   public language: string;
@@ -27,7 +27,7 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
     public habitAssignService: HabitAssignService,
     public translate: TranslateService,
     public languageService: LanguageService,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) {
     super(translate, languageService, habitAssignService, dialog);
   }
@@ -45,23 +45,23 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
     this.weekDates = [];
     for (let i = 0; i < 7; i++) {
       const date = new Date(year, month, day + i);
-      const isCurrent = date.getFullYear() === this.currentDate.getFullYear()
-        && date.getMonth() === this.currentDate.getMonth()
-        && date.getDate() === this.currentDate.getDate();
+      const isCurrent =
+        date.getFullYear() === this.currentDate.getFullYear() &&
+        date.getMonth() === this.currentDate.getMonth() &&
+        date.getDate() === this.currentDate.getDate();
       this.weekDates.push({
         date,
         dayName: this.language ? this.setDayName(date) : '',
         isCurrent,
         hasHabitsInProgress: false,
-        areHabitsDone: false
+        areHabitsDone: false,
       });
     }
   }
 
   private getFirstWeekDate(): Date {
-    const day = this.currentDate.getDay() === 0
-      ? this.currentDate.getDate() - 6
-      : this.currentDate.getDate() - this.currentDate.getDay() + 1;
+    const day =
+      this.currentDate.getDay() === 0 ? this.currentDate.getDate() - 6 : this.currentDate.getDate() - this.currentDate.getDay() + 1;
     const month = new Date().getMonth();
     const year = this.currentDate.getFullYear();
     return new Date(year, month, day);
@@ -72,13 +72,11 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
   }
 
   private getLanguage(): void {
-    this.localStorageService.languageBehaviourSubject
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe(language => {
-        this.language = language;
-        this.weekDates.forEach(dateObj => dateObj.dayName = this.setDayName(dateObj.date));
-        this.buildWeekCalendarTitle();
-      });
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((language) => {
+      this.language = language;
+      this.weekDates.forEach((dateObj) => (dateObj.dayName = this.setDayName(dateObj.date)));
+      this.buildWeekCalendarTitle();
+    });
   }
 
   public buildWeekCalendarTitle(): void {
@@ -98,7 +96,7 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
   public changeWeek(isNext: boolean): void {
     const year = this.weekDates[0].date.getFullYear();
     const month = this.weekDates[0].date.getMonth();
-    const day = this.weekDates[0].date.getDate() + (isNext ? 7 : - 7);
+    const day = this.weekDates[0].date.getDate() + (isNext ? 7 : -7);
     const firstWeekDate = new Date(year, month, day);
     this.buildWeekCalendar(firstWeekDate);
     this.buildWeekCalendarTitle();

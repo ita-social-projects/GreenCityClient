@@ -116,7 +116,7 @@
       "placeholder": "Search",
       "items-found": "items found",
       "news": "News",
-      "tips":"Tips & Tricks",
+      "tips": "Tips & Tricks",
       "see-all-news": "See all News",
       "see-all-tips": "See all Tips & Tricks"
     },
@@ -287,7 +287,7 @@
       "confirm-restore-password": "Your password has just been reset.",
       "confirm-email": "Your email has been verified.",
       "restore-password": "Restore password link was sent to your email address.",
-      "sign-up" : "You have successfully registered on the site. Please confirm your email address in the email box."
+      "sign-up": "You have successfully registered on the site. Please confirm your email address in the email box."
     }
   },
   "user": {
@@ -532,7 +532,7 @@
       "input-validation-pattern": "Your URL seems to be incorrect",
       "input-validation-non-unique": "This link has been already added",
       "profile-changes-saved": "Your changes have been saved",
-      "btn":{
+      "btn": {
         "cancel": "Cancel",
         "save": "Save",
         "new-photo": "Upload new photo",
@@ -617,8 +617,8 @@
       },
       "all-habits": {
         "back-button": "Back to My habits",
-        "title":"All habits",
-        "no-habits":"Unfortunately, no more habits found",
+        "title": "All habits",
+        "no-habits": "Unfortunately, no more habits found",
         "no-habits-advice": "We couldn't find any more habits. Please change filters to get another result.",
         "btn-more": "More",
         "btn-add": "Add habit",
@@ -747,7 +747,7 @@
     "zero-requests": "Unfortunately, there are no new requests.",
     "my-eco-places": "My eco places",
     "shoppingList": "Shopping list",
-    "empty-list":"No items added yet.\nPlease add a habit with some items to see them on your list",
+    "empty-list": "No items added yet.\nPlease add a habit with some items to see them on your list",
     "shoppingList-no-items-message": "You don't have any items in your Shopping List",
     "fact-of-the-day": "Fact of the Day",
     "no-eco-places": "You don't have any Eco Places.",

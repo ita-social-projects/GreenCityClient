@@ -6,7 +6,7 @@ import { ModalService } from './modal.service';
   selector: 'app-modal',
   templateUrl: 'modal.component.html',
   styleUrls: ['modal.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class ModalComponent implements OnInit, OnDestroy {
   @Input() id: string;
@@ -27,7 +27,7 @@ export class ModalComponent implements OnInit, OnDestroy {
     document.body.appendChild(this.element);
 
     // close _modal on background click
-    this.element.addEventListener('click', el => {
+    this.element.addEventListener('click', (el) => {
       if (el.target.className === 'app-modal') {
         this.close();
       }
@@ -55,4 +55,3 @@ export class ModalComponent implements OnInit, OnDestroy {
     document.body.classList.remove('app-modal-open');
   }
 }
-

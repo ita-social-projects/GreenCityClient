@@ -8,15 +8,15 @@ import { possibleDescHeight, possibleTitleHeight } from './breakpoints';
   selector: 'app-news-list-list-view',
   templateUrl: './news-list-list-view.component.html',
   styleUrls: ['./news-list-list-view.component.scss'],
-  changeDetection: 0
+  changeDetection: 0,
 })
 export class NewsListListViewComponent implements AfterViewChecked {
   @Input() ecoNewsModel: EcoNewsModel;
-  @ViewChild('titleHeight', {static: true}) titleHeight: ElementRef;
-  @ViewChild('textHeight', {static: true}) textHeight: ElementRef;
+  @ViewChild('titleHeight', { static: true }) titleHeight: ElementRef;
+  @ViewChild('textHeight', { static: true }) textHeight: ElementRef;
 
   private smallHeight = 'smallHeight';
-  private bigHeight   = 'bigHeight';
+  private bigHeight = 'bigHeight';
   // breakpoints for different line height and font size
 
   public profileIcons = ecoNewsIcons;
@@ -40,12 +40,14 @@ export class NewsListListViewComponent implements AfterViewChecked {
   }
 
   public checkNewsImage(): string {
-    return this.newsImage = (this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' ') ?
-                              this.ecoNewsModel.imagePath : this.profileIcons.newsDefaultPictureList;
+    return (this.newsImage =
+      this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' '
+        ? this.ecoNewsModel.imagePath
+        : this.profileIcons.newsDefaultPictureList);
   }
 
   private getDomWidth(): string {
-    return window.innerWidth <= 768  ? this.smallHeight : this.bigHeight;
+    return window.innerWidth <= 768 ? this.smallHeight : this.bigHeight;
   }
 
   private getHeightOfDesc(titleHeight: number): string {
@@ -61,6 +63,6 @@ export class NewsListListViewComponent implements AfterViewChecked {
     const smallTitleHeight = titleHeight > 26 ? 'two-row' : 'one-row';
     const midTitleHeught = titleHeight > 52 ? 'tree-row' : smallTitleHeight;
     const largeTitleheight = titleHeight > 78 ? 'four-row' : midTitleHeught;
-    return result ? result :  largeTitleheight;
+    return result ? result : largeTitleheight;
   }
 }

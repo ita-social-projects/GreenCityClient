@@ -8,10 +8,7 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { UserProfileImageComponent } from './components/user-profile-image/user-profile-image.component';
 
 @NgModule({
-  declarations: [
-    HabitsGalleryViewComponent,
-    UserProfileImageComponent
-  ],
+  declarations: [HabitsGalleryViewComponent, UserProfileImageComponent],
   imports: [
     CommonModule,
     TranslateModule.forRoot({
@@ -23,19 +20,10 @@ import { UserProfileImageComponent } from './components/user-profile-image/user-
     }),
     MDBBootstrapModule,
   ],
-  exports: [
-    TranslateModule,
-    MDBBootstrapModule,
-    HabitsGalleryViewComponent,
-    UserProfileImageComponent
-  ]
+  exports: [TranslateModule, MDBBootstrapModule, HabitsGalleryViewComponent, UserProfileImageComponent],
 })
 export class UserSharedModule {}
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
-  return new TranslateHttpLoader(
-    httpClient,
-    './assets/i18n/',
-    '.json'
-  );
+  return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
 }

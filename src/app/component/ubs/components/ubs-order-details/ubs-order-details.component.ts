@@ -15,7 +15,6 @@ import { CertificateStatus } from '../../certificate-status.enum';
   styleUrls: ['./ubs-order-details.component.scss'],
 })
 export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
-
   orders: OrderDetails;
   bags: Bag[];
   orderDetailsForm: FormGroup;
@@ -61,19 +60,18 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.takeOrderData();
-    this.localStorageService.languageBehaviourSubject
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe(() => {
-        this.translateWords('order-details.activated-certificate1', this.certMessageFirst);
-        this.translateWords('order-details.activated-certificate4', this.certMessageFourth);
-        this.translateWords('order-details.activated-certificate5', this.certMessageFifth);
-      });
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe(() => {
+      this.translateWords('order-details.activated-certificate1', this.certMessageFirst);
+      this.translateWords('order-details.activated-certificate4', this.certMessageFourth);
+      this.translateWords('order-details.activated-certificate5', this.certMessageFifth);
+    });
   }
 
   translateWords(key: string, variable) {
-    return this.translate.get(key)
+    return this.translate
+      .get(key)
       .pipe(take(1))
-      .subscribe(item => variable = item);
+      .subscribe((item) => (variable = item));
   }
 
   initForm() {
@@ -89,18 +87,21 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   }
 
   public takeOrderData() {
-    this.orderService.getOrders().pipe(takeUntil(this.destroy)).subscribe((orderData: OrderDetails) => {
-      this.orders = this.shareFormService.orderDetails;
-      this.bags = this.orders.bags;
-      this.points = this.orders.points;
-      this.bags.forEach(bag => {
-        bag.quantity = 0;
-        this.orderDetailsForm.addControl(
-          'quantity' + String(bag.id),
-          new FormControl(0, [Validators.required, Validators.min(0), Validators.max(999)])
-        );
+    this.orderService
+      .getOrders()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((orderData: OrderDetails) => {
+        this.orders = this.shareFormService.orderDetails;
+        this.bags = this.orders.bags;
+        this.points = this.orders.points;
+        this.bags.forEach((bag) => {
+          bag.quantity = 0;
+          this.orderDetailsForm.addControl(
+            'quantity' + String(bag.id),
+            new FormControl(0, [Validators.required, Validators.min(0), Validators.max(999)])
+          );
+        });
       });
-    });
   }
 
   changeForm() {
@@ -139,7 +140,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
 
   private calculateTotal(): void {
     this.total = 0;
-    this.bags.forEach(bag => {
+    this.bags.forEach((bag) => {
       this.total += bag.price * bag.quantity;
     });
     this.showTotal = this.total;
@@ -169,13 +170,13 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   }
 
   clearOrderValues(): void {
-    this.additionalOrders.controls.forEach(element => {
+    this.additionalOrders.controls.forEach((element) => {
       element.setValue('');
     });
   }
 
   calculate(): void {
-    this.bags.forEach(bag => {
+    this.bags.forEach((bag) => {
       const valueName = 'quantity' + String(bag.id);
       bag.quantity = this.orderDetailsForm.controls[valueName].value;
     });
@@ -211,9 +212,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   }
 
   addCertificate(): void {
-    this.additionalCertificates.push(
-      this.fb.control('', [Validators.minLength(8), Validators.pattern(/(?!0000)\d{4}-(?!0000)\d{4}/)])
-    );
+    this.additionalCertificates.push(this.fb.control('', [Validators.minLength(8), Validators.pattern(/(?!0000)\d{4}-(?!0000)\d{4}/)]));
     this.addCert = false;
   }
 
@@ -240,7 +239,9 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
     if (arr.length > 0) {
       this.certificateSum = 0;
       for (const certificate of arr) {
-        this.orderService.processCertificate(certificate).pipe(takeUntil(this.destroy))
+        this.orderService
+          .processCertificate(certificate)
+          .pipe(takeUntil(this.destroy))
           .subscribe((cert) => {
             this.certificateMatch(cert);
             if (this.total > this.certificateSum) {
@@ -278,13 +279,9 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   }
 
   certificateMatch(cert): void {
-    if (
-      cert.certificateStatus === CertificateStatus.ACTIVE ||
-      cert.certificateStatus === CertificateStatus.NEW
-    ) {
+    if (cert.certificateStatus === CertificateStatus.ACTIVE || cert.certificateStatus === CertificateStatus.NEW) {
       this.certificateSum = this.certificateSum + cert.certificatePoints;
-      this.certMessage = this.certMessageFirst + ' ' + cert.certificatePoints +
-        ' ' + this.certMessageFourth + ' ' + cert.certificateDate;
+      this.certMessage = this.certMessageFirst + ' ' + cert.certificatePoints + ' ' + this.certMessageFourth + ' ' + cert.certificateDate;
       this.displayCert = true;
     } else if (cert.certificateStatus === CertificateStatus.USED) {
       this.certificateSum = this.certificateSum;
