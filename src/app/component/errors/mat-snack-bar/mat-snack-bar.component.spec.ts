@@ -14,17 +14,10 @@ describe('MatSnackBarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MatSnackBarComponent ],
-      imports: [
-        MatSnackBarModule,
-        TranslateModule.forRoot(),
-        BrowserAnimationsModule
-      ],
-      providers: [
-        { provide: MatSnackBar, useValue: matSnackBarMock }
-      ]
-    })
-    .compileComponents();
+      declarations: [MatSnackBarComponent],
+      imports: [MatSnackBarModule, TranslateModule.forRoot(), BrowserAnimationsModule],
+      providers: [{ provide: MatSnackBar, useValue: matSnackBarMock }],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -94,7 +87,6 @@ describe('MatSnackBarComponent', () => {
       expect(spy).toHaveBeenCalled();
     });
 
-
     it('should call the successConfirmEmail to close the dialog', () => {
       const spy = spyOn(component.snackType, 'successConfirmEmail').and.callThrough();
       component.snackType[`successConfirmEmail`]();
@@ -104,6 +96,7 @@ describe('MatSnackBarComponent', () => {
     it('should call the errorMessage to close the dialog', () => {
       const spy = spyOn(component.snackType, 'errorMessage').and.callThrough();
       component.snackType[`errorMessage`]('Ups');
+      expect(spy).toHaveBeenCalled();
     });
 
     it('should call the function to get type of snackBar', () => {

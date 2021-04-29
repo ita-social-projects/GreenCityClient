@@ -22,12 +22,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthModule } from 'src/app/component/auth/auth.module';
 import { EcoNewsModule } from 'src/app/component/eco-news/eco-news.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import {APP_BASE_HREF} from '@angular/common';
+import { APP_BASE_HREF } from '@angular/common';
 
 class MatDialogMock {
   open() {
     return {
-      afterClosed: () => of(true)
+      afterClosed: () => of(true),
     };
   }
 }
@@ -73,7 +73,7 @@ describe('HomepageComponent', () => {
         AuthModule,
         EcoNewsModule,
         InfiniteScrollModule,
-        LayoutModule
+        LayoutModule,
       ],
       declarations: [
         StatRowsComponent,
@@ -93,10 +93,9 @@ describe('HomepageComponent', () => {
         { provide: UserService, useValue: userServiceMock },
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialog, useClass: MatDialogMock },
-        { provide: APP_BASE_HREF, useValue : '/' }
-      ]
-    })
-    .compileComponents();
+        { provide: APP_BASE_HREF, useValue: '/' },
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

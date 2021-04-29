@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {HabitStatisticService} from 'src/app/service/habit-statistic/habit-statistic.service';
+import { Component, OnInit } from '@angular/core';
+import { HabitStatisticService } from 'src/app/service/habit-statistic/habit-statistic.service';
 
 @Component({
   selector: 'app-user-log',
@@ -7,9 +7,7 @@ import {HabitStatisticService} from 'src/app/service/habit-statistic/habit-stati
   styleUrls: ['./user-log.component.scss'],
 })
 export class UserLogComponent implements OnInit {
-
-  constructor(private habitStatisticService: HabitStatisticService) {
-  }
+  constructor(private habitStatisticService: HabitStatisticService) {}
 
   readonly package = 'assets/img/icon/package_statistic.png';
   readonly coffee = 'assets/img/icon/coffee_statistic.png';
@@ -25,17 +23,20 @@ export class UserLogComponent implements OnInit {
 
   ngOnInit() {
     this.retrieveUserLog();
-    this.habitStatisticService.habitStatistics.subscribe(() => {
-      this.retrieveUserLog();
-    }, error => {
-      this.hasStatistic = false;
-      console.log('Error!', error);
-    });
+    this.habitStatisticService.habitStatistics.subscribe(
+      () => {
+        this.retrieveUserLog();
+      },
+      (error) => {
+        this.hasStatistic = false;
+        console.log('Error!', error);
+      }
+    );
   }
 
   nowDate() {
     const date: Date = new Date();
-    return date.getDate() + ' ' + date.toLocaleString('default', {month: 'long'});
+    return date.getDate() + ' ' + date.toLocaleString('default', { month: 'long' });
   }
 
   countDay() {
@@ -56,11 +57,13 @@ export class UserLogComponent implements OnInit {
   }
 
   private retrieveUserLog() {
-    this.$userLog = this.habitStatisticService.getUserLog().subscribe(data => {
+    this.$userLog = this.habitStatisticService.getUserLog().subscribe(
+      (data) => {
         this.hasStatistic = true;
         this.$creationDate = data.creationDate;
         this.initializeNotTakenItemsStatistics(data);
-      }, error => {
+      },
+      (error) => {
         this.hasStatistic = false;
         console.log('Error!', error);
       }
@@ -68,16 +71,16 @@ export class UserLogComponent implements OnInit {
   }
 
   private initializeNotTakenItemsStatistics(data: any) {
-    const cap = data.allItemsPerMonth.filter(obj => {
+    const cap = data.allItemsPerMonth.filter((obj) => {
       return obj.habitItemName === 'cap';
     });
-    const bag = data.allItemsPerMonth.filter(obj => {
+    const bag = data.allItemsPerMonth.filter((obj) => {
       return obj.habitItemName === 'bag';
     });
-    const diffBag = data.differenceUnTakenItemsWithPreviousDay.filter(obj => {
+    const diffBag = data.differenceUnTakenItemsWithPreviousDay.filter((obj) => {
       return obj.habitItemName === 'bag';
     });
-    const diffCap = data.differenceUnTakenItemsWithPreviousDay.filter(obj => {
+    const diffCap = data.differenceUnTakenItemsWithPreviousDay.filter((obj) => {
       return obj.habitItemName === 'cap';
     });
     if (cap.length !== 0) {

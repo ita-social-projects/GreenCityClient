@@ -1,10 +1,9 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {restorePasswordLink} from '../../links';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { restorePasswordLink } from '../../links';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class RestorePasswordService {
-
   constructor(private http: HttpClient) {}
 
   sendEmailForRestore(email, lang = 'en'): any {

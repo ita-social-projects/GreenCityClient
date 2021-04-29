@@ -9,14 +9,9 @@ describe('ViewRepliesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ViewRepliesComponent
-      ],
-      imports: [
-        TranslateModule.forRoot(),
-      ]
-    })
-    .compileComponents();
+      declarations: [ViewRepliesComponent],
+      imports: [TranslateModule.forRoot()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

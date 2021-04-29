@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-ubs-input-error',
-  templateUrl: './ubs-input-error.component.html'
+  templateUrl: './ubs-input-error.component.html',
 })
 export class UBSInputErrorComponent implements OnChanges {
   @Input() public controlName: string;
@@ -19,21 +19,19 @@ export class UBSInputErrorComponent implements OnChanges {
   public errorMessage;
   private getErrorMsg = {
     required: () => 'input-error.required',
-    email: () => this.emailFieldValue ? 'input-error.email-wrong' : 'input-error.email-empty',
-    minlength: () => this.phoneNumberFieldValue ? 'input-error.minlength-unfull' : 'minlength-short',
+    email: () => (this.emailFieldValue ? 'input-error.email-wrong' : 'input-error.email-empty'),
+    minlength: () => (this.phoneNumberFieldValue ? 'input-error.minlength-unfull' : 'minlength-short'),
     maxlength: () => 'input-error.maxlenght',
-    pattern: () => 'input-error.pattern'
+    pattern: () => 'input-error.pattern',
   };
-
-  constructor() {}
 
   ngOnChanges() {
     this.getType();
   }
 
   private getType() {
-    Object.keys(this.formElement.errors).forEach(error => {
-      return this.errorMessage = this.getErrorMsg[error]();
+    Object.keys(this.formElement.errors).forEach((error) => {
+      return (this.errorMessage = this.getErrorMsg[error]());
     });
   }
 }

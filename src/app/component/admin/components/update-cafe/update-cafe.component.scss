@@ -1,10 +1,10 @@
-@import "../../../../../../node_modules/@ng-select/ng-select/themes/default.theme.css";
+@import '../../../../../../node_modules/@ng-select/ng-select/themes/default.theme.css';
 
-#weekDays-selector input[type=checkbox] {
+#weekDays-selector input[type='checkbox'] {
   display: none !important;
 }
 
-#weekDays-selector input[type=checkbox] + label {
+#weekDays-selector input[type='checkbox'] + label {
   display: inline-block;
   border-radius: 6px;
   background: #ddd;
@@ -16,7 +16,7 @@
   cursor: pointer;
 }
 
-#weekDays-selector input[type=checkbox]:checked + label {
+#weekDays-selector input[type='checkbox']:checked + label {
   background: #2eb82e;
   color: #fff;
 }
@@ -37,7 +37,7 @@
 }
 
 .row::after {
-  content: "";
+  content: '';
   display: table;
   clear: both;
 }

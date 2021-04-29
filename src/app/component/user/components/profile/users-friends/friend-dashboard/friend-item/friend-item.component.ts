@@ -4,10 +4,9 @@ import { FriendModel } from '@global-user/models/friend.model';
 @Component({
   selector: 'app-friend-item',
   templateUrl: './friend-item.component.html',
-  styleUrls: ['./friend-item.component.scss']
+  styleUrls: ['./friend-item.component.scss'],
 })
 export class FriendItemComponent {
-
   @Input() friend: FriendModel;
   @Input() btnName: string;
   @Output() friendEventEmit = new EventEmitter<number>();

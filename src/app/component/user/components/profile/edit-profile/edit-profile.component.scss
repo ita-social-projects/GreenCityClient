@@ -8,7 +8,7 @@
   &::after {
     border: solid white;
     border-width: 0 2px 2px 0;
-    content: "";
+    content: '';
     display: none;
     height: 12px;
     left: 6px;
@@ -21,7 +21,7 @@
   }
 }
 
-input[type=checkbox] {
+input[type='checkbox'] {
   height: 0;
   opacity: 0;
   width: 0;

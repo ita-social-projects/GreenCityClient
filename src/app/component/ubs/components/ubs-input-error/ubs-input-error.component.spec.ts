@@ -11,14 +11,9 @@ describe('ErrorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        RouterTestingModule,
-        HttpClientTestingModule
-    ],
-      declarations: [ UBSInputErrorComponent ]
-    })
-    .compileComponents();
+      imports: [TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule],
+      declarations: [UBSInputErrorComponent],
+    }).compileComponents();
     httpTestingController = TestBed.get(HttpTestingController);
   }));
 

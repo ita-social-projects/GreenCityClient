@@ -4,9 +4,8 @@ import { FilterModel } from '@eco-news-models/filter.model';
 @Component({
   selector: 'app-tag-filter',
   templateUrl: './tag-filter.component.html',
-  styleUrls: ['./tag-filter.component.scss']
+  styleUrls: ['./tag-filter.component.scss'],
 })
-
 export class TagFilterComponent implements OnInit, OnChanges {
   public filters: Array<FilterModel> = [];
   @Input() private storageKey: string;
@@ -14,14 +13,11 @@ export class TagFilterComponent implements OnInit, OnChanges {
   @Input() public header: string;
   @Output() tagsList = new EventEmitter<Array<string>>();
 
-  constructor() { }
-
   ngOnInit() {
     this.emitActiveFilters();
   }
 
   ngOnChanges(changes) {
-
     const { currentValue } = changes.tagsListData;
     if (currentValue !== '' && currentValue) {
       this.setTags(currentValue);
@@ -29,7 +25,7 @@ export class TagFilterComponent implements OnInit, OnChanges {
   }
 
   public emitTrueFilterValues(): Array<string> {
-    return this.filters.filter(el => el.isActive).map(el => el.name);
+    return this.filters.filter((el) => el.isActive).map((el) => el.name);
   }
 
   public emitActiveFilters(): void {
@@ -37,14 +33,17 @@ export class TagFilterComponent implements OnInit, OnChanges {
   }
 
   public toggleFilter(currentFilter: string): void {
-    this.filters.forEach(el => el.isActive = el.name === currentFilter ? !el.isActive : el.isActive);
+    this.filters.forEach((el) => (el.isActive = el.name === currentFilter ? !el.isActive : el.isActive));
     this.emitActiveFilters();
     this.setSessionStorageFilters();
   }
 
   private setTags(tags: Array<string>): void {
     const savedFilters = this.getSessionStorageFilters();
-    this.filters = tags.map((filter: string) => ({ name: filter, isActive: typeof savedFilters.find(el => el === filter) !== 'undefined'}));
+    this.filters = tags.map((filter: string) => ({
+      name: filter,
+      isActive: typeof savedFilters.find((el) => el === filter) !== 'undefined',
+    }));
     this.emitActiveFilters();
   }
 

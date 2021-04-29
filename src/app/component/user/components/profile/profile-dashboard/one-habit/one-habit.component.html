@@ -1,27 +1,22 @@
 <div class="main">
-  <div class="image">
-  </div>
+  <div class="image"></div>
   <div class="description">
     <div class="first-row">
       <div class="calendar"></div>
       <p>{{ daysCounter }} <span>I</span></p>
-      <div
-        *ngIf="showPhoto"
-        class="friends-photo"
-      >
-        <img class="first-photo" [src]="firstFriend" alt="First friend photo">
-        <img class="second-photo" [src]="secondFriend" alt="Second friend photo">
+      <div *ngIf="showPhoto" class="friends-photo">
+        <img class="first-photo" [src]="firstFriend" alt="First friend photo" />
+        <img class="second-photo" [src]="secondFriend" alt="Second friend photo" />
       </div>
       <div class="edit" (click)="goToHabitProfile()"></div>
     </div>
     <div class="second-row">
-      {{ habit.habit.habitTranslation.name}}
+      {{ habit.habit.habitTranslation.name }}
     </div>
   </div>
   <div
     class="third-row"
-    [ngSwitch]="habitMark"
-  >
+    [ngSwitch]="habitMark">
     <ng-template ngSwitchCase="undone">
       <button
         class="{{ habitMark }}"

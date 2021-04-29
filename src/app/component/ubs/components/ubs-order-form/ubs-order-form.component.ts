@@ -1,30 +1,24 @@
-import { ChangeDetectorRef, ViewChild } from '@angular/core';
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-
 import { UBSSubmitOrderComponent } from '../ubs-submit-order/ubs-submit-order.component';
 import { UBSPersonalInformationComponent } from '../ubs-personal-information/ubs-personal-information.component';
 import { UBSOrderDetailsComponent } from '../ubs-order-details/ubs-order-details.component';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-ubs-order-form',
   templateUrl: './ubs-order-form.component.html',
-  styleUrls: ['./ubs-order-form.component.scss']
+  styleUrls: ['./ubs-order-form.component.scss'],
 })
 export class UBSOrderFormComponent implements AfterViewInit {
   firstStepForm: FormGroup;
   secondStepForm: FormGroup;
   thirdStepForm: FormGroup;
 
-  @ViewChild('firstStep', {static: false}) stepOneComponent: UBSOrderDetailsComponent;
-  @ViewChild('secondStep', {static: false}) stepTwoComponent: UBSPersonalInformationComponent;
-  @ViewChild('thirdStep', {static: false}) stepThreeComponent: UBSSubmitOrderComponent;
+  @ViewChild('firstStep', { static: false }) stepOneComponent: UBSOrderDetailsComponent;
+  @ViewChild('secondStep', { static: false }) stepTwoComponent: UBSPersonalInformationComponent;
+  @ViewChild('thirdStep', { static: false }) stepThreeComponent: UBSSubmitOrderComponent;
 
-  constructor(
-    private cdr: ChangeDetectorRef,
-    private translate: TranslateService
-    ) { }
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
     this.firstStepForm = this.stepOneComponent.orderDetailsForm;

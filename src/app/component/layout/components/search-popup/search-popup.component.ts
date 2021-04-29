@@ -34,15 +34,15 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   public searchIcons = searchIcons;
   public searctabindex: SearchService;
 
-  constructor(public search: SearchService,
-              public dialog: MatDialog,
-              private snackBar: MatSnackBarComponent,
-              private localStorageService: LocalStorageService,
-              public announcer: LiveAnnouncer
+  constructor(
+    public search: SearchService,
+    public dialog: MatDialog,
+    private snackBar: MatSnackBarComponent,
+    private localStorageService: LocalStorageService,
+    public announcer: LiveAnnouncer
   ) {}
 
   ngOnInit() {
-
     this.announce();
     this.setupInitialValue();
     this.searchValueChanges = this.searchInput.valueChanges;
@@ -58,27 +58,25 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
           this.currentLanguage = this.localStorageService.getCurrentLanguage();
           return this.search.getAllResults(val, this.currentLanguage);
         })
-      ).subscribe(data => this.setData(data));
+      )
+      .subscribe((data) => this.setData(data));
 
-    this.searchValueChanges
-      .pipe(filter(negate(isNil)))
-      .subscribe(() => this.resetData());
-
+    this.searchValueChanges.pipe(filter(negate(isNil))).subscribe(() => this.resetData());
   }
 
   public announce() {
-    this.announcer.announce( 'Welcome to the search window', 'assertive' );
+    this.announcer.announce('Welcome to the search window', 'assertive');
   }
 
   public setupInitialValue(): void {
-    this.searchModalSubscription = this.search.searchSubject.subscribe(signal => this.subscribeToSignal(signal));
+    this.searchModalSubscription = this.search.searchSubject.subscribe((signal) => this.subscribeToSignal(signal));
   }
 
   public openErrorPopup(): void {
     this.snackBar.openSnackBar('error');
   }
 
-  private setData({ecoNews, tipsAndTricks, countOfResults}: SearchModel): void {
+  private setData({ ecoNews, tipsAndTricks, countOfResults }: SearchModel): void {
     this.isLoading = false;
 
     this.newsElements = ecoNews;
@@ -88,7 +86,7 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
 
   private subscribeToSignal(signal: boolean): void {
     if (!signal) {
-      this.searchInput.reset('', {emitEvent: false});
+      this.searchInput.reset('', { emitEvent: false });
     }
     this.isSearchClicked = signal;
   }

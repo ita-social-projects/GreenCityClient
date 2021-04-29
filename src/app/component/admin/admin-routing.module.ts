@@ -13,13 +13,13 @@ const adminRoutes: Routes = [
       { path: '', redirectTo: 'places', pathMatch: 'prefix' },
       { path: 'places', component: PlacesComponent },
       { path: 'users', component: UsersComponent },
-      { path: 'feedbacks', component: FeedbacksComponent }
-    ]
-  }];
+      { path: 'feedbacks', component: FeedbacksComponent },
+    ],
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(adminRoutes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-
-export class AdminRoutingModule { }
+export class AdminRoutingModule {}

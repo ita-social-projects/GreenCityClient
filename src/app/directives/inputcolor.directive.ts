@@ -1,13 +1,11 @@
 import { Directive, HostListener, Input, HostBinding } from '@angular/core';
 
 @Directive({
-  selector: '[appInputcolor]'
+  selector: '[appInputcolor]',
 })
 export class InputcolorDirective {
   @Input() typeColor = '#13aa57';
   @Input() defaultColor = '#000';
-
-  constructor() { }
 
   @HostBinding('style.color') color: string;
   @HostListener('focus', ['$event']) focus(event: Event) {

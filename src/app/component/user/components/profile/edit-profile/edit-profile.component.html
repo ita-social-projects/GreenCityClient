@@ -1,16 +1,11 @@
 <div class="container">
-  <h2>{{ "user.edit-profile.edit-profile" | translate }}</h2>
+  <h2>{{ 'user.edit-profile.edit-profile' | translate }}</h2>
   <app-personal-photo></app-personal-photo>
-  <form
-    #formEditProf
-    [formGroup]="editProfileForm"
-    (ngSubmit)="onSubmit()"
-    (keydown.enter)="$event.preventDefault()"
-  >
+  <form #formEditProf [formGroup]="editProfileForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
     <div class="wrapper">
-      <p>{{ "user.edit-profile.info" | translate }}</p>
+      <p>{{ 'user.edit-profile.info' | translate }}</p>
       <div class="input-block" [ngStyle]="{ 'margin-bottom': '41px' }">
-        <label for="name">{{ "user.edit-profile.name" | translate }}</label>
+        <label for="name">{{ 'user.edit-profile.name' | translate }}</label>
         <input
           type="text"
           formControlName="name"
@@ -18,10 +13,10 @@
           pattern="^\S((?!.*  ).*\S)?$"
           id="name"
         />
-        <span>{{ "user.edit-profile.name-warning" | translate }}</span>
+        <span>{{ 'user.edit-profile.name-warning' | translate }}</span>
       </div>
       <div class="input-block" [ngStyle]="{ 'margin-bottom': '53px' }">
-        <label for="city">{{ "user.edit-profile.city" | translate }}</label>
+        <label for="city">{{ 'user.edit-profile.city' | translate }}</label>
         <input
           type="text"
           formControlName="city"
@@ -33,57 +28,50 @@
           pattern="^[a-zA-Zа-яА-Я][a-zA-Zа-яА-Я!\-\,’)( ]*$"
           id="city"
         />
-        <span>{{ "user.edit-profile.city-warning" | translate }}</span>
+        <span>{{ 'user.edit-profile.city-warning' | translate }}</span>
       </div>
       <div class="input-block">
-        <label for="credo">{{ "user.edit-profile.title" | translate }}</label>
-        <textarea
-          placeholder="{{ userInfo.userCredo }}"
-          formControlName="credo"
-          id="credo"
-        ></textarea>
-        <span>{{ "user.edit-profile.title-warning" | translate }}</span>
+        <label for="credo">{{ 'user.edit-profile.title' | translate }}</label>
+        <textarea placeholder="{{ userInfo.userCredo }}" formControlName="credo" id="credo"></textarea>
+        <span>{{ 'user.edit-profile.title-warning' | translate }}</span>
       </div>
     </div>
     <div class="wrapper">
-      <p>{{ "user.edit-profile.links" | translate }}</p>
-      <app-social-networks
-        [socialNetworks]="socialNetworks"
-        (socialNetworksChange)="emitSocialLinks($event)"
-      ></app-social-networks>
+      <p>{{ 'user.edit-profile.links' | translate }}</p>
+      <app-social-networks [socialNetworks]="socialNetworks" (socialNetworksChange)="emitSocialLinks($event)"></app-social-networks>
     </div>
     <div class="privacy-wrapper">
-      <p class="title">{{ "user.edit-profile.privacy" | translate }}</p>
+      <p class="title">{{ 'user.edit-profile.privacy' | translate }}</p>
       <ul>
         <li>
           <label class="label-wrapper">
             <input type="checkbox" formControlName="showLocation" />
             <span class="checkmark"></span>
-            {{ "user.edit-profile.location" | translate }}
+            {{ 'user.edit-profile.location' | translate }}
           </label>
         </li>
         <li>
           <label class="label-wrapper">
             <input type="checkbox" formControlName="showEcoPlace" />
             <span class="checkmark"></span>
-            {{ "user.edit-profile.eco-place" | translate }}
+            {{ 'user.edit-profile.eco-place' | translate }}
           </label>
         </li>
         <li>
           <label class="label-wrapper">
             <input type="checkbox" formControlName="showShoppingList" />
             <span class="checkmark"></span>
-            {{ "user.edit-profile.shoping-list" | translate }}
+            {{ 'user.edit-profile.shoping-list' | translate }}
           </label>
         </li>
       </ul>
     </div>
     <div class="buttons">
       <button type="button" (click)="cancel()">
-        {{ "user.edit-profile.btn.cancel" | translate }}
+        {{ 'user.edit-profile.btn.cancel' | translate }}
       </button>
       <button type="submit" [disabled]="!editProfileForm.valid || editProfileForm.pristine">
-        {{ "user.edit-profile.btn.save" | translate }}
+        {{ 'user.edit-profile.btn.save' | translate }}
       </button>
     </div>
   </form>

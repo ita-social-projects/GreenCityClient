@@ -6,12 +6,10 @@ import { latestNewsLink } from 'src/app/links';
 import { LanguageService } from '../../i18n/language.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NewsService {
-
-  constructor(private http: HttpClient,
-              private languageService: LanguageService) { }
+  constructor(private http: HttpClient, private languageService: LanguageService) {}
 
   public loadLatestNews(): Observable<NewsDto[]> {
     const currentLanguage = this.languageService.getCurrentLanguage();

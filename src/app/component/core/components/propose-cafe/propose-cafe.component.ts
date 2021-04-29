@@ -25,7 +25,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 @Component({
   selector: 'app-propose-cafe',
   templateUrl: './propose-cafe.component.html',
-  styleUrls: ['./propose-cafe.component.scss']
+  styleUrls: ['./propose-cafe.component.scss'],
 })
 export class ProposeCafeComponent implements OnInit {
   photoLoadingStatus = false;
@@ -39,8 +39,15 @@ export class ProposeCafeComponent implements OnInit {
   discountValues: DiscountDto[] = [];
   specification: SpecificationNameDto;
   openingHoursList: OpeningHours[] = [];
-  weekDays: WeekDays[] = [WeekDays.MONDAY, WeekDays.TUESDAY, WeekDays.WEDNESDAY, WeekDays.THURSDAY, WeekDays.FRIDAY,
-    WeekDays.SATURDAY, WeekDays.SUNDAY];
+  weekDays: WeekDays[] = [
+    WeekDays.MONDAY,
+    WeekDays.TUESDAY,
+    WeekDays.WEDNESDAY,
+    WeekDays.THURSDAY,
+    WeekDays.FRIDAY,
+    WeekDays.SATURDAY,
+    WeekDays.SUNDAY,
+  ];
   openingHours: OpeningHours = new OpeningHours();
   breakTimes: BreakTimes = new BreakTimes();
   discount: DiscountDto;
@@ -58,26 +65,28 @@ export class ProposeCafeComponent implements OnInit {
   photos: Photo[] = [];
   photo: Photo;
   @Output() newPlaceEvent = new EventEmitter<PlaceWithUserModel>();
-  @ViewChild(NgSelectComponent, {static: true}) ngSelectComponent: NgSelectComponent;
-  @ViewChild('search', {static: true})
+  @ViewChild(NgSelectComponent, { static: true }) ngSelectComponent: NgSelectComponent;
+  @ViewChild('search', { static: true })
   public searchElementRef: ElementRef;
   private geoCoder;
-  @ViewChild('saveForm', {static: true}) private saveForm: NgForm;
-  @ViewChild('choice', {static: true}) private choice: any;
+  @ViewChild('saveForm', { static: true }) private saveForm: NgForm;
+  @ViewChild('choice', { static: true }) private choice: any;
 
-  constructor(private modalService: ModalService,
-              private placeService: PlaceService,
-              private categoryService: CategoryService,
-              private specificationService: SpecificationService,
-              private uService: UserService,
-              private matSnackBar: MatSnackBarComponent,
-              private mapsAPILoader: MapsAPILoader,
-              private ngZone: NgZone,
-              private dialogRef: MatDialogRef<ProposeCafeComponent>,
-              private storage: AngularFireStorage,
-              private db: AngularFirestore,
-              private fb: FormBuilder,
-              @Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(
+    private modalService: ModalService,
+    private placeService: PlaceService,
+    private categoryService: CategoryService,
+    private specificationService: SpecificationService,
+    private uService: UserService,
+    private matSnackBar: MatSnackBarComponent,
+    private mapsAPILoader: MapsAPILoader,
+    private ngZone: NgZone,
+    private dialogRef: MatDialogRef<ProposeCafeComponent>,
+    private storage: AngularFireStorage,
+    private db: AngularFirestore,
+    private fb: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
     this.category = new CategoryDto();
     this.discount = new DiscountDto();
     this.location = new LocationDto();
@@ -89,15 +98,15 @@ export class ProposeCafeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.categoryService.findAllCategory().subscribe(data => {
+    this.categoryService.findAllCategory().subscribe((data) => {
       this.categories = data;
     });
 
-    this.specificationService.findAllSpecification().subscribe(data => {
+    this.specificationService.findAllSpecification().subscribe((data) => {
       this.specifications = data;
     });
 
-    this.discountsNumber = Array.apply(null, {length: this.discountsNumber}).map(Number.call, Number);
+    this.discountsNumber = Array.apply(null, { length: this.discountsNumber }).map(Number.call, Number);
 
     // load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
@@ -105,7 +114,7 @@ export class ProposeCafeComponent implements OnInit {
       this.geoCoder = new google.maps.Geocoder();
 
       const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-        types: ['address']
+        types: ['address'],
       });
       autocomplete.addListener('place_changed', () => {
         this.ngZone.run(() => {
@@ -136,8 +145,8 @@ export class ProposeCafeComponent implements OnInit {
     } else {
       let exist = false;
       // tslint:disable-next-line:prefer-for-of
-      for (let i = 0; i < this.discountValues.length; i++) {
-        if (discount1.specification.name === this.discountValues[i].specification.name) {
+      for (const discount of this.discountValues) {
+        if (discount1.specification.name === discount.specification.name) {
           this.matSnackBar.openSnackBar('cafeNotificationsExists');
           exist = true;
         }
@@ -166,7 +175,7 @@ export class ProposeCafeComponent implements OnInit {
       }
     }
     const weekDaysNew: WeekDays[] = [];
-    this.weekDays.forEach(val => {
+    this.weekDays.forEach((val) => {
       if (val !== openingHours1.weekDay) {
         weekDaysNew.push(val);
       }
@@ -183,12 +192,12 @@ export class ProposeCafeComponent implements OnInit {
   }
 
   deleteDay(openingHours: OpeningHours) {
-    this.openingHoursList = this.openingHoursList.filter(item => item !== openingHours);
+    this.openingHoursList = this.openingHoursList.filter((item) => item !== openingHours);
     this.weekDays.push(openingHours.weekDay);
   }
 
   delete(discount: DiscountDto) {
-    this.discountValues = this.discountValues.filter(item => item !== discount);
+    this.discountValues = this.discountValues.filter((item) => item !== discount);
   }
 
   onSubmit() {
@@ -213,7 +222,7 @@ export class ProposeCafeComponent implements OnInit {
   }
 
   getAddress(latitude, longitude) {
-    this.geoCoder.geocode({location: {lat: latitude, lng: longitude}}, (results, status) => {
+    this.geoCoder.geocode({ location: { lat: latitude, lng: longitude } }, (results, status) => {
       if (status === 'OK') {
         if (results[0]) {
           this.zoom = 12;
@@ -238,9 +247,9 @@ export class ProposeCafeComponent implements OnInit {
   // Get Current Location Coordinates
   private setCurrentLocation() {
     if ('geolocation' in navigator) {
-      navigator.permissions.query({name: 'geolocation'}).then( (permissionStatus) => {
+      navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
         if (permissionStatus.state === 'granted') {
-          navigator.geolocation.getCurrentPosition(position => {
+          navigator.geolocation.getCurrentPosition((position) => {
             this.latitude = position.coords.latitude;
             this.longitude = position.coords.longitude;
             this.zoom = 8;
