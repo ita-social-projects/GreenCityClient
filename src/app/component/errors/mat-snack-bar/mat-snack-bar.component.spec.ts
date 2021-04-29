@@ -96,6 +96,7 @@ describe('MatSnackBarComponent', () => {
     it('should call the errorMessage to close the dialog', () => {
       const spy = spyOn(component.snackType, 'errorMessage').and.callThrough();
       component.snackType[`errorMessage`]('Ups');
+      expect(spy).toHaveBeenCalled();
     });
 
     it('should call the function to get type of snackBar', () => {
