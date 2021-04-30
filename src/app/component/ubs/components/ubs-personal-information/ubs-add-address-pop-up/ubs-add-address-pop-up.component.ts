@@ -26,7 +26,7 @@ export class UBSAddAddressPopUpComponent implements OnInit {
       edit: boolean;
       address: Address;
     }
-  ) {}
+  ) { }
 
   get district() {
     return this.addAddressForm.get('district');
@@ -36,35 +36,44 @@ export class UBSAddAddressPopUpComponent implements OnInit {
     return this.addAddressForm.get('street');
   }
 
-  get house() {
-    return this.addAddressForm.get('house');
+  get houseNumber() {
+    return this.addAddressForm.get('houseNumber');
   }
 
   get houseCorpus() {
     return this.addAddressForm.get('houseCorpus');
   }
 
+  get entranceNumber() {
+    return this.addAddressForm.get('entranceNumber');
+  }
+
   ngOnInit() {
     this.addAddressForm = this.fb.group({
-      city: [this.data.edit ? this.data.address.city : 'Київ', Validators.required],
-      district: [this.data.edit ? this.data.address.district : '', Validators.required],
-      street: [
-        this.data.edit ? this.data.address.street : '',
-        [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(this.streetPattern)],
-      ],
-      houseNumber: [this.data.edit ? this.data.address.houseNumber : '', [Validators.required]],
-      houseCorpus: [
-        this.data.edit ? this.data.address.houseCorpus : '',
-        [Validators.maxLength(2), Validators.pattern(this.houseCorpusPattern)],
-      ],
-      entranceNumber: [
-        this.data.edit ? this.data.address.entranceNumber : '',
-        [Validators.maxLength(2), Validators.pattern(this.entranceNumberPattern)],
-      ],
-      longitude: [this.data.edit ? this.data.address.longitude : '', Validators.required],
-      latitude: [this.data.edit ? this.data.address.latitude : '', Validators.required],
+      city: ['Київ', Validators.required],
+      district: ['', Validators.required],
+      street: ['', [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(40),
+        Validators.pattern(this.streetPattern)
+      ]],
+      houseNumber: ['', Validators.required],
+      houseCorpus: ['', [
+        Validators.required,
+        Validators.maxLength(2),
+        Validators.pattern(this.houseCorpusPattern)
+      ]],
+      entranceNumber: ['', [
+        Validators.required,
+        Validators.maxLength(2),
+        Validators.pattern(this.entranceNumberPattern)
+      ]],
+      longitude: ['', Validators.required],
+      latitude: ['', Validators.required]
     });
   }
+
 
   onLocationSelected(event): void {
     this.addAddressForm.get('longitude').setValue(event.longitude);

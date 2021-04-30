@@ -47,18 +47,22 @@
     <div class="item col-sm-4">
       <label>Будинок</label>
       <input formControlName="houseNumber" type="text" class="shadow-none form-control" />
+      <div class="validation" *ngIf="houseNumber.invalid && houseNumber.touched">
+        <app-ubs-input-error [formElement]="houseNumber" [controlName]="'houseNumber'"></app-ubs-input-error>
+      </div>
     </div>
     <div class="item col-sm-4">
       <label>{{ 'personal-info.pop-up-corps' | translate }}</label>
       <input formControlName="houseCorpus" type="text" class="shadow-none form-control" />
+      <div class="validation" *ngIf="houseCorpus.invalid && houseCorpus.touched">
+        <app-ubs-input-error [formElement]="houseCorpus" [controlName]="'houseCorpus'"></app-ubs-input-error>
+      </div>
     </div>
     <div class="item col-sm-4">
       <label>{{ 'personal-info.pop-up-entrance' | translate }}</label>
       <input formControlName="entranceNumber" type="text" class="shadow-none form-control" />
-    </div>
-    <div class="w-100">
-      <div class="validation" *ngIf="houseCorpus.invalid && houseCorpus.touched">
-        <app-ubs-input-error [formElement]="houseCorpus" [controlName]="'houseCorpus'"></app-ubs-input-error>
+      <div class="validation" *ngIf="entranceNumber.invalid && entranceNumber.touched">
+        <app-ubs-input-error [formElement]="entranceNumber" [controlName]="'entranceNumber'"></app-ubs-input-error>
       </div>
     </div>
   </div>
