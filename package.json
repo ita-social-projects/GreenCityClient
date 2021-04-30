@@ -100,7 +100,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run precommit"
+      "pre-commit": "npm run precommit && npx ng test --watch=false --progress=false --codeCoverage=true --browsers=ChromeHeadless"
     }
   }
 }
