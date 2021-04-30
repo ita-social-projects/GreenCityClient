@@ -60,12 +60,10 @@ export class UBSAddAddressPopUpComponent implements OnInit {
       ]],
       houseNumber: ['', Validators.required],
       houseCorpus: ['', [
-        Validators.required,
         Validators.maxLength(2),
         Validators.pattern(this.houseCorpusPattern)
       ]],
       entranceNumber: ['', [
-        Validators.required,
         Validators.maxLength(2),
         Validators.pattern(this.entranceNumberPattern)
       ]],
