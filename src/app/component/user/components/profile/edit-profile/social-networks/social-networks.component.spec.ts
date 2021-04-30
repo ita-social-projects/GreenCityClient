@@ -10,7 +10,7 @@ import { of } from 'rxjs';
 class MatDialogMock {
   open() {
     return {
-      afterClosed: () => of(true)
+      afterClosed: () => of(true),
     };
   }
 }
@@ -22,19 +22,10 @@ describe('SocialNetworksComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SocialNetworksComponent,
-        WarningPopUpComponent
-      ],
-      imports: [
-        TranslateModule.forRoot(),
-        FormsModule
-      ],
-      providers: [
-        { provide: MatDialog, useClass: MatDialogMock }
-      ]
-    })
-    .compileComponents();
+      declarations: [SocialNetworksComponent, WarningPopUpComponent],
+      imports: [TranslateModule.forRoot(), FormsModule],
+      providers: [{ provide: MatDialog, useClass: MatDialogMock }],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -51,10 +42,12 @@ describe('SocialNetworksComponent', () => {
 
   describe('tests of main functions', () => {
     beforeEach(() => {
-      component.socialNetworks = [{
-        url: 'https://www.facebook.com/',
-        socialNetworkImage: ''
-      }];
+      component.socialNetworks = [
+        {
+          url: 'https://www.facebook.com/',
+          socialNetworkImage: '',
+        },
+      ];
     });
 
     it('should replace https/http from string', () => {
@@ -90,7 +83,7 @@ describe('SocialNetworksComponent', () => {
     });
 
     it('Should delete link', () => {
-      component.onDeleteLink({url: 'https://www.facebook.com/'});
+      component.onDeleteLink({ url: 'https://www.facebook.com/' });
       spyOn(dialog, 'open').and.callThrough();
       // @ts-ignore
 
@@ -98,7 +91,7 @@ describe('SocialNetworksComponent', () => {
     });
 
     it('Should delete link on edit and add it to input', () => {
-      component.onEditLink({url: 'https://www.facebook.com/'});
+      component.onEditLink({ url: 'https://www.facebook.com/' });
       // @ts-ignore
       expect(component.inputTextValue).toBe('https://www.facebook.com/');
     });
@@ -111,11 +104,14 @@ describe('SocialNetworksComponent', () => {
     });
 
     it('Should return default image', () => {
-      expect(component.getSocialImage({
-        url: 'https://www.facebook.com/',
-        socialNetworkImage: {
-          imagePath: ''
-        }})).toBeTruthy();
+      expect(
+        component.getSocialImage({
+          url: 'https://www.facebook.com/',
+          socialNetworkImage: {
+            imagePath: '',
+          },
+        })
+      ).toBeTruthy();
     });
 
     it('Should onCloseForm', () => {
@@ -126,7 +122,7 @@ describe('SocialNetworksComponent', () => {
     });
 
     it('Should return error message', () => {
-      const mockError = {pattern: { test: 1 }};
+      const mockError = { pattern: { test: 1 } };
       expect(component.getErrorMessage(mockError)).toMatch('pattern');
     });
   });

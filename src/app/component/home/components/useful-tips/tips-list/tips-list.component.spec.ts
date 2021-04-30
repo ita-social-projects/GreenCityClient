@@ -11,16 +11,9 @@ describe('TipsListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TipsListComponent,
-        TipsCardComponent
-      ],
-      imports: [
-        SwiperModule,
-        TranslateModule.forRoot(),
-      ]
-    })
-    .compileComponents();
+      declarations: [TipsListComponent, TipsCardComponent],
+      imports: [SwiperModule, TranslateModule.forRoot()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

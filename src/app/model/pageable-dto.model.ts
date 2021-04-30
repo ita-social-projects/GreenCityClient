@@ -1,4 +1,4 @@
-import {UserForListDtoModel} from './user/user-for-list-dto.model';
+import { UserForListDtoModel } from './user/user-for-list-dto.model';
 
 export class PageableDtoModel {
   page: UserForListDtoModel[];

@@ -1,4 +1,4 @@
 export interface ActionInterface {
-    title: string;
-    btnCaption: string;
+  title: string;
+  btnCaption: string;
 }

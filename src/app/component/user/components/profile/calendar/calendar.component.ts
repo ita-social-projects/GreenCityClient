@@ -9,15 +9,14 @@ import { MatDialog } from '@angular/material';
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss']
+  styleUrls: ['./calendar.component.scss'],
 })
 export class CalendarComponent extends CalendarBaseComponent implements OnInit, OnDestroy {
-
   constructor(
     public translate: TranslateService,
     public languageService: LanguageService,
     public habitAssignService: HabitAssignService,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) {
     super(translate, languageService, habitAssignService, dialog);
   }

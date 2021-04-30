@@ -7,7 +7,7 @@ import { HabitsListViewComponent } from './components/habits-list-view/habits-li
 import { LocalStorageService } from '../../../../../service/localstorage/local-storage.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { BehaviorSubject, of} from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 import { AllHabitsComponent } from './all-habits.component';
 import { HabitService } from '../../../../../service/habit/habit.service';
@@ -18,7 +18,8 @@ describe('AllHabitsComponent', async () => {
   let component: AllHabitsComponent;
   let fixture: ComponentFixture<AllHabitsComponent>;
 
-  const assignedHabitsMock: Array<HabitAssignInterface> = [{
+  const assignedHabitsMock: Array<HabitAssignInterface> = [
+    {
       createDateTime: new Date('2021-02-11T16:35:18.048839Z'),
       duration: 14,
       habit: {
@@ -27,11 +28,11 @@ describe('AllHabitsComponent', async () => {
           description: 'Test',
           habitItem: 'Test',
           languageCode: 'en',
-          name: 'Test'
+          name: 'Test',
         },
         id: 506,
         image: '',
-        tags: []
+        tags: [],
       },
       habitStatusCalendarDtoList: [],
       habitStreak: 0,
@@ -39,41 +40,41 @@ describe('AllHabitsComponent', async () => {
       lastEnrollmentDate: new Date('2021-02-11T16:35:18.04885Z'),
       status: 'INPROGRESS',
       userId: 7835,
-      workingDays: 0
-    }
+      workingDays: 0,
+    },
   ];
 
   const habitsMockData: HabitListInterface = {
-      currentPage: 1,
-      page: [
-        {
-          defaultDuration: 1,
-          habitTranslation: {
-            description: 'test',
-            habitItem: 'test, best',
-            languageCode: 'en',
-            name: 'test'
-          },
-          id: 0,
-          image: 'test',
-          tags: ['test']
+    currentPage: 1,
+    page: [
+      {
+        defaultDuration: 1,
+        habitTranslation: {
+          description: 'test',
+          habitItem: 'test, best',
+          languageCode: 'en',
+          name: 'test',
         },
-        {
-          defaultDuration: 1,
-          habitTranslation: {
-            description: 'test2',
-            habitItem: 'test2',
-            languageCode: 'en',
-            name: 'test2'
-          },
-          id: 1,
-          image: 'test2',
-          tags: ['test2']
-        }
-      ],
-      totalElements: 2,
-      totalPages: 1
-    };
+        id: 0,
+        image: 'test',
+        tags: ['test'],
+      },
+      {
+        defaultDuration: 1,
+        habitTranslation: {
+          description: 'test2',
+          habitItem: 'test2',
+          languageCode: 'en',
+          name: 'test2',
+        },
+        id: 1,
+        image: 'test2',
+        tags: ['test2'],
+      },
+    ],
+    totalElements: 2,
+    totalPages: 1,
+  };
 
   const mockData = new BehaviorSubject<any>(habitsMockData);
 
@@ -84,24 +85,10 @@ describe('AllHabitsComponent', async () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AllHabitsComponent,
-        HabitsListViewComponent,
-       ],
-      imports: [
-        TranslateModule.forRoot(),
-        SharedModule,
-        InfiniteScrollModule,
-        RouterTestingModule,
-        HttpClientTestingModule
-      ],
-      providers: [
-        HabitService,
-        HabitAssignService,
-        { provide: LocalStorageService, useValue: localStorageServiceMock },
-      ]
-    })
-    .compileComponents();
+      declarations: [AllHabitsComponent, HabitsListViewComponent],
+      imports: [TranslateModule.forRoot(), SharedModule, InfiniteScrollModule, RouterTestingModule, HttpClientTestingModule],
+      providers: [HabitService, HabitAssignService, { provide: LocalStorageService, useValue: localStorageServiceMock }],
+    }).compileComponents();
   });
 
   beforeEach(() => {

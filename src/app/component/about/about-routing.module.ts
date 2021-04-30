@@ -6,11 +6,11 @@ const aboutRoutes: Routes = [
   {
     path: '',
     component: AboutPageComponent,
-  }
+  },
 ];
 
 @NgModule({
-  imports: [ RouterModule.forChild(aboutRoutes) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forChild(aboutRoutes)],
+  exports: [RouterModule],
 })
 export class AboutRoutingModule {}

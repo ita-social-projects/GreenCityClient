@@ -3,5 +3,5 @@ export enum ItemClass {
   ENROLLEDPAST = 'enrolled-past-day',
   UNENROLLEDPAST = 'unenrolled-past-day',
   ENROLLED = 'enrolled-day',
-  UNENROLLED = 'unenrolled-day'
+  UNENROLLED = 'unenrolled-day',
 }

@@ -1,14 +1,14 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {HabitDto} from '../../../../../../../../model/habit/HabitDto';
-import {HabitStatisticsDto} from '../../../../../../../../model/habit/HabitStatisticsDto';
-import {HabitStatisticService} from '../../../../../../../../service/habit-statistic/habit-statistic.service';
-import {DayEstimation} from '../../../../../../../../model/habit/DayEstimation';
-import {filter, map} from 'rxjs/operators';
+import { Component, Input, OnInit } from '@angular/core';
+import { HabitDto } from '../../../../../../../../model/habit/HabitDto';
+import { HabitStatisticsDto } from '../../../../../../../../model/habit/HabitStatisticsDto';
+import { HabitStatisticService } from '../../../../../../../../service/habit-statistic/habit-statistic.service';
+import { DayEstimation } from '../../../../../../../../model/habit/DayEstimation';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-day-estimation',
   templateUrl: './day-estimation.component.html',
-  styleUrls: ['./day-estimation.component.scss']
+  styleUrls: ['./day-estimation.component.scss'],
 })
 export class DayEstimationComponent implements OnInit {
   @Input()
@@ -17,20 +17,19 @@ export class DayEstimationComponent implements OnInit {
   habitStatisticsDto: HabitStatisticsDto;
   dayEstimation: DayEstimation;
 
-  constructor(private habitStatisticService: HabitStatisticService) {
-  }
+  constructor(private habitStatisticService: HabitStatisticService) {}
 
   ngOnInit() {
     this.habitStatisticService.habitStatistics
       .pipe(
-        map(habit => habit.find(item => item.id === this.habitDto.id)),
-        filter(habit => habit !== undefined),
+        map((habit) => habit.find((item) => item.id === this.habitDto.id)),
+        filter((habit) => habit !== undefined)
       )
       .subscribe((data: HabitDto) => {
         const stat = this.habitStatisticService.getHabitStatisticsDto(this.habitStatisticsDto, data);
         this.habitStatisticsDto = stat;
         this.dayEstimation = stat.habitRate;
-    });
+      });
   }
 
   update(estimation: string) {

@@ -24,7 +24,7 @@ describe('SearchAllResultsComponent', () => {
       name: 'test',
     },
     creationDate: '0101',
-    tags: ['test']
+    tags: ['test'],
   };
 
   const searchDataMock = {
@@ -48,25 +48,13 @@ describe('SearchAllResultsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SearchAllResultsComponent,
-        SearchItemComponent,
-        SearchNotFoundComponent,
-      ],
-      imports: [
-        RouterTestingModule,
-        HttpClientTestingModule,
-        FormsModule,
-        InfiniteScrollModule,
-        TranslateModule.forRoot(),
-        SharedModule
-      ],
+      declarations: [SearchAllResultsComponent, SearchItemComponent, SearchNotFoundComponent],
+      imports: [RouterTestingModule, HttpClientTestingModule, FormsModule, InfiniteScrollModule, TranslateModule.forRoot(), SharedModule],
       providers: [
         { provide: SearchService, useValue: searchMock },
         { provide: ActivatedRoute, useValue: activatedRouteMock },
-      ]
-    })
-      .compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -93,7 +81,7 @@ describe('SearchAllResultsComponent', () => {
       spyOn(document.documentElement, 'clientHeight').and.returnValue(200);
       // @ts-ignore
       spyOn(document.body, 'clientHeight').and.returnValue(100);
-      const spy = spyOn(component, 'onScroll').and.returnValue();
+      const spy = spyOn(component, 'onScroll');
       // @ts-ignore
       component.forceScroll();
 
@@ -103,7 +91,7 @@ describe('SearchAllResultsComponent', () => {
     it('should update url query part', inject([Router], (mockRouter: Router) => {
       component.inputValue = 'test';
       component.searchCategory = 'tetCat';
-      spyOn(mockRouter, 'navigate').and.returnValue(new Promise(res => res(true)));
+      spyOn(mockRouter, 'navigate').and.returnValue(new Promise((res) => res(true)));
       // @ts-ignore
       component.onSearchUpdateQuery();
       expect(mockRouter.navigate).toHaveBeenCalled();
@@ -137,7 +125,7 @@ describe('SearchAllResultsComponent', () => {
       component.searchCategory = 'econews';
       // @ts-ignore
       const spy = spyOn(component, 'onSearchUpdateQuery').and.returnValue(true);
-      component.onFilterByClick({category: 'tipsandtricks', name: 'tips'});
+      component.onFilterByClick({ category: 'tipsandtricks', name: 'tips' });
       expect(component.searchCategory).toBe('tipsandtricks');
       expect(spy).toHaveBeenCalled();
     });
@@ -146,7 +134,7 @@ describe('SearchAllResultsComponent', () => {
       component.searchCategory = 'econews';
       // @ts-ignore
       const spy = spyOn(component, 'onSearchUpdateQuery').and.returnValue(true);
-      component.onFilterByClick({category: 'econews', name: 'news'});
+      component.onFilterByClick({ category: 'econews', name: 'news' });
       expect(spy).not.toHaveBeenCalled();
     });
   });

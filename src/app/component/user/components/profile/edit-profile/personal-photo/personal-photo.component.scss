@@ -1,28 +1,32 @@
 .details-img {
-  margin: 48px 0 41px;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 
-  button {
-    border: none;
-    background-color: transparent;
-    left: 115px;
-    outline: none;
-    padding: 0;
-    position: absolute;
-    top: 101px;
-  }
+  .edit-image-button {
+    margin-top: 8px;
+    color: var(--primary-green);
+    background-color: var(--primary-white);
+    border: 1px solid var(--primary-white);
+    padding: 8px 24px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 20px;
+    width: 148px;
 
-  div {
-    margin-top: 30px;
+    &:hover {
+      border: 1px solid var(--primary-green);
+    }
   }
 }
 
 @media screen and (max-width: 320px) {
   .details-img {
-    text-align: center;
-
-    button {
-      left: 170px;
-    }
+    margin-top: 24px;
+    align-items: center;
   }
 }

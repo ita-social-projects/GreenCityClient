@@ -16,9 +16,7 @@
     ],
     "lib": [
       "es2018",
-
       "dom"
-
     ],
     "paths": {
       "@global-auth/*": ["src/app/component/auth/components/*"],

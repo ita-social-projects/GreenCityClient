@@ -1,8 +1,8 @@
 export const PROFILE_IMAGES = {
-  achs : [
+  achs: [
     'assets/img/profile/achievements/achievement-1.png',
     'assets/img/profile/achievements/achievement-2.png',
-    'assets/img/profile/achievements/achievement-3.png'
+    'assets/img/profile/achievements/achievement-3.png',
   ],
   friends: [
     'assets/img/profile/friends/friend-1.png',
@@ -10,6 +10,6 @@ export const PROFILE_IMAGES = {
     'assets/img/profile/friends/friend-3.png',
     'assets/img/profile/friends/friend-4.png',
     'assets/img/profile/friends/friend-5.png',
-    'assets/img/profile/friends/friend-6.png'
-  ]
+    'assets/img/profile/friends/friend-6.png',
+  ],
 };

@@ -1,9 +1,8 @@
 import { Directive, ElementRef, HostListener, OnInit, Renderer2 } from '@angular/core';
 
 @Directive({
-  selector: '[appGradient]'
+  selector: '[appGradient]',
 })
-
 export class GradientDirective implements OnInit {
   public durationProgres: number;
   public gradientProgres: number;
@@ -18,11 +17,15 @@ export class GradientDirective implements OnInit {
   ngOnInit(): void {
     this.durationProgres = this.elm.nativeElement.value;
     this.calcGradientVal();
-    this.renderer.setStyle(this.elm.nativeElement, 'background-image', `linear-gradient(90deg,
+    this.renderer.setStyle(
+      this.elm.nativeElement,
+      'background-image',
+      `linear-gradient(90deg,
       rgb(19, 170, 87) 0%,
       rgb(19, 170, 87) ${this.gradientProgres}%,
       rgb(212, 224, 222) ${this.gradientProgres}%,
-      rgb(212, 224, 222) 100%)`);
+      rgb(212, 224, 222) 100%)`
+    );
   }
 
   @HostListener('input') onInput() {
@@ -40,7 +43,6 @@ export class GradientDirective implements OnInit {
   }
 
   private calcGradientVal() {
-    this.gradientProgres = (this.durationProgres - this.min) / (this.max - this.min) * 100;
+    this.gradientProgres = ((this.durationProgres - this.min) / (this.max - this.min)) * 100;
   }
-
 }

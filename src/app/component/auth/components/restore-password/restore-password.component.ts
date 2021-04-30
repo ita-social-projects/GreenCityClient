@@ -18,7 +18,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 @Component({
   selector: 'app-restore-password',
   templateUrl: './restore-password.component.html',
-  styleUrls: ['./restore-password.component.scss']
+  styleUrls: ['./restore-password.component.scss'],
 })
 export class RestorePasswordComponent implements OnInit, OnDestroy {
   public restorePasswordForm: FormGroup;
@@ -58,7 +58,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
 
   public initFormReactive(): void {
     this.restorePasswordForm = new FormGroup({
-      email: new FormControl(null, [ Validators.required, Validators.email ])
+      email: new FormControl(null, [Validators.required, Validators.email]),
     });
   }
 
@@ -72,12 +72,11 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   }
 
   private checkIfUserId(): void {
-    this.userIdSubscription = this.localStorageService.userIdBehaviourSubject
-      .subscribe(userId => {
-        if (userId) {
-          this.matDialogRef.close();
-        }
-      });
+    this.userIdSubscription = this.localStorageService.userIdBehaviourSubject.subscribe((userId) => {
+      if (userId) {
+        this.matDialogRef.close();
+      }
+    });
   }
 
   public onCloseRestoreWindow(): void {
@@ -89,22 +88,22 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   }
 
   sentEmail(): void {
-    const {email} = this.restorePasswordForm.value;
+    const { email } = this.restorePasswordForm.value;
     this.loadingAnim = true;
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
-    this.restorePasswordService.sendEmailForRestore(email, this.currentLanguage)
-      .pipe(
-       take(1))
+    this.restorePasswordService
+      .sendEmailForRestore(email, this.currentLanguage)
+      .pipe(take(1))
       .subscribe({
         next: () => {
           this.onCloseRestoreWindow();
           this.snackBar.openSnackBar('successRestorePassword');
-      },
+        },
         error: (error: HttpErrorResponse) => {
           this.onSentEmailBadMessage(error);
           this.loadingAnim = false;
-      }
-    });
+        },
+      });
   }
 
   private onSentEmailBadMessage(error: HttpErrorResponse): void {
@@ -124,14 +123,15 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   }
 
   public signInWithGoogle(): void {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(data => {
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((data) => {
       this.googleService.signIn(data.idToken).subscribe(
         (signInData: UserSuccessSignIn) => {
           this.onSignInWithGoogleSuccess(signInData);
         },
         (errors: HttpErrorResponse) => {
           this.onSignInFailure(errors);
-        });
+        }
+      );
     });
   }
 
