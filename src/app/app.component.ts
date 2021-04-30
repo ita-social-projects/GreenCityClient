@@ -7,7 +7,7 @@ import { UiActionsService } from '@global-service/ui-actions/ui-actions.service'
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
   public toggle: boolean;
