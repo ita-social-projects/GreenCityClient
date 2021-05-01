@@ -15,11 +15,11 @@ const ubsRoutes: Routes = [
   },
   { path: 'confirm',
     component: UbsConfirmPageComponent,
-  },
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(ubsRoutes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class UbsRoutingModule { }
+export class UbsRoutingModule {}

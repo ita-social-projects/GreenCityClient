@@ -8,9 +8,8 @@ describe('HabitEditShoppingListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HabitEditShoppingListComponent ]
-    })
-    .compileComponents();
+      declarations: [HabitEditShoppingListComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

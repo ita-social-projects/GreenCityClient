@@ -6,7 +6,7 @@ import { AddNewHabitService } from './services/add-new-habit.service';
 @Component({
   selector: 'app-add-new-habit',
   templateUrl: './add-new-habit.component.html',
-  styleUrls: ['./add-new-habit.component.scss']
+  styleUrls: ['./add-new-habit.component.scss'],
 })
 export class AddNewHabitComponent implements OnInit {
   public habit: ServerHabitItemPageModel;
@@ -14,16 +14,14 @@ export class AddNewHabitComponent implements OnInit {
   public userId: string;
   public newDuration: number;
 
-  constructor(private route: ActivatedRoute,
-              private router: Router,
-              private addHabitService: AddNewHabitService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private addHabitService: AddNewHabitService) {}
 
   ngOnInit() {
     this.getUserId();
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe((params) => {
       this.habitId = +params.habitId;
     });
-    this.addHabitService.getHabitById(this.habitId).subscribe(data => {
+    this.addHabitService.getHabitById(this.habitId).subscribe((data) => {
       this.habit = data;
     });
   }
@@ -39,5 +37,4 @@ export class AddNewHabitComponent implements OnInit {
   public getDuration(newDuration: number) {
     this.newDuration = newDuration;
   }
-
 }

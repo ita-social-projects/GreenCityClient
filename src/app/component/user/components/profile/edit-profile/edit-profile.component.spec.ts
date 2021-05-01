@@ -1,3 +1,6 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -11,11 +14,9 @@ import { EditProfileFormBuilder } from '@global-user/components/profile/edit-pro
 import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { EditProfileModel } from '@user-models/edit-profile.model';
-
 import { EditProfileComponent } from './edit-profile.component';
 
-class Test {
-}
+class Test {}
 
 describe('EditProfileComponent', () => {
   let component: EditProfileComponent;
@@ -25,15 +26,13 @@ describe('EditProfileComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        EditProfileComponent,
-      ],
+      declarations: [EditProfileComponent],
       imports: [
         ReactiveFormsModule,
         MatDialogModule,
-        RouterTestingModule.withRoutes([
-          { path: '**', component: Test }
-        ]),
+        MatSnackBarModule,
+        BrowserAnimationsModule,
+        RouterTestingModule.withRoutes([{ path: '**', component: Test }]),
         HttpClientTestingModule,
         AgmCoreModule,
         TranslateModule.forRoot(),
@@ -41,17 +40,17 @@ describe('EditProfileComponent', () => {
       providers: [
         EditProfileFormBuilder,
         EditProfileService,
+        MatSnackBarComponent,
         ProfileService,
         {
           provide: MapsAPILoader,
           useValue: {
-            load: jasmine.createSpy('load').and.returnValue(new Promise(() => true))
-          }
+            load: jasmine.createSpy('load').and.returnValue(new Promise(() => true)),
+          },
         },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
-    })
-      .compileComponents();
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -100,18 +99,19 @@ describe('EditProfileComponent', () => {
       component.editProfileForm.value.showShoppingList = '';
     });
 
-    it('should return false in case of form fields were not changed', () => {
-      expect(component.checkChanges()).toBeFalsy();
+    it('should return true in case of form fields were not changed', () => {
+      expect(component.checkChanges()).toBeTruthy();
     });
 
-    it('should return true in case of form fields were changed', () => {
-      expect(component.canDeactivate()).toBeTruthy();
+    it('should return false in case of form fields were changed', () => {
+      expect(component.canDeactivate()).toBeFalsy();
     });
   });
 
   describe('Testing controls for the form:', () => {
     const controlsName = ['name', 'city', 'credo'];
-    const maxLength = 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. ' +
+    const maxLength =
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. ' +
       'Facilis asperiores minus corrupti impedit cumque sapiente est architecto obcaecati quisquam velit quidem quis nesciunt';
     const invalidCity = ['@Lviv', '.Lviv', 'Kiev6', 'Kyiv$'];
     const validCity = ['Lviv', 'Ivano-Frankivsk', 'Kiev(Ukraine)', 'Львов, Украина'];
@@ -166,7 +166,7 @@ describe('EditProfileComponent', () => {
         showEcoPlace: true,
         showLocation: true,
         showShoppingList: true,
-        socialNetworks: [{id: 220, url: 'http://instagram.com/profile'}]
+        socialNetworks: [{ id: 220, url: 'http://instagram.com/profile' }],
       };
     });
 

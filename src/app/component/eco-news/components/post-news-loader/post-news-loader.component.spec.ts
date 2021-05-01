@@ -13,15 +13,10 @@ describe('PostNewsLoaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PostNewsLoaderComponent ],
-      imports: [
-        TranslateModule.forRoot(),
-      ],
-      providers: [
-        { provide: Title, useValue: titleMock }
-      ]
-    })
-    .compileComponents();
+      declarations: [PostNewsLoaderComponent],
+      imports: [TranslateModule.forRoot()],
+      providers: [{ provide: Title, useValue: titleMock }],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

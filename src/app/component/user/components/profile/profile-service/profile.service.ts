@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CardModel } from '@user-models/card.model';
 import { ShoppingList } from '@user-models/shoppinglist.model';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ProfileStatistics } from '@user-models/profile-statistiscs';
 import { EditProfileModel } from '@user-models/edit-profile.model';
@@ -12,20 +12,15 @@ import { UserFriendsInterface } from '../../../../../interface/user/user-friends
 import { mainLink, mainUserLink } from '../../../../../links';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class ProfileService {
   public userId: number;
 
-  constructor(private http: HttpClient,
-              private localStorageService: LocalStorageService,
-              private languageService: LanguageService) { }
+  constructor(private http: HttpClient, private localStorageService: LocalStorageService, private languageService: LanguageService) {}
 
   public setUserId(): void {
-    this.localStorageService
-      .userIdBehaviourSubject
-      .subscribe(userId => this.userId = userId);
+    this.localStorageService.userIdBehaviourSubject.subscribe((userId) => (this.userId = userId));
   }
 
   public getFactsOfTheDay(): Observable<CardModel> {
@@ -40,14 +35,15 @@ export class ProfileService {
   }
 
   public getShoppingList(): Observable<ShoppingList[]> {
-    this.setUserId();
     const currentLang = this.languageService.getCurrentLanguage();
+    this.setUserId();
     return this.http.get<ShoppingList[]>(`
     ${mainLink}custom/shopping-list-items/${this.userId}/custom-shopping-list-items?lang=${currentLang}
     `);
   }
 
   public getUserProfileStatistics(): Observable<ProfileStatistics> {
+    this.setUserId();
     return this.http.get<ProfileStatistics>(`${mainUserLink}user/${this.userId}/profileStatistics/`);
   }
 
@@ -56,6 +52,7 @@ export class ProfileService {
   }
 
   public getUserFriends(): Observable<UserFriendsInterface> {
+    this.setUserId();
     return this.http.get<UserFriendsInterface>(`${mainUserLink}user/${this.userId}/sixUserFriends/`);
   }
 
@@ -64,7 +61,10 @@ export class ProfileService {
     const body = {};
     const { status: prevStatus } = item;
     const newStatus = prevStatus === 'DONE' ? 'ACTIVE' : 'DONE';
-    return this.http.patch<object[]>(`
-    ${mainLink}custom/shopping-list-items/${this.userId}/custom-shopping-list-items?itemId=${item.id}&status=${newStatus}`, body);
+    return this.http.patch<object[]>(
+      `
+    ${mainLink}custom/shopping-list-items/${this.userId}/custom-shopping-list-items?itemId=${item.id}&status=${newStatus}`,
+      body
+    );
   }
 }

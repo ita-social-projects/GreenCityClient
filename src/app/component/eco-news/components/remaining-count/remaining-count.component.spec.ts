@@ -8,9 +8,8 @@ describe('RemainingCountComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RemainingCountComponent ]
-    })
-    .compileComponents();
+      declarations: [RemainingCountComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

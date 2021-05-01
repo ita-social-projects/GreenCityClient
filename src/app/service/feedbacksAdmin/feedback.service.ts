@@ -5,24 +5,21 @@ import { mainLink } from '../../links';
 import { CommentPageableDtoModel } from '../../model/comment/comment-pageable-dto.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FeedbackService {
-
   apiUrl = `${mainLink}`;
   pageSize = 5;
   page = 0;
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   getCurrentPaginationSettings(): string {
-    return '?page=' + this.page + '&size=' + this.pageSize  + '&sort=createdDate,desc';
+    return '?page=' + this.page + '&size=' + this.pageSize + '&sort=createdDate,desc';
   }
 
   getCommentsByPage(): Observable<CommentPageableDtoModel> {
-    return this.http.get<CommentPageableDtoModel>(`${this.apiUrl}comments`
-      + this.getCurrentPaginationSettings());
+    return this.http.get<CommentPageableDtoModel>(`${this.apiUrl}comments` + this.getCurrentPaginationSettings());
   }
 
   changePage(page: number) {

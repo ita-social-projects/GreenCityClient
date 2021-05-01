@@ -2,17 +2,17 @@
   <div class="habit__container">
     <div class="habit__header">
       <div class="calendar">
-        <img class="calendar__icon" src="assets/img/icon/Calendar_icon.png" alt="calendar">
+        <img class="calendar__icon" src="assets/img/icon/Calendar_icon.png" alt="calendar" />
         <span class="days">4 days</span>
       </div>
       <div class="stars">
-        <img src="assets/img/icon/star-1.png" alt="star">
-        <img src="assets/img/icon/star-2.png" alt="star">
-        <img src="assets/img/icon/star-2.png" alt="star">
+        <img src="assets/img/icon/star-1.png" alt="star" />
+        <img src="assets/img/icon/star-2.png" alt="star" />
+        <img src="assets/img/icon/star-2.png" alt="star" />
       </div>
     </div>
     <div class="habit__picture">
-      <img [src]='habit.image' alt="habit picture">
+      <img [src]="habit.image" alt="habit picture" />
     </div>
     <div class="habit__info">
       <div class="tags">
@@ -28,11 +28,13 @@
     <div class="habit__action-wrp">
       <div>
         <button class="secondary-global-button" (click)="goHabitMore()">
-          {{'user.habit.all-habits.btn-more' | translate}}</button>
+          {{ 'user.habit.all-habits.btn-more' | translate }}
+        </button>
       </div>
       <div>
-        <button [disabled] = "habit.isAssigned" class="primary-global-button" (click)="addHabit()">
-          {{'user.habit.all-habits.btn-add' | translate}}</button>
+        <button [disabled]="habit.isAssigned" class="primary-global-button" (click)="addHabit()">
+          {{ 'user.habit.all-habits.btn-add' | translate }}
+        </button>
       </div>
     </div>
   </div>

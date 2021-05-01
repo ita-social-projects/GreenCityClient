@@ -11,22 +11,17 @@ describe('SearchItemComponent', () => {
     title: 'test',
     author: {
       id: 1,
-      name: 'string'
+      name: 'string',
     },
     creationDate: '1000',
-    tags: ['tag']
+    tags: ['tag'],
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SearchItemComponent
-      ],
-      imports: [
-        RouterTestingModule
-      ]
-    })
-    .compileComponents();
+      declarations: [SearchItemComponent],
+      imports: [RouterTestingModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

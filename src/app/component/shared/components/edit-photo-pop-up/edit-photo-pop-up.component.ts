@@ -24,12 +24,14 @@ export class EditPhotoPopUpComponent implements OnInit {
   public loadingAnim: boolean;
   private croppedImage: string;
 
-  constructor(private matDialogRef: MatDialogRef<EditPhotoPopUpComponent>,
-              private dialog: MatDialog,
-              private editProfileService: EditProfileService,
-              private profileService: ProfileService,
-              private snackBar: MatSnackBarComponent,
-              @Inject(MAT_DIALOG_DATA) public data) { }
+  constructor(
+    private matDialogRef: MatDialogRef<EditPhotoPopUpComponent>,
+    private dialog: MatDialog,
+    private editProfileService: EditProfileService,
+    private profileService: ProfileService,
+    private snackBar: MatSnackBarComponent,
+    @Inject(MAT_DIALOG_DATA) public data
+  ) {}
 
   ngOnInit() {
     this.setUserAvatar();
@@ -49,20 +51,15 @@ export class EditPhotoPopUpComponent implements OnInit {
 
   public savePhoto(): void {
     this.loadingAnim = true;
-    const body = {
-      id: this.profileService.userId,
-      profilePicturePath: this.croppedImage
-    };
     const formData = new FormData();
-    formData.append('userProfilePictureDto', JSON.stringify(body));
-
-    this.editProfileService.updateProfilePhoto(formData)
-    .subscribe(
+    formData.append('base64', this.croppedImage);
+    this.editProfileService.updateProfilePhoto(formData).subscribe(
       () => {
         this.loadingAnim = false;
         this.closeEditPhoto();
       },
-      () => this.openErrorDialog());
+      () => this.openErrorDialog()
+    );
   }
 
   public deletePhoto(): void {
@@ -72,7 +69,8 @@ export class EditPhotoPopUpComponent implements OnInit {
         this.loadingAnim = false;
         this.closeEditPhoto();
       },
-      () => this.openErrorDialog());
+      () => this.openErrorDialog()
+    );
   }
 
   public closeEditPhoto(): void {
@@ -93,7 +91,7 @@ export class EditPhotoPopUpComponent implements OnInit {
   }
 
   private showWarning(): void {
-    const imageVal = this.files.filter(item => item.file.type === 'image/jpeg' || item.file.type === 'image/png');
+    const imageVal = this.files.filter((item) => item.file.type === 'image/jpeg' || item.file.type === 'image/png');
     this.isWarning = imageVal.length < 1;
   }
 

@@ -2,14 +2,14 @@ import { Component, Input, OnInit } from '@angular/core';
 import { HabitDto } from '../../../../../../../../model/habit/HabitDto';
 import { HabitStatisticsDto } from '../../../../../../../../model/habit/HabitStatisticsDto';
 import { HabitStatisticService } from '../../../../../../../../service/habit-statistic/habit-statistic.service';
-import {filter, map, tap} from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import { Photo } from '../../../../../../../../model/photo/photo';
 import { HabitItem } from '../habit-item/HabitItem';
 
 @Component({
   selector: 'app-habit-item-list',
   templateUrl: './habit-item-list.component.html',
-  styleUrls: ['./habit-item-list.component.scss']
+  styleUrls: ['./habit-item-list.component.scss'],
 })
 export class HabitItemListComponent implements OnInit {
   habitItems: HabitItem[] = [];
@@ -20,17 +20,16 @@ export class HabitItemListComponent implements OnInit {
   currentNumber = 0;
   isExpanded: boolean;
 
-  constructor(private habitStatisticService: HabitStatisticService) {
-  }
+  constructor(private habitStatisticService: HabitStatisticService) {}
 
   ngOnInit(): void {
     this.initHabitItems();
 
     this.habitStatisticService.habitStatistics
       .pipe(
-        map(hab => hab.find(item => item.id === this.habitDto.id)),
-        filter(hab => hab !== undefined),
-        tap(hab => hab.habitStatistics.forEach(hs => hs.createdOn = new Date(hs.createdOn)))
+        map((hab) => hab.find((item) => item.id === this.habitDto.id)),
+        filter((hab) => hab !== undefined),
+        tap((hab) => hab.habitStatistics.forEach((hs) => (hs.createdOn = new Date(hs.createdOn))))
       )
       .subscribe((data: HabitDto) => {
         const stat = this.habitStatisticService.getHabitStatisticsDto(this.habitStatistic, data);
@@ -38,7 +37,7 @@ export class HabitItemListComponent implements OnInit {
         this.currentNumber = stat.amountOfItems;
         this.isExpanded = stat.amountOfItems > 8;
         this.drawCurrentNumberItems();
-    });
+      });
   }
 
   setAllActive(elCount: number) {
@@ -58,12 +57,13 @@ export class HabitItemListComponent implements OnInit {
   }
 
   update(habitItem: HabitItem) {
-    const stat: HabitStatisticsDto =
-      new HabitStatisticsDto(this.habitStatistic.id,
-        this.habitStatistic.habitRate,
-        this.habitStatistic.createdOn,
-        habitItem.numb === this.habitStatistic.amountOfItems ? 0 : habitItem.numb,
-        this.habitDto.id);
+    const stat: HabitStatisticsDto = new HabitStatisticsDto(
+      this.habitStatistic.id,
+      this.habitStatistic.habitRate,
+      this.habitStatistic.createdOn,
+      habitItem.numb === this.habitStatistic.amountOfItems ? 0 : habitItem.numb,
+      this.habitDto.id
+    );
 
     if (this.habitStatistic.id === null) {
       this.create(stat);

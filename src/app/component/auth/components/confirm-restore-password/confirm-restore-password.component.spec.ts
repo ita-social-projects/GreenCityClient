@@ -13,9 +13,8 @@ import { MatDialogRef } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { observable, Observable, of } from 'rxjs';
 import { RestoreDto } from '@global-models/restroreDto';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-
 
 describe('ConfirmRestorePasswordComponent', () => {
   let component: ConfirmRestorePasswordComponent;
@@ -24,40 +23,41 @@ describe('ConfirmRestorePasswordComponent', () => {
   let httpTestingController: HttpTestingController;
 
   const MatDialogRefMock = {
-    close: () => { }
+    close: () => {},
   };
 
   const ChangePasswordServiceStub = {
-    restorePassword: jasmine.createSpy('restorePassword')
+    restorePassword: jasmine.createSpy('restorePassword'),
   };
 
   MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
-  MatSnackBarMock.openSnackBar = (type: string) =>  { };
+  MatSnackBarMock.openSnackBar = (type: string) => {};
 
-  class Fake { }
+  class Fake {}
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ConfirmRestorePasswordComponent ],
+      declarations: [ConfirmRestorePasswordComponent],
       imports: [
         FormsModule,
         ReactiveFormsModule,
         MatSnackBarModule,
         TranslateModule.forRoot(),
-        RouterTestingModule.withRoutes([{
-          path: 'welcome',
-          component: Fake
-        }]),
-        HttpClientTestingModule
-        ],
+        RouterTestingModule.withRoutes([
+          {
+            path: 'welcome',
+            component: Fake,
+          },
+        ]),
+        HttpClientTestingModule,
+      ],
       providers: [
         { provide: ChangePasswordService, useValue: ChangePasswordServiceStub },
         { provide: MatDialogRef, useValue: MatDialogRefMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
-    ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    })
-    .compileComponents();
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
 
     httpTestingController = TestBed.get(HttpTestingController);
   }));
@@ -69,7 +69,6 @@ describe('ConfirmRestorePasswordComponent', () => {
   });
 
   describe('Basic tests', () => {
-
     beforeEach(() => {
       fixture = TestBed.createComponent(ConfirmRestorePasswordComponent);
       component = fixture.componentInstance;
@@ -105,13 +104,13 @@ describe('ConfirmRestorePasswordComponent', () => {
       mockFormData = {
         password: 'Password13.',
         confirmPassword: 'Password13.',
-        token: 'token'
+        token: 'token',
       };
 
       mockRestoreDto = {
-        password:  'Password13.',
-        confirmPassword:  'Password13.',
-        token: 'token'
+        password: 'Password13.',
+        confirmPassword: 'Password13.',
+        token: 'token',
       };
     });
 
@@ -122,7 +121,7 @@ describe('ConfirmRestorePasswordComponent', () => {
     });
 
     it('Test sendPasswords method', () => {
-      const spy = changePasswordServiceMock.restorePassword = jasmine.createSpy('restore').and.returnValue(Observable.of(mockFormData));
+      const spy = (changePasswordServiceMock.restorePassword = jasmine.createSpy('restore').and.returnValue(Observable.of(mockFormData)));
       component.sendPasswords();
       fixture.detectChanges();
       expect(spy).toHaveBeenCalled();
@@ -140,7 +139,7 @@ describe('ConfirmRestorePasswordComponent', () => {
       });
     }
 
-    controlsName.forEach(el => testWrapper(el));
+    controlsName.forEach((el) => testWrapper(el));
 
     it('form should be invalid when empty', () => {
       expect(component.confirmRestorePasswordForm.valid).toBeFalsy();
@@ -150,13 +149,11 @@ describe('ConfirmRestorePasswordComponent', () => {
       it(`The formControl: ${controlName} should be marked as ${status} if the value is ${itemValue}.`, () => {
         const control = component.confirmRestorePasswordForm.get(controlName);
         control.setValue(itemValue);
-        status === 'valid'
-          ? expect(control.valid).toBeTruthy()
-          : expect(control.valid).toBeFalsy();
+        status === 'valid' ? expect(control.valid).toBeTruthy() : expect(control.valid).toBeFalsy();
       });
     }
-    validPasswords.forEach(el => controlsValidator(el, 'password', 'valid'));
-    invalidPasswords.forEach(el => controlsValidator(el, 'password', 'invalid'));
+    validPasswords.forEach((el) => controlsValidator(el, 'password', 'valid'));
+    invalidPasswords.forEach((el) => controlsValidator(el, 'password', 'invalid'));
     it('form should be invalid if passwords do not match', () => {
       const passwordControl = component.confirmRestorePasswordForm.get('password');
       passwordControl.setValue('Password12.');
@@ -164,7 +161,6 @@ describe('ConfirmRestorePasswordComponent', () => {
       confirmPasswordControl.setValue('Password1.');
       expect(component.confirmRestorePasswordForm.valid).toBeFalsy();
     });
-
   });
 
   describe('Password hiding text testing:', () => {
