@@ -43,13 +43,11 @@ import { EditPhotoPopUpComponent } from '@shared/components/edit-photo-pop-up/ed
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ErrorComponent } from '@global-errors/error/error.component';
 import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';
-import { UbsConfirmPageComponent } from 'src/app/component/ubs/components/ubs-confirm-page/ubs-confirm-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ErrorComponent,
-    UbsConfirmPageComponent
+    ErrorComponent
   ],
   imports: [
     BrowserModule,

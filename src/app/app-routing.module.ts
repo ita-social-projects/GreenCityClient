@@ -32,10 +32,6 @@ export const routes: Routes = [
     component: TipsListComponent,
   },
   {
-    path: 'confirm',
-    component: UbsConfirmPageComponent,
-  },
-  {
     path: 'search',
     component: SearchAllResultsComponent
   },
