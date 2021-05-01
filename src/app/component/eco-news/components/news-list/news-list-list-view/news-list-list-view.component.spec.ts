@@ -19,21 +19,18 @@ describe('NewsListListViewComponent', () => {
     title: 'string',
     text: 'string',
     author: {
-        id: 1,
-        name: 'string'
+      id: 1,
+      name: 'string',
     },
-    tags: [{name: 'test', id: 1}],
+    tags: [{ name: 'test', id: 1 }],
     creationDate: '11',
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewsListListViewComponent ],
-      providers: [
-        { provide: Renderer2, useClass: MockRenderer }
-      ]
-    })
-    .compileComponents();
+      declarations: [NewsListListViewComponent],
+      providers: [{ provide: Renderer2, useClass: MockRenderer }],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

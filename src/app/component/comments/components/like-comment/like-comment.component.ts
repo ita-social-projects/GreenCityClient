@@ -6,7 +6,7 @@ import { CommentsDTO, SocketAmountLikes } from '../../models/comments-model';
 @Component({
   selector: 'app-like-comment',
   templateUrl: './like-comment.component.html',
-  styleUrls: ['./like-comment.component.scss']
+  styleUrls: ['./like-comment.component.scss'],
 })
 export class LikeCommentComponent implements OnInit {
   @Input() private comment: CommentsDTO;
@@ -16,11 +16,10 @@ export class LikeCommentComponent implements OnInit {
   public error = false;
   public commentsImages = {
     like: 'assets/img/comments/like.png',
-    liked: 'assets/img/comments/liked.png'
+    liked: 'assets/img/comments/liked.png',
   };
 
-  constructor( private commentsService: CommentsService,
-               private socketService: SocketService ) {}
+  constructor(private commentsService: CommentsService, private socketService: SocketService) {}
 
   ngOnInit() {
     this.likeState = this.comment.currentUserLiked;
@@ -29,10 +28,9 @@ export class LikeCommentComponent implements OnInit {
   }
 
   public onConnectedtoSocket(): void {
-    this.socketService.onMessage(`/topic/${this.comment.id}/comment`)
-      .subscribe((msg: SocketAmountLikes) => {
-        this.likesCounter.emit(msg.amountLikes);
-      });
+    this.socketService.onMessage(`/topic/${this.comment.id}/comment`).subscribe((msg: SocketAmountLikes) => {
+      this.likesCounter.emit(msg.amountLikes);
+    });
   }
 
   private setStartingElements(state: boolean) {
@@ -41,14 +39,13 @@ export class LikeCommentComponent implements OnInit {
   }
 
   public pressLike(): void {
-    this.commentsService.postLike(this.comment.id)
-      .subscribe(() => {
-        this.socketService.send('/app/likeAndCount', {
-          id: this.comment.id,
-          amountLikes: this.likeState ? 0 : 1,
-        });
-        this.changeLkeBtn();
+    this.commentsService.postLike(this.comment.id).subscribe(() => {
+      this.socketService.send('/app/likeAndCount', {
+        id: this.comment.id,
+        amountLikes: this.likeState ? 0 : 1,
       });
+      this.changeLkeBtn();
+    });
   }
 
   public changeLkeBtn(): void {

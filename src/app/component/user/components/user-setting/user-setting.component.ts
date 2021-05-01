@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-user-setting',
   templateUrl: './user-setting.component.html',
-  styleUrls: ['./user-setting.component.scss']
+  styleUrls: ['./user-setting.component.scss'],
 })
 export class UserSettingComponent {
   public isSomethingEdited = false;
@@ -38,13 +38,11 @@ export class UserSettingComponent {
   }
 
   public updateUser() {
-    this.userService.updateUser(this.userUpdateModel).subscribe(
-      () => {
-        this.localStorageService.setFirstName(this.userUpdateModel.firstName);
-        this.dialogRef.close();
-        this.router.navigate(['/']);
-      }
-    );
+    this.userService.updateUser(this.userUpdateModel).subscribe(() => {
+      this.localStorageService.setFirstName(this.userUpdateModel.firstName);
+      this.dialogRef.close();
+      this.router.navigate(['/']);
+    });
   }
 
   public somethingEdited() {
@@ -66,13 +64,13 @@ export class UserSettingComponent {
   }
 
   private setEmailNotifications() {
-    this.userService.getEmailNotificationsStatuses().subscribe(res => {
+    this.userService.getEmailNotificationsStatuses().subscribe((res) => {
       this.emailNotifications = [
         ...res
-          .filter(eNotification => {
+          .filter((eNotification) => {
             return eNotification !== 'DISABLED';
           })
-          .map(column => column)
+          .map((column) => column),
       ];
     });
   }

@@ -9,14 +9,9 @@ describe('StatRowComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        StatRowComponent
-      ],
-      imports: [
-        TranslateModule.forRoot()
-      ]
-    })
-    .compileComponents();
+      declarations: [StatRowComponent],
+      imports: [TranslateModule.forRoot()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -28,7 +23,7 @@ describe('StatRowComponent', () => {
       count: 'test',
       question: 'test',
       iconPath: 'test',
-      locationText: 'test'
+      locationText: 'test',
     };
     component.index = 1;
 

@@ -69,13 +69,6 @@
   }
 }
 
-.litr_code,
-.currency_code {
-  position: relative;
-  bottom: 35px;
-  left: 60px;
-}
-
 .custom-control-label {
   color: var(--ubs-secondary-grey);
   padding-left: 0;
@@ -164,7 +157,7 @@ button {
     margin-bottom: 2rem;
   }
 
-  input {
+  .input-border {
     background: var(--ubs-primary-white);
     border: 1px solid var(--ubs-secondary-grey);
   }
@@ -291,4 +284,8 @@ button {
       color: var(--ubs-primary-white);
     }
   }
+}
+
+li {
+  list-style: none;
 }

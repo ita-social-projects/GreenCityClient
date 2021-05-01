@@ -10,7 +10,6 @@ import { MatDialogModule, MatFormFieldModule, MAT_DIALOG_DEFAULT_OPTIONS } from 
 import { environment } from '@environment/environment';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-
 import { UbsRoutingModule } from './ubs-routing.module';
 import { UbsComponent } from './ubs.component';
 import { UBSOrderFormComponent } from './components/ubs-order-form/ubs-order-form.component';
@@ -20,6 +19,8 @@ import { UBSSubmitOrderComponent } from './components/ubs-submit-order/ubs-submi
 import { UBSInputErrorComponent } from './components/ubs-input-error/ubs-input-error.component';
 import { UBSAddAddressPopUpComponent } from './components/ubs-personal-information/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { AddressComponent } from './components/ubs-personal-information/address/address.component';
+import { SharedModule } from '@shared/shared.module';
+
 @NgModule({
   declarations: [
     UbsComponent,
@@ -29,7 +30,7 @@ import { AddressComponent } from './components/ubs-personal-information/address/
     UBSSubmitOrderComponent,
     UBSInputErrorComponent,
     UBSAddAddressPopUpComponent,
-    AddressComponent
+    AddressComponent,
   ],
   imports: [
     MatFormFieldModule,
@@ -44,29 +45,28 @@ import { AddressComponent } from './components/ubs-personal-information/address/
     MatGoogleMapsAutocompleteModule,
     AgmCoreModule.forRoot({
       apiKey: environment.agmCoreModuleApiKey,
-      libraries: ['places']
+      libraries: ['places'],
     }),
     TranslateModule.forChild({
       loader: {
-          provide: TranslateLoader,
-          useFactory: (createTranslateLoader),
-          deps: [HttpClient]
+        provide: TranslateLoader,
+        useFactory: createTranslateLoader,
+        deps: [HttpClient],
       },
-      isolate: true
+      isolate: true,
     }),
+    SharedModule,
   ],
+  entryComponents: [UBSAddAddressPopUpComponent],
   providers: [
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
-      useValue: {hasBackdrop: true},
+      useValue: { hasBackdrop: true },
     },
-    TranslateService
+    TranslateService,
   ],
-  entryComponents: [
-    UBSAddAddressPopUpComponent
-  ]
 })
-export class UbsModule { }
+export class UbsModule {}
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/ubs/', '.json');

@@ -9,14 +9,9 @@ describe('ReplyCommentComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ReplyCommentComponent
-      ],
-      imports: [
-        TranslateModule.forRoot(),
-      ]
-    })
-    .compileComponents();
+      declarations: [ReplyCommentComponent],
+      imports: [TranslateModule.forRoot()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

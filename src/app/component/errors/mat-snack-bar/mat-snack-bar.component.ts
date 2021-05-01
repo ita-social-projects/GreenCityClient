@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
   selector: 'app-mat-snack-bar',
   templateUrl: './mat-snack-bar.component.html',
   styleUrls: ['./mat-snack-bar.component.scss'],
-  providers: [TranslateService]
+  providers: [TranslateService],
 })
 export class MatSnackBarComponent {
   public message: string;
@@ -71,11 +71,10 @@ export class MatSnackBarComponent {
     changesSaved: () => {
       this.className = 'success-snackbar';
       this.getSnackBarMessage('user.edit-profile.profile-changes-saved');
-    }
+    },
   };
 
-  constructor(public snackBar: MatSnackBar,
-              private translate: TranslateService) { }
+  constructor(public snackBar: MatSnackBar, private translate: TranslateService) {}
 
   public openSnackBar(type: string) {
     const isInclude = type.includes('400') ? this.snackType.error() : this.snackType.errorMessage(type);
@@ -83,13 +82,13 @@ export class MatSnackBarComponent {
   }
 
   public getSnackBarMessage(key: string): void {
-    this.translate.get(key).subscribe(translation => {
+    this.translate.get(key).subscribe((translation) => {
       this.message = translation;
       this.snackBar.open(this.message, 'X', {
         duration: 15000,
         verticalPosition: 'top',
         horizontalPosition: 'center',
-        panelClass: [this.className]
+        panelClass: [this.className],
       });
     });
   }

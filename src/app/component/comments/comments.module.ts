@@ -27,12 +27,7 @@ import { CommentsService } from './services/comments.service';
     CommentsListComponent,
     CommentsContainerComponent,
   ],
-  imports: [
-    SharedModule,
-    CommonModule,
-    NgxPaginationModule,
-    MatProgressSpinnerModule
-  ],
+  imports: [SharedModule, CommonModule, NgxPaginationModule, MatProgressSpinnerModule],
   exports: [
     AddCommentComponent,
     ViewRepliesComponent,
@@ -45,9 +40,6 @@ import { CommentsService } from './services/comments.service';
     CommentsListComponent,
     CommentsContainerComponent,
   ],
-  providers: [
-    CommentsService
-  ]
+  providers: [CommentsService],
 })
-
-export class CommentsModule { }
+export class CommentsModule {}

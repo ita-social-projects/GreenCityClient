@@ -1,12 +1,12 @@
-{  
+{
   "input-error": {
     "required": "Це поле є обов'язкове до заповнення",
-    "email-empty":"Це поле є обов'язкове до заповнення",
-    "email-wrong":"Введіть коректний email",
-    "minlength-unfull":"Введіть номер телефону повністю",
+    "email-empty": "Це поле є обов'язкове до заповнення",
+    "email-wrong": "Введіть коректний email",
+    "minlength-unfull": "Введіть номер телефону повністю",
     "minlength-short": "Мінімальна кількість символів: 3",
-    "maxlenght":"Перевищена максимальна кількість символів",
-    "pattern":"Поле містить заборонені символи"
+    "maxlenght": "Перевищена максимальна кількість символів",
+    "pattern": "Поле містить заборонені символи"
   },
   "order-details": {
     "order-title": "Послуги",
@@ -57,15 +57,15 @@
   },
   "personal-info": {
     "address-city": "м.",
-    "address-corp":"корпус",
-    "address-entrance":"під'їзд",
+    "address-corp": "корпус",
+    "address-entrance": "під'їзд",
     "address-district": "район",
     "pop-up-city": "Місто",
     "pop-up-city-name": "Київ",
     "pop-up-info-message": "На даний момент обслуговуємо лише м.Київ",
     "pop-up-district": "Район",
     "pop-up-street": "Вулиця",
-    "pop-up-corps": "Корпус", 
+    "pop-up-corps": "Корпус",
     "pop-up-entrance": "Під'їзд",
     "pop-up-cancel": "Відмінити",
     "pop-up-add-address": "Додати адресу",
@@ -84,7 +84,7 @@
     "info-next": "Далі"
   },
   "submit-order": {
-    "your-order":"Ваше замовлення",
+    "your-order": "Ваше замовлення",
     "service": "Послуга",
     "volume": "Об'єм",
     "cost": "Вартість",
@@ -105,7 +105,7 @@
     "payment": "Оплата",
     "after-payment": "Після розміщення замовлення Ви можете здійснити оплату вибраним способом",
     "choose-payment": "Оберіть спосіб оплати",
-    "liqpay-card":"Карткою через LiqPay",
+    "liqpay-card": "Карткою через LiqPay",
     "back": "Назад",
     "to-order": "Замовити"
   }

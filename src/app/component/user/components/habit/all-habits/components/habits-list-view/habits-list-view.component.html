@@ -1,52 +1,50 @@
 <main role="main" id="main-content">
-<div class="habit-wrp">
-  <div class="habit__container">
-    <div class="habit__header-wrp">
-      <div class="habit__header">
-        <div class="calendar">
-          <img
-            class="calendar__icon"
-            src="assets/img/icon/Calendar_icon.png"
-            alt="calendar"
-          />
-          <span class="days">4 days</span>
+  <div class="habit-wrp">
+    <div class="habit__container">
+      <div class="habit__header-wrp">
+        <div class="habit__header">
+          <div class="calendar">
+            <img class="calendar__icon" src="assets/img/icon/Calendar_icon.png" alt="calendar" />
+            <span class="days">4 days</span>
+          </div>
+          <div class="tags">
+            <span>{{ habit.habitTranslation.habitItem }}</span>
+          </div>
+          <div class="aquired">
+            <span>Aquired by 134 users</span>
+          </div>
+          <div class="stars">
+            <img src="assets/img/icon/star-1.png" alt="star" />
+            <img src="assets/img/icon/star-2.png" alt="star" />
+            <img src="assets/img/icon/star-2.png" alt="star" />
+          </div>
         </div>
-        <div class="tags">
-          <span>{{ habit.habitTranslation.habitItem }}</span>
+        <div class="habit__info">
+          <div class="title">
+            <h2>{{ habit.habitTranslation.name }}</h2>
+          </div>
+          <div class="description">
+            <p>{{ habit.habitTranslation.description }}</p>
+          </div>
         </div>
-        <div class="aquired">
-          <span>Aquired by 134 users</span>
-        </div>
-        <div class="stars">
-          <img src="assets/img/icon/star-1.png" alt="star" />
-          <img src="assets/img/icon/star-2.png" alt="star" />
-          <img src="assets/img/icon/star-2.png" alt="star" />
+        <div class="habit__action-wrp">
+          <div>
+            <button [disabled]="habit.isAssigned" class="primary-global-button" (click)="addHabit()">
+              {{ 'user.habit.all-habits.btn-add' | translate }}
+            </button>
+          </div>
+          <div>
+            <button class="secondary-global-button" (click)="goHabitMore()">
+              {{ 'user.habit.all-habits.btn-more' | translate }}
+            </button>
+          </div>
         </div>
       </div>
-      <div class="habit__info">
-        <div class="title">
-          <h2>{{ habit.habitTranslation.name }}</h2>
+      <div class="habit__picture-wrp">
+        <div class="habit__picture">
+          <img [src]="habit.image" alt="habit picture" />
         </div>
-        <div class="description">
-          <p>{{ habit.habitTranslation.description }}</p>
-        </div>
-      </div>
-      <div class="habit__action-wrp">
-        <div>
-          <button [disabled] = "habit.isAssigned" class="primary-global-button" (click)="addHabit()">
-            {{'user.habit.all-habits.btn-add' | translate}}</button>
-        </div>
-        <div>
-          <button class="secondary-global-button" (click)="goHabitMore()">
-            {{'user.habit.all-habits.btn-more' | translate}}</button>
-        </div>
-      </div>
-    </div>
-    <div class="habit__picture-wrp">
-      <div class="habit__picture">
-        <img [src]="habit.image" alt="habit picture" />
       </div>
     </div>
   </div>
-</div>
 </main>

@@ -18,7 +18,7 @@ import {
   NewsListListViewComponent,
   NewsPreviewPageComponent,
   PostNewsLoaderComponent,
-  RemainingCountComponent
+  RemainingCountComponent,
 } from './components';
 import { CommentsModule } from '../comments/comments.module';
 import { MatSnackBarComponent } from './../errors/mat-snack-bar/mat-snack-bar.component';
@@ -38,7 +38,7 @@ import { ACTION_CONFIG, ACTION_TOKEN } from './components/create-edit-news/actio
     NewsPreviewPageComponent,
     PostNewsLoaderComponent,
     MatSnackBarComponent,
-    CreateEditNewsComponent
+    CreateEditNewsComponent,
   ],
   imports: [
     CommonModule,
@@ -52,24 +52,17 @@ import { ACTION_CONFIG, ACTION_TOKEN } from './components/create-edit-news/actio
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [HttpClient]
+        useFactory: createTranslateLoader,
+        deps: [HttpClient],
       },
-      isolate: true
-    })
+      isolate: true,
+    }),
   ],
-  exports: [
-    TranslateModule
-  ],
-  entryComponents: [
-
-  ],
-  providers: [
-    MatSnackBarComponent, { provide: ACTION_TOKEN, useValue: ACTION_CONFIG}
-  ]
+  exports: [TranslateModule],
+  entryComponents: [],
+  providers: [MatSnackBarComponent, { provide: ACTION_TOKEN, useValue: ACTION_CONFIG }],
 })
-
-export class EcoNewsModule  { }
+export class EcoNewsModule {}
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');

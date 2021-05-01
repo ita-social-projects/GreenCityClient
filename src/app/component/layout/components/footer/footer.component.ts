@@ -7,7 +7,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss']
+  styleUrls: ['./footer.component.scss'],
 })
 export class FooterComponent implements OnInit, OnDestroy {
   public actualYear = new Date().getFullYear();
@@ -18,13 +18,11 @@ export class FooterComponent implements OnInit, OnDestroy {
   constructor(private localStorageService: LocalStorageService) {}
 
   ngOnInit() {
-    this.localStorageService.userIdBehaviourSubject
-      .pipe(takeUntil(this.destroySub))
-      .subscribe(userId => this.userId = userId);
+    this.localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((userId) => (this.userId = userId));
   }
 
   public getUserId(): number | string {
-    return ((this.userId !== null && !isNaN(this.userId)) ? this.userId : 'not_signed-in');
+    return this.userId !== null && !isNaN(this.userId) ? this.userId : 'not_signed-in';
   }
 
   ngOnDestroy() {

@@ -15,7 +15,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { RestorePasswordService } from '@auth-service/restore-password.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { GoogleSignInService } from '@global-service/auth/google-sign-in.service';
-import {MatSnackBarModule  } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 describe('RestorePasswordComponent', () => {
@@ -43,7 +43,7 @@ describe('RestorePasswordComponent', () => {
   });
 
   MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
-  MatSnackBarMock.openSnackBar = (type: string) =>  { };
+  MatSnackBarMock.openSnackBar = (type: string) => {};
 
   userSuccessSignIn = new UserSuccessSignIn();
   userSuccessSignIn.userId = '13';
@@ -67,7 +67,7 @@ describe('RestorePasswordComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RestorePasswordComponent ],
+      declarations: [RestorePasswordComponent],
       imports: [
         MatDialogModule,
         ReactiveFormsModule,
@@ -75,16 +75,16 @@ describe('RestorePasswordComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([]),
         BrowserAnimationsModule,
-        MatSnackBarModule
-      ], providers: [
+        MatSnackBarModule,
+      ],
+      providers: [
         { provide: MatDialogRef, useValue: matDialogMock },
         { provide: AuthService, useValue: authServiceMock },
         { provide: Router, useValue: routerSpy },
-        { provide: MatSnackBarComponent, useValue: MatSnackBarMock }
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
-    })
-    .compileComponents();
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -145,7 +145,7 @@ describe('RestorePasswordComponent', () => {
     beforeEach(() => {
       restorePasswordService = fixture.debugElement.injector.get(RestorePasswordService);
       mockFormData = {
-        email: 'test@mail.com'
+        email: 'test@mail.com',
       };
     });
 
@@ -163,13 +163,17 @@ describe('RestorePasswordComponent', () => {
     }));
 
     it('Test sendEmailForRestore method', () => {
-      const spy = restorePasswordService.sendEmailForRestore = jasmine.createSpy('sendEmail').and.returnValue(Observable.of(mockFormData));
+      const spy = (restorePasswordService.sendEmailForRestore = jasmine
+        .createSpy('sendEmail')
+        .and.returnValue(Observable.of(mockFormData)));
       restorePasswordService.sendEmailForRestore(mockFormData);
       expect(spy).toHaveBeenCalled();
     });
 
     it('sentEmail should call sendEmailForRestore', () => {
-      const spy = restorePasswordService.sendEmailForRestore = jasmine.createSpy('sendEmail').and.returnValue(Observable.of(mockFormData));
+      const spy = (restorePasswordService.sendEmailForRestore = jasmine
+        .createSpy('sendEmail')
+        .and.returnValue(Observable.of(mockFormData)));
       component.sentEmail();
       expect(spy).toHaveBeenCalled();
     });
@@ -183,14 +187,12 @@ describe('RestorePasswordComponent', () => {
       it(`The formControl: ${controlName} should be marked as ${status} if the value is ${itemValue}.`, () => {
         const control = component.restorePasswordForm.get(controlName);
         control.setValue(itemValue);
-        status === 'valid'
-          ? expect(control.valid).toBeTruthy()
-          : expect(control.valid).toBeFalsy();
+        status === 'valid' ? expect(control.valid).toBeTruthy() : expect(control.valid).toBeFalsy();
       });
     }
 
-    validEmails.forEach(el => controlsValidator(el, 'email', 'valid'));
-    invalidEmails.forEach(el => controlsValidator(el, 'email', 'invalid'));
+    validEmails.forEach((el) => controlsValidator(el, 'email', 'valid'));
+    invalidEmails.forEach((el) => controlsValidator(el, 'email', 'invalid'));
 
     it('form should be invalid when empty', () => {
       expect(component.restorePasswordForm.valid).toBeFalsy();

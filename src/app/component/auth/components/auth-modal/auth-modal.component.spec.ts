@@ -16,32 +16,18 @@ describe('AuthModalComponent', () => {
   let fixture: ComponentFixture<AuthModalComponent>;
 
   const MatDialogRefMock = {
-    close: () => { }
+    close: () => {},
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AuthModalComponent,
-        SignInComponent,
-        SignUpComponent,
-        RestorePasswordComponent,
-        ErrorComponent,
-        GoogleBtnComponent
-      ],
-      imports: [
-        TranslateModule.forRoot(),
-        ReactiveFormsModule,
-        FormsModule,
-        HttpClientModule,
-        MatDialogModule
-      ],
+      declarations: [AuthModalComponent, SignInComponent, SignUpComponent, RestorePasswordComponent, ErrorComponent, GoogleBtnComponent],
+      imports: [TranslateModule.forRoot(), ReactiveFormsModule, FormsModule, HttpClientModule, MatDialogModule],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: MatDialogRefMock },
-      ]
-    })
-    .compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

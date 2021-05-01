@@ -4,10 +4,9 @@ import { AchievementDto } from 'src/app/model/achievement/AchievementDto';
 @Component({
   selector: 'app-new-achievement-modal',
   templateUrl: './new-achievement-modal.component.html',
-  styleUrls: ['./users-achievements.component.scss']
+  styleUrls: ['./users-achievements.component.scss'],
 })
 export class NewAchievementModalComponent {
-
   @Input() achievement: AchievementDto;
   @Input() visible: boolean;
 
@@ -16,5 +15,4 @@ export class NewAchievementModalComponent {
   hideAchievementModal() {
     this.visible = false;
   }
-
 }

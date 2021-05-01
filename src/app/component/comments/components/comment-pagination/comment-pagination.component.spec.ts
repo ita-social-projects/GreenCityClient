@@ -9,14 +9,9 @@ describe('CommentPaginationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        CommentPaginationComponent
-      ],
-      imports: [
-        NgxPaginationModule
-      ]
-    })
-    .compileComponents();
+      declarations: [CommentPaginationComponent],
+      imports: [NgxPaginationModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

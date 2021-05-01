@@ -31,27 +31,16 @@ describe('CommentsListComponent', () => {
     status: 'EDITED',
     text: 'string',
     isEdit: true,
-    showRelyButton: true
+    showRelyButton: true,
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        CommentsListComponent,
-        DateLocalisationPipe
-      ],
-      imports: [
-        HttpClientTestingModule,
-        NgxPaginationModule,
-        ReactiveFormsModule,
-        TranslateModule.forRoot(),
-      ],
-      providers: [
-        { provide: CommentsService, useValue: commentsServiceMock }
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    })
-      .compileComponents();
+      declarations: [CommentsListComponent, DateLocalisationPipe],
+      imports: [HttpClientTestingModule, NgxPaginationModule, ReactiveFormsModule, TranslateModule.forRoot()],
+      providers: [{ provide: CommentsService, useValue: commentsServiceMock }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -114,5 +103,4 @@ describe('CommentsListComponent', () => {
     component.checkCommentAuthor(commentData.author.id);
     expect(commentData.author.id).toEqual(userId);
   });
-
 });

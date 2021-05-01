@@ -21,7 +21,7 @@ describe('HabitsPopupComponent', () => {
       habitDescription: 'Far far away, behind the word mountains, far from the countries Vokalia and Consonantia',
       habitId: 506,
       habitName: 'Use less transport',
-    }
+    },
   ];
   const dialogRefMock = {
     beforeClosed() {
@@ -29,16 +29,16 @@ describe('HabitsPopupComponent', () => {
     },
     close() {
       return of(true);
-    }
+    },
   };
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [HabitsPopupComponent],
       providers: [
         { provide: MatDialogRef, useValue: dialogRefMock },
-        { provide: MAT_DIALOG_DATA, useValue: {} }]
-    })
-      .compileComponents();
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

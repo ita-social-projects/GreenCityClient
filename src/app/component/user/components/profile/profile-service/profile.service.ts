@@ -12,20 +12,15 @@ import { UserFriendsInterface } from '../../../../../interface/user/user-friends
 import { mainLink, mainUserLink } from '../../../../../links';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class ProfileService {
   public userId: number;
 
-  constructor(private http: HttpClient,
-              private localStorageService: LocalStorageService,
-              private languageService: LanguageService) { }
+  constructor(private http: HttpClient, private localStorageService: LocalStorageService, private languageService: LanguageService) {}
 
   public setUserId(): void {
-    this.localStorageService
-      .userIdBehaviourSubject
-      .subscribe(userId => this.userId = userId);
+    this.localStorageService.userIdBehaviourSubject.subscribe((userId) => (this.userId = userId));
   }
 
   public getFactsOfTheDay(): Observable<CardModel> {
@@ -66,7 +61,10 @@ export class ProfileService {
     const body = {};
     const { status: prevStatus } = item;
     const newStatus = prevStatus === 'DONE' ? 'ACTIVE' : 'DONE';
-    return this.http.patch<object[]>(`
-    ${mainLink}custom/shopping-list-items/${this.userId}/custom-shopping-list-items?itemId=${item.id}&status=${newStatus}`, body);
+    return this.http.patch<object[]>(
+      `
+    ${mainLink}custom/shopping-list-items/${this.userId}/custom-shopping-list-items?itemId=${item.id}&status=${newStatus}`,
+      body
+    );
   }
 }
