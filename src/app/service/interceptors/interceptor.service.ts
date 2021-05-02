@@ -1,20 +1,17 @@
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { MatDialog } from '@angular/material';
 import {BehaviorSubject, EMPTY, Observable, of, throwError} from 'rxjs';
 import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { updateAccessTokenLink } from '../../links';
 import { LocalStorageService } from '../localstorage/local-storage.service';
 import { BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../../http-response-status';
-import {AuthModalComponent} from '@global-auth/auth-modal/auth-modal.component';
-import {MatSnackBarComponent} from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import {UserOwnAuthService} from '@auth-service/user-own-auth.service';
-
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 interface NewTokenPair {
   accessToken: string;
   refreshToken: string;
 }
-
 @Injectable({
   providedIn: 'root'
 })
@@ -23,9 +20,9 @@ export class InterceptorService implements HttpInterceptor {
   private isRefreshing = false;
 
   constructor(private http: HttpClient,
-              private dialog: MatDialog,
               private snackBar: MatSnackBarComponent,
               private localStorageService: LocalStorageService,
+              private router: Router,
               private userOwnAuthService: UserOwnAuthService) {
   }
 
@@ -105,12 +102,10 @@ export class InterceptorService implements HttpInterceptor {
    */
   private handleRefreshTokenIsNotValid(error: HttpErrorResponse): Observable<HttpEvent<any>> {
     this.isRefreshing = false;
-    if (error.status === BAD_REQUEST) {
-      this.localStorageService.clear();
-      this.userOwnAuthService.isLoginUserSubject.next(false);
-      return of<HttpEvent<any>>();
-    }
-    return throwError(error);
+    this.localStorageService.clear();
+    this.router.navigateByUrl('/');
+    this.userOwnAuthService.isLoginUserSubject.next(false);
+    return of<HttpEvent<any>>();
   }
 
   /**
@@ -132,17 +127,6 @@ export class InterceptorService implements HttpInterceptor {
     return req.clone({
       setHeaders: {
         Authorization: `Bearer ${accessToken}`
-      }
-    });
-  }
-
-  public openSignInWindow(): void {
-    this.dialog.open(AuthModalComponent, {
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      panelClass: 'custom-dialog-container',
-      data: {
-        popUpName: 'sign-in'
       }
     });
   }
