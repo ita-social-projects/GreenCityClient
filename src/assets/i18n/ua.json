@@ -258,6 +258,7 @@
     "add-cafe": "Додати кафе",
     "admin": "Адміністратор",
     "my-habits": "Мої звички",
+    "ubs": "UBS кур'єр",
     "profile": "Мій кабінет",
     "user-settings": "Налаштування",
     "sign-out": "Вийти",
@@ -510,6 +511,7 @@
       "eco-events": "Еко новини",
       "tips": "Поради",
       "map": "Карта",
+      "ubs": "UBS кур'єр",
       "my-habits": "Мій кабінет"
     },
     "edit-profile": {
@@ -565,6 +567,7 @@
       "tips": "Поради",
       "map": "Місця",
       "my-habits": "Мої звички",
+      "ubs": "UBS кур'єр",
       "follow-us": "Приєднуйтесь до нас"
     },
     "user-goals": {
@@ -748,6 +751,7 @@
     },
     "dashboard": {
       "my-habits": "Мої звички",
+      "ubs": "UBS кур'єр",
       "my-news": "Мої новини",
       "my-tips-and-tricks": "Мої статті",
       "habits-inprogress": "У процесі",
@@ -770,6 +774,7 @@
     "no-eco-places": "У вас немає Еко Місць.",
     "online": "онлайн",
     "my-habits": "Мої звички",
+    "ubs": "UBS кур'єр",
     "my-news": "Мої новини",
     "my-articles": "Мої статті",
     "friends": {
