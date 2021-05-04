@@ -6,7 +6,7 @@ import { Address } from '../../../models/ubs.interface';
 @Component({
   selector: 'app-ubs-add-address-pop-up',
   templateUrl: './ubs-add-address-pop-up.component.html',
-  styleUrls: ['./ubs-add-address-pop-up.component.scss'],
+  styleUrls: ['./ubs-add-address-pop-up.component.scss']
 })
 export class UBSAddAddressPopUpComponent implements OnInit {
   address: Address;
@@ -52,26 +52,14 @@ export class UBSAddAddressPopUpComponent implements OnInit {
     this.addAddressForm = this.fb.group({
       city: ['Київ', Validators.required],
       district: ['', Validators.required],
-      street: ['', [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(40),
-        Validators.pattern(this.streetPattern)
-      ]],
+      street: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(this.streetPattern)]],
       houseNumber: ['', Validators.required],
-      houseCorpus: ['', [
-        Validators.maxLength(2),
-        Validators.pattern(this.houseCorpusPattern)
-      ]],
-      entranceNumber: ['', [
-        Validators.maxLength(2),
-        Validators.pattern(this.entranceNumberPattern)
-      ]],
+      houseCorpus: ['', [Validators.maxLength(2), Validators.pattern(this.houseCorpusPattern)]],
+      entranceNumber: ['', [Validators.maxLength(2), Validators.pattern(this.entranceNumberPattern)]],
       longitude: ['', Validators.required],
       latitude: ['', Validators.required]
     });
   }
-
 
   onLocationSelected(event): void {
     this.addAddressForm.get('longitude').setValue(event.longitude);
