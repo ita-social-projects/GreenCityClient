@@ -7,12 +7,12 @@
       </div>
     </div>
     <div class="added-data">
-      <div class="title-list word-wrap">
+      <div class="title-list word-wrap" #titleHeight>
         <h3>
-          {{ ecoNewsModel.title }}
+          {{ ecoNewsModel.title | slice: 0:100 }}
         </h3>
       </div>
-      <div class="list-text word-wrap">
+      <div class="list-text word-wrap" #textHeight>
         <p>
           {{ ecoNewsModel.text | slice: 0:300 }}
         </p>
