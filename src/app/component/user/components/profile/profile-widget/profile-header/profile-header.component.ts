@@ -30,7 +30,7 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
     this.buildSocialNetworksChart();
   }
 
-  get checkUserCredo() {
+  get checkUserCredo(): number {
     if (this.userInfo && this.userInfo.userCredo) {
       return this.userInfo.userCredo.length;
     }
