@@ -13,11 +13,11 @@ import { UBSOrderFormService } from './ubs-order-form.service';
 export class OrderService {
   private url = 'https://greencity-ubs.azurewebsites.net/ubs';
 
-  constructor(private http: HttpClient, private shareFormService: UBSOrderFormService) {}
+  constructor(private http: HttpClient, private shareFormService: UBSOrderFormService) { }
 
-  getOrders(): Observable<OrderDetails> {
+  getOrders(lang): Observable<OrderDetails> {
     return this.http
-      .get<OrderDetails>(`${this.url}/order-details`)
+      .get<OrderDetails>(`${this.url}/order-details&lang=${lang}`)
       .pipe(tap((orderDetails) => (this.shareFormService.orderDetails = orderDetails)));
   }
 
