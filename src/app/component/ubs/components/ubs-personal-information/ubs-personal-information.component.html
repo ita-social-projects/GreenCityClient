@@ -1,4 +1,4 @@
-<form [formGroup]="personalDataForm" (ngSubmit)="submit()" *ngIf="personalData" (change)="changePersonalData()">
+<form [formGroup]="personalDataForm"  *ngIf="personalData" (change)="changePersonalData()">
   <div class="row personal-data">
     <div class="w-100">
       <h2 class="personal-data-title">{{ 'personal-info.info-personal-data' | translate }}</h2>
@@ -60,7 +60,7 @@
     <div class="w-100">
       <h2 class="address-title">{{ 'personal-info.info-address' | translate }}</h2>
     </div>
-    <div *ngIf="!addresses; else addressesList" class="no-addresses">
+    <div *ngIf="addresses.length === 0; else addressesList" class="no-addresses">
       <input formControlName="isAddress" style="display: none" />
       <p>{{ 'personal-info.info-no-address' | translate }}</p>
     </div>
@@ -72,6 +72,9 @@
         <app-address [address]="address" class="address col-12 col-md-6"> </app-address>
         <div class="edit-address" (click)="editAddress(address.id)">
           <img src="assets/img/comments/edit.png" alt="edit image" />
+        </div>
+        <div class="edit-address" (click)="deleteAddress(address)">
+          <img src="assets/img/comments/delete.png" alt="delete image" />
         </div>
       </div>
     </ng-template>
@@ -103,7 +106,7 @@
     <button class="secondary-global-button btn" matStepperPrevious>{{ 'personal-info.info-back' | translate }}</button>
     <div>
       <button class="secondary-global-button btn" matStepperPrevious>{{ 'personal-info.info-cancel' | translate }}</button>
-      <button type="submit" class="primary-global-button btn" matStepperNext [disabled]="personalDataForm.invalid">
+      <button type="submit" (click)="submit()" class="primary-global-button btn" matStepperNext [disabled]="personalDataForm.invalid">
         {{ 'personal-info.info-next' | translate }}
       </button>
     </div>

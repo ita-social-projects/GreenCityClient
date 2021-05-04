@@ -1,3 +1,4 @@
+import { OrderService } from './../../../services/order.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -20,6 +21,7 @@ export class UBSAddAddressPopUpComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private orderService: OrderService,
     public dialogRef: MatDialogRef<UBSAddAddressPopUpComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -63,6 +65,8 @@ export class UBSAddAddressPopUpComponent implements OnInit {
       ],
       longitude: [this.data.edit ? this.data.address.longitude : '', Validators.required],
       latitude: [this.data.edit ? this.data.address.latitude : '', Validators.required],
+      id: [0],
+      actual: true
     });
   }
 
@@ -97,5 +101,10 @@ export class UBSAddAddressPopUpComponent implements OnInit {
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  addAdress() {
+    this.orderService.addAdress(this.addAddressForm.value)
+    .subscribe();
   }
 }

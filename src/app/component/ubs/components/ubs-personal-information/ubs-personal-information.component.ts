@@ -15,6 +15,7 @@ import { Order } from '../../models/ubs.model';
   styleUrls: ['./ubs-personal-information.component.scss'],
 })
 export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
+  addressId: number;
   orderDetails: OrderDetails;
   personalData: PersonalData;
   personalDataForm: FormGroup;
@@ -34,8 +35,14 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
     this.initForm();
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.takeUserData();
+    this.findAllAddresses();
+  }
+
+  findAllAddresses() {
+    this.orderService.findAllAddresses()
+    .subscribe((list) => this.addresses = list.addressList);
   }
 
   ngOnDestroy(): void {
@@ -147,6 +154,16 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
     this.openDialog(true, addressId);
   }
 
+  activeAddressId(){
+    const a = this.addresses.find((address) => address.checked);
+    this.addressId = a.id;
+  }
+
+  deleteAddress(address) {
+    this.orderService.deleteAddress(address)
+    .subscribe((list) => this.addresses = list.addressList);
+  }
+
   addNewAddress() {
     this.openDialog(false);
   }
@@ -179,6 +196,7 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
+    this.activeAddressId();
     this.orderDetails = this.shareFormService.orderDetails;
     let orderBags: OrderBag[] = [];
     this.orderDetails.bags.forEach((bagItem: Bag) => {
@@ -192,6 +210,7 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
     this.personalData.phoneNumber = this.personalDataForm.get('phoneNumber').value.slice(3);
     this.order = new Order(
       this.shareFormService.orderDetails.additionalOrders,
+      this.addressId,
       orderBags,
       this.shareFormService.orderDetails.certificates,
       this.shareFormService.orderDetails.orderComment,
