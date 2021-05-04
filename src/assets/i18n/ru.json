@@ -258,7 +258,6 @@
     "add-cafe": "Добавить кафе",
     "admin": "Администратор",
     "my-habits": "Мои привычки",
-    "ubs": "UBS курьер",
     "profile": "Мой кабинет",
     "user-settings": "Настройки",
     "sign-out": "Выйти",
@@ -566,7 +565,6 @@
       "eco-events": "Эко новости",
       "tips": "Советы",
       "map": "Места",
-      "ubs": "UBS курьер",
       "my-habits": "Мои привычки",
       "follow-us": "Присоединяйтесь к нам"
     },
@@ -740,7 +738,6 @@
     "dashboard": {
       "my-habits": "Мои привычки",
       "my-news": "Мои новости",
-      "ubs": "UBS курьер",
       "my-tips-and-tricks": "Мои статьи",
       "habits-inprogress": "В процессе",
       "add-new-habit": "Добавить новую привычку",
@@ -762,7 +759,6 @@
     "no-eco-places": "У вас нет Эко Мест.",
     "online": "онлайн",
     "my-habits": "Мои привычки",
-    "ubs": "UBS курьер",
     "my-news": "Мои новости",
     "my-articles": "Мои статьи",
     "friends": {

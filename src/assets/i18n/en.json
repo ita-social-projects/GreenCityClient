@@ -253,7 +253,6 @@
     "add-cafe": "Add a cafe",
     "admin": "Administrator",
     "my-habits": "My habits",
-    "ubs": "UBS courier",
     "profile": "Profile",
     "user-settings": "Settings",
     "sign-out": "Sign out",
@@ -562,7 +561,6 @@
       "tips": "Tips & Tricks",
       "map": "Places",
       "my-habits": "My habits",
-      "ubs": "UBS courier",
       "follow-us": "Follow us"
     },
     "user-goals": {
@@ -733,7 +731,6 @@
     },
     "dashboard": {
       "my-habits": "My habits",
-      "ubs": "UBS courier",
       "my-news": "My news",
       "my-articles": "My articles",
       "my-tips-and-tricks": "My tips and tricks",
@@ -761,7 +758,6 @@
     "written-articles": "written articles",
     "published-news": "published news",
     "my-habits": "My Habits",
-    "ubs": "UBS courier",
     "my-news": "My news",
     "my-articles": "My articles",
     "friends": {
