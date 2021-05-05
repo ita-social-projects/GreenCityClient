@@ -6,7 +6,7 @@ import { LanguageService } from '../../i18n/language.service';
 import { NewsDto } from '@home-models/NewsDto';
 import { latestNewsLink } from 'src/app/links';
 
-fdescribe('NewsService', () => {
+describe('NewsService', () => {
   let httpTestingController: HttpTestingController;
   let service: NewsService;
 
