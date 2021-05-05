@@ -13,13 +13,25 @@ class TranslationServiceStub {
   public onLangChange = new EventEmitter<any>();
   public onTranslationChange = new EventEmitter<any>();
   public onDefaultLangChange = new EventEmitter<any>();
-  public addLangs(langs: string[]) { }
-  public getLangs() { return 'en-us'; }
-  public getBrowserLang() { return ''; }
-  public getBrowserCultureLang() { return ''; }
-  public use(lang: string) { return ''; }
-  public get(key: any): any { return of(key); }
-  public setDefaultLang() {return true; }
+  public addLangs(langs: string[]) {}
+  public getLangs() {
+    return 'en-us';
+  }
+  public getBrowserLang() {
+    return '';
+  }
+  public getBrowserCultureLang() {
+    return '';
+  }
+  public use(lang: string) {
+    return '';
+  }
+  public get(key: any): any {
+    return of(key);
+  }
+  public setDefaultLang() {
+    return true;
+  }
 }
 
 describe('EcoNewsComponent', () => {
@@ -33,20 +45,15 @@ describe('EcoNewsComponent', () => {
   localStorageServiceMock.languageSubject = new Subject();
   localStorageServiceMock.getCurrentLanguage = () => mockLang as Language;
 
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EcoNewsComponent ],
-      imports: [
-        RouterTestingModule,
-        TranslateModule.forRoot(),
-      ],
+      declarations: [EcoNewsComponent],
+      imports: [RouterTestingModule, TranslateModule.forRoot()],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: TranslateService, useClass: TranslationServiceStub }
-      ]
-    })
-    .compileComponents();
+        { provide: TranslateService, useClass: TranslationServiceStub },
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

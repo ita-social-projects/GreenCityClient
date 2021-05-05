@@ -14,7 +14,6 @@ import { take } from 'rxjs/operators';
   templateUrl: './confirm-restore-password.component.html',
   styleUrls: ['./confirm-restore-password.component.scss'],
 })
-
 export class ConfirmRestorePasswordComponent implements OnInit {
   public confirmRestorePasswordForm: FormGroup;
   public passwordField: AbstractControl;
@@ -37,8 +36,8 @@ export class ConfirmRestorePasswordComponent implements OnInit {
     private changePasswordService: ChangePasswordService,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
-    private snackBar: MatSnackBarComponent,
-  ) { }
+    private snackBar: MatSnackBarComponent
+  ) {}
 
   ngOnInit() {
     this.restoreDto = new RestoreDto();
@@ -49,16 +48,15 @@ export class ConfirmRestorePasswordComponent implements OnInit {
   }
 
   public initFormReactive(): void {
-    this.confirmRestorePasswordForm = this.formBuilder.group({
-      password: new FormControl('', []),
-      confirmPassword: new FormControl('', [])
-    },
+    this.confirmRestorePasswordForm = this.formBuilder.group(
       {
-        validator: [
-          ConfirmPasswordValidator('password', 'confirmPassword'),
-          ValidatorRegExp('password'),
-        ]
-      });
+        password: new FormControl('', []),
+        confirmPassword: new FormControl('', []),
+      },
+      {
+        validator: [ConfirmPasswordValidator('password', 'confirmPassword'), ValidatorRegExp('password')],
+      }
+    );
   }
 
   public getFormFields(): void {
@@ -67,23 +65,23 @@ export class ConfirmRestorePasswordComponent implements OnInit {
   }
 
   private getToken(): void {
-    this.activatedRoute.queryParams
-      .pipe(take(1))
-      .subscribe(params => {
-        this.token = params[`token`];
-      });
+    this.activatedRoute.queryParams.pipe(take(1)).subscribe((params) => {
+      this.token = params[`token`];
+    });
   }
 
   public sendPasswords() {
     this.restoreDto.confirmPassword = this.confirmRestorePasswordForm.value.confirmPassword;
     this.restoreDto.password = this.confirmRestorePasswordForm.value.password;
     this.restoreDto.token = this.token;
-    this.changePasswordService.restorePassword(this.restoreDto)
-      .subscribe(data => {
+    this.changePasswordService.restorePassword(this.restoreDto).subscribe(
+      (data) => {
         this.form = data;
-      }, error => {
+      },
+      (error) => {
         this.form = error;
-      });
+      }
+    );
     setTimeout(() => {
       this.router.navigate(['']);
       this.snackBar.openSnackBar('successConfirmPassword');

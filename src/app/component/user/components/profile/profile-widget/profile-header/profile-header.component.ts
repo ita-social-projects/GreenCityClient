@@ -13,7 +13,7 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
     city: '',
     status: 'online',
     rating: 0,
-    userCredo: 'User credo'
+    userCredo: 'User credo',
   };
   socialNetworksList = ['facebook', 'instagram', 'linked', 'twitter', 'green-city'];
   userSocialNetworks: Array<any>;
@@ -23,12 +23,18 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
   @Input() public userInfo: EditProfileModel;
   public isUserOnline;
 
-  constructor( private localStorageService: LocalStorageService ) { }
+  constructor(private localStorageService: LocalStorageService) {}
 
   ngOnInit() {
-    this.userId$ = this.localStorageService.userIdBehaviourSubject
-      .subscribe(userId => this.userId = userId );
+    this.userId$ = this.localStorageService.userIdBehaviourSubject.subscribe((userId) => (this.userId = userId));
     this.buildSocialNetworksChart();
+  }
+
+  get checkUserCredo(): number {
+    if (this.userInfo && this.userInfo.userCredo) {
+      return this.userInfo.userCredo.length;
+    }
+    return 0;
   }
 
   private findNetwork(networkLink) {
@@ -41,10 +47,10 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
   }
 
   private buildSocialNetworksChart() {
-    this.userSocialNetworks = this.userInfo.socialNetworks.map(item => {
+    this.userSocialNetworks = this.userInfo.socialNetworks.map((item) => {
       return {
         link: item.url,
-        name: this.findNetwork(item.url)
+        name: this.findNetwork(item.url),
       };
     });
   }
@@ -53,4 +59,3 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
     this.userId$.unsubscribe();
   }
 }
-

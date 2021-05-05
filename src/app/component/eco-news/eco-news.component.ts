@@ -6,15 +6,12 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-eco-news',
   templateUrl: './eco-news.component.html',
-  styleUrls: ['./eco-news.component.scss']
+  styleUrls: ['./eco-news.component.scss'],
 })
 export class EcoNewsComponent implements OnInit {
   private langChangeSub: Subscription;
 
-  constructor(
-    private localStorageService: LocalStorageService,
-    private translate: TranslateService
-  ) {}
+  constructor(private localStorageService: LocalStorageService, private translate: TranslateService) {}
 
   ngOnInit() {
     this.subscribeToLangChange();
@@ -26,7 +23,6 @@ export class EcoNewsComponent implements OnInit {
   }
 
   private subscribeToLangChange(): void {
-    this.langChangeSub = this.localStorageService.languageSubject
-      .subscribe(this.bindLang.bind(this));
+    this.langChangeSub = this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
   }
 }

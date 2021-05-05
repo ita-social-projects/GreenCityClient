@@ -8,10 +8,9 @@ import { HabitPopupInterface } from '../habit-popup-interface';
 @Component({
   selector: 'app-habits-popup',
   templateUrl: './habits-popup.component.html',
-  styleUrls: ['./habits-popup.component.scss']
+  styleUrls: ['./habits-popup.component.scss'],
 })
 export class HabitsPopupComponent implements OnInit, OnDestroy {
-
   calendarIcons = calendarIcons;
   habitsCalendarSelectedDate: string;
   isHabitListEditable: boolean;
@@ -23,11 +22,11 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<HabitsPopupComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
-      habitsCalendarSelectedDate: string,
-      isHabitListEditable: boolean,
-      habits: HabitPopupInterface[],
+      habitsCalendarSelectedDate: string;
+      isHabitListEditable: boolean;
+      habits: HabitPopupInterface[];
     }
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.loadPopup();
@@ -42,17 +41,18 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
   loadPopup() {
     this.habitsCalendarSelectedDate = this.data.habitsCalendarSelectedDate;
     this.isHabitListEditable = this.data.isHabitListEditable;
-    this.popupHabits = this.data.habits.map(habit => Object.assign({}, habit));
+    this.popupHabits = this.data.habits.map((habit) => Object.assign({}, habit));
   }
 
   closePopup() {
-    this.dialogRef.beforeClosed().pipe(
-      takeUntil(this.destroy)
-    ).subscribe(() => this.dialogRef.close(this.popupHabits));
+    this.dialogRef
+      .beforeClosed()
+      .pipe(takeUntil(this.destroy))
+      .subscribe(() => this.dialogRef.close(this.popupHabits));
   }
 
   toggleEnrollHabit(id: number) {
-    const habitIndex = this.popupHabits.findIndex(habit => habit.habitId === id);
+    const habitIndex = this.popupHabits.findIndex((habit) => habit.habitId === id);
     this.popupHabits[habitIndex].enrolled = !this.popupHabits[habitIndex].enrolled;
   }
 

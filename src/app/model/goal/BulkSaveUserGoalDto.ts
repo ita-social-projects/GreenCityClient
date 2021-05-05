@@ -1,5 +1,5 @@
-import {UserGoalDto} from './UserGoalDto';
-import {UserCustomGoalDto} from './UserCustomGoalDto';
+import { UserGoalDto } from './UserGoalDto';
+import { UserCustomGoalDto } from './UserCustomGoalDto';
 
 export class BulkSaveUserGoalDto {
   userGoals: UserGoalDto[];

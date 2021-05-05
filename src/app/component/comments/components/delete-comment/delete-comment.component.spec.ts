@@ -14,7 +14,7 @@ import { HttpResponse } from '@angular/common/http';
 class MatDialogMock {
   open() {
     return {
-      afterClosed: () => of(true)
+      afterClosed: () => of(true),
     };
   }
 }
@@ -25,26 +25,17 @@ describe('DeleteCommentComponent', () => {
 
   let commentsServiceMock: CommentsService;
   commentsServiceMock = jasmine.createSpyObj('CommentsService', ['deleteComments']);
-  commentsServiceMock.deleteComments = () => of(new HttpResponse({status: 200}));
+  commentsServiceMock.deleteComments = () => of(new HttpResponse({ status: 200 }));
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        DeleteCommentComponent,
-        WarningPopUpComponent
-      ],
-      imports: [
-        TranslateModule.forRoot(),
-        HttpClientTestingModule,
-        MatDialogModule,
-        BrowserAnimationsModule
-      ],
+      declarations: [DeleteCommentComponent, WarningPopUpComponent],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule, MatDialogModule, BrowserAnimationsModule],
       providers: [
         { provide: MatDialog, useClass: MatDialogMock },
-        { provide: CommentsService, useValue: commentsServiceMock }
-      ]
-    })
-    .compileComponents();
+        { provide: CommentsService, useValue: commentsServiceMock },
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -64,7 +55,7 @@ describe('DeleteCommentComponent', () => {
       modifiedDate: '111',
       replies: 1,
       status: 'string',
-      text: 'string'
+      text: 'string',
     };
   });
 

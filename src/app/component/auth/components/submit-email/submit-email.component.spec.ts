@@ -5,27 +5,19 @@ import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core
 import { SubmitEmailComponent } from './submit-email.component';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
-
 describe('SubmitEmailComponent', () => {
   let component: SubmitEmailComponent;
   let fixture: ComponentFixture<SubmitEmailComponent>;
   class MatDialogRefMock {
-    close() { }
+    close() {}
   }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [SubmitEmailComponent],
-      imports: [
-        HttpClientTestingModule,
-        MatDialogModule,
-        TranslateModule.forRoot(),
-      ],
-       providers: [
-        { provide: MatDialogRef, useClass: MatDialogRefMock },
-      ],
-    })
-      .compileComponents();
+      imports: [HttpClientTestingModule, MatDialogModule, TranslateModule.forRoot()],
+      providers: [{ provide: MatDialogRef, useClass: MatDialogRefMock }],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

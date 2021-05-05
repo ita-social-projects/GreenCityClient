@@ -11,18 +11,15 @@ describe('TagFilterComponent', () => {
   const tagsListDataMock = ['test', 'test', 'test', 'test'];
   const changes = {
     tagListData: {
-      currentValue: tagsListDataMock
-    }
+      currentValue: tagsListDataMock,
+    },
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TagFilterComponent ],
-      imports: [
-        TranslateModule.forRoot()
-      ]
-    })
-    .compileComponents();
+      declarations: [TagFilterComponent],
+      imports: [TranslateModule.forRoot()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -43,7 +40,7 @@ describe('TagFilterComponent', () => {
     it('Should call setTags method inside ngOnChanges', () => {
       // @ts-ignore
       const spy = spyOn(component, 'setTags');
-      component.ngOnChanges({tagsListData: new SimpleChange(null, tagsListDataMock, null)});
+      component.ngOnChanges({ tagsListData: new SimpleChange(null, tagsListDataMock, null) });
 
       expect(spy).toHaveBeenCalledWith(tagsListDataMock);
     });
@@ -55,7 +52,7 @@ describe('TagFilterComponent', () => {
     });
 
     it('Should change filter state to true', () => {
-      component.filters = [{name: 'test', isActive: false}];
+      component.filters = [{ name: 'test', isActive: false }];
       component.toggleFilter('test');
       expect(component.filters[0].isActive).toBe(true);
     });

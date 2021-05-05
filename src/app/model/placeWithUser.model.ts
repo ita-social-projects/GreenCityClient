@@ -4,7 +4,7 @@ import { LocationDto } from './locationDto.model';
 import { OpeningHours } from './openingHours.model';
 
 export class PlaceWithUserModel {
- name: string;
+  name: string;
   category: CategoryDto;
   location: LocationDto;
   openingHoursList: OpeningHours[];

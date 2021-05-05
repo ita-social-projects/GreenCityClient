@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { NewsDTO, NewsResponseDTO } from '../models/create-news-interface';
+import { NewsDTO, NewsResponseDTO, FileHandle } from '../models/create-news-interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '@environment/environment';
 import { FormGroup } from '@angular/forms';
-import { FileHandle } from '../models/create-news-interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CreateEcoNewsService {
   public newsId: string;
@@ -20,12 +19,11 @@ export class CreateEcoNewsService {
   public isBackToEditing: boolean;
   private httpOptions = {
     headers: new HttpHeaders({
-      Authorization: 'my-auth-token'
+      Authorization: 'my-auth-token',
     }),
-
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   public getFormData(): FormGroup {
     return this.currentForm;
@@ -49,7 +47,7 @@ export class CreateEcoNewsService {
     if (this.files.length !== 0) {
       body = {
         ...body,
-        image: this.files[0].url
+        image: this.files[0].url,
       };
     }
     this.files = [];
@@ -62,10 +60,8 @@ export class CreateEcoNewsService {
   public setForm(form: FormGroup): void {
     this.currentForm = form;
     if (this.currentForm) {
-      this.currentForm.value.image = this.files[0] ?
-      this.files[0].url : '';
+      this.currentForm.value.image = this.files[0] ? this.files[0].url : '';
     }
-
   }
 
   public setNewsId(id: string): void {

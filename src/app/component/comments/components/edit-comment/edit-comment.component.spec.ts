@@ -9,14 +9,9 @@ describe('EditCommentComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        EditCommentComponent
-      ],
-      imports: [
-        TranslateModule.forRoot(),
-      ]
-    })
-    .compileComponents();
+      declarations: [EditCommentComponent],
+      imports: [TranslateModule.forRoot()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

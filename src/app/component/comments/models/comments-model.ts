@@ -1,43 +1,43 @@
 export interface CommentsModel {
-    currentPage: number;
-    page: Array<CommentsDTO>;
-    totalElements: number;
+  currentPage: number;
+  page: Array<CommentsDTO>;
+  totalElements: number;
 }
 
 export interface AuthorDTO {
-    id: number;
-    name: string;
-    userProfilePicturePath: null;
+  id: number;
+  name: string;
+  userProfilePicturePath: null;
 }
 
 export interface CommentsDTO {
-    author: AuthorDTO;
-    currentUserLiked: boolean;
-    id: number;
-    likes: number;
-    modifiedDate: string;
-    replies: number;
-    status: string;
-    text: string;
-    isEdit?: boolean;
-    showRelyButton?: boolean;
-    showAllRelies?: boolean;
+  author: AuthorDTO;
+  currentUserLiked: boolean;
+  id: number;
+  likes: number;
+  modifiedDate: string;
+  replies: number;
+  status: string;
+  text: string;
+  isEdit?: boolean;
+  showRelyButton?: boolean;
+  showAllRelies?: boolean;
 }
 
 export interface SocketAmountLikes {
-    id: number;
-    amountLikes: number;
+  id: number;
+  amountLikes: number;
 }
 
 export enum dataTypes {
   commentType = 'comment',
   wrapperCommentType = 'wrapper-comment',
-  wrapperReplyType = 'wrapper-reply'
+  wrapperReplyType = 'wrapper-reply',
 }
 
 export interface PaginationConfig {
-    id: string;
-    itemsPerPage: number;
-    currentPage: number;
-    totalItems: number;
+  id: string;
+  itemsPerPage: number;
+  currentPage: number;
+  totalItems: number;
 }

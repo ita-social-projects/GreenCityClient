@@ -9,24 +9,17 @@ import { HabitAssignInterface, ResponseInterface } from '../../interface/habit/h
 import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HabitAssignService implements OnDestroy {
   userId: number;
   language: string;
   destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
-  constructor(
-    private http: HttpClient,
-    private localStorageService: LocalStorageService) {
+  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
+    localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((userId) => (this.userId = userId));
 
-    localStorageService.userIdBehaviourSubject
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe(userId => this.userId = userId);
-
-    localStorageService.languageBehaviourSubject
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe(language => this.language = language);
+    localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((language) => (this.language = language));
   }
 
   getAssignedHabits(): Observable<Array<HabitAssignInterface>> {

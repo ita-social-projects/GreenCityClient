@@ -3,7 +3,6 @@ import { OpeningHours } from '../openingHours.model';
 import { CommentDto } from '../comment/commentDto';
 import { DiscountDto } from '../discount/DiscountDto';
 
-
 export class PlaceInfo {
   id: number;
   name: string;
@@ -12,5 +11,4 @@ export class PlaceInfo {
   discountValues: DiscountDto[];
   comments: CommentDto[];
   rate: number;
-
 }

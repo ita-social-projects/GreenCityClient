@@ -16,18 +16,10 @@ describe('ProfileProgressComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ProfileProgressComponent,
-      ],
-      imports: [
-        HttpClientTestingModule,
-        TranslateModule.forRoot(),
-      ],
-      providers: [
-        ProfileService,
-      ]
-    })
-    .compileComponents();
+      declarations: [ProfileProgressComponent],
+      imports: [HttpClientTestingModule, TranslateModule.forRoot()],
+      providers: [ProfileService],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -38,7 +30,7 @@ describe('ProfileProgressComponent', () => {
       amountHabitsInProgress: 0,
       amountHabitsAcquired: 0,
       amountWrittenTipsAndTrick: 0,
-      amountPublishedNews: 0
+      amountPublishedNews: 0,
     };
     spy = spyOn(profileService, 'getUserProfileStatistics').and.returnValue(Observable.of(mockProgress));
     fixture.detectChanges();

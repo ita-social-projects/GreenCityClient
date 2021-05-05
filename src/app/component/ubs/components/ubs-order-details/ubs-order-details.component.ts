@@ -1,12 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-
+import { Bag, FinalOrder, OrderDetails } from '../../models/ubs.interface';
+import { ReplaySubject, Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
-import { UserOrder } from '../../models/ubs.model';
-import { IOrder, IUserOrder } from '../../models/ubs.interface';
+import { TranslateService } from '@ngx-translate/core';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { CertificateStatus } from '../../certificate-status.enum';
 
 @Component({
   selector: 'app-ubs-order-details',
@@ -14,65 +15,113 @@ import { IOrder, IUserOrder } from '../../models/ubs.interface';
   styleUrls: ['./ubs-order-details.component.scss'],
 })
 export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
+  orders: OrderDetails;
+  bags: Bag[];
+  orderDetailsForm: FormGroup;
+  minOrderValue = 500;
   showTotal = 0;
+  pointsUsed = 0;
+  certificates = [];
+  certificateSum = 0;
   total = 0;
   finalSum = 0;
+
   points: number;
-  pointsUsed = 0;
   displayMes = false;
   displayCert = false;
   displayShop = false;
   addCert = false;
   onSubmit = true;
   order: {};
-  orders: IOrder;
   certificateMask = '0000-0000';
   certificatePattern = /(?!0000)\d{4}-(?!0000)\d{4}/;
-  certificates = [];
-  certificateSum = 0;
+
   certSize = false;
   showCertificateUsed = 0;
   certificateLeft = 0;
   certMessage: string;
-  userOrder: IUserOrder;
+  userOrder: FinalOrder;
   object: {};
   private destroy: Subject<boolean> = new Subject<boolean>();
+  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  certMessageFirst = '';
+  certMessageFourth = '';
+  certMessageFifth = '';
+  public currentLanguage: string;
 
   constructor(
     private fb: FormBuilder,
     private orderService: OrderService,
-    private shareFormService: UBSOrderFormService
-  ) {}
+    private shareFormService: UBSOrderFormService,
+    private translate: TranslateService,
+    private localStorageService: LocalStorageService
+  ) {
+    this.initForm();
+  }
 
-  orderDetailsForm: FormGroup = this.fb.group({
-    bagServiceUbs: [{ value: '', disabled: true }],
-    bagNumUbs: [0],
-    bagSizeUbs: [{ value: '', disabled: true }],
-    bagPriceUbs: [{ value: '', disabled: true }],
-    bagSumUbs: [{ value: '0 грн', disabled: true }],
-    bagServiceClothesXL: [{ value: '', disabled: true }],
-    bagNumClothesXL: [0, Validators.required],
-    bagSizeClothesXL: [{ value: '', disabled: true }],
-    bagPriceClothesXL: [{ value: '', disabled: true }],
-    bagSumClothesXL: [{ value: '0 грн', disabled: true }],
-    bagServiceClothesM: [{ value: '', disabled: true }],
-    bagNumClothesM: [0],
-    bagSizeClothesM: [{ value: '', disabled: true }],
-    bagPriceClothesM: [{ value: '', disabled: true }],
-    bagSumClothesM: [{ value: '0 грн', disabled: true }],
-    certificate: [
-      '',
-      [Validators.minLength(8), Validators.pattern(this.certificatePattern)],
-    ],
-    orderComment: [''],
-    bonus: ['no'],
-    shop: ['no'],
-    additionalCertificates: this.fb.array([]),
-    additionalOrders: this.fb.array(['']),
-  });
+  ngOnInit(): void {
+    this.takeOrderData();
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe(() => {
+      this.translateWords('order-details.activated-certificate1', this.certMessageFirst);
+      this.translateWords('order-details.activated-certificate4', this.certMessageFourth);
+      this.translateWords('order-details.activated-certificate5', this.certMessageFifth);
+    });
+  }
 
-  get bagNumUbs() {
-    return this.orderDetailsForm.get('bagNumUbs');
+  translateWords(key: string, variable) {
+    return this.translate
+      .get(key)
+      .pipe(take(1))
+      .subscribe((item) => (variable = item));
+  }
+
+  initForm() {
+    this.orderDetailsForm = this.fb.group({
+      certificate: new FormControl('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)]),
+      orderComment: new FormControl(''),
+      bonus: new FormControl('no'),
+      shop: new FormControl('no'),
+      additionalCertificates: this.fb.array([]),
+      additionalOrders: this.fb.array(['']),
+      orderSum: new FormControl(0, [Validators.required, Validators.min(500)]),
+    });
+  }
+
+  public takeOrderData() {
+    this.currentLanguage = this.localStorageService.getCurrentLanguage();
+    this.orderService
+      .getOrders(this.currentLanguage)
+      .pipe(takeUntil(this.destroy))
+      .subscribe((orderData: OrderDetails) => {
+        this.orders = this.shareFormService.orderDetails;
+        this.bags = this.orders.bags;
+        this.points = this.orders.points;
+        this.bags.forEach((bag) => {
+          bag.quantity = 0;
+          this.orderDetailsForm.addControl(
+            'quantity' + String(bag.id),
+            new FormControl(0, [Validators.required, Validators.min(0), Validators.max(999)])
+          );
+        });
+      });
+  }
+
+  changeForm() {
+    this.orderDetailsForm.patchValue({
+      orderSum: this.showTotal,
+    });
+  }
+
+  changeOrderDetails() {
+    this.shareFormService.orderDetails.pointsToUse = this.pointsUsed;
+    this.shareFormService.orderDetails.certificates = this.certificates;
+    this.shareFormService.orderDetails.additionalOrders = this.additionalOrders.value;
+    this.shareFormService.orderDetails.orderComment = this.orderDetailsForm.value.orderComment;
+    this.shareFormService.orderDetails.certificatesSum = this.showCertificateUsed;
+    this.shareFormService.orderDetails.pointsSum = this.pointsUsed;
+    this.shareFormService.orderDetails.total = this.showTotal;
+    this.shareFormService.orderDetails.finalSum = this.finalSum;
+    this.shareFormService.changeOrderDetails();
   }
 
   get certificate() {
@@ -87,45 +136,18 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
     return this.orderDetailsForm.get('additionalOrders') as FormArray;
   }
 
-  ngOnInit(): void {
-    this.shareFormService.objectSource
-      .pipe(takeUntil(this.destroy))
-      .subscribe((object) => {
-        this.object = object;
-      });
-
-    this.orderService
-      .getOrders()
-      .pipe(takeUntil(this.destroy))
-      .subscribe((data) => {
-        this.orders = data;
-        this.initForm();
-      });
-  }
-
-  initForm(): void {
-    this.orderDetailsForm.patchValue({
-      bagServiceUbs: this.orders.allBags[0].name,
-      bagSizeUbs: `${this.orders.allBags[0].capacity} л`,
-      bagPriceUbs: `${this.orders.allBags[0].price} грн`,
-      bagServiceClothesXL: this.orders.allBags[1].name,
-      bagSizeClothesXL: `${this.orders.allBags[1].capacity} л`,
-      bagPriceClothesXL: `${this.orders.allBags[1].price} грн`,
-      bagServiceClothesM: this.orders.allBags[2].name,
-      bagSizeClothesM: `${this.orders.allBags[2].capacity} л`,
-      bagPriceClothesM: `${this.orders.allBags[2].price} грн`,
-    });
-    this.points = this.orders.points;
+  get shop() {
+    return this.orderDetailsForm.get('shop') as FormArray;
   }
 
   private calculateTotal(): void {
-    this.total =
-      this.orderDetailsForm.value.bagNumUbs * this.orders.allBags[0].price +
-      this.orderDetailsForm.value.bagNumClothesXL *
-        this.orders.allBags[1].price +
-      this.orderDetailsForm.value.bagNumClothesM * this.orders.allBags[2].price;
+    this.total = 0;
+    this.bags.forEach((bag) => {
+      this.total += bag.price * bag.quantity;
+    });
     this.showTotal = this.total;
-    if (this.total < 500) {
+    this.changeForm();
+    if (this.total < this.minOrderValue) {
       this.displayMes = true;
       this.onSubmit = true;
     } else {
@@ -133,6 +155,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
       this.onSubmit = false;
     }
     this.finalSum = this.total;
+    this.changeOrderDetails();
     if (this.certificateSum > 0) {
       if (this.total > this.certificateSum) {
         this.certificateLeft = 0;
@@ -148,19 +171,16 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
+  clearOrderValues(): void {
+    this.additionalOrders.controls.forEach((element) => {
+      element.setValue('');
+    });
+  }
+
   calculate(): void {
-    this.orderDetailsForm.patchValue({
-      bagSumUbs: `${
-        this.orderDetailsForm.value.bagNumUbs * this.orders.allBags[0].price
-      } грн`,
-      bagSumClothesXL: `${
-        this.orderDetailsForm.value.bagNumClothesXL *
-        this.orders.allBags[1].price
-      } грн`,
-      bagSumClothesM: `${
-        this.orderDetailsForm.value.bagNumClothesM *
-        this.orders.allBags[2].price
-      } грн`,
+    this.bags.forEach((bag) => {
+      const valueName = 'quantity' + String(bag.id);
+      bag.quantity = this.orderDetailsForm.controls[valueName].value;
     });
     this.calculateTotal();
   }
@@ -168,36 +188,19 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   calculatePoints(): void {
     if (this.certificateSum <= 0) {
       this.showTotal = this.total;
-      this.points > this.total
-        ? (this.pointsUsed = this.total)
-        : (this.pointsUsed = this.points);
-      this.points > this.total
-        ? (this.points = this.points - this.total)
-        : (this.points = 0);
-      this.points > this.total
-        ? (this.total = 0)
-        : (this.total = this.total - this.pointsUsed);
+      this.points > this.total ? (this.pointsUsed = this.total) : (this.pointsUsed = this.points);
+      this.points > this.total ? (this.points = this.points - this.total) : (this.points = 0);
+      this.points > this.total ? (this.total = 0) : (this.total = this.total - this.pointsUsed);
       this.finalSum = this.showTotal - this.pointsUsed - this.certificateSum;
     } else {
-      this.points > this.total
-        ? (this.pointsUsed = this.total - this.certificateSum)
-        : (this.pointsUsed = this.points);
-      this.points > this.total
-        ? (this.total = 0)
-        : (this.total = this.total - this.pointsUsed);
-      this.points > this.showTotal
-        ? (this.points = this.points - this.showTotal)
-        : (this.points = 0);
+      this.points > this.total ? (this.pointsUsed = this.total - this.certificateSum) : (this.pointsUsed = this.points);
+      this.points > this.total ? (this.total = 0) : (this.total = this.total - this.pointsUsed);
+      this.points > this.showTotal ? (this.points = this.points - this.showTotal) : (this.points = 0);
       this.finalSum = this.showTotal - this.pointsUsed - this.certificateSum;
     }
   }
 
   resetPoints(): void {
-    this.total =
-      this.orderDetailsForm.value.bagNumUbs * this.orders.allBags[0].price +
-      this.orderDetailsForm.value.bagNumClothesXL *
-        this.orders.allBags[1].price +
-      this.orderDetailsForm.value.bagNumClothesM * this.orders.allBags[2].price;
     this.showTotal = this.total;
     this.pointsUsed = 0;
     this.finalSum = this.total;
@@ -211,12 +214,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   }
 
   addCertificate(): void {
-    this.additionalCertificates.push(
-      this.fb.control('', [
-        Validators.minLength(8),
-        Validators.pattern(/(?!0000)\d{4}-(?!0000)\d{4}/),
-      ])
-    );
+    this.additionalCertificates.push(this.fb.control('', [Validators.minLength(8), Validators.pattern(/(?!0000)\d{4}-(?!0000)\d{4}/)]));
     this.addCert = false;
   }
 
@@ -283,57 +281,19 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   }
 
   certificateMatch(cert): void {
-    if (
-      cert.certificateStatus === 'ACTIVE' ||
-      cert.certificateStatus === 'NEW'
-    ) {
+    if (cert.certificateStatus === CertificateStatus.ACTIVE || cert.certificateStatus === CertificateStatus.NEW) {
       this.certificateSum = this.certificateSum + cert.certificatePoints;
-      this.certMessage = `Сертифiкат на cуму ${cert.certificatePoints} грн активовано. Строк дії сертифікату - до ${cert.certificateDate}`;
+      this.certMessage = this.certMessageFirst + ' ' + cert.certificatePoints + ' ' + this.certMessageFourth + ' ' + cert.certificateDate;
       this.displayCert = true;
-    } else if (cert.certificateStatus === 'USED') {
-      this.certificateSum = 0;
-      this.certMessage = `Сертифiкат вже використано. Строк дії сертифікату - до ${cert.certificateDate}`;
+    } else if (cert.certificateStatus === CertificateStatus.USED) {
+      this.certificateSum = this.certificateSum;
+      this.certMessage = this.certMessageFifth + ' ' + cert.certificateDate;
       this.displayCert = false;
     }
   }
 
-  submit(): void {
-    const ubs = Object.assign({
-      id: 1,
-      amount: this.orderDetailsForm.value.bagNumUbs,
-    });
-    const clothesXL = Object.assign({
-      id: 2,
-      amount: this.orderDetailsForm.value.bagNumClothesXL,
-    });
-    const clothesM = Object.assign({
-      id: 3,
-      amount: this.orderDetailsForm.value.bagNumClothesM,
-    });
-    const newOrder: IUserOrder = new UserOrder(
-      [ubs, clothesXL, clothesM],
-      this.pointsUsed,
-      this.certificates,
-      this.additionalOrders.value,
-      this.orderDetailsForm.value.orderComment
-    );
-    const paymentBill = {
-      amountUbs: ubs.amount,
-      amountClothesXL: clothesXL.amount,
-      amountClothesM: clothesM.amount,
-      sumUbs: this.orderDetailsForm.get('bagSumUbs').value,
-      sumClothesXL: this.orderDetailsForm.get('bagSumClothesXL').value,
-      sumClothesM: this.orderDetailsForm.get('bagSumClothesM').value,
-      certificatesSum: this.showCertificateUsed,
-      pointsSum: this.pointsUsed,
-      total: this.showTotal,
-      finalSum: this.finalSum,
-    };
-    this.shareFormService.changeObject(newOrder);
-    this.shareFormService.finalBillObject(paymentBill);
-  }
-
   ngOnDestroy() {
-    // [TASK] implement unsubscribe
+    this.destroy.next();
+    this.destroy.unsubscribe();
   }
 }
