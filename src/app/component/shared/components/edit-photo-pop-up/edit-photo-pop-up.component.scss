@@ -1,4 +1,5 @@
 $secondErrorColor: #b42626;
+
 .main-container {
   position: relative;
   width: 615px;
@@ -8,6 +9,7 @@ $secondErrorColor: #b42626;
   justify-content: center;
   align-items: center;
   background: var(--primary-white);
+
   .cancel {
     position: absolute;
     top: 26px;
@@ -16,11 +18,13 @@ $secondErrorColor: #b42626;
     background-color: transparent;
     outline: none;
   }
+
   .wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
     .selected-photo {
       max-height: 148px;
       max-width: 148px;
@@ -28,7 +32,6 @@ $secondErrorColor: #b42626;
     }
 
     p {
-      margin: 32px 0 40px 0;
       margin: 32px 0;
       font-weight: 700;
       width: 519px;
@@ -37,12 +40,14 @@ $secondErrorColor: #b42626;
       line-height: 28px;
       text-align: center;
     }
+
     .warning {
       font-family: var(--primary-font);
       font-size: 14px;
       color: var(--error-ligh-red);
       padding: 0;
     }
+
     .buttons {
       display: flex;
       align-items: center;
@@ -59,7 +64,6 @@ $secondErrorColor: #b42626;
         font-style: normal;
         font-weight: bold;
         font-size: 16px;
-        line-height: 24px;
       }
 
       .primary-global-button {
@@ -83,11 +87,13 @@ $secondErrorColor: #b42626;
         background: transparent;
         border: 1px solid var(--primary-green);
         color: var(--primary-green);
+
         &:hover {
           border: 1px solid $secondErrorColor;
           background: $secondErrorColor;
           color: var(--primary-white);
         }
+
         &:disabled {
           color: var(--primary-green);
           background: transparent;
@@ -104,33 +110,40 @@ $secondErrorColor: #b42626;
         &:hover {
           background: var(--secondary-dark-green);
         }
+
         &:focus {
           outline: none;
         }
+
         .spinner-border {
           margin-right: 10px;
         }
       }
+
       .change {
         width: 191px;
         display: flex;
       }
+
       input {
         display: none;
       }
     }
   }
 }
+
 @media screen and (max-width: 620px) {
   .main-container {
     width: 548px;
     height: 376px;
   }
 }
+
 @media screen and (max-width: 576px) {
   .main-container {
     width: 100vw;
     height: 100vh;
+
     .wrapper {
       p {
         width: 288px;
@@ -150,6 +163,7 @@ $secondErrorColor: #b42626;
     }
   }
 }
+
 @media screen and (max-width: 375px) {
   .mat-dialog-container {
     padding: 0;
