@@ -11,7 +11,7 @@ import { ActionInterface } from '../../models/action.interface';
 @Component({
   selector: 'app-news-preview-page',
   templateUrl: './news-preview-page.component.html',
-  styleUrls: ['./news-preview-page.component.scss']
+  styleUrls: ['./news-preview-page.component.scss'],
 })
 export class NewsPreviewPageComponent implements OnInit, OnDestroy {
   public images = singleNewsImages;
@@ -24,10 +24,12 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
   public newsId: string;
   public onSubmit(): void {}
 
-  constructor(private createEcoNewsService: CreateEcoNewsService,
-              private localStorageService: LocalStorageService,
-              private router: Router,
-              @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface }) {}
+  constructor(
+    private createEcoNewsService: CreateEcoNewsService,
+    private localStorageService: LocalStorageService,
+    private router: Router,
+    @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface }
+  ) {}
 
   ngOnInit() {
     this.getPreviewData();
@@ -50,9 +52,8 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
   }
 
   private bindUserName(): void {
-    this.userNameSub = this.localStorageService.firstNameBehaviourSubject
-      .subscribe(name => {
-        this.userName = name;
+    this.userNameSub = this.localStorageService.firstNameBehaviourSubject.subscribe((name) => {
+      this.userName = name;
     });
   }
 
@@ -62,28 +63,23 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
 
   public postNewsItem(): void {
     this.isPosting = true;
-    this.createEcoNewsService
-      .sendFormData(this.previewItem)
-      .subscribe(() => {
-        this.isPosting = false;
-        this.router.navigate(['/news']);
-      });
+    this.createEcoNewsService.sendFormData(this.previewItem).subscribe(() => {
+      this.isPosting = false;
+      this.router.navigate(['/news']);
+    });
   }
 
   public editNews(): void {
     const dataToEdit = {
       ...this.previewItem.value,
-      id: this.newsId
+      id: this.newsId,
     };
 
-    this.createEcoNewsService.editNews(dataToEdit).subscribe(
-      () => {
-        this.isPosting = false;
-        this.router.navigate(['/news']);
-      }
-    );
+    this.createEcoNewsService.editNews(dataToEdit).subscribe(() => {
+      this.isPosting = false;
+      this.router.navigate(['/news']);
+    });
   }
-
 
   public getImagePath(): string {
     if (this.previewItem.value.image) {

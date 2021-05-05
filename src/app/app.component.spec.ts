@@ -31,18 +31,16 @@ describe('AppComponent', () => {
         ReactiveFormsModule,
         BrowserModule,
         LayoutModule,
-        AppModule
+        AppModule,
       ],
-      providers: [
-        { provide: JwtService, useValue: jwtServiceMock }
-      ]
+      providers: [{ provide: JwtService, useValue: jwtServiceMock }],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);
     app = fixture.componentInstance;
-    router = fixture.debugElement.injector.get( Router);
+    router = fixture.debugElement.injector.get(Router);
     localStorage.clear();
     fixture.detectChanges();
   });

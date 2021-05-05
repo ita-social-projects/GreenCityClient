@@ -11,7 +11,7 @@ import { HabitStatus } from '../../../../../model/habit/HabitStatus.enum';
 @Component({
   selector: 'app-profile-dashboard',
   templateUrl: './profile-dashboard.component.html',
-  styleUrls: ['./profile-dashboard.component.scss']
+  styleUrls: ['./profile-dashboard.component.scss'],
 })
 export class ProfileDashboardComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
@@ -21,13 +21,15 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   public tabs = {
     habits: true,
     news: false,
-    articles: false
+    articles: false,
   };
   userId: number;
 
-  constructor(private localStorageService: LocalStorageService,
-              private habitService: HabitService,
-              private habitAssignService: HabitAssignService) { }
+  constructor(
+    private localStorageService: LocalStorageService,
+    private habitService: HabitService,
+    private habitAssignService: HabitAssignService
+  ) {}
 
   ngOnInit() {
     this.subscribeToLangChange();
@@ -44,14 +46,13 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToLangChange() {
-    this.localStorageService.languageBehaviourSubject
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe(() => this.executeRequests());
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe(() => this.executeRequests());
   }
 
   public executeRequests() {
     this.loading = true;
-    this.habitAssignService.getAssignedHabits()
+    this.habitAssignService
+      .getAssignedHabits()
       .pipe(take(1))
       .subscribe((response: Array<HabitAssignInterface>) => {
         const sortedHabits = this.sortHebitsAsc(response);
@@ -62,11 +63,11 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   }
 
   private sortHebitsAsc(habitsArray): Array<HabitAssignInterface> {
-    return habitsArray.sort((a, b) => (a.habit.id > b.habit.id) ? 1 : (b.habit.id > a.habit.id) ? -1 : 0);
+    return habitsArray.sort((a, b) => (a.habit.id > b.habit.id ? 1 : b.habit.id > a.habit.id ? -1 : 0));
   }
 
   public toggleTab(tab: string): void {
-    Object.keys(this.tabs).forEach(item => this.tabs[item] = item === tab);
+    Object.keys(this.tabs).forEach((item) => (this.tabs[item] = item === tab));
   }
 
   ngOnDestroy(): void {

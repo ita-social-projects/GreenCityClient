@@ -20,7 +20,7 @@ import { OnLogout } from '../OnLogout';
 import { HabitItemsAmountStatisticDto } from '../../model/goal/HabitItemsAmountStatisticDto';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService implements OnLogout {
   dto: UserStatusModel;
@@ -32,21 +32,22 @@ export class UserService implements OnLogout {
   private availableCustomGoalsSubject = new BehaviorSubject<Goal[]>([]);
   private availablePredefinedGoalsSubject = new BehaviorSubject<Goal[]>([]);
 
-  private dataStore: { goals: Goal[], availableCustomGoals: Goal[], availablePredefinedGoals } =
-    {goals: [], availableCustomGoals: [], availablePredefinedGoals: []};
+  private dataStore: { goals: Goal[]; availableCustomGoals: Goal[]; availablePredefinedGoals } = {
+    goals: [],
+    availableCustomGoals: [],
+    availablePredefinedGoals: [],
+  };
 
   readonly goals = this.goalsSubject.asObservable();
   readonly availableCustomGoals = this.availableCustomGoalsSubject.asObservable();
   readonly availablePredefinedGoals = this.availablePredefinedGoalsSubject.asObservable();
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
-    localStorageService.userIdBehaviourSubject.subscribe(userId => this.userId = userId);
+    localStorageService.userIdBehaviourSubject.subscribe((userId) => (this.userId = userId));
   }
 
   getAllUsers(paginationSettings: string): Observable<UserPageableDtoModel> {
-    return this.http.get<UserPageableDtoModel>(
-      `${userLink}/all` + paginationSettings
-    );
+    return this.http.get<UserPageableDtoModel>(`${userLink}/all` + paginationSettings);
   }
 
   updateUserStatus(id: number, userStatus: string) {
@@ -69,10 +70,7 @@ export class UserService implements OnLogout {
 
   getByFilter(reg: string, paginationSettings: string) {
     this.filterDto = new UserFilterDtoModel(reg);
-    return this.http.post<UserPageableDtoModel>(
-      `${userLink}/filter` + paginationSettings,
-      this.filterDto
-    );
+    return this.http.post<UserPageableDtoModel>(`${userLink}/filter` + paginationSettings, this.filterDto);
   }
 
   getUser() {
@@ -83,7 +81,7 @@ export class UserService implements OnLogout {
     const body = {
       firstName: userUpdateModel.firstName,
       lastName: userUpdateModel.lastName,
-      emailNotification: userUpdateModel.emailNotification
+      emailNotification: userUpdateModel.emailNotification,
     };
     return this.http.put(`${userLink}`, body);
   }
@@ -94,15 +92,13 @@ export class UserService implements OnLogout {
 
   loadAllGoals(language: string) {
     const http$ = this.http.get<Goal[]>(`${userLink}/${this.userId}/goals?language=${language}`);
-    http$.pipe(
-      catchError(() => of([]))
-    ).subscribe(
-      data => {
+    http$.pipe(catchError(() => of([]))).subscribe(
+      (data) => {
         this.dataStore.goals = data;
-        this.dataStore.goals.forEach(goal => goal.type = GoalType.TRACKED);
+        this.dataStore.goals.forEach((goal) => (goal.type = GoalType.TRACKED));
         this.goalsSubject.next(Object.assign({}, this.dataStore).goals);
       },
-      error => {
+      (error) => {
         throw error;
       }
     );
@@ -110,117 +106,138 @@ export class UserService implements OnLogout {
 
   updateGoalStatus(goal: Goal, language: string) {
     this.http.patch<Goal>(`${userLink}/${this.userId}/goals/${goal.id}?language=${language}`, goal).subscribe(
-      data => {
-        this.dataStore.goals = [
-          ...this.dataStore.goals.filter(el => el.id !== goal.id),
-          data
-        ];
+      (data) => {
+        this.dataStore.goals = [...this.dataStore.goals.filter((el) => el.id !== goal.id), data];
         this.goalsSubject.next(Object.assign({}, this.dataStore).goals);
       },
-      error => {
+      (error) => {
         throw error;
       }
     );
   }
 
   loadAvailableCustomGoals() {
-    this.http.get<Goal[]>(`${userLink}/${this.userId}/custom-shopping-list-items/available`).subscribe(data => {
-      data.forEach(goal => {
-        goal.type = GoalType.CUSTOM;
-        goal.status = 'UNCHECKED';
-      });
+    this.http.get<Goal[]>(`${userLink}/${this.userId}/custom-shopping-list-items/available`).subscribe(
+      (data) => {
+        data.forEach((goal) => {
+          goal.type = GoalType.CUSTOM;
+          goal.status = 'UNCHECKED';
+        });
 
-      this.dataStore.availableCustomGoals = data;
-      this.availableCustomGoalsSubject.next(Object.assign({}, this.dataStore).availableCustomGoals);
-    }, error => {
-      throw error;
-    });
+        this.dataStore.availableCustomGoals = data;
+        this.availableCustomGoalsSubject.next(Object.assign({}, this.dataStore).availableCustomGoals);
+      },
+      (error) => {
+        throw error;
+      }
+    );
   }
 
   loadAvailablePredefinedGoals(language: string) {
     const goals = [];
-    this.http.get<Goal[]>(`${userLink}/${this.userId}/goals/available?language=${language}`)
-      .pipe(catchError(err => of([])))
-      .subscribe(data => {
-        data.forEach(goal => {
-          goals.push({id: goal.id, text: goal.text, status: 'UNCHECKED', type: GoalType.PREDEFINED});
-        });
-        this.dataStore.availablePredefinedGoals = goals;
-        this.availablePredefinedGoalsSubject.next(Object.assign({}, this.dataStore).availablePredefinedGoals);
-      }, error => {
-        throw error;
-      });
+    this.http
+      .get<Goal[]>(`${userLink}/${this.userId}/goals/available?language=${language}`)
+      .pipe(catchError((err) => of([])))
+      .subscribe(
+        (data) => {
+          data.forEach((goal) => {
+            goals.push({ id: goal.id, text: goal.text, status: 'UNCHECKED', type: GoalType.PREDEFINED });
+          });
+          this.dataStore.availablePredefinedGoals = goals;
+          this.availablePredefinedGoalsSubject.next(Object.assign({}, this.dataStore).availablePredefinedGoals);
+        },
+        (error) => {
+          throw error;
+        }
+      );
   }
 
   saveCustomGoals(goals: Goal[], language: string) {
     const dto = {
-      customGoalSaveRequestDtoList: goals.map<CustomGoalSaveRequestDto>(data => {
-        return {text: data.text};
-      })
+      customGoalSaveRequestDtoList: goals.map<CustomGoalSaveRequestDto>((data) => {
+        return { text: data.text };
+      }),
     };
 
-    this.http.post<Goal[]>(`${userLink}/${this.userId}/customGoals?language=${language}`, dto).subscribe(data => {
-      if (goals.filter(goal => goals.filter(g => g.status === 'CHECKED' && g.text === goal.text).length !== 0).length !== 0) {
-        this.addPredefinedAndCustomGoals([],
-          data.filter(goal => goals.filter(g => g.status === 'CHECKED' && g.text === goal.text).length !== 0), language);
+    this.http.post<Goal[]>(`${userLink}/${this.userId}/customGoals?language=${language}`, dto).subscribe(
+      (data) => {
+        if (goals.filter((goal) => goals.filter((g) => g.status === 'CHECKED' && g.text === goal.text).length !== 0).length !== 0) {
+          this.addPredefinedAndCustomGoals(
+            [],
+            data.filter((goal) => goals.filter((g) => g.status === 'CHECKED' && g.text === goal.text).length !== 0),
+            language
+          );
+        }
+      },
+      (error) => {
+        throw error;
       }
-    }, error => {
-      throw error;
-    });
+    );
   }
 
   deleteCustomGoals(goals: Goal[]) {
-    this.http.delete(`${userLink}/${this.userId}/customGoals?ids=` + goals.map(goal => goal.id)).subscribe(() => {
-    }, error => {
-      throw error;
-    });
+    this.http.delete(`${userLink}/${this.userId}/customGoals?ids=` + goals.map((goal) => goal.id)).subscribe(
+      () => {},
+      (error) => {
+        throw error;
+      }
+    );
   }
 
   updateCustomGoals(goals: Goal[]) {
     const dto = {
-      customGoals: goals.map<CustomGoalResponseDto>(data => {
-        return {id: data.id, text: data.text};
-      })
+      customGoals: goals.map<CustomGoalResponseDto>((data) => {
+        return { id: data.id, text: data.text };
+      }),
     };
 
-    this.http.patch<Goal[]>(`${userLink}/${this.userId}/customGoals`, dto).subscribe(data => {
-      data.forEach(updatedGoal => {
-        this.dataStore.availableCustomGoals.forEach(currentGoal => {
-          if (currentGoal.id === updatedGoal.id && currentGoal.type === GoalType.CUSTOM) {
-            currentGoal.text = updatedGoal.text;
-          }
+    this.http.patch<Goal[]>(`${userLink}/${this.userId}/customGoals`, dto).subscribe(
+      (data) => {
+        data.forEach((updatedGoal) => {
+          this.dataStore.availableCustomGoals.forEach((currentGoal) => {
+            if (currentGoal.id === updatedGoal.id && currentGoal.type === GoalType.CUSTOM) {
+              currentGoal.text = updatedGoal.text;
+            }
+          });
         });
-      });
-    }, error => {
-      throw error;
-    });
+      },
+      (error) => {
+        throw error;
+      }
+    );
   }
 
   deleteTrackedGoals(goals: Goal[]) {
-    this.http.delete(`${userLink}/${this.userId}/userGoals?ids=` + goals.map(goal => goal.id)).subscribe(() => {
-      this.dataStore.goals = this.dataStore.goals.filter(data => goals.filter(g => g.id === data.id).length === 0);
-      this.goalsSubject.next(Object.assign({}, this.dataStore).goals);
-    }, error => {
-      throw error;
-    });
+    this.http.delete(`${userLink}/${this.userId}/userGoals?ids=` + goals.map((goal) => goal.id)).subscribe(
+      () => {
+        this.dataStore.goals = this.dataStore.goals.filter((data) => goals.filter((g) => g.id === data.id).length === 0);
+        this.goalsSubject.next(Object.assign({}, this.dataStore).goals);
+      },
+      (error) => {
+        throw error;
+      }
+    );
   }
 
   addPredefinedAndCustomGoals(predefinedGoals: Goal[], customGoals: Goal[], language: string) {
     const dto = {
-      userGoals: predefinedGoals.map<UserGoalDto>(data => {
-        return {goal: {id: data.id}};
+      userGoals: predefinedGoals.map<UserGoalDto>((data) => {
+        return { goal: { id: data.id } };
       }),
-      userCustomGoal: customGoals.map<UserCustomGoalDto>(data => {
-        return {customGoal: {id: data.id}};
-      })
+      userCustomGoal: customGoals.map<UserCustomGoalDto>((data) => {
+        return { customGoal: { id: data.id } };
+      }),
     };
 
-    this.http.post<Goal[]>(`${userLink}/${this.userId}/goals?language=${language}`, dto).subscribe(data => {
-      this.dataStore.goals = data;
-      this.goalsSubject.next(Object.assign({}, this.dataStore).goals);
-    }, error => {
-      throw error;
-    });
+    this.http.post<Goal[]>(`${userLink}/${this.userId}/goals?language=${language}`, dto).subscribe(
+      (data) => {
+        this.dataStore.goals = data;
+        this.goalsSubject.next(Object.assign({}, this.dataStore).goals);
+      },
+      (error) => {
+        throw error;
+      }
+    );
   }
 
   onLogout(): void {

@@ -10,7 +10,7 @@ import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 @Component({
   selector: 'app-one-habit',
   templateUrl: './one-habit.component.html',
-  styleUrls: ['./one-habit.component.scss']
+  styleUrls: ['./one-habit.component.scss'],
 })
 export class OneHabitComponent implements OnInit {
   @Input() habit: HabitAssignInterface;
@@ -19,7 +19,6 @@ export class OneHabitComponent implements OnInit {
   daysCounter: number;
   habitMark: string;
   isRequest = false;
-  // backgroundImage = 'assets/img/man.svg';
   firstFriend = 'assets/img/kimi.png';
   secondFriend = 'assets/img/lewis.png';
   private descriptionType = {
@@ -29,28 +28,26 @@ export class OneHabitComponent implements OnInit {
       this.habitMark = 'empty';
     },
     done: () => {
-      this.daysCounter = this.habit.workingDays
-        ? this.habit.workingDays
-        : this.habit.duration;
+      this.daysCounter = this.habit.workingDays ? this.habit.workingDays : this.habit.duration;
       this.showPhoto = false;
       this.habitMark = 'mark';
     },
     undone: () => {
-      this.daysCounter = this.habit.workingDays
-        ? this.habit.workingDays
-        : this.habit.duration;
+      this.daysCounter = this.habit.workingDays ? this.habit.workingDays : this.habit.duration;
       this.showPhoto = true;
       this.habitMark = 'empty';
-    }
+    },
   };
 
-  @Output () nowAcquiredHabit = new EventEmitter();
+  @Output() nowAcquiredHabit = new EventEmitter();
 
-  constructor(private localStorageService: LocalStorageService,
-              private habitAssignService: HabitAssignService,
-              public router: Router,
-              public route: ActivatedRoute,
-              public habitService: HabitService) {}
+  constructor(
+    private localStorageService: LocalStorageService,
+    private habitAssignService: HabitAssignService,
+    public router: Router,
+    public route: ActivatedRoute,
+    public habitService: HabitService
+  ) {}
 
   ngOnInit() {
     this.currentDate = this.formatDate(new Date());
@@ -58,8 +55,7 @@ export class OneHabitComponent implements OnInit {
   }
 
   public buildHabitDescription(): void {
-    const isDone = this.habit.habitStatusCalendarDtoList
-      .some(item => item.enrollDate === this.currentDate);
+    const isDone = this.habit.habitStatusCalendarDtoList.some((item) => item.enrollDate === this.currentDate);
     if (this.habit.status === HabitStatus.ACQUIRED) {
       this.descriptionType.acquired();
     } else if (this.habit.status === HabitStatus.INPROGRESS) {
@@ -72,35 +68,34 @@ export class OneHabitComponent implements OnInit {
   }
 
   private formatDate(date: Date): string {
-    return date.toLocaleDateString()
-      .split('.')
-      .reverse()
-      .join('-');
+    return date.toLocaleDateString().split('.').reverse().join('-');
   }
 
   public enroll() {
     this.isRequest = true;
-    this.habitAssignService.enrollByHabit(this.habit.habit.id, this.currentDate)
-    .pipe(take(1))
-    .subscribe(response => {
-      if (response.status === HabitStatus.ACQUIRED) {
-        this.descriptionType.acquired();
-        this.nowAcquiredHabit.emit(response);
-      } else {
-      this.habit.habitStatusCalendarDtoList = response.habitStatusCalendarDtoList;
-      this.habit.workingDays = response.workingDays;
-      this.habit.habitStreak = response.habitStreak;
-      this.buildHabitDescription();
-      this.isRequest = false;
-      }
-    });
+    this.habitAssignService
+      .enrollByHabit(this.habit.habit.id, this.currentDate)
+      .pipe(take(1))
+      .subscribe((response) => {
+        if (response.status === HabitStatus.ACQUIRED) {
+          this.descriptionType.acquired();
+          this.nowAcquiredHabit.emit(response);
+        } else {
+          this.habit.habitStatusCalendarDtoList = response.habitStatusCalendarDtoList;
+          this.habit.workingDays = response.workingDays;
+          this.habit.habitStreak = response.habitStreak;
+          this.buildHabitDescription();
+          this.isRequest = false;
+        }
+      });
   }
 
   public unenroll() {
     this.isRequest = true;
-    this.habitAssignService.unenrollByHabit(this.habit.habit.id, this.currentDate)
+    this.habitAssignService
+      .unenrollByHabit(this.habit.habit.id, this.currentDate)
       .pipe(take(1))
-      .subscribe(response => {
+      .subscribe((response) => {
         this.habit.habitStatusCalendarDtoList = response.habitStatusCalendarDtoList;
         this.habit.workingDays = response.workingDays;
         this.habit.habitStreak = response.habitStreak;

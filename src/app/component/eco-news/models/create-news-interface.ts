@@ -1,9 +1,9 @@
 import { SafeUrl } from '@angular/platform-browser';
 
 export interface NewsModel {
-    text: string;
-    title: string;
-  }
+  text: string;
+  title: string;
+}
 
 export interface FilterModel {
   name: string;
@@ -22,7 +22,7 @@ export interface TranslationModel {
 
 export interface TranslationDTO {
   language: {
-    code: string
+    code: string;
   };
   text: string;
   title: string;
@@ -41,7 +41,7 @@ export interface NewsResponseDTO {
   id: number;
   title: string;
   text: string;
-  ecoNewsAuthorDto: {id: number, firstName: string, lastName: string};
+  ecoNewsAuthorDto: { id: number; firstName: string; lastName: string };
   creationDate: string;
   imagePath: string;
   tags: Array<string>;

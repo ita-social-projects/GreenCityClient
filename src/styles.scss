@@ -1,8 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~@ng-select/ng-select/themes/default.theme.css";
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
-@import "typography/typography";
-@import "typography/typographyUbs";
+@import '~@ng-select/ng-select/themes/default.theme.css';
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import 'typography/typography';
+@import 'typography/typographyUbs';
 
 html {
   overflow-y: auto !important;
@@ -60,7 +60,7 @@ body {
   height: 100%;
   min-height: inherit;
   max-height: 100vh;
-  background: #fff;
+  background: var(--primary-white);
 }
 
 // [START] Tag guidelines
@@ -85,7 +85,7 @@ body {
 
 .global-tag-clicked {
   background: var(--primary-green);
-  color: #fff;
+  color: var(--primary-white);
   font-weight: bold;
   font-family: var(--primary-font);
   font-size: 14px;
@@ -94,7 +94,7 @@ body {
   border: none;
 
   &:hover {
-    color: #fff;
+    color: var(--primary-white);
     border: none;
   }
 }
@@ -104,7 +104,7 @@ body {
   height: 6px;
   margin-left: 6px;
   opacity: 1;
-  background-image: url("~/assets/img/icon/white-cross.png");
+  background-image: url('~/assets/img/icon/white-cross.png');
 }
 
 // [END] Tag guidelines
@@ -140,22 +140,31 @@ body {
 }
 
 .error-snackbar {
-  background: #b00020;
-  color: #fff;
+  background-color: var(--error-light-red);
+  color: var(--quaternary-dark-grey);
+  border-radius: 4px;
+  box-shadow: 0 -2px var(--error-red);
 }
 
 .attention-snackbar {
-  background: #ffc100;
-  color: #fff;
+  background-color: var(--attention-light-yellow);
+  color: var(--quaternary-dark-grey);
+  border-radius: 4px;
+  box-shadow: 0 -2px var(--attention-yellow);
 }
 
 .success-snackbar {
-  background: var(--primary-green);
-  color: #fff;
+  background-color: var(--success-light-green);
+  color: var(--quaternary-dark-grey);
+  border-radius: 4px;
+  box-shadow: 0 -2px var(--primary-green);
 }
 
 .mat-simple-snackbar-action {
-  color: #fff;
+  color: var(--quaternary-dark-grey);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
 }
 
 @media (max-width: 375px) {

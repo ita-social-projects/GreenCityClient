@@ -11,16 +11,9 @@ describe('EcoEventsItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        EcoEventsItemComponent,
-        EcoEventsComponent
-      ],
-      imports: [
-        RouterTestingModule,
-        TranslateModule.forRoot()
-      ]
-    })
-    .compileComponents();
+      declarations: [EcoEventsItemComponent, EcoEventsComponent],
+      imports: [RouterTestingModule, TranslateModule.forRoot()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -31,7 +24,7 @@ describe('EcoEventsItemComponent', () => {
       title: '',
       text: '',
       creationDate: '',
-      imagePath: ''
+      imagePath: '',
     };
     fixture.detectChanges();
   });

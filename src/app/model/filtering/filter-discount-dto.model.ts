@@ -1,8 +1,7 @@
-import {CategoryDto} from '../category.model';
-import {Specification} from '../specification/specification';
+import { CategoryDto } from '../category.model';
+import { Specification } from '../specification/specification';
 
 export class FilterDiscountDtoModel {
-
   constructor(category: CategoryDto, specification: Specification, discountMin: number, discountMax: number) {
     this.category = category;
     this.specification = specification;

@@ -8,20 +8,14 @@ import { habitLink } from '../../links';
 import { HabitInterface, HabitListInterface, HabitShoppingListInterface } from '../../interface/habit/habit.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HabitService implements OnDestroy {
-
   language: string;
   destroy$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
-  constructor(private http: HttpClient,
-              private localStorageService: LocalStorageService) {
-
-    localStorageService.languageBehaviourSubject
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(language => this.language = language);
-
+  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
+    localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((language) => (this.language = language));
   }
 
   getAllHabits(page: number, size: number): Observable<HabitListInterface> {

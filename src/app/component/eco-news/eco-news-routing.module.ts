@@ -8,7 +8,6 @@ import { NewsListComponent } from './components';
 import { CreateEditNewsComponent } from './components';
 import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';
 
-
 const ecoNewsRoutes: Routes = [
   {
     path: '',
@@ -16,38 +15,37 @@ const ecoNewsRoutes: Routes = [
     children: [
       {
         path: 'preview',
-        component: NewsPreviewPageComponent
+        component: NewsPreviewPageComponent,
       },
       {
         path: 'create-news',
         component: CreateEditNewsComponent,
-        canDeactivate: [PendingChangesGuard]
+        canDeactivate: [PendingChangesGuard],
       },
       {
         path: 'post-news-loader',
-        component: PostNewsLoaderComponent
+        component: PostNewsLoaderComponent,
       },
       {
         path: ':id',
-        component: EcoNewsDetailComponent
+        component: EcoNewsDetailComponent,
       },
 
       {
         path: '',
-        component: NewsListComponent
+        component: NewsListComponent,
       },
       {
         path: '',
         redirectTo: 'news',
-        pathMatch: 'full'
-      }
-    ]
+        pathMatch: 'full',
+      },
+    ],
   },
 ];
 
 @NgModule({
-  imports: [ RouterModule.forChild(ecoNewsRoutes) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forChild(ecoNewsRoutes)],
+  exports: [RouterModule],
 })
-
-export class EcoNewsRoutingModule { }
+export class EcoNewsRoutingModule {}

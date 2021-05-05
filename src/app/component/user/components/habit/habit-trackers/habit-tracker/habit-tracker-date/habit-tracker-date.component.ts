@@ -1,10 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {LanguageService} from '../../../../../../../i18n/language.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { LanguageService } from '../../../../../../../i18n/language.service';
 
 @Component({
   selector: 'app-habit-tracker-date',
   templateUrl: './habit-tracker-date.component.html',
-  styleUrls: ['./habit-tracker-date.component.scss']
+  styleUrls: ['./habit-tracker-date.component.scss'],
 })
 export class HabitTrackerDateComponent implements OnInit {
   @Input()
@@ -13,11 +13,9 @@ export class HabitTrackerDateComponent implements OnInit {
   dayNumber: number;
   creationMonth: string;
 
-  constructor(private languageService: LanguageService) {
-  }
+  constructor(private languageService: LanguageService) {}
 
   ngOnInit() {
     this.creationMonth = this.languageService.getLocalizedMonth(new Date(this.habitCreationDate).getMonth());
   }
-
 }

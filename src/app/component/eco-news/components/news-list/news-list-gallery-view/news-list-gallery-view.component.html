@@ -1,10 +1,6 @@
 <div class="list-gallery" role="link">
   <div class="list-image">
-    <img
-      class="list-image-content"
-      [src]="checkNewsImage()"
-      alt="user added image"
-    />
+    <img class="list-image-content" [src]="checkNewsImage()" alt="user added image" />
   </div>
   <div class="list-gallery-content">
     <div class="filter-tag">
@@ -26,11 +22,7 @@
     </div>
     <div class="user-data-added-news">
       <p class="user-data-text-date">
-        <img
-          class="icon"
-          [src]="profileIcons.calendarIcon"
-          alt="calendar icon"
-        />
+        <img class="icon" [src]="profileIcons.calendarIcon" alt="calendar icon" />
         {{ ecoNewsModel.creationDate | date }}
       </p>
       <p class="user-data-text-date">

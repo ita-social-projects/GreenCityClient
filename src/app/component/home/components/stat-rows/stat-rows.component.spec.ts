@@ -13,26 +13,20 @@ describe('StatRowsComponent', () => {
   let fixture: ComponentFixture<StatRowsComponent>;
   let userServiceMock: UserService;
   userServiceMock = jasmine.createSpyObj('UserService', ['getTodayStatisticsForAllHabitItems']);
-  userServiceMock.getTodayStatisticsForAllHabitItems = (): Observable<Array<HabitItemsAmountStatisticDto>> => of([{
-    habitItem: 'string',
-    notTakenItems: 1
-  }]);
+  userServiceMock.getTodayStatisticsForAllHabitItems = (): Observable<Array<HabitItemsAmountStatisticDto>> =>
+    of([
+      {
+        habitItem: 'string',
+        notTakenItems: 1,
+      },
+    ]);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        StatRowsComponent,
-        StatRowComponent
-      ],
-      imports: [
-        TranslateModule.forRoot(),
-        HttpClientTestingModule
-      ],
-      providers: [
-        { provide: UserService, useValue: userServiceMock }
-      ]
-    })
-    .compileComponents();
+      declarations: [StatRowsComponent, StatRowComponent],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule],
+      providers: [{ provide: UserService, useValue: userServiceMock }],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -48,7 +48,7 @@
 
 /* Create the checkmark/indicator (hidden when not checked) */
 .check-mark::after {
-  content: "";
+  content: '';
   display: none;
 }
 

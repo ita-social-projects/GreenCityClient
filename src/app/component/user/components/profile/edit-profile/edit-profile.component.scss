@@ -8,7 +8,7 @@
   &::after {
     border: solid white;
     border-width: 0 2px 2px 0;
-    content: "";
+    content: '';
     display: none;
     height: 12px;
     left: 6px;
@@ -21,7 +21,7 @@
   }
 }
 
-input[type=checkbox] {
+input[type='checkbox'] {
   height: 0;
   opacity: 0;
   width: 0;
@@ -159,9 +159,9 @@ h2 {
   font-style: normal;
   font-weight: 500;
   height: 48px;
-  font-size: 48px;
+  font-size: 2.1em;
   line-height: 48px;
-  margin-bottom: 0;
+  margin-bottom: 40px;
   color: var(--primary-dark-grey);
 }
 
@@ -236,7 +236,7 @@ h2 {
     padding-right: 16px;
 
     h2 {
-      font-size: 32px;
+      margin-bottom: 24px;
       line-height: 32px;
       text-align: center;
     }
