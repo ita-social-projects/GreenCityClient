@@ -1,3 +1,4 @@
+<app-spinner *ngIf="isLoading"></app-spinner>
 <form [formGroup]="addAddressForm" class="row adress">
   <div class="col-12 col-sm-6 form-group">
     <label>{{ 'personal-info.pop-up-city' | translate }}</label>
@@ -65,7 +66,7 @@
 </form>
 <div class="d-flex justify-content-end" mat-dialog-actions>
   <button class="btn secondary-global-button" mat-button (click)="onNoClick()">{{ 'personal-info.pop-up-cancel' | translate }}</button>
-  <button class="btn primary-global-button" mat-button [mat-dialog-close]="addAddressForm.value" (click)="addAdress()">
-    {{ 'personal-info.pop-up-add-address' | translate }}
+  <button class="btn primary-global-button"  (click)="addAdress()">
+    {{ data.edit ? 'personal-info.pop-up-save-changes' : 'personal-info.pop-up-add-address' | translate }}
   </button>
 </div>

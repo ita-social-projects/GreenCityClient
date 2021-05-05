@@ -11,6 +11,8 @@ import { Address } from '../../../models/ubs.interface';
 })
 export class UBSAddAddressPopUpComponent implements OnInit {
   address: Address;
+  isLoading = false;
+  updatedAddresses: Address[];
   addAddressForm: FormGroup;
   region = '';
   districtDisabled = true;
@@ -65,7 +67,7 @@ export class UBSAddAddressPopUpComponent implements OnInit {
       ],
       longitude: [this.data.edit ? this.data.address.longitude : '', Validators.required],
       latitude: [this.data.edit ? this.data.address.latitude : '', Validators.required],
-      id: [0],
+      id: [this.data.edit ? this.data.address.id : 0],
       actual: true
     });
   }
@@ -104,7 +106,11 @@ export class UBSAddAddressPopUpComponent implements OnInit {
   }
 
   addAdress() {
+    this.isLoading = true;
     this.orderService.addAdress(this.addAddressForm.value)
-    .subscribe();
+    .subscribe((list: Address[]) => {
+      this.updatedAddresses = list;
+      this.dialogRef.close();
+    });
   }
 }

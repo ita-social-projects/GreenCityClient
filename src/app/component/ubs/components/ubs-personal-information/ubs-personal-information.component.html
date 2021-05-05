@@ -60,8 +60,10 @@
     <div class="w-100">
       <h2 class="address-title">{{ 'personal-info.info-address' | translate }}</h2>
     </div>
-    <div *ngIf="addresses.length === 0; else addressesList" class="no-addresses">
+    <div class="no-addresses">
       <input formControlName="isAddress" style="display: none" />
+    </div>
+    <div *ngIf="addresses.length === 0; else addressesList" class="no-addresses">
       <p>{{ 'personal-info.info-no-address' | translate }}</p>
     </div>
     <ng-template #addressesList>
@@ -69,9 +71,7 @@
         <div class="custom-radio d-flex">
           <input type="radio" [value]="address.id" [checked]="address.checked" (click)="checkAddress(address.id)" />
         </div>
-        <div *ngIf="addresses.length>0">
           <app-address [address]="address" class="address col-12 col-md-6"> </app-address>
-        </div>
         <div class="edit-address" (click)="editAddress(address.id)">
           <img src="assets/img/comments/edit.png" alt="edit image" />
         </div>

@@ -76,7 +76,6 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe((personalData: PersonalData) => {
         this.personalData = this.shareFormService.personalData;
-        this.addAddress();
         this.setFormData();
       });
   }
@@ -106,39 +105,6 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
     this.personalData.longitude = activeAddress.longitude;
   }
 
-  addAddress(newAddress?) {
-    const isChecked = this.addresses.length > 0 ? false : true;
-    let address: Address;
-    if (!this.addresses.length) {
-      address = {
-        id: Date.now(),
-        checked: isChecked,
-        city: this.personalData.city,
-        district: this.personalData.district,
-        street: this.personalData.street,
-        houseCorpus: this.personalData.houseCorpus,
-        houseNumber: this.personalData.houseNumber,
-        entranceNumber: this.personalData.entranceNumber,
-        longitude: this.personalData.longitude,
-        latitude: this.personalData.latitude,
-      };
-    } else {
-      address = {
-        id: Date.now(),
-        checked: isChecked,
-        city: newAddress.city,
-        district: newAddress.district,
-        street: newAddress.street,
-        houseCorpus: newAddress.houseCorpus,
-        houseNumber: newAddress.houseNumber,
-        entranceNumber: newAddress.entranceNumber,
-        longitude: newAddress.longitude,
-        latitude: newAddress.latitude,
-      };
-    }
-    this.addresses.push(address);
-  }
-
   setFormData(): void {
     this.personalDataForm.patchValue({
       firstName: this.personalData.firstName,
@@ -155,11 +121,11 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
   }
 
   activeAddressId(){
-    const a = this.addresses.find((address) => address.checked);
-    this.addressId = a.id;
+    const activeAddress = this.addresses.find((address) => address.checked);
+    this.addressId = activeAddress.id;
   }
 
-  deleteAddress(address) {
+  deleteAddress(address: Address) {
     this.orderService.deleteAddress(address)
     .subscribe((list) => this.addresses = list.addressList);
   }
@@ -183,16 +149,7 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
     dialogRef
       .afterClosed()
-      .pipe(takeUntil(this.destroy))
-      .subscribe((address) => {
-        if (address && !isEdit) {
-          this.addAddress(address);
-          this.personalDataForm.patchValue({ isAddress: new FormControl('true') });
-        } else if (isEdit) {
-          const adrIdx = this.addresses.findIndex((adr) => adr.id === addressId);
-          this.addresses[adrIdx] = address;
-        }
-      });
+      .subscribe(() => this.findAllAddresses());
   }
 
   submit(): void {
