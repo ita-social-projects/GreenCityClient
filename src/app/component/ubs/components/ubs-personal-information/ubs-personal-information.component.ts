@@ -86,15 +86,15 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
 
   checkAddress(addressId) {
     this.addresses.forEach((address) => {
-      if ((address.id !== addressId && address.checked) || (address.id === addressId && !address.checked)) {
-        address.checked = !address.checked;
+      if ((address.id !== addressId && address.actual) || (address.id === addressId && !address.actual)) {
+        address.actual = !address.actual;
       }
     });
     this.changeAddressInPersonalData();
   }
 
   changeAddressInPersonalData() {
-    const activeAddress = this.addresses.find((address) => address.checked);
+    const activeAddress = this.addresses.find((address) => address.actual);
     this.personalData.city = activeAddress.city;
     this.personalData.district = activeAddress.district;
     this.personalData.street = activeAddress.street;
@@ -113,15 +113,14 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
       phoneNumber: '380' + this.personalData.phoneNumber,
       addressComment: this.personalData.addressComment,
     });
-    this.personalDataForm.addControl('isAddress', new FormControl(this.addresses.length ? 'true' : '', [Validators.required]));
   }
 
   editAddress(addressId: number) {
     this.openDialog(true, addressId);
   }
 
-  activeAddressId(){
-    const activeAddress = this.addresses.find((address) => address.checked);
+  activeAddressId() {
+    const activeAddress = this.addresses.find((address) => address.actual);
     this.addressId = activeAddress.id;
   }
 
