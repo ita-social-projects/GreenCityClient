@@ -14,11 +14,11 @@ import { PaginationComponent } from 'ngx-bootstrap/pagination';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-places',
-  templateUrl: './places.component.html',
-  styleUrls: ['./places.component.scss'],
+  selector: 'app-old-places',
+  templateUrl: './old-places.component.html',
+  styleUrls: ['./old-places.component.scss'],
 })
-export class PlacesComponent implements OnInit {
+export class OldPlacesComponent implements OnInit {
   place: PlaceUpdatedDto;
   places: AdminPlace[];
   pageSize = 5;

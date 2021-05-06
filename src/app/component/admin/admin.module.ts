@@ -36,16 +36,16 @@ import {
   ErrorComponent,
   DialogPhotoComponent,
   FeedbacksComponent,
-  PlacesComponent,
   UpdateCafeComponent,
   UsersComponent,
+  OldPlacesComponent,
 } from './components/index';
 
 @NgModule({
   declarations: [
     AdminNavComponent,
     AdminComponent,
-    PlacesComponent,
+    OldPlacesComponent,
     UsersComponent,
     ErrorComponent,
     ConfirmModalComponent,
@@ -53,7 +53,7 @@ import {
     FeedbacksComponent,
     DialogPhotoComponent,
   ],
-  exports: [AdminNavComponent, AdminComponent, UsersComponent, PlacesComponent, ErrorComponent, BrowserModule, TableModule],
+  exports: [AdminNavComponent, AdminComponent, UsersComponent, OldPlacesComponent, ErrorComponent, BrowserModule, TableModule],
   imports: [
     AdminRoutingModule,
     CommonModule,

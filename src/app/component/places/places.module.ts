@@ -1,17 +1,9 @@
 import { NgModule } from '@angular/core';
-import {
-  MapComponent,
-  FilterComponent,
-  FavoritePlaceComponent,
-  AddCommentComponent,
-  DeleteFavoriteComponent,
-  EditFavoriteNameComponent,
-} from './components';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { AgmDirectionModule } from 'agm-direction';
 import { CommonModule } from '@angular/common';
-import { MapRoutesModule } from './map-routing.module';
+import { PlacesRoutesModule } from './places-routing.module';
 import { TranslateService, TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { MatTableModule, MatIconModule, MatDialogModule, MatRippleModule } from '@angular/material';
 import { AgmCoreModule } from '@agm/core';
@@ -22,20 +14,14 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { SharedModule } from '../shared/shared.module';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { PlacesComponent } from './places.component';
 
 @NgModule({
-  declarations: [
-    MapComponent,
-    FilterComponent,
-    FavoritePlaceComponent,
-    EditFavoriteNameComponent,
-    DeleteFavoriteComponent,
-    AddCommentComponent,
-  ],
+  declarations: [PlacesComponent],
   imports: [
     SharedModule,
     CommonModule,
-    MapRoutesModule,
+    PlacesRoutesModule,
     AgmDirectionModule,
     Ng2SearchPipeModule,
     MatTableModule,
@@ -53,14 +39,14 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
       loader: {
         provide: TranslateLoader,
         useFactory: createTranslateLoader,
-        deps: [HttpClient],
+        deps: [HttpClient]
       },
-      isolate: true,
-    }),
+      isolate: true
+    })
   ],
-  providers: [TranslateService],
+  providers: [TranslateService]
 })
-export class MapModule {}
+export class PlacesModule {}
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');

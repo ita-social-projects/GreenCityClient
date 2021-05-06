@@ -1,0 +1,164 @@
+.main {
+  margin-top: -70px;
+  font-family: Lato, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+
+  hr {
+    margin: 21px 0 48px 0;
+    background: var(--ubs-primary-light-grey);
+  }
+
+  .places-filter {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .filter {
+      margin-top: 26px;
+    }
+  }
+
+  .places-recommendation {
+    .recommendation-title {
+      margin: 24px 0;
+      height: 28px;
+      font-weight: bold;
+      font-size: 20px;
+      color: var(--secondary-dark-grey);
+    }
+
+    .card-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: space-between;
+      flex-wrap: wrap;
+    }
+  }
+
+  caption {
+    display: none;
+  }
+
+  .google-map {
+    height: 540px;
+  }
+}
+
+.search {
+  .search-elements {
+    display: flex;
+    align-items: center;
+
+    .search-write,
+    .search-chooser {
+      padding: 8px;
+      background: var(--primary-white);
+      border: 1px solid var(--quintynary-light-grey);
+      box-sizing: border-box;
+      border-radius: 4px;
+    }
+
+    .search-write {
+      margin: 0 16px;
+      width: 328px;
+      height: 36px;
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--ubs-primary-light-grey);
+    }
+
+    .search-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    .search-chooser {
+      width: 179px;
+      height: 36px;
+    }
+  }
+}
+
+.card {
+  margin-bottom: 10px;
+  padding: 12px;
+  width: 264px;
+  height: 196px;
+  box-sizing: border-box;
+  background: var(--primary-white);
+  border: 1px solid var(--primary-white);
+  filter: drop-shadow(1px 4px 8px rgba(100, 114, 125, 0.18));
+
+  .card-img-top {
+    max-width: 240px;
+    max-height: 96px;
+  }
+
+  .card-headers {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card-body {
+    flex: 0 0 auto;
+    padding: 0;
+    position: relative;
+
+    .card-title {
+      margin: 12px 0 4px 0;
+      width: 72px;
+      font-weight: bold;
+      font-size: 14px;
+      color: var(--quaternary-dark-grey);
+    }
+
+    .card-address {
+      margin-bottom: 4px;
+      width: 98px;
+      font-size: 10px;
+      color: var(--quintynary-light-grey);
+    }
+
+    .card-text {
+      margin: 0;
+      width: 205px;
+      font-size: 12px;
+      color: var(--quaternary-grey);
+    }
+
+    .card-bookmark {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .main {
+    .places-recommendation {
+      .recommendation-title {
+        text-align: center;
+      }
+
+      .card-container {
+        justify-content: center;
+      }
+    }
+  }
+
+  .search {
+    .search-elements {
+      .search-write {
+        width: auto;
+      }
+
+      .search-chooser {
+        width: 90px;
+      }
+    }
+  }
+}

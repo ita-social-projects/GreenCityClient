@@ -1,0 +1,43 @@
+<main role="main" id="main-content">
+  <div class="main container">
+    <div class="places-filter">
+      <div class="search">
+        <div class="search-elements">
+          <img class="search-icon" src="assets/img/search.svg">
+          <input class="form-control search-write" type="text" name="search"
+            placeholder="{{ 'user.map.searching-for-a-place' | translate }}" />
+          <select class="search-chooser">
+            <option value="Lviv">Lviv</option>
+          </select>
+        </div>
+      </div>
+      <div class="filter">
+        <app-tag-filter (tagsList)="getFilterData($event)" [header]="'homepage.eco-news.filter'"
+          [storageKey]="'Places-filter'" [tagsListData]="tagList"></app-tag-filter>
+      </div>
+    </div>
+    <hr>
+    <div class="places-map">
+      <div class="google-map" #map>
+        <agm-map [style.width.%]="100" [style.height.%]="100" [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+        </agm-map>
+      </div>
+    </div>
+    <div class="places-recommendation">
+      <h6 class="recommendation-title">Popular eco places</h6>
+      <div class="card-container">
+        <div *ngFor="let card of cardsCollection" class="card">
+          <img class="card-img-top" src="{{card.cardImgUrl}}" alt="Card image cap">
+          <div class="card-body">
+            <div class="card-headers">
+              <h5 class="card-title">{{card.cardName}}</h5>
+              <span class="card-address">{{card.cardAddress}}</span>
+            </div>
+            <p class="card-text">{{card.cardText}}</p>
+            <img class="card-bookmark" src="assets/img/icon/bookmark_default.svg" alt="bookmark">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

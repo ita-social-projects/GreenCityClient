@@ -11,8 +11,8 @@ export const routes: Routes = [
     loadChildren: () => import('./component/about/about.module').then((mod) => mod.AboutModule),
   },
   {
-    path: 'map',
-    loadChildren: () => import('./component/map/map.module').then((mod) => mod.MapModule),
+    path: 'places',
+    loadChildren: () => import('./component/places/places.module').then((mod) => mod.PlacesModule),
   },
   {
     path: 'news',
