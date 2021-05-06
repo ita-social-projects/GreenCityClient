@@ -11,7 +11,6 @@ import { Address } from '../../../models/ubs.interface';
 })
 export class UBSAddAddressPopUpComponent implements OnInit {
   address: Address;
-  isLoading = false;
   updatedAddresses: Address[];
   addAddressForm: FormGroup;
   region = '';
@@ -106,7 +105,6 @@ export class UBSAddAddressPopUpComponent implements OnInit {
   }
 
   addAdress() {
-    this.isLoading = true;
     this.orderService.addAdress(this.addAddressForm.value)
     .subscribe((list: Address[]) => {
       this.updatedAddresses = list;
