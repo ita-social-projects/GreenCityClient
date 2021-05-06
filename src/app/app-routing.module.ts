@@ -1,3 +1,4 @@
+import { UbsConfirmPageComponent } from './component/ubs/components/ubs-confirm-page/ubs-confirm-page.component';
 import { ConfirmRestorePasswordComponent } from '@global-auth/index';
 import { TipsListComponent } from './component/home/components';
 import { NgModule } from '@angular/core';
