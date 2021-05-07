@@ -1,3 +1,4 @@
+import { environment } from '@environment/environment';
 import { UserSharedModule } from './components/shared/user-shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -164,7 +165,7 @@ import { RequestItemComponent } from './components/profile/users-friends/friend-
     DragDropModule,
     HttpClientModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4',
+      apiKey: environment.agmCoreModuleApiKey,
       libraries: ['places'],
     }),
     TranslateModule.forChild({
