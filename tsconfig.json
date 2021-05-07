@@ -19,24 +19,24 @@
       "dom"
     ],
     "paths": {
-      "@global-auth/*": ["src/app/component/auth/components/*"],
-      "@global-core/*": ["src/app/component/core/*"],
-      "@eco-news-models/*": ["src/app/component/eco-news/models/*"],
-      "@eco-news-service/*": ["src/app/component/eco-news/services/*"],
-      "@global-errors/*": ["src/app/component/errors/*"],
-      "@home-models/*": ["src/app/component/home/models/*"],
-      "@shared/*": ["src/app/component/shared/*"],
-      "@global-user/*": ["src/app/component/user/*"],
-      "@user-models/*": ["src/app/component/user/models/*"],
-      "@language-service/*": ["src/app/i18n/*"],
-      "@global-models/*": ["src/app/model/*"],
-      "@global-service/*": ["src/app/service/*"],
-      "@auth-service/*": ["src/app/service/auth/*"],
+      "@global-auth/*": ["src/app/main/component/auth/components/*"],
+      "@global-core/*": ["src/app/main/component/core/*"],
+      "@eco-news-models/*": ["src/app/main/component/eco-news/models/*"],
+      "@eco-news-service/*": ["src/app/main/component/eco-news/services/*"],
+      "@global-errors/*": ["src/app/main/component/errors/*"],
+      "@home-models/*": ["src/app/main/component/home/models/*"],
+      "@shared/*": ["src/app/main/component/shared/*"],
+      "@global-user/*": ["src/app/main/component/user/*"],
+      "@user-models/*": ["src/app/main/component/user/models/*"],
+      "@language-service/*": ["src/app/main/i18n/*"],
+      "@global-models/*": ["src/app/main/model/*"],
+      "@global-service/*": ["src/app/main/service/*"],
+      "@auth-service/*": ["src/app/main/service/auth/*"],
       "@global-images/*": ["src/assets/img/*"],
       "@eco-news-images/*": ["src/assets/img/icon/econews/*"],
       "@footer-images/*": ["src/assets/img/icon/footer/*"],
       "@environment/*": ["src/environments/*"],
-      "@pipe/*": ["src/app/pipe/*"]
+      "@pipe/*": ["src/app/main/pipe/*"]
     }
   },
   "angularCompilerOptions": {

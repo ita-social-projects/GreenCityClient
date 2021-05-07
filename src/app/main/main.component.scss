@@ -1,0 +1,37 @@
+.flash-message {
+  text-align: center;
+  left: 20%;
+  right: 20%;
+  top: 0;
+}
+
+.app-container {
+  margin-top: 123px;
+  min-height: calc(100% - 340px);
+}
+
+.stop-scroll {
+  position: fixed;
+}
+
+.app-footer {
+  width: 100%;
+}
+
+.skip-container {
+  text-align: center;
+}
+
+.skip {
+  position: absolute;
+  top: 8%;
+  left: -100%;
+  width: 100px;
+  color: var(--primary-green);
+  border-radius: 3px;
+  padding: 2px 2px;
+}
+
+.skip:focus {
+  left: 0;
+}
