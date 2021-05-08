@@ -81,8 +81,8 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public setInitialValues(): void {
     if (!this.createEcoNewsService.isBackToEditing) {
       this.initialValues = this.getFormValues();
-      this.isFormInvalid = !!!this.newsId;
     }
+    this.isFormInvalid = !!!this.newsId;
     this.onValueChanges();
   }
 
