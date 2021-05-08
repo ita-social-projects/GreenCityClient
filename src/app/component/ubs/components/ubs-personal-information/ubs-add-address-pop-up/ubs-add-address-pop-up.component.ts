@@ -1,15 +1,17 @@
 import { OrderService } from './../../../services/order.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Address } from '../../../models/ubs.interface';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-ubs-add-address-pop-up',
   templateUrl: './ubs-add-address-pop-up.component.html',
   styleUrls: ['./ubs-add-address-pop-up.component.scss'],
 })
-export class UBSAddAddressPopUpComponent implements OnInit {
+export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   address: Address;
   updatedAddresses: Address[];
   addAddressForm: FormGroup;
@@ -19,6 +21,7 @@ export class UBSAddAddressPopUpComponent implements OnInit {
   streetPattern = /^[A-Za-zА-Яа-яїієё0-9\'\,\-\ \\]+$/;
   houseCorpusPattern = /^[A-Za-zА-Яа-яїієё0-9]+$/;
   entranceNumberPattern = /^-?(0|[1-9]\d*)?$/;
+  private destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private fb: FormBuilder,
@@ -106,9 +109,17 @@ export class UBSAddAddressPopUpComponent implements OnInit {
 
   addAdress() {
     this.orderService.addAdress(this.addAddressForm.value)
+    .pipe(
+      takeUntil(this.destroy)
+    )
     .subscribe((list: Address[]) => {
       this.updatedAddresses = list;
       this.dialogRef.close();
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy.next();
+    this.destroy.unsubscribe();
   }
 }

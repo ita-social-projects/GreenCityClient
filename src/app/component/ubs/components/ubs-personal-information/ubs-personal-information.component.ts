@@ -42,6 +42,9 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
 
   findAllAddresses() {
     this.orderService.findAllAddresses()
+    .pipe(
+      takeUntil(this.destroy)
+    )
     .subscribe((list) => this.addresses = list.addressList);
   }
 
@@ -126,6 +129,9 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
 
   deleteAddress(address: Address) {
     this.orderService.deleteAddress(address)
+    .pipe(
+      takeUntil(this.destroy)
+    )
     .subscribe((list) => this.addresses = list.addressList);
   }
 
@@ -148,6 +154,9 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
     dialogRef
       .afterClosed()
+      .pipe(
+        takeUntil(this.destroy)
+      )
       .subscribe(() => this.findAllAddresses());
   }
 
