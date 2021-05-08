@@ -1,7 +1,5 @@
 <div class="list-gallery" role="link">
-  <div class="list-image">
-    <img class="list-image-content" [src]="checkNewsImage()" alt="user added image" />
-  </div>
+  <img class="list-image-content" [src]="checkNewsImage()" alt="user added image" />
   <div class="list-gallery-content">
     <div class="filter-tag">
       <div class="ul-eco-buttons" *ngFor="let tag of ecoNewsModel.tags">
@@ -16,7 +14,7 @@
       </div>
       <div class="list-text word-wrap">
         <p>
-          {{ ecoNewsModel.text | slice: 0:300 }}
+          {{ ecoNewsModel.text }}
         </p>
       </div>
     </div>

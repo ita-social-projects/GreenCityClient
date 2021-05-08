@@ -6,7 +6,7 @@ import { ecoNewsIcons } from 'src/app/image-pathes/profile-icons';
   selector: 'app-news-list-gallery-view',
   templateUrl: './news-list-gallery-view.component.html',
   styleUrls: ['./news-list-gallery-view.component.scss'],
-  changeDetection: 0,
+  changeDetection: 0
 })
 export class NewsListGalleryViewComponent {
   @Input() ecoNewsModel: EcoNewsModel;
