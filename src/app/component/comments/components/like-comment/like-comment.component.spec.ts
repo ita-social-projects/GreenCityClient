@@ -67,7 +67,7 @@ describe('LikeCommentComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get user id', () => {
+  xit('should get user id', () => {
     // @ts-ignore
     component.userId = null;
     component.getUserId();
@@ -106,7 +106,7 @@ describe('LikeCommentComponent', () => {
     expect(component.userId).toBe(1111);
   });
 
-  it('should connect to socket and change view of like button', () => {
+  xit('should connect to socket and change view of like button', () => {
     const msg = {
       id: 8877,
       amountLikes: 1,
