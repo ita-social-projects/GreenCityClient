@@ -1,3 +1,15 @@
+@mixin set-width-height($width: 100%, $height: 100%) {
+  width: $width;
+  height: $height;
+}
+
+@mixin flex-options($flex-direction: row, $justify-content: stretch, $align-items: stretch) {
+  display: flex;
+  flex-direction: $flex-direction;
+  align-items: $align-items;
+  justify-content: $justify-content;
+}
+
 .main {
   margin-top: -70px;
   font-family: Lato, sans-serif;
@@ -10,9 +22,7 @@
   }
 
   .places-filter {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    @include flex-options(column, stretch, flex-start);
 
     .filter {
       margin-top: 26px;
@@ -29,9 +39,8 @@
     }
 
     .card-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: space-between;
+      @include flex-options(row, space-between, space-between);
+
       flex-wrap: wrap;
     }
   }
@@ -40,15 +49,137 @@
     display: none;
   }
 
-  .google-map {
-    height: 540px;
+  .places-map {
+    @include flex-options(row);
+
+    .google-map {
+      height: 540px;
+      width: 100%;
+    }
+  }
+}
+
+.marker {
+  max-width: 32px;
+  max-height: 32px;
+}
+
+.close-mark::after {
+  padding: 15px;
+  display: none;
+  content: 'X';
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 20px;
+  color: #313131;
+}
+
+.sidebar-container {
+  height: 540px;
+  box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
+
+  .sidebar-drawer {
+    @include set-width-height(312px, 540px);
+
+    background: #f7f9fa;
+  }
+}
+
+.sidebar-content {
+  @include flex-options(column, center, flex-start);
+
+  padding: 36px;
+
+  .content-title {
+    margin: 0 auto;
+    margin-bottom: 18px;
+    height: 28px;
+    font-weight: bold;
+    font-size: 20px;
+    color: #313131;
+  }
+
+  .card-img-top {
+    max-width: 240px;
+    max-height: 100px;
+  }
+
+  .content-address {
+    margin: 18px 0 10px 0;
+    height: 20px;
+    font-size: 14px;
+    color: #64727d;
+  }
+
+  .content-description {
+    @include set-width-height(239px, 20px);
+
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #1d2830;
+  }
+
+  .content-website {
+    @include set-width-height(154px, 20px);
+
+    font-size: 14px;
+    color: #64727d;
+  }
+
+  .content-list {
+    margin: 16px 0 0 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style-type: none;
+
+    .content-list-event {
+      display: flex;
+
+      .event-icon {
+        @include set-width-height(16px, 16px);
+
+        margin-right: 7px;
+      }
+
+      .event-description {
+        @include set-width-height(220px, 40px);
+
+        font-size: 14px;
+        color: #1d2830;
+      }
+    }
+  }
+
+  .content-reviews-title {
+    margin: 0 0 14px 0;
+    height: 20px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #1d2830;
+  }
+
+  .stars-container {
+    display: flex;
+
+    .star {
+      max-width: 20px;
+      max-height: 19px;
+    }
+  }
+
+  .content-reviews-amount {
+    @include set-width-height(67px, 20px);
+
+    margin: 15px 0 0 0;
+    font-size: 14px;
+    color: #9ca7b0;
   }
 }
 
 .search {
   .search-elements {
-    display: flex;
-    align-items: center;
+    @include flex-options(row, stretch, center);
 
     .search-write,
     .search-chooser {
@@ -60,35 +191,41 @@
     }
 
     .search-write {
+      @include set-width-height(328px, 36px);
+
       margin: 0 16px;
-      width: 328px;
-      height: 36px;
       font-size: 14px;
       line-height: 20px;
-      color: var(--ubs-primary-light-grey);
+      color: var(--primary-grey);
     }
 
     .search-icon {
-      width: 24px;
-      height: 24px;
+      @include set-width-height(24px, 24px);
+
+      cursor: pointer;
     }
 
     .search-chooser {
-      width: 179px;
-      height: 36px;
+      @include set-width-height(179px, 36px);
     }
   }
 }
 
 .card {
+  @include set-width-height(264px, 196px);
+
   margin-bottom: 10px;
   padding: 12px;
-  width: 264px;
-  height: 196px;
   box-sizing: border-box;
   background: var(--primary-white);
   border: 1px solid var(--primary-white);
   filter: drop-shadow(1px 4px 8px rgba(100, 114, 125, 0.18));
+
+  &:hover {
+    background: #e7f7ee;
+    border: 1px solid #eff0f1;
+    filter: drop-shadow(4px 8px 12px rgba(100, 114, 125, 0.25));
+  }
 
   .card-img-top {
     max-width: 240px;
@@ -96,10 +233,7 @@
   }
 
   .card-headers {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    @include flex-options(column, center, center);
   }
 
   .card-body {
@@ -130,6 +264,7 @@
     }
 
     .card-bookmark {
+      cursor: pointer;
       position: absolute;
       bottom: 0;
       right: 0;
@@ -160,5 +295,11 @@
         width: 90px;
       }
     }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .close-mark::after {
+    display: block;
   }
 }

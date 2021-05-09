@@ -15,10 +15,12 @@ import { SharedModule } from '../shared/shared.module';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { PlacesComponent } from './places.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [PlacesComponent],
   imports: [
+    MatSidenavModule,
     SharedModule,
     CommonModule,
     PlacesRoutesModule,
@@ -27,7 +29,9 @@ import { PlacesComponent } from './places.component';
     MatTableModule,
     FormsModule,
     ReactiveFormsModule,
-    AgmCoreModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4'
+    }),
     MatIconModule,
     RatingModule,
     Ng5SliderModule,
