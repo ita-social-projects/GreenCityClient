@@ -1,9 +1,9 @@
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from './../../../../service/localstorage/local-storage.service';
+import { SharedModule } from './../../../shared/shared.module';
 import { SocketService } from './../../../../service/socket/socket.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { CommentsService } from './../../services/comments.service';
-import { SharedModule } from '@shared/shared.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LikeCommentComponent } from './like-comment.component';
 
@@ -17,8 +17,9 @@ describe('LikeCommentComponent', () => {
   commentsServiceMock.postLike = () => new Observable();
 
   let socketServiceMock: SocketService;
-  socketServiceMock = jasmine.createSpyObj('SocketService', ['onMessage']);
+  socketServiceMock = jasmine.createSpyObj('SocketService', ['onMessage', 'send']);
   socketServiceMock.onMessage = () => new Observable();
+  socketServiceMock.send = () => {};
 
   let localStorageServiceMock: LocalStorageService;
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);

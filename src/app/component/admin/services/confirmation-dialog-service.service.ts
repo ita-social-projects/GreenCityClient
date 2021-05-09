@@ -11,8 +11,8 @@ export class ConfirmationDialogService {
   public confirm(
     title: string,
     message: string,
-    btnOkText: string,
-    btnCancelText: string,
+    btnOkText: string = 'Delete',
+    btnCancelText: string = 'Cancel',
     dialogSize: 'sm' | 'lg' = 'sm'
   ): Promise<boolean> {
     this.translation.get('confirm-modal.delete').subscribe((translated) => (btnOkText = translated));
