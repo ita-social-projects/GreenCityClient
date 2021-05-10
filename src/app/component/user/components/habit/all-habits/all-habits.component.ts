@@ -69,7 +69,8 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
         this.elementsLeft = data.totalElements !== this.habitsList.length;
 
         data.page.forEach((element) => {
-          return (tag = [...tag, ...element.habitTranslation.habitItem]);
+          tag = [...tag, ...element.habitTranslation.habitItem];
+          return tag;
         });
         this.tagList = [...new Set(tag)];
       }
@@ -98,7 +99,8 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   private splitHabitItems(data) {
     data.page.forEach((el) => {
       const newArr = el.habitTranslation.habitItem.split(',').map((str) => str.trim().toLowerCase());
-      return (el.habitTranslation.habitItem = newArr);
+      el.habitTranslation.habitItem = newArr;
+      return el.habitTranslation.habitItem;
     });
 
     return data;
@@ -115,7 +117,8 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   public getFilterData(event: Array<string>) {
     if (event.length === 0) {
       this.totalHabitsCopy = this.totalHabits;
-      return (this.filteredHabitsList = this.habitsList);
+      this.filteredHabitsList = this.habitsList;
+      return this.filteredHabitsList;
     }
     if (this.filteredHabitsList.length > 0) {
       this.filteredHabitsList = this.habitsList.filter((el) => {

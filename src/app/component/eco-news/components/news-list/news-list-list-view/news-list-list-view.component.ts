@@ -43,7 +43,7 @@ export class NewsListListViewComponent implements AfterViewChecked {
     this.newsImage =
     this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' '
       ? this.ecoNewsModel.imagePath
-      : this.profileIcons.newsDefaultPictureList
+      : this.profileIcons.newsDefaultPictureList;
     return this.newsImage;
   }
 

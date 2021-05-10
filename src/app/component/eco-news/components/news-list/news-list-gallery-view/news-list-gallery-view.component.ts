@@ -18,7 +18,7 @@ export class NewsListGalleryViewComponent {
     this.newsImage =
     this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' '
       ? this.ecoNewsModel.imagePath
-      : this.profileIcons.newsDefaultPictureList
+      : this.profileIcons.newsDefaultPictureList;
     return  this.newsImage;
   }
 }

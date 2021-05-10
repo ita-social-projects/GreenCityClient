@@ -23,7 +23,7 @@ export class UserHabitPageComponent implements OnInit {
     });
     if (this.localStorageService.getFirstSighIn()) {
       setTimeout(() => {
-        this.achievement === undefined ? (this.achievementVisible = false) : (this.achievementVisible = true);
+        this.achievementVisible = this.achievement === undefined ? false : true;
       }, 500);
     }
   }
