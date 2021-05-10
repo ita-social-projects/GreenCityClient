@@ -1,6 +1,68 @@
 <div class="container" *ngIf="bags.length && personalData">
-  <div class="header">
-    <h3>{{ 'submit-order.your-order' | translate }}</h3>
+  <div class="your-order p-4">
+    <p class="text-secondary">{{ 'submit-order.your-order' | translate }}</p>
+    <table aria-label="order table">
+      <tbody>
+        <tr *ngFor="let bag of bags">
+          <ng-container *ngIf="bag.quantity">
+            <td class="firstRow">{{ bag.name }} ({{ bag.quantity }} пакети)</td>
+            <td class="firstRow">{{ bag.price * bag.quantity }} {{ 'submit-order.currency' | translate }}</td>
+          </ng-container>
+        </tr>
+        <hr />
+        <tr>
+          <td class="firstRow"></td>
+          <td class="firstRow">
+            <div class="w-100 d-flex justify-content-end">
+              <strong>{{ orderDetails.total }} {{ 'submit-order.currency' | translate }}</strong>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="order-details d-flex flex-column p-4">
+    <p class="text-secondary">{{ 'order-form.order-details' | translate }}:</p>
+    <div class="d-flex w-75">
+      <div class="order-details_personal-data">
+        <ul>
+          <li>{{ personalData.lastName }} {{ personalData.firstName }}</li>
+          <li>{{ personalData.email }}</li>
+          <li>0{{ personalData.phoneNumber }}</li>
+        </ul>
+      </div>
+      <div class="order-details_address">
+        <ul>
+          <li>{{ personalData.city }}</li>
+          <li>{{ personalData.district }}</li>
+          <li>
+            <span>{{ 'submit-order.str' | translate }}{{ personalData.street }}, {{ personalData.houseNumber }}</span
+            >, {{ personalData.houseCorpus }}
+          </li>
+          <li>
+            <span>{{ personalData.addressComment }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="payment-method my-4">
+    <div class="col-12 col-sm-12 form-group bottom-select">
+      <label for="">{{ 'submit-order.choose-payment' | translate }}</label>
+      <select class="shadow-none form-control">
+        <option value="LiqPay">{{ 'submit-order.liqpay-card' | translate }}</option>
+      </select>
+    </div>
+    <div class="w-100 d-flex justify-content-end mt-4">
+      <button class="secondary-global-button btn" matStepperPrevious>{{ 'submit-order.back' | translate }}</button>
+      <button type="submit" class="primary-global-button btn">{{ 'submit-order.to-order' | translate }}</button>
+    </div>
+  </div>
+  <!-- <div class="header">
+    
+    <h3>{{ 'submit-order.your-order' | translate }} </h3>
     <table aria-label="order table">
       <thead>
         <th>{{ 'submit-order.service' | translate }}</th>
@@ -53,6 +115,7 @@
       </div>
     </div>
   </div>
+
   <div class="main">
     <div>
       <h4>{{ 'submit-order.eco-shop' | translate }}</h4>
@@ -101,5 +164,5 @@
       <button class="secondary-global-button btn" matStepperPrevious>{{ 'submit-order.back' | translate }}</button>
       <button type="submit" class="primary-global-button btn">{{ 'submit-order.to-order' | translate }}</button>
     </div>
-  </div>
+  </div> -->
 </div>
