@@ -57,9 +57,6 @@ export class PlacesComponent implements OnInit, DoCheck {
         cardImgUrl: 'assets/img/places/place_lviv-hotel.png',
         cardRating: 0.3,
         favorite: false
-        // placeId:
-        // this.setCardsRating('EkNWaWFjaGVzbGF2YSBDaG9ybm92b2xhIEF2ZSwgTCd2aXYsIEwndml2cydrY
-        // SBvYmxhc3QsIFVrcmFpbmUsIDc5MDAwIi4qLAoUChIJFWUs06fdOkcR_VHRoAK-IDgSFAoSCVeaEAl83TpHEeJ4IwEXxSNC')
       },
       {
         id: 1,
@@ -69,7 +66,6 @@ export class PlacesComponent implements OnInit, DoCheck {
         cardImgUrl: 'assets/img/places/place_magnus.png',
         cardRating: 0.5,
         favorite: false
-        // placeId: this.setCardsRating('ChIJqxOUC3PdOkcR71xa7sLgfz4')
       },
       {
         id: 2,
@@ -79,7 +75,6 @@ export class PlacesComponent implements OnInit, DoCheck {
         cardImgUrl: 'assets/img/places/place_McDonalds.png',
         cardRating: 0,
         favorite: false
-        // placeId: this.setCardsRating('ChIJvUe2WnLdOkcRtrQd7uae54I')
       },
       {
         id: 3,
@@ -89,7 +84,6 @@ export class PlacesComponent implements OnInit, DoCheck {
         cardImgUrl: 'assets/img/places/place_KFC.png',
         cardRating: 0.9,
         favorite: false
-        // placeId: this.setCardsRating('ChIJTywYDnLdOkcRQM8sQ8RFkN0')
       },
       {
         id: 4,
@@ -99,7 +93,6 @@ export class PlacesComponent implements OnInit, DoCheck {
         cardImgUrl: 'assets/img/places/place_staff.png',
         cardRating: 1,
         favorite: false
-        // placeId: this.setCardsRating('ChIJ7U4vIW7dOkcRpJsJ2j7YKAc')
       }
     ];
 
@@ -174,9 +167,6 @@ export class PlacesComponent implements OnInit, DoCheck {
     this.markerList[clickedMarker].iconUrl = this.greenIcon;
     this.contentObj = this.markerList[clickedMarker].card;
     this.contentObj.cardStars = this.getStars(this.contentObj.cardRating);
-    // if(this.drawer.opened === true) {
-    //   this.drawer.toggle()
-    // }
     this.drawer.toggle();
   }
 
@@ -199,18 +189,22 @@ export class PlacesComponent implements OnInit, DoCheck {
   }
 
   private getStars(rating: number): Array<string> {
-    if (rating > 5) {
-      rating = 5;
+
+    const maxRating = 5;
+    const halfOfStar = 0.5;
+
+    if (rating > maxRating) {
+      rating = maxRating;
     }
 
     let counter = 1;
 
-    if (rating < 0.5) {
+    if (rating < halfOfStar) {
       this.stars.fill(this.starUnfilled);
       return this.stars;
     }
 
-    if (rating >= 0.5 && rating < 1) {
+    if (rating >= halfOfStar && rating < 1) {
       this.stars.fill(this.starUnfilled);
       this.stars[0] = this.starHalf;
       return this.stars;
@@ -224,7 +218,7 @@ export class PlacesComponent implements OnInit, DoCheck {
         counter++;
       }
 
-      const checkHalf = counter - 1 + 0.5;
+      const checkHalf = counter - 1 + halfOfStar;
 
       if (checkHalf <= rating) {
         this.stars[counter - 1] = this.starHalf;
@@ -233,22 +227,4 @@ export class PlacesComponent implements OnInit, DoCheck {
       return this.stars;
     }
   }
-
-  // public getRating(placeId: string): Observable<object> {
-  //   const httpOptions : any    = {
-  //     headers: new HttpHeaders()
-  //     .append('Content-Type', 'application/json')
-  //     .append('Access-Control-Allow-Headers', 'Content-Type')
-  //     .append('Access-Control-Allow-Methods', 'GET')
-  //     .append('Access-Control-Allow-Origin', '*')
-  //   };
-  //   return this.http.get<object>(`https://maps.googleapis.com/maps/api/place/details/json?
-  // placeid=${placeId}&key=${this.apiKey}}`, httpOptions);
-  // }
-
-  // public setCardsRating(placeId: string){
-  //   return this.getRating(placeId).subscribe((data:any)=>{
-  //     return data.results.rating;
-  //   })
-  // }
 }
