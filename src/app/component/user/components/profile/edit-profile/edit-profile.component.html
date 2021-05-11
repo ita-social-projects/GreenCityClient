@@ -10,7 +10,7 @@
           type="text"
           formControlName="name"
           placeholder="{{ userInfo.name.first + ' ' + userInfo.name.last }}"
-          pattern="^\S((?!.*  ).*\S)?$"
+          pattern="^(?!\.)(?!.*\.$)(?!.*?\.\.)[a-zA-Z0-9.]{6,30}$"
           id="name"
         />
         <span>{{ 'user.edit-profile.name-warning' | translate }}</span>
