@@ -65,7 +65,7 @@
 </form>
 <div class="d-flex justify-content-end" mat-dialog-actions>
   <button class="btn secondary-global-button" mat-button (click)="onNoClick()">{{ 'personal-info.pop-up-cancel' | translate }}</button>
-  <button class="btn primary-global-button" mat-button [mat-dialog-close]="addAddressForm.value">
-    {{ 'personal-info.pop-up-add-address' | translate }}
+  <button class="btn primary-global-button"  (click)="addAdress()">
+    {{ (data.edit ? 'personal-info.pop-up-save-changes'  : 'personal-info.pop-up-add-address') | translate }}
   </button>
 </div>
