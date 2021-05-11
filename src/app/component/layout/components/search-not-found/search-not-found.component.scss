@@ -7,10 +7,12 @@ p {
 
 .search_not-found-text,
 .search_not-found-header {
+  width: 350px;
   font-family: var(--secondary-font);
   font-weight: 500;
   font-size: 1.3rem;
   line-height: 28px;
+  word-break: break-all;
 }
 
 .search_not-found-text {
