@@ -5,7 +5,7 @@
       <tbody>
         <tr *ngFor="let bag of bags">
           <ng-container *ngIf="bag.quantity">
-            <td class="firstRow">{{ bag.name }} ({{ bag.quantity }} пакети)</td>
+            <td class="firstRow">{{ bag.name }} ({{ bag.quantity }} {{ 'submit-order.bags' | translate }})</td>
             <td class="firstRow">{{ bag.price * bag.quantity }} {{ 'submit-order.currency' | translate }}</td>
           </ng-container>
         </tr>
