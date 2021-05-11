@@ -5,6 +5,7 @@
 
 .your-order {
   background-color: #f8f9fb;
+
   table {
     width: 100%;
   }
@@ -13,11 +14,15 @@
   td {
     padding: 0.8rem 1rem 0.8rem 0;
   }
+  .right-column {
+    width: 100px;
+  }
 }
 
 .order-details {
   margin-top: 2rem;
   background-color: #f8f9fb;
+
   div {
     width: 50%;
   }

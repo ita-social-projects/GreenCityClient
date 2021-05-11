@@ -6,16 +6,14 @@
         <tr *ngFor="let bag of bags">
           <ng-container *ngIf="bag.quantity">
             <td class="firstRow">{{ bag.name }} ({{ bag.quantity }} {{ 'submit-order.bags' | translate }})</td>
-            <td class="firstRow">{{ bag.price * bag.quantity }} {{ 'submit-order.currency' | translate }}</td>
+            <td class="firstRow right-column">{{ bag.price * bag.quantity }} {{ 'submit-order.currency' | translate }}</td>
           </ng-container>
         </tr>
         <hr />
         <tr>
           <td class="firstRow"></td>
-          <td class="firstRow">
-            <div class="w-100 d-flex justify-content-end">
-              <strong>{{ orderDetails.total }} {{ 'submit-order.currency' | translate }}</strong>
-            </div>
+          <td class="firstRow right-column">
+            <strong>{{ orderDetails.total }} {{ 'submit-order.currency' | translate }}</strong>
           </td>
         </tr>
       </tbody>
