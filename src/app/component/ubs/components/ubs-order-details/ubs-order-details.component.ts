@@ -47,6 +47,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   certMessageFirst = '';
   certMessageFourth = '';
   certMessageFifth = '';
+  public currentLanguage: string;
 
   constructor(
     private fb: FormBuilder,
@@ -87,8 +88,9 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   }
 
   public takeOrderData() {
+    this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.orderService
-      .getOrders()
+      .getOrders(this.currentLanguage)
       .pipe(takeUntil(this.destroy))
       .subscribe((orderData: OrderDetails) => {
         this.orders = this.shareFormService.orderDetails;

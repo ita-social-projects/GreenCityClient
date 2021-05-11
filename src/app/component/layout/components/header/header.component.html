@@ -39,7 +39,9 @@
               </a>
             </li>
             <li role="link">
-              <a [routerLink]="['/ubs']" routerLinkActive="active-link" routerLinkActiveOptions="{exact:true}"> UBS </a>
+              <a [routerLink]="['/ubs']" routerLinkActive="active-link" routerLinkActiveOptions="{exact:true}">{{
+                'user.lower-nav-bar.ubs' | translate
+              }}</a>
             </li>
             <hr class="header_line container" [ngClass]="{ 'd-none': !toggleBurgerMenu }" />
             <div *ngIf="!isLoggedIn; then userLoggedInSmall; else userNotLoggerInSmall"></div>

@@ -25,8 +25,10 @@ export interface CommentsDTO {
 }
 
 export interface SocketAmountLikes {
-  id: number;
-  amountLikes: number;
+    id: number;
+    amountLikes: number;
+    liked: boolean;
+    userId: number;
 }
 
 export enum dataTypes {

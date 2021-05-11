@@ -1,8 +1,8 @@
+import { Address } from './../models/ubs.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-
 import { ICertificate, OrderDetails } from '../models/ubs.interface';
 import { Order } from '../models/ubs.model';
 import { UBSOrderFormService } from './ubs-order-form.service';
@@ -13,11 +13,11 @@ import { UBSOrderFormService } from './ubs-order-form.service';
 export class OrderService {
   private url = 'https://greencity-ubs.azurewebsites.net/ubs';
 
-  constructor(private http: HttpClient, private shareFormService: UBSOrderFormService) {}
+  constructor(private http: HttpClient, private shareFormService: UBSOrderFormService) { }
 
-  getOrders(): Observable<OrderDetails> {
+  getOrders(lang): Observable<OrderDetails> {
     return this.http
-      .get<OrderDetails>(`${this.url}/order-details`)
+      .get<OrderDetails>(`${this.url}/order-details?lang=${lang}`)
       .pipe(tap((orderDetails) => (this.shareFormService.orderDetails = orderDetails)));
   }
 
@@ -31,5 +31,18 @@ export class OrderService {
 
   processCertificate(certificate): Observable<ICertificate[]> {
     return this.http.get<ICertificate[]>(`${this.url}/certificate/${certificate}`);
+  }
+
+  addAdress(adress: Address): Observable<any> {
+    return this.http.post<Address>(`${this.url}/save-order-address`, adress);
+  }
+
+  deleteAddress(address: Address): Observable<any> {
+    const body = address.id;
+    return this.http.post<any>(`${this.url}/${address.id}/delete-order-address`, body);
+  }
+
+  findAllAddresses(): Observable<any> {
+    return this.http.get<Address[]>(`${this.url}/findAll-order-address`);
   }
 }

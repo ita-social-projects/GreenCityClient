@@ -17,7 +17,7 @@ export class EditProfileService {
   constructor(private http: HttpClient) {}
 
   public postDataUserProfile(data): Observable<EditProfileModel> {
-    return this.http.put<EditProfileModel>(`${mainUserLink}user/profile`, data, this.httpOptions);
+    return this.http.put<EditProfileModel>(`${mainUserLink}user/profile`, data, { ...this.httpOptions, responseType: 'text' as 'json'});
   }
 
   public updateProfilePhoto(data): Observable<object[]> {
