@@ -15,7 +15,6 @@ export class UBSSubmitOrderComponent implements OnInit, OnDestroy {
   bags: Bag[] = [];
   personalData: PersonalData;
   orderDetails: OrderDetails;
-  displayMes = true;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(private shareFormService: UBSOrderFormService, private fb: FormBuilder) {}
