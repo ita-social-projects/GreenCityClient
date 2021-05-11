@@ -1,6 +1,6 @@
 let redIcon = 'assets/img/places/red-marker.png';
 
-export let cards= [
+export let cards = [
   {
     id: 0,
     cardName: 'Hotel Lviv',

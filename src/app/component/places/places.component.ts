@@ -5,8 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { MatDrawer } from '@angular/material';
 import { AgmMarker } from '@agm/core';
 
-import {markers} from './Data.js'
-import {cards} from './Data.js'
+import { markers } from './Data.js';
+import { cards } from './Data.js';
 
 @Component({
   selector: 'app-places',
@@ -115,7 +115,6 @@ export class PlacesComponent implements OnInit, DoCheck {
   }
 
   private getStars(rating: number): Array<string> {
-
     const maxRating = 5;
     const halfOfStar = 0.5;
 
