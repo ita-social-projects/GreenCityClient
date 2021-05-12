@@ -35,7 +35,7 @@
       "@global-images/*": ["src/assets/img/*"],
       "@eco-news-images/*": ["src/assets/img/icon/econews/*"],
       "@footer-images/*": ["src/assets/img/icon/footer/*"],
-      "@environment/*": ["src/app/main/environments/*"],
+      "@environment/*": ["src/environments/*"],
       "@pipe/*": ["src/app/main/pipe/*"]
     }
   },

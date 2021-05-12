@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { NewsDTO, NewsResponseDTO, FileHandle } from '../models/create-news-interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from 'src/app/main/environments/environment';
+import { environment } from 'src/environments/environment';
 import { FormGroup } from '@angular/forms';
 
 @Injectable({

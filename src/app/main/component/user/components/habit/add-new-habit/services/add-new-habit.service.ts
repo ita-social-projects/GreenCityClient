@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/app/main/environments/environment';
+import { environment } from 'src/environments/environment';
 import { ServerHabitItemPageModel } from 'src/app/main/component/user/models/habit-item.model';
 
 @Injectable({

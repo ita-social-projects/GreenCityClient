@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/app/main/environments/environment';
+import { environment } from 'src/environments/environment';
 import { FriendArrayModel, SixFriendArrayModel } from 'src/app/main/component/user/models/friend.model';
 import { Observable } from 'rxjs';
 

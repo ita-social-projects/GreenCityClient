@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/app/main/environments/environment';
+import { environment } from 'src/environments/environment';
 import { Observable, of, Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { SearchDataModel, SearchModel } from '../../model/search/search.model';

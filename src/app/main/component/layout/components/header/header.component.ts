@@ -14,7 +14,7 @@ import { SearchService } from 'src/app/main/service/search/search.service';
 import { UserOwnAuthService } from 'src/app/main/service/auth/user-own-auth.service';
 import { LanguageModel } from '../models/languageModel';
 import { AuthModalComponent } from 'src/app/main/component/auth/components/auth-modal/auth-modal.component';
-import { environment } from 'src/app/main/environments/environment';
+import { environment } from 'src/environments/environment';
 import { Subject } from 'rxjs';
 
 @Component({

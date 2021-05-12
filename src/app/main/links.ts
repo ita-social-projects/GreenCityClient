@@ -1,4 +1,4 @@
-import { environment } from 'src/app/main/environments/environment';
+import { environment } from 'src/environments/environment';
 
 // back-end
 export const mainLink = environment.backendLink;

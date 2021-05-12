@@ -23,7 +23,7 @@ import { AuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
 import { NgFlashMessagesModule } from 'ng-flash-messages';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { provideConfig } from './config/GoogleAuthConfig';
-import { environment } from 'src/app/main/environments/environment';
+import { environment } from 'src/environments/environment';
 import { ProposeCafeComponent } from 'src/app/main/component/core/components';
 import { AdminModule } from './component/admin/admin.module';
 import { RestoreComponent } from 'src/app/main/component/auth/components/restore/restore.component';

@@ -1,4 +1,4 @@
-import { environment } from 'src/app/main/environments/environment';
+import { environment } from 'src/environments/environment';
 import { UserSharedModule } from './components/shared/user-shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
