@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UserService } from '../../../../service/user/user.service';
 import { UserUpdateModel } from '../../../../model/user/user-update.model';
 import { JwtService } from '../../../../service/jwt/jwt.service';
@@ -9,9 +9,9 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-user-setting',
   templateUrl: './user-setting.component.html',
-  styleUrls: ['./user-setting.component.scss']
+  styleUrls: ['./user-setting.component.scss'],
 })
-export class UserSettingComponent implements OnInit {
+export class UserSettingComponent {
   public isSomethingEdited = false;
   public email = '';
   public userUpdateModel = new UserUpdateModel();
@@ -31,8 +31,6 @@ export class UserSettingComponent implements OnInit {
     this.setEmailNotifications();
   }
 
-  ngOnInit() { }
-
   private getUser() {
     this.userService.getUser().subscribe((userUpdateModel: UserUpdateModel) => {
       this.userUpdateModel = userUpdateModel;
@@ -40,14 +38,11 @@ export class UserSettingComponent implements OnInit {
   }
 
   public updateUser() {
-    this.userService.updateUser(this.userUpdateModel).subscribe(
-      () => {
-        this.localStorageService.setFirstName(this.userUpdateModel.firstName);
-        this.dialogRef.close();
-        this.router.navigate(['/']);
-      },
-      error => { }
-    );
+    this.userService.updateUser(this.userUpdateModel).subscribe(() => {
+      this.localStorageService.setFirstName(this.userUpdateModel.firstName);
+      this.dialogRef.close();
+      this.router.navigate(['/']);
+    });
   }
 
   public somethingEdited() {
@@ -69,13 +64,13 @@ export class UserSettingComponent implements OnInit {
   }
 
   private setEmailNotifications() {
-    this.userService.getEmailNotificationsStatuses().subscribe(res => {
+    this.userService.getEmailNotificationsStatuses().subscribe((res) => {
       this.emailNotifications = [
         ...res
-          .filter(eNotification => {
+          .filter((eNotification) => {
             return eNotification !== 'DISABLED';
           })
-          .map(column => column)
+          .map((column) => column),
       ];
     });
   }

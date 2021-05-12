@@ -116,7 +116,7 @@
       "placeholder": "Search",
       "items-found": "items found",
       "news": "News",
-      "tips":"Tips & Tricks",
+      "tips": "Tips & Tricks",
       "see-all-news": "See all News",
       "see-all-tips": "See all Tips & Tricks"
     },
@@ -288,7 +288,7 @@
       "confirm-restore-password": "Your password has just been reset.",
       "confirm-email": "Your email has been verified.",
       "restore-password": "Restore password link was sent to your email address.",
-      "sign-up" : "You have successfully registered on the site. Please confirm your email address in the email box."
+      "sign-up": "You have successfully registered on the site. Please confirm your email address in the email box."
     }
   },
   "user": {
@@ -330,7 +330,7 @@
         "first-name-is-required": "User name is required",
         "user-name-error": "User name is required",
         "invalid-user-name": "Username must not contains a dot at the beginning, few dots in a row, special characters, Cyrillic letters",
-        "user-name-size": "The name must contain 6-30 characters and can contain letters(a-z), numbers(0-9) and a dot(.)",
+        "user-name-size": "The name must contain 6-30 characters and can contain letters(a-z), numbers(0-9) and a dot(.), dot at the start, at the end and consecutive dot is forbidden",
         "first-name-must-be-at-least-1-characters-long": "User name must be at least 1 characters long",
         "last-name": "Last name",
         "last-name-is-required": "Last name is required",
@@ -506,10 +506,12 @@
       "eco-events": "Eco news",
       "tips": "Tips & Tricks",
       "map": "Places",
+      "ubs": "UBS courier",
       "my-habits": "My habits"
     },
     "edit-profile": {
-      "edit-profile": "Edit profile",
+      "edit-profile": "Edit Profile",
+      "edit-button": "Edit Picture",
       "info": "Personal info",
       "name": "Name",
       "name-warning": "Should contain maximum 30 symbols",
@@ -518,8 +520,8 @@
       "title": "Credo",
       "title-warning": "Should contain maximum 170 symbols",
       "links": "Linked social networks",
-      "add-link": "Add social network",
-      "privacy": "Profile privacy",
+      "add-link": "add social network",
+      "privacy": "profile privacy",
       "location": "Show my location",
       "eco-place": "Show my eco places",
       "shoping-list": "Show my shopping list",
@@ -531,7 +533,8 @@
       "input-validation-required": "This field is required",
       "input-validation-pattern": "Your URL seems to be incorrect",
       "input-validation-non-unique": "This link has been already added",
-      "btn":{
+      "profile-changes-saved": "Your changes have been saved",
+      "btn": {
         "cancel": "Cancel",
         "save": "Save",
         "new-photo": "Upload new photo",
@@ -616,8 +619,8 @@
       },
       "all-habits": {
         "back-button": "Back to My habits",
-        "title":"All habits",
-        "no-habits":"Unfortunately, no more habits found",
+        "title": "All habits",
+        "no-habits": "Unfortunately, no more habits found",
         "no-habits-advice": "We couldn't find any more habits. Please change filters to get another result.",
         "btn-more": "More",
         "btn-add": "Add habit",
@@ -719,7 +722,7 @@
   },
   "post-news-loader": {
     "text-1": "Please wait while loading...",
-    "text-2": "Your news is loading to the website. Please wait until the page refreshes."
+    "text-2": "Your news is loading to website. Please wait until page refreshes."
   },
   "profile": {
     "calendar": {
@@ -733,19 +736,20 @@
       "my-articles": "My articles",
       "my-tips-and-tricks": "My tips and tricks",
       "habits-inprogress": "In progress",
-      "add-new-habit": "Add new habit",
+      "add-new-habit": "Add New Habit",
       "habits-acquired": "Acquired",
       "habits": "habits"
     },
     "habits-in-progress": "In progress",
     "my-Achievements": "My Achievements",
     "see-all": "See all",
-    "my-eco-friends": "My Eco Friends",
+    "elements": "Items",
+    "my-eco-friends": "My Friends",
     "zero-friends": "You don't have any friends.",
     "zero-requests": "Unfortunately, there are no new requests.",
     "my-eco-places": "My eco places",
     "shoppingList": "Shopping list",
-    "empty-list":"Your Shopping list is empty.",
+    "empty-list": "No items added yet.\nPlease add a habit with some items to see them on your list",
     "shoppingList-no-items-message": "You don't have any items in your Shopping List",
     "fact-of-the-day": "Fact of the Day",
     "no-eco-places": "You don't have any Eco Places.",

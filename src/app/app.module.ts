@@ -2,10 +2,7 @@ import { ConfirmRestorePasswordGuard } from './service/route-guards/confirm-rest
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  HTTP_INTERCEPTORS,
-  HttpClientModule
-} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DatePipe, HashLocationStrategy } from '@angular/common';
 import {
@@ -18,7 +15,7 @@ import {
   MatRadioModule,
   MatSelectModule,
   MatSliderModule,
-  MatTreeModule
+  MatTreeModule,
 } from '@angular/material';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
@@ -46,10 +43,7 @@ import { ErrorComponent } from '@global-errors/error/error.component';
 import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ErrorComponent
-  ],
+  declarations: [AppComponent, ErrorComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -77,24 +71,19 @@ import { PendingChangesGuard } from '@global-service/pending-changes-guard/pendi
     MatSelectModule,
     MatRadioModule,
     DragDropModule,
-    NgxPaginationModule
+    NgxPaginationModule,
   ],
-  entryComponents: [
-    ProposeCafeComponent,
-    RestoreComponent,
-    EditPhotoPopUpComponent,
-    ErrorComponent
-  ],
+  entryComponents: [ProposeCafeComponent, RestoreComponent, EditPhotoPopUpComponent, ErrorComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,
-      multi: true
+      multi: true,
     },
     { provide: MatDialogRef, useValue: {} },
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
-      useValue: { hasBackdrop: false }
+      useValue: { hasBackdrop: false },
     },
     // we use HashLocationStrategy because
     // so it is to avoid collisions in two types of routes (BE and FE)
@@ -103,17 +92,16 @@ import { PendingChangesGuard } from '@global-service/pending-changes-guard/pendi
     // and I didn't find how to solve it
     {
       provide: LocationStrategy,
-      useClass: HashLocationStrategy
+      useClass: HashLocationStrategy,
     },
     {
       provide: AuthServiceConfig,
-      useFactory: provideConfig
+      useFactory: provideConfig,
     },
     DatePipe,
     PendingChangesGuard,
     ConfirmRestorePasswordGuard
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule {
-}
+export class AppModule {}

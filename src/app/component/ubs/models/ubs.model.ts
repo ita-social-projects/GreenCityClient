@@ -1,26 +1,29 @@
-import { IOrder, IUserOrder, Bag } from './ubs.interface';
+import { Bag, PersonalData } from './ubs.interface';
 
-export class Order implements IOrder {
-  constructor(
-    public allBags: [
-      Bag,
-      Bag,
-      Bag
-    ],
-    public points: number,
-    public certificates: any,
-    public additionalOrders: any,
-    public orderComment: string,
-    public pointsToUse?: number
-  ) {}
-}
+export class Order {
+  additionalOrders: Array<string>;
+  addressId: number;
+  bags: Bag[];
+  certificates: Array<string>;
+  orderComment: string;
+  personalData: PersonalData;
+  pointsToUse: number;
 
-export class UserOrder implements IUserOrder {
   constructor(
-    public bags: [Bag, Bag, Bag],
-    public pointsToUse: number,
-    public certificates: any,
-    public additionalOrders: any,
-    public orderComment: string,
-  ) {}
+    additionalOrders: Array<string>,
+    addressId: number,
+    bags: Bag[],
+    certificates: Array<string>,
+    orderComment: string,
+    personalData: PersonalData,
+    pointsToUse: number
+  ) {
+    this.additionalOrders = additionalOrders;
+    this.addressId = addressId;
+    this.bags = bags;
+    this.certificates = certificates;
+    this.orderComment = orderComment;
+    this.personalData = personalData;
+    this.pointsToUse = pointsToUse;
+  }
 }

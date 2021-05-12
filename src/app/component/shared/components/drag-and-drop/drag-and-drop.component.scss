@@ -13,7 +13,7 @@
   justify-content: center;
   align-items: center;
 
-  input[type=file] {
+  input[type='file'] {
     position: absolute;
     overflow: hidden;
     z-index: -1;
@@ -57,22 +57,20 @@ img {
   height: 231px;
 }
 
-.cropper-block {
-  .cropper-buttons {
-    display: flex;
-    justify-content: center;
-    font-family: var(--primary-font);
+.cropper-buttons {
+  display: flex;
+  justify-content: center;
+  font-family: var(--primary-font);
 
-    button {
-      margin-left: 20px;
-      border: 1px solid var(--primary-green);
-      border-radius: 3px;
-      background-color: #fff;
-      width: 154px;
-      height: 48px;
-      color: var(--primary-green);
-      font-weight: bold;
-    }
+  button {
+    margin-left: 20px;
+    border: 1px solid var(--primary-green);
+    border-radius: 3px;
+    background-color: var(--primary-white);
+    width: 154px;
+    height: 48px;
+    color: var(--primary-green);
+    font-weight: bold;
   }
 }
 

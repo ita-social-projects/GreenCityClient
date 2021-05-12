@@ -14,10 +14,11 @@ export class NewsListGalleryViewComponent {
   public profileIcons = ecoNewsIcons;
   public newsImage: string;
 
-  constructor() {}
-
   public checkNewsImage(): string {
-    return this.newsImage = (this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' ') ?
-      this.ecoNewsModel.imagePath : this.profileIcons.newsDefaultPictureList;
+    this.newsImage =
+    this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' '
+      ? this.ecoNewsModel.imagePath
+      : this.profileIcons.newsDefaultPictureList;
+    return  this.newsImage;
   }
 }

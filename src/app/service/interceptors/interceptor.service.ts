@@ -1,20 +1,18 @@
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { MatDialog } from '@angular/material';
-import {BehaviorSubject, EMPTY, Observable, of, throwError} from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of, throwError } from 'rxjs';
 import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { updateAccessTokenLink } from '../../links';
 import { LocalStorageService } from '../localstorage/local-storage.service';
 import { BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../../http-response-status';
-import {AuthModalComponent} from '@global-auth/auth-modal/auth-modal.component';
-import {MatSnackBarComponent} from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import {UserOwnAuthService} from '@auth-service/user-own-auth.service';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 
 interface NewTokenPair {
   accessToken: string;
   refreshToken: string;
 }
-
 @Injectable({
   providedIn: 'root'
 })
@@ -22,12 +20,13 @@ export class InterceptorService implements HttpInterceptor {
   private refreshTokenSubject: BehaviorSubject<NewTokenPair> = new BehaviorSubject<NewTokenPair>(null);
   private isRefreshing = false;
 
-  constructor(private http: HttpClient,
-              private dialog: MatDialog,
-              private snackBar: MatSnackBarComponent,
-              private localStorageService: LocalStorageService,
-              private userOwnAuthService: UserOwnAuthService) {
-  }
+  constructor(
+    private http: HttpClient,
+    private snackBar: MatSnackBarComponent,
+    private localStorageService: LocalStorageService,
+    private router: Router,
+    private userOwnAuthService: UserOwnAuthService
+  ) { }
 
   /**
    * Intercepts all HTTP requests, adds access token to authentication header (except authentication requests),
@@ -37,7 +36,6 @@ export class InterceptorService implements HttpInterceptor {
    * @param next - {@link HttpHandler}
    */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
     if (req.url.includes('ownSecurity') || req.url.includes('googleSecurity')) {
       return next.handle(req).pipe(
         catchError((error: HttpErrorResponse) => {
@@ -45,7 +43,7 @@ export class InterceptorService implements HttpInterceptor {
             this.openErrorWindow('error');
           }
           return throwError(error);
-        } )
+        })
       );
     }
     if (this.localStorageService.getAccessToken()) {
@@ -53,12 +51,13 @@ export class InterceptorService implements HttpInterceptor {
     }
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error.status === BAD_REQUEST  || error.status === FORBIDDEN) {
-          const message = error.error.message ? error.error.message : error.message ? error.message : 'error';
-          this.openErrorWindow( message);
+        if (error.status === BAD_REQUEST || error.status === FORBIDDEN) {
+          const noErrorErrorMessage = error.message ? error.message : 'error';
+          const message = error.error.message ? error.error.message : noErrorErrorMessage;
+          this.openErrorWindow(message);
           return EMPTY;
         }
-        if (error.status === UNAUTHORIZED ) {
+        if (error.status === UNAUTHORIZED) {
           return this.handleUnauthorized(req, next);
         }
         return throwError(error);
@@ -77,8 +76,7 @@ export class InterceptorService implements HttpInterceptor {
     if (!this.isRefreshing) {
       this.isRefreshing = true;
       this.refreshTokenSubject.next(null);
-      return this.getNewTokenPair(this.localStorageService.getRefreshToken())
-      .pipe(
+      return this.getNewTokenPair(this.localStorageService.getRefreshToken()).pipe(
         catchError((error: HttpErrorResponse) => this.handleRefreshTokenIsNotValid(error)),
         switchMap((newTokenPair: NewTokenPair) => {
           this.localStorageService.setAccessToken(newTokenPair.accessToken);
@@ -97,7 +95,6 @@ export class InterceptorService implements HttpInterceptor {
       );
     }
   }
-
   /**
    * Handles a situation when refresh token is expired.
    *
@@ -105,12 +102,10 @@ export class InterceptorService implements HttpInterceptor {
    */
   private handleRefreshTokenIsNotValid(error: HttpErrorResponse): Observable<HttpEvent<any>> {
     this.isRefreshing = false;
-    if (error.status === BAD_REQUEST) {
-      this.localStorageService.clear();
-      this.userOwnAuthService.isLoginUserSubject.next(false);
-      return of<HttpEvent<any>>();
-    }
-    return throwError(error);
+    this.localStorageService.clear();
+    this.router.navigateByUrl('/');
+    this.userOwnAuthService.isLoginUserSubject.next(false);
+    return of<HttpEvent<any>>();
   }
 
   /**
@@ -136,18 +131,7 @@ export class InterceptorService implements HttpInterceptor {
     });
   }
 
-  public openSignInWindow(): void {
-    this.dialog.open(AuthModalComponent, {
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      panelClass: 'custom-dialog-container',
-      data: {
-        popUpName: 'sign-in'
-      }
-    });
-  }
-
-  public openErrorWindow( message: string): void {
+  public openErrorWindow(message: string): void {
     this.snackBar.openSnackBar(message);
   }
 }

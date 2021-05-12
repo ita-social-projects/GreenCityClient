@@ -9,7 +9,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 @Component({
   selector: 'app-eco-news-detail',
   templateUrl: './eco-news-detail.component.html',
-  styleUrls: ['./eco-news-detail.component.scss']
+  styleUrls: ['./eco-news-detail.component.scss'],
 })
 export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   public newsItem: EcoNewsModel;
@@ -21,9 +21,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   private newsId: number;
   private newsImage: string;
 
-  constructor(private route: ActivatedRoute,
-              private ecoNewsService: EcoNewsService,
-              private localStorageService: LocalStorageService ) { }
+  constructor(private route: ActivatedRoute, private ecoNewsService: EcoNewsService, private localStorageService: LocalStorageService) {}
 
   ngOnInit() {
     this.canUserEditNews();
@@ -37,12 +35,13 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   }
 
   public checkNewsImage(): string {
-    return this.newsImage = (this.newsItem.imagePath && this.newsItem.imagePath !== ' ') ?
-      this.newsItem.imagePath : this.images.largeImage;
+    this.newsImage = this.newsItem.imagePath && this.newsItem.imagePath !== ' ' ?
+    this.newsItem.imagePath : this.images.largeImage;
+    return this.newsImage;
   }
 
   public canUserEditNews(): void {
-    this.localStorageService.userIdBehaviourSubject.subscribe(id => this.userId = id);
+    this.localStorageService.userIdBehaviourSubject.subscribe((id) => (this.userId = id));
   }
 
   public onSocialShareLinkClick(type: string): void {
@@ -56,7 +55,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
     return {
       fb: () => `https://www.facebook.com/sharer/sharer.php?u=${currentPage}`,
       linkedin: () => `https://www.linkedin.com/sharing/share-offsite/?url=${currentPage}`,
-      twitter: () => `https://twitter.com/share?url=${currentPage}&text=${this.newsItem.title}&hashtags=${this.newsItem.tags.join(',')}`
+      twitter: () => `https://twitter.com/share?url=${currentPage}&text=${this.newsItem.title}&hashtags=${this.newsItem.tags.join(',')}`,
     };
   }
 
@@ -65,18 +64,15 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   }
 
   private setNewsIdSubscription(): void {
-    this.newsIdSubscription = this.route.paramMap
-      .subscribe(params => {
-        this.newsId = +params.get('id');
-        this.fetchNewsItem();
-      });
+    this.newsIdSubscription = this.route.paramMap.subscribe((params) => {
+      this.newsId = +params.get('id');
+      this.fetchNewsItem();
+    });
   }
 
   private fetchNewsItem(): void {
     const id = this.newsId.toString();
-    this.newsItemSubscription = this.ecoNewsService
-      .getEcoNewsById(id)
-      .subscribe((item: EcoNewsModel) => this.setNewsItem(item));
+    this.newsItemSubscription = this.ecoNewsService.getEcoNewsById(id).subscribe((item: EcoNewsModel) => this.setNewsItem(item));
   }
 
   ngOnDestroy() {

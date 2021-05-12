@@ -6,11 +6,10 @@ import { DialogData } from '../favorite-place.component';
 
 @Component({
   selector: 'app-edit-name',
-  templateUrl: './edit-name.html'
+  templateUrl: './edit-name.html',
 })
 export class EditFavoriteNameComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData, private favoritePlaceService: FavoritePlaceService) {
-  }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData, private favoritePlaceService: FavoritePlaceService) {}
 
   update(name: string) {
     this.favoritePlaceService.updateFavoritePlace(new FavoritePlace(this.data.placeId, name)).subscribe();

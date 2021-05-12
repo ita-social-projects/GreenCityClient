@@ -3,32 +3,28 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  ProposeCafeComponent
-} from './components';
+import { ProposeCafeComponent } from './components';
 import { AgmCoreModule } from '@agm/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from '../shared/shared.module';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
 
 @NgModule({
-    declarations: [
-        ProposeCafeComponent,
-    ],
-    imports: [
-        AppRoutingModule,
-        CommonModule,
-        SharedModule,
-        FormsModule,
-        ReactiveFormsModule,
-        AgmCoreModule.forRoot({
-          apiKey: 'AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4',
-            libraries: ['places', 'geometry']
-          }),
-        NgSelectModule,
+  declarations: [ProposeCafeComponent],
+  imports: [
+    AppRoutingModule,
+    CommonModule,
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4',
+      libraries: ['places', 'geometry'],
+    }),
+    NgSelectModule,
 
-        NgxPageScrollModule
-    ],
+    NgxPageScrollModule,
+  ],
   exports: [
     NgxPageScrollModule,
     ProposeCafeComponent,
@@ -38,10 +34,8 @@ import { NgxPageScrollModule } from 'ngx-page-scroll';
     FormsModule,
     ReactiveFormsModule,
     AgmCoreModule,
-    NgSelectModule
+    NgSelectModule,
   ],
-    providers: []
+  providers: [],
 })
-
 export class CoreModule {}
-

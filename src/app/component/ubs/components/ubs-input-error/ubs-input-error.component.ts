@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-ubs-input-error',
-  templateUrl: './ubs-input-error.component.html'
+  templateUrl: './ubs-input-error.component.html',
 })
 export class UBSInputErrorComponent implements OnChanges {
   @Input() public controlName: string;
@@ -18,22 +18,21 @@ export class UBSInputErrorComponent implements OnChanges {
 
   public errorMessage;
   private getErrorMsg = {
-    required: () => 'Це поле є обов\'язкове до заповнення',
-    email: () => this.emailFieldValue ? 'Введіть коректний email' : 'Це поле  обов\'язкове до заповнення',
-    minlength: () => this.phoneNumberFieldValue ? 'Введіть номер телефону повністю' : 'Мінімальна кількість символів: 3',
-    maxlength: () => 'Перевищена максимальна кількість символів',
-    pattern: () => 'Поле містить заборонені символи'
+    required: () => 'input-error.required',
+    email: () => (this.emailFieldValue ? 'input-error.email-wrong' : 'input-error.email-empty'),
+    minlength: () => (this.phoneNumberFieldValue ? 'input-error.minlength-unfull' : 'minlength-short'),
+    maxlength: () => 'input-error.maxlenght',
+    pattern: () => 'input-error.pattern',
   };
-
-  constructor() {}
 
   ngOnChanges() {
     this.getType();
   }
 
   private getType() {
-    Object.keys(this.formElement.errors).forEach(error => {
-      return this.errorMessage = this.getErrorMsg[error]();
+    Object.keys(this.formElement.errors).forEach((error) => {
+      this.errorMessage = this.getErrorMsg[error]();
+      return this.errorMessage;
     });
   }
 }

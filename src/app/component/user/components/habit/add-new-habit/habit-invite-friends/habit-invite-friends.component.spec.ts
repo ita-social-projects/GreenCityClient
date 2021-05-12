@@ -8,9 +8,8 @@ describe('HabitInviteFriendsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HabitInviteFriendsComponent ]
-    })
-    .compileComponents();
+      declarations: [HabitInviteFriendsComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

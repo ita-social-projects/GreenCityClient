@@ -1,4 +1,4 @@
-import {CustomGoalSaveRequestDto} from './CustomGoalSaveRequestDto';
+import { CustomGoalSaveRequestDto } from './CustomGoalSaveRequestDto';
 
 export class BulkSaveCustomGoalDto {
   customGoalSaveRequestDtoList: CustomGoalSaveRequestDto;

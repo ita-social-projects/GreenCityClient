@@ -1,4 +1,4 @@
-import {EcoNewsModel} from './eco-news-model';
+import { EcoNewsModel } from './eco-news-model';
 
 export interface EcoNewsDto {
   page: Array<EcoNewsModel>;

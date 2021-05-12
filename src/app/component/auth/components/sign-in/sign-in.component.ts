@@ -16,11 +16,10 @@ import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { takeUntil, take } from 'rxjs/operators';
 import { ProfileService } from '../../../user/components/profile/profile-service/profile.service';
 
-
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.scss']
+  styleUrls: ['./sign-in.component.scss'],
 })
 export class SignInComponent implements OnInit, OnDestroy {
   public closeBtn = SignInIcons;
@@ -51,7 +50,7 @@ export class SignInComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     private userOwnAuthService: UserOwnAuthService,
     private profileService: ProfileService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.userOwnSignIn = new UserOwnSignIn();
@@ -60,7 +59,7 @@ export class SignInComponent implements OnInit, OnDestroy {
     // Initialization of reactive form
     this.signInForm = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email]),
-      password: new FormControl(null, [Validators.required, Validators.minLength(8)])
+      password: new FormControl(null, [Validators.required, Validators.minLength(8)]),
     });
     // Get form fields to use it in the template
     this.emailField = this.signInForm.get('email');
@@ -85,33 +84,32 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.userOwnSignIn.email = email;
     this.userOwnSignIn.password = password;
 
-    this.userOwnSignInService.signIn(this.userOwnSignIn)
-    .pipe(
-      takeUntil(this.destroy)
-    )
-    .subscribe(
-      (data: UserSuccessSignIn) => {
-        this.onSignInSuccess(data);
-      },
-      (errors: HttpErrorResponse) => {
-        this.onSignInFailure(errors);
-        this.loadingAnim = false;
-      });
+    this.userOwnSignInService
+      .signIn(this.userOwnSignIn)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(
+        (data: UserSuccessSignIn) => {
+          this.onSignInSuccess(data);
+        },
+        (errors: HttpErrorResponse) => {
+          this.onSignInFailure(errors);
+          this.loadingAnim = false;
+        }
+      );
   }
 
   public signInWithGoogle(): void {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID)
-    .then(data => {
-      this.googleService.signIn(data.idToken)
-        .pipe(
-          takeUntil(this.destroy)
-        )
-        .subscribe(
-          (signInData: UserSuccessSignIn) => {
-          this.onSignInWithGoogleSuccess(signInData);
-        });
+    this.authService
+      .signIn(GoogleLoginProvider.PROVIDER_ID)
+      .then((data) => {
+        this.googleService
+          .signIn(data.idToken)
+          .pipe(takeUntil(this.destroy))
+          .subscribe((signInData: UserSuccessSignIn) => {
+            this.onSignInWithGoogleSuccess(signInData);
+          });
       })
-    .catch((errors: HttpErrorResponse) => this.onSignInFailure(errors));
+      .catch((errors: HttpErrorResponse) => this.onSignInFailure(errors));
   }
 
   public onOpenModalWindow(windowPath: string): void {
@@ -122,38 +120,32 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.userOwnAuthService.getDataFromLocalStorage();
     this.jwtService.userRole$.next(this.jwtService.getUserRole());
-    this.router.navigate(['profile', data.userId])
+    this.router
+      .navigate(['profile', data.userId])
       .then(() => {
         this.localStorageService.setFirstSignIn();
-        this.profileService.getUserInfo()
-        .pipe(
-          take(1)
-        )
-        .subscribe(item => {
-          this.localStorageService.setFirstName(item.firstName);
-        });
+        this.profileService
+          .getUserInfo()
+          .pipe(take(1))
+          .subscribe((item) => {
+            this.localStorageService.setFirstName(item.firstName);
+          });
       })
-      .catch(fail => console.log('redirect has failed ' + fail));
+      .catch((fail) => console.log('redirect has failed ' + fail));
   }
 
   public togglePassword(input: HTMLInputElement, src: HTMLImageElement): void {
-    input.type = input.type === 'password' ? 'text'  : 'password';
-    src.src = input.type === 'password' ?
-    this.hideShowPasswordImage.hidePassword  : this.hideShowPasswordImage.showPassword;
-    src.alt = input.type === 'password' ?
-    src.alt = 'show password' : src.alt = 'hide password';
+    input.type = input.type === 'password' ? 'text' : 'password';
+    src.src = input.type === 'password' ? this.hideShowPasswordImage.hidePassword : this.hideShowPasswordImage.showPassword;
+    src.alt = input.type === 'password' ? 'show password' : 'hide password';
   }
 
   private checkIfUserId(): void {
-    this.localStorageService.userIdBehaviourSubject
-      .pipe(
-        takeUntil(this.destroy)
-      )
-      .subscribe(userId => {
-        if (userId) {
-          this.matDialogRef.close(userId);
-        }
-      });
+    this.localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((userId) => {
+      if (userId) {
+        this.matDialogRef.close(userId);
+      }
+    });
   }
 
   private onSignInSuccess(data: UserSuccessSignIn): void {

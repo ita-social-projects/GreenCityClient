@@ -5,9 +5,9 @@ import { ProfileHeaderComponent } from './profile-header.component';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ProfileProgressComponent } from '../profile-progress/profile-progress.component';
-import {LocalStorageService} from '@global-service/localstorage/local-storage.service';
-import {BehaviorSubject, Subject} from 'rxjs';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ProfileHeaderComponent', () => {
   let component: ProfileHeaderComponent;
@@ -20,20 +20,10 @@ describe('ProfileHeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ProfileHeaderComponent,
-        ProfileProgressComponent
-      ],
-      imports: [
-        UserSharedModule,
-        RouterTestingModule.withRoutes([]),
-        HttpClientTestingModule
-      ],
-      providers: [
-        { provide: LocalStorageService, useValue: localStorageServiceMock }
-      ]
-    })
-      .compileComponents();
+      declarations: [ProfileHeaderComponent, ProfileProgressComponent],
+      imports: [UserSharedModule, RouterTestingModule.withRoutes([]), HttpClientTestingModule],
+      providers: [{ provide: LocalStorageService, useValue: localStorageServiceMock }],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -48,7 +38,7 @@ describe('ProfileHeaderComponent', () => {
       showEcoPlace: false,
       showLocation: false,
       showShoppingList: false,
-      socialNetworks: [{ id: 220, url: 'http://instagram' }]
+      socialNetworks: [{ id: 220, url: 'http://instagram' }],
     };
     fixture.detectChanges();
   });

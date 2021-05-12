@@ -1,16 +1,16 @@
-@import "../../../../../../node_modules/@ng-select/ng-select/themes/default.theme.css";
+@import '../../../../../../node_modules/@ng-select/ng-select/themes/default.theme.css';
 
-#weekDays-selector input[type=checkbox] {
+#weekDays-selector input[type='checkbox'] {
   display: none !important;
 }
 
-[type="file"] {
+[type='file'] {
   height: 0;
   overflow: hidden;
   width: 0;
 }
 
-[type="file"] + label {
+[type='file'] + label {
   background: skyblue;
   border: none;
   border-radius: 5px;
@@ -38,8 +38,8 @@
 
     &::before {
       color: #fff;
-      content: "\f382";
-      font-family: "Font Awesome 5 Pro", serif;
+      content: '\f382';
+      font-family: 'Font Awesome 5 Pro', serif;
       font-weight: 600;
       font-size: 100%;
       height: 100%;
@@ -60,7 +60,7 @@
   }
 }
 
-#weekDays-selector input[type=checkbox] + label {
+#weekDays-selector input[type='checkbox'] + label {
   display: inline-block;
   border-radius: 6px;
   background: #ddd;
@@ -88,7 +88,7 @@
 }
 
 .row::after {
-  content: "";
+  content: '';
   display: table;
   clear: both;
 }
@@ -125,7 +125,7 @@
   background-color: green !important;
 }
 
-#weekDays-selector input[type=checkbox]:checked + label {
+#weekDays-selector input[type='checkbox']:checked + label {
   background: #2eb82e;
   color: #fff;
 }

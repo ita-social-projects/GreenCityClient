@@ -5,15 +5,14 @@ import { environment } from '@environment/environment';
 import { ServerHabitItemPageModel } from '@global-user/models/habit-item.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AddNewHabitService {
   private backEnd = environment.backendLink;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getHabitById(id: number): Observable<ServerHabitItemPageModel> {
     return this.http.get<ServerHabitItemPageModel>(`${this.backEnd}habit/${id}`);
   }
-
 }

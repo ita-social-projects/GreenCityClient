@@ -5,19 +5,19 @@ import { EditProfileModel } from '@user-models/edit-profile.model';
 import { mainUserLink } from '../../../links';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EditProfileService {
   private httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json'
-    })
+      'Content-Type': 'application/json',
+    }),
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   public postDataUserProfile(data): Observable<EditProfileModel> {
-    return this.http.put<EditProfileModel>(`${mainUserLink}user/profile`, data, this.httpOptions);
+    return this.http.put<EditProfileModel>(`${mainUserLink}user/profile`, data, { ...this.httpOptions, responseType: 'text' as 'json'});
   }
 
   public updateProfilePhoto(data): Observable<object[]> {

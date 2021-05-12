@@ -1,10 +1,9 @@
 <div class="search_item-wrp">
   <div class="search_item-tag" *ngFor="let tag of searchModel.tags">
-        {{ tag }}
+    {{ tag }}
   </div>
   <div class="search_item-title">
-    <a [routerLink]="['/news', searchModel.id]"
-       (click)="emitCloseSearch()">
+    <a [routerLink]="['/news', searchModel.id]" (click)="emitCloseSearch()">
       <p>
         {{ searchModel.title | slice: 0:130 }}
       </p>
@@ -12,15 +11,11 @@
   </div>
   <div class="search_item-data-added-news">
     <p class="search_item-text">
-      <img class="search_item-icon"
-           [src]="profileIcons.calendarIcon"
-           alt="calendar icon" />
-           {{ searchModel.creationDate | date }}
+      <img class="search_item-icon" [src]="profileIcons.calendarIcon" alt="calendar" />
+      {{ searchModel.creationDate | date }}
     </p>
     <p class="user-data-text-date-share">
-      <img class="search_item-icon"
-           [src]="profileIcons.userIcon"
-           alt="user icon" />
+      <img class="search_item-icon" [src]="profileIcons.userIcon" alt="user" />
       {{ searchModel.author.name }}
     </p>
   </div>

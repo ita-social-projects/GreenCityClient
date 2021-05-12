@@ -1,3 +1,4 @@
+import { UbsConfirmPageComponent } from './components/ubs-confirm-page/ubs-confirm-page.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthPageGuardService } from '@global-service/route-guards/auth-page-guard.service';
@@ -11,10 +12,14 @@ const ubsRoutes: Routes = [
     children: [
       { path: '', component: UBSOrderFormComponent }
     ]
-  }];
+  },
+  { path: 'confirm',
+    component: UbsConfirmPageComponent,
+  }
+];
 
 @NgModule({
   imports: [RouterModule.forChild(ubsRoutes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class UbsRoutingModule { }
+export class UbsRoutingModule {}

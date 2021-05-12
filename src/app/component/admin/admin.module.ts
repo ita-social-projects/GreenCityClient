@@ -14,7 +14,7 @@ import {
   MatIconModule,
   MatPaginatorModule,
   MatSelectModule,
-  MatMenuModule
+  MatMenuModule,
 } from '@angular/material';
 import { MatSortModule } from '@angular/material/sort';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
@@ -38,7 +38,7 @@ import {
   FeedbacksComponent,
   PlacesComponent,
   UpdateCafeComponent,
-  UsersComponent
+  UsersComponent,
 } from './components/index';
 
 @NgModule({
@@ -51,17 +51,9 @@ import {
     ConfirmModalComponent,
     UpdateCafeComponent,
     FeedbacksComponent,
-    DialogPhotoComponent
+    DialogPhotoComponent,
   ],
-  exports: [
-    AdminNavComponent,
-    AdminComponent,
-    UsersComponent,
-    PlacesComponent,
-    ErrorComponent,
-    BrowserModule,
-    TableModule
-  ],
+  exports: [AdminNavComponent, AdminComponent, UsersComponent, PlacesComponent, ErrorComponent, BrowserModule, TableModule],
   imports: [
     AdminRoutingModule,
     CommonModule,
@@ -85,22 +77,22 @@ import {
     MatCheckboxModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4',
-      libraries: ['places']
+      libraries: ['places'],
     }),
-    TranslateModule
+    TranslateModule,
   ],
   providers: [
-    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
     {
       provide: MatDialogRef,
-      useValue: {}
+      useValue: {},
     },
     {
       provide: MAT_DIALOG_DATA,
-      useValue: {}
+      useValue: {},
     },
     ConfirmationDialogService,
-    AdminService
+    AdminService,
   ],
   entryComponents: [ConfirmModalComponent, UpdateCafeComponent, DialogPhotoComponent],
   bootstrap: [AdminComponent],

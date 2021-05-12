@@ -1,8 +1,9 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { LanguageService } from './i18n/language.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { TitleAndMetaTagsService } from './service/title-meta-tags/title-and-meta-tags.service';
 import { UiActionsService } from '@global-service/ui-actions/ui-actions.service';
+import { UserService } from '@global-service/user/user.service';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,7 @@ export class AppComponent implements OnInit {
     private titleAndMetaTagsService: TitleAndMetaTagsService,
     private router: Router,
     private uiActionsService: UiActionsService,
+    private userService: UserService
   ) { }
 
   @ViewChild('focusFirst', { static: true }) focusFirst: ElementRef;
@@ -26,7 +28,12 @@ export class AppComponent implements OnInit {
     this.languageService.setDefaultLanguage();
     this.navigateToStartingPositionOnPage();
     this.titleAndMetaTagsService.useTitleMetasData();
-    this.uiActionsService.stopScrollingSubject.subscribe(data => this.toggle = data);
+    this.uiActionsService.stopScrollingSubject.subscribe((data) => (this.toggle = data));
+  }
+
+  @HostListener('window:beforeunload')
+  onExitHandler() {
+    this.userService.updateLastTimeActivity();
   }
 
   public setFocus(): void {
@@ -38,7 +45,7 @@ export class AppComponent implements OnInit {
   }
 
   private navigateToStartingPositionOnPage(): void {
-    this.router.events.subscribe(navigationEvent => {
+    this.router.events.subscribe((navigationEvent) => {
       if (navigationEvent instanceof NavigationEnd) {
         window.scroll(0, 0);
       }

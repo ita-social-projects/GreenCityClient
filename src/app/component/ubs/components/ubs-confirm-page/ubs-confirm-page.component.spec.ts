@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NewsListComponent } from './news-list.component';
+import { UbsConfirmPageComponent } from './ubs-confirm-page.component';
 
-describe('NewsListComponent', () => {
-  let component: NewsListComponent;
-  let fixture: ComponentFixture<NewsListComponent>;
+describe('UbsConfirmPageComponent', () => {
+  let component: UbsConfirmPageComponent;
+  let fixture: ComponentFixture<UbsConfirmPageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewsListComponent ]
+      declarations: [ UbsConfirmPageComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NewsListComponent);
+    fixture = TestBed.createComponent(UbsConfirmPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

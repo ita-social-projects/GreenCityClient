@@ -8,12 +8,9 @@ describe('NoData component', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NoDataComponent ],
-      imports: [
-        TranslateModule.forRoot()
-      ]
-    })
-    .compileComponents();
+      declarations: [NoDataComponent],
+      imports: [TranslateModule.forRoot()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
