@@ -228,11 +228,13 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       });
   }
 
-  filterArr = (item, index) => [
-    ...this.filters.slice(0, index),
-    item,
-    ...this.filters.slice(index + 1)
-  ]
+  public filterArr = (item: FilterModel, index: number) => {
+    return [
+      ...this.filters.slice(0, index),
+      item,
+      ...this.filters.slice(index + 1)
+    ]
+  }
 
   public setActiveFilters(itemToUpdate: EcoNewsModel): void {
     if (itemToUpdate.tags.length) {
