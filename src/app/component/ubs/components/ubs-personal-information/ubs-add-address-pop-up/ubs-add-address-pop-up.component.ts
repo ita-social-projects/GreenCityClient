@@ -9,7 +9,7 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-ubs-add-address-pop-up',
   templateUrl: './ubs-add-address-pop-up.component.html',
-  styleUrls: ['./ubs-add-address-pop-up.component.scss'],
+  styleUrls: ['./ubs-add-address-pop-up.component.scss']
 })
 export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   address: Address;
@@ -32,7 +32,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
       edit: boolean;
       address: Address;
     }
-  ) {}
+  ) { }
 
   get district() {
     return this.addAddressForm.get('district');
@@ -42,12 +42,16 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
     return this.addAddressForm.get('street');
   }
 
-  get house() {
-    return this.addAddressForm.get('house');
+  get houseNumber() {
+    return this.addAddressForm.get('houseNumber');
   }
 
   get houseCorpus() {
     return this.addAddressForm.get('houseCorpus');
+  }
+
+  get entranceNumber() {
+    return this.addAddressForm.get('entranceNumber');
   }
 
   ngOnInit() {
