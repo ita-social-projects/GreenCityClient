@@ -228,7 +228,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       });
   }
 
-  public filterArr = (item: FilterModel, index: number) => {
+  private filterArr = (item: FilterModel, index: number) => {
     return [
       ...this.filters.slice(0, index),
       item,
