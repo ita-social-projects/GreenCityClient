@@ -23,6 +23,7 @@ p {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 104px 24px 24px 36px 32px 50px 90px;
+    background: var(--primary-white);
 
     .user-image {
       width: 76px;

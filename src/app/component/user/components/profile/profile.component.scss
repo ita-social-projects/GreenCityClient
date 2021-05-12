@@ -1,11 +1,13 @@
 .profile-wrapper {
-  margin-top: -65px;
+  margin-top: -95px;
   display: grid;
   grid-template-columns: 1fr;
   grid-row-gap: 32px;
+  background-color: var(--after-primary-light-grey);
 
   .left-column {
     width: 100%;
+    box-shadow: 1px 4px 8px 0 var(--quintynary-dark-grey);
 
     .app-users-achievements,
     .app-users-friends,
