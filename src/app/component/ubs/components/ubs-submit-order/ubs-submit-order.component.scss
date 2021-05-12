@@ -1,10 +1,12 @@
+$order-grey: #f8f9fb;
+
 .container {
   color: var(--ubs-primary-grey);
   padding: 10px 25px 40px;
 }
 
 .your-order {
-  background-color: #f8f9fb;
+  background-color: $order-grey;
 
   table {
     width: 100%;
@@ -22,7 +24,7 @@
 
 .order-details {
   margin-top: 2rem;
-  background-color: #f8f9fb;
+  background-color: $order-grey;
 
   div {
     width: 50%;
