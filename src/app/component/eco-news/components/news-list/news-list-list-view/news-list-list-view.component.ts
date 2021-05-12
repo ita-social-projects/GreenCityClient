@@ -40,10 +40,11 @@ export class NewsListListViewComponent implements AfterViewChecked {
   }
 
   public checkNewsImage(): string {
-    return (this.newsImage =
-      this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' '
-        ? this.ecoNewsModel.imagePath
-        : this.profileIcons.newsDefaultPictureList);
+    this.newsImage =
+    this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' '
+      ? this.ecoNewsModel.imagePath
+      : this.profileIcons.newsDefaultPictureList;
+    return this.newsImage;
   }
 
   private getDomWidth(): string {

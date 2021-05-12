@@ -32,8 +32,10 @@ $secondErrorColor: #b42626;
     }
 
     p {
-      margin: 32px 0 40px 0;
+      margin: 32px 0;
       font-weight: 700;
+      width: 519px;
+      height: 28px;
       font-size: 20px;
       line-height: 28px;
       text-align: center;
@@ -52,6 +54,9 @@ $secondErrorColor: #b42626;
 
       .primary-global-button,
       .secondary-global-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         margin: 0 8px;
         padding: 8px 24px;
         box-sizing: border-box;
@@ -59,10 +64,11 @@ $secondErrorColor: #b42626;
         font-style: normal;
         font-weight: bold;
         font-size: 16px;
-        line-height: 24px;
       }
 
       .primary-global-button {
+        width: 98px;
+        height: 40px;
         background: var(--primary-white);
         color: var(--primary-green);
 
@@ -70,6 +76,11 @@ $secondErrorColor: #b42626;
           border: var(--secondary-dark-green);
           color: var(--secondary-dark-green);
         }
+      }
+
+      .primary-global-button.delete {
+        width: 143px;
+        height: 40px;
       }
 
       .delete {
@@ -91,6 +102,8 @@ $secondErrorColor: #b42626;
       }
 
       .secondary-global-button {
+        width: 181px;
+        height: 40px;
         background: var(--primary-green);
         color: var(--primary-white);
 
@@ -134,12 +147,14 @@ $secondErrorColor: #b42626;
     .wrapper {
       p {
         width: 288px;
+        height: 56px;
       }
 
       .buttons {
         flex-direction: column;
 
         .primary-global-button,
+        .primary-global-button.delete,
         .secondary-global-button {
           margin: 8px 0;
           width: 288px;

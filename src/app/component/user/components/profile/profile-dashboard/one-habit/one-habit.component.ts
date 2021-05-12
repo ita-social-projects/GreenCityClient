@@ -6,6 +6,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { ActivatedRoute, Router } from '@angular/router';
 import { HabitService } from '@global-service/habit/habit.service';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
+import { HabitMark } from '@global-user/models/HabitMark.enum';
 
 @Component({
   selector: 'app-one-habit',
@@ -25,18 +26,18 @@ export class OneHabitComponent implements OnInit {
     acquired: () => {
       this.daysCounter = this.habit.duration;
       this.showPhoto = false;
-      this.habitMark = 'empty';
+      this.habitMark = HabitMark.AQUIRED;
     },
     done: () => {
       this.daysCounter = this.habit.workingDays ? this.habit.workingDays : this.habit.duration;
       this.showPhoto = false;
-      this.habitMark = 'mark';
+      this.habitMark = HabitMark.DONE;
     },
     undone: () => {
       this.daysCounter = this.habit.workingDays ? this.habit.workingDays : this.habit.duration;
       this.showPhoto = true;
-      this.habitMark = 'empty';
-    },
+      this.habitMark = HabitMark.UNDONE;
+    }
   };
 
   @Output() nowAcquiredHabit = new EventEmitter();
@@ -52,6 +53,11 @@ export class OneHabitComponent implements OnInit {
   ngOnInit() {
     this.currentDate = this.formatDate(new Date());
     this.buildHabitDescription();
+  }
+
+  public goToHabitProfile() {
+    const userId = localStorage.getItem('userId');
+    this.router.navigate([`profile/${userId}/allhabits/addhabit/${this.habit.habit.id}`]);
   }
 
   public buildHabitDescription(): void {

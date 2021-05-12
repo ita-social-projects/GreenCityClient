@@ -58,7 +58,7 @@ export interface PersonalData {
 }
 
 export interface Address {
-  checked: boolean;
+  actual: boolean;
   id: number;
   city: string;
   district: string;

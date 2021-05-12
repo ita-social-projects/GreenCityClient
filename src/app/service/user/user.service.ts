@@ -18,6 +18,7 @@ import { UserCustomGoalDto } from '../../model/goal/UserCustomGoalDto';
 import { UserGoalDto } from '../../model/goal/UserGoalDto';
 import { OnLogout } from '../OnLogout';
 import { HabitItemsAmountStatisticDto } from '../../model/goal/HabitItemsAmountStatisticDto';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root',
@@ -31,6 +32,7 @@ export class UserService implements OnLogout {
   private goalsSubject = new BehaviorSubject<Goal[]>([]);
   private availableCustomGoalsSubject = new BehaviorSubject<Goal[]>([]);
   private availablePredefinedGoalsSubject = new BehaviorSubject<Goal[]>([]);
+
 
   private dataStore: { goals: Goal[]; availableCustomGoals: Goal[]; availablePredefinedGoals } = {
     goals: [],
@@ -176,12 +178,10 @@ export class UserService implements OnLogout {
   }
 
   deleteCustomGoals(goals: Goal[]) {
-    this.http.delete(`${userLink}/${this.userId}/customGoals?ids=` + goals.map((goal) => goal.id)).subscribe(
-      () => {},
-      (error) => {
-        throw error;
-      }
-    );
+    return this.http.delete(`${userLink}/${this.userId}/customGoals?ids=` + goals.map((goal) => goal.id)).subscribe(),
+    (error) => {
+      throw error;
+    };
   }
 
   updateCustomGoals(goals: Goal[]) {
@@ -239,6 +239,15 @@ export class UserService implements OnLogout {
       }
     );
   }
+
+  updateLastTimeActivity() {
+    const date = new Date();
+    this.convertDate(date);
+    return this.http.put(`${userLink}/updateUserLastActivityTime/`, this.convertDate(date));
+  }
+
+  convertDate = (date) => moment(date).format('yyyy-MM-DDTHH:mm:ss.SSSSSS');
+
 
   onLogout(): void {
     this.dataStore.goals = [];

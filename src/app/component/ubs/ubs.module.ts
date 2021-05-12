@@ -19,7 +19,9 @@ import { UBSSubmitOrderComponent } from './components/ubs-submit-order/ubs-submi
 import { UBSInputErrorComponent } from './components/ubs-input-error/ubs-input-error.component';
 import { UBSAddAddressPopUpComponent } from './components/ubs-personal-information/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { AddressComponent } from './components/ubs-personal-information/address/address.component';
+import { UbsConfirmPageComponent } from './components/ubs-confirm-page/ubs-confirm-page.component';
 import { SharedModule } from '@shared/shared.module';
+
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { SharedModule } from '@shared/shared.module';
     UBSInputErrorComponent,
     UBSAddAddressPopUpComponent,
     AddressComponent,
+    UbsConfirmPageComponent
   ],
   imports: [
     MatFormFieldModule,

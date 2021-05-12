@@ -1,4 +1,7 @@
 <div class="main-container">
+  <button class="close" (click)="userReply(false)">
+    <img src="{{ closeButton }}" alt="close">
+  </button>
   <div class="warning-text">
     <div class="warning-title" *ngIf="popupTitle">
       {{ popupTitle | translate }}

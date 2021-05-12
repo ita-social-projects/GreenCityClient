@@ -13,6 +13,7 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
   public popupSubtitle: string;
   public popupConfirm: string;
   public popupCancel: string;
+  public closeButton = './assets/img/profile/icons/cancel.svg';
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   constructor(private matDialogRef: MatDialogRef<WarningPopUpComponent>, @Inject(MAT_DIALOG_DATA) public data) {}

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LikeCommentComponent } from './like-comment.component';
+import { UbsConfirmPageComponent } from './ubs-confirm-page.component';
 
-describe('LikeCommentComponent', () => {
-  let component: LikeCommentComponent;
-  let fixture: ComponentFixture<LikeCommentComponent>;
+describe('UbsConfirmPageComponent', () => {
+  let component: UbsConfirmPageComponent;
+  let fixture: ComponentFixture<UbsConfirmPageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LikeCommentComponent ]
+      declarations: [ UbsConfirmPageComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LikeCommentComponent);
+    fixture = TestBed.createComponent(UbsConfirmPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

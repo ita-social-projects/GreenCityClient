@@ -3,11 +3,11 @@
     <h3>{{ 'submit-order.your-order' | translate }}</h3>
     <table aria-label="order table">
       <thead>
-        <th>{{ 'submit-order.service' | translate }}</th>
-        <th>{{ 'submit-order.volume' | translate }}</th>
-        <th>{{ 'submit-order.cost' | translate }}</th>
-        <th>{{ 'submit-order.number-of-packages' | translate }}</th>
-        <th>{{ 'submit-order.sum' | translate }}</th>
+        <th aria-label="order table header">{{ 'submit-order.service' | translate }}</th>
+        <th aria-label="order table header">{{ 'submit-order.volume' | translate }}</th>
+        <th aria-label="order table header">{{ 'submit-order.cost' | translate }}</th>
+        <th aria-label="order table header">{{ 'submit-order.number-of-packages' | translate }}</th>
+        <th aria-label="order table header">{{ 'submit-order.sum' | translate }}</th>
       </thead>
       <tbody>
         <tr *ngFor="let bag of bags">
@@ -47,9 +47,6 @@
             ><strong>{{ orderDetails.finalSum }} {{ 'submit-order.currency' | translate }}</strong></span
           >
         </p>
-        <div *ngIf="displayMes" class="validMes">
-          <small class="text-danger">{{ 'submit-order.min-sum' | translate }}</small>
-        </div>
       </div>
     </div>
   </div>

@@ -174,7 +174,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public toggleDropdown(): void {
     this.dropdownVisible = !this.dropdownVisible;
-    this.dropdownVisible ? (this.ariaStatus = 'profile options expanded') : (this.ariaStatus = 'profile options collapsed');
+    this.ariaStatus = this.dropdownVisible ? 'profile options expanded' : 'profile options collapsed';
   }
 
   public autoCloseUserDropDown(event): void {
