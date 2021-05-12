@@ -60,7 +60,7 @@ export class PlacesComponent implements OnInit, DoCheck {
 
     this.markerListCopy = this.markerList.slice();
 
-    if (localStorage.length <= 1) {
+    if (!localStorage.hasOwnProperty('favorites')) {
       this.favoritePlaces = [];
     } else {
       this.favoritePlaces = JSON.parse(localStorage.getItem('favorites'));
@@ -80,7 +80,7 @@ export class PlacesComponent implements OnInit, DoCheck {
 
   public getFilterData(tags: Array<string>): void {
     if (tags.filter((item) => item === 'Saved places') && tags.length > 0) {
-      if (localStorage.length <= 1) {
+      if (!localStorage.hasOwnProperty('favorites')) {
         this.favoritePlaces = [];
       } else {
         this.favoritePlaces = JSON.parse(localStorage.getItem('favorites'));
