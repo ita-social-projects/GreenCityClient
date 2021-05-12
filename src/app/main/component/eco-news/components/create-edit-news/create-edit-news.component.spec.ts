@@ -30,7 +30,7 @@ import { ConfirmRestorePasswordComponent } from 'src/app/main/component/auth/com
 import { By } from '@angular/platform-browser';
 import { MainComponent } from 'src/app/main/main.component';
 
-describe('CreateEditNewsComponent', () => {
+xdescribe('CreateEditNewsComponent', () => {
   let component: CreateEditNewsComponent;
   let fixture: ComponentFixture<CreateEditNewsComponent>;
   let ecoNewsServiceMock: EcoNewsService;

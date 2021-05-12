@@ -29,7 +29,7 @@
       "@global-user/*": ["src/app/main/component/user/*"],
       "@user-models/*": ["src/app/main/component/user/models/*"],
       "@language-service/*": ["src/app/i18n/*"],
-      "@global-models/*": ["src/app/model/*"],
+      "@global-models/*": ["src/app/main/model/*"],
       "@global-service/*": ["src/app/main/service/*"],
       "@auth-service/*": ["src/app/main/service/auth/*"],
       "@global-images/*": ["src/assets/img/*"],

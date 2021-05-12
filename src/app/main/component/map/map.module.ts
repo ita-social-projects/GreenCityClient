@@ -1,12 +1,10 @@
+import { EditFavoriteNameComponent } from './components/favorite-place/edit-favorite-name/edit-favorite-name';
+import { DeleteFavoriteComponent } from './components/favorite-place/delete-favorite-place/delete-favorite-place';
+import { AddCommentComponent } from './components/add-comment/add-comment.component';
+import { FavoritePlaceComponent } from './components/favorite-place/favorite-place.component';
+import { FilterComponent } from './components/filter/filter.component';
+import { MapComponent } from './components/map-component/map.component';
 import { NgModule } from '@angular/core';
-import {
-  MapComponent,
-  FilterComponent,
-  FavoritePlaceComponent,
-  AddCommentComponent,
-  DeleteFavoriteComponent,
-  EditFavoriteNameComponent,
-} from './components';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { AgmDirectionModule } from 'agm-direction';
