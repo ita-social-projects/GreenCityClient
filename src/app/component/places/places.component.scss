@@ -16,7 +16,7 @@ $cardTextColor: #1d2830;
 
 .main {
   margin-top: -70px;
-  font-family: Lato, sans-serif;
+  font-family: var(--primary-font), sans-serif;
   font-style: normal;
   font-weight: normal;
 
@@ -71,7 +71,7 @@ $cardTextColor: #1d2830;
 .close-mark::after {
   padding: 15px;
   display: none;
-  content: 'X';
+  content: "X";
   position: absolute;
   right: 0;
   top: 0;

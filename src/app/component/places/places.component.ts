@@ -7,7 +7,7 @@ import { AgmMarker } from '@agm/core';
 
 import { markers } from './Data.js';
 import { cards } from './Data.js';
-
+import { placesIcons } from 'src/app/image-pathes/places-icons.js';
 @Component({
   selector: 'app-places',
   templateUrl: './places.component.html',
@@ -17,7 +17,7 @@ export class PlacesComponent implements OnInit, DoCheck {
   public lat = 49.84579567734425;
   public lng = 24.025124653312258;
   public zoom = 13;
-  public cardsCollection: Array<object>;
+  public cardsCollection: any;
   public tagList: Array<string> = [];
   public contentObj: any;
   public favoritePlaces: Array<number> = [];
@@ -26,13 +26,16 @@ export class PlacesComponent implements OnInit, DoCheck {
   public markerListCopy: Array<any> = [];
   public searchName = '';
 
-  public redIcon = 'assets/img/places/red-marker.png';
-  public greenIcon = 'assets/img/places/green-marker.png';
-  public bookmark = 'assets/img/places/bookmark-default.svg';
-  public bookmarkSaved = 'assets/img/places/bookmark-set.svg';
-  public star = 'assets/img/places/star-1.png';
-  public starHalf = 'assets/img/places/star-filled-half.png';
-  public starUnfilled = 'assets/img/places/star-2.png';
+  public redIcon = placesIcons.redIcon;
+  public greenIcon = placesIcons.greenIcon;
+  public bookmark = placesIcons.bookmark;
+  public bookmarkSaved = placesIcons.bookmarkSaved;
+  public star = placesIcons.star;
+  public starHalf = placesIcons.starHalf;
+  public starUnfilled = placesIcons.starUnfilled;
+  public searchIcon = placesIcons.searchIcon;
+  public notification = placesIcons.notification;
+  public share = placesIcons.share;
 
   public apiKey = 'AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4';
 
@@ -57,6 +60,17 @@ export class PlacesComponent implements OnInit, DoCheck {
 
     this.markerListCopy = this.markerList.slice();
 
+    if (localStorage.length <= 1) {
+      this.favoritePlaces = [];
+    } else {
+      this.favoritePlaces = JSON.parse(localStorage.getItem('favorites'));
+      this.markerList.forEach((item) => {
+        if (this.favoritePlaces.includes(item.card.id)) {
+          item.card.favorite = this.bookmarkSaved;
+        }
+      });
+    }
+
     this.bindLang(this.localStorageService.getCurrentLanguage());
   }
 
@@ -66,6 +80,11 @@ export class PlacesComponent implements OnInit, DoCheck {
 
   public getFilterData(tags: Array<string>): void {
     if (tags.filter((item) => item === 'Saved places') && tags.length > 0) {
+      if (localStorage.length <= 1) {
+        this.favoritePlaces = [];
+      } else {
+        this.favoritePlaces = JSON.parse(localStorage.getItem('favorites'));
+      }
       this.markerListCopy = this.markerList.filter((item) => {
         return this.favoritePlaces.includes(item.card.id);
       });
@@ -97,13 +116,17 @@ export class PlacesComponent implements OnInit, DoCheck {
   }
 
   public moveToFavorite(event): void {
+    const id = +event.toElement.parentNode.parentNode.id;
+
     if (!event.toElement.src.includes(this.bookmarkSaved)) {
-      event.toElement.src = this.bookmarkSaved;
-      this.favoritePlaces.push(+event.toElement.parentNode.parentNode.id);
+      this.cardsCollection[id].favorite = this.bookmarkSaved;
+      this.favoritePlaces.push(id);
+      localStorage.setItem('favorites', JSON.stringify(this.favoritePlaces));
     } else {
-      const indexToDelete = this.favoritePlaces.indexOf(event.toElement.parentNode.parentNode.id);
-      event.toElement.src = this.bookmark;
+      const indexToDelete = this.favoritePlaces.indexOf(id);
+      this.cardsCollection[id].favorite = this.bookmark;
       this.favoritePlaces.splice(indexToDelete, 1);
+      localStorage.setItem('favorites', JSON.stringify(this.favoritePlaces));
     }
   }
 

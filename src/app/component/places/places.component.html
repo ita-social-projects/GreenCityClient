@@ -3,7 +3,7 @@
     <div class="places-filter">
       <div class="search">
         <div class="search-elements">
-          <img class="search-icon" src="assets/img/places/search.svg">
+          <img class="search-icon" src="{{searchIcon}}">
           <input class="form-control search-write" type="text" name="search" list="places_names"
             [(ngModel)]="searchName" placeholder="{{ 'user.map.searching-for-a-place' | translate }}" />
           <datalist id="places_names">
@@ -34,11 +34,11 @@
               <span class="content-website">https://placewebsite.com</span>
               <ul class="content-list">
                 <li class="content-list-event">
-                  <img class="event-icon" src="assets/img/places/notification-unread.svg" alt="ev-icon">
+                  <img class="event-icon" src="{{notification}}" alt="ev-icon">
                   <p class="event-description">Special offer - discount for bonus card holders</p>
                 </li>
                 <li class="content-list-event">
-                  <img class="event-icon" src="assets/img/places/share.svg" alt="ev-icon">
+                  <img class="event-icon" src="{{share}}" alt="ev-icon">
                   <p class="event-description">Place profile on Greencity</p>
                 </li>
               </ul>
@@ -69,7 +69,7 @@
               <span class="card-address">{{card.cardAddress}}</span>
             </div>
             <p class="card-text">{{card.cardText}}</p>
-            <img class="card-bookmark" src={{bookmark}} alt="bookmark" (click)="moveToFavorite($event)">
+            <img class="card-bookmark" src={{card.favorite}} alt="bookmark" (click)="moveToFavorite($event)">
           </div>
         </div>
       </div>

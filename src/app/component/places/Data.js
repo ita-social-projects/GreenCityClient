@@ -8,7 +8,7 @@ export let cards = [
     cardText: 'this is Hotel Lviv',
     cardImgUrl: 'assets/img/places/place_lviv-hotel.png',
     cardRating: 0.3,
-    favorite: false
+    favorite: 'assets/img/places/bookmark-default.svg'
   },
   {
     id: 1,
@@ -17,7 +17,7 @@ export let cards = [
     cardText: 'this is Magnus',
     cardImgUrl: 'assets/img/places/place_magnus.png',
     cardRating: 0.5,
-    favorite: false
+    favorite: 'assets/img/places/bookmark-default.svg'
   },
   {
     id: 2,
@@ -26,7 +26,7 @@ export let cards = [
     cardText: 'this is McDonalds',
     cardImgUrl: 'assets/img/places/place_McDonalds.png',
     cardRating: 0,
-    favorite: false
+    favorite: 'assets/img/places/bookmark-default.svg'
   },
   {
     id: 3,
@@ -35,7 +35,7 @@ export let cards = [
     cardText: 'this is KFC',
     cardImgUrl: 'assets/img/places/place_KFC.png',
     cardRating: 0.9,
-    favorite: false
+    favorite: 'assets/img/places/bookmark-default.svg'
   },
   {
     id: 4,
@@ -44,7 +44,7 @@ export let cards = [
     cardText: 'this is Staff',
     cardImgUrl: 'assets/img/places/place_staff.png',
     cardRating: 1,
-    favorite: false
+    favorite: 'assets/img/places/bookmark-default.svg'
   }
 ];
 
