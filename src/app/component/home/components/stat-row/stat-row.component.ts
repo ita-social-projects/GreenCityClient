@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./stat-row.component.scss'],
 })
 export class StatRowComponent {
-  // TODO Replace with entity
+  /* TODO Replace with entity*/
   @Input() stat: { action; caption; count; question; iconPath; locationText };
   @Input() index: number;
 

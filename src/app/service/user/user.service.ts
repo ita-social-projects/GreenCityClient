@@ -178,12 +178,10 @@ export class UserService implements OnLogout {
   }
 
   deleteCustomGoals(goals: Goal[]) {
-    this.http.delete(`${userLink}/${this.userId}/customGoals?ids=` + goals.map((goal) => goal.id)).subscribe(
-      () => {},
-      (error) => {
-        throw error;
-      }
-    );
+    return this.http.delete(`${userLink}/${this.userId}/customGoals?ids=` + goals.map((goal) => goal.id)).subscribe(),
+    (error) => {
+      throw error;
+    };
   }
 
   updateCustomGoals(goals: Goal[]) {

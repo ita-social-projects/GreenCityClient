@@ -31,15 +31,14 @@ export class ErrorComponent implements OnChanges {
       this.controlName === 'password' ? 'user.auth.sign-up.password-symbols-error' : 'user.auth.sign-up.user-name-size',
   };
 
-  constructor() {}
-
   ngOnChanges() {
     this.getType();
   }
 
   private getType() {
     Object.keys(this.formElement.errors).forEach((error) => {
-      return (this.errorMessage = this.getErrorMsg[error]());
+      this.errorMessage = this.getErrorMsg[error]();
+      return this.errorMessage;
     });
   }
 }

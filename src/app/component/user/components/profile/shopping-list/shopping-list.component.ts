@@ -53,7 +53,8 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   private updateDataOnUi(item): any {
     const { status: prevItemStatus } = item;
     const newItemStatus = prevItemStatus === 'ACTIVE' ? 'DONE' : 'ACTIVE';
-    return (item.status = newItemStatus);
+    item.status = newItemStatus;
+    return item.status;
   }
 
   ngOnDestroy() {

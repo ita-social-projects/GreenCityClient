@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 
 @Component({
@@ -6,12 +6,10 @@ import { MatDialogRef } from '@angular/material';
   templateUrl: './error.component.html',
   styleUrls: ['./error.component.scss'],
 })
-export class ErrorComponent implements OnInit {
+export class ErrorComponent {
   public closeDiaglog = './assets/img/icon/close.png';
 
   constructor(private matDialogRef: MatDialogRef<ErrorComponent>) {}
-
-  ngOnInit() {}
 
   public closePopup(): void {
     this.matDialogRef.close();
