@@ -1,6 +1,5 @@
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-
+import { Component, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { HabitAssignService } from 'src/app/main/service/habit-assign/habit-assign.service';
 import { Subject, Subscription } from 'rxjs';

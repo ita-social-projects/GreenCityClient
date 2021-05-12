@@ -721,7 +721,7 @@
   },
   "post-news-loader": {
     "text-1": "Please wait while loading...",
-    "text-2": "Your news is loading to the website. Please wait until the page refreshes."
+    "text-2": "Your news is loading to website. Please wait until page refreshes."
   },
   "profile": {
     "calendar": {
@@ -735,7 +735,7 @@
       "my-articles": "My articles",
       "my-tips-and-tricks": "My tips and tricks",
       "habits-inprogress": "In progress",
-      "add-new-habit": "Add new habit",
+      "add-new-habit": "Add New Habit",
       "habits-acquired": "Acquired",
       "habits": "habits"
     },
@@ -743,7 +743,7 @@
     "my-Achievements": "My Achievements",
     "see-all": "See all",
     "elements": "Items",
-    "my-eco-friends": "My Eco Friends",
+    "my-eco-friends": "My Friends",
     "zero-friends": "You don't have any friends.",
     "zero-requests": "Unfortunately, there are no new requests.",
     "my-eco-places": "My eco places",

@@ -35,7 +35,9 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   }
 
   public checkNewsImage(): string {
-    return (this.newsImage = this.newsItem.imagePath && this.newsItem.imagePath !== ' ' ? this.newsItem.imagePath : this.images.largeImage);
+    this.newsImage = this.newsItem.imagePath && this.newsItem.imagePath !== ' ' ?
+    this.newsItem.imagePath : this.images.largeImage;
+    return this.newsImage;
   }
 
   public canUserEditNews(): void {

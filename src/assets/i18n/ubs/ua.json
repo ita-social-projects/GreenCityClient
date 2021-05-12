@@ -50,6 +50,7 @@
     "next": "Далі"
   },
   "order-form": {
+    "ubs-title" : "Замовити вивіз сміття",
     "ubs-courier": "УБС кур’єр",
     "order-details": "Деталі замовлення",
     "personal-data": "Особисті дані",
@@ -69,6 +70,7 @@
     "pop-up-entrance": "Під'їзд",
     "pop-up-cancel": "Відмінити",
     "pop-up-add-address": "Додати адресу",
+    "pop-up-save-changes": "Зберегти зміни",
     "pop-up-enter-you-location": "Введіть місцезнаходження",
     "info-personal-data": "Особисті дані",
     "info-name": "Ім'я",
@@ -107,6 +109,7 @@
     "choose-payment": "Оберіть спосіб оплати",
     "liqpay-card": "Карткою через LiqPay",
     "back": "Назад",
-    "to-order": "Замовити"
+    "to-order": "Замовити",
+    "bags": "пакети"
   }
 }

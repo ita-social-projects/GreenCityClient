@@ -50,6 +50,7 @@
     "next": "Next"
   },
   "order-form": {
+    "ubs-title": "Order garbage collection",
     "ubs-courier": "UBS courier",
     "order-details": "Order details",
     "personal-data": "Personal data",
@@ -69,6 +70,7 @@
     "pop-up-entrance": "Entrance",
     "pop-up-cancel": "Cancel",
     "pop-up-add-address": "Add address",
+    "pop-up-save-changes": "Save changes",
     "pop-up-enter-you-location": "Enter a location",
     "info-personal-data": "Personal data",
     "info-name": "Name",
@@ -107,6 +109,7 @@
     "choose-payment": "Choose a payment method",
     "liqpay-card": "By card via LiqPay",
     "back": "Back",
-    "to-order": "Order"
+    "to-order": "Order",
+    "bags": "bags"
   }
 }

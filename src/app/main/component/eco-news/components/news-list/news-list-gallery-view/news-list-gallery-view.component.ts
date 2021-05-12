@@ -15,9 +15,10 @@ export class NewsListGalleryViewComponent {
   public newsImage: string;
 
   public checkNewsImage(): string {
-    return (this.newsImage =
-      this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' '
-        ? this.ecoNewsModel.imagePath
-        : this.profileIcons.newsDefaultPictureList);
+    this.newsImage =
+    this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' '
+      ? this.ecoNewsModel.imagePath
+      : this.profileIcons.newsDefaultPictureList;
+    return  this.newsImage;
   }
 }
