@@ -228,16 +228,18 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       });
   }
 
+  filterArr = (item, index) => [
+    ...this.filters.slice(0, index),
+    item,
+    ...this.filters.slice(index + 1)
+  ];;
+
   public setActiveFilters(itemToUpdate: EcoNewsModel): void {
     if (itemToUpdate.tags.length) {
       this.isArrayEmpty = false;
       itemToUpdate.tags.forEach((tag: NewsTagInterface) => {
         const index = this.filters.findIndex((filterObj: FilterModel) => filterObj.name === `${tag}`);
-        this.filters = [
-          ...this.filters.slice(0, index),
-          { name: `${tag}`, isActive: true },
-          ...this.filters.slice(index + 1)
-        ];
+        this.filters = this.filterArr({ name: `${tag}`, isActive: true }, index)
       });
     }
   }
@@ -278,11 +280,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
   public toggleIsActive(filterObj: FilterModel, newValue: boolean): void {
     const index = this.filters.findIndex((item: FilterModel) => item.name === filterObj.name);
-    this.filters = [
-      ...this.filters.slice(0, index),
-      { name: filterObj.name, isActive: newValue },
-      ...this.filters.slice(index + 1)
-    ];
+    this.filters = this.filterArr({ name: filterObj.name, isActive: newValue }, index)
   }
 
   public goToPreview(): void {
