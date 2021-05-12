@@ -12,8 +12,8 @@ export class StatRowsComponent implements OnInit {
   constructor(private userService: UserService) {}
 
   ngOnInit() {
-    // TODO: homePageHabitStats should be populated entirely by server-side returned data
-    // instead of manual declaration of habit statistics.
+    /* TODO: homePageHabitStats should be populated entirely by server-side returned data
+    instead of manual declaration of habit statistics.*/
     this.userService.getTodayStatisticsForAllHabitItems().subscribe((habitDtoArray) => {
       function getStatisticForHabitItemName(habitItemName: string) {
         const habitItemDto = habitDtoArray.find((it) => it.habitItem === habitItemName);

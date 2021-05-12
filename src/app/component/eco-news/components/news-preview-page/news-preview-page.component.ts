@@ -22,7 +22,7 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
   private userNameSub: Subscription;
   public attributes: ActionInterface;
   public newsId: string;
-  public onSubmit(): void {}
+  public onSubmit;
 
   constructor(
     private createEcoNewsService: CreateEcoNewsService,

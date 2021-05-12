@@ -54,8 +54,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       popupCancel: 'homepage.eco-news.news-popup.cancel',
     },
   };
-
-  public onSubmit(): void {}
+  public onSubmit;
 
   constructor(
     public router: Router,
