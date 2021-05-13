@@ -1,3 +1,4 @@
+import { ConfirmRestorePasswordGuard } from './service/route-guards/confirm-restore-password.guard';
 import { UbsConfirmPageComponent } from './component/ubs/components/ubs-confirm-page/ubs-confirm-page.component';
 import { ConfirmRestorePasswordComponent } from '@global-auth/index';
 import { TipsListComponent } from './component/home/components';
@@ -37,7 +38,7 @@ export const routes: Routes = [
   },
   {
     path: 'auth/restore',
-    component: ConfirmRestorePasswordComponent,
+    component: ConfirmRestorePasswordComponent, canActivate: [ConfirmRestorePasswordGuard]
   },
   {
     path: '',

@@ -1,3 +1,4 @@
+import { ConfirmRestorePasswordGuard } from './service/route-guards/confirm-restore-password.guard';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -99,6 +100,7 @@ import { PendingChangesGuard } from '@global-service/pending-changes-guard/pendi
     },
     DatePipe,
     PendingChangesGuard,
+    ConfirmRestorePasswordGuard
   ],
   bootstrap: [AppComponent],
 })
