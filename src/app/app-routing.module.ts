@@ -1,3 +1,4 @@
+import { ConfirmRestorePasswordGuard } from './main/service/route-guards/confirm-restore-password.guard';
 import { HomepageComponent } from 'src/app/main/component/home/components';
 import { ConfirmRestorePasswordComponent } from 'src/app/main/component/auth/components/index';
 import { SearchAllResultsComponent } from 'src/app/main/component/layout/components';
@@ -42,7 +43,7 @@ export const routes: Routes = [
       },
       {
         path: 'auth/restore',
-        component: ConfirmRestorePasswordComponent,
+        component: ConfirmRestorePasswordComponent, canActivate: [ConfirmRestorePasswordGuard]
       },
       {
         path: '',

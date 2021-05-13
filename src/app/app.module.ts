@@ -29,7 +29,7 @@ import { LocationStrategy } from '@angular/common';
     // and I didn't find how to solve it
     {
       provide: LocationStrategy,
-      useClass: HashLocationStrategy,
+      useClass: HashLocationStrategy
     }
   ],
   bootstrap: [ AppComponent ]

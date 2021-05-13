@@ -68,10 +68,14 @@ export class MatSnackBarComponent {
       this.className = 'error-snackbar';
       this.getSnackBarMessage(error);
     },
+    sendNewLetter: () => {
+      this.className = 'error-snackbar';
+      this.getSnackBarMessage('snack-bar.error.restore-password-again');
+    },
     changesSaved: () => {
       this.className = 'success-snackbar';
       this.getSnackBarMessage('user.edit-profile.profile-changes-saved');
-    },
+    }
   };
 
   constructor(public snackBar: MatSnackBar, private translate: TranslateService) {}
