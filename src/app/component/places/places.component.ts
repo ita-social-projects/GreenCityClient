@@ -5,8 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatDrawer } from '@angular/material';
 import { AgmMarker } from '@agm/core';
 
-import { markers } from './Data.js';
-import { cards } from './Data.js';
+import { markers, cards } from './Data.js';
 import { placesIcons } from 'src/app/image-pathes/places-icons.js';
 @Component({
   selector: 'app-places',
@@ -60,10 +59,10 @@ export class PlacesComponent implements OnInit, DoCheck {
 
     this.markerListCopy = this.markerList.slice();
 
-    if (!localStorage.hasOwnProperty('favorites')) {
+    if (!sessionStorage.hasOwnProperty('favorites')) {
       this.favoritePlaces = [];
     } else {
-      this.favoritePlaces = JSON.parse(localStorage.getItem('favorites'));
+      this.favoritePlaces = JSON.parse(sessionStorage.getItem('favorites'));
       this.markerList.forEach((item) => {
         if (this.favoritePlaces.includes(item.card.id)) {
           item.card.favorite = this.bookmarkSaved;
@@ -80,10 +79,10 @@ export class PlacesComponent implements OnInit, DoCheck {
 
   public getFilterData(tags: Array<string>): void {
     if (tags.filter((item) => item === 'Saved places') && tags.length > 0) {
-      if (!localStorage.hasOwnProperty('favorites')) {
+      if (!sessionStorage.hasOwnProperty('favorites')) {
         this.favoritePlaces = [];
       } else {
-        this.favoritePlaces = JSON.parse(localStorage.getItem('favorites'));
+        this.favoritePlaces = JSON.parse(sessionStorage.getItem('favorites'));
       }
       this.markerListCopy = this.markerList.filter((item) => {
         return this.favoritePlaces.includes(item.card.id);
@@ -121,12 +120,12 @@ export class PlacesComponent implements OnInit, DoCheck {
     if (!event.toElement.src.includes(this.bookmarkSaved)) {
       this.cardsCollection[id].favorite = this.bookmarkSaved;
       this.favoritePlaces.push(id);
-      localStorage.setItem('favorites', JSON.stringify(this.favoritePlaces));
+      sessionStorage.setItem('favorites', JSON.stringify(this.favoritePlaces));
     } else {
       const indexToDelete = this.favoritePlaces.indexOf(id);
       this.cardsCollection[id].favorite = this.bookmark;
       this.favoritePlaces.splice(indexToDelete, 1);
-      localStorage.setItem('favorites', JSON.stringify(this.favoritePlaces));
+      sessionStorage.setItem('favorites', JSON.stringify(this.favoritePlaces));
     }
   }
 
