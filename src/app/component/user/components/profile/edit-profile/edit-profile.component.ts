@@ -49,6 +49,8 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   };
   public socialNetworks: Array<{ id: number; url: string }>;
   public socialNetworksToServer: string[] = [];
+  public namePattern = /^(?!\.)(?!.*\.$)(?!.*?\.\.)[a-zA-Zа-яА-Я0-9.]{6,30}$/;
+  public cityPattern = /^[a-zA-Zа-яА-Я][a-zA-Zа-яА-Я!\-\,’)( ]*$/;
 
   constructor(
     public dialog: MatDialog,
