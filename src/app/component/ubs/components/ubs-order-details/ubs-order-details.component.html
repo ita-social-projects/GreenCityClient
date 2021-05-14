@@ -145,6 +145,7 @@
           <div class="addBonus">
             <h5>{{ 'order-details.bonus-need' | translate }}</h5>
             <p>{{ 'order-details.bonus-left' | translate }} {{ points }} {{ 'order-details.currency' | translate }}</p>
+            <div *ngIf="bonusesRemaining">
             <div class="form-check custom-control custom-radio">
               <input
                 formControlName="bonus"
@@ -167,6 +168,7 @@
               />
               <label class="form-check-label custom-control-label" for="customRadio2">{{ 'order-details.no' | translate }}</label>
             </div>
+          </div>
             <small class="text-message" [class.d-none]="pointsUsed === 0">
               <span>{{ 'order-details.used' | translate }} {{ pointsUsed }} {{ 'order-details.currency' | translate }}</span></small
             >
