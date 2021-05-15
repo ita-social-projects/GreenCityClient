@@ -1,3 +1,7 @@
+footer {
+  padding-top: 16px;
+}
+
 p,
 a,
 .footer_bottom-part {
@@ -136,16 +140,12 @@ li {
 }
 
 @media (min-width: 1024px) {
-  footer {
-    padding-top: 10px;
-  }
-
   ul {
     margin-left: 48px;
   }
 
   .footer_logo-wrp {
     float: left;
-    margin-top: 10px;
+    margin-top: 6px;
   }
 }
