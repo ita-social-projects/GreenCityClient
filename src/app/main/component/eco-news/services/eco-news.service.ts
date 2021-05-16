@@ -3,12 +3,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Observer, ReplaySubject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { EcoNewsModel, NewsTagInterface } from '../models/eco-news-model';
-import { environment } from 'src/environments/environment';
+import { environment } from '@environment/environment';
 import { EcoNewsDto } from '../models/eco-news-dto';
 import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class EcoNewsService implements OnDestroy {
   private backEnd = environment.backendLink;

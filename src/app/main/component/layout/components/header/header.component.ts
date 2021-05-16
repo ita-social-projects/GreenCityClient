@@ -14,13 +14,13 @@ import { SearchService } from 'src/app/main/service/search/search.service';
 import { UserOwnAuthService } from 'src/app/main/service/auth/user-own-auth.service';
 import { LanguageModel } from '../models/languageModel';
 import { AuthModalComponent } from 'src/app/main/component/auth/components/auth-modal/auth-modal.component';
-import { environment } from 'src/environments/environment';
+import { environment } from '@environment/environment';
 import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   readonly selectLanguageArrow = 'assets/img/arrow_grey.png';
@@ -36,7 +36,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public arrayLang: Array<LanguageModel> = [
     { lang: 'Ua', langName: 'ukrainian' },
     { lang: 'En', langName: 'english' },
-    { lang: 'Ru', langName: 'russian' },
+    { lang: 'Ru', langName: 'russian' }
   ];
   public ariaStatus = 'profile options collapsed';
   public isSearchClicked = false;
@@ -198,8 +198,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       closeOnNavigation: true,
       panelClass: ['custom-dialog-container'],
       data: {
-        popUpName: page,
-      },
+        popUpName: page
+      }
     });
   }
 

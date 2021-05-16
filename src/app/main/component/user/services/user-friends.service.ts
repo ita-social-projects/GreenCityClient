@@ -1,19 +1,19 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import { environment } from '@environment/environment';
 import { FriendArrayModel, SixFriendArrayModel } from 'src/app/main/component/user/models/friend.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class UserFriendsService {
   private size = 10;
   public url: string = environment.backendUserLink;
   private httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-    }),
+      'Content-Type': 'application/json'
+    })
   };
 
   constructor(private http: HttpClient) {}
@@ -37,7 +37,7 @@ export class UserFriendsService {
   public addFriend(idUser: number, idFriend: number): Observable<object> {
     const body = {
       friendId: idFriend,
-      userId: idUser,
+      userId: idUser
     };
 
     return this.http.post<object>(`${this.url}/user/${idUser}/userFriend/${idFriend}`, body);
@@ -46,7 +46,7 @@ export class UserFriendsService {
   public acceptRequest(idUser: number, idFriend: number): Observable<object> {
     const body = {
       friendId: idFriend,
-      userId: idUser,
+      userId: idUser
     };
 
     return this.http.post<object>(`${this.url}/user/${idUser}/acceptFriend/${idFriend}`, body);
@@ -55,7 +55,7 @@ export class UserFriendsService {
   public declineRequest(idUser: number, idFriend: number): Observable<object> {
     const body = {
       friendId: idFriend,
-      userId: idUser,
+      userId: idUser
     };
 
     return this.http.post<object>(`${this.url}/user/${idUser}/declineFriend/${idFriend}`, body);

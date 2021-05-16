@@ -1,4 +1,4 @@
-import { environment } from 'src/environments/environment';
+import { environment } from '@environment/environment';
 import { UserSharedModule } from './components/shared/user-shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -53,7 +53,7 @@ import {
   GoalListComponent,
   EditProfileComponent,
   PersonalPhotoComponent,
-  SocialNetworksComponent,
+  SocialNetworksComponent
 } from './components';
 import { CustomLastPipe } from '../../pipe/custom-last-pipe/custom-first.pipe';
 import { ShowFirstNLettersPipe } from '../../pipe/show-first-n-letters/show-first-n-letters.pipe';
@@ -152,7 +152,7 @@ import { RequestItemComponent } from './components/profile/users-friends/friend-
     RecommendedFriendsComponent,
     FriendItemComponent,
     FriendRequestsComponent,
-    RequestItemComponent,
+    RequestItemComponent
   ],
   imports: [
     UserRoutingModule,
@@ -166,20 +166,20 @@ import { RequestItemComponent } from './components/profile/users-friends/friend-
     HttpClientModule,
     AgmCoreModule.forRoot({
       apiKey: environment.agmCoreModuleApiKey,
-      libraries: ['places'],
+      libraries: ['places']
     }),
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
         useFactory: createTranslateLoader,
-        deps: [HttpClient],
+        deps: [HttpClient]
       },
-      isolate: true,
+      isolate: true
     }),
     InfiniteScrollModule,
-    UserSharedModule,
+    UserSharedModule
   ],
-  providers: [EditProfileFormBuilder],
+  providers: [EditProfileFormBuilder]
 })
 export class UserModule {}
 

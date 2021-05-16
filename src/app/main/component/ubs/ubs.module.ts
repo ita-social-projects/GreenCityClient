@@ -7,7 +7,7 @@ import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/go
 import { AgmCoreModule } from '@agm/core';
 import { IMaskModule } from 'angular-imask';
 import { MatDialogModule, MatFormFieldModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
-import { environment } from 'src/environments/environment';
+import { environment } from '@environment/environment';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { UbsRoutingModule } from './ubs-routing.module';
@@ -21,7 +21,6 @@ import { UBSAddAddressPopUpComponent } from './components/ubs-personal-informati
 import { AddressComponent } from './components/ubs-personal-information/address/address.component';
 import { UbsConfirmPageComponent } from './components/ubs-confirm-page/ubs-confirm-page.component';
 import { SharedModule } from 'src/app/main/component/shared/shared.module';
-
 
 @NgModule({
   declarations: [
@@ -48,26 +47,26 @@ import { SharedModule } from 'src/app/main/component/shared/shared.module';
     MatGoogleMapsAutocompleteModule,
     AgmCoreModule.forRoot({
       apiKey: environment.agmCoreModuleApiKey,
-      libraries: ['places'],
+      libraries: ['places']
     }),
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
         useFactory: createTranslateLoader,
-        deps: [HttpClient],
+        deps: [HttpClient]
       },
-      isolate: true,
+      isolate: true
     }),
-    SharedModule,
+    SharedModule
   ],
   entryComponents: [UBSAddAddressPopUpComponent],
   providers: [
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
-      useValue: { hasBackdrop: true },
+      useValue: { hasBackdrop: true }
     },
-    TranslateService,
-  ],
+    TranslateService
+  ]
 })
 export class UbsModule {}
 

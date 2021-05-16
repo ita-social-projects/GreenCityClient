@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { NewsDTO, NewsResponseDTO, FileHandle } from '../models/create-news-interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { environment } from '@environment/environment';
 import { FormGroup } from '@angular/forms';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class CreateEcoNewsService {
   public newsId: string;
@@ -19,8 +19,8 @@ export class CreateEcoNewsService {
   public isBackToEditing: boolean;
   private httpOptions = {
     headers: new HttpHeaders({
-      Authorization: 'my-auth-token',
-    }),
+      Authorization: 'my-auth-token'
+    })
   };
 
   constructor(private http: HttpClient) {}
@@ -39,7 +39,7 @@ export class CreateEcoNewsService {
       tags: form.tags,
       text: form.content,
       title: form.title,
-      source: form.source,
+      source: form.source
     };
 
     const formData = new FormData();
@@ -47,7 +47,7 @@ export class CreateEcoNewsService {
     if (this.files.length !== 0) {
       body = {
         ...body,
-        image: this.files[0].url,
+        image: this.files[0].url
       };
     }
     this.files = [];
@@ -73,7 +73,7 @@ export class CreateEcoNewsService {
       tags: form.value.tags,
       text: form.value.content,
       title: form.value.title,
-      source: form.value.source,
+      source: form.value.source
     };
 
     const formData = new FormData();

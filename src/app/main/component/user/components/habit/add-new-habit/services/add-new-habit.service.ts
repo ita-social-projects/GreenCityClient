@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { environment } from '@environment/environment';
 import { ServerHabitItemPageModel } from 'src/app/main/component/user/models/habit-item.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AddNewHabitService {
   private backEnd = environment.backendLink;

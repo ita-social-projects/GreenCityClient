@@ -14,7 +14,7 @@ import {
   MatRadioModule,
   MatSelectModule,
   MatSliderModule,
-  MatTreeModule,
+  MatTreeModule
 } from '@angular/material';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
@@ -24,7 +24,7 @@ import { AuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
 import { NgFlashMessagesModule } from 'ng-flash-messages';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { provideConfig } from './config/GoogleAuthConfig';
-import { environment } from 'src/environments/environment';
+import { environment } from '@environment/environment';
 import { ProposeCafeComponent } from 'src/app/main/component/core/components';
 import { AdminModule } from './component/admin/admin.module';
 import { RestoreComponent } from 'src/app/main/component/auth/components/restore/restore.component';
@@ -38,12 +38,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { ErrorComponent } from 'src/app/main/component/errors/error/error.component';
 import { PendingChangesGuard } from 'src/app/main/service/pending-changes-guard/pending-changes.guard';
 
-
 @NgModule({
-  declarations: [
-    MainComponent,
-    ErrorComponent
-  ],
+  declarations: [MainComponent, ErrorComponent],
   imports: [
     LayoutModule,
     MatDialogModule,
@@ -68,33 +64,28 @@ import { PendingChangesGuard } from 'src/app/main/service/pending-changes-guard/
     MatSelectModule,
     MatRadioModule,
     DragDropModule,
-    NgxPaginationModule,
+    NgxPaginationModule
   ],
   entryComponents: [MainComponent, ProposeCafeComponent, RestoreComponent, EditPhotoPopUpComponent, ErrorComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,
-      multi: true,
+      multi: true
     },
     { provide: MatDialogRef, useValue: {} },
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
-      useValue: { hasBackdrop: false },
+      useValue: { hasBackdrop: false }
     },
-    // we use HashLocationStrategy because
-    // so it is to avoid collisions in two types of routes (BE and FE)
-    // also this is to stylistically separate them from each other
-    // Also some articles write that this is a well-known mistake of the angular SPA and gh-pages
-    // and I didn't find how to solve it
     {
       provide: AuthServiceConfig,
-      useFactory: provideConfig,
+      useFactory: provideConfig
     },
     DatePipe,
     PendingChangesGuard,
     ConfirmRestorePasswordGuard
   ],
-  exports: [ MainComponent ]
+  exports: [MainComponent]
 })
 export class MainModule {}

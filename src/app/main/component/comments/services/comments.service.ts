@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { environment } from '@environment/environment';
 import { FormControl } from '@angular/forms';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class CommentsService {
   private backEnd = environment.backendLink;
@@ -16,7 +16,7 @@ export class CommentsService {
   public addComment(form, id = 0): Observable<object> {
     const body = {
       parentCommentId: id,
-      text: form.value.content,
+      text: form.value.content
     };
 
     return this.http.post<object>(`${this.backEnd}econews/comments/${this.ecoNewsId}`, body);
@@ -53,7 +53,7 @@ export class CommentsService {
   public editComment(id: number, form: FormControl): Observable<object> {
     const body = {
       parentCommentId: id,
-      text: form.value,
+      text: form.value
     };
 
     return this.http.patch<object>(`${this.backEnd}econews/comments?id=${id}&text=${form.value}`, body);
