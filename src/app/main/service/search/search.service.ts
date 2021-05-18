@@ -7,7 +7,7 @@ import { SearchDataModel, SearchModel } from '../../model/search/search.model';
 import { SearchDto } from 'src/app/main/component/layout/components/models/search-dto';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class SearchService {
   private apiUrl = 'http://localhost:3000';

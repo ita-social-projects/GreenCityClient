@@ -5,7 +5,7 @@ import { environment } from '@environment/environment';
 import { ServerHabitItemPageModel } from '@global-user/models/habit-item.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AddNewHabitService {
   private backEnd = environment.backendLink;

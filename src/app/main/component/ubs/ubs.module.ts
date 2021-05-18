@@ -22,7 +22,6 @@ import { AddressComponent } from './components/ubs-personal-information/address/
 import { UbsConfirmPageComponent } from './components/ubs-confirm-page/ubs-confirm-page.component';
 import { SharedModule } from '@shared/shared.module';
 
-
 @NgModule({
   declarations: [
     UbsComponent,
@@ -48,26 +47,26 @@ import { SharedModule } from '@shared/shared.module';
     MatGoogleMapsAutocompleteModule,
     AgmCoreModule.forRoot({
       apiKey: environment.agmCoreModuleApiKey,
-      libraries: ['places'],
+      libraries: ['places']
     }),
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
         useFactory: createTranslateLoader,
-        deps: [HttpClient],
+        deps: [HttpClient]
       },
-      isolate: true,
+      isolate: true
     }),
-    SharedModule,
+    SharedModule
   ],
   entryComponents: [UBSAddAddressPopUpComponent],
   providers: [
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
-      useValue: { hasBackdrop: true },
+      useValue: { hasBackdrop: true }
     },
-    TranslateService,
-  ],
+    TranslateService
+  ]
 })
 export class UbsModule {}
 

@@ -13,14 +13,18 @@ import { HabitStatisticService } from '@global-service/habit-statistic/habit-sta
 import { SearchService } from '@global-service/search/search.service';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { LanguageModel } from '../models/languageModel';
+<<<<<<< HEAD
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
+=======
+import { AuthModalComponent } from 'src/app/main/component/auth/components/auth-modal/auth-modal.component';
+>>>>>>> 30249aaded6364d2a112c59fbccc8bb8462105cd
 import { environment } from '@environment/environment';
 import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   readonly selectLanguageArrow = 'assets/img/arrow_grey.png';
@@ -36,7 +40,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public arrayLang: Array<LanguageModel> = [
     { lang: 'Ua', langName: 'ukrainian' },
     { lang: 'En', langName: 'english' },
-    { lang: 'Ru', langName: 'russian' },
+    { lang: 'Ru', langName: 'russian' }
   ];
   public ariaStatus = 'profile options collapsed';
   public isSearchClicked = false;
@@ -198,8 +202,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       closeOnNavigation: true,
       panelClass: ['custom-dialog-container'],
       data: {
-        popUpName: page,
-      },
+        popUpName: page
+      }
     });
   }
 

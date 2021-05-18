@@ -8,7 +8,7 @@ import { EcoNewsDto } from '../models/eco-news-dto';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class EcoNewsService implements OnDestroy {
   private backEnd = environment.backendLink;
