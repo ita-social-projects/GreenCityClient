@@ -17,7 +17,7 @@ import { UserService } from '../../../../service/user/user.service';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
 import { PlaceUpdatedDto } from '../../models/placeUpdatedDto.model';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-update-cafe',

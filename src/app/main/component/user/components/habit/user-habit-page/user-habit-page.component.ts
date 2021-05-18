@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AchievementService } from 'src/app/main/service/achievement/achievement.service';
+import { AchievementService } from '@global-service/achievement/achievement.service';
 import { Observable } from 'rxjs';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
-import { AchievementDto } from 'src/app/main/model/achievement/AchievementDto';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { AchievementDto } from '@global-models/achievement/AchievementDto';
 
 @Component({
   selector: 'app-user-habit-page',

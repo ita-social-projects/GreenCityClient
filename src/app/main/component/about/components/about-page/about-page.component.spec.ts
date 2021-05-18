@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, Injectable, EventEmitter } from '@angular/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { AboutPageComponent } from './about-page.component';

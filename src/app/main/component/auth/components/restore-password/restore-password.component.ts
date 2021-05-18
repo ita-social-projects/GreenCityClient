@@ -9,11 +9,11 @@ import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
 import { take } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { GoogleSignInService } from 'src/app/main/service/auth/google-sign-in.service';
-import { UserOwnSignInService } from 'src/app/main/service/auth/user-own-sign-in.service';
-import { RestorePasswordService } from 'src/app/main/service/auth/restore-password.service';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
-import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
+import { GoogleSignInService } from '@auth-service/google-sign-in.service';
+import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
+import { RestorePasswordService } from '@auth-service/restore-password.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-restore-password',

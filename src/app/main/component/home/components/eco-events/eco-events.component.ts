@@ -1,7 +1,7 @@
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Component, OnInit } from '@angular/core';
-import { NewsDto } from 'src/app/main/component/home/models/NewsDto';
-import { NewsService } from 'src/app/main/service/news/news.service';
+import { NewsDto } from '@home-models/NewsDto';
+import { NewsService } from '@global-service/news/news.service';
 
 @Component({
   selector: 'app-eco-events',

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
-import { FriendArrayModel, FriendModel } from 'src/app/main/component/user/models/friend.model';
-import { UserFriendsService } from 'src/app/main/component/user/services/user-friends.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
+import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 

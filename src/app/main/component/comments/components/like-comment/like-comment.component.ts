@@ -1,4 +1,4 @@
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { SocketService } from '../../../../service/socket/socket.service';
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { CommentsService } from '../../services/comments.service';

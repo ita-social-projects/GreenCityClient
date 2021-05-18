@@ -7,7 +7,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { EcoNewsRoutingModule } from './eco-news-routing.module';
-import { SharedModule } from 'src/app/main/component/shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 import {
   CreateEditNewsComponent,
   EcoNewsDetailComponent,

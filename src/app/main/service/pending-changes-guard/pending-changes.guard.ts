@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanDeactivate } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material';
-import { WarningPopUpComponent } from 'src/app/main/component/shared/components';
+import { WarningPopUpComponent } from '@shared/components';
 import { take } from 'rxjs/operators';
 
 export interface ComponentCanDeactivate {

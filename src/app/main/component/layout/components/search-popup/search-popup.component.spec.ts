@@ -1,6 +1,6 @@
 import { Language } from './../../../../i18n/Language';
-import { SharedModule } from 'src/app/main/component/shared/shared.module';
-import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
+import { SharedModule } from '@shared/shared.module';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -11,12 +11,12 @@ import { SearchItemComponent } from '../search-item/search-item.component';
 import { SearchNotFoundComponent } from '../search-not-found/search-not-found.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialogModule } from '@angular/material/dialog';
-import { SearchService } from 'src/app/main/service/search/search.service';
+import { SearchService } from '@global-service/search/search.service';
 import { of, Subject } from 'rxjs';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 describe('SearchPopupComponent', () => {
   let component: SearchPopupComponent;

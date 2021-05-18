@@ -1,18 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { EcoNewsDetailComponent } from './eco-news-detail.component';
 import { EcoNewsWidgetComponent } from './eco-news-widget/eco-news-widget.component';
 import { NewsListGalleryViewComponent } from '..';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { EcoNewsModel } from 'src/app/main/component/eco-news/models/eco-news-model';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
-import { EcoNewsService } from 'src/app/main/component/eco-news/services/eco-news.service';
+import { EcoNewsModel } from '@eco-news-models/eco-news-model';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { ActivatedRoute } from '@angular/router';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { HttpClient } from '@angular/common/http';
+import {  TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
-import { DateLocalisationPipe } from 'src/app/main/pipe/date-localisation-pipe/date-localisation.pipe';
+import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {

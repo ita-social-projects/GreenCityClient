@@ -11,10 +11,10 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
-import { RestorePasswordService } from 'src/app/main/service/auth/restore-password.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { RestorePasswordService } from '@auth-service/restore-password.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { GoogleSignInService } from 'src/app/main/service/auth/google-sign-in.service';
+import { GoogleSignInService } from '@auth-service/google-sign-in.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
 

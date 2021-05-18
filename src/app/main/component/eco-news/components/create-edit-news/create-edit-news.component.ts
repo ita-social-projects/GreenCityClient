@@ -6,15 +6,15 @@ import { takeUntil, catchError, take } from 'rxjs/operators';
 import { QueryParams, TextAreasHeight } from '../../models/create-news-interface';
 import { EcoNewsService } from '../../services/eco-news.service';
 import { Subscription, ReplaySubject, throwError } from 'rxjs';
-import { CreateEcoNewsService } from 'src/app/main/component/eco-news/services/create-eco-news.service';
+import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
-import { FilterModel } from 'src/app/main/component/eco-news/models/create-news-interface';
-import { EcoNewsModel, NewsTagInterface } from 'src/app/main/component/eco-news/models/eco-news-model';
+import { FilterModel } from '@eco-news-models/create-news-interface';
+import { EcoNewsModel, NewsTagInterface } from '@eco-news-models/eco-news-model';
 import { ACTION_TOKEN, TEXT_AREAS_HEIGHT } from './action.constants';
 import { ActionInterface } from '../../models/action.interface';
-import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
-import { FormBaseComponent } from 'src/app/main/component/shared/components/form-base/form-base.component';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-create-edit-news',

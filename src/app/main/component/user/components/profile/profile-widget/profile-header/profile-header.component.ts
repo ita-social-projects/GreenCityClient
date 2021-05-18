@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
-import { EditProfileModel } from 'src/app/main/component/user/models/edit-profile.model';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { EditProfileModel } from '@global-user/models/edit-profile.model';
 
 @Component({
   selector: 'app-profile-header',

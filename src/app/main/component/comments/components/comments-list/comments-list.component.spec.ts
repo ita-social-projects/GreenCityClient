@@ -7,7 +7,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CommentsListComponent } from './comments-list.component';
 import { CommentsService } from '../../services/comments.service';
 import { of } from 'rxjs';
-import { DateLocalisationPipe } from 'src/app/main/pipe/date-localisation-pipe/date-localisation.pipe';
+import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
 
 describe('CommentsListComponent', () => {
   let component: CommentsListComponent;

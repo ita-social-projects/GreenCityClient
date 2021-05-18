@@ -1,4 +1,4 @@
-import { AvailableHabitDto } from 'src/app/main/model/habit/AvailableHabitDto';
+import { AvailableHabitDto } from '@global-models/habit/AvailableHabitDto';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -8,7 +8,7 @@ import { habitStatisticLink, userLink, habitLink } from '../../links';
 
 import { LocalStorageService } from '../localstorage/local-storage.service';
 import { HabitStatisticsDto } from '../../model/habit/HabitStatisticsDto';
-import { HabitStatisticLogDto } from 'src/app/main/model/habit/HabitStatisticLogDto';
+import { HabitStatisticLogDto } from '@global-models/habit/HabitStatisticLogDto';
 import { OnLogout } from '../OnLogout';
 
 @Injectable({

@@ -6,7 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RestorePasswordComponent } from '../restore-password/restore-password.component';
 import { SignUpComponent } from '../sign-up/sign-up.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { SignInComponent } from 'src/app/main/component/auth/components/sign-in/sign-in.component';
+import { SignInComponent } from '@global-auth/sign-in/sign-in.component';
 
 import { AuthModalComponent } from './auth-modal.component';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';

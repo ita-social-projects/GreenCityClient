@@ -24,19 +24,19 @@ import { AuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
 import { NgFlashMessagesModule } from 'ng-flash-messages';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { provideConfig } from './config/GoogleAuthConfig';
-import { environment } from 'src/environments/environment';
-import { ProposeCafeComponent } from 'src/app/main/component/core/components';
+import { environment } from '@environment/environment';
+import { ProposeCafeComponent } from '@global-core/components';
 import { AdminModule } from './component/admin/admin.module';
-import { RestoreComponent } from 'src/app/main/component/auth/components/restore/restore.component';
+import { RestoreComponent } from '@global-auth/restore/restore.component';
 import { InterceptorService } from './service/interceptors/interceptor.service';
-import { CoreModule } from 'src/app/main/component/core/core.module';
+import { CoreModule } from '@global-core/core.module';
 import { AuthModule } from './component/auth/auth.module';
 import { HomeModule } from './component/home/home.module';
 import { LayoutModule } from './component/layout/layout.module';
-import { EditPhotoPopUpComponent } from 'src/app/main/component/shared/components/edit-photo-pop-up/edit-photo-pop-up.component';
+import { EditPhotoPopUpComponent } from '@shared/components/edit-photo-pop-up/edit-photo-pop-up.component';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { ErrorComponent } from 'src/app/main/component/errors/error/error.component';
-import { PendingChangesGuard } from 'src/app/main/service/pending-changes-guard/pending-changes.guard';
+import { ErrorComponent } from '@global-errors/error/error.component';
+import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';
 
 
 @NgModule({

@@ -1,4 +1,4 @@
-import { SharedModule } from 'src/app/main/component/shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 import { SearchNotFoundComponent } from '../search-not-found/search-not-found.component';
 import { FormsModule } from '@angular/forms';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
@@ -7,7 +7,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { SearchAllResultsComponent } from './search-all-results.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { SearchService } from 'src/app/main/service/search/search.service';
+import { SearchService } from '@global-service/search/search.service';
 import { SearchItemComponent } from '..';
 import { of, Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';

@@ -1,7 +1,7 @@
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { HabitDto } from './../../../../../model/habit/HabitDto';
 import { Component, OnInit } from '@angular/core';
-import { HabitStatisticService } from 'src/app/main/service/habit-statistic/habit-statistic.service';
+import { HabitStatisticService } from '@global-service/habit-statistic/habit-statistic.service';
 import { Observable } from 'rxjs';
 
 @Component({

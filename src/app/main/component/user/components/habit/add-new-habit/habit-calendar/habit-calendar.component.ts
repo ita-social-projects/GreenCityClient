@@ -2,9 +2,9 @@ import { LanguageService } from './../../../../../../i18n/language.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { HabitAssignService } from '../../../../../../service/habit-assign/habit-assign.service';
-import { CalendarBaseComponent } from 'src/app/main/component/shared/components/calendar-base/calendar-base.component';
+import { CalendarBaseComponent } from '@shared/components/calendar-base/calendar-base.component';
 import { MatDialog } from '@angular/material';
-import { CalendarInterface } from 'src/app/main/component/user/components/profile/calendar/calendar-interface';
+import { CalendarInterface } from '@global-user/components/profile/calendar/calendar-interface';
 
 @Component({
   selector: 'app-habit-calendar',

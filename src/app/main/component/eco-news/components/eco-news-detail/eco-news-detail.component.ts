@@ -2,9 +2,9 @@ import { singleNewsImages } from './../../../../image-pathes/single-news-images'
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { EcoNewsService } from 'src/app/main/component/eco-news/services/eco-news.service';
-import { EcoNewsModel } from 'src/app/main/component/eco-news/models/eco-news-model';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
+import { EcoNewsService } from '@eco-news-service/eco-news.service';
+import { EcoNewsModel } from '@eco-news-models/eco-news-model';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-eco-news-detail',

@@ -1,4 +1,4 @@
-import { environment } from 'src/environments/environment';
+import { environment } from '@environment/environment';
 import { AuthServiceConfig, GoogleLoginProvider } from 'angularx-social-login';
 
 const config = new AuthServiceConfig([

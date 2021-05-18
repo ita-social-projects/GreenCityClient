@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ServerHabitItemPageModel } from 'src/app/main/component/user/models/habit-item.model';
+import { ServerHabitItemPageModel } from '@global-user/models/habit-item.model';
 import { AddNewHabitService } from './services/add-new-habit.service';
 
 @Component({

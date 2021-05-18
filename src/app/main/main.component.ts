@@ -2,8 +2,8 @@ import { TitleAndMetaTagsService } from './service/title-meta-tags/title-and-met
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { LanguageService } from './i18n/language.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { UiActionsService } from 'src/app/main/service/ui-actions/ui-actions.service';
-import { UserService } from 'src/app/main/service/user/user.service';
+import { UiActionsService } from '@global-service/ui-actions/ui-actions.service';
+import { UserService } from '@global-service/user/user.service';
 
 @Component({
   selector: 'app-main',

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfileStatistics } from 'src/app/main/component/user/models/profile-statistiscs';
+import { ProfileStatistics } from '@global-user/models/profile-statistiscs';
 import { ProfileService } from '../../profile-service/profile.service';
 import { take } from 'rxjs/operators';
 

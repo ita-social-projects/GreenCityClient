@@ -1,6 +1,6 @@
 import { ConfirmRestorePasswordGuard } from './main/service/route-guards/confirm-restore-password.guard';
 import { HomepageComponent } from 'src/app/main/component/home/components';
-import { ConfirmRestorePasswordComponent } from 'src/app/main/component/auth/components/index';
+import { ConfirmRestorePasswordComponent } from '@global-auth/index';
 import { SearchAllResultsComponent } from 'src/app/main/component/layout/components';
 import { TipsListComponent } from './main/component/home/components/useful-tips/tips-list/tips-list.component';
 import { UbsAdminComponent } from './ubs-admin/ubs-admin/ubs-admin.component';

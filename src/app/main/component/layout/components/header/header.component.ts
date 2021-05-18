@@ -5,16 +5,16 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/co
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { filter, takeUntil } from 'rxjs/operators';
-import { JwtService } from 'src/app/main/service/jwt/jwt.service';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
-import { UserService } from 'src/app/main/service/user/user.service';
-import { AchievementService } from 'src/app/main/service/achievement/achievement.service';
-import { HabitStatisticService } from 'src/app/main/service/habit-statistic/habit-statistic.service';
-import { SearchService } from 'src/app/main/service/search/search.service';
-import { UserOwnAuthService } from 'src/app/main/service/auth/user-own-auth.service';
+import { JwtService } from '@global-service/jwt/jwt.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { UserService } from '@global-service/user/user.service';
+import { AchievementService } from '@global-service/achievement/achievement.service';
+import { HabitStatisticService } from '@global-service/habit-statistic/habit-statistic.service';
+import { SearchService } from '@global-service/search/search.service';
+import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { LanguageModel } from '../models/languageModel';
-import { AuthModalComponent } from 'src/app/main/component/auth/components/auth-modal/auth-modal.component';
-import { environment } from 'src/environments/environment';
+import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
+import { environment } from '@environment/environment';
 import { Subject } from 'rxjs';
 
 @Component({

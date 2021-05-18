@@ -2,10 +2,10 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
-import { EditProfileService } from 'src/app/main/component/user/services/edit-profile.service';
-import { ProfileService } from 'src/app/main/component/user/components/profile/profile-service/profile.service';
-import { FileHandle } from 'src/app/main/component/eco-news/models/create-news-interface';
-import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
+import { EditProfileService } from '@global-user/services/edit-profile.service';
+import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
+import { FileHandle } from '@eco-news-models/create-news-interface';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-edit-photo-pop-up',

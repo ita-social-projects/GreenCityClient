@@ -1,9 +1,9 @@
 import { singleNewsImages } from './../../../../image-pathes/single-news-images';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { CreateEcoNewsService } from 'src/app/main/component/eco-news/services/create-eco-news.service';
+import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subscription } from 'rxjs';
 import { ACTION_TOKEN } from '../create-edit-news/action.constants';
 import { ActionInterface } from '../../models/action.interface';

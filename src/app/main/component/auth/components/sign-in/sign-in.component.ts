@@ -8,11 +8,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
 import { Subject } from 'rxjs';
-import { GoogleSignInService } from 'src/app/main/service/auth/google-sign-in.service';
-import { JwtService } from 'src/app/main/service/jwt/jwt.service';
-import { UserOwnSignInService } from 'src/app/main/service/auth/user-own-sign-in.service';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
-import { UserOwnAuthService } from 'src/app/main/service/auth/user-own-auth.service';
+import { GoogleSignInService } from '@auth-service/google-sign-in.service';
+import { JwtService } from '@global-service/jwt/jwt.service';
+import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { takeUntil, take } from 'rxjs/operators';
 import { ProfileService } from '../../../user/components/profile/profile-service/profile.service';
 

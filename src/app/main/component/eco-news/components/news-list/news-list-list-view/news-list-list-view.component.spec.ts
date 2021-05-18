@@ -1,6 +1,6 @@
 import { Renderer2 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { EcoNewsModel } from 'src/app/main/component/eco-news/models/eco-news-model';
+import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 
 import { NewsListListViewComponent } from './news-list-list-view.component';
 

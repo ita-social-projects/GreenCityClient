@@ -2,12 +2,12 @@ import { Breakpoints } from '../../../../config/breakpoints.constants';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 import { catchError, take, takeUntil } from 'rxjs/operators';
-import { EcoNewsService } from 'src/app/main/component/eco-news/services/eco-news.service';
-import { EcoNewsModel, NewsTagInterface } from 'src/app/main/component/eco-news/models/eco-news-model';
-import { UserOwnAuthService } from 'src/app/main/service/auth/user-own-auth.service';
-import { EcoNewsDto } from 'src/app/main/component/eco-news/models/eco-news-dto';
-import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
+import { EcoNewsService } from '@eco-news-service/eco-news.service';
+import { EcoNewsModel, NewsTagInterface } from '@eco-news-models/eco-news-model';
+import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
+import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-news-list',

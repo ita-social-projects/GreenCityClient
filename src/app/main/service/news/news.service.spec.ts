@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { NewsService } from './news.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { NewsDto } from 'src/app/main/component/home/models/NewsDto';
+import { NewsDto } from '@home-models/NewsDto';
 import { latestNewsLink } from 'src/app/main/links';
 
 describe('NewsService', () => {

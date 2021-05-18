@@ -1,4 +1,4 @@
-import { environment } from 'src/environments/environment';
+import { environment } from '@environment/environment';
 import { UserSharedModule } from './components/shared/user-shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -66,7 +66,7 @@ import { UserComponent } from './user.component';
 import { CalendarWeekComponent } from './components/profile/calendar/calendar-week/calendar-week.component';
 import { AllHabitsComponent } from './components/habit/all-habits/all-habits.component';
 import { HabitsListViewComponent } from './components/habit/all-habits/components/habits-list-view/habits-list-view.component';
-import { EditProfileFormBuilder } from 'src/app/main/component/user/components/profile/edit-profile/edit-profile-form-builder';
+import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 import { UsersFriendsComponent } from './components/profile/users-friends/users-friends.component';
 import { UsersAchievementsComponent } from './components/profile/users-achievements/users-achievements.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';

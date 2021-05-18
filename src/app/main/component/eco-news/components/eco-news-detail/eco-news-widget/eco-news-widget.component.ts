@@ -2,8 +2,8 @@ import { switchMap } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { EcoNewsService } from 'src/app/main/component/eco-news/services/eco-news.service';
-import { EcoNewsModel } from 'src/app/main/component/eco-news/models/eco-news-model';
+import { EcoNewsService } from '@eco-news-service/eco-news.service';
+import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 
 @Component({
   selector: 'app-eco-news-widget',

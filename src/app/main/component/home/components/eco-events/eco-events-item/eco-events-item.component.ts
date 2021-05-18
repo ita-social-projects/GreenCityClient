@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { NewsDto } from 'src/app/main/component/home/models/NewsDto';
+import { NewsDto } from '@home-models/NewsDto';
 
 @Component({
   selector: 'app-eco-events-item',

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { SWIPER_CONFIG, SwiperConfigInterface, SwiperModule } from 'ngx-swiper-wrapper';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '../core/core.module';
-import { SharedModule } from 'src/app/main/component/shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 import {
   HomepageComponent,
   EcoEventsComponent,

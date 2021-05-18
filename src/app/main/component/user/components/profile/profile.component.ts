@@ -1,9 +1,9 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
-import { ProfileService } from 'src/app/main/component/user/components/profile/profile-service/profile.service';
-import { EditProfileModel } from 'src/app/main/component/user/models/edit-profile.model';
+import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
+import { EditProfileModel } from '@global-user/models/edit-profile.model';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 @Component({

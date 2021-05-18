@@ -3,7 +3,7 @@ import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angu
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CommentsService } from '../../services/comments.service';
-import { UserOwnAuthService } from 'src/app/main/service/auth/user-own-auth.service';
+import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { CommentsDTO, CommentsModel } from '../../models/comments-model';
 
 @Component({

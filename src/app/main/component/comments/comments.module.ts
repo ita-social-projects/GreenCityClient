@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material';
-import { SharedModule } from 'src/app/main/component/shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 import { AddCommentComponent } from './components/add-comment/add-comment.component';
 import { ViewRepliesComponent } from './components/view-replies/view-replies.component';
 import { DeleteCommentComponent } from './components/delete-comment/delete-comment.component';

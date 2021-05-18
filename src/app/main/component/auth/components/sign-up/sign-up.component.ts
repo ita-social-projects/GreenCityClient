@@ -10,11 +10,11 @@ import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ConfirmPasswordValidator, ValidatorRegExp } from './sign-up.validator';
-import { GoogleSignInService } from 'src/app/main/service/auth/google-sign-in.service';
-import { UserOwnSignInService } from 'src/app/main/service/auth/user-own-sign-in.service';
-import { UserOwnSignUpService } from 'src/app/main/service/auth/user-own-sign-up.service';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
-import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
+import { GoogleSignInService } from '@auth-service/google-sign-in.service';
+import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
+import { UserOwnSignUpService } from '@auth-service/user-own-sign-up.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-sign-up',

@@ -2,9 +2,9 @@ import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 
-import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
-import { HabitAssignService } from 'src/app/main/service/habit-assign/habit-assign.service';
-import { ProfileService } from 'src/app/main/component/user/components/profile/profile-service/profile.service';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
+import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { HabitInterface } from '../../../../../../../interface/habit/habit.interface';
 
 @Component({

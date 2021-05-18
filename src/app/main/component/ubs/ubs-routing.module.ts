@@ -1,7 +1,7 @@
 import { UbsConfirmPageComponent } from './components/ubs-confirm-page/ubs-confirm-page.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthPageGuardService } from 'src/app/main/service/route-guards/auth-page-guard.service';
+import { AuthPageGuardService } from '@global-service/route-guards/auth-page-guard.service';
 import { UBSOrderFormComponent } from './components/ubs-order-form/ubs-order-form.component';
 import { UbsComponent } from './ubs.component';
 

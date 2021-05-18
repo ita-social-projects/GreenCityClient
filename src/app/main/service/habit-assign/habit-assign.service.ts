@@ -3,10 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { habitAssignLink } from '../../links';
 import { HabitAssignInterface, ResponseInterface } from '../../interface/habit/habit-assign.interface';
-import { HabitsForDateInterface } from 'src/app/main/component/user/components/profile/calendar/habit-popup-interface';
+import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
 
 @Injectable({
   providedIn: 'root',

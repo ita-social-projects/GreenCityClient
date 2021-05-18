@@ -1,6 +1,6 @@
 import { Directive, HostBinding, HostListener, Output, EventEmitter } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { FileHandle } from 'src/app/main/component/eco-news/models/create-news-interface';
+import { FileHandle } from '@eco-news-models/create-news-interface';
 
 @Directive({
   selector: '[appDragAndDrop]',

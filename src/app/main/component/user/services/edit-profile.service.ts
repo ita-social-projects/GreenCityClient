@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { EditProfileModel } from 'src/app/main/component/user/models/edit-profile.model';
+import { EditProfileModel } from '@global-user/models/edit-profile.model';
 import { mainUserLink } from '../../../links';
 
 @Injectable({

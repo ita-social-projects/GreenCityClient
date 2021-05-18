@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
-import { UserService } from 'src/app/main/service/user/user.service';
-import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
-import { VerifyEmailService } from 'src/app/main/service/auth/verify-email/verify-email.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { UserService } from '@global-service/user/user.service';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { VerifyEmailService } from '@auth-service/verify-email/verify-email.service';
 import { Subscription, EMPTY } from 'rxjs';
 import { MatDialog } from '@angular/material';
-import { AuthModalComponent } from 'src/app/main/component/auth/components/auth-modal/auth-modal.component';
+import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { switchMap } from 'rxjs/operators';
 
 @Component({

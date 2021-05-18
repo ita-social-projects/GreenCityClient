@@ -1,7 +1,7 @@
 import { UserFriendsInterface } from './../../../../../interface/user/user-friends.interface';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
-import { ProfileService } from 'src/app/main/component/user/components/profile/profile-service/profile.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 

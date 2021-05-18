@@ -1,6 +1,6 @@
 import { ecoNewsIcons } from './../../../../../image-pathes/profile-icons';
 import { Component, Input, ViewChild, ElementRef, Renderer2, AfterViewChecked } from '@angular/core';
-import { EcoNewsModel } from 'src/app/main/component/eco-news/models/eco-news-model';
+import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 
 import { possibleDescHeight, possibleTitleHeight } from './breakpoints';
 

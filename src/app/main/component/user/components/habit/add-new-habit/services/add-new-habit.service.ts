@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
-import { ServerHabitItemPageModel } from 'src/app/main/component/user/models/habit-item.model';
+import { environment } from '@environment/environment';
+import { ServerHabitItemPageModel } from '@global-user/models/habit-item.model';
 
 @Injectable({
   providedIn: 'root',

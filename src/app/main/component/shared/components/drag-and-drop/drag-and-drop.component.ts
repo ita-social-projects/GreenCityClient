@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
-import { CreateEcoNewsService } from 'src/app/main/component/eco-news/services/create-eco-news.service';
-import { FileHandle } from 'src/app/main/component/eco-news/models/create-news-interface';
+import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
+import { FileHandle } from '@eco-news-models/create-news-interface';
 
 @Component({
   selector: 'app-drag-and-drop',

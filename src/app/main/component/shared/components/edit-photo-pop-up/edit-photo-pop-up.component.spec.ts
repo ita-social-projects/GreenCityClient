@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { UserSharedModule } from '../../../user/components/shared/user-shared.module';
-import { SharedModule } from 'src/app/main/component/shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditPhotoPopUpComponent } from './edit-photo-pop-up.component';

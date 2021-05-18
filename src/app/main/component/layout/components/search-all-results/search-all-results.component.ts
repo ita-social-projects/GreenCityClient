@@ -5,7 +5,7 @@ import { AfterContentInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fromEvent, Subject } from 'rxjs';
 import { map, distinctUntilChanged, tap, debounceTime, take, takeUntil } from 'rxjs/operators';
-import { SearchService } from 'src/app/main/service/search/search.service';
+import { SearchService } from '@global-service/search/search.service';
 import { FilterByitem } from '../models/search-dto';
 
 @Component({

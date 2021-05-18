@@ -1,13 +1,13 @@
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { EcoPlaces } from 'src/app/main/component/user/models/ecoPlaces.model';
+import { EcoPlaces } from '@global-user/models/ecoPlaces.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CardModel } from 'src/app/main/component/user/models/card.model';
-import { ShoppingList } from 'src/app/main/component/user/models/shoppinglist.model';
+import { CardModel } from '@global-user/models/card.model';
+import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { HttpClient } from '@angular/common/http';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
-import { ProfileStatistics } from 'src/app/main/component/user/models/profile-statistiscs';
-import { EditProfileModel } from 'src/app/main/component/user/models/edit-profile.model';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { ProfileStatistics } from '@global-user/models/profile-statistiscs';
+import { EditProfileModel } from '@global-user/models/edit-profile.model';
 import { UserFriendsInterface } from '../../../../../interface/user/user-friends.interface';
 import { mainLink, mainUserLink } from '../../../../../links';
 

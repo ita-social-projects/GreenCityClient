@@ -1,12 +1,10 @@
 import { UserSharedModule } from '../../../shared/user-shared.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ProfileHeaderComponent } from './profile-header.component';
-import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ProfileProgressComponent } from '../profile-progress/profile-progress.component';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { BehaviorSubject } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ProfileHeaderComponent', () => {

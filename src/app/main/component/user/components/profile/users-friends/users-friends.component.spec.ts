@@ -2,12 +2,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { UsersFriendsComponent } from './users-friends.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of, throwError } from 'rxjs';
-import { ProfileService } from 'src/app/main/component/user/components/profile/profile-service/profile.service';
+import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Friend, UserFriendsInterface } from '../../../../../interface/user/user-friends.interface';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 describe('UsersFriendsComponent', () => {
   let component: UsersFriendsComponent;

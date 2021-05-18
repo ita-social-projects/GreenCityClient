@@ -1,7 +1,7 @@
 import { finalize, takeUntil } from 'rxjs/operators';
 import { ProfileService } from '../profile-service/profile.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ShoppingList } from 'src/app/main/component/user/models/shoppinglist.model';
+import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { Subscription, Subject } from 'rxjs';
 
 @Component({

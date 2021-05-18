@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { catchError } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
-import { CardModel } from 'src/app/main/component/user/models/card.model';
+import { CardModel } from '@global-user/models/card.model';
 import { ProfileService } from '../profile-service/profile.service';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-profile-cards',

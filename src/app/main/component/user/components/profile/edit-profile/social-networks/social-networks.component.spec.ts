@@ -4,7 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { SocialNetworksComponent } from './social-networks.component';
 import { MatDialog } from '@angular/material';
-import { WarningPopUpComponent } from 'src/app/main/component/shared/components';
+import { WarningPopUpComponent } from '@shared/components';
 import { of } from 'rxjs';
 
 class MatDialogMock {

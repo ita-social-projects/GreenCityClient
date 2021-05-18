@@ -14,16 +14,16 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 
-import { GoogleSignInService } from 'src/app/main/service/auth/google-sign-in.service';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
+import { GoogleSignInService } from '@auth-service/google-sign-in.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ProfileService } from '../../../user/components/profile/profile-service/profile.service';
 
-import { UserOwnSignInService } from 'src/app/main/service/auth/user-own-sign-in.service';
+import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
 import { GoogleBtnComponent } from '../google-btn/google-btn.component';
 import { ErrorComponent } from '../error/error.component';
 import { SignInComponent } from './sign-in.component';
 import { provideConfig } from 'src/app/main/config/GoogleAuthConfig';
-import { JwtService } from 'src/app/main/service/jwt/jwt.service';
+import { JwtService } from '@global-service/jwt/jwt.service';
 
 describe('SignIn component', () => {
   let component: SignInComponent;

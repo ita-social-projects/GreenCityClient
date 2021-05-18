@@ -1,7 +1,7 @@
 import { LanguageService } from './../../../../../../i18n/language.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CalendarBaseComponent } from 'src/app/main/component/shared/components/calendar-base/calendar-base.component';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
+import { CalendarBaseComponent } from '@shared/components/calendar-base/calendar-base.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { HabitAssignService } from '../../../../../../service/habit-assign/habit-assign.service';
 import { ReplaySubject } from 'rxjs';

@@ -7,7 +7,7 @@ import { PersonalPhotoComponent } from './personal-photo.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
-import { EditProfileModel } from 'src/app/main/component/user/models/edit-profile.model';
+import { EditProfileModel } from '@global-user/models/edit-profile.model';
 
 class MatDialogStub {
   result = true;

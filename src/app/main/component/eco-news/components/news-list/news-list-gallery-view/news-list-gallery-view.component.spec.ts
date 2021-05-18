@@ -1,4 +1,4 @@
-import { EcoNewsModel } from 'src/app/main/component/eco-news/models/eco-news-model';
+import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NewsListGalleryViewComponent } from './news-list-gallery-view.component';

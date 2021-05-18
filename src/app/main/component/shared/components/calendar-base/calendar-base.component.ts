@@ -1,14 +1,14 @@
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Component, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { HabitAssignService } from 'src/app/main/service/habit-assign/habit-assign.service';
+import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { Subject, Subscription } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
-import { CalendarInterface } from 'src/app/main/component/user/components/profile/calendar/calendar-interface';
+import { CalendarInterface } from '@global-user/components/profile/calendar/calendar-interface';
 import { calendarImage } from './calendar-image';
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { HabitsPopupComponent } from 'src/app/main/component/user/components/profile/calendar/habits-popup/habits-popup.component';
-import { HabitsForDateInterface } from 'src/app/main/component/user/components/profile/calendar/habit-popup-interface';
+import { HabitsPopupComponent } from '@global-user/components/profile/calendar/habits-popup/habits-popup.component';
+import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
 import { ItemClass } from './CalendarItemStyleClasses';
 
 @Component({

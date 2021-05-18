@@ -1,6 +1,6 @@
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Language } from './../../../../i18n/Language';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialog, MatDialogModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
@@ -9,12 +9,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeaderComponent } from './header.component';
 import { BehaviorSubject, of, Subject, Observable } from 'rxjs';
-import { JwtService } from 'src/app/main/service/jwt/jwt.service';
-import { UserService } from 'src/app/main/service/user/user.service';
-import { AchievementService } from 'src/app/main/service/achievement/achievement.service';
-import { HabitStatisticService } from 'src/app/main/service/habit-statistic/habit-statistic.service';
-import { UserOwnAuthService } from 'src/app/main/service/auth/user-own-auth.service';
-import { SearchService } from 'src/app/main/service/search/search.service';
+import { JwtService } from '@global-service/jwt/jwt.service';
+import { UserService } from '@global-service/user/user.service';
+import { AchievementService } from '@global-service/achievement/achievement.service';
+import { HabitStatisticService } from '@global-service/habit-statistic/habit-statistic.service';
+import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
+import { SearchService } from '@global-service/search/search.service';
 
 class MatDialogMock {
   afterAllClosed = of(true);

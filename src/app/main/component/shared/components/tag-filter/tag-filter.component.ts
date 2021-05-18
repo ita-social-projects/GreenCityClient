@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input, OnChanges } from '@angular/core';
-import { FilterModel } from 'src/app/main/component/eco-news/models/filter.model';
+import { FilterModel } from '@eco-news-models/filter.model';
 
 @Component({
   selector: 'app-tag-filter',

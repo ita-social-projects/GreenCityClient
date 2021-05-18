@@ -5,7 +5,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { RouterModule } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommentsService } from '../../services/comments.service';
-import { UserOwnAuthService } from 'src/app/main/service/auth/user-own-auth.service';
+import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 

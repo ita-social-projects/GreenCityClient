@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { NgModel } from '@angular/forms';
 import { MatDialog } from '@angular/material';
-import { WarningPopUpComponent } from 'src/app/main/component/shared/components';
+import { WarningPopUpComponent } from '@shared/components';
 import { take } from 'rxjs/operators';
 
 @Component({

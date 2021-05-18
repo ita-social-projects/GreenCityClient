@@ -1,7 +1,7 @@
 import { AppModule } from './../../../../../app.module';
 import { Language } from './../../../../i18n/Language';
 import { LayoutModule } from '../../../layout/layout.module';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StatRowComponent } from '../stat-row/stat-row.component';
@@ -14,11 +14,11 @@ import { EcoEventsItemComponent } from '../eco-events/eco-events-item/eco-events
 import { SwiperModule } from 'ngx-swiper-wrapper';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule, MatSnackBarModule, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
-import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, of } from 'rxjs';
-import { VerifyEmailService } from 'src/app/main/service/auth/verify-email/verify-email.service';
-import { UserService } from 'src/app/main/service/user/user.service';
+import { VerifyEmailService } from '@auth-service/verify-email/verify-email.service';
+import { UserService } from '@global-service/user/user.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthModule } from 'src/app/main/component/auth/auth.module';
 import { EcoNewsModule } from 'src/app/main/component/eco-news/eco-news.module';

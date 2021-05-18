@@ -1,12 +1,12 @@
 import { HabitStatus } from './../../../../../../model/habit/HabitStatus.enum';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { HabitAssignInterface } from '../../../../../../interface/habit/habit-assign.interface';
-import { HabitAssignService } from 'src/app/main/service/habit-assign/habit-assign.service';
+import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { take } from 'rxjs/operators';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HabitService } from 'src/app/main/service/habit/habit.service';
-import { HabitMark } from 'src/app/main/component/user/models/HabitMark.enum';
+import { HabitService } from '@global-service/habit/habit.service';
+import { HabitMark } from '@global-user/models/HabitMark.enum';
 
 @Component({
   selector: 'app-one-habit',

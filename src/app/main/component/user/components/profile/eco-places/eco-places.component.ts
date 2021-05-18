@@ -1,7 +1,7 @@
 import { Subscription } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
-import { EcoPlaces } from 'src/app/main/component/user/models/ecoPlaces.model';
-import { ProfileService } from 'src/app/main/component/user/components/profile/profile-service/profile.service';
+import { EcoPlaces } from '@global-user/models/ecoPlaces.model';
+import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 
 @Component({
   selector: 'app-eco-places',

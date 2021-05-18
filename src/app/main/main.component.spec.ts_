@@ -10,7 +10,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
-import { JwtService } from 'src/app/main/service/jwt/jwt.service';
+import { JwtService } from '@global-service/jwt/jwt.service';
 
 describe('MainComponent', () => {
   let fixture;

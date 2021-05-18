@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SubscriptionService } from 'src/app/main/service/subscription/subscription.service';
+import { SubscriptionService } from '@global-service/subscription/subscription.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 

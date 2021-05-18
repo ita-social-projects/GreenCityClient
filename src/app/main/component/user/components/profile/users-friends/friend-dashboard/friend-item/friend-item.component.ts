@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { FriendModel } from 'src/app/main/component/user/models/friend.model';
+import { FriendModel } from '@global-user/models/friend.model';
 
 @Component({
   selector: 'app-friend-item',

@@ -2,7 +2,7 @@ import { footerIcons } from './../../../../image-pathes/footer-icons';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-footer',

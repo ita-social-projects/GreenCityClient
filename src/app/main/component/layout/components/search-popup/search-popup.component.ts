@@ -9,9 +9,9 @@ import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, tap, switchMap, filter } from 'rxjs/operators';
-import { SearchService } from 'src/app/main/service/search/search.service';
-import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
+import { SearchService } from '@global-service/search/search.service';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-search-popup',

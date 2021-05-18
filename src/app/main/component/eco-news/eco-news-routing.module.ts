@@ -6,7 +6,7 @@ import { NewsPreviewPageComponent } from './components';
 import { PostNewsLoaderComponent } from './components';
 import { NewsListComponent } from './components';
 import { CreateEditNewsComponent } from './components';
-import { PendingChangesGuard } from 'src/app/main/service/pending-changes-guard/pending-changes.guard';
+import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';
 
 const ecoNewsRoutes: Routes = [
   {

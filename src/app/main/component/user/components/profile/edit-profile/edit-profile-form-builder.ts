@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { EditProfileModel } from 'src/app/main/component/user/models/edit-profile.model';
+import { EditProfileModel } from '@global-user/models/edit-profile.model';
 
 @Injectable()
 export class EditProfileFormBuilder {

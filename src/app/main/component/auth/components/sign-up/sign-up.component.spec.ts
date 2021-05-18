@@ -16,13 +16,13 @@ import { AgmCoreModule } from '@agm/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService, AuthServiceConfig, LoginOpt, SocialUser } from 'angularx-social-login';
 import { Observable, of, throwError } from 'rxjs';
-import { UserOwnSignUpService } from 'src/app/main/service/auth/user-own-sign-up.service';
-import { GoogleSignInService } from 'src/app/main/service/auth/google-sign-in.service';
-import { SubmitEmailComponent } from 'src/app/main/component/auth/components/submit-email/submit-email.component';
+import { UserOwnSignUpService } from '@auth-service/user-own-sign-up.service';
+import { GoogleSignInService } from '@auth-service/google-sign-in.service';
+import { SubmitEmailComponent } from '@global-auth/submit-email/submit-email.component';
 import { SignUpComponent } from './sign-up.component';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 
 class UserOwnSignUpServiceMock {

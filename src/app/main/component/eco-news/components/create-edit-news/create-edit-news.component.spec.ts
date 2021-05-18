@@ -1,4 +1,3 @@
-import { MainModule } from '../../../../main.module';
 import { routes } from 'src/app/app-routing.module';
 import { NewsResponseDTO } from '../../models/create-news-interface';
 import { CreateEditNewsComponent } from './create-edit-news.component';
@@ -6,29 +5,28 @@ import { async, ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angul
 import { PostNewsLoaderComponent } from '..';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormArray, FormControl, FormsModule, ReactiveFormsModule, FormGroup } from '@angular/forms';
-import { DragAndDropComponent } from 'src/app/main/component/shared/components/drag-and-drop/drag-and-drop.component';
+import { DragAndDropComponent } from '@shared/components/drag-and-drop/drag-and-drop.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ACTION_CONFIG, ACTION_TOKEN } from './action.constants';
-import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
-import { EcoNewsService } from 'src/app/main/component/eco-news/services/eco-news.service';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { of } from 'rxjs';
-import { EcoNewsModel } from 'src/app/main/component/eco-news/models/eco-news-model';
+import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { FormBuilder } from '@angular/forms';
 import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
-import { CreateEcoNewsService } from 'src/app/main/component/eco-news/services/create-eco-news.service';
+import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { Router } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Location } from '@angular/common';
 import { HomepageComponent, TipsListComponent } from 'src/app/main/component/home/components';
 import { SearchAllResultsComponent } from 'src/app/main/component/layout/components';
-import { ConfirmRestorePasswordComponent } from 'src/app/main/component/auth/components/confirm-restore-password/confirm-restore-password.component';
-import { By } from '@angular/platform-browser';
-import { MainComponent } from 'src/app/main/main.component';
+import { ConfirmRestorePasswordComponent } from '@global-auth/confirm-restore-password/confirm-restore-password.component';
+
 
 xdescribe('CreateEditNewsComponent', () => {
   let component: CreateEditNewsComponent;

@@ -1,8 +1,8 @@
 import { Component, HostListener, ViewChild, ElementRef } from '@angular/core';
-import { ComponentCanDeactivate } from 'src/app/main/service/pending-changes-guard/pending-changes.guard';
+import { ComponentCanDeactivate } from '@global-service/pending-changes-guard/pending-changes.guard';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
-import { WarningPopUpComponent } from 'src/app/main/component/shared/components';
+import { WarningPopUpComponent } from '@shared/components';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 

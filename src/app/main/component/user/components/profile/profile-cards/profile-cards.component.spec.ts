@@ -1,6 +1,6 @@
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { of, BehaviorSubject } from 'rxjs';
-import { ProfileService } from 'src/app/main/component/user/components/profile/profile-service/profile.service';
+import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { HttpClientModule } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';

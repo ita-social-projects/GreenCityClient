@@ -6,8 +6,8 @@ import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { updateAccessTokenLink } from '../../links';
 import { LocalStorageService } from '../localstorage/local-storage.service';
 import { BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../../http-response-status';
-import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
-import { UserOwnAuthService } from 'src/app/main/service/auth/user-own-auth.service';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 
 
 interface NewTokenPair {

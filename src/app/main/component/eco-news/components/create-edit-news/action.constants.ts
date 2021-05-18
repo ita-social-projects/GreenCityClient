@@ -1,6 +1,6 @@
 import { ActionInterface } from '../../models/action.interface';
 import { InjectionToken } from '@angular/core';
-import { TextAreasHeight } from 'src/app/main/component/eco-news/models/create-news-interface';
+import { TextAreasHeight } from '@eco-news-models/create-news-interface';
 
 export const ACTION_TOKEN = new InjectionToken<ActionInterface>('action.config');
 

@@ -1,15 +1,15 @@
 import { HabitAssignInterface } from './../../../../../interface/habit/habit-assign.interface';
-import { HabitAssignService } from 'src/app/main/service/habit-assign/habit-assign.service';
+import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
-import { HabitService } from 'src/app/main/service/habit/habit.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { HabitService } from '@global-service/habit/habit.service';
 import { map, take } from 'rxjs/operators';
 import { HabitInterface, HabitListInterface } from '../../../../../interface/habit/habit.interface';
 import { singleNewsImages } from '../../../../../image-pathes/single-news-images';
-import { ProfileService } from 'src/app/main/component/user/components/profile/profile-service/profile.service';
+import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 
 @Component({
   selector: 'app-all-habits',

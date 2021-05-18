@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { RestorePasswordService } from '../../../../service/auth/restore-password.service';
 
 @Component({

@@ -2,7 +2,7 @@ import { take } from 'rxjs/operators';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommentsService } from '../../services/comments.service';
-import { ProfileService } from 'src/app/main/component/user/components/profile/profile-service/profile.service';
+import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 
 @Component({
   selector: 'app-add-comment',
