@@ -50,6 +50,7 @@
     "next": "Далее"
   },
   "order-form": {
+    "ubs-title" : "Заказать вывоз мусора",
     "ubs-courier": "УБС курьер",
     "order-details": "Детали заказа",
     "personal-data": "Личные данные",
@@ -106,6 +107,7 @@
     "choose-payment": "Выберите способ оплаты",
     "liqpay-card": "Карточкой через LiqPay",
     "back": "Назад",
-    "to-order": "Заказать"
+    "to-order": "Заказать",
+    "bags": "пакеты"
   }
 }

@@ -1,0 +1,57 @@
+$order-grey: #f8f9fb;
+
+.container {
+  color: var(--ubs-primary-grey);
+  padding: 10px 25px 40px;
+}
+
+.your-order {
+  background-color: $order-grey;
+
+  table {
+    width: 100%;
+  }
+
+  th,
+  td {
+    padding: 0.8rem 1rem 0.8rem 0;
+  }
+
+  .right-column {
+    width: 100px;
+  }
+}
+
+.order-details {
+  margin-top: 2rem;
+  background-color: $order-grey;
+
+  div {
+    width: 50%;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+}
+
+.payment-method {
+  select,
+  button {
+    height: 3rem;
+    border-radius: 0;
+  }
+
+  .btn {
+    width: 120px;
+    height: 48px;
+    border-radius: 0;
+    background: var(--ubs-primary-green);
+  }
+
+  .btn:nth-child(1) {
+    margin: 0 24px 0 0;
+    background: transparent;
+  }
+}

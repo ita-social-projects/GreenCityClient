@@ -50,6 +50,7 @@
     "next": "Next"
   },
   "order-form": {
+    "ubs-title": "Order garbage collection",
     "ubs-courier": "UBS courier",
     "order-details": "Order details",
     "personal-data": "Personal data",
@@ -108,6 +109,7 @@
     "choose-payment": "Choose a payment method",
     "liqpay-card": "By card via LiqPay",
     "back": "Back",
-    "to-order": "Order"
+    "to-order": "Order",
+    "bags": "bags"
   }
 }
