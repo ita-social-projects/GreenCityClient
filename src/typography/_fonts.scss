@@ -1,11 +1,6 @@
-@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
-
 :root {
-  --primary-font: 'Lato', sans-serif;
-  --secondary-font: 'Montserrat', sans-serif;
-  --tertiary-font: 'Roboto', sans-serif;
-  --quaternary-font: 'Open+Sans', sans-serif;
+  --primary-font: url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+  --secondary-font: url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+  --tertiary-font: url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+  --quaternary-font: url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 }
