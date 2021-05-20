@@ -81,7 +81,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       showLocation: this.editProfileForm.value.showLocation,
       showEcoPlace: this.editProfileForm.value.showEcoPlace,
       showShoppingList: this.editProfileForm.value.showShoppingList,
-      socialNetworks: this.socialNetworks,
+      socialNetworks: this.editProfileForm.value.socialNetworks
     };
   }
 
