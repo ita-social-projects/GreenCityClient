@@ -1,68 +1,29 @@
 import { AppModule } from './app.module';
-import { LayoutModule } from './component/layout/layout.module';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgFlashMessagesModule } from 'ng-flash-messages';
-import { TestBed, async } from '@angular/core/testing';
-import { AppComponent } from './app.component';
-import { NavigationEnd, Router } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
-import { BehaviorSubject } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
-import { JwtService } from '@global-service/jwt/jwt.service';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
-  let fixture;
-  let app: AppComponent;
-  let router: Router;
-
-  let jwtServiceMock: JwtService;
-  jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole']);
-  jwtServiceMock.getUserRole = () => 'true';
-  jwtServiceMock.userRole$ = new BehaviorSubject('test');
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgFlashMessagesModule.forRoot(),
-        RouterTestingModule,
-        TranslateModule.forRoot(),
-        FormsModule,
-        ReactiveFormsModule,
-        BrowserModule,
-        LayoutModule,
         AppModule,
-      ],
-      providers: [{ provide: JwtService, useValue: jwtServiceMock }],
-    }).compileComponents();
+        RouterTestingModule,
+      ]
+    })
+    .compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);
-    app = fixture.componentInstance;
-    router = fixture.debugElement.injector.get(Router);
-    localStorage.clear();
+    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create the app', () => {
-    expect(app).toBeTruthy();
-  });
-
-  it('should init main functions', () => {
-    // @ts-ignore
-    const spy = spyOn(app, 'navigateToStartingPositionOnPage');
-    app.ngOnInit();
-
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('should navigate to starting position on page', () => {
-    const event = new NavigationEnd(42, '/', '/');
-    (router as any).events = new BehaviorSubject<any>(event);
-    // @ts-ignore
-    app.navigateToStartingPositionOnPage();
-
-    expect(document.documentElement.scrollTop).toBe(0);
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 });
