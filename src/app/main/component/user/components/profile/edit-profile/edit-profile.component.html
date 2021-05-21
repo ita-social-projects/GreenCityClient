@@ -46,21 +46,21 @@
         <li>
           <label class="label-wrapper">
             <input type="checkbox" formControlName="showLocation" />
-            <span class="checkmark"></span>
+            <span class="checkmark" (click)="getCheckMark($event)"></span>
             {{ 'user.edit-profile.location' | translate }}
           </label>
         </li>
         <li>
           <label class="label-wrapper">
             <input type="checkbox" formControlName="showEcoPlace" />
-            <span class="checkmark"></span>
+            <span class="checkmark" (click)="getCheckMark($event)"></span>
             {{ 'user.edit-profile.eco-place' | translate }}
           </label>
         </li>
         <li>
           <label class="label-wrapper">
             <input type="checkbox" formControlName="showShoppingList" />
-            <span class="checkmark"></span>
+            <span class="checkmark" (click)="getCheckMark($event)"></span>
             {{ 'user.edit-profile.shoping-list' | translate }}
           </label>
         </li>

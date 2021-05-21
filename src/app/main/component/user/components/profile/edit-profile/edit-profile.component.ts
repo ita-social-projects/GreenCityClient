@@ -16,7 +16,7 @@ import { FormBaseComponent } from '@shared/components/form-base/form-base.compon
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
-  styleUrls: ['./edit-profile.component.scss'],
+  styleUrls: ['./edit-profile.component.scss']
 })
 export class EditProfileComponent extends FormBaseComponent implements OnInit, OnDestroy {
   public editProfileForm = null;
@@ -27,12 +27,12 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     avatarUrl: './assets/img/profileAvatarBig.png',
     name: {
       first: 'Brandier',
-      last: 'Webb',
+      last: 'Webb'
     },
     location: 'Lviv',
     status: 'online',
     rate: 658,
-    userCredo: 'My Credo is to make small steps that leads to huge impact. Let’s change the world together.',
+    userCredo: 'My Credo is to make small steps that leads to huge impact. Let’s change the world together.'
   };
   public previousPath = '/profile';
   public popupConfig = {
@@ -44,8 +44,8 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       popupTitle: 'user.edit-profile.profile-popup.title',
       popupSubtitle: 'user.edit-profile.profile-popup.subtitle',
       popupConfirm: 'user.edit-profile.profile-popup.confirm',
-      popupCancel: 'user.edit-profile.profile-popup.cancel',
-    },
+      popupCancel: 'user.edit-profile.profile-popup.cancel'
+    }
   };
   public socialNetworks: Array<{ id: number; url: string }>;
   public socialNetworksToServer: string[] = [];
@@ -97,7 +97,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       showLocation: data.showLocation,
       showEcoPlace: data.showEcoPlace,
       showShoppingList: data.showShoppingList,
-      socialNetworks: data.socialNetworks,
+      socialNetworks: data.socialNetworks
     };
   }
 
@@ -139,7 +139,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       showLocation: form.value.showLocation,
       showEcoPlace: form.value.showEcoPlace,
       showShoppingList: form.value.showShoppingList,
-      socialNetworks: this.socialNetworksToServer,
+      socialNetworks: this.socialNetworksToServer
     };
 
     this.editProfileService.postDataUserProfile(JSON.stringify(body)).subscribe(() => {
@@ -160,7 +160,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   private autocompleteCity(): void {
     this.mapsAPILoader.load().then(() => {
       const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-        types: ['(cities)'],
+        types: ['(cities)']
       });
       autocomplete.addListener('place_changed', () => {
         this.ngZone.run(() => {
@@ -172,6 +172,16 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
         });
       });
     });
+  }
+
+  public getCheckMark(event) {
+    const inputElement = event.toElement.previousElementSibling;
+    let accept = true;
+
+    inputElement.setAttribute('selected', accept);
+    if (window.getComputedStyle(event.toElement, '::after').display === 'block') {
+      inputElement.setAttribute('selected', !accept);
+    }
   }
 
   ngOnDestroy(): void {
