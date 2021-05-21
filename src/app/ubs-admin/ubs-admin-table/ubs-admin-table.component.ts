@@ -27,7 +27,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   arrayOfHeaders: string[] = [];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   previousIndex: number;
-  isLoading: boolean = true;
+  isLoading = true;
   destroy: Subject<boolean> = new Subject<boolean>();
   arrowDirection: string;
 

@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AdminTableService {
-  url: string = 'https://greencity-ubs.azurewebsites.net/ubs/management/getAllSortingFields';
+  url = 'https://greencity-ubs.azurewebsites.net/ubs/management/getAllSortingFields';
 
   constructor(private http: HttpClient) {}
 

@@ -22,7 +22,7 @@
 
 .mat-header-cell {
   background-color: var(--ubs-primary-grey);
-  color: var(--ubs-light-grey);
+  color: var(--ubs-primary-white);
   font-family: var(--primary-font);
   border: 1px solid var(--ubs-primary-light-grey);
   display: flex;
@@ -60,6 +60,7 @@
 .mat-header-row {
   position: sticky;
   z-index: 2;
+  top: 0;
   min-height: 39px !important;
   overflow-wrap: break-word !important;
   word-wrap: break-word !important;
@@ -177,7 +178,7 @@ mat-header-cell:first-of-type {
   height: 36px;
   border: 1px solid var(--ubs-primary-light-grey);
   border-radius: 4px;
-  margin-top: 32px;
+  margin-top: 180px;
   margin-bottom: 32px;
 }
 
@@ -202,21 +203,25 @@ mat-header-cell:first-of-type {
   padding-top: 5px;
   padding-left: 20px;
   font-size: 12px;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .dropdown-menu {
-  height: 1484px;
+  height: 480px;
   min-width: 356px;
   margin-right: 5px;
   overflow: scroll;
   padding: 24px;
+  margin-top: 260px;
 }
 
 .dropdown-menu input {
   width: 16px;
   z-index: 9;
   border-radius: 3px;
-  border: 1px solid #64727d;
+  border: 1px solid var(--ubs-secondary-grey);
 }
 
 .ng-star-inserted {
@@ -235,6 +240,7 @@ mat-header-cell:first-of-type {
 .scrolling {
   height: 400px;
   overflow: scroll;
+  margin-top: 20px;
 }
 
 input {
