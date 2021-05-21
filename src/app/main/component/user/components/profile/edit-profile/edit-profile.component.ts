@@ -1,5 +1,5 @@
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { Component, ElementRef, NgZone, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, OnDestroy, ViewChild, OnChanges, DoCheck } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
@@ -18,7 +18,7 @@ import { FormBaseComponent } from '@shared/components/form-base/form-base.compon
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.scss']
 })
-export class EditProfileComponent extends FormBaseComponent implements OnInit, OnDestroy {
+export class EditProfileComponent extends FormBaseComponent implements OnInit, OnDestroy, DoCheck {
   public editProfileForm = null;
   private langChangeSub: Subscription;
   @ViewChild('search', { static: true }) public searchElementRef: ElementRef;
@@ -49,7 +49,9 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   };
   public socialNetworks: Array<{ id: number; url: string }>;
   public socialNetworksToServer: string[] = [];
-  public accept = true;
+  public checkLocation = false;
+  public checkEcoPlaces = false;
+  public checkShoppingList = false;
 
   constructor(
     public dialog: MatDialog,
@@ -72,6 +74,12 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.autocompleteCity();
+  }
+
+  ngDoCheck() {
+    this.checkLocation = this.editProfileForm.value.showLocation;
+    this.checkEcoPlaces = this.editProfileForm.value.showEcoPlace;
+    this.checkShoppingList = this.editProfileForm.value.showShoppingList;
   }
 
   public getFormValues(): any {
@@ -173,14 +181,6 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
         });
       });
     });
-  }
-
-  public getCheckMark(event) {
-    this.accept = true;
-
-    if (window.getComputedStyle(event.toElement, '::after').display === 'block') {
-      this.accept = !this.accept;
-    }
   }
 
   ngOnDestroy(): void {
