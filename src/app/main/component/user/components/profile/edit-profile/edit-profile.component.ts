@@ -49,6 +49,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   };
   public socialNetworks: Array<{ id: number; url: string }>;
   public socialNetworksToServer: string[] = [];
+  public accept = true;
 
   constructor(
     public dialog: MatDialog,
@@ -175,12 +176,10 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   }
 
   public getCheckMark(event) {
-    const inputElement = event.toElement.previousElementSibling;
-    const accept = true;
+    this.accept = true;
 
-    inputElement.setAttribute('selected', accept);
     if (window.getComputedStyle(event.toElement, '::after').display === 'block') {
-      inputElement.setAttribute('selected', !accept);
+      this.accept = !this.accept;
     }
   }
 
