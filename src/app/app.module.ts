@@ -1,6 +1,5 @@
-import { AppRoutingModule } from './app-routing.module';
 import { MainModule } from './main/main.module';
-import { UbsAdminComponent } from './ubs-admin/ubs-admin/ubs-admin.component';
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -8,19 +7,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HashLocationStrategy } from '@angular/common';
 import { LocationStrategy } from '@angular/common';
+import { UbsAdminModule } from './ubs-admin/ubs-admin.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    UbsAdminComponent
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    MainModule,
-    HttpClientModule
-  ],
+  declarations: [AppComponent],
+  imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, MainModule, UbsAdminModule, HttpClientModule],
   providers: [
     // we use HashLocationStrategy because
     // so it is to avoid collisions in two types of routes (BE and FE)
@@ -32,6 +23,6 @@ import { LocationStrategy } from '@angular/common';
       useClass: HashLocationStrategy
     }
   ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

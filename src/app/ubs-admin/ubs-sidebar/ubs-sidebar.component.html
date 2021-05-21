@@ -1,0 +1,22 @@
+<div class="sidebar-icons" #sideBarIcons>
+  <ul class="sidebar-list">
+    <li class="sidebar-list-item" (click)="toggleSideBar()" *ngFor="let listItem of listElements">
+      <img class="sidebar-list-item-icon" src="{{ listItem.link }}" />
+    </li>
+  </ul>
+  <button class="sidebar-toggler" type="button" (click)="toggleSideBar()" #sidebarToggler [disabled]="stopClick">>></button>
+</div>
+<mat-drawer-container class="sidebar" autosize>
+  <mat-drawer #drawer class="sidebar-slider" mode="side" opened disableClose>
+    <ul class="sidebar-list">
+      <li class="sidebar-list-item" *ngFor="let listItem of listElements">
+        <img class="sidebar-list-item-icon" src="{{ listItem.link }}" />
+        <a class="sidebar-list-item-link">{{ listItem.name }}</a>
+      </li>
+    </ul>
+    <button class="sidebar-toggler" type="button" (click)="toggleSideBar()" #sidebarToggler [disabled]="stopClick"><<</button>
+  </mat-drawer>
+  <div class="sidebar-container">
+    <app-ubs-admin-table></app-ubs-admin-table>
+  </div>
+</mat-drawer-container>

@@ -1,20 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UbsAdminComponent } from './ubs-admin.component';
+import { UbsSidebarComponent } from './ubs-sidebar.component';
 
-describe('UbsAdminComponent', () => {
-  let component: UbsAdminComponent;
-  let fixture: ComponentFixture<UbsAdminComponent>;
+describe('UbsSidebarComponent', () => {
+  let component: UbsSidebarComponent;
+  let fixture: ComponentFixture<UbsSidebarComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UbsAdminComponent ]
-    })
-    .compileComponents();
+      declarations: [UbsSidebarComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UbsAdminComponent);
+    fixture = TestBed.createComponent(UbsSidebarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

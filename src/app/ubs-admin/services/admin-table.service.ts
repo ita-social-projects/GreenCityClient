@@ -1,0 +1,14 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+@Injectable({
+  providedIn: 'root'
+})
+export class AdminTableService {
+  url: string = 'https://greencity-ubs.azurewebsites.net/ubs/management/getAllSortingFields';
+
+  constructor(private http: HttpClient) {}
+
+  getTable(columnName?: string, sortingType?: string) {
+    return this.http.get<any[]>(`${this.url}/?columnName=${columnName}&sortingType=${sortingType}`);
+  }
+}

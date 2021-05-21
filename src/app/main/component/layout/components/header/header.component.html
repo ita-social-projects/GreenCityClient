@@ -172,6 +172,9 @@
                     {{ 'nav-bar.sign-out' | translate }}
                   </a>
                 </li>
+                <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="navigation to ubs">
+                  <a [routerLink]="['/ubs-admin']" routerLinkActive="active-link"> UBS-admin </a>
+                </li>
               </ul>
             </ng-container>
             <!-- SIGN IN LINK -->
