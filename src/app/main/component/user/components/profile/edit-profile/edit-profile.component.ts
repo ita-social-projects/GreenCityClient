@@ -176,7 +176,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
 
   public getCheckMark(event) {
     const inputElement = event.toElement.previousElementSibling;
-    let accept = true;
+    const accept = true;
 
     inputElement.setAttribute('selected', accept);
     if (window.getComputedStyle(event.toElement, '::after').display === 'block') {
