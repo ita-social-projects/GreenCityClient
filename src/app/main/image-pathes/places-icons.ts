@@ -1,12 +1,10 @@
-export const placesIcons = {
-  redIcon: 'assets/img/places/red-marker.png',
-  greenIcon: 'assets/img/places/green-marker.png',
-  bookmark: 'assets/img/places/bookmark-default.svg',
-  bookmarkSaved: 'assets/img/places/bookmark-set.svg',
-  star: 'assets/img/places/star-1.png',
-  starHalf: 'assets/img/places/star-filled-half.png',
-  starUnfilled: 'assets/img/places/star-2.png',
-  searchIcon: 'assets/img/places/search.svg',
-  notification: 'assets/img/places/notification-unread.svg',
-  share: 'assets/img/places/share.svg'
-};
+export const redIcon = 'assets/img/places/red-marker.png';
+export const greenIcon = 'assets/img/places/green-marker.png';
+export const bookmark = 'assets/img/places/bookmark-default.svg';
+export const bookmarkSaved = 'assets/img/places/bookmark-set.svg';
+export const star = 'assets/img/places/star-1.png';
+export const starHalf = 'assets/img/places/star-filled-half.png';
+export const starUnfilled = 'assets/img/places/star-2.png';
+export const searchIcon = 'assets/img/places/search.svg';
+export const notification = 'assets/img/places/notification-unread.svg';
+export const share = 'assets/img/places/share.svg';

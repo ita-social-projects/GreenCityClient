@@ -6,7 +6,19 @@ import { MatDrawer } from '@angular/material';
 import { AgmMarker } from '@agm/core';
 
 import { markers, cards } from './Data.js';
-import { placesIcons } from 'src/app/main/image-pathes/places-icons';
+
+import {
+  redIcon,
+  greenIcon,
+  bookmark,
+  bookmarkSaved,
+  star,
+  starHalf,
+  starUnfilled,
+  searchIcon,
+  notification,
+  share
+} from '../../image-pathes/places-icons.js';
 
 @Component({
   selector: 'app-places',
@@ -26,18 +38,9 @@ export class PlacesComponent implements OnInit, DoCheck {
   public markerListCopy: Array<any> = [];
   public searchName = '';
 
-  public redIcon = placesIcons.redIcon;
-  public greenIcon = placesIcons.greenIcon;
-  public bookmark = placesIcons.bookmark;
-  public bookmarkSaved = placesIcons.bookmarkSaved;
-  public star = placesIcons.star;
-  public starHalf = placesIcons.starHalf;
-  public starUnfilled = placesIcons.starUnfilled;
-  public searchIcon = placesIcons.searchIcon;
-  public notification = placesIcons.notification;
-  public share = placesIcons.share;
-
-  public apiKey = 'AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4';
+  public searchIcon = searchIcon;
+  public notification = notification;
+  public share = share;
 
   @ViewChild('drawer', { static: false }) drawer: MatDrawer;
 
@@ -66,7 +69,7 @@ export class PlacesComponent implements OnInit, DoCheck {
       this.favoritePlaces = JSON.parse(sessionStorage.getItem('favorites'));
       this.markerList.forEach((item) => {
         if (this.favoritePlaces.includes(item.card.id)) {
-          item.card.favorite = this.bookmarkSaved;
+          item.card.favorite = bookmarkSaved;
         }
       });
     }
@@ -101,7 +104,7 @@ export class PlacesComponent implements OnInit, DoCheck {
 
   public getMarker(marker: AgmMarker): void {
     this.markerList.forEach((item) => {
-      item.iconUrl = this.redIcon;
+      item.iconUrl = redIcon;
     });
     const clickedMarker = this.markerList.indexOf(
       this.markerList.filter((item) => {
@@ -109,7 +112,7 @@ export class PlacesComponent implements OnInit, DoCheck {
       })[0]
     );
 
-    this.markerList[clickedMarker].iconUrl = this.greenIcon;
+    this.markerList[clickedMarker].iconUrl = greenIcon;
     this.contentObj = this.markerList[clickedMarker].card;
     this.contentObj.cardStars = this.getStars(this.contentObj.cardRating);
     this.drawer.toggle();
@@ -118,13 +121,13 @@ export class PlacesComponent implements OnInit, DoCheck {
   public moveToFavorite(event): void {
     const id = +event.toElement.parentNode.parentNode.id;
 
-    if (!event.toElement.src.includes(this.bookmarkSaved)) {
-      this.cardsCollection[id].favorite = this.bookmarkSaved;
+    if (!event.toElement.src.includes(bookmarkSaved)) {
+      this.cardsCollection[id].favorite = bookmarkSaved;
       this.favoritePlaces.push(id);
       sessionStorage.setItem('favorites', JSON.stringify(this.favoritePlaces));
     } else {
       const indexToDelete = this.favoritePlaces.indexOf(id);
-      this.cardsCollection[id].favorite = this.bookmark;
+      this.cardsCollection[id].favorite = bookmark;
       this.favoritePlaces.splice(indexToDelete, 1);
       sessionStorage.setItem('favorites', JSON.stringify(this.favoritePlaces));
     }
@@ -148,28 +151,28 @@ export class PlacesComponent implements OnInit, DoCheck {
     let counter = 1;
 
     if (rating < halfOfStar) {
-      this.stars.fill(this.starUnfilled);
+      this.stars.fill(starUnfilled);
       return this.stars;
     }
 
     if (rating >= halfOfStar && rating < 1) {
-      this.stars.fill(this.starUnfilled);
-      this.stars[0] = this.starHalf;
+      this.stars.fill(starUnfilled);
+      this.stars[0] = starHalf;
       return this.stars;
     }
 
     if (counter <= rating) {
-      this.stars.fill(this.starUnfilled);
+      this.stars.fill(starUnfilled);
 
       while (counter <= rating) {
-        this.stars[counter - 1] = this.star;
+        this.stars[counter - 1] = star;
         counter++;
       }
 
       const checkHalf = counter - 1 + halfOfStar;
 
       if (checkHalf <= rating) {
-        this.stars[counter - 1] = this.starHalf;
+        this.stars[counter - 1] = starHalf;
       }
 
       return this.stars;

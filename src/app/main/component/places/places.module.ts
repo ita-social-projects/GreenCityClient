@@ -11,11 +11,12 @@ import { RatingModule } from 'ngx-bootstrap/rating';
 import { Ng5SliderModule } from 'ng5-slider';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatTabsModule } from '@angular/material/tabs';
+import { SharedModule } from '../shared/shared.module';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { PlacesComponent } from './places.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { SharedModule } from '@shared/shared.module';
+import { environment } from '@environment/environment.js';
 
 @NgModule({
   declarations: [PlacesComponent],
@@ -30,7 +31,7 @@ import { SharedModule } from '@shared/shared.module';
     FormsModule,
     ReactiveFormsModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4'
+      apiKey: environment.apiMapKey
     }),
     MatIconModule,
     RatingModule,
