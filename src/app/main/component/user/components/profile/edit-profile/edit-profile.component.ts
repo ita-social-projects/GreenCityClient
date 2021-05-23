@@ -1,5 +1,5 @@
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { Component, ElementRef, NgZone, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, OnDestroy, ViewChild, DoCheck } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
@@ -18,7 +18,7 @@ import { FormBaseComponent } from '@shared/components/form-base/form-base.compon
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.scss']
 })
-export class EditProfileComponent extends FormBaseComponent implements OnInit, OnDestroy {
+export class EditProfileComponent extends FormBaseComponent implements OnInit, OnDestroy, DoCheck {
   public editProfileForm = null;
   private langChangeSub: Subscription;
   @ViewChild('search', { static: true }) public searchElementRef: ElementRef;
@@ -49,6 +49,10 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   };
   public socialNetworks: Array<{ id: number; url: string }>;
   public socialNetworksToServer: string[] = [];
+  public checkLocation = false;
+  public checkEcoPlaces = false;
+  public checkShoppingList = false;
+  
   public namePattern = /^(?!\.)(?!.*\.$)(?!.*?\.\.)[a-zA-Zа-яА-Я0-9.]{6,30}$/;
   public cityPattern = /^[a-zA-Zа-яА-Я][a-zA-Zа-яА-Я!\-\,’)( ]*$/;
 
@@ -75,6 +79,12 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     this.autocompleteCity();
   }
 
+  ngDoCheck() {
+    this.checkLocation = this.editProfileForm.value.showLocation;
+    this.checkEcoPlaces = this.editProfileForm.value.showEcoPlace;
+    this.checkShoppingList = this.editProfileForm.value.showShoppingList;
+  }
+
   public getFormValues(): any {
     return {
       firstName: this.editProfileForm.value.name,
@@ -83,7 +93,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       showLocation: this.editProfileForm.value.showLocation,
       showEcoPlace: this.editProfileForm.value.showEcoPlace,
       showShoppingList: this.editProfileForm.value.showShoppingList,
-      socialNetworks: this.socialNetworks
+      socialNetworks: this.editProfileForm.value.socialNetworks
     };
   }
 

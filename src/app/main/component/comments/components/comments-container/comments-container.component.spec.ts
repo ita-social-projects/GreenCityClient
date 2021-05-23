@@ -10,6 +10,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { CommentsContainerComponent } from './comments-container.component';
+import { CommentsModel } from '../../models/comments-model';
 
 describe('CommentsContainerComponent', () => {
   let component: CommentsContainerComponent;
@@ -39,5 +40,23 @@ describe('CommentsContainerComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should setData', () => {
+    component.setData(2, 20);
+    expect(component.config.currentPage).toBe(2);
+    expect(component.config.totalItems).toBe(20);
+  });
+
+  it('should setCommentsList', () => {
+    const commentsModel = {
+      currentPage: 1,
+      page: [],
+      totalElements: 10
+    } as CommentsModel;
+    component.setCommentsList(commentsModel);
+    component.updateElementsList();
+    expect(component.elementsList.length).toBe(0);
+    expect(component.elementsArePresent).toBeFalsy();
   });
 });

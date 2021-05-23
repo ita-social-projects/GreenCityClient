@@ -48,6 +48,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   certMessageFourth = '';
   certMessageFifth = '';
   public currentLanguage: string;
+  bonusesRemaining = this.pointsUsed;
 
   constructor(
     private fb: FormBuilder,

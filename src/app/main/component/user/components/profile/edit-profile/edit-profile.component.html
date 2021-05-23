@@ -45,21 +45,21 @@
       <ul>
         <li>
           <label class="label-wrapper">
-            <input type="checkbox" formControlName="showLocation" />
+            <input type="checkbox" formControlName="showLocation" [attr.checked]="checkLocation" />
             <span class="checkmark"></span>
             {{ 'user.edit-profile.location' | translate }}
           </label>
         </li>
         <li>
           <label class="label-wrapper">
-            <input type="checkbox" formControlName="showEcoPlace" />
+            <input type="checkbox" formControlName="showEcoPlace" [attr.checked]="checkEcoPlaces" />
             <span class="checkmark"></span>
             {{ 'user.edit-profile.eco-place' | translate }}
           </label>
         </li>
         <li>
           <label class="label-wrapper">
-            <input type="checkbox" formControlName="showShoppingList" />
+            <input type="checkbox" formControlName="showShoppingList" [attr.checked]="checkShoppingList" />
             <span class="checkmark"></span>
             {{ 'user.edit-profile.shoping-list' | translate }}
           </label>

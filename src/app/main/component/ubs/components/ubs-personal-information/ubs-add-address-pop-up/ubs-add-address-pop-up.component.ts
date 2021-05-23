@@ -86,8 +86,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   onAutocompleteSelected(event): void {
     const streetName = event.name;
     this.addAddressForm.get('street').setValue(streetName);
-    this.region =
-      event.address_components[2].long_name.split(' ')[1] === 'район' ? event.address_components[2].long_name.split(' ')[0] : null;
+    this.region = event.address_components[1].long_name.split(' ')[0];
     this.addAddressForm.get('district').setValue(this.region);
     this.nextDisabled = false;
     this.districtDisabled = event.address_components[2].long_name.split(' ')[1] === 'район' ? true : false;
@@ -113,13 +112,13 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
 
   addAdress() {
     this.orderService.addAdress(this.addAddressForm.value)
-    .pipe(
-      takeUntil(this.destroy)
-    )
-    .subscribe((list: Address[]) => {
-      this.updatedAddresses = list;
-      this.dialogRef.close();
-    });
+      .pipe(
+        takeUntil(this.destroy)
+      )
+      .subscribe((list: Address[]) => {
+        this.updatedAddresses = list;
+        this.dialogRef.close();
+      });
   }
 
   ngOnDestroy(): void {
