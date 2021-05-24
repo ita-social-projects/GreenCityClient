@@ -15,7 +15,7 @@
       class="shadow-none form-control"
       matGoogleMapsAutocomplete
       [types]="['geocode']"
-      [country]="'ua'"
+      [country]="country"
       [attr.disabled]="districtDisabled ? true : null"
       (onAutocompleteSelected)="onDistrictSelected($event)"
       placeholder="{{ 'personal-info.pop-up-enter-you-location' | translate }}"
@@ -35,7 +35,7 @@
       (onLocationSelected)="onLocationSelected($event)"
       (change)="onChange()"
       [types]="['address']"
-      [country]="'ua'"
+      [country]="country"
       placeholder="{{ 'personal-info.pop-up-enter-you-location' | translate }}"
     />
     <div class="validation" *ngIf="street.invalid && addAddressForm.get('street').touched">

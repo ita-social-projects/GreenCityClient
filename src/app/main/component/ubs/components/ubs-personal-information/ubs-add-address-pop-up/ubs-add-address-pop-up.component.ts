@@ -12,6 +12,7 @@ import { Subject } from 'rxjs';
   styleUrls: ['./ubs-add-address-pop-up.component.scss']
 })
 export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
+  country = 'ua';
   address: Address;
   updatedAddresses: Address[];
   addAddressForm: FormGroup;
