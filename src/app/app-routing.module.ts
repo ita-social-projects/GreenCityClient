@@ -6,7 +6,7 @@ import { TipsListComponent } from './main/component/home/components/useful-tips/
 import { MainComponent } from './main/main.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
-import { UbsSidebarComponent } from './ubs-admin/ubs-sidebar/ubs-sidebar.component';
+import { UbsSidebarComponent } from './ubs-admin/components/ubs-sidebar/ubs-sidebar.component';
 
 export const routes: Routes = [
   {
