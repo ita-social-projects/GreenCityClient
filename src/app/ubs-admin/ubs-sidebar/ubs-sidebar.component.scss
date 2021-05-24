@@ -1,9 +1,8 @@
 .sidebar {
-  margin-top: -95px;
   height: 100vh;
 
   .sidebar-container {
-    margin-left: 1.9em;
+    margin-left: 25px;
   }
 
   .sidebar-slider {
@@ -51,6 +50,7 @@
   position: fixed;
   width: 3.7em;
   height: 100vh;
+  margin-top: 52px;
   background-color: var(--ubs-primary-grey);
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -74,3 +74,44 @@
   -ms-user-select: none;
   user-select: none;
 }
+////////////////////
+.wrapper {
+  display: grid;
+  grid-template-areas: "logo icons";
+  grid-template-rows: 52px;
+  grid-template-columns: 200px auto;
+  grid-gap: 400px;
+  width: 100vw;
+  box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
+  position: fixed;
+  top: 0;
+  z-index: 99 ;
+}
+
+.logo {
+  margin-top: 2px;
+  grid-area: logo;
+  margin-left: 36px;
+}
+
+.icons {
+  grid-area: icons;
+  margin: auto;
+
+  img {
+    padding: 17px;
+  }
+}
+
+.icons {
+  grid-area: icons;
+  margin: auto;
+}
+
+.icons img {
+  padding: 17px;
+}
+
+// .mat-drawer-content {
+//   margin-top: 52px !important;
+// }

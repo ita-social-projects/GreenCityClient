@@ -178,7 +178,7 @@ mat-header-cell:first-of-type {
   height: 36px;
   border: 1px solid var(--ubs-primary-light-grey);
   border-radius: 4px;
-  margin-top: 180px;
+  margin-top: 70px;
   margin-bottom: 32px;
 }
 
@@ -214,7 +214,13 @@ mat-header-cell:first-of-type {
   margin-right: 5px;
   overflow: scroll;
   padding: 24px;
-  margin-top: 260px;
+  margin-top: 170px;
+  color: var(--ubs-primary-grey);
+  font-family: var(--primary-font);
+}
+
+.dropdown-menu li {
+  color: #444E55;
 }
 
 .dropdown-menu input {

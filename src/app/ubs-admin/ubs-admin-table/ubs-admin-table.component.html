@@ -60,7 +60,7 @@
         <ng-template #checkbox>
           <mat-checkbox
             (change)="$event ? masterToggle() : null"
-            [ngStyle]="{ backgroundColor: '#fff', height: '16px' }"
+            [ngStyle]="{ backgroundColor: '#fff', height: '16px'}"
             [checked]="selection.hasValue() && isAllSelected()"
             [indeterminate]="selection.hasValue() && !isAllSelected()"
             [aria-label]="checkboxLabel()"

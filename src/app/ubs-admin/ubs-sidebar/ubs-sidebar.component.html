@@ -1,3 +1,15 @@
+<div class="wrapper">
+  <div class="logo">
+    <img  src="assets/admin-header/logo-admin.svg"/>
+  </div>
+  <div class="icons">
+    <img  src="assets/admin-header/first-icon-admin.svg"/>
+    <img  src="assets/admin-header/bell-icon-admin.svg"/>
+    <span>En</span>
+    <img  src="assets/img/arrow_down.svg"/>
+    <span [ngStyle]="{'color': 'var(--primary-green)', 'fontFamily': 'var(--primary-font)'}">Jana Done</span>
+  </div>
+</div>
 <div class="sidebar-icons" #sideBarIcons>
   <ul class="sidebar-list">
     <li class="sidebar-list-item" (click)="toggleSideBar()" *ngFor="let listItem of listElements">
@@ -16,7 +28,9 @@
     </ul>
     <button class="sidebar-toggler" type="button" (click)="toggleSideBar()" #sidebarToggler [disabled]="stopClick"><<</button>
   </mat-drawer>
-  <div class="sidebar-container">
-    <app-ubs-admin-table></app-ubs-admin-table>
+<mat-drawer-content [ngStyle]="{'marginTop': '52px'}">
+  <div class="sidebar-container" #sidebarContainer>
+    <app-ubs-admin-table ></app-ubs-admin-table>
   </div>
+</mat-drawer-content>
 </mat-drawer-container>

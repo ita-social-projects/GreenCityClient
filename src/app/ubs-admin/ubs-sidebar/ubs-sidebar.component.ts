@@ -19,7 +19,7 @@ export class UbsSidebarComponent implements AfterViewInit {
       name: 'Користувачі'
     },
     {
-      link: 'assets/img/sidebarIcons/achievment_icon.svg',
+      link: './assets/img/sidebarIcons/achievment_icon.svg',
       name: 'Сертифікати'
     },
     {
@@ -39,10 +39,10 @@ export class UbsSidebarComponent implements AfterViewInit {
       name: 'Графік'
     }
   ];
-
   @ViewChild('sidebarToggler', { static: false }) sidebarToggler: ElementRef;
   @ViewChild('sideBarIcons', { static: false }) sideBarIcons: ElementRef;
   @ViewChild('drawer', { static: false }) drawer: MatDrawer;
+  @ViewChild('sidebarContainer', { static: false }) sidebarContainer: ElementRef;
 
   constructor(private breakpointObserver: BreakpointObserver) {}
 
@@ -55,6 +55,7 @@ export class UbsSidebarComponent implements AfterViewInit {
 
       setTimeout(() => {
         this.sideBarIcons.nativeElement.style.zIndex = '0';
+        this.sidebarContainer.nativeElement.style.marginLeft = '25px';
         this.stopClick = false;
         this.sidebarToggler.nativeElement.style.backgroundColor = this.primaryGreenColor;
       }, 350);
@@ -63,7 +64,7 @@ export class UbsSidebarComponent implements AfterViewInit {
       this.openClose = false;
     } else {
       this.drawer.toggle();
-
+      this.sidebarContainer.nativeElement.style.marginLeft = '85px';
       this.sideBarIcons.nativeElement.style.zIndex = '4';
       this.sidebarToggler.nativeElement.textContent = '>>';
       this.openClose = true;
