@@ -10,7 +10,7 @@
           type="text"
           formControlName="name"
           placeholder="{{ userInfo.name.first + ' ' + userInfo.name.last }}"
-          pattern="^\S((?!.*  ).*\S)?$"
+          [pattern]="namePattern"
           id="name"
         />
         <span>{{ 'user.edit-profile.name-warning' | translate }}</span>
@@ -25,7 +25,7 @@
           autocapitalize="off"
           spellcheck="off"
           #search
-          pattern="^[a-zA-Zа-яА-Я][a-zA-Zа-яА-Я!\-\,’)( ]*$"
+          [pattern]="cityPattern"
           id="city"
         />
         <span>{{ 'user.edit-profile.city-warning' | translate }}</span>
