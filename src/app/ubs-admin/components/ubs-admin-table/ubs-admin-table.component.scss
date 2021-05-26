@@ -70,7 +70,7 @@
 mat-cell:last-of-type,
 mat-footer-cell:last-of-type,
 mat-header-cell:last-of-type {
-  padding-right: 0px;
+  padding-right: 0;
 }
 
 mat-cell:first-of-type,
@@ -78,28 +78,28 @@ mat-footer-cell:first-of-type,
 mat-header-cell:first-of-type {
   display: flex;
   flex: 0 0 48px !important;
-  padding: 0px;
+  padding: 0;
 }
 
 .mat-column-orderId {
   flex: 0 0 160px !important;
   display: flex;
-  padding-left: 0px;
-  padding-right: 0px;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .mat-column-orderStatus {
   flex: 0 0 258px !important;
   display: flex;
-  padding-left: 0px;
-  padding-right: 0px;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .mat-column-orderDate {
   flex: 0 0 171px !important;
   display: flex;
-  padding-right: 0px;
-  padding-left: 0px;
+  padding-right: 0;
+  padding-left: 0;
 }
 
 .amount-items {
@@ -203,6 +203,7 @@ mat-header-cell:first-of-type {
   padding-top: 5px;
   padding-left: 20px;
   font-size: 12px;
+
   &:hover {
     cursor: pointer;
   }
@@ -231,7 +232,7 @@ mat-header-cell:first-of-type {
 }
 
 .ng-star-inserted {
-  padding-left: 0px;
+  padding-left: 0;
 }
 
 .mat-spinner {
