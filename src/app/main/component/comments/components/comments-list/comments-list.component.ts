@@ -65,6 +65,16 @@ export class CommentsListComponent {
     });
   }
 
+  public isShowReplies(id: number): boolean {
+    let result = false;
+    this.elementsList.map((item) => {
+      if (item.id === id && item.showAllRelies) {
+        result = item.showAllRelies;
+      }
+    });
+    return result;
+  }
+
   public checkCommentAuthor(commentAuthorId: number) {
     return commentAuthorId === Number(this.userId);
   }
