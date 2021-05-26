@@ -1,5 +1,5 @@
 import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
-import { SharedModule } from '../../../shared/shared-main.module';
+import { SharedMainModule } from '../../../shared/shared-main.module';
 import { SocketService } from '../../../../service/socket/socket.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Observable, BehaviorSubject, of } from 'rxjs';
@@ -42,7 +42,7 @@ describe('LikeCommentComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [LikeCommentComponent],
-      imports: [SharedModule, HttpClientTestingModule],
+      imports: [SharedMainModule, HttpClientTestingModule],
       providers: [
         { provide: CommentsService, useValue: commentsServiceMock },
         { provide: SocketService, useValue: socketServiceMock },

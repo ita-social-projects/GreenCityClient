@@ -1,4 +1,4 @@
-import { SharedModule } from '@shared/shared-main.module';
+import { SharedMainModule } from '@shared/shared-main.module';
 import { SearchNotFoundComponent } from '../search-not-found/search-not-found.component';
 import { FormsModule } from '@angular/forms';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
@@ -49,7 +49,14 @@ describe('SearchAllResultsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [SearchAllResultsComponent, SearchItemComponent, SearchNotFoundComponent],
-      imports: [RouterTestingModule, HttpClientTestingModule, FormsModule, InfiniteScrollModule, TranslateModule.forRoot(), SharedModule],
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        FormsModule,
+        InfiniteScrollModule,
+        TranslateModule.forRoot(),
+        SharedMainModule
+      ],
       providers: [
         { provide: SearchService, useValue: searchMock },
         { provide: ActivatedRoute, useValue: activatedRouteMock }

@@ -1,3 +1,4 @@
+import { SharedMainModule } from '@shared/shared-main.module';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
@@ -7,7 +8,6 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NewsListListViewComponent } from './news-list-list-view/news-list-list-view.component';
 import { NewsListGalleryViewComponent } from '..';
 import { ChangeViewButtonComponent } from './change-view-button/change-view-button.component';
-import { SharedModule } from '@shared/shared-main.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NewsListComponent } from './news-list.component';
@@ -51,7 +51,7 @@ describe('NewsListComponent', () => {
         NewsListListViewComponent,
         RemainingCountComponent
       ],
-      imports: [TranslateModule.forRoot(), RouterTestingModule, SharedModule, InfiniteScrollModule, HttpClientTestingModule],
+      imports: [TranslateModule.forRoot(), RouterTestingModule, SharedMainModule, InfiniteScrollModule, HttpClientTestingModule],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: EcoNewsService, useValue: ecoNewsServiceMock },
