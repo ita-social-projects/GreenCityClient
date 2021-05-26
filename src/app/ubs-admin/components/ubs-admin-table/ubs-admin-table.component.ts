@@ -1,19 +1,18 @@
-import { AdminTableService } from './../services/admin-table.service';
+import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragStart, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import 'hammerjs';
-import { analytics } from 'firebase';
+
 @Component({
   selector: 'app-ubs-admin-table',
   templateUrl: './ubs-admin-table.component.html',
   styleUrls: ['./ubs-admin-table.component.scss']
 })
-export class UbsAdminTableComponent implements OnInit, OnDestroy {
+export class UbsAdminTableComponent implements OnInit {
   columns: any[] = [];
   displayedColumns: string[] = [];
   orderInfo: string[] = [];
@@ -25,11 +24,11 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   dataSource: MatTableDataSource<any>;
   selection = new SelectionModel<any>(true, []);
   arrayOfHeaders: string[] = [];
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
   previousIndex: number;
   isLoading = true;
   destroy: Subject<boolean> = new Subject<boolean>();
   arrowDirection: string;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private adminTableService: AdminTableService) {}
 
@@ -137,6 +136,4 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     this.arrowDirection === columnName ? (this.arrowDirection = null) : (this.arrowDirection = columnName);
     this.getTable(columnName, sortingType);
   }
-
-  ngOnDestroy() {}
 }

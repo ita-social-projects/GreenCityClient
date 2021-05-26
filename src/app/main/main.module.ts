@@ -4,18 +4,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
-import {
-  MAT_DIALOG_DEFAULT_OPTIONS,
-  MatButtonModule,
-  MatDialogModule,
-  MatDialogRef,
-  MatFormFieldModule,
-  MatInputModule,
-  MatRadioModule,
-  MatSelectModule,
-  MatSliderModule,
-  MatTreeModule
-} from '@angular/material';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireModule } from '@angular/fire';
@@ -37,12 +25,13 @@ import { EditPhotoPopUpComponent } from '@shared/components/edit-photo-pop-up/ed
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ErrorComponent } from '@global-errors/error/error.component';
 import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';
+import { MaterialModule } from '../material.module';
+import { MatDialogRef, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
 
 @NgModule({
   declarations: [MainComponent, ErrorComponent],
   imports: [
     LayoutModule,
-    MatDialogModule,
     AuthModule,
     CoreModule,
     HomeModule,
@@ -53,18 +42,12 @@ import { PendingChangesGuard } from '@global-service/pending-changes-guard/pendi
     AdminModule,
     NgFlashMessagesModule.forRoot(),
     ReactiveFormsModule,
-    MatSliderModule,
-    MatTreeModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AngularFireStorageModule,
-    MatSelectModule,
-    MatRadioModule,
     DragDropModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    MaterialModule
   ],
   entryComponents: [MainComponent, ProposeCafeComponent, RestoreComponent, EditPhotoPopUpComponent, ErrorComponent],
   providers: [
