@@ -29,13 +29,13 @@
   justify-content: center;
   font-size: 14px;
   width: 171px;
-  min-height: 39px !important;
-  min-width: 48px !important;
-  max-width: 300px !important;
-  overflow: hidden !important;
-  word-wrap: break-word !important;
-  white-space: nowrap !important;
-  overflow-wrap: break-word !important;
+  min-height: 39px;
+  min-width: 48px;
+  max-width: 300px;
+  overflow: hidden;
+  word-wrap: break-word;
+  white-space: nowrap;
+  overflow-wrap: break-word;
 }
 
 .mat-row {
@@ -49,12 +49,12 @@
   color: var(--ubs-primary-grey);
   font-size: 14px;
   font-family: var(--primary-font);
-  min-width: 48px !important;
-  min-height: 39px !important;
-  overflow: hidden !important;
-  word-wrap: break-word !important;
-  white-space: nowrap !important;
-  overflow-wrap: break-word !important;
+  min-width: 48px;
+  min-height: 39px;
+  overflow: hidden;
+  word-wrap: break-word;
+  white-space: nowrap;
+  overflow-wrap: break-word;
 }
 
 .mat-header-row {
@@ -178,7 +178,7 @@ mat-header-cell:first-of-type {
   height: 36px;
   border: 1px solid var(--ubs-primary-light-grey);
   border-radius: 4px;
-  margin-top: 70px;
+  margin-top: 20px;
   margin-bottom: 32px;
 }
 
@@ -220,7 +220,7 @@ mat-header-cell:first-of-type {
 }
 
 .dropdown-menu li {
-  color: #444E55;
+  color: #444e55;
 }
 
 .dropdown-menu input {
