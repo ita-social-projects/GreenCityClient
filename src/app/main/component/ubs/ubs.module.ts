@@ -20,7 +20,8 @@ import { UBSInputErrorComponent } from './components/ubs-input-error/ubs-input-e
 import { UBSAddAddressPopUpComponent } from './components/ubs-personal-information/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { AddressComponent } from './components/ubs-personal-information/address/address.component';
 import { UbsConfirmPageComponent } from './components/ubs-confirm-page/ubs-confirm-page.component';
-import { SharedModule } from '@shared/shared.module';
+import { SharedMainModule } from '@shared/shared-main.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { SharedModule } from '@shared/shared.module';
       },
       isolate: true
     }),
+    SharedMainModule,
     SharedModule
   ],
   entryComponents: [UBSAddAddressPopUpComponent],

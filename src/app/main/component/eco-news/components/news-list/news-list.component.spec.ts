@@ -7,7 +7,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NewsListListViewComponent } from './news-list-list-view/news-list-list-view.component';
 import { NewsListGalleryViewComponent } from '..';
 import { ChangeViewButtonComponent } from './change-view-button/change-view-button.component';
-import { SharedModule } from '@shared/shared.module';
+import { SharedModule } from '@shared/shared-main.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NewsListComponent } from './news-list.component';
@@ -26,7 +26,7 @@ describe('NewsListComponent', () => {
       { id: 2, name: 'Ads' },
       { id: 3, name: 'Events' },
       { id: 4, name: 'Initiatives' },
-      { id: 5, name: 'Education' },
+      { id: 5, name: 'Education' }
     ]);
   ecoNewsServiceMock.getNewsListByTags = () => new Observable();
   ecoNewsServiceMock.getEcoNewsListByPage = () => new Observable();
@@ -49,14 +49,14 @@ describe('NewsListComponent', () => {
         ChangeViewButtonComponent,
         NewsListGalleryViewComponent,
         NewsListListViewComponent,
-        RemainingCountComponent,
+        RemainingCountComponent
       ],
       imports: [TranslateModule.forRoot(), RouterTestingModule, SharedModule, InfiniteScrollModule, HttpClientTestingModule],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: EcoNewsService, useValue: ecoNewsServiceMock },
-        { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock },
-      ],
+        { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock }
+      ]
     }).compileComponents();
   }));
 
@@ -111,10 +111,10 @@ describe('NewsListComponent', () => {
           text: 'sometext',
           author: { id: 125, name: 'somename' },
           tags: [{ id: 77, name: 'stringname' }],
-          creationDate: 'somedate',
-        },
+          creationDate: 'somedate'
+        }
       ],
-      currentPage: 1,
+      currentPage: 1
     };
     component.scroll = false;
     // @ts-ignore

@@ -17,9 +17,10 @@ import { RatingModule } from 'ngx-bootstrap/rating';
 import { Ng5SliderModule } from 'ng5-slider';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatTabsModule } from '@angular/material/tabs';
-import { SharedModule } from '../shared/shared.module';
+import { SharedMainModule } from '../shared/shared-main.module';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -28,9 +29,10 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     FavoritePlaceComponent,
     EditFavoriteNameComponent,
     DeleteFavoriteComponent,
-    AddCommentComponent,
+    AddCommentComponent
   ],
   imports: [
+    SharedMainModule,
     SharedModule,
     CommonModule,
     MapRoutesModule,
@@ -51,12 +53,12 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
       loader: {
         provide: TranslateLoader,
         useFactory: createTranslateLoader,
-        deps: [HttpClient],
+        deps: [HttpClient]
       },
-      isolate: true,
-    }),
+      isolate: true
+    })
   ],
-  providers: [TranslateService],
+  providers: [TranslateService]
 })
 export class MapModule {}
 

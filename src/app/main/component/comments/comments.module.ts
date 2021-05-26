@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material';
-import { SharedModule } from '@shared/shared.module';
+import { SharedMainModule } from '@shared/shared-main.module';
 import { AddCommentComponent } from './components/add-comment/add-comment.component';
 import { ViewRepliesComponent } from './components/view-replies/view-replies.component';
 import { DeleteCommentComponent } from './components/delete-comment/delete-comment.component';
@@ -13,6 +13,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { CommentsListComponent } from './components/comments-list/comments-list.component';
 import { CommentsContainerComponent } from './components/comments-container/comments-container.component';
 import { CommentsService } from './services/comments.service';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -25,9 +26,9 @@ import { CommentsService } from './services/comments.service';
     EditCommentComponent,
     CommentPaginationComponent,
     CommentsListComponent,
-    CommentsContainerComponent,
+    CommentsContainerComponent
   ],
-  imports: [SharedModule, CommonModule, NgxPaginationModule, MatProgressSpinnerModule],
+  imports: [SharedMainModule, SharedModule, CommonModule, NgxPaginationModule, MatProgressSpinnerModule],
   exports: [
     AddCommentComponent,
     ViewRepliesComponent,
@@ -38,8 +39,8 @@ import { CommentsService } from './services/comments.service';
     EditCommentComponent,
     CommentPaginationComponent,
     CommentsListComponent,
-    CommentsContainerComponent,
+    CommentsContainerComponent
   ],
-  providers: [CommentsService],
+  providers: [CommentsService]
 })
 export class CommentsModule {}

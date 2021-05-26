@@ -1,4 +1,4 @@
-import { SharedModule } from '@shared/shared.module';
+import { SharedModule } from '@shared/shared-main.module';
 import { SearchNotFoundComponent } from '../search-not-found/search-not-found.component';
 import { FormsModule } from '@angular/forms';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
@@ -21,17 +21,17 @@ describe('SearchAllResultsComponent', () => {
     title: 'test',
     author: {
       id: 1,
-      name: 'test',
+      name: 'test'
     },
     creationDate: '0101',
-    tags: ['test'],
+    tags: ['test']
   };
 
   const searchDataMock = {
     currentPage: 1,
     page: [mockNewsData],
     totalElements: 1,
-    totalPages: 1,
+    totalPages: 1
   };
 
   let searchMock: SearchService;
@@ -42,8 +42,8 @@ describe('SearchAllResultsComponent', () => {
 
   const activatedRouteMock = {
     queryParams: of({
-      query: 'test',
-    }),
+      query: 'test'
+    })
   };
 
   beforeEach(async(() => {
@@ -52,8 +52,8 @@ describe('SearchAllResultsComponent', () => {
       imports: [RouterTestingModule, HttpClientTestingModule, FormsModule, InfiniteScrollModule, TranslateModule.forRoot(), SharedModule],
       providers: [
         { provide: SearchService, useValue: searchMock },
-        { provide: ActivatedRoute, useValue: activatedRouteMock },
-      ],
+        { provide: ActivatedRoute, useValue: activatedRouteMock }
+      ]
     }).compileComponents();
   }));
 
