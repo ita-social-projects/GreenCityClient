@@ -74,10 +74,10 @@
   -ms-user-select: none;
   user-select: none;
 }
-////////////////////
+//For Header
 .wrapper {
   display: grid;
-  grid-template-areas: "logo icons";
+  grid-template-areas: 'logo icons';
   grid-template-rows: 52px;
   grid-template-columns: 200px auto;
   grid-gap: 400px;
@@ -85,7 +85,7 @@
   box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
   position: fixed;
   top: 0;
-  z-index: 99 ;
+  z-index: 99;
 }
 
 .logo {
@@ -97,21 +97,9 @@
 .icons {
   grid-area: icons;
   margin: auto;
-
-  img {
-    padding: 17px;
-  }
 }
 
-.icons {
-  grid-area: icons;
-  margin: auto;
-}
-
-.icons img {
+.icons img,
+a {
   padding: 17px;
 }
-
-// .mat-drawer-content {
-//   margin-top: 52px !important;
-// }
