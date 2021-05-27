@@ -13,6 +13,7 @@ export class EditProfileFormBuilder {
       showLocation: [''],
       showEcoPlace: [''],
       showShoppingList: [''],
+      socialNetworks: ['']
     });
   }
 
@@ -24,6 +25,7 @@ export class EditProfileFormBuilder {
       showLocation: [editForm.showLocation],
       showEcoPlace: [editForm.showEcoPlace],
       showShoppingList: [editForm.showShoppingList],
+      socialNetworks: [editForm.socialNetworks]
     });
   }
 }

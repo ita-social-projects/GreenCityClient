@@ -15,6 +15,7 @@ import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { EditProfileModel } from '@global-user/models/edit-profile.model';
 import { EditProfileComponent } from './edit-profile.component';
+import { SocialNetworksComponent } from './social-networks/social-networks.component';
 
 class Test {}
 
@@ -41,6 +42,7 @@ describe('EditProfileComponent', () => {
         EditProfileFormBuilder,
         EditProfileService,
         MatSnackBarComponent,
+        SocialNetworksComponent,
         ProfileService,
         {
           provide: MapsAPILoader,
@@ -90,6 +92,7 @@ describe('EditProfileComponent', () => {
         showLocation: '',
         showEcoPlace: '',
         showShoppingList: '',
+        socialNetworks: ''
       };
       component.searchElementRef.nativeElement.value = 'Lviv';
       component.editProfileForm.value.name = '';
@@ -97,6 +100,7 @@ describe('EditProfileComponent', () => {
       component.editProfileForm.value.showLocation = '';
       component.editProfileForm.value.showEcoPlace = '';
       component.editProfileForm.value.showShoppingList = '';
+      component.editProfileForm.value.socialNetworks = '';
     });
 
     it('should return true in case of form fields were not changed', () => {
