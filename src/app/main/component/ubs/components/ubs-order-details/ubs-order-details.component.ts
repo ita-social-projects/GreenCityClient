@@ -12,7 +12,7 @@ import { CertificateStatus } from '../../certificate-status.enum';
 @Component({
   selector: 'app-ubs-order-details',
   templateUrl: './ubs-order-details.component.html',
-  styleUrls: ['./ubs-order-details.component.scss'],
+  styleUrls: ['./ubs-order-details.component.scss']
 })
 export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   orders: OrderDetails;
@@ -49,6 +49,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   certMessageFifth = '';
   public currentLanguage: string;
   bonusesRemaining = this.pointsUsed;
+  public certificateError = false;
 
   constructor(
     private fb: FormBuilder,
@@ -84,7 +85,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
       shop: new FormControl('no'),
       additionalCertificates: this.fb.array([]),
       additionalOrders: this.fb.array(['']),
-      orderSum: new FormControl(0, [Validators.required, Validators.min(500)]),
+      orderSum: new FormControl(0, [Validators.required, Validators.min(500)])
     });
   }
 
@@ -109,7 +110,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
 
   changeForm() {
     this.orderDetailsForm.patchValue({
-      orderSum: this.showTotal,
+      orderSum: this.showTotal
     });
   }
 
@@ -245,16 +246,23 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
         this.orderService
           .processCertificate(certificate)
           .pipe(takeUntil(this.destroy))
-          .subscribe((cert) => {
-            this.certificateMatch(cert);
-            if (this.total > this.certificateSum) {
-              this.addCert = true;
-            } else {
-              this.addCert = false;
-              this.certSize = true;
+          .subscribe(
+            (cert) => {
+              this.certificateError = false;
+              this.certificateMatch(cert);
+              this.certificateSum += cert.certificatePoints / 10;
+              if (this.total > this.certificateSum) {
+                this.addCert = true;
+              } else {
+                this.addCert = false;
+                this.certSize = true;
+              }
+              this.calculateTotal();
+            },
+            (error) => {
+              this.certificateError = true;
             }
-            this.calculateTotal();
-          });
+          );
       }
     } else {
       this.certificateSum = 0;

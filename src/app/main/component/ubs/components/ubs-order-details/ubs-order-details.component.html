@@ -48,10 +48,10 @@
                   ><small>-{{ showCertificateUsed }} {{ 'order-details.currency' | translate }}</small></span
                 >
               </p>
-              <p class="total-content" [class.d-none]="pointsUsed === 0">
+              <p class="total-content" *ngIf="certificateSum > 0">
                 <span>{{ 'order-details.bonuses' | translate }} </span
                 ><span>
-                  <small>-{{ pointsUsed }} {{ 'order-details.currency' | translate }}</small></span
+                  <small>-{{ certificateSum }} {{ 'order-details.currency' | translate }}</small></span
                 >
               </p>
               <p class="total-content">
@@ -93,9 +93,6 @@
               </button>
             </div>
             <div class="validMes">
-              <small class="text-danger" *ngIf="certificate.invalid && certificate.touched">
-                {{ 'order-details.failed-certificate' | translate }}</small
-              >
               <small class="text-message"> {{ certMessage | translate }} </small>
             </div>
             <small *ngIf="certSize">
@@ -142,9 +139,10 @@
           <button *ngIf="addCert" class="addCertificateBtn" (click)="addCertificate()">
             {{ 'order-details.add-certificate' | translate }}
           </button>
+          <small class="text-danger" *ngIf="certificateError"> {{ 'order-details.failed-certificate' | translate }}</small>
           <div class="addBonus">
             <h5>{{ 'order-details.bonus-need' | translate }}</h5>
-            <p>{{ 'order-details.bonus-left' | translate }} {{ points }} {{ 'order-details.currency' | translate }}</p>
+            <p>{{ 'order-details.bonus-left' | translate }} {{ certificateSum }} {{ 'order-details.currency' | translate }}</p>
             <div *ngIf="bonusesRemaining">
               <div class="form-check custom-control custom-radio">
                 <input

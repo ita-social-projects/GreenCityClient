@@ -8,12 +8,12 @@ import { Order } from '../models/ubs.model';
 import { UBSOrderFormService } from './ubs-order-form.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class OrderService {
   private url = 'https://greencity-ubs.azurewebsites.net/ubs';
 
-  constructor(private http: HttpClient, private shareFormService: UBSOrderFormService) { }
+  constructor(private http: HttpClient, private shareFormService: UBSOrderFormService) {}
 
   getOrders(lang): Observable<OrderDetails> {
     return this.http
@@ -29,8 +29,8 @@ export class OrderService {
     return this.http.post<Order>(`${this.url}/processOrder`, order);
   }
 
-  processCertificate(certificate): Observable<ICertificate[]> {
-    return this.http.get<ICertificate[]>(`${this.url}/certificate/${certificate}`);
+  processCertificate(certificate): Observable<ICertificate> {
+    return this.http.get<ICertificate>(`${this.url}/certificate/${certificate}`);
   }
 
   addAdress(adress: Address): Observable<any> {
