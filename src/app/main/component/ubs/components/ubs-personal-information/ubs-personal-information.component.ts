@@ -24,6 +24,7 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
   maxAddressLength = 4;
   namePattern = /^[A-Za-zА-Яа-яїієё\.\'\-\\]+$/;
   phoneMask = '+{38} (000) 000 00 00';
+  firstOrder: boolean = true;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -157,6 +158,7 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
+    this.firstOrder = !this.firstOrder;
     this.activeAddressId();
     this.orderDetails = this.shareFormService.orderDetails;
     let orderBags: OrderBag[] = [];
