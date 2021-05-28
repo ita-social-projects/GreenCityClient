@@ -75,15 +75,15 @@ describe('RestorePasswordComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([]),
         BrowserAnimationsModule,
-        MatSnackBarModule,
+        MatSnackBarModule
       ],
       providers: [
         { provide: MatDialogRef, useValue: matDialogMock },
         { provide: AuthService, useValue: authServiceMock },
         { provide: Router, useValue: routerSpy },
-        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock }
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 
@@ -145,7 +145,7 @@ describe('RestorePasswordComponent', () => {
     beforeEach(() => {
       restorePasswordService = fixture.debugElement.injector.get(RestorePasswordService);
       mockFormData = {
-        email: 'test@mail.com',
+        email: 'test@mail.com'
       };
     });
 
@@ -208,7 +208,7 @@ describe('RestorePasswordComponent', () => {
       // @ts-ignore
       component.onSentEmailBadMessage(errors);
       fixture.detectChanges();
-      expect(component.emailErrorMessageBackEnd).toBe('Ups');
+      expect(component.emailErrorMessageBackEnd).toBe('email-not-exist');
     });
 
     it('Should return an emailErrorMessageBackEnd when login failed', () => {
