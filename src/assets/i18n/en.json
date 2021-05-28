@@ -92,7 +92,8 @@
           "add-a-reply": "Add a reply",
           "new-comment": "Enter your new comment"
         },
-        "view": "View"
+        "view": "View",
+        "hide": "Hide"
       },
       "empty-state": {
         "no-news": "Unfortunately, no more news found",
