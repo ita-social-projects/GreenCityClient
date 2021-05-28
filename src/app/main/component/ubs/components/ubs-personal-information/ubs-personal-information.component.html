@@ -60,7 +60,7 @@
     <div class="w-100">
       <h2 class="address-title">{{ 'personal-info.info-address' | translate }}</h2>
       <ng-template [ngIf]="firstOrder">
-        <p class="ml-3">Важливо: кур’єр забирає пакети біля під’їзду, на поверх не піднімається</p>
+        <p class="ml-3">{{ 'personal-info.first-order' | translate }}</p>
       </ng-template>
     </div>
     <div *ngIf="!addresses?.length; else addressesList" class="no-addresses">
