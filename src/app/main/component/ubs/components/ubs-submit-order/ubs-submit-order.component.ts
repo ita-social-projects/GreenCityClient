@@ -37,4 +37,8 @@ export class UBSSubmitOrderComponent implements OnInit, OnDestroy {
       this.personalData = personalData;
     });
   }
+
+  redirectToOrder() {
+    document.location.href = this.shareFormService.orderUrl;
+  }
 }

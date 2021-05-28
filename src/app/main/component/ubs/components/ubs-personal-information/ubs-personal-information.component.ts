@@ -42,10 +42,10 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
 
   findAllAddresses() {
     this.orderService.findAllAddresses()
-    .pipe(
-      takeUntil(this.destroy)
-    )
-    .subscribe((list) => this.addresses = list.addressList);
+      .pipe(
+        takeUntil(this.destroy)
+      )
+      .subscribe((list) => this.addresses = list.addressList);
   }
 
   ngOnDestroy(): void {
@@ -129,10 +129,10 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
 
   deleteAddress(address: Address) {
     this.orderService.deleteAddress(address)
-    .pipe(
-      takeUntil(this.destroy)
-    )
-    .subscribe((list) => this.addresses = list.addressList);
+      .pipe(
+        takeUntil(this.destroy)
+      )
+      .subscribe((list) => this.addresses = list.addressList);
   }
 
   addNewAddress() {
@@ -159,7 +159,11 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
       )
       .subscribe(() => this.findAllAddresses());
   }
-
+  getStringBetween(str, from, to): string {
+    return str.substring(
+      str.lastIndexOf(from) + from.length,
+      str.lastIndexOf(to));
+  }
   submit(): void {
     this.activeAddressId();
     this.orderDetails = this.shareFormService.orderDetails;
@@ -182,6 +186,7 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
       this.personalData,
       this.shareFormService.orderDetails.pointsToUse
     );
-    this.orderService.processOrder(this.order).pipe(takeUntil(this.destroy)).subscribe();
+    this.orderService.processOrder(this.order).pipe(takeUntil(this.destroy))
+    .subscribe(val => this.shareFormService.orderUrl = this.getStringBetween(val, 'href="', '"'));
   }
 }

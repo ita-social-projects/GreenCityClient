@@ -7,6 +7,7 @@ import { OrderDetails, PersonalData } from '../models/ubs.interface';
 export class UBSOrderFormService {
   orderDetails: OrderDetails;
   personalData: PersonalData;
+  orderUrl: string;
   changedOrder: any = new EventEmitter();
   changedPersonalData: any = new EventEmitter();
 
