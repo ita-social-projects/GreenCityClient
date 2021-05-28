@@ -417,6 +417,14 @@
       "driving": "водіння",
       "walking": "ходьба"
     },
+    "places-card": {
+      "card-description": "https://placewebsite.com",
+      "card-rating": "Рейтинг",
+      "card-reviews": "відгуків",
+      "card-popular": "Популярні еко-місця",
+      "card-first-event": "Спеціальна пропозиція - знижка для власників бонусних карт",
+      "card-second-event": "Розмістити анкету на Greencity"
+    },
     "photo-upload": {
       "add-photo": "Додати фото",
       "no-file-attached": "Файл не прикріплений.",

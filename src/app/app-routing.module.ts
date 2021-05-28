@@ -15,55 +15,56 @@ export const routes: Routes = [
     children: [
       {
         path: 'about',
-        loadChildren: () => import('./main/component/about/about.module').then((mod) => mod.AboutModule),
+        loadChildren: () => import('./main/component/about/about.module').then((mod) => mod.AboutModule)
       },
       {
-        path: 'map',
-        loadChildren: () => import('./main/component/map/map.module').then((mod) => mod.MapModule),
+        path: 'places',
+        loadChildren: () => import('./main/component/places/places.module').then((mod) => mod.PlacesModule)
       },
       {
         path: 'news',
-        loadChildren: () => import('./main/component/eco-news/eco-news.module').then((mod) => mod.EcoNewsModule),
+        loadChildren: () => import('./main/component/eco-news/eco-news.module').then((mod) => mod.EcoNewsModule)
       },
       {
         path: 'profile',
-        loadChildren: () => import('./main/component/user/user.module').then((mod) => mod.UserModule),
+        loadChildren: () => import('./main/component/user/user.module').then((mod) => mod.UserModule)
       },
       {
         path: 'ubs',
-        loadChildren: () => import('./main/component/ubs/ubs.module').then((mod) => mod.UbsModule),
+        loadChildren: () => import('./main/component/ubs/ubs.module').then((mod) => mod.UbsModule)
       },
       {
         path: 'tips',
-        component: TipsListComponent,
+        component: TipsListComponent
       },
       {
         path: 'search',
-        component: SearchAllResultsComponent,
+        component: SearchAllResultsComponent
       },
       {
         path: 'auth/restore',
-        component: ConfirmRestorePasswordComponent, canActivate: [ConfirmRestorePasswordGuard]
+        component: ConfirmRestorePasswordComponent,
+        canActivate: [ConfirmRestorePasswordGuard]
       },
       {
         path: '',
         pathMatch: 'full',
-        component: HomepageComponent,
-      },
-    ],
+        component: HomepageComponent
+      }
+    ]
   },
   {
     path: 'ubs-admin',
-    component: UbsAdminComponent,
+    component: UbsAdminComponent
   },
   {
     path: '**',
-    redirectTo: '',
-  },
+    redirectTo: ''
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload', preloadingStrategy: PreloadAllModules })],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class AppRoutingModule {}
