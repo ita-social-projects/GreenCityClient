@@ -12,7 +12,7 @@ import { CertificateStatus } from '../../certificate-status.enum';
 @Component({
   selector: 'app-ubs-order-details',
   templateUrl: './ubs-order-details.component.html',
-  styleUrls: ['./ubs-order-details.component.scss'],
+  styleUrls: ['./ubs-order-details.component.scss']
 })
 export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   orders: OrderDetails;
@@ -84,7 +84,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
       shop: new FormControl('no'),
       additionalCertificates: this.fb.array([]),
       additionalOrders: this.fb.array(['']),
-      orderSum: new FormControl(0, [Validators.required, Validators.min(500)]),
+      orderSum: new FormControl(0, [Validators.required, Validators.min(500)])
     });
   }
 
@@ -98,7 +98,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
         this.bags = this.orders.bags;
         this.points = this.orders.points;
         this.bags.forEach((bag) => {
-          bag.quantity = 0;
+          bag.quantity = null;
           this.orderDetailsForm.addControl(
             'quantity' + String(bag.id),
             new FormControl(0, [Validators.required, Validators.min(0), Validators.max(999)])
@@ -109,7 +109,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
 
   changeForm() {
     this.orderDetailsForm.patchValue({
-      orderSum: this.showTotal,
+      orderSum: this.showTotal
     });
   }
 
