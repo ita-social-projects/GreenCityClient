@@ -177,7 +177,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   public ecoStoreValidation() {
     let counter = 0;
     this.additionalOrders.controls.forEach((controller) => {
-      if (controller.valid && controller.dirty && controller.value != '') {
+      if (controller.valid && controller.dirty && controller.value !== '') {
         counter++;
       }
     });
