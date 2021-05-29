@@ -58,10 +58,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     disableClose: true,
     panelClass: 'popup-dialog-container',
     data: {
-      popupTitle: 'ви справді хочете вийти?',
-      popupSubtitle: 'ваше замовлення потрапить в особистий кабінет',
-      popupConfirm: 'вийти',
-      popupCancel: 'йой, най буде'
+      popupTitle: 'confirmation.title',
+      popupSubtitle: 'confirmation.subTitle',
+      popupConfirm: 'confirmation.cancel',
+      popupCancel: 'confirmation.dismiss'
     }
   };
 

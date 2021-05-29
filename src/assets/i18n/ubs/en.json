@@ -112,5 +112,11 @@
     "back": "Back",
     "to-order": "Order",
     "bags": "bags"
+  },
+  "confirmation": {
+    "cancel": "Yes, exit",
+    "dismiss": "Continue",
+    "title": "Are you sure you want to exit?",
+    "subTitle": "You order will be saved in personal account"
   }
 }
