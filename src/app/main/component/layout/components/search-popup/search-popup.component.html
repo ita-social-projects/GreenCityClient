@@ -23,7 +23,7 @@
   </div>
   <!-- search results -->
   <div class="search_body-wrapper">
-    <div class="search-content-wrapper container" (click)="closeSearch()">
+    <div class="search-content-wrapper container">
       <div class="search_remaining-items" *ngIf="searchInput.value">
         {{ itemsFound }} {{ 'search.search-popup.items-found' | translate }}
       </div>
@@ -36,7 +36,7 @@
             *ngFor="let element of newsElements"
             [searchModel]="element"
             (closeSearch)="closeSearch()"
-            class="col-12 col-sm-6 col-xxl-4"
+            class="col-12 col-sm-6 col-xxl-4 search-item"
           >
           </app-search-item>
         </div>
@@ -53,7 +53,7 @@
             *ngFor="let element of tipsElements"
             [searchModel]="element"
             (closeSearch)="closeSearch()"
-            class="col-12 col-sm-6 col-xxl-4"
+            class="col-12 col-sm-6 col-xxl-4 search-item"
           >
           </app-search-item>
         </div>

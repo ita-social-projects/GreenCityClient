@@ -3,8 +3,8 @@
     <div class="friends-text">
       <div class="text-main-content">
         <div class="text-title">
-          {{ 'profile.my-eco-friends' | translate }}
-          <span class="text-number"> {{ amountOfFriends }}</span>
+          {{ 'profile.my-eco-friends' | translate }} <br />
+          <span class="text-number">{{ amountOfFriends }} connections</span>
         </div>
         <div class="text-more">
           <a class="text-more" [routerLink]="['/profile', userId, 'friends']">
