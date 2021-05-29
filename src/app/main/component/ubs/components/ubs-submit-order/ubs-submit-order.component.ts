@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 
@@ -20,7 +20,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   personalData: PersonalData;
   orderDetails: OrderDetails;
   private destroy: Subject<boolean> = new Subject<boolean>();
-  public popupConfig = {
+  popupConfig = {
     hasBackdrop: true,
     closeOnNavigation: true,
     disableClose: true,
@@ -44,6 +44,10 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   ngOnDestroy() {
     this.destroy.next();
     this.destroy.unsubscribe();
+  }
+
+  getFormValues(): boolean {
+    return true;
   }
 
   takeOrderDetails() {

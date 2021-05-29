@@ -1,7 +1,7 @@
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -173,8 +173,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       .subscribe(() => this.findAllAddresses());
   }
 
-  getFormValues(): any {
-    return this.orderDetails;
+  getFormValues(): boolean {
+    return this.orderDetails === undefined ? false : true;
   }
 
   submit(): void {

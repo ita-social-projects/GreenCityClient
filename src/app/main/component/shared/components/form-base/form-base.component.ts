@@ -28,6 +28,7 @@ export class FormBaseComponent implements ComponentCanDeactivate {
       popupCancel: ''
     }
   };
+
   public getFormValues(): any {}
 
   constructor(public router: Router, public dialog: MatDialog) {}
@@ -66,7 +67,7 @@ export class FormBaseComponent implements ComponentCanDeactivate {
   }
 
   cancelUBS(): void {
-    if (this.checkUBSChanges()) {
+    if (this.getFormValues()) {
       const matDialogRef = this.dialog.open(WarningPopUpComponent, this.popupConfig);
 
       matDialogRef
@@ -82,9 +83,5 @@ export class FormBaseComponent implements ComponentCanDeactivate {
       this.areChangesSaved = true;
       this.router.navigate([this.previousPath]);
     }
-  }
-
-  checkUBSChanges(): boolean {
-    return this.getFormValues() === undefined ? false : true;
   }
 }
