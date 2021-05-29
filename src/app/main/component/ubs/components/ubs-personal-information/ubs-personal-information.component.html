@@ -107,7 +107,7 @@
   <div class="w-100 d-flex justify-content-between personal-data-navigation">
     <button class="secondary-global-button btn" matStepperPrevious>{{ 'personal-info.info-back' | translate }}</button>
     <div>
-      <button class="secondary-global-button btn" matStepperPrevious>{{ 'personal-info.info-cancel' | translate }}</button>
+      <button class="secondary-global-button btn" type="button" (click)="cancelUBS()">{{ 'personal-info.info-cancel' | translate }}</button>
       <button
         type="submit"
         (click)="submit()"

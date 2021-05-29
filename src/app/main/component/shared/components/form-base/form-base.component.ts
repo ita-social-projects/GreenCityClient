@@ -8,7 +8,7 @@ import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-form-base',
-  templateUrl: './form-base.component.html',
+  templateUrl: './form-base.component.html'
 })
 export class FormBaseComponent implements ComponentCanDeactivate {
   @ViewChild('formEditProf', { static: false }) formEditProf: ElementRef;
@@ -25,8 +25,8 @@ export class FormBaseComponent implements ComponentCanDeactivate {
       popupTitle: '',
       popupSubtitle: '',
       popupConfirm: '',
-      popupCancel: '',
-    },
+      popupCancel: ''
+    }
   };
   public getFormValues(): any {}
 
@@ -63,5 +63,28 @@ export class FormBaseComponent implements ComponentCanDeactivate {
         return true;
       }
     }
+  }
+
+  cancelUBS(): void {
+    if (this.checkUBSChanges()) {
+      const matDialogRef = this.dialog.open(WarningPopUpComponent, this.popupConfig);
+
+      matDialogRef
+        .afterClosed()
+        .pipe(take(1))
+        .subscribe((confirm) => {
+          if (confirm) {
+            this.areChangesSaved = true;
+            this.router.navigate([this.previousPath]);
+          }
+        });
+    } else {
+      this.areChangesSaved = true;
+      this.router.navigate([this.previousPath]);
+    }
+  }
+
+  checkUBSChanges(): boolean {
+    return this.getFormValues() === undefined ? false : true;
   }
 }

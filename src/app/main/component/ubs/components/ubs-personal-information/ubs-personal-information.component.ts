@@ -1,6 +1,8 @@
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
@@ -14,7 +16,7 @@ import { Order } from '../../models/ubs.model';
   templateUrl: './ubs-personal-information.component.html',
   styleUrls: ['./ubs-personal-information.component.scss']
 })
-export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
+export class UBSPersonalInformationComponent extends FormBaseComponent implements OnInit, OnDestroy {
   addressId: number;
   orderDetails: OrderDetails;
   personalData: PersonalData;
@@ -26,13 +28,27 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
   phoneMask = '+{38} (000) 000 00 00';
   firstOrder = true;
   private destroy: Subject<boolean> = new Subject<boolean>();
+  popupConfig = {
+    hasBackdrop: true,
+    closeOnNavigation: true,
+    disableClose: true,
+    panelClass: 'popup-dialog-container',
+    data: {
+      popupTitle: 'ви справді хочете вийти?',
+      popupSubtitle: 'ваше замовлення потрапить в особистий кабінет',
+      popupConfirm: 'вийти',
+      popupCancel: 'йой, най буде'
+    }
+  };
 
   constructor(
+    public router: Router,
     private orderService: OrderService,
     private shareFormService: UBSOrderFormService,
     private fb: FormBuilder,
     public dialog: MatDialog
   ) {
+    super(router, dialog);
     this.initForm();
   }
 
@@ -155,6 +171,10 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
       .afterClosed()
       .pipe(takeUntil(this.destroy))
       .subscribe(() => this.findAllAddresses());
+  }
+
+  getFormValues(): any {
+    return this.orderDetails;
   }
 
   submit(): void {
