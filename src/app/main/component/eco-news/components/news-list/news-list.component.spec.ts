@@ -13,6 +13,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NewsListComponent } from './news-list.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RemainingCountComponent } from '../remaining-count/remaining-count.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 describe('NewsListComponent', () => {
   let component: NewsListComponent;
@@ -51,7 +52,14 @@ describe('NewsListComponent', () => {
         NewsListListViewComponent,
         RemainingCountComponent
       ],
-      imports: [TranslateModule.forRoot(), RouterTestingModule, SharedMainModule, InfiniteScrollModule, HttpClientTestingModule],
+      imports: [
+        TranslateModule.forRoot(),
+        RouterTestingModule,
+        SharedMainModule,
+        SharedModule,
+        InfiniteScrollModule,
+        HttpClientTestingModule
+      ],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: EcoNewsService, useValue: ecoNewsServiceMock },

@@ -11,6 +11,7 @@ import { SearchService } from '@global-service/search/search.service';
 import { SearchItemComponent } from '..';
 import { of, Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 describe('SearchAllResultsComponent', () => {
   let component: SearchAllResultsComponent;
@@ -55,7 +56,8 @@ describe('SearchAllResultsComponent', () => {
         FormsModule,
         InfiniteScrollModule,
         TranslateModule.forRoot(),
-        SharedMainModule
+        SharedMainModule,
+        SharedModule
       ],
       providers: [
         { provide: SearchService, useValue: searchMock },

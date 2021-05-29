@@ -4,7 +4,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCheckboxModule, MatIconModule, MatPaginatorModule, MatTableModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { SharedModule } from 'src/app/shared/shared.module';
 import { UbsAdminTableComponent } from './ubs-admin-table.component';
 
 describe('UsbAdminTableComponent', () => {
@@ -21,7 +21,8 @@ describe('UsbAdminTableComponent', () => {
         DragDropModule,
         HttpClientTestingModule,
         MatCheckboxModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        SharedModule
       ],
       declarations: [UbsAdminTableComponent]
     }).compileComponents();

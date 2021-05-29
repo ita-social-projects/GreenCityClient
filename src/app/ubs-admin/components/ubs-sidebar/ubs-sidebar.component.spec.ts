@@ -3,6 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCheckboxModule, MatIconModule, MatPaginatorModule, MatSidenavModule, MatTableModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { UbsAdminTableComponent } from '../ubs-admin-table/ubs-admin-table.component';
 
 import { UbsSidebarComponent } from './ubs-sidebar.component';
@@ -21,7 +22,8 @@ describe('UbsSidebarComponent', () => {
         MatCheckboxModule,
         MatPaginatorModule,
         BrowserAnimationsModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        SharedModule
       ],
       declarations: [UbsSidebarComponent, UbsAdminTableComponent]
     }).compileComponents();
