@@ -20,12 +20,16 @@
             <span class="col-12 col-sm-2 form-group form-control">{{ bag.price }} {{ 'order-details.currency' | translate }}</span>
             <div class="col-12 col-sm-2 form-group count">
               <input
+                placeholder="0"
                 formControlName="quantity{{ bag.id }}"
                 type="number"
                 class="shadow-none form-control input"
                 min="0"
                 max="999"
-                (click)="calculate()"
+                [unmask]="false"
+                [imask]="{ mask: servicesMask }"
+                [(ngModel)]="bag.quantity"
+                (change)="onQuantityChange($event)"
               />
             </div>
             <span class="form-group sum"> {{ bag.quantity * bag.price }} {{ 'order-details.currency' | translate }}</span>
