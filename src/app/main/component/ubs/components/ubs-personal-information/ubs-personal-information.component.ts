@@ -1,5 +1,5 @@
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, DoCheck, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
@@ -16,7 +16,7 @@ import { Order } from '../../models/ubs.model';
   templateUrl: './ubs-personal-information.component.html',
   styleUrls: ['./ubs-personal-information.component.scss']
 })
-export class UBSPersonalInformationComponent extends FormBaseComponent implements OnInit, OnDestroy {
+export class UBSPersonalInformationComponent extends FormBaseComponent implements OnInit, DoCheck, OnDestroy {
   addressId: number;
   orderDetails: OrderDetails;
   personalData: PersonalData;
@@ -55,6 +55,11 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   ngOnInit() {
     this.takeUserData();
     this.findAllAddresses();
+  }
+
+  ngDoCheck() {
+    this.shareFormService.changePersonalData();
+    this.changeAddressInPersonalData();
   }
 
   findAllAddresses() {
@@ -97,10 +102,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
         this.personalData = this.shareFormService.personalData;
         this.setFormData();
       });
-  }
-
-  changePersonalData() {
-    this.shareFormService.changePersonalData();
   }
 
   checkAddress(addressId) {
