@@ -1,5 +1,5 @@
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { Component, ElementRef, NgZone, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, OnDestroy, ViewChild, DoCheck } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
@@ -16,9 +16,9 @@ import { FormBaseComponent } from '@shared/components/form-base/form-base.compon
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
-  styleUrls: ['./edit-profile.component.scss'],
+  styleUrls: ['./edit-profile.component.scss']
 })
-export class EditProfileComponent extends FormBaseComponent implements OnInit, OnDestroy {
+export class EditProfileComponent extends FormBaseComponent implements OnInit, OnDestroy, DoCheck {
   public editProfileForm = null;
   private langChangeSub: Subscription;
   @ViewChild('search', { static: true }) public searchElementRef: ElementRef;
@@ -27,12 +27,12 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     avatarUrl: './assets/img/profileAvatarBig.png',
     name: {
       first: 'Brandier',
-      last: 'Webb',
+      last: 'Webb'
     },
     location: 'Lviv',
     status: 'online',
     rate: 658,
-    userCredo: 'My Credo is to make small steps that leads to huge impact. Let’s change the world together.',
+    userCredo: 'My Credo is to make small steps that leads to huge impact. Let’s change the world together.'
   };
   public previousPath = '/profile';
   public popupConfig = {
@@ -44,11 +44,16 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       popupTitle: 'user.edit-profile.profile-popup.title',
       popupSubtitle: 'user.edit-profile.profile-popup.subtitle',
       popupConfirm: 'user.edit-profile.profile-popup.confirm',
-      popupCancel: 'user.edit-profile.profile-popup.cancel',
-    },
+      popupCancel: 'user.edit-profile.profile-popup.cancel'
+    }
   };
   public socialNetworks: Array<{ id: number; url: string }>;
   public socialNetworksToServer: string[] = [];
+  public checkLocation = false;
+  public checkEcoPlaces = false;
+  public checkShoppingList = false;
+  public namePattern = /^(?!\.)(?!.*\.$)(?!.*?\.\.)[a-zA-Zа-яА-Я0-9.]{6,30}$/;
+  public cityPattern = /^[a-zA-Zа-яА-Я][a-zA-Zа-яА-Я!\-\,’)( ]*$/;
 
   constructor(
     public dialog: MatDialog,
@@ -71,6 +76,12 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.autocompleteCity();
+  }
+
+  ngDoCheck() {
+    this.checkLocation = this.editProfileForm.value.showLocation;
+    this.checkEcoPlaces = this.editProfileForm.value.showEcoPlace;
+    this.checkShoppingList = this.editProfileForm.value.showShoppingList;
   }
 
   public getFormValues(): any {
@@ -97,7 +108,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       showLocation: data.showLocation,
       showEcoPlace: data.showEcoPlace,
       showShoppingList: data.showShoppingList,
-      socialNetworks: data.socialNetworks,
+      socialNetworks: data.socialNetworks
     };
   }
 
@@ -139,7 +150,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       showLocation: form.value.showLocation,
       showEcoPlace: form.value.showEcoPlace,
       showShoppingList: form.value.showShoppingList,
-      socialNetworks: this.socialNetworksToServer,
+      socialNetworks: this.socialNetworksToServer
     };
 
     this.editProfileService.postDataUserProfile(JSON.stringify(body)).subscribe(() => {
@@ -160,7 +171,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   private autocompleteCity(): void {
     this.mapsAPILoader.load().then(() => {
       const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-        types: ['(cities)'],
+        types: ['(cities)']
       });
       autocomplete.addListener('place_changed', () => {
         this.ngZone.run(() => {

@@ -92,7 +92,8 @@
           "add-a-reply": "Add a reply",
           "new-comment": "Enter your new comment"
         },
-        "view": "View"
+        "view": "View",
+        "hide": "Hide"
       },
       "empty-state": {
         "no-news": "Unfortunately, no more news found",
@@ -411,6 +412,14 @@
       "driving": "driving",
       "walking": "walking"
     },
+    "places-card": {
+      "card-description": "https://placewebsite.com",
+      "card-rating": "Rating",
+      "card-reviews": "reviews",
+      "card-popular": "Popular eco places",
+      "card-first-event": "Special offer - discount for bonus card holders",
+      "card-second-event": "Place profile on Greencity"
+    },
     "photo-upload": {
       "add-photo": "Add photo",
       "no-file-attached": "No file attached.",
@@ -507,14 +516,14 @@
       "tips": "Tips & Tricks",
       "map": "Places",
       "ubs": "UBS courier",
-      "my-habits": "My habits"
+      "my-habits": "My space"
     },
     "edit-profile": {
       "edit-profile": "Edit Profile",
       "edit-button": "Edit Picture",
       "info": "Personal info",
       "name": "Name",
-      "name-warning": "Should contain maximum 30 symbols",
+      "name-warning": "The name must contain 6-30 characters and can contain letters(a-z), numbers(0-9) and a dot(.), dot at the start, at the end and consecutive dot is forbidden",
       "city": "City",
       "city-warning": "Should contain maximum 85 symbols and may contain letters(a-z), and  next special characters '()!,-’'",
       "title": "Credo",

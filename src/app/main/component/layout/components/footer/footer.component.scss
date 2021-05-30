@@ -41,8 +41,8 @@ li {
 }
 
 .footer_link-item {
+  margin: 24px 32px 0 0;
   color: var(--primary-dark-grey);
-  margin-top: 24px;
 }
 
 .footer_social-wrp {
@@ -56,7 +56,12 @@ li {
 .footer_social-link {
   width: 16px;
   height: 16px;
-  margin: 0 7px;
+  margin: 0 6px;
+
+  img {
+    width: 15px;
+    height: 12.19px;
+  }
 }
 
 .footer_follow-us {
@@ -88,6 +93,8 @@ li {
   }
 
   .footer_right-side {
+    width: 154px;
+    height: 20px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -105,10 +112,6 @@ li {
 
   .footer_logo-wrp {
     justify-content: flex-start;
-  }
-
-  .footer_link-item {
-    padding-right: 32px;
   }
 }
 

@@ -8,10 +8,10 @@ import { FilterPlaceDtoModel } from '../../model/filtering/filter-place-dto.mode
 import { PlaceStatus } from '../../model/placeStatus.model';
 import { DatePipe } from '@angular/common';
 import { FilterDistanceDto } from '../../model/filtering/filter-distance-dto.model';
-import { Location } from '../../component/map/models/location.model';
+import { Location } from '../../component/places/models/location.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class FilterPlaceService {
   isCleared = true;

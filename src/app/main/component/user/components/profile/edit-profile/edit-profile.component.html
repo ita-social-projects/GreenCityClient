@@ -10,7 +10,7 @@
           type="text"
           formControlName="name"
           placeholder="{{ userInfo.name.first + ' ' + userInfo.name.last }}"
-          pattern="^\S((?!.*  ).*\S)?$"
+          [pattern]="namePattern"
           id="name"
         />
         <span>{{ 'user.edit-profile.name-warning' | translate }}</span>
@@ -25,7 +25,7 @@
           autocapitalize="off"
           spellcheck="off"
           #search
-          pattern="^[a-zA-Zа-яА-Я][a-zA-Zа-яА-Я!\-\,’)( ]*$"
+          [pattern]="cityPattern"
           id="city"
         />
         <span>{{ 'user.edit-profile.city-warning' | translate }}</span>
@@ -38,28 +38,33 @@
     </div>
     <div class="wrapper">
       <p>{{ 'user.edit-profile.links' | translate }}</p>
-      <app-social-networks [socialNetworks]="socialNetworks" (socialNetworksChange)="emitSocialLinks($event)"></app-social-networks>
+      <app-social-networks
+        formControlName="socialNetworks"
+        [socialNetworks]="socialNetworks"
+        (socialNetworksChange)="emitSocialLinks($event)"
+        ngDefaultControl
+      ></app-social-networks>
     </div>
     <div class="privacy-wrapper">
       <p class="title">{{ 'user.edit-profile.privacy' | translate }}</p>
       <ul>
         <li>
           <label class="label-wrapper">
-            <input type="checkbox" formControlName="showLocation" />
+            <input type="checkbox" formControlName="showLocation" [attr.checked]="checkLocation" />
             <span class="checkmark"></span>
             {{ 'user.edit-profile.location' | translate }}
           </label>
         </li>
         <li>
           <label class="label-wrapper">
-            <input type="checkbox" formControlName="showEcoPlace" />
+            <input type="checkbox" formControlName="showEcoPlace" [attr.checked]="checkEcoPlaces" />
             <span class="checkmark"></span>
             {{ 'user.edit-profile.eco-place' | translate }}
           </label>
         </li>
         <li>
           <label class="label-wrapper">
-            <input type="checkbox" formControlName="showShoppingList" />
+            <input type="checkbox" formControlName="showShoppingList" [attr.checked]="checkShoppingList" />
             <span class="checkmark"></span>
             {{ 'user.edit-profile.shoping-list' | translate }}
           </label>

@@ -36,7 +36,7 @@ import {
   ErrorComponent,
   DialogPhotoComponent,
   FeedbacksComponent,
-  PlacesComponent,
+  OldPlacesComponent,
   UpdateCafeComponent,
   UsersComponent
 } from './components/index';
@@ -46,7 +46,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
   declarations: [
     AdminNavComponent,
     AdminComponent,
-    PlacesComponent,
+    OldPlacesComponent,
     UsersComponent,
     ErrorComponent,
     ConfirmModalComponent,
@@ -54,7 +54,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     FeedbacksComponent,
     DialogPhotoComponent
   ],
-  exports: [AdminNavComponent, AdminComponent, UsersComponent, PlacesComponent, ErrorComponent, BrowserModule, TableModule],
+  exports: [AdminNavComponent, AdminComponent, UsersComponent, OldPlacesComponent, ErrorComponent, BrowserModule, TableModule],
   imports: [
     AdminRoutingModule,
     CommonModule,
