@@ -205,13 +205,17 @@
             <label class="label m-0">{{ 'order-details.enter-order-num' | translate }}</label>
             <input
               [formControlName]="i"
-              class="shadow-none form-control border-input p-2"
-              type="text"
+              class="shadow-none form-control border-input p-2 eco-store"
+              type="number"
               placeholder="xxxxxxxxxx"
-              [readonly]="shop.value === 'no'"
+              [unmask]="false"
+              [imask]="{ mask: ecoStoreMask }"
+              pattern="^[0-9]{10}"
+              (click)="changeShopRadioBtn()"
+              (ngModelChange)="ecoStoreValidation()"
             />
           </div>
-          <button *ngIf="additionalOrders.controls.length < 5" class="addOrderBtn" (click)="addOrder()">
+          <button *ngIf="additionalOrders.controls.length < 5 && displayOrderBtn" class="addOrderBtn" (click)="addOrder()">
             {{ 'order-details.additional-orders' | translate }}
           </button>
         </div>

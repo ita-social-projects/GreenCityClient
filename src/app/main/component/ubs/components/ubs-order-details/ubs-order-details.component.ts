@@ -34,8 +34,10 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   onSubmit = true;
   order: {};
   certificateMask = '0000-0000';
+  ecoStoreMask = '0000000000';
   servicesMask = '000';
   certificatePattern = /(?!0000)\d{4}-(?!0000)\d{4}/;
+  displayOrderBtn = false;
 
   certSize = false;
   showCertificateUsed = 0;
@@ -173,10 +175,31 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  clearOrderValues(): void {
-    this.additionalOrders.controls.forEach((element) => {
-      element.setValue('');
+  public ecoStoreValidation() {
+    let counter = 0;
+    this.additionalOrders.controls.forEach((controller) => {
+      if (controller.valid && controller.dirty && controller.value !== '') {
+        counter++;
+      }
     });
+
+    if (counter === this.additionalOrders.controls.length) {
+      this.displayOrderBtn = true;
+    } else {
+      this.displayOrderBtn = false;
+    }
+  }
+
+  public changeShopRadioBtn() {
+    this.orderDetailsForm.controls.shop.setValue('yes');
+  }
+
+  clearOrderValues(): void {
+    this.additionalOrders.controls[0].setValue('');
+    if (this.additionalOrders.controls.length > 1) {
+      this.additionalOrders.controls.splice(1);
+    }
+    this.ecoStoreValidation();
   }
 
   onQuantityChange(event): void {
@@ -217,6 +240,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   addOrder(): void {
     const additionalOrder = new FormControl('', [Validators.minLength(10)]);
     this.additionalOrders.push(additionalOrder);
+    this.ecoStoreValidation();
   }
 
   addCertificate(): void {

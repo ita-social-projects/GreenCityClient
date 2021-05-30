@@ -8,6 +8,17 @@
   font-weight: bold;
 }
 
+.eco-store::-webkit-outer-spin-button,
+.eco-store::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.eco-store[type='number'] {
+  -moz-appearance: textfield;
+}
+
 .header {
   width: 100%;
   margin: 3rem 0 0;
