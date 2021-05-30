@@ -102,10 +102,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
         this.points = this.orders.points;
         this.bags.forEach((bag) => {
           bag.quantity = null;
-          this.orderDetailsForm.addControl(
-            'quantity' + String(bag.id),
-            new FormControl(0, [Validators.required, Validators.min(0), Validators.max(999)])
-          );
+          this.orderDetailsForm.addControl('quantity' + String(bag.id), new FormControl(0, [Validators.min(0), Validators.max(999)]));
         });
       });
   }
@@ -202,16 +199,25 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
     this.ecoStoreValidation();
   }
 
-  onQuantityChange(event): void {
-    if (parseInt(event.target.value, 10) === 0) {
-      event.target.value = null;
-    } else {
-      this.bags.forEach((bag) => {
-        const valueName = 'quantity' + String(bag.id);
+  onQuantityChange(): void {
+    this.bags.forEach((bag) => {
+      const valueName = 'quantity' + String(bag.id);
+      if (+this.orderDetailsForm.controls[valueName].value === 0) {
+        bag.quantity = null;
+      } else {
         bag.quantity = this.orderDetailsForm.controls[valueName].value;
-      });
-    }
+      }
+    });
     this.calculateTotal();
+  }
+
+  public submitStep() {
+    this.bags.forEach((bag) => {
+      const valueName = 'quantity' + String(bag.id);
+      if (this.orderDetailsForm.controls[valueName].value == null) {
+        this.orderDetailsForm.controls[valueName].setValue('0');
+      }
+    });
   }
 
   calculatePoints(): void {
