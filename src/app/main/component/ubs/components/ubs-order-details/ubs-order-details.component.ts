@@ -189,6 +189,10 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
+  public changeShopRadioBtn() {
+    this.orderDetailsForm.controls.shop.setValue('yes');
+  }
+
   clearOrderValues(): void {
     this.additionalOrders.controls[0].setValue('');
     if (this.additionalOrders.controls.length > 1) {
