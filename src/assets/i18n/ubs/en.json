@@ -28,6 +28,7 @@
     "activate": "Activate",
     "cancel": "Cancel",
     "failed-certificate": "Certificate not accepted, please try again",
+    "not-found-certificate": "Certificate not found; check that the data is correct.",
     "activated-certificate1": "A certificate for the amount of",
     "activated-certificate2": "UAH is activated, which exceeds the amount of your order. The balance of",
     "activated-certificate3": "UAH will be credited to your bonus account for the next order.",
