@@ -633,7 +633,8 @@
         "no-habits-advice": "We couldn't find any more habits. Please change filters to get another result.",
         "btn-more": "More",
         "btn-add": "Add habit",
-        "new-habit-added": "You have successfully added a new habit to your list"
+        "new-habit-added": "You have successfully added a new habit to your list",
+        "habit-was-deleted": "You have successfully deleted habit from your list"
       },
       "habit-trackers": {
         "habit-tracker": {

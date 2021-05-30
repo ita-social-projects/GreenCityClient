@@ -7,13 +7,12 @@ $bp-largest: 1440px;
 .outer {
   background-color: var(--secondary-light-grey);
   display: flex;
-  justify-content: center;
 }
 
 .shoppingList-block {
+  padding: 20px;
   border-top: 1px solid var(--quaternary-light-grey);
-  width: 213px;
-  padding: 25px 0;
+  width: 100%;
 }
 
 .shopping-list-content {
@@ -73,9 +72,32 @@ h2 > span {
   text-decoration: line-through;
 }
 
+.shopping-list-min {
+  height: 100px;
+}
+
+.shopping-list-max {
+  height: max-content;
+}
+
 .shopping-list {
   width: 100%;
-  padding: 0;
+  padding: 5px 0 0 0;
+  overflow-y: hidden;
+
+  li {
+    display: flex;
+
+    span {
+      margin-right: 5px;
+      display: block;
+      overflow: hidden;
+      white-space: nowrap;
+      overflow-wrap: break-word;
+      text-overflow: ellipsis;
+      width: 80%;
+    }
+  }
 }
 
 .btn-see-all {

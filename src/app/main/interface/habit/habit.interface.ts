@@ -5,6 +5,7 @@ export interface HabitInterface {
   image: string;
   tags: Array<string>;
   isAssigned?: boolean;
+  complexity?: number;
 }
 
 export interface HabitTranslationInterface {

@@ -1,11 +1,11 @@
 import { HabitAssignInterface } from './../../../../../interface/habit/habit-assign.interface';
-import { HabitAssignService } from '../../../../../service/habit-assign/habit-assign.service';
+import { HabitAssignService } from './../../../../../service/habit-assign/habit-assign.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { SharedModule } from '../../../../shared/shared.module';
 import { HabitsListViewComponent } from './components/habits-list-view/habits-list-view.component';
 import { LocalStorageService } from '../../../../../service/localstorage/local-storage.service';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of } from 'rxjs';
 
@@ -28,11 +28,11 @@ describe('AllHabitsComponent', async () => {
           description: 'Test',
           habitItem: 'Test',
           languageCode: 'en',
-          name: 'Test',
+          name: 'Test'
         },
         id: 506,
         image: '',
-        tags: [],
+        tags: []
       },
       habitStatusCalendarDtoList: [],
       habitStreak: 0,
@@ -41,7 +41,8 @@ describe('AllHabitsComponent', async () => {
       status: 'INPROGRESS',
       userId: 7835,
       workingDays: 0,
-    },
+      shoppingListItems: []
+    }
   ];
 
   const habitsMockData: HabitListInterface = {
@@ -53,11 +54,11 @@ describe('AllHabitsComponent', async () => {
           description: 'test',
           habitItem: 'test, best',
           languageCode: 'en',
-          name: 'test',
+          name: 'test'
         },
         id: 0,
         image: 'test',
-        tags: ['test'],
+        tags: ['test']
       },
       {
         defaultDuration: 1,
@@ -65,15 +66,15 @@ describe('AllHabitsComponent', async () => {
           description: 'test2',
           habitItem: 'test2',
           languageCode: 'en',
-          name: 'test2',
+          name: 'test2'
         },
         id: 1,
         image: 'test2',
-        tags: ['test2'],
-      },
+        tags: ['test2']
+      }
     ],
     totalElements: 2,
-    totalPages: 1,
+    totalPages: 1
   };
 
   const mockData = new BehaviorSubject<any>(habitsMockData);
@@ -87,7 +88,7 @@ describe('AllHabitsComponent', async () => {
     TestBed.configureTestingModule({
       declarations: [AllHabitsComponent, HabitsListViewComponent],
       imports: [TranslateModule.forRoot(), SharedModule, InfiniteScrollModule, RouterTestingModule, HttpClientTestingModule],
-      providers: [HabitService, HabitAssignService, { provide: LocalStorageService, useValue: localStorageServiceMock }],
+      providers: [HabitService, HabitAssignService, { provide: LocalStorageService, useValue: localStorageServiceMock }]
     }).compileComponents();
   });
 

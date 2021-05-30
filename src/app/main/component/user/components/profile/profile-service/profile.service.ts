@@ -1,18 +1,18 @@
-import { LanguageService } from 'src/app/main/i18n/language.service';
-import { EcoPlaces } from '@global-user/models/ecoPlaces.model';
+import { EcoPlaces } from '@user-models/ecoPlaces.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CardModel } from '@global-user/models/card.model';
-import { ShoppingList } from '@global-user/models/shoppinglist.model';
+import { CardModel } from '@user-models/card.model';
+import { ShoppingList } from '@user-models/shoppinglist.model';
 import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { ProfileStatistics } from '@global-user/models/profile-statistiscs';
-import { EditProfileModel } from '@global-user/models/edit-profile.model';
+import { ProfileStatistics } from '@user-models/profile-statistiscs';
+import { EditProfileModel } from '@user-models/edit-profile.model';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 import { UserFriendsInterface } from '../../../../../interface/user/user-friends.interface';
 import { mainLink, mainUserLink } from '../../../../../links';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ProfileService {
   public userId: number;

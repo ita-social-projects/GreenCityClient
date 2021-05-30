@@ -18,7 +18,7 @@
       height: 7px;
       margin-right: 6px;
       align-self: center;
-      background: url(src/assets/img/profile/icons/back-arrow.svg) no-repeat;
+      background: url(../../../../../../../assets/img/profile/icons/back-arrow.svg) no-repeat;
     }
 
     .text {
@@ -93,7 +93,7 @@
           font-family: var(--primary-font);
           font-size: 16px;
           line-height: 24px;
-          color: #000;
+          color: var(--primary-black);
           max-width: 652px;
         }
       }
@@ -122,7 +122,7 @@
   .divider {
     height: 1px;
     margin: 18px 0 40px 0;
-    background-color: #e6e6e6;
+    background-color: var(--secondary-light-grey);
   }
 
   .containerHabitEdit {
@@ -183,9 +183,24 @@
     flex-direction: row;
     justify-content: flex-end;
 
-    .add-habit-button {
+    .add-habit-button,
+    .save-habit-button,
+    .delete-habit-button,
+    .cancel-habit-button {
       width: 160px;
       height: 48px;
+    }
+
+    .delete-habit-button,
+    .cancel-habit-button {
+      margin-right: 40px;
+      background-color: var(--primary-white);
+      color: var(--primary-green);
+    }
+
+    .delete-habit-button:hover,
+    .cancel-habit-button:hover {
+      border: 3px solid var(--primary-green);
     }
   }
 }

@@ -17,7 +17,7 @@ p {
   }
 
   .text-title {
-    padding: 20px 0;
+    padding: 20px;
 
     p {
       font-size: 12px;
@@ -45,13 +45,11 @@ p {
   }
 
   .text-main-content {
-    padding: 0 22px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     width: 100%;
 
     .text-number {
-      font-size: 10px;
       color: var(--tertiary-light-grey);
     }
 

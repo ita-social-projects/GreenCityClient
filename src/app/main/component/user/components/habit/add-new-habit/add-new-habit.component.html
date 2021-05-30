@@ -11,9 +11,7 @@
         <div class="aquired">Aquired by 134 users</div>
         <div class="line"></div>
         <div class="stars">
-          <img alt="star" src="assets/img/icon/star-1.png" />
-          <img alt="star" src="assets/img/icon/star-2.png" />
-          <img alt="star" src="assets/img/icon/star-2.png" />
+          <img *ngFor="let star of stars" alt="star" [src]="star" />
         </div>
       </div>
       <div class="habitTitle">
@@ -41,15 +39,20 @@
       </div>
       <div class="durationShoping">
         <div class="duration" *ngIf="habit">
-          <app-habit-duration [habitDurationDefault]="habit.defaultDuration" (changeDuration)="getDuration($event)"></app-habit-duration>
+          <app-habit-duration [habitDurationInitial]="initialDuration" (changeDuration)="getDuration($event)"></app-habit-duration>
         </div>
         <div class="shopping">
-          <app-habit-edit-shopping-list></app-habit-edit-shopping-list>
+          <app-habit-edit-shopping-list (newList)="getList($event)"></app-habit-edit-shopping-list>
         </div>
       </div>
     </div>
-    <div class="add-habit-container">
-      <button class="primary-global-button add-habit-button" type="submit">Add Habit</button>
+    <div *ngIf="!isAssigned" class="add-habit-container">
+      <button class="primary-global-button cancel-habit-button" (click)="cancel()">Cancel</button>
+      <button class="primary-global-button add-habit-button" type="submit" (click)="addHabit()">Add Habit</button>
+    </div>
+    <div *ngIf="isAssigned" class="add-habit-container">
+      <button class="primary-global-button delete-habit-button" type="submit" (click)="deleteHabit()">Give Up</button>
+      <button class="primary-global-button save-habit-button" type="submit">Save</button>
     </div>
   </div>
 </div>

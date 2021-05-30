@@ -1,6 +1,5 @@
-import { forwardRef } from '@angular/core';
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { ControlValueAccessor, NgModel, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NgModel } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { WarningPopUpComponent } from '@shared/components';
 import { take } from 'rxjs/operators';
@@ -8,21 +7,14 @@ import { take } from 'rxjs/operators';
 @Component({
   selector: 'app-social-networks',
   templateUrl: './social-networks.component.html',
-  styleUrls: ['./social-networks.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      multi: true,
-      useExisting: forwardRef(() => SocialNetworksComponent)
-    }
-  ]
+  styleUrls: ['./social-networks.component.scss']
 })
-export class SocialNetworksComponent implements ControlValueAccessor {
+export class SocialNetworksComponent {
   public icons = {
     edit: './assets/img/profile/icons/edit.svg',
     add: './assets/img/profile/icons/add.svg',
     delete: './assets/img/profile/icons/delete.svg',
-    defaultIcon: './assets/img/profile/icons/default_social.svg',
+    defaultIcon: './assets/img/profile/icons/default_social.svg'
   };
 
   public urlValidationRegex = /^(https?):\/\/(-\.)?([^\s\/?\.#]+\.?)+(\/[^\s]*)?$/i;
@@ -36,20 +28,7 @@ export class SocialNetworksComponent implements ControlValueAccessor {
 
   constructor(private dialog: MatDialog) {}
 
-  onChange = (value: any) => {};
-
-  writeValue(obj: any): void {}
-
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {}
-
-  setDisabledState?(isDisabled: boolean): void {}
-
   public onEditLink(link): void {
-    this.onChange(link);
     this.onToggleInput(true);
     this.inputTextValue = link.url;
     this.editedSocialLink = link.url;
@@ -57,7 +36,6 @@ export class SocialNetworksComponent implements ControlValueAccessor {
   }
 
   public onDeleteLink(link): void {
-    this.onChange(link);
     const dialogRef = this.dialog.open(WarningPopUpComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
@@ -66,8 +44,8 @@ export class SocialNetworksComponent implements ControlValueAccessor {
       data: {
         popupTitle: 'user.edit-profile.delete-popup.title',
         popupConfirm: 'user.edit-profile.btn.yes',
-        popupCancel: 'user.edit-profile.btn.cancel',
-      },
+        popupCancel: 'user.edit-profile.btn.cancel'
+      }
     });
 
     dialogRef
@@ -117,15 +95,14 @@ export class SocialNetworksComponent implements ControlValueAccessor {
   }
 
   public onAddLink(link?) {
-    this.onChange(link);
     const value = link || this.inputTextValue;
 
     if (this.checkIsUrl(value) && !this.onCheckForExisting(value)) {
       this.socialNetworks.push({
         url: value,
         socialNetworkImage: {
-          imagePath: this.icons.defaultIcon,
-        },
+          imagePath: this.icons.defaultIcon
+        }
       });
       this.onEmitSocialNetworksChange();
       this.editedSocialLink = false;

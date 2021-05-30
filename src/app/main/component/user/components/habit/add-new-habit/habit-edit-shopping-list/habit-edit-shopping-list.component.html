@@ -1,37 +1,25 @@
 <div class="title">Shopping list</div>
 <ul class="checkbox-list">
-  <li>
-    <label>
-      <input type="checkbox" />
+  <li *ngFor="let item of list">
+    <label [ngClass]="{ selected: item.status === 'INPROGRESS', done: item.status === 'DONE' }">
+      <input type="checkbox" (change)="select(item)" [checked]="item.status === 'INPROGRESS'" />
       <span class="checkmark"></span>
-      Shopper
-    </label>
-  </li>
-  <li>
-    <label>
-      <input type="checkbox" />
-      <span class="checkmark"></span>
-      Eco packaging
-    </label>
-  </li>
-  <li>
-    <label>
-      <input type="checkbox" />
-      <span class="checkmark"></span>
-      Shopper
-    </label>
-  </li>
-  <li>
-    <label>
-      <input type="checkbox" />
-      <span class="checkmark"></span>
-      Eco packaging
+      <span class="text" ngbPopover="{{ item.text }}" triggers="mouseenter:mouseleave" placement="top" data-container="body">{{
+        item.text
+      }}</span>
+      <button id="del-btn" (click)="delete(item)"></button>
     </label>
   </li>
 </ul>
-<div class="seeAll">
-  <div class="text">See all</div>
-  <div class="arrow-container">
-    <div class="arrow-shopping-list"></div>
-  </div>
-</div>
+<form [formGroup]="itemForm">
+  <input #newItem id="add-field" type="text" formControlName="item" autocomplete="off" />
+  <input
+    #btn
+    [ngClass]="{ 'bg-grey': disabled }"
+    [disabled]="!itemForm.valid"
+    id="add-btn"
+    type="submit"
+    value="+"
+    (click)="add(newItem.value); newItem.value = ''; btn.disabled = true"
+  />
+</form>

@@ -1,10 +1,10 @@
-import { AchievementDto } from './../../../../../model/achievement/AchievementDto';
 import { Component, Input } from '@angular/core';
+import { AchievementDto } from 'src/app/main/model/achievement/AchievementDto';
 
 @Component({
   selector: 'app-new-achievement-modal',
   templateUrl: './new-achievement-modal.component.html',
-  styleUrls: ['./users-achievements.component.scss'],
+  styleUrls: ['./users-achievements.component.scss']
 })
 export class NewAchievementModalComponent {
   @Input() achievement: AchievementDto;

@@ -1,3 +1,4 @@
+import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { HabitInterface } from './habit.interface';
 
 export interface HabitAssignInterface {
@@ -5,13 +6,16 @@ export interface HabitAssignInterface {
   status: 'SUSPENDED' | 'INPROGRESS' | 'ACQUIRED';
   createDateTime: Date;
   habit: HabitInterface;
+  complexity?: number;
   enrolled?: boolean;
   userId: number;
   duration: number;
+  defaultDuration?: number;
   workingDays: number;
   habitStreak: number;
   lastEnrollmentDate: Date;
   habitStatusCalendarDtoList: Array<HabitStatusCalendarListInterface>;
+  shoppingListItems: Array<ShoppingList>;
 }
 
 export interface HabitStatusCalendarListInterface {
