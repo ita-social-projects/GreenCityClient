@@ -59,7 +59,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
 
   ngDoCheck() {
     this.shareFormService.changePersonalData();
-    this.changeAddressInPersonalData();
   }
 
   findAllAddresses() {
@@ -181,6 +180,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   submit(): void {
     this.firstOrder = !this.firstOrder;
     this.activeAddressId();
+    this.changeAddressInPersonalData();
     this.orderDetails = this.shareFormService.orderDetails;
     let orderBags: OrderBag[] = [];
     this.orderDetails.bags.forEach((bagItem: Bag) => {
