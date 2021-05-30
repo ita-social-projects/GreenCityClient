@@ -43,11 +43,13 @@ p {
   }
 
   .text-main-content {
+    padding: 0 22px;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     width: 100%;
 
     .text-number {
+      font-size: 10px;
       color: var(--tertiary-light-grey);
     }
 

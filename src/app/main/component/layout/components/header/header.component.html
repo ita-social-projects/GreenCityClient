@@ -19,7 +19,7 @@
             </li>
             <li role="link">
               <a
-                [routerLink]="['/map']"
+                [routerLink]="['/places']"
                 routerLinkActive="active-link"
                 routerLinkActiveOptions="{exact:true}"
                 routerLinkActive="active-link"
@@ -171,6 +171,9 @@
                   <a (click)="signOut()">
                     {{ 'nav-bar.sign-out' | translate }}
                   </a>
+                </li>
+                <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="navigation to ubs">
+                  <a [routerLink]="['/ubs-admin']" routerLinkActive="active-link"> UBS-admin </a>
                 </li>
               </ul>
             </ng-container>

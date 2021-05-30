@@ -3,10 +3,10 @@ import { HomepageComponent } from 'src/app/main/component/home/components';
 import { ConfirmRestorePasswordComponent } from '@global-auth/index';
 import { SearchAllResultsComponent } from 'src/app/main/component/layout/components';
 import { TipsListComponent } from './main/component/home/components/useful-tips/tips-list/tips-list.component';
-import { UbsAdminComponent } from './ubs-admin/ubs-admin/ubs-admin.component';
 import { MainComponent } from './main/main.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
+import { UbsSidebarComponent } from './ubs-admin/components/ubs-sidebar/ubs-sidebar.component';
 
 export const routes: Routes = [
   {
@@ -15,55 +15,56 @@ export const routes: Routes = [
     children: [
       {
         path: 'about',
-        loadChildren: () => import('./main/component/about/about.module').then((mod) => mod.AboutModule),
+        loadChildren: () => import('./main/component/about/about.module').then((mod) => mod.AboutModule)
       },
       {
-        path: 'map',
-        loadChildren: () => import('./main/component/map/map.module').then((mod) => mod.MapModule),
+        path: 'places',
+        loadChildren: () => import('./main/component/places/places.module').then((mod) => mod.PlacesModule)
       },
       {
         path: 'news',
-        loadChildren: () => import('./main/component/eco-news/eco-news.module').then((mod) => mod.EcoNewsModule),
+        loadChildren: () => import('./main/component/eco-news/eco-news.module').then((mod) => mod.EcoNewsModule)
       },
       {
         path: 'profile',
-        loadChildren: () => import('./main/component/user/user.module').then((mod) => mod.UserModule),
+        loadChildren: () => import('./main/component/user/user.module').then((mod) => mod.UserModule)
       },
       {
         path: 'ubs',
-        loadChildren: () => import('./main/component/ubs/ubs.module').then((mod) => mod.UbsModule),
+        loadChildren: () => import('./main/component/ubs/ubs.module').then((mod) => mod.UbsModule)
       },
       {
         path: 'tips',
-        component: TipsListComponent,
+        component: TipsListComponent
       },
       {
         path: 'search',
-        component: SearchAllResultsComponent,
+        component: SearchAllResultsComponent
       },
       {
         path: 'auth/restore',
-        component: ConfirmRestorePasswordComponent, canActivate: [ConfirmRestorePasswordGuard]
+        component: ConfirmRestorePasswordComponent,
+        canActivate: [ConfirmRestorePasswordGuard]
       },
       {
         path: '',
         pathMatch: 'full',
-        component: HomepageComponent,
-      },
-    ],
+        component: HomepageComponent
+      }
+    ]
   },
   {
     path: 'ubs-admin',
-    component: UbsAdminComponent,
+    component: UbsSidebarComponent
   },
   {
     path: '**',
-    redirectTo: '',
-  },
+    redirectTo: ''
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload', preloadingStrategy: PreloadAllModules })],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class AppRoutingModule {}

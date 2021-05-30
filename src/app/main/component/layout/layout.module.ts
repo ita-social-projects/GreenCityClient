@@ -1,4 +1,4 @@
-import { SharedModule } from '../shared/shared.module';
+import { SharedMainModule } from '../shared/shared-main.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -9,13 +9,14 @@ import {
   SearchPopupComponent,
   SearchNotFoundComponent,
   SearchItemComponent,
-  SearchAllResultsComponent,
+  SearchAllResultsComponent
 } from './components';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CloseDropdownDirective } from './directives/close-dropdown.directive';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SearchItemComponent,
     SearchNotFoundComponent,
     SearchAllResultsComponent,
-    CloseDropdownDirective,
+    CloseDropdownDirective
   ],
   imports: [
     CommonModule,
@@ -35,9 +36,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NgxPageScrollModule,
     ReactiveFormsModule,
     FormsModule,
-    SharedModule,
+    SharedMainModule,
+    SharedModule
   ],
   exports: [HeaderComponent, FooterComponent, SearchPopupComponent],
-  providers: [MatSnackBarComponent],
+  providers: [MatSnackBarComponent]
 })
 export class LayoutModule {}
