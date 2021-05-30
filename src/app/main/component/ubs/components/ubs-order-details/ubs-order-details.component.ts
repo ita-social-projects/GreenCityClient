@@ -35,6 +35,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   order: {};
   certificateMask = '0000-0000';
   ecoStoreMask = '0000000000';
+  servicesMask = '000';
   certificatePattern = /(?!0000)\d{4}-(?!0000)\d{4}/;
   displayOrderBtn = false;
 
@@ -100,7 +101,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
         this.bags = this.orders.bags;
         this.points = this.orders.points;
         this.bags.forEach((bag) => {
-          bag.quantity = 0;
+          bag.quantity = null;
           this.orderDetailsForm.addControl(
             'quantity' + String(bag.id),
             new FormControl(0, [Validators.required, Validators.min(0), Validators.max(999)])
@@ -201,11 +202,15 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
     this.ecoStoreValidation();
   }
 
-  calculate(): void {
-    this.bags.forEach((bag) => {
-      const valueName = 'quantity' + String(bag.id);
-      bag.quantity = this.orderDetailsForm.controls[valueName].value;
-    });
+  onQuantityChange(event): void {
+    if (parseInt(event.target.value, 10) === 0) {
+      event.target.value = null;
+    } else {
+      this.bags.forEach((bag) => {
+        const valueName = 'quantity' + String(bag.id);
+        bag.quantity = this.orderDetailsForm.controls[valueName].value;
+      });
+    }
     this.calculateTotal();
   }
 
