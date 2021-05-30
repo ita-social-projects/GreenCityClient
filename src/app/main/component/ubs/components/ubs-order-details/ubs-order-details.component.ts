@@ -180,7 +180,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   }
 
   onQuantityChange(event): void {
-    if (parseInt(event.target.value) === 0) {
+    if (parseInt(event.target.value, 10) === 0) {
       event.target.value = null;
     } else {
       this.bags.forEach((bag) => {
