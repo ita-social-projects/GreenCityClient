@@ -87,7 +87,7 @@ export class UbsAdminTableComponent implements OnInit {
       const newObjectForHeader = Object.create({});
       newObjectForHeader.field = field;
       newObjectForHeader.index = i;
-      newObjectForHeader.field === 'orderId' || newObjectForHeader.field === 'orderStatus' || newObjectForHeader.field === 'orderDate'
+      newObjectForHeader.field === 'orderid' || newObjectForHeader.field === 'order_status' || newObjectForHeader.field === 'order_date'
         ? (newObjectForHeader.sticky = true)
         : (newObjectForHeader.sticky = false);
       this.columns = [...this.columns.slice(0, i), newObjectForHeader, ...this.columns.slice(i, this.columns.length)];
@@ -97,16 +97,12 @@ export class UbsAdminTableComponent implements OnInit {
     }
   }
 
-  getTable(columnName = 'orderId', sortingType = 'desc') {
+  getTable(columnName = 'orderid', sortingType = 'desc') {
     this.adminTableService
       .getTable(columnName, sortingType)
       .pipe(takeUntil(this.destroy))
-      .subscribe((el) => {
-        const arrayOfValues = el.map((item) => {
-          return {
-            ...item.getAllValuesFromTable
-          };
-        });
+      .subscribe((item) => {
+        const arrayOfValues = item;
         this.dataSource = new MatTableDataSource(arrayOfValues);
         const requiredColumns = [{ field: 'select', sticky: true }];
         const dynamicallyColumns = [];
@@ -114,7 +110,7 @@ export class UbsAdminTableComponent implements OnInit {
         arrayOfproperties.map((elem) => {
           const objectOfValue = Object.create({});
           objectOfValue.field = elem;
-          objectOfValue.field === 'orderId' || objectOfValue.field === 'orderStatus' || objectOfValue.field === 'orderDate'
+          objectOfValue.field === 'orderid' || objectOfValue.field === 'order_status' || objectOfValue.field === 'order_date'
             ? (objectOfValue.sticky = true)
             : (objectOfValue.sticky = false);
           dynamicallyColumns.push(objectOfValue);

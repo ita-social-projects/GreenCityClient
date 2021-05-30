@@ -28,10 +28,8 @@
   display: flex;
   justify-content: center;
   font-size: 14px;
-  width: 171px;
   min-height: 39px;
   min-width: 48px;
-  max-width: 300px;
   overflow: hidden;
   word-wrap: break-word;
   white-space: nowrap;
@@ -81,21 +79,29 @@ mat-header-cell:first-of-type {
   padding: 0;
 }
 
-.mat-column-orderId {
+.mat-column-address,
+.mat-column-comment_to_address_for_client {
+  flex: 0 0 400px !important;
+  display: flex;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.mat-column-orderid {
   flex: 0 0 160px !important;
   display: flex;
   padding-left: 0;
   padding-right: 0;
 }
 
-.mat-column-orderStatus {
+.mat-column-order_status {
   flex: 0 0 258px !important;
   display: flex;
   padding-left: 0;
   padding-right: 0;
 }
 
-.mat-column-orderDate {
+.mat-column-order_date {
   flex: 0 0 171px !important;
   display: flex;
   padding-right: 0;
