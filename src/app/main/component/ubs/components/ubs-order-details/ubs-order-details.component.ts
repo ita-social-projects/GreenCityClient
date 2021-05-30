@@ -34,6 +34,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   onSubmit = true;
   order: {};
   certificateMask = '0000-0000';
+  servicesMask = '000';
   certificatePattern = /(?!0000)\d{4}-(?!0000)\d{4}/;
 
   certSize = false;
@@ -178,11 +179,15 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  calculate(): void {
-    this.bags.forEach((bag) => {
-      const valueName = 'quantity' + String(bag.id);
-      bag.quantity = this.orderDetailsForm.controls[valueName].value;
-    });
+  onQuantityChange(event): void {
+    if (parseInt(event.target.value) === 0) {
+      event.target.value = null;
+    } else {
+      this.bags.forEach((bag) => {
+        const valueName = 'quantity' + String(bag.id);
+        bag.quantity = this.orderDetailsForm.controls[valueName].value;
+      });
+    }
     this.calculateTotal();
   }
 

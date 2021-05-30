@@ -26,8 +26,10 @@
                 class="shadow-none form-control input"
                 min="0"
                 max="999"
+                [unmask]="false"
+                [imask]="{ mask: servicesMask }"
                 [(ngModel)]="bag.quantity"
-                (change)="calculate()"
+                (change)="onQuantityChange($event)"
               />
             </div>
             <span class="form-group sum"> {{ bag.quantity * bag.price }} {{ 'order-details.currency' | translate }}</span>
