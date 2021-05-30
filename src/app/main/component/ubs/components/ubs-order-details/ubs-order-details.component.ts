@@ -244,7 +244,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   calculateCertificates(arr): void {
     if (arr.length > 0) {
       this.certificateSum = 0;
-      for (const certificate of arr) {
+      arr.forEach((certificate, index) => {
         this.orderService
           .processCertificate(certificate)
           .pipe(takeUntil(this.destroy))
@@ -263,11 +263,12 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
             },
             (error) => {
               if (error.status === 404) {
+                arr.splice(index, 1);
                 this.certificateError = true;
               }
             }
           );
-      }
+      });
     } else {
       this.certificateSum = 0;
       this.calculateTotal();
