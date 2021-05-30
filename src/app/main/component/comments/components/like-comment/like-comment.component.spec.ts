@@ -1,12 +1,11 @@
 import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
-import { SharedModule } from '../../../shared/shared.module';
+import { SharedMainModule } from '../../../shared/shared-main.module';
 import { SocketService } from '../../../../service/socket/socket.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { CommentsService } from '../../services/comments.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LikeCommentComponent } from './like-comment.component';
-
 
 describe('LikeCommentComponent', () => {
   let component: LikeCommentComponent;
@@ -29,7 +28,7 @@ describe('LikeCommentComponent', () => {
     author: {
       id: 1,
       name: 'Test',
-      userProfilePicturePath: null,
+      userProfilePicturePath: null
     },
     currentUserLiked: true,
     id: 1,
@@ -42,18 +41,14 @@ describe('LikeCommentComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LikeCommentComponent ],
-      imports: [
-        SharedModule,
-        HttpClientTestingModule
-      ],
+      declarations: [LikeCommentComponent],
+      imports: [SharedMainModule, HttpClientTestingModule],
       providers: [
         { provide: CommentsService, useValue: commentsServiceMock },
         { provide: SocketService, useValue: socketServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock }
       ]
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -86,10 +81,10 @@ describe('LikeCommentComponent', () => {
 
   it('should change view of like button', () => {
     const msg = {
-    id: 8877,
-    amountLikes: 1,
-    liked: true,
-    userId: 1111
+      id: 8877,
+      amountLikes: 1,
+      liked: true,
+      userId: 1111
     };
     component.changeLkeBtn(msg);
     expect(component.likeState).toBeTruthy();
@@ -113,8 +108,8 @@ describe('LikeCommentComponent', () => {
       amountLikes: 1,
       liked: true,
       userId: 1111
-      };
-      // @ts-ignore
+    };
+    // @ts-ignore
     spyOn(component.socketService, 'onMessage').and.returnValue(of(msg));
     const spy = spyOn(component, 'changeLkeBtn');
     component.onConnectedtoSocket();
@@ -127,13 +122,12 @@ describe('LikeCommentComponent', () => {
       amountLikes: 1,
       liked: true,
       userId: 1111
-      };
+    };
     let likeCount = null;
     // @ts-ignore
     spyOn(component.socketService, 'onMessage').and.returnValue(of(msg));
-    component.likesCounter.subscribe(amountLikes => likeCount = amountLikes);
+    component.likesCounter.subscribe((amountLikes) => (likeCount = amountLikes));
     component.onConnectedtoSocket();
     expect(likeCount).toBe(1);
   });
-
 });

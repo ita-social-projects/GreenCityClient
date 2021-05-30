@@ -19,7 +19,6 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
 import { NoDataComponent } from './components/no-data/no-data.component';
-import { SpinnerComponent } from './components/spinner/spinner.component';
 import { TagFilterComponent } from './components/tag-filter/tag-filter.component';
 import { CalendarBaseComponent } from '@shared/components';
 import usLocale from '@angular/common/locales/en-US-POSIX';
@@ -27,6 +26,7 @@ import ruLocale from '@angular/common/locales/ru';
 import ukLocale from '@angular/common/locales/uk';
 import { FormBaseComponent } from './components/form-base/form-base.component';
 import { HabitsPopupComponent } from '@global-user/components/profile/calendar/habits-popup/habits-popup.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 registerLocaleData(usLocale, 'en');
 registerLocaleData(ruLocale, 'ru');
@@ -40,15 +40,15 @@ registerLocaleData(ukLocale, 'ua');
     EditPhotoPopUpComponent,
     DateLocalisationPipe,
     NoDataComponent,
-    SpinnerComponent,
     TagFilterComponent,
     CalendarBaseComponent,
     WarningPopUpComponent,
     FormBaseComponent,
-    HabitsPopupComponent,
+    HabitsPopupComponent
   ],
   imports: [
     ImageCropperModule,
+    SharedModule,
     FormsModule,
     CommonModule,
     ReactiveFormsModule,
@@ -56,8 +56,8 @@ registerLocaleData(ukLocale, 'ua');
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient],
-      },
+        deps: [HttpClient]
+      }
     }),
     MDBBootstrapModule,
     FileUploadModule,
@@ -66,7 +66,7 @@ registerLocaleData(ukLocale, 'ua');
     MatCheckboxModule,
     MatProgressSpinnerModule,
     UserSharedModule,
-    MatTooltipModule,
+    MatTooltipModule
   ],
   exports: [
     EditPhotoPopUpComponent,
@@ -85,16 +85,15 @@ registerLocaleData(ukLocale, 'ua');
     DragAndDropComponent,
     DateLocalisationPipe,
     NoDataComponent,
-    SpinnerComponent,
     TagFilterComponent,
     UserSharedModule,
     WarningPopUpComponent,
-    FormBaseComponent,
+    FormBaseComponent
   ],
   providers: [MatSnackBarComponent, TranslateService],
-  entryComponents: [WarningPopUpComponent, HabitsPopupComponent],
+  entryComponents: [WarningPopUpComponent, HabitsPopupComponent]
 })
-export class SharedModule {}
+export class SharedMainModule {}
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
