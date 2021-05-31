@@ -9,6 +9,7 @@ import { ConfirmRestorePasswordComponent } from './components/confirm-restore-pa
 import { GoogleBtnComponent } from './components/google-btn/google-btn.component';
 import { AuthModalComponent } from './components/auth-modal/auth-modal.component';
 import { MatSnackBarModule } from '@angular/material';
+import { MessageBackEndComponent } from './components/message-back-end/message-back-end.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { MatSnackBarModule } from '@angular/material';
     ErrorComponent,
     GoogleBtnComponent,
     AuthModalComponent,
+    MessageBackEndComponent
   ],
   imports: [CoreModule, SharedModule, ReactiveFormsModule],
   entryComponents: [
@@ -30,9 +32,9 @@ import { MatSnackBarModule } from '@angular/material';
     RestorePasswordComponent,
     SubmitEmailComponent,
     ConfirmRestorePasswordComponent,
-    AuthModalComponent,
+    AuthModalComponent
   ],
   exports: [InputcolorDirective],
-  providers: [MatSnackBarModule],
+  providers: [MatSnackBarModule]
 })
 export class AuthModule {}
