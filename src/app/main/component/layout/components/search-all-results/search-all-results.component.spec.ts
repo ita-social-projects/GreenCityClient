@@ -1,4 +1,4 @@
-import { SharedModule } from '@shared/shared.module';
+import { SharedMainModule } from '@shared/shared-main.module';
 import { SearchNotFoundComponent } from '../search-not-found/search-not-found.component';
 import { FormsModule } from '@angular/forms';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
@@ -11,6 +11,7 @@ import { SearchService } from '@global-service/search/search.service';
 import { SearchItemComponent } from '..';
 import { of, Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 describe('SearchAllResultsComponent', () => {
   let component: SearchAllResultsComponent;
@@ -21,17 +22,17 @@ describe('SearchAllResultsComponent', () => {
     title: 'test',
     author: {
       id: 1,
-      name: 'test',
+      name: 'test'
     },
     creationDate: '0101',
-    tags: ['test'],
+    tags: ['test']
   };
 
   const searchDataMock = {
     currentPage: 1,
     page: [mockNewsData],
     totalElements: 1,
-    totalPages: 1,
+    totalPages: 1
   };
 
   let searchMock: SearchService;
@@ -42,18 +43,26 @@ describe('SearchAllResultsComponent', () => {
 
   const activatedRouteMock = {
     queryParams: of({
-      query: 'test',
-    }),
+      query: 'test'
+    })
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [SearchAllResultsComponent, SearchItemComponent, SearchNotFoundComponent],
-      imports: [RouterTestingModule, HttpClientTestingModule, FormsModule, InfiniteScrollModule, TranslateModule.forRoot(), SharedModule],
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        FormsModule,
+        InfiniteScrollModule,
+        TranslateModule.forRoot(),
+        SharedMainModule,
+        SharedModule
+      ],
       providers: [
         { provide: SearchService, useValue: searchMock },
-        { provide: ActivatedRoute, useValue: activatedRouteMock },
-      ],
+        { provide: ActivatedRoute, useValue: activatedRouteMock }
+      ]
     }).compileComponents();
   }));
 

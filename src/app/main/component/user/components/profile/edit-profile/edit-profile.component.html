@@ -38,7 +38,12 @@
     </div>
     <div class="wrapper">
       <p>{{ 'user.edit-profile.links' | translate }}</p>
-      <app-social-networks [socialNetworks]="socialNetworks" (socialNetworksChange)="emitSocialLinks($event)"></app-social-networks>
+      <app-social-networks
+        formControlName="socialNetworks"
+        [socialNetworks]="socialNetworks"
+        (socialNetworksChange)="emitSocialLinks($event)"
+        ngDefaultControl
+      ></app-social-networks>
     </div>
     <div class="privacy-wrapper">
       <p class="title">{{ 'user.edit-profile.privacy' | translate }}</p>

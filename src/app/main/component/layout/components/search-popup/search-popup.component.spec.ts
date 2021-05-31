@@ -1,5 +1,5 @@
 import { Language } from './../../../../i18n/Language';
-import { SharedModule } from '@shared/shared.module';
+
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -17,6 +17,7 @@ import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 describe('SearchPopupComponent', () => {
   let component: SearchPopupComponent;
@@ -32,10 +33,10 @@ describe('SearchPopupComponent', () => {
     title: 'test',
     author: {
       id: 1,
-      name: 'test',
+      name: 'test'
     },
     creationDate: '0101',
-    tags: ['test'],
+    tags: ['test']
   };
 
   const mockNewsData = {
@@ -43,16 +44,16 @@ describe('SearchPopupComponent', () => {
     title: 'test',
     author: {
       id: 1,
-      name: 'test',
+      name: 'test'
     },
     creationDate: '0101',
-    tags: ['test'],
+    tags: ['test']
   };
 
   const searchModelMock = {
     countOfResults: 2,
     ecoNews: [mockNewsData],
-    tipsAndTricks: [mockTipData],
+    tipsAndTricks: [mockTipData]
   };
 
   let searchMock: SearchService;
@@ -73,14 +74,14 @@ describe('SearchPopupComponent', () => {
         NgxPageScrollModule,
         MatSnackBarModule,
         BrowserAnimationsModule,
-        SharedModule,
+        SharedModule
       ],
       providers: [
         { provide: SearchService, useValue: searchMock },
         MatSnackBarComponent,
         { provide: MatSnackBar, useValue: matSnackBarMock },
-        { provide: LocalStorageService, useValue: localStorageServiceMock },
-      ],
+        { provide: LocalStorageService, useValue: localStorageServiceMock }
+      ]
     })
       .compileComponents()
       .then((r) => r);

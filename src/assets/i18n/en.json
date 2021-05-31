@@ -92,7 +92,8 @@
           "add-a-reply": "Add a reply",
           "new-comment": "Enter your new comment"
         },
-        "view": "View"
+        "view": "View",
+        "hide": "Hide"
       },
       "empty-state": {
         "no-news": "Unfortunately, no more news found",
@@ -410,6 +411,14 @@
       "discount": "discount",
       "driving": "driving",
       "walking": "walking"
+    },
+    "places-card": {
+      "card-description": "https://placewebsite.com",
+      "card-rating": "Rating",
+      "card-reviews": "reviews",
+      "card-popular": "Popular eco places",
+      "card-first-event": "Special offer - discount for bonus card holders",
+      "card-second-event": "Place profile on Greencity"
     },
     "photo-upload": {
       "add-photo": "Add photo",

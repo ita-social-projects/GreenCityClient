@@ -92,7 +92,8 @@
           "add-a-reply": "Додати відповідь",
           "new-comment": "Введіть ваш новий коментар"
         },
-        "view": "Переглянути"
+        "view": "Переглянути",
+        "hide": "Сховати"
       },
       "empty-state": {
         "no-news": "На жаль, новин не знайдено",
@@ -415,6 +416,14 @@
       "discount": "знижка",
       "driving": "водіння",
       "walking": "ходьба"
+    },
+    "places-card": {
+      "card-description": "https://placewebsite.com",
+      "card-rating": "Рейтинг",
+      "card-reviews": "відгуків",
+      "card-popular": "Популярні еко-місця",
+      "card-first-event": "Спеціальна пропозиція - знижка для власників бонусних карт",
+      "card-second-event": "Розмістити анкету на Greencity"
     },
     "photo-upload": {
       "add-photo": "Додати фото",

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Place } from '../../component/map/models/place';
+import { Place } from '../../component/places/models/place';
 import { PlaceInfo } from '../../model/place/place-info';
 import { UpdatePlaceStatus } from '../../model/place/update-place-status.model';
 import { PlacePageableDto } from '../../model/place/place-pageable-dto.model';
@@ -15,7 +15,7 @@ import { BulkUpdatePlaceStatus } from '../../model/place/bulk-update-place-statu
 import { PlaceUpdatedDto } from '../../component/admin/models/placeUpdatedDto.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class PlaceService {
   places: Place[];
@@ -39,7 +39,7 @@ export class PlaceService {
           messages: ['Cafe ' + place.name + ' was added for approving.'],
           dismissible: true,
           timeout: 3000,
-          type: 'success',
+          type: 'success'
         });
       },
       (error) => {
@@ -47,7 +47,7 @@ export class PlaceService {
           messages: ['Please try again'],
           dismissible: true,
           timeout: 3000,
-          type: 'danger',
+          type: 'danger'
         });
       }
     );
@@ -131,7 +131,7 @@ export class PlaceService {
           messages: ['Cafe ' + updatedPlace.name + ' was updated.'],
           dismissible: true,
           timeout: 3000,
-          type: 'success',
+          type: 'success'
         });
       },
       (error) => {
@@ -139,7 +139,7 @@ export class PlaceService {
           messages: ['Cafe ' + updatedPlace.name + ' was not updated.'],
           dismissible: true,
           timeout: 3000,
-          type: 'danger',
+          type: 'danger'
         });
       }
     );

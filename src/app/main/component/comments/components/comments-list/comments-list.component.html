@@ -77,7 +77,12 @@
     >
     </app-reply-comment>
     <div class="btn-replies" *ngIf="dataType === types.commentType">
-      <app-view-replies [repliesCounter]="comment.replies" (click)="showElements(comment.id, 'showAllRelies')"> </app-view-replies>
+      <app-view-replies
+        [isShowReplies]="isShowReplies(comment.id)"
+        [repliesCounter]="comment.replies"
+        (click)="showElements(comment.id, 'showAllRelies')"
+      >
+      </app-view-replies>
     </div>
   </div>
   <app-comments-container
