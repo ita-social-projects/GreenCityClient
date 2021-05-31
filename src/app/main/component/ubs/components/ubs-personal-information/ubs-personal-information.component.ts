@@ -174,7 +174,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   getFormValues(): boolean {
-    return this.orderDetails === undefined ? false : true;
+    return true;
   }
 
   submit(): void {
