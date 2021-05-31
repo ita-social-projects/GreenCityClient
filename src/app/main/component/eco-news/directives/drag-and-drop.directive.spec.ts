@@ -27,12 +27,12 @@ describe('DragAndDropDirective', () => {
     fixture.detectChanges();
   });
 
-  fit('should create an instance', () => {
+  it('should create an instance', () => {
     const directive = new TestContainerComponent();
     expect(directive).toBeTruthy();
   });
 
-  fit('should trigger dragover', () => {
+  it('should trigger dragover', () => {
     const event = new Event('dragover', { bubbles: true });
     spyOn(event, 'preventDefault');
     spyOn(event, 'stopPropagation');
@@ -41,7 +41,7 @@ describe('DragAndDropDirective', () => {
     expect(event.stopPropagation).toHaveBeenCalled();
   });
 
-  fit('should trigger ', () => {
+  it('should trigger dragleave', () => {
     const event = new Event('dragleave', { bubbles: true });
     spyOn(event, 'preventDefault');
     spyOn(event, 'stopPropagation');
@@ -50,7 +50,7 @@ describe('DragAndDropDirective', () => {
     expect(event.stopPropagation).toHaveBeenCalled();
   });
 
-  fit('should trigger drop', () => {
+  it('should trigger drop', () => {
     const dataTransfer = new DataTransfer();
     const file = new File(['some content'], 'text-file.txt');
     dataTransfer.items.add(file);

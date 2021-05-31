@@ -100,12 +100,12 @@ describe('NewsPreviewPageComponent', () => {
     fixture.detectChanges();
   });
 
-  fit('should create component', () => {
+  it('should create component', () => {
     createEcoNewsServiceMock.getNewsId.and.returnValue('15');
     expect(component).toBeTruthy();
   });
 
-  fit('method isBackToEdit should change isBackToEditing to true', () => {
+  it('method isBackToEdit should change isBackToEditing to true', () => {
     jasmine.clock().install();
     component.isBackToEdit();
     expect(createEcoNewsServiceMock.isBackToEditing).toBe(true);
@@ -114,7 +114,7 @@ describe('NewsPreviewPageComponent', () => {
     jasmine.clock().uninstall();
   });
 
-  fit('testing of method postNewItem', () => {
+  it('testing of method postNewItem', () => {
     component.postNewsItem();
     expect(!component.isPosting).toBe(true);
     createEcoNewsServiceMock.sendFormData(item).subscribe(() => {
@@ -122,7 +122,7 @@ describe('NewsPreviewPageComponent', () => {
     });
   });
 
-  fit('testing of method editNews', () => {
+  it('testing of method editNews', () => {
     component.editNews();
     const dataToEdit = {
       ...component.previewItem.value,
@@ -135,13 +135,13 @@ describe('NewsPreviewPageComponent', () => {
     });
   });
 
-  fit('if we do not have image in our form method getItemPath should return largeImage', () => {
+  it('if we do not have image in our form method getItemPath should return largeImage', () => {
     component.previewItem = currentFormWithoutImageMock;
     const result = component.getImagePath();
     expect(result).toEqual(component.images.largeImage);
   });
 
-  fit('if method of service getNewsId does not return id', () => {
+  it('if method of service getNewsId does not return id', () => {
     createEcoNewsServiceMock.getNewsId.and.returnValue('');
     expect(component.attributes).toBeDefined();
     expect(component.onSubmit).toBeDefined();
