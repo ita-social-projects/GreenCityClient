@@ -234,13 +234,7 @@
         <div class="w-100 d-flex justify-content-end">
           <div>
             <button class="secondary-global-button btn btn-main" matStepperPrevious>{{ 'order-details.cancel' | translate }}</button>
-            <button
-              [disabled]="showTotal < 500"
-              type="submit"
-              (click)="submitStep()"
-              class="primary-global-button btn btn-main"
-              matStepperNext
-            >
+            <button [disabled]="showTotal < 500" type="submit" class="primary-global-button btn btn-main" matStepperNext>
               {{ 'order-details.next' | translate }}
             </button>
           </div>
