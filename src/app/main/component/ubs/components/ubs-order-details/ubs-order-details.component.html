@@ -137,11 +137,7 @@
               <small class="text-message"> {{ certMessage }} </small>
             </div>
           </div>
-          <!-- <button *ngIf="addCert" class="addCertificateBtn" (click)="addCertificate()">
-            {{ 'order-details.add-certificate' | translate }}
-          </button> -->
           <small class="text-danger" *ngIf="certificateError && !addCert"> {{ 'order-details.not-found-certificate' | translate }}</small>
-          <!-- <small class="text-danger" *ngIf="certificate.invalid && certificate.touched"> {{ 'order-details.failed-certificate' | translate }}</small> -->
           <div class="addBonus">
             <h5>{{ 'order-details.bonus-need' | translate }}</h5>
             <p>{{ 'order-details.bonus-left' | translate }} {{ certificateSum }} {{ 'order-details.currency' | translate }}</p>
