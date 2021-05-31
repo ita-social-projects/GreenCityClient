@@ -36,7 +36,7 @@ describe('EditProfileComponent', () => {
         RouterTestingModule.withRoutes([{ path: '**', component: Test }]),
         HttpClientTestingModule,
         AgmCoreModule,
-        TranslateModule.forRoot(),
+        TranslateModule.forRoot()
       ],
       providers: [
         EditProfileFormBuilder,
@@ -47,11 +47,11 @@ describe('EditProfileComponent', () => {
         {
           provide: MapsAPILoader,
           useValue: {
-            load: jasmine.createSpy('load').and.returnValue(new Promise(() => true)),
-          },
-        },
+            load: jasmine.createSpy('load').and.returnValue(new Promise(() => true))
+          }
+        }
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 
@@ -170,7 +170,7 @@ describe('EditProfileComponent', () => {
         showEcoPlace: true,
         showLocation: true,
         showShoppingList: true,
-        socialNetworks: [{ id: 220, url: 'http://instagram.com/profile' }],
+        socialNetworks: [{ id: 220, url: 'http://instagram.com/profile' }]
       };
     });
 

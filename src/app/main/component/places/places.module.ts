@@ -11,18 +11,20 @@ import { RatingModule } from 'ngx-bootstrap/rating';
 import { Ng5SliderModule } from 'ng5-slider';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatTabsModule } from '@angular/material/tabs';
-import { SharedModule } from '../shared/shared.module';
+import { SharedMainModule } from '../shared/shared-main.module';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { PlacesComponent } from './places.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { environment } from '@environment/environment.js';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [PlacesComponent],
   imports: [
     MatSidenavModule,
     SharedModule,
+    SharedMainModule,
     CommonModule,
     PlacesRoutesModule,
     AgmDirectionModule,

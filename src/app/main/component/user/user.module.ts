@@ -60,7 +60,7 @@ import { ShowFirstNLettersPipe } from '../../pipe/show-first-n-letters/show-firs
 import { ShowFirstNPipe } from '../../pipe/show-first-n-pipe/show-first-n.pipe';
 import { UncheckedFirstPipe } from '../../pipe/unchecked-first-pipe/unchecked-first.pipe';
 import { AlphabeticalPipePipe } from '../../pipe/alphabetical-pipe/alphabetical-pipe.pipe';
-import { SharedModule } from '../shared/shared.module';
+import { SharedMainModule } from '../shared/shared-main.module';
 import { UserRoutingModule } from './user-routing.module';
 import { UserComponent } from './user.component';
 import { CalendarWeekComponent } from './components/profile/calendar/calendar-week/calendar-week.component';
@@ -83,6 +83,7 @@ import { RecommendedFriendsComponent } from './components/profile/users-friends/
 import { FriendItemComponent } from './components/profile/users-friends/friend-dashboard/friend-item/friend-item.component';
 import { FriendRequestsComponent } from './components/profile/users-friends/friend-dashboard/friend-requests/friend-requests.component';
 import { RequestItemComponent } from './components/profile/users-friends/friend-dashboard/friend-requests/request-item/request-item.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -157,6 +158,7 @@ import { RequestItemComponent } from './components/profile/users-friends/friend-
   imports: [
     UserRoutingModule,
     CommonModule,
+    SharedMainModule,
     SharedModule,
     MatButtonModule,
     MatRadioModule,
