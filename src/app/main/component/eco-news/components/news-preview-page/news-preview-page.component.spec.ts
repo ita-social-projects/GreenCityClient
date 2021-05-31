@@ -10,7 +10,6 @@ import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service'
 import { of } from 'rxjs';
 import { NewsResponseDTO } from '@eco-news-models/create-news-interface';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
-import { NewsDto } from '@home-models/NewsDto';
 
 describe('NewsPreviewPageComponent', () => {
   let component: NewsPreviewPageComponent;
@@ -51,14 +50,6 @@ describe('NewsPreviewPageComponent', () => {
       { id: 1, name: 'Events' },
       { id: 2, name: 'Education' }
     ],
-    text: 'hellohellohellohellohellohellohellohellohellohello',
-    title: 'hello'
-  };
-
-  const dataToEdit: NewsDto = {
-    id: 4705,
-    imagePath: 'https://storage.cloud.google.com/staging.greencity-c5a3a.appspot.com/35fce8fe-7949-48b8-bf8c-0d9a768ecb42',
-    creationDate: '2020-10-26T16:43:29.336931Z',
     text: 'hellohellohellohellohellohellohellohellohellohello',
     title: 'hello'
   };
