@@ -27,10 +27,10 @@ import { HomepageComponent, TipsListComponent } from 'src/app/main/component/hom
 import { SearchAllResultsComponent } from 'src/app/main/component/layout/components';
 import { ConfirmRestorePasswordComponent } from '@global-auth/confirm-restore-password/confirm-restore-password.component';
 import { MainComponent } from '../../../../main.component';
-import { UbsAdminComponent } from '../../../../../ubs-admin/ubs-admin/ubs-admin.component';
 import { By } from '@angular/platform-browser';
+import { UbsSidebarComponent } from '../../../../../ubs-admin/components/ubs-sidebar/ubs-sidebar.component';
 
-fdescribe('CreateEditNewsComponent', () => {
+describe('CreateEditNewsComponent', () => {
   let component: CreateEditNewsComponent;
   let fixture: ComponentFixture<CreateEditNewsComponent>;
   let ecoNewsServiceMock: EcoNewsService;
@@ -140,7 +140,7 @@ fdescribe('CreateEditNewsComponent', () => {
         PostNewsLoaderComponent,
         DragAndDropComponent,
         MainComponent,
-        UbsAdminComponent,
+        UbsSidebarComponent,
         HomepageComponent,
         TipsListComponent,
         SearchAllResultsComponent,
