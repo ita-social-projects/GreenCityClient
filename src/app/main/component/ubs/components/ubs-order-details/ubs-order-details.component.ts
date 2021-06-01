@@ -211,15 +211,6 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
     this.calculateTotal();
   }
 
-  public submitStep() {
-    this.bags.forEach((bag) => {
-      const valueName = 'quantity' + String(bag.id);
-      if (this.orderDetailsForm.controls[valueName].value == null) {
-        this.orderDetailsForm.controls[valueName].setValue('0');
-      }
-    });
-  }
-
   calculatePoints(): void {
     if (this.certificateSum <= 0) {
       this.showTotal = this.total;
