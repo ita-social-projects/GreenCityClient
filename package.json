@@ -99,7 +99,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged & npm run stylelint",
+      "pre-commit": "lint-staged & npm run stylelint & npm run lint",
       "pre-push": "ng test --watch=false --progress=false --codeCoverage=true --browsers=ChromeHeadless"
     }
   }
