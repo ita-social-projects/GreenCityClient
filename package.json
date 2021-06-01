@@ -9,8 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "stylelint": "npx stylelint \"src/**/*.scss\"",
-    "precommit": "lint-staged"
+    "stylelint": "npx stylelint \"src/**/*.scss\""
   },
   "private": true,
   "dependencies": {
@@ -96,11 +95,14 @@
   "lint-staged": {
     "*": [
       "prettier --write"
+    ],
+    "*.{ts,js}": [
+      "tslint"
     ]
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run precommit",
+      "pre-commit": "lint-staged & npm run stylelint",
       "pre-push": "ng test --watch=false --progress=false --codeCoverage=true --browsers=ChromeHeadless"
     }
   }
