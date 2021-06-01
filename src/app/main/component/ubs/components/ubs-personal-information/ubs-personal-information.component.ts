@@ -183,9 +183,11 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.changeAddressInPersonalData();
     this.orderDetails = this.shareFormService.orderDetails;
     let orderBags: OrderBag[] = [];
-    this.orderDetails.bags.forEach((bagItem: Bag) => {
-      const bag: OrderBag = { amount: bagItem.quantity, id: bagItem.id };
-      orderBags = [...orderBags, bag];
+    this.orderDetails.bags.forEach((bagItem: Bag, index: number) => {
+      if (bagItem.quantity !== null) {
+        const bag: OrderBag = { amount: bagItem.quantity, id: bagItem.id };
+        orderBags.push(bag);
+      }
     });
     orderBags = orderBags.filter((bag) => bag.amount !== 0);
     this.personalData.firstName = this.personalDataForm.get('firstName').value;

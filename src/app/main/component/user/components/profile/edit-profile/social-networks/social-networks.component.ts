@@ -22,7 +22,7 @@ export class SocialNetworksComponent implements ControlValueAccessor {
     edit: './assets/img/profile/icons/edit.svg',
     add: './assets/img/profile/icons/add.svg',
     delete: './assets/img/profile/icons/delete.svg',
-    defaultIcon: './assets/img/profile/icons/default_social.svg',
+    defaultIcon: './assets/img/profile/icons/default_social.svg'
   };
 
   public urlValidationRegex = /^(https?):\/\/(-\.)?([^\s\/?\.#]+\.?)+(\/[^\s]*)?$/i;
@@ -66,8 +66,8 @@ export class SocialNetworksComponent implements ControlValueAccessor {
       data: {
         popupTitle: 'user.edit-profile.delete-popup.title',
         popupConfirm: 'user.edit-profile.btn.yes',
-        popupCancel: 'user.edit-profile.btn.cancel',
-      },
+        popupCancel: 'user.edit-profile.btn.cancel'
+      }
     });
 
     dialogRef
@@ -124,8 +124,8 @@ export class SocialNetworksComponent implements ControlValueAccessor {
       this.socialNetworks.push({
         url: value,
         socialNetworkImage: {
-          imagePath: this.icons.defaultIcon,
-        },
+          imagePath: this.icons.defaultIcon
+        }
       });
       this.onEmitSocialNetworksChange();
       this.editedSocialLink = false;

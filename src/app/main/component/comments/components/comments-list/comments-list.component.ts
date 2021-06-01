@@ -7,7 +7,7 @@ import { take } from 'rxjs/operators';
 @Component({
   selector: 'app-comments-list',
   templateUrl: './comments-list.component.html',
-  styleUrls: ['./comments-list.component.scss'],
+  styleUrls: ['./comments-list.component.scss']
 })
 export class CommentsListComponent {
   @Input() public elementsList: CommentsDTO[] = [];

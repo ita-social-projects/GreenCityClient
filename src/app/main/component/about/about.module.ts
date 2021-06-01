@@ -2,28 +2,30 @@ import { NgModule } from '@angular/core';
 import { AboutPageComponent } from './components/about-page/about-page.component';
 import { AboutRoutingModule } from './about-routing.module';
 import { CommonModule } from '@angular/common';
-import { SharedModule } from '../shared/shared.module';
+import { SharedMainModule } from '../shared/shared-main.module';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [AboutPageComponent],
   imports: [
     AboutRoutingModule,
+    SharedMainModule,
     SharedModule,
     CommonModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
         useFactory: createTranslateLoader,
-        deps: [HttpClient],
+        deps: [HttpClient]
       },
-      isolate: true,
-    }),
+      isolate: true
+    })
   ],
   exports: [],
-  providers: [],
+  providers: []
 })
 export class AboutModule {}
 
