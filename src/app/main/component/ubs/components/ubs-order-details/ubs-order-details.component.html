@@ -48,7 +48,7 @@
                   ><small>-{{ showCertificateUsed }} {{ 'order-details.currency' | translate }}</small></span
                 >
               </p>
-              <p class="total-content" *ngIf="certificateSum > 0">
+              <p class="total-content" *ngIf="bonusesRemaining">
                 <span>{{ 'order-details.bonuses' | translate }} </span
                 ><span>
                   <small>-{{ certificateSum }} {{ 'order-details.currency' | translate }}</small></span
