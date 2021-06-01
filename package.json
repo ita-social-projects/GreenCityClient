@@ -95,9 +95,6 @@
   "lint-staged": {
     "*": [
       "prettier --write"
-    ],
-    "*.{ts,js}": [
-      "tslint"
     ]
   },
   "husky": {
