@@ -91,7 +91,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   getFormValues(): boolean {
-    return this.showTotal > 0 ? true : false;
+    return this.showTotal > 0;
   }
 
   translateWords(key: string, variable) {
