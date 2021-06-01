@@ -1,17 +1,4 @@
-<!-- for Header -->
-<div class="wrapper">
-  <div class="logo">
-    <img src="assets/admin-header/logo-admin.svg" />
-  </div>
-  <div class="icons">
-    <img src="assets/admin-header/first-icon-admin.svg" />
-    <img src="assets/admin-header/bell-icon-admin.svg" />
-    <span>En</span>
-    <img src="assets/img/arrow_down.svg" />
-    <a href="/">Home</a>
-    <span [ngStyle]="{ color: 'var(--primary-green)', fontFamily: 'var(--primary-font)' }">Jana Done</span>
-  </div>
-</div>
+<app-ubs-header></app-ubs-header>
 <div class="sidebar-icons" #sideBarIcons>
   <ul class="sidebar-list">
     <li class="sidebar-list-item" (click)="toggleSideBar()" *ngFor="let listItem of listElements">
