@@ -1,0 +1,29 @@
+.wrapper {
+  display: grid;
+  grid-template-areas: 'logo icons';
+  grid-template-rows: 52px;
+  grid-template-columns: 200px auto;
+  grid-gap: 400px;
+  width: 100vw;
+  box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
+  position: fixed;
+  top: 0;
+  z-index: 99;
+}
+
+.logo {
+  margin-top: 2px;
+  grid-area: logo;
+  margin-left: 36px;
+}
+
+.icons {
+  grid-area: icons;
+  margin: auto 15px;
+  justify-self: end;
+}
+
+.icons img,
+a {
+  padding: 17px;
+}
