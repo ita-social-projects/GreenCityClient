@@ -239,14 +239,12 @@ input {
   margin-top: 170px;
   color: var(--ubs-primary-grey);
   font-family: var(--primary-font);
-  li {
-    display: flex;
-    align-items: center;
-  }
 }
 
 .dropdown-menu li {
   color: #444e55;
+  display: flex;
+  align-items: center;
 }
 
 .ng-star-inserted {
