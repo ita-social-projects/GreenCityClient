@@ -26,7 +26,7 @@ export class OrderService {
   }
 
   processOrder(order: Order): Observable<Order> {
-    return this.http.post<Order>(`${this.url}/processOrder`, order);
+    return this.http.post<Order>(`${this.url}/processOrder`, order, { responseType: 'text' as 'json' });
   }
 
   processCertificate(certificate): Observable<ICertificate> {

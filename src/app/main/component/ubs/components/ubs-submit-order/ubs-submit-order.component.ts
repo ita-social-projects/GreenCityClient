@@ -59,4 +59,8 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       this.personalData = personalData;
     });
   }
+
+  redirectToOrder() {
+    document.location.href = this.shareFormService.orderUrl;
+  }
 }
