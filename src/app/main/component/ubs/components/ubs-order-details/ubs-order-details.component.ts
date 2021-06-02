@@ -8,13 +8,16 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { CertificateStatus } from '../../certificate-status.enum';
+import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ubs-order-details',
   templateUrl: './ubs-order-details.component.html',
-  styleUrls: ['./ubs-order-details.component.scss'],
+  styleUrls: ['./ubs-order-details.component.scss']
 })
-export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
+export class UBSOrderDetailsComponent extends FormBaseComponent implements OnInit, OnDestroy {
   orders: OrderDetails;
   bags: Bag[];
   orderDetailsForm: FormGroup;
@@ -34,7 +37,10 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   onSubmit = true;
   order: {};
   certificateMask = '0000-0000';
+  ecoStoreMask = '0000000000';
+  servicesMask = '000';
   certificatePattern = /(?!0000)\d{4}-(?!0000)\d{4}/;
+  displayOrderBtn = false;
 
   certSize = false;
   showCertificateUsed = 0;
@@ -48,15 +54,31 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   certMessageFourth = '';
   certMessageFifth = '';
   public currentLanguage: string;
-  bonusesRemaining = this.pointsUsed;
+  public certificateError = false;
+  bonusesRemaining: boolean;
+  popupConfig = {
+    hasBackdrop: true,
+    closeOnNavigation: true,
+    disableClose: true,
+    panelClass: 'popup-dialog-container',
+    data: {
+      popupTitle: 'confirmation.title',
+      popupSubtitle: 'confirmation.subTitle',
+      popupConfirm: 'confirmation.cancel',
+      popupCancel: 'confirmation.dismiss'
+    }
+  };
 
   constructor(
     private fb: FormBuilder,
     private orderService: OrderService,
     private shareFormService: UBSOrderFormService,
     private translate: TranslateService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    router: Router,
+    dialog: MatDialog
   ) {
+    super(router, dialog);
     this.initForm();
   }
 
@@ -67,6 +89,10 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
       this.translateWords('order-details.activated-certificate4', this.certMessageFourth);
       this.translateWords('order-details.activated-certificate5', this.certMessageFifth);
     });
+  }
+
+  getFormValues(): boolean {
+    return this.showTotal > 0;
   }
 
   translateWords(key: string, variable) {
@@ -80,11 +106,11 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
     this.orderDetailsForm = this.fb.group({
       certificate: new FormControl('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)]),
       orderComment: new FormControl(''),
-      bonus: new FormControl('no'),
+      bonus: new FormControl('yes'),
       shop: new FormControl('no'),
       additionalCertificates: this.fb.array([]),
       additionalOrders: this.fb.array(['']),
-      orderSum: new FormControl(0, [Validators.required, Validators.min(500)]),
+      orderSum: new FormControl(0, [Validators.required, Validators.min(500)])
     });
   }
 
@@ -98,18 +124,15 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
         this.bags = this.orders.bags;
         this.points = this.orders.points;
         this.bags.forEach((bag) => {
-          bag.quantity = 0;
-          this.orderDetailsForm.addControl(
-            'quantity' + String(bag.id),
-            new FormControl(0, [Validators.required, Validators.min(0), Validators.max(999)])
-          );
+          bag.quantity = null;
+          this.orderDetailsForm.addControl('quantity' + String(bag.id), new FormControl(0, [Validators.min(0), Validators.max(999)]));
         });
       });
   }
 
   changeForm() {
     this.orderDetailsForm.patchValue({
-      orderSum: this.showTotal,
+      orderSum: this.showTotal
     });
   }
 
@@ -168,20 +191,46 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
         this.showCertificateUsed = this.total;
         this.points = this.orders.points + this.certificateLeft;
       }
+      this.bonusesRemaining = this.certificateSum > 0;
       this.showCertificateUsed = this.certificateSum;
     }
   }
 
-  clearOrderValues(): void {
-    this.additionalOrders.controls.forEach((element) => {
-      element.setValue('');
+  public ecoStoreValidation() {
+    let counter = 0;
+    this.additionalOrders.controls.forEach((controller) => {
+      if (controller.valid && controller.dirty && controller.value !== '') {
+        counter++;
+      }
     });
+
+    if (counter === this.additionalOrders.controls.length) {
+      this.displayOrderBtn = true;
+    } else {
+      this.displayOrderBtn = false;
+    }
   }
 
-  calculate(): void {
+  public changeShopRadioBtn() {
+    this.orderDetailsForm.controls.shop.setValue('yes');
+  }
+
+  clearOrderValues(): void {
+    this.additionalOrders.controls[0].setValue('');
+    if (this.additionalOrders.controls.length > 1) {
+      this.additionalOrders.controls.splice(1);
+    }
+    this.ecoStoreValidation();
+  }
+
+  onQuantityChange(): void {
     this.bags.forEach((bag) => {
       const valueName = 'quantity' + String(bag.id);
-      bag.quantity = this.orderDetailsForm.controls[valueName].value;
+      if (+this.orderDetailsForm.controls[valueName].value === 0) {
+        bag.quantity = null;
+      } else {
+        bag.quantity = this.orderDetailsForm.controls[valueName].value;
+      }
     });
     this.calculateTotal();
   }
@@ -203,15 +252,17 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
 
   resetPoints(): void {
     this.showTotal = this.total;
-    this.pointsUsed = 0;
+    this.certificateSum = 0;
     this.finalSum = this.total;
     this.points = this.orders.points;
+    this.certificateReset();
     this.calculateTotal();
   }
 
   addOrder(): void {
     const additionalOrder = new FormControl('', [Validators.minLength(10)]);
     this.additionalOrders.push(additionalOrder);
+    this.ecoStoreValidation();
   }
 
   addCertificate(): void {
@@ -241,21 +292,31 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   calculateCertificates(arr): void {
     if (arr.length > 0) {
       this.certificateSum = 0;
-      for (const certificate of arr) {
+      arr.forEach((certificate, index) => {
         this.orderService
           .processCertificate(certificate)
           .pipe(takeUntil(this.destroy))
-          .subscribe((cert) => {
-            this.certificateMatch(cert);
-            if (this.total > this.certificateSum) {
-              this.addCert = true;
-            } else {
-              this.addCert = false;
-              this.certSize = true;
+          .subscribe(
+            (cert) => {
+              this.certificateMatch(cert);
+              this.certificateSum += cert.certificatePoints / 10;
+              if (this.total > this.certificateSum) {
+                this.addCert = true;
+              } else {
+                this.addCert = false;
+                this.certSize = true;
+              }
+              this.certificateError = false;
+              this.calculateTotal();
+            },
+            (error) => {
+              if (error.status === 404) {
+                arr.splice(index, 1);
+                this.certificateError = true;
+              }
             }
-            this.calculateTotal();
-          });
-      }
+          );
+      });
     } else {
       this.certificateSum = 0;
       this.calculateTotal();
@@ -272,10 +333,11 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   }
 
   certificateReset(): void {
+    this.bonusesRemaining = false;
     this.showCertificateUsed = null;
     this.addCert = false;
     this.displayCert = false;
-    this.certificates.splice(0, 1);
+    this.certificates = [];
     this.certMessage = '';
     this.orderDetailsForm.patchValue({ certificate: '' });
     this.calculateCertificates(this.certificates);

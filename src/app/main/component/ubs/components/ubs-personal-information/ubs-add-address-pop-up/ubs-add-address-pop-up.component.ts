@@ -12,6 +12,7 @@ import { Subject } from 'rxjs';
   styleUrls: ['./ubs-add-address-pop-up.component.scss']
 })
 export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
+  country = 'ua';
   address: Address;
   updatedAddresses: Address[];
   addAddressForm: FormGroup;
@@ -32,7 +33,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
       edit: boolean;
       address: Address;
     }
-  ) { }
+  ) {}
 
   get district() {
     return this.addAddressForm.get('district');
@@ -60,16 +61,16 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
       district: [this.data.edit ? this.data.address.district : '', Validators.required],
       street: [
         this.data.edit ? this.data.address.street : '',
-        [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(this.streetPattern)],
+        [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(this.streetPattern)]
       ],
       houseNumber: [this.data.edit ? this.data.address.houseNumber : '', [Validators.required]],
       houseCorpus: [
         this.data.edit ? this.data.address.houseCorpus : '',
-        [Validators.maxLength(2), Validators.pattern(this.houseCorpusPattern)],
+        [Validators.maxLength(2), Validators.pattern(this.houseCorpusPattern)]
       ],
       entranceNumber: [
         this.data.edit ? this.data.address.entranceNumber : '',
-        [Validators.maxLength(2), Validators.pattern(this.entranceNumberPattern)],
+        [Validators.maxLength(2), Validators.pattern(this.entranceNumberPattern)]
       ],
       longitude: [this.data.edit ? this.data.address.longitude : '', Validators.required],
       latitude: [this.data.edit ? this.data.address.latitude : '', Validators.required],
@@ -111,10 +112,9 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   }
 
   addAdress() {
-    this.orderService.addAdress(this.addAddressForm.value)
-      .pipe(
-        takeUntil(this.destroy)
-      )
+    this.orderService
+      .addAdress(this.addAddressForm.value)
+      .pipe(takeUntil(this.destroy))
       .subscribe((list: Address[]) => {
         this.updatedAddresses = list;
         this.dialogRef.close();

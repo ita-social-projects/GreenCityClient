@@ -40,6 +40,9 @@
           <li>
             <span>{{ personalData.addressComment }}</span>
           </li>
+          <li>
+            <span>{{ orderDetails.orderComment }}</span>
+          </li>
         </ul>
       </div>
     </div>
@@ -51,7 +54,7 @@
         <option value="LiqPay">{{ 'submit-order.liqpay-card' | translate }}</option>
       </select>
     </div>
-    <div class="w-100 d-flex justify-content-end mt-4">
+    <div class="w-100 d-flex justify-content-between mt-4">
       <button class="secondary-global-button btn" matStepperPrevious>{{ 'submit-order.back' | translate }}</button>
       <button (click)="redirectToOrder()" type="submit" class="primary-global-button btn">{{ 'submit-order.to-order' | translate }}</button>
     </div>

@@ -7,7 +7,7 @@ import { take } from 'rxjs/operators';
 @Component({
   selector: 'app-comments-list',
   templateUrl: './comments-list.component.html',
-  styleUrls: ['./comments-list.component.scss'],
+  styleUrls: ['./comments-list.component.scss']
 })
 export class CommentsListComponent {
   @Input() public elementsList: CommentsDTO[] = [];
@@ -63,6 +63,16 @@ export class CommentsListComponent {
       item[key] = item.id === id && !item[key];
       return item;
     });
+  }
+
+  public isShowReplies(id: number): boolean {
+    let result = false;
+    this.elementsList.map((item) => {
+      if (item.id === id && item.showAllRelies) {
+        result = item.showAllRelies;
+      }
+    });
+    return result;
   }
 
   public checkCommentAuthor(commentAuthorId: number) {

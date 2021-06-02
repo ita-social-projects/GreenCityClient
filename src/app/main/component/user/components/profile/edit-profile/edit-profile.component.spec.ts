@@ -15,6 +15,7 @@ import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { EditProfileModel } from '@global-user/models/edit-profile.model';
 import { EditProfileComponent } from './edit-profile.component';
+import { SocialNetworksComponent } from './social-networks/social-networks.component';
 
 class Test {}
 
@@ -35,21 +36,22 @@ describe('EditProfileComponent', () => {
         RouterTestingModule.withRoutes([{ path: '**', component: Test }]),
         HttpClientTestingModule,
         AgmCoreModule,
-        TranslateModule.forRoot(),
+        TranslateModule.forRoot()
       ],
       providers: [
         EditProfileFormBuilder,
         EditProfileService,
         MatSnackBarComponent,
+        SocialNetworksComponent,
         ProfileService,
         {
           provide: MapsAPILoader,
           useValue: {
-            load: jasmine.createSpy('load').and.returnValue(new Promise(() => true)),
-          },
-        },
+            load: jasmine.createSpy('load').and.returnValue(new Promise(() => true))
+          }
+        }
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 
@@ -90,6 +92,7 @@ describe('EditProfileComponent', () => {
         showLocation: '',
         showEcoPlace: '',
         showShoppingList: '',
+        socialNetworks: ''
       };
       component.searchElementRef.nativeElement.value = 'Lviv';
       component.editProfileForm.value.name = '';
@@ -97,6 +100,7 @@ describe('EditProfileComponent', () => {
       component.editProfileForm.value.showLocation = '';
       component.editProfileForm.value.showEcoPlace = '';
       component.editProfileForm.value.showShoppingList = '';
+      component.editProfileForm.value.socialNetworks = '';
     });
 
     it('should return true in case of form fields were not changed', () => {
@@ -166,7 +170,7 @@ describe('EditProfileComponent', () => {
         showEcoPlace: true,
         showLocation: true,
         showShoppingList: true,
-        socialNetworks: [{ id: 220, url: 'http://instagram.com/profile' }],
+        socialNetworks: [{ id: 220, url: 'http://instagram.com/profile' }]
       };
     });
 

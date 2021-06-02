@@ -92,7 +92,8 @@
           "add-a-reply": "Добавить ответ",
           "new-comment": "Введите ваш новый комментарий"
         },
-        "view": "Посмотреть"
+        "view": "Посмотреть",
+        "hide": "Скрыть"
       },
       "empty-state": {
         "no-news": "К сожалению, новостей не найдено",
@@ -415,6 +416,14 @@
       "discount": "скидка",
       "driving": "вождения",
       "walking": "ходьба"
+    },
+    "places-card": {
+      "card-description": "https://placewebsite.com",
+      "card-rating": "Рейтинг",
+      "card-reviews": "отзывов",
+      "card-popular": "Популярные эко-места",
+      "card-first-event": "Специальное предложение - скидка для держателей бонусных карт",
+      "card-second-event": "Разместить анкету на Greencity"
     },
     "photo-upload": {
       "add-photo": "Добавить фото",
