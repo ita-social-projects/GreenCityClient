@@ -5,6 +5,7 @@ import { MatCheckboxModule, MatIconModule, MatPaginatorModule, MatSidenavModule,
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UbsAdminTableComponent } from '../ubs-admin-table/ubs-admin-table.component';
+import { UbsHeaderComponent } from '../ubs-header/ubs-header.component';
 
 import { UbsSidebarComponent } from './ubs-sidebar.component';
 
@@ -25,7 +26,7 @@ describe('UbsSidebarComponent', () => {
         HttpClientTestingModule,
         SharedModule
       ],
-      declarations: [UbsSidebarComponent, UbsAdminTableComponent]
+      declarations: [UbsSidebarComponent, UbsAdminTableComponent, UbsHeaderComponent]
     }).compileComponents();
   }));
 
@@ -35,7 +36,7 @@ describe('UbsSidebarComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  fit('should create', () => {
     expect(component).toBeTruthy();
   });
 });
