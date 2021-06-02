@@ -38,12 +38,8 @@
 
 input {
   display: inline-block;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
   padding: 8px;
   margin: 20px;
-  position: static;
   width: 128px;
   height: 36px;
 }
@@ -243,6 +239,10 @@ input {
   margin-top: 170px;
   color: var(--ubs-primary-grey);
   font-family: var(--primary-font);
+  li {
+    display: flex;
+    align-items: center;
+  }
 }
 
 .dropdown-menu li {
