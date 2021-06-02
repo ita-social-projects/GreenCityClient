@@ -8,13 +8,16 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { CertificateStatus } from '../../certificate-status.enum';
+import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ubs-order-details',
   templateUrl: './ubs-order-details.component.html',
   styleUrls: ['./ubs-order-details.component.scss']
 })
-export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
+export class UBSOrderDetailsComponent extends FormBaseComponent implements OnInit, OnDestroy {
   orders: OrderDetails;
   bags: Bag[];
   orderDetailsForm: FormGroup;
@@ -51,16 +54,31 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   certMessageFourth = '';
   certMessageFifth = '';
   public currentLanguage: string;
-  bonusesRemaining: boolean;
   public certificateError = false;
+  bonusesRemaining: boolean;
+  popupConfig = {
+    hasBackdrop: true,
+    closeOnNavigation: true,
+    disableClose: true,
+    panelClass: 'popup-dialog-container',
+    data: {
+      popupTitle: 'confirmation.title',
+      popupSubtitle: 'confirmation.subTitle',
+      popupConfirm: 'confirmation.cancel',
+      popupCancel: 'confirmation.dismiss'
+    }
+  };
 
   constructor(
     private fb: FormBuilder,
     private orderService: OrderService,
     private shareFormService: UBSOrderFormService,
     private translate: TranslateService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    router: Router,
+    dialog: MatDialog
   ) {
+    super(router, dialog);
     this.initForm();
   }
 
@@ -71,6 +89,10 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
       this.translateWords('order-details.activated-certificate4', this.certMessageFourth);
       this.translateWords('order-details.activated-certificate5', this.certMessageFifth);
     });
+  }
+
+  getFormValues(): boolean {
+    return this.showTotal > 0;
   }
 
   translateWords(key: string, variable) {

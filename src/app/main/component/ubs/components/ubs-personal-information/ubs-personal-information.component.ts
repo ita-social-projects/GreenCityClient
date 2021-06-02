@@ -1,6 +1,8 @@
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, DoCheck, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
@@ -14,7 +16,7 @@ import { Order } from '../../models/ubs.model';
   templateUrl: './ubs-personal-information.component.html',
   styleUrls: ['./ubs-personal-information.component.scss']
 })
-export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
+export class UBSPersonalInformationComponent extends FormBaseComponent implements OnInit, DoCheck, OnDestroy {
   addressId: number;
   orderDetails: OrderDetails;
   personalData: PersonalData;
@@ -24,20 +26,39 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
   maxAddressLength = 4;
   namePattern = /^[A-Za-zА-Яа-яїієё\.\'\-\\]+$/;
   phoneMask = '+{38} (000) 000 00 00';
+  firstOrder = true;
   private destroy: Subject<boolean> = new Subject<boolean>();
+  popupConfig = {
+    hasBackdrop: true,
+    closeOnNavigation: true,
+    disableClose: true,
+    panelClass: 'popup-dialog-container',
+    data: {
+      popupTitle: 'confirmation.title',
+      popupSubtitle: 'confirmation.subTitle',
+      popupConfirm: 'confirmation.cancel',
+      popupCancel: 'confirmation.dismiss'
+    }
+  };
 
   constructor(
+    public router: Router,
     private orderService: OrderService,
     private shareFormService: UBSOrderFormService,
     private fb: FormBuilder,
     public dialog: MatDialog
   ) {
+    super(router, dialog);
     this.initForm();
   }
 
   ngOnInit() {
     this.takeUserData();
     this.findAllAddresses();
+  }
+
+  ngDoCheck() {
+    this.shareFormService.changePersonalData();
   }
 
   findAllAddresses() {
@@ -68,7 +89,7 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
       ]),
       email: new FormControl('', [Validators.required, Validators.email]),
       phoneNumber: new FormControl('+38 0', [Validators.required, Validators.minLength(12)]),
-      addressComment: new FormControl('', Validators.maxLength(170))
+      addressComment: new FormControl('', Validators.maxLength(255))
     });
   }
 
@@ -80,10 +101,6 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
         this.personalData = this.shareFormService.personalData;
         this.setFormData();
       });
-  }
-
-  changePersonalData() {
-    this.shareFormService.changePersonalData();
   }
 
   checkAddress(addressId) {
@@ -156,8 +173,14 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
       .subscribe(() => this.findAllAddresses());
   }
 
+  getFormValues(): boolean {
+    return true;
+  }
+
   submit(): void {
+    this.firstOrder = !this.firstOrder;
     this.activeAddressId();
+    this.changeAddressInPersonalData();
     this.orderDetails = this.shareFormService.orderDetails;
     let orderBags: OrderBag[] = [];
     this.orderDetails.bags.forEach((bagItem: Bag, index: number) => {

@@ -14,11 +14,10 @@
       formControlName="district"
       class="shadow-none form-control"
       matGoogleMapsAutocomplete
-      [country]="'ua'"
       [types]="['geocode']"
-      (onAutocompleteSelected)="onDistrictSelected($event)"
+      [country]="country"
       [attr.disabled]="districtDisabled ? true : null"
-      [value]="region"
+      (onAutocompleteSelected)="onDistrictSelected($event)"
       placeholder="{{ 'personal-info.pop-up-enter-you-location' | translate }}"
     />
     <div class="validation" *ngIf="district.invalid && addAddressForm.get('district').touched">
@@ -36,7 +35,7 @@
       (onLocationSelected)="onLocationSelected($event)"
       (change)="onChange()"
       [types]="['address']"
-      [country]="'ua'"
+      [country]="country"
       placeholder="{{ 'personal-info.pop-up-enter-you-location' | translate }}"
     />
     <div class="validation" *ngIf="street.invalid && addAddressForm.get('street').touched">
@@ -68,8 +67,8 @@
   </div>
 </form>
 <div class="d-flex justify-content-end" mat-dialog-actions>
-  <button class="btn secondary-global-button" mat-button (click)="onNoClick()">{{ 'personal-info.pop-up-cancel' | translate }}</button>
-  <button class="btn primary-global-button"  (click)="addAdress()">
-    {{ (data.edit ? 'personal-info.pop-up-save-changes'  : 'personal-info.pop-up-add-address') | translate }}
+  <button class="secondary-global-button btn" mat-button (click)="onNoClick()">{{ 'personal-info.pop-up-cancel' | translate }}</button>
+  <button class="primary-global-button btn" (click)="addAdress()">
+    {{ (data.edit ? 'personal-info.pop-up-save-changes' : 'personal-info.pop-up-add-address') | translate }}
   </button>
 </div>

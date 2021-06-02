@@ -1,5 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
+
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Bag, OrderDetails, PersonalData } from '../../models/ubs.interface';
@@ -8,16 +12,30 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 @Component({
   selector: 'app-ubs-submit-order',
   templateUrl: './ubs-submit-order.component.html',
-  styleUrls: ['./ubs-submit-order.component.scss'],
+  styleUrls: ['./ubs-submit-order.component.scss']
 })
-export class UBSSubmitOrderComponent implements OnInit, OnDestroy {
+export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit, OnDestroy {
   paymentForm: FormGroup = this.fb.group({});
   bags: Bag[] = [];
   personalData: PersonalData;
   orderDetails: OrderDetails;
   private destroy: Subject<boolean> = new Subject<boolean>();
+  popupConfig = {
+    hasBackdrop: true,
+    closeOnNavigation: true,
+    disableClose: true,
+    panelClass: 'popup-dialog-container',
+    data: {
+      popupTitle: 'confirmation.title',
+      popupSubtitle: 'confirmation.subTitle',
+      popupConfirm: 'confirmation.cancel',
+      popupCancel: 'confirmation.dismiss'
+    }
+  };
 
-  constructor(private shareFormService: UBSOrderFormService, private fb: FormBuilder) {}
+  constructor(private shareFormService: UBSOrderFormService, private fb: FormBuilder, router: Router, dialog: MatDialog) {
+    super(router, dialog);
+  }
 
   ngOnInit(): void {
     this.takeOrderDetails();
@@ -26,6 +44,10 @@ export class UBSSubmitOrderComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy.next();
     this.destroy.unsubscribe();
+  }
+
+  getFormValues(): boolean {
+    return true;
   }
 
   takeOrderDetails() {
