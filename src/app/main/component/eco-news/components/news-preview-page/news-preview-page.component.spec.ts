@@ -1,58 +1,29 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
-import { ACTION_CONFIG, ACTION_TOKEN } from '../create-edit-news/action.constants';
-import { NewsPreviewPageComponent } from './news-preview-page.component';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
+
 import { of } from 'rxjs';
+
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { TranslateModule } from '@ngx-translate/core';
+
+import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { NewsResponseDTO } from '@eco-news-models/create-news-interface';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
+
+import { ACTION_CONFIG, ACTION_TOKEN } from '../create-edit-news/action.constants';
+import { NewsPreviewPageComponent } from './news-preview-page.component';
 
 describe('NewsPreviewPageComponent', () => {
   let component: NewsPreviewPageComponent;
   let fixture: ComponentFixture<NewsPreviewPageComponent>;
 
-  const currentFormWithImageMock: FormGroup = new FormGroup({
-    content: new FormControl('asd aspd kasd ksdfj ksdjfi sdjf osd'),
-    image: new FormControl('esdf'),
-    source: new FormControl('https://www.telerik.com/blogs/testing-dynamic-forms-in-angular'),
-    tags: new FormControl(['news, ads']),
-    title: new FormControl('asd asd asd asd asd s')
-  });
-
-  const currentFormWithoutImageMock: FormGroup = new FormGroup({
-    content: new FormControl('asd aspd kasd ksdfj ksdjfi sdjf osd'),
-    image: new FormControl(''),
-    source: new FormControl('https://www.telerik.com/blogs/testing-dynamic-forms-in-angular'),
-    tags: new FormControl(['news, ads']),
-    title: new FormControl('asd asd asd asd asd s')
-  });
-
-  const newsResponseMock: NewsResponseDTO = {
-    id: 4705,
-    text: 'hellohellohellohellohellohellohellohellohellohello',
-    title: 'hello',
-    ecoNewsAuthorDto: { id: 1601, firstName: 'Anton', lastName: 'Hryshko' },
-    creationDate: '2020-10-26T16:43:29.336931Z',
-    imagePath: 'https://storage.cloud.google.com/staging.greencity-c5a3a.appspot.com/35fce8fe-7949-48b8-bf8c-0d9a768ecb42',
-    tags: ['Events', 'Education']
-  };
-
-  const item: EcoNewsModel = {
-    author: { id: 1601, name: 'Hryshko' },
-    creationDate: '2020-10-26T16:43:29.336931Z',
-    id: 4705,
-    imagePath: 'https://storage.cloud.google.com/staging.greencity-c5a3a.appspot.com/35fce8fe-7949-48b8-bf8c-0d9a768ecb42',
-    tags: [
-      { id: 1, name: 'Events' },
-      { id: 2, name: 'Education' }
-    ],
-    text: 'hellohellohellohellohellohellohellohellohellohello',
-    title: 'hello'
-  };
+  let currentFormWithImageMock: FormGroup;
+  let currentFormWithoutImageMock: FormGroup;
+  let newsResponseMock: NewsResponseDTO;
+  let itemMock: EcoNewsModel;
 
   const createEcoNewsServiceMock = jasmine.createSpyObj('CreateEcoNewsService', [
     'getFormData',
@@ -88,15 +59,54 @@ describe('NewsPreviewPageComponent', () => {
     component.images.largeImage = 'assets/img/icon/econews/news-default-large.png';
     component.isPosting = false;
 
+    currentFormWithImageMock = new FormGroup({
+      content: new FormControl('content for current form with image'),
+      image: new FormControl('testImgURL for current form with image'),
+      source: new FormControl('source for current form with image'),
+      tags: new FormControl(['news, ads']),
+      title: new FormControl('title for current form with image')
+    });
+
+    currentFormWithoutImageMock = new FormGroup({
+      content: new FormControl('content for current form without image'),
+      image: new FormControl(''),
+      source: new FormControl('source for current form without image'),
+      tags: new FormControl(['news, ads']),
+      title: new FormControl('title for current form without image')
+    });
+
+    newsResponseMock = {
+      id: 8888,
+      text: 'test of text',
+      title: 'test of title',
+      ecoNewsAuthorDto: { id: 1617, firstName: 'Anton', lastName: 'Hryshko' },
+      creationDate: '2020-10-26T16:43:29.336931Z',
+      imagePath: 'image path for news response mock',
+      tags: ['Events', 'Education']
+    };
+
+    itemMock = {
+      author: { id: 1616, name: 'Hryshko' },
+      creationDate: '2020-10-26T16:43:29.336931Z',
+      id: 7777,
+      imagePath: 'image path for itemMock',
+      tags: [
+        { id: 1, name: 'Events' },
+        { id: 2, name: 'Education' }
+      ],
+      text: 'text for itemMock',
+      title: 'title for itemMock'
+    };
+
     fixture.detectChanges();
   });
 
-  it('should create component', () => {
+  fit('should create component', () => {
     createEcoNewsServiceMock.getNewsId.and.returnValue('15');
     expect(component).toBeTruthy();
   });
 
-  it('method isBackToEdit should change isBackToEditing to true', () => {
+  fit('method isBackToEdit should change isBackToEditing to true', () => {
     jasmine.clock().install();
     component.isBackToEdit();
     expect(createEcoNewsServiceMock.isBackToEditing).toBe(true);
@@ -105,20 +115,22 @@ describe('NewsPreviewPageComponent', () => {
     jasmine.clock().uninstall();
   });
 
-  it('testing of method postNewItem', () => {
+  fit('testing of method postNewItem', () => {
     component.postNewsItem();
     expect(!component.isPosting).toBe(true);
-    createEcoNewsServiceMock.sendFormData(item).subscribe(() => {
+    createEcoNewsServiceMock.sendFormData(itemMock).subscribe(() => {
       expect(component.isPosting).toBe(false);
     });
   });
 
-  it('testing of method editNews', () => {
-    component.editNews();
+  fit('testing of method editNews', () => {
     const dataToEdit = {
       ...component.previewItem.value,
       id: component.newsId
     };
+
+    component.editNews();
+
     expect(dataToEdit).toBeTruthy();
 
     createEcoNewsServiceMock.editNews(dataToEdit).subscribe(() => {
@@ -126,13 +138,13 @@ describe('NewsPreviewPageComponent', () => {
     });
   });
 
-  it('if we do not have image in our form method getItemPath should return largeImage', () => {
+  fit('if we do not have image in our form method getItemPath should return largeImage', () => {
     component.previewItem = currentFormWithoutImageMock;
     const result = component.getImagePath();
     expect(result).toEqual(component.images.largeImage);
   });
 
-  it('if method of service getNewsId does not return id', () => {
+  fit('if method of service getNewsId does not return id', () => {
     createEcoNewsServiceMock.getNewsId.and.returnValue('');
     expect(component.attributes).toBeDefined();
     expect(component.onSubmit).toBeDefined();
