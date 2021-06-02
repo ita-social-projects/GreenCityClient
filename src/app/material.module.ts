@@ -65,4 +65,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MatRadioModule
   ]
 })
-export class MaterialModule {}
+export class MaterialModule {
+  constructor() {}
+}
