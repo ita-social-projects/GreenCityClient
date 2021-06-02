@@ -1,33 +1,33 @@
-import { routes } from 'src/app/app-routing.module';
-import { NewsResponseDTO } from '../../models/create-news-interface';
-import { CreateEditNewsComponent } from './create-edit-news.component';
 import { async, ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
-import { PostNewsLoaderComponent } from '..';
-import { TranslateModule } from '@ngx-translate/core';
 import { FormArray, FormControl, FormsModule, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
-import { DragAndDropComponent } from '@shared/components/drag-and-drop/drag-and-drop.component';
-import { ImageCropperModule } from 'ngx-image-cropper';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { ACTION_CONFIG, ACTION_TOKEN } from './action.constants';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { EcoNewsService } from '@eco-news-service/eco-news.service';
-import { of, throwError } from 'rxjs';
-import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { FormBuilder } from '@angular/forms';
-import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
-import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
-import { Router } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Location } from '@angular/common';
+import { Router } from '@angular/router';
+import { By } from '@angular/platform-browser';
+import { of, throwError } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { EcoNewsService } from '@eco-news-service/eco-news.service';
+import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
+import { EcoNewsModel } from '@eco-news-models/eco-news-model';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { ConfirmRestorePasswordComponent } from '@global-auth/confirm-restore-password/confirm-restore-password.component';
+import { DragAndDropComponent } from '@shared/components/drag-and-drop/drag-and-drop.component';
+import { routes } from 'src/app/app-routing.module';
+import { NewsResponseDTO } from '../../models/create-news-interface';
+import { CreateEditNewsComponent } from './create-edit-news.component';
+import { PostNewsLoaderComponent } from '..';
+import { ACTION_CONFIG, ACTION_TOKEN } from './action.constants';
+import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
 import { HomepageComponent, TipsListComponent } from 'src/app/main/component/home/components';
 import { SearchAllResultsComponent } from 'src/app/main/component/layout/components';
-import { ConfirmRestorePasswordComponent } from '@global-auth/confirm-restore-password/confirm-restore-password.component';
 import { MainComponent } from '../../../../main.component';
-import { By } from '@angular/platform-browser';
 import { UbsSidebarComponent } from '../../../../../ubs-admin/components/ubs-sidebar/ubs-sidebar.component';
 
 describe('CreateEditNewsComponent', () => {
@@ -382,17 +382,15 @@ describe('CreateEditNewsComponent', () => {
     const content = component.form.controls.content;
 
     title.setValue('Title');
-    expect(title.value).toBe('Title');
     source.setValue('Source');
-    expect(source.value).toBe('Source');
     content.setValue('content');
+    expect(title.value).toBe('Title');
+    expect(source.value).toBe('Source');
     expect(content.value).toBe('content');
   });
 
   it('should test form validating', () => {
     const form = component.form;
-    expect(form.valid).toBeFalsy();
-
     const contentInput = form.controls.content;
     const titleInput = form.controls.title;
     const invalidString = `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dicta doloremque illum libero
@@ -408,9 +406,10 @@ describe('CreateEditNewsComponent', () => {
      quis quod recusandae rerum sequi similique tenetur vel vitae voluptas voluptates voluptatibus? Amet eos facere in
      perferendis sit. Aliquid consequuntur eligendi esse eum exercitationem odio perferendis quod.`;
     contentInput.setValue('< 20 chars');
+    titleInput.setValue(invalidString);
+    expect(form.valid).toBeFalsy();
     expect(contentInput.valid).toBeFalsy();
     expect(contentInput.errors.minlength).toBeTruthy();
-    titleInput.setValue(invalidString);
     expect(titleInput.valid).toBeFalsy();
     expect(titleInput.errors.maxlength).toBeTruthy();
   });

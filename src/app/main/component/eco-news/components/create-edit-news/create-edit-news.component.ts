@@ -64,7 +64,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     private ecoNewsService: EcoNewsService,
     private route: ActivatedRoute,
     @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface },
-    public snackBar: MatSnackBarComponent,
+    private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService
   ) {
     super(router, dialog);
@@ -230,7 +230,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
   private filterArr = (item: FilterModel, index: number) => {
     return [...this.filters.slice(0, index), item, ...this.filters.slice(index + 1)];
-  }
+  };
 
   public setActiveFilters(itemToUpdate: EcoNewsModel): void {
     if (itemToUpdate.tags.length) {
