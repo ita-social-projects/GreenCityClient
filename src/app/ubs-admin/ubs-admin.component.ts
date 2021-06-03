@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-ubs-admin',
-  templateUrl: './ubs-admin.component.html',
-  styleUrls: ['./ubs-admin.component.scss']
+  templateUrl: './ubs-admin.component.html'
 })
 export class UbsAdminComponent {}
