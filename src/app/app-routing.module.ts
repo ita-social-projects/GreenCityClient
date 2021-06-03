@@ -7,6 +7,7 @@ import { MainComponent } from './main/main.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { UbsSidebarComponent } from './ubs-admin/components/ubs-sidebar/ubs-sidebar.component';
+import { UbsAdminCabinetComponent } from './ubs-admin/components/ubs-admin-cabinet/ubs-admin-cabinet.component';
 
 export const routes: Routes = [
   {
@@ -56,6 +57,10 @@ export const routes: Routes = [
   {
     path: 'ubs-admin',
     component: UbsSidebarComponent
+  },
+  {
+    path: 'ubs-admin-cabinet',
+    component: UbsAdminCabinetComponent
   },
   {
     path: '**',
