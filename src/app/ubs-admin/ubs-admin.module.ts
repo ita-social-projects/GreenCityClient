@@ -8,9 +8,18 @@ import { MaterialModule } from '../material.module';
 import { SharedModule } from '../shared/shared.module';
 import { UbsHeaderComponent } from './components/ubs-header/ubs-header.component';
 import { UbsAdminComponent } from './ubs-admin.component';
+import { UbsAdminEmployeeComponent } from './components/ubs-admin-employee/ubs-admin-employee.component';
+import { UbsAdminEmployeeCardComponent } from './components/ubs-admin-employee/ubs-admin-employee-card/ubs-admin-employee-card.component';
 
 @NgModule({
-  declarations: [UbsAdminTableComponent, UbsSidebarComponent, UbsHeaderComponent, UbsAdminComponent],
+  declarations: [
+    UbsAdminTableComponent,
+    UbsSidebarComponent,
+    UbsHeaderComponent,
+    UbsAdminComponent,
+    UbsAdminEmployeeComponent,
+    UbsAdminEmployeeCardComponent
+  ],
   imports: [CommonModule, MaterialModule, SharedModule, RouterModule],
   providers: [AdminTableService],
   entryComponents: [UbsAdminTableComponent]
