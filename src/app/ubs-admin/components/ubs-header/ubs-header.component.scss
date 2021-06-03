@@ -21,6 +21,11 @@
   grid-area: icons;
   margin: auto 15px;
   justify-self: end;
+
+  .header-user {
+    color: var(--primary-green);
+    font-family: var(--primary-font);
+  }
 }
 
 .icons img,

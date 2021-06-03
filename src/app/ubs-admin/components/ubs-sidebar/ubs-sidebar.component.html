@@ -1,7 +1,7 @@
 <div class="sidebar-icons" #sideBarIcons>
   <ul class="sidebar-list">
     <li class="sidebar-list-item" (click)="toggleSideBar()" *ngFor="let listItem of listElements">
-      <img class="sidebar-list-item-icon" src="{{ listItem.link }}" [ngStyle]="{ marginTop: '30px' }" />
+      <img class="sidebar-list-item-icon" src="{{ listItem.link }}" />
     </li>
   </ul>
   <div class="sidebar-toggler" (click)="toggleSideBar()" #sidebarToggler></div>
@@ -9,7 +9,7 @@
 <mat-drawer-container class="sidebar" autosize>
   <mat-drawer #drawer class="sidebar-slider" mode="side" opened disableClose>
     <ul class="sidebar-list">
-      <li class="sidebar-list-item" *ngFor="let listItem of listElements" [ngStyle]="{ marginTop: '30px' }">
+      <li class="sidebar-list-item" *ngFor="let listItem of listElements">
         <img class="sidebar-list-item-icon" src="{{ listItem.link }}" />
         <a class="sidebar-list-item-link">{{ listItem.name }}</a>
       </li>
