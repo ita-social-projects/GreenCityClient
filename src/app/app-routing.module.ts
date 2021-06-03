@@ -8,6 +8,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { UbsAdminComponent } from './ubs-admin/ubs-admin.component';
 import { UbsAdminTableComponent } from './ubs-admin/components/ubs-admin-table/ubs-admin-table.component';
+import { UbsAdminEmployeeComponent } from './ubs-admin/components/ubs-admin-employee/ubs-admin-employee.component';
 
 export const routes: Routes = [
   {
@@ -62,6 +63,11 @@ export const routes: Routes = [
         path: '',
         pathMatch: 'full',
         component: UbsAdminTableComponent
+      },
+      {
+        path: 'employee',
+        pathMatch: 'full',
+        component: UbsAdminEmployeeComponent
       }
     ]
   },
