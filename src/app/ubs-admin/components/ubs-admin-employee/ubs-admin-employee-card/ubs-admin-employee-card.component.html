@@ -1,0 +1,37 @@
+<div class="main-card-container">
+  <div class="card-container">
+    <div class="employee-info">
+      <div *ngIf="fakeData.image">
+        <img [src]="fakeData.image" alt="image" />
+      </div>
+      <div>
+        <p class="employee-info-head">{{ fakeData.name }} {{ fakeData.surname }}</p>
+        <p>{{ fakeData.phoneNumber }}</p>
+        <p>{{ fakeData.email }}</p>
+      </div>
+    </div>
+
+    <div class="role">
+      <span *ngFor="let role of fakeData.role">
+        <p class="tag">{{ role }}</p>
+      </span>
+    </div>
+
+    <div class="location">
+      <span *ngFor="let location of fakeData.location">
+        <p class="tag">{{ location }}</p>
+      </span>
+    </div>
+  </div>
+  <span class="card-menu"><mat-icon [matMenuTriggerFor]="menu" class="card-menu-button">more_horiz</mat-icon></span>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>
+      <mat-icon>edit</mat-icon>
+      <span>Редагувати</span>
+    </button>
+    <button mat-menu-item>
+      <mat-icon>delete</mat-icon>
+      <span>Видалити</span>
+    </button>
+  </mat-menu>
+</div>

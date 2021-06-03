@@ -1,0 +1,86 @@
+.main-card-container {
+  width: 920px;
+  background-color: #ebebeb;
+  box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
+  margin: 10px 0;
+  display: flex;
+
+  .card-menu {
+    padding-right: 15px;
+    padding-top: 15px;
+
+    .card-menu-button {
+      color: #9ca7b0;
+      cursor: pointer;
+    }
+  }
+
+  .card-container {
+    padding: 24px 10px 24px 24px;
+    display: flex;
+    flex-direction: row;
+    width: 99%;
+
+    p {
+      margin: 12px 0;
+    }
+
+    .employee-info {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      flex: 58%;
+
+      img {
+        width: 80px;
+        height: 96px;
+        border-radius: 6px;
+        margin-right: 22px;
+        background-color: black;
+      }
+
+      .employee-info-head {
+        font-weight: 570;
+        font-style: normal;
+        font-size: 18px;
+        line-height: 24px;
+        letter-spacing: 0.2px;
+      }
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: normal;
+      font-style: normal;
+      color: #444e55;
+    }
+
+    .role,
+    .location {
+      display: inline-block;
+      margin: auto 0;
+      p {
+        border-radius: 6px;
+        padding: 8px;
+        margin: 5px;
+      }
+    }
+
+    .role {
+      flex: 20%;
+      p {
+        background-color: #d5efb8;
+      }
+    }
+
+    .location {
+      flex: 22%;
+      p {
+        background-color: #e6dbff;
+      }
+    }
+  }
+}
