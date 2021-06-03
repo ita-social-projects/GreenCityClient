@@ -57,16 +57,12 @@ export class UbsSidebarComponent implements AfterViewInit {
         this.sideBarIcons.nativeElement.style.zIndex = '0';
         this.sidebarContainer.nativeElement.style.marginLeft = '25px';
         this.stopClick = false;
-        this.sidebarToggler.nativeElement.style.backgroundColor = this.primaryGreenColor;
       }, 350);
-
-      this.sidebarToggler.nativeElement.textContent = '<<';
       this.openClose = false;
     } else {
       this.drawer.toggle();
       this.sidebarContainer.nativeElement.style.marginLeft = '85px';
       this.sideBarIcons.nativeElement.style.zIndex = '4';
-      this.sidebarToggler.nativeElement.textContent = '>>';
       this.openClose = true;
     }
   }
