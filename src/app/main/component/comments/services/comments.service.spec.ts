@@ -29,8 +29,8 @@ describe('CommentsService', () => {
   });
 
   it('should be created', () => {
-    const service: CommentsService = TestBed.get(CommentsService);
-    expect(service).toBeTruthy();
+    const serviceNew: CommentsService = TestBed.get(CommentsService);
+    expect(serviceNew).toBeTruthy();
   });
 
   it('should change ecoNewId value', () => {
@@ -39,12 +39,7 @@ describe('CommentsService', () => {
   });
 
   it('should make POST request to add comment', () => {
-    service.ecoNewsId = '1';
-    service.addComment(form, 1).subscribe((commentData: object) => {
-      expect(commentData).toEqual(commentBody);
-    });
-
-    let commentBody: object = {
+    const commentBody: object = {
       author: {
         id: 1,
         name: 'Some Cool Person',
@@ -54,6 +49,10 @@ describe('CommentsService', () => {
       modifiedDate: new Date('2021-05-27T15:37:15.661Z'),
       text: 'some cool content!'
     };
+    service.ecoNewsId = '1';
+    service.addComment(form, 1).subscribe((commentData: object) => {
+      expect(commentData).toEqual(commentBody);
+    });
 
     const req = httpTestingController.expectOne('https://greencity.azurewebsites.net/econews/comments/1');
     expect(req.request.method).toEqual('POST');
@@ -61,12 +60,7 @@ describe('CommentsService', () => {
   });
 
   it("should set id 0 if nothing wasn't send in parameters ", () => {
-    service.ecoNewsId = '1';
-    service.addComment(form).subscribe((commentData: object) => {
-      expect(commentData).toEqual(commentBody);
-    });
-
-    let commentBody: object = {
+    const commentBody: object = {
       author: {
         id: 1,
         name: 'Some Cool Person',
@@ -77,18 +71,18 @@ describe('CommentsService', () => {
       text: 'some cool content!'
     };
 
+    service.ecoNewsId = '1';
+    service.addComment(form).subscribe((commentData: object) => {
+      expect(commentData).toEqual(commentBody);
+    });
+
     const req = httpTestingController.expectOne('https://greencity.azurewebsites.net/econews/comments/1');
     expect(req.request.method).toEqual('POST');
     req.flush(commentBody);
   });
 
   it('should make GET request to get active comments by page', () => {
-    service.ecoNewsId = '1';
-    service.getActiveCommentsByPage(3, 2).subscribe((commentData: object) => {
-      expect(commentData).toEqual(commentBody);
-    });
-
-    let commentBody: object = {
+    const commentBody: object = {
       author: {
         id: 1,
         name: 'Some Cool Person',
@@ -99,6 +93,11 @@ describe('CommentsService', () => {
       text: 'some cool content!'
     };
 
+    service.ecoNewsId = '1';
+    service.getActiveCommentsByPage(3, 2).subscribe((commentData: object) => {
+      expect(commentData).toEqual(commentBody);
+    });
+
     const req = httpTestingController.expectOne('https://greencity.azurewebsites.net/econews/comments/active?ecoNewsId=1&page=3&size=2');
     expect(req.request.method).toEqual('GET');
     req.flush(commentBody);
@@ -106,7 +105,7 @@ describe('CommentsService', () => {
 
   it('should make GET request to get comments count', () => {
     service.ecoNewsId = '1';
-    let commentCount = 6;
+    const commentCount = 6;
     service.getCommentsCount(1).subscribe((commentData: number) => {
       expect(commentData).toEqual(commentCount);
     });
@@ -117,12 +116,7 @@ describe('CommentsService', () => {
   });
 
   it('should make GET request to get active replies by page', () => {
-    service.ecoNewsId = '1';
-    service.getActiveRepliesByPage(1, 2, 3).subscribe((commentData: object) => {
-      expect(commentData).toEqual(commentBody);
-    });
-
-    let commentBody: object = {
+    const commentBody: object = {
       currentPage: 0,
       page: [
         {
@@ -144,6 +138,11 @@ describe('CommentsService', () => {
       totalPages: 0
     };
 
+    service.ecoNewsId = '1';
+    service.getActiveRepliesByPage(1, 2, 3).subscribe((commentData: object) => {
+      expect(commentData).toEqual(commentBody);
+    });
+
     const req = httpTestingController.expectOne('https://greencity.azurewebsites.net/econews/comments/replies/active/1?page=2&size=3');
     expect(req.request.method).toEqual('GET');
     req.flush(commentBody);
@@ -163,7 +162,7 @@ describe('CommentsService', () => {
 
   it('should make GET request to get comment likes', () => {
     service.ecoNewsId = '1';
-    let commentLikes = 5;
+    const commentLikes = 5;
     service.getCommentLikes(1).subscribe((commentData: number) => {
       expect(commentData).toEqual(commentLikes);
     });
@@ -175,7 +174,7 @@ describe('CommentsService', () => {
 
   it('should make GET request to get replies amount', () => {
     service.ecoNewsId = '1';
-    let commentReplies = 5;
+    const commentReplies = 5;
     service.getRepliesAmount(1).subscribe((commentData: number) => {
       expect(commentData).toEqual(commentReplies);
     });
