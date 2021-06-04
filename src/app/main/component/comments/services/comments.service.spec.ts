@@ -43,7 +43,7 @@ describe('CommentsService', () => {
       author: {
         id: 1,
         name: 'Some Cool Person',
-        userProfilePicturePath: "path to cool person's img"
+        userProfilePicturePath: 'path to cool person\'s img'
       },
       id: 2,
       modifiedDate: new Date('2021-05-27T15:37:15.661Z'),
@@ -59,12 +59,12 @@ describe('CommentsService', () => {
     req.flush(commentBody);
   });
 
-  it("should set id 0 if nothing wasn't send in parameters ", () => {
+  it('should set id 0 if nothing wasn\'t send in parameters', () => {
     const commentBody: object = {
       author: {
         id: 1,
         name: 'Some Cool Person',
-        userProfilePicturePath: "path to cool person's img"
+        userProfilePicturePath: 'path to cool person\'s img'
       },
       id: 0,
       modifiedDate: new Date('2021-05-27T15:37:15.661Z'),
@@ -86,7 +86,7 @@ describe('CommentsService', () => {
       author: {
         id: 1,
         name: 'Some Cool Person',
-        userProfilePicturePath: "path to cool person's img"
+        userProfilePicturePath: 'path to cool person\'s img'
       },
       id: 2,
       modifiedDate: new Date('2021-05-27T15:37:15.661Z'),
@@ -123,7 +123,7 @@ describe('CommentsService', () => {
           author: {
             id: 1,
             name: 'Some Cool Person',
-            userProfilePicturePath: "path to cool person's img"
+            userProfilePicturePath: 'path to cool person\'s img'
           },
           currentUserLiked: true,
           id: 0,
