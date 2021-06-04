@@ -51,7 +51,6 @@ export class UbsSidebarComponent implements AfterViewInit {
       this.drawer.toggle();
 
       this.stopClick = true;
-      //this.sidebarToggler.nativeElement.style.backgroundColor = this.secondaryGrayColor;
 
       setTimeout(() => {
         this.sideBarIcons.nativeElement.style.zIndex = '0';
