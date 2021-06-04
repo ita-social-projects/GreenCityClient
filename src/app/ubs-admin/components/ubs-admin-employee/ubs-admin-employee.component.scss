@@ -1,0 +1,24 @@
+.main-employee-container {
+  display: flex;
+  padding-left: 10px;
+  padding-top: 32px;
+
+  .employee-part {
+    width: 80%;
+  }
+
+  .page-name {
+    margin-bottom: 32px;
+  }
+
+  .add-employee {
+    width: 20%;
+
+    .button-name {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 8px 24px;
+    }
+  }
+}
