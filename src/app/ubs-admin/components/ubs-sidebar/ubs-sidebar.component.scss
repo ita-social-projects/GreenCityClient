@@ -62,8 +62,10 @@
 
 .sidebar-toggler {
   width: 100%;
-  height: 60vh;
   border: none;
+  width: 25px;
+  height: 25px;
+  float: right;
   background-color: var(--ubs-primary-grey);
   -webkit-user-select: none;
   -moz-user-select: none;
