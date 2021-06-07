@@ -5,8 +5,4 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './ubs-admin-cabinet.component.html',
   styleUrls: ['./ubs-admin-cabinet.component.scss']
 })
-export class UbsAdminCabinetComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit() {}
-}
+export class UbsAdminCabinetComponent {}
