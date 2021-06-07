@@ -1,6 +1,6 @@
 import { HabitAssignInterface, ResponseInterface } from '../interface/habit/habit-assign.interface';
 import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
-export const listOfHabits: HabitAssignInterface[] = [
+export const LISTOFHABITS: HabitAssignInterface[] = [
   {
     id: 1,
     status: 'SUSPENDED',
@@ -86,7 +86,7 @@ export const listOfHabits: HabitAssignInterface[] = [
     ]
   }
 ];
-export const habitsWithTheSameHabitId: HabitAssignInterface[] = [
+export const HABITSWITHTHESAMEHABITID: HabitAssignInterface[] = [
   {
     id: 1,
     status: 'SUSPENDED',
@@ -144,7 +144,7 @@ export const habitsWithTheSameHabitId: HabitAssignInterface[] = [
     ]
   }
 ];
-export const newHabit: HabitAssignInterface = {
+export const NEWHABIT: HabitAssignInterface = {
   id: 2,
   status: 'SUSPENDED',
   createDateTime: new Date('2021-05-07'),
@@ -172,7 +172,7 @@ export const newHabit: HabitAssignInterface = {
     { enrollDate: 'wednesday', id: 3 }
   ]
 };
-export const assignResponce: ResponseInterface = {
+export const ASSIGNRESPONSE: ResponseInterface = {
   id: 1,
   status: 'SUSPENDED',
   createDateTime: new Date('2021-05-17'),
@@ -183,7 +183,7 @@ export const assignResponce: ResponseInterface = {
   habitStreak: 4,
   lastEnrollmentDate: new Date('2021-05-27')
 };
-export const modifiedAssignResponce: ResponseInterface = {
+export const MODIFIEDASSIGNRESPONCE: ResponseInterface = {
   id: 1,
   status: 'INPROGRESS',
   createDateTime: new Date('2021-05-17'),
@@ -195,7 +195,7 @@ export const modifiedAssignResponce: ResponseInterface = {
   lastEnrollmentDate: new Date('2021-05-27')
 };
 
-export const HabitsForDate: HabitsForDateInterface[] = [
+export const HABITSFORDATE: HabitsForDateInterface[] = [
   {
     enrollDate: '2021-05-20',
     habitAssigns: [
