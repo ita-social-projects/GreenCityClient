@@ -80,7 +80,7 @@ describe('DragAndDropComponent', () => {
   });
 
   it('should file is dropped', () => {
-    let files: FileHandle[] = [
+    const files: FileHandle[] = [
       { url: 'http://', file: new File(['some content'], 'text-file.jpeg', { type: 'image/jpeg' }) },
       { url: 'http://', file: new File(['some content'], 'text-file.jpeg', { type: 'image/jpeg' }) }
     ];
