@@ -5,9 +5,10 @@ import { UbsAdminTableComponent } from './components/ubs-admin-table/ubs-admin-t
 import { UbsSidebarComponent } from './components/ubs-sidebar/ubs-sidebar.component';
 import { MaterialModule } from '../material.module';
 import { SharedModule } from '../shared/shared.module';
+import { UbsAdminCabinetComponent } from './components/ubs-admin-cabinet/ubs-admin-cabinet.component';
 
 @NgModule({
-  declarations: [UbsAdminTableComponent, UbsSidebarComponent],
+  declarations: [UbsAdminTableComponent, UbsSidebarComponent, UbsAdminCabinetComponent],
   imports: [CommonModule, MaterialModule, SharedModule],
   providers: [AdminTableService],
   entryComponents: [UbsAdminTableComponent]
