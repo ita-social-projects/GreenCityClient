@@ -15,7 +15,7 @@
 }
 
 /* Firefox */
-.eco-store[type="number"] {
+.eco-store[type='number'] {
   -moz-appearance: textfield;
 }
 
@@ -133,6 +133,7 @@ button {
     color: var(--ubs-primary-green);
   }
 }
+
 .points {
   margin-top: 3em;
 }
