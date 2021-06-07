@@ -31,15 +31,13 @@
       }
     }
 
-    .tag {
-      display: inline-block;
-    }
-
     .role,
     .location {
       display: inline-block;
       margin: auto 0;
-      p {
+
+      .tag {
+        display: inline-block;
         border-radius: 6px;
         padding: 8px;
         margin: 5px;
@@ -68,6 +66,43 @@
     .card-menu-button {
       color: #9ca7b0;
       cursor: pointer;
+    }
+  }
+}
+
+@media screen and (max-width: 1130px) {
+  .main-card-container {
+    .card-container {
+      padding: 17px 5px 17px 17px;
+
+      .employee-info {
+        img {
+          margin-right: 11px;
+        }
+      }
+
+      .role,
+      .location {
+        margin: 0;
+
+        .tag {
+          display: block;
+          text-align: center;
+        }
+      }
+
+      .role {
+        flex: 18%;
+      }
+
+      .location {
+        flex: 20%;
+      }
+    }
+
+    .card-menu {
+      padding-right: 7px;
+      padding-top: 7px;
     }
   }
 }

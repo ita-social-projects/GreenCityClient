@@ -1,24 +1,36 @@
 .main-employee-container {
   display: flex;
+  flex-direction: column;
   padding-left: 10px;
   padding-top: 32px;
 
-  .employee-part {
-    width: 80%;
-  }
+  .employee-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 
-  .page-name {
-    margin-bottom: 32px;
-  }
+    .eployee-name {
+      width: 100%;
+      max-width: 920px;
 
-  .add-employee {
-    width: 20%;
-
-    .button-name {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 8px 24px;
+      .page-name {
+        margin-bottom: 32px;
+      }
     }
+
+    .employee-add {
+      min-width: 175px;
+
+      .button-name {
+        display: flex;
+        padding: 8px 24px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1138px) {
+  .main-employee-container {
+    padding-left: 0px;
   }
 }
