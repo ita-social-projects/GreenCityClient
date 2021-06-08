@@ -173,10 +173,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       .subscribe(() => this.findAllAddresses());
   }
 
-  getStringBetween(str, from, to): string {
-    return str.substring(str.lastIndexOf(from) + from.length, str.lastIndexOf(to));
-  }
-
   getFormValues(): boolean {
     return true;
   }
@@ -210,6 +206,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.orderService
       .processOrder(this.order)
       .pipe(takeUntil(this.destroy))
-      .subscribe((val) => (this.shareFormService.orderUrl = this.getStringBetween(val, 'href="', '"')));
+      .subscribe((val) => (this.shareFormService.orderUrl = val.toString()));
   }
 }

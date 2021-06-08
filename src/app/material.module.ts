@@ -18,7 +18,8 @@ import {
   MatTableModule,
   MatToolbarModule,
   MatTreeModule,
-  MatMenuModule
+  MatMenuModule,
+  MatChipsModule
 } from '@angular/material';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
@@ -43,7 +44,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MatTreeModule,
     MatSelectModule,
     MatRadioModule,
-    MatMenuModule
+    MatMenuModule,
+    MatChipsModule
   ],
   exports: [
     MatTableModule,
@@ -65,7 +67,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MatTreeModule,
     MatSelectModule,
     MatRadioModule,
-    MatMenuModule
+    MatMenuModule,
+    MatChipsModule
   ]
 })
 export class MaterialModule {}

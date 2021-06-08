@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-
+import { Component, Inject} from '@angular/core';
+import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { EmployeeFormComponent } from './employee-form/employee-form.component';
 @Component({
   selector: 'app-ubs-admin-employee',
   templateUrl: './ubs-admin-employee.component.html',
@@ -529,8 +530,13 @@ export class UbsAdminEmployeeComponent {
     }
   ];
 
+  constructor(public dialog: MatDialog) {}
+  openDialog() {
+    this.dialog.open(EmployeeFormComponent, {
+      panelClass: 'dialog-container-custom'
+    });
+  }
+
   public totalLength = this.fakeData.length;
   public currentPage = 1;
 
-  constructor() {}
-}
