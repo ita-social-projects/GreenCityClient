@@ -158,10 +158,6 @@ label,
   margin: 0 15px 0 0;
 }
 
-.personal-data-navigation {
-  margin: 40px 0 0;
-}
-
 .edit-address {
   height: 100%;
   margin: 3px;
@@ -175,4 +171,73 @@ label,
 
 .ml-3 {
   color: var(--ubs-secondary-grey);
+}
+
+.fas {
+  font-size: 0.8rem;
+}
+
+.btn {
+  border-radius: 4px;
+}
+
+.buttons {
+  margin-top: 46px;
+}
+
+.cansel-button {
+  border: 1px solid var(--ubs-primary-green);
+  margin-right: 1rem;
+}
+
+.back-btn {
+  border: 0;
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+  h3 {
+    font-size: 1.3rem;
+  }
+
+  h5 {
+    font-size: 1.1rem;
+  }
+
+  button,
+  .btn {
+    width: 100px;
+    font-size: 1rem;
+  }
+
+  p,
+  a,
+  textarea,
+  small,
+  input {
+    font-size: 0.8rem;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  h3 {
+    font-size: 1.3rem;
+  }
+
+  h5 {
+    font-size: 1.1rem;
+  }
+
+  button,
+  .btn {
+    width: 100px;
+    font-size: 0.8rem;
+  }
+
+  p,
+  a,
+  textarea,
+  small,
+  input {
+    font-size: 0.8rem;
+  }
 }

@@ -34,7 +34,7 @@
         </app-ubs-input-error>
       </div>
     </div>
-    <div class="col-12 col-sm-6 form-group">
+    <div class="col-12 col-sm-6 form-group mt-2">
       <label>{{ 'personal-info.info-surname' | translate }}</label>
       <input formControlName="lastName" type="text" class="shadow-none form-control" />
       <div class="validation" *ngIf="getControl('lastName').invalid && getControl('lastName').touched">
@@ -46,7 +46,7 @@
         </app-ubs-input-error>
       </div>
     </div>
-    <div class="col-12 col-sm-6 form-group">
+    <div class="col-12 col-sm-6 form-group mt-2">
       <label>Email</label>
       <input formControlName="email" type="text" class="shadow-none form-control" placeholder="example@email.com" />
       <div class="validation" *ngIf="getControl('email').invalid && getControl('email').touched">
@@ -67,11 +67,17 @@
       <p>{{ 'personal-info.info-no-address' | translate }}</p>
     </div>
     <ng-template #addressesList>
-      <div class="address d-flex" *ngFor="let address of addresses">
+      <div class="w-50 d-flex mt-2 mb-2 col-lg-6 col-md-6 col-sm-12 col-12" *ngFor="let address of addresses">
         <div class="custom-radio d-flex">
-          <input type="radio" [value]="address.id" [checked]="address.actual" (click)="checkAddress(address.id)" />
+          <input
+            formControlName="address"
+            type="radio"
+            [value]="address.id"
+            [checked]="address.actual"
+            (click)="checkAddress(address.id)"
+          />
         </div>
-        <app-address [address]="address" class="address col-12 col-md-6"></app-address>
+        <app-address [address]="address" class="col-md-6"></app-address>
         <div class="edit-address" (click)="editAddress(address.id)">
           <img src="assets/img/comments/edit.png" alt="edit image" />
         </div>
@@ -104,19 +110,24 @@
       <app-ubs-input-error [formElement]="getControl('addressComment')" [controlName]="'addressComment'"> </app-ubs-input-error>
     </div>
   </div>
-  <div class="w-100 d-flex justify-content-between personal-data-navigation">
-    <button class="secondary-global-button btn" matStepperPrevious>{{ 'personal-info.info-back' | translate }}</button>
-    <div>
-      <button class="secondary-global-button btn" type="button" (click)="cancelUBS()">{{ 'personal-info.info-cancel' | translate }}</button>
-      <button
-        type="submit"
-        (click)="submit()"
-        class="primary-global-button btn"
-        matStepperNext
-        [disabled]="personalDataForm.invalid || !addresses?.length"
-      >
-        {{ 'personal-info.info-next' | translate }}
-      </button>
-    </div>
-  </div>
 </form>
+
+<div class="w-100 d-flex justify-content-between buttons">
+  <button class="secondary-global-button btn back-btn m-0" matStepperPrevious>
+    <i class="fas fa-chevron-left"></i> &nbsp; {{ 'personal-info.info-back' | translate }}
+  </button>
+  <div class="w-100 d-flex justify-content-end">
+    <button class="secondary-global-button btn cansel-button" type="button" (click)="cancelUBS()">
+      {{ 'personal-info.info-cancel' | translate }}
+    </button>
+    <button
+      type="submit"
+      (click)="submit()"
+      class="primary-global-button btn m-0"
+      matStepperNext
+      [disabled]="personalDataForm.invalid || !addresses?.length"
+    >
+      {{ 'personal-info.info-next' | translate }}
+    </button>
+  </div>
+</div>

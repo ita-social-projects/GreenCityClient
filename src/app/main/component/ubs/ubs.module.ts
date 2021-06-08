@@ -6,7 +6,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
 import { AgmCoreModule } from '@agm/core';
 import { IMaskModule } from 'angular-imask';
-import { MatDialogModule, MatFormFieldModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
+import { MatDialogModule, MatFormFieldModule, MatIconModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
 import { environment } from '@environment/environment';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -36,6 +36,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     UbsConfirmPageComponent
   ],
   imports: [
+    MatIconModule,
     MatFormFieldModule,
     CommonModule,
     UbsRoutingModule,
