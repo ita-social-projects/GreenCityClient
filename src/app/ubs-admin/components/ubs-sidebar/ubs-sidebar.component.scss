@@ -63,6 +63,9 @@
 .sidebar-toggler {
   width: 25px;
   height: 25px;
+  border-radius: 50%;
+  border-style: solid;
+  border: 1px solid var(--ubs-primary-green);
   float: right;
   background-color: var(--ubs-primary-grey);
   -webkit-user-select: none;
