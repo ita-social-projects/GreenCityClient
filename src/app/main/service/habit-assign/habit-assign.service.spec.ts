@@ -27,6 +27,7 @@ describe('HabitService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
   it('should get data', () => {
     service.getAssignedHabits().subscribe((data) => {
       expect(data).toEqual(LISTOFHABITS);
@@ -35,6 +36,7 @@ describe('HabitService', () => {
     expect(req.request.method).toBe('GET');
     req.flush(LISTOFHABITS);
   });
+
   it('should assign habit', () => {
     service.assignHabit(1).subscribe((habit) => {
       expect(habit).toEqual(ASSIGNRESPONSE);
@@ -43,6 +45,7 @@ describe('HabitService', () => {
     expect(req.request.method).toBe('POST');
     req.flush(ASSIGNRESPONSE);
   });
+
   it('should set status for habit', () => {
     service.setHabitStatus(1, 'INPROGRESS').subscribe((habit) => {
       expect(habit).not.toBe(null);
@@ -52,6 +55,7 @@ describe('HabitService', () => {
     expect(req.request.method).toBe('PATCH');
     req.flush(MODIFIEDASSIGNRESPONCE);
   });
+
   it('should return habit by habit id', () => {
     service.getAssignedHabitById(2).subscribe((habit) => {
       expect(habit[0].habit.id).toBe(2);
@@ -60,6 +64,7 @@ describe('HabitService', () => {
     expect(req.request.method).toBe('GET');
     req.flush(LISTOFHABITS);
   });
+
   it('should return assigned habits by habitId', () => {
     service.getAssignsByHabitId(3).subscribe((habits) => {
       expect(habits).toEqual(HABITSWITHTHESAMEHABITID);
@@ -68,6 +73,7 @@ describe('HabitService', () => {
     expect(req.request.method).toBe('GET');
     req.flush(HABITSWITHTHESAMEHABITID);
   });
+
   it('should assign habit with durration', () => {
     service.assignHabitWithDuration(1, 7).subscribe((habit) => {
       expect(habit).toEqual(ASSIGNRESPONSE);
@@ -76,6 +82,7 @@ describe('HabitService', () => {
     expect(req.request.method).toBe('POST');
     req.flush(ASSIGNRESPONSE);
   });
+
   it('should enroll by habit', () => {
     service.enrollByHabit(3, '2021-05-07').subscribe((habit) => {
       expect(habit).toEqual(NEWHABIT);
@@ -84,6 +91,7 @@ describe('HabitService', () => {
     expect(req.request.method).toBe('POST');
     req.flush(NEWHABIT);
   });
+
   it('should unenroll by habit', () => {
     service.unenrollByHabit(3, '2021-05-07').subscribe((habit) => {
       expect(habit).toEqual(NEWHABIT);
@@ -92,6 +100,7 @@ describe('HabitService', () => {
     expect(req.request.method).toBe('POST');
     req.flush(NEWHABIT);
   });
+
   it('should get assigned habit by id', () => {
     service.getHabitAssignById(1).subscribe((habit) => {
       expect(LISTOFHABITS[0].id).toBe(1);
@@ -100,6 +109,7 @@ describe('HabitService', () => {
     expect(req.request.method).toBe('GET');
     req.flush(LISTOFHABITS);
   });
+
   it('should get assigned habits by date', () => {
     service.getHabitAssignByDate('2021-02-04').subscribe((habits) => {
       expect(habits[0].createDateTime).toEqual(new Date('2021-02-04'));
@@ -108,6 +118,7 @@ describe('HabitService', () => {
     expect(req.request.method).toBe('GET');
     req.flush(LISTOFHABITS);
   });
+
   it('should get assigned habits by period', () => {
     service.getAssignHabitsByPeriod('2021-05-20', '2021-05-30').subscribe((habits) => {
       expect(habits).toEqual(HABITSFORDATE);
@@ -116,6 +127,7 @@ describe('HabitService', () => {
     expect(req.request.method).toBe('GET');
     req.flush(HABITSFORDATE);
   });
+
   afterEach(() => {
     httpMock.verify();
   });
