@@ -2,6 +2,7 @@ import { AdminTableService } from './services/admin-table.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { UbsAdminTableComponent } from './components/ubs-admin-table/ubs-admin-table.component';
 import { UbsSidebarComponent } from './components/ubs-sidebar/ubs-sidebar.component';
 import { MaterialModule } from '../material.module';
@@ -20,7 +21,7 @@ import { UbsAdminEmployeeCardComponent } from './components/ubs-admin-employee/u
     UbsAdminEmployeeComponent,
     UbsAdminEmployeeCardComponent
   ],
-  imports: [CommonModule, MaterialModule, SharedModule, RouterModule],
+  imports: [CommonModule, MaterialModule, SharedModule, RouterModule, NgxPaginationModule],
   providers: [AdminTableService],
   entryComponents: [UbsAdminTableComponent]
 })
