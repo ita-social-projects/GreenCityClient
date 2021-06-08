@@ -6,9 +6,10 @@ import { UbsSidebarComponent } from './components/ubs-sidebar/ubs-sidebar.compon
 import { MaterialModule } from '../material.module';
 import { SharedModule } from '../shared/shared.module';
 import { UbsAdminCabinetComponent } from './components/ubs-admin-cabinet/ubs-admin-cabinet.component';
+import { UbsAdminOrderClientInfoComponent } from './components/ubs-admin-order-client-info/ubs-admin-order-client-info.component';
 
 @NgModule({
-  declarations: [UbsAdminTableComponent, UbsSidebarComponent, UbsAdminCabinetComponent],
+  declarations: [UbsAdminTableComponent, UbsSidebarComponent, UbsAdminCabinetComponent, UbsAdminOrderClientInfoComponent],
   imports: [CommonModule, MaterialModule, SharedModule],
   providers: [AdminTableService],
   entryComponents: [UbsAdminTableComponent]
