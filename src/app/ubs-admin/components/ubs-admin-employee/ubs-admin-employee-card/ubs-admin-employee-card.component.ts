@@ -6,6 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./ubs-admin-employee-card.component.scss']
 })
 export class UbsAdminEmployeeCardComponent {
-  @Input() fakeData;
+  @Input() data;
   constructor() {}
 }
