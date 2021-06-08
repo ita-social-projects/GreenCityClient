@@ -1,0 +1,39 @@
+form {
+    display: flex;
+    flex-direction: column;
+    //align-items: flex-start;
+    padding: 0px;
+    // background: #F7F9FA;
+    //position: absolute;
+    width: 328px;
+    height: 504px;
+    left: 56px;
+    top: 76px;
+}
+// // .form-group {
+// //     display: flex;
+// //     flex-direction: column;
+// //     align-items: flex-start;
+// //     padding: 0px;
+// //     // background: #F7F9FA;
+// //     position: absolute;
+// //     width: 328px;
+// //     height: 504px;
+// //     left: 56px;
+// //     top: 76px;
+// // }
+mat-form-field {
+    background: white;
+    width: 328px;
+    height: 56px;
+    left: 0px;
+}
+.mat-chip.mat-standard-chip {
+    color: var(--ubs-secondary-dark-green);
+    border: 1px solid var(--ubs-secondary-dark-green);
+    height: 30px;
+}
+.button-row {
+    display: flex;
+    justify-content: flex-end;
+}

@@ -1,0 +1,50 @@
+<form>
+    <div class="form-group">
+        <label>Ім'я*</label>
+    <mat-form-field appearance="outline">
+        <input matInput placeholder="Placeholder"> 
+    </mat-form-field>
+    <label>Прізвище*</label>
+    <mat-form-field appearance="outline">
+        <input matInput placeholder="Placeholder">
+    </mat-form-field>
+    <label>Номер телефону*</label>
+    <mat-form-field appearance="outline">
+        <input matInput placeholder="+380">
+    </mat-form-field>
+    <label>Email*</label>
+    <mat-form-field appearance="outline">
+        <input matInput placeholder="">
+    </mat-form-field>
+    <label>Посада*</label>
+    <mat-chip-list
+    class="example-chip"
+    cdkDropList 
+    cdkDropListOrientation="horizontal"
+    >
+    <mat-chip
+      class="example-box"
+      cdkDrag
+      *ngFor="let position of positions">
+      {{position}}
+    </mat-chip>
+  </mat-chip-list>
+    <label>Станція приймання*</label>
+    <mat-chip-list
+    class="example-chip"
+    cdkDropList 
+    cdkDropListOrientation="horizontal"
+    >
+    <mat-chip
+      class="example-box"
+      cdkDrag
+      *ngFor="let stantion of stantions">
+      {{stantion}}
+    </mat-chip>
+  </mat-chip-list>
+  <div class="button-row">
+    <button mat-stroked-button color="primary">Скасувати</button>
+    <button mat-raised-button color="primary">Додати</button>
+  </div>
+    </div>
+</form>

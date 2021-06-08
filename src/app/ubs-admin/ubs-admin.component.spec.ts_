@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NewsPreviewPageComponent } from './news-preview-page.component';
+import { UbsAdminComponent } from './ubs-admin.component';
 
-describe('NewsPreviewPageComponent', () => {
-  let component: NewsPreviewPageComponent;
-  let fixture: ComponentFixture<NewsPreviewPageComponent>;
+describe('UbsAdminComponent', () => {
+  let component: UbsAdminComponent;
+  let fixture: ComponentFixture<UbsAdminComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewsPreviewPageComponent ]
+      declarations: [ UbsAdminComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NewsPreviewPageComponent);
+    fixture = TestBed.createComponent(UbsAdminComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

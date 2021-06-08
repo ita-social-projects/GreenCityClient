@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NewsPreviewPageComponent } from './news-preview-page.component';
+import { EmployeeFormComponent } from './employee-form.component';
 
-describe('NewsPreviewPageComponent', () => {
-  let component: NewsPreviewPageComponent;
-  let fixture: ComponentFixture<NewsPreviewPageComponent>;
+describe('EmployeeFormComponent', () => {
+  let component: EmployeeFormComponent;
+  let fixture: ComponentFixture<EmployeeFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewsPreviewPageComponent ]
+      declarations: [ EmployeeFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NewsPreviewPageComponent);
+    fixture = TestBed.createComponent(EmployeeFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
