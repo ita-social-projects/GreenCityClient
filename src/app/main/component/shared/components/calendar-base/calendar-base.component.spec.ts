@@ -15,7 +15,7 @@ class TranslationServiceStub {
   public unsubscribe = new EventEmitter<any>();
 }
 
-fdescribe('CalendarBaseComponent', () => {
+describe('CalendarBaseComponent', () => {
   let component: CalendarBaseComponent;
   let languageService: LanguageService;
   let fixture: ComponentFixture<CalendarBaseComponent>;
