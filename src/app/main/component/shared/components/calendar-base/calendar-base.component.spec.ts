@@ -17,7 +17,6 @@ class TranslationServiceStub {
 
 describe('CalendarBaseComponent', () => {
   let component: CalendarBaseComponent;
-  let languageService: LanguageService;
   let fixture: ComponentFixture<CalendarBaseComponent>;
   let calendarMock: CalendarInterface;
   let isMonthCalendar: boolean;
@@ -260,8 +259,8 @@ describe('CalendarBaseComponent', () => {
       spyOn(component, 'buildCalendar');
       spyOn(component, 'getUserHabits');
       component.nextMonth();
-      expect(component['buildCalendar']).toHaveBeenCalled();
-      expect(component['getUserHabits']).toHaveBeenCalledWith(true, component.calendarDay);
+      expect(component.buildCalendar).toHaveBeenCalled();
+      expect(component.getUserHabits).toHaveBeenCalledWith(true, component.calendarDay);
     });
   });
 
