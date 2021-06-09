@@ -356,7 +356,7 @@
       },
       "submit-email": "Congrats! Your profile is created. Please check the email sent with a link to confirm your email address.",
       "forgot-password": {
-        "already-sent": "Password restore link already sent, please check your email:",
+        "already-sent": "Password restore link already sent, please check your email",
         "email-not-exist": "The user does not exist by this email:",
         "title": "Problems sign in?",
         "fill-form": "Enter your email address and we'll send you a link to regain access to your account.",
