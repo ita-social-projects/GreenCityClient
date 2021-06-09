@@ -1,5 +1,5 @@
-import { Component, Inject} from '@angular/core';
-import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EmployeeFormComponent } from './employee-form/employee-form.component';
 @Component({
   selector: 'app-ubs-admin-employee',
@@ -539,4 +539,4 @@ export class UbsAdminEmployeeComponent {
 
   public totalLength = this.fakeData.length;
   public currentPage = 1;
-
+}
