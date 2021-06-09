@@ -8,10 +8,11 @@ import { MaterialModule } from '../material.module';
 import { SharedModule } from '../shared/shared.module';
 import { UbsHeaderComponent } from './components/ubs-header/ubs-header.component';
 import { UbsAdminComponent } from './ubs-admin.component';
+import { UBSAdminRoutingModule } from './ubs-admin-routing.module';
 
 @NgModule({
   declarations: [UbsAdminTableComponent, UbsSidebarComponent, UbsHeaderComponent, UbsAdminComponent],
-  imports: [CommonModule, MaterialModule, SharedModule, RouterModule],
+  imports: [CommonModule, MaterialModule, SharedModule, RouterModule, UBSAdminRoutingModule],
   providers: [AdminTableService],
   entryComponents: [UbsAdminTableComponent]
 })

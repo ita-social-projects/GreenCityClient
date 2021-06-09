@@ -56,14 +56,7 @@ export const routes: Routes = [
   },
   {
     path: 'ubs-admin',
-    component: UbsAdminComponent,
-    children: [
-      {
-        path: '',
-        pathMatch: 'full',
-        component: UbsAdminTableComponent
-      }
-    ]
+    loadChildren: () => import('./ubs-admin/ubs-admin.module').then((mod) => mod.UbsAdminModule)
   },
   {
     path: '**',
