@@ -1,18 +1,13 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { of } from 'rxjs';
-
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { TranslateModule } from '@ngx-translate/core';
-
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { NewsResponseDTO } from '@eco-news-models/create-news-interface';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
-
 import { ACTION_CONFIG, ACTION_TOKEN } from '../create-edit-news/action.constants';
 import { NewsPreviewPageComponent } from './news-preview-page.component';
 
@@ -101,12 +96,12 @@ describe('NewsPreviewPageComponent', () => {
     fixture.detectChanges();
   });
 
-  fit('should create component', () => {
+  it('should create component', () => {
     createEcoNewsServiceMock.getNewsId.and.returnValue('15');
     expect(component).toBeTruthy();
   });
 
-  fit('method isBackToEdit should change isBackToEditing to true', () => {
+  it('method isBackToEdit should change isBackToEditing to true', () => {
     jasmine.clock().install();
     component.isBackToEdit();
     expect(createEcoNewsServiceMock.isBackToEditing).toBe(true);
@@ -115,7 +110,7 @@ describe('NewsPreviewPageComponent', () => {
     jasmine.clock().uninstall();
   });
 
-  fit('testing of method postNewItem', () => {
+  it('testing of method postNewItem', () => {
     component.postNewsItem();
     expect(!component.isPosting).toBe(true);
     createEcoNewsServiceMock.sendFormData(itemMock).subscribe(() => {
@@ -123,7 +118,7 @@ describe('NewsPreviewPageComponent', () => {
     });
   });
 
-  fit('testing of method editNews', () => {
+  it('testing of method editNews', () => {
     const dataToEdit = {
       ...component.previewItem.value,
       id: component.newsId
@@ -138,13 +133,13 @@ describe('NewsPreviewPageComponent', () => {
     });
   });
 
-  fit('if we do not have image in our form method getItemPath should return largeImage', () => {
+  it('if we do not have image in our form method getItemPath should return largeImage', () => {
     component.previewItem = currentFormWithoutImageMock;
     const result = component.getImagePath();
     expect(result).toEqual(component.images.largeImage);
   });
 
-  fit('if method of service getNewsId does not return id', () => {
+  it('if method of service getNewsId does not return id', () => {
     createEcoNewsServiceMock.getNewsId.and.returnValue('');
     expect(component.attributes).toBeDefined();
     expect(component.onSubmit).toBeDefined();
