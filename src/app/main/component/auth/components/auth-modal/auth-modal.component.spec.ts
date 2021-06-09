@@ -1,3 +1,4 @@
+import { MessageBackEndComponent } from './../message-back-end/message-back-end.component';
 import { GoogleBtnComponent } from '../google-btn/google-btn.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ErrorComponent } from '../error/error.component';
@@ -16,17 +17,25 @@ describe('AuthModalComponent', () => {
   let fixture: ComponentFixture<AuthModalComponent>;
 
   const MatDialogRefMock = {
-    close: () => {},
+    close: () => {}
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AuthModalComponent, SignInComponent, SignUpComponent, RestorePasswordComponent, ErrorComponent, GoogleBtnComponent],
+      declarations: [
+        AuthModalComponent,
+        MessageBackEndComponent,
+        SignInComponent,
+        SignUpComponent,
+        RestorePasswordComponent,
+        ErrorComponent,
+        GoogleBtnComponent
+      ],
       imports: [TranslateModule.forRoot(), ReactiveFormsModule, FormsModule, HttpClientModule, MatDialogModule],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
-        { provide: MatDialogRef, useValue: MatDialogRefMock },
-      ],
+        { provide: MatDialogRef, useValue: MatDialogRefMock }
+      ]
     }).compileComponents();
   }));
 
