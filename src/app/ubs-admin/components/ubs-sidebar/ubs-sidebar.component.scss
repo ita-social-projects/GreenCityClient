@@ -61,14 +61,17 @@
 }
 
 .sidebar-toggler {
-  margin-left: 0.6em;
-  height: 60vh;
-  text-align: center;
-  text-transform: uppercase;
-  font-weight: 400;
-  color: var(--ubs-primary-white);
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border-style: solid;
+  border: 1px solid var(--ubs-primary-green);
+  float: right;
+  background-color: var(--ubs-primary-grey);
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  display: flex;
+  align-items: center;
 }
