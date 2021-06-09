@@ -24,7 +24,7 @@ import { EmployeeFormComponent } from './components/ubs-admin-employee/employee-
     UbsAdminEmployeeCardComponent,
     EmployeeFormComponent
   ],
-  imports: [CommonModule, MaterialModule, SharedModule, RouterModule, NgxPaginationModule],
+  imports: [CommonModule, MaterialModule, SharedModule, RouterModule, NgxPaginationModule, UBSAdminRoutingModule],
   providers: [AdminTableService],
   entryComponents: [UbsAdminTableComponent, EmployeeFormComponent]
 })
