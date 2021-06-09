@@ -56,7 +56,6 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       this.orderDetails = orderDetails;
       this.bags = orderDetails.bags.filter((bagItem) => bagItem.quantity !== null);
       this.additionalOrders = orderDetails.additionalOrders;
-      console.log(orderDetails);
     });
     this.shareFormService.changedPersonalData.pipe(takeUntil(this.destroy)).subscribe((personalData: PersonalData) => {
       this.personalData = personalData;

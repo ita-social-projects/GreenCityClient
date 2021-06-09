@@ -54,7 +54,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
 
   ngOnInit() {
     this.takeUserData();
-    this.findAllAddresses();
   }
 
   ngDoCheck() {
@@ -70,6 +69,10 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
         this.personalDataForm.patchValue({
           address: this.addresses
         });
+
+        if (this.addresses[0] && this.addresses) {
+          this.checkAddress(this.addresses[0].id);
+        }
       });
   }
 
@@ -106,6 +109,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       .subscribe((personalData: PersonalData) => {
         this.personalData = this.shareFormService.personalData;
         this.setFormData();
+        this.findAllAddresses();
       });
   }
 
@@ -115,6 +119,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
         address.actual = !address.actual;
       }
     });
+
     this.changeAddressInPersonalData();
   }
 
@@ -155,7 +160,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       .pipe(takeUntil(this.destroy))
       .subscribe((list) => {
         this.addresses = list.addressList;
-        if (this.addresses.length) {
+        if (this.addresses[0]) {
           this.checkAddress(this.addresses[0].id);
         } else {
           this.personalDataForm.patchValue({
@@ -182,7 +187,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     dialogConfig.panelClass = 'address-matDialog-styles';
     dialogConfig.data = {
       edit: isEdit,
-      address: isEdit ? currentAddress : this.addresses[0].id
+      address: isEdit ? currentAddress : this.addresses[0] ? this.addresses[0].id : {}
     };
     const dialogRef = this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
     dialogRef

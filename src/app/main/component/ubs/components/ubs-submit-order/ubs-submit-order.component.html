@@ -1,6 +1,6 @@
 <div class="container" *ngIf="bags.length && personalData">
   <div class="header">
-    <h3 class="font-bolt order-title">Ваше замовлення</h3>
+    <h3 class="font-bolt order-title">{{ 'order-details.your-order' | translate }}</h3>
   </div>
   <form class="form">
     <div class="w-100 d-flex justify-content-between mb-2">
@@ -17,7 +17,7 @@
             <span class="col-3 p-0 m-0 bag-name">{{ bag.name }}</span>
             <span class="col-2 p-0 m-0 bag-name">{{ bag.capacity }} {{ 'order-details.litr' | translate }}</span>
             <span class="col-2 p-0 m-0 bag-name">{{ bag.price }} {{ 'order-details.currency' | translate }}</span>
-            <span class="col-2 p-0 m-0 bag-name">{{ bag.quantity }} шт</span>
+            <span class="col-2 p-0 m-0 bag-name">{{ bag.quantity }} {{ 'order-details.pieces' | translate }}</span>
             <span class="col-3 p-0 m-0 bag-name text-center">
               {{ bag.quantity * bag.price }} {{ 'order-details.currency' | translate }}</span
             >
@@ -60,16 +60,16 @@
         </div>
         <div class="order-info-container d-flex flex-column">
           <div class="order-info" *ngIf="additionalOrders[0] !== ''">
-            <p class="order-header">Доставка з еко магазину</p>
+            <p class="order-header">{{ 'order-details.store-delivery' | translate }}</p>
             <ul class="order-list d-flex">
-              <li class="order-list-item">Номери ваших замовлень: &nbsp;</li>
+              <li class="order-list-item">{{ 'order-details.order-numbers' | translate }} &nbsp;</li>
               <li class="order-list-item" *ngFor="let order of additionalOrders">
                 <strong>{{ order }}, &nbsp;</strong>
               </li>
             </ul>
           </div>
           <div class="order-info">
-            <p class="order-header">Отримувач</p>
+            <p class="order-header">{{ 'order-details.recipient' | translate }}</p>
             <ul class="order-list">
               <li class="order-list-item">{{ personalData.firstName }} {{ personalData.lastName }}</li>
               <li class="order-list-item">0{{ personalData.phoneNumber }}</li>
@@ -77,7 +77,7 @@
             </ul>
           </div>
           <div class="order-info m-0">
-            <p class="order-header">Адреса вивезення замовлення послуг</p>
+            <p class="order-header">{{ 'order-details.export-address' | translate }}</p>
             <ul class="order-list">
               <li class="order-list-item">{{ personalData.city }}</li>
               <li class="order-list-item">
@@ -85,8 +85,12 @@
                 >, {{ personalData.houseCorpus }}
               </li>
               <li class="order-list-item">{{ personalData.district }}</li>
-              <li class="order-list-item" *ngIf="personalData.addressComment">Коментар до адреси: {{ personalData.addressComment }}</li>
-              <li class="order-list-item" *ngIf="personalData.orderComment">Коментар до замовлення:{{ orderDetails.orderComment }}</li>
+              <li class="order-list-item" *ngIf="personalData.addressComment">
+                {{ 'order-details.address-comment' | translate }} {{ personalData.addressComment }}
+              </li>
+              <li class="order-list-item" *ngIf="orderDetails.orderComment">
+                {{ 'order-details.order-comment' | translate }} {{ orderDetails.orderComment }}
+              </li>
             </ul>
           </div>
         </div>
@@ -94,8 +98,8 @@
     </div>
     <div class="bottom_comment">
       <div class="form-group comment">
-        <h3 class="bottom_comment_payment">Оплата</h3>
-        <p class="choose-payment">Ви можете здійснити оплату одним з вибраних способів нижче.</p>
+        <h3 class="bottom_comment_payment">{{ 'order-form.payment' | translate }}</h3>
+        <p class="choose-payment">{{ 'order-details.choose-payment' | translate }}</p>
         <div class="col-12 col-sm-12 p-0">
           <label for="" class="choose-payment-chooser">{{ 'submit-order.choose-payment' | translate }}</label
           ><br />

@@ -18,6 +18,7 @@
     "sum": "Total",
     "currency": "UAH",
     "litr": "l",
+    "pieces": "pc.",
     "order-amount": "Order amount: ",
     "certificate": "Sertificate:",
     "bonuses": "Bonuses: ",
@@ -48,7 +49,15 @@
     "additional-orders": "Add another order number",
     "coment": "Comment",
     "any-details": "Any details you would like to report further about this order",
-    "next": "Next"
+    "next": "Next",
+    "your-order": "Your order",
+    "recipient": "Recipient",
+    "export-address": "The address of export of the ordered services",
+    "store-delivery": "Delivery from the Eco store",
+    "order-numbers": "Your order numbers:",
+    "address-comment": "Comment to the address:",
+    "order-comment": "Comment to the order:",
+    "choose-payment": "You can make a payment in one of the selected methods below"
   },
   "order-form": {
     "ubs-title": "Order garbage collection",
