@@ -29,22 +29,22 @@
       <div class="middle-container">
         <div class="showTotal">
           <div class="totalInfo">
-            <p class="total-content" [class.d-none]="orderDetails.showTotal === 0">
+            <p class="total-content" [class.d-none]="orderDetails.total === 0">
               <span>{{ 'order-details.order-amount' | translate }} </span>
               <span>
                 <strong>{{ orderDetails.total }} {{ 'order-details.currency' | translate }}</strong>
               </span>
             </p>
-            <p class="total-content" *ngIf="orderDetails.sectificateSum">
+            <p class="total-content" *ngIf="orderDetails.certificatesSum">
               <span>{{ 'order-details.sertificate' | translate }} </span>
               <span>
-                <strong class="money-saved">-{{ orderDetails.showCertificateUsed }} {{ 'order-details.currency' | translate }} </strong>
+                <strong class="money-saved">-{{ orderDetails.certificatesSum }} {{ 'order-details.currency' | translate }} </strong>
               </span>
             </p>
             <p class="total-content" *ngIf="orderDetails.pointsToUse">
               <span>{{ 'order-details.bonuses' | translate }} </span>
               <span>
-                <strong class="money-saved">-{{ orderDetails.certificateSum }} {{ 'order-details.currency' | translate }}</strong>
+                <strong class="money-saved">-{{ orderDetails.pointsToUse }} {{ 'order-details.currency' | translate }}</strong>
               </span>
             </p>
             <p class="total-content">
@@ -53,13 +53,10 @@
                 <strong>{{ orderDetails.finalSum }} {{ 'order-details.currency' | translate }}</strong>
               </span>
             </p>
-            <div *ngIf="displayMes" class="validMes">
-              <small class="text-danger">{{ 'order-details.min-sum' | translate }}</small>
-            </div>
           </div>
         </div>
         <div class="order-info-container d-flex flex-column">
-          <div class="order-info" *ngIf="additionalOrders[0] !== ''">
+          <div class="order-info" *ngIf="additionalOrders[0]">
             <p class="order-header">{{ 'order-details.store-delivery' | translate }}</p>
             <ul class="order-list d-flex">
               <li class="order-list-item">{{ 'order-details.order-numbers' | translate }} &nbsp;</li>
