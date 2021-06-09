@@ -114,24 +114,21 @@ h3 {
   font-size: 14px;
   line-height: 20px;
   margin-bottom: 20px;
-
-  color: #444e55;
+  color: var(--ubs-primary-grey);
 }
 
 .choose-payment-chooser {
   font-size: 16px;
   line-height: 24px;
-
-  color: #64727d;
+  color: var(--ubs-secondary-grey);
 }
 
 .payment-select {
   padding: 8px;
-
   width: 323px;
   height: 36px;
-  background: #ffffff;
-  border: 1px solid #9ca7b0;
+  background: var(--ubs-primary-white);
+  border: 1px solid var(--quintynary-light-grey);
   box-sizing: border-box;
   border-radius: 4px;
 }
@@ -141,10 +138,8 @@ h3 {
   font-weight: bold;
   font-size: 16px;
   line-height: 24px;
-
   letter-spacing: 0.1px;
-
-  color: #444e55;
+  color: var(--ubs-primary-grey);
 }
 
 .middle-container {
