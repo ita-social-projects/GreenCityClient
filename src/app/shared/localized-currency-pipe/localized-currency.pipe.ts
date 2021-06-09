@@ -1,4 +1,5 @@
 import { OnDestroy, Pipe, PipeTransform } from '@angular/core';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -17,8 +18,8 @@ export class LocalizedCurrencyPipe implements PipeTransform, OnDestroy {
   private lang: string;
   private destroy$: Subject<any> = new Subject();
 
-  constructor(translate: TranslateService) {
-    this.lang = localStorage.getItem('language') || translate.defaultLang;
+  constructor(translate: TranslateService, localStorageService: LocalStorageService) {
+    this.lang = localStorageService.getCurrentLanguage() || translate.defaultLang;
     translate.onDefaultLangChange.pipe(takeUntil(this.destroy$)).subscribe((defaultLangObj) => {
       this.lang = defaultLangObj.lang;
     });
