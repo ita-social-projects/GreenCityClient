@@ -1,0 +1,108 @@
+.main-card-container {
+  display: flex;
+  max-width: 920px;
+  background-color: #f1f1f1;
+  box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
+  margin-bottom: 24px;
+
+  .card-container {
+    padding: 24px 10px 24px 24px;
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+
+    p {
+      margin: 12px 0;
+    }
+
+    .employee-info {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      flex: 58%;
+
+      img {
+        width: 80px;
+        height: 96px;
+        border-radius: 6px;
+        margin-right: 22px;
+        background-color: black;
+      }
+    }
+
+    .role,
+    .location {
+      display: inline-block;
+      margin: auto 0;
+
+      .tag {
+        display: inline-block;
+        border-radius: 6px;
+        padding: 8px;
+        margin: 5px;
+      }
+    }
+
+    .role {
+      flex: 20%;
+      p {
+        background-color: #d5efb8;
+      }
+    }
+
+    .location {
+      flex: 22%;
+      p {
+        background-color: #e6dbff;
+      }
+    }
+  }
+
+  .card-menu {
+    padding-right: 15px;
+    padding-top: 15px;
+
+    .card-menu-button {
+      color: #9ca7b0;
+      cursor: pointer;
+    }
+  }
+}
+
+@media screen and (max-width: 1130px) {
+  .main-card-container {
+    .card-container {
+      padding: 17px 5px 17px 17px;
+
+      .employee-info {
+        img {
+          margin-right: 11px;
+        }
+      }
+
+      .role,
+      .location {
+        margin: 0;
+
+        .tag {
+          display: block;
+          text-align: center;
+        }
+      }
+
+      .role {
+        flex: 18%;
+      }
+
+      .location {
+        flex: 20%;
+      }
+    }
+
+    .card-menu {
+      padding-right: 7px;
+      padding-top: 7px;
+    }
+  }
+}

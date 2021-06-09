@@ -1,0 +1,78 @@
+.main-employee-container {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+  padding-top: 32px;
+
+  .employee-header {
+    display: flex;
+    flex-direction: row;
+
+    .eployee-name {
+      width: 100%;
+      max-width: 920px;
+
+      .page-name {
+        margin-bottom: 32px;
+      }
+    }
+
+    .employee-add {
+      min-width: 175px;
+
+      .button-name {
+        display: flex;
+        padding: 8px 24px;
+      }
+    }
+  }
+
+  .employees {
+    padding-bottom: 77px;
+
+    .paginate {
+      display: flex;
+      justify-content: center;
+      max-width: 920px;
+
+      .custom-pagination {
+        display: flex;
+        justify-content: space-between;
+        width: 360px;
+
+        .arrow {
+          vertical-align: middle;
+          color: #64727d;
+        }
+
+        div {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 4px;
+
+          .page {
+            padding: 4px 8px;
+            color: #444e55;
+          }
+        }
+
+        .current {
+          background-color: #13aa57;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1138px) {
+  .main-employee-container {
+    padding-left: 0px;
+  }
+}
+.dialog-container-custom .mat-dialog-container {
+  position: relative;
+  width: 492px;
+  height: 848px;
+  background: #f7f9fa;
+}
