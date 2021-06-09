@@ -531,6 +531,10 @@ export class UbsAdminEmployeeComponent {
 
   public totalLength = this.fakeData.length;
   public currentPage = 1;
+  public paginationId = 'employee';
+  public changeCurrentPage(page: number): void {
+    this.currentPage = page;
+  }
 
   constructor() {}
 }

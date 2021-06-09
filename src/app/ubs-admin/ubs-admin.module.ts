@@ -11,6 +11,7 @@ import { UbsHeaderComponent } from './components/ubs-header/ubs-header.component
 import { UbsAdminComponent } from './ubs-admin.component';
 import { UbsAdminEmployeeComponent } from './components/ubs-admin-employee/ubs-admin-employee.component';
 import { UbsAdminEmployeeCardComponent } from './components/ubs-admin-employee/ubs-admin-employee-card/ubs-admin-employee-card.component';
+import { PaginationComponent } from './components/shared/components/pagination/pagination.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { UbsAdminEmployeeCardComponent } from './components/ubs-admin-employee/u
     UbsHeaderComponent,
     UbsAdminComponent,
     UbsAdminEmployeeComponent,
-    UbsAdminEmployeeCardComponent
+    UbsAdminEmployeeCardComponent,
+    PaginationComponent
   ],
   imports: [CommonModule, MaterialModule, SharedModule, RouterModule, NgxPaginationModule],
   providers: [AdminTableService],

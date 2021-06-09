@@ -34,33 +34,6 @@
       display: flex;
       justify-content: center;
       max-width: 920px;
-
-      .custom-pagination {
-        display: flex;
-        justify-content: space-between;
-        width: 360px;
-
-        .arrow {
-          vertical-align: middle;
-          color: #64727d;
-        }
-
-        div {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          border-radius: 4px;
-
-          .page {
-            padding: 4px 8px;
-            color: #444e55;
-          }
-        }
-
-        .current {
-          background-color: #13aa57;
-        }
-      }
     }
   }
 }
