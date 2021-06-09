@@ -9,7 +9,6 @@ import { BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../../http-response-status
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 
-
 interface NewTokenPair {
   accessToken: string;
   refreshToken: string;
@@ -27,7 +26,7 @@ export class InterceptorService implements HttpInterceptor {
     private localStorageService: LocalStorageService,
     private router: Router,
     private userOwnAuthService: UserOwnAuthService
-  ) { }
+  ) {}
 
   /**
    * Intercepts all HTTP requests, adds access token to authentication header (except authentication requests),
