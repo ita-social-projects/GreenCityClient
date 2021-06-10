@@ -191,7 +191,7 @@ describe('CalendarBaseComponent', () => {
       const day = calendarMock.date.getDate();
       const year = calendarMock.date.getFullYear();
       const result = component.formatSelectedDate(false, calendarMock);
-      expect(result).toEqual(`июнь ${day}, ${year}`);
+      expect(result).toEqual(`червень ${day}, ${year}`);
     });
   });
 
