@@ -6,7 +6,8 @@ $bp-largest: 1200px;
 
 .calendar {
   display: block;
-  background: var(--secondary-light-grey);
+  background: var(--primary-white);
+  box-shadow: 1px 4px 8px var(--quintynary-dark-grey);
   border-radius: 4px;
 
   .top {

@@ -1,11 +1,13 @@
 .profile-wrapper {
-  margin-top: -65px;
+  margin-top: -95px;
   display: grid;
   grid-template-columns: 1fr;
   grid-row-gap: 32px;
+  background-color: var(--after-primary-light-grey);
 
   .left-column {
     width: 100%;
+    box-shadow: 4px 0 8px -4px var(--quintynary-dark-grey);
 
     .app-users-achievements,
     .app-users-friends,
@@ -74,6 +76,7 @@
 
     .left-column {
       grid-area: 1 / 1 / 2 / 2;
+      margin-bottom: 5px;
     }
 
     .habits-dashboard {
@@ -87,6 +90,7 @@
 
       .app-profile-cards {
         display: block;
+        box-shadow: 1px 4px 8px var(--quintynary-dark-grey);
       }
     }
   }

@@ -98,6 +98,7 @@ export class UbsAdminTableComponent implements OnInit {
   }
 
   getTable(columnName = 'orderid', sortingType = 'desc') {
+    this.isLoading = true;
     this.adminTableService
       .getTable(columnName, sortingType)
       .pipe(takeUntil(this.destroy))

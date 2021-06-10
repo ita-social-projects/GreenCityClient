@@ -1,12 +1,13 @@
 .right-cards {
   .card {
     width: 100%;
-    color: white;
+    color: var(--primary-white);
     text-align: left;
     padding: 16px 16px 0 16px;
     margin-top: 24px;
     border-radius: 4px;
     background: var(--primary-green);
+    box-shadow: 1px 4px 8px var(--quintynary-dark-grey);
 
     .cart-title {
       font-family: var(--secondary-font);

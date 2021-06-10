@@ -9,7 +9,7 @@ import { HabitAssignInterface, ResponseInterface } from '../../interface/habit/h
 import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class HabitAssignService implements OnDestroy {
   userId: number;
