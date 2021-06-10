@@ -48,15 +48,15 @@
                 >
               </p>
               <p class="total-content" *ngIf="displayCert">
-                <span>{{ 'order-details.sertificate' | translate }} </span>
+                <span>{{ 'order-details.certificate' | translate }} </span>
                 <span
                   ><small>-{{ showCertificateUsed }} {{ 'order-details.currency' | translate }}</small></span
                 >
               </p>
-              <p class="total-content" *ngIf="bonusesRemaining">
+              <p class="total-content" *ngIf="pointsUsed">
                 <span>{{ 'order-details.bonuses' | translate }} </span
                 ><span>
-                  <small>-{{ certificateSum }} {{ 'order-details.currency' | translate }}</small></span
+                  <small>-{{ pointsUsed }} {{ 'order-details.currency' | translate }}</small></span
                 >
               </p>
               <p class="total-content">
@@ -94,18 +94,10 @@
               >
                 {{ 'order-details.activate' | translate }}
               </button>
-              <button *ngIf="addCert" type="button" class="primary-global-button btn" (click)="certificateReset()">
+              <button *ngIf="addCert" type="button" class="primary-global-button btn" (click)="certificateReset(true)">
                 {{ 'order-details.cancel' | translate }}
               </button>
             </div>
-            <div class="validMes">
-              <small class="text-message"> {{ certMessage | translate }} </small>
-            </div>
-            <small *ngIf="certSize">
-              {{ 'order-details.activated-certificate1' | translate }} {{ certificateSum }}
-              {{ 'order-details.activated-certificate2' | translate }} {{ certificateLeft }}
-              {{ 'order-details.activated-certificate2' | translate }}
-            </small>
           </div>
           <div
             class="addCertificate"
@@ -139,14 +131,44 @@
               <small class="text-danger" *ngIf="certificate.invalid && certificate.touched">
                 {{ 'order-details.failed-certificate' | translate }}
               </small>
-              <small class="text-message"> {{ certMessage }} </small>
             </div>
           </div>
-          <small class="text-danger" *ngIf="certificateError && !addCert"> {{ 'order-details.not-found-certificate' | translate }}</small>
-          <div class="addBonus">
+          <div class="messages-container">
+            <small class="text-message" *ngIf="certSize">
+              {{
+                'order-details.activated-oversum'
+                  | translate: { certificateSum: certificateSum, certificateLeft: certificateLeft, certDate: certDate }
+              }}
+            </small>
+            <small class="text-message" *ngIf="(certStatus === 'NEW' || certStatus === 'ACTIVE') && !certSize">
+              {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: certDate } }}
+            </small>
+            <small class="text-danger" *ngIf="certificateError && !addCert">
+              {{ 'order-details.not-found-certificate' | translate }}
+            </small>
+            <small class="text-danger" *ngIf="certStatus === 'USED'">
+              {{
+                'order-details.already-used'
+                  | translate
+                    : {
+                        certDate: certDate
+                      }
+              }}
+            </small>
+            <small class="text-danger" *ngIf="certStatus === 'EXPIRED'">
+              {{
+                'order-details.expired'
+                  | translate
+                    : {
+                        certDate: certDate
+                      }
+              }}
+            </small>
+          </div>
+          <div class="points">
             <h5>{{ 'order-details.bonus-need' | translate }}</h5>
-            <p>{{ 'order-details.bonus-left' | translate }} {{ certificateSum }} {{ 'order-details.currency' | translate }}</p>
-            <div *ngIf="bonusesRemaining">
+            <p>{{ 'order-details.bonus-left' | translate }} {{ certificateLeft }} {{ 'order-details.currency' | translate }}</p>
+            <div *ngIf="pointsUsed !== 0 && finalSum !== 0">
               <div class="form-check custom-control custom-radio">
                 <input
                   formControlName="bonus"
@@ -165,7 +187,6 @@
                   value="no"
                   class="form-check-input custom-control-input input-border"
                   type="radio"
-                  (click)="resetPoints()"
                 />
                 <label class="form-check-label custom-control-label" for="customRadio2">{{ 'order-details.no' | translate }}</label>
               </div>
@@ -230,7 +251,13 @@
         <div class="w-100 d-flex justify-content-end">
           <div>
             <button class="secondary-global-button btn btn-main" (click)="cancelUBS()">{{ 'order-details.cancel' | translate }}</button>
-            <button [disabled]="showTotal < 500" type="submit" class="primary-global-button btn btn-main" matStepperNext>
+            <button
+              [disabled]="showTotal < 500"
+              type="submit"
+              class="primary-global-button btn btn-main"
+              matStepperNext
+              (click)="changeOrderDetails()"
+            >
               {{ 'order-details.next' | translate }}
             </button>
           </div>

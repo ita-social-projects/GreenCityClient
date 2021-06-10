@@ -17,6 +17,8 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit, OnDestroy {
   paymentForm: FormGroup = this.fb.group({});
   bags: Bag[] = [];
+  finalSum: number;
+  certificatesSum: number;
   personalData: PersonalData;
   orderDetails: OrderDetails;
   private destroy: Subject<boolean> = new Subject<boolean>();
@@ -54,6 +56,8 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     this.shareFormService.changedOrder.pipe(takeUntil(this.destroy)).subscribe((orderDetails: OrderDetails) => {
       this.orderDetails = orderDetails;
       this.bags = orderDetails.bags;
+      this.certificatesSum = orderDetails.certificatesSum;
+      this.finalSum = orderDetails.finalSum;
     });
     this.shareFormService.changedPersonalData.pipe(takeUntil(this.destroy)).subscribe((personalData: PersonalData) => {
       this.personalData = personalData;
