@@ -2,6 +2,7 @@
   font-family: var(--ubs-quaternary-font);
   margin-bottom: 22px;
 }
+
 .form__headline {
   font-size: 20px;
   font-weight: 700;
@@ -11,6 +12,7 @@
   margin-bottom: 30px;
   margin-top: 36px;
 }
+
 .form__subtitle {
   font-size: 16px;
   font-weight: 700;
@@ -18,14 +20,17 @@
   color: var(--ubs-quaternary-dark-grey);
   letter-spacing: 0.1px;
 }
+
 .form__label {
   color: var(--ubs-secondary-grey);
   font-size: 16px;
   line-height: 24px;
 }
+
 .form-group {
   margin-bottom: 10px;
 }
+
 .btn {
   color: var(--ubs-primary-green);
   background: var(--ubs-primary-white);
@@ -35,9 +40,11 @@
   box-sizing: border-box;
   border-radius: 4px;
 }
+
 .violation__item {
   margin-right: 38px;
 }
+
 input {
   position: static;
   height: 36px;
