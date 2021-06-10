@@ -124,6 +124,18 @@ button {
   border-bottom: 1px solid var(--ubs-primary-light-grey);
 }
 
+.messages-container {
+  width: 35em;
+
+  small {
+    color: var(--ubs-primary-green);
+  }
+}
+
+.points {
+  margin-top: 3em;
+}
+
 .totalInfo {
   text-align: right;
 
