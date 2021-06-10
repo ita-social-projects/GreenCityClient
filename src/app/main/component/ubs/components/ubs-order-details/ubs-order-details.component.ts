@@ -8,13 +8,16 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { CertificateStatus } from '../../certificate-status.enum';
+import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ubs-order-details',
   templateUrl: './ubs-order-details.component.html',
   styleUrls: ['./ubs-order-details.component.scss']
 })
-export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
+export class UBSOrderDetailsComponent extends FormBaseComponent implements OnInit, OnDestroy {
   orders: OrderDetails;
   bags: Bag[];
   orderDetailsForm: FormGroup;
@@ -42,34 +45,47 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   certSize = false;
   showCertificateUsed = 0;
   certificateLeft = 0;
-  certMessage: string;
+  certDate: string;
+  certStatus: string;
   userOrder: FinalOrder;
   object: {};
   private destroy: Subject<boolean> = new Subject<boolean>();
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-  certMessageFirst = '';
-  certMessageFourth = '';
-  certMessageFifth = '';
   public currentLanguage: string;
-  bonusesRemaining = this.pointsUsed;
+  public certificateError = false;
+  bonusesRemaining: boolean;
+  popupConfig = {
+    hasBackdrop: true,
+    closeOnNavigation: true,
+    disableClose: true,
+    panelClass: 'popup-dialog-container',
+    data: {
+      popupTitle: 'confirmation.title',
+      popupSubtitle: 'confirmation.subTitle',
+      popupConfirm: 'confirmation.cancel',
+      popupCancel: 'confirmation.dismiss'
+    }
+  };
 
   constructor(
     private fb: FormBuilder,
     private orderService: OrderService,
     private shareFormService: UBSOrderFormService,
     private translate: TranslateService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    router: Router,
+    dialog: MatDialog
   ) {
+    super(router, dialog);
     this.initForm();
   }
 
   ngOnInit(): void {
     this.takeOrderData();
-    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe(() => {
-      this.translateWords('order-details.activated-certificate1', this.certMessageFirst);
-      this.translateWords('order-details.activated-certificate4', this.certMessageFourth);
-      this.translateWords('order-details.activated-certificate5', this.certMessageFifth);
-    });
+  }
+
+  getFormValues(): boolean {
+    return this.showTotal > 0;
   }
 
   translateWords(key: string, variable) {
@@ -168,6 +184,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
         this.showCertificateUsed = this.total;
         this.points = this.orders.points + this.certificateLeft;
       }
+      this.bonusesRemaining = this.certificateSum > 0;
       this.showCertificateUsed = this.certificateSum;
     }
   }
@@ -211,15 +228,6 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
     this.calculateTotal();
   }
 
-  public submitStep() {
-    this.bags.forEach((bag) => {
-      const valueName = 'quantity' + String(bag.id);
-      if (this.orderDetailsForm.controls[valueName].value == null) {
-        this.orderDetailsForm.controls[valueName].setValue('0');
-      }
-    });
-  }
-
   calculatePoints(): void {
     if (this.certificateSum <= 0) {
       this.showTotal = this.total;
@@ -233,13 +241,18 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
       this.points > this.showTotal ? (this.points = this.points - this.showTotal) : (this.points = 0);
       this.finalSum = this.showTotal - this.pointsUsed - this.certificateSum;
     }
+
+    if (this.finalSum < 0) {
+      this.finalSum = 0;
+    }
   }
 
   resetPoints(): void {
     this.showTotal = this.total;
-    this.pointsUsed = 0;
+    this.certificateSum = 0;
     this.finalSum = this.total;
     this.points = this.orders.points;
+    this.certificateReset(true);
     this.calculateTotal();
   }
 
@@ -276,21 +289,27 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   calculateCertificates(arr): void {
     if (arr.length > 0) {
       this.certificateSum = 0;
-      for (const certificate of arr) {
+      arr.forEach((certificate, index) => {
         this.orderService
           .processCertificate(certificate)
           .pipe(takeUntil(this.destroy))
-          .subscribe((cert) => {
-            this.certificateMatch(cert);
-            if (this.total > this.certificateSum) {
-              this.addCert = true;
-            } else {
-              this.addCert = false;
-              this.certSize = true;
+          .subscribe(
+            (cert) => {
+              this.certificateMatch(cert);
+              if (this.total < this.certificateSum) {
+                this.certSize = true;
+              }
+              this.certificateError = false;
+              this.calculateTotal();
+            },
+            (error) => {
+              if (error.status === 404) {
+                arr.splice(index, 1);
+                this.certificateError = true;
+              }
             }
-            this.calculateTotal();
-          });
-      }
+          );
+      });
     } else {
       this.certificateSum = 0;
       this.calculateTotal();
@@ -306,25 +325,40 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  certificateReset(): void {
+  certificateReset(resetMessage: boolean): void {
+    if (resetMessage) {
+      this.certDate = '';
+      this.certStatus = '';
+      this.addCert = true;
+    }
+
+    this.bonusesRemaining = false;
     this.showCertificateUsed = null;
     this.addCert = false;
     this.displayCert = false;
-    this.certificates.splice(0, 1);
-    this.certMessage = '';
+    this.certificates = [];
+    this.certSize = false;
+    this.certificateLeft = 0;
+    this.certificateSum = 0;
+    this.pointsUsed = 0;
     this.orderDetailsForm.patchValue({ certificate: '' });
     this.calculateCertificates(this.certificates);
   }
 
   certificateMatch(cert): void {
     if (cert.certificateStatus === CertificateStatus.ACTIVE || cert.certificateStatus === CertificateStatus.NEW) {
-      this.certificateSum = this.certificateSum + cert.certificatePoints;
-      this.certMessage = this.certMessageFirst + ' ' + cert.certificatePoints + ' ' + this.certMessageFourth + ' ' + cert.certificateDate;
+      this.certificateSum += cert.certificatePoints;
+      this.certDate = cert.certificateDate;
+      this.certStatus = cert.certificateStatus;
       this.displayCert = true;
-    } else if (cert.certificateStatus === CertificateStatus.USED) {
-      this.certificateSum = 0;
-      this.certMessage = this.certMessageFifth + ' ' + cert.certificateDate;
-      this.displayCert = false;
+      this.addCert = true;
+    }
+
+    if (cert.certificateStatus === CertificateStatus.USED || cert.certificateStatus === CertificateStatus.EXPIRED) {
+      this.certDate = cert.certificateDate;
+      this.certStatus = cert.certificateStatus;
+
+      this.certificateReset(false);
     }
   }
 

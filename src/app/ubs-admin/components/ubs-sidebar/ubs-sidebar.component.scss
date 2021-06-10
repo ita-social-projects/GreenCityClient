@@ -3,6 +3,7 @@
 
   .sidebar-container {
     margin-left: 25px;
+    width: calc(100% - 50px);
   }
 
   .sidebar-slider {
@@ -28,6 +29,7 @@
     cursor: pointer;
     color: var(--ubs-primary-white);
     font-family: var(--primary-font);
+    margin-top: 30px;
 
     &:hover,
     &:focus {
@@ -59,47 +61,17 @@
 }
 
 .sidebar-toggler {
-  margin-left: 0.6em;
-  width: 40px;
-  height: 40px;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
-  text-align: center;
-  text-transform: uppercase;
-  font-weight: 400;
-  color: var(--ubs-primary-white);
+  border-style: solid;
   border: 1px solid var(--ubs-primary-green);
-  background-color: var(--ubs-primary-green);
+  float: right;
+  background-color: var(--ubs-primary-grey);
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-}
-//For Header
-.wrapper {
-  display: grid;
-  grid-template-areas: 'logo icons';
-  grid-template-rows: 52px;
-  grid-template-columns: 200px auto;
-  grid-gap: 400px;
-  width: 100vw;
-  box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
-  position: fixed;
-  top: 0;
-  z-index: 99;
-}
-
-.logo {
-  margin-top: 2px;
-  grid-area: logo;
-  margin-left: 36px;
-}
-
-.icons {
-  grid-area: icons;
-  margin: auto;
-}
-
-.icons img,
-a {
-  padding: 17px;
+  display: flex;
+  align-items: center;
 }

@@ -9,7 +9,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 @Component({
   selector: 'app-eco-news-detail',
   templateUrl: './eco-news-detail.component.html',
-  styleUrls: ['./eco-news-detail.component.scss'],
+  styleUrls: ['./eco-news-detail.component.scss']
 })
 export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   public newsItem: EcoNewsModel;
@@ -35,8 +35,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   }
 
   public checkNewsImage(): string {
-    this.newsImage = this.newsItem.imagePath && this.newsItem.imagePath !== ' ' ?
-    this.newsItem.imagePath : this.images.largeImage;
+    this.newsImage = this.newsItem.imagePath && this.newsItem.imagePath !== ' ' ? this.newsItem.imagePath : this.images.largeImage;
     return this.newsImage;
   }
 
@@ -55,7 +54,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
     return {
       fb: () => `https://www.facebook.com/sharer/sharer.php?u=${currentPage}`,
       linkedin: () => `https://www.linkedin.com/sharing/share-offsite/?url=${currentPage}`,
-      twitter: () => `https://twitter.com/share?url=${currentPage}&text=${this.newsItem.title}&hashtags=${this.newsItem.tags.join(',')}`,
+      twitter: () => `https://twitter.com/share?url=${currentPage}&text=${this.newsItem.title}&hashtags=${this.newsItem.tags.join(',')}`
     };
   }
 
