@@ -5,6 +5,17 @@ $order-grey: #f8f9fb;
   padding: 10px 25px 40px;
 }
 
+.total-content {
+  display: flex;
+  justify-content: space-between;
+  color: var(--ubs-secondary-grey);
+  padding-right: 0.5rem;
+}
+
+small {
+  color: var(--ubs-primary-green);
+}
+
 .your-order {
   background-color: $order-grey;
 
