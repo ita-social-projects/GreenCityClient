@@ -14,10 +14,8 @@
           <td class="firstRow"></td>
           <td class="firstRow right-column">
             <p class="total-content" *ngIf="certificatesSum">
-              <span>{{ 'order-details.bonuses' | translate }} </span
-              ><span>
-                <small>-{{ certificatesSum }} {{ 'order-details.currency' | translate }}</small></span
-              >
+              <span>{{ 'order-details.bonuses' | translate }} </span><span>
+                <small>-{{ certificatesSum }} {{ 'order-details.currency' | translate }}</small></span>
             </p>
             <strong>{{ finalSum }} {{ 'submit-order.currency' | translate }}</strong>
           </td>
