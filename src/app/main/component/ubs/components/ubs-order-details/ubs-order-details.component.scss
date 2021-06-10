@@ -125,7 +125,7 @@ button {
 }
 
 .messages-container {
-  width: 35em;
+  width: 50%;
 
   small {
     color: var(--ubs-primary-green);
@@ -151,6 +151,7 @@ button {
   }
 
   .money-saved {
+    font-weight: 400;
     font-size: 0.8rem;
     color: var(--ubs-primary-green);
   }
@@ -318,13 +319,17 @@ li {
     font-size: 0.8rem;
   }
 
+  .messages-container {
+    width: 65%;
+  }
+
   .totalInfo {
     span {
       font-size: 0.8rem;
     }
 
     .money-saved {
-      font-size: 0.5rem;
+      font-size: 0.65rem;
     }
   }
 
@@ -355,13 +360,17 @@ li {
     font-size: 0.6rem;
   }
 
+  .messages-container {
+    width: 80%;
+  }
+
   .totalInfo {
     span {
       font-size: 0.6rem;
     }
 
     .money-saved {
-      font-size: 0.5rem;
+      font-size: 0.58rem;
     }
   }
 
