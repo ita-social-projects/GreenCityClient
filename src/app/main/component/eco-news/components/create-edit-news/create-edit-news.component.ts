@@ -19,7 +19,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 @Component({
   selector: 'app-create-edit-news',
   templateUrl: './create-edit-news.component.html',
-  styleUrls: ['./create-edit-news.component.scss'],
+  styleUrls: ['./create-edit-news.component.scss']
 })
 export class CreateEditNewsComponent extends FormBaseComponent implements OnInit, OnDestroy {
   public isPosting = false;
@@ -51,8 +51,8 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       popupTitle: 'homepage.eco-news.news-popup.title',
       popupSubtitle: 'homepage.eco-news.news-popup.subtitle',
       popupConfirm: 'homepage.eco-news.news-popup.confirm',
-      popupCancel: 'homepage.eco-news.news-popup.cancel',
-    },
+      popupCancel: 'homepage.eco-news.news-popup.cancel'
+    }
   };
   public onSubmit;
 
@@ -111,7 +111,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
         this.filters = tagsArray.map((tag) => {
           return {
             name: tag.name,
-            isActive: false,
+            isActive: false
           };
         });
       });
@@ -202,7 +202,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public editNews(): void {
     const dataToEdit = {
       ...this.form.value,
-      id: this.newsId,
+      id: this.newsId
     };
 
     this.createEcoNewsService
@@ -229,12 +229,8 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   private filterArr = (item: FilterModel, index: number) => {
-    return [
-      ...this.filters.slice(0, index),
-      item,
-      ...this.filters.slice(index + 1)
-    ];
-  }
+    return [...this.filters.slice(0, index), item, ...this.filters.slice(index + 1)];
+  };
 
   public setActiveFilters(itemToUpdate: EcoNewsModel): void {
     if (itemToUpdate.tags.length) {

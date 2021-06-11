@@ -6,6 +6,8 @@ import { TipsListComponent } from './main/component/home/components/useful-tips/
 import { MainComponent } from './main/main.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
+import { UbsAdminComponent } from './ubs-admin/ubs-admin.component';
+import { UbsAdminTableComponent } from './ubs-admin/components/ubs-admin-table/ubs-admin-table.component';
 import { UbsSidebarComponent } from './ubs-admin/components/ubs-sidebar/ubs-sidebar.component';
 import { UbsAdminCabinetComponent } from './ubs-admin/components/ubs-admin-cabinet/ubs-admin-cabinet.component';
 
@@ -56,7 +58,7 @@ export const routes: Routes = [
   },
   {
     path: 'ubs-admin',
-    component: UbsSidebarComponent
+    loadChildren: () => import('./ubs-admin/ubs-admin.module').then((mod) => mod.UbsAdminModule)
   },
   {
     path: 'ubs-admin-cabinet',

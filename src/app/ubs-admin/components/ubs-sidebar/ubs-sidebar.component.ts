@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
@@ -10,9 +10,6 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 export class UbsSidebarComponent implements AfterViewInit {
   public openClose = false;
   public stopClick = false;
-  public fixed = false;
-  public primaryGreenColor = '#13aa57';
-  public secondaryGrayColor = '#444e55';
   public listElements = [
     {
       link: 'assets/img/sidebarIcons/user_icon.svg',
@@ -49,24 +46,17 @@ export class UbsSidebarComponent implements AfterViewInit {
   public toggleSideBar(): void {
     if (this.openClose) {
       this.drawer.toggle();
-
       this.stopClick = true;
-      this.sidebarToggler.nativeElement.style.backgroundColor = this.secondaryGrayColor;
-
       setTimeout(() => {
         this.sideBarIcons.nativeElement.style.zIndex = '0';
         this.sidebarContainer.nativeElement.style.marginLeft = '25px';
         this.stopClick = false;
-        this.sidebarToggler.nativeElement.style.backgroundColor = this.primaryGreenColor;
       }, 350);
-
-      this.sidebarToggler.nativeElement.textContent = '<<';
       this.openClose = false;
     } else {
       this.drawer.toggle();
       this.sidebarContainer.nativeElement.style.marginLeft = '85px';
       this.sideBarIcons.nativeElement.style.zIndex = '4';
-      this.sidebarToggler.nativeElement.textContent = '>>';
       this.openClose = true;
     }
   }
