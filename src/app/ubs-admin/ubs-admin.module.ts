@@ -12,6 +12,9 @@ import { UbsAdminOrderDetailsComponent } from './components/ubs-admin-order-deta
 import { UbsHeaderComponent } from './components/ubs-header/ubs-header.component';
 import { UbsAdminComponent } from './ubs-admin.component';
 import { UBSAdminRoutingModule } from './ubs-admin-routing.module';
+import { UbsAdminResponsiblePersonsComponent } from './components/ubs-admin-responsible-persons/ubs-admin-responsible-persons.component';
+import { UbsAdminExportDetailsComponent } from './components/ubs-admin-export-details/ubs-admin-export-details.component';
+import { UbsAdminOrderPaymentComponent } from './components/ubs-admin-order-payment/ubs-admin-order-payment.component';
 
 @NgModule({
   declarations: [
@@ -19,10 +22,13 @@ import { UBSAdminRoutingModule } from './ubs-admin-routing.module';
     UbsSidebarComponent,
     UbsAdminCabinetComponent,
     UbsAdminAddressDetailsComponent,
-    UbsAdminOrderDetailsComponent
+    UbsAdminOrderDetailsComponent,
+    UbsHeaderComponent,
+    UbsAdminComponent,
+    UbsAdminResponsiblePersonsComponent,
+    UbsAdminExportDetailsComponent,
+    UbsAdminOrderPaymentComponent
   ],
-  imports: [CommonModule, MaterialModule, SharedModule],
-  declarations: [UbsAdminTableComponent, UbsSidebarComponent, UbsHeaderComponent, UbsAdminComponent],
   imports: [CommonModule, MaterialModule, SharedModule, RouterModule, UBSAdminRoutingModule],
   providers: [AdminTableService],
   entryComponents: [UbsAdminTableComponent]
