@@ -16,6 +16,7 @@ import { UbsAdminResponsiblePersonsComponent } from './components/ubs-admin-resp
 import { UbsAdminExportDetailsComponent } from './components/ubs-admin-export-details/ubs-admin-export-details.component';
 import { UbsAdminOrderPaymentComponent } from './components/ubs-admin-order-payment/ubs-admin-order-payment.component';
 import { UbsAdminOrderClientInfoComponent } from './components/ubs-admin-order-client-info/ubs-admin-order-client-info.component';
+import { UbsAdminOrderDetailsFormComponent } from './components/ubs-admin-order-details-form/ubs-admin-order-details-form.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { UbsAdminOrderClientInfoComponent } from './components/ubs-admin-order-c
     UbsAdminResponsiblePersonsComponent,
     UbsAdminExportDetailsComponent,
     UbsAdminOrderPaymentComponent,
-    UbsAdminOrderClientInfoComponent
+    UbsAdminOrderClientInfoComponent,
+    UbsAdminOrderDetailsFormComponent
   ],
   imports: [CommonModule, MaterialModule, SharedModule, RouterModule, UBSAdminRoutingModule],
   providers: [AdminTableService],
