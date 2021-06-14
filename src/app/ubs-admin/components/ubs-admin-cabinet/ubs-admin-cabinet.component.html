@@ -1,47 +1,6 @@
-<div class="container">
-  <div class="row d-flex justify-content-between mt-5">
-    <h1>Замовлення №37399</h1>
-    <span>Дата оформлення: 11.11.2020</span>
-  </div>
-  <form class="mt-5">
-    <div class="row">
-      <div class="col-6">
-        <div class="row">
-          <div class="col-12">
-            <div class="form-row">
-              <div class="form-group col-7">
-                <label for="order">Статус замовлення</label>
-                <select id="order" class="form-control">
-                  <option selected>Підтверджено</option>
-                  <option>Не підтверджено</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="form-row">
-              <div class="form-group col-7">
-                <label for="payment">Статус оплати</label>
-                <select id="payment" class="form-control payment">
-                  <option selected>Оплачено</option>
-                  <option>Не оплачено</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-5 offset-1">
-        <div class="form-group">
-          <label for="comment">Коментар</label>
-          <textarea
-            class="form-control"
-            id="comment"
-            rows="3"
-            placeholder="Будь-які деталі, які Ви хотіли б повідомити додатково щодо цього замовлення"
-          ></textarea>
-        </div>
-      </div>
-    </div>
-  </form>
-</div>
+<app-ubs-admin-order-details></app-ubs-admin-order-details>
+<app-ubs-admin-order-client-info></app-ubs-admin-order-client-info>
+<app-ubs-admin-address-details></app-ubs-admin-address-details>
+<app-ubs-admin-order-payment></app-ubs-admin-order-payment>
+<app-ubs-admin-export-details></app-ubs-admin-export-details>
+<app-ubs-admin-responsible-persons></app-ubs-admin-responsible-persons>
