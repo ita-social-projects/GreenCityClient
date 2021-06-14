@@ -96,23 +96,23 @@
       <div class="certificate">
         <div class="form__block col-lg-3 col-md-6 col-sm-6">
           <div class="form-group">
-            <label class="form__label py-2" for="name">Номер сертифікату</label>
-            <input class="form-control" type="text" id="name" placeholder="XXXX-XXXX" />
+            <label class="form__label py-2" for="cert-num">Номер сертифікату</label>
+            <input class="form-control" type="text" id="cert-num" placeholder="XXXX-XXXX" />
           </div>
           <div class="form-group">
-            <label class="form__label py-2" for="name">Номер замовлення з магазину</label>
-            <input class="form-control" type="text" id="name" placeholder="XXXX-XXXX" />
+            <label class="form__label py-2" for="order-num">Номер замовлення з магазину</label>
+            <input class="form-control" type="text" id="order-num" placeholder="XXXX-XXXX" />
           </div>
         </div>
       </div>
   
-      <div class="bottom d-flex align-items-end">
-          <div class="comment form-floating">
+      <div class="bottom d-flex align-items-baseline py-3">
+          <div class="form-floating col-12 col-sm-6">
             <label for="textarea">Коментар до замовлення від клієнта</label>
-            <textarea class="form-control" placeholder="Будь-які деталі, які Ви хотіли б повідомити додатково щодо цього замовлення" id="textarea"></textarea>
+            <textarea class="form-control comment" placeholder="Будь-які деталі, які Ви хотіли б повідомити додатково щодо цього замовлення" id="textarea"></textarea>
           </div>
-        <div class="send__button">
-          <button class="btn send__button">Надіслати повідомлення</button>
+        <div class="send__button col-12 col-sm-6">
+          <button class="btn send__btn disabled" type="button">Надіслати повідомлення</button>
         </div>
       </div>
     </form>

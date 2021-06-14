@@ -1,62 +1,76 @@
+.form {
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--ubs-secondary-grey);
+  font-family: var(--ubs-quaternary-font);
+}
+
 .form__headline {
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 28px;
-    letter-spacing: 0.002em;
-    color: var(--ubs-primary-grey);
-    margin-bottom: 30px;
-    margin-top: 36px;
-  }
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: 0.002em;
+  color: var(--ubs-primary-grey);
+  margin-bottom: 30px;
+  margin-top: 36px;
+}
 
-  .form__label {
-    color: var(--ubs-primary-grey);
-    font-size: 16px;
-    line-height: 24px;
-  }
+.form__label {
+  color: var(--ubs-quaternary-dark-grey);
+  font-weight: 700;
+}
 
-  .divider {
-    margin-top: 0;
-    border: 1px solid var(--ubs-primary-light-grey);
-  }
+.divider {
+  margin-top: 0;
+  border: 1px solid var(--ubs-primary-light-grey);
+}
 
-.btn {
-    color: var(--ubs-primary-green);
-    background: var(--ubs-primary-white);
-    width: 177px;
-    margin-bottom: 14px;
-    border: 1px solid var(--ubs-primary-green);
-    box-sizing: border-box;
-    border-radius: 4px;
-  }
+.send__btn {
+  font-size: 14px;
+  color: var(--ubs-primary-green);
+  background: var(--ubs-primary-white);
+  border: 1px solid var(--ubs-primary-green);
+  width: 214px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  line-height: 20px;
+  margin-top: 24px;
+}
 
-  .input {
-    width: 56px;
-    height: 36px;
-  }
-  
-  .p-left {
-      padding-left: 72px;
-  }
+.input {
+  width: 56px;
+  height: 36px;
 
-  textarea {
-    resize: none;
-    overflow: hidden;
+  &::placeholder {
+    font-size: 14px;
+    color: var(--ubs-quaternary-dark-grey);
   }
+}
 
-  .send__button {
-    width: 166px;
-    height: 20px;
+.p-left {
+  padding-left: 72px;
+}
+
+.comment {
+  resize: none;
+  overflow: hidden;
+  width: 340px;
+  height: 92px;
+  &::placeholder {
+    color: var(-ubs-quintynary-light-grey);
     font-size: 14px;
     line-height: 20px;
   }
+}
 
-  @media (max-width: 1199px) {
-    .p-left {
-        padding-left: 58px;
-    }
+@media (max-width: 1199px) {
+  .p-left {
+    padding-left: 58px;
   }
-  @media (max-width: 991px) {
-    .p-left {
-        padding-left: 38px;
-    }
+}
+
+@media (max-width: 991px) {
+  .p-left {
+    padding-left: 38px;
   }
+}
