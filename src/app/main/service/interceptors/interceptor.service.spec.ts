@@ -154,6 +154,14 @@ describe(`InterceptorService`, () => {
     expect(localStorageServiceMock.getRefreshToken).toHaveBeenCalled();
   });
 
+  it('getNewTokenPair', () => {
+    const mockRefreshToken = 'testRefreshToken';
+    const request: HttpRequest<any> = new HttpRequest<any>('GET', '/api');
+    // @ts-ignore
+    service.getNewTokenPair(mockRefreshToken);
+    expect(request.method).toEqual('GET');
+  });
+
   it('should be call error window', () => {
     let message = 'error';
     service.openErrorWindow(message);
