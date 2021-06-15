@@ -16,7 +16,7 @@
         <ul class="w-100 p-0">
           <li *ngFor="let bag of bags" class="d-flex justify-content-between align-items-baseline">
             <span class="col-12 col-sm-3 form-group form-control">{{ bag.name }}</span>
-            <span class="col-12 col-sm-2 form-group form-control">{{ bag.capacity }} {{ 'order-details.litr' | translate }}</span>
+            <span class="col-12 col-sm-2 form-group form-control">{{ bag.capacity | volume }}</span>
             <span class="col-12 col-sm-2 form-group form-control">{{ bag.price | localizedCurrency }}</span>
             <div class="col-12 col-sm-2 form-group count">
               <input
