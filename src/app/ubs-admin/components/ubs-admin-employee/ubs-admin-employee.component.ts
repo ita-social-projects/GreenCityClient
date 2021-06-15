@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EmployeeFormComponent } from './employee-form/employee-form.component';
 @Component({
   selector: 'app-ubs-admin-employee',
@@ -532,8 +532,8 @@ export class UbsAdminEmployeeComponent {
 
   constructor(public dialog: MatDialog) {}
   openDialog() {
-    this.dialog.open(EmployeeFormComponent, {
-      panelClass: 'dialog-container-custom'
+    let dialogRef = this.dialog.open(EmployeeFormComponent, {
+      panelClass: 'custom-modalbox'
     });
   }
 

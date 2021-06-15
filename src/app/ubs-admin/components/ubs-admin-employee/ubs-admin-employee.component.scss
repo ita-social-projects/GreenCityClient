@@ -70,9 +70,14 @@
     padding-left: 0px;
   }
 }
-.dialog-container-custom .mat-dialog-container {
-  position: relative;
-  width: 492px;
-  height: 848px;
-  background: #f7f9fa;
+
+::ng-deep .custom-modalbox {
+  mat-dialog-container {
+    position: absolute;
+    background-color: var(--pre-secondary-light-grey);
+    height: 848px;
+    width: 492px;
+    left: 500px;
+    top: 176px;
+  }
 }
