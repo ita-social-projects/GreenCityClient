@@ -6,10 +6,6 @@
   margin-bottom: 100px;
   margin-left: auto;
 
-  button {
-    margin: 30px;
-  }
-
   .header {
     width: 905px;
     margin: 20px;
@@ -58,6 +54,10 @@
 
   input.ng-invalid.ng-touched {
     border: 1px solid var(--ubs-error-ligh-red);
+  }
+
+  button {
+    margin: 30px;
   }
 
   h5 {
