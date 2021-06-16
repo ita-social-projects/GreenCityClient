@@ -6,6 +6,10 @@
   margin-bottom: 100px;
   margin-left: auto;
 
+  button {
+    margin: 30px;
+  }
+
   .header {
     width: 905px;
     margin: 20px;
@@ -37,6 +41,7 @@
 
   .house {
     display: flex;
+
     div {
       margin-right: 30px;
     }
@@ -55,10 +60,6 @@
     border: 1px solid var(--ubs-error-ligh-red);
   }
 
-  button {
-    margin: 30px;
-  }
-
   h5 {
     margin-left: 15px;
   }
@@ -66,9 +67,11 @@
   .google {
     display: flex;
     margin: 20px;
+
     img {
       width: 50px;
     }
+
     p {
       margin: 15px 30px;
     }
