@@ -1,6 +1,6 @@
 h1 {
   font-size: 18px;
-  position: relative;
+  position: absolute;
   top: 24px;
   left: 137px;
   line-height: 28px;
@@ -24,7 +24,7 @@ form {
   position: relative;
   padding: 0px;
   width: 328px;
-  height: 504px;
+  height: 774px;
   left: 56px;
   top: 42px;
 }
@@ -43,8 +43,8 @@ mat-chip-list {
   position: absolute;
   width: 232px;
   height: 36px;
-  left: 228px;
-  top: 780px;
+  left: 176px;
+  top: 738px;
 }
 .mat-raised-button {
   background-color: var(--ubs-primary-green);
