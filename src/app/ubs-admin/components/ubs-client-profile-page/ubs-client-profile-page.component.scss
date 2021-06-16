@@ -1,9 +1,10 @@
-.container {
+.profile-container {
   font-size: 0.9em;
   width: 80%;
   display: flex;
   justify-content: center;
   margin-bottom: 100px;
+  margin-left: auto;
 
   .header {
     width: 905px;
@@ -51,7 +52,7 @@
   }
 
   input.ng-invalid.ng-touched {
-    border: 1px solid red;
+    border: 1px solid var(--ubs-error-ligh-red);
   }
 
   button {
