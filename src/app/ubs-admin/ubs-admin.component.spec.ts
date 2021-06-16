@@ -8,9 +8,8 @@ describe('UbsAdminComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UbsAdminComponent ]
-    })
-    .compileComponents();
+      declarations: [UbsAdminComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
