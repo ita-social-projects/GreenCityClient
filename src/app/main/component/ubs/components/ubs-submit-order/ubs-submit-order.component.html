@@ -16,8 +16,7 @@
             <p class="total-content" *ngIf="certificatesSum">
               <span>{{ 'order-details.bonuses' | translate }} </span
               ><span>
-                <small>-{{ certificatesSum }} {{ 'order-details.currency' | translate }}</small></span
-              >
+                <small>-{{ certificatesSum }} {{ 'order-details.currency' | translate }}</small></span>
             </p>
             <strong>{{ finalSum }} {{ 'submit-order.currency' | translate }}</strong>
           </td>
@@ -40,8 +39,7 @@
           <li>{{ personalData.city }}</li>
           <li>{{ personalData.district }}</li>
           <li>
-            <span>{{ 'submit-order.str' | translate }}{{ personalData.street }}, {{ personalData.houseNumber }}</span
-            >,
+            <span>{{ 'submit-order.str' | translate }}{{ personalData.street }}, {{ personalData.houseNumber }}</span>,
             {{ personalData.houseCorpus }}
           </li>
           <li>
