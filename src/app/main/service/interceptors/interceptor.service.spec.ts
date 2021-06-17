@@ -12,7 +12,6 @@ import { MatSnackBarModule } from '@angular/material';
 
 describe(`InterceptorService`, () => {
   const mockAccessToken = 'testAccessToken';
-  const mockRefreshToken = 'testRefreshToken';
   let client: HttpClient;
   let httpMock: HttpTestingController;
   let service: InterceptorService;
@@ -65,7 +64,7 @@ describe(`InterceptorService`, () => {
 
   it('should add an Authorization header', () => {
     const token: string = mockAccessToken;
-    let httpHeaders = new HttpHeaders();
+    const httpHeaders = new HttpHeaders();
     const request: HttpRequest<any> = new HttpRequest<any>('GET', '/api', httpHeaders);
 
     service.addAccessTokenToHeader(request, token);
@@ -75,10 +74,10 @@ describe(`InterceptorService`, () => {
   it('should be status of response equal 0 if url contains ownSecurity', () => {
     const request: HttpRequest<any> = new HttpRequest<any>('GET', '/api/ownSecurity');
     const payload = {};
-    const response: HttpErrorResponse = new HttpErrorResponse(payload),
-      next: any = {
-        handle: jasmine.createSpy('handle').and.callFake(() => of(response))
-      };
+    const response: HttpErrorResponse = new HttpErrorResponse(payload);
+    const next: any = {
+      handle: jasmine.createSpy('handle').and.callFake(() => of(response))
+    };
     service
       .intercept(request as any, next)
       .pipe()
@@ -89,10 +88,10 @@ describe(`InterceptorService`, () => {
   it('should be status of response equal 0 if url contains googleSecurity', () => {
     const request: HttpRequest<any> = new HttpRequest<any>('GET', '/api/googleSecurity');
     const payload = {};
-    const response: HttpErrorResponse = new HttpErrorResponse(payload),
-      next: any = {
-        handle: jasmine.createSpy('handle').and.callFake(() => of(response))
-      };
+    const response: HttpErrorResponse = new HttpErrorResponse(payload);
+    const next: any = {
+      handle: jasmine.createSpy('handle').and.callFake(() => of(response))
+    };
     service
       .intercept(request as any, next)
       .pipe()
@@ -103,10 +102,10 @@ describe(`InterceptorService`, () => {
   it('should be status of response not equel 0 ', () => {
     const request: HttpRequest<any> = new HttpRequest<any>('GET', '/api');
     const payload = {};
-    const response: HttpResponse<any> = new HttpResponse(payload),
-      next: any = {
-        handle: jasmine.createSpy('handle').and.callFake(() => of(response))
-      };
+    const response: HttpResponse<any> = new HttpResponse(payload);
+    const next: any = {
+      handle: jasmine.createSpy('handle').and.callFake(() => of(response))
+    };
     service
       .intercept(request as any, next)
       .pipe()
@@ -120,10 +119,10 @@ describe(`InterceptorService`, () => {
     const payload = {
       status: 401
     };
-    const response: HttpResponse<any> = new HttpResponse(payload),
-      next: any = {
-        handle: jasmine.createSpy('handle').and.callFake(() => of(response))
-      };
+    const response: HttpResponse<any> = new HttpResponse(payload);
+    const next: any = {
+      handle: jasmine.createSpy('handle').and.callFake(() => of(response))
+    };
     service
       .intercept(request as any, next)
       .pipe()
@@ -143,10 +142,10 @@ describe(`InterceptorService`, () => {
     const payload = {
       status: 401
     };
-    const response: HttpResponse<any> = new HttpResponse(payload),
-      next: any = {
-        handle: jasmine.createSpy('handle').and.callFake(() => of(response))
-      };
+    const response: HttpResponse<any> = new HttpResponse(payload);
+    const next: any = {
+      handle: jasmine.createSpy('handle').and.callFake(() => of(response))
+    };
     // @ts-ignore
     service.handleUnauthorized(response);
     expect(localStorageServiceMock.getRefreshToken).toHaveBeenCalled();
@@ -161,7 +160,7 @@ describe(`InterceptorService`, () => {
   });
 
   it('should be call error window', () => {
-    let message = 'error';
+    const message = 'error';
     service.openErrorWindow(message);
     expect(MatSnackBarMock.openSnackBar).toHaveBeenCalled();
   });
