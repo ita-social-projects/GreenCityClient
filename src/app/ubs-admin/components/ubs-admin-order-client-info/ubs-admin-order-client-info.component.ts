@@ -8,8 +8,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class UbsAdminOrderClientInfoComponent implements OnInit {
   clientInfoForm: FormGroup;
-  violations: number = 1;
-  currentViolationAmount: number = 0;
+  violations = 1;
+  currentViolationAmount = 0;
   log() {
     console.log(this.clientInfoForm);
   }
