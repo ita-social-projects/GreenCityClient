@@ -13,7 +13,11 @@
         <tr>
           <td class="firstRow"></td>
           <td class="firstRow right-column">
-            <strong>{{ orderDetails.total }} {{ 'submit-order.currency' | translate }}</strong>
+            <p class="total-content" *ngIf="certificatesSum">
+              <span>{{ 'order-details.bonuses' | translate }} </span><span>
+                <small>-{{ certificatesSum }} {{ 'order-details.currency' | translate }}</small></span>
+            </p>
+            <strong>{{ finalSum }} {{ 'submit-order.currency' | translate }}</strong>
           </td>
         </tr>
       </tbody>
@@ -35,7 +39,8 @@
           <li>{{ personalData.district }}</li>
           <li>
             <span>{{ 'submit-order.str' | translate }}{{ personalData.street }}, {{ personalData.houseNumber }}</span
-            >, {{ personalData.houseCorpus }}
+            >,
+            {{ personalData.houseCorpus }}
           </li>
           <li>
             <span>{{ personalData.addressComment }}</span>
