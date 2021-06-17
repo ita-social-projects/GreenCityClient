@@ -63,7 +63,6 @@ export class UbsClientProfilePageComponent implements OnInit {
     this.user.houseCorpus = this.userForm.value.houseCorpus;
     this.user.entranceNumber = this.userForm.value.entranceNumber;
     this.user.district = this.userForm.value.district;
-
     this.editing = false;
   }
 }
