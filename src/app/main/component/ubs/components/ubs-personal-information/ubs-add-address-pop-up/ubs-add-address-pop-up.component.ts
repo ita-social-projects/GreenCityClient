@@ -13,6 +13,8 @@ import { Subject } from 'rxjs';
 })
 export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   country = 'ua';
+  options: any;
+  cityBounds: any;
   address: Address;
   updatedAddresses: Address[];
   addAddressForm: FormGroup;
@@ -23,6 +25,10 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   houseCorpusPattern = /^[A-Za-zА-Яа-яїієё0-9]+$/;
   entranceNumberPattern = /^-?(0|[1-9]\d*)?$/;
   private destroy: Subject<boolean> = new Subject<boolean>();
+
+  cities = [
+    { cityName: 'Kiev', northLat: 50.59079800991073, southLat: 50.21327301525928, eastLng: 30.82594104187906, westLng: 30.23944009690609 }
+  ];
 
   constructor(
     private fb: FormBuilder,
@@ -77,6 +83,29 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
       id: [this.data.edit ? this.data.address.id : 0],
       actual: true
     });
+
+    // TODO: Must be removed if multi-city feature need to be implemented
+    this.onCitySelected('Kiev');
+  }
+
+  onCitySelected(citySelected) {
+    this.cities.forEach((city) => {
+      if (city.cityName === citySelected) {
+        this.cityBounds = {
+          north: city.northLat,
+          south: city.southLat,
+          east: city.eastLng,
+          west: city.westLng
+        };
+      }
+    });
+
+    this.options = {
+      bounds: this.cityBounds,
+      strictBounds: true,
+      types: ['address'],
+      componentRestrictions: { country: 'UA' }
+    };
   }
 
   onLocationSelected(event): void {
@@ -84,20 +113,31 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
     this.addAddressForm.get('latitude').setValue(event.latitude);
   }
 
+  setDistrict(event) {
+    const getDistrict = event.address_components.filter((item) => item.long_name.includes('район'))[0];
+    if (getDistrict) {
+      this.region = getDistrict.long_name.split(' ')[0];
+    } else {
+      this.region = event.vicinity.split(' ')[0];
+    }
+  }
+
   onAutocompleteSelected(event): void {
     const streetName = event.name;
     this.addAddressForm.get('street').setValue(streetName);
-    this.region = event.address_components[1].long_name.split(' ')[0];
+    this.setDistrict(event);
     this.addAddressForm.get('district').setValue(this.region);
     this.nextDisabled = false;
     this.districtDisabled = event.address_components[2].long_name.split(' ')[1] === 'район' ? true : false;
   }
 
   onDistrictSelected(event): void {
-    this.region = event.address_components[0].long_name.split(' ')[0];
+    this.onLocationSelected(event);
+    this.setDistrict(event);
     this.addAddressForm.get('district').setValue(this.region);
     this.districtDisabled = true;
     this.nextDisabled = false;
+    this.onAutocompleteSelected(event);
   }
 
   onChange(): void {

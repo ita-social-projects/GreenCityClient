@@ -22,6 +22,7 @@ import { AddressComponent } from './components/ubs-personal-information/address/
 import { UbsConfirmPageComponent } from './components/ubs-confirm-page/ubs-confirm-page.component';
 import { SharedMainModule } from '@shared/shared-main.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     ReactiveFormsModule,
     IMaskModule,
     MatGoogleMapsAutocompleteModule,
+    GooglePlaceModule,
     AgmCoreModule.forRoot({
       apiKey: environment.agmCoreModuleApiKey,
       libraries: ['places']

@@ -2,7 +2,7 @@
   <div class="col-12 col-sm-6 form-group">
     <label>{{ 'personal-info.pop-up-city' | translate }}</label>
     <select formControlName="city" class="shadow-none form-control">
-      <option value="Kyiv">{{ 'personal-info.pop-up-city-name' | translate }}</option>
+      <option *ngFor="let city of cities" [value]="city.cityName">{{ city.cityName }}</option>
     </select>
     <div class="w-100 city-notice">
       {{ 'personal-info.pop-up-info-message' | translate }}
@@ -13,11 +13,7 @@
     <input
       formControlName="district"
       class="shadow-none form-control"
-      matGoogleMapsAutocomplete
-      [types]="['geocode']"
-      [country]="country"
       [attr.disabled]="districtDisabled ? true : null"
-      (onAutocompleteSelected)="onDistrictSelected($event)"
       placeholder="{{ 'personal-info.pop-up-enter-you-location' | translate }}"
     />
     <div class="validation" *ngIf="district.invalid && addAddressForm.get('district').touched">
@@ -27,15 +23,15 @@
   <div class="col-12 col-sm-6 form-group">
     <label>{{ 'personal-info.pop-up-street' | translate }}</label>
     <input
+      id="auto"
+      ngx-google-places-autocomplete
       formControlName="street"
       type="text"
       class="shadow-none form-control"
-      matGoogleMapsAutocomplete
-      (onAutocompleteSelected)="onAutocompleteSelected($event)"
-      (onLocationSelected)="onLocationSelected($event)"
+      (onAddressChange)="onDistrictSelected($event)"
+      [options]="options"
       (change)="onChange()"
-      [types]="['address']"
-      [country]="country"
+      [attr.disabled]="addAddressForm.controls['city'].dirty ? null : true"
       placeholder="{{ 'personal-info.pop-up-enter-you-location' | translate }}"
     />
     <div class="validation" *ngIf="street.invalid && addAddressForm.get('street').touched">
