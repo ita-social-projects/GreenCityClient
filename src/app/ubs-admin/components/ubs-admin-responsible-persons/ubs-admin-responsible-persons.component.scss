@@ -3,8 +3,14 @@
   line-height: 32px;
 }
 
-h1 {
+.form__headline {
   font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: 0.002em;
+  color: var(--ubs-primary-grey);
+  margin-bottom: 30px;
+  margin-top: 36px;
 }
 
 .title {
@@ -16,7 +22,27 @@ h1 {
   font-size: 16px;
 }
 
-label {
+.form__label {
+  color: var(--ubs-secondary-grey);
   font-size: 16px;
   line-height: 24px;
+}
+
+.form__select {
+  width: 268px;
+  height: 36px;
+  background: var(--ubs-primary-white);
+  border: 1px solid var(--ubs-quintynary-light-grey);
+  box-sizing: border-box;
+  border-radius: 4px;
+
+  &::placeholder {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 992px) {
+  input {
+    width: 340px;
+  }
 }

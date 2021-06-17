@@ -1,14 +1,42 @@
+* {
+  font-family: var(--ubs-quaternary-font);
+}
+
+.form__headline {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: 0.002em;
+  color: var(--ubs-primary-grey);
+  margin-bottom: 30px;
+  margin-top: 36px;
+}
+
+.form__subtitle {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  color: var(--ubs-quaternary-dark-grey);
+  letter-spacing: 0.1px;
+}
+
 button {
-  color: #13aa57;
-  border: 1px solid #13aa57;
+  color: var(--ubs-primary-green);
+  border: 1px solid var(--ubs-primary-green);
+  box-sizing: border-box;
+  border-radius: 4px;
+  width: 177px;
+  font-size: 14px;
 }
 
 .price {
-  background: #f7f9fa;
-  border: 1px solid #cacfd3;
+  background: var(--ubs-secondary-white);
+  border: 1px solid var(--ubs-primary-light-grey);
   box-sizing: border-box;
   border-radius: 4px;
-  padding: 5px;
+  padding: 7px;
+  height: 36px;
+  width: 85px;
 }
 
 h1 {
@@ -16,5 +44,9 @@ h1 {
 }
 
 .need-to-pay {
-  color: #eb180d;
+  color: var(--ubs-primary-red);
+}
+
+td {
+  color: var(--ubs-primary-grey);
 }

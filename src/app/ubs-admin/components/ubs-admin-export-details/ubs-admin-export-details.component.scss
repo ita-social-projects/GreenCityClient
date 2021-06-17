@@ -1,10 +1,35 @@
+* {
+  font-family: var(--ubs-quaternary-font);
+}
+
+@mixin input {
+  height: 36px;
+  left: calc(50% - 340px / 2);
+  top: calc(50% - 36px / 2 + 10px);
+  background: var(--ubs-primary-white);
+  border: 1px solid var(--ubs-quintynary-light-grey);
+  color: var(--ubs-quintynary-light-grey);
+  box-sizing: border-box;
+  border-radius: 4px;
+
+  &::placeholder {
+    font-size: 14px;
+  }
+}
+
 .container {
   font-family: var(--primary-font);
   line-height: 32px;
 }
 
-h1 {
+.form__headline {
   font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: 0.002em;
+  color: var(--ubs-primary-grey);
+  margin-bottom: 30px;
+  margin-top: 36px;
 }
 
 .title {
@@ -17,6 +42,21 @@ h1 {
 }
 
 label {
+  color: var(--ubs-secondary-grey);
   font-size: 16px;
   line-height: 24px;
+}
+
+input {
+  width: 136px;
+  @include input;
+
+  &::-webkit-calendar-picker-indicator {
+    filter: invert(0.7);
+  }
+}
+
+select {
+  width: 215px;
+  @include input;
 }
