@@ -1,6 +1,6 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpErrorResponse, HttpResponse, HttpHeaders, HttpClient } from '@angular/common/http';
-import { TestBed, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HttpRequest, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InterceptorService } from './interceptor.service';
@@ -9,12 +9,10 @@ import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { BehaviorSubject, of } from 'rxjs';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { MatSnackBarModule } from '@angular/material';
-import { Router } from '@angular/router';
 
 describe(`InterceptorService`, () => {
   const mockAccessToken = 'testAccessToken';
   const mockRefreshToken = 'testRefreshToken';
-  let router: Router;
   let client: HttpClient;
   let httpMock: HttpTestingController;
   let service: InterceptorService;
