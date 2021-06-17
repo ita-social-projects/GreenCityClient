@@ -54,8 +54,6 @@
 .comment {
   resize: none;
   overflow: hidden;
-  width: 340px;
-  height: 92px;
 
   &::placeholder {
     color: var(-ubs-quintynary-light-grey);
@@ -73,5 +71,12 @@
 @media (max-width: 991px) {
   .p-left {
     padding-left: 38px;
+  }
+}
+
+@media (min-width: 992px) {
+  .comment {
+    width: 340px;
+    height: 92px;
   }
 }

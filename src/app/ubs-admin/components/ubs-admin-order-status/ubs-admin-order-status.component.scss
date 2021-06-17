@@ -28,12 +28,17 @@ p {
 #comment {
   resize: none;
   overflow: hidden;
-  width: 340px;
-  height: 92px;
 
   &::placeholder {
     color: var(-ubs-quintynary-light-grey);
     font-size: 14px;
     line-height: 20px;
+  }
+}
+
+@media (min-width: 992px) {
+  #comment {
+    width: 340px;
+    height: 92px;
   }
 }
