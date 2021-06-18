@@ -7,7 +7,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { EcoNewsRoutingModule } from './eco-news-routing.module';
-import { SharedModule } from '@shared/shared.module';
+import { SharedMainModule } from '@shared/shared-main.module';
 import {
   CreateEditNewsComponent,
   EcoNewsDetailComponent,
@@ -18,12 +18,13 @@ import {
   NewsListListViewComponent,
   NewsPreviewPageComponent,
   PostNewsLoaderComponent,
-  RemainingCountComponent,
+  RemainingCountComponent
 } from './components';
 import { CommentsModule } from '../comments/comments.module';
 import { MatSnackBarComponent } from '../errors/mat-snack-bar/mat-snack-bar.component';
 import { EcoNewsComponent } from './eco-news.component';
 import { ACTION_CONFIG, ACTION_TOKEN } from './components/create-edit-news/action.constants';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -38,11 +39,12 @@ import { ACTION_CONFIG, ACTION_TOKEN } from './components/create-edit-news/actio
     NewsPreviewPageComponent,
     PostNewsLoaderComponent,
     MatSnackBarComponent,
-    CreateEditNewsComponent,
+    CreateEditNewsComponent
   ],
   imports: [
     CommonModule,
     CommentsModule,
+    SharedMainModule,
     SharedModule,
     InfiniteScrollModule,
     EcoNewsRoutingModule,
@@ -53,14 +55,14 @@ import { ACTION_CONFIG, ACTION_TOKEN } from './components/create-edit-news/actio
       loader: {
         provide: TranslateLoader,
         useFactory: createTranslateLoader,
-        deps: [HttpClient],
+        deps: [HttpClient]
       },
-      isolate: true,
-    }),
+      isolate: true
+    })
   ],
   exports: [TranslateModule],
   entryComponents: [],
-  providers: [MatSnackBarComponent, { provide: ACTION_TOKEN, useValue: ACTION_CONFIG }],
+  providers: [MatSnackBarComponent, { provide: ACTION_TOKEN, useValue: ACTION_CONFIG }]
 })
 export class EcoNewsModule {}
 

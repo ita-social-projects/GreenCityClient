@@ -1,18 +1,16 @@
-$additional-color: #e1e5e3;
-
 p {
   margin: 0;
 }
 
 .outer {
-  background-color: var(--secondary-light-grey);
+  background-color: var(--primary-white);
   display: flex;
   justify-content: center;
 
   .friends {
     padding-bottom: 24px;
     width: 100%;
-    border-top: 1px solid #eaeef3;
+    border-top: 1px solid var(--light-grey-blue-color);
     margin: 0;
   }
 
@@ -27,7 +25,7 @@ p {
   .text-number {
     display: inline-block;
     vertical-align: bottom;
-    color: #bebebe;
+    color: var(--tertiary-light-grey);
   }
 
   .text-title,
@@ -84,7 +82,7 @@ p {
   .friend-name {
     font-size: 10px;
     font-family: var(--secondary-font);
-    color: #494a49;
+    color: var(--primary-dark-grey);
     max-width: 65px;
     text-align: center;
     overflow: hidden;
@@ -99,7 +97,7 @@ p {
       line-height: 17px;
       color: var(--primary-dark-grey);
       width: 213px;
-      border-top: 1px solid $additional-color;
+      border-top: 1px solid var(--light-green-grey-color);
     }
 
     p:first-child {
@@ -138,14 +136,14 @@ p {
     height: 55.86px;
     background: none;
     text-decoration: none;
-    border: 2px dashed #13aa57;
+    border: 2px dashed var(--primary-green);
     border-radius: 50px;
     text-align: center;
     vertical-align: middle;
     font-size: 50px;
 
     a {
-      color: #13aa57;
+      color: var(--primary-green);
 
       &:hover {
         text-decoration: none;

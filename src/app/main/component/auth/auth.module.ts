@@ -2,13 +2,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CoreModule } from '../core/core.module';
 import { InputcolorDirective } from '../../directives/inputcolor.directive';
-import { SharedModule } from '@shared/shared.module';
+import { SharedMainModule } from '@shared/shared-main.module';
 import { RestoreComponent, RestorePasswordComponent, SignInComponent, SignUpComponent, SubmitEmailComponent } from './components';
 import { ErrorComponent } from './components/error/error.component';
 import { ConfirmRestorePasswordComponent } from './components/confirm-restore-password/confirm-restore-password.component';
 import { GoogleBtnComponent } from './components/google-btn/google-btn.component';
 import { AuthModalComponent } from './components/auth-modal/auth-modal.component';
 import { MatSnackBarModule } from '@angular/material';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -21,18 +22,18 @@ import { MatSnackBarModule } from '@angular/material';
     ConfirmRestorePasswordComponent,
     ErrorComponent,
     GoogleBtnComponent,
-    AuthModalComponent,
+    AuthModalComponent
   ],
-  imports: [CoreModule, SharedModule, ReactiveFormsModule],
+  imports: [CoreModule, SharedMainModule, SharedModule, ReactiveFormsModule],
   entryComponents: [
     SignInComponent,
     SignUpComponent,
     RestorePasswordComponent,
     SubmitEmailComponent,
     ConfirmRestorePasswordComponent,
-    AuthModalComponent,
+    AuthModalComponent
   ],
   exports: [InputcolorDirective],
-  providers: [MatSnackBarModule],
+  providers: [MatSnackBarModule]
 })
 export class AuthModule {}

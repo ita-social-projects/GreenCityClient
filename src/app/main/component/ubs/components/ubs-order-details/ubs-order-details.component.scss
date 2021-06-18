@@ -8,6 +8,17 @@
   font-weight: bold;
 }
 
+.eco-store::-webkit-outer-spin-button,
+.eco-store::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.eco-store[type='number'] {
+  -moz-appearance: textfield;
+}
+
 .header {
   width: 100%;
   margin: 3rem 0 0;
@@ -113,6 +124,18 @@ button {
   padding: 30px 0;
   justify-content: space-between;
   border-bottom: 1px solid var(--ubs-primary-light-grey);
+}
+
+.messages-container {
+  width: 35em;
+
+  small {
+    color: var(--ubs-primary-green);
+  }
+}
+
+.points {
+  margin-top: 3em;
 }
 
 .totalInfo {

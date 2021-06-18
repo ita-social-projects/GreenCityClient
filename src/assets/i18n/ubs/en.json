@@ -28,11 +28,11 @@
     "activate": "Activate",
     "cancel": "Cancel",
     "failed-certificate": "Certificate not accepted, please try again",
-    "activated-certificate1": "A certificate for the amount of",
-    "activated-certificate2": "UAH is activated, which exceeds the amount of your order. The balance of",
-    "activated-certificate3": "UAH will be credited to your bonus account for the next order.",
-    "activated-certificate4": "UAH activated. The certificate is valid until",
-    "activated-certificate5": "The certificate has already been used. The certificate is valid until",
+    "not-found-certificate": "Certificate not found; check that the data is correct.",
+    "activated-oversum": "A certificate for {{certificateSum}} UAH is activated in excess of the amount of your order. The balance of {{certificateLeft}} UAH will be credited to your bonus account for the next order. The certificate is valid until {{ certDate}} ",
+    "activated": "Certificate for {{certificateSum}} UAH activated. Certificate validity period is up to {{certDate}}",
+    "already-used": "Certificate has already been used {{certDate}}",
+    "expired": "Certificate is invalid. Certificate validity is up to {{certDate}}",
     "add-certificate": "Add certificate",
     "bonus-need": "Do you want to take advantage of bonuses?",
     "bonus-left": "On your bonus account:",
@@ -83,7 +83,8 @@
     "info-coment-placeholder": "Any details you would like to tell us further",
     "info-back": "Back",
     "info-cancel": "Cancel",
-    "info-next": "Next"
+    "info-next": "Next",
+    "first-order": "Please note: the courier picks up the packages at the entrance, does not go upstairs "
   },
   "submit-order": {
     "your-order": "Your order",
@@ -111,5 +112,25 @@
     "back": "Back",
     "to-order": "Order",
     "bags": "bags"
+  },
+  "confirmation": {
+    "cancel": "Yes, exit",
+    "dismiss": "Continue",
+    "title": "Are you sure you want to exit?",
+    "subTitle": "You order will be saved in personal account"
+  },
+  "confirm-page": {
+    "title-text": "Your order is accepted",
+    "description": "Thank you for your waste control!",
+    "ubsServices": "UBS services",
+    "other-order": "Make other order",
+    "mail": "Plastic mail",
+    "ukraine-site": "Website Ukraine Without Garbage",
+    "eco-shop": "Eco shop",
+    "information": "Helpful information",
+    "instruction": "Garbage recycling instructions",
+    "video": "Sorting and Recycling Videos",
+    "questions": "If you have any questions, you can",
+    "contact": "contact us"
   }
 }

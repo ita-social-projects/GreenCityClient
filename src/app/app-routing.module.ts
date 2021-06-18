@@ -3,10 +3,11 @@ import { HomepageComponent } from 'src/app/main/component/home/components';
 import { ConfirmRestorePasswordComponent } from '@global-auth/index';
 import { SearchAllResultsComponent } from 'src/app/main/component/layout/components';
 import { TipsListComponent } from './main/component/home/components/useful-tips/tips-list/tips-list.component';
-import { UbsAdminComponent } from './ubs-admin/ubs-admin/ubs-admin.component';
 import { MainComponent } from './main/main.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
+import { UbsAdminComponent } from './ubs-admin/ubs-admin.component';
+import { UbsAdminTableComponent } from './ubs-admin/components/ubs-admin-table/ubs-admin-table.component';
 
 export const routes: Routes = [
   {
@@ -55,7 +56,7 @@ export const routes: Routes = [
   },
   {
     path: 'ubs-admin',
-    component: UbsAdminComponent
+    loadChildren: () => import('./ubs-admin/ubs-admin.module').then((mod) => mod.UbsAdminModule)
   },
   {
     path: '**',

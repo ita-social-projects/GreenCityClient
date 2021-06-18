@@ -29,7 +29,7 @@ import { ConfirmationDialogService } from './services/confirmation-dialog-servic
 import { AdminComponent } from './admin.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { AdminRoutingModule } from './admin-routing.module';
-import { SharedModule } from '../shared/shared.module';
+import { SharedMainModule } from '../shared/shared-main.module';
 import {
   AdminNavComponent,
   ConfirmModalComponent,
@@ -40,6 +40,7 @@ import {
   UpdateCafeComponent,
   UsersComponent
 } from './components/index';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import {
   imports: [
     AdminRoutingModule,
     CommonModule,
+    SharedMainModule,
     SharedModule,
     NgFlashMessagesModule,
     NgxPaginationModule,

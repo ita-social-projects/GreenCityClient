@@ -1,8 +1,8 @@
+import { SharedMainModule } from '@shared/shared-main.module';
 import { HabitAssignInterface } from './../../../../../interface/habit/habit-assign.interface';
 import { HabitAssignService } from './../../../../../service/habit-assign/habit-assign.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { SharedModule } from '../../../../shared/shared.module';
 import { HabitsListViewComponent } from './components/habits-list-view/habits-list-view.component';
 import { LocalStorageService } from '../../../../../service/localstorage/local-storage.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -87,7 +87,7 @@ describe('AllHabitsComponent', async () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [AllHabitsComponent, HabitsListViewComponent],
-      imports: [TranslateModule.forRoot(), SharedModule, InfiniteScrollModule, RouterTestingModule, HttpClientTestingModule],
+      imports: [TranslateModule.forRoot(), SharedMainModule, InfiniteScrollModule, RouterTestingModule, HttpClientTestingModule],
       providers: [HabitService, HabitAssignService, { provide: LocalStorageService, useValue: localStorageServiceMock }]
     }).compileComponents();
   });
