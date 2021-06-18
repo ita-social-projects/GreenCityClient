@@ -106,12 +106,9 @@ img {
     line-height: 12px;
     text-align: center;
   }
-}
-.upload-file {
-  position: absolute;
-  visibility: hidden;
-  width: 1px;
-  height: 1px;
+  .upload-file {
+    display: none;
+  }
 }
 .photo-label {
   font-size: 16px;
@@ -119,4 +116,44 @@ img {
   font-weight: normal;
   position: absolute;
   top: 604px;
+}
+.image-name {
+  width: 132px;
+  height: 32px;
+  position: absolute;
+  left: -1px;
+  top: 0px;
+  background-color: var(--ubs-quaternary-light-grey);
+  opacity: 0.9;
+  border-radius: 4px 4px 0px 0px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+.reset-image {
+  position: absolute;
+  right: 2.5px;
+  top: 2.5px;
+  width: 11px;
+  height: 11px;
+  border: none;
+  background-color: var(--ubs-quaternary-light-grey);
+  opacity: 0.9;
+}
+svg {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 11px;
+  height: 11px;
+}
+.img-text {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  font-style: normal;
+  font-weight: normal;
+  font-family: var(--primary-font);
+  font-size: 12px;
+  line-height: 16px;
 }

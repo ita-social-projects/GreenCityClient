@@ -1,46 +1,57 @@
 <h1>Додати працівника</h1>
-<form>
+<form [formGroup]="employeeForm">
   <div class="form-group">
     <h6>*Обов'язкові поля</h6>
   </div>
   <div class="form-group">
-    <label class="data-label">Ім'я*</label>
-    <input placeholder="Placeholder" />
+    <label for="name">Ім'я*</label>
+    <input formControlName="firstName" placeholder="Placeholder" />
   </div>
   <div class="form-group">
     <label>Прізвище*</label>
-    <input placeholder="Placeholder" />
+    <input formControlName="lastName" placeholder="Placeholder" />
   </div>
   <div class="form-group">
     <label>Номер телефону*</label>
-    <input placeholder="+380" />
+    <input formControlName="phoneNumber" placeholder="+380" />
   </div>
   <div class="form-group">
     <label>Email*</label>
-    <input placeholder="" />
+    <input formControlName="email" placeholder="" />
   </div>
   <label>Посада*</label>
-  <mat-chip-list class="example-chip" cdkDropList cdkDropListOrientation="horizontal">
-    <mat-chip class="example-box" cdkDrag *ngFor="let position of positions">
-      {{ position }}
+  <mat-chip-list class="example-chip" cdkDropList cdkDropListOrientation="horizontal" selectable multiple>
+    <mat-chip class="example-box" #c="matChip" cdkDrag *ngFor="let role of roles" [value]="role" (click)="toggleSelection(c)">
+      <mat-icon *ngIf="c.selected">check</mat-icon>
+      {{ role }}
     </mat-chip>
   </mat-chip-list>
   <label>Станція приймання*</label>
-  <mat-chip-list class="stantion-chip" cdkDropList cdkDropListOrientation="horizontal">
-    <mat-chip [ngStyle]="{ color: '#513be4', border: '1px solid #513be4' }" cdkDrag *ngFor="let stantion of stantions">
-      {{ stantion }}
+  <mat-chip-list class="stantion-chip" cdkDropList cdkDropListOrientation="horizontal" selectable multiple>
+    <mat-chip [ngStyle]="{ color: '#513be4', border: '1px solid #513be4' }" cdkDrag *ngFor="let location of locations">
+      {{ location }}
     </mat-chip>
   </mat-chip-list>
   <label class="photo-label">Фото</label>
-  <label class="custom-file-upload">
+  <div class="custom-file-upload">
     <div *ngIf="filePath && filePath !== ''">
       <img [src]="filePath" [alt]="employeeForm.value.name" />
     </div>
-    <input class="upload-file" type="file" accept="image/*" (change)="imagePreview($event)" />
-    <div class="upload-text" *ngIf="!uploaded">Перетягніть зображення, або <a>завантажте з пристрою</a></div>
-  </label>
+    <input class="upload-file" type="file" accept="image/*" (change)="imagePreview($event)" #fileUpload />
+    <div class="image-name" *ngIf="uploaded">
+      <p class="img-text">{{ this.selectedFile.name }}</p>
+      <button class="reset-image" (click)="fileUpload.click()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+          <path
+            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="upload-text" *ngIf="!uploaded">Перетягніть зображення, або <a (click)="fileUpload.click()">завантажте з пристрою</a></div>
+  </div>
   <div class="button-row">
-    <button mat-stroked-button color="#13aa57">Скасувати</button>
+    <button mat-stroked-button mat-dialog-close color="#13aa57">Скасувати</button>
     <button mat-raised-button color="#13aa57">Додати</button>
   </div>
 </form>
