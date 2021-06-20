@@ -7,12 +7,10 @@
       <button class="primary-global-button button-name"><div class="subtitle-2">Додати працівника</div></button>
     </div>
   </div>
-
   <div class="employees">
     <div *ngFor="let data of fakeData | paginate: { itemsPerPage: 5, currentPage: currentPage, id: paginationId }">
       <app-ubs-admin-employee-card [data]="data"></app-ubs-admin-employee-card>
     </div>
-
     <div class="paginate">
       <app-pagination [paginationId]="paginationId" [currentPage]="currentPage" (onChangePage)="changeCurrentPage($event)"></app-pagination>
     </div>
