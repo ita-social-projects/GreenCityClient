@@ -1,6 +1,6 @@
 <div class="profile-container">
   <div class="row">
-    <div class="header">
+    <div class="ubs_profile-header">
       <div class="header-text">
         <h3>Дані користувача</h3>
       </div>
@@ -79,7 +79,7 @@
           <p *ngIf="!editing">{{ user.district }}</p>
         </div>
         <h5>Зв'язок із соцмережами</h5>
-        <div class="google">
+        <div class="account">
           <span>
             <img src="http://pngimg.com/uploads/google/google_PNG19635.png" alt="google" />
           </span>
@@ -91,7 +91,7 @@
       <button class="btn btn-outline-success" type="submit" (click)="onCancel()">Скасувати зміни</button>
       <button class="btn btn-success" type="submit" (click)="onSubmit()">Зберегти зміни</button>
     </div>
-    <div class="footer">
+    <div class="ubs_profile-footer">
       <div class="footer-text">
         <h3>Додаткові дії</h3>
       </div>
