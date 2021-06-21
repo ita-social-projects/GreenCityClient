@@ -14,7 +14,7 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
   public popupConfirm: string;
   public popupCancel: string;
   public closeButton = './assets/img/profile/icons/cancel.svg';
-  destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  public destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   constructor(public matDialogRef: MatDialogRef<WarningPopUpComponent>, @Inject(MAT_DIALOG_DATA) public data) {}
 
