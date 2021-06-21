@@ -85,7 +85,7 @@ describe('HabitStatisticService', () => {
       });
     });
 
-    it('should return habitStatistics length', () => {
+    it('should return habitStatistics length from getNumberOfHabits', () => {
       service.dataStore.habitStatistics = [{} as HabitDto, {} as HabitDto];
       expect(service.getNumberOfHabits()).toEqual(2);
     });
