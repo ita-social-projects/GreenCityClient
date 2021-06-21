@@ -1,6 +1,6 @@
 .profile-container {
   font-size: 0.9em;
-  width: 80%;
+  width: 1200px;
   display: flex;
   justify-content: center;
   margin-bottom: 100px;
@@ -10,7 +10,7 @@
     margin: 30px;
   }
 
-  .header {
+  .ubs_profile-header {
     width: 905px;
     margin: 20px;
     display: flex;
@@ -64,7 +64,7 @@
     margin-left: 15px;
   }
 
-  .google {
+  .account {
     display: flex;
     margin: 20px;
 
@@ -83,7 +83,7 @@
     justify-content: flex-end;
   }
 
-  .footer {
+  .ubs_profile-footer {
     width: 905px;
 
     .footer-text {
