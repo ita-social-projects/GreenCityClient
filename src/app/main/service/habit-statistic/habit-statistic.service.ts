@@ -12,25 +12,25 @@ import { HabitStatisticLogDto } from '@global-models/habit/HabitStatisticLogDto'
 import { OnLogout } from '../OnLogout';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class HabitStatisticService implements OnLogout {
   private userId: number;
   private $habitStatistics = new BehaviorSubject<HabitDto[]>([]);
   private $availableHabits = new BehaviorSubject<AvailableHabitDto[]>([]);
-  private dataStore: {
+  dataStore: {
     habitStatistics: HabitDto[];
     availableHabits: AvailableHabitDto[];
     newHabits: NewHabitDto[];
   } = {
     habitStatistics: [],
     availableHabits: [],
-    newHabits: [],
+    newHabits: []
   };
   readonly habitStatistics = this.$habitStatistics.asObservable();
   readonly availableHabits = this.$availableHabits.asObservable();
 
-  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
+  constructor(public http: HttpClient, private localStorageService: LocalStorageService) {
     localStorageService.userIdBehaviourSubject.subscribe((userId) => (this.userId = userId));
   }
 

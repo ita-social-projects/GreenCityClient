@@ -6,7 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-warning-pop-up',
   templateUrl: './warning-pop-up.component.html',
-  styleUrls: ['./warning-pop-up.component.scss'],
+  styleUrls: ['./warning-pop-up.component.scss']
 })
 export class WarningPopUpComponent implements OnInit, OnDestroy {
   public popupTitle: string;
@@ -14,9 +14,9 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
   public popupConfirm: string;
   public popupCancel: string;
   public closeButton = './assets/img/profile/icons/cancel.svg';
-  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
-  constructor(private matDialogRef: MatDialogRef<WarningPopUpComponent>, @Inject(MAT_DIALOG_DATA) public data) {}
+  constructor(public matDialogRef: MatDialogRef<WarningPopUpComponent>, @Inject(MAT_DIALOG_DATA) public data) {}
 
   ngOnInit() {
     this.setTitles();
@@ -37,7 +37,7 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
       .subscribe(() => this.userReply(false));
   }
 
-  private setTitles(): void {
+  public setTitles(): void {
     this.popupTitle = this.data.popupTitle;
     this.popupSubtitle = this.data.popupSubtitle;
     this.popupConfirm = this.data.popupConfirm;
