@@ -20,3 +20,21 @@ label {
   font-size: 16px;
   line-height: 24px;
 }
+
+#comment {
+  resize: none;
+  overflow: hidden;
+
+  &::placeholder {
+    color: var(-ubs-quintynary-light-grey);
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+
+@media (min-width: 992px) {
+  #comment {
+    width: 340px;
+    height: 92px;
+  }
+}
