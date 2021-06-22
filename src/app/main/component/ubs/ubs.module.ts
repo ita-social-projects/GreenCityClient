@@ -3,7 +3,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatStepperModule } from '@angular/material/stepper';
-import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
 import { AgmCoreModule } from '@agm/core';
 import { IMaskModule } from 'angular-imask';
 import { MatDialogModule, MatFormFieldModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
@@ -46,7 +45,6 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     FormsModule,
     ReactiveFormsModule,
     IMaskModule,
-    MatGoogleMapsAutocompleteModule,
     GooglePlaceModule,
     AgmCoreModule.forRoot({
       apiKey: environment.agmCoreModuleApiKey,

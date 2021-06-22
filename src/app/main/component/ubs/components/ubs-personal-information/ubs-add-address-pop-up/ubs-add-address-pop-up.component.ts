@@ -88,7 +88,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
     this.onCitySelected('Kiev');
   }
 
-  onCitySelected(citySelected) {
+  onCitySelected(citySelected: string) {
     this.cities.forEach((city) => {
       if (city.cityName === citySelected) {
         this.cityBounds = {
@@ -113,7 +113,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
     this.addAddressForm.get('latitude').setValue(event.latitude);
   }
 
-  setDistrict(event) {
+  setDistrict(event: any) {
     const getDistrict = event.address_components.filter((item) => item.long_name.includes('район'))[0];
     if (getDistrict) {
       this.region = getDistrict.long_name.split(' ')[0];
