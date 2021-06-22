@@ -125,7 +125,7 @@
       (click)="submit()"
       class="primary-global-button btn m-0"
       matStepperNext
-      [disabled]="personalDataForm.invalid || !addresses?.length"
+      [disabled]="personalDataForm.invalid"
     >
       {{ 'personal-info.info-next' | translate }}
     </button>
