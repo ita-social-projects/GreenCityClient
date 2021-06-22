@@ -17,6 +17,6 @@ export class UbsAdminAddressDetailsComponent implements OnInit {
       corpus: new FormControl(''),
       entrance: new FormControl(''),
       region: new FormControl('')
-    })
+    });
   }
 }
