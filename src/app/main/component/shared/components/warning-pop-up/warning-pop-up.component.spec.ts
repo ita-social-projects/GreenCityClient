@@ -63,10 +63,10 @@ describe('WarningPopUpComponent', () => {
 
     it('should set titles after setTitles method', () => {
       component.ngOnInit();
-      expect(component.popupTitle).toBe('popupTitle');
-      expect(component.popupSubtitle).toBe('popupSubtitle');
-      expect(component.popupCancel).toBe('popupCancel');
-      expect(component.popupConfirm).toBe('popupConfirm');
+      expect(component.popupTitle).toBe(popupDataStub.popupTitle);
+      expect(component.popupSubtitle).toBe(popupDataStub.popupSubtitle);
+      expect(component.popupCancel).toBe(popupDataStub.popupCancel);
+      expect(component.popupConfirm).toBe(popupDataStub.popupConfirm);
     });
 
     it('should execute close method inside ngOnDestroy', () => {
