@@ -4,7 +4,7 @@ import { AfterViewChecked, ChangeDetectorRef, Component, EventEmitter, Input, Ou
 @Component({
   selector: 'app-comment-pagination',
   templateUrl: './comment-pagination.component.html',
-  styleUrls: ['./comment-pagination.component.scss']
+  styleUrls: ['./comment-pagination.component.scss'],
 })
 export class CommentPaginationComponent implements AfterViewChecked {
   @Input() public config: PaginationConfig;
