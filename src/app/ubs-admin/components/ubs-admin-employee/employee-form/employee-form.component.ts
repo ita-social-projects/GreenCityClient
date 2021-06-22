@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatChip, MatChipList } from '@angular/material/chips';
-import { FormBuilder, FormGroup, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { EmployeeService } from '../../../services/employee.service';
 export interface Position {
   name: string;
 }
@@ -12,13 +12,13 @@ export interface Position {
 })
 export class EmployeeFormComponent implements OnInit {
   @Input()
-  locations: string[] = ['Саперно-Слобідська', 'Петрівка'];
-  roles: string[] = ['Менеджер послуги', 'Менеджер обдзвону', 'Логіст', 'Штурман', 'Водій'];
+  locations;
+  roles;
   selectedFile: File;
   filePath: string;
   uploaded: boolean = false;
   employeeForm: FormGroup;
-  constructor(public fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data) {
+  constructor(private employeeService: EmployeeService, public fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data) {
     this.employeeForm = this.fb.group({
       image: [this.data.image],
       filename: [''],
@@ -30,7 +30,18 @@ export class EmployeeFormComponent implements OnInit {
       receivingStations: [this.data.location]
     });
   }
-  ngOnInit() {}
+  ngOnInit() {
+    this.employeeService.getAllPositions().subscribe({
+      next: (roles) => {
+        this.roles = roles;
+      }
+    });
+    this.employeeService.getAllStantions().subscribe({
+      next: (locations) => {
+        this.locations = locations;
+      }
+    });
+  }
   imagePreview(e) {
     this.selectedFile = (e.target as HTMLInputElement).files[0];
     this.employeeForm.patchValue({

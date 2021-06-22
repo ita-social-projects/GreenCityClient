@@ -28,12 +28,7 @@ form {
   left: 56px;
   top: 42px;
 }
-.mat-chip.mat-standard-chip {
-  color: var(--ubs-secondary-dark-green);
-  border: 1px solid var(--ubs-secondary-dark-green);
-  border-radius: 6px;
-  background-color: var(--pre-secondary-light-grey);
-}
+
 mat-chip-list {
   margin: 16px 0;
 }
@@ -156,4 +151,36 @@ svg {
   font-family: var(--primary-font);
   font-size: 12px;
   line-height: 16px;
+}
+.checkbox-input {
+  display: none;
+}
+.checkbox-section-role {
+  display: flex;
+  align-content: center;
+  align-items: flex-start;
+  // justify-content: flex-start;
+  flex-wrap: wrap;
+  width: 292px;
+  height: 104px;
+}
+.checkbox-label {
+  color: var(--ubs-secondary-dark-green);
+  border: 1px solid var(--ubs-secondary-dark-green);
+  border-radius: 6px;
+  box-sizing: border-box;
+  background-color: var(--pre-secondary-light-grey);
+  font-size: 14px;
+  line-height: 20px;
+  font-style: normal;
+  font-weight: 400;
+  font-family: var(--ubs-primary-font);
+}
+.checkbox-section-stantion {
+  height: 32px;
+  width: 246px;
+  display: flex;
+  align-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
 }

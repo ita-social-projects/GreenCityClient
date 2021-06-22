@@ -20,7 +20,7 @@
     <input formControlName="email" placeholder="" />
   </div>
   <label>Посада*</label>
-  <mat-chip-list class="example-chip" cdkDropList cdkDropListOrientation="horizontal" selectable multiple>
+  <!-- <mat-chip-list class="example-chip" cdkDropList cdkDropListOrientation="horizontal" selectable multiple>
     <mat-chip class="example-box" #c="matChip" cdkDrag *ngFor="let role of roles" [value]="role" (click)="toggleSelection(c)">
       <mat-icon *ngIf="c.selected">check</mat-icon>
       {{ role }}
@@ -31,7 +31,20 @@
     <mat-chip [ngStyle]="{ color: '#513be4', border: '1px solid #513be4' }" cdkDrag *ngFor="let location of locations">
       {{ location }}
     </mat-chip>
-  </mat-chip-list>
+  </mat-chip-list> -->
+  <div class="checkbox-section-role">
+    <div *ngFor="let role of roles">
+      <label class="checkbox-label">{{ role.name }}<input class="checkbox-input" type="checkbox" /></label>
+    </div>
+  </div>
+  <label>Станція приймання*</label>
+  <div class="checkbox-section-stantion">
+    <div *ngFor="let location of locations">
+      <label class="checkbox-label" [ngStyle]="{ color: '#513be4', border: '1px solid #513be4' }"
+        >{{ location.name }}<input class="checkbox-input" type="checkbox"
+      /></label>
+    </div>
+  </div>
   <label class="photo-label">Фото</label>
   <div class="custom-file-upload">
     <div *ngIf="filePath && filePath !== ''">
