@@ -18,7 +18,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 @Component({
   selector: 'app-restore-password',
   templateUrl: './restore-password.component.html',
-  styleUrls: ['./restore-password.component.scss'],
+  styleUrls: ['./restore-password.component.scss']
 })
 export class RestorePasswordComponent implements OnInit, OnDestroy {
   public restorePasswordForm: FormGroup;
@@ -58,7 +58,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
 
   public initFormReactive(): void {
     this.restorePasswordForm = new FormGroup({
-      email: new FormControl(null, [Validators.required, Validators.email]),
+      email: new FormControl(null, [Validators.required, Validators.email])
     });
   }
 
@@ -102,12 +102,12 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
         error: (error: HttpErrorResponse) => {
           this.onSentEmailBadMessage(error);
           this.loadingAnim = false;
-        },
+        }
       });
   }
 
   private onSentEmailBadMessage(error: HttpErrorResponse): void {
-    this.emailErrorMessageBackEnd = error.error.message;
+    this.emailErrorMessageBackEnd = error.error.name === 'email' ? 'already-sent' : 'email-not-exist';
   }
 
   private onSignInFailure(errors: HttpErrorResponse): Observable<any> {
