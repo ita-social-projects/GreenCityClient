@@ -45,14 +45,12 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   certSize = false;
   showCertificateUsed = 0;
   certificateLeft = 0;
-  certMessage: string;
+  certDate: string;
+  certStatus: string;
   userOrder: FinalOrder;
   object: {};
   private destroy: Subject<boolean> = new Subject<boolean>();
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-  certMessageFirst = '';
-  certMessageFourth = '';
-  certMessageFifth = '';
   public currentLanguage: string;
   public certificateError = false;
   bonusesRemaining: boolean;
@@ -84,11 +82,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   ngOnInit(): void {
     this.takeOrderData();
-    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe(() => {
-      this.translateWords('order-details.activated-certificate1', this.certMessageFirst);
-      this.translateWords('order-details.activated-certificate4', this.certMessageFourth);
-      this.translateWords('order-details.activated-certificate5', this.certMessageFifth);
-    });
   }
 
   getFormValues(): boolean {
@@ -106,7 +99,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.orderDetailsForm = this.fb.group({
       certificate: new FormControl('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)]),
       orderComment: new FormControl(''),
-      bonus: new FormControl('yes'),
+      bonus: new FormControl('no'),
       shop: new FormControl('no'),
       additionalCertificates: this.fb.array([]),
       additionalOrders: this.fb.array(['']),
@@ -248,6 +241,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.points > this.showTotal ? (this.points = this.points - this.showTotal) : (this.points = 0);
       this.finalSum = this.showTotal - this.pointsUsed - this.certificateSum;
     }
+
+    if (this.finalSum < 0) {
+      this.finalSum = 0;
+    }
   }
 
   resetPoints(): void {
@@ -255,7 +252,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.certificateSum = 0;
     this.finalSum = this.total;
     this.points = this.orders.points;
-    this.certificateReset();
+    this.certificateReset(true);
     this.calculateTotal();
   }
 
@@ -299,11 +296,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
           .subscribe(
             (cert) => {
               this.certificateMatch(cert);
-              this.certificateSum += cert.certificatePoints / 10;
-              if (this.total > this.certificateSum) {
-                this.addCert = true;
-              } else {
-                this.addCert = false;
+              if (this.total < this.certificateSum) {
                 this.certSize = true;
               }
               this.certificateError = false;
@@ -332,26 +325,40 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     }
   }
 
-  certificateReset(): void {
+  certificateReset(resetMessage: boolean): void {
+    if (resetMessage) {
+      this.certDate = '';
+      this.certStatus = '';
+      this.addCert = true;
+    }
+
     this.bonusesRemaining = false;
     this.showCertificateUsed = null;
     this.addCert = false;
     this.displayCert = false;
     this.certificates = [];
-    this.certMessage = '';
+    this.certSize = false;
+    this.certificateLeft = 0;
+    this.certificateSum = 0;
+    this.pointsUsed = 0;
     this.orderDetailsForm.patchValue({ certificate: '' });
     this.calculateCertificates(this.certificates);
   }
 
   certificateMatch(cert): void {
     if (cert.certificateStatus === CertificateStatus.ACTIVE || cert.certificateStatus === CertificateStatus.NEW) {
-      this.certificateSum = this.certificateSum + cert.certificatePoints;
-      this.certMessage = this.certMessageFirst + ' ' + cert.certificatePoints + ' ' + this.certMessageFourth + ' ' + cert.certificateDate;
+      this.certificateSum += cert.certificatePoints;
+      this.certDate = cert.certificateDate;
+      this.certStatus = cert.certificateStatus;
       this.displayCert = true;
-    } else if (cert.certificateStatus === CertificateStatus.USED) {
-      this.certificateSum = 0;
-      this.certMessage = this.certMessageFifth + ' ' + cert.certificateDate;
-      this.displayCert = false;
+      this.addCert = true;
+    }
+
+    if (cert.certificateStatus === CertificateStatus.USED || cert.certificateStatus === CertificateStatus.EXPIRED) {
+      this.certDate = cert.certificateDate;
+      this.certStatus = cert.certificateStatus;
+
+      this.certificateReset(false);
     }
   }
 
