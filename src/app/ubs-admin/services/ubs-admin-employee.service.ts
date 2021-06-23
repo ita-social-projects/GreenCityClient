@@ -9,7 +9,7 @@ export class UbsAdminEmployeeService {
 
   constructor(private http: HttpClient) {}
 
-  getEmployees() {
-    return this.http.get<any[]>(`${this.url}`);
+  getEmployees(page?: number, size?: number) {
+    return this.http.get<any[]>(`${this.url}?page=${page}&size=${size}`);
   }
 }

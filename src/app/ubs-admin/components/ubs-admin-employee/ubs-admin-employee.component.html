@@ -8,11 +8,18 @@
     </div>
   </div>
   <div class="employees">
-    <div *ngFor="let data of fakeData | paginate: { itemsPerPage: 5, currentPage: currentPage, id: paginationId }">
+    <div
+      *ngFor="let data of fakeData | paginate: { itemsPerPage: size, currentPage: currentPage, id: paginationId, totalItems: totalLength }"
+    >
       <app-ubs-admin-employee-card [data]="data"></app-ubs-admin-employee-card>
     </div>
     <div class="paginate">
-      <app-pagination [paginationId]="paginationId" [currentPage]="currentPage" (onChangePage)="changeCurrentPage($event)"></app-pagination>
+      <app-pagination
+        [paginationId]="paginationId"
+        [currentPage]="currentPage"
+        [maxSize]="totalLength"
+        (ChangePage)="changeCurrentPage($event)"
+      ></app-pagination>
     </div>
   </div>
 </div>

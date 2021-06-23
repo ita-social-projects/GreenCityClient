@@ -6,12 +6,12 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./pagination.component.scss']
 })
 export class PaginationComponent {
-  @Input() paginationId;
-  @Input() currentPage;
-
-  @Output() onChangePage = new EventEmitter<number>();
+  @Input() paginationId: string;
+  @Input() currentPage: number;
+  @Input() maxSize: number;
+  @Output() ChangePage = new EventEmitter<number>();
 
   public changePage(page: number): void {
-    this.onChangePage.emit(page);
+    this.ChangePage.emit(page);
   }
 }

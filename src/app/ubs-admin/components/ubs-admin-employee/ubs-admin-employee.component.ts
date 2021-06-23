@@ -10,15 +10,13 @@ import { Subject } from 'rxjs';
   styleUrls: ['./ubs-admin-employee.component.scss']
 })
 export class UbsAdminEmployeeComponent implements OnInit {
-  fakeData = [];
+  fakeData: string[] = [];
   destroy: Subject<boolean> = new Subject<boolean>();
-  totalLength = this.fakeData.length;
+  totalLength: number;
   currentPage = 1;
+  paginPage: number;
+  size = 5;
   paginationId = 'employee';
-  changeCurrentPage(page: number): void {
-    this.currentPage = page;
-    this.location.go(`/ubs-admin/employee/${this.currentPage}`);
-  }
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -27,19 +25,28 @@ export class UbsAdminEmployeeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getEmployees();
     this.activatedRoute.params.subscribe((params: Params) => {
-      this.currentPage = params['page'];
+      this.paginPage = params.page - 1;
     });
+    this.getEmployees(this.paginPage, this.size);
   }
 
-  getEmployees() {
+  getEmployees(currentPage: number, size: number) {
     this.ubsAdminEmployeeService
-      .getEmployees()
+      .getEmployees(currentPage, size)
       .pipe(takeUntil(this.destroy))
-      .subscribe((item) => {
-        this.fakeData = item;
-      });
-    console.log(this.fakeData);
+      .subscribe((item) => this.setData(item));
+  }
+
+  setData(item) {
+    this.fakeData = item.page;
+    this.totalLength = item.totalElements;
+  }
+
+  changeCurrentPage(page: number): void {
+    this.currentPage = page;
+    this.paginPage = this.currentPage - 1;
+    this.getEmployees(this.paginPage, this.size);
+    this.location.go(`/ubs-admin/employee/${this.currentPage}`);
   }
 }

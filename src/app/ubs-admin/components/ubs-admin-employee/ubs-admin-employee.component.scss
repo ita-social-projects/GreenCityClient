@@ -14,7 +14,7 @@
 
       .page-name {
         margin-bottom: 32px;
-        font-family: 'Lato';
+        font-family: var(--primary-font);
         font-weight: 700;
         letter-spacing: 0.002em;
       }
@@ -30,8 +30,8 @@
         line-height: 20px;
         font-weight: 700;
         letter-spacing: 0.1px;
-        font-family: 'Lato';
-        background: #13aa57;
+        font-family: var(--primary-font);
+        background: var(--ubs-primary-green);
         border-radius: 4px;
       }
     }
