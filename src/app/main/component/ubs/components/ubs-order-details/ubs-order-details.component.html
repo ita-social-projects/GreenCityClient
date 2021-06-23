@@ -29,7 +29,7 @@
                 [unmask]="false"
                 [imask]="{ mask: servicesMask }"
                 [(ngModel)]="bag.quantity"
-                (change)="onQuantityChange()"
+                (ngModelChange)="onQuantityChange()"
                 (click)="onQuantityChange()"
               />
             </div>
