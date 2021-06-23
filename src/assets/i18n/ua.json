@@ -875,5 +875,10 @@
     "eco-news-widget": {
       "paragraph": "Може бути цікавим для вас"
     }
+  },
+  "remaining-count": {
+    "item": "пост",
+    "items": "постів",
+    "found": "знайдено"
   }
 }

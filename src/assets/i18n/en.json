@@ -858,5 +858,10 @@
     "eco-news-widget": {
       "paragraph": "May be interesting for you"
     }
+  },
+  "remaining-count": {
+    "item": "item",
+    "items": "items",
+    "found": "found"
   }
 }

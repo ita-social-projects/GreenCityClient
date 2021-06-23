@@ -1,1 +1,4 @@
-<h2>{{ remainingCount }} {{ remainingCount === 1 ? 'item' : 'items' }} found</h2>
+<h2>
+  {{ remainingCount }} {{ remainingCount === 1 ? ('remaining-count.item' | translate) : ('remaining-count.items' | translate) }}
+  {{ 'remaining-count.found' | translate }}
+</h2>

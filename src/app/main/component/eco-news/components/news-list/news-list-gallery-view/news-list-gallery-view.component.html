@@ -21,7 +21,7 @@
     <div class="user-data-added-news">
       <p class="user-data-text-date">
         <img class="icon" [src]="profileIcons.calendarIcon" alt="calendar icon" />
-        {{ ecoNewsModel.creationDate | date }}
+        {{ ecoNewsModel.creationDate | date | dateLocalisation }}
       </p>
       <p class="user-data-text-date">
         <img class="icon" [src]="profileIcons.userIcon" alt="user icon" />
