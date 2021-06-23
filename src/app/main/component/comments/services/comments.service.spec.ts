@@ -5,7 +5,7 @@ import { CommentsService } from './comments.service';
 import { HttpResponse } from '@angular/common/http';
 import { environment } from '@environment/environment';
 
-fdescribe('CommentsService', () => {
+describe('CommentsService', () => {
   let service: CommentsService;
   let httpTestingController: HttpTestingController;
   let url: string = environment.backendLink;
