@@ -23,7 +23,6 @@
           type="text"
           formControlName="city"
           placeholder="{{ userInfo.location }}"
-          #placesRef="ngx-places"
           (onAddressChange)="onCityChange($event)"
           [pattern]="cityPattern"
           id="city"
