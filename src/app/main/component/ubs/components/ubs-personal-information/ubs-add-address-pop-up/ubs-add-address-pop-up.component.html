@@ -1,5 +1,5 @@
 <form [formGroup]="addAddressForm" class="row adress">
-  <div class="col-12 col-sm-6 form-group">
+  <div class="col-md-6 col-sm-6 form-group">
     <label>{{ 'personal-info.pop-up-city' | translate }}</label>
     <select formControlName="city" class="shadow-none form-control">
       <option value="Kyiv">{{ 'personal-info.pop-up-city-name' | translate }}</option>
@@ -8,7 +8,7 @@
       {{ 'personal-info.pop-up-info-message' | translate }}
     </div>
   </div>
-  <div class="col-12 col-sm-6 form-group">
+  <div class="col-md-6 col-sm-6 form-group">
     <label>{{ 'personal-info.pop-up-district' | translate }}</label>
     <input
       formControlName="district"
@@ -24,7 +24,7 @@
       <app-ubs-input-error [formElement]="district" [controlName]="'district'"></app-ubs-input-error>
     </div>
   </div>
-  <div class="col-12 col-sm-6 form-group">
+  <div class="col-lg-6 col-md-12 col-sm-12 form-group">
     <label>{{ 'personal-info.pop-up-street' | translate }}</label>
     <input
       formControlName="street"
@@ -42,7 +42,7 @@
       <app-ubs-input-error [formElement]="street" [streetFieldValue]="street.value" [controlName]="'street'"></app-ubs-input-error>
     </div>
   </div>
-  <div class="row col-12 col-sm-6 d-flex justify-content-between flex-wrap form-group">
+  <div class="row col-md-12 col-sm-12 col-lg-6 d-flex justify-content-between flex-wrap form-group">
     <div class="item col-sm-4">
       <label>Будинок</label>
       <input formControlName="houseNumber" type="text" class="shadow-none form-control" />
@@ -67,8 +67,10 @@
   </div>
 </form>
 <div class="d-flex justify-content-end" mat-dialog-actions>
-  <button class="secondary-global-button btn" mat-button (click)="onNoClick()">{{ 'personal-info.pop-up-cancel' | translate }}</button>
-  <button class="primary-global-button btn" (click)="addAdress()">
+  <button class="secondary-global-button btn m-0 mr-2" mat-button (click)="onNoClick()">
+    {{ 'personal-info.pop-up-cancel' | translate }}
+  </button>
+  <button class="primary-global-button btn m-0" (click)="addAdress()">
     {{ (data.edit ? 'personal-info.pop-up-save-changes' : 'personal-info.pop-up-add-address') | translate }}
   </button>
 </div>

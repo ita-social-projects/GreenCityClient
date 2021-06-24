@@ -54,7 +54,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
 
   ngOnInit() {
     this.takeUserData();
-    this.findAllAddresses();
   }
 
   ngDoCheck() {
@@ -65,7 +64,16 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.orderService
       .findAllAddresses()
       .pipe(takeUntil(this.destroy))
-      .subscribe((list) => (this.addresses = list.addressList));
+      .subscribe((list) => {
+        this.addresses = list.addressList;
+        this.personalDataForm.patchValue({
+          address: this.addresses
+        });
+
+        if (this.addresses[0] && this.addresses) {
+          this.checkAddress(this.addresses[0].id);
+        }
+      });
   }
 
   ngOnDestroy(): void {
@@ -89,6 +97,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       ]),
       email: new FormControl('', [Validators.required, Validators.email]),
       phoneNumber: new FormControl('+38 0', [Validators.required, Validators.minLength(12)]),
+      address: new FormControl('', Validators.required),
       addressComment: new FormControl('', Validators.maxLength(255))
     });
   }
@@ -100,6 +109,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       .subscribe((personalData: PersonalData) => {
         this.personalData = this.shareFormService.personalData;
         this.setFormData();
+        this.findAllAddresses();
       });
   }
 
@@ -109,6 +119,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
         address.actual = !address.actual;
       }
     });
+
     this.changeAddressInPersonalData();
   }
 
@@ -147,11 +158,23 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.orderService
       .deleteAddress(address)
       .pipe(takeUntil(this.destroy))
-      .subscribe((list) => (this.addresses = list.addressList));
+      .subscribe((list) => {
+        this.addresses = list.addressList;
+        if (this.addresses[0]) {
+          this.checkAddress(this.addresses[0].id);
+        } else {
+          this.personalDataForm.patchValue({
+            address: ''
+          });
+        }
+      });
   }
 
   addNewAddress() {
     this.openDialog(false);
+    this.personalDataForm.patchValue({
+      address: this.addresses
+    });
   }
 
   getControl(control: string) {
@@ -164,7 +187,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     dialogConfig.panelClass = 'address-matDialog-styles';
     dialogConfig.data = {
       edit: isEdit,
-      address: isEdit ? currentAddress : {}
+      address: isEdit ? currentAddress : this.addresses[0] ? this.addresses[0].id : {}
     };
     const dialogRef = this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
     dialogRef
@@ -194,6 +217,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.personalData.lastName = this.personalDataForm.get('lastName').value;
     this.personalData.email = this.personalDataForm.get('email').value;
     this.personalData.phoneNumber = this.personalDataForm.get('phoneNumber').value.slice(3);
+    this.personalData.addressComment = this.personalDataForm.get('addressComment').value;
     this.order = new Order(
       this.shareFormService.orderDetails.additionalOrders,
       this.addressId,

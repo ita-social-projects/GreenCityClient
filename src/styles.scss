@@ -4,10 +4,6 @@
 @import 'typography/typography';
 @import 'typography/typographyUbs';
 
-html {
-  overflow-y: auto !important;
-}
-
 .hide {
   display: none;
 }
@@ -19,6 +15,7 @@ a {
 body {
   margin: 0;
   font-family: var(--tertiary-font);
+  overflow-y: auto;
 }
 
 // Temporary fix for google autocomplit
