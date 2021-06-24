@@ -33,6 +33,7 @@
       (change)="onChange()"
       [attr.disabled]="addAddressForm.controls['city'].dirty ? null : true"
       placeholder="{{ 'personal-info.pop-up-enter-you-location' | translate }}"
+      [pattern]="streetPattern"
     />
     <div class="validation" *ngIf="street.invalid && addAddressForm.get('street').touched">
       <app-ubs-input-error [formElement]="street" [streetFieldValue]="street.value" [controlName]="'street'"></app-ubs-input-error>
