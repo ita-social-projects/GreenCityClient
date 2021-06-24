@@ -1,6 +1,9 @@
 <div class="container">
   <h1 class="h1 text-center form-title">{{ 'order-form.ubs-title' | translate }}</h1>
   <mat-horizontal-stepper linear>
+    <ng-template matStepperIcon="edit">
+      <mat-icon class="text-light">check</mat-icon>
+    </ng-template>
     <mat-step [stepControl]="firstStepForm">
       <ng-template matStepLabel>{{ 'order-form.order-details' | translate }}</ng-template>
       <app-ubs-order-details #firstStep></app-ubs-order-details>

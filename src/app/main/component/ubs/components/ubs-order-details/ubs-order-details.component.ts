@@ -172,7 +172,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.onSubmit = false;
     }
     this.finalSum = this.total;
-    this.changeOrderDetails();
     if (this.certificateSum > 0) {
       if (this.total > this.certificateSum) {
         this.certificateLeft = 0;
@@ -187,6 +186,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.bonusesRemaining = this.certificateSum > 0;
       this.showCertificateUsed = this.certificateSum;
     }
+    this.changeOrderDetails();
   }
 
   public ecoStoreValidation() {
