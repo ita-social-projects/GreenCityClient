@@ -1,5 +1,5 @@
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { Component, DoCheck, OnDestroy, OnInit } from '@angular/core';
+import { Component, DoCheck, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
@@ -41,6 +41,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     }
   };
 
+  @Input() completed;
+
   constructor(
     public router: Router,
     private orderService: OrderService,
@@ -58,6 +60,9 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
 
   ngDoCheck() {
     this.shareFormService.changePersonalData();
+    if (this.completed) {
+      this.submit();
+    }
   }
 
   findAllAddresses() {
@@ -227,9 +232,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       this.personalData,
       this.shareFormService.orderDetails.pointsToUse
     );
-    this.orderService
-      .processOrder(this.order)
-      .pipe(takeUntil(this.destroy))
-      .subscribe((val) => (this.shareFormService.orderUrl = val.toString()));
+    this.orderService.setOrder(this.order);
   }
 }
