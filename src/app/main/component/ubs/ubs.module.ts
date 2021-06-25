@@ -3,7 +3,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatStepperModule } from '@angular/material/stepper';
-import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
 import { AgmCoreModule } from '@agm/core';
 import { IMaskModule } from 'angular-imask';
 import { MatDialogModule, MatFormFieldModule, MatIconModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
@@ -22,6 +21,7 @@ import { AddressComponent } from './components/ubs-personal-information/address/
 import { UbsConfirmPageComponent } from './components/ubs-confirm-page/ubs-confirm-page.component';
 import { SharedMainModule } from '@shared/shared-main.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 @NgModule({
   declarations: [
@@ -46,7 +46,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     FormsModule,
     ReactiveFormsModule,
     IMaskModule,
-    MatGoogleMapsAutocompleteModule,
+    GooglePlaceModule,
     AgmCoreModule.forRoot({
       apiKey: environment.agmCoreModuleApiKey,
       libraries: ['places']
