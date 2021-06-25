@@ -6,7 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-warning-pop-up',
   templateUrl: './warning-pop-up.component.html',
-  styleUrls: ['./warning-pop-up.component.scss']
+  styleUrls: ['./warning-pop-up.component.scss'],
 })
 export class WarningPopUpComponent implements OnInit, OnDestroy {
   public popupTitle: string;
@@ -14,9 +14,9 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
   public popupConfirm: string;
   public popupCancel: string;
   public closeButton = './assets/img/profile/icons/cancel.svg';
-  destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
-  constructor(public matDialogRef: MatDialogRef<WarningPopUpComponent>, @Inject(MAT_DIALOG_DATA) public data) {}
+  constructor(private matDialogRef: MatDialogRef<WarningPopUpComponent>, @Inject(MAT_DIALOG_DATA) public data) {}
 
   ngOnInit() {
     this.setTitles();
@@ -37,14 +37,14 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
       .subscribe(() => this.userReply(false));
   }
 
-  setTitles(): void {
+  private setTitles(): void {
     this.popupTitle = this.data.popupTitle;
     this.popupSubtitle = this.data.popupSubtitle;
     this.popupConfirm = this.data.popupConfirm;
     this.popupCancel = this.data.popupCancel;
   }
 
-  userReply(reply: boolean): void {
+  public userReply(reply: boolean): void {
     this.matDialogRef.close(reply);
   }
 
