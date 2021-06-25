@@ -1,12 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { WarningPopUpComponent } from '@shared/components';
 import { TranslateModule } from '@ngx-translate/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { of } from 'rxjs';
 
-fdescribe('WarningPopUpComponent', () => {
+describe('WarningPopUpComponent', () => {
   let component: WarningPopUpComponent;
   let fixture: ComponentFixture<WarningPopUpComponent>;
 
@@ -50,16 +49,16 @@ fdescribe('WarningPopUpComponent', () => {
 
   describe('Testing the basic functionality', () => {
     it('should create keyboard event inside ngOnInit', () => {
+      // @ts-ignore
       const spy = spyOn(component.matDialogRef, 'keydownEvents').and.returnValue(of());
-
       component.ngOnInit();
 
       expect(spy).toHaveBeenCalled();
     });
 
     it('should call setTitles inside ngOnInit', () => {
+      // @ts-ignore
       const spy = spyOn(component, 'setTitles');
-
       component.ngOnInit();
 
       expect(spy).toHaveBeenCalled();
@@ -75,17 +74,18 @@ fdescribe('WarningPopUpComponent', () => {
     });
 
     it('should execute close method inside ngOnDestroy', () => {
+      // @ts-ignore
       const spy = spyOn(component.matDialogRef, 'close');
-
       component.userReply(true);
 
       expect(spy).toHaveBeenCalled();
     });
 
     it('should cancel streams after ngOnDestroy', () => {
+      // @ts-ignore
       const nextSpy = spyOn(component.destroyed$, 'next');
+      // @ts-ignore
       const completeSpy = spyOn(component.destroyed$, 'complete');
-
       component.ngOnDestroy();
 
       expect(nextSpy).toHaveBeenCalled();
