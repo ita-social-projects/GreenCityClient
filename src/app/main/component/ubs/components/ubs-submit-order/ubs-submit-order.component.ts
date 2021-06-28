@@ -78,7 +78,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       .subscribe(
         (fondyUrl) => {
           this.shareFormService.orderUrl = fondyUrl.toString();
-          window.open(this.shareFormService.orderUrl);
+          document.location.href = this.shareFormService.orderUrl;
           this.loadingAnim = false;
         },
         (error) => {
