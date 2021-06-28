@@ -65,7 +65,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       .findAllAddresses()
       .pipe(takeUntil(this.destroy))
       .subscribe((list) => {
-        this.addresses = list.addressList;
+        this.addresses = this._getLastAddresses(list.addressList);
         this.personalDataForm.patchValue({
           address: this.addresses
         });
@@ -74,6 +74,11 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
           this.checkAddress(this.addresses[0].id);
         }
       });
+  }
+
+  private _getLastAddresses(addressList: Address[]) {
+    const lastAddresses = -4;
+    return addressList.slice(lastAddresses);
   }
 
   ngOnDestroy(): void {
