@@ -1,5 +1,8 @@
-.form__wrapper {
+.container {
   font-family: var(--ubs-quaternary-font);
+}
+
+.form__wrapper {
   margin-bottom: 22px;
 }
 
@@ -48,8 +51,8 @@
 input {
   position: static;
   height: 36px;
-  left: calc(50% - 340px / 2);
-  top: calc(50% - 36px / 2 + 10px);
+  left: calc(50% - 170px);
+  top: calc(50% - 28px);
   background: var(--ubs-primary-white);
   border: 1px solid var(--ubs-quintynary-light-grey);
   box-sizing: border-box;

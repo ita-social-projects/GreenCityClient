@@ -13,7 +13,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit {
     this.addressDetailsForm = new FormGroup({
       street: new FormControl(''),
       building: new FormControl(''),
-      comment: new FormControl(''),
+      addressComment: new FormControl(''),
       corpus: new FormControl(''),
       entrance: new FormControl(''),
       region: new FormControl('')

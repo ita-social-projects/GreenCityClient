@@ -10,13 +10,18 @@ h1 {
 .title {
   margin-left: 13px;
   font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+  letter-spacing: 0.002em;
+  color: var(--ubs-primary-grey);
 }
 
 .title-comment {
   font-size: 16px;
 }
 
-label {
+.form__label {
+  color: var(--ubs-secondary-grey);
   font-size: 16px;
   line-height: 24px;
 }

@@ -1,6 +1,6 @@
 <div class="container mb-3">
   <div class="d-flex">
-    <h1>Адреса вивезення відходів</h1>
+    <h1 class="form__headline py-3">Адреса вивезення відходів</h1>
   </div>
   <form [formGroup]="addressDetailsForm">
   <div class="form-row">
@@ -12,11 +12,11 @@
       id="street" />
     </div>
     <div class="form-group col-md-5 offset-md-1">
-      <label for="comment">Коментар до адреси від клієнта</label>
+      <label for="addess-comment">Коментар до адреси від клієнта</label>
       <textarea
-        formControlName="comment"
+        formControlName="addressComment"
         class="form-control"
-        id="comment"
+        id="address-comment"
         rows="3"
         placeholder="Будь-які деталі, які Ви хотіли б повідомити додатково щодо цього замовлення"
       ></textarea>

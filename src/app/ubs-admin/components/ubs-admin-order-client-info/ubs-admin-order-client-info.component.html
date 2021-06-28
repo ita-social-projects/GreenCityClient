@@ -25,7 +25,6 @@
           />
         </div>
       </div>
-
       <div class="form__block col-md-4 col-sm-6 offset-md-1">
         <div class="form-group">
           <p class="form__subtitle">Отримувач</p>
@@ -48,7 +47,6 @@
         </div>
       </div>
     </div>
-
     <div class="violation">
       <p class="form__subtitle">Порушення клієнта</p>
       <div class="violation__block d-flex">
@@ -61,8 +59,7 @@
           <p>{{ currentViolationAmount }}</p>
         </div>
       </div>
-
-      <button class="btn" disabled="violations > 1" type="button">Додати порушення</button>
+      <button class="btn" [attr.disabled]="violations > 1" type="button">Додати порушення</button>
     </div>
   </form>
   <hr />
