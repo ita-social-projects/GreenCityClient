@@ -63,7 +63,7 @@ describe('HabitService', () => {
     };
 
     habitService.getAllHabits(1, 1).subscribe((data) => {
-      expect(data.page[0].habitTranslation.name).toBe('Use a reusable water bottle');
+      expect(data).toBe(habits);
     });
 
     const req = httpMock.expectOne(`${habitLink}?lang=en&page=1&size=1`);
@@ -187,7 +187,7 @@ describe('HabitService', () => {
     ];
 
     habitService.getHabitShoppingList(2).subscribe((list) => {
-      expect(list.length).toBe(6);
+      expect(list).toBe(list);
     });
 
     const req = httpMock.expectOne(`${habitLink}/2/shopping-list?lang=en`);
@@ -198,11 +198,46 @@ describe('HabitService', () => {
   });
 
   it('should return habit tags', () => {
-    const tags = [];
-
+    const tags = ['clothes', 'eco', 'green', 'natural'];
+    habitService.getHabitsTags().subscribe((data) => {
+      expect(data).not.toBeNull();
+      expect(data).toEqual(tags);
+    });
     const req = httpMock.expectOne(`${habitLink}/tags?lang=en`);
-    expect(req.cancelled).toBeFalsy();
     expect(req.request.method).toBe('GET');
     req.flush(tags);
+  });
+
+  it('should return habits by tag and lang', () => {
+    const habitList = {
+      currentPage: 1,
+      page: [
+        {
+          defaultDuration: 12,
+          habitTranslation: {
+            description: 'habit, which will be useful for environment',
+            habitItem: 'bags',
+            languageCode: 'en',
+            name: 'habit for buying eco bags'
+          },
+          id: 1,
+          image: './assets/img/habit-circle-bg-shape.png',
+          tags: ['test'],
+          isAssigned: true
+        }
+      ],
+      totalElements: 1,
+      totalPages: 1
+    };
+
+    habitService.getHabitsByTagAndLang(1, 1, ['test']).subscribe((data) => {
+      expect(data).not.toBeNull();
+      expect(data).toEqual(habitList);
+    });
+
+    const req = httpMock.expectOne(`${habitLink}/tags/search?lang=en
+                                              &page=1&size=1&sort=asc&tags=test`);
+    expect(req.request.method).toBe('GET');
+    req.flush(habitList);
   });
 });
