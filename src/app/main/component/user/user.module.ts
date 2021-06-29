@@ -72,7 +72,7 @@ import { FriendItemComponent } from './components/profile/users-friends/friend-d
 import { FriendRequestsComponent } from './components/profile/users-friends/friend-dashboard/friend-requests/friend-requests.component';
 import { RequestItemComponent } from './components/profile/users-friends/friend-dashboard/friend-requests/request-item/request-item.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 @NgModule({
   declarations: [
     UserComponent,
@@ -132,6 +132,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     RequestItemComponent
   ],
   imports: [
+    GooglePlaceModule,
     UserRoutingModule,
     CommonModule,
     SharedMainModule,
