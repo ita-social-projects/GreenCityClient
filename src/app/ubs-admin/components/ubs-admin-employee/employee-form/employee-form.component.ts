@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { EmployeeService } from '../../../services/employee.service';
 export interface Position {
   name: string;
@@ -18,18 +18,7 @@ export class EmployeeFormComponent implements OnInit {
   filePath: string;
   uploaded: boolean = false;
   employeeForm: FormGroup;
-  constructor(private employeeService: EmployeeService, public fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data) {
-    this.employeeForm = this.fb.group({
-      image: [this.data.image],
-      filename: [''],
-      firstName: [this.data.name],
-      lastName: [this.data.surname],
-      phoneNumber: [this.data.phoneNumber],
-      email: [this.data.email],
-      employeePositions: [this.data.role],
-      receivingStations: [this.data.location]
-    });
-  }
+  positionsArr = [];
   ngOnInit() {
     this.employeeService.getAllPositions().subscribe({
       next: (roles) => {
@@ -41,6 +30,44 @@ export class EmployeeFormComponent implements OnInit {
         this.locations = locations;
       }
     });
+  }
+  constructor(private employeeService: EmployeeService, public fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data) {
+    this.employeeForm = this.fb.group({
+      image: [this.data.image],
+      firstName: [this.data.name],
+      lastName: [this.data.surname],
+      phoneNumber: [this.data.phoneNumber],
+      email: [this.data.email],
+      employeePositions: this.fb.array([]),
+      receivingStations: this.fb.array([])
+    });
+    // this.addPosition();
+  }
+  // get positions(): FormArray {
+  //   return this.employeeForm.get('employeePositions') as FormArray;
+  // }
+
+  //   onCheckChangeEmployee(role){
+  //     this.positionsArr.push(role)
+  //   console.log(this.positionsArr)
+  // }
+
+  // addPosition(){
+  //   this.roles.forEach(() => this.positions.push(new FormControl(false)));
+  // }
+  // setPositions(){
+  //   const selectedRoleId = this.employeeForm.value.employeePositions
+  //     .map((checked, i) => checked ? this.roles[i].id : null)
+  //     .filter(v => v !== null);
+  //   console.log(selectedRoleId)
+  // }
+  onCheckChangeRole(data) {
+    const formLocationArray: FormArray = this.employeeForm.get('employeePositions') as FormArray;
+    formLocationArray.push(new FormControl(data));
+  }
+  onCheckChangeLocation(data) {
+    const formLocationArray: FormArray = this.employeeForm.get('receivingStations') as FormArray;
+    formLocationArray.push(new FormControl(data));
   }
   imagePreview(e) {
     this.selectedFile = (e.target as HTMLInputElement).files[0];
@@ -55,7 +82,9 @@ export class EmployeeFormComponent implements OnInit {
     reader.readAsDataURL(this.selectedFile);
     this.uploaded = true;
   }
-  toggleSelection(chip) {
-    chip.toggleSelected();
+  submit() {
+    // this.setPositions()
+    console.log(this.employeeForm.value);
+    this.employeeService.postEmployee(this.employeeForm.value).subscribe((res) => console.log(res));
   }
 }
