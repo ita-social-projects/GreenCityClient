@@ -12,28 +12,39 @@
     <div class="hline"></div>
   </div>
   <div *ngIf="!loading; else spinner">
-    <div class="in-progress header">
-      <p>
-        {{ 'profile.dashboard.habits-inprogress' | translate }} <br />
-        <span>{{ habitsInProgress.length }} {{ 'profile.dashboard.habits' | translate }}</span>
-      </p>
+    <div *ngIf="habitsInProgress.length != 0">
+      <div class="in-progress header">
+        <p>
+          {{ 'profile.dashboard.habits-inprogress' | translate }} <br />
+          <span>{{ habitsInProgress.length }} {{ 'profile.dashboard.habits' | translate }}</span>
+        </p>
+        <a [routerLink]="['/profile', userId, 'allhabits']">
+          <div id="create-button" class="secondary-global-button">
+            <span>{{ 'profile.dashboard.add-new-habit' | translate }}</span>
+          </div>
+        </a>
+      </div>
+      <div class="body" *ngIf="habitsInProgress">
+        <app-one-habit *ngFor="let habit of habitsInProgress" [habit]="habit" (nowAcquiredHabit)="changeStatus($event)"> </app-one-habit>
+      </div>
+      <div class="acquired header">
+        <p>
+          {{ 'profile.dashboard.habits-acquired' | translate }} <br />
+          <span>{{ habitsAcquired.length }} {{ 'profile.dashboard.habits' | translate }}</span>
+        </p>
+      </div>
+      <div class="body" *ngIf="habitsAcquired">
+        <app-one-habit *ngFor="let habit of habitsAcquired" [habit]="habit"> </app-one-habit>
+      </div>
+    </div>
+    <div class="no-data" *ngIf="habitsInProgress.length === 0">
+      <app-no-data [title]="'profile.dashboard.no-habits-in-progress'" [text]="'profile.dashboard.no-habits-in-progress-advice'">
+      </app-no-data>
       <a [routerLink]="['/profile', userId, 'allhabits']">
         <div id="create-button" class="secondary-global-button">
           <span>{{ 'profile.dashboard.add-new-habit' | translate }}</span>
         </div>
       </a>
-    </div>
-    <div class="body" *ngIf="habitsInProgress">
-      <app-one-habit *ngFor="let habit of habitsInProgress" [habit]="habit" (nowAcquiredHabit)="changeStatus($event)"> </app-one-habit>
-    </div>
-    <div class="acquired header">
-      <p>
-        {{ 'profile.dashboard.habits-acquired' | translate }} <br />
-        <span>{{ habitsAcquired.length }} {{ 'profile.dashboard.habits' | translate }}</span>
-      </p>
-    </div>
-    <div class="body" *ngIf="habitsAcquired">
-      <app-one-habit *ngFor="let habit of habitsAcquired" [habit]="habit"> </app-one-habit>
     </div>
   </div>
 
