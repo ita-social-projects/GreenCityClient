@@ -10,9 +10,6 @@ export class UbsAdminOrderClientInfoComponent implements OnInit {
   clientInfoForm: FormGroup;
   violations = 1;
   currentViolationAmount = 0;
-  log() {
-    console.log(this.clientInfoForm);
-  }
 
   ngOnInit(): void {
     this.clientInfoForm = new FormGroup({
