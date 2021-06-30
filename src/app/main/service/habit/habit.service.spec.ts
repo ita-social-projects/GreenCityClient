@@ -51,7 +51,7 @@ describe('HabitService', () => {
             name: 'Use a reusable water bottle'
           },
           id: 2,
-          image: 'https://csb10032000a548f571.blob.core.windows.net/allfiles/photo_2021-06-01_15-39-56.jpg',
+          image: './assets/img/habit-circle-bg-shape.png',
           complexity: 1,
           tags: [],
           shoppingListItems: null
@@ -83,8 +83,7 @@ describe('HabitService', () => {
         name: 'Use a towel instead of paper towels and napkins'
       },
       id: 1,
-      image:
-        'https://csb10032000a548f571.blob.core.windows.net/allfiles/304ff73c-7e6d-4a17-be7d-59fc3666d351931fb71c088a926a1e04b6896d109fa2.jpg',
+      image: './assets/img/habit-circle-bg-shape.png',
       complexity: 1,
       tags: [],
       shoppingListItems: [
@@ -153,7 +152,7 @@ describe('HabitService', () => {
   });
 
   it('should return habit shopping list', () => {
-    const list = [
+    const habitList = [
       {
         id: 11,
         text: 'Reusable stainless steel water bottle',
@@ -186,15 +185,15 @@ describe('HabitService', () => {
       }
     ];
 
-    habitService.getHabitShoppingList(2).subscribe((list) => {
-      expect(list).toBe(list);
+    habitService.getHabitShoppingList(2).subscribe((data) => {
+      expect(data).toBe(habitList);
     });
 
     const req = httpMock.expectOne(`${habitLink}/2/shopping-list?lang=en`);
     expect(req.cancelled).toBeFalsy();
     expect(req.request.responseType).toEqual('json');
     expect(req.request.method).toBe('GET');
-    req.flush(list);
+    req.flush(habitList);
   });
 
   it('should return habit tags', () => {
