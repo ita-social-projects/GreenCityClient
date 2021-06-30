@@ -267,30 +267,27 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   addCertificate(): void {
     this.additionalCertificates.push(this.fb.control('', [Validators.minLength(8), Validators.pattern(/(?!0000)\d{4}-(?!0000)\d{4}/)]));
-    if (arguments.length === 0) {
-      this.addCert = false;
-    }
   }
 
-  private clearAdditionalCertificate(i) {
-    this.additionalCertificates.removeAt(i);
-    this.certStatuses.splice(i, 1);
+  private clearAdditionalCertificate(index: number) {
+    this.additionalCertificates.removeAt(index);
+    this.certStatuses.splice(index, 1);
     this.calculateCertificates(this.certificates);
   }
 
-  deleteCertificate(i: number): void {
+  deleteCertificate(index: number): void {
     if (this.displayCert === false) {
-      this.certificates.splice(i, 1);
-      this.clearAdditionalCertificate(i);
+      this.certificates.splice(index, 1);
+      this.clearAdditionalCertificate(index);
     } else {
-      this.certificates.splice(i + 1, 1);
-      this.clearAdditionalCertificate(i);
+      this.certificates.splice(index + 1, 1);
+      this.clearAdditionalCertificate(index);
     }
   }
 
-  addedCertificateSubmit(i): void {
-    if (!this.certificates.includes(this.additionalCertificates.value[i])) {
-      this.certificates.push(this.additionalCertificates.value[i]);
+  addedCertificateSubmit(index: number): void {
+    if (!this.certificates.includes(this.additionalCertificates.value[index])) {
+      this.certificates.push(this.additionalCertificates.value[index]);
       this.certStatuses.push(true);
       this.calculateCertificates(this.certificates);
     }
