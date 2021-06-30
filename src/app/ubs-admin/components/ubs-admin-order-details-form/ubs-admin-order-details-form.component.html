@@ -1,124 +1,145 @@
 <div class="container">
-    <form class="form">
-      <div>
-        <h3 class="form__headline pl-3">Деталі замовлення</h3>
-      </div>
-      <div class="w-100 d-flex justify-content-between">
-        <label class="col-sm-3 form__label">Послуга</label>
-        <label class="col-sm-2 form__label">Об'єм</label>
-        <label class="col-sm-2 form__label">Вартість за одиницю</label>
-        <label class="col-sm-2 text-center form__label">Планована к-ть</label>
-        <label class="col-sm-2 text-center form__label">Підтверджена к-ть</label>
-        <label class="col-sm-1 text-center form__label"></label>
-      </div>
-      <hr class="divider"/>
-      <div class="main">
-        <ul class="w-100 p-0">
-          <li class="d-flex justify-content-between align-items-baseline py-2">
-            <span class="col-sm-3">Безпечні відходи</span>
-            <span class="col-sm-2">120 л</span>
-            <span class="col-sm-2">250 грн</span>
-            <div class="col-sm-2 d-flex justify-content-center form-group count">
-              <input class="shadow-none form-control input p-2" type="number" min="0" max="999" placeholder="1" disabled/>
-            </div>
-            <div class="col-sm-2 d-flex justify-content-center form-group count">
-              <input class="shadow-none form-control input p-2" type="number" min="0" max="999" placeholder="" />
-            </div>
-            <div class="offset-sm-1 d-flex">
-            </div>
-          </li>
-          <li class="d-flex justify-content-between align-items-baseline py-2">
-            <span class="col-sm-3">Текстильні відходи</span>
-            <span class="col-sm-2">20 л</span>
-            <span class="col-sm-2">50 грн</span>
-            <div class="col-sm-2 d-flex justify-content-center form-group count">
-              <input class="shadow-none form-control input p-2" type="number" min="0" max="999" placeholder="1" disabled/>
-            </div>
-            <div class="col-sm-2 d-flex justify-content-center form-group count">
-              <input class="shadow-none form-control input p-2" type="number" min="0" max="999" placeholder="" />
-            </div>
-            <div class="offset-sm-1 d-flex">
-            </div>
-          </li>
-          <li class="d-flex justify-content-between align-items-baseline py-2">
-            <span class="col-sm-3">Текстильні відходи</span>
-            <span class="col-sm-2">120 л</span>
-            <span class="col-sm-2">300 грн</span>
-            <div class="col-sm-2 d-flex justify-content-center form-group count">
-              <input class="shadow-none form-control input p-2" type="number" min="0" max="999" placeholder="1" disabled/>
-            </div>
-            <div class="col-sm-2 d-flex justify-content-center form-group count">
-              <input class="shadow-none form-control input p-2" type="number" min="0" max="999" placeholder="" />
-            </div>
-            <div class="offset-sm-1 d-flex">
-            </div>
-           </li>
-          <li class="d-flex justify-content-between align-items-baseline py-2">
-            <span class="col-sm-3">Загальна кількість пакетів</span>
-            <span class="col-sm-2 offset-md-4 p-left">3</span>
-            <span class="col-sm-2 p-left">4</span>
-            <span class="col-sm-1"></span>
-          </li>
-        </ul>
-        
-        <ul class="w-100 p-0">
-          <li class="d-flex justify-content-between align-items-baseline py-2">
-            <span class="col-sm-3">Сума замовлення</span>
-            <span class="col-sm-2 offset-sm-4 text-center">600 грн</span>
-            <span class="col-sm-2 text-center">850 грн</span>
-            <span class="col-sm-2"></span>
-          </li>
-          <li class="d-flex justify-content-between align-items-baseline py-2">
-            <span class="col-sm-3">Сертифікат</span>
-            <span class="col-sm-2 offset-sm-4 text-center text-success">-250 грн</span>
-            <span class="col-sm-2 text-center">-250 грн</span>
-            <span class="col-sm-2"></span>
-          </li>
-          <li class="d-flex justify-content-between align-items-baseline py-2">
-            <span class="col-sm-3">Використані бонуси</span>
-            <span class="col-sm-2 offset-sm-4 text-center text-success">-50 грн</span>
-            <span class="col-sm-2 text-center">-50 грн</span>
-            <span class="col-sm-2"></span>
-          </li>
-          <li class="d-flex justify-content-between align-items-baseline py-3">
-            <span class="col-sm-3">Сума до оплати</span>
-            <span class="col-sm-2 offset-sm-4 text-center">300 грн</span>
-            <span class="col-sm-2 text-center">550 грн</span>
-            <span class="col-sm-2"></span>
-          </li>
-          <li class="d-flex justify-content-end align-items-baseline py-2"
-          
-          >
-            <span class="col-sm-3 text-danger pl-5" *ngIf="payMore">Потрібно доплатити 250 грн</span>
-          </li>
-        </ul>
-  
-      </div>
-  
-      <div class="certificate">
-        <div class="form__block col-lg-3 col-md-6 col-sm-6">
-          <div class="form-group">
-            <label class="form__label py-2" for="cert-num">Номер сертифікату</label>
-            <input class="form-control" type="text" id="cert-num" placeholder="XXXX-XXXX" />
+  <form class="form">
+    <div>
+      <h3 class="form__headline pl-3">Деталі замовлення</h3>
+    </div>
+    <div class="w-100 d-flex justify-content-between">
+      <label class="col-sm-2 form__label">Послуга</label>
+      <label class="col-sm-2 form__label">Об'єм</label>
+      <label class="col-sm-2 form__label">Вартість за одиницю</label>
+      <label class="col-sm-2 text-center form__label">Планована к-ть</label>
+      <label class="col-sm-2 text-center form__label">Підтверджена к-ть</label>
+      <label class="col-sm-2 text-center form__label" *ngIf="isVisible">Вивезена к-ть</label>
+    </div>
+    <hr class="divider" />
+    <div class="main">
+      <ul class="w-100 p-0">
+        <li class="d-flex justify-content-between align-items-baseline py-2">
+          <span class="col-sm-2">Безпечні відходи</span>
+          <span class="col-sm-2">120 л</span>
+          <span class="col-sm-2">250 грн</span>
+          <div class="col-sm-2 d-flex justify-content-center form-group count">
+            <input
+              class="shadow-none form-control input p-2"
+              type="number"
+              min="0"
+              max="999"
+              placeholder="1"
+              [disabled]="isInputDisabled"
+            />
           </div>
-          <div class="form-group">
-            <label class="form__label py-2" for="order-num">Номер замовлення з магазину</label>
-            <input class="form-control" type="text" id="order-num" placeholder="XXXX-XXXX" />
+          <div class="col-sm-2 d-flex justify-content-center form-group count">
+            <input class="shadow-none form-control input p-2" type="number" min="0" max="999" placeholder="" [disabled]="isInputDisabled" />
           </div>
+          <div class="col-sm-2 d-flex justify-content-center form-group count" *ngIf="isVisible">
+            <input class="shadow-none form-control input p-2" type="number" min="0" max="999" placeholder="2" />
+          </div>
+        </li>
+        <li class="d-flex justify-content-between align-items-baseline py-2">
+          <span class="col-sm-2">Текстильні відходи</span>
+          <span class="col-sm-2">20 л</span>
+          <span class="col-sm-2">50 грн</span>
+          <div class="col-sm-2 d-flex justify-content-center form-group count">
+            <input class="shadow-none form-control input p-2" type="number" min="0" max="999" placeholder="1" disabled />
+          </div>
+          <div class="col-sm-2 d-flex justify-content-center form-group count">
+            <input class="shadow-none form-control input p-2" type="number" min="0" max="999" placeholder="2" />
+          </div>
+          <div class="col-sm-2 d-flex justify-content-center form-group count" *ngIf="isVisible">
+            <input class="shadow-none form-control input p-2" type="number" min="0" max="999" placeholder="2" />
+          </div>
+        </li>
+        <li class="d-flex justify-content-between align-items-baseline py-2">
+          <span class="col-sm-2">Текстильні відходи</span>
+          <span class="col-sm-2">120 л</span>
+          <span class="col-sm-2">300 грн</span>
+          <div class="col-sm-2 d-flex justify-content-center form-group count">
+            <input class="shadow-none form-control input p-2" type="number" min="0" max="999" placeholder="1" disabled />
+          </div>
+          <div class="col-sm-2 d-flex justify-content-center form-group count">
+            <input class="shadow-none form-control input p-2" type="number" min="0" max="999" placeholder="1" />
+          </div>
+          <div class="col-sm-2 d-flex justify-content-center form-group count">
+            <input class="shadow-none form-control input p-2" type="number" min="0" max="999" placeholder="1" />
+          </div>
+        </li>
+        <li class="d-flex justify-content-between align-items-baseline py-2">
+          <span class="col-sm-2">Загальна кількість пакетів</span>
+          <span class="col-sm-2 offset-sm-4 p-left">3</span>
+          <span class="col-sm-2 p-left">4</span>
+          <span class="col-sm-6"></span>
+        </li>
+      </ul>
+
+      <ul class="w-100 p-0">
+        <li class="d-flex justify-content-between align-items-baseline py-2">
+          <span class="col-sm-2">Сума замовлення</span>
+          <span class="col-sm-2 offset-sm-4 text-center">600 грн</span>
+          <span class="col-sm-2 text-center">850 грн</span>
+          <span class="col-sm-2"></span>
+        </li>
+        <li class="d-flex justify-content-between align-items-baseline py-2">
+          <span class="col-sm-2">Сертифікат</span>
+          <span class="col-sm-2 offset-sm-4 text-center text-success">-250 грн</span>
+          <span class="col-sm-2 text-center">-250 грн</span>
+          <span class="col-sm-2"></span>
+        </li>
+        <li class="d-flex justify-content-between align-items-baseline py-2">
+          <span class="col-sm-2">Використані бонуси</span>
+          <span class="col-sm-2 offset-sm-4 text-center text-success">-50 грн</span>
+          <span class="col-sm-2 text-center">-50 грн</span>
+          <span class="col-sm-2"></span>
+        </li>
+        <li class="d-flex justify-content-between align-items-baseline py-2" *ngIf="isVisible">
+          <span class="col-sm-2">УБС Кур'єр</span>
+          <div class="col-sm-2 offset-sm-8 d-flex justify-content-center form-group count">
+            <input class="shadow-none form-control input p-2" type="number" min="0" max="999" placeholder="-150" />
+          </div>
+          <span class="col-sm-2"></span>
+        </li>
+        <li class="d-flex justify-content-between align-items-baseline py-3">
+          <span class="col-sm-2">Сума до оплати</span>
+          <span class="col-sm-2 offset-sm-4 text-center">300 грн</span>
+          <span class="col-sm-2 text-center">550 грн</span>
+          <span class="col-sm-2 text-center" *ngIf="isVisible">400 грн</span>
+          <span class="col-sm-2"></span>
+        </li>
+        <li class="d-flex justify-content-end align-items-baseline py-2">
+          <span class="col-sm-3 text-danger pl-5" *ngIf="payMore">Потрібно доплатити 250 грн</span>
+          <span class="col-sm-4 text-danger pl-5" *ngIf="payMore">
+            Замовлення не може бути змінене. Мінімальна сума замовлення 500 грн
+          </span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="certificate">
+      <div class="form__block col-lg-3 col-md-6 col-sm-6">
+        <div class="form-group">
+          <label class="form__label py-2" for="cert-num">Номер сертифікату</label>
+          <input class="form-control" type="text" id="cert-num" placeholder="XXXX-XXXX" />
+        </div>
+        <div class="form-group">
+          <label class="form__label py-2" for="order-num">Номер замовлення з магазину</label>
+          <input class="form-control" type="text" id="order-num" placeholder="XXXX-XXXX" />
         </div>
       </div>
-  
-      <div class="bottom d-flex align-items-baseline py-3">
-          <div class="form-floating col-sm-6">
-            <label for="textarea">Коментар до замовлення від клієнта</label>
-            <textarea class="form-control comment" placeholder="Будь-які деталі, які Ви хотіли б повідомити додатково щодо цього замовлення" id="textarea"></textarea>
-          </div>
-        <div class="send__button col-sm-6">
-          <button class="btn send__btn disabled" type="button">Надіслати повідомлення</button>
-        </div>
+    </div>
+
+    <div class="bottom d-flex align-items-baseline py-3">
+      <div class="form-floating col-sm-6">
+        <label for="textarea">Коментар до замовлення від клієнта</label>
+        <textarea
+          class="form-control comment"
+          placeholder="Будь-які деталі, які Ви хотіли б повідомити додатково щодо цього замовлення"
+          id="textarea"
+        ></textarea>
       </div>
-    </form>
-  
-    <hr />
-  </div>
-  
+      <div class="send__button col-sm-6">
+        <button class="btn send__btn disabled" type="button">Надіслати повідомлення</button>
+      </div>
+    </div>
+  </form>
+
+  <hr />
+</div>

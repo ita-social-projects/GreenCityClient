@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./ubs-admin-order-details-form.component.scss']
 })
 export class UbsAdminOrderDetailsFormComponent {
-  payMore = false;
+  payMore = true;
+  isInputDisabled = false;
+  isVisible = true;
 }
