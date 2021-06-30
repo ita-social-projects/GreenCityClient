@@ -10,9 +10,9 @@
     </mat-step>
     <mat-step [stepControl]="secondStepForm">
       <ng-template matStepLabel>{{ 'order-form.personal-data' | translate }}</ng-template>
-      <app-ubs-personal-information #secondStep></app-ubs-personal-information>
+      <app-ubs-personal-information #secondStep [completed]="completed"></app-ubs-personal-information>
     </mat-step>
-    <mat-step [stepControl]="thirdStepForm">
+    <mat-step [stepControl]="thirdStepForm" state="finalStep">
       <ng-template matStepLabel>{{ 'order-form.payment' | translate }}</ng-template>
       <app-ubs-submit-order #thirdStep></app-ubs-submit-order>
     </mat-step>
