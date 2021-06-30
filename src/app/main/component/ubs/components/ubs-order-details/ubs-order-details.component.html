@@ -56,7 +56,8 @@
               <p class="total-content" *ngIf="pointsUsed">
                 <span>{{ 'order-details.bonuses' | translate }} </span
                 ><span>
-                  <strong class="money-saved">-{{ pointsUsed }} {{ 'order-details.currency' | translate }}</strong></span>
+                  <strong class="money-saved">-{{ pointsUsed }} {{ 'order-details.currency' | translate }}</strong></span
+                >
               </p>
               <p class="total-content">
                 <span>{{ 'order-details.amount-due' | translate }} </span
@@ -93,7 +94,13 @@
               >
                 {{ 'order-details.activate' | translate }}
               </button>
-              <button *ngIf="addCert" type="button" class="primary-global-button btn" (click)="certificateReset(true)">
+              <button
+                *ngIf="addCert"
+                [disabled]="additionalCertificates.length > 0"
+                type="button"
+                class="primary-global-button btn"
+                (click)="certificateReset(true)"
+              >
                 {{ 'order-details.cancel' | translate }}
               </button>
             </div>
@@ -111,10 +118,11 @@
               [unmask]="false"
               [imask]="{ mask: certificateMask }"
               [formControlName]="i"
+              [readonly]="certStatuses[i]"
             />
             <div class="form-group">
               <button
-                *ngIf="!addCert"
+                *ngIf="!certStatuses[i]"
                 type="button"
                 class="primary-global-button btn"
                 [disabled]="additionalCertificates['controls'][i].invalid || additionalCertificates['controls'][i].pristine"
@@ -122,7 +130,7 @@
               >
                 {{ 'order-details.activate' | translate }}
               </button>
-              <button *ngIf="addCert" type="button" class="primary-global-button btn" (click)="deleteCertificate(i)">
+              <button *ngIf="certStatuses[i]" type="button" class="primary-global-button btn" (click)="deleteCertificate(i)">
                 {{ 'order-details.cancel' | translate }}
               </button>
             </div>
@@ -142,7 +150,7 @@
             <small class="text-message" *ngIf="(certStatus === 'NEW' || certStatus === 'ACTIVE') && !certSize">
               {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: certDate } }}
             </small>
-            <small class="text-danger" *ngIf="certificateError && !addCert">
+            <small class="text-danger" *ngIf="certificateError">
               {{ 'order-details.not-found-certificate' | translate }}
             </small>
             <small class="text-danger" *ngIf="certStatus === 'USED'">
@@ -164,6 +172,9 @@
               }}
             </small>
           </div>
+          <button *ngIf="addCert && finalSum !== 0" class="addCertificateBtn" (click)="addCertificate(false)">
+            {{ 'order-details.add-certificate' | translate }}
+          </button>
           <div class="points">
             <h5>{{ 'order-details.bonus-need' | translate }}</h5>
             <p>{{ 'order-details.bonus-left' | translate }} {{ certificateLeft }} {{ 'order-details.currency' | translate }}</p>
