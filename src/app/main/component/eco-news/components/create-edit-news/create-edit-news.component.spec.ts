@@ -28,7 +28,7 @@ import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
 import { HomepageComponent, TipsListComponent } from 'src/app/main/component/home/components';
 import { SearchAllResultsComponent } from 'src/app/main/component/layout/components';
 import { MainComponent } from '../../../../main.component';
-import { UbsSidebarComponent } from '../../../../../ubs-admin/components/ubs-sidebar/ubs-sidebar.component';
+import { UbsAdminSidebarComponent } from '../../../../../ubs-admin/components/ubs-admin-sidebar/ubs-admin-sidebar.component';
 
 describe('CreateEditNewsComponent', () => {
   let component: CreateEditNewsComponent;
@@ -140,7 +140,7 @@ describe('CreateEditNewsComponent', () => {
         PostNewsLoaderComponent,
         DragAndDropComponent,
         MainComponent,
-        UbsSidebarComponent,
+        UbsAdminSidebarComponent,
         HomepageComponent,
         TipsListComponent,
         SearchAllResultsComponent,
