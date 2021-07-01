@@ -18,7 +18,7 @@ export class EmployeeService {
   }
   postEmployee(data): Observable<any> {
     let addEmployeeDto = {
-      email: 'test444@gmail.com',
+      email: 'test1dfgh444@gmail.com',
       image: 'https://csb10032000a548f571.blob.core.windows.net/allfiles/4af6c99e-f2ec-4cab-bfb1-017f8c8b1ffbdefault_image.jpg',
       employeePositions: [
         {
@@ -28,7 +28,7 @@ export class EmployeeService {
       ],
       firstName: 'Tom',
       lastName: 'Tomson',
-      phoneNumber: '+380993456111',
+      phoneNumber: '+380973456341',
       receivingStations: [
         {
           id: 2,
@@ -36,12 +36,12 @@ export class EmployeeService {
         }
       ]
     };
-    let headers = new HttpHeaders({
-      'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundaryLhYsaCESHLVmVpqf',
-      Accept: '*/*',
-      'Accept-Language': 'uk,ru;q=0.9,ru-RU;q=0.8,en-US;q=0.7,en;q=0.6'
-    });
-    let options = { headers: headers };
-    return this.http.post<any>(this.url3, addEmployeeDto, options);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        // 'Content-Type':  'multipart/form-data; boundary=----WebKitFormBoundary9uCdSij07w61Gypr',
+        // 'Accept-Language': 'uk,ru;q=0.9,ru-RU;q=0.8,en-US;q=0.7,en;q=0.6'
+      })
+    };
+    return this.http.post<any>(this.url3, data);
   }
 }

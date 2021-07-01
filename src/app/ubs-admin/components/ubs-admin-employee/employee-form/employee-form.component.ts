@@ -33,6 +33,7 @@ export class EmployeeFormComponent implements OnInit {
   }
   constructor(private employeeService: EmployeeService, public fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data) {
     this.employeeForm = this.fb.group({
+      //remove image from this place
       image: [this.data.image],
       firstName: [this.data.name],
       lastName: [this.data.surname],
@@ -41,26 +42,8 @@ export class EmployeeFormComponent implements OnInit {
       employeePositions: this.fb.array([]),
       receivingStations: this.fb.array([])
     });
-    // this.addPosition();
   }
-  // get positions(): FormArray {
-  //   return this.employeeForm.get('employeePositions') as FormArray;
-  // }
 
-  //   onCheckChangeEmployee(role){
-  //     this.positionsArr.push(role)
-  //   console.log(this.positionsArr)
-  // }
-
-  // addPosition(){
-  //   this.roles.forEach(() => this.positions.push(new FormControl(false)));
-  // }
-  // setPositions(){
-  //   const selectedRoleId = this.employeeForm.value.employeePositions
-  //     .map((checked, i) => checked ? this.roles[i].id : null)
-  //     .filter(v => v !== null);
-  //   console.log(selectedRoleId)
-  // }
   onCheckChangeRole(data) {
     const formLocationArray: FormArray = this.employeeForm.get('employeePositions') as FormArray;
     formLocationArray.push(new FormControl(data));
@@ -83,8 +66,10 @@ export class EmployeeFormComponent implements OnInit {
     this.uploaded = true;
   }
   submit() {
-    // this.setPositions()
-    console.log(this.employeeForm.value);
-    this.employeeService.postEmployee(this.employeeForm.value).subscribe((res) => console.log(res));
+    const formData: any = new FormData();
+    const addEmployeeDto = new Blob([JSON.stringify(this.employeeForm.value)], { type: 'application/json' });
+    formData.append('addEmployeeDto', addEmployeeDto);
+    formData.append('image', this.selectedFile);
+    this.employeeService.postEmployee(formData).subscribe((res) => console.log(res));
   }
 }
