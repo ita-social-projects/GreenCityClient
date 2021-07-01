@@ -37,8 +37,4 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
   constructor(public breakpointObserver: BreakpointObserver) {
     super(breakpointObserver);
   }
-
-  ngOnInit() {
-    this.toggleSideBar();
-  }
 }
