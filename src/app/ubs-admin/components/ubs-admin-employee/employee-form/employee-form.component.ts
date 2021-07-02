@@ -1,7 +1,9 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { EmployeeService } from '../../../services/employee.service';
+import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.service';
+import { Validators } from '@angular/forms';
+
 export interface Position {
   name: string;
 }
@@ -31,16 +33,15 @@ export class EmployeeFormComponent implements OnInit {
       }
     });
   }
-  constructor(private employeeService: EmployeeService, public fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data) {
+  constructor(private employeeService: UbsAdminEmployeeService, public fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data) {
     this.employeeForm = this.fb.group({
-      //remove image from this place
       image: [this.data.image],
-      firstName: [this.data.name],
-      lastName: [this.data.surname],
-      phoneNumber: [this.data.phoneNumber],
+      firstName: [this.data.firstName, Validators.required],
+      lastName: [this.data.lastName, Validators.required],
+      phoneNumber: [this.data.phoneNumber, Validators.required],
       email: [this.data.email],
-      employeePositions: this.fb.array([]),
-      receivingStations: this.fb.array([])
+      employeePositions: this.fb.array([], Validators.required),
+      receivingStations: this.fb.array([], Validators.required)
     });
   }
 

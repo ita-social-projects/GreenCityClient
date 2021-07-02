@@ -26,7 +26,6 @@ export class UbsAdminEmployeeCardComponent {
     });
   }
   updateEmployee(data: any) {
-    console.log(data.image);
     this.openDialog(data);
   }
 }

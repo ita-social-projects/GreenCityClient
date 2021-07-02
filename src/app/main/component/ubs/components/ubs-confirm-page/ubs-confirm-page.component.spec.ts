@@ -1,4 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { UbsConfirmPageComponent } from './ubs-confirm-page.component';
 
@@ -8,9 +10,9 @@ describe('UbsConfirmPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UbsConfirmPageComponent ]
-    })
-    .compileComponents();
+      declarations: [UbsConfirmPageComponent],
+      imports: [TranslateModule.forRoot(), RouterModule.forRoot([])]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -4,6 +4,7 @@ export const environment = {
   apiMapKey: 'AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4',
   backendLink: 'https://greencity.azurewebsites.net/',
   backendUserLink: 'https://greencity-user.azurewebsites.net/',
+  backendUbsLink: 'https://greencity-ubs.azurewebsites.net',
   frontendLink: 'http://localhost:4200/GreenCityClient',
   socket: 'https://greencity.azurewebsites.net/socket',
   firebaseConfig: {

@@ -3,6 +3,7 @@ import { environment } from '@environment/environment';
 // back-end
 export const mainLink = environment.backendLink;
 export const mainUserLink = environment.backendUserLink;
+export const mainUbsLink = environment.backendUbsLink;
 
 // Own Security Controller
 export const userOwnSecurityLink = mainUserLink + 'ownSecurity/';
@@ -36,3 +37,6 @@ export const subscriptionLink = mainLink + 'newsSubscriber';
 // front-end
 export const frontMailLink = environment.frontendLink;
 export const frontAuthLink = frontMailLink + 'auth/';
+
+//ubs-admin
+export const ubsAdminEmployeeLink = mainUbsLink + '/admin/ubs-employee';

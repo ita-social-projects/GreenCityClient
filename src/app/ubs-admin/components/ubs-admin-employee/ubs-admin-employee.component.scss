@@ -14,15 +14,25 @@
 
       .page-name {
         margin-bottom: 32px;
+        font-family: var(--primary-font);
+        font-weight: 700;
+        letter-spacing: 0.002em;
       }
     }
 
     .employee-add {
-      min-width: 175px;
-
       .button-name {
-        display: flex;
-        padding: 8px 24px;
+        text-align: center;
+        width: 177px;
+        height: 36px;
+        font-size: 14px;
+        margin-right: 73px;
+        line-height: 20px;
+        font-weight: 700;
+        letter-spacing: 0.1px;
+        font-family: var(--primary-font);
+        background: var(--ubs-primary-green);
+        border-radius: 4px;
       }
     }
   }
@@ -34,40 +44,13 @@
       display: flex;
       justify-content: center;
       max-width: 920px;
-
-      .custom-pagination {
-        display: flex;
-        justify-content: space-between;
-        width: 360px;
-
-        .arrow {
-          vertical-align: middle;
-          color: #64727d;
-        }
-
-        div {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          border-radius: 4px;
-
-          .page {
-            padding: 4px 8px;
-            color: #444e55;
-          }
-        }
-
-        .current {
-          background-color: #13aa57;
-        }
-      }
     }
   }
 }
 
 @media screen and (max-width: 1138px) {
   .main-employee-container {
-    padding-left: 0px;
+    padding-left: 0;
   }
 }
 

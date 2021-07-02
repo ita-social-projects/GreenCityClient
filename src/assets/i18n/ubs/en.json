@@ -118,5 +118,19 @@
     "dismiss": "Continue",
     "title": "Are you sure you want to exit?",
     "subTitle": "You order will be saved in personal account"
+  },
+  "confirm-page": {
+    "title-text": "Your order is accepted",
+    "description": "Thank you for your waste control!",
+    "ubsServices": "UBS services",
+    "other-order": "Make other order",
+    "mail": "Plastic mail",
+    "ukraine-site": "Website Ukraine Without Garbage",
+    "eco-shop": "Eco shop",
+    "information": "Helpful information",
+    "instruction": "Garbage recycling instructions",
+    "video": "Sorting and Recycling Videos",
+    "questions": "If you have any questions, you can",
+    "contact": "contact us"
   }
 }

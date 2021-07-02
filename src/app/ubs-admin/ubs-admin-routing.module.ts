@@ -10,7 +10,7 @@ const ubsAdminRoutes: Routes = [
     component: UbsAdminComponent,
     children: [
       { path: '', component: UbsAdminTableComponent },
-      { path: 'employee', component: UbsAdminEmployeeComponent }
+      { path: 'employee/:page', component: UbsAdminEmployeeComponent }
     ]
   }
 ];

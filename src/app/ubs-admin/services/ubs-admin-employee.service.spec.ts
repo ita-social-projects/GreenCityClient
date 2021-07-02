@@ -1,8 +1,9 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { AdminTableService } from './admin-table.service';
 
-describe('AdminTableService', () => {
+import { UbsAdminEmployeeService } from './ubs-admin-employee.service';
+
+describe('UbsAdminEmployeeService', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule]
@@ -10,7 +11,7 @@ describe('AdminTableService', () => {
   );
 
   it('should be created', () => {
-    const service: AdminTableService = TestBed.get(AdminTableService);
+    const service: UbsAdminEmployeeService = TestBed.get(UbsAdminEmployeeService);
     expect(service).toBeTruthy();
   });
 });

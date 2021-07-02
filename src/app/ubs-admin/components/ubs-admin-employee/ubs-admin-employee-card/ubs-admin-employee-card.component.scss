@@ -1,7 +1,7 @@
 .main-card-container {
   display: flex;
-  max-width: 920px;
-  background-color: #f1f1f1;
+  max-width: 828px;
+  height: 132px;
   box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
   margin-bottom: 24px;
 
@@ -10,6 +10,7 @@
     display: flex;
     flex-direction: row;
     width: 100vw;
+    background-color: var(--ubs-grey-white);
 
     p {
       margin: 12px 0;
@@ -27,7 +28,7 @@
         height: 96px;
         border-radius: 6px;
         margin-right: 22px;
-        background-color: black;
+        background-color: var(--ubs-black);
       }
     }
 
@@ -45,26 +46,27 @@
     }
 
     .role {
-      flex: 20%;
+      flex: 10%;
+
       p {
-        background-color: #d5efb8;
+        background-color: var(--ubs-grey-light-green);
       }
     }
 
     .location {
       flex: 22%;
+
       p {
-        background-color: #e6dbff;
+        background-color: var(--ubs-grey-light-blue);
       }
     }
   }
 
   .card-menu {
-    padding-right: 15px;
-    padding-top: 15px;
+    padding: 15px 15px 0 0;
 
     .card-menu-button {
-      color: #9ca7b0;
+      color: var(--ubs-grey-blue);
       cursor: pointer;
     }
   }
@@ -101,8 +103,7 @@
     }
 
     .card-menu {
-      padding-right: 7px;
-      padding-top: 7px;
+      padding: 7px 7px 0 0;
     }
   }
 }
