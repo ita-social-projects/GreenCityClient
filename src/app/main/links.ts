@@ -38,5 +38,5 @@ export const subscriptionLink = mainLink + 'newsSubscriber';
 export const frontMailLink = environment.frontendLink;
 export const frontAuthLink = frontMailLink + 'auth/';
 
-//ubs-admin
+// ubs-admin
 export const ubsAdminEmployeeLink = mainUbsLink + '/admin/ubs-employee';

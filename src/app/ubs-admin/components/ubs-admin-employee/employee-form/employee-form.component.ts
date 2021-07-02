@@ -18,7 +18,7 @@ export class EmployeeFormComponent implements OnInit {
   roles;
   selectedFile: File;
   filePath: string;
-  uploaded: boolean = false;
+  uploaded = false;
   employeeForm: FormGroup;
   positionsArr = [];
   ngOnInit() {
