@@ -238,7 +238,7 @@ describe('CalendarBaseComponent', () => {
     component.markCurrentDayOfWeek();
     // @ts-ignore
     component.calendarDay[4].date = { getMonth: () => 5, getFullYear: () => 2021 };
-    expect(component.currentDayName).toEqual('Tue');
+    expect(component.currentDayName).toEqual('monday');
   });
 
   describe('nextMonth', () => {
