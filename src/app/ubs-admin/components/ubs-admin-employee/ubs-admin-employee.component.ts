@@ -53,7 +53,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     this.location.go(`/ubs-admin/employee/${this.currentPage}`);
   }
   openDialog() {
-    let dialogRef = this.dialog.open(EmployeeFormComponent, {
+    const dialogRef = this.dialog.open(EmployeeFormComponent, {
       panelClass: 'custom-modalbox'
     });
   }
