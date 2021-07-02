@@ -2,7 +2,7 @@
 <ul class="checkbox-list">
   <li *ngFor="let item of list">
     <label [ngClass]="{ selected: item.status === 'INPROGRESS', done: item.status === 'DONE' }">
-      <input type="checkbox" (change)="select(item)" [checked]="item.status === 'INPROGRESS'" />
+      <input type="checkbox" (change)="select(item)" />
       <span class="checkmark"></span>
       <span class="text" ngbPopover="{{ item.text }}" triggers="mouseenter:mouseleave" placement="top" data-container="body">{{
         item.text

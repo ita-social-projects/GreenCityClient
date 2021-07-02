@@ -127,6 +127,17 @@ export class AddNewHabitComponent implements OnInit {
     }
   }
 
+  public updateHabit() {
+    const defailtItemsIds = this.newList.filter((item) => item.selected === true).map((item) => item.id);
+    this.habitAssignService
+      .updateHabit(this.habitId, this.newDuration, defailtItemsIds)
+      .pipe(take(1))
+      .subscribe(() => {
+        this.router.navigate(['profile', this.userId]);
+        this.snackBar.openSnackBar('habitUpdated');
+      });
+  }
+
   public deleteHabit() {
     this.habitAssignService
       .deleteHabitById(this.habitId)

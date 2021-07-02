@@ -1,6 +1,6 @@
 .wrapper {
   max-width: 1170px;
-  margin: -30px auto;
+  margin: -30px auto 30px auto;
   padding: 0 15px;
 
   .backToMyHabits {
@@ -18,7 +18,7 @@
       height: 7px;
       margin-right: 6px;
       align-self: center;
-      background: url(../../../../../../../assets/img/profile/icons/back-arrow.svg) no-repeat;
+      background: url('~/assets/img/profile/icons/back-arrow.svg') no-repeat;
     }
 
     .text {
@@ -73,7 +73,7 @@
           width: 1px;
           height: 18px;
           margin: 0 18px;
-          background-image: url(src/assets/img/profile/icons/line.svg);
+          background-image: url('~/assets/img/profile/icons/line.svg');
         }
       }
 

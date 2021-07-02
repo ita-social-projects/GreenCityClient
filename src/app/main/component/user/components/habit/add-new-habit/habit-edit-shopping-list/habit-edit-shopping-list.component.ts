@@ -37,7 +37,7 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
     });
     this.checkIfAssigned();
     this.subscription = this.shoppinglistService.getList().subscribe((data) => {
-      this.list = [...data];
+      this.list = data;
       this.newList.emit(this.list);
     });
   }

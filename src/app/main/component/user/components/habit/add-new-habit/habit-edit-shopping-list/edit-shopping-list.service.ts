@@ -10,7 +10,7 @@ export class EditShoppingListService {
   public list$ = new Subject();
 
   public fillList(data: ShoppingList[]) {
-    this.list = [...data];
+    this.list = data;
     this.list$.next(this.list);
   }
 

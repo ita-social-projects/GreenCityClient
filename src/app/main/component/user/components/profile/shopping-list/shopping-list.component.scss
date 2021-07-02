@@ -1,11 +1,11 @@
 $bp-smallest: 320px;
 $bp-phone: 576px;
 $bp-tablet: 768px;
-$bp-desktop: 1024px;
+$bp-desktop: 1080px;
 $bp-largest: 1440px;
 
 .outer {
-  background-color: var(--secondary-light-grey);
+  background-color: var(--primary-white);
   display: flex;
 }
 

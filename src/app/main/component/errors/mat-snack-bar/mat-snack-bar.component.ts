@@ -68,6 +68,10 @@ export class MatSnackBarComponent {
       this.className = 'success-snackbar';
       this.getSnackBarMessage('user.habit.all-habits.new-habit-added');
     },
+    habitUpdated: () => {
+      this.className = 'success-snackbar';
+      this.getSnackBarMessage('user.habit.all-habits.new-habit-updated');
+    },
     errorMessage: (error) => {
       this.className = 'error-snackbar';
       this.getSnackBarMessage(error);

@@ -52,7 +52,7 @@
     </div>
     <div *ngIf="isAssigned" class="add-habit-container">
       <button class="primary-global-button delete-habit-button" type="submit" (click)="deleteHabit()">Give Up</button>
-      <button class="primary-global-button save-habit-button" type="submit">Save</button>
+      <button class="primary-global-button save-habit-button" type="submit" (click)="updateHabit()">Save</button>
     </div>
   </div>
 </div>

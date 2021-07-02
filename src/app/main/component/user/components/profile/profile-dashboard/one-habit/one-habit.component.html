@@ -3,7 +3,7 @@
   <div class="description">
     <div class="first-row">
       <div class="calendar"></div>
-      <p>{{ daysCounter }}<span>I</span></p>
+      <p>{{ daysCounter }} / {{ habit.duration }}<span>I</span></p>
       <div *ngIf="showPhoto" class="friends-photo">
         <img class="first-photo" [src]="firstFriend" alt="First friend photo" />
         <img class="second-photo" [src]="secondFriend" alt="Second friend photo" />
