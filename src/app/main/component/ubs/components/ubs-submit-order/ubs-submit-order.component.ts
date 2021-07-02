@@ -8,6 +8,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Bag, OrderDetails, PersonalData } from '../../models/ubs.interface';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-ubs-submit-order',
@@ -17,8 +18,8 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit, OnDestroy {
   paymentForm: FormGroup = this.fb.group({});
   bags: Bag[] = [];
-  finalSum: number;
-  certificatesSum: number;
+  loadingAnim: boolean;
+  additionalOrders: number[];
   personalData: PersonalData;
   orderDetails: OrderDetails;
   private destroy: Subject<boolean> = new Subject<boolean>();
@@ -35,7 +36,13 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     }
   };
 
-  constructor(private shareFormService: UBSOrderFormService, private fb: FormBuilder, router: Router, dialog: MatDialog) {
+  constructor(
+    private orderService: OrderService,
+    private shareFormService: UBSOrderFormService,
+    private fb: FormBuilder,
+    router: Router,
+    dialog: MatDialog
+  ) {
     super(router, dialog);
   }
 
@@ -55,9 +62,8 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   takeOrderDetails() {
     this.shareFormService.changedOrder.pipe(takeUntil(this.destroy)).subscribe((orderDetails: OrderDetails) => {
       this.orderDetails = orderDetails;
-      this.bags = orderDetails.bags;
-      this.certificatesSum = orderDetails.certificatesSum;
-      this.finalSum = orderDetails.finalSum;
+      this.bags = orderDetails.bags.filter((bagItem) => bagItem.quantity !== null);
+      this.additionalOrders = orderDetails.additionalOrders;
     });
     this.shareFormService.changedPersonalData.pipe(takeUntil(this.destroy)).subscribe((personalData: PersonalData) => {
       this.personalData = personalData;
@@ -65,6 +71,19 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   }
 
   redirectToOrder() {
-    document.location.href = this.shareFormService.orderUrl;
+    this.loadingAnim = true;
+    this.orderService
+      .getOrderUrl()
+      .pipe(takeUntil(this.destroy))
+      .subscribe(
+        (fondyUrl) => {
+          this.shareFormService.orderUrl = fondyUrl.toString();
+          document.location.href = this.shareFormService.orderUrl;
+          this.loadingAnim = false;
+        },
+        (error) => {
+          this.loadingAnim = false;
+        }
+      );
   }
 }

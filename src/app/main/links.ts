@@ -3,6 +3,7 @@ import { environment } from '@environment/environment';
 // back-end
 export const mainLink = environment.backendLink;
 export const mainUserLink = environment.backendUserLink;
+export const mainUbsLink = environment.backendUbsLink;
 
 // Own Security Controller
 export const userOwnSecurityLink = mainUserLink + 'ownSecurity/';

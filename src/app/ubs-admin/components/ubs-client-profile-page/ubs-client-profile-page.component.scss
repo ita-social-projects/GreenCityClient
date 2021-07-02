@@ -1,12 +1,12 @@
-.profile-container {
+.ubs_profile-container {
+  font-family: var(--primary-font);
   font-size: 0.9em;
-  width: 80%;
+  max-width: 1200px;
   display: flex;
   justify-content: center;
   margin-bottom: 100px;
-  margin-left: auto;
 
-  .header {
+  .ubs_profile-header {
     width: 905px;
     margin: 20px;
     display: flex;
@@ -25,14 +25,6 @@
     form {
       margin-left: 30px;
     }
-
-    .email {
-      display: flex;
-
-      button {
-        margin: auto;
-      }
-    }
   }
 
   .house {
@@ -45,7 +37,7 @@
 
   label {
     margin: 0;
-    color: grey;
+    color: var(--ubs-secondary-grey);
   }
 
   input {
@@ -58,13 +50,14 @@
 
   button {
     margin: 30px;
+    font-family: var(--secondary-font);
   }
 
   h5 {
     margin-left: 15px;
   }
 
-  .google {
+  .account {
     display: flex;
     margin: 20px;
 
@@ -83,7 +76,7 @@
     justify-content: flex-end;
   }
 
-  .footer {
+  .ubs_profile-footer {
     width: 905px;
 
     .footer-text {
@@ -95,5 +88,16 @@
       justify-content: flex-start;
       box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25);
     }
+  }
+}
+
+@media (max-width: 1439px) {
+  .ubs_profile-container {
+    max-width: 800px;
+  }
+}
+@media (max-width: 992px) {
+  .ubs_profile-container {
+    max-width: 600px;
   }
 }

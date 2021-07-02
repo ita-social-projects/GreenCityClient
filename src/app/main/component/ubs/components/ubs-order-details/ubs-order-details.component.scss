@@ -4,6 +4,16 @@
   color: var(--ubs-primary-grey);
 }
 
+.buttons {
+  margin-top: 46px;
+}
+
+.cansel-button {
+  border-radius: 4px;
+  border: 1px solid var(--ubs-primary-green);
+  margin-right: 1rem;
+}
+
 .font-bolt {
   font-weight: bold;
 }
@@ -44,21 +54,7 @@
 
 .label {
   color: var(--ubs-secondary-grey);
-  padding-left: 0;
-}
-
-.label:nth-child(2),
-.label:nth-child(3) {
-  margin-left: 1.1rem;
-}
-
-.label:nth-child(4),
-.label:nth-child(5) {
-  padding-left: 1.1rem;
-}
-
-.label:nth-child(5) {
-  padding-left: 4rem;
+  padding: 0;
 }
 
 .form-group {
@@ -115,6 +111,8 @@ button {
 }
 
 .primary-global-button {
+  padding: 8px 24px;
+  border-radius: 4px;
   background: var(--ubs-primary-green);
 }
 
@@ -127,7 +125,7 @@ button {
 }
 
 .messages-container {
-  width: 35em;
+  width: 50%;
 
   small {
     color: var(--ubs-primary-green);
@@ -140,16 +138,21 @@ button {
 
 .totalInfo {
   text-align: right;
-  width: 25%;
 
   .total-content {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     color: var(--ubs-secondary-grey);
     padding-right: 0.5rem;
+
+    strong {
+      padding-left: 2rem;
+    }
   }
 
-  small {
+  .money-saved {
+    font-weight: 400;
+    font-size: 0.8rem;
     color: var(--ubs-primary-green);
   }
 
@@ -297,10 +300,7 @@ button {
   }
 
   .btn-main {
-    width: 120px;
     height: 3rem;
-    border-radius: 0;
-    border: none;
 
     &:hover {
       background: var(--ubs-primary-green);
@@ -311,4 +311,87 @@ button {
 
 li {
   list-style: none;
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+  .label,
+  .bag-name {
+    font-size: 0.8rem;
+  }
+
+  .messages-container {
+    width: 65%;
+  }
+
+  .totalInfo {
+    span {
+      font-size: 0.8rem;
+    }
+
+    .money-saved {
+      font-size: 0.65rem;
+    }
+  }
+
+  h3 {
+    font-size: 1.3rem;
+  }
+
+  h5 {
+    font-size: 1.1rem;
+  }
+
+  button {
+    font-size: 1rem;
+  }
+
+  p,
+  a,
+  textarea,
+  small,
+  input {
+    font-size: 0.8rem;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .label,
+  .bag-name {
+    font-size: 0.6rem;
+  }
+
+  .messages-container {
+    width: 80%;
+  }
+
+  .totalInfo {
+    span {
+      font-size: 0.6rem;
+    }
+
+    .money-saved {
+      font-size: 0.58rem;
+    }
+  }
+
+  h3 {
+    font-size: 1.3rem;
+  }
+
+  h5 {
+    font-size: 1.1rem;
+  }
+
+  button {
+    width: 100px;
+    font-size: 0.7rem;
+  }
+
+  p,
+  a,
+  textarea,
+  small,
+  input {
+    font-size: 0.65rem;
+  }
 }
