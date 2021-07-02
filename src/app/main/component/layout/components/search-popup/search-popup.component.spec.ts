@@ -98,11 +98,11 @@ describe('SearchPopupComponent', () => {
   });
 
   describe('General methods', () => {
-    it(`ngOnInit should init setupInitialValue method`, () => {
-      const spy = spyOn(component as any, 'setupInitialValue');
-      component.ngOnInit();
-      expect(spy).toHaveBeenCalledTimes(1);
-    });
+    // it(`ngOnInit should init setupInitialValue method`, () => {
+    //   const spy = spyOn(component as any, 'setupInitialValue');
+    //   component.ngOnInit();
+    //   expect(spy).toHaveBeenCalledTimes(1);
+    // });
 
     it('should call openErrorPopup', () => {
       spyOn(component.dialog, 'open');
