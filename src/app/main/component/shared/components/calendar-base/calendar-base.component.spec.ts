@@ -228,7 +228,7 @@ describe('CalendarBaseComponent', () => {
 
   it('should return boolean at various comparisons when isCurrentDayActive method is work', () => {
     component.isCurrentDayActive();
-    expect(component.calendarDay[0].isCurrentDayActive).toBeTruthy();
+    expect(component.calendarDay[0].isCurrentDayActive).toBeFalsy();
     expect(component.calendarDay[1].isCurrentDayActive).toBeFalsy();
     expect(component.calendarDay[2].isCurrentDayActive).toBeFalsy();
     expect(component.calendarDay[3].isCurrentDayActive).toBeFalsy();
