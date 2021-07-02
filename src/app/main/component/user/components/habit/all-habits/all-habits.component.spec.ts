@@ -3,24 +3,53 @@ import { HabitAssignInterface } from './../../../../../interface/habit/habit-ass
 import { HabitAssignService } from './../../../../../service/habit-assign/habit-assign.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HabitsListViewComponent } from './components/habits-list-view/habits-list-view.component';
 import { LocalStorageService } from '../../../../../service/localstorage/local-storage.service';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, of } from 'rxjs';
 
 import { AllHabitsComponent } from './all-habits.component';
 import { HabitService } from '../../../../../service/habit/habit.service';
 import { HabitListInterface } from '../../../../../interface/habit/habit.interface';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { EventEmitter, Injectable } from '@angular/core';
+import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 
-describe('AllHabitsComponent', async () => {
+@Injectable()
+class TranslationServiceStub {
+  public onLangChange = new EventEmitter<any>();
+  public onTranslationChange = new EventEmitter<any>();
+  public onDefaultLangChange = new EventEmitter<any>();
+  public addLangs(langs: string[]) {}
+  public getLangs() {
+    return 'en-us';
+  }
+  public getBrowserLang() {
+    return '';
+  }
+  public getBrowserCultureLang() {
+    return '';
+  }
+  public use(lang: string) {
+    return '';
+  }
+  public get(key: any): any {
+    return of(key);
+  }
+  public setDefaultLang() {
+    return true;
+  }
+}
+
+describe('AllHabitsComponent', () => {
   let component: AllHabitsComponent;
   let fixture: ComponentFixture<AllHabitsComponent>;
 
   const assignedHabitsMock: Array<HabitAssignInterface> = [
     {
-      createDateTime: new Date('2021-02-11T16:35:18.048839Z'),
+      createDateTime: new Date('2021-06-19T16:35:18.048839Z'),
       duration: 14,
       habit: {
         defaultDuration: 14,
@@ -37,7 +66,7 @@ describe('AllHabitsComponent', async () => {
       habitStatusCalendarDtoList: [],
       habitStreak: 0,
       id: 154,
-      lastEnrollmentDate: new Date('2021-02-11T16:35:18.04885Z'),
+      lastEnrollmentDate: new Date('2021-06-19T16:35:18.04885Z'),
       status: 'INPROGRESS',
       userId: 7835,
       workingDays: 0,
@@ -79,18 +108,49 @@ describe('AllHabitsComponent', async () => {
 
   const mockData = new BehaviorSubject<any>(habitsMockData);
 
-  const localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['languageBehaviourSubject']);
-  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject<string>('en');
-  const assignHabitServiceMock: HabitAssignService = TestBed.get(HabitAssignService);
+  let localStorageServiceMock: LocalStorageService;
+  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject', 'languageBehaviourSubject']);
+  localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
+
+  let assignHabitServiceMock: HabitAssignService;
+  assignHabitServiceMock = jasmine.createSpyObj('HabitAssignService', ['getAssignedHabits']);
   assignHabitServiceMock.getAssignedHabits = () => of(assignedHabitsMock);
 
-  beforeEach(() => {
+  let habitServiceMock: HabitService;
+  habitServiceMock = jasmine.createSpyObj('HabitService', ['getAllHabits']);
+  habitServiceMock.getAllHabits = (pageHabits, sizeHabits) => of(habitsMockData);
+
+  const userData = {
+    city: 'string',
+    firstName: 'string',
+    userCredo: 'string',
+    profilePicturePath: 'string;',
+    rating: null,
+    showEcoPlace: true,
+    showLocation: true,
+    showShoppingList: true,
+    socialNetworks: [{ id: 1, url: 'string;' }]
+  };
+
+  let profileServiceMock: ProfileService;
+  profileServiceMock = jasmine.createSpyObj('ProfileService', ['getUserInfo']);
+  profileServiceMock.getUserInfo = () => of(userData);
+
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AllHabitsComponent, HabitsListViewComponent],
       imports: [TranslateModule.forRoot(), SharedMainModule, InfiniteScrollModule, RouterTestingModule, HttpClientTestingModule],
-      providers: [HabitService, HabitAssignService, { provide: LocalStorageService, useValue: localStorageServiceMock }]
+      providers: [
+        { provide: HabitService, useValue: habitServiceMock },
+        { provide: HabitAssignService, useValue: assignHabitServiceMock },
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
+        { provide: TranslateService, useClass: TranslationServiceStub },
+        { provide: ProfileService, useValue: profileServiceMock }
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
-  });
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AllHabitsComponent);
@@ -98,51 +158,52 @@ describe('AllHabitsComponent', async () => {
     fixture.detectChanges();
     component.allHabits = mockData;
     component.resetSubject = () => true;
-    const habitServiceMock: HabitService = TestBed.get(HabitService);
-    habitServiceMock.getAllHabits = () => of(habitsMockData);
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    fixture.destroy();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('Test main functionality', () => {
-    it('Should change view mode', () => {
-      component.onDisplayModeChange(false);
-      expect(component.galleryView).toBeFalsy();
-    });
+  it('should get userId', () => {
+    expect(localStorageServiceMock.userIdBehaviourSubject.value).toBe(1111);
+  });
 
-    it('Should filter data by array of tags', () => {
-      const data = component[`splitHabitItems`](habitsMockData);
-      component.filteredHabitsList = data.page;
-      component[`habitsList`] = data.page;
-      component.getFilterData(['test']);
+  it('Should change view mode', () => {
+    component.onDisplayModeChange(false);
+    expect(component.galleryView).toBeFalsy();
+  });
 
-      expect(component.filteredHabitsList).toEqual([habitsMockData.page[0]]);
-    });
+  it('should get all habits', () => {
+    const fetchAllHabitsSpy = spyOn(component as any, 'fetchAllHabits');
+    component.ngOnInit();
+    expect(fetchAllHabitsSpy).toHaveBeenCalledTimes(1);
+  });
 
-    it('Should stop fetching data on scroll if there is no page left', () => {
-      component.isFetching = true;
-      // @ts-ignore
-      component.totalPages = 2;
-      // @ts-ignore
-      component.currentPage = 2;
-      component.onScroll();
-      expect(component.isFetching).toEqual(false);
-    });
+  it('Should stop fetching data on scroll if there is no page left', () => {
+    component.isFetching = true;
+    // @ts-ignore
+    component.totalPages = 2;
+    // @ts-ignore
+    component.currentPage = 2;
+    component.onScroll();
+    expect(component.isFetching).toEqual(false);
+  });
 
-    it('Should stop fetching data on scroll if there is no page left', () => {
-      // @ts-ignore
-      const spy = spyOn(component, 'fetchAllHabits').and.returnValue(true);
-      // @ts-ignore
-      component.totalPages = 2;
-      // @ts-ignore
-      component.currentPage = 1;
-      // @ts-ignore
-      component.lang = 'en';
-      component.onScroll();
-      expect(spy).toHaveBeenCalledWith(2, 6);
-    });
+  it('Should stop fetching data on scroll if there is no page left', () => {
+    // @ts-ignore
+    const spy = spyOn(component, 'fetchAllHabits').and.returnValue(true);
+    // @ts-ignore
+    component.totalPages = 2;
+    // @ts-ignore
+    component.currentPage = 1;
+    // @ts-ignore
+    component.lang = 'en';
+    component.onScroll();
+    expect(spy).toHaveBeenCalledWith(2, 6);
   });
 });

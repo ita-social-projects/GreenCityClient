@@ -18,14 +18,13 @@
       <div class="input-block" [ngStyle]="{ 'margin-bottom': '53px' }">
         <label for="city">{{ 'user.edit-profile.city' | translate }}</label>
         <input
+          ngx-google-places-autocomplete
+          [options]="options"
           type="text"
           formControlName="city"
           placeholder="{{ userInfo.location }}"
-          autocorrect="off"
-          autocapitalize="off"
-          spellcheck="off"
-          #search
-          pattern="^[a-zA-Zа-яА-Я][a-zA-Zа-яА-Я!\-\,’)( ]*$"
+          (onAddressChange)="onCityChange($event)"
+          [pattern]="cityPattern"
           id="city"
         />
         <span>{{ 'user.edit-profile.city-warning' | translate }}</span>
