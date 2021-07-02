@@ -1,69 +1,125 @@
 <div class="container" *ngIf="bags.length && personalData">
-  <div class="your-order p-4">
-    <p class="text-secondary">{{ 'submit-order.your-order' | translate }}</p>
-    <table aria-label="order table">
-      <tbody>
-        <tr *ngFor="let bag of bags">
+  <div class="header">
+    <h3 class="font-bolt order-title">{{ 'order-details.your-order' | translate }}</h3>
+  </div>
+  <form class="form">
+    <div class="w-100 d-flex justify-content-between mb-2">
+      <label class="col-3 label m-0">{{ 'order-details.service' | translate }}</label>
+      <label class="col-2 label m-0">{{ 'order-details.volume' | translate }}</label>
+      <label class="col-2 label m-0">{{ 'order-details.cost' | translate }}</label>
+      <label class="col-2 label m-0">{{ 'order-details.number-of-packages' | translate }}</label>
+      <label class="col-3 label m-0 text-center">{{ 'order-details.sum' | translate }}</label>
+    </div>
+    <div class="services">
+      <ul class="services-list w-100 p-0 m-0">
+        <li class="services-list_item d-flex justify-content-between align-items-baseline" *ngFor="let bag of bags">
           <ng-container *ngIf="bag.quantity">
-            <td class="firstRow">{{ bag.name }} ({{ bag.quantity }} {{ 'submit-order.bags' | translate }})</td>
-            <td class="firstRow right-column">{{ bag.price * bag.quantity }} {{ 'submit-order.currency' | translate }}</td>
+            <span class="col-3 p-0 m-0 bag-name">{{ bag.name }}</span>
+            <span class="col-2 p-0 m-0 bag-name">{{ bag.capacity }} {{ 'order-details.litr' | translate }}</span>
+            <span class="col-2 p-0 m-0 bag-name">{{ bag.price }} {{ 'order-details.currency' | translate }}</span>
+            <span class="col-2 p-0 m-0 bag-name">{{ bag.quantity }} {{ 'order-details.pieces' | translate }}</span>
+            <span class="col-3 p-0 m-0 bag-name text-center">
+              {{ bag.quantity * bag.price }} {{ 'order-details.currency' | translate }}</span
+            >
           </ng-container>
-        </tr>
-        <hr />
-        <tr>
-          <td class="firstRow"></td>
-          <td class="firstRow right-column">
-            <p class="total-content" *ngIf="certificatesSum">
-              <span>{{ 'order-details.bonuses' | translate }} </span
-              ><span>
-                <small>-{{ certificatesSum }} {{ 'order-details.currency' | translate }}</small></span
-              >
+        </li>
+      </ul>
+    </div>
+    <div class="middle">
+      <div class="middle-container">
+        <div class="showTotal">
+          <div class="totalInfo">
+            <p class="total-content" [class.d-none]="orderDetails.total === 0">
+              <span>{{ 'order-details.order-amount' | translate }} </span>
+              <span>
+                <strong>{{ orderDetails.total }} {{ 'order-details.currency' | translate }}</strong>
+              </span>
             </p>
-            <strong>{{ finalSum }} {{ 'submit-order.currency' | translate }}</strong>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="order-details d-flex flex-column p-4">
-    <p class="text-secondary">{{ 'order-form.order-details' | translate }}:</p>
-    <div class="d-flex w-75">
-      <div class="order-details_personal-data">
-        <ul>
-          <li>{{ personalData.lastName }} {{ personalData.firstName }}</li>
-          <li>{{ personalData.email }}</li>
-          <li>0{{ personalData.phoneNumber }}</li>
-        </ul>
+            <p class="total-content" *ngIf="orderDetails.certificatesSum">
+              <span>{{ 'order-details.certificate' | translate }} </span>
+              <span>
+                <strong class="money-saved">-{{ orderDetails.certificatesSum }} {{ 'order-details.currency' | translate }} </strong>
+              </span>
+            </p>
+            <p class="total-content" *ngIf="orderDetails.pointsToUse">
+              <span>{{ 'order-details.bonuses' | translate }} </span>
+              <span>
+                <strong class="money-saved">-{{ orderDetails.pointsToUse }} {{ 'order-details.currency' | translate }}</strong>
+              </span>
+            </p>
+            <p class="total-content">
+              <span>{{ 'order-details.amount-due' | translate }} </span>
+              <span>
+                <strong>{{ orderDetails.finalSum }} {{ 'order-details.currency' | translate }}</strong>
+              </span>
+            </p>
+          </div>
+        </div>
+        <div class="order-info-container d-flex flex-column">
+          <div class="order-info" *ngIf="additionalOrders[0]">
+            <p class="order-header">{{ 'order-details.store-delivery' | translate }}</p>
+            <ul class="order-list d-flex">
+              <li class="order-list-item">{{ 'order-details.order-numbers' | translate }} &nbsp;</li>
+              <li class="order-list-item" *ngFor="let order of additionalOrders">
+                <strong>{{ order }}, &nbsp;</strong>
+              </li>
+            </ul>
+          </div>
+          <div class="order-info">
+            <p class="order-header">{{ 'order-details.recipient' | translate }}</p>
+            <ul class="order-list">
+              <li class="order-list-item">{{ personalData.firstName }} {{ personalData.lastName }}</li>
+              <li class="order-list-item">0{{ personalData.phoneNumber }}</li>
+              <li class="order-list-item">{{ personalData.email }}</li>
+            </ul>
+          </div>
+          <div class="order-info m-0">
+            <p class="order-header">{{ 'order-details.export-address' | translate }}</p>
+            <ul class="order-list">
+              <li class="order-list-item">{{ personalData.city }}</li>
+              <li class="order-list-item">
+                <span>{{ 'submit-order.str' | translate }}{{ personalData.street }}, {{ personalData.houseNumber }}</span
+                >, {{ personalData.houseCorpus }}
+              </li>
+              <li class="order-list-item">{{ personalData.district }}</li>
+              <li class="order-list-item" *ngIf="personalData.addressComment">
+                {{ 'order-details.address-comment' | translate }} {{ personalData.addressComment }}
+              </li>
+              <li class="order-list-item" *ngIf="orderDetails.orderComment">
+                {{ 'order-details.order-comment' | translate }} {{ orderDetails.orderComment }}
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-      <div class="order-details_address">
-        <ul>
-          <li>{{ personalData.city }}</li>
-          <li>{{ personalData.district }}</li>
-          <li>
-            <span>{{ 'submit-order.str' | translate }}{{ personalData.street }}, {{ personalData.houseNumber }}</span
-            >,
-            {{ personalData.houseCorpus }}
-          </li>
-          <li>
-            <span>{{ personalData.addressComment }}</span>
-          </li>
-          <li>
-            <span>{{ orderDetails.orderComment }}</span>
-          </li>
-        </ul>
+    </div>
+    <div class="bottom_comment">
+      <div class="form-group comment">
+        <h3 class="bottom_comment_payment">{{ 'order-form.payment' | translate }}</h3>
+        <p class="choose-payment">{{ 'order-details.choose-payment' | translate }}</p>
+        <div class="col-12 col-sm-12 p-0">
+          <label for="" class="choose-payment-chooser">{{ 'submit-order.choose-payment' | translate }}</label
+          ><br />
+          <select class="payment-select shadow-none">
+            <option value="Fondy">{{ 'submit-order.fondy-card' | translate }}</option>
+          </select>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="payment-method my-4">
-    <div class="col-12 col-sm-12 form-group bottom-select">
-      <label for="">{{ 'submit-order.choose-payment' | translate }}</label>
-      <select class="shadow-none form-control">
-        <option value="LiqPay">{{ 'submit-order.liqpay-card' | translate }}</option>
-      </select>
-    </div>
-    <div class="w-100 d-flex justify-content-between mt-4">
-      <button class="secondary-global-button btn" matStepperPrevious>{{ 'submit-order.back' | translate }}</button>
-      <button (click)="redirectToOrder()" type="submit" class="primary-global-button btn">{{ 'submit-order.to-order' | translate }}</button>
-    </div>
+  </form>
+</div>
+
+<div class="w-100 d-flex justify-content-between buttons">
+  <button class="secondary-global-button btn btn-back" matStepperPrevious>
+    <i class="fas fa-chevron-left"></i> &nbsp; {{ 'submit-order.back' | translate }}
+  </button>
+  <div class="w-100 d-flex justify-content-end">
+    <button class="secondary-global-button btn cansel-button btn-main" (click)="cancelUBS()">
+      {{ 'order-details.cancel' | translate }}
+    </button>
+    <button (click)="redirectToOrder()" type="submit" class="primary-global-button btn">
+      <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
+      {{ 'submit-order.to-order' | translate }}
+    </button>
   </div>
 </div>

@@ -72,7 +72,7 @@ button {
     .edit {
       width: 20px;
       height: 20px;
-      background-image: url(/assets/img/profile/icons/edit-line.svg);
+      background-image: url('~/assets/img/profile/icons/edit-line.svg');
       margin-left: auto;
     }
   }
@@ -131,15 +131,15 @@ button {
   }
 
   .done {
-    background: url("~/assets/img/icon/chek-circle.png") no-repeat center;
+    background: url('~/assets/img/icon/chek-circle.png') no-repeat center;
   }
 
   .undone {
-    background: url("~/assets/img/icon/plus-circle.png") no-repeat center;
+    background: url('~/assets/img/icon/plus-circle.png') no-repeat center;
   }
 
   .aquired {
-    background: url("~/assets/img/icon/star-circle.png") no-repeat center;
+    background: url('~/assets/img/icon/star-circle.png') no-repeat center;
   }
 }
 
