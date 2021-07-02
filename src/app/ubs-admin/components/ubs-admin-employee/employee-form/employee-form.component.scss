@@ -10,8 +10,8 @@ h1 {
 
 h6 {
   height: 16px;
-  left: 0px;
-  top: 0px;
+  left: 0;
+  top: 0;
   font-size: 12px;
   line-height: 16px;
   font-style: normal;
@@ -24,7 +24,7 @@ form {
   display: flex;
   flex-direction: column;
   position: relative;
-  padding: 0px;
+  padding: 0;
   width: 328px;
   height: 774px;
   left: 56px;
@@ -94,11 +94,11 @@ img {
   background-color: var(--ubs-primary-white);
   border: 1px dashed var(--quintynary-light-grey);
   border-radius: 4px;
-  
+
   a {
     color: var(--ubs-primary-green);
   }
-  
+
   .upload-text {
     position: absolute;
     width: 98.28px;
@@ -109,7 +109,7 @@ img {
     line-height: 12px;
     text-align: center;
   }
-  
+
   .upload-file {
     display: none;
   }
@@ -128,7 +128,7 @@ img {
   height: 32px;
   position: absolute;
   left: -1px;
-  top: 0px;
+  top: 0;
   background-color: var(--ubs-quaternary-light-grey);
   opacity: 0.9;
   border-radius: 4px 4px 0px 0px;
@@ -150,8 +150,8 @@ img {
 
 svg {
   position: absolute;
-  left: 0px;
-  top: 0px;
+  left: 0;
+  top: 0;
   width: 11px;
   height: 11px;
 }
