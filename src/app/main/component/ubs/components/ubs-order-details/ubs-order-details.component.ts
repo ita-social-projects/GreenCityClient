@@ -21,6 +21,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   orders: OrderDetails;
   bags: Bag[];
   orderDetailsForm: FormGroup;
+  certStatuses = [];
   minOrderValue = 500;
   showTotal = 0;
   pointsUsed = 0;
@@ -266,24 +267,28 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   addCertificate(): void {
     this.additionalCertificates.push(this.fb.control('', [Validators.minLength(8), Validators.pattern(/(?!0000)\d{4}-(?!0000)\d{4}/)]));
-    this.addCert = false;
   }
 
-  deleteCertificate(i): void {
+  private clearAdditionalCertificate(index: number) {
+    this.additionalCertificates.removeAt(index);
+    this.certStatuses.splice(index, 1);
+    this.calculateCertificates(this.certificates);
+  }
+
+  deleteCertificate(index: number): void {
     if (this.displayCert === false) {
-      this.certificates.splice(i, 1);
-      this.additionalCertificates.removeAt(i);
-      this.calculateCertificates(this.certificates);
+      this.certificates.splice(index, 1);
+      this.clearAdditionalCertificate(index);
     } else {
-      this.certificates.splice(i + 1, 1);
-      this.additionalCertificates.removeAt(i);
-      this.calculateCertificates(this.certificates);
+      this.certificates.splice(index + 1, 1);
+      this.clearAdditionalCertificate(index);
     }
   }
 
-  addedCertificateSubmit(i): void {
-    if (!this.certificates.includes(this.additionalCertificates.value[i])) {
-      this.certificates.push(this.additionalCertificates.value[i]);
+  addedCertificateSubmit(index: number): void {
+    if (!this.certificates.includes(this.additionalCertificates.value[index])) {
+      this.certificates.push(this.additionalCertificates.value[index]);
+      this.certStatuses.push(true);
       this.calculateCertificates(this.certificates);
     }
   }
@@ -359,8 +364,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     if (cert.certificateStatus === CertificateStatus.USED || cert.certificateStatus === CertificateStatus.EXPIRED) {
       this.certDate = cert.certificateDate;
       this.certStatus = cert.certificateStatus;
-
-      this.certificateReset(false);
     }
   }
 
