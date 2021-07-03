@@ -4,7 +4,7 @@
     <label [ngClass]="{ selected: item.status === 'INPROGRESS', done: item.status === 'DONE' }">
       <input type="checkbox" (change)="select(item)" />
       <span class="checkmark"></span>
-      <span class="text" [ngbPopover]="item.text" triggers="mouseenter:mouseleave" placement="top" data-container="body">{{
+      <span class="text" ngbPopover="{{ item.text }}" triggers="mouseenter:mouseleave" placement="top" data-container="body">{{
         item.text
       }}</span>
       <button id="del-btn" (click)="delete(item)"></button>
@@ -15,7 +15,6 @@
   <input #newItem id="add-field" type="text" formControlName="item" autocomplete="off" />
   <input
     #btn
-    [ngClass]="{ 'bg-grey': disabled }"
     [disabled]="!itemForm.valid"
     id="add-btn"
     type="submit"

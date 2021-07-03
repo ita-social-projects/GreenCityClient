@@ -15,16 +15,16 @@
         </div>
       </div>
       <div class="habitTitle">
-        {{ habit?.habitTranslation.name }}
+        {{ habitResponse?.habitTranslation.name }}
       </div>
       <div class="description">
         <p>
-          {{ habit?.habitTranslation.description }}
+          {{ habitResponse?.habitTranslation.description }}
         </p>
       </div>
     </div>
     <div class="habitImg">
-      <img class="img" [src]="habit?.image" alt="" />
+      <img class="img" [src]="habitResponse?.image" alt="" />
     </div>
   </div>
   <div class="habitEdit">Habit Info</div>
@@ -38,7 +38,7 @@
         <app-habit-invite-friends></app-habit-invite-friends>
       </div>
       <div class="durationShoping">
-        <div class="duration" *ngIf="habit">
+        <div class="duration" *ngIf="habitResponse">
           <app-habit-duration [habitDurationInitial]="initialDuration" (changeDuration)="getDuration($event)"></app-habit-duration>
         </div>
         <div class="shopping">

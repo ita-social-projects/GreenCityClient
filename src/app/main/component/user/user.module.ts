@@ -157,6 +157,7 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     RequestItemComponent
   ],
   imports: [
+    NgbModule,
     GooglePlaceModule,
     UserRoutingModule,
     CommonModule,

@@ -24,7 +24,6 @@
           formControlName="city"
           placeholder="{{ userInfo.location }}"
           (onAddressChange)="onCityChange($event)"
-          [pattern]="cityPattern"
           id="city"
         />
         <span>{{ 'user.edit-profile.city-warning' | translate }}</span>

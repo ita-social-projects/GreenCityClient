@@ -14,7 +14,7 @@
       <div class="shopping-list-content">
         <ul class="shopping-list" [ngClass]="{ 'shopping-list-max': toggle, 'shopping-list-min': !toggle }">
           <li [ngClass]="shoppingItem.status === 'DONE' ? 'item-striked' : 'item'" *ngFor="let shoppingItem of shoppingList">
-            <span [ngbPopover]="shoppingItem.text" triggers="mouseenter:mouseleave" placement="right">{{ shoppingItem.text }}</span>
+            <span ngbPopover="{{ shoppingItem.text }}" triggers="mouseenter:mouseleave" placement="right">{{ shoppingItem.text }}</span>
             <mat-checkbox
               [checked]="shoppingItem.status === 'DONE'"
               class="checkbox"

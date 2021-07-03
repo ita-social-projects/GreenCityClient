@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { take } from 'rxjs/operators';
-import { HabitAssignInterface } from 'src/app/main/interface/habit/habit-assign.interface';
+import { HabitAssignInterface, HabitResponseInterface } from 'src/app/main/interface/habit/habit-assign.interface';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { HabitService } from '@global-service/habit/habit.service';
 
@@ -14,6 +14,7 @@ import { HabitService } from '@global-service/habit/habit.service';
 })
 export class AddNewHabitComponent implements OnInit {
   public habit: HabitAssignInterface;
+  public habitResponse: HabitResponseInterface;
   public habitId: number;
   public userId: string;
   public newDuration: number;
@@ -42,15 +43,19 @@ export class AddNewHabitComponent implements OnInit {
     this.checkIfAssigned();
   }
 
+  public initHabitData(data) {
+    this.habitResponse = data;
+    this.getStars(data.complexity);
+    this.initialDuration = data.defaultDuration;
+    this.initialShoppingList = data.shoppingListItems;
+  }
+
   public getDefaultItems() {
     this.habitService
       .getHabitById(this.habitId)
       .pipe(take(1))
       .subscribe((data) => {
-        this.habit = data;
-        this.getStars(data.complexity);
-        this.initialDuration = data.defaultDuration;
-        this.initialShoppingList = data.shoppingListItems;
+        this.initHabitData(data);
       });
   }
 
@@ -59,10 +64,7 @@ export class AddNewHabitComponent implements OnInit {
       .getCustomHabit(this.habitId)
       .pipe(take(1))
       .subscribe((data) => {
-        this.habit = data;
-        this.getStars(data.complexity);
-        this.initialDuration = data.defaultDuration;
-        this.initialShoppingList = data.shoppingListItems;
+        this.initHabitData(data);
       });
   }
 
