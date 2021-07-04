@@ -14,6 +14,7 @@ import { UbsAdminEmployeeComponent } from './components/ubs-admin-employee/ubs-a
 import { UbsAdminEmployeeCardComponent } from './components/ubs-admin-employee/ubs-admin-employee-card/ubs-admin-employee-card.component';
 import { PaginationComponent } from './components/shared/components/pagination/pagination.component';
 import { UBSAdminRoutingModule } from './ubs-admin-routing.module';
+import { UbsClientProfilePageComponent } from './components/ubs-client-profile-page/ubs-client-profile-page.component';
 import { EmployeeFormComponent } from './components/ubs-admin-employee/employee-form/employee-form.component';
 
 @NgModule({
