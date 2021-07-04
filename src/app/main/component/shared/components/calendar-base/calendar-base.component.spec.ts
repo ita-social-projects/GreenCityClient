@@ -226,7 +226,7 @@ describe('CalendarBaseComponent', () => {
     expect(result).toEqual(31);
   });
 
-  xit('should return boolean at various comparisons when isCurrentDayActive method is work', () => {
+  it('should return boolean at various comparisons when isCurrentDayActive method is work', () => {
     component.isCurrentDayActive();
     expect(component.calendarDay[0].isCurrentDayActive).toBeTruthy();
     expect(component.calendarDay[1].isCurrentDayActive).toBeFalsy();
@@ -234,7 +234,7 @@ describe('CalendarBaseComponent', () => {
     expect(component.calendarDay[3].isCurrentDayActive).toBeFalsy();
   });
 
-  xit('should return current day of week', () => {
+  it('should return current day of week', () => {
     component.markCurrentDayOfWeek();
     // @ts-ignore
     component.calendarDay[4].date = { getMonth: () => 5, getFullYear: () => 2021 };

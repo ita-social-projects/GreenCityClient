@@ -246,7 +246,7 @@
           <button *ngIf="additionalOrders.controls.length < 5 && displayOrderBtn" class="addOrderBtn" (click)="addOrder()">
             {{ 'order-details.additional-orders' | translate }}
           </button>
-          <small class="text-danger" *ngIf="!displayOrderBtn && orderDetailsForm.get('additionalOrders').touched">
+          <small class="text-danger" *ngIf="!displayOrderBtn && additionalOrders.touched">
             {{ 'order-details.order-error' | translate }}
           </small>
         </div>
