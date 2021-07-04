@@ -12,7 +12,7 @@
     <div class="hline"></div>
   </div>
   <div *ngIf="!loading; else spinner">
-    <div *ngIf="habitsInProgress.length != 0">
+    <div *ngIf="habitsInProgress.length !== 0">
       <div class="in-progress header">
         <p>
           {{ 'profile.dashboard.habits-inprogress' | translate }} <br />
