@@ -94,7 +94,6 @@ describe('EditProfileComponent', () => {
         showShoppingList: '',
         socialNetworks: ''
       };
-      component.searchElementRef.nativeElement.value = 'Lviv';
       component.editProfileForm.value.name = '';
       component.editProfileForm.value.credo = '';
       component.editProfileForm.value.showLocation = '';
