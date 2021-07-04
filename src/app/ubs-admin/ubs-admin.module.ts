@@ -10,10 +10,19 @@ import { SharedModule } from '../shared/shared.module';
 import { UbsHeaderComponent } from './components/ubs-header/ubs-header.component';
 import { UbsAdminComponent } from './ubs-admin.component';
 import { UBSAdminRoutingModule } from './ubs-admin-routing.module';
+import { UbsClientProfilePageComponent } from './components/ubs-client-profile-page/ubs-client-profile-page.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [UbsAdminTableComponent, UbsBaseSidebarComponent, UbsHeaderComponent, UbsAdminComponent, UbsAdminSidebarComponent],
-  imports: [CommonModule, MaterialModule, SharedModule, RouterModule, UBSAdminRoutingModule],
+  declarations: [
+    UbsAdminTableComponent,
+    UbsBaseSidebarComponent,
+    UbsHeaderComponent,
+    UbsAdminComponent,
+    UbsAdminSidebarComponent,
+    UbsClientProfilePageComponent
+  ],
+  imports: [CommonModule, MaterialModule, SharedModule, RouterModule, UBSAdminRoutingModule, ReactiveFormsModule],
   providers: [AdminTableService],
   entryComponents: [UbsAdminTableComponent]
 })
