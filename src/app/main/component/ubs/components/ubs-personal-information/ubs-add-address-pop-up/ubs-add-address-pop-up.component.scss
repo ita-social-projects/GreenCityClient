@@ -19,3 +19,12 @@ form {
 .validation {
   color: var(--error-red);
 }
+
+@media (max-width: 767px) {
+  .secondary-global-button,
+  .primary-global-button,
+  .btn {
+    width: 100px;
+    font-size: 1rem;
+  }
+}

@@ -1,6 +1,5 @@
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { Component, ElementRef, NgZone, OnInit, OnDestroy, ViewChild, DoCheck } from '@angular/core';
-import { MapsAPILoader } from '@agm/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
@@ -20,8 +19,9 @@ import { FormBaseComponent } from '@shared/components/form-base/form-base.compon
 })
 export class EditProfileComponent extends FormBaseComponent implements OnInit, OnDestroy, DoCheck {
   public editProfileForm = null;
+  options: any;
+  cityName: string;
   private langChangeSub: Subscription;
-  @ViewChild('search', { static: true }) public searchElementRef: ElementRef;
   public userInfo = {
     id: 0,
     avatarUrl: './assets/img/profileAvatarBig.png',
@@ -64,7 +64,6 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
-    private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone
   ) {
     super(router, dialog);
@@ -75,7 +74,10 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     this.getInitialValue();
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
-    this.autocompleteCity();
+    this.options = {
+      types: ['(cities)'],
+      componentRestrictions: { country: 'UA' }
+    };
   }
 
   ngDoCheck() {
@@ -87,7 +89,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   public getFormValues(): any {
     return {
       firstName: this.editProfileForm.value.name,
-      city: this.searchElementRef.nativeElement.value,
+      city: this.cityName,
       userCredo: this.editProfileForm.value.credo,
       showLocation: this.editProfileForm.value.showLocation,
       showEcoPlace: this.editProfileForm.value.showEcoPlace,
@@ -110,6 +112,10 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       showShoppingList: data.showShoppingList,
       socialNetworks: data.socialNetworks
     };
+  }
+
+  public onCityChange(event) {
+    this.cityName = event.formatted_address.split(',')[0];
   }
 
   public emitSocialLinks(val: string[]) {
@@ -144,7 +150,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
 
   public sendFormData(form): void {
     const body: EditProfileDto = {
-      city: this.searchElementRef.nativeElement.value,
+      city: this.cityName,
       firstName: form.value.name,
       userCredo: form.value.credo,
       showLocation: form.value.showLocation,
@@ -166,23 +172,6 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
 
   private subscribeToLangChange(): void {
     this.langChangeSub = this.localStorageService.languageSubject.subscribe((lang) => this.bindLang(lang));
-  }
-
-  private autocompleteCity(): void {
-    this.mapsAPILoader.load().then(() => {
-      const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-        types: ['(cities)']
-      });
-      autocomplete.addListener('place_changed', () => {
-        this.ngZone.run(() => {
-          const place: google.maps.places.PlaceResult = autocomplete.getPlace();
-
-          if (typeof place.geometry === 'undefined' || place.geometry === null) {
-            return;
-          }
-        });
-      });
-    });
   }
 
   ngOnDestroy(): void {

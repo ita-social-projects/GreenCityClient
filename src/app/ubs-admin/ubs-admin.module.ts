@@ -2,7 +2,7 @@ import { AdminTableService } from './services/admin-table.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../material.module';
 import { SharedModule } from '../shared/shared.module';
 import { UBSAdminRoutingModule } from './ubs-admin-routing.module';
@@ -10,6 +10,8 @@ import { UbsAdminTableComponent } from './components/ubs-admin-table/ubs-admin-t
 import { UbsSidebarComponent } from './components/ubs-sidebar/ubs-sidebar.component';
 import { UbsHeaderComponent } from './components/ubs-header/ubs-header.component';
 import { UbsAdminComponent } from './ubs-admin.component';
+import { UbsClientProfilePageComponent } from './components/ubs-client-profile-page/ubs-client-profile-page.component';
+import { ReactiveFormsModule } from '@angular/forms';
 import { UbsAdminResponsiblePersonsComponent } from './components/ubs-admin-responsible-persons/ubs-admin-responsible-persons.component';
 import { UbsAdminExportDetailsComponent } from './components/ubs-admin-export-details/ubs-admin-export-details.component';
 import { UbsAdminOrderPaymentComponent } from './components/ubs-admin-order-payment/ubs-admin-order-payment.component';
@@ -23,16 +25,17 @@ import { UbsAdminAddressDetailsComponent } from './components/ubs-admin-address-
   declarations: [
     UbsAdminTableComponent,
     UbsSidebarComponent,
+    UbsHeaderComponent,
+    UbsAdminComponent,
+    UbsClientProfilePageComponent,
     UbsAdminOrderComponent,
     UbsAdminAddressDetailsComponent,
     UbsAdminOrderStatusComponent,
-    UbsHeaderComponent,
-    UbsAdminComponent,
     UbsAdminResponsiblePersonsComponent,
     UbsAdminExportDetailsComponent,
     UbsAdminOrderPaymentComponent,
     UbsAdminOrderClientInfoComponent,
-    UbsAdminOrderDetailsFormComponent,
+    UbsAdminOrderDetailsFormComponent
   ],
   imports: [CommonModule, MaterialModule, SharedModule, RouterModule, UBSAdminRoutingModule, FormsModule, ReactiveFormsModule],
   providers: [AdminTableService],
