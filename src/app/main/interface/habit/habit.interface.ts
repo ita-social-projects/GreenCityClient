@@ -1,3 +1,5 @@
+import { ShoppingList } from '@global-user/models/shoppinglist.model';
+
 export interface HabitInterface {
   defaultDuration: number;
   habitTranslation: HabitTranslationInterface;
@@ -6,6 +8,7 @@ export interface HabitInterface {
   tags: Array<string>;
   isAssigned?: boolean;
   complexity?: number;
+  shoppingListItems?: Array<ShoppingList>;
 }
 
 export interface HabitTranslationInterface {
@@ -13,11 +16,6 @@ export interface HabitTranslationInterface {
   habitItem: any;
   languageCode: string;
   name: string;
-}
-
-export interface HabitShoppingListInterface {
-  id: number;
-  text: string;
 }
 
 export interface HabitListInterface {

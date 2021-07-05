@@ -5,9 +5,8 @@ import { takeUntil } from 'rxjs/operators';
 
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { habitLink } from '../../links';
-import { HabitListInterface } from '../../interface/habit/habit.interface';
+import { HabitInterface, HabitListInterface } from '../../interface/habit/habit.interface';
 import { ShoppingList } from '../../component/user/models/shoppinglist.model';
-import { HabitAssignInterface } from 'src/app/main/interface/habit/habit-assign.interface';
 @Injectable({
   providedIn: 'root'
 })
@@ -23,8 +22,8 @@ export class HabitService implements OnDestroy {
     return this.http.get<HabitListInterface>(`${habitLink}?lang=${this.language}&page=${page}&size=${size}`);
   }
 
-  getHabitById(id: number): Observable<HabitAssignInterface> {
-    return this.http.get<HabitAssignInterface>(`${habitLink}/${id}?lang=${this.language}`);
+  getHabitById(id: number): Observable<HabitInterface> {
+    return this.http.get<HabitInterface>(`${habitLink}/${id}?lang=${this.language}`);
   }
 
   getHabitShoppingList(id: number): Observable<Array<ShoppingList>> {
