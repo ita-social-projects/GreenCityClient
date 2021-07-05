@@ -52,8 +52,8 @@ describe('CalendarBaseComponent', () => {
       {
         numberOfDate: new Date().getDate(),
         date: new Date(),
-        month: new Date().getMonth(),
-        year: new Date().getFullYear(),
+        month: 5,
+        year: 2021,
         firstDay: 1,
         totalDaysInMonth: 30,
         dayName: 'test',
@@ -99,7 +99,7 @@ describe('CalendarBaseComponent', () => {
       },
       {
         numberOfDate: 8,
-        date: new Date(1623684564851),
+        date: new Date(),
         month: 5,
         year: 2021,
         firstDay: 1,
