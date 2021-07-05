@@ -263,7 +263,7 @@
           >
           </textarea>
         </div>
-        <small class="text-danger" *ngIf="orderDetailsForm.get('orderComment').touched && orderDetailsForm.get('orderComment').invalid">
+        <small class="text-danger" *ngIf="orderComment.touched && orderComment.invalid">
           {{ 'order-details.comment-error' | translate }}
         </small>
       </div>

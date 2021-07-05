@@ -156,6 +156,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     return this.orderDetailsForm.get('additionalOrders') as FormArray;
   }
 
+  get orderComment() {
+    return this.orderDetailsForm.get('orderComment') as FormArray;
+  }
+
   get shop() {
     return this.orderDetailsForm.get('shop') as FormArray;
   }
