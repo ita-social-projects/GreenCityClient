@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
 import { UserProfile } from '../../models/ubs-admin.interface';
@@ -18,6 +19,8 @@ export class UbsClientProfilePageComponent implements OnInit {
   public googleIcon = SignInIcons.picGoogle;
   public editing = false;
   public fetching = false;
+  public userId: number;
+  private readonly emailRegex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
   public userProfile: UserProfile = {
     addressDto: {
@@ -36,29 +39,51 @@ export class UbsClientProfilePageComponent implements OnInit {
     },
     recipientEmail: 'ivan@gmail.com',
     recipientName: 'Іван',
-    recipientPhone: '938607879',
+    recipientPhone: '123456789',
     recipientSurname: 'Нечуй-Левицький'
   };
 
-  constructor(public dialog: MatDialog, private clientProfileService: ClientProfileService) {}
+  constructor(
+    public dialog: MatDialog,
+    private clientProfileService: ClientProfileService,
+    private localStorageService: LocalStorageService
+  ) {}
 
   ngOnInit() {
-    this.fetching = true;
+    this.getUserData();
     this.userInit();
+  }
+
+  getUserId() {
+    this.userId = this.localStorageService.getUserId();
+  }
+
+  getUserData() {
+    this.fetching = true;
+    this.getUserId();
+    this.clientProfileService.getDataClientProfile(this.userId).subscribe(
+      (result: UserProfile) => {
+        this.userProfile = result;
+        this.fetching = false;
+      },
+      (error) => {
+        console.log('no data!', error);
+      }
+    );
   }
 
   userInit() {
     this.userForm = new FormGroup({
       firstname: new FormControl(this.userProfile.recipientName, Validators.required),
       surname: new FormControl(this.userProfile.recipientSurname, Validators.required),
-      email: new FormControl(this.userProfile.recipientEmail, [Validators.required, Validators.email]),
-      phoneNumber: new FormControl(this.userProfile.recipientPhone, Validators.required),
-      city: new FormControl(this.userProfile.addressDto.city, Validators.required),
-      street: new FormControl(this.userProfile.addressDto.street, Validators.required),
+      email: new FormControl(this.userProfile.recipientEmail, [Validators.required, Validators.email, Validators.pattern(this.emailRegex)]),
+      phoneNumber: new FormControl(`+380${this.userProfile.recipientPhone}`, [Validators.required, Validators.pattern('[+ 0-9 ]{13}')]),
+      city: new FormControl(this.userProfile.addressDto.city, [Validators.required, Validators.maxLength(20)]),
+      street: new FormControl(this.userProfile.addressDto.street, [Validators.required, Validators.maxLength(20)]),
       houseNumber: new FormControl(this.userProfile.addressDto.houseNumber, Validators.required),
       houseCorpus: new FormControl(this.userProfile.addressDto.houseCorpus, Validators.required),
       entranceNumber: new FormControl(this.userProfile.addressDto.entranceNumber, Validators.required),
-      district: new FormControl(this.userProfile.addressDto.district, Validators.required)
+      district: new FormControl(this.userProfile.addressDto.district, [Validators.required, Validators.maxLength(20)])
     });
     this.fetching = false;
   }
@@ -76,13 +101,14 @@ export class UbsClientProfilePageComponent implements OnInit {
     const dialogRef = this.dialog.open(UbsProfileChangePasswordPopUpComponent, {
       hasBackdrop: true
     });
-    // dialogRef.afterClosed().subscribe(result => {
-    //   console.log(`change pass Dialog result: ${result}`);
-    // });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`change pass Dialog result: ${result}`);
+    });
   }
 
   public onEdit() {
     this.editing = true;
+    this.fetching = false;
   }
 
   public onCancel() {
@@ -90,26 +116,31 @@ export class UbsClientProfilePageComponent implements OnInit {
   }
 
   public onSubmit() {
-    this.fetching = true;
-    this.userProfile.recipientName = this.userForm.value.firstname;
-    this.userProfile.recipientSurname = this.userForm.value.surname;
-    this.userProfile.recipientEmail = this.userForm.value.email;
-    this.userProfile.recipientPhone = this.userForm.value.phoneNumber;
-    this.userProfile.addressDto.city = this.userForm.value.city;
-    this.userProfile.addressDto.street = this.userForm.value.street;
-    this.userProfile.addressDto.houseNumber = this.userForm.value.houseNumber;
-    this.userProfile.addressDto.houseCorpus = this.userForm.value.houseCorpus;
-    this.userProfile.addressDto.entranceNumber = this.userForm.value.entranceNumber;
-    this.userProfile.addressDto.district = this.userForm.value.district;
-    this.clientProfileService.postDataClientProfile(this.userProfile).subscribe(
-      (res) => {
-        console.log('res', res);
-        this.fetching = false;
-      },
-      (err) => {
-        console.log('err', err);
-      }
-    );
-    this.editing = false;
+    if (this.userForm.valid) {
+      this.fetching = true;
+      this.userProfile.recipientName = this.userForm.value.firstname;
+      this.userProfile.recipientSurname = this.userForm.value.surname;
+      this.userProfile.recipientEmail = this.userForm.value.email;
+      this.userProfile.recipientPhone = this.userForm.value.phoneNumber.slice(4);
+      this.userProfile.addressDto.city = this.userForm.value.city;
+      this.userProfile.addressDto.street = this.userForm.value.street;
+      this.userProfile.addressDto.houseNumber = this.userForm.value.houseNumber;
+      this.userProfile.addressDto.houseCorpus = this.userForm.value.houseCorpus;
+      this.userProfile.addressDto.entranceNumber = this.userForm.value.entranceNumber;
+      this.userProfile.addressDto.district = this.userForm.value.district;
+      this.clientProfileService.postDataClientProfile(this.userProfile).subscribe(
+        (res) => {
+          console.log('res', res);
+          this.fetching = false;
+        },
+        (err) => {
+          console.log('err', err);
+        }
+      );
+      this.editing = false;
+    } else {
+      this.editing = true;
+      console.log('form is invalid!');
+    }
   }
 }

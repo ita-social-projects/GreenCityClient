@@ -9,8 +9,8 @@ import { changePasswordLink, mainUbsLink } from 'src/app/main/links';
 export class ClientProfileService {
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) {}
 
-  getDataClientProfile(user) {
-    return this.http.get(user);
+  getDataClientProfile(userId) {
+    return this.http.get(`${mainUbsLink}/ubs/userProfile/user/${userId}`);
   }
 
   postDataClientProfile(user) {
