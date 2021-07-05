@@ -57,14 +57,11 @@ export class ProfileService {
   }
 
   public toggleStatusOfShoppingItem(item): Observable<object[]> {
+    const currentLang = this.languageService.getCurrentLanguage();
     this.setUserId();
     const body = {};
     const { status: prevStatus } = item;
-    const newStatus = prevStatus === 'DONE' ? 'ACTIVE' : 'DONE';
-    return this.http.patch<object[]>(
-      `
-    ${mainLink}custom/shopping-list-items/${this.userId}/custom-shopping-list-items?itemId=${item.id}&status=${newStatus}`,
-      body
-    );
+    const newStatus = prevStatus === 'DONE' ? 'INPROGRESS' : 'DONE';
+    return this.http.patch<object[]>(`${mainLink}user/shopping-list-items/${item.id}/status/${newStatus}?lang=${currentLang}`, body);
   }
 }
