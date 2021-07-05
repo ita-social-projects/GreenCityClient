@@ -17,7 +17,6 @@
 
 .form__label {
   color: var(--ubs-quaternary-dark-grey);
-  font-weight: 700;
 }
 
 .divider {
@@ -49,6 +48,17 @@
 
 .p-left {
   padding-left: 72px;
+}
+
+.ubs-courier {
+  border: 1px solid var(--ubs-primary-light-grey);
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 7px;
+  height: 36px;
+  width: 76px;
+  font-size: 14px;
+  text-align: center;
 }
 
 .comment {
