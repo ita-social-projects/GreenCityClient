@@ -97,13 +97,13 @@ export class UbsAdminTableComponent implements OnInit {
     }
   }
 
-  getTable(columnName = 'orderid', sortingType = 'desc') {
+  getTable(columnName = 'orderId', page = 0, size = 10, sortingType = 'desc') {
     this.isLoading = true;
     this.adminTableService
-      .getTable(columnName, sortingType)
+      .getTable(columnName, page, size, sortingType)
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
-        const arrayOfValues = item;
+        const arrayOfValues = item['page'];
         this.dataSource = new MatTableDataSource(arrayOfValues);
         const requiredColumns = [{ field: 'select', sticky: true }];
         const dynamicallyColumns = [];
