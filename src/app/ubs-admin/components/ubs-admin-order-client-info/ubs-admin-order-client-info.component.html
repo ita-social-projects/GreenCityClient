@@ -1,5 +1,5 @@
 <div class="container">
-  <form class="form" [formGroup]="clientInfoForm">
+  <form class="form" [formGroup]="customerInfoForm">
     <div>
       <h3 class="form__headline">Інформація про клієнта</h3>
     </div>
@@ -7,22 +7,19 @@
       <div class="form__block col-md-4 col-sm-6">
         <div class="form-group">
           <p class="form__subtitle">Клієнт</p>
-          <label class="form__label" for="client-name">Ім'я</label>
-          <input class="form-control" type="text" id="client-name" placeholder="Placeholder"
-          formControlName="clientName"
-          />
+          <label class="form__label" for="customer-name">Ім'я</label>
+          <input class="form-control" type="text" id="customer-name" placeholder="Placeholder"
+            formControlName="customerName"/>
         </div>
         <div class="form-group">
-          <label class="form__label" for="client-tel">Телефон</label>
-          <input class="form-control" type="tel" id="client-tel" placeholder="Placeholder" 
-          formControlName="clientPhone"
-          />
+          <label class="form__label" for="customer-tel">Телефон</label>
+          <input class="form-control" type="tel" id="customer-tel" placeholder="Placeholder" 
+            formControlName="customerPhoneNumber"/>
         </div>
         <div class="form-group">
-          <label class="form__label" for="client-email">Email</label>
-          <input class="form-control" type="email" id="client-email" placeholder="Placeholder" 
-          formControlName="clientEmail"
-          />
+          <label class="form__label" for="customer-email">Email</label>
+          <input class="form-control" type="email" id="customer-email" placeholder="Placeholder" 
+            formControlName="customerEmail"/>
         </div>
       </div>
       <div class="form__block col-md-4 col-sm-6 offset-md-1">
@@ -30,20 +27,17 @@
           <p class="form__subtitle">Отримувач</p>
           <label class="form__label" for="recipient-name">Ім'я</label>
           <input class="form-control" type="text" id="recipient-name" placeholder="Placeholder" 
-          formControlName="recipientName"
-          />
+            formControlName="recipientName"/>
         </div>
         <div class="form-group">
           <label class="form__label" for="recipient-tel">Телефон</label>
           <input class="form-control" type="tel" id="recipient-tel" placeholder="Placeholder" 
-          formControlName="recipientPhone"
-          />
+            formControlName="recipientPhoneNumber"/>
         </div>
         <div class="form-group">
           <label class="form__label" for="recipient-email">Email</label>
           <input class="form-control" type="email" id="recipient-email" placeholder="Placeholder" 
-          formControlName="recipientEmail"
-          />
+            formControlName="recipientEmail"/>
         </div>
       </div>
     </div>
@@ -52,14 +46,14 @@
       <div class="violation__block d-flex">
         <div class="violation__item">
           <small class="form__label">Всього</small>
-          <p>{{ violations }}</p>
+          <p>{{ totalUserViolations }}</p>
         </div>
         <div class="violation__item">
           <small class="form__label">Поточне замовлення</small>
-          <p>{{ currentViolationAmount }}</p>
+          <p>{{ userViolationForCurrentOrder }}</p>
         </div>
       </div>
-      <button class="btn" [attr.disabled]="violations > 1" type="button">Додати порушення</button>
+      <button class="btn" [disabled]="totalUserViolations > userViolationForCurrentOrder" type="button">Додати порушення</button>
     </div>
   </form>
   <hr />

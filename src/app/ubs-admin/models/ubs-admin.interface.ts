@@ -9,3 +9,14 @@ export interface Bag {
   price: number;
   code: string;
 }
+
+export interface IUserInfo {
+  customerName: string;
+  customerPhoneNumber: string;
+  customerEmail: string;
+  recipientName: string;
+  recipientPhoneNumber: string;
+  recipientEmail: string;
+  totalUserViolations: number;
+  userViolationForCurrentOrder: number;
+}
