@@ -15,6 +15,7 @@ import { UbsAdminEmployeeCardComponent } from './components/ubs-admin-employee/u
 import { PaginationComponent } from './components/shared/components/pagination/pagination.component';
 import { UBSAdminRoutingModule } from './ubs-admin-routing.module';
 import { EmployeeFormComponent } from './components/ubs-admin-employee/employee-form/employee-form.component';
+import { UbsClientProfilePageComponent } from './components/ubs-client-profile-page/ubs-client-profile-page.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { EmployeeFormComponent } from './components/ubs-admin-employee/employee-
     UbsAdminEmployeeComponent,
     UbsAdminEmployeeCardComponent,
     PaginationComponent,
-    EmployeeFormComponent
+    EmployeeFormComponent,
+    UbsClientProfilePageComponent
   ],
   imports: [
     CommonModule,
