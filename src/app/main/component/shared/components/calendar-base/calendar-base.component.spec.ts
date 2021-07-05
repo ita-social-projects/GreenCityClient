@@ -28,7 +28,7 @@ describe('CalendarBaseComponent', () => {
       declarations: [CalendarBaseComponent],
       providers: [
         { provide: TranslateService, useClass: TranslationServiceStub },
-        { provide: LanguageService, useValue: { getCurrentLanguage: () => 'en' as any } }
+        { provide: LanguageService, useValue: { getCurrentLanguage: () => {} } }
       ]
     }).compileComponents();
   }));
@@ -216,6 +216,21 @@ describe('CalendarBaseComponent', () => {
   it('should return 31 day in month', () => {
     const result = component.getDaysInMonth(calendarMock.month, calendarMock.year);
     expect(result).toEqual(31);
+  });
+
+  it('should return boolean at various comparisons when isCurrentDayActive method is work', () => {
+    component.isCurrentDayActive();
+    expect(component.calendarDay[0].isCurrentDayActive).toBeFalsy();
+    expect(component.calendarDay[1].isCurrentDayActive).toBeFalsy();
+    expect(component.calendarDay[2].isCurrentDayActive).toBeFalsy();
+    expect(component.calendarDay[3].isCurrentDayActive).toBeFalsy();
+  });
+
+  it('should return current day of week', () => {
+    component.markCurrentDayOfWeek();
+    // @ts-ignore
+    component.calendarDay[4].date = { getMonth: () => 5, getFullYear: () => 2021 };
+    expect(component.currentDayName).toEqual('monday');
   });
 
   describe('nextMonth', () => {
