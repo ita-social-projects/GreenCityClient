@@ -238,7 +238,7 @@
               placeholder="xxxxxxxxxx"
               [unmask]="false"
               [imask]="{ mask: ecoStoreMask }"
-              pattern="^[0-9]{10}"
+              [pattern]="additionalOrdersPattern"
               (click)="changeShopRadioBtn()"
               (ngModelChange)="ecoStoreValidation()"
             />
@@ -246,6 +246,9 @@
           <button *ngIf="additionalOrders.controls.length < 5 && displayOrderBtn" class="addOrderBtn" (click)="addOrder()">
             {{ 'order-details.additional-orders' | translate }}
           </button>
+          <small class="text-danger" *ngIf="!displayOrderBtn && additionalOrders.touched">
+            {{ 'order-details.order-error' | translate }}
+          </small>
         </div>
       </div>
       <div class="bottom_comment">
@@ -256,9 +259,13 @@
             class="shadow-none form-control textarea"
             rows="7"
             placeholder="{{ 'order-details.any-details' | translate }}"
+            [pattern]="commentPattern"
           >
           </textarea>
         </div>
+        <small class="text-danger" *ngIf="orderComment.touched && orderComment.invalid">
+          {{ 'order-details.comment-error' | translate }}
+        </small>
       </div>
     </form>
   </div>
