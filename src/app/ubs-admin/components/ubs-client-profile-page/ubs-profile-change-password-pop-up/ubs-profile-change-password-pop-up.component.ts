@@ -31,14 +31,7 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
         currentPassword: this.formConfig.value.currentPassword,
         confirmPassword: this.formConfig.value.confirmPassword
       })
-      .subscribe(
-        (result) => {
-          console.log(result);
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
+      .subscribe();
   }
 
   private initForm(): void {

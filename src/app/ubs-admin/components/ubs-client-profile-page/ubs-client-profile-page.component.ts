@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
 import { UserProfile } from '../../models/ubs-admin.interface';
 import { ClientProfileService } from '../../services/client-profile.service';
@@ -66,9 +66,7 @@ export class UbsClientProfilePageComponent implements OnInit {
         this.userProfile = result;
         this.fetching = false;
       },
-      (error) => {
-        console.log('no data!', error);
-      }
+      (error) => {}
     );
   }
 
@@ -92,18 +90,14 @@ export class UbsClientProfilePageComponent implements OnInit {
     const dialogRef = this.dialog.open(UbsProfileDeletePopUpComponent, {
       hasBackdrop: true
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(`delete profile Dialog result: ${result}`);
-    });
+    dialogRef.afterClosed().subscribe();
   }
 
   public openChangePasswordDialog() {
     const dialogRef = this.dialog.open(UbsProfileChangePasswordPopUpComponent, {
       hasBackdrop: true
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(`change pass Dialog result: ${result}`);
-    });
+    dialogRef.afterClosed().subscribe();
   }
 
   public onEdit() {
@@ -128,19 +122,12 @@ export class UbsClientProfilePageComponent implements OnInit {
       this.userProfile.addressDto.houseCorpus = this.userForm.value.houseCorpus;
       this.userProfile.addressDto.entranceNumber = this.userForm.value.entranceNumber;
       this.userProfile.addressDto.district = this.userForm.value.district;
-      this.clientProfileService.postDataClientProfile(this.userProfile).subscribe(
-        (res) => {
-          console.log('res', res);
-          this.fetching = false;
-        },
-        (err) => {
-          console.log('err', err);
-        }
-      );
+      this.clientProfileService.postDataClientProfile(this.userProfile).subscribe((res) => {
+        this.fetching = false;
+      });
       this.editing = false;
     } else {
       this.editing = true;
-      console.log('form is invalid!');
     }
   }
 }
