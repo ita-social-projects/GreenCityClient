@@ -1,0 +1,245 @@
+.wrapper {
+  height: 100vh;
+  margin-top: 35px;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--ubs-primary-black);
+  font-family: var(--primary-font);
+  background-color: #f7f9fa;
+}
+
+.mainHeader {
+  margin: 0 0 51px 44px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 40px;
+  letter-spacing: 0.002em;
+}
+
+.ifEmpty {
+  margin: 16px 0 0 44px;
+
+  a {
+    margin-left: 13px;
+    color: var(--ubs-primary-green);
+  }
+}
+
+.cards {
+  width: 862px;
+
+  .empty {
+    height: 80px;
+  }
+}
+
+.headerList {
+  display: grid;
+  grid-template-columns: 200px 172px 222px auto;
+  grid-template-rows: 30px;
+  max-width: 862px;
+  font-size: 14px;
+  line-height: 20px;
+  border: none;
+  border-bottom: 1px solid var(--ubs-hr-grey);
+  text-align: center;
+}
+
+.card {
+  display: grid;
+  grid-template-rows: 80px auto;
+  background-color: var(--ubs-primary-white);
+  box-shadow: 0px 2px 6px rgba(100, 114, 125, 0.15);
+  max-width: 862px;
+  margin-top: 18px;
+}
+
+.emptyCard {
+  display: grid;
+  grid-template-columns: 57px 143px 172px 222px 268px;
+  justify-items: center;
+  align-items: center;
+
+  .orderSum {
+    margin-right: 75px;
+    justify-self: end;
+  }
+
+  .btnsGroup {
+    .btnGridCancel,
+    .btnGridPay {
+      display: inline-block;
+      width: 114px;
+      margin: 0 20px 0 0;
+
+      .btnPay {
+        height: 36px;
+        width: 114px;
+        border: none;
+        color: var(--ubs-primary-white);
+        padding: 8px 24px 8px 24px;
+        background: var(--ubs-primary-green);
+        border-radius: 4px;
+      }
+
+      .btnCancel {
+        height: 36px;
+        width: 114px;
+        color: var(--ubs-primary-green);
+        background: var(--ubs-primary-white);
+        border: 1px solid var(--ubs-primary-green);
+        border-radius: 4px;
+      }
+    }
+
+    .btnGridOrder {
+      margin-left: 84px;
+
+      .btnOrder {
+        height: 36px;
+        color: var(--ubs-primary-green);
+        border: 1px solid var(--ubs-primary-green);
+        padding: 8px 24px 8px 24px;
+        background: var(--ubs-primary-white);
+        border-radius: 4px;
+      }
+    }
+  }
+}
+
+.fullCard {
+  display: grid;
+  grid-template-rows: 28px auto;
+  grid-template-columns: 670px;
+  margin-left: 56px;
+  color: var(--ubs-secondary-grey);
+
+  .headerDetails {
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: bold;
+    letter-spacing: 0.002em;
+    color: var(--ubs-primary-black);
+  }
+}
+
+.tableOfDetails {
+  margin-top: 15px;
+
+  .headerTable {
+    height: 34px;
+    margin: 5px 0 2px 0;
+    border-bottom: 1px solid #cacfd3;
+
+    th {
+      text-align: left;
+    }
+
+    th:nth-child(4) {
+      text-align: center;
+    }
+
+    th:nth-child(5) {
+      text-align: right;
+    }
+  }
+
+  td {
+    padding-top: 28px;
+  }
+
+  .dataTable {
+    color: #1d2830;
+    td {
+      text-align: left;
+    }
+
+    td:nth-child(4) {
+      padding-left: 40px;
+    }
+
+    td:nth-child(5) {
+      text-align: right;
+      color: var(-ubs-primary-grey);
+      font-weight: bold;
+    }
+  }
+
+  .sumOfOrder {
+    border-top: 1px solid #cacfd3;
+    td:nth-child(2) {
+      color: var(-ubs-primary-grey);
+      font-weight: bold;
+    }
+    td {
+      padding-top: 16px;
+      text-align: right;
+    }
+  }
+  .optionalRow {
+    td:nth-child(2) {
+      color: var(--primary-green);
+      font-size: 10px;
+      line-height: 12px;
+    }
+    td {
+      padding-top: 8px;
+      text-align: right;
+    }
+  }
+  .sumToPay {
+    td:nth-child(2) {
+      color: var(-ubs-primary-grey);
+      font-weight: bold;
+    }
+    td {
+      padding-top: 8px;
+      padding-bottom: 16px;
+      text-align: right;
+    }
+  }
+}
+
+.orderDetails {
+  width: 450px;
+  color: var(-ubs-primary-grey);
+  margin-left: 16px;
+
+  .recipient {
+    margin: 32px 0;
+  }
+
+  .boldText {
+    font-weight: bold;
+  }
+  ol {
+    margin-bottom: 0;
+  }
+}
+
+.download {
+  display: grid;
+  grid-template-areas: 'arrow text' 'maximize text';
+  grid-template-columns: 16px auto;
+  grid-template-rows: 17px auto;
+  justify-content: end;
+  margin: 0 18px 33px 0;
+  color: var(--primary-green);
+}
+
+.arrow {
+  grid-area: arrow;
+}
+
+.maximize {
+  grid-area: maximize;
+  width: 16px;
+  height: 1px;
+  transform: rotate(-180deg);
+}
+
+.text {
+  grid-area: text;
+  margin: 0 22px;
+}
