@@ -28,7 +28,7 @@ describe('CalendarBaseComponent', () => {
       declarations: [CalendarBaseComponent],
       providers: [
         { provide: TranslateService, useClass: TranslationServiceStub },
-        { provide: LanguageService, useValue: { getCurrentLanguage: () => 'en' as any } }
+        { provide: LanguageService, useValue: { getCurrentLanguage: () => {} } }
       ]
     }).compileComponents();
   }));
@@ -185,14 +185,6 @@ describe('CalendarBaseComponent', () => {
       const result = component.formatSelectedDate(true, calendarMock);
       expect(result).toEqual('jan 11, 2020');
     });
-
-    // it('should return real date', () => {
-    //   const month = calendarMock.date.toLocaleDateString('ru', { month: 'long' });
-    //   const day = calendarMock.date.getDate();
-    //   const year = calendarMock.date.getFullYear();
-    //   const result = component.formatSelectedDate(false, calendarMock);
-    //   expect(result).toEqual(`${month} ${day}, ${year}`);
-    // });
   });
 
   it('should return true when isActiveMonth', () => {
