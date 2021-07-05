@@ -61,7 +61,7 @@ describe('CommentsService', () => {
     req.flush(commentBody);
   });
 
-  it("should set id 0 if nothing wasn't send in parameters", () => {
+  it('should set id 0 if nothing wasn't send in parameters', () => {
     const commentBody: any = {
       author: {
         id: 1,
