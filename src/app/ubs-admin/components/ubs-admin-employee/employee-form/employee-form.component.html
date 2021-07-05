@@ -30,7 +30,7 @@
   <label>Станція приймання*</label>
   <div class="checkbox-section-stantion">
     <div *ngFor="let location of locations">
-      <label class="checkbox-label" [ngStyle]="{ color: '#513be4', border: '1px solid #513be4' }"
+      <label class="checkbox-label-station"
         >{{ location.name
         }}<input class="checkbox-input" type="checkbox" (change)="onCheckChangeLocation({ id: location.id, name: location.name })"
       /></label>

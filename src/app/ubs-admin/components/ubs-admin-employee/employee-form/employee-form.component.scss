@@ -16,7 +16,7 @@ h6 {
   line-height: 16px;
   font-style: normal;
   font-weight: normal;
-  color: #444e55;
+  color: var(--ubs-primary-grey);
   font-family: var(--primary-font);
 }
 
@@ -192,7 +192,18 @@ svg {
   font-weight: 400;
   font-family: var(--ubs-primary-font);
 }
-
+.checkbox-label-station {
+  color: var(--ubs-primary-blue);
+  border: 1px solid var(--ubs-primary-blue);
+  border-radius: 6px;
+  box-sizing: border-box;
+  background-color: var(--pre-secondary-light-grey);
+  font-size: 14px;
+  line-height: 20px;
+  font-style: normal;
+  font-weight: 400;
+  font-family: var(--ubs-primary-font);
+}
 .checkbox-section-stantion {
   height: 32px;
   width: 246px;
