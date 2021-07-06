@@ -11,6 +11,7 @@ import { ClientProfileService } from 'src/app/ubs-admin/services/client-profile.
 })
 export class UbsProfileChangePasswordPopUpComponent implements OnInit {
   public formConfig: FormGroup;
+  private readonly passRegexp = /^(?=.*[a-z]+)(?=.*[A-Z]+)(?=.*\d+)(?=.*[~`!@#$%^&*()+=_\-{}|:;”’?/<>,.\]\[]+).{8,}$/;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder, private clientProfileService: ClientProfileService) {}
 
@@ -37,7 +38,7 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
   private initForm(): void {
     this.formConfig = this.fb.group(
       {
-        password: ['', [Validators.required, Validators.minLength(8)]],
+        password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(this.passRegexp)]],
         currentPassword: ['', [Validators.required]],
         confirmPassword: ['', [Validators.required]]
       },

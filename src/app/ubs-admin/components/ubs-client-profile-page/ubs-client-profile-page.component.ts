@@ -106,6 +106,7 @@ export class UbsClientProfilePageComponent implements OnInit {
   }
 
   public onCancel() {
+    this.userInit();
     this.editing = false;
   }
 
