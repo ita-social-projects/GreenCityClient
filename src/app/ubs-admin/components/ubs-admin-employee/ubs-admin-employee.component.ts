@@ -40,7 +40,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
       .subscribe((item) => this.setData(item));
   }
 
-  setData(item: any): void {
+  setData(item: Employees): void {
     console.log(item);
     this.fakeData = item.page;
     this.totalLength = item.totalElements;
