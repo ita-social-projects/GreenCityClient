@@ -19,6 +19,6 @@ const ubsRoutes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(ubsRoutes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class UbsRoutingModule {}

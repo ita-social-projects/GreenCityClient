@@ -1,5 +1,5 @@
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { Component, DoCheck, OnDestroy, OnInit } from '@angular/core';
+import { Component, DoCheck, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
@@ -41,6 +41,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     }
   };
 
+  @Input() completed;
+
   constructor(
     public router: Router,
     private orderService: OrderService,
@@ -58,6 +60,9 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
 
   ngDoCheck() {
     this.shareFormService.changePersonalData();
+    if (this.completed) {
+      this.submit();
+    }
   }
 
   findAllAddresses() {
@@ -65,7 +70,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       .findAllAddresses()
       .pipe(takeUntil(this.destroy))
       .subscribe((list) => {
-        this.addresses = list.addressList;
+        this.addresses = this.getLastAddresses(list.addressList);
         this.personalDataForm.patchValue({
           address: this.addresses
         });
@@ -74,6 +79,11 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
           this.checkAddress(this.addresses[0].id);
         }
       });
+  }
+
+  private getLastAddresses(addressList: Address[]) {
+    const lastAddresses = -4;
+    return addressList.slice(lastAddresses);
   }
 
   ngOnDestroy(): void {
@@ -227,9 +237,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       this.personalData,
       this.shareFormService.orderDetails.pointsToUse
     );
-    this.orderService
-      .processOrder(this.order)
-      .pipe(takeUntil(this.destroy))
-      .subscribe((val) => (this.shareFormService.orderUrl = val.toString()));
+    this.orderService.setOrder(this.order);
   }
 }

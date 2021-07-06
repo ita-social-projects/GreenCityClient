@@ -1,7 +1,7 @@
 import { Address } from './../models/ubs.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ICertificate, OrderDetails } from '../models/ubs.interface';
 import { Order } from '../models/ubs.model';
@@ -11,6 +11,8 @@ import { UBSOrderFormService } from './ubs-order-form.service';
   providedIn: 'root'
 })
 export class OrderService {
+  private readonly orderSubject = new BehaviorSubject<Order>({} as Order);
+
   private url = 'https://greencity-ubs.azurewebsites.net/ubs';
 
   constructor(private http: HttpClient, private shareFormService: UBSOrderFormService) {}
@@ -44,5 +46,13 @@ export class OrderService {
 
   findAllAddresses(): Observable<any> {
     return this.http.get<Address[]>(`${this.url}/findAll-order-address`);
+  }
+
+  setOrder(order: Order) {
+    this.orderSubject.next(order);
+  }
+
+  getOrderUrl(): Observable<Order> {
+    return this.processOrder(this.orderSubject.getValue());
   }
 }

@@ -120,13 +120,7 @@
     <button class="secondary-global-button btn cansel-button" type="button" (click)="cancelUBS()">
       {{ 'personal-info.info-cancel' | translate }}
     </button>
-    <button
-      type="submit"
-      (click)="submit()"
-      class="primary-global-button btn m-0"
-      matStepperNext
-      [disabled]="personalDataForm.invalid"
-    >
+    <button type="submit" class="primary-global-button btn m-0" matStepperNext [disabled]="personalDataForm.invalid">
       {{ 'personal-info.info-next' | translate }}
     </button>
   </div>
