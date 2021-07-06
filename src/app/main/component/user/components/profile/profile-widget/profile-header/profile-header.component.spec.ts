@@ -6,6 +6,7 @@ import { ProfileProgressComponent } from '../profile-progress/profile-progress.c
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TranslateStore } from '@ngx-translate/core';
 
 describe('ProfileHeaderComponent', () => {
   let component: ProfileHeaderComponent;
@@ -20,7 +21,7 @@ describe('ProfileHeaderComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ProfileHeaderComponent, ProfileProgressComponent],
       imports: [UserSharedModule, RouterTestingModule.withRoutes([]), HttpClientTestingModule],
-      providers: [{ provide: LocalStorageService, useValue: localStorageServiceMock }],
+      providers: [{ provide: LocalStorageService, useValue: localStorageServiceMock }, TranslateStore]
     }).compileComponents();
   }));
 
@@ -36,7 +37,7 @@ describe('ProfileHeaderComponent', () => {
       showEcoPlace: false,
       showLocation: false,
       showShoppingList: false,
-      socialNetworks: [{ id: 220, url: 'http://instagram' }],
+      socialNetworks: [{ id: 220, url: 'http://instagram' }]
     };
     fixture.detectChanges();
   });
