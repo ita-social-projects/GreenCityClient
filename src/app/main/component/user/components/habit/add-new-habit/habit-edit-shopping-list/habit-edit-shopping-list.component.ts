@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { EditShoppingListService } from './edit-shopping-list.service';
 import { ActivatedRoute } from '@angular/router';
 import { HabitService } from '@global-service/habit/habit.service';
-import { take } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { HabitAssignInterface } from 'src/app/main/interface/habit/habit-assign.interface';
 @Component({
@@ -23,6 +23,7 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
   public habitId: number;
   @Output() newList = new EventEmitter<ShoppingList[]>();
   @Input() habitShoppingListIniteal: ShoppingList[];
+  private destroySub: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     public shoppinglistService: EditShoppingListService,
@@ -36,10 +37,13 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
       this.habitId = +params.habitId;
     });
     this.checkIfAssigned();
-    this.subscription = this.shoppinglistService.getList().subscribe((data) => {
-      this.list = data;
-      this.newList.emit(this.list);
-    });
+    this.subscription = this.shoppinglistService
+      .getList()
+      .pipe(takeUntil(this.destroySub))
+      .subscribe((data) => {
+        this.list = data;
+        this.newList.emit(this.list);
+      });
   }
 
   getListItems(isAssigned: boolean) {
@@ -97,5 +101,7 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.destroySub.next(true);
+    this.destroySub.complete();
   }
 }
