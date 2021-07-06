@@ -1,0 +1,14 @@
+<div class="dialog-container">
+  <h3 mat-dialog-title>{{ 'Видалення профілю' }}</h3>
+  <mat-dialog-content>
+    <p>
+      {{ 'Якщо Ви видалите свій профіль, ваші бонуси згорять, а інформацію про ваші замовлення буде видалено без можливості відновлення' }}
+    </p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-outline-success" mat-dialog-close>{{ 'Скасувати' }}</button>
+    <button class="btn btn-success" [mat-dialog-close]="true" cdkFocusInitial>
+      {{ 'Видалити профіль' }}
+    </button>
+  </mat-dialog-actions>
+</div>

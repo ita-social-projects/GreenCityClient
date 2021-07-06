@@ -11,11 +11,21 @@ import { UbsAdminComponent } from './ubs-admin.component';
 import { UBSAdminRoutingModule } from './ubs-admin-routing.module';
 import { UbsClientProfilePageComponent } from './components/ubs-client-profile-page/ubs-client-profile-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { UbsProfileChangePasswordPopUpComponent } from './components/ubs-client-profile-page/ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
+import { UbsProfileDeletePopUpComponent } from './components/ubs-client-profile-page/ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
 
 @NgModule({
-  declarations: [UbsAdminTableComponent, UbsSidebarComponent, UbsHeaderComponent, UbsAdminComponent, UbsClientProfilePageComponent],
+  declarations: [
+    UbsAdminTableComponent,
+    UbsSidebarComponent,
+    UbsHeaderComponent,
+    UbsAdminComponent,
+    UbsClientProfilePageComponent,
+    UbsProfileChangePasswordPopUpComponent,
+    UbsProfileDeletePopUpComponent
+  ],
   imports: [CommonModule, MaterialModule, SharedModule, RouterModule, UBSAdminRoutingModule, ReactiveFormsModule],
   providers: [AdminTableService],
-  entryComponents: [UbsAdminTableComponent]
+  entryComponents: [UbsAdminTableComponent, UbsProfileChangePasswordPopUpComponent, UbsProfileDeletePopUpComponent]
 })
 export class UbsAdminModule {}
