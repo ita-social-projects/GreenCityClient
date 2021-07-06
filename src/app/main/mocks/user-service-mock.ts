@@ -5,9 +5,12 @@ import { UserStatusModel } from '@global-models/user/user-status.model';
 import { UserUpdateModel } from '@global-models/user/user-update.model';
 import { UserForListDtoModel } from '@global-models/UserForListDto.model';
 
+const userListDtoModelMock = UserForListDtoModel;
+const userForListModelMock = UserForListDtoModel;
 const test = 'test';
+
 export const LISTOFUSERS: UserPageableDtoModel = {
-  page: (UserForListDtoModel[test] = [
+  page: (userListDtoModelMock[test] = [
     {
       id: 1,
       firstName: 'petro',
@@ -69,7 +72,7 @@ export const USERCHANGEROLE: UserRoleModel = {
 };
 
 export const GETUSERPAGEBLE: UserPageableDtoModel = {
-  page: (UserForListDtoModel['1'] = [
+  page: (userForListModelMock['1'] = [
     {
       id: 1,
       firstName: 'petro',
