@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { EditProfileModel } from '@user-models/edit-profile.model';
+import { EditProfileModel } from '@global-user/models/edit-profile.model';
 
 @Injectable()
 export class EditProfileFormBuilder {
@@ -12,7 +12,8 @@ export class EditProfileFormBuilder {
       credo: ['', Validators.maxLength(170)],
       showLocation: [''],
       showEcoPlace: [''],
-      showShoppingList: ['']
+      showShoppingList: [''],
+      socialNetworks: ['']
     });
   }
 
@@ -23,7 +24,8 @@ export class EditProfileFormBuilder {
       credo: [editForm.userCredo, Validators.maxLength(170)],
       showLocation: [editForm.showLocation],
       showEcoPlace: [editForm.showEcoPlace],
-      showShoppingList: [editForm.showShoppingList]
+      showShoppingList: [editForm.showShoppingList],
+      socialNetworks: [editForm.socialNetworks]
     });
   }
 }

@@ -1,6 +1,6 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
-import { UserSharedModule } from './../../../shared/user-shared.module';
+import { UserSharedModule } from '../../../shared/user-shared.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PersonalPhotoComponent } from './personal-photo.component';

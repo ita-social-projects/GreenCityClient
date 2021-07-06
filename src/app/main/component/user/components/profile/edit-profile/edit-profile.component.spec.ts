@@ -13,8 +13,9 @@ import { Observable } from 'rxjs';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
-import { EditProfileModel } from '@user-models/edit-profile.model';
+import { EditProfileModel } from '@global-user/models/edit-profile.model';
 import { EditProfileComponent } from './edit-profile.component';
+import { SocialNetworksComponent } from './social-networks/social-networks.component';
 
 class Test {}
 
@@ -41,6 +42,7 @@ describe('EditProfileComponent', () => {
         EditProfileFormBuilder,
         EditProfileService,
         MatSnackBarComponent,
+        SocialNetworksComponent,
         ProfileService,
         {
           provide: MapsAPILoader,
@@ -89,13 +91,15 @@ describe('EditProfileComponent', () => {
         userCredo: '',
         showLocation: '',
         showEcoPlace: '',
-        showShoppingList: ''
+        showShoppingList: '',
+        socialNetworks: ''
       };
       component.editProfileForm.value.name = '';
       component.editProfileForm.value.credo = '';
       component.editProfileForm.value.showLocation = '';
       component.editProfileForm.value.showEcoPlace = '';
       component.editProfileForm.value.showShoppingList = '';
+      component.editProfileForm.value.socialNetworks = '';
     });
 
     it('should return true in case of form fields were not changed', () => {
@@ -126,6 +130,16 @@ describe('EditProfileComponent', () => {
         expect(control.valid).toBeFalsy();
       });
     }
+
+    describe('The formControl: city should be marked as invalid if the value:', () => {
+      for (let i = 0; i < invalidCity.length; i++) {
+        it(`${i + 1}-st - ${invalidCity[i]}.`, () => {
+          const control = component.editProfileForm.get('city');
+          control.setValue(invalidCity[i]);
+          expect(control.valid).toBeFalsy();
+        });
+      }
+    });
 
     describe('The formControl: city should be marked as valid if the value:', () => {
       for (let i = 0; i < validCity.length; i++) {
