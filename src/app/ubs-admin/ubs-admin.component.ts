@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
-import { ReplaySubject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -9,7 +9,7 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './ubs-admin.component.html'
 })
 export class UbsAdminComponent implements OnInit, OnDestroy {
-  private destroy: ReplaySubject<any> = new ReplaySubject<any>(1);
+  private destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(private translate: TranslateService, private localStorageService: LocalStorageService) {}
 
