@@ -12,12 +12,12 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
   styleUrls: ['./ubs-admin-order-client-info.component.scss']
 })
 export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
-  userInfo: IUserInfo;
-  customerInfoForm: FormGroup;
-  customerName: FormControl;
-  totalUserViolations: number;
-  userViolationForCurrentOrder: number;
-  orderId = 893;
+  public userInfo: IUserInfo;
+  public customerInfoForm: FormGroup;
+  public customerName: FormControl;
+  public totalUserViolations: number;
+  public userViolationForCurrentOrder: number;
+  public orderId = 893;
   public currentLanguage: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 

@@ -7,9 +7,9 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./ubs-admin-address-details.component.scss']
 })
 export class UbsAdminAddressDetailsComponent implements OnInit {
-  addressDetailsForm: FormGroup;
+  public addressDetailsForm: FormGroup;
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.addressDetailsForm = new FormGroup({
       street: new FormControl(''),
       building: new FormControl(''),

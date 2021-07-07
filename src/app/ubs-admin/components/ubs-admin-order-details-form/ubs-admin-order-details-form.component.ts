@@ -12,16 +12,16 @@ import { OrderService } from '../../services/order.service';
   styleUrls: ['./ubs-admin-order-details-form.component.scss']
 })
 export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
-  payMore = true;
-  isInputDisabled = false;
-  isVisible = true;
-  ubsCourier = 0;
-  orderDetailsForm: FormGroup;
+  public payMore = true;
+  public isInputDisabled = false;
+  public isVisible = true;
+  public ubsCourier = 0;
+  public orderDetailsForm: FormGroup;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   public currentLanguage: string;
 
-  bags: Bag[];
-  points: number;
+  public bags: Bag[];
+  public points: number;
 
   constructor(
     private fb: FormBuilder,
@@ -34,7 +34,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
     this.takeBagsData();
   }
 
-  initForm() {
+  public initForm(): void {
     this.orderDetailsForm = this.fb.group({
       plannedQuantity: new FormControl({value: '1', disabled: true}),
       approvedQuantity: new FormControl(''),
@@ -45,7 +45,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  takeBagsData() {
+  public takeBagsData(): void {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.orderService
       .getBags(this.currentLanguage)
