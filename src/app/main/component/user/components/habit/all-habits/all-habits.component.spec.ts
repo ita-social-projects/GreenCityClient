@@ -182,27 +182,4 @@ describe('AllHabitsComponent', () => {
     component.ngOnInit();
     expect(fetchAllHabitsSpy).toHaveBeenCalledTimes(1);
   });
-
-  it('Should stop fetching data on scroll if there is no page left', () => {
-    component.isFetching = true;
-    // @ts-ignore
-    component.totalPages = 2;
-    // @ts-ignore
-    component.currentPage = 2;
-    component.onScroll();
-    expect(component.isFetching).toEqual(false);
-  });
-
-  it('Should stop fetching data on scroll if there is no page left', () => {
-    // @ts-ignore
-    const spy = spyOn(component, 'fetchAllHabits').and.returnValue(true);
-    // @ts-ignore
-    component.totalPages = 2;
-    // @ts-ignore
-    component.currentPage = 1;
-    // @ts-ignore
-    component.lang = 'en';
-    component.onScroll();
-    expect(spy).toHaveBeenCalledWith(2, 6);
-  });
 });
