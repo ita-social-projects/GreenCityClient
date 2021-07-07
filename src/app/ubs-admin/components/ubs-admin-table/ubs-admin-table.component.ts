@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
+import { PaginationComponent } from 'ngx-bootstrap/pagination';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -28,6 +29,12 @@ export class UbsAdminTableComponent implements OnInit {
   isLoading = true;
   destroy: Subject<boolean> = new Subject<boolean>();
   arrowDirection: string;
+  currentPage: number = 0;
+  pageSizeOptions: number[] = [10, 15, 20];
+  pageSize: number = 10;
+  @ViewChild('paginationElement', { static: false })
+  paginationComponent: PaginationComponent;
+
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private adminTableService: AdminTableService) {}
@@ -97,13 +104,14 @@ export class UbsAdminTableComponent implements OnInit {
     }
   }
 
-  getTable(columnName = 'orderId', page = 0, size = 10, sortingType = 'desc') {
+  getTable(columnName = 'orderId', sortingType = 'desc') {
     this.isLoading = true;
     this.adminTableService
-      .getTable(columnName, page, size, sortingType)
+      .getTable(columnName, this.currentPage, this.pageSize, sortingType)
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         const arrayOfValues = item['page'];
+        console.log(item);
         this.dataSource = new MatTableDataSource(arrayOfValues);
         const requiredColumns = [{ field: 'select', sticky: true }];
         const dynamicallyColumns = [];
@@ -132,5 +140,15 @@ export class UbsAdminTableComponent implements OnInit {
   getSortingDate(columnName, sortingType) {
     this.arrowDirection === columnName ? (this.arrowDirection = null) : (this.arrowDirection = columnName);
     this.getTable(columnName, sortingType);
+  }
+
+  changePage(event: any) {
+    this.currentPage = event.page - 1;
+    this.getTable();
+  }
+
+  selectPageSize(value: number) {
+    this.pageSize = value;
+    this.getTable();
   }
 }

@@ -9,10 +9,11 @@ import { SharedModule } from '../shared/shared.module';
 import { UbsHeaderComponent } from './components/ubs-header/ubs-header.component';
 import { UbsAdminComponent } from './ubs-admin.component';
 import { UBSAdminRoutingModule } from './ubs-admin-routing.module';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 @NgModule({
   declarations: [UbsAdminTableComponent, UbsSidebarComponent, UbsHeaderComponent, UbsAdminComponent],
-  imports: [CommonModule, MaterialModule, SharedModule, RouterModule, UBSAdminRoutingModule],
+  imports: [CommonModule, MaterialModule, SharedModule, RouterModule, UBSAdminRoutingModule, PaginationModule.forRoot()],
   providers: [AdminTableService],
   entryComponents: [UbsAdminTableComponent]
 })

@@ -3,7 +3,10 @@
   <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
 </div>
 <div class="btn-group">
-  <button type="button" class="btn btn-default" class="amount-items"><i class="fa fa-angle-down" aria-hidden="true"></i> 10</button>
+  <!-- <button type="button" class="btn btn-default" class="amount-items"><i class="fa fa-angle-down" aria-hidden="true"></i> 10</button> -->
+  <select class="display-counter" (change)="selectPageSize($event.target.value)">
+    <option [value]="size" *ngFor="let size of pageSizeOptions">{{ size }}</option>
+  </select>
   <button type="button" class="btn btn-default" class="filter-button">
     <div><mat-icon>filter_list</mat-icon><span>Фільтрувати</span></div>
   </button>
@@ -89,7 +92,19 @@
   </table>
 </div>
 <div class="paginator">
-  <mat-paginator [pageSizeOptions]="[2, 5, 10]" showFirstLastButtons></mat-paginator>
+  <!-- <mat-paginator [pageSizeOptions]="[2, 5, 10]" [pageSize]=10 showFirstLastButtons></mat-paginator> -->
+  <div id="pagination">
+    <pagination
+      #paginationElement
+      [itemsPerPage]="pageSize"
+      [totalItems]="200"
+      [rotate]="true"
+      [boundaryLinks]="true"
+      (pageChanged)="changePage($event)"
+      class="flex-wrap"
+    >
+    </pagination>
+  </div>
 </div>
 <ng-template #spinner>
   <app-spinner></app-spinner>
