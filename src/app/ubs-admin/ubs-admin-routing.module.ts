@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { UbsClientProfilePageComponent } from './components/ubs-client-profile-page/ubs-client-profile-page.component';
 import { UbsAdminTableComponent } from './components/ubs-admin-table/ubs-admin-table.component';
 import { UbsAdminComponent } from './ubs-admin.component';
+import { UbsAdminOrderComponent } from './components/ubs-admin-order/ubs-admin-order.component';
 
 const ubsAdminRoutes: Routes = [
   {
@@ -10,7 +11,8 @@ const ubsAdminRoutes: Routes = [
     component: UbsAdminComponent,
     children: [
       { path: '', component: UbsAdminTableComponent },
-      { path: 'profile', component: UbsClientProfilePageComponent }
+      { path: 'profile', component: UbsClientProfilePageComponent },
+      { path: 'order', component: UbsAdminOrderComponent }
     ]
   }
 ];
