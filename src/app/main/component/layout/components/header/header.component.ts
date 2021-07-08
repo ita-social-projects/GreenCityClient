@@ -212,7 +212,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.dropdownVisible = false;
     this.userOwnAuthService.isLoginUserSubject.next(false);
     this.localStorageService.clear();
-    this.userService.onLogout();
     this.habitStatisticService.onLogout();
     this.achievementService.onLogout();
     this.router.navigateByUrl('/').then((r) => r);
