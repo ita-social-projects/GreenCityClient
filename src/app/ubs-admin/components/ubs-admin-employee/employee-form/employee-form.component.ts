@@ -48,8 +48,8 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   onCheckChangeRole(data) {
-    const formLocationArray: FormArray = this.employeeForm.get('employeePositions') as FormArray;
-    formLocationArray.push(new FormControl(data));
+    const formPositionArray: FormArray = this.employeeForm.get('employeePositions') as FormArray;
+    formPositionArray.push(new FormControl(data));
   }
   onCheckChangeLocation(data) {
     const formLocationArray: FormArray = this.employeeForm.get('receivingStations') as FormArray;
