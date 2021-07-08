@@ -50,7 +50,7 @@
   display: grid;
   grid-template-rows: 80px auto;
   background-color: var(--ubs-primary-white);
-  box-shadow: 0px 2px 6px rgba(100, 114, 125, 0.15);
+  box-shadow: 0 2px 6px rgba(100, 114, 125, 0.15);
   max-width: 862px;
   margin-top: 18px;
 }
@@ -154,8 +154,23 @@
     padding-top: 28px;
   }
 
+  .sumOfOrder {
+    border-top: 1px solid var(--ubs-primary-light-grey);
+    
+    td:nth-child(2) {
+      color: var(--ubs-primary-grey);
+      font-weight: bold;
+    }
+    
+    td {
+      padding-top: 16px;
+      text-align: right;
+    }
+  }
+  
   .dataTable {
     color: #1d2830;
+    
     td {
       text-align: left;
     }
@@ -171,23 +186,13 @@
     }
   }
 
-  .sumOfOrder {
-    border-top: 1px solid var(--ubs-primary-light-grey);
-    td:nth-child(2) {
-      color: var(--ubs-primary-grey);
-      font-weight: bold;
-    }
-    td {
-      padding-top: 16px;
-      text-align: right;
-    }
-  }
   .optionalRow {
     td:nth-child(2) {
       color: var(--primary-green);
       font-size: 10px;
       line-height: 12px;
     }
+    
     td {
       padding-top: 8px;
       text-align: right;
@@ -218,6 +223,7 @@
   .boldText {
     font-weight: bold;
   }
+  
   ol {
     margin-bottom: 0;
   }
