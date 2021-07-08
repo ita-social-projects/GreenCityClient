@@ -150,36 +150,22 @@
     }
   }
 
+  td {
+    padding-top: 28px;
+  }
+
   .optionalRow {
     td {
       padding-top: 8px;
       text-align: right;
     }
-    
+
     td:nth-child(2) {
       color: var(--primary-green);
       font-size: 10px;
       line-height: 12px;
     }
 
-  }
-  .sumToPay {
-
-    td:nth-child(2) {
-      
-      color: var(--ubs-primary-grey);
-      font-weight: bold;
-    }
-
-    td {
-      padding-top: 8px;
-      padding-bottom: 16px;
-      text-align: right;
-    }
-  }
-
-  td {
-    padding-top: 28px;
   }
 
   .dataTable {
@@ -199,6 +185,20 @@
       font-weight: bold;
     }
   }
+
+  .sumToPay {
+    td {
+      padding-top: 8px;
+      padding-bottom: 16px;
+      text-align: right;
+    }
+
+    td:nth-child(2) {
+      color: var(--ubs-primary-grey);
+      font-weight: bold;
+    }
+
+}
 
   .sumOfOrder {
     border-top: 1px solid var(--ubs-primary-light-grey);
