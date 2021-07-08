@@ -27,7 +27,7 @@ export class UbsAdminOrdersComponent implements OnInit {
 
   changeCard(id) {
     this.orders.map((el) => {
-      el.id === id && el.extend ? (el.extend = false) : el.id === id ? (el.extend = true) : el.extend;
+      el.id === id && el.extend ? el.extend = false : el.id === id ? el.extend = true : el.extend;
     });
   }
 }
