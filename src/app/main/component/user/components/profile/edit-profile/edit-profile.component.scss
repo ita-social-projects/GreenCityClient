@@ -35,8 +35,11 @@ input:checked ~ .checkmark::after {
   display: block;
 }
 
-.container {
-  margin-left: 135px;
+.edit_prof-container {
+  width: 100%;
+}
+
+.edit_prof-wrap {
   max-width: 554px;
   box-sizing: content-box;
 
@@ -206,35 +209,14 @@ h2 {
   }
 }
 
-@media screen and (max-width: 1024px) {
-  .container {
-    margin-left: 100px;
-    max-width: 546px;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .container {
-    margin-left: 63px;
-    max-width: 612px;
-  }
-}
-
 @media screen and (max-width: 576px) {
-  .container {
-    margin: 0;
-    max-width: 548px;
-    padding-left: 14px;
-    padding-right: 14px;
+  .edit_prof-wrap {
+    padding: 0 5%;
   }
 }
 
 @media screen and (max-width: 320px) {
-  .container {
-    width: 288px;
-    padding-left: 16px;
-    padding-right: 16px;
-
+  .edit_prof-wrap {
     h2 {
       margin-bottom: 24px;
       line-height: 32px;

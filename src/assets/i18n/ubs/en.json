@@ -54,6 +54,8 @@
     "export-address": "The address of export of the ordered services",
     "store-delivery": "Delivery from the Eco store",
     "order-numbers": "Your order numbers:",
+    "comment-error": "You can't enter more than 255 characters.",
+    "order-error": "The number was entered incorrectly. Try again.",
     "address-comment": "Comment to the address:",
     "order-comment": "Comment to the order:",
     "choose-payment": "You can make a payment in one of the selected methods below"
@@ -63,7 +65,7 @@
     "ubs-courier": "UBS courier",
     "order-details": "Order details",
     "personal-data": "Personal data",
-    "payment": "Payment"
+    "payment": "Confirmation"
   },
   "personal-info": {
     "address-city": "city",
