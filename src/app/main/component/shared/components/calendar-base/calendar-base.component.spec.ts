@@ -28,7 +28,7 @@ describe('CalendarBaseComponent', () => {
       declarations: [CalendarBaseComponent],
       providers: [
         { provide: TranslateService, useClass: TranslationServiceStub },
-        { provide: LanguageService, useValue: { getCurrentLanguage: () => 'en' as any } }
+        { provide: LanguageService, useValue: { getCurrentLanguage: () => {} } }
       ]
     }).compileComponents();
   }));
@@ -185,14 +185,6 @@ describe('CalendarBaseComponent', () => {
       const result = component.formatSelectedDate(true, calendarMock);
       expect(result).toEqual('jan 11, 2020');
     });
-
-    // it('should return real date', () => {
-    //   const month = calendarMock.date.toLocaleDateString('ru', { month: 'long' });
-    //   const day = calendarMock.date.getDate();
-    //   const year = calendarMock.date.getFullYear();
-    //   const result = component.formatSelectedDate(false, calendarMock);
-    //   expect(result).toEqual(`${month} ${day}, ${year}`);
-    // });
   });
 
   it('should return true when isActiveMonth', () => {
@@ -228,7 +220,7 @@ describe('CalendarBaseComponent', () => {
 
   it('should return boolean at various comparisons when isCurrentDayActive method is work', () => {
     component.isCurrentDayActive();
-    expect(component.calendarDay[0].isCurrentDayActive).toBeTruthy();
+    expect(component.calendarDay[0].isCurrentDayActive).toBeFalsy();
     expect(component.calendarDay[1].isCurrentDayActive).toBeFalsy();
     expect(component.calendarDay[2].isCurrentDayActive).toBeFalsy();
     expect(component.calendarDay[3].isCurrentDayActive).toBeFalsy();
@@ -238,7 +230,7 @@ describe('CalendarBaseComponent', () => {
     component.markCurrentDayOfWeek();
     // @ts-ignore
     component.calendarDay[4].date = { getMonth: () => 5, getFullYear: () => 2021 };
-    expect(component.currentDayName).toEqual('Tue');
+    expect(component.currentDayName).toEqual('monday');
   });
 
   describe('nextMonth', () => {

@@ -8,6 +8,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Bag, OrderDetails, PersonalData } from '../../models/ubs.interface';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-ubs-submit-order',
@@ -17,6 +18,7 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit, OnDestroy {
   paymentForm: FormGroup = this.fb.group({});
   bags: Bag[] = [];
+  loadingAnim: boolean;
   additionalOrders: number[];
   personalData: PersonalData;
   orderDetails: OrderDetails;
@@ -34,7 +36,13 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     }
   };
 
-  constructor(private shareFormService: UBSOrderFormService, private fb: FormBuilder, router: Router, dialog: MatDialog) {
+  constructor(
+    private orderService: OrderService,
+    private shareFormService: UBSOrderFormService,
+    private fb: FormBuilder,
+    router: Router,
+    dialog: MatDialog
+  ) {
     super(router, dialog);
   }
 
@@ -63,6 +71,19 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   }
 
   redirectToOrder() {
-    document.location.href = this.shareFormService.orderUrl;
+    this.loadingAnim = true;
+    this.orderService
+      .getOrderUrl()
+      .pipe(takeUntil(this.destroy))
+      .subscribe(
+        (fondyUrl) => {
+          this.shareFormService.orderUrl = fondyUrl.toString();
+          document.location.href = this.shareFormService.orderUrl;
+          this.loadingAnim = false;
+        },
+        (error) => {
+          this.loadingAnim = false;
+        }
+      );
   }
 }
