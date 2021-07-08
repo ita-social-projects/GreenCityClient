@@ -42,13 +42,19 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
         currentPassword: ['', [Validators.required]],
         confirmPassword: ['', [Validators.required]]
       },
-      { validators: this.checkPasswords }
+      { validators: [this.checkConfirmPassword, this.checkNewPassword] }
     );
   }
 
-  checkPasswords(group: FormGroup) {
+  checkConfirmPassword(group: FormGroup) {
     const password = group.get('password').value;
     const confirmPassword = group.get('confirmPassword').value;
     return password === confirmPassword ? null : { notSame: true };
+  }
+
+  checkNewPassword(group: FormGroup) {
+    const password = group.get('password').value;
+    const currentPassword = group.get('currentPassword').value;
+    return password !== currentPassword ? null : { same: true };
   }
 }

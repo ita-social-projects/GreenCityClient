@@ -22,7 +22,8 @@
     "old-password": "enter the old password",
     "new-password": "enter the new password",
     "repeat-password": "repeat the new password",
-    "password-error-message": "Passwords do not match!",
+    "password-error-confirm": "Passwords do not match!",
+    "password-error-new": "Enter the new password!",
     "delete-title": "Delete profile",
     "delete-message": "If you delete your profile, your bonuses will burn out and your order information will be deleted without the possibility of recovery",
     "btn": {

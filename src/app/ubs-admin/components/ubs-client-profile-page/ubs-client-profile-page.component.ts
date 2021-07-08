@@ -20,6 +20,7 @@ export class UbsClientProfilePageComponent implements OnInit {
   public editing = false;
   public fetching = false;
   public userId: number;
+  private readonly regexp = /^[a-zA-Zа-яА-ЯЄЇҐа-їєґ]+$/iu;
   private readonly emailRegex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
   public userProfile: UserProfile = {
@@ -40,7 +41,7 @@ export class UbsClientProfilePageComponent implements OnInit {
     recipientEmail: 'ivan@gmail.com',
     recipientName: 'Іван',
     recipientPhone: '123456789',
-    recipientSurname: 'Нечуй-Левицький'
+    recipientSurname: 'Левицький'
   };
 
   constructor(
@@ -50,7 +51,7 @@ export class UbsClientProfilePageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getUserData();
+    //this.getUserData();
     this.userInit();
   }
 
@@ -72,16 +73,28 @@ export class UbsClientProfilePageComponent implements OnInit {
 
   userInit() {
     this.userForm = new FormGroup({
-      firstname: new FormControl(this.userProfile.recipientName, Validators.required),
-      surname: new FormControl(this.userProfile.recipientSurname, Validators.required),
-      email: new FormControl(this.userProfile.recipientEmail, [Validators.required, Validators.email, Validators.pattern(this.emailRegex)]),
+      firstname: new FormControl(this.userProfile.recipientName, [Validators.required, Validators.pattern(this.regexp)]),
+      surname: new FormControl(this.userProfile.recipientSurname, [Validators.required, Validators.pattern(this.regexp)]),
+      email: new FormControl(this.userProfile.recipientEmail, [Validators.required, Validators.pattern(this.emailRegex)]),
       phoneNumber: new FormControl(`+380${this.userProfile.recipientPhone}`, [Validators.required, Validators.pattern('[+ 0-9 ]{13}')]),
-      city: new FormControl(this.userProfile.addressDto.city, [Validators.required, Validators.maxLength(20)]),
-      street: new FormControl(this.userProfile.addressDto.street, [Validators.required, Validators.maxLength(20)]),
+      city: new FormControl(this.userProfile.addressDto.city, [
+        Validators.required,
+        Validators.pattern(this.regexp),
+        Validators.maxLength(20)
+      ]),
+      street: new FormControl(this.userProfile.addressDto.street, [
+        Validators.required,
+        Validators.pattern(this.regexp),
+        Validators.maxLength(20)
+      ]),
       houseNumber: new FormControl(this.userProfile.addressDto.houseNumber, Validators.required),
       houseCorpus: new FormControl(this.userProfile.addressDto.houseCorpus, Validators.required),
       entranceNumber: new FormControl(this.userProfile.addressDto.entranceNumber, Validators.required),
-      district: new FormControl(this.userProfile.addressDto.district, [Validators.required, Validators.maxLength(20)])
+      district: new FormControl(this.userProfile.addressDto.district, [
+        Validators.required,
+        Validators.pattern(this.regexp),
+        Validators.maxLength(20)
+      ])
     });
     this.fetching = false;
   }
