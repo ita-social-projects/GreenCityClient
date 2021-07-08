@@ -1,7 +1,7 @@
 <div class="wrapper">
   <div class="mainHeader">Ваші замовлення</div>
-  <div *ngIf="false" class="ifEmpty"><span>Ви ще не зробили замовлень у нас.</span><a href="#">Зробити замовлення</a></div>
-  <div *ngIf="true" class="cards">
+  <div *ngIf="isAnyOrders" class="ifEmpty"><span>Ви ще не зробили замовлень у нас.</span><a href="#">Зробити замовлення</a></div>
+  <div *ngIf="!isAnyOrders" class="cards">
     <div class="headerList">
       <div>№ замовлення</div>
       <div>Статус</div>
@@ -9,45 +9,20 @@
     </div>
     <div *ngFor="let order of orders" class="card">
       <div class="emptyCard">
-        <svg
-          *ngIf="order.extend"
-          width="12"
-          height="6"
-          viewBox="0 0 12 6"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          (click)="changeCard(order.id)"
-        >
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M0.646447 5.85355C0.841709 6.04882 1.15829 6.04882 1.35355 5.85355L6 1.20711L10.6464 5.85355C10.8417 6.04882 11.1583 6.04882 11.3536 5.85355C11.5488 5.65829 11.5488 5.34171 11.3536 5.14645L6.35355 0.146447C6.15829 -0.0488153 5.84171 -0.0488153 5.64645 0.146447L0.646447 5.14645C0.451184 5.34171 0.451184 5.65829 0.646447 5.85355Z"
-            fill="#64727D"
-          />
-        </svg>
-        <svg
-          *ngIf="!order.extend"
-          width="12"
-          height="6"
-          viewBox="0 0 12 6"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          (click)="changeCard(order.id)"
-        >
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M0.646447 0.146447C0.841709 -0.0488155 1.15829 -0.0488155 1.35355 0.146447L6 4.79289L10.6464 0.146447C10.8417 -0.0488155 11.1583 -0.0488155 11.3536 0.146447C11.5488 0.341709 11.5488 0.658291 11.3536 0.853553L6.35355 5.85355C6.15829 6.04882 5.84171 6.04882 5.64645 5.85355L0.646447 0.853553C0.451184 0.658291 0.451184 0.341709 0.646447 0.146447Z"
-            fill="#64727D"
-          />
-        </svg>
+        <img *ngIf="order.extend" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" (click)="changeCard(order.id)" />
+        <img *ngIf="!order.extend" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" (click)="changeCard(order.id)" />
         <div>{{ order.order }}</div>
         <div>{{ order.status }}</div>
         <div class="orderSum">{{ order.sum }}</div>
         <div class="btnsGroup">
-          <div *ngIf="true" class="btnGridCancel"><button class="btnCancel">Скасувати</button></div>
-          <div *ngIf="true" class="btnGridPay"><button class="btnPay">Оплатити</button></div>
-          <div *ngIf="false" class="btnGridOrder"><button class="btnOrder">Замовити ще раз</button></div>
+          <div *ngIf="order.status === 'Сформовано'" class="btnGridCancel"><button class="btnCancel">Скасувати</button></div>
+          <div *ngIf="order.status === 'Виконано/Неоплачено'" class="btnGridFake"><button class="btnFake"></button></div>
+          <div *ngIf="order.status === 'Сформовано' || order.status === 'Виконано/Неоплачено'" class="btnGridPay">
+            <button class="btnPay">Оплатити</button>
+          </div>
+          <div *ngIf="order.status === 'На маршуті' || order.status === 'Підтверджено' || order.status === 'Виконано'" class="btnGridOrder">
+            <button class="btnOrder">Замовити ще раз</button>
+          </div>
         </div>
       </div>
       <div *ngIf="order.extend" class="fullCard">
@@ -88,15 +63,15 @@
             <td colspan="4">Сума замовлення:</td>
             <td>500 грн</td>
           </tr>
-          <tr *ngIf="true" class="optionalRow">
+          <tr *ngIf="order.status !== 'Виконано/Неоплачено'" class="optionalRow">
             <td colspan="4">Сертифікат:</td>
             <td>-100 грн</td>
           </tr>
-          <tr *ngIf="true" class="optionalRow">
+          <tr *ngIf="order.status !== 'Виконано/Неоплачено'" class="optionalRow">
             <td colspan="4">Бонуси:</td>
             <td>-100 грн</td>
           </tr>
-          <tr *ngIf="false" class="optionalRow">
+          <tr *ngIf="order.status === 'Виконано/Неоплачено'" class="optionalRow">
             <td colspan="4">Сума наданих послуг:</td>
             <td>-100 грн</td>
           </tr>

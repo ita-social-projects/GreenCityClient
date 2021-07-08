@@ -5,7 +5,7 @@
   line-height: 24px;
   color: var(--ubs-primary-black);
   font-family: var(--primary-font);
-  background-color: #f7f9fa;
+  background-color: var(--after-primary-light-grey);
 }
 
 .mainHeader {
@@ -68,7 +68,8 @@
 
   .btnsGroup {
     .btnGridCancel,
-    .btnGridPay {
+    .btnGridPay,
+    .btnGridFake {
       display: inline-block;
       width: 114px;
       margin: 0 20px 0 0;
@@ -91,10 +92,14 @@
         border: 1px solid var(--ubs-primary-green);
         border-radius: 4px;
       }
+
+      .btnFake {
+        display: none;
+      }
     }
 
     .btnGridOrder {
-      margin-left: 84px;
+      margin: 0 20px 0 64px;
 
       .btnOrder {
         height: 36px;
@@ -130,7 +135,7 @@
   .headerTable {
     height: 34px;
     margin: 5px 0 2px 0;
-    border-bottom: 1px solid #cacfd3;
+    border-bottom: 1px solid var(--ubs-primary-light-grey);
 
     th {
       text-align: left;
@@ -161,15 +166,15 @@
 
     td:nth-child(5) {
       text-align: right;
-      color: var(-ubs-primary-grey);
+      color: var(--ubs-primary-grey);
       font-weight: bold;
     }
   }
 
   .sumOfOrder {
-    border-top: 1px solid #cacfd3;
+    border-top: 1px solid var(--ubs-primary-light-grey);
     td:nth-child(2) {
-      color: var(-ubs-primary-grey);
+      color: var(--ubs-primary-grey);
       font-weight: bold;
     }
     td {
@@ -190,7 +195,7 @@
   }
   .sumToPay {
     td:nth-child(2) {
-      color: var(-ubs-primary-grey);
+      color: var(--ubs-primary-grey);
       font-weight: bold;
     }
     td {
@@ -203,8 +208,8 @@
 
 .orderDetails {
   width: 450px;
-  color: var(-ubs-primary-grey);
   margin-left: 16px;
+  color: var(--ubs-primary-grey);
 
   .recipient {
     margin: 32px 0;
