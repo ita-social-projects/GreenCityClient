@@ -150,13 +150,27 @@
     }
   }
 
-  .sumToPay {
+  .optionalRow {
+    td {
+      padding-top: 8px;
+      text-align: right;
+    }
     
     td:nth-child(2) {
+      color: var(--primary-green);
+      font-size: 10px;
+      line-height: 12px;
+    }
+
+  }
+  .sumToPay {
+
+    td:nth-child(2) {
+      
       color: var(--ubs-primary-grey);
       font-weight: bold;
     }
-    
+
     td {
       padding-top: 8px;
       padding-bottom: 16px;
@@ -197,20 +211,8 @@
     td:nth-child(2) {
       color: var(--ubs-primary-grey);
       font-weight: bold;
-    } 
-  }
-
-  .optionalRow {
-    td:nth-child(2) {
-      color: var(--primary-green);
-      font-size: 10px;
-      line-height: 12px;
     }
-
-    td {
-      padding-top: 8px;
-      text-align: right;
-    }
+    
   }
 }
 
