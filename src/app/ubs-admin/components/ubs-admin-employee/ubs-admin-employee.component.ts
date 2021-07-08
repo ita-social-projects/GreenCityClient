@@ -29,13 +29,14 @@ export class UbsAdminEmployeeComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params: Params) => {
       this.paginPage = params.page - 1;
+      this.getEmployees();
     });
-    this.getEmployees(this.paginPage, this.size);
   }
 
-  getEmployees(currentPage: number, size: number): void {
+  getEmployees(): void {
+    console.log(this.paginPage, this.size);
     this.ubsAdminEmployeeService
-      .getEmployees(currentPage, size)
+      .getEmployees(this.paginPage, this.size)
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => this.setData(item));
   }
@@ -49,7 +50,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
   changeCurrentPage(page: number): void {
     this.currentPage = page;
     this.paginPage = this.currentPage - 1;
-    this.getEmployees(this.paginPage, this.size);
+    this.getEmployees();
     this.location.go(`/ubs-admin/employee/${this.currentPage}`);
   }
 }
