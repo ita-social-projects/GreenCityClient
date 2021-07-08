@@ -1,0 +1,49 @@
+.container {
+  font-family: var(--primary-font);
+  line-height: 32px;
+}
+
+h1 {
+  font-size: 20px;
+}
+
+.title {
+  margin-left: 13px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+  letter-spacing: 0.002em;
+  color: var(--ubs-primary-grey);
+}
+
+.title-comment {
+  font-size: 16px;
+}
+
+.form__label {
+  color: var(--ubs-secondary-grey);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+p {
+  font-size: 14px;
+}
+
+#comment {
+  resize: none;
+  overflow: hidden;
+
+  &::placeholder {
+    color: var(-ubs-quintynary-light-grey);
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+
+@media (min-width: 992px) {
+  #comment {
+    width: 340px;
+    height: 92px;
+  }
+}
