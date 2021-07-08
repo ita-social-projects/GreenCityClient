@@ -3,6 +3,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MaterialModule } from '../material.module';
 import { SharedModule } from '../shared/shared.module';
 import { UBSAdminRoutingModule } from './ubs-admin-routing.module';
@@ -11,7 +15,6 @@ import { UbsSidebarComponent } from './components/ubs-sidebar/ubs-sidebar.compon
 import { UbsHeaderComponent } from './components/ubs-header/ubs-header.component';
 import { UbsAdminComponent } from './ubs-admin.component';
 import { UbsClientProfilePageComponent } from './components/ubs-client-profile-page/ubs-client-profile-page.component';
-import { ReactiveFormsModule } from '@angular/forms';
 import { UbsAdminResponsiblePersonsComponent } from './components/ubs-admin-responsible-persons/ubs-admin-responsible-persons.component';
 import { UbsAdminExportDetailsComponent } from './components/ubs-admin-export-details/ubs-admin-export-details.component';
 import { UbsAdminOrderPaymentComponent } from './components/ubs-admin-order-payment/ubs-admin-order-payment.component';
@@ -37,8 +40,29 @@ import { UbsAdminAddressDetailsComponent } from './components/ubs-admin-address-
     UbsAdminOrderClientInfoComponent,
     UbsAdminOrderDetailsFormComponent
   ],
-  imports: [CommonModule, MaterialModule, SharedModule, RouterModule, UBSAdminRoutingModule, FormsModule, ReactiveFormsModule],
-  providers: [AdminTableService],
+  imports: [
+    CommonModule,
+    MaterialModule,
+    SharedModule,
+    RouterModule,
+    HttpClientModule,
+    UBSAdminRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoaderUbs,
+        deps: [HttpClient]
+      },
+      isolate: true
+    })
+  ],
+  providers: [AdminTableService, TranslateService],
   entryComponents: [UbsAdminTableComponent]
 })
 export class UbsAdminModule {}
+
+export function createTranslateLoaderUbs(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/ubs-admin/', '.json');
+}
