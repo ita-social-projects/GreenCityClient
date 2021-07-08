@@ -3,14 +3,9 @@ import { UserPageableDtoModel } from '@global-models/user/user-pageable-dto.mode
 import { UserRoleModel } from '@global-models/user/user-role.model';
 import { UserStatusModel } from '@global-models/user/user-status.model';
 import { UserUpdateModel } from '@global-models/user/user-update.model';
-import { UserForListDtoModel } from '@global-models/UserForListDto.model';
-
-const userListDtoModelMock = UserForListDtoModel;
-const userForListModelMock = UserForListDtoModel;
-const test = 'test';
 
 export const LISTOFUSERS: UserPageableDtoModel = {
-  page: (userListDtoModelMock[test] = [
+  page: [
     {
       id: 1,
       firstName: 'petro',
@@ -56,7 +51,7 @@ export const LISTOFUSERS: UserPageableDtoModel = {
       userStatus: 'ACTIVE',
       role: 'USER'
     }
-  ]),
+  ],
   totalElements: 5,
   currentPage: 1
 };
@@ -72,7 +67,7 @@ export const USERCHANGEROLE: UserRoleModel = {
 };
 
 export const GETUSERPAGEBLE: UserPageableDtoModel = {
-  page: (userForListModelMock['1'] = [
+  page: [
     {
       id: 1,
       firstName: 'petro',
@@ -118,7 +113,7 @@ export const GETUSERPAGEBLE: UserPageableDtoModel = {
       userStatus: 'ACTIVE',
       role: 'USER'
     }
-  ]),
+  ],
   totalElements: 5,
   currentPage: 1
 };
