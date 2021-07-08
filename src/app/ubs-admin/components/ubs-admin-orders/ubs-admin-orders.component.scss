@@ -153,19 +153,34 @@
   td {
     padding-top: 28px;
   }
+  
+  .sumOfOrder {
+    border-top: 1px solid var(--ubs-primary-light-grey);
 
-  .optionalRow {
     td {
-      padding-top: 8px;
+      padding-top: 16px;
       text-align: right;
     }
 
     td:nth-child(2) {
-      color: var(--primary-green);
-      font-size: 10px;
-      line-height: 12px;
+      color: var(--ubs-primary-grey);
+      font-weight: bold;
+    }
+    
+  }
+
+  .sumToPay {
+    td {
+      padding-top: 8px;
+      padding-bottom: 16px;
+      text-align: right;
     }
 
+    td:nth-child(2) {
+      color: var(--ubs-primary-grey);
+      font-weight: bold;
+    }
+  
   }
 
   .dataTable {
@@ -184,36 +199,23 @@
       color: var(--ubs-primary-grey);
       font-weight: bold;
     }
-  }
 
-  .sumToPay {
+  }
+  
+  .optionalRow {
     td {
       padding-top: 8px;
-      padding-bottom: 16px;
       text-align: right;
     }
 
     td:nth-child(2) {
-      color: var(--ubs-primary-grey);
-      font-weight: bold;
+      color: var(--primary-green);
+      font-size: 10px;
+      line-height: 12px;
     }
 
-}
-
-  .sumOfOrder {
-    border-top: 1px solid var(--ubs-primary-light-grey);
-
-    td {
-      padding-top: 16px;
-      text-align: right;
-    }
-
-    td:nth-child(2) {
-      color: var(--ubs-primary-grey);
-      font-weight: bold;
-    }
-    
   }
+
 }
 
 .orderDetails {
