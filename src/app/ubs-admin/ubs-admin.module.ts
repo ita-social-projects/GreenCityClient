@@ -14,7 +14,6 @@ import { UbsAdminTableComponent } from './components/ubs-admin-table/ubs-admin-t
 import { UbsSidebarComponent } from './components/ubs-sidebar/ubs-sidebar.component';
 import { UbsHeaderComponent } from './components/ubs-header/ubs-header.component';
 import { UbsAdminComponent } from './ubs-admin.component';
-import { UBSAdminRoutingModule } from './ubs-admin-routing.module';
 import { UbsAdminOrdersComponent } from './components/ubs-admin-orders/ubs-admin-orders.component';
 
 import { UbsClientProfilePageComponent } from './components/ubs-client-profile-page/ubs-client-profile-page.component';
@@ -52,7 +51,6 @@ import { UbsAdminAddressDetailsComponent } from './components/ubs-admin-address-
     HttpClientModule,
     UBSAdminRoutingModule,
     FormsModule,
-    UBSAdminRoutingModule,
     ReactiveFormsModule,
     TranslateModule.forChild({
       loader: {
