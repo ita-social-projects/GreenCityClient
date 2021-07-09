@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MatIconModule } from '@angular/material';
 import { UbsAdminOrdersComponent } from './ubs-admin-orders.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('UbsAdminOrdersComponent', () => {
   let component: UbsAdminOrdersComponent;
@@ -8,7 +9,8 @@ describe('UbsAdminOrdersComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UbsAdminOrdersComponent]
+      declarations: [UbsAdminOrdersComponent],
+      imports: [HttpClientTestingModule, MatIconModule]
     }).compileComponents();
   }));
 
