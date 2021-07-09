@@ -30,13 +30,13 @@ import { UbsAdminAddressDetailsComponent } from './components/ubs-admin-address-
 
 @NgModule({
   declarations: [
+    PaginationComponent,
     UbsAdminTableComponent,
     UbsSidebarComponent,
     UbsHeaderComponent,
     UbsAdminComponent,
     UbsAdminEmployeeComponent,
     UbsAdminEmployeeCardComponent,
-    PaginationComponent,
     UbsClientProfilePageComponent,
     UbsAdminOrderComponent,
     UbsAdminAddressDetailsComponent,
