@@ -58,7 +58,6 @@ import { UbsProfileDeletePopUpComponent } from './components/ubs-client-profile-
     AddViolationsComponent,
     UbsProfileChangePasswordPopUpComponent,
     UbsProfileDeletePopUpComponent,
-    DragDirective
   ],
   imports: [
     CommonModule,
@@ -82,7 +81,13 @@ import { UbsProfileDeletePopUpComponent } from './components/ubs-client-profile-
     })
   ],
   providers: [AdminTableService, TranslateService],
-  entryComponents: [UbsAdminTableComponent, EmployeeFormComponent, AddViolationsComponent, UbsProfileChangePasswordPopUpComponent, UbsProfileDeletePopUpComponent]
+  entryComponents: [
+    UbsAdminTableComponent,
+    EmployeeFormComponent,
+    AddViolationsComponent,
+    UbsProfileChangePasswordPopUpComponent,
+    UbsProfileDeletePopUpComponent
+  ]
 })
 export class UbsAdminModule {}
 
