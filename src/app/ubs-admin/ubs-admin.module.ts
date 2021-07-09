@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { UbsAdminTableComponent } from './components/ubs-admin-table/ubs-admin-table.component';
 import { UbsBaseSidebarComponent } from '../shared/ubs-base-sidebar/ubs-base-sidebar.component';
 import { UbsAdminSidebarComponent } from '../../app/ubs-admin/components/ubs-admin-sidebar/ubs-admin-sidebar.component';
 import { FormsModule } from '@angular/forms';
@@ -13,13 +12,13 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MaterialModule } from '../material.module';
 import { SharedModule } from '../shared/shared.module';
+import { UbsAdminTableComponent } from './components/ubs-admin-table/ubs-admin-table.component';
 import { UbsHeaderComponent } from './components/ubs-header/ubs-header.component';
 import { UbsAdminComponent } from './ubs-admin.component';
 import { UbsAdminEmployeeComponent } from './components/ubs-admin-employee/ubs-admin-employee.component';
 import { UbsAdminEmployeeCardComponent } from './components/ubs-admin-employee/ubs-admin-employee-card/ubs-admin-employee-card.component';
 import { PaginationComponent } from './components/shared/components/pagination/pagination.component';
 import { EmployeeFormComponent } from './components/ubs-admin-employee/employee-form/employee-form.component';
-import { UBSAdminRoutingModule } from './ubs-admin-routing.module';
 import { UbsClientProfilePageComponent } from './components/ubs-client-profile-page/ubs-client-profile-page.component';
 import { UbsAdminResponsiblePersonsComponent } from './components/ubs-admin-responsible-persons/ubs-admin-responsible-persons.component';
 import { UbsAdminExportDetailsComponent } from './components/ubs-admin-export-details/ubs-admin-export-details.component';
@@ -29,6 +28,9 @@ import { UbsAdminOrderDetailsFormComponent } from './components/ubs-admin-order-
 import { UbsAdminOrderStatusComponent } from './components/ubs-admin-order-status/ubs-admin-order-status.component';
 import { UbsAdminOrderComponent } from './components/ubs-admin-order/ubs-admin-order.component';
 import { UbsAdminAddressDetailsComponent } from './components/ubs-admin-address-details/ubs-admin-address-details.component';
+import { UBSAdminRoutingModule } from './ubs-admin-routing.module';
+import { AddViolationsComponent } from './components/add-violations/add-violations.component';
+import { DragDirective } from '../shared/drag-and-drop/dragDrop.directive';
 import { UbsProfileChangePasswordPopUpComponent } from './components/ubs-client-profile-page/ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
 import { UbsProfileDeletePopUpComponent } from './components/ubs-client-profile-page/ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
 
@@ -53,7 +55,8 @@ import { UbsProfileDeletePopUpComponent } from './components/ubs-client-profile-
     UbsAdminOrderClientInfoComponent,
     UbsAdminOrderDetailsFormComponent,
     UbsProfileChangePasswordPopUpComponent,
-    UbsProfileDeletePopUpComponent
+    UbsProfileDeletePopUpComponent,
+    DragDirective
   ],
   imports: [
     CommonModule,
@@ -77,7 +80,7 @@ import { UbsProfileDeletePopUpComponent } from './components/ubs-client-profile-
     })
   ],
   providers: [AdminTableService, TranslateService],
-  entryComponents: [UbsAdminTableComponent, EmployeeFormComponent, UbsProfileChangePasswordPopUpComponent, UbsProfileDeletePopUpComponent]
+  entryComponents: [UbsAdminTableComponent, EmployeeFormComponent, AddViolationsComponent, UbsProfileChangePasswordPopUpComponent, UbsProfileDeletePopUpComponent]
 })
 export class UbsAdminModule {}
 
