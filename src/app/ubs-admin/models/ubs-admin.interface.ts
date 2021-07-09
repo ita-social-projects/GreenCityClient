@@ -29,10 +29,13 @@ export interface EmployeePositions {
 export interface ReceivingStations {
   id: number;
   name: string;
-  export interface Bags {
+}
+
+export interface Bags {
   bags: Bag[];
   points: number;
 }
+
 export interface Bag {
   id: number;
   name: string;
