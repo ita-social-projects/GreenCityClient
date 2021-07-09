@@ -1,0 +1,60 @@
+<div class="container">
+  <div class="row mb-4">
+    <h3>Додати порушення</h3>
+  </div>
+  <div class="row mb-3">
+    <h6>Оберіть ступінь порушення</h6>
+  </div>
+  <div class="row custom-control custom-radio mb-2">
+    <input class="radio" name="radio" type="radio" />
+    <label class="label-y">Легке</label>
+  </div>
+  <div class="row custom-control custom-radio mb-3">
+    <input class="radio" name="radio" type="radio" />
+    <label class="label-p">Серйозне</label>
+  </div>
+  <div class="row mb-3">
+    <h6>Опишіть, що сталося</h6>
+  </div>
+  <div class="row mb-3">
+    <textarea class="description" placeholder="Будь-які деталі, які Ви хотіли б повідомити додатково щодо цього замовлення"></textarea>
+  </div>
+  <div class="row mb-1">
+    <h6>Фотографії порушення</h6>
+  </div>
+  <div class="row mb-3">
+    <span class="requirement">Ви можете завантажити зображення у форматі PNG чи JPG розміром до 10MБ</span>
+  </div>
+  <div class="row">
+    <div class="image-container" appDrag (files)="filesDropped($event)" *ngFor="let img of images; index as i">
+      <img class="image-preview" *ngIf="img.src" [src]="img.src" alt="image" />
+      <div class="delete-block">
+        <div>{{ img.name }}</div>
+        <div (click)="deleteImage(i)">X</div>
+      </div>
+      <p class="drag-inscription">{{ img.label }}</p>
+    </div>
+  </div>
+  <div class="row error-message" *ngIf="isImageSizeError">
+    <p>Розмір файлу більше 10 МВ. Будь ласка, виберіть інший файл</p>
+  </div>
+
+  <div class="row error-message" *ngIf="isImageTypeError">
+    <p>Неправильний формат файлу. Будь ласка, виберіть інший файл</p>
+  </div>
+  <div class="row mb-5 label-g">
+    <label for="file-upload" class="custom-file-upload"> Завантажити фото з пристрою </label>
+    <input id="file-upload" type="file" accept="image/png,image/jpeg" (change)="loadFile($event)" />
+  </div>
+  <div class="row justify-content-end mb-5">
+    <button *ngIf="images[0]?.src" (click)="deleteAllImages()" class="delete-photo">
+      <img src="assets/img/icon/bin.svg" alt="image" /> Видалити
+    </button>
+    <button class="cancel-button" [mat-dialog-close]="true">Скасувати</button>
+    <button class="add-button">Додати порушення</button>
+  </div>
+  <div class="row">
+    <p class="info">Дата: <span class="date">25.06.2021</span></p>
+    <p class="info">Додано: <span class="user">Current User</span></p>
+  </div>
+</div>
