@@ -9,7 +9,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MaterialModule } from '../material.module';
 import { SharedModule } from '../shared/shared.module';
-import { UBSAdminRoutingModule } from './ubs-admin-routing.module';
 import { UbsAdminTableComponent } from './components/ubs-admin-table/ubs-admin-table.component';
 import { UbsSidebarComponent } from './components/ubs-sidebar/ubs-sidebar.component';
 import { UbsHeaderComponent } from './components/ubs-header/ubs-header.component';
@@ -23,6 +22,9 @@ import { UbsAdminOrderDetailsFormComponent } from './components/ubs-admin-order-
 import { UbsAdminOrderStatusComponent } from './components/ubs-admin-order-status/ubs-admin-order-status.component';
 import { UbsAdminOrderComponent } from './components/ubs-admin-order/ubs-admin-order.component';
 import { UbsAdminAddressDetailsComponent } from './components/ubs-admin-address-details/ubs-admin-address-details.component';
+import { UBSAdminRoutingModule } from './ubs-admin-routing.module';
+import { AddViolationsComponent } from './components/add-violations/add-violations.component';
+import { DragDirective } from '../shared/drag-and-drop/dragDrop.directive';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { UbsAdminAddressDetailsComponent } from './components/ubs-admin-address-
     UbsAdminExportDetailsComponent,
     UbsAdminOrderPaymentComponent,
     UbsAdminOrderClientInfoComponent,
-    UbsAdminOrderDetailsFormComponent
+    UbsAdminOrderDetailsFormComponent,
+    DragDirective
   ],
   imports: [
     CommonModule,
@@ -59,7 +62,7 @@ import { UbsAdminAddressDetailsComponent } from './components/ubs-admin-address-
     })
   ],
   providers: [AdminTableService, TranslateService],
-  entryComponents: [UbsAdminTableComponent]
+  entryComponents: [UbsAdminTableComponent, AddViolationsComponent]
 })
 export class UbsAdminModule {}
 
