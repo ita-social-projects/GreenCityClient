@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UbsAdminTableComponent } from '../ubs-admin-table/ubs-admin-table.component';
 import { UbsHeaderComponent } from '../ubs-header/ubs-header.component';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import { UbsSidebarComponent } from './ubs-sidebar.component';
 
 describe('UbsSidebarComponent', () => {
@@ -24,7 +24,8 @@ describe('UbsSidebarComponent', () => {
         MatPaginatorModule,
         BrowserAnimationsModule,
         HttpClientTestingModule,
-        SharedModule
+        SharedModule,
+        RouterTestingModule
       ],
       declarations: [UbsSidebarComponent, UbsAdminTableComponent, UbsHeaderComponent]
     }).compileComponents();
