@@ -163,29 +163,12 @@
   }
 }
 
-.dataTable td:nth-child(4) {
-    padding-left: 40px;
-}
-
-.dataTable td:nth-child(5) {
-    text-align: right;
-    color: var(--ubs-primary-grey);
-    font-weight: bold;
-}
-
 .sumOfOrder {
   border-top: 1px solid var(--ubs-primary-light-grey);
 
   td {
     padding-top: 16px;
     text-align: right;
-  }
-}
-
-.sumOfOrder {
-  td:nth-child(2) {
-    color: var(--ubs-primary-grey);
-    font-weight: bold;
   }
 }
 
@@ -197,13 +180,6 @@
   }
 }
 
-.sumToPay {
-  td:nth-child(2) {
-    color: var(--ubs-primary-grey);
-    font-weight: bold;
-  }
-}
-
 .optionalRow {
   td {
     padding-top: 8px;
@@ -211,12 +187,30 @@
   }
 }
 
-.optionalRow {
-  td:nth-child(2) {
-    color: var(--primary-green);
-    font-size: 10px;
-    line-height: 12px;
-  }
+.dataTable td:nth-child(4) {
+  padding-left: 40px;
+}
+
+.dataTable td:nth-child(5) {
+  text-align: right;
+  color: var(--ubs-primary-grey);
+  font-weight: bold;
+}
+
+.sumOfOrder td:nth-child(2) {
+  color: var(--ubs-primary-grey);
+  font-weight: bold;
+}
+
+.sumToPay td:nth-child(2) {
+  color: var(--ubs-primary-grey);
+  font-weight: bold;
+}
+
+.optionalRow td:nth-child(2) {
+  color: var(--primary-green);
+  font-size: 10px;
+  line-height: 12px;
 }
 
 .orderDetails {
