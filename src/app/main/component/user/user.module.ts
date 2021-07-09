@@ -23,7 +23,6 @@ import {
   HabitFactComponent,
   HabitTitleComponent,
   HabitTrackerDateComponent,
-  UserHabitPageComponent,
   UserLogComponent,
   ProfileComponent,
   CalendarComponent,
@@ -41,21 +40,10 @@ import {
   NewAchievementModalComponent,
   UserSidebarComponent,
   UserSettingComponent,
-  AddGoalComponent,
-  AddGoalListComponent,
-  AddCustomGoalComponent,
-  AddGoalItemComponent,
-  UpdateGoalStatusListComponent,
-  UpdateGoalItemComponent,
-  AddGoalButtonComponent,
-  GoalContainerComponent,
-  GoalItemComponent,
-  GoalListComponent,
   EditProfileComponent,
   PersonalPhotoComponent,
   SocialNetworksComponent
 } from './components';
-import { CustomLastPipe } from '../../pipe/custom-last-pipe/custom-first.pipe';
 import { ShowFirstNLettersPipe } from '../../pipe/show-first-n-letters/show-first-n-letters.pipe';
 import { ShowFirstNPipe } from '../../pipe/show-first-n-pipe/show-first-n.pipe';
 import { UncheckedFirstPipe } from '../../pipe/unchecked-first-pipe/unchecked-first.pipe';
@@ -84,7 +72,7 @@ import { FriendItemComponent } from './components/profile/users-friends/friend-d
 import { FriendRequestsComponent } from './components/profile/users-friends/friend-dashboard/friend-requests/friend-requests.component';
 import { RequestItemComponent } from './components/profile/users-friends/friend-dashboard/friend-requests/request-item/request-item.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 @NgModule({
   declarations: [
     UserComponent,
@@ -95,19 +83,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     AchievementListComponent,
     UserAchievementsComponent,
     NewAchievementModalComponent,
-    AddGoalComponent,
-    AddGoalListComponent,
-    AddCustomGoalComponent,
-    AddGoalItemComponent,
-    UpdateGoalStatusListComponent,
-    UpdateGoalItemComponent,
-    AddGoalButtonComponent,
-    GoalContainerComponent,
-    GoalItemComponent,
-    GoalListComponent,
     UserSettingComponent,
     UserSidebarComponent,
-    UserHabitPageComponent,
     ButtonComponent,
     UserLogComponent,
     HabitTrackersComponent,
@@ -121,7 +98,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     HabitTitleComponent,
     HabitTrackerDateComponent,
     HabitTrackerComponent,
-    CustomLastPipe,
     ShowFirstNLettersPipe,
     ShowFirstNPipe,
     UncheckedFirstPipe,
@@ -156,6 +132,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     RequestItemComponent
   ],
   imports: [
+    GooglePlaceModule,
     UserRoutingModule,
     CommonModule,
     SharedMainModule,
