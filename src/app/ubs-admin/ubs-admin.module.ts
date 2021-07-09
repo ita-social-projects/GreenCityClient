@@ -54,6 +54,8 @@ import { UbsProfileDeletePopUpComponent } from './components/ubs-client-profile-
     UbsAdminOrderPaymentComponent,
     UbsAdminOrderClientInfoComponent,
     UbsAdminOrderDetailsFormComponent,
+    DragDirective,
+    AddViolationsComponent,
     UbsProfileChangePasswordPopUpComponent,
     UbsProfileDeletePopUpComponent,
     DragDirective
