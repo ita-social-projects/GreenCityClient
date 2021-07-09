@@ -41,7 +41,8 @@ import { DragDirective } from '../shared/drag-and-drop/dragDrop.directive';
     UbsAdminOrderPaymentComponent,
     UbsAdminOrderClientInfoComponent,
     UbsAdminOrderDetailsFormComponent,
-    DragDirective
+    DragDirective,
+    AddViolationsComponent
   ],
   imports: [
     CommonModule,
