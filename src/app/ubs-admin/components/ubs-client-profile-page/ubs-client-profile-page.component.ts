@@ -20,7 +20,7 @@ export class UbsClientProfilePageComponent implements OnInit {
   public editing = false;
   public fetching = false;
   public userId: number;
-  private readonly regexp = /^[a-zA-Zа-яА-ЯЄЇҐа-їєґ]+$/iu;
+  private readonly regexp = /^([a-zA-ZА-Яа-яЄЇҐа-їєґ '-])+$/iu;
   private readonly emailRegex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
   public userProfile: UserProfile = {
