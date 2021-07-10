@@ -1,104 +1,107 @@
-<div class="profile-container">
-  <div class="row">
-    <div class="ubs_profile-header">
-      <div class="header-text">
-        <h3>Дані користувача</h3>
+<div class="ubs_profile-container mx-auto">
+  <div class="container">
+    <div class="row">
+      <div class="ubs_profile-header">
+        <div class="header-text">
+          <h3>{{ 'ubs-client-profile.data' | translate }}</h3>
+        </div>
+        <button class="btn btn-outline-success" (click)="onEdit()" [disabled]="editing">
+          {{ 'ubs-client-profile.btn.edit' | translate }}
+        </button>
       </div>
-      <button class="btn btn-outline-success" (click)="onEdit()">Редагувати</button>
-    </div>
-    <div class="container-fluid">
-      <p *ngIf="editing" class="message-text">
-        Заповніть, будь ласка, Ваш профіль, щоб зробити процес замовлення максимально швидким і зручним
-      </p>
-    </div>
-    <div class="input-group input-group-sm mb-5">
-      <form [formGroup]="userForm">
-        <h5>Особисте</h5>
-        <div class="form-group col-sm-5">
-          <label for="firstName">Ім'я</label>
-          <input *ngIf="editing" type="text" class="form-control" id="firstName" formControlName="firstName" placeholder="Ім'я" />
-          <p *ngIf="!editing">{{ user.firstName }}</p>
-        </div>
-        <div class="form-group col-sm-5">
-          <label for="lastName">Прізвище</label>
-          <input *ngIf="editing" type="text" class="form-control" id="lastName" formControlName="lastName" placeholder="Прізвище" />
-          <p *ngIf="!editing">{{ user.lastName }}</p>
-        </div>
-        <div class="form-group col-sm-5">
-          <label for="language">Мова обслуговування</label>
-          <select class="form-control" id="language" formControlName="language" *ngIf="editing">
-            <option *ngFor="let language of languages">{{ language }}</option>
-          </select>
-          <p *ngIf="!editing">{{ user.language }}</p>
-        </div>
-        <h5>Контакти</h5>
-        <div class="email">
+      <div class="container-fluid">
+        <p *ngIf="editing" class="message-text">
+          {{ 'ubs-client-profile.message-if-edit' | translate }}
+        </p>
+      </div>
+      <div class="input-group input-group-sm">
+        <form *ngIf="!fetching; else spinner" [formGroup]="userForm">
+          <h5>{{ 'ubs-client-profile.personal' | translate }}</h5>
           <div class="form-group col-sm-5">
-            <label for="email" class="form-label">Електронна скринька</label>
+            <label for="firstname">{{ 'ubs-client-profile.name' | translate }}</label>
+            <input *ngIf="editing" type="text" class="form-control" id="firstname" formControlName="firstname" />
+            <p *ngIf="!editing">{{ userProfile.recipientName }}</p>
+          </div>
+          <div class="form-group col-sm-5">
+            <label for="surname">{{ 'ubs-client-profile.surname' | translate }}</label>
+            <input *ngIf="editing" type="text" class="form-control" id="surname" formControlName="surname" />
+            <p *ngIf="!editing">{{ userProfile.recipientSurname }}</p>
+          </div>
+          <h5>{{ 'ubs-client-profile.contacts' | translate }}</h5>
+          <div class="form-group col-sm-5">
+            <label for="email" class="form-label">{{ 'ubs-client-profile.email' | translate }}</label>
             <input *ngIf="editing" type="email" class="form-control" id="email" formControlName="email" aria-describedby="emailHelp" />
-            <p *ngIf="!editing">{{ user.email }}</p>
+            <p *ngIf="!editing">{{ userProfile.recipientEmail }}</p>
           </div>
-          <button class="btn btn-outline-success">Змінити email</button>
-        </div>
-        <div class="form-group col-sm-4">
-          <label for="phoneNumber" class="form-label">Номер телефону</label>
-          <input *ngIf="editing" type="tel" class="form-control" id="phoneNumber" formControlName="phoneNumber" />
-          <p *ngIf="!editing">{{ user.phoneNumber }}</p>
-        </div>
-        <h5>Адреса</h5>
-        <div class="form-group col-sm-3">
-          <label for="city" class="form-label">Місто</label>
-          <input *ngIf="editing" type="text" class="form-control" id="city" formControlName="city" />
-          <p *ngIf="!editing">{{ user.city }}</p>
-        </div>
-        <div class="house">
+          <div class="form-group col-sm-4">
+            <label for="phoneNumber" class="form-label">{{ 'ubs-client-profile.phone' | translate }}</label>
+            <input *ngIf="editing" type="tel" class="form-control" id="phoneNumber" formControlName="phoneNumber" />
+            <p *ngIf="!editing">+380{{ userProfile.recipientPhone }}</p>
+          </div>
+          <h5>{{ 'ubs-client-profile.address' | translate }}</h5>
           <div class="form-group col-sm-3">
-            <label for="street" class="form-label">Вулиця</label>
-            <input *ngIf="editing" type="text" class="form-control" id="street" formControlName="street" />
-            <p *ngIf="!editing">{{ user.street }}</p>
+            <label for="city" class="form-label">{{ 'ubs-client-profile.city' | translate }}</label>
+            <input *ngIf="editing" type="text" class="form-control" id="city" formControlName="city" />
+            <p *ngIf="!editing">{{ userProfile.addressDto.city }}</p>
           </div>
-          <div class="form-group col-sm-2">
-            <label for="houseNumber" class="form-label">Будинок</label>
-            <input *ngIf="editing" type="text" class="form-control" id="houseNumber" formControlName="houseNumber" />
-            <p *ngIf="!editing">{{ user.houseNumber }}</p>
+          <div class="house">
+            <div class="form-group col-sm-3">
+              <label for="street" class="form-label">{{ 'ubs-client-profile.street' | translate }}</label>
+              <input *ngIf="editing" type="text" class="form-control" id="street" formControlName="street" />
+              <p *ngIf="!editing">{{ userProfile.addressDto.street }}</p>
+            </div>
+            <div class="form-group col-sm-2">
+              <label for="houseNumber" class="form-label">{{ 'ubs-client-profile.house' | translate }}</label>
+              <input *ngIf="editing" type="text" class="form-control" id="houseNumber" formControlName="houseNumber" />
+              <p *ngIf="!editing">{{ userProfile.addressDto.houseNumber }}</p>
+            </div>
+            <div class="form-group col-sm-2">
+              <label for="houseCorpus" class="form-label">{{ 'ubs-client-profile.corpus' | translate }}</label>
+              <input *ngIf="editing" type="text" class="form-control" id="houseCorpus" formControlName="houseCorpus" />
+              <p *ngIf="!editing">{{ userProfile.addressDto.houseCorpus }}</p>
+            </div>
+            <div class="form-group col-sm-2">
+              <label for="entranceNumber" class="form-label">{{ 'ubs-client-profile.entrance' | translate }}</label>
+              <input *ngIf="editing" type="text" class="form-control" id="entranceNumber" formControlName="entranceNumber" />
+              <p *ngIf="!editing">{{ userProfile.addressDto.entranceNumber }}</p>
+            </div>
           </div>
-          <div class="form-group col-sm-2">
-            <label for="houseCorpus" class="form-label">Корпус</label>
-            <input *ngIf="editing" type="text" class="form-control" id="houseCorpus" formControlName="houseCorpus" />
-            <p *ngIf="!editing">{{ user.houseCorpus }}</p>
+          <div class="form-group col-sm-3">
+            <label for="district" class="form-label">{{ 'ubs-client-profile.district' | translate }}</label>
+            <input *ngIf="editing" type="text" class="form-control" id="district" formControlName="district" />
+            <p *ngIf="!editing">{{ userProfile.addressDto.district }}</p>
           </div>
-          <div class="form-group col-sm-2">
-            <label for="entranceNumber" class="form-label">Під'їзд</label>
-            <input *ngIf="editing" type="text" class="form-control" id="entranceNumber" formControlName="entranceNumber" />
-            <p *ngIf="!editing">{{ user.entranceNumber }}</p>
+          <h5>{{ 'ubs-client-profile.account' | translate }}</h5>
+          <div class="account">
+            <span>
+              <img [src]="googleIcon" alt="google bind" />
+            </span>
+            <p>{{ 'ubs-client-profile.account-message' | translate }}</p>
           </div>
-        </div>
-        <div class="form-group col-sm-3">
-          <label for="district" class="form-label">Район</label>
-          <input *ngIf="editing" type="text" class="form-control" id="district" formControlName="district" />
-          <p *ngIf="!editing">{{ user.district }}</p>
-        </div>
-        <h5>Зв'язок із соцмережами</h5>
-        <div class="account">
-          <span>
-            <img src="http://pngimg.com/uploads/google/google_PNG19635.png" alt="google" />
-          </span>
-          <p>Зв'язати з акаунтом Google</p>
-        </div>
-      </form>
-    </div>
-    <div class="submit-btns" *ngIf="editing">
-      <button class="btn btn-outline-success" type="submit" (click)="onCancel()">Скасувати зміни</button>
-      <button class="btn btn-success" type="submit" (click)="onSubmit()">Зберегти зміни</button>
-    </div>
-    <div class="ubs_profile-footer">
-      <div class="footer-text">
-        <h3>Додаткові дії</h3>
+        </form>
       </div>
-      <div class="footer-btns">
-        <button class="btn btn-outline-success">Змінити пароль</button>
-        <button class="btn btn-outline-success">Видалити профіль</button>
+      <div class="submit-btns" *ngIf="editing">
+        <button class="btn btn-outline-success" type="submit" (click)="onCancel()">
+          {{ 'ubs-client-profile.btn.cancel' | translate }}
+        </button>
+        <button class="btn btn-success" type="submit" (click)="onSubmit()">{{ 'ubs-client-profile.btn.save' | translate }}</button>
+      </div>
+      <div class="ubs_profile-footer" *ngIf="!editing">
+        <div class="footer-text">
+          <h3>{{ 'ubs-client-profile.additional' | translate }}</h3>
+        </div>
+        <div class="footer-btns">
+          <button class="btn btn-outline-success">
+            {{ 'ubs-client-profile.btn.change-password' | translate }}
+          </button>
+          <button class="btn btn-outline-success">
+            {{ 'ubs-client-profile.btn.delete-profile' | translate }}
+          </button>
+        </div>
       </div>
     </div>
+    <ng-template #spinner>
+      <app-spinner class="mx-auto"></app-spinner>
+    </ng-template>
   </div>
 </div>

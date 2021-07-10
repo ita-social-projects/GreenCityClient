@@ -1,14 +1,10 @@
-.profile-container {
+.ubs_profile-container {
+  font-family: var(--primary-font);
   font-size: 0.9em;
-  width: 1200px;
+  max-width: 1200px;
   display: flex;
   justify-content: center;
   margin-bottom: 100px;
-  margin-left: auto;
-
-  button {
-    margin: 30px;
-  }
 
   .ubs_profile-header {
     width: 905px;
@@ -28,14 +24,6 @@
 
     form {
       margin-left: 30px;
-    }
-
-    .email {
-      display: flex;
-
-      button {
-        margin: auto;
-      }
     }
   }
 
@@ -58,6 +46,11 @@
 
   input.ng-invalid.ng-touched {
     border: 1px solid var(--ubs-error-ligh-red);
+  }
+
+  button {
+    margin: 30px;
+    font-family: var(--secondary-font);
   }
 
   h5 {
@@ -95,5 +88,16 @@
       justify-content: flex-start;
       box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25);
     }
+  }
+}
+
+@media (max-width: 1439px) {
+  .ubs_profile-container {
+    max-width: 800px;
+  }
+}
+@media (max-width: 992px) {
+  .ubs_profile-container {
+    max-width: 600px;
   }
 }
