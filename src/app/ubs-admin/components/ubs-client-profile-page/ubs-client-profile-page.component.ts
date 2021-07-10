@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material';
+import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
+import { UbsProfileDeletePopUpComponent } from './ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
 
 @Component({
   selector: 'app-ubs-client-profile-page',
@@ -27,6 +30,8 @@ export class UbsClientProfilePageComponent implements OnInit {
   };
   public editing = false;
 
+  constructor(public dialog: MatDialog) {}
+
   ngOnInit() {
     this.userForm = new FormGroup({
       firstName: new FormControl(this.user.firstName, Validators.required),
@@ -41,6 +46,20 @@ export class UbsClientProfilePageComponent implements OnInit {
       entranceNumber: new FormControl(this.user.entranceNumber, Validators.required),
       district: new FormControl(this.user.district, Validators.required)
     });
+  }
+
+  public openDeleteProfileDialog() {
+    const dialogRef = this.dialog.open(UbsProfileDeletePopUpComponent, {
+      hasBackdrop: true
+    });
+    dialogRef.afterClosed();
+  }
+
+  public openChangePasswordDialog() {
+    const dialogRef = this.dialog.open(UbsProfileChangePasswordPopUpComponent, {
+      hasBackdrop: true
+    });
+    dialogRef.afterClosed();
   }
 
   onEdit() {
