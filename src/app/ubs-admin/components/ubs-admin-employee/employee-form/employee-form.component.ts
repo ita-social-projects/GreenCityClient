@@ -55,11 +55,11 @@ export class EmployeeFormComponent implements OnInit {
 
   onCheckChangeRole(data) {
     this.employeeControls.value.push(new FormControl(data));
-  }
+ }
   
   onCheckChangeLocation(data) {
     this.stationControls.value.push(new FormControl(data));
-  }
+ }
   
   imagePreview(e) {
     this.selectedFile = (e.target as HTMLInputElement).files[0];
