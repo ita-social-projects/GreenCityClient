@@ -50,13 +50,15 @@ export class EmployeeFormComponent implements OnInit {
   get employeeControls() {
     return this.employeeForm.get('employeePositions') as FormArray;
   }
+  
   get stationControls(){
     return this.employeeForm.get('receivingStations') as FormArray;
   }
-  
+
   onCheckChangeRole(data) {
     this.employeeControls.value.push(new FormControl(data));
   }
+  
   onCheckChangeLocation(data) {
     this.stationControls.value.push(new FormControl(data));
   }
