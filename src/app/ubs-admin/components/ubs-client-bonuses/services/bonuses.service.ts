@@ -13,7 +13,7 @@ export class BonusesService {
 
   constructor(private http: HttpClient) {}
 
-  public getUserBonuses(): Observable<BonusesModel> {
+  getUserBonuses(): Observable<BonusesModel> {
     return this.http.get<BonusesModel[]>(`${this.url}client/users-pointsToUse`).pipe(
       map((res: any) => {
         return res;
