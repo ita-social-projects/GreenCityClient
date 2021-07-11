@@ -47,14 +47,20 @@ export class EmployeeFormComponent implements OnInit {
     });
   }
 
+  get employeeControls() {
+    return this.employeeForm.get('employeePositions') as FormArray;
+  }
+  get stationControls(){
+    return this.employeeForm.get('receivingStations') as FormArray;
+  }
+  
   onCheckChangeRole(data) {
-    const formPositionArray: FormArray = this.employeeForm.get('employeePositions') as FormArray;
-    formPositionArray.push(new FormControl(data));
+    this.employeeControls.value.push(new FormControl(data));
   }
   onCheckChangeLocation(data) {
-    const formLocationArray: FormArray = this.employeeForm.get('receivingStations') as FormArray;
-    formLocationArray.push(new FormControl(data));
+    this.stationControls.value.push(new FormControl(data));
   }
+  
   imagePreview(e) {
     this.selectedFile = (e.target as HTMLInputElement).files[0];
     this.employeeForm.patchValue({
