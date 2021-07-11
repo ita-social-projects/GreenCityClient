@@ -4,9 +4,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.service';
 import { Validators } from '@angular/forms';
 
-export interface Position {
-  name: string;
-}
+
 @Component({
   selector: 'app-employee-form',
   templateUrl: './employee-form.component.html',
