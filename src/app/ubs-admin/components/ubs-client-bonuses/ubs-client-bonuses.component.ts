@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './ubs-client-bonuses.component.html',
   styleUrls: ['./ubs-client-bonuses.component.scss']
 })
-export class UbsClientBonusesComponent implements OnInit, AfterViewInit, OnDestroy {
+export class UbsClientBonusesComponent implements OnInit, AfterViewInit, OnDestroy  {
   displayedColumns: string[] = ['dateOfEnrollment', 'amount', 'reasone'];
 
   dataSource = new MatTableDataSource<BonuseModel>();
@@ -50,8 +50,8 @@ export class UbsClientBonusesComponent implements OnInit, AfterViewInit, OnDestr
       this.isLoading = false;
     });
   }
-  
-   ngOnDestroy() {
+
+  ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 }
