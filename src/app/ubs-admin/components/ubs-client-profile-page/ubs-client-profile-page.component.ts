@@ -28,7 +28,7 @@ export class UbsClientProfilePageComponent implements OnInit {
     entranceNumber: '3',
     district: 'Печерський'
   };
-  public editing = false;
+  public isEditing = false;
 
   constructor(public dialog: MatDialog) {}
 
@@ -49,25 +49,23 @@ export class UbsClientProfilePageComponent implements OnInit {
   }
 
   public openDeleteProfileDialog() {
-    const dialogRef = this.dialog.open(UbsProfileDeletePopUpComponent, {
+    this.dialog.open(UbsProfileDeletePopUpComponent, {
       hasBackdrop: true
     });
-    dialogRef.afterClosed();
   }
 
   public openChangePasswordDialog() {
-    const dialogRef = this.dialog.open(UbsProfileChangePasswordPopUpComponent, {
+    this.dialog.open(UbsProfileChangePasswordPopUpComponent, {
       hasBackdrop: true
     });
-    dialogRef.afterClosed();
   }
 
   onEdit() {
-    this.editing = true;
+    this.isEditing = true;
   }
 
   onCancel() {
-    this.editing = false;
+    this.isEditing = false;
   }
 
   onSubmit() {
@@ -82,6 +80,6 @@ export class UbsClientProfilePageComponent implements OnInit {
     this.user.houseCorpus = this.userForm.value.houseCorpus;
     this.user.entranceNumber = this.userForm.value.entranceNumber;
     this.user.district = this.userForm.value.district;
-    this.editing = false;
+    this.isEditing = false;
   }
 }
