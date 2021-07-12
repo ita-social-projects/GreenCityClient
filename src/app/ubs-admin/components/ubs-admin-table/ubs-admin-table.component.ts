@@ -6,7 +6,6 @@ import { Subject } from 'rxjs';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { PaginationComponent } from 'ngx-bootstrap/pagination';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -27,14 +26,13 @@ export class UbsAdminTableComponent implements OnInit {
   arrayOfHeaders: string[] = [];
   previousIndex: number;
   isLoading = true;
+  isUpdate = false;
   destroy: Subject<boolean> = new Subject<boolean>();
   arrowDirection: string;
+  tableData: any[];
   currentPage: number = 0;
   pageSizeOptions: number[] = [10, 15, 20];
   pageSize: number = 10;
-  @ViewChild('paginationElement', { static: false })
-  paginationComponent: PaginationComponent;
-
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private adminTableService: AdminTableService) {}
@@ -110,12 +108,11 @@ export class UbsAdminTableComponent implements OnInit {
       .getTable(columnName, this.currentPage, this.pageSize, sortingType)
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
-        const arrayOfValues = item['page'];
-        console.log(item);
-        this.dataSource = new MatTableDataSource(arrayOfValues);
+        this.tableData = item['page'];
+        this.dataSource = new MatTableDataSource(this.tableData);
         const requiredColumns = [{ field: 'select', sticky: true }];
         const dynamicallyColumns = [];
-        const arrayOfproperties = Object.keys(arrayOfValues[0]);
+        const arrayOfproperties = Object.keys(this.tableData[0]);
         arrayOfproperties.map((elem) => {
           const objectOfValue = Object.create({});
           objectOfValue.field = elem;
@@ -137,18 +134,32 @@ export class UbsAdminTableComponent implements OnInit {
       });
   }
 
+  updateTableData() {
+    this.isUpdate = true;
+    this.adminTableService
+      .getTable('orderId', this.currentPage, this.pageSize, 'desc')
+      .pipe(takeUntil(this.destroy))
+      .subscribe((item) => {
+        const data = item['page'];
+        this.tableData = [...this.tableData, ...data];
+        this.dataSource.data = this.tableData;
+        this.isUpdate = false;
+      });
+  }
+
   getSortingDate(columnName, sortingType) {
     this.arrowDirection === columnName ? (this.arrowDirection = null) : (this.arrowDirection = columnName);
     this.getTable(columnName, sortingType);
   }
 
-  changePage(event: any) {
-    this.currentPage = event.page - 1;
-    this.getTable();
-  }
-
   selectPageSize(value: number) {
     this.pageSize = value;
-    this.getTable();
+  }
+
+  onScroll() {
+    if (!this.isUpdate) {
+      this.currentPage++;
+      this.updateTableData();
+    }
   }
 }
