@@ -1,0 +1,26 @@
+.custom-pagination {
+  display: flex;
+  justify-content: space-between;
+  width: 360px;
+
+  .arrow {
+    vertical-align: middle;
+    color: var(--ubs-secondary-grey);
+  }
+
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+
+    .page {
+      padding: 4px 8px;
+      color: var(--ubs-primary-grey);
+    }
+  }
+
+  .current {
+    background-color: var(--ubs-primary-green);
+  }
+}
