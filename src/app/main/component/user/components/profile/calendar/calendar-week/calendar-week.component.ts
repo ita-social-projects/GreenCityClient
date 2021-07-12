@@ -1,19 +1,19 @@
-import { LanguageService } from './../../../../../../i18n/language.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CalendarBaseComponent } from '@shared/components/calendar-base/calendar-base.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
-import { HabitAssignService } from '../../../../../../service/habit-assign/habit-assign.service';
+import { HabitAssignService } from './../../../../../../service/habit-assign/habit-assign.service';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { CalendarWeekInterface } from './calendar-week-interface';
+import { CalendarWeekInterface } from '../calendar-week/calendar-week-interface';
 import { CalendarInterface } from '../calendar-interface';
 import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-calendar-week',
   templateUrl: './calendar-week.component.html',
-  styleUrls: ['./calendar-week.component.scss'],
+  styleUrls: ['./calendar-week.component.scss']
 })
 export class CalendarWeekComponent extends CalendarBaseComponent implements OnInit, OnDestroy {
   public language: string;
@@ -54,7 +54,7 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
         dayName: this.language ? this.setDayName(date) : '',
         isCurrent,
         hasHabitsInProgress: false,
-        areHabitsDone: false,
+        areHabitsDone: false
       });
     }
   }

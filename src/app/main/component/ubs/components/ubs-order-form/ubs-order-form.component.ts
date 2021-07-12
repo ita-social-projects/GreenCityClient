@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ChangeDetectorRef, ViewChild, DoCheck } from '@angular/core';
+import { AfterViewInit, Component, ChangeDetectorRef, ViewChild, DoCheck, HostListener } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { UBSSubmitOrderComponent } from '../ubs-submit-order/ubs-submit-order.component';
 import { UBSPersonalInformationComponent } from '../ubs-personal-information/ubs-personal-information.component';
@@ -23,6 +23,10 @@ export class UBSOrderFormComponent implements AfterViewInit, DoCheck {
   @ViewChild(MatHorizontalStepper, { static: false }) stepper: MatHorizontalStepper;
 
   constructor(private cdr: ChangeDetectorRef) {}
+
+  @HostListener('window:beforeunload') onClose() {
+    return false;
+  }
 
   ngAfterViewInit(): void {
     this.firstStepForm = this.stepOneComponent.orderDetailsForm;

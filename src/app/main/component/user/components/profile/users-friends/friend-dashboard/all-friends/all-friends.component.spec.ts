@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FriendModel } from '@global-user/models/friend.model';
@@ -22,7 +23,7 @@ describe('AllFriendsComponent', () => {
     id: 1,
     name: 'Name',
     profilePicture: '',
-    added: false,
+    added: false
   };
   const userFriendsArray: FriendModel[] = [
     {
@@ -32,7 +33,7 @@ describe('AllFriendsComponent', () => {
       added: true,
       rating: 380,
       city: 'Lviv',
-      mutualFriends: 5,
+      mutualFriends: 5
     },
     {
       id: 2,
@@ -41,8 +42,8 @@ describe('AllFriendsComponent', () => {
       added: true,
       rating: 380,
       city: 'Lviv',
-      mutualFriends: 5,
-    },
+      mutualFriends: 5
+    }
   ];
   const userFriends = {
     totalElements: 1,
@@ -56,7 +57,7 @@ describe('AllFriendsComponent', () => {
         added: true,
         rating: 380,
         city: 'Lviv',
-        mutualFriends: 5,
+        mutualFriends: 5
       },
       {
         id: 2,
@@ -65,9 +66,9 @@ describe('AllFriendsComponent', () => {
         added: true,
         rating: 380,
         city: 'Lviv',
-        mutualFriends: 5,
-      },
-    ],
+        mutualFriends: 5
+      }
+    ]
   };
 
   userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getAllFriends', 'deleteFriend', 'addFriend']);
@@ -81,9 +82,9 @@ describe('AllFriendsComponent', () => {
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule.withRoutes([])],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: UserFriendsService, useValue: userFriendsServiceMock },
+        { provide: UserFriendsService, useValue: userFriendsServiceMock }
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 
@@ -111,7 +112,7 @@ describe('AllFriendsComponent', () => {
     expect(initUserSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('should get a user\'s friends', () => {
+  it('should get a users friends', () => {
     const getUsersFriendsSpy = spyOn(component as any, 'getAllFriends');
     component.ngOnInit();
     expect(getUsersFriendsSpy).toHaveBeenCalledTimes(1);

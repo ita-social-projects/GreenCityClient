@@ -1,4 +1,3 @@
-import { HabitStatus } from './../../../../../../model/habit/HabitStatus.enum';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { HabitAssignInterface } from '../../../../../../interface/habit/habit-assign.interface';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
@@ -6,12 +5,13 @@ import { take } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HabitService } from '@global-service/habit/habit.service';
+import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 import { HabitMark } from '@global-user/models/HabitMark.enum';
 
 @Component({
   selector: 'app-one-habit',
   templateUrl: './one-habit.component.html',
-  styleUrls: ['./one-habit.component.scss'],
+  styleUrls: ['./one-habit.component.scss']
 })
 export class OneHabitComponent implements OnInit {
   @Input() habit: HabitAssignInterface;
@@ -29,12 +29,12 @@ export class OneHabitComponent implements OnInit {
       this.habitMark = HabitMark.AQUIRED;
     },
     done: () => {
-      this.daysCounter = this.habit.workingDays ? this.habit.workingDays : this.habit.duration;
+      this.daysCounter = this.habit.workingDays;
       this.showPhoto = false;
       this.habitMark = HabitMark.DONE;
     },
     undone: () => {
-      this.daysCounter = this.habit.workingDays ? this.habit.workingDays : this.habit.duration;
+      this.daysCounter = this.habit.workingDays;
       this.showPhoto = true;
       this.habitMark = HabitMark.UNDONE;
     }

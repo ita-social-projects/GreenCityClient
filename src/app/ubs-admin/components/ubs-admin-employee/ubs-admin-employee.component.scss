@@ -1,0 +1,55 @@
+.main-employee-container {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+  padding-top: 32px;
+
+  .employee-header {
+    display: flex;
+    flex-direction: row;
+
+    .eployee-name {
+      width: 100%;
+      max-width: 920px;
+
+      .page-name {
+        margin-bottom: 32px;
+        font-family: var(--primary-font);
+        font-weight: 700;
+        letter-spacing: 0.002em;
+      }
+    }
+
+    .employee-add {
+      .button-name {
+        text-align: center;
+        width: 177px;
+        height: 36px;
+        font-size: 14px;
+        margin-right: 73px;
+        line-height: 20px;
+        font-weight: 700;
+        letter-spacing: 0.1px;
+        font-family: var(--primary-font);
+        background: var(--ubs-primary-green);
+        border-radius: 4px;
+      }
+    }
+  }
+
+  .employees {
+    padding-bottom: 77px;
+
+    .paginate {
+      display: flex;
+      justify-content: center;
+      max-width: 920px;
+    }
+  }
+}
+
+@media screen and (max-width: 1138px) {
+  .main-employee-container {
+    padding-left: 0;
+  }
+}

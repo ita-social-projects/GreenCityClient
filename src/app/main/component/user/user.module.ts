@@ -1,6 +1,7 @@
 import { environment } from '@environment/environment';
 import { UserSharedModule } from './components/shared/user-shared.module';
 import { NgModule } from '@angular/core';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule, MatRadioModule } from '@angular/material';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -23,7 +24,6 @@ import {
   HabitFactComponent,
   HabitTitleComponent,
   HabitTrackerDateComponent,
-  UserHabitPageComponent,
   UserLogComponent,
   ProfileComponent,
   CalendarComponent,
@@ -41,21 +41,10 @@ import {
   NewAchievementModalComponent,
   UserSidebarComponent,
   UserSettingComponent,
-  AddGoalComponent,
-  AddGoalListComponent,
-  AddCustomGoalComponent,
-  AddGoalItemComponent,
-  UpdateGoalStatusListComponent,
-  UpdateGoalItemComponent,
-  AddGoalButtonComponent,
-  GoalContainerComponent,
-  GoalItemComponent,
-  GoalListComponent,
   EditProfileComponent,
   PersonalPhotoComponent,
   SocialNetworksComponent
 } from './components';
-import { CustomLastPipe } from '../../pipe/custom-last-pipe/custom-first.pipe';
 import { ShowFirstNLettersPipe } from '../../pipe/show-first-n-letters/show-first-n-letters.pipe';
 import { ShowFirstNPipe } from '../../pipe/show-first-n-pipe/show-first-n.pipe';
 import { UncheckedFirstPipe } from '../../pipe/unchecked-first-pipe/unchecked-first.pipe';
@@ -95,19 +84,8 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     AchievementListComponent,
     UserAchievementsComponent,
     NewAchievementModalComponent,
-    AddGoalComponent,
-    AddGoalListComponent,
-    AddCustomGoalComponent,
-    AddGoalItemComponent,
-    UpdateGoalStatusListComponent,
-    UpdateGoalItemComponent,
-    AddGoalButtonComponent,
-    GoalContainerComponent,
-    GoalItemComponent,
-    GoalListComponent,
     UserSettingComponent,
     UserSidebarComponent,
-    UserHabitPageComponent,
     ButtonComponent,
     UserLogComponent,
     HabitTrackersComponent,
@@ -121,7 +99,6 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     HabitTitleComponent,
     HabitTrackerDateComponent,
     HabitTrackerComponent,
-    CustomLastPipe,
     ShowFirstNLettersPipe,
     ShowFirstNPipe,
     UncheckedFirstPipe,
@@ -156,6 +133,7 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     RequestItemComponent
   ],
   imports: [
+    NgbModule,
     GooglePlaceModule,
     UserRoutingModule,
     CommonModule,
