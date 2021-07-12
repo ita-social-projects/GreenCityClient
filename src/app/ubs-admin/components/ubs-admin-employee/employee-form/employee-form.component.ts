@@ -10,6 +10,7 @@ import { Validators } from '@angular/forms';
   styleUrls: ['./employee-form.component.scss']
 })
 export class EmployeeFormComponent implements OnInit {
+  @Input()
   locations;
   roles;
   selectedFile: File;
@@ -49,12 +50,6 @@ export class EmployeeFormComponent implements OnInit {
     return this.employeeForm.get('receivingStations') as FormArray;
   }
 
-  get employeeControls() {
-    return this.employeeForm.get('employeePositions') as FormArray;
-  }
-  get stationControls() {
-    return this.employeeForm.get('receivingStations') as FormArray;
-  }
   onCheckChangeRole(data) {
     this.employeeControls.value.push(new FormControl(data));
   }

@@ -68,7 +68,7 @@ import { UbsAdminAddressDetailsComponent } from './components/ubs-admin-address-
     })
   ],
   providers: [AdminTableService, TranslateService],
-  entryComponents: [UbsAdminTableComponent]
+  entryComponents: [UbsAdminTableComponent, EmployeeFormComponent]
 })
 export class UbsAdminModule {}
 
