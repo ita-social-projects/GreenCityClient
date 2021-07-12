@@ -2,12 +2,12 @@ import { UserSharedModule } from './../../../shared/user-shared.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProfileHeaderComponent } from './profile-header.component';
-import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ProfileProgressComponent } from '../profile-progress/profile-progress.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TranslateStore } from '@ngx-translate/core';
 
 describe('ProfileHeaderComponent', () => {
   let component: ProfileHeaderComponent;
@@ -22,7 +22,7 @@ describe('ProfileHeaderComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ProfileHeaderComponent, ProfileProgressComponent],
       imports: [UserSharedModule, RouterTestingModule.withRoutes([]), HttpClientTestingModule],
-      providers: [{ provide: LocalStorageService, useValue: localStorageServiceMock }]
+      providers: [{ provide: LocalStorageService, useValue: localStorageServiceMock }, TranslateStore]
     }).compileComponents();
   }));
 

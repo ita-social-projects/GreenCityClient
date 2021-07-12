@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class CreateEditNewsFormBuilder {
   constructor(private fb: FormBuilder) {}
@@ -13,7 +13,7 @@ export class CreateEditNewsFormBuilder {
       source: [''],
       content: ['', [Validators.required, Validators.minLength(20)]],
       tags: this.fb.array([]),
-      image: [''],
+      image: ['']
     });
   }
 
@@ -23,7 +23,7 @@ export class CreateEditNewsFormBuilder {
       source: [data.source],
       content: [data.text || data.content, [Validators.required, Validators.minLength(20)]],
       tags: this.fb.array(data.tags),
-      image: [data.imagePath],
+      image: [data.imagePath]
     });
   }
 

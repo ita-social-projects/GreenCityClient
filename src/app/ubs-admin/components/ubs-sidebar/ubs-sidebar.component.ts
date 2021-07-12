@@ -13,27 +13,33 @@ export class UbsSidebarComponent implements AfterViewInit {
   public listElements = [
     {
       link: 'assets/img/sidebarIcons/user_icon.svg',
-      name: 'Користувачі'
+      name: 'Користувачі',
+      routerLink: '/ubs-admin'
     },
     {
       link: './assets/img/sidebarIcons/achievment_icon.svg',
-      name: 'Сертифікати'
+      name: 'Сертифікати',
+      routerLink: '#'
     },
     {
       link: 'assets/img/sidebarIcons/shopping-cart_icon.svg',
-      name: 'Замовлення'
+      name: 'Замовлення',
+      routerLink: '#'
     },
     {
       link: 'assets/img/sidebarIcons/workers_icon.svg',
-      name: 'Працівники'
+      name: 'Працівники',
+      routerLink: '/ubs-admin/employee/1'
     },
     {
       link: 'assets/img/sidebarIcons/documents_icon.svg',
-      name: 'Документи'
+      name: 'Документи',
+      routerLink: '#'
     },
     {
       link: 'assets/img/sidebarIcons/calendar_icon.svg',
-      name: 'Графік'
+      name: 'Графік',
+      routerLink: '#'
     }
   ];
   @ViewChild('sidebarToggler', { static: false }) sidebarToggler: ElementRef;

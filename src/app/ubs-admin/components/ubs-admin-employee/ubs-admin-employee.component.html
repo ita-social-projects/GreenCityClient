@@ -1,0 +1,25 @@
+<div class="main-employee-container">
+  <div class="employee-header">
+    <div class="eployee-name">
+      <p class="h5 page-name">Працівники</p>
+    </div>
+    <div class="employee-add">
+      <button class="primary-global-button button-name"><div class="subtitle-2">Додати працівника</div></button>
+    </div>
+  </div>
+  <div class="employees">
+    <div
+      *ngFor="let data of fakeData | paginate: { itemsPerPage: size, currentPage: currentPage, id: paginationId, totalItems: totalLength }"
+    >
+      <app-ubs-admin-employee-card [data]="data"></app-ubs-admin-employee-card>
+    </div>
+    <div class="paginate">
+      <app-pagination
+        [paginationId]="paginationId"
+        [currentPage]="currentPage"
+        [maxSize]="totalLength"
+        (ChangePage)="changeCurrentPage($event)"
+      ></app-pagination>
+    </div>
+  </div>
+</div>
