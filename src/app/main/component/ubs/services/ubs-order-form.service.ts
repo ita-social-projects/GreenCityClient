@@ -2,7 +2,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { OrderDetails, PersonalData } from '../models/ubs.interface';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class UBSOrderFormService {
   orderDetails: OrderDetails;

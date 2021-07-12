@@ -23,11 +23,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
   public bags: Bag[];
   public points: number;
 
-  constructor(
-    private fb: FormBuilder,
-    private localStorageService: LocalStorageService,
-    private orderService: OrderService
-  ) {}
+  constructor(private fb: FormBuilder, private localStorageService: LocalStorageService, private orderService: OrderService) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -36,7 +32,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
 
   public initForm(): void {
     this.orderDetailsForm = this.fb.group({
-      plannedQuantity: new FormControl({value: '1', disabled: true}),
+      plannedQuantity: new FormControl({ value: '1', disabled: true }),
       approvedQuantity: new FormControl(''),
       exportedQuantity: new FormControl(''),
       storeOrderNumber: new FormControl('', [Validators.minLength(8)]),

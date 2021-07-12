@@ -1,6 +1,6 @@
 import { SharedMainModule } from '@shared/shared-main.module';
 import { HabitAssignInterface } from './../../../../../interface/habit/habit-assign.interface';
-import { HabitAssignService } from '../../../../../service/habit-assign/habit-assign.service';
+import { HabitAssignService } from './../../../../../service/habit-assign/habit-assign.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
@@ -69,7 +69,8 @@ describe('AllHabitsComponent', () => {
       lastEnrollmentDate: new Date('2021-06-19T16:35:18.04885Z'),
       status: 'INPROGRESS',
       userId: 7835,
-      workingDays: 0
+      workingDays: 0,
+      shoppingListItems: []
     }
   ];
 

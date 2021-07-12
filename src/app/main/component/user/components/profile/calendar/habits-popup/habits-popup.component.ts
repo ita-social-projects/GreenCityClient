@@ -1,14 +1,14 @@
-import { calendarIcons } from './../../../../../../image-pathes/calendar-icons';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { calendarIcons } from 'src/app/main/image-pathes/calendar-icons';
 import { HabitPopupInterface } from '../habit-popup-interface';
 
 @Component({
   selector: 'app-habits-popup',
   templateUrl: './habits-popup.component.html',
-  styleUrls: ['./habits-popup.component.scss'],
+  styleUrls: ['./habits-popup.component.scss']
 })
 export class HabitsPopupComponent implements OnInit, OnDestroy {
   calendarIcons = calendarIcons;

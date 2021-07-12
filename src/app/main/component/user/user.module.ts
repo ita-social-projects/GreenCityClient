@@ -1,6 +1,7 @@
 import { environment } from '@environment/environment';
 import { UserSharedModule } from './components/shared/user-shared.module';
 import { NgModule } from '@angular/core';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule, MatRadioModule } from '@angular/material';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -132,6 +133,7 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     RequestItemComponent
   ],
   imports: [
+    NgbModule,
     GooglePlaceModule,
     UserRoutingModule,
     CommonModule,

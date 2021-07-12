@@ -3,62 +3,44 @@
     <h1 class="form__headline py-3">Адреса вивезення відходів</h1>
   </div>
   <form [formGroup]="addressDetailsForm">
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <label for="street">Вулиця</label>
-      <input type="text"
-      formControlName="street"
-      class="form-control"
-      id="street" />
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="street">Вулиця</label>
+        <input type="text" formControlName="street" class="form-control" id="street" />
+      </div>
+      <div class="form-group col-md-5 offset-md-1">
+        <label for="addess-comment">Коментар до адреси від клієнта</label>
+        <textarea
+          formControlName="addressComment"
+          class="form-control"
+          id="address-comment"
+          rows="3"
+          placeholder="Будь-які деталі, які Ви хотіли б повідомити додатково щодо цього замовлення"
+        ></textarea>
+      </div>
     </div>
-    <div class="form-group col-md-5 offset-md-1">
-      <label for="addess-comment">Коментар до адреси від клієнта</label>
-      <textarea
-        formControlName="addressComment"
-        class="form-control"
-        id="address-comment"
-        rows="3"
-        placeholder="Будь-які деталі, які Ви хотіли б повідомити додатково щодо цього замовлення"
-      ></textarea>
+    <div class="form-row">
+      <div class="form-group col-md-2">
+        <label for="building">Будинок</label>
+        <input formControlName="building" type="text" class="form-control" id="building" />
+      </div>
+      <div class="form-group col-md-2">
+        <label for="corpus">Корпус</label>
+        <input formControlName="corpus" type="text" class="form-control" id="corpus" />
+      </div>
+      <div class="form-group col-md-2">
+        <label for="entrance">Під'їзд</label>
+        <input formControlName="entrance" type="text" class="form-control" id="entrance" />
+      </div>
     </div>
-  </div>
-  <div class="form-row">
-    <div class="form-group col-md-2">
-      <label for="building">Будинок</label>
-      <input
-      formControlName="building"
-      type="text"
-      class="form-control"
-      id="building" />
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="region">Район</label>
+        <select formControlName="region" id="region" class="form-control">
+          <option selected>Дублянський</option>
+        </select>
+      </div>
     </div>
-    <div class="form-group col-md-2">
-      <label for="corpus">Корпус</label>
-      <input
-      formControlName="corpus"
-      type="text"
-      class="form-control"
-      id="corpus" />
-    </div>
-    <div class="form-group col-md-2">
-      <label for="entrance">Під'їзд</label>
-      <input
-      formControlName="entrance"
-      type="text"
-      class="form-control"
-      id="entrance" />
-    </div>
-  </div>
-  <div class="form-row">
-    <div class="form-group col-md-4">
-      <label for="region">Район</label>
-      <select
-      formControlName="region"
-      id="region"
-      class="form-control">
-        <option selected>Дублянський</option>
-      </select>
-    </div>
-  </div>
-</form>
-  <hr>
+  </form>
+  <hr />
 </div>
