@@ -8,7 +8,7 @@ import { FileHandle } from '../../ubs-admin/models/file-handle.model';
 export class DragDirective {
   @Output() files: EventEmitter<FileHandle[]> = new EventEmitter();
 
-  @HostBinding('style.background') private background = '#F7F9FA';
+  @HostBinding('style.background') public background = '#F7F9FA';
 
   constructor(private sanitizer: DomSanitizer) {}
 
