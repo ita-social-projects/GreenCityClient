@@ -35,7 +35,10 @@
           </div>
           <div class="form-group col-sm-4">
             <label for="phoneNumber" class="form-label">{{ 'ubs-client-profile.phone' | translate }}</label>
-            <input *ngIf="editing" type="tel" class="form-control" id="phoneNumber" formControlName="phoneNumber" />
+            <input *ngIf="editing" type="tel" class="form-control" id="phoneNumber" [formControl]="userForm.controls['phoneNumber']"
+            placeholder="+38___ ___ __ __"
+            [unmask]="true" 
+            [imask]="{mask: phoneMask}" />
             <p *ngIf="!editing">+380{{ userProfile.recipientPhone }}</p>
           </div>
           <h5>{{ 'ubs-client-profile.address' | translate }}</h5>
