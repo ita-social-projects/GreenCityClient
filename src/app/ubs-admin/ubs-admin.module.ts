@@ -8,6 +8,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MaterialModule } from '../material.module';
+import { IMaskModule } from 'angular-imask';
 import { SharedModule } from '../shared/shared.module';
 import { UBSAdminRoutingModule } from './ubs-admin-routing.module';
 import { UbsAdminTableComponent } from './components/ubs-admin-table/ubs-admin-table.component';
@@ -45,6 +46,7 @@ import { UbsAdminAddressDetailsComponent } from './components/ubs-admin-address-
     MaterialModule,
     SharedModule,
     RouterModule,
+    IMaskModule,
     HttpClientModule,
     UBSAdminRoutingModule,
     FormsModule,
