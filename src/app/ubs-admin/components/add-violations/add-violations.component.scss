@@ -104,9 +104,36 @@ input[type='file'] {
   cursor: pointer;
 }
 
+.delete-block {
+  justify-content: space-between;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--ubs-quaternary-light-grey);
+  opacity: 0.7;
+  width: 158px;
+  display: none;
+  max-height: 45px;
+
+  &:hover {
+    display: flex;
+    cursor: pointer;
+  }
+
+  div:nth-of-type(1) {
+    width: calc(100% - 25px);
+    overflow: hidden;
+  }
+
+  div:nth-of-type(2) {
+    width: 15px;
+  }
+}
+
 .image-preview {
   width: 158px;
   height: 104px;
+
   &:hover + .delete-block {
     display: flex;
   }
@@ -120,29 +147,6 @@ input[type='file'] {
   border: 1px solid var(--ubs-primary-light-grey);
   box-sizing: border-box;
   margin: 1px;
-}
-
-.delete-block {
-  justify-content: space-between;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: var(--ubs-quaternary-light-grey);
-  opacity: 0.7;
-  width: 158px;
-  display: none;
-  max-height: 45px;
-  &:hover {
-    display: flex;
-    cursor: pointer;
-  }
-  div:nth-of-type(1) {
-    width: calc(100% - 25px);
-    overflow: hidden;
-  }
-  div:nth-of-type(2) {
-    width: 15px;
-  }
 }
 
 .drag-inscription {
