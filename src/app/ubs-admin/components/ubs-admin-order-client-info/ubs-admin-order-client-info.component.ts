@@ -5,6 +5,8 @@ import { takeUntil } from 'rxjs/operators';
 import { IUserInfo } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { AddViolationsComponent } from '../add-violations/add-violations.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ubs-admin-order-client-info',
@@ -21,7 +23,7 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
   public currentLanguage: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private localStorageService: LocalStorageService, private orderService: OrderService) {}
+  constructor(private localStorageService: LocalStorageService, private dialog: MatDialog, private orderService: OrderService) {}
 
   public initForm(): void {
     this.customerInfoForm = new FormGroup({
@@ -49,6 +51,10 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
         this.userViolationForCurrentOrder = data.userViolationForCurrentOrder;
         this.patchFormData();
       });
+  }
+
+  openModal() {
+    this.dialog.open(AddViolationsComponent, { height: '90%', maxWidth: '560px' });
   }
 
   ngOnInit(): void {

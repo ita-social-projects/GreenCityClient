@@ -47,7 +47,9 @@
           <p>{{ userViolationForCurrentOrder }}</p>
         </div>
       </div>
-      <button class="btn" [disabled]="totalUserViolations > userViolationForCurrentOrder" type="button">Додати порушення</button>
+      <button class="btn" [disabled]="totalUserViolations > userViolationForCurrentOrder" type="button" (click)="openModal()">
+        Додати порушення
+      </button>
     </div>
   </form>
   <hr />

@@ -13,28 +13,32 @@ h6 {
   font-weight: 700;
 }
 
+.close-icon {
+  color: var(--quaternary-grey);
+}
+
 .custom-radio {
   font-size: 14px;
 }
 
 .radio {
-  color: #13aa57;
-  border: 1px solid #64727d;
+  color: var(--ubs-primary-green);
+  border: 1px solid var(--quaternary-grey);
 }
 
 .description {
   width: 100%;
   height: 141px;
-  border: 1px solid #9ca7b0;
+  border: 1px solid var(--ubs-quintynary-light-grey);
   border-radius: 4px;
-  color: #9ca7b0;
+  color: var(--ubs-quintynary-light-grey);
   padding: 8px;
 }
 
 .requirement {
   font-weight: 400;
   font-size: 14px;
-  color: #64727d;
+  color: var(--quaternary-grey);
 }
 
 label {
@@ -43,30 +47,30 @@ label {
 }
 
 .label-y {
-  background-color: #fff4bf;
+  background-color: var(--attention-light-yellow);
   margin-left: 10px;
 }
 
 .label-p {
-  background-color: #fce0de;
+  background-color: var(--error-light-red);
   margin-left: 10px;
 }
 
 .label-g {
-  color: #13aa57;
+  color: var(--primary-green);
 }
 
 .cancel-button {
-  color: #13aa57;
+  color: var(--primary-green);
   border-radius: 4px;
-  border: 1px solid #b3e6c9;
-  background-color: white;
+  border: 1px solid var(--primary-light-green);
+  background-color: #fff;
   padding: 8px 24px;
 }
 
 .add-button {
-  color: white;
-  background-color: #b3e6c9;
+  color: #fff;
+  background-color: var(--primary-light-green);
   border-radius: 4px;
   border: none;
   margin-left: 20px;
@@ -74,19 +78,19 @@ label {
 }
 
 .info {
-  color: #64727d;
+  color: var(--quaternary-grey);
   font-weight: normal;
   font-size: 12px;
 }
 
 .date {
-  color: #1d2830;
+  color: var(--ubs-quaternary-dark-grey);
   font-size: 14px;
   margin-right: 30px;
 }
 
 .user {
-  color: #1d2830;
+  color: var(--ubs-quaternary-dark-grey);
   font-size: 14px;
 }
 
@@ -112,8 +116,8 @@ input[type='file'] {
   position: relative;
   height: 105px;
   width: 158px;
-  background: #f7f9fa;
-  border: 1px solid #cacfd3;
+  background: var(--ubs-secondary-white);
+  border: 1px solid var(--ubs-primary-light-grey);
   box-sizing: border-box;
   margin: 1px;
 }
@@ -123,7 +127,7 @@ input[type='file'] {
   position: absolute;
   top: 0;
   left: 0;
-  background: #e3e6e8;
+  background: var(--ubs-quaternary-light-grey);
   opacity: 0.7;
   width: 158px;
   display: none;
@@ -143,7 +147,7 @@ input[type='file'] {
 
 .drag-inscription {
   font-size: 12px;
-  color: #64727d;
+  color: var(--quaternary-grey);
   position: absolute;
   top: 50%;
   left: 50%;
@@ -152,13 +156,13 @@ input[type='file'] {
 }
 
 .error-message {
-  color: #eb180d;
+  color: var(--ubs-primary-red);
   font-size: 14px;
   font-weight: 400;
 }
 
 .delete-photo {
-  color: #eb180d;
+  color: var(--error-red);
   font-size: 16px;
   font-weight: bold;
   border: none;
