@@ -13,7 +13,6 @@ export interface Position {
   styleUrls: ['./employee-form.component.scss']
 })
 export class EmployeeFormComponent implements OnInit {
-  @Input()
   locations;
   roles;
   selectedFile: File;
@@ -46,14 +45,18 @@ export class EmployeeFormComponent implements OnInit {
       receivingStations: this.fb.array([], Validators.required)
     });
   }
+  get employeeControls() {
+    return this.employeeForm.get('employeePositions') as FormArray;
+  }
+  get stationControls() {
+    return this.employeeForm.get('receivingStations') as FormArray;
+  }
 
   onCheckChangeRole(data) {
-    const formPositionArray: FormArray = this.employeeForm.get('employeePositions') as FormArray;
-    formPositionArray.push(new FormControl(data));
+    this.employeeControls.value.push(new FormControl(data));
   }
   onCheckChangeLocation(data) {
-    const formLocationArray: FormArray = this.employeeForm.get('receivingStations') as FormArray;
-    formLocationArray.push(new FormControl(data));
+    this.stationControls.value.push(new FormControl(data));
   }
   imagePreview(e) {
     this.selectedFile = (e.target as HTMLInputElement).files[0];

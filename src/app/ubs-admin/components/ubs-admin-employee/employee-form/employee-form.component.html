@@ -5,11 +5,11 @@
   </div>
   <div class="form-group">
     <label for="name">Ім'я*</label>
-    <input formControlName="firstName" placeholder="Placeholder" />
+    <input formControlName="firstName" placeholder="First name" />
   </div>
   <div class="form-group">
     <label>Прізвище*</label>
-    <input formControlName="lastName" placeholder="Placeholder" />
+    <input formControlName="lastName" placeholder="Last name" />
   </div>
   <div class="form-group">
     <label>Номер телефону*</label>
@@ -17,7 +17,7 @@
   </div>
   <div class="form-group">
     <label>Email</label>
-    <input formControlName="email" placeholder="" />
+    <input formControlName="email" placeholder="Email" />
   </div>
   <label>Посада*</label>
   <div class="checkbox-section-role">
@@ -45,17 +45,13 @@
     <div class="image-name" *ngIf="uploaded">
       <p class="img-text">{{ this.selectedFile.name }}</p>
       <button class="reset-image" (click)="fileUpload.click()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-          <path
-            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
-          />
-        </svg>
+        <img src="../../../../../assets/ubs-employee-form/dismiss.svg" alt="dismiss button" />
       </button>
     </div>
     <div class="upload-text" *ngIf="!uploaded">Перетягніть зображення, або <a (click)="fileUpload.click()">завантажте з пристрою</a></div>
   </div>
   <div class="button-row">
-    <button mat-stroked-button mat-dialog-close color="#13aa57">Скасувати</button>
-    <button mat-raised-button color="#13aa57" type="submit">Додати</button>
+    <button mat-dialog-close class="cancelButton">Скасувати</button>
+    <button type="submit" class="addButton">Додати</button>
   </div>
 </form>

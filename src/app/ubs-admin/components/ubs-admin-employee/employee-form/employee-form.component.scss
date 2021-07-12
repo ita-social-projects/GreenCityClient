@@ -41,20 +41,6 @@ form {
   top: 738px;
 }
 
-.mat-raised-button {
-  background-color: var(--ubs-primary-green);
-  color: var(--ubs-primary-white);
-  height: 36px;
-  width: 99px;
-}
-
-.mat-stroked-button {
-  background-color: var(--ubs-primary-white);
-  color: var(--ubs-primary-green);
-  height: 36px;
-  width: 99px;
-}
-
 input {
   width: 328px;
   height: 36px;
@@ -213,4 +199,20 @@ svg {
   align-content: center;
   align-items: flex-start;
   justify-content: flex-start;
+}
+.cancelButton {
+  color: var(--ubs-primary-green);
+  border: 1px solid var(--ubs-primary-green);
+  border-radius: 5px;
+  background-color: var(--ubs-primary-white);
+  width: 117px;
+  height: 36px;
+  margin-right: 16px;
+}
+.addButton {
+  color: var(--ubs-primary-white);
+  background-color: var(--ubs-primary-green);
+  border-radius: 5px;
+  width: 99px;
+  height: 36px;
 }
