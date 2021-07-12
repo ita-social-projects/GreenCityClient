@@ -19,18 +19,18 @@ export class EmployeeFormComponent implements OnInit {
   employeeForm: FormGroup;
   positionsArr = [];
   ngOnInit() {
-    this.employeeService.getAllPositions().subscribe({
-      next: (data) => {
+    this.employeeService.getAllPositions().subscribe(
+      (data) => {
         this.roles = data;
       },
-      error: (err: Error) => console.error('Observer for role got an error: ' + err)
-    });
-    this.employeeService.getAllStantions().subscribe({
-      next: (locations) => {
-        this.locations = locations;
+      (error) => console.error('Observer for role got an error: ' + error)
+    );
+    this.employeeService.getAllStantions().subscribe(
+      (data) => {
+        this.locations = data;
       },
-      error: (err: Error) => console.error('Observer for stations got an error: ' + err)
-    });
+      (error) => console.error('Observer for stations got an error: ' + error)
+    );
   }
   constructor(private employeeService: UbsAdminEmployeeService, public fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data) {
     this.employeeForm = this.fb.group({
