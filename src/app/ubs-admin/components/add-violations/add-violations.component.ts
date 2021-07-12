@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ImageFile } from '../../models/image-file.model';
 import { FileHandle } from '../../models/file-handle.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-violations',
@@ -12,10 +13,14 @@ export class AddViolationsComponent implements OnInit {
   files: FileHandle[] = [];
   isImageSizeError = false;
   isImageTypeError = false;
-
-  constructor() {}
+  dragAndDropLabel;
+  constructor(private translate: TranslateService) {}
 
   ngOnInit() {
+    this.translate.get('add-violation-modal.drag-photo').subscribe((value) => {
+      console.log(value);
+      this.dragAndDropLabel = value;
+    });
     this.initImages();
   }
 
@@ -62,7 +67,7 @@ export class AddViolationsComponent implements OnInit {
       this.images[i].label = null;
       if (!this.images[i].src) {
         this.images[i].src = result;
-        this.images[i + 1].label = 'Перетягніть фото сюди';
+        this.images[i + 1].label = this.dragAndDropLabel;
         this.images[i].name = name;
         break;
       }
@@ -75,7 +80,7 @@ export class AddViolationsComponent implements OnInit {
       img.label = '';
       img.name = null;
     }
-    this.images[0].label = 'Перетягніть фото сюди';
+    this.images[0].label = this.dragAndDropLabel;
   }
 
   deleteImage(i: number): void {
@@ -87,14 +92,14 @@ export class AddViolationsComponent implements OnInit {
     let attachLabel = true;
     for (let i = 0; i < this.images.length; i++) {
       if (i === 0 && !this.images[i].src) {
-        this.images[i].label = 'Перетягніть фото сюди';
+        this.images[i].label = this.dragAndDropLabel;
       }
       if (!attachLabel) {
         this.images[i].label = null;
         continue;
       }
       if (i > 0 && !this.images[i].src && this.images[i - 1].src) {
-        this.images[i].label = 'Перетягніть фото сюди';
+        this.images[i].label = this.dragAndDropLabel;
         attachLabel = false;
       }
     }
@@ -104,6 +109,6 @@ export class AddViolationsComponent implements OnInit {
     for (let i = 0; i < 6; i++) {
       this.images.push({ src: null, label: null, name: null });
     }
-    this.images[0].label = 'Перетягніть фото сюди';
+    this.images[0].label = this.dragAndDropLabel;
   }
 }
