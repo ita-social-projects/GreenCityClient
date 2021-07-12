@@ -5,7 +5,7 @@
         <div class="header-text">
           <h3>{{ 'ubs-client-profile.data' | translate }}</h3>
         </div>
-        <button class="btn btn-outline-success" (click)="onEdit()" [disabled]="editing">
+        <button class="btn btn-outline-success" (click)="onEdit()" [disabled]="isEditing">
           {{ 'ubs-client-profile.btn.edit' | translate }}
         </button>
       </div>
@@ -83,7 +83,7 @@
           </div>
         </form>
       </div>
-      <div class="submit-btns" *ngIf="editing">
+      <div class="submit-btns" *ngIf="isEditing">
         <button class="btn btn-outline-success" type="submit" (click)="onCancel()">
           {{ 'ubs-client-profile.btn.cancel' | translate }}
         </button>
