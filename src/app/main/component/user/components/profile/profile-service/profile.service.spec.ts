@@ -1,5 +1,5 @@
-import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Language } from './../../../../../i18n/Language';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 import { BehaviorSubject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
@@ -26,8 +26,8 @@ describe('ProfileService', () => {
       providers: [
         ProfileService,
         { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: LanguageService, useValue: languageServiceMock },
-      ],
+        { provide: LanguageService, useValue: languageServiceMock }
+      ]
     });
     profileService = TestBed.get(ProfileService);
     httpMock = TestBed.get(HttpTestingController);
@@ -73,7 +73,7 @@ describe('ProfileService', () => {
         showEcoPlace: true,
         showLocation: false,
         showShoppingList: true,
-        socialNetworks: [],
+        socialNetworks: []
       };
 
       profileService.getUserInfo().subscribe((info) => {
@@ -92,7 +92,7 @@ describe('ProfileService', () => {
         amountHabitsInProgress: 2,
         amountHabitsAcquired: 1,
         amountWrittenTipsAndTrick: 0,
-        amountPublishedNews: 7,
+        amountPublishedNews: 7
       };
 
       profileService.getUserProfileStatistics().subscribe((info) => {
@@ -110,12 +110,12 @@ describe('ProfileService', () => {
       const places = [
         {
           placeId: 1,
-          name: 'string',
+          name: 'string'
         },
         {
           placeId: 2,
-          name: 'string2',
-        },
+          name: 'string2'
+        }
       ];
 
       profileService.getEcoPlaces().subscribe((info) => {
@@ -136,8 +136,8 @@ describe('ProfileService', () => {
           currentPage: 1,
           page: [],
           totalElements: 6,
-          totalPages: 1,
-        },
+          totalPages: 1
+        }
       };
 
       profileService.getUserFriends().subscribe((info) => {

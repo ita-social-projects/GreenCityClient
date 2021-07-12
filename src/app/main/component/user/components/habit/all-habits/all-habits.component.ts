@@ -1,4 +1,3 @@
-import { HabitAssignInterface } from './../../../../../interface/habit/habit-assign.interface';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
@@ -10,11 +9,12 @@ import { map, take } from 'rxjs/operators';
 import { HabitInterface, HabitListInterface } from '../../../../../interface/habit/habit.interface';
 import { singleNewsImages } from '../../../../../image-pathes/single-news-images';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
+import { HabitAssignInterface } from 'src/app/main/interface/habit/habit-assign.interface';
 
 @Component({
   selector: 'app-all-habits',
   templateUrl: './all-habits.component.html',
-  styleUrls: ['./all-habits.component.scss'],
+  styleUrls: ['./all-habits.component.scss']
 })
 export class AllHabitsComponent implements OnInit, OnDestroy {
   public allHabits = new BehaviorSubject<any>([]);
@@ -53,8 +53,6 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
       this.fetchAllHabits(0, this.batchSize);
     });
 
-    this.checkIfAssigned();
-
     const habitServiceSub = this.allHabits.subscribe((data) => {
       this.isFetching = false;
       this.totalHabits = data.totalElements;
@@ -67,7 +65,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
       let tag = [];
       if (data.page) {
         this.elementsLeft = data.totalElements !== this.habitsList.length;
-
+        this.checkIfAssigned();
         data.page.forEach((element) => {
           tag = [...tag, ...element.habitTranslation.habitItem];
           return tag;

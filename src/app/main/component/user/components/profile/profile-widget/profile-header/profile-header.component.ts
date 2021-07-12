@@ -1,19 +1,19 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { EditProfileModel } from '@global-user/models/edit-profile.model';
+import { EditProfileModel } from '@user-models/edit-profile.model';
 
 @Component({
   selector: 'app-profile-header',
   templateUrl: './profile-header.component.html',
-  styleUrls: ['./profile-header.component.scss'],
+  styleUrls: ['./profile-header.component.scss']
 })
 export class ProfileHeaderComponent implements OnInit, OnDestroy {
   public mockedUserInfo = {
     city: '',
     status: 'online',
     rating: 0,
-    userCredo: 'User credo',
+    userCredo: 'User credo'
   };
   socialNetworksList = ['facebook', 'instagram', 'linked', 'twitter', 'green-city'];
   userSocialNetworks: Array<any>;
@@ -50,7 +50,7 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
     this.userSocialNetworks = this.userInfo.socialNetworks.map((item) => {
       return {
         link: item.url,
-        name: this.findNetwork(item.url),
+        name: this.findNetwork(item.url)
       };
     });
   }

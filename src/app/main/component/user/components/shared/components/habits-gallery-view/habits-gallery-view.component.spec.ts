@@ -25,8 +25,8 @@ describe('HabitsGalleryViewComponent', () => {
       imports: [TranslateModule.forRoot(), RouterTestingModule, MatSnackBarModule, HttpClientTestingModule],
       providers: [
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
-        { provide: HabitAssignService, useValue: habitAssignServiceMock },
-      ],
+        { provide: HabitAssignService, useValue: habitAssignServiceMock }
+      ]
     }).compileComponents();
     httpTestingController = TestBed.get(HttpTestingController);
   }));
@@ -35,16 +35,17 @@ describe('HabitsGalleryViewComponent', () => {
     fixture = TestBed.createComponent(HabitsGalleryViewComponent);
     component = fixture.componentInstance;
     component.habit = {
+      complexity: 1,
       defaultDuration: 14,
       habitTranslation: {
         description: 'test',
         habitItem: 'test',
         languageCode: 'en',
-        name: 'test',
+        name: 'test'
       },
       id: 503,
       image: 'test',
-      tags: ['test1', 'test2'],
+      tags: ['test1', 'test2']
     };
     fixture.detectChanges();
   });

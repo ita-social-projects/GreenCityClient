@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
   selector: 'app-mat-snack-bar',
   templateUrl: './mat-snack-bar.component.html',
   styleUrls: ['./mat-snack-bar.component.scss'],
-  providers: [TranslateService],
+  providers: [TranslateService]
 })
 export class MatSnackBarComponent {
   public message: string;
@@ -60,9 +60,17 @@ export class MatSnackBarComponent {
       this.getSnackBarMessage('update-cafe.notifications.photoUpload');
       this.className = 'error-snackbar';
     },
+    habitDeleted: () => {
+      this.className = 'error-snackbar';
+      this.getSnackBarMessage('user.habit.all-habits.habit-was-deleted');
+    },
     habitAdded: () => {
       this.className = 'success-snackbar';
       this.getSnackBarMessage('user.habit.all-habits.new-habit-added');
+    },
+    habitUpdated: () => {
+      this.className = 'success-snackbar';
+      this.getSnackBarMessage('user.habit.all-habits.new-habit-updated');
     },
     errorMessage: (error) => {
       this.className = 'error-snackbar';
@@ -92,7 +100,7 @@ export class MatSnackBarComponent {
         duration: 15000,
         verticalPosition: 'top',
         horizontalPosition: 'center',
-        panelClass: [this.className],
+        panelClass: [this.className]
       });
     });
   }

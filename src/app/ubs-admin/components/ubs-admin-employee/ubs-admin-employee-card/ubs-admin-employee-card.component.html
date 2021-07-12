@@ -2,7 +2,7 @@
   <div class="card-container">
     <div class="employee-info">
       <div *ngIf="data.image">
-        <img [src]="data.image" alt="image" />
+        <img [src]="data.image" alt="photo of an employee" />
       </div>
       <div>
         <div>
@@ -26,7 +26,7 @@
     <mat-menu #menu="matMenu">
       <button mat-menu-item>
         <mat-icon>edit</mat-icon>
-        <span class="body-1" (click)="updateEmployee(data)">Редагувати</span>
+        <span class="body-1">Редагувати</span>
       </button>
       <button mat-menu-item>
         <mat-icon>delete</mat-icon>
