@@ -4,9 +4,6 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.service';
 import { Validators } from '@angular/forms';
 
-export interface Position {
-  name: string;
-}
 @Component({
   selector: 'app-employee-form',
   templateUrl: './employee-form.component.html',
@@ -52,6 +49,12 @@ export class EmployeeFormComponent implements OnInit {
     return this.employeeForm.get('receivingStations') as FormArray;
   }
 
+  get employeeControls() {
+    return this.employeeForm.get('employeePositions') as FormArray;
+  }
+  get stationControls() {
+    return this.employeeForm.get('receivingStations') as FormArray;
+  }
   onCheckChangeRole(data) {
     this.employeeControls.value.push(new FormControl(data));
   }

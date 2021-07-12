@@ -21,7 +21,7 @@ class MatDialogMock {
 
   open() {
     return {
-      afterClosed: () => of(true),
+      afterClosed: () => of(true)
     };
   }
 }
@@ -48,7 +48,6 @@ describe('HeaderComponent', () => {
 
   let userServiceMock: UserService;
   userServiceMock = jasmine.createSpyObj('UserService', ['onLogout']);
-  userServiceMock.onLogout = () => true;
   userServiceMock.updateUserLanguage = () => of(true);
 
   let achievementServiceMock: AchievementService;
@@ -91,8 +90,8 @@ describe('HeaderComponent', () => {
         { provide: HabitStatisticService, useValue: habitStatisticServiceMock },
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: SearchService, useValue: searchServiceMock },
-        { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock },
-      ],
+        { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock }
+      ]
     }).compileComponents();
   }));
 
@@ -165,13 +164,8 @@ describe('HeaderComponent', () => {
     it('should log out the user', () => {
       // @ts-ignore
       const spy = spyOn(component.localStorageService, 'clear');
-      // @ts-ignore
-      const spy2 = spyOn(component.userService, 'onLogout');
-
       component.signOut();
-
       expect(spy).toHaveBeenCalled();
-      expect(spy2).toHaveBeenCalled();
     });
   });
 });
