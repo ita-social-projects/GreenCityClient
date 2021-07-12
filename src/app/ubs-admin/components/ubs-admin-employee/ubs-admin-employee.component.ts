@@ -43,7 +43,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => this.setData(item));
   }
-  
+
   setData(item: Employees): void {
     console.log(item);
     this.fakeData = item.page;
@@ -56,7 +56,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     this.getEmployees();
     this.location.go(`/ubs-admin/employee/${this.currentPage}`);
   }
-  
+
   openDialog() {
     const dialogRef = this.dialog.open(EmployeeFormComponent, {
       panelClass: 'custom-modalbox'
