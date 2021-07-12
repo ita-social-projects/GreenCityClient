@@ -31,6 +31,7 @@ export class UbsAdminTableComponent implements OnInit {
   arrowDirection: string;
   tableData: any[];
   currentPage: number = 0;
+  totalPages: number;
   pageSizeOptions: number[] = [10, 15, 20];
   pageSize: number = 10;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -109,6 +110,7 @@ export class UbsAdminTableComponent implements OnInit {
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         this.tableData = item['page'];
+        this.totalPages = item['totalPages'];
         this.dataSource = new MatTableDataSource(this.tableData);
         const requiredColumns = [{ field: 'select', sticky: true }];
         const dynamicallyColumns = [];
@@ -157,7 +159,7 @@ export class UbsAdminTableComponent implements OnInit {
   }
 
   onScroll() {
-    if (!this.isUpdate) {
+    if (!this.isUpdate && this.currentPage < this.totalPages) {
       this.currentPage++;
       this.updateTableData();
     }

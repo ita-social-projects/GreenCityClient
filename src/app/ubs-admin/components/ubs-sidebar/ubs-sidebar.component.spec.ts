@@ -8,6 +8,7 @@ import { UbsAdminTableComponent } from '../ubs-admin-table/ubs-admin-table.compo
 import { UbsHeaderComponent } from '../ubs-header/ubs-header.component';
 
 import { UbsSidebarComponent } from './ubs-sidebar.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 describe('UbsSidebarComponent', () => {
   let component: UbsSidebarComponent;
@@ -24,7 +25,8 @@ describe('UbsSidebarComponent', () => {
         MatPaginatorModule,
         BrowserAnimationsModule,
         HttpClientTestingModule,
-        SharedModule
+        SharedModule,
+        InfiniteScrollModule
       ],
       declarations: [UbsSidebarComponent, UbsAdminTableComponent, UbsHeaderComponent]
     }).compileComponents();
