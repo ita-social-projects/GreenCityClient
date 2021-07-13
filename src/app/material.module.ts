@@ -18,7 +18,7 @@ import {
   MatTableModule,
   MatToolbarModule,
   MatTreeModule,
-  MatMenuModule
+  MatMenuModule,
 } from '@angular/material';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
