@@ -109,8 +109,8 @@ export class UbsAdminTableComponent implements OnInit {
       .getTable(columnName, this.currentPage, this.pageSize, sortingType)
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
-        this.tableData = item['page'];
-        this.totalPages = item['totalPages'];
+        this.tableData = item[`page`];
+        this.totalPages = item[`totalPages`];
         this.dataSource = new MatTableDataSource(this.tableData);
         const requiredColumns = [{ field: 'select', sticky: true }];
         const dynamicallyColumns = [];
@@ -142,8 +142,8 @@ export class UbsAdminTableComponent implements OnInit {
       .getTable('orderId', this.currentPage, this.pageSize, 'desc')
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
-        const data = item['page'];
-        this.totalPages = item['totalPages'];
+        const data = item[`page`];
+        this.totalPages = item[`totalPages`];
         this.tableData = [...this.tableData, ...data];
         this.dataSource.data = this.tableData;
         this.isUpdate = false;
