@@ -5,6 +5,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { EmployeeFormComponent } from './employee-form/employee-form.component';
 
 @Component({
   selector: 'app-ubs-admin-employee',
@@ -23,7 +25,8 @@ export class UbsAdminEmployeeComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private location: Location,
-    private ubsAdminEmployeeService: UbsAdminEmployeeService
+    private ubsAdminEmployeeService: UbsAdminEmployeeService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -52,5 +55,11 @@ export class UbsAdminEmployeeComponent implements OnInit {
     this.paginPage = this.currentPage - 1;
     this.getEmployees();
     this.location.go(`/ubs-admin/employee/${this.currentPage}`);
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(EmployeeFormComponent, {
+      panelClass: 'custom-modalbox'
+    });
   }
 }

@@ -17,6 +17,7 @@ import { UbsAdminComponent } from './ubs-admin.component';
 import { UbsAdminEmployeeComponent } from './components/ubs-admin-employee/ubs-admin-employee.component';
 import { UbsAdminEmployeeCardComponent } from './components/ubs-admin-employee/ubs-admin-employee-card/ubs-admin-employee-card.component';
 import { PaginationComponent } from './components/shared/components/pagination/pagination.component';
+import { EmployeeFormComponent } from './components/ubs-admin-employee/employee-form/employee-form.component';
 import { UBSAdminRoutingModule } from './ubs-admin-routing.module';
 import { UbsClientProfilePageComponent } from './components/ubs-client-profile-page/ubs-client-profile-page.component';
 import { UbsAdminResponsiblePersonsComponent } from './components/ubs-admin-responsible-persons/ubs-admin-responsible-persons.component';
@@ -29,6 +30,8 @@ import { UbsAdminOrderComponent } from './components/ubs-admin-order/ubs-admin-o
 import { UbsAdminAddressDetailsComponent } from './components/ubs-admin-address-details/ubs-admin-address-details.component';
 import { InterceptorService } from '../shared/interceptors/interceptor.service';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { UbsProfileChangePasswordPopUpComponent } from './components/ubs-client-profile-page/ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
+import { UbsProfileDeletePopUpComponent } from './components/ubs-client-profile-page/ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +42,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     UbsAdminComponent,
     UbsAdminEmployeeComponent,
     UbsAdminEmployeeCardComponent,
+    EmployeeFormComponent,
     UbsClientProfilePageComponent,
     UbsAdminOrderComponent,
     UbsAdminAddressDetailsComponent,
@@ -47,13 +51,16 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     UbsAdminExportDetailsComponent,
     UbsAdminOrderPaymentComponent,
     UbsAdminOrderClientInfoComponent,
-    UbsAdminOrderDetailsFormComponent
+    UbsAdminOrderDetailsFormComponent,
+    UbsProfileChangePasswordPopUpComponent,
+    UbsProfileDeletePopUpComponent
   ],
   imports: [
     CommonModule,
     MaterialModule,
     SharedModule,
     RouterModule,
+    NgxPaginationModule,
     HttpClientModule,
     UBSAdminRoutingModule,
     FormsModule,
@@ -79,7 +86,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
       multi: true
     }
   ],
-  entryComponents: [UbsAdminTableComponent]
+  entryComponents: [UbsAdminTableComponent, EmployeeFormComponent, UbsProfileChangePasswordPopUpComponent, UbsProfileDeletePopUpComponent]
 })
 export class UbsAdminModule {}
 
