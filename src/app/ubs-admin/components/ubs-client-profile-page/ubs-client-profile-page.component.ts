@@ -108,13 +108,13 @@ export class UbsClientProfilePageComponent implements OnInit {
 
   openDeleteProfileDialog() {
     this.dialog.open(UbsProfileDeletePopUpComponent, {
-      hasBackdrop: true;
+      hasBackdrop: true,
     });
   }
 
   openChangePasswordDialog() {
     this.dialog.open(UbsProfileChangePasswordPopUpComponent, {
-      hasBackdrop: true;
+      hasBackdrop: true,
     });
   }
 }
