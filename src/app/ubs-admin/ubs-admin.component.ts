@@ -6,7 +6,8 @@ import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-ubs-admin',
-  templateUrl: './ubs-admin.component.html'
+  templateUrl: './ubs-admin.component.html',
+  styleUrls: ['./ubs-admin.component.scss']
 })
 export class UbsAdminComponent implements OnInit, OnDestroy {
   private destroy: Subject<boolean> = new Subject<boolean>();
