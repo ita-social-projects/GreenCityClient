@@ -1,18 +1,18 @@
-import { LanguageService } from 'src/app/main/i18n/language.service';
-import { EcoPlaces } from '@global-user/models/ecoPlaces.model';
+import { EcoPlaces } from '@user-models/ecoPlaces.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CardModel } from '@global-user/models/card.model';
-import { ShoppingList } from '@global-user/models/shoppinglist.model';
+import { CardModel } from '@user-models/card.model';
+import { ShoppingList } from '@user-models/shoppinglist.model';
 import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { ProfileStatistics } from '@global-user/models/profile-statistiscs';
-import { EditProfileModel } from '@global-user/models/edit-profile.model';
+import { ProfileStatistics } from '@user-models/profile-statistiscs';
+import { EditProfileModel } from '@user-models/edit-profile.model';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 import { UserFriendsInterface } from '../../../../../interface/user/user-friends.interface';
 import { mainLink, mainUserLink } from '../../../../../links';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ProfileService {
   public userId: number;
@@ -57,14 +57,11 @@ export class ProfileService {
   }
 
   public toggleStatusOfShoppingItem(item): Observable<object[]> {
+    const currentLang = this.languageService.getCurrentLanguage();
     this.setUserId();
     const body = {};
     const { status: prevStatus } = item;
-    const newStatus = prevStatus === 'DONE' ? 'ACTIVE' : 'DONE';
-    return this.http.patch<object[]>(
-      `
-    ${mainLink}custom/shopping-list-items/${this.userId}/custom-shopping-list-items?itemId=${item.id}&status=${newStatus}`,
-      body
-    );
+    const newStatus = prevStatus === 'DONE' ? 'INPROGRESS' : 'DONE';
+    return this.http.patch<object[]>(`${mainLink}user/shopping-list-items/${item.id}/status/${newStatus}?lang=${currentLang}`, body);
   }
 }

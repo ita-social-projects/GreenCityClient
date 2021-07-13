@@ -30,7 +30,7 @@ describe('PersonalPhotoComponent', () => {
     TestBed.configureTestingModule({
       declarations: [PersonalPhotoComponent],
       imports: [MatDialogModule, HttpClientTestingModule, TranslateModule.forRoot(), UserSharedModule, BrowserAnimationsModule],
-      providers: [{ provide: MatDialog, useValue: dialogStub }],
+      providers: [{ provide: MatDialog, useValue: dialogStub }]
     }).compileComponents();
   }));
 
@@ -48,7 +48,7 @@ describe('PersonalPhotoComponent', () => {
     it('Should set user data', () => {
       const userData = {
         profilePicturePath: 'test',
-        firstName: 'test',
+        firstName: 'test'
       };
       // @ts-ignore
       spyOn(component.profileService, 'getUserInfo').and.returnValue(of(userData));
@@ -68,7 +68,7 @@ describe('PersonalPhotoComponent', () => {
         showEcoPlace: true,
         showLocation: true,
         showShoppingList: true,
-        socialNetworks: [{ id: 220, url: 'http://instagram.com/profile' }],
+        socialNetworks: [{ id: 220, url: 'http://instagram.com/profile' }]
       };
       // @ts-ignore
       spyOn(component.profileService, 'getUserInfo').and.returnValue(of(userData));

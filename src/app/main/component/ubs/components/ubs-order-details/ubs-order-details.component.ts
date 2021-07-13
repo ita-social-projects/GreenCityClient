@@ -41,6 +41,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   ecoStoreMask = '0000000000';
   servicesMask = '000';
   certificatePattern = /(?!0000)\d{4}-(?!0000)\d{4}/;
+  commentPattern = /^(.){0,255}$/;
+  additionalOrdersPattern = /^\d{10}$/;
   displayOrderBtn = false;
 
   certSize = false;
@@ -154,6 +156,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     return this.orderDetailsForm.get('additionalOrders') as FormArray;
   }
 
+  get orderComment() {
+    return this.orderDetailsForm.get('orderComment') as FormArray;
+  }
+
   get shop() {
     return this.orderDetailsForm.get('shop') as FormArray;
   }
@@ -193,9 +199,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   public ecoStoreValidation() {
+    const orderValues = [...new Set(this.additionalOrders.value)];
+    const checkDuplicate = orderValues.length === this.additionalOrders.length;
     let counter = 0;
     this.additionalOrders.controls.forEach((controller) => {
-      if (controller.valid && controller.dirty && controller.value !== '') {
+      if (controller.valid && controller.dirty && controller.value !== '' && checkDuplicate) {
         counter++;
       }
     });

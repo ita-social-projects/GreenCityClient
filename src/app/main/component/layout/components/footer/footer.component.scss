@@ -44,7 +44,7 @@ li {
 }
 
 .footer_link-item {
-  margin: 24px 20px 0 0;
+  margin: 24px 32px 0 0;
   color: var(--primary-dark-grey);
 }
 
@@ -84,10 +84,6 @@ li {
   padding-bottom: 10px;
 }
 
-.side {
-  padding-right: 20px;
-}
-
 @media (min-width: 576px) {
   li {
     padding: 0;
@@ -106,7 +102,7 @@ li {
   }
 
   .footer_right-side {
-    width: 204px;
+    width: 154px;
     height: 20px;
     display: flex;
     flex-direction: row;
@@ -125,10 +121,6 @@ li {
 
   .footer_logo-wrp {
     justify-content: flex-start;
-  }
-
-  .side {
-    padding-right: 0;
   }
 }
 

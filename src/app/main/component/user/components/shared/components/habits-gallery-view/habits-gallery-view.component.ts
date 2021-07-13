@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { take } from 'rxjs/operators';
@@ -10,11 +10,15 @@ import { HabitInterface } from '../../../../../../interface/habit/habit.interfac
 @Component({
   selector: 'app-habits-gallery-view',
   templateUrl: './habits-gallery-view.component.html',
-  styleUrls: ['./habits-gallery-view.component.scss'],
+  styleUrls: ['./habits-gallery-view.component.scss']
 })
-export class HabitsGalleryViewComponent {
+export class HabitsGalleryViewComponent implements OnInit {
   @Input() habit: HabitInterface;
   private requesting = false;
+  public whiteStar = 'assets/img/icon/star-2.png';
+  public greenStar = 'assets/img/icon/star-1.png';
+  public stars = [this.whiteStar, this.whiteStar, this.whiteStar];
+  public star: number;
 
   constructor(
     public router: Router,
@@ -23,6 +27,16 @@ export class HabitsGalleryViewComponent {
     public habitAssignService: HabitAssignService,
     public profileService: ProfileService
   ) {}
+
+  ngOnInit() {
+    this.getStars(this.habit.complexity);
+  }
+
+  public getStars(complexity: number) {
+    for (this.star = 0; this.star < complexity; this.star++) {
+      this.stars[this.star] = this.greenStar;
+    }
+  }
 
   public goHabitMore() {
     this.router.navigate(['addhabit', this.habit.id], { relativeTo: this.route });

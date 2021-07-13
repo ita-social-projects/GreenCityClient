@@ -1,6 +1,6 @@
 import { SharedMainModule } from '@shared/shared-main.module';
 import { HabitAssignInterface } from './../../../../../interface/habit/habit-assign.interface';
-import { HabitAssignService } from '../../../../../service/habit-assign/habit-assign.service';
+import { HabitAssignService } from './../../../../../service/habit-assign/habit-assign.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
@@ -69,7 +69,8 @@ describe('AllHabitsComponent', () => {
       lastEnrollmentDate: new Date('2021-06-19T16:35:18.04885Z'),
       status: 'INPROGRESS',
       userId: 7835,
-      workingDays: 0
+      workingDays: 0,
+      shoppingListItems: []
     }
   ];
 
@@ -181,28 +182,5 @@ describe('AllHabitsComponent', () => {
     const fetchAllHabitsSpy = spyOn(component as any, 'fetchAllHabits');
     component.ngOnInit();
     expect(fetchAllHabitsSpy).toHaveBeenCalledTimes(1);
-  });
-
-  it('Should stop fetching data on scroll if there is no page left', () => {
-    component.isFetching = true;
-    // @ts-ignore
-    component.totalPages = 2;
-    // @ts-ignore
-    component.currentPage = 2;
-    component.onScroll();
-    expect(component.isFetching).toEqual(false);
-  });
-
-  it('Should stop fetching data on scroll if there is no page left', () => {
-    // @ts-ignore
-    const spy = spyOn(component, 'fetchAllHabits').and.returnValue(true);
-    // @ts-ignore
-    component.totalPages = 2;
-    // @ts-ignore
-    component.currentPage = 1;
-    // @ts-ignore
-    component.lang = 'en';
-    component.onScroll();
-    expect(spy).toHaveBeenCalledWith(2, 6);
   });
 });

@@ -18,8 +18,7 @@ export class SearchService {
   public allElements: SearchDto;
 
   public getAllResults(searchQuery: string, lang: string): Observable<SearchModel> {
-    const processedSearchQuery = encodeURIComponent(searchQuery);
-    return this.http.get<SearchModel>(`${this.backEndLink}search?searchQuery=${processedSearchQuery}&lang=${lang}`);
+    return this.http.get<SearchModel>(`${this.backEndLink}search?searchQuery=${searchQuery}&lang=${lang}`);
   }
 
   public getAllResultsByCat(
