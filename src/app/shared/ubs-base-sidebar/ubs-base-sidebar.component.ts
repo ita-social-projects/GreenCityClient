@@ -8,6 +8,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
   styleUrls: ['./ubs-base-sidebar.component.scss']
 })
 export class UbsBaseSidebarComponent implements AfterViewInit {
+  readonly arrowRight = 'assets/img/ubs-admin-sidebar/arrowRight.svg';
+  readonly arrowLeft = 'assets/img/ubs-admin-sidebar/arrowLeft.svg';
   public openClose = false;
   public stopClick = false;
   @Input() public listElements: any[] = [];
