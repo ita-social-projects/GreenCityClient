@@ -89,7 +89,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   public getFormValues(): any {
     return {
       firstName: this.editProfileForm.value.name,
-      city: this.cityName,
+      city: this.editProfileForm.value.city,
       userCredo: this.editProfileForm.value.credo,
       showLocation: this.editProfileForm.value.showLocation,
       showEcoPlace: this.editProfileForm.value.showEcoPlace,
