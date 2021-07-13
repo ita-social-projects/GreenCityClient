@@ -104,6 +104,7 @@ export class UbsClientProfilePageComponent implements OnInit {
     } else {
       this.isEditing = true;
     }
+  }
 
   openDeleteProfileDialog() {
     this.dialog.open(UbsProfileDeletePopUpComponent, {
