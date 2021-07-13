@@ -9,8 +9,7 @@ export class UbsMainPageComponent implements OnInit {
   readonly ubsArmoredTrack = 'assets/img/ubs/armored_truck.svg';
   readonly ubsGreenGarbage = 'assets/img/ubs/green_garbage_bag.svg';
   readonly ubsBlackGarbage = 'assets/img/ubs/black_garbage_bag.svg';
-  readonly ubsBaseRectangle = 'assets/img/ubs/first_rectangle.svg';
-  readonly ubsRectangle = 'assets/img/ubs/second_rectangle.svg';
+  readonly ubsRectangle = 'assets/img/ubs/second_rectangle.png';
   readonly ubsPolygon = 'assets/img/ubs/polygon.svg';
   readonly ubsSignboard = 'assets/img/ubs/ubs_signboard.svg';
   priceCard = [
@@ -19,12 +18,12 @@ export class UbsMainPageComponent implements OnInit {
       content: 'ubs-homepage.ubs-courier.price.price-description.li_1'
     },
     {
-      header: 'ubs-homepage.ubs-courier.price.price-title.li_1',
-      content: 'ubs-homepage.ubs-courier.price.price-description.li_1'
+      header: 'ubs-homepage.ubs-courier.price.price-title.li_2',
+      content: 'ubs-homepage.ubs-courier.price.price-description.li_2'
     },
     {
-      header: 'ubs-homepage.ubs-courier.price.price-title.li_1',
-      content: 'ubs-homepage.ubs-courier.price.price-description.li_1'
+      header: 'ubs-homepage.ubs-courier.price.price-title.li_3',
+      content: 'ubs-homepage.ubs-courier.price.price-description.li_3'
     }
   ];
 

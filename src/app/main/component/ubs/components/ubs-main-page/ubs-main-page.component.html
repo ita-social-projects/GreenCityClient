@@ -75,7 +75,6 @@
     <h2 class="price-header">{{ 'ubs-homepage.ubs-courier.price.caption' | translate }}</h2>
     <div class="boxCard">
       <div id="price-frame" *ngFor="let elemPrice of priceCard">
-        <img [src]="ubsBaseRectangle" class="img_1" alt="ubs-base-rectangle" aria-hidden="true" />
         <img [src]="ubsRectangle" class="img_2" alt="ubs-rectangle" aria-hidden="true" />
         <h2 class="header-price">{{ elemPrice.header | translate }}</h2>
         <p class="content-price">{{ elemPrice.content | translate }}</p>

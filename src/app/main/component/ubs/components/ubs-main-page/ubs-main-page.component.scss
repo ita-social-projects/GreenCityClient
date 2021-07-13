@@ -87,7 +87,7 @@ p {
 }
 
 ul li {
-  margin: 8px 5px 8px;
+  margin: 8px 25px 8px 5px;
   list-style-type: square;
   color: var(--ubs-primary-grey);
   font-style: normal;
@@ -116,23 +116,17 @@ ul {
   align-items: center;
   justify-content: center;
   width: 185px;
-}
-
-.img_1 {
-  max-width: 359px;
-  position: relative;
-  top: 0;
-  left: 1;
-  z-index: 0;
+  height: 271px;
+  background-image: url(/assets/img/ubs/first_rectangle.png);
+  background-size: 184px 282px;
 }
 
 .img_2 {
   width: 79px;
-  height: 232px;
+  height: 230px;
   position: absolute;
-  top: 13px;
-  left: 50px;
-  z-index: 1;
+  top: 20px;
+  left: 55px;
 }
 
 .header-price {
@@ -248,10 +242,87 @@ hr {
     height: 250px;
     margin: 50px auto;
   }
+
+  #price-frame {
+    width: 250px;
+    height: 228px;
+    background-size: 250px 228px;
+  }
+
+  .img_2 {
+    height: 189px;
+    width: 108px;
+    top: 15px;
+    left: 75px;
+  }
+
+  .header-price {
+    margin-top: 50px;
+  }
+
+  .content-price {
+    margin: 80px 40px 10px;
+  }
 }
 
 @media screen and (min-width: 1024px) {
   .ubsHomepage {
     margin: auto 12%;
+  }
+
+  #price-frame {
+    width: 310px;
+    height: 178px;
+    background-size: 310px 187px;
+  }
+
+  .img_2 {
+    height: 150px;
+    width: 163px;
+    top: 15px;
+    left: 75px;
+  }
+
+  .header-price {
+    margin-top: 40px;
+  }
+
+  .content-price {
+    margin: 70px 25px 10px;
+  }
+
+  .content-step {
+    margin-top: 110px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  #price-frame {
+    width: 310px;
+    height: 178px;
+    background-size: 310px 187px;
+  }
+
+  .img_2 {
+    height: 150px;
+    width: 163px;
+    top: 15px;
+    left: 75px;
+  }
+
+  .header-price {
+    margin-top: 40px;
+  }
+
+  .content-price {
+    margin: 70px 25px 10px;
+  }
+
+  .header-step {
+    margin-top: 45px;
+  }
+
+  .content-step {
+    margin-top: 110px;
   }
 }
