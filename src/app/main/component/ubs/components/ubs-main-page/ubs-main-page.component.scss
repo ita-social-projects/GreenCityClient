@@ -1,0 +1,257 @@
+.ubsHomepage {
+  vertical-align: top;
+  max-width: 1920px;
+  margin: 0 auto;
+  color: var(--ubs-primary-grey);
+  letter-spacing: 0.002em;
+  font-family: var(--primary-font);
+  font-style: normal;
+  font-weight: normal;
+}
+
+h1 {
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 2;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+h2 {
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 32px;
+  margin: 25px auto;
+}
+
+.button {
+  font-size: 18px;
+  height: 44px;
+  background-color: var(--ubs-button-light-green);
+  color: var(--ubs-tertiary-dark-grey);
+  width: 200px;
+  margin-top: 25px;
+}
+
+p {
+  margin: 0;
+}
+
+.price-header {
+  font-weight: bold;
+  font-size: 30px;
+  line-height: 44px;
+  text-align: center;
+}
+
+#header {
+  height: 559px;
+}
+
+#header-left {
+  display: inline-block;
+  max-width: 51%;
+  vertical-align: top;
+}
+
+#header-right {
+  display: inline-block;
+  width: 49%;
+}
+
+#header-right-ul {
+  display: inline-flex;
+  width: 49%;
+}
+
+#ubs-image {
+  display: block;
+  outline: 0;
+  max-width: 100%;
+  height: auto;
+  margin: 20px auto 10px 0;
+}
+
+#ubs-polygon {
+  display: block;
+  margin: 10px auto 65px;
+}
+
+.section-header {
+  margin: 85px auto 20px;
+  text-align: center;
+  font-size: 18px;
+  max-width: 665px;
+  line-height: 28px;
+}
+
+ul li {
+  margin: 8px 5px 8px;
+  list-style-type: square;
+  color: var(--ubs-primary-grey);
+  font-style: normal;
+  font-size: 16px;
+  line-height: 24px;
+  list-style-position: outside;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+::marker {
+  font-size: 24px;
+  padding-left: 0;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+#price-frame {
+  position: relative;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 185px;
+}
+
+.img_1 {
+  max-width: 359px;
+  position: relative;
+  top: 0;
+  left: 1;
+  z-index: 0;
+}
+
+.img_2 {
+  width: 79px;
+  height: 232px;
+  position: absolute;
+  top: 13px;
+  left: 50px;
+  z-index: 1;
+}
+
+.header-price {
+  position: absolute;
+  text-align: center;
+  z-index: 2;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 28px;
+  align-self: start;
+  margin: 30% 0 10px;
+}
+
+.content-price {
+  position: absolute;
+  text-align: center;
+  z-index: 2;
+  font-size: 16px;
+  line-height: 24px;
+  align-self: start;
+  margin: 50% 25px 10px;
+  padding-top: 10px;
+}
+
+.boxCard {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1440px;
+  justify-content: center;
+}
+
+.box {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+#step-order {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  flex: 1 0 25%;
+  width: 133px;
+  height: 203px;
+  margin: 50px;
+}
+
+.circle {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  background-color: var(--ubs-tertiary-dark-grey);
+  color: var(--ubs-primary-white);
+  margin: 10px;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 20px;
+}
+
+hr {
+  border: none;
+  background-color: var(--ubs-tertiary-light-grey);
+  height: 2px;
+  width: 72px;
+  position: absolute;
+  left: 55px;
+  top: 5px;
+}
+
+.header-step {
+  position: absolute;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 28px;
+  align-self: start;
+  margin: 30% 10px 10px;
+}
+
+.content-step {
+  position: absolute;
+  font-size: 14px;
+  line-height: 28px;
+  align-self: start;
+  margin: 100px 10px 120px 10px;
+  padding-top: 20px;
+  width: 160px;
+}
+
+#how-works {
+  margin: 50px 50px 50px auto;
+}
+
+#header-how-works {
+  font-size: 36px;
+  font-weight: bold;
+  line-height: 44px;
+  margin-bottom: 25px;
+}
+
+.time-how {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 1px 25px 1px auto;
+}
+
+#how-works-content {
+  margin: 15px 10px 15px 0;
+}
+
+@media screen and (min-width: 770px) {
+  #step-order {
+    height: 250px;
+    margin: 50px auto;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .ubsHomepage {
+    margin: auto 12%;
+  }
+}
