@@ -7,7 +7,7 @@
       <button class="btn btn-outline-success" (click)="onEdit()">Редагувати</button>
     </div>
     <div class="container-fluid">
-      <p *ngIf="editing" class="message-text">
+      <p *ngIf="isEditing" class="message-text">
         Заповніть, будь ласка, Ваш профіль, щоб зробити процес замовлення максимально швидким і зручним
       </p>
     </div>
@@ -16,67 +16,67 @@
         <h5>Особисте</h5>
         <div class="form-group col-sm-5">
           <label for="firstName">Ім'я</label>
-          <input *ngIf="editing" type="text" class="form-control" id="firstName" formControlName="firstName" placeholder="Ім'я" />
-          <p *ngIf="!editing">{{ user.firstName }}</p>
+          <input *ngIf="isEditing" type="text" class="form-control" id="firstName" formControlName="firstName" placeholder="Ім'я" />
+          <p *ngIf="!isEditing">{{ user.firstName }}</p>
         </div>
         <div class="form-group col-sm-5">
           <label for="lastName">Прізвище</label>
-          <input *ngIf="editing" type="text" class="form-control" id="lastName" formControlName="lastName" placeholder="Прізвище" />
-          <p *ngIf="!editing">{{ user.lastName }}</p>
+          <input *ngIf="isEditing" type="text" class="form-control" id="lastName" formControlName="lastName" placeholder="Прізвище" />
+          <p *ngIf="!isEditing">{{ user.lastName }}</p>
         </div>
         <div class="form-group col-sm-5">
           <label for="language">Мова обслуговування</label>
-          <select class="form-control" id="language" formControlName="language" *ngIf="editing">
+          <select class="form-control" id="language" formControlName="language" *ngIf="isEditing">
             <option *ngFor="let language of languages">{{ language }}</option>
           </select>
-          <p *ngIf="!editing">{{ user.language }}</p>
+          <p *ngIf="!isEditing">{{ user.language }}</p>
         </div>
         <h5>Контакти</h5>
         <div class="email">
           <div class="form-group col-sm-5">
             <label for="email" class="form-label">Електронна скринька</label>
-            <input *ngIf="editing" type="email" class="form-control" id="email" formControlName="email" aria-describedby="emailHelp" />
-            <p *ngIf="!editing">{{ user.email }}</p>
+            <input *ngIf="isEditing" type="email" class="form-control" id="email" formControlName="email" aria-describedby="emailHelp" />
+            <p *ngIf="!isEditing">{{ user.email }}</p>
           </div>
           <button class="btn btn-outline-success">Змінити email</button>
         </div>
         <div class="form-group col-sm-4">
           <label for="phoneNumber" class="form-label">Номер телефону</label>
-          <input *ngIf="editing" type="tel" class="form-control" id="phoneNumber" formControlName="phoneNumber" />
-          <p *ngIf="!editing">{{ user.phoneNumber }}</p>
+          <input *ngIf="isEditing" type="tel" class="form-control" id="phoneNumber" formControlName="phoneNumber" />
+          <p *ngIf="!isEditing">{{ user.phoneNumber }}</p>
         </div>
         <h5>Адреса</h5>
         <div class="form-group col-sm-3">
           <label for="city" class="form-label">Місто</label>
-          <input *ngIf="editing" type="text" class="form-control" id="city" formControlName="city" />
-          <p *ngIf="!editing">{{ user.city }}</p>
+          <input *ngIf="isEditing" type="text" class="form-control" id="city" formControlName="city" />
+          <p *ngIf="!isEditing">{{ user.city }}</p>
         </div>
         <div class="house">
           <div class="form-group col-sm-3">
             <label for="street" class="form-label">Вулиця</label>
-            <input *ngIf="editing" type="text" class="form-control" id="street" formControlName="street" />
-            <p *ngIf="!editing">{{ user.street }}</p>
+            <input *ngIf="isEditing" type="text" class="form-control" id="street" formControlName="street" />
+            <p *ngIf="!isEditing">{{ user.street }}</p>
           </div>
           <div class="form-group col-sm-2">
             <label for="houseNumber" class="form-label">Будинок</label>
-            <input *ngIf="editing" type="text" class="form-control" id="houseNumber" formControlName="houseNumber" />
-            <p *ngIf="!editing">{{ user.houseNumber }}</p>
+            <input *ngIf="isEditing" type="text" class="form-control" id="houseNumber" formControlName="houseNumber" />
+            <p *ngIf="!isEditing">{{ user.houseNumber }}</p>
           </div>
           <div class="form-group col-sm-2">
             <label for="houseCorpus" class="form-label">Корпус</label>
-            <input *ngIf="editing" type="text" class="form-control" id="houseCorpus" formControlName="houseCorpus" />
-            <p *ngIf="!editing">{{ user.houseCorpus }}</p>
+            <input *ngIf="isEditing" type="text" class="form-control" id="houseCorpus" formControlName="houseCorpus" />
+            <p *ngIf="!isEditing">{{ user.houseCorpus }}</p>
           </div>
           <div class="form-group col-sm-2">
             <label for="entranceNumber" class="form-label">Під'їзд</label>
-            <input *ngIf="editing" type="text" class="form-control" id="entranceNumber" formControlName="entranceNumber" />
-            <p *ngIf="!editing">{{ user.entranceNumber }}</p>
+            <input *ngIf="isEditing" type="text" class="form-control" id="entranceNumber" formControlName="entranceNumber" />
+            <p *ngIf="!isEditing">{{ user.entranceNumber }}</p>
           </div>
         </div>
         <div class="form-group col-sm-3">
           <label for="district" class="form-label">Район</label>
-          <input *ngIf="editing" type="text" class="form-control" id="district" formControlName="district" />
-          <p *ngIf="!editing">{{ user.district }}</p>
+          <input *ngIf="isEditing" type="text" class="form-control" id="district" formControlName="district" />
+          <p *ngIf="!isEditing">{{ user.district }}</p>
         </div>
         <h5>Зв'язок із соцмережами</h5>
         <div class="account">
@@ -87,7 +87,7 @@
         </div>
       </form>
     </div>
-    <div class="submit-btns" *ngIf="editing">
+    <div class="submit-btns" *ngIf="isEditing">
       <button class="btn btn-outline-success" type="submit" (click)="onCancel()">Скасувати зміни</button>
       <button class="btn btn-success" type="submit" (click)="onSubmit()">Зберегти зміни</button>
     </div>
@@ -96,8 +96,8 @@
         <h3>Додаткові дії</h3>
       </div>
       <div class="footer-btns">
-        <button class="btn btn-outline-success">Змінити пароль</button>
-        <button class="btn btn-outline-success">Видалити профіль</button>
+        <button class="btn btn-outline-success" (click)="openChangePasswordDialog()">Змінити пароль</button>
+        <button class="btn btn-outline-success" (click)="openDeleteProfileDialog()">Видалити профіль</button>
       </div>
     </div>
   </div>

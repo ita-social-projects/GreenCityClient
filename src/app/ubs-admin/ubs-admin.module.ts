@@ -28,6 +28,8 @@ import { UbsAdminOrderDetailsFormComponent } from './components/ubs-admin-order-
 import { UbsAdminOrderStatusComponent } from './components/ubs-admin-order-status/ubs-admin-order-status.component';
 import { UbsAdminOrderComponent } from './components/ubs-admin-order/ubs-admin-order.component';
 import { UbsAdminAddressDetailsComponent } from './components/ubs-admin-address-details/ubs-admin-address-details.component';
+import { UbsProfileChangePasswordPopUpComponent } from './components/ubs-client-profile-page/ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
+import { UbsProfileDeletePopUpComponent } from './components/ubs-client-profile-page/ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,9 @@ import { UbsAdminAddressDetailsComponent } from './components/ubs-admin-address-
     UbsAdminExportDetailsComponent,
     UbsAdminOrderPaymentComponent,
     UbsAdminOrderClientInfoComponent,
-    UbsAdminOrderDetailsFormComponent
+    UbsAdminOrderDetailsFormComponent,
+    UbsProfileChangePasswordPopUpComponent,
+    UbsProfileDeletePopUpComponent
   ],
   imports: [
     CommonModule,
@@ -71,7 +75,7 @@ import { UbsAdminAddressDetailsComponent } from './components/ubs-admin-address-
     })
   ],
   providers: [AdminTableService, TranslateService],
-  entryComponents: [UbsAdminTableComponent, EmployeeFormComponent]
+  entryComponents: [UbsAdminTableComponent, EmployeeFormComponent, UbsProfileChangePasswordPopUpComponent, UbsProfileDeletePopUpComponent]
 })
 export class UbsAdminModule {}
 
