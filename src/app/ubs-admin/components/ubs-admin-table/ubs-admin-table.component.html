@@ -3,7 +3,9 @@
   <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
 </div>
 <div class="btn-group">
-  <button type="button" class="btn btn-default" class="amount-items"><i class="fa fa-angle-down" aria-hidden="true"></i> 10</button>
+  <select class="display-counter" (change)="selectPageSize($event.target.value)">
+    <option [value]="size" *ngFor="let size of pageSizeOptions">{{ size }}</option>
+  </select>
   <button type="button" class="btn btn-default" class="filter-button">
     <div><mat-icon>filter_list</mat-icon><span>Фільтрувати</span></div>
   </button>
@@ -39,7 +41,14 @@
   </ul>
   <button type="button" class="btn btn-default" class="export-excel-btn">Експортувати в Excel</button>
 </div>
-<div class="scrolling">
+<div
+  class="scrolling"
+  infiniteScroll
+  [infiniteScrollDistance]="0"
+  [infiniteScrollThrottle]="100"
+  (scrolled)="onScroll()"
+  [scrollWindow]="false"
+>
   <table *ngIf="!isLoading; else spinner" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z0" cdkDropListGroup>
     <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.field" [sticky]="column.sticky" class="column.field">
       <mat-header-cell
@@ -87,9 +96,7 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
   </table>
-</div>
-<div class="paginator">
-  <mat-paginator [pageSizeOptions]="[2, 5, 10]" showFirstLastButtons></mat-paginator>
+  <app-spinner *ngIf="isUpdate"></app-spinner>
 </div>
 <ng-template #spinner>
   <app-spinner></app-spinner>

@@ -4,11 +4,11 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AdminTableService {
-  url = 'https://greencity-ubs.azurewebsites.net/ubs/management/getAllFieldsFromOrderTable';
+  url = 'https://greencity-ubs.azurewebsites.net/ubs/management/orders';
 
   constructor(private http: HttpClient) {}
 
-  getTable(columnName?: string, sortingType?: string) {
-    return this.http.get<any[]>(`${this.url}/?columnName=${columnName}&sortingType=${sortingType}`);
+  getTable(columnName?: string, page?: number, size?: number, sortingType?: string) {
+    return this.http.get<any[]>(`${this.url}?columnName=${columnName}&page=${page}&size=${size}&sortingType=${sortingType}`);
   }
 }

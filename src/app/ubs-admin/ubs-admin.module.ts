@@ -7,7 +7,7 @@ import { UbsAdminTableComponent } from './components/ubs-admin-table/ubs-admin-t
 import { UbsSidebarComponent } from './components/ubs-sidebar/ubs-sidebar.component';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MaterialModule } from '../material.module';
@@ -27,6 +27,8 @@ import { UbsAdminOrderDetailsFormComponent } from './components/ubs-admin-order-
 import { UbsAdminOrderStatusComponent } from './components/ubs-admin-order-status/ubs-admin-order-status.component';
 import { UbsAdminOrderComponent } from './components/ubs-admin-order/ubs-admin-order.component';
 import { UbsAdminAddressDetailsComponent } from './components/ubs-admin-address-details/ubs-admin-address-details.component';
+import { InterceptorService } from '../shared/interceptors/interceptor.service';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [
@@ -58,6 +60,7 @@ import { UbsAdminAddressDetailsComponent } from './components/ubs-admin-address-
     ReactiveFormsModule,
     UBSAdminRoutingModule,
     NgxPaginationModule,
+    InfiniteScrollModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -67,7 +70,15 @@ import { UbsAdminAddressDetailsComponent } from './components/ubs-admin-address-
       isolate: true
     })
   ],
-  providers: [AdminTableService, TranslateService],
+  providers: [
+    AdminTableService,
+    TranslateService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorService,
+      multi: true
+    }
+  ],
   entryComponents: [UbsAdminTableComponent]
 })
 export class UbsAdminModule {}

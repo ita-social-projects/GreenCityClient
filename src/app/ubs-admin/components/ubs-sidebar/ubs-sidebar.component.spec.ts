@@ -7,8 +7,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UbsAdminTableComponent } from '../ubs-admin-table/ubs-admin-table.component';
 import { UbsHeaderComponent } from '../ubs-header/ubs-header.component';
-
 import { UbsSidebarComponent } from './ubs-sidebar.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 describe('UbsSidebarComponent', () => {
   let component: UbsSidebarComponent;
@@ -26,7 +26,8 @@ describe('UbsSidebarComponent', () => {
         BrowserAnimationsModule,
         HttpClientTestingModule,
         SharedModule,
-        RouterTestingModule
+        RouterTestingModule,
+        InfiniteScrollModule
       ],
       declarations: [UbsSidebarComponent, UbsAdminTableComponent, UbsHeaderComponent]
     }).compileComponents();
