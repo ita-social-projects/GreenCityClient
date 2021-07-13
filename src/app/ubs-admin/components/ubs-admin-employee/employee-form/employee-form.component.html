@@ -1,0 +1,57 @@
+<h1>Додати працівника</h1>
+<form [formGroup]="employeeForm" (ngSubmit)="submit()">
+  <div class="form-group">
+    <h6>*Обов'язкові поля</h6>
+  </div>
+  <div class="form-group">
+    <label for="name">Ім'я*</label>
+    <input formControlName="firstName" placeholder="First name" />
+  </div>
+  <div class="form-group">
+    <label>Прізвище*</label>
+    <input formControlName="lastName" placeholder="Last name" />
+  </div>
+  <div class="form-group">
+    <label>Номер телефону*</label>
+    <input formControlName="phoneNumber" placeholder="+380" />
+  </div>
+  <div class="form-group">
+    <label>Email</label>
+    <input formControlName="email" placeholder="Email" />
+  </div>
+  <label>Посада*</label>
+  <div class="checkbox-section-role">
+    <div *ngFor="let role of roles">
+      <label class="checkbox-label"
+        >{{ role.name }}<input class="checkbox-input" type="checkbox" (change)="onCheckChangeRole({ id: role.id, name: role.name })"
+      /></label>
+    </div>
+  </div>
+  <label>Станція приймання*</label>
+  <div class="checkbox-section-stantion">
+    <div *ngFor="let location of locations">
+      <label class="checkbox-label-station"
+        >{{ location.name
+        }}<input class="checkbox-input" type="checkbox" (change)="onCheckChangeLocation({ id: location.id, name: location.name })"
+      /></label>
+    </div>
+  </div>
+  <label class="photo-label">Фото</label>
+  <div class="custom-file-upload">
+    <div *ngIf="filePath && filePath !== ''">
+      <img [src]="filePath" [alt]="employeeForm.value.name" />
+    </div>
+    <input formControlName="image" class="upload-file" type="file" accept="image/*" (change)="imagePreview($event)" #fileUpload />
+    <div class="image-name" *ngIf="uploaded">
+      <p class="img-text">{{ this.selectedFile.name }}</p>
+      <button class="reset-image" (click)="fileUpload.click()">
+        <img src="../../../../../assets/ubs-employee-form/dismiss.svg" alt="dismiss button" />
+      </button>
+    </div>
+    <div class="upload-text" *ngIf="!uploaded">Перетягніть зображення, або <a (click)="fileUpload.click()">завантажте з пристрою</a></div>
+  </div>
+  <div class="button-row">
+    <button mat-dialog-close class="cancelButton">Скасувати</button>
+    <button type="submit" class="addButton">Додати</button>
+  </div>
+</form>

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
-
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
 import { UserProfile } from '../../models/ubs-admin.interface';
+import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
+import { UbsProfileDeletePopUpComponent } from './ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
 
 @Component({
   selector: 'app-ubs-client-profile-page',
@@ -13,15 +13,15 @@ import { UserProfile } from '../../models/ubs-admin.interface';
 })
 export class UbsClientProfilePageComponent implements OnInit {
   userForm: FormGroup;
-  public googleIcon = SignInIcons.picGoogle;
-  public isEditing = false;
-  public isFetching = false;
-  public userId: number;
-  public phoneMask = '+{38} 000 000 00 00';
+  googleIcon = SignInIcons.picGoogle;
+  isEditing = false;
+  isFetching = false;
+  userId: number;
+  phoneMask = '+{38} 000 000 00 00';
   private readonly regexp = /^([a-zA-ZА-Яа-яЄЇҐа-їєґ '-])+$/iu;
   private readonly emailRegex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-  public userProfile: UserProfile = {
+  userProfile: UserProfile = {
     addressDto: {
       actual: true,
       city: 'Київ',
@@ -42,14 +42,10 @@ export class UbsClientProfilePageComponent implements OnInit {
     recipientSurname: 'Левицький'
   };
 
-  constructor(public dialog: MatDialog, private localStorageService: LocalStorageService) {}
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit() {
     this.userInit();
-  }
-
-  getUserId() {
-    this.userId = this.localStorageService.getUserId();
   }
 
   userInit() {
@@ -80,17 +76,17 @@ export class UbsClientProfilePageComponent implements OnInit {
     this.isFetching = false;
   }
 
-  public onEdit() {
+  onEdit() {
     this.isEditing = true;
     this.isFetching = false;
   }
 
-  public onCancel() {
+  onCancel() {
     this.userInit();
     this.isEditing = false;
   }
 
-  public onSubmit() {
+  onSubmit() {
     if (this.userForm.valid) {
       this.isFetching = true;
       this.userProfile.recipientName = this.userForm.value.firstname;
@@ -108,5 +104,16 @@ export class UbsClientProfilePageComponent implements OnInit {
     } else {
       this.isEditing = true;
     }
+    
+  openDeleteProfileDialog() {
+    this.dialog.open(UbsProfileDeletePopUpComponent, {
+      hasBackdrop: true
+    });
+  }
+
+  openChangePasswordDialog() {
+    this.dialog.open(UbsProfileChangePasswordPopUpComponent, {
+      hasBackdrop: true
+    });
   }
 }

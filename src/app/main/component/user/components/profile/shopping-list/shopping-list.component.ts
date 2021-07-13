@@ -1,5 +1,5 @@
 import { finalize, takeUntil } from 'rxjs/operators';
-import { ProfileService } from '../profile-service/profile.service';
+import { ProfileService } from './../profile-service/profile.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { Subscription, Subject } from 'rxjs';
@@ -7,12 +7,13 @@ import { Subscription, Subject } from 'rxjs';
 @Component({
   selector: 'app-shopping-list',
   templateUrl: './shopping-list.component.html',
-  styleUrls: ['./shopping-list.component.scss'],
+  styleUrls: ['./shopping-list.component.scss']
 })
 export class ShoppingListComponent implements OnInit, OnDestroy {
   public shoppingList: ShoppingList[] = [];
   public profileSubscription: Subscription;
   private destroy$ = new Subject<void>();
+  public toggle: boolean;
   constructor(private profileService: ProfileService) {}
 
   get shoppingListLength(): number {
@@ -41,6 +42,10 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
         (shoppingListArr: ShoppingList[]) => (this.shoppingList = shoppingListArr),
         (error) => (this.shoppingList = [])
       );
+  }
+
+  public openCloseList() {
+    this.toggle = !this.toggle;
   }
 
   public toggleDone(item): void {

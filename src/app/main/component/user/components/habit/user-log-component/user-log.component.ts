@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { HabitStatisticService } from '@global-service/habit-statistic/habit-statistic.service';
+import { HabitStatisticService } from 'src/app/main/service/habit-statistic/habit-statistic.service';
 
 @Component({
   selector: 'app-user-log',
   templateUrl: './user-log.component.html',
-  styleUrls: ['./user-log.component.scss'],
+  styleUrls: ['./user-log.component.scss']
 })
 export class UserLogComponent implements OnInit {
   constructor(private habitStatisticService: HabitStatisticService) {}
