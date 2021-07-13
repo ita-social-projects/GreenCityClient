@@ -1,0 +1,220 @@
+h1 {
+  font-size: 18px;
+  position: absolute;
+  top: 24px;
+  left: 137px;
+  line-height: 28px;
+  font-family: var(--primary-font);
+  letter-spacing: 0.2px;
+}
+
+h6 {
+  height: 16px;
+  left: 0;
+  top: 0;
+  font-size: 12px;
+  line-height: 16px;
+  font-style: normal;
+  font-weight: normal;
+  color: var(--ubs-primary-grey);
+  font-family: var(--primary-font);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 0;
+  width: 328px;
+  height: 774px;
+  left: 56px;
+  top: 42px;
+}
+
+.button-row {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  width: 232px;
+  height: 36px;
+  left: 176px;
+  top: 738px;
+}
+
+input {
+  width: 328px;
+  height: 36px;
+  top: 20px;
+  border-radius: 4px;
+  padding: 8px;
+  background-color: var(--primary-white);
+}
+
+label {
+  line-height: 24px;
+  size: 16px;
+  font-family: var(--primary-font);
+  font-style: normal;
+  color: var(--quaternary-grey);
+}
+
+.stantion-box {
+  color: var(--ubs-tertiary-dark-grey);
+}
+
+img {
+  width: 132px;
+  height: 108px;
+  left: 56px;
+  top: 640px;
+  border: 1px dashed var(--quintynary-light-grey);
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+.custom-file-upload {
+  position: absolute;
+  width: 132px;
+  height: 108px;
+  top: 640px;
+  background-color: var(--ubs-primary-white);
+  border: 1px dashed var(--quintynary-light-grey);
+  border-radius: 4px;
+
+  a {
+    color: var(--ubs-primary-green);
+  }
+
+  .upload-text {
+    position: absolute;
+    width: 98.28px;
+    height: 49px;
+    left: 17px;
+    top: 32px;
+    font-size: 10px;
+    line-height: 12px;
+    text-align: center;
+  }
+
+  .upload-file {
+    display: none;
+  }
+}
+
+.photo-label {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: normal;
+  position: absolute;
+  top: 604px;
+}
+
+.image-name {
+  width: 132px;
+  height: 32px;
+  position: absolute;
+  left: -1px;
+  top: 0;
+  background-color: var(--ubs-quaternary-light-grey);
+  opacity: 0.9;
+  border-radius: 4px 4px 0 0;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.reset-image {
+  position: absolute;
+  right: 2.5px;
+  top: 2.5px;
+  width: 11px;
+  height: 11px;
+  border: none;
+  background-color: var(--ubs-quaternary-light-grey);
+  opacity: 0.9;
+}
+
+svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 11px;
+  height: 11px;
+}
+
+.img-text {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  font-style: normal;
+  font-weight: normal;
+  font-family: var(--primary-font);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.checkbox-input {
+  display: none;
+}
+
+.checkbox-section-role {
+  display: flex;
+  align-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  width: 292px;
+  height: 104px;
+}
+
+.checkbox-label {
+  color: var(--ubs-secondary-dark-green);
+  border: 1px solid var(--ubs-secondary-dark-green);
+  border-radius: 6px;
+  box-sizing: border-box;
+  background-color: var(--pre-secondary-light-grey);
+  font-size: 14px;
+  line-height: 20px;
+  font-style: normal;
+  font-weight: 400;
+  font-family: var(--ubs-primary-font);
+}
+
+.checkbox-label-station {
+  color: var(--ubs-primary-blue);
+  border: 1px solid var(--ubs-primary-blue);
+  border-radius: 6px;
+  box-sizing: border-box;
+  background-color: var(--pre-secondary-light-grey);
+  font-size: 14px;
+  line-height: 20px;
+  font-style: normal;
+  font-weight: 400;
+  font-family: var(--ubs-primary-font);
+}
+
+.checkbox-section-stantion {
+  height: 32px;
+  width: 246px;
+  display: flex;
+  align-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.cancelButton {
+  color: var(--ubs-primary-green);
+  border: 1px solid var(--ubs-primary-green);
+  border-radius: 5px;
+  background-color: var(--ubs-primary-white);
+  width: 117px;
+  height: 36px;
+  margin-right: 16px;
+}
+
+.addButton {
+  color: var(--ubs-primary-white);
+  background-color: var(--ubs-primary-green);
+  border-radius: 5px;
+  width: 99px;
+  height: 36px;
+}

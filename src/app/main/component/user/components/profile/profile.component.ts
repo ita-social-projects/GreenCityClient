@@ -3,13 +3,13 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
-import { EditProfileModel } from '@global-user/models/edit-profile.model';
+import { EditProfileModel } from '@user-models/edit-profile.model';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss'],
+  styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   private langChangeSub: Subscription;
@@ -47,6 +47,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public showUserInfo(): void {
     this.profileService.getUserInfo().subscribe((item) => {
       this.userInfo = item;
+      this.userInfo.showShoppingList = true;
     });
   }
 

@@ -1,0 +1,12 @@
+<div class="dialog-container">
+  <h3 mat-dialog-title>{{ 'ubs-client-profile.delete-title' | translate }}</h3>
+  <mat-dialog-content>
+    <p>{{ 'ubs-client-profile.delete-message' | translate }}</p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-outline-success" mat-dialog-close>{{ 'ubs-client-profile.btn.delete-profile-cancel' | translate }}</button>
+    <button class="btn btn-success" [mat-dialog-close]="true" cdkFocusInitial>
+      {{ 'ubs-client-profile.btn.delete-profile-save' | translate }}
+    </button>
+  </mat-dialog-actions>
+</div>

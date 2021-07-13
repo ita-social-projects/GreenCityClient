@@ -11,16 +11,16 @@ import { UserProfileImageComponent } from './components/user-profile-image/user-
   declarations: [HabitsGalleryViewComponent, UserProfileImageComponent],
   imports: [
     CommonModule,
-    TranslateModule.forRoot({
+    TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient],
-      },
+        deps: [HttpClient]
+      }
     }),
-    MDBBootstrapModule,
+    MDBBootstrapModule
   ],
-  exports: [TranslateModule, MDBBootstrapModule, HabitsGalleryViewComponent, UserProfileImageComponent],
+  exports: [TranslateModule, MDBBootstrapModule, HabitsGalleryViewComponent, UserProfileImageComponent]
 })
 export class UserSharedModule {}
 
