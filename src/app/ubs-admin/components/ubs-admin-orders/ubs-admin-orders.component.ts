@@ -20,14 +20,13 @@ export class UbsAdminOrdersComponent implements OnInit {
       .getOrders()
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
-        console.log(item);
         this.orders = item;
       });
   }
 
   changeCard(id) {
     this.orders.map((el) => {
-      el.id === id && el.extend ? el.extend = false : el.id === id ? el.extend = true : el.extend = el.extend;
+      el.id === id && el.extend ? (el.extend = false) : el.id === id ? (el.extend = true) : (el.extend = el.extend);
     });
   }
 }

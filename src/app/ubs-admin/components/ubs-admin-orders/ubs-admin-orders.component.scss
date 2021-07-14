@@ -8,7 +8,7 @@
   background-color: var(--after-primary-light-grey);
 }
 
-.mainHeader {
+.main_header {
   margin: 0 0 51px 44px;
   font-style: normal;
   font-weight: 700;
@@ -17,7 +17,7 @@
   letter-spacing: 0.002em;
 }
 
-.ifEmpty {
+.if_empty {
   margin: 16px 0 0 44px;
 
   a {
@@ -34,7 +34,7 @@
   }
 }
 
-.headerList {
+.header_list {
   display: grid;
   grid-template-columns: 200px 172px 222px auto;
   grid-template-rows: 30px;
@@ -42,7 +42,7 @@
   font-size: 14px;
   line-height: 20px;
   border: none;
-  border-bottom: 1px solid var(--ubs-hr-grey);
+  border-bottom: 1px solid var(--ubs-quintynary-light-grey);
   text-align: center;
 }
 
@@ -55,26 +55,26 @@
   margin-top: 18px;
 }
 
-.emptyCard {
+.empty_card {
   display: grid;
   grid-template-columns: 57px 143px 172px 222px 268px;
   justify-items: center;
   align-items: center;
 
-  .orderSum {
+  .order_sum {
     margin-right: 75px;
     justify-self: end;
   }
 
-  .btnsGroup {
-    .btnGridCancel,
-    .btnGridPay,
-    .btnGridFake {
+  .btns_group {
+    .btn_grid_cancel,
+    .btn_grid_pay,
+    .btn_grid_fake {
       display: inline-block;
       width: 114px;
       margin: 0 20px 0 0;
 
-      .btnPay {
+      .btn_pay {
         height: 36px;
         width: 114px;
         border: none;
@@ -84,7 +84,7 @@
         border-radius: 4px;
       }
 
-      .btnCancel {
+      .btn_cancel {
         height: 36px;
         width: 114px;
         color: var(--ubs-primary-green);
@@ -93,15 +93,15 @@
         border-radius: 4px;
       }
 
-      .btnFake {
+      .btn_fake {
         display: none;
       }
     }
 
-    .btnGridOrder {
+    .btn_grid_order {
       margin: 0 20px 0 64px;
 
-      .btnOrder {
+      .btn_order {
         height: 36px;
         color: var(--ubs-primary-green);
         border: 1px solid var(--ubs-primary-green);
@@ -113,14 +113,14 @@
   }
 }
 
-.fullCard {
+.full_card {
   display: grid;
   grid-template-rows: 28px auto;
   grid-template-columns: 670px;
   margin-left: 56px;
   color: var(--ubs-secondary-grey);
 
-  .headerDetails {
+  .header_details {
     font-size: 20px;
     line-height: 28px;
     font-weight: bold;
@@ -129,10 +129,10 @@
   }
 }
 
-.tableOfDetails {
+.table_of_details {
   margin-top: 15px;
 
-  .headerTable {
+  .header_table {
     height: 34px;
     margin: 5px 0 2px 0;
     border-bottom: 1px solid var(--ubs-primary-light-grey);
@@ -155,7 +155,7 @@
   }
 }
 
-.dataTable {
+.data_table {
   color: var(--ubs-quaternary-dark-grey);
 
   td {
@@ -163,7 +163,7 @@
   }
 }
 
-.sumOfOrder {
+.sum_of_order {
   border-top: 1px solid var(--ubs-primary-light-grey);
 
   td {
@@ -172,7 +172,7 @@
   }
 }
 
-.sumToPay {
+.sum_to_pay {
   td {
     padding-top: 8px;
     padding-bottom: 16px;
@@ -180,40 +180,40 @@
   }
 }
 
-.optionalRow {
+.optional_row {
   td {
     padding-top: 8px;
     text-align: right;
   }
 }
 
-.dataTable td:nth-child(4) {
+.data_table td:nth-child(4) {
   padding-left: 40px;
 }
 
-.dataTable td:nth-child(5) {
+.data_table td:nth-child(5) {
   text-align: right;
   color: var(--ubs-primary-grey);
   font-weight: bold;
 }
 
-.sumOfOrder td:nth-child(2) {
+.sum_of_order td:nth-child(2) {
   color: var(--ubs-primary-grey);
   font-weight: bold;
 }
 
-.sumToPay td:nth-child(2) {
+.sum_to_pay td:nth-child(2) {
   color: var(--ubs-primary-grey);
   font-weight: bold;
 }
 
-.optionalRow td:nth-child(2) {
+.optional_row td:nth-child(2) {
   color: var(--primary-green);
   font-size: 10px;
   line-height: 12px;
 }
 
-.orderDetails {
+.order_details {
   width: 450px;
   margin-left: 16px;
   color: var(--ubs-primary-grey);
@@ -222,12 +222,13 @@
     margin: 32px 0;
   }
 
-  .boldText {
+  .bold_text {
     font-weight: bold;
   }
 
   ol {
     margin-bottom: 0;
+    list-style-type: none;
   }
 }
 

@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AdminOrdersService {
-  backend = 'assets/orders.json';
+  backend = 'assets/mocks/orders/orders.json';
 
   constructor(private http: HttpClient) {}
 

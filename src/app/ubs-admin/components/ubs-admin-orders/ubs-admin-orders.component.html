@@ -1,55 +1,62 @@
 <div class="wrapper">
-  <div class="mainHeader">Ваші замовлення</div>
-  <div *ngIf="isAnyOrders" class="ifEmpty"><span>Ви ще не зробили замовлень у нас.</span><a href="#">Зробити замовлення</a></div>
+  <div class="main_header">Ваші замовлення</div>
+  <div *ngIf="isAnyOrders" class="if_empty"><span>Ви ще не зробили замовлень у нас.</span><a href="#">Зробити замовлення</a></div>
   <div *ngIf="!isAnyOrders" class="cards">
-    <div class="headerList">
+    <div class="header_list">
       <div>№ замовлення</div>
       <div>Статус</div>
       <div>Сума оплати</div>
     </div>
     <div *ngFor="let order of orders" class="card">
-      <div class="emptyCard">
+      <div class="empty_card">
         <img *ngIf="order.extend" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" (click)="changeCard(order.id)" />
         <img *ngIf="!order.extend" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" (click)="changeCard(order.id)" />
         <div>{{ order.order }}</div>
         <div>{{ order.status }}</div>
-        <div class="orderSum">{{ order.sum }}</div>
-        <div class="btnsGroup">
-          <div *ngIf="order.status === 'Сформовано'" class="btnGridCancel"><button class="btnCancel">Скасувати</button></div>
-          <div *ngIf="order.status === 'Виконано/Неоплачено'" class="btnGridFake"><button class="btnFake"></button></div>
-          <div *ngIf="order.status === 'Сформовано' || order.status === 'Виконано/Неоплачено'" class="btnGridPay">
-            <button class="btnPay">Оплатити</button>
+        <div class="order_sum">{{ order.sum }}</div>
+        <div class="btns_group">
+          <div *ngIf="order.status === 'Сформовано'" class="btn_grid_cancel">
+            <button class="btn_cancel">Скасувати</button>
           </div>
-          <div *ngIf="order.status === 'На маршуті' || order.status === 'Підтверджено' || order.status === 'Виконано'" class="btnGridOrder">
-            <button class="btnOrder">Замовити ще раз</button>
+          <div *ngIf="order.status === 'Виконано/Неоплачено'" class="btn_grid_fake">
+            <button class="btn_fake"></button>
+          </div>
+          <div *ngIf="order.status === 'Сформовано' || order.status === 'Виконано/Неоплачено'" class="btn_grid_pay">
+            <button class="btn_pay">Оплатити</button>
+          </div>
+          <div
+            *ngIf="order.status === 'На маршуті' || order.status === 'Підтверджено' || order.status === 'Виконано'"
+            class="btn_grid_order"
+          >
+            <button class="btn_order">Замовити ще раз</button>
           </div>
         </div>
       </div>
-      <div *ngIf="order.extend" class="fullCard">
-        <div class="headerDetails">Деталі замовлення</div>
-        <table class="tableOfDetails">
-          <tr class="headerTable">
+      <div *ngIf="order.extend" class="full_card">
+        <div class="header_details">Деталі замовлення</div>
+        <table class="table_of_details">
+          <tr class="header_table">
             <th>Послуги</th>
             <th>Об'єм</th>
             <th>Вартість</th>
             <th>Кількість пакетів</th>
             <th>Сума</th>
           </tr>
-          <tr class="dataTable">
+          <tr class="data_table">
             <td>Вторсировина</td>
             <td>120 л</td>
             <td>200 грн</td>
             <td>1 шт</td>
             <td>200 грн</td>
           </tr>
-          <tr class="dataTable">
+          <tr class="data_table">
             <td>Безнадійний одяг</td>
             <td>120 л</td>
             <td>300 грн</td>
             <td>1 шт</td>
             <td>300 грн</td>
           </tr>
-          <tr class="dataTable">
+          <tr class="data_table">
             <td>Безнадійний одяг</td>
             <td>20 л</td>
             <td>50 грн</td>
@@ -59,42 +66,42 @@
           <tr>
             <td></td>
           </tr>
-          <tr class="sumOfOrder">
+          <tr class="sum_of_order">
             <td colspan="4">Сума замовлення:</td>
             <td>500 грн</td>
           </tr>
-          <tr *ngIf="order.status !== 'Виконано/Неоплачено'" class="optionalRow">
+          <tr *ngIf="order.status !== 'Виконано/Неоплачено'" class="optional_row">
             <td colspan="4">Сертифікат:</td>
             <td>-100 грн</td>
           </tr>
-          <tr *ngIf="order.status !== 'Виконано/Неоплачено'" class="optionalRow">
+          <tr *ngIf="order.status !== 'Виконано/Неоплачено'" class="optional_row">
             <td colspan="4">Бонуси:</td>
             <td>-100 грн</td>
           </tr>
-          <tr *ngIf="order.status === 'Виконано/Неоплачено'" class="optionalRow">
+          <tr *ngIf="order.status === 'Виконано/Неоплачено'" class="optional_row">
             <td colspan="4">Сума наданих послуг:</td>
             <td>-100 грн</td>
           </tr>
-          <tr class="sumToPay">
+          <tr class="sum_to_pay">
             <td colspan="4">Сума до оплати:</td>
             <td>350 грн</td>
           </tr>
         </table>
       </div>
-      <div *ngIf="order.extend" class="orderDetails">
-        <ol style="list-style-type: none">
-          <li class="boldText">Доставка з Еко магазину</li>
-          <li>Номери ваших замовлень:<span class="boldText">&nbsp;3507777,</span>&nbsp;<span class="boldText">45678907777</span></li>
+      <div *ngIf="order.extend" class="order_details">
+        <ol>
+          <li class="bold_text">Доставка з Еко магазину</li>
+          <li>Номери ваших замовлень:<span class="bold_text">&nbsp;3507777,</span>&nbsp;<span class="boldText">45678907777</span></li>
         </ol>
-        <ol style="list-style-type: none" class="recipient">
-          <li class="boldText">Отримувач</li>
+        <ol s class="recipient">
+          <li class="bold_text">Отримувач</li>
           <li>Надія Стебінець</li>
           <li>Сума до оплати</li>
           <li>+098 454 63 67</li>
           <li>my@some.com</li>
         </ol>
-        <ol style="list-style-type: none">
-          <li class="boldText">Адреса виивезення замовленних послуг</li>
+        <ol>
+          <li class="bold_text">Адреса виивезення замовленних послуг</li>
           <li>м. Київ</li>
           <li>проспект Перемоги, 20, під'їзд 3</li>
           <li>район Шевченківський</li>
