@@ -4,7 +4,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UbsAdminTableComponent } from './components/ubs-admin-table/ubs-admin-table.component';
-import { UbsSidebarComponent } from './components/ubs-sidebar/ubs-sidebar.component';
+import { UbsBaseSidebarComponent } from '../shared/ubs-base-sidebar/ubs-base-sidebar.component';
+import { UbsAdminSidebarComponent } from '../../app/ubs-admin/components/ubs-admin-sidebar/ubs-admin-sidebar.component';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -35,7 +36,8 @@ import { UbsProfileDeletePopUpComponent } from './components/ubs-client-profile-
   declarations: [
     PaginationComponent,
     UbsAdminTableComponent,
-    UbsSidebarComponent,
+    UbsBaseSidebarComponent,
+    UbsAdminSidebarComponent,
     UbsHeaderComponent,
     UbsAdminComponent,
     UbsAdminEmployeeComponent,
