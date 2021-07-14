@@ -1,0 +1,14 @@
+<div class="calendar-habits-open">
+  <p class="habits-title">{{ habitsCalendarSelectedDate | titlecase }}</p>
+  <ul class="habits-list" *ngFor="let habit of popupHabits" [ngClass]="{ disabled: isHabitListEditable }">
+    <li class="habits-item" matTooltipPosition="above" matTooltipDisabled="showTooltip(habit)" matTooltip="habit.habitName">
+      <img
+        class="habit-icon"
+        [src]="habit.enrolled ? this.calendarIcons.checkCircle : this.calendarIcons.plusCircle"
+        alt="habit-icon"
+        (click)="toggleEnrollHabit(habit.habitId)"
+      />
+      {{ habit.habitName }}
+    </li>
+  </ul>
+</div>

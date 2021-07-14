@@ -1,0 +1,17 @@
+<div class="main">
+  <div class="wrapper">
+    <div class="left-side">
+      <img class="main-picture" [src]="authImages.mainImage" alt="sign-in image" aria-hidden="true" />
+    </div>
+    <div class="right-side">
+      <a (click)="closeWindow()" (keydown.enter)="closeWindow()" class="close-modal-window" aria-label="close form button" tabindex="0">
+        <img class="cross-btn" [src]="authImages.cross" alt="close button" aria-hidden="true" />
+      </a>
+      <div [ngSwitch]="authPage">
+        <app-sign-in *ngSwitchCase="'sign-in'" (pageName)="changeAuthPage($event)"></app-sign-in>
+        <app-sign-up *ngSwitchCase="'sign-up'" (pageName)="changeAuthPage($event)"></app-sign-up>
+        <app-restore-password *ngSwitchCase="'restore-password'" (pageName)="changeAuthPage($event)"></app-restore-password>
+      </div>
+    </div>
+  </div>
+</div>

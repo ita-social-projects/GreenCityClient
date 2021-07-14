@@ -1,0 +1,32 @@
+<div class="eco-news_list-view-wrp">
+  <img class="eco-news_list-img" [src]="checkNewsImage()" alt="Eco news image" />
+  <div class="eco-news_list-content">
+    <div class="filter-tag">
+      <p class="eco-news_list-tag d-inline-block" *ngFor="let tag of ecoNewsModel.tags">
+        {{ tag }}
+      </p>
+    </div>
+    <div>
+      <div class="eco-news_list-content-title" #titleHeight>
+        <p>
+          {{ ecoNewsModel.title }}
+        </p>
+      </div>
+      <div class="eco-news_list-content-text" #textHeight>
+        <p>
+          {{ ecoNewsModel.text }}
+        </p>
+      </div>
+    </div>
+    <div class="eco-news_list-autors">
+      <p class="eco-news_data-text-date">
+        <img class="icon" [src]="profileIcons.calendarIcon" alt="calendar icon" />
+        {{ ecoNewsModel.creationDate | date }}
+      </p>
+      <p>
+        <img class="icon" [src]="profileIcons.userIcon" alt="user icon" />
+        {{ ecoNewsModel.author.name }}
+      </p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<div class="container">
+  <h1 class="h1 text-center form-title">{{ 'order-form.ubs-courier' | translate }}</h1>
+  <mat-horizontal-stepper linear>
+    <ng-template matStepperIcon="edit">
+      <mat-icon class="text-light">check</mat-icon>
+    </ng-template>
+    <mat-step [stepControl]="firstStepForm">
+      <ng-template matStepLabel>{{ 'order-form.order-details' | translate }}</ng-template>
+      <app-ubs-order-details #firstStep></app-ubs-order-details>
+    </mat-step>
+    <mat-step [stepControl]="secondStepForm">
+      <ng-template matStepLabel>{{ 'order-form.personal-data' | translate }}</ng-template>
+      <app-ubs-personal-information #secondStep [completed]="completed"></app-ubs-personal-information>
+    </mat-step>
+    <mat-step [stepControl]="thirdStepForm" state="finalStep">
+      <ng-template matStepLabel>{{ 'order-form.payment' | translate }}</ng-template>
+      <app-ubs-submit-order #thirdStep></app-ubs-submit-order>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>

@@ -1,0 +1,309 @@
+$cardHoveredBackground: #e7f7ee;
+$cardHoveredBorder: #eff0f1;
+$cardTextColor: #1d2830;
+
+@mixin set-width-height($width: 100%, $height: 100%) {
+  width: $width;
+  height: $height;
+}
+
+@mixin flex-options($flex-direction: row, $justify-content: stretch, $align-items: stretch) {
+  display: flex;
+  flex-direction: $flex-direction;
+  align-items: $align-items;
+  justify-content: $justify-content;
+}
+
+.main {
+  margin-top: -70px;
+  font-family: var(--primary-font), sans-serif;
+  font-style: normal;
+  font-weight: normal;
+
+  hr {
+    margin: 21px 0 48px 0;
+    background: var(--ubs-primary-light-grey);
+  }
+
+  .places-filter {
+    @include flex-options(column, stretch, flex-start);
+
+    .filter {
+      margin-top: 26px;
+    }
+  }
+
+  .places-recommendation {
+    .recommendation-title {
+      margin: 24px 0;
+      height: 28px;
+      font-weight: bold;
+      font-size: 20px;
+      color: var(--secondary-dark-grey);
+    }
+
+    .card-container {
+      @include flex-options(row, space-between, space-between);
+
+      flex-wrap: wrap;
+    }
+  }
+
+  caption {
+    display: none;
+  }
+
+  .places-map {
+    @include flex-options(row);
+
+    .google-map {
+      height: 540px;
+      width: 100%;
+    }
+  }
+}
+
+.marker {
+  max-width: 32px;
+  max-height: 32px;
+}
+
+.close-mark::after {
+  padding: 15px;
+  display: none;
+  content: 'X';
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 20px;
+  color: var(--secondary-dark-grey);
+}
+
+.sidebar-container {
+  height: 540px;
+  box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
+
+  .sidebar-drawer {
+    @include set-width-height(312px, 540px);
+
+    background: var(--pre-secondary-light-grey);
+  }
+}
+
+.sidebar-content {
+  @include flex-options(column, center, flex-start);
+
+  padding: 36px;
+
+  .content-title {
+    margin: 0 auto;
+    margin-bottom: 18px;
+    height: 28px;
+    font-weight: bold;
+    font-size: 20px;
+    color: var(--secondary-dark-grey);
+  }
+
+  .card-img-top {
+    max-width: 240px;
+    max-height: 100px;
+  }
+
+  .content-address {
+    margin: 18px 0 10px 0;
+    height: 20px;
+    font-size: 14px;
+    color: var(--quaternary-grey);
+  }
+
+  .content-description {
+    @include set-width-height(239px, 20px);
+
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: $cardTextColor;
+  }
+
+  .content-website {
+    @include set-width-height(154px, 20px);
+
+    font-size: 14px;
+    color: var(--quaternary-grey);
+  }
+
+  .content-list {
+    margin: 16px 0 0 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style-type: none;
+
+    .content-list-event {
+      display: flex;
+
+      .event-icon {
+        @include set-width-height(16px, 16px);
+
+        margin-right: 7px;
+      }
+
+      .event-description {
+        @include set-width-height(220px, 40px);
+
+        font-size: 14px;
+        color: $cardTextColor;
+      }
+    }
+  }
+
+  .content-reviews-title {
+    margin: 0 0 14px 0;
+    height: 20px;
+    font-weight: bold;
+    font-size: 14px;
+    color: $cardTextColor;
+  }
+
+  .stars-container {
+    display: flex;
+
+    .star {
+      max-width: 20px;
+      max-height: 19px;
+    }
+  }
+
+  .content-reviews-amount {
+    @include set-width-height(67px, 20px);
+
+    margin: 15px 0 0 0;
+    font-size: 14px;
+    color: var(--quintynary-light-grey);
+  }
+}
+
+.search {
+  .search-elements {
+    @include flex-options(row, stretch, center);
+
+    .search-write,
+    .search-chooser {
+      padding: 8px;
+      background: var(--primary-white);
+      border: 1px solid var(--quintynary-light-grey);
+      box-sizing: border-box;
+      border-radius: 4px;
+    }
+
+    .search-write {
+      @include set-width-height(328px, 36px);
+
+      margin: 0 16px;
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--primary-grey);
+    }
+
+    .search-icon {
+      @include set-width-height(24px, 24px);
+
+      cursor: pointer;
+    }
+
+    .search-chooser {
+      @include set-width-height(179px, 36px);
+    }
+  }
+}
+
+.card {
+  @include set-width-height(264px, 196px);
+
+  margin-bottom: 10px;
+  padding: 12px;
+  box-sizing: border-box;
+  background: var(--primary-white);
+  border: 1px solid var(--primary-white);
+  filter: drop-shadow(1px 4px 8px rgba(100, 114, 125, 0.18));
+
+  &:hover {
+    background: $cardHoveredBackground;
+    border: 1px solid $cardHoveredBorder;
+    filter: drop-shadow(4px 8px 12px rgba(100, 114, 125, 0.25));
+  }
+
+  .card-img-top {
+    max-width: 240px;
+    max-height: 96px;
+  }
+
+  .card-headers {
+    @include flex-options(column, center, center);
+  }
+
+  .card-body {
+    flex: 0 0 auto;
+    padding: 0;
+    position: relative;
+
+    .card-title {
+      margin: 12px 0 4px 0;
+      width: 72px;
+      font-weight: bold;
+      font-size: 14px;
+      color: var(--quaternary-dark-grey);
+    }
+
+    .card-address {
+      margin-bottom: 4px;
+      width: 98px;
+      font-size: 10px;
+      color: var(--quintynary-light-grey);
+    }
+
+    .card-text {
+      margin: 0;
+      width: 205px;
+      font-size: 12px;
+      color: var(--quaternary-grey);
+    }
+
+    .card-bookmark {
+      cursor: pointer;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .main {
+    .places-recommendation {
+      .recommendation-title {
+        text-align: center;
+      }
+
+      .card-container {
+        justify-content: center;
+      }
+    }
+  }
+
+  .search {
+    .search-elements {
+      .search-write {
+        width: auto;
+      }
+
+      .search-chooser {
+        width: 90px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .close-mark::after {
+    display: block;
+  }
+}

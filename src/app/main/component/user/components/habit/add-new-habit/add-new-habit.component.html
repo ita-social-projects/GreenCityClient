@@ -1,0 +1,58 @@
+<div class="wrapper">
+  <div class="backToMyHabits" (click)="goToMyHabits()">
+    <div class="arrow"></div>
+    <div class="text">Back to My habits</div>
+  </div>
+  <div class="habitContainer">
+    <div class="habitInfo">
+      <div class="header">
+        <div class="tags">Smart consuming</div>
+        <div class="line"></div>
+        <div class="aquired">Aquired by 134 users</div>
+        <div class="line"></div>
+        <div class="stars">
+          <img *ngFor="let star of stars" alt="star" [src]="star" />
+        </div>
+      </div>
+      <div class="habitTitle">
+        {{ habitResponse?.habitTranslation.name }}
+      </div>
+      <div class="description">
+        <p>
+          {{ habitResponse?.habitTranslation.description }}
+        </p>
+      </div>
+    </div>
+    <div class="habitImg">
+      <img class="img" [src]="habitResponse?.image" alt="" />
+    </div>
+  </div>
+  <div class="habitEdit">Habit Info</div>
+  <div class="divider"></div>
+  <div class="containerHabitEdit">
+    <div class="habitProgress">
+      <app-habit-progress></app-habit-progress>
+    </div>
+    <div class="habitInfoRightBlock">
+      <div class="inviteFriends">
+        <app-habit-invite-friends></app-habit-invite-friends>
+      </div>
+      <div class="durationShoping">
+        <div class="duration" *ngIf="habitResponse">
+          <app-habit-duration [habitDurationInitial]="initialDuration" (changeDuration)="getDuration($event)"></app-habit-duration>
+        </div>
+        <div class="shopping">
+          <app-habit-edit-shopping-list (newList)="getList($event)"></app-habit-edit-shopping-list>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!isAssigned" class="add-habit-container">
+      <button class="primary-global-button cancel-habit-button" (click)="cancel()">Cancel</button>
+      <button class="primary-global-button add-habit-button" type="submit" (click)="addHabit()">Add Habit</button>
+    </div>
+    <div *ngIf="isAssigned" class="add-habit-container">
+      <button class="primary-global-button delete-habit-button" type="submit" (click)="deleteHabit()">Give Up</button>
+      <button class="primary-global-button save-habit-button" type="submit" (click)="updateHabit()">Save</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+<div *ngIf="!files.length" class="dropzone" appDragAndDrop (files)="filesDropped($event)">
+  <div class="text-wrapper">
+    <div class="centered">
+      {{ 'drag-and-drop.picture-description' | translate }}
+      <label for="upload"
+        ><span>{{ 'drag-and-drop.browse' | translate }}</span></label
+      >
+      <input type="file" id="upload" (change)="onFileSelected($event)" />
+    </div>
+  </div>
+</div>
+<div *ngFor="let file of files">
+  <div *ngIf="!isWarning; else elseBlock">
+    <img *ngIf="!isCropper" [src]="file.url" appDragAndDrop (files)="filesDropped($event)" alt="image-cropper" />
+    <div *ngIf="isCropper" class="cropper-block">
+      <image-cropper
+        [maintainAspectRatio]="true"
+        [containWithinAspectRatio]="false"
+        [aspectRatio]="4 / 3"
+        [imageChangedEvent]="imageChangedEvent"
+        [imageFile]="file.file"
+        (imageCropped)="imageCropped($event)"
+      >
+      </image-cropper>
+    </div>
+    <div class="cropper-buttons">
+      <button type="button" (click)="stopCropping()">{{ 'drag-and-drop.submit-changes-button' | translate }}</button>
+      <button type="button" (click)="cancelChanges()">{{ 'drag-and-drop.cancel-changes-button' | translate }}</button>
+    </div>
+  </div>
+</div>
+<p *ngIf="!isWarning" class="warning">{{ 'drag-and-drop.picture-tooltip' | translate }}</p>
+<ng-template #elseBlock>
+  <div class="dropzone warning-background" appDragAndDrop (files)="filesDropped($event)">
+    <div class="text-wrapper">
+      <div class="centered">
+        <p>{{ 'drag-and-drop.not-uploaded-warning' | translate }}</p>
+        <p>
+          {{ 'drag-and-drop.picture-description' | translate }}
+          <label for="upload"
+            ><span>{{ 'drag-and-drop.browse' | translate }}</span></label
+          >
+          <input type="file" id="upload" (change)="onFileSelected($event)" />
+        </p>
+      </div>
+    </div>
+  </div>
+  <span
+    class="warning"
+    [ngClass]="{
+      'warning-color': isWarning
+    }"
+    >{{ 'drag-and-drop.picture-tooltip' | translate }}</span
+  >
+</ng-template>

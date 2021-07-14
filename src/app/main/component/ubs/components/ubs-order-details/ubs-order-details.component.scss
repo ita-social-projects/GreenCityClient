@@ -1,0 +1,397 @@
+.container {
+  box-shadow: 1px 4px 8px rgb(100 114 125 / 18%);
+  padding: 10px 25px 40px;
+  color: var(--ubs-primary-grey);
+}
+
+.buttons {
+  margin-top: 46px;
+}
+
+.cansel-button {
+  border-radius: 4px;
+  border: 1px solid var(--ubs-primary-green);
+  margin-right: 1rem;
+}
+
+.font-bolt {
+  font-weight: bold;
+}
+
+.eco-store::-webkit-outer-spin-button,
+.eco-store::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.eco-store[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.header {
+  width: 100%;
+  margin: 3rem 0 0;
+
+  .order-title {
+    margin-bottom: 1rem;
+  }
+
+  .order-content {
+    color: var(--ubs-secondary-grey);
+    margin-bottom: 3rem;
+  }
+}
+
+.main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 1rem 0 1.2rem 0;
+  border-top: 1px solid var(--ubs-primary-light-grey);
+  border-bottom: 1px solid var(--ubs-primary-light-grey);
+}
+
+.label {
+  color: var(--ubs-secondary-grey);
+  padding: 0;
+}
+
+.form-group {
+  padding: 0;
+}
+
+.form-control {
+  height: 3rem;
+  background: none;
+  padding-left: 0;
+  border: none;
+  display: flex;
+}
+
+.count {
+  .input {
+    border: 1px solid var(--ubs-secondary-grey);
+    padding-left: 6px;
+  }
+}
+
+.custom-control-label {
+  color: var(--ubs-secondary-grey);
+  padding-left: 0;
+  padding-top: 3px;
+}
+
+.custom-control-label::before {
+  background-color: var(--ubs-primary-white);
+}
+
+.custom-radio .custom-control-input:checked ~ .custom-control-label::before,
+.custom-radio .custom-control-input:checked ~ .custom-control-label::after {
+  background-color: var(--ubs-primary-green);
+  border-radius: 50%;
+}
+
+.sum {
+  width: 6rem;
+  margin-left: 3rem;
+
+  .form-control {
+    padding-left: 0;
+    text-align: center;
+    font-weight: 700;
+  }
+}
+
+button {
+  width: 9rem;
+  height: 3rem;
+  border-radius: 0;
+  border: none;
+}
+
+.primary-global-button {
+  padding: 8px 24px;
+  border-radius: 4px;
+  background: var(--ubs-primary-green);
+}
+
+.middle {
+  width: 100%;
+  margin-top: 10px;
+  padding: 30px 0;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--ubs-primary-light-grey);
+}
+
+.messages-container {
+  width: 50%;
+
+  small {
+    color: var(--ubs-primary-green);
+  }
+}
+
+.points {
+  margin-top: 3em;
+}
+
+.totalInfo {
+  text-align: right;
+
+  .total-content {
+    display: flex;
+    justify-content: flex-end;
+    color: var(--ubs-secondary-grey);
+    padding-right: 0.5rem;
+
+    strong {
+      padding-left: 2rem;
+    }
+  }
+
+  .money-saved {
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: var(--ubs-primary-green);
+  }
+
+  .validMes {
+    margin-top: -1rem;
+    text-align: left;
+  }
+}
+
+.bottom {
+  padding: 3rem 0;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid var(--ubs-primary-light-grey);
+
+  .custom-control {
+    padding-left: 1.4rem;
+  }
+
+  .border-input {
+    border: 1px solid var(--ubs-secondary-grey);
+  }
+}
+
+.middle-container {
+  .showTotal {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 2rem;
+  }
+
+  .input-border {
+    background: var(--ubs-primary-white);
+    border: 1px solid var(--ubs-secondary-grey);
+  }
+
+  .certificate-container,
+  .addCertificate {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 50%;
+
+    input {
+      padding: 0.5rem;
+    }
+
+    .validMes {
+      width: 65%;
+      margin: -1rem 0 1rem;
+      color: var(--ubs-primary-green);
+    }
+  }
+
+  button {
+    width: 10rem;
+    height: 3rem;
+    border: none;
+  }
+
+  .addCertificate {
+    align-items: center;
+
+    button {
+      margin-top: 1rem;
+    }
+  }
+
+  .addCertificateBtn {
+    width: 180px;
+    padding: 0;
+    text-align: left;
+    background: none;
+    color: var(--ubs-primary-green);
+    outline: none;
+  }
+
+  .addCertificateBtn:hover {
+    background: none;
+  }
+
+  .addBonus {
+    margin-top: 3rem;
+
+    span {
+      color: var(--ubs-primary-green);
+      padding-left: 1rem;
+    }
+  }
+
+  small {
+    margin-left: 0;
+  }
+}
+
+.shop_submit {
+  position: relative;
+  width: 85%;
+  margin-top: 1rem;
+
+  .form-group {
+    width: 39%;
+  }
+}
+
+.addOrderBtn {
+  width: 250px;
+  padding: 0;
+  text-align: left;
+  background: none;
+  color: var(--ubs-primary-green);
+  outline: none;
+}
+
+.addOrderBtn:hover {
+  background: none;
+}
+
+.bottom-text {
+  position: absolute;
+  right: 0;
+  width: 60%;
+  padding: 1.5rem 0 0 0.5rem;
+}
+
+.comment {
+  background: var(--ubs-primary-white);
+}
+
+.bottom_comment {
+  background: var(--ubs-primary-white);
+
+  .textarea {
+    height: 6rem;
+    border: 1px solid var(--ubs-secondary-grey);
+    padding: 0.5rem;
+    background: var(--ubs-primary-white);
+  }
+
+  .btn:nth-child(1) {
+    margin: 0 24px 0 0;
+    border: 1px solid var(--ubs-primary-green);
+    background: none;
+    color: var(--ubs-primary-green);
+  }
+
+  .btn-main {
+    height: 3rem;
+
+    &:hover {
+      background: var(--ubs-primary-green);
+      color: var(--ubs-primary-white);
+    }
+  }
+}
+
+li {
+  list-style: none;
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+  .label,
+  .bag-name {
+    font-size: 0.8rem;
+  }
+
+  .messages-container {
+    width: 65%;
+  }
+
+  .totalInfo {
+    span {
+      font-size: 0.8rem;
+    }
+
+    .money-saved {
+      font-size: 0.65rem;
+    }
+  }
+
+  h3 {
+    font-size: 1.3rem;
+  }
+
+  h5 {
+    font-size: 1.1rem;
+  }
+
+  button {
+    font-size: 1rem;
+  }
+
+  p,
+  a,
+  textarea,
+  small,
+  input {
+    font-size: 0.8rem;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .label,
+  .bag-name {
+    font-size: 0.6rem;
+  }
+
+  .messages-container {
+    width: 80%;
+  }
+
+  .totalInfo {
+    span {
+      font-size: 0.6rem;
+    }
+
+    .money-saved {
+      font-size: 0.58rem;
+    }
+  }
+
+  h3 {
+    font-size: 1.3rem;
+  }
+
+  h5 {
+    font-size: 1.1rem;
+  }
+
+  button {
+    width: 100px;
+    font-size: 0.7rem;
+  }
+
+  p,
+  a,
+  textarea,
+  small,
+  input {
+    font-size: 0.65rem;
+  }
+}

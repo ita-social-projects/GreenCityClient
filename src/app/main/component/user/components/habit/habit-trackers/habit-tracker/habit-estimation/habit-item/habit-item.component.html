@@ -1,0 +1,6 @@
+<img
+  title="{{ habitItem.numb }}"
+  [src]="habitItem.icon.name"
+  [ngClass]="{ 'active-element': habitItem.isActive, 'non-active-element': !habitItem.isActive }"
+  alt="{{ habitItem.numb }}"
+/>

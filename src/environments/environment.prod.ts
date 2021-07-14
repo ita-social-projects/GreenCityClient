@@ -1,8 +1,12 @@
 export const environment = {
   production: true,
   apiKeys: 'AIzaSyDanBliCzAuCZrsq67FeKEs3vqAilUD_is',
+  apiMapKey: 'AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4',
   backendLink: 'https://greencity.azurewebsites.net/',
+  backendUserLink: 'https://greencity-user.azurewebsites.net/',
+  backendUbsLink: 'https://greencity-ubs.azurewebsites.net',
   frontendLink: 'https://ita-social-projects.github.io/GreenCityClient/',
+  socket: 'https://greencity.azurewebsites.net/socket',
   firebaseConfig: {
     apiKey: 'AIzaSyDSVxahTHqdffRX2upKIMXCCjEBUYoHX8E',
     authDomain: 'greencity-9bdb7.firebaseapp.com',
@@ -12,5 +16,11 @@ export const environment = {
     messagingSenderId: '3763960182',
     appId: '1:3763960182:web:44462764adbc05beb72257',
     measurementId: 'G-CCHRKQ4R0S'
-  }
+  },
+  ubsAdmin: {
+    backendEmployeesLink: 'https://greencity-ubs.azurewebsites.net/admin/ubs-employee/getAll-employees',
+    backendUbsAdminLink: 'https://greencity-ubs.azurewebsites.net/ubs'
+  },
+  googleClientId: '129513550972-eu9ej46rviv1ac8q14at62t2k5qon1pu.apps.googleusercontent.com',
+  agmCoreModuleApiKey: 'AIzaSyCdBtR8O8eazfWUSdyb5O2cnL32uJtWUwA'
 };

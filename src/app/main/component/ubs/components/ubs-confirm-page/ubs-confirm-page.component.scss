@@ -1,0 +1,88 @@
+$shadowColor: rgba(23, 24, 26, 0.5);
+
+.wraper {
+  display: flex;
+  justify-content: center;
+
+  .order {
+    width: 50%;
+    height: 50%;
+    background-color: var(--ubs-primary-white);
+    box-shadow: 4px 6px 10px $shadowColor;
+    margin-top: -28px;
+    margin-bottom: 64px;
+
+    .title {
+      font-family: var(--primary-font);
+      font-weight: bold;
+      font-size: 1.8rem;
+      line-height: 32px;
+      text-align: center;
+      letter-spacing: 0.002em;
+      color: var(--ubs-primary-dark-grey);
+      margin-top: 40px;
+    }
+
+    .description {
+      font-family: var(--primary-font);
+      font-style: normal;
+      font-weight: normal;
+      font-size: 1rem;
+      line-height: 20px;
+      text-align: center;
+      color: var(--ubs-primary-dark-grey);
+      width: 80%;
+      margin: auto;
+    }
+  }
+
+  .infolinks {
+    display: flex;
+    justify-content: space-between;
+
+    .list {
+      font-size: 1.3rem;
+      color: var(--ubs-primary-green);
+      font-family: var(--primary-font);
+      margin-top: 55px;
+
+      a {
+        text-decoration: underline;
+        font-size: 1.1rem;
+      }
+
+      li {
+        list-style-type: none;
+      }
+
+      h5 {
+        font-size: 16px;
+        font-weight: bold;
+        color: var(--ubs-primary-dark-grey);
+      }
+    }
+  }
+
+  .image {
+    width: 80%;
+    height: auto;
+    margin: 55px auto;
+  }
+
+  .p-40 {
+    padding-left: 40px;
+  }
+
+  .link {
+    color: var(--ubs-primary-green);
+    text-decoration: none;
+  }
+}
+
+@media screen and (min-width: 2500px) {
+  .wraper {
+    .order {
+      width: 44%;
+    }
+  }
+}

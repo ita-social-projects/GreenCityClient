@@ -1,0 +1,262 @@
+.checkmark {
+  border: 1px solid var(--primary-green);
+  border-radius: 4px;
+  height: 20px;
+  width: 20px;
+  margin-right: 12px;
+
+  &::after {
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    content: '';
+    display: none;
+    height: 12px;
+    left: 6px;
+    position: absolute;
+    top: 4px;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    width: 7px;
+  }
+}
+
+input[type='checkbox'] {
+  height: 0;
+  opacity: 0;
+  width: 0;
+}
+
+input:checked ~ .checkmark {
+  background-color: var(--primary-green);
+}
+
+input:checked ~ .checkmark::after {
+  display: block;
+}
+
+.edit_prof-container {
+  width: 100%;
+}
+
+.edit_prof-wrap {
+  max-width: 554px;
+  box-sizing: content-box;
+
+  .wrapper {
+    border-bottom: 1px solid #e1e5e3;
+    margin-top: 40px;
+    padding-bottom: 40px;
+
+    p {
+      font-family: var(--secondary-font);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 24px;
+    }
+
+    .input-block {
+      display: flex;
+      flex-direction: column;
+
+      label {
+        font-family: var(--primary-font);
+        font-size: 12px;
+        height: 16px;
+        line-height: 16px;
+        margin: 0;
+      }
+
+      input,
+      textarea {
+        background: #fff;
+        border: 1px solid var(--secondary-grey);
+        border-radius: 5px;
+        box-sizing: border-box;
+        font-family: var(--primary-font);
+        font-size: 16px;
+      }
+
+      input {
+        height: 48px;
+        padding: 12px 40px 12px 16px;
+      }
+
+      textarea {
+        height: 115px;
+        padding: 12px 16px;
+      }
+
+      span {
+        font-family: var(--primary-font);
+        font-size: 10px;
+        height: 12px;
+        line-height: 12px;
+        color: var(--secondary-grey);
+      }
+
+      input.ng-invalid.ng-touched,
+      textarea.ng-invalid.ng-touched {
+        border: 1px solid red !important;
+      }
+
+      input.ng-invalid.ng-touched + span,
+      textarea.ng-invalid.ng-touched + span {
+        color: red;
+      }
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      border: 1px solid var(--primary-green);
+      box-sizing: border-box;
+      border-radius: 5px;
+      font-family: var(--primary-font);
+      font-style: normal;
+      font-weight: 600;
+      font-size: 16px;
+      height: 48px;
+      line-height: 16px;
+      margin: 32px 0 16px 24px;
+      width: 132px;
+    }
+
+    button:first-child {
+      background: #fff;
+      color: var(--primary-green);
+    }
+
+    button:last-child {
+      background: var(--primary-green);
+      color: #fff;
+    }
+
+    button:first-child:hover {
+      border: 1px solid var(--secondary-dark-green);
+      color: var(--secondary-dark-green);
+    }
+
+    button:first-child:disabled {
+      border: 1px solid var(--primary-grey);
+      color: var(--primary-grey);
+    }
+
+    button:last-child:hover {
+      background: var(--secondary-dark-green);
+    }
+
+    button:last-child:disabled {
+      background: var(--primary-grey);
+      border: 1px solid var(--primary-grey);
+    }
+  }
+}
+
+h2 {
+  font-family: var(--secondary-font);
+  font-style: normal;
+  font-weight: 500;
+  height: 48px;
+  font-size: 2.1em;
+  line-height: 48px;
+  margin-bottom: 40px;
+  color: var(--primary-dark-grey);
+}
+
+.privacy-wrapper {
+  border-bottom: 1px solid #e1e5e3;
+  margin-top: 40px;
+  padding-bottom: 40px;
+
+  .title {
+    font-family: var(--secondary-font);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 24px;
+  }
+
+  ul {
+    margin-bottom: 0;
+    padding: 0;
+    list-style-type: none !important;
+
+    li {
+      list-style: none;
+      margin-bottom: 24px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .label-wrapper {
+        color: var(--primary-dark-grey);
+        cursor: pointer;
+        font-family: var(--primary-font);
+        font-size: 16px;
+        line-height: 24px;
+        margin: 0;
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .edit_prof-wrap {
+    padding: 0 5%;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .edit_prof-wrap {
+    h2 {
+      margin-bottom: 24px;
+      line-height: 32px;
+      text-align: center;
+    }
+
+    .wrapper {
+      .input-block {
+        input,
+        textarea {
+          font-size: 14px;
+        }
+      }
+
+      p {
+        font-size: 16px;
+      }
+    }
+
+    .buttons {
+      flex-direction: column;
+
+      button {
+        margin-left: 0;
+        width: 288px;
+      }
+
+      button:last-child {
+        margin: 0 0 8px 0;
+      }
+    }
+
+    .privacy-wrapper {
+      ul {
+        li {
+          .label-wrapper {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,106 @@
+$second-color: #6a8079;
+
+.title {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  height: 20px;
+  margin-bottom: 28px;
+}
+
+.thumbLabel {
+  width: 90px;
+  height: 50px;
+  padding: 15px 10px;
+  position: relative;
+  top: 0;
+  background-image: url('../../../../../../../../assets/img/duration-thumb-label.png');
+  font-family: var(--secondary-font);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 16px;
+  align-items: center;
+  text-align: center;
+}
+
+.rangeLabel {
+  height: 16px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 32px;
+
+  .text {
+    font-family: var(--secondary-font);
+    font-style: normal;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 16px;
+    color: $second-color;
+  }
+}
+
+.message {
+  font-family: var(--secondary-font);
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
+  color: $second-color;
+}
+
+input[type='range'].form-control-range {
+  width: 100%;
+  margin: 4px 0;
+  background-color: transparent;
+  border-radius: 26px;
+  -webkit-appearance: none;
+}
+
+input[type='range'].form-control-range:focus {
+  outline: none;
+}
+
+input[type='range'].form-control-range::-webkit-slider-runnable-track {
+  border-radius: 26px;
+  width: 100%;
+  height: 4px;
+  cursor: pointer;
+}
+
+input[type='range'].form-control-range::-webkit-slider-thumb {
+  margin-top: -4px;
+  width: 12px;
+  height: 12px;
+  background: var(--primary-green);
+  border-radius: 6px;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+
+input[type='range'].form-control-range::-moz-range-track {
+  background: var(--primary-green);
+  border-radius: 26px;
+  width: 100%;
+  height: 4px;
+  cursor: pointer;
+}
+
+input[type='range'].form-control-range::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  background: var(--primary-green);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.form-control-range::-webkit-fill-lower {
+  background-color: var(--primary-green);
+  border-radius: 52px;
+}
+
+.form-control-range::-webkit-fill-upper {
+  background-color: #bbbebd;
+  border-radius: 52px;
+}

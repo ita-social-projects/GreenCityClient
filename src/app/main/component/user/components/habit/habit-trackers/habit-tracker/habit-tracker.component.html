@@ -1,0 +1,30 @@
+<div *ngIf="$habit | async as habit">
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+      <app-habit-title [habitId]="usersHabitId + 1" [habitTitle]="habit.name"></app-habit-title>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+      <app-habit-tracker-date [dayNumber]="curDayNumber" [habitCreationDate]="habit.createDate"> </app-habit-tracker-date>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <app-habit-fact [habitDictionary]="habit.habitDictionary"></app-habit-fact>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+      <app-habit-chart
+        caption="{{ habit.habitDictionary.habitItem }}"
+        [values]="habitStatistic"
+        [chartId]="chartId"
+        [redrawTrigger]="chartRedrawTrigger"
+      ></app-habit-chart>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+      <app-habit-estimation [habit]="habit" [statistic]="currentStatistic"></app-habit-estimation>
+    </div>
+  </div>
+</div>

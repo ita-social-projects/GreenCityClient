@@ -1,0 +1,28 @@
+<div class="sidebar-icons" #sideBarIcons>
+  <button class="sidebar-toggler" type="button" (click)="toggleSideBar()" #sidebarToggler [disabled]="stopClick">
+    <img class="arrow" [src]="arrowLeft" alt="Arrow Left" />
+  </button>
+  <ul class="sidebar-list">
+    <li class="sidebar-list-item" (click)="toggleSideBar()" *ngFor="let listItem of listElements">
+      <img class="sidebar-list-item-icon" src="{{ listItem.link }}" alt="sidebar list item icon" />
+    </li>
+  </ul>
+</div>
+<mat-drawer-container class="sidebar" autosize>
+  <mat-drawer #drawer class="sidebar-slider" mode="side" opened disableClose>
+    <button class="sidebar-toggler" type="button" (click)="toggleSideBar()" #sidebarToggler [disabled]="stopClick">
+      <img class="arrow" [src]="arrowRight" alt="Arrow Right" />
+    </button>
+    <ul class="sidebar-list">
+      <li class="sidebar-list-item" *ngFor="let listItem of listElements">
+        <img class="sidebar-list-item-icon" src="{{ listItem.link }}" alt="sidebar list item icon" />
+        <a [routerLink]="listItem.routerLink" class="sidebar-list-item-link">{{ listItem.name }}</a>
+      </li>
+    </ul>
+  </mat-drawer>
+  <mat-drawer-content [ngStyle]="{ marginTop: '52px' }">
+    <div class="sidebar-container" #sidebarContainer>
+      <ng-content></ng-content>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

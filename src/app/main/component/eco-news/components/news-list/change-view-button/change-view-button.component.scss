@@ -1,0 +1,13 @@
+.wrapper {
+  display: none;
+}
+
+@media (min-width: 576px) {
+  .wrapper {
+    display: block;
+
+    :nth-child(1) {
+      margin-right: 8px;
+    }
+  }
+}

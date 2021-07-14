@@ -1,0 +1,27 @@
+<div *ngIf="!friends">
+  <app-spinner></app-spinner>
+</div>
+<div *ngIf="friends?.length">
+  <div class="friends-list">
+    <div class="container">
+      <div *ngFor="let friend of friends">
+        <app-friend-item
+          [friend]="friend"
+          (friendEventEmit)="handleDeleteFriend($event)"
+          btnName="{{ 'profile.friends.delete-friend' | translate }}"
+        ></app-friend-item>
+      </div>
+    </div>
+    <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
+  </div>
+</div>
+<div *ngIf="friends && friends.length === 0">
+  <div class="noFriends-wraper">
+    <div class="img-absent">
+      <img [src]="absent" alt="absent-friends" />
+    </div>
+    <div>
+      <p class="noFriends">{{ 'profile.zero-friends' | translate }}</p>
+    </div>
+  </div>
+</div>

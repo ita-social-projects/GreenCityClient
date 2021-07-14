@@ -1,0 +1,246 @@
+body {
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+}
+
+.disabled-link {
+  cursor: not-allowed;
+}
+
+.steps-main-block {
+  position: relative;
+  margin: auto 150px;
+}
+
+.steps-wrapper {
+  margin-top: -3767px;
+}
+
+.full-text-block {
+  h2 {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 60px;
+    font-family: var(--secondary-font);
+  }
+
+  p {
+    font-size: 24px;
+    line-height: 36px;
+    font-family: var(--primary-font);
+  }
+
+  button {
+    font-family: var(--primary-font);
+    padding: 16px 40px;
+  }
+}
+
+.container-about {
+  .full-text-block {
+    margin-left: 171px;
+  }
+
+  button {
+    margin-top: 40px;
+  }
+
+  padding-bottom: 250px;
+  background-image: url('~/assets/img/curly-line.png');
+  background-size: 100% 100%;
+}
+
+.vision {
+  background-image: url('~/assets/img/wave-line.png');
+  background-size: 100% 100%;
+  margin-bottom: 100px;
+}
+
+.container-vision {
+  margin: auto 171px;
+  padding-bottom: 250px;
+}
+
+.container-about,
+.container-vision {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: row;
+}
+
+.card-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+  padding: 40px 48px;
+  line-height: 36px;
+  font-size: 24px;
+  font-family: var(--primary-font);
+  position: relative;
+  top: 150px;
+  background: white;
+
+  .card-link {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 28px;
+    text-decoration: underline;
+    color: var(--secondary-dark-green);
+    font-size: 16px;
+    line-height: 18.75px;
+  }
+}
+
+.card-title-text {
+  width: 441px;
+  background: white;
+  font-size: 32px;
+  font-family: var(--primary-font);
+  margin: 44px auto auto 24px;
+  font-weight: bold;
+}
+
+.card-store {
+  .card-title-number::before {
+    content: url('~/assets/img/1.png');
+  }
+
+  margin-bottom: 175px;
+}
+
+.card-eco-place {
+  .card-title-number::before {
+    content: url('~/assets/img/2.png');
+  }
+
+  margin-bottom: 270px;
+}
+
+.card-eco-products {
+  .card-title-number::before {
+    content: url('~/assets/img/3.png');
+  }
+
+  margin-top: 216px;
+}
+
+.card-title {
+  display: flex;
+  flex-direction: row;
+}
+
+.card-story {
+  .card-title-number::before {
+    content: url('~/assets/img/4.png');
+  }
+
+  margin-top: 300px;
+}
+
+.card-people {
+  .card-title-number::before {
+    content: url('~/assets/img/5.png');
+  }
+
+  margin-top: 320px;
+}
+
+.dashed-line {
+  position: relative;
+  background: url('~/assets/img/dashed-line.png');
+  width: 832px;
+  height: 3576px;
+  margin: auto;
+  z-index: -1;
+}
+
+.leaves {
+  position: relative;
+  top: 12px;
+  left: 107px;
+  background: url('~/assets/img/leaves.png') no-repeat;
+  width: 641px;
+  height: 3214px;
+  z-index: -1;
+}
+
+@media only screen and (max-width: 1199px) {
+  .container-vision {
+    margin: auto 30px;
+  }
+
+  .container-about {
+    img {
+      max-width: 60%;
+    }
+  }
+
+  .steps-main-block {
+    margin: auto 30px;
+  }
+
+  .card-title {
+    width: auto;
+  }
+
+  .card-info {
+    padding: 0;
+    margin: 0;
+  }
+
+  .card-title-text {
+    width: auto;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .container-about,
+  .container-vision {
+    flex-direction: column;
+
+    .full-text-block {
+      margin-left: 0;
+    }
+  }
+
+  .container-vision {
+    img {
+      order: 2;
+    }
+  }
+
+  .card-content {
+    flex-direction: column;
+    margin: 0;
+
+    img {
+      max-width: 100%;
+      order: 2;
+    }
+
+    .card-info {
+      position: relative;
+      top: 0;
+    }
+  }
+
+  .dashed-line,
+  .leaves {
+    display: none;
+  }
+
+  .steps-wrapper {
+    margin-top: 0;
+  }
+}

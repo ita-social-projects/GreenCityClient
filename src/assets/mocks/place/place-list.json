@@ -1,0 +1,493 @@
+[
+  {
+    "id": "1",
+    "name": "Torphy LLC",
+    "location": {
+      "id": "1",
+      "adress": "25194 Cleo Rapids",
+      "lat": "13.8652",
+      "lng": "148.5758",
+      "distanceFromUser": 43981
+    },
+    "openingHoursList": {
+      "openTime": "7:00",
+      "closeTime": "22:00",
+      "weekDay": {
+        "MONDAY": "MONDAY",
+        "TUESDAY": "TUESDAY",
+        "WEDNESDAY": "WEDNESDAY",
+        "THURSDAY": "THURSDAY",
+        "FRIDAY": "FRIDAY",
+        "SATURDAY": "SATURDAY",
+        "SUNDAY": "SUNDAY"
+      },
+      "breakTime": {
+        "startTime": "13:00",
+        "endTime": "14:00"
+      }
+    },
+    "discountValues": {
+      "value": 26,
+      "specification": "capacitor"
+    },
+    "comments": [
+      {
+        "id": "1",
+        "test": "test 1",
+        "date": "2020-02-28T08:20:40.367Z",
+        "user": {
+          "id": "1",
+          "firstName": "Hillard",
+          "lastName": "Wilfredo Hilll Jr.",
+          "email": "Justine89@gmail.com",
+          "dateOfRegistration": "2020-04-08T06:20:26.768Z"
+        }
+      },
+      {
+        "id": "2",
+        "test": "test 2",
+        "date": "2020-06-16T04:29:51.695Z",
+        "user": {
+          "id": "2",
+          "firstName": "Francesca",
+          "lastName": "Ruth Pouros",
+          "email": "Martine10@yahoo.com",
+          "dateOfRegistration": "2020-04-22T22:52:20.784Z"
+        }
+      },
+      {
+        "id": "3",
+        "test": "test 3",
+        "date": "2020-09-11T13:51:04.202Z",
+        "user": {
+          "id": "3",
+          "firstName": "Cedrick",
+          "lastName": "Christopher Lemke",
+          "email": "Diego_Howe25@hotmail.com",
+          "dateOfRegistration": "2019-10-25T10:56:10.018Z"
+        }
+      },
+      {
+        "id": "4",
+        "test": "test 4",
+        "date": "2019-10-24T00:04:36.903Z",
+        "user": {
+          "id": "4",
+          "firstName": "Mathew",
+          "lastName": "Margarette Hauck",
+          "email": "Gardner.Cronin68@gmail.com",
+          "dateOfRegistration": "2020-03-18T19:48:05.090Z"
+        }
+      },
+      {
+        "id": "5",
+        "test": "test 5",
+        "date": "2020-06-03T19:54:49.439Z",
+        "user": {
+          "id": "5",
+          "firstName": "Cleora",
+          "lastName": "Johathan Rau",
+          "email": "Kaci.Dach27@hotmail.com",
+          "dateOfRegistration": "2019-10-22T06:06:52.554Z"
+        }
+      }
+    ],
+    "rate": 8
+  },
+  {
+    "id": "2",
+    "name": "Rodriguez - Weber",
+    "location": {
+      "id": "2",
+      "places-listId": "2",
+      "adress": "007 Murray Mission",
+      "lat": "-76.7610",
+      "lng": "-148.6284",
+      "distanceFromUser": 94761
+    },
+    "openingHoursList": {
+      "id": "2",
+      "places-listId": "2",
+      "openTime": "8:00",
+      "closeTime": "23:00",
+      "weekDay": {
+        "MONDAY": "MONDAY",
+        "TUESDAY": "TUESDAY",
+        "WEDNESDAY": "WEDNESDAY",
+        "THURSDAY": "THURSDAY",
+        "FRIDAY": "FRIDAY",
+        "SATURDAY": "SATURDAY",
+        "SUNDAY": "SUNDAY"
+      },
+      "breakTime": {
+        "startTime": "13:00",
+        "endTime": "14:00"
+      }
+    },
+    "discountValues": {
+      "id": "2",
+      "value": 26,
+      "specification": "hard drive"
+    },
+    "comments": [
+      {
+        "id": "1",
+        "test": "test 1",
+        "date": "2020-02-28T08:20:40.367Z",
+        "user": {
+          "id": "1",
+          "firstName": "Hillard",
+          "lastName": "Wilfredo Hilll Jr.",
+          "email": "Justine89@gmail.com",
+          "dateOfRegistration": "2020-04-08T06:20:26.768Z"
+        }
+      },
+      {
+        "id": "2",
+        "test": "test 2",
+        "date": "2020-06-16T04:29:51.695Z",
+        "user": {
+          "id": "2",
+          "firstName": "Francesca",
+          "lastName": "Ruth Pouros",
+          "email": "Martine10@yahoo.com",
+          "dateOfRegistration": "2020-04-22T22:52:20.784Z"
+        }
+      },
+      {
+        "id": "3",
+        "test": "test 3",
+        "date": "2020-09-11T13:51:04.202Z",
+        "user": {
+          "id": "3",
+          "firstName": "Cedrick",
+          "lastName": "Christopher Lemke",
+          "email": "Diego_Howe25@hotmail.com",
+          "dateOfRegistration": "2019-10-25T10:56:10.018Z"
+        }
+      },
+      {
+        "id": "4",
+        "test": "test 4",
+        "date": "2019-10-24T00:04:36.903Z",
+        "user": {
+          "id": "4",
+          "firstName": "Mathew",
+          "lastName": "Margarette Hauck",
+          "email": "Gardner.Cronin68@gmail.com",
+          "dateOfRegistration": "2020-03-18T19:48:05.090Z"
+        }
+      },
+      {
+        "id": "5",
+        "test": "test 5",
+        "date": "2020-06-03T19:54:49.439Z",
+        "user": {
+          "id": "5",
+          "firstName": "Cleora",
+          "lastName": "Johathan Rau",
+          "email": "Kaci.Dach27@hotmail.com",
+          "dateOfRegistration": "2019-10-22T06:06:52.554Z"
+        }
+      }
+    ],
+    "rate": 3
+  },
+  {
+    "id": "3",
+    "name": "Beatty - Lockman",
+    "location": {
+      "id": "3",
+      "places-listId": "3",
+      "adress": "12975 Douglas Brook",
+      "lat": "81.4773",
+      "lng": "-100.8289",
+      "distanceFromUser": 98248
+    },
+    "openingHoursList": {
+      "id": "3",
+      "places-listId": "3",
+      "openTime": "9:00",
+      "closeTime": "00:00",
+      "weekDay": {
+        "MONDAY": "MONDAY",
+        "TUESDAY": "TUESDAY",
+        "WEDNESDAY": "WEDNESDAY",
+        "THURSDAY": "THURSDAY",
+        "FRIDAY": "FRIDAY",
+        "SATURDAY": "SATURDAY",
+        "SUNDAY": "SUNDAY"
+      },
+      "breakTime": {
+        "startTime": "13:00",
+        "endTime": "14:00"
+      }
+    },
+    "discountValues": {
+      "id": "3",
+      "value": 93,
+      "specification": "program"
+    },
+    "comments": [
+      {
+        "id": "1",
+        "test": "test 1",
+        "date": "2020-02-28T08:20:40.367Z",
+        "user": {
+          "id": "1",
+          "firstName": "Hillard",
+          "lastName": "Wilfredo Hilll Jr.",
+          "email": "Justine89@gmail.com",
+          "dateOfRegistration": "2020-04-08T06:20:26.768Z"
+        }
+      },
+      {
+        "id": "2",
+        "test": "test 2",
+        "date": "2020-06-16T04:29:51.695Z",
+        "user": {
+          "id": "2",
+          "firstName": "Francesca",
+          "lastName": "Ruth Pouros",
+          "email": "Martine10@yahoo.com",
+          "dateOfRegistration": "2020-04-22T22:52:20.784Z"
+        }
+      },
+      {
+        "id": "3",
+        "test": "test 3",
+        "date": "2020-09-11T13:51:04.202Z",
+        "user": {
+          "id": "3",
+          "firstName": "Cedrick",
+          "lastName": "Christopher Lemke",
+          "email": "Diego_Howe25@hotmail.com",
+          "dateOfRegistration": "2019-10-25T10:56:10.018Z"
+        }
+      },
+      {
+        "id": "4",
+        "test": "test 4",
+        "date": "2019-10-24T00:04:36.903Z",
+        "user": {
+          "id": "4",
+          "firstName": "Mathew",
+          "lastName": "Margarette Hauck",
+          "email": "Gardner.Cronin68@gmail.com",
+          "dateOfRegistration": "2020-03-18T19:48:05.090Z"
+        }
+      },
+      {
+        "id": "5",
+        "test": "test 5",
+        "date": "2020-06-03T19:54:49.439Z",
+        "user": {
+          "id": "5",
+          "firstName": "Cleora",
+          "lastName": "Johathan Rau",
+          "email": "Kaci.Dach27@hotmail.com",
+          "dateOfRegistration": "2019-10-22T06:06:52.554Z"
+        }
+      }
+    ],
+    "rate": 8
+  },
+  {
+    "id": "4",
+    "name": "Turcotte - Willms",
+    "location": {
+      "id": "4",
+      "places-listId": "4",
+      "adress": "273 Beer Motorway",
+      "lat": "-22.8097",
+      "lng": "173.6005",
+      "distanceFromUser": 43723
+    },
+    "openingHoursList": {
+      "id": "4",
+      "places-listId": "4",
+      "openTime": "5:00",
+      "closeTime": "21:00",
+      "weekDay": {
+        "MONDAY": "MONDAY",
+        "TUESDAY": "TUESDAY",
+        "WEDNESDAY": "WEDNESDAY",
+        "THURSDAY": "THURSDAY",
+        "FRIDAY": "FRIDAY",
+        "SATURDAY": "SATURDAY",
+        "SUNDAY": "SUNDAY"
+      },
+      "breakTime": {
+        "startTime": "13:00",
+        "endTime": "14:00"
+      }
+    },
+    "discountValues": {
+      "id": "4",
+      "value": 59,
+      "specification": "transmitter"
+    },
+    "comments": [
+      {
+        "id": "1",
+        "test": "test 1",
+        "date": "2020-02-28T08:20:40.367Z",
+        "user": {
+          "id": "1",
+          "firstName": "Hillard",
+          "lastName": "Wilfredo Hilll Jr.",
+          "email": "Justine89@gmail.com",
+          "dateOfRegistration": "2020-04-08T06:20:26.768Z"
+        }
+      },
+      {
+        "id": "2",
+        "test": "test 2",
+        "date": "2020-06-16T04:29:51.695Z",
+        "user": {
+          "id": "2",
+          "firstName": "Francesca",
+          "lastName": "Ruth Pouros",
+          "email": "Martine10@yahoo.com",
+          "dateOfRegistration": "2020-04-22T22:52:20.784Z"
+        }
+      },
+      {
+        "id": "3",
+        "test": "test 3",
+        "date": "2020-09-11T13:51:04.202Z",
+        "user": {
+          "id": "3",
+          "firstName": "Cedrick",
+          "lastName": "Christopher Lemke",
+          "email": "Diego_Howe25@hotmail.com",
+          "dateOfRegistration": "2019-10-25T10:56:10.018Z"
+        }
+      },
+      {
+        "id": "4",
+        "test": "test 4",
+        "date": "2019-10-24T00:04:36.903Z",
+        "user": {
+          "id": "4",
+          "firstName": "Mathew",
+          "lastName": "Margarette Hauck",
+          "email": "Gardner.Cronin68@gmail.com",
+          "dateOfRegistration": "2020-03-18T19:48:05.090Z"
+        }
+      },
+      {
+        "id": "5",
+        "test": "test 5",
+        "date": "2020-06-03T19:54:49.439Z",
+        "user": {
+          "id": "5",
+          "firstName": "Cleora",
+          "lastName": "Johathan Rau",
+          "email": "Kaci.Dach27@hotmail.com",
+          "dateOfRegistration": "2019-10-22T06:06:52.554Z"
+        }
+      }
+    ],
+    "rate": 8
+  },
+  {
+    "id": "5",
+    "name": "Herzog Group",
+    "location": {
+      "id": "5",
+      "places-listId": "5",
+      "adress": "23464 Steve Mill",
+      "lat": "31.2165",
+      "lng": "155.2831",
+      "distanceFromUser": 46634
+    },
+    "openingHoursList": {
+      "id": "5",
+      "places-listId": "1",
+      "openTime": "14:00",
+      "closeTime": "04:00",
+      "weekDay": {
+        "MONDAY": "MONDAY",
+        "TUESDAY": "TUESDAY",
+        "WEDNESDAY": "WEDNESDAY",
+        "THURSDAY": "THURSDAY",
+        "FRIDAY": "FRIDAY",
+        "SATURDAY": "SATURDAY",
+        "SUNDAY": "SUNDAY"
+      },
+      "breakTime": {
+        "startTime": "13:00",
+        "endTime": "14:00"
+      }
+    },
+    "discountValues": {
+      "id": "5",
+      "value": 68,
+      "specification": "application"
+    },
+    "comments": [
+      {
+        "id": "1",
+        "test": "test 1",
+        "date": "2020-02-28T08:20:40.367Z",
+        "user": {
+          "id": "1",
+          "firstName": "Hillard",
+          "lastName": "Wilfredo Hilll Jr.",
+          "email": "Justine89@gmail.com",
+          "dateOfRegistration": "2020-04-08T06:20:26.768Z"
+        }
+      },
+      {
+        "id": "2",
+        "test": "test 2",
+        "date": "2020-06-16T04:29:51.695Z",
+        "user": {
+          "id": "2",
+          "firstName": "Francesca",
+          "lastName": "Ruth Pouros",
+          "email": "Martine10@yahoo.com",
+          "dateOfRegistration": "2020-04-22T22:52:20.784Z"
+        }
+      },
+      {
+        "id": "3",
+        "test": "test 3",
+        "date": "2020-09-11T13:51:04.202Z",
+        "user": {
+          "id": "3",
+          "firstName": "Cedrick",
+          "lastName": "Christopher Lemke",
+          "email": "Diego_Howe25@hotmail.com",
+          "dateOfRegistration": "2019-10-25T10:56:10.018Z"
+        }
+      },
+      {
+        "id": "4",
+        "test": "test 4",
+        "date": "2019-10-24T00:04:36.903Z",
+        "user": {
+          "id": "4",
+          "firstName": "Mathew",
+          "lastName": "Margarette Hauck",
+          "email": "Gardner.Cronin68@gmail.com",
+          "dateOfRegistration": "2020-03-18T19:48:05.090Z"
+        }
+      },
+      {
+        "id": "5",
+        "test": "test 5",
+        "date": "2020-06-03T19:54:49.439Z",
+        "user": {
+          "id": "5",
+          "firstName": "Cleora",
+          "lastName": "Johathan Rau",
+          "email": "Kaci.Dach27@hotmail.com",
+          "dateOfRegistration": "2019-10-22T06:06:52.554Z"
+        }
+      }
+    ],
+    "rate": 5
+  }
+]

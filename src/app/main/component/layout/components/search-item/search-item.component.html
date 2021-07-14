@@ -1,0 +1,22 @@
+<div class="search_item-wrp">
+  <div class="search_item-tag" *ngFor="let tag of searchModel.tags">
+    {{ tag }}
+  </div>
+  <div class="search_item-title">
+    <a [routerLink]="['/news', searchModel.id]" (click)="emitCloseSearch()">
+      <p>
+        {{ searchModel.title | slice: 0:130 }}
+      </p>
+    </a>
+  </div>
+  <div class="search_item-data-added-news">
+    <p class="search_item-text">
+      <img class="search_item-icon" [src]="profileIcons.calendarIcon" alt="calendar" />
+      {{ searchModel.creationDate | date }}
+    </p>
+    <p class="user-data-text-date-share">
+      <img class="search_item-icon" [src]="profileIcons.userIcon" alt="user" />
+      {{ searchModel.author.name }}
+    </p>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+<ng-container *ngIf="dataType === 'comment'; else replyConteiner">
+  <div class="counter">
+    <div class="wrapper">
+      <p>{{ 'user.map.comments' | translate }}</p>
+      <p>
+        {{ totalElements }}
+        <ng-container [ngSwitch]="totalElements">
+          <span *ngSwitchCase="0">{{ 'homepage.eco-news.comment.comments.zero-comment' | translate }} </span>
+          <span *ngSwitchCase="1"> {{ 'homepage.eco-news.comment.comments.one-comment' | translate }} </span>
+          <span *ngSwitchCase="[2, 3, 4].includes(totalElements) ? totalElements : !totalElements">
+            {{ 'homepage.eco-news.comment.comments.more-then-two-comments' | translate }}
+          </span>
+          <span *ngSwitchDefault> {{ 'homepage.eco-news.comment.comments.more-then-four-comments' | translate }} </span>
+        </ng-container>
+      </p>
+    </div>
+    <hr />
+  </div>
+
+  <app-add-comment *ngIf="isLoggedIn" (updateList)="updateElementsList()"></app-add-comment>
+  <mat-spinner class="spinner" *ngIf="elementsList.length < 1 && elementsArePresent; else comments"></mat-spinner>
+  <ng-template #comments>
+    <app-comments-list
+      dataType="comment"
+      [elementsList]="elementsList"
+      [config]="config"
+      [isLoggedIn]="isLoggedIn"
+      [userId]="userId"
+      (changedList)="updateElementsList()"
+    >
+    </app-comments-list>
+    <app-comment-pagination [config]="config" (setPage)="addCommentByPagination($event - 1)"> </app-comment-pagination>
+  </ng-template>
+</ng-container>
+
+<ng-template #replyConteiner>
+  <app-add-comment
+    *ngIf="comment.showRelyButton && isLoggedIn"
+    [commentId]="comment.id"
+    (updateList)="updateElementsList()"
+  ></app-add-comment>
+  <div *ngIf="comment.showAllRelies">
+    <mat-spinner class="spinner" *ngIf="elementsList.length < 1 && elementsArePresent; else reply"></mat-spinner>
+    <ng-template #reply>
+      <app-comments-list
+        dataType="reply"
+        [elementsList]="elementsList"
+        [commentId]="comment.id"
+        [config]="config"
+        [isLoggedIn]="isLoggedIn"
+        [userId]="userId"
+        (changedList)="updateElementsList()"
+        class="list"
+      >
+      </app-comments-list>
+      <app-comment-pagination [config]="config" (setPage)="addCommentByPagination($event - 1)"> </app-comment-pagination>
+    </ng-template>
+  </div>
+</ng-template>

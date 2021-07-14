@@ -1,0 +1,156 @@
+footer {
+  padding-top: 16px;
+  box-shadow: 0 -4px 8px var(--quintynary-dark-grey);
+}
+
+p,
+a,
+.footer_bottom-part {
+  font-family: var(--primary-font);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+#copyright-label {
+  width: 194px;
+  white-space: nowrap;
+}
+
+ul {
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+  padding: 10px;
+
+  a {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: normal;
+  }
+}
+
+.footer_logo-wrp {
+  margin: 0 0 26px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.footer_left-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer_link-item {
+  margin: 24px 32px 0 0;
+  color: var(--primary-dark-grey);
+}
+
+.footer_social-wrp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.footer_social-link {
+  width: 16px;
+  height: 16px;
+  margin: 0 6px;
+
+  img {
+    width: 15px;
+    height: 12.19px;
+    vertical-align: baseline;
+  }
+}
+
+.footer_follow-us {
+  p {
+    color: var(--primary-dark-grey);
+    width: fit-content;
+    margin: 0 auto;
+    font-size: 14px;
+  }
+}
+
+.footer_bottom-part {
+  color: var(--secondary-grey);
+  width: fit-content;
+  margin: 0 auto;
+  padding-bottom: 10px;
+}
+
+@media (min-width: 576px) {
+  li {
+    padding: 0;
+  }
+
+  .footer_bottom-part {
+    float: left;
+  }
+
+  .container {
+    padding: 0;
+  }
+
+  .footer_left-side {
+    flex-direction: row;
+  }
+
+  .footer_right-side {
+    width: 154px;
+    height: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 25px 0;
+  }
+
+  .footer_social-wrp {
+    margin: 0;
+  }
+
+  .footer_follow-us {
+    margin: 0;
+    margin-right: 7px;
+  }
+
+  .footer_logo-wrp {
+    justify-content: flex-start;
+  }
+}
+
+@media (min-width: 768px) {
+  .footer_links {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .footer_link-item {
+    margin-top: 0;
+  }
+
+  .footer_logo-wrp {
+    margin-bottom: 0;
+  }
+
+  .footer_bottom-part {
+    margin-top: 15px;
+  }
+}
+
+@media (min-width: 1024px) {
+  ul {
+    margin-left: 48px;
+  }
+
+  .footer_logo-wrp {
+    float: left;
+    margin-top: 6px;
+  }
+}

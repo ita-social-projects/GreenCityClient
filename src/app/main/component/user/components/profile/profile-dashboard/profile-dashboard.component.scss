@@ -1,0 +1,160 @@
+p {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+.main {
+  .header {
+    height: 24px;
+    font-family: var(--primary-font);
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 24px;
+
+    p {
+      color: var(--primary-dark-grey);
+
+      span {
+        height: 12px;
+        font-family: var(--primary-font);
+        color: var(--quintynary-light-grey);
+        font-weight: normal;
+        font-size: 10px;
+        line-height: 12px;
+        position: relative;
+        top: -5px;
+      }
+    }
+  }
+
+  .menu {
+    display: flex;
+    margin-bottom: 24px;
+
+    .tab {
+      height: 40px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      p {
+        font-family: var(--primary-font);
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: normal;
+        color: var(--primary-dark-grey);
+      }
+    }
+
+    .active {
+      border-bottom: 1px solid var(--primary-green);
+
+      p {
+        color: var(--primary-green);
+      }
+    }
+
+    .plain,
+    .hline {
+      border-bottom: 1px solid var(--quintynary-light-grey);
+    }
+
+    .hline {
+      flex-grow: 1;
+    }
+  }
+
+  .in-progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  .secondary-global-button {
+    padding: 0 15px;
+    height: 36px;
+    min-width: 145px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+  }
+
+  .body {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-row-gap: 24px;
+  }
+
+  .acquired {
+    margin-top: 40px;
+    margin-bottom: 32px;
+  }
+
+  .no-data {
+    text-align: center;
+
+    .secondary-global-button {
+      display: inline-flex;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    .menu {
+      .tab {
+        padding: 0 12px;
+
+        p {
+          font-size: 14px;
+          line-height: 20px;
+        }
+      }
+    }
+
+    .in-progress {
+      margin-top: 132px;
+      flex-wrap: wrap-reverse;
+
+      a {
+        width: 100%;
+        margin-bottom: 32px;
+      }
+    }
+  }
+}
+
+@media (min-width: 576px) {
+  .main {
+    .menu {
+      .tab {
+        padding: 0 24px;
+
+        p {
+          font-size: 16px;
+          line-height: 20px;
+        }
+      }
+    }
+
+    .header {
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    .acquired {
+      margin-top: 32px;
+    }
+  }
+}

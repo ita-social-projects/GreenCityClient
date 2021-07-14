@@ -1,0 +1,88 @@
+<app-post-news-loader *ngIf="isPosting"></app-post-news-loader>
+<main role="main" id="main-content">
+  <div class="box" *ngIf="!isPosting">
+    <div class="title">
+      <h2>{{ attributes.title | translate }}</h2>
+      <p>{{ 'create-news.form-description' | translate }}</p>
+    </div>
+    <div class="form-container" *ngIf="form">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+        <div class="wrapper">
+          <div class="left-form-column">
+            <div class="item-block">
+              <label>
+                <h3>{{ 'create-news.news-title' | translate }}</h3>
+                <textarea
+                  placeholder="{{ 'create-news.title-placeholder' | translate }}"
+                  formControlName="title"
+                  (input)="autoResize($event)"
+                ></textarea>
+                <span>{{ 'create-news.title-tooltip' | translate }}</span>
+              </label>
+            </div>
+            <div class="tags item-block" formArrayName="tags">
+              <h3>{{ 'create-news.tags-title' | translate }}</h3>
+              <button
+                *ngFor="let filter of filters"
+                (click)="addFilters(filter)"
+                type="button"
+                [ngClass]="{ 'filters-color': filter.isActive }"
+              >
+                {{ filter.name }}
+              </button>
+              <p [ngClass]="{ warning: isFilterValidation }">
+                {{ 'create-news.tags-tooltip' | translate }}
+              </p>
+            </div>
+            <div>
+              <label>
+                <h3>{{ 'create-news.source-title' | translate }}</h3>
+                <input
+                  type="text"
+                  placeholder="{{ 'create-news.source-placeholder' | translate }}"
+                  formControlName="source"
+                  [ngClass]="{ 'field-warning': !isLinkOrEmpty }"
+                />
+                <span [ngClass]="{ warning: !isLinkOrEmpty }">
+                  {{ 'create-news.source-tooltip-1' | translate }}
+                  {{ 'create-news.source-tooltip-2' | translate }}
+                </span>
+              </label>
+            </div>
+          </div>
+          <div class="right-form-column">
+            <h3>{{ 'create-news.picture-title' | translate }}</h3>
+            <app-drag-and-drop [formData]="formData"></app-drag-and-drop>
+          </div>
+        </div>
+        <div class="textarea-wrapper">
+          <h3 class="textarea-title">{{ 'create-news.content-title' | translate }}</h3>
+          <textarea
+            name="main-area"
+            placeholder="{{ 'create-news.content-placeholder' | translate }}"
+            formControlName="content"
+            (input)="autoResize($event)"
+          ></textarea>
+          <p class="textarea-description">{{ 'create-news.content-tooltip' | translate }}</p>
+        </div>
+        <div class="date">
+          <p>
+            <span>{{ 'create-news.date' | translate }}</span>
+            <span>{{ day }} {{ 'date.months.' + [month] | translate }} {{ year }} {{ 'date.year' | translate }}</span>
+          </p>
+          <p>
+            <span>{{ 'create-news.author' | translate }}</span
+            ><span>{{ author }}</span>
+          </p>
+        </div>
+        <div class="submit-buttons">
+          <button class="cancel" type="button" (click)="cancel()">{{ 'create-news.cancel-button' | translate }}</button>
+          <button type="button" (click)="goToPreview()">
+            {{ 'create-news.preview-button' | translate }}
+          </button>
+          <button type="submit" [disabled]="isFormInvalid">{{ attributes.btnCaption | translate }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>

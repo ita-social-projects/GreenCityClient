@@ -1,0 +1,4 @@
+<div *ngIf="trackedHabits" class="tracker-margin-top">
+  <app-habit-tracker *ngFor="let habit of trackedHabits; let i = index" [habit]="habit" [chartId]="'chartId' + i" [usersHabitId]="i">
+  </app-habit-tracker>
+</div>

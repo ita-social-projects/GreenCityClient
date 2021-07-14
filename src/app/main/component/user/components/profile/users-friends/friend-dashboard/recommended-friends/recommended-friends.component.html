@@ -1,0 +1,17 @@
+<div *ngIf="recommendedFriends; else spinner">
+  <div class="friends-recommended-list">
+    <div class="container">
+      <div *ngFor="let item of recommendedFriends">
+        <app-friend-item
+          [friend]="item"
+          (friendEventEmit)="addFriend($event)"
+          btnName="{{ 'profile.friends.add-new-friend' | translate }}"
+        ></app-friend-item>
+      </div>
+    </div>
+    <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
+  </div>
+</div>
+<ng-template #spinner>
+  <app-spinner></app-spinner>
+</ng-template>

@@ -1,0 +1,108 @@
+import { SignInIcons } from './../../../../image-pathes/sign-in-icons';
+import { RestoreDto } from './../../../../model/restroreDto';
+import { authImages } from './../../../../image-pathes/auth-images';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AbstractControl, FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { ChangePasswordService } from '@auth-service/change-password.service';
+import { ConfirmPasswordValidator, ValidatorRegExp } from '../sign-up/sign-up.validator';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { take } from 'rxjs/operators';
+
+@Component({
+  selector: 'app-confirm-restore-password',
+  templateUrl: './confirm-restore-password.component.html',
+  styleUrls: ['./confirm-restore-password.component.scss'],
+})
+export class ConfirmRestorePasswordComponent implements OnInit {
+  public confirmRestorePasswordForm: FormGroup;
+  public passwordField: AbstractControl;
+  public confirmPasswordField: AbstractControl;
+  public password: FormControl;
+  public confirmPassword: FormControl;
+  public closeBtn = SignInIcons;
+  public authImages = authImages;
+  public emailErrorMessageBackEnd: string;
+  public passwordErrorMessageBackEnd: string;
+  public loadingAnim: boolean;
+  public passwordFieldValue: string;
+  public passwordConfirmFieldValue: string;
+  public form: any;
+  public token: string;
+  public restoreDto: RestoreDto;
+
+  constructor(
+    private router: Router,
+    private changePasswordService: ChangePasswordService,
+    private formBuilder: FormBuilder,
+    private activatedRoute: ActivatedRoute,
+    private snackBar: MatSnackBarComponent
+  ) {}
+
+  ngOnInit() {
+    this.restoreDto = new RestoreDto();
+    this.initFormReactive();
+    this.getFormFields();
+    this.setPasswordBackendErr();
+    this.getToken();
+  }
+
+  public initFormReactive(): void {
+    this.confirmRestorePasswordForm = this.formBuilder.group(
+      {
+        password: new FormControl('', []),
+        confirmPassword: new FormControl('', []),
+      },
+      {
+        validator: [ConfirmPasswordValidator('password', 'confirmPassword'), ValidatorRegExp('password')],
+      }
+    );
+  }
+
+  public getFormFields(): void {
+    this.passwordField = this.confirmRestorePasswordForm.get('password');
+    this.confirmPasswordField = this.confirmRestorePasswordForm.get('confirmPassword');
+  }
+
+  private getToken(): void {
+    this.activatedRoute.queryParams.pipe(take(1)).subscribe((params) => {
+      this.token = params[`token`];
+    });
+  }
+
+  public sendPasswords() {
+    this.restoreDto.confirmPassword = this.confirmRestorePasswordForm.value.confirmPassword;
+    this.restoreDto.password = this.confirmRestorePasswordForm.value.password;
+    this.restoreDto.token = this.token;
+    this.changePasswordService.restorePassword(this.restoreDto).subscribe(
+      (data) => {
+        this.form = data;
+      },
+      (error) => {
+        this.form = error;
+      }
+    );
+    setTimeout(() => {
+      this.router.navigate(['']);
+      this.snackBar.openSnackBar('successConfirmPassword');
+    }, 2000);
+  }
+
+  public setPasswordBackendErr(): void {
+    this.passwordErrorMessageBackEnd = null;
+    if (this.confirmRestorePasswordForm) {
+      this.passwordFieldValue = this.passwordField.value;
+      this.passwordConfirmFieldValue = this.confirmPasswordField.value;
+    }
+  }
+
+  public setPasswordVisibility(htmlInput: HTMLInputElement, htmlImage: HTMLImageElement): void {
+    htmlInput.type = htmlInput.type === 'password' ? 'text' : 'password';
+    htmlImage.src = htmlInput.type === 'password' ? this.authImages.hiddenEye : this.authImages.openEye;
+  }
+
+  public closeModal(): void {
+    this.router.navigate(['']);
+    this.snackBar.openSnackBar('exitConfirmRestorePassword');
+  }
+}

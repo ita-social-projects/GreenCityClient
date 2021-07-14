@@ -1,0 +1,21 @@
+<div *ngIf="requests !== null; else spinner">
+  <div class="container">
+    <div *ngIf="requests !== null && requests.length === 0">
+      <div class="noRequests-wraper">
+        <div class="img-absent">
+          <img [src]="absent" alt="absent-requests" />
+        </div>
+        <div>
+          <p class="noRequests">{{ 'profile.zero-requests' | translate }}</p>
+        </div>
+      </div>
+    </div>
+    <div *ngFor="let request of requests">
+      <app-request-item [request]="request" (acceptEvent)="accept($event)" (declineEvent)="decline($event)"> </app-request-item>
+    </div>
+    <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
+  </div>
+</div>
+<ng-template #spinner>
+  <app-spinner></app-spinner>
+</ng-template>

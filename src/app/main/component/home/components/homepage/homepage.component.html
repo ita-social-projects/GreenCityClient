@@ -1,0 +1,37 @@
+<main id="main-content" role="main">
+  <div id="header-anchor" class="homepage">
+    <img id="path-2" [src]="path2" alt="bg-texture-2" aria-hidden="true" />
+    <img id="path-4" [src]="path4" alt="bg-texture-4" aria-hidden="true" />
+    <img id="path-5" [src]="path5" alt="bg-texture-5" aria-hidden="true" />
+    <header id="header">
+      <div id="header-left">
+        <div id="main-content">
+          <h1>{{ 'homepage.header.caption' | translate }}</h1>
+          <p>{{ 'homepage.header.content' | translate }}</p>
+          <button class="button primary-global-button" (click)="startHabit()">
+            {{ 'homepage.general.button-start-habit' | translate }}
+          </button>
+        </div>
+      </div>
+      <div id="header-right">
+        <img [src]="guyImage" id="guy-image" alt="guy-texture" aria-hidden="true" />
+      </div>
+    </header>
+    <section id="stats">
+      <h2 class="section-caption">
+        {{ 'homepage.stats.caption-before' | translate }} {{ usersAmount }} {{ 'homepage.stats.caption-after' | translate }}
+      </h2>
+      <app-stat-rows></app-stat-rows>
+    </section>
+    <section id="events">
+      <h2 class="section-caption">{{ 'homepage.eco-news.title' | translate }}</h2>
+      <app-eco-events></app-eco-events>
+    </section>
+    <section id="tips">
+      <app-tips-list></app-tips-list>
+    </section>
+    <section id="subscription">
+      <app-subscribe></app-subscribe>
+    </section>
+  </div>
+</main>

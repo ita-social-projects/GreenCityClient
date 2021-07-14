@@ -1,0 +1,41 @@
+:host {
+  display: block;
+  justify-self: center !important;
+  height: fit-content;
+  position: relative;
+  max-width: 74px;
+}
+
+.achievements-item-outside {
+  display: block;
+  position: relative;
+  width: 68px;
+  height: 68px;
+  background: rgba(131, 156, 148, 0.2);
+  border-radius: 34px;
+  margin: 0 auto;
+}
+
+.achievements-item-inside {
+  position: absolute;
+  margin: 8px;
+  width: 52px;
+  height: 52px;
+}
+
+.achieve-name {
+  font-size: 12px;
+  text-align: center;
+  width: 74px;
+  color: var(--primary-grey);
+}
+
+.achievements-tooltip {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: 10px;
+  font-size: 16px;
+  max-height: 25px;
+  line-height: 25px;
+}

@@ -1,0 +1,31 @@
+$color-greenCity-grey: #324148;
+
+.tip-card {
+  margin: 0 50px;
+  border-radius: 5px;
+  min-height: 296px;
+  text-align: center;
+
+  .tip-image-wrapper {
+    height: 56px;
+    margin: 0 auto 38px;
+    width: fit-content;
+
+    img {
+      height: 100%;
+      width: auto;
+    }
+  }
+
+  p {
+    margin: 0 auto;
+    color: $color-greenCity-grey;
+    font-family: var(--primary-font);
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+  }
+}
