@@ -34,8 +34,11 @@ export class UbsClientBonusesComponent implements OnInit, AfterViewInit, OnDestr
 
   ngAfterViewInit(): void {
     this.dataSource.sortingDataAccessor = (item, property) => {
-      if (property == 'dateOfEnrollment') return new Date(item.dateOfEnrollment);
-      else return item[property];
+      if (property === 'dateOfEnrollment') {
+        return new Date(item.dateOfEnrollment);
+      } else {
+        return item[property];
+      }
     };
   }
 

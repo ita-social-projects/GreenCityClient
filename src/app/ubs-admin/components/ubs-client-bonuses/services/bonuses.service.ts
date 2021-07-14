@@ -13,6 +13,6 @@ export class BonusesService {
   constructor(private http: HttpClient) {}
 
   getUserBonuses(): Observable<BonusesModel> {
-    return this.http.get<BonusesModel>(`${this.url}client/users-pointsToUse`);
+    return this.http.get<BonusesModel>(`${this.url}/ubs/client/users-pointsToUse`);
   }
 }
