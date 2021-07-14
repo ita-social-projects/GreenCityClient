@@ -1,3 +1,60 @@
+.container {
+  margin-bottom: 100px;
+  position: relative;
+}
+
+.back-button-top {
+  background-color: #fff;
+  color: var(--ubs-primary-green);
+  border: none;
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: bold;
+  top: 60px;
+  left: -100px;
+  position: absolute;
+  width: 150px;
+  height: 44px;
+}
+
+.back-button {
+  background-color: #fff;
+  color: var(--ubs-primary-green);
+  border: none;
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: bold;
+  margin-left: 15px;
+  width: 150px;
+  height: 44px;
+}
+
+.cancel-button {
+  background-color: #fff;
+  border: 1px solid var(--ubs-primary-green);
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 28px;
+  color: #13aa57;
+  padding: 5px 20px;
+  margin-right: 20px;
+}
+
+.save-button {
+  background-color: var(--ubs-primary-green);
+  border: 1px solid var(--ubs-primary-green);
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 28px;
+  color: #fff;
+  padding: 5px 20px;
+  margin-right: 20px;
+}
+
+.controls {
+  margin-left: auto;
+}
+
 .box {
   box-shadow: 0 0 8px rgba(70, 70, 70, 0.25);
   margin-bottom: 40px;
