@@ -6,6 +6,7 @@ import { MatCheckboxModule, MatIconModule, MatPaginatorModule, MatTableModule } 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UbsAdminTableComponent } from './ubs-admin-table.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 describe('UsbAdminTableComponent', () => {
   let component: UbsAdminTableComponent;
@@ -22,7 +23,8 @@ describe('UsbAdminTableComponent', () => {
         HttpClientTestingModule,
         MatCheckboxModule,
         BrowserAnimationsModule,
-        SharedModule
+        SharedModule,
+        InfiniteScrollModule
       ],
       declarations: [UbsAdminTableComponent]
     }).compileComponents();

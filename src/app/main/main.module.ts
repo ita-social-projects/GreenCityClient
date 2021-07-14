@@ -16,7 +16,7 @@ import { environment } from '@environment/environment';
 import { ProposeCafeComponent } from '@global-core/components';
 import { AdminModule } from './component/admin/admin.module';
 import { RestoreComponent } from '@global-auth/restore/restore.component';
-import { InterceptorService } from './service/interceptors/interceptor.service';
+import { InterceptorService } from '../shared/interceptors/interceptor.service';
 import { CoreModule } from '@global-core/core.module';
 import { AuthModule } from './component/auth/auth.module';
 import { HomeModule } from './component/home/home.module';

@@ -3,12 +3,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { BehaviorSubject, EMPTY, Observable, of, throwError } from 'rxjs';
 import { catchError, filter, switchMap, take } from 'rxjs/operators';
-import { updateAccessTokenLink } from '../../links';
-import { LocalStorageService } from '../localstorage/local-storage.service';
-import { BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../../http-response-status';
+import { updateAccessTokenLink } from '../../main/links';
+import { LocalStorageService } from '../../main/service/localstorage/local-storage.service';
+import { BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../../main/http-response-status';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
-
 
 interface NewTokenPair {
   accessToken: string;
@@ -27,7 +26,7 @@ export class InterceptorService implements HttpInterceptor {
     private localStorageService: LocalStorageService,
     private router: Router,
     private userOwnAuthService: UserOwnAuthService
-  ) { }
+  ) {}
 
   /**
    * Intercepts all HTTP requests, adds access token to authentication header (except authentication requests),
