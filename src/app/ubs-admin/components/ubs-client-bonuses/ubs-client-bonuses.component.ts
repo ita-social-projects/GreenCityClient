@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './ubs-client-bonuses.component.html',
   styleUrls: ['./ubs-client-bonuses.component.scss']
 })
-export class UbsClientBonusesComponent implements OnInit, AfterViewInit, OnDestroy  {
+export class UbsClientBonusesComponent implements OnInit, AfterViewInit, OnDestroy {
   displayedColumns: string[] = ['dateOfEnrollment', 'amount', 'reasone'];
 
   dataSource = new MatTableDataSource<BonuseModel>();
@@ -34,12 +34,8 @@ export class UbsClientBonusesComponent implements OnInit, AfterViewInit, OnDestr
 
   ngAfterViewInit(): void {
     this.dataSource.sortingDataAccessor = (item, property) => {
-      switch (property) {
-        case 'dateOfEnrollment':
-          return new Date(item.dateOfEnrollment);
-        default:
-          return item[property];
-      }
+      if (property == 'dateOfEnrollment') return new Date(item.dateOfEnrollment);
+      else return item[property];
     };
   }
 
