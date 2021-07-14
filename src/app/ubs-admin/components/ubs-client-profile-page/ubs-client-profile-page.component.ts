@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material';
+import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
+import { UserProfile } from '../../models/ubs-admin.interface';
+import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
+import { UbsProfileDeletePopUpComponent } from './ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
 
 @Component({
   selector: 'app-ubs-client-profile-page',
@@ -8,61 +13,108 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class UbsClientProfilePageComponent implements OnInit {
   userForm: FormGroup;
+  googleIcon = SignInIcons.picGoogle;
+  isEditing = false;
+  isFetching = false;
+  userId: number;
+  phoneMask = '+{38} 000 000 00 00';
+  private readonly regexp = /^([a-zA-ZА-Яа-яЄЇҐа-їєґ '-])+$/iu;
+  private readonly emailRegex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-  public languages: string[] = ['Українська', 'Російська', 'Англійська'];
-
-  public user: { [key: string]: string } = {
-    firstName: 'Іван',
-    lastName: 'Нечуй-Левицький',
-    id: '0',
-    language: this.languages[0],
-    email: 'ivan@gmail.com',
-    phoneNumber: '+380991234567',
-    city: ' Київ',
-    street: 'Грушевського',
-    houseNumber: '20',
-    houseCorpus: '5',
-    entranceNumber: '3',
-    district: 'Печерський'
+  userProfile: UserProfile = {
+    addressDto: {
+      actual: true,
+      city: 'Київ',
+      coordinates: {
+        latitude: 1,
+        longitude: 1
+      },
+      district: 'Печерський',
+      entranceNumber: '3a',
+      houseCorpus: '5',
+      houseNumber: '20',
+      id: 913,
+      street: 'Грушевського'
+    },
+    recipientEmail: 'ivan@gmail.com',
+    recipientName: 'Іван',
+    recipientPhone: '123456789',
+    recipientSurname: 'Левицький'
   };
-  public editing = false;
+
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit() {
+    this.userInit();
+  }
+
+  userInit() {
     this.userForm = new FormGroup({
-      firstName: new FormControl(this.user.firstName, Validators.required),
-      lastName: new FormControl(this.user.lastName, Validators.required),
-      language: new FormControl(this.languages[0]),
-      email: new FormControl(this.user.email, [Validators.required, Validators.email]),
-      phoneNumber: new FormControl(this.user.phoneNumber, Validators.required),
-      city: new FormControl(this.user.city, Validators.required),
-      street: new FormControl(this.user.street, Validators.required),
-      houseNumber: new FormControl(this.user.houseNumber, Validators.required),
-      houseCorpus: new FormControl(this.user.houseCorpus, Validators.required),
-      entranceNumber: new FormControl(this.user.entranceNumber, Validators.required),
-      district: new FormControl(this.user.district, Validators.required)
+      firstname: new FormControl(this.userProfile.recipientName, [Validators.required, Validators.pattern(this.regexp)]),
+      surname: new FormControl(this.userProfile.recipientSurname, [Validators.required, Validators.pattern(this.regexp)]),
+      email: new FormControl(this.userProfile.recipientEmail, [Validators.required, Validators.pattern(this.emailRegex)]),
+      phoneNumber: new FormControl(`+38 0${this.userProfile.recipientPhone}`, [Validators.required, Validators.minLength(12)]),
+      city: new FormControl(this.userProfile.addressDto.city, [
+        Validators.required,
+        Validators.pattern(this.regexp),
+        Validators.maxLength(20)
+      ]),
+      street: new FormControl(this.userProfile.addressDto.street, [
+        Validators.required,
+        Validators.pattern(this.regexp),
+        Validators.maxLength(20)
+      ]),
+      houseNumber: new FormControl(this.userProfile.addressDto.houseNumber, Validators.required),
+      houseCorpus: new FormControl(this.userProfile.addressDto.houseCorpus, Validators.required),
+      entranceNumber: new FormControl(this.userProfile.addressDto.entranceNumber, Validators.required),
+      district: new FormControl(this.userProfile.addressDto.district, [
+        Validators.required,
+        Validators.pattern(this.regexp),
+        Validators.maxLength(20)
+      ])
     });
+    this.isFetching = false;
   }
 
   onEdit() {
-    this.editing = true;
+    this.isEditing = true;
+    this.isFetching = false;
   }
 
   onCancel() {
-    this.editing = false;
+    this.userInit();
+    this.isEditing = false;
   }
 
   onSubmit() {
-    this.user.firstName = this.userForm.value.firstName;
-    this.user.lastName = this.userForm.value.lastName;
-    this.user.language = this.userForm.value.language;
-    this.user.email = this.userForm.value.email;
-    this.user.phoneNumber = this.userForm.value.phoneNumber;
-    this.user.city = this.userForm.value.city;
-    this.user.street = this.userForm.value.street;
-    this.user.houseNumber = this.userForm.value.houseNumber;
-    this.user.houseCorpus = this.userForm.value.houseCorpus;
-    this.user.entranceNumber = this.userForm.value.entranceNumber;
-    this.user.district = this.userForm.value.district;
-    this.editing = false;
+    if (this.userForm.valid) {
+      this.isFetching = true;
+      this.userProfile.recipientName = this.userForm.value.firstname;
+      this.userProfile.recipientSurname = this.userForm.value.surname;
+      this.userProfile.recipientEmail = this.userForm.value.email;
+      this.userProfile.recipientPhone = this.userForm.value.phoneNumber.substr(-9, 9);
+      this.userProfile.addressDto.city = this.userForm.value.city;
+      this.userProfile.addressDto.street = this.userForm.value.street;
+      this.userProfile.addressDto.houseNumber = this.userForm.value.houseNumber;
+      this.userProfile.addressDto.houseCorpus = this.userForm.value.houseCorpus;
+      this.userProfile.addressDto.entranceNumber = this.userForm.value.entranceNumber;
+      this.userProfile.addressDto.district = this.userForm.value.district;
+      this.isEditing = false;
+      this.isFetching = false;
+    } else {
+      this.isEditing = true;
+    }
+  }
+
+  openDeleteProfileDialog() {
+    this.dialog.open(UbsProfileDeletePopUpComponent, {
+      hasBackdrop: true,
+    });
+  }
+
+  openChangePasswordDialog() {
+    this.dialog.open(UbsProfileChangePasswordPopUpComponent, {
+      hasBackdrop: true,
+    });
   }
 }

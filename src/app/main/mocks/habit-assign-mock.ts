@@ -27,6 +27,13 @@ export const LISTOFHABITS: HabitAssignInterface[] = [
     habitStatusCalendarDtoList: [
       { enrollDate: 'monday', id: 2 },
       { enrollDate: 'wednesday', id: 3 }
+    ],
+    shoppingListItems: [
+      {
+        id: 1,
+        status: 'ACTIVE',
+        text: 'TEST'
+      }
     ]
   },
   {
@@ -55,6 +62,13 @@ export const LISTOFHABITS: HabitAssignInterface[] = [
     habitStatusCalendarDtoList: [
       { enrollDate: 'monday', id: 2 },
       { enrollDate: 'wednesday', id: 3 }
+    ],
+    shoppingListItems: [
+      {
+        id: 2,
+        status: 'ACTIVE',
+        text: 'TEST'
+      }
     ]
   },
   {
@@ -83,6 +97,13 @@ export const LISTOFHABITS: HabitAssignInterface[] = [
     habitStatusCalendarDtoList: [
       { enrollDate: 'monday', id: 2 },
       { enrollDate: 'wednesday', id: 3 }
+    ],
+    shoppingListItems: [
+      {
+        id: 3,
+        status: 'ACTIVE',
+        text: 'TEST'
+      }
     ]
   }
 ];
@@ -113,6 +134,13 @@ export const HABITSWITHTHESAMEHABITID: HabitAssignInterface[] = [
     habitStatusCalendarDtoList: [
       { enrollDate: 'monday', id: 2 },
       { enrollDate: 'wednesday', id: 3 }
+    ],
+    shoppingListItems: [
+      {
+        id: 4,
+        status: 'ACTIVE',
+        text: 'TEST'
+      }
     ]
   },
   {
@@ -141,6 +169,13 @@ export const HABITSWITHTHESAMEHABITID: HabitAssignInterface[] = [
     habitStatusCalendarDtoList: [
       { enrollDate: 'monday', id: 2 },
       { enrollDate: 'wednesday', id: 3 }
+    ],
+    shoppingListItems: [
+      {
+        id: 5,
+        status: 'ACTIVE',
+        text: 'TEST'
+      }
     ]
   }
 ];
@@ -170,6 +205,13 @@ export const NEWHABIT: HabitAssignInterface = {
   habitStatusCalendarDtoList: [
     { enrollDate: 'monday', id: 2 },
     { enrollDate: 'wednesday', id: 3 }
+  ],
+  shoppingListItems: [
+    {
+      id: 6,
+      status: 'ACTIVE',
+      text: 'TEST'
+    }
   ]
 };
 export const ASSIGNRESPONSE: ResponseInterface = {

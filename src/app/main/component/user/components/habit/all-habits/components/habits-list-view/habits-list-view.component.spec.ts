@@ -19,7 +19,7 @@ describe('HabitsListViewComponent', () => {
     TestBed.configureTestingModule({
       declarations: [HabitsListViewComponent],
       imports: [TranslateModule.forRoot(), RouterTestingModule, MatSnackBarModule, HttpClientTestingModule],
-      providers: [{ provide: MatSnackBarComponent, useValue: MatSnackBarMock }],
+      providers: [{ provide: MatSnackBarComponent, useValue: MatSnackBarMock }]
     }).compileComponents();
     httpTestingController = TestBed.get(HttpTestingController);
   }));
@@ -28,16 +28,17 @@ describe('HabitsListViewComponent', () => {
     fixture = TestBed.createComponent(HabitsListViewComponent);
     component = fixture.componentInstance;
     component.habit = {
+      complexity: 1,
       defaultDuration: 14,
       habitTranslation: {
         description: 'test',
         habitItem: 'test',
         languageCode: 'en',
-        name: 'test',
+        name: 'test'
       },
       id: 503,
       image: 'test',
-      tags: ['test1', 'test2'],
+      tags: ['test1', 'test2']
     };
     fixture.detectChanges();
   });

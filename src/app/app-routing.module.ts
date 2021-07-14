@@ -6,8 +6,6 @@ import { TipsListComponent } from './main/component/home/components/useful-tips/
 import { MainComponent } from './main/main.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
-import { UbsAdminComponent } from './ubs-admin/ubs-admin.component';
-import { UbsAdminTableComponent } from './ubs-admin/components/ubs-admin-table/ubs-admin-table.component';
 
 export const routes: Routes = [
   {

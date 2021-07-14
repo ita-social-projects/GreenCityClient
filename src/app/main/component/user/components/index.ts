@@ -10,7 +10,6 @@ export { HabitItemListComponent } from './habit/habit-trackers/habit-tracker/hab
 export { HabitFactComponent } from './habit/habit-trackers/habit-tracker/habit-fact/habit-fact.component';
 export { HabitTitleComponent } from './habit/habit-trackers/habit-tracker/habit-title/habit-title.component';
 export { HabitTrackerDateComponent } from './habit/habit-trackers/habit-tracker/habit-tracker-date/habit-tracker-date.component';
-export { UserHabitPageComponent } from './habit/user-habit-page/user-habit-page.component';
 export { UserLogComponent } from './habit/user-log-component/user-log.component';
 export { ProfileComponent } from './profile/profile.component';
 export { CalendarComponent } from './profile/calendar/calendar.component';
@@ -31,13 +30,3 @@ export { UserAchievementsComponent } from './user-achievements/achievements-cont
 export { NewAchievementModalComponent } from './user-achievements/new-achievement-modal/new-achievement-modal.component';
 export { UserSidebarComponent } from './user-sidebar/user-sidebar.component';
 export { UserSettingComponent } from './user-setting/user-setting.component';
-export { AddGoalComponent } from './user-goals/add-goal/add-goal.component';
-export { AddGoalListComponent } from './user-goals/add-goal/add-goal-list/add-goal-list.component';
-export { AddCustomGoalComponent } from './user-goals/add-goal/add-goal-list/add-custom-goal/add-custom-goal.component';
-export { AddGoalItemComponent } from './user-goals/add-goal/add-goal-list/add-goal-item/add-goal-item.component';
-export { UpdateGoalStatusListComponent } from './user-goals/add-goal/update-goal-status-list/update-goal-status-list.component';
-export { UpdateGoalItemComponent } from './user-goals/add-goal/update-goal-status-list/update-goal-item/update-goal-item.component';
-export { AddGoalButtonComponent } from './user-goals/add-goal-button/add-goal-button.component';
-export { GoalContainerComponent } from './user-goals/goal-container/goal-container.component';
-export { GoalItemComponent } from './user-goals/goal-item/goal-item.component';
-export { GoalListComponent } from './user-goals/goal-list/goal-list.component';

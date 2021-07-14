@@ -1,7 +1,7 @@
-import { LanguageService } from './../../../../../../i18n/language.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 import { TranslateService } from '@ngx-translate/core';
-import { HabitAssignService } from '../../../../../../service/habit-assign/habit-assign.service';
+import { HabitAssignService } from './../../../../../../service/habit-assign/habit-assign.service';
 import { CalendarBaseComponent } from '@shared/components/calendar-base/calendar-base.component';
 import { MatDialog } from '@angular/material';
 import { CalendarInterface } from '@global-user/components/profile/calendar/calendar-interface';
@@ -9,7 +9,7 @@ import { CalendarInterface } from '@global-user/components/profile/calendar/cale
 @Component({
   selector: 'app-habit-calendar',
   templateUrl: './../../../profile/calendar/calendar.component.html',
-  styleUrls: ['./../../../profile/calendar/calendar.component.scss', './habit-calendar.component.scss'],
+  styleUrls: ['./../../../profile/calendar/calendar.component.scss', './habit-calendar.component.scss']
 })
 export class HabitCalendarComponent extends CalendarBaseComponent implements OnInit, OnDestroy {
   constructor(
