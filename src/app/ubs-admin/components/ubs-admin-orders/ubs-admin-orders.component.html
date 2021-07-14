@@ -15,17 +15,17 @@
         <div>{{ order.status }}</div>
         <div class="order_sum">{{ order.sum }}</div>
         <div class="btns_group">
-          <div *ngIf="order.status === 'Сформовано'" class="btn_grid_cancel">
+          <div *ngIf="order.order_status === 'formed'" class="btn_grid_cancel">
             <button class="btn_cancel">Скасувати</button>
           </div>
-          <div *ngIf="order.status === 'Виконано/Неоплачено'" class="btn_grid_fake">
+          <div *ngIf="order.order_status === 'done_unpaid'" class="btn_grid_fake">
             <button class="btn_fake"></button>
           </div>
-          <div *ngIf="order.status === 'Сформовано' || order.status === 'Виконано/Неоплачено'" class="btn_grid_pay">
+          <div *ngIf="order.order_status === 'formed' || order.order_status === 'done_unpaid'" class="btn_grid_pay">
             <button class="btn_pay">Оплатити</button>
           </div>
           <div
-            *ngIf="order.status === 'На маршуті' || order.status === 'Підтверджено' || order.status === 'Виконано'"
+            *ngIf="order.order_status === 'on_the_route' || order.order_status === 'confirmed' || order.order_status === 'done'"
             class="btn_grid_order"
           >
             <button class="btn_order">Замовити ще раз</button>
@@ -70,15 +70,15 @@
             <td colspan="4">Сума замовлення:</td>
             <td>500 грн</td>
           </tr>
-          <tr *ngIf="order.status !== 'Виконано/Неоплачено'" class="optional_row">
+          <tr *ngIf="order.order_status !== 'done_unpaid'" class="optional_row">
             <td colspan="4">Сертифікат:</td>
             <td>-100 грн</td>
           </tr>
-          <tr *ngIf="order.status !== 'Виконано/Неоплачено'" class="optional_row">
+          <tr *ngIf="order.order_status !== 'done_unpaid'" class="optional_row">
             <td colspan="4">Бонуси:</td>
             <td>-100 грн</td>
           </tr>
-          <tr *ngIf="order.status === 'Виконано/Неоплачено'" class="optional_row">
+          <tr *ngIf="order.order_status === 'done_unpaid'" class="optional_row">
             <td colspan="4">Сума наданих послуг:</td>
             <td>-100 грн</td>
           </tr>
@@ -93,7 +93,7 @@
           <li class="bold_text">Доставка з Еко магазину</li>
           <li>Номери ваших замовлень:<span class="bold_text">&nbsp;3507777,</span>&nbsp;<span class="boldText">45678907777</span></li>
         </ol>
-        <ol s class="recipient">
+        <ol class="recipient">
           <li class="bold_text">Отримувач</li>
           <li>Надія Стебінець</li>
           <li>Сума до оплати</li>
