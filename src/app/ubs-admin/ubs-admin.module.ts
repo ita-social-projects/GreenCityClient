@@ -8,7 +8,7 @@ import { UbsBaseSidebarComponent } from '../shared/ubs-base-sidebar/ubs-base-sid
 import { UbsAdminSidebarComponent } from '../../app/ubs-admin/components/ubs-admin-sidebar/ubs-admin-sidebar.component';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MaterialModule } from '../material.module';
@@ -29,6 +29,8 @@ import { UbsAdminOrderDetailsFormComponent } from './components/ubs-admin-order-
 import { UbsAdminOrderStatusComponent } from './components/ubs-admin-order-status/ubs-admin-order-status.component';
 import { UbsAdminOrderComponent } from './components/ubs-admin-order/ubs-admin-order.component';
 import { UbsAdminAddressDetailsComponent } from './components/ubs-admin-address-details/ubs-admin-address-details.component';
+import { InterceptorService } from '../shared/interceptors/interceptor.service';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { UbsProfileChangePasswordPopUpComponent } from './components/ubs-client-profile-page/ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
 import { UbsProfileDeletePopUpComponent } from './components/ubs-client-profile-page/ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
 
@@ -67,6 +69,7 @@ import { UbsProfileDeletePopUpComponent } from './components/ubs-client-profile-
     ReactiveFormsModule,
     UBSAdminRoutingModule,
     NgxPaginationModule,
+    InfiniteScrollModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -76,7 +79,15 @@ import { UbsProfileDeletePopUpComponent } from './components/ubs-client-profile-
       isolate: true
     })
   ],
-  providers: [AdminTableService, TranslateService],
+  providers: [
+    AdminTableService,
+    TranslateService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorService,
+      multi: true
+    }
+  ],
   entryComponents: [UbsAdminTableComponent, EmployeeFormComponent, UbsProfileChangePasswordPopUpComponent, UbsProfileDeletePopUpComponent]
 })
 export class UbsAdminModule {}
