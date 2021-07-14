@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material';
+import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
+import { UbsProfileDeletePopUpComponent } from './ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
 
 @Component({
   selector: 'app-ubs-client-profile-page',
@@ -25,7 +28,9 @@ export class UbsClientProfilePageComponent implements OnInit {
     entranceNumber: '3',
     district: 'Печерський'
   };
-  public editing = false;
+  public isEditing = false;
+
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit() {
     this.userForm = new FormGroup({
@@ -43,12 +48,24 @@ export class UbsClientProfilePageComponent implements OnInit {
     });
   }
 
+  public openDeleteProfileDialog() {
+    this.dialog.open(UbsProfileDeletePopUpComponent, {
+      hasBackdrop: true
+    });
+  }
+
+  public openChangePasswordDialog() {
+    this.dialog.open(UbsProfileChangePasswordPopUpComponent, {
+      hasBackdrop: true
+    });
+  }
+
   onEdit() {
-    this.editing = true;
+    this.isEditing = true;
   }
 
   onCancel() {
-    this.editing = false;
+    this.isEditing = false;
   }
 
   onSubmit() {
@@ -63,6 +80,6 @@ export class UbsClientProfilePageComponent implements OnInit {
     this.user.houseCorpus = this.userForm.value.houseCorpus;
     this.user.entranceNumber = this.userForm.value.entranceNumber;
     this.user.district = this.userForm.value.district;
-    this.editing = false;
+    this.isEditing = false;
   }
 }

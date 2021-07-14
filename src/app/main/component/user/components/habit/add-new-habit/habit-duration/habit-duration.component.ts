@@ -4,11 +4,12 @@ import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-habit-duration',
   templateUrl: './habit-duration.component.html',
-  styleUrls: ['./habit-duration.component.scss'],
+  styleUrls: ['./habit-duration.component.scss']
 })
 export class HabitDurationComponent implements OnInit {
-  @Input() habitDurationDefault: number;
+  @Input() habitDurationInitial: number;
   @Output() changeDuration = new EventEmitter<number>();
+  public newDuration = 0;
   public habitDuration = new FormControl('');
   public position: string = null;
   public thumbWidth = '12px';
@@ -16,7 +17,7 @@ export class HabitDurationComponent implements OnInit {
   constructor(private elm: ElementRef, private renderer: Renderer2) {}
 
   ngOnInit() {
-    this.habitDuration.setValue(this.habitDurationDefault);
+    this.habitDuration.setValue(this.habitDurationInitial);
     this.updateDuration();
     this.getRangeWidth();
     this.getRangeMin();
@@ -31,6 +32,7 @@ export class HabitDurationComponent implements OnInit {
     this.position = `${(this.habitDuration.value - this.getRangeMin()) * step - relPos}px`;
     this.renderer.setStyle(this.elm.nativeElement.children[1], 'left', this.position);
     this.changeDuration.emit(this.habitDuration.value);
+    this.newDuration = this.habitDuration.value;
   }
 
   public getRangeWidth() {

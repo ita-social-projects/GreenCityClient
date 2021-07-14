@@ -27,10 +27,12 @@ import { ErrorComponent } from '@global-errors/error/error.component';
 import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';
 import { MaterialModule } from '../material.module';
 import { MatDialogRef, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [MainComponent, ErrorComponent],
   imports: [
+    NgbModule,
     LayoutModule,
     AuthModule,
     CoreModule,

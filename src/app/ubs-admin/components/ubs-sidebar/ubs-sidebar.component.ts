@@ -19,7 +19,7 @@ export class UbsSidebarComponent implements AfterViewInit {
     {
       link: './assets/img/sidebarIcons/achievment_icon.svg',
       name: 'Сертифікати',
-      routerLink: '/ubs-admin/'
+      routerLink: '#'
     },
     {
       link: 'assets/img/sidebarIcons/shopping-cart_icon.svg',
@@ -29,17 +29,17 @@ export class UbsSidebarComponent implements AfterViewInit {
     {
       link: 'assets/img/sidebarIcons/workers_icon.svg',
       name: 'Працівники',
-      routerLink: '/ubs-admin/'
+      routerLink: '/ubs-admin/employee/1'
     },
     {
       link: 'assets/img/sidebarIcons/documents_icon.svg',
       name: 'Документи',
-      routerLink: '/ubs-admin/'
+      routerLink: '#'
     },
     {
       link: 'assets/img/sidebarIcons/calendar_icon.svg',
       name: 'Графік',
-      routerLink: '/ubs-admin/'
+      routerLink: '#'
     }
   ];
   @ViewChild('sidebarToggler', { static: false }) sidebarToggler: ElementRef;
