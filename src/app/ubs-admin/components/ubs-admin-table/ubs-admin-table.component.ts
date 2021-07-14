@@ -26,8 +26,14 @@ export class UbsAdminTableComponent implements OnInit {
   arrayOfHeaders: string[] = [];
   previousIndex: number;
   isLoading = true;
+  isUpdate = false;
   destroy: Subject<boolean> = new Subject<boolean>();
   arrowDirection: string;
+  tableData: any[];
+  totalPages: number;
+  pageSizeOptions: number[] = [10, 15, 20];
+  currentPage = 0;
+  pageSize = 10;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private adminTableService: AdminTableService) {}
@@ -97,17 +103,18 @@ export class UbsAdminTableComponent implements OnInit {
     }
   }
 
-  getTable(columnName = 'orderid', sortingType = 'desc') {
+  getTable(columnName = 'orderId', sortingType = 'desc') {
     this.isLoading = true;
     this.adminTableService
-      .getTable(columnName, sortingType)
+      .getTable(columnName, this.currentPage, this.pageSize, sortingType)
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
-        const arrayOfValues = item;
-        this.dataSource = new MatTableDataSource(arrayOfValues);
+        this.tableData = item[`page`];
+        this.totalPages = item[`totalPages`];
+        this.dataSource = new MatTableDataSource(this.tableData);
         const requiredColumns = [{ field: 'select', sticky: true }];
         const dynamicallyColumns = [];
-        const arrayOfproperties = Object.keys(arrayOfValues[0]);
+        const arrayOfproperties = Object.keys(this.tableData[0]);
         arrayOfproperties.map((elem) => {
           const objectOfValue = Object.create({});
           objectOfValue.field = elem;
@@ -129,8 +136,33 @@ export class UbsAdminTableComponent implements OnInit {
       });
   }
 
+  updateTableData() {
+    this.isUpdate = true;
+    this.adminTableService
+      .getTable('orderId', this.currentPage, this.pageSize, 'desc')
+      .pipe(takeUntil(this.destroy))
+      .subscribe((item) => {
+        const data = item[`page`];
+        this.totalPages = item[`totalPages`];
+        this.tableData = [...this.tableData, ...data];
+        this.dataSource.data = this.tableData;
+        this.isUpdate = false;
+      });
+  }
+
   getSortingDate(columnName, sortingType) {
     this.arrowDirection === columnName ? (this.arrowDirection = null) : (this.arrowDirection = columnName);
     this.getTable(columnName, sortingType);
+  }
+
+  selectPageSize(value: number) {
+    this.pageSize = value;
+  }
+
+  onScroll() {
+    if (!this.isUpdate && this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updateTableData();
+    }
   }
 }
