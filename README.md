@@ -1,6 +1,6 @@
 <a href="https://career.softserveinc.com/en-us/technology/course/start_your_career_as_web_ui_developer"><img src="https://github.com/ita-social-projects/GreenCity/blob/master/docs-photos/GreenCity%20Logo.png" title="SoftServe IT Academy. GreenCity project" alt="SoftServe IT Academy. GreenCity project"></a>
 
-# GreenCityClient [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/ita-social-projects/GreenCityClient/blob/master/LICENSE) [![GitHub release](https://img.shields.io/static/v1?label=Release&message=v.2.0.0&color=yellowgreen)](https://github.com/ita-social-projects/GreenCityClient/releases/tag/v.2.0.0) [![HitCount](http://hits.dwyl.com/ita-social-projects/GreenCityClient.svg)](http://hits.dwyl.com/ita-social-projects/GreenCityClient)
+# GreenCityClient    [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/ita-social-projects/GreenCityClient/blob/master/LICENSE) [![GitHub release](https://img.shields.io/static/v1?label=Release&message=v.2.0.0&color=yellowgreen)](https://github.com/ita-social-projects/GreenCityClient/releases/tag/v.2.0.0) [![HitCount](http://hits.dwyl.com/ita-social-projects/GreenCityClient.svg)](http://hits.dwyl.com/ita-social-projects/GreenCityClient)
 
 ## About the project
 
@@ -20,7 +20,8 @@ Before sending any pull request, please discuss requirements/changes to be imple
 
 Though there are two GitHub projects ([GreenCity](https://github.com/ita-social-projects/GreenCity) for back-end part and [GreenCityClient](https://github.com/ita-social-projects/GreenCityClient) for front-end part) all of the issues are listed in the first one - [GreenCity](https://github.com/ita-social-projects/GreenCity).
 
-**NOTE: make sure that your code passes checkstyle. Otherwise your pull request will be declined**.
+**NOTE: make sure that your code passes checkstyle. Otherwise your pull request will be declined**. 
+
 
 ## Development server
 
@@ -47,6 +48,6 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
 ## Running json-server
-
-1.npm i -g json-server (https://www.npmjs.com/package/json-server); 2. in first thred use command : json-server src\assets\all-json\eco-news.json;
+1.npm i -g json-server  (https://www.npmjs.com/package/json-server);
+2. in first thred  use command : json-server src\assets\all-json\eco-news.json;
 3.in second thred use command: ng serve;
