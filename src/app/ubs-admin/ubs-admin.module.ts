@@ -12,6 +12,7 @@ import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MaterialModule } from '../material.module';
+import { IMaskModule } from 'angular-imask';
 import { SharedModule } from '../shared/shared.module';
 import { UbsHeaderComponent } from './components/ubs-header/ubs-header.component';
 import { UbsAdminComponent } from './ubs-admin.component';
@@ -62,7 +63,7 @@ import { UbsProfileDeletePopUpComponent } from './components/ubs-client-profile-
     MaterialModule,
     SharedModule,
     RouterModule,
-    NgxPaginationModule,
+    IMaskModule,
     HttpClientModule,
     UBSAdminRoutingModule,
     FormsModule,
