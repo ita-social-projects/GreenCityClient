@@ -28,7 +28,7 @@
   </div>
   <div class="row">
     <div class="image-container" appDrag (files)="filesDropped($event)" *ngFor="let img of images; index as i">
-      <img class="image-preview" *ngIf="img.src" [src]="img.src" alt="image" />
+      <img class="image-preview" *ngIf="img.src" [src]="img.src" alt="image-of-violation" />
       <div class="delete-block">
         <div>{{ img.name }}</div>
         <div (click)="deleteImage(i)">X</div>

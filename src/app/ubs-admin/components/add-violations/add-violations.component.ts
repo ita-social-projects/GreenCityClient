@@ -1,26 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ImageFile } from '../../models/image-file.model';
 import { FileHandle } from '../../models/file-handle.model';
 import { TranslateService } from '@ngx-translate/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-violations',
   templateUrl: './add-violations.component.html',
   styleUrls: ['./add-violations.component.scss']
 })
-export class AddViolationsComponent implements OnInit {
+export class AddViolationsComponent implements OnInit, OnDestroy {
   images: ImageFile[] = [];
   files: FileHandle[] = [];
   isImageSizeError = false;
   isImageTypeError = false;
   dragAndDropLabel;
+  unsubscribe: Subject<any> = new Subject();
   constructor(private translate: TranslateService) {}
 
   ngOnInit() {
-    this.translate.get('add-violation-modal.drag-photo').subscribe((value) => {
-      console.log(value);
-      this.dragAndDropLabel = value;
-    });
+    this.translate
+      .get('add-violation-modal.drag-photo')
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((value) => {
+        this.dragAndDropLabel = value;
+      });
     this.initImages();
   }
 
@@ -43,17 +48,20 @@ export class AddViolationsComponent implements OnInit {
     let i = 0;
     for (const img of this.images) {
       if (!img.src && files[i]) {
-        if (files[i].file.size <= 10485760) {
-          if (files[i].file.type === 'image/jpeg' || files[i].file.type === 'image/png') {
-            img.src = files[i].url;
-            img.name = files[i].file.name;
-            img.label = null;
-          } else {
-            this.isImageTypeError = true;
-          }
-        } else {
+        if (files[i].file.size >= 10485760) {
           this.isImageSizeError = true;
+          i++;
+          continue;
         }
+
+        if (!(files[i].file.type === 'image/jpeg' || files[i].file.type === 'image/png')) {
+          this.isImageTypeError = true;
+          i++;
+          continue;
+        }
+        img.src = files[i].url;
+        img.name = files[i].file.name;
+        img.label = null;
         i++;
       }
     }
@@ -110,5 +118,10 @@ export class AddViolationsComponent implements OnInit {
       this.images.push({ src: null, label: null, name: null });
     }
     this.images[0].label = this.dragAndDropLabel;
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }

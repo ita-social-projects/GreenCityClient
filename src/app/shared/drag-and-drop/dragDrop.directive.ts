@@ -7,27 +7,30 @@ import { FileHandle } from '../../ubs-admin/models/file-handle.model';
 })
 export class DragDirective {
   @Output() files: EventEmitter<FileHandle[]> = new EventEmitter();
-
-  @HostBinding('style.background') public background = '#F7F9FA';
+  color = {
+    grey: '#999',
+    white: '#F7F9FA'
+  };
+  @HostBinding('style.background') public background = this.color.white;
 
   constructor(private sanitizer: DomSanitizer) {}
 
   @HostListener('dragover', ['$event']) public onDragOver(evt: DragEvent) {
     evt.preventDefault();
     evt.stopPropagation();
-    this.background = '#999';
+    this.background = this.color.grey;
   }
 
   @HostListener('dragleave', ['$event']) public onDragLeave(evt: DragEvent) {
     evt.preventDefault();
     evt.stopPropagation();
-    this.background = '#F7F9FA';
+    this.background = this.color.white;
   }
 
   @HostListener('drop', ['$event']) public onDrop(evt: DragEvent) {
     evt.preventDefault();
     evt.stopPropagation();
-    this.background = '#F7F9FA';
+    this.background = this.color.white;
 
     const files: FileHandle[] = [];
     const droppedFiles = Array.from(evt.dataTransfer.files);
