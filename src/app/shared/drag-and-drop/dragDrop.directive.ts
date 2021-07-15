@@ -16,22 +16,15 @@ export class DragDirective {
   constructor(private sanitizer: DomSanitizer) {}
 
   @HostListener('dragover', ['$event']) public onDragOver(evt: DragEvent) {
-    evt.preventDefault();
-    evt.stopPropagation();
-    this.background = this.color.grey;
+    this.stopPropagation(evt, this.color.grey);
   }
 
   @HostListener('dragleave', ['$event']) public onDragLeave(evt: DragEvent) {
-    evt.preventDefault();
-    evt.stopPropagation();
-    this.background = this.color.white;
+    this.stopPropagation(evt, this.color.white);
   }
 
   @HostListener('drop', ['$event']) public onDrop(evt: DragEvent) {
-    evt.preventDefault();
-    evt.stopPropagation();
-    this.background = this.color.white;
-
+    this.stopPropagation(evt, this.color.white);
     const files: FileHandle[] = [];
     const droppedFiles = Array.from(evt.dataTransfer.files);
     for (const fileItem of droppedFiles) {
@@ -42,5 +35,11 @@ export class DragDirective {
     if (files.length > 0) {
       this.files.emit(files);
     }
+  }
+
+  stopPropagation(evt: DragEvent, color: string): void {
+    evt.preventDefault();
+    evt.stopPropagation();
+    this.background = color;
   }
 }
