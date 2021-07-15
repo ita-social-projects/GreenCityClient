@@ -150,7 +150,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
 
   public sendFormData(form): void {
     const body: EditProfileDto = {
-      city: this.cityName,
+      city: form.value.city,
       firstName: form.value.name,
       userCredo: form.value.credo,
       showLocation: form.value.showLocation,
