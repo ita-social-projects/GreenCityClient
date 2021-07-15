@@ -22,6 +22,7 @@ import { UbsConfirmPageComponent } from './components/ubs-confirm-page/ubs-confi
 import { SharedMainModule } from '@shared/shared-main.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { UbsMainPageComponent } from './components/ubs-main-page/ubs-main-page.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     UBSInputErrorComponent,
     UBSAddAddressPopUpComponent,
     AddressComponent,
-    UbsConfirmPageComponent
+    UbsConfirmPageComponent,
+    UbsMainPageComponent
   ],
   imports: [
     MatIconModule,
