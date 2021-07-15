@@ -6,7 +6,6 @@ import { PlaceInfo } from '../../model/place/place-info';
 import { UpdatePlaceStatus } from '../../model/place/update-place-status.model';
 import { PlacePageableDto } from '../../model/place/place-pageable-dto.model';
 import { mainLink, placeLink } from '../../links';
-import { NgFlashMessageService } from 'ng-flash-messages';
 import { PlaceAddDto } from '../../model/placeAddDto.model';
 import { FilterPlaceService } from '../filtering/filter-place.service';
 import { FilterPlaceDtoModel } from '../../model/filtering/filter-place-dto.model';
@@ -25,7 +24,7 @@ export class PlaceService {
   private bulkUpdateStatus: BulkUpdatePlaceStatus;
   private ids: any;
 
-  constructor(private http: HttpClient, private ngFlashMessageService: NgFlashMessageService, private filterService: FilterPlaceService) {}
+  constructor(private http: HttpClient, private filterService: FilterPlaceService) {}
 
   getFilteredPlaces() {
     const filterDto = this.filterService.getFilters();
@@ -33,24 +32,7 @@ export class PlaceService {
   }
 
   save(place: PlaceAddDto) {
-    this.http.post(`${placeLink}propose`, place).subscribe(
-      () => {
-        this.ngFlashMessageService.showFlashMessage({
-          messages: ['Cafe ' + place.name + ' was added for approving.'],
-          dismissible: true,
-          timeout: 3000,
-          type: 'success'
-        });
-      },
-      (error) => {
-        this.ngFlashMessageService.showFlashMessage({
-          messages: ['Please try again'],
-          dismissible: true,
-          timeout: 3000,
-          type: 'danger'
-        });
-      }
-    );
+    this.http.post(`${placeLink}propose`, place);
   }
 
   getPlaceInfo(id: number): Observable<PlaceInfo> {
@@ -125,23 +107,6 @@ export class PlaceService {
   }
 
   updatePlace(updatedPlace: PlaceUpdatedDto) {
-    return this.http.put<PlaceUpdatedDto>(`${placeLink}update`, updatedPlace).subscribe(
-      () => {
-        this.ngFlashMessageService.showFlashMessage({
-          messages: ['Cafe ' + updatedPlace.name + ' was updated.'],
-          dismissible: true,
-          timeout: 3000,
-          type: 'success'
-        });
-      },
-      (error) => {
-        this.ngFlashMessageService.showFlashMessage({
-          messages: ['Cafe ' + updatedPlace.name + ' was not updated.'],
-          dismissible: true,
-          timeout: 3000,
-          type: 'danger'
-        });
-      }
-    );
+    return this.http.put<PlaceUpdatedDto>(`${placeLink}update`, updatedPlace);
   }
 }

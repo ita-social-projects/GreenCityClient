@@ -11,7 +11,7 @@ import { take } from 'rxjs/operators';
   templateUrl: './form-base.component.html'
 })
 export class FormBaseComponent implements ComponentCanDeactivate {
-  @ViewChild('formEditProf', { static: false }) formEditProf: ElementRef;
+  @ViewChild('formEditProf') formEditProf: ElementRef;
 
   public areChangesSaved = false;
   public initialValues = {};

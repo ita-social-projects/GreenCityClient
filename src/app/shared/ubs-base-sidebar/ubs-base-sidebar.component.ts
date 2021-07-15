@@ -13,10 +13,10 @@ export class UbsBaseSidebarComponent implements AfterViewInit {
   public openClose = false;
   public stopClick = false;
   @Input() public listElements: any[] = [];
-  @ViewChild('sidebarToggler', { static: false }) sidebarToggler: ElementRef;
-  @ViewChild('sideBarIcons', { static: false }) sideBarIcons: ElementRef;
-  @ViewChild('drawer', { static: false }) drawer: MatDrawer;
-  @ViewChild('sidebarContainer', { static: false }) sidebarContainer: ElementRef;
+  @ViewChild('sidebarToggler') sidebarToggler: ElementRef;
+  @ViewChild('sideBarIcons') sideBarIcons: ElementRef;
+  @ViewChild('drawer') drawer: MatDrawer;
+  @ViewChild('sidebarContainer') sidebarContainer: ElementRef;
 
   constructor(public breakpointObserver: BreakpointObserver) {}
 

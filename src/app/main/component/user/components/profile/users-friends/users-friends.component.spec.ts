@@ -70,6 +70,6 @@ describe('UsersFriendsComponent', () => {
     const error = 'Error message';
     spyOn(profileServiceMock, 'getUserFriends').and.returnValue(throwError(error));
     component.showUsersFriends();
-    expect(component.noFriends).toBeFalsy();
+    expect(component.noFriends).toBe('Error message');
   });
 });

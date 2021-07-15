@@ -47,8 +47,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private destroySub: Subject<boolean> = new Subject<boolean>();
   public headerImageList = headerIcons;
   public skipPath: string;
-  @ViewChild('signinref', { static: false }) signinref: ElementRef;
-  @ViewChild('signupref', { static: false }) signupref: ElementRef;
+  @ViewChild('signinref') signinref: ElementRef;
+  @ViewChild('signupref') signupref: ElementRef;
   public elementName;
   constructor(
     public dialog: MatDialog,
