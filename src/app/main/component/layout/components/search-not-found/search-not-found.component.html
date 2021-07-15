@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-12 col-md-4">
+    <p class="search_not-found-text">
+      {{ 'search.search-not-found.not-found-text' | translate: { searchQuery: inputValue } }}
+    </p>
+  </div>
+  <div class="col-12 col-md-8">
+    <p class="search_choose-alternative-text">
+      {{ 'search.search-not-found.choose-alternative' | translate }}
+    </p>
+    <div class="search_not-found-item-wrp">
+      <a [routerLink]="['/news']" (click)="emitClose()">
+        <div class="search_not-found-item">
+          <img class="search_not-found-image" [src]="images.defaultImage" alt="news-image" />
+          <h2 class="search_not-found-header">{{ 'search.search-not-found.alternative-header-news' | translate }}</h2>
+          <p class="search_not-found-description">
+            {{ 'search.search-not-found.alternative-description-news' | translate }}
+          </p>
+        </div>
+      </a>
+      <a [routerLink]="['/tips']" (click)="emitClose()" class="m-l-4">
+        <div class="search_not-found-item">
+          <img class="search_not-found-image" [src]="images.defaultImage" alt="tips-image" />
+          <h2 class="search_not-found-header">{{ 'search.search-not-found.alternative-header-tips' | translate }}</h2>
+          <p class="search_not-found-description">
+            {{ 'search.search-not-found.alternative-description-tips' | translate }}
+          </p>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>

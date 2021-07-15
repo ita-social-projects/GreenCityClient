@@ -1,0 +1,75 @@
+p,
+div {
+  margin: 0;
+  padding: 0;
+}
+
+.search_item-wrp {
+  margin: 20px 0 40px;
+}
+
+.search_item-tag {
+  opacity: 0.8;
+  font-family: var(--primary-font);
+  font-size: 0.9rem;
+  color: var(--secondary-dark-grey);
+  display: inline-block;
+  padding: 0.3rem 1rem;
+  border: 1px solid var(--secondary-dark-grey);
+  border-radius: 53px;
+  margin-right: 1rem;
+  margin-bottom: 0.3rem;
+}
+
+.search_item-title {
+  margin: 8px 0 0 0;
+  font-family: var(--secondary-font);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.3rem;
+  color: var(--secondary-dark-grey);
+  line-height: 1.6rem;
+
+  a {
+    color: var(--secondary-dark-grey);
+
+    p {
+      overflow-wrap: break-word;
+    }
+  }
+
+  a:hover {
+    color: var(--secondary-dark-green);
+    text-decoration: none;
+  }
+}
+
+.list-text {
+  margin: 8px 0 0 0;
+  font-family: var(--primary-font);
+}
+
+.search_item-data-added-news {
+  margin: 8px 0 0 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.user-data-text-date-share,
+.search_item-text {
+  font-family: var(--primary-font);
+  font-size: 1rem;
+  color: var(--secondary-grey);
+  opacity: 0.6;
+  mix-blend-mode: normal;
+}
+
+.search_item-text {
+  margin-right: 1rem;
+}
+
+.search_item-icon {
+  align-items: center;
+  margin-right: 4px;
+  margin-top: -3px;
+}

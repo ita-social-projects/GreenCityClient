@@ -1,0 +1,146 @@
+$primary-color: var(--primary-green);
+$primary-font: var(--secondary-font);
+
+.title {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  height: 20px;
+  margin-bottom: 20px;
+}
+
+.popover {
+  font-size: 25px;
+}
+
+.checkbox-list {
+  list-style-type: none;
+  padding: 0 0 19px 0;
+  margin: 0;
+  overflow: hidden;
+  overflow-y: scroll;
+  height: 115px;
+
+  li {
+    padding: 0;
+    margin: 0 0 10px 0;
+    height: 30px;
+
+    .text {
+      height: 17px;
+      width: 150px;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 17px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    label {
+      padding: 0;
+      margin: 0 0 20px 0;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      position: relative;
+
+      input[type='checkbox'] {
+        display: block;
+        height: 0;
+        opacity: 0;
+        width: 0;
+      }
+
+      .checkmark {
+        border: 1px solid var(--primary-green);
+        border-radius: 1px;
+        height: 12px;
+        width: 12px;
+        margin-right: 8px;
+      }
+
+      .checkmark::after {
+        border: solid var(--primary-white);
+        border-width: 0 1px 1px 0;
+        content: '';
+        width: 4px;
+        height: 7px;
+        left: 4px;
+        top: 4px;
+        position: absolute;
+        transform: rotate(45deg);
+        display: none;
+      }
+
+      input:checked ~ .checkmark {
+        background-color: var(--primary-green);
+      }
+
+      input:checked ~ .checkmark::after {
+        display: block;
+      }
+
+      #del-btn {
+        height: 12px;
+        width: 12px;
+        background-image: url('src/assets/img/icon/cross.svg');
+        background-color: none;
+        border: none;
+        position: absolute;
+        left: 90%;
+      }
+    }
+  }
+}
+
+form {
+  position: relative;
+  top: 10px;
+
+  #add-field {
+    width: 80%;
+    height: 26px;
+    font-size: 14px;
+    padding: 8px;
+    border: 1px solid var(--quintynary-light-grey);
+    border-radius: 4px;
+  }
+
+  #add-btn {
+    width: 25px;
+    height: 25px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: var(--primary-green);
+    color: var(--primary-white);
+    margin-left: 10px;
+  }
+}
+
+.selected {
+  color: var(--primary-green);
+}
+
+.done {
+  text-decoration: line-through;
+}
+
+@media (min-width: 520px) {
+  .checkbox-list p {
+    position: absolute;
+    left: 60%;
+    top: 1260px;
+  }
+}
+
+@media (min-width: 1180px) {
+  .checkbox-list p {
+    position: absolute;
+    top: 760px;
+    left: 80%;
+  }
+}

@@ -1,0 +1,537 @@
+[
+  {
+    "id": 1,
+    "name": "Habit-1",
+    "status": true,
+    "description": "We need to synthesize the primary JSON program!",
+    "image": "http://lorempixel.com/640/480/nature",
+    "createDate": "2020-08-26T20:05:19.369Z",
+    "habitStatistics": [
+      {
+        "id": 1,
+        "habitId": 1,
+        "habitRate": {
+          "GOOD": "GOOD",
+          "NORMAL": "NORMAL",
+          "BAD": "BAD",
+          "DEFAULT": "DEFAULT"
+        },
+        "createdOn": "2020-05-07T05:02:49.780Z",
+        "amountOfItems": 56913
+      },
+      {
+        "id": 2,
+        "habitId": 1,
+        "habitRate": {
+          "GOOD": "GOOD",
+          "NORMAL": "NORMAL",
+          "BAD": "BAD",
+          "DEFAULT": "DEFAULT"
+        },
+        "createdOn": "2020-09-27T10:20:45.845Z",
+        "amountOfItems": 35881
+      },
+      {
+        "id": 3,
+        "habitId": 1,
+        "habitRate": {
+          "GOOD": "GOOD",
+          "NORMAL": "NORMAL",
+          "BAD": "BAD",
+          "DEFAULT": "DEFAULT"
+        },
+        "createdOn": "2020-09-09T04:57:59.988Z",
+        "amountOfItems": 64653
+      },
+      {
+        "id": 4,
+        "habitId": 1,
+        "habitRate": {
+          "GOOD": "GOOD",
+          "NORMAL": "NORMAL",
+          "BAD": "BAD",
+          "DEFAULT": "DEFAULT"
+        },
+        "createdOn": "2020-04-24T19:57:53.563Z",
+        "amountOfItems": 58416
+      },
+      {
+        "id": 5,
+        "habitId": 1,
+        "habitRate": {
+          "GOOD": "GOOD",
+          "NORMAL": "NORMAL",
+          "BAD": "BAD",
+          "DEFAULT": "DEFAULT"
+        },
+        "createdOn": "2020-09-04T21:55:02.826Z",
+        "amountOfItems": 39450
+      }
+    ],
+    "habitDictionary": [
+      {
+        "id": 1,
+        "habitId": 1,
+        "name": "Mr. Xzavier Graham",
+        "image": "http://lorempixel.com/640/480/technics",
+        "description": "Use the optical SMTP bandwidth, then you can compress the virtual matrix!"
+      },
+      {
+        "id": 2,
+        "habitId": 1,
+        "name": "Turner Lynch",
+        "image": "http://lorempixel.com/640/480/nature",
+        "description": "copying the transmitter won't do anything, we need to compress the multi-byte AGP bandwidth!"
+      },
+      {
+        "id": 3,
+        "habitId": 1,
+        "name": "Dr. America Bogan",
+        "image": "http://lorempixel.com/640/480/abstract",
+        "description": "overriding the hard drive won't do anything, we need to parse the neural ADP transmitter!"
+      },
+      {
+        "id": 4,
+        "habitId": 1,
+        "name": "Marcelle Kassulke",
+        "image": "http://lorempixel.com/640/480/people",
+        "description": "If we parse the system, we can get to the SQL firewall through the mobile XML sensor!"
+      },
+      {
+        "id": 5,
+        "habitId": 1,
+        "name": "Marion Hayes",
+        "image": "http://lorempixel.com/640/480/business",
+        "description": "Try to input the SAS bandwidth, maybe it will hack the bluetooth feed!"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Habit-2",
+    "status": false,
+    "description": "Use the bluetooth SSL system, then you can calculate the redundant feed!",
+    "image": "http://lorempixel.com/640/480/people",
+    "createDate": "2019-11-17T17:48:44.002Z",
+    "habitStatistics": [
+      {
+        "id": "6",
+        "habitId": 2,
+        "habitRate": {
+          "GOOD": "GOOD",
+          "NORMAL": "NORMAL",
+          "BAD": "BAD",
+          "DEFAULT": "DEFAULT"
+        },
+        "createdOn": "2020-01-30T08:10:17.445Z",
+        "amountOfItems": 53331
+      },
+      {
+        "id": "7",
+        "habitId": 2,
+        "habitRate": {
+          "GOOD": "GOOD",
+          "NORMAL": "NORMAL",
+          "BAD": "BAD",
+          "DEFAULT": "DEFAULT"
+        },
+        "createdOn": "2019-10-15T19:35:56.578Z",
+        "amountOfItems": 45368
+      },
+      {
+        "id": "8",
+        "habitId": 2,
+        "habitRate": {
+          "GOOD": "GOOD",
+          "NORMAL": "NORMAL",
+          "BAD": "BAD",
+          "DEFAULT": "DEFAULT"
+        },
+        "createdOn": "2020-07-13T12:31:49.701Z",
+        "amountOfItems": 82384
+      },
+      {
+        "id": "9",
+        "habitId": 2,
+        "habitRate": {
+          "GOOD": "GOOD",
+          "NORMAL": "NORMAL",
+          "BAD": "BAD",
+          "DEFAULT": "DEFAULT"
+        },
+        "createdOn": "2020-01-26T22:15:12.689Z",
+        "amountOfItems": 27777
+      },
+      {
+        "id": "10",
+        "habitId": 2,
+        "habitRate": {
+          "GOOD": "GOOD",
+          "NORMAL": "NORMAL",
+          "BAD": "BAD",
+          "DEFAULT": "DEFAULT"
+        },
+        "createdOn": "2019-12-06T21:28:18.952Z",
+        "amountOfItems": 80875
+      }
+    ],
+    "habitDictionary": [
+      {
+        "id": "6",
+        "habitId": 2,
+        "name": "Monserrate Buckridge",
+        "image": "http://lorempixel.com/640/480/nature",
+        "description": "I'll reboot the primary FTP matrix, that should alarm the TCP firewall!"
+      },
+      {
+        "id": "7",
+        "habitId": 2,
+        "name": "Zena Terry",
+        "image": "http://lorempixel.com/640/480/abstract",
+        "description": "calculating the firewall won't do anything, we need to synthesize the auxiliary RSS array!"
+      },
+      {
+        "id": "8",
+        "habitId": 2,
+        "name": "Jamal Powlowski V",
+        "image": "http://lorempixel.com/640/480/animals",
+        "description": "The USB sensor is down, bypass the bluetooth circuit so we can override the JSON interface!"
+      },
+      {
+        "id": "9",
+        "habitId": 2,
+        "name": "Rosie Mayer",
+        "image": "http://lorempixel.com/640/480/technics",
+        "description": "parsing the panel won't do anything, we need to reboot the open-source JSON matrix!"
+      },
+      {
+        "id": "10",
+        "habitId": 2,
+        "name": "Oceane Hintz",
+        "image": "http://lorempixel.com/640/480/nature",
+        "description": "If we override the pixel, we can get to the THX transmitter through the redundant SDD program!"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Habit-3",
+    "status": true,
+    "description": "Use the 1080p EXE circuit, then you can index the solid state transmitter!",
+    "image": "http://lorempixel.com/640/480/fashion",
+    "createDate": "2020-02-25T10:29:47.600Z",
+    "habitStatistics": [
+      {
+        "id": "11",
+        "habitId": 3,
+        "habitRate": {
+          "GOOD": "GOOD",
+          "NORMAL": "NORMAL",
+          "BAD": "BAD",
+          "DEFAULT": "DEFAULT"
+        },
+        "createdOn": "2020-08-26T06:09:18.136Z",
+        "amountOfItems": 87796
+      },
+      {
+        "id": "12",
+        "habitId": 3,
+        "habitRate": {
+          "GOOD": "GOOD",
+          "NORMAL": "NORMAL",
+          "BAD": "BAD",
+          "DEFAULT": "DEFAULT"
+        },
+        "createdOn": "2020-05-16T04:54:44.390Z",
+        "amountOfItems": 26404
+      },
+      {
+        "id": "13",
+        "habitId": 3,
+        "habitRate": {
+          "GOOD": "GOOD",
+          "NORMAL": "NORMAL",
+          "BAD": "BAD",
+          "DEFAULT": "DEFAULT"
+        },
+        "createdOn": "2020-07-24T19:49:15.756Z",
+        "amountOfItems": 8133
+      },
+      {
+        "id": "14",
+        "habitId": 3,
+        "habitRate": {
+          "GOOD": "GOOD",
+          "NORMAL": "NORMAL",
+          "BAD": "BAD",
+          "DEFAULT": "DEFAULT"
+        },
+        "createdOn": "2019-12-20T00:37:05.854Z",
+        "amountOfItems": 92532
+      },
+      {
+        "id": "15",
+        "habitId": 3,
+        "habitRate": {
+          "GOOD": "GOOD",
+          "NORMAL": "NORMAL",
+          "BAD": "BAD",
+          "DEFAULT": "DEFAULT"
+        },
+        "createdOn": "2020-04-27T18:30:42.497Z",
+        "amountOfItems": 71755
+      }
+    ],
+    "habitDictionary": [
+      {
+        "id": "11",
+        "habitId": 3,
+        "name": "Elwin Bauch",
+        "image": "http://lorempixel.com/640/480/people",
+        "description": "Try to compress the RSS application, maybe it will calculate the optical panel!"
+      },
+      {
+        "id": "12",
+        "habitId": 3,
+        "name": "Candice Durgan",
+        "image": "http://lorempixel.com/640/480/cats",
+        "description": "connecting the driver won't do anything, we need to calculate the cross-platform SMTP bus!"
+      },
+      {
+        "id": "13",
+        "habitId": 3,
+        "name": "Karlee Gerhold",
+        "image": "http://lorempixel.com/640/480/city",
+        "description": "You can't reboot the alarm without connecting the back-end COM sensor!"
+      },
+      {
+        "id": "14",
+        "habitId": 3,
+        "name": "Jonatan Nicolas",
+        "image": "http://lorempixel.com/640/480/people",
+        "description": "You can't compress the interface without synthesizing the primary AI card!"
+      },
+      {
+        "id": "15",
+        "habitId": 3,
+        "name": "Mrs. Evelyn Reichert",
+        "image": "http://lorempixel.com/640/480/technics",
+        "description": "Use the auxiliary AGP driver, then you can reboot the wireless array!"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Habit-4",
+    "status": true,
+    "description": "Use the open-source PCI circuit, then you can connect the back-end capacitor!",
+    "image": "http://lorempixel.com/640/480/food",
+    "createDate": "2019-11-27T23:08:40.829Z",
+    "habitStatistics": [
+      {
+        "id": "16",
+        "habitId": 4,
+        "habitRate": {
+          "GOOD": "GOOD",
+          "NORMAL": "NORMAL",
+          "BAD": "BAD",
+          "DEFAULT": "DEFAULT"
+        },
+        "createdOn": "2020-06-22T07:20:24.068Z",
+        "amountOfItems": 44830
+      },
+      {
+        "id": "17",
+        "habitId": 4,
+        "habitRate": {
+          "GOOD": "GOOD",
+          "NORMAL": "NORMAL",
+          "BAD": "BAD",
+          "DEFAULT": "DEFAULT"
+        },
+        "createdOn": "2020-04-26T01:09:11.446Z",
+        "amountOfItems": 51153
+      },
+      {
+        "id": "18",
+        "habitId": 4,
+        "habitRate": {
+          "GOOD": "GOOD",
+          "NORMAL": "NORMAL",
+          "BAD": "BAD",
+          "DEFAULT": "DEFAULT"
+        },
+        "createdOn": "2020-04-29T12:06:21.964Z",
+        "amountOfItems": 41090
+      },
+      {
+        "id": "19",
+        "habitId": 4,
+        "habitRate": {
+          "GOOD": "GOOD",
+          "NORMAL": "NORMAL",
+          "BAD": "BAD",
+          "DEFAULT": "DEFAULT"
+        },
+        "createdOn": "2019-11-15T10:18:48.152Z",
+        "amountOfItems": 45716
+      },
+      {
+        "id": "20",
+        "habitId": 4,
+        "habitRate": {
+          "GOOD": "GOOD",
+          "NORMAL": "NORMAL",
+          "BAD": "BAD",
+          "DEFAULT": "DEFAULT"
+        },
+        "createdOn": "2020-07-15T05:03:13.914Z",
+        "amountOfItems": 20260
+      }
+    ],
+    "habitDictionary": [
+      {
+        "id": "16",
+        "habitId": 4,
+        "name": "Candice Ratke",
+        "image": "http://lorempixel.com/640/480/city",
+        "description": "The JBOD system is down, navigate the digital transmitter so we can back up the SMS monitor!"
+      },
+      {
+        "id": "17",
+        "habitId": 4,
+        "name": "Royce McCullough",
+        "image": "http://lorempixel.com/640/480/nature",
+        "description": "You can't parse the firewall without bypassing the mobile AGP array!"
+      },
+      {
+        "id": "18",
+        "habitId": 4,
+        "name": "Marlen Homenick",
+        "image": "http://lorempixel.com/640/480/animals",
+        "description": "Try to index the COM protocol, maybe it will input the online matrix!"
+      },
+      {
+        "id": "19",
+        "habitId": 4,
+        "name": "Marisol DuBuque",
+        "image": "http://lorempixel.com/640/480/nightlife",
+        "description": "You can't compress the driver without quantifying the mobile SMTP protocol!"
+      },
+      {
+        "id": "20",
+        "habitId": 4,
+        "name": "Anabel Rosenbaum",
+        "image": "http://lorempixel.com/640/480/people",
+        "description": "The FTP hard drive is down, synthesize the back-end driver so we can generate the TCP monitor!"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Habit-5",
+    "status": true,
+    "description": "The ADP panel is down, program the wireless circuit so we can override the SQL monitor!",
+    "image": "http://lorempixel.com/640/480/food",
+    "createDate": "2020-09-28T10:06:58.038Z",
+    "habitStatistics": [
+      {
+        "id": "21",
+        "habitId": 5,
+        "habitRate": {
+          "GOOD": "GOOD",
+          "NORMAL": "NORMAL",
+          "BAD": "BAD",
+          "DEFAULT": "DEFAULT"
+        },
+        "createdOn": "2020-06-22T05:29:24.326Z",
+        "amountOfItems": 63521
+      },
+      {
+        "id": "22",
+        "habitId": 5,
+        "habitRate": {
+          "GOOD": "GOOD",
+          "NORMAL": "NORMAL",
+          "BAD": "BAD",
+          "DEFAULT": "DEFAULT"
+        },
+        "createdOn": "2020-02-08T07:44:43.708Z",
+        "amountOfItems": 13694
+      },
+      {
+        "id": "23",
+        "habitId": 5,
+        "habitRate": {
+          "GOOD": "GOOD",
+          "NORMAL": "NORMAL",
+          "BAD": "BAD",
+          "DEFAULT": "DEFAULT"
+        },
+        "createdOn": "2020-07-26T08:35:31.157Z",
+        "amountOfItems": 74629
+      },
+      {
+        "id": "24",
+        "habitId": 5,
+        "habitRate": {
+          "GOOD": "GOOD",
+          "NORMAL": "NORMAL",
+          "BAD": "BAD",
+          "DEFAULT": "DEFAULT"
+        },
+        "createdOn": "2020-07-27T20:33:26.975Z",
+        "amountOfItems": 861
+      },
+      {
+        "id": "25",
+        "habitId": 5,
+        "habitRate": {
+          "GOOD": "GOOD",
+          "NORMAL": "NORMAL",
+          "BAD": "BAD",
+          "DEFAULT": "DEFAULT"
+        },
+        "createdOn": "2019-10-30T05:42:24.131Z",
+        "amountOfItems": 33191
+      }
+    ],
+    "habitDictionary": [
+      {
+        "id": "21",
+        "habitId": 5,
+        "name": "Lucious Hickle",
+        "image": "http://lorempixel.com/640/480/technics",
+        "description": "We need to back up the neural ADP monitor!"
+      },
+      {
+        "id": "22",
+        "habitId": 5,
+        "name": "Sasha Muller",
+        "image": "http://lorempixel.com/640/480/fashion",
+        "description": "If we program the monitor, we can get to the SMS program through the primary FTP system!"
+      },
+      {
+        "id": "23",
+        "habitId": 5,
+        "name": "Ryleigh Gerlach",
+        "image": "http://lorempixel.com/640/480/abstract",
+        "description": "copying the driver won't do anything, we need to compress the wireless SMS matrix!"
+      },
+      {
+        "id": "24",
+        "habitId": 5,
+        "name": "Glenda Crist",
+        "image": "http://lorempixel.com/640/480/city",
+        "description": "The PNG firewall is down, calculate the solid state circuit so we can bypass the HDD hard drive!"
+      },
+      {
+        "id": "25",
+        "habitId": 5,
+        "name": "Nico Olson",
+        "image": "http://lorempixel.com/640/480/city",
+        "description": "hacking the array won't do anything, we need to navigate the optical XML array!"
+      }
+    ]
+  }
+]

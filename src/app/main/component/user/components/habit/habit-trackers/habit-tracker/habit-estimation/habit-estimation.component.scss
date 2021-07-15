@@ -1,0 +1,36 @@
+h5 {
+  font-family: var(--primary-font);
+  font-size: 21px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #000;
+}
+
+.estimation-message {
+  font-family: var(--primary-font);
+  font-size: 21px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #000;
+}
+
+.tracked-habit-statistic {
+  max-width: 388px;
+  min-width: 388px;
+}
+
+.habit-advice-margin {
+  margin-top: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .tracked-habit-statistic {
+    margin: 10px auto;
+  }
+}

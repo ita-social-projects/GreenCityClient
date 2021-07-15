@@ -1,0 +1,201 @@
+$bp-smallest: 320px;
+$bp-phone: 576px;
+$bp-tablet: 768px;
+$bp-desktop: 1023px;
+$bp-largest: 1200px;
+
+.calendar {
+  display: block;
+  background: var(--primary-white);
+  box-shadow: 1px 4px 8px var(--quintynary-dark-grey);
+  border-radius: 4px;
+
+  .top {
+    .month-year {
+      display: flex;
+      justify-content: space-between;
+      text-align: center;
+
+      .arrow-previous {
+        margin-top: 22px;
+        margin-left: 18px;
+        margin-bottom: 16px;
+        cursor: pointer;
+      }
+
+      .monthAndYear {
+        font-family: var(--secondary-font);
+        font-weight: 600;
+        font-size: 13px;
+        line-height: 13px;
+        color: var(--primary-dark-grey);
+        margin-top: 15px;
+        margin-bottom: 12px;
+        cursor: pointer;
+      }
+
+      .arrow-next {
+        margin-top: 22px;
+        margin-right: 18px;
+        margin-bottom: 16px;
+        cursor: pointer;
+      }
+    }
+
+    .days {
+      display: grid;
+      grid-template-columns: repeat(7, 30px);
+      justify-content: center;
+      text-align: center;
+      font-size: 11px;
+
+      .days-name {
+        margin: 0;
+        font-family: var(--secondary-font);
+        font-weight: 600;
+        font-size: 11px;
+        line-height: 12px;
+        color: var(--tertiary-light-grey);
+      }
+
+      .current-day-name {
+        color: var(--primary-green);
+      }
+    }
+  }
+
+  .disabled {
+    cursor: none;
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  .middle {
+    padding-bottom: 5px;
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 24px);
+      grid-auto-rows: 24px;
+      grid-row-gap: 5px;
+      justify-content: space-around;
+      margin: 8px 0 0;
+      padding: 0 3px;
+      font-family: var(--secondary-font);
+      font-size: 11px;
+      line-height: 13px;
+      color: var(--primary-dark-grey);
+      text-align: center;
+
+      .calendar-grid-day {
+        padding: 6px 0 0;
+        cursor: pointer;
+      }
+
+      .calendar-grid-day:hover {
+        color: var(--primary-green);
+      }
+
+      .calendar-grid-day:active {
+        color: var(--secondary-dark-green);
+      }
+
+      .current-day {
+        background-color: var(--primary-green);
+        border-radius: 50%;
+        background-repeat: no-repeat;
+        background-position: center;
+        color: var(--primary-white);
+      }
+
+      .current-day:hover {
+        color: var(--primary-white);
+      }
+
+      .current-day:active {
+        color: var(--secondary-dark-green);
+      }
+    }
+
+    .calendar-grid-month {
+      display: grid;
+      grid-template-columns: repeat(3, 23px);
+      grid-template-rows: repeat(4, 13px);
+      grid-row-gap: 32px;
+      grid-column-gap: 47px;
+      justify-content: center;
+      margin: 32px 0;
+
+      .calendar-grid-month-view {
+        font-family: var(--secondary-font);
+        font-weight: 600;
+        font-size: 11px;
+        line-height: 13px;
+        color: var(--secondary-grey);
+        text-align: center;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+
+      .current-month {
+        color: var(--primary-green);
+      }
+    }
+  }
+}
+
+.enrolled-day {
+  background-color: var(--primary-light-green);
+  color: var(--primary-dark-grey);
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 50%;
+}
+
+.unenrolled-day {
+  background-color: var(--quaternary-light-grey);
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 50%;
+}
+
+.enrolled-past-day {
+  background-color: transparent;
+  border: 1px solid var(--primary-light-green);
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 50%;
+}
+
+.unenrolled-past-day {
+  background-color: transparent;
+  border: 1px solid var(--quaternary-light-grey);
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 50%;
+}
+
+@media only screen and (min-width: $bp-largest) {
+  .calendar {
+    .top {
+      .days {
+        grid-template-columns: repeat(7, 35px);
+      }
+    }
+
+    .middle {
+      .calendar-grid {
+        padding: 0 8px;
+
+        .calendar-grid-day {
+          padding: 6px 0 0;
+          font-size: 13px;
+        }
+      }
+    }
+  }
+}
+
+.backdropBackground {
+  background: none;
+}

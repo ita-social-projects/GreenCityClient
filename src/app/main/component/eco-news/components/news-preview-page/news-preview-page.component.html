@@ -1,0 +1,63 @@
+<app-post-news-loader *ngIf="isPosting"></app-post-news-loader>
+<div class="wrapper" *ngIf="!isPosting">
+  <div class="top-elements">
+    <div class="back-button">
+      <a [routerLink]="['/news', 'create-news']" class="button-link">
+        <div class="button-content">
+          <div class="button-arrow">
+            <img [src]="images.arrowLeft" alt="arrow" class="button-arrow-img" />
+          </div>
+          <div class="button-text" (click)="isBackToEdit()">{{ 'eco-news-preview.back-button' | translate }}</div>
+        </div>
+      </a>
+    </div>
+    <form (ngSubmit)="onSubmit()" class="submit-form">
+      <button type="submit" *ngIf="previewItem.valid && previewItem.value.tags.length !== 0" class="primary-global-button">
+        {{ attributes.btnCaption | translate }}
+      </button>
+    </form>
+  </div>
+  <div class="create-news-text">{{ attributes.title | translate }}</div>
+  <div class="tags">
+    <div class="tags-item" *ngFor="let tag of previewItem.value.tags">
+      {{ 'eco-news-preview.tags.' + tag.toLowerCase() | translate }}
+    </div>
+  </div>
+  <div class="news-content">
+    <div class="news-title-container">
+      <div class="news-title word-wrap">
+        {{ previewItem.value.title }}
+      </div>
+    </div>
+    <div class="news-info">
+      <div class="news-info-date">
+        {{ actualDate | date: 'mediumDate' }}
+      </div>
+      <div class="news-info-dot">
+        <img [src]="images.ellipse" alt="dot" />
+      </div>
+      <div class="news-info-author">{{ 'eco-news-preview.author' | translate }} {{ userName }}</div>
+    </div>
+    <img [src]="getImagePath()" alt="news-image" class="news-image-img" />
+    <div class="news-text-container">
+      <div class="news-links-images">
+        <img [src]="images.twitter" alt="twitter" class="news-links-img" />
+        <img [src]="images.linkedIn" alt="linkedin" class="news-links-img" />
+        <img [src]="images.facebook" alt="facebook" class="news-links-img" />
+      </div>
+      <div class="news-text">
+        <div class="news-text-content word-wrap">
+          {{ previewItem.value.content }}
+        </div>
+        <div class="source-field" *ngIf="previewItem.value.source">
+          <div class="source-title">
+            {{ 'eco-news-preview.news-source' | translate }}
+          </div>
+          <div class="source-text word-wrap">
+            {{ previewItem.value.source }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

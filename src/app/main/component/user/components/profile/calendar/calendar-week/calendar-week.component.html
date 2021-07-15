@@ -1,0 +1,34 @@
+<div class="calendar-week">
+  <div class="title">
+    <button (click)="changeWeek(false)">
+      <img [src]="calendarImages.arrowPrevious" alt="arrow previous" />
+    </button>
+    <div class="week">{{ weekTitle }}</div>
+    <button (click)="changeWeek(true)">
+      <img [src]="calendarImages.arrowNext" alt="arrow next" />
+    </button>
+  </div>
+  <div class="body">
+    <div class="day-name-row">
+      <div class="day-name" *ngFor="let day of weekDates" [ngClass]="{ 'current-name': day.isCurrent }">
+        {{ day.dayName | uppercase }}
+      </div>
+    </div>
+    <div class="day-number-row" [ngClass]="{ disabled: checkAnswer }">
+      <div
+        class="day-number"
+        *ngFor="let day of weekDates"
+        [ngClass]="{
+          'enrolled-day': day.hasHabitsInProgress && day.areHabitsDone,
+          'unenrolled-day': day.hasHabitsInProgress && !day.areHabitsDone,
+          'enrolled-past-day': day.hasHabitsInProgress && day.date.getDate() < currentDate.getDate() - 7 && day.areHabitsDone,
+          'unenrolled-past-day': day.hasHabitsInProgress && day.date.getDate() < currentDate.getDate() - 7 && !day.areHabitsDone,
+          'current-number': day.isCurrent
+        }"
+        (click)="showHabits($event, day)"
+      >
+        {{ day.date.getDate() }}
+      </div>
+    </div>
+  </div>
+</div>

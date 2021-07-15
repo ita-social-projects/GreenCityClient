@@ -1,0 +1,101 @@
+.open-sans {
+  font-family: var(--primary-font);
+}
+
+span {
+  size: 16px;
+  letter-spacing: 1.5px;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--primary-grey);
+}
+
+.item-count {
+  font-family: PTSans, sans-serif !important;
+  font-size: 48px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: var(--primary-green);
+}
+
+h2 {
+  max-width: 605px;
+  height: 108px;
+  font-size: 46px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.17;
+  letter-spacing: normal;
+  color: #000;
+  margin: 0 0 0 0;
+}
+
+p {
+  max-width: 591px;
+  height: 46px;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.44;
+  letter-spacing: normal;
+  color: #000;
+  margin: 0 0 20px 0;
+}
+
+.statistic {
+  align-items: center;
+  font-size: 21px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #000;
+}
+
+img {
+  width: auto;
+  height: 100px;
+  margin: 0 15px 6px 15px;
+  position: relative;
+}
+
+.images {
+  display: inline-block;
+  width: auto;
+  height: 100px;
+  margin: 0;
+  position: relative;
+}
+
+h4 {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  width: auto;
+}
+
+h4 span {
+  width: 55px;
+  height: 56px;
+  font-family: PTSans, sans-serif;
+  font-size: 48px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: var(--primary-green);
+  margin: 38px 0 0 20px;
+  position: absolute;
+}

@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "imagePath": "http://lorempixel.com/640/480/cats",
+    "title": "Senior Data Executive",
+    "text": "We need to index the haptic SQL monitor!",
+    "tags": ["news"],
+    "creationDate": "2019-12-19T21:57:17.083Z",
+    "author": {
+      "id": 1,
+      "name": "Florian Kunde"
+    }
+  },
+  {
+    "id": 2,
+    "imagePath": "http://lorempixel.com/640/480/technics",
+    "title": "Customer Program Agent",
+    "text": "The JSON protocol is down, copy the open-source transmitter so we can compress the SDD driver!",
+    "tags": ["news"],
+    "creationDate": "2020-07-25T21:45:49.305Z",
+    "author": {
+      "id": 2,
+      "name": "Luciano Reilly"
+    }
+  },
+  {
+    "id": 3,
+    "imagePath": "http://lorempixel.com/640/480/technics",
+    "title": "Product Security Supervisor",
+    "text": "The AGP capacitor is down, quantify the neural protocol so we can calculate the THX circuit!",
+    "tags": ["news"],
+    "creationDate": "2020-01-13T09:36:43.906Z",
+    "author": {
+      "id": 3,
+      "name": "Caroline Kling"
+    }
+  },
+  {
+    "id": 4,
+    "imagePath": "http://lorempixel.com/640/480/city",
+    "title": "International Functionality Engineer",
+    "text": "You can't quantify the port without connecting the redundant JBOD port!",
+    "tags": ["initiatives"],
+    "creationDate": "2020-08-21T05:41:06.013Z",
+    "author": {
+      "id": 4,
+      "name": "Cordelia Koelpin III"
+    }
+  },
+  {
+    "id": 5,
+    "imagePath": "http://lorempixel.com/640/480/technics",
+    "title": "International Tactics Associate",
+    "text": "We need to copy the wireless CSS transmitter!",
+    "tags": ["initiatives"],
+    "creationDate": "2020-06-02T13:10:42.926Z",
+    "author": {
+      "id": 5,
+      "name": "Yolanda Feil"
+    }
+  },
+  {
+    "id": 6,
+    "imagePath": "http://lorempixel.com/640/480/fashion",
+    "title": "Corporate Security Executive",
+    "text": "Try to index the HDD protocol, maybe it will override the primary alarm!",
+    "tags": ["events"],
+    "creationDate": "2020-05-15T19:59:19.720Z",
+    "author": {
+      "id": 6,
+      "name": "Juvenal Quigley"
+    }
+  },
+  {
+    "id": 7,
+    "imagePath": "http://lorempixel.com/640/480/sports",
+    "title": "Chief Security Manager",
+    "text": "Try to input the HDD program, maybe it will copy the multi-byte bus!",
+    "tags": ["events"],
+    "creationDate": "2019-11-09T09:56:39.926Z",
+    "author": {
+      "id": 7,
+      "name": "Princess Greenholt"
+    }
+  },
+  {
+    "id": 8,
+    "imagePath": "http://lorempixel.com/640/480/nightlife",
+    "title": "Lead Security Associate",
+    "text": "The HDD program is down, generate the open-source bus so we can calculate the PCI interface!",
+    "tags": ["courses"],
+    "creationDate": "2020-07-25T00:19:22.910Z",
+    "author": {
+      "id": 8,
+      "name": "Miss Haskell Orn"
+    }
+  },
+  {
+    "id": 9,
+    "imagePath": "http://lorempixel.com/640/480/fashion",
+    "title": "Senior Solutions Director",
+    "text": "I'll hack the multi-byte IB panel, that should bandwidth the IB alarm!",
+    "tags": ["courses"],
+    "creationDate": "2020-02-15T20:07:44.128Z",
+    "author": {
+      "id": 9,
+      "name": "Rodrigo Graham"
+    }
+  },
+  {
+    "id": 10,
+    "imagePath": "http://lorempixel.com/640/480/city",
+    "title": "National Interactions Officer",
+    "text": "Try to bypass the RSS microchip, maybe it will quantify the auxiliary monitor!",
+    "tags": ["ads"],
+    "creationDate": "2020-06-14T19:32:59.680Z",
+    "author": {
+      "id": 10,
+      "name": "Arden Hansen"
+    }
+  }
+]

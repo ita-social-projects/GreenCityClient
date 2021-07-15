@@ -1,0 +1,21 @@
+<div class="main-container">
+  <button class="close" (click)="userReply(false)">
+    <img src="{{ closeButton }}" alt="close">
+  </button>
+  <div class="warning-text">
+    <div class="warning-title" *ngIf="popupTitle">
+      {{ popupTitle | translate }}
+    </div>
+    <div class="warning-subtitle" *ngIf="popupSubtitle">
+      {{ popupSubtitle | translate }}
+    </div>
+  </div>
+  <div class="buttons-container">
+    <button class="secondary-global-button" (click)="userReply(false)">
+      {{ popupCancel | translate }}
+    </button>
+    <button class="primary-global-button" (click)="userReply(true)">
+      {{ popupConfirm | translate }}
+    </button>
+  </div>
+</div>

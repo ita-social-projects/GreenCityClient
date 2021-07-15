@@ -1,0 +1,15 @@
+<div id="swiper-wrapper">
+  <h2 class="section-caption">{{ 'homepage.eco-advices.caption' | translate }}</h2>
+
+  <swiper class="swiper-container" [config]="config">
+    <app-tips-card *ngFor="let tip of tips" class="swiper-slide" [tip]="tip"></app-tips-card>
+  </swiper>
+</div>
+<div id="nav-row">
+  <button class="button-prev tips-navigation primary-global-button" aria-label="next tip">
+    <em class="arrow fas fa-chevron-left"></em>
+  </button>
+  <button class="button-next tips-navigation primary-global-button" aria-label="previous tip">
+    <em class="arrow fas fa-chevron-right"></em>
+  </button>
+</div>

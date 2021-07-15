@@ -1,0 +1,21 @@
+<div class="container">
+  <a class="profile-link" [routerLink]="['/profile', userId]">&lt;{{ 'profile.friends.link-to-profile' | translate }}</a>
+  <div class="friends">
+    <h1>{{ 'profile.friends.friends' | translate }}</h1>
+    <div>
+      <a [routerLink]="['/profile', userId, 'friends']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        {{ 'profile.friends.all-friends' | translate }}</a
+      >
+      <a
+        [routerLink]="['/profile', userId, 'friends', 'recommended']"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >{{ 'profile.friends.search-friends' | translate }}</a
+      >
+      <a [routerLink]="['/profile', userId, 'friends', 'requests']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{
+        'profile.friends.requests' | translate
+      }}</a>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>

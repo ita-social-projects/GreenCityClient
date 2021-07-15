@@ -1,0 +1,40 @@
+.right-cards {
+  .card {
+    width: 100%;
+    color: var(--primary-white);
+    text-align: left;
+    padding: 16px 16px 0 16px;
+    margin-top: 24px;
+    border-radius: 4px;
+    background: var(--primary-green);
+    box-shadow: 1px 4px 8px var(--quintynary-dark-grey);
+
+    .cart-title {
+      font-family: var(--secondary-font);
+      font-style: normal;
+      font-weight: 600;
+      font-size: 13px;
+      line-height: 16px;
+      margin-bottom: 8px;
+    }
+
+    .card-description {
+      font-size: 11px;
+      line-height: 16px;
+      font-family: var(--quaternary-font);
+      align-items: center;
+    }
+
+    .shape-img {
+      img {
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 55px;
+        user-select: none;
+      }
+    }
+  }
+}

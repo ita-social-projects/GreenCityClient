@@ -1,0 +1,88 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  height: 28px;
+
+  .custom-pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    .page-number {
+      margin: 0 40px 0 0;
+    }
+
+    .page-number.current {
+      height: 28px;
+      min-width: 32px;
+      background: var(--primary-green) !important;
+      border-radius: 4px;
+    }
+
+    .page-number a {
+      display: block;
+      height: 28px;
+      font-family: var(--primary-font);
+      font-size: 21px;
+      line-height: 28px;
+      color: var(--primary-dark-grey);
+      cursor: pointer;
+    }
+
+    .page-number.current a {
+      padding: 0 9px 0 9px;
+      color: #fff;
+    }
+
+    .page-number a:hover {
+      color: var(--primary-green);
+    }
+
+    .page-number a:active {
+      color: var(--secondary-dark-green);
+    }
+
+    .page-number.current a:hover {
+      color: #fff;
+    }
+
+    .pagination-previous,
+    .pagination-next {
+      display: inline-block;
+      font-weight: bold;
+      cursor: pointer;
+
+      .previous-btn,
+      .previous-btn-disabled,
+      .next-btn,
+      .next-btn-disabled {
+        margin-right: 40px;
+        width: 8px;
+        height: 12px;
+      }
+
+      .next-btn,
+      .next-btn-disabled {
+        margin-right: 0;
+      }
+
+      .previous-btn {
+        background: url('~/assets/img/comments/arrow-previous.svg') no-repeat center;
+      }
+
+      .previous-btn-disabled {
+        background: url('~/assets/img/comments/arrow-previous-disable.svg') no-repeat center;
+      }
+
+      .next-btn-disabled {
+        background: url('~/assets/img/comments/arrow-next-disable.svg') no-repeat center;
+      }
+
+      .next-btn {
+        background: url('~/assets/img/comments/arrow-next.svg') no-repeat center;
+      }
+    }
+  }
+}

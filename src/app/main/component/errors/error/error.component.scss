@@ -1,0 +1,22 @@
+.error-wrapper {
+  width: 530px;
+  background-color: var(--error-ligh-red);
+  border-radius: 3px;
+  display: flex;
+  justify-content: space-around;
+
+  p {
+    color: #fff;
+    font-family: var(--primary-font);
+    font-size: 16px;
+    line-height: 24px;
+    padding: 10px 0 0 15px;
+  }
+
+  img {
+    width: 12px;
+    height: 12px;
+    margin: 15px 15px 0 0;
+    cursor: pointer;
+  }
+}

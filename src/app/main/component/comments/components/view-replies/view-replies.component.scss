@@ -1,0 +1,32 @@
+.cta-btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: right;
+  border: none;
+  background-color: #fff;
+  padding: 0;
+  outline: none;
+
+  .btn-text {
+    margin-right: 5px;
+    font-family: var(--primary-font);
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--secondary-grey);
+    mix-blend-mode: normal;
+    white-space: nowrap;
+  }
+}
+
+.view {
+  height: 40px;
+}
+
+@media screen and (max-width: 992px) {
+  .cta-btn {
+    .btn-text {
+      font-size: 12px;
+    }
+  }
+}

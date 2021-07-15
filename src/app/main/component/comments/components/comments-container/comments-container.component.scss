@@ -1,0 +1,33 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.spinner {
+  margin: 40px auto 0;
+
+  &::ng-deep circle {
+    stroke: var(--secondary-dark-green);
+  }
+}
+
+.list {
+  width: 100%;
+}
+
+.counter {
+  p {
+    font-family: var(--secondary-font);
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 35px;
+    color: var(--secondary-dark-grey);
+    margin-bottom: 18px;
+  }
+
+  hr {
+    background: #e6e6e6;
+    margin-top: 0;
+    margin-bottom: 32px;
+  }
+}

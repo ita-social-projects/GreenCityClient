@@ -1,12 +1,12 @@
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
-
 export const environment = {
   production: false,
   apiKeys: 'AIzaSyDanBliCzAuCZrsq67FeKEs3vqAilUD_is',
+  apiMapKey: 'AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4',
   backendLink: 'https://greencity.azurewebsites.net/',
+  backendUserLink: 'https://greencity-user.azurewebsites.net/',
+  backendUbsLink: 'https://greencity-ubs.azurewebsites.net',
   frontendLink: 'http://localhost:4200/GreenCityClient',
+  socket: 'https://greencity.azurewebsites.net/socket',
   firebaseConfig: {
     apiKey: 'AIzaSyDSVxahTHqdffRX2upKIMXCCjEBUYoHX8E',
     authDomain: 'greencity-9bdb7.firebaseapp.com',
@@ -16,13 +16,11 @@ export const environment = {
     messagingSenderId: '3763960182',
     appId: '1:3763960182:web:44462764adbc05beb72257',
     measurementId: 'G-CCHRKQ4R0S'
-  }
+  },
+  ubsAdmin: {
+    backendEmployeesLink: 'https://greencity-ubs.azurewebsites.net/admin/ubs-employee/getAll-employees',
+    backendUbsAdminLink: 'https://greencity-ubs.azurewebsites.net/ubs'
+  },
+  googleClientId: '129513550972-eu9ej46rviv1ac8q14at62t2k5qon1pu.apps.googleusercontent.com',
+  agmCoreModuleApiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI'
 };
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.

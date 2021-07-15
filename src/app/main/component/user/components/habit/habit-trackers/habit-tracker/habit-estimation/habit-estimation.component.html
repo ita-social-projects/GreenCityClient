@@ -1,0 +1,11 @@
+<div class="col-xl-6">
+  <div class="tracked-habit-statistic">
+    <h5>{{ 'habit-message.' + habit.habitDictionary.image | translate }}</h5>
+    <app-habit-item-list [habitDto]="habit" [habitStatistic]="statistic"></app-habit-item-list>
+    <h6 class="estimation-message">{{ 'user.habit-statistic.habit-statistic.how-do-you-estimate-today' | translate }}</h6>
+    <app-day-estimation [habitStatisticsDto]="statistic" [habitDto]="habit"></app-day-estimation>
+    <div class="habit-advice-margin">
+      <app-advice [habitDictionary]="habit.habitDictionary"></app-advice>
+    </div>
+  </div>
+</div>

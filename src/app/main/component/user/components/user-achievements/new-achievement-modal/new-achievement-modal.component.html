@@ -1,0 +1,15 @@
+<div class="add-achievement-modal" [style.display]="visible ? 'block' : 'none'" [style.visible]="visible ? 'visible' : 'hidden'">
+  <div class="add-achievement-modal-bg">
+    <div class="add-achievement-modal-window">
+      <div class="achievement-photo">
+        <div class="achievements-item-outside">
+          <img [src]="achieve" alt="" />
+        </div>
+      </div>
+      <h3>{{ achievement.message }}</h3>
+      <div class="button-row">
+        <button class="button-ok" (click)="hideAchievementModal()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>

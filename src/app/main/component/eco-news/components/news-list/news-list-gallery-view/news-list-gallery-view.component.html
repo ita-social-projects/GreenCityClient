@@ -1,0 +1,32 @@
+<div class="list-gallery" role="link">
+  <img class="list-image-content" [src]="checkNewsImage()" alt="user added image" />
+  <div class="list-gallery-content">
+    <div class="filter-tag">
+      <div class="ul-eco-buttons" *ngFor="let tag of ecoNewsModel.tags">
+        {{ tag }}
+      </div>
+    </div>
+    <div class="added-data">
+      <div class="title-list word-wrap">
+        <h3>
+          {{ ecoNewsModel.title }}
+        </h3>
+      </div>
+      <div class="list-text word-wrap">
+        <p>
+          {{ ecoNewsModel.text }}
+        </p>
+      </div>
+    </div>
+    <div class="user-data-added-news">
+      <p class="user-data-text-date">
+        <img class="icon" [src]="profileIcons.calendarIcon" alt="calendar icon" />
+        {{ ecoNewsModel.creationDate | date }}
+      </p>
+      <p class="user-data-text-date">
+        <img class="icon" [src]="profileIcons.userIcon" alt="user icon" />
+        {{ ecoNewsModel.author.name }}
+      </p>
+    </div>
+  </div>
+</div>

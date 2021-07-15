@@ -1,0 +1,73 @@
+<form [formGroup]="addAddressForm" class="row adress">
+  <div class="col-md-6 col-sm-6 form-group">
+    <label>{{ 'personal-info.pop-up-city' | translate }}</label>
+    <select formControlName="city" class="shadow-none form-control">
+      <option *ngFor="let city of cities" [value]="city.cityName">{{ city.cityName }}</option>
+    </select>
+    <div class="w-100 city-notice">
+      {{ 'personal-info.pop-up-info-message' | translate }}
+    </div>
+  </div>
+  <div class="col-md-6 col-sm-6 form-group">
+    <label>{{ 'personal-info.pop-up-district' | translate }}</label>
+    <input
+      formControlName="district"
+      class="shadow-none form-control"
+      [attr.disabled]="districtDisabled ? true : null"
+      placeholder="{{ 'personal-info.pop-up-enter-you-location' | translate }}"
+    />
+    <div class="validation" *ngIf="district.invalid && addAddressForm.get('district').touched">
+      <app-ubs-input-error [formElement]="district" [controlName]="'district'"></app-ubs-input-error>
+    </div>
+  </div>
+  <div class="col-lg-6 col-md-12 col-sm-12 form-group">
+    <label>{{ 'personal-info.pop-up-street' | translate }}</label>
+    <input
+      id="auto"
+      ngx-google-places-autocomplete
+      formControlName="street"
+      type="text"
+      class="shadow-none form-control"
+      (onAddressChange)="onDistrictSelected($event)"
+      [options]="options"
+      (change)="onChange()"
+      [attr.disabled]="addAddressForm.controls['city'].dirty ? null : true"
+      placeholder="{{ 'personal-info.pop-up-enter-you-location' | translate }}"
+      [pattern]="streetPattern"
+    />
+    <div class="validation" *ngIf="street.invalid && addAddressForm.get('street').touched">
+      <app-ubs-input-error [formElement]="street" [streetFieldValue]="street.value" [controlName]="'street'"></app-ubs-input-error>
+    </div>
+  </div>
+  <div class="row col-md-12 col-sm-12 col-lg-6 d-flex justify-content-between flex-wrap form-group">
+    <div class="item col-sm-4">
+      <label>Будинок</label>
+      <input formControlName="houseNumber" type="text" class="shadow-none form-control" />
+      <div class="validation" *ngIf="houseNumber.invalid && houseNumber.touched">
+        <app-ubs-input-error [formElement]="houseNumber" [controlName]="'houseNumber'"></app-ubs-input-error>
+      </div>
+    </div>
+    <div class="item col-sm-4">
+      <label>{{ 'personal-info.pop-up-corps' | translate }}</label>
+      <input formControlName="houseCorpus" type="text" class="shadow-none form-control" />
+      <div class="validation" *ngIf="houseCorpus.invalid && houseCorpus.touched">
+        <app-ubs-input-error [formElement]="houseCorpus" [controlName]="'houseCorpus'"></app-ubs-input-error>
+      </div>
+    </div>
+    <div class="item col-sm-4">
+      <label>{{ 'personal-info.pop-up-entrance' | translate }}</label>
+      <input formControlName="entranceNumber" type="text" class="shadow-none form-control" />
+      <div class="validation" *ngIf="entranceNumber.invalid && entranceNumber.touched">
+        <app-ubs-input-error [formElement]="entranceNumber" [controlName]="'entranceNumber'"></app-ubs-input-error>
+      </div>
+    </div>
+  </div>
+</form>
+<div class="d-flex justify-content-end" mat-dialog-actions>
+  <button class="secondary-global-button btn m-0 mr-2" mat-button (click)="onNoClick()">
+    {{ 'personal-info.pop-up-cancel' | translate }}
+  </button>
+  <button class="primary-global-button btn m-0" (click)="addAdress()">
+    {{ (data.edit ? 'personal-info.pop-up-save-changes' : 'personal-info.pop-up-add-address') | translate }}
+  </button>
+</div>

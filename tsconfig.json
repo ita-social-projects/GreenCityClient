@@ -10,34 +10,28 @@
     "module": "esnext",
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2015",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2018",
-
-      "dom"
-
-    ],
+    "target": "es5",
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2018", "dom"],
     "paths": {
-      "@global-auth/*": ["src/app/component/auth/components/*"],
-      "@global-core/*": ["src/app/component/core/*"],
-      "@eco-news-models/*": ["src/app/component/eco-news/models/*"],
-      "@eco-news-service/*": ["src/app/component/eco-news/services/*"],
-      "@eco-news-store/*": ["src/app/component/eco-news/store/*"],
-      "@shared/*": ["src/app/component/shared/*"],
-      "@global-user/*": ["src/app/component/user/*"],
-      "@user-models/*": ["src/app/component/user/models/*"],
+      "@global-auth/*": ["src/app/main/component/auth/components/*"],
+      "@global-core/*": ["src/app/main/component/core/*"],
+      "@eco-news-models/*": ["src/app/main/component/eco-news/models/*"],
+      "@eco-news-service/*": ["src/app/main/component/eco-news/services/*"],
+      "@global-errors/*": ["src/app/main/component/errors/*"],
+      "@home-models/*": ["src/app/main/component/home/models/*"],
+      "@shared/*": ["src/app/main/component/shared/*"],
+      "@global-user/*": ["src/app/main/component/user/*"],
+      "@user-models/*": ["src/app/main/component/user/models/*"],
       "@language-service/*": ["src/app/i18n/*"],
-      "@global-models/*": ["src/app/model/*"],
-      "@global-service/*": ["src/app/service/*"],
-      "@auth-service/*": ["src/app/service/auth/*"],
-      "@store/*": ["src/app/store/*"],
+      "@global-models/*": ["src/app/main/model/*"],
+      "@global-service/*": ["src/app/main/service/*"],
+      "@auth-service/*": ["src/app/main/service/auth/*"],
       "@global-images/*": ["src/assets/img/*"],
       "@eco-news-images/*": ["src/assets/img/icon/econews/*"],
       "@footer-images/*": ["src/assets/img/icon/footer/*"],
-      "@environment/*": ["src/environments/*"]
+      "@environment/*": ["src/environments/*"],
+      "@pipe/*": ["src/app/main/pipe/*"]
     }
   },
   "angularCompilerOptions": {

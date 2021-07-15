@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row align-items-center">
+    <div class="col-9 d-flex justify-content-around nopadding">
+      <app-habit-item
+        *ngFor="let item of getCollapsed()"
+        (click)="update(item)"
+        [habitItem]="item"
+        (mouseout)="drawCurrentNumberItems()"
+        (mouseover)="setAllActive(item.numb)"
+      >
+      </app-habit-item>
+    </div>
+    <div *ngIf="!isExpanded" class="col-3 text-center">
+      <span class="align-self-center" (click)="expand()"> {{ 'user.habit-statistic.habit-item-list.more' | translate }}&#8594;</span>
+    </div>
+  </div>
+
+  <div *ngIf="isExpanded" class="row align-items-center">
+    <div class="col-9 d-flex justify-content-around nopadding">
+      <app-habit-item
+        *ngFor="let item of getExpanded()"
+        (click)="update(item)"
+        [habitItem]="item"
+        (mouseout)="drawCurrentNumberItems()"
+        (mouseover)="setAllActive(item.numb)"
+      >
+      </app-habit-item>
+    </div>
+    <div *ngIf="isExpanded" class="col-3 text-center nopadding">
+      <span *ngIf="isExpanded" class="align-self-center" (click)="collapse()">
+        &#8592;{{ 'user.habit-statistic.habit-item-list.less' | translate }}</span
+      >
+    </div>
+  </div>
+</div>

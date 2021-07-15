@@ -1,0 +1,71 @@
+<main role="main" id="main-content">
+  <div class="container" *ngIf="newsItem">
+    <div class="top-elements">
+      <div class="back-button">
+        <a [routerLink]="['/news']" class="button-link">
+          <div class="button-content">
+            <div class="button-arrow">
+              <img [src]="images.arrowLeft" aria-hidden="true" alt="arrow" class="button-arrow-img" />
+            </div>
+            <div class="button-text">{{ 'eco-news-single-view.back-button' | translate }}</div>
+          </div>
+        </a>
+      </div>
+      <a [routerLink]="['/news/create-news']" [queryParams]="{ id: newsItem.id }">
+        <div class="edit-news" *ngIf="newsItem.author.id === userId">
+          {{ 'eco-news-single-view.edit-news-button' | translate }}
+        </div>
+      </a>
+    </div>
+    <div class="tags">
+      <div class="tags-item" *ngFor="let tag of newsItem.tags">
+        {{ tag }}
+      </div>
+    </div>
+    <div class="news-content">
+      <div class="news-title-container">
+        <div class="news-title word-wrap">
+          {{ newsItem.title }}
+        </div>
+      </div>
+      <div class="news-info">
+        <div class="news-info-date">{{ newsItem.creationDate | dateLocalisation }}</div>
+        <div class="news-info-dot">
+          <img [src]="images.ellipse" alt="dot" />
+        </div>
+        <div class="news-info-author">{{ 'eco-news-single-view.author' | translate }} {{ newsItem.author.name }}</div>
+      </div>
+      <img [src]="checkNewsImage()" alt="news-image" class="news-image-img" />
+      <div class="news-text-container">
+        <div class="news-links-images">
+          <a (click)="onSocialShareLinkClick('twitter')">
+            <img [src]="images.twitter" alt="twitter" class="news-links-img" />
+          </a>
+          <!-- not sure what will work on the local host or on the github pages -->
+          <a (click)="onSocialShareLinkClick('linkedin')">
+            <img [src]="images.linkedIn" alt="linkedin" class="news-links-img" />
+          </a>
+          <!-- More FB parameters will be taken from OG meta tags -->
+          <a (click)="onSocialShareLinkClick('fb')">
+            <img [src]="images.facebook" alt="facebook" class="news-links-img last-img" />
+          </a>
+        </div>
+        <div class="news-text">
+          <div class="news-text-content word-wrap">
+            {{ newsItem.text }}
+          </div>
+          <div class="source-field" *ngIf="newsItem?.text">
+            <div class="source-title">
+              {{ 'eco-news-single-view.news-source' | translate }}
+            </div>
+            <a href="{{ newsItem?.text }}" class="source-text word-wrap">
+              {{ newsItem?.source }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <app-eco-news-widget></app-eco-news-widget>
+    <app-comments-container></app-comments-container>
+  </div>
+</main>

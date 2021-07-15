@@ -1,0 +1,143 @@
+.cont {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+div hr {
+  margin: 4px 0 18px 0;
+}
+
+.main-header {
+  font-family: var(--secondary-font);
+  font-size: 55px;
+  line-height: 48px;
+  width: 256px;
+  white-space: nowrap;
+  font-weight: 500;
+  margin: 0 0 34px -3px;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.app-create-news {
+  top: -10px;
+}
+
+.main-wrapper {
+  margin-bottom: 42px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.list-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .list {
+    list-style: none;
+    padding-left: 0;
+  }
+}
+
+.gallery-view-active {
+  display: grid;
+  grid-template-columns: repeat(3, 359px);
+  grid-gap: 32px;
+}
+
+.list-view-li-active {
+  margin-bottom: 32px;
+}
+
+li:focus {
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+#create-button {
+  border-radius: 5px;
+  line-height: 16px;
+  width: 183px;
+  min-height: 40px;
+  padding: 8px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#create-button span {
+  display: block;
+  height: 16px;
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 1199px) {
+  .wrapper {
+    margin: 0 3%;
+  }
+
+  .gallery-view-active {
+    grid-template-columns: repeat(3, 299px);
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .wrapper {
+    margin: 0 2.43%;
+  }
+
+  .gallery-view-active {
+    grid-template-columns: repeat(2, 353px);
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .wrapper {
+    margin: 0 1.95%;
+  }
+
+  .gallery-view-active {
+    grid-template-columns: repeat(2, 258px);
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .wrapper {
+    margin: 0 2.4%;
+  }
+
+  .main-header {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .gallery-view-active {
+    grid-template-columns: repeat(1, 288px);
+    grid-gap: 24px;
+  }
+
+  #create-button {
+    width: 122px;
+    min-height: 32px;
+    padding: 0;
+
+    span {
+      font-size: 12px;
+      line-height: 12px;
+    }
+  }
+}
+
+@media (min-width: 576px) {
+  .container {
+    padding: 0;
+  }
+}

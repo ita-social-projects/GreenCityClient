@@ -1,0 +1,49 @@
+<div class="stat-row">
+  <div *ngIf="index % 2 === 1; then imageLeft; else imageRight"></div>
+  <ng-template #imageLeft>
+    <div class="stat-row-image">
+      <div class="image-wrapper" [style.margin-left]="index % 2 === 1 ? 0 : 'auto'">
+        <img [src]="stat.iconPath" alt="stat-icon" aria-hidden="true" />
+      </div>
+    </div>
+    <div class="stat-row-content">
+      <div class="content-wrapper" [style.margin-right]="index % 2 === 1 ? 0 : 'auto'">
+        <h3>
+          {{ 'homepage.stats.bag-stat-before' | translate }}
+          <span>{{ stat.count }}</span>
+          {{ 'homepage.stats.bag-stat-after' | translate }}
+        </h3>
+        <p>{{ 'homepage.stats.bag-question' | translate }}</p>
+        <button class="button primary-global-button">{{ 'homepage.general.button-start-habit' | translate }}</button>
+        <div class="location-row">
+          <img [src]="locationImage" alt="location-image" aria-hidden="true" />
+          <a class="tertiary-global-button" routerLink="/places"> {{ 'homepage.stats.bag-link' | translate }}</a>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #imageRight>
+    <div class="stat-row-content">
+      <div class="content-wrapper" [style.margin-left]="index % 2 === 0 ? 0 : 'auto'">
+        <h3>
+          {{ 'homepage.stats.cup-stat-before' | translate }}
+          <span>{{ stat.count }}</span>
+          {{ 'homepage.stats.cup-stat-after' | translate }}
+        </h3>
+        <p>{{ 'homepage.stats.cup-question' | translate }}</p>
+        <button class="button primary-global-button">
+          {{ 'homepage.general.button-start-habit' | translate }}
+        </button>
+        <div class="location-row">
+          <img [src]="locationImage" alt="location-image" aria-hidden="true" />
+          <a class="tertiary-global-button" routerLink="/places"> {{ 'homepage.stats.cup-link' | translate }}</a>
+        </div>
+      </div>
+    </div>
+    <div class="stat-row-image">
+      <div class="image-wrapper" [style.margin-right]="index % 2 === 0 ? 0 : 'auto'">
+        <img [src]="stat.iconPath" alt="stat-icon" aria-hidden="true" />
+      </div>
+    </div>
+  </ng-template>
+</div>

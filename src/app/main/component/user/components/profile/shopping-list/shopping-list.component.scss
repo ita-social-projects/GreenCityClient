@@ -1,0 +1,146 @@
+$bp-smallest: 320px;
+$bp-phone: 576px;
+$bp-tablet: 768px;
+$bp-desktop: 1080px;
+$bp-largest: 1440px;
+
+.outer {
+  background-color: var(--primary-white);
+  display: flex;
+}
+
+.shoppingList-block {
+  padding: 20px;
+  border-top: 1px solid var(--quaternary-light-grey);
+  width: 100%;
+}
+
+.shopping-list-content {
+  margin: 0 auto;
+  font-family: var(--secondary-font);
+  font-style: normal;
+}
+
+.header-position {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.header {
+  text-align: left;
+  font-weight: 600;
+  font-size: 12px;
+  padding-bottom: 8px;
+}
+
+h2 > span {
+  color: var(--tertiary-light-grey);
+}
+
+.empty-list {
+  text-align: left;
+  font-size: 12px;
+  font-family: var(--secondary-font);
+  font-weight: 400;
+  font-style: normal;
+  line-height: 15px;
+  white-space: pre-wrap;
+}
+
+.items-count {
+  font-size: 0.8em;
+}
+
+.item {
+  list-style: none;
+  text-align: left;
+  width: 100%;
+  font-weight: normal;
+  font-size: 12px;
+  padding: 6px 0;
+  text-decoration: none;
+}
+
+.item-striked {
+  list-style: none;
+  text-align: left;
+  width: 100%;
+  font-weight: normal;
+  font-size: 12px;
+  padding: 6px 0;
+  text-decoration: line-through;
+}
+
+.shopping-list-min {
+  height: 100px;
+}
+
+.shopping-list-max {
+  height: max-content;
+}
+
+.shopping-list {
+  width: 100%;
+  padding: 5px 0 0 0;
+  overflow-y: hidden;
+
+  li {
+    display: flex;
+
+    span {
+      margin-right: 5px;
+      display: block;
+      overflow: hidden;
+      white-space: nowrap;
+      overflow-wrap: break-word;
+      text-overflow: ellipsis;
+      width: 80%;
+    }
+  }
+}
+
+.btn-see-all {
+  text-decoration: none;
+  font-weight: normal;
+  font-size: 12px;
+}
+
+.checkbox {
+  float: right;
+}
+
+::ng-deep .mat-checkbox .mat-checkbox-frame {
+  border: 1px solid #e1e1e1;
+}
+
+::ng-deep .mat-checkbox-checked .mat-checkbox-background {
+  background-color: green !important;
+}
+
+.mat-spinner circle,
+::ng-deep.mat-progress-spinner circle {
+  stroke: rgb(226, 226, 226) !important;
+}
+
+.loading {
+  margin: 0 auto;
+}
+
+@media only screen and (max-width: $bp-desktop) {
+  .header,
+  .text-number {
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .text-more {
+    font-size: 11px;
+    line-height: 13px;
+  }
+
+  .item {
+    font-size: 11px;
+    line-height: 16px;
+  }
+}

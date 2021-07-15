@@ -1,0 +1,40 @@
+{
+  "ubs-client-profile": {
+    "data": "User Data",
+    "message-if-edit": "Please fill in your profile to make the ordering process as fast and convenient as possible",
+    "personal": "Personal",
+    "name": "Name",
+    "surname": "Surname",
+    "contacts": "Contacts",
+    "email": "email",
+    "phone": "phone",
+    "address": "Address",
+    "city": "City",
+    "street": "Street",
+    "house": "House",
+    "corpus": "Corpus",
+    "entrance": "Entrance",
+    "district": "District",
+    "account": "Connection with social networks",
+    "account-message": "Connect to Google account",
+    "additional": "Additional actions",
+    "change-password": "Change password",
+    "old-password": "enter the old password",
+    "new-password": "enter the new password",
+    "repeat-password": "repeat the new password",
+    "password-error-confirm": "Passwords do not match!",
+    "password-error-new": "Enter the new password!",
+    "delete-title": "Delete profile",
+    "delete-message": "If you delete your profile, your bonuses will burn out and your order information will be deleted without the possibility of recovery",
+    "btn": {
+      "edit": "Edit",
+      "cancel": "Discard changes",
+      "save": "Save changes",
+      "change-password": "Change password",
+      "change-password-cancel": "Cancel",
+      "delete-profile": "Delete profile",
+      "delete-profile-cancel": "Back",
+      "delete-profile-save": "Delete"
+    }
+  }
+}

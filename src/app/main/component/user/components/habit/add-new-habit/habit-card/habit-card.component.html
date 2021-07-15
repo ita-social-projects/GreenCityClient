@@ -1,0 +1,34 @@
+<div
+  [ngClass]="{
+    'habit-status-active': habit.status === true && !hovered,
+    'habit-status-hovered': habit.status === true && hovered,
+    hidden: habit.status !== true
+  }"
+  (mouseover)="this.hovered = true"
+  (mouseout)="this.hovered = false"
+  (click)="onDeleteClicked()"
+>
+  <img class="corner-image" alt="corner-image" [src]="hovered ? delete : check" />
+</div>
+<app-confirmation-modal
+  [habit]="{ id: this.habit.id, name: this.habit.name }"
+  [style.visible]="this.confirmationVisible ? 'visible' : 'hidden'"
+  [style.display]="this.confirmationVisible ? 'block' : 'none'"
+  (canceled)="onDeleteCanceled($event)"
+>
+</app-confirmation-modal>
+<div class="deletion-hint" [style.visible]="this.hintVisible ? 'visible' : 'hidden'" [style.display]="this.hintVisible ? 'block' : 'none'">
+  {{ 'user.habit.add-new-habit.cant-delete-last-hint' | translate }}
+</div>
+<div class="habit-card" [ngStyle]="setActiveStyles()" (mouseover)="this.hovered = true" (mouseout)="this.hovered = false">
+  <div class="habit-card-icon-wrapper">
+    <div class="habit-card-icon"></div>
+  </div>
+  <div class="habit-card-text-wrapper">
+    <h5 class="habit-card-caption">{{ habit.name }}</h5>
+    <p class="habit-card-text">{{ habit.description }}</p>
+  </div>
+  <div class="habit-cart-drag">
+    <img class="habit-cart-drag-image" alt="habit-card-image" />
+  </div>
+</div>

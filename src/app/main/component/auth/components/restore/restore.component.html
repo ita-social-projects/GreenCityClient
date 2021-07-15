@@ -1,0 +1,9 @@
+<div>
+  <label>{{ 'user.restore.email' | translate }} </label>
+  <input class="form-control email" name="email" [(ngModel)]="email" minlength="1" email="true" />
+  <div class="btn-wrp">
+    <button [matDialogClose]="true" class="btn btn-primary submit" type="submit" (click)="sentEmail()">
+      {{ 'user.restore.submit' | translate }}
+    </button>
+  </div>
+</div>

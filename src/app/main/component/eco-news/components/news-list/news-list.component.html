@@ -1,0 +1,53 @@
+<main role="main" id="main-content">
+  <div class="container">
+    <div (window:resize)="onResize()">
+      <div class="cont">
+        <h1 class="main-header">{{ 'homepage.eco-news.title' | translate }}</h1>
+        <a [routerLink]="['create-news']" *ngIf="isLoggedIn">
+          <div id="create-button" class="secondary-global-button">
+            <span id="create-button-text">{{ 'homepage.eco-news.create' | translate }}</span>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div>
+      <div class="flex-container">
+        <app-tag-filter
+          (tagsList)="getFilterData($event)"
+          [header]="'homepage.eco-news.filter'"
+          [storageKey]="'EcoNews-filter'"
+          [tagsListData]="tagList"
+        ></app-tag-filter>
+      </div>
+      <hr />
+    </div>
+
+    <div class="main-wrapper">
+      <app-remaining-count [remainingCount]="remaining"></app-remaining-count>
+      <app-change-view-button (view)="changeView($event)"></app-change-view-button>
+    </div>
+    <div class="list-wrapper">
+      <ul class="list" *ngIf="remaining" [ngClass]="{ 'gallery-view-active': view }">
+        <li
+          [ngClass]="{
+            'gallery-view-li-active': view,
+            'list-view-li-active': !view
+          }"
+          *ngFor="let data of elements"
+          [routerLink]="['/news', data.id]"
+        >
+          <app-news-list-gallery-view *ngIf="view" [ecoNewsModel]="data"> </app-news-list-gallery-view>
+          <app-news-list-list-view *ngIf="!view" [ecoNewsModel]="data"> </app-news-list-list-view>
+        </li>
+      </ul>
+    </div>
+    <app-spinner *ngIf="elementsArePresent"></app-spinner>
+    <app-no-data
+      *ngIf="!elementsArePresent && remaining === 0"
+      [text]="'homepage.eco-news.empty-state.no-news-advice'"
+      [title]="'homepage.eco-news.empty-state.no-news'"
+    >
+    </app-no-data>
+    <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
+  </div>
+</main>

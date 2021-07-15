@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "firstName": "Lolita",
+    "lastName": "Kovacek",
+    "email": "Mohammed_Kub@hotmail.com",
+    "password": "_8bg9nGxVGNHe4R",
+    "dateOfRegestration": "2019-10-20T17:52:03.898Z"
+  },
+  {
+    "id": 2,
+    "firstName": "Delaney",
+    "lastName": "O'Connell",
+    "email": "Dorcas.Welch@gmail.com",
+    "password": "UnIrCKltj83Uawr",
+    "dateOfRegestration": "2020-01-18T11:02:19.740Z"
+  },
+  {
+    "id": 3,
+    "firstName": "Zula",
+    "lastName": "Larkin",
+    "email": "Carter51@gmail.com",
+    "password": "IBPqbc7XaA6Guh7",
+    "dateOfRegestration": "2020-10-01T04:03:07.467Z"
+  },
+  {
+    "id": 4,
+    "firstName": "Milo",
+    "lastName": "Fay",
+    "email": "Nedra45@gmail.com",
+    "password": "HHl_YQijrfnuLDU",
+    "dateOfRegestration": "2019-11-19T22:48:38.672Z"
+  },
+  {
+    "id": 5,
+    "firstName": "Wellington",
+    "lastName": "Feest",
+    "email": "Kristin_Hartmann29@yahoo.com",
+    "password": "zkAISEUnrxYt3ru",
+    "dateOfRegestration": "2019-12-11T14:46:50.475Z"
+  }
+]

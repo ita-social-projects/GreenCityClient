@@ -1,0 +1,66 @@
+::ng-deep .mat-step-header {
+  .mat-step-label {
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: bold;
+  }
+
+  .mat-step-label.mat-step-label-active {
+    color: var(--ubs-secondary-grey);
+  }
+
+  .mat-step-label.mat-step-label-selected {
+    color: var(--primary-green);
+  }
+
+  .mat-step-icon {
+    background-color: var(--ubs-quaternary-light-grey);
+  }
+
+  .mat-step-icon-selected,
+  .mat-step-icon-state-edit {
+    background-color: var(--primary-green);
+  }
+
+  .mat-step-icon-state-number {
+    color: var(--ubs-secondary-grey);
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .mat-step-icon-state-number.mat-step-icon-selected {
+    color: var(--ubs-primary-white);
+  }
+
+  .mat-icon {
+    color: var(--ubs-secondary-grey);
+  }
+}
+
+.container {
+  padding: 0;
+}
+
+.form-title {
+  margin: -35px 0 35px 0;
+  color: var(--ubs-primary-grey);
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+  ::ng-deep.mat-step-header {
+    .mat-step-label {
+      font-size: 13px;
+      line-height: 13px;
+    }
+  }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  ::ng-deep.mat-step-header {
+    .mat-step-label {
+      font-size: 9px;
+      line-height: 9px;
+      white-space: break-spaces;
+    }
+  }
+}

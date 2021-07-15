@@ -1,0 +1,32 @@
+:host {
+  width: 100%;
+}
+
+.google-sign-in {
+  display: flex;
+  padding: 0;
+  height: 40px;
+  width: 100%;
+  background: #fff;
+  border: 0;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.24);
+  border-radius: 3px;
+}
+
+.google-sign {
+  align-self: center;
+  padding-left: 10px;
+}
+
+.google-text-sign-in {
+  align-self: center;
+  font-family: var(--tertiary-font);
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.21875px;
+  color: var(--primary-dark-grey);
+  width: 100%;
+  margin-left: -34px;
+}

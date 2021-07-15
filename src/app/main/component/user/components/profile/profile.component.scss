@@ -1,0 +1,103 @@
+.profile-wrapper {
+  margin-top: -95px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-row-gap: 32px;
+  background-color: var(--after-primary-light-grey);
+
+  .left-column {
+    width: 100%;
+    box-shadow: 4px 0 8px -4px var(--quintynary-dark-grey);
+
+    .app-users-achievements,
+    .app-users-friends,
+    .app-eco-places,
+    .app-shopping-list {
+      display: none;
+    }
+  }
+
+  .habits-dashboard {
+    margin: 0 16px;
+  }
+
+  .right-column {
+    display: none;
+  }
+}
+
+@media (min-width: 576px) {
+  .profile-wrapper {
+    .habits-dashboard {
+      margin: 0 14px;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .profile-wrapper {
+    grid-template-columns: 225px 483px;
+    grid-template-rows: 156px 1fr;
+    grid-gap: 32px;
+    justify-content: center;
+
+    .left-column {
+      width: 100%;
+      grid-area: 1 / 1 / 3 / 2;
+
+      .app-users-achievements,
+      .app-users-friends,
+      .app-eco-places,
+      .app-shopping-list {
+        display: block;
+      }
+    }
+
+    .habits-dashboard {
+      margin: 0;
+      grid-area: 2 / 2 / 3 / 3;
+    }
+
+    .right-column {
+      display: block;
+      grid-area: 1 / 2 / 2 / 3;
+
+      .app-profile-cards {
+        display: none;
+      }
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  .profile-wrapper {
+    grid-template-columns: 216px 464px 216px;
+    grid-template-rows: 1fr;
+
+    .left-column {
+      grid-area: 1 / 1 / 2 / 2;
+      margin-bottom: 5px;
+    }
+
+    .habits-dashboard {
+      grid-area: 1 / 2 / 2 / 3;
+      margin-top: 26px;
+    }
+
+    .right-column {
+      grid-area: 1 / 3 / 2 / 4;
+      margin-top: 54px;
+
+      .app-profile-cards {
+        display: block;
+        box-shadow: 1px 4px 8px var(--quintynary-dark-grey);
+      }
+    }
+  }
+}
+
+@media (min-width: 1200px) {
+  .profile-wrapper {
+    grid-template-columns: 261px 554px 261px;
+  }
+}

@@ -44,13 +44,24 @@
         "lifehacks": "Lifehacks"
       },
       "items-found": "items found",
+      "news-popup": {
+        "title": "All created content will be lost.",
+        "subtitle": "Do you still want to cancel news creating?",
+        "cancel": "Continue editing",
+        "confirm": "Yes, cancel"
+      },
       "comment": {
         "comment": "Comment",
         "comments": {
           "zero-comment": "comment",
           "one-comment": "comment",
           "more-then-two-comments": "comments",
-          "more-then-four-comments": "сomments"
+          "more-then-four-comments": "comments"
+        },
+        "comment-popup": {
+          "title": "Are you sure you want to delete the comment?",
+          "confirm": "Yes, delete",
+          "cancel": "Cancel"
         },
         "reply": "Reply",
         "replies": {
@@ -58,6 +69,11 @@
           "one-reply": "reply",
           "more-then-two-replies": "replies",
           "more-then-four-replies": "replies"
+        },
+        "reply-popup": {
+          "title": "Are you sure you want to delete the reply?",
+          "confirm": "Yes, delete",
+          "cancel": "Cancel"
         },
         "btn": {
           "reply": "Reply",
@@ -67,7 +83,7 @@
           "edit": "Edit",
           "edited": "edited",
           "delete": "Delete",
-          "save": "Save",
+          "save": "Save changes",
           "close": "Close",
           "cancel": "Cancel"
         },
@@ -76,7 +92,12 @@
           "add-a-reply": "Add a reply",
           "new-comment": "Enter your new comment"
         },
-        "view": "View"
+        "view": "View",
+        "hide": "Hide"
+      },
+      "empty-state": {
+        "no-news": "Unfortunately, no more news found",
+        "no-news-advice": "We couldn't find any more news. Please change filters to get another result."
       }
     },
     "eco-advices": {
@@ -92,21 +113,33 @@
     }
   },
   "search": {
-      "search-popup": {
-        "placeholder": "Search",
-        "items-found": "items found",
-        "news": "News",
-        "tips":"Tips & Tricks",
-        "all-results": "See all results"
-      },
-      "search-not-found": {
-        "not-found-text": "We couldn't find results for '{{searchQuery}}' Please change the search.",
-        "choose-alternative": "Maybe you can find some interesting stuff here:",
-        "alternative-header-news": "News",
-        "alternative-description-news": "Find the latest news, events and initiatives here. Find news and create ones.",
-        "alternative-header-tips": "Tips & Tricks",
-        "alternative-description-tips": "How to sort garbage? Where to find eco stuff? And many other useful stuff for being eco friendly."
-      }
+    "search-popup": {
+      "placeholder": "Search",
+      "items-found": "items found",
+      "news": "News",
+      "tips": "Tips & Tricks",
+      "see-all-news": "See all News",
+      "see-all-tips": "See all Tips & Tricks"
+    },
+    "search-not-found": {
+      "not-found-text": "We couldn't find results for '{{searchQuery}}' Please change the search.",
+      "choose-alternative": "Maybe you can find some interesting stuff here:",
+      "alternative-header-news": "News",
+      "alternative-description-news": "Find the latest news, events and initiatives here. Find news and create ones.",
+      "alternative-header-tips": "Tips & Tricks",
+      "alternative-description-tips": "How to sort garbage? Where to find eco stuff? And many other useful stuff for being eco friendly."
+    },
+    "search-all-results": {
+      "placeholder": "Search",
+      "items-found": "items found",
+      "news": "News",
+      "tips": "Tips & Tricks",
+      "sort": "Sort by:",
+      "filter": "Filter by:",
+      "relevance": "Relevance",
+      "oldest": "Oldest",
+      "newest": "Newest"
+    }
   },
   "admin-nav": {
     "places": "Places",
@@ -190,7 +223,13 @@
     "start": "start:",
     "end": "end:",
     "submit": "Submit",
-    "close": "Close"
+    "close": "Close",
+    "notifications": {
+      "exists": "Already exists",
+      "closeTime": "Closing time have to be later than opening time. Please, try again",
+      "breakTime": "Invalid break time",
+      "photoUpload": "Download PNG or JPG only. File size should be less than 10MB"
+    }
   },
   "users": {
     "users": "Users",
@@ -218,7 +257,8 @@
     "profile": "Profile",
     "user-settings": "Settings",
     "sign-out": "Sign out",
-    "sign-in": "Sign in"
+    "sign-in": "Sign in",
+    "management": "Management"
   },
   "admin": {
     "errorMessage": "Forbidden"
@@ -234,6 +274,23 @@
   "error": {
     "oops": "Oops!",
     "go-to-homepage": "Go To Homepage"
+  },
+  "snack-bar": {
+    "error": {
+      "default": "Oops, something went wrong. Please reload page or try again later.",
+      "restore-password-again": "The password reset link is no longer valid, please try to reset your password again"
+    },
+    "attention": {
+      "default": "Attention message. The action cannot be performed, because conditions weren’t met.",
+      "exit-confirm-restore-password": "Your password hasn`t been changed."
+    },
+    "success": {
+      "default": "Success message. The action was successful.",
+      "confirm-restore-password": "Your password has just been reset.",
+      "confirm-email": "Your email has been verified.",
+      "restore-password": "Restore password link was sent to your email address.",
+      "sign-up": "You have successfully registered on the site. Please confirm your email address in the email box."
+    }
   },
   "user": {
     "add-comment": {
@@ -253,6 +310,7 @@
         "fill-form": "Please enter your details to sign in",
         "email": "Email",
         "email-is-required": "Email is required",
+        "field-is-required": "This field is required",
         "email-must-be-at-least-1-characters-long": "Email must be at least 1 characters long",
         "this-is-not-email": "Please check that your e-mail address is indicated correctly",
         "password": "Password",
@@ -272,6 +330,8 @@
         "first-name": "User name",
         "first-name-is-required": "User name is required",
         "user-name-error": "User name is required",
+        "invalid-user-name": "Username must not contains a dot at the beginning, few dots in a row, special characters, Cyrillic letters",
+        "user-name-size": "The name must contain 6-30 characters and can contain letters(a-z), numbers(0-9) and a dot(.), dot at the start, at the end and consecutive dot is forbidden",
         "first-name-must-be-at-least-1-characters-long": "User name must be at least 1 characters long",
         "last-name": "Last name",
         "last-name-is-required": "Last name is required",
@@ -296,6 +356,8 @@
       },
       "submit-email": "Congrats! Your profile is created. Please check the email sent with a link to confirm your email address.",
       "forgot-password": {
+        "already-sent": "Password restore link already sent, please check your email",
+        "email-not-exist": "The user does not exist by this email",
         "title": "Problems sign in?",
         "fill-form": "Enter your email address and we'll send you a link to regain access to your account.",
         "email": "Email",
@@ -303,6 +365,18 @@
         "or-signin": "or sign in with",
         "remember-your-password": "Remember your password?",
         "back-to-the-sign-in": "Back to Sign-in"
+      },
+      "restore-password": {
+        "title": "Do you want to change your password?",
+        "fill-form": "Please, create your new password.",
+        "send-btn": "Change password",
+        "password": "Password",
+        "password-is-required": "Password is required",
+        "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters in length",
+        "password-spaces-error": "Password must be at least 8 characters long without spaces",
+        "password-symbols-error": "Password has contain at least one character of Uppercase letter (A-Z), Lowercase letter (a-z), Digit (0-9), Special character (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.)",
+        "password-match": "Passwords do not match",
+        "password-confirm": "Confirm password"
       }
     },
     "favorite-place": {
@@ -339,6 +413,14 @@
       "discount": "discount",
       "driving": "driving",
       "walking": "walking"
+    },
+    "places-card": {
+      "card-description": "https://placewebsite.com",
+      "card-rating": "Rating",
+      "card-reviews": "reviews",
+      "card-popular": "Popular eco places",
+      "card-first-event": "Special offer - discount for bonus card holders",
+      "card-second-event": "Place profile on Greencity"
     },
     "photo-upload": {
       "add-photo": "Add photo",
@@ -435,25 +517,54 @@
       "eco-events": "Eco news",
       "tips": "Tips & Tricks",
       "map": "Places",
-      "my-habits": "My habits"
+      "ubs": "UBS courier",
+      "my-habits": "My space"
     },
     "edit-profile": {
-      "edit-profile": "Edit profile",
+      "edit-profile": "Edit Profile",
+      "edit-button": "Edit Picture",
       "info": "Personal info",
       "name": "Name",
-      "name-warning": "Should contain maximum 30 symbols",
+      "name-warning": "The name must contain 6-30 characters and can contain letters(a-z), numbers(0-9) and a dot(.), dot at the start, at the end and consecutive dot is forbidden",
       "city": "City",
-      "title": "Title",
+      "city-warning": "Should contain maximum 85 symbols and may contain letters(a-z), and  next special characters '()!,-’'",
+      "title": "Credo",
       "title-warning": "Should contain maximum 170 symbols",
       "links": "Linked social networks",
-      "add-link": "Add social network",
-      "privacy": "Profile privacy",
+      "add-link": "add social network",
+      "privacy": "profile privacy",
       "location": "Show my location",
       "eco-place": "Show my eco places",
       "shoping-list": "Show my shopping list",
-      "btn":{
+      "picture-tooltip": "Download PNG or JPG only. File size should be less than 10MB",
+      "change-photo": "Do you want to change your profile picture?",
+      "would-you-like": "Would you like to save changes?",
+      "notification": "Are you sure you want to delete the photo?",
+      "label-tip": "Link to your social network account",
+      "input-validation-required": "This field is required",
+      "input-validation-pattern": "Your URL seems to be incorrect",
+      "input-validation-non-unique": "This link has been already added",
+      "profile-changes-saved": "Your changes have been saved",
+      "btn": {
         "cancel": "Cancel",
-        "save": "Save"
+        "save": "Save",
+        "new-photo": "Upload new photo",
+        "change-photo": "Change photo",
+        "save-photo": "Save photo",
+        "delete": "Delete photo",
+        "continue": "Continue editing",
+        "yes-delete": "Yes, delete",
+        "add": "Add",
+        "yes": "Yes"
+      },
+      "profile-popup": {
+        "title": "All created content will be lost.",
+        "subtitle": "Do you still want to cancel profile editing?",
+        "cancel": "Continue editing",
+        "confirm": "Yes, cancel"
+      },
+      "delete-popup": {
+        "title": "Are you sure that you want to remove this social network link from your profile?"
       }
     },
     "footer": {
@@ -517,6 +628,17 @@
         "confirmation-modal-yes": "Yes",
         "confirmation-modal-cancel": "Cancel"
       },
+      "all-habits": {
+        "back-button": "Back to My habits",
+        "title": "All habits",
+        "no-habits": "Unfortunately, no more habits found",
+        "no-habits-advice": "We couldn't find any more habits. Please change filters to get another result.",
+        "btn-more": "More",
+        "btn-add": "Add habit",
+        "new-habit-added": "You have successfully added a new habit to your list",
+        "new-habit-updated": "You have successfully updated a habit",
+        "habit-was-deleted": "You have successfully deleted habit from your list"
+      },
       "habit-trackers": {
         "habit-tracker": {
           "habit-tracker-date": {
@@ -524,6 +646,11 @@
             "from": "from"
           }
         }
+      },
+      "one-habit": {
+        "good": "in a row. You're good!",
+        "done": "Mark as done",
+        "great": "Great! You've got a habit!"
       }
     }
   },
@@ -564,6 +691,7 @@
     }
   },
   "about-us": {
+    "disabled-link": "The page is in the process of developing",
     "intro": {
       "block-1": {
         "header": "About Us",
@@ -607,14 +735,7 @@
   },
   "post-news-loader": {
     "text-1": "Please wait while loading...",
-    "text-2": "Your news is loading to the website. Please wait until the page refreshes"
-  },
-  "cancel-popup": {
-    "title": "All created content will be lost.",
-    "subtitle-news": "Do you still want to cancel news creating?",
-    "subtitle-profile": "Do you still want to cancel profile editing?",
-    "continue": "Continue editing",
-    "cancel": "Yes, cancel"
+    "text-2": "Your news is loading to website. Please wait until page refreshes."
   },
   "profile": {
     "calendar": {
@@ -622,28 +743,55 @@
       "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
       "monthsShort": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     },
-    "habits-in-progress": "Habits in progress",
-    "add-new-habit": "Add new habit",
-    "habits-acquired": "Habits acquired",
+    "dashboard": {
+      "my-habits": "My habits",
+      "my-news": "My news",
+      "my-articles": "My articles",
+      "my-tips-and-tricks": "My tips and tricks",
+      "habits-inprogress": "In progress",
+      "add-new-habit": "Add New Habit",
+      "habits-acquired": "Acquired",
+      "habits": "habits",
+      "no-habits-in-progress": "Hi Eco Friend ;-)",
+      "no-habits-in-progress-advice": "Welcome to My Habits. It seems you don’t have habits in progress. Let’s start to acquire a new one!"
+    },
+    "habits-in-progress": "In progress",
     "my-Achievements": "My Achievements",
     "see-all": "See all",
-    "my-eco-friends": "My Eco Friends",
+    "elements": "Items",
+    "my-eco-friends": "My Friends",
     "zero-friends": "You don't have any friends.",
+    "zero-requests": "Unfortunately, there are no new requests.",
     "my-eco-places": "My eco places",
-    "my-shoppingList": "My Shopping List",
+    "shoppingList": "Shopping list",
+    "empty-list": "No items added yet.\nPlease add a habit with some items to see them on your list",
     "shoppingList-no-items-message": "You don't have any items in your Shopping List",
     "fact-of-the-day": "Fact of the Day",
     "no-eco-places": "You don't have any Eco Places.",
     "online": "online",
+    "rate": "Rate",
     "acquired-habits": "acquired habits",
     "written-articles": "written articles",
     "published-news": "published news",
     "my-habits": "My Habits",
     "my-news": "My news",
-    "my-articles": "My articles"
+    "my-articles": "My articles",
+    "friends": {
+      "link-to-profile": "Back to My habits",
+      "mutual-friends": "mutual friends",
+      "friends": "Friends",
+      "add-new-friend": "Add friend",
+      "delete-friend": "Unfriend",
+      "requests": "Requests",
+      "request-decline": "Decline",
+      "request-accept": "Accept",
+      "all-friends": "All friends",
+      "search-friends": "Find friends"
+    }
   },
   "create-news": {
     "title": "Create news",
+    "edit-title": "Edit news",
     "form-description": "Please provide as many details as you can - place and time of the event, the goal of gathering, etc. You can come back and update news anytime after publishing.",
     "news-title": "Title",
     "title-placeholder": "e.g. Coffee takeaway with 20% discount",
@@ -670,7 +818,8 @@
     "author-name": "Current User",
     "cancel-button": "Cancel",
     "preview-button": "Preview",
-    "publish-button": "Publish"
+    "publish-button": "Publish",
+    "edit-button": "Edit"
   },
   "drag-and-drop": {
     "picture-description": "Drop your image here or",

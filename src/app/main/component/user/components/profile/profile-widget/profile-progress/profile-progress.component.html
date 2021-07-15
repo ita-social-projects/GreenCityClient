@@ -1,0 +1,18 @@
+<div class="stat" *ngIf="progress">
+  <div class="chain">
+    <p>{{ progress.amountHabitsAcquired }}</p>
+    <p>{{ 'profile.acquired-habits' | translate }}</p>
+  </div>
+  <div class="chain">
+    <p>{{ progress.amountHabitsInProgress }}</p>
+    <p>{{ 'profile.habits-in-progress' | translate }}</p>
+  </div>
+  <div class="chain">
+    <p>{{ progress.amountWrittenTipsAndTrick }}</p>
+    <p>{{ 'profile.written-articles' | translate }}</p>
+  </div>
+  <div class="chain">
+    <p>{{ progress.amountPublishedNews }}</p>
+    <p>{{ 'profile.published-news' | translate }}</p>
+  </div>
+</div>
