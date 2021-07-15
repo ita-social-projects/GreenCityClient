@@ -30,7 +30,7 @@ export class SocialNetworksComponent implements ControlValueAccessor {
   public inputTextValue;
   public editedSocialLink: any = false;
 
-  @ViewChild('socialLink', { static: false }) socialLink: NgModel;
+  @ViewChild('socialLink') socialLink: NgModel;
   @Input() socialNetworks = [];
   @Output() socialNetworksChange: EventEmitter<any> = new EventEmitter();
 

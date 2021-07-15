@@ -3,7 +3,6 @@ import { CommentAdminDto } from '../../models/comment-admin-dto.model';
 import { FeedbackService } from '../../../../service/feedbacksAdmin/feedback.service';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 import { ConfirmationDialogService } from '../../services/confirmation-dialog-service.service';
-import { NgFlashMessageService } from 'ng-flash-messages';
 import { DialogPhotoComponent } from './dialog-photo/dialog-photo.component';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -26,7 +25,6 @@ export class FeedbacksComponent implements OnInit {
   constructor(
     private commentService: FeedbackService,
     private confirmationDialogService: ConfirmationDialogService,
-    private ngFlashMessageService: NgFlashMessageService,
     private translation: TranslateService,
     public dialog: MatDialog
   ) {}
@@ -78,14 +76,7 @@ export class FeedbacksComponent implements OnInit {
     );
   }
 
-  showMessage(message: string, messageType: string) {
-    this.ngFlashMessageService.showFlashMessage({
-      messages: [message],
-      dismissible: true,
-      timeout: 3000,
-      type: messageType,
-    });
-  }
+  showMessage(message: string, messageType: string) { }
 
   changeVisability(id: string, id2: string) {
     document.getElementById(id).hidden = !document.getElementById(id).hidden;
