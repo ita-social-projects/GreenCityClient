@@ -94,6 +94,7 @@ describe('EditProfileComponent', () => {
         showShoppingList: '',
         socialNetworks: ''
       };
+      component.editProfileForm.value.city = '';
       component.editProfileForm.value.name = '';
       component.editProfileForm.value.credo = '';
       component.editProfileForm.value.showLocation = '';
@@ -102,12 +103,12 @@ describe('EditProfileComponent', () => {
       component.editProfileForm.value.socialNetworks = '';
     });
 
-    it('should return true in case of form fields were not changed', () => {
-      expect(component.checkChanges()).toBeTruthy();
+    it('should return false in case of form fields were not changed', () => {
+      expect(component.checkChanges()).toBeFalsy();
     });
 
-    it('should return false in case of form fields were changed', () => {
-      expect(component.canDeactivate()).toBeFalsy();
+    it('should return true in case of form fields were not changed', () => {
+      expect(component.canDeactivate()).toBeTruthy();
     });
   });
 
