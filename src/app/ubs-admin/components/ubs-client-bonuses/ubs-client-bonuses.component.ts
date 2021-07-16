@@ -16,13 +16,12 @@ export class UbsClientBonusesComponent implements OnInit, AfterViewInit, OnDestr
 
   dataSource = new MatTableDataSource<BonuseModel>();
   totalBonuses: number;
-  isLoading: boolean;
+  isLoading = true;
   subscription: Subscription;
 
   constructor(private bonusesService: BonusesService) {}
 
   ngOnInit() {
-    this.isLoading = true;
     this.getBonusesData();
   }
 

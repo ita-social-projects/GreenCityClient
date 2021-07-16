@@ -30,7 +30,5 @@
       </div>
     </div>
   </ng-container>
-  <ng-template *ngIf="isLoading">
-    <app-spinner></app-spinner>
-  </ng-template>
+  <app-spinner *ngIf="isLoading"></app-spinner>
 </div>
