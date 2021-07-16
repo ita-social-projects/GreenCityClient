@@ -84,7 +84,6 @@ import { UbsAdminGoBackModalComponent } from './components/ubs-admin-go-back-mod
       isolate: true
     })
   ],
-  exports: [TranslateModule],
   providers: [
     AdminTableService,
     TranslateService,
