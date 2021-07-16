@@ -1,9 +1,9 @@
 <div class="container">
   <div class="row">
-    <p class="question">У разі скасування внесені зміни будуть втрачені. Чи дійсно Ви бажаєте скасувати зміни?</p>
+    <p class="question">{{ 'cancel-modal.question' | translate }}</p>
   </div>
   <div class="row justify-content-end">
-    <button class="disagree" (click)="discard()">No</button>
-    <button class="agree">Yes</button>
+    <button class="disagree" (click)="discard()">{{ 'cancel-modal.disagree' | translate }}</button>
+    <button class="agree">{{ 'cancel-modal.agree' | translate }}</button>
   </div>
 </div>

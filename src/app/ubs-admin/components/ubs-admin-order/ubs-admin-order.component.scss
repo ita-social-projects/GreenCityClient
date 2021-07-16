@@ -4,21 +4,21 @@
 }
 
 .back-button-top {
-  background-color: #fff;
+  background-color: transparent;
   color: var(--ubs-primary-green);
   border: none;
   font-size: 18px;
   line-height: 28px;
   font-weight: bold;
-  top: 60px;
-  left: -100px;
+  top: 52px;
+  left: -115px;
   position: absolute;
   width: 150px;
   height: 44px;
 }
 
 .back-button {
-  background-color: #fff;
+  background-color: transparent;
   color: var(--ubs-primary-green);
   border: none;
   font-size: 18px;
@@ -30,7 +30,7 @@
 }
 
 .cancel-button {
-  background-color: #fff;
+  background-color: transparent;
   border: 1px solid var(--ubs-primary-green);
   font-weight: bold;
   font-size: 18px;
