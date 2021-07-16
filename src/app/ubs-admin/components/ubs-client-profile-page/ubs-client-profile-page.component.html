@@ -15,7 +15,7 @@
         </p>
       </div>
       <div class="input-group input-group-sm">
-        <form *ngIf="!isEditing; else spinner" [formGroup]="userForm">
+        <form *ngIf="!isFetching; else spinner" [formGroup]="userForm">
           <h5>{{ 'ubs-client-profile.personal' | translate }}</h5>
           <div class="form-group col-sm-5">
             <label for="firstname">{{ 'ubs-client-profile.name' | translate }}</label>
@@ -35,10 +35,16 @@
           </div>
           <div class="form-group col-sm-4">
             <label for="phoneNumber" class="form-label">{{ 'ubs-client-profile.phone' | translate }}</label>
-            <input *ngIf="isEditing" type="tel" class="form-control" id="phoneNumber" [formControl]="userForm.controls['phoneNumber']"
-            placeholder="+38___ ___ __ __"
-            [unmask]="true" 
-            [imask]="{mask: phoneMask}" />
+            <input
+              *ngIf="isEditing"
+              type="tel"
+              class="form-control"
+              id="phoneNumber"
+              [formControl]="userForm.controls['phoneNumber']"
+              placeholder="+38___ ___ __ __"
+              [unmask]="true"
+              [imask]="{ mask: phoneMask }"
+            />
             <p *ngIf="!isEditing">+380{{ userProfile.recipientPhone }}</p>
           </div>
           <h5>{{ 'ubs-client-profile.address' | translate }}</h5>
@@ -94,10 +100,10 @@
           <h3>{{ 'ubs-client-profile.additional' | translate }}</h3>
         </div>
         <div class="footer-btns">
-          <button class="btn btn-outline-success">
+          <button class="btn btn-outline-success" (click)="openChangePasswordDialog()">
             {{ 'ubs-client-profile.btn.change-password' | translate }}
           </button>
-          <button class="btn btn-outline-success">
+          <button class="btn btn-outline-success" (click)="openDeleteProfileDialog()">
             {{ 'ubs-client-profile.btn.delete-profile' | translate }}
           </button>
         </div>
