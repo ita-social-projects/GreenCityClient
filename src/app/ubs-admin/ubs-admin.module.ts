@@ -34,6 +34,7 @@ import { InterceptorService } from '../shared/interceptors/interceptor.service';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { UbsProfileChangePasswordPopUpComponent } from './components/ubs-client-profile-page/ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
 import { UbsProfileDeletePopUpComponent } from './components/ubs-client-profile-page/ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
+import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-client-bonuses.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { UbsProfileDeletePopUpComponent } from './components/ubs-client-profile-
     UbsAdminOrderClientInfoComponent,
     UbsAdminOrderDetailsFormComponent,
     UbsProfileChangePasswordPopUpComponent,
-    UbsProfileDeletePopUpComponent
+    UbsProfileDeletePopUpComponent,
+    UbsClientBonusesComponent
   ],
   imports: [
     CommonModule,
