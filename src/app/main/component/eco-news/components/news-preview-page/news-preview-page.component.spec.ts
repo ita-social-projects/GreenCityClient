@@ -106,7 +106,7 @@ describe('NewsPreviewPageComponent', () => {
     component.isBackToEdit();
     expect(createEcoNewsServiceMock.isBackToEditing).toBe(true);
     jasmine.clock().tick(1001);
-    expect(!createEcoNewsServiceMock.isBackToEditing).toBe(false);
+    expect(createEcoNewsServiceMock.isBackToEditing).toBe(false);
     jasmine.clock().uninstall();
   });
 
