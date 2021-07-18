@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -6,10 +6,8 @@ import { MatDialogRef } from '@angular/material/dialog';
   templateUrl: './ubs-admin-go-back-modal.component.html',
   styleUrls: ['./ubs-admin-go-back-modal.component.scss']
 })
-export class UbsAdminGoBackModalComponent implements OnInit {
+export class UbsAdminGoBackModalComponent {
   constructor(private dialogRef: MatDialogRef<UbsAdminGoBackModalComponent>) {}
-
-  ngOnInit() {}
 
   discard(): void {
     this.dialogRef.close();
