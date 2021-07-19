@@ -121,7 +121,7 @@
   "order-payment": {
     "title": "Оплата замовлення",
     "order-size": "Замовлення виконано у розмірі",
-    "add-payment-btn": "+ Додати оплату",
+    "add-payment-btn": "Додати оплату",
     "order-date": "Дата оплати",
     "payment-id": "ID платежу",
     "sum": "Сума",

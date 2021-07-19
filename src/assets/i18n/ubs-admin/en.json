@@ -123,7 +123,7 @@
   "order-payment": {
     "title": "Order payment",
     "order-size": "The order is executed in the amount of",
-    "add-payment-btn": "+ Add payment",
+    "add-payment-btn": "Add payment",
     "order-date": "Payment date",
     "payment-id": "Payment ID",
     "sum": "Amount",

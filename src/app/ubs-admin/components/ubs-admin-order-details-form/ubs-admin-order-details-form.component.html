@@ -19,7 +19,12 @@
           <span class="col-sm-2">{{ bag.capacity | volume }}</span>
           <span class="col-sm-2">{{ bag.price | localizedCurrency }}</span>
           <div class="col-sm-2 d-flex justify-content-center form-group count">
-            <input class="shadow-none form-control input p-2" type="number" min="0" max="999" formControlName="plannedQuantity" />
+            <input
+              class="shadow-none form-control input p-2"
+              type="number"
+              min="0"
+              max="999"
+              formControlName="plannedQuantity" />
           </div>
           <div class="col-sm-2 d-flex justify-content-center form-group count">
             <input
@@ -85,7 +90,9 @@
           <span class="col-sm-2"></span>
         </li>
         <li class="d-flex justify-content-end align-items-baseline py-2">
-          <span class="col-sm-3 text-danger pl-5" *ngIf="payMore">{{ "order-edit.need-to-pay" | translate }} 250 {{ "" | localizedCurrency }}</span>
+          <span class="col-sm-3 text-danger pl-5" *ngIf="payMore">
+            {{ "order-edit.need-to-pay" | translate }} 250 {{ "" | localizedCurrency }}
+          </span>
           <span class="col-sm-4 text-danger pl-5" *ngIf="payMore">
             {{ "order-details.min-sum" | translate }} 500 {{ "" | localizedCurrency }}
           </span>
@@ -95,23 +102,37 @@
     <div class="certificate">
       <div class="form__block col-lg-3 col-md-6 col-sm-6">
         <div class="form-group">
-          <label class="form__label py-2" for="cert-num">{{ "order-details.certificate-number-label" | translate }}</label>
-          <input class="form-control" type="text" id="cert-num" placeholder="XXXX-XXXX" formControlName="certificate" />
+          <label class="form__label py-2" for="cert-num">
+            {{ "order-details.certificate-number-label" | translate }}
+          </label>
+          <input
+            class="form-control"
+            type="text"
+            id="cert-num"
+            placeholder="XXXX-XXXX"
+            formControlName="certificate" />
         </div>
         <div class="form-group">
-          <label class="form__label py-2" for="order-num">{{ "order-details.order-number-label" | translate }}</label>
-          <input class="form-control" type="text" id="order-num" placeholder="XXXX-XXXX" formControlName="storeOrderNumber" />
+          <label class="form__label py-2" for="order-num">
+            {{ "order-details.order-number-label" | translate }}
+          </label>
+          <input
+            class="form-control"
+            type="text"
+            id="order-num"
+            placeholder="XXXX-XXXX"
+            formControlName="storeOrderNumber" />
         </div>
       </div>
     </div>
     <div class="bottom d-flex align-items-baseline py-3">
       <div class="form-floating col-sm-6">
-        <label for="textarea">{{ "order-details.client-comment.label" | translate }}</label>
+        <label for="customer-comment">{{ "order-details.client-comment.label" | translate }}</label>
         <textarea
           class="form-control comment"
           formControlName="customerComment"
           placeholder="{{ 'order-details.client-comment.placeholder' | translate }}"
-          id="textarea"
+          id="customer-comment"
         >
         </textarea>
       </div>

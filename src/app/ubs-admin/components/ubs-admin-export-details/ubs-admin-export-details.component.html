@@ -2,16 +2,16 @@
   <h1 class="form__headline">{{ "export-details.title" | translate }}</h1>
   <div class="form-row">
     <div class="form-group col-md-2">
-      <label>{{ "export-details.export-date" | translate }}</label>
-      <input type="date" class="form-control" />
+      <label for="export-date">{{ "export-details.export-date" | translate }}</label>
+      <input type="date" class="form-control" id="export-date" />
     </div>
     <div class="form-group col-md-2 mx-4">
-      <label>{{ "export-details.export-time" | translate }}</label>
-      <input type="time" class="form-control" />
+      <label for="export-time">{{ "export-details.export-time" | translate }}</label>
+      <input type="time" class="form-control" id="export-time" />
     </div>
     <div class="form-group col-md-4">
-      <label>{{ "export-details.station" | translate }}</label>
-      <select class="form-control">
+      <label for="station">{{ "export-details.station" | translate }}</label>
+      <select class="form-control" id="station">
         <option selected></option>
       </select>
     </div>
