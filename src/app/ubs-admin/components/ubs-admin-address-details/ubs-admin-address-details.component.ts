@@ -8,6 +8,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class UbsAdminAddressDetailsComponent implements OnInit {
   public addressDetailsForm: FormGroup;
+  public regions = ['Дублянський'];
 
   ngOnInit(): void {
     this.addressDetailsForm = new FormGroup({
