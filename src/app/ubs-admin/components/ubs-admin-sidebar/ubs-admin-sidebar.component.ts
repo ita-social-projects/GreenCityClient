@@ -18,11 +18,13 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
     },
     {
       link: 'assets/img/sidebarIcons/shopping-cart_icon.svg',
-      name: 'Замовлення'
+      name: 'Замовлення',
+      routerLink: 'orders'
     },
     {
       link: 'assets/img/sidebarIcons/workers_icon.svg',
-      name: 'Працівники'
+      name: 'Працівники',
+      routerLink: 'employee/1'
     },
     {
       link: 'assets/img/sidebarIcons/documents_icon.svg',
