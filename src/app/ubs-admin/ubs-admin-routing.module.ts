@@ -15,7 +15,7 @@ const ubsAdminRoutes: Routes = [
       { path: '', component: UbsAdminTableComponent },
       { path: 'employee/:page', component: UbsAdminEmployeeComponent },
       { path: 'profile', component: UbsClientProfilePageComponent },
-      { path: 'orders', component: UbsAdminTableComponent }
+      { path: 'orders', component: UbsAdminTableComponent },
       { path: 'order', component: UbsAdminOrderComponent },
       { path: 'bonuses', component: UbsClientBonusesComponent }
     ]
