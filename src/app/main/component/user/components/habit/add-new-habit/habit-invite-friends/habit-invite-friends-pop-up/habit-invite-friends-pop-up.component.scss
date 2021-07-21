@@ -1,0 +1,19 @@
+.dialog-container {
+  margin: 20px;
+  padding: 10px;
+  border: 1px solid black;
+}
+
+.friend {
+  display: inline-flex;
+}
+
+.friends-images {
+  margin: 10px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  width: 85%;
+  box-sizing: border-box;
+  padding: 0;
+}

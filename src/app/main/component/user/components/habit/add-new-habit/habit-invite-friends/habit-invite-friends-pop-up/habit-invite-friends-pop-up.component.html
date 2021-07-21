@@ -1,0 +1,14 @@
+<div class="dialog-container">
+  <div class="friends-images">
+    <div class="friend" *ngFor="let friend of friends">
+      <app-user-profile-image
+        [imgPath]="friend.profilePicture"
+        [firstName]="friend.name"
+        class="friend-img"
+        [additionalImgClass]="'friend-user-profile'"
+      >
+      </app-user-profile-image>
+      <p class="friend-name">{{ friend.name }}</p>
+    </div>
+  </div>
+</div>
