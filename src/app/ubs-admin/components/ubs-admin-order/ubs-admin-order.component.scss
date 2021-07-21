@@ -3,6 +3,7 @@
   position: relative;
 }
 
+.back-button,
 .back-button-top {
   background-color: transparent;
   color: var(--ubs-primary-green);
@@ -10,45 +11,38 @@
   font-size: 18px;
   line-height: 28px;
   font-weight: bold;
-  top: 52px;
-  left: -115px;
-  position: absolute;
   width: 150px;
   height: 44px;
 }
 
+.back-button-top {
+  top: 52px;
+  left: -115px;
+  position: absolute;
+}
+
 .back-button {
-  background-color: transparent;
-  color: var(--ubs-primary-green);
-  border: none;
+  margin-left: 15px;
+}
+
+.cancel-button,
+.save-button {
+  border: 1px solid var(--ubs-primary-green);
+  font-weight: bold;
   font-size: 18px;
   line-height: 28px;
-  font-weight: bold;
-  margin-left: 15px;
-  width: 150px;
-  height: 44px;
+  padding: 5px 20px;
+  margin-right: 20px;
 }
 
 .cancel-button {
   background-color: transparent;
-  border: 1px solid var(--ubs-primary-green);
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 28px;
-  color: #13aa57;
-  padding: 5px 20px;
-  margin-right: 20px;
+  color: var(--ubs-primary-green);
 }
 
 .save-button {
   background-color: var(--ubs-primary-green);
-  border: 1px solid var(--ubs-primary-green);
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 28px;
   color: #fff;
-  padding: 5px 20px;
-  margin-right: 20px;
 }
 
 .controls {
