@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-ubs-input-error',
-  templateUrl: './ubs-input-error.component.html',
+  templateUrl: './ubs-input-error.component.html'
 })
 export class UBSInputErrorComponent implements OnChanges {
   @Input() public controlName: string;
@@ -17,12 +17,12 @@ export class UBSInputErrorComponent implements OnChanges {
   @Input() public houseNumberFieldValue: string;
 
   public errorMessage;
-  private getErrorMsg = {
-    required: () => 'input-error.required',
-    email: () => (this.emailFieldValue ? 'input-error.email-wrong' : 'input-error.email-empty'),
-    minlength: () => (this.phoneNumberFieldValue ? 'input-error.minlength-unfull' : 'minlength-short'),
-    maxlength: () => 'input-error.maxlenght',
-    pattern: () => 'input-error.pattern',
+  private validationErrors = {
+    email: 'input-error.email-wrong',
+    minlength: 'input-error.minlength-short',
+    maxlength: 'input-error.max-length',
+    pattern: 'input-error.pattern',
+    required: 'input-error.required'
   };
 
   ngOnChanges() {
@@ -30,9 +30,11 @@ export class UBSInputErrorComponent implements OnChanges {
   }
 
   private getType() {
-    Object.keys(this.formElement.errors).forEach((error) => {
-      this.errorMessage = this.getErrorMsg[error]();
-      return this.errorMessage;
-    });
+    for (const error in this.validationErrors) {
+      if (this.formElement.errors[error]) {
+        this.errorMessage = this.validationErrors[error];
+        break;
+      }
+    }
   }
 }
