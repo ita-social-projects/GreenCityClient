@@ -17,6 +17,8 @@ export class ConfirmationDialogService {
     btnCancelText: string = 'Cancel',
     dialogSize: 'sm' | 'lg' = 'sm'
   ): Promise<boolean> {
+    const modalRef = this.modalService.open(ConfirmModalComponent, { size: dialogSize });
+
     zip(this.translation.get('confirm-modal.delete'), this.translation.get('confirm-modal.cancel'))
       .pipe(take(1))
       .subscribe(([translatedOkText, translatedCancelText]) => {
@@ -24,7 +26,6 @@ export class ConfirmationDialogService {
         modalRef.componentInstance.btnCancelText = translatedCancelText;
       });
 
-    const modalRef = this.modalService.open(ConfirmModalComponent, { size: dialogSize });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
 
