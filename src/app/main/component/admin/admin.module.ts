@@ -1,7 +1,6 @@
 import { MatTableModule } from '@angular/material/table';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgFlashMessagesModule } from 'ng-flash-messages';
 import { BrowserModule } from '@angular/platform-browser';
 import { IconsModule, TableModule } from 'angular-bootstrap-md';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -60,7 +59,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     CommonModule,
     SharedMainModule,
     SharedModule,
-    NgFlashMessagesModule,
     NgxPaginationModule,
     MatTableModule,
     MatPaginatorModule,

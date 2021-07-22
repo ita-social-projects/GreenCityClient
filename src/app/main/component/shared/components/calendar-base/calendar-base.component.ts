@@ -68,8 +68,12 @@ export class CalendarBaseComponent implements OnDestroy {
   ) {}
 
   ngOnDestroy() {
-    this.langChangeSub.unsubscribe();
-    this.defaultTranslateSub.unsubscribe();
+    if (this.langChangeSub) {
+      this.langChangeSub.unsubscribe();
+    }
+    if (this.defaultTranslateSub) {
+      this.defaultTranslateSub.unsubscribe();
+    }
     this.destroySub.next();
     this.destroySub.complete();
   }

@@ -42,7 +42,7 @@ export class PlacesComponent implements OnInit, DoCheck {
   public notification = notification;
   public share = share;
 
-  @ViewChild('drawer', { static: false }) drawer: MatDrawer;
+  @ViewChild('drawer') drawer: MatDrawer;
 
   constructor(private localStorageService: LocalStorageService, private translate: TranslateService, private http: HttpClient) {}
 

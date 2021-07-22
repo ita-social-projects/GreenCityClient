@@ -16,6 +16,7 @@ import { IMaskModule } from 'angular-imask';
 import { SharedModule } from '../shared/shared.module';
 import { UbsHeaderComponent } from './components/ubs-header/ubs-header.component';
 import { UbsAdminComponent } from './ubs-admin.component';
+import { UbsAdminOrdersComponent } from './components/ubs-admin-orders/ubs-admin-orders.component';
 import { UbsAdminEmployeeComponent } from './components/ubs-admin-employee/ubs-admin-employee.component';
 import { UbsAdminEmployeeCardComponent } from './components/ubs-admin-employee/ubs-admin-employee-card/ubs-admin-employee-card.component';
 import { PaginationComponent } from './components/shared/components/pagination/pagination.component';
@@ -36,6 +37,7 @@ import { UbsProfileChangePasswordPopUpComponent } from './components/ubs-client-
 import { UbsProfileDeletePopUpComponent } from './components/ubs-client-profile-page/ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
 import { UbsAdminCancelModalComponent } from './components/ubs-admin-cancel-modal/ubs-admin-cancel-modal.component';
 import { UbsAdminGoBackModalComponent } from './components/ubs-admin-go-back-modal/ubs-admin-go-back-modal.component';
+import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-client-bonuses.component';
 
 @NgModule({
   declarations: [
@@ -57,10 +59,12 @@ import { UbsAdminGoBackModalComponent } from './components/ubs-admin-go-back-mod
     UbsAdminOrderPaymentComponent,
     UbsAdminOrderClientInfoComponent,
     UbsAdminOrderDetailsFormComponent,
+    UbsAdminOrdersComponent,
     UbsProfileChangePasswordPopUpComponent,
     UbsProfileDeletePopUpComponent,
     UbsAdminCancelModalComponent,
-    UbsAdminGoBackModalComponent
+    UbsAdminGoBackModalComponent,
+    UbsClientBonusesComponent
   ],
   imports: [
     CommonModule,

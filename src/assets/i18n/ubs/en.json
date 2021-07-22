@@ -1,12 +1,10 @@
 {
   "input-error": {
-    "required": "This field is required",
-    "email-empty": "This field is required",
-    "email-wrong": "Enter the correct email",
-    "minlength-unfull": "Enter the full phone number",
-    "minlength-short": "Minimum number of characters: 3",
-    "maxlenght": "Maximum number of characters exceeded",
-    "pattern": "The field contains forbidden characters"
+    "required": "This field is required.",
+    "email-wrong": "Enter the correct email.",
+    "minlength-short": "This field is required.",
+    "max-length": "Maximum number of characters exceeded.",
+    "pattern": "The field contains forbidden characters."
   },
   "order-details": {
     "order-title": "Services",
