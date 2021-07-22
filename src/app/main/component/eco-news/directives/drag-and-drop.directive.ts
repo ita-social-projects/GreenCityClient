@@ -3,7 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 
 @Directive({
-  selector: '[appDragAndDrop]',
+  selector: '[appDragAndDrop]'
 })
 export class DragAndDropDirective {
   @Output() files: EventEmitter<FileHandle[]> = new EventEmitter();
@@ -12,25 +12,26 @@ export class DragAndDropDirective {
 
   @HostBinding('style.opacity') public opacity = '1';
 
-  @HostListener('dragover', ['$event']) public onDragOver(evt: DragEvent) {
+  @HostListener('dragover', ['$event'])
+  public onDragOver(evt: DragEvent) {
     this.opacity = '0.7';
     evt.preventDefault();
     evt.stopPropagation();
   }
 
-  @HostListener('dragleave', ['$event']) public onDragLeave(evt: DragEvent) {
+  @HostListener('dragleave', ['$event'])
+  public onDragLeave(evt: DragEvent) {
     evt.preventDefault();
     evt.stopPropagation();
   }
 
-  @HostListener('drop', ['$event']) public onDrop(evt: DragEvent) {
+  @HostListener('drop', ['$event'])
+  public onDrop(evt: DragEvent) {
     evt.preventDefault();
     evt.stopPropagation();
 
     const files: FileHandle[] = [];
-    // tslint:disable-next-line:prefer-for-of
-    for (let i = 0; i < evt.dataTransfer.files.length; i++) {
-      const file = evt.dataTransfer.files[i];
+    for (const file of Array.from(evt.dataTransfer.files)) {
       const url = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file));
       files.push({ file, url });
     }

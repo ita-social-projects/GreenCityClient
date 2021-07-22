@@ -77,7 +77,7 @@ export class FeedbacksComponent implements OnInit {
   }
 
   showMessage(message: string, messageType: string) {
-    // TODO: add functionality for this method
+    // TODO: add functionality to this method
   }
 
   changeVisability(id: string, id2: string) {
