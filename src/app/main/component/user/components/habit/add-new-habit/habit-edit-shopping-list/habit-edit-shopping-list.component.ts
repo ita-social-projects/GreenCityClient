@@ -9,6 +9,7 @@ import { HabitService } from '@global-service/habit/habit.service';
 import { take, takeUntil } from 'rxjs/operators';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { HabitAssignInterface } from 'src/app/main/interface/habit/habit-assign.interface';
+
 @Component({
   selector: 'app-habit-edit-shopping-list',
   templateUrl: './habit-edit-shopping-list.component.html',
@@ -73,16 +74,15 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
       .getAssignedHabits()
       .pipe(take(1))
       .subscribe((response: Array<HabitAssignInterface>) => {
-        if (response.length === 0 || response === undefined) {
+        if (!response.length) {
           this.getListItems(false);
-        } else {
-          response.find((assigned) => {
-            if (assigned.habit.id === this.habitId) {
-              this.getListItems(true);
-            } else {
-              this.getListItems(false);
-            }
-          });
+          return;
+        }
+        for (const assigned of response) {
+          if (assigned.habit.id === this.habitId) {
+            this.getListItems(true);
+            break;
+          }
         }
       });
   }
