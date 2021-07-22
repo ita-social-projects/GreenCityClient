@@ -16,6 +16,7 @@ import { IMaskModule } from 'angular-imask';
 import { SharedModule } from '../shared/shared.module';
 import { UbsHeaderComponent } from './components/ubs-header/ubs-header.component';
 import { UbsAdminComponent } from './ubs-admin.component';
+import { UbsAdminOrdersComponent } from './components/ubs-admin-orders/ubs-admin-orders.component';
 import { UbsAdminEmployeeComponent } from './components/ubs-admin-employee/ubs-admin-employee.component';
 import { UbsAdminEmployeeCardComponent } from './components/ubs-admin-employee/ubs-admin-employee-card/ubs-admin-employee-card.component';
 import { PaginationComponent } from './components/shared/components/pagination/pagination.component';
@@ -35,6 +36,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { UbsProfileChangePasswordPopUpComponent } from './components/ubs-client-profile-page/ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
 import { UbsProfileDeletePopUpComponent } from './components/ubs-client-profile-page/ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
 import { AddViolationsComponent } from './components/add-violations/add-violations.component';
+import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-client-bonuses.component';
 
 @NgModule({
   declarations: [
@@ -56,9 +58,11 @@ import { AddViolationsComponent } from './components/add-violations/add-violatio
     UbsAdminOrderPaymentComponent,
     UbsAdminOrderClientInfoComponent,
     UbsAdminOrderDetailsFormComponent,
+    UbsAdminOrdersComponent,
     UbsProfileChangePasswordPopUpComponent,
     UbsProfileDeletePopUpComponent,
-    AddViolationsComponent
+    AddViolationsComponent,
+    UbsClientBonusesComponent
   ],
   imports: [
     CommonModule,
