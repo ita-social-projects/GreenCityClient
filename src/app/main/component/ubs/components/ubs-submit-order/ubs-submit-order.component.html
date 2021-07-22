@@ -78,7 +78,7 @@
             <ul class="order-list">
               <li class="order-list-item">{{ personalData.city }}</li>
               <li class="order-list-item">
-                <span>{{ 'submit-order.str' | translate }}{{ personalData.street }}, {{ personalData.houseNumber }}</span
+                <span>{{ 'submit-order.str' | translate }}{{ personalData.street }} , {{ personalData.houseNumber }}</span
                 >, {{ personalData.houseCorpus }}
               </li>
               <li class="order-list-item">{{ personalData.district }}</li>
@@ -111,7 +111,7 @@
 
 <div class="w-100 d-flex justify-content-between buttons">
   <button class="secondary-global-button btn btn-back" matStepperPrevious>
-    <i class="fas fa-chevron-left"></i> &nbsp; {{ 'submit-order.back' | translate }}
+    <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp; {{ 'submit-order.back' | translate }}
   </button>
   <div class="w-100 d-flex justify-content-end">
     <button class="secondary-global-button btn cansel-button btn-main" (click)="cancelUBS()">
