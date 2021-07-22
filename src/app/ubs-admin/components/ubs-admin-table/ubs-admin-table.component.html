@@ -49,7 +49,15 @@
   (scrolled)="onScroll()"
   [scrollWindow]="false"
 >
-  <table *ngIf="!isLoading; else spinner" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z0" cdkDropListGroup>
+  <table
+    *ngIf="!isLoading; else spinner"
+    mat-table
+    [dataSource]="dataSource"
+    matSort
+    class="mat-elevation-z0"
+    cdkDropListGroup
+    role="presentation"
+  >
     <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.field" [sticky]="column.sticky" class="column.field">
       <mat-header-cell
         *matHeaderCellDef
