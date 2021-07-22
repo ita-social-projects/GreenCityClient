@@ -9,7 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-feedbacks',
   templateUrl: './feedbacks.component.html',
-  styleUrls: ['./feedbacks.component.scss'],
+  styleUrls: ['./feedbacks.component.scss']
 })
 export class FeedbacksComponent implements OnInit {
   displayedColumns: string[] = ['place', 'text', 'attachments', 'delete'];
@@ -76,7 +76,9 @@ export class FeedbacksComponent implements OnInit {
     );
   }
 
-  showMessage(message: string, messageType: string) { }
+  showMessage(message: string, messageType: string) {
+    // TODO: add functionality for this method
+  }
 
   changeVisability(id: string, id2: string) {
     document.getElementById(id).hidden = !document.getElementById(id).hidden;
@@ -88,7 +90,7 @@ export class FeedbacksComponent implements OnInit {
       width: '55%',
       height: '65%',
       hasBackdrop: true,
-      data: photoUrl,
+      data: photoUrl
     });
   }
 }
