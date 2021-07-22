@@ -36,5 +36,10 @@
       "delete-profile-cancel": "Назад",
       "delete-profile-save": "Видалити"
     }
+  },
+  "cancel-modal": {
+    "question": "У разі скасування внесені зміни будуть втрачені. Чи дійсно Ви бажаєте скасувати зміни?",
+    "disagree": "Ні",
+    "agree": "Так"
   }
 }
