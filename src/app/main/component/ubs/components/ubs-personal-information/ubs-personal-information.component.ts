@@ -196,9 +196,13 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'address-matDialog-styles';
     dialogConfig.data = {
-      edit: isEdit,
-      address: isEdit ? currentAddress : this.addresses[0] ? this.addresses[0].id : {}
+      edit: isEdit
     };
+    if (isEdit) {
+      dialogConfig.data.address = currentAddress;
+    } else {
+      dialogConfig.data.address = this.addresses[0] ? this.addresses[0].id : {};
+    }
     const dialogRef = this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
     dialogRef
       .afterClosed()
