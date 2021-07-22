@@ -70,11 +70,7 @@ export class FilterPlaceService {
   }
 
   setDistance(distance: number) {
-    if (distance > 0) {
-      this.distance = distance;
-      return;
-    }
-    this.distance = null;
+    this.distance = distance > 0 ? distance : null;
   }
 
   setUserMarkerLocation(userMarkerLocation: Location) {
