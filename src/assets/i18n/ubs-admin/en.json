@@ -142,5 +142,15 @@
     "logistician": "Logistician",
     "navigator": "Navigator",
     "driver": "Driver"
+  },
+  "cancel-modal": {
+    "question": "If you cancel, the changes will be lost. Do you really want to cancel the changes?",
+    "disagree": "No",
+    "agree": "Yes"
+  },
+  "go-back-modal": {
+    "question": "If you go back, the changes will be lost. Do you really want to cancel the changes?",
+    "disagree": "No",
+    "agree": "Yes"
   }
 }
