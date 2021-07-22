@@ -91,13 +91,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     return this.showTotal > 0;
   }
 
-  translateWords(key: string, variable) {
-    return this.translate
-      .get(key)
-      .pipe(take(1))
-      .subscribe((item) => (variable = item));
-  }
-
   initForm() {
     this.orderDetailsForm = this.fb.group({
       certificate: new FormControl('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)]),
