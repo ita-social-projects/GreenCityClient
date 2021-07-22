@@ -114,13 +114,13 @@ export class UbsAdminTableComponent implements OnInit {
         this.dataSource = new MatTableDataSource(this.tableData);
         const requiredColumns = [{ field: 'select', sticky: true }];
         const dynamicallyColumns = [];
-        const arrayOfproperties = Object.keys(this.tableData[0]);
-        arrayOfproperties.map((elem) => {
-          const objectOfValue = Object.create({});
-          objectOfValue.field = elem;
-          objectOfValue.field === 'orderid' || objectOfValue.field === 'order_status' || objectOfValue.field === 'order_date'
-            ? (objectOfValue.sticky = true)
-            : (objectOfValue.sticky = false);
+        const arrayOfProperties = Object.keys(this.tableData[0]);
+        arrayOfProperties.forEach((property) => {
+          const requiredFieldValues = ['orderid', 'order_status', 'order_date'];
+          const objectOfValue = {
+            field: property,
+            sticky: this.isPropertyRequired(property, requiredFieldValues)
+          };
           dynamicallyColumns.push(objectOfValue);
         });
         this.columns = [].concat(requiredColumns, dynamicallyColumns);
@@ -134,6 +134,10 @@ export class UbsAdminTableComponent implements OnInit {
         this.detailsOfExport = dynamicallyColumns.slice(22, 27);
         this.responsiblePerson = dynamicallyColumns.slice(27, 33);
       });
+  }
+
+  private isPropertyRequired(field: string, requiredFields: string[]) {
+    return requiredFields.some((reqField) => field === reqField);
   }
 
   updateTableData() {
