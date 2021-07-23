@@ -201,7 +201,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     if (isEdit) {
       dialogConfig.data.address = currentAddress;
     } else {
-      dialogConfig.data.address = this.addresses[0] ? this.addresses[0].id : {};
+      dialogConfig.data.address = this.addresses[0]?.id || {};
     }
     const dialogRef = this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
     dialogRef

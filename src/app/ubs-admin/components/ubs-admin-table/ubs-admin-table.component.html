@@ -50,13 +50,13 @@
   [scrollWindow]="false"
 >
   <table
-    *ngIf="!isLoading; else spinner"
     mat-table
-    [dataSource]="dataSource"
     matSort
+    role="presentation"
     class="mat-elevation-z0"
     cdkDropListGroup
-    role="presentation"
+    [dataSource]="dataSource"
+    *ngIf="!isLoading; else spinner"
   >
     <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.field" [sticky]="column.sticky" class="column.field">
       <mat-header-cell

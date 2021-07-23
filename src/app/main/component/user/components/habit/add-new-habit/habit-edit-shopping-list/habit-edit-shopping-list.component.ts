@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
-
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { EditShoppingListService } from './edit-shopping-list.service';
@@ -83,6 +82,7 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
             this.getListItems(true);
             break;
           }
+          this.getListItems(false);
         }
       });
   }

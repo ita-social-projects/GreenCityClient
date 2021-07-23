@@ -12,21 +12,18 @@ export class DragAndDropDirective {
 
   @HostBinding('style.opacity') public opacity = '1';
 
-  @HostListener('dragover', ['$event'])
-  public onDragOver(evt: DragEvent) {
+  @HostListener('dragover', ['$event']) public onDragOver(evt: DragEvent) {
     this.opacity = '0.7';
     evt.preventDefault();
     evt.stopPropagation();
   }
 
-  @HostListener('dragleave', ['$event'])
-  public onDragLeave(evt: DragEvent) {
+  @HostListener('dragleave', ['$event']) public onDragLeave(evt: DragEvent) {
     evt.preventDefault();
     evt.stopPropagation();
   }
 
-  @HostListener('drop', ['$event'])
-  public onDrop(evt: DragEvent) {
+  @HostListener('drop', ['$event']) public onDrop(evt: DragEvent) {
     evt.preventDefault();
     evt.stopPropagation();
 
