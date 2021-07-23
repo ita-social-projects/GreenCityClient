@@ -89,13 +89,13 @@ export class UbsAdminTableComponent implements OnInit {
     const beforeColumnsLength = this.columns.length;
     this.columns = this.columns.filter((el) => el.field !== field);
     const afterColumnsLength = this.columns.length;
+    const requiredFieldValues = ['orderid', 'order_status', 'order_date'];
     if (beforeColumnsLength === afterColumnsLength) {
-      const newObjectForHeader = Object.create({});
-      newObjectForHeader.field = field;
-      newObjectForHeader.index = i;
-      newObjectForHeader.field === 'orderid' || newObjectForHeader.field === 'order_status' || newObjectForHeader.field === 'order_date'
-        ? (newObjectForHeader.sticky = true)
-        : (newObjectForHeader.sticky = false);
+      const newObjectForHeader = {
+        field,
+        sticky: this.isPropertyRequired(field, requiredFieldValues),
+        index: i
+      };
       this.columns = [...this.columns.slice(0, i), newObjectForHeader, ...this.columns.slice(i, this.columns.length)];
       this.setDisplayedColumns();
     } else {
@@ -155,7 +155,7 @@ export class UbsAdminTableComponent implements OnInit {
   }
 
   getSortingDate(columnName, sortingType) {
-    this.arrowDirection === columnName ? (this.arrowDirection = null) : (this.arrowDirection = columnName);
+    this.arrowDirection = this.arrowDirection === columnName ? null : columnName;
     this.getTable(columnName, sortingType);
   }
 
