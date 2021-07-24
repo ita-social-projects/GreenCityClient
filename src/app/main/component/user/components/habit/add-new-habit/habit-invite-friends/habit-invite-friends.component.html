@@ -1,10 +1,21 @@
-<div class="inviteTitle">
-  <p>Invite friends</p>
-</div>
-<div class="plusCircle">
-  <img src="../assets/img/icon/plus-circle.png" alt="" (click)="openInviteFriendsDialog()" />
-</div>
-
-<div class="inviteDetail">
-  <p>Invite your friends to share progress and compete with them</p>
+<div class="invite-container">
+  <div class="inviteTitle">
+    <p>Invite friends</p>
+  </div>
+  <div class="plusCircle">
+    <img src="../assets/img/icon/plus-circle.png" alt="" (click)="openInviteFriendsDialog()" />
+    <div class="friend" *ngFor="let friend of addedFriends">
+      <app-user-profile-image
+        [imgPath]="friend.profilePicture"
+        [firstName]="friend.name"
+        class="friend-img"
+        [additionalImgClass]="'friend-user-profile'"
+      >
+      </app-user-profile-image>
+      <p class="friend-name">{{ friend.name }}</p>
+    </div>
+  </div>
+  <div class="inviteDetail" *ngIf="!addedFriends.length">
+    <p>Invite your friends to share progress and compete with them</p>
+  </div>
 </div>

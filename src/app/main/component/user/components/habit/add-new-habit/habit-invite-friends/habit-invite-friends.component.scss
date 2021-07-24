@@ -7,17 +7,32 @@
   color: #000;
 }
 
-.plusCircle img {
-  margin: 10px 0 20px;
+.plusCircle {
+  display: flex;
+}
+
+img {
+  margin: 10px;
   width: 60px;
   height: 60px;
 }
 
-.inviteDetail p {
+.ng-star-inserted {
+  margin: 5px;
+  width: 80px;
+}
+
+p {
   font-family: var(--secondary-font);
   font-style: normal;
   font-weight: normal;
   font-size: 12px;
   line-height: 16px;
   color: var(--secondary-grey);
+}
+
+.friend {
+  p {
+    text-align: center;
+  }
 }
