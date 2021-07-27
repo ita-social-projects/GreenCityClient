@@ -36,5 +36,114 @@
       "delete-profile-cancel": "Назад",
       "delete-profile-save": "Видалити"
     }
+  },
+  "order-edit": {
+    "need-to-pay": "Потрібно доплатити",
+    "status": {
+      "title": "Замовлення",
+      "order-date": "Дата оформлення",
+      "order-label": "Статус замовлення",
+      "payment-label": "Статус оплати",
+      "approve-status": {
+        "approved": "Підтверджено",
+        "not-approved": "Не підтверджено"
+      },
+      "payment-status": {
+        "paid": "Оплачено",
+        "not-paid": "Не оплачено"
+      }
+    },
+    "comment": {
+      "label": "Коментар",
+      "placeholder": "Будь-які деталі, які Ви хотіли б повідомити додатково щодо цього замовлення"
+    }
+  },
+  "address-details": {
+    "title": "Адреса вивезення відходів",
+    "street": "Вулиця",
+    "comment-label": "Коментар до адреси від клієнта",
+    "comment-placeholder": "Будь-які деталі, які Ви хотіли б повідомити додатково щодо цього замовлення",
+    "building": "Будинок",
+    "corpus": "Корпус",
+    "entrance": "Під'їзд",
+    "region": "Район"
+  },
+  "customer-info": {
+    "title": "Інформація про клієнта",
+    "customer": {
+      "title": "Клієнт",
+      "name-label": "Ім'я",
+      "name-placeholder": "Placeholder",
+      "tel-label": "Телефон",
+      "tel-placeholder": "Placeholder",
+      "email-label": "Email",
+      "email-placeholder": "Placeholder"
+    },
+    "recipient": {
+      "title": "Отримувач",
+      "name-label": "Ім'я",
+      "name-placeholder": "Placeholder",
+      "tel-label": "Телефон",
+      "tel-placeholder": "Placeholder",
+      "email-label": "Email",
+      "email-placeholder": "Placeholder"
+    },
+    "violation": {
+      "title": "Порушення клієнта",
+      "amount": "Всього",
+      "current-order": "Поточне замовлення",
+      "button": "Додати порушення"
+    }
+  },
+  "order-details": {
+    "title": "Деталі замовлення",
+    "service": "Послуга",
+    "volume": "Об'єм",
+    "cost": "Вартість за одиницю",
+    "planned-amount": "Планована к-ть",
+    "approved-amount": "Підтверджена к-ть",
+    "exported-amount": "Вивезена к-ть",
+    "bags-amount": "Загальна кількість пакетів",
+    "order-sum": "Сума замовлення",
+    "certificate": "Сертифікат",
+    "bonuses": "Використані бонуси",
+    "sum-to-pay": "Сума до оплати",
+    "ubs-courier": "УБС Кур'єр",
+    "min-sum": "Замовлення не може бути змінене. Мінімальна сума замовлення",
+    "certificate-number-label": "Номер сертифікату",
+    "order-number-label": "Номер замовлення з магазину",
+    "client-comment": {
+      "label": "Коментар до замовлення від клієнта",
+      "placeholder": "Будь-які деталі, які Ви хотіли б повідомити додатково щодо цього замовлення"
+    },
+    "send-button": "Надіслати повідомлення"
+  },
+  "order-payment": {
+    "title": "Оплата замовлення",
+    "order-size": "Замовлення виконано у розмірі",
+    "add-payment-btn": "Додати оплату",
+    "order-date": "Дата оплати",
+    "payment-id": "ID платежу",
+    "sum": "Сума",
+    "comment-bill": "Коментар/Чек"
+  },
+  "export-details": {
+    "title": "Деталі вивезення",
+    "export-date": "Дата вивезення",
+    "export-time": "Час вивезення",
+    "station": "Станція приймання"
+  },
+  "responsible-persons": {
+    "title": "Відповідальні особи",
+    "service-manager": "Менеджер послуги",
+    "call-manager": "Менеджер обдзвону",
+    "logistician": "Логіст",
+    "navigator": "Штурман",
+    "driver": "Водій"
+  },
+  "cancel-modal": {
+    "question": "У разі скасування внесені зміни будуть втрачені. Чи дійсно Ви бажаєте скасувати зміни?",
+    "disagree": "Ні",
+    "agree": "Так"
   }
 }
