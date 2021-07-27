@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
-import { AddressDto, UserProfile } from '../../models/ubs-admin.interface';
+import { Address, UserProfile } from '../../models/ubs-admin.interface';
 import { ClientProfileService } from '../../services/client-profile.service';
 import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
 import { UbsProfileDeletePopUpComponent } from './ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
@@ -15,7 +15,7 @@ import { UbsProfileDeletePopUpComponent } from './ubs-profile-delete-pop-up/ubs-
 export class UbsClientProfilePageComponent implements OnInit {
   userForm: FormGroup;
   userProfile: UserProfile;
-  defaultAddressDto: AddressDto = {
+  defaultAddress: Address = {
     actual: true,
     city: '',
     coordinates: {
@@ -51,7 +51,7 @@ export class UbsClientProfilePageComponent implements OnInit {
       (res: UserProfile) => {
         this.userProfile = res;
         if (!this.userProfile.addressDto || Object.keys(this.userProfile.addressDto).length === 0) {
-          this.userProfile.addressDto = this.defaultAddressDto;
+          this.userProfile.addressDto = this.defaultAddress;
         }
         this.userInit();
         this.isFetching = false;
@@ -64,7 +64,7 @@ export class UbsClientProfilePageComponent implements OnInit {
 
   userInit() {
     this.userForm = new FormGroup({
-      addressDto: new FormGroup({
+      address: new FormGroup({
         city: new FormControl(this.userProfile.addressDto.city, [Validators.pattern(this.regexp), Validators.maxLength(20)]),
         street: new FormControl(this.userProfile.addressDto.street, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(20)]),
         houseNumber: new FormControl(this.userProfile.addressDto.houseNumber, [
@@ -109,7 +109,7 @@ export class UbsClientProfilePageComponent implements OnInit {
       this.userProfile = {
         ...this.userForm.value,
         addressDto: {
-          ...this.userForm.value.addressDto,
+          ...this.userForm.value.address,
           id: this.userProfile.addressDto.id,
           actual: this.userProfile.addressDto.actual,
           coordinates: this.userProfile.addressDto.coordinates

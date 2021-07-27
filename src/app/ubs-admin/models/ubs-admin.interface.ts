@@ -56,14 +56,14 @@ export interface IUserInfo {
 }
 
 export interface UserProfile {
-  addressDto: AddressDto;
+  addressDto: Address;
   recipientEmail: string;
   recipientName: string;
   recipientPhone: string;
   recipientSurname: string;
 }
 
-export interface AddressDto {
+export interface Address {
   actual: boolean;
   city: string;
   coordinates: {
