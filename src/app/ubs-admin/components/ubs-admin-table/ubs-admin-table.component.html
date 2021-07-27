@@ -1,16 +1,17 @@
 <div class="research">
-  <div class="search-imput"><input type="text" placeholder="Search" (keyup)="applyFilter($event.target.value)" /></div>
+  <div class="search-input"><input type="text" placeholder="Search" (keyup)="applyFilter($event.target.value)" /></div>
   <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
 </div>
 <div class="btn-group">
-  <select class="display-counter" (change)="selectPageSize($event.target.value)">
-    <option [value]="size" *ngFor="let size of pageSizeOptions">{{ size }}</option>
-  </select>
-  <button type="button" class="btn btn-default" class="filter-button">
-    <div><mat-icon>filter_list</mat-icon><span>Фільтрувати</span></div>
-  </button>
+  <div class="select-group">
+    <img [src]="ubsAdminTableIcons.arrowDown" alt="arrow down" />
+    <select class="display-counter" (change)="selectPageSize($event.target.value)">
+      <option [value]="size" *ngFor="let size of pageSizeOptions">{{ size }}</option>
+    </select>
+  </div>
   <button type="button" class="btn btn-default" class="view-table-btn" data-toggle="dropdown">
-    <mat-icon>create</mat-icon>Вид таблиці
+    <mat-icon>create</mat-icon>
+    Вид таблиці
   </button>
   <ul class="dropdown-menu">
     <li>Інформація про замовлення</li>
@@ -49,7 +50,7 @@
   (scrolled)="onScroll()"
   [scrollWindow]="false"
 >
-  <table *ngIf="!isLoading; else spinner" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z0" cdkDropListGroup>
+  <table *ngIf="!isLoading; else spinner" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z0 table" cdkDropListGroup>
     <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.field" [sticky]="column.sticky" class="column.field">
       <mat-header-cell
         *matHeaderCellDef
@@ -62,9 +63,9 @@
         [cdkDragData]="{ name: column.field, columIndex: i }"
       >
         <div *ngIf="column.field !== 'select'; else checkbox">
-          {{ column.field }}
-          <mat-icon *ngIf="arrowDirection !== column.field" (click)="getSortingDate(column.field, 'asc')">arrow_downward</mat-icon>
-          <mat-icon *ngIf="arrowDirection === column.field" (click)="getSortingDate(column.field, 'desc')">arrow_upward</mat-icon>
+          <span class="column-title">{{ column.field }}</span>
+          <mat-icon *ngIf="arrowDirection !== column.field" (click)="getSortingDate(column.field, 'asc')"> arrow_downward </mat-icon>
+          <mat-icon *ngIf="arrowDirection === column.field" (click)="getSortingDate(column.field, 'desc')"> arrow_upward </mat-icon>
         </div>
         <ng-template #checkbox>
           <mat-checkbox
@@ -85,6 +86,7 @@
         <ng-template #checkbox class="checkbox">
           <mat-checkbox
             (click)="$event.stopPropagation()"
+            class="select-cell"
             (change)="$event ? selection.toggle(row) : null"
             [checked]="selection.isSelected(row)"
             [aria-label]="checkboxLabel(row)"
