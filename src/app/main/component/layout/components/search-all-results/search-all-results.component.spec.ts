@@ -25,7 +25,8 @@ describe('SearchAllResultsComponent', () => {
       name: 'test'
     },
     creationDate: '0101',
-    tags: ['test']
+    tags: ['test'],
+    text: "test"
   };
 
   const searchDataMock = {
