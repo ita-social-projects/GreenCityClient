@@ -164,6 +164,26 @@ body {
   line-height: 20px;
 }
 
+.disagree {
+  background: #fff;
+  color: var(--ubs-primary-green);
+  padding: 8px 28px;
+  margin-right: 25px;
+}
+
+.agree {
+  background: var(--ubs-primary-green);
+  color: #fff;
+  padding: 8px 28px;
+}
+
+.disagree,
+.agree {
+  font-weight: bold;
+  font-size: 14px;
+  border: 1px solid var(--primary-green);
+}
+
 @media (max-width: 375px) {
   .custom-dialog-container .mat-dialog-container {
     padding: 30px 24px 27px 10px;

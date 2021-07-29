@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { UbsAdminOrdersComponent } from './components/ubs-admin-orders/ubs-admin-orders.component';
 import { UbsAdminEmployeeComponent } from './components/ubs-admin-employee/ubs-admin-employee.component';
 import { UbsClientProfilePageComponent } from './components/ubs-client-profile-page/ubs-client-profile-page.component';
 import { UbsAdminTableComponent } from './components/ubs-admin-table/ubs-admin-table.component';
@@ -13,6 +14,7 @@ const ubsAdminRoutes: Routes = [
     component: UbsAdminComponent,
     children: [
       { path: '', component: UbsAdminTableComponent },
+      { path: 'orders', component: UbsAdminOrdersComponent },
       { path: 'employee/:page', component: UbsAdminEmployeeComponent },
       { path: 'profile', component: UbsClientProfilePageComponent },
       { path: 'profile', component: UbsClientProfilePageComponent },

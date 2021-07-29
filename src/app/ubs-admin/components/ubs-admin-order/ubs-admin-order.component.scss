@@ -1,3 +1,54 @@
+.container {
+  margin-bottom: 100px;
+  position: relative;
+}
+
+.back-button,
+.back-button-top {
+  background-color: transparent;
+  color: var(--ubs-primary-green);
+  border: none;
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: bold;
+  width: 150px;
+  height: 44px;
+}
+
+.back-button-top {
+  top: 52px;
+  left: -115px;
+  position: absolute;
+}
+
+.back-button {
+  margin-left: 15px;
+}
+
+.cancel-button,
+.save-button {
+  border: 1px solid var(--ubs-primary-green);
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 28px;
+  padding: 5px 20px;
+  margin-right: 20px;
+}
+
+.cancel-button {
+  background-color: transparent;
+  color: var(--ubs-primary-green);
+}
+
+.save-button {
+  background-color: var(--ubs-primary-green);
+  color: #fff;
+}
+
+.controls {
+  margin-left: auto;
+}
+
 .box {
   box-shadow: 0 0 8px rgba(70, 70, 70, 0.25);
   margin-bottom: 40px;
