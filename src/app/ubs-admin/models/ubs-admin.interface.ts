@@ -144,3 +144,9 @@ export interface IExportDetails {
   exportedTime: string;
   receivingStation: string;
 }
+
+export interface IDetailStatus {
+  date: string;
+  orderStatus: string;
+  paymentStatus: string;
+}
