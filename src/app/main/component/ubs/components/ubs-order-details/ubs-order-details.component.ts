@@ -268,6 +268,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   addOrder(): void {
+    const additionalOrdersArray = this.orderDetailsForm.get('additionalOrders') as FormArray;
+    additionalOrdersArray.markAsUntouched();
     const additionalOrder = new FormControl('', [Validators.minLength(10)]);
     this.additionalOrders.push(additionalOrder);
     this.ecoStoreValidation();
