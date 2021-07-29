@@ -3,10 +3,9 @@
     <img [src]="ubsHeaderIcons.ubsAdminLogo" alt="UBS admin logo" />
   </div>
   <nav>
-    <a class="nav-link" href="#">Про нас</a>
-    <a class="nav-link" href="#">Правила сортування</a>
-    <a class="nav-link" href="#">Еко-магазин</a>
-    <a class="nav-link" href="#">Green City</a>
+    <a class="nav-link" *ngFor="let link of navLinks" [href]="link.route">
+      {{ link.name }}
+    </a>
   </nav>
   <div class="header-right-side">
     <img [src]="ubsHeaderIcons.searchIcon" alt="Search" />

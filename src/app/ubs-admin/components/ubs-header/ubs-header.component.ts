@@ -8,4 +8,10 @@ import { ubsHeaderIcons } from '../ubs-image-pathes/ubs-header-icons';
 })
 export class UbsHeaderComponent {
   ubsHeaderIcons = ubsHeaderIcons;
+  navLinks = [
+    { name: 'Про нас', route: '/' },
+    { name: 'Правила сортування', route: '/' },
+    { name: 'Еко-магазин', route: '/' },
+    { name: 'Green City', route: '/' }
+  ];
 }
