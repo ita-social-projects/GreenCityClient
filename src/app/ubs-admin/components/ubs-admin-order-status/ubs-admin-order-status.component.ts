@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { OrderService } from '../../services/order.service';
@@ -10,7 +10,7 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './ubs-admin-order-status.component.html',
   styleUrls: ['./ubs-admin-order-status.component.scss']
 })
-export class UbsAdminOrderStatusComponent implements OnInit {
+export class UbsAdminOrderStatusComponent implements OnInit, OnDestroy {
   public orderId = 893;
   public detailStatusForm: FormGroup;
   public detailStatus: IDetailStatus;
@@ -41,8 +41,7 @@ export class UbsAdminOrderStatusComponent implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: IDetailStatus) => {
         this.detailStatus = data;
-      })
-      
+      });
   }
 
   ngOnDestroy(): void {

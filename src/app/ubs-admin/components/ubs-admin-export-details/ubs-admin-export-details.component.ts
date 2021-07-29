@@ -25,11 +25,11 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy {
 
   public initForm() {
     this.orderExportDetailsForm = this.fb.group({
-      exportedDate: [""],
-      exportedTime: [""],
-      receivingStation: [""],
+      exportedDate: [''],
+      exportedTime: [''],
+      receivingStation: [''],
       allReceivingStations: this.fb.array([])
-    })
+    });
   }
 
   public patchFormData(): void {
@@ -45,7 +45,7 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy {
         this.orderExportDetails.exportedDate = new Date(data.exportedDate).toISOString().substr(0, 10);
         this.receivingStations = data.allReceivingStations;
         this.patchFormData();
-      })
+      });
   }
 
   ngOnDestroy(): void {
