@@ -152,5 +152,13 @@
     "question": "If you go back, the changes will be lost. Do you really want to cancel the changes?",
     "disagree": "No",
     "agree": "Yes"
+  },
+  "ubs-sidebar": {
+    "users": "Users",
+    "certificates": "Certificates",
+    "orders": "Orders",
+    "employees": "Employees",
+    "documents": "Documents",
+    "schedule": "Schedule"
   }
 }
