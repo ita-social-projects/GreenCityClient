@@ -41,7 +41,7 @@
   </div>
   <div class="row col-md-12 col-sm-12 col-lg-6 d-flex justify-content-between flex-wrap form-group">
     <div class="item col-sm-4">
-      <label>Будинок</label>
+      <label>{{ 'personal-info.pop-up-house' | translate }}</label>
       <input formControlName="houseNumber" type="text" class="shadow-none form-control" />
       <div class="validation" *ngIf="houseNumber.invalid && houseNumber.touched">
         <app-ubs-input-error [formElement]="houseNumber" [controlName]="'houseNumber'"></app-ubs-input-error>
