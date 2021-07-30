@@ -1,4 +1,8 @@
-.inviteTitle p {
+.invite-container {
+  display: flex;
+}
+
+.invite-title p {
   font-family: var(--secondary-font);
   font-style: normal;
   font-weight: 600;
@@ -7,12 +11,21 @@
   color: #000;
 }
 
-.plusCircle {
+.invite-content {
   display: flex;
+  flex-wrap: wrap;
+  max-width: 400px;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.plus-circle {
+  width: 100px;
+  margin: 0 10px;
 }
 
 img {
-  margin: 10px;
+  margin: 10px auto;
   width: 60px;
   height: 60px;
 }
@@ -29,10 +42,4 @@ p {
   font-size: 12px;
   line-height: 16px;
   color: var(--secondary-grey);
-}
-
-.friend {
-  p {
-    text-align: center;
-  }
 }
