@@ -1,11 +1,11 @@
 <div class="ubsHomepage">
   <h1>{{ 'ubs-homepage.general' | translate }}</h1>
   <header>
-    <div id="header-left">
-      <img [src]="ubsArmoredTrack" id="ubs-image" alt="ubs-armored-track" aria-hidden="true" />
+    <div class="header-left">
+      <img [src]="ubsMainPageImages.ubsArmoredTrack" class="ubs-image" alt="ubs-armored-track" aria-hidden="true" />
     </div>
-    <div id="header-right">
-      <div id="main-content">
+    <div class="header-right">
+      <div class="main-content">
         <h2>{{ 'ubs-homepage.header.caption' | translate }}</h2>
         <p>{{ 'ubs-homepage.header.content' | translate }}</p>
         <button class="button primary-global-button">
@@ -15,57 +15,30 @@
     </div>
   </header>
   <h4 class="section-header">{{ 'ubs-homepage.ubs-courier.info-header' | translate }}</h4>
-  <img [src]="ubsPolygon" id="ubs-polygon" alt="ubs-polygon" aria-hidden="true" />
+  <img [src]="ubsMainPageImages.ubsPolygon" class="ubs-polygon" alt="ubs-polygon" aria-hidden="true" />
   <section>
     <div class="how-preparing">
-      <div id="header-left">
-        <img [src]="ubsGreenGarbage" id="ubs-image" alt="ubs-green-garbage" aria-hidden="true" />
+      <div class="header-left">
+        <img [src]="ubsMainPageImages.ubsGreenGarbage" class="ubs-image" alt="ubs-green-garbage" aria-hidden="true" />
       </div>
-      <div id="header-right">
+      <div class="header-right">
         <h2>{{ 'ubs-homepage.ubs-courier.preparing.caption' | translate }}</h2>
         <ul>
-          <li>
-            {{ 'ubs-homepage.ubs-courier.preparing.content.li_1' | translate }}
-          </li>
-          <li>
-            {{ 'ubs-homepage.ubs-courier.preparing.content.li_2' | translate }}
-          </li>
-          <li>
-            {{ 'ubs-homepage.ubs-courier.preparing.content.li_3' | translate }}
-          </li>
-          <li>
-            {{ 'ubs-homepage.ubs-courier.preparing.content.li_4' | translate }}
-          </li>
-          <li>
-            {{ 'ubs-homepage.ubs-courier.preparing.content.li_5' | translate }}
-          </li>
-          <li>
-            {{ 'ubs-homepage.ubs-courier.preparing.content.li_6' | translate }}
-          </li>
-          <li>
-            {{ 'ubs-homepage.ubs-courier.preparing.content.li_7' | translate }}
-          </li>
-          <li>
-            {{ 'ubs-homepage.ubs-courier.preparing.content.li_8' | translate }}
+          <li *ngFor="let li of preparingContent">
+            {{ li | translate }}
           </li>
         </ul>
       </div>
     </div>
-    <div id="header-left">
-      <img [src]="ubsBlackGarbage" id="ubs-image" alt="ubs-black-garbage" aria-hidden="true" />
+    <div class="header-left">
+      <img [src]="ubsMainPageImages.ubsBlackGarbage" class="ubs-image" alt="ubs-black-garbage" aria-hidden="true" />
     </div>
-    <div id="header-right">
-      <div id="main-content">
+    <div class="header-right">
+      <div class="main-content">
         <h2>{{ 'ubs-homepage.ubs-courier.rules.caption' | translate }}</h2>
         <ul>
-          <li>
-            {{ 'ubs-homepage.ubs-courier.rules.content.li_1' | translate }}
-          </li>
-          <li class="bold">
-            {{ 'ubs-homepage.ubs-courier.rules.content.li_2' | translate }}
-          </li>
-          <li class="bold">
-            {{ 'ubs-homepage.ubs-courier.rules.content.li_3' | translate }}
+          <li *ngFor="let rule of rules">
+            {{ rule | translate }}
           </li>
         </ul>
       </div>
@@ -75,7 +48,7 @@
     <h2 class="price-header">{{ 'ubs-homepage.ubs-courier.price.caption' | translate }}</h2>
     <div class="boxCard">
       <div id="price-frame" *ngFor="let elemPrice of priceCard">
-        <img [src]="ubsRectangle" class="img_2" alt="ubs-rectangle" aria-hidden="true" />
+        <img [src]="ubsMainPageImages.ubsRectangle" class="ubs-rectangle" alt="ubs-rectangle" aria-hidden="true" />
         <h2 class="header-price">{{ elemPrice.header | translate }}</h2>
         <p class="content-price">{{ elemPrice.content | translate }}</p>
       </div>
@@ -94,10 +67,10 @@
     </div>
   </section>
   <section id="how-works">
-    <div id="header-left">
-      <img [src]="ubsSignboard" id="ubs-image" alt="ubs-signboard" aria-hidden="true" />
+    <div class="header-left">
+      <img [src]="ubsMainPageImages.ubsSignboard" class="ubs-image" alt="ubs-signboard" aria-hidden="true" />
     </div>
-    <div id="header-right">
+    <div class="header-right">
       <div id="main-content">
         <h2 id="header-how-works">{{ 'ubs-homepage.ubs-courier.how-works.header' | translate }}</h2>
         <p class="time-how">{{ 'ubs-homepage.ubs-courier.how-works.time.pre_1' | translate }}</p>

@@ -1,9 +1,13 @@
+@mixin height-and-width($height, $width) {
+  height: $height;
+  width: $width;
+}
+
 .ubsHomepage {
   vertical-align: top;
   max-width: 1920px;
   margin: 0 auto;
   color: var(--ubs-primary-grey);
-  letter-spacing: 0.002em;
   font-family: var(--primary-font);
   font-style: normal;
   font-weight: normal;
@@ -27,10 +31,9 @@ h2 {
 
 .button {
   font-size: 18px;
-  height: 44px;
+  @include height-and-width(44px, 200px);
   background-color: var(--ubs-button-light-green);
   color: var(--ubs-tertiary-dark-grey);
-  width: 200px;
   margin-top: 25px;
 }
 
@@ -45,22 +48,22 @@ p {
   text-align: center;
 }
 
-#header {
+.header {
   height: 559px;
 }
 
-#header-left {
+.header-left {
   display: inline-block;
   max-width: 51%;
   vertical-align: top;
 }
 
-#header-right {
+.header-right {
   display: inline-block;
   width: 49%;
 }
 
-#ubs-image {
+.ubs-image {
   display: block;
   outline: 0;
   max-width: 100%;
@@ -68,7 +71,7 @@ p {
   margin: 20px auto 10px 0;
 }
 
-#ubs-polygon {
+.ubs-polygon {
   display: block;
   margin: 10px auto 65px;
 }
@@ -110,15 +113,13 @@ ul {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 185px;
-  height: 271px;
-  background-image: url(/assets/img/ubs/first_rectangle.png);
+  @include height-and-width(291px, 185px);
+  background-image: url('src/assets/img/ubs/first_rectangle.png');
   background-size: 184px 282px;
 }
 
-.img_2 {
-  width: 79px;
-  height: 230px;
+.ubs-rectangle {
+  @include height-and-width(230px, 79px);
   position: absolute;
   top: 20px;
   left: 55px;
@@ -164,15 +165,13 @@ ul {
   display: flex;
   justify-content: space-between;
   flex: 1 0 25%;
-  width: 133px;
-  height: 203px;
+  @include height-and-width(203px, 133px);
   margin: 50px;
 }
 
 .circle {
   position: relative;
-  width: 30px;
-  height: 30px;
+  @include height-and-width(30px, 30px);
   line-height: 30px;
   background-color: var(--ubs-tertiary-dark-grey);
   color: var(--ubs-primary-white);
@@ -185,8 +184,7 @@ ul {
 hr {
   border: none;
   background-color: var(--ubs-tertiary-light-grey);
-  height: 2px;
-  width: 72px;
+  @include height-and-width(2px, 72px);
   position: absolute;
   left: 55px;
   top: 5px;
@@ -239,14 +237,12 @@ hr {
   }
 
   #price-frame {
-    width: 250px;
-    height: 228px;
+    @include height-and-width(228px, 250px);
     background-size: 250px 228px;
   }
 
-  .img_2 {
-    height: 189px;
-    width: 108px;
+  .ubs-rectangle {
+    @include height-and-width(189px, 108px);
     top: 15px;
     left: 75px;
   }
@@ -266,14 +262,12 @@ hr {
   }
 
   #price-frame {
-    width: 310px;
-    height: 178px;
+    @include height-and-width(178px, 310px);
     background-size: 310px 187px;
   }
 
-  .img_2 {
-    height: 150px;
-    width: 163px;
+  .ubs-rectangle {
+    @include height-and-width(150px, 163px);
     top: 15px;
     left: 75px;
   }
@@ -293,14 +287,12 @@ hr {
 
 @media screen and (max-width: 425px) {
   #price-frame {
-    width: 310px;
-    height: 178px;
+    @include height-and-width(178px, 310px);
     background-size: 310px 187px;
   }
 
-  .img_2 {
-    height: 150px;
-    width: 163px;
+  .ubs-rectangle {
+    @include height-and-width(150px, 163px);
     top: 15px;
     left: 75px;
   }

@@ -1,17 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { ubsMainPageImages } from '../../../../image-pathes/ubs-main-page-images';
 
 @Component({
   selector: 'app-ubs-main-page',
   templateUrl: './ubs-main-page.component.html',
   styleUrls: ['./ubs-main-page.component.scss']
 })
-export class UbsMainPageComponent implements OnInit {
-  readonly ubsArmoredTrack = 'assets/img/ubs/armored_truck.svg';
-  readonly ubsGreenGarbage = 'assets/img/ubs/green_garbage_bag.svg';
-  readonly ubsBlackGarbage = 'assets/img/ubs/black_garbage_bag.svg';
-  readonly ubsRectangle = 'assets/img/ubs/second_rectangle.png';
-  readonly ubsPolygon = 'assets/img/ubs/polygon.svg';
-  readonly ubsSignboard = 'assets/img/ubs/ubs_signboard.svg';
+export class UbsMainPageComponent {
+  ubsMainPageImages = ubsMainPageImages;
   priceCard = [
     {
       header: 'ubs-homepage.ubs-courier.price.price-title.li_1',
@@ -50,7 +46,19 @@ export class UbsMainPageComponent implements OnInit {
     }
   ];
 
-  constructor() {}
+  preparingContent = [
+    'ubs-homepage.ubs-courier.preparing.content.li_1',
+    'ubs-homepage.ubs-courier.preparing.content.li_2',
+    'ubs-homepage.ubs-courier.preparing.content.li_3',
+    'ubs-homepage.ubs-courier.preparing.content.li_4',
+    'ubs-homepage.ubs-courier.preparing.content.li_5',
+    'ubs-homepage.ubs-courier.preparing.content.li_6',
+    'ubs-homepage.ubs-courier.preparing.content.li_7'
+  ];
 
-  ngOnInit() {}
+  rules = [
+    'ubs-homepage.ubs-courier.rules.content.li_1',
+    'ubs-homepage.ubs-courier.rules.content.li_2',
+    'ubs-homepage.ubs-courier.rules.content.li_3'
+  ];
 }
