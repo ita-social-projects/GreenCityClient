@@ -22,8 +22,8 @@ describe('UsersFriendsComponent', () => {
       currentPage: 1,
       page: [],
       totalElements: 6,
-      totalPages: 1,
-    },
+      totalPages: 1
+    }
   };
   profileServiceMock = jasmine.createSpyObj('ProfileService', ['getUserFriends']);
   profileServiceMock.getUserFriends = () => of(userFriends);
@@ -35,8 +35,8 @@ describe('UsersFriendsComponent', () => {
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule.withRoutes([])],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: ProfileService, useValue: profileServiceMock },
-      ],
+        { provide: ProfileService, useValue: profileServiceMock }
+      ]
     }).compileComponents();
   }));
 
@@ -60,7 +60,7 @@ describe('UsersFriendsComponent', () => {
     expect(initUserSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('should get a user\'s', () => {
+  it("should get a user's", () => {
     const showUsersFriendsSpy = spyOn(component as any, 'showUsersFriends');
     component.ngOnInit();
     expect(showUsersFriendsSpy).toHaveBeenCalledTimes(1);
@@ -70,6 +70,6 @@ describe('UsersFriendsComponent', () => {
     const error = 'Error message';
     spyOn(profileServiceMock, 'getUserFriends').and.returnValue(throwError(error));
     component.showUsersFriends();
-    expect(component.noFriends).toBeFalsy();
+    expect(component.noFriends).toBe('Error message');
   });
 });

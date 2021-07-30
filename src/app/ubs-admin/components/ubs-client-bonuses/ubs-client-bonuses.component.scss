@@ -1,0 +1,78 @@
+.bonuses-container {
+  padding: 40px 32px;
+  font-family: var(--primary-font);
+}
+
+.no-bonuses-wrapper {
+  padding-top: 30px;
+}
+
+.no-bonuses-text {
+  padding-right: 8px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+.more-about-bonuses-link {
+  color: var(--primary-green);
+}
+
+.link-center {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  padding: 24px 0 64px 0;
+}
+
+.bonuses-exist-wrapper {
+  width: 100%;
+}
+
+.total-bonuses-number {
+  width: 228px;
+  height: 140px;
+  background-color: var(--primary-white);
+  box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
+  text-align: center;
+  padding-top: 24px;
+  margin: 0 auto;
+}
+
+.total-bonuses-number__header {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  line-height: 28px;
+}
+
+.total-bonuses-number__amount {
+  font-weight: 700;
+  font-size: 32px;
+  letter-spacing: 0.2px;
+  line-height: 40px;
+}
+
+.bonuses-table-wrapper {
+  max-width: 775px;
+  margin: 0 auto;
+}
+
+.mat-header-cell,
+.mat-cell {
+  color: var(--ubs-primary-grey);
+  padding: 17px 0;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.date-sort-icon {
+  padding-left: 6.5px;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.mat-header-cell {
+  font-weight: 700;
+  letter-spacing: 0.1px;
+}

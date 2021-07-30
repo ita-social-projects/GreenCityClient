@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserForListDtoModel } from '../../../../model/user/user-for-list-dto.model';
 import { UserService } from '../../../../service/user/user.service';
 import { DomSanitizer, Title } from '@angular/platform-browser';
-import { NgFlashMessageService } from 'ng-flash-messages';
 import { MatIconRegistry, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PaginationComponent } from 'ngx-bootstrap/pagination';
@@ -17,7 +16,7 @@ export interface Role {
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss'],
+  styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
   users: UserForListDtoModel[];
@@ -36,13 +35,12 @@ export class UsersComponent implements OnInit {
   displayedColumns: string[] = ['email', 'firstName', 'lastName', 'dateOfRegistration', 'role', 'block', 'deactivate'];
   maxSizePagination = 6;
   sortArrow: string;
-  @ViewChild('paginationElement', { static: false }) paginationComponent: PaginationComponent;
+  @ViewChild('paginationElement') paginationComponent: PaginationComponent;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
     private userService: UserService,
     private titleService: Title,
-    private ngFlashMessageService: NgFlashMessageService,
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
     private jwtService: JwtService
@@ -102,23 +100,9 @@ export class UsersComponent implements OnInit {
     );
   }
 
-  successfulAction(message: string) {
-    this.ngFlashMessageService.showFlashMessage({
-      messages: [message],
-      dismissible: true,
-      timeout: 3000,
-      type: 'success',
-    });
-  }
+  successfulAction(message: string) {}
 
-  errorMessage(message: string) {
-    this.ngFlashMessageService.showFlashMessage({
-      messages: [message],
-      dismissible: true,
-      timeout: 3000,
-      type: 'danger',
-    });
-  }
+  errorMessage(message: string) {}
 
   getRoles() {
     this.userService.getRoles().subscribe((res) => {

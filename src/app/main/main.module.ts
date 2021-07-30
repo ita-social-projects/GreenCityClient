@@ -9,14 +9,13 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireModule } from '@angular/fire';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
-import { NgFlashMessagesModule } from 'ng-flash-messages';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { provideConfig } from './config/GoogleAuthConfig';
 import { environment } from '@environment/environment';
 import { ProposeCafeComponent } from '@global-core/components';
 import { AdminModule } from './component/admin/admin.module';
 import { RestoreComponent } from '@global-auth/restore/restore.component';
-import { InterceptorService } from './service/interceptors/interceptor.service';
+import { InterceptorService } from '../shared/interceptors/interceptor.service';
 import { CoreModule } from '@global-core/core.module';
 import { AuthModule } from './component/auth/auth.module';
 import { HomeModule } from './component/home/home.module';
@@ -42,7 +41,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     SocialLoginModule,
     FormsModule,
     AdminModule,
-    NgFlashMessagesModule.forRoot(),
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,

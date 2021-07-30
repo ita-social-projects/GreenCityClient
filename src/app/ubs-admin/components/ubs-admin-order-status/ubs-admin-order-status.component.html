@@ -1,7 +1,9 @@
 <div class="container mb-3">
   <div class="row d-flex justify-content-between mt-4">
-    <h1 class="title">Замовлення №37399</h1>
-    <div class="pr-4"><span class="form__label">Дата оформлення: </span><span>11.11.2020</span></div>
+    <h1 class="title">{{ 'order-edit.status.title' | translate }} №37399</h1>
+    <div class="pr-4">
+      <span class="form__label">{{ 'order-edit.status.order-date' | translate }}: </span><span>11.11.2020</span>
+    </div>
   </div>
   <form class="mt-5">
     <div class="row">
@@ -10,10 +12,10 @@
           <div class="col-12">
             <div class="form-row">
               <div class="form-group col-sm-10 col-md-7">
-                <label for="order" class="form__label">Статус замовлення</label>
+                <label for="order" class="form__label">{{ 'order-edit.status.order-label' | translate }}</label>
                 <select id="order" class="form-control">
-                  <option selected>Підтверджено</option>
-                  <option>Не підтверджено</option>
+                  <option selected>{{ 'order-edit.status.approve-status.approved' | translate }}</option>
+                  <option>{{ 'order-edit.status.approve-status.not-approved' | translate }}</option>
                 </select>
               </div>
             </div>
@@ -21,10 +23,10 @@
           <div class="col-12">
             <div class="form-row">
               <div class="form-group col-sm-10 col-md-7">
-                <label for="payment" class="form__label">Статус оплати</label>
+                <label for="payment" class="form__label">{{ 'order-edit.status.payment-label' | translate }}</label>
                 <select id="payment" class="form-control payment">
-                  <option selected>Оплачено</option>
-                  <option>Не оплачено</option>
+                  <option selected>{{ 'order-edit.status.payment-status.paid' | translate }}</option>
+                  <option selected>{{ 'order-edit.status.payment-status.not-paid' | translate }}</option>
                 </select>
               </div>
             </div>
@@ -33,12 +35,12 @@
       </div>
       <div class="col-sm-6 col-md-5 offdet-sm-0 offset-md-1">
         <div class="form-group">
-          <label for="comment" class="form__label">Коментар</label>
+          <label for="comment" class="form__label">{{ 'order-edit.comment.label' | translate }}</label>
           <textarea
             class="form-control mw-100"
             id="comment"
             rows="3"
-            placeholder="Будь-які деталі, які Ви хотіли б повідомити додатково щодо цього замовлення"
+            placeholder="{{ 'order-edit.comment.placeholder' | translate }}"
           ></textarea>
         </div>
       </div>

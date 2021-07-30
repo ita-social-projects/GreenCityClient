@@ -1,9 +1,21 @@
-<div class="container box">
-  <app-ubs-admin-order-status></app-ubs-admin-order-status>
-  <app-ubs-admin-order-client-info></app-ubs-admin-order-client-info>
-  <app-ubs-admin-address-details></app-ubs-admin-address-details>
-  <app-ubs-admin-order-details-form></app-ubs-admin-order-details-form>
-  <app-ubs-admin-order-payment></app-ubs-admin-order-payment>
-  <app-ubs-admin-export-details></app-ubs-admin-export-details>
-  <app-ubs-admin-responsible-persons></app-ubs-admin-responsible-persons>
+<div class="container">
+  <div class="row">
+    <button class="back-button-top" (click)="openGoBackModal()">< Назад</button>
+  </div>
+  <div class="box">
+    <app-ubs-admin-order-status></app-ubs-admin-order-status>
+    <app-ubs-admin-order-client-info></app-ubs-admin-order-client-info>
+    <app-ubs-admin-address-details></app-ubs-admin-address-details>
+    <app-ubs-admin-order-details-form></app-ubs-admin-order-details-form>
+    <app-ubs-admin-order-payment></app-ubs-admin-order-payment>
+    <app-ubs-admin-export-details></app-ubs-admin-export-details>
+    <app-ubs-admin-responsible-persons></app-ubs-admin-responsible-persons>
+  </div>
+  <div class="row">
+    <button class="back-button" (click)="openGoBackModal()">< Назад</button>
+    <div class="controls">
+      <button class="cancel-button" (click)="openCancelModal()">Скасувати</button>
+      <button class="save-button">Зберегти</button>
+    </div>
+  </div>
 </div>

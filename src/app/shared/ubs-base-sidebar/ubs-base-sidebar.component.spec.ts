@@ -4,15 +4,16 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCheckboxModule, MatIconModule, MatPaginatorModule, MatSidenavModule, MatTableModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { UbsAdminTableComponent } from '../ubs-admin-table/ubs-admin-table.component';
-import { UbsHeaderComponent } from '../ubs-header/ubs-header.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { SharedModule } from '../../../app/shared/shared.module';
+import { UbsAdminTableComponent } from '../../ubs-admin/components/ubs-admin-table/ubs-admin-table.component';
+import { UbsHeaderComponent } from '../../ubs-admin/components/ubs-header/ubs-header.component';
 
-import { UbsSidebarComponent } from './ubs-sidebar.component';
+import { UbsBaseSidebarComponent } from './ubs-base-sidebar.component';
 
-describe('UbsSidebarComponent', () => {
-  let component: UbsSidebarComponent;
-  let fixture: ComponentFixture<UbsSidebarComponent>;
+describe('UbsBaseSidebarComponent', () => {
+  let component: UbsBaseSidebarComponent;
+  let fixture: ComponentFixture<UbsBaseSidebarComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -26,14 +27,15 @@ describe('UbsSidebarComponent', () => {
         BrowserAnimationsModule,
         HttpClientTestingModule,
         SharedModule,
-        RouterTestingModule
+        RouterTestingModule,
+        InfiniteScrollModule
       ],
-      declarations: [UbsSidebarComponent, UbsAdminTableComponent, UbsHeaderComponent]
+      declarations: [UbsBaseSidebarComponent, UbsAdminTableComponent, UbsHeaderComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UbsSidebarComponent);
+    fixture = TestBed.createComponent(UbsBaseSidebarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

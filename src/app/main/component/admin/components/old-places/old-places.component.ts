@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer, Title } from '@angular/platform-browser';
 import { AdminPlace } from '../../models/admin-place.model';
-import { NgFlashMessageService } from 'ng-flash-messages';
 import { PlaceService } from '../../../../service/place/place.service';
 import { MatDialog, MatIconRegistry, MatTableDataSource } from '@angular/material';
 import { PlaceStatus } from '../../../../model/placeStatus.model';
@@ -44,7 +43,7 @@ export class OldPlacesComponent implements OnInit {
   sortDirection = 'asc';
   selectedColumnToSort = 'name';
   sortArrow: string;
-  @ViewChild('paginationElement', { static: false })
+  @ViewChild('paginationElement')
   paginationComponent: PaginationComponent;
   deleteTranslation: string;
   deleteMessageTranslation: string;
@@ -55,7 +54,6 @@ export class OldPlacesComponent implements OnInit {
     private titleService: Title,
     private placeService: PlaceService,
     public weekDaysUtils: WeekDaysUtils,
-    private ngFlashMessageService: NgFlashMessageService,
     private confirmationDialogService: ConfirmationDialogService,
     private translation: TranslateService,
     iconRegistry: MatIconRegistry,
@@ -207,14 +205,7 @@ export class OldPlacesComponent implements OnInit {
     }
   }
 
-  showMessage(message: string, messageType: string) {
-    this.ngFlashMessageService.showFlashMessage({
-      messages: [message],
-      dismissible: true,
-      timeout: 3000,
-      type: messageType
-    });
-  }
+  showMessage(message: string, messageType: string) {}
 
   setDisplayedColumns() {
     this.displayedColumns = [

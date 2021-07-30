@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
+import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
+import { Address, UserProfile } from '../../models/ubs-admin.interface';
+import { ClientProfileService } from '../../services/client-profile.service';
 import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
 import { UbsProfileDeletePopUpComponent } from './ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
 
@@ -11,75 +14,131 @@ import { UbsProfileDeletePopUpComponent } from './ubs-profile-delete-pop-up/ubs-
 })
 export class UbsClientProfilePageComponent implements OnInit {
   userForm: FormGroup;
-
-  public languages: string[] = ['Українська', 'Російська', 'Англійська'];
-
-  public user: { [key: string]: string } = {
-    firstName: 'Іван',
-    lastName: 'Нечуй-Левицький',
-    id: '0',
-    language: this.languages[0],
-    email: 'ivan@gmail.com',
-    phoneNumber: '+380991234567',
-    city: ' Київ',
-    street: 'Грушевського',
-    houseNumber: '20',
-    houseCorpus: '5',
-    entranceNumber: '3',
-    district: 'Печерський'
+  userProfile: UserProfile;
+  defaultAddress: Address = {
+    actual: true,
+    city: '',
+    coordinates: {
+      latitude: 1,
+      longitude: 1
+    },
+    district: '',
+    entranceNumber: '',
+    houseCorpus: '',
+    houseNumber: '',
+    id: null,
+    street: ''
   };
-  public isEditing = false;
 
-  constructor(public dialog: MatDialog) {}
+  googleIcon = SignInIcons.picGoogle;
+  isEditing = false;
+  isFetching = false;
+  isError = false;
+  phoneMask = '+{38} 000 000 00 00';
+  private readonly regexp = /^([a-zA-ZА-Яа-яЄЇҐа-їєґ '-])+$/iu;
+  private readonly regexpEmail = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  private readonly regexpWithDigits = /^([a-zA-ZА-Яа-яЄЇҐа-їєґ0-9 '-])+$/iu;
+
+  constructor(public dialog: MatDialog, private clientProfileService: ClientProfileService) {}
 
   ngOnInit() {
-    this.userForm = new FormGroup({
-      firstName: new FormControl(this.user.firstName, Validators.required),
-      lastName: new FormControl(this.user.lastName, Validators.required),
-      language: new FormControl(this.languages[0]),
-      email: new FormControl(this.user.email, [Validators.required, Validators.email]),
-      phoneNumber: new FormControl(this.user.phoneNumber, Validators.required),
-      city: new FormControl(this.user.city, Validators.required),
-      street: new FormControl(this.user.street, Validators.required),
-      houseNumber: new FormControl(this.user.houseNumber, Validators.required),
-      houseCorpus: new FormControl(this.user.houseCorpus, Validators.required),
-      entranceNumber: new FormControl(this.user.entranceNumber, Validators.required),
-      district: new FormControl(this.user.district, Validators.required)
-    });
+    this.getUserData();
   }
 
-  public openDeleteProfileDialog() {
+  getUserData() {
+    this.isFetching = true;
+    this.clientProfileService.getDataClientProfile().subscribe(
+      (res: UserProfile) => {
+        this.userProfile = res;
+        if (!this.userProfile.addressDto || Object.keys(this.userProfile.addressDto).length === 0) {
+          this.userProfile.addressDto = this.defaultAddress;
+        }
+        this.userInit();
+        this.isFetching = false;
+      },
+      (err: Error) => {
+        this.isError = true;
+      }
+    );
+  }
+
+  userInit() {
+    this.userForm = new FormGroup({
+      address: new FormGroup({
+        city: new FormControl(this.userProfile.addressDto.city, [Validators.pattern(this.regexp), Validators.maxLength(20)]),
+        street: new FormControl(this.userProfile.addressDto.street, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(20)]),
+        houseNumber: new FormControl(this.userProfile.addressDto.houseNumber, [
+          Validators.pattern(this.regexpWithDigits),
+          Validators.maxLength(4)
+        ]),
+        houseCorpus: new FormControl(this.userProfile.addressDto.houseCorpus, [
+          Validators.pattern(this.regexpWithDigits),
+          Validators.maxLength(4)
+        ]),
+        entranceNumber: new FormControl(this.userProfile.addressDto.entranceNumber, [
+          Validators.pattern(this.regexpWithDigits),
+          Validators.maxLength(4)
+        ]),
+        district: new FormControl(this.userProfile.addressDto.district, [
+          Validators.pattern(this.regexpWithDigits),
+          Validators.maxLength(20)
+        ])
+      }),
+      recipientName: new FormControl(this.userProfile.recipientName, [Validators.required, Validators.pattern(this.regexp)]),
+      recipientSurname: new FormControl(this.userProfile.recipientSurname, [Validators.required, Validators.pattern(this.regexp)]),
+      recipientEmail: new FormControl(this.userProfile.recipientEmail, [Validators.required, Validators.pattern(this.regexpEmail)]),
+      recipientPhone: new FormControl(`+38 0${this.userProfile.recipientPhone}`, [Validators.required, Validators.minLength(12)])
+    });
+    this.isFetching = false;
+  }
+
+  onEdit() {
+    this.isEditing = true;
+    this.isFetching = false;
+  }
+
+  onCancel() {
+    this.userInit();
+    this.isEditing = false;
+  }
+
+  onSubmit() {
+    if (this.userForm.valid) {
+      this.isFetching = true;
+      this.isEditing = false;
+      this.userProfile = {
+        ...this.userForm.value,
+        addressDto: {
+          ...this.userForm.value.address,
+          id: this.userProfile.addressDto.id,
+          actual: this.userProfile.addressDto.actual,
+          coordinates: this.userProfile.addressDto.coordinates
+        },
+        recipientPhone: this.userForm.value.recipientPhone.substr(-9, 9)
+      };
+      this.clientProfileService.postDataClientProfile(this.userProfile).subscribe(
+        (res: UserProfile) => {
+          this.isFetching = false;
+        },
+        (err: Error) => {
+          this.isError = true;
+          this.isFetching = false;
+        }
+      );
+    } else {
+      this.isEditing = true;
+    }
+  }
+
+  openDeleteProfileDialog() {
     this.dialog.open(UbsProfileDeletePopUpComponent, {
       hasBackdrop: true
     });
   }
 
-  public openChangePasswordDialog() {
+  openChangePasswordDialog() {
     this.dialog.open(UbsProfileChangePasswordPopUpComponent, {
       hasBackdrop: true
     });
-  }
-
-  onEdit() {
-    this.isEditing = true;
-  }
-
-  onCancel() {
-    this.isEditing = false;
-  }
-
-  onSubmit() {
-    this.user.firstName = this.userForm.value.firstName;
-    this.user.lastName = this.userForm.value.lastName;
-    this.user.language = this.userForm.value.language;
-    this.user.email = this.userForm.value.email;
-    this.user.phoneNumber = this.userForm.value.phoneNumber;
-    this.user.city = this.userForm.value.city;
-    this.user.street = this.userForm.value.street;
-    this.user.houseNumber = this.userForm.value.houseNumber;
-    this.user.houseCorpus = this.userForm.value.houseCorpus;
-    this.user.entranceNumber = this.userForm.value.entranceNumber;
-    this.user.district = this.userForm.value.district;
-    this.isEditing = false;
   }
 }

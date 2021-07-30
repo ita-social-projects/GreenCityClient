@@ -13,7 +13,7 @@ import { ItemClass } from './CalendarItemStyleClasses';
 
 @Component({
   selector: 'app-calendar-base',
-  template: '',
+  template: ''
 })
 export class CalendarBaseComponent implements OnDestroy {
   public calendarImages = calendarImage;
@@ -50,7 +50,7 @@ export class CalendarBaseComponent implements OnDestroy {
     totalDaysInMonth: 0,
     hasHabitsInProgress: false,
     areHabitsDone: false,
-    isCurrentDayActive: false,
+    isCurrentDayActive: false
   };
 
   public userHabitsList: Array<HabitsForDateInterface>;
@@ -68,8 +68,12 @@ export class CalendarBaseComponent implements OnDestroy {
   ) {}
 
   ngOnDestroy() {
-    this.langChangeSub.unsubscribe();
-    this.defaultTranslateSub.unsubscribe();
+    if (this.langChangeSub) {
+      this.langChangeSub.unsubscribe();
+    }
+    if (this.defaultTranslateSub) {
+      this.defaultTranslateSub.unsubscribe();
+    }
     this.destroySub.next();
     this.destroySub.complete();
   }
@@ -146,7 +150,7 @@ export class CalendarBaseComponent implements OnDestroy {
       dayName: new Date(this.calendar.year, this.calendar.month, days).toDateString().substring(0, 3) || '',
       hasHabitsInProgress: false,
       areHabitsDone: false,
-      isCurrentDayActive: false,
+      isCurrentDayActive: false
     };
   }
 
@@ -311,12 +315,12 @@ export class CalendarBaseComponent implements OnDestroy {
     dialogConfig.backdropClass = 'backdropBackground';
     dialogConfig.position = {
       top: pos.y + 20 + 'px',
-      left: pos.x - 300 + 'px',
+      left: pos.x - 300 + 'px'
     };
     dialogConfig.data = {
       habitsCalendarSelectedDate: this.formatSelectedDate(isMonthCalendar, dayItem),
       isHabitListEditable: this.isHabitListEditable,
-      habits: habits.habitAssigns,
+      habits: habits.habitAssigns
     };
     const dialogRef = this.dialog.open(HabitsPopupComponent, dialogConfig);
     dialogRef

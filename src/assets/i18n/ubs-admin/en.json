@@ -2,6 +2,7 @@
   "ubs-client-profile": {
     "data": "User Data",
     "message-if-edit": "Please fill in your profile to make the ordering process as fast and convenient as possible",
+    "error-message": "Something went wrong... Please, reload the page",
     "personal": "Personal",
     "name": "Name",
     "surname": "Surname",
@@ -36,5 +37,121 @@
       "delete-profile-cancel": "Back",
       "delete-profile-save": "Delete"
     }
+  },
+  "order-edit": {
+    "need-to-pay": "Need to pay extra ",
+    "status": {
+      "title": "Order",
+      "order-date": "Order date",
+      "label": "Order status ",
+      "label-approve": "Payment status ",
+      "order-label": "Order status ",
+      "payment-label": "Payment status ",
+      "approve-status": {
+        "approved": "Approved",
+        "not-approved": "Not approved"
+      },
+      "payment-status": {
+        "paid": "Paid",
+        "not-paid": "Not paid"
+      }
+    },
+    "comment": {
+      "label": "Comment",
+      "placeholder": "Any details you would like to report additionally regarding this order"
+    }
+  },
+  "address-details": {
+    "title": "Waste export address",
+    "street": "Street",
+    "comment-label": "Comment to the address from the client",
+    "comment-placeholder": "Any details you would like to report additionally regarding this order",
+    "building": "Building",
+    "corpus": "Corp",
+    "entrance": "Entrance",
+    "region": "Region"
+  },
+  "customer-info": {
+    "title": "Information about client",
+    "customer": {
+      "title": "Customer",
+      "name-label": "Name",
+      "name-placeholder": "Placeholder",
+      "tel-label": "Phone",
+      "tel-placeholder": "Placeholder",
+      "email-label": "Email",
+      "email-placeholder": "Placeholder"
+    },
+    "recipient": {
+      "title": "Recipient",
+      "name-label": "Name",
+      "name-placeholder": "Placeholder",
+      "tel-label": "Phone",
+      "tel-placeholder": "Placeholder",
+      "email-label": "Email",
+      "email-placeholder": "Placeholder"
+    },
+    "violation": {
+      "title": "Customer violations",
+      "amount": "Total",
+      "current-order": "Current violation",
+      "button": "Add violation"
+    }
+  },
+  "order-details": {
+    "title": "Order details",
+    "service": "Service",
+    "volume": "Volume",
+    "cost": "Cost per item",
+    "planned-amount": "Planned amount",
+    "approved-amount": "Approved amount",
+    "exported-amount": "Exported amount",
+    "bags-amount": "Total number of packages",
+    "order-sum": "Order cost",
+    "certificate": "Certificate",
+    "bonuses": "Used bonuses",
+    "sum-to-pay": "Amount to be paid",
+    "ubs-courier": "UBS Courier",
+    "min-sum": "The order cannot be changed. The minimum order amount is",
+    "certificate-number-label": "Certificate number",
+    "order-number-label": "Order number from store",
+    "client-comment": {
+      "label": "Comment to the order from the client",
+      "placeholder": "Any details you would like to report additionally regarding this order"
+    },
+    "send-button": "Send message"
+  },
+  "order-payment": {
+    "title": "Order payment",
+    "order-size": "The order is executed in the amount of",
+    "add-payment-btn": "Add payment",
+    "order-date": "Payment date",
+    "payment-id": "Payment ID",
+    "sum": "Amount",
+    "comment-bill": "Comment/Bill"
+  },
+  "export-details": {
+    "title": "Export details",
+    "export-date": "Export date",
+    "export-time": "Export time",
+    "station": "Station"
+  },
+  "responsible-persons": {
+    "title": "Responsible persons",
+    "service-manager": "Service manager",
+    "call-manager": "Call manager",
+    "logistician": "Logistician",
+    "navigator": "Navigator",
+    "driver": "Driver"
+  },
+  "cancel-modal": {
+    "question": "If you cancel, the changes will be lost. Do you really want to cancel the changes?",
+    "disagree": "No",
+    "agree": "Yes"
+  },
+  "go-back-modal": {
+    "question": "If you go back, the changes will be lost. Do you really want to cancel the changes?",
+    "disagree": "No",
+    "agree": "Yes"
   }
 }

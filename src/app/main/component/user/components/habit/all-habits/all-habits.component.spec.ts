@@ -169,9 +169,9 @@ describe('AllHabitsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get userId', () => {
-    expect(localStorageServiceMock.userIdBehaviourSubject.value).toBe(1111);
-  });
+  //   it('should get userId', () => {
+  //     expect(localStorageServiceMock.userIdBehaviourSubject.value).toBe(1111);
+  //   });
 
   it('Should change view mode', () => {
     component.onDisplayModeChange(false);

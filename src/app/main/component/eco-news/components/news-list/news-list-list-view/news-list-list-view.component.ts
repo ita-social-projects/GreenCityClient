@@ -1,5 +1,5 @@
 import { ecoNewsIcons } from './../../../../../image-pathes/profile-icons';
-import { Component, Input, ViewChild, ElementRef, Renderer2, AfterViewChecked } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, Renderer2, AfterViewChecked, ChangeDetectionStrategy } from '@angular/core';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 
 import { possibleDescHeight, possibleTitleHeight } from './breakpoints';
@@ -8,7 +8,7 @@ import { possibleDescHeight, possibleTitleHeight } from './breakpoints';
   selector: 'app-news-list-list-view',
   templateUrl: './news-list-list-view.component.html',
   styleUrls: ['./news-list-list-view.component.scss'],
-  changeDetection: 0,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NewsListListViewComponent implements AfterViewChecked {
   @Input() ecoNewsModel: EcoNewsModel;
@@ -41,9 +41,9 @@ export class NewsListListViewComponent implements AfterViewChecked {
 
   public checkNewsImage(): string {
     this.newsImage =
-    this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' '
-      ? this.ecoNewsModel.imagePath
-      : this.profileIcons.newsDefaultPictureList;
+      this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' '
+        ? this.ecoNewsModel.imagePath
+        : this.profileIcons.newsDefaultPictureList;
     return this.newsImage;
   }
 
