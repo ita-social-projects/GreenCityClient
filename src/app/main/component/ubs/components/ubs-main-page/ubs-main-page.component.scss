@@ -30,8 +30,9 @@ h2 {
 }
 
 .button {
-  font-size: 18px;
   @include height-and-width(44px, 200px);
+
+  font-size: 18px;
   background-color: var(--ubs-button-light-green);
   color: var(--ubs-tertiary-dark-grey);
   margin-top: 25px;
@@ -108,18 +109,20 @@ ul {
 }
 
 #price-frame {
+  @include height-and-width(291px, 185px);
+
   position: relative;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  @include height-and-width(291px, 185px);
   background-image: url('src/assets/img/ubs/first_rectangle.png');
   background-size: 184px 282px;
 }
 
 .ubs-rectangle {
   @include height-and-width(230px, 79px);
+
   position: absolute;
   top: 20px;
   left: 55px;
@@ -161,17 +164,19 @@ ul {
 }
 
 #step-order {
+  @include height-and-width(203px, 133px);
+
   position: relative;
   display: flex;
   justify-content: space-between;
   flex: 1 0 25%;
-  @include height-and-width(203px, 133px);
   margin: 50px;
 }
 
 .circle {
-  position: relative;
   @include height-and-width(30px, 30px);
+
+  position: relative;
   line-height: 30px;
   background-color: var(--ubs-tertiary-dark-grey);
   color: var(--ubs-primary-white);
@@ -182,9 +187,10 @@ ul {
 }
 
 hr {
+  @include height-and-width(2px, 72px);
+
   border: none;
   background-color: var(--ubs-tertiary-light-grey);
-  @include height-and-width(2px, 72px);
   position: absolute;
   left: 55px;
   top: 5px;
@@ -238,11 +244,13 @@ hr {
 
   #price-frame {
     @include height-and-width(228px, 250px);
+
     background-size: 250px 228px;
   }
 
   .ubs-rectangle {
     @include height-and-width(189px, 108px);
+
     top: 15px;
     left: 75px;
   }
@@ -263,11 +271,13 @@ hr {
 
   #price-frame {
     @include height-and-width(178px, 310px);
+
     background-size: 310px 187px;
   }
 
   .ubs-rectangle {
     @include height-and-width(150px, 163px);
+
     top: 15px;
     left: 75px;
   }
@@ -288,11 +298,13 @@ hr {
 @media screen and (max-width: 425px) {
   #price-frame {
     @include height-and-width(178px, 310px);
+
     background-size: 310px 187px;
   }
 
   .ubs-rectangle {
     @include height-and-width(150px, 163px);
+
     top: 15px;
     left: 75px;
   }
