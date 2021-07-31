@@ -35,6 +35,7 @@ import { InterceptorService } from '../shared/interceptors/interceptor.service';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { UbsProfileChangePasswordPopUpComponent } from './components/ubs-client-profile-page/ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
 import { UbsProfileDeletePopUpComponent } from './components/ubs-client-profile-page/ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
+import { AddViolationsComponent } from './components/add-violations/add-violations.component';
 import { UbsAdminCancelModalComponent } from './components/ubs-admin-cancel-modal/ubs-admin-cancel-modal.component';
 import { UbsAdminGoBackModalComponent } from './components/ubs-admin-go-back-modal/ubs-admin-go-back-modal.component';
 import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-client-bonuses.component';
@@ -62,6 +63,7 @@ import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-c
     UbsAdminOrdersComponent,
     UbsProfileChangePasswordPopUpComponent,
     UbsProfileDeletePopUpComponent,
+    AddViolationsComponent,
     UbsAdminCancelModalComponent,
     UbsAdminGoBackModalComponent,
     UbsClientBonusesComponent
@@ -97,14 +99,15 @@ import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-c
       multi: true
     }
   ],
-  entryComponents: [
-    UbsAdminTableComponent,
-    EmployeeFormComponent,
-    UbsProfileChangePasswordPopUpComponent,
-    UbsProfileDeletePopUpComponent,
-    UbsAdminCancelModalComponent,
-    UbsAdminGoBackModalComponent
-  ]
+ entryComponents: [
+  UbsAdminTableComponent,
+  AddViolationsComponent,
+  EmployeeFormComponent,
+  UbsProfileChangePasswordPopUpComponent,
+  UbsProfileDeletePopUpComponent,
+  UbsAdminCancelModalComponent,
+  UbsAdminGoBackModalComponent
+]
 })
 export class UbsAdminModule {}
 
