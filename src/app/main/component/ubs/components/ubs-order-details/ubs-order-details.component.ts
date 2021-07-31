@@ -223,10 +223,22 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   onQuantityChange(): void {
     this.bags.forEach((bag) => {
       const valueName = 'quantity' + String(bag.id);
-      if (+this.orderDetailsForm.controls[valueName].value === 0) {
+      const orderFormBagController = this.orderDetailsForm.controls[valueName];
+      const startsWithZero = /^0\d+/;
+
+      if (!orderFormBagController.value) {
+        orderFormBagController.setValue('0');
+      }
+
+      if (startsWithZero.test(orderFormBagController.value)) {
+        const slicedValue = orderFormBagController.value.replace(/^0+/, '');
+        orderFormBagController.setValue(slicedValue);
+      }
+
+      if (+orderFormBagController.value === 0) {
         bag.quantity = null;
       } else {
-        bag.quantity = this.orderDetailsForm.controls[valueName].value;
+        bag.quantity = orderFormBagController.value;
       }
     });
     this.calculateTotal();
