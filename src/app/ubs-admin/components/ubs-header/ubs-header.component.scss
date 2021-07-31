@@ -20,14 +20,14 @@ nav {
 }
 
 .nav-link {
-  color: #444e55;
+  color: var(--ubs-primary-grey);
   font-size: 14px;
   text-decoration: underline;
   text-underline-offset: 1.5px;
   padding: 0;
 
   &:hover {
-    color: #5639bb;
+    color: var(--ubs-primary-blue);
   }
 }
 
@@ -43,11 +43,11 @@ nav {
   justify-content: space-between;
   align-items: center;
   column-gap: 7.5px;
-  color: #64727d;
+  color: var(--ubs-secondary);
 }
 
 .header-user {
-  color: #5639bb;
+  color: var(--ubs-primary-blue);
   font-weight: 400;
   font-size: 14px;
   text-decoration: underline;
