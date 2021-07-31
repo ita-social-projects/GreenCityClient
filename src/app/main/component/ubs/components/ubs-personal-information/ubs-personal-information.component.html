@@ -107,14 +107,14 @@
       placeholder="{{ 'personal-info.info-coment-placeholder' | translate }}"
     ></textarea>
     <div class="validation" *ngIf="getControl('addressComment').invalid && getControl('addressComment').touched">
-      <app-ubs-input-error [formElement]="getControl('addressComment')" [controlName]="'addressComment'"> </app-ubs-input-error>
+      <app-ubs-input-error [formElement]="getControl('addressComment')" [controlName]="'addressComment'"></app-ubs-input-error>
     </div>
   </div>
 </form>
 
 <div class="w-100 d-flex justify-content-between buttons">
   <button class="secondary-global-button btn back-btn m-0" matStepperPrevious>
-    <i class="fas fa-chevron-left"></i> &nbsp; {{ 'personal-info.info-back' | translate }}
+    <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp; {{ 'personal-info.info-back' | translate }}
   </button>
   <div class="w-100 d-flex justify-content-end">
     <button class="secondary-global-button btn cansel-button" type="button" (click)="cancelUBS()">

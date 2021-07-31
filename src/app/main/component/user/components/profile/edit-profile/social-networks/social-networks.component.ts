@@ -1,5 +1,4 @@
-import { forwardRef } from '@angular/core';
-import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { forwardRef, Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NgModel, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { WarningPopUpComponent } from '@shared/components';
@@ -36,17 +35,25 @@ export class SocialNetworksComponent implements ControlValueAccessor {
 
   constructor(private dialog: MatDialog) {}
 
-  onChange = (value: any) => {};
+  onChange(value: any) {
+    // TODO: add functionality to this method
+  }
 
-  writeValue(obj: any): void {}
+  writeValue(obj: any): void {
+    // TODO: add functionality to this method
+  }
 
   registerOnChange(fn: any): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {}
+  registerOnTouched(fn: any): void {
+    // TODO: add functionality to this method
+  }
 
-  setDisabledState?(isDisabled: boolean): void {}
+  setDisabledState?(isDisabled: boolean): void {
+    // TODO: add functionality to this method
+  }
 
   public onEditLink(link): void {
     this.onChange(link);

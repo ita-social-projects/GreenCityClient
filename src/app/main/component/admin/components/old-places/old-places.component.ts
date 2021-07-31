@@ -56,8 +56,8 @@ export class OldPlacesComponent implements OnInit {
     public weekDaysUtils: WeekDaysUtils,
     private confirmationDialogService: ConfirmationDialogService,
     private translation: TranslateService,
-    iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer
+    public iconRegistry: MatIconRegistry,
+    public sanitizer: DomSanitizer
   ) {
     iconRegistry.addSvgIcon('arrow-up', sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/arrows/arrow-up-bold.svg'));
     iconRegistry.addSvgIcon('arrow-down', sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/arrows/arrow-down-bold.svg'));
@@ -205,7 +205,9 @@ export class OldPlacesComponent implements OnInit {
     }
   }
 
-  showMessage(message: string, messageType: string) { }
+  showMessage(message: string, messageType: string) {
+    // TODO: add functionality to this method
+  }
 
   setDisplayedColumns() {
     this.displayedColumns = [
@@ -318,6 +320,7 @@ export class OldPlacesComponent implements OnInit {
       this.defaultStatus = window.localStorage.getItem('placesDefaultStatus');
     }
   }
+
   setPaginationPageButtonsToCurrent() {
     this.paginationComponent.selectPage(this.page);
   }

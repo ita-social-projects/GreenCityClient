@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { Bag, FinalOrder, OrderDetails } from '../../models/ubs.interface';
 import { ReplaySubject, Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -89,13 +89,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   getFormValues(): boolean {
     return this.showTotal > 0;
-  }
-
-  translateWords(key: string, variable) {
-    return this.translate
-      .get(key)
-      .pipe(take(1))
-      .subscribe((item) => (variable = item));
   }
 
   initForm() {
@@ -241,21 +234,43 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   calculatePoints(): void {
     if (this.certificateSum <= 0) {
-      this.showTotal = this.total;
-      this.points > this.total ? (this.pointsUsed = this.total) : (this.pointsUsed = this.points);
-      this.points > this.total ? (this.points = this.points - this.total) : (this.points = 0);
-      this.points > this.total ? (this.total = 0) : (this.total = this.total - this.pointsUsed);
-      this.finalSum = this.showTotal - this.pointsUsed - this.certificateSum;
+      this.calculatePointsWithoutCertificate();
     } else {
-      this.points > this.total ? (this.pointsUsed = this.total - this.certificateSum) : (this.pointsUsed = this.points);
-      this.points > this.total ? (this.total = 0) : (this.total = this.total - this.pointsUsed);
-      this.points > this.showTotal ? (this.points = this.points - this.showTotal) : (this.points = 0);
-      this.finalSum = this.showTotal - this.pointsUsed - this.certificateSum;
+      this.calculatePointsWithCertificate();
     }
 
+    this.finalSum = this.showTotal - this.pointsUsed - this.certificateSum;
     if (this.finalSum < 0) {
       this.finalSum = 0;
     }
+  }
+
+  private calculatePointsWithoutCertificate() {
+    this.showTotal = this.total;
+    const totalSumIsBiggerThanPoints = this.points > this.total;
+
+    if (totalSumIsBiggerThanPoints) {
+      this.pointsUsed = this.total;
+      this.points = this.points - this.total;
+      this.total = 0;
+      return;
+    }
+    this.pointsUsed = this.points;
+    this.points = 0;
+    this.total = this.total - this.pointsUsed;
+  }
+
+  private calculatePointsWithCertificate() {
+    const totalSumIsBiggerThanPoints = this.points > this.total;
+
+    if (totalSumIsBiggerThanPoints) {
+      this.pointsUsed = this.total - this.certificateSum;
+      this.total = 0;
+    } else {
+      this.pointsUsed = this.points;
+      this.total = this.total - this.pointsUsed;
+    }
+    this.points > this.showTotal ? (this.points = this.points - this.showTotal) : (this.points = 0);
   }
 
   resetPoints(): void {

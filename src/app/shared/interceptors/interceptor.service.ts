@@ -13,6 +13,7 @@ interface NewTokenPair {
   accessToken: string;
   refreshToken: string;
 }
+
 @Injectable({
   providedIn: 'root'
 })
@@ -36,7 +37,7 @@ export class InterceptorService implements HttpInterceptor {
    * @param next - {@link HttpHandler}
    */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (req.url.includes('ownSecurity') || req.url.includes('googleSecurity')) {
+    if (this.isQueryWithSecurity(req.url)) {
       return next.handle(req).pipe(
         catchError((error: HttpErrorResponse) => {
           if (error.status === 0) {
@@ -51,18 +52,26 @@ export class InterceptorService implements HttpInterceptor {
     }
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error.status === BAD_REQUEST || error.status === FORBIDDEN) {
-          const noErrorErrorMessage = error.message ? error.message : 'error';
-          const message = error.error.message ? error.error.message : noErrorErrorMessage;
+        if (this.checkIfErrorStatusIs(error.status, [BAD_REQUEST, FORBIDDEN])) {
+          const noErrorErrorMessage = error.message ?? 'error';
+          const message = error.error.message ?? noErrorErrorMessage;
           this.openErrorWindow(message);
           return EMPTY;
         }
-        if (error.status === UNAUTHORIZED) {
+        if (this.checkIfErrorStatusIs(error.status, [UNAUTHORIZED])) {
           return this.handleUnauthorized(req, next);
         }
         return throwError(error);
       })
     );
+  }
+
+  private isQueryWithSecurity(url: string): boolean {
+    return url.includes('ownSecurity') || url.includes('googleSecurity');
+  }
+
+  private checkIfErrorStatusIs(errorStatusCode: number, statusCodesToVerify: number[]): boolean {
+    return statusCodesToVerify.some((code) => errorStatusCode === code);
   }
 
   /**
@@ -95,6 +104,7 @@ export class InterceptorService implements HttpInterceptor {
       );
     }
   }
+
   /**
    * Handles a situation when refresh token is expired.
    *
