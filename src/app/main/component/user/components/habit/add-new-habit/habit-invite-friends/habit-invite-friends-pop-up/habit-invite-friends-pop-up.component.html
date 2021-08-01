@@ -1,29 +1,27 @@
-<div class="dialog-container">
-  <div class="friends-images">
-    <section class="popup-section">
-      <mat-checkbox class="all-friends" [checked]="allAdd" [indeterminate]="someAdd()" (change)="setAll($event.checked)">
-        All friends
-      </mat-checkbox>
-      <ul>
-        <li *ngFor="let friend of friends">
-          <mat-checkbox [(ngModel)]="friend.added" (ngModelChange)="updateAllAdd()">
-            <div class="friend">
-              <app-user-profile-image
-                [imgPath]="friend.profilePicture"
-                [firstName]="friend.name"
-                class="friend-img"
-                [additionalImgClass]="'friend-user-profile'"
-              >
-              </app-user-profile-image>
-              <p class="friend-name">{{ friend.name }}</p>
-            </div>
-          </mat-checkbox>
-        </li>
-      </ul>
-    </section>
-    <mat-dialog-actions class="invite-popup-footer" align="end">
-      <button class="btn btn-outline-success" mat-dialog-close>Close</button>
-      <button class="btn btn-success" [mat-dialog-close]="true" cdkFocusInitial (click)="inviteFriends()">Invite</button>
-    </mat-dialog-actions>
-  </div>
+<div class="friends-images">
+  <section class="popup-section">
+    <mat-checkbox class="all-friends" [checked]="allAdd" [indeterminate]="someAdd()" (change)="setAll($event.checked)">
+      All friends
+    </mat-checkbox>
+    <ul>
+      <li *ngFor="let friend of friends">
+        <mat-checkbox [(ngModel)]="friend.added" (ngModelChange)="updateAllAdd()">
+          <div class="friend">
+            <app-user-profile-image
+              [imgPath]="friend.profilePicture"
+              [firstName]="friend.name"
+              class="friend-img"
+              [additionalImgClass]="'friend-user-profile'"
+            >
+            </app-user-profile-image>
+            <p class="friend-name">{{ friend.name }}</p>
+          </div>
+        </mat-checkbox>
+      </li>
+    </ul>
+  </section>
+  <mat-dialog-actions class="invite-popup-footer" align="end">
+    <button class="btn btn-outline-success" mat-dialog-close>Close</button>
+    <button class="btn btn-success" [mat-dialog-close]="true" cdkFocusInitial (click)="inviteFriends()">Invite</button>
+  </mat-dialog-actions>
 </div>

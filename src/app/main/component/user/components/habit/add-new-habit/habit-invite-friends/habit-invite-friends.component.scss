@@ -1,47 +1,49 @@
 .invite-container {
-  display: flex;
-}
+  p {
+    font-family: var(--secondary-font);
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--secondary-grey);
+  }
 
-p {
-  font-family: var(--secondary-font);
-  font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 16px;
-  color: var(--secondary-grey);
-}
+  .invite-title p {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 24px;
+    color: var(--primary-black);
+  }
 
-.invite-title p {
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 24px;
-  color: #000;
-}
+  .invite-content {
+    display: flex;
 
-.invite-content {
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 400px;
-  max-height: 120px;
-  overflow-y: auto;
-}
+    .invite-friends {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 400px;
+      max-height: 120px;
+      overflow-y: auto;
+    }
 
-.plus-circle {
-  width: 100px;
-  margin: 0 10px;
-}
+    .plus-circle {
+      width: 100px;
+      margin: 0 10px;
 
-img {
-  margin: 10px auto;
-  width: 60px;
-  height: 60px;
-}
+      img {
+        margin: 10px auto;
+        width: 60px;
+        height: 60px;
+      }
+    }
+  }
 
-.ng-star-inserted {
-  margin: 5px;
-  width: 80px;
-}
+  .ng-star-inserted {
+    margin: 5px;
+    width: 80px;
+  }
 
-.invite-detail {
-  margin-top: 10px;
+  .invite-detail {
+    margin-top: 10px;
+  }
 }
