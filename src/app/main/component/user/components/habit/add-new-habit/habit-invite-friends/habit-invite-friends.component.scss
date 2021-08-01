@@ -2,10 +2,16 @@
   display: flex;
 }
 
-.invite-title p {
+p {
   font-family: var(--secondary-font);
   font-style: normal;
   font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--secondary-grey);
+}
+
+.invite-title p {
   font-size: 18px;
   line-height: 24px;
   color: #000;
@@ -33,13 +39,4 @@ img {
 .ng-star-inserted {
   margin: 5px;
   width: 80px;
-}
-
-p {
-  font-family: var(--secondary-font);
-  font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 16px;
-  color: var(--secondary-grey);
 }
