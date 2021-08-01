@@ -10,7 +10,7 @@ import { UserFriendsService } from '@global-user/services/user-friends.service';
 export class HabitInviteFriendsPopUpComponent implements OnInit {
   userId: number;
   friends: FriendModel[];
-  allAdd: boolean = false;
+  allAdd = false;
   addedFriends: FriendModel[] = [];
 
   constructor(private userFriendsService: UserFriendsService) {}
