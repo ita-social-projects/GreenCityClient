@@ -50,7 +50,11 @@ export class HabitInviteFriendsPopUpComponent implements OnInit {
   }
 
   setAddedFriends() {
-    this.friends.forEach((friend) => (friend.added ? this.userFriendsService.addedFriendsToHabit(friend) : null));
+    this.friends.forEach((friend) => {
+      if (friend.added) {
+        this.userFriendsService.addedFriendsToHabit(friend);
+      }
+    });
   }
 
   inviteFriends() {
