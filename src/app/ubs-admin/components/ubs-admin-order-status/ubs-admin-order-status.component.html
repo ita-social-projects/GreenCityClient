@@ -1,19 +1,32 @@
 <div class="container mb-3">
+  <form class="mt-5" [formGroup]="detailStatusForm">
   <div class="row d-flex justify-content-between mt-4">
-    <h1 class="title">{{ 'order-edit.status.title' | translate }} №37399</h1>
-    <div class="pr-4"><span class="form__label">{{ 'order-edit.status.order-date' | translate }}: </span><span>11.11.2020</span></div>
+    <h1 class="title">{{ 'order-edit.status.title' | translate }} №{{ orderId }}</h1>
+    <div class="pr-4">
+      <span class="form__label">
+        {{ 'order-edit.status.order-date' | translate }}: 
+      </span>
+      <span>{{ detailStatus?.date }}</span>
+    </div>
   </div>
-  <form class="mt-5">
     <div class="row">
       <div class="col-4">
         <div class="row">
           <div class="col-12">
             <div class="form-row">
               <div class="form-group col-sm-10 col-md-7">
-                <label for="order" class="form__label">{{ 'order-edit.status.order-label' | translate }}</label>
+                <label for="order" class="form__label">
+                  {{ 'order-edit.status.order-label' | translate }}
+                </label>
                 <select id="order" class="form-control">
-                  <option selected>{{ 'order-edit.status.approve-status.approved' | translate }}</option>
-                  <option>{{ 'order-edit.status.approve-status.not-approved' | translate }}</option>
+                  <option [ngSwitch]="detailStatus?.orderStatus">
+                    <span *ngSwitchCase="'FORMED'">
+                      {{ 'order-edit.status.approve-status.approved' | translate }}
+                    </span>
+                    <span *ngSwitchCase="'UNFORMED'">
+                      {{ 'order-edit.status.approve-status.approved' | translate }}
+                    </span>
+                  </option>
                 </select>
               </div>
             </div>
@@ -21,10 +34,18 @@
           <div class="col-12">
             <div class="form-row">
               <div class="form-group col-sm-10 col-md-7">
-                <label for="payment" class="form__label">{{ 'order-edit.status.payment-label' | translate }}</label>
+                <label for="payment" class="form__label">
+                  {{ 'order-edit.status.payment-label' | translate }}
+                </label>
                 <select id="payment" class="form-control payment">
-                  <option selected>{{ 'order-edit.status.payment-status.paid' | translate }}</option>
-                  <option selected>{{ 'order-edit.status.payment-status.not-paid' | translate }}</option>
+                  <option [ngSwitch]="detailStatus?.paymentStatus">
+                    <span *ngSwitchCase="'UNPAID'">
+                      {{ 'order-edit.status.payment-status.not-paid' | translate }}
+                    </span>
+                    <span *ngSwitchCase="'PAID'">
+                      {{ 'order-edit.status.payment-status.paid' | translate }}
+                    </span>
+                </option>
                 </select>
               </div>
             </div>
