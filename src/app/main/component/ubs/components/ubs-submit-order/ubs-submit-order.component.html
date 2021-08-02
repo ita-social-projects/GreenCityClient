@@ -117,7 +117,7 @@
     <button class="secondary-global-button btn cansel-button btn-main" (click)="cancelUBS()">
       {{ 'order-details.cancel' | translate }}
     </button>
-    <button (click)="redirectToOrder()" type="submit" class="primary-global-button btn">
+    <button [disabled]="isValidOrder" (click)="redirectToOrder()" type="submit" class="primary-global-button btn">
       <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
       {{ 'submit-order.to-order' | translate }}
     </button>
