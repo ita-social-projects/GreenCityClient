@@ -35,7 +35,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       popupCancel: 'confirmation.dismiss'
     }
   };
-  isValidOrder = false;
+  isValidOrder = true;
 
   constructor(
     private orderService: OrderService,
