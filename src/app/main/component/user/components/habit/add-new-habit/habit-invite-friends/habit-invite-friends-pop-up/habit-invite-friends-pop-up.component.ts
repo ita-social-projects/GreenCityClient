@@ -56,8 +56,4 @@ export class HabitInviteFriendsPopUpComponent implements OnInit {
       }
     });
   }
-
-  inviteFriends() {
-    this.setAddedFriends();
-  }
 }
