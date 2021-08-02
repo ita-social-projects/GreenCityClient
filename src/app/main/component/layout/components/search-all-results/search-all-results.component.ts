@@ -79,7 +79,9 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
 
     if (this.displayedElements.length === this.itemsFound) {
       this.isSearchFound = false;
-    } else this.forceScroll();
+    } else {
+      this.forceScroll();
+    }
   }
 
   private onSearchUpdateQuery() {
@@ -92,7 +94,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
   }
 
   private forceScroll() {
-    if (document.documentElement.clientHeight == document.documentElement.scrollHeight) {
+    if (document.documentElement.clientHeight === document.documentElement.scrollHeight) {
       this.onScroll();
     }
   }
