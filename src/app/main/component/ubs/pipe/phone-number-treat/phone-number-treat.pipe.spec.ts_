@@ -1,0 +1,8 @@
+import { PhoneNumberTreatPipe } from './phone-number-treat.pipe';
+
+describe('PhoneNumberTreatPipe', () => {
+  it('create an instance', () => {
+    const pipe = new PhoneNumberTreatPipe();
+    expect(pipe).toBeTruthy();
+  });
+});

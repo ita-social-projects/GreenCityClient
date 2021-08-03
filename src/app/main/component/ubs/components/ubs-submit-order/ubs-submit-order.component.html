@@ -69,7 +69,7 @@
             <p class="order-header">{{ 'order-details.recipient' | translate }}</p>
             <ul class="order-list">
               <li class="order-list-item">{{ personalData.firstName }} {{ personalData.lastName }}</li>
-              <li class="order-list-item">0{{ personalData.phoneNumber }}</li>
+              <li class="order-list-item">{{ personalData.phoneNumber | phoneNumberTreat: '380' }}</li>
               <li class="order-list-item">{{ personalData.email }}</li>
             </ul>
           </div>
@@ -78,7 +78,7 @@
             <ul class="order-list">
               <li class="order-list-item">{{ personalData.city }}</li>
               <li class="order-list-item">
-                <span>{{ 'submit-order.str' | translate }}{{ personalData.street }}, {{ personalData.houseNumber }}</span
+                <span>{{ 'submit-order.str' | translate }}{{ personalData.street }} , {{ personalData.houseNumber }}</span
                 >, {{ personalData.houseCorpus }}
               </li>
               <li class="order-list-item">{{ personalData.district }}</li>
