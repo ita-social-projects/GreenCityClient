@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { languages } from 'src/app/shared/languages/languages';
 import { LanguageModel } from '../../models/languageModel';
 import { Language } from '../../../main/i18n/Language';
 import { LanguageService } from '../../../main/i18n/language.service';
@@ -10,10 +11,7 @@ import { LanguageService } from '../../../main/i18n/language.service';
 })
 export class UbsHeaderComponent implements OnInit {
   public langDropdownVisible = false;
-  public arrayLang: Array<LanguageModel> = [
-    { lang: 'Ua', langName: 'ukrainian' },
-    { lang: 'En', langName: 'english' }
-  ];
+  arrayLang: Array<LanguageModel> = languages;
 
   constructor(private languageService: LanguageService) {}
 

@@ -69,7 +69,7 @@ a {
   }
 
   .add-shadow {
-    background-color: #fff;
+    background-color: var(--primary-white);
     box-shadow: 0 0 8px rgba(73, 74, 73, 0.2);
     border-radius: 2px;
     display: flex;
