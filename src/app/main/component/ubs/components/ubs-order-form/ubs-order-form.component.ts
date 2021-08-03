@@ -36,7 +36,7 @@ export class UBSOrderFormComponent implements AfterViewInit, DoCheck {
   }
 
   ngDoCheck(): void {
-    if (this.stepper && this.stepper.selected.state === 'finalStep') {
+    if (this.stepper?.selected.state === 'finalStep') {
       this.completed = true;
     }
   }
