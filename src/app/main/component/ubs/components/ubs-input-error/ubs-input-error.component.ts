@@ -16,7 +16,7 @@ export class UBSInputErrorComponent implements OnChanges {
   @Input() public streetFieldValue: string;
   @Input() public houseNumberFieldValue: string;
 
-  public errorMessage;
+  public errorMessage: string | undefined;
   private validationErrors = {
     email: 'input-error.email-wrong',
     minlength: 'input-error.minlength-short',
