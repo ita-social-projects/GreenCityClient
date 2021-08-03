@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EcoNewsComponent } from './eco-news.component';
-import { EcoNewsDetailComponent } from './components';
-import { NewsPreviewPageComponent } from './components';
-import { PostNewsLoaderComponent } from './components';
-import { NewsListComponent } from './components';
-import { CreateEditNewsComponent } from './components';
+import {
+  EcoNewsDetailComponent,
+  NewsPreviewPageComponent,
+  PostNewsLoaderComponent,
+  NewsListComponent,
+  CreateEditNewsComponent
+} from './components';
 import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';
 
 const ecoNewsRoutes: Routes = [
@@ -15,37 +17,37 @@ const ecoNewsRoutes: Routes = [
     children: [
       {
         path: 'preview',
-        component: NewsPreviewPageComponent,
+        component: NewsPreviewPageComponent
       },
       {
         path: 'create-news',
         component: CreateEditNewsComponent,
-        canDeactivate: [PendingChangesGuard],
+        canDeactivate: [PendingChangesGuard]
       },
       {
         path: 'post-news-loader',
-        component: PostNewsLoaderComponent,
+        component: PostNewsLoaderComponent
       },
       {
         path: ':id',
-        component: EcoNewsDetailComponent,
+        component: EcoNewsDetailComponent
       },
 
       {
         path: '',
-        component: NewsListComponent,
+        component: NewsListComponent
       },
       {
         path: '',
         redirectTo: 'news',
-        pathMatch: 'full',
-      },
-    ],
-  },
+        pathMatch: 'full'
+      }
+    ]
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(ecoNewsRoutes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class EcoNewsRoutingModule {}

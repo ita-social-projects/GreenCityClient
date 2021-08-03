@@ -1,20 +1,41 @@
 <div class="container mb-3">
+  <form class="form" [formGroup]="orderExportDetailsForm">
   <h1 class="form__headline">{{ "export-details.title" | translate }}</h1>
   <div class="form-row">
     <div class="form-group col-md-2">
       <label for="export-date">{{ "export-details.export-date" | translate }}</label>
-      <input type="date" class="form-control" id="export-date" />
+      <input 
+        type="date"
+        class="form-control"
+        id="export-date"
+        [value]="orderExportDetails?.exportedDate"
+        formControlName="exportedDate" />
     </div>
     <div class="form-group col-md-2 mx-4">
       <label for="export-time">{{ "export-details.export-time" | translate }}</label>
-      <input type="time" class="form-control" id="export-time" />
+      <input
+        type="time"
+        class="form-control"
+        id="export-time"
+        [value]="orderExportDetails?.exportedTime"
+        formControlName="exportedTime" />
     </div>
     <div class="form-group col-md-4">
       <label for="station">{{ "export-details.station" | translate }}</label>
       <select class="form-control" id="station">
-        <option selected></option>
+        <option
+          [value]="orderExportDetails?.receivingStation"
+          selected
+          >{{ orderExportDetails?.receivingStation }}
+        </option>
+        <option 
+          *ngFor="let station of receivingStations"
+          [value]="station"
+          >{{ station }}
+        </option>
       </select>
     </div>
   </div>
-  <hr />
+  <hr /> 
+</form>
 </div>

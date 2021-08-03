@@ -16,7 +16,7 @@ export interface Role {
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss'],
+  styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
   users: UserForListDtoModel[];
@@ -100,9 +100,13 @@ export class UsersComponent implements OnInit {
     );
   }
 
-  successfulAction(message: string) { }
+  successfulAction(message: string) {
+    // TODO: add functionality to this method
+  }
 
-  errorMessage(message: string) { }
+  errorMessage(message: string) {
+    // TODO: add functionality to this method
+  }
 
   getRoles() {
     this.userService.getRoles().subscribe((res) => {
@@ -168,6 +172,7 @@ export class UsersComponent implements OnInit {
       }
     }
   }
+
   setPaginationPageButtonsToCurrent() {
     this.paginationComponent.selectPage(this.page + 1);
   }

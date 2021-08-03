@@ -9,7 +9,7 @@ import { MetasModel } from '../../model/meta/metas-model';
 import { MetaModel } from '../../model/meta/meta-model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class TitleAndMetaTagsService {
   private titleSubject = new Subject<string>();
@@ -43,7 +43,7 @@ export class TitleAndMetaTagsService {
   }
 
   private applyingTitleMetasData(): void {
-    combineLatest(this.titleSubject, this.metasSubject).subscribe(([title, metas]) => {
+    combineLatest([this.titleSubject, this.metasSubject]).subscribe(([title, metas]) => {
       const pages = Object.keys(metas);
       const DEFAULT_STRING = 'welcome';
       const meta = pages.includes(title) ? metas[title] : metas[DEFAULT_STRING];
