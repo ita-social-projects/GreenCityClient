@@ -1,13 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-habit-invite-friends-pop-up',
   templateUrl: './habit-invite-friends-pop-up.component.html',
   styleUrls: ['./habit-invite-friends-pop-up.component.scss']
 })
-export class HabitInviteFriendsPopUpComponent implements OnInit {
+export class HabitInviteFriendsPopUpComponent implements OnInit, OnDestroy {
+  private destroyed$: Subject<boolean> = new Subject<boolean>();
   userId: number;
   friends: FriendModel[];
   allAdd = false;
@@ -25,9 +28,12 @@ export class HabitInviteFriendsPopUpComponent implements OnInit {
   }
 
   getFriends() {
-    this.userFriendsService.getAllFriends(this.userId).subscribe((data: FriendArrayModel) => {
-      this.friends = data.page;
-    });
+    this.userFriendsService
+      .getAllFriends(this.userId)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((data: FriendArrayModel) => {
+        this.friends = data.page;
+      });
   }
 
   updateAllAdd() {
@@ -35,18 +41,16 @@ export class HabitInviteFriendsPopUpComponent implements OnInit {
   }
 
   someAdd(): boolean {
-    if (this.friends == null) {
-      return false;
+    if (this.friends) {
+      return this.friends.filter((friend) => friend.added).length > 0 && !this.allAdd;
     }
-    return this.friends.filter((friend) => friend.added).length > 0 && !this.allAdd;
   }
 
   setAll(added: boolean) {
     this.allAdd = added;
-    if (this.friends == null) {
-      return;
+    if (this.friends) {
+      this.friends.forEach((friend) => (friend.added = added));
     }
-    this.friends.forEach((friend) => (friend.added = added));
   }
 
   setAddedFriends() {
@@ -55,5 +59,10 @@ export class HabitInviteFriendsPopUpComponent implements OnInit {
         this.userFriendsService.addedFriendsToHabit(friend);
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 }
