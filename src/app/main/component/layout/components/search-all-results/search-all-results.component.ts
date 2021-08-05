@@ -11,9 +11,9 @@ import { FilterByitem } from '../models/search-dto';
 @Component({
   selector: 'app-search-all-results',
   templateUrl: './search-all-results.component.html',
-  styleUrls: ['./search-all-results.component.scss'],
+  styleUrls: ['./search-all-results.component.scss']
 })
-export class SearchAllResultsComponent implements OnInit, OnDestroy, AfterContentInit {
+export class SearchAllResultsComponent implements OnInit, OnDestroy {
   public displayedElements: NewsSearchModel[] = [];
   public isSearchFound: boolean;
   public itemsFound = 0;
@@ -24,14 +24,14 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy, AfterConten
   public sortTypesLocalization = [
     'search.search-all-results.relevance',
     'search.search-all-results.newest',
-    'search.search-all-results.oldest',
+    'search.search-all-results.oldest'
   ];
   public inputValue: string;
   public isLoading = true;
   public searchIcons = searchIcons;
   public filterByItems: FilterByitem[] = [
     { category: 'econews', name: 'news' },
-    { category: 'tipsandtricks', name: 'tips' },
+    { category: 'tipsandtricks', name: 'tips' }
   ];
   private destroySub: Subject<boolean> = new Subject<boolean>();
 
@@ -45,10 +45,6 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy, AfterConten
 
     this.getSearchResults();
     this.onAddSearchInputListener();
-  }
-
-  ngAfterContentInit() {
-    this.forceScroll();
   }
 
   private onAddSearchInputListener() {
@@ -83,6 +79,8 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy, AfterConten
 
     if (this.displayedElements.length === this.itemsFound) {
       this.isSearchFound = false;
+    } else {
+      this.forceScroll();
     }
   }
 
@@ -90,21 +88,23 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy, AfterConten
     return this.router.navigate([], {
       queryParams: {
         query: this.inputValue,
-        category: this.searchCategory,
-      },
+        category: this.searchCategory
+      }
     });
   }
 
   private forceScroll() {
-    if (document.documentElement.clientHeight > document.body.clientHeight) {
+    if (document.documentElement.clientHeight === document.documentElement.scrollHeight) {
       this.onScroll();
     }
   }
 
   public onScroll(): void {
-    this.isLoading = true;
-    this.changeCurrentPage();
-    this.getSearchResults();
+    if (!this.isLoading) {
+      this.isLoading = true;
+      this.currentPage++;
+      this.getSearchResults();
+    }
   }
 
   public changeCurrentSorting(newSorting: number): void {
@@ -112,7 +112,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy, AfterConten
     [this.sortTypes[0], this.sortTypes[newSorting]] = [this.sortTypes[newSorting], this.sortTypes[0]];
     [this.sortTypesLocalization[0], this.sortTypesLocalization[newSorting]] = [
       this.sortTypesLocalization[newSorting],
-      this.sortTypesLocalization[0],
+      this.sortTypesLocalization[0]
     ];
     switch (this.sortTypes[0]) {
       case 'Relevance':
@@ -146,10 +146,6 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy, AfterConten
     this.itemsFound = 0;
     this.currentPage = 0;
     this.displayedElements = [];
-  }
-
-  private changeCurrentPage(): void {
-    this.currentPage += 1;
   }
 
   ngOnDestroy() {
