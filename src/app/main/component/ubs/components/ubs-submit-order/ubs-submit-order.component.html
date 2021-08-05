@@ -60,8 +60,8 @@
             <p class="order-header">{{ 'order-details.store-delivery' | translate }}</p>
             <ul class="order-list d-flex">
               <li class="order-list-item">{{ 'order-details.order-numbers' | translate }} &nbsp;</li>
-              <li class="order-list-item" *ngFor="let order of additionalOrders">
-                <strong>{{ order }}, &nbsp;</strong>
+              <li class="order-list-item" *ngFor="let order of additionalOrders; let last = last">
+                <strong>{{ order }}{{ !last ? ',&nbsp;' : '' }}</strong>
               </li>
             </ul>
           </div>
@@ -111,13 +111,13 @@
 
 <div class="w-100 d-flex justify-content-between buttons">
   <button class="secondary-global-button btn btn-back" matStepperPrevious>
-    <i class="fas fa-chevron-left"></i> &nbsp; {{ 'submit-order.back' | translate }}
+    <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp; {{ 'submit-order.back' | translate }}
   </button>
   <div class="w-100 d-flex justify-content-end">
     <button class="secondary-global-button btn cansel-button btn-main" (click)="cancelUBS()">
       {{ 'order-details.cancel' | translate }}
     </button>
-    <button (click)="redirectToOrder()" type="submit" class="primary-global-button btn">
+    <button [disabled]="isValidOrder" (click)="redirectToOrder()" type="submit" class="primary-global-button btn">
       <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
       {{ 'submit-order.to-order' | translate }}
     </button>

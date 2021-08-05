@@ -95,11 +95,12 @@ export class AddNewHabitComponent implements OnInit {
       .getAssignedHabits()
       .pipe(take(1))
       .subscribe((response: Array<HabitAssignInterface>) => {
-        response.find((assigned) => {
+        for (const assigned of response) {
           if (assigned.habit.id === this.habitId) {
             this.isAssigned = true;
+            break;
           }
-        });
+        }
         this.isAssigned ? this.getCustomItems() : this.getDefaultItems();
       });
   }

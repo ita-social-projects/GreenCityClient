@@ -6,55 +6,131 @@ header {
   box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
   position: fixed;
   z-index: 99;
-  padding: 16px 24px;
-  font-family: var(--primary-font);
 }
 
-nav {
-  margin-right: auto;
+.logo {
+  margin-top: 2px;
+  grid-area: logo;
+  margin-left: 36px;
+}
+
+.header_navigation-menu-right-list {
   display: flex;
-  justify-content: space-around;
   align-items: center;
-  flex-direction: row;
-  column-gap: 24px;
-}
-
-.nav-link {
-  color: var(--ubs-primary-grey);
-  font-size: 14px;
-  text-decoration: underline;
-  text-underline-offset: 1.5px;
+  justify-content: flex-end;
+  list-style-type: none;
+  height: 100%;
+  margin: 0;
   padding: 0;
 
-  &:hover {
-    color: var(--ubs-primary-blue);
+  li {
+    height: 100%;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
   }
-}
-
-.header-right-side {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  column-gap: 15px;
-}
-
-.language-change {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  column-gap: 7.5px;
-  color: var(--ubs-secondary);
-}
-
-.header-user {
-  color: var(--ubs-primary-blue);
-  font-weight: 400;
-  font-size: 14px;
-  text-decoration: underline;
-  text-underline-offset: 1.5px;
 }
 
 .icons img,
 a {
   padding: 17px;
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+  grid-area: icons;
+  justify-self: end;
+  height: 100%;
+
+  .header-user {
+    color: var(--primary-green);
+    padding: 16px 24px;
+    font-family: var(--primary-font);
+  }
+
+  nav {
+    margin-right: auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+    column-gap: 24px;
+  }
+
+  .nav-link {
+    color: var(--ubs-primary-grey);
+    font-size: 14px;
+    text-decoration: underline;
+    text-underline-offset: 1.5px;
+    padding: 0;
+
+    &:hover {
+      color: var(--ubs-primary-blue);
+    }
+  }
+
+  .header-right-side {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 15px;
+  }
+
+  .language-change {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 7.5px;
+    color: var(--ubs-secondary);
+  }
+
+  .header-user {
+    color: var(--ubs-primary-blue);
+    font-weight: 400;
+    font-size: 14px;
+    text-decoration: underline;
+    text-underline-offset: 1.5px;
+  }
+
+  .header_lang-switcher-wrp {
+    cursor: pointer;
+    width: 60px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+
+    li {
+      width: 30px;
+      padding: 0;
+    }
+
+    img {
+      padding: 0;
+    }
+  }
+
+  .add-shadow {
+    background-color: var(--primary-white);
+    box-shadow: 0 0 8px rgba(73, 74, 73, 0.2);
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    height: 80px;
+    margin: auto 0;
+    width: 60px;
+    z-index: 1;
+    position: relative;
+    top: 6px;
+  }
+}
+
+.header_arrow {
+  margin: 2px 0 0 5px;
+}
+
+.reverse {
+  transform: rotate(180deg);
+  transition: 0.4s ease-out;
+  transition-delay: 0.1s;
 }

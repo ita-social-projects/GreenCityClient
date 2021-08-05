@@ -91,13 +91,13 @@ export class UbsAdminTableComponent implements OnInit {
     const beforeColumnsLength = this.columns.length;
     this.columns = this.columns.filter((el) => el.field !== field);
     const afterColumnsLength = this.columns.length;
+    const requiredFieldValues = ['orderid', 'order_status', 'order_date'];
     if (beforeColumnsLength === afterColumnsLength) {
-      const newObjectForHeader = Object.create({});
-      newObjectForHeader.field = field;
-      newObjectForHeader.index = i;
-      newObjectForHeader.field === 'orderid' || newObjectForHeader.field === 'order_status' || newObjectForHeader.field === 'order_date'
-        ? (newObjectForHeader.sticky = true)
-        : (newObjectForHeader.sticky = false);
+      const newObjectForHeader = {
+        field,
+        sticky: this.isPropertyRequired(field, requiredFieldValues),
+        index: i
+      };
       this.columns = [...this.columns.slice(0, i), newObjectForHeader, ...this.columns.slice(i, this.columns.length)];
       this.setDisplayedColumns();
     } else {
@@ -116,13 +116,13 @@ export class UbsAdminTableComponent implements OnInit {
         this.dataSource = new MatTableDataSource(this.tableData);
         const requiredColumns = [{ field: 'select', sticky: true }];
         const dynamicallyColumns = [];
-        const arrayOfproperties = Object.keys(this.tableData[0]);
-        arrayOfproperties.map((elem) => {
-          const objectOfValue = Object.create({});
-          objectOfValue.field = elem;
-          objectOfValue.field === 'orderid' || objectOfValue.field === 'order_status' || objectOfValue.field === 'order_date'
-            ? (objectOfValue.sticky = true)
-            : (objectOfValue.sticky = false);
+        const arrayOfProperties = Object.keys(this.tableData[0]);
+        arrayOfProperties.forEach((property) => {
+          const requiredFieldValues = ['orderid', 'order_status', 'order_date'];
+          const objectOfValue = {
+            field: property,
+            sticky: this.isPropertyRequired(property, requiredFieldValues)
+          };
           dynamicallyColumns.push(objectOfValue);
         });
         this.columns = [].concat(requiredColumns, dynamicallyColumns);
@@ -136,6 +136,10 @@ export class UbsAdminTableComponent implements OnInit {
         this.detailsOfExport = dynamicallyColumns.slice(22, 27);
         this.responsiblePerson = dynamicallyColumns.slice(27, 33);
       });
+  }
+
+  private isPropertyRequired(field: string, requiredFields: string[]) {
+    return requiredFields.some((reqField) => field === reqField);
   }
 
   updateTableData() {
@@ -153,7 +157,7 @@ export class UbsAdminTableComponent implements OnInit {
   }
 
   getSortingDate(columnName, sortingType) {
-    this.arrowDirection === columnName ? (this.arrowDirection = null) : (this.arrowDirection = columnName);
+    this.arrowDirection = this.arrowDirection === columnName ? null : columnName;
     this.getTable(columnName, sortingType);
   }
 

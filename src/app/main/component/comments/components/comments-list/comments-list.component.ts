@@ -66,13 +66,12 @@ export class CommentsListComponent {
   }
 
   public isShowReplies(id: number): boolean {
-    let result = false;
-    this.elementsList.map((item) => {
+    for (const item of this.elementsList) {
       if (item.id === id && item.showAllRelies) {
-        result = item.showAllRelies;
+        return item.showAllRelies;
       }
-    });
-    return result;
+    }
+    return false;
   }
 
   public checkCommentAuthor(commentAuthorId: number) {
