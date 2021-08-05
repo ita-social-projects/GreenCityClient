@@ -31,7 +31,7 @@ export class HabitInviteFriendsPopUpComponent implements OnInit {
   }
 
   updateAllAdd() {
-    this.allAdd = this.friends != null && this.friends.every((friend) => friend.added);
+    this.allAdd = this.friends !== null && this.friends.every((friend) => friend.added);
   }
 
   someAdd(): boolean {
