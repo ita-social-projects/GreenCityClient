@@ -5,10 +5,11 @@ import { SpinnerComponent } from './spinner/spinner.component';
 import { LocalizedCurrencyPipe } from './localized-currency-pipe/localized-currency.pipe';
 import { VolumePipe } from './volume-pipe/volume.pipe';
 import { DragDirective } from './drag-and-drop/dragDrop.directive';
+import { CloseDropdownDirective } from './directives/close-dropdown.directive';
 
 @NgModule({
-  exports: [SpinnerComponent, LocalizedCurrencyPipe, DragDirective, VolumePipe],
-  declarations: [SpinnerComponent, LocalizedCurrencyPipe, DragDirective, VolumePipe],
+  exports: [SpinnerComponent, LocalizedCurrencyPipe, DragDirective, VolumePipe, CloseDropdownDirective],
+  declarations: [SpinnerComponent, LocalizedCurrencyPipe, DragDirective, VolumePipe, CloseDropdownDirective],
   imports: [CommonModule, MaterialModule]
 })
 export class SharedModule {}
