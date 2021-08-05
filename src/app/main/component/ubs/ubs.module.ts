@@ -23,7 +23,6 @@ import { SharedMainModule } from '@shared/shared-main.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { UbsMainPageComponent } from './components/ubs-main-page/ubs-main-page.component';
-import { PhoneNumberTreatPipe } from './pipe/phone-number-treat/phone-number-treat.pipe';
 
 @NgModule({
   declarations: [
@@ -36,8 +35,7 @@ import { PhoneNumberTreatPipe } from './pipe/phone-number-treat/phone-number-tre
     UBSAddAddressPopUpComponent,
     AddressComponent,
     UbsConfirmPageComponent,
-    UbsMainPageComponent,
-    PhoneNumberTreatPipe
+    UbsMainPageComponent
   ],
   imports: [
     MatIconModule,
