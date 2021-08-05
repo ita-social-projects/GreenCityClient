@@ -6,6 +6,7 @@ header {
   box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
   position: fixed;
   z-index: 99;
+  padding: 13.5px 0;
 }
 
 .logo {
@@ -39,9 +40,11 @@ a {
 .icons {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   grid-area: icons;
   justify-self: end;
   height: 100%;
+  width: 100%;
 
   .header-user {
     color: var(--primary-green);
@@ -50,7 +53,6 @@ a {
   }
 
   nav {
-    margin-right: auto;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -85,20 +87,13 @@ a {
     color: var(--ubs-secondary);
   }
 
-  .header-user {
-    color: var(--ubs-primary-blue);
-    font-weight: 400;
-    font-size: 14px;
-    text-decoration: underline;
-    text-underline-offset: 1.5px;
-  }
-
   .header_lang-switcher-wrp {
     cursor: pointer;
     width: 60px;
     height: 100%;
     display: flex;
     justify-content: center;
+    margin-left: auto;
 
     li {
       width: 30px;
@@ -117,11 +112,11 @@ a {
     display: flex;
     flex-direction: column;
     height: 80px;
-    margin: auto 0;
     width: 60px;
     z-index: 1;
-    position: relative;
-    top: 6px;
+    position: fixed;
+    right: 122px;
+    top: 22px;
   }
 }
 
