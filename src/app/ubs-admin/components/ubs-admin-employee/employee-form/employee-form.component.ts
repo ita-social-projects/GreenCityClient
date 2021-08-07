@@ -12,9 +12,6 @@ export class EmployeeFormComponent implements OnInit {
   @Input()
   locations;
   roles;
-  selectedFile: File;
-  filePath: string;
-  uploaded = false;
   employeeForm: FormGroup;
   positionsArr = [];
 
@@ -25,9 +22,10 @@ export class EmployeeFormComponent implements OnInit {
       },
       (error) => console.error('Observer for role got an error: ' + error)
     );
-    this.employeeService.getAllStantions().subscribe(
+    this.employeeService.getAllStations().subscribe(
       (data) => {
         this.locations = data;
+        console.log(this.locations);
       },
       (error) => console.error('Observer for stations got an error: ' + error)
     );
@@ -58,28 +56,21 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   onCheckChangeLocation(data) {
+    if (this.doesIncludeLocation(data)) {
+      return;
+    }
     this.stationControls.value.push(new FormControl(data));
+    console.log(this.stationControls);
   }
 
-  imagePreview(e) {
-    this.selectedFile = (e.target as HTMLInputElement).files[0];
-    this.employeeForm.patchValue({
-      img: this.selectedFile
-    });
-    this.employeeForm.get('image').updateValueAndValidity();
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.filePath = reader.result as string;
-    };
-    reader.readAsDataURL(this.selectedFile);
-    this.uploaded = true;
+  doesIncludeLocation(location): boolean {
+    return this.stationControls.value.some((station) => location.id === station.value.id);
   }
 
   submit() {
     const formData: any = new FormData();
     const addEmployeeDto = new Blob([JSON.stringify(this.employeeForm.value)], { type: 'application/json' });
     formData.append('addEmployeeDto', addEmployeeDto);
-    formData.append('image', this.selectedFile);
-    this.employeeService.postEmployee(formData).subscribe((res) => console.log(res));
+    this.employeeService.postEmployee(formData).subscribe(console.log);
   }
 }

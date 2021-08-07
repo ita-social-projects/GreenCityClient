@@ -19,7 +19,7 @@ export class UbsAdminEmployeeService {
   getAllPositions(): Observable<any[]> {
     return this.http.get<any[]>(`${ubsAdminEmployeeLink}/get-all-positions`);
   }
-  getAllStantions(): Observable<any[]> {
+  getAllStations(): Observable<any[]> {
     return this.http.get<any[]>(`${ubsAdminEmployeeLink}/get-all-receiving-station`);
   }
   postEmployee(data): Observable<any> {

@@ -173,5 +173,15 @@
     "employees": "Працівники",
     "documents": "Документи",
     "schedule": "Графік"
+  },
+  "ubs-employee": {
+    "add-employee": "Додати працівника",
+    "required-fields": "*Обов’язкові поля",
+    "name": "Ім’я*",
+    "surname": "Прізвище*",
+    "phone-number": "Номер телефону*",
+    "email": "Email",
+    "position": "Посада*",
+    "receiving-station": "Станція приймання*"
   }
 }
