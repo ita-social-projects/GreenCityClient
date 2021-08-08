@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./ubs-admin-responsible-persons.component.scss']
 })
 export class UbsAdminResponsiblePersonsComponent {
-public responsiblePersons = ['Олег Іванюк'];
+  public responsiblePersons = ['Олег Іванюк'];
 }

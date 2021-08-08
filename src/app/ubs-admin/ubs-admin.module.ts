@@ -98,15 +98,15 @@ import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-c
       multi: true
     }
   ],
- entryComponents: [
-  UbsAdminTableComponent,
-  AddViolationsComponent,
-  EmployeeFormComponent,
-  UbsProfileChangePasswordPopUpComponent,
-  UbsProfileDeletePopUpComponent,
-  UbsAdminCancelModalComponent,
-  UbsAdminGoBackModalComponent
-]
+  entryComponents: [
+    UbsAdminTableComponent,
+    AddViolationsComponent,
+    EmployeeFormComponent,
+    UbsProfileChangePasswordPopUpComponent,
+    UbsProfileDeletePopUpComponent,
+    UbsAdminCancelModalComponent,
+    UbsAdminGoBackModalComponent
+  ]
 })
 export class UbsAdminModule {}
 

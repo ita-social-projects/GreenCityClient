@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ubsHeaderIcons } from '../ubs-image-pathes/ubs-header-icons';
 import { languages } from 'src/app/shared/languages/languages';
 import { LanguageModel } from '../../models/languageModel';
 import { Language } from '../../../main/i18n/Language';
@@ -12,7 +13,13 @@ import { LanguageService } from '../../../main/i18n/language.service';
 export class UbsHeaderComponent implements OnInit {
   public langDropdownVisible = false;
   arrayLang: Array<LanguageModel> = languages;
-
+  ubsHeaderIcons = ubsHeaderIcons;
+  navLinks = [
+    { name: 'Про нас', route: '/' },
+    { name: 'Правила сортування', route: '/' },
+    { name: 'Еко-магазин', route: '/' },
+    { name: 'Green City', route: '/' }
+  ];
   constructor(private languageService: LanguageService) {}
 
   ngOnInit() {
