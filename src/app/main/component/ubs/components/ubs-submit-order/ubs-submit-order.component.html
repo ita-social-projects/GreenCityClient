@@ -69,7 +69,7 @@
             <p class="order-header">{{ 'order-details.recipient' | translate }}</p>
             <ul class="order-list">
               <li class="order-list-item">{{ personalData.firstName }} {{ personalData.lastName }}</li>
-              <li class="order-list-item">0{{ personalData.phoneNumber }}</li>
+              <li class="order-list-item">{{ personalData.phoneNumber | phoneNumberTreat: '380' }}</li>
               <li class="order-list-item">{{ personalData.email }}</li>
             </ul>
           </div>
@@ -98,7 +98,7 @@
         <h3 class="bottom_comment_payment">{{ 'order-form.payment' | translate }}</h3>
         <p class="choose-payment">{{ 'order-details.choose-payment' | translate }}</p>
         <div class="col-12 col-sm-12 p-0">
-          <label for="" class="choose-payment-chooser">{{ 'submit-order.choose-payment' | translate }}</label
+          <label class="choose-payment-chooser">{{ 'submit-order.choose-payment' | translate }}</label
           ><br />
           <select class="payment-select shadow-none">
             <option value="Fondy">{{ 'submit-order.fondy-card' | translate }}</option>
