@@ -1,6 +1,6 @@
 <div class="modal-wrapper">
   <h1 class="popup-title">{{ 'ubs-employee.add-employee' | translate }}</h1>
-  <form [formGroup]="employeeForm" (ngSubmit)="submit()">
+  <form [formGroup]="employeeForm" (ngSubmit)="isUpdatingEmployee ? this.updateEmployee() : this.createEmployee()">
     <div class="fields-note">
       <h6>{{ 'ubs-employee.required-fields' | translate }}</h6>
     </div>
@@ -22,21 +22,22 @@
     </div>
     <span class="group-title position-title">{{ 'ubs-employee.position' | translate }}</span>
     <div class="checkbox-section-role">
-      <div *ngFor="let role of roles">
+      <div *ngFor="let role of roles" class="checkbox-role" [ngClass]="{ 'active-location': doesIncludeRole(role) }">
         <label class="checkbox-label">
           {{ role.name }}
           <input class="checkbox-input" type="checkbox" (change)="onCheckChangeRole({ id: role.id, name: role.name })"
         /></label>
+        <img class="checkbox-close-button" src="assets/img/ubs/cross.svg" alt="close" />
       </div>
     </div>
     <span class="group-title station-title">{{ 'ubs-employee.receiving-station' | translate }}</span>
     <div class="checkbox-section-station">
-      <div *ngFor="let location of locations" [ngClass]="{ 'active-location': doesIncludeLocation(location) }">
+      <div class="checkbox-location" *ngFor="let location of locations" [ngClass]="{ 'active-location': doesIncludeLocation(location) }">
         <label class="checkbox-label-station">
           {{ location.name }}
           <input class="checkbox-input" type="checkbox" (change)="onCheckChangeLocation(location)" />
         </label>
-        <button class="checkbox-close-button">&times;</button>
+        <img class="checkbox-close-button" src="assets/img/ubs/cross.svg" alt="close" />
       </div>
     </div>
     <div class="button-row">

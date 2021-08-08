@@ -1,6 +1,5 @@
 .modal-wrapper {
   width: 440px;
-  height: 700px;
   background: var(--pre-secondary-light-grey);
   padding: 30px 56px;
 }
@@ -14,7 +13,7 @@
 }
 
 form {
-  margin: 24px 0 56px;
+  margin: 24px 0 0;
 }
 
 .fields-note h6 {
@@ -50,27 +49,47 @@ form {
 .checkbox-section-station {
   display: flex;
   flex-wrap: wrap;
-  column-gap: 8px;
+  gap: 8px;
   margin-top: 5px;
 }
 
-.checkbox-label,
-.checkbox-label-station {
+.checkbox-location,
+.checkbox-role {
   font-size: 14px;
   padding: 6px;
   border-radius: 3px;
   cursor: pointer;
   box-shadow: 0.5px 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.25);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 6.5px;
 }
 
-.checkbox-label {
+label {
+  all: unset;
+}
+
+.checkbox-role {
   color: var(--ubs-dark-green);
   border: solid 1px var(--ubs-dark-green);
+
+  &.active-location {
+    color: var(--quaternary-dark-grey);
+    border: solid 1px var(--ubs-grey-light-green);
+    background: var(--ubs-grey-light-green);
+  }
 }
 
-.checkbox-label-station {
+.checkbox-location {
   color: var(--ubs-dark-purple);
   border: solid 1px var(--ubs-dark-purple);
+
+  &.active-location {
+    color: var(--quaternary-dark-grey);
+    border: solid 1px var(--ubs-grey-light-blue);
+    background: var(--ubs-grey-light-blue);
+  }
 }
 
 .checkbox-input {
@@ -83,7 +102,7 @@ form {
   justify-content: flex-end;
   align-items: center;
   column-gap: 16px;
-  padding: 8px;
+  padding: 16px 8px;
 }
 
 .cancelButton,
@@ -110,6 +129,8 @@ form {
   display: none;
 }
 
-.active-location .checkbox-close-button {
-  display: initial !important;
+.active-location {
+  .checkbox-close-button {
+    display: initial;
+  }
 }
