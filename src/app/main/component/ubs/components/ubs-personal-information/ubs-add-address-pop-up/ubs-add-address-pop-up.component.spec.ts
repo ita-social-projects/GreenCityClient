@@ -10,7 +10,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 
-fdescribe('UBSAddAddressPopUpComponent', () => {
+describe('UBSAddAddressPopUpComponent', () => {
   let component: UBSAddAddressPopUpComponent;
   let fixture: ComponentFixture<UBSAddAddressPopUpComponent>;
   let orderService: OrderService;
