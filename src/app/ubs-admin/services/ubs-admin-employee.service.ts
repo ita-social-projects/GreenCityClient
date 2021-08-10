@@ -32,4 +32,8 @@ export class UbsAdminEmployeeService {
   updateEmployee(data): Observable<any> {
     return this.http.put<any>(`${ubsAdminEmployeeLink}/update-employee`, data);
   }
+
+  deleteEmployeeImage(id: number) {
+    return this.http.delete<any>(`${ubsAdminEmployeeLink}/delete-employee-image/${id}`);
+  }
 }

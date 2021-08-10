@@ -43,16 +43,33 @@
     <span class="group-title">
       {{ 'ubs-employee.image-input' | translate }}
     </span>
-    <div class="image-input">
-      <div class="file-input-label" (drop)="treatFileInput($event)" (dragover)="cancelDefault($event)">
+    <div
+      class="image-input"
+      *ngIf="!imageURL; else currentImageBlock"
+      [ngClass]="{ highlighted: dragOver }"
+      (drop)="treatFileInput($event)"
+      (dragover)="cancelDefault($event)"
+      (dragleave)="dragOver = false"
+      (dragenter)="dragOver = true"
+    >
+      <div class="file-input-label">
         Перетягніть<br />зображення або<br />
         <label for="file-input" class="download-from-device-button">завантажте з<br />пристрою</label>
-        <input class="file-input" id="file-input" type="file" accept="*/image" (change)="treatFileInput($event)" />
+        <input class="file-input" id="file-input" type="file" (change)="treatFileInput($event)" />
       </div>
     </div>
+    <ng-template #currentImageBlock>
+      <div class="image-input current-image">
+        <div class="avatar-edit-head">
+          <span class="image-name">{{ imageName | maxImageName }}</span>
+          <img class="user-image" src="assets/img/ubs/cross.svg" alt="close" (click)="removeImage()" />
+        </div>
+        <img [src]="imageURL" alt="Your photo" />
+      </div>
+    </ng-template>
     <div class="button-row">
       <button mat-dialog-close class="cancelButton">Скасувати</button>
-      <button type="submit" class="addButton">Додати</button>
+      <button type="submit" class="addButton">{{ isUpdatingEmployee ? 'Оновити' : 'Додати' }}</button>
     </div>
   </form>
 </div>

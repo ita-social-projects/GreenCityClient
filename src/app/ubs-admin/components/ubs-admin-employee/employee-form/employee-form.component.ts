@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.service';
@@ -11,13 +11,16 @@ import { Page } from '../../../models/ubs-admin.interface';
   styleUrls: ['./employee-form.component.scss']
 })
 export class EmployeeFormComponent implements OnInit {
-  @Input()
   locations;
   roles;
   employeeForm: FormGroup;
   employeePositions;
   receivingStations;
   phoneMask = '{+38} (000) 00 000 00';
+  dragOver = false;
+  imageURL: string;
+  imageName = 'Your Avatar';
+  selectedFile;
 
   ngOnInit() {
     this.employeeService.getAllPositions().subscribe(
@@ -48,6 +51,7 @@ export class EmployeeFormComponent implements OnInit {
     });
     this.employeePositions = this.data.employeePositions ?? [];
     this.receivingStations = this.data.receivingStations ?? [];
+    this.imageURL = this.data.image;
   }
 
   get isUpdatingEmployee() {
@@ -92,9 +96,12 @@ export class EmployeeFormComponent implements OnInit {
     return this.receivingStations.some((station) => location.id === station.id);
   }
 
-  prepareEmployeeDataToSend(): FormData {
+  prepareEmployeeDataToSend(dto): FormData {
+    const phoneNumber = this.employeeForm.value.phoneNumber;
+    this.employeeForm.value.phoneNumber = phoneNumber.slice(1);
     const employeeDataToSend = {
       ...this.employeeForm.value,
+      image: this.imageURL,
       employeePositions: this.employeePositions,
       receivingStations: this.receivingStations
     };
@@ -103,31 +110,48 @@ export class EmployeeFormComponent implements OnInit {
     }
     const stringifiedDataToSend = JSON.stringify(employeeDataToSend);
     const formData: FormData = new FormData();
-    formData.append('addEmployeeDto', stringifiedDataToSend);
+    formData.append(dto, stringifiedDataToSend);
+    if (this.selectedFile) {
+      formData.append('image', this.selectedFile);
+    }
     return formData;
   }
 
   updateEmployee() {
-    const dataToSend = this.prepareEmployeeDataToSend();
+    const dataToSend = this.prepareEmployeeDataToSend('employeeDto ');
     this.employeeService.updateEmployee(dataToSend).subscribe(() => {
       this.dialogRef.close();
     });
   }
 
   createEmployee() {
-    const dataToSend = this.prepareEmployeeDataToSend();
+    const dataToSend = this.prepareEmployeeDataToSend('addEmployeeDto');
     this.employeeService.postEmployee(dataToSend).subscribe(() => {
       this.dialogRef.close();
     });
   }
 
-  treatFileInput(event) {
+  treatFileInput(event: Event) {
+    this.dragOver = false;
     event.preventDefault();
+
     console.log(event);
+    const reader = new FileReader();
+    this.selectedFile = (event.target as HTMLInputElement).files[0];
+    this.imageName = this.selectedFile.name;
+    reader.readAsDataURL(this.selectedFile);
+    reader.onload = () => {
+      this.imageURL = reader.result.toString();
+    };
   }
 
-  cancelDefault(e) {
+  cancelDefault(e: DragEvent) {
     e.preventDefault();
-    console.log(e);
+  }
+
+  removeImage() {
+    this.imageURL = '';
+    this.imageName = '';
+    this.employeeService.deleteEmployeeImage(this.data.id);
   }
 }

@@ -38,6 +38,7 @@ import { AddViolationsComponent } from './components/add-violations/add-violatio
 import { UbsAdminCancelModalComponent } from './components/ubs-admin-cancel-modal/ubs-admin-cancel-modal.component';
 import { UbsAdminGoBackModalComponent } from './components/ubs-admin-go-back-modal/ubs-admin-go-back-modal.component';
 import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-client-bonuses.component';
+import { MaxImageNamePipe } from './components/shared/max-image-name/max-image-name.pipe';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-c
     AddViolationsComponent,
     UbsAdminCancelModalComponent,
     UbsAdminGoBackModalComponent,
-    UbsClientBonusesComponent
+    UbsClientBonusesComponent,
+    MaxImageNamePipe
   ],
   imports: [
     CommonModule,
@@ -98,15 +100,15 @@ import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-c
       multi: true
     }
   ],
- entryComponents: [
-  UbsAdminTableComponent,
-  AddViolationsComponent,
-  EmployeeFormComponent,
-  UbsProfileChangePasswordPopUpComponent,
-  UbsProfileDeletePopUpComponent,
-  UbsAdminCancelModalComponent,
-  UbsAdminGoBackModalComponent
-]
+  entryComponents: [
+    UbsAdminTableComponent,
+    AddViolationsComponent,
+    EmployeeFormComponent,
+    UbsProfileChangePasswordPopUpComponent,
+    UbsProfileDeletePopUpComponent,
+    UbsAdminCancelModalComponent,
+    UbsAdminGoBackModalComponent
+  ]
 })
 export class UbsAdminModule {}
 

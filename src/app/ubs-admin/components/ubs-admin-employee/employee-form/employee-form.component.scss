@@ -136,13 +136,40 @@ label {
 }
 
 .image-input {
-  background: url('src/assets/img/ubs/drag-and-drop-img.svg') no-repeat;
-  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 132px;
   height: 108px;
+  transition: filter 0.2s linear;
+  position: relative;
+  background: var(--ubs-primary-white);
+
+  &:after {
+    display: block;
+    content: '';
+    background: url('src/assets/img/ubs/drag-and-drop-img.svg') no-repeat center;
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  &.highlighted,
+  &.highlighted * {
+    filter: brightness(0.5);
+  }
+}
+
+.current-image {
+  background: var(--ubs-primary-white);
+
+  img {
+    height: 108px;
+  }
 }
 
 .file-input {
@@ -159,7 +186,30 @@ label {
 .download-from-device-button {
   color: var(--ubs-primary-green);
   cursor: pointer;
+
   &:hover {
     text-decoration: underline;
   }
+}
+
+.avatar-edit-head {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: var(--ubs-quaternary-light-grey);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  font-size: 12px;
+}
+
+.image-name {
+  color: var(--ubs-primary-grey);
+}
+
+.user-image {
+  height: 15px !important;
+  cursor: pointer;
 }
