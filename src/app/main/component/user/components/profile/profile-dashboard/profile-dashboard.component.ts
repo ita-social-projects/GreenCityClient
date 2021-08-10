@@ -11,7 +11,7 @@ import { HabitStatus } from '../../../../../model/habit/HabitStatus.enum';
 @Component({
   selector: 'app-profile-dashboard',
   templateUrl: './profile-dashboard.component.html',
-  styleUrls: ['./profile-dashboard.component.scss'],
+  styleUrls: ['./profile-dashboard.component.scss']
 })
 export class ProfileDashboardComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
@@ -21,7 +21,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   public tabs = {
     habits: true,
     news: false,
-    articles: false,
+    articles: false
   };
   userId: number;
 
@@ -55,15 +55,23 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       .getAssignedHabits()
       .pipe(take(1))
       .subscribe((response: Array<HabitAssignInterface>) => {
-        const sortedHabits = this.sortHebitsAsc(response);
+        const sortedHabits = this.sortHabitsAsc(response);
         this.habitsInProgress = sortedHabits.filter((habit) => habit.status === HabitStatus.INPROGRESS);
         this.habitsAcquired = sortedHabits.filter((habit) => habit.status === HabitStatus.ACQUIRED);
         this.loading = false;
       });
   }
 
-  private sortHebitsAsc(habitsArray): Array<HabitAssignInterface> {
-    return habitsArray.sort((a, b) => (a.habit.id > b.habit.id ? 1 : b.habit.id > a.habit.id ? -1 : 0));
+  private sortHabitsAsc(habitsArray): Array<HabitAssignInterface> {
+    return habitsArray.sort((firstHabit, secondHabit) => {
+      if (firstHabit.habit.id > secondHabit.habit.id) {
+        return 1;
+      }
+      if (secondHabit.habit.id > firstHabit.habit.id) {
+        return -1;
+      }
+      return 0;
+    });
   }
 
   public toggleTab(tab: string): void {

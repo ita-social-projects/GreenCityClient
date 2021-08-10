@@ -78,14 +78,6 @@ describe('SearchAllResultsComponent', () => {
   });
 
   describe('test main functionality', () => {
-    it('should update page', () => {
-      component.currentPage = 0;
-      // @ts-ignore
-      component.changeCurrentPage();
-
-      expect(component.currentPage).toBe(1);
-    });
-
     it('should force fetch data if heigth of body less that document', () => {
       // @ts-ignore
       spyOn(document.documentElement, 'clientHeight').and.returnValue(200);

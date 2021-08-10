@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { EmployeeFormComponent } from './employee-form/employee-form.component';
 
 @Component({
@@ -58,7 +58,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(EmployeeFormComponent, {
+    this.dialog.open(EmployeeFormComponent, {
       panelClass: 'custom-modalbox'
     });
   }
