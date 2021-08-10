@@ -78,8 +78,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
         this.data.edit ? this.data.address.entranceNumber : '',
         [Validators.maxLength(2), Validators.pattern(this.entranceNumberPattern)]
       ],
-      longitude: [this.data.edit ? this.data.address.longitude : '', Validators.required],
-      latitude: [this.data.edit ? this.data.address.latitude : '', Validators.required],
+      longitude: [this.data.edit ? this.data.address.longitude : ''],
+      latitude: [this.data.edit ? this.data.address.latitude : ''],
       id: [this.data.edit ? this.data.address.id : 0],
       actual: true
     });
