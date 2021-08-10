@@ -182,6 +182,7 @@
     "phone-number": "Номер телефону*",
     "email": "Email",
     "position": "Посада*",
-    "receiving-station": "Станція приймання*"
+    "receiving-station": "Станція приймання*",
+    "image-input": "Фото"
   }
 }

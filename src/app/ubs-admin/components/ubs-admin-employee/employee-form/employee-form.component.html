@@ -40,13 +40,15 @@
         <img class="checkbox-close-button" src="assets/img/ubs/cross.svg" alt="close" />
       </div>
     </div>
+    <span class="group-title">
+      {{ 'ubs-employee.image-input' | translate }}
+    </span>
     <div class="image-input">
-      <span class="group-title">
-        {{ 'ubs-employee.image-input' | translate }}
-      </span>
-      <label class="file-input-label">
-        <input class="file-input" type="file" (drop)="treatFileInput($event)" />
-      </label>
+      <div class="file-input-label" (drop)="treatFileInput($event)" (dragover)="cancelDefault($event)">
+        Перетягніть<br />зображення або<br />
+        <label for="file-input" class="download-from-device-button">завантажте з<br />пристрою</label>
+        <input class="file-input" id="file-input" type="file" accept="*/image" (change)="treatFileInput($event)" />
+      </div>
     </div>
     <div class="button-row">
       <button mat-dialog-close class="cancelButton">Скасувати</button>

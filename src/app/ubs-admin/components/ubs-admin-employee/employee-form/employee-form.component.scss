@@ -135,9 +135,31 @@ label {
   }
 }
 
+.image-input {
+  background: url('src/assets/img/ubs/drag-and-drop-img.svg') no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 132px;
+  height: 108px;
+}
+
 .file-input {
   display: none;
 }
 
 .file-input-label {
+  display: block;
+  color: var(--ubs-secondary-grey);
+  font-size: 12px;
+  text-align: center;
+}
+
+.download-from-device-button {
+  color: var(--ubs-primary-green);
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
 }

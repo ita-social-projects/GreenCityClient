@@ -122,6 +122,12 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   treatFileInput(event) {
-    console.log('hello');
+    event.preventDefault();
+    console.log(event);
+  }
+
+  cancelDefault(e) {
+    e.preventDefault();
+    console.log(e);
   }
 }
