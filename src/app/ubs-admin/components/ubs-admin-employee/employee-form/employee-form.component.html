@@ -14,7 +14,7 @@
     </div>
     <div class="form-group">
       <label class="group-title">{{ 'ubs-employee.phone-number' | translate }}</label>
-      <input formControlName="phoneNumber" placeholder="+380" />
+      <input formControlName="phoneNumber" [imask]="{ mask: phoneMask }" [unmask]="true" />
     </div>
     <div class="form-group">
       <label class="group-title">{{ 'ubs-employee.email' | translate }}</label>
@@ -39,6 +39,14 @@
         </label>
         <img class="checkbox-close-button" src="assets/img/ubs/cross.svg" alt="close" />
       </div>
+    </div>
+    <div class="image-input">
+      <span class="group-title">
+        {{ 'ubs-employee.image-input' | translate }}
+      </span>
+      <label class="file-input-label">
+        <input class="file-input" type="file" (drop)="treatFileInput($event)" />
+      </label>
     </div>
     <div class="button-row">
       <button mat-dialog-close class="cancelButton">Скасувати</button>

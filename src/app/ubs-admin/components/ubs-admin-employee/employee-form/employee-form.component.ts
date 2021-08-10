@@ -17,6 +17,7 @@ export class EmployeeFormComponent implements OnInit {
   employeeForm: FormGroup;
   employeePositions;
   receivingStations;
+  phoneMask = '{+38} (000) 00 000 00';
 
   ngOnInit() {
     this.employeeService.getAllPositions().subscribe(
@@ -118,5 +119,9 @@ export class EmployeeFormComponent implements OnInit {
     this.employeeService.postEmployee(dataToSend).subscribe(() => {
       this.dialogRef.close();
     });
+  }
+
+  treatFileInput(event) {
+    console.log('hello');
   }
 }
