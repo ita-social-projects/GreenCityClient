@@ -41,7 +41,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   ecoStoreMask = '0000000000';
   servicesMask = '000';
   certificatePattern = /(?!0000)\d{4}-(?!0000)\d{4}/;
-  commentPattern = /^(.){0,255}$/;
+  commentPattern = /^[i\s]{0,255}(.){0,255}[i\s]{0,255}$/;
   additionalOrdersPattern = /^\d{10}$/;
   displayOrderBtn = false;
 
