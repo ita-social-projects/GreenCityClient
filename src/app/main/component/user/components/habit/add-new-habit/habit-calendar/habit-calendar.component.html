@@ -1,0 +1,45 @@
+<div class="calendar">
+  <div class="top">
+    <div class="month-year">
+      <div (click)="monthView ? previousMonth() : previousYear()">
+        <img [src]="calendarImages.arrowPrevious" alt="arrow previous" class="arrow-previous" />
+      </div>
+      <span class="monthAndYear" (click)="toggleCalendarView()">
+        {{ monthView ? monthAndYearName : yearData }}
+      </span>
+      <div (click)="monthView ? nextMonth() : nextYear()">
+        <img [src]="calendarImages.arrowNext" alt="arrow next" class="arrow-next" />
+      </div>
+    </div>
+    <div *ngIf="monthView" class="days">
+      <div class="days-name" *ngFor="let day of daysName" [ngClass]="{ 'current-day-name': day === currentDayName }">
+        {{ day }}
+      </div>
+    </div>
+  </div>
+  <div class="middle">
+    <div *ngIf="monthView" class="calendar-grid" [ngClass]="{ disabled: checkAnswer }">
+      <div
+        *ngFor="let dayItem of calendarDay"
+        class="calendar-grid-day"
+        [ngClass]="chooseDisplayClass(dayItem)"
+        (click)="showHabits($event, dayItem)"
+      >
+        <span>
+          {{ dayItem.numberOfDate }}
+        </span>
+      </div>
+    </div>
+    <div *ngIf="!monthView" class="calendar-grid-month">
+      <div *ngFor="let month of monthsCalendar">
+        <div
+          class="calendar-grid-month-view"
+          (click)="buildSelectedMonthCalendar(month)"
+          [ngClass]="{ 'current-month': month === activeMonth && currentYear }"
+        >
+          {{ month }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
