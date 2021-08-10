@@ -20,7 +20,6 @@ export class SearchService {
 
   public getAllResults(searchQuery: string, lang: string): Observable<SearchModel> {
     return this.http.get<SearchModel>(backendMockSearchAll);
-    // (`${this.backEndLink}search?searchQuery=${searchQuery}&lang=${lang}`);
   }
 
   public getAllResultsByCat(
@@ -31,7 +30,6 @@ export class SearchService {
     items: number = 9
   ): Observable<SearchDataModel> {
     return this.http.get<SearchDataModel>(backendMockSearchNews);
-    // ()`${this.backEndLink}search/${category}?searchQuery=${query}&sort=${sort}&page=${page}&size=${items}`);
   }
 
   private getResultsByCat(searchType: string): Observable<SearchModel> {

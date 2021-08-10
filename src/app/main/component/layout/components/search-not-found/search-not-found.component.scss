@@ -11,12 +11,10 @@ p {
 
 .search_not-found-text,
 .search_not-found-header {
-  // width: 350px;
   font-family: var(--secondary-font);
   font-weight: 500;
   font-size: 1.3rem;
   line-height: 28px;
-  // word-break: break-all;
 }
 
 .search_not-found-text {
@@ -34,7 +32,6 @@ p {
 }
 
 .search_not-found-image {
-  // border-radius: 5px;
   height: 100%;
   width: 100%;
   margin: auto;
@@ -60,9 +57,7 @@ p {
   max-width: 360px;
   min-height: 352px;
   background: var(--primary-white);
-  // box-shadow: 0 0.25rem 2rem #e6ebea;
   box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
-  // border-radius: 0.25rem;
   cursor: pointer;
 }
 
