@@ -44,6 +44,8 @@
 .form-title {
   margin: -35px 0 35px 0;
   color: var(--ubs-primary-grey);
+  font-family: var(--primary-font);
+  font-weight: 700;
 }
 
 @media (min-width: 481px) and (max-width: 767px) {

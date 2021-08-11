@@ -1,15 +1,14 @@
-import { PaginationConfig } from '../../models/comments-model';
+import { PaginationConfig, CommentsDTO, CommentsModel } from '../../models/comments-model';
 import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CommentsService } from '../../services/comments.service';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
-import { CommentsDTO, CommentsModel } from '../../models/comments-model';
 
 @Component({
   selector: 'app-comments-container',
   templateUrl: './comments-container.component.html',
-  styleUrls: ['./comments-container.component.scss'],
+  styleUrls: ['./comments-container.component.scss']
 })
 export class CommentsContainerComponent implements OnInit, OnDestroy {
   @Input() public dataType = 'comment';
@@ -18,7 +17,7 @@ export class CommentsContainerComponent implements OnInit, OnDestroy {
     id: 'comment',
     itemsPerPage: 10,
     currentPage: 0,
-    totalItems: 0,
+    totalItems: 0
   };
   @Output() public repliesCounter = new EventEmitter();
   public elementsList: CommentsDTO[] = [];

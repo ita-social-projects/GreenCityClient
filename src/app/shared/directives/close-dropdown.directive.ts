@@ -1,7 +1,7 @@
 import { Directive, ElementRef, EventEmitter, HostListener, Output } from '@angular/core';
 
 @Directive({
-  selector: '[appCloseDropdown]',
+  selector: '[appCloseDropdown]'
 })
 export class CloseDropdownDirective {
   @Output() clickOutSide = new EventEmitter<boolean>();

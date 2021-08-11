@@ -1,13 +1,46 @@
-<div class="wrapper">
+<header>
   <div class="logo">
-    <img src="assets/admin-header/logo-admin.svg" alt="UBS admin home" />
+    <img [src]="ubsHeaderIcons.ubsAdminLogo" alt="UBS admin logo" />
   </div>
   <div class="icons">
-    <img src="assets/admin-header/first-icon-admin.svg" alt="Selected items" />
-    <img src="assets/admin-header/bell-icon-admin.svg" alt="Notifications" />
-    <span>En</span>
-    <img src="assets/img/arrow_down.svg" alt="Change language" />
-    <a href="/">Home</a>
+    <nav>
+      <a class="nav-link" *ngFor="let link of navLinks" [href]="link.route">
+        {{ link.name }}
+      </a>
+    </nav>
+    <ul
+      role="menu"
+      [ngClass]="{ 'add-shadow': langDropdownVisible, 'header_lang-switcher-wrp header_navigation-menu-right-list': true }"
+      (click)="langDropdownVisible = !langDropdownVisible"
+      (keyup.enter)="langDropdownVisible = !langDropdownVisible"
+      appCloseDropdown
+      (clickOutSide)="autoCloseLangDropDown($event)"
+      aria-label="language switcher"
+      tabindex="0"
+    >
+      <li role="button" aria-label="english">
+        <span aria-hidden="true">{{ arrayLang[0].lang }}</span>
+        <img
+          src="assets/img/arrow_down.svg"
+          alt="language switcher"
+          aria-hidden="true"
+          [ngClass]="langDropdownVisible ? 'header_arrow reverse' : 'header_arrow'"
+        />
+      </li>
+      <ng-container *ngIf="langDropdownVisible">
+        <ng-container *ngFor="let lang of arrayLang; index as index">
+          <li
+            role="button"
+            *ngIf="index > 0"
+            (click)="changeCurrentLanguage(lang.lang, index)"
+            [attr.aria-label]="lang.langName"
+            tabindex="0"
+          >
+            <span aria-hidden="true">{{ lang.lang }}</span>
+          </li>
+        </ng-container>
+      </ng-container>
+    </ul>
     <span class="header-user">Jana Done</span>
   </div>
-</div>
+</header>

@@ -2,6 +2,7 @@
   "ubs-client-profile": {
     "data": "Дані користувача",
     "message-if-edit": "Заповніть, будь ласка, Ваш профіль, щоб зробити процес замовлення максимально швидким і зручним",
+    "error-message": "Щось пішло не так... Будь ласка, перезавантажте сторінку",
     "personal": "Особисте",
     "name": "Ім'я",
     "surname": "Прізвище",
@@ -37,9 +38,140 @@
       "delete-profile-save": "Видалити"
     }
   },
+  "add-violation-modal": {
+    "add-violation": "Додати порушення",
+    "level-of-violation": "Оберіть ступінь порушення",
+    "easy-violation": "Легке",
+    "serious-violation": "Серйозне",
+    "description": "Опишіть, що сталося",
+    "placeholder": "Будь-які деталі, які Ви хотіли б повідомити додатково щодо цього замовлення",
+    "label-for-photo": "Фотографії порушення",
+    "requirement": "Ви можете завантажити зображення у форматі PNG чи JPG розміром до 10MБ",
+    "drag-photo": "Перетягніть фото сюди",
+    "error-message-for-size": "Розмір файлу більше 10 МВ. Будь ласка, виберіть інший файл",
+    "error-message-for-type": "Неправильний формат файлу. Будь ласка, виберіть інший файл",
+    "file-upload": "Завантажити фото з пристрою",
+    "delete-button": "Видалити",
+    "cancel-button": "Скасувати",
+    "add-button": "Додати порушення",
+    "date": "Дата:",
+    "info-about-date": "Додано:"
+  },
+  "order-edit": {
+    "need-to-pay": "Потрібно доплатити",
+    "status": {
+      "title": "Замовлення",
+      "order-date": "Дата оформлення",
+      "order-label": "Статус замовлення",
+      "payment-label": "Статус оплати",
+      "approve-status": {
+        "approved": "Підтверджено",
+        "not-approved": "Не підтверджено"
+      },
+      "payment-status": {
+        "paid": "Оплачено",
+        "not-paid": "Не оплачено"
+      }
+    },
+    "comment": {
+      "label": "Коментар",
+      "placeholder": "Будь-які деталі, які Ви хотіли б повідомити додатково щодо цього замовлення"
+    }
+  },
+  "address-details": {
+    "title": "Адреса вивезення відходів",
+    "street": "Вулиця",
+    "comment-label": "Коментар до адреси від клієнта",
+    "comment-placeholder": "Будь-які деталі, які Ви хотіли б повідомити додатково щодо цього замовлення",
+    "building": "Будинок",
+    "corpus": "Корпус",
+    "entrance": "Під'їзд",
+    "region": "Район"
+  },
+  "customer-info": {
+    "title": "Інформація про клієнта",
+    "customer": {
+      "title": "Клієнт",
+      "name-label": "Ім'я",
+      "name-placeholder": "Placeholder",
+      "tel-label": "Телефон",
+      "tel-placeholder": "Placeholder",
+      "email-label": "Email",
+      "email-placeholder": "Placeholder"
+    },
+    "recipient": {
+      "title": "Отримувач",
+      "name-label": "Ім'я",
+      "name-placeholder": "Placeholder",
+      "tel-label": "Телефон",
+      "tel-placeholder": "Placeholder",
+      "email-label": "Email",
+      "email-placeholder": "Placeholder"
+    },
+    "violation": {
+      "title": "Порушення клієнта",
+      "amount": "Всього",
+      "current-order": "Поточне замовлення",
+      "button": "Додати порушення"
+    }
+  },
+  "order-details": {
+    "title": "Деталі замовлення",
+    "service": "Послуга",
+    "volume": "Об'єм",
+    "cost": "Вартість за одиницю",
+    "planned-amount": "Планована к-ть",
+    "approved-amount": "Підтверджена к-ть",
+    "exported-amount": "Вивезена к-ть",
+    "bags-amount": "Загальна кількість пакетів",
+    "order-sum": "Сума замовлення",
+    "certificate": "Сертифікат",
+    "bonuses": "Використані бонуси",
+    "sum-to-pay": "Сума до оплати",
+    "ubs-courier": "УБС Кур'єр",
+    "min-sum": "Замовлення не може бути змінене. Мінімальна сума замовлення",
+    "certificate-number-label": "Номер сертифікату",
+    "order-number-label": "Номер замовлення з магазину",
+    "client-comment": {
+      "label": "Коментар до замовлення від клієнта",
+      "placeholder": "Будь-які деталі, які Ви хотіли б повідомити додатково щодо цього замовлення"
+    },
+    "send-button": "Надіслати повідомлення"
+  },
+  "order-payment": {
+    "title": "Оплата замовлення",
+    "order-size": "Замовлення виконано у розмірі",
+    "add-payment-btn": "Додати оплату",
+    "order-date": "Дата оплати",
+    "payment-id": "ID платежу",
+    "sum": "Сума",
+    "comment-bill": "Коментар/Чек"
+  },
+  "export-details": {
+    "title": "Деталі вивезення",
+    "export-date": "Дата вивезення",
+    "export-time": "Час вивезення",
+    "station": "Станція приймання"
+  },
+  "responsible-persons": {
+    "title": "Відповідальні особи",
+    "service-manager": "Менеджер послуги",
+    "call-manager": "Менеджер обдзвону",
+    "logistician": "Логіст",
+    "navigator": "Штурман",
+    "driver": "Водій"
+  },
   "cancel-modal": {
     "question": "У разі скасування внесені зміни будуть втрачені. Чи дійсно Ви бажаєте скасувати зміни?",
     "disagree": "Ні",
     "agree": "Так"
+  },
+  "ubs-sidebar": {
+    "users": "Користувачі",
+    "certificates": "Сертифікати",
+    "orders": "Замовлення",
+    "employees": "Працівники",
+    "documents": "Документи",
+    "schedule": "Графік"
   }
 }

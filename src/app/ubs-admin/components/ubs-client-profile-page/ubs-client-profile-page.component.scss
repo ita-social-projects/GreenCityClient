@@ -76,6 +76,12 @@
     justify-content: flex-end;
   }
 
+  button:disabled {
+    background-color: var(--ubs-primary-grey);
+    border: 1px solid var(--ubs-primary-grey);
+    color: var(--ubs-primary-white);
+  }
+
   .ubs_profile-footer {
     width: 905px;
 

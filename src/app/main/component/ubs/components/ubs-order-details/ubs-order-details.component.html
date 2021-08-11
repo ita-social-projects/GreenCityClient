@@ -20,7 +20,6 @@
             <span class="col-2 p-0 m-0 bag-name">{{ bag.price | localizedCurrency }}</span>
             <div class="col-2 form-group count">
               <input
-                placeholder="0"
                 formControlName="quantity{{ bag.id }}"
                 type="number"
                 class="shadow-none form-control input"
@@ -30,7 +29,6 @@
                 [imask]="{ mask: servicesMask }"
                 [(ngModel)]="bag.quantity"
                 (ngModelChange)="onQuantityChange()"
-                (click)="onQuantityChange()"
               />
             </div>
             <span class="col-3 bag-name text-center"> {{ bag.quantity * bag.price | localizedCurrency }}</span>
@@ -178,6 +176,9 @@
           <div class="points">
             <h5>{{ 'order-details.bonus-need' | translate }}</h5>
             <p>{{ 'order-details.bonus-left' | translate }} {{ certificateLeft | localizedCurrency }}</p>
+            <p>
+              <a href="#!" class="bonus-how-to-link">{{ 'order-details.bonus-how-to-get' | translate }}</a>
+            </p>
             <div *ngIf="pointsUsed !== 0 && finalSum !== 0">
               <div class="form-check custom-control custom-radio">
                 <input
