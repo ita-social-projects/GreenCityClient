@@ -235,7 +235,7 @@
             <input
               [formControlName]="i"
               class="shadow-none form-control border-input p-2 eco-store"
-              type="number"
+              type="text"
               placeholder="xxxxxxxxxx"
               [unmask]="false"
               [imask]="{ mask: ecoStoreMask }"
@@ -247,7 +247,7 @@
           <button *ngIf="additionalOrders.controls.length < 5 && displayOrderBtn" class="addOrderBtn" (click)="addOrder()">
             {{ 'order-details.additional-orders' | translate }}
           </button>
-          <small class="text-danger" *ngIf="!displayOrderBtn && additionalOrders.touched">
+          <small class="text-danger" *ngIf="!displayOrderBtn && additionalOrders.touched && shop.value !== 'no'">
             {{ 'order-details.order-error' | translate }}
           </small>
         </div>
