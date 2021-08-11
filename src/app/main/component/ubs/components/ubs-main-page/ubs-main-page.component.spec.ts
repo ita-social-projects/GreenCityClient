@@ -1,3 +1,4 @@
+import { TranslateModule } from '@ngx-translate/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { UbsMainPageComponent } from './ubs-main-page.component';
 
@@ -7,9 +8,9 @@ describe('UbsMainPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UbsMainPageComponent ]
-    })
-    .compileComponents();
+      imports: [TranslateModule.forRoot()],
+      declarations: [UbsMainPageComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

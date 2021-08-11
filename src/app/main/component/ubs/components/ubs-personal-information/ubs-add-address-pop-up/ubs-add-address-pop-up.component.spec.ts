@@ -50,14 +50,15 @@ describe('UBSAddAddressPopUpComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  // need to fix onAutocompleteSelected function
-  xit('fucntion onAutocompleteSelected should set values and invoke setDistrict function', () => {
+  it('fucntion onAutocompleteSelected should set values and invoke setDistrict function', () => {
     const eventMock = {
-      name: 'fakeName'
+      name: 'fakeName',
+      address_components: ['', '', { long_name: '' }]
     };
     const regionMock = 'fakeRegion';
     const spy = spyOn(component, 'setDistrict').and.callFake(() => {});
 
+    component.region = regionMock;
     fixture.detectChanges();
     component.onAutocompleteSelected(eventMock);
 

@@ -128,7 +128,6 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
     this.setDistrict(event);
     this.addAddressForm.get('district').setValue(this.region);
     this.nextDisabled = false;
-    // what is 2? aFter fixing there is opportunity to open xit test that run this function
     this.districtDisabled = event.address_components[2].long_name.split(' ')[1] === 'район' ? true : false;
   }
 
