@@ -303,7 +303,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   calculateCertificates(arr): void {
     if (arr.length > 0) {
-      this.certificateSum = 0;
       arr.forEach((certificate, index) => {
         this.orderService
           .processCertificate(certificate)
@@ -326,9 +325,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
           );
       });
     } else {
-      this.certificateSum = 0;
       this.calculateTotal();
     }
+    this.certificateSum = 0;
   }
 
   certificateSubmit(): void {
