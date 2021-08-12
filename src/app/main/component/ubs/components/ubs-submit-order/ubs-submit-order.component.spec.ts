@@ -10,14 +10,9 @@ describe('UBSSubmitOrderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientTestingModule
-      ],
-      declarations: [ UBSSubmitOrderComponent ]
-    })
-    .compileComponents();
+      imports: [FormsModule, ReactiveFormsModule, HttpClientTestingModule],
+      declarations: [UBSSubmitOrderComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UBSOrderDetailsComponent } from './ubs-order-details.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of, throwError, Observable, Subject } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 describe('OrderDetailsFormComponent', () => {
   let component: UBSOrderDetailsComponent;
@@ -158,19 +159,20 @@ describe('OrderDetailsFormComponent', () => {
     expect(component.certificateError).toBeFalsy();
   }));
 
-  // it('method orderService.processCertificate() with no args should asyncly return error', async(() => {
-  // 	orderService = TestBed.inject(OrderService);
-  //   const errorResponse = new HttpErrorResponse({
-  // 		// error: { code: 'some code', message: 'some message' },
-  // 		status: 404
-  //  });
+  it('method orderService.processCertificate() with no args should asyncly return error', async(() => {
+    orderService = TestBed.inject(OrderService);
+    const errorResponse = new HttpErrorResponse({
+      error: { code: 'some code', message: 'some message' },
+      status: 404
+    });
+    const spy = spyOn(orderService, 'processCertificate').and.returnValue(throwError(errorResponse));
+    spyOn<any>(component, 'calculateTotal').and.callFake(() => {});
+    spyOn<any>(component, 'certificateError');
+    fixture.detectChanges();
+    component.calculateCertificates([0]);
 
-  //  	const spy = spyOn(orderService, 'processCertificate').and.returnValue(throwError(errorResponse));
-  // 	fixture.detectChanges();
-  //   component.calculateCertificates([]);
-
-  // 	expect(spy).toEqual(errorResponse);
-  // }));
+    expect(component.certificateError).toBeTruthy();
+  }));
 
   it('method certificateSubmit should invoke calculateCertificates method if there is some certificate doesn"t includes', () => {
     const spy = spyOn(component, 'calculateCertificates');
