@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { Subject } from 'rxjs';
@@ -16,7 +17,7 @@ export class HabitInviteFriendsPopUpComponent implements OnInit, OnDestroy {
   allAdd = false;
   addedFriends: FriendModel[] = [];
 
-  constructor(private userFriendsService: UserFriendsService) {}
+  constructor(private userFriendsService: UserFriendsService, private localStorageService: LocalStorageService) {}
 
   ngOnInit() {
     this.getUserId();
@@ -24,7 +25,7 @@ export class HabitInviteFriendsPopUpComponent implements OnInit, OnDestroy {
   }
 
   private getUserId() {
-    this.userId = +localStorage.getItem('userId');
+    this.userId = this.localStorageService.getUserId();
   }
 
   getFriends() {
@@ -49,12 +50,12 @@ export class HabitInviteFriendsPopUpComponent implements OnInit, OnDestroy {
   setAll(added: boolean) {
     this.allAdd = added;
     if (this.friends) {
-      this.friends.forEach((friend) => (friend.added = added));
+      return this.friends.map((friend) => (friend.added = added));
     }
   }
 
   setAddedFriends() {
-    this.friends.forEach((friend) => {
+    return this.friends.map((friend) => {
       if (friend.added) {
         this.userFriendsService.addedFriendsToHabit(friend);
       }
