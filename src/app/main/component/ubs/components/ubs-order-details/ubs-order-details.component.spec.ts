@@ -13,21 +13,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { UBSOrderDetailsComponent } from './ubs-order-details.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { of, throwError, Observable } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
+import { of, throwError, Observable, Subject } from 'rxjs';
 
 describe('OrderDetailsFormComponent', () => {
   let component: UBSOrderDetailsComponent;
   let fixture: ComponentFixture<UBSOrderDetailsComponent>;
+  let orderService: OrderService;
   let shareFormService = jasmine.createSpyObj('shareFormService', ['']);
   let localStorageService = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage']);
-  // let orderService = jasmine.createSpyObj('fakeOrderService', ['getOrders']);
-  let orderService: OrderService;
-
-  // const mock: OrderDetails = {
-  // 	bags: [{id:0}],
-  // 	points: 0
-  // };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -44,7 +37,6 @@ describe('OrderDetailsFormComponent', () => {
         { provide: MatDialogRef, useValue: {} },
         { provide: UBSOrderFormService, useValue: shareFormService },
         { provide: LocalStorageService, useValue: localStorageService }
-        // { provide: OrderService, useValue: orderService }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -53,8 +45,6 @@ describe('OrderDetailsFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UBSOrderDetailsComponent);
     component = fixture.componentInstance;
-    //orderService.getOrders.and.returnValue(of(mock));
-    //orderService.getOrders.and.callTrough();
     fixture.detectChanges();
   });
 
@@ -69,7 +59,6 @@ describe('OrderDetailsFormComponent', () => {
     };
     orderService = TestBed.inject(OrderService);
     let spy = spyOn(orderService, 'getOrders').and.returnValue(of(mock));
-    // orderService.getOrders.and.returnValue(of(mock));
     shareFormService.orderDetails = mock;
     localStorageService.getCurrentLanguage.and.callFake(() => Language.UA);
     fixture.detectChanges();
@@ -198,8 +187,9 @@ describe('OrderDetailsFormComponent', () => {
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {
-    component['destroy'].subscribe();
+    component['destroy'] = new Subject<boolean>();
+    spyOn(component['destroy'], 'unsubscribe');
     component.ngOnDestroy();
-    expect(component['destroy'].closed).toBeTruthy();
+    expect(component['destroy'].unsubscribe).toHaveBeenCalledTimes(1);
   });
 });

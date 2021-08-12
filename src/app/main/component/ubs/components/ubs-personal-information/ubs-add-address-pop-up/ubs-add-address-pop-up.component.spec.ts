@@ -8,7 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 
 describe('UBSAddAddressPopUpComponent', () => {
   let component: UBSAddAddressPopUpComponent;
@@ -36,12 +36,12 @@ describe('UBSAddAddressPopUpComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('function ngOnInit should set addAddressForm', () => {
+  it('method ngOnInit should set addAddressForm', () => {
     component.ngOnInit();
     expect(component.addAddressForm).toBeTruthy();
   });
 
-  it('event onAddressChange should invoke onDistrictSelected function', () => {
+  it('event onAddressChange should invoke onDistrictSelected method', () => {
     const inputElem = fixture.debugElement.query(By.css('#auto'));
     const event = new Event('onAddressChange');
     const spy = spyOn(component, 'onDistrictSelected');
@@ -50,7 +50,7 @@ describe('UBSAddAddressPopUpComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('fucntion onAutocompleteSelected should set values and invoke setDistrict function', () => {
+  it('method onAutocompleteSelected should set values and invoke setDistrict method', () => {
     const eventMock = {
       name: 'fakeName',
       address_components: ['', '', { long_name: '' }]
@@ -67,7 +67,7 @@ describe('UBSAddAddressPopUpComponent', () => {
     expect(component.addAddressForm.get('district').value).toBe(regionMock);
   });
 
-  it('fucntion setDistrict should set component.region', () => {
+  it('method setDistrict should set component.region', () => {
     const eventMock = {
       longitude: 'fake1',
       latitude: 'fake2'
@@ -77,7 +77,7 @@ describe('UBSAddAddressPopUpComponent', () => {
     expect(component.addAddressForm.get('latitude').value).toBe(eventMock.latitude);
   });
 
-  it('fucntion onDistrictSelected should invoke three another functions, and set region to addAddressForm', () => {
+  it('method onDistrictSelected should invoke three another methods, and set region to addAddressForm', () => {
     const eventMock = [];
     const spy1 = spyOn(component, 'onLocationSelected');
     const spy2 = spyOn(component, 'setDistrict');
@@ -91,28 +91,29 @@ describe('UBSAddAddressPopUpComponent', () => {
     expect(component.addAddressForm.get('district').value).toBe(component.region);
   });
 
-  it('function onChange should set addAddressForm[district]', () => {
+  it('method onChange should set addAddressForm[district]', () => {
     component.onChange();
     expect(component.addAddressForm.get('district').value).toBe(component.region);
   });
 
-  it('function onNoClick should invoke destroyRef.close()', () => {
+  it('method onNoClick should invoke destroyRef.close()', () => {
     component.onNoClick();
     expect(fakeMatDialogRef.close).toHaveBeenCalled();
   });
 
-  it('component function addAdress should set updatedAddresses from via orderService', async(() => {
+  it('component function addAdress should set updatedAddresses from via orderService', () => {
     const response: Address[] = [];
     orderService = TestBed.inject(OrderService);
     spyOn(orderService, 'addAdress').and.returnValue(of(response));
     component.addAdress();
     fixture.detectChanges();
     expect(component.updatedAddresses).toEqual(response);
-  }));
+  });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {
-    component['destroy'].subscribe();
+    component['destroy'] = new Subject<boolean>();
+    spyOn(component['destroy'], 'unsubscribe');
     component.ngOnDestroy();
-    expect(component['destroy'].closed).toBeTruthy();
+    expect(component['destroy'].unsubscribe).toHaveBeenCalledTimes(1);
   });
 });
