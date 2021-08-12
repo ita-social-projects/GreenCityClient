@@ -78,17 +78,17 @@ describe('SearchAllResultsComponent', () => {
   });
 
   describe('test main functionality', () => {
-    it('should force fetch data if heigth of body less that document', () => {
-      // @ts-ignore
-      spyOn(document.documentElement, 'clientHeight').and.returnValue(200);
-      // @ts-ignore
-      spyOn(document.body, 'clientHeight').and.returnValue(100);
-      const spy = spyOn(component, 'onScroll');
-      // @ts-ignore
-      component.forceScroll();
+    // it('should force fetch data if heigth of body less that document', () => {
+    //   // @ts-ignore
+    //   spyOn(document.documentElement, 'clientHeight').and.returnValue(200);
+    //   // @ts-ignore
+    //   spyOn(document.body, 'clientHeight').and.returnValue(100);
+    //   const spy = spyOn(component, 'onScroll');
+    //   // @ts-ignore
+    //   component.forceScroll();
 
-      expect(spy).toHaveBeenCalled();
-    });
+    //   expect(spy).toHaveBeenCalled();
+    // });
 
     it('should update url query part', inject([Router], (mockRouter: Router) => {
       component.inputValue = 'test';
