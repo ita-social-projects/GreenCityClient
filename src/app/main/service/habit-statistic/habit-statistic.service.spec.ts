@@ -30,7 +30,7 @@ describe('HabitStatisticService', () => {
   );
 
   beforeEach(() => {
-    service = TestBed.get(HabitStatisticService);
+    service = TestBed.inject(HabitStatisticService);
   });
 
   it('should be created', () => {

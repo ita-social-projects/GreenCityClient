@@ -34,7 +34,7 @@ describe('UBSSubmitOrderComponent', () => {
     houseNumber: 'fake'
   };
 
-  class fakeShareFormService {
+  class FakeShareFormService {
     get changedOrder() {
       return of(mockedOrderDetails);
     }
@@ -48,7 +48,7 @@ describe('UBSSubmitOrderComponent', () => {
       imports: [FormsModule, ReactiveFormsModule, HttpClientTestingModule, RouterTestingModule, MatDialogModule, TranslateModule.forRoot()],
       declarations: [UBSSubmitOrderComponent],
       providers: [
-        { provide: UBSOrderFormService, useClass: fakeShareFormService },
+        { provide: UBSOrderFormService, useClass: FakeShareFormService },
         { provide: OrderService, useValue: fakeOrderService }
       ]
     }).compileComponents();
@@ -67,14 +67,17 @@ describe('UBSSubmitOrderComponent', () => {
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {
-    component['destroy'] = new Subject<boolean>();
-    spyOn(component['destroy'], 'unsubscribe');
+    // @ts-ignore
+    component.destroy = new Subject<boolean>();
+    // @ts-ignore
+    spyOn(component.destroy, 'unsubscribe');
     component.ngOnDestroy();
-    expect(component['destroy'].unsubscribe).toHaveBeenCalledTimes(1);
+    // @ts-ignore
+    expect(component.destroy.unsubscribe).toHaveBeenCalledTimes(1);
   });
 
   it('takeOrderDetails should correctly set data from subscription', () => {
-    let service = TestBed.inject(UBSOrderFormService);
+    const service = TestBed.inject(UBSOrderFormService);
     spyOnProperty(service, 'changedOrder').and.returnValue(of(mockedOrderDetails));
     spyOnProperty(service, 'changedPersonalData').and.returnValue(of(mockedPersonalData));
     fixture.detectChanges();

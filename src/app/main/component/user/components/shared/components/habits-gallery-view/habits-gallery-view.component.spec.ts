@@ -28,7 +28,7 @@ describe('HabitsGalleryViewComponent', () => {
         { provide: HabitAssignService, useValue: habitAssignServiceMock }
       ]
     }).compileComponents();
-    httpTestingController = TestBed.get(HttpTestingController);
+    httpTestingController = TestBed.inject(HttpTestingController);
   }));
 
   beforeEach(() => {

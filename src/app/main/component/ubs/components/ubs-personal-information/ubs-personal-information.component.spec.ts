@@ -96,10 +96,13 @@ describe('PersonalDataFormComponent', () => {
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {
-    component['destroy'] = new Subject<boolean>();
-    spyOn(component['destroy'], 'unsubscribe');
+    // @ts-ignore
+    component.destroy = new Subject<boolean>();
+    // @ts-ignore
+    spyOn(component.destroy, 'unsubscribe');
     component.ngOnDestroy();
-    expect(component['destroy'].unsubscribe).toHaveBeenCalledTimes(1);
+    // @ts-ignore
+    expect(component.destroy.unsubscribe).toHaveBeenCalledTimes(1);
   });
 
   it('method takeUserData should get data from orderService', () => {

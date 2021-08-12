@@ -27,8 +27,10 @@ describe('UbsConfirmPageComponent', () => {
   });
 
   it('ngOnInit should subscribe on activatedRoute.queryParams', () => {
-    spyOn(component['activatedRoute'].queryParams, 'subscribe').and.callFake(() => new Subscription());
+    // @ts-ignore
+    spyOn(component.activatedRoute.queryParams, 'subscribe').and.callFake(() => new Subscription());
     component.ngOnInit();
-    expect(component['activatedRoute'].queryParams.subscribe).toHaveBeenCalled();
+    // @ts-ignore
+    expect(component.activatedRoute.queryParams.subscribe).toHaveBeenCalled();
   });
 });

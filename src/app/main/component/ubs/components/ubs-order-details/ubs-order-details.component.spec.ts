@@ -20,8 +20,8 @@ describe('OrderDetailsFormComponent', () => {
   let component: UBSOrderDetailsComponent;
   let fixture: ComponentFixture<UBSOrderDetailsComponent>;
   let orderService: OrderService;
-  let shareFormService = jasmine.createSpyObj('shareFormService', ['']);
-  let localStorageService = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage']);
+  const shareFormService = jasmine.createSpyObj('shareFormService', ['']);
+  const localStorageService = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -59,7 +59,7 @@ describe('OrderDetailsFormComponent', () => {
       points: 0
     };
     orderService = TestBed.inject(OrderService);
-    let spy = spyOn(orderService, 'getOrders').and.returnValue(of(mock));
+    const spy = spyOn(orderService, 'getOrders').and.returnValue(of(mock));
     shareFormService.orderDetails = mock;
     localStorageService.getCurrentLanguage.and.callFake(() => Language.UA);
     fixture.detectChanges();
@@ -75,7 +75,8 @@ describe('OrderDetailsFormComponent', () => {
     const bagsMock: Bag[] = [];
     component.bags = bagsMock;
     fixture.detectChanges();
-    component['calculateTotal']();
+    // @ts-ignore
+    component.calculateTotal();
     expect(spy).toHaveBeenCalled();
     expect(spy1).toHaveBeenCalled();
   });
@@ -115,7 +116,8 @@ describe('OrderDetailsFormComponent', () => {
     const spy = spyOn(component, 'calculateCertificates').and.callFake(() => {});
     const spy1 = spyOn(component.additionalCertificates, 'removeAt');
     const fakeIndex = 0;
-    component['clearAdditionalCertificate'](fakeIndex);
+    // @ts-ignore
+    component.clearAdditionalCertificate(fakeIndex);
     expect(spy).toHaveBeenCalled();
     expect(spy1).toHaveBeenCalledWith(fakeIndex);
   });
@@ -139,7 +141,8 @@ describe('OrderDetailsFormComponent', () => {
   it('method calculateCertificates should invoke calculateTotal method if arr.length=0', () => {
     const spy = spyOn<any>(component, 'calculateTotal');
     component.calculateCertificates([]);
-    expect(component['calculateTotal']).toHaveBeenCalled();
+    // @ts-ignore
+    expect(component.calculateTotal).toHaveBeenCalled();
   });
 
   it('method calculateCertificates with arr.length>0 should asyncly invoke certificateMatch method', async(() => {
@@ -189,9 +192,12 @@ describe('OrderDetailsFormComponent', () => {
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {
-    component['destroy'] = new Subject<boolean>();
-    spyOn(component['destroy'], 'unsubscribe');
+    // @ts-ignore
+    component.destroy = new Subject<boolean>();
+    // @ts-ignore
+    spyOn(component.destroy, 'unsubscribe');
     component.ngOnDestroy();
-    expect(component['destroy'].unsubscribe).toHaveBeenCalledTimes(1);
+    // @ts-ignore
+    expect(component.destroy.unsubscribe).toHaveBeenCalledTimes(1);
   });
 });

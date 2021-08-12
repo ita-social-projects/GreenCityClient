@@ -38,7 +38,8 @@ describe('ErrorComponent ', () => {
   it('errorMessage should have correct value if we have errors', () => {
     Object.assign(component, { formElement: { errors: { required: true } } });
     fixture.detectChanges();
-    component['getType']();
+    // @ts-ignore
+    component.getType();
     expect(component.errorMessage).toBe('input-error.required');
   });
 });
