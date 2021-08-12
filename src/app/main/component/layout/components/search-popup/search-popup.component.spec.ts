@@ -49,7 +49,7 @@ describe('SearchPopupComponent', () => {
     },
     creationDate: '0101',
     tags: ['test'],
-    text: "test"
+    text: 'test'
   };
 
   const searchModelMock = {
