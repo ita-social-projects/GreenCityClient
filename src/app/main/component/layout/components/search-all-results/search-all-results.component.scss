@@ -43,9 +43,11 @@
   font-size: 1.5rem;
   color: var(--primary-dark-grey);
   width: 100%;
+  
   &:focus {
     outline: none;
   }
+  
   &::placeholder {
     color: var(--tertiary-light-grey);
   }
@@ -55,6 +57,7 @@
   border: none;
   background-color: transparent;
   display: inline-block;
+  
   &::after {
     content: none;
   }
@@ -102,6 +105,7 @@
   align-items: center;
   width: fit-content;
   margin: 35px 30px 35px 0;
+  
   span {
     margin-right: 15px;
   }
@@ -122,6 +126,7 @@
   .container {
     padding: 0;
   }
+  
   .list-search-items {
     grid-template-columns: repeat(2, 268px);
   }
@@ -131,9 +136,11 @@
   .search_action-wrp {
     flex-direction: row;
   }
+  
   .search_filter-by {
     margin: 0 30px 0 0;
   }
+  
   .list-search-items {
     grid-template-columns: repeat(2, 344px);
   }
