@@ -603,6 +603,15 @@
       "button-component": {
         "add-new-habit": "Add new habit!"
       },
+      "invite": {
+        "title": "Invite friends",
+        "message": "Invite your friends to share progress and compete with them",
+        "all": "All friends",
+        "btn": {
+          "invite": "Invite",
+          "cancel": "Cancel"
+        }
+      },
       "user-log": {
         "day": "Day",
         "calendar-habit": "Calendar of eco habits",
