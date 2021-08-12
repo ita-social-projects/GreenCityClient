@@ -66,6 +66,6 @@ export class UbsMainPageComponent {
   constructor(private router: Router) {}
 
   redirectToOrder() {
-    this.router.navigate(['ubs/order']);
+    this.router.navigate(['ubs', 'order']);
   }
 }
