@@ -25,12 +25,15 @@ div {
   font-size: 1.3rem;
   color: var(--quaternary-dark-grey);
   line-height: 1.6rem;
+  
   a {
     color: var(--quaternary-dark-grey);
+    
     p {
       overflow-wrap: break-word;
     }
   }
+  
   a:hover {
     color: var(--secondary-dark-green);
     text-decoration: none;
