@@ -1,6 +1,6 @@
 a {
   color: var(--tertiary-grey);
-  
+
   &:hover {
     text-decoration: none;
   }
@@ -13,7 +13,7 @@ a {
   font-family: var(--primary-font);
   font-size: 1.5rem;
   margin: 40px 0 25px 0;
-  
+
   &::after {
     content: ' ';
     position: absolute;
@@ -68,11 +68,11 @@ a {
   font-family: var(--primary-font);
   font-size: 1.5rem;
   color: var(--primary-dark-grey);
-  
+
   &:focus {
     outline: none;
   }
-  
+
   &::placeholder {
     color: var(--tertiary-light-grey);
   }
@@ -129,7 +129,7 @@ div.search-content-wrapper {
   font-size: 18px;
   display: inline-block;
   margin-top: 48px;
-  
+
   &::after {
     position: relative;
     margin-left: 5px;
@@ -150,6 +150,7 @@ div.search-content-wrapper {
   .container {
     padding: 0;
   }
+
   .list-search-items {
     grid-template-columns: repeat(2, 254px);
   }
