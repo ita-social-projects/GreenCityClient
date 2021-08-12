@@ -119,7 +119,8 @@
       "news": "News",
       "tips": "Tips & Tricks",
       "see-all-news": "See all News",
-      "see-all-tips": "See all Tips & Tricks"
+      "see-all-tips": "See all Tips & Tricks",
+      "see-all-results": "See all results"
     },
     "search-not-found": {
       "not-found-text": "We couldn't find results for '{{searchQuery}}' Please change the search.",

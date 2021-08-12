@@ -9,29 +9,25 @@ div {
 }
 
 .search_item-tag {
-  opacity: 0.8;
   font-family: var(--primary-font);
   font-size: 0.9rem;
-  color: var(--secondary-dark-grey);
+  color: var(--primary-green);
+  text-transform: uppercase;
   display: inline-block;
-  padding: 0.3rem 1rem;
-  border: 1px solid var(--secondary-dark-grey);
-  border-radius: 53px;
   margin-right: 1rem;
-  margin-bottom: 0.3rem;
 }
 
 .search_item-title {
   margin: 8px 0 0 0;
-  font-family: var(--secondary-font);
+  font-family: var(--primary-font);
   font-style: normal;
-  font-weight: 500;
+  font-weight: 700;
   font-size: 1.3rem;
-  color: var(--secondary-dark-grey);
+  color: var(--quaternary-dark-grey);
   line-height: 1.6rem;
 
   a {
-    color: var(--secondary-dark-grey);
+    color: var(--quaternary-dark-grey);
 
     p {
       overflow-wrap: break-word;
@@ -47,6 +43,14 @@ div {
 .list-text {
   margin: 8px 0 0 0;
   font-family: var(--primary-font);
+}
+
+.search_item-preview-text {
+  font-family: var(--primary-font);
+  color: var(--quaternary-dark-grey);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
 }
 
 .search_item-data-added-news {

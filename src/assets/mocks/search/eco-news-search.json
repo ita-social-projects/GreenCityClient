@@ -1,0 +1,43 @@
+{
+  "currentPage": 1,
+  "page": [
+    {
+      "id": 257,
+      "title": "Зелена Коробка",
+      "tags": ["ads"],
+      "text": "text text text text text text text text text text text text"
+    },
+    {
+      "id": 292,
+      "title": "Bees Declared The Most Important Species On Earth",
+      "tags": ["news", "initiatives", "ads"],
+      "text": "text text text text text text text text text text text text"
+    },
+    {
+      "id": 323,
+      "title": "Plastic’ bags",
+      "tags": ["news"],
+      "text": "text text text text text text text text text text text text"
+    },
+    {
+      "id": 257,
+      "title": "Зелена Коробка",
+      "tags": ["ads"],
+      "text": "text text text text text text text text text text text text"
+    },
+    {
+      "id": 292,
+      "title": "Bees Declared The Most Important Species On Earth",
+      "tags": ["news", "initiatives", "ads"],
+      "text": "text text text text text text text text text text text text"
+    },
+    {
+      "id": 323,
+      "title": "Plastic’ bags",
+      "tags": ["news"],
+      "text": "text text text text text text text text text text text text"
+    }
+  ],
+  "totalElements": 6,
+  "totalPages": 1
+}

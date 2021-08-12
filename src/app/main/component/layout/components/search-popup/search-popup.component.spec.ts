@@ -36,7 +36,8 @@ describe('SearchPopupComponent', () => {
       name: 'test'
     },
     creationDate: '0101',
-    tags: ['test']
+    tags: ['test'],
+    text: 'test'
   };
 
   const mockNewsData = {
@@ -47,7 +48,8 @@ describe('SearchPopupComponent', () => {
       name: 'test'
     },
     creationDate: '0101',
-    tags: ['test']
+    tags: ['test'],
+    text: 'test'
   };
 
   const searchModelMock = {

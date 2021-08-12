@@ -15,6 +15,7 @@ describe('SearchItemComponent', () => {
     },
     creationDate: '1000',
     tags: ['tag'],
+    text: 'test'
   };
 
   beforeEach(async(() => {
