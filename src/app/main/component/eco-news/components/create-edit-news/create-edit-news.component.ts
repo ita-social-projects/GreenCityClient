@@ -34,7 +34,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public month: number = new Date().getMonth();
   public author: string = localStorage.getItem('name');
   public attributes: ActionInterface;
-  public filters: Array<FilterModel>;
+  public filters: FilterModel[] | [] = [];
   public newsId: string;
   public formData: FormGroup;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
@@ -104,6 +104,11 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   private getAllTags() {
+    if (localStorage.getItem('newsTags')) {
+      this.filters = JSON.parse(localStorage.getItem('newsTags'));
+      return;
+    }
+
     this.ecoNewsService
       .getAllPresentTags()
       .pipe(take(1))
@@ -191,6 +196,8 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
         })
       )
       .subscribe(() => this.escapeFromCreatePage());
+
+    localStorage.removeItem('newsTags');
   }
 
   public escapeFromCreatePage() {
@@ -230,7 +237,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
   private filterArr = (item: FilterModel, index: number) => {
     return [...this.filters.slice(0, index), item, ...this.filters.slice(index + 1)];
-  }
+  };
 
   public setActiveFilters(itemToUpdate: EcoNewsModel): void {
     if (itemToUpdate.tags.length) {
@@ -279,6 +286,8 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public toggleIsActive(filterObj: FilterModel, newValue: boolean): void {
     const index = this.filters.findIndex((item: FilterModel) => item.name === filterObj.name);
     this.filters = this.filterArr({ name: filterObj.name, isActive: newValue }, index);
+    const changedArrTagsStatus = this.filterArr({ name: filterObj.name, isActive: newValue }, index);
+    localStorage.setItem('newsTags', JSON.stringify(changedArrTagsStatus));
   }
 
   public goToPreview(): void {
