@@ -12,8 +12,8 @@ const ubsRoutes: Routes = [
     component: UbsComponent,
     canActivate: [AuthPageGuardService],
     children: [
-      { path: '', component: UBSOrderFormComponent },
-      { path: 'home', component: UbsMainPageComponent },
+      { path: '', component: UbsMainPageComponent },
+      { path: 'order', component: UBSOrderFormComponent },
       { path: 'confirm', component: UbsConfirmPageComponent }
     ]
   }

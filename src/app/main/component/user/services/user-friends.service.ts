@@ -1,13 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environment/environment';
-import { FriendArrayModel, SixFriendArrayModel } from '@global-user/models/friend.model';
+import { FriendArrayModel, FriendModel, SixFriendArrayModel } from '@global-user/models/friend.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserFriendsService {
+  addedFriends: FriendModel[] = [];
   private size = 10;
   public url: string = environment.backendUserLink;
   private httpOptions = {
@@ -63,5 +64,9 @@ export class UserFriendsService {
 
   public deleteFriend(idUser: number, idFriend: number): Observable<object> {
     return this.http.delete<object>(`${this.url}user/${idUser}/userFriend/${idFriend}`, this.httpOptions);
+  }
+
+  addedFriendsToHabit(friend) {
+    this.addedFriends.push(friend);
   }
 }

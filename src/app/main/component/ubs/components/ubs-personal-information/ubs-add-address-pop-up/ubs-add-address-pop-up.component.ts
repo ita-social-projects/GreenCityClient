@@ -22,7 +22,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   districtDisabled = true;
   nextDisabled = true;
   streetPattern = /^[A-Za-zА-Яа-яїієё0-9.\'\,\-\ \\]+$/;
-  houseCorpusPattern = /^[A-Za-zА-Яа-яїієё0-9]+$/;
+  housePattern = /^[A-Za-zА-Яа-яїієё0-9]+$/;
   entranceNumberPattern = /^-?(0|[1-9]\d*)?$/;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
@@ -69,17 +69,17 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
         this.data.edit ? this.data.address.street : '',
         [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(this.streetPattern)]
       ],
-      houseNumber: [this.data.edit ? this.data.address.houseNumber : '', [Validators.required]],
-      houseCorpus: [
-        this.data.edit ? this.data.address.houseCorpus : '',
-        [Validators.maxLength(2), Validators.pattern(this.houseCorpusPattern)]
+      houseNumber: [
+        this.data.edit ? this.data.address.houseNumber : '',
+        [Validators.required, Validators.maxLength(4), Validators.pattern(this.housePattern)]
       ],
+      houseCorpus: [this.data.edit ? this.data.address.houseCorpus : '', [Validators.maxLength(2), Validators.pattern(this.housePattern)]],
       entranceNumber: [
         this.data.edit ? this.data.address.entranceNumber : '',
         [Validators.maxLength(2), Validators.pattern(this.entranceNumberPattern)]
       ],
-      longitude: [this.data.edit ? this.data.address.longitude : '', Validators.required],
-      latitude: [this.data.edit ? this.data.address.latitude : '', Validators.required],
+      longitude: [this.data.edit ? this.data.address.longitude : ''],
+      latitude: [this.data.edit ? this.data.address.latitude : ''],
       id: [this.data.edit ? this.data.address.id : 0],
       actual: true
     });
