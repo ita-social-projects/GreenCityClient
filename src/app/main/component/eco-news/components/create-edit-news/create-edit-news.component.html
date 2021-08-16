@@ -27,6 +27,7 @@
                 (click)="addFilters(filter)"
                 type="button"
                 [ngClass]="{ 'filters-color': filter.isActive }"
+                class="tagNews"
               >
                 {{ filter.name }}
               </button>
@@ -77,10 +78,10 @@
         </div>
         <div class="submit-buttons">
           <button class="cancel" type="button" (click)="cancel()">{{ 'create-news.cancel-button' | translate }}</button>
-          <button type="button" (click)="goToPreview()">
+          <button type="button" class="preview" (click)="goToPreview()">
             {{ 'create-news.preview-button' | translate }}
           </button>
-          <button type="submit" [disabled]="isFormInvalid">{{ attributes.btnCaption | translate }}</button>
+          <button type="submit" class="submit" [disabled]="isFormInvalid">{{ attributes.btnCaption | translate }}</button>
         </div>
       </form>
     </div>
