@@ -143,5 +143,8 @@
     "video": "Sorting and Recycling Videos",
     "questions": "If you have any questions, you can",
     "contact": "contact us"
+  },
+  "snack-bar": {
+    "exist-address": "This address has already been added"
   }
 }
