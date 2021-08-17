@@ -4,6 +4,7 @@
   font-weight: $weight;
   color: $color;
 }
+
 ::ng-deep .mat-step-header {
   .mat-step-label {
     @include text_style(var(--ubs-quaternary-font), var(--ubs-secondary-grey), 18px, 700);
@@ -45,6 +46,7 @@
 
 .form-title {
   @include text_style(var(--ubs-quaternary-font), var(--ubs-primary-grey), 40px, 700);
+
   margin: -35px 0 35px 0;
 }
 

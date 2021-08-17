@@ -21,6 +21,7 @@
   margin-right: 1rem;
   font-size: 18px;
 }
+
 h3 {
   @include text_style(var(--ubs-quaternary-font), var(ubs-primary-grey), 24px, 700);
 }
@@ -46,6 +47,7 @@ h3 {
 
   .order-content {
     @include text_style(var(--ubs-quaternary-font), var(--ubs-secondary-grey), 14px, 400);
+
     margin-bottom: 3rem;
   }
 }
@@ -61,6 +63,7 @@ h3 {
 
 .label {
   @include text_style(var(--ubs-quaternary-font), var(--ubs-secondary-grey), 16px, 400);
+
   padding: 0;
 }
 
@@ -88,19 +91,24 @@ h3 {
   padding: 3rem 0;
   margin-bottom: 3rem;
   border-bottom: 1px solid var(--ubs-primary-light-grey);
+
   .custom-control {
     padding-left: 1.4rem;
   }
+
   .border-input {
     border: 1px solid var(--ubs-secondary-grey);
   }
+
   .custom-control-label {
     color: var(--ubs-primary-grey);
     padding-left: 0;
+
     &::before {
       background-color: var(--ubs-primary-white);
     }
   }
+
   p {
     font-size: 12px;
   }
@@ -169,9 +177,11 @@ button {
 .points {
   font-family: var(--ubs-quaternary-font);
   margin-top: 3em;
+
   p {
     font-size: 14px;
   }
+
   .bonus-how-to-link {
     font-size: 12px;
     color: var(--ubs-primary-green);
@@ -203,8 +213,10 @@ button {
     text-align: left;
   }
 }
+
 h5 {
   @include text_style(var(--ubs-quaternary-font), var(--ubs-primary-grey), 16px, bold);
+
   line-height: 24px;
 }
 
@@ -309,8 +321,10 @@ h5 {
     border: 1px solid var(--ubs-secondary-grey);
     padding: 0.5rem;
     background: var(--ubs-primary-white);
+
     &::placeholder {
       @include text_style(var(--ubs-quaternary-font), var(--ubs-primary-light-grey), 14px, 400);
+
       margin-bottom: 3rem;
     }
   }
@@ -338,6 +352,7 @@ li {
 
 .bag-name {
   @include text_style(var(--ubs-quaternary-font), var(--ubs-quaternary-dark-grey), 16px, 400);
+
   &:last-child {
     color: var(--ubs-primary-grey);
     font-weight: bold;
