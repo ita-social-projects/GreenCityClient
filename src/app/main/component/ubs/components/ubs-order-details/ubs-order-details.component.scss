@@ -316,6 +316,13 @@ li {
   list-style: none;
 }
 
+h3 {
+  font-size: 1.5rem;
+  font-family: var(--primary-font);
+  font-weight: bold;
+  line-height: 2rem;
+}
+
 @media (min-width: 481px) and (max-width: 767px) {
   .label,
   .bag-name {
