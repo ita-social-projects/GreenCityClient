@@ -3,9 +3,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { FilterModel } from '@eco-news-models/create-news-interface';
 
-/**
- * @author Yurii Koval
- */
 @Injectable({
   providedIn: 'root'
 })
