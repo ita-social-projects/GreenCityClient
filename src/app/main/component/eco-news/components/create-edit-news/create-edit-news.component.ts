@@ -34,7 +34,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public month: number = new Date().getMonth();
   public author: string = localStorage.getItem('name');
   public attributes: ActionInterface;
-  public filters: FilterModel[] | [] = [];
+  public filters: FilterModel[] = [];
   public newsId: string;
   public formData: FormGroup;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);

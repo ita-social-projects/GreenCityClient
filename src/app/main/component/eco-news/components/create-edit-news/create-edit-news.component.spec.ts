@@ -448,7 +448,7 @@ describe('CreateEditNewsComponent', () => {
   });
 
   it('should be a Education button on the page', () => {
-    const buttons = fixture.debugElement.queryAll(By.css('.tagNews'));
+    const buttons = fixture.debugElement.queryAll(By.css('.tag-news'));
     const listOfTags = buttons.map((tag) => tag.nativeElement.innerHTML.trim());
     expect(listOfTags).toContain('Education');
   });
