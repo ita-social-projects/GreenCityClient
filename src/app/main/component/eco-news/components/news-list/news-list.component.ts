@@ -62,7 +62,6 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.windowSize = window.innerWidth;
     const isGalleryView = !!this.gallery;
     this.view = this.windowSize > Breakpoints.tabletLow ? true : isGalleryView;
-    console.log(this.view);
   }
 
   private getSessionStorageView() {
