@@ -104,8 +104,9 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   private getAllTags() {
-    if (localStorage.getItem('newsTags')) {
-      this.filters = JSON.parse(localStorage.getItem('newsTags'));
+    const tags = this.localStorageService.getTagsOfNews('newsTags');
+    if (tags) {
+      this.filters = tags;
       return;
     }
 
@@ -197,7 +198,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       )
       .subscribe(() => this.escapeFromCreatePage());
 
-    localStorage.removeItem('newsTags');
+    this.localStorageService.removeTagsOfNews('newsTags');
   }
 
   public escapeFromCreatePage() {
@@ -287,7 +288,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     const index = this.filters.findIndex((item: FilterModel) => item.name === filterObj.name);
     const changedtags = this.filterArr({ name: filterObj.name, isActive: newValue }, index);
     this.filters = changedtags;
-    localStorage.setItem('newsTags', JSON.stringify(changedtags));
+    this.localStorageService.setTagsOfNews('newsTags', changedtags);
   }
 
   public goToPreview(): void {
