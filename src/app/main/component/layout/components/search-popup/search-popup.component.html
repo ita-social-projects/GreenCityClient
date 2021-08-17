@@ -24,43 +24,33 @@
   <!-- search results -->
   <div class="search_body-wrapper">
     <div class="search-content-wrapper container">
-      <div class="search_remaining-items" *ngIf="searchInput.value">
+      <div class="search_remaining-items" *ngIf="!isLoading && searchInput.value">
         {{ itemsFound }} {{ 'search.search-popup.items-found' | translate }}
       </div>
       <div *ngIf="newsElements && newsElements.length > 0">
         <a [routerLink]="['/news']" (click)="closeSearch()">
-          <h3>{{ 'search.search-popup.news' | translate }}</h3>
+          <h3 class="search-title">{{ 'search.search-popup.news' | translate }}</h3>
         </a>
-        <div class="row">
-          <app-search-item
-            *ngFor="let element of newsElements"
-            [searchModel]="element"
-            (closeSearch)="closeSearch()"
-            class="col-12 col-sm-6 col-xxl-4 search-item"
-          >
+        <div class="list-search-items">
+          <app-search-item *ngFor="let element of newsElements" [searchModel]="element" (closeSearch)="closeSearch()" class="search-item">
           </app-search-item>
         </div>
-        <a [routerLink]="['/search']" [queryParams]="{ query: searchInput.value, category: 'econews' }" class="all-results-link">
-          {{ 'search.search-popup.see-all-news' | translate }}
-        </a>
       </div>
       <div class="search_content-tips" *ngIf="tipsElements && tipsElements.length > 0">
         <a [routerLink]="['/tips']" (click)="closeSearch()">
-          <h3>{{ 'search.search-popup.tips' | translate }}</h3>
+          <h3 class="search-title">{{ 'search.search-popup.tips' | translate }}</h3>
         </a>
-        <div class="row">
-          <app-search-item
-            *ngFor="let element of tipsElements"
-            [searchModel]="element"
-            (closeSearch)="closeSearch()"
-            class="col-12 col-sm-6 col-xxl-4 search-item"
-          >
+        <div class="list-search-items">
+          <app-search-item *ngFor="let element of tipsElements" [searchModel]="element" (closeSearch)="closeSearch()" class="search-item">
           </app-search-item>
         </div>
-        <a [routerLink]="['/search']" [queryParams]="{ query: searchInput.value, category: 'tipsandtricks' }" class="all-results-link">
-          {{ 'search.search-popup.see-all-tips' | translate }}
+      </div>
+      <div class="search_see-all" *ngIf="itemsFound">
+        <a [routerLink]="['/search']" [queryParams]="{ query: searchInput.value, category: 'econews' }" class="all-results-link">
+          {{ 'search.search-popup.see-all-results' | translate }}
         </a>
       </div>
+
       <app-search-not-found *ngIf="itemsFound === 0" [inputValue]="searchInput.value" (closeUnsuccessfulSearchResults)="closeSearch()">
       </app-search-not-found>
     </div>

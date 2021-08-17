@@ -67,7 +67,7 @@
   <button class="secondary-global-button btn m-0 mr-2" mat-button (click)="onNoClick()">
     {{ 'personal-info.pop-up-cancel' | translate }}
   </button>
-  <button class="primary-global-button btn m-0" (click)="addAdress()">
+  <button class="primary-global-button btn m-0" (click)="addAdress()" [disabled]="!addAddressForm.valid">
     {{ (data.edit ? 'personal-info.pop-up-save-changes' : 'personal-info.pop-up-add-address') | translate }}
   </button>
 </div>

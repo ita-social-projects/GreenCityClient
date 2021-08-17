@@ -37,7 +37,6 @@ export class UbsAdminEmployeeComponent implements OnInit {
   }
 
   getEmployees(): void {
-    console.log(this.paginPage, this.size);
     this.ubsAdminEmployeeService
       .getEmployees(this.paginPage, this.size)
       .pipe(takeUntil(this.destroy))
@@ -45,7 +44,6 @@ export class UbsAdminEmployeeComponent implements OnInit {
   }
 
   setData(item: Employees): void {
-    console.log(item);
     this.fakeData = item.page;
     this.totalLength = item.totalElements;
   }

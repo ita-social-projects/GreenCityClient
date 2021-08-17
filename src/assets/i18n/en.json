@@ -119,7 +119,8 @@
       "news": "News",
       "tips": "Tips & Tricks",
       "see-all-news": "See all News",
-      "see-all-tips": "See all Tips & Tricks"
+      "see-all-tips": "See all Tips & Tricks",
+      "see-all-results": "See all results"
     },
     "search-not-found": {
       "not-found-text": "We couldn't find results for '{{searchQuery}}' Please change the search.",
@@ -601,6 +602,15 @@
     "habit": {
       "button-component": {
         "add-new-habit": "Add new habit!"
+      },
+      "invite": {
+        "title": "Invite friends",
+        "message": "Invite your friends to share progress and compete with them",
+        "all": "All friends",
+        "btn": {
+          "invite": "Invite",
+          "cancel": "Cancel"
+        }
       },
       "user-log": {
         "day": "Day",
