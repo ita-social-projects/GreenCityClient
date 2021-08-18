@@ -1,10 +1,15 @@
-<div class="wrapper">
+<header>
   <div class="logo">
-    <img src="assets/admin-header/logo-admin.svg" alt="UBS admin home" />
+    <a [routerLink]="['/ubs-admin']" routerLinkActive="active-link">
+      <img [src]="ubsHeaderIcons.ubsAdminLogo" alt="UBS admin logo" />
+    </a>
   </div>
   <div class="icons">
-    <img src="assets/admin-header/first-icon-admin.svg" alt="Selected items" />
-    <img src="assets/admin-header/bell-icon-admin.svg" alt="Notifications" />
+    <nav>
+      <a class="nav-link" *ngFor="let link of navLinks" (click)="navigateToLink(link)">
+        {{ link.name }}
+      </a>
+    </nav>
     <ul
       role="menu"
       [ngClass]="{ 'add-shadow': langDropdownVisible, 'header_lang-switcher-wrp header_navigation-menu-right-list': true }"
@@ -38,7 +43,6 @@
         </ng-container>
       </ng-container>
     </ul>
-    <a href="/">Home</a>
     <span class="header-user">Jana Done</span>
   </div>
-</div>
+</header>

@@ -1,0 +1,52 @@
+.friends-images {
+  width: 360px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  padding: 0;
+
+  .popup-section {
+    margin: 12px 0;
+
+    ul {
+      max-height: 200px;
+      min-width: 360px;
+      overflow-y: auto;
+      list-style-type: none;
+      margin-top: 4px;
+    }
+
+    .all-friends {
+      padding-left: 40px;
+      margin: 10px auto;
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--ubs-tertiary-light-green);
+    }
+
+    .friend {
+      display: inline-flex;
+      flex-direction: row;
+
+      p {
+        margin: 15px 5px;
+        color: var(--ubs-tertiary-light-green);
+      }
+    }
+
+    ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+      background-color: var(--primary-green) !important;
+    }
+  }
+
+  .invite-popup-footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+
+    button {
+      margin: 10px;
+    }
+  }
+}

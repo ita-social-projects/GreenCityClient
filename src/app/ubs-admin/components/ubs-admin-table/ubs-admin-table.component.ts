@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
+import { ubsAdminTable } from '../ubs-image-pathes/ubs-admin-table';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -34,6 +35,7 @@ export class UbsAdminTableComponent implements OnInit {
   pageSizeOptions: number[] = [10, 15, 20];
   currentPage = 0;
   pageSize = 10;
+  ubsAdminTableIcons = ubsAdminTable;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private adminTableService: AdminTableService) {}

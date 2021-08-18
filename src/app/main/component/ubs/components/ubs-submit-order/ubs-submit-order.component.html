@@ -16,10 +16,10 @@
           <ng-container *ngIf="bag.quantity">
             <span class="col-3 p-0 m-0 bag-name">{{ bag.name }}</span>
             <span class="col-2 p-0 m-0 bag-name">{{ bag.capacity }} {{ 'order-details.litr' | translate }}</span>
-            <span class="col-2 p-0 m-0 bag-name">{{ bag.price }} {{ 'order-details.currency' | translate }}</span>
+            <span class="col-2 p-0 m-0 bag-name">{{ bag.price | currency }} {{ 'order-details.currency' | translate }}</span>
             <span class="col-2 p-0 m-0 bag-name">{{ bag.quantity }} {{ 'order-details.pieces' | translate }}</span>
             <span class="col-3 p-0 m-0 bag-name text-center">
-              {{ bag.quantity * bag.price }} {{ 'order-details.currency' | translate }}</span
+              {{ bag.quantity * bag.price | currency }} {{ 'order-details.currency' | translate }}</span
             >
           </ng-container>
         </li>
@@ -32,13 +32,15 @@
             <p class="total-content" [class.d-none]="orderDetails.total === 0">
               <span>{{ 'order-details.order-amount' | translate }} </span>
               <span>
-                <strong>{{ orderDetails.total }} {{ 'order-details.currency' | translate }}</strong>
+                <strong>{{ orderDetails.total | currency }} {{ 'order-details.currency' | translate }}</strong>
               </span>
             </p>
             <p class="total-content" *ngIf="orderDetails.certificatesSum">
               <span>{{ 'order-details.certificate' | translate }} </span>
               <span>
-                <strong class="money-saved">-{{ orderDetails.certificatesSum }} {{ 'order-details.currency' | translate }} </strong>
+                <strong class="money-saved"
+                  >-{{ orderDetails.certificatesSum | currency }} {{ 'order-details.currency' | translate }}
+                </strong>
               </span>
             </p>
             <p class="total-content" *ngIf="orderDetails.pointsToUse">
@@ -50,7 +52,7 @@
             <p class="total-content">
               <span>{{ 'order-details.amount-due' | translate }} </span>
               <span>
-                <strong>{{ orderDetails.finalSum }} {{ 'order-details.currency' | translate }}</strong>
+                <strong>{{ orderDetails.finalSum | currency }} {{ 'order-details.currency' | translate }}</strong>
               </span>
             </p>
           </div>
@@ -69,7 +71,7 @@
             <p class="order-header">{{ 'order-details.recipient' | translate }}</p>
             <ul class="order-list">
               <li class="order-list-item">{{ personalData.firstName }} {{ personalData.lastName }}</li>
-              <li class="order-list-item">0{{ personalData.phoneNumber }}</li>
+              <li class="order-list-item">{{ personalData.phoneNumber | phoneNumberTreat: '380' }}</li>
               <li class="order-list-item">{{ personalData.email }}</li>
             </ul>
           </div>
@@ -78,7 +80,7 @@
             <ul class="order-list">
               <li class="order-list-item">{{ personalData.city }}</li>
               <li class="order-list-item">
-                <span>{{ 'submit-order.str' | translate }}{{ personalData.street }}, {{ personalData.houseNumber }}</span
+                <span>{{ personalData.street }}, {{ personalData.houseNumber }}</span
                 >, {{ personalData.houseCorpus }}
               </li>
               <li class="order-list-item">{{ personalData.district }}</li>
@@ -98,7 +100,7 @@
         <h3 class="bottom_comment_payment">{{ 'order-form.payment' | translate }}</h3>
         <p class="choose-payment">{{ 'order-details.choose-payment' | translate }}</p>
         <div class="col-12 col-sm-12 p-0">
-          <label for="" class="choose-payment-chooser">{{ 'submit-order.choose-payment' | translate }}</label
+          <label class="choose-payment-chooser">{{ 'submit-order.choose-payment' | translate }}</label
           ><br />
           <select class="payment-select shadow-none">
             <option value="Fondy">{{ 'submit-order.fondy-card' | translate }}</option>

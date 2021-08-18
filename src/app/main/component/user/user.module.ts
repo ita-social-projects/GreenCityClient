@@ -74,6 +74,7 @@ import { FriendRequestsComponent } from './components/profile/users-friends/frie
 import { RequestItemComponent } from './components/profile/users-friends/friend-dashboard/friend-requests/request-item/request-item.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { HabitInviteFriendsPopUpComponent } from './components/habit/add-new-habit/habit-invite-friends/habit-invite-friends-pop-up/habit-invite-friends-pop-up.component';
 @NgModule({
   declarations: [
     UserComponent,
@@ -130,7 +131,8 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     RecommendedFriendsComponent,
     FriendItemComponent,
     FriendRequestsComponent,
-    RequestItemComponent
+    RequestItemComponent,
+    HabitInviteFriendsPopUpComponent
   ],
   imports: [
     NgbModule,

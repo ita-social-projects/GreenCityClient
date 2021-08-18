@@ -8,7 +8,7 @@
   },
   "order-details": {
     "order-title": "Services",
-    "order-content": "Please note that the minimum order amount must be UAH 500.",
+    "order-content": "Please note that the minimum order amount must be 500.00 UAH",
     "service": "Service",
     "volume": "Volume",
     "cost": "Cost",
@@ -18,17 +18,17 @@
     "litr": "l",
     "pieces": "pc.",
     "order-amount": "Order amount: ",
-    "certificate": "Sertificate:",
+    "certificate": "Certificate:",
     "bonuses": "Bonuses: ",
     "amount-due": "Amount due: ",
-    "min-sum": "The minimum order amount must be 500 UAH",
+    "min-sum": "The minimum order amount must be 500.00 UAH",
     "question-certificate": "Do you want to use the certificate?",
     "certificate-number": "Enter the certificate number",
     "activate": "Activate",
     "cancel": "Cancel",
     "failed-certificate": "Certificate not accepted, please try again",
     "not-found-certificate": "Certificate not found; check that the data is correct.",
-    "activated-oversum": "A certificate for {{certificateSum}} UAH is activated in excess of the amount of your order. The balance of {{certificateLeft}} UAH will be credited to your bonus account for the next order. The certificate is valid until {{ certDate}} ",
+    "activated-oversum": "A certificate for {{certificateSum}}.00 UAH is activated in excess of the amount of your order. The balance of {{certificateLeft}}.00 UAH will be credited to your bonus account for the next order. The certificate is valid until {{ certDate}} ",
     "activated": "Certificate for {{certificateSum}} UAH activated. Certificate validity period is up to {{certDate}}",
     "already-used": "Certificate has already been used {{certDate}}",
     "expired": "Certificate is invalid. Certificate validity is up to {{certDate}}",
@@ -110,7 +110,7 @@
     "certificate": "Certificate: ",
     "bonuses": "Bonuses: ",
     "amount-due": "Amount due: ",
-    "min-sum": "The minimum order amount - 500 UAH ",
+    "min-sum": "The minimum order amount - 500.00 UAH ",
     "eco-shop": "Eco store",
     "order-number": "Your order number: ",
     "personal-data": "Personal data",
@@ -143,5 +143,8 @@
     "video": "Sorting and Recycling Videos",
     "questions": "If you have any questions, you can",
     "contact": "contact us"
+  },
+  "snack-bar": {
+    "exist-address": "This address has already been added"
   }
 }

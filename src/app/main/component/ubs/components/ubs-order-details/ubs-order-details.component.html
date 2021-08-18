@@ -17,7 +17,7 @@
           <li *ngFor="let bag of bags" class="main-list_item d-flex justify-content-between align-items-baseline">
             <span class="col-3 p-0 m-0 bag-name">{{ bag.name }}</span>
             <span class="col-2 p-0 m-0 bag-name">{{ bag.capacity | volume }}</span>
-            <span class="col-2 p-0 m-0 bag-name">{{ bag.price | localizedCurrency }}</span>
+            <span class="col-2 p-0 m-0 bag-name">{{ bag.price | currency | localizedCurrency }}</span>
             <div class="col-2 form-group count">
               <input
                 formControlName="quantity{{ bag.id }}"
@@ -31,7 +31,7 @@
                 (ngModelChange)="onQuantityChange()"
               />
             </div>
-            <span class="col-3 bag-name text-center"> {{ bag.quantity * bag.price | localizedCurrency }}</span>
+            <span class="col-3 bag-name text-center"> {{ bag.quantity * bag.price | currency | localizedCurrency }}</span>
           </li>
         </ul>
       </div>
@@ -42,25 +42,25 @@
               <p class="total-content" [class.d-none]="showTotal === 0">
                 <span>{{ 'order-details.order-amount' | translate }}</span>
                 <span>
-                  <strong>{{ showTotal | localizedCurrency }}</strong>
+                  <strong>{{ showTotal | currency | localizedCurrency }}</strong>
                 </span>
               </p>
               <p class="total-content" *ngIf="displayCert">
                 <span>{{ 'order-details.certificate' | translate }} </span>
                 <span>
-                  <strong class="money-saved">-{{ showCertificateUsed | localizedCurrency }}</strong>
+                  <strong class="money-saved">-{{ showCertificateUsed | currency | localizedCurrency }}</strong>
                 </span>
               </p>
               <p class="total-content" *ngIf="pointsUsed">
                 <span>{{ 'order-details.bonuses' | translate }}</span>
                 <span>
-                  <strong class="money-saved">-{{ pointsUsed | localizedCurrency }}</strong>
+                  <strong class="money-saved">-{{ pointsUsed | currency | localizedCurrency }}</strong>
                 </span>
               </p>
               <p class="total-content">
                 <span>{{ 'order-details.amount-due' | translate }} </span>
                 <span>
-                  <strong>{{ finalSum | localizedCurrency }}</strong>
+                  <strong>{{ finalSum | currency | localizedCurrency }}</strong>
                 </span>
               </p>
               <div *ngIf="displayMes" class="validMes">
@@ -175,7 +175,7 @@
           </button>
           <div class="points">
             <h5>{{ 'order-details.bonus-need' | translate }}</h5>
-            <p>{{ 'order-details.bonus-left' | translate }} {{ certificateLeft | localizedCurrency }}</p>
+            <p>{{ 'order-details.bonus-left' | translate }} {{ certificateLeft | currency | localizedCurrency }}</p>
             <p>
               <a href="#!" class="bonus-how-to-link">{{ 'order-details.bonus-how-to-get' | translate }}</a>
             </p>
@@ -203,7 +203,7 @@
               </div>
             </div>
             <small class="text-message" [class.d-none]="pointsUsed === 0">
-              <span>{{ 'order-details.used' | translate }} {{ pointsUsed | localizedCurrency }}</span>
+              <span>{{ 'order-details.used' | translate }} {{ pointsUsed | currency | localizedCurrency }}</span>
             </small>
           </div>
         </div>
@@ -235,7 +235,7 @@
             <input
               [formControlName]="i"
               class="shadow-none form-control border-input p-2 eco-store"
-              type="number"
+              type="text"
               placeholder="xxxxxxxxxx"
               [unmask]="false"
               [imask]="{ mask: ecoStoreMask }"
@@ -247,7 +247,7 @@
           <button *ngIf="additionalOrders.controls.length < 5 && displayOrderBtn" class="addOrderBtn" (click)="addOrder()">
             {{ 'order-details.additional-orders' | translate }}
           </button>
-          <small class="text-danger" *ngIf="!displayOrderBtn && additionalOrders.touched">
+          <small class="text-danger" *ngIf="!displayOrderBtn && additionalOrders.touched && shop.value !== 'no'">
             {{ 'order-details.order-error' | translate }}
           </small>
         </div>
@@ -264,7 +264,7 @@
           >
           </textarea>
         </div>
-        <small class="text-danger" *ngIf="orderComment.touched && orderComment.invalid">
+        <small class="text-danger" *ngIf="orderComment.invalid">
           {{ 'order-details.comment-error' | translate }}
         </small>
       </div>
@@ -277,7 +277,7 @@
 
 <div class="w-100 d-flex justify-content-end buttons">
   <button class="secondary-global-button btn cansel-button btn-main" (click)="cancelUBS()">{{ 'order-details.cancel' | translate }}</button>
-  <button [disabled]="showTotal < 500" type="submit" class="primary-global-button btn btn-main" matStepperNext>
+  <button [disabled]="showTotal < 500 || orderComment.invalid" type="submit" class="primary-global-button btn btn-main" matStepperNext>
     {{ 'order-details.next' | translate }}
   </button>
 </div>

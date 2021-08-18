@@ -41,7 +41,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   ecoStoreMask = '0000000000';
   servicesMask = '000';
   certificatePattern = /(?!0000)\d{4}-(?!0000)\d{4}/;
-  commentPattern = /^(.){0,255}$/;
+  commentPattern = /^[i\s]{0,255}(.){0,255}[i\s]{0,255}$/;
   additionalOrdersPattern = /^\d{10}$/;
   displayOrderBtn = false;
 
@@ -112,6 +112,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.orders = this.shareFormService.orderDetails;
         this.bags = this.orders.bags;
         this.points = this.orders.points;
+        this.certificateLeft = orderData.points;
         this.bags.forEach((bag) => {
           bag.quantity = null;
           this.orderDetailsForm.addControl('quantity' + String(bag.id), new FormControl(0, [Validators.min(0), Validators.max(999)]));

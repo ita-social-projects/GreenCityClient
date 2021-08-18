@@ -7,4 +7,5 @@ export interface NewsSearchModel {
   };
   creationDate: string;
   tags: Array<string>;
+  text: string;
 }
