@@ -68,6 +68,10 @@ input {
   overflow-wrap: break-word;
 }
 
+.primary-color {
+  color: var(--primary-green);
+}
+
 .select-cell {
   margin-top: 8px;
 }
