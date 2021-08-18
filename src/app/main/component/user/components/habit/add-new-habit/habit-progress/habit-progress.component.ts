@@ -13,7 +13,7 @@ import { HabitAssignInterface } from 'src/app/main/interface/habit/habit-assign.
 export class HabitProgressComponent {
   @Input() habit: HabitAssignInterface;
   public indicator = 7;
-  isRequest: boolean = false;
+  isRequest = false;
   currentDate: string;
   showPhoto: boolean;
   daysCounter: number;
