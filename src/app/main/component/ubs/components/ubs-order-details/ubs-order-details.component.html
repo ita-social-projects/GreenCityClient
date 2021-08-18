@@ -84,10 +84,11 @@
             </div>
             <div class="form-group">
               <button
+                #activateBtn
                 *ngIf="!addCert"
                 type="button"
                 class="primary-global-button btn"
-                [disabled]="!certificate.valid || certificate.pristine || showTotal < 500"
+                [disabled]="!certificate.valid || certificate.pristine || showTotal < 500 || !certificate.value.length"
                 (click)="certificateSubmit()"
               >
                 {{ 'order-details.activate' | translate }}
