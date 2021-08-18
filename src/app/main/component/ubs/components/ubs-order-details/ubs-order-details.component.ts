@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { Bag, FinalOrder, OrderDetails } from '../../models/ubs.interface';
-import { ReplaySubject, Subject } from 'rxjs';
+import { ReplaySubject, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
@@ -54,7 +54,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   object: {};
   private destroy: Subject<boolean> = new Subject<boolean>();
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-  public currentLanguage: string;
+  private langSub: Subscription;
+  public currentLanguage: string = localStorage.getItem('language');
   public certificateError = false;
   bonusesRemaining: boolean;
   popupConfig = {
@@ -84,6 +85,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   ngOnInit(): void {
+    this.langSub = this.localStorageService.languageSubject.subscribe((lang) => (this.currentLanguage = lang));
     this.takeOrderData();
   }
 
@@ -412,5 +414,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   ngOnDestroy() {
     this.destroy.next();
     this.destroy.unsubscribe();
+    this.langSub.unsubscribe();
   }
 }
