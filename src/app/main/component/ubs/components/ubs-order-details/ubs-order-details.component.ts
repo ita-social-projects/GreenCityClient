@@ -54,7 +54,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   object: {};
   private destroy: Subject<boolean> = new Subject<boolean>();
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-  private langSub: Subscription;
   public currentLanguage: string = this.localStorageService.getCurrentLanguage();
   public certificateError = false;
   bonusesRemaining: boolean;
@@ -85,8 +84,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   ngOnInit(): void {
-    this.langSub = this.localStorageService.languageSubject.subscribe((lang) => (this.currentLanguage = lang));
     this.takeOrderData();
+    this.localStorageService.languageSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => (this.currentLanguage = lang));
   }
 
   getFormValues(): boolean {
@@ -414,6 +413,5 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   ngOnDestroy() {
     this.destroy.next();
     this.destroy.unsubscribe();
-    this.langSub.unsubscribe();
   }
 }
