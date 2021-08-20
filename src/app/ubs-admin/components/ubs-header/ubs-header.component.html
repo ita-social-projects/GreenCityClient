@@ -6,7 +6,7 @@
   </div>
   <div class="icons">
     <nav>
-      <a class="nav-link" *ngFor="let link of navLinks" [href]="link.route">
+      <a class="nav-link" *ngFor="let link of navLinks" (click)="navigateToLink(link)">
         {{ link.name }}
       </a>
     </nav>
