@@ -1,0 +1,22 @@
+.dialog-container {
+  position: relative;
+  width: 464px;
+  height: 318px;
+  font-family: var(--secondary-font);
+  font-size: larger;
+
+  button {
+    margin: 10px;
+  }
+
+  .title {
+    margin: 16px;
+  }
+
+  .close-btn {
+    margin: -20px;
+    border: none;
+    background-color: transparent;
+    outline: none;
+  }
+}

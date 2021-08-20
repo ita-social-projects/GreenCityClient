@@ -11,6 +11,7 @@ import { CertificateStatus } from '../../certificate-status.enum';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
 
 @Component({
   selector: 'app-ubs-order-details',
@@ -57,6 +58,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public currentLanguage: string;
   public certificateError = false;
   bonusesRemaining: boolean;
+  isDialogOpen = false;
   popupConfig = {
     hasBackdrop: true,
     closeOnNavigation: true,
@@ -84,6 +86,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   ngOnInit(): void {
+    this.openLocationDialog();
     this.takeOrderData();
   }
 
@@ -101,6 +104,16 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       additionalOrders: this.fb.array(['']),
       orderSum: new FormControl(0, [Validators.required, Validators.min(500)])
     });
+  }
+
+  openLocationDialog() {
+    this.isDialogOpen = true;
+    this.dialog.open(UbsOrderLocationPopupComponent, {
+      hasBackdrop: true,
+      disableClose: true
+    });
+
+    this.dialog.afterAllClosed.subscribe(() => (this.isDialogOpen = false));
   }
 
   public takeOrderData() {

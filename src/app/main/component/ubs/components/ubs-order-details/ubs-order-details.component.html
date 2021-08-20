@@ -1,5 +1,5 @@
 <div class="container">
-  <div *ngIf="bags; else spinner">
+  <div *ngIf="bags && !isDialogOpen; else spinner">
     <div class="header">
       <h3 class="font-bolt order-title">{{ 'order-details.order-title' | translate }}</h3>
       <p class="order-content">{{ 'order-details.order-content' | translate }}</p>

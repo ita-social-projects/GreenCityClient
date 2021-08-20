@@ -1,0 +1,23 @@
+<div class="dialog-container">
+  <div class="close">
+    <button class="close-btn" mat-dialog-close (click)="redirectToMain()">
+      <img src="{{ closeButton }}" alt="close" />
+    </button>
+  </div>
+
+  <form class="form">
+    <h4 class="title">Вітаємо в УБС! Спочатку оберіть свою локацію:</h4>
+    <mat-form-field appearance="fill">
+      <mat-select [(ngModel)]="selectedValue" name="region">
+        <mat-option [value]="region.value" *ngFor="let region of regions">
+          {{ region.value }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <p>Selected region: {{ selectedValue }}</p>
+  </form>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-outline-success" mat-dialog-close (click)="redirectToMain()">Назад</button>
+    <button class="btn btn-success" [mat-dialog-close]="true" cdkFocusInitial (click)="saveLocation()">Продовжити</button>
+  </mat-dialog-actions>
+</div>
