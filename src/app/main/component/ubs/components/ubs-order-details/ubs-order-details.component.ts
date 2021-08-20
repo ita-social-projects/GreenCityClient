@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { Bag, FinalOrder, OrderDetails } from '../../models/ubs.interface';
 import { ReplaySubject, Subject } from 'rxjs';
@@ -18,7 +18,6 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./ubs-order-details.component.scss']
 })
 export class UBSOrderDetailsComponent extends FormBaseComponent implements OnInit, OnDestroy {
-  @ViewChild('activateBtn') activateBtn: ElementRef;
   orders: OrderDetails;
   bags: Bag[];
   orderDetailsForm: FormGroup;
@@ -32,6 +31,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   finalSum = 0;
 
   points: number;
+  certBtnActivate = false;
   displayMes = false;
   displayCert = false;
   displayShop = false;
@@ -349,7 +349,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
               this.calculateTotal();
             },
             (error) => {
-              this.activateBtn.nativeElement.disabled = false;
+              this.certBtnActivate = false;
               if (error.status === 404) {
                 arr.splice(index, 1);
                 this.certificateError = true;
@@ -365,7 +365,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   certificateSubmit(): void {
     if (!this.certificates.includes(this.orderDetailsForm.value.certificate)) {
-      this.activateBtn.nativeElement.disabled = true;
+      this.certBtnActivate = true;
       this.certificates.push(this.orderDetailsForm.value.certificate);
       this.calculateCertificates(this.certificates);
     } else {
@@ -380,6 +380,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.addCert = true;
     }
 
+    this.certBtnActivate = false;
     this.bonusesRemaining = false;
     this.showCertificateUsed = null;
     this.addCert = false;
