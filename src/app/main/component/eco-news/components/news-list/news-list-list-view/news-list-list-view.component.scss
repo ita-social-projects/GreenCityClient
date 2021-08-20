@@ -25,9 +25,9 @@ div {
 
 .eco-news_list-tag {
   font-family: var(--primary-font);
-  font-size: 14px;
+  font-size: 12px;
   line-height: 16px;
-  letter-spacing: 1px;
+  letter-spacing: -0.25px;
   text-transform: uppercase;
   color: var(--primary-green);
   margin-right: 5px;
@@ -42,10 +42,11 @@ div {
 }
 
 .eco-news_list-content-title {
-  font-family: var(--primary-font);
+  font-family: var(--secondary-font);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 21px;
   color: var(--quaternary-dark-grey);
-  font-weight: 700;
-  font-size: 20px;
   line-height: 28px;
   margin-bottom: 5px;
   overflow: hidden;
