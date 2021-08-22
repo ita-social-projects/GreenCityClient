@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
@@ -6,13 +6,17 @@ import { take } from 'rxjs/operators';
 import { HabitAssignInterface, HabitResponseInterface } from 'src/app/main/interface/habit/habit-assign.interface';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { HabitService } from '@global-service/habit/habit.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-add-new-habit',
   templateUrl: './add-new-habit.component.html',
   styleUrls: ['./add-new-habit.component.scss']
 })
-export class AddNewHabitComponent implements OnInit {
+export class AddNewHabitComponent implements OnInit, OnDestroy {
+  private langChangeSub: Subscription;
   public habit: HabitAssignInterface;
   public habitResponse: HabitResponseInterface;
   public habitId: number;
@@ -32,15 +36,30 @@ export class AddNewHabitComponent implements OnInit {
     private router: Router,
     private habitService: HabitService,
     private snackBar: MatSnackBarComponent,
-    private habitAssignService: HabitAssignService
+    private habitAssignService: HabitAssignService,
+    private localStorageService: LocalStorageService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
     this.getUserId();
+    this.subscribeToLangChange();
+    this.bindLang(this.localStorageService.getCurrentLanguage());
     this.route.params.subscribe((params) => {
       this.habitId = +params.habitId;
     });
     this.checkIfAssigned();
+  }
+
+  private bindLang(lang: string): void {
+    this.translate.setDefaultLang(lang);
+  }
+
+  private subscribeToLangChange(): void {
+    this.langChangeSub = this.localStorageService.languageSubject.subscribe((lang) => {
+      this.bindLang(lang);
+      this.checkIfAssigned();
+    });
   }
 
   public initHabitData(data) {
@@ -149,5 +168,9 @@ export class AddNewHabitComponent implements OnInit {
         this.router.navigate(['profile', this.userId]);
         this.snackBar.openSnackBar('habitDeleted');
       });
+  }
+
+  ngOnDestroy(): void {
+    this.langChangeSub.unsubscribe();
   }
 }
