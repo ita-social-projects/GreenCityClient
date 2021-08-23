@@ -174,7 +174,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.onSubmit = false;
     }
 
-    this.finalSum = this.total;
+    this.finalSum = this.total - this.pointsUsed;
     if (this.certificateSum > 0) {
       if (this.total > this.certificateSum) {
         this.certificateLeft = 0;
@@ -184,10 +184,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.finalSum = 0;
         this.certificateLeft = this.certificateSum - this.total;
         this.showCertificateUsed = this.total;
-        this.points = this.orders.points + this.certificateLeft;
+        this.points = this.orders.points;
       }
       this.bonusesRemaining = this.certificateSum > 0;
-      this.showCertificateUsed = this.certificateSum;
     }
     this.changeOrderDetails();
   }
@@ -260,11 +259,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   private calculatePointsWithoutCertificate() {
     this.showTotal = this.total;
-    const totalSumIsBiggerThanPoints = this.points > this.total;
-
+    const totalSumIsBiggerThanPoints = this.points > this.finalSum;
     if (totalSumIsBiggerThanPoints) {
-      this.pointsUsed = this.total;
-      this.points = this.points - this.total;
+      this.pointsUsed += this.finalSum;
+      this.points = this.points - this.finalSum;
       this.total = 0;
       return;
     }
@@ -274,7 +272,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   private calculatePointsWithCertificate() {
-    const totalSumIsBiggerThanPoints = this.points > this.total;
+    const totalSumIsBiggerThanPoints = this.points > this.finalSum;
 
     if (totalSumIsBiggerThanPoints) {
       this.pointsUsed = this.total - this.certificateSum;
@@ -283,7 +281,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.pointsUsed = this.points;
       this.total = this.total - this.pointsUsed;
     }
-    this.points > this.showTotal ? (this.points = this.points - this.showTotal) : (this.points = 0);
+    this.points >= this.finalSum ? (this.points = this.points - this.finalSum) : (this.points = 0);
   }
 
   resetPoints(): void {
@@ -385,7 +383,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.certSize = false;
     this.certificateLeft = 0;
     this.certificateSum = 0;
-    this.pointsUsed = 0;
     this.orderDetailsForm.patchValue({ certificate: '' });
     this.calculateCertificates(this.certificates);
   }
