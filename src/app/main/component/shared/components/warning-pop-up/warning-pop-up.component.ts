@@ -6,7 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-warning-pop-up',
   templateUrl: './warning-pop-up.component.html',
-  styleUrls: ['./warning-pop-up.component.scss'],
+  styleUrls: ['./warning-pop-up.component.scss']
 })
 export class WarningPopUpComponent implements OnInit, OnDestroy {
   public popupTitle: string;
@@ -45,6 +45,10 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
   }
 
   public userReply(reply: boolean): void {
+    if (reply) {
+      localStorage.removeItem('newsTags');
+    }
+
     this.matDialogRef.close(reply);
   }
 
