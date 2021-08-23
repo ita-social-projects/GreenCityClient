@@ -1,6 +1,7 @@
 import { Language } from './../../i18n/Language';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { FilterModel } from '@eco-news-models/create-news-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -80,5 +81,17 @@ export class LocalStorageService {
     this.setCurrentLanguage(currentLanguage);
     this.firstNameBehaviourSubject.next(null);
     this.userIdBehaviourSubject.next(null);
+  }
+
+  public setTagsOfNews(key: string, tags: FilterModel[]) {
+    localStorage.setItem(key, JSON.stringify(tags));
+  }
+
+  public getTagsOfNews(key: string) {
+    return JSON.parse(localStorage.getItem(key));
+  }
+
+  public removeTagsOfNews(key: string) {
+    localStorage.removeItem(key);
   }
 }
