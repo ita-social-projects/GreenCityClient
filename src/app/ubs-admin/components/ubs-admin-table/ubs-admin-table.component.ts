@@ -1,6 +1,6 @@
 import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragStart, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatSort } from '@angular/material/sort';
@@ -13,7 +13,8 @@ import { ubsAdminTable } from '../ubs-image-pathes/ubs-admin-table';
   templateUrl: './ubs-admin-table.component.html',
   styleUrls: ['./ubs-admin-table.component.scss']
 })
-export class UbsAdminTableComponent implements OnInit {
+export class UbsAdminTableComponent implements OnInit, OnDestroy {
+  translatedHeadersEn;
   columns: any[] = [];
   displayedColumns: string[] = [];
   orderInfo: string[] = [];
@@ -29,6 +30,7 @@ export class UbsAdminTableComponent implements OnInit {
   isLoading = true;
   isUpdate = false;
   destroy: Subject<boolean> = new Subject<boolean>();
+  destroyEnHeaders: Subject<boolean> = new Subject<boolean>();
   arrowDirection: string;
   tableData: any[];
   totalPages: number;
@@ -42,6 +44,16 @@ export class UbsAdminTableComponent implements OnInit {
 
   ngOnInit() {
     this.getTable();
+    this.getEnHeaders();
+  }
+
+  getEnHeaders() {
+    this.adminTableService
+      .getEnHeaders()
+      .pipe(takeUntil(this.destroyEnHeaders))
+      .subscribe((item) => {
+        this.translatedHeadersEn = item['orders-table'];
+      });
   }
 
   applyFilter(filterValue: string) {
@@ -170,5 +182,13 @@ export class UbsAdminTableComponent implements OnInit {
       this.currentPage++;
       this.updateTableData();
     }
+  }
+
+  ngOnDestroy() {
+    this.destroy.next();
+    this.destroy.unsubscribe();
+
+    this.destroyEnHeaders.next();
+    this.destroyEnHeaders.unsubscribe();
   }
 }

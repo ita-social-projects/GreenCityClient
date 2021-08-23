@@ -71,7 +71,9 @@
         [cdkDragData]="{ name: column.field, columIndex: i }"
       >
         <div *ngIf="column.field !== 'select'; else checkbox">
-          <span class="column-title">{{ column.field }}</span>
+          <span *ngFor="let i of translatedHeadersEn | keyvalue">
+            <span *ngIf="column.field === i.key" class="column-title">{{ 'orders-table.' + i.key | translate }}</span>
+          </span>
           <mat-icon *ngIf="arrowDirection !== column.field" (click)="getSortingDate(column.field, 'asc')"> arrow_downward </mat-icon>
           <mat-icon *ngIf="arrowDirection === column.field" (click)="getSortingDate(column.field, 'desc')"> arrow_upward </mat-icon>
         </div>
