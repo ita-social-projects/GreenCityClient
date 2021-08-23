@@ -87,7 +87,7 @@
                 *ngIf="!addCert"
                 type="button"
                 class="primary-global-button btn"
-                [disabled]="!certificate.valid || certificate.pristine || showTotal < 500"
+                [disabled]="!certificate.valid || certificate.pristine || showTotal < 500 || !certificate.value.length || certBtnActivate"
                 (click)="certificateSubmit()"
               >
                 {{ 'order-details.activate' | translate }}

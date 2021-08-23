@@ -31,6 +31,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   finalSum = 0;
 
   points: number;
+  certBtnActivate = false;
   displayMes = false;
   displayCert = false;
   displayShop = false;
@@ -348,6 +349,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
               this.calculateTotal();
             },
             (error) => {
+              this.certBtnActivate = false;
               if (error.status === 404) {
                 arr.splice(index, 1);
                 this.certificateError = true;
@@ -363,6 +365,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   certificateSubmit(): void {
     if (!this.certificates.includes(this.orderDetailsForm.value.certificate)) {
+      this.certBtnActivate = true;
       this.certificates.push(this.orderDetailsForm.value.certificate);
       this.calculateCertificates(this.certificates);
     } else {
@@ -377,6 +380,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.addCert = true;
     }
 
+    this.certBtnActivate = false;
     this.bonusesRemaining = false;
     this.showCertificateUsed = null;
     this.addCert = false;
