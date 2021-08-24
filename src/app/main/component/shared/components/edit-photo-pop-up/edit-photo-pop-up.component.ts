@@ -37,6 +37,10 @@ export class EditPhotoPopUpComponent implements OnInit {
     this.setUserAvatar();
   }
 
+  public openFilesWindow(elem: HTMLLabelElement) {
+    elem.click();
+  }
+
   public onSelectPhoto(event): void {
     if (event.target.files[0].size >= 10000000) {
       this.matDialogRef.close();
