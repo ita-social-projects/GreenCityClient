@@ -54,7 +54,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   object: {};
   private destroy: Subject<boolean> = new Subject<boolean>();
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-  public currentLanguage: string = this.localStorageService.getCurrentLanguage();
+  public currentLanguage: string;
   public certificateError = false;
   bonusesRemaining: boolean;
   popupConfig = {
