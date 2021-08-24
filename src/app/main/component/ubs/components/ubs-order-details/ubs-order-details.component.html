@@ -14,10 +14,7 @@
       </div>
       <div class="main">
         <ul class="w-100 p-0 m-0">
-          <li
-            *ngFor="let bag of bags | filterLang: currentLanguage"
-            class="main-list_item d-flex justify-content-between align-items-baseline"
-          >
+          <li *ngFor="let bag of bags" class="main-list_item d-flex justify-content-between align-items-baseline">
             <span class="col-3 p-0 m-0 bag-name">{{ bag.name }}</span>
             <span class="col-2 p-0 m-0 bag-name">{{ bag.capacity | volume }}</span>
             <span class="col-2 p-0 m-0 bag-name">{{ bag.price | currency | localizedCurrency }}</span>

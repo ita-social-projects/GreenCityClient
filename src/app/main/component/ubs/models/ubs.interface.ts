@@ -4,6 +4,7 @@ export interface Bag {
   capacity?: number;
   price?: number;
   quantity?: number;
+  code?: string;
 }
 
 export interface OrderBag {

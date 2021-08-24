@@ -85,7 +85,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   ngOnInit(): void {
     this.takeOrderData();
-    this.localStorageService.languageSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => (this.currentLanguage = lang));
+    this.subscribeToLangChange();
   }
 
   getFormValues(): boolean {
@@ -104,6 +104,13 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     });
   }
 
+  private subscribeToLangChange(): void {
+    this.localStorageService.languageSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
+      this.currentLanguage = this.localStorageService.getCurrentLanguage();
+      this.bags = this.orders.bags.filter((value) => value.code === this.currentLanguage);
+    });
+  }
+
   public takeOrderData() {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.orderService
@@ -118,6 +125,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
           bag.quantity = null;
           this.orderDetailsForm.addControl('quantity' + String(bag.id), new FormControl(0, [Validators.min(0), Validators.max(999)]));
         });
+        this.bags = this.orders.bags.filter((value) => value.code === this.currentLanguage);
       });
   }
 
