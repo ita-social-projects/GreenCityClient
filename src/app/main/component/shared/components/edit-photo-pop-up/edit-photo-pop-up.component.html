@@ -1,19 +1,22 @@
 <div class="main-container">
-  <button class="cancel" (click)="closeEditPhoto()">
-    <img src="{{ cancelButton }}" alt="cencel" />
-  </button>
   <div class="wrapper" *ngIf="!selectedPhoto && !isNotification; else elseBlock">
     <app-user-profile-image [imgPath]="avatarImg" [additionalImgClass]="'big'" [firstName]="data.firstName"> </app-user-profile-image>
     <p *ngIf="isWarning" class="warning">{{ 'user.edit-profile.picture-tooltip' | translate }}</p>
     <p>{{ 'user.edit-profile.change-photo' | translate }}</p>
     <div class="buttons">
-      <button type="button" class="primary-global-button" (click)="closeEditPhoto()">
+      <button type="button" class="primary-global-button" (click)="closeEditPhoto()" tabindex="0">
         {{ 'user.edit-profile.btn.cancel' | translate }}
       </button>
-      <button type="button" class="primary-global-button delete" [disabled]="!avatarImg" (click)="isNotification = true">
+      <button type="button" class="primary-global-button delete" [disabled]="!avatarImg" (click)="isNotification = true" tabindex="0">
         {{ 'user.edit-profile.btn.delete' | translate }}
       </button>
-      <label class="secondary-global-button" tabindex="0">
+      <label
+        #element
+        tabindex="0"
+        class="secondary-global-button"
+        (keyup.enter)="openFilesWindow(element)"
+        (keyup.space)="openFilesWindow(element)"
+      >
         {{ 'user.edit-profile.btn.new-photo' | translate }}
         <input type="file" accept=".jpg, .jpeg, .png" (change)="onSelectPhoto($event)" />
       </label>
@@ -37,11 +40,17 @@
         <p *ngIf="isWarning" class="warning">{{ 'user.edit-profile.picture-tooltip' | translate }}</p>
         <p>{{ 'user.edit-profile.would-you-like' | translate }}</p>
         <div class="buttons">
-          <label class="primary-global-button change">
+          <label
+            #element
+            tabindex="0"
+            class="primary-global-button change"
+            (keyup.enter)="openFilesWindow(element)"
+            (keyup.space)="openFilesWindow(element)"
+          >
             {{ 'user.edit-profile.btn.change-photo' | translate }}
             <input type="file" accept=".jpg, .jpeg, .png" (change)="onSelectPhoto($event)" />
           </label>
-          <button type="button" class="secondary-global-button" [disabled]="isWarning" (click)="savePhoto()">
+          <button type="button" class="secondary-global-button" [disabled]="isWarning" (click)="savePhoto()" tabindex="0">
             <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             {{ 'user.edit-profile.btn.save-photo' | translate }}
           </button>
@@ -61,4 +70,7 @@
       </button>
     </div>
   </div>
+  <button class="cancel" (click)="closeEditPhoto()" tabindex="0">
+    <img src="{{ cancelButton }}" alt="cancel" />
+  </button>
 </div>
