@@ -16,7 +16,10 @@ $secondErrorColor: #b42626;
     right: 26px;
     border: none;
     background-color: transparent;
-    outline: none;
+
+    &:focus {
+      box-shadow: 0 0 0 3px #fff;
+    }
   }
 
   .wrapper {
@@ -76,6 +79,10 @@ $secondErrorColor: #b42626;
           border: var(--secondary-dark-green);
           color: var(--secondary-dark-green);
         }
+
+        &:focus {
+          box-shadow: 0 0 0 3px #fff;
+        }
       }
 
       .primary-global-button.delete {
@@ -112,7 +119,7 @@ $secondErrorColor: #b42626;
         }
 
         &:focus {
-          outline: none;
+          box-shadow: 0 0 0 3px #fff;
         }
 
         .spinner-border {
