@@ -144,6 +144,7 @@ label {
   transition: filter 0.2s linear;
   position: relative;
   background: var(--ubs-primary-white);
+  overflow: hidden;
 
   &:after {
     display: block;

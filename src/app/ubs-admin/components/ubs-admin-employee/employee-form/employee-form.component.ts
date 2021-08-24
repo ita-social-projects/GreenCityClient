@@ -21,6 +21,7 @@ export class EmployeeFormComponent implements OnInit {
   imageURL: string;
   imageName = 'Your Avatar';
   selectedFile;
+  defaultPhotoURL = 'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
 
   ngOnInit() {
     this.employeeService.getAllPositions().subscribe(
@@ -55,7 +56,16 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   get isUpdatingEmployee() {
+    console.log(!(Object.keys(this.data).length === 0));
     return !(Object.keys(this.data).length === 0);
+  }
+
+  get isCreatingEmployee() {
+    return !this.isUpdatingEmployee;
+  }
+
+  get userHasDefaultPhoto() {
+    return this.imageURL === this.defaultPhotoURL;
   }
 
   findRole(id: number): number {
@@ -96,29 +106,27 @@ export class EmployeeFormComponent implements OnInit {
     return this.receivingStations.some((station) => location.id === station.id);
   }
 
-  prepareEmployeeDataToSend(dto): FormData {
+  prepareEmployeeDataToSend(dto: string): FormData {
     const phoneNumber = this.employeeForm.value.phoneNumber;
-    this.employeeForm.value.phoneNumber = phoneNumber.slice(1);
+    // this.employeeForm.value.phoneNumber = phoneNumber.slice(1);
     const employeeDataToSend = {
       ...this.employeeForm.value,
-      image: this.imageURL,
+      image: this.imageURL || this.defaultPhotoURL,
       employeePositions: this.employeePositions,
       receivingStations: this.receivingStations
     };
     if (this.isUpdatingEmployee) {
       employeeDataToSend.id = this.data.id;
     }
-    const stringifiedDataToSend = JSON.stringify(employeeDataToSend);
     const formData: FormData = new FormData();
+    const stringifiedDataToSend = JSON.stringify(employeeDataToSend);
     formData.append(dto, stringifiedDataToSend);
-    if (this.selectedFile) {
-      formData.append('image', this.selectedFile);
-    }
     return formData;
   }
 
   updateEmployee() {
-    const dataToSend = this.prepareEmployeeDataToSend('employeeDto ');
+    const dataToSend = this.prepareEmployeeDataToSend('employeeDto');
+    // dataToSend.append('image', this.selectedFile);
     this.employeeService.updateEmployee(dataToSend).subscribe(() => {
       this.dialogRef.close();
     });
@@ -135,13 +143,14 @@ export class EmployeeFormComponent implements OnInit {
     this.dragOver = false;
     event.preventDefault();
 
-    console.log(event);
     const reader = new FileReader();
     this.selectedFile = (event.target as HTMLInputElement).files[0];
     this.imageName = this.selectedFile.name;
+
     reader.readAsDataURL(this.selectedFile);
     reader.onload = () => {
-      this.imageURL = reader.result.toString();
+      this.imageURL = reader.result as string;
+      console.log(reader);
     };
   }
 
@@ -150,8 +159,15 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   removeImage() {
-    this.imageURL = '';
-    this.imageName = '';
-    this.employeeService.deleteEmployeeImage(this.data.id);
+    if (this.isCreatingEmployee || this.userHasDefaultPhoto) {
+      this.imageURL = null;
+      this.imageName = null;
+      return;
+    }
+    console.log(this.data.id);
+    this.employeeService.deleteEmployeeImage(this.data.id).subscribe(() => {
+      this.imageURL = this.defaultPhotoURL;
+      this.imageName = null;
+    });
   }
 }

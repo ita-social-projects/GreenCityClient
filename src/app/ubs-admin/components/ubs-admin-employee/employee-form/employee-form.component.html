@@ -45,7 +45,7 @@
     </span>
     <div
       class="image-input"
-      *ngIf="!imageURL; else currentImageBlock"
+      *ngIf="!imageURL || userHasDefaultPhoto; else currentImageBlock"
       [ngClass]="{ highlighted: dragOver }"
       (drop)="treatFileInput($event)"
       (dragover)="cancelDefault($event)"

@@ -10,7 +10,6 @@ import { EmployeeFormComponent } from '../employee-form/employee-form.component'
 })
 export class UbsAdminEmployeeCardComponent {
   @Input() data: Page;
-
   constructor(private dialog: MatDialog) {}
 
   openModal() {

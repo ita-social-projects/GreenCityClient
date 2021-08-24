@@ -34,6 +34,6 @@ export class UbsAdminEmployeeService {
   }
 
   deleteEmployeeImage(id: number) {
-    return this.http.delete<any>(`${ubsAdminEmployeeLink}/delete-employee-image/${id}`);
+    return this.http.delete(`${ubsAdminEmployeeLink}/delete-employee-image/${id}`);
   }
 }
