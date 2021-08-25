@@ -17,25 +17,25 @@ describe('AdminService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('getter staticSortColumn should return value of sortColumn', () => {
-    spyOnProperty(service, 'staticSortColumn', 'get').and.returnValue('testEmail');
-    expect(service.staticSortColumn).toBe('testEmail');
+  it('getter SortColumn should return value of sortColumn', () => {
+    spyOnProperty(service, 'SortColumn', 'get').and.returnValue('testEmail');
+    expect(service.SortColumn).toBe('testEmail');
   });
 
-  it('setter staticSortColumn should be called with value', () => {
-    const spy = spyOnProperty(service, 'staticSortColumn', 'set').and.callThrough();
-    service.staticSortColumn = 'testEmail';
+  it('setter SortColumn should be called with value', () => {
+    const spy = spyOnProperty(service, 'SortColumn', 'set').and.callThrough();
+    service.SortColumn = 'testEmail';
     expect(spy).toHaveBeenCalledWith('testEmail');
   });
 
-  it('getter staticSortDirection should return value of sortDirection', () => {
-    spyOnProperty(service, 'staticSortDirection', 'get').and.returnValue('testAsc');
-    expect(service.staticSortDirection).toBe('testAsc');
+  it('getter SortDirection should return value of sortDirection', () => {
+    spyOnProperty(service, 'SortDirection', 'get').and.returnValue('testAsc');
+    expect(service.SortDirection).toBe('testAsc');
   });
 
-  it('setter staticSortDirection should be called with value', () => {
-    const spy = spyOnProperty(service, 'staticSortDirection', 'set').and.callThrough();
-    service.staticSortDirection = 'testAsc';
+  it('setter SortDirection should be called with value', () => {
+    const spy = spyOnProperty(service, 'SortDirection', 'set').and.callThrough();
+    service.SortDirection = 'testAsc';
     expect(spy).toHaveBeenCalledWith('testAsc');
   });
 });
