@@ -23,11 +23,11 @@ describe('ConfirmRestorePasswordComponent', () => {
   let httpTestingController: HttpTestingController;
 
   const MatDialogRefMock = {
-    close: () => {},
+    close: () => {}
   };
 
   const ChangePasswordServiceStub = {
-    restorePassword: jasmine.createSpy('restorePassword'),
+    restorePassword: jasmine.createSpy('restorePassword')
   };
 
   MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
@@ -46,20 +46,20 @@ describe('ConfirmRestorePasswordComponent', () => {
         RouterTestingModule.withRoutes([
           {
             path: 'welcome',
-            component: Fake,
-          },
+            component: Fake
+          }
         ]),
-        HttpClientTestingModule,
+        HttpClientTestingModule
       ],
       providers: [
         { provide: ChangePasswordService, useValue: ChangePasswordServiceStub },
         { provide: MatDialogRef, useValue: MatDialogRefMock },
-        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock }
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
 
-    httpTestingController = TestBed.get(HttpTestingController);
+    httpTestingController = TestBed.inject(HttpTestingController);
   }));
 
   beforeEach(() => {
@@ -104,13 +104,13 @@ describe('ConfirmRestorePasswordComponent', () => {
       mockFormData = {
         password: 'Password13.',
         confirmPassword: 'Password13.',
-        token: 'token',
+        token: 'token'
       };
 
       mockRestoreDto = {
         password: 'Password13.',
         confirmPassword: 'Password13.',
-        token: 'token',
+        token: 'token'
       };
     });
 

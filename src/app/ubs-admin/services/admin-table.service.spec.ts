@@ -10,7 +10,7 @@ describe('AdminTableService', () => {
   );
 
   it('should be created', () => {
-    const service: AdminTableService = TestBed.get(AdminTableService);
+    const service: AdminTableService = TestBed.inject(AdminTableService);
     expect(service).toBeTruthy();
   });
 });

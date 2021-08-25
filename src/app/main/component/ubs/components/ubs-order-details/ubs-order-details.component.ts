@@ -334,7 +334,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   calculateCertificates(arr): void {
     if (arr.length > 0) {
-      this.certificateSum = 0;
       arr.forEach((certificate, index) => {
         this.orderService
           .processCertificate(certificate)
@@ -358,9 +357,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
           );
       });
     } else {
-      this.certificateSum = 0;
       this.calculateTotal();
     }
+    this.certificateSum = 0;
   }
 
   certificateSubmit(): void {
@@ -397,16 +396,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   certificateMatch(cert): void {
     if (cert.certificateStatus === CertificateStatus.ACTIVE || cert.certificateStatus === CertificateStatus.NEW) {
       this.certificateSum += cert.certificatePoints;
-      this.certDate = this.certificateDateTreat(cert.certificateDate);
-      this.certStatus = cert.certificateStatus;
       this.displayCert = true;
       this.addCert = true;
     }
-
-    if (cert.certificateStatus === CertificateStatus.USED || cert.certificateStatus === CertificateStatus.EXPIRED) {
-      this.certDate = this.certificateDateTreat(cert.certificateDate);
-      this.certStatus = cert.certificateStatus;
-    }
+    this.certDate = this.certificateDateTreat(cert.certificateDate);
+    this.certStatus = cert.certificateStatus;
   }
 
   private certificateDateTreat(date: string) {

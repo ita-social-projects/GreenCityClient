@@ -3,13 +3,14 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AdminOrdersService } from './admin-orders.service';
 
 describe('AdminOrdersService', () => {
-  beforeEach(() => TestBed.configureTestingModule({
-    imports: [HttpClientTestingModule]
-  })
-);
+  beforeEach(() =>
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule]
+    })
+  );
 
   it('should be created', () => {
-    const service: AdminOrdersService = TestBed.get(AdminOrdersService);
+    const service: AdminOrdersService = TestBed.inject(AdminOrdersService);
     expect(service).toBeTruthy();
   });
 });
