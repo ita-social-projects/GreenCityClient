@@ -11,11 +11,11 @@
         {{ 'user.edit-profile.btn.delete' | translate }}
       </button>
       <label
-        #element
+        #loadImage
         tabindex="0"
         class="secondary-global-button"
-        (keyup.enter)="openFilesWindow(element)"
-        (keyup.space)="openFilesWindow(element)"
+        (keyup.enter)="openFilesWindow(loadImage)"
+        (keyup.space)="openFilesWindow(loadImage)"
       >
         {{ 'user.edit-profile.btn.new-photo' | translate }}
         <input type="file" accept=".jpg, .jpeg, .png" (change)="onSelectPhoto($event)" />
@@ -41,11 +41,11 @@
         <p>{{ 'user.edit-profile.would-you-like' | translate }}</p>
         <div class="buttons">
           <label
-            #element
+            #loadImage
             tabindex="0"
             class="primary-global-button change"
-            (keyup.enter)="openFilesWindow(element)"
-            (keyup.space)="openFilesWindow(element)"
+            (keyup.enter)="openFilesWindow(loadImage)"
+            (keyup.space)="openFilesWindow(loadImage)"
           >
             {{ 'user.edit-profile.btn.change-photo' | translate }}
             <input type="file" accept=".jpg, .jpeg, .png" (change)="onSelectPhoto($event)" />
