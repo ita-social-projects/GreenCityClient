@@ -1,5 +1,5 @@
 <div class="progressHabit">
-  <div class="progressText">Progress</div>
+  <div class="progressText">{{ 'user.habit.progress-title' | translate }}</div>
   <div class="markAsDone" [ngSwitch]="habitMark">
     <ng-template ngSwitchCase="undone">
       <button class="{{ habitMark }}" (click)="enroll()" [disabled]="isRequest"></button>
