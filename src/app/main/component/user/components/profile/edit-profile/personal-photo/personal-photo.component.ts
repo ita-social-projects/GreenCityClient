@@ -15,7 +15,8 @@ export class PersonalPhotoComponent implements OnInit, OnDestroy {
   public currentPage = 'edit photo';
   public editIcon = './assets/img/profile/icons/edit-photo.svg';
   public userName: string;
-  @ViewChild('active') previousActiveElement: ElementRef;
+  public disableEditImg: boolean;
+  @ViewChild('editImage') previousActiveElement: ElementRef;
   constructor(private profileService: ProfileService, private dialog: MatDialog) {}
 
   ngOnInit() {
@@ -23,9 +24,11 @@ export class PersonalPhotoComponent implements OnInit, OnDestroy {
   }
 
   private setUserAvatar(): void {
+    this.disableEditImg = true;
     this.avatarSubscription = this.profileService.getUserInfo().subscribe((el) => {
       this.avatarImg = el.profilePicturePath;
       this.userName = el.firstName;
+      this.disableEditImg = false;
     });
   }
 
