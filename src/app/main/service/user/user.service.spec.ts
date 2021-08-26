@@ -15,8 +15,8 @@ describe('UserService', () => {
       providers: [UserService, { provide: LanguageService, useValue: languageServiceMock }],
       imports: [HttpClientTestingModule]
     });
-    httpMock = TestBed.get(HttpTestingController);
-    service = TestBed.get(UserService);
+    httpMock = TestBed.inject(HttpTestingController);
+    service = TestBed.inject(UserService);
   });
 
   it('should be created', () => {

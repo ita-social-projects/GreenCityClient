@@ -1,14 +1,14 @@
 <div class="wrapper">
   <div class="backToMyHabits" (click)="goToMyHabits()">
     <div class="arrow"></div>
-    <div class="text">Back to My habits</div>
+    <div class="text">{{ 'user.habit.btn.back-to-habit' | translate }}</div>
   </div>
   <div class="habitContainer">
     <div class="habitInfo">
       <div class="header">
-        <div class="tags">Smart consuming</div>
+        <div class="tags">{{ 'user.habit.header.tags' | translate }}</div>
         <div class="line"></div>
-        <div class="aquired">Aquired by 134 users</div>
+        <div class="aquired">{{ 'user.habit.header.aquired' | translate }}</div>
         <div class="line"></div>
         <div class="stars">
           <img *ngFor="let star of stars" alt="star" [src]="star" />
@@ -27,7 +27,7 @@
       <img class="img" [src]="habitResponse?.image" alt="" />
     </div>
   </div>
-  <div class="habitEdit">Habit Info</div>
+  <div class="habitEdit">{{ 'user.habit.info' | translate }}</div>
   <div class="divider"></div>
   <div class="containerHabitEdit">
     <div class="habitProgress">
@@ -47,12 +47,18 @@
       </div>
     </div>
     <div *ngIf="!isAssigned" class="add-habit-container">
-      <button class="primary-global-button cancel-habit-button" (click)="cancel()">Cancel</button>
-      <button class="primary-global-button add-habit-button" type="submit" (click)="addHabit()">Add Habit</button>
+      <button class="primary-global-button cancel-habit-button" (click)="cancel()">{{ 'user.habit.btn.cancel' | translate }}</button>
+      <button class="primary-global-button add-habit-button" type="submit" (click)="addHabit()">
+        {{ 'user.habit.btn.add' | translate }}
+      </button>
     </div>
     <div *ngIf="isAssigned" class="add-habit-container">
-      <button class="primary-global-button delete-habit-button" type="submit" (click)="deleteHabit()">Give Up</button>
-      <button class="primary-global-button save-habit-button" type="submit" (click)="updateHabit()">Save</button>
+      <button class="primary-global-button delete-habit-button" type="submit" (click)="deleteHabit()">
+        {{ 'user.habit.btn.give-up' | translate }}
+      </button>
+      <button class="primary-global-button save-habit-button" type="submit" (click)="updateHabit()">
+        {{ 'user.habit.btn.save' | translate }}
+      </button>
     </div>
   </div>
 </div>

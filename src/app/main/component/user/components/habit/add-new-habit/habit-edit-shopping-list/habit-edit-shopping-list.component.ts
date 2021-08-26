@@ -8,6 +8,8 @@ import { HabitService } from '@global-service/habit/habit.service';
 import { take, takeUntil } from 'rxjs/operators';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { HabitAssignInterface } from 'src/app/main/interface/habit/habit-assign.interface';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-habit-edit-shopping-list',
@@ -24,15 +26,19 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
   @Output() newList = new EventEmitter<ShoppingList[]>();
   @Input() habitShoppingListIniteal: ShoppingList[];
   private destroySub: Subject<boolean> = new Subject<boolean>();
+  private langChangeSub: Subscription;
 
   constructor(
     public shoppinglistService: EditShoppingListService,
     private route: ActivatedRoute,
     private habitService: HabitService,
-    private habitAssignService: HabitAssignService
+    private habitAssignService: HabitAssignService,
+    private localStorageService: LocalStorageService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
+    this.subscribeToLangChange();
     this.route.params.subscribe((params) => {
       this.habitId = +params.habitId;
     });
@@ -68,6 +74,17 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
       });
   }
 
+  private bindLang(lang: string): void {
+    this.translate.setDefaultLang(lang);
+  }
+
+  private subscribeToLangChange(): void {
+    this.langChangeSub = this.localStorageService.languageSubject.subscribe((lang) => {
+      this.bindLang(lang);
+      this.checkIfAssigned();
+    });
+  }
+
   public checkIfAssigned() {
     this.habitAssignService
       .getAssignedHabits()
@@ -101,6 +118,7 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.langChangeSub.unsubscribe();
     this.destroySub.next(true);
     this.destroySub.complete();
   }

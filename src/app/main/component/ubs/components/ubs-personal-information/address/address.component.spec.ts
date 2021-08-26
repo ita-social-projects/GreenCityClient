@@ -1,3 +1,4 @@
+import { TranslateModule } from '@ngx-translate/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AddressComponent } from './address.component';
@@ -8,19 +9,22 @@ describe('AddressComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddressComponent ]
-    })
-    .compileComponents();
+      imports: [TranslateModule.forRoot()],
+      declarations: [AddressComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddressComponent);
     component = fixture.componentInstance;
+
+    component.address = {
+      city: 'someCity'
+    };
     fixture.detectChanges();
   });
 
   it('should create', () => {
-    component.address = 'test';
     expect(component).toBeTruthy();
   });
 });

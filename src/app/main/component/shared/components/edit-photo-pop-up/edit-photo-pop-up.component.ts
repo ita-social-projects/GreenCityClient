@@ -10,7 +10,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 @Component({
   selector: 'app-edit-photo-pop-up',
   templateUrl: './edit-photo-pop-up.component.html',
-  styleUrls: ['./edit-photo-pop-up.component.scss'],
+  styleUrls: ['./edit-photo-pop-up.component.scss']
 })
 export class EditPhotoPopUpComponent implements OnInit {
   public avatarImg: string;
@@ -38,6 +38,11 @@ export class EditPhotoPopUpComponent implements OnInit {
   }
 
   public onSelectPhoto(event): void {
+    if (event.target.files[0].size >= 10000000) {
+      this.matDialogRef.close();
+      this.snackBar.openSnackBar('update-cafe.notifications.photoUpload');
+      return;
+    }
     this.isWarning = false;
     this.selectedFile = event.target.files[0] as File;
     const reader: FileReader = new FileReader();
