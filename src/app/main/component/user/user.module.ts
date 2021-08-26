@@ -75,6 +75,8 @@ import { RequestItemComponent } from './components/profile/users-friends/friend-
 import { SharedModule } from 'src/app/shared/shared.module';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { HabitInviteFriendsPopUpComponent } from './components/habit/add-new-habit/habit-invite-friends/habit-invite-friends-pop-up/habit-invite-friends-pop-up.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { OneNewsComponent } from './components/profile/profile-dashboard/one-news/one-news.component';
 @NgModule({
   declarations: [
     UserComponent,
@@ -132,7 +134,8 @@ import { HabitInviteFriendsPopUpComponent } from './components/habit/add-new-hab
     FriendItemComponent,
     FriendRequestsComponent,
     RequestItemComponent,
-    HabitInviteFriendsPopUpComponent
+    HabitInviteFriendsPopUpComponent,
+    OneNewsComponent
   ],
   imports: [
     NgbModule,
@@ -160,7 +163,8 @@ import { HabitInviteFriendsPopUpComponent } from './components/habit/add-new-hab
       isolate: true
     }),
     InfiniteScrollModule,
-    UserSharedModule
+    UserSharedModule,
+    MatTabsModule
   ],
   providers: [EditProfileFormBuilder]
 })
