@@ -49,10 +49,10 @@ describe('EcoNewsDetailComponent', () => {
       providers: [LocalStorageService, EcoNewsService]
     }).compileComponents();
 
-    localStorageService = TestBed.get(LocalStorageService);
-    ecoNewsService = TestBed.get(EcoNewsService);
-    httpMock = TestBed.get(HttpTestingController);
-    route = TestBed.get(ActivatedRoute);
+    localStorageService = TestBed.inject(LocalStorageService);
+    ecoNewsService = TestBed.inject(EcoNewsService);
+    httpMock = TestBed.inject(HttpTestingController);
+    route = TestBed.inject(ActivatedRoute);
   }));
 
   beforeEach(() => {

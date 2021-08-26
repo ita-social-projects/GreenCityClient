@@ -11,19 +11,19 @@ describe('CreateEcoNewsService', () => {
     content: new FormControl('This is mock news content Greencity!!!!!!!!!!!!'),
     tags: new FormArray([new FormControl('News'), new FormControl('Ads')]),
     image: new FormControl(''),
-    source: new FormControl('http://mocknews.com'),
+    source: new FormControl('http://mocknews.com')
   });
 
   beforeEach(() =>
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [CreateEcoNewsService],
+      providers: [CreateEcoNewsService]
     })
   );
 
   beforeEach(() => {
-    service = TestBed.get(CreateEcoNewsService);
-    httpTestingController = TestBed.get(HttpTestingController);
+    service = TestBed.inject(CreateEcoNewsService);
+    httpTestingController = TestBed.inject(HttpTestingController);
     service.files[0] = { file: null, url: 'http://someimage' };
   });
 

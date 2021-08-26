@@ -87,7 +87,14 @@
                 *ngIf="!addCert"
                 type="button"
                 class="primary-global-button btn"
-                [disabled]="!certificate.valid || certificate.pristine || showTotal < 500 || !certificate.value.length || certBtnActivate"
+                [disabled]="
+                  !certificate.valid ||
+                  certificate.pristine ||
+                  showTotal < 500 ||
+                  finalSum === 0 ||
+                  !certificate.value.length ||
+                  certBtnActivate
+                "
                 (click)="certificateSubmit()"
               >
                 {{ 'order-details.activate' | translate }}
@@ -140,10 +147,7 @@
           </div>
           <div class="messages-container">
             <small class="text-message" *ngIf="certSize">
-              {{
-                'order-details.activated-oversum'
-                  | translate: { certificateSum: certificateSum, certificateLeft: certificateLeft, certDate: certDate }
-              }}
+              {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: certDate } }}
             </small>
             <small class="text-message" *ngIf="(certStatus === 'NEW' || certStatus === 'ACTIVE') && !certSize">
               {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: certDate } }}
@@ -175,11 +179,11 @@
           </button>
           <div class="points">
             <h5>{{ 'order-details.bonus-need' | translate }}</h5>
-            <p>{{ 'order-details.bonus-left' | translate }} {{ certificateLeft | currency | localizedCurrency }}</p>
+            <p>{{ 'order-details.bonus-left' | translate }} {{ points | currency | localizedCurrency }}</p>
             <p>
               <a href="#!" class="bonus-how-to-link">{{ 'order-details.bonus-how-to-get' | translate }}</a>
             </p>
-            <div *ngIf="pointsUsed !== 0 && finalSum !== 0">
+            <div *ngIf="points !== 0 && finalSum !== 0">
               <div class="form-check custom-control custom-radio">
                 <input
                   formControlName="bonus"

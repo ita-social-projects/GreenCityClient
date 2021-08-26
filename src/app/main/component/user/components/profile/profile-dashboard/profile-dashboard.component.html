@@ -1,51 +1,79 @@
 <div class="main">
   <div class="menu">
-    <div class="tab" [ngClass]="tabs.habits ? 'active' : 'plain'" (click)="toggleTab('habits')">
-      <p>{{ 'profile.dashboard.my-habits' | translate }}</p>
-    </div>
-    <div class="tab" [ngClass]="tabs.news ? 'active' : 'plain'" (click)="toggleTab('news')">
-      <p>{{ 'profile.dashboard.my-news' | translate }}</p>
-    </div>
-    <div class="tab" [ngClass]="tabs.articles ? 'active' : 'plain'" (click)="toggleTab('articles')">
-      <p>{{ 'profile.dashboard.my-tips-and-tricks' | translate }}</p>
-    </div>
-    <div class="hline"></div>
-  </div>
-  <div *ngIf="!loading; else spinner">
-    <div *ngIf="habitsInProgress.length !== 0">
-      <div class="in-progress header">
-        <p>
-          {{ 'profile.dashboard.habits-inprogress' | translate }} <br />
-          <span>{{ habitsInProgress.length }} {{ 'profile.dashboard.habits' | translate }}</span>
-        </p>
-        <a [routerLink]="['/profile', userId, 'allhabits']">
-          <div id="create-button" class="secondary-global-button">
-            <span>{{ 'profile.dashboard.add-new-habit' | translate }}</span>
+    <mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChanged($event)">
+      <mat-tab label="{{ 'profile.dashboard.my-habits' | translate }}">
+        <div *ngIf="!loading; else spinner">
+          <div *ngIf="habitsInProgress.length !== 0">
+            <div class="in-progress header">
+              <p>
+                {{ 'profile.dashboard.habits-inprogress' | translate }} <br />
+                <span>{{ habitsInProgress.length }} {{ 'profile.dashboard.habits' | translate }}</span>
+              </p>
+              <a [routerLink]="['/profile', userId, 'allhabits']">
+                <div id="create-button" class="secondary-global-button">
+                  <span>{{ 'profile.dashboard.add-new-habit' | translate }}</span>
+                </div>
+              </a>
+            </div>
+            <div class="body" *ngIf="habitsInProgress">
+              <app-one-habit *ngFor="let habit of habitsInProgress" [habit]="habit" (nowAcquiredHabit)="changeStatus($event)">
+              </app-one-habit>
+            </div>
+            <div class="acquired header">
+              <p>
+                {{ 'profile.dashboard.habits-acquired' | translate }} <br />
+                <span>{{ habitsAcquired.length }} {{ 'profile.dashboard.habits' | translate }}</span>
+              </p>
+            </div>
+            <div class="body" *ngIf="habitsAcquired">
+              <app-one-habit *ngFor="let habit of habitsAcquired" [habit]="habit"> </app-one-habit>
+            </div>
           </div>
-        </a>
-      </div>
-      <div class="body" *ngIf="habitsInProgress">
-        <app-one-habit *ngFor="let habit of habitsInProgress" [habit]="habit" (nowAcquiredHabit)="changeStatus($event)"> </app-one-habit>
-      </div>
-      <div class="acquired header">
-        <p>
-          {{ 'profile.dashboard.habits-acquired' | translate }} <br />
-          <span>{{ habitsAcquired.length }} {{ 'profile.dashboard.habits' | translate }}</span>
-        </p>
-      </div>
-      <div class="body" *ngIf="habitsAcquired">
-        <app-one-habit *ngFor="let habit of habitsAcquired" [habit]="habit"> </app-one-habit>
-      </div>
-    </div>
-    <div class="no-data" *ngIf="habitsInProgress.length === 0">
-      <app-no-data [title]="'profile.dashboard.no-habits-in-progress'" [text]="'profile.dashboard.no-habits-in-progress-advice'">
-      </app-no-data>
-      <a [routerLink]="['/profile', userId, 'allhabits']">
-        <div id="create-button" class="secondary-global-button">
-          <span>{{ 'profile.dashboard.add-new-habit' | translate }}</span>
+          <div class="no-data" *ngIf="habitsInProgress.length === 0">
+            <app-no-data [title]="'profile.dashboard.no-habits-in-progress'" [text]="'profile.dashboard.no-habits-in-progress-advice'">
+            </app-no-data>
+            <a [routerLink]="['/profile', userId, 'allhabits']">
+              <div id="create-button" class="secondary-global-button">
+                <span>{{ 'profile.dashboard.add-new-habit' | translate }}</span>
+              </div>
+            </a>
+          </div>
         </div>
-      </a>
-    </div>
+      </mat-tab>
+
+      <mat-tab label="{{ 'profile.dashboard.my-news' | translate }}">
+        <div *ngIf="!loading; else spinner">
+          <div class="in-progress header">
+            <p>
+              {{ 'profile.dashboard.news-list' | translate }} <br />
+              <span>{{ habitsInProgress.length }} {{ 'profile.dashboard.news' | translate }}</span>
+            </p>
+            <a [routerLink]="['/news/create-news']">
+              <div id="create-button" class="secondary-global-button">
+                <span>{{ 'profile.dashboard.add-news' | translate }}</span>
+              </div>
+            </a>
+          </div>
+          <div class="news-body">
+            <div
+              class="scrolling"
+              infinite-scroll
+              [infiniteScrollDistance]="0"
+              [infiniteScrollThrottle]="100"
+              (scrolled)="onScroll()"
+              [infiniteScrollDisabled]="!isActiveInfinityScroll"
+            >
+              <ul class="news-list">
+                <li *ngFor="let data of news" [routerLink]="['/news', data.id]">
+                  <app-one-news [ecoNewsModel]="data"></app-one-news>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="{{ 'profile.dashboard.my-tips-and-tricks' | translate }}">Content 3</mat-tab>
+    </mat-tab-group>
   </div>
 
   <ng-template #spinner>

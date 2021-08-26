@@ -8,7 +8,6 @@ a {
 
 .main {
   .header {
-    height: 24px;
     font-family: var(--primary-font);
     font-style: normal;
     font-weight: bold;
@@ -28,44 +27,6 @@ a {
         position: relative;
         top: -5px;
       }
-    }
-  }
-
-  .menu {
-    display: flex;
-    margin-bottom: 24px;
-
-    .tab {
-      height: 40px;
-      padding: 0 24px;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-
-      p {
-        font-family: var(--primary-font);
-        font-size: 16px;
-        line-height: 24px;
-        font-weight: normal;
-        color: var(--primary-dark-grey);
-      }
-    }
-
-    .active {
-      border-bottom: 1px solid var(--primary-green);
-
-      p {
-        color: var(--primary-green);
-      }
-    }
-
-    .plain,
-    .hline {
-      border-bottom: 1px solid var(--quintynary-light-grey);
-    }
-
-    .hline {
-      flex-grow: 1;
     }
   }
 
@@ -108,6 +69,55 @@ a {
       display: inline-flex;
     }
   }
+}
+
+.news-list {
+  list-style: none;
+  padding-left: 0;
+  overflow: hidden;
+}
+
+::ng-deep {
+  .mat-tab-header {
+    margin-bottom: 24px;
+  }
+
+  .mat-tab-header,
+  .mat-tab-nav-bar {
+    border-bottom: none;
+  }
+
+  .mat-tab-header-pagination,
+  .mat-ink-bar {
+    display: none;
+  }
+
+  .mat-tab-labels .mat-tab-label {
+    height: 40px;
+    min-width: auto;
+    border-bottom: 1px solid var(--quintynary-light-grey);
+    opacity: 1;
+  }
+
+  .mat-tab-label-content {
+    font-family: var(--primary-font);
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: normal;
+    color: var(--primary-dark-grey);
+  }
+
+  .mat-tab-labels .mat-tab-label-active {
+    border-bottom: 1px solid var(--primary-green);
+
+    .mat-tab-label-content {
+      color: var(--primary-green);
+    }
+  }
+}
+
+.scrolling {
+  height: 100%;
 }
 
 @media (max-width: 480px) {

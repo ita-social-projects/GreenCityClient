@@ -22,8 +22,8 @@ describe('CommentsService', () => {
   );
 
   beforeEach(() => {
-    service = TestBed.get(CommentsService);
-    httpTestingController = TestBed.get(HttpTestingController);
+    service = TestBed.inject(CommentsService);
+    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {
@@ -31,7 +31,7 @@ describe('CommentsService', () => {
   });
 
   it('should be created', () => {
-    const serviceNew: CommentsService = TestBed.get(CommentsService);
+    const serviceNew: CommentsService = TestBed.inject(CommentsService);
     expect(serviceNew).toBeTruthy();
   });
 

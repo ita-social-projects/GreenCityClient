@@ -21,7 +21,7 @@ describe('HabitsListViewComponent', () => {
       imports: [TranslateModule.forRoot(), RouterTestingModule, MatSnackBarModule, HttpClientTestingModule],
       providers: [{ provide: MatSnackBarComponent, useValue: MatSnackBarMock }]
     }).compileComponents();
-    httpTestingController = TestBed.get(HttpTestingController);
+    httpTestingController = TestBed.inject(HttpTestingController);
   }));
 
   beforeEach(() => {
