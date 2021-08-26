@@ -1,3 +1,4 @@
+import { nonSortableColumns } from './../../models/non-sortable-columns.model';
 import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragStart, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
@@ -14,7 +15,10 @@ import { ubsAdminTable } from '../ubs-image-pathes/ubs-admin-table';
   styleUrls: ['./ubs-admin-table.component.scss']
 })
 export class UbsAdminTableComponent implements OnInit, OnDestroy {
+  nonSortableColumns = nonSortableColumns;
   translatedHeadersEn;
+  sortingColumn: string;
+  sortType: string;
   columns: any[] = [];
   displayedColumns: string[] = [];
   orderInfo: string[] = [];
@@ -45,6 +49,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getTable();
     this.getEnHeaders();
+    console.log(nonSortableColumns);
   }
 
   getEnHeaders() {
@@ -157,7 +162,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   updateTableData() {
     this.isUpdate = true;
     this.adminTableService
-      .getTable('orderId', this.currentPage, this.pageSize, 'desc')
+      .getTable(this.sortingColumn, this.currentPage, this.pageSize, this.sortType)
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         const data = item[`page`];
@@ -168,7 +173,9 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
       });
   }
 
-  getSortingDate(columnName, sortingType) {
+  getSortingData(columnName, sortingType) {
+    this.sortingColumn = columnName;
+    this.sortType = sortingType;
     this.arrowDirection = this.arrowDirection === columnName ? null : columnName;
     this.getTable(columnName, sortingType);
   }
