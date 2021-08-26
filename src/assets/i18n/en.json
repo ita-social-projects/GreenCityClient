@@ -600,9 +600,22 @@
       }
     },
     "habit": {
+      "btn": {
+        "back-to-habit": "Back to my habits",
+        "save": "Save",
+        "give-up": "Give up",
+        "add": "Add Habit",
+        "cancel": "Cancel"
+      },
       "button-component": {
         "add-new-habit": "Add new habit!"
       },
+      "header": {
+        "tags": "Smart consuming",
+        "aquired": "Aquired by 134 users"
+      },
+      "info": "Habit info",
+      "progress-title": "Progress",
       "invite": {
         "title": "Invite friends",
         "message": "Invite your friends to share progress and compete with them",
@@ -612,6 +625,12 @@
           "cancel": "Cancel"
         }
       },
+      "duration": {
+        "title": "Duration",
+        "text": "This duration of habit formation is recommended. You can change it at will",
+        "day": "d"
+      },
+      "shopping": "Shopping list",
       "user-log": {
         "day": "Day",
         "calendar-habit": "Calendar of eco habits",

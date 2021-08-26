@@ -29,8 +29,8 @@ describe('ProfileService', () => {
         { provide: LanguageService, useValue: languageServiceMock }
       ]
     });
-    profileService = TestBed.get(ProfileService);
-    httpMock = TestBed.get(HttpTestingController);
+    profileService = TestBed.inject(ProfileService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {
@@ -38,7 +38,7 @@ describe('ProfileService', () => {
   });
 
   it('should be created', () => {
-    const service: ProfileService = TestBed.get(ProfileService);
+    const service: ProfileService = TestBed.inject(ProfileService);
     expect(service).toBeTruthy();
   });
 

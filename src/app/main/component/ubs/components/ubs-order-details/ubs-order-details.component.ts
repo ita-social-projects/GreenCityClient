@@ -86,6 +86,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   ngOnInit(): void {
     this.takeOrderData();
+    this.subscribeToLangChange();
   }
 
   getFormValues(): boolean {
@@ -104,6 +105,13 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     });
   }
 
+  private subscribeToLangChange(): void {
+    this.localStorageService.languageSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
+      this.currentLanguage = this.localStorageService.getCurrentLanguage();
+      this.bags = this.orders.bags.filter((value) => value.code === this.currentLanguage);
+    });
+  }
+
   public takeOrderData() {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.orderService
@@ -118,6 +126,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
           bag.quantity = null;
           this.orderDetailsForm.addControl('quantity' + String(bag.id), new FormControl(0, [Validators.min(0), Validators.max(999)]));
         });
+        this.bags = this.orders.bags.filter((value) => value.code === this.currentLanguage);
       });
   }
 
@@ -332,7 +341,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   calculateCertificates(arr): void {
     if (arr.length > 0) {
-      this.certificateSum = 0;
       arr.forEach((certificate, index) => {
         this.orderService
           .processCertificate(certificate)
@@ -356,9 +364,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
           );
       });
     } else {
-      this.certificateSum = 0;
       this.calculateTotal();
     }
+    this.certificateSum = 0;
   }
 
   certificateSubmit(): void {
@@ -394,16 +402,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   certificateMatch(cert): void {
     if (cert.certificateStatus === CertificateStatus.ACTIVE || cert.certificateStatus === CertificateStatus.NEW) {
       this.certificateSum += cert.certificatePoints;
-      this.certDate = this.certificateDateTreat(cert.certificateDate);
-      this.certStatus = cert.certificateStatus;
       this.displayCert = true;
       this.addCert = true;
     }
-
-    if (cert.certificateStatus === CertificateStatus.USED || cert.certificateStatus === CertificateStatus.EXPIRED) {
-      this.certDate = this.certificateDateTreat(cert.certificateDate);
-      this.certStatus = cert.certificateStatus;
-    }
+    this.certDate = this.certificateDateTreat(cert.certificateDate);
+    this.certStatus = cert.certificateStatus;
   }
 
   private certificateDateTreat(date: string) {
