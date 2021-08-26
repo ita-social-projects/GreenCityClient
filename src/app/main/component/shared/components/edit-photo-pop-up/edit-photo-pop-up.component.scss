@@ -17,6 +17,10 @@ $secondErrorColor: #b42626;
     border: none;
     background-color: transparent;
     outline: none;
+
+    &:focus {
+      outline: 3px solid #000;
+    }
   }
 
   .wrapper {
@@ -45,7 +49,15 @@ $secondErrorColor: #b42626;
       font-family: var(--primary-font);
       font-size: 14px;
       color: var(--error-ligh-red);
+      line-height: 0.8rem;
       padding: 0;
+      // margin: 0;
+      // position: absolute;
+      // top: 55%;
+    }
+
+    .cropper-block {
+      min-height: 148px;
     }
 
     .buttons {
