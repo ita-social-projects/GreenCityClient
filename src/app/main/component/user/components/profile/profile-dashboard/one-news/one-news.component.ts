@@ -11,13 +11,12 @@ export class OneNewsComponent {
   @Input() ecoNewsModel: NewsModel;
 
   public profileIcons = ecoNewsIcons;
-  public newsImage: string;
 
   public checkNewsImage(): string {
-    this.newsImage =
-      this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' '
-        ? this.ecoNewsModel.imagePath
-        : this.profileIcons.newsDefaultPictureProfile;
-    return this.newsImage;
+    if (this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' ') {
+      return this.ecoNewsModel.imagePath;
+    } else {
+      return this.profileIcons.newsDefaultPictureProfile;
+    }
   }
 }
