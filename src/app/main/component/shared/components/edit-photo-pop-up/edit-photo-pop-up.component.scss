@@ -90,6 +90,10 @@ $secondErrorColor: #b42626;
         height: 40px;
       }
 
+      .primary-global-button.confirm-delete {
+        width: 120px;
+      }
+
       .delete {
         background: transparent;
         border: 1px solid var(--primary-green);

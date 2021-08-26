@@ -61,7 +61,7 @@
   <div *ngIf="isNotification" class="wrapper">
     <p>{{ 'user.edit-profile.notification' | translate }}</p>
     <div class="buttons">
-      <button type="button" class="primary-global-button" (click)="isNotification = false">
+      <button type="button" class="primary-global-button confirm-delete" (click)="isNotification = false">
         {{ 'user.edit-profile.btn.continue' | translate }}
       </button>
       <button type="button" class="secondary-global-button" (click)="deletePhoto()">
