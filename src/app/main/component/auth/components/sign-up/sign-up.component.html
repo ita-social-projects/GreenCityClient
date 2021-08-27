@@ -117,7 +117,7 @@
       formControlName="repeatPassword"
       id="repeatPassword"
       name="form-control password-confirm"
-      (input)="setEmailBackendErr()"
+      (input)="setPasswordBackEndErr()"
       aria-required="true"
       aria-describedby="confirm-err-msg"
       tabindex="0"
@@ -141,7 +141,7 @@
     ></app-error>
   </div>
   <div *ngIf="passwordErrorMessageBackEnd" class="error-message error-message-show">
-    {{ 'user.auth.sign-up.password-symbols-error' | translate }}
+    {{ 'user.auth.sign-up.password-spaces-error' | translate }}
   </div>
   <div class="alert-general-error" *ngIf="backEndError">
     {{ 'user.auth.sign-in.bad-email-or-password' | translate }}
@@ -150,7 +150,9 @@
     type="submit"
     class="primary-global-button"
     role="link"
-    [disabled]="!signUpForm.valid || inputPassword.value !== repeatPassword.value || emailErrorMessageBackEnd"
+    [disabled]="
+      !signUpForm.valid || inputPassword.value !== repeatPassword.value || emailErrorMessageBackEnd || passwordErrorMessageBackEnd
+    "
   >
     <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
     {{ 'user.auth.sign-up.submit' | translate }}

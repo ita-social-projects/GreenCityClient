@@ -19,7 +19,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss'],
+  styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent implements OnInit, OnDestroy {
   public signUpForm: FormGroup;
@@ -45,7 +45,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     name: (error: string) => (this.firstNameErrorMessageBackEnd = error),
     email: (error: string) => (this.emailErrorMessageBackEnd = error),
     password: (error: string) => (this.passwordErrorMessageBackEnd = error),
-    passwordConfirm: (error: string) => (this.passwordConfirmErrorMessageBackEnd = error),
+    passwordConfirm: (error: string) => (this.passwordConfirmErrorMessageBackEnd = error)
   };
   @Output() private pageName = new EventEmitter();
 
@@ -104,6 +104,11 @@ export class SignUpComponent implements OnInit, OnDestroy {
       .catch((errorData) => this.signUpWithGoogleError(errorData));
   }
 
+  public setPasswordBackEndErr(): void {
+    this.passwordErrorMessageBackEnd = null;
+    this.passwordFieldValue = this.passwordControl.value;
+  }
+
   public setEmailBackendErr(): void {
     this.emailErrorMessageBackEnd = null;
     if (this.signUpForm) {
@@ -135,10 +140,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
         email: ['', [Validators.required, Validators.email]],
         firstName: ['', []],
         password: ['', []],
-        repeatPassword: ['', []],
+        repeatPassword: ['', []]
       },
       {
-        validator: [ConfirmPasswordValidator('password', 'repeatPassword'), ValidatorRegExp('firstName'), ValidatorRegExp('password')],
+        validator: [ConfirmPasswordValidator('password', 'repeatPassword'), ValidatorRegExp('firstName'), ValidatorRegExp('password')]
       }
     );
   }
