@@ -41,8 +41,7 @@ export class FormBaseComponent implements ComponentCanDeactivate {
   }
 
   public cancel(): void {
-    const condition = this.checkChanges();
-    this.cancelPopupJustifying(condition);
+    this.cancelPopupJustifying(true);
     localStorage.removeItem('newsTags');
   }
 

@@ -1,25 +1,25 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AdminService {
   static sortColumn = 'email';
   static sortDirection = 'asc';
 
-  get staticSortColumn() {
+  get SortColumn() {
     return AdminService.sortColumn;
   }
 
-  get staticSortDirection() {
-    return AdminService.sortDirection;
-  }
-
-  static set staticSortColumn(sortColumn: string) {
+  set SortColumn(sortColumn: string) {
     AdminService.sortColumn = sortColumn;
   }
 
-  static set staticSortDirection(sortDirection: string) {
+  get SortDirection() {
+    return AdminService.sortDirection;
+  }
+
+  set SortDirection(sortDirection: string) {
     AdminService.sortDirection = sortDirection;
   }
 }
