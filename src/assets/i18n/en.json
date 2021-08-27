@@ -782,7 +782,10 @@
       "habits-acquired": "Acquired",
       "habits": "habits",
       "no-habits-in-progress": "Hi Eco Friend ;-)",
-      "no-habits-in-progress-advice": "Welcome to My Habits. It seems you don’t have habits in progress. Let’s start to acquire a new one!"
+      "no-habits-in-progress-advice": "Welcome to My Habits. It seems you don’t have habits in progress. Let’s start to acquire a new one!",
+      "news-list": "List of news",
+      "news": "news",
+      "add-news": "Add News"
     },
     "habits-in-progress": "In progress",
     "my-Achievements": "My Achievements",
