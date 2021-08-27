@@ -41,11 +41,11 @@
         <p *ngIf="!isWarning">{{ 'user.edit-profile.would-you-like' | translate }}</p>
         <div class="buttons">
           <label
-            #loadImage
+            #changeImage
             tabindex="0"
             class="primary-global-button change"
-            (keyup.enter)="openFilesWindow(loadImage)"
-            (keyup.space)="openFilesWindow(loadImage)"
+            (keyup.enter)="openFilesWindow(changeImage)"
+            (keyup.space)="openFilesWindow(changeImage)"
           >
             {{ 'user.edit-profile.btn.change-photo' | translate }}
             <input type="file" accept=".jpg, .jpeg, .png" (change)="onSelectPhoto($event)" />
