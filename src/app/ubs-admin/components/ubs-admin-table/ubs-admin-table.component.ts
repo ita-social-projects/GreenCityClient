@@ -59,10 +59,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     if (this.headersElements[0] instanceof HTMLElement) {
       this.arrayOfHeaders.forEach((header) => {
         this.headersElements.forEach((headerElement) => {
-          let headerWidth = getComputedStyle(headerElement).width;
-          let className = `mat-column-${header.field}`;
+          const headerWidth = getComputedStyle(headerElement).width;
+          const className = `mat-column-${header.field}`;
           if (headerElement.classList.contains(className)) {
-            let cells = Array.prototype.slice.call(document.querySelectorAll(`mat-cell.${className}`));
+            const cells = Array.prototype.slice.call(document.querySelectorAll(`mat-cell.${className}`));
             cells.forEach((cell) => {
               cell.style.width = headerWidth;
               cell.title = cell.innerText;
