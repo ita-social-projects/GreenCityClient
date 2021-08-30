@@ -7,6 +7,13 @@
     "pattern": "The field contains forbidden characters."
   },
   "order-details": {
+    "location": {
+      "title": "Welcome to UBS! First choose your location:",
+      "btn": {
+        "back": "Back",
+        "continue": "Continue"
+      }
+    },
     "order-title": "Services",
     "order-content": "Please note that the minimum order amount must be 500.00 UAH",
     "service": "Service",

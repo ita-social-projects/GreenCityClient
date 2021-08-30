@@ -15,8 +15,7 @@ export class UbsOrderLocationPopupComponent implements OnInit {
   closeButton = './assets/img/profile/icons/cancel.svg';
   regions: Region[] = [
     { id: 0, value: 'Kyiv' },
-    { id: 1, value: 'Kyiv region' },
-    { id: 2, value: 'Other' }
+    { id: 1, value: 'Kyiv region' }
   ];
   selectedValue: string = this.regions[0].value;
 

@@ -1,22 +1,51 @@
 .dialog-container {
   position: relative;
   width: 464px;
-  height: 318px;
-  font-family: var(--secondary-font);
+  height: 298px;
+  font-family: var(--primary-font);
+  font-weight: bold;
   font-size: larger;
-
-  button {
-    margin: 10px;
-  }
 
   .title {
     margin: 16px;
+    font-weight: bolder;
+  }
+
+  .form {
+    margin: 20px;
+    font-size: 20px;
+
+    .select {
+      margin: 20px;
+      height: 50px;
+      padding: 0 10px;
+    }
+  }
+
+  .close-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
   }
 
   .close-btn {
-    margin: -20px;
     border: none;
     background-color: transparent;
     outline: none;
+  }
+
+  .footer-btns {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 10px;
+
+    button {
+      margin: 0 10px;
+      padding: 8px 24px;
+      border-radius: 4px;
+      width: 9rem;
+      height: 3rem;
+    }
   }
 }
