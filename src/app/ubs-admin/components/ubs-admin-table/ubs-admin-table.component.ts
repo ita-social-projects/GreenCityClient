@@ -54,6 +54,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   setCorrectCellsWidth() {
+    this.changeCellsWidth();
     this.headersElements = Array.prototype.slice.call(document.querySelectorAll('mat-header-cell')).slice(1);
 
     if (this.headersElements[0] instanceof HTMLElement) {
@@ -71,6 +72,18 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         });
       });
     }
+  }
+
+  changeCellsWidth(): void {
+    const cells = ['mat-cell', 'mat-header-cell', 'mat-footer-cell'];
+    cells.forEach((cell) => {
+      const currentCells = Array.prototype.slice.call(document.querySelectorAll(cell));
+      currentCells.forEach((currentCell) => {
+        currentCell.style.display = 'flex';
+        currentCell.style.flex = 'none';
+        currentCell.style.padding = '0px 10px';
+      });
+    });
   }
 
   applyFilter(filterValue: string) {
