@@ -65,6 +65,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
             let cells = Array.prototype.slice.call(document.querySelectorAll(`mat-cell.${className}`));
             cells.forEach((cell) => {
               cell.style.width = headerWidth;
+              cell.title = cell.innerText;
             });
           }
         });
@@ -133,7 +134,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     }
   }
 
-  getTable(columnName = 'orderId', sortingType = 'desc') {
+  getTable(columnName = this.sortingColumn || 'orderid', sortingType = this.sortType || 'desc') {
     this.isLoading = true;
     this.adminTableService
       .getTable(columnName, this.currentPage, this.pageSize, sortingType)
@@ -174,7 +175,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   updateTableData() {
     this.isUpdate = true;
     this.adminTableService
-      .getTable((this.sortingColumn = 'orderid'), this.currentPage, this.pageSize, (this.sortType = 'desc'))
+      .getTable(this.sortingColumn || 'orderid', this.currentPage, this.pageSize, this.sortType || 'desc')
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         const data = item[`page`];
