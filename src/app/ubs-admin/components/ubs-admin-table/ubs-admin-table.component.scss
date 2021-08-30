@@ -1,3 +1,12 @@
+mat-cell,
+mat-footer-cell,
+mat-header-cell {
+  flex: none;
+  display: flex;
+  align-items: center;
+  padding: 0px 10px;
+}
+
 .cdk-drag-preview {
   box-sizing: border-box;
   border-radius: 4px;
@@ -259,7 +268,7 @@ input {
 
 .mat-header-cell .mat-icon {
   padding-top: 5px;
-  padding-left: 20px;
+  padding-left: 10px;
   font-size: 12px;
 
   &:hover {
@@ -282,10 +291,6 @@ input {
   color: var(--ubs-primary-grey);
   display: flex;
   align-items: center;
-}
-
-.ng-star-inserted {
-  padding-left: 0;
 }
 
 .mat-spinner {

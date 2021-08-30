@@ -1,10 +1,9 @@
 import { nonSortableColumns } from './../../models/non-sortable-columns.model';
 import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragStart, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewChecked } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ubsAdminTable } from '../ubs-image-pathes/ubs-admin-table';
@@ -14,9 +13,8 @@ import { ubsAdminTable } from '../ubs-image-pathes/ubs-admin-table';
   templateUrl: './ubs-admin-table.component.html',
   styleUrls: ['./ubs-admin-table.component.scss']
 })
-export class UbsAdminTableComponent implements OnInit, OnDestroy {
+export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestroy {
   nonSortableColumns = nonSortableColumns;
-  translatedHeadersEn;
   sortingColumn: string;
   sortType: string;
   columns: any[] = [];
@@ -29,7 +27,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   responsiblePerson: string[] = [];
   dataSource: MatTableDataSource<any>;
   selection = new SelectionModel<any>(true, []);
-  arrayOfHeaders: string[] = [];
+  arrayOfHeaders = [];
   previousIndex: number;
   isLoading = true;
   isUpdate = false;
@@ -42,23 +40,36 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   currentPage = 0;
   pageSize = 10;
   ubsAdminTableIcons = ubsAdminTable;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-
+  headersElements = [];
   constructor(private adminTableService: AdminTableService) {}
 
   ngOnInit() {
     this.getTable();
-    this.getEnHeaders();
-    console.log(nonSortableColumns);
   }
 
-  getEnHeaders() {
-    this.adminTableService
-      .getEnHeaders()
-      .pipe(takeUntil(this.destroyEnHeaders))
-      .subscribe((item) => {
-        this.translatedHeadersEn = item['orders-table'];
+  ngAfterViewChecked() {
+    if (!this.headersElements.length) {
+      this.setCorrectCellsWidth();
+    }
+  }
+
+  setCorrectCellsWidth() {
+    this.headersElements = Array.prototype.slice.call(document.querySelectorAll('mat-header-cell')).slice(1);
+
+    if (this.headersElements[0] instanceof HTMLElement) {
+      this.arrayOfHeaders.forEach((header) => {
+        this.headersElements.forEach((headerElement) => {
+          let headerWidth = getComputedStyle(headerElement).width;
+          let className = `mat-column-${header.field}`;
+          if (headerElement.classList.contains(className)) {
+            let cells = Array.prototype.slice.call(document.querySelectorAll(`mat-cell.${className}`));
+            cells.forEach((cell) => {
+              cell.style.width = headerWidth;
+            });
+          }
+        });
       });
+    }
   }
 
   applyFilter(filterValue: string) {
@@ -152,6 +163,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
         this.sertificate = dynamicallyColumns.slice(18, 22);
         this.detailsOfExport = dynamicallyColumns.slice(22, 27);
         this.responsiblePerson = dynamicallyColumns.slice(27, 33);
+        this.setCorrectCellsWidth();
       });
   }
 
@@ -162,7 +174,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   updateTableData() {
     this.isUpdate = true;
     this.adminTableService
-      .getTable(this.sortingColumn, this.currentPage, this.pageSize, this.sortType)
+      .getTable((this.sortingColumn = 'orderid'), this.currentPage, this.pageSize, (this.sortType = 'desc'))
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         const data = item[`page`];
@@ -170,6 +182,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
         this.tableData = [...this.tableData, ...data];
         this.dataSource.data = this.tableData;
         this.isUpdate = false;
+        this.setCorrectCellsWidth();
       });
   }
 

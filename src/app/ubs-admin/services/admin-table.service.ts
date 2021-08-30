@@ -12,8 +12,4 @@ export class AdminTableService {
   getTable(columnName?: string, page?: number, size?: number, sortingType?: string) {
     return this.http.get<any[]>(`${this.url}?columnName=${columnName}&page=${page}&size=${size}&sortingType=${sortingType}`);
   }
-
-  getEnHeaders() {
-    return this.http.get<any[]>(`${this.backendEn}`);
-  }
 }
