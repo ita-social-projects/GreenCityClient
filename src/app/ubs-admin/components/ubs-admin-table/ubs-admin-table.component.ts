@@ -1,12 +1,13 @@
 import { nonSortableColumns } from './../../models/non-sortable-columns.model';
 import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragStart, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit, OnDestroy, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewChecked, ViewChild } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ubsAdminTable } from '../ubs-image-pathes/ubs-admin-table';
+import { MatSort } from '@angular/material';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -41,6 +42,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   pageSize = 10;
   ubsAdminTableIcons = ubsAdminTable;
   headersElements = [];
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+
   constructor(private adminTableService: AdminTableService) {}
 
   ngOnInit() {
