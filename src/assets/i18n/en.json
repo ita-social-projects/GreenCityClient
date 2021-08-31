@@ -123,7 +123,7 @@
       "see-all-results": "See all results"
     },
     "search-not-found": {
-      "not-found-text": "We couldn't find results for '{{searchQuery}}' Please change the search.",
+      "not-found-text": "We couldn't find results for '{{searchQuery}}'. Please change the search.",
       "choose-alternative": "Maybe you can find some interesting stuff here:",
       "alternative-header-news": "News",
       "alternative-description-news": "Find the latest news, events and initiatives here. Find news and create ones.",
