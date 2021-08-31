@@ -11,6 +11,7 @@ import { backendMockSearchAll, backendMockSearchNews } from 'src/assets/mocks/se
   providedIn: 'root'
 })
 export class SearchService {
+  private searchUrl = 'https://greencity.azurewebsites.net';
   private apiUrl = 'http://localhost:3000';
   private backEndLink = environment.backendLink;
   private allElemsSubj = new Subject<any>();
@@ -18,8 +19,10 @@ export class SearchService {
   public allSearchSubject = new Subject<boolean>();
   public allElements: SearchDto;
 
+  //backendMockSearchAll
+  //`${this.searchUrl}/search?lang=${lang}&searchQuery=${searchQuery}`
   public getAllResults(searchQuery: string, lang: string): Observable<SearchModel> {
-    return this.http.get<SearchModel>(backendMockSearchAll);
+    return this.http.get<SearchModel>(`${this.searchUrl}/search?lang=${lang}&searchQuery=${searchQuery}`);
   }
 
   public getAllResultsByCat(
