@@ -48,14 +48,14 @@ describe('PersonalPhotoComponent', () => {
     it('Should set user data', () => {
       const userData = {
         profilePicturePath: 'test',
-        firstName: 'test'
+        name: 'test'
       };
       // @ts-ignore
       spyOn(component.profileService, 'getUserInfo').and.returnValue(of(userData));
       // @ts-ignore
       component.setUserAvatar();
 
-      expect(component.userName).toBe(userData.firstName);
+      expect(component.userName).toBe(userData.name);
     });
 
     it('Should set user data', () => {
