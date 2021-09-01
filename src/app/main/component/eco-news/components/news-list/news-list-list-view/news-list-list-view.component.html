@@ -21,7 +21,7 @@
     <div class="eco-news_list-autors">
       <p class="eco-news_data-text-date">
         <img class="icon" [src]="profileIcons.calendarIcon" alt="calendar icon" />
-        {{ ecoNewsModel.creationDate | date }}
+        {{ ecoNewsModel.creationDate | date: undefined:undefined:translate.defaultLang }}
       </p>
       <p>
         <img class="icon" [src]="profileIcons.userIcon" alt="user icon" />
