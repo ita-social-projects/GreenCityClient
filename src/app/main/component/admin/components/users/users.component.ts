@@ -2,11 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserForListDtoModel } from '../../../../model/user/user-for-list-dto.model';
 import { UserService } from '../../../../service/user/user.service';
 import { DomSanitizer, Title } from '@angular/platform-browser';
-import { MatIconRegistry, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PaginationComponent } from 'ngx-bootstrap/pagination';
 import { JwtService } from '../../../../service/jwt/jwt.service';
 import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { MatIconRegistry } from '@angular/material/icon';
 
 export interface Role {
   value: string;

@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatSnackBarModule } from '@angular/material';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FriendModel } from '@global-user/models/friend.model';
@@ -22,7 +22,7 @@ describe('RecommendedFriendsComponent', () => {
     id: 1,
     name: 'Name',
     profilePicture: '',
-    added: false,
+    added: false
   };
 
   const userFriends = {
@@ -37,7 +37,7 @@ describe('RecommendedFriendsComponent', () => {
         added: true,
         rating: 380,
         city: 'Lviv',
-        mutualFriends: 5,
+        mutualFriends: 5
       },
       {
         id: 2,
@@ -46,9 +46,9 @@ describe('RecommendedFriendsComponent', () => {
         added: true,
         rating: 380,
         city: 'Lviv',
-        mutualFriends: 5,
-      },
-    ],
+        mutualFriends: 5
+      }
+    ]
   };
   const userFriendsArray: FriendModel[] = [
     {
@@ -58,7 +58,7 @@ describe('RecommendedFriendsComponent', () => {
       added: true,
       rating: 380,
       city: 'Lviv',
-      mutualFriends: 5,
+      mutualFriends: 5
     },
     {
       id: 2,
@@ -67,8 +67,8 @@ describe('RecommendedFriendsComponent', () => {
       added: true,
       rating: 380,
       city: 'Lviv',
-      mutualFriends: 5,
-    },
+      mutualFriends: 5
+    }
   ];
   userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getRecommendedFriends', 'deleteFriend', 'addFriend']);
   userFriendsServiceMock.getRecommendedFriends = () => of(userFriends);
@@ -80,10 +80,10 @@ describe('RecommendedFriendsComponent', () => {
       declarations: [RecommendedFriendsComponent],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: UserFriendsService, useValue: userFriendsServiceMock },
+        { provide: UserFriendsService, useValue: userFriendsServiceMock }
       ],
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule.withRoutes([]), MatSnackBarModule],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 
@@ -111,7 +111,7 @@ describe('RecommendedFriendsComponent', () => {
     expect(initUserSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('should get a user\'s friends', () => {
+  it("should get a user's friends", () => {
     const getRecommendedFriendsSpy = spyOn(component as any, 'getRecommendedFriends');
     component.ngOnInit();
     expect(getRecommendedFriendsSpy).toHaveBeenCalledTimes(1);

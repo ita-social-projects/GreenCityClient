@@ -2,7 +2,6 @@ import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
 import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
 import { SignInIcons } from './../../../../image-pathes/sign-in-icons';
 import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material';
 import { AbstractControl, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
@@ -14,6 +13,7 @@ import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
 import { RestorePasswordService } from '@auth-service/restore-password.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-restore-password',
