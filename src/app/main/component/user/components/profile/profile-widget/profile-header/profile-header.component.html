@@ -13,7 +13,7 @@
     <p class="name">
       {{ userInfo.firstName }}
     </p>
-    <p class="location">
+    <p class="location" *ngIf="userInfo.showLocation">
       {{ userInfo.city || mockedUserInfo.city }}
     </p>
     <div class="online">
@@ -22,7 +22,7 @@
     <div class="rate">
       <p>{{ 'profile.rate' | translate }}: {{ userInfo.rating || mockedUserInfo.rating }}</p>
     </div>
-    <div *ngIf="checkUserCredo" class="credo">{{ userInfo.userCredo || mockedUserInfo.userCredo }} </div>
+    <div *ngIf="checkUserCredo" class="credo">{{ userInfo.userCredo || mockedUserInfo.userCredo }}</div>
     <div class="social" *ngIf="userSocialNetworks">
       <a *ngFor="let item of userSocialNetworks" [href]="item.link">
         <div [class]="item.name"></div>
