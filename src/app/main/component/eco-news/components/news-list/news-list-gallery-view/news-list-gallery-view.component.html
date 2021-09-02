@@ -3,7 +3,7 @@
   <div class="list-gallery-content">
     <div class="filter-tag">
       <div class="ul-eco-buttons" *ngFor="let tag of ecoNewsModel.tags">
-        {{ tag }}
+        {{ 'homepage.eco-news.tags.' + tag.toLowerCase() | translate }}
       </div>
     </div>
     <div class="added-data">
