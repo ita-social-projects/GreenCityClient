@@ -1,7 +1,7 @@
 <div *ngIf="translate.defaultLang === 'en'; else otherLanguages">
   <h2>
     {{ remainingCount }}
-    {{ remainingCount === 1 ? 'homepage.eco-news.items-found.item-at-1' : ('homepage.eco-news.items-found.item-at-all' | translate) }}
+    {{ (remainingCount === 1 ? 'homepage.eco-news.items-found.item-at-1' : 'homepage.eco-news.items-found.item-at-all') | translate }}
   </h2>
 </div>
 <ng-template #otherLanguages>
