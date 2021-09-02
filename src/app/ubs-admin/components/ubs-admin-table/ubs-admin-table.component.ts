@@ -1,3 +1,4 @@
+import { LanguageService } from 'src/app/main/i18n/language.service';
 import { nonSortableColumns } from './../../models/non-sortable-columns.model';
 import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragStart, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
@@ -45,9 +46,14 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private adminTableService: AdminTableService) {}
+  // constructor(private adminTableService: AdminTableService, private translate: LanguageService) {
+  // }
 
   ngOnInit() {
     this.getTable();
+    // this.translate.languageChanged.subscribe(() => {
+    //   this.setCorrectCellsWidth();
+    // });
   }
 
   ngAfterViewChecked() {
@@ -63,9 +69,9 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     if (this.headersElements[0] instanceof HTMLElement) {
       this.arrayOfHeaders.forEach((header) => {
         this.headersElements.forEach((headerElement) => {
-          const headerWidth = getComputedStyle(headerElement).width;
           const className = `mat-column-${header.field}`;
           if (headerElement.classList.contains(className)) {
+            const headerWidth = getComputedStyle(headerElement).width;
             const cells = Array.prototype.slice.call(document.querySelectorAll(`mat-cell.${className}`));
             cells.forEach((cell) => {
               cell.style.width = headerWidth;
@@ -207,6 +213,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.sortingColumn = columnName;
     this.sortType = sortingType;
     this.arrowDirection = this.arrowDirection === columnName ? null : columnName;
+    this.currentPage = 0;
     this.getTable(columnName, sortingType);
   }
 
