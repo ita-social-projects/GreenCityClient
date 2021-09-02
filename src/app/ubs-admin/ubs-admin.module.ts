@@ -38,11 +38,13 @@ import { AddViolationsComponent } from './components/add-violations/add-violatio
 import { UbsAdminCancelModalComponent } from './components/ubs-admin-cancel-modal/ubs-admin-cancel-modal.component';
 import { UbsAdminGoBackModalComponent } from './components/ubs-admin-go-back-modal/ubs-admin-go-back-modal.component';
 import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-client-bonuses.component';
+import { UbsAdminTableExcelPopupComponent } from './components/ubs-admin-table/ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 
 @NgModule({
   declarations: [
     PaginationComponent,
     UbsAdminTableComponent,
+    UbsAdminTableExcelPopupComponent,
     UbsBaseSidebarComponent,
     UbsAdminSidebarComponent,
     UbsHeaderComponent,
@@ -65,7 +67,8 @@ import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-c
     AddViolationsComponent,
     UbsAdminCancelModalComponent,
     UbsAdminGoBackModalComponent,
-    UbsClientBonusesComponent
+    UbsClientBonusesComponent,
+    UbsAdminTableExcelPopupComponent
   ],
   imports: [
     CommonModule,

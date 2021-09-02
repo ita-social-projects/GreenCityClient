@@ -1,3 +1,5 @@
+import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
+import { MatDialog } from '@angular/material/dialog';
 import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragStart, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -38,7 +40,7 @@ export class UbsAdminTableComponent implements OnInit {
   ubsAdminTableIcons = ubsAdminTable;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private adminTableService: AdminTableService) {}
+  constructor(private adminTableService: AdminTableService, public dialog: MatDialog) {}
 
   ngOnInit() {
     this.getTable();
@@ -163,6 +165,10 @@ export class UbsAdminTableComponent implements OnInit {
 
   selectPageSize(value: number) {
     this.pageSize = value;
+  }
+
+  openExportExcel(): void {
+    this.dialog.open(UbsAdminTableExcelPopupComponent);
   }
 
   onScroll() {
