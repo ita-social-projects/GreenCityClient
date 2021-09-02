@@ -1,9 +1,11 @@
+<!-- declension of words for singular and plural for en  -->
 <div *ngIf="translate.defaultLang === 'en'; else otherLanguages">
   <h2>
     {{ remainingCount }}
     {{ (remainingCount === 1 ? 'homepage.eco-news.items-found.item-at-1' : 'homepage.eco-news.items-found.item-at-all') | translate }}
   </h2>
 </div>
+<!-- declension of words for singular and plural for other languages (ua, ru) -->
 <ng-template #otherLanguages>
   <div [ngSwitch]="true">
     <h2 *ngSwitchCase="(remainingCount + '' | slice: -1) === '1' && (remainingCount + '' | slice: -2) !== '11'">
