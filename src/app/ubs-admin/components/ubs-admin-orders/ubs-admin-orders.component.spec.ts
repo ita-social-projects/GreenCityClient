@@ -4,7 +4,7 @@ import { UbsAdminOrdersComponent } from './ubs-admin-orders.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
-fdescribe('UbsAdminOrdersComponent', () => {
+describe('UbsAdminOrdersComponent', () => {
   let component: UbsAdminOrdersComponent;
   let fixture: ComponentFixture<UbsAdminOrdersComponent>;
 
