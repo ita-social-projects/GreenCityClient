@@ -173,6 +173,38 @@
     "disagree": "No",
     "agree": "Yes"
   },
+  "user-orders": {
+    "no-orders": "You haven't made any orders with us yet.",
+    "make-order": "Make an order",
+    "order-title": "Your orders",
+    "order-number": "Order №",
+    "order-status": "Status",
+    "payment-amount": "Payment amount",
+    "btn": {
+      "cancel": "Cancel",
+      "pay": "Pay",
+      "order-again": "Order again"
+    },
+    "details": {
+      "title": "Order details",
+      "services": "Services",
+      "volume": "Volume",
+      "cost": "Cost",
+      "bags-amount": "Quantity of bags",
+      "sum": "Sum",
+      "order-sum": "Order amount:",
+      "certificate": "Certificate:",
+      "bonuses": "Bonuses:",
+      "amount-due": "Amount due:",
+      "services-amount": "Amount of services provided:",
+      "delivery": "Delivery from the Eco store",
+      "order-number": "Numbers of your orders:",
+      "recipient": "Recipient",
+      "export-address": "The address of export of the ordered services",
+      "comment": "Comment:",
+      "receipt": "Download the receipt"
+    }
+  },
   "ubs-sidebar": {
     "users": "Users",
     "certificates": "Certificates",
