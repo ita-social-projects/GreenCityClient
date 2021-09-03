@@ -19,7 +19,7 @@ import { ProfileService } from '../../../user/components/profile/profile-service
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.scss'],
+  styleUrls: ['./sign-in.component.scss']
 })
 export class SignInComponent implements OnInit, OnDestroy {
   public closeBtn = SignInIcons;
@@ -59,7 +59,7 @@ export class SignInComponent implements OnInit, OnDestroy {
     // Initialization of reactive form
     this.signInForm = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email]),
-      password: new FormControl(null, [Validators.required, Validators.minLength(8)]),
+      password: new FormControl(null, [Validators.required, Validators.minLength(8)])
     });
     // Get form fields to use it in the template
     this.emailField = this.signInForm.get('email');
@@ -128,7 +128,7 @@ export class SignInComponent implements OnInit, OnDestroy {
           .getUserInfo()
           .pipe(take(1))
           .subscribe((item) => {
-            this.localStorageService.setFirstName(item.firstName);
+            this.localStorageService.setFirstName(item.name);
           });
       })
       .catch((fail) => console.log('redirect has failed ' + fail));
