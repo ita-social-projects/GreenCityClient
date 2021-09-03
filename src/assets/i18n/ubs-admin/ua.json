@@ -166,12 +166,23 @@
     "disagree": "Ні",
     "agree": "Так"
   },
+  "bonuses": {
+    "no-bonuses": "Вам ще не нараховано бонусів.",
+    "get-bonuses": "Дізнатись, за що нараховуються бонуси",
+    "title": "Бонуси",
+    "about-bonuses-system": "Про систему бонусів",
+    "enrollment-date": "Дата зарахування",
+    "amount": "Кількість",
+    "reason": "Причина",
+    "order": "Замовлення"
+  },
   "ubs-sidebar": {
     "users": "Користувачі",
     "certificates": "Сертифікати",
     "orders": "Замовлення",
     "employees": "Працівники",
     "documents": "Документи",
-    "schedule": "Графік"
+    "schedule": "Графік",
+    "bonuses": "Бонуси"
   }
 }
