@@ -198,6 +198,27 @@
       "receipt": "Завантажити квитанцію"
     }
   },
+  "employees": {
+    "title": "Працівники",
+    "required-fields": "*Обов'язкові поля",
+    "name": "Ім'я*",
+    "name-placeholder": "Ім'я",
+    "surname": "Прізвище*",
+    "surname-placeholder": "Прізвище",
+    "phone-number": "Номер телефону*",
+    "position": "Посада*",
+    "receiving-station": "Станція приймання*",
+    "photo": "Фото",
+    "drag-photo": "Перетягніть зображення, або",
+    "download-photo": "завантажте з пристрою",
+    "btn": {
+      "cancel": "Скасувати",
+      "add": "Додати",
+      "add-employee": "Додати працівника",
+      "edit": "Редагувати",
+      "delete": "Видалити"
+    }
+  },
   "ubs-sidebar": {
     "users": "Користувачі",
     "certificates": "Сертифікати",

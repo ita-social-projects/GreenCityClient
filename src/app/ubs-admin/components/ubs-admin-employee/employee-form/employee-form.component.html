@@ -1,25 +1,25 @@
-<h1>Додати працівника</h1>
+<h2>{{ 'employees.add-employee' | translate }}</h2>
 <form [formGroup]="employeeForm" (ngSubmit)="submit()">
   <div class="form-group">
-    <h6>*Обов'язкові поля</h6>
+    <h6>{{ 'employees.required-fields' | translate }}</h6>
   </div>
   <div class="form-group">
-    <label for="name">Ім'я*</label>
-    <input formControlName="firstName" placeholder="First name" />
+    <label for="name">{{ 'employees.name' | translate }}</label>
+    <input formControlName="firstName" placeholder="{{ 'employees.name-placeholder' | translate }}" />
   </div>
   <div class="form-group">
-    <label>Прізвище*</label>
-    <input formControlName="lastName" placeholder="Last name" />
+    <label>{{ 'employees.surname' | translate }}</label>
+    <input formControlName="lastName" placeholder="{{ 'employees.surname-placeholder' | translate }}" />
   </div>
   <div class="form-group">
-    <label>Номер телефону*</label>
+    <label>{{ 'employees.phone-number' | translate }}</label>
     <input formControlName="phoneNumber" placeholder="+380" />
   </div>
   <div class="form-group">
     <label>Email</label>
-    <input formControlName="email" placeholder="Email" />
+    <input formControlName="email" />
   </div>
-  <label>Посада*</label>
+  <label>{{ 'employees.position' | translate }}</label>
   <div class="checkbox-section-role">
     <div *ngFor="let role of roles">
       <label class="checkbox-label"
@@ -27,7 +27,7 @@
       /></label>
     </div>
   </div>
-  <label>Станція приймання*</label>
+  <label>{{ 'employees.receiving-station' | translate }}</label>
   <div class="checkbox-section-stantion">
     <div *ngFor="let location of locations">
       <label class="checkbox-label-station"
@@ -36,7 +36,7 @@
       /></label>
     </div>
   </div>
-  <label class="photo-label">Фото</label>
+  <label class="photo-label">{{ 'employees.photo' | translate }}</label>
   <div class="custom-file-upload">
     <div *ngIf="filePath && filePath !== ''">
       <img [src]="filePath" [alt]="employeeForm.value.name" />
@@ -48,10 +48,12 @@
         <img src="../../../../../assets/ubs-employee-form/dismiss.svg" alt="dismiss button" />
       </button>
     </div>
-    <div class="upload-text" *ngIf="!uploaded">Перетягніть зображення, або <a (click)="fileUpload.click()">завантажте з пристрою</a></div>
+    <div class="upload-text" *ngIf="!uploaded">
+      {{ 'employees.drag-photo' | translate }} <a (click)="fileUpload.click()">{{ 'employees.download-photo' | translate }}</a>
+    </div>
   </div>
   <div class="button-row">
-    <button mat-dialog-close class="cancelButton">Скасувати</button>
-    <button type="submit" class="addButton">Додати</button>
+    <button mat-dialog-close class="cancelButton">{{ 'employees.btn.cancel' | translate }}</button>
+    <button type="submit" class="addButton">{{ 'employees.btn.add' | translate }}</button>
   </div>
 </form>

@@ -205,6 +205,28 @@
       "receipt": "Download the receipt"
     }
   },
+  "employees": {
+    "title": "Employees",
+    "add-employee": "Add employee",
+    "required-fields": "*Required-fields",
+    "name": "First name*",
+    "name-placeholder": "First name",
+    "surname": "Last name*",
+    "surname-placeholder": "Last name",
+    "phone-number": "Phone number*",
+    "position": "Position*",
+    "receiving-station": "Receiving station*",
+    "photo": "Photo",
+    "drag-photo": "Drag the image or",
+    "download-photo": "download from the device",
+    "btn": {
+      "cancel": "Cancel",
+      "add": "Add",
+      "add-employee": "Add employee",
+      "edit": "Edit",
+      "delete": "Delete"
+    }
+  },
   "ubs-sidebar": {
     "users": "Users",
     "certificates": "Certificates",
