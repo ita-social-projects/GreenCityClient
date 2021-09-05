@@ -19,7 +19,7 @@ export class OrderService {
 
   getOrders(lang): Observable<OrderDetails> {
     return this.http
-      .get<OrderDetails>(`${this.url}/order-details?lang=${lang}`)
+      .get<OrderDetails>(`${this.url}/order-details-test?lang=${lang}`)
       .pipe(tap((orderDetails) => (this.shareFormService.orderDetails = orderDetails)));
   }
 
@@ -54,5 +54,13 @@ export class OrderService {
 
   getOrderUrl(): Observable<Order> {
     return this.processOrder(this.orderSubject.getValue());
+  }
+
+  getLocations() {
+    return this.http.get(`${this.url}/order/get-locations`);
+  }
+
+  addLocation(location) {
+    return this.http.post(`${this.url}/order/get-locations`, location);
   }
 }

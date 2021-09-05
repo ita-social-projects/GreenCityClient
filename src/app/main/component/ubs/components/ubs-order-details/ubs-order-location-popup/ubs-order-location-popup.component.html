@@ -7,13 +7,16 @@
   <div>
     <h4 class="title">{{ 'order-details.location.title' | translate }}</h4>
   </div>
-  <form class="form">
-    <select [(ngModel)]="selectedValue" name="region" class="select form-select form-select-lg">
-      <option [value]="region.value" *ngFor="let region of regions">
-        {{ region.value }}
+  <form *ngIf="!isFetching; else spinner" class="form">
+    <select [(ngModel)]="selectedLocationId" name="region" class="select form-select form-select-lg">
+      <option [ngValue]="location.id" *ngFor="let location of locations">
+        {{ location.name }}
       </option>
     </select>
   </form>
+  <ng-template #spinner>
+    <app-spinner class="mx-auto"></app-spinner>
+  </ng-template>
   <mat-dialog-actions class="footer-btns" align="end">
     <button class="btn secondary-global-button" mat-dialog-close (click)="redirectToMain()">
       {{ 'order-details.location.btn.back' | translate }}

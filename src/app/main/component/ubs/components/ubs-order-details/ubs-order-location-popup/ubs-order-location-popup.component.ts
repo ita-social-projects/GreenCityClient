@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
-interface Region {
-  id: number;
-  value: string;
-}
+import { Locations } from '../../../models/ubs.interface';
+import { OrderService } from '../../../services/order.service';
 
 @Component({
   selector: 'app-ubs-order-location-popup',
@@ -13,21 +10,36 @@ interface Region {
 })
 export class UbsOrderLocationPopupComponent implements OnInit {
   closeButton = './assets/img/profile/icons/cancel.svg';
-  regions: Region[] = [
-    { id: 0, value: 'Kyiv' },
-    { id: 1, value: 'Kyiv region' }
-  ];
-  selectedValue: string = this.regions[0].value;
+  locations: Locations;
+  selectedLocationId;
 
-  constructor(private router: Router) {}
+  isFetching = false;
 
-  ngOnInit(): void {}
+  constructor(private router: Router, private orderService: OrderService) {}
+
+  ngOnInit(): void {
+    this.getLocations();
+  }
 
   redirectToMain() {
     this.router.navigate(['ubs']);
   }
 
+  getLocations() {
+    this.isFetching = true;
+    this.orderService.getLocations().subscribe((res: Locations) => {
+      this.locations = res;
+      console.log(this.locations);
+      this.selectedLocationId = this.locations[0].id;
+      console.log(this.selectedLocationId);
+
+      this.isFetching = false;
+    });
+  }
+
   saveLocation() {
-    console.log(this.selectedValue);
+    const selectedLocation = { locationId: this.selectedLocationId };
+    this.orderService.addLocation(selectedLocation).subscribe();
+    console.log(selectedLocation);
   }
 }

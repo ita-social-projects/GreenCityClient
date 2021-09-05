@@ -69,3 +69,8 @@ export interface Address {
   longitude?: number;
   latitude?: number;
 }
+
+export interface Locations {
+  id: number;
+  name: string;
+}
