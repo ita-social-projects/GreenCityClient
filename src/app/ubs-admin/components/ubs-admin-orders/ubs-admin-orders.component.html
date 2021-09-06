@@ -42,26 +42,12 @@
             <th>Кількість пакетів</th>
             <th>Сума</th>
           </tr>
-          <tr class="data_table">
-            <td>Вторсировина</td>
-            <td>120 л</td>
-            <td>200 грн</td>
-            <td>1 шт</td>
-            <td>200 грн</td>
-          </tr>
-          <tr class="data_table">
-            <td>Безнадійний одяг</td>
-            <td>120 л</td>
-            <td>300 грн</td>
-            <td>1 шт</td>
-            <td>300 грн</td>
-          </tr>
-          <tr class="data_table">
-            <td>Безнадійний одяг</td>
-            <td>20 л</td>
-            <td>50 грн</td>
-            <td>2 шт</td>
-            <td>100 грн</td>
+          <tr *ngFor="let order of orders" class="data_table">
+            <td>{{ order.name }}</td>
+            <td>{{ order.capacity }} л</td>
+            <td>{{ order.price }} грн</td>
+            <td>шт</td>
+            <td>грн</td>
           </tr>
           <tr>
             <td></td>
