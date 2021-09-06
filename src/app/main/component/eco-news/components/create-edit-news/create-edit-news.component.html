@@ -13,9 +13,10 @@
               <label>
                 <h3>{{ 'create-news.news-title' | translate }}</h3>
                 <textarea
+                  maxlength="170"
                   placeholder="{{ 'create-news.title-placeholder' | translate }}"
                   formControlName="title"
-                  (input)="autoResize($event)"
+                  (keyup)="autoResize('1', $event)"
                 ></textarea>
                 <span>{{ 'create-news.title-tooltip' | translate }}</span>
               </label>
@@ -59,10 +60,11 @@
         <div class="textarea-wrapper">
           <h3 class="textarea-title">{{ 'create-news.content-title' | translate }}</h3>
           <textarea
+            minlength="20"
             name="main-area"
             placeholder="{{ 'create-news.content-placeholder' | translate }}"
             formControlName="content"
-            (input)="autoResize($event)"
+            (keyup)="autoResize('2', $event)"
           ></textarea>
           <p class="textarea-description">{{ 'create-news.content-tooltip' | translate }}</p>
         </div>

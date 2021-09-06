@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
-import { FormArray, FormGroup, FormControl } from '@angular/forms';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { takeUntil, catchError, take, filter } from 'rxjs/operators';
+import { catchError, take, takeUntil } from 'rxjs/operators';
 import { QueryParams, TextAreasHeight } from '../../models/create-news-interface';
 import { EcoNewsService } from '../../services/eco-news.service';
-import { Subscription, ReplaySubject, throwError } from 'rxjs';
+import { ReplaySubject, Subscription, throwError } from 'rxjs';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
 import { FilterModel } from '@eco-news-models/create-news-interface';
@@ -166,15 +166,19 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     });
   }
 
-  public autoResize(event): void {
-    const checkTextAreaHeight =
-      event.target.scrollHeight > this.textAreasHeight.minTextAreaScrollHeight &&
-      event.target.scrollHeight < this.textAreasHeight.maxTextAreaScrollHeight;
-    const maxHeight = checkTextAreaHeight
-      ? this.textAreasHeight.maxTextAreaHeight
-      : event.target.scrollHeight < this.textAreasHeight.minTextAreaScrollHeight;
-    const minHeight = checkTextAreaHeight ? this.textAreasHeight.minTextAreaHeight : `${event.target.scrollHeight}px`;
-    event.target.style.height = checkTextAreaHeight ? maxHeight : minHeight;
+  public autoResize(textarea: string, e: any) {
+    switch (textarea) {
+      case '1':
+        e.target.style.height = '0px';
+        e.target.style.height = e.target.scrollHeight + 'px';
+        break;
+      case '2':
+        e.target.style.height = '131px';
+        e.target.style.height = e.target.scrollHeight + 'px';
+        break;
+      default:
+        break;
+    }
   }
 
   public onSourceChange(): void {
@@ -238,7 +242,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
   private filterArr = (item: FilterModel, index: number) => {
     return [...this.filters.slice(0, index), item, ...this.filters.slice(index + 1)];
-  }
+  };
 
   public setActiveFilters(itemToUpdate: EcoNewsModel): void {
     if (itemToUpdate.tags.length) {
