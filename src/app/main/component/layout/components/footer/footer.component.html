@@ -22,8 +22,8 @@
             {{ 'user.footer.map' | translate }}
           </a>
         </li>
-        <li (click)="setUbsRegistration('false')">
-          <a [routerLink]="['/about']" class="footer_link-item">
+        <li>
+          <a [routerLink]="['/about']" (click)="setUbsRegistration('false')" class="footer_link-item">
             {{ 'user.footer.about-us' | translate }}
           </a>
         </li>
