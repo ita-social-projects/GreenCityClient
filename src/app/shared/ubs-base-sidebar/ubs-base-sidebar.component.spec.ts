@@ -7,7 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { SharedModule } from '../../../app/shared/shared.module';
 import { UbsAdminTableComponent } from '../../ubs-admin/components/ubs-admin-table/ubs-admin-table.component';
-import { UbsHeaderComponent } from '../../ubs-admin/components/ubs-header/ubs-header.component';
+import { UbsHeaderComponent } from '../ubs-header/ubs-header.component';
 
 import { UbsBaseSidebarComponent } from './ubs-base-sidebar.component';
 

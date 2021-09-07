@@ -10,6 +10,7 @@ import { PhoneNumberTreatPipe } from './phone-number-treat/phone-number-treat.pi
 import { UbsBaseSidebarComponent } from './ubs-base-sidebar/ubs-base-sidebar.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
+import { UbsHeaderComponent } from './ubs-header/ubs-header.component';
 
 @NgModule({
   exports: [
@@ -19,7 +20,8 @@ import { RouterModule } from '@angular/router';
     VolumePipe,
     CloseDropdownDirective,
     PhoneNumberTreatPipe,
-    UbsBaseSidebarComponent
+    UbsBaseSidebarComponent,
+    UbsHeaderComponent
   ],
   declarations: [
     SpinnerComponent,
@@ -28,7 +30,8 @@ import { RouterModule } from '@angular/router';
     VolumePipe,
     CloseDropdownDirective,
     PhoneNumberTreatPipe,
-    UbsBaseSidebarComponent
+    UbsBaseSidebarComponent,
+    UbsHeaderComponent
   ],
   imports: [CommonModule, MaterialModule, TranslateModule, RouterModule]
 })

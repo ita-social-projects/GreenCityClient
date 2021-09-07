@@ -12,7 +12,6 @@ import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-transla
 import { MaterialModule } from '../material.module';
 import { IMaskModule } from 'angular-imask';
 import { SharedModule } from '../shared/shared.module';
-import { UbsHeaderComponent } from './components/ubs-header/ubs-header.component';
 import { UbsAdminComponent } from './ubs-admin.component';
 import { UbsAdminOrdersComponent } from './components/ubs-admin-orders/ubs-admin-orders.component';
 import { UbsAdminEmployeeComponent } from './components/ubs-admin-employee/ubs-admin-employee.component';
@@ -43,7 +42,6 @@ import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-c
     PaginationComponent,
     UbsAdminTableComponent,
     UbsAdminSidebarComponent,
-    UbsHeaderComponent,
     UbsAdminComponent,
     UbsAdminEmployeeComponent,
     UbsAdminEmployeeCardComponent,

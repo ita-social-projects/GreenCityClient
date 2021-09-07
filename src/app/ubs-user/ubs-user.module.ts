@@ -1,16 +1,12 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UbsBaseSidebarComponent } from '../shared/ubs-base-sidebar/ubs-base-sidebar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { MaterialModule } from '../material.module';
 import { IMaskModule } from 'angular-imask';
 import { SharedModule } from '../shared/shared.module';
-import { UbsHeaderComponent } from '../ubs-admin/components/ubs-header/ubs-header.component';
 import { PaginationComponent } from '../ubs-admin/components/shared/components/pagination/pagination.component';
 import { EmployeeFormComponent } from '../ubs-admin/components/ubs-admin-employee/employee-form/employee-form.component';
 import { UbsClientProfilePageComponent } from '../ubs-admin/components/ubs-client-profile-page/ubs-client-profile-page.component';
@@ -29,9 +25,7 @@ import { UbsUserSidebarComponent } from './ubs-user-sidebar/ubs-user-sidebar.com
   declarations: [
     UbsUserSidebarComponent,
     UbsUserComponent
-    // UbsBaseSidebarComponent,
     // PaginationComponent,
-    // UbsHeaderComponent,
     // EmployeeFormComponent,
     // UbsClientProfilePageComponent,
     // UbsProfileChangePasswordPopUpComponent,
@@ -40,11 +34,8 @@ import { UbsUserSidebarComponent } from './ubs-user-sidebar/ubs-user-sidebar.com
     // UbsClientBonusesComponent
   ],
   imports: [
-    CommonModule,
     UbsUserRoutingModule,
-    // RouterModule,
     // NgxPaginationModule,
-    // MaterialModule,
     SharedModule,
     // IMaskModule,
     // HttpClientModule,
