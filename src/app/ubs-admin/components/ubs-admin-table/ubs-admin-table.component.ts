@@ -1,5 +1,5 @@
 import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragStart, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -168,7 +168,10 @@ export class UbsAdminTableComponent implements OnInit {
   }
 
   openExportExcel(): void {
-    this.dialog.open(UbsAdminTableExcelPopupComponent);
+    const dialogConfig = new MatDialogConfig();
+    // dialogConfig.panelClass = 'address-matDialog-styles';
+    const dialogRef = this.dialog.open(UbsAdminTableExcelPopupComponent, dialogConfig);
+    dialogRef.componentInstance.tableData = this.tableData;
   }
 
   onScroll() {

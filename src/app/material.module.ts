@@ -18,7 +18,8 @@ import {
   MatTableModule,
   MatToolbarModule,
   MatTreeModule,
-  MatMenuModule
+  MatMenuModule,
+  MAT_RADIO_DEFAULT_OPTIONS
 } from '@angular/material';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
@@ -67,5 +68,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MatRadioModule,
     MatMenuModule
   ]
+  //   providers: [{
+  //     provide: MAT_RADIO_DEFAULT_OPTIONS,
+  //     useValue: { color: 'accent' },
+  // }]
 })
 export class MaterialModule {}

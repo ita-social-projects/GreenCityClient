@@ -1,10 +1,13 @@
-<h1 mat-dialog-title>Dialog with elements</h1>
-<div mat-dialog-content>This dialog showcases the title, close, content and actions elements.</div>
+<h1 mat-dialog-title>Оберіть дані для експорту</h1>
+<mat-radio-group aria-label="Select an option">
+  <mat-radio-button value="1" color="green" checked>Зберегти поточний вигляд</mat-radio-button>
+  <mat-radio-button value="2">Зберегти всю таблицю</mat-radio-button>
+</mat-radio-group>
 <div class="d-flex justify-content-end" mat-dialog-actions>
   <button class="secondary-global-button btn m-0 mr-2" mat-dialog-close>
     {{ 'order-details.excel-pop-up-cancel' | translate }}
   </button>
-  <button class="primary-global-button btn m-0">
+  <button class="primary-global-button btn m-0" (click)="saveTable()">
     {{ 'order-details.excel-pop-up-next' | translate }}
   </button>
 </div>
