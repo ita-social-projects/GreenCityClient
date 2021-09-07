@@ -167,17 +167,12 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   public autoResize(textarea: string, e: any) {
-    switch (textarea) {
-      case '1':
-        e.target.style.height = '0px';
-        e.target.style.height = e.target.scrollHeight + 'px';
-        break;
-      case '2':
-        e.target.style.height = '131px';
-        e.target.style.height = e.target.scrollHeight + 'px';
-        break;
-      default:
-        break;
+    if (textarea === '1') {
+      e.target.style.height = '0px';
+      e.target.style.height = e.target.scrollHeight + 'px';
+    } else {
+      e.target.style.height = '131px';
+      e.target.style.height = e.target.scrollHeight + 'px';
     }
   }
 
