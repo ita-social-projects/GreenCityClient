@@ -180,5 +180,11 @@
     "employees": "Employees",
     "documents": "Documents",
     "schedule": "Schedule"
+  },
+  "ubs-user": {
+    "orders": "Orders",
+    "invoice": "Invoice",
+    "user_data": "User data",
+    "messages": "Messages"
   }
 }

@@ -173,5 +173,11 @@
     "employees": "Працівники",
     "documents": "Документи",
     "schedule": "Графік"
+  },
+  "ubs-user": {
+    "orders": "Замовлення",
+    "invoice": "Рахунок",
+    "user_data": "Дані користувача",
+    "messages": "Повідомлення"
   }
 }

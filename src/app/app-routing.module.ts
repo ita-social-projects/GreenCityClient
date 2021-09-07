@@ -57,6 +57,10 @@ export const routes: Routes = [
     loadChildren: () => import('./ubs-admin/ubs-admin.module').then((mod) => mod.UbsAdminModule)
   },
   {
+    path: 'ubs-user',
+    loadChildren: () => import('./ubs-user/ubs-user.module').then((mod) => mod.UbsUserModule)
+  },
+  {
     path: '**',
     redirectTo: ''
   }

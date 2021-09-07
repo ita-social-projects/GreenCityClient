@@ -175,6 +175,9 @@
                 <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="navigation to ubs">
                   <a [routerLink]="['/ubs-admin']" routerLinkActive="active-link"> UBS-admin </a>
                 </li>
+                <li *ngIf="isLoggedIn && !isAdmin" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="navigation to ubs">
+                  <a [routerLink]="['/ubs-user']" routerLinkActive="active-link">UBS-user</a>
+                </li>
               </ul>
             </ng-container>
             <!-- SIGN IN LINK -->

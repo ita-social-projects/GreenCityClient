@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UbsAdminTableComponent } from './components/ubs-admin-table/ubs-admin-table.component';
-import { UbsBaseSidebarComponent } from '../shared/ubs-base-sidebar/ubs-base-sidebar.component';
 import { UbsAdminSidebarComponent } from '../../app/ubs-admin/components/ubs-admin-sidebar/ubs-admin-sidebar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -43,7 +42,6 @@ import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-c
   declarations: [
     PaginationComponent,
     UbsAdminTableComponent,
-    UbsBaseSidebarComponent,
     UbsAdminSidebarComponent,
     UbsHeaderComponent,
     UbsAdminComponent,
