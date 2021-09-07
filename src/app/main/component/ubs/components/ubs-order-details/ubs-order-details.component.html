@@ -9,8 +9,8 @@
         <label class="col-3 label m-0 p-0">{{ 'order-details.service' | translate }}</label>
         <label class="col-2 label m-0 p-0">{{ 'order-details.volume' | translate }}</label>
         <label class="col-2 label m-0 p-0">{{ 'order-details.cost' | translate }}</label>
-        <label class="col-2 label m-0 p-0">{{ 'order-details.number-of-packages' | translate }}</label>
-        <label class="col-3 label m-0 text-center p-0">{{ 'order-details.sum' | translate }}</label>
+        <label class="col-lg-2 col-sm-3 col-3 label text-center m-0 p-0">{{ 'order-details.number-of-packages' | translate }}</label>
+        <label class="col-lg-3 col-sm-2 col-2 label m-0 text-center p-0">{{ 'order-details.sum' | translate }}</label>
       </div>
       <div class="main">
         <ul class="w-100 p-0 m-0">
@@ -25,13 +25,14 @@
                 class="shadow-none form-control input"
                 min="0"
                 max="999"
+                (input)="takeNumber($event)"
                 [unmask]="false"
                 [imask]="{ mask: servicesMask }"
                 [(ngModel)]="bag.quantity"
                 (ngModelChange)="onQuantityChange()"
               />
             </div>
-            <span class="col-3 bag-name text-center"> {{ bag.quantity * bag.price | currency | localizedCurrency }}</span>
+            <span class="col-3 bag-name text-right"> {{ bag.quantity * bag.price | currency | localizedCurrency }}</span>
           </li>
         </ul>
       </div>
