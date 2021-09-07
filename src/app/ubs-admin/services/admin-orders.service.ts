@@ -11,6 +11,10 @@ export class AdminOrdersService {
   constructor(private http: HttpClient) {}
 
   getOrders(): Observable<any> {
+    return this.http.get<any>(`${this.url}/client/getAll-users-orders`);
+  }
+
+  getOrderDetails(id): Observable<any> {
     return this.http.get<any>(`${this.url}/order-details`);
   }
 }

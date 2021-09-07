@@ -11,25 +11,33 @@ import { Subject } from 'rxjs';
 export class UbsAdminOrdersComponent implements OnInit {
   destroy: Subject<boolean> = new Subject<boolean>();
   orders: any[];
+  orderDetails: any[];
   isAnyOrders: boolean;
   public currentLanguage: string;
 
   constructor(private adminOrdersService: AdminOrdersService) {}
 
   ngOnInit() {
-    this.currentLanguage = localStorage.getItem('language');
     this.adminOrdersService
       .getOrders()
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
-        this.orders = item.bags;
+        this.orders = item;
       });
   }
 
   changeCard(id) {
-    this.orders.map((el) => {
-      el.id === id && el.extend ? (el.extend = false) : el.id === id ? (el.extend = true) : (el.extend = el.extend);
-      this.orders = this.orders.filter((value) => value.code === this.currentLanguage);
-    });
+    this.currentLanguage = localStorage.getItem('language');
+
+    this.adminOrdersService
+      .getOrderDetails(id)
+      .pipe(takeUntil(this.destroy))
+      .subscribe((item) => {
+        this.orderDetails = item.bags.filter((value) => value.code === this.currentLanguage);
+
+        this.orders.map((el) => {
+          el.id === id && el.extend ? (el.extend = false) : el.id === id ? (el.extend = true) : (el.extend = el.extend);
+        });
+      });
   }
 }
