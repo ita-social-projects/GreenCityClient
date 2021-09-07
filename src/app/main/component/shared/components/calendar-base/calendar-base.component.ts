@@ -6,14 +6,14 @@ import { Subject, Subscription } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
 import { CalendarInterface } from '@global-user/components/profile/calendar/calendar-interface';
 import { calendarImage } from './calendar-image';
-import { MatDialog, MatDialogConfig } from '@angular/material';
 import { HabitsPopupComponent } from '@global-user/components/profile/calendar/habits-popup/habits-popup.component';
 import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
 import { ItemClass } from './CalendarItemStyleClasses';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-calendar-base',
-  template: '',
+  template: ''
 })
 export class CalendarBaseComponent implements OnDestroy {
   public calendarImages = calendarImage;
@@ -50,7 +50,7 @@ export class CalendarBaseComponent implements OnDestroy {
     totalDaysInMonth: 0,
     hasHabitsInProgress: false,
     areHabitsDone: false,
-    isCurrentDayActive: false,
+    isCurrentDayActive: false
   };
 
   public userHabitsList: Array<HabitsForDateInterface>;
@@ -150,7 +150,7 @@ export class CalendarBaseComponent implements OnDestroy {
       dayName: new Date(this.calendar.year, this.calendar.month, days).toDateString().substring(0, 3) || '',
       hasHabitsInProgress: false,
       areHabitsDone: false,
-      isCurrentDayActive: false,
+      isCurrentDayActive: false
     };
   }
 
@@ -315,12 +315,12 @@ export class CalendarBaseComponent implements OnDestroy {
     dialogConfig.backdropClass = 'backdropBackground';
     dialogConfig.position = {
       top: pos.y + 20 + 'px',
-      left: pos.x - 300 + 'px',
+      left: pos.x - 300 + 'px'
     };
     dialogConfig.data = {
       habitsCalendarSelectedDate: this.formatSelectedDate(isMonthCalendar, dayItem),
       isHabitListEditable: this.isHabitListEditable,
-      habits: habits.habitAssigns,
+      habits: habits.habitAssigns
     };
     const dialogRef = this.dialog.open(HabitsPopupComponent, dialogConfig);
     dialogRef

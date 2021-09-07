@@ -8,7 +8,7 @@ import { HabitAssignService } from '@global-service/habit-assign/habit-assign.se
 import { HabitAssignInterface } from '../../../../../interface/habit/habit-assign.interface';
 import { HabitStatus } from '../../../../../model/habit/HabitStatus.enum';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
-import { MatTabChangeEvent } from '@angular/material';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-profile-dashboard',
