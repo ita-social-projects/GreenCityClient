@@ -36,6 +36,7 @@ export class LocalStorageService {
 
   public setAccessToken(accessToken: string): void {
     localStorage.setItem(this.ACCESS_TOKEN, accessToken);
+    this.removeUbsRegistration();
     this.accessTokenBehaviourSubject.next(accessToken);
   }
 
@@ -93,5 +94,19 @@ export class LocalStorageService {
 
   public removeTagsOfNews(key: string) {
     localStorage.removeItem(key);
+  }
+
+  public setUbsRegistration(value: string): void {
+    if (!localStorage.getItem(this.USER_ID)) {
+      localStorage.setItem('callUbsRegWindow', value);
+    }
+  }
+
+  public getUbsRegistration(): string {
+    return localStorage.getItem('callUbsRegWindow');
+  }
+
+  public removeUbsRegistration(): void {
+    localStorage.removeItem('callUbsRegWindow');
   }
 }

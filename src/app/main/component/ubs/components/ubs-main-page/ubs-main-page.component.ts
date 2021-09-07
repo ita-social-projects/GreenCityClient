@@ -1,6 +1,15 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ubsMainPageImages } from '../../../../image-pathes/ubs-main-page-images';
+import { MatDialog } from '@angular/material';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { JwtService } from '@global-service/jwt/jwt.service';
+import { UserService } from '@global-service/user/user.service';
+import { AchievementService } from '@global-service/achievement/achievement.service';
+import { HabitStatisticService } from '@global-service/habit-statistic/habit-statistic.service';
+import { LanguageService } from '../../../../i18n/language.service';
+import { SearchService } from '@global-service/search/search.service';
+import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 
 @Component({
   selector: 'app-ubs-main-page',
@@ -63,9 +72,10 @@ export class UbsMainPageComponent {
     'ubs-homepage.ubs-courier.rules.content.li_3'
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private localStorageService: LocalStorageService) {}
 
   redirectToOrder() {
+    this.localStorageService.setUbsRegistration('true');
     this.router.navigate(['ubs', 'order']);
   }
 }

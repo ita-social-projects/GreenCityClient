@@ -7,7 +7,7 @@ import { filter } from 'rxjs/operators';
 import { AuthModalComponent } from '../../component/auth/components/auth-modal/auth-modal.component';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthPageGuardService implements CanActivate {
   private isLoggedIn = false;
@@ -21,24 +21,31 @@ export class AuthPageGuardService implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (!this.isLoggedIn) {
-      this.openSingInWindow();
-      return of(false);
+      if (this.localStorageService.getUbsRegistration() === 'true') {
+        this.openSingInSingUpWindow('sign-up');
+        return of(false);
+      } else if (this.localStorageService.getUbsRegistration() === 'false') {
+        this.openSingInSingUpWindow('sign-in');
+        return of(false);
+      }
     }
     return of<boolean>(true);
   }
 
-  private openSingInWindow(): void {
+  private openSingInSingUpWindow(modalName: string): void {
     this.dialog
       .open(AuthModalComponent, {
         hasBackdrop: true,
         closeOnNavigation: true,
         panelClass: 'custom-dialog-container',
         data: {
-          popUpName: 'sign-in',
-        },
+          popUpName: modalName
+        }
       })
       .afterClosed()
       .pipe(filter(Boolean))
-      .subscribe((userId) => this.router.navigateByUrl(`${userId}/profile`));
+      .subscribe((userId) => {
+        this.router.navigateByUrl(`${userId}/profile`);
+      });
   }
 }

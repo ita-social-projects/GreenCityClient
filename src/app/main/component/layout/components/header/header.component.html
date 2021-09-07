@@ -8,18 +8,29 @@
         <nav [ngClass]="toggleBurgerMenu ? 'header_navigation-menu-left-col' : 'header_navigation-menu-left'" role="navigation">
           <ul role="menu">
             <li role="link">
-              <a [routerLink]="['/news']" routerLinkActive="active-link" routerLinkActiveOptions="{exact:true}">
+              <a
+                [routerLink]="['/news']"
+                (click)="setUbsRegistration('false')"
+                routerLinkActive="active-link"
+                routerLinkActiveOptions="{exact:true}"
+              >
                 {{ 'user.lower-nav-bar.eco-events' | translate }}
               </a>
             </li>
             <li role="link">
-              <a [routerLink]="['/tips']" routerLinkActive="active-link" routerLinkActiveOptions="{exact:true}">
+              <a
+                [routerLink]="['/tips']"
+                (click)="setUbsRegistration('false')"
+                routerLinkActive="active-link"
+                routerLinkActiveOptions="{exact:true}"
+              >
                 {{ 'user.lower-nav-bar.tips' | translate }}
               </a>
             </li>
             <li role="link">
               <a
                 [routerLink]="['/places']"
+                (click)="setUbsRegistration('false')"
                 routerLinkActive="active-link"
                 routerLinkActiveOptions="{exact:true}"
                 routerLinkActive="active-link"
@@ -29,19 +40,33 @@
               </a>
             </li>
             <li role="link">
-              <a [routerLink]="['/about']" routerLinkActive="active-link" routerLinkActiveOptions="{exact:true}">
+              <a
+                [routerLink]="['/about']"
+                (click)="setUbsRegistration('false')"
+                routerLinkActive="active-link"
+                routerLinkActiveOptions="{exact:true}"
+              >
                 {{ 'user.lower-nav-bar.about-us' | translate }}
               </a>
             </li>
             <li role="link">
-              <a [routerLink]="['/profile', getUserId()]" routerLinkActive="active-link" routerLinkActiveOptions="{exact:true}">
+              <a
+                [routerLink]="['/profile', getUserId()]"
+                routerLinkActive="active-link"
+                (click)="setUbsRegistration('false')"
+                routerLinkActiveOptions="{exact:true}"
+              >
                 {{ 'user.lower-nav-bar.my-habits' | translate }}
               </a>
             </li>
             <li role="link">
-              <a [routerLink]="['/ubs']" routerLinkActive="active-link" routerLinkActiveOptions="{exact:true}">{{
-                'user.lower-nav-bar.ubs' | translate
-              }}</a>
+              <a
+                [routerLink]="['/ubs']"
+                (click)="setUbsRegistration('true')"
+                routerLinkActive="active-link"
+                routerLinkActiveOptions="{exact:true}"
+                >{{ 'user.lower-nav-bar.ubs' | translate }}</a
+              >
             </li>
             <hr class="header_line container" [ngClass]="{ 'd-none': !toggleBurgerMenu }" />
             <div *ngIf="!isLoggedIn; then userLoggedInSmall; else userNotLoggerInSmall"></div>

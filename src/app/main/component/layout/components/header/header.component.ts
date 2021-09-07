@@ -50,6 +50,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('signinref') signinref: ElementRef;
   @ViewChild('signupref') signupref: ElementRef;
   public elementName;
+
   constructor(
     public dialog: MatDialog,
     private localStorageService: LocalStorageService,
@@ -139,7 +140,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.userId !== null && !isNaN(this.userId)) {
       return this.userId;
     }
-
     return 'not_signed_in';
   }
 
@@ -192,6 +192,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public openAuthModalWindow(page: string): void {
+    this.setUbsRegistration('false');
     this.elementName = page;
     this.dialog.open(AuthModalComponent, {
       hasBackdrop: true,
@@ -221,5 +222,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public toggleScroll(): void {
     this.toggleBurgerMenu ? document.body.classList.add('modal-open') : document.body.classList.remove('modal-open');
+  }
+
+  setUbsRegistration(value: string): void {
+    this.localStorageService.setUbsRegistration(value);
   }
 }
