@@ -8,12 +8,11 @@
 
   .ubs_profile-header {
     width: 905px;
-    margin: 20px;
     display: flex;
     justify-content: space-between;
 
     .header-text {
-      padding: 30px;
+      padding-top: 30px;
     }
   }
 
@@ -23,7 +22,7 @@
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25);
 
     form {
-      margin-left: 30px;
+      margin-left: 15px;
     }
   }
 
@@ -49,12 +48,20 @@
   }
 
   button {
-    margin: 30px;
+    margin: 30px 0 30px 30px;
     font-family: var(--secondary-font);
   }
 
   h5 {
+    font-weight: bold;
     margin-left: 15px;
+    margin-bottom: 30px;
+    margin-top: 30px;
+  }
+
+  h3 {
+    font-weight: bold;
+    color: #000000;
   }
 
   .account {
@@ -94,6 +101,14 @@
       justify-content: flex-start;
       box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25);
     }
+  }
+}
+
+.form-group {
+  p {
+    padding: 13px 13px 13px 0px;
+    color: #000000;
+    font-size: 16px;
   }
 }
 

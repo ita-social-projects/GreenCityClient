@@ -28,7 +28,7 @@
     "delete-title": "Delete profile",
     "delete-message": "If you delete your profile, your bonuses will burn out and your order information will be deleted without the possibility of recovery",
     "btn": {
-      "edit": "Edit",
+      "edit": "Edit data",
       "cancel": "Discard changes",
       "save": "Save changes",
       "change-password": "Change password",
@@ -174,7 +174,7 @@
     "agree": "Yes"
   },
   "ubs-sidebar": {
-    "users": "Users",
+    "users": "User data",
     "certificates": "Certificates",
     "orders": "Orders",
     "employees": "Employees",
