@@ -71,6 +71,12 @@
                   {{ 'nav-bar.sign-out' | translate }}
                 </a>
               </li>
+              <li *ngIf="isLoggedIn && isAdmin" class="header_mobile-menu-item" role="navigation to ubs">
+                <a [routerLink]="['/ubs-admin']" routerLinkActive="active-link"> UBS-admin </a>
+              </li>
+              <li *ngIf="isLoggedIn && !isAdmin" class="header_mobile-menu-item" role="navigation to ubs">
+                <a [routerLink]="['/ubs-user']" routerLinkActive="active-link">UBS-user</a>
+              </li>
             </ng-template>
             <li class="header_mobile-menu-sign-up" *ngIf="toggleBurgerMenu && !isLoggedIn" (click)="openAuthModalWindow('sign-up')">
               <div class="header_sign-up-btn secondary-global-button" role="link">
@@ -172,7 +178,7 @@
                     {{ 'nav-bar.sign-out' | translate }}
                   </a>
                 </li>
-                <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="navigation to ubs">
+                <li *ngIf="isLoggedIn && isAdmin" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="navigation to ubs">
                   <a [routerLink]="['/ubs-admin']" routerLinkActive="active-link"> UBS-admin </a>
                 </li>
                 <li *ngIf="isLoggedIn && !isAdmin" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="navigation to ubs">
