@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { UbsUserGuardGuard } from './ubs-user-guard.guard';
 import { UbsUserComponent } from './ubs-user.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: UbsUserComponent
+    component: UbsUserComponent,
+    canActivate: [UbsUserGuardGuard]
   }
 ];
 
