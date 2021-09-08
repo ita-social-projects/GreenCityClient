@@ -9,8 +9,6 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HashLocationStrategy } from '@angular/common';
 import { LocationStrategy } from '@angular/common';
-import { UbsAdminModule } from './ubs-admin/ubs-admin.module';
-import { UbsUserModule } from './ubs-user/ubs-user.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,7 +17,6 @@ import { UbsUserModule } from './ubs-user/ubs-user.module';
     BrowserAnimationsModule,
     AppRoutingModule,
     MainModule,
-    // UbsAdminModule,
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {
