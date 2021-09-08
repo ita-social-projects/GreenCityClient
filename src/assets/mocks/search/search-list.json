@@ -1,0 +1,43 @@
+{
+  "countOfResults": 10,
+  "ecoNews": [
+    {
+      "id": 373,
+      "title": "Еко-лавка",
+      "tags": ["ads", "ads", "events"],
+      "text": "text text text text text text text text text text text text"
+    },
+    {
+      "id": 254,
+      "title": "Пилові бурі, смог та пожежі",
+      "tags": ["news", "news"],
+      "text": "text text text text text text text text text text text text"
+    },
+    {
+      "id": 257,
+      "title": "Зелена Коробка",
+      "tags": ["ads"],
+      "text": "text text text text text text text text text text text text"
+    }
+  ],
+  "tipsAndTricks": [
+    {
+      "id": 373,
+      "title": "Еко-лавка",
+      "tags": ["lifehacks", "ads", "events"],
+      "text": "text text text text text text text text text text text text"
+    },
+    {
+      "id": 254,
+      "title": "Пилові бурі, смог та пожежі",
+      "tags": ["news", "lifehacks"],
+      "text": "text text text text text text text text text text text text"
+    },
+    {
+      "id": 257,
+      "title": "Зелена Коробка",
+      "tags": ["lifehacks"],
+      "text": "text text text text text text text text text text text text"
+    }
+  ]
+}

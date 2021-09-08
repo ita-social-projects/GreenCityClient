@@ -1,10 +1,12 @@
 <header>
   <div class="logo">
-    <img [src]="ubsHeaderIcons.ubsAdminLogo" alt="UBS admin logo" />
+    <a [routerLink]="['/ubs-admin']" routerLinkActive="active-link">
+      <img [src]="ubsHeaderIcons.ubsAdminLogo" alt="UBS admin logo" />
+    </a>
   </div>
   <div class="icons">
     <nav>
-      <a class="nav-link" *ngFor="let link of navLinks" [href]="link.route">
+      <a class="nav-link" *ngFor="let link of navLinks" (click)="navigateToLink(link)">
         {{ link.name }}
       </a>
     </nav>

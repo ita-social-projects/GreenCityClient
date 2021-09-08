@@ -3,7 +3,6 @@ import { UserSharedModule } from './components/shared/user-shared.module';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
-import { MatButtonModule, MatRadioModule } from '@angular/material';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -74,6 +73,11 @@ import { FriendRequestsComponent } from './components/profile/users-friends/frie
 import { RequestItemComponent } from './components/profile/users-friends/friend-dashboard/friend-requests/request-item/request-item.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { HabitInviteFriendsPopUpComponent } from './components/habit/add-new-habit/habit-invite-friends/habit-invite-friends-pop-up/habit-invite-friends-pop-up.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { OneNewsComponent } from './components/profile/profile-dashboard/one-news/one-news.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatRadioModule } from '@angular/material/radio';
 @NgModule({
   declarations: [
     UserComponent,
@@ -130,7 +134,9 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     RecommendedFriendsComponent,
     FriendItemComponent,
     FriendRequestsComponent,
-    RequestItemComponent
+    RequestItemComponent,
+    HabitInviteFriendsPopUpComponent,
+    OneNewsComponent
   ],
   imports: [
     NgbModule,
@@ -158,7 +164,8 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
       isolate: true
     }),
     InfiniteScrollModule,
-    UserSharedModule
+    UserSharedModule,
+    MatTabsModule
   ],
   providers: [EditProfileFormBuilder]
 })

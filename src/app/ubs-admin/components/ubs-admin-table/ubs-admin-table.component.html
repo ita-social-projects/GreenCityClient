@@ -52,24 +52,14 @@
 >
   <table
     mat-table
-    matSort
-    role="presentation"
-    class="mat-elevation-z0 table"
-    cdkDropListGroup
+    cdkDropList
+    cdkDropListOrientation="horizontal"
+    (cdkDropListDropped)="dropListDropped($event)"
     [dataSource]="dataSource"
     *ngIf="!isLoading; else spinner"
   >
     <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.field" [sticky]="column.sticky" class="column.field">
-      <mat-header-cell
-        *matHeaderCellDef
-        cdkDropList
-        cdkDropListLockAxis="x"
-        cdkDropListOrientation="horizontal"
-        (cdkDropListDropped)="dropListDropped($event, i)"
-        cdkDrag
-        (cdkDragStarted)="dragStarted($event, i)"
-        [cdkDragData]="{ name: column.field, columIndex: i }"
-      >
+      <mat-header-cell *matHeaderCellDef cdkDrag cdkDragLockAxis="x" cdkDragBoundary="mat-header-row">
         <div *ngIf="column.field !== 'select'; else checkbox">
           <span class="column-title">{{ column.field }}</span>
           <mat-icon *ngIf="arrowDirection !== column.field" (click)="getSortingDate(column.field, 'asc')"> arrow_downward </mat-icon>
@@ -103,7 +93,7 @@
         </ng-template>
       </mat-cell>
     </ng-container>
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-header-row *matHeaderRowDef="displayedColumns" #tableHeaderRow class="tableHeaderRow"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
   </table>
   <app-spinner *ngIf="isUpdate"></app-spinner>

@@ -12,7 +12,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 @Component({
   selector: 'app-news-list',
   templateUrl: './news-list.component.html',
-  styleUrls: ['./news-list.component.scss'],
+  styleUrls: ['./news-list.component.scss']
 })
 export class NewsListComponent implements OnInit, OnDestroy {
   public view: boolean;
@@ -60,13 +60,13 @@ export class NewsListComponent implements OnInit, OnDestroy {
   public onResize(): void {
     this.getSessionStorageView();
     this.windowSize = window.innerWidth;
-    const isGalleryView = this.gallery ? true : false;
-    this.view = this.windowSize < Breakpoints.tabletLow ? true : isGalleryView;
+    const isGalleryView = !!this.gallery;
+    this.view = this.windowSize > Breakpoints.tabletLow ? true : isGalleryView;
   }
 
   private getSessionStorageView() {
     const view = sessionStorage.getItem('viewGallery');
-    if (view !== null) {
+    if (view) {
       this.gallery = JSON.parse(view);
     }
   }

@@ -1,10 +1,11 @@
 import { OrderService } from './../../../services/order.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Address } from '../../../models/ubs.interface';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { takeUntil, catchError } from 'rxjs/operators';
+import { Subject, throwError } from 'rxjs';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ubs-add-address-pop-up',
@@ -21,8 +22,9 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   region = '';
   districtDisabled = true;
   nextDisabled = true;
+  isDisabled = false;
   streetPattern = /^[A-Za-zА-Яа-яїієё0-9.\'\,\-\ \\]+$/;
-  houseCorpusPattern = /^[A-Za-zА-Яа-яїієё0-9]+$/;
+  housePattern = /^[A-Za-zА-Яа-яїієё0-9]+$/;
   entranceNumberPattern = /^-?(0|[1-9]\d*)?$/;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
@@ -38,7 +40,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
     public data: {
       edit: boolean;
       address: Address;
-    }
+    },
+    private snackBar: MatSnackBarComponent
   ) {}
 
   get district() {
@@ -69,17 +72,17 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
         this.data.edit ? this.data.address.street : '',
         [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(this.streetPattern)]
       ],
-      houseNumber: [this.data.edit ? this.data.address.houseNumber : '', [Validators.required]],
-      houseCorpus: [
-        this.data.edit ? this.data.address.houseCorpus : '',
-        [Validators.maxLength(2), Validators.pattern(this.houseCorpusPattern)]
+      houseNumber: [
+        this.data.edit ? this.data.address.houseNumber : '',
+        [Validators.required, Validators.maxLength(4), Validators.pattern(this.housePattern)]
       ],
+      houseCorpus: [this.data.edit ? this.data.address.houseCorpus : '', [Validators.maxLength(2), Validators.pattern(this.housePattern)]],
       entranceNumber: [
         this.data.edit ? this.data.address.entranceNumber : '',
         [Validators.maxLength(2), Validators.pattern(this.entranceNumberPattern)]
       ],
-      longitude: [this.data.edit ? this.data.address.longitude : '', Validators.required],
-      latitude: [this.data.edit ? this.data.address.latitude : '', Validators.required],
+      longitude: [this.data.edit ? this.data.address.longitude : ''],
+      latitude: [this.data.edit ? this.data.address.latitude : ''],
       id: [this.data.edit ? this.data.address.id : 0],
       actual: true
     });
@@ -152,12 +155,22 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   }
 
   addAdress() {
+    this.isDisabled = true;
     this.orderService
       .addAdress(this.addAddressForm.value)
-      .pipe(takeUntil(this.destroy))
+      .pipe(
+        takeUntil(this.destroy),
+        catchError((error) => {
+          this.snackBar.openSnackBar('existAddress');
+          this.dialogRef.close();
+          this.isDisabled = false;
+          return throwError(error);
+        })
+      )
       .subscribe((list: Address[]) => {
         this.updatedAddresses = list;
         this.dialogRef.close();
+        this.isDisabled = false;
       });
   }
 

@@ -5,7 +5,6 @@ import { AgmDirectionModule } from 'agm-direction';
 import { CommonModule } from '@angular/common';
 import { PlacesRoutesModule } from './places-routing.module';
 import { TranslateService, TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { MatTableModule, MatIconModule, MatDialogModule, MatRippleModule } from '@angular/material';
 import { AgmCoreModule } from '@agm/core';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { Ng5SliderModule } from 'ng5-slider';
@@ -18,6 +17,10 @@ import { PlacesComponent } from './places.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { environment } from '@environment/environment.js';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatRippleModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [PlacesComponent],

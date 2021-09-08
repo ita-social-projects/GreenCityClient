@@ -45,7 +45,12 @@ $secondErrorColor: #b42626;
       font-family: var(--primary-font);
       font-size: 14px;
       color: var(--error-ligh-red);
+      line-height: 0.8rem;
       padding: 0;
+    }
+
+    .cropper-block {
+      min-height: 148px;
     }
 
     .buttons {

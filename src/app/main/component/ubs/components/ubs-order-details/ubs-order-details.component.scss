@@ -1,3 +1,10 @@
+@mixin text_style($font, $color, $size, $weight) {
+  font-family: $font;
+  font-size: $size;
+  font-weight: $weight;
+  color: $color;
+}
+
 .container {
   box-shadow: 1px 4px 8px rgb(100 114 125 / 18%);
   padding: 10px 25px 40px;
@@ -12,10 +19,11 @@
   border-radius: 4px;
   border: 1px solid var(--ubs-primary-green);
   margin-right: 1rem;
+  font-size: 18px;
 }
 
-.font-bolt {
-  font-weight: bold;
+h3 {
+  @include text_style(var(--ubs-quaternary-font), var(ubs-primary-grey), 24px, 700);
 }
 
 .eco-store::-webkit-outer-spin-button,
@@ -38,7 +46,8 @@
   }
 
   .order-content {
-    color: var(--ubs-secondary-grey);
+    @include text_style(var(--ubs-quaternary-font), var(--ubs-secondary-grey), 14px, 400);
+
     margin-bottom: 3rem;
   }
 }
@@ -53,7 +62,8 @@
 }
 
 .label {
-  color: var(--ubs-secondary-grey);
+  @include text_style(var(--ubs-quaternary-font), var(--ubs-secondary-grey), 16px, 400);
+
   padding: 0;
 }
 
@@ -76,13 +86,46 @@
   }
 }
 
-.custom-control-label {
-  color: var(--ubs-secondary-grey);
-  padding-left: 0;
+.bottom {
+  font-family: var(--ubs-quaternary-font);
+  padding: 3rem 0;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid var(--ubs-primary-light-grey);
+
+  .custom-control {
+    padding-left: 1.4rem;
+  }
+
+  .border-input {
+    border: 1px solid var(--ubs-secondary-grey);
+  }
+
+  .custom-control-label {
+    color: var(--ubs-primary-grey);
+    padding-left: 0;
+
+    &::before {
+      background-color: var(--ubs-primary-white);
+    }
+  }
+
+  p {
+    font-size: 12px;
+  }
 }
 
-.custom-control-label::before {
-  background-color: var(--ubs-primary-white);
+.addOrderBtn {
+  width: 250px;
+  padding: 0;
+  text-align: left;
+  background: none;
+  color: var(--ubs-primary-green);
+  font-size: 14px;
+  outline: none;
+}
+
+.addOrderBtn:hover {
+  background: none;
 }
 
 .custom-radio .custom-control-input:checked ~ .custom-control-label::before,
@@ -132,9 +175,15 @@ button {
 }
 
 .points {
+  font-family: var(--ubs-quaternary-font);
   margin-top: 3em;
 
+  p {
+    font-size: 14px;
+  }
+
   .bonus-how-to-link {
+    font-size: 12px;
     color: var(--ubs-primary-green);
   }
 }
@@ -146,17 +195,17 @@ button {
     display: flex;
     justify-content: flex-end;
     color: var(--ubs-secondary-grey);
+    font-family: var(--ubs-quaternary-font);
     padding-right: 0.5rem;
 
     strong {
       padding-left: 2rem;
+      color: var(--ubs-primary-grey);
     }
   }
 
   .money-saved {
-    font-weight: 400;
-    font-size: 0.8rem;
-    color: var(--ubs-primary-green);
+    @include text_style(var(--ubs-quaternary-font), var(--ubs-primary-green), 10px, 400);
   }
 
   .validMes {
@@ -165,18 +214,10 @@ button {
   }
 }
 
-.bottom {
-  padding: 3rem 0;
-  margin-bottom: 3rem;
-  border-bottom: 1px solid var(--ubs-primary-light-grey);
+h5 {
+  @include text_style(var(--ubs-quaternary-font), var(--ubs-primary-grey), 16px, bold);
 
-  .custom-control {
-    padding-left: 1.4rem;
-  }
-
-  .border-input {
-    border: 1px solid var(--ubs-secondary-grey);
-  }
+  line-height: 24px;
 }
 
 .middle-container {
@@ -261,19 +302,6 @@ button {
   }
 }
 
-.addOrderBtn {
-  width: 250px;
-  padding: 0;
-  text-align: left;
-  background: none;
-  color: var(--ubs-primary-green);
-  outline: none;
-}
-
-.addOrderBtn:hover {
-  background: none;
-}
-
 .bottom-text {
   position: absolute;
   right: 0;
@@ -293,6 +321,12 @@ button {
     border: 1px solid var(--ubs-secondary-grey);
     padding: 0.5rem;
     background: var(--ubs-primary-white);
+
+    &::placeholder {
+      @include text_style(var(--ubs-quaternary-font), var(--ubs-primary-light-grey), 14px, 400);
+
+      margin-bottom: 3rem;
+    }
   }
 
   .btn:nth-child(1) {
@@ -314,6 +348,15 @@ button {
 
 li {
   list-style: none;
+}
+
+.bag-name {
+  @include text_style(var(--ubs-quaternary-font), var(--ubs-quaternary-dark-grey), 16px, 400);
+
+  &:last-child {
+    color: var(--ubs-primary-grey);
+    font-weight: bold;
+  }
 }
 
 @media (min-width: 481px) and (max-width: 767px) {

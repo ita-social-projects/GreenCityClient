@@ -7,6 +7,8 @@ import { HabitService } from '@global-service/habit/habit.service';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { HabitAssignInterface } from '../../../../../interface/habit/habit-assign.interface';
 import { HabitStatus } from '../../../../../model/habit/HabitStatus.enum';
+import { EcoNewsService } from '@eco-news-service/eco-news.service';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-profile-dashboard',
@@ -23,17 +25,24 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     news: false,
     articles: false
   };
+  isActiveInfinityScroll = false;
   userId: number;
+  news: any;
+  private totalPages: number;
+  private currentPage = 0;
+  private newsCount = 5;
 
   constructor(
     private localStorageService: LocalStorageService,
     private habitService: HabitService,
-    private habitAssignService: HabitAssignService
+    private habitAssignService: HabitAssignService,
+    private ecoNewsService: EcoNewsService
   ) {}
 
   ngOnInit() {
     this.subscribeToLangChange();
     this.getUserId();
+    this.getNews(this.currentPage, this.newsCount);
   }
 
   public changeStatus(habit: HabitAssignInterface) {
@@ -74,8 +83,30 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  public toggleTab(tab: string): void {
-    Object.keys(this.tabs).forEach((item) => (this.tabs[item] = item === tab));
+  private getNews(page, count): void {
+    this.ecoNewsService
+      .getEcoNewsListByPage(page, count)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((list: any) => {
+        this.totalPages = list.totalPages;
+        if (!this.news) {
+          this.news = list.page;
+        } else {
+          this.news = [...this.news, ...list.page];
+        }
+      });
+  }
+
+  tabChanged(tabChangeEvent: MatTabChangeEvent): void {
+    this.isActiveInfinityScroll = tabChangeEvent.index === 1;
+    console.log(this.isActiveInfinityScroll);
+  }
+
+  onScroll(): void {
+    if (!this.loading && this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.getNews(this.currentPage, this.newsCount);
+    }
   }
 
   ngOnDestroy(): void {

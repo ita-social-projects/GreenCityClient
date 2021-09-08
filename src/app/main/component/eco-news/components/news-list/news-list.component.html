@@ -24,7 +24,7 @@
 
     <div class="main-wrapper">
       <app-remaining-count [remainingCount]="remaining"></app-remaining-count>
-      <app-change-view-button (view)="changeView($event)"></app-change-view-button>
+      <app-change-view-button [gallery]="view" (view)="changeView($event)"></app-change-view-button>
     </div>
     <div class="list-wrapper">
       <ul class="list" *ngIf="remaining" [ngClass]="{ 'gallery-view-active': view }">

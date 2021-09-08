@@ -19,7 +19,7 @@ export class OrderService {
 
   getOrders(lang): Observable<OrderDetails> {
     return this.http
-      .get<OrderDetails>(`${this.url}/order-details?lang=${lang}`)
+      .get<OrderDetails>(`${this.url}/order-details`)
       .pipe(tap((orderDetails) => (this.shareFormService.orderDetails = orderDetails)));
   }
 

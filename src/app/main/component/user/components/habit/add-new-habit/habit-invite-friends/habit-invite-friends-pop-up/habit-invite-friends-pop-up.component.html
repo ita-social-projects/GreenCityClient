@@ -1,0 +1,29 @@
+<div class="friends-images">
+  <section class="popup-section">
+    <mat-checkbox class="all-friends" [checked]="allAdd" [indeterminate]="someAdd()" (change)="setAll($event.checked)">
+      {{ 'user.habit.invite.all' | translate }}
+    </mat-checkbox>
+    <ul>
+      <li *ngFor="let friend of friends">
+        <mat-checkbox [(ngModel)]="friend.added" (ngModelChange)="updateAllAdd()">
+          <div class="friend">
+            <app-user-profile-image
+              [imgPath]="friend.profilePicture"
+              [firstName]="friend.name"
+              class="friend-img"
+              [additionalImgClass]="'friend-user-profile'"
+            >
+            </app-user-profile-image>
+            <p class="friend-name">{{ friend.name }}</p>
+          </div>
+        </mat-checkbox>
+      </li>
+    </ul>
+  </section>
+  <mat-dialog-actions class="invite-popup-footer" align="end">
+    <button class="btn btn-outline-success" mat-dialog-close>{{ 'user.habit.invite.btn.cancel' | translate }}</button>
+    <button class="btn btn-success" [mat-dialog-close]="true" cdkFocusInitial (click)="setAddedFriends()">
+      {{ 'user.habit.invite.btn.invite' | translate }}
+    </button>
+  </mat-dialog-actions>
+</div>
