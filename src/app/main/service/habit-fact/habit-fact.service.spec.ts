@@ -3,7 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { HabitFactService } from './habit-fact.service';
 import { habitFactRandomLink } from '../../links';
 
-fdescribe('HabitFactService', () => {
+describe('HabitFactService', () => {
   let service: HabitFactService;
   let httpMock: HttpTestingController;
 
