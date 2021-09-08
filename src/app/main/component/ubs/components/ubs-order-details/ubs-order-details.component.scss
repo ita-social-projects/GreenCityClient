@@ -83,7 +83,11 @@ h3 {
   .input {
     border: 1px solid var(--ubs-secondary-grey);
     padding-left: 6px;
-    color: #cacfd3;
+    color: var(--ubs-primary-light-grey);
+  }
+
+  .setBlackColor {
+    color: var(--ubs-primary-black);
   }
 }
 
@@ -440,30 +444,5 @@ li {
   small,
   input {
     font-size: 0.65rem;
-  }
-}
-
-@media (max-width: 992px) {
-  .input {
-    width: 150%;
-    height: 2rem;
-  }
-
-  .text-right {
-    margin-left: 30px;
-  }
-}
-
-@media (min-width: 992px) and (max-width: 1200px) {
-  .col-lg-2 {
-    flex: 0 0 17.666667%;
-    max-width: 17.666667%;
-  }
-}
-
-@media (max-width: 767px) {
-  .col-sm-3 {
-    flex: 0 0 27%;
-    max-width: 27%;
   }
 }

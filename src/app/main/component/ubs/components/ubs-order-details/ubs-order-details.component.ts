@@ -168,16 +168,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     return this.orderDetailsForm.get('shop') as FormArray;
   }
 
-  public takeNumber(e): void {
-    if (e.target.value < 1) {
-      console.log('this is zero');
-      e.target.style.color = '#CACFD3';
-    }
-    if (e.target.value > 0) {
-      e.target.style.color = 'black';
-    }
-  }
-
   private calculateTotal(): void {
     this.total = 0;
     this.bags.forEach((bag) => {
