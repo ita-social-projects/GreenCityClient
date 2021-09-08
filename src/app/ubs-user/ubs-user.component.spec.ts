@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { UbsUserComponent } from './ubs-user.component';
 
@@ -8,7 +9,8 @@ describe('UbsUserComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UbsUserComponent]
+      declarations: [UbsUserComponent],
+      imports: [TranslateModule.forRoot()]
     }).compileComponents();
   }));
 
