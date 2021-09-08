@@ -1,8 +1,13 @@
+@mixin text_style($font, $color, $size, $weight) {
+  font-family: $font;
+  font-size: $size;
+  font-weight: $weight;
+  color: $color;
+}
+
 ::ng-deep .mat-step-header {
   .mat-step-label {
-    font-size: 20px;
-    line-height: 28px;
-    font-weight: bold;
+    @include text_style(var(--ubs-quaternary-font), var(--ubs-secondary-grey), 18px, 700);
   }
 
   .mat-step-label.mat-step-label-active {
@@ -23,9 +28,7 @@
   }
 
   .mat-step-icon-state-number {
-    color: var(--ubs-secondary-grey);
-    font-size: 16px;
-    font-weight: bold;
+    @include text_style(var(--ubs-quaternary-font), var(--ubs-quintynary-light-grey), 20px, 700);
   }
 
   .mat-step-icon-state-number.mat-step-icon-selected {
@@ -42,8 +45,9 @@
 }
 
 .form-title {
+  @include text_style(var(--ubs-quaternary-font), var(--ubs-primary-grey), 40px, 700);
+
   margin: -35px 0 35px 0;
-  color: var(--ubs-primary-grey);
 }
 
 @media (min-width: 481px) and (max-width: 767px) {

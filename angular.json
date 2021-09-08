@@ -120,8 +120,5 @@
     "@schematics/angular:component": {
       "style": "scss"
     }
-  },
-  "cli": {
-    "analytics": "9e48a4a1-328f-444b-b1ae-42490e7943bd"
   }
 }

@@ -8,7 +8,7 @@
       <div class="main-content">
         <h2>{{ 'ubs-homepage.header.caption' | translate }}</h2>
         <p>{{ 'ubs-homepage.header.content' | translate }}</p>
-        <button class="button primary-global-button">
+        <button class="button primary-global-button" (click)="redirectToOrder()">
           {{ 'ubs-homepage.header.btn-order-courier' | translate }}
         </button>
       </div>
@@ -79,7 +79,7 @@
           <p>{{ 'ubs-homepage.ubs-courier.how-works.content.pre_1' | translate }}</p>
           <p>{{ 'ubs-homepage.ubs-courier.how-works.content.pre_2' | translate }}</p>
         </div>
-        <button class="button primary-global-button">
+        <button class="button primary-global-button" (click)="redirectToOrder()">
           {{ 'ubs-homepage.header.btn-order-courier' | translate }}
         </button>
       </div>

@@ -1,6 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialog } from '@angular/material';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
@@ -10,7 +9,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 @Component({
   selector: 'app-edit-photo-pop-up',
   templateUrl: './edit-photo-pop-up.component.html',
-  styleUrls: ['./edit-photo-pop-up.component.scss'],
+  styleUrls: ['./edit-photo-pop-up.component.scss']
 })
 export class EditPhotoPopUpComponent implements OnInit {
   public avatarImg: string;
@@ -23,6 +22,7 @@ export class EditPhotoPopUpComponent implements OnInit {
   public isNotification: boolean;
   public loadingAnim: boolean;
   private croppedImage: string;
+  private maxImageSize = 10485760;
 
   constructor(
     private matDialogRef: MatDialogRef<EditPhotoPopUpComponent>,
@@ -38,11 +38,15 @@ export class EditPhotoPopUpComponent implements OnInit {
   }
 
   public onSelectPhoto(event): void {
-    this.isWarning = false;
-    this.selectedFile = event.target.files[0] as File;
-    const reader: FileReader = new FileReader();
-    reader.readAsDataURL(this.selectedFile);
-    reader.onload = (ev) => this.handleFile(ev);
+    const imageFile = event.target.files[0];
+    this.isWarning = this.showWarning(imageFile);
+
+    if (!this.isWarning) {
+      this.selectedFile = imageFile as File;
+      const reader: FileReader = new FileReader();
+      reader.readAsDataURL(this.selectedFile);
+      reader.onload = (ev) => this.handleFile(ev);
+    }
   }
 
   public imageCropped(event: ImageCroppedEvent): void {
@@ -58,7 +62,10 @@ export class EditPhotoPopUpComponent implements OnInit {
         this.loadingAnim = false;
         this.closeEditPhoto();
       },
-      () => this.openErrorDialog()
+      () => {
+        this.loadingAnim = false;
+        this.openErrorDialog();
+      }
     );
   }
 
@@ -69,7 +76,10 @@ export class EditPhotoPopUpComponent implements OnInit {
         this.loadingAnim = false;
         this.closeEditPhoto();
       },
-      () => this.openErrorDialog()
+      () => {
+        this.loadingAnim = false;
+        this.openErrorDialog();
+      }
     );
   }
 
@@ -85,14 +95,12 @@ export class EditPhotoPopUpComponent implements OnInit {
     this.selectedFileUrl = event.target.result;
     this.files[0] = { url: this.selectedFileUrl, file: this.selectedFile };
     if (!this.isWarning && typeof this.selectedFile !== 'undefined') {
-      this.showWarning();
       this.selectedPhoto = !this.isWarning ? true : this.selectedPhoto;
     }
   }
 
-  private showWarning(): void {
-    const imageVal = this.files.filter((item) => item.file.type === 'image/jpeg' || item.file.type === 'image/png');
-    this.isWarning = imageVal.length < 1;
+  private showWarning(file): boolean {
+    return file.size > this.maxImageSize || (file.type !== 'image/jpeg' && file.type !== 'image/png');
   }
 
   private openErrorDialog(): void {

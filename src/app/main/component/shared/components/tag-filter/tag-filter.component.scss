@@ -4,11 +4,11 @@
   row-gap: 15px;
 
   span {
-    font-family: var(--secondary-font);
+    font-family: var(--primary-font);
     font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 24px;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 20px;
     color: var(--secondary-dark-grey);
     height: 24px;
   }
@@ -34,10 +34,10 @@
     display: grid;
     grid-template-columns: max-content auto;
     row-gap: 0;
-    column-gap: 30px;
+    column-gap: 24px;
 
     span {
-      font-size: 24px;
+      font-size: 20px;
     }
   }
 }

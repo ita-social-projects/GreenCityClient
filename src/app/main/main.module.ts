@@ -25,8 +25,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { ErrorComponent } from '@global-errors/error/error.component';
 import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';
 import { MaterialModule } from '../material.module';
-import { MatDialogRef, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MatDialogRef, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [MainComponent, ErrorComponent],

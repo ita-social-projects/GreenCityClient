@@ -38,7 +38,8 @@ import { AddViolationsComponent } from './components/add-violations/add-violatio
 import { UbsAdminCancelModalComponent } from './components/ubs-admin-cancel-modal/ubs-admin-cancel-modal.component';
 import { UbsAdminGoBackModalComponent } from './components/ubs-admin-go-back-modal/ubs-admin-go-back-modal.component';
 import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-client-bonuses.component';
-import { MaxImageNamePipe } from './components/shared/max-image-name/max-image-name.pipe';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -66,8 +67,7 @@ import { MaxImageNamePipe } from './components/shared/max-image-name/max-image-n
     AddViolationsComponent,
     UbsAdminCancelModalComponent,
     UbsAdminGoBackModalComponent,
-    UbsClientBonusesComponent,
-    MaxImageNamePipe
+    UbsClientBonusesComponent
   ],
   imports: [
     CommonModule,
@@ -82,6 +82,7 @@ import { MaxImageNamePipe } from './components/shared/max-image-name/max-image-n
     UBSAdminRoutingModule,
     NgxPaginationModule,
     InfiniteScrollModule,
+    DragDropModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,

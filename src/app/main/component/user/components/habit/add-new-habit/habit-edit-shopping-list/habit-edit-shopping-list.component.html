@@ -1,4 +1,4 @@
-<div class="title">Shopping list</div>
+<div class="title">{{ 'user.habit.shopping' | translate }}</div>
 <ul class="checkbox-list">
   <li *ngFor="let item of list">
     <label [ngClass]="{ selected: item.status === 'INPROGRESS', done: item.status === 'DONE' }">

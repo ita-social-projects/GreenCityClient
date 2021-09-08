@@ -3,14 +3,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { SocialNetworksComponent } from './social-networks.component';
-import { MatDialog } from '@angular/material';
 import { WarningPopUpComponent } from '@shared/components';
 import { of } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
 
 class MatDialogMock {
   open() {
     return {
-      afterClosed: () => of(true),
+      afterClosed: () => of(true)
     };
   }
 }
@@ -24,7 +24,7 @@ describe('SocialNetworksComponent', () => {
     TestBed.configureTestingModule({
       declarations: [SocialNetworksComponent, WarningPopUpComponent],
       imports: [TranslateModule.forRoot(), FormsModule],
-      providers: [{ provide: MatDialog, useClass: MatDialogMock }],
+      providers: [{ provide: MatDialog, useClass: MatDialogMock }]
     }).compileComponents();
   }));
 
@@ -45,8 +45,8 @@ describe('SocialNetworksComponent', () => {
       component.socialNetworks = [
         {
           url: 'https://www.facebook.com/',
-          socialNetworkImage: '',
-        },
+          socialNetworkImage: ''
+        }
       ];
     });
 
@@ -108,8 +108,8 @@ describe('SocialNetworksComponent', () => {
         component.getSocialImage({
           url: 'https://www.facebook.com/',
           socialNetworkImage: {
-            imagePath: '',
-          },
+            imagePath: ''
+          }
         })
       ).toBeTruthy();
     });

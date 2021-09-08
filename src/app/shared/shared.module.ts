@@ -6,10 +6,11 @@ import { LocalizedCurrencyPipe } from './localized-currency-pipe/localized-curre
 import { VolumePipe } from './volume-pipe/volume.pipe';
 import { DragDirective } from './drag-and-drop/dragDrop.directive';
 import { CloseDropdownDirective } from './directives/close-dropdown.directive';
+import { PhoneNumberTreatPipe } from './phone-number-treat/phone-number-treat.pipe';
 
 @NgModule({
-  exports: [SpinnerComponent, LocalizedCurrencyPipe, DragDirective, VolumePipe, CloseDropdownDirective],
-  declarations: [SpinnerComponent, LocalizedCurrencyPipe, DragDirective, VolumePipe, CloseDropdownDirective],
+  exports: [SpinnerComponent, LocalizedCurrencyPipe, DragDirective, VolumePipe, CloseDropdownDirective, PhoneNumberTreatPipe],
+  declarations: [SpinnerComponent, LocalizedCurrencyPipe, DragDirective, VolumePipe, CloseDropdownDirective, PhoneNumberTreatPipe],
   imports: [CommonModule, MaterialModule]
 })
 export class SharedModule {}

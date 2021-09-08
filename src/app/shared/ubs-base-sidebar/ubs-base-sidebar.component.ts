@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { MatDrawer } from '@angular/material';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { MatDrawer } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-ubs-base-sidebar',
@@ -41,10 +41,12 @@ export class UbsBaseSidebarComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.breakpointObserver.observe([Breakpoints.Small, Breakpoints.XSmall]).subscribe((result) => {
-        if (result.matches) {
-          this.drawer.mode = 'over';
-        } else {
-          this.drawer.mode = 'side';
+        if (this.drawer) {
+          if (result.matches) {
+            this.drawer.mode = 'over';
+          } else {
+            this.drawer.mode = 'side';
+          }
         }
       });
     }, 0);

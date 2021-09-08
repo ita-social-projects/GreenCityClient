@@ -1,11 +1,12 @@
 import { AdminTableService } from '../../services/admin-table.service';
-import { CdkDragStart, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDragStart, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
+import { ubsAdminTable } from '../ubs-image-pathes/ubs-admin-table';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -34,6 +35,7 @@ export class UbsAdminTableComponent implements OnInit {
   pageSizeOptions: number[] = [10, 15, 20];
   currentPage = 0;
   pageSize = 10;
+  ubsAdminTableIcons = ubsAdminTable;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private adminTableService: AdminTableService) {}
@@ -53,15 +55,8 @@ export class UbsAdminTableComponent implements OnInit {
     });
   }
 
-  dragStarted(event: CdkDragStart, index: number) {
-    this.previousIndex = index;
-  }
-
-  dropListDropped(event: CdkDropList, index: number) {
-    if (event) {
-      moveItemInArray(this.columns, this.previousIndex, index);
-      this.setDisplayedColumns();
-    }
+  dropListDropped(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.displayedColumns, event.previousIndex, event.currentIndex);
   }
 
   isAllSelected() {

@@ -11,10 +11,10 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
     {
       link: 'assets/img/sidebarIcons/user_icon.svg',
       name: 'ubs-sidebar.users',
-      routerLink: '#'
+      routerLink: 'profile'
     },
     {
-      link: './assets/img/sidebarIcons/achievment_icon.svg',
+      link: './assets/img/sidebarIcons/achievement_icon.svg',
       name: 'ubs-sidebar.certificates',
       routerLink: '#'
     },

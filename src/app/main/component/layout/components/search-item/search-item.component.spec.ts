@@ -11,16 +11,17 @@ describe('SearchItemComponent', () => {
     title: 'test',
     author: {
       id: 1,
-      name: 'string',
+      name: 'string'
     },
     creationDate: '1000',
     tags: ['tag'],
+    text: 'test'
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [SearchItemComponent],
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule]
     }).compileComponents();
   }));
 

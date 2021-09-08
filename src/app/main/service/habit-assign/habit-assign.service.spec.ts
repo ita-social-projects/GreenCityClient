@@ -13,8 +13,8 @@ describe('HabitService', () => {
       providers: [HabitAssignService],
       imports: [HttpClientTestingModule]
     });
-    httpMock = TestBed.get(HttpTestingController);
-    service = TestBed.get(HabitAssignService);
+    httpMock = TestBed.inject(HttpTestingController);
+    service = TestBed.inject(HabitAssignService);
   });
 
   it('should be created', () => {

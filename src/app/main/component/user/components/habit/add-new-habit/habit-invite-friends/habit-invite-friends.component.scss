@@ -1,23 +1,50 @@
-.inviteTitle p {
-  font-family: var(--secondary-font);
-  font-style: normal;
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 24px;
-  color: #000;
-}
+.invite-container {
+  p {
+    font-family: var(--secondary-font);
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--secondary-grey);
+  }
 
-.plusCircle img {
-  margin: 10px 0 20px;
-  width: 60px;
-  height: 60px;
-}
+  .invite-title p {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 24px;
+    color: var(--primary-black);
+  }
 
-.inviteDetail p {
-  font-family: var(--secondary-font);
-  font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 16px;
-  color: var(--secondary-grey);
+  .invite-content {
+    display: flex;
+
+    .invite-friends {
+      display: flex;
+      flex-wrap: wrap;
+      width: 400px;
+      max-height: 100px;
+      overflow-y: auto;
+    }
+
+    .plus-circle {
+      width: 100px;
+      margin: 0 10px;
+
+      img {
+        margin: 10px auto;
+        width: 60px;
+        height: 60px;
+      }
+    }
+  }
+
+  .ng-star-inserted {
+    margin: 5px;
+    width: 80px;
+  }
+
+  .invite-detail {
+    height: 15px;
+    margin: 5px 10px;
+  }
 }

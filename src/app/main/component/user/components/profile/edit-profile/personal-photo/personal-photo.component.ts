@@ -7,7 +7,7 @@ import { ProfileService } from '../../profile-service/profile.service';
 @Component({
   selector: 'app-personal-photo',
   templateUrl: './personal-photo.component.html',
-  styleUrls: ['./personal-photo.component.scss'],
+  styleUrls: ['./personal-photo.component.scss']
 })
 export class PersonalPhotoComponent implements OnInit, OnDestroy {
   public avatarImg: string;
@@ -25,7 +25,7 @@ export class PersonalPhotoComponent implements OnInit, OnDestroy {
   private setUserAvatar(): void {
     this.avatarSubscription = this.profileService.getUserInfo().subscribe((el) => {
       this.avatarImg = el.profilePicturePath;
-      this.userName = el.firstName;
+      this.userName = el.name;
     });
   }
 
@@ -37,8 +37,8 @@ export class PersonalPhotoComponent implements OnInit, OnDestroy {
       panelClass: 'custom-dialog-container',
       data: {
         firstName: this.userName,
-        img: this.avatarImg,
-      },
+        img: this.avatarImg
+      }
     });
     dialogRef.afterClosed().subscribe(() => {
       this.setUserAvatar();
