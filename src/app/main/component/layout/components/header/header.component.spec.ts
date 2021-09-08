@@ -165,6 +165,7 @@ describe('HeaderComponent', () => {
     it('should log out the user', () => {
       // @ts-ignore
       const spy = spyOn(component.localStorageService, 'clear');
+
       component.signOut();
       expect(spy).toHaveBeenCalled();
     });
