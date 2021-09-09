@@ -62,8 +62,10 @@
       <mat-header-cell *matHeaderCellDef cdkDrag cdkDragLockAxis="x" cdkDragBoundary="mat-header-row">
         <div *ngIf="column.field !== 'select'; else checkbox">
           <span class="column-title">{{ column.field }}</span>
-          <mat-icon *ngIf="arrowDirection !== column.field" (click)="getSortingDate(column.field, 'asc')"> arrow_downward </mat-icon>
-          <mat-icon *ngIf="arrowDirection === column.field" (click)="getSortingDate(column.field, 'desc')"> arrow_upward </mat-icon>
+          <span *ngIf="!nonSortableColumns.includes(column.field)">
+            <mat-icon *ngIf="arrowDirection !== column.field" (click)="getSortingData(column.field, 'asc')"> arrow_downward </mat-icon>
+            <mat-icon *ngIf="arrowDirection === column.field" (click)="getSortingData(column.field, 'desc')"> arrow_upward </mat-icon>
+          </span>
         </div>
         <ng-template #checkbox>
           <mat-checkbox
@@ -79,7 +81,8 @@
       <mat-cell *matCellDef="let row" [ngStyle]="column.style" class="column.field">
         <div *ngIf="column.field !== 'select'; else checkbox">
           <span *ngIf="column.field === 'order_date'">{{ row[column.field] | date: 'dd/MM/yyyy' }}</span>
-          <span *ngIf="column.field !== 'order_date'">{{ row[column.field] }}</span>
+          <span *ngIf="column.field === 'orderid'" class="primary-color">{{ row[column.field] }}</span>
+          <span *ngIf="column.field !== 'order_date' && column.field !== 'orderid'">{{ row[column.field] }}</span>
         </div>
         <ng-template #checkbox class="checkbox">
           <mat-checkbox

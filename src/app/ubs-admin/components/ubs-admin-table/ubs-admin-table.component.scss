@@ -70,6 +70,10 @@ input {
   overflow-wrap: break-word;
 }
 
+.primary-color {
+  color: var(--primary-green);
+}
+
 .select-cell {
   margin-top: 8px;
 }
@@ -257,7 +261,7 @@ input {
 
 .mat-header-cell .mat-icon {
   padding-top: 5px;
-  padding-left: 20px;
+  padding-left: 10px;
   font-size: 12px;
 
   &:hover {
