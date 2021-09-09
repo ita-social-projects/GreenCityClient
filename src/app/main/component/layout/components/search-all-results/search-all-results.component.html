@@ -52,9 +52,9 @@
     </div>
   </div>
   <div class="list-search-items" *ngIf="displayedElements.length > 0">
-    <app-search-item *ngFor="let element of displayedElements" [searchModel]="element" class="search-item"></app-search-item>
+    <app-search-item *ngFor="let element of displayedElements" [searchModel]="element" class="search-item"> </app-search-item>
   </div>
-  <app-search-not-found *ngIf="itemsFound === 0 && !isLoading" [inputValue]="inputValue"> </app-search-not-found>
+  <app-search-not-found *ngIf="itemsFound === 0 && !isLoading" [inputValue]="inputValue"></app-search-not-found>
 </div>
 <ng-container *ngIf="isSearchFound">
   <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
