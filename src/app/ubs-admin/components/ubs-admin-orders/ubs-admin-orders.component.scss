@@ -16,6 +16,16 @@
   line-height: 40px;
 }
 
+::ng-deep {
+  .mat-tab-labels .mat-tab-label-active {
+    border-bottom: 1px solid var(--primary-green);
+
+    .mat-tab-label-content {
+      color: var(--primary-green);
+    }
+  }
+}
+
 .if_empty {
   margin: 16px 0 0 44px;
 
@@ -39,9 +49,10 @@
   grid-template-rows: 30px;
   max-width: 862px;
   font-size: 14px;
+  font-weight: 500;
+  padding-top: 40px;
   line-height: 20px;
   border: none;
-  border-bottom: 1px solid var(--ubs-quintynary-light-grey);
   text-align: center;
 }
 
@@ -56,7 +67,7 @@
 
 .empty_card {
   display: grid;
-  grid-template-columns: 57px 143px 172px 222px 268px;
+  grid-template-columns: 56px 143px 172px 222px 268px;
   justify-items: center;
   align-items: center;
 

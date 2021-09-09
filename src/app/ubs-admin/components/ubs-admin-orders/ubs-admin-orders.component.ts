@@ -11,8 +11,9 @@ import { Subject } from 'rxjs';
 export class UbsAdminOrdersComponent implements OnInit {
   destroy: Subject<boolean> = new Subject<boolean>();
   orders: any[];
+  currentOrders: any[];
+  orderHistory: any[];
   orderDetails: any[];
-  isAnyOrders: boolean;
   public currentLanguage: string;
 
   constructor(private adminOrdersService: AdminOrdersService) {}
@@ -23,6 +24,8 @@ export class UbsAdminOrdersComponent implements OnInit {
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         this.orders = item;
+        this.currentOrders = this.orders.filter((order) => order.orderStatus === 'FORMED');
+        this.orderHistory = this.orders.filter((order) => order.orderStatus === 'CANCELLED');
       });
   }
 
