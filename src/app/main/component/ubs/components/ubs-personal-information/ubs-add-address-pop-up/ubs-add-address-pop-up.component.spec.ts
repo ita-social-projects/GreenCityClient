@@ -1,7 +1,9 @@
+import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
+import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
 import { OrderService } from './../../../services/order.service';
 import { Address } from './../../../models/ubs.interface';
-import { TranslateModule } from '@ngx-translate/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -9,6 +11,7 @@ import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up.component'
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { of, Subject } from 'rxjs';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('UBSAddAddressPopUpComponent', () => {
   let component: UBSAddAddressPopUpComponent;
@@ -21,6 +24,7 @@ describe('UBSAddAddressPopUpComponent', () => {
     TestBed.configureTestingModule({
       imports: [FormsModule, ReactiveFormsModule, HttpClientTestingModule, TranslateModule.forRoot()],
       declarations: [UBSAddAddressPopUpComponent],
+      // MatSnackBarComponent],
       providers: [OrderService, { provide: MatDialogRef, useValue: fakeMatDialogRef }, { provide: MAT_DIALOG_DATA, useValue: {} }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
