@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatProgressSpinnerModule } from '@angular/material';
 import { SharedMainModule } from '@shared/shared-main.module';
 import { AddCommentComponent } from './components/add-comment/add-comment.component';
 import { ViewRepliesComponent } from './components/view-replies/view-replies.component';
@@ -14,6 +13,7 @@ import { CommentsListComponent } from './components/comments-list/comments-list.
 import { CommentsContainerComponent } from './components/comments-container/comments-container.component';
 import { CommentsService } from './services/comments.service';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [

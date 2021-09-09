@@ -1,11 +1,11 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ModalService } from '../../../../core/components/propose-cafe/_modal/modal.service';
 
 @Component({
   selector: 'app-dialog-photo',
   templateUrl: './dialog-photo.component.html',
-  styleUrls: ['./dialog-photo.component.scss'],
+  styleUrls: ['./dialog-photo.component.scss']
 })
 export class DialogPhotoComponent {
   constructor(

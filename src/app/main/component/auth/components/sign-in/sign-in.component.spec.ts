@@ -6,7 +6,6 @@ import { By } from '@angular/platform-browser';
 import { AuthService, AuthServiceConfig, LoginOpt, SocialUser } from 'angularx-social-login';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MatDialogModule, MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -24,6 +23,7 @@ import { ErrorComponent } from '../error/error.component';
 import { SignInComponent } from './sign-in.component';
 import { provideConfig } from 'src/app/main/config/GoogleAuthConfig';
 import { JwtService } from '@global-service/jwt/jwt.service';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 describe('SignIn component', () => {
   let component: SignInComponent;
@@ -90,7 +90,7 @@ describe('SignIn component', () => {
         MatDialogModule,
         TranslateModule.forRoot(),
         ReactiveFormsModule,
-        RouterTestingModule.withRoutes([]),
+        RouterTestingModule.withRoutes([])
       ],
       providers: [
         { provide: GoogleSignInService, useValue: googleServiceMock },
@@ -101,8 +101,8 @@ describe('SignIn component', () => {
         { provide: MatDialogRef, useValue: matDialogMock },
         { provide: UserOwnSignInService, useValue: signInServiceMock },
         { provide: Router, useValue: routerSpy },
-        { provide: ProfileService },
-      ],
+        { provide: ProfileService }
+      ]
     });
   }));
 

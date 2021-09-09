@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { LocalStorageService } from '../localstorage/local-storage.service';
-import { MatDialog } from '@angular/material';
 import { filter } from 'rxjs/operators';
 import { AuthModalComponent } from '../../component/auth/components/auth-modal/auth-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({
   providedIn: 'root'

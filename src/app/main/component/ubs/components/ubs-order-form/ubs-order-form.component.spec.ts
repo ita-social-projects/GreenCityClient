@@ -1,11 +1,10 @@
 import { TranslateModule } from '@ngx-translate/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatStepperModule } from '@angular/material';
-
 import { UBSOrderFormComponent } from './ubs-order-form.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ChangeDetectorRef } from '@angular/core';
+import { MatStepperModule } from '@angular/material/stepper';
 
 describe('UBSOrderFormComponent ', () => {
   let component: UBSOrderFormComponent;

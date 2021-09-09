@@ -2,7 +2,6 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Language } from './../../../../i18n/Language';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatDialog, MatDialogModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -15,6 +14,7 @@ import { AchievementService } from '@global-service/achievement/achievement.serv
 import { HabitStatisticService } from '@global-service/habit-statistic/habit-statistic.service';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { SearchService } from '@global-service/search/search.service';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 class MatDialogMock {
   afterAllClosed = of(true);

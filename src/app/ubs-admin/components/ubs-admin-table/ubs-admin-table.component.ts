@@ -1,5 +1,5 @@
 import { AdminTableService } from '../../services/admin-table.service';
-import { CdkDragStart, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDragStart, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -55,15 +55,8 @@ export class UbsAdminTableComponent implements OnInit {
     });
   }
 
-  dragStarted(event: CdkDragStart, index: number) {
-    this.previousIndex = index;
-  }
-
-  dropListDropped(event: CdkDropList, index: number) {
-    if (event) {
-      moveItemInArray(this.columns, this.previousIndex, index);
-      this.setDisplayedColumns();
-    }
+  dropListDropped(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.displayedColumns, event.previousIndex, event.currentIndex);
   }
 
   isAllSelected() {
