@@ -1,8 +1,7 @@
-import { LanguageService } from 'src/app/main/i18n/language.service';
 import { nonSortableColumns } from './../../models/non-sortable-columns.model';
 import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragStart, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit, OnDestroy, AfterViewChecked, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,7 +14,7 @@ import { MatSort } from '@angular/material';
   templateUrl: './ubs-admin-table.component.html',
   styleUrls: ['./ubs-admin-table.component.scss']
 })
-export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestroy {
+export class UbsAdminTableComponent implements OnInit, OnDestroy {
   nonSortableColumns = nonSortableColumns;
   sortingColumn: string;
   sortType: string;
@@ -34,7 +33,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   isLoading = true;
   isUpdate = false;
   destroy: Subject<boolean> = new Subject<boolean>();
-  destroyEnHeaders: Subject<boolean> = new Subject<boolean>();
   arrowDirection: string;
   tableData: any[];
   totalPages: number;
@@ -42,57 +40,12 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   currentPage = 0;
   pageSize = 10;
   ubsAdminTableIcons = ubsAdminTable;
-  headersElements = [];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private adminTableService: AdminTableService) {}
-  // constructor(private adminTableService: AdminTableService, private translate: LanguageService) {
-  // }
 
   ngOnInit() {
     this.getTable();
-    // this.translate.languageChanged.subscribe(() => {
-    //   this.setCorrectCellsWidth();
-    // });
-  }
-
-  ngAfterViewChecked() {
-    if (!this.headersElements.length) {
-      this.setCorrectCellsWidth();
-    }
-  }
-
-  setCorrectCellsWidth() {
-    this.changeCellsWidth();
-    this.headersElements = Array.prototype.slice.call(document.querySelectorAll('mat-header-cell')).slice(1);
-
-    if (this.headersElements[0] instanceof HTMLElement) {
-      this.arrayOfHeaders.forEach((header) => {
-        this.headersElements.forEach((headerElement) => {
-          const className = `mat-column-${header.field}`;
-          if (headerElement.classList.contains(className)) {
-            const headerWidth = getComputedStyle(headerElement).width;
-            const cells = Array.prototype.slice.call(document.querySelectorAll(`mat-cell.${className}`));
-            cells.forEach((cell) => {
-              cell.style.width = headerWidth;
-              cell.title = cell.innerText;
-            });
-          }
-        });
-      });
-    }
-  }
-
-  changeCellsWidth(): void {
-    const cells = ['mat-cell', 'mat-header-cell', 'mat-footer-cell'];
-    cells.forEach((cell) => {
-      const currentCells = Array.prototype.slice.call(document.querySelectorAll(cell));
-      currentCells.forEach((currentCell) => {
-        currentCell.style.display = 'flex';
-        currentCell.style.flex = 'none';
-        currentCell.style.padding = '0px 10px';
-      });
-    });
   }
 
   applyFilter(filterValue: string) {
@@ -186,7 +139,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.sertificate = dynamicallyColumns.slice(18, 22);
         this.detailsOfExport = dynamicallyColumns.slice(22, 27);
         this.responsiblePerson = dynamicallyColumns.slice(27, 33);
-        this.setCorrectCellsWidth();
       });
   }
 
@@ -205,7 +157,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.tableData = [...this.tableData, ...data];
         this.dataSource.data = this.tableData;
         this.isUpdate = false;
-        this.setCorrectCellsWidth();
       });
   }
 
@@ -231,8 +182,5 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   ngOnDestroy() {
     this.destroy.next();
     this.destroy.unsubscribe();
-
-    this.destroyEnHeaders.next();
-    this.destroyEnHeaders.unsubscribe();
   }
 }

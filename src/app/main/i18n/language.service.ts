@@ -1,4 +1,3 @@
-import { Subject } from 'rxjs';
 import { LocalStorageService } from './../service/localstorage/local-storage.service';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
@@ -9,7 +8,6 @@ import { LanguageId } from '../interface/language-id';
   providedIn: 'root'
 })
 export class LanguageService {
-  public languageChanged = new Subject<boolean>();
   private defaultLanguage = Language.EN;
   private monthMap = new Map<Language, string[]>();
   private langMap = new Map();
@@ -98,7 +96,6 @@ export class LanguageService {
   public changeCurrentLanguage(language: Language) {
     this.localStorageService.setCurrentLanguage(language);
     this.translate.setDefaultLang(language);
-    this.languageChanged.next();
   }
 
   public getLanguageId(language: Language) {
