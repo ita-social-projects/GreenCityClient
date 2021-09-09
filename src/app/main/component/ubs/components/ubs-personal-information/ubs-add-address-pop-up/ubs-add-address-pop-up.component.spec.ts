@@ -11,7 +11,6 @@ import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up.component'
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { of, Subject } from 'rxjs';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('UBSAddAddressPopUpComponent', () => {
   let component: UBSAddAddressPopUpComponent;
@@ -24,8 +23,12 @@ describe('UBSAddAddressPopUpComponent', () => {
     TestBed.configureTestingModule({
       imports: [FormsModule, ReactiveFormsModule, HttpClientTestingModule, TranslateModule.forRoot()],
       declarations: [UBSAddAddressPopUpComponent],
-      // MatSnackBarComponent],
-      providers: [OrderService, { provide: MatDialogRef, useValue: fakeMatDialogRef }, { provide: MAT_DIALOG_DATA, useValue: {} }],
+      providers: [
+        OrderService,
+        { provide: MatDialogRef, useValue: fakeMatDialogRef },
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: MatSnackBarComponent, useValue: {} }
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
