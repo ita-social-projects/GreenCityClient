@@ -1,7 +1,7 @@
 import { nonSortableColumns } from './../../models/non-sortable-columns.model';
 import { AdminTableService } from '../../services/admin-table.service';
-import { CdkDragStart, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { CdkDragDrop, CdkDragStart, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
@@ -59,15 +59,8 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     });
   }
 
-  dragStarted(event: CdkDragStart, index: number) {
-    this.previousIndex = index;
-  }
-
-  dropListDropped(event: CdkDropList, index: number) {
-    if (event) {
-      moveItemInArray(this.columns, this.previousIndex, index);
-      this.setDisplayedColumns();
-    }
+  dropListDropped(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.displayedColumns, event.previousIndex, event.currentIndex);
   }
 
   isAllSelected() {

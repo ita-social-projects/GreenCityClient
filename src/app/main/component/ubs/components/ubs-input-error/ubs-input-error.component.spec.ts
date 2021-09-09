@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { UBSInputErrorComponent } from './ubs-input-error.component';
 
-describe('ErrorComponent', () => {
+describe('ErrorComponent ', () => {
   let component: UBSInputErrorComponent;
   let fixture: ComponentFixture<UBSInputErrorComponent>;
   let httpTestingController: HttpTestingController;
@@ -12,9 +12,9 @@ describe('ErrorComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule],
-      declarations: [UBSInputErrorComponent],
+      declarations: [UBSInputErrorComponent]
     }).compileComponents();
-    httpTestingController = TestBed.get(HttpTestingController);
+    httpTestingController = TestBed.inject(HttpTestingController);
   }));
 
   beforeEach(() => {
@@ -25,5 +25,20 @@ describe('ErrorComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('checking function calling', () => {
+    Object.assign(component, { formElement: { errors: ['required'] } });
+    spyOn(component, 'ngOnChanges').and.callThrough();
+    component.ngOnChanges();
+    expect(component.ngOnChanges).toHaveBeenCalled();
+  });
+
+  it('errorMessage should have correct value if we have errors', () => {
+    Object.assign(component, { formElement: { errors: { required: true } } });
+    fixture.detectChanges();
+    // @ts-ignore
+    component.getType();
+    expect(component.errorMessage).toBe('input-error.required');
   });
 });

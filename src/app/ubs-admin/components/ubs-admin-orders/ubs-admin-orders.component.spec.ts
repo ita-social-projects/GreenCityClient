@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatIconModule } from '@angular/material';
 import { UbsAdminOrdersComponent } from './ubs-admin-orders.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('UbsAdminOrdersComponent', () => {
   let component: UbsAdminOrdersComponent;

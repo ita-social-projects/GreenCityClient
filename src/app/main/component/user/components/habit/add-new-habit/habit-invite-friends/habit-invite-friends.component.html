@@ -4,7 +4,7 @@
   </div>
   <div class="invite-content">
     <div class="plus-circle">
-      <img src="../assets/img/icon/plus-circle.png" alt="plus-circle" (click)="openInviteFriendsDialog()" />
+      <img src="assets/img/icon/plus-circle.png" alt="plus-circle" (click)="openInviteFriendsDialog()" />
     </div>
     <div class="invite-friends">
       <div *ngFor="let friend of addedFriends">
@@ -19,7 +19,7 @@
       </div>
     </div>
   </div>
-  <div class="invite-detail" *ngIf="!addedFriends.length">
+  <div class="invite-detail">
     <p>{{ 'user.habit.invite.message' | translate }}</p>
   </div>
 </div>

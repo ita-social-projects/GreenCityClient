@@ -16,10 +16,10 @@
           <ng-container *ngIf="bag.quantity">
             <span class="col-3 p-0 m-0 bag-name">{{ bag.name }}</span>
             <span class="col-2 p-0 m-0 bag-name">{{ bag.capacity }} {{ 'order-details.litr' | translate }}</span>
-            <span class="col-2 p-0 m-0 bag-name">{{ bag.price }} {{ 'order-details.currency' | translate }}</span>
+            <span class="col-2 p-0 m-0 bag-name">{{ bag.price | currency }} {{ 'order-details.currency' | translate }}</span>
             <span class="col-2 p-0 m-0 bag-name">{{ bag.quantity }} {{ 'order-details.pieces' | translate }}</span>
             <span class="col-3 p-0 m-0 bag-name text-center">
-              {{ bag.quantity * bag.price }} {{ 'order-details.currency' | translate }}</span
+              {{ bag.quantity * bag.price | currency }} {{ 'order-details.currency' | translate }}</span
             >
           </ng-container>
         </li>
@@ -32,13 +32,15 @@
             <p class="total-content" [class.d-none]="orderDetails.total === 0">
               <span>{{ 'order-details.order-amount' | translate }} </span>
               <span>
-                <strong>{{ orderDetails.total }} {{ 'order-details.currency' | translate }}</strong>
+                <strong>{{ orderDetails.total | currency }} {{ 'order-details.currency' | translate }}</strong>
               </span>
             </p>
             <p class="total-content" *ngIf="orderDetails.certificatesSum">
               <span>{{ 'order-details.certificate' | translate }} </span>
               <span>
-                <strong class="money-saved">-{{ orderDetails.certificatesSum }} {{ 'order-details.currency' | translate }} </strong>
+                <strong class="money-saved"
+                  >-{{ orderDetails.certificatesSum | currency }} {{ 'order-details.currency' | translate }}
+                </strong>
               </span>
             </p>
             <p class="total-content" *ngIf="orderDetails.pointsToUse">
@@ -50,7 +52,7 @@
             <p class="total-content">
               <span>{{ 'order-details.amount-due' | translate }} </span>
               <span>
-                <strong>{{ orderDetails.finalSum }} {{ 'order-details.currency' | translate }}</strong>
+                <strong>{{ orderDetails.finalSum | currency }} {{ 'order-details.currency' | translate }}</strong>
               </span>
             </p>
           </div>

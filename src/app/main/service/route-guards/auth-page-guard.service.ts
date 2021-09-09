@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { LocalStorageService } from '../localstorage/local-storage.service';
-import { MatDialog } from '@angular/material';
 import { filter } from 'rxjs/operators';
 import { AuthModalComponent } from '../../component/auth/components/auth-modal/auth-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthPageGuardService implements CanActivate {
   private isLoggedIn = false;
@@ -34,8 +34,8 @@ export class AuthPageGuardService implements CanActivate {
         closeOnNavigation: true,
         panelClass: 'custom-dialog-container',
         data: {
-          popUpName: 'sign-in',
-        },
+          popUpName: 'sign-in'
+        }
       })
       .afterClosed()
       .pipe(filter(Boolean))

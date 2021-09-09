@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -23,5 +24,13 @@ describe('UbsConfirmPageComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('ngOnInit should subscribe on activatedRoute.queryParams', () => {
+    // @ts-ignore
+    spyOn(component.activatedRoute.queryParams, 'subscribe').and.callFake(() => new Subscription());
+    component.ngOnInit();
+    // @ts-ignore
+    expect(component.activatedRoute.queryParams.subscribe).toHaveBeenCalled();
   });
 });

@@ -4,6 +4,7 @@ import { languages } from 'src/app/shared/languages/languages';
 import { LanguageModel } from '../../models/languageModel';
 import { Language } from '../../../main/i18n/Language';
 import { LanguageService } from '../../../main/i18n/language.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ubs-header',
@@ -11,16 +12,16 @@ import { LanguageService } from '../../../main/i18n/language.service';
   styleUrls: ['./ubs-header.component.scss']
 })
 export class UbsHeaderComponent implements OnInit {
-  public langDropdownVisible = false;
+  langDropdownVisible = false;
   arrayLang: Array<LanguageModel> = languages;
   ubsHeaderIcons = ubsHeaderIcons;
   navLinks = [
-    { name: 'Про нас', route: '/' },
-    { name: 'Правила сортування', route: '/' },
-    { name: 'Еко-магазин', route: '/' },
-    { name: 'Green City', route: '/' }
+    { name: 'Про нас', route: '/ubs', url: false },
+    { name: 'Правила сортування', route: 'https://nowaste.com.ua/yak-sortyvaty-na-karantuni/', url: true },
+    { name: 'Еко-магазин', route: 'https://shop.nowaste.com.ua/', url: true },
+    { name: 'Green City', route: '/', url: false }
   ];
-  constructor(private languageService: LanguageService) {}
+  constructor(private languageService: LanguageService, private router: Router) {}
 
   ngOnInit() {
     this.setLangArr();
@@ -33,15 +34,23 @@ export class UbsHeaderComponent implements OnInit {
     this.arrayLang = [currentLangObj, ...this.arrayLang.slice(0, currentLangIndex), ...this.arrayLang.slice(currentLangIndex + 1)];
   }
 
-  public autoCloseLangDropDown(event): void {
+  autoCloseLangDropDown(event): void {
     this.langDropdownVisible = event;
   }
 
-  public changeCurrentLanguage(language, index: number): void {
+  changeCurrentLanguage(language, index: number): void {
     this.languageService.changeCurrentLanguage(language.toLowerCase() as Language);
     const temporary = this.arrayLang[0].lang;
     this.arrayLang[0].lang = language;
     this.arrayLang[index].lang = temporary;
     this.langDropdownVisible = false;
+  }
+
+  navigateToLink(link) {
+    if (link.url) {
+      window.open(link.route);
+    } else {
+      this.router.navigate([link.route]);
+    }
   }
 }

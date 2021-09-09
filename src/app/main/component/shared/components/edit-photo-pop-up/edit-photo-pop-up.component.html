@@ -5,7 +5,7 @@
   <div class="wrapper" *ngIf="!selectedPhoto && !isNotification; else elseBlock">
     <app-user-profile-image [imgPath]="avatarImg" [additionalImgClass]="'big'" [firstName]="data.firstName"> </app-user-profile-image>
     <p *ngIf="isWarning" class="warning">{{ 'user.edit-profile.picture-tooltip' | translate }}</p>
-    <p>{{ 'user.edit-profile.change-photo' | translate }}</p>
+    <p *ngIf="!isWarning">{{ 'user.edit-profile.change-photo' | translate }}</p>
     <div class="buttons">
       <button type="button" class="primary-global-button" (click)="closeEditPhoto()">
         {{ 'user.edit-profile.btn.cancel' | translate }}
@@ -35,7 +35,7 @@
           </image-cropper>
         </div>
         <p *ngIf="isWarning" class="warning">{{ 'user.edit-profile.picture-tooltip' | translate }}</p>
-        <p>{{ 'user.edit-profile.would-you-like' | translate }}</p>
+        <p *ngIf="!isWarning">{{ 'user.edit-profile.would-you-like' | translate }}</p>
         <div class="buttons">
           <label class="primary-global-button change">
             {{ 'user.edit-profile.btn.change-photo' | translate }}
