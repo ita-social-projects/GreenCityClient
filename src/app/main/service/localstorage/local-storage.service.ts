@@ -96,14 +96,14 @@ export class LocalStorageService {
     localStorage.removeItem(key);
   }
 
-  public setUbsRegistration(value: string): void {
+  public setUbsRegistration(value: boolean): void {
     if (!localStorage.getItem(this.USER_ID)) {
-      localStorage.setItem('callUbsRegWindow', value);
+      localStorage.setItem('callUbsRegWindow', JSON.stringify(value));
     }
   }
 
-  public getUbsRegistration(): string {
-    return localStorage.getItem('callUbsRegWindow');
+  public getUbsRegistration(): boolean {
+    return localStorage.getItem('callUbsRegWindow') === 'true';
   }
 
   public removeUbsRegistration(): void {

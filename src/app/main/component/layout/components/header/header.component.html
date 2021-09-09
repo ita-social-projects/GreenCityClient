@@ -10,7 +10,7 @@
             <li role="link">
               <a
                 [routerLink]="['/news']"
-                (click)="setUbsRegistration('false')"
+                (click)="setUbsRegistration(false)"
                 routerLinkActive="active-link"
                 routerLinkActiveOptions="{exact:true}"
               >
@@ -20,7 +20,7 @@
             <li role="link">
               <a
                 [routerLink]="['/tips']"
-                (click)="setUbsRegistration('false')"
+                (click)="setUbsRegistration(false)"
                 routerLinkActive="active-link"
                 routerLinkActiveOptions="{exact:true}"
               >
@@ -30,7 +30,7 @@
             <li role="link">
               <a
                 [routerLink]="['/places']"
-                (click)="setUbsRegistration('false')"
+                (click)="setUbsRegistration(false)"
                 routerLinkActive="active-link"
                 routerLinkActiveOptions="{exact:true}"
                 routerLinkActive="active-link"
@@ -42,7 +42,7 @@
             <li role="link">
               <a
                 [routerLink]="['/about']"
-                (click)="setUbsRegistration('false')"
+                (click)="setUbsRegistration(false)"
                 routerLinkActive="active-link"
                 routerLinkActiveOptions="{exact:true}"
               >
@@ -53,7 +53,7 @@
               <a
                 [routerLink]="['/profile', getUserId()]"
                 routerLinkActive="active-link"
-                (click)="setUbsRegistration('false')"
+                (click)="setUbsRegistration(false)"
                 routerLinkActiveOptions="{exact:true}"
               >
                 {{ 'user.lower-nav-bar.my-habits' | translate }}
@@ -62,7 +62,7 @@
             <li role="link">
               <a
                 [routerLink]="['/ubs']"
-                (click)="setUbsRegistration('true')"
+                (click)="setUbsRegistration(true)"
                 routerLinkActive="active-link"
                 routerLinkActiveOptions="{exact:true}"
                 >{{ 'user.lower-nav-bar.ubs' | translate }}</a

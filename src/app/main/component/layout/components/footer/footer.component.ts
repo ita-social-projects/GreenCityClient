@@ -30,7 +30,7 @@ export class FooterComponent implements OnInit, OnDestroy {
     this.destroySub.complete();
   }
 
-  setUbsRegistration(value: string): void {
+  setUbsRegistration(value: boolean): void {
     this.localStorageService.setUbsRegistration(value);
   }
 }

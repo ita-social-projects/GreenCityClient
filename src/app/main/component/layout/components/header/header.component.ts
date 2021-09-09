@@ -192,7 +192,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public openAuthModalWindow(page: string): void {
-    this.setUbsRegistration('false');
+    this.setUbsRegistration(false);
     this.elementName = page;
     this.dialog.open(AuthModalComponent, {
       hasBackdrop: true,
@@ -224,7 +224,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.toggleBurgerMenu ? document.body.classList.add('modal-open') : document.body.classList.remove('modal-open');
   }
 
-  setUbsRegistration(value: string): void {
+  setUbsRegistration(value: boolean): void {
     this.localStorageService.setUbsRegistration(value);
   }
 }

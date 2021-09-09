@@ -43,7 +43,7 @@ export class AuthModalComponent implements OnInit {
   }
 
   private setAuthImage(): void {
-    if (this.localStorageService.getUbsRegistration() === 'false') {
+    if (!this.localStorageService.getUbsRegistration()) {
       this.authImages = authImages;
     } else {
       this.authImages = ubsAuthImages;

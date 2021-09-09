@@ -67,7 +67,7 @@ export class UbsMainPageComponent {
   constructor(private router: Router, private localStorageService: LocalStorageService) {}
 
   redirectToOrder() {
-    this.localStorageService.setUbsRegistration('true');
+    this.localStorageService.setUbsRegistration(true);
     this.router.navigate(['ubs', 'order']);
   }
 }
