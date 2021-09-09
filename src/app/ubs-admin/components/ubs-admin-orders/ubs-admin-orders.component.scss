@@ -18,11 +18,18 @@
 
 ::ng-deep {
   .mat-tab-labels .mat-tab-label-active {
-    border-bottom: 1px solid var(--primary-green);
-
     .mat-tab-label-content {
       color: var(--primary-green);
     }
+  }
+
+  .mat-tab-label-content {
+    font-size: 20px;
+  }
+
+  .mat-tab-group.mat-primary .mat-ink-bar,
+  .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+    background-color: var(--primary-green);
   }
 }
 
@@ -136,11 +143,13 @@
     font-weight: bold;
     letter-spacing: 0.002em;
     color: var(--ubs-primary-black);
+    font-family: var(--primary-font);
   }
 }
 
 .table_of_details {
   margin-top: 15px;
+  font-family: var(--primary-font);
 
   .header_table {
     height: 34px;
@@ -227,6 +236,7 @@
   width: 450px;
   margin-left: 16px;
   color: var(--ubs-primary-grey);
+  font-family: var(--primary-font);
 
   .recipient {
     margin: 32px 0;
