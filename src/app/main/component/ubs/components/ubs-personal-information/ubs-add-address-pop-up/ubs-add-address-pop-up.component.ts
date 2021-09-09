@@ -5,7 +5,6 @@ import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { Address } from '../../../models/ubs.interface';
 import { takeUntil, catchError } from 'rxjs/operators';
 import { Subject, throwError } from 'rxjs';
-// import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
