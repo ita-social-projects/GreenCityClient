@@ -4,8 +4,7 @@ import { UbsBaseSidebarComponent } from 'src/app/shared/ubs-base-sidebar/ubs-bas
 
 @Component({
   selector: 'app-ubs-user-sidebar',
-  templateUrl: './ubs-user-sidebar.component.html',
-  styleUrls: ['./ubs-user-sidebar.component.scss']
+  templateUrl: './ubs-user-sidebar.component.html'
 })
 export class UbsUserSidebarComponent extends UbsBaseSidebarComponent implements OnInit {
   public listElementsUser: any[] = [
