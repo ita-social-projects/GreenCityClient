@@ -39,6 +39,8 @@ import { UbsAdminCancelModalComponent } from './components/ubs-admin-cancel-moda
 import { UbsAdminGoBackModalComponent } from './components/ubs-admin-go-back-modal/ubs-admin-go-back-modal.component';
 import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-client-bonuses.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -82,6 +84,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     NgxPaginationModule,
     InfiniteScrollModule,
     MatTabsModule,
+    DragDropModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
