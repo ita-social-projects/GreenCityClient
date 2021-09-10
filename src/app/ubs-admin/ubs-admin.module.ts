@@ -41,6 +41,7 @@ import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-c
 import { MatTabsModule } from '@angular/material/tabs';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatTableModule } from '@angular/material/table';
+import { UbsAdminOrdersListComponent } from './components/ubs-admin-orders-list/ubs-admin-orders-list.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { MatTableModule } from '@angular/material/table';
     AddViolationsComponent,
     UbsAdminCancelModalComponent,
     UbsAdminGoBackModalComponent,
-    UbsClientBonusesComponent
+    UbsClientBonusesComponent,
+    UbsAdminOrdersListComponent
   ],
   imports: [
     CommonModule,

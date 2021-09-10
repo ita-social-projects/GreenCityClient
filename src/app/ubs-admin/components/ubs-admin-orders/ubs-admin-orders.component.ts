@@ -13,12 +13,13 @@ export class UbsAdminOrdersComponent implements OnInit {
   orders: any[];
   currentOrders: any[];
   orderHistory: any[];
-  orderDetails: any[];
+  loading = false;
   public currentLanguage: string;
 
   constructor(private adminOrdersService: AdminOrdersService) {}
 
   ngOnInit() {
+    this.loading = true;
     this.adminOrdersService
       .getOrders()
       .pipe(takeUntil(this.destroy))
@@ -26,21 +27,7 @@ export class UbsAdminOrdersComponent implements OnInit {
         this.orders = item;
         this.currentOrders = this.orders.filter((order) => order.orderStatus === 'FORMED');
         this.orderHistory = this.orders.filter((order) => order.orderStatus === 'CANCELLED');
-      });
-  }
-
-  changeCard(id) {
-    this.currentLanguage = localStorage.getItem('language');
-
-    this.adminOrdersService
-      .getOrderDetails(id)
-      .pipe(takeUntil(this.destroy))
-      .subscribe((item) => {
-        this.orderDetails = item.bags.filter((value) => value.code === this.currentLanguage);
-
-        this.orders.map((el) => {
-          el.id === id && el.extend ? (el.extend = false) : el.id === id ? (el.extend = true) : (el.extend = el.extend);
-        });
+        this.loading = false;
       });
   }
 }
