@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommentAdminDto } from '../../models/comment-admin-dto.model';
 import { FeedbackService } from '../../../../service/feedbacksAdmin/feedback.service';
-import { MatDialog, MatTableDataSource } from '@angular/material';
 import { ConfirmationDialogService } from '../../services/confirmation-dialog-service.service';
 import { DialogPhotoComponent } from './dialog-photo/dialog-photo.component';
 import { TranslateService } from '@ngx-translate/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-feedbacks',

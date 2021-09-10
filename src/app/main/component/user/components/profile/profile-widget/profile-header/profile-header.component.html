@@ -6,12 +6,12 @@
     <app-user-profile-image
       class="user-image"
       [imgPath]="userInfo.profilePicturePath"
-      [firstName]="userInfo.firstName"
+      [firstName]="userInfo.name"
       [additionalImgClass]="'center'"
     >
     </app-user-profile-image>
     <p class="name">
-      {{ userInfo.firstName }}
+      {{ userInfo.name }}
     </p>
     <p class="location" *ngIf="userInfo.showLocation">
       {{ userInfo.city || mockedUserInfo.city }}

@@ -5,16 +5,16 @@ import { Language } from './Language';
 import { LanguageId } from '../interface/language-id';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class LanguageService {
-  private langMap = new Map();
   private defaultLanguage = Language.EN;
   private monthMap = new Map<Language, string[]>();
+  private langMap = new Map();
   public synqLanguageArr: LanguageId[] = [
     { id: 1, code: 'ua' },
     { id: 2, code: 'en' },
-    { id: 3, code: 'ru' },
+    { id: 3, code: 'ru' }
   ];
 
   constructor(private translate: TranslateService, private localStorageService: LocalStorageService) {
@@ -34,7 +34,7 @@ export class LanguageService {
       'вересня',
       'жовтня',
       'листопада',
-      'грудня',
+      'грудня'
     ]);
     this.monthMap.set(Language.EN, [
       'january',
@@ -48,7 +48,7 @@ export class LanguageService {
       'september',
       'october',
       'november',
-      'december',
+      'december'
     ]);
     this.monthMap.set(Language.RU, [
       'января',
@@ -62,7 +62,7 @@ export class LanguageService {
       'сентября',
       'октября',
       'ноября',
-      'декабря',
+      'декабря'
     ]);
   }
 

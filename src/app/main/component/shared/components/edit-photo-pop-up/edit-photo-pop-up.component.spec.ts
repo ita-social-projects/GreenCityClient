@@ -4,8 +4,8 @@ import { SharedMainModule } from '@shared/shared-main.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditPhotoPopUpComponent } from './edit-photo-pop-up.component';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 describe('EditPhotoPopUpComponent', () => {
   let component: EditPhotoPopUpComponent;
