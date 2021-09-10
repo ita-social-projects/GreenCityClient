@@ -1,6 +1,6 @@
 export class EditProfileModel {
   city: string;
-  firstName: string;
+  name: string;
   userCredo: string;
   profilePicturePath: string;
   rating: number | null;
@@ -12,7 +12,7 @@ export class EditProfileModel {
 
 export class EditProfileDto {
   city: string;
-  firstName: string;
+  name: string;
   userCredo: string;
   showEcoPlace: boolean;
   showLocation: boolean;

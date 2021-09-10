@@ -39,6 +39,8 @@ import { UbsAdminCancelModalComponent } from './components/ubs-admin-cancel-moda
 import { UbsAdminGoBackModalComponent } from './components/ubs-admin-go-back-modal/ubs-admin-go-back-modal.component';
 import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-client-bonuses.component';
 import { UbsAdminTableExcelPopupComponent } from './components/ubs-admin-table/ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -83,6 +85,7 @@ import { UbsAdminTableExcelPopupComponent } from './components/ubs-admin-table/u
     UBSAdminRoutingModule,
     NgxPaginationModule,
     InfiniteScrollModule,
+    DragDropModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,

@@ -13,11 +13,10 @@ const ubsAdminRoutes: Routes = [
     path: '',
     component: UbsAdminComponent,
     children: [
-      { path: '', component: UbsAdminTableComponent },
-      { path: 'orders', component: UbsAdminOrdersComponent },
+      { path: '', component: UbsAdminOrdersComponent },
+      { path: 'orders', component: UbsAdminTableComponent },
       { path: 'employee/:page', component: UbsAdminEmployeeComponent },
       { path: 'profile', component: UbsClientProfilePageComponent },
-      { path: 'orders', component: UbsAdminTableComponent },
       { path: 'order', component: UbsAdminOrderComponent },
       { path: 'bonuses', component: UbsClientBonusesComponent }
     ]

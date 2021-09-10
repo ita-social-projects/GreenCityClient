@@ -2,13 +2,13 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommentsService } from '../../services/comments.service';
 import { CommentsDTO } from '../../models/comments-model';
 import { WarningPopUpComponent } from '@shared/components/warning-pop-up/warning-pop-up.component';
-import { MatDialog } from '@angular/material';
 import { take } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-delete-comment',
   templateUrl: './delete-comment.component.html',
-  styleUrls: ['./delete-comment.component.scss'],
+  styleUrls: ['./delete-comment.component.scss']
 })
 export class DeleteCommentComponent {
   @Input() public element: CommentsDTO;
@@ -27,8 +27,8 @@ export class DeleteCommentComponent {
       data: {
         popupTitle: `homepage.eco-news.comment.${this.dataType}-popup.title`,
         popupConfirm: `homepage.eco-news.comment.${this.dataType}-popup.confirm`,
-        popupCancel: `homepage.eco-news.comment.${this.dataType}-popup.cancel`,
-      },
+        popupCancel: `homepage.eco-news.comment.${this.dataType}-popup.cancel`
+      }
     });
 
     dialogRef

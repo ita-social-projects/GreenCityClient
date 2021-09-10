@@ -4,17 +4,8 @@ import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { IconsModule, TableModule } from 'angular-bootstrap-md';
 import { NgxPaginationModule } from 'ngx-pagination';
-import {
-  MAT_DIALOG_DATA,
-  MAT_DIALOG_DEFAULT_OPTIONS,
-  MatCheckboxModule,
-  MatDialogModule,
-  MatDialogRef,
-  MatIconModule,
-  MatPaginatorModule,
-  MatSelectModule,
-  MatMenuModule
-} from '@angular/material';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatSortModule } from '@angular/material/sort';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -29,6 +20,7 @@ import { AdminComponent } from './admin.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { AdminRoutingModule } from './admin-routing.module';
 import { SharedMainModule } from '../shared/shared-main.module';
+import { MatSelectModule } from '@angular/material/select';
 import {
   AdminNavComponent,
   ConfirmModalComponent,
@@ -40,6 +32,9 @@ import {
   UsersComponent
 } from './components/index';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
