@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { of } from 'rxjs';
 import { HabitPopupInterface } from '../habit-popup-interface';
 
@@ -14,14 +14,14 @@ describe('HabitsPopupComponent', () => {
       enrolled: false,
       habitDescription: 'Eating local food is good for air quality and reducing environmental emissions!',
       habitId: 503,
-      habitName: 'Buy local products',
+      habitName: 'Buy local products'
     },
     {
       enrolled: true,
       habitDescription: 'Far far away, behind the word mountains, far from the countries Vokalia and Consonantia',
       habitId: 506,
-      habitName: 'Use less transport',
-    },
+      habitName: 'Use less transport'
+    }
   ];
   const dialogRefMock = {
     beforeClosed() {
@@ -29,15 +29,15 @@ describe('HabitsPopupComponent', () => {
     },
     close() {
       return of(true);
-    },
+    }
   };
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [HabitsPopupComponent],
       providers: [
         { provide: MatDialogRef, useValue: dialogRefMock },
-        { provide: MAT_DIALOG_DATA, useValue: {} },
-      ],
+        { provide: MAT_DIALOG_DATA, useValue: {} }
+      ]
     }).compileComponents();
   }));
 
