@@ -27,8 +27,8 @@ export class PersonalPhotoComponent implements OnInit, OnDestroy {
     this.disableEditImg = true;
     this.avatarSubscription = this.profileService.getUserInfo().subscribe((el) => {
       this.avatarImg = el.profilePicturePath;
-      this.userName = el.firstName;
       this.disableEditImg = false;
+      this.userName = el.name;
     });
   }
 

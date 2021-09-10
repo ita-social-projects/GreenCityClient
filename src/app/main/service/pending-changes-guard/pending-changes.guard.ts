@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CanDeactivate } from '@angular/router';
 import { Observable } from 'rxjs';
-import { MatDialog } from '@angular/material';
 import { WarningPopUpComponent } from '@shared/components';
 import { take } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
 
 export interface ComponentCanDeactivate {
   canDeactivate: () => boolean | Observable<boolean>;
