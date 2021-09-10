@@ -31,7 +31,7 @@ describe('ProfileHeaderComponent', () => {
     component = fixture.componentInstance;
     component.userInfo = {
       city: 'Lviv',
-      firstName: 'name',
+      name: 'name',
       userCredo: 'credo',
       profilePicturePath: '',
       rating: 2,

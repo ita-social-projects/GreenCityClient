@@ -2,7 +2,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Component, OnInit, ViewChild, DoCheck } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HttpClient } from '@angular/common/http';
-import { MatDrawer } from '@angular/material';
 import { AgmMarker } from '@agm/core';
 
 import { markers, cards } from './Data.js';
@@ -19,6 +18,7 @@ import {
   notification,
   share
 } from '../../image-pathes/places-icons.js';
+import { MatDrawer } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-places',

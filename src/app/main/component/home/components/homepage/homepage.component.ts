@@ -5,14 +5,14 @@ import { UserService } from '@global-service/user/user.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { VerifyEmailService } from '@auth-service/verify-email/verify-email.service';
 import { Subscription, EMPTY } from 'rxjs';
-import { MatDialog } from '@angular/material';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { switchMap } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
-  styleUrls: ['./homepage.component.scss'],
+  styleUrls: ['./homepage.component.scss']
 })
 export class HomepageComponent implements OnInit, OnDestroy {
   usersAmount: number;
@@ -72,8 +72,8 @@ export class HomepageComponent implements OnInit, OnDestroy {
       closeOnNavigation: true,
       panelClass: ['custom-dialog-container', 'transparent'],
       data: {
-        popUpName: 'sign-in',
-      },
+        popUpName: 'sign-in'
+      }
     });
   }
 
