@@ -2,14 +2,14 @@ import { Component } from '@angular/core';
 import { UserService } from '../../../../service/user/user.service';
 import { UserUpdateModel } from '../../../../model/user/user-update.model';
 import { JwtService } from '../../../../service/jwt/jwt.service';
-import { MatDialogRef } from '@angular/material';
 import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
 import { Router } from '@angular/router';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-user-setting',
   templateUrl: './user-setting.component.html',
-  styleUrls: ['./user-setting.component.scss'],
+  styleUrls: ['./user-setting.component.scss']
 })
 export class UserSettingComponent {
   public isSomethingEdited = false;
@@ -70,7 +70,7 @@ export class UserSettingComponent {
           .filter((eNotification) => {
             return eNotification !== 'DISABLED';
           })
-          .map((column) => column),
+          .map((column) => column)
       ];
     });
   }

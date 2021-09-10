@@ -28,7 +28,7 @@
     "delete-title": "Delete profile",
     "delete-message": "If you delete your profile, your bonuses will burn out and your order information will be deleted without the possibility of recovery",
     "btn": {
-      "edit": "Edit",
+      "edit": "Edit data",
       "cancel": "Discard changes",
       "save": "Save changes",
       "change-password": "Change password",
@@ -173,8 +173,62 @@
     "disagree": "No",
     "agree": "Yes"
   },
+  "user-orders": {
+    "no-orders": "You haven't made any orders with us yet.",
+    "make-order": "Make an order",
+    "order-title": "Your orders",
+    "order-number": "Order №",
+    "order-status": "Status",
+    "payment-amount": "Payment amount",
+    "btn": {
+      "cancel": "Cancel",
+      "pay": "Pay",
+      "order-again": "Order again"
+    },
+    "details": {
+      "title": "Order details",
+      "services": "Services",
+      "volume": "Volume",
+      "cost": "Cost",
+      "bags-amount": "Quantity of bags",
+      "sum": "Sum",
+      "order-sum": "Order amount:",
+      "certificate": "Certificate:",
+      "bonuses": "Bonuses:",
+      "amount-due": "Amount due:",
+      "services-amount": "Amount of services provided:",
+      "delivery": "Delivery from the Eco store",
+      "order-number": "Numbers of your orders:",
+      "recipient": "Recipient",
+      "export-address": "The address of export of the ordered services",
+      "comment": "Comment:",
+      "receipt": "Download the receipt"
+    }
+  },
+  "employees": {
+    "title": "Employees",
+    "add-employee": "Add employee",
+    "required-fields": "*Required-fields",
+    "name": "First name*",
+    "name-placeholder": "First name",
+    "surname": "Last name*",
+    "surname-placeholder": "Last name",
+    "phone-number": "Phone number*",
+    "position": "Position*",
+    "receiving-station": "Receiving station*",
+    "photo": "Photo",
+    "drag-photo": "Drag the image or",
+    "download-photo": "download from the device",
+    "btn": {
+      "cancel": "Cancel",
+      "add": "Add",
+      "add-employee": "Add employee",
+      "edit": "Edit",
+      "delete": "Delete"
+    }
+  },
   "ubs-sidebar": {
-    "users": "Users",
+    "users": "User data",
     "certificates": "Certificates",
     "orders": "Orders",
     "employees": "Employees",

@@ -393,7 +393,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.addCert = true;
     }
 
-    this.certBtnActivate = false;
     this.bonusesRemaining = false;
     this.showCertificateUsed = null;
     this.addCert = false;
@@ -417,6 +416,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     }
     this.certDate = this.certificateDateTreat(cert.certificateDate);
     this.certStatus = cert.certificateStatus;
+    this.certBtnActivate = false;
   }
 
   private certificateDateTreat(date: string) {
