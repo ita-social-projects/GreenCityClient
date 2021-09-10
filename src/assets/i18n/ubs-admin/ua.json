@@ -166,6 +166,59 @@
     "disagree": "Ні",
     "agree": "Так"
   },
+  "user-orders": {
+    "no-orders": "Ви ще не зробили замовлень у нас.",
+    "make-order": "Зробити замовлення",
+    "order-title": "Ваші замовлення",
+    "order-number": "№ замовлення",
+    "order-status": "Статус",
+    "payment-amount": "Сума оплати",
+    "btn": {
+      "cancel": "Скасувати",
+      "pay": "Оплатити",
+      "order-again": "Замовити ще раз"
+    },
+    "details": {
+      "title": "Деталі замовлення",
+      "services": "Послуги",
+      "volume": "Об'єм",
+      "cost": "Вартість",
+      "bags-amount": "Кількість пакетів",
+      "sum": "Сума",
+      "order-sum": "Сума замовлення:",
+      "certificate": "Сертифікат:",
+      "bonuses": "Бонуси:",
+      "amount-due": "Сума до оплати:",
+      "services-amount": "Сума наданих послуг:",
+      "delivery": "Доставка з Еко магазину",
+      "order-number": "Номери ваших замовлень:",
+      "recipient": "Отримувач",
+      "export-address": "Адреса вивезення замовленних послуг",
+      "comment": "Коментар:",
+      "receipt": "Завантажити квитанцію"
+    }
+  },
+  "employees": {
+    "title": "Працівники",
+    "required-fields": "*Обов'язкові поля",
+    "name": "Ім'я*",
+    "name-placeholder": "Ім'я",
+    "surname": "Прізвище*",
+    "surname-placeholder": "Прізвище",
+    "phone-number": "Номер телефону*",
+    "position": "Посада*",
+    "receiving-station": "Станція приймання*",
+    "photo": "Фото",
+    "drag-photo": "Перетягніть зображення, або",
+    "download-photo": "завантажте з пристрою",
+    "btn": {
+      "cancel": "Скасувати",
+      "add": "Додати",
+      "add-employee": "Додати працівника",
+      "edit": "Редагувати",
+      "delete": "Видалити"
+    }
+  },
   "ubs-sidebar": {
     "users": "Користувачі",
     "certificates": "Сертифікати",
