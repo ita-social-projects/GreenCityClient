@@ -19,7 +19,6 @@ export class SearchService {
   public allElements: SearchDto;
 
   public getAllResults(searchQuery: string, lang: string): Observable<SearchModel> {
-    // return this.http.get<SearchModel>(backendMockSearchAll);
     return this.http.get<SearchModel>(`${this.backEndLink}/search?searchQuery=${searchQuery}&lang=${lang}`);
   }
 
