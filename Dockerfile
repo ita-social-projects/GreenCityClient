@@ -1,11 +1,15 @@
-FROM node:14.17.6-alpine as node
+FROM node:14.17.6
 
-WORKDIR /usr/src/dir
+WORKDIR /app
 
-COPY package*.json ./
+ENV PATH /app/node_modules/.bin:$PATH
+
+COPY package.json /app/package.json
 
 RUN npm install
 
-COPY . .
+RUN npm install -g @angular/cli@10.2.0
 
-RUN npm start
+COPY . /app
+
+CMD npm start
