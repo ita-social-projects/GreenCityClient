@@ -3,3 +3,5 @@
 *.jpg
 *.svg
 .prettierignore
+.dockerignore
+Dockerfile
