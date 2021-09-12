@@ -67,6 +67,10 @@ $white-color: #fff;
   width: 70px;
   padding: 0 12px;
 
+  &:hover {
+    text-decoration: none;
+  }
+
   a {
     color: var(--secondary-dark-green);
     display: block;
