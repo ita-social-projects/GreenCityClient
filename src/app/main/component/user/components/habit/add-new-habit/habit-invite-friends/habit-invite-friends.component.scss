@@ -21,8 +21,8 @@
     .invite-friends {
       display: flex;
       flex-wrap: wrap;
-      max-width: 400px;
-      max-height: 120px;
+      width: 400px;
+      max-height: 100px;
       overflow-y: auto;
     }
 
@@ -45,6 +45,6 @@
 
   .invite-detail {
     height: 15px;
-    margin-top: 10px;
+    margin: 5px 10px;
   }
 }

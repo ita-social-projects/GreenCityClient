@@ -1,4 +1,3 @@
-import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Component, DoCheck, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -10,6 +9,7 @@ import { OrderService } from '../../services/order.service';
 import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { Address, Bag, OrderBag, OrderDetails, PersonalData } from '../../models/ubs.interface';
 import { Order } from '../../models/ubs.model';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ubs-personal-information',
@@ -24,7 +24,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   order: Order;
   addresses: Address[] = [];
   maxAddressLength = 4;
-  namePattern = /^[A-Za-zА-Яа-яїієё\.\'\-\\]+$/;
+  namePattern = /^[A-Za-zА-Яа-яЯїЇіІєЄёЁ\.\'\-\\]+$/;
   phoneMask = '+{38} (000) 000 00 00';
   firstOrder = true;
   private destroy: Subject<boolean> = new Subject<boolean>();

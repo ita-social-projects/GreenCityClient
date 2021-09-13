@@ -16,7 +16,7 @@ export class UbsAdminComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
-      this.translate.setDefaultLang(lang);
+      this.translate.setDefaultLang(lang !== 'en' && lang !== 'ua' ? 'ua' : lang);
     });
   }
 

@@ -2,6 +2,13 @@
   <div *ngIf="bags && !isDialogOpen; else spinner">
     <div class="header">
       <h3 class="font-bolt order-title">{{ 'order-details.order-title' | translate }}</h3>
+      <div>
+        <h5>{{ 'order-details.choose-location' | translate }}</h5>
+        <select class="choose-location">
+          <option>{{ 'order-details.kyiv' | translate }}</option>
+          <option>{{ 'order-details.kyiv-region' | translate }}</option>
+        </select>
+      </div>
       <p class="order-content">{{ 'order-details.order-content' | translate }}</p>
       <p class="order-content">{{ 'order-details.min-big-bags' | translate: { minAmountOfBigBags: minAmountOfBigBags } }}</p>
     </div>
@@ -93,7 +100,14 @@
                 *ngIf="!addCert"
                 type="button"
                 class="primary-global-button btn"
-                [disabled]="!certificate.valid || certificate.pristine || showTotal < 500"
+                [disabled]="
+                  !certificate.valid ||
+                  certificate.pristine ||
+                  showTotal < 500 ||
+                  finalSum === 0 ||
+                  !certificate.value.length ||
+                  certBtnActivate
+                "
                 (click)="certificateSubmit()"
               >
                 {{ 'order-details.activate' | translate }}
@@ -126,15 +140,21 @@
             />
             <div class="form-group">
               <button
-                *ngIf="!certStatuses[i]"
+                *ngIf="!certStatuses[i] && certificate.value.length"
                 type="button"
                 class="primary-global-button btn"
-                [disabled]="additionalCertificates['controls'][i].invalid || additionalCertificates['controls'][i].pristine"
+                [disabled]="
+                  additionalCertificates['controls'][i].invalid ||
+                  additionalCertificates['controls'][i].pristine ||
+                  !certificate.value.length
+                "
                 (click)="addedCertificateSubmit(i)"
               >
                 {{ 'order-details.activate' | translate }}
               </button>
-              <button *ngIf="certStatuses[i]" type="button" class="primary-global-button btn" (click)="deleteCertificate(i)">
+              <button>
+                [disabled]="cancelCertBtn" *ngIf="certStatuses[i] || !certificate.value.length" type="button" class="primary-global-button
+                btn" (click)="deleteCertificate(i)" >
                 {{ 'order-details.cancel' | translate }}
               </button>
             </div>
@@ -146,10 +166,7 @@
           </div>
           <div class="messages-container">
             <small class="text-message" *ngIf="certSize">
-              {{
-                'order-details.activated-oversum'
-                  | translate: { certificateSum: certificateSum, certificateLeft: certificateLeft, certDate: certDate }
-              }}
+              {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: certDate } }}
             </small>
             <small class="text-message" *ngIf="(certStatus === 'NEW' || certStatus === 'ACTIVE') && !certSize">
               {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: certDate } }}
@@ -176,16 +193,21 @@
               }}
             </small>
           </div>
-          <button *ngIf="addCert && finalSum !== 0" class="addCertificateBtn" (click)="addCertificate()">
+          <button
+            *ngIf="addCert && finalSum !== 0"
+            class="addCertificateBtn"
+            [disabled]="disableAddCertificate()"
+            (click)="addCertificate()"
+          >
             {{ 'order-details.add-certificate' | translate }}
           </button>
           <div class="points">
             <h5>{{ 'order-details.bonus-need' | translate }}</h5>
-            <p>{{ 'order-details.bonus-left' | translate }} {{ certificateLeft | currency | localizedCurrency }}</p>
+            <p>{{ 'order-details.bonus-left' | translate }} {{ points | currency | localizedCurrency }}</p>
             <p>
               <a href="#!" class="bonus-how-to-link">{{ 'order-details.bonus-how-to-get' | translate }}</a>
             </p>
-            <div *ngIf="pointsUsed !== 0 && finalSum !== 0">
+            <div *ngIf="points !== 0 && finalSum !== 0">
               <div class="form-check custom-control custom-radio">
                 <input
                   formControlName="bonus"

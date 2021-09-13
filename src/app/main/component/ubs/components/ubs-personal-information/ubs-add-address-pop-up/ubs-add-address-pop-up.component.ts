@@ -1,11 +1,11 @@
 import { OrderService } from './../../../services/order.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Address } from '../../../models/ubs.interface';
 import { takeUntil, catchError } from 'rxjs/operators';
 import { Subject, throwError } from 'rxjs';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ubs-add-address-pop-up',
@@ -23,8 +23,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   districtDisabled = true;
   nextDisabled = true;
   isDisabled = false;
-  streetPattern = /^[A-Za-zА-Яа-яїієё0-9.\'\,\-\ \\]+$/;
-  housePattern = /^[A-Za-zА-Яа-яїієё0-9]+$/;
+  streetPattern = /^[A-Za-zА-Яа-яЯїЇіІєЄёЁ0-9.\'\,\-\ \\]+$/;
+  housePattern = /^[A-Za-zА-Яа-яЯїЇіІєЄёЁ0-9\.\-\/]+$/;
   entranceNumberPattern = /^-?(0|[1-9]\d*)?$/;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
