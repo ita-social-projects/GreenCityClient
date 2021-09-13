@@ -19,6 +19,8 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   paymentForm: FormGroup = this.fb.group({});
   bags: Bag[] = [];
   loadingAnim: boolean;
+  selectedDay: string;
+  isLiqPay = false;
   additionalOrders: number[];
   personalData: PersonalData;
   orderDetails: OrderDetails;
@@ -87,5 +89,32 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
           this.loadingAnim = false;
         }
       );
+  }
+
+  showconsole() {
+    this.orderService
+      .getLiqPayForm()
+      .pipe(takeUntil(this.destroy))
+      .subscribe(
+        (fondyUrl1) => {
+          console.log(fondyUrl1);
+        },
+        (error) => {
+          this.loadingAnim = false;
+        }
+      );
+  }
+
+  orderButton(event: any) {
+    // const select = document.getElementsByClassName('payment-select') as HTMLSelectElement;
+    // const value = select.options[select.selectedIndex].value;
+    // if (value === 'LiqPay') {
+    //   this.isLiqPay = true;
+    //   console.log('liqpay');
+    // }
+    this.selectedDay = event.target.value;
+    if (this.selectedDay === 'LiqPay') {
+      console.log(event.target.value);
+    }
   }
 }

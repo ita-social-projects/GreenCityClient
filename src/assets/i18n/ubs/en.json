@@ -120,6 +120,7 @@
     "after-payment": "After placing an order, you can make the payment in the chosen way",
     "choose-payment": "Choose a payment method",
     "fondy-card": "By card via Fondy",
+    "liqpay-card": "By card via LiqPay",
     "back": "Back",
     "to-order": "Order",
     "bags": "bags"
