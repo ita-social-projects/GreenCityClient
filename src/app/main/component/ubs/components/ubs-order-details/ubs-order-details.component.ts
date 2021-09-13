@@ -30,9 +30,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   certificateSum = 0;
   total = 0;
   finalSum = 0;
-
+  minAmountOfBigBags: number;
+  totalOfBigBags: number;
   points: number;
-  displayMes = false;
+  displayMinOrderMes = false;
+  displayMinBigBagsMes = false;
   displayCert = false;
   displayShop = false;
   addCert = false;
@@ -45,7 +47,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   commentPattern = /^[i\s]{0,255}(.){0,255}[i\s]{0,255}$/;
   additionalOrdersPattern = /^\d{10}$/;
   displayOrderBtn = false;
-
   certSize = false;
   showCertificateUsed = 0;
   certificateLeft = 0;
@@ -54,7 +55,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   userOrder: FinalOrder;
   object: {};
   private destroy: Subject<boolean> = new Subject<boolean>();
-  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public currentLanguage: string;
   public certificateError = false;
   bonusesRemaining: boolean;
@@ -76,7 +76,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     private fb: FormBuilder,
     private orderService: OrderService,
     private shareFormService: UBSOrderFormService,
-    private translate: TranslateService,
     private localStorageService: LocalStorageService,
     router: Router,
     dialog: MatDialog
@@ -87,7 +86,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   ngOnInit(): void {
     this.openLocationDialog();
-    this.takeOrderData();
+    this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
+      this.takeOrderData();
+    });
   }
 
   getFormValues(): boolean {
@@ -113,7 +114,28 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       disableClose: true
     });
 
-    this.dialog.afterAllClosed.subscribe(() => (this.isDialogOpen = false));
+    this.dialog.afterAllClosed.pipe(takeUntil(this.destroy)).subscribe(() => {
+      this.isDialogOpen = false;
+    });
+  }
+
+  checkTotalBigBags() {
+    this.bags.forEach((bag) => {
+      if (bag.capacity === 120) {
+        let q1 = this.orderDetailsForm.controls['quantity1'];
+        let q2 = this.orderDetailsForm.controls['quantity2'];
+        this.totalOfBigBags = +q1.value + +q2.value;
+      }
+    });
+    setTimeout(() => this.checkForBigBagsMessage());
+  }
+
+  checkForBigBagsMessage() {
+    if (this.minAmountOfBigBags > this.totalOfBigBags) {
+      this.displayMinBigBagsMes = true;
+    } else {
+      this.displayMinBigBagsMes = false;
+    }
   }
 
   public takeOrderData() {
@@ -123,6 +145,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       .pipe(takeUntil(this.destroy))
       .subscribe((orderData: OrderDetails) => {
         this.orders = this.shareFormService.orderDetails;
+        this.minAmountOfBigBags = orderData.minAmountOfBigBags;
         this.bags = this.orders.bags;
         this.points = this.orders.points;
         this.certificateLeft = orderData.points;
@@ -180,10 +203,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.changeForm();
 
     if (this.total < this.minOrderValue && this.orderDetailsForm.dirty) {
-      this.displayMes = true;
+      this.displayMinOrderMes = true;
       this.onSubmit = true;
     } else {
-      this.displayMes = false;
+      this.displayMinOrderMes = false;
       this.onSubmit = false;
     }
 
@@ -255,6 +278,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         bag.quantity = orderFormBagController.value;
       }
     });
+    this.checkTotalBigBags();
     this.calculateTotal();
   }
 

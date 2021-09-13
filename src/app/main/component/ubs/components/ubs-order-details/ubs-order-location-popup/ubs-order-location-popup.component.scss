@@ -1,7 +1,7 @@
 .dialog-container {
   position: relative;
   width: 464px;
-  height: 298px;
+  height: 318px;
   font-family: var(--primary-font);
   font-weight: bold;
   font-size: larger;
@@ -38,7 +38,7 @@
     position: absolute;
     bottom: 0;
     right: 0;
-    margin: 10px;
+    margin: 20px 0 0 0;
 
     button {
       margin: 0 10px;

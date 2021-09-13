@@ -22,6 +22,7 @@ export interface OrderDetails {
   pointsSum?: number;
   total?: number;
   finalSum?: number;
+  minAmountOfBigBags: number;
 }
 
 export interface FinalOrder {
