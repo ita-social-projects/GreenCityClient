@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ClientOrdersService } from './admin-orders.service';
+import { ClientOrdersService } from './client-orders.service';
 
-describe('AdminOrdersService', () => {
+describe('ClientOrdersService', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule]

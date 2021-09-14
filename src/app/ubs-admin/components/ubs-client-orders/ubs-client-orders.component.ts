@@ -1,4 +1,4 @@
-import { ClientOrdersService } from '../../services/admin-orders.service';
+import { ClientOrdersService } from '../../services/client-orders.service';
 import { Component, OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ClientOrdersService } from './../../services/admin-orders.service';
+import { ClientOrdersService } from '../../services/client-orders.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
