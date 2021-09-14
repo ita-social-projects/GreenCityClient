@@ -29,7 +29,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   certificateSum = 0;
   total = 0;
   finalSum = 0;
-
+  cancelCertBtn = false;
   points: number;
   certBtnActivate = false;
   displayMes = false;
@@ -311,6 +311,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.ecoStoreValidation();
   }
 
+  disableAddCertificate() {
+    return this.certificates.length === this.additionalCertificates.length;
+  }
+
   addCertificate(): void {
     this.additionalCertificates.push(this.fb.control('', [Validators.minLength(8), Validators.pattern(/(?!0000)\d{4}-(?!0000)\d{4}/)]));
   }
@@ -341,6 +345,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   calculateCertificates(arr): void {
     if (arr.length > 0) {
+      this.cancelCertBtn = true;
       arr.forEach((certificate, index) => {
         this.orderService
           .processCertificate(certificate)
@@ -353,9 +358,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
               }
               this.certificateError = false;
               this.calculateTotal();
+              this.cancelCertBtn = false;
             },
             (error) => {
               this.certBtnActivate = false;
+              this.cancelCertBtn = false;
               if (error.status === 404) {
                 arr.splice(index, 1);
                 this.certificateError = true;
@@ -386,7 +393,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.addCert = true;
     }
 
-    this.certBtnActivate = false;
     this.bonusesRemaining = false;
     this.showCertificateUsed = null;
     this.addCert = false;
@@ -405,8 +411,12 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.displayCert = true;
       this.addCert = true;
     }
+    if (cert.certificateStatus === CertificateStatus.EXPIRED || cert.certificateStatus === CertificateStatus.USED) {
+      this.addCert = true;
+    }
     this.certDate = this.certificateDateTreat(cert.certificateDate);
     this.certStatus = cert.certificateStatus;
+    this.certBtnActivate = false;
   }
 
   private certificateDateTreat(date: string) {

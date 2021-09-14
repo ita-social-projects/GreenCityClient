@@ -3,8 +3,6 @@ import { Language } from './../../../../i18n/Language';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-
-import { MatSnackBar, MatSnackBarModule } from '@angular/material';
 import { SearchPopupComponent } from './search-popup.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SearchItemComponent } from '../search-item/search-item.component';
@@ -18,6 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('SearchPopupComponent', () => {
   let component: SearchPopupComponent;

@@ -19,7 +19,7 @@ export class EditProfileFormBuilder {
 
   getEditProfileForm(editForm: EditProfileModel) {
     return this.builder.group({
-      name: [editForm.firstName, [Validators.maxLength(30), Validators.required]],
+      name: [editForm.name, [Validators.maxLength(30), Validators.required]],
       city: [editForm.city, Validators.maxLength(85)],
       credo: [editForm.userCredo, Validators.maxLength(170)],
       showLocation: [editForm.showLocation],
