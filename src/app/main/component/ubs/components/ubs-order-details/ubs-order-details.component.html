@@ -23,6 +23,7 @@
                 formControlName="quantity{{ bag.id }}"
                 type="number"
                 class="shadow-none form-control input"
+                [class.bag-quantity_placeholder]="bag.quantity === null"
                 min="0"
                 max="999"
                 [unmask]="false"
@@ -84,9 +85,18 @@
             </div>
             <div class="form-group">
               <button
+                *ngIf="addCert"
+                [disabled]="additionalCertificates.length > 0"
+                type="button"
+                class="secondary-global-button btn cansel-button"
+                (click)="certificateReset(true)"
+              >
+                {{ 'order-details.cancel' | translate }}
+              </button>
+              <button
                 *ngIf="!addCert"
                 type="button"
-                class="primary-global-button btn"
+                class="primary-global-button btn btn-main"
                 [disabled]="
                   !certificate.valid ||
                   certificate.pristine ||
@@ -98,15 +108,6 @@
                 (click)="certificateSubmit()"
               >
                 {{ 'order-details.activate' | translate }}
-              </button>
-              <button
-                *ngIf="addCert"
-                [disabled]="additionalCertificates.length > 0"
-                type="button"
-                class="primary-global-button btn"
-                (click)="certificateReset(true)"
-              >
-                {{ 'order-details.cancel' | translate }}
               </button>
             </div>
           </div>
@@ -127,9 +128,17 @@
             />
             <div class="form-group">
               <button
+                *ngIf="certStatuses[i] || !certificate.value.length"
+                type="button"
+                class="secondary-global-button btn cansel-button"
+                (click)="deleteCertificate(i)"
+              >
+                {{ 'order-details.cancel' | translate }}
+              </button>
+              <button
                 *ngIf="!certStatuses[i] && certificate.value.length"
                 type="button"
-                class="primary-global-button btn"
+                class="primary-global-button btn btn-main"
                 [disabled]="
                   additionalCertificates['controls'][i].invalid ||
                   additionalCertificates['controls'][i].pristine ||
@@ -138,14 +147,6 @@
                 (click)="addedCertificateSubmit(i)"
               >
                 {{ 'order-details.activate' | translate }}
-              </button>
-              <button
-                *ngIf="certStatuses[i] || !certificate.value.length"
-                type="button"
-                class="primary-global-button btn"
-                (click)="deleteCertificate(i)"
-              >
-                {{ 'order-details.cancel' | translate }}
               </button>
             </div>
             <div class="validMes">
@@ -165,22 +166,10 @@
               {{ 'order-details.not-found-certificate' | translate }}
             </small>
             <small class="text-danger" *ngIf="certStatus === 'USED'">
-              {{
-                'order-details.already-used'
-                  | translate
-                    : {
-                        certDate: certDate
-                      }
-              }}
+              {{ 'order-details.already-used' | translate: { certDate: certDate } }}
             </small>
             <small class="text-danger" *ngIf="certStatus === 'EXPIRED'">
-              {{
-                'order-details.expired'
-                  | translate
-                    : {
-                        certDate: certDate
-                      }
-              }}
+              {{ 'order-details.expired' | translate: { certDate: certDate } }}
             </small>
           </div>
           <button *ngIf="addCert && finalSum !== 0" class="addCertificateBtn" (click)="addCertificate()">
@@ -192,15 +181,15 @@
             <p>
               <a href="#!" class="bonus-how-to-link">{{ 'order-details.bonus-how-to-get' | translate }}</a>
             </p>
-            <div class="radio" *ngIf="points !== 0 && finalSum !== 0">
-              <label class="custom-radio"
-                >{{ 'order-details.yes' | translate }}
-                <input formControlName="bonus" type="radio" value="yes" name="radio" (click)="calculatePoints()" />
+            <div class="radio-btn" *ngIf="points !== 0 && finalSum !== 0">
+              <label class="custom-radio-btn"
+                >{{ 'order-details.no' | translate }}
+                <input formControlName="bonus" type="radio" value="no" />
                 <span class="checkmark"></span>
               </label>
-              <label class="custom-radio"
-                >{{ 'order-details.no' | translate }}
-                <input formControlName="bonus" type="radio" value="no" name="radio" />
+              <label class="custom-radio-btn"
+                >{{ 'order-details.yes' | translate }}
+                <input formControlName="bonus" type="radio" value="yes" (click)="calculatePoints()" />
                 <span class="checkmark"></span>
               </label>
             </div>
@@ -213,15 +202,15 @@
       <div class="bottom">
         <h3>{{ 'order-details.eco-shop' | translate }}</h3>
         <h5>{{ 'order-details.shop-order-question' | translate }}</h5>
-        <div class="radio">
-          <label class="custom-radio"
-            >{{ 'order-details.yes' | translate }}
-            <input formControlName="shop" type="radio" value="yes" name="radio" />
+        <div class="radio-btn">
+          <label class="custom-radio-btn"
+            >{{ 'order-details.no' | translate }}
+            <input formControlName="shop" type="radio" value="no" (click)="clearOrderValues()" />
             <span class="checkmark"></span>
           </label>
-          <label class="custom-radio"
-            >{{ 'order-details.no' | translate }}
-            <input formControlName="shop" type="radio" value="no" name="radio" (click)="clearOrderValues()" />
+          <label class="custom-radio-btn"
+            >{{ 'order-details.yes' | translate }}
+            <input formControlName="shop" type="radio" value="yes" />
             <span class="checkmark"></span>
           </label>
         </div>
@@ -275,8 +264,8 @@
 </div>
 
 <div class="w-100 d-flex justify-content-end buttons">
-  <button class="secondary-global-button btn cansel-button btn-main" (click)="cancelUBS()">{{ 'order-details.cancel' | translate }}</button>
-  <button [disabled]="showTotal < 500 || orderComment.invalid" type="submit" class="primary-global-button btn btn-main" matStepperNext>
+  <button class="secondary-global-button btn cansel-button" (click)="cancelUBS()">{{ 'order-details.cancel' | translate }}</button>
+  <button type="submit" class="primary-global-button btn btn-main" [disabled]="showTotal < 500 || orderComment.invalid" matStepperNext>
     {{ 'order-details.next' | translate }}
   </button>
 </div>
