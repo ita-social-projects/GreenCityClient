@@ -156,14 +156,14 @@ h3 {
   & input:checked ~ .checkmark {
     background-color: var(--ubs-primary-white);
 
-    &:after {
+    &::after {
       display: block;
     }
   }
 
-  & .checkmark:after {
+  & .checkmark::after {
     top: 14%;
-    left: 14%;
+    left: 15%;
     width: 10px;
     height: 10px;
     border-radius: 50%;
@@ -181,7 +181,7 @@ h3 {
   border-radius: 50%;
   border: 1px solid var(--ubs-quaternary-dark-grey);
 
-  &:after {
+  &::after {
     content: '';
     position: absolute;
     display: none;
