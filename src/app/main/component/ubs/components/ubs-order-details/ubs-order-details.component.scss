@@ -119,7 +119,7 @@ h3 {
   padding: 0;
   text-align: left;
   background: none;
-  color: var(--ubs-primary-green);
+  color: var(---ubs-button-light-green);
   font-size: 14px;
   outline: none;
 }
@@ -128,10 +128,64 @@ h3 {
   background: none;
 }
 
-.custom-radio .custom-control-input:checked ~ .custom-control-label::before,
-.custom-radio .custom-control-input:checked ~ .custom-control-label::after {
-  background-color: var(--ubs-primary-green);
+.radio {
+  margin-left: -6px;
+}
+
+.custom-radio {
+  display: block;
+  position: relative;
+  padding-left: 28px;
+  margin-bottom: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  & input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  &:hover input ~ .checkmark {
+    background-color: var(--ubs-primary-white);
+  }
+
+  & input:checked ~ .checkmark {
+    background-color: var(--ubs-primary-white);
+
+    &:after {
+      display: block;
+    }
+  }
+
+  & .checkmark:after {
+    top: 14%;
+    left: 14%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--ubs-quaternary-dark-grey);
+  }
+}
+
+.checkmark {
+  position: absolute;
+  top: 4.5px;
+  left: 4px;
+  height: 16px;
+  width: 16px;
+  background-color: var(--ubs-primary-white);
   border-radius: 50%;
+  border: 1px solid var(--ubs-quaternary-dark-grey);
+
+  &:after {
+    content: '';
+    position: absolute;
+    display: none;
+  }
 }
 
 .sum {
@@ -155,7 +209,7 @@ button {
 .primary-global-button {
   padding: 8px 24px;
   border-radius: 4px;
-  background: var(--ubs-primary-green);
+  background: var(--ubs-button-light-green);
 }
 
 .middle {
@@ -331,17 +385,17 @@ h5 {
 
   .btn:nth-child(1) {
     margin: 0 24px 0 0;
-    border: 1px solid var(--ubs-primary-green);
+    border: 1px solid var(--ubs-button-light-green);
     background: none;
-    color: var(--ubs-primary-green);
+    color: var(--ubs-button-light-green);
   }
 
   .btn-main {
     height: 3rem;
 
     &:hover {
-      background: var(--ubs-primary-green);
-      color: var(--ubs-primary-white);
+      background: var(---ubs-button-light-green);
+      color: var(--ubs-quaternary-dark-grey);
     }
   }
 }

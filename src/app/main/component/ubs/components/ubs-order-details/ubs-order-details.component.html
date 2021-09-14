@@ -192,28 +192,17 @@
             <p>
               <a href="#!" class="bonus-how-to-link">{{ 'order-details.bonus-how-to-get' | translate }}</a>
             </p>
-            <div *ngIf="points !== 0 && finalSum !== 0">
-              <div class="form-check custom-control custom-radio">
-                <input
-                  formControlName="bonus"
-                  id="customRadio1"
-                  value="yes"
-                  class="form-check-input custom-control-input input-border"
-                  type="radio"
-                  (click)="calculatePoints()"
-                />
-                <label class="form-check-label custom-control-label" for="customRadio1">{{ 'order-details.yes' | translate }}</label>
-              </div>
-              <div class="form-check custom-control custom-radio">
-                <input
-                  formControlName="bonus"
-                  id="customRadio2"
-                  value="no"
-                  class="form-check-input custom-control-input input-border"
-                  type="radio"
-                />
-                <label class="form-check-label custom-control-label" for="customRadio2">{{ 'order-details.no' | translate }}</label>
-              </div>
+            <div class="radio" *ngIf="points !== 0 && finalSum !== 0">
+              <label class="custom-radio"
+                >{{ 'order-details.yes' | translate }}
+                <input formControlName="bonus" type="radio" value="yes" name="radio" (click)="calculatePoints()" />
+                <span class="checkmark"></span>
+              </label>
+              <label class="custom-radio"
+                >{{ 'order-details.no' | translate }}
+                <input formControlName="bonus" type="radio" value="no" name="radio" />
+                <span class="checkmark"></span>
+              </label>
             </div>
             <small class="text-message" [class.d-none]="pointsUsed === 0">
               <span>{{ 'order-details.used' | translate }} {{ pointsUsed | currency | localizedCurrency }}</span>
@@ -224,20 +213,17 @@
       <div class="bottom">
         <h3>{{ 'order-details.eco-shop' | translate }}</h3>
         <h5>{{ 'order-details.shop-order-question' | translate }}</h5>
-        <div class="form-check custom-control custom-radio">
-          <input formControlName="shop" id="customRadio3" value="yes" class="form-check-input custom-control-input" type="radio" />
-          <label class="form-check-label custom-control-label" for="customRadio3">{{ 'order-details.yes' | translate }}</label>
-        </div>
-        <div class="form-check custom-control custom-radio">
-          <input
-            formControlName="shop"
-            id="customRadio4"
-            value="no"
-            class="form-check-input custom-control-input"
-            type="radio"
-            (click)="clearOrderValues()"
-          />
-          <label class="form-check-label custom-control-label" for="customRadio4">{{ 'order-details.no' | translate }}</label>
+        <div class="radio">
+          <label class="custom-radio"
+            >{{ 'order-details.yes' | translate }}
+            <input formControlName="shop" type="radio" value="yes" name="radio" />
+            <span class="checkmark"></span>
+          </label>
+          <label class="custom-radio"
+            >{{ 'order-details.no' | translate }}
+            <input formControlName="shop" type="radio" value="no" name="radio" (click)="clearOrderValues()" />
+            <span class="checkmark"></span>
+          </label>
         </div>
         <div class="form-group shop_submit">
           <div class="bottom-text">
