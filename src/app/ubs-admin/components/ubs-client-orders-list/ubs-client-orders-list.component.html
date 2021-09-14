@@ -1,0 +1,34 @@
+<div *ngIf="orders" class="header_list">
+  <div>{{ 'user-orders.order-number' | translate }}</div>
+  <div>{{ 'user-orders.order-status' | translate }}</div>
+  <div>{{ 'user-orders.payment-amount' | translate }}</div>
+</div>
+<div *ngFor="let order of orders" class="card">
+  <div class="empty_card">
+    <img *ngIf="order.extend" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" (click)="changeCard(order.id)" />
+    <img *ngIf="!order.extend" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" (click)="changeCard(order.id)" />
+    <div>{{ order.id }}</div>
+    <div>{{ order.orderStatus }}</div>
+    <div class="order_sum">{{ order.orderPrice }}</div>
+    <div class="btns_group">
+      <div *ngIf="order.orderStatus === 'FORMED'" class="btn_grid_cancel">
+        <button class="btn_cancel">{{ 'user-orders.btn.cancel' | translate }}</button>
+      </div>
+      <div *ngIf="order.orderStatus === 'DONE_UNPAID'" class="btn_grid_fake">
+        <button class="btn_fake"></button>
+      </div>
+      <div *ngIf="order.orderStatus === 'FORMED' || order.orderStatus === 'DONE_UNPAID'" class="btn_grid_pay">
+        <button class="btn_pay">{{ 'user-orders.btn.pay' | translate }}</button>
+      </div>
+      <div
+        *ngIf="order.orderStatus === 'ON_THE_ROUTE' || order.orderStatus === 'CONFIRMED' || order.orderStatus === 'DONE'"
+        class="btn_grid_order"
+      >
+        <button class="btn_order">{{ 'user-orders.btn.order-again' | translate }}</button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="order.extend">
+    <app-ubs-client-order-details [id]="order.id"></app-ubs-client-order-details>
+  </div>
+</div>

@@ -1,22 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { UbsAdminOrdersComponent } from './ubs-admin-orders.component';
+import { UbsClientOrdersComponent } from './ubs-client-orders.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
 
-describe('UbsAdminOrdersComponent', () => {
-  let component: UbsAdminOrdersComponent;
-  let fixture: ComponentFixture<UbsAdminOrdersComponent>;
+describe('UbsClientOrdersComponent', () => {
+  let component: UbsClientOrdersComponent;
+  let fixture: ComponentFixture<UbsClientOrdersComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UbsAdminOrdersComponent],
+      declarations: [UbsClientOrdersComponent],
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, MatIconModule]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UbsAdminOrdersComponent);
+    fixture = TestBed.createComponent(UbsClientOrdersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

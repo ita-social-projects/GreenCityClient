@@ -1,0 +1,134 @@
+[
+  {
+    "id": 1,
+    "orderStatus": "DONE",
+    "orderFullPrice": 1100,
+    "orderDiscountedPrice": 1100,
+    "orderCertificateTotalDiscount": 0,
+    "orderBonusDiscount": 0,
+    "recipientName": "Arck",
+    "recipientSurname": "Volt",
+    "recipientPhone": "45346789098",
+    "recipientEmail": "Arck@grh.com",
+    "addressCity": "Lviv",
+    "addressStreet": "Zill",
+    "addressDistrict": "Eastern",
+    "addressComment": "Hello",
+    "amountOfBagsOrdered": {
+      "1": 2,
+      "2": 3
+    },
+    "bags": [
+      {
+        "capacity": 120,
+        "price": 400,
+        "id": 1
+      },
+      {
+        "capacity": 20,
+        "price": 100,
+        "id": 2
+      }
+    ],
+    "additionalOrders": ["56789453657", "63456798765", "12658975443"]
+  },
+  {
+    "id": 2,
+    "orderStatus": "FORMED",
+    "orderFullPrice": 1700,
+    "orderDiscountedPrice": 1400,
+    "orderCertificateTotalDiscount": 100,
+    "orderBonusDiscount": 200,
+    "recipientName": "Arck",
+    "recipientSurname": "Volt",
+    "recipientPhone": "45346789098",
+    "recipientEmail": "Arck@grh.com",
+    "addressCity": "Lviv",
+    "addressStreet": "Zill",
+    "addressDistrict": "Eastern",
+    "addressComment": "Hello",
+    "amountOfBagsOrdered": {
+      "1": 4,
+      "2": 1
+    },
+    "bags": [
+      {
+        "capacity": 120,
+        "price": 400,
+        "id": 1
+      },
+      {
+        "capacity": 20,
+        "price": 100,
+        "id": 2
+      }
+    ],
+    "additionalOrders": ["56789453657", "63456798765", "12658975443"]
+  },
+  {
+    "id": 3,
+    "orderStatus": "DONE",
+    "orderFullPrice": 2100,
+    "orderDiscountedPrice": 1900,
+    "orderCertificateTotalDiscount": 200,
+    "orderBonusDiscount": 0,
+    "recipientName": "Arck",
+    "recipientSurname": "Volt",
+    "recipientPhone": "45346789098",
+    "recipientEmail": "Arck@grh.com",
+    "addressCity": "Lviv",
+    "addressStreet": "Zill",
+    "addressDistrict": "Eastern",
+    "addressComment": "Hello",
+    "amountOfBagsOrdered": {
+      "1": 4,
+      "2": 5
+    },
+    "bags": [
+      {
+        "capacity": 120,
+        "price": 400,
+        "id": 1
+      },
+      {
+        "capacity": 20,
+        "price": 100,
+        "id": 2
+      }
+    ],
+    "additionalOrders": ["56789453657", "63456798765", "12658975443"]
+  },
+  {
+    "id": 4,
+    "orderStatus": "FORMED",
+    "orderFullPrice": 900,
+    "orderDiscountedPrice": 500,
+    "orderCertificateTotalDiscount": 100,
+    "orderBonusDiscount": 300,
+    "recipientName": "Arck",
+    "recipientSurname": "Volt",
+    "recipientPhone": "45346789098",
+    "recipientEmail": "Arck@grh.com",
+    "addressCity": "Lviv",
+    "addressStreet": "Zill",
+    "addressDistrict": "Eastern",
+    "addressComment": "Hello",
+    "amountOfBagsOrdered": {
+      "1": 1,
+      "2": 5
+    },
+    "bags": [
+      {
+        "capacity": 120,
+        "price": 400,
+        "id": 1
+      },
+      {
+        "capacity": 20,
+        "price": 100,
+        "id": 2
+      }
+    ],
+    "additionalOrders": ["56789453657", "63456798765", "12658975443"]
+  }
+]

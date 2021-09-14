@@ -5,16 +5,25 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class AdminOrdersService {
+export class ClientOrdersService {
   private url = 'https://greencity-ubs.azurewebsites.net/ubs';
-
+  backend = 'assets/mocks/orders/user-orders.json';
+  backendDet = 'assets/mocks/orders/order-details.json';
   constructor(private http: HttpClient) {}
 
-  getOrders(): Observable<any> {
-    return this.http.get<any>(`${this.url}/client/getAll-users-orders`);
+  // getOrders(): Observable<any> {
+  //   return this.http.get<any>(`${this.url}/client/getAll-users-orders`);
+  // }
+
+  // getOrderDetails(id): Observable<any> {
+  //   return this.http.get<any>(`${this.url}/order-details`);
+  // }
+
+  getAllUserOrders(id): Observable<any> {
+    return this.http.get<any[]>(`${this.backend}`);
   }
 
   getOrderDetails(id): Observable<any> {
-    return this.http.get<any>(`${this.url}/order-details`);
+    return this.http.get<any[]>(`${this.backendDet}`);
   }
 }

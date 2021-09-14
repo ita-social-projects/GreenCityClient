@@ -13,7 +13,7 @@ import { MaterialModule } from '../material.module';
 import { IMaskModule } from 'angular-imask';
 import { SharedModule } from '../shared/shared.module';
 import { UbsAdminComponent } from './ubs-admin.component';
-import { UbsAdminOrdersComponent } from './components/ubs-admin-orders/ubs-admin-orders.component';
+import { UbsClientOrdersComponent } from './components/ubs-client-orders/ubs-client-orders.component';
 import { UbsAdminEmployeeComponent } from './components/ubs-admin-employee/ubs-admin-employee.component';
 import { UbsAdminEmployeeCardComponent } from './components/ubs-admin-employee/ubs-admin-employee-card/ubs-admin-employee-card.component';
 import { PaginationComponent } from './components/shared/components/pagination/pagination.component';
@@ -39,7 +39,8 @@ import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-c
 import { MatTabsModule } from '@angular/material/tabs';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatTableModule } from '@angular/material/table';
-import { UbsAdminOrdersListComponent } from './components/ubs-admin-orders-list/ubs-admin-orders-list.component';
+import { UbsClientOrdersListComponent } from './components/ubs-client-orders-list/ubs-client-orders-list.component';
+import { UbsClientOrderDetailsComponent } from './components/ubs-client-order-details/ubs-client-order-details.component';
 
 @NgModule({
   declarations: [
@@ -59,14 +60,15 @@ import { UbsAdminOrdersListComponent } from './components/ubs-admin-orders-list/
     UbsAdminOrderPaymentComponent,
     UbsAdminOrderClientInfoComponent,
     UbsAdminOrderDetailsFormComponent,
-    UbsAdminOrdersComponent,
+    UbsClientOrdersComponent,
     UbsProfileChangePasswordPopUpComponent,
     UbsProfileDeletePopUpComponent,
     AddViolationsComponent,
     UbsAdminCancelModalComponent,
     UbsAdminGoBackModalComponent,
     UbsClientBonusesComponent,
-    UbsAdminOrdersListComponent
+    UbsClientOrdersListComponent,
+    UbsClientOrderDetailsComponent
   ],
   imports: [
     CommonModule,

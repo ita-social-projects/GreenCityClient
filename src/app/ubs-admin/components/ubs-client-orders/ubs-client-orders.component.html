@@ -8,10 +8,10 @@
     <div *ngIf="orders" class="cards">
       <mat-tab-group animationDuration="0ms">
         <mat-tab label="{{ 'user-orders.current-orders' | translate }}">
-          <app-ubs-admin-orders-list [orders]="currentOrders"></app-ubs-admin-orders-list>
+          <app-ubs-client-orders-list [orders]="currentOrders"></app-ubs-client-orders-list>
         </mat-tab>
         <mat-tab label="{{ 'user-orders.order-history' | translate }}">
-          <app-ubs-admin-orders-list [orders]="orderHistory"></app-ubs-admin-orders-list>
+          <app-ubs-client-orders-list [orders]="orderHistory"></app-ubs-client-orders-list>
         </mat-tab>
       </mat-tab-group>
       <div class="empty"></div>
