@@ -5,13 +5,12 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-ubs-admin',
-  templateUrl: './ubs-admin.component.html',
-  styleUrls: ['./ubs-admin.component.scss']
+  selector: 'app-ubs-user',
+  templateUrl: './ubs-user.component.html',
+  styleUrls: ['./ubs-user.component.scss']
 })
-export class UbsAdminComponent implements OnInit, OnDestroy {
+export class UbsUserComponent implements OnInit, OnDestroy {
   private destroy: Subject<boolean> = new Subject<boolean>();
-
   constructor(private translate: TranslateService, private localStorageService: LocalStorageService) {}
 
   ngOnInit() {
@@ -20,7 +19,7 @@ export class UbsAdminComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy.next(true);
     this.destroy.complete();
   }

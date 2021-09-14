@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UbsAdminTableComponent } from './components/ubs-admin-table/ubs-admin-table.component';
-import { UbsBaseSidebarComponent } from '../shared/ubs-base-sidebar/ubs-base-sidebar.component';
 import { UbsAdminSidebarComponent } from '../../app/ubs-admin/components/ubs-admin-sidebar/ubs-admin-sidebar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -13,7 +12,6 @@ import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-transla
 import { MaterialModule } from '../material.module';
 import { IMaskModule } from 'angular-imask';
 import { SharedModule } from '../shared/shared.module';
-import { UbsHeaderComponent } from './components/ubs-header/ubs-header.component';
 import { UbsAdminComponent } from './ubs-admin.component';
 import { UbsAdminOrdersComponent } from './components/ubs-admin-orders/ubs-admin-orders.component';
 import { UbsAdminEmployeeComponent } from './components/ubs-admin-employee/ubs-admin-employee.component';
@@ -47,9 +45,7 @@ import { UbsAdminOrdersListComponent } from './components/ubs-admin-orders-list/
   declarations: [
     PaginationComponent,
     UbsAdminTableComponent,
-    UbsBaseSidebarComponent,
     UbsAdminSidebarComponent,
-    UbsHeaderComponent,
     UbsAdminComponent,
     UbsAdminEmployeeComponent,
     UbsAdminEmployeeCardComponent,
