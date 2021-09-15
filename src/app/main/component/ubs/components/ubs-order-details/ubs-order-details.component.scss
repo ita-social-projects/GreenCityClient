@@ -113,6 +113,18 @@ h3 {
   p {
     font-size: 12px;
   }
+
+  .eco-store {
+    ::placeholder {
+      color: var(--ubs-primary-light-grey);
+      opacity: 1;
+      font-size: 1.3rem;
+    }
+  }
+
+  .inactive {
+    background-color: var(--ubs-grey-white);
+  }
 }
 
 .addOrderBtn {
@@ -120,7 +132,7 @@ h3 {
   padding: 0;
   text-align: left;
   background: none;
-  color: var(---ubs-button-light-green);
+  color: var(--ubs-electric-violet);
   font-size: 14px;
   outline: none;
 }
@@ -231,7 +243,13 @@ button {
     font-size: 14px;
   }
 
-  .bonus-how-to-link {
+  .points-balance {
+    display: flex;
+    flex-flow: column wrap;
+  }
+
+  .bonus-how-to-link,
+  small {
     font-size: 12px;
     color: var(--ubs-electric-violet);
   }
@@ -254,7 +272,7 @@ button {
   }
 
   .money-saved {
-    @include text_style(var(--ubs-quaternary-font), var(--ubs-primary-green), 10px, 400);
+    @include text_style(var(--ubs-quaternary-font), var(--ubs-electric-violet) !important, 10px, 400);
   }
 
   .validMes {

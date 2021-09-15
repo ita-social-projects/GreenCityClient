@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { Bag, FinalOrder, OrderDetails } from '../../models/ubs.interface';
 import { ReplaySubject, Subject } from 'rxjs';
@@ -70,6 +70,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       popupCancel: 'confirmation.dismiss'
     }
   };
+
+  @ViewChild('EcoStoreInput') EcoStoreInput: ElementRef;
 
   constructor(
     private fb: FormBuilder,
@@ -220,6 +222,13 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   public changeShopRadioBtn() {
     this.orderDetailsForm.controls.shop.setValue('yes');
+  }
+
+  public selectShopRadioBtn(event: KeyboardEvent, radioButtonValue: string) {
+    if (['Enter', 'Space', 'NumpadEnter'].includes(event.code)) {
+      this.orderDetailsForm.controls.shop.setValue(radioButtonValue);
+      radioButtonValue === 'yes' ? this.EcoStoreInput.nativeElement.focus() : this.clearOrderValues();
+    }
   }
 
   clearOrderValues(): void {

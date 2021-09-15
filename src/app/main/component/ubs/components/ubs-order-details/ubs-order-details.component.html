@@ -193,9 +193,14 @@
                 <span class="checkmark"></span>
               </label>
             </div>
-            <small class="text-message" [class.d-none]="pointsUsed === 0">
-              <span>{{ 'order-details.used' | translate }} {{ pointsUsed | currency | localizedCurrency }}</span>
-            </small>
+            <div class="points-balance">
+              <small class="text-message" [class.d-none]="pointsUsed === 0">
+                <span>{{ 'order-details.used' | translate }} {{ pointsUsed | currency | localizedCurrency }}</span>
+              </small>
+              <small class="text-message" [class.d-none]="pointsUsed === 0">
+                <span>{{ 'order-details.balance' | translate }} {{ points | currency | localizedCurrency }}</span>
+              </small>
+            </div>
           </div>
         </div>
       </div>
@@ -205,24 +210,26 @@
         <div class="radio-btn">
           <label class="custom-radio-btn"
             >{{ 'order-details.no' | translate }}
-            <input formControlName="shop" type="radio" value="no" (click)="clearOrderValues()" />
-            <span class="checkmark"></span>
+            <input formControlName="shop" type="radio" value="no" (click)="clearOrderValues()" tabindex="-1" />
+            <span class="checkmark" tabindex="0" (keyup)="selectShopRadioBtn($event, 'no')"></span>
           </label>
           <label class="custom-radio-btn"
             >{{ 'order-details.yes' | translate }}
-            <input formControlName="shop" type="radio" value="yes" />
-            <span class="checkmark"></span>
+            <input formControlName="shop" type="radio" value="yes" tabindex="-1" (click)="EcoStoreInput.nativeElement.focus()" />
+            <span class="checkmark" tabindex="0" (keyup)="selectShopRadioBtn($event, 'yes')"></span>
           </label>
         </div>
         <div class="form-group shop_submit">
           <div class="bottom-text">
             <p>{{ 'order-details.cant-found-order' | translate }}</p>
           </div>
-          <div formArrayName="additionalOrders" *ngFor="let order of additionalOrders.controls; let i = index" class="form-group">
+          <div formArrayName="additionalOrders" *ngFor="let order of additionalOrders.controls; let i = index" class="form-group eco-store">
             <label class="label m-0">{{ 'order-details.enter-order-num' | translate }}</label>
             <input
+              tabindex="{{ orderDetailsForm.controls.shop.value === 'yes' ? 0 : -1 }}"
               [formControlName]="i"
-              class="shadow-none form-control border-input p-2 eco-store"
+              class="shadow-none form-control border-input p-2 eco-store-input"
+              [class.inactive]="orderDetailsForm.controls.shop.value === 'no'"
               type="text"
               placeholder="xxxxxxxxxx"
               [unmask]="false"
@@ -230,6 +237,7 @@
               [pattern]="additionalOrdersPattern"
               (click)="changeShopRadioBtn()"
               (ngModelChange)="ecoStoreValidation()"
+              #EcoStoreInput
             />
           </div>
           <button *ngIf="additionalOrders.controls.length < 5 && displayOrderBtn" class="addOrderBtn" (click)="addOrder()">
