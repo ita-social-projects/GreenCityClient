@@ -147,8 +147,12 @@
                 {{ 'order-details.activate' | translate }}
               </button>
               <button>
-                [disabled]="cancelCertBtn" *ngIf="certStatuses[i] || !certificate.value.length" type="button" class="primary-global-button
-                btn" (click)="deleteCertificate(i)" >
+                [disabled]="cancelCertBtn"
+                *ngIf="certStatuses[i] || !certificate.value.length"
+                type="button"
+                class="primary-global-button btn"
+                (click)="deleteCertificate(i)"
+              >
                 {{ 'order-details.cancel' | translate }}
               </button>
             </div>
