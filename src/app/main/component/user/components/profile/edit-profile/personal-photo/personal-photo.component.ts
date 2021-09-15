@@ -15,7 +15,6 @@ export class PersonalPhotoComponent implements OnInit, OnDestroy {
   public currentPage = 'edit photo';
   public editIcon = './assets/img/profile/icons/edit-photo.svg';
   public userName: string;
-  public disableEditImg: boolean;
   @ViewChild('editImage') previousActiveElement: ElementRef;
   constructor(private profileService: ProfileService, private dialog: MatDialog) {}
 
@@ -24,10 +23,8 @@ export class PersonalPhotoComponent implements OnInit, OnDestroy {
   }
 
   private setUserAvatar(): void {
-    this.disableEditImg = true;
     this.avatarSubscription = this.profileService.getUserInfo().subscribe((el) => {
       this.avatarImg = el.profilePicturePath;
-      this.disableEditImg = false;
       this.userName = el.name;
     });
   }
