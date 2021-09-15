@@ -42,11 +42,18 @@ export class UbsClientBonusesComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   getBonusesData() {
-    this.subscription = this.bonusesService.getUserBonuses().subscribe((res: BonusesModel) => {
-      this.dataSource.data = res.ubsUserBonuses;
-      this.totalBonuses = res.userBonuses;
-      this.isLoading = false;
-    });
+    this.isLoading = true;
+    this.subscription = this.bonusesService.getUserBonuses().subscribe(
+      (res: BonusesModel) => {
+        this.dataSource.data = res.ubsUserBonuses;
+        this.totalBonuses = res.userBonuses;
+        this.isLoading = false;
+      },
+      (err: any) => {
+        this.isLoading = false;
+        console.log(err);
+      }
+    );
   }
 
   ngOnDestroy() {

@@ -37,11 +37,6 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
       link: 'assets/img/sidebarIcons/calendar_icon.svg',
       name: 'ubs-sidebar.schedule',
       routerLink: '#'
-    },
-    {
-      link: 'assets/img/sidebarIcons/achievement_icon.svg',
-      name: 'ubs-sidebar.bonuses',
-      routerLink: 'bonuses'
     }
   ];
 
