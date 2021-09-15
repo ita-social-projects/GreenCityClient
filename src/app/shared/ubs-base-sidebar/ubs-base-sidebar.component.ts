@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { MatDrawer } from '@angular/material';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { MatDrawer } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-ubs-base-sidebar',

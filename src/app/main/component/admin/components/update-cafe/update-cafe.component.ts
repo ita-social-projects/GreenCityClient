@@ -16,13 +16,13 @@ import { SpecificationService } from '../../../../service/specification.service'
 import { UserService } from '../../../../service/user/user.service';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
 import { PlaceUpdatedDto } from '../../models/placeUpdatedDto.model';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-update-cafe',
   templateUrl: './update-cafe.component.html',
-  styleUrls: ['./update-cafe.component.scss'],
+  styleUrls: ['./update-cafe.component.scss']
 })
 export class UpdateCafeComponent implements OnInit {
   constructor(
@@ -57,7 +57,7 @@ export class UpdateCafeComponent implements OnInit {
     WeekDays.THURSDAY,
     WeekDays.FRIDAY,
     WeekDays.SATURDAY,
-    WeekDays.SUNDAY,
+    WeekDays.SUNDAY
   ];
   openingHours: OpeningHours = new OpeningHours();
   breakTimes: BreakTimes = new BreakTimes();
@@ -115,7 +115,7 @@ export class UpdateCafeComponent implements OnInit {
       this.geoCoder = new google.maps.Geocoder();
 
       const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-        types: ['address'],
+        types: ['address']
       });
       autocomplete.addListener('place_changed', () => {
         this.ngZone.run(() => {

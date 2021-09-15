@@ -87,7 +87,7 @@ describe('EditProfileComponent', () => {
     beforeEach(() => {
       component.initialValues = {
         city: '',
-        firstName: '',
+        name: '',
         userCredo: '',
         showLocation: '',
         showEcoPlace: '',
@@ -163,7 +163,7 @@ describe('EditProfileComponent', () => {
       profileService = fixture.debugElement.injector.get(ProfileService);
       mockUserInfo = {
         city: 'Lviv',
-        firstName: 'John',
+        name: 'John',
         userCredo: 'My Credo is to make small steps that leads to huge impact. Let’s change the world together.',
         profilePicturePath: './assets/img/profileAvatarBig.png',
         rating: 658,

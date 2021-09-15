@@ -13,7 +13,6 @@ import { NgSelectComponent } from '@ng-select/ng-select';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
 import { PlaceService } from '../../../../service/place/place.service';
 import { BreakTimes } from '../../../../model/breakTimes.model';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { SpecificationService } from '../../../../service/specification.service';
 import { DiscountDto } from '../../../../model/discount/DiscountDto';
 import { SpecificationNameDto } from '../../../../model/specification/SpecificationNameDto';
@@ -21,11 +20,12 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Photo } from '../../../../model/photo/photo';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-propose-cafe',
   templateUrl: './propose-cafe.component.html',
-  styleUrls: ['./propose-cafe.component.scss'],
+  styleUrls: ['./propose-cafe.component.scss']
 })
 export class ProposeCafeComponent implements OnInit {
   photoLoadingStatus = false;
@@ -46,7 +46,7 @@ export class ProposeCafeComponent implements OnInit {
     WeekDays.THURSDAY,
     WeekDays.FRIDAY,
     WeekDays.SATURDAY,
-    WeekDays.SUNDAY,
+    WeekDays.SUNDAY
   ];
   openingHours: OpeningHours = new OpeningHours();
   breakTimes: BreakTimes = new BreakTimes();
@@ -114,7 +114,7 @@ export class ProposeCafeComponent implements OnInit {
       this.geoCoder = new google.maps.Geocoder();
 
       const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-        types: ['address'],
+        types: ['address']
       });
       autocomplete.addListener('place_changed', () => {
         this.ngZone.run(() => {
