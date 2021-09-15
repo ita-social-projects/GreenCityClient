@@ -32,10 +32,11 @@
                 class="shadow-none form-control input"
                 min="0"
                 max="999"
+                placeholder="0"
                 [unmask]="false"
                 [imask]="{ mask: servicesMask }"
                 [(ngModel)]="bag.quantity"
-                (ngModelChange)="onQuantityChange()"
+                (change)="onQuantityChange()"
               />
             </div>
             <span class="col-3 bag-name text-center"> {{ bag.quantity * bag.price | currency | localizedCurrency }}</span>
@@ -147,12 +148,8 @@
                 {{ 'order-details.activate' | translate }}
               </button>
               <button>
-                [disabled]="cancelCertBtn"
-                *ngIf="certStatuses[i] || !certificate.value.length"
-                type="button"
-                class="primary-global-button btn"
-                (click)="deleteCertificate(i)"
-              >
+                [disabled]="cancelCertBtn" *ngIf="certStatuses[i] || !certificate.value.length" type="button" class="primary-global-button
+                btn" (click)="deleteCertificate(i)" >
                 {{ 'order-details.cancel' | translate }}
               </button>
             </div>

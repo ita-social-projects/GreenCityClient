@@ -86,6 +86,10 @@ h3 {
   padding-left: 0;
   border: none;
   display: flex;
+
+  &::placeholder {
+    color: var(--ubs-primary-light-grey);
+  }
 }
 
 .count {

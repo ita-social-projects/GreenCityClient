@@ -108,7 +108,12 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   private subscribeToLangChange(): void {
     this.localStorageService.languageSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.currentLanguage = this.localStorageService.getCurrentLanguage();
-      this.bags = this.orders.bags.filter((value) => value.code === this.currentLanguage);
+      this.bags = this.orders.bags.map((b) => {
+        b.quantity = null;
+        return b;
+      });
+      this.filterBags();
+      this.calculateTotal();
     });
   }
 
@@ -126,8 +131,13 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
           bag.quantity = null;
           this.orderDetailsForm.addControl('quantity' + String(bag.id), new FormControl(0, [Validators.min(0), Validators.max(999)]));
         });
-        this.bags = this.orders.bags.filter((value) => value.code === this.currentLanguage);
+        this.filterBags();
       });
+  }
+
+  private filterBags(): void {
+    this.bags = this.orders.bags.filter((value) => value.code === this.currentLanguage).sort((a, b) => a.price - b.price);
+    this.bags = [this.bags[1], this.bags[2], this.bags[0]];
   }
 
   changeForm() {
@@ -234,21 +244,14 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.bags.forEach((bag) => {
       const valueName = 'quantity' + String(bag.id);
       const orderFormBagController = this.orderDetailsForm.controls[valueName];
-      const startsWithZero = /^0\d+/;
+      const inputValue = `${Number(orderFormBagController.value)}`;
+      orderFormBagController.setValue(inputValue);
 
-      if (!orderFormBagController.value) {
-        orderFormBagController.setValue('0');
-      }
-
-      if (startsWithZero.test(orderFormBagController.value)) {
-        const slicedValue = orderFormBagController.value.replace(/^0+/, '');
-        orderFormBagController.setValue(slicedValue);
-      }
-
-      if (+orderFormBagController.value === 0) {
-        bag.quantity = null;
-      } else {
+      if (Number(orderFormBagController.value) > 0) {
         bag.quantity = orderFormBagController.value;
+      } else {
+        orderFormBagController.setValue('');
+        bag.quantity = null;
       }
     });
     this.calculateTotal();
