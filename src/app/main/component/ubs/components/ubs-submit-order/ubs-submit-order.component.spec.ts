@@ -1,7 +1,6 @@
 import { OrderService } from './../../services/order.service';
 import { of, Subject, throwError } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatDialogModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -9,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UBSSubmitOrderComponent } from './ubs-submit-order.component';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('UBSSubmitOrderComponent', () => {
   let component: UBSSubmitOrderComponent;

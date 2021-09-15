@@ -38,6 +38,8 @@ import { AddViolationsComponent } from './components/add-violations/add-violatio
 import { UbsAdminCancelModalComponent } from './components/ubs-admin-cancel-modal/ubs-admin-cancel-modal.component';
 import { UbsAdminGoBackModalComponent } from './components/ubs-admin-go-back-modal/ubs-admin-go-back-modal.component';
 import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-client-bonuses.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -80,6 +82,7 @@ import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-c
     UBSAdminRoutingModule,
     NgxPaginationModule,
     InfiniteScrollModule,
+    DragDropModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,

@@ -9,14 +9,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SignInComponent } from '@global-auth/sign-in/sign-in.component';
 
 import { AuthModalComponent } from './auth-modal.component';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 describe('AuthModalComponent', () => {
   let component: AuthModalComponent;
   let fixture: ComponentFixture<AuthModalComponent>;
 
   const MatDialogRefMock = {
-    close: () => {},
+    close: () => {}
   };
 
   beforeEach(async(() => {
@@ -25,8 +25,8 @@ describe('AuthModalComponent', () => {
       imports: [TranslateModule.forRoot(), ReactiveFormsModule, FormsModule, HttpClientModule, MatDialogModule],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
-        { provide: MatDialogRef, useValue: MatDialogRefMock },
-      ],
+        { provide: MatDialogRef, useValue: MatDialogRefMock }
+      ]
     }).compileComponents();
   }));
 
