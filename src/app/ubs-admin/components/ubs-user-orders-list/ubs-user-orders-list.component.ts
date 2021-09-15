@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-ubs-client-orders-list',
-  templateUrl: './ubs-client-orders-list.component.html',
-  styleUrls: ['./ubs-client-orders-list.component.scss']
+  selector: 'app-ubs-user-orders-list',
+  templateUrl: './ubs-user-orders-list.component.html',
+  styleUrls: ['./ubs-user-orders-list.component.scss']
 })
-export class UbsClientOrdersListComponent {
+export class UbsUserOrdersListComponent {
   @Input()
   orders: any[];
 

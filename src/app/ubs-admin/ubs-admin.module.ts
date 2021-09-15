@@ -13,7 +13,6 @@ import { MaterialModule } from '../material.module';
 import { IMaskModule } from 'angular-imask';
 import { SharedModule } from '../shared/shared.module';
 import { UbsAdminComponent } from './ubs-admin.component';
-import { UbsClientOrdersComponent } from './components/ubs-client-orders/ubs-client-orders.component';
 import { UbsAdminEmployeeComponent } from './components/ubs-admin-employee/ubs-admin-employee.component';
 import { UbsAdminEmployeeCardComponent } from './components/ubs-admin-employee/ubs-admin-employee-card/ubs-admin-employee-card.component';
 import { PaginationComponent } from './components/shared/components/pagination/pagination.component';
@@ -38,9 +37,9 @@ import { UbsAdminGoBackModalComponent } from './components/ubs-admin-go-back-mod
 import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-client-bonuses.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { MatTableModule } from '@angular/material/table';
-import { UbsClientOrdersListComponent } from './components/ubs-client-orders-list/ubs-client-orders-list.component';
-import { UbsClientOrderDetailsComponent } from './components/ubs-client-order-details/ubs-client-order-details.component';
+import { UbsUserOrdersListComponent } from './components/ubs-user-orders-list/ubs-user-orders-list.component';
+import { UbsUserOrderDetailsComponent } from './components/ubs-user-order-details/ubs-user-order-details.component';
+import { UbsUserOrdersComponent } from './components/ubs-user-orders/ubs-user-orders.component';
 
 @NgModule({
   declarations: [
@@ -60,15 +59,15 @@ import { UbsClientOrderDetailsComponent } from './components/ubs-client-order-de
     UbsAdminOrderPaymentComponent,
     UbsAdminOrderClientInfoComponent,
     UbsAdminOrderDetailsFormComponent,
-    UbsClientOrdersComponent,
+    UbsUserOrdersComponent,
     UbsProfileChangePasswordPopUpComponent,
     UbsProfileDeletePopUpComponent,
     AddViolationsComponent,
     UbsAdminCancelModalComponent,
     UbsAdminGoBackModalComponent,
     UbsClientBonusesComponent,
-    UbsClientOrdersListComponent,
-    UbsClientOrderDetailsComponent
+    UbsUserOrdersListComponent,
+    UbsUserOrderDetailsComponent
   ],
   imports: [
     CommonModule,

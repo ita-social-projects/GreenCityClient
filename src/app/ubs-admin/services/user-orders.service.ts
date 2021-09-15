@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ClientOrdersService {
+export class UserOrdersService {
   private url = 'https://greencity-ubs.azurewebsites.net/ubs';
   backend = 'assets/mocks/orders/user-orders.json';
   backendDet = 'assets/mocks/orders/order-details.json';

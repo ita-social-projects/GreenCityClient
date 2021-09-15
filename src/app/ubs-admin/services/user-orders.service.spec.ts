@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ClientOrdersService } from './client-orders.service';
+import { UserOrdersService } from './user-orders.service';
 
-describe('ClientOrdersService', () => {
+describe('UserOrdersService', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule]
@@ -10,7 +10,7 @@ describe('ClientOrdersService', () => {
   );
 
   it('should be created', () => {
-    const service: ClientOrdersService = TestBed.inject(ClientOrdersService);
+    const service: UserOrdersService = TestBed.inject(UserOrdersService);
     expect(service).toBeTruthy();
   });
 });

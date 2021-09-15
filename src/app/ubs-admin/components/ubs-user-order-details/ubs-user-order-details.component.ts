@@ -1,14 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ClientOrdersService } from '../../services/client-orders.service';
+import { UserOrdersService } from '../../services/user-orders.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'app-ubs-client-order-details',
-  templateUrl: './ubs-client-order-details.component.html',
-  styleUrls: ['./ubs-client-order-details.component.scss']
+  selector: 'app-ubs-user-order-details',
+  templateUrl: './ubs-user-order-details.component.html',
+  styleUrls: ['./ubs-user-order-details.component.scss']
 })
-export class UbsClientOrderDetailsComponent implements OnInit {
+export class UbsUserOrderDetailsComponent implements OnInit {
   destroy: Subject<boolean> = new Subject<boolean>();
 
   @Input()
@@ -18,12 +18,12 @@ export class UbsClientOrderDetailsComponent implements OnInit {
   public currentLanguage: string;
   loading = false;
 
-  constructor(private clientOrdersService: ClientOrdersService) {}
+  constructor(private userOrdersService: UserOrdersService) {}
 
   ngOnInit() {
     this.loading = true;
     // this.currentLanguage = localStorage.getItem('language');
-    this.clientOrdersService
+    this.userOrdersService
       .getOrderDetails(this.id)
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
