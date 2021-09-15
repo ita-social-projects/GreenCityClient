@@ -1,4 +1,4 @@
-import { UserOrdersService } from '../../services/user-orders.service';
+import { UserOrdersService } from '../../ubs-user/services/user-orders.service';
 import { Component, OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';

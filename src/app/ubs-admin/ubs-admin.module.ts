@@ -37,9 +37,9 @@ import { UbsAdminGoBackModalComponent } from './components/ubs-admin-go-back-mod
 import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-client-bonuses.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { UbsUserOrdersListComponent } from './components/ubs-user-orders-list/ubs-user-orders-list.component';
-import { UbsUserOrderDetailsComponent } from './components/ubs-user-order-details/ubs-user-order-details.component';
-import { UbsUserOrdersComponent } from './components/ubs-user-orders/ubs-user-orders.component';
+import { UbsUserOrdersListComponent } from '../ubs-user/ubs-user-orders-list/ubs-user-orders-list.component';
+import { UbsUserOrderDetailsComponent } from '../ubs-user/ubs-user-order-details/ubs-user-order-details.component';
+import { UbsUserOrdersComponent } from '../ubs-user/ubs-user-orders/ubs-user-orders.component';
 
 @NgModule({
   declarations: [
