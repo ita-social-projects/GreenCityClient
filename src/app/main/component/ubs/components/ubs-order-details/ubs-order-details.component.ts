@@ -417,6 +417,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     }
     this.certDate = this.certificateDateTreat(cert.certificateDate);
     this.certStatus = cert.certificateStatus;
+    this.certBtnActivate = false;
   }
 
   private certificateDateTreat(date: string) {

@@ -127,17 +127,18 @@
             />
             <div class="form-group">
               <button
-                *ngIf="!certStatuses[i]"
+                *ngIf="!certStatuses[i] && certificate.value.length"
                 type="button"
                 class="primary-global-button btn"
                 [disabled]="additionalCertificates['controls'][i].invalid || additionalCertificates['controls'][i].pristine"
                 (click)="addedCertificateSubmit(i)"
+                !certificate.value.length
               >
                 {{ 'order-details.activate' | translate }}
               </button>
               <button
                 [disabled]="cancelCertBtn"
-                *ngIf="certStatuses[i]"
+                *ngIf="certStatuses[i] || !certificate.value.length"
                 type="button"
                 class="primary-global-button btn"
                 (click)="deleteCertificate(i)"
