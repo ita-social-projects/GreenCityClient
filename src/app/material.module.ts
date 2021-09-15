@@ -19,6 +19,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatSelectModule } from '@angular/material/select';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   imports: [
@@ -41,7 +42,8 @@ import { MatRadioModule } from '@angular/material/radio';
     MatTreeModule,
     MatSelectModule,
     MatRadioModule,
-    MatMenuModule
+    MatMenuModule,
+    MatProgressBarModule
   ],
   exports: [
     MatTableModule,
@@ -63,7 +65,8 @@ import { MatRadioModule } from '@angular/material/radio';
     MatTreeModule,
     MatSelectModule,
     MatRadioModule,
-    MatMenuModule
+    MatMenuModule,
+    MatProgressBarModule
   ]
 })
 export class MaterialModule {}

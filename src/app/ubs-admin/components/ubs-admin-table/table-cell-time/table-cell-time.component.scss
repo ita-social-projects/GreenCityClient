@@ -1,0 +1,95 @@
+.time_to_show {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.dropdown_time {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.3);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .set_time_container {
+    background: white;
+    padding: 18px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    h3 {
+      text-align: center;
+      font-size: 20px;
+    }
+    .edit_time_btns {
+      display: flex;
+      justify-content: flex-end;
+      .cancel {
+        background: white;
+        margin-right: 8px;
+        border-radius: 5px;
+        border: 1px solid rgb(86, 57, 186);
+        color: rgb(86, 57, 186);
+        padding: 5px 10px;
+      }
+      .save {
+        background: rgb(86, 57, 186);
+        border-radius: 5px;
+        border: 1px solid rgb(86, 57, 186);
+        padding: 5px 10px;
+        color: white;
+      }
+    }
+  }
+  .set_time_select {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    .select_from {
+      margin-right: 21px;
+      select {
+        text-align: center;
+        border: 1px solid rgb(156, 167, 176);
+        background: rgb(239, 240, 241);
+        padding: 4px 8px;
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+    .select_to {
+      select {
+        text-align: center;
+        border: 1px solid rgb(156, 167, 176);
+        background: rgb(239, 240, 241);
+        padding: 4px 8px;
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+  }
+}
+
+.select_from span,
+.select_to span {
+  margin-right: 8px;
+}
+
+.edit_time {
+  width: 250px;
+  padding: 10px;
+  position: relative;
+  z-index: 10000 !important;
+  background: red;
+}
+
+button {
+  line-height: 1 !important;
+}
+select {
+  line-height: 1 !important;
+}

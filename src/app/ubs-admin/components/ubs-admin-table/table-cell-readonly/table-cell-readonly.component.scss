@@ -1,0 +1,15 @@
+div {
+  white-space: nowrap; /* Запрещаем перенос строк */
+  overflow: hidden; /* Обрезаем все, что не помещается в область */
+  text-overflow: ellipsis;
+  padding: 0 20px;
+}
+.readonly_date {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.tool_tip {
+  font-size: 20px !important;
+}
