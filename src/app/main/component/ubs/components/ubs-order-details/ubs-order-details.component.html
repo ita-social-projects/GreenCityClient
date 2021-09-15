@@ -2,6 +2,13 @@
   <div *ngIf="bags; else spinner">
     <div class="header">
       <h3 class="font-bolt order-title">{{ 'order-details.order-title' | translate }}</h3>
+      <div>
+        <h5>{{ 'order-details.choose-location' | translate }}</h5>
+        <select class="choose-location">
+          <option>{{ 'order-details.kyiv' | translate }}</option>
+          <option>{{ 'order-details.kyiv-region' | translate }}</option>
+        </select>
+      </div>
       <p class="order-content">{{ 'order-details.order-content' | translate }}</p>
     </div>
     <form class="form" [formGroup]="orderDetailsForm" (change)="changeOrderDetails()">
@@ -127,15 +134,24 @@
             />
             <div class="form-group">
               <button
-                *ngIf="!certStatuses[i]"
+                *ngIf="!certStatuses[i] && certificate.value.length"
                 type="button"
                 class="primary-global-button btn"
-                [disabled]="additionalCertificates['controls'][i].invalid || additionalCertificates['controls'][i].pristine"
+                [disabled]="
+                  additionalCertificates['controls'][i].invalid ||
+                  additionalCertificates['controls'][i].pristine ||
+                  !certificate.value.length
+                "
                 (click)="addedCertificateSubmit(i)"
               >
                 {{ 'order-details.activate' | translate }}
               </button>
-              <button *ngIf="certStatuses[i]" type="button" class="primary-global-button btn" (click)="deleteCertificate(i)">
+              <button
+                *ngIf="certStatuses[i] || !certificate.value.length"
+                type="button"
+                class="primary-global-button btn"
+                (click)="deleteCertificate(i)"
+              >
                 {{ 'order-details.cancel' | translate }}
               </button>
             </div>

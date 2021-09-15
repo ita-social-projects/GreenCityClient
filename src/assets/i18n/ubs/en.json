@@ -8,6 +8,9 @@
   },
   "order-details": {
     "order-title": "Services",
+    "choose-location": "Choose your region",
+    "kyiv": "Kyiv",
+    "kyiv-region": "Kyiv region",
     "order-content": "Please note that the minimum order amount must be 500.00 UAH",
     "service": "Service",
     "volume": "Volume",
