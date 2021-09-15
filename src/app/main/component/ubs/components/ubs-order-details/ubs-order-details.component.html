@@ -146,8 +146,7 @@
               >
                 {{ 'order-details.activate' | translate }}
               </button>
-              <button>
-                [disabled]="cancelCertBtn"
+              <button
                 *ngIf="certStatuses[i] || !certificate.value.length"
                 type="button"
                 class="primary-global-button btn"
@@ -191,12 +190,7 @@
               }}
             </small>
           </div>
-          <button
-            *ngIf="addCert && finalSum !== 0"
-            class="addCertificateBtn"
-            [disabled]="disableAddCertificate()"
-            (click)="addCertificate()"
-          >
+          <button *ngIf="addCert && finalSum !== 0" class="addCertificateBtn" (click)="addCertificate()">
             {{ 'order-details.add-certificate' | translate }}
           </button>
           <div class="points">
