@@ -18,8 +18,9 @@ import { OrderService } from '../../services/order.service';
 export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit, OnDestroy {
   paymentForm: FormGroup = this.fb.group({});
   bags: Bag[] = [];
+  response: any;
   loadingAnim: boolean;
-  selectedDay: string;
+  selectedPayment: string;
   isLiqPay = false;
   additionalOrders: number[];
   personalData: PersonalData;
@@ -91,30 +92,24 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       );
   }
 
-  showconsole() {
+  getLiqPayButton() {
     this.orderService
       .getLiqPayForm()
       .pipe(takeUntil(this.destroy))
-      .subscribe(
-        (fondyUrl1) => {
-          console.log(fondyUrl1);
-        },
-        (error) => {
-          this.loadingAnim = false;
-        }
-      );
+      .subscribe((liqPayButton) => {
+        this.response = liqPayButton;
+        const responseForm = document.getElementById('liqPayButton');
+        responseForm.innerHTML = this.response;
+      });
   }
 
   orderButton(event: any) {
-    // const select = document.getElementsByClassName('payment-select') as HTMLSelectElement;
-    // const value = select.options[select.selectedIndex].value;
-    // if (value === 'LiqPay') {
-    //   this.isLiqPay = true;
-    //   console.log('liqpay');
-    // }
-    this.selectedDay = event.target.value;
-    if (this.selectedDay === 'LiqPay') {
-      console.log(event.target.value);
+    this.selectedPayment = event.target.value;
+    if (this.selectedPayment === 'LiqPay') {
+      this.isLiqPay = true;
+      this.getLiqPayButton();
+    } else {
+      this.isLiqPay = false;
     }
   }
 }
