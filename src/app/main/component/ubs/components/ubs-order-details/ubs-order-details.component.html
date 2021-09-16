@@ -184,13 +184,13 @@
             <div class="radio-btn" *ngIf="points !== 0 && finalSum !== 0">
               <label class="custom-radio-btn"
                 >{{ 'order-details.no' | translate }}
-                <input formControlName="bonus" type="radio" value="no" />
-                <span class="checkmark"></span>
+                <input formControlName="bonus" type="radio" value="no" tabindex="-1" />
+                <span class="checkmark" tabindex="0" (keyup)="selectPointsRadioBtn($event, 'no')"></span>
               </label>
               <label class="custom-radio-btn"
                 >{{ 'order-details.yes' | translate }}
-                <input formControlName="bonus" type="radio" value="yes" (click)="calculatePoints()" />
-                <span class="checkmark"></span>
+                <input formControlName="bonus" type="radio" value="yes" tabindex="-1" (click)="calculatePoints()" />
+                <span class="checkmark" tabindex="0" (keyup)="selectPointsRadioBtn($event, 'yes'); calculatePoints()"></span>
               </label>
             </div>
             <div class="points-balance">
@@ -246,12 +246,14 @@
               (ngModelChange)="ecoStoreValidation()"
             />
           </div>
-          <button [disabled]="additionalOrders.controls.length < 5 && !displayOrderBtn" class="addOrderBtn" (click)="addOrder()">
-            {{ 'order-details.additional-orders' | translate }}
-          </button>
-          <small class="text-danger" *ngIf="!displayOrderBtn && additionalOrders.touched && shop.value !== 'no'">
-            {{ 'order-details.order-error' | translate }}
-          </small>
+          <div class="order-notification">
+            <small class="text-danger" *ngIf="!displayOrderBtn && additionalOrders.touched && shop.value !== 'no'">
+              {{ 'order-details.order-error' | translate }}
+            </small>
+            <button [disabled]="additionalOrders.controls.length < 5 && !displayOrderBtn" class="addOrderBtn" (click)="addOrder()">
+              {{ 'order-details.additional-orders' | translate }}
+            </button>
+          </div>
         </div>
       </div>
       <div class="bottom_comment">
