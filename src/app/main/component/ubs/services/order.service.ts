@@ -67,7 +67,7 @@ export class OrderService {
   completedLocation(completed: boolean) {
     this.locationSubject.next(completed);
   }
-  
+
   processLiqPayOrder(order: Order): Observable<Order> {
     return this.http.post<Order>(`${this.url}/processLiqPayOrder`, order, { responseType: 'text' as 'json' });
   }
