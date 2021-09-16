@@ -37,6 +37,12 @@ export class EditPhotoPopUpComponent implements OnInit {
     this.setUserAvatar();
   }
 
+  public openFilesWindow(event) {
+    if (event.code === 'Space' || event.code === 'Enter') {
+      event.target.click();
+    }
+  }
+
   public onSelectPhoto(event): void {
     const imageFile = event.target.files[0];
     this.isWarning = this.showWarning(imageFile);
