@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { Bag, FinalOrder, OrderDetails } from '../../models/ubs.interface';
 import { ReplaySubject, Subject } from 'rxjs';
@@ -71,14 +71,13 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     }
   };
 
-  @ViewChild('EcoStoreInput') EcoStoreInput: ElementRef;
-
   constructor(
     private fb: FormBuilder,
     private orderService: OrderService,
     private shareFormService: UBSOrderFormService,
     private translate: TranslateService,
     private localStorageService: LocalStorageService,
+    public renderer: Renderer2,
     router: Router,
     dialog: MatDialog
   ) {
@@ -227,7 +226,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public selectShopRadioBtn(event: KeyboardEvent, radioButtonValue: string) {
     if (['Enter', 'Space', 'NumpadEnter'].includes(event.code)) {
       this.orderDetailsForm.controls.shop.setValue(radioButtonValue);
-      radioButtonValue === 'yes' ? this.EcoStoreInput.nativeElement.focus() : this.clearOrderValues();
+      radioButtonValue === 'yes'
+        ? this.renderer.selectRootElement(`#index${this.additionalOrders.controls.length - 1}`).focus()
+        : this.clearOrderValues();
     }
   }
 
@@ -318,6 +319,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     const additionalOrder = new FormControl('', [Validators.minLength(10)]);
     this.additionalOrders.push(additionalOrder);
     this.ecoStoreValidation();
+    setTimeout(() => {
+      this.renderer.selectRootElement(`#index${this.additionalOrders.controls.length - 1}`).focus();
+    }, 0);
   }
 
   addCertificate(): void {

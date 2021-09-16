@@ -215,7 +215,13 @@
           </label>
           <label class="custom-radio-btn"
             >{{ 'order-details.yes' | translate }}
-            <input formControlName="shop" type="radio" value="yes" tabindex="-1" (click)="EcoStoreInput.nativeElement.focus()" />
+            <input
+              formControlName="shop"
+              type="radio"
+              value="yes"
+              tabindex="-1"
+              (click)="renderer.selectRootElement('#index' + (additionalOrders.controls.length - 1)).focus()"
+            />
             <span class="checkmark" tabindex="0" (keyup)="selectShopRadioBtn($event, 'yes')"></span>
           </label>
         </div>
@@ -226,6 +232,7 @@
           <div formArrayName="additionalOrders" *ngFor="let order of additionalOrders.controls; let i = index" class="form-group eco-store">
             <label class="label m-0">{{ 'order-details.enter-order-num' | translate }}</label>
             <input
+              id="index{{ i }}"
               tabindex="{{ orderDetailsForm.controls.shop.value === 'yes' ? 0 : -1 }}"
               [formControlName]="i"
               class="shadow-none form-control border-input p-2 eco-store-input"
@@ -237,10 +244,9 @@
               [pattern]="additionalOrdersPattern"
               (click)="changeShopRadioBtn()"
               (ngModelChange)="ecoStoreValidation()"
-              #EcoStoreInput
             />
           </div>
-          <button *ngIf="additionalOrders.controls.length < 5 && displayOrderBtn" class="addOrderBtn" (click)="addOrder()">
+          <button [disabled]="additionalOrders.controls.length < 5 && !displayOrderBtn" class="addOrderBtn" (click)="addOrder()">
             {{ 'order-details.additional-orders' | translate }}
           </button>
           <small class="text-danger" *ngIf="!displayOrderBtn && additionalOrders.touched && shop.value !== 'no'">

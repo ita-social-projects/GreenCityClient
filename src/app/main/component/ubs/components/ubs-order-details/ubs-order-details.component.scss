@@ -135,10 +135,18 @@ h3 {
   color: var(--ubs-electric-violet);
   font-size: 14px;
   outline: none;
-}
 
-.addOrderBtn:hover {
-  background: none;
+  &:disabled {
+    color: var(--ubs-quintynary-light-grey);
+  }
+
+  &:hover {
+    background: none;
+  }
+
+  &:focus {
+    text-decoration: underline;
+  }
 }
 
 .radio-btn {
