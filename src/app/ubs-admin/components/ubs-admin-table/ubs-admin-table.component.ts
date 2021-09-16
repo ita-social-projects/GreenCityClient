@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { nonSortableColumns } from './../../models/non-sortable-columns.model';
 import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragDrop, CdkDragStart, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
@@ -43,7 +44,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   usedFilter: string = '';
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private adminTableService: AdminTableService) {}
+  constructor(private adminTableService: AdminTableService, private datePipe: DatePipe) {}
 
   ngOnInit() {
     this.getTable();
@@ -115,6 +116,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         this.tableData = item[`page`];
+        this.tableData = this.transformDatebyPipe(this.tableData);
         this.totalPages = item[`totalPages`];
         this.dataSource = new MatTableDataSource(this.tableData);
         const requiredColumns = [{ field: 'select', sticky: true }];
@@ -152,13 +154,25 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
       .getTable(this.sortingColumn || 'orderid', this.currentPage, this.pageSize, this.sortType || 'desc')
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
-        const data = item[`page`];
+        let data = item[`page`];
+        data = this.transformDatebyPipe(data);
         this.totalPages = item[`totalPages`];
         this.tableData = [...this.tableData, ...data];
         this.dataSource.data = this.tableData;
         this.isUpdate = false;
         this.applyFilter(this.usedFilter);
       });
+  }
+
+  transformDatebyPipe(dataOnPage) {
+    const modifiedData = dataOnPage.map((data) => {
+      return {
+        ...data,
+        order_date: this.datePipe.transform(data['order_date'], 'dd/MM/yyyy'),
+        date_of_export: this.datePipe.transform(data['date_of_export'], 'dd/MM/yyyy')
+      };
+    });
+    return modifiedData;
   }
 
   getSortingData(columnName, sortingType) {

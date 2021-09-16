@@ -80,9 +80,7 @@
       </mat-header-cell>
       <mat-cell *matCellDef="let row" [ngStyle]="column.style" class="column.field">
         <div *ngIf="column.field !== 'select'; else checkbox">
-          <span *ngIf="column.field === 'order_date'">{{ row[column.field] | date: 'dd/MM/yyyy' }}</span>
-          <span *ngIf="column.field === 'orderid'" class="primary-color">{{ row[column.field] }}</span>
-          <span *ngIf="column.field !== 'order_date' && column.field !== 'orderid'">{{ row[column.field] }}</span>
+          <span [ngClass]="{ 'primary-color': column.field === 'orderid' }">{{ row[column.field] }}</span>
         </div>
         <ng-template #checkbox class="checkbox">
           <mat-checkbox
