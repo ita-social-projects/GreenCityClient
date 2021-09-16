@@ -1,11 +1,11 @@
-import { Language } from '../../../../i18n/Language';
-import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
-import { UBSOrderFormService } from '../../services/ubs-order-form.service';
-import { LocalizedCurrencyPipe } from '../../../../../shared/localized-currency-pipe/localized-currency.pipe';
-import { ICertificate, Bag, OrderDetails } from '../../models/ubs.interface';
-import { OrderService } from '../../services/order.service';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material';
-import { RouterModule } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Language } from './../../../../i18n/Language';
+import { LocalStorageService } from './../../../../service/localstorage/local-storage.service';
+import { UBSOrderFormService } from './../../services/ubs-order-form.service';
+import { LocalizedCurrencyPipe } from './../../../../../shared/localized-currency-pipe/localized-currency.pipe';
+import { ICertificate, Bag, OrderDetails } from './../../models/ubs.interface';
+import { OrderService } from './../../services/order.service';
+import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
@@ -20,19 +20,15 @@ describe('OrderDetailsFormComponent', () => {
   let component: UBSOrderDetailsComponent;
   let fixture: ComponentFixture<UBSOrderDetailsComponent>;
   let orderService: OrderService;
-  const shareFormService = jasmine.createSpyObj('shareFormService', ['']);
-  const localStorageService = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage']);
+  const fakeLanguageSubject: Subject<string> = new Subject<string>();
+  const shareFormService = jasmine.createSpyObj('shareFormService', ['orderDetails']);
+  const localStorageService = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'languageSubject']);
+
+  localStorageService.languageSubject = fakeLanguageSubject;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientTestingModule,
-        TranslateModule.forRoot(),
-        RouterModule.forRoot([]),
-        MatDialogModule
-      ],
+      imports: [FormsModule, ReactiveFormsModule, HttpClientTestingModule, TranslateModule.forRoot(), RouterTestingModule, MatDialogModule],
       declarations: [UBSOrderDetailsComponent, LocalizedCurrencyPipe],
       providers: [
         { provide: MatDialogRef, useValue: {} },
@@ -55,7 +51,7 @@ describe('OrderDetailsFormComponent', () => {
 
   it('method takeOrderData should invoke localStorageService.getCurrentLanguage method', async(() => {
     const mock: OrderDetails = {
-      bags: [{ id: 0 }],
+      bags: [{ id: 0, code: 'ua' }],
       points: 0
     };
     orderService = TestBed.inject(OrderService);
@@ -66,7 +62,7 @@ describe('OrderDetailsFormComponent', () => {
     component.takeOrderData();
     expect(component.currentLanguage).toBe('ua');
     expect(spy).toHaveBeenCalled();
-    expect(component.bags).toEqual(mock.bags);
+    expect(component.bags).toEqual(component.orders.bags);
   }));
 
   it('method calculateTotal should invoke methods', () => {
