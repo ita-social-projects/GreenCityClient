@@ -5,7 +5,6 @@ import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
-import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { CertificateStatus } from '../../certificate-status.enum';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
@@ -75,7 +74,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     private fb: FormBuilder,
     private orderService: OrderService,
     private shareFormService: UBSOrderFormService,
-    private translate: TranslateService,
     private localStorageService: LocalStorageService,
     router: Router,
     dialog: MatDialog
@@ -120,7 +118,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public takeOrderData() {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.orderService
-      .getOrders(this.currentLanguage)
+      .getOrders()
       .pipe(takeUntil(this.destroy))
       .subscribe((orderData: OrderDetails) => {
         this.orders = this.shareFormService.orderDetails;
