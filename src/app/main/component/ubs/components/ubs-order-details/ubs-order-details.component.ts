@@ -115,7 +115,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public takeOrderData() {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.orderService
-      .getOrders(this.currentLanguage)
+      .getOrders()
       .pipe(takeUntil(this.destroy))
       .subscribe((orderData: OrderDetails) => {
         this.orders = this.shareFormService.orderDetails;
