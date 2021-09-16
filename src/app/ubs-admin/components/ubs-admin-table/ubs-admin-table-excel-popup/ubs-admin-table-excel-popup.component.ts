@@ -17,20 +17,20 @@ export class UbsAdminTableExcelPopupComponent {
     // XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
     // XLSX.writeFile(wb, 'SheetJS.xlsx');
 
-    // const opts = {
-    //   suggestedName: 'admin-table.xls',
-    //   types: [
-    //     {
-    //       description: 'Excel file',
-    //       accept: { 'application/vnd.ms-excel': ['.xls'] }
-    //     }
-    //   ]
-    // };
+    const opts = {
+      suggestedName: 'admin-table.xls',
+      types: [
+        {
+          description: 'Excel file',
+          accept: { 'application/vnd.ms-excel': ['.xls'] }
+        }
+      ]
+    };
 
-    // // @ts-ignore
-    // window.showSaveFilePicker(opts);
+    // @ts-ignore
+    window.showSaveFilePicker(opts);
 
-    let file = new File(['Hello, world!'], 'hello world.txt', { type: 'text/plain;charset=utf-8' });
-    saveAs(file);
+    // let file = new File(['Hello, world!'], 'hello world.txt', { type: 'text/plain;charset=utf-8' });
+    // saveAs(file);
   }
 }

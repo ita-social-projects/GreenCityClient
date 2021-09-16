@@ -125,8 +125,6 @@
     "planned-amount": "Planned amount",
     "approved-amount": "Approved amount",
     "exported-amount": "Exported amount",
-    "excel-pop-up-cancel": "Cancel",
-    "excel-pop-up-next": "Next",
     "bags-amount": "Total number of packages",
     "order-sum": "Order cost",
     "certificate": "Certificate",
@@ -141,6 +139,15 @@
       "placeholder": "Any details you would like to report additionally regarding this order"
     },
     "send-button": "Send message"
+  },
+  "export-excel-popup": {
+    "buttons": {
+      "next": "Next",
+      "cancel": "Cancel"
+    },
+    "select-data": "Select data for the export",
+    "current": "Save current view",
+    "all": "Save all table"
   },
   "order-payment": {
     "title": "Order payment",
