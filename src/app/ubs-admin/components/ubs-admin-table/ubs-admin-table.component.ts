@@ -40,6 +40,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   currentPage = 0;
   pageSize = 10;
   ubsAdminTableIcons = ubsAdminTable;
+  usedFilter: string = '';
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private adminTableService: AdminTableService) {}
@@ -48,8 +49,12 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     this.getTable();
   }
 
-  applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  applyFilter(filterValue: string): void {
+    this.usedFilter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = this.usedFilter;
+    if (this.dataSource.filteredData.length < this.pageSize) {
+      this.onScroll();
+    }
   }
 
   setDisplayedColumns() {
@@ -82,6 +87,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
 
   showAllColumns(): void {
     this.getTable();
+    this.applyFilter(this.usedFilter);
   }
 
   changeColumns(field: string, i: number) {
@@ -132,6 +138,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
         this.sertificate = dynamicallyColumns.slice(18, 22);
         this.detailsOfExport = dynamicallyColumns.slice(22, 27);
         this.responsiblePerson = dynamicallyColumns.slice(27, 33);
+        this.applyFilter(this.usedFilter);
       });
   }
 
@@ -150,6 +157,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
         this.tableData = [...this.tableData, ...data];
         this.dataSource.data = this.tableData;
         this.isUpdate = false;
+        this.applyFilter(this.usedFilter);
       });
   }
 
