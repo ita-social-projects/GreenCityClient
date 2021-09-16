@@ -11,33 +11,33 @@
       </tr>
       <tr *ngFor="let bag of orderDetails.bags" class="data_table">
         <td>{{ bag.name }}Назва послуги</td>
-        <td>{{ bag.capacity }} л</td>
-        <td>{{ bag.price }} грн</td>
-        <td>{{ orderDetails.amountOfBagsOrdered[bag.id] }} шт</td>
-        <td>{{ orderDetails.amountOfBagsOrdered[bag.id] * bag.price }} грн</td>
+        <td>{{ bag.capacity }} {{ 'user-orders.details.litr' | translate }}</td>
+        <td>{{ bag.price }} {{ 'user-orders.details.currency' | translate }}</td>
+        <td>{{ orderDetails.amountOfBagsOrdered[bag.id] }} {{ 'user-orders.details.pieces' | translate }}</td>
+        <td>{{ orderDetails.amountOfBagsOrdered[bag.id] * bag.price }} {{ 'user-orders.details.currency' | translate }}</td>
       </tr>
       <tr>
         <td></td>
       </tr>
       <tr class="sum_of_order">
         <td colspan="4">{{ 'user-orders.details.order-sum' | translate }}</td>
-        <td>{{ orderDetails.orderFullPrice }} грн</td>
+        <td>{{ orderDetails.orderFullPrice }} {{ 'user-orders.details.currency' | translate }}</td>
       </tr>
-      <tr *ngIf="orderDetails.orderStatus !== 'DONE_UNPAID'" class="optional_row">
+      <tr *ngIf="orderDetails.orderCertificateTotalDiscount !== 0" class="optional_row">
         <td colspan="4">{{ 'user-orders.details.certificate' | translate }}</td>
-        <td>-{{ orderDetails.orderCertificateTotalDiscount }} грн</td>
+        <td>-{{ orderDetails.orderCertificateTotalDiscount }} {{ 'user-orders.details.currency' | translate }}</td>
       </tr>
-      <tr *ngIf="orderDetails.orderStatus !== 'DONE_UNPAID'" class="optional_row">
+      <tr *ngIf="orderDetails.orderBonusDiscount !== 0" class="optional_row">
         <td colspan="4">{{ 'user-orders.details.bonuses' | translate }}</td>
-        <td>-{{ orderDetails.orderBonusDiscount }} грн</td>
+        <td>-{{ orderDetails.orderBonusDiscount }} {{ 'user-orders.details.currency' | translate }}</td>
       </tr>
       <tr *ngIf="orderDetails.orderStatus === 'DONE_UNPAID'" class="optional_row">
         <td colspan="4">{{ 'user-orders.details.services-amount' | translate }}</td>
-        <td>{{ orderDetails.orderDiscountedPrice }} грн</td>
+        <td>{{ orderDetails.orderDiscountedPrice }} {{ 'user-orders.details.currency' | translate }}</td>
       </tr>
       <tr class="sum_to_pay">
         <td colspan="4">{{ 'user-orders.details.amount-due' | translate }}</td>
-        <td>{{ orderDetails.orderDiscountedPrice }} грн</td>
+        <td>{{ orderDetails.orderDiscountedPrice }} {{ 'user-orders.details.currency' | translate }}</td>
       </tr>
     </table>
   </div>

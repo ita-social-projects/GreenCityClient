@@ -28,8 +28,8 @@ export class UbsUserOrdersComponent implements OnInit {
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         this.orders = item;
-        this.currentOrders = this.orders.filter((order) => order.orderStatus !== 'DONE');
-        this.orderHistory = this.orders.filter((order) => order.orderStatus === 'DONE');
+        this.currentOrders = this.orders.filter((order) => order.orderStatus !== 'DONE' && order.orderStatus !== 'CANCELLED');
+        this.orderHistory = this.orders.filter((order) => order.orderStatus === 'DONE' || order.orderStatus === 'CANCELLED');
         this.loading = false;
       });
   }
