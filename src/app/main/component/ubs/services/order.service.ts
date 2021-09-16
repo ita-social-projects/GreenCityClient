@@ -17,7 +17,7 @@ export class OrderService {
 
   constructor(private http: HttpClient, private shareFormService: UBSOrderFormService) {}
 
-  getOrders(lang): Observable<OrderDetails> {
+  getOrders(): Observable<OrderDetails> {
     return this.http
       .get<OrderDetails>(`${this.url}/order-details`)
       .pipe(tap((orderDetails) => (this.shareFormService.orderDetails = orderDetails)));
@@ -66,5 +66,13 @@ export class OrderService {
 
   completedLocation(completed: boolean) {
     this.locationSubject.next(completed);
+  }
+  
+  processLiqPayOrder(order: Order): Observable<Order> {
+    return this.http.post<Order>(`${this.url}/processLiqPayOrder`, order, { responseType: 'text' as 'json' });
+  }
+
+  getLiqPayForm(): Observable<Order> {
+    return this.processLiqPayOrder(this.orderSubject.getValue());
   }
 }
