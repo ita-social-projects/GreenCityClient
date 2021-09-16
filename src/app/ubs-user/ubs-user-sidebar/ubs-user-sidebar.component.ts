@@ -16,7 +16,7 @@ export class UbsUserSidebarComponent extends UbsBaseSidebarComponent implements 
     {
       link: './assets/img/sidebarIcons/achievement_icon.svg',
       name: 'ubs-user.invoice',
-      routerLink: '#'
+      routerLink: 'bonuses'
     },
     {
       link: 'assets/img/sidebarIcons/workers_icon.svg',
