@@ -55,4 +55,12 @@ export class OrderService {
   getOrderUrl(): Observable<Order> {
     return this.processOrder(this.orderSubject.getValue());
   }
+
+  processLiqPayOrder(order: Order): Observable<Order> {
+    return this.http.post<Order>(`${this.url}/processLiqPayOrder`, order, { responseType: 'text' as 'json' });
+  }
+
+  getLiqPayForm(): Observable<Order> {
+    return this.processLiqPayOrder(this.orderSubject.getValue());
+  }
 }

@@ -18,7 +18,10 @@ import { OrderService } from '../../services/order.service';
 export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit, OnDestroy {
   paymentForm: FormGroup = this.fb.group({});
   bags: Bag[] = [];
+  response: any;
   loadingAnim: boolean;
+  selectedPayment: string;
+  isLiqPay = false;
   additionalOrders: number[];
   personalData: PersonalData;
   orderDetails: OrderDetails;
@@ -87,5 +90,26 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
           this.loadingAnim = false;
         }
       );
+  }
+
+  getLiqPayButton() {
+    this.orderService
+      .getLiqPayForm()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((liqPayButton) => {
+        this.response = liqPayButton;
+        const responseForm = document.getElementById('liqPayButton');
+        responseForm.innerHTML = this.response;
+      });
+  }
+
+  orderButton(event: any) {
+    this.selectedPayment = event.target.value;
+    if (this.selectedPayment === 'LiqPay') {
+      this.isLiqPay = true;
+      this.getLiqPayButton();
+    } else {
+      this.isLiqPay = false;
+    }
   }
 }
