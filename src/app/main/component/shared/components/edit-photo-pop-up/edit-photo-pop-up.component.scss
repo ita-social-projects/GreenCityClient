@@ -1,5 +1,3 @@
-$secondErrorColor: #b42626;
-
 .main-container {
   position: relative;
   width: 615px;
@@ -18,7 +16,7 @@ $secondErrorColor: #b42626;
     background-color: transparent;
 
     &:focus {
-      box-shadow: 0 0 0 3px #fff;
+      box-shadow: 0 0 0 3px var(--primary-white);
     }
   }
 
@@ -86,7 +84,7 @@ $secondErrorColor: #b42626;
         }
 
         &:focus {
-          box-shadow: 0 0 0 3px #fff;
+          box-shadow: 0 0 0 3px var(--primary-white);
         }
       }
 
@@ -105,8 +103,8 @@ $secondErrorColor: #b42626;
         color: var(--primary-green);
 
         &:hover {
-          border: 1px solid $secondErrorColor;
-          background: $secondErrorColor;
+          border: 1px solid var(--error-red);
+          background: var(--error-red);
           color: var(--primary-white);
         }
 
@@ -128,7 +126,7 @@ $secondErrorColor: #b42626;
         }
 
         &:focus {
-          box-shadow: 0 0 0 3px #fff;
+          box-shadow: 0 0 0 3px var(--primary-white);
         }
 
         .spinner-border {
