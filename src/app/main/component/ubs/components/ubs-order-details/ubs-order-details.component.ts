@@ -1,16 +1,17 @@
 import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
-import { Bag, FinalOrder, OrderDetails } from '../../models/ubs.interface';
-import { ReplaySubject, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { OrderService } from '../../services/order.service';
-import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { CertificateStatus } from '../../certificate-status.enum';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { ReplaySubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+import { Bag, FinalOrder, OrderDetails } from '../../models/ubs.interface';
+import { OrderService } from '../../services/order.service';
+import { UBSOrderFormService } from '../../services/ubs-order-form.service';
+import { CertificateStatus } from '../../certificate-status.enum';
 
 @Component({
   selector: 'app-ubs-order-details',
