@@ -244,12 +244,33 @@
     "employees": "Employees",
     "documents": "Documents",
     "schedule": "Schedule",
-    "bonuses": "Bonuses"
+    "bonuses": "Bonuses",
+    "tariffs": "Tariffs"
   },
   "ubs-user": {
     "orders": "Orders",
     "invoice": "Invoice",
     "user_data": "User data",
     "messages": "Messages"
+  },
+  "ubs-tariffs": {
+    "services": "Services",
+    "name_of_the_service": "Name of the service",
+    "capacity": "Capacity",
+    "service_description": "Service description",
+    "basic_cost": "Basic cost",
+    "ubs_courier": "Ubs courier",
+    "full_cost": "Full cost",
+    "tariffs_for_services": "Tariffs for services",
+    "order_limits": "Order limits",
+    "min_order_amount": "Minimum order amount from",
+    "to": "to",
+    "min_number_of_packages": "Minimum number of packages from",
+    "min_set_of_packages": "Minimum set of packages",
+    "info_about_order_limits": "Information about order limits",
+    "btn": {
+      "add_service": "Add service",
+      "save_changes": "Save changes"
+    }
   }
 }

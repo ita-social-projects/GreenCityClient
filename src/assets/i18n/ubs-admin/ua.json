@@ -236,12 +236,33 @@
     "employees": "Працівники",
     "documents": "Документи",
     "schedule": "Графік",
-    "bonuses": "Бонуси"
+    "bonuses": "Бонуси",
+    "tariffs": "Тарифи"
   },
   "ubs-user": {
     "orders": "Замовлення",
     "invoice": "Рахунок",
     "user_data": "Дані користувача",
     "messages": "Повідомлення"
+  },
+  "ubs-tariffs": {
+    "services": "Сервіси",
+    "name_of_the_service": "Найменування послуги",
+    "capacity": "Об’єм",
+    "service_description": "Опис послуги",
+    "basic_cost": "Базова вартість",
+    "ubs_courier": "УБС Кур’єр",
+    "full_cost": "Повна вартість",
+    "tariffs_for_services": "Тарифи на послуги",
+    "order_limits": "Ліміти замовлення",
+    "min_order_amount": "Сума замовлення від",
+    "to": "до",
+    "min_number_of_packages": "Кількість пакетів від",
+    "min_set_of_packages": "Мінімальний набір пакетів",
+    "info_about_order_limits": "Інформація про ліміти замовлення",
+    "btn": {
+      "add_service": "Додати сервіс",
+      "save_changes": "Зберегти зміни"
+    }
   }
 }

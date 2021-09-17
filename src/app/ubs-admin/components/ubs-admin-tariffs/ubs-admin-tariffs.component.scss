@@ -1,0 +1,173 @@
+.ubs_profile-header {
+  display: flex;
+  justify-content: space-between;
+  width: 1109px;
+
+  .header-text {
+    padding-top: 40px;
+    margin-left: 20px;
+  }
+
+  button {
+    margin: 30px 0 30px 30px;
+  }
+}
+
+.payment-select {
+  padding: 8px;
+  margin-left: 20px;
+  width: 180px;
+  height: 40px;
+  background: var(--ubs-primary-white);
+  border: 1px solid var(--quintynary-light-grey);
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+.service-table {
+  border: solid 1px #cacfd3;
+  border-collapse: collapse;
+  margin-left: 20px;
+  text-align: start;
+  width: 1092px;
+  th {
+    background: #e7f7ee;
+    color: #444e55;
+    font-size: 14px;
+  }
+
+  td {
+    font-size: 16px;
+    color: #1d2830;
+  }
+
+  td,
+  th {
+    border: solid 1px #cacfd3;
+    height: 39px;
+    font-family: Lato;
+    padding-left: 15px;
+  }
+}
+
+.tariffs-table {
+  border: solid 1px #cacfd3;
+  border-collapse: collapse;
+  margin-left: 20px;
+  text-align: start;
+  width: 1092px;
+
+  th {
+    background: #e7f7ee;
+    color: #444e55;
+    font-size: 14px;
+  }
+
+  td {
+    font-size: 16px;
+    color: #1d2830;
+  }
+
+  td,
+  th {
+    border: solid 1px #cacfd3;
+    height: 39px;
+    font-family: Lato;
+    padding-left: 15px;
+  }
+}
+
+h3 {
+  font-weight: bold;
+  color: black;
+}
+
+td:nth-child(1) {
+  background: #e7f7ee;
+}
+
+th:nth-child(1) {
+  width: 60px;
+}
+
+th:nth-child(2) {
+  width: 246px;
+}
+
+th:nth-child(3) {
+  width: 118px;
+}
+
+th:nth-child(4) {
+  width: 270px;
+}
+
+th:nth-child(5) {
+  width: 144px;
+}
+
+th:nth-child(6) {
+  width: 118px;
+}
+
+th:nth-child(7) {
+  width: 140px;
+}
+
+.limits-header {
+  margin: 40px 0 0 20px;
+  display: flex;
+  justify-content: space-between;
+  width: 35%;
+}
+
+.courier-select {
+  width: 127px;
+  height: 40px;
+  background: var(--ubs-primary-white);
+  border: 1px solid var(--quintynary-light-grey);
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+.limits-form {
+  margin: 20px 0 0 20px;
+  display: inline-block;
+  width: 100%;
+}
+
+.sum-input {
+  margin-bottom: 15px;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  //display: inline;
+
+  .input {
+    width: 74px;
+  }
+
+  label {
+    padding: 5px 25px 0 20px;
+  }
+}
+
+.sum-input1 {
+  margin-top: 35px;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  //display: inline;
+
+  .input {
+    width: 74px;
+  }
+
+  label {
+    padding: 5px 25px 0 20px;
+  }
+}
+
+.min-bags-number {
+  margin-top: 30px;
+}
