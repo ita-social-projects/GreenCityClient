@@ -15,6 +15,7 @@ import { UBSOrderDetailsComponent } from './ubs-order-details.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of, throwError, Observable, Subject } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('OrderDetailsFormComponent', () => {
   let component: UBSOrderDetailsComponent;
@@ -28,7 +29,15 @@ describe('OrderDetailsFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, ReactiveFormsModule, HttpClientTestingModule, TranslateModule.forRoot(), RouterTestingModule, MatDialogModule],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientTestingModule,
+        TranslateModule.forRoot(),
+        RouterTestingModule,
+        MatDialogModule,
+        BrowserAnimationsModule
+      ],
       declarations: [UBSOrderDetailsComponent, LocalizedCurrencyPipe],
       providers: [
         { provide: MatDialogRef, useValue: {} },
