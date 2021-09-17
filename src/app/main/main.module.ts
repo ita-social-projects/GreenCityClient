@@ -27,6 +27,7 @@ import { PendingChangesGuard } from '@global-service/pending-changes-guard/pendi
 import { MaterialModule } from '../material.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatDialogRef, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [MainComponent, ErrorComponent],
@@ -47,7 +48,8 @@ import { MatDialogRef, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dial
     AngularFireStorageModule,
     DragDropModule,
     NgxPaginationModule,
-    MaterialModule
+    MaterialModule,
+    SharedModule
   ],
   entryComponents: [MainComponent, ProposeCafeComponent, RestoreComponent, EditPhotoPopUpComponent, ErrorComponent],
   providers: [
