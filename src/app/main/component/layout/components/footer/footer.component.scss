@@ -84,6 +84,12 @@ li {
   padding-bottom: 10px;
 }
 
+@media (max-width: 575px) {
+  .footer_link-item {
+    margin-right: 0;
+  }
+}
+
 @media (min-width: 576px) {
   li {
     padding: 0;
