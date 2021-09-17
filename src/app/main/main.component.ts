@@ -13,7 +13,7 @@ import { UserService } from '@global-service/user/user.service';
 export class MainComponent implements OnInit {
   public toggle: boolean;
   public isUBS: boolean;
-  ubsUrl = '/ubs';
+  ubsUrl = 'ubs';
 
   constructor(
     private languageService: LanguageService,
@@ -21,9 +21,7 @@ export class MainComponent implements OnInit {
     private router: Router,
     private uiActionsService: UiActionsService,
     private userService: UserService
-  ) {
-    this.isUBS = this.router.url === this.ubsUrl;
-  }
+  ) {}
 
   @ViewChild('focusFirst', { static: true }) focusFirst: ElementRef;
   @ViewChild('focusLast', { static: true }) focusLast: ElementRef;
@@ -33,6 +31,7 @@ export class MainComponent implements OnInit {
     this.navigateToStartingPositionOnPage();
     this.titleAndMetaTagsService.useTitleMetasData();
     this.uiActionsService.stopScrollingSubject.subscribe((data) => (this.toggle = data));
+    this.isUBS = this.router.url.split('/').includes(this.ubsUrl);
   }
 
   @HostListener('window:beforeunload')
