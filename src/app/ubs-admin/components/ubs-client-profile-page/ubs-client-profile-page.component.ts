@@ -49,7 +49,10 @@ export class UbsClientProfilePageComponent implements OnInit {
     this.isFetching = true;
     this.clientProfileService.getDataClientProfile().subscribe(
       (res: UserProfile) => {
-        this.userProfile = res;
+        this.userProfile = {
+          ...res,
+          recipientPhone: res.recipientPhone?.slice(4)
+        };
         if (!this.userProfile.addressDto || Object.keys(this.userProfile.addressDto).length === 0) {
           this.userProfile.addressDto = this.defaultAddress;
         }
@@ -107,14 +110,16 @@ export class UbsClientProfilePageComponent implements OnInit {
       this.isFetching = true;
       this.isEditing = false;
       this.userProfile = {
-        ...this.userForm.value,
         addressDto: {
           ...this.userForm.value.address,
           id: this.userProfile.addressDto.id,
           actual: this.userProfile.addressDto.actual,
           coordinates: this.userProfile.addressDto.coordinates
         },
-        recipientPhone: this.userForm.value.recipientPhone.substr(-9, 9)
+        recipientEmail: this.userForm.value.recipientEmail,
+        recipientName: this.userForm.value.recipientName,
+        recipientPhone: this.userForm.value.recipientPhone,
+        recipientSurname: this.userForm.value.recipientSurname
       };
       this.clientProfileService.postDataClientProfile(this.userProfile).subscribe(
         (res: UserProfile) => {
