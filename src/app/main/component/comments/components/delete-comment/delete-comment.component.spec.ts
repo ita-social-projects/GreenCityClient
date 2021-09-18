@@ -6,15 +6,15 @@ import { TranslateModule } from '@ngx-translate/core';
 import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 import { DeleteCommentComponent } from './delete-comment.component';
-import { MatDialog, MatDialogModule } from '@angular/material';
 import { of } from 'rxjs';
 import { CommentsService } from '../../services/comments.service';
 import { HttpResponse } from '@angular/common/http';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 class MatDialogMock {
   open() {
     return {
-      afterClosed: () => of(true),
+      afterClosed: () => of(true)
     };
   }
 }
@@ -33,8 +33,8 @@ describe('DeleteCommentComponent', () => {
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, MatDialogModule, BrowserAnimationsModule],
       providers: [
         { provide: MatDialog, useClass: MatDialogMock },
-        { provide: CommentsService, useValue: commentsServiceMock },
-      ],
+        { provide: CommentsService, useValue: commentsServiceMock }
+      ]
     }).compileComponents();
   }));
 
@@ -47,7 +47,7 @@ describe('DeleteCommentComponent', () => {
       author: {
         id: 1,
         name: 'Test',
-        userProfilePicturePath: null,
+        userProfilePicturePath: null
       },
       currentUserLiked: true,
       id: 1,
@@ -55,7 +55,7 @@ describe('DeleteCommentComponent', () => {
       modifiedDate: '111',
       replies: 1,
       status: 'string',
-      text: 'string',
+      text: 'string'
     };
   });
 

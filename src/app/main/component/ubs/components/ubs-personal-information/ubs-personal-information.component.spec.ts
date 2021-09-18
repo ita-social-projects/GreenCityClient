@@ -2,13 +2,12 @@ import { of, Subject } from 'rxjs';
 import { OrderService } from './../../services/order.service';
 import { UBSOrderFormService } from './../../services/ubs-order-form.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatDialogRef, MatDialogModule } from '@angular/material';
+import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
 import { async, ComponentFixture, TestBed, __core_private_testing_placeholder__ } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UBSInputErrorComponent } from '../ubs-input-error/ubs-input-error.component';
-
 import { UBSPersonalInformationComponent } from './ubs-personal-information.component';
 
 describe('PersonalDataFormComponent', () => {

@@ -1,6 +1,6 @@
 import { forwardRef, Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NgModel, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';
 import { take } from 'rxjs/operators';
 

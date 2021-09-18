@@ -3,8 +3,8 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { HabitAssignService } from './../../../../../../service/habit-assign/habit-assign.service';
 import { CalendarBaseComponent } from '@shared/components/calendar-base/calendar-base.component';
-import { MatDialog } from '@angular/material';
 import { CalendarInterface } from '@global-user/components/profile/calendar/calendar-interface';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-habit-calendar',
