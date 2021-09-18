@@ -36,7 +36,7 @@
       [pattern]="streetPattern"
     />
     <div class="validation" *ngIf="street.invalid && addAddressForm.get('street').touched">
-      <app-ubs-input-error [formElement]="street" [streetFieldValue]="street.value" [controlName]="'street'"></app-ubs-input-error>
+      <app-ubs-input-error [formElement]="street" [streetFieldValue]="street.value" [controlName]="'street'"> </app-ubs-input-error>
     </div>
   </div>
   <div class="row col-md-12 col-sm-12 col-lg-6 d-flex justify-content-between flex-wrap form-group">
@@ -63,7 +63,7 @@
     </div>
   </div>
 </form>
-<div class="d-flex justify-content-end" mat-dialog-actions>
+<div class="d-flex justify-content-end buttons" mat-dialog-actions>
   <button class="secondary-global-button btn m-0 mr-2" mat-button (click)="onNoClick()">
     {{ 'personal-info.pop-up-cancel' | translate }}
   </button>
