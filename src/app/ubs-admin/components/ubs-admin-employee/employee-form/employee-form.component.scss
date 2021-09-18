@@ -146,7 +146,7 @@ label {
   background: var(--ubs-primary-white);
   overflow: hidden;
 
-  &:after {
+  &::after {
     display: block;
     content: '';
     background: url('src/assets/img/ubs/drag-and-drop-img.svg') no-repeat center;
