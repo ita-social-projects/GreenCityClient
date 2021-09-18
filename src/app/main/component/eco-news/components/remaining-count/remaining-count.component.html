@@ -7,13 +7,9 @@
 </div>
 <!-- declension of words for singular and plural for other languages (ua, ru) -->
 <ng-template #otherLanguages>
-  <div [ngSwitch]="true">
-    <h2 *ngSwitchCase="(remainingCount + '' | slice: -1) === '1' && (remainingCount + '' | slice: -2) !== '11'">
-      {{ remainingCount }} {{ 'homepage.eco-news.items-found.item-at-1' | translate }}
-    </h2>
-    <h2 *ngSwitchCase="'234'.includes(remainingCount + '' | slice: -1) && !['12', '13', '14'].includes(remainingCount + '' | slice: -2)">
-      {{ remainingCount }} {{ 'homepage.eco-news.items-found.item-at-2-3-4' | translate }}
-    </h2>
+  <div [ngSwitch]="setWordDeclension(remainingCount + '')">
+    <h2 *ngSwitchCase="'ends_on_1'">{{ remainingCount }} {{ 'homepage.eco-news.items-found.item-at-1' | translate }}</h2>
+    <h2 *ngSwitchCase="'ends_on_2_3_4'">{{ remainingCount }} {{ 'homepage.eco-news.items-found.item-at-2-3-4' | translate }}</h2>
     <h2 *ngSwitchDefault>{{ remainingCount }} {{ 'homepage.eco-news.items-found.item-at-all' | translate }}</h2>
   </div>
 </ng-template>
