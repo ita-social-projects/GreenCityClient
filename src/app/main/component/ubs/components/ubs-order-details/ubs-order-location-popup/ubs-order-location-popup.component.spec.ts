@@ -12,8 +12,8 @@ describe('UbsOrderLocationPopupComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientTestingModule, TranslateModule.forRoot()],
-      declarations: [UbsOrderLocationPopupComponent]
+      declarations: [UbsOrderLocationPopupComponent],
+      imports: [RouterTestingModule, HttpClientTestingModule, TranslateModule.forRoot()]
     }).compileComponents();
   }));
 

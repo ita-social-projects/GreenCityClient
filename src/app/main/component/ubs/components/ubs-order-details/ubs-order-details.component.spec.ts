@@ -29,6 +29,7 @@ describe('OrderDetailsFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      declarations: [UBSOrderDetailsComponent, LocalizedCurrencyPipe],
       imports: [
         FormsModule,
         ReactiveFormsModule,
@@ -38,7 +39,6 @@ describe('OrderDetailsFormComponent', () => {
         MatDialogModule,
         BrowserAnimationsModule
       ],
-      declarations: [UBSOrderDetailsComponent, LocalizedCurrencyPipe],
       providers: [
         { provide: MatDialogRef, useValue: {} },
         { provide: UBSOrderFormService, useValue: shareFormService },
