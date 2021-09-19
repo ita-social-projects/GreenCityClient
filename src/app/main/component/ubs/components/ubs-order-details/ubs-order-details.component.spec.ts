@@ -13,9 +13,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { UBSOrderDetailsComponent } from './ubs-order-details.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { of, throwError, Observable, Subject } from 'rxjs';
+import { of, throwError, Subject } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
 
 describe('OrderDetailsFormComponent', () => {
   let component: UBSOrderDetailsComponent;
@@ -29,7 +30,7 @@ describe('OrderDetailsFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UBSOrderDetailsComponent, LocalizedCurrencyPipe],
+      declarations: [UBSOrderDetailsComponent, LocalizedCurrencyPipe, UbsOrderLocationPopupComponent],
       imports: [
         FormsModule,
         ReactiveFormsModule,
