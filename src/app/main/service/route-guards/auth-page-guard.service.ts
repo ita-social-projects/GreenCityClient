@@ -47,10 +47,10 @@ export class AuthPageGuardService implements CanActivate {
       .afterClosed()
       .pipe(filter(Boolean))
       .subscribe((userId) => {
-        if (this.ubsRegValue) {
-          this.router.navigateByUrl('/ubs/order');
-        } else {
+        if (!this.ubsRegValue) {
           this.router.navigateByUrl(`${userId}/profile`);
+        } else {
+          this.router.navigateByUrl('/ubs/order');
         }
       });
   }
