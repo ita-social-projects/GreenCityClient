@@ -28,7 +28,7 @@
           </a>
         </li>
         <li>
-          <a [routerLink]="['/profile', getUserId()]" class="footer_link-item">
+          <a [routerLink]="['/profile', getUserId()]" (click)="ubsSetRegValue()" class="footer_link-item">
             {{ 'user.footer.my-habits' | translate }}
           </a>
         </li>

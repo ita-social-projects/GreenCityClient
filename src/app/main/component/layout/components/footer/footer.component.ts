@@ -7,7 +7,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss'],
+  styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit, OnDestroy {
   public actualYear = new Date().getFullYear();
@@ -28,5 +28,9 @@ export class FooterComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroySub.next(true);
     this.destroySub.complete();
+  }
+
+  ubsSetRegValue() {
+    this.localStorageService.setUbsRegistration(false);
   }
 }
