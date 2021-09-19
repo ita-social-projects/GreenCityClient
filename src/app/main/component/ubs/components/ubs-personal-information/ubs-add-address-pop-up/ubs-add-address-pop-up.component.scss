@@ -8,7 +8,40 @@ form {
 
 .form-control {
   height: 2.25rem;
+  font-size: 0.9rem;
+  color: var(--ubs-quaternary-dark-grey);
+
+  option {
+    color: var(--ubs-quaternary-dark-grey);
+  }
+}
+
+input,
+select {
+  border: 1px solid var(--ubs-quintynary-light-grey);
+}
+
+.personal-info-pop-up-title {
+  margin: 0 0 20px 15px;
+  font-family: var(--ubs-tertiary-font);
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: 0.002em;
+  color: var(--ubs-primary-grey);
+}
+
+.city-notice {
+  margin: 0 0 20px 15px;
   font-size: 14px;
+  color: var(--ubs-primary-grey);
+}
+
+::placeholder {
+  color: var(--ubs-primary-light-grey);
+  opacity: 1;
+  font-size: 0.9rem;
 }
 
 .form-group {
@@ -19,11 +52,31 @@ form {
     font-weight: 400;
     color: var(--ubs-secondary-grey);
   }
+
+  select.ng-invalid {
+    color: var(--ubs-primary-light-grey);
+  }
+}
+
+.comment-section {
+  margin: 0 15px 20px 15px;
+  width: 100%;
+
+  textarea {
+    display: block;
+    width: 100%;
+    height: 72px;
+    padding: 12px 24px;
+    resize: none;
+    border: 1px solid var(--ubs-quintynary-light-grey);
+    color: var(--ubs-primary-grey);
+    font-size: 14px;
+  }
 }
 
 .btn {
-  width: 140px;
-  height: 48px;
+  width: 115px;
+  height: 40px;
   border-radius: 4px;
 }
 
@@ -50,7 +103,8 @@ form {
   }
 
   .primary-global-button {
-    padding: 8px 24px;
+    width: 163px;
+    padding: 8px 14px;
     color: var(--ubs-quaternary-dark-grey);
     border-color: var(--ubs-button-light-green);
     background: var(--ubs-button-light-green);
@@ -67,6 +121,6 @@ form {
   .primary-global-button,
   .btn {
     width: 100px;
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
 }

@@ -151,13 +151,14 @@ label,
 }
 
 .btn {
-  width: 140px;
-  height: 48px;
+  width: 136px;
+  height: 44px;
   border-radius: 4px;
 }
 
 .primary-global-button {
-  padding: 8px 24px;
+  width: 88px;
+  padding: 8px 14px;
   border-radius: 4px;
   color: var(--ubs-quaternary-dark-grey);
   border-color: var(--ubs-button-light-green);
@@ -171,6 +172,22 @@ label,
 
 .address-comment {
   padding: 0 15px;
+}
+
+.form-check {
+  margin: 0 0 0 25px;
+
+  .form-check-input {
+    top: -1px;
+    width: 16px;
+    height: 16px;
+  }
+
+  .form-check-label {
+    margin-left: 5px;
+    font-size: 14px;
+    color: var(--ubs-primary-grey);
+  }
 }
 
 .add-address {
@@ -212,8 +229,6 @@ label,
   margin-top: 46px;
 
   button {
-    width: 8rem;
-    height: 2.75rem;
     font-size: 18px;
   }
 }
