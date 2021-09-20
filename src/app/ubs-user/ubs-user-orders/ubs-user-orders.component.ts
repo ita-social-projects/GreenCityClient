@@ -2,7 +2,6 @@ import { UserOrdersService } from '../../ubs-user/services/user-orders.service';
 import { Component, OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-ubs-user-orders',
@@ -15,10 +14,9 @@ export class UbsUserOrdersComponent implements OnInit {
   currentOrders: any[];
   orderHistory: any[];
   loading = false;
-  public currentLanguage: string;
   userId: number;
 
-  constructor(private userOrdersService: UserOrdersService, private localStorageService: LocalStorageService) {}
+  constructor(private userOrdersService: UserOrdersService) {}
 
   ngOnInit() {
     this.userOrdersService
