@@ -11,7 +11,7 @@ export class UbsUserOrdersListComponent {
 
   constructor() {}
 
-  changeCard(id) {
+  changeCard(id: number) {
     this.orders.map((el) => {
       el.id === id && el.extend ? (el.extend = false) : el.id === id ? (el.extend = true) : (el.extend = el.extend);
     });

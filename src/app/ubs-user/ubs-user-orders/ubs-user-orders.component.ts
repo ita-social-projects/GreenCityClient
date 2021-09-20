@@ -21,16 +21,19 @@ export class UbsUserOrdersComponent implements OnInit {
   constructor(private userOrdersService: UserOrdersService, private localStorageService: LocalStorageService) {}
 
   ngOnInit() {
-    this.loading = true;
-    this.userId = this.localStorageService.getUserId();
     this.userOrdersService
-      .getAllUserOrders(this.userId)
+      .getAllUserOrders()
       .pipe(takeUntil(this.destroy))
-      .subscribe((item) => {
-        this.orders = item;
-        this.currentOrders = this.orders.filter((order) => order.orderStatus !== 'DONE' && order.orderStatus !== 'CANCELLED');
-        this.orderHistory = this.orders.filter((order) => order.orderStatus === 'DONE' || order.orderStatus === 'CANCELLED');
-        this.loading = false;
-      });
+      .subscribe(
+        (item) => {
+          this.orders = item;
+          this.currentOrders = this.orders.filter((order) => order.orderStatus !== 'DONE' && order.orderStatus !== 'CANCELLED');
+          this.orderHistory = this.orders.filter((order) => order.orderStatus === 'DONE' || order.orderStatus === 'CANCELLED');
+          this.loading = false;
+        },
+        (err: any) => {
+          console.log(err);
+        }
+      );
   }
 }

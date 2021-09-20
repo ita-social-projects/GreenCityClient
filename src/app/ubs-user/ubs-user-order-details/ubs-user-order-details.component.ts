@@ -1,6 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UserOrdersService } from '../../ubs-user/services/user-orders.service';
-import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -12,24 +10,9 @@ export class UbsUserOrderDetailsComponent implements OnInit {
   destroy: Subject<boolean> = new Subject<boolean>();
 
   @Input()
-  id: number;
+  order: any;
 
-  orderDetails: any;
-  public currentLanguage: string;
-  loading = false;
+  constructor() {}
 
-  constructor(private userOrdersService: UserOrdersService) {}
-
-  ngOnInit() {
-    this.loading = true;
-    // this.currentLanguage = localStorage.getItem('language');
-    this.userOrdersService
-      .getOrderDetails(this.id)
-      .pipe(takeUntil(this.destroy))
-      .subscribe((item) => {
-        // this.orderDetails = item.bags.filter((value) => value.code === this.currentLanguage);
-        this.orderDetails = item[this.id - 1];
-        this.loading = false;
-      });
-  }
+  ngOnInit() {}
 }
