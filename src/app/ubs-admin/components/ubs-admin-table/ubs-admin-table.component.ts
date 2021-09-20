@@ -1,19 +1,23 @@
+import { nonSortableColumns } from './../../models/non-sortable-columns.model';
 import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragDrop, CdkDragStart, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ubsAdminTable } from '../ubs-image-pathes/ubs-admin-table';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-ubs-admin-table',
   templateUrl: './ubs-admin-table.component.html',
   styleUrls: ['./ubs-admin-table.component.scss']
 })
-export class UbsAdminTableComponent implements OnInit {
+export class UbsAdminTableComponent implements OnInit, OnDestroy {
+  nonSortableColumns = nonSortableColumns;
+  sortingColumn: string;
+  sortType: string;
   columns: any[] = [];
   displayedColumns: string[] = [];
   orderInfo: string[] = [];
@@ -24,7 +28,7 @@ export class UbsAdminTableComponent implements OnInit {
   responsiblePerson: string[] = [];
   dataSource: MatTableDataSource<any>;
   selection = new SelectionModel<any>(true, []);
-  arrayOfHeaders: string[] = [];
+  arrayOfHeaders = [];
   previousIndex: number;
   isLoading = true;
   isUpdate = false;
@@ -98,7 +102,7 @@ export class UbsAdminTableComponent implements OnInit {
     }
   }
 
-  getTable(columnName = 'orderId', sortingType = 'desc') {
+  getTable(columnName = this.sortingColumn || 'orderid', sortingType = this.sortType || 'desc') {
     this.isLoading = true;
     this.adminTableService
       .getTable(columnName, this.currentPage, this.pageSize, sortingType)
@@ -138,7 +142,7 @@ export class UbsAdminTableComponent implements OnInit {
   updateTableData() {
     this.isUpdate = true;
     this.adminTableService
-      .getTable('orderId', this.currentPage, this.pageSize, 'desc')
+      .getTable(this.sortingColumn || 'orderid', this.currentPage, this.pageSize, this.sortType || 'desc')
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         const data = item[`page`];
@@ -149,8 +153,11 @@ export class UbsAdminTableComponent implements OnInit {
       });
   }
 
-  getSortingDate(columnName, sortingType) {
+  getSortingData(columnName, sortingType) {
+    this.sortingColumn = columnName;
+    this.sortType = sortingType;
     this.arrowDirection = this.arrowDirection === columnName ? null : columnName;
+    this.currentPage = 0;
     this.getTable(columnName, sortingType);
   }
 
@@ -163,5 +170,10 @@ export class UbsAdminTableComponent implements OnInit {
       this.currentPage++;
       this.updateTableData();
     }
+  }
+
+  ngOnDestroy() {
+    this.destroy.next();
+    this.destroy.unsubscribe();
   }
 }

@@ -5,7 +5,6 @@ import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
-import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { CertificateStatus } from '../../certificate-status.enum';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
@@ -29,7 +28,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   certificateSum = 0;
   total = 0;
   finalSum = 0;
-
+  cancelCertBtn = false;
   points: number;
   certBtnActivate = false;
   displayMes = false;
@@ -75,7 +74,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     private fb: FormBuilder,
     private orderService: OrderService,
     private shareFormService: UBSOrderFormService,
-    private translate: TranslateService,
     private localStorageService: LocalStorageService,
     router: Router,
     dialog: MatDialog
@@ -115,7 +113,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public takeOrderData() {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.orderService
-      .getOrders(this.currentLanguage)
+      .getOrders()
       .pipe(takeUntil(this.destroy))
       .subscribe((orderData: OrderDetails) => {
         this.orders = this.shareFormService.orderDetails;
@@ -311,6 +309,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.ecoStoreValidation();
   }
 
+  disableAddCertificate() {
+    return this.certificates.length === this.additionalCertificates.length;
+  }
+
   addCertificate(): void {
     this.additionalCertificates.push(this.fb.control('', [Validators.minLength(8), Validators.pattern(/(?!0000)\d{4}-(?!0000)\d{4}/)]));
   }
@@ -341,6 +343,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   calculateCertificates(arr): void {
     if (arr.length > 0) {
+      this.cancelCertBtn = true;
       arr.forEach((certificate, index) => {
         this.orderService
           .processCertificate(certificate)
@@ -353,9 +356,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
               }
               this.certificateError = false;
               this.calculateTotal();
+              this.cancelCertBtn = false;
             },
             (error) => {
               this.certBtnActivate = false;
+              this.cancelCertBtn = false;
               if (error.status === 404) {
                 arr.splice(index, 1);
                 this.certificateError = true;
@@ -386,7 +391,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.addCert = true;
     }
 
-    this.certBtnActivate = false;
     this.bonusesRemaining = false;
     this.showCertificateUsed = null;
     this.addCert = false;
@@ -405,8 +409,12 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.displayCert = true;
       this.addCert = true;
     }
+    if (cert.certificateStatus === CertificateStatus.EXPIRED || cert.certificateStatus === CertificateStatus.USED) {
+      this.addCert = true;
+    }
     this.certDate = this.certificateDateTreat(cert.certificateDate);
     this.certStatus = cert.certificateStatus;
+    this.certBtnActivate = false;
   }
 
   private certificateDateTreat(date: string) {
