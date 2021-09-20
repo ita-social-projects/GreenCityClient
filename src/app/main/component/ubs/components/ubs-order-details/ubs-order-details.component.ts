@@ -239,6 +239,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     }
   }
 
+  isDisabled(): number {
+    return this.orderDetailsForm.controls.shop.value === 'yes' ? 0 : -1;
+  }
+
   clearOrderValues(): void {
     this.additionalOrders.controls[0].setValue('');
     if (this.additionalOrders.controls.length > 1) {
@@ -329,6 +333,17 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     setTimeout(() => {
       this.renderer.selectRootElement(`#index${this.additionalOrders.controls.length - 1}`).focus();
     }, 0);
+  }
+
+  deleteOrder(index: number): void {
+    const orders = this.additionalOrders;
+    orders.length > 1 ? orders.removeAt(index) : orders.reset(['']);
+  }
+
+  removeOrder(event: KeyboardEvent, index: number) {
+    if (['Enter', 'Space', 'NumpadEnter'].includes(event.code)) {
+      this.deleteOrder(index);
+    }
   }
 
   addCertificate(): void {

@@ -229,14 +229,18 @@
           <div class="bottom-text">
             <p>{{ 'order-details.cant-found-order' | translate }}</p>
           </div>
-          <div formArrayName="additionalOrders" *ngFor="let order of additionalOrders.controls; let i = index" class="form-group eco-store">
+          <div
+            formArrayName="additionalOrders"
+            *ngFor="let order of additionalOrders.controls; let i = index"
+            class="form-group eco-store"
+            [class.inactive]="orderDetailsForm.controls.shop.value === 'no'"
+          >
             <label class="label m-0">{{ 'order-details.enter-order-num' | translate }}</label>
             <input
               id="index{{ i }}"
-              tabindex="{{ orderDetailsForm.controls.shop.value === 'yes' ? 0 : -1 }}"
+              tabindex="{{ isDisabled() }}"
               [formControlName]="i"
               class="shadow-none form-control border-input p-2 eco-store-input"
-              [class.inactive]="orderDetailsForm.controls.shop.value === 'no'"
               type="text"
               placeholder="xxxxxxxxxx"
               [unmask]="false"
@@ -245,6 +249,7 @@
               (click)="changeShopRadioBtn()"
               (ngModelChange)="ecoStoreValidation()"
             />
+            <span input-close-button tabindex="{{ isDisabled() }}" (click)="deleteOrder(i)" (keyup)="removeOrder($event, i)">&times;</span>
           </div>
           <div class="order-notification">
             <small class="text-danger" *ngIf="!displayOrderBtn && additionalOrders.touched && shop.value !== 'no'">
