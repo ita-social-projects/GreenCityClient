@@ -1,6 +1,6 @@
 $bp-smallest: 575px;
 $bp-phone: 767px;
-$bp-tablet: 1023px;
+$bp-tablet: 989px;
 $bp-desktop: 1439px;
 
 p,
@@ -209,5 +209,24 @@ div {
         height: 206px;
       }
     }
+  }
+}
+@media screen and (max-width: 1000px) {
+  .list-gallery {
+    width: 285px;
+    margin-left: 7px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .list-gallery {
+    width: 350px;
+  }
+}
+
+@media screen and (max-width: 785px) {
+  .list-gallery {
+    width: 90%;
+    margin-left: 15px;
   }
 }
