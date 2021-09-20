@@ -90,6 +90,7 @@
     "info-name": "Name",
     "info-phone": "Phone number",
     "info-surname": "Surname",
+    "info-optionally": "optionally",
     "info-address": "Garbage collection address",
     "info-no-address": "You have no addresses added. Please add an address.",
     "info-add-address": "Add address",

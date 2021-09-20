@@ -90,6 +90,7 @@
     "info-name": "Ім'я",
     "info-phone": "Номер телефону",
     "info-surname": "Прізвище",
+    "info-optionally": "не обов'язково",
     "info-address": "Адреса вивозу сміття",
     "info-no-address": "У Вас немає доданих адрес. Додайте, будь ласка, адресу.",
     "info-add-address": "Додати адресу",

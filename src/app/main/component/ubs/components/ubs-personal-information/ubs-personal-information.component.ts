@@ -27,6 +27,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   namePattern = /^[A-Za-zА-Яа-яїієё\.\'\-\\]+$/;
   phoneMask = '+{38} (000) 000 00 00';
   firstOrder = true;
+  anotherRecipient = false;
   private destroy: Subject<boolean> = new Subject<boolean>();
   popupConfig = {
     hasBackdrop: true,
