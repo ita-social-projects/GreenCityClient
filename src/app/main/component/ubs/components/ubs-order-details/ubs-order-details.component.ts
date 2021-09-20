@@ -106,11 +106,16 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   private subscribeToLangChange(): void {
     this.localStorageService.languageSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.currentLanguage = this.localStorageService.getCurrentLanguage();
-      this.bags = this.orders.bags.map((b) => {
-        b.quantity = null;
-        return b;
+      const inputsQuantity = [];
+      this.bags.map((a) => {
+        inputsQuantity.push(a.quantity === undefined || a.quantity === null ? null : a.quantity);
+        a.quantity = null;
       });
+      this.bags = this.orders.bags;
       this.filterBags();
+      this.bags.forEach((b) => {
+        b.quantity = inputsQuantity.shift();
+      });
       this.calculateTotal();
     });
   }
