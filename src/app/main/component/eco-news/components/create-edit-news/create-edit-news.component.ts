@@ -166,15 +166,11 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     });
   }
 
-  public autoResize(event): void {
-    const checkTextAreaHeight =
-      event.target.scrollHeight > this.textAreasHeight.minTextAreaScrollHeight &&
-      event.target.scrollHeight < this.textAreasHeight.maxTextAreaScrollHeight;
-    const maxHeight = checkTextAreaHeight
-      ? this.textAreasHeight.maxTextAreaHeight
-      : event.target.scrollHeight < this.textAreasHeight.minTextAreaScrollHeight;
-    const minHeight = checkTextAreaHeight ? this.textAreasHeight.minTextAreaHeight : `${event.target.scrollHeight}px`;
-    event.target.style.height = checkTextAreaHeight ? maxHeight : minHeight;
+  public autoResize(textarea: boolean, e: any) {
+    const DEFAULT_SIZE_INPUT_TITTLE = '48px';
+    const DEFAULT_SIZE_INPUT_CONTENT = '131px';
+    e.target.style.height = textarea ? DEFAULT_SIZE_INPUT_CONTENT : DEFAULT_SIZE_INPUT_TITTLE;
+    e.target.style.height = e.target.scrollHeight + 'px';
   }
 
   public onSourceChange(): void {

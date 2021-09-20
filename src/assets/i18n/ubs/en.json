@@ -8,6 +8,9 @@
   },
   "order-details": {
     "order-title": "Services",
+    "choose-location": "Choose your region",
+    "kyiv": "Kyiv",
+    "kyiv-region": "Kyiv region",
     "order-content": "Please note that the minimum order amount must be 500.00 UAH",
     "service": "Service",
     "volume": "Volume",
@@ -124,6 +127,7 @@
     "after-payment": "After placing an order, you can make the payment in the chosen way",
     "choose-payment": "Choose a payment method",
     "fondy-card": "By card via Fondy",
+    "liqpay-card": "By card via LiqPay",
     "back": "Back",
     "to-order": "Order",
     "bags": "bags"
