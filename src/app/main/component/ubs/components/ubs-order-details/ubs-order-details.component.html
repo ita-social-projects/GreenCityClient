@@ -33,10 +33,11 @@
                 [class.bag-quantity_placeholder]="bag.quantity === null"
                 min="0"
                 max="999"
+                placeholder="0"
                 [unmask]="false"
                 [imask]="{ mask: servicesMask }"
                 [(ngModel)]="bag.quantity"
-                (ngModelChange)="onQuantityChange()"
+                (change)="onQuantityChange()"
               />
             </div>
             <span class="col-3 bag-name text-center"> {{ bag.quantity * bag.price | currency | localizedCurrency }}</span>
@@ -126,7 +127,6 @@
             <input
               type="text"
               class="shadow-none form-control col-12 col-sm-8 my-1 input-border"
-              type="text"
               placeholder="xxxx-xxxx"
               [unmask]="false"
               [imask]="{ mask: certificateMask }"
@@ -181,6 +181,7 @@
             </small>
           </div>
           <button
+            type="button"
             *ngIf="addCert && finalSum !== 0"
             class="addCertificateBtn"
             [disabled]="disableAddCertificate()"
