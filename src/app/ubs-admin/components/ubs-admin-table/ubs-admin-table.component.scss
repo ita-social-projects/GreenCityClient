@@ -104,9 +104,8 @@ input {
   line-height: 1;
 }
 
-mat-cell:first-of-type,
-mat-header-cell:first-of-type,
-mat-footer-cell:first-of-type {
+.mat-header-cell:first-of-type,
+.mat-cell:first-of-type {
   padding-left: 0;
 }
 
@@ -133,10 +132,6 @@ mat-footer-cell:first-of-type {
 .view-table-btn .mat-icon {
   padding-top: 5px;
   font-size: 15px;
-}
-
-.btn-group {
-  margin-bottom: 20px;
 }
 
 .export-excel-btn {
@@ -300,6 +295,7 @@ mat-footer-cell:first-of-type {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .column_header {
@@ -307,6 +303,7 @@ mat-footer-cell:first-of-type {
   justify-content: space-between;
   padding: 0 20px;
 }
+
 .column_cell {
   white-space: nowrap;
   overflow: hidden;

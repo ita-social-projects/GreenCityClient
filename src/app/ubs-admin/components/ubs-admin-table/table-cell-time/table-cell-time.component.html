@@ -7,15 +7,15 @@
   <div class="set_time_container">
     <h3>Обрати час Вивезення</h3>
     <div class="set_time_select">
-      <div class="select_from">
+      <div class="select_from_wr">
         <span>З</span>
-        <select [(ngModel)]="fromInput">
+        <select class="select_from" [(ngModel)]="fromInput">
           <option *ngFor="let fromS of fromSelect" [value]="fromS">{{ fromS }}</option>
         </select>
       </div>
-      <div class="select_to">
+      <div class="select_to_wr">
         <span>До</span>
-        <select [(ngModel)]="toInput">
+        <select class="select_to" [(ngModel)]="toInput">
           <option *ngFor="let toS of toSelect" [value]="toS">{{ toS }}</option>
         </select>
       </div>
