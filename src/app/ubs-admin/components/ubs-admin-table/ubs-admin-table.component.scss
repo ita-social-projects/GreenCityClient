@@ -310,18 +310,12 @@ input {
   text-overflow: ellipsis;
 }
 
-.mat-column-comment_to_address_for_client {
+.mat-column-comment_to_address_for_client,
+.mat-column-id_order_from_shop,
+.mat-column-violations {
   width: 250px;
 }
 
 .mat-column-comment_for_order_by_client {
   width: 280px;
-}
-
-.mat-column-id_order_from_shop {
-  width: 250px;
-}
-
-.mat-column-violations {
-  width: 250px;
 }

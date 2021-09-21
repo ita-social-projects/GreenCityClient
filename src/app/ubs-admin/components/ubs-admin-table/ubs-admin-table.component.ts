@@ -252,6 +252,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     this.dataSource = new MatTableDataSource(newTableData);
     this.allChecked = false;
     this.idsToChange = [];
+    this.editCellProgressBar = false;
   }
 
   private postData(id, nameOfColumn, newValue) {

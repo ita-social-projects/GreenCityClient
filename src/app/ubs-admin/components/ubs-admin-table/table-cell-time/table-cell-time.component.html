@@ -9,13 +9,13 @@
     <div class="set_time_select">
       <div class="select_from_wr">
         <span>З</span>
-        <select class="select_from" [(ngModel)]="fromInput">
+        <select class="select" [(ngModel)]="fromInput">
           <option *ngFor="let fromS of fromSelect" [value]="fromS">{{ fromS }}</option>
         </select>
       </div>
       <div class="select_to_wr">
         <span>До</span>
-        <select class="select_to" [(ngModel)]="toInput">
+        <select class="select" [(ngModel)]="toInput">
           <option *ngFor="let toS of toSelect" [value]="toS">{{ toS }}</option>
         </select>
       </div>

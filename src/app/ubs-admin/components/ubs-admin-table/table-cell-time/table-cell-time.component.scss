@@ -57,30 +57,6 @@
 
     .select_from_wr {
       margin-right: 21px;
-
-      .select_from {
-        text-align: center;
-        border: 1px solid rgb(156, 167, 176);
-        background: rgb(239, 240, 241);
-        padding: 4px 8px;
-
-        &:focus {
-          outline: none;
-        }
-      }
-    }
-
-    .select_to_wr {
-      .select_to {
-        text-align: center;
-        border: 1px solid rgb(156, 167, 176);
-        background: rgb(239, 240, 241);
-        padding: 4px 8px;
-
-        &:focus {
-          outline: none;
-        }
-      }
     }
   }
 }
@@ -90,18 +66,18 @@
   margin-right: 8px;
 }
 
-.edit_time {
-  width: 250px;
-  padding: 10px;
-  position: relative;
-  z-index: 10000 !important;
-  background: red;
+.select {
+  text-align: center;
+  border: 1px solid rgb(156, 167, 176);
+  background: rgb(239, 240, 241);
+  padding: 4px 8px;
+
+  &:focus {
+    outline: none;
+  }
 }
 
-button {
-  line-height: 1 !important;
-}
-
+button,
 select {
-  line-height: 1 !important;
+  line-height: 1;
 }

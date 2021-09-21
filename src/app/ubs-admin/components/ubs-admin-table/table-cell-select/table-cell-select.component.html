@@ -1,7 +1,7 @@
 <div class="select_wr">
   <div *ngIf="!isEditable">{{ currentValue | serverTranslate: lang }}</div>
   <div *ngIf="isEditable">
-    <select (change)="chosenOption($event)" style="width: 100px; outline: none; border: none">
+    <select (change)="chosenOption($event)" class="select_dropdown">
       <option
         *ngFor="let option of optional"
         [value]="option | serverTranslate: lang"

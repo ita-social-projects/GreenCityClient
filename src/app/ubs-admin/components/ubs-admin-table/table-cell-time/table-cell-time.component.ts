@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { IEditCell } from 'src/app/ubs-admin/models/edit-cell.model';
+import { fromSelect, toSelect } from './table-cell-time-range';
 
 @Component({
   selector: 'app-table-cell-time',
@@ -14,27 +16,14 @@ export class TableCellTimeComponent implements OnInit {
 
   fromInput: string;
   toInput: string;
-  fromSelect: string[] = [
-    '10:30',
-    '11:00',
-    '11:30',
-    '12:00',
-    '13:30',
-    '14:00',
-    '14:30',
-    '15:00',
-    '15:30',
-    '16:00',
-    '16:30',
-    '17:00',
-    '17:30',
-    '18:00'
-  ];
-  toSelect: string[] = ['13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00'];
+  fromSelect: string[];
+  toSelect: string[];
   isEditable: boolean;
   isError = '';
 
   ngOnInit() {
+    this.fromSelect = fromSelect;
+    this.toSelect = toSelect;
     this.fromInput = this.from;
     this.toInput = this.to;
   }
@@ -57,7 +46,12 @@ export class TableCellTimeComponent implements OnInit {
       this.isError = 'time error';
       return;
     }
-    this.editTimeCell.emit({ id: this.id, nameOfColumn: this.nameOfColumn, newValue: `${this.fromInput}-${this.toInput}` });
+    const newTimeValue: IEditCell = {
+      id: this.id,
+      nameOfColumn: this.nameOfColumn,
+      newValue: `${this.fromInput}-${this.toInput}`
+    };
+    this.editTimeCell.emit(newTimeValue);
     this.isError = '';
     this.isEditable = false;
   }

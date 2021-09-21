@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { IEditCell } from 'src/app/ubs-admin/models/edit-cell.model';
 
 @Component({
   selector: 'app-table-cell-select',
@@ -32,7 +33,12 @@ export class TableCellSelectComponent implements OnInit {
     if (newValueObj === -1) {
       this.isEditable = false;
     } else {
-      this.editCellSelect.emit({ id: this.id, nameOfColumn: this.nameOfColumn, newValue: this.optional[newValueObj].key });
+      const newSelectValue: IEditCell = {
+        id: this.id,
+        nameOfColumn: this.nameOfColumn,
+        newValue: this.optional[newValueObj].key
+      };
+      this.editCellSelect.emit(newSelectValue);
       this.isEditable = false;
       this.newOption = '';
     }

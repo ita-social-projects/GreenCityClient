@@ -1,24 +1,27 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { IEditCell } from 'src/app/ubs-admin/models/edit-cell.model';
 @Component({
   selector: 'app-table-cell-date',
   templateUrl: './table-cell-date.component.html',
   styleUrls: ['./table-cell-date.component.scss']
 })
-export class TableCellDateComponent implements OnInit {
+export class TableCellDateComponent {
   @Input() date;
   @Input() nameOfColumn;
   @Input() id;
   @Output() editDateCell = new EventEmitter();
   isEditable: boolean;
 
-  ngOnInit() {}
-
   edit() {
     this.isEditable = true;
   }
   changeData(e) {
-    this.editDateCell.emit({ id: this.id, nameOfColumn: this.nameOfColumn, newValue: e.value });
+    const newDateValue: IEditCell = {
+      id: this.id,
+      nameOfColumn: this.nameOfColumn,
+      newValue: e.value
+    };
+    this.editDateCell.emit(newDateValue);
     this.isEditable = false;
   }
 }
