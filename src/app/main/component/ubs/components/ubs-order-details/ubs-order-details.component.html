@@ -96,7 +96,7 @@
                 *ngIf="addCert"
                 [disabled]="additionalCertificates.length > 0"
                 type="button"
-                class="secondary-global-button btn cansel-button"
+                class="secondary-global-button btn cancel-button"
                 (click)="certificateReset(true)"
               >
                 {{ 'order-details.cancel' | translate }}
@@ -138,7 +138,7 @@
                 [disabled]="cancelCertBtn"
                 *ngIf="certStatuses[i] || !certificate.value.length"
                 type="button"
-                class="secondary-global-button btn cansel-button"
+                class="secondary-global-button btn cancel-button"
                 (click)="deleteCertificate(i)"
               >
                 {{ 'order-details.cancel' | translate }}
@@ -299,7 +299,7 @@
 </div>
 
 <div class="w-100 d-flex justify-content-end buttons">
-  <button class="secondary-global-button btn cansel-button" (click)="cancelUBS()">{{ 'order-details.cancel' | translate }}</button>
+  <button class="secondary-global-button btn cancel-button" (click)="cancelUBS()">{{ 'order-details.cancel' | translate }}</button>
   <button type="submit" class="primary-global-button btn btn-main" [disabled]="showTotal < 500 || orderComment.invalid" matStepperNext>
     {{ 'order-details.next' | translate }}
   </button>

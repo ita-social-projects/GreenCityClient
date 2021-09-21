@@ -190,6 +190,39 @@ h3 {
   }
 }
 
+button {
+  width: 8rem;
+  height: 2.75rem;
+  border-radius: 0;
+  border: none;
+}
+
+.totalInfo {
+  text-align: right;
+
+  .total-content {
+    display: flex;
+    justify-content: flex-end;
+    color: var(--ubs-secondary-grey);
+    font-family: var(--ubs-quaternary-font);
+    padding-right: 0.5rem;
+
+    strong {
+      padding-left: 2rem;
+      color: var(--ubs-primary-grey);
+    }
+  }
+
+  .money-saved {
+    @include text_style(var(--ubs-quaternary-font), var(--ubs-electric-violet) !important, 10px, 400);
+  }
+
+  .validMes {
+    margin-top: -1rem;
+    text-align: left;
+  }
+}
+
 .middle-container {
   .showTotal {
     display: flex;
@@ -341,13 +374,6 @@ h3 {
   }
 }
 
-button {
-  width: 8rem;
-  height: 2.75rem;
-  border-radius: 0;
-  border: none;
-}
-
 .middle {
   width: 100%;
   margin-top: 10px;
@@ -389,32 +415,6 @@ button {
   flex-flow: column wrap;
 }
 
-.totalInfo {
-  text-align: right;
-
-  .total-content {
-    display: flex;
-    justify-content: flex-end;
-    color: var(--ubs-secondary-grey);
-    font-family: var(--ubs-quaternary-font);
-    padding-right: 0.5rem;
-
-    strong {
-      padding-left: 2rem;
-      color: var(--ubs-primary-grey);
-    }
-  }
-
-  .money-saved {
-    @include text_style(var(--ubs-quaternary-font), var(--ubs-electric-violet) !important, 10px, 400);
-  }
-
-  .validMes {
-    margin-top: -1rem;
-    text-align: left;
-  }
-}
-
 h5 {
   @include text_style(var(--ubs-quaternary-font), var(--ubs-primary-grey), 16px, bold);
 
@@ -430,7 +430,7 @@ h5 {
   background: var(--ubs-button-light-green);
 }
 
-.cansel-button {
+.cancel-button {
   border-radius: 4px;
   border: 1px solid var(--ubs-quaternary-dark-grey);
   font-size: 18px;
