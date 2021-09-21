@@ -176,8 +176,7 @@ input {
   height: 36px;
   border: 1px solid var(--ubs-primary-light-grey);
   border-radius: 4px;
-  margin-top: 20px;
-  margin-bottom: 32px;
+  margin: 20px 0 32px 0;
 }
 
 .select-group {
@@ -231,8 +230,7 @@ input {
 }
 
 .mat-header-cell .mat-icon {
-  padding-top: 5px;
-  padding-left: 10px;
+  padding: 5px 0 0 10px;
   font-size: 12px;
 
   &:hover {
@@ -243,10 +241,9 @@ input {
 .dropdown-menu {
   height: 480px;
   min-width: 356px;
-  margin-right: 5px;
+  margin: 170px 5px 0 0;
   overflow: scroll;
   padding: 24px;
-  margin-top: 170px;
   color: var(--ubs-primary-grey);
   font-family: var(--primary-font);
 }
