@@ -1,7 +1,6 @@
-import { DatePipe } from '@angular/common';
 import { nonSortableColumns } from './../../models/non-sortable-columns.model';
 import { AdminTableService } from '../../services/admin-table.service';
-import { CdkDragDrop, CdkDragStart, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -41,21 +40,16 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   currentPage = 0;
   pageSize = 10;
   ubsAdminTableIcons = ubsAdminTable;
-  usedFilter: string = '';
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private adminTableService: AdminTableService, private datePipe: DatePipe) {}
+  constructor(private adminTableService: AdminTableService) {}
 
   ngOnInit() {
     this.getTable();
   }
 
   applyFilter(filterValue: string): void {
-    this.usedFilter = filterValue.trim().toLowerCase();
-    this.dataSource.filter = this.usedFilter;
-    if (this.dataSource.filteredData.length < this.pageSize) {
-      this.onScroll();
-    }
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   setDisplayedColumns() {
@@ -88,7 +82,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
 
   showAllColumns(): void {
     this.getTable();
-    this.applyFilter(this.usedFilter);
   }
 
   changeColumns(field: string, i: number) {
@@ -117,7 +110,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
       .subscribe((item) => {
         console.log(item);
         this.tableData = item[`page`];
-        this.tableData = this.transformDatebyPipe(this.tableData);
         this.totalPages = item[`totalPages`];
         this.dataSource = new MatTableDataSource(this.tableData);
         const requiredColumns = [{ field: 'select', sticky: true }];
@@ -141,7 +133,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
         this.sertificate = dynamicallyColumns.slice(18, 22);
         this.detailsOfExport = dynamicallyColumns.slice(22, 27);
         this.responsiblePerson = dynamicallyColumns.slice(27, 33);
-        this.applyFilter(this.usedFilter);
       });
   }
 
@@ -155,25 +146,12 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
       .getTable(this.sortingColumn || 'orderid', this.currentPage, this.pageSize, this.sortType || 'desc')
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
-        let data = item[`page`];
-        data = this.transformDatebyPipe(data);
+        const data = item[`page`];
         this.totalPages = item[`totalPages`];
         this.tableData = [...this.tableData, ...data];
         this.dataSource.data = this.tableData;
         this.isUpdate = false;
-        this.applyFilter(this.usedFilter);
       });
-  }
-
-  transformDatebyPipe(dataOnPage) {
-    const modifiedData = dataOnPage.map((data) => {
-      return {
-        ...data,
-        order_date: this.datePipe.transform(data['order_date'], 'dd/MM/yyyy'),
-        date_of_export: this.datePipe.transform(data['date_of_export'], 'dd/MM/yyyy')
-      };
-    });
-    return modifiedData;
   }
 
   getSortingData(columnName, sortingType) {

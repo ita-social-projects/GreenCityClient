@@ -10,7 +10,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { DatePipe } from '@angular/common';
 
 describe('UsbAdminTableComponent', () => {
   let component: UbsAdminTableComponent;
@@ -30,8 +29,7 @@ describe('UsbAdminTableComponent', () => {
         SharedModule,
         InfiniteScrollModule
       ],
-      declarations: [UbsAdminTableComponent],
-      providers: [{ provide: DatePipe, useValue: {} }]
+      declarations: [UbsAdminTableComponent]
     }).compileComponents();
   }));
 
