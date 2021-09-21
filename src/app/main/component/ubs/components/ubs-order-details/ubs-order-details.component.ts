@@ -5,7 +5,6 @@ import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
-import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { CertificateStatus } from '../../certificate-status.enum';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
@@ -29,7 +28,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   certificateSum = 0;
   total = 0;
   finalSum = 0;
-
+  cancelCertBtn = false;
   points: number;
   certBtnActivate = false;
   displayMes = false;
@@ -75,7 +74,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     private fb: FormBuilder,
     private orderService: OrderService,
     private shareFormService: UBSOrderFormService,
-    private translate: TranslateService,
     private localStorageService: LocalStorageService,
     router: Router,
     dialog: MatDialog
@@ -108,14 +106,24 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   private subscribeToLangChange(): void {
     this.localStorageService.languageSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.currentLanguage = this.localStorageService.getCurrentLanguage();
-      this.bags = this.orders.bags.filter((value) => value.code === this.currentLanguage);
+      const inputsQuantity = [];
+      this.bags.map((a) => {
+        inputsQuantity.push(a.quantity === undefined || a.quantity === null ? null : a.quantity);
+        a.quantity = null;
+      });
+      this.bags = this.orders.bags;
+      this.filterBags();
+      this.bags.forEach((b) => {
+        b.quantity = inputsQuantity.shift();
+      });
+      this.calculateTotal();
     });
   }
 
   public takeOrderData() {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.orderService
-      .getOrders(this.currentLanguage)
+      .getOrders()
       .pipe(takeUntil(this.destroy))
       .subscribe((orderData: OrderDetails) => {
         this.orders = this.shareFormService.orderDetails;
@@ -126,8 +134,13 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
           bag.quantity = null;
           this.orderDetailsForm.addControl('quantity' + String(bag.id), new FormControl(0, [Validators.min(0), Validators.max(999)]));
         });
-        this.bags = this.orders.bags.filter((value) => value.code === this.currentLanguage);
+        this.filterBags();
       });
+  }
+
+  private filterBags(): void {
+    this.bags = this.orders.bags.filter((value) => value.code === this.currentLanguage).sort((a, b) => a.price - b.price);
+    this.bags = [this.bags[1], this.bags[2], this.bags[0]];
   }
 
   changeForm() {
@@ -234,21 +247,14 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.bags.forEach((bag) => {
       const valueName = 'quantity' + String(bag.id);
       const orderFormBagController = this.orderDetailsForm.controls[valueName];
-      const startsWithZero = /^0\d+/;
+      const inputValue = `${Number(orderFormBagController.value)}`;
+      orderFormBagController.setValue(inputValue);
 
-      if (!orderFormBagController.value) {
-        orderFormBagController.setValue('0');
-      }
-
-      if (startsWithZero.test(orderFormBagController.value)) {
-        const slicedValue = orderFormBagController.value.replace(/^0+/, '');
-        orderFormBagController.setValue(slicedValue);
-      }
-
-      if (+orderFormBagController.value === 0) {
-        bag.quantity = null;
-      } else {
+      if (Number(orderFormBagController.value) > 0) {
         bag.quantity = orderFormBagController.value;
+      } else {
+        orderFormBagController.setValue('');
+        bag.quantity = null;
       }
     });
     this.calculateTotal();
@@ -311,6 +317,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.ecoStoreValidation();
   }
 
+  disableAddCertificate() {
+    return this.certificates.length === this.additionalCertificates.length;
+  }
+
   addCertificate(): void {
     this.additionalCertificates.push(this.fb.control('', [Validators.minLength(8), Validators.pattern(/(?!0000)\d{4}-(?!0000)\d{4}/)]));
   }
@@ -341,6 +351,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   calculateCertificates(arr): void {
     if (arr.length > 0) {
+      this.cancelCertBtn = true;
       arr.forEach((certificate, index) => {
         this.orderService
           .processCertificate(certificate)
@@ -353,9 +364,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
               }
               this.certificateError = false;
               this.calculateTotal();
+              this.cancelCertBtn = false;
             },
             (error) => {
               this.certBtnActivate = false;
+              this.cancelCertBtn = false;
               if (error.status === 404) {
                 arr.splice(index, 1);
                 this.certificateError = true;
@@ -402,6 +415,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     if (cert.certificateStatus === CertificateStatus.ACTIVE || cert.certificateStatus === CertificateStatus.NEW) {
       this.certificateSum += cert.certificatePoints;
       this.displayCert = true;
+      this.addCert = true;
+    }
+    if (cert.certificateStatus === CertificateStatus.EXPIRED || cert.certificateStatus === CertificateStatus.USED) {
       this.addCert = true;
     }
     this.certDate = this.certificateDateTreat(cert.certificateDate);

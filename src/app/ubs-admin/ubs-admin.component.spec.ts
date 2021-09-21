@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { UbsAdminComponent } from './ubs-admin.component';
 
@@ -8,9 +9,9 @@ describe('UbsAdminComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UbsAdminComponent ]
-    })
-    .compileComponents();
+      declarations: [UbsAdminComponent],
+      imports: [TranslateModule.forRoot()]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

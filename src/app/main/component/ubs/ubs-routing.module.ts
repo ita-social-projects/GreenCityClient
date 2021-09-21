@@ -10,11 +10,10 @@ const ubsRoutes: Routes = [
   {
     path: '',
     component: UbsComponent,
-    canActivate: [AuthPageGuardService],
     children: [
       { path: '', component: UbsMainPageComponent },
-      { path: 'order', component: UBSOrderFormComponent },
-      { path: 'confirm', component: UbsConfirmPageComponent }
+      { path: 'order', component: UBSOrderFormComponent, canActivate: [AuthPageGuardService] },
+      { path: 'confirm', component: UbsConfirmPageComponent, canActivate: [AuthPageGuardService] }
     ]
   }
 ];
