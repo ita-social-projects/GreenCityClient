@@ -1,6 +1,6 @@
 $bp-smallest: 575px;
 $bp-phone: 767px;
-$bp-tablet: 989px;
+$bp-tablet: 991px;
 $bp-desktop: 1439px;
 
 p,
@@ -126,108 +126,14 @@ div {
   cursor: pointer;
 }
 
-@media screen and (max-width: $bp-desktop) {
-  .list-gallery {
-    width: 299px;
-    min-height: 528px;
-
-    .list-image {
-      .list-image-content {
-        height: 206px;
-      }
-    }
-
-    .list-gallery-content {
-      .added-data {
-        height: 196px;
-      }
-    }
-  }
-}
-
 @media screen and (max-width: $bp-tablet) {
   .list-gallery {
-    width: 354px;
-    min-height: 528px;
-
-    .list-image {
-      .list-image-content {
-        height: 206px;
-      }
-    }
-
-    .list-gallery-content {
-      .added-data {
-        height: 203px;
-      }
-    }
-  }
-}
-
-@media screen and (max-width: $bp-phone) {
-  .list-gallery {
-    width: 258px;
-    height: 528px;
-
-    .list-image {
-      .list-image-content {
-        height: 206px;
-      }
-    }
-
-    .list-gallery-content {
-      .added-data {
-        height: 222px;
-
-        .title-list > h3 {
-          max-height: 90px;
-          font-size: 18px;
-          line-height: 24px;
-        }
-      }
-    }
-
-    .user-data-added-news {
-      display: flex;
-      flex-direction: column;
-
-      .user-data-text-date:first-child {
-        margin-bottom: 4px;
-        min-width: 100px;
-      }
-    }
+    width: 300px;
   }
 }
 
 @media screen and (max-width: $bp-smallest) {
   .list-gallery {
-    width: 288px;
-    height: 528px;
-
-    .list-image {
-      .list-image-content {
-        height: 206px;
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 1000px) {
-  .list-gallery {
-    width: 285px;
-    margin-left: 7px;
-  }
-}
-
-@media screen and (max-width: 991px) {
-  .list-gallery {
-    width: 350px;
-  }
-}
-
-@media screen and (max-width: 785px) {
-  .list-gallery {
-    width: 90%;
-    margin-left: 15px;
+    width: 100%;
   }
 }
