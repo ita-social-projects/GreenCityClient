@@ -1,0 +1,73 @@
+<div class="research">
+  <div class="search-input"><input type="text" placeholder="Search" (keyup)="applyFilter($event.target.value)" /></div>
+  <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
+</div>
+<div class="btn-group">
+  <div class="select-group">
+    <img [src]="ubsAdminTableIcons.arrowDown" alt="arrow down" />
+    <select class="display-counter" (change)="selectPageSize($event.target.value)">
+      <option [value]="size" *ngFor="let size of pageSizeOptions">{{ size }}</option>
+    </select>
+  </div>
+  <button type="button" class="btn btn-default" class="view-table-btn">
+    <mat-icon>create</mat-icon>
+    Додати сертифікат
+  </button>
+  <button type="button" class="btn btn-default" class="export-excel-btn">Експортувати в Excel</button>
+</div>
+<div
+  class="scrolling"
+  infiniteScroll
+  [infiniteScrollDistance]="0"
+  [infiniteScrollThrottle]="100"
+  (scrolled)="onScroll()"
+  [scrollWindow]="false"
+>
+  <table
+    mat-table
+    cdkDropList
+    cdkDropListOrientation="horizontal"
+    (cdkDropListDropped)="dropListDropped($event)"
+    [dataSource]="dataSource"
+    *ngIf="!isLoading; else spinner"
+  >
+    <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.field" [sticky]="column.sticky" class="column.field">
+      <mat-header-cell *matHeaderCellDef cdkDrag cdkDragLockAxis="x" cdkDragBoundary="mat-header-row">
+        <div *ngIf="column.field !== 'select'; else checkbox">
+          <span class="column-title">{{ column.field }}</span>
+        </div>
+        <ng-template #checkbox>
+          <mat-checkbox
+            (change)="$event ? masterToggle() : null"
+            [ngStyle]="{ backgroundColor: '#fff', height: '16px' }"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+            [aria-label]="checkboxLabel()"
+          >
+          </mat-checkbox>
+        </ng-template>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row" [ngStyle]="column.style" class="column.field">
+        <div *ngIf="column.field !== 'select'; else checkbox">
+          <span [ngClass]="{ 'primary-color': column.field === 'code' }">{{ row[column.field] }}</span>
+        </div>
+        <ng-template #checkbox class="checkbox">
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            class="select-cell"
+            (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)"
+            [aria-label]="checkboxLabel(row)"
+          >
+          </mat-checkbox>
+        </ng-template>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns" #tableHeaderRow class="tableHeaderRow"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </table>
+  <app-spinner *ngIf="isUpdate"></app-spinner>
+</div>
+<ng-template #spinner>
+  <app-spinner></app-spinner>
+</ng-template>
