@@ -259,7 +259,7 @@
     "capacity": "Capacity",
     "service_description": "Service description",
     "basic_cost": "Basic cost",
-    "ubs_courier": "Ubs courier",
+    "carriers_commission": "Сarrier's commission",
     "full_cost": "Full cost",
     "tariffs_for_services": "Tariffs for services",
     "order_limits": "Order limits",
@@ -267,10 +267,30 @@
     "to": "to",
     "min_number_of_packages": "Minimum number of packages from",
     "min_set_of_packages": "Minimum set of packages",
+    "info_about_order_limits_header": "Information about order limits",
+    "safe_waste": "Safe waste",
+    "textile_waste": "Textile waste",
     "info_about_order_limits": "Information about order limits",
+    "placeholder_order_limits_info": "Information about order limits, which will be displayed in the order form",
     "btn": {
       "add_service": "Add service",
       "save_changes": "Save changes"
+    }
+  },
+  "ubs-tariffs-add-service": {
+    "add_service": "Add service",
+    "name_of_the_service": "Name of the service",
+    "placeholder-service": "Enter a name for the service",
+    "capacity": "Capacity",
+    "basic_cost": "Basic cost",
+    "ubs_courier": "Ubs courier",
+    "full_cost": "Full cost",
+    "service_description": "Service description",
+    "placeholder-text": "Describe what exactly is included in the service and the conditions / rules of its provision",
+    "error_message": "Fill in the selected fields",
+    "btn": {
+      "add": "Add",
+      "cancel": "Cancel"
     }
   }
 }

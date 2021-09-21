@@ -1,21 +1,7 @@
-.ubs_profile-header {
-  display: flex;
-  justify-content: space-between;
-  width: 1109px;
-
-  .header-text {
-    padding-top: 40px;
-    margin-left: 20px;
-  }
-
-  button {
-    margin: 30px 0 30px 30px;
-  }
-}
-
-.payment-select {
+.city-select {
+  color: black;
   padding: 8px;
-  margin-left: 20px;
+  margin-left: 60px;
   width: 180px;
   height: 40px;
   background: var(--ubs-primary-white);
@@ -24,101 +10,103 @@
   border-radius: 4px;
 }
 
-.service-table {
-  border: solid 1px #cacfd3;
-  border-collapse: collapse;
-  margin-left: 20px;
-  text-align: start;
-  width: 1092px;
-  th {
-    background: #e7f7ee;
-    color: #444e55;
-    font-size: 14px;
+.services-header {
+  display: flex;
+  justify-content: space-between;
+  width: 1151px;
+
+  .header-text {
+    padding-top: 40px;
+    margin-left: 60px;
   }
 
-  td {
-    font-size: 16px;
-    color: #1d2830;
-  }
-
-  td,
-  th {
-    border: solid 1px #cacfd3;
-    height: 39px;
-    font-family: Lato;
-    padding-left: 15px;
+  button {
+    margin: 35px 0 0 120px;
   }
 }
 
+.service-table,
 .tariffs-table {
-  border: solid 1px #cacfd3;
+  border: solid 1px var(--ubs-primary-light-grey);
   border-collapse: collapse;
-  margin-left: 20px;
+  margin-left: 60px;
   text-align: start;
   width: 1092px;
 
+  table {
+    table-layout: auto;
+    width: 100%;
+  }
+
   th {
-    background: #e7f7ee;
-    color: #444e55;
+    background: var(--ubs-primary-liberty-green);
+    color: var(--ubs-primary-grey);
     font-size: 14px;
+    line-height: 20px;
   }
 
   td {
     font-size: 16px;
-    color: #1d2830;
+    color: var(--ubs-quaternary-dark-grey);
+    line-height: 24px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 56px;
+  }
+
+  td:hover {
+    cursor: default;
+    text-overflow: clip;
+    white-space: normal;
+    word-break: break-all;
   }
 
   td,
   th {
-    border: solid 1px #cacfd3;
+    border: solid 1px var(--ubs-primary-light-grey);
     height: 39px;
-    font-family: Lato;
     padding-left: 15px;
+    font-style: normal;
+    font-weight: normal;
   }
 }
 
-h3 {
-  font-weight: bold;
+h4 {
   color: black;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 32px;
 }
 
 td:nth-child(1) {
-  background: #e7f7ee;
-}
-
-th:nth-child(1) {
-  width: 60px;
-}
-
-th:nth-child(2) {
-  width: 246px;
-}
-
-th:nth-child(3) {
-  width: 118px;
-}
-
-th:nth-child(4) {
-  width: 270px;
-}
-
-th:nth-child(5) {
-  width: 144px;
-}
-
-th:nth-child(6) {
-  width: 118px;
-}
-
-th:nth-child(7) {
-  width: 140px;
+  background: var(--ubs-primary-liberty-green);
+  width: 56px;
 }
 
 .limits-header {
-  margin: 40px 0 0 20px;
+  margin: 40px 0 0 60px;
   display: flex;
   justify-content: space-between;
   width: 35%;
+}
+
+.primary-global-button {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 28px;
+  width: 179px;
+  height: 44px;
+}
+
+.secondary-global-button {
+  height: 35px;
+  background-color: var(--primary-white);
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 20px;
 }
 
 .courier-select {
@@ -128,39 +116,32 @@ th:nth-child(7) {
   border: 1px solid var(--quintynary-light-grey);
   box-sizing: border-box;
   border-radius: 4px;
+  padding: 5px;
 }
 
 .limits-form {
-  margin: 20px 0 0 20px;
+  margin: 20px 0 0 60px;
   display: inline-block;
   width: 100%;
+  font-size: 14px;
+  color: var(--ubs-primary-grey);
 }
 
-.sum-input {
+.sum-input,
+.bags-input {
+  margin-top: 15px;
   margin-bottom: 15px;
   display: flex;
   flex-flow: row wrap;
   align-items: center;
-  //display: inline;
 
   .input {
     width: 74px;
-  }
-
-  label {
-    padding: 5px 25px 0 20px;
-  }
-}
-
-.sum-input1 {
-  margin-top: 35px;
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  //display: inline;
-
-  .input {
-    width: 74px;
+    height: 36px;
+    background: var(--ubs-primary-white);
+    border: 1px solid var(--ubs-grey-blue);
+    box-sizing: border-box;
+    border-radius: 4px;
   }
 
   label {
@@ -170,4 +151,69 @@ th:nth-child(7) {
 
 .min-bags-number {
   margin-top: 30px;
+  font-size: 16px;
+  color: black;
+
+  label {
+    padding-left: 20px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--ubs-primary-grey);
+  }
+
+  h6 {
+    font-size: 16px;
+    color: black;
+  }
+
+  input {
+    width: 16px;
+    height: 16px;
+  }
+
+  label,
+  input {
+    padding-top: 15px;
+  }
+}
+
+.order-limit-textarea {
+  margin-top: 25px;
+
+  h6 {
+    color: var(--ubs-quaternary-dark-grey);
+    font-size: 16px;
+    padding-bottom: 10px;
+  }
+
+  textarea {
+    color: var(--ubs-grey-blue);
+    font-size: 14px;
+    resize: none;
+    width: 420px;
+    height: 92px;
+    border: 1px solid var(--ubs-grey-blue);
+    border-radius: 4px;
+  }
+
+  ::placeholder {
+    padding: 5px 0 0 5px;
+  }
+}
+
+.submit-btn {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+img {
+  cursor: pointer;
+}
+
+.image-buttons {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 7px 0 7px;
 }

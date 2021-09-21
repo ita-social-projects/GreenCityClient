@@ -39,6 +39,8 @@ import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-c
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatTableModule } from '@angular/material/table';
 import { UbsAdminTariffsComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs.component';
+import { UbsAdminTariffsAddServicePopupComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-add-service-popup/ubs-admin-tariffs-add-service-popup.component';
+import { UbsAdminTariffsDeletePopupComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-delete-popup/ubs-admin-tariffs-delete-popup.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +67,9 @@ import { UbsAdminTariffsComponent } from './components/ubs-admin-tariffs/ubs-adm
     UbsAdminCancelModalComponent,
     UbsAdminGoBackModalComponent,
     UbsClientBonusesComponent,
-    UbsAdminTariffsComponent
+    UbsAdminTariffsComponent,
+    UbsAdminTariffsAddServicePopupComponent,
+    UbsAdminTariffsDeletePopupComponent
   ],
   imports: [
     CommonModule,

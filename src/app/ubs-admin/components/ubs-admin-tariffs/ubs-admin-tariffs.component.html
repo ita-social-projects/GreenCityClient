@@ -1,33 +1,37 @@
-<select class="payment-select shadow-none">
-  <option value="Kyiv">м. Київ</option>
-  <option value="Kyiv-region">Київська область</option>
-</select>
-<div class="ubs_profile-header">
+<div class="city">
+  <select class="city-select">
+    <option>м. Київ</option>
+    <option>Київська область</option>
+  </select>
+</div>
+
+<div class="services-header">
   <div class="header-text">
-    <h3>{{ 'ubs-tariffs.services' | translate }}</h3>
+    <h4>{{ 'ubs-tariffs.services' | translate }}</h4>
   </div>
-  <button class="btn btn-outline-success">
+  <button class="secondary-global-button" (click)="openAddServicePopup()">
     {{ 'ubs-tariffs.btn.add_service' | translate }}
   </button>
 </div>
+
 <div class="service-table">
   <table>
     <tr>
       <th></th>
-      <th>{{ 'ubs-tariffs.name_of_the_service' | translate }}</th>
+      <th style="width: 246px">{{ 'ubs-tariffs.name_of_the_service' | translate }}</th>
       <th>{{ 'ubs-tariffs.capacity' | translate }}</th>
-      <th>{{ 'ubs-tariffs.service_description' | translate }}</th>
+      <th style="width: 270px">{{ 'ubs-tariffs.service_description' | translate }}</th>
       <th>{{ 'ubs-tariffs.basic_cost' | translate }}</th>
-      <th>{{ 'ubs-tariffs.ubs_courier' | translate }}</th>
+      <th>{{ 'ubs-tariffs.carriers_commission' | translate }}</th>
       <th>{{ 'ubs-tariffs.full_cost' | translate }}</th>
     </tr>
     <tr>
       <td>
-        <img [src]="icons.edit" class="edit-button-img" alt="edit-icon" />
+        <img [src]="icons.edit" class="edit-button-img" alt="edit-icon" (click)="openUpdateServicePopup()" />
       </td>
       <td></td>
-      <td>-</td>
       <td></td>
+      <td>Текстильні відходи Текстильні відходи Текстильні відходи Текстильні відходи Текстильні відходи</td>
       <td></td>
       <td></td>
       <td></td>
@@ -35,11 +39,11 @@
   </table>
 </div>
 
-<div class="ubs_profile-header">
+<div class="services-header">
   <div class="header-text">
-    <h3>{{ 'ubs-tariffs.tariffs_for_services' | translate }}</h3>
+    <h4>{{ 'ubs-tariffs.tariffs_for_services' | translate }}</h4>
   </div>
-  <button class="btn btn-outline-success">
+  <button class="secondary-global-button">
     {{ 'ubs-tariffs.btn.add_service' | translate }}
   </button>
 </div>
@@ -48,22 +52,41 @@
   <table>
     <tr>
       <th></th>
-      <th>{{ 'ubs-tariffs.name_of_the_service' | translate }}</th>
+      <th style="width: 246px">{{ 'ubs-tariffs.name_of_the_service' | translate }}</th>
       <th>{{ 'ubs-tariffs.capacity' | translate }}</th>
-      <th>{{ 'ubs-tariffs.service_description' | translate }}</th>
+      <th style="width: 270px">{{ 'ubs-tariffs.service_description' | translate }}</th>
       <th>{{ 'ubs-tariffs.basic_cost' | translate }}</th>
-      <th>{{ 'ubs-tariffs.ubs_courier' | translate }}</th>
+      <th>{{ 'ubs-tariffs.carriers_commission' | translate }}</th>
       <th>{{ 'ubs-tariffs.full_cost' | translate }}</th>
     </tr>
     <tr>
-      <td>
-        <img [src]="icons.edit" class="edit-button-img" alt="edit-icon" />
-        <img [src]="icons.delete" class="delete-button-img" alt="edit-icon" />
+      <td style="padding-left: 0">
+        <div class="image-buttons">
+          <img [src]="icons.edit" class="edit-button-img" alt="edit-icon" />
+          <img [src]="icons.delete" class="delete-button-img" alt="edit-icon" (click)="openDeleteProfileDialog()" />
+        </div>
       </td>
+      <td>32132121323123123132321321213231231231323213212132312312313232132121323123123132</td>
       <td></td>
       <td></td>
+      <td>321321</td>
       <td></td>
       <td></td>
+    </tr>
+    <tr>
+      <td style="padding-left: 0">
+        <div class="image-buttons">
+          <img [src]="icons.edit" class="edit-button-img" alt="edit-icon" />
+          <img [src]="icons.delete" class="delete-button-img" alt="edit-icon" (click)="openDeleteProfileDialog()" />
+        </div>
+      </td>
+      <td>32132121323123123</td>
+      <td></td>
+      <td>
+        Текстильні відходи Текстильні відходи Текстильні відходи Текстильні відходи Текстильні відходи Текстильні відходи Текстильні відходи
+        Текстильні відходи Текстильні відходи Текстильні відходи
+      </td>
+      <td>321321</td>
       <td></td>
       <td></td>
     </tr>
@@ -71,12 +94,12 @@
 </div>
 
 <div class="limits-header">
-  <div class="">
-    <h3>{{ 'ubs-tariffs.order_limits' | translate }}</h3>
+  <div>
+    <h4>{{ 'ubs-tariffs.order_limits' | translate }}</h4>
   </div>
   <div>
     <select class="courier-select">
-      <option value="Kyiv">Ubs courier</option>
+      <option>Ubs courier</option>
     </select>
   </div>
 </div>
@@ -84,26 +107,53 @@
 <div class="limits-form">
   <form>
     <div class="sum-input">
-      <input type="radio" id="vehicle1" name="vehicle1" value="Bike" />
-      <label for="vehicle1">{{ 'ubs-tariffs.min_order_amount' | translate }}</label
+      <input type="radio" id="min-order-amount" />
+      <label for="min-order-amount">{{ 'ubs-tariffs.min_order_amount' | translate }}</label
       ><br />
-      <input class="input" />
-      <label for="vehicle1">{{ 'ubs-tariffs.to' | translate }}</label
+      <input class="input" id="from" />
+      <label for="from">{{ 'ubs-tariffs.to' | translate }}</label
       ><br />
-      <input class="input" />
+      <input class="input" id="to" />
+      <label for="to"></label>
     </div>
-    <div class="sum-input1">
-      <input type="radio" id="vehicle11" name="vehicle1" value="Bike" />
-      <label for="vehicle1">{{ 'ubs-tariffs.min_set_of_packages' | translate }}</label
+
+    <div class="bags-input">
+      <input type="radio" id="min-packages" />
+      <label for="min-packages">{{ 'ubs-tariffs.min_number_of_packages' | translate }}</label
       ><br />
-      <input class="input" />
-      <label for="vehicle1">{{ 'ubs-tariffs.to' | translate }}</label
+      <input class="input" id="from-packages" />
+      <label for="from-packages">{{ 'ubs-tariffs.to' | translate }}</label
       ><br />
-      <input class="input" />
+      <input class="input" id="to-packages" />
+      <label for="to-packages"></label>
     </div>
+
     <div class="min-bags-number">
-      <label for="vehicle1">{{ 'ubs-tariffs.min_set_of_packages' | translate }}</label
+      <h6>{{ 'ubs-tariffs.min_set_of_packages' | translate }}</h6>
+      <input type="checkbox" id="textile-waste120" />
+      <label for="textile-waste120">{{ 'ubs-tariffs.textile_waste' | translate }}</label
       ><br />
+      <input type="checkbox" id="safe-waste" />
+      <label for="safe-waste">{{ 'ubs-tariffs.safe_waste' | translate }}</label
+      ><br />
+      <input type="checkbox" id="textile-waste20" />
+      <label for="textile-waste20">{{ 'ubs-tariffs.textile_waste' | translate }}</label
+      ><br />
+    </div>
+
+    <div class="order-limit-textarea">
+      <h6>{{ 'ubs-tariffs.info_about_order_limits' | translate }}</h6>
+      <textarea
+        maxlength="170"
+        placeholder="{{ 'ubs-tariffs.placeholder_order_limits_info' | translate }}"
+        formControlName="title"
+      ></textarea>
+    </div>
+
+    <div class="submit-btn">
+      <button class="primary-global-button submit" type="submit">
+        {{ 'ubs-client-profile.btn.save' | translate }}
+      </button>
     </div>
   </form>
 </div>
