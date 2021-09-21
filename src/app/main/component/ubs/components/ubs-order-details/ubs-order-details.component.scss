@@ -11,6 +11,10 @@
   color: var(--ubs-primary-grey);
 }
 
+.btn:nth-child(1) {
+  color: var(--ubs-quaternary-dark-grey);
+}
+
 .buttons {
   margin-top: 46px;
 
@@ -104,6 +108,161 @@ h3 {
   color: var(--ubs-primary-light-grey);
 }
 
+.addOrderBtn {
+  width: 250px;
+  padding: 0;
+  text-align: left;
+  background: none;
+  color: var(--ubs-electric-violet);
+  font-size: 14px;
+  outline: none;
+
+  &:disabled {
+    color: var(--ubs-quintynary-light-grey);
+  }
+
+  &:hover {
+    background: none;
+  }
+
+  &:focus {
+    text-decoration: underline;
+  }
+}
+
+.radio-btn {
+  margin-left: -6px;
+}
+
+.checkmark {
+  position: absolute;
+  top: 4.5px;
+  left: 4px;
+  height: 16px;
+  width: 16px;
+  background-color: var(--ubs-primary-white);
+  border-radius: 50%;
+  border: 1px solid var(--ubs-quaternary-dark-grey);
+
+  &::after {
+    content: '';
+    position: absolute;
+    display: none;
+  }
+}
+
+.custom-radio-btn {
+  display: block;
+  position: relative;
+  padding-left: 28px;
+  margin-bottom: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  & input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  &:hover input ~ .checkmark {
+    background-color: var(--ubs-primary-white);
+  }
+
+  & .checkmark::after {
+    top: 14%;
+    left: 15%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--ubs-quaternary-dark-grey);
+  }
+
+  & input:checked ~ .checkmark {
+    background-color: var(--ubs-primary-white);
+
+    &::after {
+      display: block;
+    }
+  }
+}
+
+.middle-container {
+  .showTotal {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 2rem;
+  }
+
+  .input-border {
+    background: var(--ubs-primary-white);
+    border: 1px solid var(--ubs-quintynary-light-grey);
+  }
+
+  .certificate-container,
+  .addCertificate {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 44%;
+
+    input {
+      padding: 0.5rem;
+    }
+
+    .validMes {
+      width: 65%;
+      margin: -1rem 0 1rem;
+      color: var(--ubs-primary-green);
+    }
+  }
+
+  button {
+    width: 8rem;
+    height: 2.25rem;
+    font-size: 14px;
+  }
+
+  .addCertificate {
+    align-items: center;
+
+    button {
+      margin-top: 1rem;
+    }
+  }
+
+  .addCertificateBtn {
+    width: 180px;
+    padding: 0;
+    text-align: left;
+    background: none;
+    color: var(--ubs-electric-violet);
+    outline: none;
+    font-size: 14px;
+  }
+
+  .addCertificateBtn:hover {
+    background: none;
+  }
+
+  .addBonus {
+    margin-top: 3rem;
+
+    span {
+      color: var(--ubs-electric-violet);
+      padding-left: 1rem;
+    }
+  }
+
+  small {
+    margin-left: 0;
+  }
+}
+
 .bottom {
   font-family: var(--ubs-quaternary-font);
   padding: 3rem 0;
@@ -129,6 +288,16 @@ h3 {
 
   p {
     font-size: 12px;
+  }
+
+  .inactive {
+    & > input {
+      background-color: var(--ubs-grey-white);
+    }
+
+    & > span {
+      display: none;
+    }
   }
 
   .eco-store {
@@ -157,98 +326,6 @@ h3 {
     &:hover > [input-close-button] {
       opacity: 1;
     }
-  }
-
-  .inactive {
-    & > input {
-      background-color: var(--ubs-grey-white);
-    }
-
-    & > span {
-      display: none;
-    }
-  }
-}
-
-.addOrderBtn {
-  width: 250px;
-  padding: 0;
-  text-align: left;
-  background: none;
-  color: var(--ubs-electric-violet);
-  font-size: 14px;
-  outline: none;
-
-  &:disabled {
-    color: var(--ubs-quintynary-light-grey);
-  }
-
-  &:hover {
-    background: none;
-  }
-
-  &:focus {
-    text-decoration: underline;
-  }
-}
-
-.radio-btn {
-  margin-left: -6px;
-}
-
-.custom-radio-btn {
-  display: block;
-  position: relative;
-  padding-left: 28px;
-  margin-bottom: 0;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-
-  & input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-  }
-
-  &:hover input ~ .checkmark {
-    background-color: var(--ubs-primary-white);
-  }
-
-  & input:checked ~ .checkmark {
-    background-color: var(--ubs-primary-white);
-
-    &::after {
-      display: block;
-    }
-  }
-
-  & .checkmark::after {
-    top: 14%;
-    left: 15%;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--ubs-quaternary-dark-grey);
-  }
-}
-
-.checkmark {
-  position: absolute;
-  top: 4.5px;
-  left: 4px;
-  height: 16px;
-  width: 16px;
-  background-color: var(--ubs-primary-white);
-  border-radius: 50%;
-  border: 1px solid var(--ubs-quaternary-dark-grey);
-
-  &::after {
-    content: '';
-    position: absolute;
-    display: none;
   }
 }
 
@@ -359,79 +436,6 @@ h5 {
   font-size: 18px;
 }
 
-.middle-container {
-  .showTotal {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 2rem;
-  }
-
-  .input-border {
-    background: var(--ubs-primary-white);
-    border: 1px solid var(--ubs-quintynary-light-grey);
-  }
-
-  .certificate-container,
-  .addCertificate {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-end;
-    width: 44%;
-
-    input {
-      padding: 0.5rem;
-    }
-
-    .validMes {
-      width: 65%;
-      margin: -1rem 0 1rem;
-      color: var(--ubs-primary-green);
-    }
-  }
-
-  button {
-    width: 8rem;
-    height: 2.25rem;
-    font-size: 14px;
-  }
-
-  .addCertificate {
-    align-items: center;
-
-    button {
-      margin-top: 1rem;
-    }
-  }
-
-  .addCertificateBtn {
-    width: 180px;
-    padding: 0;
-    text-align: left;
-    background: none;
-    color: var(--ubs-electric-violet);
-    outline: none;
-    font-size: 14px;
-  }
-
-  .addCertificateBtn:hover {
-    background: none;
-  }
-
-  .addBonus {
-    margin-top: 3rem;
-
-    span {
-      color: var(--ubs-electric-violet);
-      padding-left: 1rem;
-    }
-  }
-
-  small {
-    margin-left: 0;
-  }
-}
-
 .shop_submit {
   position: relative;
   width: 85%;
@@ -468,10 +472,6 @@ h5 {
       margin-bottom: 3rem;
     }
   }
-}
-
-.btn:nth-child(1) {
-  color: var(--ubs-quaternary-dark-grey);
 }
 
 .btn-main {
