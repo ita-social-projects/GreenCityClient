@@ -345,6 +345,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   deleteOrder(index: number): void {
     const orders = this.additionalOrders;
     orders.length > 1 ? orders.removeAt(index) : orders.reset(['']);
+    this.changeOrderDetails();
   }
 
   removeOrder(event: KeyboardEvent, index: number) {
