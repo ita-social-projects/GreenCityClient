@@ -106,7 +106,7 @@ export class UbsAdminCertificateComponent implements OnInit, OnDestroy {
       .getTable(this.currentPage, this.pageSize, this.sortType || 'desc')
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
-        let data = item[`page`];
+        const data = item[`page`];
         this.totalPages = item[`totalPages`];
         this.tableData = [...this.tableData, ...data];
         this.dataSource.data = this.tableData;
