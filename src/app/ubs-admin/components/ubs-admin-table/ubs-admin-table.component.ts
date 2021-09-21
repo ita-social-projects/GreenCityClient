@@ -108,7 +108,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
       .getTable(columnName, this.currentPage, this.pageSize, sortingType)
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
-        console.log(item);
         this.tableData = item[`page`];
         this.totalPages = item[`totalPages`];
         this.dataSource = new MatTableDataSource(this.tableData);
