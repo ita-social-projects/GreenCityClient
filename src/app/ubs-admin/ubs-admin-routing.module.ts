@@ -6,7 +6,6 @@ import { UbsClientProfilePageComponent } from './components/ubs-client-profile-p
 import { UbsAdminTableComponent } from './components/ubs-admin-table/ubs-admin-table.component';
 import { UbsAdminComponent } from './ubs-admin.component';
 import { UbsAdminOrderComponent } from './components/ubs-admin-order/ubs-admin-order.component';
-import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-client-bonuses.component';
 import { UbsAdminGuardGuard } from './ubs-admin-guard.guard';
 import { UbsAdminCertificateComponent } from './components/ubs-admin-certificate/ubs-admin-certificate.component';
 
@@ -21,8 +20,7 @@ const ubsAdminRoutes: Routes = [
       { path: 'orders', component: UbsAdminTableComponent },
       { path: 'employee/:page', component: UbsAdminEmployeeComponent },
       { path: 'profile', component: UbsClientProfilePageComponent },
-      { path: 'order', component: UbsAdminOrderComponent },
-      { path: 'bonuses', component: UbsClientBonusesComponent }
+      { path: 'order', component: UbsAdminOrderComponent }
     ]
   }
 ];
