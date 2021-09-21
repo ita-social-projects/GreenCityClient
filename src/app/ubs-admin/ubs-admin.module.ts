@@ -39,6 +39,7 @@ import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-c
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatTableModule } from '@angular/material/table';
 import { UbsAdminCertificateComponent } from './components/ubs-admin-certificate/ubs-admin-certificate.component';
+import { AdminCertificateService } from './services/admin-certificate.service';
 
 @NgModule({
   declarations: [
@@ -91,6 +92,7 @@ import { UbsAdminCertificateComponent } from './components/ubs-admin-certificate
     })
   ],
   providers: [
+    AdminCertificateService,
     AdminTableService,
     TranslateService,
     {
