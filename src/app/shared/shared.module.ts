@@ -14,17 +14,6 @@ import { RouterModule } from '@angular/router';
 import { UbsHeaderComponent } from './ubs-header/ubs-header.component';
 
 @NgModule({
-  exports: [
-    SpinnerComponent,
-    LocalizedCurrencyPipe,
-    DragDirective,
-    VolumePipe,
-    CloseDropdownDirective,
-    PhoneNumberTreatPipe,
-    ServerTranslatePipe
-    UbsBaseSidebarComponent,
-    UbsHeaderComponent
-  ],
   declarations: [
     SpinnerComponent,
     LocalizedCurrencyPipe,
@@ -32,12 +21,21 @@ import { UbsHeaderComponent } from './ubs-header/ubs-header.component';
     VolumePipe,
     CloseDropdownDirective,
     PhoneNumberTreatPipe,
-    ServerTranslatePipe
-  ],
-  imports: [CommonModule, MaterialModule]
+    ServerTranslatePipe,
     UbsBaseSidebarComponent,
     UbsHeaderComponent
   ],
-  imports: [CommonModule, MaterialModule, TranslateModule, RouterModule]
+  imports: [CommonModule, MaterialModule, TranslateModule, RouterModule],
+  exports: [
+    SpinnerComponent,
+    LocalizedCurrencyPipe,
+    DragDirective,
+    VolumePipe,
+    CloseDropdownDirective,
+    PhoneNumberTreatPipe,
+    ServerTranslatePipe,
+    UbsBaseSidebarComponent,
+    UbsHeaderComponent
+  ]
 })
 export class SharedModule {}
