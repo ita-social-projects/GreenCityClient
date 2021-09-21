@@ -173,6 +173,16 @@
     "disagree": "No",
     "agree": "Yes"
   },
+  "bonuses": {
+    "no-bonuses": "You don't have accrued bonuses yet.",
+    "get-bonuses": "Find out what bonuses are accrued for",
+    "title": "Bonuses",
+    "about-bonuses-system": "About the bonus system",
+    "enrollment-date": "Date of enrollment",
+    "amount": "Amount",
+    "reason": "Reason",
+    "order": "Order"
+  },
   "user-orders": {
     "no-orders": "You haven't made any orders with us yet.",
     "make-order": "Make an order",
@@ -233,6 +243,13 @@
     "orders": "Orders",
     "employees": "Employees",
     "documents": "Documents",
-    "schedule": "Schedule"
+    "schedule": "Schedule",
+    "bonuses": "Bonuses"
+  },
+  "ubs-user": {
+    "orders": "Orders",
+    "invoice": "Invoice",
+    "user_data": "User data",
+    "messages": "Messages"
   }
 }

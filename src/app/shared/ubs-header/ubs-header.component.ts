@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ubsHeaderIcons } from '../ubs-image-pathes/ubs-header-icons';
+import { ubsHeaderIcons } from '../../ubs-admin/components/ubs-image-pathes/ubs-header-icons';
 import { languages } from 'src/app/shared/languages/languages';
-import { LanguageModel } from '../../models/languageModel';
-import { Language } from '../../../main/i18n/Language';
-import { LanguageService } from '../../../main/i18n/language.service';
+import { LanguageModel } from '../../ubs-admin/models/languageModel';
+import { Language } from '../../main/i18n/Language';
+import { LanguageService } from '../../main/i18n/language.service';
 import { Router } from '@angular/router';
 
 @Component({

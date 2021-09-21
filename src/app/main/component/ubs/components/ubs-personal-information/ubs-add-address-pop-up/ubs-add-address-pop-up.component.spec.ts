@@ -1,7 +1,9 @@
-import { OrderService } from '../../../services/order.service';
-import { Address } from '../../../models/ubs.interface';
-import { TranslateModule } from '@ngx-translate/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
+import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
+import { OrderService } from './../../../services/order.service';
+import { Address } from './../../../models/ubs.interface';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -21,7 +23,12 @@ describe('UBSAddAddressPopUpComponent', () => {
     TestBed.configureTestingModule({
       imports: [FormsModule, ReactiveFormsModule, HttpClientTestingModule, TranslateModule.forRoot()],
       declarations: [UBSAddAddressPopUpComponent],
-      providers: [OrderService, { provide: MatDialogRef, useValue: fakeMatDialogRef }, { provide: MAT_DIALOG_DATA, useValue: {} }],
+      providers: [
+        OrderService,
+        { provide: MatDialogRef, useValue: fakeMatDialogRef },
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: MatSnackBarComponent, useValue: {} }
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));

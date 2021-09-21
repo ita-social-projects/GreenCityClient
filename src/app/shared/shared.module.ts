@@ -8,6 +8,10 @@ import { DragDirective } from './drag-and-drop/dragDrop.directive';
 import { CloseDropdownDirective } from './directives/close-dropdown.directive';
 import { PhoneNumberTreatPipe } from './phone-number-treat/phone-number-treat.pipe';
 import { ServerTranslatePipe } from './translate-pipe/translate-pipe.pipe';
+import { UbsBaseSidebarComponent } from './ubs-base-sidebar/ubs-base-sidebar.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { RouterModule } from '@angular/router';
+import { UbsHeaderComponent } from './ubs-header/ubs-header.component';
 
 @NgModule({
   exports: [
@@ -18,6 +22,8 @@ import { ServerTranslatePipe } from './translate-pipe/translate-pipe.pipe';
     CloseDropdownDirective,
     PhoneNumberTreatPipe,
     ServerTranslatePipe
+    UbsBaseSidebarComponent,
+    UbsHeaderComponent
   ],
   declarations: [
     SpinnerComponent,
@@ -29,5 +35,9 @@ import { ServerTranslatePipe } from './translate-pipe/translate-pipe.pipe';
     ServerTranslatePipe
   ],
   imports: [CommonModule, MaterialModule]
+    UbsBaseSidebarComponent,
+    UbsHeaderComponent
+  ],
+  imports: [CommonModule, MaterialModule, TranslateModule, RouterModule]
 })
 export class SharedModule {}

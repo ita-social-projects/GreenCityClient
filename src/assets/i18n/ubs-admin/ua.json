@@ -166,6 +166,16 @@
     "disagree": "Ні",
     "agree": "Так"
   },
+  "bonuses": {
+    "no-bonuses": "Вам ще не нараховано бонусів.",
+    "get-bonuses": "Дізнатись, за що нараховуються бонуси",
+    "title": "Бонуси",
+    "about-bonuses-system": "Про систему бонусів",
+    "enrollment-date": "Дата зарахування",
+    "amount": "Кількість",
+    "reason": "Причина",
+    "order": "Замовлення"
+  },
   "user-orders": {
     "no-orders": "Ви ще не зробили замовлень у нас.",
     "make-order": "Зробити замовлення",
@@ -225,6 +235,13 @@
     "orders": "Замовлення",
     "employees": "Працівники",
     "documents": "Документи",
-    "schedule": "Графік"
+    "schedule": "Графік",
+    "bonuses": "Бонуси"
+  },
+  "ubs-user": {
+    "orders": "Замовлення",
+    "invoice": "Рахунок",
+    "user_data": "Дані користувача",
+    "messages": "Повідомлення"
   }
 }

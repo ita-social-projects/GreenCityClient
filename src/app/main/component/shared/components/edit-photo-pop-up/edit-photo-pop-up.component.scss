@@ -1,5 +1,3 @@
-$secondErrorColor: #b42626;
-
 .main-container {
   position: relative;
   width: 615px;
@@ -16,7 +14,10 @@ $secondErrorColor: #b42626;
     right: 26px;
     border: none;
     background-color: transparent;
-    outline: none;
+
+    &:focus {
+      box-shadow: 0 0 0 3px var(--primary-white);
+    }
   }
 
   .wrapper {
@@ -81,11 +82,19 @@ $secondErrorColor: #b42626;
           border: var(--secondary-dark-green);
           color: var(--secondary-dark-green);
         }
+
+        &:focus {
+          box-shadow: 0 0 0 3px var(--primary-white);
+        }
       }
 
       .primary-global-button.delete {
         width: 143px;
         height: 40px;
+      }
+
+      .primary-global-button.confirm-delete {
+        width: 120px;
       }
 
       .delete {
@@ -94,8 +103,8 @@ $secondErrorColor: #b42626;
         color: var(--primary-green);
 
         &:hover {
-          border: 1px solid $secondErrorColor;
-          background: $secondErrorColor;
+          border: 1px solid var(--error-red);
+          background: var(--error-red);
           color: var(--primary-white);
         }
 
@@ -117,7 +126,7 @@ $secondErrorColor: #b42626;
         }
 
         &:focus {
-          outline: none;
+          box-shadow: 0 0 0 3px var(--primary-white);
         }
 
         .spinner-border {
