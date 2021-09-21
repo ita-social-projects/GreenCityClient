@@ -8,6 +8,7 @@ describe('UbsAdminCertificateComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
       declarations: [UbsAdminCertificateComponent]
     }).compileComponents();
   }));
