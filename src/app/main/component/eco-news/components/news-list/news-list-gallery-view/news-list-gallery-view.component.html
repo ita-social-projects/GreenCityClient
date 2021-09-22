@@ -23,10 +23,14 @@
         <img class="icon" [src]="profileIcons.calendarIcon" alt="calendar icon" />
         {{ ecoNewsModel.creationDate | date }}
       </p>
-      <p class="user-data-text-date">
+      <p class="user-data-text-date user">
         <img class="icon" [src]="profileIcons.userIcon" alt="user icon" />
         {{ ecoNewsModel.author.name }}
       </p>
+      <div class="user-data-like">
+        <img [src]="likeImg" alt="like" class="icon" />
+        <span class="numerosity">{{ ecoNewsModel.likes }}</span>
+      </div>
     </div>
   </div>
 </div>
