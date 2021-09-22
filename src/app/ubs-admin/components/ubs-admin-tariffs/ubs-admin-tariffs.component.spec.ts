@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { UbsAdminTariffsComponent } from './ubs-admin-tariffs.component';
+import { MatDialog } from '@angular/material/dialog';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { MatDialogModule } from '@angular/material/dialog';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('UbsAdminTariffsComponent', () => {
   let component: UbsAdminTariffsComponent;
@@ -8,7 +11,9 @@ describe('UbsAdminTariffsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UbsAdminTariffsComponent]
+      declarations: [UbsAdminTariffsComponent],
+      imports: [OverlayModule, MatDialogModule, TranslateModule.forRoot()],
+      providers: [{ provide: MatDialog }]
     }).compileComponents();
   }));
 
