@@ -31,6 +31,14 @@ td:nth-child(1) {
   width: 56px;
 }
 
+th:nth-child(2) {
+  width: 246px;
+}
+
+th:nth-child(4) {
+  width: 270px;
+}
+
 .service-table,
 .tariffs-table {
   border: solid 1px var(--ubs-primary-light-grey);
