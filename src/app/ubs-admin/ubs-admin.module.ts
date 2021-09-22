@@ -38,6 +38,8 @@ import { UbsAdminGoBackModalComponent } from './components/ubs-admin-go-back-mod
 import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-client-bonuses.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatTableModule } from '@angular/material/table';
+import { UbsAdminCertificateComponent } from './components/ubs-admin-certificate/ubs-admin-certificate.component';
+import { AdminCertificateService } from './services/admin-certificate.service';
 import { UbsAdminTariffsComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs.component';
 import { UbsAdminTariffsAddServicePopupComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-add-service-popup/ubs-admin-tariffs-add-service-popup.component';
 import { UbsAdminTariffsDeletePopupComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-delete-popup/ubs-admin-tariffs-delete-popup.component';
@@ -67,6 +69,7 @@ import { UbsAdminTariffsDeletePopupComponent } from './components/ubs-admin-tari
     UbsAdminCancelModalComponent,
     UbsAdminGoBackModalComponent,
     UbsClientBonusesComponent,
+    UbsAdminCertificateComponent,
     UbsAdminTariffsComponent,
     UbsAdminTariffsAddServicePopupComponent,
     UbsAdminTariffsDeletePopupComponent
