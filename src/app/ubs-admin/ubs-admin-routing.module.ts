@@ -7,6 +7,7 @@ import { UbsAdminTableComponent } from './components/ubs-admin-table/ubs-admin-t
 import { UbsAdminComponent } from './ubs-admin.component';
 import { UbsAdminOrderComponent } from './components/ubs-admin-order/ubs-admin-order.component';
 import { UbsAdminGuardGuard } from './ubs-admin-guard.guard';
+import { UbsAdminCertificateComponent } from './components/ubs-admin-certificate/ubs-admin-certificate.component';
 
 const ubsAdminRoutes: Routes = [
   {
@@ -15,6 +16,7 @@ const ubsAdminRoutes: Routes = [
     canActivate: [UbsAdminGuardGuard],
     children: [
       { path: '', component: UbsAdminOrdersComponent },
+      { path: 'certificates', component: UbsAdminCertificateComponent },
       { path: 'orders', component: UbsAdminTableComponent },
       { path: 'employee/:page', component: UbsAdminEmployeeComponent },
       { path: 'profile', component: UbsClientProfilePageComponent },

@@ -38,6 +38,8 @@ import { UbsAdminGoBackModalComponent } from './components/ubs-admin-go-back-mod
 import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-client-bonuses.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatTableModule } from '@angular/material/table';
+import { UbsAdminCertificateComponent } from './components/ubs-admin-certificate/ubs-admin-certificate.component';
+import { AdminCertificateService } from './services/admin-certificate.service';
 
 @NgModule({
   declarations: [
@@ -63,7 +65,8 @@ import { MatTableModule } from '@angular/material/table';
     AddViolationsComponent,
     UbsAdminCancelModalComponent,
     UbsAdminGoBackModalComponent,
-    UbsClientBonusesComponent
+    UbsClientBonusesComponent,
+    UbsAdminCertificateComponent
   ],
   imports: [
     CommonModule,
@@ -89,6 +92,7 @@ import { MatTableModule } from '@angular/material/table';
     })
   ],
   providers: [
+    AdminCertificateService,
     AdminTableService,
     TranslateService,
     {
