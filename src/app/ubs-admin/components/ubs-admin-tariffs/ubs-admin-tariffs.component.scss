@@ -14,6 +14,7 @@
   display: flex;
   justify-content: space-between;
   width: 1151px;
+  margin-bottom: 10px;
 
   .header-text {
     padding-top: 40px;
@@ -21,7 +22,7 @@
   }
 
   button {
-    margin: 35px 0 0 120px;
+    margin-top: 35px;
   }
 }
 
@@ -117,6 +118,7 @@ td:nth-child(1) {
   box-sizing: border-box;
   border-radius: 4px;
   padding: 5px;
+  margin-right: 70px;
 }
 
 .limits-form {
@@ -216,4 +218,9 @@ img {
   display: flex;
   justify-content: space-between;
   padding: 0 7px 0 7px;
+}
+
+.limits-header {
+  width: 1092px;
+  display: flex;
 }

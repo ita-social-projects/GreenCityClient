@@ -274,7 +274,8 @@
     "placeholder_order_limits_info": "Information about order limits, which will be displayed in the order form",
     "btn": {
       "add_service": "Add service",
-      "save_changes": "Save changes"
+      "save_changes": "Save changes",
+      "add_carrier": "Add carrier"
     }
   },
   "ubs-tariffs-add-service": {
