@@ -11,7 +11,7 @@
   </div>
   <button type="button" class="btn btn-default" class="view-table-btn" data-toggle="dropdown">
     <mat-icon>create</mat-icon>
-    Вид таблиці
+    {{ 'ubs-tables.table-view' | translate }}
   </button>
   <ul class="dropdown-menu">
     <li>Інформація про замовлення</li>
@@ -52,7 +52,7 @@
     </li>
     <button class="btn btn-info" (click)="showAllColumns()">Clear</button>
   </ul>
-  <button type="button" class="btn btn-default" class="export-excel-btn">Експортувати в Excel</button>
+  <button type="button" class="btn btn-default" class="export-excel-btn">{{ 'ubs-tables.export-to-excel' | translate }}</button>
 </div>
 <mat-progress-bar *ngIf="editCellProgressBar" mode="indeterminate"></mat-progress-bar>
 <div
@@ -96,7 +96,6 @@
         >
         </mat-checkbox>
       </mat-header-cell>
-
       <mat-cell *matCellDef="let row">
         <app-table-cell-readonly
           *ngIf="column.editType === 'READ_ONLY'"

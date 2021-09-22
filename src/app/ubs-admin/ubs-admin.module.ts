@@ -44,6 +44,10 @@ import { TableCellDateComponent } from './components/ubs-admin-table/table-cell-
 import { TableCellTimeComponent } from './components/ubs-admin-table/table-cell-time/table-cell-time.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatTableModule } from '@angular/material/table';
+import { UbsAdminCertificateComponent } from './components/ubs-admin-certificate/ubs-admin-certificate.component';
+import { AdminCertificateService } from './services/admin-certificate.service';
+
 @NgModule({
   declarations: [
     PaginationComponent,
@@ -73,6 +77,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     TableCellSelectComponent,
     TableCellDateComponent,
     TableCellTimeComponent
+    UbsAdminCertificateComponent
   ],
   imports: [
     CommonModule,
@@ -102,6 +107,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     })
   ],
   providers: [
+    AdminCertificateService,
     AdminTableService,
     TranslateService,
     {

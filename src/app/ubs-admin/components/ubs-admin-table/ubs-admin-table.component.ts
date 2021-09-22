@@ -58,7 +58,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     this.getTable();
   }
 
-  applyFilter(filterValue: string) {
+  applyFilter(filterValue: string): void {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
