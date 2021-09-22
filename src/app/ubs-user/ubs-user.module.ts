@@ -7,12 +7,14 @@ import { SharedModule } from '../shared/shared.module';
 import { UbsUserRoutingModule } from './ubs-user-routing.module';
 import { UbsUserComponent } from './ubs-user.component';
 import { UbsUserSidebarComponent } from './ubs-user-sidebar/ubs-user-sidebar.component';
+import { IMaskModule } from 'angular-imask';
 
 @NgModule({
   declarations: [UbsUserSidebarComponent, UbsUserComponent],
   imports: [
     UbsUserRoutingModule,
     SharedModule,
+    IMaskModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
