@@ -1,0 +1,16 @@
+* {
+  text-align: center;
+}
+
+.dialog-container {
+  width: 450px;
+  height: 100px;
+  padding: 20px;
+  font-family: var(--secondary-font);
+}
+
+.mat-dialog-actions {
+  width: 410px;
+  display: flex;
+  justify-content: space-between;
+}
