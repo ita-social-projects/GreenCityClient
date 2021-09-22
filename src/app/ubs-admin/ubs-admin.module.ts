@@ -77,7 +77,7 @@ import { AdminCertificateService } from './services/admin-certificate.service';
     TableCellSelectComponent,
     TableCellDateComponent,
     TableCellTimeComponent
-    UbsAdminCertificateComponent
+    UbsAdminCertificateComponent,
   ],
   imports: [
     CommonModule,
