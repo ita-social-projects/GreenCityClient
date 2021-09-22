@@ -17,6 +17,7 @@ const ubsAdminRoutes: Routes = [
     canActivate: [UbsAdminGuardGuard],
     children: [
       { path: '', component: UbsAdminOrdersComponent },
+      { path: 'certificates', component: UbsAdminCertificateComponent },
       { path: 'orders', component: UbsAdminTableComponent },
       { path: 'employee/:page', component: UbsAdminEmployeeComponent },
       { path: 'profile', component: UbsClientProfilePageComponent },

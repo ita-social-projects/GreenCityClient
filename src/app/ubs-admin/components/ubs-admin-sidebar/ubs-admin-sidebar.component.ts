@@ -16,7 +16,7 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
     {
       link: './assets/img/sidebarIcons/achievement_icon.svg',
       name: 'ubs-sidebar.certificates',
-      routerLink: '#'
+      routerLink: 'certificates'
     },
     {
       link: 'assets/img/sidebarIcons/shopping-cart_icon.svg',

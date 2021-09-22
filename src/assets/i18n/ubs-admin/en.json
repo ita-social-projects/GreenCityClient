@@ -149,6 +149,11 @@
     "sum": "Amount",
     "comment-bill": "Comment/Bill"
   },
+  "ubs-tables": {
+    "export-to-excel": "Export to Excel",
+    "table-view": "Table view",
+    "add-certificate": "Add certificate"
+  },
   "export-details": {
     "title": "Export details",
     "export-date": "Export date",

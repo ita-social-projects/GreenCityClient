@@ -73,6 +73,7 @@ import { UbsAdminTariffsDeletePopupComponent } from './components/ubs-admin-tari
     UbsAdminTariffsComponent,
     UbsAdminTariffsAddServicePopupComponent,
     UbsAdminTariffsDeletePopupComponent
+    
   ],
   imports: [
     CommonModule,
@@ -98,6 +99,7 @@ import { UbsAdminTariffsDeletePopupComponent } from './components/ubs-admin-tari
     })
   ],
   providers: [
+    AdminCertificateService,
     AdminTableService,
     TranslateService,
     {
