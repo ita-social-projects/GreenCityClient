@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { UbsAdminCertificateComponent } from './ubs-admin-certificate.component';
 
 describe('UbsAdminCertificateComponent', () => {
@@ -8,7 +9,7 @@ describe('UbsAdminCertificateComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, TranslateModule.forRoot()],
       declarations: [UbsAdminCertificateComponent]
     }).compileComponents();
   }));
