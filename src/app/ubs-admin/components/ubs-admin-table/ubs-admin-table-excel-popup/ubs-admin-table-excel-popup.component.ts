@@ -23,8 +23,8 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
   }
 
   async saveTable() {
-    if ((this.tableView = 'wholeTable')) {
-    } else if ((this.tableView = 'currentFilter')) {
+    if (this.tableView === 'wholeTable') {
+    } else if (this.tableView === 'currentFilter') {
       // implement downloading with filtering, when filtering will be implemented into project
     }
 
