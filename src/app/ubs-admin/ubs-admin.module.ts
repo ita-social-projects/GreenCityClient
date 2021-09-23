@@ -40,6 +40,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { UbsUserOrdersListComponent } from '../ubs-user/ubs-user-orders-list/ubs-user-orders-list.component';
 import { UbsUserOrderDetailsComponent } from '../ubs-user/ubs-user-order-details/ubs-user-order-details.component';
 import { UbsUserOrdersComponent } from '../ubs-user/ubs-user-orders/ubs-user-orders.component';
+import { MatTableModule } from '@angular/material/table';
+import { UbsAdminCertificateComponent } from './components/ubs-admin-certificate/ubs-admin-certificate.component';
+import { AdminCertificateService } from './services/admin-certificate.service';
 
 @NgModule({
   declarations: [
@@ -67,7 +70,8 @@ import { UbsUserOrdersComponent } from '../ubs-user/ubs-user-orders/ubs-user-ord
     UbsAdminGoBackModalComponent,
     UbsClientBonusesComponent,
     UbsUserOrdersListComponent,
-    UbsUserOrderDetailsComponent
+    UbsUserOrderDetailsComponent,
+    UbsAdminCertificateComponent
   ],
   imports: [
     CommonModule,
@@ -94,6 +98,7 @@ import { UbsUserOrdersComponent } from '../ubs-user/ubs-user-orders/ubs-user-ord
     })
   ],
   providers: [
+    AdminCertificateService,
     AdminTableService,
     TranslateService,
     {

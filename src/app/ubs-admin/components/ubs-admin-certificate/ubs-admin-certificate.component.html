@@ -9,37 +9,10 @@
       <option [value]="size" *ngFor="let size of pageSizeOptions">{{ size }}</option>
     </select>
   </div>
-  <button type="button" class="btn btn-default" class="view-table-btn" data-toggle="dropdown">
+  <button type="button" class="btn btn-default" class="view-table-btn">
     <mat-icon>create</mat-icon>
-    {{ 'ubs-tables.table-view' | translate }}
+    {{ 'ubs-tables.add-certificate' | translate }}
   </button>
-  <ul class="dropdown-menu">
-    <li>Інформація про замовлення</li>
-    <li *ngFor="let column of orderInfo; let i = index">
-      <input type="checkbox" value="id1" checked (change)="changeColumns(column.field, i + 1)" />{{ column.field }}
-    </li>
-    <li>Інформація про клієнта</li>
-    <li *ngFor="let column of customerInfo; let i = index">
-      <input type="checkbox" value="id1" checked (change)="changeColumns(column.field, i + 4)" />{{ column.field }}
-    </li>
-    <li>Деталі замовлення</li>
-    <li *ngFor="let column of orderDetails; let i = index">
-      <input type="checkbox" value="id1" checked (change)="changeColumns(column.field, i + 10)" />{{ column.field }}
-    </li>
-    <li>Сертифікат</li>
-    <li *ngFor="let column of sertificate; let i = index">
-      <input type="checkbox" value="id1" checked (change)="changeColumns(column.field, i + 16)" />{{ column.field }}
-    </li>
-    <li>Деталі вивезення</li>
-    <li *ngFor="let column of detailsOfExport; let i = index">
-      <input type="checkbox" value="id1" checked (change)="changeColumns(column.field, i + 19)" />{{ column.field }}
-    </li>
-    <li>Відповідальні</li>
-    <li *ngFor="let column of responsiblePerson; let i = index">
-      <input type="checkbox" value="id1" checked (change)="changeColumns(column.field, i + 24)" />{{ column.field }}
-    </li>
-    <button class="btn btn-info" (click)="showAllColumns()">Clear</button>
-  </ul>
   <button type="button" class="btn btn-default" class="export-excel-btn">{{ 'ubs-tables.export-to-excel' | translate }}</button>
 </div>
 <div
@@ -62,10 +35,6 @@
       <mat-header-cell *matHeaderCellDef cdkDrag cdkDragLockAxis="x" cdkDragBoundary="mat-header-row">
         <div *ngIf="column.field !== 'select'; else checkbox">
           <span class="column-title">{{ column.field }}</span>
-          <span *ngIf="!nonSortableColumns.includes(column.field)">
-            <mat-icon *ngIf="arrowDirection !== column.field" (click)="getSortingData(column.field, 'asc')"> arrow_downward </mat-icon>
-            <mat-icon *ngIf="arrowDirection === column.field" (click)="getSortingData(column.field, 'desc')"> arrow_upward </mat-icon>
-          </span>
         </div>
         <ng-template #checkbox>
           <mat-checkbox
@@ -80,10 +49,7 @@
       </mat-header-cell>
       <mat-cell *matCellDef="let row" [ngStyle]="column.style" class="column.field">
         <div *ngIf="column.field !== 'select'; else checkbox">
-          <span *ngIf="column.field === 'order_date'">{{ row[column.field] | date: 'dd/MM/yyyy' }}</span>
-          <span *ngIf="column.field !== 'order_date'" [ngClass]="{ 'primary-color': column.field === 'orderid' }">{{
-            row[column.field]
-          }}</span>
+          <span [ngClass]="{ 'primary-color': column.field === 'code' }">{{ row[column.field] }}</span>
         </div>
         <ng-template #checkbox class="checkbox">
           <mat-checkbox

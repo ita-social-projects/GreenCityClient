@@ -149,6 +149,11 @@
     "sum": "Amount",
     "comment-bill": "Comment/Bill"
   },
+  "ubs-tables": {
+    "export-to-excel": "Export to Excel",
+    "table-view": "Table view",
+    "add-certificate": "Add certificate"
+  },
   "export-details": {
     "title": "Export details",
     "export-date": "Export date",
@@ -172,6 +177,16 @@
     "question": "If you go back, the changes will be lost. Do you really want to cancel the changes?",
     "disagree": "No",
     "agree": "Yes"
+  },
+  "bonuses": {
+    "no-bonuses": "You don't have accrued bonuses yet.",
+    "get-bonuses": "Find out what bonuses are accrued for",
+    "title": "Bonuses",
+    "about-bonuses-system": "About the bonus system",
+    "enrollment-date": "Date of enrollment",
+    "amount": "Amount",
+    "reason": "Reason",
+    "order": "Order"
   },
   "user-orders": {
     "no-orders": "You haven't made any orders with us yet.",
@@ -238,7 +253,8 @@
     "orders": "Orders",
     "employees": "Employees",
     "documents": "Documents",
-    "schedule": "Schedule"
+    "schedule": "Schedule",
+    "bonuses": "Bonuses"
   },
   "ubs-user": {
     "orders": "Orders",

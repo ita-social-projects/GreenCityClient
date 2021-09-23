@@ -32,10 +32,11 @@
                 class="shadow-none form-control input"
                 min="0"
                 max="999"
+                placeholder="0"
                 [unmask]="false"
                 [imask]="{ mask: servicesMask }"
                 [(ngModel)]="bag.quantity"
-                (ngModelChange)="onQuantityChange()"
+                (change)="onQuantityChange()"
               />
             </div>
             <span class="col-3 bag-name text-center"> {{ bag.quantity * bag.price | currency | localizedCurrency }}</span>
@@ -125,7 +126,6 @@
             <input
               type="text"
               class="shadow-none form-control col-12 col-sm-8 my-1 input-border"
-              type="text"
               placeholder="xxxx-xxxx"
               [unmask]="false"
               [imask]="{ mask: certificateMask }"
@@ -146,7 +146,7 @@
               >
                 {{ 'order-details.activate' | translate }}
               </button>
-              <button>
+              <button
                 [disabled]="cancelCertBtn"
                 *ngIf="certStatuses[i] || !certificate.value.length"
                 type="button"
@@ -192,6 +192,7 @@
             </small>
           </div>
           <button
+            type="button"
             *ngIf="addCert && finalSum !== 0"
             class="addCertificateBtn"
             [disabled]="disableAddCertificate()"
@@ -270,7 +271,7 @@
               (ngModelChange)="ecoStoreValidation()"
             />
           </div>
-          <button *ngIf="additionalOrders.controls.length < 5 && displayOrderBtn" class="addOrderBtn" (click)="addOrder()">
+          <button type="button" *ngIf="additionalOrders.controls.length < 5 && displayOrderBtn" class="addOrderBtn" (click)="addOrder()">
             {{ 'order-details.additional-orders' | translate }}
           </button>
           <small class="text-danger" *ngIf="!displayOrderBtn && additionalOrders.touched && shop.value !== 'no'">
@@ -302,7 +303,9 @@
 </div>
 
 <div class="w-100 d-flex justify-content-end buttons">
-  <button class="secondary-global-button btn cansel-button btn-main" (click)="cancelUBS()">{{ 'order-details.cancel' | translate }}</button>
+  <button type="button" class="secondary-global-button btn cancel-button btn-main" (click)="cancelUBS()">
+    {{ 'order-details.cancel' | translate }}
+  </button>
   <button [disabled]="showTotal < 500 || orderComment.invalid" type="submit" class="primary-global-button btn btn-main" matStepperNext>
     {{ 'order-details.next' | translate }}
   </button>
