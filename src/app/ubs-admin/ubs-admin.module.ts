@@ -51,6 +51,7 @@ import { AdminCertificateService } from './services/admin-certificate.service';
 import { UbsAdminTariffsComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs.component';
 import { UbsAdminTariffsAddServicePopupComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-add-service-popup/ubs-admin-tariffs-add-service-popup.component';
 import { UbsAdminTariffsDeletePopupComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-delete-popup/ubs-admin-tariffs-delete-popup.component';
+import { UbsBaseSidebarComponent } from '../shared/ubs-base-sidebar/ubs-base-sidebar.component';
 
 @NgModule({
   declarations: [
